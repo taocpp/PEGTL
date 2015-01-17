@@ -20,7 +20,7 @@ Here is an example of how a PEG grammar rule is implemented as C++ class with th
 ```
 
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic and procedural nature of PEGs gives rise to some very important differences.
-For an in-depth description see http://en.wikipedia.org/wiki/Parsing_expression_grammar or this 2004 paper by Bryan Ford at http://pdos.csail.mit.edu/~baford/packrat/popl04/peg-popl04.pdf.
+For an in-depth description see [Wikipedia page on PEGs](http://en.wikipedia.org/wiki/Parsing_expression_grammar) or this [paper on PEGs](http://pdos.csail.mit.edu/~baford/packrat/popl04/peg-popl04.pdf) by Bryan Ford.
 
 The PEGTL uses ideas from the YARD library by Christopher Diggins.
 The first version was developed by Dr. Colin Hirsch.
