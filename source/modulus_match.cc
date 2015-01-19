@@ -11,7 +11,8 @@ namespace modulus
       static_assert( M > 1, "Modulus must be greater than 1" );
       static_assert( R < M, "Remainder must be less than modulus" );
 
-      static bool match( pegtl::input & in )
+      template< typename Input >
+      static bool match( Input & in )
       {
          if ( in.size() ) {
             if ( ( ( * in.begin() ) % M ) == R ) {
