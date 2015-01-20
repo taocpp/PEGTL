@@ -8,17 +8,15 @@ CXXFLAGS := -Wall -Wextra -Werror -O3
 
 .PHONY: all tgz test clean
 
-PEGTL := pegtl_new
-
 SOURCES := $(wildcard */*.cc)
 DEPENDS := $(SOURCES:%.cc=build/%.d)
 BINARIES := $(SOURCES:%.cc=build/%)
 
-UNIT_TESTS := $(filter build/testing/unit_test_%,$(BINARIES))
+UNIT_TESTS := $(filter build/unit_tests/%,$(BINARIES))
 
-all: test
+all: run
 
-test: $(BINARIES)
+run: $(BINARIES)
 	@set -e; for T in $(UNIT_TESTS); do $$T; done
 
 clean:
