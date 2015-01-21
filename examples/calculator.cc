@@ -5,6 +5,7 @@
 #include <vector>
 #include <cassert>
 #include <iostream>
+#include <functional>
 
 // Include the main parts of PEGTL 1.y.
 

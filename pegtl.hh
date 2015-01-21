@@ -13,18 +13,20 @@
 #include "pegtl/utf8.hh"
 #include "pegtl/ucs4.hh"
 
-// Headers that are not included
-// by default because they are not
-// always needed and rather large
-// and/or include many other files.
-
+// Not included by default;
+// safe to use when needed:
 // #include "pegtl/trace.hh"
 // #include "pegtl/analyze.hh"
 
 #include "pegtl/assertions.hh"
 
 #include "pegtl/data_parser.hh"
-#include "pegtl/mmap_parser.hh"
 #include "pegtl/read_parser.hh"
+
+#if __GNUC__
+// Simple heuristic to use mmap()
+// only on Unix-like systems.
+#include "pegtl/mmap_parser.hh"
+#endif
 
 #endif

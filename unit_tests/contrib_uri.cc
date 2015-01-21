@@ -51,7 +51,5 @@ int main( int, char ** )
 
    // some unit tests that should fail
    fail( "" );
-
-   std::cout << "pegtl: URI tests passed" << std::endl;
    return 0;
 }

@@ -18,6 +18,7 @@ all: run
 
 run: $(BINARIES)
 	@set -e; for T in $(UNIT_TESTS); do $$T; done
+	@echo "All $(words $(UNIT_TESTS)) unit tests passed."
 
 clean:
 	rm -rf build/*

@@ -82,7 +82,5 @@ int main( int, char ** )
    fail( "[\"\xFF\"]" );
    fail( "[\"\xF4\x90\x80\x80\"]" );
    fail( "[\"\xF7\xBF\xBF\xBF\"]" );
-
-   std::cout << "pegtl: JSON tests passed" << std::endl;
    return 0;
 }

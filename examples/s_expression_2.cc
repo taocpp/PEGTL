@@ -5,7 +5,7 @@
 
 #include <pegtl.hh>
 #include <pegtl/analyze.hh>
-#include <pegtl/mmap_parser.hh>
+#include <pegtl/read_parser.hh>
 
 namespace sexpr
 {
@@ -71,7 +71,7 @@ namespace sexpr
       static void apply( const Input & in, std::string & fn )
       {
          std::string f2;
-         mmap_parser( fn, in ).parse< main, action >( f2 );
+         read_parser( fn, in ).parse< main, action >( f2 );
       }
    };
 

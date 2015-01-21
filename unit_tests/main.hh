@@ -4,10 +4,9 @@
 #ifndef PEGTL_TESTING_UNIT_TEST_MAIN_HH
 #define PEGTL_TESTING_UNIT_TEST_MAIN_HH
 
-int main( int, char ** argv )
+int main( int, char ** )
 {
    pegtl::unit_test();
-   std::cerr << "pegtl: " << argv[ 0 ] << " done [ " << pegtl::total << " ] fail [ " << pegtl::fails << " ]" << std::endl;
    return bool( pegtl::fails );
 }
 

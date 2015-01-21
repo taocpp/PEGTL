@@ -4,32 +4,19 @@
 #ifndef PEGTL_INTERNAL_DEMANGLE_HH
 #define PEGTL_INTERNAL_DEMANGLE_HH
 
-#include <string>
-#include <memory>
 #include <typeinfo>
-#include <cxxabi.h>
+
+#if __GNUC__
+// GCC and Clang both define __GNUC__
+#include "demangle_gcc.hh"
+#else
+#include "demangle_nop.hh"
+#endif
 
 namespace pegtl
 {
    namespace internal
    {
-      struct free_deleter
-      {
-         void operator() ( void * p ) const
-         {
-            if ( p ) {
-               ::free( p );
-            }
-         }
-      };
-
-      inline std::string demangle( const char * symbol )
-      {
-         int s = -1;
-         std::shared_ptr< const char > p( abi::__cxa_demangle( symbol, 0, 0, & s ), free_deleter() );
-         return std::string( ( p && ! s ) ? p.get() : symbol );
-      }
-
       template< typename T >
       std::string demangle()
       {

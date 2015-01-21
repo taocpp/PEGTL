@@ -6,7 +6,7 @@
 int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
-      std::cout << pegtl::mmap_parser( argv[ 1 ] ).input().string() << std::endl;
+      std::cout << pegtl::read_parser( argv[ 1 ] ).input().string() << std::endl;
    }
    return 0;
 }
