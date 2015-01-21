@@ -6,9 +6,8 @@
 
 #include <typeinfo>
 
-#if __GNUC__
-// GCC and Clang both define __GNUC__
-#include "demangle_gcc.hh"
+#if defined(__GLIBCXX__) || defined(__GLIBCPP__)
+#include "demangle_cxxabi.hh"
 #else
 #include "demangle_nop.hh"
 #endif
