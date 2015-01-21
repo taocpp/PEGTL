@@ -23,9 +23,11 @@
 #include "pegtl/data_parser.hh"
 #include "pegtl/read_parser.hh"
 
-#if __GNUC__
-// Simple heuristic to use mmap()
-// only on Unix-like systems.
+#if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
+#include <unistd.h> // for _POSIX_MAPPED_FILES
+#endif
+
+#if defined(_POSIX_MAPPED_FILES)
 #include "pegtl/mmap_parser.hh"
 #endif
 
