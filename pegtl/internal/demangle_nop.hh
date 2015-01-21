@@ -12,7 +12,7 @@ namespace pegtl
    {
       inline std::string demangle( const char * symbol )
       {
-         return std::string( symbol );
+         return symbol;
       }
 
    } // internal
