@@ -1,10 +1,14 @@
 # Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
 # Please see LICENSE for license or visit https://github.com/ColinH/PEGTL
 
-CXX ?= g++
+UNAME_S := $(shell uname -s)
 
 CPPFLAGS := -I. -std=c++11 -pedantic
 CXXFLAGS := -Wall -Wextra -Werror -O3
+
+ifeq ($(UNAME_S),Darwin)
+CPPFLAGS += -stdlib=libc++
+endif
 
 .PHONY: all tgz test clean
 
