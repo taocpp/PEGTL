@@ -71,7 +71,7 @@ namespace sexpr
       static void apply( const Input & in, std::string & fn )
       {
          std::string f2;
-         read_parser( fn, in ).parse< main, action >( f2 );
+         read_parser( fn, in ).parse< main, sexpr::action >( f2 );
       }
    };
 
