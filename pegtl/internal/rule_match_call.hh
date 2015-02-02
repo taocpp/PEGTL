@@ -19,7 +19,8 @@ namespace pegtl
             return Rule::template match< E, Action, Control >( in, st ... );
          }
 
-         template< typename Input, typename ... States >
+         // Note: The additional int=0 is a work-around for VS2015
+         template< typename Input, typename ... States, int = 0 >
          static auto match( Input & in, States && ... ) -> decltype( Rule::match( in ), bool() )
          {
             return Rule::match( in );
