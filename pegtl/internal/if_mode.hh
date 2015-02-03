@@ -15,7 +15,7 @@ namespace pegtl
       template< error_mode Must, typename Cond, typename ... Thens >
       struct if_mode
       {
-         using internal_t = if_mode;
+         using analyze_t = if_mode;
 
          template< error_mode Mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

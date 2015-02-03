@@ -217,7 +217,7 @@ namespace calculator
 
    struct infix
    {
-      using internal_t = infix;
+      using analyze_t = analysis::consumes<>;
 
       template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input >
       static bool match( Input & in, const operators & b, stacks & s )
@@ -260,7 +260,7 @@ namespace calculator
    template< typename Name >
    std::string insert_rule( analysis::grammar_info & g, const infix * )
    {
-      return g.insert< Name >( analysis::rule_type::ALWAYS_CONSUMES_WHEN_SUCCEEDS ).first->first;
+      return g.insert< Name >( analysis::rule_type::CONSUMES ).first->first;
    }
 
    // A number is a non-empty sequence of digits preceeded by an optional sign.

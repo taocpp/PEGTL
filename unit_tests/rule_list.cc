@@ -14,6 +14,7 @@ namespace pegtl
       verify< list< one< 'a' >, one< ',' > > >( "a,", true, 1, __LINE__ );
       verify< list< one< 'a' >, one< ',' > > >( "a", true, 0, __LINE__ );
       verify< list< one< 'a' >, one< ',' > > >( "a,a", true, 0, __LINE__ );
+      verify< list< one< 'a' >, one< ',' > > >( "a,b", true, 2, __LINE__ );
       verify< list< one< 'a' >, one< ',' > > >( "a,a,a", true, 0, __LINE__ );
       verify< list< one< 'a' >, one< ',' > > >( "a,a,a,a", true, 0, __LINE__ );
       verify< list< one< 'a' >, one< ',' > > >( "a,a,a,b", true, 2, __LINE__ );
@@ -24,11 +25,13 @@ namespace pegtl
       verify< list< one< 'a' >, one< ',' > > >( "a ,a", true, 3, __LINE__ );
       verify< list< one< 'a' >, one< ',' > > >( "a, a", true, 3, __LINE__ );
 
-      verify< list< one< 'a' >, one< ',' >, blank > >( "a ", true, 0, __LINE__ );
-      verify< list< one< 'a' >, one< ',' >, blank > >( " a", true, 0, __LINE__ );
+      verify< list< one< 'a' >, one< ',' >, blank > >( "a ", true, 1, __LINE__ );
+      verify< list< one< 'a' >, one< ',' >, blank > >( " a", false, 2, __LINE__ );
       verify< list< one< 'a' >, one< ',' >, blank > >( "a ,a", true, 0, __LINE__ );
       verify< list< one< 'a' >, one< ',' >, blank > >( "a, a", true, 0, __LINE__ );
-      verify< list< one< 'a' >, one< ',' >, blank > >( " a , a ", true, 0, __LINE__ );
+      verify< list< one< 'a' >, one< ',' >, blank > >( "a, a,", true, 1, __LINE__ );
+      verify< list< one< 'a' >, one< ',' >, blank > >( "a, a ,", true, 2, __LINE__ );
+      verify< list< one< 'a' >, one< ',' >, blank > >( " a , a ", false, 7, __LINE__ );
    }
 
 } // pegtl

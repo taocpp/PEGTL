@@ -16,7 +16,7 @@ namespace pegtl
       template< typename Cond >
       struct until< Cond >
       {
-         using internal_t = until;
+         using analyze_t = until;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
@@ -36,7 +36,7 @@ namespace pegtl
       template< typename Cond, typename Rule, typename ... Rules >
       struct until< Cond, Rule, Rules ... >
       {
-         using internal_t = until;
+         using analyze_t = until;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

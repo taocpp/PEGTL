@@ -19,7 +19,6 @@ namespace pegtl
       verify< star< one< 'a' >, one< 'b' > > >( "aba", true, 1, __LINE__ );
       verify< star< one< 'a' >, one< 'b' > > >( "abb", true, 1, __LINE__ );
       verify< star< one< 'a' >, one< 'b' > > >( "abab", true, 0, __LINE__ );
-      verify< star< one< 'a' >, one< 'b' > > >( "abab", true, 0, __LINE__ );
       verify< star< one< 'a' >, one< 'b' > > >( "ababc", true, 1, __LINE__ );
       verify< star< one< 'a' >, one< 'b' > > >( "ababab", true, 0, __LINE__ );
    }

@@ -8,6 +8,8 @@
 #include "not_at.hh"
 #include "trivial.hh"
 
+#include "../analysis/rule_class.hh"
+
 namespace pegtl
 {
    namespace internal
@@ -15,7 +17,7 @@ namespace pegtl
       template< unsigned Min, unsigned Max, typename ... Rules >
       struct rep_min_max
       {
-         using internal_t = rep_min_max;
+         using analyze_t = analysis::repeating< Min, Rules ... >;
 
          static_assert( Min <= Max, "pegtl: illegal rep_min_max rule (maximum number of repetitions smaller than minimum)" );
 

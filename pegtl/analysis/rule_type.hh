@@ -10,11 +10,11 @@ namespace pegtl
    {
       enum class rule_type : char
       {
+         CONSUMES,
+         OPTIONAL,
+
          CONJUNCTION,
          DISJUNCTION,
-
-         CAN_SUCCEED_WITHOUT_CONSUME,
-         ALWAYS_CONSUMES_WHEN_SUCCEEDS,
 
          RULE_UNTIL,
          RULE_IF_THEN_ELSE,

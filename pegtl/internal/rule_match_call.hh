@@ -19,7 +19,7 @@ namespace pegtl
             return Rule::template match< E, Action, Control >( in, st ... );
          }
 
-         template< typename Input, typename ... States >
+         template< typename Input, typename ... States, int = 0 >
          static auto match( Input & in, States && ... ) -> decltype( Rule::match( in ), bool() )
          {
             return Rule::match( in );

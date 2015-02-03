@@ -7,6 +7,8 @@
 #include "trivial.hh"
 #include "rule_conjunction_impl.hh"
 
+#include "../analysis/rule_class.hh"
+
 namespace pegtl
 {
    namespace internal
@@ -24,7 +26,7 @@ namespace pegtl
       template< unsigned Num, typename Rule, typename ... Rules >
       struct rep< Num, Rule, Rules ... >
       {
-         using internal_t = rep;
+         using analyze_t = analysis::repeating< Num, Rule, Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

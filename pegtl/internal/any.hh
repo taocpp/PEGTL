@@ -6,6 +6,8 @@
 
 #include "peek_char.hh"
 
+#include "../analysis/rule_class.hh"
+
 namespace pegtl
 {
    namespace internal
@@ -13,7 +15,7 @@ namespace pegtl
       template< typename Peek >
       struct any
       {
-         using internal_t = any;
+         using analyze_t = analysis::consumes<>;
 
          template< typename Input >
          static bool match( Input & in )
@@ -30,7 +32,7 @@ namespace pegtl
 
       template<> struct any< peek_char >
       {
-         using internal_t = any;
+         using analyze_t = analysis::consumes<>;
 
          template< typename Input >
          static bool match( Input & in )

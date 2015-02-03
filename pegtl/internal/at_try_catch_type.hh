@@ -9,6 +9,8 @@
 #include "at.hh"
 #include "seq.hh"
 
+#include "../analysis/rule_class.hh"
+
 namespace pegtl
 {
    struct parse_error;
@@ -24,7 +26,7 @@ namespace pegtl
       template< typename Exception, typename Rule, typename ... Rules >
       struct at_try_catch_type< Exception, Rule, Rules ... >
       {
-         using internal_t = at< Rule, Rules ... >;
+         using analyze_t = analysis::optional< Rule, Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

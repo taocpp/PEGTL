@@ -39,6 +39,7 @@ namespace pegtl
       struct shebang : internal::if_mode< error_mode::THROW, internal::string< '#', '!' >, internal::until< internal::eolf > > {};
       struct space : internal::one< true, internal::peek_char, ' ', '\n', '\r', '\t', '\v', '\f' > {};
       template< char ... Cs > struct string : internal::string< Cs ... > {};
+      template< char C > struct two : internal::string< C, C > {};
       struct upper : internal::range< true, internal::peek_char, 'A', 'Z' > {};
       struct xdigit : internal::ranges< internal::peek_char, '0', '9', 'a', 'f', 'A', 'F' > {};
 

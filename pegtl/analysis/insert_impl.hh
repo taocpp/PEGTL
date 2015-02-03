@@ -24,7 +24,7 @@ namespace pegtl
       {
          static void insert( grammar_info & g, rule_info & r )
          {
-            r.rules.push_back( insert_rule< Rule >( g, static_cast< const typename Rule::internal_t * >( nullptr ) ) );
+            r.rules.push_back( insert_rule< Rule >( g, static_cast< const typename Rule::analyze_t * >( nullptr ) ) );
             insert_impl< Rules ... >::insert( g, r );
          }
       };

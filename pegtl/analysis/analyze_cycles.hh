@@ -30,7 +30,7 @@ namespace pegtl
                : m_verbose( dummy.verbose ),
                  m_problems( 0 )
          {
-            insert_rule< Rule >( m_info, static_cast< const typename Rule::internal_t * >( nullptr ) );
+            insert_rule< Rule >( m_info, static_cast< const typename Rule::analyze_t * >( nullptr ) );
          }
 
          std::size_t problems()
@@ -88,11 +88,11 @@ namespace pegtl
                      }
                      return a;
                   }
-                  case rule_type::ALWAYS_CONSUMES_WHEN_SUCCEEDS:
+                  case rule_type::CONSUMES:
                   {
                      return true;
                   }
-                  case rule_type::CAN_SUCCEED_WITHOUT_CONSUME:
+                  case rule_type::OPTIONAL:
                   {
                      bool a = false;
                      for ( std::size_t i = 0; i < start->second.rules.size(); ++i ) {
@@ -126,6 +126,7 @@ namespace pegtl
                      return ( c || t ) && e;
                   }
                }
+               assert( 0 );
             }
             else if ( ! accum ) {
                if ( m_rules.insert( start->first ).second ) {

@@ -6,6 +6,8 @@
 
 #include "any.hh"
 
+#include "../analysis/rule_class.hh"
+
 namespace pegtl
 {
    namespace internal
@@ -13,7 +15,7 @@ namespace pegtl
       template< bool Want, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
       struct range
       {
-         using internal_t = any< Peek >;
+         using analyze_t = analysis::consumes<>;
 
          template< typename Input >
          static bool match( Input & in )

@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_AT_RANGE_HH
 #define PEGTL_INTERNAL_AT_RANGE_HH
 
+#include "../analysis/rule_class.hh"
+
 namespace pegtl
 {
    namespace internal
@@ -11,7 +13,7 @@ namespace pegtl
       template< bool Want, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
       struct at_range
       {
-         using internal_t = at_range;
+         using analyze_t = analysis::optional<>;
 
          template< typename Input >
          static bool match( Input & in )

@@ -6,6 +6,8 @@
 
 #include "utility.hh"
 
+#include "../analysis/rule_class.hh"
+
 namespace pegtl
 {
    namespace internal
@@ -13,7 +15,7 @@ namespace pegtl
       template< bool Want, typename Peek, typename Peek::data_t ... Cs >
       struct at_one
       {
-         using internal_t = at_one;
+         using analyze_t = analysis::optional<>;
 
          template< typename Input >
          static bool match( Input & in )

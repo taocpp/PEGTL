@@ -1,9 +1,10 @@
 // Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
-#ifndef PEGTL_INTERNAL_PAD_HH
-#define PEGTL_INTERNAL_PAD_HH
+#ifndef PEGTL_INTERNAL_PAD_OPT_HH
+#define PEGTL_INTERNAL_PAD_OPT_HH
 
+#include "opt.hh"
 #include "seq.hh"
 #include "star.hh"
 
@@ -11,8 +12,8 @@ namespace pegtl
 {
    namespace internal
    {
-      template< typename Rule, typename Pad1, typename Pad2 = Pad1 >
-      using pad = seq< star< Pad1 >, Rule, star< Pad2 > >;
+      template< typename Rule, typename Pad >
+      using pad_opt = seq< star< Pad >, opt< Rule, star< Pad > > >;
 
    } // internal
 

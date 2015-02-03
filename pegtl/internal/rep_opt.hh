@@ -7,6 +7,8 @@
 #include "seq.hh"
 #include "rule_match_call.hh"
 
+#include "../analysis/rule_class.hh"
+
 namespace pegtl
 {
    namespace internal
@@ -14,7 +16,7 @@ namespace pegtl
       template< unsigned Max, typename ... Rules >
       struct rep_opt
       {
-         using internal_t = rep_opt;
+         using analyze_t = analysis::optional< Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

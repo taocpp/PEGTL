@@ -34,25 +34,25 @@ namespace pegtl
       struct null : make_string< s_null > {};
       struct true_ : make_string< s_true > {};
 
-      struct exp : if_must< one< 'e', 'E' >, opt< one< '-', '+' > >, plus< DIGIT > > {};
-      struct frac : if_must< one< '.' >, plus< DIGIT > > {};
+      struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+' > >, plus< DIGIT > > {};
+      struct frac : seq< one< '.' >, plus< DIGIT > > {};
       struct int_ : sor< one< '0' >, plus< DIGIT > > {};
       struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
 
-      struct unicode : if_must< one< 'u' >, rep< 4, HEXDIG > > {};
+      struct unicode : seq< one< 'u' >, rep< 4, HEXDIG > > {};
       struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
-      struct escaped : if_must< one< '\\' >, sor< escaped_char, unicode > > {};
+      struct escaped : sor< escaped_char, unicode > {};
       struct unescaped : utf8::range< 0x20, 0x10FFFF > {};
-      struct char_ : sor< escaped, unescaped > {};
+      struct char_ : if_then_else< one< '\\' >, escaped, unescaped > {};
       struct string_content : until< at_one< '"' >, char_ > {};
-      struct string : if_must< one< '"' >, string_content, one< '"' > > {};
+      struct string : seq< one< '"' >, string_content, one< '"' > > {};
 
       struct value;
 
-      struct member : if_must< string, name_separator, value > {};
-      struct object : if_must< begin_object, opt< list_must< member, value_separator > >, end_object > {};
+      struct member : seq< string, name_separator, value > {};
+      struct object : seq< begin_object, opt< list< member, value_separator > >, end_object > {};
 
-      struct array : if_must< begin_array, opt< list_must< value, value_separator > >, end_array > {};
+      struct array : seq< begin_array, opt< list< value, value_separator > >, end_array > {};
 
       struct value : sor< false_, null, true_, object, array, number, string > {};
 

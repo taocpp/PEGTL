@@ -6,6 +6,8 @@
 
 #include "seq.hh"
 
+#include "../analysis/rule_class.hh"
+
 namespace pegtl
 {
    namespace internal
@@ -13,7 +15,7 @@ namespace pegtl
       template< typename ... Rules >
       struct star
       {
-         using internal_t = star;
+         using analyze_t = analysis::optional< Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

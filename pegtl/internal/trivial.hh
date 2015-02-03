@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_TRIVIAL_HH
 #define PEGTL_INTERNAL_TRIVIAL_HH
 
+#include "../analysis/rule_class.hh"
+
 namespace pegtl
 {
    namespace internal
@@ -11,7 +13,7 @@ namespace pegtl
       template< bool What >
       struct trivial
       {
-         using internal_t = trivial;
+         using analyze_t = analysis::counting< unsigned( ! What ) >;
 
          template< typename Input >
          static bool match( Input & )

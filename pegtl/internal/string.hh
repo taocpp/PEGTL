@@ -7,6 +7,8 @@
 #include "trivial.hh"
 #include "utility.hh"
 
+#include "../analysis/rule_class.hh"
+
 namespace pegtl
 {
    namespace internal
@@ -19,7 +21,7 @@ namespace pegtl
       template< char C, char ... Cs >
       struct string< C, Cs ... >
       {
-         using internal_t = string;
+         using analyze_t = analysis::counting< 1 + sizeof ... ( Cs ) >;
 
          template< typename Input >
          static bool match( Input & in )

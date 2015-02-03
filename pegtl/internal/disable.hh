@@ -8,6 +8,8 @@
 
 #include "seq.hh"
 
+#include "../analysis/rule_class.hh"
+
 namespace pegtl
 {
    namespace internal
@@ -15,7 +17,7 @@ namespace pegtl
       template< typename ... Rules >
       struct disable
       {
-         using internal_t = seq< Rules ... >;
+         using analyze_t = analysis::conjunction< Rules ... >;
 
          template< error_mode E, template< typename ... > class, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

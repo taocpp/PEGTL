@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_BYTES_HH
 #define PEGTL_INTERNAL_BYTES_HH
 
+#include "../analysis/rule_class.hh"
+
 namespace pegtl
 {
    namespace internal
@@ -11,7 +13,7 @@ namespace pegtl
       template< unsigned Num >
       struct bytes
       {
-         using internal_t = bytes;
+         using analyze_t = analysis::counting< Num >;
 
          template< typename Input >
          static bool match( Input & in )
