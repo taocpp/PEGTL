@@ -59,8 +59,8 @@ namespace pegtl
                   }
                   case rule_type::DISJUNCTION:
                   {
-                     bool a = work( find( start->second.rules[ 0 ] ), accum );
-                     for ( std::size_t i = 1; i < start->second.rules.size(); ++i ) {
+                     bool a = true;
+                     for ( std::size_t i = 0; i < start->second.rules.size(); ++i ) {
                         a &= work( find( start->second.rules[ i ] ), accum );
                      }
                      return a;
@@ -71,9 +71,8 @@ namespace pegtl
                   }
                   case rule_type::OPTIONAL:
                   {
-                     bool a = false;
                      for ( std::size_t i = 0; i < start->second.rules.size(); ++i ) {
-                        work( find( start->second.rules[ i ] ), accum || a );
+                        work( find( start->second.rules[ i ] ), accum );
                      }
                      return false;
                   }

@@ -11,8 +11,6 @@ namespace pegtl
    struct parse_error;
 
    template< typename ... Rules > struct at : internal::at< Rules ... > {};
-   template< typename ... Rules > struct at_try_catch : internal::at_try_catch_type< parse_error, Rules ... > {};
-   template< typename Exception, typename ... Rules > struct at_try_catch_type : internal::at_try_catch_type< Exception, Rules ... > {};
    template< unsigned Num > struct bytes : internal::bytes< Num > {};
    template< template< typename ... > class Control, typename ... Rules > struct control : internal::control< Control, Rules ... > {};
    template< typename ... Rules > struct disable : internal::disable< Rules ... > {};

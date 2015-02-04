@@ -10,8 +10,6 @@
 
 namespace pegtl
 {
-   struct parse_error;
-
    namespace internal
    {
       template< typename Exception, typename ... Rules > struct try_catch_type;

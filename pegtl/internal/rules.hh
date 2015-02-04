@@ -8,7 +8,6 @@
 #include "at.hh"
 #include "at_one.hh"
 #include "at_range.hh"
-#include "at_try_catch_type.hh"
 #include "bytes.hh"
 #include "control.hh"
 #include "disable.hh"
@@ -44,4 +43,3 @@
 #include "until.hh"
 
 #endif
-
