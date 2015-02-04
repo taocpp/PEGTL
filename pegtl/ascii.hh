@@ -36,7 +36,7 @@ namespace pegtl
       template< char Lo, char Hi > struct range : internal::range< true, internal::peek_char, Lo, Hi > {};
       template< char ... Cs > struct ranges : internal::ranges< internal::peek_char, Cs ... > {};
       struct seven : internal::range< true, internal::peek_char, char( 0 ), char( 127 ) > {};
-      struct shebang : internal::if_mode< error_mode::THROW, internal::string< '#', '!' >, internal::until< internal::eolf > > {};
+      struct shebang : internal::if_must< internal::string< '#', '!' >, internal::until< internal::eolf > > {};
       struct space : internal::one< true, internal::peek_char, ' ', '\n', '\r', '\t', '\v', '\f' > {};
       template< char ... Cs > struct string : internal::string< Cs ... > {};
       template< char C > struct two : internal::string< C, C > {};

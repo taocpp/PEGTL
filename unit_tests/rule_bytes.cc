@@ -14,6 +14,7 @@ namespace pegtl
       }
       verify< bytes< 3 > >( "abcd", true, 1, __LINE__ );
       verify< bytes< 4 > >( "abcd", true, 0, __LINE__ );
+      verify< bytes< 4 > >( "abcdefghij", true, 6, __LINE__ );
    }
 
 } // pegtl

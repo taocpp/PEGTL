@@ -7,7 +7,7 @@
 #include "trivial.hh"
 #include "rule_conjunction_impl.hh"
 
-#include "../analysis/rule_class.hh"
+#include "../analysis/counted.hh"
 
 namespace pegtl
 {
@@ -26,7 +26,7 @@ namespace pegtl
       template< unsigned Num, typename Rule, typename ... Rules >
       struct rep< Num, Rule, Rules ... >
       {
-         using analyze_t = analysis::repeating< Num, Rule, Rules ... >;
+         using analyze_t = analysis::counted< analysis::rule_type::CONJUNCTION, Num, Rule, Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

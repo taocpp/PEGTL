@@ -6,7 +6,7 @@
 
 #include "seq.hh"
 
-#include "../analysis/rule_class.hh"
+#include "../analysis/generic.hh"
 
 namespace pegtl
 {
@@ -15,7 +15,7 @@ namespace pegtl
       template< template< typename ... > class Action, typename ... Rules >
       struct enable
       {
-         using analyze_t = analysis::conjunction< Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::CONJUNCTION, Rules ... >;
 
          template< error_mode E, template< typename ... > class, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

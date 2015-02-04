@@ -4,9 +4,9 @@
 #ifndef PEGTL_INTERNAL_STAR_MUST_HH
 #define PEGTL_INTERNAL_STAR_MUST_HH
 
-#include "if_mode.hh"
+#include "if_must.hh"
 
-#include "../analysis/rule_class.hh"
+#include "../analysis/generic.hh"
 
 namespace pegtl
 {
@@ -15,12 +15,12 @@ namespace pegtl
       template< typename ... Rules >
       struct star_must
       {
-         using analyze_t = analysis::optional< Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::OPTIONAL, Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            while ( ( ! in.empty() ) && rule_match_call< if_mode< error_mode::THROW, Rules ... >, error_mode::RETURN, Action, Control >::match( in, st ... ) ) {}
+            while ( ( ! in.empty() ) && rule_match_call< if_must< Rules ... >, error_mode::RETURN, Action, Control >::match( in, st ... ) ) {}
             return true;
          }
       };

@@ -6,7 +6,7 @@
 
 #include "seq.hh"
 
-#include "../analysis/rule_class.hh"
+#include "../analysis/generic.hh"
 
 namespace pegtl
 {
@@ -23,7 +23,7 @@ namespace pegtl
       template< typename Exception, typename Rule, typename ... Rules >
       struct try_catch_type< Exception, Rule, Rules ... >
       {
-         using analyze_t = analysis::conjunction< Rule, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::CONJUNCTION, Rule, Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

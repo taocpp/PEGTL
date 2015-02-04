@@ -4,7 +4,7 @@
 #ifndef PEGTL_INTERNAL_TRIVIAL_HH
 #define PEGTL_INTERNAL_TRIVIAL_HH
 
-#include "../analysis/rule_class.hh"
+#include "../analysis/counted.hh"
 
 namespace pegtl
 {
@@ -13,7 +13,7 @@ namespace pegtl
       template< bool What >
       struct trivial
       {
-         using analyze_t = analysis::counting< unsigned( ! What ) >;
+         using analyze_t = analysis::counted< analysis::rule_type::CONSUMES, unsigned( ! What ) >;
 
          template< typename Input >
          static bool match( Input & )

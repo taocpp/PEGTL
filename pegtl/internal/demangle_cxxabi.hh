@@ -6,6 +6,7 @@
 
 #include <string>
 #include <memory>
+#include <cstdlib>
 #include <cxxabi.h>
 
 namespace pegtl

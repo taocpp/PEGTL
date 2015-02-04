@@ -12,8 +12,6 @@
 #include <utility>
 #include <iostream>
 
-#include "rule_dummy.hh"
-#include "insert_impl.hh"
 #include "grammar_info.hh"
 #include "insert_guard.hh"
 
@@ -21,36 +19,15 @@ namespace pegtl
 {
    namespace analysis
    {
-      class analyze_cycles
+      class analyze_cycles_impl
       {
-      public:
-         template< typename Rule >
+      protected:
          explicit
-         analyze_cycles( const rule_dummy< Rule > dummy )
-               : m_verbose( dummy.verbose ),
+         analyze_cycles_impl( const bool verbose )
+               : m_verbose( verbose ),
                  m_problems( 0 )
-         {
-            insert_rule< Rule >( m_info, static_cast< const typename Rule::analyze_t * >( nullptr ) );
-         }
+         { }
 
-         std::size_t problems()
-         {
-            for ( auto i = m_info.map.begin(); i != m_info.map.end(); ++i ) {
-               const bool consumes = work( i, false );
-               m_map[ i->first ] = consumes;
-            }
-            return m_problems;
-         }
-
-         template< typename Rule >
-         bool consumes() const
-         {
-            const auto i = m_map.find( internal::demangle< Rule >() );
-            assert( i != m_map.end() );
-            return i->second;
-         }
-
-      private:
          const bool m_verbose;
          unsigned m_problems;
          grammar_info m_info;
@@ -117,7 +94,6 @@ namespace pegtl
                      return work( find( start->second.rules[ 0 ] ), accum );
                   }
                   case rule_type::RULE_IF_THEN_ELSE:
-                  case rule_type::RULE_IF_MUST_ELSE:
                   {
                      assert( start->second.rules.size() == 3 );
                      const bool c = work( find( start->second.rules[ 0 ] ), accum );  // Cond
@@ -126,7 +102,7 @@ namespace pegtl
                      return ( c || t ) && e;
                   }
                }
-               assert( 0 );
+               assert( false );
             }
             else if ( ! accum ) {
                if ( m_rules.insert( start->first ).second ) {
@@ -138,6 +114,37 @@ namespace pegtl
                return false;
             }
             return accum;  // We have detected a cycle with progress.
+         }
+      };
+
+      template< typename Grammar >
+      class analyze_cycles
+            : private analyze_cycles_impl
+      {
+      public:
+         explicit
+         analyze_cycles( const bool verbose )
+               : analyze_cycles_impl( verbose )
+         {
+            using insert_t = typename Grammar::analyze_t;
+            insert_t::template insert< Grammar >( m_info );
+         }
+
+         std::size_t problems()
+         {
+            for ( auto i = m_info.map.begin(); i != m_info.map.end(); ++i ) {
+               const bool consumes = work( i, false );
+               m_map[ i->first ] = consumes;
+            }
+            return m_problems;
+         }
+
+         template< typename Rule >
+         bool consumes() const
+         {
+            const auto i = m_map.find( internal::demangle< Rule >() );
+            assert( i != m_map.end() );
+            return i->second;
          }
       };
 

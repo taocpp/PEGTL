@@ -17,10 +17,10 @@ namespace pegtl
    {
       struct grammar_info
       {
-         template< typename Rule >
+         template< typename Name >
          std::pair< std::map< std::string, rule_info >::iterator, bool > insert( const rule_type type )
          {
-            return map.insert( std::pair< std::string, rule_info >( internal::demangle< Rule >(), rule_info( type ) ) );
+            return map.insert( std::pair< std::string, rule_info >( internal::demangle< Name >(), rule_info( type ) ) );
          }
 
          std::map< std::string, rule_info > map;

@@ -4,7 +4,7 @@
 #ifndef PEGTL_INTERNAL_EOF_HH
 #define PEGTL_INTERNAL_EOF_HH
 
-#include "../analysis/rule_class.hh"
+#include "../analysis/generic.hh"
 
 namespace pegtl
 {
@@ -12,7 +12,7 @@ namespace pegtl
    {
       struct eof
       {
-         using analyze_t = analysis::optional<>;
+         using analyze_t = analysis::generic< analysis::rule_type::OPTIONAL >;
 
          template< typename Input >
          static bool match( Input & in )

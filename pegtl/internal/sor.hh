@@ -7,7 +7,7 @@
 #include "trivial.hh"
 #include "rule_disjunction_impl.hh"
 
-#include "../analysis/rule_class.hh"
+#include "../analysis/generic.hh"
 
 namespace pegtl
 {
@@ -22,7 +22,7 @@ namespace pegtl
       template< typename Rule, typename ... Rules >
       struct sor< Rule, Rules ... >
       {
-         using analyze_t = analysis::disjunction< Rule, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::DISJUNCTION, Rule, Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

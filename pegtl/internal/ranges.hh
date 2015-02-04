@@ -7,7 +7,7 @@
 #include "any.hh"
 #include "range.hh"
 
-#include "../analysis/rule_class.hh"
+#include "../analysis/generic.hh"
 
 namespace pegtl
 {
@@ -45,7 +45,7 @@ namespace pegtl
       template< typename Peek, typename Peek::data_t ... Cs >
       struct ranges
       {
-         using analyze_t = analysis::consumes<>;
+         using analyze_t = analysis::generic< analysis::rule_type::CONSUMES >;
 
          template< typename Input >
          static bool match( Input & in )

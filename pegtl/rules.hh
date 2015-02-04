@@ -19,7 +19,7 @@ namespace pegtl
    template< template< typename ... > class Action, typename ... Rules > struct enable : internal::enable< Action, Rules ... > {};
    struct eof : internal::eof {};
    struct failure : internal::trivial< false > {};
-   template< typename Cond, typename Then, typename ... Thens > struct if_must : internal::if_mode< error_mode::THROW, Cond, Then, Thens ... > {};
+   template< typename Cond, typename Then, typename ... Thens > struct if_must : internal::if_must< Cond, Then, Thens ... > {};
    template< typename Cond, typename Then, typename Else > struct if_must_else : internal::if_mode_else< error_mode::THROW, Cond, Then, Else > {};
    template< typename Cond, typename Then, typename Else > struct if_then_else : internal::if_mode_else< error_mode::RETURN, Cond, Then, Else > {};
    template< typename Rule, typename Sep, typename Pad = void > struct list : internal::list_pad< Rule, Sep, Pad, internal::star > {};

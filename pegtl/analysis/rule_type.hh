@@ -17,8 +17,7 @@ namespace pegtl
          DISJUNCTION,
 
          RULE_UNTIL,
-         RULE_IF_THEN_ELSE,
-         RULE_IF_MUST_ELSE
+         RULE_IF_THEN_ELSE
       };
 
    } // analysis

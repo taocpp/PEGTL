@@ -12,7 +12,7 @@ namespace pegtl
    template< typename Rule >
    std::size_t analyze( const bool verbose = true )
    {
-      return analysis::analyze_cycles( analysis::rule_dummy< Rule >( verbose ) ).problems();
+      return analysis::analyze_cycles< Rule >( verbose ).problems();
    }
 
 } // pegtl

@@ -217,7 +217,7 @@ namespace calculator
 
    struct infix
    {
-      using analyze_t = analysis::consumes<>;
+      using analyze_t = analysis::generic< analysis::rule_type::CONSUMES >;
 
       template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input >
       static bool match( Input & in, const operators & b, stacks & s )
@@ -251,17 +251,6 @@ namespace calculator
          return false;
       }
    };
-
-   // This overload is required for the analyze()-function; we need to tell
-   // it that our custom rule always consumes input when it succeeds so that
-   // it can be correctly taken account of when looking for cycles without
-   // progress.
-
-   template< typename Name >
-   std::string insert_rule( analysis::grammar_info & g, const infix * )
-   {
-      return g.insert< Name >( analysis::rule_type::CONSUMES ).first->first;
-   }
 
    // A number is a non-empty sequence of digits preceeded by an optional sign.
 

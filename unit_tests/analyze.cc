@@ -17,13 +17,12 @@ namespace pegtl
    void assert_consumes( const unsigned, const bool consumes, const std::size_t problems = 0 )
    {
       ++total;
-      analysis::rule_dummy< Rule > d( false );
-      analysis::analyze_cycles a( d );
+      analysis::analyze_cycles< Rule > a( false );
       const std::size_t p = a.problems();
       if ( p != problems ) {
          ++fails;
       }
-      if ( a.consumes< Rule >() != consumes ) {
+      if ( a.template consumes< Rule >() != consumes ) {
          ++fails;
       }
    }

@@ -7,7 +7,7 @@
 #include "trivial.hh"
 #include "utility.hh"
 
-#include "../analysis/rule_class.hh"
+#include "../analysis/counted.hh"
 
 namespace pegtl
 {
@@ -57,7 +57,7 @@ namespace pegtl
       template< char C, char ... Cs >
       struct istring< C, Cs ... >
       {
-         using analyze_t = analysis::counting< 1 + sizeof ... ( Cs ) >;
+         using analyze_t = analysis::counted< analysis::rule_type::CONSUMES, 1 + sizeof ... ( Cs ) >;
 
          template< typename Input >
          static bool match( Input & in )
