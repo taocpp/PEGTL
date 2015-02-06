@@ -15,10 +15,6 @@ namespace pegtl
       struct alnum : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9' > {};
       struct alpha : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z' > {};
       struct any : internal::any< internal::peek_char > {};
-      template< char ... Cs > struct at_not_one : internal::at_one< false, internal::peek_char, Cs ... > {};
-      template< char Lo, char Hi > struct at_not_range : internal::at_range< false, internal::peek_char, Lo, Hi > {};
-      template< char ... Cs > struct at_one : internal::at_one< true, internal::peek_char, Cs ... > {};
-      template< char Lo, char Hi > struct at_range : internal::at_range< true, internal::peek_char, Lo, Hi > {};
       struct blank : internal::one< true, internal::peek_char, ' ', '\t' > {};
       struct digit : internal::range< true, internal::peek_char, '0', '9' > {};
       struct eol : internal::one< true, internal::peek_char, '\n' > {};

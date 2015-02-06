@@ -19,7 +19,7 @@ namespace pegtl
       template< typename Cond, typename ... Thens >
       struct if_must
       {
-         using analyze_t = analysis::generic< analysis::rule_type::RULE_IF_THEN_ELSE, Cond, seq< Thens ... >, trivial< false > >;
+         using analyze_t = analysis::generic< analysis::rule_type::IF, Cond, seq< Thens ... >, trivial< false > >;
 
          template< error_mode Mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

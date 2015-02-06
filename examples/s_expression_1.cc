@@ -13,7 +13,7 @@ namespace sexpr
    struct list;
 
    struct list_comment
-         : if_must< at_one< '(' >, disable< list > > {};
+         : if_must< at< one< '(' > >, disable< list > > {};
 
    struct comment
          : if_must< one< '#' >, sor< list_comment, line_comment > > {};

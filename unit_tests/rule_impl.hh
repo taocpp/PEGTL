@@ -109,12 +109,6 @@ namespace pegtl
       verify< Rule >( std::string( std::size_t( 1 ), data ), result, ! result, line );
    }
 
-   template< typename Rule >
-   void verify_at_char( const char data, const bool result, const std::size_t line )
-   {
-      verify< Rule >( std::string( std::size_t( 1 ), data ), result, 1, line );
-   }
-
 } // pegtl
 
 #endif

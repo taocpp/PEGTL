@@ -34,7 +34,7 @@ namespace pegtl
          std::set< std::string > m_stack;
          std::set< std::string > m_until;
          std::set< std::string > m_rules;
-         std::map< std::string, bool > m_map;  // For unit tests.
+         std::map< std::string, bool > m_cache;
 
          const std::map< std::string, rule_info >::const_iterator find( const std::string & name ) const
          {
@@ -45,6 +45,11 @@ namespace pegtl
 
          bool work( const std::map< std::string, rule_info >::const_iterator & start, const bool accum )
          {
+            const auto j = m_cache.find( start->first );
+
+            if ( j != m_cache.end() ) {
+               return j->second;
+            }
             const auto g = make_insert_guard( m_stack, start->first );
 
             if ( g ) {
@@ -55,6 +60,7 @@ namespace pegtl
                      for ( std::size_t i = 0; i < start->second.rules.size(); ++i ) {
                         a |= work( find( start->second.rules[ i ] ), accum || a );
                      }
+                     m_cache[ start->first ] = a;
                      return a;
                   }
                   case rule_type::DISJUNCTION:
@@ -63,10 +69,12 @@ namespace pegtl
                      for ( std::size_t i = 0; i < start->second.rules.size(); ++i ) {
                         a &= work( find( start->second.rules[ i ] ), accum );
                      }
+                     m_cache[ start->first ] = a;
                      return a;
                   }
                   case rule_type::CONSUMES:
                   {
+                     m_cache[ start->first ] = true;
                      return true;
                   }
                   case rule_type::OPTIONAL:
@@ -74,9 +82,10 @@ namespace pegtl
                      for ( std::size_t i = 0; i < start->second.rules.size(); ++i ) {
                         work( find( start->second.rules[ i ] ), accum );
                      }
+                     m_cache[ start->first ] = false;
                      return false;
                   }
-                  case rule_type::RULE_UNTIL:
+                  case rule_type::UNTIL:
                   {
                      bool a = false;
                      for ( std::size_t i = 1; i < start->second.rules.size(); ++i ) {
@@ -90,15 +99,19 @@ namespace pegtl
                            }
                         }
                      }
-                     return work( find( start->second.rules[ 0 ] ), accum );
+                     const bool r = work( find( start->second.rules[ 0 ] ), accum );
+                     m_cache[ start->first ] = r;
+                     return r;
                   }
-                  case rule_type::RULE_IF_THEN_ELSE:
+                  case rule_type::IF:
                   {
                      assert( start->second.rules.size() == 3 );
                      const bool c = work( find( start->second.rules[ 0 ] ), accum );  // Cond
                      const bool t = work( find( start->second.rules[ 1 ] ), accum || c );  // Rule
                      const bool e = work( find( start->second.rules[ 2 ] ), accum );  // Else
-                     return ( c || t ) && e;
+                     const bool r = ( c || t ) && e;
+                     m_cache[ start->first ] = r;
+                     return r;
                   }
                }
                assert( false );
@@ -110,8 +123,10 @@ namespace pegtl
                      std::cout << "problem: cycle without progress detected at class " << start->first << std::endl;
                   }
                }
+               m_cache[ start->first ] = false;
                return false;
             }
+            m_cache[ start->first ] = accum;
             return accum;  // We have detected a cycle with progress.
          }
       };
@@ -133,7 +148,7 @@ namespace pegtl
          {
             for ( auto i = m_info.map.begin(); i != m_info.map.end(); ++i ) {
                const bool consumes = work( i, false );
-               m_map[ i->first ] = consumes;
+               m_cache[ i->first ] = consumes;
             }
             return m_problems;
          }
@@ -141,8 +156,8 @@ namespace pegtl
          template< typename Rule >
          bool consumes() const
          {
-            const auto i = m_map.find( internal::demangle< Rule >() );
-            assert( i != m_map.end() );
+            const auto i = m_cache.find( internal::demangle< Rule >() );
+            assert( i != m_cache.end() );
             return i->second;
          }
       };

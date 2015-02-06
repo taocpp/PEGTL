@@ -10,20 +10,20 @@
 
 namespace pegtl
 {
-   std::size_t total = 0;
    std::size_t fails = 0;
 
    template< typename Rule >
-   void assert_consumes( const unsigned, const bool consumes, const std::size_t problems = 0 )
+   void assert_consumes( const unsigned line, const bool consumes, const bool problems = false )
    {
-      ++total;
       analysis::analyze_cycles< Rule > a( false );
-      const std::size_t p = a.problems();
+      const bool p = a.problems();
       if ( p != problems ) {
          ++fails;
+         std::cerr << "pegtl: analyze rule [ " << internal::demangle< Rule >() << " ] problems received/expected [ " << p << " / " << problems << " ] in line [ " << line << " ]" << std::endl;
       }
       if ( a.template consumes< Rule >() != consumes ) {
          ++fails;
+         std::cerr << "pegtl: analyze rule [ " << internal::demangle< Rule >() << " ] consumes received/expected [ " << ( ! consumes ) << " / " << consumes << " ] in line [ " << line << " ]" << std::endl;
       }
    }
 

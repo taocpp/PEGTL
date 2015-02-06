@@ -17,7 +17,7 @@ namespace sexpr
    struct list;
 
    struct list_comment
-         : if_must< at_one< '(' >, disable< list > > {};
+         : if_must< at< one< '(' > >, disable< list > > {};
 
    struct read_include
          : seq< one< ' ' >, one< '"' >, plus< not_one< '"' > >, one< '"' > > {};

@@ -44,7 +44,7 @@ namespace pegtl
       struct escaped : sor< escaped_char, unicode > {};
       struct unescaped : utf8::range< 0x20, 0x10FFFF > {};
       struct char_ : if_then_else< one< '\\' >, escaped, unescaped > {};
-      struct string_content : until< at_one< '"' >, char_ > {};
+      struct string_content : until< at< one< '"' > >, char_ > {};
       struct string : seq< one< '"' >, string_content, one< '"' > > {};
 
       struct value;

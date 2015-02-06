@@ -12,10 +12,6 @@ namespace pegtl
    namespace ucs4
    {
       struct any : internal::any< internal::peek_ucs4 > {};
-      template< char32_t ... Cs > struct at_not_one : internal::at_one< false, internal::peek_ucs4, Cs ... > {};
-      template< char32_t Lo, char32_t Hi > struct at_not_range : internal::at_range< false, internal::peek_ucs4, Lo, Hi > {};
-      template< char32_t ... Cs > struct at_one : internal::at_one< true, internal::peek_ucs4, Cs ... > {};
-      template< char32_t Lo, char32_t Hi > struct at_range : internal::at_range< true, internal::peek_ucs4, Lo, Hi > {};
       template< char32_t ... Cs > struct not_one : internal::one< false, internal::peek_ucs4, Cs ... > {};
       template< char32_t Lo, char32_t Hi > struct not_range : internal::range< false, internal::peek_ucs4, Lo, Hi > {};
       template< char32_t ... Cs > struct one : internal::one< true, internal::peek_ucs4, Cs ... > {};

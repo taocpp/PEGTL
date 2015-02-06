@@ -22,10 +22,6 @@ namespace pegtl
          verify_char< alnum >( i, is_lower || is_upper || is_digit, __LINE__ );
          verify_char< alpha >( i, is_lower || is_upper, __LINE__ );
          verify_char< any >( i, true, __LINE__ );
-         verify_at_char< at_not_one< 'a', '#', ' ' > >( i, ! is_one, __LINE__ );
-         verify_at_char< at_not_range< 20, 120 > >( i, ! is_range, __LINE__ );
-         verify_at_char< at_one< 'a', '#', ' ' > >( i, is_one, __LINE__ );
-         verify_at_char< at_range< 20, 120 > >( i, is_range, __LINE__ );
          verify_char< blank >( i, is_blank, __LINE__ );
          verify_char< digit >( i, is_digit, __LINE__ );
          verify_char< eol >( i, i == '\n', __LINE__ );
