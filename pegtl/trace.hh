@@ -22,19 +22,19 @@ namespace pegtl
       template< typename Input, typename ... States >
       static void start( const Input & in, States && ... )
       {
-         std::cerr << "pegtl: start " << internal::demangle< Rule >() << " reading " << position_info( in ) << std::endl;
+         std::cerr << position_info( in ) << "  start  " << internal::demangle< Rule >() << std::endl;
       }
 
       template< typename Input, typename ... States >
       static void success( const Input & in, States && ... )
       {
-         std::cerr << "pegtl: success " << internal::demangle< Rule >() << " reading " << position_info( in ) << std::endl;
+         std::cerr << position_info( in ) << " success " << internal::demangle< Rule >() << std::endl;
       }
 
       template< typename Input, typename ... States >
       static void failure( const Input & in, States && ... )
       {
-         std::cerr << "pegtl: failure " << internal::demangle< Rule >() << " reading " << position_info( in ) << std::endl;
+         std::cerr << position_info( in ) << " failure " << internal::demangle< Rule >() << std::endl;
       }
    };
 
