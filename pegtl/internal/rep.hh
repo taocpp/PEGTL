@@ -5,7 +5,7 @@
 #define PEGTL_INTERNAL_REP_HH
 
 #include "trivial.hh"
-#include "rule_conjunction_impl.hh"
+#include "rule_conjunction.hh"
 
 #include "../analysis/counted.hh"
 
@@ -26,7 +26,7 @@ namespace pegtl
       template< unsigned Num, typename Rule, typename ... Rules >
       struct rep< Num, Rule, Rules ... >
       {
-         using analyze_t = analysis::counted< analysis::rule_type::CONJUNCTION, Num, Rule, Rules ... >;
+         using analyze_t = analysis::counted< analysis::rule_type::SEQ, Num, Rule, Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
@@ -34,7 +34,7 @@ namespace pegtl
             auto m = in.template mark< E >();
 
             for ( unsigned i = 0; i < Num; ++i ) {
-               if ( ! rule_conjunction_impl< Rule, Rules ... >::template match< E, Action, Control >( in, st ... ) ) {
+               if ( ! rule_conjunction< Rule, Rules ... >::template match< E, Action, Control >( in, st ... ) ) {
                   return m( false );
                }
             }

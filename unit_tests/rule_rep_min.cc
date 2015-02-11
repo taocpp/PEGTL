@@ -1,30 +1,35 @@
 // Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
-#include "rule_impl.hh"
+#include "test.hh"
 
 namespace pegtl
 {
    void unit_test()
    {
-      verify< rep_min< 3, one< 'a' > > >( "", false, 0, __LINE__ );
-      verify< rep_min< 3, one< 'a' > > >( "a", false, 1, __LINE__ );
-      verify< rep_min< 3, one< 'a' > > >( "aa", false, 2, __LINE__ );
-      verify< rep_min< 3, one< 'a' > > >( "b", false, 1, __LINE__ );
-      verify< rep_min< 3, one< 'a' > > >( "bb", false, 2, __LINE__ );
-      verify< rep_min< 3, one< 'a' > > >( "bbb", false, 3, __LINE__ );
-      verify< rep_min< 3, one< 'a' > > >( "aaa", true, 0, __LINE__ );
-      verify< rep_min< 3, one< 'a' > > >( "aaaa", true, 0, __LINE__ );
-      verify< rep_min< 3, one< 'a' > > >( "aaab", true, 1, __LINE__ );
-      verify< rep_min< 3, one< 'a' > > >( "baaab", false, 5, __LINE__ );
+      verify_analyze< rep_min< 0, eof > >( __LINE__, __FILE__, false, true );
+      verify_analyze< rep_min< 1, eof > >( __LINE__, __FILE__, false, true );
+      verify_analyze< rep_min< 0, any > >( __LINE__, __FILE__, false );
+      verify_analyze< rep_min< 1, any > >( __LINE__, __FILE__, true );
 
-      verify< rep_min< 2, string< 'a', 'a' > > >( "a", false, 1, __LINE__ );
-      verify< rep_min< 2, string< 'a', 'a' > > >( "aa", false, 2, __LINE__ );
-      verify< rep_min< 2, string< 'a', 'a' > > >( "aaa", false, 3, __LINE__ );
-      verify< rep_min< 2, string< 'a', 'a' > > >( "aaaa", true, 0, __LINE__ );
-      verify< rep_min< 2, string< 'a', 'a' > > >( "aaaaa", true, 1, __LINE__ );
-      verify< rep_min< 2, string< 'a', 'a' > > >( "aaaaaa", true, 0, __LINE__ );
-      verify< rep_min< 2, string< 'a', 'a' > > >( "aaaaaaa", true, 1, __LINE__ );
+      verify_rule< rep_min< 3, one< 'a' > > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
+      verify_rule< rep_min< 3, one< 'a' > > >( __LINE__, __FILE__,  "a", result_type::LOCAL_FAILURE, 1 );
+      verify_rule< rep_min< 3, one< 'a' > > >( __LINE__, __FILE__,  "aa", result_type::LOCAL_FAILURE, 2 );
+      verify_rule< rep_min< 3, one< 'a' > > >( __LINE__, __FILE__,  "b", result_type::LOCAL_FAILURE, 1 );
+      verify_rule< rep_min< 3, one< 'a' > > >( __LINE__, __FILE__,  "bb", result_type::LOCAL_FAILURE, 2 );
+      verify_rule< rep_min< 3, one< 'a' > > >( __LINE__, __FILE__,  "bbb", result_type::LOCAL_FAILURE, 3 );
+      verify_rule< rep_min< 3, one< 'a' > > >( __LINE__, __FILE__,  "aaa", result_type::SUCCESS, 0 );
+      verify_rule< rep_min< 3, one< 'a' > > >( __LINE__, __FILE__,  "aaaa", result_type::SUCCESS, 0 );
+      verify_rule< rep_min< 3, one< 'a' > > >( __LINE__, __FILE__,  "aaab", result_type::SUCCESS, 1 );
+      verify_rule< rep_min< 3, one< 'a' > > >( __LINE__, __FILE__,  "baaab", result_type::LOCAL_FAILURE, 5 );
+
+      verify_rule< rep_min< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "a", result_type::LOCAL_FAILURE, 1 );
+      verify_rule< rep_min< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aa", result_type::LOCAL_FAILURE, 2 );
+      verify_rule< rep_min< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaa", result_type::LOCAL_FAILURE, 3 );
+      verify_rule< rep_min< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaaa", result_type::SUCCESS, 0 );
+      verify_rule< rep_min< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaaaa", result_type::SUCCESS, 1 );
+      verify_rule< rep_min< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaaaaa", result_type::SUCCESS, 0 );
+      verify_rule< rep_min< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaaaaaa", result_type::SUCCESS, 1 );
    }
 
 } // pegtl

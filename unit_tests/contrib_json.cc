@@ -7,7 +7,7 @@
 #include <pegtl/analyze.hh>
 #include <pegtl/contrib/json.hh>
 
-using GRAMMAR = pegtl::json::data;
+using GRAMMAR = pegtl::json::text;
 
 void fail( const std::string& in )
 {

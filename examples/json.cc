@@ -7,7 +7,7 @@
 #include <pegtl/analyze.hh>
 #include <pegtl/contrib/json.hh>
 
-using GRAMMAR = pegtl::json::data;
+using GRAMMAR = pegtl::json::text;
 
 int main( int argc, char ** argv )
 {

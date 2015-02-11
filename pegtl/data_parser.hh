@@ -4,8 +4,6 @@
 #ifndef PEGTL_DATA_PARSER_HH
 #define PEGTL_DATA_PARSER_HH
 
-#include "internal/rule_match_help.hh"
-
 namespace pegtl
 {
    class data_parser
@@ -48,7 +46,7 @@ namespace pegtl
       template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
       void parse( States && ... st )
       {
-         internal::rule_match_help< Rule, error_mode::THROW, Action, Control >( m_input, st ... );
+         Control< Rule >::template match< error_mode::THROW, Action, Control >( m_input, st ... );
       }
 
    private:

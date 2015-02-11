@@ -27,14 +27,14 @@ namespace pegtl
 
 #define PEGTL_THROW_PARSE_ERROR( RuLe, iNPuT )                          \
    do {                                                                 \
-      std::vector< pegtl::position_info > positions;                  \
+      std::vector< pegtl::position_info > positions;                    \
       for ( const auto * id = & iNPuT.data(); id; id = id->from ) {     \
          positions.push_back( position_info( * id ) );                  \
       }                                                                 \
       assert( ! positions.empty() );                                    \
       std::ostringstream oss;                                           \
-      oss << "pegtl: parse error matching rule " << pegtl::internal::demangle< Rule >() << " reading " << positions[ 0 ]; \
-      throw pegtl::parse_error( oss.str(), std::move( positions ) );  \
+      oss << positions[ 0 ] << ": parse error matching " << pegtl::internal::demangle< Rule >(); \
+      throw pegtl::parse_error( oss.str(), std::move( positions ) );    \
    } while ( 1 )
 
 } // pegtl

@@ -15,12 +15,12 @@ namespace pegtl
       template< typename ... Rules >
       struct star
       {
-         using analyze_t = analysis::generic< analysis::rule_type::OPTIONAL, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::STAR, Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            while ( ( ! in.empty() ) && rule_match_call< seq< Rules ... >, error_mode::RETURN, Action, Control >::match( in, st ... ) ) {}
+            while ( ( ! in.empty() ) && rule_match_three< seq< Rules ... >, error_mode::RETURN, Action, Control >::match( in, st ... ) ) {}
             return true;
          }
       };

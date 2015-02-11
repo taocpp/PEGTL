@@ -21,7 +21,7 @@ namespace pegtl
       template< typename Exception, typename Rule, typename ... Rules >
       struct try_catch_type< Exception, Rule, Rules ... >
       {
-         using analyze_t = analysis::generic< analysis::rule_type::CONJUNCTION, Rule, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule, Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
@@ -29,7 +29,7 @@ namespace pegtl
             auto m = in.mark();
 
             try {
-               return m( rule_match_call< seq< Rule, Rules ... >, E, Action, Control >::match( in, st ... ) );
+               return m( rule_match_three< seq< Rule, Rules ... >, E, Action, Control >::match( in, st ... ) );
             }
             catch ( const Exception & ) {
                return false;

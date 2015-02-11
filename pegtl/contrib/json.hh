@@ -13,7 +13,7 @@ namespace pegtl
 {
    namespace json
    {
-      // JSON grammar according to RFC 4627 (for UTF-8 encoded JSON only).
+      // JSON grammar according to RFC 7159 (for UTF-8 encoded JSON only).
 
       using namespace abnf;
 
@@ -56,7 +56,7 @@ namespace pegtl
 
       struct value : sor< false_, null, true_, object, array, number, string > {};
 
-      struct data : seq< sor< object, array >, eof > {};
+      struct text : seq< pad< value, ws >, eof > {};
 
    } // json
 

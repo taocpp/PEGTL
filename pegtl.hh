@@ -18,13 +18,11 @@
 // #include "pegtl/trace.hh"
 // #include "pegtl/analyze.hh"
 
-#include "pegtl/assertions.hh"
-
 #include "pegtl/data_parser.hh"
 #include "pegtl/read_parser.hh"
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
-#include <unistd.h> // for _POSIX_MAPPED_FILES
+#include <unistd.h>  // for _POSIX_MAPPED_FILES
 #endif
 
 #if defined(_POSIX_MAPPED_FILES)

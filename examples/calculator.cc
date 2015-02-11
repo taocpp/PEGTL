@@ -217,7 +217,7 @@ namespace calculator
 
    struct infix
    {
-      using analyze_t = analysis::generic< analysis::rule_type::CONSUMES >;
+      using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
       template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input >
       static bool match( Input & in, const operators & b, stacks & s )

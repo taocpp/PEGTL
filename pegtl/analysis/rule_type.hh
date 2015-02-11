@@ -10,14 +10,17 @@ namespace pegtl
    {
       enum class rule_type : char
       {
-         CONSUMES,
-         OPTIONAL,
+         ANY,    // "Success implies consumption" is true; also bounded repetition of conjunction of sub-rules.
+         OPT,    // "Success implies consumption" is false; also bounded repetition of conjunction of sub-rules.
 
-         CONJUNCTION,
-         DISJUNCTION,
+         SEQ,    // Consumption on success depends on non-zero bounded repetition of conjunction of sub-rules.
+         SOR,    // Consumption on success depends on non-zero bounded repetition of disjunction of subrules.
 
-         UNTIL,
-         IF
+         PLUS,   // Similar to seq but for non-zero unbounded repetition of conjunction of sub-rules.
+         STAR,   // Similar to seq but for optional unbounded repetition of conjunction of sub-rules.
+
+         UNTIL,  // Specific handling of until<> rules.
+         IF      // Specific handling of if_must/if_must_else/if_then_else<> rules.
       };
 
    } // analysis

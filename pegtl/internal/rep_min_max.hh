@@ -17,7 +17,7 @@ namespace pegtl
       template< unsigned Min, unsigned Max, typename ... Rules >
       struct rep_min_max
       {
-         using analyze_t = analysis::counted< analysis::rule_type::CONJUNCTION, Min, Rules ... >;
+         using analyze_t = analysis::counted< analysis::rule_type::SEQ, Min, Rules ... >;
 
          static_assert( Min <= Max, "pegtl: illegal rep_min_max rule (maximum number of repetitions smaller than minimum)" );
 
@@ -27,16 +27,16 @@ namespace pegtl
             auto m = in.template mark< E >();
 
             for ( unsigned i = 0; i < Min; ++i ) {
-               if ( ! rule_conjunction_impl< Rules ... >::template match< E, Action, Control >( in, st ... ) ) {
+               if ( ! rule_conjunction< Rules ... >::template match< E, Action, Control >( in, st ... ) ) {
                   return m( false );
                }
             }
             for ( unsigned i = Min; i < Max; ++i ) {
-               if ( ! rule_match_call< seq< Rules ... >, error_mode::RETURN, Action, Control >::match( in, st ... ) ) {
+               if ( ! rule_match_three< seq< Rules ... >, error_mode::RETURN, Action, Control >::match( in, st ... ) ) {
                   return m( true );
                }
             }
-            return m( rule_match_call< not_at< Rules ... >, E, Action, Control >::match( in, st ... ) );
+            return m( rule_match_three< not_at< Rules ... >, E, Action, Control >::match( in, st ... ) );
          }
       };
 

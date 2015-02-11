@@ -33,8 +33,8 @@ namespace pegtl
          grammar_info m_info;
          std::set< std::string > m_stack;
          std::set< std::string > m_until;
-         std::set< std::string > m_rules;
          std::map< std::string, bool > m_cache;
+         std::map< std::string, bool > m_results;
 
          const std::map< std::string, rule_info >::const_iterator find( const std::string & name ) const
          {
@@ -54,36 +54,63 @@ namespace pegtl
 
             if ( g ) {
                switch ( start->second.type ) {
-                  case rule_type::CONJUNCTION:
+                  case rule_type::PLUS:
                   {
                      bool a = false;
                      for ( std::size_t i = 0; i < start->second.rules.size(); ++i ) {
                         a |= work( find( start->second.rules[ i ] ), accum || a );
                      }
-                     m_cache[ start->first ] = a;
-                     return a;
+                     if ( ! a ) {
+                        ++m_problems;
+                        if ( m_verbose ) {
+                           std::cout << "problem: rules without progress detected in rule of type plus " << start->first << std::endl;
+                        }
+                     }
+                     return m_cache[ start->first ] = a;
                   }
-                  case rule_type::DISJUNCTION:
+                  case rule_type::STAR:
+                  {
+                     bool a = false;
+                     for ( std::size_t i = 0; i < start->second.rules.size(); ++i ) {
+                        a |= work( find( start->second.rules[ i ] ), accum || a );
+                     }
+                     if ( ! a ) {
+                        ++m_problems;
+                        if ( m_verbose ) {
+                           std::cout << "problem: rules without progress detected in rule of type star " << start->first << std::endl;
+                        }
+                     }
+                     return m_cache[ start->first ] = false;
+                  }
+                  case rule_type::SEQ:
+                  {
+                     bool a = false;
+                     for ( std::size_t i = 0; i < start->second.rules.size(); ++i ) {
+                        a |= work( find( start->second.rules[ i ] ), accum || a );
+                     }
+                     return m_cache[ start->first ] = a;
+                  }
+                  case rule_type::SOR:
                   {
                      bool a = true;
                      for ( std::size_t i = 0; i < start->second.rules.size(); ++i ) {
                         a &= work( find( start->second.rules[ i ] ), accum );
                      }
-                     m_cache[ start->first ] = a;
-                     return a;
+                     return m_cache[ start->first ] = a;
                   }
-                  case rule_type::CONSUMES:
-                  {
-                     m_cache[ start->first ] = true;
-                     return true;
-                  }
-                  case rule_type::OPTIONAL:
+                  case rule_type::ANY:
                   {
                      for ( std::size_t i = 0; i < start->second.rules.size(); ++i ) {
                         work( find( start->second.rules[ i ] ), accum );
                      }
-                     m_cache[ start->first ] = false;
-                     return false;
+                     return m_cache[ start->first ] = true;
+                  }
+                  case rule_type::OPT:
+                  {
+                     for ( std::size_t i = 0; i < start->second.rules.size(); ++i ) {
+                        work( find( start->second.rules[ i ] ), accum );
+                     }
+                     return m_cache[ start->first ] = false;
                   }
                   case rule_type::UNTIL:
                   {
@@ -100,8 +127,7 @@ namespace pegtl
                         }
                      }
                      const bool r = work( find( start->second.rules[ 0 ] ), accum );
-                     m_cache[ start->first ] = r;
-                     return r;
+                     return m_cache[ start->first ] = r;
                   }
                   case rule_type::IF:
                   {
@@ -109,25 +135,19 @@ namespace pegtl
                      const bool c = work( find( start->second.rules[ 0 ] ), accum );  // Cond
                      const bool t = work( find( start->second.rules[ 1 ] ), accum || c );  // Rule
                      const bool e = work( find( start->second.rules[ 2 ] ), accum );  // Else
-                     const bool r = ( c || t ) && e;
-                     m_cache[ start->first ] = r;
-                     return r;
+                     return m_cache[ start->first ] = ( c || t ) && e;
                   }
                }
                assert( false );
             }
-            else if ( ! accum ) {
-               if ( m_rules.insert( start->first ).second ) {
-                  ++m_problems;
-                  if ( m_verbose ) {
-                     std::cout << "problem: cycle without progress detected at class " << start->first << std::endl;
-                  }
+            if ( ! accum ) {
+               ++m_problems;
+               if ( m_verbose ) {
+                  std::cout << "problem: cycle without progress detected at class " << start->first << std::endl;
                }
-               m_cache[ start->first ] = false;
-               return false;
+               return m_cache[ start->first ] = false;
             }
-            m_cache[ start->first ] = accum;
-            return accum;  // We have detected a cycle with progress.
+            return m_cache[ start->first ] = accum;  // Cycle with progress.
          }
       };
 
@@ -147,8 +167,8 @@ namespace pegtl
          std::size_t problems()
          {
             for ( auto i = m_info.map.begin(); i != m_info.map.end(); ++i ) {
-               const bool consumes = work( i, false );
-               m_cache[ i->first ] = consumes;
+               m_results[ i->first ] = work( i, false );
+               m_cache.clear();
             }
             return m_problems;
          }
@@ -156,8 +176,8 @@ namespace pegtl
          template< typename Rule >
          bool consumes() const
          {
-            const auto i = m_cache.find( internal::demangle< Rule >() );
-            assert( i != m_cache.end() );
+            const auto i = m_results.find( internal::demangle< Rule >() );
+            assert( i != m_results.end() );
             return i->second;
          }
       };

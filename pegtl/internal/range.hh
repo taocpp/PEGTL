@@ -15,7 +15,7 @@ namespace pegtl
       template< bool Want, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
       struct range
       {
-         using analyze_t = analysis::generic< analysis::rule_type::CONSUMES >;
+         using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
          template< typename Input >
          static bool match( Input & in )

@@ -1,30 +1,50 @@
 // Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
-#include "rule_impl.hh"
+#include "test.hh"
 
 namespace pegtl
 {
    void unit_test()
    {
-      verify< rep_max< 3, one< 'a' > > >( "", true, 0, __LINE__ );
-      verify< rep_max< 3, one< 'a' > > >( "a", true, 0, __LINE__ );
-      verify< rep_max< 3, one< 'a' > > >( "aa", true, 0, __LINE__ );
-      verify< rep_max< 3, one< 'a' > > >( "b", true, 1, __LINE__ );
-      verify< rep_max< 3, one< 'a' > > >( "bb", true, 2, __LINE__ );
-      verify< rep_max< 3, one< 'a' > > >( "bbb", true, 3, __LINE__ );
-      verify< rep_max< 3, one< 'a' > > >( "aaa", true, 0, __LINE__ );
-      verify< rep_max< 3, one< 'a' > > >( "aaaa", false, 4, __LINE__ );
-      verify< rep_max< 3, one< 'a' > > >( "aaab", true, 1, __LINE__ );
-      verify< rep_max< 3, one< 'a' > > >( "baaab", true, 5, __LINE__ );
+      verify_analyze< rep_max< 1, any > >( __LINE__, __FILE__, false );
+      verify_analyze< rep_max< 2, any > >( __LINE__, __FILE__, false );
+      verify_analyze< rep_max< 1, eof > >( __LINE__, __FILE__, false );
+      verify_analyze< rep_max< 2, eof > >( __LINE__, __FILE__, false );
+      verify_analyze< rep_max< 1, any, any > >( __LINE__, __FILE__, false );
+      verify_analyze< rep_max< 2, any, any > >( __LINE__, __FILE__, false );
 
-      verify< rep_max< 2, string< 'a', 'a' > > >( "a", true, 1, __LINE__ );
-      verify< rep_max< 2, string< 'a', 'a' > > >( "aa", true, 0, __LINE__ );
-      verify< rep_max< 2, string< 'a', 'a' > > >( "aaa", true, 1, __LINE__ );
-      verify< rep_max< 2, string< 'a', 'a' > > >( "aaaa", true, 0, __LINE__ );
-      verify< rep_max< 2, string< 'a', 'a' > > >( "aaaaa", true, 1, __LINE__ );
-      verify< rep_max< 2, string< 'a', 'a' > > >( "aaaaaa", false, 6, __LINE__ );
-      verify< rep_max< 2, string< 'a', 'a' > > >( "aaaaaaa", false, 7, __LINE__ );
+      verify_rule< rep_max< 3, one< 'a' > > >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
+      verify_rule< rep_max< 3, one< 'a' > > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );
+      verify_rule< rep_max< 3, one< 'a' > > >( __LINE__, __FILE__,  "aa", result_type::SUCCESS, 0 );
+      verify_rule< rep_max< 3, one< 'a' > > >( __LINE__, __FILE__,  "b", result_type::SUCCESS, 1 );
+      verify_rule< rep_max< 3, one< 'a' > > >( __LINE__, __FILE__,  "bb", result_type::SUCCESS, 2 );
+      verify_rule< rep_max< 3, one< 'a' > > >( __LINE__, __FILE__,  "bbb", result_type::SUCCESS, 3 );
+      verify_rule< rep_max< 3, one< 'a' > > >( __LINE__, __FILE__,  "aaa", result_type::SUCCESS, 0 );
+      verify_rule< rep_max< 3, one< 'a' > > >( __LINE__, __FILE__,  "aaaa", result_type::LOCAL_FAILURE, 4 );
+      verify_rule< rep_max< 3, one< 'a' > > >( __LINE__, __FILE__,  "aaab", result_type::SUCCESS, 1 );
+      verify_rule< rep_max< 3, one< 'a' > > >( __LINE__, __FILE__,  "baaab", result_type::SUCCESS, 5 );
+
+      verify_rule< rep_max< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "", result_type::SUCCESS, 0 );
+      verify_rule< rep_max< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "a", result_type::SUCCESS, 1 );
+      verify_rule< rep_max< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "aa", result_type::SUCCESS, 2 );
+      verify_rule< rep_max< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ba", result_type::SUCCESS, 2 );
+      verify_rule< rep_max< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab", result_type::SUCCESS, 0 );
+      verify_rule< rep_max< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "aba", result_type::SUCCESS, 1 );
+      verify_rule< rep_max< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "abb", result_type::SUCCESS, 1 );
+      verify_rule< rep_max< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "aab", result_type::SUCCESS, 3 );
+      verify_rule< rep_max< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "abab", result_type::SUCCESS, 0 );
+      verify_rule< rep_max< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ababb", result_type::SUCCESS, 1 );
+      verify_rule< rep_max< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ababa", result_type::SUCCESS, 1 );
+      verify_rule< rep_max< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ababab", result_type::LOCAL_FAILURE, 6 );
+
+      verify_rule< rep_max< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 1 );
+      verify_rule< rep_max< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aa", result_type::SUCCESS, 0 );
+      verify_rule< rep_max< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaa", result_type::SUCCESS, 1 );
+      verify_rule< rep_max< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaaa", result_type::SUCCESS, 0 );
+      verify_rule< rep_max< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaaaa", result_type::SUCCESS, 1 );
+      verify_rule< rep_max< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaaaaa", result_type::LOCAL_FAILURE, 6 );
+      verify_rule< rep_max< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaaaaaa", result_type::LOCAL_FAILURE, 7 );
    }
 
 } // pegtl

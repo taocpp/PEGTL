@@ -1,36 +1,45 @@
 // Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
-#include "rule_impl.hh"
+#include "test.hh"
 
 namespace pegtl
 {
    void unit_test()
    {
-      verify< pad< one< 'a' >, space > >( "", false, 0, __LINE__ );
-      verify< pad< one< 'a' >, space > >( " ", false, 1, __LINE__ );
-      verify< pad< one< 'a' >, space > >( "  ", false, 2, __LINE__ );
-      verify< pad< one< 'a' >, space > >( "b", false, 1, __LINE__ );
-      verify< pad< one< 'a' >, space > >( "ba", false, 2, __LINE__ );
-      verify< pad< one< 'a' >, space > >( "a", true, 0, __LINE__ );
-      verify< pad< one< 'a' >, space > >( " a", true, 0, __LINE__ );
-      verify< pad< one< 'a' >, space > >( "a ", true, 0, __LINE__ );
-      verify< pad< one< 'a' >, space > >( "  a", true, 0, __LINE__ );
-      verify< pad< one< 'a' >, space > >( "a  ", true, 0, __LINE__ );
-      verify< pad< one< 'a' >, space > >( "  a  ", true, 0, __LINE__ );
-      verify< pad< one< 'a' >, space > >( "   a   ", true, 0, __LINE__ );
-      verify< pad< one< 'a' >, space > >( "aa", true, 1, __LINE__ );
-      verify< pad< one< 'a' >, space > >( "a a", true, 1, __LINE__ );
-      verify< pad< one< 'a' >, space > >( "  a  a ", true, 2, __LINE__ );
+      verify_analyze< pad< eof, eof, eof > >( __LINE__, __FILE__, false, true );
+      verify_analyze< pad< eof, eof, any > >( __LINE__, __FILE__, false, true );
+      verify_analyze< pad< eof, any, eof > >( __LINE__, __FILE__, false, true );
+      verify_analyze< pad< eof, any, any > >( __LINE__, __FILE__, false );
+      verify_analyze< pad< any, eof, eof > >( __LINE__, __FILE__, true, true );
+      verify_analyze< pad< any, eof, any > >( __LINE__, __FILE__, true, true );
+      verify_analyze< pad< any, any, eof > >( __LINE__, __FILE__, true, true );
+      verify_analyze< pad< any, any, any > >( __LINE__, __FILE__, true );
 
-      verify< pad< one< 'a' >, digit, blank > >( "a", true, 0, __LINE__ );
-      verify< pad< one< 'a' >, digit, blank > >( "1a", true, 0, __LINE__ );
-      verify< pad< one< 'a' >, digit, blank > >( "123a", true, 0, __LINE__ );
-      verify< pad< one< 'a' >, digit, blank > >( "a ", true, 0, __LINE__ );
-      verify< pad< one< 'a' >, digit, blank > >( "a   ", true, 0, __LINE__ );
-      verify< pad< one< 'a' >, digit, blank > >( "123a   ", true, 0, __LINE__ );
-      verify< pad< one< 'a' >, digit, blank > >( " a", false, 2, __LINE__ );
-      verify< pad< one< 'a' >, digit, blank > >( "a1", true, 1, __LINE__ );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  " ", result_type::LOCAL_FAILURE, 1 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "  ", result_type::LOCAL_FAILURE, 2 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "b", result_type::LOCAL_FAILURE, 1 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "ba", result_type::LOCAL_FAILURE, 2 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  " a", result_type::SUCCESS, 0 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "a ", result_type::SUCCESS, 0 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "  a", result_type::SUCCESS, 0 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "a  ", result_type::SUCCESS, 0 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "  a  ", result_type::SUCCESS, 0 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "   a   ", result_type::SUCCESS, 0 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "aa", result_type::SUCCESS, 1 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "a a", result_type::SUCCESS, 1 );
+      verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "  a  a ", result_type::SUCCESS, 2 );
+
+      verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );
+      verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "1a", result_type::SUCCESS, 0 );
+      verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "123a", result_type::SUCCESS, 0 );
+      verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "a ", result_type::SUCCESS, 0 );
+      verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "a   ", result_type::SUCCESS, 0 );
+      verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "123a   ", result_type::SUCCESS, 0 );
+      verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  " a", result_type::LOCAL_FAILURE, 2 );
+      verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "a1", result_type::SUCCESS, 1 );
    }
 
 } // pegtl

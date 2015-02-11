@@ -16,7 +16,7 @@ namespace pegtl
       template< bool Want, typename Peek, typename Peek::data_t ... Cs >
       struct one
       {
-         using analyze_t = analysis::generic< analysis::rule_type::CONSUMES >;
+         using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
          template< typename Input >
          static bool match( Input & in )
@@ -36,7 +36,7 @@ namespace pegtl
       template< bool Want, typename Peek, typename Peek::data_t C >
       struct one< Want, Peek, C >
       {
-         using analyze_t = analysis::generic< analysis::rule_type::CONSUMES >;
+         using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
          template< typename Input >
          static bool match( Input & in )

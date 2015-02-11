@@ -21,7 +21,7 @@ namespace pegtl
       template< char C, char ... Cs >
       struct string< C, Cs ... >
       {
-         using analyze_t = analysis::counted< analysis::rule_type::CONSUMES, 1 + sizeof ... ( Cs ) >;
+         using analyze_t = analysis::counted< analysis::rule_type::ANY, 1 + sizeof ... ( Cs ) >;
 
          template< typename Input >
          static bool match( Input & in )

@@ -7,10 +7,11 @@
 int main( int, char ** argv )
 {
    pegtl::unit_test();
-   if ( pegtl::fails ) {
-      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << pegtl::fails << std::endl;
+
+   if ( pegtl::failed ) {
+      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << pegtl::failed << std::endl;
    }
-   return bool( pegtl::fails );
+   return bool( pegtl::failed );
 }
 
 #endif

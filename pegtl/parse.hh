@@ -11,14 +11,13 @@
 
 #include "normal.hh"
 #include "nothing.hh"
-#include "internal/rule_match_help.hh"
 
 namespace pegtl
 {
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
    void parse( input & in, States && ... st )
    {
-      internal::rule_match_help< Rule, error_mode::THROW, Action, Control >( in, st ... );
+      Control< Rule >::template match< error_mode::THROW, Action, Control >( in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >

@@ -16,12 +16,12 @@ namespace pegtl
       template< typename ... Rules >
       struct plus
       {
-         using analyze_t = analysis::generic< analysis::rule_type::CONJUNCTION, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::PLUS, Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_call< seq< Rules ... >, E, Action, Control >::match( in, st ... ) && rule_match_call< star< Rules ... >, E, Action, Control >::match( in, st ... );
+            return rule_match_three< seq< Rules ... >, E, Action, Control >::match( in, st ... ) && rule_match_three< star< Rules ... >, E, Action, Control >::match( in, st ... );
          }
       };
 

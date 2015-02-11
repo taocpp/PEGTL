@@ -12,7 +12,7 @@ namespace pegtl
    {
       struct eolf
       {
-         using analyze_t = analysis::generic< analysis::rule_type::OPTIONAL >;
+         using analyze_t = analysis::generic< analysis::rule_type::OPT >;
 
          template< typename Input >
          static bool match( Input & in )

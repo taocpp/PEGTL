@@ -4,10 +4,10 @@
 #ifndef PEGTL_INTERNAL_DISABLE_HH
 #define PEGTL_INTERNAL_DISABLE_HH
 
-#include "../nothing.hh"
-
 #include "seq.hh"
+#include "rule_match_three.hh"
 
+#include "../nothing.hh"
 #include "../analysis/generic.hh"
 
 namespace pegtl
@@ -17,12 +17,12 @@ namespace pegtl
       template< typename ... Rules >
       struct disable
       {
-         using analyze_t = analysis::generic< analysis::rule_type::CONJUNCTION, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
 
          template< error_mode E, template< typename ... > class, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_call< seq< Rules ... >, E, nothing, Control >::match( in, st ... );
+            return rule_match_three< seq< Rules ... >, E, nothing, Control >::match( in, st ... );
          }
       };
 

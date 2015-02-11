@@ -5,8 +5,7 @@
 #define PEGTL_INTERNAL_UNTIL_HH
 
 #include "bytes.hh"
-#include "rule_match_help.hh"
-#include "rule_conjunction_impl.hh"
+#include "rule_conjunction.hh"
 
 namespace pegtl
 {
@@ -24,7 +23,7 @@ namespace pegtl
          {
             auto m = in.template mark< E >();
 
-            while ( ! rule_match_help< Cond, error_mode::RETURN, Action, Control >( in, st ... ) ) {
+            while ( ! Control< Cond >::template match< error_mode::RETURN, Action, Control >( in, st ... ) ) {
                if ( ! in.bump_if() ) {
                   return false;
                }
@@ -44,8 +43,8 @@ namespace pegtl
          {
             auto m = in.template mark< E >();
 
-            while ( ! rule_match_help< Cond, error_mode::RETURN, Action, Control >( in, st ... ) ) {
-               if ( in.empty() || ! rule_conjunction_impl< Rule, Rules ... >::template match< E, Action, Control >( in, st ... ) ) {
+            while ( ! Control< Cond >::template match< error_mode::RETURN, Action, Control >( in, st ... ) ) {
+               if ( in.empty() || ! rule_conjunction< Rule, Rules ... >::template match< E, Action, Control >( in, st ... ) ) {
                   return false;
                }
             }

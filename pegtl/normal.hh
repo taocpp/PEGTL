@@ -6,6 +6,8 @@
 
 #include "parse_error.hh"
 
+#include "internal/rule_match_one.hh"
+
 namespace pegtl
 {
    template< typename Rule >
@@ -27,6 +29,12 @@ namespace pegtl
       static void raise( const Input & in, States && ... )
       {
          PEGTL_THROW_PARSE_ERROR( RuLe, in );
+      }
+
+      template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+      static bool match( Input & in, States && ... st )
+      {
+         return internal::rule_match_one< Rule, E, Action, Control >( in, st ... );
       }
    };
 

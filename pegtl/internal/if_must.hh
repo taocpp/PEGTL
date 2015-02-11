@@ -7,8 +7,7 @@
 #include "seq.hh"
 #include "trivial.hh"
 #include "utility.hh"
-#include "rule_match_help.hh"
-#include "rule_conjunction_impl.hh"
+#include "rule_conjunction.hh"
 
 #include "../analysis/generic.hh"
 
@@ -26,8 +25,8 @@ namespace pegtl
          {
             auto m = in.template mark< error_mode::THROW >();
 
-            if ( rule_match_help< Cond, Mode, Action, Control >( in, st ... ) ) {
-               return m( rule_conjunction_impl< Thens ... >::template match< error_mode::THROW, Action, Control >( in, st ... ) );
+            if ( Control< Cond >::template match< Mode, Action, Control >( in, st ... ) ) {
+               return m( rule_conjunction< Thens ... >::template match< error_mode::THROW, Action, Control >( in, st ... ) );
             }
             return false;
          }

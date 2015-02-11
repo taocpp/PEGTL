@@ -5,7 +5,6 @@
 #define PEGTL_INTERNAL_IF_MODE_ELSE_HH
 
 #include "utility.hh"
-#include "rule_match_help.hh"
 
 #include "../analysis/generic.hh"
 
@@ -23,11 +22,11 @@ namespace pegtl
          {
             auto m = in.template mark< merge( Must, Mode ) >();
 
-            if ( rule_match_help< Cond, error_mode::RETURN, Action, Control >( in, st ... ) ) {
-               return m( rule_match_help< Then, merge( Must, Mode ), Action, Control >( in, st ... ) );
+            if ( Control< Cond >::template match< error_mode::RETURN, Action, Control >( in, st ... ) ) {
+               return m( Control< Then >::template match< merge( Must, Mode ), Action, Control >( in, st ... ) );
             }
             else {
-               return m( rule_match_help< Else, merge( Must, Mode ), Action, Control >( in, st ... ) );
+               return m( Control< Else >::template match< merge( Must, Mode ), Action, Control >( in, st ... ) );
             }
          }
       };

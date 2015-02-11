@@ -37,7 +37,7 @@ namespace pegtl
       struct h16 : rep_min_max< 1, 4, HEXDIG > {};
       struct ls32 : sor< seq< h16, colon, h16 >, IPv4address > {};
 
-      struct dcolon : string< ':', ':' > {};
+      struct dcolon : two< ':' > {};
 
       struct IPv6address : sor< seq<                                               rep< 6, h16, colon >, ls32 >,
                                 seq<                                       dcolon, rep< 5, h16, colon >, ls32 >,
@@ -92,7 +92,7 @@ namespace pegtl
 
       struct scheme : seq< ALPHA, star< sor< ALPHA, DIGIT, one< '+', '-', '.' > > > > {};
 
-      using dslash = string< '/', '/' >;
+      using dslash = two< '/' >;
       using opt_query = opt< if_must< one< '?' >, query > >;
       using opt_fragment = opt< if_must< one< '#' >, fragment > >;
 

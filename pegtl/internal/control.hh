@@ -5,6 +5,7 @@
 #define PEGTL_INTERNAL_CONTROL_HH
 
 #include "seq.hh"
+#include "rule_match_three.hh"
 
 #include "../analysis/generic.hh"
 
@@ -15,12 +16,12 @@ namespace pegtl
       template< template< typename ... > class Control, typename ... Rules >
       struct control
       {
-         using analyze_t = analysis::generic< analysis::rule_type::CONJUNCTION, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_call< seq< Rules ... >, E, Action, Control >::match( in, st ... );
+            return rule_match_three< seq< Rules ... >, E, Action, Control >::match( in, st ... );
          }
       };
 

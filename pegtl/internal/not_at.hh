@@ -6,7 +6,7 @@
 
 #include "../nothing.hh"
 
-#include "rule_conjunction_impl.hh"
+#include "rule_conjunction.hh"
 
 #include "../analysis/generic.hh"
 
@@ -17,13 +17,13 @@ namespace pegtl
       template< typename ... Rules >
       struct not_at
       {
-         using analyze_t = analysis::generic< analysis::rule_type::OPTIONAL, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
-            return ! rule_conjunction_impl< Rules ... >::template match< error_mode::RETURN, nothing, Control >( in, st ... );
+            return ! rule_conjunction< Rules ... >::template match< error_mode::RETURN, nothing, Control >( in, st ... );
          }
       };
 

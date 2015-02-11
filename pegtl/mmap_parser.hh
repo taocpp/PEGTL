@@ -5,7 +5,6 @@
 #define PEGTL_MMAP_PARSER_HH
 
 #include "internal/file_mapper.hh"
-#include "internal/rule_match_help.hh"
 
 namespace pegtl
 {
@@ -38,7 +37,7 @@ namespace pegtl
       template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
       void parse( States && ... st )
       {
-         internal::rule_match_help< Rule, error_mode::THROW, Action, Control >( m_input, st ... );
+         Control< Rule >::template match< error_mode::THROW, Action, Control >( m_input, st ... );
       }
 
    private:

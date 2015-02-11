@@ -13,7 +13,7 @@ namespace pegtl
       template< bool What >
       struct trivial
       {
-         using analyze_t = analysis::counted< analysis::rule_type::CONSUMES, unsigned( ! What ) >;
+         using analyze_t = analysis::counted< analysis::rule_type::ANY, unsigned( ! What ) >;
 
          template< typename Input >
          static bool match( Input & )

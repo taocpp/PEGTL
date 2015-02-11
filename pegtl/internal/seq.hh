@@ -5,7 +5,7 @@
 #define PEGTL_INTERNAL_SEQ_HH
 
 #include "trivial.hh"
-#include "rule_conjunction_impl.hh"
+#include "rule_conjunction.hh"
 
 #include "../analysis/generic.hh"
 
@@ -22,25 +22,25 @@ namespace pegtl
       template< typename Rule >
       struct seq< Rule >
       {
-         using analyze_t = analysis::generic< analysis::rule_type::CONJUNCTION, Rule >;
+         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_help< Rule, E, Action, Control >( in, st ... );
+            return Control< Rule >::template match< E, Action, Control >( in, st ... );
          }
       };
 
       template< typename Rule, typename More, typename ... Rules >
       struct seq< Rule, More, Rules ... >
       {
-         using analyze_t = analysis::generic< analysis::rule_type::CONJUNCTION, Rule, More, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule, More, Rules ... >;
 
          template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< E >();
-            return m( rule_conjunction_impl< Rule, More, Rules ... >::template match< E, Action, Control >( in, st ... ) );
+            return m( rule_conjunction< Rule, More, Rules ... >::template match< E, Action, Control >( in, st ... ) );
          }
       };
 
