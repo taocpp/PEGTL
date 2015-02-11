@@ -32,7 +32,6 @@ namespace pegtl
          unsigned m_problems;
          grammar_info m_info;
          std::set< std::string > m_stack;
-         std::set< std::string > m_until;
          std::map< std::string, bool > m_cache;
          std::map< std::string, bool > m_results;
 
@@ -119,15 +118,12 @@ namespace pegtl
                         a |= work( find( start->second.rules[ i ] ), accum || a );
                      }
                      if ( ! a ) {
-                        if ( m_until.insert( start->first ).second ) {
-                           ++m_problems;
-                           if ( m_verbose ) {
-                              std::cout << "problem: rules without progress detected in until " << start->first << std::endl;
-                           }
+                        ++m_problems;
+                        if ( m_verbose ) {
+                           std::cout << "problem: rules without progress detected in until " << start->first << std::endl;
                         }
                      }
-                     const bool r = work( find( start->second.rules[ 0 ] ), accum );
-                     return m_cache[ start->first ] = r;
+                     return m_cache[ start->first ] = work( find( start->second.rules[ 0 ] ), accum );
                   }
                   case rule_type::IF:
                   {
