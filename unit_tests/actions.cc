@@ -11,7 +11,7 @@ namespace pegtl
       struct foo : sor< fiz, one< 'b' > > {};
       struct bar : until< eof, foo > {};
 
-      void unit_test()
+      void test_result()
       {
          TEST_ASSERT( applied.size() == 10 );
 
@@ -38,6 +38,38 @@ namespace pegtl
          TEST_ASSERT( applied[ 9 ].second == "baab" );
       }
 
+      struct state1
+      {
+         char c;
+
+         void operator() ( std::string & s ) const
+         {
+            s += c;
+         }
+      };
+
+      struct fobble : sor< state< state1, alpha >, digit > {};
+      struct fibble : until< eof, fobble > {};
+
+      template< typename Rule > struct action1 : nothing< Rule > {};
+
+      template<>
+      struct action1< alpha >
+      {
+         static void apply( const input & in, state1 & s )
+         {
+            assert( in.size() == 1 );
+            s.c = 0[ in.begin() ];
+         }
+      };
+
+      void state_test()
+      {
+         std::string result;
+         parse< fibble, action1 >( "dk41sk41xk3", __FILE__, result );
+         TEST_ASSERT( result == "dkskxk" );
+      }
+
    } // test1
 
    void unit_test()
@@ -51,15 +83,23 @@ namespace pegtl
 
       applied.clear();
 
+      parse< at< enable< test_action, test1::bar > > >( "baab", __FILE__ );
+
+      TEST_ASSERT( applied.empty() );
+
+      applied.clear();
+
       parse< test1::bar, test_action >( "baab", __FILE__ );
 
-      test1::unit_test();
+      test1::test_result();
 
       applied.clear();
 
       parse< enable< test_action, test1::bar > >( "baab", __FILE__ );
 
-      test1::unit_test();
+      test1::test_result();
+
+      test1::state_test();
    }
 
 } // pegtl

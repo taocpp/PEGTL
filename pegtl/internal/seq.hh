@@ -24,10 +24,10 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule >;
 
-         template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return Control< Rule >::template match< E, Action, Control >( in, st ... );
+            return Control< Rule >::template match< A, E, Action, Control >( in, st ... );
          }
       };
 
@@ -36,11 +36,11 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule, More, Rules ... >;
 
-         template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< E >();
-            return m( rule_conjunction< Rule, More, Rules ... >::template match< E, Action, Control >( in, st ... ) );
+            return m( rule_conjunction< Rule, More, Rules ... >::template match< A, E, Action, Control >( in, st ... ) );
          }
       };
 

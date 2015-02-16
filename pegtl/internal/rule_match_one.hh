@@ -8,16 +8,21 @@
 
 #include "../nothing.hh"
 
+#include "../apply_mode.hh"
+#include "../error_mode.hh"
+
+#include "utility.hh"
+
 #include "rule_match_two.hh"
 
 namespace pegtl
 {
    namespace internal
    {
-      template< typename Rule, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+      template< typename Rule, apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
       bool rule_match_one( Input & in, States && ... st )
       {
-         return rule_match_two< Rule, E, Action, Control, std::is_base_of< nothing< Rule >, Action< Rule > >::value ? apply_here::NOTHING : apply_here::ACTION >::template match( in, st ... );
+         return rule_match_two< Rule, A, E, Action, Control, std::is_base_of< nothing< Rule >, Action< Rule > >::value ? merge( A, apply_here::NOTHING ) : merge( A, apply_here::ACTION ) >::template match( in, st ... );
       }
 
    } // internal

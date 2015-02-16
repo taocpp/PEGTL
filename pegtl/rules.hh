@@ -41,6 +41,7 @@ namespace pegtl
    template< typename ... Rules > struct sor : internal::sor< Rules ... > {};
    template< typename ... Rules > struct star : internal::star< Rules ... > {};
    template< typename ... Rules > struct star_must : internal::star_must< Rules ... > {};
+   template< typename State, typename ... Rules > using state = internal::state< State, Rules ... >;
    struct success : internal::trivial< true > {};
    template< typename ... Rules > struct try_catch : internal::try_catch_type< parse_error, Rules ... > {};
    template< typename Exception, typename ... Rules > struct try_catch_type : internal::try_catch_type< Exception, Rules ... > {};

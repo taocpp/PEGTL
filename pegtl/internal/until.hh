@@ -18,12 +18,12 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::UNTIL, Cond, internal::bytes< 1 > >;
 
-         template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< E >();
 
-            while ( ! Control< Cond >::template match< error_mode::RETURN, Action, Control >( in, st ... ) ) {
+            while ( ! Control< Cond >::template match< A, error_mode::RETURN, Action, Control >( in, st ... ) ) {
                if ( ! in.bump_if() ) {
                   return false;
                }
@@ -38,13 +38,13 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::UNTIL, Cond, Rule, Rules ... >;
 
-         template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< E >();
 
-            while ( ! Control< Cond >::template match< error_mode::RETURN, Action, Control >( in, st ... ) ) {
-               if ( in.empty() || ! rule_conjunction< Rule, Rules ... >::template match< E, Action, Control >( in, st ... ) ) {
+            while ( ! Control< Cond >::template match< A, error_mode::RETURN, Action, Control >( in, st ... ) ) {
+               if ( in.empty() || ! rule_conjunction< Rule, Rules ... >::template match< A, E, Action, Control >( in, st ... ) ) {
                   return false;
                }
             }

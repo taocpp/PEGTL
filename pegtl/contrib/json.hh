@@ -6,7 +6,6 @@
 
 #include "../rules.hh"
 #include "../utf8.hh"
-#include "../make.hh"
 #include "abnf.hh"
 
 namespace pegtl
@@ -26,37 +25,32 @@ namespace pegtl
       struct name_separator : pad< one< ':' >, ws > {};
       struct value_separator : pad< one< ',' >, ws > {};
 
-      constexpr const char s_false[] = "false";
-      constexpr const char s_null[] = "null";
-      constexpr const char s_true[] = "true";
+      struct false_ : string< 'f', 'a', 'l', 's', 'e' > {};
+      struct null : string< 'n', 'u', 'l', 'l' > {};
+      struct true_ : string< 't', 'r', 'u', 'e' > {};
 
-      struct false_ : make_string< s_false > {};
-      struct null : make_string< s_null > {};
-      struct true_ : make_string< s_true > {};
-
-      struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+' > >, plus< DIGIT > > {};
-      struct frac : seq< one< '.' >, plus< DIGIT > > {};
+      struct exp : if_must< one< 'e', 'E' >, opt< one< '-', '+' > >, plus< DIGIT > > {};
+      struct frac : if_must< one< '.' >, plus< DIGIT > > {};
       struct int_ : sor< one< '0' >, plus< DIGIT > > {};
       struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
 
-      struct unicode : seq< one< 'u' >, rep< 4, HEXDIG > > {};
+      struct unicode : if_must< one< 'u' >, rep< 4, HEXDIG > > {};
       struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
       struct escaped : sor< escaped_char, unicode > {};
       struct unescaped : utf8::range< 0x20, 0x10FFFF > {};
-      struct char_ : if_then_else< one< '\\' >, escaped, unescaped > {};
-      struct string_content : until< at< one< '"' > >, char_ > {};
-      struct string : seq< one< '"' >, string_content, one< '"' > > {};
+      struct char_ : if_must_else< one< '\\' >, escaped, unescaped > {};
+      struct string : if_must< one< '"' >, until< one< '"' >, char_ > > {};
 
       struct value;
 
-      struct member : seq< string, name_separator, value > {};
-      struct object : seq< begin_object, opt< list< member, value_separator > >, end_object > {};
+      struct member : if_must< string, name_separator, value > {};
+      struct object : if_must< begin_object, opt< list_must< member, value_separator > >, end_object > {};
 
-      struct array : seq< begin_array, opt< list< value, value_separator > >, end_array > {};
+      struct array : if_must< begin_array, opt< list_must< value, value_separator > >, end_array > {};
 
       struct value : sor< false_, null, true_, object, array, number, string > {};
 
-      struct text : seq< pad< value, ws >, eof > {};
+      struct text : pad< value, ws > {};
 
    } // json
 

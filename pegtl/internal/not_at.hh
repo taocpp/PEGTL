@@ -19,11 +19,11 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules ... >;
 
-         template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
-            return ! rule_conjunction< Rules ... >::template match< error_mode::RETURN, nothing, Control >( in, st ... );
+            return ! rule_conjunction< Rules ... >::template match< apply_mode::NOTHING, error_mode::RETURN, nothing, Control >( in, st ... );
          }
       };
 

@@ -8,10 +8,10 @@ namespace pegtl
 {
    namespace internal
    {
-      enum class apply_here : char
+      enum class apply_here : bool
       {
-         ACTION,
-         NOTHING
+         ACTION = true,
+         NOTHING = false
       };
 
    } // internal

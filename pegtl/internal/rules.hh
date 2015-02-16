@@ -35,6 +35,7 @@
 #include "sor.hh"
 #include "star.hh"
 #include "star_must.hh"
+#include "state.hh"
 #include "string.hh"
 #include "trivial.hh"
 #include "try_catch_type.hh"

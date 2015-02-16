@@ -8,7 +8,10 @@
 #include <utility>
 #include <algorithm>
 
+#include "../apply_mode.hh"
 #include "../error_mode.hh"
+
+#include "apply_here.hh"
 
 namespace pegtl
 {
@@ -24,6 +27,15 @@ namespace pegtl
          static_assert( bool( error_mode::THROW ) == true, "internal consistency" );
          static_assert( bool( error_mode::RETURN ) == false, "internal consistency" );
          return error_mode( bool( a ) || bool( b ) );
+      }
+
+      constexpr apply_here merge( const apply_mode a, const apply_here b )
+      {
+         static_assert( bool( apply_mode::ACTION ) == true, "internal consistency" );
+         static_assert( bool( apply_mode::NOTHING ) == false, "internal consistency" );
+         static_assert( bool( apply_here::ACTION ) == true, "internal consistency" );
+         static_assert( bool( apply_here::NOTHING ) == false, "internal consistency" );
+         return apply_here( bool( a ) && bool( b ) );
       }
 
       template< typename Char >

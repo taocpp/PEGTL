@@ -20,13 +20,13 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::IF, Cond, seq< Thens ... >, trivial< false > >;
 
-         template< error_mode Mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, error_mode Mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< error_mode::THROW >();
 
-            if ( Control< Cond >::template match< Mode, Action, Control >( in, st ... ) ) {
-               return m( rule_conjunction< Thens ... >::template match< error_mode::THROW, Action, Control >( in, st ... ) );
+            if ( Control< Cond >::template match< A, Mode, Action, Control >( in, st ... ) ) {
+               return m( rule_conjunction< Thens ... >::template match< A, error_mode::THROW, Action, Control >( in, st ... ) );
             }
             return false;
          }

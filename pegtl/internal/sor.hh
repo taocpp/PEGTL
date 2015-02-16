@@ -19,15 +19,27 @@ namespace pegtl
       struct sor<>
             : trivial< false > {};
 
-      template< typename Rule, typename ... Rules >
-      struct sor< Rule, Rules ... >
+      template< typename Rule >
+      struct sor< Rule >
       {
-         using analyze_t = analysis::generic< analysis::rule_type::SOR, Rule, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::SOR, Rule >;
 
-         template< error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_disjunction< Rule, Rules ... >::template match< E, Action, Control >( in, st ... );
+            return Control< Rule >::template match< A, E, Action, Control >( in, st ... );
+         }
+      };
+
+      template< typename Rule, typename More, typename ... Rules >
+      struct sor< Rule, More, Rules ... >
+      {
+         using analyze_t = analysis::generic< analysis::rule_type::SOR, Rule, More, Rules ... >;
+
+         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         static bool match( Input & in, States && ... st )
+         {
+            return rule_disjunction< Rule, More, Rules ... >::template match< A, E, Action, Control >( in, st ... );
          }
       };
 

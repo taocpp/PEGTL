@@ -16,7 +16,7 @@ namespace pegtl
    result_type verify_help( Input & i )
    {
       try {
-         if ( normal< Rule >::template match< M, nothing, normal >( i ) ) {
+         if ( normal< Rule >::template match< apply_mode::ACTION, M, nothing, normal >( i ) ) {
             return result_type::SUCCESS;
          }
          return result_type::LOCAL_FAILURE;

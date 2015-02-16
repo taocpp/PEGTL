@@ -5,7 +5,6 @@
 #define PEGTL_INPUT_HH
 
 #include <string>
-#include <cassert>
 #include <cstddef>
 
 #include "internal/input_data.hh"
@@ -72,7 +71,6 @@ namespace pegtl
 
       char peek_char( const std::size_t o = 0 ) const
       {
-         assert( size() > o );
          return o[ m_data.begin ];
       }
 
@@ -83,8 +81,6 @@ namespace pegtl
 
       void bump( const std::size_t o = 1 )
       {
-         assert( m_data.begin + o <= m_data.end );
-
          for ( std::size_t i = 0; i < o; ++i ) {
             bump_unsafe();
          }

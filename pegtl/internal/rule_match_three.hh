@@ -4,19 +4,20 @@
 #ifndef PEGTL_INTERNAL_RULE_MATCH_THREE_HH
 #define PEGTL_INTERNAL_RULE_MATCH_THREE_HH
 
+#include "../apply_mode.hh"
 #include "../error_mode.hh"
 
 namespace pegtl
 {
    namespace internal
    {
-      template< typename Rule, error_mode E, template< typename ... > class Action, template< typename ... > class Control >
+      template< typename Rule, apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_three
       {
          template< typename Input, typename ... States >
-         static auto match( Input & in, States && ... st ) -> decltype( Rule::template match< E, Action, Control >( in, st ... ), bool() )
+         static auto match( Input & in, States && ... st ) -> decltype( Rule::template match< A, E, Action, Control >( in, st ... ), bool() )
          {
-            return Rule::template match< E, Action, Control >( in, st ... );
+            return Rule::template match< A, E, Action, Control >( in, st ... );
          }
 
          // NOTE: The additional int=0 is a work-around for VS2015.

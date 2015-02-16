@@ -12,12 +12,15 @@
 #include "normal.hh"
 #include "nothing.hh"
 
+#include "apply_mode.hh"
+#include "error_mode.hh"
+
 namespace pegtl
 {
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
    void parse( input & in, States && ... st )
    {
-      Control< Rule >::template match< error_mode::THROW, Action, Control >( in, st ... );
+      Control< Rule >::template match< apply_mode::ACTION, error_mode::THROW, Action, Control >( in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >

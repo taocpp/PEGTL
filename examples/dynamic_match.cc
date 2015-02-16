@@ -15,7 +15,7 @@ namespace dynamic
 
    struct long_literal_mark
    {
-      template< pegtl::error_mode E, template< typename ... > class Action, template< typename ... > class Control >
+      template< pegtl::apply_mode A, pegtl::error_mode E, template< typename ... > class Action, template< typename ... > class Control >
       static bool match( pegtl::input & in, const std::string & long_literal_mark, const std::string & )
       {
          if ( in.size() >= long_literal_mark.size() ) {

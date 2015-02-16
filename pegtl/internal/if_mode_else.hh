@@ -17,16 +17,16 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::IF, Cond, Then, Else >;
 
-         template< error_mode Mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, error_mode Mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< merge( Must, Mode ) >();
 
-            if ( Control< Cond >::template match< error_mode::RETURN, Action, Control >( in, st ... ) ) {
-               return m( Control< Then >::template match< merge( Must, Mode ), Action, Control >( in, st ... ) );
+            if ( Control< Cond >::template match< A, error_mode::RETURN, Action, Control >( in, st ... ) ) {
+               return m( Control< Then >::template match< A, merge( Must, Mode ), Action, Control >( in, st ... ) );
             }
             else {
-               return m( Control< Else >::template match< merge( Must, Mode ), Action, Control >( in, st ... ) );
+               return m( Control< Else >::template match< A, merge( Must, Mode ), Action, Control >( in, st ... ) );
             }
          }
       };
