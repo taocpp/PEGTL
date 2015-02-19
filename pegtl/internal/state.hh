@@ -21,9 +21,9 @@ namespace pegtl
          template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            State s;
+            State s{ static_cast< const Input & >( in ), st ... };
             if ( rule_match_three< seq< Rules ... >, A, E, Action, Control >::match( in, s ) ) {
-               s( st ... );
+               s.success( static_cast< const Input & >( in ), st ... );
                return true;
             }
             return false;

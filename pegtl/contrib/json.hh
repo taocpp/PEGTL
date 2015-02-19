@@ -5,6 +5,7 @@
 #define PEGTL_CONTRIB_JSON_HH
 
 #include "../rules.hh"
+#include "../ascii.hh"
 #include "../utf8.hh"
 #include "abnf.hh"
 

@@ -42,7 +42,12 @@ namespace pegtl
       {
          char c;
 
-         void operator() ( std::string & s ) const
+         template< typename Input >
+         state1( const Input &, std::string & )
+         { }
+
+         template< typename Input >
+         void success( const Input &, std::string & s ) const
          {
             s += c;
          }

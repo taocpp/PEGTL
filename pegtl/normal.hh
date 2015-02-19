@@ -9,6 +9,7 @@
 
 #include "parse_error.hh"
 
+#include "internal/demangle.hh"
 #include "internal/rule_match_one.hh"
 
 namespace pegtl
@@ -31,7 +32,7 @@ namespace pegtl
       template< typename Input, typename ... States >
       static void raise( const Input & in, States && ... )
       {
-         PEGTL_THROW_PARSE_ERROR( RuLe, in );
+         throw pegtl::parse_error( "parse error matching " + internal::demangle< Rule >(), in );
       }
 
       template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >

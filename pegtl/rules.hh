@@ -32,6 +32,7 @@ namespace pegtl
    template< typename Rule, typename Pad1, typename Pad2 = Pad1 > struct pad : internal::pad< Rule, Pad1, Pad2 > {};
    template< typename Rule, typename Pad > struct pad_opt : internal::pad_opt< Rule, Pad > {};
    template< typename ... Rules > struct plus : internal::plus< Rules ... > {};
+   template< typename Exception > struct raise : internal::raise< Exception > {};
    template< unsigned Num, typename ... Rules > struct rep : internal::rep< Num, Rules ... > {};
    template< unsigned Max, typename ... Rules > struct rep_max : internal::rep_min_max< 0, Max, Rules ... > {};
    template< unsigned Min, typename ... Rules > struct rep_min : internal::seq< internal::rep< Min, Rules ... >, internal::star< Rules ... > > {};

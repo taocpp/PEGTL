@@ -28,6 +28,7 @@
 #include "plus.hh"
 #include "range.hh"
 #include "ranges.hh"
+#include "raise.hh"
 #include "rep.hh"
 #include "rep_min_max.hh"
 #include "rep_opt.hh"

@@ -9,7 +9,12 @@ namespace pegtl
 {
    struct test_state_state
    {
-      void operator() () const
+      template< typename Input >
+      test_state_state( const Input & )
+      { }
+
+      template< typename Input >
+      void success( const Input & ) const
       { }
    };
 

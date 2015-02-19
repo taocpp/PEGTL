@@ -10,10 +10,32 @@
 #include <stdexcept>
 
 #include "position_info.hh"
-#include "internal/demangle.hh"
 
 namespace pegtl
 {
+   namespace internal
+   {
+      template< typename Input >
+      std::vector< position_info > positions( const Input & in )
+      {
+         std::vector< position_info > result;
+         for ( const auto * id = & in.data(); id; id = id->from ) {
+            result.push_back( position_info( * id ) );
+         }
+         assert( ! result.empty() );
+         return result;
+      }
+
+      template< typename Input >
+      std::string source( const Input & in )
+      {
+         std::ostringstream oss;
+         oss << position_info( in.data() );
+         return oss.str();
+      }
+
+   } // internal
+
    struct parse_error
          : std::runtime_error
    {
@@ -22,20 +44,14 @@ namespace pegtl
               positions( std::move( positions ) )
       { }
 
+      template< typename Input >
+      parse_error( const std::string & message, const Input & in )
+            : std::runtime_error( internal::source( in ) + ": " + message ),
+              positions( internal::positions( in ) )
+      { }
+
       std::vector< position_info > positions;
    };
-
-#define PEGTL_THROW_PARSE_ERROR( RuLe, iNPuT )                          \
-   do {                                                                 \
-      std::vector< pegtl::position_info > positions;                    \
-      for ( const auto * id = & iNPuT.data(); id; id = id->from ) {     \
-         positions.push_back( position_info( * id ) );                  \
-      }                                                                 \
-      assert( ! positions.empty() );                                    \
-      std::ostringstream oss;                                           \
-      oss << positions[ 0 ] << ": parse error matching " << pegtl::internal::demangle< Rule >(); \
-      throw pegtl::parse_error( oss.str(), std::move( positions ) );    \
-   } while ( 1 )
 
 } // pegtl
 
