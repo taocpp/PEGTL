@@ -14,7 +14,7 @@
 
 #include "apply_mode.hh"
 
-#include "internal/skip_control.hh"
+#include "internal/rule_match_three.hh"
 #include "internal/must.hh"
 
 namespace pegtl
@@ -22,7 +22,7 @@ namespace pegtl
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
    void parse( input & in, States && ... st )
    {
-      Control< internal::skip_control< internal::must< Rule > > >::template match< apply_mode::ACTION, Action, Control >( in, st ... );
+      internal::rule_match_three< internal::must< Rule >, apply_mode::ACTION, Action, Control >::match( in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
