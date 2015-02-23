@@ -4,9 +4,15 @@
 #include <pegtl.hh>
 #include <pegtl/contrib/json.hh>
 
-// define dedicated error messages:
+// This example shows how to throw exceptions with
+// custom error messages for parse errors. A custom
+// control class is created that delegates everything
+// to the PEGTL default control class pegtl::normal<>
+// except for the throwing of exceptions:
+
 template< typename Rule >
-struct normal : pegtl::normal< Rule >
+struct normal
+      : pegtl::normal< Rule >
 {
    static const std::string error_message;
 
@@ -17,8 +23,8 @@ struct normal : pegtl::normal< Rule >
    }
 };
 
-// if there is no default, the compiler will complain
-// about missing error messages for a given grammar
+// The following specialisations of the static string
+// member are then used in the exception messages:
 
 template<> const std::string normal< pegtl::json::end_array >::error_message = "incomplete array, expected ']'";
 template<> const std::string normal< pegtl::json::end_object >::error_message = "incomplete object, expected '}'";
@@ -34,9 +40,17 @@ template<> const std::string normal< pegtl::json::string_cont >::error_message =
 
 template<> const std::string normal< pegtl::json::text >::error_message = "no JSON object could be decoded";
 
-// parse the command line arguments, one-by-one
+// The raise()-function-template is instantiated exactly
+// for the specialisations of normal< Rule > for which a
+// parse error can be generated, therefore the string
+// error_message needs to be supplied only for these rules
+// (and the compiler will complain if one is missing).
+
 int main( int argc, char ** argv )
 {
+   // Individually parse each command line
+   // argument as JSON value.
+
    for ( int i = 1; i < argc; ++i ) {
       pegtl::parse< pegtl::json::text, pegtl::nothing, normal >( i, argv );
    }
