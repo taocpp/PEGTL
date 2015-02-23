@@ -30,17 +30,20 @@ namespace pegtl
       struct null : string< 'n', 'u', 'l', 'l' > {};
       struct true_ : string< 't', 'r', 'u', 'e' > {};
 
-      struct exp : if_must< one< 'e', 'E' >, opt< one< '-', '+' > >, plus< DIGIT > > {};
-      struct frac : if_must< one< '.' >, plus< DIGIT > > {};
-      struct int_ : sor< one< '0' >, plus< DIGIT > > {};
+      struct required_digits : plus< DIGIT > {};
+      struct exp : if_must< one< 'e', 'E' >, opt< one< '-', '+' > >, required_digits > {};
+      struct frac : if_must< one< '.' >, required_digits > {};
+      struct int_ : sor< one< '0' >, required_digits > {};
       struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
 
-      struct unicode : if_must< one< 'u' >, rep< 4, HEXDIG > > {};
+      struct required_xdigit : HEXDIG {};
+      struct unicode : seq< one< 'u' >, rep< 4, required_xdigit > > {};
       struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
       struct escaped : sor< escaped_char, unicode > {};
       struct unescaped : utf8::range< 0x20, 0x10FFFF > {};
-      struct char_ : if_must_else< one< '\\' >, escaped, unescaped > {};
-      struct string : if_must< one< '"' >, until< one< '"' >, char_ > > {};
+      struct char_ : if_then_else< one< '\\' >, escaped, unescaped > {};
+      struct string_cont : until< one< '"' >, must< char_ > > {};
+      struct string : if_must< one< '"' >, string_cont > {};
 
       struct value;
 
