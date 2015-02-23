@@ -17,10 +17,10 @@ namespace pegtl
       {
          using analyze_t = typename Rule::analyze_t;
 
-         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_three< Rule, A, E, Action, Control >::match( in, st ... );
+            return rule_match_three< Rule, A, Action, Control >::match( in, st ... );
          }
       };
 

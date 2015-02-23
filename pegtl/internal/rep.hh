@@ -28,13 +28,13 @@ namespace pegtl
       {
          using analyze_t = analysis::counted< analysis::rule_type::SEQ, Num, Rule, Rules ... >;
 
-         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            auto m = in.template mark< E >();
+            auto m = in.mark();
 
             for ( unsigned i = 0; i < Num; ++i ) {
-               if ( ! rule_conjunction< Rule, Rules ... >::template match< A, E, Action, Control >( in, st ... ) ) {
+               if ( ! rule_conjunction< Rule, Rules ... >::template match< A, Action, Control >( in, st ... ) ) {
                   return m( false );
                }
             }

@@ -4,6 +4,9 @@
 #ifndef PEGTL_DATA_PARSER_HH
 #define PEGTL_DATA_PARSER_HH
 
+#include "internal/skip_control.hh"
+#include "internal/must.hh"
+
 namespace pegtl
 {
    class data_parser
@@ -46,7 +49,7 @@ namespace pegtl
       template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
       void parse( States && ... st )
       {
-         Control< Rule >::template match< error_mode::THROW, Action, Control >( m_input, st ... );
+         Control< internal::skip_control< internal::must< Rule > > >::template match< Action, Control >( m_input, st ... );
       }
 
    private:

@@ -21,7 +21,7 @@ namespace pegtl
       { }
 
       explicit
-      input( const internal::input_mark< error_mode::RETURN > & mark )
+      input( const internal::input_mark & mark )
             : m_data( mark.saved(), * mark.input() )
       { }
 
@@ -104,10 +104,9 @@ namespace pegtl
          return false;
       }
 
-      template< error_mode E = error_mode::RETURN >
-      internal::input_mark< E > mark()
+      internal::input_mark mark()
       {
-         return internal::input_mark< E >( m_data );
+         return internal::input_mark( m_data );
       }
 
       const internal::input_data & data() const

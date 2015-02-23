@@ -7,7 +7,6 @@
 #include <cstdlib>
 
 #include "../apply_mode.hh"
-#include "../error_mode.hh"
 
 #include "apply_here.hh"
 #include "rule_match_three.hh"
@@ -16,17 +15,17 @@ namespace pegtl
 {
    namespace internal
    {
-      template< typename Rule, apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, apply_here H > struct rule_match_two;
+      template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control, apply_here H > struct rule_match_two;
 
       template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_two< Rule, A, error_mode::RETURN, Action, Control, apply_here::NOTHING >
+      struct rule_match_two< Rule, A, Action, Control, apply_here::NOTHING >
       {
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             Control< Rule >::start( static_cast< const Input & >( in ), st ... );
 
-            if ( rule_match_three< Rule, A, error_mode::RETURN, Action, Control >::match( in, st ... ) ) {
+            if ( rule_match_three< Rule, A, Action, Control >::match( in, st ... ) ) {
                Control< Rule >::success( static_cast< const Input & >( in ), st ... );
                return true;
             }
@@ -36,24 +35,7 @@ namespace pegtl
       };
 
       template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_two< Rule, A, error_mode::THROW, Action, Control, apply_here::NOTHING >
-      {
-         template< typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
-         {
-            Control< Rule >::start( static_cast< const Input & >( in ), st ... );
-
-            if ( rule_match_three< Rule, A, error_mode::THROW, Action, Control >::match( in, st ... ) ) {
-               Control< Rule >::success( static_cast< const Input & >( in ), st ... );
-               return true;
-            }
-            Control< Rule >::raise( static_cast< const Input & >( in ), st ... );
-            std::abort();
-         }
-      };
-
-      template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_two< Rule, A, error_mode::RETURN, Action, Control, apply_here::ACTION >
+      struct rule_match_two< Rule, A, Action, Control, apply_here::ACTION >
       {
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
@@ -62,33 +44,13 @@ namespace pegtl
 
             Control< Rule >::start( static_cast< const Input & >( in ), st ... );
 
-            if ( rule_match_three< Rule, A, error_mode::RETURN, Action, Control >::match( in, st ... ) ) {
+            if ( rule_match_three< Rule, A, Action, Control >::match( in, st ... ) ) {
                Control< Rule >::success( static_cast< const Input & >( in ), st ... );
                Action< Rule >::apply( Input( m ), st ... );
                return m( true );
             }
             Control< Rule >::failure( static_cast< const Input & >( in ), st ... );
             return false;
-         }
-      };
-
-      template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_two< Rule, A, error_mode::THROW, Action, Control, apply_here::ACTION >
-      {
-         template< typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
-         {
-            auto m = in.mark();
-
-            Control< Rule >::start( static_cast< const Input & >( in ), st ... );
-
-            if ( rule_match_three< Rule, A, error_mode::THROW, Action, Control >::match( in, st ... ) ) {
-               Control< Rule >::success( static_cast< const Input & >( in ), st ... );
-               Action< Rule >::apply( Input( m ), st ... );
-               return m( true );
-            }
-            Control< Rule >::raise( static_cast< const Input & >( in ), st ... );
-            std::abort();
          }
       };
 

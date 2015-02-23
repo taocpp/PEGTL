@@ -5,8 +5,9 @@
 #define PEGTL_MMAP_PARSER_HH
 
 #include "apply_mode.hh"
-#include "error_mode.hh"
 
+#include "internal/skip_control.hh"
+#include "internal/must.hh"
 #include "internal/file_mapper.hh"
 
 namespace pegtl
@@ -40,7 +41,7 @@ namespace pegtl
       template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
       void parse( States && ... st )
       {
-         Control< Rule >::template match< apply_mode::ACTION, error_mode::THROW, Action, Control >( m_input, st ... );
+         Control< internal::skip_control< internal::must< Rule > > >::template match< apply_mode::ACTION, Action, Control >( m_input, st ... );
       }
 
    private:

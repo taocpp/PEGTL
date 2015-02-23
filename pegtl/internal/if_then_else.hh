@@ -15,15 +15,15 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::IF, Cond, Then, Else >;
 
-         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            auto m = in.template mark< E >();
-            if ( Control< Cond >::template match< A, error_mode::RETURN, Action, Control >( in, st ... ) ) {
-               return m( Control< Then >::template match< A, E, Action, Control >( in, st ... ) );
+            auto m = in.mark();
+            if ( Control< Cond >::template match< A, Action, Control >( in, st ... ) ) {
+               return m( Control< Then >::template match< A, Action, Control >( in, st ... ) );
             }
             else {
-               return m( Control< Else >::template match< A, E, Action, Control >( in, st ... ) );
+               return m( Control< Else >::template match< A, Action, Control >( in, st ... ) );
             }
          }
       };

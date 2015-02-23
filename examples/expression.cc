@@ -416,7 +416,7 @@ namespace expression
          return false;
       }
 
-      template< apply_mode, error_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
+      template< apply_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
       static bool match( Input & in, const operators & b, stacks & s )
       {
          return match( in, b, s, std::string() );

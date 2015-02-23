@@ -5,7 +5,6 @@
 #define PEGTL_NORMAL_HH
 
 #include "apply_mode.hh"
-#include "error_mode.hh"
 
 #include "parse_error.hh"
 
@@ -35,10 +34,10 @@ namespace pegtl
          throw pegtl::parse_error( "parse error matching " + internal::demangle< Rule >(), in );
       }
 
-      template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+      template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
       static bool match( Input & in, States && ... st )
       {
-         return internal::rule_match_one< Rule, A, E, Action, Control >::match( in, st ... );
+         return internal::rule_match_one< Rule, A, Action, Control >::match( in, st ... );
       }
    };
 

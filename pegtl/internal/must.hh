@@ -19,15 +19,31 @@ namespace pegtl
       struct must<>
             : trivial< true > {};
 
-      template< typename Rule, typename ... Rules >
-      struct must< Rule, Rules ... >
+      template< typename Rule >
+      struct must< Rule >
       {
-         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule, Rules ... >;
+         using analyze_t = typename Rule::analyze_t;
 
-         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_three< seq< Rule, Rules ... >, A, error_mode::THROW, Action, Control >::match( in, st ... );
+            if ( ! Control< Rule >::template match< A, Action, Control >( in, st ... ) ) {
+               Control< Rule >::raise( static_cast< const Input & >( in ), st ... );
+            }
+            return true;
+         }
+      };
+
+      template< typename Rule, typename More, typename ... Rules >
+      struct must< Rule, More, Rules ... >
+      {
+         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule, More, Rules ... >;
+
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         static bool match( Input & in, States && ... st )
+         {
+            must< Rule >::template match< A, Action, Control >( in, st ... );
+            return must< More, Rules ... >::template match< A, Action, Control >( in, st ... );
          }
       };
 

@@ -7,7 +7,8 @@
 #include <string>
 #include <cstdlib>
 
-#include "../pegtl/error_mode.hh"
+#include "../pegtl/internal/skip_control.hh"
+#include "../pegtl/internal/must.hh"
 
 #include "result_type.hh"
 #include "verify_impl.hh"
@@ -17,8 +18,7 @@ namespace pegtl
    template< typename Rule >
    void verify_rule( const std::size_t line, const char * file, const std::string & data, const result_type result, const std::size_t remain )
    {
-      verify_impl< Rule, error_mode::THROW >( line, file, data, result, remain );
-      verify_impl< Rule, error_mode::RETURN >( line, file, data, result, remain );
+      verify_impl< Rule >( line, file, data, result, remain );
    }
 
 } // pegtl

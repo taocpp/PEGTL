@@ -24,10 +24,10 @@ namespace pegtl
       {
          using analyze_t = typename Rule::analyze_t;
 
-         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return Control< Rule >::template match< A, E, Action, Control >( in, st ... );
+            return Control< Rule >::template match< A, Action, Control >( in, st ... );
          }
       };
 
@@ -36,10 +36,10 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::SOR, Rule, More, Rules ... >;
 
-         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_disjunction< Rule, More, Rules ... >::template match< A, E, Action, Control >( in, st ... );
+            return rule_disjunction< Rule, More, Rules ... >::template match< A, Action, Control >( in, st ... );
          }
       };
 

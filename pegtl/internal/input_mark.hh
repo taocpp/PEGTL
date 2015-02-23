@@ -4,40 +4,13 @@
 #ifndef PEGTL_INTERNAL_INPUT_MARK_HH
 #define PEGTL_INTERNAL_INPUT_MARK_HH
 
-#include "../error_mode.hh"
-
 #include "input_data.hh"
 
 namespace pegtl
 {
    namespace internal
    {
-      template< error_mode E > class input_mark;
-
-      template<> class input_mark< error_mode::THROW >
-      {
-      public:
-         explicit
-         input_mark( input_data & )
-         { }
-
-         bool success() const
-         {
-            return true;
-         }
-
-         bool failure() const
-         {
-            return true;
-         }
-
-         bool operator() ( const bool result ) const
-         {
-            return result;
-         }
-      };
-
-      template<> class input_mark< error_mode::RETURN >
+      class input_mark
       {
       public:
          explicit

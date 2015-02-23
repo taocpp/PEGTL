@@ -20,22 +20,21 @@ namespace pegtl
 
          static_assert( Min <= Max, "pegtl: illegal rep_min_max rule (maximum number of repetitions smaller than minimum)" );
 
-         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            auto m = in.template mark< E >();
-
+            auto m = in.mark();
             for ( unsigned i = 0; i < Min; ++i ) {
-               if ( ! rule_conjunction< Rules ... >::template match< A, E, Action, Control >( in, st ... ) ) {
+               if ( ! rule_conjunction< Rules ... >::template match< A, Action, Control >( in, st ... ) ) {
                   return m( false );
                }
             }
             for ( unsigned i = Min; i < Max; ++i ) {
-               if ( ! rule_match_three< seq< Rules ... >, A, error_mode::RETURN, Action, Control >::match( in, st ... ) ) {
+               if ( ! rule_match_three< seq< Rules ... >, A, Action, Control >::match( in, st ... ) ) {
                   return m( true );
                }
             }
-            return m( rule_match_three< not_at< Rules ... >, A, E, Action, Control >::match( in, st ... ) );
+            return m( rule_match_three< not_at< Rules ... >, A, Action, Control >::match( in, st ... ) );
          }
       };
 

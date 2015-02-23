@@ -7,21 +7,17 @@
 #include <string>
 #include <cstdlib>
 
-#include "../pegtl/error_mode.hh"
-
 #include "test_failed.hh"
-#include "result_help.hh"
 #include "verify_help.hh"
 
 namespace pegtl
 {
-   template< typename Rule, error_mode M >
-   void verify_impl( const std::size_t line, const char * file, const std::string & data, const result_type result, const std::size_t remain )
+   template< typename Rule >
+   void verify_impl( const std::size_t line, const char * file, const std::string & data, const result_type expected, const std::size_t remain )
    {
       pegtl::input i( line, 0, data.data(), data.data() + data.size(), file );
 
-      const result_type expected = result_help( M, result );
-      const result_type received = verify_help< Rule, M >( i );
+      const result_type received = verify_help< Rule >( i );
 
       if ( ( received == expected ) && ( ( received == result_type::GLOBAL_FAILURE ) || ( i.size() == remain ) ) ) {
          return;

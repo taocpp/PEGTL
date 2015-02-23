@@ -24,13 +24,13 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule, Rules ... >;
 
-         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
 
             try {
-              return m( rule_match_three< seq< Rule, Rules ... >, A, E, Action, Control >::match( in, st ... ) );
+              return m( rule_match_three< seq< Rule, Rules ... >, A, Action, Control >::match( in, st ... ) );
             }
             catch ( const Exception & ) {
                return false;

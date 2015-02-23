@@ -6,17 +6,15 @@
 
 #include <cassert>
 
-#include "../pegtl/error_mode.hh"
-
 #include "result_type.hh"
 
 namespace pegtl
 {
-   template< typename Rule, error_mode M, typename Input >
+   template< typename Rule, typename Input >
    result_type verify_help( Input & i )
    {
       try {
-         if ( normal< Rule >::template match< apply_mode::ACTION, M, nothing, normal >( i ) ) {
+         if ( normal< Rule >::template match< apply_mode::ACTION, nothing, normal >( i ) ) {
             return result_type::SUCCESS;
          }
          return result_type::LOCAL_FAILURE;

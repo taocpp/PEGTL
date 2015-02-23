@@ -219,7 +219,7 @@ namespace calculator
    {
       using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-      template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input >
+      template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input >
       static bool match( Input & in, const operators & b, stacks & s )
       {
          // Look for the longest match of the input against the operators in the operator map.
