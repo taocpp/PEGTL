@@ -9,7 +9,6 @@
 #include <algorithm>
 
 #include "../apply_mode.hh"
-#include "../error_mode.hh"
 
 #include "apply_here.hh"
 
@@ -20,13 +19,6 @@ namespace pegtl
       constexpr bool is_alpha( const int c )
       {
          return ( ( 'a' <= c ) && ( c <= 'z' ) ) || ( ( 'A' <= c ) && ( c <= 'Z' ) );
-      }
-
-      constexpr error_mode merge( const error_mode a, const error_mode b )
-      {
-         static_assert( bool( error_mode::THROW ) == true, "internal consistency" );
-         static_assert( bool( error_mode::RETURN ) == false, "internal consistency" );
-         return error_mode( bool( a ) || bool( b ) );
       }
 
       constexpr apply_here merge( const apply_mode a, const apply_here b )

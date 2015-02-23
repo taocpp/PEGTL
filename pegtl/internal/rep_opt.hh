@@ -4,8 +4,8 @@
 #ifndef PEGTL_INTERNAL_REP_OPT_HH
 #define PEGTL_INTERNAL_REP_OPT_HH
 
-#include "seq.hh"
 #include "rule_match_three.hh"
+#include "seq.hh"
 
 #include "../analysis/generic.hh"
 

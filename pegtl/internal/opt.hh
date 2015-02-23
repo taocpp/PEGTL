@@ -5,6 +5,7 @@
 #define PEGTL_INTERNAL_OPT_HH
 
 #include "seq.hh"
+#include "trivial.hh"
 
 #include "../analysis/generic.hh"
 
@@ -12,15 +13,21 @@ namespace pegtl
 {
    namespace internal
    {
-      template< typename ... Rules >
-      struct opt
+      template< typename ... Rules > struct opt;
+
+      template<>
+      struct opt<>
+            : trivial< true > {};
+
+      template< typename Rule, typename ... Rules >
+      struct opt< Rule, Rules ... >
       {
-         using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::OPT, Rule, Rules ... >;
 
          template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return in.empty() || rule_match_three< seq< Rules ... >, A, error_mode::RETURN, Action, Control >::match( in, st ... ) || true;
+            return in.empty() || rule_match_three< seq< Rule, Rules ... >, A, error_mode::RETURN, Action, Control >::match( in, st ... ) || true;
          }
       };
 

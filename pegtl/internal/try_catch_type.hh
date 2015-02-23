@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_TRY_CATCH_TYPE_HH
 #define PEGTL_INTERNAL_TRY_CATCH_TYPE_HH
 
+#include "trivial.hh"
 #include "seq.hh"
 
 #include "../analysis/generic.hh"
@@ -29,7 +30,7 @@ namespace pegtl
             auto m = in.mark();
 
             try {
-               return m( rule_match_three< seq< Rule, Rules ... >, A, E, Action, Control >::match( in, st ... ) );
+              return m( rule_match_three< seq< Rule, Rules ... >, A, E, Action, Control >::match( in, st ... ) );
             }
             catch ( const Exception & ) {
                return false;

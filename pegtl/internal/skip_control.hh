@@ -1,11 +1,10 @@
 // Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
-#ifndef PEGTL_INTERNAL_PLUS_HH
-#define PEGTL_INTERNAL_PLUS_HH
+#ifndef PEGTL_INTERNAL_SKIP_CONTROL_HH
+#define PEGTL_INTERNAL_SKIP_CONTROL_HH
 
-#include "seq.hh"
-#include "star.hh"
+#include "rule_match_three.hh"
 
 #include "../analysis/generic.hh"
 
@@ -13,15 +12,15 @@ namespace pegtl
 {
    namespace internal
    {
-      template< typename Rule, typename ... Rules >
-      struct plus
+      template< typename Rule >
+      struct skip_control
       {
-         using analyze_t = analysis::generic< analysis::rule_type::PLUS, Rule, Rules ... >;
+         using analyze_t = typename Rule::analyze_t;
 
          template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_three< seq< Rule, Rules ... >, A, E, Action, Control >::match( in, st ... ) && rule_match_three< star< Rule, Rules ... >, A, E, Action, Control >::match( in, st ... );
+            return rule_match_three< Rule, A, E, Action, Control >::match( in, st ... );
          }
       };
 

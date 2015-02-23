@@ -6,6 +6,7 @@
 
 #include "../nothing.hh"
 
+#include "trivial.hh"
 #include "rule_conjunction.hh"
 
 #include "../analysis/generic.hh"
@@ -14,16 +15,22 @@ namespace pegtl
 {
    namespace internal
    {
-      template< typename ... Rules >
-      struct at
+      template< typename ... Rules > struct at;
+
+      template<>
+      struct at<>
+            : trivial< true > {};
+
+      template< typename Rule, typename ... Rules >
+      struct at< Rule, Rules ... >
       {
-         using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::OPT, Rule, Rules ... >;
 
          template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
-            return rule_conjunction< Rules ... >::template match< apply_mode::NOTHING, error_mode::RETURN, nothing, Control >( in, st ... );
+            return rule_conjunction< Rule, Rules ... >::template match< apply_mode::NOTHING, error_mode::RETURN, nothing, Control >( in, st ... );
          }
       };
 

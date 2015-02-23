@@ -4,26 +4,16 @@
 #ifndef PEGTL_INTERNAL_STAR_MUST_HH
 #define PEGTL_INTERNAL_STAR_MUST_HH
 
+#include "star.hh"
+#include "skip_control.hh"
 #include "if_must.hh"
-
-#include "../analysis/generic.hh"
 
 namespace pegtl
 {
    namespace internal
    {
-      template< typename ... Rules >
-      struct star_must
-      {
-         using analyze_t = analysis::generic< analysis::rule_type::STAR, Rules ... >;
-
-         template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
-         {
-            while ( ( ! in.empty() ) && rule_match_three< if_must< Rules ... >, A, error_mode::RETURN, Action, Control >::match( in, st ... ) ) {}
-            return true;
-         }
-      };
+     template< typename Cond, typename ... Rules >
+     using star_must = star< skip_control< if_must< Cond, Rules ... > > >;
 
    } // internal
 

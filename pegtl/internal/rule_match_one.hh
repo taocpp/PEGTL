@@ -13,17 +13,33 @@
 
 #include "utility.hh"
 
+#include "skip_control.hh"
 #include "rule_match_two.hh"
+#include "rule_match_three.hh"
 
 namespace pegtl
 {
    namespace internal
    {
-      template< typename Rule, apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-      bool rule_match_one( Input & in, States && ... st )
+      template< typename Rule, apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control >
+      struct rule_match_one
       {
-         return rule_match_two< Rule, A, E, Action, Control, std::is_base_of< nothing< Rule >, Action< Rule > >::value ? merge( A, apply_here::NOTHING ) : merge( A, apply_here::ACTION ) >::template match( in, st ... );
-      }
+         template< typename Input, typename ... States >
+         static bool match( Input & in, States && ... st )
+         {
+            return rule_match_two< Rule, A, E, Action, Control, std::is_base_of< nothing< Rule >, Action< Rule > >::value ? merge( A, apply_here::NOTHING ) : merge( A, apply_here::ACTION ) >::match( in, st ... );
+         }
+      };
+
+      template< typename Rule, apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control >
+      struct rule_match_one< skip_control< Rule >, A, E, Action, Control >
+      {
+         template< typename Input, typename ... States >
+         static bool match( Input & in, States && ... st )
+         {
+            return rule_match_three< Rule, A, E, Action, Control >::match( in, st ... );
+         }
+      };
 
    } // internal
 

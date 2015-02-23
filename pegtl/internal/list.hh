@@ -5,13 +5,15 @@
 #define PEGTL_INTERNAL_LIST_HH
 
 #include "seq.hh"
+#include "skip_control.hh"
+#include "star.hh"
 
 namespace pegtl
 {
    namespace internal
    {
-      template< typename Rule, typename Sep, template< typename ... > class Star >
-      using list = seq< Rule, Star< Sep, Rule > >;
+      template< typename Rule, typename Sep >
+      using list = seq< Rule, skip_control< star< Sep, Rule > > >;
 
    } // internal
 

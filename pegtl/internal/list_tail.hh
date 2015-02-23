@@ -4,17 +4,18 @@
 #ifndef PEGTL_INTERNAL_LIST_TAIL_HH
 #define PEGTL_INTERNAL_LIST_TAIL_HH
 
-#include "list.hh"
 #include "seq.hh"
+#include "skip_control.hh"
+#include "list.hh"
 #include "opt.hh"
-#include "star.hh"
 
 namespace pegtl
 {
    namespace internal
    {
       template< typename Rule, typename Sep >
-      using list_tail = seq< list< Rule, Sep, star >, opt< Sep > >;
+      using list_tail = seq< skip_control< list< Rule, Sep > >,
+                             skip_control< opt< Sep > > >;
 
    } // internal
 

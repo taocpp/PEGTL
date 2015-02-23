@@ -6,7 +6,6 @@
 
 #include "seq.hh"
 #include "not_at.hh"
-#include "trivial.hh"
 
 #include "../analysis/counted.hh"
 

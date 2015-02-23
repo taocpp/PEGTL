@@ -13,7 +13,7 @@ namespace pegtl
 {
    namespace internal
    {
-      template< typename ... > struct seq;
+      template< typename ... Rules > struct seq;
 
       template<>
       struct seq<>
@@ -22,7 +22,7 @@ namespace pegtl
       template< typename Rule >
       struct seq< Rule >
       {
-         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule >;
+         using analyze_t = typename Rule::analyze_t;
 
          template< apply_mode A, error_mode E, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

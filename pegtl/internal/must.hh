@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_MUST_HH
 #define PEGTL_INTERNAL_MUST_HH
 
+#include "trivial.hh"
 #include "seq.hh"
 
 #include "../analysis/generic.hh"

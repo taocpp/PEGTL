@@ -4,8 +4,10 @@
 #ifndef PEGTL_INTERNAL_LIST_TAIL_PAD_HH
 #define PEGTL_INTERNAL_LIST_TAIL_PAD_HH
 
-#include "list_pad.hh"
 #include "seq.hh"
+#include "skip_control.hh"
+#include "list.hh"
+#include "pad.hh"
 #include "opt.hh"
 #include "star.hh"
 
@@ -14,7 +16,8 @@ namespace pegtl
    namespace internal
    {
       template< typename Rule, typename Sep, typename Pad >
-      using list_tail_pad = seq< list_pad< Rule, Sep, Pad, star >, opt< star< Pad >, Sep > >;
+      using list_tail_pad = seq< skip_control< list< Rule, skip_control< pad< Sep, Pad > > > >,
+                                 skip_control< opt< skip_control< star< Pad > >, Sep > > >;
 
    } // internal
 
