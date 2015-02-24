@@ -16,7 +16,7 @@ namespace pegtl
       template< typename Cond >
       struct until< Cond >
       {
-         using analyze_t = analysis::generic< analysis::rule_type::UNTIL, Cond, internal::bytes< 1 > >;
+         using analyze_t = analysis::generic< analysis::rule_type::UNTIL, Cond, bytes< 1 > >;
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
