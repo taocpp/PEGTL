@@ -40,6 +40,7 @@ For questions and suggestions please contact the authors at **pegtl (at) colin-h
   * [ASCII Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#ascii-rules)
   * [UTF-8 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#utf-8-rules)
   * [UCS-4 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#ucs-4-rules)
+  * [Full Index](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#full-index)
 * [Parser Reference](https://github.com/ColinH/PEGTL/wiki/Parser-Reference)
   * [Input and Errors](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#input-and-errors)
   * [Parser Functions](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#parser-functions)
