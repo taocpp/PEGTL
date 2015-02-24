@@ -24,7 +24,6 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             Control< Rule >::start( static_cast< const Input & >( in ), st ... );
-
             if ( rule_match_three< Rule, A, Action, Control >::match( in, st ... ) ) {
                Control< Rule >::success( static_cast< const Input & >( in ), st ... );
                return true;
@@ -41,15 +40,10 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
-
-            Control< Rule >::start( static_cast< const Input & >( in ), st ... );
-
-            if ( rule_match_three< Rule, A, Action, Control >::match( in, st ... ) ) {
-               Control< Rule >::success( static_cast< const Input & >( in ), st ... );
+            if ( rule_match_two< Rule, A, Action, Control, apply_here::NOTHING >::match( in, st ... ) ) {
                Action< Rule >::apply( Input( m ), st ... );
                return m( true );
             }
-            Control< Rule >::failure( static_cast< const Input & >( in ), st ... );
             return false;
          }
       };
