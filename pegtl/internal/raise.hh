@@ -18,7 +18,7 @@ namespace pegtl
          template< typename Input >
          static bool match( Input & in )
          {
-           throw Exception( in );
+            throw Exception( in );
          }
       };
 
