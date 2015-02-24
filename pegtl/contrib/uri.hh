@@ -5,8 +5,8 @@
 #define PEGTL_CONTRIB_URI_HH
 
 #include "../rules.hh"
+#include "../ascii.hh"
 #include "../utf8.hh"
-#include "../make.hh"
 #include "abnf.hh"
 
 namespace pegtl
@@ -49,11 +49,8 @@ namespace pegtl
                                 seq< opt< h16, rep_opt< 5, colon, h16 > >, dcolon,                       h16  >,
                                 seq< opt< h16, rep_opt< 6, colon, h16 > >, dcolon                             > > {};
 
-      constexpr const char s_gen_delims[] = ":/?#[]@";
-      constexpr const char s_sub_delims[] = "!$&'()*+,;=";
-
-      struct gen_delims : make_one< s_gen_delims > {};
-      struct sub_delims : make_one< s_sub_delims > {};
+      struct gen_delims : one< ':', '/', '?', '#', '[', ']', '@' > {};
+      struct sub_delims : one< '!', '$', '&', '\'', '(', ')', '*', '+', ',', ';', '=' > {};
 
       struct unreserved : sor< ALPHA, DIGIT, one< '-', '.', '_', '~' > > {};
       struct reserved : sor< gen_delims, sub_delims > {};
