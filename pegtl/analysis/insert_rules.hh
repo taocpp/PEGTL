@@ -23,8 +23,7 @@ namespace pegtl
       {
          static void insert( grammar_info & g, rule_info & r )
          {
-            using insert_t = typename Rule::analyze_t;
-            r.rules.push_back( insert_t::template insert< Rule >( g ) );
+            r.rules.push_back( Rule::analyze_t::template insert< Rule >( g ) );
             insert_rules< Rules ... >::insert( g, r );
          }
       };

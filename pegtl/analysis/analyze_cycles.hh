@@ -156,8 +156,7 @@ namespace pegtl
          analyze_cycles( const bool verbose )
                : analyze_cycles_impl( verbose )
          {
-            using insert_t = typename Grammar::analyze_t;
-            insert_t::template insert< Grammar >( m_info );
+            Grammar::analyze_t::template insert< Grammar >( m_info );
          }
 
          std::size_t problems()
