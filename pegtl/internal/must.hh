@@ -4,8 +4,8 @@
 #ifndef PEGTL_INTERNAL_MUST_HH
 #define PEGTL_INTERNAL_MUST_HH
 
-#include "trivial.hh"
 #include "seq.hh"
+#include "skip_control.hh"
 
 #include "../analysis/generic.hh"
 
@@ -13,11 +13,9 @@ namespace pegtl
 {
    namespace internal
    {
-      template< typename ... Rules > struct must;
-
-      template<>
-      struct must<>
-            : trivial< true > {};
+      template< typename ... Rules >
+      struct must
+            : seq< skip_control< must< Rules > >... > {};
 
       template< typename Rule >
       struct must< Rule >
@@ -31,19 +29,6 @@ namespace pegtl
                Control< Rule >::raise( static_cast< const Input & >( in ), st ... );
             }
             return true;
-         }
-      };
-
-      template< typename Rule, typename More, typename ... Rules >
-      struct must< Rule, More, Rules ... >
-      {
-         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule, More, Rules ... >;
-
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
-         {
-            must< Rule >::template match< A, Action, Control >( in, st ... );
-            return must< More, Rules ... >::template match< A, Action, Control >( in, st ... );
          }
       };
 
