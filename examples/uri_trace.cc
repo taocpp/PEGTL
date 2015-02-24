@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <pegtl.hh>
+#include <pegtl/trace.hh>
 #include <pegtl/contrib/uri.hh>
 
 using GRAMMAR = pegtl::uri::URI;

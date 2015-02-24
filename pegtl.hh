@@ -6,9 +6,7 @@
 
 #include "pegtl/input.hh"
 #include "pegtl/parse.hh"
-#include "pegtl/trace.hh"
 #include "pegtl/rules.hh"
-
 #include "pegtl/ascii.hh"
 #include "pegtl/utf8.hh"
 #include "pegtl/ucs4.hh"

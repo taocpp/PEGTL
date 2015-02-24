@@ -1,6 +1,8 @@
 // Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
+#include <iostream>
+
 #include <pegtl.hh>
 
 // pegtl.hh makes sure you can test for _POSIX_MAPPED_FILES
