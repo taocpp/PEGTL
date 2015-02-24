@@ -10,11 +10,12 @@ namespace pegtl
 {
    struct parse_error;
 
+   template< template< typename ... > class Action, typename ... Rules > struct action : internal::action< Action, Rules ... > {};
    template< typename ... Rules > struct at : internal::at< Rules ... > {};
    template< unsigned Num > struct bytes : internal::bytes< Num > {};
    template< template< typename ... > class Control, typename ... Rules > struct control : internal::control< Control, Rules ... > {};
    template< typename ... Rules > struct disable : internal::disable< Rules ... > {};
-   template< template< typename ... > class Action, typename ... Rules > struct enable : internal::enable< Action, Rules ... > {};
+   template< typename ... Rules > struct enable : internal::enable< Rules ... > {};
    struct eof : internal::eof {};
    struct failure : internal::trivial< false > {};
    template< typename Cond, typename ... Thens > struct if_must : internal::if_must< Cond, Thens ... > {};

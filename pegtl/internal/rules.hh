@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_RULES_HH
 #define PEGTL_INTERNAL_RULES_HH
 
+#include "action.hh"
 #include "any.hh"
 #include "at.hh"
 #include "bytes.hh"

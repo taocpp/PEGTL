@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
-#ifndef PEGTL_INTERNAL_DISABLE_HH
-#define PEGTL_INTERNAL_DISABLE_HH
+#ifndef PEGTL_INTERNAL_ACTION_HH
+#define PEGTL_INTERNAL_ACTION_HH
 
 #include "seq.hh"
 #include "rule_match_three.hh"
@@ -13,15 +13,15 @@ namespace pegtl
 {
    namespace internal
    {
-      template< typename ... Rules >
-      struct disable
+      template< template< typename ... > class Action, typename ... Rules >
+      struct action
       {
          using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
 
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, template< typename ... > class, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_three< seq< Rules ... >, apply_mode::NOTHING, Action, Control >::match( in, st ... );
+            return rule_match_three< seq< Rules ... >, A, Action, Control >::match( in, st ... );
          }
       };
 

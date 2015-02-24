@@ -4,8 +4,6 @@
 #ifndef PEGTL_INTERNAL_AT_HH
 #define PEGTL_INTERNAL_AT_HH
 
-#include "../nothing.hh"
-
 #include "trivial.hh"
 #include "rule_conjunction.hh"
 
@@ -30,7 +28,7 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
-            return rule_conjunction< Rule, Rules ... >::template match< apply_mode::NOTHING, nothing, Control >( in, st ... );
+            return rule_conjunction< Rule, Rules ... >::template match< apply_mode::NOTHING, Action, Control >( in, st ... );
          }
       };
 

@@ -7,9 +7,11 @@
 
 namespace pegtl
 {
+   template< typename ... Rules > using test_action_rule = action< nothing, Rules ... >;
+
    void unit_test()
    {
-      verify_seqs< enable >();
+      verify_seqs< test_action_rule >();
    }
 
 } // pegtl

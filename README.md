@@ -12,7 +12,7 @@ Here is an example of how a PEG grammar rule is implemented as C++ class with th
 
   // integer ::= ( '+' / '-' )? digit+
 
-  // The same parsing rule as PEGTL class:
+  // The same parsing rule implemented with the PEGTL:
 
   struct integer
      : pegtl::seq< pegtl::opt< pegtl::one< '+', '-' > >,
@@ -20,11 +20,11 @@ Here is an example of how a PEG grammar rule is implemented as C++ class with th
 ```
 
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic and procedural nature of PEGs gives rise to some very important differences.
-The included grammar analysis helps to find several typical errors in PEGs.
-For an in-depth description see [Wikipedia page on PEGs](http://en.wikipedia.org/wiki/Parsing_expression_grammar) or this [paper on PEGs](http://pdos.csail.mit.edu/~baford/packrat/popl04/peg-popl04.pdf) by Bryan Ford.
+The included grammar analysis helps to find several typical errors in PEGs including left recursion.
+For an in-depth description of PEGs see [Wikipedia page on PEGs](http://en.wikipedia.org/wiki/Parsing_expression_grammar) or [this paper on PEGs](http://pdos.csail.mit.edu/~baford/packrat/popl04/peg-popl04.pdf) by Bryan Ford.
 
 The PEGTL was initially developed in 2008 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
-Several years of real-world experience and smaller updates passed until 2014, when some of the more experimental PEGTL features were removed, and the remaining parts refactored and refined.
+Several years of real-world experience and smaller updates passed until 2014, when some of the more experimental PEGTL features were removed, the remaining parts refactored and refined, and some interesting additions made.
 
 For questions and suggestions please contact the authors at **pegtl (at) colin-hirsch.net**.
 
@@ -35,8 +35,19 @@ For questions and suggestions please contact the authors at **pegtl (at) colin-h
 * [Rules and Grammars](https://github.com/ColinH/PEGTL/wiki/Rules-and-Grammars)
 * [Actions and States](https://github.com/ColinH/PEGTL/wiki/Actions-and-States)
 * [Rule Reference](https://github.com/ColinH/PEGTL/wiki/Rule-Reference)
+  * [Combinators](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#combinators)
+  * [Basic Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#basic-rules)
+  * [ASCII Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#ascii-rules)
+  * [UTF-8 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#utf-8-rules)
+  * [UCS-4 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#ucs-4-rules)
 * [Parser Reference](https://github.com/ColinH/PEGTL/wiki/Parser-Reference)
+  * [Input and Errors](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#input-and-errors)
+  * [Parser Functions](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#parser-functions)
+  * [Tracer Functions](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#tracer-functions)
+  * [Parser Classes](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#parser-classes)
 * [Contrib Reference](https://github.com/ColinH/PEGTL/wiki/Contrib-Reference)
+  * [Contrib](https://github.com/ColinH/PEGTL/wiki/Contrib-Reference#contrib)
+  * [Examples](https://github.com/ColinH/PEGTL/wiki/Contrib-Reference#examples)
 * [Control Hooks](https://github.com/ColinH/PEGTL/wiki/Control-Hooks)
 * [Advanced Rules](https://github.com/ColinH/PEGTL/wiki/Advanced-Rules)
 * [Grammar Analysis](https://github.com/ColinH/PEGTL/wiki/Grammar-Analysis)
@@ -44,7 +55,7 @@ For questions and suggestions please contact the authors at **pegtl (at) colin-h
 
 ## Changelog
 
-A new changelog will start here soon.
+A new changelog will start here with version 1.0.
 
 ## License
 

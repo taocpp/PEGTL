@@ -13,15 +13,15 @@ namespace pegtl
 {
    namespace internal
    {
-      template< template< typename ... > class Action, typename ... Rules >
+      template< typename ... Rules >
       struct enable
       {
          using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
 
-         template< apply_mode A, template< typename ... > class, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_three< seq< Rules ... >, A, Action, Control >::match( in, st ... );
+            return rule_match_three< seq< Rules ... >, apply_mode::ACTION, Action, Control >::match( in, st ... );
          }
       };
 

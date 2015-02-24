@@ -88,7 +88,7 @@ namespace pegtl
 
       applied.clear();
 
-      parse< at< enable< test_action, test1::bar > > >( "baab", __FILE__ );
+      parse< at< action< test_action, test1::bar > > >( "baab", __FILE__ );
 
       TEST_ASSERT( applied.empty() );
 
@@ -100,7 +100,13 @@ namespace pegtl
 
       applied.clear();
 
-      parse< enable< test_action, test1::bar > >( "baab", __FILE__ );
+      parse< action< test_action, test1::bar > >( "baab", __FILE__ );
+
+      test1::test_result();
+
+      applied.clear();
+
+      parse< disable< enable< action< test_action, test1::bar > > > >( "baab", __FILE__ );
 
       test1::test_result();
 
