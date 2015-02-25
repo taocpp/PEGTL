@@ -6,8 +6,6 @@
 
 #include "rule_match_three.hh"
 
-#include "../analysis/generic.hh"
-
 namespace pegtl
 {
    namespace internal

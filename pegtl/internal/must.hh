@@ -7,8 +7,6 @@
 #include "seq.hh"
 #include "skip_control.hh"
 
-#include "../analysis/generic.hh"
-
 namespace pegtl
 {
    namespace internal
