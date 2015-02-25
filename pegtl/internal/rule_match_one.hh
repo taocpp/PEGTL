@@ -4,15 +4,10 @@
 #ifndef PEGTL_INTERNAL_RULE_MATCH_ONE_HH
 #define PEGTL_INTERNAL_RULE_MATCH_ONE_HH
 
-#include <type_traits>
-
 #include "../apply_mode.hh"
-#include "../nothing.hh"
 
-#include "utility.hh"
-
-#include "skip_control.hh"
 #include "rule_match_two.hh"
+#include "skip_control.hh"
 #include "rule_match_three.hh"
 
 namespace pegtl
@@ -25,7 +20,7 @@ namespace pegtl
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_two< Rule, A, Action, Control, merge( A, std::is_base_of< nothing< Rule >, Action< Rule > >::value ? apply_here::NOTHING : apply_here::ACTION ) >::match( in, st ... );
+            return rule_match_two< Rule, A, Action, Control >::match( in, st ... );
          }
       };
 

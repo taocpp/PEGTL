@@ -4,7 +4,12 @@
 #ifndef PEGTL_INTERNAL_RULE_MATCH_TWO_HH
 #define PEGTL_INTERNAL_RULE_MATCH_TWO_HH
 
+#include <type_traits>
+
 #include "../apply_mode.hh"
+#include "../nothing.hh"
+
+#include "utility.hh"
 
 #include "apply_here.hh"
 #include "rule_match_three.hh"
@@ -13,7 +18,15 @@ namespace pegtl
 {
    namespace internal
    {
-      template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control, apply_here H > struct rule_match_two;
+      template< template< typename ... > class Action, typename Rule >
+      using is_nothing = std::is_base_of< nothing< Rule >, Action< Rule > >;
+
+      template< typename Rule,
+                apply_mode A,
+                template< typename ... > class Action,
+                template< typename ... > class Control,
+                apply_here = merge( A, is_nothing< Action, Rule >::value ? apply_here::NOTHING : apply_here::ACTION ) >
+      struct rule_match_two;
 
       template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_two< Rule, A, Action, Control, apply_here::NOTHING >
