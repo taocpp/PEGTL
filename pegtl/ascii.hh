@@ -4,8 +4,6 @@
 #ifndef PEGTL_ASCII_HH
 #define PEGTL_ASCII_HH
 
-#include <type_traits>
-
 #include "internal/rules.hh"
 
 namespace pegtl

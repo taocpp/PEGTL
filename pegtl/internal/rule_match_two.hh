@@ -4,8 +4,6 @@
 #ifndef PEGTL_INTERNAL_RULE_MATCH_TWO_HH
 #define PEGTL_INTERNAL_RULE_MATCH_TWO_HH
 
-#include <cstdlib>
-
 #include "../apply_mode.hh"
 
 #include "apply_here.hh"
