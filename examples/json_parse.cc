@@ -1,6 +1,8 @@
 // Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
+#include <iostream>
+
 #include <pegtl.hh>
 #include <pegtl/contrib/json.hh>
 
@@ -38,7 +40,7 @@ template<> const std::string normal< pegtl::json::escaped >::error_message = "un
 template<> const std::string normal< pegtl::json::char_ >::error_message = "invalid character in string";
 template<> const std::string normal< pegtl::json::string_cont >::error_message = "unterminated string";
 
-template<> const std::string normal< pegtl::json::text >::error_message = "no JSON object could be decoded";
+template<> const std::string normal< pegtl::eof >::error_message = "unexpected character after JSON value";
 
 // The raise()-function-template is instantiated exactly
 // for the specialisations of normal< Rule > for which a
@@ -51,8 +53,12 @@ int main( int argc, char ** argv )
    // Individually parse each command line
    // argument as JSON value.
 
+   using GRAMMAR = pegtl::seq< pegtl::json::text, pegtl::must< pegtl::eof > >;
+
    for ( int i = 1; i < argc; ++i ) {
-      pegtl::parse< pegtl::json::text, pegtl::nothing, normal >( i, argv );
+      if ( ! pegtl::parse< GRAMMAR, pegtl::nothing, normal >( i, argv ) ) {
+         std::cout << "arg[" << i << "]: no JSON object could be decoded" << std::endl;
+      }
    }
    return 0;
 }

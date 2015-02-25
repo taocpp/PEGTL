@@ -7,7 +7,7 @@
 #include <pegtl/analyze.hh>
 #include <pegtl/contrib/uri.hh>
 
-using GRAMMAR = pegtl::seq< pegtl::uri::URI, pegtl::eof >;
+using GRAMMAR = pegtl::must< pegtl::uri::URI, pegtl::eof >;
 
 void test( const std::string& in )
 {

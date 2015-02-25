@@ -7,9 +7,6 @@
 #include <string>
 #include <cstdlib>
 
-#include "../pegtl/internal/skip_control.hh"
-#include "../pegtl/internal/must.hh"
-
 #include "result_type.hh"
 #include "verify_impl.hh"
 
