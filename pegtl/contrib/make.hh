@@ -1,11 +1,11 @@
 // Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
-#ifndef PEGTL_MAKE_HH
-#define PEGTL_MAKE_HH
+#ifndef PEGTL_CONTRIB_MAKE_HH
+#define PEGTL_CONTRIB_MAKE_HH
 
-#include "ascii.hh"
-#include "rules.hh"
+#include "../rules.hh"
+#include "../ascii.hh"
 
 namespace pegtl
 {
