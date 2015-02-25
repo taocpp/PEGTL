@@ -46,7 +46,7 @@ namespace pegtl
       template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
       bool parse( States && ... st )
       {
-         return Control< Rule >::template match< apply_mode::ACTION, Action, Control >( m_input, st ... );
+         return parse_input< Rule, Action, Control >( m_input, st ... );
       }
 
    private:
