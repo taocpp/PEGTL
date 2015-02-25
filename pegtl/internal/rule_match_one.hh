@@ -6,9 +6,8 @@
 
 #include <type_traits>
 
-#include "../nothing.hh"
-
 #include "../apply_mode.hh"
+#include "../nothing.hh"
 
 #include "utility.hh"
 
@@ -26,7 +25,7 @@ namespace pegtl
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_two< Rule, A, Action, Control, std::is_base_of< nothing< Rule >, Action< Rule > >::value ? merge( A, apply_here::NOTHING ) : merge( A, apply_here::ACTION ) >::match( in, st ... );
+            return rule_match_two< Rule, A, Action, Control, merge( A, std::is_base_of< nothing< Rule >, Action< Rule > >::value ? apply_here::NOTHING : apply_here::ACTION ) >::match( in, st ... );
          }
       };
 
