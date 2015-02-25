@@ -39,9 +39,9 @@ namespace pegtl
    };
 
    template< typename Rule, template< typename ... > class Action = nothing, typename ... Args >
-   void trace( Args && ... args )
+   bool trace( Args && ... args )
    {
-      parse< Rule, Action, tracer >( std::forward< Args >( args ) ... );
+      return parse< Rule, Action, tracer >( std::forward< Args >( args ) ... );
    }
 
 } // pegtl
