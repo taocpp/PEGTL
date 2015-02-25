@@ -52,7 +52,7 @@ namespace pegtl
    bool parse_nested( const Input & nest, const char * data, const char * dend, const char * source, States && ... st )
    {
       input in( 1, 0, data, dend, source, & nest );
-      return parse_nested< Rule, Action, Control >( in, st ... );
+      return parse_input< Rule, Action, Control >( in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Input, typename ... States >
