@@ -4,8 +4,8 @@
 #ifndef PEGTL_INTERNAL_ONE_HH
 #define PEGTL_INTERNAL_ONE_HH
 
-#include "any.hh"
-#include "utility.hh"
+#include <utility>
+#include <algorithm>
 
 #include "../analysis/generic.hh"
 
@@ -13,6 +13,12 @@ namespace pegtl
 {
    namespace internal
    {
+      template< typename Char >
+      bool contains( const Char c, const std::initializer_list< Char > & l )
+      {
+         return std::find( l.begin(), l.end(), c ) != l.end();
+      }
+
       template< bool Want, typename Peek, typename Peek::data_t ... Cs >
       struct one
       {

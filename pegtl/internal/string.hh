@@ -4,8 +4,10 @@
 #ifndef PEGTL_INTERNAL_STRING_HH
 #define PEGTL_INTERNAL_STRING_HH
 
+#include <utility>
+#include <cstring>
+
 #include "trivial.hh"
-#include "utility.hh"
 
 #include "../analysis/counted.hh"
 
@@ -13,6 +15,11 @@ namespace pegtl
 {
    namespace internal
    {
+      inline bool unsafe_equals( const char * s, const std::initializer_list< char > & l )
+      {
+         return std::memcmp( s, & * l.begin(), l.size() ) == 0;
+      }
+
       template< char ... Cs > struct string;
 
       template<> struct string<>
