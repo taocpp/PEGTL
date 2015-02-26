@@ -38,10 +38,16 @@ namespace pegtl
       }
    };
 
+   template< typename Rule, template< typename ... > class Action = nothing, typename Input, typename ... States >
+   bool trace_input( Input & in, States && ... st )
+   {
+      return parse_input< Rule, Action, tracer >( in, st ... );
+   }
+
    template< typename Rule, template< typename ... > class Action = nothing, typename ... Args >
    bool trace( Args && ... args )
    {
-      return parse< Rule, Action, tracer >( std::forward< Args >( args ) ... );
+      return parse< Rule, Action, tracer >( args ... );
    }
 
 } // pegtl
