@@ -12,11 +12,6 @@ namespace pegtl
 {
    namespace internal
    {
-      constexpr bool is_alpha( const int c )
-      {
-         return ( ( 'a' <= c ) && ( c <= 'z' ) ) || ( ( 'A' <= c ) && ( c <= 'Z' ) );
-      }
-
       template< typename Char >
       bool contains( const Char c, const std::initializer_list< Char > & l )
       {

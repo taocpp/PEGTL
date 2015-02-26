@@ -4,8 +4,9 @@
 #ifndef PEGTL_INTERNAL_ISTRING_HH
 #define PEGTL_INTERNAL_ISTRING_HH
 
+#include <type_traits>
+
 #include "trivial.hh"
-#include "utility.hh"
 
 #include "../analysis/counted.hh"
 
@@ -13,7 +14,10 @@ namespace pegtl
 {
    namespace internal
    {
-      template< char C, bool A = is_alpha( C ) > struct ichar_equal;
+      template< char C >
+      using is_alpha = std::integral_constant< bool, ( ( 'a' <= C ) && ( C <= 'z' ) ) || ( ( 'A' <= C ) && ( C <= 'Z' ) ) >;
+
+      template< char C, bool A = is_alpha< C >::value > struct ichar_equal;
 
       template< char C > struct ichar_equal< C, true >
       {
