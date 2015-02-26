@@ -6,12 +6,9 @@
 
 #include <type_traits>
 
-#include "../apply_mode.hh"
 #include "../nothing.hh"
+#include "../apply_mode.hh"
 
-#include "utility.hh"
-
-#include "apply_here.hh"
 #include "rule_match_three.hh"
 
 namespace pegtl
@@ -25,11 +22,11 @@ namespace pegtl
                 apply_mode A,
                 template< typename ... > class Action,
                 template< typename ... > class Control,
-                apply_here = merge( A, is_nothing< Action, Rule >::value ? apply_here::NOTHING : apply_here::ACTION ) >
+                bool apply_here = ( ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Rule >::value ) ) >
       struct rule_match_two;
 
       template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_two< Rule, A, Action, Control, apply_here::NOTHING >
+      struct rule_match_two< Rule, A, Action, Control, false >
       {
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
@@ -45,13 +42,13 @@ namespace pegtl
       };
 
       template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_two< Rule, A, Action, Control, apply_here::ACTION >
+      struct rule_match_two< Rule, A, Action, Control, true >
       {
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
-            if ( rule_match_two< Rule, A, Action, Control, apply_here::NOTHING >::match( in, st ... ) ) {
+            if ( rule_match_two< Rule, A, Action, Control, false >::match( in, st ... ) ) {
                Action< Rule >::apply( Input( m ), st ... );
                return m( true );
             }

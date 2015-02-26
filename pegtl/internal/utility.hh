@@ -8,10 +8,6 @@
 #include <utility>
 #include <algorithm>
 
-#include "../apply_mode.hh"
-
-#include "apply_here.hh"
-
 namespace pegtl
 {
    namespace internal
@@ -19,15 +15,6 @@ namespace pegtl
       constexpr bool is_alpha( const int c )
       {
          return ( ( 'a' <= c ) && ( c <= 'z' ) ) || ( ( 'A' <= c ) && ( c <= 'Z' ) );
-      }
-
-      constexpr apply_here merge( const apply_mode a, const apply_here b )
-      {
-         static_assert( bool( apply_mode::ACTION ) == true, "internal consistency" );
-         static_assert( bool( apply_mode::NOTHING ) == false, "internal consistency" );
-         static_assert( bool( apply_here::ACTION ) == true, "internal consistency" );
-         static_assert( bool( apply_here::NOTHING ) == false, "internal consistency" );
-         return apply_here( bool( a ) && bool( b ) );
       }
 
       template< typename Char >
