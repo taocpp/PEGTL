@@ -23,8 +23,12 @@ PEGs are superficially similar to Context-Free Grammars (CFGs), however the more
 The included grammar analysis helps to find several typical errors in PEGs including left recursion.
 For an in-depth description of PEGs see [Wikipedia page on PEGs](http://en.wikipedia.org/wiki/Parsing_expression_grammar) or [this paper on PEGs](http://pdos.csail.mit.edu/~baford/packrat/popl04/peg-popl04.pdf) by Bryan Ford.
 
+## Status
+
 The PEGTL was initially developed in 2008 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
 Several years of real-world experience and smaller updates passed until 2014, when some of the more experimental PEGTL features were removed, the remaining parts refactored and refined, and some interesting additions made.
+
+The master branch of the PEGTL is **always** stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen before/between major version releases.
 
 For questions and suggestions please contact the authors at **pegtl (at) colin-hirsch.net**.
 
@@ -56,7 +60,7 @@ For questions and suggestions please contact the authors at **pegtl (at) colin-h
 
 ## Changelog
 
-A new changelog will start here with version 1.0.
+A new changelog will start here with the first major release version 1.0.0.
 
 ## License
 
