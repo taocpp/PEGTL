@@ -15,7 +15,7 @@ namespace pegtl
       template<>
       struct rule_conjunction<>
       {
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode, template< typename ... > class, template< typename ... > class, typename Input, typename ... States >
          static bool match( Input &, States && ... )
          {
             return true;
