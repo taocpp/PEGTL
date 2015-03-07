@@ -27,7 +27,7 @@ namespace unescape
    struct character : pegtl::if_must_else< pegtl::one< '\\' >, escaped, pegtl::any > {};
    struct literal : pegtl::if_must< pegtl::one< '"' >, pegtl::until< pegtl::one< '"' >, character > > {};
 
-   struct padded : pegtl::seq< pegtl::pad< literal, pegtl::blank >, pegtl::eof > {};
+   struct padded : pegtl::must< pegtl::pad< literal, pegtl::blank >, pegtl::eof > {};
 
    // Action class that uses the actions from pegtl/contrib/unescape.hh to
    // produce a UTF-8 encoded result string where all escape sequences are

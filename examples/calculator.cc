@@ -281,7 +281,7 @@ namespace calculator
    // The top-level grammar allows one expression and then expects eof.
 
    struct grammar
-         : seq< expression, eof > {};
+         : must< expression, eof > {};
 
    // After the grammar we proceed with the additional actions that are
    // required to let our calculator actually do something.

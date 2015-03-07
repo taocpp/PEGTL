@@ -49,7 +49,7 @@ namespace sexpr
          : sor< space, hashed, normal > {};
 
    struct main
-         : until< eof, anything > {};
+         : until< eof, must< anything > > {};
 
    template< typename Rule > struct action
          : public nothing< Rule > {};

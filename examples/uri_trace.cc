@@ -7,7 +7,7 @@
 #include <pegtl/trace.hh>
 #include <pegtl/contrib/uri.hh>
 
-using GRAMMAR = pegtl::uri::URI;
+using GRAMMAR = pegtl::must< pegtl::uri::URI >;
 
 int main( int argc, char ** argv )
 {

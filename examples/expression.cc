@@ -454,7 +454,7 @@ namespace expression
          : pad< list< singular, infix, nothing >, nothing > {};
 
    struct grammar
-         : if_must< expression, until< eof, nothing > > {};
+         : must< pad< expression, nothing >, eof > {};
 
    template<> struct action< number >
    {
