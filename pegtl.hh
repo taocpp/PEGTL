@@ -20,7 +20,7 @@
 #include "pegtl/read_parser.hh"
 
 #if defined (__unix__) || (defined (__APPLE__) && defined (__MACH__))
-#include <unistd.h>  // for _POSIX_MAPPED_FILES
+#include <unistd.h>  // Required for _POSIX_MAPPED_FILES
 #endif
 
 #if defined(_POSIX_MAPPED_FILES)
