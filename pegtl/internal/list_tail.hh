@@ -14,8 +14,7 @@ namespace pegtl
    namespace internal
    {
       template< typename Rule, typename Sep >
-      using list_tail = seq< skip_control< list< Rule, Sep > >,
-                             skip_control< opt< Sep > > >;
+      using list_tail = seq< skip_control< list< Rule, Sep > >, skip_control< opt< Sep > > >;
 
    } // internal
 

@@ -16,8 +16,7 @@ namespace pegtl
    namespace internal
    {
       template< typename Rule, typename Sep, typename Pad >
-      using list_tail_pad = seq< skip_control< list< Rule, skip_control< pad< Sep, Pad > > > >,
-                                 skip_control< opt< skip_control< star< Pad > >, Sep > > >;
+      using list_tail_pad = seq< skip_control< list< Rule, skip_control< pad< Sep, Pad > > > >, skip_control< opt< skip_control< star< Pad > >, Sep > > >;
 
    } // internal
 
