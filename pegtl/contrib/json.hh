@@ -31,7 +31,7 @@ namespace pegtl
       struct true_ : string< 't', 'r', 'u', 'e' > {};
 
       struct required_digits : plus< DIGIT > {};
-      struct exp : if_must< one< 'e', 'E' >, opt< one< '-', '+' > >, required_digits > {};
+      struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+' > >, must< required_digits > > {};
       struct frac : if_must< one< '.' >, required_digits > {};
       struct int_ : sor< one< '0' >, required_digits > {};
       struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
@@ -48,9 +48,9 @@ namespace pegtl
       struct value;
 
       struct member : if_must< string, name_separator, value > {};
-      struct object : if_must< begin_object, opt< list_must< member, value_separator > >, end_object > {};
+      struct object : seq< begin_object, opt< list_must< member, value_separator > >, must< end_object > > {};
 
-      struct array : if_must< begin_array, opt< list_must< value, value_separator > >, end_array > {};
+      struct array : seq< begin_array, opt< list_must< value, value_separator > >, must< end_array > > {};
 
       struct value : sor< false_, null, true_, object, array, number, string > {};
 
