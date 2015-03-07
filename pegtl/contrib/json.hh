@@ -37,11 +37,11 @@ namespace pegtl
       struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
 
       struct required_xdigit : HEXDIG {};
-      struct unicode : seq< one< 'u' >, rep< 4, required_xdigit > > {};
+      struct unicode : seq< one< 'u' >, rep< 4, must< required_xdigit > > > {};
       struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
       struct escaped : sor< escaped_char, unicode > {};
       struct unescaped : utf8::range< 0x20, 0x10FFFF > {};
-      struct char_ : if_then_else< one< '\\' >, escaped, unescaped > {};
+      struct char_ : if_then_else< one< '\\' >, must< escaped >, unescaped > {};
       struct string_cont : until< one< '"' >, must< char_ > > {};
       struct string : if_must< one< '"' >, string_cont > {};
 
