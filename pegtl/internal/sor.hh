@@ -15,14 +15,9 @@ namespace pegtl
    {
       template< typename ... Rules >
       struct sor
+            : rule_disjunction< Rules ... >
       {
          using analyze_t = analysis::generic< analysis::rule_type::SOR, Rules ... >;
-
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
-         {
-            return rule_disjunction< Rules ... >::template match< A, Action, Control >( in, st ... );
-         }
       };
 
       template< typename ... Rules >
