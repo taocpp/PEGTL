@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_TRIVIAL_HH
 #define PEGTL_INTERNAL_TRIVIAL_HH
 
+#include "skip_control.hh"
 #include "../analysis/counted.hh"
 
 namespace pegtl
@@ -21,6 +22,9 @@ namespace pegtl
             return What;
          }
       };
+
+      template< bool What >
+      struct skip_control< trivial< What > > : std::true_type {};
 
    } // internal
 

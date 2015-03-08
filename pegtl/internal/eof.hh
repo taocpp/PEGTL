@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_EOF_HH
 #define PEGTL_INTERNAL_EOF_HH
 
+#include "skip_control.hh"
+
 #include "../analysis/generic.hh"
 
 namespace pegtl
@@ -20,6 +22,9 @@ namespace pegtl
             return in.empty();
          }
       };
+
+      template<>
+      struct skip_control< eof > : std::true_type {};
 
    } // internal
 

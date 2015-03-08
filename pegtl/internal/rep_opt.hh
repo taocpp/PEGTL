@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_REP_OPT_HH
 #define PEGTL_INTERNAL_REP_OPT_HH
 
+#include "skip_control.hh"
 #include "rule_match_three.hh"
 #include "seq.hh"
 
@@ -25,6 +26,9 @@ namespace pegtl
             return true;
          }
       };
+
+      template< unsigned Max, typename ... Rules >
+      struct skip_control< rep_opt< Max, Rules ... > > : std::true_type {};
 
    } // internal
 

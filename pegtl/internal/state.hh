@@ -6,6 +6,7 @@
 
 #include "seq.hh"
 #include "rule_match_three.hh"
+#include "skip_control.hh"
 
 #include "../analysis/generic.hh"
 
@@ -30,6 +31,9 @@ namespace pegtl
             return false;
          }
       };
+
+      template< typename State, typename ... Rules >
+      struct skip_control< state< State, Rules ... > > : std::true_type {};
 
    } // internal
 

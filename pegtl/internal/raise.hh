@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_RAISE_HH
 #define PEGTL_INTERNAL_RAISE_HH
 
+#include "skip_control.hh"
+
 #include "../analysis/generic.hh"
 
 namespace pegtl
@@ -21,6 +23,9 @@ namespace pegtl
             throw Exception( in );
          }
       };
+
+      template< typename Exception >
+      struct skip_control< raise< Exception > > : std::true_type {};
 
    } // internal
 

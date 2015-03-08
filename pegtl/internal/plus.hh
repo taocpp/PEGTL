@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_PLUS_HH
 #define PEGTL_INTERNAL_PLUS_HH
 
+#include "skip_control.hh"
 #include "seq.hh"
 #include "star.hh"
 
@@ -24,6 +25,9 @@ namespace pegtl
             return rule_match_three< seq< Rule, Rules ... >, A, Action, Control >::match( in, st ... ) && rule_match_three< star< Rule, Rules ... >, A, Action, Control >::match( in, st ... );
          }
       };
+
+      template< typename Rule, typename ... Rules >
+      struct skip_control< plus< Rule, Rules ... > > : std::true_type {};
 
    } // internal
 

@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_OPT_HH
 #define PEGTL_INTERNAL_OPT_HH
 
+#include "skip_control.hh"
 #include "seq.hh"
 #include "trivial.hh"
 
@@ -14,6 +15,9 @@ namespace pegtl
    namespace internal
    {
       template< typename ... Rules > struct opt;
+
+      template< typename ... Rules >
+      struct skip_control< opt< Rules ... > > : std::true_type {};
 
       template<>
       struct opt<>

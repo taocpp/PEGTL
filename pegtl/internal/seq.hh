@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_SEQ_HH
 #define PEGTL_INTERNAL_SEQ_HH
 
+#include "skip_control.hh"
 #include "trivial.hh"
 #include "rule_conjunction.hh"
 
@@ -14,6 +15,9 @@ namespace pegtl
    namespace internal
    {
       template< typename ... Rules > struct seq;
+
+      template< typename ... Rules >
+      struct skip_control< seq< Rules ... > > : std::true_type {};
 
       template<>
       struct seq<>

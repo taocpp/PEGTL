@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_RANGES_HH
 #define PEGTL_INTERNAL_RANGES_HH
 
+#include "skip_control.hh"
 #include "any.hh"
 #include "range.hh"
 
@@ -65,6 +66,9 @@ namespace pegtl
       template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
       struct ranges< Peek, Lo, Hi >
             : range< true, Peek, Lo, Hi > {};
+
+      template< typename Peek, typename Peek::data_t ... Cs >
+      struct skip_control< ranges< Peek, Cs ... > > : std::true_type {};
 
    } // internal
 

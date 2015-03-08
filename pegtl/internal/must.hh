@@ -13,7 +13,7 @@ namespace pegtl
    {
       template< typename ... Rules >
       struct must
-            : seq< skip_control< must< Rules > >... > {};
+            : seq< must< Rules >... > {};
 
       template< typename Rule >
       struct must< Rule >
@@ -29,6 +29,9 @@ namespace pegtl
             return true;
          }
       };
+
+      template< typename ... Rules >
+      struct skip_control< must< Rules ... > > : std::true_type {};
 
    } // internal
 

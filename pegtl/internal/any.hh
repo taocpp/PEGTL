@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_ANY_HH
 #define PEGTL_INTERNAL_ANY_HH
 
+#include "skip_control.hh"
 #include "peek_char.hh"
 
 #include "../analysis/generic.hh"
@@ -40,6 +41,9 @@ namespace pegtl
             return in.bump_if();
          }
       };
+
+      template< typename Peek >
+      struct skip_control< any< Peek > > : std::true_type {};
 
    } // internal
 

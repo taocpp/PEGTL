@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_IF_THEN_ELSE_HH
 #define PEGTL_INTERNAL_IF_THEN_ELSE_HH
 
+#include "skip_control.hh"
+
 #include "../analysis/generic.hh"
 
 namespace pegtl
@@ -27,6 +29,9 @@ namespace pegtl
             }
          }
       };
+
+      template< typename Cond, typename Then, typename Else >
+      struct skip_control< if_then_else< Cond, Then, Else > > : std::true_type {};
 
    } // internal
 

@@ -5,7 +5,6 @@
 #define PEGTL_INTERNAL_STAR_MUST_HH
 
 #include "star.hh"
-#include "skip_control.hh"
 #include "if_must.hh"
 
 namespace pegtl
@@ -13,7 +12,7 @@ namespace pegtl
    namespace internal
    {
      template< typename Cond, typename ... Rules >
-     using star_must = star< skip_control< if_must< Cond, Rules ... > > >;
+     using star_must = star< if_must< Cond, Rules ... > >;
 
    } // internal
 

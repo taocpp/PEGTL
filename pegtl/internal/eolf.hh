@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_EOLF_HH
 #define PEGTL_INTERNAL_EOLF_HH
 
+#include "skip_control.hh"
+
 #include "../analysis/generic.hh"
 
 namespace pegtl
@@ -27,6 +29,9 @@ namespace pegtl
             return false;
          }
       };
+
+      template<>
+      struct skip_control< eolf > : std::true_type {};
 
    } // internal
 

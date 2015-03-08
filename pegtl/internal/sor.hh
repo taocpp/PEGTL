@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_SOR_HH
 #define PEGTL_INTERNAL_SOR_HH
 
+#include "skip_control.hh"
 #include "rule_disjunction.hh"
 
 #include "../analysis/generic.hh"
@@ -23,6 +24,9 @@ namespace pegtl
             return rule_disjunction< Rules ... >::template match< A, Action, Control >( in, st ... );
          }
       };
+
+      template< typename ... Rules >
+      struct skip_control< sor< Rules ... > > : std::true_type {};
 
    } // internal
 

@@ -5,7 +5,6 @@
 #define PEGTL_INTERNAL_REP_MIN_HH
 
 #include "seq.hh"
-#include "skip_control.hh"
 #include "rep.hh"
 #include "star.hh"
 
@@ -14,7 +13,7 @@ namespace pegtl
    namespace internal
    {
       template< unsigned Min, typename Rule, typename ... Rules >
-      using rep_min = seq< skip_control< rep< Min, Rule, Rules ... > >, skip_control< star< Rule, Rules ... > > >;
+      using rep_min = seq< rep< Min, Rule, Rules ... >, star< Rule, Rules ... > >;
 
    } // internal
 

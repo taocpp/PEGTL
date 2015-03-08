@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_NOT_AT_HH
 #define PEGTL_INTERNAL_NOT_AT_HH
 
+#include "skip_control.hh"
 #include "trivial.hh"
 #include "rule_conjunction.hh"
 
@@ -14,6 +15,9 @@ namespace pegtl
    namespace internal
    {
       template< typename ... Rules > struct not_at;
+
+      template< typename ... Rules >
+      struct skip_control< not_at< Rules ... > > : std::true_type {};
 
       template<>
       struct not_at<>

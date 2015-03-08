@@ -6,16 +6,23 @@
 
 #include "../apply_mode.hh"
 
-#include "rule_match_two.hh"
 #include "skip_control.hh"
+#include "rule_match_two.hh"
 #include "rule_match_three.hh"
 
 namespace pegtl
 {
    namespace internal
    {
+      template< typename Rule,
+                apply_mode A,
+                template< typename ... > class Action,
+                template< typename ... > class Control,
+                bool = skip_control< Rule >::value >
+      struct rule_match_one;
+
       template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_one
+      struct rule_match_one< Rule, A, Action, Control, false >
       {
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
@@ -25,7 +32,7 @@ namespace pegtl
       };
 
       template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_one< skip_control< Rule >, A, Action, Control >
+      struct rule_match_one< Rule, A, Action, Control, true >
       {
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

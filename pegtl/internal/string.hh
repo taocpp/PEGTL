@@ -7,6 +7,7 @@
 #include <utility>
 #include <cstring>
 
+#include "skip_control.hh"
 #include "trivial.hh"
 
 #include "../analysis/counted.hh"
@@ -21,6 +22,9 @@ namespace pegtl
       }
 
       template< char ... Cs > struct string;
+
+      template< char ... Cs >
+      struct skip_control< string< Cs ... > > : std::true_type {};
 
       template<> struct string<>
             : trivial< true > {};

@@ -5,7 +5,6 @@
 #define PEGTL_INTERNAL_PAD_HH
 
 #include "seq.hh"
-#include "skip_control.hh"
 #include "star.hh"
 
 namespace pegtl
@@ -13,7 +12,7 @@ namespace pegtl
    namespace internal
    {
       template< typename Rule, typename Pad1, typename Pad2 = Pad1 >
-      using pad = seq< skip_control< star< Pad1 > >, Rule, skip_control< star< Pad2 > > >;
+      using pad = seq< star< Pad1 >, Rule, star< Pad2 > >;
 
    } // internal
 

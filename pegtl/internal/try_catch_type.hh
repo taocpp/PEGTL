@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_TRY_CATCH_TYPE_HH
 #define PEGTL_INTERNAL_TRY_CATCH_TYPE_HH
 
+#include "skip_control.hh"
 #include "trivial.hh"
 #include "seq.hh"
 
@@ -14,6 +15,9 @@ namespace pegtl
    namespace internal
    {
       template< typename Exception, typename ... Rules > struct try_catch_type;
+
+      template< typename Exception, typename ... Rules >
+      struct skip_control< try_catch_type< Exception, Rules ... > > : std::true_type {};
 
       template< typename Exception >
       struct try_catch_type< Exception >

@@ -7,6 +7,8 @@
 #include <utility>
 #include <algorithm>
 
+#include "skip_control.hh"
+
 #include "../analysis/generic.hh"
 
 namespace pegtl
@@ -58,6 +60,9 @@ namespace pegtl
             return false;
          }
       };
+
+      template< bool Want, typename Peek, typename Peek::data_t ... Cs >
+      struct skip_control< one< Want, Peek, Cs ... > > : std::true_type {};
 
    } // internal
 

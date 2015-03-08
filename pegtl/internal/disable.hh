@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_DISABLE_HH
 #define PEGTL_INTERNAL_DISABLE_HH
 
+#include "skip_control.hh"
 #include "seq.hh"
 #include "rule_match_three.hh"
 
@@ -24,6 +25,9 @@ namespace pegtl
             return rule_match_three< seq< Rules ... >, apply_mode::NOTHING, Action, Control >::match( in, st ... );
          }
       };
+
+      template< typename ... Rules >
+      struct skip_control< disable< Rules ... > > : std::true_type {};
 
    } // internal
 

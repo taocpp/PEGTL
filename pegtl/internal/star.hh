@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_STAR_HH
 #define PEGTL_INTERNAL_STAR_HH
 
+#include "skip_control.hh"
 #include "seq.hh"
 
 #include "../analysis/generic.hh"
@@ -24,6 +25,9 @@ namespace pegtl
             return true;
          }
       };
+
+      template< typename Rule, typename ... Rules >
+      struct skip_control< star< Rule, Rules ... > > : std::true_type {};
 
    } // internal
 

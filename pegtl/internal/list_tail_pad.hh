@@ -5,7 +5,6 @@
 #define PEGTL_INTERNAL_LIST_TAIL_PAD_HH
 
 #include "seq.hh"
-#include "skip_control.hh"
 #include "list.hh"
 #include "pad.hh"
 #include "opt.hh"
@@ -16,7 +15,7 @@ namespace pegtl
    namespace internal
    {
       template< typename Rule, typename Sep, typename Pad >
-      using list_tail_pad = seq< skip_control< list< Rule, skip_control< pad< Sep, Pad > > > >, skip_control< opt< skip_control< star< Pad > >, Sep > > >;
+      using list_tail_pad = seq< list< Rule, pad< Sep, Pad > >, opt< star< Pad >, Sep > >;
 
    } // internal
 

@@ -21,9 +21,9 @@ namespace pegtl
    template< typename Cond, typename ... Thens > struct if_must : internal::if_must< Cond, Thens ... > {};
    template< typename Cond, typename Then, typename Else > struct if_must_else : internal::if_must_else< Cond, Then, Else > {};
    template< typename Cond, typename Then, typename Else > struct if_then_else : internal::if_then_else< Cond, Then, Else > {};
-   template< typename Rule, typename Sep, typename Pad = void > struct list : internal::list< Rule, internal::skip_control< internal::pad< Sep, Pad > > > {};
+   template< typename Rule, typename Sep, typename Pad = void > struct list : internal::list< Rule, internal::pad< Sep, Pad > > {};
    template< typename Rule, typename Sep > struct list< Rule, Sep, void > : internal::list< Rule, Sep > {};
-   template< typename Rule, typename Sep, typename Pad = void > struct list_must : internal::list_must< Rule, internal::skip_control< internal::pad< Sep, Pad > > > {};
+   template< typename Rule, typename Sep, typename Pad = void > struct list_must : internal::list_must< Rule, internal::pad< Sep, Pad > > {};
    template< typename Rule, typename Sep > struct list_must< Rule, Sep, void > : internal::list_must< Rule, Sep > {};
    template< typename Rule, typename Sep, typename Pad = void > struct list_tail : internal::list_tail_pad< Rule, Sep, Pad > {};
    template< typename Rule, typename Sep > struct list_tail< Rule, Sep, void > : internal::list_tail< Rule, Sep > {};

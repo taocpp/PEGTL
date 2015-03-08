@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_RANGE_HH
 #define PEGTL_INTERNAL_RANGE_HH
 
+#include "skip_control.hh"
 #include "any.hh"
 
 #include "../analysis/generic.hh"
@@ -31,6 +32,9 @@ namespace pegtl
             return false;
          }
       };
+
+      template< bool Want, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+      struct skip_control< range< Want, Peek, Lo, Hi > > : std::true_type {};
 
    } // internal
 

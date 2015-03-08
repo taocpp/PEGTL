@@ -5,7 +5,6 @@
 #define PEGTL_INTERNAL_IF_MUST_HH
 
 #include "seq.hh"
-#include "skip_control.hh"
 #include "must.hh"
 
 namespace pegtl
@@ -13,7 +12,7 @@ namespace pegtl
    namespace internal
    {
       template< typename Cond, typename ... Thens >
-      using if_must = seq< Cond, skip_control< must< Thens ... > > >;
+      using if_must = seq< Cond, must< Thens ... > >;
 
    } // internal
 

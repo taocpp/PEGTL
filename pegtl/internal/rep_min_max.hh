@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_REP_MIN_MAX_HH
 #define PEGTL_INTERNAL_REP_MIN_MAX_HH
 
+#include "skip_control.hh"
 #include "seq.hh"
 #include "not_at.hh"
 
@@ -37,6 +38,9 @@ namespace pegtl
             return m( rule_match_three< not_at< Rules ... >, A, Action, Control >::match( in, st ... ) );
          }
       };
+
+      template< unsigned Min, unsigned Max, typename ... Rules >
+      struct skip_control< rep_min_max< Min, Max, Rules ... > > : std::true_type {};
 
    } // internal
 

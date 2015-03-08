@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_BYTES_HH
 #define PEGTL_INTERNAL_BYTES_HH
 
+#include "skip_control.hh"
+
 #include "../analysis/counted.hh"
 
 namespace pegtl
@@ -25,6 +27,9 @@ namespace pegtl
             return false;
          }
       };
+
+      template< unsigned Num >
+      struct skip_control< bytes< Num > > : std::true_type {};
 
    } // internal
 

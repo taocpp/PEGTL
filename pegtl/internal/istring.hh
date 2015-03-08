@@ -7,6 +7,7 @@
 #include <type_traits>
 
 #include "trivial.hh"
+#include "skip_control.hh"
 
 #include "../analysis/counted.hh"
 
@@ -75,6 +76,9 @@ namespace pegtl
             return false;
          }
       };
+
+      template< char ... Cs >
+      struct skip_control< istring< Cs ... > > : std::true_type {};
 
    } // internal
 

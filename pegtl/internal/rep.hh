@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_REP_HH
 #define PEGTL_INTERNAL_REP_HH
 
+#include "skip_control.hh"
 #include "trivial.hh"
 #include "rule_conjunction.hh"
 
@@ -13,7 +14,10 @@ namespace pegtl
 {
    namespace internal
    {
-      template< unsigned, typename ... > struct rep;
+      template< unsigned Num, typename ... Rules > struct rep;
+
+      template< unsigned Num, typename ... Rules >
+      struct skip_control< rep< Num, Rules ... > > : std::true_type {};
 
       template< unsigned Num >
       struct rep< Num >

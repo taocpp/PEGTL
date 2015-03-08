@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_UNTIL_HH
 #define PEGTL_INTERNAL_UNTIL_HH
 
+#include "skip_control.hh"
 #include "bytes.hh"
 #include "rule_conjunction.hh"
 
@@ -12,6 +13,9 @@ namespace pegtl
    namespace internal
    {
       template< typename Cond, typename ... Rules > struct until;
+
+      template< typename Cond, typename ... Rules >
+      struct skip_control< until< Cond, Rules ... > > : std::true_type {};
 
       template< typename Cond >
       struct until< Cond >
