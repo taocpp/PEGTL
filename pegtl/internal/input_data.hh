@@ -13,15 +13,6 @@ namespace pegtl
    {
       struct input_data
       {
-         input_data( const input_data & saved, const input_data & input )
-               : number( saved.number ),
-                 offset( saved.offset ),
-                 begin( saved.begin ),
-                 end( input.begin ),
-                 source( saved.source ),
-                 from( saved.from )
-         { }
-
          input_data( const std::size_t number, const std::size_t offset, const char * begin, const char * end, const char * source, const input_data * from = 0 )
                : number( number ),
                  offset( offset ),

@@ -20,9 +20,8 @@ namespace pegtl
             : m_data( data )
       { }
 
-      explicit
-      input( const internal::input_mark & mark )
-            : m_data( mark.saved(), * mark.input() )
+      input( const internal::input_data & data, const internal::input_mark & mark )
+            : m_data( mark.m_number, mark.m_offset, mark.m_begin, data.begin, data.source, data.from )
       { }
 
       input( const std::size_t number, const std::size_t offset, const char * begin, const char * end, const char * source, const input * from = nullptr )

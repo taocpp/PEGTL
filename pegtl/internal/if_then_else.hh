@@ -21,6 +21,7 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
+
             if ( Control< Cond >::template match< A, Action, Control >( in, st ... ) ) {
                return m( Control< Then >::template match< A, Action, Control >( in, st ... ) );
             }

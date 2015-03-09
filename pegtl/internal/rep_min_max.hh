@@ -25,6 +25,7 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
+
             for ( unsigned i = 0; i < Min; ++i ) {
                if ( ! rule_conjunction< Rules ... >::template match< A, Action, Control >( in, st ... ) ) {
                   return m( false );

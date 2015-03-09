@@ -15,19 +15,27 @@ namespace pegtl
       public:
          explicit
          input_mark( input_data & i )
-               : m_saved( i ),
+               : m_number( i.number ),
+                 m_offset( i.offset ),
+                 m_begin( i.begin ),
                  m_input( & i )
          { }
 
          input_mark( input_mark && i )
-               : m_saved( i.m_saved ),
+               : m_number( i.m_number ),
+                 m_offset( i.m_offset ),
+                 m_begin( i.m_begin ),
                  m_input( i.m_input )
-         { }
+         {
+            i.m_input = nullptr;
+         }
 
          ~input_mark()
          {
             if ( m_input ) {
-               ( * m_input ) = m_saved;
+               m_input->number = m_number;
+               m_input->offset = m_offset;
+               m_input->begin = m_begin;
             }
          }
 
@@ -36,14 +44,16 @@ namespace pegtl
 
          bool success()
          {
-            m_input = 0;
+            m_input = nullptr;
             return true;
          }
 
          bool failure()
          {
-            ( * m_input ) = m_saved;
-            m_input = 0;
+            m_input->number = m_number;
+            m_input->offset = m_offset;
+            m_input->begin = m_begin;
+            m_input = nullptr;
             return false;
          }
 
@@ -52,18 +62,10 @@ namespace pegtl
             return result ? success() : failure();
          }
 
-         const input_data & saved() const
-         {
-            return m_saved;
-         }
-
-         const input_data * input() const
-         {
-            return m_input;
-         }
-
-      private:
-         const input_data m_saved;
+      public:
+         const std::size_t m_number;
+         const std::size_t m_offset;
+         const char * const m_begin;
          input_data * m_input;
       };
 
