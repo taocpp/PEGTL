@@ -1,6 +1,6 @@
 ## Welcome to the PEGTL
 
-The Parsing Expression Grammar Template Library (PEGTL) is a C++11 library for creating parsers according to a Parsing Expression Grammar (PEG).
+The Parsing Expression Grammar Template Library (PEGTL) is a C++11 header-only library for creating parsers according to a Parsing Expression Grammar (PEG).
 Grammars are written as regular C++ code, created with template programming (not template meta programming), i.e. nested template instantiations that naturally correspond to the inductive definition of PEGs.
 
 A comprehensive set of parser rules that can be combined and extended by the user is included, as are mechanisms for debugging grammars and attaching user-defined actions to grammar rules.
@@ -20,13 +20,13 @@ Here is an example of how a PEG grammar rule is implemented as C++ class with th
 ```
 
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic and procedural nature of PEGs gives rise to some very important differences.
-The included grammar analysis helps to find several typical errors in PEGs including left recursion.
+The included [grammar analysis](https://github.com/ColinH/PEGTL/wiki/Grammar-Analysis) helps to find several typical errors in PEGs including left recursion.
 For an in-depth description of PEGs see [Wikipedia page on PEGs](http://en.wikipedia.org/wiki/Parsing_expression_grammar) or [this paper on PEGs](http://pdos.csail.mit.edu/~baford/packrat/popl04/peg-popl04.pdf) by Bryan Ford.
-
-## Status
 
 The PEGTL was initially developed in 2008 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
 Several years of real-world experience and smaller updates passed until 2014, when some of the more experimental PEGTL features were removed, the remaining parts refactored and refined, and some interesting additions made.
+
+## Status
 
 The master branch of the PEGTL is **always** stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen before/between major version releases.
 
