@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_RAISE_HH
 #define PEGTL_INTERNAL_RAISE_HH
 
+#include <cassert>
+
 #include "skip_control.hh"
 
 #include "../analysis/generic.hh"
@@ -12,15 +14,16 @@ namespace pegtl
 {
    namespace internal
    {
-      template< typename Exception >
+      template< typename T >
       struct raise
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-         template< typename Input >
-         static bool match( Input & in )
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         static bool match( Input & in, States && ... st )
          {
-            throw Exception( in );
+            Control< T >::raise( static_cast< const Input & >( in ), st ... );
+            assert( false ); // unreachable
          }
       };
 
