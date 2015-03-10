@@ -24,14 +24,12 @@ namespace pegtl
       template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_one< Rule, A, Action, Control, false >
             : rule_match_two< Rule, A, Action, Control >
-      {
-      };
+      { };
 
       template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_one< Rule, A, Action, Control, true >
             : rule_match_three< Rule, A, Action, Control >
-      {
-      };
+      { };
 
    } // internal
 
