@@ -27,8 +27,8 @@ namespace pegtl
          }
       };
 
-      template< typename Exception >
-      struct skip_control< raise< Exception > > : std::true_type {};
+      template< typename T >
+      struct skip_control< raise< T > > : std::true_type {};
 
    } // internal
 
