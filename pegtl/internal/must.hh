@@ -5,6 +5,7 @@
 #define PEGTL_INTERNAL_MUST_HH
 
 #include "seq.hh"
+#include "raise.hh"
 #include "skip_control.hh"
 
 namespace pegtl
@@ -24,7 +25,7 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             if ( ! Control< Rule >::template match< A, Action, Control >( in, st ... ) ) {
-               Control< Rule >::raise( static_cast< const Input & >( in ), st ... );
+               raise< Rule >::template match< A, Action, Control >( in, st ... );
             }
             return true;
          }
