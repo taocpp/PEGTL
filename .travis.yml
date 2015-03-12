@@ -1,5 +1,5 @@
 language: cpp
 compiler:
-  - gcc
+#  - gcc  Disable GCC until Travis updates to at least version 4.8.2
   - clang
 script: make
