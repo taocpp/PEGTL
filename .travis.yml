@@ -1,6 +1,6 @@
 language: cpp
 compiler:
-#  - gcc  Disable GCC until Travis updates to at least version 4.8.2
+#  - gcc  Disable GCC until Travis updates to at least version 4.8.2.
   - clang
 os:
   - linux

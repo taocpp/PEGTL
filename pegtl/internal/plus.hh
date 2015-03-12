@@ -14,6 +14,13 @@ namespace pegtl
 {
    namespace internal
    {
+      // While plus<> could easily be implemented with
+      // seq< Rule, Rules ..., star< Rule, Rules ... > > we
+      // provide an explicit implementation to optimize away
+      // the otherwise created input mark. Given that plus<>
+      // is a low-level, often-used combinator, the savings
+      // were considered worth the additional code.
+
       template< typename Rule, typename ... Rules >
       struct plus
       {

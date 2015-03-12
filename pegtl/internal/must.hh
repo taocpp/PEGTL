@@ -12,9 +12,17 @@ namespace pegtl
 {
    namespace internal
    {
+      // The general case simply applies must<> to each member of the
+      // 'Rules' parameter pack individually, below is the specialization
+      // which implements the case for a single rule.
+
       template< typename ... Rules >
       struct must
             : seq< must< Rules >... > {};
+
+      // While in theory the implementation for a single rule could
+      // be simplified to must< Rule > = sor< Rule, raise< Rule > >, this
+      // would result in some unnecessary run-time overhead.
 
       template< typename Rule >
       struct must< Rule >

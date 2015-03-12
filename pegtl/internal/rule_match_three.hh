@@ -10,6 +10,13 @@ namespace pegtl
 {
    namespace internal
    {
+      // The purpose of rule_match_three<> is to allow for two different
+      // signatures of a rule's match()-method. A more complicated but
+      // more general version which takes the explicit template parameters
+      // for A, Action and Control, and a more simple and limited version
+      // which takes the input as its only parameter. The latter is often
+      // sufficient and helps to keep the overhead smaller.
+
       template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_three
       {
@@ -20,6 +27,7 @@ namespace pegtl
          }
 
          // NOTE: The additional "int = 0" is a work-around for a problem in VS2015.
+
          template< typename Input, typename ... States, int = 0 >
          static auto match( Input & in, States && ... ) -> decltype( Rule::match( in ), bool() )
          {

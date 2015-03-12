@@ -14,6 +14,11 @@ namespace pegtl
 {
    namespace internal
    {
+      // Forward to rule_match_two<> for all user-defined / -visible rules,
+      // but skip rule_match_two<> (which calls the control class' callbacks)
+      // and forward directly to rule_match_three<> when a rule is marked as
+      // an internal rule by skip_control<>.
+
       template< typename Rule,
                 apply_mode A,
                 template< typename ... > class Action,

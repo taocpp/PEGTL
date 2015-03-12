@@ -15,8 +15,16 @@ namespace pegtl
 {
    namespace internal
    {
+      // Helper to detect whether an action class template is actually
+      // used for a specific rule or not.
+
       template< template< typename ... > class Action, typename Rule >
       using is_nothing = std::is_base_of< nothing< Rule >, Action< Rule > >;
+
+      // The purpose of rule_match_two is to call all necessary debug hooks of
+      // the control class and, if applicable, also call the action class'
+      // apply()-method. The latter can be disabled either explicitly (via
+      // disable<>) or implicitly by at<> or not_at<>.
 
       template< typename Rule,
                 apply_mode A,
@@ -49,6 +57,8 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
+
+            // Re-use the no-action case to keep the code simple
 
             if ( rule_match_two< Rule, A, Action, Control, false >::match( in, st ... ) ) {
                Action< Rule >::apply( Input( in.data(), m ), st ... );

@@ -1,7 +1,10 @@
 ## Welcome to the PEGTL
 
 The Parsing Expression Grammar Template Library (PEGTL) is a C++11 header-only library for creating parsers according to a Parsing Expression Grammar (PEG).
-Grammars are written as regular C++ code, created with template programming (not template meta programming), i.e. nested template instantiations that naturally correspond to the inductive definition of PEGs.
+
+## Intro
+
+Grammars are written as regular C++ code, created with template programming (not template meta programming), i.e. nested template instantiations that naturally correspond to the inductive definition of PEGs or other parser combinator approaches.
 
 A comprehensive set of parser rules that can be combined and extended by the user is included, as are mechanisms for debugging grammars and attaching user-defined actions to grammar rules.
 Here is an example of how a PEG grammar rule is implemented as C++ class with the PEGTL.
@@ -20,11 +23,26 @@ Here is an example of how a PEG grammar rule is implemented as C++ class with th
 ```
 
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic and procedural nature of PEGs gives rise to some very important differences.
-The included [grammar analysis](https://github.com/ColinH/PEGTL/wiki/Grammar-Analysis) helps to find several typical errors in PEGs including left recursion.
+The included [grammar analysis](https://github.com/ColinH/PEGTL/wiki/Grammar-Analysis) helps to find several typical errors in PEGs including **left recursion**.
 For an in-depth description of PEGs see [Wikipedia page on PEGs](http://en.wikipedia.org/wiki/Parsing_expression_grammar) or [this paper on PEGs](http://pdos.csail.mit.edu/~baford/packrat/popl04/peg-popl04.pdf) by Bryan Ford.
 
-The PEGTL was initially developed in 2008 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
-Several years of real-world experience and smaller updates passed until 2014, when some of the more experimental PEGTL features were removed, the remaining parts refactored and refined, and some interesting additions made.
+## Design
+
+The PEGTL is mostly concerned with parsing combinators and grammar rules and giving the user control over what else happens during a parsing run.
+
+Whether and which actions are taken and which data structures are created during a parsing run are entirely up to the user of the library, however we provide some examples for typical situation like unescaping escape sequences in literal strings, building a generic JSON data structure and on-the-fly evaluation of arithmetic expressions.
+
+Through the use of template programming and template specialisation it is possible to write a grammar once and use it in multiple ways by using different actions in different (or the same) parsing run.
+
+Unlike Antlr and Yacc/Bison the grammar is expressed in C++ and part of the C++ source code.
+Also the PEG formalism removes the separation into lexer and parser stages -- everything is done in a single grammar.
+
+Unlike Spirit the grammar is implemented with compile-time template instantiations rather than run-time operator calls.
+This leads to slightly increased compile times as the C++ compiler is given the task of optimising PEGTL grammars.
+
+The PEGTL is designed to be "lean and mean".
+The actual core library has about 3000 lines of code.
+Emphasis is on simplicity and efficiency but without adding any large constructions for optimising parsers.
 
 ## Status
 
@@ -41,8 +59,10 @@ For questions and suggestions please contact the authors at **pegtl (at) colin-h
 * [Rules and Grammars](https://github.com/ColinH/PEGTL/wiki/Rules-and-Grammars)
 * [Actions and States](https://github.com/ColinH/PEGTL/wiki/Actions-and-States)
 * [Rule Reference](https://github.com/ColinH/PEGTL/wiki/Rule-Reference)
+  * [Meta Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#meta-rules)
   * [Combinators](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#combinators)
-  * [Basic Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#basic-rules)
+  * [Convenience](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#convenience)
+  * [Atomic Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#atomic-rules)
   * [ASCII Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#ascii-rules)
   * [UTF-8 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#utf-8-rules)
   * [UCS-4 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#ucs-4-rules)
@@ -63,6 +83,11 @@ For questions and suggestions please contact the authors at **pegtl (at) colin-h
 ## Changelog
 
 A new changelog will start here with the first major release version 1.0.0.
+
+## History
+
+The PEGTL was initially developed in 2008 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
+Several years of real-world experience and smaller updates passed until 2014, when some of the more experimental PEGTL features were removed, the remaining parts refactored and refined, and some interesting additions made.
 
 ## License
 

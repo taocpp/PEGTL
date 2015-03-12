@@ -23,8 +23,6 @@ namespace pegtl
             const std::size_t s = in.size();
             assert( s );
             if ( s >= sizeof( char32_t ) ) {
-               // TODO: Prevent unaligned access?
-               // TODO: How to handle byte order?
                const char32_t t = * reinterpret_cast< const char32_t * >( in.begin() );
                if ( ( 0 <= t ) && ( t <= 0x10ffff ) ) {
                   return { t, 4 };

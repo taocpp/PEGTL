@@ -5,6 +5,7 @@
 #define PEGTL_INTERNAL_PEEK_CHAR_HH
 
 #include <cstddef>
+
 #include "input_pair.hh"
 
 namespace pegtl
