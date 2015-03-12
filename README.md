@@ -30,6 +30,8 @@ Several years of real-world experience and smaller updates passed until 2014, wh
 
 The master branch of the PEGTL is **always** stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen before/between major version releases.
 
+[![Build Status](https://secure.travis-ci.org/ColinH/PEGTL.png)](http://travis-ci.org/ColinH/PEGTL)
+
 For questions and suggestions please contact the authors at **pegtl (at) colin-hirsch.net**.
 
 ## Documentation
