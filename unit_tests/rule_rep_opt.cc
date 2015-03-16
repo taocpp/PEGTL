@@ -28,13 +28,13 @@ namespace pegtl
       verify_rule< rep_opt< 3, one< 'a' > > >( __LINE__, __FILE__,  "aaab", result_type::SUCCESS, 1 );
       verify_rule< rep_opt< 3, one< 'a' > > >( __LINE__, __FILE__,  "baaab", result_type::SUCCESS, 5 );
 
-      verify_rule< rep_opt< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 1 );
-      verify_rule< rep_opt< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aa", result_type::SUCCESS, 0 );
-      verify_rule< rep_opt< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaa", result_type::SUCCESS, 1 );
-      verify_rule< rep_opt< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaaa", result_type::SUCCESS, 0 );
-      verify_rule< rep_opt< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaaaa", result_type::SUCCESS, 1 );
-      verify_rule< rep_opt< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaaaaa", result_type::SUCCESS, 2 );
-      verify_rule< rep_opt< 2, string< 'a', 'a' > > >( __LINE__, __FILE__,  "aaaaaaa", result_type::SUCCESS, 3 );
+      verify_rule< rep_opt< 2, two< 'a' > > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 1 );
+      verify_rule< rep_opt< 2, two< 'a' > > >( __LINE__, __FILE__,  "aa", result_type::SUCCESS, 0 );
+      verify_rule< rep_opt< 2, two< 'a' > > >( __LINE__, __FILE__,  "aaa", result_type::SUCCESS, 1 );
+      verify_rule< rep_opt< 2, two< 'a' > > >( __LINE__, __FILE__,  "aaaa", result_type::SUCCESS, 0 );
+      verify_rule< rep_opt< 2, two< 'a' > > >( __LINE__, __FILE__,  "aaaaa", result_type::SUCCESS, 1 );
+      verify_rule< rep_opt< 2, two< 'a' > > >( __LINE__, __FILE__,  "aaaaaa", result_type::SUCCESS, 2 );
+      verify_rule< rep_opt< 2, two< 'a' > > >( __LINE__, __FILE__,  "aaaaaaa", result_type::SUCCESS, 3 );
    }
 
 } // pegtl
