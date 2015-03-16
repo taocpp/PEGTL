@@ -42,12 +42,16 @@ namespace pegtl
       struct escaped : sor< escaped_char, unicode > {};
       struct unescaped : utf8::range< 0x20, 0x10FFFF > {};
       struct char_ : if_then_else< one< '\\' >, must< escaped >, unescaped > {};
-      struct string_cont : until< one< '"' >, must< char_ > > {};
-      struct string : if_must< one< '"' >, string_cont > {};
+      struct string_content : until< at< one< '"' > >, must< char_ > > {};
+      struct string : seq< one< '"' >, must< string_content >, any >
+      {
+         using content = string_content;
+      };
+      struct key : string {};
 
       struct value;
 
-      struct member : if_must< string, name_separator, value > {};
+      struct member : if_must< key, name_separator, value > {};
       struct object : seq< begin_object, opt< list_must< member, value_separator > >, must< end_object > > {};
 
       struct array : seq< begin_array, opt< list_must< value, value_separator > >, must< end_array > > {};

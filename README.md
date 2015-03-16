@@ -55,7 +55,6 @@ For questions and suggestions please contact the authors at **pegtl (at) colin-h
 ## Documentation
 
 * [Getting Started](https://github.com/ColinH/PEGTL/wiki/Getting-Started)
-* [Calculator Example](https://github.com/ColinH/PEGTL/wiki/Calculator-Example)
 * [Rules and Grammars](https://github.com/ColinH/PEGTL/wiki/Rules-and-Grammars)
 * [Actions and States](https://github.com/ColinH/PEGTL/wiki/Actions-and-States)
 * [Rule Reference](https://github.com/ColinH/PEGTL/wiki/Rule-Reference)
@@ -77,7 +76,9 @@ For questions and suggestions please contact the authors at **pegtl (at) colin-h
   * [Examples](https://github.com/ColinH/PEGTL/wiki/Contrib-Reference#examples)
 * [Control Hooks](https://github.com/ColinH/PEGTL/wiki/Control-Hooks)
 * [Advanced Rules](https://github.com/ColinH/PEGTL/wiki/Advanced-Rules)
+* [Switching Style](https://github.com/ColinH/PEGTL/wiki/Switching-Style)
 * [Grammar Analysis](https://github.com/ColinH/PEGTL/wiki/Grammar-Analysis)
+* [Calculator Example](https://github.com/ColinH/PEGTL/wiki/Calculator-Example)
 * [2014 Refactoring](https://github.com/ColinH/PEGTL/wiki/2014-Refactoring)
 
 ## Changelog
