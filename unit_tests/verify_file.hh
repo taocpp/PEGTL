@@ -35,6 +35,14 @@ namespace pegtl
    void verify_file()
    {
       {
+         const std::string f{ "unit_tests/no_such_file.txt" };
+         try {
+           T p{ f };
+           TEST_ASSERT( !"no error on opening non-existing file" );
+         }
+         catch( const input_error& e ) {
+         }
+      } {
          const std::string f{ "unit_tests/file_data.txt" };
          T p{ f };
          TEST_ASSERT( p.source() == f );

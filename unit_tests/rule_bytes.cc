@@ -17,6 +17,7 @@ namespace pegtl
       for ( char c = 0; c < 127; ++c ) {
          verify_char< bytes< 1 > >( __LINE__, __FILE__, c, result_type::SUCCESS );
       }
+      verify_rule< bytes< 1 > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< bytes< 1 > >( __LINE__, __FILE__, "aa", result_type::SUCCESS, 1 );
 
       verify_analyze< bytes< 2 > >( __LINE__, __FILE__, true );
@@ -24,6 +25,8 @@ namespace pegtl
 
       verify_rule< bytes< 3 > >( __LINE__, __FILE__, "abcd", result_type::SUCCESS, 1 );
       verify_rule< bytes< 4 > >( __LINE__, __FILE__, "abcd", result_type::SUCCESS, 0 );
+      verify_rule< bytes< 5 > >( __LINE__, __FILE__, "abcd", result_type::LOCAL_FAILURE, 4 );
+
       verify_rule< bytes< 4 > >( __LINE__, __FILE__, "abcdefghij", result_type::SUCCESS, 6 );
    }
 
