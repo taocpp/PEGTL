@@ -23,7 +23,7 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             Control< T >::raise( static_cast< const Input & >( in ), st ... );
-            assert( false ); // unreachable
+            assert( false ); // LCOV_EXCL_LINE
          }
       };
 

@@ -18,8 +18,10 @@ void fail( const std::string& in )
 {
    try {
       pegtl::parse< GRAMMAR >( in, "expect_exception" );
+      // LCOV_EXCL_START
       std::cerr << "FAILED: " << in << std::endl;
       assert( false );
+      // LCOV_EXCL_STOP
    }
    catch( ... ) {
    }

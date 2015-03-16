@@ -22,7 +22,7 @@ namespace pegtl
       if ( ( received == expected ) && ( ( received == result_type::GLOBAL_FAILURE ) || ( i.size() == remain ) ) ) {
          return;
       }
-      TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << i.size() << " / " << remain << " ]" );
+      TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << i.size() << " / " << remain << " ]" ); // LCOV_EXCL_LINE
    }
 
 } // pegtl

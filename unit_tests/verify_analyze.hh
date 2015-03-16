@@ -16,10 +16,10 @@ namespace pegtl
       analysis::analyze_cycles< Rule > a( verbose );
 
       if ( problems != bool( a.problems() ) ) {
-         TEST_FAILED( "analyze -- problems received/expected [ " << ( ! problems ) << " / " << problems << " ]" );
+         TEST_FAILED( "analyze -- problems received/expected [ " << ( ! problems ) << " / " << problems << " ]" ); // LCOV_EXCL_LINE
       }
       if ( consumes != bool( a.template consumes< Rule >() ) ) {
-         TEST_FAILED( "analyze -- consumes received/expected [ " << ( ! consumes ) << " / " << consumes << " ]" );
+         TEST_FAILED( "analyze -- consumes received/expected [ " << ( ! consumes ) << " / " << consumes << " ]" ); // LCOV_EXCL_LINE
       }
    }
 

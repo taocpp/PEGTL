@@ -15,7 +15,9 @@ namespace pegtl
       GLOBAL_FAILURE = -1
    };
 
-   std::ostream & operator<< ( std::ostream & o, const result_type t )
+   // The following is inlined so it shows up as not executed on lcov:
+   // LCOV_EXCL_START
+   inline std::ostream & operator<< ( std::ostream & o, const result_type t )
    {
       switch ( t ) {
          case result_type::SUCCESS:
@@ -27,6 +29,7 @@ namespace pegtl
       }
       return o << int( t );
    }
+   // LCOV_EXCL_STOP
 
 } // pegtl
 

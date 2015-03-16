@@ -9,7 +9,7 @@ int main( int, char ** argv )
    pegtl::unit_test();
 
    if ( pegtl::failed ) {
-      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << pegtl::failed << std::endl;
+      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << pegtl::failed << std::endl; // LCOV_EXCL_LINE
    }
    return bool( pegtl::failed );
 }
