@@ -20,13 +20,20 @@ namespace examples
          : public pegtl::normal< Rule >
    {
       static const std::string error_message;
+      static const std::string get_error_message;
 
       template< typename Input, typename ... States >
       static void raise( const Input & in, States && ... )
       {
-         throw pegtl::parse_error( error_message, in );
+         throw pegtl::parse_error( get_error_message, in );
       }
    };
+
+   // This indirection improves the error messages from the
+   // compiler in case you forget to specialize error_message.
+
+   template< typename Rule >
+   const std::string normal< Rule >::get_error_message = normal< Rule >::error_message;
 
    // The following specialisations of the static string
    // member are then used in the exception messages:
