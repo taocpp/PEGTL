@@ -7,6 +7,85 @@
 
 namespace lua53
 {
+   // PEG version of the Lua 5.3.0 lexer and parser.
+   //
+   // The grammar here is not very similar to the grammar
+   // in the Lua reference documentation on which it is based
+   // which is due to multiple causes.
+   //
+   // The PEG approach combines lexer and parser, so the grammar
+   // here really contains "everything" including comments and
+   // everything else that would normally be done by a lexer.
+   //
+   // The second necessary difference is that all left-recursion
+   // was eliminated.
+   //
+   // Also literal constants are included with all their details,
+   // i.e. all forms of numeric constants, and escape sequences
+   // in literal strings are all there.
+   //
+   // The operator precedence and associativity is also reflected
+   // in this grammar which the documented Lua grammar omits.
+   //
+   // In some places the grammar was optimised to require as little
+   // back-tracking as possible, most prominently for expressions.
+   // The original grammar contains the following prodcutions rules:
+   //
+   //   prefixexp ::= var | functioncall | ‘(’ exp ‘)’
+   //   functioncall ::=  prefixexp args | prefixexp ‘:’ Name args
+   //   var ::=  Name | prefixexp ‘[’ exp ‘]’ | prefixexp ‘.’ Name
+   //
+   // We need to eliminate the left-recursion, and we also want to
+   // remove the ambiguity between function calls and variables,
+   // i.e. the fact that we can have expressions like
+   //
+   //   ( a * b ).c()[ d ].e:f()
+   //
+   // where only the last element decides between function call and
+   // variable. As first step we eliminate prefixexp and obtain:
+   //
+   //   functioncall ::=  ( var | functioncall | ‘(’ exp ‘)’ ) ( args | ‘:’ Name args )
+   //   var ::=  Name | ( var | functioncall | ‘(’ exp ‘)’ ) ( ‘[’ exp ‘]’ | ‘.’ Name )
+   //
+   // Next we split function_call and variable into a first part,
+   // a "head" or how they can start, and a second part, the "tail"
+   // which, in a sequence like above, is the final deciding part.
+   //
+   //   vartail ::= '[' exp ']' | '.' Name
+   //   varhead ::= Name | '(' exp ')' vartail
+   //   functail ::= args | ':' Name args
+   //   funchead ::= Name | '(' exp ')'
+   //
+   // This allows us to rewrite var and function_call as follows.
+   //
+   //   var ::= varhead { { functail } vartail }
+   //   function_call ::= funchead [ { vartail } functail ]
+   //
+   // Finally we can define a single expression that takes care
+   // of var, function_call, and expressions in a bracket:
+   //
+   //   chead ::= '(' exp ')' | Name
+   //   combined ::= chead { functail | vartail }
+   //
+   // We have a name or a bracketed expression as head, and can
+   // append arbitrarily many function_call or var tail parts,
+   // all in a single grammar rule without back-tracking.
+   //
+   // The rule expr_thirteen below implements this "combined".
+   //
+   // Another issue of interest when writing a PEG is how to
+   // manage the separators, the white-space and comments that
+   // can occur in many places, and are taken care of by the
+   // lexer when using the two-stage lexer-parser approach.
+   //
+   // In the following grammar most rules adopt the convention
+   // that they take care of "internal padding", i.e. spaces
+   // and comments that can occur within the rule, but not
+   // "external padding", i.e. they don't start or end with
+   // a rule that "eats up" all extra padding (spaces and
+   // comments). In some places, where it is more efficient,
+   // right padding is used.
+
    struct short_comment : pegtl::until< pegtl::eolf > {};
    struct long_string : pegtl::raw_string< '[', '=', ']' > {};
    struct comment : pegtl::disable< pegtl::two< '-' >, pegtl::sor< long_string, short_comment > > {};
@@ -133,9 +212,8 @@ namespace lua53
    struct function_args_one : pegtl::if_must< pegtl::one< '(' >, pegtl::pad_opt< expr_list_must, sep >, pegtl::one< ')' > > {};
    struct function_args : pegtl::sor< function_args_one, table_constructor, literal_string > {};
 
-   struct variable_tail_name : name {};
    struct variable_tail_one : pegtl::if_must< pegtl::one< '[' >, seps, expression, seps, pegtl::one< ']' > > {};
-   struct variable_tail_two : pegtl::if_must< pegtl::seq< pegtl::not_at< pegtl::two< '.' > >, pegtl::one< '.' > >, seps, variable_tail_name > {};
+   struct variable_tail_two : pegtl::if_must< pegtl::seq< pegtl::not_at< pegtl::two< '.' > >, pegtl::one< '.' > >, seps, name > {};
    struct variable_tail : pegtl::sor< variable_tail_one, variable_tail_two > {};
 
    struct function_call_tail_one : pegtl::if_must< pegtl::seq< pegtl::not_at< pegtl::two< ':' > >, pegtl::one< ':' > >, seps, name, seps, function_args > {};
