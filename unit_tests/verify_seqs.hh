@@ -19,6 +19,9 @@ namespace pegtl
       verify_analyze< S< any, eof > >( __LINE__, __FILE__, true );
       verify_analyze< S< opt< any >, eof > >( __LINE__, __FILE__, false );
 
+      verify_rule< S<> >( __LINE__, __FILE__, "", result_type::SUCCESS, 0 );
+      verify_rule< S<> >( __LINE__, __FILE__, "a", result_type::SUCCESS, 1 );
+
       verify_rule< S< eof > >( __LINE__, __FILE__, "", result_type::SUCCESS, 0 );
       verify_rule< S< eof > >( __LINE__, __FILE__, "a", failure, 1 );
       verify_rule< S< one< 'c' > > >( __LINE__, __FILE__, "", failure, 0 );

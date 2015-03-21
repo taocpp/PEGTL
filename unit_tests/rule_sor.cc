@@ -21,6 +21,9 @@ namespace pegtl
       verify_analyze< sor< eof, eof, any > >( __LINE__, __FILE__, false );
       verify_analyze< sor< eof, any, any > >( __LINE__, __FILE__, false );
 
+      verify_rule< sor<> >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
+      verify_rule< sor<> >( __LINE__, __FILE__,  "a", result_type::LOCAL_FAILURE, 1 );
+
       verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );
       verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "b", result_type::SUCCESS, 0 );

@@ -18,7 +18,7 @@ namespace pegtl
          {
             bool result = true;
             using swallow = int[];
-            (void)swallow{ ( void( result = result && Control< Rules >::template match< A, Action, Control >( in, st ... ) ), 0 )... };
+            (void)swallow{ ( void( result = result && Control< Rules >::template match< A, Action, Control >( in, st ... ) ), 0 )..., 0 };
             return result;
          }
       };
