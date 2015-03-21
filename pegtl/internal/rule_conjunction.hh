@@ -10,25 +10,16 @@ namespace pegtl
 {
    namespace internal
    {
-      template< typename ... > struct rule_conjunction;
-
-      template<>
-      struct rule_conjunction<>
-      {
-         template< apply_mode, template< typename ... > class, template< typename ... > class, typename Input, typename ... States >
-         static bool match( Input &, States && ... )
-         {
-            return true;
-         }
-      };
-
-      template< typename Rule, typename ... Rules >
-      struct rule_conjunction< Rule, Rules ... >
+      template< typename ... Rules >
+      struct rule_conjunction
       {
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return Control< Rule >::template match< A, Action, Control >( in, st ... ) && rule_conjunction< Rules ... >::template match< A, Action, Control >( in, st ... );
+            bool result = true;
+            using swallow = int[];
+            (void)swallow{ ( void( result = result && Control< Rules >::template match< A, Action, Control >( in, st ... ) ), 0 )... };
+            return result;
          }
       };
 
