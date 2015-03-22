@@ -17,8 +17,8 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             bool result = false;
-            using swallow = int[];
-            (void)swallow{ ( void( result = result || Control< Rules >::template match< A, Action, Control >( in, st ... ) ), 0 )..., 0 };
+            using swallow = bool[];
+            (void)swallow{ result = result || Control< Rules >::template match< A, Action, Control >( in, st ... )..., true };
             return result;
          }
       };
