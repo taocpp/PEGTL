@@ -9,7 +9,7 @@ endif
 
 # For Darwin (Mac OS X) we assume that the default compiler
 # clang++ is used; when $(CXX) is some version of g++, then
-# $(PEGTL_CXXSTD) has to be set to -set=c++11 (or newer) so
+# $(PEGTL_CXXSTD) has to be set to -std=c++11 (or newer) so
 # that -stdlib=libc++ is not automatically added.
 
 ifeq ($(PEGTL_CXXSTD),)
@@ -41,7 +41,8 @@ all: $(BINARIES)
 	@set -e; for T in $(UNIT_TESTS); do $$T; done
 	@echo "All $(words $(UNIT_TESTS)) unit tests passed."
 
-# Note: This is considered experimental, use at your own risk:
+# NOTE: Coverage analysis is considered experimental!
+
 coverage: all
 	@lcov -q -c -d . -b . -o build/gcov.info
 	@lcov -q -r build/gcov.info "/usr*" -o build/gcov.info
