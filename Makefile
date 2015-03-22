@@ -23,7 +23,7 @@ endif
 # changed if desired.
 
 PEGTL_CPPFLAGS ?= -pedantic
-PEGTL_CXXFLAGS ?= -Wall -Wextra -Werror -O3 -ftemplate-depth=400
+PEGTL_CXXFLAGS ?= -Wall -Wextra -Werror -O3
 ifneq ($(filter coverage,$(MAKECMDGOALS)),)
 PEGTL_CXXFLAGS := $(subst -O3,-O0 --coverage,$(PEGTL_CXXFLAGS))
 endif
