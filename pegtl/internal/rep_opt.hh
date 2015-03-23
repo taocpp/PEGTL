@@ -22,7 +22,7 @@ namespace pegtl
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            for ( unsigned i = 0; ( i < Max ) && rule_match_three< seq< Rules ... >, A, Action, Control >::match( in, st ... ); ++i ) {}
+            for ( unsigned i = 0; ( i != Max ) && rule_match_three< seq< Rules ... >, A, Action, Control >::match( in, st ... ); ++i ) {}
             return true;
          }
       };

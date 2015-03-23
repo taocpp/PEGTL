@@ -5,7 +5,6 @@
 #define PEGTL_INTERNAL_INPUT_DATA_HH
 
 #include <cstdlib>
-#include <cassert>
 
 namespace pegtl
 {
@@ -20,9 +19,7 @@ namespace pegtl
                  end( end ),
                  source( source ),
                  from( from )
-         {
-            assert( begin <= end );
-         }
+         { }
 
          std::size_t number;
          std::size_t offset;

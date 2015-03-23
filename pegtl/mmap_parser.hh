@@ -4,6 +4,13 @@
 #ifndef PEGTL_MMAP_PARSER_HH
 #define PEGTL_MMAP_PARSER_HH
 
+#include <string>
+
+#include "parse.hh"
+#include "input.hh"
+#include "normal.hh"
+#include "nothing.hh"
+
 #include "internal/file_mapper.hh"
 
 namespace pegtl
@@ -18,7 +25,7 @@ namespace pegtl
               m_input( 1, 0, m_file.begin(), m_file.end(), m_source.c_str() )
       { }
 
-      mmap_parser( const std::string & filename, const input & from )
+      mmap_parser( const std::string & filename, const pegtl::input & from )
             : m_file( filename ),
               m_source( filename ),
               m_input( 1, 0, m_file.begin(), m_file.end(), m_source.c_str(), & from )

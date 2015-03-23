@@ -21,15 +21,15 @@ namespace pegtl
       struct rule_match_three
       {
          template< typename Input, typename ... States >
-         static auto match( Input & in, States && ... st ) -> decltype( Rule::template match< A, Action, Control >( in, st ... ), bool() )
+         static auto match( Input & in, States && ... st ) -> decltype( Rule::template match< A, Action, Control >( in, st ... ), true )
          {
             return Rule::template match< A, Action, Control >( in, st ... );
          }
 
-         // NOTE: The additional "int = 0" is a work-around for a problem in VS2015.
+         // NOTE: The additional "int = 0" is a work-around for missing expression SFINAE in VS2015.
 
          template< typename Input, typename ... States, int = 0 >
-         static auto match( Input & in, States && ... ) -> decltype( Rule::match( in ), bool() )
+         static auto match( Input & in, States && ... ) -> decltype( Rule::match( in ), true )
          {
             return Rule::match( in );
          }

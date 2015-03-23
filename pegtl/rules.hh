@@ -4,12 +4,12 @@
 #ifndef PEGTL_RULES_HH
 #define PEGTL_RULES_HH
 
+#include "parse_error.hh"
+
 #include "internal/rules.hh"
 
 namespace pegtl
 {
-   struct parse_error;
-
    template< template< typename ... > class Action, typename ... Rules > struct action : internal::action< Action, Rules ... > {};
    template< typename ... Rules > struct at : internal::at< Rules ... > {};
    template< unsigned Num > struct bytes : internal::bytes< Num > {};

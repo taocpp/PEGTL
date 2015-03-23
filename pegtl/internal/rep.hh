@@ -27,18 +27,18 @@ namespace pegtl
       struct rep< 0, Rule, Rules ... >
             : trivial< true > {};
 
-      template< unsigned Num, typename Rule, typename ... Rules >
-      struct rep< Num, Rule, Rules ... >
+      template< unsigned Num, typename ... Rules >
+      struct rep
       {
-         using analyze_t = analysis::counted< analysis::rule_type::SEQ, Num, Rule, Rules ... >;
+         using analyze_t = analysis::counted< analysis::rule_type::SEQ, Num, Rules ... >;
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
 
-            for ( unsigned i = 0; i < Num; ++i ) {
-               if ( ! rule_conjunction< Rule, Rules ... >::template match< A, Action, Control >( in, st ... ) ) {
+            for ( unsigned i = 0; i != Num; ++i ) {
+               if ( ! rule_conjunction< Rules ... >::template match< A, Action, Control >( in, st ... ) ) {
                   return m( false );
                }
             }

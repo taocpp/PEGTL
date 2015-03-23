@@ -29,17 +29,17 @@ namespace pegtl
       template<> struct string<>
             : trivial< true > {};
 
-      template< char C, char ... Cs >
-      struct string< C, Cs ... >
+      template< char ... Cs >
+      struct string
       {
-         using analyze_t = analysis::counted< analysis::rule_type::ANY, 1 + sizeof ... ( Cs ) >;
+         using analyze_t = analysis::counted< analysis::rule_type::ANY, sizeof ... ( Cs ) >;
 
          template< typename Input >
          static bool match( Input & in )
          {
-            if ( in.size() >= 1 + sizeof ... ( Cs ) ) {
-               if ( unsafe_equals( in.begin(), { C, Cs ... } ) ) {
-                  in.bump( 1 + sizeof ... ( Cs ) );
+            if ( in.size() >= sizeof ... ( Cs ) ) {
+               if ( unsafe_equals( in.begin(), { Cs ... } ) ) {
+                  in.bump( sizeof ... ( Cs ) );
                   return true;
                }
             }

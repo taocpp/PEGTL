@@ -12,7 +12,7 @@ namespace pegtl
    {
       template< rule_type Type, unsigned Count, typename ... Rules >
       struct counted
-            : public generic< Count ? Type : rule_type::OPT, Rules ... >
+            : generic< Count ? Type : rule_type::OPT, Rules ... >
       { };
 
    } // analysis

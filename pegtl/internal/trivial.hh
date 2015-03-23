@@ -5,26 +5,27 @@
 #define PEGTL_INTERNAL_TRIVIAL_HH
 
 #include "skip_control.hh"
+
 #include "../analysis/counted.hh"
 
 namespace pegtl
 {
    namespace internal
    {
-      template< bool What >
+      template< bool Result >
       struct trivial
       {
-         using analyze_t = analysis::counted< analysis::rule_type::ANY, unsigned( ! What ) >;
+         using analyze_t = analysis::counted< analysis::rule_type::ANY, unsigned( ! Result ) >;
 
          template< typename Input >
          static bool match( Input & )
          {
-            return What;
+            return Result;
          }
       };
 
-      template< bool What >
-      struct skip_control< trivial< What > > : std::true_type {};
+      template< bool Result >
+      struct skip_control< trivial< Result > > : std::true_type {};
 
    } // internal
 

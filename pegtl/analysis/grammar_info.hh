@@ -5,6 +5,7 @@
 #define PEGTL_ANALYSIS_GRAMMAR_INFO_HH
 
 #include <map>
+#include <string>
 #include <utility>
 
 #include "../internal/demangle.hh"
@@ -17,13 +18,14 @@ namespace pegtl
    {
       struct grammar_info
       {
-         template< typename Name >
-         std::pair< std::map< std::string, rule_info >::iterator, bool > insert( const rule_type type )
-         {
-            return map.insert( std::pair< std::string, rule_info >( internal::demangle< Name >(), rule_info( type ) ) );
-         }
+         using map_t = std::map< std::string, rule_info >;
+         map_t map;
 
-         std::map< std::string, rule_info > map;
+         template< typename Name >
+         std::pair< map_t::iterator, bool > insert( const rule_type type )
+         {
+            return map.insert( map_t::value_type( internal::demangle< Name >(), rule_info( type ) ) );
+         }
       };
 
    } // analysis

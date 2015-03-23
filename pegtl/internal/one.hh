@@ -29,7 +29,7 @@ namespace pegtl
          template< typename Input >
          static bool match( Input & in )
          {
-            if ( in.size() ) {
+            if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
                   if ( Want == contains( t.data, { Cs ... } ) ) {
                      in.bump( t.size );
@@ -49,7 +49,7 @@ namespace pegtl
          template< typename Input >
          static bool match( Input & in )
          {
-            if ( in.size() ) {
+            if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
                   if ( Want == ( t.data == C ) ) {
                      in.bump( t.size );

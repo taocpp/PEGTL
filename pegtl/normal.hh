@@ -5,7 +5,6 @@
 #define PEGTL_NORMAL_HH
 
 #include "apply_mode.hh"
-
 #include "parse_error.hh"
 
 #include "internal/demangle.hh"
@@ -31,7 +30,7 @@ namespace pegtl
       template< typename Input, typename ... States >
       static void raise( const Input & in, States && ... )
       {
-         throw parse_error( "parse error matching " + internal::demangle< Rule >(), in );
+         throw pegtl::parse_error( "parse error matching " + internal::demangle< Rule >(), in );
       }
 
       template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >

@@ -15,10 +15,7 @@ namespace examples
    // Action class for relevant parsing events (SAX-style).
    // Calls hooks on the first state argument as callbacks.
 
-   template< typename Rule >
-   struct json_action
-         : public pegtl::nothing< Rule >
-   { };
+   template< typename Rule > struct json_action : pegtl::nothing< Rule > {};
 
    template<>
    struct json_action< pegtl::json::null >
@@ -288,7 +285,7 @@ int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
       examples::json_state state;
-      pegtl::read_parser( argv[ i ] ).parse< examples::grammar, examples::json_action, examples::normal >( state );
+      pegtl::read_parser( argv[ i ] ).parse< examples::grammar, examples::json_action, examples::errors >( state );
       assert( state.result() );
       std::cout << state.result() << std::endl;
    }

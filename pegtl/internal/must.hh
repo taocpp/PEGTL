@@ -18,7 +18,7 @@ namespace pegtl
 
       template< typename ... Rules >
       struct must
-            : seq< must< Rules >... > {};
+            : seq< must< Rules > ... > {};
 
       // While in theory the implementation for a single rule could
       // be simplified to must< Rule > = sor< Rule, raise< Rule > >, this

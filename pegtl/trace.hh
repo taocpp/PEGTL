@@ -4,6 +4,7 @@
 #ifndef PEGTL_TRACE_HH
 #define PEGTL_TRACE_HH
 
+#include <utility>
 #include <iostream>
 
 #include "parse.hh"
@@ -22,19 +23,19 @@ namespace pegtl
       template< typename Input, typename ... States >
       static void start( const Input & in, States && ... )
       {
-         std::cerr << position_info( in ) << "  start  " << internal::demangle< Rule >() << std::endl;
+         std::cerr << pegtl::position_info( in ) << "  start  " << internal::demangle< Rule >() << std::endl;
       }
 
       template< typename Input, typename ... States >
       static void success( const Input & in, States && ... )
       {
-         std::cerr << position_info( in ) << " success " << internal::demangle< Rule >() << std::endl;
+         std::cerr << pegtl::position_info( in ) << " success " << internal::demangle< Rule >() << std::endl;
       }
 
       template< typename Input, typename ... States >
       static void failure( const Input & in, States && ... )
       {
-         std::cerr << position_info( in ) << " failure " << internal::demangle< Rule >() << std::endl;
+         std::cerr << pegtl::position_info( in ) << " failure " << internal::demangle< Rule >() << std::endl;
       }
    };
 
@@ -47,7 +48,7 @@ namespace pegtl
    template< typename Rule, template< typename ... > class Action = nothing, typename ... Args >
    bool trace( Args && ... args )
    {
-      return parse< Rule, Action, tracer >( args ... );
+      return parse< Rule, Action, tracer >( std::forward< Args >( args ) ... );
    }
 
 } // pegtl

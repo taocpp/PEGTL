@@ -15,7 +15,7 @@ namespace pegtl
    {
       inline std::string demangle( const char * symbol )
       {
-         const std::unique_ptr< char, decltype( &std::free ) > demangled( abi::__cxa_demangle( symbol, 0, 0, 0 ), &std::free );
+         const std::unique_ptr< char, decltype( & std::free ) > demangled( abi::__cxa_demangle( symbol, nullptr, nullptr, nullptr ), & std::free );
          return demangled ? demangled.get() : symbol;
       }
 

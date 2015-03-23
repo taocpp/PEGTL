@@ -51,8 +51,7 @@ namespace sexpr
    struct main
          : until< eof, must< anything > > {};
 
-   template< typename Rule > struct action
-         : public nothing< Rule > {};
+   template< typename Rule > struct action : nothing< Rule > {};
 
    template<>
    struct action< plus< not_one< '"' > > >

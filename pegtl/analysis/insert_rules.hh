@@ -13,13 +13,15 @@ namespace pegtl
    {
       template< typename ... > struct insert_rules;
 
-      template<> struct insert_rules<>
+      template<>
+      struct insert_rules<>
       {
          static void insert( grammar_info &, rule_info & )
          { }
       };
 
-      template< typename Rule, typename ... Rules > struct insert_rules< Rule, Rules ... >
+      template< typename Rule, typename ... Rules >
+      struct insert_rules< Rule, Rules ... >
       {
          static void insert( grammar_info & g, rule_info & r )
          {

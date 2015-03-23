@@ -19,13 +19,9 @@ namespace pegtl
       {
          explicit
          file_opener( const std::string & filename )
-               : m_fd( ::open( filename.c_str(), O_RDONLY ) ),
-                 m_source( filename )
-         {
-            if ( m_fd < 0 ) {
-               PEGTL_THROW_INPUT_ERROR( "unable to open() file " << m_source << " for reading" );
-            }
-         }
+               : m_source( filename ),
+                 m_fd( open() )
+         { }
 
          ~file_opener()
          {
@@ -35,20 +31,29 @@ namespace pegtl
          file_opener( const file_opener & ) = delete;
          void operator= ( const file_opener & ) = delete;
 
-         size_t size() const
+         std::size_t size() const
          {
             struct stat st;
-
             errno = 0;
-
             if ( ::fstat( m_fd, & st ) < 0 ) {
                PEGTL_THROW_INPUT_ERROR( "unable to fstat() file " << m_source << " descriptor " << m_fd );
             }
-            return size_t( st.st_size );
+            return std::size_t( st.st_size );
          }
 
-         const int m_fd;
          const std::string m_source;
+         const int m_fd;
+
+      private:
+         int open() const
+         {
+            errno = 0;
+            const int fd = ::open( m_source.c_str(), O_RDONLY );
+            if ( fd >= 0 ) {
+               return fd;
+            }
+            PEGTL_THROW_INPUT_ERROR( "unable to open() file " << m_source << " for reading" );
+         }
       };
 
    } // internal

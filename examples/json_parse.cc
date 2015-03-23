@@ -12,7 +12,7 @@ int main( int argc, char ** argv )
    // Parse each command line argument as JSON value.
 
    for ( int i = 1; i < argc; ++i ) {
-      if ( ! pegtl::parse< grammar, pegtl::nothing, examples::normal >( i, argv ) ) {
+      if ( ! pegtl::parse< grammar, pegtl::nothing, examples::errors >( i, argv ) ) {
          std::cerr << "argv[" << i << "] is no valid JSON" << std::endl;
          return 1;
       }

@@ -39,13 +39,13 @@ namespace pegtl
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            Control< Rule >::start( static_cast< const Input & >( in ), st ... );
+            Control< Rule >::start( const_cast< const Input & >( in ), st ... );
 
             if ( rule_match_three< Rule, A, Action, Control >::match( in, st ... ) ) {
-               Control< Rule >::success( static_cast< const Input & >( in ), st ... );
+               Control< Rule >::success( const_cast< const Input & >( in ), st ... );
                return true;
             }
-            Control< Rule >::failure( static_cast< const Input & >( in ), st ... );
+            Control< Rule >::failure( const_cast< const Input & >( in ), st ... );
             return false;
          }
       };
@@ -57,8 +57,6 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
-
-            // Re-use the no-action case to keep the code simple
 
             if ( rule_match_two< Rule, A, Action, Control, false >::match( in, st ... ) ) {
                Action< Rule >::apply( Input( in.data(), m ), st ... );

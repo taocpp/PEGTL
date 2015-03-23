@@ -48,12 +48,12 @@ namespace pegtl
          return m_data.end;
       }
 
-      size_t number() const
+      std::size_t number() const
       {
          return m_data.number;
       }
 
-      size_t offset() const
+      std::size_t offset() const
       {
          return m_data.offset;
       }
@@ -70,7 +70,7 @@ namespace pegtl
 
       char peek_char( const std::size_t o = 0 ) const
       {
-         return o[ m_data.begin ];
+         return m_data.begin[ o ];
       }
 
       unsigned char peek_byte( const std::size_t o = 0 ) const
@@ -78,9 +78,9 @@ namespace pegtl
          return static_cast< unsigned char >( peek_char( o ) );
       }
 
-      void bump( const std::size_t o = 1 )
+      void bump( const std::size_t count = 1 )
       {
-         for ( std::size_t i = 0; i < o; ++i ) {
+         for ( std::size_t i = 0; i < count; ++i ) {
             bump_unsafe();
          }
       }
@@ -88,15 +88,6 @@ namespace pegtl
       bool bump_if()
       {
          if ( ! empty() ) {
-            bump_unsafe();
-            return true;
-         }
-         return false;
-      }
-
-      bool bump_if( const char c )
-      {
-         if ( ( ! empty() ) && ( peek_char() == c ) ) {
             bump_unsafe();
             return true;
          }

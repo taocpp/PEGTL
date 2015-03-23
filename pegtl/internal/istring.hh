@@ -56,29 +56,29 @@ namespace pegtl
 
       template< char ... Cs > struct istring;
 
+      template< char ... Cs >
+      struct skip_control< istring< Cs ... > > : std::true_type {};
+
       template<> struct istring<>
             : trivial< true > {};
 
-      template< char C, char ... Cs >
-      struct istring< C, Cs ... >
+      template< char ... Cs >
+      struct istring
       {
-         using analyze_t = analysis::counted< analysis::rule_type::ANY, 1 + sizeof ... ( Cs ) >;
+         using analyze_t = analysis::counted< analysis::rule_type::ANY, sizeof ... ( Cs ) >;
 
          template< typename Input >
          static bool match( Input & in )
          {
-            if ( in.size() >= 1 + sizeof ... ( Cs ) ) {
-               if ( istring_equal< C, Cs ... >::match( in.begin() ) ) {
-                  in.bump( 1 + sizeof ... ( Cs ) );
+            if ( in.size() >= sizeof ... ( Cs ) ) {
+               if ( istring_equal< Cs ... >::match( in.begin() ) ) {
+                  in.bump( sizeof ... ( Cs ) );
                   return true;
                }
             }
             return false;
          }
       };
-
-      template< char ... Cs >
-      struct skip_control< istring< Cs ... > > : std::true_type {};
 
    } // internal
 

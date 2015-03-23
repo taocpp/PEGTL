@@ -12,21 +12,21 @@ namespace pegtl
    struct input_error
          : std::runtime_error
    {
-      explicit
-      input_error( const std::string & message )
+      input_error( const std::string & message, const int errorno )
             : std::runtime_error( message ),
-              errorno( errno )
+              errorno( errorno )
       { }
 
       int errorno;
    };
 
-#define PEGTL_THROW_INPUT_ERROR( MeSSaGe )                              \
+#define PEGTL_THROW_INPUT_ERROR( MESSAGE )                              \
    do {                                                                 \
+      const int errorno = errno;                                        \
       std::ostringstream oss;                                           \
-      oss << "pegtl: " << MeSSaGe << " errno " << errno;                \
-      throw pegtl::input_error( oss.str() );                          \
-   } while ( 1 )
+      oss << "pegtl: " << MESSAGE << " errno " << errorno;              \
+      throw pegtl::input_error( oss.str(), errorno );                   \
+   } while ( false )
 
 } // pegtl
 

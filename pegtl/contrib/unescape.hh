@@ -22,24 +22,24 @@ namespace pegtl
 
       inline bool utf8_append_ucs4( std::string & string, const unsigned ucs4 )
       {
-         if ( ucs4 < 0x80 ) {
+         if ( ucs4 <= 0x7f ) {
             string += char( ucs4 & 0xff );
             return true;
          }
-         else if ( ucs4 < 0x7ff ) {
+         else if ( ucs4 <= 0x7ff ) {
             char tmp[] = { char( ( ( ucs4 & 0x7c0 ) >> 6 ) | 0xc0 ),
                            char( ( ( ucs4 & 0x03f )      ) | 0x80 ) };
             string.append( tmp, sizeof( tmp ) );
             return true;
          }
-         else if ( ucs4 < 0xffff ) {
+         else if ( ucs4 <= 0xffff ) {
             char tmp[] = { char( ( ( ucs4 & 0xf000 ) >> 12 ) | 0xe0 ),
                            char( ( ( ucs4 & 0x0fc0 ) >> 6  ) | 0x80 ),
                            char( ( ( ucs4 & 0x003f )       ) | 0x80 ) };
             string.append( tmp, sizeof( tmp ) );
             return true;
          }
-         else if ( ucs4 < 0x10ffff ) {
+         else if ( ucs4 <= 0x10ffff ) {
             char tmp[] = { char( ( ( ucs4 & 0x1c0000 ) >> 18 ) | 0xf0 ),
                            char( ( ( ucs4 & 0x03f000 ) >> 12 ) | 0x80 ),
                            char( ( ( ucs4 & 0x000fc0 ) >> 6  ) | 0x80 ),
@@ -61,7 +61,7 @@ namespace pegtl
             case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
                return I( c - 'A' + 10 );
          }
-         assert( false );
+         assert( false );  // This function MUST only be called for characters matching pegtl::ascii::xdigit!
       }
 
       template< typename I >
@@ -99,27 +99,30 @@ namespace pegtl
          template< char ... Qs >
          static char apply_one( const char c, const one< Qs ... > * )
          {
-            static_assert( sizeof ... ( Qs ) == sizeof ... ( Rs ), "Size mismatch between escaped characters and their mappings." );
+            static_assert( sizeof ... ( Qs ) == sizeof ... ( Rs ), "size mismatch between escaped characters and their mappings" );
             return apply_two( c, { Qs ... }, { Rs ... } );
          }
 
          static char apply_two( const char c, const std::initializer_list< char > & q, const std::initializer_list< char > & r )
          {
-            for ( size_t i = 0; i < q.size(); ++i ) {
+            for ( std::size_t i = 0; i < q.size(); ++i ) {
                if ( * ( q.begin() + i ) == c ) {
                   return * ( r.begin() + i );
                }
             }
-            assert( false );  // This can only be triggered when this action is attached to the wrong rule.
+            assert( false );  // This function MUST be called for a character matching T which must be pegtl::one< ... >.
          }
       };
+
+      // See examples/unescape.cc to see why the following two actions
+      // have the convenience of skipping the first input character...
 
       struct unescape_u
       {
          template< typename Input, typename State >
          static void apply( const Input & in, State & st )
          {
-            assert( ! in.empty() );
+            assert( ! in.empty() );  // First character MUST be present, usually 'u' or 'U'.
             utf8_append_ucs4( st.unescaped, unhex_string< unsigned >( in.begin() + 1, in.end() ) );
          }
       };
@@ -129,7 +132,7 @@ namespace pegtl
          template< typename Input, typename State >
          static void apply( const Input & in, State & st )
          {
-            assert( ! in.empty() );
+            assert( ! in.empty() );  // First character MUST be present, usually 'x'.
             st.unescaped += unhex_string< char >( in.begin() + 1, in.end() );
          }
       };

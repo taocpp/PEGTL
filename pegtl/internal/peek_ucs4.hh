@@ -4,8 +4,6 @@
 #ifndef PEGTL_INTERNAL_PEEK_UCS4_HH
 #define PEGTL_INTERNAL_PEEK_UCS4_HH
 
-#include <cassert>
-
 #include "input_pair.hh"
 
 namespace pegtl
@@ -21,7 +19,6 @@ namespace pegtl
          static pair_t peek( Input & in )
          {
             const std::size_t s = in.size();
-            assert( s );
             if ( s >= sizeof( char32_t ) ) {
                const char32_t t = * reinterpret_cast< const char32_t * >( in.begin() );
                if ( ( 0 <= t ) && ( t <= 0x10ffff ) ) {

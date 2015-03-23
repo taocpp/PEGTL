@@ -15,8 +15,6 @@ namespace pegtl
    {
       // JSON grammar according to RFC 7159 (for UTF-8 encoded JSON only).
 
-      using namespace abnf;
-
       struct ws : one< ' ', '\t', '\n', '\r' > {};
 
       struct begin_array : pad< one< '[' >, ws > {};
@@ -30,14 +28,14 @@ namespace pegtl
       struct null : string< 'n', 'u', 'l', 'l' > {};
       struct true_ : string< 't', 'r', 'u', 'e' > {};
 
-      struct required_digits : plus< DIGIT > {};
-      struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+' > >, must< required_digits > > {};
-      struct frac : if_must< one< '.' >, required_digits > {};
-      struct int_ : sor< one< '0' >, required_digits > {};
+      struct digits : plus< abnf::DIGIT > {};
+      struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+' > >, must< digits > > {};
+      struct frac : if_must< one< '.' >, digits > {};
+      struct int_ : sor< one< '0' >, digits > {};
       struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
 
-      struct required_xdigit : HEXDIG {};
-      struct unicode : seq< one< 'u' >, rep< 4, must< required_xdigit > > > {};
+      struct xdigit : abnf::HEXDIG {};
+      struct unicode : seq< one< 'u' >, rep< 4, must< xdigit > > > {};
       struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
       struct escaped : sor< escaped_char, unicode > {};
       struct unescaped : utf8::range< 0x20, 0x10FFFF > {};

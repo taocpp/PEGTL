@@ -13,25 +13,13 @@ namespace pegtl
 {
    namespace internal
    {
+      template< typename Peek > struct any;
+
       template< typename Peek >
-      struct any
-      {
-         using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+      struct skip_control< any< Peek > > : std::true_type {};
 
-         template< typename Input >
-         static bool match( Input & in )
-         {
-            if ( in.size() ) {
-               if ( const auto t = Peek::peek( in ) ) {
-                  in.bump( t.size );
-                  return true;
-               }
-            }
-            return false;
-         }
-      };
-
-      template<> struct any< peek_char >
+      template<>
+      struct any< peek_char >
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
@@ -43,7 +31,22 @@ namespace pegtl
       };
 
       template< typename Peek >
-      struct skip_control< any< Peek > > : std::true_type {};
+      struct any
+      {
+         using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+
+         template< typename Input >
+         static bool match( Input & in )
+         {
+            if ( ! in.empty() ) {
+               if ( const auto t = Peek::peek( in ) ) {
+                  in.bump( t.size );
+                  return true;
+               }
+            }
+            return false;
+         }
+      };
 
    } // internal
 

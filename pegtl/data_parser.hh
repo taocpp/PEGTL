@@ -4,33 +4,29 @@
 #ifndef PEGTL_DATA_PARSER_HH
 #define PEGTL_DATA_PARSER_HH
 
+#include <string>
+#include <utility>
+
+#include "parse.hh"
+#include "input.hh"
+#include "normal.hh"
+#include "nothing.hh"
+
 namespace pegtl
 {
    class data_parser
    {
    public:
-      data_parser( std::string && data, const std::string & source )
+      data_parser( std::string data, std::string source, const std::size_t number = 1, const std::size_t offset = 0 )
             : m_data( std::move( data ) ),
-              m_source( source ),
-              m_input( 1, 0, m_data.data(), m_data.data() + m_data.size(), m_source.c_str() )
+              m_source( std::move( source ) ),
+              m_input( number, offset, m_data.data(), m_data.data() + m_data.size(), m_source.c_str() )
       { }
 
-      data_parser( const std::string & data, const std::string & source )
-            : m_data( data ),
-              m_source( source ),
-              m_input( 1, 0, m_data.data(), m_data.data() + m_data.size(), m_source.c_str() )
-      { }
-
-      data_parser( std::string && data, const std::string & source, const input & from )
+      data_parser( std::string data, std::string source, const pegtl::input & from, const std::size_t number = 1, const std::size_t offset = 0 )
             : m_data( std::move( data ) ),
-              m_source( source ),
-              m_input( 1, 0, m_data.data(), m_data.data() + m_data.size(), m_source.c_str(), & from )
-      { }
-
-      data_parser( const std::string & data, const std::string & source, const input & from )
-            : m_data( data ),
-              m_source( source ),
-              m_input( 1, 0, m_data.data(), m_data.data() + m_data.size(), m_source.c_str(), & from )
+              m_source( std::move( source ) ),
+              m_input( number, offset, m_data.data(), m_data.data() + m_data.size(), m_source.c_str(), & from )
       { }
 
       const std::string & source() const

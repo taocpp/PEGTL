@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_DEMANGLE_HH
 #define PEGTL_INTERNAL_DEMANGLE_HH
 
+#include <string>
 #include <typeinfo>
 
 #if defined(__GLIBCXX__)

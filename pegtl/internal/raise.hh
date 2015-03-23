@@ -22,7 +22,7 @@ namespace pegtl
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            Control< T >::raise( static_cast< const Input & >( in ), st ... );
+            Control< T >::raise( const_cast< const Input & >( in ), st ... );
             assert( false ); // LCOV_EXCL_LINE
          }
       };

@@ -21,7 +21,7 @@ namespace pegtl
          template< typename Input >
          static bool match( Input & in )
          {
-            if ( in.size() ) {
+            if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
                   if ( Want == ( ( Lo <= t.data ) && ( t.data <= Hi ) ) ) {
                      in.bump( t.size );

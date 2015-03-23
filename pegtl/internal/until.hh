@@ -37,10 +37,10 @@ namespace pegtl
          }
       };
 
-      template< typename Cond, typename Rule, typename ... Rules >
-      struct until< Cond, Rule, Rules ... >
+      template< typename Cond, typename ... Rules >
+      struct until
       {
-         using analyze_t = analysis::generic< analysis::rule_type::UNTIL, Cond, Rule, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::UNTIL, Cond, Rules ... >;
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
@@ -48,7 +48,7 @@ namespace pegtl
             auto m = in.mark();
 
             while ( ! Control< Cond >::template match< A, Action, Control >( in, st ... ) ) {
-               if ( in.empty() || ! rule_conjunction< Rule, Rules ... >::template match< A, Action, Control >( in, st ... ) ) {
+               if ( in.empty() || ! rule_conjunction< Rules ... >::template match< A, Action, Control >( in, st ... ) ) {
                   return false;
                }
             }

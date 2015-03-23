@@ -51,7 +51,7 @@ namespace pegtl
          template< typename Input >
          static bool match( Input & in )
          {
-            if ( in.size() ) {
+            if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
                   if ( ranges_impl< typename Peek::data_t, Cs ... >::match( t.data ) ) {
                      in.bump( t.size );

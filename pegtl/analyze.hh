@@ -4,7 +4,6 @@
 #ifndef PEGTL_ANALYZE_HH
 #define PEGTL_ANALYZE_HH
 
-#include "internal/rules.hh"
 #include "analysis/analyze_cycles.hh"
 
 namespace pegtl

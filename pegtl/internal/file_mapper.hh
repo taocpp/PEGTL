@@ -14,8 +14,9 @@ namespace pegtl
 {
    namespace internal
    {
-      struct file_mapper
+      class file_mapper
       {
+      public:
          explicit
          file_mapper( const std::string & filename )
                : file_mapper( file_opener( filename ) )
@@ -44,7 +45,7 @@ namespace pegtl
             return m_size == 0;
          }
 
-         size_t size() const
+         std::size_t size() const
          {
             return m_size;
          }
@@ -72,7 +73,8 @@ namespace pegtl
             return std::string( m_data, m_size );
          }
 
-         const size_t m_size;
+      private:
+         const std::size_t m_size;
          const char * const m_data;
       };
 

@@ -6,9 +6,10 @@
 
 #include <string>
 #include <cstdlib>
-#include <sstream>
+#include <ostream>
 
 #include "input.hh"
+
 #include "internal/input_data.hh"
 
 namespace pegtl

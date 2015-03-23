@@ -23,16 +23,16 @@ namespace pegtl
       struct at<>
             : trivial< true > {};
 
-      template< typename Rule, typename ... Rules >
-      struct at< Rule, Rules ... >
+      template< typename ... Rules >
+      struct at
       {
-         using analyze_t = analysis::generic< analysis::rule_type::OPT, Rule, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules ... >;
 
          template< apply_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
-            return rule_conjunction< Rule, Rules ... >::template match< apply_mode::NOTHING, Action, Control >( in, st ... );
+            return rule_conjunction< Rules ... >::template match< apply_mode::NOTHING, Action, Control >( in, st ... );
          }
       };
 

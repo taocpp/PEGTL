@@ -25,7 +25,8 @@ namespace pegtl
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
    bool parse( const int argc, char ** argv, States && ... st )
    {
-      input in( argc, 0, argv[ argc ], argv[ argc ] + ::strlen( argv[ argc ] ), "argv" );
+      const std::string source = "argv[ " + std::to_string( argc ) + " ]";
+      input in( 1, 0, argv[ argc ], argv[ argc ] + ::strlen( argv[ argc ] ), source.c_str() );
       return parse_input< Rule, Action, Control >( in, st ... );
    }
 

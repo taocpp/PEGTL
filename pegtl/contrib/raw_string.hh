@@ -22,7 +22,6 @@ namespace pegtl
       {
          template< typename Input, typename ... States >
          raw_string_state( const Input &, States && ... )
-               : count( 0 )
          { }
 
          template< typename Input, typename ... States >
@@ -32,6 +31,10 @@ namespace pegtl
          raw_string_state( const raw_string_state & ) = delete;
          void operator= ( const raw_string_state & ) = delete;
 
+         // count is not initialised here because in a correct
+         // grammar it will be first written by raw_string_open
+         // before being read by raw_string_at_close.
+
          std::size_t count;
       };
 
@@ -40,10 +43,10 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-         template< apply_mode, template< typename ... > class, template< typename ... > class, typename Input >
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input >
          static bool match( Input & in, raw_string_state & ls )
          {
-            if ( in.empty() || in.peek_char( 0 ) != Open ) {
+            if ( in.empty() || ( in.peek_char( 0 ) != Open ) ) {
                return false;
             }
             for ( std::size_t i = 1; i < in.size(); ++i ) {
@@ -67,7 +70,7 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::OPT >;
 
-         template< apply_mode, template< typename ... > class, template< typename ... > class, typename Input >
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input >
          static bool match( Input & in, const raw_string_state & ls )
          {
             if ( in.size() < ls.count + 2 ) {
@@ -93,7 +96,7 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-         template< apply_mode, template< typename ... > class, template< typename ... > class, typename Input >
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input >
          static bool match( Input & in, const raw_string_state & ls )
          {
             in.bump( ls.count + 2 );
@@ -109,6 +112,12 @@ namespace pegtl
 
       template<>
       struct skip_control< raw_string_bump_close > : std::true_type {};
+
+      // We do not skip_control for raw_string_content since the user
+      // will probably attach an action to get at the string's content.
+      // For convenience, below the rule is imported into raw_string
+      // with a using declaration, so the action specialisation can be
+      // made for pegtl::raw_string::content.
 
       template< char Intermediate, char Close >
       struct raw_string_content : until< raw_string_at_close< Intermediate, Close > > {};

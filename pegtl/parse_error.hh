@@ -5,7 +5,6 @@
 #define PEGTL_PARSE_ERROR_HH
 
 #include <vector>
-#include <cassert>
 #include <sstream>
 #include <stdexcept>
 
@@ -20,9 +19,8 @@ namespace pegtl
       {
          std::vector< position_info > result;
          for ( const auto * id = & in.data(); id; id = id->from ) {
-            result.push_back( position_info( * id ) );
+            result.push_back( pegtl::position_info( * id ) );
          }
-         assert( ! result.empty() );
          return result;
       }
 
@@ -30,7 +28,7 @@ namespace pegtl
       std::string source( const Input & in )
       {
          std::ostringstream oss;
-         oss << position_info( in.data() );
+         oss << pegtl::position_info( in.data() );
          return oss.str();
       }
 

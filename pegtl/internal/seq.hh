@@ -35,16 +35,16 @@ namespace pegtl
          }
       };
 
-      template< typename Rule, typename More, typename ... Rules >
-      struct seq< Rule, More, Rules ... >
+      template< typename ... Rules >
+      struct seq
       {
-         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule, More, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
-            return m( rule_conjunction< Rule, More, Rules ... >::template match< A, Action, Control >( in, st ... ) );
+            return m( rule_conjunction< Rules ... >::template match< A, Action, Control >( in, st ... ) );
          }
       };
 

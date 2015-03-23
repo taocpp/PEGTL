@@ -16,7 +16,7 @@ namespace examples
    // except for the throwing of exceptions:
 
    template< typename Rule >
-   struct normal
+   struct errors
          : public pegtl::normal< Rule >
    {
       static const std::string error_message;
@@ -31,24 +31,24 @@ namespace examples
    // The following specialisations of the static string
    // member are then used in the exception messages:
 
-   template<> const std::string normal< pegtl::json::text >::error_message = "no valid JSON";
+   template<> const std::string errors< pegtl::json::text >::error_message = "no valid JSON";
 
-   template<> const std::string normal< pegtl::json::end_array >::error_message = "incomplete array, expected ']'";
-   template<> const std::string normal< pegtl::json::end_object >::error_message = "incomplete object, expected '}'";
-   template<> const std::string normal< pegtl::json::member >::error_message = "expected member";
-   template<> const std::string normal< pegtl::json::name_separator >::error_message = "expected ':'";
-   template<> const std::string normal< pegtl::json::value >::error_message = "expected value";
+   template<> const std::string errors< pegtl::json::end_array >::error_message = "incomplete array, expected ']'";
+   template<> const std::string errors< pegtl::json::end_object >::error_message = "incomplete object, expected '}'";
+   template<> const std::string errors< pegtl::json::member >::error_message = "expected member";
+   template<> const std::string errors< pegtl::json::name_separator >::error_message = "expected ':'";
+   template<> const std::string errors< pegtl::json::value >::error_message = "expected value";
 
-   template<> const std::string normal< pegtl::json::required_digits >::error_message = "expected at least one digit";
-   template<> const std::string normal< pegtl::json::required_xdigit >::error_message = "incomplete universal character name";
-   template<> const std::string normal< pegtl::json::escaped >::error_message = "unknown escape sequence";
-   template<> const std::string normal< pegtl::json::char_ >::error_message = "invalid character in string";
-   template<> const std::string normal< pegtl::json::string::content >::error_message = "unterminated string";
+   template<> const std::string errors< pegtl::json::digits >::error_message = "expected at least one digit";
+   template<> const std::string errors< pegtl::json::xdigit >::error_message = "incomplete universal character name";
+   template<> const std::string errors< pegtl::json::escaped >::error_message = "unknown escape sequence";
+   template<> const std::string errors< pegtl::json::char_ >::error_message = "invalid character in string";
+   template<> const std::string errors< pegtl::json::string::content >::error_message = "unterminated string";
 
-   template<> const std::string normal< pegtl::eof >::error_message = "unexpected character after JSON value";
+   template<> const std::string errors< pegtl::eof >::error_message = "unexpected character after JSON value";
 
    // The raise()-function-template is instantiated exactly
-   // for the specialisations of normal< Rule > for which a
+   // for the specialisations of errors< Rule > for which a
    // parse error can be generated, therefore the string
    // error_message needs to be supplied only for these rules
    // (and the compiler will complain if one is missing).

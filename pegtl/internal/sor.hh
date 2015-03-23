@@ -23,7 +23,7 @@ namespace pegtl
          {
             bool result = false;
             using swallow = bool[];
-            (void)swallow{ result = result || Control< Rules >::template match< A, Action, Control >( in, st ... )..., true };
+            (void)swallow{ result = result || Control< Rules >::template match< A, Action, Control >( in, st ... ) ..., true };
             return result;
          }
       };

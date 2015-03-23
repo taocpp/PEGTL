@@ -23,15 +23,15 @@ namespace pegtl
       struct opt<>
             : trivial< true > {};
 
-      template< typename Rule, typename ... Rules >
-      struct opt< Rule, Rules ... >
+      template< typename ... Rules >
+      struct opt
       {
-         using analyze_t = analysis::generic< analysis::rule_type::OPT, Rule, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules ... >;
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return in.empty() || rule_match_three< seq< Rule, Rules ... >, A, Action, Control >::match( in, st ... ) || true;
+            return in.empty() || rule_match_three< seq< Rules ... >, A, Action, Control >::match( in, st ... ) || true;
          }
       };
 

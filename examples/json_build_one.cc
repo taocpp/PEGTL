@@ -161,12 +161,12 @@ namespace examples
 
    // Put together a control class that changes the actions and states as required.
 
-   template< typename Rule > struct control : normal< Rule > {};  // Inherit from json_errors.hh.
+   template< typename Rule > struct control : errors< Rule > {};  // Inherit from json_errors.hh.
 
-   template<> struct control< pegtl::json::value > : change_action< pegtl::json::value, value_action, normal > {};
-   template<> struct control< pegtl::json::string > : change_state< pegtl::json::string, string_state, normal > {};
-   template<> struct control< pegtl::json::array > : change_state_and_action< pegtl::json::array, array_state, array_action, normal > {};
-   template<> struct control< pegtl::json::object > : change_state_and_action< pegtl::json::object, object_state, object_action, normal > {};
+   template<> struct control< pegtl::json::value > : change_action< pegtl::json::value, value_action, errors > {};
+   template<> struct control< pegtl::json::string > : change_state< pegtl::json::string, string_state, errors > {};
+   template<> struct control< pegtl::json::array > : change_state_and_action< pegtl::json::array, array_state, array_action, errors > {};
+   template<> struct control< pegtl::json::object > : change_state_and_action< pegtl::json::object, object_state, object_action, errors > {};
 
    struct grammar : pegtl::must< pegtl::json::text, pegtl::eof > {};
 

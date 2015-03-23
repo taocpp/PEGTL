@@ -20,7 +20,7 @@ namespace pegtl
          STAR,   // Similar to seq but for optional unbounded repetition of conjunction of sub-rules.
 
          UNTIL,  // Specific handling of until<> rules.
-         IF      // Specific handling of if_must/if_must_else/if_then_else<> rules.
+         IF      // Specific handling of if_then_else<> rule.
       };
 
    } // analysis
