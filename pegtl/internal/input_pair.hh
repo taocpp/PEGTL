@@ -18,7 +18,7 @@ namespace pegtl
 
          explicit operator bool () const
          {
-            return size;  // data is valid iff. size > 0
+            return size > 0;
          }
       };
 

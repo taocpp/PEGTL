@@ -11,15 +11,17 @@
 namespace pegtl
 {
    template< typename Rule >
-   void verify_analyze( const unsigned line, const char * file, const bool consumes, const bool problems = false, const bool verbose = false )
+   void verify_analyze( const unsigned line, const char * file, const bool expect_consume, const bool expect_problems = false, const bool verbose = false )
    {
       analysis::analyze_cycles< Rule > a( verbose );
+      const bool has_problems = ( a.problems() != 0 );
+      const bool does_consume = a.template consumes< Rule >();
 
-      if ( problems != bool( a.problems() ) ) {
-         TEST_FAILED( "analyze -- problems received/expected [ " << ( ! problems ) << " / " << problems << " ]" ); // LCOV_EXCL_LINE
+      if ( has_problems != expect_problems ) {
+         TEST_FAILED( "analyze -- problems received/expected [ " << has_problems << " / " << expect_problems << " ]" );
       }
-      if ( consumes != bool( a.template consumes< Rule >() ) ) {
-         TEST_FAILED( "analyze -- consumes received/expected [ " << ( ! consumes ) << " / " << consumes << " ]" ); // LCOV_EXCL_LINE
+      if ( does_consume != expect_consume ) {
+         TEST_FAILED( "analyze -- consumes received/expected [ " << does_consume << " / " << expect_consume << " ]" );
       }
    }
 

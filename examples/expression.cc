@@ -5,6 +5,7 @@
 #include <vector>
 #include <memory>
 #include <cassert>
+#include <cstdlib>
 #include <iostream>
 #include <algorithm>
 
@@ -221,7 +222,7 @@ namespace expression
                      return m_postfix;
                }
          }
-         assert( 0 );
+         std::abort();
       }
 
    private:

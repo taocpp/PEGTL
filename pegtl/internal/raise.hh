@@ -4,7 +4,7 @@
 #ifndef PEGTL_INTERNAL_RAISE_HH
 #define PEGTL_INTERNAL_RAISE_HH
 
-#include <cassert>
+#include <cstdlib>
 
 #include "skip_control.hh"
 
@@ -23,7 +23,7 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             Control< T >::raise( const_cast< const Input & >( in ), st ... );
-            assert( false ); // LCOV_EXCL_LINE
+            std::abort(); // MUST be unreachable
          }
       };
 

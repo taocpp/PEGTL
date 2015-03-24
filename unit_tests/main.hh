@@ -4,14 +4,16 @@
 #ifndef PEGTL_TESTING_UNIT_TEST_MAIN_HH
 #define PEGTL_TESTING_UNIT_TEST_MAIN_HH
 
+#include <cstdlib>
+
 int main( int, char ** argv )
 {
    pegtl::unit_test();
 
    if ( pegtl::failed ) {
-      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << pegtl::failed << std::endl; // LCOV_EXCL_LINE
+      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << pegtl::failed << std::endl;
    }
-   return bool( pegtl::failed );
+   return ( pegtl::failed == 0 ) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
 #endif
