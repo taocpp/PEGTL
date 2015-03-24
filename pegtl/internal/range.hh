@@ -4,8 +4,9 @@
 #ifndef PEGTL_INTERNAL_RANGE_HH
 #define PEGTL_INTERNAL_RANGE_HH
 
-#include "skip_control.hh"
 #include "any.hh"
+#include "skip_control.hh"
+#include "result_on_found.hh"
 
 #include "../analysis/generic.hh"
 
@@ -13,7 +14,7 @@ namespace pegtl
 {
    namespace internal
    {
-      template< bool Want, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+      template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
       struct range
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
@@ -23,7 +24,7 @@ namespace pegtl
          {
             if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
-                  if ( Want == ( ( Lo <= t.data ) && ( t.data <= Hi ) ) ) {
+                  if ( ( ( Lo <= t.data ) && ( t.data <= Hi ) ) == bool( R ) ) {
                      in.bump( t.size );
                      return true;
                   }
@@ -33,8 +34,8 @@ namespace pegtl
          }
       };
 
-      template< bool Want, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
-      struct skip_control< range< Want, Peek, Lo, Hi > > : std::true_type {};
+      template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+      struct skip_control< range< R, Peek, Lo, Hi > > : std::true_type {};
 
    } // internal
 

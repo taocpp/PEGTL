@@ -8,6 +8,7 @@
 #include <algorithm>
 
 #include "skip_control.hh"
+#include "result_on_found.hh"
 
 #include "../analysis/generic.hh"
 
@@ -21,7 +22,7 @@ namespace pegtl
          return std::find( l.begin(), l.end(), c ) != l.end();
       }
 
-      template< bool Want, typename Peek, typename Peek::data_t ... Cs >
+      template< result_on_found R, typename Peek, typename Peek::data_t ... Cs >
       struct one
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
@@ -31,7 +32,7 @@ namespace pegtl
          {
             if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
-                  if ( Want == contains( t.data, { Cs ... } ) ) {
+                  if ( contains( t.data, { Cs ... } ) == bool( R ) ) {
                      in.bump( t.size );
                      return true;
                   }
@@ -41,8 +42,8 @@ namespace pegtl
          }
       };
 
-      template< bool Want, typename Peek, typename Peek::data_t C >
-      struct one< Want, Peek, C >
+      template< result_on_found R, typename Peek, typename Peek::data_t C >
+      struct one< R, Peek, C >
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
@@ -51,7 +52,7 @@ namespace pegtl
          {
             if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
-                  if ( Want == ( t.data == C ) ) {
+                  if ( ( t.data == C ) == bool( R ) ) {
                      in.bump( t.size );
                      return true;
                   }
@@ -61,8 +62,8 @@ namespace pegtl
          }
       };
 
-      template< bool Want, typename Peek, typename Peek::data_t ... Cs >
-      struct skip_control< one< Want, Peek, Cs ... > > : std::true_type {};
+      template< result_on_found R, typename Peek, typename Peek::data_t ... Cs >
+      struct skip_control< one< R, Peek, Cs ... > > : std::true_type {};
 
    } // internal
 

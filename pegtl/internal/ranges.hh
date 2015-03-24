@@ -65,7 +65,7 @@ namespace pegtl
 
       template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
       struct ranges< Peek, Lo, Hi >
-            : range< true, Peek, Lo, Hi > {};
+            : range< result_on_found::SUCCESS, Peek, Lo, Hi > {};
 
       template< typename Peek, typename Peek::data_t ... Cs >
       struct skip_control< ranges< Peek, Cs ... > > : std::true_type {};

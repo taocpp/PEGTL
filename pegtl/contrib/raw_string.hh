@@ -152,7 +152,7 @@ namespace pegtl
    template< char Open, char Intermediate, char Close >
    struct raw_string : state< internal::raw_string_state,
                               internal::raw_string_open< Open, Intermediate >,
-                              internal::opt< internal::one< true, internal::peek_char, '\n' > >,
+                              internal::opt< internal::one< internal::result_on_found::SUCCESS, internal::peek_char, '\n' > >,
                               internal::must< internal::raw_string_content< Intermediate, Close > >,
                               internal::raw_string_bump_close >
    {
