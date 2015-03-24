@@ -21,11 +21,11 @@ namespace pegtl
       { }
 
       input( const internal::input_data & data, const internal::input_mark & mark )
-            : m_data( mark.m_number, mark.m_offset, mark.m_begin, data.begin, data.source, data.from )
+            : m_data( mark.m_line, mark.m_column, mark.m_begin, data.begin, data.source, data.from )
       { }
 
-      input( const std::size_t number, const std::size_t offset, const char * begin, const char * end, const char * source, const input * from = nullptr )
-            : m_data( number, offset, begin, end, source, from ? ( & from->m_data ) : nullptr )
+      input( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source, const input * from = nullptr )
+            : m_data( line, column, begin, end, source, from ? ( & from->m_data ) : nullptr )
       { }
 
       bool empty() const
@@ -48,14 +48,14 @@ namespace pegtl
          return m_data.end;
       }
 
-      std::size_t number() const
+      std::size_t line() const
       {
-         return m_data.number;
+         return m_data.line;
       }
 
-      std::size_t offset() const
+      std::size_t column() const
       {
-         return m_data.offset;
+         return m_data.column;
       }
 
       std::string source() const
@@ -68,14 +68,14 @@ namespace pegtl
          return std::string( m_data.begin, m_data.end );
       }
 
-      char peek_char( const std::size_t o = 0 ) const
+      char peek_char( const std::size_t offset = 0 ) const
       {
-         return m_data.begin[ o ];
+         return m_data.begin[ offset ];
       }
 
-      unsigned char peek_byte( const std::size_t o = 0 ) const
+      unsigned char peek_byte( const std::size_t offset = 0 ) const
       {
-         return static_cast< unsigned char >( peek_char( o ) );
+         return static_cast< unsigned char >( peek_char( offset ) );
       }
 
       void bump( const std::size_t count = 1 )
@@ -111,11 +111,11 @@ namespace pegtl
       {
          switch ( * m_data.begin ) {
             case '\n':
-               ++m_data.number;
-               m_data.offset = 0;
+               ++m_data.line;
+               m_data.column = 0;
                break;
             default:
-               ++m_data.offset;
+               ++m_data.column;
                break;
          }
          ++m_data.begin;

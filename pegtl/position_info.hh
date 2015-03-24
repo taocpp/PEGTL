@@ -24,21 +24,21 @@ namespace pegtl
       explicit
       position_info( const internal::input_data & id )
             : source( id.source ),
-              number( id.number ),
-              offset( id.offset ),
+              line( id.line ),
+              column( id.column ),
               begin( id.begin )
       { }
 
       std::string source;
-      std::size_t number;
-      std::size_t offset;
+      std::size_t line;
+      std::size_t column;
 
       const char * begin;
    };
 
    inline std::ostream & operator<< ( std::ostream & o, const position_info & p )
    {
-      return o << p.source << ':' << p.number << ':' << p.offset;
+      return o << p.source << ':' << p.line << ':' << p.column;
    }
 
 } // pegtl

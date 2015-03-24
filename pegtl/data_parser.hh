@@ -17,16 +17,16 @@ namespace pegtl
    class data_parser
    {
    public:
-      data_parser( std::string data, std::string source, const std::size_t number = 1, const std::size_t offset = 0 )
+      data_parser( std::string data, std::string source, const std::size_t line = 1, const std::size_t column = 0 )
             : m_data( std::move( data ) ),
               m_source( std::move( source ) ),
-              m_input( number, offset, m_data.data(), m_data.data() + m_data.size(), m_source.c_str() )
+              m_input( line, column, m_data.data(), m_data.data() + m_data.size(), m_source.c_str() )
       { }
 
-      data_parser( std::string data, std::string source, const pegtl::input & from, const std::size_t number = 1, const std::size_t offset = 0 )
+      data_parser( std::string data, std::string source, const pegtl::input & from, const std::size_t line = 1, const std::size_t column = 0 )
             : m_data( std::move( data ) ),
               m_source( std::move( source ) ),
-              m_input( number, offset, m_data.data(), m_data.data() + m_data.size(), m_source.c_str(), & from )
+              m_input( line, column, m_data.data(), m_data.data() + m_data.size(), m_source.c_str(), & from )
       { }
 
       const std::string & source() const

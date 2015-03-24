@@ -12,17 +12,17 @@ namespace pegtl
    {
       struct input_data
       {
-         input_data( const std::size_t number, const std::size_t offset, const char * begin, const char * end, const char * source, const input_data * from = 0 )
-               : number( number ),
-                 offset( offset ),
+         input_data( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source, const input_data * from = 0 )
+               : line( line ),
+                 column( column ),
                  begin( begin ),
                  end( end ),
                  source( source ),
                  from( from )
          { }
 
-         std::size_t number;
-         std::size_t offset;
+         std::size_t line;
+         std::size_t column;
 
          const char * begin;
          const char * end;

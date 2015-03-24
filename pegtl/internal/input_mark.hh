@@ -15,15 +15,15 @@ namespace pegtl
       public:
          explicit
          input_mark( input_data & i )
-               : m_number( i.number ),
-                 m_offset( i.offset ),
+               : m_line( i.line ),
+                 m_column( i.column ),
                  m_begin( i.begin ),
                  m_input( & i )
          { }
 
          input_mark( input_mark && i )
-               : m_number( i.m_number ),
-                 m_offset( i.m_offset ),
+               : m_line( i.m_line ),
+                 m_column( i.m_column ),
                  m_begin( i.m_begin ),
                  m_input( i.m_input )
          {
@@ -33,8 +33,8 @@ namespace pegtl
          ~input_mark()
          {
             if ( m_input ) {
-               m_input->number = m_number;
-               m_input->offset = m_offset;
+               m_input->line = m_line;
+               m_input->column = m_column;
                m_input->begin = m_begin;
             }
          }
@@ -50,8 +50,8 @@ namespace pegtl
 
          bool failure()
          {
-            m_input->number = m_number;
-            m_input->offset = m_offset;
+            m_input->line = m_line;
+            m_input->column = m_column;
             m_input->begin = m_begin;
             m_input = nullptr;
             return false;
@@ -63,8 +63,8 @@ namespace pegtl
          }
 
       public:
-         const std::size_t m_number;
-         const std::size_t m_offset;
+         const std::size_t m_line;
+         const std::size_t m_column;
          const char * const m_begin;
          input_data * m_input;
       };
