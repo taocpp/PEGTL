@@ -41,6 +41,24 @@ namespace pegtl
       } {
          struct exp : sor< exp, seq< any, exp > > {};
          verify_analyze< exp >( __LINE__, __FILE__, false, true, false );
+      } {
+         struct tst : until< any > {};
+         verify_analyze< tst >( __LINE__, __FILE__, true, false, false );
+      } {
+         struct tst : until< star< any > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, false, false );
+      } {
+         struct tst : until< any, star< any > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, true, true, false );
+      } {
+         struct tst : until< star< any >, star< any > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true, false );
+      } {
+         struct tst : until< any, any > {};
+         verify_analyze< tst >( __LINE__, __FILE__, true, false, false );
+      } {
+         struct tst : until< star< any >, any > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, false, false );
       }
    }
 

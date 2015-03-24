@@ -32,6 +32,7 @@ namespace pegtl
       verify_rule< istring< 'a', 'b' > >( __LINE__, __FILE__,  "Abb", result_type::SUCCESS, 1 );
       verify_rule< istring< 'a', 'b' > >( __LINE__, __FILE__,  "abc", result_type::SUCCESS, 1 );
       verify_rule< istring< 'a', 'b' > >( __LINE__, __FILE__,  "aBab", result_type::SUCCESS, 2 );
+      verify_rule< istring< 'a', '0' > >( __LINE__, __FILE__,  "a0A0", result_type::SUCCESS, 2 );
    }
 
 } // pegtl
