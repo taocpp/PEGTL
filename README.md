@@ -48,7 +48,7 @@ This leads to slightly increased compile times as the C++ compiler is given the 
 [![Build Status](https://travis-ci.org/ColinH/PEGTL.svg)](https://travis-ci.org/ColinH/PEGTL)
 
 The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen between major versions.
-Releases are done in accordance with [semantic versioning](http://semver.org/).
+Releases are done in accordance with [Semantic Versioning](http://semver.org/).
 
 For questions and suggestions please contact the authors at `pegtl(at)colin-hirsch.net`.
 
