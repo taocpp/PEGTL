@@ -7,8 +7,6 @@
 #include <iostream>
 #include <functional>
 
-// Include the main parts of PEGTL 1.y.
-
 #include <pegtl.hh>
 
 // Include the analyze function that checks

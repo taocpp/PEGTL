@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <pegtl.hh>
+
 #include <pegtl/contrib/unescape.hh>
 
 namespace unescape
@@ -14,9 +15,9 @@ namespace unescape
    // - \U followed by eight hex-digits to insert any Unicdoe code points.
    // - A backslash followed by one of the characters listed in the grammar below.
 
-   struct escaped_x : pegtl::if_must< pegtl::one< 'x' >, pegtl::rep< 2, pegtl::xdigit > > {};
-   struct escaped_u : pegtl::if_must< pegtl::one< 'u' >, pegtl::rep< 4, pegtl::xdigit > > {};
-   struct escaped_U : pegtl::if_must< pegtl::one< 'U' >, pegtl::rep< 8, pegtl::xdigit > > {};
+   struct escaped_x : pegtl::seq< pegtl::one< 'x' >, pegtl::rep< 2, pegtl::must< pegtl::xdigit > > > {};
+   struct escaped_u : pegtl::seq< pegtl::one< 'u' >, pegtl::rep< 4, pegtl::must< pegtl::xdigit > > > {};
+   struct escaped_U : pegtl::seq< pegtl::one< 'U' >, pegtl::rep< 8, pegtl::must< pegtl::xdigit > > > {};
    struct escaped_c : pegtl::one< '\'', '"', '?', '\\', 'a', 'b', 'f', 'n', 'r', 't', 'v' > {};
 
    struct escaped : pegtl::sor< escaped_x,
@@ -24,7 +25,7 @@ namespace unescape
                                 escaped_U,
                                 escaped_c > {};
 
-   struct character : pegtl::if_must_else< pegtl::one< '\\' >, escaped, pegtl::any > {};
+   struct character : pegtl::if_must_else< pegtl::one< '\\' >, escaped, pegtl::utf8::range< 0x20, 0x10FFFF > > {};
    struct literal : pegtl::if_must< pegtl::one< '"' >, pegtl::until< pegtl::one< '"' >, character > > {};
 
    struct padded : pegtl::must< pegtl::pad< literal, pegtl::blank >, pegtl::eof > {};
@@ -35,7 +36,7 @@ namespace unescape
 
    template< typename Rule > struct action : pegtl::nothing< Rule > {};
 
-   template<> struct action< pegtl::any > : pegtl::unescape::append_all {};
+   template<> struct action< pegtl::utf8::range< 0x20, 0x10FFFF > > : pegtl::unescape::append_all {};
    template<> struct action< escaped_x > : pegtl::unescape::unescape_x {};
    template<> struct action< escaped_u > : pegtl::unescape::unescape_u {};
    template<> struct action< escaped_U > : pegtl::unescape::unescape_u {};
@@ -43,12 +44,12 @@ namespace unescape
 
 } // unescape
 
-int main( int argc, char * argv[] )
+int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
       pegtl::unescape::state s;
       pegtl::parse< unescape::padded, unescape::action >( i, argv, s );
-      std::cout << "argv[ " << ( i + 1 ) << " ] = " << s.unescaped << std::endl;
+      std::cout << "argv[ " << i << " ] = " << s.unescaped << std::endl;
    }
    return 0;
 }

@@ -7,13 +7,13 @@
 #include <pegtl/trace.hh>
 #include <pegtl/contrib/uri.hh>
 
-using GRAMMAR = pegtl::must< pegtl::uri::URI >;
+using grammar = pegtl::must< pegtl::uri::URI >;
 
 int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
-      std::cout << "Parsing " << i << std::endl;
-      pegtl::trace< GRAMMAR >( i, argv );
+      std::cout << "Parsing " << argv[ i ] << std::endl;
+      pegtl::trace< grammar >( i, argv );
    }
    return 0;
 }

@@ -10,7 +10,14 @@
 
 namespace sum
 {
-   struct grammar : pegtl::seq< pegtl::list< pegtl::pad< double_::grammar, pegtl::space >, pegtl::one< ',' > >, pegtl::eof > {};
+   struct padded_double
+         : pegtl::pad< double_::grammar, pegtl::space > {};
+
+   struct double_list
+         : pegtl::list< padded_double, pegtl::one< ',' > > {};
+
+   struct grammar
+         : pegtl::seq< double_list, pegtl::eof > {};
 
    template< typename Rule >
    struct action
@@ -20,6 +27,7 @@ namespace sum
    {
       static void apply( const pegtl::input & in, double & sum )
       {
+         // assume all values will fit into a C++ double
          sum += std::stod( in.string() );
       }
    };
@@ -35,10 +43,10 @@ int main()
    std::string str;
    while ( std::getline( std::cin, str ) ) {
       if ( str.empty() || str[ 0 ] == 'q' || str[ 0 ] == 'Q' ) {
-        break;
+         break;
       }
 
-      double d = 0;
+      double d = 0.0;
       if ( pegtl::parse< sum::grammar, sum::action >( str, "std::cin", d ) ) {
          std::cout << "parsing OK; sum = " << d << std::endl;
       }

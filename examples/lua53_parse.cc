@@ -116,6 +116,10 @@ namespace lua53
    struct str_until : pegtl::string< 'u', 'n', 't', 'i', 'l' > {};
    struct str_while : pegtl::string< 'w', 'h', 'i', 'l', 'e' > {};
 
+   // Note that 'elseif' precedes 'else' in order to prevent only matching
+   // the "else" part of an "elseif" and running into an error in the
+   // 'keyword' rule.
+
    struct str_keyword : pegtl::sor< str_and, str_break, str_do, str_elseif, str_else, str_end, str_false, str_for, str_function, str_goto, str_if, str_in, str_local, str_nil, str_not, str_repeat, str_return, str_then, str_true, str_until, str_while > {};
 
    template< typename Key >

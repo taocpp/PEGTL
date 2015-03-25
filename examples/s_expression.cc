@@ -70,6 +70,12 @@ namespace sexpr
       static void apply( const Input & in, std::string & fn )
       {
          std::string f2;
+         // Here f2 is the state argument for the nested parsing
+         // run (to store the value of the string literal like in
+         // the upper-level parsing run), fn is the value of the
+         // last string literal that we use as filename here, and
+         // the input is passed on for chained error messages (as
+         // in "error in line x file foo included from file bar...)
          read_parser( fn, in ).parse< main, sexpr::action >( f2 );
       }
    };

@@ -30,7 +30,7 @@ namespace modulus
          : pegtl::until< pegtl::eolf, pegtl::must< my_rule< 3 > > > {};
 }
 
-int main( int argc, char * argv[] )
+int main( int argc, char ** argv )
 {
    if ( argc > 1 ) {
       pegtl::parse< modulus::grammar >( 1, argv );
