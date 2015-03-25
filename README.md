@@ -1,5 +1,7 @@
 ## Welcome to the PEGTL
 
+[![Build Status](https://travis-ci.org/ColinH/PEGTL.svg)](https://travis-ci.org/ColinH/PEGTL)
+
 The Parsing Expression Grammar Template Library (PEGTL) is a C++11 header-only library for creating parsers according to a Parsing Expression Grammar (PEG).
 
 ## Intro
@@ -47,8 +49,6 @@ Emphasis is on simplicity and efficiency but without adding any large constructi
 ## Status
 
 The master branch of the PEGTL is **always** stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen before/between major version releases.
-
-[![Build Status](https://secure.travis-ci.org/ColinH/PEGTL.png)](http://travis-ci.org/ColinH/PEGTL)
 
 For questions and suggestions please contact the authors at **pegtl (at) colin-hirsch.net**.
 
