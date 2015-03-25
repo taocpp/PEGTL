@@ -1,7 +1,5 @@
 ## Welcome to the PEGTL
 
-[![Build Status](https://travis-ci.org/ColinH/PEGTL.svg)](https://travis-ci.org/ColinH/PEGTL)
-
 The Parsing Expression Grammar Template Library (PEGTL) is a C++11 header-only library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
 ## Intro
@@ -47,8 +45,9 @@ This leads to slightly increased compile times as the C++ compiler is given the 
 
 ## Status
 
-The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors.
-It is not stable in the sense that incompatible API changes can happen before/between major versions.
+[![Build Status](https://travis-ci.org/ColinH/PEGTL.svg)](https://travis-ci.org/ColinH/PEGTL)
+
+The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen between major versions.
 Releases are done in accordance with [semantic versioning](http://semver.org/).
 
 For questions and suggestions please contact the authors at `pegtl(at)colin-hirsch.net`.
@@ -95,12 +94,14 @@ Several years of real-world experience and smaller updates passed until 2014, wh
 
 * Christopher Diggins and the YARD parser for the general idea.
 * Stephan Beal for the bug reports, suggestions and discussions.
-* Johannes Overmann for his invaluable streplace command-line tool.
+* Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
 * Sam Hocevar for contributing Visual Studio 2015 compatibility.
 
 ## License
 
 The PEGTL is free software distributed under the terms of the [MIT license](http://www.opensource.org/licenses/mit-license.html) reproduced here.
+
+The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.html) software.
 
 > Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
 >
