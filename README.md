@@ -99,9 +99,9 @@ Several years of real-world experience and smaller updates passed until 2014, wh
 
 ## License
 
-The PEGTL is free software distributed under the terms of the [MIT license](http://www.opensource.org/licenses/mit-license.html) reproduced here.
+<img align="right" src="https://github.com/ColinH/PEGTL/wiki/osi-certified-72x60.png">
 
-The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.html) software.
+The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.html) software. It may be used for any purpose, including commercial purposes, at absolutely no cost. It is distributed under the terms of the [MIT license](http://www.opensource.org/licenses/mit-license.html) reproduced here.
 
 > Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
 >
@@ -110,3 +110,4 @@ The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.h
 > The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 >
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
