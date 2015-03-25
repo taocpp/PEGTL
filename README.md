@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/ColinH/PEGTL.svg)](https://travis-ci.org/ColinH/PEGTL)
 
-The Parsing Expression Grammar Template Library (PEGTL) is a C++11 header-only library for creating parsers according to a Parsing Expression Grammar (PEG).
+The Parsing Expression Grammar Template Library (PEGTL) is a C++11 header-only library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
 ## Intro
 
@@ -24,33 +24,34 @@ Here is an example of how a PEG grammar rule is implemented as C++ class with th
                    pegtl::plus< pegtl::digit > > {};
 ```
 
-PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic and procedural nature of PEGs gives rise to some very important differences.
-The included [grammar analysis](https://github.com/ColinH/PEGTL/wiki/Grammar-Analysis) helps to find several typical errors in PEGs including **left recursion**.
-For an in-depth description of PEGs see [Wikipedia page on PEGs](http://en.wikipedia.org/wiki/Parsing_expression_grammar) or [this paper on PEGs](http://pdos.csail.mit.edu/~baford/packrat/popl04/peg-popl04.pdf) by Bryan Ford.
+PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic nature of PEGs gives rise to some very important differences.
+The included [grammar analysis](https://github.com/ColinH/PEGTL/wiki/Grammar-Analysis) helps to find several typical errors in PEGs including left recursion.
 
 ## Design
 
 The PEGTL is mostly concerned with parsing combinators and grammar rules and giving the user control over what else happens during a parsing run.
 
-Whether and which actions are taken and which data structures are created during a parsing run are entirely up to the user of the library, however we provide some examples for typical situation like unescaping escape sequences in literal strings, building a generic JSON data structure and on-the-fly evaluation of arithmetic expressions.
-
-Through the use of template programming and template specialisation it is possible to write a grammar once and use it in multiple ways by using different actions in different (or the same) parsing run.
-
-Unlike Antlr and Yacc/Bison the grammar is expressed in C++ and part of the C++ source code.
-Also the PEG formalism removes the separation into lexer and parser stages -- everything is done in a single grammar.
-
-Unlike Spirit the grammar is implemented with compile-time template instantiations rather than run-time operator calls.
-This leads to slightly increased compile times as the C++ compiler is given the task of optimising PEGTL grammars.
-
 The PEGTL is designed to be "lean and mean".
 The actual core library has about 3000 lines of code.
 Emphasis is on simplicity and efficiency but without adding any large constructions for optimising parsers.
 
+Whether and which actions are taken and which data structures are created during a parsing run are entirely up to the user of the library, however we provide some examples for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
+
+Through the use of template programming and template specialisations it is possible to write a grammar once and use it in multiple ways by using different actions in different (or the same) parsing runs.
+
+Unlike [Antlr](http://www.antlr.org/) and Yacc/Bison the grammar is expressed in C++ and is part of the C++ source code.
+Also with the PEG formalism the separation into lexer and parser stages is usually dropped -- everything is done in a single grammar.
+
+Unlike [Spirit](http://boost-spirit.com/) the grammar is implemented with compile-time template instantiations rather than run-time operator calls.
+This leads to slightly increased compile times as the C++ compiler is given the task of optimising PEGTL grammars.
+
 ## Status
 
-The master branch of the PEGTL is **always** stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen before/between major version releases.
+The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors.
+It is not stable in the sense that incompatible API changes can happen before/between major versions.
+Releases are done in accordance with [semantic versioning](http://semver.org/).
 
-For questions and suggestions please contact the authors at **pegtl (at) colin-hirsch.net**.
+For questions and suggestions please contact the authors at `pegtl(at)colin-hirsch.net`.
 
 ## Documentation
 
@@ -89,6 +90,13 @@ A new changelog will start here with the first major release version 1.0.0.
 
 The PEGTL was initially developed in 2008 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
 Several years of real-world experience and smaller updates passed until 2014, when some of the more experimental PEGTL features were removed, the remaining parts refactored and refined, and some interesting additions made.
+
+###### Thank You
+
+* Christopher Diggins and the YARD parser for the general idea.
+* Stephan Beal for the bug reports, suggestions and discussions.
+* Johannes Overmann for his invaluable streplace command-line tool.
+* Sam Hocevar for contributing Visual Studio 2015 compatibility.
 
 ## License
 
