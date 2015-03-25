@@ -33,7 +33,7 @@ The PEGTL is designed to be "lean and mean".
 The actual core library has about 3000 lines of code.
 Emphasis is on simplicity and efficiency but without adding any large constructions for optimising parsers.
 
-Whether and which actions are taken and which data structures are created during a parsing run are entirely up to the user of the library, however we provide some examples for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
+Whether and which actions are taken, and which data structures are created during a parsing run, is entirely up to the user of the library, however we provide some examples for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
 
 Through the use of template programming and template specialisations it is possible to write a grammar once and use it in multiple ways by using different actions in different (or the same) parsing runs.
 
