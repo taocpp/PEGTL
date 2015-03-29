@@ -61,7 +61,6 @@ For questions and suggestions please contact the authors at `pegtl(at)colin-hirs
   * [Limitations](https://github.com/ColinH/PEGTL/wiki/Getting-Started#limitations)
 * [Rules and Grammars](https://github.com/ColinH/PEGTL/wiki/Rules-and-Grammars)
   * [Combining Existing Rules](https://github.com/ColinH/PEGTL/wiki/Rules-and-Grammars#combining-existing-rules)
-  * [Implementing New Rules](https://github.com/ColinH/PEGTL/wiki/Rules-and-Grammars#implementing-new-rules)
 * [Actions and States](https://github.com/ColinH/PEGTL/wiki/Actions-and-States)
   * [Actions](https://github.com/ColinH/PEGTL/wiki/Actions-and-States#actions)
   * [States](https://github.com/ColinH/PEGTL/wiki/Actions-and-States#states)
