@@ -103,7 +103,13 @@ For questions and suggestions please contact the authors at `pegtl(at)colin-hirs
 
 ## Changelog
 
-A new changelog will start here with the first major release version 1.0.0.
+###### 1.0.0
+
+* First release.
+
+###### Previous
+
+The changelog of the old 0.x versions was dropped due to the [large refactoring](https://github.com/ColinH/PEGTL/wiki/2014-Refactoring) preceding version 1.0.0.
 
 ## History
 
