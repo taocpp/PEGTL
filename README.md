@@ -50,8 +50,6 @@ This leads to slightly increased compile times as the C++ compiler is given the 
 The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen between major versions.
 Releases are done in accordance with [Semantic Versioning](http://semver.org/).
 
-For questions and suggestions please contact the authors at `pegtl(at)colin-hirsch.net`.
-
 ## Documentation
 
 * [Getting Started](https://github.com/ColinH/PEGTL/wiki/Getting-Started)
@@ -137,3 +135,4 @@ The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.h
 >
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+This site and software is not affiliated with or endorsed by the Open Source Initiative. For questions and suggestions about the PEGTL please contact the authors at `pegtl(at)colin-hirsch.net`.
