@@ -123,7 +123,7 @@ Several years of real-world experience and smaller updates passed until 2014, wh
 
 ## License
 
-<a href="http://www.opensource.org/"><img align="right" src="http://opensource.org/trademarks/osi-certified/web/osi-certified-90x75.png"></a>
+<a href="http://www.opensource.org/"><img height="105" width="75" align="right" src="http://wiki.opensource.org/bin/download/OSI+Operations/Marketing+%26+Promotional+Collateral/OSI_certified_logo_vector.svg"></a>
 
 The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.html) software. It may be used for any purpose, including commercial purposes, at absolutely no cost. It is distributed under the terms of the [MIT license](http://www.opensource.org/licenses/mit-license.html) reproduced here.
 
