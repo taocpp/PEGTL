@@ -43,9 +43,9 @@ Also with the PEG formalism the separation into lexer and parser stages is usual
 Unlike [Spirit](http://boost-spirit.com/) the grammar is implemented with compile-time template instantiations rather than run-time operator calls.
 This leads to slightly increased compile times as the C++ compiler is given the task of optimising PEGTL grammars.
 
-<a href="https://travis-ci.org/ColinH/PEGTL" alt="Build status"><img align="right" valign="bottom" src="https://travis-ci.org/ColinH/PEGTL.svg"></a>
-
 #### Status
+
+[![Build Status](https://travis-ci.org/ColinH/PEGTL.svg)](https://travis-ci.org/ColinH/PEGTL)
 
 The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen between major versions.
 Releases are done in accordance with [Semantic Versioning](http://semver.org/).
@@ -110,7 +110,7 @@ Releases are done in accordance with [Semantic Versioning](http://semver.org/).
 The changelog of the old 0.x versions was dropped due to the [large refactoring](https://github.com/ColinH/PEGTL/wiki/2014-Refactoring) preceding version 1.0.0. The PEGTL was initially developed in 2008 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
 Several years of real-world experience and smaller updates passed until 2014, when some of the more experimental PEGTL features were removed, the remaining parts refactored and refined, and some interesting additions made.
 
-###### Thank You
+#### Thank You
 
 * Christopher Diggins and the YARD parser for the general idea.
 * Stephan Beal for the bug reports, suggestions and discussions.
