@@ -1,8 +1,8 @@
+[Latest release](https://github.com/ColinH/PEGTL/releases/latest) – [Documentation](#documentation) – [License](#license)
+
 ## Welcome to the PEGTL
 
 The Parsing Expression Grammar Template Library (PEGTL) is a C++11 header-only library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
-
-Quick links: [Latest release](https://github.com/ColinH/PEGTL/releases/latest), [Documentation](#documentation), [License](#license)
 
 #### Introduction
 
@@ -49,7 +49,7 @@ This leads to slightly increased compile times as the C++ compiler is given the 
 
 <a href="https://travis-ci.org/ColinH/PEGTL"><img align="right" src="https://travis-ci.org/ColinH/PEGTL.svg"></a>
 
-The current stable version is [1.0.0](https://github.com/ColinH/PEGTL/releases/latest).
+The latest stable version is [1.0.0](https://github.com/ColinH/PEGTL/releases/latest).
 
 The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen between major versions.
 Releases are done in accordance with [Semantic Versioning](http://semver.org/).
@@ -101,18 +101,8 @@ Releases are done in accordance with [Semantic Versioning](http://semver.org/).
 * [Switching Style](https://github.com/ColinH/PEGTL/wiki/Switching-Style)
 * [Grammar Analysis](https://github.com/ColinH/PEGTL/wiki/Grammar-Analysis)
 * [Calculator Example](https://github.com/ColinH/PEGTL/wiki/Calculator-Example)
+* [Changelog](https://github.com/ColinH/PEGTL/wiki/Changelog)
 * [2014 Refactoring](https://github.com/ColinH/PEGTL/wiki/2014-Refactoring)
-
-#### Changelog
-
-###### 1.0.0
-
-* First release.
-
-###### Previous
-
-The changelog of the old 0.x versions was dropped due to the [large refactoring](https://github.com/ColinH/PEGTL/wiki/2014-Refactoring) preceding version 1.0.0. The PEGTL was initially developed in 2008 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
-Several years of real-world experience and smaller updates passed until 2014, when some of the more experimental PEGTL features were removed, the remaining parts refactored and refined, and some interesting additions made.
 
 #### Thank You
 
@@ -121,7 +111,7 @@ Several years of real-world experience and smaller updates passed until 2014, wh
 * Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
 * Sam Hocevar for contributing Visual Studio 2015 compatibility.
 
-#### License
+## License
 
 <a href="http://www.opensource.org/"><img height="105" width="75" align="right" src="http://wiki.opensource.org/bin/download/OSI+Operations/Marketing+%26+Promotional+Collateral/OSI_certified_logo_vector.svg"></a>
 
