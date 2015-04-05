@@ -2,7 +2,7 @@
 
 The Parsing Expression Grammar Template Library (PEGTL) is a C++11 header-only library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
-## Intro
+#### Introduction
 
 Grammars are written as regular C++ code, created with template programming (not template meta programming), i.e. nested template instantiations that naturally correspond to the inductive definition of PEGs or other parser combinator approaches.
 
@@ -25,7 +25,7 @@ Here is an example of how a PEG grammar rule is implemented as C++ class with th
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic nature of PEGs gives rise to some very important differences.
 The included [grammar analysis](https://github.com/ColinH/PEGTL/wiki/Grammar-Analysis) helps to find several typical errors in PEGs including left recursion.
 
-## Design
+#### Design
 
 The PEGTL is mostly concerned with parsing combinators and grammar rules and giving the user control over what else happens during a parsing run.
 
@@ -43,9 +43,9 @@ Also with the PEG formalism the separation into lexer and parser stages is usual
 Unlike [Spirit](http://boost-spirit.com/) the grammar is implemented with compile-time template instantiations rather than run-time operator calls.
 This leads to slightly increased compile times as the C++ compiler is given the task of optimising PEGTL grammars.
 
-## Status
+<a href="https://travis-ci.org/ColinH/PEGTL" alt="Build status"><img align="right" valign="bottom" src="https://travis-ci.org/ColinH/PEGTL.svg"></a>
 
-[![Build Status](https://travis-ci.org/ColinH/PEGTL.svg)](https://travis-ci.org/ColinH/PEGTL)
+#### Status
 
 The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen between major versions.
 Releases are done in accordance with [Semantic Versioning](http://semver.org/).
@@ -99,7 +99,7 @@ Releases are done in accordance with [Semantic Versioning](http://semver.org/).
 * [Calculator Example](https://github.com/ColinH/PEGTL/wiki/Calculator-Example)
 * [2014 Refactoring](https://github.com/ColinH/PEGTL/wiki/2014-Refactoring)
 
-## Changelog
+#### Changelog
 
 ###### 1.0.0
 
@@ -107,11 +107,7 @@ Releases are done in accordance with [Semantic Versioning](http://semver.org/).
 
 ###### Previous
 
-The changelog of the old 0.x versions was dropped due to the [large refactoring](https://github.com/ColinH/PEGTL/wiki/2014-Refactoring) preceding version 1.0.0.
-
-## History
-
-The PEGTL was initially developed in 2008 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
+The changelog of the old 0.x versions was dropped due to the [large refactoring](https://github.com/ColinH/PEGTL/wiki/2014-Refactoring) preceding version 1.0.0. The PEGTL was initially developed in 2008 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
 Several years of real-world experience and smaller updates passed until 2014, when some of the more experimental PEGTL features were removed, the remaining parts refactored and refined, and some interesting additions made.
 
 ###### Thank You
@@ -121,7 +117,7 @@ Several years of real-world experience and smaller updates passed until 2014, wh
 * Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
 * Sam Hocevar for contributing Visual Studio 2015 compatibility.
 
-## License
+#### License
 
 <a href="http://www.opensource.org/"><img height="105" width="75" align="right" src="http://wiki.opensource.org/bin/download/OSI+Operations/Marketing+%26+Promotional+Collateral/OSI_certified_logo_vector.svg"></a>
 
