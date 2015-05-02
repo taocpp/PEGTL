@@ -1,3 +1,6 @@
+<a href="https://github.com/ColinH/PEGTL/issues"><img align="right" src="https://img.shields.io/github/issues/ColinH/PEGTL.svg"></a>
+<a href="https://travis-ci.org/ColinH/PEGTL"><img align="right" hspace="8" src="https://travis-ci.org/ColinH/PEGTL.svg"></a>
+
 [Latest release](https://github.com/ColinH/PEGTL/releases/latest) – [Documentation](#documentation) – [License](#license)
 
 ## Welcome to the PEGTL
@@ -46,10 +49,6 @@ Unlike [Spirit](http://boost-spirit.com/) the grammar is implemented with compil
 This leads to slightly increased compile times as the C++ compiler is given the task of optimising PEGTL grammars.
 
 #### Status
-
-<a href="https://github.com/ColinH/PEGTL/issues"><img align="right" src="https://img.shields.io/github/issues/ColinH/PEGTL.svg"></a>
-
-<a href="https://travis-ci.org/ColinH/PEGTL"><img align="right" src="https://travis-ci.org/ColinH/PEGTL.svg"></a>
 
 The latest stable version is [1.0.0](https://github.com/ColinH/PEGTL/releases/latest).
 
