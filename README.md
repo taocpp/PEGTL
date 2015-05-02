@@ -1,6 +1,5 @@
 <a href="https://github.com/ColinH/PEGTL/issues"><img align="right" src="https://img.shields.io/github/issues/ColinH/PEGTL.svg"></a>
 <a href="https://travis-ci.org/ColinH/PEGTL"><img align="right" hspace="8" src="https://travis-ci.org/ColinH/PEGTL.svg"></a>
-
 [Latest release](https://github.com/ColinH/PEGTL/releases/latest) – [Documentation](#documentation) – [License](#license)
 
 ## Welcome to the PEGTL
