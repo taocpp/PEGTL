@@ -1,8 +1,9 @@
-<a href="https://github.com/ColinH/PEGTL/issues"><img align="right" src="https://img.shields.io/github/issues/ColinH/PEGTL.svg" alt="Issues"></a>
-<a href="https://travis-ci.org/ColinH/PEGTL"><img align="right" hspace="8" src="https://travis-ci.org/ColinH/PEGTL.svg" alt="TravisCI"></a>
-<a href="#license"><img align="right" src="https://img.shields.io/github/license/ColinH/PEGTL.svg" alt="License"></a>
-<a href="https://github.com/ColinH/PEGTL/releases/latest"><img align="right" hspace="8" src="https://img.shields.io/github/release/ColinH/PEGTL.svg" alt="Latest release"></a>
 ## Welcome to the PEGTL
+
+[![Release](https://img.shields.io/github/release/ColinH/PEGTL.svg)](https://github.com/ColinH/PEGTL/releases/latest)
+[![License](https://img.shields.io/github/license/ColinH/PEGTL.svg)](#license)
+[![TravisCI](https://travis-ci.org/ColinH/PEGTL.svg)](https://travis-ci.org/ColinH/PEGTL)
+[![Issues](https://img.shields.io/github/issues/ColinH/PEGTL.svg)](https://github.com/ColinH/PEGTL/issues)
 
 The Parsing Expression Grammar Template Library (PEGTL) is a C++11 header-only library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
