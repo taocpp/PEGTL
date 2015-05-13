@@ -1,6 +1,6 @@
 <a href="https://github.com/ColinH/PEGTL/issues"><img align="right" src="https://img.shields.io/github/issues/ColinH/PEGTL.svg" alt="Issues"></a>
 <a href="https://travis-ci.org/ColinH/PEGTL"><img align="right" hspace="8" src="https://travis-ci.org/ColinH/PEGTL.svg" alt="TravisCI"></a>
-<a href="#license"><img align="right" src="https://img.shields.io/:license-mit-blue.svg" alt="MIT License"></a>
+<a href="#license"><img align="right" src="https://img.shields.io/github/license/ColinH/PEGTL.svg" alt="License"></a>
 <a href="https://github.com/ColinH/PEGTL/releases/latest"><img align="right" hspace="8" src="https://img.shields.io/github/release/ColinH/PEGTL.svg" alt="Latest release"></a>
 ## Welcome to the PEGTL
 
