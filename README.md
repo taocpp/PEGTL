@@ -1,8 +1,7 @@
 <a href="https://github.com/ColinH/PEGTL/issues"><img align="right" src="https://img.shields.io/github/issues/ColinH/PEGTL.svg" alt="Issues"></a>
 <a href="https://travis-ci.org/ColinH/PEGTL"><img align="right" hspace="8" src="https://travis-ci.org/ColinH/PEGTL.svg" alt="TravisCI"></a>
-<a href="#license"><img align="right" src="https://img.shields.io/:license-mit-lightgray.svg" alt="MIT License"></a>
-[Latest release](https://github.com/ColinH/PEGTL/releases/latest) – [Documentation](#documentation)
-
+<a href="#license"><img align="right" src="https://img.shields.io/:license-mit-blue.svg" alt="MIT License"></a>
+<a href="https://github.com/ColinH/PEGTL/releases/latest"><img align="right" hspace="8" src="https://img.shields.io/github/release/ColinH/PEGTL.svg" alt="Latest release"></a>
 ## Welcome to the PEGTL
 
 The Parsing Expression Grammar Template Library (PEGTL) is a C++11 header-only library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
@@ -49,8 +48,6 @@ Unlike [Spirit](http://boost-spirit.com/) the grammar is implemented with compil
 This leads to slightly increased compile times as the C++ compiler is given the task of optimising PEGTL grammars.
 
 #### Status
-
-The latest stable version is [1.0.0](https://github.com/ColinH/PEGTL/releases/latest).
 
 The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen between major versions.
 Releases are done in accordance with [Semantic Versioning](http://semver.org/).
