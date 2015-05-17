@@ -16,29 +16,36 @@ solution "PEGTL"
       optimize "On"
 
 project "pegtl"
+    kind "None"
     files { "pegtl/**.hh" }
 
-group "Test"
-project "UnitTest"
-    files { "unit_tests/**.hh", "unit_tests/**.cc" }
-    pchheader "test.hh"
-    pchsource "unit_tests/trace.cc"
+group "UnitTest"    
+    for _,proj in next,os.matchfiles("unit_tests/*.cc"),nil do
+        for name in string.gmatch(proj, "/([%a%d_]+)\.") do
+            project(name)
+            files { proj }
+        end
+    end
 
-examples = {
-    "calculator",
-    "hello_world",
-    "json_build_one",
-    "json_build_two",
-    "json_parse",
-    "lua53_parse",
-    "modulus_match",
-    "s_expression",
-    "sum",
-    "unescape",
-    "uri_trace"
-    }
+    project "include"
+        kind "None"
+        files { "unit_tests/**.hh" }
+
 group ("Examples")
-for _,proj in next,examples,nil do
-    project (proj)
-       files { "examples/" .. proj .. ".cc" }
-end
+    examples = {
+        "calculator",
+        "hello_world",
+        "json_build_one",
+        "json_build_two",
+        "json_parse",
+        "lua53_parse",
+        "modulus_match",
+        "s_expression",
+        "sum",
+        "unescape",
+        "uri_trace"
+    }
+    for _,proj in next,examples,nil do
+        project (proj)
+           files { "examples/" .. proj .. ".cc" }
+    end
