@@ -1,6 +1,12 @@
 language: cpp
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
 compiler:
-#  - gcc  Disable GCC until Travis updates to at least version 4.8.2.
+  - gcc-4.8
   - clang
 os:
   - linux
