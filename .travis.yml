@@ -11,4 +11,4 @@ compiler:
 before_install:
   if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
 script:
-  make
+  make -j2
