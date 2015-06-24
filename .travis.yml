@@ -4,15 +4,13 @@ env:
   - COMPILER=g++-4.8
   - COMPILER=g++-4.9
   - COMPILER=g++-5
-  - COMPILER=clang++-3.6
+  - COMPILER=clang++
 addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-    - g++-4.9
-    - g++-5
-    - clang-3.6
+    - $COMPILER
 script:
   make CXX=$COMPILER -j2
