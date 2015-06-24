@@ -4,6 +4,7 @@ env:
   - COMPILER=g++-4.8
   - COMPILER=g++-4.9
   - COMPILER=g++-5
+  - COMPILER=clang++
 addons:
   apt:
     sources:
