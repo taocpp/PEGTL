@@ -11,8 +11,5 @@ addons:
     packages:
     - g++-4.8
     - g++-4.9
-compiler:
-  - gcc
-  - clang
 script:
   make CXX=$COMPILER -j2
