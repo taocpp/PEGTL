@@ -1,14 +1,18 @@
 language: cpp
+env:
+  matrix:
+  - COMPILER=g++-4.8
+  - COMPILER=g++-4.9
+  - COMPILER=clang++
 addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
+    - g++-4.9
 compiler:
   - gcc
   - clang
-before_install:
-  if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
 script:
-  make -j2
+  make CXX=$COMPILER -j2
