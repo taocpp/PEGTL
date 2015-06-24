@@ -1,32 +1,16 @@
 language: cpp
-matrix:
-  - env: COMPILER=g++-4.8
-    addons:
-      apt:
-        sources:
-        - ubuntu-toolchain-r-test
-        packages:
-        - g++-4.8
-  - env: COMPILER=g++-4.9
-    addons:
-      apt:
-        sources:
-        - ubuntu-toolchain-r-test
-        packages:
-        - g++-4.9
-  - env: COMPILER=g++-5
-    addons:
-      apt:
-        sources:
-        - ubuntu-toolchain-r-test
-        packages:
-        - g++-5
-  - env: COMPILER=clang++
-    addons:
-      apt:
-        sources:
-        - ubuntu-toolchain-r-test
-        packages:
-        - g++-4.8
+env:
+  matrix:
+  - COMPILER=g++-4.8
+  - COMPILER=g++-4.9
+  - COMPILER=g++-5
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+    - g++-4.9
+    - g++-5
 script:
   make CXX=$COMPILER -j2
