@@ -42,7 +42,7 @@ Whether and which actions are taken, and which data structures are created durin
 
 Through the use of template programming and template specialisations it is possible to write a grammar once and use it in multiple ways by using different actions in different (or the same) parsing runs.
 
-Unlike [Antlr](http://www.antlr.org/) and Yacc/Bison the grammar is expressed in C++ and is part of the C++ source code.
+Unlike [Antlr](http://www.antlr.org/) and Yacc/[Bison](http://www.gnu.org/software/bison/) the grammar is expressed in C++ and is part of the C++ source code.
 Also with the PEG formalism the separation into lexer and parser stages is usually dropped -- everything is done in a single grammar.
 
 Unlike [Spirit](http://boost-spirit.com/) the grammar is implemented with compile-time template instantiations rather than run-time operator calls.
