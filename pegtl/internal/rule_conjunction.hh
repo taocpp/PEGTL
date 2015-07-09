@@ -16,11 +16,14 @@ namespace pegtl
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            // C++17: return ( Control< Rules >::template match< A, Action, Control >( in, st ... ) && ... );
+#ifdef __cpp_fold_expressions
+            return ( Control< Rules >::template match< A, Action, Control >( in, st ... ) && ... );
+#else
             bool result = true;
             using swallow = bool[];
             (void)swallow{ result = result && Control< Rules >::template match< A, Action, Control >( in, st ... ) ..., true };
             return result;
+#endif
          }
       };
 
