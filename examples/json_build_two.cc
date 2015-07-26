@@ -65,7 +65,7 @@ namespace examples
 
    template< typename Rule > struct string_action : pegtl::nothing< Rule > {};
 
-   template<> struct string_action< pegtl::json::unicode > : pegtl::unescape::unescape_u {};
+   template<> struct string_action< pegtl::json::unicode > : pegtl::unescape::unescape_j {};
    template<> struct string_action< pegtl::json::escaped_char > : pegtl::unescape::unescape_c< pegtl::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
    template<> struct string_action< pegtl::json::unescaped > : pegtl::unescape::append_all {};
 

@@ -24,6 +24,7 @@ namespace pegtl
 
 #include "verify_rule.hh"
 #include "verify_char.hh"
+#include "verify_fail.hh"
 
 #include "verify_analyze.hh"
 

@@ -70,7 +70,7 @@ namespace pegtl
 
       struct Host : seq< uri_host, opt< one< ':' >, port > > {};
 
-      // Note: PEG are different from CFGs! (this replaces ctext and qdtext)
+      // PEG are different from CFGs! (this replaces ctext and qdtext)
       using text = sor< HTAB, range< 0x20, 0x7E >, obs_text >;
 
       struct quoted_pair : if_must< one< '\\' >, sor< VCHAR, obs_text, WSP > > {};

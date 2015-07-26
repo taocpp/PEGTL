@@ -35,7 +35,7 @@ namespace pegtl
       struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
 
       struct xdigit : abnf::HEXDIG {};
-      struct unicode : seq< one< 'u' >, rep< 4, must< xdigit > > > {};
+      struct unicode : list< seq< one< 'u' >, rep< 4, must< xdigit > > >, one< '\\' > > {};
       struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
       struct escaped : sor< escaped_char, unicode > {};
       struct unescaped : utf8::range< 0x20, 0x10FFFF > {};

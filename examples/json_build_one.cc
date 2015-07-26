@@ -24,10 +24,11 @@ namespace examples
 
    struct string_state
    {
-      string_state( const pegtl::input &, result_state & )
+      explicit
+      string_state( result_state & )
       { }
 
-      void success( const pegtl::input &, result_state & result )
+      void success( result_state & result )
       {
          result.result = std::make_shared< string_json >( unescaped );
       }
@@ -37,7 +38,7 @@ namespace examples
 
    template< typename Rule > struct string_action : pegtl::nothing< Rule > {};
 
-   template<> struct string_action< pegtl::json::unicode > : pegtl::unescape::unescape_u {};
+   template<> struct string_action< pegtl::json::unicode > : pegtl::unescape::unescape_j {};
    template<> struct string_action< pegtl::json::escaped_char > : pegtl::unescape::unescape_c< pegtl::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
    template<> struct string_action< pegtl::json::unescaped > : pegtl::unescape::append_all {};
 
@@ -86,8 +87,8 @@ namespace examples
    struct array_state
          : public result_state
    {
-      template< typename Input >
-      array_state( const Input &, result_state & )
+      explicit
+      array_state( result_state & )
       { }
 
       std::shared_ptr< array_json > array = std::make_shared< array_json >();
@@ -98,8 +99,7 @@ namespace examples
          result.reset();
       }
 
-      template< typename Input >
-      void success( const Input &, result_state & result )
+      void success( result_state & result )
       {
          if ( this->result ) {
             push_back();
@@ -124,8 +124,8 @@ namespace examples
    struct object_state
          : public result_state
    {
-      template< typename Input >
-      object_state( const Input &, result_state & )
+      explicit
+      object_state( result_state & )
       { }
 
       std::string unescaped;
@@ -138,8 +138,7 @@ namespace examples
          result.reset();
       }
 
-      template< typename Input >
-      void success( const Input &, result_state & result )
+      void success( result_state & result )
       {
          if ( this->result ) {
             insert();

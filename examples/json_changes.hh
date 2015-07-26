@@ -31,10 +31,10 @@ namespace examples
       template< pegtl::apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
       static bool match( Input & in, States && ... st )
       {
-         typename state_disable_helper< A, State >::state_t s( static_cast< const Input & >( in ), st ... );
+         typename state_disable_helper< A, State >::state_t s( st ... );
 
          if ( Base< Rule >::template match< A, Action, Control >( in, s ) ) {
-            s.success( static_cast< const Input & >( in ), st ... );
+            s.success( st ... );
             return true;
          }
          return false;
