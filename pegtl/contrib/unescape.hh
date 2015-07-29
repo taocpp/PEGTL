@@ -150,7 +150,7 @@ namespace pegtl
          template< typename Input, typename State >
          static void apply( const Input & in, State & st )
          {
-            assert( ( ( in.size() + 1 ) % 6 ) == 0 );
+            assert( ( ( in.size() + 1 ) % 6 ) == 0 );  // Expects multiple "\\u1234" with the first backslash already skipped.
             for ( const char * b = in.begin() + 1; b < in.end(); b += 6 ) {
                const auto c = unhex_string< unsigned >( b, b + 4 );
                if ( ( 0xd800 <= c ) && ( c <= 0xdbff ) && ( b + 6 < in.end() ) ) {

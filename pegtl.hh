@@ -9,7 +9,8 @@
 #include "pegtl/rules.hh"
 #include "pegtl/ascii.hh"
 #include "pegtl/utf8.hh"
-#include "pegtl/ucs4.hh"
+#include "pegtl/utf16.hh"
+#include "pegtl/utf32.hh"
 
 // Not included by default;
 // safe to use when needed:

@@ -244,6 +244,11 @@ namespace pegtl
       verify_rule< utf8::any >( __LINE__, __FILE__, "\x8f\x80\x80\x80\x80\x80", result_type::LOCAL_FAILURE, 6 );
       verify_rule< utf8::any >( __LINE__, __FILE__, "\x8f\x80\x80\x80\x80\x80\x80", result_type::LOCAL_FAILURE, 7 );
       verify_rule< utf8::any >( __LINE__, __FILE__, "\x8f\x80\x80\x80\x80\x80\x80\x80", result_type::LOCAL_FAILURE, 8 );
+
+      verify_rule< utf8::one< 0x20 > >( __LINE__, __FILE__, "\x20", result_type::SUCCESS, 0 );
+      verify_rule< utf8::one< 0xa2 > >( __LINE__, __FILE__, "\xc2\xa2", result_type::SUCCESS, 0 );
+      verify_rule< utf8::one< 0x20ac > >( __LINE__, __FILE__, "\xe2\x82\xac", result_type::SUCCESS, 0 );
+      verify_rule< utf8::one< 0x10348 > >( __LINE__, __FILE__, "\xf0\x90\x8d\x88", result_type::SUCCESS, 0 );
    }
 
 } // pegtl
