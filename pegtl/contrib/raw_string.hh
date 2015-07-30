@@ -5,11 +5,11 @@
 #define PEGTL_CONTRIB_RAW_STRING_HH
 
 #include "../apply_mode.hh"
+#include "../internal/is_nothing.hh"
 
+#include "../internal/must.hh"
 #include "../internal/until.hh"
 #include "../internal/state.hh"
-#include "../internal/opt.hh"
-#include "../internal/one.hh"
 #include "../internal/skip_control.hh"
 
 #include "../analysis/generic.hh"
@@ -18,33 +18,45 @@ namespace pegtl
 {
    namespace internal
    {
+      template< char Open, char Intermediate, char Close >
+      struct raw_string_tag
+      { };
+
+      template< typename Tag >
       struct raw_string_state
       {
          template< typename Input, typename ... States >
          raw_string_state( const Input &, States && ... )
          { }
 
-         template< typename Input, typename ... States >
-         void success( const Input &, States && ... ) const
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         typename std::enable_if< ( ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Tag >::value ) ) >::type
+         success( const Input & in, States && ... st ) const
+         {
+            const bool skip = ( in.peek_char( count + 2 ) == '\n' );
+            Input content( in.line(), in.column(), in.begin(), in.end() - count - 2, in.source() );
+            content.bump( count + 2 + skip );
+            Action< Tag >::apply( const_cast< const Input & >( content ), st ... );
+         }
+
+         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         typename std::enable_if< ! ( ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Tag >::value ) ) >::type
+         success( const Input &, States && ... ) const
          { }
 
          raw_string_state( const raw_string_state & ) = delete;
          void operator= ( const raw_string_state & ) = delete;
 
-         // count is not initialised here because in a correct
-         // grammar it will be first written by raw_string_open
-         // before being read by raw_string_at_close.
-
-         std::size_t count;
+         std::size_t count = 0;
       };
 
-      template< char Open, char Intermediate >
+      template< typename Tag, char Open, char Intermediate >
       struct raw_string_open
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input >
-         static bool match( Input & in, raw_string_state & ls )
+         static bool match( Input & in, raw_string_state< Tag > & ls )
          {
             if ( in.empty() || ( in.peek_char( 0 ) != Open ) ) {
                return false;
@@ -65,13 +77,13 @@ namespace pegtl
          }
       };
 
-      template< char Intermediate, char Close >
-      struct raw_string_at_close
+      template< typename Tag, char Intermediate, char Close >
+      struct raw_string_close
       {
-         using analyze_t = analysis::generic< analysis::rule_type::OPT >;
+         using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input >
-         static bool match( Input & in, const raw_string_state & ls )
+         static bool match( Input & in, const raw_string_state< Tag > & ls )
          {
             if ( in.size() < ls.count + 2 ) {
                return false;
@@ -87,40 +99,16 @@ namespace pegtl
                   return false;
                }
             }
-            // Do not bump the input here (implicit at<>).
-            return true;
-         }
-      };
-
-      struct raw_string_bump_close
-      {
-         using analyze_t = analysis::generic< analysis::rule_type::ANY >;
-
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input >
-         static bool match( Input & in, const raw_string_state & ls )
-         {
             in.bump( ls.count + 2 );
             return true;
          }
       };
 
-      template< char Open, char Intermediate >
-      struct skip_control< raw_string_open< Open, Intermediate > > : std::true_type {};
+      template< typename Tag, char Open, char Intermediate >
+      struct skip_control< raw_string_open< Tag, Open, Intermediate > > : std::true_type {};
 
-      template< char Intermediate, char Close >
-      struct skip_control< raw_string_at_close< Intermediate, Close > > : std::true_type {};
-
-      template<>
-      struct skip_control< raw_string_bump_close > : std::true_type {};
-
-      // We do not skip_control for raw_string_content since the user
-      // will probably attach an action to get at the string's content.
-      // For convenience, below the rule is imported into raw_string
-      // with a using declaration, so the action specialisation can be
-      // made for pegtl::raw_string::content.
-
-      template< char Intermediate, char Close >
-      struct raw_string_content : until< raw_string_at_close< Intermediate, Close > > {};
+      template< typename Tag, char Intermediate, char Close >
+      struct skip_control< raw_string_close< Tag, Intermediate, Close > > : std::true_type {};
 
    } // internal
 
@@ -149,14 +137,16 @@ namespace pegtl
    // introduced newline-specific replacements in Lua 5.2, which we do not
    // support on the grammar level.
 
-   template< char Open, char Intermediate, char Close >
-   struct raw_string : state< internal::raw_string_state,
-                              internal::raw_string_open< Open, Intermediate >,
-                              internal::opt< internal::one< internal::result_on_found::SUCCESS, internal::peek_char, '\n' > >,
-                              internal::must< internal::raw_string_content< Intermediate, Close > >,
-                              internal::raw_string_bump_close >
+   template< char Open, char Intermediate, char Close, typename Tag = internal::raw_string_tag< Open, Intermediate, Close > >
+   struct raw_string : state< internal::raw_string_state< Tag >,
+                              internal::raw_string_open< Tag, Open, Intermediate >,
+                              internal::must< internal::until< internal::raw_string_close< Tag, Intermediate, Close > > > >
    {
-      using content = internal::raw_string_content< Intermediate, Close >;
+      // This is used to bind an action to the content
+      using content = Tag;
+
+      // This is used for error-reporting when a raw string is not closed properly
+      using close = internal::until< internal::raw_string_close< Tag, Intermediate, Close > >;
    };
 
 } // pegtl
