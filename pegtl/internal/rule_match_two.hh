@@ -6,7 +6,7 @@
 
 #include <type_traits>
 
-#include "../nothing.hh"
+#include "is_nothing.hh"
 #include "../apply_mode.hh"
 
 #include "rule_match_three.hh"
@@ -15,12 +15,6 @@ namespace pegtl
 {
    namespace internal
    {
-      // Helper to detect whether an action class template is actually
-      // used for a specific rule or not.
-
-      template< template< typename ... > class Action, typename Rule >
-      using is_nothing = std::is_base_of< nothing< Rule >, Action< Rule > >;
-
       // The purpose of rule_match_two is to call all necessary debug hooks of
       // the control class and, if applicable, also call the action class'
       // apply()-method. The latter can be disabled either explicitly (via
