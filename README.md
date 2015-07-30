@@ -28,11 +28,11 @@ Here is an example of how a PEG grammar rule is implemented as C++ class with th
 ```
 
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic nature of PEGs gives rise to some very important differences.
-The included [grammar analysis](https://github.com/ColinH/PEGTL/wiki/Grammar-Analysis) helps to find several typical errors in PEGs including left recursion.
+The included [grammar analysis](https://github.com/ColinH/PEGTL/wiki/Grammar-Analysis) helps to find several typical errors in PEGs, including left recursion.
 
 #### Design
 
-The PEGTL is mostly concerned with parsing combinators and grammar rules and giving the user control over what else happens during a parsing run.
+The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user control over what else happens during a parsing run.
 
 The PEGTL is designed to be "lean and mean".
 The actual core library has about 3000 lines of code.
@@ -40,18 +40,18 @@ Emphasis is on simplicity and efficiency but without adding any large constructi
 
 Whether and which actions are taken, and which data structures are created during a parsing run, is entirely up to the user of the library, however we provide some examples for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
 
-Through the use of template programming and template specialisations it is possible to write a grammar once and use it in multiple ways by using different actions in different (or the same) parsing runs.
+Through the use of template programming and template specialisations it is possible to write a grammar once, and use it in multiple ways with different (semantic) actions in different (or the same) parsing runs.
 
-Unlike [Antlr](http://www.antlr.org/) and Yacc/[Bison](http://www.gnu.org/software/bison/) the grammar is expressed in C++ and is part of the C++ source code.
-Also with the PEG formalism the separation into lexer and parser stages is usually dropped -- everything is done in a single grammar.
+Unlike [Antlr](http://www.antlr.org/) and Yacc/[Bison](http://www.gnu.org/software/bison/), the grammar is expressed in C++ and is part of the C++ source code.
+Also, with the PEG formalism the separation into lexer and parser stages is usually dropped -- everything is done in a single grammar.
 
-Unlike [Spirit](http://boost-spirit.com/) the grammar is implemented with compile-time template instantiations rather than run-time operator calls.
+Unlike [Spirit](http://boost-spirit.com/), the grammar is implemented with compile-time template instantiations rather than run-time operator calls.
 This leads to slightly increased compile times as the C++ compiler is given the task of optimising PEGTL grammars.
 
 #### Status
 
 The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen between major versions.
-Releases are done in accordance with [Semantic Versioning](http://semver.org/).
+[Releases](https://github.com/ColinH/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
 
 ## Documentation
 
@@ -77,7 +77,8 @@ Releases are done in accordance with [Semantic Versioning](http://semver.org/).
   * [Atomic Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#atomic-rules)
   * [ASCII Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#ascii-rules)
   * [UTF-8 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#utf-8-rules)
-  * [UCS-4 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#ucs-4-rules)
+  * [UTF-16 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#utf-16-rules)
+  * [UTF-32 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#utf-32-rules)
   * [Full Index](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#full-index)
 * [Parser Reference](https://github.com/ColinH/PEGTL/wiki/Parser-Reference)
   * [Input and Errors](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#input-and-errors)
