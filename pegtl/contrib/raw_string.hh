@@ -26,16 +26,19 @@ namespace pegtl
       struct raw_string_state
       {
          template< typename Input, typename ... States >
-         raw_string_state( const Input &, States && ... )
+         raw_string_state( const Input & in, States && ... )
+               : line( in.line() ),
+                 column( in.column() ),
+                 size( in.size() )
          { }
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          typename std::enable_if< ( ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Tag >::value ) ) >::type
          success( const Input & in, States && ... st ) const
          {
-            const bool skip = ( in.peek_char( count + 2 ) == '\n' );
-            Input content( in.line(), in.column(), in.begin(), in.end() - count - 2, in.source() );
-            content.bump( count + 2 + skip );
+            Input content( line, column, in.begin() - ( size - in.size() ), in.begin() - count, in.source() );
+            const bool skip = ( content.peek_char( count ) == '\n' );
+            content.bump( count + skip );
             Action< Tag >::apply( const_cast< const Input & >( content ), st ... );
          }
 
@@ -47,6 +50,9 @@ namespace pegtl
          raw_string_state( const raw_string_state & ) = delete;
          void operator= ( const raw_string_state & ) = delete;
 
+         std::size_t line;
+         std::size_t column;
+         std::size_t size;
          std::size_t count = 0;
       };
 
@@ -64,8 +70,8 @@ namespace pegtl
             for ( std::size_t i = 1; i < in.size(); ++i ) {
                switch ( const auto c = in.peek_char( i ) ) {
                   case Open:
-                     ls.count = i - 1;
-                     in.bump( i + 1 );
+                     ls.count = i + 1;
+                     in.bump( ls.count );
                      return true;
                   case Intermediate:
                      break;
@@ -85,21 +91,21 @@ namespace pegtl
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input >
          static bool match( Input & in, const raw_string_state< Tag > & ls )
          {
-            if ( in.size() < ls.count + 2 ) {
+            if ( in.size() < ls.count ) {
                return false;
             }
             if ( in.peek_char( 0 ) != Close ) {
                return false;
             }
-            if ( in.peek_char( ls.count + 1 ) != Close ) {
+            if ( in.peek_char( ls.count - 1 ) != Close ) {
                return false;
             }
-            for ( std::size_t i = 0; i < ls.count; ++i ) {
+            for ( std::size_t i = 0; i < ls.count - 2; ++i ) {
                if ( in.peek_char( i + 1 ) != Intermediate ) {
                   return false;
                }
             }
-            in.bump( ls.count + 2 );
+            in.bump( ls.count );
             return true;
          }
       };

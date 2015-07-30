@@ -20,7 +20,7 @@ namespace pegtl
          using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static auto success( const Input & in, State & s, States && ... st ) -> decltype( s.template success< A, Action, Control >( in, st ... ), void() )
+         static auto success( State & s, const Input & in, States && ... st ) -> decltype( s.template success< A, Action, Control >( in, st ... ), void() )
          {
             s.template success< A, Action, Control >( in, st ... );
          }
@@ -28,7 +28,7 @@ namespace pegtl
          // NOTE: The additional "int = 0" is a work-around for missing expression SFINAE in VS2015.
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States, int = 0 >
-         static auto success( const Input & in, State & s, States && ... st ) -> decltype( s.success( in, st ... ), void() )
+         static auto success( State & s, const Input & in, States && ... st ) -> decltype( s.success( in, st ... ), void() )
          {
             s.success( in, st ... );
          }
@@ -37,10 +37,9 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             State s( const_cast< const Input & >( in ), st ... );
-            auto m = in.mark();
             if ( rule_match_three< seq< Rules ... >, A, Action, Control >::match( in, s ) ) {
-               success< A, Action, Control >( Input( in.data(), m ), s, st ... );
-               return m( true );
+               success< A, Action, Control >( s, in, st ... );
+               return true;
             }
             return false;
          }
