@@ -4,10 +4,8 @@
 #ifndef PEGTL_INTERNAL_RULE_MATCH_TWO_HH
 #define PEGTL_INTERNAL_RULE_MATCH_TWO_HH
 
-#include <type_traits>
-
-#include "is_nothing.hh"
 #include "../apply_mode.hh"
+#include "../nothing.hh"
 
 #include "rule_match_three.hh"
 

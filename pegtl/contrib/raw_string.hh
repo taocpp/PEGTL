@@ -5,7 +5,7 @@
 #define PEGTL_CONTRIB_RAW_STRING_HH
 
 #include "../apply_mode.hh"
-#include "../internal/is_nothing.hh"
+#include "../nothing.hh"
 
 #include "../internal/must.hh"
 #include "../internal/until.hh"
