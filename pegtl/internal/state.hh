@@ -37,9 +37,10 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             State s( const_cast< const Input & >( in ), st ... );
+            auto m = in.mark();
             if ( rule_match_three< seq< Rules ... >, A, Action, Control >::match( in, s ) ) {
-               success< A, Action, Control >( in, s, st ... );
-               return true;
+               success< A, Action, Control >( Input( in.data(), m ), s, st ... );
+               return m( true );
             }
             return false;
          }
