@@ -58,7 +58,7 @@ namespace pegtl
          return m_data.column;
       }
 
-      std::string source() const
+      const char * source() const
       {
          return m_data.source;
       }
