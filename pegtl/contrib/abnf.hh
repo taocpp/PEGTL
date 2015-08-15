@@ -10,7 +10,7 @@ namespace pegtl
 {
    namespace abnf
    {
-      // Core ABNF rules according to RFC 5234.
+      // Core ABNF rules according to RFC 5234, Appendix B
 
       struct ALPHA : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z' > {};
       struct BIT : internal::one< internal::result_on_found::SUCCESS, internal::peek_char, '0', '1' > {};
