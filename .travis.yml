@@ -4,13 +4,17 @@ env:
   - COMPILER=g++-4.8
   - COMPILER=g++-4.9
   - COMPILER=g++-5
+  - COMPILER=clang++-3.6
 addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise
+    - llvm-toolchain-precise-3.6
     packages:
     - g++-4.8
     - g++-4.9
     - g++-5
+    - clang-3.6
 script:
   make CXX=$COMPILER -j2
