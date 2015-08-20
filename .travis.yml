@@ -7,7 +7,7 @@ matrix:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-4.8']
-      env: CXX=g++-4.8
+      env: COMPILER=g++-4.8
 
     - os: linux
       compiler: gcc
@@ -15,7 +15,7 @@ matrix:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-4.9']
-      env: CXX=g++-4.9
+      env: COMPILER=g++-4.9
 
     - os: linux
       compiler: gcc
@@ -23,10 +23,11 @@ matrix:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-5']
-      env: CXX=g++-5
+      env: COMPILER=g++-5
 
     - os: linux
       compiler: clang
+      env: COMPILER=clang++
 
     - os: linux
       compiler: clang
@@ -34,7 +35,7 @@ matrix:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.5']
           packages: ['clang-3.5']
-      env: CXX=clang++-3.5
+      env: COMPILER=clang++-3.5
 
     - os: linux
       compiler: clang
@@ -42,7 +43,7 @@ matrix:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.6']
           packages: ['clang-3.6']
-      env: CXX=clang++-3.6
+      env: COMPILER=clang++-3.6
 
 # Activate when 3.7 is released and the repository is available
 #    - os: linux
@@ -51,11 +52,12 @@ matrix:
 #        apt:
 #          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.7']
 #          packages: ['clang-3.7']
-#      env: CXX=clang++-3.7
+#      env: COMPILER=clang++-3.7
 
 # Activate when we are allowed to use MacOS X
 #    - os: osx
 #      compiler: clang
+#      env: COMPILER=clang++
 
 script:
-  make -j3
+  make CXX=$COMPILER -j3
