@@ -1,16 +1,13 @@
 language: cpp
 matrix:
   include:
-    - os: linux
-      compiler: gcc
-      addons:
+    - addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-4.8']
       env: COMPILER=g++-4.8
 
     - os: linux
-      compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
