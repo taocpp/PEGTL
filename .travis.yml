@@ -38,5 +38,7 @@ matrix:
       env: COMPILER=clang++-3.6
     - os: osx
       compiler: clang
+      env: COMPILER=clang++
+
 script:
   make CXX=$COMPILER -j2
