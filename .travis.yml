@@ -5,7 +5,6 @@ env:
   - COMPILER=g++-4.9
   - COMPILER=g++-5
   - COMPILER=clang++-3.6
-  - COMPILER=clang++-3.8
 addons:
   apt:
     sources:
@@ -17,6 +16,5 @@ addons:
     - g++-4.9
     - g++-5
     - clang-3.6
-    - clang-3.8
 script:
   make CXX=$COMPILER -j2
