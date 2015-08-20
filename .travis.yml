@@ -27,7 +27,7 @@ matrix:
 
     - os: linux
       compiler: clang
-      env: COMPILER=clang++
+      env: COMPILER=clang++-3.4
 
     - os: linux
       compiler: clang
