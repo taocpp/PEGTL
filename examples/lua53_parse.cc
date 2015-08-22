@@ -93,28 +93,28 @@ namespace lua53
    struct sep : pegtl::sor< pegtl::ascii::space, comment > {};
    struct seps : pegtl::star< sep > {};
 
-   struct str_and : pegtl::string< 'a', 'n', 'd' > {};
-   struct str_break : pegtl::string< 'b', 'r', 'e', 'a', 'k' > {};
-   struct str_do : pegtl::string< 'd', 'o' > {};
-   struct str_else : pegtl::string< 'e', 'l', 's', 'e' > {};
-   struct str_elseif : pegtl::string< 'e', 'l', 's', 'e', 'i', 'f' > {};
-   struct str_end : pegtl::string< 'e', 'n', 'd' > {};
-   struct str_false : pegtl::string< 'f', 'a', 'l', 's', 'e' > {};
-   struct str_for : pegtl::string< 'f', 'o', 'r' > {};
-   struct str_function : pegtl::string< 'f', 'u', 'n', 'c', 't', 'i', 'o', 'n' > {};
-   struct str_goto : pegtl::string< 'g', 'o', 't', 'o' > {};
-   struct str_if : pegtl::string< 'i', 'f' > {};
-   struct str_in : pegtl::string< 'i', 'n' > {};
-   struct str_local : pegtl::string< 'l', 'o', 'c', 'a', 'l' > {};
-   struct str_nil : pegtl::string< 'n', 'i', 'l' > {};
-   struct str_not : pegtl::string< 'n', 'o', 't' > {};
-   struct str_or : pegtl::string< 'o', 'r' > {};
-   struct str_repeat : pegtl::string< 'r', 'e', 'p', 'e', 'a', 't' > {};
-   struct str_return : pegtl::string< 'r', 'e', 't', 'u', 'r', 'n' > {};
-   struct str_then : pegtl::string< 't', 'h', 'e', 'n' > {};
-   struct str_true : pegtl::string< 't', 'r', 'u', 'e' > {};
-   struct str_until : pegtl::string< 'u', 'n', 't', 'i', 'l' > {};
-   struct str_while : pegtl::string< 'w', 'h', 'i', 'l', 'e' > {};
+   struct str_and : pegtl_string_t( "and" ) {};
+   struct str_break : pegtl_string_t( "break" ) {};
+   struct str_do : pegtl_string_t( "do" ) {};
+   struct str_else : pegtl_string_t( "else" ) {};
+   struct str_elseif : pegtl_string_t( "elseif" ) {};
+   struct str_end : pegtl_string_t( "end" ) {};
+   struct str_false : pegtl_string_t( "false" ) {};
+   struct str_for : pegtl_string_t( "for" ) {};
+   struct str_function : pegtl_string_t( "function" ) {};
+   struct str_goto : pegtl_string_t( "goto" ) {};
+   struct str_if : pegtl_string_t( "if" ) {};
+   struct str_in : pegtl_string_t( "in" ) {};
+   struct str_local : pegtl_string_t( "local" ) {};
+   struct str_nil : pegtl_string_t( "nil" ) {};
+   struct str_not : pegtl_string_t( "not" ) {};
+   struct str_or : pegtl_string_t( "or" ) {};
+   struct str_repeat : pegtl_string_t( "repeat" ) {};
+   struct str_return : pegtl_string_t( "return" ) {};
+   struct str_then : pegtl_string_t( "then" ) {};
+   struct str_true : pegtl_string_t( "true" ) {};
+   struct str_until : pegtl_string_t( "until" ) {};
+   struct str_while : pegtl_string_t( "while" ) {};
 
    // Note that 'elseif' precedes 'else' in order to prevent only matching
    // the "else" part of an "elseif" and running into an error in the

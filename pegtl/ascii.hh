@@ -42,4 +42,6 @@ namespace pegtl
 
 } // pegtl
 
+#include "internal/pegtl_string.hh"
+
 #endif
