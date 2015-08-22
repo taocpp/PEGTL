@@ -54,7 +54,7 @@ namespace pegtl
       struct status_code : rep< 3, DIGIT > {};
       struct reason_phrase : star< sor< VCHAR, obs_text, WSP > > {};
 
-      struct HTTP_version : if_must< string< 'H', 'T', 'T', 'P', '/' >, DIGIT, one< '.' >, DIGIT > {};
+      struct HTTP_version : if_must< pegtl_string_t( "HTTP/" ), DIGIT, one< '.' >, DIGIT > {};
 
       struct request_line : if_must< method, SP, request_target, SP, HTTP_version, CRLF > {};
       struct status_line : if_must< HTTP_version, SP, status_code, SP, reason_phrase, CRLF > {};
@@ -78,17 +78,17 @@ namespace pegtl
 
       struct transfer_parameter : seq< token, BWS, one< '=' >, BWS, sor< token, quoted_string > > {};
       struct transfer_extension : seq< token, star< OWS, one< ';' >, OWS, transfer_parameter > > {};
-      struct transfer_coding : sor< istring< 'c', 'h', 'u', 'n', 'k', 'e', 'd' >,
-                                    istring< 'c', 'o', 'm', 'p', 'r', 'e', 's', 's' >,
-                                    istring< 'd', 'e', 'f', 'l', 'a', 't', 'e' >,
-                                    istring< 'g', 'z', 'i', 'p' >,
+      struct transfer_coding : sor< pegtl_istring_t( "chunked" ),
+                                    pegtl_istring_t( "compress" ),
+                                    pegtl_istring_t( "deflate" ),
+                                    pegtl_istring_t( "gzip" ),
                                     transfer_extension > {};
 
       struct rank : sor< seq< one< '0' >, opt< one< '.' >, rep_opt< 3, DIGIT > > >,
                          seq< one< '1' >, opt< one< '.' >, rep_opt< 3, one< '0' > > > > > {};
 
       struct t_ranking : seq< OWS, one< ';' >, OWS, one< 'q', 'Q' >, one< '=' >, rank > {};
-      struct t_codings : sor< istring< 't', 'r', 'a', 'i', 'l', 'e', 'r', 's' >, seq< transfer_coding, opt< t_ranking > > > {};
+      struct t_codings : sor< pegtl_istring_t( "trailers" ), seq< transfer_coding, opt< t_ranking > > > {};
 
       struct TE : opt< sor< one< ',' >, t_codings >, star< OWS, one< ',' >, opt< OWS, t_codings > > > {};
 
@@ -116,8 +116,8 @@ namespace pegtl
 
       struct Via : make_comma_list< seq< received_protocol, RWS, received_by, opt< RWS, comment > > > {};
 
-      struct http_URI : if_must< istring< 'h', 't', 't', 'p', ':', '/', '/' >, uri::authority, uri::path_abempty, uri::opt_query, uri::opt_fragment > {};
-      struct https_URI : if_must< istring< 'h', 't', 't', 'p', 's', ':', '/', '/' >, uri::authority, uri::path_abempty, uri::opt_query, uri::opt_fragment > {};
+      struct http_URI : if_must< pegtl_istring_t( "http://" ), uri::authority, uri::path_abempty, uri::opt_query, uri::opt_fragment > {};
+      struct https_URI : if_must< pegtl_istring_t( "https://" ), uri::authority, uri::path_abempty, uri::opt_query, uri::opt_fragment > {};
 
       struct partial_URI : seq< uri::relative_part, uri::opt_query > {};
 

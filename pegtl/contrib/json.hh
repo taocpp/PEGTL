@@ -24,9 +24,9 @@ namespace pegtl
       struct name_separator : pad< one< ':' >, ws > {};
       struct value_separator : pad< one< ',' >, ws > {};
 
-      struct false_ : string< 'f', 'a', 'l', 's', 'e' > {};
-      struct null : string< 'n', 'u', 'l', 'l' > {};
-      struct true_ : string< 't', 'r', 'u', 'e' > {};
+      struct false_ : pegtl_string_t( "false" ) {};
+      struct null : pegtl_string_t( "null" ) {};
+      struct true_ : pegtl_string_t( "true" ) {};
 
       struct digits : plus< abnf::DIGIT > {};
       struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+' > >, must< digits > > {};
