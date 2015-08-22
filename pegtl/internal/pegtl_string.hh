@@ -44,42 +44,34 @@ namespace pegtl
 
 } // pegtl
 
-#define PEGTL_INTERNAL_STRING(n,x)                            \
-   pegtl::internal::string_at< n##0 >( x ),                   \
-   pegtl::internal::string_at< n##1 >( x ),                   \
-   pegtl::internal::string_at< n##2 >( x ),                   \
-   pegtl::internal::string_at< n##3 >( x ),                   \
-   pegtl::internal::string_at< n##4 >( x ),                   \
-   pegtl::internal::string_at< n##5 >( x ),                   \
-   pegtl::internal::string_at< n##6 >( x ),                   \
-   pegtl::internal::string_at< n##7 >( x ),                   \
-   pegtl::internal::string_at< n##8 >( x ),                   \
+#define PEGTL_INTERNAL_STRING_10(n,x)           \
+   pegtl::internal::string_at< n##0 >( x ),     \
+   pegtl::internal::string_at< n##1 >( x ),     \
+   pegtl::internal::string_at< n##2 >( x ),     \
+   pegtl::internal::string_at< n##3 >( x ),     \
+   pegtl::internal::string_at< n##4 >( x ),     \
+   pegtl::internal::string_at< n##5 >( x ),     \
+   pegtl::internal::string_at< n##6 >( x ),     \
+   pegtl::internal::string_at< n##7 >( x ),     \
+   pegtl::internal::string_at< n##8 >( x ),     \
    pegtl::internal::string_at< n##9 >( x )
 
-#define pegtl_string_t(x)                                               \
-   pegtl::internal::string_builder< pegtl::ascii::string<>,             \
-                                    PEGTL_INTERNAL_STRING(,x),          \
-                                    PEGTL_INTERNAL_STRING(1,x),         \
-                                    PEGTL_INTERNAL_STRING(2,x),         \
-                                    PEGTL_INTERNAL_STRING(3,x),         \
-                                    PEGTL_INTERNAL_STRING(4,x),         \
-                                    PEGTL_INTERNAL_STRING(5,x),         \
-                                    PEGTL_INTERNAL_STRING(6,x),         \
-                                    PEGTL_INTERNAL_STRING(7,x),         \
-                                    PEGTL_INTERNAL_STRING(8,x),         \
-                                    PEGTL_INTERNAL_STRING(9,x) >::type
+#define PEGTL_INTERNAL_STRING_100(x)            \
+   PEGTL_INTERNAL_STRING_10(,x),                \
+   PEGTL_INTERNAL_STRING_10(1,x),               \
+   PEGTL_INTERNAL_STRING_10(2,x),               \
+   PEGTL_INTERNAL_STRING_10(3,x),               \
+   PEGTL_INTERNAL_STRING_10(4,x),               \
+   PEGTL_INTERNAL_STRING_10(5,x),               \
+   PEGTL_INTERNAL_STRING_10(6,x),               \
+   PEGTL_INTERNAL_STRING_10(7,x),               \
+   PEGTL_INTERNAL_STRING_10(8,x),               \
+   PEGTL_INTERNAL_STRING_10(9,x)
 
-#define pegtl_istring_t(x)                                              \
-   pegtl::internal::string_builder< pegtl::ascii::istring<>,            \
-                                    PEGTL_INTERNAL_STRING(,x),          \
-                                    PEGTL_INTERNAL_STRING(1,x),         \
-                                    PEGTL_INTERNAL_STRING(2,x),         \
-                                    PEGTL_INTERNAL_STRING(3,x),         \
-                                    PEGTL_INTERNAL_STRING(4,x),         \
-                                    PEGTL_INTERNAL_STRING(5,x),         \
-                                    PEGTL_INTERNAL_STRING(6,x),         \
-                                    PEGTL_INTERNAL_STRING(7,x),         \
-                                    PEGTL_INTERNAL_STRING(8,x),         \
-                                    PEGTL_INTERNAL_STRING(9,x) >::type
+#define pegtl_string_t(x) \
+   pegtl::internal::string_builder< pegtl::ascii::string<>, PEGTL_INTERNAL_STRING_100(x) >::type
+
+#define pegtl_istring_t(x) \
+   pegtl::internal::string_builder< pegtl::ascii::istring<>, PEGTL_INTERNAL_STRING_100(x) >::type
 
 #endif
