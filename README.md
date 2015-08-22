@@ -110,6 +110,7 @@ The master branch of the PEGTL is stable in the sense that all known bugs are fi
 * Stephan Beal for the bug reports, suggestions and discussions.
 * Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
 * Sam Hocevar for contributing Visual Studio 2015 compatibility.
+* George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `pegtl_string_t`.
 
 ## License
 
