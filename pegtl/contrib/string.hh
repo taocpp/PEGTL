@@ -3,6 +3,7 @@
 
 // Inspired by https://github.com/irrequietus/typestring
 // Rewritten and reduced to what is needed for the PEGTL
+// and to work with Visual Studio 2015.
 
 #ifndef PEGTL_CONTRIB_STRING_HH
 #define PEGTL_CONTRIB_STRING_HH
@@ -20,47 +21,53 @@ namespace pegtl
          return ( N < M ) ? c[ N ] : 0;
       }
 
-      template< char... C >
-      auto ct_concat( pegtl::string< C... > ) -> pegtl::string< C... >;
+      template< typename, char ... >
+      struct ct_concat;
 
-      template< char... H, char... T >
-      auto ct_concat( pegtl::string< H... >, pegtl::string< '\0' >, pegtl::string< T >... )
-        -> pegtl::string< H... >;
+      template< typename T >
+      struct ct_concat< T >
+      {
+         using type = T;
+      };
 
-      template< char... H, char C, char... T >
-      auto ct_concat( pegtl::string< H... >, pegtl::string< C >, pegtl::string< T >... )
-        -> decltype( ct_concat( pegtl::string< H..., C >(), pegtl::string< T >()... ) );
+      template< char ... Hs, char C, char ... Cs >
+      struct ct_concat< pegtl::string< Hs ... >, C, Cs ... >
+            : std::conditional< C == '\0',
+                                ct_concat< pegtl::string< Hs ... > >,
+                                ct_concat< pegtl::string< Hs ..., C >, Cs ... > >::type
+      { };
 
-      template< char... C >
-      auto ct_to_istring( pegtl::string< C... > ) -> pegtl::istring< C... >;
+      template< char ... Cs >
+      pegtl::istring< Cs ... > ct_to_istring( pegtl::string< Cs ... > );
 
    } // internal
 
 } // pegtl
 
-#define PEGTL_INTERNAL_STRING(n,x)                                      \
-   pegtl::string< pegtl::internal::ct_at< n##0 >( x ) >(),              \
-   pegtl::string< pegtl::internal::ct_at< n##1 >( x ) >(),              \
-   pegtl::string< pegtl::internal::ct_at< n##2 >( x ) >(),              \
-   pegtl::string< pegtl::internal::ct_at< n##3 >( x ) >(),              \
-   pegtl::string< pegtl::internal::ct_at< n##4 >( x ) >(),              \
-   pegtl::string< pegtl::internal::ct_at< n##5 >( x ) >(),              \
-   pegtl::string< pegtl::internal::ct_at< n##6 >( x ) >(),              \
-   pegtl::string< pegtl::internal::ct_at< n##7 >( x ) >(),              \
-   pegtl::string< pegtl::internal::ct_at< n##8 >( x ) >(),              \
-   pegtl::string< pegtl::internal::ct_at< n##9 >( x ) >()
+#define PEGTL_INTERNAL_STRING(n,x)                     \
+   pegtl::internal::ct_at< n##0 >( x ),                \
+   pegtl::internal::ct_at< n##1 >( x ),                \
+   pegtl::internal::ct_at< n##2 >( x ),                \
+   pegtl::internal::ct_at< n##3 >( x ),                \
+   pegtl::internal::ct_at< n##4 >( x ),                \
+   pegtl::internal::ct_at< n##5 >( x ),                \
+   pegtl::internal::ct_at< n##6 >( x ),                \
+   pegtl::internal::ct_at< n##7 >( x ),                \
+   pegtl::internal::ct_at< n##8 >( x ),                \
+   pegtl::internal::ct_at< n##9 >( x )
 
 #define PEGTL_STRING(x)                                                 \
-   decltype( pegtl::internal::ct_concat( PEGTL_INTERNAL_STRING(,x),     \
-                                         PEGTL_INTERNAL_STRING(1,x),    \
-                                         PEGTL_INTERNAL_STRING(2,x),    \
-                                         PEGTL_INTERNAL_STRING(3,x),    \
-                                         PEGTL_INTERNAL_STRING(4,x),    \
-                                         PEGTL_INTERNAL_STRING(5,x),    \
-                                         PEGTL_INTERNAL_STRING(6,x),    \
-                                         PEGTL_INTERNAL_STRING(7,x),    \
-                                         PEGTL_INTERNAL_STRING(8,x),    \
-                                         PEGTL_INTERNAL_STRING(9,x) ) )
+   pegtl::internal::ct_concat< pegtl::string<>,                         \
+                               PEGTL_INTERNAL_STRING(,x),               \
+                               PEGTL_INTERNAL_STRING(1,x),              \
+                               PEGTL_INTERNAL_STRING(2,x),              \
+                               PEGTL_INTERNAL_STRING(3,x),              \
+                               PEGTL_INTERNAL_STRING(4,x),              \
+                               PEGTL_INTERNAL_STRING(5,x),              \
+                               PEGTL_INTERNAL_STRING(6,x),              \
+                               PEGTL_INTERNAL_STRING(7,x),              \
+                               PEGTL_INTERNAL_STRING(8,x),              \
+                               PEGTL_INTERNAL_STRING(9,x) >::type
 
 #define PEGTL_ISTRING(x)                                                \
    decltype( pegtl::internal::ct_to_istring( PEGTL_STRING(x)() ) )
