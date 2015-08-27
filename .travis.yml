@@ -55,10 +55,9 @@ matrix:
 #          packages: ['clang-3.7']
 #      env: COMPILER=clang++-3.7
 
-# Activate when we are allowed to use MacOS X
-#    - os: osx
-#      compiler: clang
-#      env: COMPILER=clang++
+    - os: osx
+      compiler: clang
+      env: COMPILER=clang++
 
 script:
   make CXX=$COMPILER -j3
