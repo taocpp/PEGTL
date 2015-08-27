@@ -37,6 +37,7 @@ namespace pegtl
       verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0x110000 ) + u32s( 0 ), result_type::LOCAL_FAILURE, 8 );
 
       verify_rule< utf32::one< 0x20 > >( __LINE__, __FILE__, u32s( 0x20 ), result_type::SUCCESS, 0 );
+      verify_rule< utf32::one< 0x20ac > >( __LINE__, __FILE__, u32s( 0x20ac ), result_type::SUCCESS, 0 );
       verify_rule< utf32::one< 0x10fedc > >( __LINE__, __FILE__, u32s( 0x10fedc ), result_type::SUCCESS, 0 );
    }
 
