@@ -49,7 +49,7 @@ namespace pegtl
             nrv.resize( size() );
             errno = 0;
             if ( nrv.size() && ( std::fread( & nrv[ 0 ], nrv.size(), 1, m_file.get() ) != 1 ) ) {
-               PEGTL_THROW_INPUT_ERROR( "unable to fread() file " << m_source << " size " << nrv.size() );
+               PEGTL_THROW_INPUT_ERROR( "unable to fread() file " << m_source << " size " << nrv.size() );  // LCOV_EXCL_LINE
             }
             return nrv;
          }
