@@ -2,6 +2,7 @@
 
 [![Release](https://img.shields.io/github/release/ColinH/PEGTL.svg)](https://github.com/ColinH/PEGTL/releases/latest)
 [![License](https://img.shields.io/github/license/ColinH/PEGTL.svg)](#license)
+[![Coverage Status](https://img.shields.io/coveralls/ColinH/PEGTL.svg)](https://coveralls.io/github/ColinH/PEGTL)
 [![TravisCI](https://travis-ci.org/ColinH/PEGTL.svg)](https://travis-ci.org/ColinH/PEGTL)
 [![Issues](https://img.shields.io/github/issues/ColinH/PEGTL.svg)](https://github.com/ColinH/PEGTL/issues)
 
