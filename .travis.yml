@@ -71,7 +71,7 @@ matrix:
         - COMPILER=g++-4.9
         - PEGTL_CXXFLAGS="-O0 --coverage"
       after_success:
-        - coveralls --exclude unit_test --exclude examples --include pegtl.hh --include pegtl --gov gcov-4.9 --gcov-options '\-lp'
+        - coveralls --exclude unit_test --exclude examples --include pegtl.hh --include pegtl --gcov gcov-4.9 --gcov-options '\-lp'
 
 script:
   make CXX=$COMPILER -j3
