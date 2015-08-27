@@ -9,9 +9,10 @@ namespace pegtl
 {
    struct escaped_c : one< '"', '\\', 't' > {};
    struct escaped_u : seq< one< 'u' >, rep< 4, must< xdigit > > > {};
+   struct escaped_U : seq< one< 'U' >, rep< 8, must< xdigit > > > {};
    struct escaped_j : list< seq< one< 'j' >, rep< 4, must< xdigit > > >, one< '\\' > > {};
    struct escaped_x : seq< one< 'x' >, rep< 2, must< xdigit > > > {};
-   struct escaped : sor< escaped_c, escaped_u, escaped_j, escaped_x > {};
+   struct escaped : sor< escaped_c, escaped_u, escaped_U, escaped_j, escaped_x > {};
    struct character : if_then_else< one< '\\' >, must< escaped >, utf8::any > {};
    struct unstring : until< eof, character > {};
 
@@ -19,6 +20,7 @@ namespace pegtl
 
    template<> struct unaction< escaped_c > : unescape::unescape_c< escaped_c, '"', '\\', '\t' > {};
    template<> struct unaction< escaped_u > : unescape::unescape_u {};
+   template<> struct unaction< escaped_U > : unescape::unescape_u {};
    template<> struct unaction< escaped_j > : unescape::unescape_j {};
    template<> struct unaction< escaped_x > : unescape::unescape_x {};
    template<> struct unaction< utf8::any > : unescape::append_all {};
@@ -87,6 +89,9 @@ namespace pegtl
       verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\j123", st );
       verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\j999", st );
       verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\j444h", st );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\U00110000", st );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\U80000000", st );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\Uffffffff", st );
    }
 
 } // pegtl

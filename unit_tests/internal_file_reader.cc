@@ -3,15 +3,17 @@
 
 #include "test.hh"
 
-#include <pegtl/trace.hh>
-
 namespace pegtl
 {
-   using GRAMMAR = pegtl::sor< pegtl::failure, pegtl::one< 'a' > >;
-
    void unit_test()
    {
-      failed = ! pegtl::trace< GRAMMAR >( "ab", "trace test please ignore" );
+      try {
+         internal::file_reader( "pegtl" ).read();
+         std::cerr << "pegtl: unit test failed for [ internal::file_reader ] " << std::endl;
+         ++failed;
+      }
+      catch ( const std::exception & ) {
+      }
    }
 
 } // pegtl

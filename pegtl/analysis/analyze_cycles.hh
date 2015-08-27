@@ -134,7 +134,7 @@ namespace pegtl
                      return m_cache[ start->first ] = ( c || t ) && e;
                   }
                }
-               assert( false );
+               assert( false );  // LCOV_EXCL_LINE
             }
             if ( ! accum ) {
                ++m_problems;

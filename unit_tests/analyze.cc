@@ -5,6 +5,13 @@
 
 namespace pegtl
 {
+   template< typename ... Rules >
+   struct any_seq
+         : public seq< Rules ... >
+   {
+      using analyze_t = analysis::generic< analysis::rule_type::ANY, Rules ... >;
+   };
+
    void unit_test()
    {
       {
@@ -53,6 +60,9 @@ namespace pegtl
       } {
          struct tst : until< star< any >, star< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true, false );
+      } {
+         struct tst : until< star< any >, star< any > > {};
+         verify_analyze< any_seq< tst > >( __LINE__, __FILE__, true, true, false );
       } {
          struct tst : until< any, any > {};
          verify_analyze< tst >( __LINE__, __FILE__, true, false, false );

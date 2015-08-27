@@ -35,7 +35,7 @@ UNIT_TESTS := $(filter build/unit_tests/%,$(BINARIES))
 
 all: $(BINARIES)
 	@echo "Built with '$(CXX) $(PEGTL_CXXSTD) -I. $(PEGTL_CPPFLAGS) $(PEGTL_CXXFLAGS)'."
-	@set -e; for T in $(UNIT_TESTS); do echo $$T; $$T; done
+	@set -e; for T in $(UNIT_TESTS); do echo $$T; $$T > /dev/null; done
 	@echo "All $(words $(UNIT_TESTS)) unit tests passed."
 
 clean:

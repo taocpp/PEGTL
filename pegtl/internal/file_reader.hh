@@ -29,16 +29,16 @@ namespace pegtl
          {
             errno = 0;
             if ( std::fseek( m_file.get(), 0, SEEK_END ) ) {
-               PEGTL_THROW_INPUT_ERROR( "unable to fseek() to end of file " << m_source );
+               PEGTL_THROW_INPUT_ERROR( "unable to fseek() to end of file " << m_source );  // LCOV_EXCL_LINE
             }
             errno = 0;
             const auto s = std::ftell( m_file.get() );
             if ( s < 0 ) {
-               PEGTL_THROW_INPUT_ERROR( "unable to ftell() file size of file " << m_source );
+               PEGTL_THROW_INPUT_ERROR( "unable to ftell() file size of file " << m_source );  // LCOV_EXCL_LINE
             }
             errno = 0;
             if ( std::fseek( m_file.get(), 0, SEEK_SET ) ) {
-               PEGTL_THROW_INPUT_ERROR( "unable to fseek() to beginning of file " << m_source );
+               PEGTL_THROW_INPUT_ERROR( "unable to fseek() to beginning of file " << m_source );  // LCOV_EXCL_LINE
             }
             return s;
          }
@@ -64,7 +64,7 @@ namespace pegtl
             if ( auto * file = std::fopen( m_source.c_str(), "r" ) ) {
                return file;
             }
-            PEGTL_THROW_INPUT_ERROR( "unable to open() file " << m_source << " for reading" );
+            PEGTL_THROW_INPUT_ERROR( "unable to fopen() file " << m_source << " for reading" );
          }
       };
 

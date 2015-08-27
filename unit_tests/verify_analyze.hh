@@ -11,7 +11,7 @@
 namespace pegtl
 {
    template< typename Rule >
-   void verify_analyze( const unsigned line, const char * file, const bool expect_consume, const bool expect_problems = false, const bool verbose = false )
+   void verify_analyze( const unsigned line, const char * file, const bool expect_consume, const bool expect_problems = false, const bool verbose = true )
    {
       analysis::analyze_cycles< Rule > a( verbose );
       const bool has_problems = ( a.problems() != 0 );
