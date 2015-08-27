@@ -51,6 +51,7 @@ namespace pegtl
          return false;
       }
 
+      // This function MUST only be called for characters matching pegtl::ascii::xdigit!
       template< typename I >
       I unhex_char( const char c )
       {
@@ -62,7 +63,7 @@ namespace pegtl
             case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
                return I( c - 'A' + 10 );
          }
-         assert( false );  // This function MUST only be called for characters matching pegtl::ascii::xdigit!
+         assert( false );  // LCOV_EXCL_LINE
       }
 
       template< typename I >
@@ -87,6 +88,7 @@ namespace pegtl
          }
       };
 
+      // This function MUST be called for a character matching T which must be pegtl::one< ... >.
       template< typename T, char ... Rs >
       struct unescape_c
       {
@@ -111,7 +113,7 @@ namespace pegtl
                   return * ( r.begin() + i );
                }
             }
-            assert( false );  // This function MUST be called for a character matching T which must be pegtl::one< ... >.
+            assert( false );  // LCOV_EXCL_LINE
          }
       };
 
