@@ -7,10 +7,10 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< until< eof > >( __LINE__, __FILE__, false );
-      verify_analyze< until< any > >( __LINE__, __FILE__, true );
-      verify_analyze< until< eof, any > >( __LINE__, __FILE__, false );
-      verify_analyze< until< any, any > >( __LINE__, __FILE__, true );
+      verify_analyze< until< eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< until< any > >( __LINE__, __FILE__, true, false );
+      verify_analyze< until< eof, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< until< any, any > >( __LINE__, __FILE__, true, false );
 
       verify_rule< until< eof > >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
       verify_rule< until< any > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );

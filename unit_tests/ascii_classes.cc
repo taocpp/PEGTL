@@ -7,30 +7,30 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< alnum >( __LINE__, __FILE__, true );
-      verify_analyze< alpha >( __LINE__, __FILE__, true );
-      verify_analyze< any >( __LINE__, __FILE__, true );
-      verify_analyze< blank >( __LINE__, __FILE__, true );
-      verify_analyze< digit >( __LINE__, __FILE__, true );
-      verify_analyze< eol >( __LINE__, __FILE__, true );
-      verify_analyze< identifier_first >( __LINE__, __FILE__, true );
-      verify_analyze< identifier_other >( __LINE__, __FILE__, true );
-      verify_analyze< lower >( __LINE__, __FILE__, true );
-      verify_analyze< nul >( __LINE__, __FILE__, true );
-      verify_analyze< print >( __LINE__, __FILE__, true );
-      verify_analyze< seven >( __LINE__, __FILE__, true );
-      verify_analyze< space >( __LINE__, __FILE__, true );
-      verify_analyze< upper >( __LINE__, __FILE__, true );
-      verify_analyze< xdigit >( __LINE__, __FILE__, true );
+      verify_analyze< alnum >( __LINE__, __FILE__, true, false );
+      verify_analyze< alpha >( __LINE__, __FILE__, true, false );
+      verify_analyze< any >( __LINE__, __FILE__, true, false );
+      verify_analyze< blank >( __LINE__, __FILE__, true, false );
+      verify_analyze< digit >( __LINE__, __FILE__, true, false );
+      verify_analyze< eol >( __LINE__, __FILE__, true, false );
+      verify_analyze< identifier_first >( __LINE__, __FILE__, true, false );
+      verify_analyze< identifier_other >( __LINE__, __FILE__, true, false );
+      verify_analyze< lower >( __LINE__, __FILE__, true, false );
+      verify_analyze< nul >( __LINE__, __FILE__, true, false );
+      verify_analyze< print >( __LINE__, __FILE__, true, false );
+      verify_analyze< seven >( __LINE__, __FILE__, true, false );
+      verify_analyze< space >( __LINE__, __FILE__, true, false );
+      verify_analyze< upper >( __LINE__, __FILE__, true, false );
+      verify_analyze< xdigit >( __LINE__, __FILE__, true, false );
 
-      verify_analyze< not_one< 'a' > >( __LINE__, __FILE__, true );
-      verify_analyze< not_one< 'a', 'z' > >( __LINE__, __FILE__, true );
-      verify_analyze< not_range< 'a', 'z' > >( __LINE__, __FILE__, true );
-      verify_analyze< one< 'a' > >( __LINE__, __FILE__, true );
-      verify_analyze< one< 'a', 'z' > >( __LINE__, __FILE__, true );
-      verify_analyze< range< 'a', 'z' > >( __LINE__, __FILE__, true );
-      verify_analyze< ranges< 'a', 'z' > >( __LINE__, __FILE__, true );
-      verify_analyze< ranges< 'a', 'z', '4' > >( __LINE__, __FILE__, true );
+      verify_analyze< not_one< 'a' > >( __LINE__, __FILE__, true, false );
+      verify_analyze< not_one< 'a', 'z' > >( __LINE__, __FILE__, true, false );
+      verify_analyze< not_range< 'a', 'z' > >( __LINE__, __FILE__, true, false );
+      verify_analyze< one< 'a' > >( __LINE__, __FILE__, true, false );
+      verify_analyze< one< 'a', 'z' > >( __LINE__, __FILE__, true, false );
+      verify_analyze< range< 'a', 'z' > >( __LINE__, __FILE__, true, false );
+      verify_analyze< ranges< 'a', 'z' > >( __LINE__, __FILE__, true, false );
+      verify_analyze< ranges< 'a', 'z', '4' > >( __LINE__, __FILE__, true, false );
 
       verify_rule< alnum >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< alpha >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );

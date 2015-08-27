@@ -8,18 +8,18 @@ namespace pegtl
    void unit_test()
    {
       verify_analyze< list_must< eof, eof > >( __LINE__, __FILE__, false, true );
-      verify_analyze< list_must< eof, any > >( __LINE__, __FILE__, false );
-      verify_analyze< list_must< any, eof > >( __LINE__, __FILE__, true );
-      verify_analyze< list_must< any, any > >( __LINE__, __FILE__, true );
+      verify_analyze< list_must< eof, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< list_must< any, eof > >( __LINE__, __FILE__, true, false );
+      verify_analyze< list_must< any, any > >( __LINE__, __FILE__, true, false );
 
       verify_analyze< list_must< eof, eof, eof > >( __LINE__, __FILE__, false, true );
       verify_analyze< list_must< eof, eof, any > >( __LINE__, __FILE__, false, true );
       verify_analyze< list_must< eof, any, eof > >( __LINE__, __FILE__, false, true );
-      verify_analyze< list_must< eof, any, any > >( __LINE__, __FILE__, false );
+      verify_analyze< list_must< eof, any, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< list_must< any, eof, eof > >( __LINE__, __FILE__, true, true );
-      verify_analyze< list_must< any, eof, any > >( __LINE__, __FILE__, true );
+      verify_analyze< list_must< any, eof, any > >( __LINE__, __FILE__, true, false );
       verify_analyze< list_must< any, any, eof > >( __LINE__, __FILE__, true, true );
-      verify_analyze< list_must< any, any, any > >( __LINE__, __FILE__, true );
+      verify_analyze< list_must< any, any, any > >( __LINE__, __FILE__, true, false );
 
       verify_rule< list_must< one< 'a' >, one< ',' > > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< list_must< one< 'a' >, one< ',' > > >( __LINE__, __FILE__,  "b", result_type::LOCAL_FAILURE, 1 );

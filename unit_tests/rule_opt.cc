@@ -7,8 +7,8 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< opt< any > >( __LINE__, __FILE__, false );
-      verify_analyze< opt< eof > >( __LINE__, __FILE__, false );
+      verify_analyze< opt< any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< opt< eof > >( __LINE__, __FILE__, false, false );
 
       verify_rule< opt< one< 'a' > > >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
       verify_rule< opt< one< 'a' > > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );

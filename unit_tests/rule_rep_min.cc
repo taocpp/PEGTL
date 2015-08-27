@@ -9,8 +9,8 @@ namespace pegtl
    {
       verify_analyze< rep_min< 0, eof > >( __LINE__, __FILE__, false, true );
       verify_analyze< rep_min< 1, eof > >( __LINE__, __FILE__, false, true );
-      verify_analyze< rep_min< 0, any > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_min< 1, any > >( __LINE__, __FILE__, true );
+      verify_analyze< rep_min< 0, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_min< 1, any > >( __LINE__, __FILE__, true, false );
 
       verify_rule< rep_min< 3, one< 'a' > > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< rep_min< 3, one< 'a' > > >( __LINE__, __FILE__,  "a", result_type::LOCAL_FAILURE, 1 );

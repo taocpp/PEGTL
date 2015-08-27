@@ -7,11 +7,11 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< istring<> >( __LINE__, __FILE__, false );
-      verify_analyze< istring< 1 > >( __LINE__, __FILE__, true );
-      verify_analyze< istring< 1, 2> >( __LINE__, __FILE__, true );
-      verify_analyze< istring< 1, 2, 3, 4 > >( __LINE__, __FILE__, true );
-      verify_analyze< istring< 1, 2, 3, 4, 5, 6, 7 > >( __LINE__, __FILE__, true );
+      verify_analyze< istring<> >( __LINE__, __FILE__, false, false );
+      verify_analyze< istring< 1 > >( __LINE__, __FILE__, true, false );
+      verify_analyze< istring< 1, 2> >( __LINE__, __FILE__, true, false );
+      verify_analyze< istring< 1, 2, 3, 4 > >( __LINE__, __FILE__, true, false );
+      verify_analyze< istring< 1, 2, 3, 4, 5, 6, 7 > >( __LINE__, __FILE__, true, false );
 
       verify_rule< istring<> >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
       verify_rule< istring< 'a', 'b' > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );

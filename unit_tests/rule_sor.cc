@@ -7,19 +7,19 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< sor< any, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< sor< eof, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< sor< eof, any > >( __LINE__, __FILE__, false );
-      verify_analyze< sor< any, any > >( __LINE__, __FILE__, true );
+      verify_analyze< sor< any, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< sor< eof, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< sor< eof, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< sor< any, any > >( __LINE__, __FILE__, true, false );
 
-      verify_analyze< sor< any, any, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< sor< any, eof, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< sor< any, eof, any > >( __LINE__, __FILE__, false );
-      verify_analyze< sor< any, any, any > >( __LINE__, __FILE__, true );
-      verify_analyze< sor< eof, any, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< sor< eof, eof, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< sor< eof, eof, any > >( __LINE__, __FILE__, false );
-      verify_analyze< sor< eof, any, any > >( __LINE__, __FILE__, false );
+      verify_analyze< sor< any, any, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< sor< any, eof, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< sor< any, eof, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< sor< any, any, any > >( __LINE__, __FILE__, true, false );
+      verify_analyze< sor< eof, any, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< sor< eof, eof, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< sor< eof, eof, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< sor< eof, any, any > >( __LINE__, __FILE__, false, false );
 
       verify_rule< sor<> >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< sor<> >( __LINE__, __FILE__,  "a", result_type::LOCAL_FAILURE, 1 );

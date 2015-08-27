@@ -14,14 +14,14 @@ namespace pegtl
    template< template< typename, typename, typename > class S >
    void verify_ifmt( const result_type failure = result_type::LOCAL_FAILURE )
    {
-      verify_analyze< S< eof, eof, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< S< eof, eof, any > >( __LINE__, __FILE__, false );
-      verify_analyze< S< eof, any, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< S< eof, any, any > >( __LINE__, __FILE__, true );
-      verify_analyze< S< any, eof, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< S< any, eof, any > >( __LINE__, __FILE__, true );
-      verify_analyze< S< any, any, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< S< any, any, any > >( __LINE__, __FILE__, true );
+      verify_analyze< S< eof, eof, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< S< eof, eof, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< S< eof, any, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< S< eof, any, any > >( __LINE__, __FILE__, true, false );
+      verify_analyze< S< any, eof, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< S< any, eof, any > >( __LINE__, __FILE__, true, false );
+      verify_analyze< S< any, any, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< S< any, any, any > >( __LINE__, __FILE__, true, false );
 
       verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__,  "", failure, 0 );
       verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__,  "b", failure, 1 );

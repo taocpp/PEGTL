@@ -14,10 +14,10 @@ namespace pegtl
    template< template< typename ... > class S >
    void verify_seqs( const result_type failure = result_type::LOCAL_FAILURE )
    {
-      verify_analyze< S< any > >( __LINE__, __FILE__, true );
-      verify_analyze< S< eof > >( __LINE__, __FILE__, false );
-      verify_analyze< S< any, eof > >( __LINE__, __FILE__, true );
-      verify_analyze< S< opt< any >, eof > >( __LINE__, __FILE__, false );
+      verify_analyze< S< any > >( __LINE__, __FILE__, true, false );
+      verify_analyze< S< eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< S< any, eof > >( __LINE__, __FILE__, true, false );
+      verify_analyze< S< opt< any >, eof > >( __LINE__, __FILE__, false, false );
 
       verify_rule< S<> >( __LINE__, __FILE__, "", result_type::SUCCESS, 0 );
       verify_rule< S<> >( __LINE__, __FILE__, "a", result_type::SUCCESS, 1 );

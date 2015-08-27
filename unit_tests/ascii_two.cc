@@ -7,7 +7,7 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< two< 'a' > >( __LINE__, __FILE__, true );
+      verify_analyze< two< 'a' > >( __LINE__, __FILE__, true, false );
 
       verify_rule< two< 'a' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< two< 'a' > >( __LINE__, __FILE__, "a", result_type::LOCAL_FAILURE, 1 );

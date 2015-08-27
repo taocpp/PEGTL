@@ -42,33 +42,33 @@ namespace pegtl
          struct exp : sor< var, fun, seq< any, exp, any > > {};
          struct fun : seq< exp, any > {};
          struct var : sor< any, seq< exp, any, exp >, seq< exp, any > > {};
-         verify_analyze< exp >( __LINE__, __FILE__, true, true, false );
-         verify_analyze< fun >( __LINE__, __FILE__, true, true, false );
-         verify_analyze< var >( __LINE__, __FILE__, true, true, false );
+         verify_analyze< exp >( __LINE__, __FILE__, true, true );
+         verify_analyze< fun >( __LINE__, __FILE__, true, true );
+         verify_analyze< var >( __LINE__, __FILE__, true, true );
       } {
          struct exp : sor< exp, seq< any, exp > > {};
-         verify_analyze< exp >( __LINE__, __FILE__, false, true, false );
+         verify_analyze< exp >( __LINE__, __FILE__, false, true );
       } {
          struct tst : until< any > {};
-         verify_analyze< tst >( __LINE__, __FILE__, true, false, false );
+         verify_analyze< tst >( __LINE__, __FILE__, true, false );
       } {
          struct tst : until< star< any > > {};
-         verify_analyze< tst >( __LINE__, __FILE__, false, false, false );
+         verify_analyze< tst >( __LINE__, __FILE__, false, false );
       } {
          struct tst : until< any, star< any > > {};
-         verify_analyze< tst >( __LINE__, __FILE__, true, true, false );
+         verify_analyze< tst >( __LINE__, __FILE__, true, true );
       } {
          struct tst : until< star< any >, star< any > > {};
-         verify_analyze< tst >( __LINE__, __FILE__, false, true, false );
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
       } {
          struct tst : until< star< any >, star< any > > {};
-         verify_analyze< any_seq< tst > >( __LINE__, __FILE__, true, true, false );
+         verify_analyze< any_seq< tst > >( __LINE__, __FILE__, true, true );
       } {
          struct tst : until< any, any > {};
-         verify_analyze< tst >( __LINE__, __FILE__, true, false, false );
+         verify_analyze< tst >( __LINE__, __FILE__, true, false );
       } {
          struct tst : until< star< any >, any > {};
-         verify_analyze< tst >( __LINE__, __FILE__, false, false, false );
+         verify_analyze< tst >( __LINE__, __FILE__, false, false );
       }
    }
 

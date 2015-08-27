@@ -7,12 +7,12 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< rep_max< 1, any > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_max< 2, any > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_max< 1, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_max< 2, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_max< 1, any, any > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_max< 2, any, any > >( __LINE__, __FILE__, false );
+      verify_analyze< rep_max< 1, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_max< 2, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_max< 1, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_max< 2, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_max< 1, any, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_max< 2, any, any > >( __LINE__, __FILE__, false, false );
 
       verify_rule< rep_max< 3, one< 'a' > > >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
       verify_rule< rep_max< 3, one< 'a' > > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );

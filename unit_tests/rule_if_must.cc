@@ -7,13 +7,13 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< if_must< any, any > >( __LINE__, __FILE__, true );
-      verify_analyze< if_must< eof, any > >( __LINE__, __FILE__, true );
-      verify_analyze< if_must< opt< any >, any > >( __LINE__, __FILE__, true );
-      verify_analyze< if_must< any, opt< any > > >( __LINE__, __FILE__, true );
-      verify_analyze< if_must< any, eof > >( __LINE__, __FILE__, true );
-      verify_analyze< if_must< opt< any >, opt< any > > >( __LINE__, __FILE__, false );
-      verify_analyze< if_must< eof, eof > >( __LINE__, __FILE__, false );
+      verify_analyze< if_must< any, any > >( __LINE__, __FILE__, true, false );
+      verify_analyze< if_must< eof, any > >( __LINE__, __FILE__, true, false );
+      verify_analyze< if_must< opt< any >, any > >( __LINE__, __FILE__, true, false );
+      verify_analyze< if_must< any, opt< any > > >( __LINE__, __FILE__, true, false );
+      verify_analyze< if_must< any, eof > >( __LINE__, __FILE__, true, false );
+      verify_analyze< if_must< opt< any >, opt< any > > >( __LINE__, __FILE__, false, false );
+      verify_analyze< if_must< eof, eof > >( __LINE__, __FILE__, false, false );
 
       verify_rule< if_must< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< if_must< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "a", result_type::GLOBAL_FAILURE, 0 );

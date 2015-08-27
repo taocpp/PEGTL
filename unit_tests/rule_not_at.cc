@@ -7,8 +7,8 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< not_at< eof > >( __LINE__, __FILE__, false );
-      verify_analyze< not_at< any > >( __LINE__, __FILE__, false );
+      verify_analyze< not_at< eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< not_at< any > >( __LINE__, __FILE__, false, false );
 
       verify_rule< not_at< eof > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< not_at< eof > >( __LINE__, __FILE__,  " ", result_type::SUCCESS, 1 );

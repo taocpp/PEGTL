@@ -7,12 +7,12 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< bytes< 0 > >( __LINE__, __FILE__, false );
+      verify_analyze< bytes< 0 > >( __LINE__, __FILE__, false, false );
 
       verify_rule< bytes< 0 > >( __LINE__, __FILE__, "", result_type::SUCCESS, 0 );
       verify_rule< bytes< 0 > >( __LINE__, __FILE__, "a", result_type::SUCCESS, 1 );
 
-      verify_analyze< bytes< 1 > >( __LINE__, __FILE__, true );
+      verify_analyze< bytes< 1 > >( __LINE__, __FILE__, true, false );
 
       for ( char c = 0; c < 127; ++c ) {
          verify_char< bytes< 1 > >( __LINE__, __FILE__, c, result_type::SUCCESS );
@@ -20,8 +20,8 @@ namespace pegtl
       verify_rule< bytes< 1 > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< bytes< 1 > >( __LINE__, __FILE__, "aa", result_type::SUCCESS, 1 );
 
-      verify_analyze< bytes< 2 > >( __LINE__, __FILE__, true );
-      verify_analyze< bytes< 42 > >( __LINE__, __FILE__, true );
+      verify_analyze< bytes< 2 > >( __LINE__, __FILE__, true, false );
+      verify_analyze< bytes< 42 > >( __LINE__, __FILE__, true, false );
 
       verify_rule< bytes< 3 > >( __LINE__, __FILE__, "abcd", result_type::SUCCESS, 1 );
       verify_rule< bytes< 4 > >( __LINE__, __FILE__, "abcd", result_type::SUCCESS, 0 );

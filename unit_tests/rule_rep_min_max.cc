@@ -7,19 +7,19 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< rep_min_max< 0, 1, any > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_min_max< 0, 2, any > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_min_max< 1, 2, any > >( __LINE__, __FILE__, true );
-      verify_analyze< rep_min_max< 0, 1, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_min_max< 0, 2, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_min_max< 1, 2, eof > >( __LINE__, __FILE__, false );
+      verify_analyze< rep_min_max< 0, 1, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_min_max< 0, 2, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_min_max< 1, 2, any > >( __LINE__, __FILE__, true, false );
+      verify_analyze< rep_min_max< 0, 1, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_min_max< 0, 2, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_min_max< 1, 2, eof > >( __LINE__, __FILE__, false, false );
 
-      verify_analyze< rep_min_max< 0, 1, any, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_min_max< 0, 2, any, any > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_min_max< 1, 2, eof, any > >( __LINE__, __FILE__, true );
-      verify_analyze< rep_min_max< 0, 1, eof, any > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_min_max< 0, 2, eof, eof > >( __LINE__, __FILE__, false );
-      verify_analyze< rep_min_max< 1, 2, eof, eof > >( __LINE__, __FILE__, false );
+      verify_analyze< rep_min_max< 0, 1, any, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_min_max< 0, 2, any, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_min_max< 1, 2, eof, any > >( __LINE__, __FILE__, true, false );
+      verify_analyze< rep_min_max< 0, 1, eof, any > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_min_max< 0, 2, eof, eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rep_min_max< 1, 2, eof, eof > >( __LINE__, __FILE__, false, false );
 
       verify_rule< rep_min_max< 2, 4, one< 'a' > > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< rep_min_max< 2, 4, one< 'a' > > >( __LINE__, __FILE__,  "a", result_type::LOCAL_FAILURE, 1 );

@@ -7,7 +7,7 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< identifier >( __LINE__, __FILE__, true );
+      verify_analyze< identifier >( __LINE__, __FILE__, true, false );
 
       verify_rule< identifier >( __LINE__, __FILE__,  "_", result_type::SUCCESS, 0 );
       verify_rule< identifier >( __LINE__, __FILE__,  "_a", result_type::SUCCESS, 0 );

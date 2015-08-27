@@ -7,7 +7,7 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< eolf >( __LINE__, __FILE__, false );
+      verify_analyze< eolf >( __LINE__, __FILE__, false, false );
 
       verify_rule< eolf >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
 

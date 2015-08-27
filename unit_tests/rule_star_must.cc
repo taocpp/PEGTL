@@ -8,9 +8,9 @@ namespace pegtl
    void unit_test()
    {
       verify_analyze< star_must< eof > >( __LINE__, __FILE__, false, true );
-      verify_analyze< star_must< any > >( __LINE__, __FILE__, false );
+      verify_analyze< star_must< any > >( __LINE__, __FILE__, false, false );
       verify_analyze< star_must< eof, eof, eof > >( __LINE__, __FILE__, false, true );
-      verify_analyze< star_must< any, eof, any > >( __LINE__, __FILE__, false );
+      verify_analyze< star_must< any, eof, any > >( __LINE__, __FILE__, false, false );
 
       verify_rule< star_must< one< 'a' > > >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
       verify_rule< star_must< one< 'a' > > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );

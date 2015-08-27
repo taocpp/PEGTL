@@ -7,7 +7,7 @@ namespace pegtl
 {
    void unit_test()
    {
-      verify_analyze< shebang >( __LINE__, __FILE__, true );
+      verify_analyze< shebang >( __LINE__, __FILE__, true, false );
 
       verify_rule< shebang >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< shebang >( __LINE__, __FILE__,  "#", result_type::LOCAL_FAILURE, 1 );
