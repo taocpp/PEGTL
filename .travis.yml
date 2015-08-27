@@ -28,7 +28,7 @@ matrix:
 
     - os: linux
       compiler: clang
-      env: COMPILER=clang++ # this should be version 3.4
+      env: COMPILER=clang++ # 3.4
 
     - os: linux
       compiler: clang
@@ -57,7 +57,7 @@ matrix:
 
     - os: osx
       compiler: clang
-      env: COMPILER=clang++
+      env: COMPILER=clang++ # Apple LLVM version 6.0
 
 script:
   make CXX=$COMPILER -j3
