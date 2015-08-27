@@ -24,11 +24,8 @@ endif
 
 PEGTL_CPPFLAGS ?= -pedantic
 PEGTL_CXXFLAGS ?= -Wall -Wextra -Werror -O3
-ifneq ($(filter coverage,$(MAKECMDGOALS)),)
-PEGTL_CXXFLAGS := $(subst -O3,-O0 --coverage,$(PEGTL_CXXFLAGS))
-endif
 
-.PHONY: all coverage clean
+.PHONY: all clean
 
 SOURCES := $(wildcard */*.cc)
 DEPENDS := $(SOURCES:%.cc=build/%.d)
@@ -40,13 +37,6 @@ all: $(BINARIES)
 	@echo "Built with '$(CXX) $(PEGTL_CXXSTD) -I. $(PEGTL_CPPFLAGS) $(PEGTL_CXXFLAGS)'."
 	@set -e; for T in $(UNIT_TESTS); do echo $$T; $$T; done
 	@echo "All $(words $(UNIT_TESTS)) unit tests passed."
-
-# NOTE: Coverage analysis is considered experimental!
-
-coverage: all
-	@lcov -q -c -d . -b . -o build/gcov.info
-	@lcov -q -r build/gcov.info "/usr*" -o build/gcov.info
-	@genhtml -q build/gcov.info --demangle-cpp -o build/gcov/
 
 clean:
 	rm -rf build/*
