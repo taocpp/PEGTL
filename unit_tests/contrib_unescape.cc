@@ -42,8 +42,8 @@ namespace pegtl
       verify_data( "\\x2000", " 00" );
       verify_data( "\\u0020", " " );
       verify_data( "\\u0020\\u0020", "  " );
-      verify_data( "\\ue4", "\xc3\xa4" );
-      verify_data( "\\uE4", "\xC3\xA4" );
+      verify_data( "\\u00e4", "\xc3\xa4" );
+      verify_data( "\\u00E4", "\xC3\xA4" );
       verify_data( "\\u20ac", "\xe2\x82\xac" );
       verify_data( "\\ud800\\u0020", "\xed\xa0\x80 " );
       verify_data( "\\ud800\\udc00", "\xed\xa0\x80\xed\xb0\x80" );
