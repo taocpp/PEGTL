@@ -17,6 +17,11 @@ matrix:
       after_success:
         - coveralls --gcov gcov-5 --gcov-options '\-lp' --exclude unit_tests --exclude examples
 
+    # MacOS X next as it needs more time to boot than a container
+    - os: osx
+      compiler: clang
+      env: COMPILER=clang++ # Apple LLVM version 6.0
+
     - os: linux
       compiler: gcc
       addons:
@@ -69,10 +74,6 @@ matrix:
 #          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.7']
 #          packages: ['clang-3.7']
 #      env: COMPILER=clang++-3.7
-
-    - os: osx
-      compiler: clang
-      env: COMPILER=clang++ # Apple LLVM version 6.0
 
 script:
   make CXX=$COMPILER -j3
