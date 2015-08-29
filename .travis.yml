@@ -2,6 +2,21 @@ language: cpp
 
 matrix:
   include:
+    # coverage first so we get fast results
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-5']
+      env:
+        - COMPILER=g++-5
+        - PEGTL_CXXFLAGS="-O0 --coverage"
+      before_script:
+        - pip install --user cpp-coveralls
+      after_success:
+        - coveralls --exclude unit_test --exclude examples --include pegtl.hh --include pegtl --gcov gcov-5 --gcov-options '\-lp'
+
     - os: linux
       compiler: gcc
       addons:
@@ -58,20 +73,6 @@ matrix:
     - os: osx
       compiler: clang
       env: COMPILER=clang++ # Apple LLVM version 6.0
-
-    - os: linux
-      compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-4.9']
-      env:
-        - COMPILER=g++-4.9
-        - PEGTL_CXXFLAGS="-O0 --coverage"
-      before_script:
-        - pip install cpp-coveralls
-      after_success:
-        - coveralls --exclude unit_test --exclude examples --include pegtl.hh --include pegtl --gcov gcov-4.9 --gcov-options '\-lp'
 
 script:
   make CXX=$COMPILER -j3
