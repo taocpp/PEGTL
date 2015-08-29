@@ -15,7 +15,7 @@ matrix:
       before_script:
         - pip install --user cpp-coveralls
       after_success:
-        - coveralls --gcov gcov-5 -e unit_test -e examples
+        - coveralls --gcov gcov-5 --gcov-options '\-lp' -e unit_test -e examples
 
     - os: linux
       compiler: gcc
