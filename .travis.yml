@@ -64,12 +64,12 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-4.9', 'python-pip', 'python-yaml']
-      before_script:
-        - pip install --user git+git://github.com/eddyxu/cpp-coveralls.git
+          packages: ['g++-4.9']
       env:
         - COMPILER=g++-4.9
         - PEGTL_CXXFLAGS="-O0 --coverage"
+      before_script:
+        - pip install cpp-coveralls
       after_success:
         - coveralls --exclude unit_test --exclude examples --include pegtl.hh --include pegtl --gcov gcov-4.9 --gcov-options '\-lp'
 
