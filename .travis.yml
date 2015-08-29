@@ -75,7 +75,7 @@ matrix:
       env: COMPILER=clang++ # Apple LLVM version 6.0
 
     - os: osx
-      os_image: xcode7
+      osx_image: xcode7
       compiler: clang
       env: COMPILER=clang++
 
