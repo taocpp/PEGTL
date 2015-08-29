@@ -15,7 +15,7 @@ matrix:
       before_script:
         - pip install --user cpp-coveralls
       after_success:
-        - coveralls --exclude unit_test --exclude examples --include pegtl.hh --include pegtl --gcov gcov-5 --gcov-options '\-lp'
+        - coveralls --gcov gcov-5 -e unit_test -e examples
 
     - os: linux
       compiler: gcc
