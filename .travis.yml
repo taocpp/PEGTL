@@ -18,8 +18,7 @@ matrix:
           packages: ['g++-4.9']
       env: COMPILER=g++-4.9
 
-    - &gcc5
-      os: linux
+    - os: linux
       compiler: gcc
       addons:
         apt:
@@ -65,7 +64,12 @@ matrix:
       compiler: clang
       env: COMPILER=clang++ V='Apple LLVM 7.0.0' # Apple LLVM version 7.0.0 (clang-700.0.72)
 
-    - *gcc5
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-5']
       env:
         - COMPILER=g++-5
         - PEGTL_CXXFLAGS="-O0 --coverage"
