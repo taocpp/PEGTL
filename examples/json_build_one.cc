@@ -175,7 +175,7 @@ int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
       examples::result_state result;
-      pegtl::read_parser( argv[ i ] ).parse< examples::grammar, pegtl::nothing, examples::control >( result );
+      pegtl::file_parser( argv[ i ] ).parse< examples::grammar, pegtl::nothing, examples::control >( result );
       assert( result.result );
       std::cout << result.result << std::endl;
    }

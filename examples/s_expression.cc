@@ -5,7 +5,7 @@
 
 #include <pegtl.hh>
 #include <pegtl/analyze.hh>
-#include <pegtl/read_parser.hh>
+#include <pegtl/file_parser.hh>
 
 namespace sexpr
 {
@@ -76,7 +76,7 @@ namespace sexpr
          // last string literal that we use as filename here, and
          // the input is passed on for chained error messages (as
          // in "error in line x file foo included from file bar...)
-         read_parser( fn, in ).parse< main, sexpr::action >( f2 );
+         file_parser( fn, in ).parse< main, sexpr::action >( f2 );
       }
    };
 

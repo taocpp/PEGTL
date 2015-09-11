@@ -285,7 +285,7 @@ int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
       examples::json_state state;
-      pegtl::read_parser( argv[ i ] ).parse< examples::grammar, examples::json_action, examples::errors >( state );
+      pegtl::file_parser( argv[ i ] ).parse< examples::grammar, examples::json_action, examples::errors >( state );
       assert( state.result() );
       std::cout << state.result() << std::endl;
    }

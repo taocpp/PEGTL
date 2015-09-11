@@ -619,7 +619,7 @@ int main( int argc, char ** argv )
    }
 
    abnf2pegtl::data d;
-   read_parser( argv[ 1 ] ).parse< abnf::grammar::rulelist, abnf2pegtl::action, abnf::grammar::error_control >( d );
+   file_parser( argv[ 1 ] ).parse< abnf::grammar::rulelist, abnf2pegtl::action, abnf::grammar::error_control >( d );
    for( const auto& e : d.rules ) {
       if( e.second.empty() ) {
          if( !d.find_rule( e.first )->second.empty() ) {

@@ -333,7 +333,7 @@ int main( int argc, char ** argv )
    pegtl::analyze< lua53::grammar >();
 
    for ( int i = 1; i < argc; ++i ) {
-      pegtl::read_parser( argv[ i ] ).parse< lua53::grammar >();
+      pegtl::file_parser( argv[ i ] ).parse< lua53::grammar >();
    }
    return 0;
 }
