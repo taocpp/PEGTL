@@ -73,7 +73,7 @@ matrix:
         - COMPILER=g++-5
         - PEGTL_CXXFLAGS="-O0 --coverage"
       before_script:
-        - pip install --user git+git://github.com/d-frey/cpp-coveralls.git@patch-1
+        - pip install --user cpp-coveralls
       after_success:
         - coveralls --gcov gcov-5 --gcov-options '\-lp' --exclude unit_tests --exclude examples
 
