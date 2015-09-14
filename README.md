@@ -63,9 +63,9 @@ The master branch of the PEGTL is stable in the sense that all known bugs are fi
 * XCode 6 (aka Apple LLVM 6.0), libc++ (MacOS X)
 * XCode 7 (aka Apple LLVM 7.0.0), libc++ (MacOS X)
 
-(currently, Visual Studio 2015 is *not* automatically tested)
+(Visual Studio 2015 on Windows is *not* automatically tested, *yet*)
 
-The coverage is also automatically measured and our tests currently cover 100% of the code, excluding examples and contrib.
+The coverage is also automatically measured and our tests cover 100% of the code, excluding examples.
 
 Releases are not stable in the sense that incompatible API changes can happen between major versions.
 [Releases](https://github.com/ColinH/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
