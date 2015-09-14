@@ -6,7 +6,7 @@
 [![Coverage](https://img.shields.io/coveralls/ColinH/PEGTL.svg)](https://coveralls.io/github/ColinH/PEGTL)
 [![Issues](https://img.shields.io/github/issues/ColinH/PEGTL.svg)](https://github.com/ColinH/PEGTL/issues)
 
-The Parsing Expression Grammar Template Library (PEGTL) is a C++11 header-only library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
+The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++11 header-only library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
 #### Introduction
 
@@ -51,7 +51,23 @@ This leads to slightly increased compile times as the C++ compiler is given the 
 
 #### Status
 
-The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. It is not stable in the sense that incompatible API changes can happen between major versions.
+The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. Each commit is automatically tested with multiple operating systems, compilers and versions thereof, namely
+
+* GCC 4.8 (Linux)
+* GCC 4.9 (Linux)
+* GCC 5 (Linux)
+* Clang 3.4 (Linux)
+* Clang 3.5 (Linux)
+* Clang 3.6 (Linux)
+* Clang 3.7 (Linux)
+* XCode 6 (aka Apple LLVM 6.0), libc++ (MacOS X)
+* XCode 7 (aka Apple LLVM 7.0.0), libc++ (MacOS X)
+
+(currently, Visual Studio 2015 is *not* automatically tested)
+
+The coverage is also automatically measured and our tests currently cover 100% of the code, excluding examples and contrib.
+
+Releases are not stable in the sense that incompatible API changes can happen between major versions.
 [Releases](https://github.com/ColinH/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
 
 ## Documentation
