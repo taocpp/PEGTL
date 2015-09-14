@@ -53,15 +53,9 @@ This leads to slightly increased compile times as the C++ compiler is given the 
 
 The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. Each commit is automatically tested with multiple operating systems, compilers and versions thereof, namely
 
-* GCC 4.8 (Linux)
-* GCC 4.9 (Linux)
-* GCC 5 (Linux)
-* Clang 3.4 (Linux)
-* Clang 3.5 (Linux)
-* Clang 3.6 (Linux)
-* Clang 3.7 (Linux)
-* XCode 6 (aka Apple LLVM 6.0), libc++ (MacOS X)
-* XCode 7 (aka Apple LLVM 7.0.0), libc++ (MacOS X)
+* Linux, GCC (4.8, 4.9, 5) with libstdc++
+* Linux, Clang (3.4, 3.5, 3.6, 3.7) with libstdc++
+* MacOS X, XCode (6, 7) with libc++
 
 (Visual Studio 2015 on Windows is *not* automatically tested, *yet*)
 
