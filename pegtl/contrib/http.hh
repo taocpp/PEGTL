@@ -35,7 +35,7 @@ namespace pegtl
       struct field_name : token {};
 
       struct field_vchar : sor< VCHAR, obs_text > {};
-      struct field_content : list_must< field_vchar, plus< WSP > > {};
+      struct field_content : list< field_vchar, plus< WSP > > {};
       struct field_value : star< sor< field_content, obs_fold > > {};
 
       struct header_field : seq< field_name, one< ':' >, OWS, field_value, OWS > {};
