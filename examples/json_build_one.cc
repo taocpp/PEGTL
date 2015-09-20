@@ -25,10 +25,10 @@ namespace examples
    struct string_state
    {
       explicit
-      string_state( result_state & )
+      string_state( const pegtl::input &, result_state & )
       { }
 
-      void success( result_state & result )
+      void success( const pegtl::input &, result_state & result )
       {
          result.result = std::make_shared< string_json >( unescaped );
       }
@@ -88,7 +88,7 @@ namespace examples
          : public result_state
    {
       explicit
-      array_state( result_state & )
+      array_state( const pegtl::input &, result_state & )
       { }
 
       std::shared_ptr< array_json > array = std::make_shared< array_json >();
@@ -99,7 +99,7 @@ namespace examples
          result.reset();
       }
 
-      void success( result_state & result )
+      void success( const pegtl::input &, result_state & result )
       {
          if ( this->result ) {
             push_back();
@@ -125,7 +125,7 @@ namespace examples
          : public result_state
    {
       explicit
-      object_state( result_state & )
+      object_state( const pegtl::input &, result_state & )
       { }
 
       std::string unescaped;
@@ -138,7 +138,7 @@ namespace examples
          result.reset();
       }
 
-      void success( result_state & result )
+      void success( const pegtl::input &, result_state & result )
       {
          if ( this->result ) {
             insert();
