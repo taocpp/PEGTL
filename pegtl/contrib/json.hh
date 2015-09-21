@@ -54,7 +54,7 @@ namespace pegtl
 
       struct array : seq< begin_array, opt< list_must< value, value_separator > >, must< end_array > > {};
 
-      struct value : sor< false_, null, true_, object, array, number, string > {};
+      struct value : sor< string, number, object, array, false_, true_, null > {};
 
       struct text : pad< value, ws > {};
 

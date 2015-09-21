@@ -156,9 +156,9 @@ namespace examples
    template< typename Rule > struct control : errors< Rule > {};  // Inherit from json_errors.hh.
 
    template<> struct control< pegtl::json::value > : change_action< pegtl::json::value, value_action, errors > {};
-   template<> struct control< pegtl::json::string > : change_state< pegtl::json::string, string_state, errors > {};
-   template<> struct control< pegtl::json::array > : change_state_and_action< pegtl::json::array, array_state, array_action, errors > {};
-   template<> struct control< pegtl::json::object > : change_state_and_action< pegtl::json::object, object_state, object_action, errors > {};
+   template<> struct control< pegtl::json::string_content > : change_state< pegtl::json::string_content, string_state, errors > {};
+   template<> struct control< pegtl::list_must< pegtl::json::value, pegtl::json::value_separator > > : change_state_and_action< pegtl::list_must< pegtl::json::value, pegtl::json::value_separator >, array_state, array_action, errors > {};
+   template<> struct control< pegtl::list_must< pegtl::json::member, pegtl::json::value_separator > > : change_state_and_action< pegtl::list_must< pegtl::json::member, pegtl::json::value_separator >, object_state, object_action, errors > {};
 
    struct grammar : pegtl::must< pegtl::json::text, pegtl::eof > {};
 
