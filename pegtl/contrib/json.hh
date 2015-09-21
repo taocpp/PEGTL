@@ -50,14 +50,18 @@ namespace pegtl
       struct key : string {};
 
       struct member : if_must< key, name_separator, value > {};
-      struct object : seq< begin_object, opt< list_must< member, value_separator > >, must< end_object > >
+      struct object_content : list_must< member, value_separator > {};
+      struct object : seq< begin_object, opt< object_content >, must< end_object > >
       {
-         using content = list_must< member, value_separator >;
+         using content = object_content;
       };
-      struct array : seq< begin_array, opt< list_must< value, value_separator > >, must< end_array > >
+
+      struct array_content : list_must< value, value_separator > {};
+      struct array : seq< begin_array, opt< array_content >, must< end_array > >
       {
-         using content = list_must< value, value_separator >;
+         using content = array_content;
       };
+
       struct value : sor< string, number, object, array, false_, true_, null > {};
 
       struct text : pad< value, ws > {};
