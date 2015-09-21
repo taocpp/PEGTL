@@ -16,7 +16,7 @@
 
 namespace pegtl
 {
-#if defined(PEGTL_MMAP_PARSER_HH)
+#if defined(_POSIX_MAPPED_FILES)
    using file_parser = mmap_parser;
 #else
    using file_parser = read_parser;
