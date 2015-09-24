@@ -75,17 +75,18 @@ namespace examples
    };
 
    template<>
-   struct json_action< pegtl::json::string_content >
+   struct json_action< pegtl::json::string::content >
    {
       template< typename State >
       static void apply( const pegtl::input & in, State & state )
       {
-         assert( ! in.empty() );
          string_state s;
-         pegtl::parse_nested< pegtl::json::string_content, string_action >( in, in.string(), "JSON string", s );
+         pegtl::parse_nested< pegtl::json::string::content, string_action >( in, in.string(), "JSON string", s );
          state.string_element( s.unescaped );
       }
    };
+
+   template<> struct json_action< pegtl::json::key::content > : json_action< pegtl::json::string::content > {};
 
    template<>
    struct json_action< pegtl::json::begin_array >
@@ -103,7 +104,7 @@ namespace examples
       template< typename State >
       static void apply( const pegtl::input &, State & state )
       {
-            state.end_array();
+         state.end_array();
       }
    };
 
@@ -242,6 +243,7 @@ namespace examples
          m_result = m_object_stack.back();
          m_object_stack.pop_back();
          m_mode_stack.pop_back();
+         m_next_string_is_name = false;
       }
 
       void value_separator()

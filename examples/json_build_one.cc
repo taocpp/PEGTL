@@ -25,27 +25,32 @@ namespace examples
       std::shared_ptr< json_base > result;
    };
 
-   // State class for parsing literal strings, uses the PEGTL unescape utilities, cf. unescape.cc.
+   // Action class for parsing literal strings, uses the PEGTL unescape utilities, cf. unescape.cc.
 
-   struct string_state
-   {
-      void success( result_state & result )
-      {
-         result.result = std::make_shared< string_json >( unescaped );
-      }
+   template< typename Rule > struct unescape_action : pegtl::nothing< Rule > {};
 
-      std::string unescaped;
-   };
-
-   template< typename Rule > struct string_action : pegtl::nothing< Rule > {};
-
-   template<> struct string_action< pegtl::json::unicode > : pegtl::unescape::unescape_j {};
-   template<> struct string_action< pegtl::json::escaped_char > : pegtl::unescape::unescape_c< pegtl::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
-   template<> struct string_action< pegtl::json::unescaped > : pegtl::unescape::append_all {};
+   template<> struct unescape_action< pegtl::json::unicode > : pegtl::unescape::unescape_j {};
+   template<> struct unescape_action< pegtl::json::escaped_char > : pegtl::unescape::unescape_c< pegtl::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
+   template<> struct unescape_action< pegtl::json::unescaped > : pegtl::unescape::append_all {};
 
    // Action class for the simple cases...
 
-   template< typename Rule > struct value_action : string_action< Rule > {};
+   template< typename Rule > struct value_action : unescape_action< Rule > {};
+
+   struct string_state
+   {
+      string_state() = default;
+
+      string_state( const string_state & ) = delete;
+      void operator= ( const string_state & ) = delete;
+
+      std::string unescaped;
+
+      void success( result_state & result )
+      {
+         result.result = std::make_shared< string_json >( std::move( unescaped ) );
+      }
+   };
 
    template<>
    struct value_action< pegtl::json::null >
@@ -140,7 +145,7 @@ namespace examples
       }
    };
 
-   template< typename Rule > struct object_action : value_action< Rule > {};
+   template< typename Rule > struct object_action : unescape_action< Rule > {};
 
    template<>
    struct object_action< pegtl::json::value_separator >

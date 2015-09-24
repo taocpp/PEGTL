@@ -44,6 +44,7 @@ namespace examples
    template<> const std::string errors< pegtl::json::escaped >::error_message = "unknown escape sequence";
    template<> const std::string errors< pegtl::json::char_ >::error_message = "invalid character in string";
    template<> const std::string errors< pegtl::json::string::content >::error_message = "unterminated string";
+   template<> const std::string errors< pegtl::json::key::content >::error_message = "unterminated key";
 
    template<> const std::string errors< pegtl::eof >::error_message = "unexpected character after JSON value";
 

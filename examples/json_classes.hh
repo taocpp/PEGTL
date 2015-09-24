@@ -47,7 +47,7 @@ namespace examples
 
    inline std::ostream & operator<< ( std::ostream & o, const std::shared_ptr< json_base > & j )
    {
-      return j ? ( o << * j ) : ( o << "[nullptr]" );
+      return j ? ( o << * j ) : ( o << "NULL" );
    }
 
    struct array_json
