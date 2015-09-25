@@ -53,7 +53,7 @@ matrix:
       after_success:
         - coveralls --gcov gcov-5 --gcov-options '\-lp' --exclude unit_tests --exclude examples
 
-  allow_failures:
+#  allow_failures:
     - os: linux
       compiler: clang
       addons:
