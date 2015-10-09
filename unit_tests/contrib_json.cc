@@ -119,6 +119,12 @@ namespace pegtl
       verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "unit_tests/data/fail31.json" );
       verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "unit_tests/data/fail32.json" );
       verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "unit_tests/data/fail33.json" );
+      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "unit_tests/data/fail34.json" );
+      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "unit_tests/data/fail35.json" );
+      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "unit_tests/data/fail36.json" );
+      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "unit_tests/data/fail37.json" );
+      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "unit_tests/data/fail38.json" );
+      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "unit_tests/data/fail39.json" );
    }
 
 } // pegtl

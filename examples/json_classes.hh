@@ -107,12 +107,12 @@ namespace examples
          : public json_base
    {
       explicit
-      number_json( const double data )
+      number_json( const long double data )
             : json_base( json_type::NUMBER ),
               data( data )
       { }
 
-      double data;
+      long double data;
 
       virtual void stream( std::ostream & o ) const override
       {
@@ -122,7 +122,7 @@ namespace examples
 
    inline std::string json_escape( const std::string & data )
    {
-      std::string r;
+      std::string r = "\"";
 
       static const char * h = "0123456789abcdef";
 
@@ -131,11 +131,36 @@ namespace examples
             r += "\\u00";
             r += h[ ( c & 0xf0 ) >> 4 ];
             r += h[   c & 0x0f        ];
+            continue;
          }
-         else {
-            r += c;  // Assume valid UTF-8.
+         switch ( c ) {
+            case '\b':
+               r += "\\b";
+               break;
+            case '\f':
+               r += "\\f";
+               break;
+            case '\n':
+               r += "\\n";
+               break;
+            case '\r':
+               r += "\\r";
+               break;
+            case '\t':
+               r += "\\t";
+               break;
+            case '\\':
+               r += "\\\\";
+               break;
+            case '\"':
+               r += "\\\"";
+               break;
+            default:
+               r += c;  // Assume valid UTF-8.
+               break;
          }
       }
+      r += '"';
       return r;
    }
 
@@ -152,7 +177,7 @@ namespace examples
 
       virtual void stream( std::ostream & o ) const override
       {
-         o << '"' << json_escape( data ) << '"';
+         o << json_escape( data );
       }
    };
 
@@ -163,16 +188,16 @@ namespace examples
             : json_base( json_type::OBJECT )
       { }
 
-      std::multimap< std::string, std::shared_ptr< json_base > > data;
+      std::map< std::string, std::shared_ptr< json_base > > data;
 
       virtual void stream( std::ostream & o ) const override
       {
          o << '{';
          if ( ! data.empty() ) {
             auto iter = data.begin();
-            o << '"' << json_escape( iter->first ) << "\":" << iter->second;
+            o << json_escape( iter->first ) << ':' << iter->second;
             while ( ++iter != data.end() ) {
-               o << ",\"" << json_escape( iter->first ) << "\":" << iter->second;
+               o << ',' << json_escape( iter->first ) << ':' << iter->second;
             }
          }
          o << '}';

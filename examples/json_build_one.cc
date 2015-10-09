@@ -5,11 +5,11 @@
 
 #include <pegtl.hh>
 #include <pegtl/contrib/json.hh>
-#include <pegtl/contrib/unescape.hh>
 
 #include "json_errors.hh"
 #include "json_changes.hh"
 #include "json_classes.hh"
+#include "json_unescape.hh"
 
 namespace examples
 {
@@ -25,27 +25,13 @@ namespace examples
       std::shared_ptr< json_base > result;
    };
 
-   // Action class for parsing literal strings, uses the PEGTL unescape utilities, cf. unescape.cc.
-
-   template< typename Rule > struct unescape_action : pegtl::nothing< Rule > {};
-
-   template<> struct unescape_action< pegtl::json::unicode > : pegtl::unescape::unescape_j {};
-   template<> struct unescape_action< pegtl::json::escaped_char > : pegtl::unescape::unescape_c< pegtl::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
-   template<> struct unescape_action< pegtl::json::unescaped > : pegtl::unescape::append_all {};
-
    // Action class for the simple cases...
 
    template< typename Rule > struct value_action : unescape_action< Rule > {};
 
    struct string_state
+         : public unescape_state_base
    {
-      string_state() = default;
-
-      string_state( const string_state & ) = delete;
-      void operator= ( const string_state & ) = delete;
-
-      std::string unescaped;
-
       void success( result_state & result )
       {
          result.result = std::make_shared< string_json >( std::move( unescaped ) );
@@ -84,7 +70,7 @@ namespace examples
    {
       static void apply( const pegtl::input & in, result_state & result )
       {
-         result.result = std::make_shared< number_json >( std::stod( in.string() ) );  // NOTE: stod() is not quite correct for JSON but we'll use it for this example.
+         result.result = std::make_shared< number_json >( std::stold( in.string() ) );  // NOTE: stold() is not quite correct for JSON but we'll use it for this simple example.
       }
    };
 
