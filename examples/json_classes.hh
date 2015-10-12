@@ -124,9 +124,14 @@ namespace examples
    {
       std::string r = "\"";
 
+      r.reserve( data.size() + 4 );
+
       static const char * h = "0123456789abcdef";
 
-      for ( auto c : data ) {
+      const unsigned char * d = reinterpret_cast< const unsigned char * >( data.data() );
+
+      for ( size_t i = 0; i < data.size(); ++i ) {
+         const auto c = d[ i ];
          if ( ( c < 32 ) || ( c == 127 ) ) {
             r += "\\u00";
             r += h[ ( c & 0xf0 ) >> 4 ];
