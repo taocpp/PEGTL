@@ -84,7 +84,7 @@ namespace pegtl
          template< typename Input, typename State >
          static void apply( const Input & in, State & st )
          {
-            st.unescaped.append( in.begin(), in.end() );
+            st.unescaped.append( in.begin(), in.size() );
          }
       };
 
