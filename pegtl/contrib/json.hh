@@ -31,18 +31,10 @@ namespace pegtl
       struct true_ : pegtl_string_t( "true" ) {};
 
       struct digits : plus< abnf::DIGIT > {};
-
-      struct zero : one< '0' > {};
-      struct msign : one< '-' > {};
-      struct esign : one< '-', '+' > {};
-      struct edigits : digits {};
-      struct fdigits : digits {};
-      struct idigits : digits {};
-
-      struct exp : seq< one< 'e', 'E' >, opt< esign >, must< edigits > > {};
-      struct frac : if_must< one< '.' >, fdigits > {};
-      struct int_ : sor< zero, idigits > {};
-      struct number : seq< opt< msign >, int_, opt< frac >, opt< exp > > {};
+      struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+'> >, must< digits > > {};
+      struct frac : if_must< one< '.' >, digits > {};
+      struct int_ : sor< one< '0' >, digits > {};
+      struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
 
       struct xdigit : abnf::HEXDIG {};
       struct unicode : list< seq< one< 'u' >, rep< 4, must< xdigit > > >, one< '\\' > > {};

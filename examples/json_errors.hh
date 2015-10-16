@@ -40,8 +40,7 @@ namespace examples
    template<> const std::string errors< pegtl::json::array_element >::error_message = "expected value";
    template<> const std::string errors< pegtl::json::value >::error_message = "expected value";
 
-   template<> const std::string errors< pegtl::json::edigits >::error_message = "expected at least one exponent digit";
-   template<> const std::string errors< pegtl::json::fdigits >::error_message = "expected at least one fraction digit";
+   template<> const std::string errors< pegtl::json::digits >::error_message = "expected at least one digit";
    template<> const std::string errors< pegtl::json::xdigit >::error_message = "incomplete universal character name";
    template<> const std::string errors< pegtl::json::escaped >::error_message = "unknown escape sequence";
    template<> const std::string errors< pegtl::json::char_ >::error_message = "invalid character in string";
