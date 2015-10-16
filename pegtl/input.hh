@@ -85,6 +85,12 @@ namespace pegtl
          }
       }
 
+      void bump_in_line( const std::size_t count = 1 )
+      {
+         m_data.begin += count;
+         m_data.column += count;
+      }
+
       bool bump_if()
       {
          if ( ! empty() ) {

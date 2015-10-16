@@ -5,6 +5,7 @@
 #define PEGTL_INTERNAL_RANGE_HH
 
 #include "any.hh"
+#include "bump_util.hh"
 #include "skip_control.hh"
 #include "result_on_found.hh"
 
@@ -19,13 +20,15 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
+         static constexpr bool can_match_lf = ( ( ( Lo <= '\n' ) && ( '\n' <= Hi ) ) == bool( R ) );
+
          template< typename Input >
          static bool match( Input & in )
          {
             if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
                   if ( ( ( Lo <= t.data ) && ( t.data <= Hi ) ) == bool( R ) ) {
-                     in.bump( t.size );
+                     bump_impl< can_match_lf >::bump( in, t.size );
                      return true;
                   }
                }

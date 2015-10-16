@@ -6,8 +6,10 @@
 
 #include <type_traits>
 
-#include "trivial.hh"
+#include "result_on_found.hh"
 #include "skip_control.hh"
+#include "bump_util.hh"
+#include "trivial.hh"
 
 #include "../analysis/counted.hh"
 
@@ -72,7 +74,7 @@ namespace pegtl
          {
             if ( in.size() >= sizeof ... ( Cs ) ) {
                if ( istring_equal< Cs ... >::match( in.begin() ) ) {
-                  in.bump( sizeof ... ( Cs ) );
+                  bump< result_on_found::SUCCESS, Input, char, Cs ... >( in, sizeof ... ( Cs ) );
                   return true;
                }
             }

@@ -4,9 +4,10 @@
 #ifndef PEGTL_INTERNAL_RANGES_HH
 #define PEGTL_INTERNAL_RANGES_HH
 
-#include "skip_control.hh"
 #include "any.hh"
 #include "range.hh"
+#include "bump_util.hh"
+#include "skip_control.hh"
 
 #include "../analysis/generic.hh"
 
@@ -19,6 +20,8 @@ namespace pegtl
       template< typename Char >
       struct ranges_impl< Char >
       {
+         static constexpr bool can_match_lf = false;
+
          static bool match( const Char )
          {
             return false;
@@ -28,6 +31,8 @@ namespace pegtl
       template< typename Char, Char Eq >
       struct ranges_impl< Char, Eq >
       {
+         static constexpr bool can_match_lf = ( Eq == '\n' );
+
          static bool match( const Char c )
          {
             return c == Eq;
@@ -37,6 +42,8 @@ namespace pegtl
       template< typename Char, Char Lo, Char Hi, Char ... Cs >
       struct ranges_impl< Char, Lo, Hi, Cs ... >
       {
+         static constexpr bool can_match_lf = ( ( ( Lo <= '\n' ) && ( '\n' <= Hi ) ) || ranges_impl< Char, Cs ... >::can_match_lf );
+
          static bool match( const Char c )
          {
             return ( ( Lo <= c ) && ( c <= Hi ) ) || ranges_impl< Char, Cs ... >::match( c );
@@ -48,13 +55,15 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
+         static constexpr bool can_match_lf = ranges_impl< typename Peek::data_t, Cs ... >::can_match_lf;
+
          template< typename Input >
          static bool match( Input & in )
          {
             if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
                   if ( ranges_impl< typename Peek::data_t, Cs ... >::match( t.data ) ) {
-                     in.bump( t.size );
+                     bump_impl< can_match_lf >::bump( in, t.size );
                      return true;
                   }
                }

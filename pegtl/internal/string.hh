@@ -7,7 +7,9 @@
 #include <utility>
 #include <cstring>
 
+#include "result_on_found.hh"
 #include "skip_control.hh"
+#include "bump_util.hh"
 #include "trivial.hh"
 
 #include "../analysis/counted.hh"
@@ -39,7 +41,7 @@ namespace pegtl
          {
             if ( in.size() >= sizeof ... ( Cs ) ) {
                if ( unsafe_equals( in.begin(), { Cs ... } ) ) {
-                  in.bump( sizeof ... ( Cs ) );
+                  bump< result_on_found::SUCCESS, Input, char, Cs ... >( in, sizeof ... ( Cs ) );
                   return true;
                }
             }

@@ -7,6 +7,7 @@
 #include <utility>
 #include <algorithm>
 
+#include "bump_util.hh"
 #include "skip_control.hh"
 #include "result_on_found.hh"
 
@@ -33,7 +34,7 @@ namespace pegtl
             if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
                   if ( contains( t.data, { Cs ... } ) == bool( R ) ) {
-                     in.bump( t.size );
+                     bump< R, Input, typename Peek::data_t, Cs ... >( in, t.size );
                      return true;
                   }
                }
@@ -53,7 +54,7 @@ namespace pegtl
             if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
                   if ( ( t.data == C ) == bool( R ) ) {
-                     in.bump( t.size );
+                     bump< R, Input, typename Peek::data_t, C >( in, t.size );
                      return true;
                   }
                }
