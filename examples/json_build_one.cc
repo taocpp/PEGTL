@@ -5,9 +5,9 @@
 
 #include <pegtl.hh>
 #include <pegtl/contrib/json.hh>
+#include <pegtl/contrib/changes.hh>
 
 #include "json_errors.hh"
-#include "json_changes.hh"
 #include "json_classes.hh"
 #include "json_unescape.hh"
 
@@ -146,10 +146,10 @@ namespace examples
 
    template< typename Rule > struct control : errors< Rule > {};  // Inherit from json_errors.hh.
 
-   template<> struct control< pegtl::json::value > : change_action< pegtl::json::value, value_action, errors > {};
-   template<> struct control< pegtl::json::string::content > : change_state< pegtl::json::string::content, string_state, errors > {};
-   template<> struct control< pegtl::json::array::content > : change_state_and_action< pegtl::json::array::content, array_state, array_action, errors > {};
-   template<> struct control< pegtl::json::object::content > : change_state_and_action< pegtl::json::object::content, object_state, object_action, errors > {};
+   template<> struct control< pegtl::json::value > : pegtl::change_action< pegtl::json::value, value_action, errors > {};
+   template<> struct control< pegtl::json::string::content > : pegtl::change_state< pegtl::json::string::content, string_state, errors > {};
+   template<> struct control< pegtl::json::array::content > : pegtl::change_state_and_action< pegtl::json::array::content, array_state, array_action, errors > {};
+   template<> struct control< pegtl::json::object::content > : pegtl::change_state_and_action< pegtl::json::object::content, object_state, object_action, errors > {};
 
    struct grammar : pegtl::must< pegtl::json::text, pegtl::eof > {};
 

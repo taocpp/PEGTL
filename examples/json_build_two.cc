@@ -5,10 +5,10 @@
 
 #include <pegtl.hh>
 #include <pegtl/contrib/json.hh>
+#include <pegtl/contrib/changes.hh>
 
 #include "json_errors.hh"
 #include "json_classes.hh"
-#include "json_changes.hh"
 #include "json_unescape.hh"
 
 namespace examples
@@ -78,7 +78,7 @@ namespace examples
    };
 
    template<>
-   struct control< pegtl::json::string::content > : change_state< pegtl::json::string::content, string_state, errors > {};
+   struct control< pegtl::json::string::content > : pegtl::change_state< pegtl::json::string::content, string_state, errors > {};
 
    template<>
    struct action< pegtl::json::array::begin >
@@ -128,7 +128,7 @@ namespace examples
    };
 
    template<>
-   struct control< pegtl::json::key::content > : change_state< pegtl::json::key::content, key_state, errors > {};
+   struct control< pegtl::json::key::content > : pegtl::change_state< pegtl::json::key::content, key_state, errors > {};
 
    template<>
    struct action< pegtl::json::object::element >

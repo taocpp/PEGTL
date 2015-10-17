@@ -1,28 +1,28 @@
 // Copyright (c) 2015 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
-#ifndef PEGTL_EXAMPLES_JSON_CHANGES_HH
-#define PEGTL_EXAMPLES_JSON_CHANGES_HH
+#ifndef PEGTL_CONTRIB_CHANGES_HH
+#define PEGTL_CONTRIB_CHANGES_HH
 
-#include <pegtl/normal.hh>
+#include <type_traits>
 
-namespace examples
+#include "../normal.hh"
+
+namespace pegtl
 {
-   struct dummy_disabled_state
+   namespace internal
    {
-      template< typename ... Ts >
-      dummy_disabled_state( Ts && ... )
-      { }
+      struct dummy_disabled_state
+      {
+         template< typename ... Ts >
+         void success( Ts && ... )
+         { }
+      };
 
-      template< typename ... Ts >
-      void success( Ts && ... )
-      { }
-   };
+      template< pegtl::apply_mode A, typename State >
+      using state_disable_helper = typename std::conditional< A == pegtl::apply_mode::ACTION, State, dummy_disabled_state >::type;
 
-   template< pegtl::apply_mode A, typename State > struct state_disable_helper;
-
-   template< typename State > struct state_disable_helper< pegtl::apply_mode::ACTION, State > { using state_t = State; };
-   template< typename State > struct state_disable_helper< pegtl::apply_mode::NOTHING, State > { using state_t = dummy_disabled_state; };
+   } // internal
 
    template< typename Rule, typename State, template< typename ... > class Base = pegtl::normal >
    struct change_state
@@ -31,7 +31,7 @@ namespace examples
       template< pegtl::apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
       static bool match( Input & in, States && ... st )
       {
-         typename state_disable_helper< A, State >::state_t s;
+         internal::state_disable_helper< A, State > s;
 
          if ( Base< Rule >::template match< A, Action, Control >( in, s ) ) {
             s.success( st ... );
@@ -63,6 +63,6 @@ namespace examples
          : public change_state< Rule, State, change_both_helper< Action, Base >::template change_action >
    { };
 
-} // examples
+} // pegtl
 
 #endif
