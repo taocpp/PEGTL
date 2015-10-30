@@ -131,14 +131,7 @@ namespace examples
       const unsigned char * d = reinterpret_cast< const unsigned char * >( data.data() );
 
       for ( size_t i = 0; i < data.size(); ++i ) {
-         const auto c = d[ i ];
-         if ( ( c < 32 ) || ( c == 127 ) ) {
-            r += "\\u00";
-            r += h[ ( c & 0xf0 ) >> 4 ];
-            r += h[   c & 0x0f        ];
-            continue;
-         }
-         switch ( c ) {
+         switch ( const auto c = d[ i ] ) {
             case '\b':
                r += "\\b";
                break;
@@ -161,6 +154,12 @@ namespace examples
                r += "\\\"";
                break;
             default:
+               if ( ( c < 32 ) || ( c == 127 ) ) {
+                  r += "\\u00";
+                  r += h[ ( c & 0xf0 ) >> 4 ];
+                  r += h[   c & 0x0f        ];
+                  continue;
+               }
                r += c;  // Assume valid UTF-8.
                break;
          }
