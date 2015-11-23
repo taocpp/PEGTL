@@ -15,6 +15,9 @@ namespace pegtl
    void unit_test()
    {
       {
+         struct rec : sor< seq< rec, alpha >, alpha > {};
+         verify_analyze< rec >( __LINE__, __FILE__, true, true );
+      } {
          struct bar;
          struct foo : seq< digit, bar > {};
          struct bar : plus< foo > {};
@@ -69,6 +72,54 @@ namespace pegtl
       } {
          struct tst : until< star< any >, any > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, false );
+      } {
+         struct tst : star< star< any > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
+      } {
+         struct tst : plus< star< any > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
+      } {
+         struct tst : plus< opt< any > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
+      } {
+         struct tst : star< opt< any > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
+      } {
+         struct tst : star< plus< opt< any > > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
+      } {
+         struct tst : list< any, any > {};
+         verify_analyze< tst >( __LINE__, __FILE__, true, false );
+      } {
+         struct tst : list< star< any >, any > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, false );
+      } {
+         struct tst : list< any, opt< any > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, true, false );
+      } {
+         struct tst : list< star< any >, opt< any > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
+      } {
+         struct tst : list_must< any, any > {};
+         verify_analyze< tst >( __LINE__, __FILE__, true, false );
+      } {
+         struct tst : list_must< star< any >, any > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, false );
+      } {
+         struct tst : list_must< any, opt< any > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, true, false );
+      } {
+         struct tst : list_must< star< any >, opt< any > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
+      } {
+         struct tst : plus< pad_opt< alpha, digit > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
+      } {
+         struct tst : rep< 42, opt< alpha > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, false );
+      } {
+         struct tst : rep_min< 42, opt< alpha > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
       }
    }
 
