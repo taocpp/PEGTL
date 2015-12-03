@@ -4,9 +4,14 @@
 #ifndef PEGTL_INTERNAL_UNTIL_HH
 #define PEGTL_INTERNAL_UNTIL_HH
 
-#include "skip_control.hh"
+#include "eof.hh"
+#include "star.hh"
 #include "bytes.hh"
+#include "not_at.hh"
+#include "skip_control.hh"
 #include "rule_conjunction.hh"
+
+#include "../analysis/generic.hh"
 
 namespace pegtl
 {
@@ -20,7 +25,7 @@ namespace pegtl
       template< typename Cond >
       struct until< Cond >
       {
-         using analyze_t = analysis::generic< analysis::rule_type::UNTIL, Cond, bytes< 1 > >;
+         using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
@@ -40,7 +45,7 @@ namespace pegtl
       template< typename Cond, typename ... Rules >
       struct until
       {
-         using analyze_t = analysis::generic< analysis::rule_type::UNTIL, Cond, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, Rules ... >, Cond >;
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

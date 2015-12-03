@@ -4,9 +4,9 @@
 #ifndef PEGTL_INTERNAL_PLUS_HH
 #define PEGTL_INTERNAL_PLUS_HH
 
-#include "skip_control.hh"
 #include "seq.hh"
-#include "star.hh"
+#include "opt.hh"
+#include "skip_control.hh"
 
 #include "../analysis/generic.hh"
 
@@ -17,14 +17,12 @@ namespace pegtl
       // While plus<> could easily be implemented with
       // seq< Rule, Rules ..., star< Rule, Rules ... > > we
       // provide an explicit implementation to optimize away
-      // the otherwise created input mark. Given that plus<>
-      // is a low-level, often-used combinator, the savings
-      // were considered worth the additional code.
+      // the otherwise created input mark.
 
       template< typename Rule, typename ... Rules >
       struct plus
       {
-         using analyze_t = analysis::generic< analysis::rule_type::PLUS, Rule, Rules ... >;
+         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule, Rules ..., opt< plus > >;
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )

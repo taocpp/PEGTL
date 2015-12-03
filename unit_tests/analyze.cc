@@ -14,7 +14,41 @@ namespace pegtl
 
    void unit_test()
    {
+      verify_analyze< eof >( __LINE__, __FILE__, false, false );
+      verify_analyze< eolf >( __LINE__, __FILE__, false, false );
+      verify_analyze< success >( __LINE__, __FILE__, false, false );
+      verify_analyze< failure >( __LINE__, __FILE__, true, false );
       {
+         struct tst : seq< eof, at< digit >, tst > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );  // This is a false positive.
+      } {
+         struct tst : sor< digit, seq< at< digit >, tst > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );  // This is a false positive.
+      } {
+         struct tst : sor< digit, seq< opt< digit >, tst > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
+      } {
+         struct tst : sor< digit, tst > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
+      } {
+         struct tst : at< any > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, false );
+      } {
+         struct tst : at< tst > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
+      } {
+         struct tst : at< any, tst > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, false );
+      } {
+         struct tst : not_at< any > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, false );
+      } {
+         struct tst : opt< tst > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, true );
+      } {
+         struct tst : opt< any, tst > {};
+         verify_analyze< tst >( __LINE__, __FILE__, false, false );
+      } {
          struct rec : sor< seq< rec, alpha >, alpha > {};
          verify_analyze< rec >( __LINE__, __FILE__, true, true );
       } {
@@ -72,6 +106,9 @@ namespace pegtl
       } {
          struct tst : until< star< any >, any > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, false );
+      } {
+         struct tst : plus< plus< any > > {};
+         verify_analyze< tst >( __LINE__, __FILE__, true, false );
       } {
          struct tst : star< star< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );

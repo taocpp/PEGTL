@@ -4,8 +4,8 @@
 #ifndef PEGTL_INTERNAL_NOT_AT_HH
 #define PEGTL_INTERNAL_NOT_AT_HH
 
-#include "skip_control.hh"
 #include "trivial.hh"
+#include "skip_control.hh"
 #include "rule_conjunction.hh"
 
 #include "../analysis/generic.hh"

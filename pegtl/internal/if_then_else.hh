@@ -4,6 +4,9 @@
 #ifndef PEGTL_INTERNAL_IF_THEN_ELSE_HH
 #define PEGTL_INTERNAL_IF_THEN_ELSE_HH
 
+#include "sor.hh"
+#include "seq.hh"
+#include "not_at.hh"
 #include "skip_control.hh"
 
 #include "../analysis/generic.hh"
@@ -15,7 +18,7 @@ namespace pegtl
       template< typename Cond, typename Then, typename Else >
       struct if_then_else
       {
-         using analyze_t = analysis::generic< analysis::rule_type::IF, Cond, Then, Else >;
+         using analyze_t = analysis::generic< analysis::rule_type::SOR, seq< Cond, Then >, seq< not_at< Cond >, Else > >;
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
