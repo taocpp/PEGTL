@@ -33,9 +33,9 @@ namespace pegtl
 #ifdef __ANDROID__
       std::ostringstream stm;
       stm << argc;
-      out = stm.str();
+      argc_as_string = stm.str();
 #else
-      out = std::to_string( argc );
+      argc_as_string = std::to_string( argc );
 #endif
       const std::string source = "argv[" + argc_as_string + ']';
       input in( 1, 0, argv[ argc ], argv[ argc ] + ::strlen( argv[ argc ] ), source.c_str() );
