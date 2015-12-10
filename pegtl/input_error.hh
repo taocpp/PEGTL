@@ -7,6 +7,10 @@
 #include <sstream>
 #include <stdexcept>
 
+#ifdef __ANDROID__
+#  include <cerrno>
+#endif
+
 namespace pegtl
 {
    struct input_error

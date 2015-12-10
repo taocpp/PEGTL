@@ -7,6 +7,10 @@
 #include <string>
 #include <cstring>
 
+#ifdef __ANDROID__
+#  include <sstream>
+#endif
+
 #include "input.hh"
 
 #include "normal.hh"
@@ -25,7 +29,15 @@ namespace pegtl
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
    bool parse( const int argc, char ** argv, States && ... st )
    {
-      const std::string source = "argv[" + std::to_string( argc ) + ']';
+      std::string argc_as_string;
+#ifdef __ANDROID__
+      std::ostringstream stm;
+      stm << argc;
+      out = stm.str();
+#else
+      out = std::to_string( argc );
+#endif
+      const std::string source = "argv[" + argc_as_string + ']';
       input in( 1, 0, argv[ argc ], argv[ argc ] + ::strlen( argv[ argc ] ), source.c_str() );
       return parse_input< Rule, Action, Control >( in, st ... );
    }
