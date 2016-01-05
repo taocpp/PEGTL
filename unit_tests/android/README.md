@@ -26,10 +26,7 @@ is prepared by the command:
 
 To build the unit test as a native activity, you'll do
 
-    cd jni
-    ndk-build
-    cd ..
-    ant debug
+    ./build-unittest.sh
 
 The native activity is packaged as an Android app, and it can be installed on a device using the command:
 
@@ -38,3 +35,13 @@ The native activity is packaged as an Android app, and it can be installed on a 
 and finally, you can run it with the command
 
     ./run_unittest
+
+If you wish to build and run all unit tests, the following command does that:
+
+    ./run_allunittests.sh
+
+As it produces quite a lot of output, it might be better to do
+
+    rm -f log ; ./run_allunittests.sh 2>&1 | tee log
+
+and search `log` for either `passed` or `failed` unit tests.

@@ -5,6 +5,7 @@ do
     echo "Building and running $name"
     ./mk_unittest.sh $name
     ./build_unittest.sh
+    ant installd
     ./run_unittest.sh
     echo "Done $name"
 done
