@@ -69,7 +69,7 @@ void android_main(struct android_app* state)
     LOGI("Copying of asset files completed.");
 
     LOGI("Starting unit test.");
-    pegtl::unit_test();
+    pegtl::unit_test(inDataPath);
     if (pegtl::failed) {
         LOGI("Unittest failed.");
     }
