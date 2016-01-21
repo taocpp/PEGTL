@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_PARSE_HH
@@ -6,6 +6,7 @@
 
 #include <string>
 #include <cstring>
+#include <sstream>
 
 #include "input.hh"
 
@@ -25,7 +26,9 @@ namespace pegtl
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
    bool parse( const int argc, char ** argv, States && ... st )
    {
-      const std::string source = "argv[" + std::to_string( argc ) + ']';
+      std::ostringstream os;
+      os << "argv[" << argc << ']';
+      const std::string source = os.str();
       input in( 1, 0, argv[ argc ], argv[ argc ] + ::strlen( argv[ argc ] ), source.c_str() );
       return parse_input< Rule, Action, Control >( in, st ... );
    }

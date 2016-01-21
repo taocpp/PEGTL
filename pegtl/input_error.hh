@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INPUT_ERROR_HH
@@ -6,6 +6,7 @@
 
 #include <sstream>
 #include <stdexcept>
+#include <cerrno>
 
 namespace pegtl
 {

@@ -122,6 +122,7 @@ Releases are not stable in the sense that incompatible API changes can happen be
 * Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
 * Sam Hocevar for contributing Visual Studio 2015 compatibility.
 * George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `pegtl_string_t`.
+* Kenneth Geisshirt for Android compatibility.
 
 ## License
 
@@ -129,7 +130,7 @@ Releases are not stable in the sense that incompatible API changes can happen be
 
 The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.html) software. It may be used for any purpose, including commercial purposes, at absolutely no cost. It is distributed under the terms of the [MIT license](http://www.opensource.org/licenses/mit-license.html) reproduced here.
 
-> Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+> Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 >
 > Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 >
