@@ -61,7 +61,7 @@ namespace pegtl
          std::FILE * open() const
          {
             errno = 0;
-            if ( auto * file = std::fopen( m_source.c_str(), "r" ) ) {
+            if ( auto * file = std::fopen( m_source.c_str(), "rb" ) ) {
                return file;
             }
             PEGTL_THROW_INPUT_ERROR( "unable to fopen() file " << m_source << " for reading" );
