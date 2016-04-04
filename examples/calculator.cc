@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #include <map>
@@ -42,8 +42,8 @@ namespace calculator
       std::function< long ( long, long ) > f;
    };
 
-   // Class that takes care of a single operand and operator stack
-   // for shift-reduce style handling of operator associativity and
+   // Class that takes care of an operand and an operator stack for
+   // shift-reduce style handling of operator associativity and
    // priority; in a reduce-step it calls on the functions contained
    // in the op instances to perform the calculation.
 
@@ -99,10 +99,10 @@ namespace calculator
 
    // Additional layer, a "stack of stacks", to clearly show how bracketed
    // sub-expressions can be easily processed by giving them a stack of
-   // their own. Once bracketed sub-expression has finished evaluation on
-   // its stack the result is collected, the temporary stack discarded, and
-   // the result pushed onto the next higher stack. The top-level calculation
-   // is handled just like a bracketed sub-expression on the first stack pushed
+   // their own. Once a bracketed sub-expression has finished evaluation on
+   // its stack, the result is pushed onto the next higher stack, and the
+   // sub-expression's temporary stack is discarded. The top-level calculation
+   // is handled just like a bracketed sub-expression, on the first stack pushed
    // by the constructor.
 
    struct stacks
@@ -143,14 +143,14 @@ namespace calculator
    };
 
    // A wrapper around the data structures that contain the binary
-   // operators to be used in the calculator.
+   // operators for the calculator.
 
    struct operators
    {
       operators()
       {
          // By default we initialise with all binary operators from the C language that can be
-         // used on integers, and all with their usual priority and associativity.
+         // used on integers, all with their usual priority and associativity.
 
          insert( "*", order( 5 ), assoc::LEFT, []( const long l, const long r ){ return l * r; } );
          insert( "/", order( 5 ), assoc::LEFT, []( const long l, const long r ){ return l / r; } );
@@ -263,7 +263,7 @@ namespace calculator
    struct bracket
          : if_must< one< '(' >, expression, one< ')' > > {};
 
-   // A atomic expression, i.e. one without operators, is either a number or
+   // An atomic expression, i.e. one without operators, is either a number or
    // a bracketed expression.
 
    struct atomic
