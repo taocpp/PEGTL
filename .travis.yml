@@ -54,6 +54,14 @@ matrix:
           packages: ['clang-3.7']
       env: COMPILER=clang++-3.7
 
+    - os: linux
+      compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
+          packages: ['clang-3.8']
+      env: COMPILER=clang++-3.8
+
     - os: osx
       compiler: clang
       env: COMPILER=clang++ V='Apple LLVM 6.0' # Apple LLVM version 6.0 (clang-600.0.54) (based on LLVM 3.5svn)
