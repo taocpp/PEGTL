@@ -7,6 +7,7 @@ namespace pegtl
 {
    void unit_test()
    {
+#if defined(_POSIX_MAPPED_FILES)
       const internal::file_opener fo( "Makefile" );
       ::close( fo.m_fd );  // Provoke exception, nobody would normally do this.
       try {
@@ -16,6 +17,7 @@ namespace pegtl
       }
       catch ( const std::exception & ) {
       }
+#endif
    }
 
 } // pegtl
