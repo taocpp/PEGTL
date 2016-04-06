@@ -51,18 +51,19 @@ This leads to slightly increased compile times as the C++ compiler is given the 
 
 #### Status
 
-The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. Each commit is automatically tested with multiple operating systems, compilers and versions thereof, namely
+The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. Each commit is automatically tested with multiple operating systems, compilers and versions, currently:
 
 * Linux, GCC (4.8, 4.9, 5) with libstdc++
-* Linux, Clang (3.4, 3.5, 3.6, 3.7) with libstdc++
+* Linux, Clang (3.4, 3.5, 3.6, 3.7, 3.8) with libstdc++
 * MacOS X, XCode (6, 7) with libc++
 
-(Visual Studio 2015 on Windows is *not* automatically tested, *yet*)
+(Visual Studio 2015 on Windows is *not* automatically tested, *yet*.)
 
-The coverage is also automatically measured and our tests cover 100% of the code, excluding examples.
+The coverage is also automatically measured. Our unit tests cover 100% of the core library code.
 
-Releases are not stable in the sense that incompatible API changes can happen between major versions.
+Releases are not stable in the sense that incompatible API changes can happen, but only between major versions.
 [Releases](https://github.com/ColinH/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
+For details see the [changelog](https://github.com/ColinH/PEGTL/wiki/Changelog).
 
 ## Documentation
 
