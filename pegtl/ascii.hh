@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_ASCII_HH
@@ -16,7 +16,7 @@ namespace pegtl
       struct any : internal::any< internal::peek_char > {};
       struct blank : internal::one< internal::result_on_found::SUCCESS, internal::peek_char, ' ', '\t' > {};
       struct digit : internal::range< internal::result_on_found::SUCCESS, internal::peek_char, '0', '9' > {};
-      struct eol : internal::one< internal::result_on_found::SUCCESS, internal::peek_char, '\n' > {};
+      struct eol : internal::eol {};
       struct eolf : internal::eolf {};
       struct identifier_first : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '_' > {};
       struct identifier_other : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9', '_' > {};

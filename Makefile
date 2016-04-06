@@ -3,6 +3,9 @@
 
 ifeq ($(OS),Windows_NT)
 UNAME_S := $(OS)
+ifeq ($(shell gcc -dumpmachine),mingw32)
+MINGW_CXXFLAGS = -U__STRICT_ANSI__
+endif
 else
 UNAME_S := $(shell uname -s)
 endif
@@ -23,7 +26,7 @@ endif
 # changed if desired.
 
 PEGTL_CPPFLAGS ?= -pedantic
-PEGTL_CXXFLAGS ?= -Wall -Wextra -Werror -O3
+PEGTL_CXXFLAGS ?= -Wall -Wextra -Werror -O3 $(MINGW_CXXFLAGS)
 
 .PHONY: all clean
 

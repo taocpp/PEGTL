@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INPUT_HH
@@ -91,13 +91,11 @@ namespace pegtl
          m_data.column += count;
       }
 
-      bool bump_if()
+      void bump_next_line( const std::size_t count = 1 )
       {
-         if ( ! empty() ) {
-            bump_unsafe();
-            return true;
-         }
-         return false;
+         ++m_data.line;
+         m_data.begin += count;
+         m_data.column = 0;
       }
 
       internal::input_mark mark()

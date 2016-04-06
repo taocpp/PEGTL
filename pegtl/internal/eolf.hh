@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_EOLF_HH
@@ -7,6 +7,8 @@
 #include "skip_control.hh"
 
 #include "../analysis/generic.hh"
+
+#include "eol.hh"
 
 namespace pegtl
 {
@@ -19,14 +21,10 @@ namespace pegtl
          template< typename Input >
          static bool match( Input & in )
          {
-            if ( in.empty() ) {
-               return true;
+            if ( const auto s = in.size() ) {
+               return eol::match_impl( in, s );
             }
-            else if ( in.peek_char() == '\n' ) {
-               in.bump();
-               return true;
-            }
-            return false;
+            return true;
          }
       };
 

@@ -12,6 +12,7 @@
 #include "disable.hh"
 #include "enable.hh"
 #include "eof.hh"
+#include "eol.hh"
 #include "eolf.hh"
 #include "if_must.hh"
 #include "if_must_else.hh"

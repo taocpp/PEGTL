@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_UNTIL_HH
@@ -33,9 +33,10 @@ namespace pegtl
             auto m = in.mark();
 
             while ( ! Control< Cond >::template match< A, Action, Control >( in, st ... ) ) {
-               if ( ! in.bump_if() ) {
+               if ( in.empty() ) {
                   return false;
                }
+               in.bump();
             }
             m.success();
             return true;
