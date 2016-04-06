@@ -11,6 +11,7 @@ namespace pegtl
 {
    void unit_test()
    {
+#if defined(_POSIX_MAPPED_FILES)
       try {
          internal::file_mapper( "pegtl" );
          std::cerr << "pegtl: unit test failed for [ internal::file_mapper ] " << std::endl;
@@ -18,6 +19,7 @@ namespace pegtl
       }
       catch ( const std::exception & ) {
       }
+#endif
    }
 
 } // pegtl

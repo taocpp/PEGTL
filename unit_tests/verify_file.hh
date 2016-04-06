@@ -8,7 +8,8 @@
 
 namespace pegtl
 {
-   struct file_content : pegtl_string_t( "dummy content\n" ) {};
+   struct any_eol : sor< one< '\n' >, pegtl::string< '\r', '\n' >,	one< '\r' > > {};
+   struct file_content : seq< pegtl_string_t( "dummy content" ), any_eol > {};
    struct file_grammar : seq< rep_min_max< 11, 11, file_content >, eof > {};
 
    template< typename Rule > struct file_action : nothing< Rule > {};
