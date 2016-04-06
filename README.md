@@ -124,6 +124,7 @@ For details see the [changelog](https://github.com/ColinH/PEGTL/wiki/Changelog).
 * Sam Hocevar for contributing Visual Studio 2015 compatibility.
 * George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `pegtl_string_t`.
 * Kenneth Geisshirt for Android compatibility.
+* Paulo Custodio for Windows-related fixes.
 
 ## License
 
