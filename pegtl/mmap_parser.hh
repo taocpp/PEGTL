@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_MMAP_PARSER_HH
@@ -25,10 +25,11 @@ namespace pegtl
               m_input( 1, 0, m_file.begin(), m_file.end(), m_source.c_str() )
       { }
 
-      mmap_parser( const std::string & filename, const pegtl::input & from )
+      template< typename Input >
+      mmap_parser( const std::string & filename, const Input & from )
             : m_file( filename ),
               m_source( filename ),
-              m_input( 1, 0, m_file.begin(), m_file.end(), m_source.c_str(), & from )
+              m_input( 1, 0, m_file.begin(), m_file.end(), m_source.c_str(), from )
       { }
 
       const std::string & source() const

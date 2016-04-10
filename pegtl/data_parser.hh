@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_DATA_PARSER_HH
@@ -23,10 +23,11 @@ namespace pegtl
               m_input( line, column, m_data.data(), m_data.data() + m_data.size(), m_source.c_str() )
       { }
 
-      data_parser( std::string data, std::string source, const pegtl::input & from, const std::size_t line = 1, const std::size_t column = 0 )
+      template< typename Input >
+      data_parser( std::string data, std::string source, const Input & from, const std::size_t line = 1, const std::size_t column = 0 )
             : m_data( std::move( data ) ),
               m_source( std::move( source ) ),
-              m_input( line, column, m_data.data(), m_data.data() + m_data.size(), m_source.c_str(), & from )
+              m_input( line, column, m_data.data(), m_data.data() + m_data.size(), m_source.c_str(), from )
       { }
 
       const std::string & source() const

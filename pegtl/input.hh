@@ -24,8 +24,13 @@ namespace pegtl
             : m_data( mark.m_line, mark.m_column, mark.m_begin, data.begin, data.source, data.from )
       { }
 
-      input( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source, const input * from = nullptr )
-            : m_data( line, column, begin, end, source, from ? ( & from->m_data ) : nullptr )
+      input( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source )
+            : m_data( line, column, begin, end, source )
+      { }
+
+      template< typename Input >
+      input( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source, const Input & from )
+            : m_data( line, column, begin, end, source, & from.data() )
       { }
 
       bool empty() const

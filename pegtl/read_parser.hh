@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_READ_PARSER_HH
@@ -19,7 +19,8 @@ namespace pegtl
             : data_parser( internal::file_reader( filename ).read(), filename )
       { }
 
-      read_parser( const std::string & filename, const pegtl::input & from )
+      template< typename Input >
+      read_parser( const std::string & filename, const Input & from )
             : data_parser( internal::file_reader( filename ).read(), filename, from )
       { }
    };
