@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #include "test.hh"
@@ -48,7 +48,7 @@ namespace pegtl
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"ab\\u002ccd\"]", result_type::SUCCESS, 0 );
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\\uD834\\uDD1E\"]", result_type::SUCCESS, 0 );
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\\uD834\"]", result_type::SUCCESS, 0 ); // unfortunately, this is valid for the grammar...
-      verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\\uDD1E\"]", result_type::SUCCESS, 0 ); // ...although both inputs are illegal in unicode.
+      verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\\uDD1E\"]", result_type::SUCCESS, 0 ); // ...although both inputs are invalid in unicode.
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\xC3\x84\"]", result_type::SUCCESS, 0 ); // German a-umlaut
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\xF4\x8F\xBF\xBF\"]", result_type::SUCCESS, 0 ); // largest allowed codepoint U+10FFFF
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\U0010FFFF\"]", result_type::SUCCESS, 0 ); // largest allowed codepoint U+10FFFF

@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_REP_MIN_MAX_HH
@@ -24,7 +24,7 @@ namespace pegtl
       struct rep_min_max< Min, Max >
             : trivial< false >
       {
-         static_assert( Min <= Max, "illegal rep_min_max rule (maximum number of repetitions smaller than minimum)" );
+         static_assert( Min <= Max, "invalid rep_min_max rule (maximum number of repetitions smaller than minimum)" );
       };
 
       template< typename Rule, typename ... Rules >
@@ -37,7 +37,7 @@ namespace pegtl
       {
          using analyze_t = analysis::counted< analysis::rule_type::SEQ, Min, Rules ... >;
 
-         static_assert( Min <= Max, "illegal rep_min_max rule (maximum number of repetitions smaller than minimum)" );
+         static_assert( Min <= Max, "invalid rep_min_max rule (maximum number of repetitions smaller than minimum)" );
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
