@@ -33,7 +33,7 @@ namespace modulus
 int main( int argc, char ** argv )
 {
    if ( argc > 1 ) {
-      pegtl::parse< modulus::grammar >( 1, argv );
+      pegtl::parse_arg< modulus::grammar >( 1, argv );
    }
    return 0;
 }

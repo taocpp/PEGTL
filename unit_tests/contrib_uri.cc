@@ -9,15 +9,15 @@
 
 using GRAMMAR = pegtl::must< pegtl::uri::URI, pegtl::eof >;
 
-void test( const std::string& in )
+void test( const std::string & in )
 {
-   pegtl::parse< GRAMMAR >( in, "test" );
+   pegtl::parse_string< GRAMMAR >( in, "test" );
 }
 
-void fail( const std::string& in )
+void fail( const std::string & in )
 {
    try {
-      pegtl::parse< GRAMMAR >( in, "expect_exception" );
+      pegtl::parse_string< GRAMMAR >( in, "expect_exception" );
       std::cerr << "FAILED: " << in << std::endl;
       assert( false );
    }

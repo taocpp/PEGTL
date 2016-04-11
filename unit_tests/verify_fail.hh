@@ -17,7 +17,7 @@ namespace pegtl
    void verify_fail( const std::size_t line, const char * file, const std::string & s, States && ... st )
    {
       try {
-         parse< Rule, Action >( s, "expect_exception", st ... );
+         parse_string< Rule, Action >( s, "expect_exception", st ... );
          TEST_FAILED( "expected exception" );
       }
       catch ( ... ) {

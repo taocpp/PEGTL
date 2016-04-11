@@ -36,7 +36,7 @@ int main( int argc, char ** argv )
 {
    if ( argc > 1 ) {
       std::string name;
-      pegtl::parse< hello::grammar, hello::action >( 1, argv, name );
+      pegtl::parse_arg< hello::grammar, hello::action >( 1, argv, name );
       std::cout << "Good bye, " << name << "!" << std::endl;
    }
 }

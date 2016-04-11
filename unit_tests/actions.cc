@@ -71,7 +71,7 @@ namespace pegtl
       void state_test()
       {
          std::string result;
-         parse< fibble, action1 >( "dk41sk41xk3", __FILE__, result );
+         parse_string< fibble, action1 >( "dk41sk41xk3", __FILE__, result );
          TEST_ASSERT( result == "dkskxk" );
       }
 
@@ -79,7 +79,7 @@ namespace pegtl
 
    void unit_test()
    {
-      parse< disable< test1::bar >, test_action >( "baab", __FILE__ );
+      parse_string< disable< test1::bar >, test_action >( "baab", __FILE__ );
 
       TEST_ASSERT( applied.size() == 1 );
 
@@ -88,25 +88,25 @@ namespace pegtl
 
       applied.clear();
 
-      parse< at< action< test_action, test1::bar > > >( "baab", __FILE__ );
+      parse_string< at< action< test_action, test1::bar > > >( "baab", __FILE__ );
 
       TEST_ASSERT( applied.empty() );
 
       applied.clear();
 
-      parse< test1::bar, test_action >( "baab", __FILE__ );
+      parse_string< test1::bar, test_action >( "baab", __FILE__ );
 
       test1::test_result();
 
       applied.clear();
 
-      parse< action< test_action, test1::bar > >( "baab", __FILE__ );
+      parse_string< action< test_action, test1::bar > >( "baab", __FILE__ );
 
       test1::test_result();
 
       applied.clear();
 
-      parse< disable< enable< action< test_action, test1::bar > > > >( "baab", __FILE__ );
+      parse_string< disable< enable< action< test_action, test1::bar > > > >( "baab", __FILE__ );
 
       test1::test_result();
 

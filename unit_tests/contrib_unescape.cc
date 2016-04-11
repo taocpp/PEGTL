@@ -29,7 +29,7 @@ namespace pegtl
    void verify_data( const char ( & m )[ M ], const char ( & n )[ N ] )
    {
       unescape::state st;
-      parse< unstring, unaction >( std::string( m, M - 1 ), __FUNCTION__, st );
+      parse_string< unstring, unaction >( std::string( m, M - 1 ), __FUNCTION__, st );
       assert( st.unescaped == std::string( n, N - 1 ) );
    }
 

@@ -8,7 +8,7 @@ using grammar = pegtl::must< pegtl::json::text, pegtl::eof >;
 int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
-      pegtl::parse< grammar, pegtl::nothing, examples::errors >( i, argv );
+      pegtl::parse_arg< grammar, pegtl::nothing, examples::errors >( i, argv );
    }
    return 0;
 }

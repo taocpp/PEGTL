@@ -27,32 +27,32 @@ namespace pegtl
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
-   bool parse( const int argc, char ** argv, States && ... st )
+   bool parse_arg( const int argn, char ** argv, States && ... st )
    {
       std::ostringstream os;
-      os << "argv[" << argc << ']';
+      os << "argv[" << argn << ']';
       const std::string source = os.str();
-      memory_input in( 1, 0, argv[ argc ], argv[ argc ] + ::strlen( argv[ argc ] ), source.c_str() );
+      memory_input in( 1, 0, argv[ argn ], argv[ argn ] + ::strlen( argv[ argn ] ), source.c_str() );
       return parse_input< Rule, Action, Control >( in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
-   bool parse( const char * data, const char * dend, const char * source, States && ... st )
+   bool parse_memory( const char * data, const char * dend, const char * source, States && ... st )
    {
       memory_input in( 1, 0, data, dend, source );
       return parse_input< Rule, Action, Control >( in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
-   bool parse( const char * data, const std::size_t size, const char * source, States && ... st )
+   bool parse_memory( const char * data, const std::size_t size, const char * source, States && ... st )
    {
-      return parse< Rule, Action, Control >( data, data + size, source, st ... );
+      return parse_memory< Rule, Action, Control >( data, data + size, source, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
-   bool parse( const std::string & data, const std::string & source, States && ... st )
+   bool parse_string( const std::string & data, const std::string & source, States && ... st )
    {
-      return parse< Rule, Action, Control >( data.data(), data.data() + data.size(), source.c_str(), st ... );
+      return parse_memory< Rule, Action, Control >( data.data(), data.data() + data.size(), source.c_str(), st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Input, typename ... States >

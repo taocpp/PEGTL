@@ -42,13 +42,13 @@ int main()
    std::cout << "Type [q or Q] to quit\n\n";
 
    std::string str;
+
    while ( std::getline( std::cin, str ) ) {
       if ( str.empty() || str[ 0 ] == 'q' || str[ 0 ] == 'Q' ) {
          break;
       }
-
       double d = 0.0;
-      if ( pegtl::parse< sum::grammar, sum::action >( str, "std::cin", d ) ) {
+      if ( pegtl::parse_string< sum::grammar, sum::action >( str, "std::cin", d ) ) {
          std::cout << "parsing OK; sum = " << d << std::endl;
       }
       else {

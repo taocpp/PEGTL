@@ -13,7 +13,7 @@ int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
       std::cout << "Parsing " << argv[ i ] << std::endl;
-      pegtl::trace< grammar >( i, argv );
+      pegtl::trace_arg< grammar >( i, argv );
    }
    return 0;
 }

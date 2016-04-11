@@ -48,7 +48,7 @@ int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
       pegtl::unescape::state s;
-      pegtl::parse< unescape::padded, unescape::action >( i, argv, s );
+      pegtl::parse_arg< unescape::padded, unescape::action >( i, argv, s );
       std::cout << "argv[ " << i << " ] = " << s.unescaped << std::endl;
    }
    return 0;
