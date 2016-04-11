@@ -1,35 +1,32 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
-#ifndef PEGTL_INTERNAL_EOLF_HH
-#define PEGTL_INTERNAL_EOLF_HH
+#ifndef PEGTL_INTERNAL_REQUIRE_HH
+#define PEGTL_INTERNAL_REQUIRE_HH
 
 #include "skip_control.hh"
 
 #include "../analysis/generic.hh"
 
-#include "eol.hh"
-
 namespace pegtl
 {
    namespace internal
    {
-      struct eolf
+      template< unsigned Amount >
+      struct require
       {
          using analyze_t = analysis::generic< analysis::rule_type::OPT >;
 
          template< typename Input >
          static bool match( Input & in )
          {
-            if ( const auto s = in.size( 2 ) ) {
-               return eol::match_impl( in, s );
-            }
+            in.require( Amount );
             return true;
          }
       };
 
-      template<>
-      struct skip_control< eolf > : std::true_type {};
+      template< unsigned Amount >
+      struct skip_control< require< Amount > > : std::true_type {};
 
    } // internal
 

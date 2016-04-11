@@ -61,7 +61,7 @@ namespace pegtl
       template<>
       struct action1< alpha >
       {
-         static void apply( const input & in, state1 & s )
+         static void apply( const action_input & in, state1 & s )
          {
             assert( in.size() == 1 );
             s.c = 0[ in.begin() ];

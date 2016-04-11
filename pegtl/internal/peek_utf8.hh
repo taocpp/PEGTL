@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_PEEK_UTF8_HH
@@ -24,7 +24,7 @@ namespace pegtl
                return { c0, 1 };
             }
             else if ( ( c0 & 0xE0 ) == 0xC0 ) {
-               if ( in.size() >= 2 ) {
+               if ( in.size( 2 ) >= 2 ) {
                   const char32_t c1 = in.peek_byte( 1 );
                   if ( ( c1 & 0xC0 ) == 0x80 ) {
                      c0 &= 0x1F;
@@ -37,7 +37,7 @@ namespace pegtl
                }
             }
             else if ( ( c0 & 0xF0 ) == 0xE0 ) {
-               if ( in.size() >= 3 ) {
+               if ( in.size( 3 ) >= 3 ) {
                   const char32_t c1 = in.peek_byte( 1 );
                   const char32_t c2 = in.peek_byte( 2 );
                   if( ( ( c1 & 0xC0 ) == 0x80 ) && ( ( c2 & 0xC0 ) == 0x80 ) ) {
@@ -53,7 +53,7 @@ namespace pegtl
                }
             }
             else if ( ( c0 & 0xF8 ) == 0xF0 ) {
-               if ( in.size() >= 4 ) {
+               if ( in.size( 4 ) >= 4 ) {
                   const char32_t c1 = in.peek_byte( 1 );
                   const char32_t c2 = in.peek_byte( 2 );
                   const char32_t c3 = in.peek_byte( 3 );

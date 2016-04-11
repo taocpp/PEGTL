@@ -8,12 +8,14 @@
 #include <cstring>
 #include <sstream>
 
-#include "input.hh"
-
 #include "normal.hh"
 #include "nothing.hh"
-
 #include "apply_mode.hh"
+#include "memory_input.hh"
+#include "buffer_input.hh"
+
+#include "internal/cstream_reader.hh"
+#include "internal/istream_reader.hh"
 
 namespace pegtl
 {
@@ -29,14 +31,14 @@ namespace pegtl
       std::ostringstream os;
       os << "argv[" << argc << ']';
       const std::string source = os.str();
-      input in( 1, 0, argv[ argc ], argv[ argc ] + ::strlen( argv[ argc ] ), source.c_str() );
+      memory_input in( 1, 0, argv[ argc ], argv[ argc ] + ::strlen( argv[ argc ] ), source.c_str() );
       return parse_input< Rule, Action, Control >( in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
    bool parse( const char * data, const char * dend, const char * source, States && ... st )
    {
-      input in( 1, 0, data, dend, source );
+      memory_input in( 1, 0, data, dend, source );
       return parse_input< Rule, Action, Control >( in, st ... );
    }
 
@@ -55,7 +57,7 @@ namespace pegtl
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Input, typename ... States >
    bool parse_nested( const Input & nest, const char * data, const char * dend, const char * source, States && ... st )
    {
-      input in( 1, 0, data, dend, source, & nest );
+      memory_input in( 1, 0, data, dend, source, & nest );
       return parse_input< Rule, Action, Control >( in, st ... );
    }
 
@@ -69,6 +71,26 @@ namespace pegtl
    bool parse_nested( const Input & nest, const std::string & data, const std::string & source, States && ... st )
    {
       return parse_nested< Rule, Action, Control >( nest, data.data(), data.data() + data.size(), source.c_str(), st ... );
+   }
+
+   template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
+   bool parse_cstream( ::FILE * stream, const std::size_t maximum, States && ... st )
+   {
+      buffer_input< internal::cstream_reader > in( "TODO", maximum, stream );
+      return Control< Rule >::template match< apply_mode::ACTION, Action, Control >( in, st ... );
+   }
+
+   template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
+   bool parse_stdin( const std::size_t maximum, States && ... st )
+   {
+      return parse_cstream( stdin, maximum, st ... );
+   }
+
+   template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
+   bool parse_istream( std::istream & stream, const std::size_t maximum, States && ... st )
+   {
+      buffer_input< internal::istream_reader > in( "TODO", maximum, stream );
+      return Control< Rule >::template match< apply_mode::ACTION, Action, Control >( in, st ... );
    }
 
 } // pegtl

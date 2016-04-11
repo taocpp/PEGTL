@@ -229,7 +229,7 @@ namespace calculator
       template< typename Input >
       static bool match( Input & in, const operators & b, stacks & s, std::string t )
       {
-         if ( in.size() > t.size() ) {
+         if ( in.size( t.size() + 1 ) > t.size() ) {
             t += in.peek_char( t.size() );
             const auto i = b.ops().lower_bound( t );
             if ( i != b.ops().end() ) {
@@ -298,7 +298,8 @@ namespace calculator
 
    template<> struct action< number >
    {
-      static void apply( const input & in, const operators &, stacks & s )
+      template< typename Input >
+      static void apply( const Input & in, const operators &, stacks & s )
       {
          s.push( std::stol( in.string() ) );
       }
@@ -309,7 +310,8 @@ namespace calculator
 
    template<> struct action< one< '(' > >
    {
-      static void apply( const input &, const operators &, stacks & s )
+      template< typename Input >
+      static void apply( const Input &, const operators &, stacks & s )
       {
          s.open();
       }
@@ -317,7 +319,8 @@ namespace calculator
 
    template<> struct action< one< ')' > >
    {
-      static void apply( const input &, const operators &, stacks & s )
+      template< typename Input >
+      static void apply( const Input &, const operators &, stacks & s )
       {
          s.close();
       }

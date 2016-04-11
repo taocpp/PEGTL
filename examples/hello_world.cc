@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #include <string>
@@ -23,7 +23,8 @@ namespace hello
 
    template<> struct action< name >
    {
-      static void apply( const pegtl::input & in, std::string & name )
+      template< typename Input >
+      static void apply( const Input & in, std::string & name )
       {
          name = in.string();
       }

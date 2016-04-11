@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_ISTRING_HH
@@ -72,7 +72,7 @@ namespace pegtl
          template< typename Input >
          static bool match( Input & in )
          {
-            if ( in.size() >= sizeof ... ( Cs ) ) {
+            if ( in.size( sizeof ... ( Cs ) ) >= sizeof ... ( Cs ) ) {
                if ( istring_equal< Cs ... >::match( in.begin() ) ) {
                   bump< result_on_found::SUCCESS, Input, char, Cs ... >( in, sizeof ... ( Cs ) );
                   return true;

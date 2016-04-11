@@ -51,7 +51,9 @@ This leads to slightly increased compile times as the C++ compiler is given the 
 
 #### Status
 
-The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors. Each commit is automatically tested with multiple operating systems, compilers and versions, currently:
+The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors.
+
+Each commit is automatically tested with multiple operating systems, compilers and versions, currently:
 
 * Linux, GCC (4.8, 4.9, 5) with libstdc++
 * Linux, Clang (3.4, 3.5, 3.6, 3.7, 3.8) with libstdc++

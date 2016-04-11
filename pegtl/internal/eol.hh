@@ -19,7 +19,7 @@ namespace pegtl
          template< typename Input >
          static bool match( Input & in )
          {
-            if ( const auto s = in.size() ) {
+            if ( const auto s = in.size( 2 ) ) {
                return match_impl( in, s );
             }
             return false;

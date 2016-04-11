@@ -7,7 +7,6 @@
 #include <string>
 
 #include "parse.hh"
-#include "input.hh"
 #include "normal.hh"
 #include "nothing.hh"
 
@@ -37,7 +36,7 @@ namespace pegtl
          return m_source;
       }
 
-      const pegtl::input & input() const
+      const memory_input & input() const
       {
          return m_input;
       }
@@ -51,7 +50,7 @@ namespace pegtl
    private:
       internal::file_mapper m_file;
       std::string m_source;
-      pegtl::input m_input;
+      memory_input m_input;
    };
 
 } // pegtl

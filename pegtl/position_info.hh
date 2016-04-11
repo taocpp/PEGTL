@@ -8,8 +8,6 @@
 #include <cstdlib>
 #include <ostream>
 
-#include "input.hh"
-
 #include "internal/input_data.hh"
 
 namespace pegtl

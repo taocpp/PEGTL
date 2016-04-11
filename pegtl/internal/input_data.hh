@@ -29,6 +29,36 @@ namespace pegtl
          const char * source;
 
          const input_data * from;
+
+         void bump( const size_t count )
+         {
+            for ( std::size_t i = 0; i < count; ++i )
+            {
+               switch ( * begin ) {
+                  case '\n':
+                     ++line;
+                     column = 0;
+                     break;
+                  default:
+                     ++column;
+                     break;
+               }
+               ++begin;
+            }
+         }
+
+         void bump_in_line( const std::size_t count )
+         {
+            begin += count;
+            column += count;
+         }
+
+         void bump_next_line( const std::size_t count )
+         {
+            ++line;
+            begin += count;
+            column = 0;
+         }
       };
 
    } // internal

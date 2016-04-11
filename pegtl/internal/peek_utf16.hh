@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_PEEK_UTF16_HH
@@ -25,7 +25,7 @@ namespace pegtl
          template< typename Input >
          static pair_t peek( Input & in )
          {
-            const std::size_t s = in.size();
+            const std::size_t s = in.size( 4 );
             if ( s >= 2 ) {
                const char32_t t = * reinterpret_cast< const short_t * >( in.begin() );
                if ( ( t < 0xd800 ) || ( t > 0xdbff ) || ( s < 4 ) ) {

@@ -1,9 +1,10 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_CONTRIB_RAW_STRING_HH
 #define PEGTL_CONTRIB_RAW_STRING_HH
 
+#include "../action_input.hh"
 #include "../apply_mode.hh"
 #include "../nothing.hh"
 
@@ -29,17 +30,17 @@ namespace pegtl
          raw_string_state( const Input & in, States && ... )
                : line( in.line() ),
                  column( in.column() ),
-                 size( in.size() )
+                 size( in.size( 0 ) )
          { }
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          typename std::enable_if< ( ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Tag >::value ) ) >::type
          success( const Input & in, States && ... st ) const
          {
-            Input content( line, column, in.begin() - ( size - in.size() ), in.begin() - count, in.source() );
+            action_input content( line, column, in.begin() - ( size - in.size( 0 ) ), in.begin() - count, in.source() );
             const bool skip = ( content.peek_char( count ) == '\n' );
-            content.bump( count + skip );
-            Action< Tag >::apply( const_cast< const Input & >( content ), st ... );
+            content.internal_data().bump( count + skip );
+            Action< Tag >::apply( const_cast< const action_input & >( content ), st ... );
          }
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
@@ -67,7 +68,7 @@ namespace pegtl
             if ( in.empty() || ( in.peek_char( 0 ) != Open ) ) {
                return false;
             }
-            for ( std::size_t i = 1; i < in.size(); ++i ) {
+            for ( std::size_t i = 1; i < in.size( i + 1 ); ++i ) {
                switch ( const auto c = in.peek_char( i ) ) {
                   case Open:
                      ls.count = i + 1;
@@ -91,7 +92,7 @@ namespace pegtl
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input >
          static bool match( Input & in, const raw_string_state< Tag > & ls )
          {
-            if ( in.size() < ls.count ) {
+            if ( in.size( ls.count ) < ls.count ) {
                return false;
             }
             if ( in.peek_char( 0 ) != Close ) {
@@ -148,10 +149,10 @@ namespace pegtl
                               internal::raw_string_open< Tag, Open, Intermediate >,
                               internal::must< internal::until< internal::raw_string_close< Tag, Intermediate, Close > > > >
    {
-      // This is used to bind an action to the content
+      // This is used to bind an action to the content.
       using content = Tag;
 
-      // This is used for error-reporting when a raw string is not closed properly
+      // This is used for error-reporting when a raw string is not closed properly.
       using close = internal::until< internal::raw_string_close< Tag, Intermediate, Close > >;
    };
 

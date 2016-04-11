@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #include <pegtl.hh>
@@ -16,7 +16,7 @@ namespace modulus
       template< typename Input >
       static bool match( Input & in )
       {
-         if ( in.size() ) {
+         if ( ! in.empty() ) {
             if ( ( ( * in.begin() ) % M ) == R ) {
                in.bump( 1 );
                return true;

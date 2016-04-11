@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_BYTES_HH
@@ -20,7 +20,7 @@ namespace pegtl
          template< typename Input >
          static bool match( Input & in )
          {
-            if ( in.size() >= Num ) {
+            if ( in.size( Num ) >= Num ) {
                in.bump( Num );
                return true;
             }

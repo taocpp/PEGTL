@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
-#ifndef PEGTL_INPUT_HH
-#define PEGTL_INPUT_HH
+#ifndef PEGTL_MEMORY_INPUT_HH
+#define PEGTL_MEMORY_INPUT_HH
 
 #include <string>
 #include <cstddef>
@@ -12,24 +12,20 @@
 
 namespace pegtl
 {
-   class input
+   class memory_input
    {
    public:
       explicit
-      input( const internal::input_data & data )
+      memory_input( const internal::input_data & data )
             : m_data( data )
       { }
 
-      input( const internal::input_data & data, const internal::input_mark & mark )
-            : m_data( mark.m_line, mark.m_column, mark.m_begin, data.begin, data.source, data.from )
-      { }
-
-      input( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source )
+      memory_input( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source )
             : m_data( line, column, begin, end, source )
       { }
 
       template< typename Input >
-      input( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source, const Input & from )
+      memory_input( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source, const Input & from )
             : m_data( line, column, begin, end, source, & from.data() )
       { }
 
@@ -38,7 +34,7 @@ namespace pegtl
          return m_data.begin == m_data.end;
       }
 
-      std::size_t size() const
+      std::size_t size( const size_t ) const
       {
          return m_data.end - m_data.begin;
       }
@@ -48,7 +44,7 @@ namespace pegtl
          return m_data.begin;
       }
 
-      const char * end() const
+      const char * end( const size_t ) const
       {
          return m_data.end;
       }
@@ -68,11 +64,6 @@ namespace pegtl
          return m_data.source;
       }
 
-      std::string string() const
-      {
-         return std::string( m_data.begin, m_data.end );
-      }
-
       char peek_char( const std::size_t offset = 0 ) const
       {
          return m_data.begin[ offset ];
@@ -85,23 +76,24 @@ namespace pegtl
 
       void bump( const std::size_t count = 1 )
       {
-         for ( std::size_t i = 0; i < count; ++i ) {
-            bump_unsafe();
-         }
+         m_data.bump( count );
       }
 
       void bump_in_line( const std::size_t count = 1 )
       {
-         m_data.begin += count;
-         m_data.column += count;
+         m_data.bump_in_line( count );
       }
 
       void bump_next_line( const std::size_t count = 1 )
       {
-         ++m_data.line;
-         m_data.begin += count;
-         m_data.column = 0;
+         m_data.bump_next_line( count );
       }
+
+      void require( const std::size_t )
+      { }
+
+      void discard()
+      { }
 
       internal::input_mark mark()
       {
@@ -115,20 +107,6 @@ namespace pegtl
 
    private:
       internal::input_data m_data;
-
-      void bump_unsafe()
-      {
-         switch ( * m_data.begin ) {
-            case '\n':
-               ++m_data.line;
-               m_data.column = 0;
-               break;
-            default:
-               ++m_data.column;
-               break;
-         }
-         ++m_data.begin;
-      }
    };
 
 } // pegtl

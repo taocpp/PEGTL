@@ -15,14 +15,14 @@ namespace pegtl
    template< typename Rule >
    void verify_impl( const std::size_t line, const char * file, const std::string & data, const result_type expected, const std::size_t remain )
    {
-      pegtl::input i( line, 0, data.data(), data.data() + data.size(), file );
+      pegtl::memory_input i( line, 0, data.data(), data.data() + data.size(), file );
 
       const result_type received = verify_help< Rule >( i );
 
-      if ( ( received == expected ) && ( ( received == result_type::GLOBAL_FAILURE ) || ( i.size() == remain ) ) ) {
+      if ( ( received == expected ) && ( ( received == result_type::GLOBAL_FAILURE ) || ( i.size( 999999999 ) == remain ) ) ) {
          return;
       }
-      TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << i.size() << " / " << remain << " ]" );
+      TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << i.size( 999999999 ) << " / " << remain << " ]" );
    }
 
 } // pegtl

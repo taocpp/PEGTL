@@ -15,6 +15,8 @@ namespace pegtl
    template< unsigned Num > struct bytes : internal::bytes< Num > {};
    template< template< typename ... > class Control, typename ... Rules > struct control : internal::control< Control, Rules ... > {};
    template< typename ... Rules > struct disable : internal::disable< Rules ... > {};
+   struct discard : internal::discard {};
+   template< typename ... Rules > struct discard_if : internal::discard_if< Rules ... > {};
    template< typename ... Rules > struct enable : internal::enable< Rules ... > {};
    struct eof : internal::eof {};
    struct failure : internal::trivial< false > {};
@@ -39,6 +41,7 @@ namespace pegtl
    template< unsigned Min, typename Rule, typename ... Rules > struct rep_min : internal::rep_min< Min, Rule, Rules ... > {};
    template< unsigned Min, unsigned Max, typename ... Rules > struct rep_min_max : internal::rep_min_max< Min, Max, Rules ... > {};
    template< unsigned Max, typename ... Rules > struct rep_opt : internal::rep_opt< Max, Rules ... > {};
+   template< unsigned Amount > struct require : internal::require< Amount > {};
    template< typename ... Rules > struct seq : internal::seq< Rules ... > {};
    template< typename ... Rules > struct sor : internal::sor< Rules ... > {};
    template< typename Rule, typename ... Rules > struct star : internal::star< Rule, Rules ... > {};

@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #include <cassert>
@@ -41,7 +41,8 @@ namespace examples
    template<>
    struct value_action< pegtl::json::null >
    {
-      static void apply( const pegtl::input &, result_state & result )
+      template< typename Input >
+      static void apply( const Input &, result_state & result )
       {
          result.result = std::make_shared< null_json >();
       }
@@ -50,7 +51,8 @@ namespace examples
    template<>
    struct value_action< pegtl::json::true_ >
    {
-      static void apply( const pegtl::input &, result_state & result )
+      template< typename Input >
+      static void apply( const Input &, result_state & result )
       {
          result.result = std::make_shared< boolean_json >( true );
       }
@@ -59,7 +61,8 @@ namespace examples
    template<>
    struct value_action< pegtl::json::false_ >
    {
-      static void apply( const pegtl::input &, result_state & result )
+      template< typename Input >
+      static void apply( const Input &, result_state & result )
       {
          result.result = std::make_shared< boolean_json >( false );
       }
@@ -68,7 +71,8 @@ namespace examples
    template<>
    struct value_action< pegtl::json::number >
    {
-      static void apply( const pegtl::input & in, result_state & result )
+      template< typename Input >
+      static void apply( const Input & in, result_state & result )
       {
          result.result = std::make_shared< number_json >( std::stold( in.string() ) );  // NOTE: stold() is not quite correct for JSON but we'll use it for this simple example.
       }
@@ -101,7 +105,8 @@ namespace examples
    template<>
    struct array_action< pegtl::json::value_separator >
    {
-      static void apply( const pegtl::input &, array_state & result )
+      template< typename Input >
+      static void apply( const Input &, array_state & result )
       {
          result.push_back();
       }
@@ -136,7 +141,8 @@ namespace examples
    template<>
    struct object_action< pegtl::json::value_separator >
    {
-      static void apply( const pegtl::input &, object_state & result )
+      template< typename Input >
+      static void apply( const Input &, object_state & result )
       {
          result.insert();
       }

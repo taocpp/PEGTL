@@ -4,24 +4,24 @@
 #ifndef PEGTL_READ_PARSER_HH
 #define PEGTL_READ_PARSER_HH
 
-#include "data_parser.hh"
+#include "string_parser.hh"
 
 #include "internal/file_reader.hh"
 
 namespace pegtl
 {
    class read_parser
-         : public data_parser
+         : public string_parser
    {
    public:
       explicit
       read_parser( const std::string & filename )
-            : data_parser( internal::file_reader( filename ).read(), filename )
+            : string_parser( internal::file_reader( filename ).read(), filename )
       { }
 
       template< typename Input >
       read_parser( const std::string & filename, const Input & from )
-            : data_parser( internal::file_reader( filename ).read(), filename, from )
+            : string_parser( internal::file_reader( filename ).read(), filename, from )
       { }
    };
 

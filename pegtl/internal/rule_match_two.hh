@@ -1,9 +1,10 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_RULE_MATCH_TWO_HH
 #define PEGTL_INTERNAL_RULE_MATCH_TWO_HH
 
+#include "../action_input.hh"
 #include "../apply_mode.hh"
 #include "../nothing.hh"
 
@@ -51,7 +52,7 @@ namespace pegtl
             auto m = in.mark();
 
             if ( rule_match_two< Rule, A, Action, Control, false >::match( in, st ... ) ) {
-               Action< Rule >::apply( Input( in.data(), m ), st ... );
+               Action< Rule >::apply( action_input( in.data(), m ), st ... );
                return m( true );
             }
             return false;

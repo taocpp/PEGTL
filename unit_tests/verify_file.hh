@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_UNIT_TESTS_VERIFY_FILE_HH
@@ -8,14 +8,14 @@
 
 namespace pegtl
 {
-   struct file_content : seq< pegtl_string_t( "dummy content" ), eol > {};
+   struct file_content : seq< pegtl_string_t( "dummy content" ), eol, discard > {};
    struct file_grammar : seq< rep_min_max< 11, 11, file_content >, eof > {};
 
    template< typename Rule > struct file_action : nothing< Rule > {};
 
    template<> struct file_action< eof >
    {
-      static void apply( const input &, bool & flag )
+      static void apply( const action_input &, bool & flag )
       {
          flag = true;
       }
@@ -25,7 +25,8 @@ namespace pegtl
 
    template<> struct file_control< eof > : normal< eof >
    {
-      static void success( const input &, bool & flag )
+      template< typename Input >
+      static void success( const Input &, bool & flag )
       {
          flag = true;
       }
@@ -37,10 +38,10 @@ namespace pegtl
       {
          const std::string f{ "unit_tests/no_such_file.txt" };
          try {
-           T p{ f };
+            T p{ f };
            TEST_ASSERT( !"no error on opening non-existing file" );
          }
-         catch( const input_error& e ) {
+         catch( const input_error & ) {
          }
       } {
          const std::string f{ "unit_tests/file_data.txt" };
