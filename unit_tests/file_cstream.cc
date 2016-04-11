@@ -13,9 +13,10 @@ namespace pegtl
 
    void unit_test()
    {
-      std::FILE * stream = std::fopen( "unit_tests/file_data.txt", "rb" );
+      const char * const filename = "unit_tests/file_data.txt";
+      std::FILE * stream = std::fopen( filename, "rb" );
       TEST_ASSERT( stream );
-      TEST_ASSERT( parse_cstream< file_grammar >( stream, 16 ) );
+      TEST_ASSERT( parse_cstream< file_grammar >( stream, filename, 16 ) );
       std::fclose( stream );
       TEST_ASSERT( parse_stdin< file_grammar >( 16 ) );
    }

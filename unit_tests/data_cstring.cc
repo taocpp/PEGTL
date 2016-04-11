@@ -10,8 +10,8 @@ namespace pegtl
    void unit_test()
    {
       const char * test_data = "abcdef";
-      TEST_ASSERT( parse_cstring< test_grammar >( test_data, 2 ) );
-      TEST_ASSERT( ! parse_cstring< test_grammar >( test_data, 1 ) );
+      TEST_ASSERT( parse_cstring< test_grammar >( test_data, "test data", 2 ) );
+      TEST_ASSERT( ! parse_cstring< test_grammar >( test_data, "test data", 1 ) );
    }
 
 } // pegtl

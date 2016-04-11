@@ -75,29 +75,29 @@ namespace pegtl
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
-   bool parse_cstream( std::FILE * stream, const std::size_t maximum, States && ... st )
+   bool parse_cstream( std::FILE * stream, const char * source, const std::size_t maximum, States && ... st )
    {
-      buffer_input< internal::cstream_reader > in( "TODO", maximum, stream );
+      buffer_input< internal::cstream_reader > in( source, maximum, stream );
       return parse_input< Rule, Action, Control >( in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
    bool parse_stdin( const std::size_t maximum, States && ... st )
    {
-      return parse_cstream< Rule, Action, Control >( stdin, maximum, st ... );
+      return parse_cstream< Rule, Action, Control >( stdin, "stdin", maximum, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
-   bool parse_cstring( const char * string, const std::size_t maximum, States && ... st )
+   bool parse_cstring( const char * string, const char * source, const std::size_t maximum, States && ... st )
    {
-      buffer_input< internal::cstring_reader > in( "TODO", maximum, string );
+      buffer_input< internal::cstring_reader > in( source, maximum, string );
       return parse_input< Rule, Action, Control >( in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
-   bool parse_istream( std::istream & stream, const std::size_t maximum, States && ... st )
+   bool parse_istream( std::istream & stream, const std::string & source, const std::size_t maximum, States && ... st )
    {
-      buffer_input< internal::istream_reader > in( "TODO", maximum, stream );
+      buffer_input< internal::istream_reader > in( source.c_str(), maximum, stream );
       return parse_input< Rule, Action, Control >( in, st ... );
    }
 
