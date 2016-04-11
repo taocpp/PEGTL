@@ -19,17 +19,17 @@ namespace pegtl
                : m_istream( s )
          { }
 
-         size_t operator() ( char * buffer, const std::size_t length )
+         std::size_t operator() ( char * buffer, const std::size_t length )
          {
             m_istream.read( buffer, length );
 
             if ( const auto r = m_istream.gcount() ) {
                return r;
             }
-            if ( m_istream.fail() && ( ! m_istream.eof() ) ) {
-               PEGTL_THROW_INPUT_ERROR( "error in istream.read()" );
+            if ( m_istream.eof() ) {
+               return 0;
             }
-            return 0;
+            PEGTL_THROW_INPUT_ERROR( "error in istream.read()" );
          }
 
          std::istream & m_istream;

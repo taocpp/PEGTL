@@ -20,15 +20,15 @@ namespace pegtl
                : m_cstream( s )
          { }
 
-         size_t operator() ( char * buffer, const std::size_t length )
+         std::size_t operator() ( char * buffer, const std::size_t length )
          {
             if ( const auto r = std::fread( buffer, 1, length, m_cstream ) ) {
                return r;
             }
-            if ( std::ferror( m_cstream ) ) {
-               PEGTL_THROW_INPUT_ERROR( "error in fread() from cstream" );
+            if ( std::feof( m_cstream ) ) {
+               return 0;
             }
-            return 0;
+            PEGTL_THROW_INPUT_ERROR( "error in fread() from cstream" );
          }
 
          ::FILE * m_cstream;

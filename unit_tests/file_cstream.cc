@@ -2,6 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #include <cstdio>
+#include <clocale>
 
 #include "test.hh"
 
@@ -12,8 +13,8 @@ namespace pegtl
 
    void unit_test()
    {
-      ::FILE * stream = ::fopen( "unit_tests/file_data.txt", "rb" );
-      assert( stream );
+      ::FILE * stream = std::fopen( "unit_tests/file_data.txt", "rb" );
+      TEST_ASSERT( stream );
       TEST_ASSERT( parse_cstream< file_grammar >( stream, 16 ) );
    }
 
