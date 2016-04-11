@@ -13,7 +13,7 @@ namespace pegtl
 
    void unit_test()
    {
-      ::FILE * stream = std::fopen( "unit_tests/file_data.txt", "rb" );
+      std::FILE * stream = std::fopen( "unit_tests/file_data.txt", "rb" );
       TEST_ASSERT( stream );
       TEST_ASSERT( parse_cstream< file_grammar >( stream, 16 ) );
       std::fclose( stream );

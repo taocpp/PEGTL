@@ -16,7 +16,7 @@ namespace pegtl
       struct cstream_reader
       {
          explicit
-         cstream_reader( ::FILE * s )
+         cstream_reader( std::FILE * s )
                : m_cstream( s )
          { }
 
@@ -33,7 +33,7 @@ namespace pegtl
             PEGTL_THROW_INPUT_ERROR( "error in fread() from cstream" );  // LCOV_EXCL_LINE
          }
 
-         ::FILE * m_cstream;
+         std::FILE * m_cstream;
       };
 
    } // internal

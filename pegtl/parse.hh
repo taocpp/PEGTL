@@ -74,7 +74,7 @@ namespace pegtl
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
-   bool parse_cstream( ::FILE * stream, const std::size_t maximum, States && ... st )
+   bool parse_cstream( std::FILE * stream, const std::size_t maximum, States && ... st )
    {
       buffer_input< internal::cstream_reader > in( "TODO", maximum, stream );
       return Control< Rule >::template match< apply_mode::ACTION, Action, Control >( in, st ... );
