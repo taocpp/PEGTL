@@ -15,6 +15,7 @@
 #include "buffer_input.hh"
 
 #include "internal/cstream_reader.hh"
+#include "internal/cstring_reader.hh"
 #include "internal/istream_reader.hh"
 
 namespace pegtl
@@ -77,7 +78,7 @@ namespace pegtl
    bool parse_cstream( std::FILE * stream, const std::size_t maximum, States && ... st )
    {
       buffer_input< internal::cstream_reader > in( "TODO", maximum, stream );
-      return Control< Rule >::template match< apply_mode::ACTION, Action, Control >( in, st ... );
+      return parse_input< Rule, Action, Control >( in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
@@ -87,10 +88,17 @@ namespace pegtl
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
+   bool parse_cstring( const char * string, const std::size_t maximum, States && ... st )
+   {
+      buffer_input< internal::cstring_reader > in( "TODO", maximum, string );
+      return parse_input< Rule, Action, Control >( in, st ... );
+   }
+
+   template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
    bool parse_istream( std::istream & stream, const std::size_t maximum, States && ... st )
    {
       buffer_input< internal::istream_reader > in( "TODO", maximum, stream );
-      return Control< Rule >::template match< apply_mode::ACTION, Action, Control >( in, st ... );
+      return parse_input< Rule, Action, Control >( in, st ... );
    }
 
 } // pegtl
