@@ -83,7 +83,7 @@ namespace pegtl
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
    bool parse_stdin( const std::size_t maximum, States && ... st )
    {
-      return parse_cstream( stdin, maximum, st ... );
+      return parse_cstream< Rule, Action, Control >( stdin, maximum, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
