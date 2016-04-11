@@ -12,6 +12,13 @@ namespace pegtl
 
    void unit_test()
    {
+      try {
+         std::ifstream stream( "unit_tests/no_such_file.txt" );
+         parse_istream< file_grammar >( stream, 16 );
+         TEST_ASSERT( false );
+      }
+      catch ( const input_error & ) {
+      }
       std::ifstream stream( "unit_tests/file_data.txt" );
       TEST_ASSERT( parse_istream< file_grammar >( stream, 16 ) );
    }
