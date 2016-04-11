@@ -28,7 +28,9 @@ namespace pegtl
             if ( std::feof( m_cstream ) ) {
                return 0;
             }
-            PEGTL_THROW_INPUT_ERROR( "error in fread() from cstream" );
+            // Please contact us if you know how to provoke the following exception.
+            // The example on cppreference.com doesn't work, at least not on Mac OS X.
+            PEGTL_THROW_INPUT_ERROR( "error in fread() from cstream" );  // LCOV_EXCL_LINE
          }
 
          ::FILE * m_cstream;
