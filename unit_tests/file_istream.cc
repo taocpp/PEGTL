@@ -17,7 +17,8 @@ namespace pegtl
          parse_istream< file_grammar >( stream, 16 );
          TEST_ASSERT( false );
       }
-      catch ( const input_error & ) {
+      catch ( const input_error & e ) {
+         TEST_ASSERT( std::string( e.what() ).find( "error in istream.read()" ) != std::string::npos );
       }
       std::ifstream stream( "unit_tests/file_data.txt" );
       TEST_ASSERT( parse_istream< file_grammar >( stream, 16 ) );
