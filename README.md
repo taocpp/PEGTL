@@ -57,7 +57,7 @@ Each commit is automatically tested with multiple operating systems, compilers a
 
 * Linux, GCC (4.8, 4.9, 5) with libstdc++
 * Linux, Clang (3.4, 3.5, 3.6, 3.7, 3.8) with libstdc++
-* MacOS X, XCode (6, 7) with libc++
+* MacOS X, Xcode (6, 7) with libc++
 
 (Visual Studio 2015 on Windows is *not* automatically tested, *yet*.)
 
