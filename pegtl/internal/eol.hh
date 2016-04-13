@@ -33,8 +33,13 @@ namespace pegtl
                in.bump_next_line();
                return true;
             }
-            if ( ( a == '\r' ) && ( s > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) {
-               in.bump_next_line( 2 );
+            if ( a == '\r' ) {
+               if ( ( s > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) {
+                  in.bump_next_line( 2 );
+               }
+               else {
+                  in.bump_next_line();
+               }
                return true;
             }
             return false;
