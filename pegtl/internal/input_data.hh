@@ -32,8 +32,7 @@ namespace pegtl
 
          void bump( const size_t count )
          {
-            for ( std::size_t i = 0; i < count; ++i )
-            {
+            for ( std::size_t i = 0; i < count; ++i ) {
                switch ( * begin ) {
                   case '\n':
                      ++line;
