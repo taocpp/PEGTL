@@ -67,7 +67,7 @@ namespace pegtl
          const bool is_upper = ( 'A' <= i ) && ( i <= 'Z' );
          const bool is_xalpha = ( ( 'a' <= i ) && ( i <= 'f' ) ) || ( ( 'A' <= i ) && ( i <= 'F' ) );
 
-         const bool is_newline = ( i == '\n' );
+         const bool is_newline = ( i == '\n' ) || ( i == '\r' );
 
          const bool is_ident_first = ( i == '_' ) || is_lower || is_upper;
          const bool is_ident_other = is_ident_first || is_digit;
