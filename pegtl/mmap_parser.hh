@@ -24,13 +24,6 @@ namespace pegtl
               m_input( 1, 0, m_file.begin(), m_file.end(), m_source.c_str() )
       { }
 
-      template< typename Input >
-      mmap_parser( const std::string & filename, const Input & from )
-            : m_file( filename ),
-              m_source( filename ),
-              m_input( 1, 0, m_file.begin(), m_file.end(), m_source.c_str(), from )
-      { }
-
       const std::string & source() const
       {
          return m_source;
@@ -45,6 +38,12 @@ namespace pegtl
       bool parse( States && ... st )
       {
          return parse_input< Rule, Action, Control >( m_input, st ... );
+      }
+
+      template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
+      bool parse_nested( Outer & oi, States && ... st )
+      {
+         return parse_input_nested< Rule, Action, Control >( oi, m_input, st ... );
       }
 
    private:

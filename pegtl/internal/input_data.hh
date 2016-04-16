@@ -12,13 +12,12 @@ namespace pegtl
    {
       struct input_data
       {
-         input_data( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source, const input_data * from = nullptr )
+         input_data( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source )
                : line( line ),
                  column( column ),
                  begin( begin ),
                  end( end ),
-                 source( source ),
-                 from( from )
+                 source( source )
          { }
 
          std::size_t line;
@@ -27,8 +26,6 @@ namespace pegtl
          const char * begin;
          const char * end;
          const char * source;
-
-         const input_data * from;
 
          void bump( const size_t count )
          {

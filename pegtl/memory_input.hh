@@ -24,11 +24,6 @@ namespace pegtl
             : m_data( line, column, begin, end, source )
       { }
 
-      template< typename Input >
-      memory_input( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source, const Input & from )
-            : m_data( line, column, begin, end, source, & from.data() )
-      { }
-
       bool empty() const
       {
          return m_data.begin == m_data.end;
@@ -89,10 +84,10 @@ namespace pegtl
          m_data.bump_next_line( count );
       }
 
-      void require( const std::size_t )
+      void discard()
       { }
 
-      void discard()
+      void require( const std::size_t )
       { }
 
       internal::input_mark mark()

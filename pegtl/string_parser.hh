@@ -22,13 +22,6 @@ namespace pegtl
               m_input( line, column, m_data.data(), m_data.data() + m_data.size(), m_source.c_str() )
       { }
 
-      template< typename Input >
-      string_parser( std::string data, std::string source, const Input & from, const std::size_t line = 1, const std::size_t column = 0 )
-            : m_data( std::move( data ) ),
-              m_source( std::move( source ) ),
-              m_input( line, column, m_data.data(), m_data.data() + m_data.size(), m_source.c_str(), from )
-      { }
-
       const std::string & source() const
       {
          return m_source;
@@ -43,6 +36,12 @@ namespace pegtl
       bool parse( States && ... st )
       {
          return parse_input< Rule, Action, Control >( m_input, st ... );
+      }
+
+      template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
+      bool parse_nested( Outer & oi, States && ... st )
+      {
+         return parse_input_nested< Rule, Action, Control >( oi, m_input, st ... );
       }
 
    private:

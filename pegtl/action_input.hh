@@ -16,7 +16,7 @@ namespace pegtl
    {
    public:
       action_input( const internal::input_data & data, const internal::input_mark & mark )
-            : m_data( mark.m_line, mark.m_column, mark.m_begin, data.begin, data.source, data.from )
+            : m_data( mark.m_line, mark.m_column, mark.m_begin, data.begin, data.source )
       { }
 
       action_input( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source )

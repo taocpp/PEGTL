@@ -64,12 +64,6 @@ namespace pegtl
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, typename ... Args >
-   bool trace_nested( Args && ... args )
-   {
-      return parse_nested< Rule, Action, tracer >( std::forward< Args >( args ) ... );
-   }
-
-   template< typename Rule, template< typename ... > class Action = nothing, typename ... Args >
    bool trace_cstream( Args && ... args )
    {
       return parse_cstream< Rule, Action, tracer >( std::forward< Args >( args ) ... );

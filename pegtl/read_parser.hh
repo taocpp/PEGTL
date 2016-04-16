@@ -18,11 +18,6 @@ namespace pegtl
       read_parser( const std::string & filename )
             : string_parser( internal::file_reader( filename ).read(), filename )
       { }
-
-      template< typename Input >
-      read_parser( const std::string & filename, const Input & from )
-            : string_parser( internal::file_reader( filename ).read(), filename, from )
-      { }
    };
 
 } // pegtl
