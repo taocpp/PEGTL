@@ -24,6 +24,7 @@
 #include "list_must.hh"
 #include "list_tail.hh"
 #include "list_tail_pad.hh"
+#include "minus.hh"
 #include "must.hh"
 #include "not_at.hh"
 #include "one.hh"
