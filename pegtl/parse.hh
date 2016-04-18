@@ -83,7 +83,7 @@ namespace pegtl
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename Input, typename ... States >
-   bool parse_input_nested( Outer & oi, Input & in, States && ... st )
+   bool parse_input_nested( const Outer & oi, Input & in, States && ... st )
    {
       try {
          return Control< Rule >::template match< apply_mode::ACTION, Action, Control >( in, st ... );
