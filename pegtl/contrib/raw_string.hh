@@ -38,7 +38,7 @@ namespace pegtl
          success( const Input & in, States && ... st ) const
          {
             const auto * const begin = in.begin() - size + in.size( 0 ) + count;
-            action_input content( line, byte_in_line, begin + ( ( * begin ) == '\n' ) , in.begin() - count, in.source() );
+            action_input content( line, byte_in_line, begin + ( ( * begin ) == '\n' ), in.begin() - count, in.source() );
             Action< Tag >::apply( const_cast< const action_input & >( content ), st ... );
          }
 
