@@ -30,11 +30,11 @@ namespace pegtl
          {
             const auto a = in.peek_char();
             if ( a == '\n' ) {
-               in.bump_next_line();
+               in.bump_to_next_line();
                return true;
             }
             if ( ( a == '\r' ) && ( s > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) {
-               in.bump_next_line( 2 );
+               in.bump_to_next_line( 2 );
                return true;
             }
             return false;

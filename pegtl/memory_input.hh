@@ -74,14 +74,14 @@ namespace pegtl
          m_data.bump( count );
       }
 
-      void bump_in_line( const std::size_t count = 1 )
+      void bump_in_this_line( const std::size_t count = 1 )
       {
-         m_data.bump_in_line( count );
+         m_data.bump_in_this_line( count );
       }
 
-      void bump_next_line( const std::size_t count = 1 )
+      void bump_to_next_line( const std::size_t count = 1 )
       {
-         m_data.bump_next_line( count );
+         m_data.bump_to_next_line( count );
       }
 
       void discard()

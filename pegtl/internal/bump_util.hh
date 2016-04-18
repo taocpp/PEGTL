@@ -28,7 +28,7 @@ namespace pegtl
          template< typename Input >
          static void bump( Input & in, const size_t count )
          {
-            in.bump_in_line( count );
+            in.bump_in_this_line( count );
          }
       };
 

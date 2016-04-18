@@ -43,13 +43,13 @@ namespace pegtl
             }
          }
 
-         void bump_in_line( const std::size_t count )
+         void bump_in_this_line( const std::size_t count )
          {
             begin += count;
             byte_in_line += count;
          }
 
-         void bump_next_line( const std::size_t count )
+         void bump_to_next_line( const std::size_t count )
          {
             ++line;
             begin += count;
