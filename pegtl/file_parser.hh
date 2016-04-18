@@ -21,6 +21,19 @@ namespace pegtl
 #else
    using file_parser = read_parser;
 #endif
+
+   template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
+   bool parse_file( const std::string & filename, States && ... st )
+   {
+      return file_parser( filename ).parse< Rule, Action, Control >( st ... );
+   }
+
+   template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
+   bool parse_file_nested( Outer & oi, const std::string & filename, States && ... st )
+   {
+      return file_parser( filename ).parse_nested< Rule, Action, Control >( oi, st ... );
+   }
+
 } // pegtl
 
 #endif

@@ -52,6 +52,18 @@ namespace pegtl
       memory_input m_input;
    };
 
+   template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
+   bool parse_mmap( const std::string & filename, States && ... st )
+   {
+      return mmap_parser( filename ).parse< Rule, Action, Control >( st ... );
+   }
+
+   template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
+   bool parse_mmap_nested( Outer & oi, const std::string & filename, States && ... st )
+   {
+      return mmap_parser( filename ).parse_nested< Rule, Action, Control >( oi, st ... );
+   }
+
 } // pegtl
 
 #endif
