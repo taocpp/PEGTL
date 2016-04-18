@@ -98,7 +98,7 @@ The documentation is currently in the process of being updated and for a short p
   * [UTF-32 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#utf-32-rules)
   * [Full Index](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#full-index)
 * [Parser Reference](https://github.com/ColinH/PEGTL/wiki/Parser-Reference)
-  * [Input and Errors](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#input-and-errors)
+  * [Input and Copying](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#input-and-copying)
   * [Parser Functions](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#parser-functions)
   * [Tracer Functions](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#tracer-functions)
   * [Parser Classes](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#parser-classes)
