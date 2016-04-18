@@ -5,10 +5,9 @@
 #define PEGTL_POSITION_INFO_HH
 
 #include <string>
-#include <cstdlib>
+#include <sstream>
 #include <ostream>
-
-#include "internal/input_data.hh"
+#include <cstdlib>
 
 namespace pegtl
 {
@@ -17,27 +16,28 @@ namespace pegtl
       template< typename Input >
       explicit
       position_info( const Input & in )
-            : position_info( in.data() )
+            : line( in.line() ),
+              column( in.column() ),
+              source( in.source() )
       { }
 
-      explicit
-      position_info( const internal::input_data & id )
-            : source( id.source ),
-              line( id.line ),
-              column( id.column ),
-              begin( id.begin )
-      { }
-
-      std::string source;
       std::size_t line;
       std::size_t column;
+      std::string source;
 
-      const char * begin;
+      //      const char * begin;  // TODO: Determine whether we want or need this, and whether it is safe enough.
    };
 
    inline std::ostream & operator<< ( std::ostream & o, const position_info & p )
    {
       return o << p.source << ':' << p.line << ':' << p.column;
+   }
+
+   inline std::string to_string( const position_info & p )
+   {
+      std::ostringstream o;
+      o << p;
+      return o.str();
    }
 
 } // pegtl

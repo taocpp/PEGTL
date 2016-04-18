@@ -62,7 +62,22 @@ namespace pegtl
             return result ? success() : failure();
          }
 
-      public:
+         std::size_t line() const
+         {
+            return m_line;
+         }
+
+         std::size_t column() const
+         {
+            return m_column;
+         }
+
+         const char * begin() const
+         {
+            return m_begin;
+         }
+
+      private:
          const std::size_t m_line;
          const std::size_t m_column;
          const char * const m_begin;

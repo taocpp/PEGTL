@@ -5,27 +5,14 @@
 #define PEGTL_PARSE_ERROR_HH
 
 #include <vector>
-#include <sstream>
 #include <stdexcept>
 
 #include "position_info.hh"
 
 namespace pegtl
 {
-   namespace internal
-   {
-      template< typename Input >
-      std::string source( const Input & in )
-      {
-         std::ostringstream oss;
-         oss << pegtl::position_info( in );
-         return oss.str();
-      }
-
-   } // internal
-
    struct parse_error
-         : std::runtime_error
+         : public std::runtime_error
    {
       parse_error( const std::string & message, std::vector< position_info > && positions )
             : std::runtime_error( message ),
@@ -34,7 +21,7 @@ namespace pegtl
 
       template< typename Input >
       parse_error( const std::string & message, const Input & in )
-            : std::runtime_error( internal::source( in ) + ": " + message ),
+            : std::runtime_error( to_string( position_info( in ) ) + ": " + message ),
               positions( 1, position_info( in ) )
       { }
 

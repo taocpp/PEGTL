@@ -82,6 +82,9 @@ namespace pegtl
       test_mismatch< ranges< 'a', 'z', 'A', 'Z', '\n' > >( "8" );
    }
 
+   // TODO: Test action position.
+   // TODO: Test nested position.
+
 } // pegtl
 
 #include "main.hh"

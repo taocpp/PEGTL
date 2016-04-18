@@ -117,11 +117,6 @@ namespace pegtl
          return internal::input_mark( m_data );
       }
 
-      const internal::input_data & data() const
-      {
-         return m_data;
-      }
-
    private:
       Reader m_reader;
       size_t m_maximum;

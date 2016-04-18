@@ -95,11 +95,6 @@ namespace pegtl
          return internal::input_mark( m_data );
       }
 
-      const internal::input_data & data() const
-      {
-         return m_data;
-      }
-
    private:
       internal::input_data m_data;
    };

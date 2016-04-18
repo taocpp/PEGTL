@@ -26,7 +26,7 @@ namespace pegtl
             if ( ! Control< M >::template match< A, Action, Control >( in, st ... ) ) {
                return m( false );
             }
-            memory_input i2( m.m_line, m.m_column, m.m_begin, in.begin(), in.source() );
+            memory_input i2( m.line(), m.column(), m.begin(), in.begin(), in.source() );
 
             if ( ! Control< S >::template match< apply_mode::NOTHING, Action, Control >( i2, st ... ) ) {
                return m( true );
