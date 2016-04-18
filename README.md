@@ -67,7 +67,8 @@ Releases are not stable in the sense that incompatible API changes can happen, b
 [Releases](https://github.com/ColinH/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
 For details see the [changelog](https://github.com/ColinH/PEGTL/wiki/Changelog).
 
-Please note that in preparation of version 2.0 the `master` branch is going through some **changes that break parts of the API**, however **the documentation is up-to-date with the latest 1.y release**.
+*As of April 2016 the master branch contains some incompatible changes over the last 1.3.z release.
+The documentation is currently in the process of being updated and for a short period of time might not be completely accurate for either the release or the master branch.*
 
 ## Documentation
 
@@ -97,7 +98,7 @@ Please note that in preparation of version 2.0 the `master` branch is going thro
   * [UTF-32 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#utf-32-rules)
   * [Full Index](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#full-index)
 * [Parser Reference](https://github.com/ColinH/PEGTL/wiki/Parser-Reference)
-  * [Input and Errors](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#input-and-errors)
+  * [Input Data](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#input-data)
   * [Parser Functions](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#parser-functions)
   * [Tracer Functions](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#tracer-functions)
   * [Parser Classes](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#parser-classes)
