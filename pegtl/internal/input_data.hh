@@ -12,16 +12,16 @@ namespace pegtl
    {
       struct input_data
       {
-         input_data( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source )
+         input_data( const std::size_t line, const std::size_t byte_in_line, const char * begin, const char * end, const char * source )
                : line( line ),
-                 column( column ),
+                 byte_in_line( byte_in_line ),
                  begin( begin ),
                  end( end ),
                  source( source )
          { }
 
          std::size_t line;
-         std::size_t column;
+         std::size_t byte_in_line;
 
          const char * begin;
          const char * end;
@@ -33,10 +33,10 @@ namespace pegtl
                switch ( * begin ) {
                   case '\n':
                      ++line;
-                     column = 0;
+                     byte_in_line = 0;
                      break;
                   default:
-                     ++column;
+                     ++byte_in_line;
                      break;
                }
                ++begin;
@@ -46,14 +46,14 @@ namespace pegtl
          void bump_in_line( const std::size_t count )
          {
             begin += count;
-            column += count;
+            byte_in_line += count;
          }
 
          void bump_next_line( const std::size_t count )
          {
             ++line;
             begin += count;
-            column = 0;
+            byte_in_line = 0;
          }
       };
 

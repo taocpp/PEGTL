@@ -15,8 +15,8 @@ namespace pegtl
    class action_input
    {
    public:
-      action_input( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source )
-            : m_data( line, column, begin, end, source )
+      action_input( const std::size_t line, const std::size_t byte_in_line, const char * begin, const char * end, const char * source )
+            : m_data( line, byte_in_line, begin, end, source )
       { }
 
       bool empty() const
@@ -44,9 +44,9 @@ namespace pegtl
          return m_data.line;
       }
 
-      std::size_t column() const
+      std::size_t byte_in_line() const
       {
-         return m_data.column;
+         return m_data.byte_in_line;
       }
 
       const char * source() const
@@ -67,11 +67,6 @@ namespace pegtl
       unsigned char peek_byte( const std::size_t offset = 0 ) const
       {
          return static_cast< unsigned char >( peek_char( offset ) );
-      }
-
-      internal::input_data & internal_data()
-      {
-         return m_data;
       }
 
    private:

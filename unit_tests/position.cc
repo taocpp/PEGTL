@@ -14,7 +14,7 @@ namespace pegtl
 
       TEST_ASSERT( parse_input< Rule >( i1 ) );
       TEST_ASSERT( i1.line() == 2 );
-      TEST_ASSERT( i1.column() == 0 );
+      TEST_ASSERT( i1.byte_in_line() == 0 );
    }
 
    template< typename Rule >
@@ -26,7 +26,7 @@ namespace pegtl
 
       TEST_ASSERT( parse_input< Rule >( i2 ) );
       TEST_ASSERT( i2.line() == 1 );
-      TEST_ASSERT( i2.column() == 1 );
+      TEST_ASSERT( i2.byte_in_line() == 1 );
    }
 
    template< typename Rule >
@@ -38,7 +38,7 @@ namespace pegtl
 
       TEST_ASSERT( ! parse_input< Rule >( i3 ) );
       TEST_ASSERT( i3.line() == 1 );
-      TEST_ASSERT( i3.column() == 0 );
+      TEST_ASSERT( i3.byte_in_line() == 0 );
    }
 
    void unit_test()

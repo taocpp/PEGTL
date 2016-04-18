@@ -20,8 +20,8 @@ namespace pegtl
             : m_data( data )
       { }
 
-      memory_input( const std::size_t line, const std::size_t column, const char * begin, const char * end, const char * source )
-            : m_data( line, column, begin, end, source )
+      memory_input( const std::size_t line, const std::size_t byte_in_line, const char * begin, const char * end, const char * source )
+            : m_data( line, byte_in_line, begin, end, source )
       { }
 
       bool empty() const
@@ -49,9 +49,9 @@ namespace pegtl
          return m_data.line;
       }
 
-      std::size_t column() const
+      std::size_t byte_in_line() const
       {
-         return m_data.column;
+         return m_data.byte_in_line;
       }
 
       const char * source() const

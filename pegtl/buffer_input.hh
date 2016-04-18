@@ -55,9 +55,9 @@ namespace pegtl
          return m_data.line;
       }
 
-      std::size_t column() const
+      std::size_t byte_in_line() const
       {
-         return m_data.column;
+         return m_data.byte_in_line;
       }
 
       const char * source() const

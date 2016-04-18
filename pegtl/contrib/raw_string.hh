@@ -29,7 +29,7 @@ namespace pegtl
          template< typename Input, typename ... States >
          raw_string_state( const Input & in, States && ... )
                : line( in.line() ),
-                 column( in.column() ),
+                 byte_in_line( in.byte_in_line() ),
                  size( in.size( 0 ) )
          { }
 
@@ -37,9 +37,8 @@ namespace pegtl
          typename std::enable_if< ( ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Tag >::value ) ) >::type
          success( const Input & in, States && ... st ) const
          {
-            action_input content( line, column, in.begin() - ( size - in.size( 0 ) ), in.begin() - count, in.source() );
-            const bool skip = ( content.peek_char( count ) == '\n' );
-            content.internal_data().bump( count + skip );
+            const auto * const begin = in.begin() - size + in.size( 0 ) + count;
+            action_input content( line, byte_in_line, begin + ( ( * begin ) == '\n' ) , in.begin() - count, in.source() );
             Action< Tag >::apply( const_cast< const action_input & >( content ), st ... );
          }
 
@@ -52,7 +51,7 @@ namespace pegtl
          void operator= ( const raw_string_state & ) = delete;
 
          std::size_t line;
-         std::size_t column;
+         std::size_t byte_in_line;
          std::size_t size;
          std::size_t count = 0;
       };

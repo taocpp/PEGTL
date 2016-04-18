@@ -17,12 +17,12 @@ namespace pegtl
       explicit
       position_info( const Input & in )
             : line( in.line() ),
-              column( in.column() ),
+              byte_in_line( in.byte_in_line() ),
               source( in.source() )
       { }
 
       std::size_t line;
-      std::size_t column;
+      std::size_t byte_in_line;
       std::string source;
 
       //      const char * begin;  // TODO: Determine whether we want or need this, and whether it is safe enough.
@@ -30,7 +30,7 @@ namespace pegtl
 
    inline std::ostream & operator<< ( std::ostream & o, const position_info & p )
    {
-      return o << p.source << ':' << p.line << ':' << p.column;
+      return o << p.source << ':' << p.line << ':' << p.byte_in_line;
    }
 
    inline std::string to_string( const position_info & p )

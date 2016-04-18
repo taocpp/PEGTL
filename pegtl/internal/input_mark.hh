@@ -16,14 +16,14 @@ namespace pegtl
          explicit
          input_mark( input_data & i )
                : m_line( i.line ),
-                 m_column( i.column ),
+                 m_byte_in_line( i.byte_in_line ),
                  m_begin( i.begin ),
                  m_input( & i )
          { }
 
          input_mark( input_mark && i )
                : m_line( i.m_line ),
-                 m_column( i.m_column ),
+                 m_byte_in_line( i.m_byte_in_line ),
                  m_begin( i.m_begin ),
                  m_input( i.m_input )
          {
@@ -34,7 +34,7 @@ namespace pegtl
          {
             if ( m_input ) {
                m_input->line = m_line;
-               m_input->column = m_column;
+               m_input->byte_in_line = m_byte_in_line;
                m_input->begin = m_begin;
             }
          }
@@ -51,7 +51,7 @@ namespace pegtl
          bool failure()
          {
             m_input->line = m_line;
-            m_input->column = m_column;
+            m_input->byte_in_line = m_byte_in_line;
             m_input->begin = m_begin;
             m_input = nullptr;
             return false;
@@ -67,9 +67,9 @@ namespace pegtl
             return m_line;
          }
 
-         std::size_t column() const
+         std::size_t byte_in_line() const
          {
-            return m_column;
+            return m_byte_in_line;
          }
 
          const char * begin() const
@@ -79,7 +79,7 @@ namespace pegtl
 
       private:
          const std::size_t m_line;
-         const std::size_t m_column;
+         const std::size_t m_byte_in_line;
          const char * const m_begin;
          input_data * m_input;
       };
