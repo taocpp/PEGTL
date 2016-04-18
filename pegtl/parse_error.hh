@@ -25,7 +25,7 @@ namespace pegtl
               positions( 1, position_info( in ) )
       { }
 
-      mutable std::vector< position_info > positions;
+      std::vector< position_info > positions;
    };
 
 } // pegtl

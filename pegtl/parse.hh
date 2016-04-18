@@ -88,7 +88,7 @@ namespace pegtl
       try {
          return Control< Rule >::template match< apply_mode::ACTION, Action, Control >( in, st ... );
       }
-      catch ( const parse_error & e ) {
+      catch ( parse_error & e ) {
          e.positions.push_back( position_info( oi ) );
          throw;
       }

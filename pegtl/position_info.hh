@@ -24,8 +24,6 @@ namespace pegtl
       std::size_t line;
       std::size_t byte_in_line;
       std::string source;
-
-      //      const char * begin;  // TODO: Determine whether we want or need this, and whether it is safe enough.
    };
 
    inline std::ostream & operator<< ( std::ostream & o, const position_info & p )
