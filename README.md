@@ -101,7 +101,7 @@ For details see the [changelog](https://github.com/ColinH/PEGTL/wiki/Changelog).
   * [Parser Functions](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#parser-functions)
   * [Tracer Functions](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#tracer-functions)
   * [Parser Classes](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#parser-classes)
-* [Stream Parsing](https://github.com/ColinH/PEGTL/wiki/Stream-Parsing)
+* [Incremental Input](https://github.com/ColinH/PEGTL/wiki/Incremental-Input)
 * [Contrib and Examples](https://github.com/ColinH/PEGTL/wiki/Contrib-and-Examples)
   * [Contrib](https://github.com/ColinH/PEGTL/wiki/Contrib-and-Examples#contrib)
   * [Examples](https://github.com/ColinH/PEGTL/wiki/Contrib-and-Examples#examples)
