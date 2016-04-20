@@ -16,16 +16,18 @@ A comprehensive set of parser rules that can be combined and extended by the use
 Here is an example of how a PEG grammar rule is implemented as C++ class with the PEGTL.
 
 ```c++
-  // PEG rule for integers consisting of a non-empty
-  // sequence of digits with an optional sign:
+// PEG rule for integers consisting of a non-empty
+// sequence of digits with an optional sign:
 
-  // integer ::= ( '+' / '-' )? digit+
+// integer ::= ( '+' / '-' )? digit+
 
-  // The same parsing rule implemented with the PEGTL:
+// The same parsing rule implemented with the PEGTL:
 
-  struct integer
-     : pegtl::seq< pegtl::opt< pegtl::one< '+', '-' > >,
-                   pegtl::plus< pegtl::digit > > {};
+using namespace pegtl;
+
+struct integer
+   : seq< opt< one< '+', '-' > >,
+          plus< digit > > {};
 ```
 
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic nature of PEGs gives rise to some very important differences.
@@ -66,9 +68,6 @@ The coverage is also automatically measured. Our unit tests cover 100% of the co
 Releases are not stable in the sense that incompatible API changes can happen, but only between major versions.
 [Releases](https://github.com/ColinH/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
 For details see the [changelog](https://github.com/ColinH/PEGTL/wiki/Changelog).
-
-*As of April 2016 the master branch contains some incompatible changes over the last 1.3.z release.
-The documentation is currently in the process of being updated and for a short period of time might not be completely accurate for either the release or the master branch.*
 
 ## Documentation
 
