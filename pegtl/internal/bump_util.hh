@@ -17,7 +17,7 @@ namespace pegtl
       template<> struct bump_impl< true >
       {
          template< typename Input >
-         static void bump( Input & in, const size_t count )
+         static void bump( Input & in, const std::size_t count )
          {
             in.bump( count );
          }
@@ -26,7 +26,7 @@ namespace pegtl
       template<> struct bump_impl< false >
       {
          template< typename Input >
-         static void bump( Input & in, const size_t count )
+         static void bump( Input & in, const std::size_t count )
          {
             in.bump_in_this_line( count );
          }
@@ -37,7 +37,7 @@ namespace pegtl
       template< typename Char, Char ... Cs > using no_lf = std::is_same< bool_list< ( Cs != '\n' ) ... >, bool_list< ( Cs || true ) ... > >;
 
       template< result_on_found R, typename Input, typename Char, Char ... Cs >
-      void bump( Input & in, const size_t count )
+      void bump( Input & in, const std::size_t count )
       {
          bump_impl< no_lf< Char, Cs ... >::value != bool( R ) >::bump( in, count );
       }

@@ -27,7 +27,7 @@ namespace pegtl
          const char * end;
          const char * source;
 
-         void bump( const size_t count )
+         void bump( const std::size_t count )
          {
             for ( std::size_t i = 0; i < count; ++i ) {
                if ( begin[ i ] == '\n' ) {
