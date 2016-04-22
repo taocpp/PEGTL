@@ -30,17 +30,15 @@ namespace pegtl
          void bump( const size_t count )
          {
             for ( std::size_t i = 0; i < count; ++i ) {
-               switch ( * begin ) {
-                  case '\n':
-                     ++line;
-                     byte_in_line = 0;
-                     break;
-                  default:
-                     ++byte_in_line;
-                     break;
+               if ( begin[ i ] == '\n' ) {
+                  ++line;
+                  byte_in_line = 0;
                }
-               ++begin;
+               else {
+                  ++byte_in_line;
+               }
             }
+            begin += count;
          }
 
          void bump_in_this_line( const std::size_t count )

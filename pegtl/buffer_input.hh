@@ -18,7 +18,6 @@ namespace pegtl
    {
    public:
       template< typename ... As >
-      explicit
       buffer_input( const char * source, const std::size_t maximum, As && ... as )
             : m_reader( std::forward< As >( as ) ... ),
               m_maximum( maximum ),
@@ -26,6 +25,9 @@ namespace pegtl
               m_data( 1, 0, m_buffer.get(), m_buffer.get(), source )
 
       { }
+
+      buffer_input( const buffer_input & ) = delete;
+      void operator= ( const buffer_input & ) = delete;
 
       bool empty()
       {

@@ -20,8 +20,7 @@ namespace pegtl
          template< typename Input >
          static bool match( Input & in )
          {
-            in.require( Amount );
-            return true;
+            return in.size( Amount ) >= Amount;
          }
       };
 

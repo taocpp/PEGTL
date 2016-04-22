@@ -11,8 +11,8 @@
 #include "pegtl/utf16.hh"
 #include "pegtl/utf32.hh"
 
-// Not included by default;
-// safe to use when needed:
+// The following files can be included whenever needed; they
+// are not included by default because they include <iostream>.
 // #include "pegtl/trace.hh"
 // #include "pegtl/analyze.hh"
 
