@@ -38,8 +38,7 @@ namespace pegtl
                }
                in.bump();
             }
-            m.success();
-            return true;
+            return m( true );
          }
       };
 
@@ -58,8 +57,7 @@ namespace pegtl
                   return false;
                }
             }
-            m.success();
-            return true;
+            return m( true );
          }
       };
 

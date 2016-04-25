@@ -46,7 +46,7 @@ namespace pegtl
 
             for ( unsigned i = 0; i != Min; ++i ) {
                if ( ! rule_conjunction< Rules ... >::template match< A, Action, Control >( in, st ... ) ) {
-                  return m( false );
+                  return false;
                }
             }
             for ( unsigned i = Min; i != Max; ++i ) {

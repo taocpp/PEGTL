@@ -42,24 +42,13 @@ namespace pegtl
          input_mark( const input_mark & ) = delete;
          void operator= ( const input_mark & ) = delete;
 
-         bool success()
-         {
-            m_input = nullptr;
-            return true;
-         }
-
-         bool failure()
-         {
-            m_input->line = m_line;
-            m_input->byte_in_line = m_byte_in_line;
-            m_input->begin = m_begin;
-            m_input = nullptr;
-            return false;
-         }
-
          bool operator() ( const bool result )
          {
-            return result ? success() : failure();
+            if ( result ) {
+               m_input = nullptr;
+               return true;
+            }
+            return false;
          }
 
          std::size_t line() const

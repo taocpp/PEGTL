@@ -24,7 +24,7 @@ namespace pegtl
             auto m = in.mark();
 
             if ( ! Control< M >::template match< A, Action, Control >( in, st ... ) ) {
-               return m( false );
+               return false;
             }
             memory_input i2( m.line(), m.byte_in_line(), m.begin(), in.begin(), in.source() );
 
