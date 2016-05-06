@@ -63,7 +63,7 @@ namespace pegtl
             case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
                return I( c - 'A' + 10 );
          }
-         assert( false );  // LCOV_EXCL_LINE
+         throw std::runtime_error( "invalid character in unhex" );  // LCOV_EXCL_LINE
       }
 
       template< typename I >
@@ -113,7 +113,7 @@ namespace pegtl
                   return * ( r.begin() + i );
                }
             }
-            assert( false );  // LCOV_EXCL_LINE
+            throw std::runtime_error( "invalid character in unescape" );  // LCOV_EXCL_LINE
          }
       };
 

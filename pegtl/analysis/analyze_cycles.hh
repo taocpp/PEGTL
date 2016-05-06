@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_ANALYSIS_ANALYZE_CYCLES_HH
@@ -80,7 +80,7 @@ namespace pegtl
                      return m_cache[ start->first ] = a;
                   }
                }
-               assert( false );  // LCOV_EXCL_LINE
+               throw std::runtime_error( "code should be unreachable" );  // LCOV_EXCL_LINE
             }
             if ( ! accum ) {
                ++m_problems;
