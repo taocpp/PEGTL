@@ -28,7 +28,7 @@ matrix:
 
     - os: linux
       compiler: clang
-      env: COMPILER=clang++ V='3.4'
+      env: COMPILER=clang++
 
     - os: linux
       compiler: clang
@@ -64,7 +64,7 @@ matrix:
 
     - os: osx
       compiler: clang
-      env: COMPILER=clang++ V='Apple LLVM 6.0' # Apple LLVM version 6.0 (clang-600.0.54) (based on LLVM 3.5svn)
+      env: COMPILER=clang++
 
     - os: osx
       osx_image: xcode6.4
@@ -74,7 +74,7 @@ matrix:
     - os: osx
       osx_image: xcode7
       compiler: clang
-      env: COMPILER=clang++ V='Apple LLVM 7.0.0' # Apple LLVM version 7.0.0 (clang-700.0.72)
+      env: COMPILER=clang++
 
     - os: osx
       osx_image: xcode7.1

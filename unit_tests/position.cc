@@ -41,6 +41,43 @@ namespace pegtl
       TEST_ASSERT( i3.byte_in_line() == 0 );
    }
 
+   struct outer_grammar
+         : must< two< 'a' >, two< 'b' >, two< 'c' >, eof > {};
+
+   struct inner_grammar
+         : must< one< 'd' >, two< 'e' >, eof > {};
+
+   template< typename Rule > struct outer_action : nothing< Rule > {};
+
+   template<>
+   struct outer_action< two< 'b' > >
+   {
+      static void apply( const action_input & in )
+      {
+         const position_info p( in );
+         TEST_ASSERT( p.source == "outer" );
+         TEST_ASSERT( p.line == 1 );
+         TEST_ASSERT( p.byte_in_line == 2 );
+         parse_string_nested< inner_grammar >( in, "dFF", "inner" );
+      }
+   };
+
+   void test_nested()
+   {
+      try {
+         parse_string< outer_grammar, outer_action >( "aabbcc", "outer" );
+      }
+      catch ( const parse_error & e ) {
+         TEST_ASSERT( e.positions.size() == 2 );
+         TEST_ASSERT( e.positions[ 0 ].source == "inner" );
+         TEST_ASSERT( e.positions[ 0 ].line == 1 );
+         TEST_ASSERT( e.positions[ 0 ].byte_in_line == 1 );
+         TEST_ASSERT( e.positions[ 1 ].source == "outer" );
+         TEST_ASSERT( e.positions[ 1 ].line == 1 );
+         TEST_ASSERT( e.positions[ 1 ].byte_in_line == 2 );
+      }
+   }
+
    void unit_test()
    {
       test_matches_lf< any >();
@@ -80,10 +117,9 @@ namespace pegtl
       test_matches_lf< ranges< 'a', 'z', 'A', 'Z', '\n' > >();
       test_matches_other< ranges< 'a', 'z', 'A', 'Z', '\n' > >( "P" );
       test_mismatch< ranges< 'a', 'z', 'A', 'Z', '\n' > >( "8" );
-   }
 
-   // TODO: Test action position.
-   // TODO: Test nested position.
+      test_nested();
+   }
 
 } // pegtl
 
