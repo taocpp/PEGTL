@@ -17,47 +17,33 @@
 namespace calculator
 {
    // This enum is used for the order in which the operators are
-   // evaluated, i.e. the priority of the operators.
+   // evaluated, i.e. the priority of the operators; a higher
+   // number indicates a lower priority.
 
    enum class order : int {};
 
-   // The shift-reduce-style approach allows for both left- and
-   // right-associative binary operators, and this enum is used
-   // to indicate the kind of each operator.
-
-   enum class assoc : bool
-   {
-      LEFT = true,
-      RIGHT = false
-   };
-
    // For each binary operator known to the calculator we need an
    // instance of the following data structure with the priority,
-   // associativity, and a function that performs the calculation.
+   // and a function that performs the calculation. All operators
+   // are left-associative.
 
    struct op
    {
       order p;
-      assoc a;
       std::function< long ( long, long ) > f;
    };
 
    // Class that takes care of an operand and an operator stack for
-   // shift-reduce style handling of operator associativity and
-   // priority; in a reduce-step it calls on the functions contained
-   // in the op instances to perform the calculation.
+   // shift-reduce style handling of operator priority; in a
+   // reduce-step it calls on the functions contained in the op
+   // instances to perform the calculation.
 
    struct stack
    {
       void push( const op & b )
       {
-         if ( ! m_o.empty() ) {
-            if ( m_o.back().p < b.p ) {
-               reduce();
-            }
-            else if ( ( m_o.back().p == b.p ) && ( b.a == assoc::LEFT ) ) {
-               reduce();
-            }
+         while ( ( ! m_o.empty() ) && ( m_o.back().p <= b.p ) ) {
+            reduce();
          }
          m_o.push_back( b );
       }
@@ -150,36 +136,34 @@ namespace calculator
       operators()
       {
          // By default we initialise with all binary operators from the C language that can be
-         // used on integers, all with their usual priority and associativity.
+         // used on integers, all with their usual priority.
 
-         insert( "*", order( 5 ), assoc::LEFT, []( const long l, const long r ){ return l * r; } );
-         insert( "/", order( 5 ), assoc::LEFT, []( const long l, const long r ){ return l / r; } );
-         insert( "%", order( 5 ), assoc::LEFT, []( const long l, const long r ){ return l % r; } );
-         insert( "+", order( 6 ), assoc::LEFT, []( const long l, const long r ){ return l + r; } );
-         insert( "-", order( 6 ), assoc::LEFT, []( const long l, const long r ){ return l - r; } );
-         insert( "<<", order( 7 ), assoc::LEFT, []( const long l, const long r ){ return l << r; } );
-         insert( ">>", order( 7 ), assoc::LEFT, []( const long l, const long r ){ return l >> r; } );
-         insert( "<", order( 8 ), assoc::LEFT, []( const long l, const long r ){ return l < r; } );
-         insert( ">", order( 8 ), assoc::LEFT, []( const long l, const long r ){ return l > r; } );
-         insert( "<=", order( 8 ), assoc::LEFT, []( const long l, const long r ){ return l <= r; } );
-         insert( ">=", order( 8 ), assoc::LEFT, []( const long l, const long r ){ return l >= r; } );
-         insert( "==", order( 9 ), assoc::LEFT, []( const long l, const long r ){ return l == r; } );
-         insert( "!=", order( 9 ), assoc::LEFT, []( const long l, const long r ){ return l != r; } );
-         insert( "&", order( 10 ), assoc::LEFT, []( const long l, const long r ){ return l & r; } );
-         insert( "^", order( 11 ), assoc::LEFT, []( const long l, const long r ){ return l ^ r; } );
-         insert( "|", order( 12 ), assoc::LEFT, []( const long l, const long r ){ return l | r; } );
-         insert( "&&", order( 13 ), assoc::LEFT, []( const long l, const long r ){ return l && r; } );
-         insert( "||", order( 14 ), assoc::LEFT, []( const long l, const long r ){ return l || r; } );
+         insert( "*", order( 5 ), []( const long l, const long r ){ return l * r; } );
+         insert( "/", order( 5 ), []( const long l, const long r ){ return l / r; } );
+         insert( "%", order( 5 ), []( const long l, const long r ){ return l % r; } );
+         insert( "+", order( 6 ), []( const long l, const long r ){ return l + r; } );
+         insert( "-", order( 6 ), []( const long l, const long r ){ return l - r; } );
+         insert( "<<", order( 7 ), []( const long l, const long r ){ return l << r; } );
+         insert( ">>", order( 7 ), []( const long l, const long r ){ return l >> r; } );
+         insert( "<", order( 8 ), []( const long l, const long r ){ return l < r; } );
+         insert( ">", order( 8 ), []( const long l, const long r ){ return l > r; } );
+         insert( "<=", order( 8 ), []( const long l, const long r ){ return l <= r; } );
+         insert( ">=", order( 8 ), []( const long l, const long r ){ return l >= r; } );
+         insert( "==", order( 9 ), []( const long l, const long r ){ return l == r; } );
+         insert( "!=", order( 9 ), []( const long l, const long r ){ return l != r; } );
+         insert( "&", order( 10 ), []( const long l, const long r ){ return l & r; } );
+         insert( "^", order( 11 ), []( const long l, const long r ){ return l ^ r; } );
+         insert( "|", order( 12 ), []( const long l, const long r ){ return l | r; } );
+         insert( "&&", order( 13 ), []( const long l, const long r ){ return l && r; } );
+         insert( "||", order( 14 ), []( const long l, const long r ){ return l || r; } );
       }
 
       // Arbitrary user-defined operators can be added at runtime.
 
-      void insert( const std::string & name, const order p, const assoc a, const std::function< long( long, long ) > & f )
+      void insert( const std::string & name, const order p, const std::function< long( long, long ) > & f )
       {
          assert( ! name.empty() );
-         const auto i = m_pas.insert( { p, a } );
-         assert( i.first->second == a );  // Asserts that all operators of the same priority share the same associativity.
-         m_ops.insert( { name, { p, a, f } } );
+         m_ops.insert( { name, { p, f } } );
       }
 
       const std::map< std::string, op > & ops() const
@@ -188,7 +172,6 @@ namespace calculator
       }
 
    private:
-      std::map< order, assoc > m_pas;
       std::map< std::string, op > m_ops;
    };
 
