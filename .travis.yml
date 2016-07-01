@@ -99,19 +99,24 @@ matrix:
       compiler: clang
       env: COMPILER=clang++
 
+    - os: osx
+      osx_image: xcode8
+      compiler: clang
+      env: COMPILER=clang++
+
     - os: linux
       compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-5']
+          packages: ['g++-6']
       env:
-        - COMPILER=g++-5
+        - COMPILER=g++-6
         - PEGTL_CXXFLAGS="-O0 --coverage"
       before_script:
         - pip install --user cpp-coveralls
       after_success:
-        - coveralls --gcov gcov-5 --gcov-options '\-lp' --exclude unit_tests --exclude examples
+        - coveralls --gcov gcov-6 --gcov-options '\-lp' --exclude unit_tests --exclude examples
 
 script:
   make CXX=$COMPILER -j3
