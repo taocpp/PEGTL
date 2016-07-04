@@ -2,11 +2,11 @@
 
 All parser functions and classes make use of the following template parameters and arguments:
 
-- `Rule` is the class that represents [the top-level parsing rule of the grammar](Rules-and-Grammars) to be parsed.
-- `Action<>` is the class template [specialised for user-defined actions during the parsing run](Actions-and-States).
+- `Rule` is the class that represents [the top-level parsing rule of the grammar](Rules-and-Grammars.md) to be parsed.
+- `Action<>` is the class template [specialised for user-defined actions during the parsing run](Actions-and-States.md).
 
-- `Control<>` is the class template that [controls debugging and throwing of exceptions](Control-Hooks).
-- `States` are [the additional arguments that are forwarded to all actions](Actions-and-States) and [control hooks](Control-Hooks).
+- `Control<>` is the class template that [controls debugging and throwing of exceptions](Control-Hooks.md).
+- `States` are [the additional arguments that are forwarded to all actions](Actions-and-States) and [control hooks](Control-Hooks.md).
 
 The `Rule` class *has* to be provided in order to have something to match against while parsing, some `Action<>` *usually* has to be provided (to actually *do* something while parsing, rather than only checking adherence of the input data to the grammar), whereas for `Control<>`, at least initially, the provided default will often be sufficient.
 
@@ -27,7 +27,7 @@ When dealing with or implementing *any* function that is called with an instance
 2. the parser functions do *not* copy the data they parse, therefore
 3. it depends on the caller of the top-most function whether and for how long the data used during a parsing run is valid afterwards.
 
-This holds true for `parse()`-functions, rules (`match()`-functions), actions (`apply()`-functions) and all [control-hooks](Control-Hooks).
+This holds true for `parse()`-functions, rules (`match()`-functions), actions (`apply()`-functions) and all [control-hooks](Control-Hooks.md).
 
 The two places that most frequently need to store and/or reference portions of the input beyond the parsing run are actions and errors.
 
@@ -155,7 +155,7 @@ bool parse_nested( const Input & nest,
 
 ## Tracer Functions
 
-The header file `pegtl/trace.hh` contains a [control class](Control-Hooks) called `tracer` that shows how to debug a grammar by obtaining a trace on which grammar rule is matched where and with which result during a parsing run.
+The header file `pegtl/trace.hh` contains a [control class](Control-Hooks.md) called `tracer` that shows how to debug a grammar by obtaining a trace on which grammar rule is matched where and with which result during a parsing run.
 
 For convenience, a function called `trace()` is included, too, that behaves exactly like the `parse()`-functions explained above, except that the template argument `Control` is removed and the `parse()`-functions are called with `tracer` as control class.
 

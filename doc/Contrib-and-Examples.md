@@ -32,7 +32,7 @@ For all questions and remarks contact us at **pegtl (at) colin-hirsch.net**.
 
 ###### `pegtl/contrib/changes.hh`
 
-* Control class components for [external switching style](Switching-Style).
+* Control class components for [external switching style](Switching-Style.md).
 * Ready for production use but might be changed in the future.
 
 ###### `pegtl/contrib/http.hh`
@@ -96,7 +96,7 @@ Shows how to use the custom error messages defined in `json_errors.hh` with the 
 
 ###### `examples/json_build_one.cc`
 
-Extends on `json_parse.cc` by parsing JSON files into generic JSON data structures using the "[switching style](Switching-Style)" of managing the actions and states.
+Extends on `json_parse.cc` by parsing JSON files into generic JSON data structures using the "[switching style](Switching-Style.md)" of managing the actions and states.
 
 ###### `examples/json_build_two.cc`
 

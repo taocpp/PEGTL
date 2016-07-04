@@ -36,7 +36,7 @@ We rather want to generate a global failure *at that point* by throwing an excep
 The PEGTL contains the `must< R... >` combinator which defines such an error point.
 It converts local failure into global failure, thereby expressing that, when this point was reached, the input *must* match the given rules, or else the parsing run immediately fails with an exception and without back-tracking.
 
-The task of actually throwing the exception is delegated to the [control class'](Control-Hooks) `raise()`-method.
+The task of actually throwing the exception is delegated to the [control class'](Control-Hooks.md) `raise()`-method.
 The exception thrown by the default control class `pegtl::normal` contains the demangled name of the failed parsing rule, and the position in the input at which the rule was attempted to match.
 
 Given the `must<>`-combinator we can rewrite the example above with the correct semantics that globally fails a parsing run when the backslash is not followed by a valid character.
@@ -45,7 +45,7 @@ Given the `must<>`-combinator we can rewrite the example above with the correct 
    struct esc : pegtl::seq< pegtl::one< '\\' >, pegtl::must< pegtl::one< 'n', 'r', 't' > > > {};
 ```
 
-Other [convenience rules](Rule-Reference#convenience) that define an error point in the grammar with an implicit `must<>` all contain `must` in their name.
+Other [convenience rules](Rule-Reference.md#convenience) that define an error point in the grammar with an implicit `must<>` all contain `must` in their name.
 One of these is `if_must<>`, which allows us to shorten our example equivalently.
 
 ```c++
