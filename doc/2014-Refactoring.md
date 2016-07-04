@@ -23,7 +23,7 @@ The important changes are listed below.
 - Partial support for Unicode has been added in the form of some basic rules like `one<>` and `range<>` also being supplied in a UTF-8 (and experimental UCS-4) aware version(s) that can correctly process arbitrary code points from `0` to `0x10ffff`.
 - The supplied input class works together with the supplied exception throwing to support better error locations when performing nested file parsing, i.e. a `parse_error` contains a vector of parse positions.
 - Added a function to analyse a grammar for the presence of infinite loops, i.e. cycles in the rules that do not (necessarily) consume any input like left recursion.
-- As actions are applied to a grammar in a non-invasive way, several common grammars were added to the PEGTL as documented in [Contrib and Examples](Contrib-and-Examples).
+- As actions are applied to a grammar in a non-invasive way, several common grammars were added to the PEGTL as documented in [Contrib and Examples](Contrib-and-Examples.md).
 - The `list<>`-rule was replaced by a set of new list rules with different padding semantics.
 - The `at_one<>` and other rules `foo` that are merely shortcuts for `at< foo >` were removed.
 - The `if_then<>` rule was removed.
