@@ -8,6 +8,11 @@
 
 The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++11 header-only library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
+#### Documentation
+
+* [Master Branch Documentation](https://github.com/ColinH/PEGTL/blob/master/doc/README.md)
+* [Version 1.3.x Documentation](https://github.com/ColinH/PEGTL/blob/1.3.x/doc/README.md)
+
 #### Introduction
 
 Grammars are written as regular C++ code, created with template programming (not template meta programming), i.e. nested template instantiations that naturally correspond to the inductive definition of PEGs or other parser combinator approaches.
@@ -31,7 +36,7 @@ struct integer
 ```
 
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic nature of PEGs gives rise to some very important differences.
-The included [grammar analysis](https://github.com/ColinH/PEGTL/wiki/Grammar-Analysis) finds several typical errors in PEGs, including left recursion.
+The included [grammar analysis](https://github.com/ColinH/PEGTL/blob/master/doc/Grammar-Analysis.md) finds several typical errors in PEGs, including left recursion.
 
 #### Design
 
@@ -41,7 +46,7 @@ The PEGTL is designed to be "lean and mean".
 The actual core library has about 3000 lines of code.
 Emphasis is on simplicity and efficiency but without adding any large constructions for optimising parsers.
 
-Whether and which actions are taken, and which data structures are created during a parsing run, is entirely up to the user of the library, however we provide some [examples](https://github.com/ColinH/PEGTL/wiki/Contrib-and-Examples#examples) for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
+Whether and which actions are taken, and which data structures are created during a parsing run, is entirely up to the user of the library, however we provide some [examples](https://github.com/ColinH/PEGTL/blob/master/doc/Contrib-and-Examples.md#examples) for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
 
 Through the use of template programming and template specialisations it is possible to write a grammar once, and use it in multiple ways with different (semantic) actions in different (or the same) parsing runs.
 
@@ -67,59 +72,7 @@ The coverage is also automatically measured. Our unit tests cover 100% of the co
 
 Releases are not stable in the sense that incompatible API changes can happen, but only between major versions.
 [Releases](https://github.com/ColinH/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
-For details see the [changelog](https://github.com/ColinH/PEGTL/wiki/Changelog).
-
-## Documentation
-
-* [Getting Started](https://github.com/ColinH/PEGTL/wiki/Getting-Started)
-  * [Hello, world!](https://github.com/ColinH/PEGTL/wiki/Getting-Started#hello-world)
-  * [Requirements](https://github.com/ColinH/PEGTL/wiki/Getting-Started#requirements)
-  * [Compilation](https://github.com/ColinH/PEGTL/wiki/Getting-Started#compilation)
-  * [Limitations](https://github.com/ColinH/PEGTL/wiki/Getting-Started#limitations)
-* [Rules and Grammars](https://github.com/ColinH/PEGTL/wiki/Rules-and-Grammars)
-  * [Combining Existing Rules](https://github.com/ColinH/PEGTL/wiki/Rules-and-Grammars#combining-existing-rules)
-* [Actions and States](https://github.com/ColinH/PEGTL/wiki/Actions-and-States)
-  * [Actions](https://github.com/ColinH/PEGTL/wiki/Actions-and-States#actions)
-  * [States](https://github.com/ColinH/PEGTL/wiki/Actions-and-States#states)
-  * [Action Specialisation](https://github.com/ColinH/PEGTL/wiki/Actions-and-States#action-specialisation)
-  * [Changing Actions](https://github.com/ColinH/PEGTL/wiki/Actions-and-States#changing-actions)
-* [Errors and Exceptions](https://github.com/ColinH/PEGTL/wiki/Errors-and-Exceptions)
-  * [Failure](https://github.com/ColinH/PEGTL/wiki/Errors-and-Exceptions#failure)
-  * [Error Messages](https://github.com/ColinH/PEGTL/wiki/Errors-and-Exceptions#error-messages)
-* [Rule Reference](https://github.com/ColinH/PEGTL/wiki/Rule-Reference)
-  * [Meta Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#meta-rules)
-  * [Combinators](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#combinators)
-  * [Convenience](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#convenience)
-  * [Atomic Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#atomic-rules)
-  * [ASCII Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#ascii-rules)
-  * [UTF-8 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#utf-8-rules)
-  * [UTF-16 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#utf-16-rules)
-  * [UTF-32 Rules](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#utf-32-rules)
-  * [Full Index](https://github.com/ColinH/PEGTL/wiki/Rule-Reference#full-index)
-* [Parser Reference](https://github.com/ColinH/PEGTL/wiki/Parser-Reference)
-  * [Input Data](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#input-data)
-  * [Parser Functions](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#parser-functions)
-  * [Tracer Functions](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#tracer-functions)
-  * [Parser Classes](https://github.com/ColinH/PEGTL/wiki/Parser-Reference#parser-classes)
-* [Incremental Input](https://github.com/ColinH/PEGTL/wiki/Incremental-Input)
-* [Contrib and Examples](https://github.com/ColinH/PEGTL/wiki/Contrib-and-Examples)
-  * [Contrib](https://github.com/ColinH/PEGTL/wiki/Contrib-and-Examples#contrib)
-  * [Examples](https://github.com/ColinH/PEGTL/wiki/Contrib-and-Examples#examples)
-* [Control Hooks](https://github.com/ColinH/PEGTL/wiki/Control-Hooks)
-  * [Normal Control](https://github.com/ColinH/PEGTL/wiki/Control-Hooks#normal-control)
-  * [Debug Functions](https://github.com/ColinH/PEGTL/wiki/Control-Hooks#debug-functions)
-  * [Exception Throwing](https://github.com/ColinH/PEGTL/wiki/Control-Hooks#exception-throwing)
-  * [Debugging and Tracing](https://github.com/ColinH/PEGTL/wiki/Control-Hooks#debugging-and-tracing)
-  * [Advanced Control](https://github.com/ColinH/PEGTL/wiki/Control-Hooks#advanced-control)
-  * [Changing Control](https://github.com/ColinH/PEGTL/wiki/Control-Hooks#changing-control)
-* [Advanced Rules](https://github.com/ColinH/PEGTL/wiki/Advanced-Rules)
-  * [Simple Rules](https://github.com/ColinH/PEGTL/wiki/Advanced-Rules#simple-rules)
-  * [Complex Rules](https://github.com/ColinH/PEGTL/wiki/Advanced-Rules#complex-rules)
-* [Switching Style](https://github.com/ColinH/PEGTL/wiki/Switching-Style)
-* [Grammar Analysis](https://github.com/ColinH/PEGTL/wiki/Grammar-Analysis)
-* [Calculator Example](https://github.com/ColinH/PEGTL/wiki/Calculator-Example)
-* [Changelog](https://github.com/ColinH/PEGTL/wiki/Changelog)
-* [2014 Refactoring](https://github.com/ColinH/PEGTL/wiki/2014-Refactoring)
+For details see the [changelog](https://github.com/ColinH/PEGTL/blob/master/doc/Changelog.md).
 
 #### Thank You
 
