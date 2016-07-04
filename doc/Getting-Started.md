@@ -106,7 +106,7 @@ the exception.
 
 The PEGTL requires one of
 
-* GCC 4.8
+* GCC 4.7
 * Clang 3.4
 * Visual Studio 2015
 

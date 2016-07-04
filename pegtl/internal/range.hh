@@ -22,12 +22,19 @@ namespace pegtl
 
          static constexpr bool can_match_lf = ( ( ( Lo <= '\n' ) && ( '\n' <= Hi ) ) == bool( R ) );
 
+         // suppress warning with GCC 4.7
+         template< typename T >
+         static inline bool dummy_less_or_equal( const T a, const T b )
+         {
+            return a <= b;
+         }
+
          template< typename Input >
          static bool match( Input & in )
          {
             if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
-                  if ( ( ( Lo <= t.data ) && ( t.data <= Hi ) ) == bool( R ) ) {
+                  if ( ( dummy_less_or_equal( Lo, t.data ) && dummy_less_or_equal( t.data, Hi ) ) == bool( R ) ) {
                      bump_impl< can_match_lf >::bump( in, t.size );
                      return true;
                   }
