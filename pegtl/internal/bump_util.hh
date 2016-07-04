@@ -33,13 +33,12 @@ namespace pegtl
       };
 
       template< bool ... > struct bool_list {};
-
-      template< typename Char, Char ... Cs > using no_lf = std::is_same< bool_list< ( Cs != '\n' ) ... >, bool_list< ( Cs || true ) ... > >;
+      template< bool ... Bs > using bool_and = std::is_same< bool_list< Bs..., true >, bool_list< true, Bs... > >;
 
       template< result_on_found R, typename Input, typename Char, Char ... Cs >
       void bump( Input & in, const std::size_t count )
       {
-         bump_impl< no_lf< Char, Cs ... >::value != bool( R ) >::bump( in, count );
+         bump_impl< bool_and< ( Cs != '\n' ) ... >::value != bool( R ) >::bump( in, count );
       }
 
    } // internal
