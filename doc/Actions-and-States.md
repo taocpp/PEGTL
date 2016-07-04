@@ -128,7 +128,7 @@ pegtl::parse_string< my_grammar, my_actions >( ... );
 pegtl::parse_string< pegtl::enable< my_actions, my_grammar > >( ... );
 ```
 
-As usual this applies not just to `parse_string()`, but equally to all parser functions defined in `pegtl/parser.hh` or the `parse()` member methods of the parser classes documented in [Parser Reference](Parser-Reference).
+As usual this applies not just to `parse_string()`, but equally to all parser functions defined in `pegtl/parser.hh` or the `parse()` member methods of the parser classes documented in [Parser Reference](Parser-Reference.md).
 
 User-defined parsing rules can use `enable<>` and `disable<>` just like any other combinator rules, for example:
 
@@ -141,6 +141,6 @@ This also allows using the same rules multiple times with different actions with
 
 ## Changing States
 
-[See the page on Switching Style](Switching-Style).
+[See the page on Switching Style](Switching-Style.md).
 
 Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey

@@ -23,7 +23,7 @@ struct integer
 It defines a new rule named `integer` that is a sequence of two parts, an optional character that can be one of `+` or `-`, followed by a non-empty repetition of a digit.
 Using inheritance in this way incurs no run-time penalty.
 
-See the [Rule Reference](Rule-Reference) for a complete list of all rules and combinators included with the PEGTL.
+See the [Rule Reference](Rule-Reference.md) for a complete list of all rules and combinators included with the PEGTL.
 
 Recursion, or cycles in the grammar, can be implemented after a forward-declaration of one or more rules.
 
@@ -51,14 +51,14 @@ In theory, as long as a grammar does not contain cycles, complete grammars could
 
 ## Implementing New Rules
 
-Writing a new rule from scratch is covered in the [Advanced Rules](Advanced-Rules) section.
+Writing a new rule from scratch is covered in the [Advanced Rules](Advanced-Rules.md) section.
 
 ## Toy S-Expression Grammar
 
 To give another example of what a small real-world grammar might look like, below is the grammar for a toy-version of S-expressions.
 It only supports proper lists, symbols, comments and numbers, and the numbers are only non-empty sequences of ASCII digits.
 
-The rule named `file` is the intended top-level rule of the grammar, i.e. the rule that is supplied as template argument to one of the [`parse()`-functions](Parser-Reference) in order to start a parsing run with this grammar.
+The rule named `file` is the intended top-level rule of the grammar, i.e. the rule that is supplied as template argument to one of the [`parse()`-functions](Parser-Reference.md) in order to start a parsing run with this grammar.
 
 ```c++
 using namespace pegtl;
@@ -101,6 +101,6 @@ struct file
    : until< eof, anything > {};
 ```
 
-In order to let a parsing run do more than verify whether an input conforms to the grammar, it is necessary to attach some user-defined actions to some grammar rules, as explained in the section on [Actions and States](Actions-and-States).
+In order to let a parsing run do more than verify whether an input conforms to the grammar, it is necessary to attach some user-defined actions to some grammar rules, as explained in the section on [Actions and States](Actions-and-States.md).
 
 Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey

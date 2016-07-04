@@ -12,7 +12,7 @@ The **main issue** addressed by the switching styles is the **growing complexity
 The way that this issue is addressed is by providing another tool for performing divide-and-conquer: A large state class with multiple tasks can be divided into
 
 - multiple smaller state classes that each take care of a single issue,
-- one or more [control classes](Control-Hooks) that switch between the states,
+- one or more [control classes](Control-Hooks.md) that switch between the states,
 - using the C++ stack for nested structures (rather than manually managing a stack).
 
 The different styles can also be freely mixed within the same parser.
@@ -25,7 +25,7 @@ For an example of how to build a generic JSON data structure with the "no switch
 
 ## Intrusive Switching
 
-The `state<>` and `action<>` [meta combinators](Rule-Reference#meta-rules) can be used to hard-code state and actions switches in the grammar.
+The `state<>` and `action<>` [meta combinators](Rule-Reference.md#meta-rules) can be used to hard-code state and actions switches in the grammar.
 
 In some cases a state object is required for the grammar itself, and in these cases embedding the state-switch into the grammar is recommended.
 

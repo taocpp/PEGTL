@@ -59,13 +59,13 @@ These rules are in namespace `::pegtl`.
 
 * Equivalent to `success`, but:
 * Calls the input's `discard()`-method.
-* See [Incremental Input](Incremental-Input) for details.
+* See [Incremental Input](Incremental-Input.md) for details.
 
 ###### `discard_if< R... >`
 
 * Equivalent to `seq< R... >, but:
 * Calls the input's `discard()`-method on success.
-* See [Incremental Input](Incremental-Input) for details.
+* See [Incremental Input](Incremental-Input.md) for details.
 
 ###### `enable< R... >`
 
@@ -75,7 +75,7 @@ These rules are in namespace `::pegtl`.
 ###### `require< Num >`
 
 * Succeeds if at least `Num` further input bytes are available.
-* With [Incremental Input](Incremental-Input) reads the bytes into the buffer. 
+* With [Incremental Input](Incremental-Input.md) reads the bytes into the buffer.
 
 ###### `state< S, R... >`
 
@@ -204,7 +204,7 @@ These rules are in namespace `::pegtl`.
 ###### `minus< M, S >`
 
 * Succeeds if `M` matches, and then `S` does **not** match all of the input that `M` matched.
-* Ignores `S` for the [grammar analysis](Grammar-Analysis).
+* Ignores `S` for the [grammar analysis](Grammar-Analysis.md).
 
 ###### `must< R... >`
 

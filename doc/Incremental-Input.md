@@ -13,7 +13,7 @@ The maximum buffer size usually depends on the grammar, the actions and the inpu
 It must be chosen large enough to keep the data required for all backtracking and all action invocations that will occur between buffer data being discarded.
 
 The buffer is automatically filled by the parsing rules that require input data, however **discarding data from the buffer is** (currently) **not automatic**:
-The grammar has to call [`discard`](Rule-Reference#discard) or [`discard_if<>`](Rule-Reference#discard_if-r-) in appropriate places to free the buffer again.
+The grammar has to call [`discard`](Rule-Reference.md#discard) or [`discard_if<>`](Rule-Reference.md#discard_if-r-) in appropriate places to free the buffer again.
 
 More precisely, each rule that uses one of the following methods on the input will indirectly make a corresponding call to `pegtl::buffer_input::require( amount )`. The `empty()`-method uses an implicit amount of 1.
 

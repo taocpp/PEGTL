@@ -2,10 +2,10 @@
 
 All parser functions and classes make use of the following template parameters and arguments:
 
-- `Rule` is the class that represents [the top-level parsing rule of the grammar](Rules-and-Grammars) to be parsed.
-- `Action<>` is the class template [specialised for user-defined actions during the parsing run](Actions-and-States).
-- `Control<>` is the class template that [controls debugging and throwing of exceptions](Control-Hooks).
-- `States` are [the additional arguments that are forwarded to all actions](Actions-and-States) and [control hooks](Control-Hooks).
+- `Rule` is the class that represents [the top-level parsing rule of the grammar](Rules-and-Grammars.md) to be parsed.
+- `Action<>` is the class template [specialised for user-defined actions during the parsing run](Actions-and-States.md).
+- `Control<>` is the class template that [controls debugging and throwing of exceptions](Control-Hooks.md).
+- `States` are [the additional arguments that are forwarded to all actions](Actions-and-States) and [control hooks](Control-Hooks.md).
 - `Outer` is the type of the outer input for a nested parsing run inside an outer parsing run.
 
 The `Rule` class *has* to be provided in order to have something to match against while parsing, some `Action<>` *usually* has to be provided (to actually *do* something while parsing, rather than only checking adherence of the input data to the grammar), whereas for `Control<>`, at least initially, the provided default will often be sufficient.
@@ -30,7 +30,7 @@ When dealing with, or implementing, *any* function that is called with an instan
 2. the parser functions do *not* copy the data they parse, therefore
 3. it depends on the caller of the top-most function whether, and for how long, the data used during a parsing run is valid afterwards.
 
-This holds true for `parse()`-functions, rules' (`match()`-functions), actions' (`apply()`-functions) and all [control-hooks](Control-Hooks).
+This holds true for `parse()`-functions, rules' (`match()`-functions), actions' (`apply()`-functions) and all [control-hooks](Control-Hooks.md).
 
 In some cases it might be necessary to use highly optimised data structures that do not copy the input data, which makes it necessary to ensure that the lifetime of the input data, i.e. the validity of all pointers and references to the input data, exceeds the lifetime of the generated data structure:
 
@@ -150,7 +150,7 @@ bool parse_string_nested( const Outer & io,
 
 #### Stream Parser Functions
 
-Please read [Incremental Input](Incremental-Input) for details on the `maximum` argument, and **how to prepare a grammar for incremental input support** using the `discard`-rule.
+Please read [Incremental Input](Incremental-Input.md) for details on the `maximum` argument, and **how to prepare a grammar for incremental input support** using the `discard`-rule.
 
 * The `parse_stdin()` function calls `parse_cstream()` with the appropriate arguments.
 * The `parse_cstring()` function performs incremental parsing until a terminating `\0`-byte is found, it does not call `strlen()` or similar to determine the length of the string (as would be required for one of the memory parser functions above).
@@ -230,7 +230,7 @@ bool parse_istream_nested( const Outer & oi,
 
 ## Tracer Functions
 
-The header file `pegtl/trace.hh` contains a [control class](Control-Hooks) called `tracer` that shows how to debug a grammar by obtaining a trace on which grammar rule is matched where and with which result during a parsing run.
+The header file `pegtl/trace.hh` contains a [control class](Control-Hooks.md) called `tracer` that shows how to debug a grammar by obtaining a trace on which grammar rule is matched where and with which result during a parsing run.
 
 For convenience, a group of functions called `trace_foo()` is included, too, that behaves exactly like the corresponding `parse_foo()`-functions explained above, except that the template argument `Control` is removed and the `parse()`-functions are called with `tracer` as control class.
 
