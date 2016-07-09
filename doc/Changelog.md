@@ -13,6 +13,7 @@ Released in the future
 * Refactored the `input` class into multiple classes.
 * Refactored the handling of nested parsing.
 * Renamed some parsing front-end functions.
+* Added support for GCC 4.7.
 
 #### 1.3.1
 
