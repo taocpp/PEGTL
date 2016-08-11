@@ -16,9 +16,9 @@ namespace pegtl
    class string_parser
    {
    public:
-      string_parser( std::string data, std::string source, const std::size_t line = 1, const std::size_t byte_in_line = 0 )
+      string_parser( std::string data, std::string in_source, const std::size_t line = 1, const std::size_t byte_in_line = 0 )
             : m_data( std::move( data ) ),
-              m_source( std::move( source ) ),
+              m_source( std::move( in_source ) ),
               m_input( line, byte_in_line, m_data.data(), m_data.data() + m_data.size(), m_source.c_str() )
       { }
 
