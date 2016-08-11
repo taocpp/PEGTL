@@ -18,11 +18,11 @@ namespace pegtl
    {
    public:
       template< typename ... As >
-      buffer_input( const char * source, const std::size_t maximum, As && ... as )
+      buffer_input( const char * in_source, const std::size_t maximum, As && ... as )
             : m_reader( std::forward< As >( as ) ... ),
               m_maximum( maximum ),
               m_buffer( new char[ maximum ] ),
-              m_data( 1, 0, m_buffer.get(), m_buffer.get(), source )
+              m_data( 1, 0, m_buffer.get(), m_buffer.get(), in_source )
 
       { }
 

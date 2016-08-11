@@ -20,8 +20,8 @@ namespace pegtl
             : m_data( data )
       { }
 
-      memory_input( const std::size_t line, const std::size_t byte_in_line, const char * begin, const char * end, const char * source )
-            : m_data( line, byte_in_line, begin, end, source )
+      memory_input( const std::size_t in_line, const std::size_t in_byte_in_line, const char * in_begin, const char * in_end, const char * in_source )
+            : m_data( in_line, in_byte_in_line, in_begin, in_end, in_source )
       { }
 
       bool empty() const

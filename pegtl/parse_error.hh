@@ -14,9 +14,9 @@ namespace pegtl
    struct parse_error
          : public std::runtime_error
    {
-      parse_error( const std::string & message, std::vector< position_info > && positions )
+      parse_error( const std::string & message, std::vector< position_info > && in_positions )
             : std::runtime_error( message ),
-              positions( std::move( positions ) )
+              positions( std::move( in_positions ) )
       { }
 
       template< typename Input >

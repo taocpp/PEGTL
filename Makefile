@@ -26,7 +26,7 @@ endif
 # changed if desired.
 
 PEGTL_CPPFLAGS ?= -pedantic
-PEGTL_CXXFLAGS ?= -Wall -Wextra -Werror -O3 $(MINGW_CXXFLAGS)
+PEGTL_CXXFLAGS ?= -Wall -Wextra -Werror -Wshadow -O3 $(MINGW_CXXFLAGS)
 
 .PHONY: all clean
 

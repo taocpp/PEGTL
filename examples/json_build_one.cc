@@ -91,12 +91,12 @@ namespace examples
          result.reset();
       }
 
-      void success( result_state & result )
+      void success( result_state & in_result )
       {
          if ( this->result ) {
             push_back();
          }
-         result.result = array;
+         in_result.result = array;
       }
    };
 
@@ -127,12 +127,12 @@ namespace examples
          result.reset();
       }
 
-      void success( result_state & result )
+      void success( result_state & in_result )
       {
          if ( this->result ) {
             insert();
          }
-         result.result = object;
+         in_result.result = object;
       }
    };
 

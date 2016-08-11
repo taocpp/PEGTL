@@ -12,12 +12,12 @@ namespace pegtl
    {
       struct input_data
       {
-         input_data( const std::size_t line, const std::size_t byte_in_line, const char * begin, const char * end, const char * source )
-               : line( line ),
-                 byte_in_line( byte_in_line ),
-                 begin( begin ),
-                 end( end ),
-                 source( source )
+         input_data( const std::size_t in_line, const std::size_t in_byte_in_line, const char * in_begin, const char * in_end, const char * in_source )
+               : line( in_line ),
+                 byte_in_line( in_byte_in_line ),
+                 begin( in_begin ),
+                 end( in_end ),
+                 source( in_source )
          { }
 
          std::size_t line;
