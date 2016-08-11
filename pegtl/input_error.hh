@@ -13,9 +13,9 @@ namespace pegtl
    struct input_error
          : std::runtime_error
    {
-      input_error( const std::string & message, const int errorno )
+      input_error( const std::string & message, const int in_errorno )
             : std::runtime_error( message ),
-              errorno( errorno )
+              errorno( in_errorno )
       { }
 
       int errorno;
