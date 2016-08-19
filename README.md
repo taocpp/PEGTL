@@ -84,9 +84,11 @@ For details see the [changelog](https://github.com/ColinH/PEGTL/blob/master/doc/
 * Kenneth Geisshirt for Android compatibility.
 * Paulo Custodio for Windows-related fixes.
 
-## License
+## Contact
 
-<a href="http://www.opensource.org/"><img height="100" align="right" src="http://wiki.opensource.org/bin/download/OSI+Operations/Marketing+%26+Promotional+Collateral/OSI_certified_logo_vector.svg"></a>
+For questions and suggestions about the PEGTL please contact the authors at `pegtl(at)colin-hirsch.net`.
+
+## License
 
 The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.html) software. It may be used for any purpose, including commercial purposes, at absolutely no cost. It is distributed under the terms of the [MIT license](http://www.opensource.org/licenses/mit-license.html) reproduced here.
 
@@ -97,5 +99,3 @@ The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.h
 > The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 >
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-This site and software is not affiliated with or endorsed by the Open Source Initiative. For questions and suggestions about the PEGTL please contact the authors at `pegtl(at)colin-hirsch.net`.
