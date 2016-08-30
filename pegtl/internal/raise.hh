@@ -1,11 +1,13 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_RAISE_HH
 #define PEGTL_INTERNAL_RAISE_HH
 
 #include <cstdlib>
+#include <type_traits>
 
+#include "../apply_mode.hh"
 #include "skip_control.hh"
 
 #include "../analysis/generic.hh"

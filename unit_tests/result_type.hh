@@ -1,10 +1,10 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_UNIT_TESTS_RESULT_TYPE_HH
 #define PEGTL_UNIT_TESTS_RESULT_TYPE_HH
 
-#include <iostream>
+#include <ostream>
 
 namespace pegtl
 {
@@ -15,7 +15,6 @@ namespace pegtl
       GLOBAL_FAILURE = -1
    };
 
-   // The following is inlined so it shows up as not executed on lcov:
    inline std::ostream & operator<< ( std::ostream & o, const result_type t )
    {
       switch ( t ) {

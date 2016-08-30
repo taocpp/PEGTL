@@ -4,6 +4,7 @@
 #ifndef PEGTL_INTERNAL_BUMP_UTIL_HH
 #define PEGTL_INTERNAL_BUMP_UTIL_HH
 
+#include <cstddef>
 #include <type_traits>
 
 #include "result_on_found.hh"

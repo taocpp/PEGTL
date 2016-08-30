@@ -4,8 +4,10 @@
 #ifndef PEGTL_UNIT_TESTS_VERIFY_IMPL_HH
 #define PEGTL_UNIT_TESTS_VERIFY_IMPL_HH
 
+#include <cstddef>
 #include <string>
-#include <cstdlib>
+
+#include "../pegtl/memory_input.hh"
 
 #include "test_failed.hh"
 #include "verify_help.hh"
@@ -15,7 +17,7 @@ namespace pegtl
    template< typename Rule >
    void verify_impl( const std::size_t line, const char * file, const std::string & data, const result_type expected, const std::size_t remain )
    {
-      pegtl::memory_input i( line, 0, data.data(), data.data() + data.size(), file );
+      memory_input i( line, 0, data.data(), data.data() + data.size(), file );
 
       const result_type received = verify_help< Rule >( i );
 

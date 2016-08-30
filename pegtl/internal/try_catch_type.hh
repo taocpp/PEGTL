@@ -4,10 +4,14 @@
 #ifndef PEGTL_INTERNAL_TRY_CATCH_TYPE_HH
 #define PEGTL_INTERNAL_TRY_CATCH_TYPE_HH
 
+#include <type_traits>
+
 #include "skip_control.hh"
 #include "trivial.hh"
+#include "rule_match_three.hh"
 #include "seq.hh"
 
+#include "../apply_mode.hh"
 #include "../analysis/generic.hh"
 
 namespace pegtl

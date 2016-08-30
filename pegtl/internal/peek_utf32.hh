@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_PEEK_UTF32_HH
 #define PEGTL_INTERNAL_PEEK_UTF32_HH
 
+#include <cstddef>
+
 #include "input_pair.hh"
 
 namespace pegtl

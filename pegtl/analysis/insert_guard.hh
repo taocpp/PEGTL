@@ -1,8 +1,10 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_ANALYSIS_INSERT_GUARD_HH
 #define PEGTL_ANALYSIS_INSERT_GUARD_HH
+
+#include <utility>
 
 namespace pegtl
 {

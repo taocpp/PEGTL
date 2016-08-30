@@ -1,13 +1,17 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_STAR_HH
 #define PEGTL_INTERNAL_STAR_HH
 
+#include <type_traits>
+
+#include "rule_match_three.hh"
 #include "seq.hh"
 #include "opt.hh"
 #include "skip_control.hh"
 
+#include "../apply_mode.hh"
 #include "../analysis/generic.hh"
 
 namespace pegtl

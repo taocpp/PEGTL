@@ -1,12 +1,16 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_UNIT_TESTS_VERIFY_HELP_HH
 #define PEGTL_UNIT_TESTS_VERIFY_HELP_HH
 
 #include <cassert>
+#include <stdexcept>
 
 #include "result_type.hh"
+#include "../pegtl/normal.hh"
+#include "../pegtl/apply_mode.hh"
+#include "../pegtl/nothing.hh"
 
 namespace pegtl
 {
@@ -24,6 +28,7 @@ namespace pegtl
       }
       catch ( ... ) {
          assert( false );
+         __builtin_unreachable();
       }
    }
 

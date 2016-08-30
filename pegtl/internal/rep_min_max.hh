@@ -4,11 +4,16 @@
 #ifndef PEGTL_INTERNAL_REP_MIN_MAX_HH
 #define PEGTL_INTERNAL_REP_MIN_MAX_HH
 
-#include "trivial.hh"
-#include "skip_control.hh"
-#include "seq.hh"
-#include "not_at.hh"
+#include <type_traits>
 
+#include "skip_control.hh"
+#include "trivial.hh"
+#include "not_at.hh"
+#include "rule_conjunction.hh"
+#include "rule_match_three.hh"
+#include "seq.hh"
+
+#include "../apply_mode.hh"
 #include "../analysis/counted.hh"
 
 namespace pegtl

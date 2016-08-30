@@ -144,9 +144,9 @@ namespace pegtl
    // support on the grammar level.
 
    template< char Open, char Intermediate, char Close, typename Tag = internal::raw_string_tag< Open, Intermediate, Close > >
-   struct raw_string : state< internal::raw_string_state< Tag >,
-                              internal::raw_string_open< Tag, Open, Intermediate >,
-                              internal::must< internal::until< internal::raw_string_close< Tag, Intermediate, Close > > > >
+   struct raw_string : internal::state< internal::raw_string_state< Tag >,
+                                        internal::raw_string_open< Tag, Open, Intermediate >,
+                                        internal::must< internal::until< internal::raw_string_close< Tag, Intermediate, Close > > > >
    {
       // This is used to bind an action to the content.
       using content = Tag;
