@@ -7,8 +7,8 @@
 #include <string>
 #include <cassert>
 
-#include <pegtl/ascii.hh>
-#include <pegtl/parse_error.hh>
+#include "../ascii.hh"
+#include "../parse_error.hh"
 
 namespace pegtl
 {
