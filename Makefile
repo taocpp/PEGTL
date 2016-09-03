@@ -28,18 +28,36 @@ endif
 PEGTL_CPPFLAGS ?= -pedantic
 PEGTL_CXXFLAGS ?= -Wall -Wextra -Werror -Wshadow -O3 $(MINGW_CXXFLAGS)
 
-.PHONY: all clean
+.PHONY: all compile check valgrind cppcheck clean
 
+HEADERS := pegtl.hh $(shell find pegtl -name '*.hh')
 SOURCES := $(wildcard */*.cc)
 DEPENDS := $(SOURCES:%.cc=build/%.d)
 BINARIES := $(SOURCES:%.cc=build/%)
 
 UNIT_TESTS := $(filter build/unit_tests/%,$(BINARIES))
 
-all: $(BINARIES)
+all: compile check
+
+compile: $(BINARIES)
+
+check: $(UNIT_TESTS)
 	@echo "Built with '$(CXX) $(PEGTL_CXXSTD) -I. $(PEGTL_CPPFLAGS) $(PEGTL_CXXFLAGS)'."
 	@set -e; for T in $(UNIT_TESTS); do echo $$T; $$T < unit_tests/file_data.txt > /dev/null; done
 	@echo "All $(words $(UNIT_TESTS)) unit tests passed."
+
+build/%.valgrind: build/%
+	valgrind --error-exitcode=1 --leak-check=full $< <unit_tests/file_data.txt >$@ 2>&1
+
+valgrind: $(UNIT_TESTS:%=%.valgrind)
+	@echo "All $(words $(UNIT_TESTS)) valgrind tests passed."
+
+build/%.cppcheck: %.hh
+	@mkdir -p $(@D)
+	@cppcheck --error-exitcode=1 --enable=warning --inconclusive --force --std=c++11 $< >$@
+
+cppcheck: $(HEADERS:%.hh=build/%.cppcheck)
+	@echo "All $(words $(HEADERS)) cppcheck tests passed."
 
 clean:
 	rm -rf build/*
