@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_FILE_MAPPER_HH
@@ -25,7 +25,7 @@ namespace pegtl
          explicit
          file_mapper( const file_opener & reader )
                : m_size( reader.size() ),
-                 m_data( static_cast< const char * >( ::mmap( 0, m_size, PROT_READ, MAP_FILE | MAP_PRIVATE, reader.m_fd, 0 ) ) )
+                 m_data( static_cast< const char * >( ::mmap( nullptr, m_size, PROT_READ, MAP_FILE | MAP_PRIVATE, reader.m_fd, 0 ) ) )
          {
             if ( intptr_t( m_data ) == -1 ) {
                PEGTL_THROW_INPUT_ERROR( "unable to mmap() file " << reader.m_source << " descriptor " << reader.m_fd );
