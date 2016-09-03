@@ -88,14 +88,14 @@ matrix:
       env:
         - COMPILER=clang++-3.8
 
-    - os: linux
-      compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.9']
-          packages: ['clang-3.9']
-      env:
-        - COMPILER=clang++-3.9
+#    - os: linux
+#      compiler: clang
+#      addons:
+#        apt:
+#          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.9']
+#          packages: ['clang-3.9']
+#      env:
+#        - COMPILER=clang++-3.9
 
     - os: osx
       compiler: clang
