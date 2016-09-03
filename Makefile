@@ -57,7 +57,7 @@ valgrind: $(UNIT_TESTS:%=%.valgrind)
 
 build/%.cppcheck: %.hh
 	@mkdir -p $(@D)
-	cppcheck --error-exitcode=1 --enable=warning --inconclusive --force --std=c++11 $<
+	cppcheck --error-exitcode=1 --inconclusive --force --std=c++11 $<
 	@touch $@
 
 cppcheck: $(HEADERS:%.hh=build/%.cppcheck)
