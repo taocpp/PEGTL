@@ -47,14 +47,16 @@ check: $(UNIT_TESTS)
 	@echo "All $(words $(UNIT_TESTS)) unit tests passed."
 
 build/%.valgrind: build/%
-	valgrind --error-exitcode=1 --leak-check=full $< <unit_tests/file_data.txt >$@ 2>&1
+	valgrind --error-exitcode=1 --leak-check=full $< <unit_tests/file_data.txt
+	@touch $@
 
 valgrind: $(UNIT_TESTS:%=%.valgrind)
 	@echo "All $(words $(UNIT_TESTS)) valgrind tests passed."
 
 build/%.cppcheck: %.hh
 	@mkdir -p $(@D)
-	@cppcheck --error-exitcode=1 --enable=warning --inconclusive --force --std=c++11 $< >$@
+	cppcheck --error-exitcode=1 --enable=warning --inconclusive --force --std=c++11 $<
+	@touch $@
 
 cppcheck: $(HEADERS:%.hh=build/%.cppcheck)
 	@echo "All $(words $(HEADERS)) cppcheck tests passed."
