@@ -1,4 +1,4 @@
-# Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+# Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 # Please see LICENSE for license or visit https://github.com/ColinH/PEGTL
 
 ifeq ($(OS),Windows_NT)
@@ -26,9 +26,11 @@ endif
 # changed if desired.
 
 PEGTL_CPPFLAGS ?= -pedantic
-PEGTL_CXXFLAGS ?= -Wall -Wextra -Werror -Wshadow -O3 $(MINGW_CXXFLAGS)
+PEGTL_CXXFLAGS ?= -Wall -Wextra -Wshadow -Werror -O3 $(MINGW_CXXFLAGS)
 
-.PHONY: all compile check valgrind cppcheck clean
+PEGTL_CLANG_TIDY ?= clang-tidy
+
+.PHONY: all compile check valgrind cppcheck clang-tidy clean
 
 HEADERS := pegtl.hh $(shell find pegtl -name '*.hh')
 SOURCES := $(wildcard */*.cc)
@@ -60,6 +62,13 @@ build/%.cppcheck: %.hh
 
 cppcheck: $(HEADERS:%.hh=build/%.cppcheck)
 	@echo "All $(words $(HEADERS)) cppcheck tests passed."
+
+build/%.clang-tidy: %
+	$(PEGTL_CLANG_TIDY) -extra-arg "-I." -extra-arg "-std=c++11" $<
+	@touch $@
+
+clang-tidy: $(HEADERS:%=build/%.clang-tidy) $(SOURCES:%=build/%.clang-tidy)
+	@echo "All $(words $(HEADERS) $(SOURCES)) clang-tidy tests passed."
 
 clean:
 	rm -rf build/*

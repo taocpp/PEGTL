@@ -170,5 +170,18 @@ matrix:
       script:
         - make CXX=$COMPILER -j3 cppcheck
 
+    - os: linux
+      compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
+          packages: ['clang-3.8', 'clang-tidy-3.8']
+      env:
+        - COMPILER=clang++-3.8
+        - PEGTL_CLANG_TIDY=clang-tidy-3.8
+        - SPECIAL=clang-tidy
+      script:
+        - make CXX=$COMPILER -j3 clang-tidy
+
 script:
   make CXX=$COMPILER -j3
