@@ -158,17 +158,17 @@ matrix:
       script:
         - make CXX=$COMPILER -j3 valgrind
 
-#    - os: linux
-#      compiler: gcc
-#      addons:
-#        apt:
-#          sources: ['ubuntu-toolchain-r-test']
-#          packages: ['g++-6', 'cppcheck']
-#      env:
-#        - COMPILER=g++-6
-#        - SPECIAL=cppcheck
-#      script:
-#        - make CXX=$COMPILER -j3 cppcheck
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-6', 'cppcheck']
+      env:
+        - COMPILER=g++-6
+        - SPECIAL=cppcheck
+      script:
+        - make CXX=$COMPILER -j3 cppcheck
 
 script:
   make CXX=$COMPILER -j3

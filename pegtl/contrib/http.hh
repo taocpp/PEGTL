@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_CONTRIB_HTTP_HH
@@ -26,6 +26,7 @@ namespace pegtl
       using RWS = plus< WSP >; // required whitespace
       using BWS = OWS; // "bad" whitespace
 
+      // cppcheck-suppress constStatement
       using obs_text = not_range< 0x00, 0x7F >;
       using obs_fold = seq< CRLF, plus< WSP > >;
 
