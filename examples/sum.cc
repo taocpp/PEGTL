@@ -43,7 +43,7 @@ int main()
 
    std::string str;
 
-   while ( std::getline( std::cin, str ) ) {
+   while ( std::getline( std::cin, str ) != nullptr ) {
       if ( str.empty() || str[ 0 ] == 'q' || str[ 0 ] == 'Q' ) {
          break;
       }
