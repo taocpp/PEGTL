@@ -42,6 +42,6 @@ namespace pegtl
       verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "a1", result_type::SUCCESS, 1 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

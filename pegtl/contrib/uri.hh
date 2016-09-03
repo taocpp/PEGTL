@@ -101,8 +101,8 @@ namespace pegtl
       struct URI_reference : sor< URI, relative_ref > {};
       struct absolute_URI : seq< scheme, one< ':' >, hier_part, opt_query > {};
 
-   } // uri
+   } // namespace uri
 
-} // pegtl
+} // namespace pegtl
 
 #endif

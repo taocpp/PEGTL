@@ -82,8 +82,8 @@ namespace pegtl
 
       struct text : seq< star< ws >, value > {};
 
-   } // json
+   } // namespace json
 
-} // pegtl
+} // namespace pegtl
 
 #endif

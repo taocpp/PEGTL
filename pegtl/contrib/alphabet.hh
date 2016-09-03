@@ -62,8 +62,8 @@ namespace pegtl
       static const int Y = 'Y';
       static const int Z = 'Z';
 
-   } // alphabet
+   } // namespace alphabet
 
-} // pegtl
+} // namespace pegtl
 
 #endif

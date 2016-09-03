@@ -29,8 +29,8 @@ namespace pegtl
          return demangle( typeid( T ).name() );
       }
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

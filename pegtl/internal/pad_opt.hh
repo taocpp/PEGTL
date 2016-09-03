@@ -15,8 +15,8 @@ namespace pegtl
       template< typename Rule, typename Pad >
       using pad_opt = seq< star< Pad >, opt< Rule, star< Pad > > >;
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

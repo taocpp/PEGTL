@@ -309,7 +309,7 @@ namespace calculator
       }
    };
 
-} // calculator
+} // namespace calculator
 
 int main( int argc, char ** argv )
 {

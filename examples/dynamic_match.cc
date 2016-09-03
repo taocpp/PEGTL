@@ -56,7 +56,7 @@ namespace dynamic
          long_literal_body += in.string();
       }
    };
-}
+} // namespace dynamic
 
 int main( int argc, char ** argv )
 {

@@ -14,8 +14,8 @@ namespace pegtl
      template< typename Cond, typename ... Rules >
      using star_must = star< if_must< Cond, Rules ... > >;
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

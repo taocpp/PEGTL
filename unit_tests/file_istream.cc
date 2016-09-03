@@ -26,6 +26,6 @@ namespace pegtl
       TEST_ASSERT( parse_istream< file_grammar >( stream, filename, 16 ) );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

@@ -12,6 +12,6 @@ namespace pegtl
       NOTHING = false
    };
 
-} // pegtl
+} // namespace pegtl
 
 #endif

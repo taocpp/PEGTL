@@ -25,6 +25,6 @@ namespace pegtl
       verify_rule< opt< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "cb", result_type::SUCCESS, 2 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

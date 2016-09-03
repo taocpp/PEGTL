@@ -42,7 +42,7 @@ namespace unescape
    template<> struct action< escaped_U > : pegtl::unescape::unescape_u {};
    template<> struct action< escaped_c > : pegtl::unescape::unescape_c< escaped_c, '\'', '"', '?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' > {};
 
-} // unescape
+} // namespace unescape
 
 int main( int argc, char ** argv )
 {

@@ -38,6 +38,6 @@ namespace pegtl
       verify_rule< rep_min_max< 2, 4, one< 'a' > > >( __LINE__, __FILE__,  "baaaa", result_type::LOCAL_FAILURE, 5 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

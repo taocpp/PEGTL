@@ -87,6 +87,6 @@ namespace pegtl
       return parse_istream< Rule, Action, tracer >( std::forward< Args >( args ) ... );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #endif

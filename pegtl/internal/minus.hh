@@ -38,8 +38,8 @@ namespace pegtl
       template< typename M, typename S >
       struct skip_control< minus< M, S > > : std::true_type {};
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

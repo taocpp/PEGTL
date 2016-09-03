@@ -14,8 +14,8 @@ namespace pegtl
       template< typename Rule, typename Pad1, typename Pad2 = Pad1 >
       using pad = seq< star< Pad1 >, Rule, star< Pad2 > >;
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

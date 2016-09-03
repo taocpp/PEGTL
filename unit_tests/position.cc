@@ -121,6 +121,6 @@ namespace pegtl
       test_nested();
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

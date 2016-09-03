@@ -146,11 +146,11 @@ namespace pegtl
          template<> const std::string error_control< c_nl >::error_message = "unterminated rule";
          template<> const std::string error_control< rule >::error_message = "expected rule";
 
-      } // grammar
+      } // namespace grammar
 
-   } // abnf
+   } // namespace abnf
 
-} // pegtl
+} // namespace pegtl
 
 namespace abnf2pegtl
 {
@@ -199,7 +199,7 @@ namespace abnf2pegtl
          "wchar_t", "while", "xor", "xor_eq",
          "pegtl" // this would not end well :)
       };
-   }
+   } // namespace
 
    std::string get_rulename( const pegtl::action_input & in, data & d )
    {
@@ -606,7 +606,7 @@ namespace abnf2pegtl
       }
    };
 
-} // abnf2pegtl
+} // namespace abnf2pegtl
 
 int main( int argc, char ** argv )
 {

@@ -28,6 +28,6 @@ namespace pegtl
       std::vector< position_info > positions;
    };
 
-} // pegtl
+} // namespace pegtl
 
 #endif

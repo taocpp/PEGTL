@@ -127,6 +127,6 @@ namespace pegtl
       verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "unit_tests/data/fail39.json" );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

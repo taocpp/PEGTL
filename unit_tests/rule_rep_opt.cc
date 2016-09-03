@@ -37,6 +37,6 @@ namespace pegtl
       verify_rule< rep_opt< 2, two< 'a' > > >( __LINE__, __FILE__,  "aaaaaaa", result_type::SUCCESS, 3 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

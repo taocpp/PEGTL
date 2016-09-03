@@ -38,6 +38,6 @@ namespace pegtl
       return o.str();
    }
 
-} // pegtl
+} // namespace pegtl
 
 #endif

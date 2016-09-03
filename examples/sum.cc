@@ -33,7 +33,7 @@ namespace sum
       }
    };
 
-} // sum
+} // namespace sum
 
 int main()
 {

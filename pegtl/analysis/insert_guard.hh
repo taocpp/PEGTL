@@ -52,8 +52,8 @@ namespace pegtl
          return insert_guard< C >( c, t );
       }
 
-   } // analysis
+   } // namespace analysis
 
-} // pegtl
+} // namespace pegtl
 
 #endif

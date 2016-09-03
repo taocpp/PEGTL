@@ -14,6 +14,6 @@ namespace pegtl
       failed = ! pegtl::trace_string< GRAMMAR >( "ab", "trace test please ignore" );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

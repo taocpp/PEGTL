@@ -38,6 +38,6 @@ namespace pegtl
       verify_seqs< test_state_with_template_parameters_rule >();
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

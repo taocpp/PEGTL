@@ -58,6 +58,6 @@ namespace pegtl
       verify_fail< rgrammar >( __LINE__, __FILE__, "[====[]===]" );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

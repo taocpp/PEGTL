@@ -12,7 +12,7 @@ namespace pegtl
          return std::string( reinterpret_cast< const char * >( & u ), sizeof( u ) );
       }
 
-   } //
+   } // namespace
 
    void unit_test()
    {
@@ -48,6 +48,6 @@ namespace pegtl
       verify_rule< utf16::one< 0x10437 > >( __LINE__, __FILE__, u16s( 0xd801 ) + u16s( 0xdc37 ), result_type::SUCCESS, 0 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

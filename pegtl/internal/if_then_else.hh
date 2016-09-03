@@ -37,8 +37,8 @@ namespace pegtl
       template< typename Cond, typename Then, typename Else >
       struct skip_control< if_then_else< Cond, Then, Else > > : std::true_type {};
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

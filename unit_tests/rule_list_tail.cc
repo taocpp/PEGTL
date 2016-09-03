@@ -51,6 +51,6 @@ namespace pegtl
       verify_rule< list_tail< one< 'a' >, one< ',' >, blank > >( __LINE__, __FILE__,  " a , a ", result_type::LOCAL_FAILURE, 7 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

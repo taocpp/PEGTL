@@ -15,8 +15,8 @@ namespace pegtl
             : generic< Count ? Type : rule_type::OPT, Rules ... >
       { };
 
-   } // analysis
+   } // namespace analysis
 
-} // pegtl
+} // namespace pegtl
 
 #endif

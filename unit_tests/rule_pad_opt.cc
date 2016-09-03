@@ -30,6 +30,6 @@ namespace pegtl
       verify_rule< pad_opt< one< 'a' >, space > >( __LINE__, __FILE__,  "  a  a ", result_type::SUCCESS, 2 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

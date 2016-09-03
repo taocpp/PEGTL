@@ -23,6 +23,6 @@ namespace pegtl
       verify_rule< eol >( __LINE__, __FILE__,  "\r\n\n", result_type::SUCCESS, 1 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

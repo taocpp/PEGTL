@@ -35,6 +35,6 @@ namespace pegtl
       verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "cb", result_type::LOCAL_FAILURE, 2 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

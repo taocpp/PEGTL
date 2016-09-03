@@ -17,6 +17,6 @@ namespace pegtl
       verify_rule< eof >( __LINE__, __FILE__,  "abcdefghijklmn", result_type::LOCAL_FAILURE, 14 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

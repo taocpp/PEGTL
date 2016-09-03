@@ -18,6 +18,6 @@ namespace pegtl
       verify_rule< at< any > >( __LINE__, __FILE__,  "aaaa", result_type::SUCCESS, 4 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

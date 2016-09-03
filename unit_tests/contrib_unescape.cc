@@ -94,6 +94,6 @@ namespace pegtl
       verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\Uffffffff", st );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

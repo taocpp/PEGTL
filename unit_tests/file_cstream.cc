@@ -21,6 +21,6 @@ namespace pegtl
       TEST_ASSERT( parse_stdin< file_grammar >( 16 ) );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

@@ -36,8 +36,8 @@ namespace pegtl
             : rule_match_three< Rule, A, Action, Control >
       { };
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

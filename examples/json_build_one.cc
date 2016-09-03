@@ -159,7 +159,7 @@ namespace examples
 
    struct grammar : pegtl::must< pegtl::json::text, pegtl::eof > {};
 
-} // examples
+} // namespace examples
 
 int main( int argc, char ** argv )
 {

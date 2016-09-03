@@ -47,8 +47,8 @@ namespace pegtl
       template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
       struct skip_control< range< R, Peek, Lo, Hi > > : std::true_type {};
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

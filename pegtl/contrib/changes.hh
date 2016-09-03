@@ -22,7 +22,7 @@ namespace pegtl
       template< pegtl::apply_mode A, typename State >
       using state_disable_helper = typename std::conditional< A == pegtl::apply_mode::ACTION, State, dummy_disabled_state >::type;
 
-   } // internal
+   } // namespace internal
 
    template< typename Rule, typename State, template< typename ... > class Base = pegtl::normal >
    struct change_state
@@ -63,6 +63,6 @@ namespace pegtl
          : public change_state< Rule, State, change_both_helper< Action, Base >::template change_action >
    { };
 
-} // pegtl
+} // namespace pegtl
 
 #endif

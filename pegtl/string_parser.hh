@@ -50,6 +50,6 @@ namespace pegtl
       memory_input m_input;
    };
 
-} // pegtl
+} // namespace pegtl
 
 #endif

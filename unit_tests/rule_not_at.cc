@@ -18,6 +18,6 @@ namespace pegtl
       verify_rule< not_at< any > >( __LINE__, __FILE__,  "aaaa", result_type::LOCAL_FAILURE, 4 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

@@ -78,8 +78,8 @@ namespace pegtl
          const char * const m_data;
       };
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

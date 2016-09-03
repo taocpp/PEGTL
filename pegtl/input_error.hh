@@ -29,6 +29,6 @@ namespace pegtl
       throw pegtl::input_error( oss.str(), errorno );                   \
    } while ( false )
 
-} // pegtl
+} // namespace pegtl
 
 #endif

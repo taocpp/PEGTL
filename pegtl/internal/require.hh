@@ -27,8 +27,8 @@ namespace pegtl
       template< unsigned Amount >
       struct skip_control< require< Amount > > : std::true_type {};
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

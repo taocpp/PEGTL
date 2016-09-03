@@ -172,8 +172,8 @@ namespace pegtl
          }
       };
 
-   } // unescape
+   } // namespace unescape
 
-} // pegtl
+} // namespace pegtl
 
 #endif

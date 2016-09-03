@@ -19,8 +19,8 @@ namespace pegtl
          return demangled ? demangled.get() : symbol;
       }
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

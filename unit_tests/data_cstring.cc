@@ -14,6 +14,6 @@ namespace pegtl
       TEST_ASSERT( ! parse_cstring< test_grammar >( test_data, "test data", 1 ) );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

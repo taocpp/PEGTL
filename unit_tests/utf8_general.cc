@@ -251,6 +251,6 @@ namespace pegtl
       verify_rule< utf8::one< 0x10348 > >( __LINE__, __FILE__, "\xf0\x90\x8d\x88", result_type::SUCCESS, 0 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

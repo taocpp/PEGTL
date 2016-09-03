@@ -24,8 +24,8 @@ namespace pegtl
          std::vector< std::string > rules;
       };
 
-   } // analysis
+   } // namespace analysis
 
-} // pegtl
+} // namespace pegtl
 
 #endif

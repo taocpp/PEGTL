@@ -37,6 +37,6 @@ namespace pegtl
       verify_rule< if_must< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__,  "abc", result_type::SUCCESS, 0 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

@@ -138,8 +138,8 @@ namespace pegtl
 
       struct chunked_body : seq< until< last_chunk, chunk >, trailer_part, CRLF > {};
 
-   } // http
+   } // namespace http
 
-} // pegtl
+} // namespace pegtl
 
 #endif

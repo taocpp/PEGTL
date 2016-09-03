@@ -15,6 +15,6 @@ namespace pegtl
       verify_seqs< test_try_catch_rule >();
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

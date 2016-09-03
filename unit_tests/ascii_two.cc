@@ -17,6 +17,6 @@ namespace pegtl
       verify_rule< two< 'a' > >( __LINE__, __FILE__, "aaaa", result_type::SUCCESS, 2 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

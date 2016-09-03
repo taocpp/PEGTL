@@ -161,7 +161,7 @@ namespace examples
    };
 
    using grammar = pegtl::must< pegtl::json::text, pegtl::eof >;
-}
+} // namespace examples
 
 int main( int argc, char ** argv )
 {

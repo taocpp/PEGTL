@@ -116,7 +116,7 @@ namespace pegtl
       template< typename Tag, char Intermediate, char Close >
       struct skip_control< raw_string_close< Tag, Intermediate, Close > > : std::true_type {};
 
-   } // internal
+   } // namespace internal
 
    // raw_string matches Lua-style long literals.
    //
@@ -155,6 +155,6 @@ namespace pegtl
       using close = internal::until< internal::raw_string_close< Tag, Intermediate, Close > >;
    };
 
-} // pegtl
+} // namespace pegtl
 
 #endif

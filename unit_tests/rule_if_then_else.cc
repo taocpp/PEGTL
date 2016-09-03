@@ -12,6 +12,6 @@ namespace pegtl
       verify_ifmt< if_then_else >();
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

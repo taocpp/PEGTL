@@ -329,7 +329,7 @@ namespace lua53
    struct interpreter : pegtl::seq< pegtl::one< '#' >, pegtl::until< pegtl::eolf > > {};
    struct grammar : pegtl::must< pegtl::opt< interpreter >, statement_list< pegtl::eof > > {};
 
-} // lua53
+} // namespace lua53
 
 int main( int argc, char ** argv )
 {

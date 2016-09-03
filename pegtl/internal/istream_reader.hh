@@ -35,8 +35,8 @@ namespace pegtl
          std::istream & m_istream;
       };
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

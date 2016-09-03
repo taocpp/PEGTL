@@ -39,8 +39,8 @@ namespace pegtl
          }
       };
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

@@ -38,8 +38,8 @@ namespace pegtl
       template< unsigned Num >
       struct skip_control< bytes< Num > > : std::true_type {};
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

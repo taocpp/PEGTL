@@ -14,8 +14,8 @@ namespace pegtl
       template< typename Cond, typename Then, typename Else >
       using if_must_else = if_then_else< Cond, must< Then >, must< Else > >;
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

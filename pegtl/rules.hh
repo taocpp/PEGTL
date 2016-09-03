@@ -53,6 +53,6 @@ namespace pegtl
    template< typename Exception, typename ... Rules > struct try_catch_type : internal::try_catch_type< Exception, Rules ... > {};
    template< typename Cond, typename ... Rules > struct until : internal::until< Cond, Rules ... > {};
 
-} // pegtl
+} // namespace pegtl
 
 #endif

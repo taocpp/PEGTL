@@ -67,6 +67,6 @@ namespace pegtl
       verify_rule< until< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__,  "bcbcbc", result_type::LOCAL_FAILURE, 6 );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

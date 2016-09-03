@@ -75,7 +75,7 @@ namespace pegtl
          TEST_ASSERT( result == "dkskxk" );
       }
 
-   } // test1
+   } // namespace test1
 
    void unit_test()
    {
@@ -113,6 +113,6 @@ namespace pegtl
       test1::state_test();
    }
 
-} // pegtl
+} // namespace pegtl
 
 #include "main.hh"

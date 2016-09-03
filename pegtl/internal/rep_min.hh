@@ -15,8 +15,8 @@ namespace pegtl
       template< unsigned Min, typename Rule, typename ... Rules >
       using rep_min = seq< rep< Min, Rule, Rules ... >, star< Rule, Rules ... > >;
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

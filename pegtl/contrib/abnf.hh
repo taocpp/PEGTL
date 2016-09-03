@@ -29,8 +29,8 @@ namespace pegtl
       struct VCHAR : internal::range< internal::result_on_found::SUCCESS, internal::peek_char, char( 33 ), char( 126 ) > {};
       struct WSP : internal::one< internal::result_on_found::SUCCESS, internal::peek_char, ' ', '\t' > {};
 
-   } // abnf
+   } // namespace abnf
 
-} // pegtl
+} // namespace pegtl
 
 #endif

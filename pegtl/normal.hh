@@ -40,6 +40,6 @@ namespace pegtl
       }
    };
 
-} // pegtl
+} // namespace pegtl
 
 #endif

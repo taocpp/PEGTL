@@ -28,7 +28,7 @@ namespace modulus
 
    struct grammar
          : pegtl::until< pegtl::eolf, pegtl::must< my_rule< 3 > > > {};
-}
+} // namespace modulus
 
 int main( int argc, char ** argv )
 {
