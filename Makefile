@@ -56,8 +56,8 @@ valgrind: $(UNIT_TESTS:%=%.valgrind)
 	@echo "All $(words $(UNIT_TESTS)) valgrind tests passed."
 
 build/%.cppcheck: %.hh
-	@mkdir -p $(@D)
 	cppcheck --error-exitcode=1 --inconclusive --force --std=c++11 $<
+	@mkdir -p $(@D)
 	@touch $@
 
 cppcheck: $(HEADERS:%.hh=build/%.cppcheck)
@@ -65,6 +65,7 @@ cppcheck: $(HEADERS:%.hh=build/%.cppcheck)
 
 build/%.clang-tidy: %
 	$(PEGTL_CLANG_TIDY) -extra-arg "-I." -extra-arg "-std=c++11" $<
+	@mkdir -p $(@D)
 	@touch $@
 
 clang-tidy: $(HEADERS:%=build/%.clang-tidy) $(SOURCES:%=build/%.clang-tidy)
