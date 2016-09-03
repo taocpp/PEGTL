@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_FILE_READER_HH
@@ -6,6 +6,8 @@
 
 #include <cstdio>
 #include <memory>
+#include <string>
+#include <utility>
 
 #include "../input_error.hh"
 
@@ -17,8 +19,8 @@ namespace pegtl
       {
       public:
          explicit
-         file_reader( const std::string & filename )
-               : m_source( filename ),
+         file_reader( std::string filename )
+               : m_source( std::move( filename ) ),
                  m_file( open(), & std::fclose )
          { }
 

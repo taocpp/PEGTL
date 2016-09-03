@@ -6,6 +6,7 @@
 
 #include <string>
 #include <cstddef>
+#include <utility>
 
 #include "internal/input_data.hh"
 #include "internal/input_mark.hh"
@@ -16,8 +17,8 @@ namespace pegtl
    {
    public:
       explicit
-      memory_input( const internal::input_data & data )
-            : m_data( data )
+      memory_input( internal::input_data data )
+            : m_data( std::move( data ) )
       { }
 
       memory_input( const std::size_t in_line, const std::size_t in_byte_in_line, const char * in_begin, const char * in_end, const char * in_source )

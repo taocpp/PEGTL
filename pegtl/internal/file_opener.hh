@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_FILE_OPENER_HH
@@ -9,6 +9,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include <utility>
+
 #include "../input_error.hh"
 
 namespace pegtl
@@ -18,8 +20,8 @@ namespace pegtl
       struct file_opener
       {
          explicit
-         file_opener( const std::string & filename )
-               : m_source( filename ),
+         file_opener( std::string filename )
+               : m_source( std::move( filename ) ),
                  m_fd( open() )
          { }
 
