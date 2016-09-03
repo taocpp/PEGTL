@@ -19,8 +19,8 @@ namespace pegtl
       template< char32_t Lo, char32_t Hi > struct range : internal::range< internal::result_on_found::SUCCESS, internal::peek_utf32, Lo, Hi > {};
       template< char32_t ... Cs > struct ranges : internal::ranges< internal::peek_utf32, Cs ... > {};
 
-   } // utf32
+   } // namespace utf32
 
-} // pegtl
+} // namespace pegtl
 
 #endif

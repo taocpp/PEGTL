@@ -27,8 +27,8 @@ namespace pegtl
       template< bool Result >
       struct skip_control< trivial< Result > > : std::true_type {};
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

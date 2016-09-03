@@ -32,6 +32,6 @@ namespace pegtl
       return read_parser( filename ).parse_nested< Rule, Action, Control >( oi, st ... );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #endif

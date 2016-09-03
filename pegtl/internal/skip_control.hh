@@ -21,8 +21,8 @@ namespace pegtl
       template< typename Rule >
       struct skip_control : std::false_type {};
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

@@ -33,8 +33,8 @@ namespace pegtl
       template< typename ... Rules >
       struct skip_control< discard_if< Rules ... > > : std::true_type {};
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

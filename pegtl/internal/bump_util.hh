@@ -42,8 +42,8 @@ namespace pegtl
          bump_impl< bool_and< ( Cs != '\n' ) ... >::value != bool( R ) >::bump( in, count );
       }
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

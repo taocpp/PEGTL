@@ -135,6 +135,6 @@ namespace pegtl
       return parse_input_nested< Rule, Action, Control >( oi, in, st ... );
    }
 
-} // pegtl
+} // namespace pegtl
 
 #endif

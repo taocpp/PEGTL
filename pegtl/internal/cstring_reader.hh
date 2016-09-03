@@ -38,8 +38,8 @@ namespace pegtl
          const char * m_cstring;
       };
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

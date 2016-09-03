@@ -40,9 +40,9 @@ namespace pegtl
                                 string_builder< S< Hs ..., C >, Cs ... > >::type
       { };
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #define PEGTL_INTERNAL_STRING_10(n,x)           \
    pegtl::internal::string_at< n##0 >( x ),     \

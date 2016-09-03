@@ -73,6 +73,6 @@ namespace pegtl
       internal::input_data m_data;
    };
 
-} // pegtl
+} // namespace pegtl
 
 #endif

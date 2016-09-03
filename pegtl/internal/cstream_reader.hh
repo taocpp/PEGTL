@@ -36,8 +36,8 @@ namespace pegtl
          std::FILE * m_cstream;
       };
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif

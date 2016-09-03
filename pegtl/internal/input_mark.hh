@@ -73,8 +73,8 @@ namespace pegtl
          input_data * m_input;
       };
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace pegtl
 
 #endif
