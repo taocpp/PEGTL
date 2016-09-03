@@ -64,7 +64,7 @@ cppcheck: $(HEADERS:%.hh=build/%.cppcheck)
 	@echo "All $(words $(HEADERS)) cppcheck tests passed."
 
 build/%.clang-tidy: %
-	$(PEGTL_CLANG_TIDY) -extra-arg "-I." -extra-arg "-std=c++11" $<
+	$(PEGTL_CLANG_TIDY) -extra-arg "-I." -extra-arg "-std=c++11" -checks=*,-google-*,-llvm-include-order,-clang-analyzer-alpha*,-cppcoreguidelines*,-readability-named-parameter $< 2>/dev/null
 	@mkdir -p $(@D)
 	@touch $@
 
