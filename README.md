@@ -68,7 +68,8 @@ Each commit is [automatically tested](https://travis-ci.org/ColinH/PEGTL) with m
 
 (Visual Studio 2015 on Windows is *not* automatically tested, *yet*.)
 
-The coverage is also automatically measured. Our unit tests cover 100% of the core library code.
+Additionally, each commit is checked with [`valgrind`](http://valgrind.org/) and [`cppcheck`](http://cppcheck.sourceforge.net/).
+The coverage is also automatically measured, our unit tests cover 100% of the core library code.
 
 Releases are not stable in the sense that incompatible API changes can happen, but only between major versions.
 [Releases](https://github.com/ColinH/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
