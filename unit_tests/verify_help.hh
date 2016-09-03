@@ -27,8 +27,7 @@ namespace pegtl
          return result_type::GLOBAL_FAILURE;
       }
       catch ( ... ) {
-         assert( false );
-         __builtin_unreachable();
+         throw std::runtime_error( "code should be unreachable" );  // LCOV_EXCL_LINE
       }
    }
 
