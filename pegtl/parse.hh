@@ -32,7 +32,8 @@ namespace pegtl
       std::ostringstream os;
       os << "argv[" << argn << ']';
       const std::string source = os.str();
-      memory_input in( 1, 0, argv[ argn ], argv[ argn ] + ::strlen( argv[ argn ] ), source.c_str() );
+      assert( argv[ argn ] );
+      memory_input in( 1, 0, argv[ argn ], argv[ argn ] + std::strlen( argv[ argn ] ), source.c_str() );
       return parse_input< Rule, Action, Control >( in, st ... );
    }
 
