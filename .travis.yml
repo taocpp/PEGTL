@@ -43,16 +43,6 @@ matrix:
       env: COMPILER=g++-6
 
     - os: linux
-      compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-6', 'valgrind']
-      env: COMPILER=g++-6
-      script:
-        - make CXX=$COMPILER -j3 valgrind
-
-    - os: linux
       compiler: clang
       env: COMPILER=clang++
 
@@ -137,6 +127,26 @@ matrix:
         - make CXX=$COMPILER -j3 check
       after_success:
         - coveralls --gcov gcov-6 --gcov-options '\-lp' --exclude unit_tests --exclude examples
+
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-6', 'valgrind']
+      env: COMPILER=g++-6
+      script:
+        - make CXX=$COMPILER -j3 valgrind
+
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-6', 'cppcheck']
+      env: COMPILER=g++-6
+      script:
+        - make CXX=$COMPILER -j3 cppcheck
 
 script:
   make CXX=$COMPILER -j3
