@@ -54,28 +54,28 @@ namespace pegtl
                   case rule_type::ANY: {
                      bool a = false;
                      for ( const auto & r : start->second.rules ) {
-                        a |= work( find( r ), accum || a );
+                        a = a || work( find( r ), accum || a );
                      }
                      return m_cache[ start->first ] = true;
                   }
                   case rule_type::OPT: {
                      bool a = false;
                      for ( const auto & r : start->second.rules ) {
-                        a |= work( find( r ), accum || a );
+                        a = a || work( find( r ), accum || a );
                      }
                      return m_cache[ start->first ] = false;
                   }
                   case rule_type::SEQ: {
                      bool a = false;
                      for ( const auto & r : start->second.rules ) {
-                        a |= work( find( r ), accum || a );
+                        a = a || work( find( r ), accum || a );
                      }
                      return m_cache[ start->first ] = a;
                   }
                   case rule_type::SOR: {
                      bool a = true;
                      for ( const auto & r : start->second.rules ) {
-                        a &= work( find( r ), accum );
+                        a = a && work( find( r ), accum );
                      }
                      return m_cache[ start->first ] = a;
                   }

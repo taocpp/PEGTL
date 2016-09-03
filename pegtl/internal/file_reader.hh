@@ -30,7 +30,7 @@ namespace pegtl
          std::size_t size() const
          {
             errno = 0;
-            if ( std::fseek( m_file.get(), 0, SEEK_END ) ) {
+            if ( std::fseek( m_file.get(), 0, SEEK_END ) != 0 ) {
                PEGTL_THROW_INPUT_ERROR( "unable to fseek() to end of file " << m_source );  // LCOV_EXCL_LINE
             }
             errno = 0;
@@ -39,7 +39,7 @@ namespace pegtl
                PEGTL_THROW_INPUT_ERROR( "unable to ftell() file size of file " << m_source );  // LCOV_EXCL_LINE
             }
             errno = 0;
-            if ( std::fseek( m_file.get(), 0, SEEK_SET ) ) {
+            if ( std::fseek( m_file.get(), 0, SEEK_SET ) != 0 ) {
                PEGTL_THROW_INPUT_ERROR( "unable to fseek() to beginning of file " << m_source );  // LCOV_EXCL_LINE
             }
             return s;
@@ -50,7 +50,7 @@ namespace pegtl
             std::string nrv;
             nrv.resize( size() );
             errno = 0;
-            if ( nrv.size() && ( std::fread( & nrv[ 0 ], nrv.size(), 1, m_file.get() ) != 1 ) ) {
+            if ( ( nrv.size() != 0 ) && ( std::fread( & nrv[ 0 ], nrv.size(), 1, m_file.get() ) != 1 ) ) {
                PEGTL_THROW_INPUT_ERROR( "unable to fread() file " << m_source << " size " << nrv.size() );  // LCOV_EXCL_LINE
             }
             return nrv;

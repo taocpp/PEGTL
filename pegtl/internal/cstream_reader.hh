@@ -25,7 +25,7 @@ namespace pegtl
             if ( const auto r = std::fread( buffer, 1, length, m_cstream ) ) {
                return r;
             }
-            if ( std::feof( m_cstream ) ) {
+            if ( std::feof( m_cstream ) != 0 ) {
                return 0;
             }
             // Please contact us if you know how to provoke the following exception.

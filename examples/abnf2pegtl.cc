@@ -264,7 +264,7 @@ namespace abnf2pegtl
          }
          s += c;
          s += '\'';
-         return std::isalpha( c );
+         return std::isalpha( c ) != 0;
       }
 
       static void apply( const pegtl::action_input & in, data & d )

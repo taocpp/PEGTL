@@ -35,7 +35,10 @@ namespace pegtl
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return in.empty() || rule_match_three< seq< Rules ... >, A, Action, Control >::match( in, st ... ) || true;
+            if ( ! in.empty() ) {
+               rule_match_three< seq< Rules ... >, A, Action, Control >::match( in, st ... );
+            }
+            return true;
          }
       };
 

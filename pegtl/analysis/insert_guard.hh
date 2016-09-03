@@ -14,7 +14,7 @@ namespace pegtl
       class insert_guard
       {
       public:
-         insert_guard( insert_guard && g )
+         insert_guard( insert_guard && g ) noexcept
                : m_i( g.m_i ),
                  m_c( g.m_c )
          {

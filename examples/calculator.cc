@@ -70,7 +70,7 @@ namespace calculator
 
       void reduce()
       {
-         assert( m_o.size() > 0 );
+         assert( ! m_o.empty() );
          assert( m_l.size() > 1 );
 
          const auto r = m_l.back();
@@ -154,8 +154,8 @@ namespace calculator
          insert( "&", order( 10 ), []( const long l, const long r ){ return l & r; } );
          insert( "^", order( 11 ), []( const long l, const long r ){ return l ^ r; } );
          insert( "|", order( 12 ), []( const long l, const long r ){ return l | r; } );
-         insert( "&&", order( 13 ), []( const long l, const long r ){ return l && r; } );
-         insert( "||", order( 14 ), []( const long l, const long r ){ return l || r; } );
+         insert( "&&", order( 13 ), []( const long l, const long r ){ return static_cast< bool >( l ) && static_cast< bool >( r ); } );
+         insert( "||", order( 14 ), []( const long l, const long r ){ return static_cast< bool >( l ) || static_cast< bool >( r ); } );
       }
 
       // Arbitrary user-defined operators can be added at runtime.
@@ -219,7 +219,7 @@ namespace calculator
                if ( match( in, b, s, t ) ) {
                   return true;
                }
-               else if ( i->first == t ) {
+               if ( i->first == t ) {
                   // While we are at it, this rule also performs the task of what would
                   // usually be an associated action: To push the matched operator onto
                   // the operator stack.

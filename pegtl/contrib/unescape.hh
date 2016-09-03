@@ -27,20 +27,20 @@ namespace pegtl
             string += char( utf32 & 0xff );
             return true;
          }
-         else if ( utf32 <= 0x7ff ) {
+         if ( utf32 <= 0x7ff ) {
             char tmp[] = { char( ( ( utf32 & 0x7c0 ) >> 6 ) | 0xc0 ),
                            char( ( ( utf32 & 0x03f )      ) | 0x80 ) };
             string.append( tmp, sizeof( tmp ) );
             return true;
          }
-         else if ( utf32 <= 0xffff ) {
+         if ( utf32 <= 0xffff ) {
             char tmp[] = { char( ( ( utf32 & 0xf000 ) >> 12 ) | 0xe0 ),
                            char( ( ( utf32 & 0x0fc0 ) >> 6  ) | 0x80 ),
                            char( ( ( utf32 & 0x003f )       ) | 0x80 ) };
             string.append( tmp, sizeof( tmp ) );
             return true;
          }
-         else if ( utf32 <= 0x10ffff ) {
+         if ( utf32 <= 0x10ffff ) {
             char tmp[] = { char( ( ( utf32 & 0x1c0000 ) >> 18 ) | 0xf0 ),
                            char( ( ( utf32 & 0x03f000 ) >> 12 ) | 0x80 ),
                            char( ( ( utf32 & 0x000fc0 ) >> 6  ) | 0x80 ),

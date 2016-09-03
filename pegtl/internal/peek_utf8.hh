@@ -23,7 +23,7 @@ namespace pegtl
             if ( ( c0 & 0x80 ) == 0 ) {
                return { c0, 1 };
             }
-            else if ( ( c0 & 0xE0 ) == 0xC0 ) {
+            if ( ( c0 & 0xE0 ) == 0xC0 ) {
                if ( in.size( 2 ) >= 2 ) {
                   const char32_t c1 = in.peek_byte( 1 );
                   if ( ( c1 & 0xC0 ) == 0x80 ) {

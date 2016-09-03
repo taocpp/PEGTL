@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_IF_THEN_ELSE_HH
@@ -28,9 +28,7 @@ namespace pegtl
             if ( Control< Cond >::template match< A, Action, Control >( in, st ... ) ) {
                return m( Control< Then >::template match< A, Action, Control >( in, st ... ) );
             }
-            else {
-               return m( Control< Else >::template match< A, Action, Control >( in, st ... ) );
-            }
+            return m( Control< Else >::template match< A, Action, Control >( in, st ... ) );
          }
       };
 

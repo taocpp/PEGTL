@@ -11,7 +11,9 @@ namespace pegtl
 
    void unit_test()
    {
-      failed = ! pegtl::trace_string< GRAMMAR >( "ab", "trace test please ignore" );
+      if ( ! pegtl::trace_string< GRAMMAR >( "ab", "trace test please ignore" ) ) {
+         ++failed;
+      }
    }
 
 } // namespace pegtl

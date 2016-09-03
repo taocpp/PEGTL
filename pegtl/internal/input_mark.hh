@@ -21,7 +21,7 @@ namespace pegtl
                  m_input( & i )
          { }
 
-         input_mark( input_mark && i )
+         input_mark( input_mark && i ) noexcept
                : m_line( i.m_line ),
                  m_byte_in_line( i.m_byte_in_line ),
                  m_begin( i.m_begin ),
@@ -32,7 +32,7 @@ namespace pegtl
 
          ~input_mark()
          {
-            if ( m_input ) {
+            if ( m_input != nullptr ) {
                m_input->line = m_line;
                m_input->byte_in_line = m_byte_in_line;
                m_input->begin = m_begin;

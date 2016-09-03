@@ -27,7 +27,7 @@ namespace pegtl
             std::size_t i = 0;
             char c;
 
-            while ( ( i < length ) && ( c = m_cstring[ i ] ) ) {
+            while ( ( i < length ) && ( ( c = m_cstring[ i ] ) != 0 ) ) {
                *buffer++ = c;
                ++i;
             }
