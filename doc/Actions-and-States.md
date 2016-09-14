@@ -134,6 +134,6 @@ This also allows using the same rules multiple times with different actions with
 
 ## Changing States
 
-[See the page on Switching Style](Switching-Style).
+[See the page on Switching Style](Switching-Style.md).
 
 Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
