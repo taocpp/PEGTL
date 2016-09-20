@@ -42,8 +42,7 @@ The included [grammar analysis](https://github.com/ColinH/PEGTL/blob/master/doc/
 
 The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user control over what else happens during a parsing run.
 
-The PEGTL is designed to be "lean and mean".
-The actual core library has about 3000 lines of code.
+The PEGTL is designed to be "lean and mean", the actual core library has about 3000 lines of code.
 Emphasis is on simplicity and efficiency but without adding any large constructions for optimising parsers.
 
 Whether and which actions are taken, and which data structures are created during a parsing run, is entirely up to the user of the library, however we provide some [examples](https://github.com/ColinH/PEGTL/blob/master/doc/Contrib-and-Examples.md#examples) for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
@@ -64,18 +63,18 @@ Each commit is [automatically tested](https://travis-ci.org/ColinH/PEGTL) with m
 
 * Linux, GCC (4.7, 4.8, 4.9, 5, 6) with libstdc++
 * Linux, Clang (3.4, 3.5, 3.6, 3.7, 3.8) with libstdc++
-* MacOS X, Xcode (6, 7, 8) with libc++
+* MacOS X, Xcode (6.4, 7, 7.1, 7.2, 7.3, 8) with libc++
 
 Systems supported but not automatically tested, *yet*:
 
 * Windows, Visual Studio 2015
 * Android
 
-Additionally, each commit is checked with [`valgrind`](http://valgrind.org/), [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/) and [`cppcheck`](http://cppcheck.sourceforge.net/).
+Additionally, each commit is checked with [`valgrind`](http://valgrind.org/).
 The coverage is also automatically measured, our unit tests cover 100% of the core library code.
 
-Releases are not stable in the sense that incompatible API changes can happen, but only between major versions.
 [Releases](https://github.com/ColinH/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
+This means that incompatible API changes can happen, but only between major versions.
 For details see the [changelog](https://github.com/ColinH/PEGTL/blob/master/doc/Changelog.md).
 
 ### Thank You
