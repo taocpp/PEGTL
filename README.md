@@ -66,9 +66,9 @@ Each commit is [automatically tested](https://travis-ci.org/ColinH/PEGTL) with m
 * Linux, Clang (3.4, 3.5, 3.6, 3.7, 3.8) with libstdc++
 * MacOS X, Xcode (6, 7, 8) with libc++
 
-Systems supported by not automatically tested, *yet*:
+Systems supported but not automatically tested, *yet*:
 
-* Visual Studio 2015 on Windows
+* Windows, Visual Studio 2015
 * Android
 
 Additionally, each commit is checked with [`valgrind`](http://valgrind.org/), [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/) and [`cppcheck`](http://cppcheck.sourceforge.net/).
