@@ -8,12 +8,12 @@
 
 The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++11 header-only library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
-#### Documentation
+### Documentation
 
 * [Master Branch Documentation](https://github.com/ColinH/PEGTL/blob/master/doc/README.md)
 * [Version 1.3.x Documentation](https://github.com/ColinH/PEGTL/blob/1.3.x/doc/README.md)
 
-#### Introduction
+### Introduction
 
 Grammars are written as regular C++ code, created with template programming (not template meta programming), i.e. nested template instantiations that naturally correspond to the inductive definition of PEGs or other parser combinator approaches.
 
@@ -38,7 +38,7 @@ struct integer
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic nature of PEGs gives rise to some very important differences.
 The included [grammar analysis](https://github.com/ColinH/PEGTL/blob/master/doc/Grammar-Analysis.md) finds several typical errors in PEGs, including left recursion.
 
-#### Design
+### Design
 
 The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user control over what else happens during a parsing run.
 
@@ -56,7 +56,7 @@ Also, with the PEG formalism the separation into lexer and parser stages is usua
 Unlike [Spirit](http://boost-spirit.com/), the grammar is implemented with compile-time template instantiations rather than run-time operator calls.
 This leads to slightly increased compile times as the C++ compiler is given the task of optimising PEGTL grammars.
 
-#### Status
+### Status
 
 The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors.
 
@@ -66,7 +66,10 @@ Each commit is [automatically tested](https://travis-ci.org/ColinH/PEGTL) with m
 * Linux, Clang (3.4, 3.5, 3.6, 3.7, 3.8) with libstdc++
 * MacOS X, Xcode (6, 7, 8) with libc++
 
-(Visual Studio 2015 on Windows is *not* automatically tested, *yet*.)
+Systems supported by not automatically tested, *yet*:
+
+* Visual Studio 2015 on Windows
+* Android
 
 Additionally, each commit is checked with [`valgrind`](http://valgrind.org/), [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/) and [`cppcheck`](http://cppcheck.sourceforge.net/).
 The coverage is also automatically measured, our unit tests cover 100% of the core library code.
@@ -75,7 +78,7 @@ Releases are not stable in the sense that incompatible API changes can happen, b
 [Releases](https://github.com/ColinH/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
 For details see the [changelog](https://github.com/ColinH/PEGTL/blob/master/doc/Changelog.md).
 
-#### Thank You
+### Thank You
 
 * Christopher Diggins and the YARD parser for the general idea.
 * Stephan Beal for the bug reports, suggestions and discussions.
@@ -85,11 +88,11 @@ For details see the [changelog](https://github.com/ColinH/PEGTL/blob/master/doc/
 * Kenneth Geisshirt for Android compatibility.
 * Paulo Custodio for Windows-related fixes.
 
-## Contact
+### Contact
 
 For questions and suggestions about the PEGTL please contact the authors at `pegtl(at)colin-hirsch.net`.
 
-## License
+### License
 
 The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.html) software. It may be used for any purpose, including commercial purposes, at absolutely no cost. It is distributed under the terms of the [MIT license](http://www.opensource.org/licenses/mit-license.html) reproduced here.
 
