@@ -49,44 +49,38 @@ namespace pegtl
 
 } // namespace pegtl
 
+#define PEGTL_INTERNAL_EMPTY()
+#define PEGTL_INTERNAL_DEFER( X ) X PEGTL_INTERNAL_EMPTY()
+#define PEGTL_INTERNAL_EXPAND(...) __VA_ARGS__
+
 #define PEGTL_INTERNAL_STRING_AT( S, x, n ) \
    pegtl::internal::string_at< S, ( 0##n < sizeof( x ) ) ? x[ 0##n ] : 0, ( 0##n < sizeof( x ) - 1 ) >::type
 
-#define PEGTL_INTERNAL_STRING_8( S, x, n )      \
-   pegtl::internal::string_join<                \
-   PEGTL_INTERNAL_STRING_AT( S, x, n##0 ),      \
-   PEGTL_INTERNAL_STRING_AT( S, x, n##1 ),      \
-   PEGTL_INTERNAL_STRING_AT( S, x, n##2 ),      \
-   PEGTL_INTERNAL_STRING_AT( S, x, n##3 ),      \
-   PEGTL_INTERNAL_STRING_AT( S, x, n##4 ),      \
-   PEGTL_INTERNAL_STRING_AT( S, x, n##5 ),      \
-   PEGTL_INTERNAL_STRING_AT( S, x, n##6 ),      \
-   PEGTL_INTERNAL_STRING_AT( S, x, n##7 ) >::type
+#define PEGTL_INTERNAL_JOIN_8( M, S, x, n ) \
+   pegtl::internal::string_join<            \
+   PEGTL_INTERNAL_DEFER( M )( S, x, n##0 ), \
+   PEGTL_INTERNAL_DEFER( M )( S, x, n##1 ), \
+   PEGTL_INTERNAL_DEFER( M )( S, x, n##2 ), \
+   PEGTL_INTERNAL_DEFER( M )( S, x, n##3 ), \
+   PEGTL_INTERNAL_DEFER( M )( S, x, n##4 ), \
+   PEGTL_INTERNAL_DEFER( M )( S, x, n##5 ), \
+   PEGTL_INTERNAL_DEFER( M )( S, x, n##6 ), \
+   PEGTL_INTERNAL_DEFER( M )( S, x, n##7 )>::type
 
-#define PEGTL_INTERNAL_STRING_64( S, x, n )     \
-   pegtl::internal::string_join<                \
-   PEGTL_INTERNAL_STRING_8( S, x, n##0 ),       \
-   PEGTL_INTERNAL_STRING_8( S, x, n##1 ),       \
-   PEGTL_INTERNAL_STRING_8( S, x, n##2 ),       \
-   PEGTL_INTERNAL_STRING_8( S, x, n##3 ),       \
-   PEGTL_INTERNAL_STRING_8( S, x, n##4 ),       \
-   PEGTL_INTERNAL_STRING_8( S, x, n##5 ),       \
-   PEGTL_INTERNAL_STRING_8( S, x, n##6 ),       \
-   PEGTL_INTERNAL_STRING_8( S, x, n##7 ) >::type
+#define PEGTL_INTERNAL_STRING_8( S, x, n ) \
+   PEGTL_INTERNAL_JOIN_8( PEGTL_INTERNAL_STRING_AT, S, x, n )
 
-#define PEGTL_INTERNAL_STRING_512( S, x, n )    \
-   pegtl::internal::string_join<                \
-   PEGTL_INTERNAL_STRING_64( S, x, n##0 ),      \
-   PEGTL_INTERNAL_STRING_64( S, x, n##1 ),      \
-   PEGTL_INTERNAL_STRING_64( S, x, n##2 ),      \
-   PEGTL_INTERNAL_STRING_64( S, x, n##3 ),      \
-   PEGTL_INTERNAL_STRING_64( S, x, n##4 ),      \
-   PEGTL_INTERNAL_STRING_64( S, x, n##5 ),      \
-   PEGTL_INTERNAL_STRING_64( S, x, n##6 ),      \
-   PEGTL_INTERNAL_STRING_64( S, x, n##7 ) >::type
+#define PEGTL_INTERNAL_STRING_64( S, x, n ) \
+   PEGTL_INTERNAL_JOIN_8( PEGTL_INTERNAL_STRING_8, S, x, n )
 
-#define PEGTL_INTERNAL_STRING( S, x )           \
-   pegtl::internal::string_max_length< PEGTL_INTERNAL_STRING_512( S, x, ), sizeof( x ) - 1 >::type
+#define PEGTL_INTERNAL_STRING_512( S, x, n ) \
+   PEGTL_INTERNAL_JOIN_8( PEGTL_INTERNAL_STRING_64, S, x, n )
+
+#define PEGTL_INTERNAL_STRING( S, x ) \
+   PEGTL_INTERNAL_EXPAND( \
+      PEGTL_INTERNAL_EXPAND( \
+         PEGTL_INTERNAL_EXPAND( \
+            pegtl::internal::string_max_length< PEGTL_INTERNAL_STRING_512( S, x, ), sizeof( x ) - 1 >::type ) ) )
 
 #define pegtl_string_t( x ) \
    PEGTL_INTERNAL_STRING( pegtl::ascii::string, x )
