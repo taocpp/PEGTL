@@ -38,6 +38,13 @@ namespace pegtl
          using type = S< C >;
       };
 
+      template< typename T, std::size_t S >
+      struct string_max_length
+      {
+         static_assert( S <= 512, "String longer than 512 (excluding terminating \\0)!" );
+         using type = T;
+      };
+
    } // namespace internal
 
 } // namespace pegtl
@@ -78,10 +85,13 @@ namespace pegtl
    PEGTL_INTERNAL_STRING_64( S, x, n##6 ),      \
    PEGTL_INTERNAL_STRING_64( S, x, n##7 ) >::type
 
+#define PEGTL_INTERNAL_STRING( S, x )           \
+   pegtl::internal::string_max_length< PEGTL_INTERNAL_STRING_512( S, x, ), sizeof( x ) - 1 >::type
+
 #define pegtl_string_t( x ) \
-   PEGTL_INTERNAL_STRING_512( pegtl::ascii::string, x, )
+   PEGTL_INTERNAL_STRING( pegtl::ascii::string, x )
 
 #define pegtl_istring_t( x ) \
-   PEGTL_INTERNAL_STRING_512( pegtl::ascii::istring, x,  )
+   PEGTL_INTERNAL_STRING( pegtl::ascii::istring, x )
 
 #endif
