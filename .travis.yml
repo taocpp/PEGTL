@@ -146,14 +146,63 @@ matrix:
           packages: ['g++-6']
       env:
         - COMPILER=g++-6
-        - PEGTL_CXXFLAGS="-O0 --coverage"
-        - SPECIAL=coveralls
+        - CXXFLAGS="-O0 --coverage"
       before_script:
         - pip install --user cpp-coveralls
       script:
         - make CXX=$COMPILER -j3 check
       after_success:
         - coveralls --gcov gcov-6 --gcov-options '\-lp' --exclude unit_tests --exclude examples
+
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-6']
+      env:
+        - CPPFLAGS=-fsanitize=undefined
+        - COMPILER=g++-6
+
+    - os: linux
+      compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-6']
+      env:
+        - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
+        - COMPILER=g++-6
+
+    - os: linux
+      compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
+          packages: ['clang-3.8']
+      env:
+        - CPPFLAGS=-fsanitize=undefined
+        - COMPILER=clang++-3.8
+
+    - os: linux
+      compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
+          packages: ['clang-3.8']
+      env:
+        - CPPFLAGS=-fsanitize=address
+        - COMPILER=clang++-3.8
+
+#    - os: linux
+#      compiler: clang
+#      addons:
+#        apt:
+#          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
+#          packages: ['clang-3.8']
+#      env:
+#        - CPPFLAGS=-fsanitize=memory
+#        - COMPILER=clang++-3.8
 
     - os: linux
       compiler: gcc
@@ -187,8 +236,7 @@ matrix:
           packages: ['clang-3.8', 'clang-tidy-3.8']
       env:
         - COMPILER=clang++-3.8
-        - PEGTL_CLANG_TIDY=clang-tidy-3.8
-        - SPECIAL=clang-tidy
+        - CLANG_TIDY=clang-tidy-3.8
       script:
         - make CXX=$COMPILER -j3 clang-tidy
 

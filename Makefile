@@ -12,23 +12,23 @@ endif
 
 # For Darwin (Mac OS X) we assume that the default compiler
 # clang++ is used; when $(CXX) is some version of g++, then
-# $(PEGTL_CXXSTD) has to be set to -std=c++11 (or newer) so
+# $(CXXSTD) has to be set to -std=c++11 (or newer) so
 # that -stdlib=libc++ is not automatically added.
 
-ifeq ($(PEGTL_CXXSTD),)
-PEGTL_CXXSTD := -std=c++11
+ifeq ($(CXXSTD),)
+CXXSTD := -std=c++11
 ifeq ($(UNAME_S),Darwin)
-PEGTL_CXXSTD += -stdlib=libc++
+CXXSTD += -stdlib=libc++
 endif
 endif
 
 # Ensure strict standard compliance and no warnings, can be
 # changed if desired.
 
-PEGTL_CPPFLAGS ?= -pedantic
-PEGTL_CXXFLAGS ?= -Wall -Wextra -Wshadow -Werror -O3 $(MINGW_CXXFLAGS)
+CPPFLAGS ?= -pedantic
+CXXFLAGS ?= -Wall -Wextra -Wshadow -Werror -O3 $(MINGW_CXXFLAGS)
 
-PEGTL_CLANG_TIDY ?= clang-tidy
+CLANG_TIDY ?= clang-tidy
 
 .PHONY: all compile check valgrind cppcheck clang-tidy clean
 
@@ -44,7 +44,7 @@ all: compile check
 compile: $(BINARIES)
 
 check: $(UNIT_TESTS)
-	@echo "Built with '$(CXX) $(PEGTL_CXXSTD) -I. $(PEGTL_CPPFLAGS) $(PEGTL_CXXFLAGS)'."
+	@echo "Built with '$(CXX) $(CXXSTD) -I. $(CPPFLAGS) $(CXXFLAGS)'."
 	@set -e; for T in $(UNIT_TESTS); do echo $$T; $$T < unit_tests/file_data.txt > /dev/null; done
 	@echo "All $(words $(UNIT_TESTS)) unit tests passed."
 
@@ -64,7 +64,7 @@ cppcheck: $(HEADERS:%.hh=build/%.cppcheck)
 	@echo "All $(words $(HEADERS)) cppcheck tests passed."
 
 build/%.clang-tidy: %
-	$(PEGTL_CLANG_TIDY) -extra-arg "-I." -extra-arg "-std=c++11" -checks=*,-google-*,-llvm-include-order,-clang-analyzer-alpha*,-cppcoreguidelines*,-readability-named-parameter $< 2>/dev/null
+	$(CLANG_TIDY) -extra-arg "-I." -extra-arg "-std=c++11" -checks=*,-google-*,-llvm-include-order,-clang-analyzer-alpha*,-cppcoreguidelines*,-readability-named-parameter $< 2>/dev/null
 	@mkdir -p $(@D)
 	@touch $@
 
@@ -78,10 +78,10 @@ clean:
 
 build/%.d: %.cc Makefile
 	@mkdir -p $(@D)
-	$(CXX) $(PEGTL_CXXSTD) -I. $(PEGTL_CPPFLAGS) -MM -MQ $@ $< -o $@
+	$(CXX) $(CXXSTD) -I. $(CPPFLAGS) -MM -MQ $@ $< -o $@
 
 build/%: %.cc build/%.d
-	$(CXX) $(PEGTL_CXXSTD) -I. $(PEGTL_CPPFLAGS) $(PEGTL_CXXFLAGS) $< -o $@
+	$(CXX) $(CXXSTD) -I. $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 ifeq ($(findstring $(MAKECMDGOALS),clean),)
 -include $(DEPENDS)
