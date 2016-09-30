@@ -13,6 +13,9 @@ Released in the future
 * Refactored the `input` class into multiple classes.
 * Refactored the handling of nested parsing.
 * Renamed some parsing front-end functions.
+* Reduce template instantiation depth of `pegtl_(i)string_t`.
+* Increase allowed string length to 512 for `pegtl_(i)string_t`.
+* Allowed embedded null bytes for `pegtl_(i)string_t`.
 * Added support for GCC 4.7.
 
 #### 1.3.1
