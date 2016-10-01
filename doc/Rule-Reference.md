@@ -408,16 +408,16 @@ and all possible byte values excluding `'a'`, respectively. However the characte
 * Macro where `pegtl_istring_t( "foo" )` yields<br>
   `pegtl::ascii::istring< 'f', 'o', 'o' >`.
 * The argument must be a string literal.
-* Works for strings up to 100 bytes of length (excluding trailing `'\0'`).
-* Embedded `'\0'` will terminate early, e.g., `pegtl_istring_t( "x\0y" )` yields `pegtl::ascii::istring< 'x' >`.
+* Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
+* Strings may contain embedded `'\0'`.
 
 ###### `pegtl_string_t( "..." )`
 
 * Macro where `pegtl_string_t( "foo" )` yields<br>
   `pegtl::ascii::string< 'f', 'o', 'o' >`.
 * The argument must be a string literal.
-* Works for strings up to 100 bytes of length (excluding trailing `'\0'`).
-* Embedded `'\0'` will terminate early, e.g., `pegtl_string_t( "x\0y" )` yields `pegtl::ascii::string< 'x' >`.
+* Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
+* Strings may contain embedded `'\0'`.
 
 ###### `print`
 
