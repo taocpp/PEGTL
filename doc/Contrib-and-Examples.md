@@ -86,10 +86,6 @@ A calculator with all binary operators from the C language that shows
 
 Two simple examples for grammars that parse some kind of CSV-style file formats.
 
-###### `examples/expression.cc`
-
-Similar to `calculator.cc`, but builds a kind of AST that respects operator precedence (instead of directly evaluating the expression).
-
 ###### `examples/hello_world.cc`
 
 Minimal parser-style "hello world" example.
