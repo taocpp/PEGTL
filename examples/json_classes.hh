@@ -130,7 +130,7 @@ namespace examples
 
       const unsigned char * d = reinterpret_cast< const unsigned char * >( data.data() );
 
-      for ( size_t i = 0; i < data.size(); ++i ) {
+      for ( std::size_t i = 0; i < data.size(); ++i ) {
          switch ( const auto c = d[ i ] ) {
             case '\b':
                r += "\\b";

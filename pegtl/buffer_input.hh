@@ -35,7 +35,7 @@ namespace pegtl
          return m_data.begin == m_data.end;
       }
 
-      std::size_t size( const size_t amount )
+      std::size_t size( const std::size_t amount )
       {
          require( amount );
          return m_data.end - m_data.begin;
@@ -46,7 +46,7 @@ namespace pegtl
          return m_data.begin;
       }
 
-      const char * end( const size_t amount )
+      const char * end( const std::size_t amount )
       {
          require( amount );
          return m_data.end;
@@ -104,7 +104,7 @@ namespace pegtl
       {
          if ( m_data.begin + amount > m_data.end ) {
             if ( m_data.begin + amount <= m_buffer.get() + m_maximum ) {
-               if ( const auto r = m_reader( const_cast< char * >( m_data.end ), amount - size_t( m_data.end - m_data.begin ) ) ) {
+               if ( const auto r = m_reader( const_cast< char * >( m_data.end ), amount - std::size_t( m_data.end - m_data.begin ) ) ) {
                   m_data.end += r;
                }
                else {
@@ -121,7 +121,7 @@ namespace pegtl
 
    private:
       Reader m_reader;
-      size_t m_maximum;
+      std::size_t m_maximum;
       std::unique_ptr< char[] > m_buffer;
       internal::input_data m_data;
    };

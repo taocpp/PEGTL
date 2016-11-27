@@ -24,7 +24,7 @@ namespace pegtl
          return m_data.begin == m_data.end;
       }
 
-      std::size_t size( const size_t = 0 ) const
+      std::size_t size( const std::size_t = 0 ) const
       {
          return m_data.end - m_data.begin;
       }
@@ -34,7 +34,7 @@ namespace pegtl
          return m_data.begin;
       }
 
-      const char * end( const size_t = 0 ) const
+      const char * end( const std::size_t = 0 ) const
       {
          return m_data.end;
       }

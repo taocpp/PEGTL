@@ -43,7 +43,6 @@ namespace pegtl
          ts.stack.push_back( ts.rule );
       }
 
-
       template< typename Input, typename ... States >
       static void success( const Input & in, States && ... )
       {
