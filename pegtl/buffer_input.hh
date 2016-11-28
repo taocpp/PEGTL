@@ -22,7 +22,7 @@ namespace pegtl
             : m_reader( std::forward< As >( as ) ... ),
               m_maximum( maximum ),
               m_buffer( new char[ maximum ] ),
-              m_data( 1, 0, m_buffer.get(), m_buffer.get(), in_source )
+              m_data( 0, 1, 0, m_buffer.get(), m_buffer.get(), in_source )
 
       { }
 
@@ -50,6 +50,11 @@ namespace pegtl
       {
          require( amount );
          return m_data.end;
+      }
+
+      std::size_t byte() const
+      {
+         return m_data.byte;
       }
 
       std::size_t line() const
