@@ -10,13 +10,16 @@
 #include "parse.hh"
 #include "normal.hh"
 #include "nothing.hh"
+#include "eol_mode.hh"
+#include "memory_input.hh"
 
 namespace pegtl
 {
-   class string_parser
+   template< eol_mode EOL >
+   class basic_string_parser
    {
    public:
-      string_parser( std::string data, std::string in_source, const std::size_t line = 1, const std::size_t byte_in_line = 0 )
+      basic_string_parser( std::string data, std::string in_source, const std::size_t line = 1, const std::size_t byte_in_line = 0 )
             : m_data( std::move( data ) ),
               m_source( std::move( in_source ) ),
               m_input( line, byte_in_line, m_data.data(), m_data.data() + m_data.size(), m_source.c_str() )
@@ -44,11 +47,15 @@ namespace pegtl
          return parse_input_nested< Rule, Action, Control >( oi, m_input, st ... );
       }
 
+      static constexpr eol_mode eol = EOL;
+
    private:
       std::string m_data;
       std::string m_source;
-      memory_input m_input;
+      basic_memory_input< EOL > m_input;
    };
+
+   using string_parser = basic_string_parser< eol_mode::LF_WITH_CRLF >;
 
 } // namespace pegtl
 

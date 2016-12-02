@@ -38,8 +38,8 @@ namespace pegtl
          success( const Input & in, States && ... st ) const
          {
             const auto * const begin = in.begin() - size + in.size( 0 ) + count;
-            action_input content( line, byte_in_line, begin + ( ( * begin ) == '\n' ), in.begin() - count, in.source() );
-            Action< Tag >::apply( const_cast< const action_input & >( content ), st ... );
+            basic_action_input< Input::eol > content( line, byte_in_line, begin + ( ( * begin ) == eol_mode_to_int( Input::eol ) ), in.begin() - count, in.source() );
+            Action< Tag >::apply( const_cast< const basic_action_input< Input::eol > & >( content ), st ... );
          }
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >

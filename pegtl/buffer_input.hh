@@ -8,17 +8,19 @@
 #include <cstring>
 #include <cstddef>
 
+#include "eol_mode.hh"
+
 #include "internal/input_data.hh"
 #include "internal/input_mark.hh"
 
 namespace pegtl
 {
-   template< typename Reader >
-   class buffer_input
+   template< eol_mode EOL, typename Reader >
+   class basic_buffer_input
    {
    public:
       template< typename ... As >
-      buffer_input( const char * in_source, const std::size_t maximum, As && ... as )
+      basic_buffer_input( const char * in_source, const std::size_t maximum, As && ... as )
             : m_reader( std::forward< As >( as ) ... ),
               m_maximum( maximum ),
               m_buffer( new char[ maximum ] ),
@@ -26,8 +28,8 @@ namespace pegtl
 
       { }
 
-      buffer_input( const buffer_input & ) = delete;
-      void operator= ( const buffer_input & ) = delete;
+      basic_buffer_input( const basic_buffer_input & ) = delete;
+      void operator= ( const basic_buffer_input & ) = delete;
 
       bool empty()
       {
@@ -79,7 +81,7 @@ namespace pegtl
 
       void bump( const std::size_t count = 1 )
       {
-         m_data.bump( count );
+         m_data.bump( count, eol );
       }
 
       void bump_in_this_line( const std::size_t count = 1 )
@@ -119,12 +121,17 @@ namespace pegtl
          return internal::input_mark( m_data );
       }
 
+      static constexpr eol_mode eol = EOL;
+
    private:
       Reader m_reader;
       std::size_t m_maximum;
       std::unique_ptr< char[] > m_buffer;
       internal::input_data m_data;
    };
+
+   template< typename Reader >
+   using buffer_input = basic_buffer_input< eol_mode::LF_WITH_CRLF, Reader >;
 
 } // namespace pegtl
 

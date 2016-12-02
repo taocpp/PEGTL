@@ -1,5 +1,6 @@
 // Copyright (c) 2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
+
 #include <utility>
 #include <iostream>
 
@@ -77,8 +78,8 @@ namespace csv2
 
    template<> struct action< plain_value >
    {
-      template< unsigned N >
-      static void apply( const pegtl::action_input & in, result_data< N > & data )
+      template< typename Input, unsigned N >
+      static void apply( const Input & in, result_data< N > & data )
       {
          data.temp.push_back( in.string() );
       }
@@ -91,7 +92,8 @@ namespace csv2
    {
       using tuple_t = typename tuple_help< N, std::tuple<> >::tuple_t;
 
-      static void apply( const pegtl::action_input & in, result_data< N > & data )
+      template< typename Input >
+      static void apply( const Input & in, result_data< N > & data )
       {
          if ( data.temp.size() != N ) {
             throw pegtl::parse_error( "column count mismatch", in );

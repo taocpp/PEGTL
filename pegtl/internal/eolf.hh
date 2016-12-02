@@ -8,7 +8,7 @@
 
 #include "../analysis/generic.hh"
 
-#include "eol.hh"
+#include "eol_impl.hh"
 
 namespace pegtl
 {
@@ -21,10 +21,8 @@ namespace pegtl
          template< typename Input >
          static bool match( Input & in )
          {
-            if ( const auto s = in.size( 2 ) ) {
-               return eol::match_impl( in, s );
-            }
-            return true;
+            const auto p = eol_impl< Input::eol >::match( in );
+            return p.first || ! p.second;
          }
       };
 

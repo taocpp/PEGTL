@@ -6,6 +6,8 @@
 
 #include <cstdlib>
 
+#include "../eol_mode.hh"
+
 namespace pegtl
 {
    namespace internal
@@ -27,10 +29,10 @@ namespace pegtl
          const char * end;
          const char * source;
 
-         void bump( const std::size_t count )
+         void bump( const std::size_t count, const eol_mode eol )
          {
             for ( std::size_t i = 0; i < count; ++i ) {
-               if ( begin[ i ] == '\n' ) {
+               if ( begin[ i ] == eol_mode_to_int( eol ) ) {
                   ++line;
                   byte_in_line = 0;
                }

@@ -9,16 +9,17 @@
 #include "parse.hh"
 #include "normal.hh"
 #include "nothing.hh"
-
+#include "eol_mode.hh"
 #include "internal/file_mapper.hh"
 
 namespace pegtl
 {
-   class mmap_parser
+   template< eol_mode EOL >
+   class basic_mmap_parser
    {
    public:
       explicit
-      mmap_parser( const std::string & filename )
+      basic_mmap_parser( const std::string & filename )
             : m_file( filename ),
               m_source( filename ),
               m_input( 1, 0, m_file.begin(), m_file.end(), m_source.c_str() )
@@ -46,11 +47,15 @@ namespace pegtl
          return parse_input_nested< Rule, Action, Control >( oi, m_input, st ... );
       }
 
+      static constexpr eol_mode eol = EOL;
+
    private:
       internal::file_mapper m_file;
       std::string m_source;
-      memory_input m_input;
+      basic_memory_input< EOL > m_input;
    };
+
+   using mmap_parser = basic_mmap_parser< eol_mode::LF_WITH_CRLF >;
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
    bool parse_mmap( const std::string & filename, States && ... st )
@@ -61,7 +66,7 @@ namespace pegtl
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
    bool parse_mmap_nested( Outer & oi, const std::string & filename, States && ... st )
    {
-      return mmap_parser( filename ).parse_nested< Rule, Action, Control >( oi, st ... );
+      return basic_mmap_parser< Outer::eol >( filename ).template parse_nested< Rule, Action, Control >( oi, st ... );
    }
 
 } // namespace pegtl

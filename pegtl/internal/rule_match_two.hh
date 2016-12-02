@@ -52,7 +52,7 @@ namespace pegtl
             auto m = in.mark();
 
             if ( rule_match_two< Rule, A, Action, Control, false >::match( in, st ... ) ) {
-               Action< Rule >::apply( action_input( m.line(), m.byte_in_line(), m.begin(), in.begin(), in.source() ), st ... );
+               Action< Rule >::apply( basic_action_input< Input::eol >( m.line(), m.byte_in_line(), m.begin(), in.begin(), in.source() ), st ... );
                return m( true );
             }
             return false;

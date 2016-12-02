@@ -43,7 +43,8 @@ namespace dynamic
 
    template<> struct action< pegtl::plus< pegtl::not_one< '[' > > >
    {
-      static void apply( const pegtl::action_input & in, std::string & long_literal_mark, const std::string & )
+      template< typename Input >
+      static void apply( const Input & in, std::string & long_literal_mark, const std::string & )
       {
          long_literal_mark = in.string();
       }
@@ -51,7 +52,8 @@ namespace dynamic
 
    template<> struct action< long_literal_body >
    {
-      static void apply( const pegtl::action_input & in, const std::string &, std::string & long_literal_body )
+      template< typename Input >
+      static void apply( const Input & in, const std::string &, std::string & long_literal_body )
       {
          long_literal_body += in.string();
       }
