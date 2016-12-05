@@ -13,8 +13,13 @@
 
 namespace pegtl
 {
+   class action_input;
+
    class memory_input
    {
+   public:
+      using Fragment = action_input;
+
    public:
       explicit
       memory_input( const internal::input_data & data )

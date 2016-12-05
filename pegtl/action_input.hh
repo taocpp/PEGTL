@@ -15,8 +15,8 @@ namespace pegtl
    class action_input
    {
    public:
-      action_input( const std::size_t in_line, const std::size_t in_byte_in_line, const char * in_begin, const char * in_end, const char * in_source )
-            : m_data( in_line, in_byte_in_line, in_begin, in_end, in_source )
+      action_input( const internal::input_mark& from, const internal::input_mark& to )
+            : m_data( from.line(), from.byte_in_line(), from.begin(), to.begin(), from.source() )
       { }
 
       bool empty() const

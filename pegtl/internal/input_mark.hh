@@ -66,6 +66,11 @@ namespace pegtl
             return m_begin;
          }
 
+         const char * source() const
+         {
+             return m_input->source;
+         }
+
       private:
          const std::size_t m_line;
          const std::size_t m_byte_in_line;

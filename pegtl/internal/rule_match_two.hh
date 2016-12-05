@@ -50,9 +50,10 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             auto m = in.mark();
+            using Fragment = typename Input::Fragment;
 
             if ( rule_match_two< Rule, A, Action, Control, false >::match( in, st ... ) ) {
-               Action< Rule >::apply( action_input( m.line(), m.byte_in_line(), m.begin(), in.begin(), in.source() ), st ... );
+               Action< Rule >::apply( Fragment( m, in.mark() ), st ... );
                return m( true );
             }
             return false;
