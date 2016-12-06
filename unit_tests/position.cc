@@ -52,7 +52,8 @@ namespace pegtl
    template<>
    struct outer_action< two< 'b' > >
    {
-      static void apply( const action_input & in )
+      template< typename Input >
+      static void apply( const Input & in )
       {
          const position_info p( in );
          TEST_ASSERT( p.source == "outer" );

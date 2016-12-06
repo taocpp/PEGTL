@@ -15,8 +15,8 @@ namespace pegtl
 
    template<> struct rsaction< rstring::content >
    {
-      template< typename ... States >
-      static void apply( const action_input & in, const States & ... )
+      template< typename Input, typename ... States >
+      static void apply( const Input & in, const States & ... )
       {
          content.assign( in.begin(), in.end() );
       }

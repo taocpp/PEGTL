@@ -7,15 +7,18 @@
 #include <string>
 #include <cstddef>
 
+#include "eol_mode.hh"
+
 #include "internal/input_data.hh"
 #include "internal/input_mark.hh"
 
 namespace pegtl
 {
-   class action_input
+   template< eol_mode EOL >
+   class basic_action_input
    {
    public:
-      action_input( const internal::input_mark& from, const internal::input_mark& to )
+      basic_action_input( const internal::input_mark& from, const internal::input_mark& to )
             : m_data( from.line(), from.byte_in_line(), from.begin(), to.begin(), from.source() )
       { }
 
@@ -69,9 +72,13 @@ namespace pegtl
          return static_cast< unsigned char >( peek_char( offset ) );
       }
 
+      static constexpr eol_mode eol = EOL;
+
    private:
       internal::input_data m_data;
    };
+
+   using action_input = basic_action_input< eol_mode::LF_WITH_CRLF >;
 
 } // namespace pegtl
 

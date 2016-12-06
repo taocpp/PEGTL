@@ -42,7 +42,8 @@ namespace csv1
 
    template<> struct action< value >
    {
-      static void apply( const pegtl::action_input & in, result_data & data )
+      template< typename Input >
+      static void apply( const Input & in, result_data & data )
       {
          assert( ! data.empty() );
          data.back().push_back( std::stoul( in.string() ) );

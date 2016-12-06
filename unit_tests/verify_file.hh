@@ -15,7 +15,8 @@ namespace pegtl
 
    template<> struct file_action< eof >
    {
-      static void apply( const action_input &, bool & flag )
+      template< typename Input >
+      static void apply( const Input &, bool & flag )
       {
          flag = true;
       }

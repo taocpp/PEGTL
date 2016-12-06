@@ -8,25 +8,29 @@
 #include <cstddef>
 #include <utility>
 
+#include "eol_mode.hh"
+
 #include "internal/input_data.hh"
 #include "internal/input_mark.hh"
 
 namespace pegtl
 {
-   class action_input;
+   template< eol_mode EOL >
+   class basic_action_input;
 
-   class memory_input
+   template< eol_mode EOL >
+   class basic_memory_input
    {
    public:
-      using Fragment = action_input;
+      using Fragment = basic_action_input< EOL >;
 
    public:
       explicit
-      memory_input( const internal::input_data & data )
+      basic_memory_input( const internal::input_data & data )
             : m_data( data )
       { }
 
-      memory_input( const std::size_t in_line, const std::size_t in_byte_in_line, const char * in_begin, const char * in_end, const char * in_source )
+      basic_memory_input( const std::size_t in_line, const std::size_t in_byte_in_line, const char * in_begin, const char * in_end, const char * in_source )
             : m_data( in_line, in_byte_in_line, in_begin, in_end, in_source )
       { }
 
@@ -77,7 +81,7 @@ namespace pegtl
 
       void bump( const std::size_t count = 1 )
       {
-         m_data.bump( count );
+         m_data.bump( count, eol );
       }
 
       void bump_in_this_line( const std::size_t count = 1 )
@@ -101,9 +105,13 @@ namespace pegtl
          return internal::input_mark( m_data );
       }
 
+      static constexpr eol_mode eol = EOL;
+
    private:
       internal::input_data m_data;
    };
+
+   using memory_input = basic_memory_input< eol_mode::LF_WITH_CRLF >;
 
 } // namespace pegtl
 

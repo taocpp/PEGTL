@@ -4,6 +4,7 @@
 
 Released in the future
 
+* Added support for different EOL-styles.
 * Added new combinator class `minus< M, S >`.
 * Added support for custom incremental input readers.
 * Added support for parsing C streams, i.e. `std::FILE *`.

@@ -15,12 +15,12 @@ namespace pegtl
 {
    namespace internal
    {
-      template< typename Char, Char ... Cs > struct ranges_impl;
+      template< int EOL, typename Char, Char ... Cs > struct ranges_impl;
 
-      template< typename Char >
-      struct ranges_impl< Char >
+      template< int EOL, typename Char >
+      struct ranges_impl< EOL, Char >
       {
-         static constexpr bool can_match_lf = false;
+         static constexpr bool can_match_eol = false;
 
          static bool match( const Char )
          {
@@ -28,10 +28,10 @@ namespace pegtl
          }
       };
 
-      template< typename Char, Char Eq >
-      struct ranges_impl< Char, Eq >
+      template< int EOL, typename Char, Char Eq >
+      struct ranges_impl< EOL, Char, Eq >
       {
-         static constexpr bool can_match_lf = ( Eq == '\n' );
+         static constexpr bool can_match_eol = ( Eq == EOL );
 
          static bool match( const Char c )
          {
@@ -39,14 +39,14 @@ namespace pegtl
          }
       };
 
-      template< typename Char, Char Lo, Char Hi, Char ... Cs >
-      struct ranges_impl< Char, Lo, Hi, Cs ... >
+      template< int EOL, typename Char, Char Lo, Char Hi, Char ... Cs >
+      struct ranges_impl< EOL, Char, Lo, Hi, Cs ... >
       {
-         static constexpr bool can_match_lf = ( ( ( Lo <= '\n' ) && ( '\n' <= Hi ) ) || ranges_impl< Char, Cs ... >::can_match_lf );
+         static constexpr bool can_match_eol = ( ( ( Lo <= EOL ) && ( EOL <= Hi ) ) || ranges_impl< EOL, Char, Cs ... >::can_match_eol );
 
          static bool match( const Char c )
          {
-            return ( ( Lo <= c ) && ( c <= Hi ) ) || ranges_impl< Char, Cs ... >::match( c );
+            return ( ( Lo <= c ) && ( c <= Hi ) ) || ranges_impl< EOL, Char, Cs ... >::match( c );
          }
       };
 
@@ -55,15 +55,19 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-         static constexpr bool can_match_lf = ranges_impl< typename Peek::data_t, Cs ... >::can_match_lf;
+         template< int EOL >
+         struct can_match_eol
+         {
+            static constexpr bool value = ranges_impl< EOL, typename Peek::data_t, Cs ... >::can_match_eol;
+         };
 
          template< typename Input >
          static bool match( Input & in )
          {
             if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
-                  if ( ranges_impl< typename Peek::data_t, Cs ... >::match( t.data ) ) {
-                     bump_impl< can_match_lf >::bump( in, t.size );
+                  if ( ranges_impl< eol_mode_to_int( Input::eol ), typename Peek::data_t, Cs ... >::match( t.data ) ) {
+                     bump_impl< can_match_eol< eol_mode_to_int( Input::eol ) >::value >::bump( in, t.size );
                      return true;
                   }
                }

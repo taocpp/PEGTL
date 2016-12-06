@@ -98,7 +98,7 @@ namespace pegtl
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
    bool parse_memory_nested( const Outer & oi, const char * data, const char * dend, const char * source, States && ... st )
    {
-      memory_input in( 1, 0, data, dend, source );
+      basic_memory_input< Outer::eol > in( 1, 0, data, dend, source );
       return parse_input_nested< Rule, Action, Control >( oi, in, st ... );
    }
 
@@ -117,21 +117,21 @@ namespace pegtl
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
    bool parse_cstream_nested( const Outer & oi, std::FILE * stream, const char * source, const std::size_t maximum, States && ... st )
    {
-      buffer_input< internal::cstream_reader > in( source, maximum, stream );
+      basic_buffer_input< Outer::eol, internal::cstream_reader > in( source, maximum, stream );
       return parse_input_nested< Rule, Action, Control >( oi, in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
    bool parse_cstring_nested( const Outer & oi, const char * string, const char * source, const std::size_t maximum, States && ... st )
    {
-      buffer_input< internal::cstring_reader > in( source, maximum, string );
+      basic_buffer_input< Outer::eol, internal::cstring_reader > in( source, maximum, string );
       return parse_input_nested< Rule, Action, Control >( oi, in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
    bool parse_istream( const Outer & oi, std::istream & stream, const std::string & source, const std::size_t maximum, States && ... st )
    {
-      buffer_input< internal::istream_reader > in( source.c_str(), maximum, stream );
+      basic_buffer_input< Outer::eol, internal::istream_reader > in( source.c_str(), maximum, stream );
       return parse_input_nested< Rule, Action, Control >( oi, in, st ... );
    }
 
