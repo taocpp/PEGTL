@@ -12,7 +12,7 @@ namespace pegtl
 {
    namespace internal
    {
-      using eol_pair = std::pair< bool, unsigned char >;
+      using eol_pair = std::pair< bool, std::size_t >;
 
       template< eol_mode EOL > struct eol_impl;
 
