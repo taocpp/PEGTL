@@ -28,7 +28,8 @@ namespace pegtl
       {
          template< typename Input, typename ... States >
          raw_string_state( const Input & in, States && ... )
-               : line( in.line() ),
+               : byte( in.byte() ),
+                 line( in.line() ),
                  byte_in_line( in.byte_in_line() ),
                  size( in.size( 0 ) )
          { }
@@ -40,7 +41,7 @@ namespace pegtl
             using eol_t = typename Input::eol_t;
             using action_t = typename Input::action_t;
             const auto * const begin = in.begin() - size + in.size( 0 ) + count;
-            action_t content( line, byte_in_line, begin + ( ( * begin ) == eol_t::ch ), in.begin() - count, in.source() );
+            action_t content( byte, line, byte_in_line, begin + ( ( * begin ) == eol_t::ch ), in.begin() - count, in.source() );
             Action< Tag >::apply( const_cast< const action_t & >( content ), st ... );
          }
 
@@ -52,6 +53,7 @@ namespace pegtl
          raw_string_state( const raw_string_state & ) = delete;
          void operator= ( const raw_string_state & ) = delete;
 
+         std::size_t byte;
          std::size_t line;
          std::size_t byte_in_line;
          std::size_t size;

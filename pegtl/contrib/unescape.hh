@@ -128,7 +128,8 @@ namespace pegtl
          {
             assert( ! in.empty() );  // First character MUST be present, usually 'u' or 'U'.
             if ( ! utf8_append_utf32( st.unescaped, unhex_string< unsigned >( in.begin() + 1, in.end() ) ) ) {
-               throw parse_error( "invalid escaped unicode code point", in );
+               using exception_t = typename Input::exception_t;
+               throw exception_t( "invalid escaped unicode code point", in );
             }
          }
       };

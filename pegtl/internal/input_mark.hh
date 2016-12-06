@@ -15,14 +15,16 @@ namespace pegtl
       public:
          explicit
          input_mark( input_data & i )
-               : m_line( i.line ),
+               : m_byte( i.byte ),
+                 m_line( i.line ),
                  m_byte_in_line( i.byte_in_line ),
                  m_begin( i.begin ),
                  m_input( & i )
          { }
 
          input_mark( input_mark && i ) noexcept
-               : m_line( i.m_line ),
+               : m_byte( i.m_byte ),
+                 m_line( i.m_line ),
                  m_byte_in_line( i.m_byte_in_line ),
                  m_begin( i.m_begin ),
                  m_input( i.m_input )
@@ -33,6 +35,7 @@ namespace pegtl
          ~input_mark()
          {
             if ( m_input != nullptr ) {
+               m_input->byte = m_byte;
                m_input->line = m_line;
                m_input->byte_in_line = m_byte_in_line;
                m_input->begin = m_begin;
@@ -51,6 +54,11 @@ namespace pegtl
             return false;
          }
 
+         std::size_t byte() const
+         {
+            return m_byte;
+         }
+
          std::size_t line() const
          {
             return m_line;
@@ -67,6 +75,7 @@ namespace pegtl
          }
 
       private:
+         const std::size_t m_byte;
          const std::size_t m_line;
          const std::size_t m_byte_in_line;
          const char * const m_begin;

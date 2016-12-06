@@ -17,7 +17,7 @@ namespace pegtl
    template< typename Rule, typename Eol >
    void verify_impl( const std::size_t line, const char * file, const std::string & data, const result_type expected, const std::size_t remain )
    {
-      basic_memory_input< Eol > i( line, 0, data.data(), data.data() + data.size(), file );
+      basic_memory_input< Eol > i( 0, line, 0, data.data(), data.data() + data.size(), file );
 
       const result_type received = verify_help< Rule >( i );
 

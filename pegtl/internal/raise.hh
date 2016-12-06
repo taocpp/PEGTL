@@ -7,9 +7,9 @@
 #include <cstdlib>
 #include <type_traits>
 
-#include "../apply_mode.hh"
 #include "skip_control.hh"
 
+#include "../apply_mode.hh"
 #include "../analysis/generic.hh"
 
 namespace pegtl

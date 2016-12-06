@@ -11,22 +11,27 @@
 
 namespace pegtl
 {
-   struct parse_error
+   template< typename Pos >
+   struct basic_parse_error
          : public std::runtime_error
    {
-      parse_error( const std::string & message, std::vector< position_info > && in_positions )
+      basic_parse_error( const std::string & message, std::vector< Pos > && in_positions )
             : std::runtime_error( message ),
               positions( std::move( in_positions ) )
       { }
 
       template< typename Input >
-      parse_error( const std::string & message, const Input & in )
-            : std::runtime_error( to_string( position_info( in ) ) + ": " + message ),
-              positions( 1, position_info( in ) )
+      basic_parse_error( const std::string & message, const Input & in )
+            : std::runtime_error( to_string( in.position() ) + ": " + message ),
+              positions( 1, in.position() )
       { }
 
-      std::vector< position_info > positions;
+      using position_t = Pos;
+
+      std::vector< Pos > positions;
    };
+
+   using parse_error = basic_parse_error< position_info >;
 
 } // namespace pegtl
 

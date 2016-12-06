@@ -9,7 +9,7 @@
 #include <cstddef>
 
 #include "eol.hh"
-
+#include "position_info.hh"
 #include "internal/input_data.hh"
 #include "internal/input_mark.hh"
 
@@ -25,12 +25,26 @@ namespace pegtl
    class basic_buffer_input
    {
    public:
+      using eol_t = Eol;
+
+      using reader_t = Reader;
+
+      using mark_t = internal::input_mark;
+      using data_t = internal::input_data;
+
+      using action_t = basic_action_input< Eol >;
+      using memory_t = basic_memory_input< Eol >;
+
+      using position_t = position_info;
+      using exception_t = basic_parse_error< position_info >;
+
+
       template< typename ... As >
       basic_buffer_input( const char * in_source, const std::size_t maximum, As && ... as )
             : m_reader( std::forward< As >( as ) ... ),
               m_maximum( maximum ),
               m_buffer( new char[ maximum ] ),
-              m_data( 1, 0, m_buffer.get(), m_buffer.get(), in_source )
+              m_data( 0, 1, 0, m_buffer.get(), m_buffer.get(), in_source )
 
       { }
 
@@ -58,6 +72,11 @@ namespace pegtl
       {
          require( amount );
          return m_data.end;
+      }
+
+      std::size_t byte() const
+      {
+         return m_data.byte;
       }
 
       std::size_t line() const
@@ -132,10 +151,10 @@ namespace pegtl
          return m_data;
       }
 
-      using eol_t = Eol;
-
-      using action_t = basic_action_input< Eol >;
-      using memory_t = basic_memory_input< Eol >;
+      position_t position() const
+      {
+         return position_info( m_data );
+      }
 
    private:
       Reader m_reader;

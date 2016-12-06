@@ -8,7 +8,7 @@
 #include <cstddef>
 
 #include "eol.hh"
-
+#include "position_info.hh"
 #include "internal/input_data.hh"
 #include "internal/input_mark.hh"
 
@@ -21,12 +21,23 @@ namespace pegtl
    class basic_action_input
    {
    public:
-      basic_action_input( const internal::input_mark & mark, const internal::input_data & data )
-            : m_data( mark.line(), mark.byte_in_line(), mark.begin(), data.begin, data.source )
+      using eol_t = Eol;
+
+      using mark_t = internal::input_mark;
+      using data_t = internal::input_data;
+
+      using action_t = basic_action_input< Eol >;
+      using memory_t = basic_memory_input< Eol >;
+
+      using position_t = position_info;
+      using exception_t = basic_parse_error< position_info >;
+
+      basic_action_input( const internal::input_mark & m, const internal::input_data & d )
+            : m_data( m.byte(), m.line(), m.byte_in_line(), m.begin(), d.begin, d.source )
       { }
 
-      basic_action_input( const std::size_t in_line, const std::size_t in_byte_in_line, const char * in_begin, const char * in_end, const char * in_source )
-            : m_data( in_line, in_byte_in_line, in_begin, in_end, in_source )
+      basic_action_input( const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line, const char * in_begin, const char * in_end, const char * in_source )
+            : m_data( in_byte, in_line, in_byte_in_line, in_begin, in_end, in_source )
       { }
 
       bool empty() const
@@ -47,6 +58,11 @@ namespace pegtl
       const char * end( const std::size_t = 0 ) const
       {
          return m_data.end;
+      }
+
+      std::size_t byte() const
+      {
+         return m_data.byte;
       }
 
       std::size_t line() const
@@ -84,10 +100,10 @@ namespace pegtl
          return m_data;
       }
 
-      using eol_t = Eol;
-
-      using action_t = basic_action_input< Eol >;
-      using memory_t = basic_memory_input< Eol >;
+      position_t position() const
+      {
+         return position_info( m_data );
+      }
 
    private:
       internal::input_data m_data;

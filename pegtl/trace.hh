@@ -33,41 +33,41 @@ namespace pegtl
       template< typename Input, typename ... States >
       static void start( const Input & in, States && ... )
       {
-         std::cerr << pegtl::position_info( in ) << "  start  " << internal::demangle< Rule >() << std::endl;
+         std::cerr << in.position() << "  start  " << internal::demangle< Rule >() << std::endl;
       }
 
       template< typename Input >
       static void start( const Input & in, trace_state & ts )
       {
-         std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ++ts.rule << " " << pegtl::position_info( in ) << "  start  " << internal::demangle< Rule >() << std::endl;
+         std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ++ts.rule << " " << in.position() << "  start  " << internal::demangle< Rule >() << std::endl;
          ts.stack.push_back( ts.rule );
       }
 
       template< typename Input, typename ... States >
       static void success( const Input & in, States && ... )
       {
-         std::cerr << pegtl::position_info( in ) << " success " << internal::demangle< Rule >() << std::endl;
+         std::cerr << in.position() << " success " << internal::demangle< Rule >() << std::endl;
       }
 
       template< typename Input >
       static void success( const Input & in, trace_state & ts )
       {
          assert( ! ts.stack.empty() );
-         std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ts.stack.back() << " " << pegtl::position_info( in ) << " success " << internal::demangle< Rule >() << std::endl;
+         std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ts.stack.back() << " " << in.position() << " success " << internal::demangle< Rule >() << std::endl;
          ts.stack.pop_back();
       }
 
       template< typename Input, typename ... States >
       static void failure( const Input & in, States && ... )
       {
-         std::cerr << pegtl::position_info( in ) << " failure " << internal::demangle< Rule >() << std::endl;
+         std::cerr << in.position() << " failure " << internal::demangle< Rule >() << std::endl;
       }
 
       template< typename Input >
       static void failure( const Input & in, trace_state & ts )
       {
          assert( ! ts.stack.empty() );
-         std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ts.stack.back() << " " << pegtl::position_info( in ) << " failure " << internal::demangle< Rule >() << std::endl;
+         std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ts.stack.back() << " " << in.position() << " failure " << internal::demangle< Rule >() << std::endl;
          ts.stack.pop_back();
       }
    };

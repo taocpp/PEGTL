@@ -30,7 +30,8 @@ namespace pegtl
       template< typename Input, typename ... States >
       static void raise( const Input & in, States && ... )
       {
-         throw pegtl::parse_error( "parse error matching " + internal::demangle< Rule >(), in );
+         using exception_t = typename Input::exception_t;
+         throw exception_t( "parse error matching " + internal::demangle< Rule >(), in );
       }
 
       template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
