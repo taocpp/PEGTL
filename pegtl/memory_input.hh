@@ -16,8 +16,14 @@
 namespace pegtl
 {
    template< eol_mode EOL >
+   class basic_action_input;
+
+   template< eol_mode EOL >
    class basic_memory_input
    {
+   public:
+      using Fragment = basic_action_input< EOL >;
+
    public:
       explicit
       basic_memory_input( const internal::input_data & data )
