@@ -39,7 +39,8 @@ namespace pegtl
       template< result_on_found R, typename Input, typename Char, Char ... Cs >
       void bump( Input & in, const std::size_t count )
       {
-         bump_impl< bool_and< ( Cs != eol_mode_to_int( Input::eol ) ) ... >::value != bool( R ) >::bump( in, count );
+         using eol_t = typename Input::eol_t;
+         bump_impl< bool_and< ( Cs != eol_t::ch ) ... >::value != bool( R ) >::bump( in, count );
       }
 
    } // namespace internal

@@ -51,8 +51,10 @@ namespace pegtl
          {
             auto m = in.mark();
 
+            using action_t = typename Input::action_t;
+
             if ( rule_match_two< Rule, A, Action, Control, false >::match( in, st ... ) ) {
-               Action< Rule >::apply( basic_action_input< Input::eol >( m.line(), m.byte_in_line(), m.begin(), in.begin(), in.source() ), st ... );
+               Action< Rule >::apply( action_t( m, in.data() ), st ... );
                return m( true );
             }
             return false;

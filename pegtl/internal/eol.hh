@@ -4,7 +4,6 @@
 #ifndef PEGTL_INTERNAL_EOL_HH
 #define PEGTL_INTERNAL_EOL_HH
 
-#include "eol_impl.hh"
 #include "skip_control.hh"
 
 #include "../analysis/generic.hh"
@@ -20,7 +19,8 @@ namespace pegtl
          template< typename Input >
          static bool match( Input & in )
          {
-            return eol_impl< Input::eol >::match( in ).first;
+            using eol_t = typename Input::eol_t;
+            return eol_t::match( in ).first;
          }
       };
 

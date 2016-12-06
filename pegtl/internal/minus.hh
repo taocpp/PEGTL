@@ -26,7 +26,8 @@ namespace pegtl
             if ( ! Control< M >::template match< A, Action, Control >( in, st ... ) ) {
                return false;
             }
-            basic_memory_input< Input::eol > i2( m.line(), m.byte_in_line(), m.begin(), in.begin(), in.source() );
+            using memory_t = typename Input::memory_t;
+            memory_t i2( m, in.data() );
 
             if ( ! Control< S >::template match< apply_mode::NOTHING, Action, Control >( i2, st ... ) ) {
                return m( true );

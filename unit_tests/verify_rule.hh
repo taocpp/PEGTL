@@ -15,7 +15,7 @@ namespace pegtl
    template< typename Rule >
    void verify_rule( const std::size_t line, const char * file, const std::string & data, const result_type result, const std::size_t remain )
    {
-      verify_impl< Rule, eol_mode::LF_WITH_CRLF >( line, file, data, result, remain );
+      verify_impl< Rule, lf_crlf_eol >( line, file, data, result, remain );
    }
 
 } // pegtl

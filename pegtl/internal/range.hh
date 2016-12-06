@@ -20,10 +20,10 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-         template< int EOL >
+         template< int Eol >
          struct can_match_eol
          {
-            static constexpr bool value = ( ( ( Lo <= EOL ) && ( EOL <= Hi ) ) == bool( R ) );
+            static constexpr bool value = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) == bool( R ) );
          };
 
          // suppress warning with GCC 4.7
@@ -36,10 +36,12 @@ namespace pegtl
          template< typename Input >
          static bool match( Input & in )
          {
+            using eol_t = typename Input::eol_t;
+
             if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
                   if ( ( dummy_less_or_equal( Lo, t.data ) && dummy_less_or_equal( t.data, Hi ) ) == bool( R ) ) {
-                     bump_impl< can_match_eol< eol_mode_to_int( Input::eol ) >::value >::bump( in, t.size );
+                     bump_impl< can_match_eol< eol_t::ch >::value >::bump( in, t.size );
                      return true;
                   }
                }

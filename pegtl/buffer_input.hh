@@ -8,14 +8,20 @@
 #include <cstring>
 #include <cstddef>
 
-#include "eol_mode.hh"
+#include "eol.hh"
 
 #include "internal/input_data.hh"
 #include "internal/input_mark.hh"
 
 namespace pegtl
 {
-   template< eol_mode EOL, typename Reader >
+   template< typename Eol >
+   class basic_action_input;
+
+   template< typename Eol >
+   class basic_memory_input;
+
+   template< typename Eol, typename Reader >
    class basic_buffer_input
    {
    public:
@@ -81,7 +87,7 @@ namespace pegtl
 
       void bump( const std::size_t count = 1 )
       {
-         m_data.bump( count, eol );
+         m_data.bump( count, Eol::ch );
       }
 
       void bump_in_this_line( const std::size_t count = 1 )
@@ -121,7 +127,15 @@ namespace pegtl
          return internal::input_mark( m_data );
       }
 
-      static constexpr eol_mode eol = EOL;
+      const internal::input_data & data() const
+      {
+         return m_data;
+      }
+
+      using eol_t = Eol;
+
+      using action_t = basic_action_input< Eol >;
+      using memory_t = basic_memory_input< Eol >;
 
    private:
       Reader m_reader;
@@ -131,7 +145,7 @@ namespace pegtl
    };
 
    template< typename Reader >
-   using buffer_input = basic_buffer_input< eol_mode::LF_WITH_CRLF, Reader >;
+   using buffer_input = basic_buffer_input< lf_crlf_eol, Reader >;
 
 } // namespace pegtl
 

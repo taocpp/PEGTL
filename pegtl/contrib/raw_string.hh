@@ -37,9 +37,11 @@ namespace pegtl
          typename std::enable_if< ( ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Tag >::value ) ) >::type
          success( const Input & in, States && ... st ) const
          {
+            using eol_t = typename Input::eol_t;
+            using action_t = typename Input::action_t;
             const auto * const begin = in.begin() - size + in.size( 0 ) + count;
-            basic_action_input< Input::eol > content( line, byte_in_line, begin + ( ( * begin ) == eol_mode_to_int( Input::eol ) ), in.begin() - count, in.source() );
-            Action< Tag >::apply( const_cast< const basic_action_input< Input::eol > & >( content ), st ... );
+            action_t content( line, byte_in_line, begin + ( ( * begin ) == eol_t::ch ), in.begin() - count, in.source() );
+            Action< Tag >::apply( const_cast< const action_t & >( content ), st ... );
          }
 
          template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >

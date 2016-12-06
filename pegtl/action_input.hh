@@ -7,17 +7,24 @@
 #include <string>
 #include <cstddef>
 
-#include "eol_mode.hh"
+#include "eol.hh"
 
 #include "internal/input_data.hh"
 #include "internal/input_mark.hh"
 
 namespace pegtl
 {
-   template< eol_mode EOL >
+   template< typename Eol >
+   class basic_memory_input;
+
+   template< typename Eol >
    class basic_action_input
    {
    public:
+      basic_action_input( const internal::input_mark & mark, const internal::input_data & data )
+            : m_data( mark.line(), mark.byte_in_line(), mark.begin(), data.begin, data.source )
+      { }
+
       basic_action_input( const std::size_t in_line, const std::size_t in_byte_in_line, const char * in_begin, const char * in_end, const char * in_source )
             : m_data( in_line, in_byte_in_line, in_begin, in_end, in_source )
       { }
@@ -72,13 +79,21 @@ namespace pegtl
          return static_cast< unsigned char >( peek_char( offset ) );
       }
 
-      static constexpr eol_mode eol = EOL;
+      const internal::input_data & data() const
+      {
+         return m_data;
+      }
+
+      using eol_t = Eol;
+
+      using action_t = basic_action_input< Eol >;
+      using memory_t = basic_memory_input< Eol >;
 
    private:
       internal::input_data m_data;
    };
 
-   using action_input = basic_action_input< eol_mode::LF_WITH_CRLF >;
+   using action_input = basic_action_input< lf_crlf_eol >;
 
 } // namespace pegtl
 
