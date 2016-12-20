@@ -6,11 +6,13 @@
 
 #include "input_data.hh"
 
+#include "../marker_mode.hh"
+
 namespace pegtl
 {
    namespace internal
    {
-      class input_mark
+      template< marker_mode M > class input_mark
       {
       public:
          explicit
@@ -80,6 +82,25 @@ namespace pegtl
          const std::size_t m_byte_in_line;
          const char * const m_begin;
          input_data * m_input;
+      };
+
+      template<> class input_mark< marker_mode::DISABLED >
+      {
+      public:
+         explicit
+         input_mark( const input_data & )
+         { }
+
+         input_mark( input_mark && ) noexcept
+         { }
+
+         input_mark( const input_mark & ) = delete;
+         void operator= ( const input_mark & ) = delete;
+
+         bool operator() ( const bool result )
+         {
+            return result;
+         }
       };
 
    } // namespace internal

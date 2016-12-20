@@ -11,6 +11,9 @@
 #include "skip_control.hh"
 #include "rule_conjunction.hh"
 
+#include "../apply_mode.hh"
+#include "../marker_mode.hh"
+
 #include "../analysis/generic.hh"
 
 namespace pegtl
@@ -27,14 +30,14 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
 
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            auto m = in.mark();
+            auto m = in.template mark< M >();
 
-            while ( ! Control< Cond >::template match< A, Action, Control >( in, st ... ) ) {
+            while ( ! Control< Cond >::template match< A, marker_mode::ENABLED, Action, Control >( in, st ... ) ) {
                if ( in.empty() ) {
-                  return false;
+                  return m( false );
                }
                in.bump();
             }
@@ -47,14 +50,14 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, Rules ... >, Cond >;
 
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            auto m = in.mark();
+            auto m = in.template mark< M >();
 
-            while ( ! Control< Cond >::template match< A, Action, Control >( in, st ... ) ) {
-               if ( in.empty() || ! rule_conjunction< Rules ... >::template match< A, Action, Control >( in, st ... ) ) {
-                  return false;
+            while ( ! Control< Cond >::template match< A, marker_mode::ENABLED, Action, Control >( in, st ... ) ) {
+               if ( in.empty() || ( ! rule_conjunction< Rules ... >::template match< A, marker_mode::DISABLED, Action, Control >( in, st ... ) ) ) {
+                  return m( false );
                }
             }
             return m( true );

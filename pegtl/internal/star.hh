@@ -12,6 +12,8 @@
 #include "skip_control.hh"
 
 #include "../apply_mode.hh"
+#include "../marker_mode.hh"
+
 #include "../analysis/generic.hh"
 
 namespace pegtl
@@ -23,10 +25,10 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::OPT, Rule, Rules ..., star >;
 
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            while ( ( ! in.empty() ) && rule_match_three< seq< Rule, Rules ... >, A, Action, Control >::match( in, st ... ) ) {}
+            while ( ( ! in.empty() ) && rule_match_three< seq< Rule, Rules ... >, A, marker_mode::ENABLED, Action, Control >::match( in, st ... ) ) {}
             return true;
          }
       };

@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_MUST_HH
@@ -7,6 +7,9 @@
 #include "seq.hh"
 #include "raise.hh"
 #include "skip_control.hh"
+
+#include "../apply_mode.hh"
+#include "../marker_mode.hh"
 
 namespace pegtl
 {
@@ -29,11 +32,11 @@ namespace pegtl
       {
          using analyze_t = typename Rule::analyze_t;
 
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, marker_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            if ( ! Control< Rule >::template match< A, Action, Control >( in, st ... ) ) {
-               raise< Rule >::template match< A, Action, Control >( in, st ... );
+            if ( ! Control< Rule >::template match< A, marker_mode::DISABLED, Action, Control >( in, st ... ) ) {
+               raise< Rule >::template match< A, marker_mode::DISABLED, Action, Control >( in, st ... );
             }
             return true;
          }

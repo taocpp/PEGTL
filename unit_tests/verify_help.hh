@@ -8,9 +8,11 @@
 #include <stdexcept>
 
 #include "result_type.hh"
+
 #include "../pegtl/normal.hh"
-#include "../pegtl/apply_mode.hh"
 #include "../pegtl/nothing.hh"
+#include "../pegtl/apply_mode.hh"
+#include "../pegtl/marker_mode.hh"
 
 namespace pegtl
 {
@@ -18,7 +20,7 @@ namespace pegtl
    result_type verify_help( Input & i )
    {
       try {
-         if ( normal< Rule >::template match< apply_mode::ACTION, nothing, normal >( i ) ) {
+         if ( normal< Rule >::template match< apply_mode::ACTION, marker_mode::ENABLED, nothing, normal >( i ) ) {
             return result_type::SUCCESS;
          }
          return result_type::LOCAL_FAILURE;

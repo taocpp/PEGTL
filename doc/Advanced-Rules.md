@@ -96,6 +96,7 @@ struct complex_rule
    using analyze_t = ...;
 
    template< pegtl::apply_mode A,
+             pegtl::marker_mode M,
              template< typename ... > class Action,
              template< typename ... > class Control,
              typename Input,
@@ -167,6 +168,7 @@ The custom rule itself
    struct long_literal_mark
    {
       template< pegtl::apply_mode A,
+                pegtl::marker_mode M,
                 template< typename ... > class Action,
                 template< typename ... > class Control
                 typename Input >

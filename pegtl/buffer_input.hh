@@ -29,7 +29,6 @@ namespace pegtl
 
       using reader_t = Reader;
 
-      using mark_t = internal::input_mark;
       using data_t = internal::input_data;
 
       using action_t = basic_action_input< Eol >;
@@ -141,9 +140,10 @@ namespace pegtl
          }
       }
 
-      internal::input_mark mark()
+      template< marker_mode M >
+      internal::input_mark< M > mark()
       {
-         return internal::input_mark( m_data );
+         return internal::input_mark< M >( m_data );
       }
 
       const internal::input_data & data() const

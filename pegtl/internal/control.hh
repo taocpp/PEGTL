@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_CONTROL_HH
@@ -7,6 +7,9 @@
 #include "skip_control.hh"
 #include "seq.hh"
 #include "rule_match_three.hh"
+
+#include "../apply_mode.hh"
+#include "../marker_mode.hh"
 
 #include "../analysis/generic.hh"
 
@@ -19,10 +22,10 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
 
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class, typename Input, typename ... States >
+         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_three< seq< Rules ... >, A, Action, Control >::match( in, st ... );
+            return rule_match_three< seq< Rules ... >, A, M, Action, Control >::match( in, st ... );
          }
       };
 

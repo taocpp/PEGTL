@@ -4,9 +4,10 @@
 #ifndef PEGTL_CONTRIB_RAW_STRING_HH
 #define PEGTL_CONTRIB_RAW_STRING_HH
 
-#include "../action_input.hh"
-#include "../apply_mode.hh"
 #include "../nothing.hh"
+#include "../apply_mode.hh"
+#include "../marker_mode.hh"
+#include "../action_input.hh"
 
 #include "../internal/must.hh"
 #include "../internal/until.hh"
@@ -34,7 +35,7 @@ namespace pegtl
                  size( in.size( 0 ) )
          { }
 
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, marker_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          typename std::enable_if< ( ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Tag >::value ) ) >::type
          success( const Input & in, States && ... st ) const
          {
@@ -45,7 +46,7 @@ namespace pegtl
             Action< Tag >::apply( const_cast< const action_t & >( content ), st ... );
          }
 
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, marker_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          typename std::enable_if< ! ( ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Tag >::value ) ) >::type
          success( const Input &, States && ... ) const
          { }
@@ -65,7 +66,7 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input >
+         template< apply_mode A, marker_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
          static bool match( Input & in, raw_string_state< Tag > & ls )
          {
             if ( in.empty() || ( in.peek_char( 0 ) != Open ) ) {
@@ -92,7 +93,7 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input >
+         template< apply_mode A, marker_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
          static bool match( Input & in, const raw_string_state< Tag > & ls )
          {
             if ( in.size( ls.count ) < ls.count ) {

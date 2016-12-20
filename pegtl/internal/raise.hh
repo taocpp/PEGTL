@@ -10,6 +10,7 @@
 #include "skip_control.hh"
 
 #include "../apply_mode.hh"
+#include "../marker_mode.hh"
 #include "../analysis/generic.hh"
 
 namespace pegtl
@@ -21,7 +22,7 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode, marker_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             Control< T >::raise( const_cast< const Input & >( in ), st ... );
