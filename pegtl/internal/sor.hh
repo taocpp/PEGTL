@@ -20,7 +20,7 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::SOR, Rules ... >;
 
-         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, marker_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             // TODO: As optimization the final rule could be called with M instead of marker_mode::ENABLED.

@@ -19,10 +19,10 @@ namespace pegtl
       {
          using analyze_t = typename R::analyze_t;  // NOTE: S is currently ignored for analyze().
 
-         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, marker_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            auto m = in.template mark< M >();
+            auto m = in.template mark< marker_mode::ENABLED >();
 
             if ( ! Control< R >::template match< A, marker_mode::DISABLED, Action, Control >( in, st ... ) ) {
                return false;

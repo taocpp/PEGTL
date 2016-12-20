@@ -37,7 +37,7 @@ namespace pegtl
 
             while ( ! Control< Cond >::template match< A, marker_mode::ENABLED, Action, Control >( in, st ... ) ) {
                if ( in.empty() ) {
-                  return m( false );
+                  return false;
                }
                in.bump();
             }
@@ -57,7 +57,7 @@ namespace pegtl
 
             while ( ! Control< Cond >::template match< A, marker_mode::ENABLED, Action, Control >( in, st ... ) ) {
                if ( in.empty() || ( ! rule_conjunction< Rules ... >::template match< A, marker_mode::DISABLED, Action, Control >( in, st ... ) ) ) {
-                  return m( false );
+                  return false;
                }
             }
             return m( true );

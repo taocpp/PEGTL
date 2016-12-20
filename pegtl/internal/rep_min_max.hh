@@ -53,15 +53,15 @@ namespace pegtl
 
             for ( unsigned i = 0; i != Min; ++i ) {
                if ( ! rule_conjunction< Rules ... >::template match< A, marker_mode::DISABLED, Action, Control >( in, st ... ) ) {
-                  return m( false );
+                  return false;
                }
             }
             for ( unsigned i = Min; i != Max; ++i ) {
-               if ( ! rule_match_three< seq< Rules ... >, A, M, Action, Control >::match( in, st ... ) ) {
+               if ( ! rule_match_three< seq< Rules ... >, A, marker_mode::ENABLED, Action, Control >::match( in, st ... ) ) {
                   return m( true );
                }
             }
-            return m( rule_match_three< not_at< Rules ... >, A, marker_mode::DISABLED, Action, Control >::match( in, st ... ) );
+            return m( rule_match_three< not_at< Rules ... >, A, M, Action, Control >::match( in, st ... ) );
          }
       };
 

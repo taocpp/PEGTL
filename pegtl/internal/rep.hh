@@ -42,7 +42,7 @@ namespace pegtl
 
             for ( unsigned i = 0; i != Num; ++i ) {
                if ( ! rule_conjunction< Rules ... >::template match< A, marker_mode::DISABLED, Action, Control >( in, st ... ) ) {
-                  return m( false );
+                  return false;
                }
             }
             return m( true );

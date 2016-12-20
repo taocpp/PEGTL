@@ -43,7 +43,7 @@ namespace pegtl
                return m( rule_match_three< seq< Rules ... >, A, marker_mode::DISABLED, Action, Control >::match( in, st ... ) );
             }
             catch ( const Exception & ) {
-               return m( false );
+               return false;
             }
          }
       };

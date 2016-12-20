@@ -47,7 +47,7 @@ namespace pegtl
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< M >();
-            return m( rule_conjunction< Rules ... >::template match< A, M, Action, Control >( in, st ... ) );
+            return m( rule_conjunction< Rules ... >::template match< A, marker_mode::DISABLED, Action, Control >( in, st ... ) );
          }
       };
 
