@@ -23,6 +23,10 @@ namespace pegtl
       verify_rule< until< one< 'a' > > >( __LINE__, __FILE__,  "bbab", result_type::SUCCESS, 1 );
       verify_rule< until< one< 'a' > > >( __LINE__, __FILE__,  "bbbbbbbbbbbbbbbab", result_type::SUCCESS, 1 );
 
+      verify_rule< must< until< one< 'a' > > > >( __LINE__, __FILE__, "bbb", result_type::GLOBAL_FAILURE, 0 );
+
+      verify_rule< try_catch< must< until< one< 'a' > > > > >( __LINE__, __FILE__, "bbb", result_type::LOCAL_FAILURE, 3 );
+
       verify_rule< until< eof, any > >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
       verify_rule< until< any, any > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< until< one< 'a' >, any > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );
@@ -65,6 +69,12 @@ namespace pegtl
       verify_rule< until< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__,  "bcbcb", result_type::LOCAL_FAILURE, 5 );
       verify_rule< until< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__,  "cbcbc", result_type::LOCAL_FAILURE, 5 );
       verify_rule< until< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__,  "bcbcbc", result_type::LOCAL_FAILURE, 6 );
+
+      verify_rule< must< until< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "bbb", result_type::GLOBAL_FAILURE, 0 );
+      verify_rule< must< until< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "bbbc", result_type::GLOBAL_FAILURE, 1 );
+
+      verify_rule< try_catch< must< until< one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "bbb", result_type::LOCAL_FAILURE, 3 );
+      verify_rule< try_catch< must< until< one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "bbbc", result_type::LOCAL_FAILURE, 4 );
    }
 
 } // namespace pegtl

@@ -36,6 +36,10 @@ namespace pegtl
       verify_rule< rep_min_max< 2, 4, one< 'a' > > >( __LINE__, __FILE__,  "baa", result_type::LOCAL_FAILURE, 3 );
       verify_rule< rep_min_max< 2, 4, one< 'a' > > >( __LINE__, __FILE__,  "baaa", result_type::LOCAL_FAILURE, 4 );
       verify_rule< rep_min_max< 2, 4, one< 'a' > > >( __LINE__, __FILE__,  "baaaa", result_type::LOCAL_FAILURE, 5 );
+
+      verify_rule< must< rep_min_max< 3, 4, one< 'a' > > > >( __LINE__, __FILE__, "aa", result_type::GLOBAL_FAILURE, 0 );
+
+      verify_rule< try_catch< must< rep_min_max< 3, 4, one< 'a' > > > > >( __LINE__, __FILE__, "aa", result_type::LOCAL_FAILURE, 2 );
    }
 
 } // namespace pegtl

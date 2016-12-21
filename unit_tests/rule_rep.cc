@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #include "test.hh"
@@ -41,6 +41,30 @@ namespace pegtl
       verify_rule< rep< 2, two< 'a' > > >( __LINE__, __FILE__,  "aaaaa", result_type::SUCCESS, 1 );
       verify_rule< rep< 2, two< 'a' > > >( __LINE__, __FILE__,  "aaaaaa", result_type::SUCCESS, 2 );
       verify_rule< rep< 2, two< 'a' > > >( __LINE__, __FILE__,  "aaaaaaa", result_type::SUCCESS, 3 );
+
+      verify_rule< rep< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
+      verify_rule< rep< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "a", result_type::LOCAL_FAILURE, 1 );
+      verify_rule< rep< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab", result_type::LOCAL_FAILURE, 2 );
+      verify_rule< rep< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "aba", result_type::LOCAL_FAILURE, 3 );
+      verify_rule< rep< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "abab", result_type::SUCCESS, 0 );
+      verify_rule< rep< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ababa", result_type::SUCCESS, 1 );
+      verify_rule< rep< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ababab", result_type::SUCCESS, 2 );
+
+      verify_rule< must< rep< 2, one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "", result_type::GLOBAL_FAILURE, 0 );
+      verify_rule< must< rep< 2, one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "a", result_type::GLOBAL_FAILURE, 1 );
+      verify_rule< must< rep< 2, one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "ab", result_type::GLOBAL_FAILURE, 0 );
+      verify_rule< must< rep< 2, one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "aba", result_type::GLOBAL_FAILURE, 1 );
+      verify_rule< must< rep< 2, one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "abab", result_type::SUCCESS, 0 );
+      verify_rule< must< rep< 2, one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "ababa", result_type::SUCCESS, 1 );
+      verify_rule< must< rep< 2, one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "ababab", result_type::SUCCESS, 2 );
+
+      verify_rule< try_catch< must< rep< 2, one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
+      verify_rule< try_catch< must< rep< 2, one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "a", result_type::LOCAL_FAILURE, 1 );
+      verify_rule< try_catch< must< rep< 2, one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "ab", result_type::LOCAL_FAILURE, 2 );
+      verify_rule< try_catch< must< rep< 2, one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "aba", result_type::LOCAL_FAILURE, 3 );
+      verify_rule< try_catch< must< rep< 2, one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "abab", result_type::SUCCESS, 0 );
+      verify_rule< try_catch< must< rep< 2, one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "ababa", result_type::SUCCESS, 1 );
+      verify_rule< try_catch< must< rep< 2, one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "ababab", result_type::SUCCESS, 2 );
    }
 
 } // namespace pegtl

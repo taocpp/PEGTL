@@ -46,7 +46,21 @@ namespace pegtl
       verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "abc", result_type::SUCCESS, 0 );
       verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' >, eof > >( __LINE__, __FILE__, "abc", result_type::SUCCESS, 0 );
       verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "abcd", result_type::SUCCESS, 1 );
-   }
+
+      verify_rule< must< S< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "", result_type::GLOBAL_FAILURE, 0 );
+      verify_rule< must< S< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "a", result_type::GLOBAL_FAILURE, 0 );
+      verify_rule< must< S< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "b", result_type::GLOBAL_FAILURE, 1 );
+      verify_rule< must< S< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "c", result_type::GLOBAL_FAILURE, 1 );
+      verify_rule< must< S< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "ab", result_type::SUCCESS, 0 );
+      verify_rule< must< S< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "aba", result_type::SUCCESS, 1 );
+
+      verify_rule< try_catch< must< S< one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
+      verify_rule< try_catch< must< S< one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "a", result_type::LOCAL_FAILURE, 1 );
+      verify_rule< try_catch< must< S< one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "b", result_type::LOCAL_FAILURE, 1 );
+      verify_rule< try_catch< must< S< one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "c", result_type::LOCAL_FAILURE, 1 );
+      verify_rule< try_catch< must< S< one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "ab", result_type::SUCCESS, 0 );
+      verify_rule< try_catch< must< S< one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "aba", result_type::SUCCESS, 1 );
+}
 
 } // pegtl
 
