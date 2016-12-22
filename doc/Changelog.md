@@ -10,13 +10,14 @@ Released in the future
 * Added support for parsing C streams, i.e. `std::FILE *`.
 * Added support for parsing C++ streams, i.e. `std::istream`.
 * Added incremental input support rules `discard` and `discard_if`.
+* Added the byte position to input classes and `position_info`. 
 * Removed the `begin` member from class `position_info`.
 * Refactored the `input` class into multiple classes.
 * Refactored the handling of nested parsing.
-* Optimise superfluous input markers to dummy class.
+* Optimised superfluous input markers to dummy class.
 * Renamed some parsing front-end functions.
-* Reduce template instantiation depth of `pegtl_(i)string_t`.
-* Increase allowed string length to 512 for `pegtl_(i)string_t`.
+* Reduced template instantiation depth of `pegtl_(i)string_t`.
+* Increased allowed string length to 512 for `pegtl_(i)string_t`.
 * Allowed embedded null bytes for `pegtl_(i)string_t`.
 * Added support for GCC 4.7.
 
