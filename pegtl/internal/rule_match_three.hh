@@ -1,10 +1,11 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_RULE_MATCH_THREE_HH
 #define PEGTL_INTERNAL_RULE_MATCH_THREE_HH
 
 #include "../apply_mode.hh"
+#include "../marker_mode.hh"
 
 namespace pegtl
 {
@@ -17,13 +18,13 @@ namespace pegtl
       // which takes the input as its only parameter. The latter is often
       // sufficient and helps to keep the overhead smaller.
 
-      template< typename Rule, apply_mode A, template< typename ... > class Action, template< typename ... > class Control >
+      template< typename Rule, apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_three
       {
          template< typename Input, typename ... States >
-         static auto match( Input & in, States && ... st ) -> decltype( Rule::template match< A, Action, Control >( in, st ... ), true )
+         static auto match( Input & in, States && ... st ) -> decltype( Rule::template match< A, M, Action, Control >( in, st ... ), true )
          {
-            return Rule::template match< A, Action, Control >( in, st ... );
+            return Rule::template match< A, M, Action, Control >( in, st ... );
          }
 
          // NOTE: The additional "int = 0" is a work-around for missing expression SFINAE in VS2015.

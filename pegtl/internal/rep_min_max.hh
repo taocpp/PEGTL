@@ -14,6 +14,8 @@
 #include "seq.hh"
 
 #include "../apply_mode.hh"
+#include "../marker_mode.hh"
+
 #include "../analysis/counted.hh"
 
 namespace pegtl
@@ -44,22 +46,22 @@ namespace pegtl
 
          static_assert( Min <= Max, "invalid rep_min_max rule (maximum number of repetitions smaller than minimum)" );
 
-         template< apply_mode A, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            auto m = in.mark();
+            auto m = in.template mark< M >();
 
             for ( unsigned i = 0; i != Min; ++i ) {
-               if ( ! rule_conjunction< Rules ... >::template match< A, Action, Control >( in, st ... ) ) {
+               if ( ! rule_conjunction< Rules ... >::template match< A, marker_mode::DISABLED, Action, Control >( in, st ... ) ) {
                   return false;
                }
             }
             for ( unsigned i = Min; i != Max; ++i ) {
-               if ( ! rule_match_three< seq< Rules ... >, A, Action, Control >::match( in, st ... ) ) {
+               if ( ! rule_match_three< seq< Rules ... >, A, marker_mode::ENABLED, Action, Control >::match( in, st ... ) ) {
                   return m( true );
                }
             }
-            return m( rule_match_three< not_at< Rules ... >, A, Action, Control >::match( in, st ... ) );
+            return m( rule_match_three< not_at< Rules ... >, A, M, Action, Control >::match( in, st ... ) );
          }
       };
 

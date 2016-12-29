@@ -23,7 +23,6 @@ namespace pegtl
    public:
       using eol_t = Eol;
 
-      using mark_t = internal::input_mark;
       using data_t = internal::input_data;
 
       using action_t = basic_action_input< Eol >;
@@ -32,7 +31,8 @@ namespace pegtl
       using position_t = position_info;
       using exception_t = basic_parse_error< position_info >;
 
-      basic_action_input( const internal::input_mark & m, const internal::input_data & d )
+      template< marker_mode M >
+      basic_action_input( const internal::input_mark< M > & m, const internal::input_data & d )
             : m_data( m.byte(), m.line(), m.byte_in_line(), m.begin(), d.begin, d.source )
       { }
 

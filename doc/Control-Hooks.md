@@ -45,6 +45,7 @@ struct normal
    }
 
    template< apply_mode A,
+             marker_mode M,
              template< typename ... > class Action,
              template< typename ... > class Control,
              typename Input,
@@ -52,7 +53,7 @@ struct normal
    static bool match( Input & in, States && ... st )
    {
       return internal::rule_match_one< Rule,
-                                       A,
+                                       A, M,
                                        Action,
                                        Control >( in, st ... );
    }
