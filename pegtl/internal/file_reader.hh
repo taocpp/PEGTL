@@ -42,7 +42,7 @@ namespace pegtl
             if ( std::fseek( m_file.get(), 0, SEEK_SET ) != 0 ) {
                PEGTL_THROW_INPUT_ERROR( "unable to fseek() to beginning of file " << m_source );  // LCOV_EXCL_LINE
             }
-            return s;
+            return std::size_t( s );
          }
 
          std::string read() const

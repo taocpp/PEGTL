@@ -21,10 +21,10 @@ namespace pegtl
 
          std::size_t operator() ( char * buffer, const std::size_t length )
          {
-            m_istream.read( buffer, length );
+            m_istream.read( buffer, std::streamsize( length ) );
 
             if ( const auto r = m_istream.gcount() ) {
-               return r;
+               return std::size_t( r );
             }
             if ( m_istream.eof() ) {
                return 0;

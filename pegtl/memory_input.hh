@@ -53,7 +53,7 @@ namespace pegtl
 
       std::size_t size( const std::size_t ) const
       {
-         return m_data.end - m_data.begin;
+         return std::size_t( m_data.end - m_data.begin );
       }
 
       const char * begin() const
