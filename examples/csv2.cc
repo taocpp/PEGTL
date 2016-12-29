@@ -107,7 +107,7 @@ namespace csv2
 
    // Another helper to print tuples of arbitrary sizes:
 
-   void print_string( const std::string & s )
+   inline void print_string( const std::string & s )
    {
       // Needs more elaborate escaping in practice...
 
