@@ -4,7 +4,7 @@ init: []
 install: []
 build_script:
 - set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
-- cmake . -G "Visual Studio 14 2015"
-- cmake --build . --config Release
+- cmake -Wno-dev . -G "Visual Studio 14 2015"
+- cmake -Wno-dev --build . --config Release
 test_script:
-- ctest -C Release -V
+- ctest -Wno-dev -C Release -V
