@@ -1,12 +1,20 @@
-version: '{build}'
+version: '{branch}-{build}'
+
 os: Visual Studio 2015
+
+configuration: Release
+
+branches:
+  only:
+    - master
+
 init: []
-install: []
+
 build_script:
-- set PATH=C:\Program Files (x86)\MSBuild\14.0\Bin;%PATH%
-- md build
-- cd build
-- cmake -Wno-dev .. -G "Visual Studio 14 2015"
-- cmake -Wno-dev --build . --config Release
+- cmd: cmake -Wno-dev . -G "Visual Studio 14 2015"
+- cmd: cmake -Wno-dev --build . --config Release
+
 test_script:
-- ctest -Wno-dev -C Release -V
+- cmd: ctest -Wno-dev -C Release -V
+
+install: []
