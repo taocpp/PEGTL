@@ -14,9 +14,8 @@ namespace pegtl
    void unit_test()
    {
       const char * const filename = "unit_tests/file_data.txt";
-      return; // TODO: Temporary disabled
       std::FILE * stream = std::fopen( filename, "rb" );
-      TEST_ASSERT( stream );
+      TEST_ASSERT( stream != nullptr );
       TEST_ASSERT( parse_cstream< file_grammar >( stream, filename, 16 ) );
       std::fclose( stream );
       TEST_ASSERT( parse_stdin< file_grammar >( 16 ) );
