@@ -3,7 +3,7 @@
 [![Release](https://img.shields.io/github/release/ColinH/PEGTL.svg)](https://github.com/ColinH/PEGTL/releases/latest)
 [![License](https://img.shields.io/github/license/ColinH/PEGTL.svg)](#license)
 [![TravisCI](https://travis-ci.org/ColinH/PEGTL.svg)](https://travis-ci.org/ColinH/PEGTL)
-[![AppVeyor](For example: https://ci.appveyor.com/api/projects/status/github/ColinH/PEGTL?svg=true)](https://ci.appveyor.com/project/ColinH/PEGTL)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/ColinH/PEGTL?svg=true)](https://ci.appveyor.com/project/ColinH/PEGTL)
 [![Coverage](https://img.shields.io/coveralls/ColinH/PEGTL.svg)](https://coveralls.io/github/ColinH/PEGTL)
 [![Issues](https://img.shields.io/github/issues/ColinH/PEGTL.svg)](https://github.com/ColinH/PEGTL/issues)
 
