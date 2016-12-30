@@ -43,7 +43,16 @@ group          =  "(" *c-wsp alternation *c-wsp ")"
 
 option         =  "[" *c-wsp alternation *c-wsp "]"
 
-char-val       =  DQUOTE *(%x20-21 / %x23-7E) DQUOTE
+char-val       =  case-insensitive-string /
+                  case-sensitive-string
+
+case-insensitive-string =
+                  [ "%i" ] quoted-string
+
+case-sensitive-string =
+                  "%s" quoted-string
+
+quoted-string  =  DQUOTE *(%x20-21 / %x23-7E) DQUOTE
                        ; quoted string of SP and VCHAR
                        ;  without DQUOTE
 
