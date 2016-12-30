@@ -14,9 +14,9 @@ build_script:
 - md build-vc
 - cd build-vc
 - cmake -Wno-dev ..
-- cmake -Wno-dev --build .
+- make all
 
 test_script:
-- ctest -Wno-dev -V
+- make test
 
 install: []
