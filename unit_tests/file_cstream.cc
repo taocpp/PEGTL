@@ -18,7 +18,6 @@ namespace pegtl
       TEST_ASSERT( stream != nullptr );
       TEST_ASSERT( parse_cstream< file_grammar >( stream, filename, 16 ) );
       std::fclose( stream );
-      TEST_ASSERT( parse_stdin< file_grammar >( 16 ) );
    }
 
 } // namespace pegtl
