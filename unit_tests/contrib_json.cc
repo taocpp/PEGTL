@@ -24,7 +24,9 @@ namespace pegtl
    void unit_test()
    {
       const auto p = analyze< GRAMMAR >();
-      assert( p == 0 );
+      if ( p != 0 ) {
+         throw std::runtime_error( "analyze< GRAMMAR >() failed!" );
+      }
 
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[]", result_type::SUCCESS, 0 );
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "{}", result_type::SUCCESS, 0 );

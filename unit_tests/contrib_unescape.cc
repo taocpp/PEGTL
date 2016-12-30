@@ -30,7 +30,9 @@ namespace pegtl
    {
       unescape::state st;
       parse_string< unstring, unaction >( std::string( m, M - 1 ), __FUNCTION__, st );
-      assert( st.unescaped == std::string( n, N - 1 ) );
+      if ( st.unescaped != std::string( n, N - 1 ) ) {
+         throw std::runtime_error( "test failed!" );
+      }
    }
 
    void unit_test()
