@@ -65,10 +65,10 @@ Each commit is [automatically tested](https://travis-ci.org/ColinH/PEGTL) with m
 * Linux, GCC (4.7, 4.8, 4.9, 5, 6) with libstdc++
 * Linux, Clang (3.4, 3.5, 3.6, 3.7, 3.8) with libstdc++
 * MacOS X, Xcode (6.4, 7, 7.1, 7.2, 7.3, 8) with libc++
+* Windows, Visual Studio 2015
 
 Systems supported but not automatically tested, *yet*:
 
-* Windows, Visual Studio 2015
 * Android
 
 Additionally, each commit is checked with GCC's and Clang's sanitizers as well as [`valgrind`](http://valgrind.org/).
@@ -87,6 +87,8 @@ For details see the [changelog](https://github.com/ColinH/PEGTL/blob/master/doc/
 * George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `pegtl_string_t`.
 * Kenneth Geisshirt for Android compatibility.
 * Paulo Custodio for Windows-related fixes.
+* Kuzma Shapran for EOL testing and fixes.
+* Michael Becker and Sven Johanssen for help with CMake.
 
 ### Contact
 
