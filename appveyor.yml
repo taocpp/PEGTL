@@ -17,7 +17,6 @@ build_script:
 - cmake --build .
 
 test_script:
-- cd build-vc
-- ctest -V -C .
+- ctest -VV -C .
 
 install: []
