@@ -88,7 +88,7 @@ For details see the [changelog](https://github.com/ColinH/PEGTL/blob/master/doc/
 * Kenneth Geisshirt for Android compatibility.
 * Paulo Custodio for Windows-related fixes.
 * Kuzma Shapran for EOL testing and fixes.
-* Michael Becker and Sven Johanssen for help with CMake.
+* Michael Becker and Sven Johannsen for help with CMake.
 
 ### Contact
 
