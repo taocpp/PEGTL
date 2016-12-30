@@ -11,10 +11,12 @@ branches:
 init: []
 
 build_script:
-- cmd: cmake -Wno-dev . -G "Visual Studio 14 2015"
-- cmd: cmake -Wno-dev --build . --config Release
+- md build-vc
+- cd build-vc
+- cmake -Wno-dev ..
+- cmake -Wno-dev --build .
 
 test_script:
-- cmd: ctest -Wno-dev -C Release -V
+- ctest -Wno-dev -V
 
 install: []
