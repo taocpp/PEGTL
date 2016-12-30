@@ -45,11 +45,11 @@ compile: $(BINARIES)
 
 check: $(UNIT_TESTS)
 	@echo "Built with '$(CXX) $(CXXSTD) -I. $(CPPFLAGS) $(CXXFLAGS)'."
-	@set -e; for T in $(UNIT_TESTS); do echo $$T; $$T < unit_tests/file_data.txt > /dev/null; done
+	@set -e; for T in $(UNIT_TESTS); do echo $$T; $$T > /dev/null; done
 	@echo "All $(words $(UNIT_TESTS)) unit tests passed."
 
 build/%.valgrind: build/%
-	valgrind --error-exitcode=1 --leak-check=full $< <unit_tests/file_data.txt
+	valgrind --error-exitcode=1 --leak-check=full $<
 	@touch $@
 
 valgrind: $(UNIT_TESTS:%=%.valgrind)
