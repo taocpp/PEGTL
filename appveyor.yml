@@ -20,6 +20,6 @@ build_script:
 - cmake --build .
 
 test_script:
-- ctest -C Debug -VV
+- ctest -C Debug
 
 install: []
