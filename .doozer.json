@@ -25,6 +25,11 @@
       "builddeps": ["build-essential"],
       "buildcmd": "make -j ${PARALLEL}"
     },
+    "fedora24-x86_64": {
+      "buildenv": "fedora24-x86_64",
+      "builddeps": ["cmake", "make", "clang"],
+      "buildcmd": ["mkdir build-fedora24-x86_64", "cd build-fedora24-x86_64", "CXX=g++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
+    },
     "fedora24-x86_64-clang": {
       "buildenv": "fedora24-x86_64",
       "builddeps": ["cmake", "make", "clang"],
