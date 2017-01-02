@@ -27,8 +27,8 @@
     },
     "fedora24-x86_64-clang": {
       "buildenv": "fedora24-x86_64",
-      "builddeps": ["make", "clang"],
-      "buildcmd": "CXX=clang++ make -j ${PARALLEL}"
+      "builddeps": ["cmake", "make", "clang"],
+      "buildcmd": ["mkdir build-fedora24-x86_64-clang", "cd build-fedora24-x86_64-clang", "CXX=clang++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
     },
     "osx": {
       "buildenv": "osx",
