@@ -63,14 +63,15 @@ The master branch of the PEGTL is stable in the sense that all known bugs are fi
 
 Each commit is [automatically](https://travis-ci.org/ColinH/PEGTL) [tested](https://ci.appveyor.com/project/ColinH/PEGTL) with [multiple](https://doozer.io/user/ColinH/PEGTL) operating systems, compilers and versions, currently:
 
-* Debian 8 (Jessie, i386), GCC with libstdc++
+* Debian 8 (Jessie, i386), GCC (4.9) with libstdc++
 * Ubuntu 12.04 LTS, GCC (4.7, 4.8, 4.9, 5, 6) with libstdc++
 * Ubuntu 12.04 LTS, Clang (3.4, 3.5, 3.6, 3.7, 3.8) with libstdc++
-* Ubuntu 14.04 LTS (i386), GCC with libstdc++
-* Ubuntu 14.04 LTS (amd64), GCC with libstdc++
-* Ubuntu 16.04 LTS (i386), GCC with libstdc++
-* Ubuntu 16.04 LTS (amd64), GCC with libstdc++
-* Fedora24 (x86_64), Clang with libstdc++
+* Ubuntu 14.04 LTS (i386), GCC (4.8) with libstdc++
+* Ubuntu 14.04 LTS (amd64), GCC (4.8) with libstdc++
+* Ubuntu 16.04 LTS (i386), GCC (5) with libstdc++
+* Ubuntu 16.04 LTS (amd64), GCC (5) with libstdc++
+* Fedora24 (x86_64), GCC (6) with libstdc++
+* Fedora24 (x86_64), Clang (3.8) with libstdc++
 * MacOS X, Xcode (6.4, 7, 7.1, 7.2, 7.3, 8) with libc++
 * Windows, Visual Studio 2015
 
