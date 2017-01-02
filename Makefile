@@ -10,6 +10,9 @@ else
 UNAME_S := $(shell uname -s)
 endif
 
+$(info $(shell uname -a))
+$(info $(shell $(CXX) --version))
+
 # For Darwin (Mac OS X) we assume that the default compiler
 # clang++ is used; when $(CXX) is some version of g++, then
 # $(CXXSTD) has to be set to -std=c++11 (or newer) so
