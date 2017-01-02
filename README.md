@@ -4,6 +4,7 @@
 [![License](https://img.shields.io/github/license/ColinH/PEGTL.svg)](#license)
 [![TravisCI](https://travis-ci.org/ColinH/PEGTL.svg)](https://travis-ci.org/ColinH/PEGTL)
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/ColinH/PEGTL?svg=true)](https://ci.appveyor.com/project/ColinH/PEGTL)
+[![Doozer.io](https://doozer.io/badge/ColinH/PEGTL/buildstatus/master)](https://doozer.io/user/ColinH/PEGTL)
 [![Coverage](https://img.shields.io/coveralls/ColinH/PEGTL.svg)](https://coveralls.io/github/ColinH/PEGTL)
 [![Issues](https://img.shields.io/github/issues/ColinH/PEGTL.svg)](https://github.com/ColinH/PEGTL/issues)
 
