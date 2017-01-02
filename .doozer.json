@@ -1,19 +1,39 @@
 {
   "targets": {
+    "jessie-i386": {
+      "buildenv": "jessie-i386",
+      "builddeps": ["build-essential", "cmake"],
+      "buildcmd": ["mkdir build-jessie-i386", "cd build-jessie-i386", "cmake ..", "cmake --build .", "ctest --output-on-failure"]
+    },
+    "trusty-i386": {
+      "buildenv": "trusty-i386",
+      "builddeps": ["build-essential", "cmake"],
+      "buildcmd": ["mkdir build-trusty-i386", "cd build-trusty-i386", "cmake ..", "cmake --build .", "ctest --output-on-failure"]
+    },
+    "trusty-amd64": {
+      "buildenv": "trusty-amd64",
+      "builddeps": ["build-essential", "cmake"],
+      "buildcmd": ["mkdir build-trusty-amd64", "cd build-trusty-amd64", "cmake ..", "cmake --build .", "ctest --output-on-failure"]
+    },
     "xenial-i386": {
       "buildenv": "xenial-i386",
       "builddeps": ["build-essential", "cmake"],
-      "buildcmd": ["mkdir build-i386", "cd build-i386", "cmake ..", "cmake --build .", "ctest --output-on-failure"]
+      "buildcmd": ["mkdir build-xenial-i386", "cd build-xenial-i386", "cmake ..", "cmake --build .", "ctest --output-on-failure"]
     },
     "xenial-amd64": {
       "buildenv": "xenial-amd64",
       "builddeps": ["build-essential", "cmake"],
-      "buildcmd": ["mkdir build-amd64", "cd build-amd64", "cmake ..", "cmake --build .", "ctest --output-on-failure"]
+      "buildcmd": ["mkdir build-xenial-amd64", "cd build-xenial-amd64", "cmake ..", "cmake --build .", "ctest --output-on-failure"]
     },
     "fedora24-x86_64": {
       "buildenv": "fedora24-x86_64",
       "builddeps": ["cmake", "make", "clang"],
-      "buildcmd": ["mkdir build-x86_64", "cd build-x86_64", "CXX=clang++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
+      "buildcmd": ["mkdir build-fedora24-x86_64", "cd build-fedora24-x86_64", "CXX=clang++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
+    },
+    "centos7-x86_64": {
+      "buildenv": "centos7-x86_64",
+      "builddeps": ["cmake", "make", "clang"],
+      "buildcmd": ["mkdir build-centos7-x86_64", "cd build-centos7-x86_64", "CXX=clang++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
     },
     "osx": {
       "buildenv": "osx",
