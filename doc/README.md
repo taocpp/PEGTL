@@ -4,6 +4,7 @@
 * [Getting Started](Getting-Started.md)
   * [Hello, world!](Getting-Started.md#hello-world)
   * [Requirements](Getting-Started.md#requirements)
+  * [Installation](Getting-Started.md#installation)
   * [Compilation](Getting-Started.md#compilation)
   * [Limitations](Getting-Started.md#limitations)
 * [Rules and Grammars](Rules-and-Grammars.md)
@@ -51,4 +52,4 @@
 * [Changelog](Changelog.md)
 * [2014 Refactoring](2014-Refactoring.md)
 
-Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
