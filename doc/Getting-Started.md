@@ -6,6 +6,7 @@ This page should contain everything to get you started with the PEGTL.
 
 * [Hello, world!](#hello-world)
 * [Requirements](#requirements)
+* [Installation](#installation)
 * [Compilation](#compilation)
 * [Limitations](#limitations)
 
