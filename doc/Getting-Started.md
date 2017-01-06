@@ -57,7 +57,8 @@ namespace hello
 
    template<> struct action< name >
    {
-      static void apply( const pegtl::action_input & in, std::string & name )
+      template< typename Input >
+      static void apply( const Input & in, std::string & name )
       {
          name = in.string();
       }
