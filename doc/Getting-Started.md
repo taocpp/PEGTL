@@ -106,7 +106,7 @@ the exception.
 
 ## Requirements
 
-The PEGTL requires a C++11-capable compiler, e.g., one of
+The PEGTL requires a C++11-capable compiler, e.g. one of
 
 * GCC 4.7
 * Clang 3.4
@@ -120,6 +120,7 @@ on either
 
 It requires C++11, e.g. using the `--std=c++11` compiler switch.
 Using newer versions of the C++ standard is supported.
+
 It might also work with other compilers with good C++11 support on any sufficiently
 compatible platform.
 
