@@ -104,7 +104,7 @@ the exception.
 
 ## Requirements
 
-The PEGTL requires one of
+The PEGTL requires a C++11-capable compiler, e.g., one of
 
 * GCC 4.7
 * Clang 3.4
@@ -112,17 +112,33 @@ The PEGTL requires one of
 
 on either
 
-* Linux
+* GNU/Linux
 * Mac OS X
 * Windows
 
 It requires C++11, e.g. using the `--std=c++11` compiler switch.
+Using newer versions of the C++ standard is supported.
 It might also work with other compilers with good C++11 support on any sufficiently
 compatible platform.
 
 The PEGTL is written with an emphasis on clean code and is compatible with
 the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches, which
 are also used by the included `Makefile` by default.
+
+## Installation
+
+Packages are available for the major GNU/Linux distributions, including but not limited to:
+
+* [Fedora/RHEL/CentOS](https://apps.fedoraproject.org/packages/PEGTL)
+* [Debian](https://packages.debian.org/search?keywords=pegtl-dev)
+* [Ubuntu](http://packages.ubuntu.com/search?keywords=pegtl-dev)
+* [Gentoo](https://packages.gentoo.org/packages/dev-libs/pegtl)
+
+Packages on MacOS are available from:
+
+* [Homebrew](http://brewformulas.org/Pegtl)
+
+If you can not or do not want to use a pre-packaged version of the PEGTL, see the next paragraph:
 
 ## Compilation
 
@@ -158,4 +174,4 @@ The following limitations exist when **not** compiling on Unix or Mac OS X.
 
 - `::mmap(2)`-based file reading is not included (but `std::fread(3)`-based reading is).
 
-Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
