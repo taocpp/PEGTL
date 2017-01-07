@@ -137,7 +137,7 @@ Packages are available for the major GNU/Linux distributions, including but not 
 * [Ubuntu](http://packages.ubuntu.com/search?keywords=pegtl-dev)
 * [Gentoo](https://packages.gentoo.org/packages/dev-libs/pegtl)
 
-Packages on MacOS are available from:
+Packages for Mac OS X are available from:
 
 * [Homebrew](http://brewformulas.org/Pegtl)
 
