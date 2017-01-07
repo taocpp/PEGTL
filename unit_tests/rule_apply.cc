@@ -7,25 +7,25 @@ namespace pegtl
 {
    namespace test1
    {
-      struct a
+      struct action_a
       {
          template< typename Input >
-         static void apply( Input &, int & r, int & s )
+         static void apply( const Input &, int & r, int & s )
          {
             TEST_ASSERT( ! r );
             TEST_ASSERT( ! s );
-            r = 1;
+            r += 1;
          }
       };
 
-      struct b
+      struct action_b
       {
          template< typename Input >
-         static void apply( Input &, int & r, int & s )
+         static void apply( const Input &, int & r, int & s )
          {
             TEST_ASSERT( ! s );
             TEST_ASSERT( r == 1 );
-            s = 2;
+            s += 2;
          }
       };
 
@@ -33,11 +33,14 @@ namespace pegtl
 
    void unit_test()
    {
-      int r = 0;
-      int s = 0;
-      parse_string< must< apply< test1::a, test1::b > > >( "", __FILE__, r, s );
-      TEST_ASSERT( r == 1 );
-      TEST_ASSERT( s == 2 );
+      int state_r = 0;
+      int state_s = 0;
+      parse_string< must< apply< test1::action_a, test1::action_b > > >( "", __FILE__, state_r, state_s );
+      TEST_ASSERT( state_r == 1 );
+      TEST_ASSERT( state_s == 2 );
+      parse_string< must< disable< apply< test1::action_a, test1::action_b > > > >( "", __FILE__, state_r, state_s );
+      TEST_ASSERT( state_r == 1 );
+      TEST_ASSERT( state_s == 2 );
 
       verify_analyze< apply<> >( __LINE__, __FILE__, false, false );
 
