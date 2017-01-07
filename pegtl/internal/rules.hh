@@ -6,6 +6,7 @@
 
 #include "action.hh"
 #include "any.hh"
+#include "apply.hh"
 #include "at.hh"
 #include "bytes.hh"
 #include "control.hh"
@@ -16,6 +17,7 @@
 #include "eof.hh"
 #include "eol.hh"
 #include "eolf.hh"
+#include "if_apply.hh"
 #include "if_must.hh"
 #include "if_must_else.hh"
 #include "if_then_else.hh"

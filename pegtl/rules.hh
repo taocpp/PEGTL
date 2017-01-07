@@ -10,6 +10,7 @@
 
 namespace pegtl
 {
+   template< typename ... Actions > struct apply : internal::apply< Actions ... > {};
    template< template< typename ... > class Action, typename ... Rules > struct action : internal::action< Action, Rules ... > {};
    template< typename ... Rules > struct at : internal::at< Rules ... > {};
    template< unsigned Num > struct bytes : internal::bytes< Num > {};
@@ -20,6 +21,7 @@ namespace pegtl
    template< typename ... Rules > struct enable : internal::enable< Rules ... > {};
    struct eof : internal::eof {};
    struct failure : internal::trivial< false > {};
+   template< typename Rule, typename ... Actions > struct if_apply : internal::if_apply< Rule, Actions ... > {};
    template< typename Cond, typename ... Thens > struct if_must : internal::if_must< Cond, Thens ... > {};
    template< typename Cond, typename Then, typename Else > struct if_must_else : internal::if_must_else< Cond, Then, Else > {};
    template< typename Cond, typename Then, typename Else > struct if_then_else : internal::if_then_else< Cond, Then, Else > {};
