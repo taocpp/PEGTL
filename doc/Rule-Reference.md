@@ -28,6 +28,7 @@ and therefore which rule will be used to call the control class' `raise()`-metho
 * [Meta Rules](#meta-rules)
 * [Combinators](#combinators)
 * [Convenience](#convenience)
+* [Action Rules](#action-rules)
 * [Atomic Rules](#atomic-rules)
 * [ASCII Rules](#ascii-rules)
 * [UTF-8 Rules](#utf-8-rules)
@@ -268,6 +269,22 @@ These rules are in namespace `::pegtl`.
 
 * Matches `seq< S, ... >` as long as `at< R >` does not match and succeeds when `R` matches.
 * Equivalent to `seq< star< not_at< R >, not_at< eof >, S, ... >, R >`.
+
+## Action Rules
+
+These rules are in namespace `::pegtl`.
+
+These rules replicate the intrusive way actions were attached to grammars in PEGTL 0.x versions. The `apply` and `if_apply`-rules allow actions to be explicitly called from within the grammar. The actions are classes, rather than class templates as required for the `parse()`-functions or `action<>`-rule. The `apply()`-methods need to satisfy the same requirements as the `apply()`-methods of action template specializations.
+
+###### `apply< A... >`
+
+* Equivalent to `success` wrt. parsing, but also:
+* Calls all actions `A`, in order, with an empty `input` (and all states).
+
+###### `if_apply< R, A... >`
+
+* Equivalent to `R` wrt. parsing, but also:
+* If `R` matches, calls all actions `A`, in order, with the input matched by `R` (and all states).
 
 ## Atomic Rules
 
@@ -634,6 +651,7 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`any`](#any-1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
 * [`any`](#any-2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
 * [`any`](#any-3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
+* [`apply< A... >`](#apply-a-) <sup>[(action rules)](#action-rules)</sup>
 * [`at< R... >`](#at-r-) <sup>[(combinators)](#combinators)</sup>
 * [`blank`](#blank) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`bytes< Num >`](#bytes-num-) <sup>[(atomic rules)](#atomic-rules)</sup>
@@ -649,6 +667,7 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`identifier_first`](#identifier_first) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`identifier_other`](#identifier_other) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`identifier`](#identifier) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`if_apply< R, A... >`](#if_apply-r-a-) <sup>[(action rules)](#action-rules)</sup>
 * [`if_must< R, S... >`](#if_must-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`if_must_else< R, S, T >`](#if_must_else-r-s-t-) <sup>[(convenience)](#convenience)</sup>
 * [`if_then_else< R, S, T >`](#if_then_else-r-s-t-) <sup>[(convenience)](#convenience)</sup>
