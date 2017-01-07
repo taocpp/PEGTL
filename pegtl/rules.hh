@@ -17,7 +17,6 @@ namespace pegtl
    template< template< typename ... > class Control, typename ... Rules > struct control : internal::control< Control, Rules ... > {};
    template< typename ... Rules > struct disable : internal::disable< Rules ... > {};
    struct discard : internal::discard {};
-   template< typename ... Rules > struct discard_if : internal::discard_if< Rules ... > {};
    template< typename ... Rules > struct enable : internal::enable< Rules ... > {};
    struct eof : internal::eof {};
    struct failure : internal::trivial< false > {};

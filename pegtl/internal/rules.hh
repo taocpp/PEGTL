@@ -12,7 +12,6 @@
 #include "control.hh"
 #include "disable.hh"
 #include "discard.hh"
-#include "discard_if.hh"
 #include "enable.hh"
 #include "eof.hh"
 #include "eol.hh"

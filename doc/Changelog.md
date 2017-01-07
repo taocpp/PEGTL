@@ -9,12 +9,13 @@ Released in the future
 * Added support for custom incremental input readers.
 * Added support for parsing C streams, i.e. `std::FILE *`.
 * Added support for parsing C++ streams, i.e. `std::istream`.
-* Added incremental input support rules `discard` and `discard_if`.
-* Added the byte position to input classes and `position_info`. 
+* Added incremental input support rule `discard`.
+* Added the byte position to input classes and `position_info`.
+* Added `apply` and `if_apply` rules for in-grammar direct actions.
 * Removed the `begin` member from class `position_info`.
 * Refactored the `input` class into multiple classes.
 * Refactored the handling of nested parsing.
-* Optimised superfluous input markers to dummy class.
+* Optimised superfluous input markers.
 * Renamed some parsing front-end functions.
 * Reduced template instantiation depth of `pegtl_(i)string_t`.
 * Increased allowed string length to 512 for `pegtl_(i)string_t`.

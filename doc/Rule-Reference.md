@@ -61,12 +61,6 @@ These rules are in namespace `::pegtl`.
 * Calls the input's `discard()`-method.
 * See [Incremental Input](Incremental-Input.md) for details.
 
-###### `discard_if< R... >`
-
-* Equivalent to `seq< R... >, but:
-* Calls the input's `discard()`-method on success.
-* See [Incremental Input](Incremental-Input.md) for details.
-
 ###### `enable< R... >`
 
 * Equivalent to `seq< R... >`, but:
@@ -647,7 +641,6 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`digit`](#digit) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`disable< R... >`](#disable-r-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`discard`](#discard) <sup>[(meta rules)](#meta-rules)</sup>
-* [`discard_if< R... >`](#discard_if-r-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`enable< R... >`](#enable-r-) <sup>[(meta-rules)](#meta-rules)</sup>
 * [`eof`](#eof) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`eol`](#eol) <sup>[(ascii rules)](#ascii-rules)</sup>
@@ -727,4 +720,4 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`upper`](#upper) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`xdigit`](#xdigit) <sup>[(ascii rules)](#ascii-rules)</sup>
 
-Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
