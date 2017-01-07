@@ -32,6 +32,20 @@ namespace pegtl
          }
       };
 
+      template< typename Rule > struct action : nothing< Rule > {};
+
+      int flag = 0;
+
+      template<>
+      struct action< one< '-' > >
+      {
+         template< typename Input >
+         static void apply( const Input &, std::string &, std::string & )
+         {
+            ++flag;
+         }
+      };
+
    } // namespace test1
 
    template< typename ... Rules >
@@ -44,10 +58,13 @@ namespace pegtl
    {
       std::string state_r;
       std::string state_s;
-      parse_string< must< if_apply< one< '-' >, test1::action_a, test1::action_b > > >( "-", __FILE__, state_r, state_s );
+      TEST_ASSERT( test1::flag == 0 );
+      parse_string< must< if_apply< one< '-' >, test1::action_a, test1::action_b > >, test1::action >( "-", __FILE__, state_r, state_s );
+      TEST_ASSERT( test1::flag == 1 );
       TEST_ASSERT( state_r == "-" );
       TEST_ASSERT( state_s == "-*-" );
-      parse_string< must< disable< if_apply< one< '-' >, test1::action_a, test1::action_b > > > >( "-", __FILE__, state_r, state_s );
+      parse_string< must< disable< if_apply< one< '-' >, test1::action_a, test1::action_b > > >, test1::action >( "-", __FILE__, state_r, state_s );
+      TEST_ASSERT( test1::flag == 1 );
       TEST_ASSERT( state_r == "-" );
       TEST_ASSERT( state_s == "-*-" );
 

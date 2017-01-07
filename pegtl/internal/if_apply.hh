@@ -18,14 +18,14 @@ namespace pegtl
       template< typename Rule, typename ... Actions >
       struct if_apply_impl< apply_mode::ACTION, Rule, Actions ... >
       {
-         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             using action_t = typename Input::action_t;
 
             auto m = in.template mark< marker_mode::ENABLED >();
 
-            if ( rule_match_one< Rule, A, M, Action, Control >::match( in, st ... ) ) {
+            if ( rule_match_one< Rule, apply_mode::ACTION, M, Action, Control >::match( in, st ... ) ) {
                const action_t i2( m, in.data() );
                using swallow = bool[];
                (void)swallow{ ( Actions::apply( i2, st ... ), true ) ..., true };
@@ -38,10 +38,10 @@ namespace pegtl
       template< typename Rule, typename ... Actions >
       struct if_apply_impl< apply_mode::NOTHING, Rule, Actions ... >
       {
-         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_one< Rule, A, M, Action, Control >::match( in, st ... );
+            return rule_match_one< Rule, apply_mode::NOTHING, M, Action, Control >::match( in, st ... );
          }
       };
 
@@ -53,7 +53,7 @@ namespace pegtl
          template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return if_apply_impl< A, Rule, Actions ... >::template match< A, M, Action, Control >( in, st ... );
+            return if_apply_impl< A, Rule, Actions ... >::template match< M, Action, Control >( in, st ... );
          }
       };
 
