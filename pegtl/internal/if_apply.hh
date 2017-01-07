@@ -7,8 +7,6 @@
 #include "skip_control.hh"
 #include "rule_match_one.hh"
 
-#include "../action_input.hh"
-
 namespace pegtl
 {
    namespace internal

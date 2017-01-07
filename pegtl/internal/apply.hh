@@ -7,8 +7,6 @@
 #include "trivial.hh"
 #include "skip_control.hh"
 
-#include "../action_input.hh"
-
 #include "../analysis/counted.hh"
 
 namespace pegtl
