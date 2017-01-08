@@ -4,7 +4,7 @@ Parsing, i.e. matching an input with a grammar rule, by itself only indicates wh
 In order to do something useful with the input, it is usually necessary to attach user-defined *actions* to one or more rules.
 An action is *applied* whenever its *anchor point*, i.e. the rule to which the action is attached, succeeds.
 Applying an action means that its static `apply()`-method is called.
-The first argument to an action application is always an instance of class `pegtl::action_input` that represents the portion of the input consumed by the successful match of the rule.
+The first argument to an action application is always an instance that represents the portion of the input consumed by the successful match of the rule.
 
 ## Contents
 
@@ -32,13 +32,14 @@ To attach an action to `Rule`, this class template has to be specialised for `Ru
 
 2. An *appropriate* static `apply()`-method has to be implemented.
 
-The `apply()`-method has to take a const-reference to an instance of `pegtl::action_input` as first argument.
+The `apply()`-method has to take a const-reference to an instance of an input class as first argument. TODO: Document guaranteed interface of that input class.
 As mentioned above, this input contains references to the matched portion of the input; its `line()` and `byte_in_line()` indicate the line number and (byte) offset of where the rule succeeded in the input.
 
 ```c++
 template<> struct my_actions< pegtl::plus< pegtl::digit > >
 {
-   static void apply( const pegtl::action_input & in )
+   template< typename Input >
+   static void apply( const Input & in )
    {
       // Called whenever a call to pegtl::plus< pegtl::digit >
       // in the grammar succeeds.
@@ -49,7 +50,7 @@ template<> struct my_actions< pegtl::plus< pegtl::digit > >
 Actions often need to store and/or reference portions of the input for after the parsing run, for example when an abstract syntax tree is generated.
 Some of the syntax tree nodes will contain portions of the input, for example for a variable name in a script language that needs to be stored in the syntax tree just as it occurs in the input data.
 
-The **default safe choice** is to copy the matched portions of the input data that are passed to an action (as instance of class `pegtl::action_input`) by storing a deep copy of the data as `std::string`, as obtained by `pegtl::action_input::string()`, in the data structures built while parsing.
+The **default safe choice** is to copy the matched portions of the input data that are passed to an action by storing a deep copy of the data as `std::string`, as obtained by the input class' `string()` method, in the data structures built while parsing.
 
 ## States
 
@@ -68,7 +69,8 @@ For example, in a practical grammar the example from above might use a second ar
 ```c++
 template<> struct my_actions< pegtl::plus< pegtl::digit > >
 {
-   static void apply( const pegtl::action_input & in,
+   template< typename Input >
+   static void apply( const Input & in,
                       std::vector< std::string > & digit_strings )
    {
       digit_strings.push_back( in.string() );
@@ -143,4 +145,4 @@ This also allows using the same rules multiple times with different actions with
 
 [See the page on Switching Style](Switching-Style.md).
 
-Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
