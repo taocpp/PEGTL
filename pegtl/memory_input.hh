@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_MEMORY_INPUT_HH
@@ -12,12 +12,10 @@
 #include "position_info.hh"
 #include "internal/input_data.hh"
 #include "internal/input_mark.hh"
+#include "internal/action_input.hh"
 
 namespace pegtl
 {
-   template< typename Eol >
-   class basic_action_input;
-
    template< typename Eol >
    class basic_memory_input
    {
@@ -26,7 +24,7 @@ namespace pegtl
 
       using data_t = internal::input_data;
 
-      using action_t = basic_action_input< Eol >;
+      using action_t = internal::action_input< Eol >;
       using memory_t = basic_memory_input< Eol >;
 
       using position_t = position_info;

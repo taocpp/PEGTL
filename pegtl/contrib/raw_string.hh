@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_CONTRIB_RAW_STRING_HH
@@ -7,7 +7,6 @@
 #include "../nothing.hh"
 #include "../apply_mode.hh"
 #include "../marker_mode.hh"
-#include "../action_input.hh"
 
 #include "../internal/must.hh"
 #include "../internal/until.hh"
@@ -42,8 +41,8 @@ namespace pegtl
             using eol_t = typename Input::eol_t;
             using action_t = typename Input::action_t;
             const auto * const begin = in.begin() - size + in.size( 0 ) + count;
-            action_t content( byte, line, byte_in_line, begin + ( ( * begin ) == eol_t::ch ), in.begin() - count, in.source() );
-            Action< Tag >::apply( const_cast< const action_t & >( content ), st ... );
+            const action_t content( byte, line, byte_in_line, begin + ( ( * begin ) == eol_t::ch ), in.begin() - count, in.source() );
+            Action< Tag >::apply( content, st ... );
          }
 
          template< apply_mode A, marker_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
