@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #include "test.hh"
@@ -61,7 +61,8 @@ namespace pegtl
       template<>
       struct action1< alpha >
       {
-         static void apply( const action_input & in, state1 & s )
+         template< typename Input >
+         static void apply( const Input & in, state1 & s )
          {
             assert( in.size() == 1 );
             s.c = 0[ in.begin() ];
