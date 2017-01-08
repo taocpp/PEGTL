@@ -70,8 +70,8 @@ Each commit is [automatically](https://travis-ci.org/ColinH/PEGTL) [tested](http
 * Ubuntu 14.04 LTS (amd64), GCC (4.8) with libstdc++
 * Ubuntu 16.04 LTS (i386), GCC (5) with libstdc++
 * Ubuntu 16.04 LTS (amd64), GCC (5) with libstdc++
-* Fedora24 (x86_64), GCC (6) with libstdc++
-* Fedora24 (x86_64), Clang (3.8) with libstdc++
+* Fedora 24 (x86_64), GCC (6) with libstdc++
+* Fedora 24 (x86_64), Clang (3.8) with libstdc++
 * Mac OS X, Xcode (6.4, 7.3, 8.x) with libc++
 * Windows, Visual Studio 2015
 
