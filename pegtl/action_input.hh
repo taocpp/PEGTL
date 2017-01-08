@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2016-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_ACTION_INPUT_HH
@@ -108,8 +108,6 @@ namespace pegtl
    private:
       internal::input_data m_data;
    };
-
-   using action_input = basic_action_input< lf_crlf_eol >;
 
 } // namespace pegtl
 
