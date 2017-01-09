@@ -21,6 +21,18 @@ Released in the future
 * Increased allowed string length to 512 for `pegtl_(i)string_t`.
 * Allowed embedded null bytes for `pegtl_(i)string_t`.
 * Added support for GCC 4.7.
+* Improved CI tests, now testing:
+
+  * GCC 4.7, 4.8, 4.9, 5, 6
+  * Clang 3.4, 3.5, 3.6, 3.7, 3.8
+  * libstdc++ and libc++
+  * 32- and 64-bit
+  * x86 and ARM
+  * Visual Studio 2015
+  * Mac OS X / Xcode (6.4, 7.3, 8.x)
+  * Debian (Jessie)
+  * Ubuntu (12.04, 14.04, 16.04)
+  * Fedora 24
 
 #### 1.3.1
 
