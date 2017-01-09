@@ -1,4 +1,4 @@
-# Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+# Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 # Please see LICENSE for license or visit https://github.com/ColinH/PEGTL
 
 ifeq ($(OS),Windows_NT)
@@ -44,7 +44,6 @@ all: compile check
 compile: $(BINARIES)
 
 check: $(UNIT_TESTS)
-	@echo "Built with '$(CXX) $(CXXSTD) -I. $(CPPFLAGS) $(CXXFLAGS)'."
 	@set -e; for T in $(UNIT_TESTS); do echo $$T; $$T > /dev/null; done
 	@echo "All $(words $(UNIT_TESTS)) unit tests passed."
 
