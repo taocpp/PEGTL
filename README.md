@@ -61,7 +61,7 @@ This leads to slightly increased compile times as the C++ compiler is given the 
 
 The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors.
 
-Each commit is [automatically](https://travis-ci.org/ColinH/PEGTL) [tested](https://ci.appveyor.com/project/ColinH/PEGTL) with [multiple](https://doozer.io/user/ColinH/PEGTL) operating systems, compilers and versions, currently:
+Each commit is [automatically](https://travis-ci.org/ColinH/PEGTL) [tested](https://ci.appveyor.com/project/ColinH/PEGTL) with [multiple](https://doozer.io/user/ColinH/PEGTL) architectures, operating systems, compilers and versions, currently:
 
 * Debian 8 (Jessie, i386), GCC (4.9) with libstdc++
 * Ubuntu 12.04 LTS, GCC (4.7, 4.8, 4.9, 5, 6) with libstdc++
@@ -70,6 +70,8 @@ Each commit is [automatically](https://travis-ci.org/ColinH/PEGTL) [tested](http
 * Ubuntu 14.04 LTS (amd64), GCC (4.8) with libstdc++
 * Ubuntu 16.04 LTS (i386), GCC (5) with libstdc++
 * Ubuntu 16.04 LTS (amd64), GCC (5) with libstdc++
+* Ubuntu 16.04 LTS (armhf), GCC (5) with libstdc++
+* Ubuntu 16.04 LTS (arm64), GCC (5) with libstdc++
 * Fedora 24 (x86_64), GCC (6) with libstdc++
 * Fedora 24 (x86_64), Clang (3.8) with libstdc++
 * Mac OS X, Xcode (6.4, 7.3, 8.x) with libc++

@@ -25,6 +25,16 @@
       "builddeps": ["build-essential"],
       "buildcmd": "make -j ${PARALLEL}"
     },
+    "xenial-armhf": {
+      "buildenv": "xenial-armhf",
+      "builddeps": ["build-essential"],
+      "buildcmd": "make -j ${PARALLEL}"
+    },
+    "xenial-arm64": {
+      "buildenv": "xenial-arm64",
+      "builddeps": ["build-essential"],
+      "buildcmd": "make -j ${PARALLEL}"
+    },
     "fedora24-x86_64": {
       "buildenv": "fedora24-x86_64",
       "builddeps": ["cmake", "make", "clang"],
