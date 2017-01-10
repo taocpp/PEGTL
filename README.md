@@ -70,7 +70,9 @@ Each commit is [automatically](https://travis-ci.org/ColinH/PEGTL) [tested](http
 * Ubuntu 16.04 LTS (i386, amd64, armhf, arm64), GCC (5) with libstdc++
 * Fedora 24 (x86_64), GCC (6) with libstdc++
 * Fedora 24 (x86_64), Clang (3.8) with libstdc++
-* Mac OS X, Xcode (6.4, 7.3, 8.2) with libc++
+* Mac OS X 10.10, Xcode (6.4) with libc++
+* Mac OS X 10.11, Xcode (7.3) with libc++
+* Mac OS X 10.12, Xcode (8.2) with libc++
 * Windows, Visual Studio 2015
 
 Systems supported but not automatically tested, *yet*:
