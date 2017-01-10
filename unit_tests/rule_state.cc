@@ -24,7 +24,7 @@ namespace pegtl
       test_state_with_template_parameters_state( const Input & )
       { }
 
-      template< apply_mode, marker_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
+      template< apply_mode, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
       void success( const Input & ) const
       { }
    };

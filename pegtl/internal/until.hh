@@ -12,7 +12,7 @@
 #include "rule_conjunction.hh"
 
 #include "../apply_mode.hh"
-#include "../marker_mode.hh"
+#include "../rewind_mode.hh"
 
 #include "../analysis/generic.hh"
 
@@ -30,12 +30,12 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
 
-         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< M >();
 
-            while ( ! Control< Cond >::template match< A, marker_mode::ENABLED, Action, Control >( in, st ... ) ) {
+            while ( ! Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st ... ) ) {
                if ( in.empty() ) {
                   return false;
                }
@@ -50,13 +50,13 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, Rules ... >, Cond >;
 
-         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< M >();
 
-            while ( ! Control< Cond >::template match< A, marker_mode::ENABLED, Action, Control >( in, st ... ) ) {
-               if ( in.empty() || ( ! rule_conjunction< Rules ... >::template match< A, marker_mode::DISABLED, Action, Control >( in, st ... ) ) ) {
+            while ( ! Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st ... ) ) {
+               if ( in.empty() || ( ! rule_conjunction< Rules ... >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... ) ) ) {
                   return false;
                }
             }

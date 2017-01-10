@@ -138,7 +138,7 @@ namespace pegtl
          }
       }
 
-      template< marker_mode M >
+      template< rewind_mode M >
       internal::input_mark< M > mark()
       {
          return internal::input_mark< M >( m_data );

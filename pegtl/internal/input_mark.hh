@@ -6,13 +6,13 @@
 
 #include "input_data.hh"
 
-#include "../marker_mode.hh"
+#include "../rewind_mode.hh"
 
 namespace pegtl
 {
    namespace internal
    {
-      template< marker_mode M > class input_mark
+      template< rewind_mode M > class input_mark
       {
       public:
          explicit
@@ -84,7 +84,7 @@ namespace pegtl
          input_data * m_input;
       };
 
-      template<> class input_mark< marker_mode::DISABLED >
+      template<> class input_mark< rewind_mode::DONTCARE >
       {
       public:
          explicit

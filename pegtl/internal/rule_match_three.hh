@@ -5,7 +5,7 @@
 #define PEGTL_INTERNAL_RULE_MATCH_THREE_HH
 
 #include "../apply_mode.hh"
-#include "../marker_mode.hh"
+#include "../rewind_mode.hh"
 
 namespace pegtl
 {
@@ -18,7 +18,7 @@ namespace pegtl
       // which takes the input as its only parameter. The latter is often
       // sufficient and helps to keep the overhead smaller.
 
-      template< typename Rule, apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control >
+      template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_three
       {
          template< typename Input, typename ... States >

@@ -9,7 +9,7 @@
 #include "rule_conjunction.hh"
 
 #include "../apply_mode.hh"
-#include "../marker_mode.hh"
+#include "../rewind_mode.hh"
 
 #include "../analysis/generic.hh"
 
@@ -31,7 +31,7 @@ namespace pegtl
       {
          using analyze_t = typename Rule::analyze_t;
 
-         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             return Control< Rule >::template match< A, M, Action, Control >( in, st ... );
@@ -43,11 +43,11 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
 
-         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< M >();
-            return m( rule_conjunction< Rules ... >::template match< A, marker_mode::DISABLED, Action, Control >( in, st ... ) );
+            return m( rule_conjunction< Rules ... >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... ) );
          }
       };
 

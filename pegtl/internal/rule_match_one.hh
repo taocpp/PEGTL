@@ -5,7 +5,7 @@
 #define PEGTL_INTERNAL_RULE_MATCH_ONE_HH
 
 #include "../apply_mode.hh"
-#include "../marker_mode.hh"
+#include "../rewind_mode.hh"
 
 #include "skip_control.hh"
 #include "rule_match_two.hh"
@@ -22,18 +22,18 @@ namespace pegtl
 
       template< typename Rule,
                 apply_mode A,
-                marker_mode M,
+                rewind_mode M,
                 template< typename ... > class Action,
                 template< typename ... > class Control,
                 bool = skip_control< Rule >::value >
       struct rule_match_one;
 
-      template< typename Rule, apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control >
+      template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_one< Rule, A, M, Action, Control, false >
             : rule_match_two< Rule, A, M, Action, Control >
       { };
 
-      template< typename Rule, apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control >
+      template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_one< Rule, A, M, Action, Control, true >
             : rule_match_three< Rule, A, M, Action, Control >
       { };

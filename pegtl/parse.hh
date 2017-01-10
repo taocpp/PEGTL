@@ -11,7 +11,7 @@
 #include "normal.hh"
 #include "nothing.hh"
 #include "apply_mode.hh"
-#include "marker_mode.hh"
+#include "rewind_mode.hh"
 #include "memory_input.hh"
 #include "buffer_input.hh"
 
@@ -24,7 +24,7 @@ namespace pegtl
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Input, typename ... States >
    bool parse_input( Input & in, States && ... st )
    {
-      return Control< Rule >::template match< apply_mode::ACTION, marker_mode::ENABLED, Action, Control >( in, st ... );
+      return Control< Rule >::template match< apply_mode::ACTION, rewind_mode::REQUIRED, Action, Control >( in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
@@ -88,7 +88,7 @@ namespace pegtl
    bool parse_input_nested( const Outer & oi, Input & in, States && ... st )
    {
       try {
-         return Control< Rule >::template match< apply_mode::ACTION, marker_mode::ENABLED, Action, Control >( in, st ... );
+         return Control< Rule >::template match< apply_mode::ACTION, rewind_mode::REQUIRED, Action, Control >( in, st ... );
       }
       catch ( parse_error & e ) {
          e.positions.push_back( oi.position() );

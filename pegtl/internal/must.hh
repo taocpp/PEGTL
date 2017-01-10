@@ -9,7 +9,7 @@
 #include "skip_control.hh"
 
 #include "../apply_mode.hh"
-#include "../marker_mode.hh"
+#include "../rewind_mode.hh"
 
 namespace pegtl
 {
@@ -32,11 +32,11 @@ namespace pegtl
       {
          using analyze_t = typename Rule::analyze_t;
 
-         template< apply_mode A, marker_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            if ( ! Control< Rule >::template match< A, marker_mode::DISABLED, Action, Control >( in, st ... ) ) {
-               raise< Rule >::template match< A, marker_mode::DISABLED, Action, Control >( in, st ... );
+            if ( ! Control< Rule >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... ) ) {
+               raise< Rule >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... );
             }
             return true;
          }

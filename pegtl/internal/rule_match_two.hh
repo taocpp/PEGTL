@@ -6,7 +6,7 @@
 
 #include "../nothing.hh"
 #include "../apply_mode.hh"
-#include "../marker_mode.hh"
+#include "../rewind_mode.hh"
 
 #include "rule_match_three.hh"
 
@@ -21,13 +21,13 @@ namespace pegtl
 
       template< typename Rule,
                 apply_mode A,
-                marker_mode M,
+                rewind_mode M,
                 template< typename ... > class Action,
                 template< typename ... > class Control,
                 bool apply_here = ( ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Rule >::value ) ) >
       struct rule_match_two;
 
-      template< typename Rule, apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control >
+      template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_two< Rule, A, M, Action, Control, false >
       {
          template< typename Input, typename ... States >
@@ -44,13 +44,13 @@ namespace pegtl
          }
       };
 
-      template< typename Rule, apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control >
+      template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_two< Rule, A, M, Action, Control, true >
       {
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            auto m = in.template mark< marker_mode::ENABLED >();  // TODO: Allow actions to opt-out of receiving input data?
+            auto m = in.template mark< rewind_mode::REQUIRED >();  // TODO: Allow actions to opt-out of receiving input data?
 
             using action_t = typename Input::action_t;
 

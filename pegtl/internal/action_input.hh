@@ -33,7 +33,7 @@ namespace pegtl
          using position_t = position_info;
          using exception_t = basic_parse_error< position_info >;
 
-         template< marker_mode M >
+         template< rewind_mode M >
          action_input( const input_mark< M > & m, const input_data & d )
                : m_data( m.byte(), m.line(), m.byte_in_line(), m.begin(), d.begin, d.source )
          { }

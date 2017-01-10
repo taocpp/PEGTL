@@ -13,7 +13,7 @@
 #include "skip_control.hh"
 
 #include "../apply_mode.hh"
-#include "../marker_mode.hh"
+#include "../rewind_mode.hh"
 
 #include "../analysis/generic.hh"
 
@@ -31,7 +31,7 @@ namespace pegtl
       {
          using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule, Rules ..., opt< plus > >;
 
-         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             return rule_match_three< seq< Rule, Rules ... >, A, M, Action, Control >::match( in, st ... ) && rule_match_three< star< Rule, Rules ... >, A, M, Action, Control >::match( in, st ... );

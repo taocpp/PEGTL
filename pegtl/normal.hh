@@ -5,7 +5,7 @@
 #define PEGTL_NORMAL_HH
 
 #include "apply_mode.hh"
-#include "marker_mode.hh"
+#include "rewind_mode.hh"
 #include "parse_error.hh"
 
 #include "internal/demangle.hh"
@@ -35,7 +35,7 @@ namespace pegtl
          throw exception_t( "parse error matching " + internal::demangle< Rule >(), in );
       }
 
-      template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+      template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
       static bool match( Input & in, States && ... st )
       {
          return internal::rule_match_one< Rule, A, M, Action, Control >::match( in, st ... );
