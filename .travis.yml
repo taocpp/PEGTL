@@ -88,14 +88,14 @@ matrix:
       env:
         - COMPILER=clang++-3.8
 
-    - os: linux
-      compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.9']
-          packages: ['clang-3.9']
-      env:
-        - COMPILER=clang++-3.9
+#    - os: linux
+#      compiler: clang
+#      addons:
+#        apt:
+#          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.9']
+#          packages: ['clang-3.9']
+#      env:
+#        - COMPILER=clang++-3.9
 
     - os: osx
       osx_image: xcode6.4
@@ -110,7 +110,7 @@ matrix:
         - COMPILER=clang++
 
     - os: osx
-      osx_image: xcode8
+      osx_image: xcode8.2
       compiler: clang
       env:
         - COMPILER=clang++
@@ -155,21 +155,21 @@ matrix:
       compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.9']
-          packages: ['clang-3.9']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
+          packages: ['clang-3.8']
       env:
         - CPPFLAGS=-fsanitize=undefined
-        - COMPILER=clang++-3.9
+        - COMPILER=clang++-3.8
 
     - os: linux
       compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.9']
-          packages: ['clang-3.9']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
+          packages: ['clang-3.8']
       env:
         - CPPFLAGS=-fsanitize=address
-        - COMPILER=clang++-3.9
+        - COMPILER=clang++-3.8
 
     - os: linux
       compiler: gcc
@@ -199,11 +199,11 @@ matrix:
       compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.9']
-          packages: ['clang-3.9', 'clang-tidy-3.9']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
+          packages: ['clang-3.8', 'clang-tidy-3.8']
       env:
-        - COMPILER=clang++-3.9
-        - CLANG_TIDY=clang-tidy-3.9
+        - COMPILER=clang++-3.8
+        - CLANG_TIDY=clang-tidy-3.8
       script:
         - make CXX=$COMPILER -j3 clang-tidy
 
