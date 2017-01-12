@@ -26,7 +26,7 @@ endif
 # changed if desired.
 
 CPPFLAGS ?= -pedantic
-CXXFLAGS ?= -Wall -Wextra -Wshadow -Werror -O3 $(MINGW_CXXFLAGS)
+CXXFLAGS ?= -Wall -Wextra -Wshadow -Weverything -Werror -O3 $(MINGW_CXXFLAGS)
 
 CLANG_TIDY ?= clang-tidy
 
