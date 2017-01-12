@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #include <map>
@@ -200,7 +200,7 @@ namespace calculator
    {
       using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-      template< apply_mode, marker_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
+      template< apply_mode, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
       static bool match( Input & in, const operators & b, stacks & s )
       {
          // Look for the longest match of the input against the operators in the operator map.

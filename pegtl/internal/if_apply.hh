@@ -16,12 +16,12 @@ namespace pegtl
       template< typename Rule, typename ... Actions >
       struct if_apply_impl< apply_mode::ACTION, Rule, Actions ... >
       {
-         template< marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             using action_t = typename Input::action_t;
 
-            auto m = in.template mark< marker_mode::ENABLED >();
+            auto m = in.template mark< rewind_mode::REQUIRED >();
 
             if ( rule_match_one< Rule, apply_mode::ACTION, M, Action, Control >::match( in, st ... ) ) {
                const action_t i2( m, in.data() );
@@ -36,7 +36,7 @@ namespace pegtl
       template< typename Rule, typename ... Actions >
       struct if_apply_impl< apply_mode::NOTHING, Rule, Actions ... >
       {
-         template< marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             return rule_match_one< Rule, apply_mode::NOTHING, M, Action, Control >::match( in, st ... );
@@ -48,7 +48,7 @@ namespace pegtl
       {
          using analyze_t = typename Rule::analyze_t;
 
-         template< apply_mode A, marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             return if_apply_impl< A, Rule, Actions ... >::template match< M, Action, Control >( in, st ... );

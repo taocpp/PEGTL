@@ -35,7 +35,7 @@ namespace pegtl
             : m_data( d )
       { }
 
-      template< marker_mode M >
+      template< rewind_mode M >
       basic_memory_input( const internal::input_mark< M > & m, const internal::input_data & d )
             : basic_memory_input( m.byte(), m.line(), m.byte_in_line(), m.begin(), d.begin, d.source )
       { }
@@ -115,7 +115,7 @@ namespace pegtl
       void require( const std::size_t )
       { }
 
-      template< marker_mode M >
+      template< rewind_mode M >
       internal::input_mark< M > mark()
       {
          return internal::input_mark< M >( m_data );

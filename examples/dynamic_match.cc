@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #include <cstring>
@@ -15,7 +15,7 @@ namespace dynamic
 
    struct long_literal_mark
    {
-      template< pegtl::apply_mode, pegtl::marker_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
+      template< pegtl::apply_mode, pegtl::rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
       static bool match( Input & in, const std::string & long_literal_mark, const std::string & )
       {
          if ( in.size( long_literal_mark.size() ) >= long_literal_mark.size() ) {

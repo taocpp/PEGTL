@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2015-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_CONTRIB_CHANGES_HH
@@ -28,7 +28,7 @@ namespace pegtl
    struct change_state
          : public Base< Rule >
    {
-      template< pegtl::apply_mode A, pegtl::marker_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+      template< pegtl::apply_mode A, pegtl::rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
       static bool match( Input & in, States && ... st )
       {
          internal::state_disable_helper< A, State > s;
@@ -45,7 +45,7 @@ namespace pegtl
    struct change_action
          : public Base< Rule >
    {
-      template< pegtl::apply_mode A, marker_mode M, template< typename ... > class, template< typename ... > class Control, typename Input, typename ... States >
+      template< pegtl::apply_mode A, rewind_mode M, template< typename ... > class, template< typename ... > class Control, typename Input, typename ... States >
       static bool match( Input & in, States && ... st )
       {
          return Base< Rule >::template match< A, M, Action, Control >( in, st ... );
