@@ -65,7 +65,8 @@ Each commit is [automatically](https://travis-ci.org/ColinH/PEGTL) [tested](http
 
 * Debian 8 (i386), GCC (4.9) with libstdc++
 * Ubuntu 12.04 LTS (amd64), GCC (4.7, 4.8, 4.9, 5, 6) with libstdc++
-* Ubuntu 12.04 LTS (amd64), Clang (3.4, 3.5, 3.6, 3.7, 3.8, 3.9) with libstdc++
+* Ubuntu 12.04 LTS (amd64), Clang (3.4, 3.5, 3.6, 3.7, 3.8) with libstdc++
+* Ubuntu 14.04 LTS (amd64), Clang (3.9) with libstdc++
 * Ubuntu 14.04 LTS (i386, amd64), GCC (4.8) with libstdc++
 * Ubuntu 16.04 LTS (i386, amd64, armhf, arm64), GCC (5) with libstdc++
 * Fedora 24 (x86_64), GCC (6) with libstdc++
