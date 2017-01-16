@@ -28,7 +28,7 @@ namespace PEGTL_NAMESPACE
       const int errorno = errno;                                        \
       std::ostringstream oss;                                           \
       oss << "pegtl: " << MESSAGE << " errno " << errorno;              \
-      throw pegtl::input_error( oss.str(), errorno );                   \
+      throw PEGTL_NAMESPACE::input_error( oss.str(), errorno );         \
    } while ( false )
 
 } // namespace PEGTL_NAMESPACE
