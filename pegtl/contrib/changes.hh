@@ -6,9 +6,10 @@
 
 #include <type_traits>
 
+#include "../config.hh"
 #include "../normal.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -63,6 +64,6 @@ namespace pegtl
          : public change_state< Rule, State, change_both_helper< Action, Base >::template change_action >
    { };
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

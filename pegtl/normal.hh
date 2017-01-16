@@ -4,6 +4,7 @@
 #ifndef PEGTL_NORMAL_HH
 #define PEGTL_NORMAL_HH
 
+#include "config.hh"
 #include "apply_mode.hh"
 #include "rewind_mode.hh"
 #include "parse_error.hh"
@@ -11,7 +12,7 @@
 #include "internal/demangle.hh"
 #include "internal/rule_match_one.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    template< typename Rule >
    struct normal
@@ -42,6 +43,6 @@ namespace pegtl
       }
    };
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

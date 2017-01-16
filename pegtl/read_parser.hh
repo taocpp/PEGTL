@@ -1,14 +1,16 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_READ_PARSER_HH
 #define PEGTL_READ_PARSER_HH
 
+#include "config.hh"
 #include "eol.hh"
 #include "string_parser.hh"
+
 #include "internal/file_reader.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    template< typename Eol >
    class basic_read_parser
@@ -37,6 +39,6 @@ namespace pegtl
       return basic_read_parser< typename Outer::eol >( filename ).template parse_nested< Rule, Action, Control >( oi, st ... );
    }
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

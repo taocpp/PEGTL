@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_MUST_HH
 #define PEGTL_INTERNAL_MUST_HH
 
+#include "../config.hh"
+
 #include "seq.hh"
 #include "raise.hh"
 #include "skip_control.hh"
@@ -11,7 +13,7 @@
 #include "../apply_mode.hh"
 #include "../rewind_mode.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -47,6 +49,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

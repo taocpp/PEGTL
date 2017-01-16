@@ -1,14 +1,16 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_ANALYSIS_GENERIC_HH
 #define PEGTL_ANALYSIS_GENERIC_HH
 
+#include "../config.hh"
+
 #include "rule_type.hh"
 #include "insert_rules.hh"
 #include "grammar_info.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace analysis
    {
@@ -28,6 +30,6 @@ namespace pegtl
 
    } // namespace analysis
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

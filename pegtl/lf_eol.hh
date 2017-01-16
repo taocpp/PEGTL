@@ -1,10 +1,12 @@
-// Copyright (c) 2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2016-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_LF_EOL_HH
 #define PEGTL_LF_EOL_HH
 
-namespace pegtl
+#include "config.hh"
+
+namespace PEGTL_NAMESPACE
 {
    struct lf_eol
    {
@@ -24,6 +26,6 @@ namespace pegtl
       }
    };
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_IF_THEN_ELSE_HH
 #define PEGTL_INTERNAL_IF_THEN_ELSE_HH
 
+#include "../config.hh"
+
 #include "sor.hh"
 #include "seq.hh"
 #include "not_at.hh"
@@ -14,7 +16,7 @@
 
 #include "../analysis/generic.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -40,6 +42,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_STATE_HH
 #define PEGTL_INTERNAL_STATE_HH
 
+#include "../config.hh"
+
 #include "seq.hh"
 #include "rule_match_three.hh"
 #include "skip_control.hh"
@@ -13,7 +15,7 @@
 
 #include "../analysis/generic.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -54,6 +56,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

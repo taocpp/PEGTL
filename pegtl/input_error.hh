@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INPUT_ERROR_HH
@@ -8,7 +8,9 @@
 #include <stdexcept>
 #include <cerrno>
 
-namespace pegtl
+#include "config.hh"
+
+namespace PEGTL_NAMESPACE
 {
    struct input_error
          : std::runtime_error
@@ -29,6 +31,6 @@ namespace pegtl
       throw pegtl::input_error( oss.str(), errorno );                   \
    } while ( false )
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_MMAP_PARSER_HH
@@ -6,13 +6,14 @@
 
 #include <string>
 
+#include "config.hh"
 #include "parse.hh"
 #include "normal.hh"
 #include "nothing.hh"
 #include "eol.hh"
 #include "internal/file_mapper.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    template< typename Eol >
    class basic_mmap_parser
@@ -69,6 +70,6 @@ namespace pegtl
       return basic_mmap_parser< typename Outer::eol >( filename ).template parse_nested< Rule, Action, Control >( oi, st ... );
    }
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

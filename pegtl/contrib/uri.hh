@@ -1,15 +1,17 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_CONTRIB_URI_HH
 #define PEGTL_CONTRIB_URI_HH
 
+#include "../config.hh"
 #include "../rules.hh"
 #include "../ascii.hh"
 #include "../utf8.hh"
+
 #include "abnf.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace uri
    {
@@ -103,6 +105,6 @@ namespace pegtl
 
    } // namespace uri
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

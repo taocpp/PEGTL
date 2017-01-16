@@ -1,8 +1,10 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_RANGE_HH
 #define PEGTL_INTERNAL_RANGE_HH
+
+#include "../config.hh"
 
 #include "any.hh"
 #include "bump_util.hh"
@@ -11,7 +13,7 @@
 
 #include "../analysis/generic.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -55,6 +57,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

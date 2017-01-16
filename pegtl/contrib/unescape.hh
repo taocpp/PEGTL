@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_CONTRIB_UNESCAPE_HH
@@ -7,10 +7,11 @@
 #include <string>
 #include <cassert>
 
+#include "../config.hh"
 #include "../ascii.hh"
 #include "../parse_error.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace unescape
    {
@@ -175,6 +176,6 @@ namespace pegtl
 
    } // namespace unescape
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

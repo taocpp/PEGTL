@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2015-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_PEGTL_STRING_HH
@@ -7,9 +7,10 @@
 #include <type_traits>
 #include <cstddef>
 
+#include "../config.hh"
 #include "../ascii.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    // Inspired by https://github.com/irrequietus/typestring
    // Rewritten and reduced to what is needed for the PEGTL
@@ -47,7 +48,7 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #define PEGTL_INTERNAL_EMPTY()
 #define PEGTL_INTERNAL_DEFER( X ) X PEGTL_INTERNAL_EMPTY()

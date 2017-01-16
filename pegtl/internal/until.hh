@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_UNTIL_HH
 #define PEGTL_INTERNAL_UNTIL_HH
 
+#include "../config.hh"
+
 #include "eof.hh"
 #include "star.hh"
 #include "bytes.hh"
@@ -16,7 +18,7 @@
 
 #include "../analysis/generic.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -66,6 +68,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

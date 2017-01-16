@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2016-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_EOL_HH
@@ -7,11 +7,13 @@
 #include <utility>
 #include <cstdlib>
 
-namespace pegtl
+#include "config.hh"
+
+namespace PEGTL_NAMESPACE
 {
    using eol_pair = std::pair< bool, std::size_t >;
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #include "lf_eol.hh"
 #include "cr_eol.hh"

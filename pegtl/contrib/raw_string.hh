@@ -4,6 +4,7 @@
 #ifndef PEGTL_CONTRIB_RAW_STRING_HH
 #define PEGTL_CONTRIB_RAW_STRING_HH
 
+#include "../config.hh"
 #include "../nothing.hh"
 #include "../apply_mode.hh"
 #include "../rewind_mode.hh"
@@ -15,7 +16,7 @@
 
 #include "../analysis/generic.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -159,6 +160,6 @@ namespace pegtl
       using close = internal::until< internal::raw_string_close< Tag, Intermediate, Close > >;
    };
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

@@ -7,13 +7,15 @@
 #include <cstdlib>
 #include <type_traits>
 
+#include "../config.hh"
+
 #include "skip_control.hh"
 
 #include "../apply_mode.hh"
 #include "../rewind_mode.hh"
 #include "../analysis/generic.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -35,6 +37,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

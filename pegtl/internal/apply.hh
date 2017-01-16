@@ -4,16 +4,19 @@
 #ifndef PEGTL_INTERNAL_APPLY_HH
 #define PEGTL_INTERNAL_APPLY_HH
 
+#include "../config.hh"
+
 #include "trivial.hh"
 #include "skip_control.hh"
 
 #include "../analysis/counted.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
-      template< apply_mode A, typename ... Actions > struct apply_impl;
+      template< apply_mode A, typename ... Actions >
+      struct apply_impl;
 
       template< typename ... Actions >
       struct apply_impl< apply_mode::ACTION, Actions ... >
@@ -51,8 +54,8 @@ namespace pegtl
          }
       };
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

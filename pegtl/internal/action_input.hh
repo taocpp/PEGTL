@@ -7,12 +7,13 @@
 #include <string>
 #include <cstddef>
 
+#include "../config.hh"
 #include "../position_info.hh"
 
 #include "input_data.hh"
 #include "input_mark.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    template< typename Eol >
    class basic_memory_input;
@@ -113,6 +114,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

@@ -1,13 +1,14 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_ASCII_HH
 #define PEGTL_ASCII_HH
 
+#include "config.hh"
 #include "internal/rules.hh"
 #include "internal/result_on_found.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    inline namespace ascii
    {
@@ -40,7 +41,7 @@ namespace pegtl
 
    } // namespace ascii
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #include "internal/pegtl_string.hh"
 

@@ -4,7 +4,9 @@
 #ifndef PEGTL_REWIND_MODE_HH
 #define PEGTL_REWIND_MODE_HH
 
-namespace pegtl
+#include "config.hh"
+
+namespace PEGTL_NAMESPACE
 {
    enum class rewind_mode : bool
    {
@@ -12,6 +14,6 @@ namespace pegtl
       DONTCARE
    };
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

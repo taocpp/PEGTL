@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_SEQ_HH
 #define PEGTL_INTERNAL_SEQ_HH
 
+#include "../config.hh"
+
 #include "trivial.hh"
 #include "skip_control.hh"
 #include "rule_conjunction.hh"
@@ -13,7 +15,7 @@
 
 #include "../analysis/generic.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -53,6 +55,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

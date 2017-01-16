@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_INPUT_DATA_HH
@@ -6,7 +6,9 @@
 
 #include <cstdlib>
 
-namespace pegtl
+#include "../config.hh"
+
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -62,6 +64,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

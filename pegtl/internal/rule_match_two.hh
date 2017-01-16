@@ -4,13 +4,14 @@
 #ifndef PEGTL_INTERNAL_RULE_MATCH_TWO_HH
 #define PEGTL_INTERNAL_RULE_MATCH_TWO_HH
 
+#include "../config.hh"
 #include "../nothing.hh"
 #include "../apply_mode.hh"
 #include "../rewind_mode.hh"
 
 #include "rule_match_three.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -64,6 +65,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

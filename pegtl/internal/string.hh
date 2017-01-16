@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_INTERNAL_STRING_HH
@@ -7,6 +7,8 @@
 #include <utility>
 #include <cstring>
 
+#include "../config.hh"
+
 #include "result_on_found.hh"
 #include "skip_control.hh"
 #include "bump_util.hh"
@@ -14,7 +16,7 @@
 
 #include "../analysis/counted.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -51,6 +53,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

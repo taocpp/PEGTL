@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_POSITION_INFO_HH
@@ -9,9 +9,11 @@
 #include <ostream>
 #include <cstdlib>
 
+#include "config.hh"
+
 #include "internal/input_data.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    struct position_info
    {
@@ -41,6 +43,6 @@ namespace pegtl
       return o.str();
    }
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

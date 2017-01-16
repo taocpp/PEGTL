@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_TRACE_HH
@@ -10,6 +10,7 @@
 #include <utility>
 #include <iostream>
 
+#include "config.hh"
 #include "parse.hh"
 #include "normal.hh"
 #include "nothing.hh"
@@ -17,7 +18,7 @@
 
 #include "internal/demangle.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    struct trace_state
    {
@@ -120,6 +121,6 @@ namespace pegtl
       return parse_istream< Rule, Action, tracer >( std::forward< Args >( args ) ... );
    }
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

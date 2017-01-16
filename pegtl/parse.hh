@@ -8,6 +8,7 @@
 #include <cstring>
 #include <sstream>
 
+#include "config.hh"
 #include "normal.hh"
 #include "nothing.hh"
 #include "apply_mode.hh"
@@ -19,7 +20,7 @@
 #include "internal/cstring_reader.hh"
 #include "internal/istream_reader.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Input, typename ... States >
    bool parse_input( Input & in, States && ... st )
@@ -136,6 +137,6 @@ namespace pegtl
       return parse_input_nested< Rule, Action, Control >( oi, in, st ... );
    }
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

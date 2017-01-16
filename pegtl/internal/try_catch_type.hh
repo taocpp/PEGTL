@@ -6,6 +6,8 @@
 
 #include <type_traits>
 
+#include "../config.hh"
+
 #include "skip_control.hh"
 #include "trivial.hh"
 #include "rule_match_three.hh"
@@ -16,7 +18,7 @@
 
 #include "../analysis/generic.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -50,6 +52,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

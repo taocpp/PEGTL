@@ -1,10 +1,12 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_APPLY_MODE_HH
 #define PEGTL_APPLY_MODE_HH
 
-namespace pegtl
+#include "config.hh"
+
+namespace PEGTL_NAMESPACE
 {
    enum class apply_mode : bool
    {
@@ -12,6 +14,6 @@ namespace pegtl
       NOTHING = false
    };
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

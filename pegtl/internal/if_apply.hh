@@ -4,14 +4,17 @@
 #ifndef PEGTL_INTERNAL_IF_APPLY_HH
 #define PEGTL_INTERNAL_IF_APPLY_HH
 
+#include "../config.hh"
+
 #include "skip_control.hh"
 #include "rule_match_one.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
-      template< apply_mode A, typename Rule, typename ... Actions > struct if_apply_impl;
+      template< apply_mode A, typename Rule, typename ... Actions >
+      struct if_apply_impl;
 
       template< typename Rule, typename ... Actions >
       struct if_apply_impl< apply_mode::ACTION, Rule, Actions ... >
@@ -58,8 +61,8 @@ namespace pegtl
       template< typename Rule, typename ... Actions >
       struct skip_control< if_apply< Rule, Actions ... > > : std::true_type {};
 
-   } // internal
+   } // namespace internal
 
-} // pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

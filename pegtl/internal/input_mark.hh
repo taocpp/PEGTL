@@ -4,11 +4,13 @@
 #ifndef PEGTL_INTERNAL_INPUT_MARK_HH
 #define PEGTL_INTERNAL_INPUT_MARK_HH
 
+#include "../config.hh"
+
 #include "input_data.hh"
 
 #include "../rewind_mode.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -105,6 +107,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

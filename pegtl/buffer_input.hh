@@ -8,13 +8,14 @@
 #include <cstring>
 #include <cstddef>
 
+#include "config.hh"
 #include "eol.hh"
 #include "position_info.hh"
 #include "internal/input_data.hh"
 #include "internal/input_mark.hh"
 #include "internal/action_input.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    template< typename Eol >
    class basic_memory_input;
@@ -164,6 +165,6 @@ namespace pegtl
    template< typename Reader >
    using buffer_input = basic_buffer_input< lf_crlf_eol, Reader >;
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

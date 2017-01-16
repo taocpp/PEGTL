@@ -1,10 +1,12 @@
-// Copyright (c) 2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2015-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_CONTRIB_ALPHABET_HH
 #define PEGTL_CONTRIB_ALPHABET_HH
 
-namespace pegtl
+#include "../config.hh"
+
+namespace PEGTL_NAMESPACE
 {
    inline namespace alphabet
    {
@@ -64,6 +66,6 @@ namespace pegtl
 
    } // namespace alphabet
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

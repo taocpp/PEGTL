@@ -4,11 +4,12 @@
 #ifndef PEGTL_RULES_HH
 #define PEGTL_RULES_HH
 
+#include "config.hh"
 #include "parse_error.hh"
 
 #include "internal/rules.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    template< typename ... Actions > struct apply : internal::apply< Actions ... > {};
    template< template< typename ... > class Action, typename ... Rules > struct action : internal::action< Action, Rules ... > {};
@@ -54,6 +55,6 @@ namespace pegtl
    template< typename Exception, typename ... Rules > struct try_catch_type : internal::try_catch_type< Exception, Rules ... > {};
    template< typename Cond, typename ... Rules > struct until : internal::until< Cond, Rules ... > {};
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

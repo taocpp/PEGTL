@@ -6,6 +6,8 @@
 
 #include <type_traits>
 
+#include "../config.hh"
+
 #include "skip_control.hh"
 #include "trivial.hh"
 #include "not_at.hh"
@@ -18,7 +20,7 @@
 
 #include "../analysis/counted.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -67,6 +69,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

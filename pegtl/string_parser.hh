@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_STRING_PARSER_HH
@@ -7,13 +7,14 @@
 #include <string>
 #include <utility>
 
+#include "config.hh"
 #include "parse.hh"
 #include "normal.hh"
 #include "nothing.hh"
 #include "eol.hh"
 #include "memory_input.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    template< typename Eol >
    class basic_string_parser
@@ -57,6 +58,6 @@ namespace pegtl
 
    using string_parser = basic_string_parser< lf_crlf_eol >;
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

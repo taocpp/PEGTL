@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_PARSE_ERROR_HH
@@ -7,9 +7,10 @@
 #include <vector>
 #include <stdexcept>
 
+#include "config.hh"
 #include "position_info.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    template< typename Pos >
    struct basic_parse_error
@@ -33,6 +34,6 @@ namespace pegtl
 
    using parse_error = basic_parse_error< position_info >;
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

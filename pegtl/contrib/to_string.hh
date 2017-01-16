@@ -6,7 +6,9 @@
 
 #include <string>
 
-namespace pegtl
+#include "../config.hh"
+
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -31,6 +33,6 @@ namespace pegtl
       return internal::to_string< T >::get();
    }
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

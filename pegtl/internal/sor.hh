@@ -4,6 +4,8 @@
 #ifndef PEGTL_INTERNAL_SOR_HH
 #define PEGTL_INTERNAL_SOR_HH
 
+#include "../config.hh"
+
 #include "skip_control.hh"
 
 #include "../apply_mode.hh"
@@ -11,7 +13,7 @@
 
 #include "../analysis/generic.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -40,6 +42,6 @@ namespace pegtl
 
    } // namespace internal
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

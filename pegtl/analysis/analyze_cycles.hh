@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_ANALYSIS_ANALYZE_CYCLES_HH
@@ -12,10 +12,12 @@
 #include <utility>
 #include <iostream>
 
+#include "../config.hh"
+
 #include "grammar_info.hh"
 #include "insert_guard.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace analysis
    {
@@ -124,6 +126,6 @@ namespace pegtl
 
    } // namespace analysis
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif

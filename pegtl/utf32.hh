@@ -1,14 +1,16 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_UTF32_HH
 #define PEGTL_UTF32_HH
 
+#include "config.hh"
+
 #include "internal/rules.hh"
 #include "internal/peek_utf32.hh"
 #include "internal/result_on_found.hh"
 
-namespace pegtl
+namespace PEGTL_NAMESPACE
 {
    namespace utf32
    {
@@ -21,6 +23,6 @@ namespace pegtl
 
    } // namespace utf32
 
-} // namespace pegtl
+} // namespace PEGTL_NAMESPACE
 
 #endif
