@@ -93,10 +93,7 @@ matrix:
       compiler: clang
       addons:
         apt:
-          sources:
-          - sourceline: 'deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3.9 main'
-            key_url: 'http://apt.llvm.org/llvm-snapshot.gpg.key'
-          - ubuntu-toolchain-r-test
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.9']
           packages: ['clang-3.9']
       env:
         - COMPILER=clang++-3.9
