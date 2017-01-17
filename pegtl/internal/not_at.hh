@@ -37,7 +37,7 @@ namespace PEGTL_NAMESPACE
          static bool match( Input & in, States && ... st )
          {
             const auto m = in.template mark< rewind_mode::REQUIRED >();
-            return ! rule_conjunction< Rules ... >::template match< apply_mode::NOTHING, rewind_mode::DONTCARE, Action, Control >( in, st ... );
+            return ! rule_conjunction< Rules ... >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( in, st ... );
          }
       };
 

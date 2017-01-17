@@ -29,11 +29,12 @@ namespace PEGTL_NAMESPACE
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< M >();
+            using m_t = decltype( m );
 
             if ( Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st ... ) ) {
-               return m( Control< Then >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... ) );
+               return m( Control< Then >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st ... ) );
             }
-            return m( Control< Else >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... ) );
+            return m( Control< Else >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st ... ) );
          }
       };
 

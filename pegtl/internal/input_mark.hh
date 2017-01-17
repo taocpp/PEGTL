@@ -17,6 +17,29 @@ namespace PEGTL_NAMESPACE
       template< rewind_mode M > class input_mark
       {
       public:
+         static constexpr rewind_mode next_rewind_mode = M;
+
+         explicit
+         input_mark( const input_data & )
+         { }
+
+         input_mark( input_mark && ) noexcept
+         { }
+
+         input_mark( const input_mark & ) = delete;
+         void operator= ( const input_mark & ) = delete;
+
+         bool operator() ( const bool result )
+         {
+            return result;
+         }
+      };
+
+      template<> class input_mark< rewind_mode::REQUIRED >
+      {
+      public:
+         static constexpr rewind_mode next_rewind_mode = rewind_mode::ACTIVE;
+
          explicit
          input_mark( input_data & i )
                : m_byte( i.byte ),
@@ -84,25 +107,6 @@ namespace PEGTL_NAMESPACE
          const std::size_t m_byte_in_line;
          const char * const m_begin;
          input_data * m_input;
-      };
-
-      template<> class input_mark< rewind_mode::DONTCARE >
-      {
-      public:
-         explicit
-         input_mark( const input_data & )
-         { }
-
-         input_mark( input_mark && ) noexcept
-         { }
-
-         input_mark( const input_mark & ) = delete;
-         void operator= ( const input_mark & ) = delete;
-
-         bool operator() ( const bool result )
-         {
-            return result;
-         }
       };
 
    } // namespace internal

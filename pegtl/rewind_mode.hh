@@ -8,8 +8,9 @@
 
 namespace PEGTL_NAMESPACE
 {
-   enum class rewind_mode : bool
+   enum class rewind_mode : char
    {
+      ACTIVE,
       REQUIRED,
       DONTCARE
    };

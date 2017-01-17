@@ -40,9 +40,10 @@ namespace PEGTL_NAMESPACE
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< M >();
+            using m_t = decltype( m );
 
             try {
-               return m( rule_match_three< seq< Rules ... >, A, rewind_mode::DONTCARE, Action, Control >::match( in, st ... ) );
+               return m( rule_match_three< seq< Rules ... >, A, m_t::next_rewind_mode, Action, Control >::match( in, st ... ) );
             }
             catch ( const Exception & ) {
                return false;

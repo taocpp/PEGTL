@@ -26,13 +26,13 @@ namespace PEGTL_NAMESPACE
          {
             auto m = in.template mark< rewind_mode::REQUIRED >();
 
-            if ( ! Control< R >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... ) ) {
+            if ( ! Control< R >::template match< A, rewind_mode::ACTIVE, Action, Control >( in, st ... ) ) {
                return false;
             }
             using memory_t = typename Input::memory_t;
             memory_t i2( m, in.data() );
 
-            if ( ! Control< S >::template match< apply_mode::NOTHING, rewind_mode::DONTCARE, Action, Control >( i2, st ... ) ) {
+            if ( ! Control< S >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( i2, st ... ) ) {
                return m( true );
             }
             return m( ! i2.empty() );
