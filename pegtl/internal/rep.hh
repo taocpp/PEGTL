@@ -41,9 +41,10 @@ namespace PEGTL_NAMESPACE
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< M >();
+            using m_t = decltype( m );
 
             for ( unsigned i = 0; i != Num; ++i ) {
-               if ( ! rule_conjunction< Rules ... >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... ) ) {
+               if ( ! rule_conjunction< Rules ... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st ... ) ) {
                   return false;
                }
             }
