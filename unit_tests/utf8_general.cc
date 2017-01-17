@@ -10,7 +10,7 @@ namespace pegtl
       verify_rule< utf8::any >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
 
       for ( int i = -100; i < 200; ++i ) {
-         verify_char< utf8::any >( __LINE__, __FILE__, i, ( i & 0x80 ) == 0 );
+         verify_char< utf8::any >( __LINE__, __FILE__, char( i ), ( i & 0x80 ) == 0 );
       }
       verify_rule< utf8::any >( __LINE__, __FILE__, "\x30", result_type::SUCCESS, 0 );
       verify_rule< utf8::any >( __LINE__, __FILE__, "\xc2\xa2", result_type::SUCCESS, 0 );

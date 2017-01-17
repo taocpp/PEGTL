@@ -23,9 +23,9 @@ namespace PEGTL_NAMESPACE
             g.m_c = 0;
          }
 
-         insert_guard( C & c, const typename C::value_type & t )
-               : m_i( c.insert( t ) ),
-                 m_c( & c )
+         insert_guard( C & cs, const typename C::value_type & ts )
+               : m_i( cs.insert( ts ) ),
+                 m_c( & cs )
          { }
 
          ~insert_guard()
