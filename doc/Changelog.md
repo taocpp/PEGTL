@@ -20,6 +20,8 @@ Released in the future
 * Reduced template instantiation depth of `pegtl_(i)string_t`.
 * Increased allowed string length to 512 for `pegtl_(i)string_t`.
 * Allowed embedded null bytes for `pegtl_(i)string_t`.
+* Allowed re-defining of the `pegtl` namespace name.
+* Added defines for the version of the PEGTL.
 * Added support for GCC 4.7.
 * Improved CI tests.
 
