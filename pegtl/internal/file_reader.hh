@@ -64,13 +64,15 @@ namespace PEGTL_NAMESPACE
          std::FILE * open() const
          {
             errno = 0;
+#if defined( _WIN32 )
             std::FILE * file;
-#if defined(_WIN32)
-            if ( fopen_s( &file, m_source.c_str(), "rb" ) == 0 )
+            if ( ::fopen_s( & file, m_source.c_str(), "rb" ) == 0 )
 #else
-            if ( ( file = std::fopen( m_source.c_str(), "rb" ) ) != nullptr )
+            if ( auto* file = std::fopen( m_source.c_str(), "rb" ) )
 #endif
+            {
                return file;
+            }
             PEGTL_THROW_INPUT_ERROR( "unable to fopen() file " << m_source << " for reading" );
          }
       };

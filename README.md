@@ -98,6 +98,7 @@ For details see the [changelog](https://github.com/ColinH/PEGTL/blob/master/doc/
 * Paulo Custodio for Windows-related fixes.
 * Kuzma Shapran for EOL testing and fixes.
 * Michael Becker and Sven Johannsen for help with CMake.
+* Zhihao Yuan for fixing several warnings when compiling with Visual Studio 2015.
 
 ### Contact
 

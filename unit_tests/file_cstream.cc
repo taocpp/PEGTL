@@ -1,4 +1,4 @@
-// Copyright (c) 2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2016-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #include <cstdio>
@@ -14,11 +14,11 @@ namespace pegtl
    void unit_test()
    {
       const char * const filename = "unit_tests/file_data.txt";
+#if defined( _WIN32 )
       std::FILE * stream;
-#if defined(_WIN32)
-      fopen_s(&stream, filename, "rb");
+      ::fopen_s( & stream, filename, "rb" );
 #else
-      stream = std::fopen(filename, "rb");
+      std::FILE * stream = std::fopen( filename, "rb" );
 #endif
       TEST_ASSERT( stream != nullptr );
       TEST_ASSERT( parse_cstream< file_grammar >( stream, filename, 16 ) );
