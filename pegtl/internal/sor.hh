@@ -25,6 +25,7 @@ namespace PEGTL_NAMESPACE
          template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
+            (void)in;
             // TODO: As optimization the final rule could be called with M instead of rewind_mode::REQUIRED.
 #ifdef __cpp_fold_expressions
             return ( Control< Rules >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st ... ) || ... );

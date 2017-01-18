@@ -42,8 +42,8 @@ namespace PEGTL_NAMESPACE
             using eol_t = typename Input::eol_t;
             using action_t = typename Input::action_t;
             const auto * const begin = in.begin() - size + in.size( 0 ) + count;
-            const action_t content( byte, line, byte_in_line, begin + ( ( * begin ) == eol_t::ch ), in.begin() - count, in.source() );
-            Action< Tag >::apply( content, st ... );
+            const action_t xcontent( byte, line, byte_in_line, begin + ( ( * begin ) == eol_t::ch ), in.begin() - count, in.source() );
+            Action< Tag >::apply( xcontent, st ... );
          }
 
          template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >

@@ -9,6 +9,9 @@ namespace pegtl
 {
    void unit_test()
    {
+#undef TEST_ASSERT
+#define TEST_ASSERT(e) static_assert(e, "");
+
       TEST_ASSERT( alphabet::a == 'a' );
       TEST_ASSERT( alphabet::b == 'b' );
       TEST_ASSERT( alphabet::c == 'c' );
