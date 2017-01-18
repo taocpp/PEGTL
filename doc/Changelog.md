@@ -12,6 +12,7 @@ Released in the future
 * Added incremental input support rule `discard`.
 * Added the byte position to input classes and `position_info`.
 * Added `apply` and `if_apply` rules for in-grammar direct actions.
+* Added `apply()` method to control class for greater control.
 * Removed the `begin` member from class `position_info`.
 * Refactored the `input` class into multiple classes.
 * Refactored the handling of nested parsing.
