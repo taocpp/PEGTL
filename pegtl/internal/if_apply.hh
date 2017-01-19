@@ -19,14 +19,14 @@ namespace PEGTL_NAMESPACE
       template< typename Rule, typename ... Actions >
       struct if_apply_impl< apply_mode::ACTION, Rule, Actions ... >
       {
-         template< rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+         template< rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             using action_t = typename Input::action_t;
 
             auto m = in.template mark< rewind_mode::REQUIRED >();
 
-            if ( rule_match_one< Rule, apply_mode::ACTION, M, Action, Control >::match( in, st ... ) ) {
+            if ( rule_match_one< Rule, apply_mode::ACTION, rewind_mode::ACTIVE, Action, Control >::match( in, st ... ) ) {
                const action_t i2( m, in.data() );
                using swallow = bool[];
                (void)swallow{ ( Actions::apply( i2, st ... ), true ) ..., true };
