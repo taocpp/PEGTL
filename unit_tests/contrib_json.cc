@@ -88,6 +88,8 @@ namespace pegtl
       TEST_ASSERT( file_parser( "unit_tests/data/pass2.json" ).parse< GRAMMAR >() );
       TEST_ASSERT( file_parser( "unit_tests/data/pass3.json" ).parse< GRAMMAR >() );
 
+      TEST_ASSERT( file_parser( "unit_tests/data/blns.json" ).parse< GRAMMAR >() );
+
       // verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "unit_tests/data/fail1.json" ); // disabled as it is valid now
       verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "unit_tests/data/fail2.json" );
       verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "unit_tests/data/fail3.json" );
