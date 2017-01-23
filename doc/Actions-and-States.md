@@ -114,28 +114,32 @@ pegtl::parse_string< my_grammar, my_actions >( ... );
 
 ## Changing Actions
 
-The action class template can be changed within a grammar using the `enable` and `disable` rules.
+Within a grammar, the action class template can be changed, enabled or disabled using the `action<>`, `enable<>` and `disable<>` rules.
 
-For example the following two lines effectively do the same thing, namely parse with `my_grammar` as top-level parsing rule without invoking actions (except if `enable` is used somewhere within the grammar).
+The following two lines effectively do the same thing, namely parse with `my_grammar` as top-level parsing rule without invoking actions (unless actions are enabled again somewhere within the grammar).
 
 ```c++
 pegtl::parse_string< my_grammar >( ... );
 pegtl::parse_string< pegtl::disable< my_grammar >, my_actions >( ... );
 ```
 
-Similarly the following two lines both start parsing `my_grammar` with `my_actions` (again with the caveat that the action class might be changed within the grammar).
+Similarly the following two lines both start parsing `my_grammar` with `my_actions` (again with the caveat that something might change somewhere in the grammar).
 
 ```c++
 pegtl::parse_string< my_grammar, my_actions >( ... );
-pegtl::parse_string< pegtl::enable< my_actions, my_grammar > >( ... );
+pegtl::parse_string< pegtl::action< my_actions, my_grammar > >( ... );
 ```
 
 As usual this applies not just to `parse_string()`, but equally to all parser functions defined in `pegtl/parser.hh` or the `parse()` member methods of the parser classes documented in [Parser Reference](Parser-Reference.md).
 
-User-defined parsing rules can use `enable<>` and `disable<>` just like any other combinator rules, for example:
+In other words, `enable<>` and `disable<>` behave just like `seq<>` but enable or disable the calling of actions. `action<>` changes the active action class template, which must be supplied as first template parameter to `action<>`.
+
+Note that `action<>` does *not* implicitly enable actions when they were previously explicitly disabled.
+
+User-defined parsing rules can use `action<>`, `enable<>` and `disable<>` just like any other combinator rules, for example to disable actions in LISP-style comments:
 
 ```c++
-struct foo
+struct comment
    : pegtl::seq< pegtl::one< '#' >, pegtl::disable< cons_list > > {};
 ```
 
