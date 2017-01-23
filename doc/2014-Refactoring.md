@@ -34,4 +34,4 @@ The important changes are listed below.
 Given the possible complexity of PEGs the relatively straightforward infinite loop analysis will not always give the correct result.
 It has however proven useful in finding issues with grammars converted from other, more descriptive (rather than imperative) forms where such infinite loops are not an issue.
 
-Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
