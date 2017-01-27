@@ -29,8 +29,6 @@ namespace PEGTL_NAMESPACE
       using reader_t = Reader;
       using action_t = internal::basic_action_input< Eol >;
       using memory_t = basic_memory_input< Eol >;
-      using position_t = position_info;
-      using exception_t = basic_parse_error< position_info >;
 
       template< typename ... As >
       basic_buffer_input( const char * in_source, const std::size_t maximum, As && ... as )
@@ -141,7 +139,7 @@ namespace PEGTL_NAMESPACE
          return internal::input_mark< M >( m_data );
       }
 
-      position_t position() const
+      position_info position() const
       {
          return position_info( m_data, m_source );
       }

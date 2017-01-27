@@ -25,8 +25,6 @@ namespace PEGTL_NAMESPACE
          using eol_t = Eol;
          using action_t = basic_action_input< Eol >;
          using memory_t = basic_memory_input< Eol >;
-         using position_t = position_info;
-         using exception_t = basic_parse_error< position_info >;
 
          basic_action_input( const count_data & in_data, const char * in_end, const char * in_source )
                : m_data( in_data ),
@@ -94,7 +92,7 @@ namespace PEGTL_NAMESPACE
             return m_data;
          }
 
-         position_t position() const
+         position_info position() const
          {
             return position_info( m_data, m_source );
          }

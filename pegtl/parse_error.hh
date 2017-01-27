@@ -12,27 +12,22 @@
 
 namespace PEGTL_NAMESPACE
 {
-   template< typename Pos >
-   struct basic_parse_error
+   struct parse_error
          : public std::runtime_error
    {
-      basic_parse_error( const std::string & message, std::vector< Pos > && in_positions )
+      parse_error( const std::string & message, std::vector< position_info > && in_positions )
             : std::runtime_error( message ),
               positions( std::move( in_positions ) )
       { }
 
       template< typename Input >
-      basic_parse_error( const std::string & message, const Input & in )
+      parse_error( const std::string & message, const Input & in )
             : std::runtime_error( to_string( in.position() ) + ": " + message ),
               positions( 1, in.position() )
       { }
 
-      using position_t = Pos;
-
-      std::vector< Pos > positions;
+      std::vector< position_info > positions;
    };
-
-   using parse_error = basic_parse_error< position_info >;
 
 } // namespace PEGTL_NAMESPACE
 

@@ -25,8 +25,6 @@ namespace PEGTL_NAMESPACE
       using eol_t = Eol;
       using action_t = internal::basic_action_input< Eol >;
       using memory_t = basic_memory_input< Eol >;
-      using position_t = position_info;
-      using exception_t = basic_parse_error< position_info >;
 
       basic_memory_input( const char * in_begin, const char * in_end, const char * in_source )
             : basic_memory_input( { 0, 1, 0, in_begin }, in_end, in_source )

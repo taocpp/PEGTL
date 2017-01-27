@@ -34,8 +34,7 @@ namespace PEGTL_NAMESPACE
       template< typename Input, typename ... States >
       static void raise( const Input & in, States && ... )
       {
-         using exception_t = typename Input::exception_t;
-         throw exception_t( "parse error matching " + internal::demangle< Rule >(), in );
+         throw parse_error( "parse error matching " + internal::demangle< Rule >(), in );
       }
 
       template< typename Input, template< typename ... > class Action, typename ... States >
