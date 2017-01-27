@@ -92,19 +92,19 @@ namespace PEGTL_NAMESPACE
          return static_cast< unsigned char >( peek_char( offset ) );
       }
 
-      void bump( const std::size_t count = 1 )
+      void bump( const std::size_t in_count = 1 )
       {
-         internal::bump( m_data, count, Eol::ch );
+         internal::bump( m_data, in_count, Eol::ch );
       }
 
-      void bump_in_this_line( const std::size_t count = 1 )
+      void bump_in_this_line( const std::size_t in_count = 1 )
       {
-         internal::bump_in_this_line( m_data, count );
+         internal::bump_in_this_line( m_data, in_count );
       }
 
-      void bump_to_next_line( const std::size_t count = 1 )
+      void bump_to_next_line( const std::size_t in_count = 1 )
       {
-         internal::bump_to_next_line( m_data, count );
+         internal::bump_to_next_line( m_data, in_count );
       }
 
       void discard()
