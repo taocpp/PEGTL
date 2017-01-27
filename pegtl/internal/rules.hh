@@ -8,6 +8,8 @@
 #include "any.hh"
 #include "apply.hh"
 #include "at.hh"
+#include "bof.hh"
+#include "bol.hh"
 #include "bytes.hh"
 #include "control.hh"
 #include "disable.hh"

@@ -9,7 +9,7 @@
 
 #include "../config.hh"
 
-#include "bump_util.hh"
+#include "bump_help.hh"
 #include "skip_control.hh"
 #include "result_on_found.hh"
 
@@ -36,7 +36,7 @@ namespace PEGTL_NAMESPACE
             if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
                   if ( contains( t.data, { Cs ... } ) == bool( R ) ) {
-                     bump< R, Input, typename Peek::data_t, Cs ... >( in, t.size );
+                     bump_help< R, Input, typename Peek::data_t, Cs ... >( in, t.size );
                      return true;
                   }
                }
@@ -56,7 +56,7 @@ namespace PEGTL_NAMESPACE
             if ( ! in.empty() ) {
                if ( const auto t = Peek::peek( in ) ) {
                   if ( ( t.data == C ) == bool( R ) ) {
-                     bump< R, Input, typename Peek::data_t, C >( in, t.size );
+                     bump_help< R, Input, typename Peek::data_t, C >( in, t.size );
                      return true;
                   }
                }

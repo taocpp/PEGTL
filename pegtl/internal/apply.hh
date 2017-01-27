@@ -25,7 +25,7 @@ namespace PEGTL_NAMESPACE
          static bool match( Input & in, States && ... st )
          {
             using action_t = typename Input::action_t;
-            const action_t i2( in.byte(), in.line(), in.byte_in_line(), in.begin(), in.begin(), in.source() );  // No data -- range is from begin to begin.
+            const action_t i2( in.count(), in.begin(), in.source() );  // No data -- range is from begin to begin.
             using swallow = bool[];
             (void)swallow{ ( Actions::apply( i2, st ... ), true ) ..., true };
             return true;

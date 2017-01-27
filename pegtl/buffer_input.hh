@@ -10,8 +10,9 @@
 
 #include "config.hh"
 #include "eol.hh"
+#include "count_data.hh"
 #include "position_info.hh"
-#include "internal/input_data.hh"
+#include "internal/bump_impl.hh"
 #include "internal/input_mark.hh"
 #include "internal/action_input.hh"
 
@@ -25,25 +26,20 @@ namespace PEGTL_NAMESPACE
    {
    public:
       using eol_t = Eol;
-
       using reader_t = Reader;
-
-      using data_t = internal::input_data;
-
-      using action_t = internal::action_input< Eol >;
+      using action_t = internal::basic_action_input< Eol >;
       using memory_t = basic_memory_input< Eol >;
-
       using position_t = position_info;
       using exception_t = basic_parse_error< position_info >;
-
 
       template< typename ... As >
       basic_buffer_input( const char * in_source, const std::size_t maximum, As && ... as )
             : m_reader( std::forward< As >( as ) ... ),
               m_maximum( maximum ),
               m_buffer( new char[ maximum ] ),
-              m_data( 0, 1, 0, m_buffer.get(), m_buffer.get(), in_source )
-
+              m_data{ 0, 1, 0, m_buffer.get() },
+              m_end( m_buffer.get() ),
+              m_source( in_source )
       { }
 
       basic_buffer_input( const basic_buffer_input & ) = delete;
@@ -52,24 +48,24 @@ namespace PEGTL_NAMESPACE
       bool empty()
       {
          require( 1 );
-         return m_data.begin == m_data.end;
+         return m_data.data == m_end;
       }
 
       std::size_t size( const std::size_t amount )
       {
          require( amount );
-         return std::size_t( m_data.end - m_data.begin );
+         return std::size_t( m_end - m_data.data );
       }
 
       const char * begin() const
       {
-         return m_data.begin;
+         return m_data.data;
       }
 
       const char * end( const std::size_t amount )
       {
          require( amount );
-         return m_data.end;
+         return m_end;
       }
 
       std::size_t byte() const
@@ -89,12 +85,12 @@ namespace PEGTL_NAMESPACE
 
       const char * source() const
       {
-         return m_data.source;
+         return m_source;
       }
 
       char peek_char( const std::size_t offset = 0 ) const
       {
-         return m_data.begin[ offset ];
+         return m_data.data[ offset ];
       }
 
       unsigned char peek_byte( const std::size_t offset = 0 ) const
@@ -104,33 +100,33 @@ namespace PEGTL_NAMESPACE
 
       void bump( const std::size_t count = 1 )
       {
-         m_data.bump( count, Eol::ch );
+         internal::bump( m_data, count, Eol::ch );
       }
 
       void bump_in_this_line( const std::size_t count = 1 )
       {
-         m_data.bump_in_this_line( count );
+         internal::bump_in_this_line( m_data, count );
       }
 
       void bump_to_next_line( const std::size_t count = 1 )
       {
-         m_data.bump_to_next_line( count );
+         internal::bump_to_next_line( m_data, count );
       }
 
       void discard()
       {
-         const auto s = m_data.end - m_data.begin;
-         std::memmove( m_buffer.get(), m_data.begin, s );
-         m_data.begin = m_buffer.get();
-         m_data.end = m_buffer.get() + s;
+         const auto s = m_end - m_data.data;
+         std::memmove( m_buffer.get(), m_data.data, s );
+         m_data.data = m_buffer.get();
+         m_end = m_buffer.get() + s;
       }
 
       void require( const std::size_t amount )
       {
-         if ( m_data.begin + amount > m_data.end ) {
-            if ( m_data.begin + amount <= m_buffer.get() + m_maximum ) {
-               if ( const auto r = m_reader( const_cast< char * >( m_data.end ), amount - std::size_t( m_data.end - m_data.begin ) ) ) {
-                  m_data.end += r;
+         if ( m_data.data + amount > m_end ) {
+            if ( m_data.data + amount <= m_buffer.get() + m_maximum ) {
+               if ( const auto r = m_reader( const_cast< char * >( m_end ), amount - std::size_t( m_end - m_data.data ) ) ) {
+                  m_end += r;
                }
                else {
                   m_maximum = 0;
@@ -145,21 +141,23 @@ namespace PEGTL_NAMESPACE
          return internal::input_mark< M >( m_data );
       }
 
-      const internal::input_data & data() const
-      {
-         return m_data;
-      }
-
       position_t position() const
       {
-         return position_info( m_data );
+         return position_info( m_data, m_source );
+      }
+
+      const count_data & count() const
+      {
+         return m_data;
       }
 
    private:
       Reader m_reader;
       std::size_t m_maximum;
       std::unique_ptr< char[] > m_buffer;
-      internal::input_data m_data;
+      count_data m_data;
+      const char * m_end;
+      const char * m_source;
    };
 
    template< typename Reader >

@@ -11,7 +11,7 @@
 
 #include "result_on_found.hh"
 #include "skip_control.hh"
-#include "bump_util.hh"
+#include "bump_help.hh"
 #include "trivial.hh"
 
 #include "../analysis/counted.hh"
@@ -43,7 +43,7 @@ namespace PEGTL_NAMESPACE
          {
             if ( in.size( sizeof ... ( Cs ) ) >= sizeof ... ( Cs ) ) {
                if ( unsafe_equals( in.begin(), { Cs ... } ) ) {
-                  bump< result_on_found::SUCCESS, Input, char, Cs ... >( in, sizeof ... ( Cs ) );
+                  bump_help< result_on_found::SUCCESS, Input, char, Cs ... >( in, sizeof ... ( Cs ) );
                   return true;
                }
             }

@@ -35,14 +35,14 @@ namespace PEGTL_NAMESPACE
       os << "argv[" << argn << ']';
       const std::string source = os.str();
       assert( argv[ argn ] );
-      memory_input in( 0, 1, 0, argv[ argn ], argv[ argn ] + std::strlen( argv[ argn ] ), source.c_str() );
+      memory_input in( argv[ argn ], argv[ argn ] + std::strlen( argv[ argn ] ), source.c_str() );
       return parse_input< Rule, Action, Control >( in, st ... );
    }
 
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
    bool parse_memory( const char * data, const char * dend, const char * source, States && ... st )
    {
-      memory_input in( 0, 1, 0, data, dend, source );
+      memory_input in( data, dend, source );
       return parse_input< Rule, Action, Control >( in, st ... );
    }
 
@@ -100,7 +100,7 @@ namespace PEGTL_NAMESPACE
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
    bool parse_memory_nested( const Outer & oi, const char * data, const char * dend, const char * source, States && ... st )
    {
-      basic_memory_input< typename Outer::eol_t > in( 0, 1, 0, data, dend, source );
+      basic_memory_input< typename Outer::eol_t > in( data, dend, source );
       return parse_input_nested< Rule, Action, Control >( oi, in, st ... );
    }
 

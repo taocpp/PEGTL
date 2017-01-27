@@ -5,11 +5,13 @@
 #define PEGTL_NORMAL_HH
 
 #include "config.hh"
+#include "count_data.hh"
 #include "apply_mode.hh"
 #include "rewind_mode.hh"
 #include "parse_error.hh"
 
 #include "internal/demangle.hh"
+#include "internal/action_input.hh"
 #include "internal/rule_match_one.hh"
 
 namespace PEGTL_NAMESPACE
@@ -36,11 +38,11 @@ namespace PEGTL_NAMESPACE
          throw exception_t( "parse error matching " + internal::demangle< Rule >(), in );
       }
 
-      template< template< typename ... > class Action, typename Mark, typename Input, typename ... States >
-      static void apply( const Mark & m, const Input & in, States && ... st )
+      template< typename Input, template< typename ... > class Action, typename ... States >
+      static void apply( const count_data & begin, const count_data & end, const char * source, States && ... st )
       {
-         using action_t = typename Input::action_t;
-         Action< Rule >::apply( action_t( m, in.data() ), st ... );
+         const Input in( begin, end.data, source );
+         Action< Rule >::apply( in, st ... );
       }
 
       template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >

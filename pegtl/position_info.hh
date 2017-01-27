@@ -10,19 +10,17 @@
 #include <cstdlib>
 
 #include "config.hh"
-
-#include "internal/input_data.hh"
+#include "count_data.hh"
 
 namespace PEGTL_NAMESPACE
 {
    struct position_info
    {
-      explicit
-      position_info( const internal::input_data & d )
-            : byte( d.byte ),
-              line( d.line ),
-              byte_in_line( d.byte_in_line ),
-              source( d.source )
+      position_info( const count_data & in_data, const char * in_source )
+            : byte( in_data.byte ),
+              line( in_data.line ),
+              byte_in_line( in_data.byte_in_line ),
+              source( in_source )
       { }
 
       std::size_t byte;

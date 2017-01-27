@@ -10,7 +10,7 @@ namespace pegtl
    {
       static const std::string s1 = "\n";
 
-      memory_input i1( 0, 1, 0, s1.data(), s1.data() + s1.size(), __FUNCTION__ );
+      memory_input i1( { 0, 1, 0, s1.data() }, s1.data() + s1.size(), __FUNCTION__ );
 
       TEST_ASSERT( parse_input< Rule >( i1 ) );
       TEST_ASSERT( i1.line() == 2 );
@@ -22,7 +22,7 @@ namespace pegtl
    {
       TEST_ASSERT( s2.size() == 1 );
 
-      memory_input i2( 0, 1, 0, s2.data(), s2.data() + s2.size(), __FUNCTION__ );
+      memory_input i2( { 0, 1, 0, s2.data() }, s2.data() + s2.size(), __FUNCTION__ );
 
       TEST_ASSERT( parse_input< Rule >( i2 ) );
       TEST_ASSERT( i2.line() == 1 );
@@ -34,7 +34,7 @@ namespace pegtl
    {
       TEST_ASSERT( s3.size() == 1 );
 
-      memory_input i3( 0, 1, 0, s3.data(), s3.data() + s3.size(), __FUNCTION__ );
+      memory_input i3( { 0, 1, 0, s3.data() }, s3.data() + s3.size(), __FUNCTION__ );
 
       TEST_ASSERT( ! parse_input< Rule >( i3 ) );
       TEST_ASSERT( i3.line() == 1 );

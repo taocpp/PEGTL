@@ -10,8 +10,9 @@
 
 #include "config.hh"
 #include "eol.hh"
+#include "count_data.hh"
 #include "position_info.hh"
-#include "internal/input_data.hh"
+#include "internal/bump_impl.hh"
 #include "internal/input_mark.hh"
 #include "internal/action_input.hh"
 
@@ -22,47 +23,43 @@ namespace PEGTL_NAMESPACE
    {
    public:
       using eol_t = Eol;
-
-      using data_t = internal::input_data;
-
-      using action_t = internal::action_input< Eol >;
+      using action_t = internal::basic_action_input< Eol >;
       using memory_t = basic_memory_input< Eol >;
-
       using position_t = position_info;
       using exception_t = basic_parse_error< position_info >;
 
-      explicit
-      basic_memory_input( const internal::input_data & d )
-            : m_data( d )
+      basic_memory_input( const char * in_begin, const char * in_end, const char * in_source )
+            : basic_memory_input( { 0, 1, 0, in_begin }, in_end, in_source )
       { }
 
-      template< rewind_mode M >
-      basic_memory_input( const internal::input_mark< M > & m, const internal::input_data & d )
-            : basic_memory_input( m.byte(), m.line(), m.byte_in_line(), m.begin(), d.begin, d.source )
+      basic_memory_input( const char * in_begin, const char * in_end, const char * in_source, const std::size_t byte, const std::size_t line, const std::size_t byte_in_line )
+            : basic_memory_input( { byte, line, byte_in_line, in_begin }, in_end, in_source )
       { }
 
-      basic_memory_input( const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line, const char * in_begin, const char * in_end, const char * in_source )
-            : m_data( in_byte, in_line, in_byte_in_line, in_begin, in_end, in_source )
+      basic_memory_input( const count_data & in_data, const char * in_end, const char * in_source )
+            : m_data( in_data ),
+              m_end( in_end ),
+              m_source( in_source )
       { }
 
       bool empty() const
       {
-         return m_data.begin == m_data.end;
+         return m_end == m_data.data;
       }
 
       std::size_t size( const std::size_t ) const
       {
-         return std::size_t( m_data.end - m_data.begin );
+         return std::size_t( m_end - m_data.data );
       }
 
       const char * begin() const
       {
-         return m_data.begin;
+         return m_data.data;
       }
 
       const char * end( const std::size_t ) const
       {
-         return m_data.end;
+         return m_end;
       }
 
       std::size_t byte() const
@@ -82,12 +79,12 @@ namespace PEGTL_NAMESPACE
 
       const char * source() const
       {
-         return m_data.source;
+         return m_source;
       }
 
       char peek_char( const std::size_t offset = 0 ) const
       {
-         return m_data.begin[ offset ];
+         return m_data.data[ offset ];
       }
 
       unsigned char peek_byte( const std::size_t offset = 0 ) const
@@ -97,17 +94,17 @@ namespace PEGTL_NAMESPACE
 
       void bump( const std::size_t count = 1 )
       {
-         m_data.bump( count, Eol::ch );
+         internal::bump( m_data, count, Eol::ch );
       }
 
       void bump_in_this_line( const std::size_t count = 1 )
       {
-         m_data.bump_in_this_line( count );
+         internal::bump_in_this_line( m_data, count );
       }
 
       void bump_to_next_line( const std::size_t count = 1 )
       {
-         m_data.bump_to_next_line( count );
+         internal::bump_to_next_line( m_data, count );
       }
 
       void discard()
@@ -122,18 +119,20 @@ namespace PEGTL_NAMESPACE
          return internal::input_mark< M >( m_data );
       }
 
-      const internal::input_data & data() const
+      position_info position() const
+      {
+         return position_info( m_data, m_source );
+      }
+
+      const count_data & count() const
       {
          return m_data;
       }
 
-      position_t position() const
-      {
-         return position_info( m_data );
-      }
-
    private:
-      internal::input_data m_data;
+      count_data m_data;
+      const char * m_end;
+      const char * m_source;
    };
 
    using memory_input = basic_memory_input< lf_crlf_eol >;

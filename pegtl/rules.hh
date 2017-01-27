@@ -14,6 +14,8 @@ namespace PEGTL_NAMESPACE
    template< typename ... Actions > struct apply : internal::apply< Actions ... > {};
    template< template< typename ... > class Action, typename ... Rules > struct action : internal::action< Action, Rules ... > {};
    template< typename ... Rules > struct at : internal::at< Rules ... > {};
+   struct bof : internal::bof {};
+   struct bol : internal::bol {};
    template< unsigned Num > struct bytes : internal::bytes< Num > {};
    template< template< typename ... > class Control, typename ... Rules > struct control : internal::control< Control, Rules ... > {};
    template< typename ... Rules > struct disable : internal::disable< Rules ... > {};

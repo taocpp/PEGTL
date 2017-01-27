@@ -23,7 +23,7 @@ namespace PEGTL_NAMESPACE
       basic_mmap_parser( const std::string & filename )
             : m_file( filename ),
               m_source( filename ),
-              m_input( 0, 1, 0, m_file.begin(), m_file.end(), m_source.c_str() )
+              m_input( m_file.begin(), m_file.end(), m_source.c_str() )
       { }
 
       const std::string & source() const

@@ -13,6 +13,7 @@
 #include "../internal/until.hh"
 #include "../internal/state.hh"
 #include "../internal/skip_control.hh"
+#include "../internal/action_input.hh"
 
 #include "../analysis/generic.hh"
 
@@ -29,9 +30,7 @@ namespace PEGTL_NAMESPACE
       {
          template< typename Input, typename ... States >
          raw_string_state( const Input & in, States && ... )
-               : byte( in.byte() ),
-                 line( in.line() ),
-                 byte_in_line( in.byte_in_line() ),
+               : cdata( in.count() ),
                  size( in.size( 0 ) )
          { }
 
@@ -41,9 +40,10 @@ namespace PEGTL_NAMESPACE
          {
             using eol_t = typename Input::eol_t;
             using action_t = typename Input::action_t;
-            const auto * const begin = in.begin() - size + in.size( 0 ) + count;
-            const action_t action_in( byte, line, byte_in_line, begin + ( ( * begin ) == eol_t::ch ), in.begin() - count, in.source() );
-            Action< Tag >::apply( action_in, st ... );
+            count_data data = { cdata.byte, cdata.line, cdata.byte_in_line, in.begin() - size + in.size( 0 ) + count };
+            data.data += ( * data.data ) == eol_t::ch;
+            const action_t ai( data, in.begin() - count, in.source() );
+            Action< Tag >::apply( ai, st ... );
          }
 
          template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
@@ -54,9 +54,7 @@ namespace PEGTL_NAMESPACE
          raw_string_state( const raw_string_state & ) = delete;
          void operator= ( const raw_string_state & ) = delete;
 
-         std::size_t byte;
-         std::size_t line;
-         std::size_t byte_in_line;
+         count_data cdata;
          std::size_t size;
          std::size_t count = 0;
       };

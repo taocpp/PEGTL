@@ -54,7 +54,7 @@ namespace PEGTL_NAMESPACE
             auto m = in.template mark< rewind_mode::REQUIRED >();  // TODO: Allow actions to opt-out of receiving input data?
 
             if ( rule_match_two< Rule, A, rewind_mode::ACTIVE, Action, Control, false >::match( in, st ... ) ) {
-               Control< Rule >::template apply< Action >( m, in, st ... );
+               Control< Rule >::template apply< typename Input::action_t, Action >( m.count(), in.count(), in.source(), st ... );
                return m( true );
             }
             return false;

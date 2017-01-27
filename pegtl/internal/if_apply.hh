@@ -27,7 +27,7 @@ namespace PEGTL_NAMESPACE
             auto m = in.template mark< rewind_mode::REQUIRED >();
 
             if ( rule_match_one< Rule, apply_mode::ACTION, rewind_mode::ACTIVE, Action, Control >::match( in, st ... ) ) {
-               const action_t i2( m, in.data() );
+               const action_t i2( m.count(), in.begin(), in.source() );
                using swallow = bool[];
                (void)swallow{ ( Actions::apply( i2, st ... ), true ) ..., true };
                return m( true );

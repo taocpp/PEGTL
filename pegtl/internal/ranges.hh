@@ -8,7 +8,7 @@
 
 #include "any.hh"
 #include "range.hh"
-#include "bump_util.hh"
+#include "bump_help.hh"
 #include "skip_control.hh"
 
 #include "../analysis/generic.hh"

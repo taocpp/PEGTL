@@ -5,9 +5,7 @@
 #define PEGTL_INTERNAL_INPUT_MARK_HH
 
 #include "../config.hh"
-
-#include "input_data.hh"
-
+#include "../count_data.hh"
 #include "../rewind_mode.hh"
 
 namespace PEGTL_NAMESPACE
@@ -20,7 +18,7 @@ namespace PEGTL_NAMESPACE
          static constexpr rewind_mode next_rewind_mode = M;
 
          explicit
-         input_mark( const input_data & )
+         input_mark( const count_data & )
          { }
 
          input_mark( input_mark && ) noexcept
@@ -41,19 +39,13 @@ namespace PEGTL_NAMESPACE
          static constexpr rewind_mode next_rewind_mode = rewind_mode::ACTIVE;
 
          explicit
-         input_mark( input_data & i )
-               : m_byte( i.byte ),
-                 m_line( i.line ),
-                 m_byte_in_line( i.byte_in_line ),
-                 m_begin( i.begin ),
+         input_mark( count_data & i ) noexcept
+               : m_count( i ),
                  m_input( & i )
          { }
 
          input_mark( input_mark && i ) noexcept
-               : m_byte( i.m_byte ),
-                 m_line( i.m_line ),
-                 m_byte_in_line( i.m_byte_in_line ),
-                 m_begin( i.m_begin ),
+               : m_count( i.m_count ),
                  m_input( i.m_input )
          {
             i.m_input = nullptr;
@@ -62,10 +54,7 @@ namespace PEGTL_NAMESPACE
          ~input_mark()
          {
             if ( m_input != nullptr ) {
-               m_input->byte = m_byte;
-               m_input->line = m_line;
-               m_input->byte_in_line = m_byte_in_line;
-               m_input->begin = m_begin;
+               ( * m_input ) = m_count;
             }
          }
 
@@ -83,30 +72,32 @@ namespace PEGTL_NAMESPACE
 
          std::size_t byte() const
          {
-            return m_byte;
+            return m_count.byte;
          }
 
          std::size_t line() const
          {
-            return m_line;
+            return m_count.line;
          }
 
          std::size_t byte_in_line() const
          {
-            return m_byte_in_line;
+            return m_count.byte_in_line;
          }
 
          const char * begin() const
          {
-            return m_begin;
+            return m_count.data;
+         }
+
+         const count_data & count() const
+         {
+            return m_count;
          }
 
       private:
-         const std::size_t m_byte;
-         const std::size_t m_line;
-         const std::size_t m_byte_in_line;
-         const char * const m_begin;
-         input_data * m_input;
+         const count_data m_count;
+         count_data * m_input;
       };
 
    } // namespace internal

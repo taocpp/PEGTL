@@ -7,7 +7,7 @@
 #include "../config.hh"
 
 #include "any.hh"
-#include "bump_util.hh"
+#include "bump_help.hh"
 #include "skip_control.hh"
 #include "result_on_found.hh"
 

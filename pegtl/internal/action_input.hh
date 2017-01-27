@@ -8,10 +8,8 @@
 #include <cstddef>
 
 #include "../config.hh"
+#include "../count_data.hh"
 #include "../position_info.hh"
-
-#include "input_data.hh"
-#include "input_mark.hh"
 
 namespace PEGTL_NAMESPACE
 {
@@ -21,46 +19,39 @@ namespace PEGTL_NAMESPACE
    namespace internal
    {
       template< typename Eol >
-      class action_input
+      class basic_action_input
       {
       public:
          using eol_t = Eol;
-
-         using data_t = input_data;
-
-         using action_t = action_input< Eol >;
+         using action_t = basic_action_input< Eol >;
          using memory_t = basic_memory_input< Eol >;
-
          using position_t = position_info;
          using exception_t = basic_parse_error< position_info >;
 
-         template< rewind_mode M >
-         action_input( const input_mark< M > & m, const input_data & d )
-               : m_data( m.byte(), m.line(), m.byte_in_line(), m.begin(), d.begin, d.source )
-         { }
-
-         action_input( const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line, const char * in_begin, const char * in_end, const char * in_source )
-               : m_data( in_byte, in_line, in_byte_in_line, in_begin, in_end, in_source )
+         basic_action_input( const count_data & in_data, const char * in_end, const char * in_source )
+               : m_data( in_data ),
+                 m_end( in_end ),
+                 m_source( in_source )
          { }
 
          bool empty() const
          {
-            return m_data.begin == m_data.end;
+            return m_data.data == m_end;
          }
 
          std::size_t size( const std::size_t = 0 ) const
          {
-            return std::size_t( m_data.end - m_data.begin );
+            return std::size_t( m_end - m_data.data );
          }
 
          const char * begin() const
          {
-            return m_data.begin;
+            return m_data.data;
          }
 
          const char * end( const std::size_t = 0 ) const
          {
-            return m_data.end;
+            return m_end;
          }
 
          std::size_t byte() const
@@ -80,17 +71,17 @@ namespace PEGTL_NAMESPACE
 
          const char * source() const
          {
-            return m_data.source;
+            return m_source;
          }
 
          std::string string() const
          {
-            return std::string( m_data.begin, m_data.end );
+            return std::string( begin(), end() );
          }
 
          char peek_char( const std::size_t offset = 0 ) const
          {
-            return m_data.begin[ offset ];
+            return m_data.data[ offset ];
          }
 
          unsigned char peek_byte( const std::size_t offset = 0 ) const
@@ -98,18 +89,20 @@ namespace PEGTL_NAMESPACE
             return static_cast< unsigned char >( peek_char( offset ) );
          }
 
-         const input_data & data() const
+         const count_data & count() const
          {
             return m_data;
          }
 
          position_t position() const
          {
-            return position_info( m_data );
+            return position_info( m_data, m_source );
          }
 
       private:
-         input_data m_data;
+         count_data m_data;
+         const char * m_end;
+         const char * m_source;
       };
 
    } // namespace internal
