@@ -32,8 +32,8 @@ namespace PEGTL_NAMESPACE
             : basic_memory_input( { 0, 1, 0, in_begin }, in_end, in_source )
       { }
 
-      basic_memory_input( const char * in_begin, const char * in_end, const char * in_source, const std::size_t byte, const std::size_t line, const std::size_t byte_in_line )
-            : basic_memory_input( { byte, line, byte_in_line, in_begin }, in_end, in_source )
+      basic_memory_input( const char * in_begin, const char * in_end, const char * in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line )
+            : basic_memory_input( { in_byte, in_line, in_byte_in_line, in_begin }, in_end, in_source )
       { }
 
       basic_memory_input( const count_data & in_data, const char * in_end, const char * in_source )
