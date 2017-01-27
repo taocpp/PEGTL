@@ -292,6 +292,16 @@ These rules are in namespace `::pegtl`.
 
 Atomic rules do not rely on other rules.
 
+###### `bof`
+
+* Succeeds when the input is at the beginning-of-file, i.e. when the input's `byte()` method returns zero.
+* Does not consume input.
+
+###### `bol`
+
+* Succeeds when the input is at a beginning-of-line, i.e. when the input's `byte_in_line()` method returns zero.
+* Does not consume input.
+
 ###### `bytes< Num >`
 
 * Succeeds when the input contains at least `Num` further bytes.
