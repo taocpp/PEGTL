@@ -199,6 +199,7 @@ These rules are in namespace `::pegtl`.
 ###### `minus< M, S >`
 
 * Succeeds if `M` matches, and then `S` does **not** match all of the input that `M` matched.
+* Does not call actions for `S` (unless `S` contains `enable<>`).
 * Ignores `S` for the [grammar analysis](Grammar-Analysis.md).
 
 ###### `must< R... >`
