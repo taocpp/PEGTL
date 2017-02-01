@@ -16,7 +16,7 @@ namespace PEGTL_NAMESPACE
       class insert_guard
       {
       public:
-         insert_guard( insert_guard && other ) noexcept
+         insert_guard( insert_guard && other ) PEGTL_NOEXCEPT
                : m_i( other.m_i ),
                  m_c( other.m_c )
          {

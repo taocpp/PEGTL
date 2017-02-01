@@ -25,7 +25,7 @@ namespace PEGTL_NAMESPACE
          template< int Eol >
          struct can_match_eol
          {
-            static constexpr bool value = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) == bool( R ) );
+            static PEGTL_CONSTEXPR bool value = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) == bool( R ) );
          };
 
          // suppress warning with GCC 4.7

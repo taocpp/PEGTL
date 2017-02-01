@@ -10,4 +10,17 @@
 #define PEGTL_NAMESPACE pegtl
 #endif
 
+// MSVC before VS2015 do not support some of C++11 features:
+#if defined(_MSC_VER) && (_MSC_VER < 1900) // msvc <2015
+#  define PEGTL_CONSTEXPR const
+#  define PEGTL_NOEXCEPT throw()
+#  define PEGTL_INLINE_NAMESPACE(NAME) namespace NAME
+#  define PEGTL_END_INLINE_NAMESPACE(NAME) using namespace ascii;
+#else
+#  define PEGTL_CONSTEXPR constexpr
+#  define PEGTL_NOEXCEPT noexcept
+#  define PEGTL_INLINE_NAMESPACE(NAME) inline namespace NAME
+#  define PEGTL_END_INLINE_NAMESPACE(NAME)
+#endif
+
 #endif

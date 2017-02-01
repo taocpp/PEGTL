@@ -10,7 +10,7 @@
 
 namespace PEGTL_NAMESPACE
 {
-   inline namespace ascii
+   PEGTL_INLINE_NAMESPACE(ascii)
    {
       struct alnum : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9' > {};
       struct alpha : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z' > {};
@@ -39,7 +39,8 @@ namespace PEGTL_NAMESPACE
       struct upper : internal::range< internal::result_on_found::SUCCESS, internal::peek_char, 'A', 'Z' > {};
       struct xdigit : internal::ranges< internal::peek_char, '0', '9', 'a', 'f', 'A', 'F' > {};
 
-   } // namespace ascii
+   }
+   PEGTL_END_INLINE_NAMESPACE(ascii)
 
 } // namespace PEGTL_NAMESPACE
 

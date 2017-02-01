@@ -10,7 +10,7 @@ namespace PEGTL_NAMESPACE
 {
    struct cr_eol
    {
-      static constexpr int ch = '\r';
+      static PEGTL_CONSTEXPR int ch = '\r';
 
       template< typename Input >
       static eol_pair match( Input & in )
