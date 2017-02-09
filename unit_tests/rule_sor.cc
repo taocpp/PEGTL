@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #include "test.hh"
@@ -7,6 +7,9 @@ namespace pegtl
 {
    void unit_test()
    {
+      verify_analyze< sor< eof > >( __LINE__, __FILE__, false, false );
+      verify_analyze< sor< any > >( __LINE__, __FILE__, true, false );
+
       verify_analyze< sor< any, eof > >( __LINE__, __FILE__, false, false );
       verify_analyze< sor< eof, eof > >( __LINE__, __FILE__, false, false );
       verify_analyze< sor< eof, any > >( __LINE__, __FILE__, false, false );
@@ -23,6 +26,10 @@ namespace pegtl
 
       verify_rule< sor<> >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< sor<> >( __LINE__, __FILE__,  "a", result_type::LOCAL_FAILURE, 1 );
+
+      verify_rule< sor< one< 'a' > > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
+      verify_rule< sor< one< 'a' > > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );
+      verify_rule< sor< one< 'a' > > >( __LINE__, __FILE__,  "aa", result_type::SUCCESS, 1 );
 
       verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
       verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );
