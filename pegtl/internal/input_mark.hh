@@ -27,7 +27,7 @@ namespace PEGTL_NAMESPACE
          input_mark( const input_mark & ) = delete;
          void operator= ( const input_mark & ) = delete;
 
-         bool operator() ( const bool result )
+         bool operator() ( const bool result ) noexcept
          {
             return result;
          }
@@ -51,7 +51,7 @@ namespace PEGTL_NAMESPACE
             i.m_input = nullptr;
          }
 
-         ~input_mark()
+         ~input_mark() noexcept
          {
             if ( m_input != nullptr ) {
                ( * m_input ) = m_count;
@@ -61,7 +61,7 @@ namespace PEGTL_NAMESPACE
          input_mark( const input_mark & ) = delete;
          void operator= ( const input_mark & ) = delete;
 
-         bool operator() ( const bool result )
+         bool operator() ( const bool result ) noexcept
          {
             if ( result ) {
                m_input = nullptr;
@@ -70,27 +70,27 @@ namespace PEGTL_NAMESPACE
             return false;
          }
 
-         std::size_t byte() const
+         std::size_t byte() const noexcept
          {
             return m_count.byte;
          }
 
-         std::size_t line() const
+         std::size_t line() const noexcept
          {
             return m_count.line;
          }
 
-         std::size_t byte_in_line() const
+         std::size_t byte_in_line() const noexcept
          {
             return m_count.byte_in_line;
          }
 
-         const char * begin() const
+         const char * begin() const noexcept
          {
             return m_count.data;
          }
 
-         const count_data & count() const
+         const count_data & count() const noexcept
          {
             return m_count;
          }
