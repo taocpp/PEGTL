@@ -1,11 +1,5 @@
 cmake_minimum_required (VERSION 3.6.0 FATAL_ERROR)
 
-#if(PEGTL_PLATFORM STREQUAL "Android")
-#    # This must be before project()
-#    set(CMAKE_TOOLCHAIN_FILE "${ANDROID_NDK}/build/cmake/android.toolchain.cmake")
-#    set(ANDROID_ABI "x86" CACHE STRING "")
-#endif()
-
 project (PEGTL)
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
