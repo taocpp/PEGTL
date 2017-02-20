@@ -1,4 +1,11 @@
-cmake_minimum_required (VERSION 2.8.0 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.6.0 FATAL_ERROR)
+
+#if(PEGTL_PLATFORM STREQUAL "Android")
+#    # This must be before project()
+#    set(CMAKE_TOOLCHAIN_FILE "${ANDROID_NDK}/build/cmake/android.toolchain.cmake")
+#    set(ANDROID_ABI "x86" CACHE STRING "")
+#endif()
+
 project (PEGTL)
 
 if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
@@ -8,13 +15,13 @@ elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   set (CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g -DNDEBUG")
   set (CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror")
-elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+elseif ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
   set (CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
   set (CMAKE_CXX_FLAGS_RELWITHDEBINFO "-O3 -g -DNDEBUG")
   set (CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -Wextra -Werror")
 else ()
-  message (FATAL_ERROR "Unknown C++ compiler")
+  message (FATAL_ERROR "Unknown C++ compiler: ${CMAKE_CXX_COMPILER_ID}" )
 endif ()
 
 enable_testing ()
