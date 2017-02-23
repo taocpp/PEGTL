@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2015 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_EXAMPLES_DOUBLE_HH
@@ -25,7 +25,7 @@ namespace double_
    template< typename D >
    struct number : pegtl::if_then_else< dot,
                                         pegtl::plus< D >,
-                                        pegtl::seq< pegtl::plus< D >, dot, pegtl::star< D > > > {};
+                                        pegtl::seq< pegtl::plus< D >, pegtl::opt< dot, pegtl::star< D > > > > {};
 
    struct e : pegtl::one< 'e', 'E' > {};
    struct p : pegtl::one< 'p', 'P' > {};
