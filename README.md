@@ -81,10 +81,10 @@ Systems supported but not automatically tested, *yet*:
 * Android
 
 Additionally, each commit is checked with GCC's and Clang's sanitizers as well as [`valgrind`](http://valgrind.org/).
-The coverage is also automatically measured, our unit tests cover 100% of the core library code.
+Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
 
 [Releases](https://github.com/ColinH/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
-This means that incompatible API changes can happen, but only between major versions.
+Incompatible API changes are *only* allowed to occur between major versions.
 For details see the [changelog](https://github.com/ColinH/PEGTL/blob/master/doc/Changelog.md).
 
 ### Thank You
