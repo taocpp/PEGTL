@@ -42,12 +42,12 @@ The included [grammar analysis](https://github.com/ColinH/PEGTL/blob/master/doc/
 
 ### Design
 
-The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user control over what else happens during a parsing run.
-
 The PEGTL is designed to be "lean and mean", the core library consists of approximately 4000 lines of code.
 Emphasis is on simplicity and efficiency, preferring a well-tuned simple approach over complicated optimisations.
 
-Whether and which actions are taken, and which data structures are created during a parsing run, is entirely up to the user of the library, however we provide some [examples](https://github.com/ColinH/PEGTL/blob/master/doc/Contrib-and-Examples.md#examples) for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
+The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user of the library (the possibility of) full control over all other aspects of a parsing run. Whether/which actions are taken, and whether/which data structures are created during a parsing run, is entirely up to the user.
+
+Included are some [examples](https://github.com/ColinH/PEGTL/blob/master/doc/Contrib-and-Examples.md#examples) for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
 
 Through the use of template programming and template specialisations it is possible to write a grammar once, and use it in multiple ways with different (semantic) actions in different (or the same) parsing runs.
 
