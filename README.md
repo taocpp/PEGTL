@@ -17,9 +17,9 @@ The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++
 
 ### Introduction
 
-Grammars are written as regular C++ code, created with template programming (not template meta programming), i.e. nested template instantiations that naturally correspond to the inductive definition of PEGs or other parser combinator approaches.
+Grammars are written as regular C++ code, created with template programming (not template meta programming), i.e. nested template instantiations that naturally correspond to the inductive definition of PEGs (and other parser-combinator approaches).
 
-A comprehensive set of parser rules that can be combined and extended by the user is included, as are mechanisms for debugging grammars and attaching user-defined actions to grammar rules.
+A comprehensive set of [parser rules](https://github.com/ColinH/PEGTL/blob/master/doc/Rule-Reference.md) that can be combined and extended by the user is included, as are mechanisms for debugging grammars, and for attaching user-defined [actions](https://github.com/ColinH/PEGTL/blob/master/doc/Actions-and-States.md) to grammar rules.
 Here is an example of how a PEG grammar rule is implemented as C++ class with the PEGTL.
 
 ```c++
@@ -44,8 +44,8 @@ The included [grammar analysis](https://github.com/ColinH/PEGTL/blob/master/doc/
 
 The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user control over what else happens during a parsing run.
 
-The PEGTL is designed to be "lean and mean", the actual core library has about 3000 lines of code.
-Emphasis is on simplicity and efficiency but without adding any large constructions for optimising parsers.
+The PEGTL is designed to be "lean and mean", the core library consists of approximately 4000 lines of code.
+Emphasis is on simplicity and efficiency, preferring a well-tuned simple approach over complicated optimisations.
 
 Whether and which actions are taken, and which data structures are created during a parsing run, is entirely up to the user of the library, however we provide some [examples](https://github.com/ColinH/PEGTL/blob/master/doc/Contrib-and-Examples.md#examples) for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
 
