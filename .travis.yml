@@ -8,6 +8,8 @@ android:
     - extra-android-support
     - extra-android-m2repository
     - android-23
+    - sys-img-armeabi-v7a-android-22
+    - cmake
   licenses:
     - '.+'
 before_script:
@@ -19,8 +21,11 @@ before_script:
   - export LOCAL_ANDROID_NDK_HOST_PLATFORM="linux-x86_64"
   - export PATH=$PATH:${ANDROID_NDK_HOME}
   - export _NO_CHECK_SIGNATURE=true
+  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
+  - emulator -avd test -no-audio -no-window &
+  - android-wait-for-emulator
 script:
-  - cmake -DANDROID_NDK=/path/to/android-ndk -DPEGTL_PLATFORM=Android
+  - cmake -DANDROID_NDK="$ANDROID_NDK_HOME" -DPEGTL_PLATFORM=Android -DANDROID_ABI=armeabi-v7a
   - make
   - make test
-  - run-on-android.sh
+  - ./run-on-android.sh
