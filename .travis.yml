@@ -7,9 +7,9 @@ android:
     - build-tools-23.0.3
     - extra-android-support
     - extra-android-m2repository
-    - android-23
+    - android-22
     - sys-img-armeabi-v7a-android-22
-    - cmake
+    - cmake 
   licenses:
     - '.+'
 before_script:
