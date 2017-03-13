@@ -32,4 +32,3 @@ script:
   - cmake -DANDROID_NDK="$ANDROID_NDK_HOME" -DPEGTL_PLATFORM=Android -DANDROID_ABI=armeabi-v7a
   - make
   - make test
-  - ./run-on-android.sh
