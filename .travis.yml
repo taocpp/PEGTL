@@ -20,6 +20,10 @@ before_script:
   - export LOCAL_ANDROID_NDK_HOME="$ANDROID_NDK_HOME"
   - export LOCAL_ANDROID_NDK_HOST_PLATFORM="linux-x86_64"
   - export PATH=$PATH:${ANDROID_NDK_HOME}
+  - export CMAKE_VERSION=3.6.2
+  - curl -L https://cmake.org/files/v3.6/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+  - tar xzf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+  - export PATH=cmake-${CMAKE_VERSION}-Linux-x86_64/bin:$PATH
   - export _NO_CHECK_SIGNATURE=true
   - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
   - emulator -avd test -no-audio -no-window &
