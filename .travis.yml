@@ -21,7 +21,7 @@ before_script:
   - export LOCAL_ANDROID_NDK_HOST_PLATFORM="linux-x86_64"
   - export PATH=$PATH:${ANDROID_NDK_HOME}
   - export CMAKE_VERSION=3.6.2
-  - curl -L https://cmake.org/files/v3.6/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
+  - curl -L https://cmake.org/files/v3.6/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz -O
   - tar xzf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
   - export PATH=cmake-${CMAKE_VERSION}-Linux-x86_64/bin:$PATH
   - export _NO_CHECK_SIGNATURE=true
