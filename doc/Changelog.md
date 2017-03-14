@@ -25,6 +25,7 @@ Released in the future
 * Added defines for the version of the PEGTL.
 * Added support for GCC 4.7.
 * Improved CI tests.
+* Updated CMake requirement to 3.6.0.
 
 #### 1.3.1
 
