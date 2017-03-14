@@ -1,8 +1,8 @@
 # Changelog
 
-#### Next
+#### 2.0.0
 
-Released in the future
+**Not yet released**
 
 * Added support for different EOL-styles.
 * Added new combinator class `minus< M, S >`.
@@ -99,4 +99,4 @@ The changelog of the old 0.x versions was dropped due to the [large refactoring]
 The PEGTL was initially developed in 2008 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
 Several years of real-world experience and smaller updates passed until 2014, when some of the more experimental PEGTL features were removed, the remaining parts refactored and refined, and some interesting additions made.
 
-Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey

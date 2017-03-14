@@ -75,9 +75,6 @@ Each commit is [automatically](https://travis-ci.org/ColinH/PEGTL) [tested](http
 * Mac OS X 10.11, Xcode (7.3) with libc++
 * Mac OS X 10.12, Xcode (8.2) with libc++
 * Windows, Visual Studio 2015
-
-Systems supported but not automatically tested, *yet*:
-
 * Android
 
 Additionally, each commit is checked with GCC's and Clang's sanitizers as well as [`valgrind`](http://valgrind.org/).
@@ -94,7 +91,7 @@ For details see the [changelog](https://github.com/ColinH/PEGTL/blob/master/doc/
 * Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
 * Sam Hocevar for contributing Visual Studio 2015 compatibility.
 * George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `pegtl_string_t`.
-* Kenneth Geisshirt for Android compatibility.
+* Kenneth Geisshirt for Android compatibility and Android CI.
 * Paulo Custodio for Windows-related fixes.
 * Kuzma Shapran for EOL testing and fixes.
 * Michael Becker and Sven Johannsen for help with CMake.
