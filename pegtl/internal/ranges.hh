@@ -22,7 +22,7 @@ namespace PEGTL_NAMESPACE
       template< int Eol, typename Char >
       struct ranges_impl< Eol, Char >
       {
-         static constexpr bool can_match_eol = false;
+         static PEGTL_CONSTEXPR bool can_match_eol = false;
 
          static bool match( const Char )
          {
@@ -33,7 +33,7 @@ namespace PEGTL_NAMESPACE
       template< int Eol, typename Char, Char Eq >
       struct ranges_impl< Eol, Char, Eq >
       {
-         static constexpr bool can_match_eol = ( Eq == Eol );
+         static PEGTL_CONSTEXPR bool can_match_eol = ( Eq == Eol );
 
          static bool match( const Char c )
          {
@@ -44,7 +44,7 @@ namespace PEGTL_NAMESPACE
       template< int Eol, typename Char, Char Lo, Char Hi, Char ... Cs >
       struct ranges_impl< Eol, Char, Lo, Hi, Cs ... >
       {
-         static constexpr bool can_match_eol = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) || ranges_impl< Eol, Char, Cs ... >::can_match_eol );
+         static PEGTL_CONSTEXPR bool can_match_eol = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) || ranges_impl< Eol, Char, Cs ... >::can_match_eol );
 
          static bool match( const Char c )
          {
@@ -60,7 +60,7 @@ namespace PEGTL_NAMESPACE
          template< int Eol >
          struct can_match_eol
          {
-            static constexpr bool value = ranges_impl< Eol, typename Peek::data_t, Cs ... >::can_match_eol;
+            static PEGTL_CONSTEXPR bool value = ranges_impl< Eol, typename Peek::data_t, Cs ... >::can_match_eol;
          };
 
          template< typename Input >

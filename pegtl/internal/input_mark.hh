@@ -15,13 +15,13 @@ namespace PEGTL_NAMESPACE
       template< rewind_mode M > class input_mark
       {
       public:
-         static constexpr rewind_mode next_rewind_mode = M;
+         static PEGTL_CONSTEXPR rewind_mode next_rewind_mode = M;
 
          explicit
          input_mark( const count_data & )
          { }
 
-         input_mark( input_mark && ) noexcept
+         input_mark( input_mark && ) PEGTL_NOEXCEPT
          { }
 
          input_mark( const input_mark & ) = delete;
@@ -36,15 +36,15 @@ namespace PEGTL_NAMESPACE
       template<> class input_mark< rewind_mode::REQUIRED >
       {
       public:
-         static constexpr rewind_mode next_rewind_mode = rewind_mode::ACTIVE;
+         static PEGTL_CONSTEXPR rewind_mode next_rewind_mode = rewind_mode::ACTIVE;
 
          explicit
-         input_mark( count_data & i ) noexcept
+         input_mark( count_data & i ) PEGTL_NOEXCEPT
                : m_count( i ),
                  m_input( & i )
          { }
 
-         input_mark( input_mark && i ) noexcept
+         input_mark( input_mark && i ) PEGTL_NOEXCEPT
                : m_count( i.m_count ),
                  m_input( i.m_input )
          {
