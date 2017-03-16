@@ -32,11 +32,11 @@ namespace PEGTL_NAMESPACE
          static bool match( Input & in, States && ... st )
          {
 #ifdef __cpp_fold_expressions
-            return ( Control< Rules >::template match< A, ( Indices == sizeof...( Rules ) ) ? M : rewind_mode::REQUIRED, Action, Control >( in, st ... ) || ... );
+            return ( Control< Rules >::template match< A, ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::REQUIRED, Action, Control >( in, st ... ) || ... );
 #else
             bool result = false;
             using swallow = bool[];
-            (void)swallow{ result = result || Control< Rules >::template match< A, ( Indices == sizeof...( Rules ) ) ? M : rewind_mode::REQUIRED, Action, Control >( in, st ... ) ... };
+            (void)swallow{ result = result || Control< Rules >::template match< A, ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::REQUIRED, Action, Control >( in, st ... ) ... };
             return result;
 #endif
          }
