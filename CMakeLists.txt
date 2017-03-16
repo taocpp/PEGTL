@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 3.6.0 FATAL_ERROR)
 
 if (PEGTL_PLATFORM STREQUAL "Android")
   # This must be before project()
-  set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/CMake/android.toolchain.cmake")
+  set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/android.toolchain.cmake")
   set(ANDROID_ABI "x86" CACHE STRING "")
   set(ANDROID_TOOLCHAIN "clang" CACHE STRING "")
   set(ANDROID_NATIVE_API_LEVEL "android-16" CACHE STRING "")
