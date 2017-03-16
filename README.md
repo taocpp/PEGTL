@@ -75,7 +75,7 @@ Each commit is [automatically](https://travis-ci.org/ColinH/PEGTL) [tested](http
 * Mac OS X 10.11, Xcode (7.3) with libc++
 * Mac OS X 10.12, Xcode (8.2) with libc++
 * Windows, Visual Studio 2015
-* Android
+* Android 5.1, NDK release 10e
 
 Additionally, each commit is checked with GCC's and Clang's sanitizers as well as [`valgrind`](http://valgrind.org/).
 Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
