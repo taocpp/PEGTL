@@ -1,5 +1,6 @@
 cmake_minimum_required (VERSION 3.6.0 FATAL_ERROR)
 
+# android is special...
 if (PEGTL_PLATFORM STREQUAL "Android")
   # this must be before project()
   set (CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/android.toolchain.cmake")
@@ -9,7 +10,11 @@ if (PEGTL_PLATFORM STREQUAL "Android")
 endif ()
 
 # set project and version
-project (PEGTL VERSION 2.0.0)
+if (PEGTL_PLATFORM STREQUAL "Android")
+  project (PEGTL VERSION 2.0.0)
+else ()
+  project (PEGTL VERSION 2.0.0 LANGUAGES CXX)
+endif ()
 
 # set C++ language standard
 set (CMAKE_CXX_STANDARD 11)
@@ -20,7 +25,7 @@ set (CMAKE_CXX_EXTENSIONS OFF)
 if (MSVC)
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX /utf-8")
 else ()
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -pedantic")
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra -Wshadow -Werror")
 endif ()
 
 # define a header-only library
@@ -40,8 +45,8 @@ foreach (testsourcefile ${testsources})
   add_executable (${exename} ${testsourcefile})
   target_link_libraries (${exename} PEGTL)
   if (PEGTL_PLATFORM STREQUAL "Android")
-    add_test (NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/run-on-android.sh ${CMAKE_BINARY_DIR}/${exename})
+    add_test (NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/run-on-android.sh ${CMAKE_CURRENT_BINARY_DIR}/${exename})
   else ()
-    add_test (NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMMAND ${CMAKE_BINARY_DIR}/${exename})
+    add_test (NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${exename})
   endif ()
 endforeach (testsourcefile)
