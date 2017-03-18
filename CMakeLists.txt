@@ -9,7 +9,7 @@ if (PEGTL_PLATFORM STREQUAL "Android")
 endif ()
 
 # set project and version
-project (PEGTL VERSION 2.0.0 LANGUAGES CXX)
+project (PEGTL VERSION 2.0.0)
 
 # set C++ language standard
 set (CMAKE_CXX_STANDARD 11)
