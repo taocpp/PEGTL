@@ -32,7 +32,7 @@ CLANG_TIDY ?= clang-tidy
 
 .PHONY: all compile check valgrind cppcheck clang-tidy clean
 
-HEADERS := pegtl.hh $(shell find pegtl -name '*.hh')
+HEADERS := $(shell find include -name '*.hh')
 SOURCES := $(wildcard */*.cc)
 DEPENDS := $(SOURCES:%.cc=build/%.d)
 BINARIES := $(SOURCES:%.cc=build/%)
@@ -63,7 +63,7 @@ cppcheck: $(HEADERS:%.hh=build/%.cppcheck)
 	@echo "All $(words $(HEADERS)) cppcheck tests passed."
 
 build/%.clang-tidy: %
-	$(CLANG_TIDY) -extra-arg "-I." -extra-arg "-std=c++11" -checks=*,-google-*,-llvm-include-order,-clang-analyzer-alpha*,-cppcoreguidelines*,-readability-named-parameter $< 2>/dev/null
+	$(CLANG_TIDY) -extra-arg "-Iinclude" -extra-arg "-std=c++11" -checks=*,-google-*,-llvm-include-order,-clang-analyzer-alpha*,-cppcoreguidelines*,-readability-named-parameter $< 2>/dev/null
 	@mkdir -p $(@D)
 	@touch $@
 
@@ -77,10 +77,10 @@ clean:
 
 build/%.d: %.cc Makefile
 	@mkdir -p $(@D)
-	$(CXX) $(CXXSTD) -I. $(CPPFLAGS) -MM -MQ $@ $< -o $@
+	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) -MM -MQ $@ $< -o $@
 
 build/%: %.cc build/%.d
-	$(CXX) $(CXXSTD) -I. $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 ifeq ($(findstring $(MAKECMDGOALS),clean),)
 -include $(DEPENDS)
