@@ -17,12 +17,10 @@ set (CMAKE_CXX_STANDARD_REQUIRED ON)
 set (CMAKE_CXX_EXTENSIONS OFF)
 
 # set warning options
-if (CMAKE_COMPILER_IS_GNUCXX)
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -pedantic")
-elseif (MSVC)
+if (MSVC)
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX /utf-8")
 else ()
-  message (FATAL_ERROR "Unknown C++ compiler: ${CMAKE_CXX_COMPILER_ID}")
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -pedantic")
 endif ()
 
 # define a header-only library
