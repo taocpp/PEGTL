@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
 
 #ifndef PEGTL_UNIT_TESTS_VERIFY_IMPL_HH
@@ -7,7 +7,7 @@
 #include <cstddef>
 #include <string>
 
-#include "../pegtl/memory_input.hh"
+#include <pegtl/memory_input.hh>
 
 #include "test_failed.hh"
 #include "verify_help.hh"

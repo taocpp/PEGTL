@@ -9,10 +9,10 @@
 
 #include "result_type.hh"
 
-#include "../pegtl/normal.hh"
-#include "../pegtl/nothing.hh"
-#include "../pegtl/apply_mode.hh"
-#include "../pegtl/rewind_mode.hh"
+#include <pegtl/normal.hh>
+#include <pegtl/nothing.hh>
+#include <pegtl/apply_mode.hh>
+#include <pegtl/rewind_mode.hh>
 
 namespace pegtl
 {
