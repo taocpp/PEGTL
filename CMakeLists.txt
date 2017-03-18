@@ -2,11 +2,11 @@ cmake_minimum_required (VERSION 3.6.0 FATAL_ERROR)
 
 if (PEGTL_PLATFORM STREQUAL "Android")
   # this must be before project()
-  set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/android.toolchain.cmake")
-  set(ANDROID_ABI "x86" CACHE STRING "")
-  set(ANDROID_TOOLCHAIN "clang" CACHE STRING "")
-  set(ANDROID_NATIVE_API_LEVEL "android-16" CACHE STRING "")
-endif()
+  set (CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/android.toolchain.cmake")
+  set (ANDROID_ABI "x86" CACHE STRING "")
+  set (ANDROID_TOOLCHAIN "clang" CACHE STRING "")
+  set (ANDROID_NATIVE_API_LEVEL "android-16" CACHE STRING "")
+endif ()
 
 # set project and version
 project (PEGTL VERSION 2.0.0 LANGUAGES CXX)
@@ -20,7 +20,7 @@ set (CMAKE_CXX_EXTENSIONS OFF)
 if (MSVC)
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX /utf-8")
 else ()
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -pedantic")
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 endif ()
 
 # define a header-only library
