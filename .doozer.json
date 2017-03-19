@@ -38,12 +38,12 @@
     "fedora24-x86_64-g++": {
       "buildenv": "fedora24-x86_64",
       "builddeps": ["cmake", "make", "clang"],
-      "buildcmd": ["cp CMakeLists.txt.testing CMakeLists.txt", "mkdir build", "cd build", "CXX=g++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
+      "buildcmd": ["mkdir build", "cd build", "CXX=g++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
     },
     "fedora24-x86_64-clang": {
       "buildenv": "fedora24-x86_64",
       "builddeps": ["cmake", "make", "clang"],
-      "buildcmd": ["cp CMakeLists.txt.testing CMakeLists.txt", "mkdir build", "cd build", "CXX=clang++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
+      "buildcmd": ["mkdir build", "cd build", "CXX=clang++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
     },
     "osx": {
       "buildenv": "osx",

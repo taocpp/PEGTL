@@ -1,5 +1,17 @@
 cmake_minimum_required (VERSION 3.2.0 FATAL_ERROR)
 
+if (ANDROID_NDK)
+  # TODO: why do we need 3.6.0?
+  cmake_minimum_required (VERSION 3.6.0 FATAL_ERROR)
+
+  # TODO: shouldn't this file be somewhere in the NDK??
+  set (CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/android.toolchain.cmake")
+
+  set (ANDROID_ABI "x86" CACHE STRING "")
+  set (ANDROID_TOOLCHAIN "clang" CACHE STRING "")
+  set (ANDROID_NATIVE_API_LEVEL "android-16" CACHE STRING "")
+endif ()
+
 # set project and version
 project (PEGTL VERSION 2.0.0 LANGUAGES CXX)
 
@@ -13,5 +25,9 @@ target_include_directories (PEGTL INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
+
+# testing
+enable_testing ()
+add_subdirectory (unit_tests)
 
 # TODO: install
