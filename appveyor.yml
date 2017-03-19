@@ -14,6 +14,7 @@ before_build:
 - del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
 
 build_script:
+- copy CMakeLists.txt.testing CMakeLists.txt
 - md build-vc
 - cd build-vc
 - cmake -Wno-dev ..
