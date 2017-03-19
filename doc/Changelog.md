@@ -4,7 +4,7 @@
 
 **Not yet released**
 
-* Added `CMakeLists.txt` (requires `cmake` >= 3.2.0).
+* Added support for [CMake](https://cmake.org/).
 * Added automatic testing (CI) of Visual Studio 2015.
 * Added automatic testing (CI) of Android 5.1, NDK r10e.
 * Added support for different EOL-styles.
@@ -27,7 +27,6 @@
 * Allowed re-defining of the `pegtl` namespace name.
 * Added defines for the version of the PEGTL.
 * Added support for GCC 4.7.
-* Improved CI tests.
 
 #### 1.3.1
 
