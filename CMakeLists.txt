@@ -13,7 +13,11 @@ if (ANDROID_NDK)
 endif ()
 
 # set project and version
-project (PEGTL VERSION 2.0.0 LANGUAGES CXX)
+if (ANDROID_NDK)
+  project (PEGTL VERSION 2.0.0)
+else ()
+  project (PEGTL VERSION 2.0.0 LANGUAGES CXX)
+endif ()
 
 # set C++ language standard
 set (CMAKE_CXX_STANDARD 11)
