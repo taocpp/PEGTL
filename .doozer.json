@@ -45,6 +45,26 @@
       "builddeps": ["cmake", "make", "clang"],
       "buildcmd": ["mkdir build", "cd build", "CXX=clang++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
     },
+    "fedora24-x86_64-g++-debug": {
+      "buildenv": "fedora24-x86_64",
+      "builddeps": ["cmake", "make", "clang"],
+      "buildcmd": ["mkdir build", "cd build", "CXX=g++ cmake -DCMAKE_BUILD_TYPE=Debug ..", "cmake --build .", "ctest --output-on-failure"]
+    },
+    "fedora24-x86_64-clang-debug": {
+      "buildenv": "fedora24-x86_64",
+      "builddeps": ["cmake", "make", "clang"],
+      "buildcmd": ["mkdir build", "cd build", "CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Debug ..", "cmake --build .", "ctest --output-on-failure"]
+    },
+    "fedora24-x86_64-g++-release": {
+      "buildenv": "fedora24-x86_64",
+      "builddeps": ["cmake", "make", "clang"],
+      "buildcmd": ["mkdir build", "cd build", "CXX=g++ cmake -DCMAKE_BUILD_TYPE=Release ..", "cmake --build .", "ctest --output-on-failure"]
+    },
+    "fedora24-x86_64-clang-release": {
+      "buildenv": "fedora24-x86_64",
+      "builddeps": ["cmake", "make", "clang"],
+      "buildcmd": ["mkdir build", "cd build", "CXX=clang++ cmake -DCMAKE_BUILD_TYPE=Release ..", "cmake --build .", "ctest --output-on-failure"]
+    },
     "osx": {
       "buildenv": "osx",
       "builddeps": ["build-essential"],
