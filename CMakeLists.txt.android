@@ -10,17 +10,28 @@ set (ANDROID_ABI "x86" CACHE STRING "")
 set (ANDROID_TOOLCHAIN "clang" CACHE STRING "")
 set (ANDROID_NATIVE_API_LEVEL "android-16" CACHE STRING "")
 
-include (${CMAKE_CURRENT_SOURCE_DIR}/pegtl.cmake)
+# set project and version
+# warning: do not set the language
+project (PEGTL VERSION 2.0.0)
 
-enable_language (C)
+# set C++ language standard
+set (CMAKE_CXX_STANDARD 11)
+set (CMAKE_CXX_STANDARD_REQUIRED ON)
+set (CMAKE_CXX_EXTENSIONS OFF)
 
 # modify flags for testing
-set (CMAKE_CXX_EXTENSIONS OFF)
 if (MSVC)
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX /utf-8")
 else ()
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra -Wshadow -Werror")
 endif ()
+
+# define a header-only library
+add_library (PEGTL INTERFACE)
+target_include_directories (PEGTL INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+)
 
 # testing
 enable_testing ()
