@@ -35,15 +35,15 @@
       "builddeps": ["build-essential"],
       "buildcmd": "make -j ${PARALLEL}"
     },
-    "fedora24-x86_64": {
+    "fedora24-x86_64-g++": {
       "buildenv": "fedora24-x86_64",
       "builddeps": ["cmake", "make", "clang"],
-      "buildcmd": ["mkdir build-fedora24-x86_64", "cd build-fedora24-x86_64", "CXX=g++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
+      "buildcmd": ["cp CMakeLists.txt.testing CMakeLists.txt", "mkdir build", "cd build", "CXX=g++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
     },
     "fedora24-x86_64-clang": {
       "buildenv": "fedora24-x86_64",
       "builddeps": ["cmake", "make", "clang"],
-      "buildcmd": ["mkdir build-fedora24-x86_64-clang", "cd build-fedora24-x86_64-clang", "CXX=clang++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
+      "buildcmd": ["cp CMakeLists.txt.testing CMakeLists.txt", "mkdir build", "cd build", "CXX=clang++ cmake ..", "cmake --build .", "ctest --output-on-failure"]
     },
     "osx": {
       "buildenv": "osx",
