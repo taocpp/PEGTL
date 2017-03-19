@@ -4,6 +4,9 @@
 
 **Not yet released**
 
+* Added `CMakeLists.txt` (requires `cmake` >= 3.2.0).
+* Added automatic testing (CI) of Visual Studio 2015.
+* Added automatic testing (CI) of Android 5.1, NDK r10e.
 * Added support for different EOL-styles.
 * Added new combinator class `minus< M, S >`.
 * Added support for custom incremental input readers.

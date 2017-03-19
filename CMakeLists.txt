@@ -1,41 +1,14 @@
-cmake_minimum_required (VERSION 3.6.0 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.2.0 FATAL_ERROR)
 
-# android is special...
-if (PEGTL_PLATFORM STREQUAL "Android")
-  # this must be before project()
-  set (CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/android.toolchain.cmake")
-  set (ANDROID_ABI "x86" CACHE STRING "")
-  set (ANDROID_TOOLCHAIN "clang" CACHE STRING "")
-  set (ANDROID_NATIVE_API_LEVEL "android-16" CACHE STRING "")
-endif ()
+include (${CMAKE_CURRENT_SOURCE_DIR}/pegtl.cmake)
 
-# set project and version
-if (PEGTL_PLATFORM STREQUAL "Android")
-  project (PEGTL VERSION 2.0.0)
-else ()
-  project (PEGTL VERSION 2.0.0 LANGUAGES CXX)
-endif ()
-
-# set C++ language standard
-set (CMAKE_CXX_STANDARD 11)
-set (CMAKE_CXX_STANDARD_REQUIRED ON)
+# modify flags for testing
 set (CMAKE_CXX_EXTENSIONS OFF)
-
-# set warning options
 if (MSVC)
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX /utf-8")
 else ()
   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra -Wshadow -Werror")
 endif ()
-
-# define a header-only library
-add_library (PEGTL INTERFACE)
-target_include_directories (PEGTL INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
-)
-
-# TODO: installation
 
 # testing
 enable_testing ()
@@ -44,9 +17,5 @@ foreach (testsourcefile ${testsources})
   get_filename_component (exename ${testsourcefile} NAME_WE)
   add_executable (${exename} ${testsourcefile})
   target_link_libraries (${exename} PEGTL)
-  if (PEGTL_PLATFORM STREQUAL "Android")
-    add_test (NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/run-on-android.sh ${CMAKE_CURRENT_BINARY_DIR}/${exename})
-  else ()
-    add_test (NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${exename})
-  endif ()
+  add_test (NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${exename})
 endforeach (testsourcefile)

@@ -156,8 +156,9 @@ matrix:
         - emulator -avd test -no-audio -no-window &
         - android-wait-for-emulator
       script:
-        - cmake -DANDROID_NDK="$ANDROID_NDK_HOME" -DPEGTL_PLATFORM=Android -DANDROID_ABI=armeabi-v7a
-        - make
+        - cp CMakeLists.txt.android CMakeLists.txt
+        - cmake -DANDROID_NDK="$ANDROID_NDK_HOME" -DANDROID_ABI=armeabi-v7a
+        - make -j2
         - make test
 
     - os: linux

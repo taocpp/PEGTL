@@ -1,0 +1,33 @@
+# this is a special version for Android testing
+
+# TODO: why do we need 3.6.0?
+cmake_minimum_required (VERSION 3.6.0 FATAL_ERROR)
+
+# TODO: shouldn't this file be somewhere in the NDK??
+set (CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/android.toolchain.cmake")
+
+set (ANDROID_ABI "x86" CACHE STRING "")
+set (ANDROID_TOOLCHAIN "clang" CACHE STRING "")
+set (ANDROID_NATIVE_API_LEVEL "android-16" CACHE STRING "")
+
+include (${CMAKE_CURRENT_SOURCE_DIR}/pegtl.cmake)
+
+enable_language (C)
+
+# modify flags for testing
+set (CMAKE_CXX_EXTENSIONS OFF)
+if (MSVC)
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX /utf-8")
+else ()
+  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra -Wshadow -Werror")
+endif ()
+
+# testing
+enable_testing ()
+file (GLOB testsources unit_tests/*.cc)
+foreach (testsourcefile ${testsources})
+  get_filename_component (exename ${testsourcefile} NAME_WE)
+  add_executable (${exename} ${testsourcefile})
+  target_link_libraries (${exename} PEGTL)
+  add_test (NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/run-on-android.sh ${CMAKE_CURRENT_BINARY_DIR}/${exename})
+endforeach (testsourcefile)
