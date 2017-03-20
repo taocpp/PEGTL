@@ -4,7 +4,6 @@
 
 **Not yet released**
 
-* Moved repository from **ColinH/PEGTL** to **taocpp/PEGTL**.
 * Added support for [CMake](https://cmake.org/).
 * Added automatic testing (CI) of Visual Studio 2015.
 * Added automatic testing (CI) of Android 5.1, NDK r10e.
