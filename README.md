@@ -99,7 +99,7 @@ For details see the [changelog](https://github.com/ColinH/PEGTL/blob/master/doc/
 
 ### Contact
 
-For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to contact the authors at `pegtl(at)colin-hirsch.net`.
+For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to contact the authors at `taocpp(at)icemx.net`.
 
 ### License
 
