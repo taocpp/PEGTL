@@ -27,6 +27,7 @@
 * Allowed re-defining of the `pegtl` namespace name.
 * Added defines for the version of the PEGTL.
 * Added support for GCC 4.7.
+* Moved repository to `https://github.com/taocpp/PEGTL`
 
 #### 1.3.1
 
