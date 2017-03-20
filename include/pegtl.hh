@@ -1,5 +1,5 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
-// Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
+// Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #ifndef PEGTL_HH
 #define PEGTL_HH

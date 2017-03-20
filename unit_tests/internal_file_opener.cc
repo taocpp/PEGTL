@@ -1,5 +1,5 @@
-// Copyright (c) 2015-2016 Dr. Colin Hirsch and Daniel Frey
-// Please see LICENSE for license or visit https://github.com/ColinH/PEGTL/
+// Copyright (c) 2015-2017 Dr. Colin Hirsch and Daniel Frey
+// Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <pegtl/file_parser.hh>
 

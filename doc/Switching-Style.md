@@ -39,4 +39,4 @@ For an example of how to build a generic JSON data structure with the "external 
 
 The actual switching control classes are defined in `pegtl/contrib/changes.hh` and can be used as template for custom switching.
 
-Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey

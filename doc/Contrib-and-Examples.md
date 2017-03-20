@@ -130,4 +130,4 @@ Uses the building blocks from `pegtl/contrib/unescape.hh` to show how to actuall
 
 Shows how to use the included tracer control, here together with the URI grammar from `pegtl/contrib/uri.hh`.
 
-Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey

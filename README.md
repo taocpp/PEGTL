@@ -1,25 +1,25 @@
 ## Welcome to the PEGTL
 
-[![Release](https://img.shields.io/github/release/ColinH/PEGTL.svg)](https://github.com/ColinH/PEGTL/releases/latest)
-[![License](https://img.shields.io/github/license/ColinH/PEGTL.svg)](#license)
-[![TravisCI](https://travis-ci.org/ColinH/PEGTL.svg)](https://travis-ci.org/ColinH/PEGTL)
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/ColinH/PEGTL?svg=true)](https://ci.appveyor.com/project/ColinH/PEGTL)
-[![Doozer.io](https://doozer.io/badge/ColinH/PEGTL/buildstatus/master)](https://doozer.io/user/ColinH/PEGTL)
-[![Coverage](https://img.shields.io/coveralls/ColinH/PEGTL.svg)](https://coveralls.io/github/ColinH/PEGTL)
-[![Issues](https://img.shields.io/github/issues/ColinH/PEGTL.svg)](https://github.com/ColinH/PEGTL/issues)
+[![Release](https://img.shields.io/github/release/taocpp/PEGTL.svg)](https://github.com/taocpp/PEGTL/releases/latest)
+[![License](https://img.shields.io/github/license/taocpp/PEGTL.svg)](#license)
+[![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg)](https://travis-ci.org/taocpp/PEGTL)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/github/taocpp/PEGTL?svg=true)](https://ci.appveyor.com/project/taocpp/PEGTL)
+[![Doozer.io](https://doozer.io/badge/taocpp/PEGTL/buildstatus/master)](https://doozer.io/user/taocpp/PEGTL)
+[![Coverage](https://img.shields.io/coveralls/taocpp/PEGTL.svg)](https://coveralls.io/github/taocpp/PEGTL)
+[![Issues](https://img.shields.io/github/issues/taocpp/PEGTL.svg)](https://github.com/taocpp/PEGTL/issues)
 
 The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++11 header-only library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
 ### Documentation
 
-* [Master Branch Documentation](https://github.com/ColinH/PEGTL/blob/master/doc/README.md)
-* [Version 1.3.x Documentation](https://github.com/ColinH/PEGTL/blob/1.3.x/doc/README.md)
+* [Master Branch Documentation](https://github.com/taocpp/PEGTL/blob/master/doc/README.md)
+* [Version 1.3.x Documentation](https://github.com/taocpp/PEGTL/blob/1.3.x/doc/README.md)
 
 ### Introduction
 
 Grammars are written as regular C++ code, created with template programming (not template meta programming), i.e. nested template instantiations that naturally correspond to the inductive definition of PEGs (and other parser-combinator approaches).
 
-A comprehensive set of [parser rules](https://github.com/ColinH/PEGTL/blob/master/doc/Rule-Reference.md) that can be combined and extended by the user is included, as are mechanisms for debugging grammars, and for attaching user-defined [actions](https://github.com/ColinH/PEGTL/blob/master/doc/Actions-and-States.md) to grammar rules.
+A comprehensive set of [parser rules](https://github.com/taocpp/PEGTL/blob/master/doc/Rule-Reference.md) that can be combined and extended by the user is included, as are mechanisms for debugging grammars, and for attaching user-defined [actions](https://github.com/taocpp/PEGTL/blob/master/doc/Actions-and-States.md) to grammar rules.
 Here is an example of how a PEG grammar rule is implemented as C++ class with the PEGTL.
 
 ```c++
@@ -38,7 +38,7 @@ struct integer
 ```
 
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic nature of PEGs gives rise to some very important differences.
-The included [grammar analysis](https://github.com/ColinH/PEGTL/blob/master/doc/Grammar-Analysis.md) finds several typical errors in PEGs, including left recursion.
+The included [grammar analysis](https://github.com/taocpp/PEGTL/blob/master/doc/Grammar-Analysis.md) finds several typical errors in PEGs, including left recursion.
 
 ### Design
 
@@ -47,7 +47,7 @@ Emphasis is on simplicity and efficiency, preferring a well-tuned simple approac
 
 The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user of the library (the possibility of) full control over all other aspects of a parsing run. Whether/which actions are taken, and whether/which data structures are created during a parsing run, is entirely up to the user.
 
-Included are some [examples](https://github.com/ColinH/PEGTL/blob/master/doc/Contrib-and-Examples.md#examples) for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
+Included are some [examples](https://github.com/taocpp/PEGTL/blob/master/doc/Contrib-and-Examples.md#examples) for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
 
 Through the use of template programming and template specialisations it is possible to write a grammar once, and use it in multiple ways with different (semantic) actions in different (or the same) parsing runs.
 
@@ -61,7 +61,7 @@ This leads to slightly increased compile times as the C++ compiler is given the 
 
 The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors.
 
-Each commit is [automatically](https://travis-ci.org/ColinH/PEGTL) [tested](https://ci.appveyor.com/project/ColinH/PEGTL) with [multiple](https://doozer.io/user/ColinH/PEGTL) architectures, operating systems, compilers and versions, currently:
+Each commit is [automatically](https://travis-ci.org/taocpp/PEGTL) [tested](https://ci.appveyor.com/project/taocpp/PEGTL) with [multiple](https://doozer.io/user/taocpp/PEGTL) architectures, operating systems, compilers and versions, currently:
 
 * Debian 8 (i386), GCC (4.9) with libstdc++
 * Ubuntu 12.04 LTS (amd64), GCC (4.7, 4.8, 4.9, 5, 6) with libstdc++
@@ -80,9 +80,9 @@ Each commit is [automatically](https://travis-ci.org/ColinH/PEGTL) [tested](http
 Additionally, each commit is checked with GCC's and Clang's sanitizers as well as [`valgrind`](http://valgrind.org/).
 Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
 
-[Releases](https://github.com/ColinH/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
+[Releases](https://github.com/taocpp/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
 Incompatible API changes are *only* allowed to occur between major versions.
-For details see the [changelog](https://github.com/ColinH/PEGTL/blob/master/doc/Changelog.md).
+For details see the [changelog](https://github.com/taocpp/PEGTL/blob/master/doc/Changelog.md).
 
 ### Thank You
 

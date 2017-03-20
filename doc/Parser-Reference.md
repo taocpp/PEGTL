@@ -293,4 +293,4 @@ The `mmap_parser` is only available when compiling on Unix or Mac OS X, in which
 
 It is also possible to directly use the classes `read_parser` and `mmap_parser` as such, taking into account that the latter will not always be available.
 
-Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey

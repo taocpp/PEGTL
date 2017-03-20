@@ -73,4 +73,4 @@ Class `pegtl::analysis::counted` additionally takes an integer argument `Count` 
 
 When a custom rule goes beyond what can be currently expressed and all other questions, please contact the authors at **pegtl (at) colin-hirsch.net**.
 
-Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey

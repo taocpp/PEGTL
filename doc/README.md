@@ -1,6 +1,6 @@
 # PEGTL Documentation
 
-* [Project](https://github.com/ColinH/PEGTL)
+* [Project](https://github.com/taocpp/PEGTL)
 * [Getting Started](Getting-Started.md)
   * [Hello, world!](Getting-Started.md#hello-world)
   * [Requirements](Getting-Started.md#requirements)

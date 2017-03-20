@@ -103,4 +103,4 @@ struct file
 
 In order to let a parsing run do more than verify whether an input conforms to the grammar, it is necessary to attach some user-defined actions to some grammar rules, as explained in the section on [Actions and States](Actions-and-States.md).
 
-Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey

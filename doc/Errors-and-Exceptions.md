@@ -121,4 +121,4 @@ const std::string my_control< T >::error_message =
 It is advisable to choose the error points in the grammar with prudence.
 This choice becoming particularly cumbersome and/or resulting in a large number of error points might be an indication of the grammar needing some kind simplification or restructuring.
 
-Copyright (c) 2014-2016 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
