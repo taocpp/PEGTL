@@ -38,9 +38,9 @@
 
 * Improved `tao_pegtl_(i)string_t`:
 
-  * Increased allowed string length to 512 for `tao_pegtl_(i)string_t`.
-  * Allowed embedded null bytes for `tao_pegtl_(i)string_t`.
-  * Reduced template instantiation depth of `tao_pegtl_(i)string_t`.
+  * Increased allowed string length to 512.
+  * Allowed embedded null bytes.
+  * Reduced template instantiation depth.
 
 * Other:
 
