@@ -5,7 +5,7 @@ if (ANDROID_NDK)
   cmake_minimum_required (VERSION 3.6.0 FATAL_ERROR)
 
   # TODO: shouldn't this file be somewhere in the NDK??
-  set (CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/unit_tests/android.toolchain.cmake")
+  set (CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/src/test/pegtl/android.toolchain.cmake")
 
   set (ANDROID_ABI "x86" CACHE STRING "")
   set (ANDROID_TOOLCHAIN "clang" CACHE STRING "")
@@ -32,6 +32,9 @@ target_include_directories (PEGTL INTERFACE
 
 # testing
 enable_testing ()
-add_subdirectory (unit_tests)
+add_subdirectory (src/test/pegtl)
+
+# examples
+add_subdirectory (src/example/pegtl)
 
 # TODO: install

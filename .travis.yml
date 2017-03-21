@@ -174,7 +174,7 @@ matrix:
       script:
         - make CXX=$COMPILER -j3 check
       after_success:
-        - coveralls --gcov gcov-6 --gcov-options '\-lp' --exclude unit_tests --exclude examples
+        - coveralls --gcov gcov-6 --gcov-options '\-lp' --exclude src
 
     - os: linux
       compiler: gcc

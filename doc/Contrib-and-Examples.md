@@ -10,7 +10,7 @@ All feedback is highly welcome, in particular whether more sub-rules to serve as
 
 Similarly, if you have written a grammar with the PEGTL that might be generally useful, you are welcome to contribute it for inclusion in future versions.
 
-For all questions and remarks contact us at **taocpp(at)icemx.net**.
+For all questions and remarks contact us at **pegtl (at) colin-hirsch.net**.
 
 ## Contents
 

@@ -1,5 +1,9 @@
+# The Art of C++
 # Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 # Please see LICENSE for license or visit https://github.com/taocpp/PEGTL
+
+.SUFFIXES:
+.SECONDARY:
 
 ifeq ($(OS),Windows_NT)
 UNAME_S := $(OS)
@@ -30,27 +34,27 @@ CXXFLAGS ?= -Wall -Wextra -Wshadow -Werror -O3 $(MINGW_CXXFLAGS)
 
 CLANG_TIDY ?= clang-tidy
 
-.PHONY: all compile check valgrind cppcheck clang-tidy clean
-
-HEADERS := $(shell find include -name '*.hh')
-SOURCES := $(wildcard */*.cc)
+SOURCES := $(shell find src -name '*.cc')
 DEPENDS := $(SOURCES:%.cc=build/%.d)
 BINARIES := $(SOURCES:%.cc=build/%)
 
-UNIT_TESTS := $(filter build/unit_tests/%,$(BINARIES))
+UNIT_TESTS := $(filter build/src/test/%,$(BINARIES))
 
+.PHONY: all
 all: compile check
 
+.PHONY: compile
 compile: $(BINARIES)
 
+.PHONY: check
 check: $(UNIT_TESTS)
 	@set -e; for T in $(UNIT_TESTS); do echo $$T; $$T > /dev/null; done
-	@echo "All $(words $(UNIT_TESTS)) unit tests passed."
 
 build/%.valgrind: build/%
 	valgrind --error-exitcode=1 --leak-check=full $<
 	@touch $@
 
+.PHONY: valgrind
 valgrind: $(UNIT_TESTS:%=%.valgrind)
 	@echo "All $(words $(UNIT_TESTS)) valgrind tests passed."
 
@@ -59,6 +63,7 @@ build/%.cppcheck: %.hh
 	@mkdir -p $(@D)
 	@touch $@
 
+.PHONY: cppcheck
 cppcheck: $(HEADERS:%.hh=build/%.cppcheck)
 	@echo "All $(words $(HEADERS)) cppcheck tests passed."
 
@@ -67,13 +72,14 @@ build/%.clang-tidy: %
 	@mkdir -p $(@D)
 	@touch $@
 
+.PHONY: clang-tidy
 clang-tidy: $(HEADERS:%=build/%.clang-tidy) $(SOURCES:%=build/%.clang-tidy)
 	@echo "All $(words $(HEADERS) $(SOURCES)) clang-tidy tests passed."
 
+.PHONY: clean
 clean:
-	rm -rf build/*
-
-.SECONDARY:
+	@rm -rf build
+	@find . -name '*~' -delete
 
 build/%.d: %.cc Makefile
 	@mkdir -p $(@D)

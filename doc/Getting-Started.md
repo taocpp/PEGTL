@@ -22,7 +22,7 @@ rather than prints, the string `Hello, foo!` for any sequence of alphabetic ASCI
 #include <string>
 #include <iostream>
 
-#include <pegtl.hh>
+#include <tao/pegtl.hh>
 
 namespace hello
 {
