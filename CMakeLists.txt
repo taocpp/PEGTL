@@ -35,7 +35,7 @@ enable_testing ()
 add_subdirectory (src/test/pegtl)
 
 # examples
-if (NOT MSVC)
+if (NOT MSVC AND NOT ANDROID_NDK)
   add_subdirectory (src/example/pegtl)
 endif ()
 
