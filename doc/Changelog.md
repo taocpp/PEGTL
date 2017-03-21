@@ -4,30 +4,48 @@
 
 **Not yet released**
 
-* Added support for [CMake](https://cmake.org/).
-* Added automatic testing (CI) of Visual Studio 2015.
-* Added automatic testing (CI) of Android 5.1, NDK r10e.
-* Added support for different EOL-styles.
-* Added new combinator class `minus< M, S >`.
-* Added support for custom incremental input readers.
-* Added support for parsing C streams, i.e. `std::FILE *`.
-* Added support for parsing C++ streams, i.e. `std::istream`.
-* Added incremental input support rule `discard`.
-* Added the byte position to input classes and `position_info`.
-* Added `apply` and `if_apply` rules for in-grammar direct actions.
-* Added `apply()` method to control class for greater control.
-* Removed the `begin` member from class `position_info`.
-* Refactored the `input` class into multiple classes.
-* Refactored the handling of nested parsing.
-* Optimised superfluous input markers.
-* Renamed some parsing front-end functions.
-* Reduced template instantiation depth of `pegtl_(i)string_t`.
-* Increased allowed string length to 512 for `pegtl_(i)string_t`.
-* Allowed embedded null bytes for `pegtl_(i)string_t`.
-* Allowed re-defining of the `pegtl` namespace name.
-* Added defines for the version of the PEGTL.
-* Added support for GCC 4.7.
-* Moved repository to ["The Art of C++"](https://github.com/taocpp).
+* Migrated repository to ["The Art of C++"](https://github.com/taocpp):
+
+  * Moved all includes into `tao/`, e.g. `<tao/pegtl.hh>` instead of `<pegtl.hh>`.
+  * Renamed `pegtl_(i)string_t` to `tao_pegtl_(i)string_t`.
+  * Added defines for the version of the PEGTL, e.g. `TAOCPP_PEGTL_VERSION_MAJOR`.
+  * Version 2.x can be installed and used in parallel to version 1.x of the PEGTL.
+
+* Build system improvements:
+
+  * Added support for [CMake](https://cmake.org/).
+  * Added automatic testing (CI) of Visual Studio 2015.
+  * Added automatic testing (CI) of Android 5.1, NDK r10e.
+  * Added support for GCC 4.7.
+
+* Improved input layer:
+
+  * Added support for different EOL-styles.
+  * Added support for custom incremental input readers.
+  * Added support for parsing C streams, i.e. `std::FILE *`.
+  * Added support for parsing C++ streams, i.e. `std::istream`.
+  * Added incremental input support rule `discard`.
+  * Added the byte position to input classes and `position_info`.
+  * Removed the `begin` member from class `position_info`.
+  * Refactored the `input` class into multiple classes.
+  * Refactored the handling of nested parsing.
+  * Renamed some parsing front-end functions.
+
+* Improved parsing layer:
+
+  * Added `apply` and `if_apply` rules for in-grammar direct actions.
+  * Added `apply()` method to control class for greater control.
+
+* Improved `tao_pegtl_(i)string_t`:
+
+  * Increased allowed string length to 512 for `tao_pegtl_(i)string_t`.
+  * Allowed embedded null bytes for `tao_pegtl_(i)string_t`.
+  * Reduced template instantiation depth of `tao_pegtl_(i)string_t`.
+
+* Other:
+
+  * Added new combinator class `minus< M, S >`.
+  * Optimised superfluous input markers.
 
 #### 1.3.1
 
