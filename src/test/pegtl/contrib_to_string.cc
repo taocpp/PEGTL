@@ -16,13 +16,13 @@ namespace pegtl
       TEST_ASSERT( to_string< istring<> >() == "" );
       TEST_ASSERT(( to_string< istring< 'a', 'b', 'c' > >() == "abc" ));
 
-      TEST_ASSERT( to_string< pegtl_string_t( "" ) >() == "" );
-      TEST_ASSERT( to_string< pegtl_string_t( "abc" ) >() == "abc" );
-      TEST_ASSERT( to_string< pegtl_string_t( "AbC" ) >() == "AbC" );
-      TEST_ASSERT( to_string< pegtl_string_t( "abc" ) >() != "AbC" );
-      TEST_ASSERT( to_string< pegtl_istring_t( "abc" ) >() == "abc" );
-      TEST_ASSERT( to_string< pegtl_istring_t( "AbC" ) >() == "AbC" );
-      TEST_ASSERT( to_string< pegtl_istring_t( "abc" ) >() != "AbC" );
+      TEST_ASSERT( to_string< tao_pegtl_string_t( "" ) >() == "" );
+      TEST_ASSERT( to_string< tao_pegtl_string_t( "abc" ) >() == "abc" );
+      TEST_ASSERT( to_string< tao_pegtl_string_t( "AbC" ) >() == "AbC" );
+      TEST_ASSERT( to_string< tao_pegtl_string_t( "abc" ) >() != "AbC" );
+      TEST_ASSERT( to_string< tao_pegtl_istring_t( "abc" ) >() == "abc" );
+      TEST_ASSERT( to_string< tao_pegtl_istring_t( "AbC" ) >() == "AbC" );
+      TEST_ASSERT( to_string< tao_pegtl_istring_t( "abc" ) >() != "AbC" );
 
       // to_string does *not* care about the outer class template
       TEST_ASSERT(( to_string< one< 'a', 'b', 'c' > >() == "abc" ));

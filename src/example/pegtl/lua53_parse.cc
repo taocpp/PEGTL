@@ -96,28 +96,28 @@ namespace lua53
    struct sep : pegtl::sor< pegtl::ascii::space, comment > {};
    struct seps : pegtl::star< sep > {};
 
-   struct str_and : pegtl_string_t( "and" ) {};
-   struct str_break : pegtl_string_t( "break" ) {};
-   struct str_do : pegtl_string_t( "do" ) {};
-   struct str_else : pegtl_string_t( "else" ) {};
-   struct str_elseif : pegtl_string_t( "elseif" ) {};
-   struct str_end : pegtl_string_t( "end" ) {};
-   struct str_false : pegtl_string_t( "false" ) {};
-   struct str_for : pegtl_string_t( "for" ) {};
-   struct str_function : pegtl_string_t( "function" ) {};
-   struct str_goto : pegtl_string_t( "goto" ) {};
-   struct str_if : pegtl_string_t( "if" ) {};
-   struct str_in : pegtl_string_t( "in" ) {};
-   struct str_local : pegtl_string_t( "local" ) {};
-   struct str_nil : pegtl_string_t( "nil" ) {};
-   struct str_not : pegtl_string_t( "not" ) {};
-   struct str_or : pegtl_string_t( "or" ) {};
-   struct str_repeat : pegtl_string_t( "repeat" ) {};
-   struct str_return : pegtl_string_t( "return" ) {};
-   struct str_then : pegtl_string_t( "then" ) {};
-   struct str_true : pegtl_string_t( "true" ) {};
-   struct str_until : pegtl_string_t( "until" ) {};
-   struct str_while : pegtl_string_t( "while" ) {};
+   struct str_and : tao_pegtl_string_t( "and" ) {};
+   struct str_break : tao_pegtl_string_t( "break" ) {};
+   struct str_do : tao_pegtl_string_t( "do" ) {};
+   struct str_else : tao_pegtl_string_t( "else" ) {};
+   struct str_elseif : tao_pegtl_string_t( "elseif" ) {};
+   struct str_end : tao_pegtl_string_t( "end" ) {};
+   struct str_false : tao_pegtl_string_t( "false" ) {};
+   struct str_for : tao_pegtl_string_t( "for" ) {};
+   struct str_function : tao_pegtl_string_t( "function" ) {};
+   struct str_goto : tao_pegtl_string_t( "goto" ) {};
+   struct str_if : tao_pegtl_string_t( "if" ) {};
+   struct str_in : tao_pegtl_string_t( "in" ) {};
+   struct str_local : tao_pegtl_string_t( "local" ) {};
+   struct str_nil : tao_pegtl_string_t( "nil" ) {};
+   struct str_not : tao_pegtl_string_t( "not" ) {};
+   struct str_or : tao_pegtl_string_t( "or" ) {};
+   struct str_repeat : tao_pegtl_string_t( "repeat" ) {};
+   struct str_return : tao_pegtl_string_t( "return" ) {};
+   struct str_then : tao_pegtl_string_t( "then" ) {};
+   struct str_true : tao_pegtl_string_t( "true" ) {};
+   struct str_until : tao_pegtl_string_t( "until" ) {};
+   struct str_while : tao_pegtl_string_t( "while" ) {};
 
    // Note that 'elseif' precedes 'else' in order to prevent only matching
    // the "else" part of an "elseif" and running into an error in the

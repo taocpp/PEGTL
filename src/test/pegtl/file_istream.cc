@@ -7,7 +7,7 @@
 
 namespace pegtl
 {
-   struct file_content : seq< pegtl_string_t( "dummy content" ), eol, discard > {};
+   struct file_content : seq< tao_pegtl_string_t( "dummy content" ), eol, discard > {};
    struct file_grammar : seq< rep_min_max< 11, 11, file_content >, eof > {};
 
    void unit_test()
