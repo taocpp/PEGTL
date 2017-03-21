@@ -35,6 +35,8 @@ enable_testing ()
 add_subdirectory (src/test/pegtl)
 
 # examples
-add_subdirectory (src/example/pegtl)
+if (NOT MSVC)
+  add_subdirectory (src/example/pegtl)
+endif ()
 
 # TODO: install
