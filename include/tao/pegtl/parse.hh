@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_PARSE_HH
-#define PEGTL_PARSE_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_PARSE_HH
+#define TAOCPP_PEGTL_INCLUDE_PARSE_HH
 
 #include <string>
 #include <cstring>
@@ -20,7 +20,7 @@
 #include "internal/cstring_reader.hh"
 #include "internal/istream_reader.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Input, typename ... States >
    bool parse_input( Input & in, States && ... st )
@@ -137,6 +137,6 @@ namespace PEGTL_NAMESPACE
       return parse_input_nested< Rule, Action, Control >( oi, in, st ... );
    }
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

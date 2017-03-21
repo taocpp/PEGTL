@@ -1,14 +1,14 @@
 // Copyright (c) 2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_COUNT_DATA_HH
-#define PEGTL_COUNT_DATA_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_COUNT_DATA_HH
+#define TAOCPP_PEGTL_INCLUDE_COUNT_DATA_HH
 
 #include <cstdlib>
 
 #include "config.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    struct count_data
    {
@@ -26,6 +26,6 @@ namespace PEGTL_NAMESPACE
       const char * data;
    };
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

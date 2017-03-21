@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_INTERNAL_FILE_MAPPER_HH
-#define PEGTL_INTERNAL_FILE_MAPPER_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_FILE_MAPPER_HH
+#define TAOCPP_PEGTL_INCLUDE_INTERNAL_FILE_MAPPER_HH
 
 #include <unistd.h>
 #include <sys/mman.h>
@@ -13,7 +13,7 @@
 
 #include "../input_error.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -31,7 +31,7 @@ namespace PEGTL_NAMESPACE
                  m_data( static_cast< const char * >( ::mmap( nullptr, m_size, PROT_READ, MAP_FILE | MAP_PRIVATE, reader.m_fd, 0 ) ) )
          {
             if ( m_size && ( intptr_t( m_data ) == -1 ) ) {
-               PEGTL_THROW_INPUT_ERROR( "unable to mmap() file " << reader.m_source << " descriptor " << reader.m_fd );
+               TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to mmap() file " << reader.m_source << " descriptor " << reader.m_fd );
             }
          }
 
@@ -83,6 +83,6 @@ namespace PEGTL_NAMESPACE
 
    } // namespace internal
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

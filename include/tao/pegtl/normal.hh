@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_NORMAL_HH
-#define PEGTL_NORMAL_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_NORMAL_HH
+#define TAOCPP_PEGTL_INCLUDE_NORMAL_HH
 
 #include "config.hh"
 #include "count_data.hh"
@@ -14,7 +14,7 @@
 #include "internal/action_input.hh"
 #include "internal/rule_match_one.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    template< typename Rule >
    struct normal
@@ -51,6 +51,6 @@ namespace PEGTL_NAMESPACE
       }
    };
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

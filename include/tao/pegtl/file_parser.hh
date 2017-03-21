@@ -1,8 +1,8 @@
 // Copyright (c) 2015-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_FILE_PARSER_HH
-#define PEGTL_FILE_PARSER_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_FILE_PARSER_HH
+#define TAOCPP_PEGTL_INCLUDE_FILE_PARSER_HH
 
 #include "config.hh"
 #include "read_parser.hh"
@@ -15,7 +15,7 @@
 #include "mmap_parser.hh"
 #endif
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
 #if defined(_POSIX_MAPPED_FILES)
    using file_parser = mmap_parser;
@@ -39,6 +39,6 @@ namespace PEGTL_NAMESPACE
       return basic_file_parser< typename Outer::eol >( filename ).template parse_nested< Rule, Action, Control >( oi, st ... );
    }
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

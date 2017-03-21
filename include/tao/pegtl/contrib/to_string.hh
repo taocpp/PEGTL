@@ -1,14 +1,14 @@
 // Copyright (c) 2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_CONTRIB_TO_STRING_HH
-#define PEGTL_CONTRIB_TO_STRING_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_TO_STRING_HH
+#define TAOCPP_PEGTL_INCLUDE_CONTRIB_TO_STRING_HH
 
 #include <string>
 
 #include "../config.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -33,6 +33,6 @@ namespace PEGTL_NAMESPACE
       return internal::to_string< T >::get();
    }
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

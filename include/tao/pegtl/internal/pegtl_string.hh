@@ -1,8 +1,8 @@
 // Copyright (c) 2015-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_INTERNAL_PEGTL_STRING_HH
-#define PEGTL_INTERNAL_PEGTL_STRING_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_TAOCPP_PEGTL_STRING_HH
+#define TAOCPP_PEGTL_INCLUDE_INTERNAL_TAOCPP_PEGTL_STRING_HH
 
 #include <type_traits>
 #include <cstddef>
@@ -10,7 +10,7 @@
 #include "../config.hh"
 #include "../ascii.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    // Inspired by https://github.com/irrequietus/typestring
    // Rewritten and reduced to what is needed for the PEGTL
@@ -48,45 +48,45 @@ namespace PEGTL_NAMESPACE
 
    } // namespace internal
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
-#define PEGTL_INTERNAL_EMPTY()
-#define PEGTL_INTERNAL_DEFER( X ) X PEGTL_INTERNAL_EMPTY()
-#define PEGTL_INTERNAL_EXPAND(...) __VA_ARGS__
+#define TAOCPP_PEGTL_INTERNAL_EMPTY()
+#define TAOCPP_PEGTL_INTERNAL_DEFER( X ) X TAOCPP_PEGTL_INTERNAL_EMPTY()
+#define TAOCPP_PEGTL_INTERNAL_EXPAND(...) __VA_ARGS__
 
-#define PEGTL_INTERNAL_STRING_AT( S, x, n ) \
-   PEGTL_NAMESPACE::internal::string_at< S, ( 0##n < sizeof( x ) ) ? x[ 0##n ] : 0, ( 0##n < sizeof( x ) - 1 ) >::type
+#define TAOCPP_PEGTL_INTERNAL_STRING_AT( S, x, n ) \
+   TAOCPP_PEGTL_NAMESPACE::internal::string_at< S, ( 0##n < sizeof( x ) ) ? x[ 0##n ] : 0, ( 0##n < sizeof( x ) - 1 ) >::type
 
-#define PEGTL_INTERNAL_JOIN_8( M, S, x, n ) \
-   PEGTL_NAMESPACE::internal::string_join<            \
-   PEGTL_INTERNAL_DEFER( M )( S, x, n##0 ), \
-   PEGTL_INTERNAL_DEFER( M )( S, x, n##1 ), \
-   PEGTL_INTERNAL_DEFER( M )( S, x, n##2 ), \
-   PEGTL_INTERNAL_DEFER( M )( S, x, n##3 ), \
-   PEGTL_INTERNAL_DEFER( M )( S, x, n##4 ), \
-   PEGTL_INTERNAL_DEFER( M )( S, x, n##5 ), \
-   PEGTL_INTERNAL_DEFER( M )( S, x, n##6 ), \
-   PEGTL_INTERNAL_DEFER( M )( S, x, n##7 )>::type
+#define TAOCPP_PEGTL_INTERNAL_JOIN_8( M, S, x, n ) \
+   TAOCPP_PEGTL_NAMESPACE::internal::string_join<            \
+   TAOCPP_PEGTL_INTERNAL_DEFER( M )( S, x, n##0 ), \
+   TAOCPP_PEGTL_INTERNAL_DEFER( M )( S, x, n##1 ), \
+   TAOCPP_PEGTL_INTERNAL_DEFER( M )( S, x, n##2 ), \
+   TAOCPP_PEGTL_INTERNAL_DEFER( M )( S, x, n##3 ), \
+   TAOCPP_PEGTL_INTERNAL_DEFER( M )( S, x, n##4 ), \
+   TAOCPP_PEGTL_INTERNAL_DEFER( M )( S, x, n##5 ), \
+   TAOCPP_PEGTL_INTERNAL_DEFER( M )( S, x, n##6 ), \
+   TAOCPP_PEGTL_INTERNAL_DEFER( M )( S, x, n##7 )>::type
 
-#define PEGTL_INTERNAL_STRING_8( S, x, n ) \
-   PEGTL_INTERNAL_JOIN_8( PEGTL_INTERNAL_STRING_AT, S, x, n )
+#define TAOCPP_PEGTL_INTERNAL_STRING_8( S, x, n ) \
+   TAOCPP_PEGTL_INTERNAL_JOIN_8( TAOCPP_PEGTL_INTERNAL_STRING_AT, S, x, n )
 
-#define PEGTL_INTERNAL_STRING_64( S, x, n ) \
-   PEGTL_INTERNAL_JOIN_8( PEGTL_INTERNAL_STRING_8, S, x, n )
+#define TAOCPP_PEGTL_INTERNAL_STRING_64( S, x, n ) \
+   TAOCPP_PEGTL_INTERNAL_JOIN_8( TAOCPP_PEGTL_INTERNAL_STRING_8, S, x, n )
 
-#define PEGTL_INTERNAL_STRING_512( S, x, n ) \
-   PEGTL_INTERNAL_JOIN_8( PEGTL_INTERNAL_STRING_64, S, x, n )
+#define TAOCPP_PEGTL_INTERNAL_STRING_512( S, x, n ) \
+   TAOCPP_PEGTL_INTERNAL_JOIN_8( TAOCPP_PEGTL_INTERNAL_STRING_64, S, x, n )
 
-#define PEGTL_INTERNAL_STRING( S, x ) \
-   PEGTL_INTERNAL_EXPAND( \
-      PEGTL_INTERNAL_EXPAND( \
-         PEGTL_INTERNAL_EXPAND( \
-            PEGTL_NAMESPACE::internal::string_max_length< PEGTL_INTERNAL_STRING_512( S, x, ), sizeof( x ) - 1 >::type ) ) )
+#define TAOCPP_PEGTL_INTERNAL_STRING( S, x ) \
+   TAOCPP_PEGTL_INTERNAL_EXPAND( \
+      TAOCPP_PEGTL_INTERNAL_EXPAND( \
+         TAOCPP_PEGTL_INTERNAL_EXPAND( \
+            TAOCPP_PEGTL_NAMESPACE::internal::string_max_length< TAOCPP_PEGTL_INTERNAL_STRING_512( S, x, ), sizeof( x ) - 1 >::type ) ) )
 
 #define pegtl_string_t( x ) \
-   PEGTL_INTERNAL_STRING( PEGTL_NAMESPACE::ascii::string, x )
+   TAOCPP_PEGTL_INTERNAL_STRING( TAOCPP_PEGTL_NAMESPACE::ascii::string, x )
 
 #define pegtl_istring_t( x ) \
-   PEGTL_INTERNAL_STRING( PEGTL_NAMESPACE::ascii::istring, x )
+   TAOCPP_PEGTL_INTERNAL_STRING( TAOCPP_PEGTL_NAMESPACE::ascii::istring, x )
 
 #endif

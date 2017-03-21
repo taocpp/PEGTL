@@ -1,14 +1,14 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_INTERNAL_RULE_MATCH_THREE_HH
-#define PEGTL_INTERNAL_RULE_MATCH_THREE_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_RULE_MATCH_THREE_HH
+#define TAOCPP_PEGTL_INCLUDE_INTERNAL_RULE_MATCH_THREE_HH
 
 #include "../config.hh"
 #include "../apply_mode.hh"
 #include "../rewind_mode.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -39,6 +39,6 @@ namespace PEGTL_NAMESPACE
 
    } // namespace internal
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

@@ -1,8 +1,8 @@
 // Copyright (c) 2015-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_UTF16_HH
-#define PEGTL_UTF16_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_UTF16_HH
+#define TAOCPP_PEGTL_INCLUDE_UTF16_HH
 
 #include "config.hh"
 
@@ -10,7 +10,7 @@
 #include "internal/peek_utf16.hh"
 #include "internal/result_on_found.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    namespace utf16
    {
@@ -23,6 +23,6 @@ namespace PEGTL_NAMESPACE
 
    } // namespace utf16
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

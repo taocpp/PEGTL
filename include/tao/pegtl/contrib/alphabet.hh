@@ -1,12 +1,12 @@
 // Copyright (c) 2015-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_CONTRIB_ALPHABET_HH
-#define PEGTL_CONTRIB_ALPHABET_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_ALPHABET_HH
+#define TAOCPP_PEGTL_INCLUDE_CONTRIB_ALPHABET_HH
 
 #include "../config.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    inline namespace alphabet
    {
@@ -66,6 +66,6 @@ namespace PEGTL_NAMESPACE
 
    } // namespace alphabet
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

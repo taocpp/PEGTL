@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_MEMORY_INPUT_HH
-#define PEGTL_MEMORY_INPUT_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_MEMORY_INPUT_HH
+#define TAOCPP_PEGTL_INCLUDE_MEMORY_INPUT_HH
 
 #include <string>
 #include <cstddef>
@@ -16,7 +16,7 @@
 #include "internal/input_mark.hh"
 #include "internal/action_input.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    template< typename Eol >
    class basic_memory_input
@@ -135,6 +135,6 @@ namespace PEGTL_NAMESPACE
 
    using memory_input = basic_memory_input< lf_crlf_eol >;
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

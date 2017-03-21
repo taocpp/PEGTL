@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_READ_PARSER_HH
-#define PEGTL_READ_PARSER_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_READ_PARSER_HH
+#define TAOCPP_PEGTL_INCLUDE_READ_PARSER_HH
 
 #include "config.hh"
 #include "eol.hh"
@@ -10,7 +10,7 @@
 
 #include "internal/file_reader.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    template< typename Eol >
    class basic_read_parser
@@ -39,6 +39,6 @@ namespace PEGTL_NAMESPACE
       return basic_read_parser< typename Outer::eol >( filename ).template parse_nested< Rule, Action, Control >( oi, st ... );
    }
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

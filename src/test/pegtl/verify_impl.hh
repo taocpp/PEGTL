@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_UNIT_TESTS_VERIFY_IMPL_HH
-#define PEGTL_UNIT_TESTS_VERIFY_IMPL_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_UNIT_TESTS_VERIFY_IMPL_HH
+#define TAOCPP_PEGTL_INCLUDE_UNIT_TESTS_VERIFY_IMPL_HH
 
 #include <cstddef>
 #include <string>

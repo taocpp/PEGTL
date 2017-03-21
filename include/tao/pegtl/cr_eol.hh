@@ -1,12 +1,12 @@
 // Copyright (c) 2016-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_CR_EOL_HH
-#define PEGTL_CR_EOL_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_CR_EOL_HH
+#define TAOCPP_PEGTL_INCLUDE_CR_EOL_HH
 
 #include "config.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    struct cr_eol
    {
@@ -26,6 +26,6 @@ namespace PEGTL_NAMESPACE
       }
    };
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

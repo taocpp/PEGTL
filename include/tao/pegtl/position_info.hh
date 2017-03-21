@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_POSITION_INFO_HH
-#define PEGTL_POSITION_INFO_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_POSITION_INFO_HH
+#define TAOCPP_PEGTL_INCLUDE_POSITION_INFO_HH
 
 #include <string>
 #include <sstream>
@@ -12,7 +12,7 @@
 #include "config.hh"
 #include "count_data.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    struct position_info
    {
@@ -41,6 +41,6 @@ namespace PEGTL_NAMESPACE
       return o.str();
    }
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

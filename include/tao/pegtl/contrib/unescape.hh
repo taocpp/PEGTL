@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_CONTRIB_UNESCAPE_HH
-#define PEGTL_CONTRIB_UNESCAPE_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_UNESCAPE_HH
+#define TAOCPP_PEGTL_INCLUDE_CONTRIB_UNESCAPE_HH
 
 #include <string>
 #include <cassert>
@@ -11,7 +11,7 @@
 #include "../ascii.hh"
 #include "../parse_error.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    namespace unescape
    {
@@ -175,6 +175,6 @@ namespace PEGTL_NAMESPACE
 
    } // namespace unescape
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

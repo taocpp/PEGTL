@@ -1,15 +1,15 @@
 // Copyright (c) 2015-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_CONTRIB_CHANGES_HH
-#define PEGTL_CONTRIB_CHANGES_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_CHANGES_HH
+#define TAOCPP_PEGTL_INCLUDE_CONTRIB_CHANGES_HH
 
 #include <type_traits>
 
 #include "../config.hh"
 #include "../normal.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -64,6 +64,6 @@ namespace PEGTL_NAMESPACE
          : public change_state< Rule, State, change_both_helper< Action, Base >::template change_action >
    { };
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

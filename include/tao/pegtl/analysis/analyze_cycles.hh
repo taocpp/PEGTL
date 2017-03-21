@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_ANALYSIS_ANALYZE_CYCLES_HH
-#define PEGTL_ANALYSIS_ANALYZE_CYCLES_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_ANALYSIS_ANALYZE_CYCLES_HH
+#define TAOCPP_PEGTL_INCLUDE_ANALYSIS_ANALYZE_CYCLES_HH
 
 #include <cassert>
 
@@ -17,7 +17,7 @@
 #include "grammar_info.hh"
 #include "insert_guard.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    namespace analysis
    {
@@ -126,6 +126,6 @@ namespace PEGTL_NAMESPACE
 
    } // namespace analysis
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

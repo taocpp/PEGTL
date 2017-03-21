@@ -1,15 +1,15 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_RULES_HH
-#define PEGTL_RULES_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_RULES_HH
+#define TAOCPP_PEGTL_INCLUDE_RULES_HH
 
 #include "config.hh"
 #include "parse_error.hh"
 
 #include "internal/rules.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    template< typename ... Actions > struct apply : internal::apply< Actions ... > {};
    template< template< typename ... > class Action, typename ... Rules > struct action : internal::action< Action, Rules ... > {};
@@ -57,6 +57,6 @@ namespace PEGTL_NAMESPACE
    template< typename Exception, typename ... Rules > struct try_catch_type : internal::try_catch_type< Exception, Rules ... > {};
    template< typename Cond, typename ... Rules > struct until : internal::until< Cond, Rules ... > {};
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

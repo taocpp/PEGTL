@@ -1,8 +1,8 @@
 // Copyright (c) 2015-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_INTERNAL_BUMP_UTIL_HH
-#define PEGTL_INTERNAL_BUMP_UTIL_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_BUMP_UTIL_HH
+#define TAOCPP_PEGTL_INCLUDE_INTERNAL_BUMP_UTIL_HH
 
 #include <cstddef>
 #include <type_traits>
@@ -11,7 +11,7 @@
 
 #include "result_on_found.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -47,6 +47,6 @@ namespace PEGTL_NAMESPACE
 
    } // namespace internal
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

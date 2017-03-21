@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_INTERNAL_FILE_OPENER_HH
-#define PEGTL_INTERNAL_FILE_OPENER_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_FILE_OPENER_HH
+#define TAOCPP_PEGTL_INCLUDE_INTERNAL_FILE_OPENER_HH
 
 #include <fcntl.h>
 #include <unistd.h>
@@ -14,7 +14,7 @@
 #include "../config.hh"
 #include "../input_error.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -39,7 +39,7 @@ namespace PEGTL_NAMESPACE
             struct stat st;
             errno = 0;
             if ( ::fstat( m_fd, & st ) < 0 ) {
-               PEGTL_THROW_INPUT_ERROR( "unable to fstat() file " << m_source << " descriptor " << m_fd );
+               TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to fstat() file " << m_source << " descriptor " << m_fd );
             }
             return std::size_t( st.st_size );
          }
@@ -55,12 +55,12 @@ namespace PEGTL_NAMESPACE
             if ( fd >= 0 ) {
                return fd;
             }
-            PEGTL_THROW_INPUT_ERROR( "unable to open() file " << m_source << " for reading" );
+            TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to open() file " << m_source << " for reading" );
          }
       };
 
    } // namespace internal
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

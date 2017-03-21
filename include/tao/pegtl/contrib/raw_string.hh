@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_CONTRIB_RAW_STRING_HH
-#define PEGTL_CONTRIB_RAW_STRING_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_RAW_STRING_HH
+#define TAOCPP_PEGTL_INCLUDE_CONTRIB_RAW_STRING_HH
 
 #include "../config.hh"
 #include "../nothing.hh"
@@ -17,7 +17,7 @@
 
 #include "../analysis/generic.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -158,6 +158,6 @@ namespace PEGTL_NAMESPACE
       using close = internal::until< internal::raw_string_close< Tag, Intermediate, Close > >;
    };
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

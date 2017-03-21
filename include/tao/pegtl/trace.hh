@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_TRACE_HH
-#define PEGTL_TRACE_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_TRACE_HH
+#define TAOCPP_PEGTL_INCLUDE_TRACE_HH
 
 #include <cassert>
 #include <vector>
@@ -18,7 +18,7 @@
 
 #include "internal/demangle.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    struct trace_state
    {
@@ -121,6 +121,6 @@ namespace PEGTL_NAMESPACE
       return parse_istream< Rule, Action, tracer >( std::forward< Args >( args ) ... );
    }
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

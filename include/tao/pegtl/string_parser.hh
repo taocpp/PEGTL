@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_STRING_PARSER_HH
-#define PEGTL_STRING_PARSER_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_STRING_PARSER_HH
+#define TAOCPP_PEGTL_INCLUDE_STRING_PARSER_HH
 
 #include <string>
 #include <utility>
@@ -14,7 +14,7 @@
 #include "eol.hh"
 #include "memory_input.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    template< typename Eol >
    class basic_string_parser
@@ -58,6 +58,6 @@ namespace PEGTL_NAMESPACE
 
    using string_parser = basic_string_parser< lf_crlf_eol >;
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

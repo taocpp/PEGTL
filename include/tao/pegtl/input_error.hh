@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_INPUT_ERROR_HH
-#define PEGTL_INPUT_ERROR_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_INPUT_ERROR_HH
+#define TAOCPP_PEGTL_INCLUDE_INPUT_ERROR_HH
 
 #include <sstream>
 #include <stdexcept>
@@ -10,7 +10,7 @@
 
 #include "config.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    struct input_error
          : std::runtime_error
@@ -23,14 +23,14 @@ namespace PEGTL_NAMESPACE
       int errorno;
    };
 
-#define PEGTL_THROW_INPUT_ERROR( MESSAGE )                              \
+#define TAOCPP_PEGTL_THROW_INPUT_ERROR( MESSAGE )                              \
    do {                                                                 \
       const int errorno = errno;                                        \
       std::ostringstream oss;                                           \
       oss << "pegtl: " << MESSAGE << " errno " << errorno;              \
-      throw PEGTL_NAMESPACE::input_error( oss.str(), errorno );         \
+      throw TAOCPP_PEGTL_NAMESPACE::input_error( oss.str(), errorno );         \
    } while ( false )
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

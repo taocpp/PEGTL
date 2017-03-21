@@ -1,8 +1,8 @@
 // Copyright (c) 2016-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_INTERNAL_CSTREAM_READER_HH
-#define PEGTL_INTERNAL_CSTREAM_READER_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_CSTREAM_READER_HH
+#define TAOCPP_PEGTL_INCLUDE_INTERNAL_CSTREAM_READER_HH
 
 #include <cstdio>
 #include <cstddef>
@@ -10,7 +10,7 @@
 #include "../config.hh"
 #include "../input_error.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -31,7 +31,7 @@ namespace PEGTL_NAMESPACE
             }
             // Please contact us if you know how to provoke the following exception.
             // The example on cppreference.com doesn't work, at least not on Mac OS X.
-            PEGTL_THROW_INPUT_ERROR( "error in fread() from cstream" );  // LCOV_EXCL_LINE
+            TAOCPP_PEGTL_THROW_INPUT_ERROR( "error in fread() from cstream" );  // LCOV_EXCL_LINE
          }
 
          std::FILE * m_cstream;
@@ -39,6 +39,6 @@ namespace PEGTL_NAMESPACE
 
    } // namespace internal
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

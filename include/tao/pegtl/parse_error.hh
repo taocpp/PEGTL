@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef PEGTL_PARSE_ERROR_HH
-#define PEGTL_PARSE_ERROR_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_PARSE_ERROR_HH
+#define TAOCPP_PEGTL_INCLUDE_PARSE_ERROR_HH
 
 #include <vector>
 #include <stdexcept>
@@ -10,7 +10,7 @@
 #include "config.hh"
 #include "position_info.hh"
 
-namespace PEGTL_NAMESPACE
+namespace TAOCPP_PEGTL_NAMESPACE
 {
    struct parse_error
          : public std::runtime_error
@@ -29,6 +29,6 @@ namespace PEGTL_NAMESPACE
       std::vector< position_info > positions;
    };
 
-} // namespace PEGTL_NAMESPACE
+} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif
