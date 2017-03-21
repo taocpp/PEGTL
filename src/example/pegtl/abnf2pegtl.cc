@@ -13,8 +13,6 @@
 #include <cctype>
 #include <cstdlib>
 
-#include <strings.h>
-
 #include <tao/pegtl.hh>
 #include <tao/pegtl/contrib/abnf.hh>
 #include <tao/pegtl/analyze.hh>
