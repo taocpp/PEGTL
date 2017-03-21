@@ -71,6 +71,6 @@ For custom rules it should usually be sufficient to follow the lead of the rules
 In both cases, the `rule_type` and the list of sub-rules must be supplied as template parameters.
 Class `pegtl::analysis::counted` additionally takes an integer argument `Count` with the assumption being that a count of zero indicates that everything the rule type is `OPT` while a non-zero count uses the rule type given as template parameter.
 
-When a custom rule goes beyond what can be currently expressed and all other questions, please contact the authors at **pegtl (at) colin-hirsch.net**.
+When a custom rule goes beyond what can be currently expressed and all other questions, please contact the authors at **taocpp(at)icemx.net**.
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
