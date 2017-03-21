@@ -58,7 +58,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
    TAOCPP_PEGTL_NAMESPACE::internal::string_at< S, ( 0##n < sizeof( x ) ) ? x[ 0##n ] : 0, ( 0##n < sizeof( x ) - 1 ) >::type
 
 #define TAOCPP_PEGTL_INTERNAL_JOIN_8( M, S, x, n ) \
-   TAOCPP_PEGTL_NAMESPACE::internal::string_join<            \
+   TAOCPP_PEGTL_NAMESPACE::internal::string_join<  \
    TAOCPP_PEGTL_INTERNAL_DEFER( M )( S, x, n##0 ), \
    TAOCPP_PEGTL_INTERNAL_DEFER( M )( S, x, n##1 ), \
    TAOCPP_PEGTL_INTERNAL_DEFER( M )( S, x, n##2 ), \
@@ -83,10 +83,10 @@ namespace TAOCPP_PEGTL_NAMESPACE
          TAOCPP_PEGTL_INTERNAL_EXPAND( \
             TAOCPP_PEGTL_NAMESPACE::internal::string_max_length< TAOCPP_PEGTL_INTERNAL_STRING_512( S, x, ), sizeof( x ) - 1 >::type ) ) )
 
-#define pegtl_string_t( x ) \
+#define tao_pegtl_string_t( x ) \
    TAOCPP_PEGTL_INTERNAL_STRING( TAOCPP_PEGTL_NAMESPACE::ascii::string, x )
 
-#define pegtl_istring_t( x ) \
+#define tao_pegtl_istring_t( x ) \
    TAOCPP_PEGTL_INTERNAL_STRING( TAOCPP_PEGTL_NAMESPACE::ascii::istring, x )
 
 #endif

@@ -275,7 +275,11 @@ These rules are in namespace `::pegtl`.
 
 These rules are in namespace `::pegtl`.
 
-These rules replicate the intrusive way actions were attached to grammars in PEGTL 0.x versions. The `apply` and `if_apply`-rules allow actions to be explicitly called from within the grammar. The actions are classes, rather than class templates as required for the `parse()`-functions or `action<>`-rule. The `apply()`-methods need to satisfy the same requirements as the `apply()`-methods of action template specializations.
+These rules replicate the intrusive way actions were attached to grammars in PEGTL 0.x versions.
+The `apply` and `if_apply`-rules allow actions to be explicitly called from within the grammar.
+The actions are classes, rather than class templates as required for the `parse()`-functions or
+`action<>`-rule. The `apply()`-methods need to satisfy the same requirements as the
+`apply()`-methods of action template specializations.
 
 ###### `apply< A... >`
 
@@ -340,7 +344,9 @@ Rules like `ascii::any` or `ascii::not_one< 'a' >` will match all possible byte 
 and all possible byte values excluding `'a'`, respectively. However the character class rules like
 `ascii::alpha` only match the corresponding ASCII characters.
 
-(It is possible to match UTF-8 multi-byte characters with the ASCII rules, for example the Euro sign code point `U+20AC`, which is encoded by the UTF-8 sequence `E2 82 AC`, can be matched by either `pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `pegtl::utf8::one< 0x20ac >`.)
+(It is possible to match UTF-8 multi-byte characters with the ASCII rules,
+for example the Euro sign code point `U+20AC`, which is encoded by the UTF-8 sequence `E2 82 AC`,
+can be matched by either `pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `pegtl::utf8::one< 0x20ac >`.)
 
 ###### `alnum`
 
@@ -425,22 +431,6 @@ and all possible byte values excluding `'a'`, respectively. However the characte
 * The next input byte is one of `C, ...`.
 * Consumes one byte when it succeeds.
 
-###### `pegtl_istring_t( "..." )`
-
-* Macro where `pegtl_istring_t( "foo" )` yields<br>
-  `pegtl::ascii::istring< 'f', 'o', 'o' >`.
-* The argument must be a string literal.
-* Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
-* Strings may contain embedded `'\0'`.
-
-###### `pegtl_string_t( "..." )`
-
-* Macro where `pegtl_string_t( "foo" )` yields<br>
-  `pegtl::ascii::string< 'f', 'o', 'o' >`.
-* The argument must be a string literal.
-* Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
-* Strings may contain embedded `'\0'`.
-
 ###### `print`
 
 * Matches and consumes any single ASCII character traditionally defined as printable.
@@ -478,6 +468,22 @@ and all possible byte values excluding `'a'`, respectively. However the characte
 
 * Matches and consumes a string, a sequence of bytes or single-byte characters.
 * Equivalent to `seq< one< C >, one< D >, ... >`.
+
+###### `tao_pegtl_istring_t( "..." )`
+
+* Macro where `tao_pegtl_istring_t( "foo" )` yields<br>
+  `istring< 'f', 'o', 'o' >`.
+* The argument must be a string literal.
+* Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
+* Strings may contain embedded `'\0'`.
+
+###### `tao_pegtl_string_t( "..." )`
+
+* Macro where `tao_pegtl_string_t( "foo" )` yields<br>
+  `string< 'f', 'o', 'o' >`.
+* The argument must be a string literal.
+* Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
+* Strings may contain embedded `'\0'`.
 
 ###### `two< C >`
 
@@ -547,7 +553,9 @@ A unicode code point is considered *valid* when it is in the range `0` to `0x10f
 
 These rules are in namespace `::pegtl::utf16`.
 
-The UTF-16 rules are surrogate-pair-aware and will consume 4 bytes for a single matched code point, rather than 2, whenever a valid surrogate pair is detected. Following what appears to be "best" practice, it is *not* an error when a code unit in the range `0xd800` to `0xdfff` is encountered outside of a valid surrogate pair.
+The UTF-16 rules are surrogate-pair-aware and will consume 4 bytes for a single matched code point,
+rather than 2, whenever a valid surrogate pair is detected. Following what appears to be "best" practice,
+it is *not* an error when a code unit in the range `0xd800` to `0xdfff` is encountered outside of a valid surrogate pair.
 
 UTF-16 support should be considered **experimental** and the following limitations apply to the UTF-16 rules:
 
