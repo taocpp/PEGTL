@@ -719,8 +719,6 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`opt< R... >`](#opt-r-) <sup>[(combinators)](#combinators)</sup>
 * [`pad< R, S, T = S >`](#pad-r-s-t--s-) <sup>[(convenience)](#convenience)</sup>
 * [`pad_opt< R, P >`](#pad_opt-r-p-) <sup>[(convenience)](#convenience)</sup>
-* [`pegtl_istring_t( "..." )`](#pegtl_istring_t--) <sup>[(ascii rules)](#ascii_rules)</sup>
-* [`pegtl_string_t( "..." )`](#pegtl_string_t--) <sup>[(ascii rules)](#ascii_rules)</sup>
 * [`plus< R, ... >`](#plus-r--) <sup>[(combinators)](#combinators)</sup>
 * [`print`](#print) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`raise< T >`](#raise-t-) <sup>[(atomic rules)](#atomic-rules)</sup>
@@ -752,6 +750,8 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`state< R, S... >`](#state-r-s-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`string< C, D, ... >`](#string-c-d--) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`success`](#success) <sup>[(atomic rules)](#atomic-rules)</sup>
+* [`tao_pegtl_istring_t( "..." )`](#tao_pegtl_istring_t--) <sup>[(ascii rules)](#ascii_rules)</sup>
+* [`tao_pegtl_string_t( "..." )`](#tao_pegtl_string_t--) <sup>[(ascii rules)](#ascii_rules)</sup>
 * [`try_catch< R... >`](#try_catch-r-) <sup>[(convenience)](#convenience)</sup>
 * [`try_catch_type< E, R... >`](#try_catch_type-e-r-) <sup>[(convenience)](#convenience)</sup>
 * [`two< C >`](#two-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
