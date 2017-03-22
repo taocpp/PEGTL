@@ -30,7 +30,7 @@ namespace unescape
 
    struct padded : pegtl::must< pegtl::pad< literal, pegtl::blank >, pegtl::eof > {};
 
-   // Action class that uses the actions from pegtl/contrib/unescape.hh to
+   // Action class that uses the actions from tao/pegtl/contrib/unescape.hh to
    // produce a UTF-8 encoded result string where all escape sequences are
    // replaced with their intended meaning.
 

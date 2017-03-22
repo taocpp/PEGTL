@@ -19,45 +19,45 @@ For all questions and remarks contact us at **pegtl (at) colin-hirsch.net**.
 
 ## Contrib
 
-###### `include/tao/pegtl/contrib/abnf.hh`
+###### `<tao/pegtl/contrib/abnf.hh>`
 
 * Core ABNF rules according to [RFC 5234, Appendix B](https://tools.ietf.org/html/rfc5234).
 * Ready for production use.
 
-###### `include/tao/pegtl/contrib/alphabet.hh`
+###### `<tao/pegtl/contrib/alphabet.hh>`
 
 * Constants for ASCII letters.
 * Shortens `string<'f','o','o'>` to `string<f,o,o>`.
 * Ready for production use.
 
-###### `include/tao/pegtl/contrib/changes.hh`
+###### `<tao/pegtl/contrib/changes.hh>`
 
 * Control class components for [external switching style](Switching-Style.md).
 * Ready for production use but might be changed in the future.
 
-###### `include/tao/pegtl/contrib/http.hh`
+###### `<tao/pegtl/contrib/http.hh>`
 
 * HTTP 1.1 grammar according to [RFC 7230](https://tools.ietf.org/html/rfc7230).
 * This is still experimental.
 
-###### `include/tao/pegtl/contrib/json.hh`
+###### `<tao/pegtl/contrib/json.hh>`
 
 * JSON grammar according to [RFC 7159](https://tools.ietf.org/html/rfc7159) (for UTF-8 encoded JSON only).
 * Ready for production use.
 
-###### `include/tao/pegtl/contrib/raw_string.hh`
+###### `<tao/pegtl/contrib/raw_string.hh>`
 
 * Grammar rules to parse Lua-style long (or raw) string literals.
 * Ready for production use.
 
-###### `include/tao/pegtl/contrib/unescape.hh`
+###### `<tao/pegtl/contrib/unescape.hh>`
 
 This file does not contain a grammar, but rather:
 
 * Utility functions frequently needed to unescape escape-sequences.
 * Action classes that perform unescaping of escape-sequences.
 
-###### `include/tao/pegtl/contrib/uri.hh`
+###### `<tao/pegtl/contrib/uri.hh>`
 
 * URI grammar according to [RFC 3986](https://tools.ietf.org/html/rfc3986).
 * This is still experimental.
@@ -92,7 +92,7 @@ Minimal parser-style "hello world" example.
 
 ###### `src/example/pegtl/json_parse.cc`
 
-Shows how to use the custom error messages defined in `json_errors.hh` with the `include/tao/pegtl/contrib/json.hh` grammar to parse command line arguments as JSON data.
+Shows how to use the custom error messages defined in `json_errors.hh` with the `<tao/pegtl/contrib/json.hh>` grammar to parse command line arguments as JSON data.
 
 ###### `src/example/pegtl/json_build_one.cc`
 
@@ -124,10 +124,10 @@ Grammar for a toy-version of S-expressions that shows how to include other files
 
 ###### `src/example/pegtl/unescape.cc`
 
-Uses the building blocks from `include/tao/pegtl/contrib/unescape.hh` to show how to actually unescape a string literal with various typical escape sequences.
+Uses the building blocks from `<tao/pegtl/contrib/unescape.hh>` to show how to actually unescape a string literal with various typical escape sequences.
 
 ###### `src/example/pegtl/uri_trace.cc`
 
-Shows how to use the included tracer control, here together with the URI grammar from `include/tao/pegtl/contrib/uri.hh`.
+Shows how to use the included tracer control, here together with the URI grammar from `<tao/pegtl/contrib/uri.hh>`.
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey

@@ -106,7 +106,7 @@ an action class template can be specialised for `foo` or for `pegtl::one< '*' >`
 
 (The method is called on class `foo`, which happens to inherit `match()` from `pegtl::plus< pegtl::one< '*' > >`, however base classes are not taken into consideration by the C++ language when choosing a specialisation.)
 
-To then use these actions in a parsing run, simply pass them as additional template parameter to one of the parser functions defined in `pegtl/parser.hh`, e.g. `parse_string()`.
+To then use these actions in a parsing run, simply pass them as additional template parameter to one of the parser functions defined in `<tao/pegtl/parser.hh>`, e.g. `parse_string()`.
 
 ```c++
 pegtl::parse_string< my_grammar, my_actions >( ... );
@@ -130,7 +130,7 @@ pegtl::parse_string< my_grammar, my_actions >( ... );
 pegtl::parse_string< pegtl::action< my_actions, my_grammar > >( ... );
 ```
 
-As usual this applies not just to `parse_string()`, but equally to all parser functions defined in `pegtl/parser.hh` or the `parse()` member methods of the parser classes documented in [Parser Reference](Parser-Reference.md).
+As usual this applies not just to `parse_string()`, but equally to all parser functions defined in `<tao/pegtl/parser.hh>` or the `parse()` member methods of the parser classes documented in [Parser Reference](Parser-Reference.md).
 
 In other words, `enable<>` and `disable<>` behave just like `seq<>` but enable or disable the calling of actions. `action<>` changes the active action class template, which must be supplied as first template parameter to `action<>`.
 

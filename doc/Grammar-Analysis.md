@@ -8,7 +8,7 @@ It does however catch most cases of left-recursion that are typical for grammars
 
 ## Rule Analysis
 
-In order to run an analysis on a grammar it is necessary to explicitly include `pegtl/analyze.hh`.
+In order to run an analysis on a grammar it is necessary to explicitly include `<tao/pegtl/analyze.hh>`.
 Then call `pegtl::analyze()` with the top-level grammar rule as template argument.
 
 ```c++

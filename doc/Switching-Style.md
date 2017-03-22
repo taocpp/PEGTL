@@ -29,7 +29,7 @@ The `state<>` and `action<>` [meta combinators](Rule-Reference.md#meta-rules) ca
 
 In some cases a state object is required for the grammar itself, and in these cases embedding the state-switch into the grammar is recommended.
 
-For an example see `pegtl/contrib/raw_string.hh` where a state-switch is necessary for the parsing rules to function correctly.
+For an example see `<tao/pegtl/contrib/raw_string.hh>` where a state-switch is necessary for the parsing rules to function correctly.
 
 ## External Switching
 
@@ -37,6 +37,6 @@ For an example see `pegtl/contrib/raw_string.hh` where a state-switch is necessa
 
 For an example of how to build a generic JSON data structure with the "external switching style" see `src/example/pegtl/json_build_one.cc`.
 
-The actual switching control classes are defined in `pegtl/contrib/changes.hh` and can be used as template for custom switching.
+The actual switching control classes are defined in `<tao/pegtl/contrib/changes.hh>` and can be used as template for custom switching.
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey

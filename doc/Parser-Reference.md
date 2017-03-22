@@ -230,7 +230,7 @@ bool parse_istream_nested( const Outer & oi,
 
 ## Tracer Functions
 
-The header file `pegtl/trace.hh` contains a [control class](Control-Hooks.md) called `tracer` that shows how to debug a grammar by obtaining a trace on which grammar rule is matched where and with which result during a parsing run.
+The header file `<tao/pegtl/trace.hh>` contains a [control class](Control-Hooks.md) called `tracer` that shows how to debug a grammar by obtaining a trace on which grammar rule is matched where and with which result during a parsing run.
 
 For convenience, a group of functions called `trace_foo()` is included, too, that behaves exactly like the corresponding `parse_foo()`-functions explained above, except that the template argument `Control` is removed and the `parse()`-functions are called with `tracer` as control class.
 
