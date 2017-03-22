@@ -234,7 +234,7 @@ The header file `pegtl/trace.hh` contains a [control class](Control-Hooks.md) ca
 
 For convenience, a group of functions called `trace_foo()` is included, too, that behaves exactly like the corresponding `parse_foo()`-functions explained above, except that the template argument `Control` is removed and the `parse()`-functions are called with `tracer` as control class.
 
-To see the tracing in action, the supplied example `examples/uri_trace.cc` can be used; the compiled binary can be found in `build/examples/uri_trace` after building the PEGTL examples and unit tests by invoking `make`.
+To see the tracing in action, the supplied example `src/example/pegtl/uri_trace.cc` can be used; the compiled binary can be found in `build/src/example/pegtl/uri_trace` after building the PEGTL examples and unit tests by invoking `make`.
 
 ## Parser Classes
 

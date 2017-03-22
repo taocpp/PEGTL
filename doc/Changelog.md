@@ -92,8 +92,8 @@ Released on 2015-08-23
    pegtl::string< 'h', 'e', 'l', 'l', 'o' >  // Normal
    pegtl_string_t( "hello" )                 // New shortcut
 ```
-* Added [`examples/abnf2pegtl.cc`](Contrib-and-Examples.md#examplesabnf2pegtlcc) application that converts grammars based on [ABNF (RFC 5234)](https://tools.ietf.org/html/rfc5234) into a PEGTL C++ grammar.
-* Added [`contrib/alphabet.hh`](Contrib-and-Examples.md#pegtlcontribalphabethh) with integer constants for alphabetic ASCII letters.
+* Added [`examples/abnf2pegtl.cc`](Contrib-and-Examples.md#srcexamplepegtlabnf2pegtlcc) application that converts grammars based on [ABNF (RFC 5234)](https://tools.ietf.org/html/rfc5234) into a PEGTL C++ grammar.
+* Added [`contrib/alphabet.hh`](Contrib-and-Examples.md#includetaopegtlcontribalphabethh) with integer constants for alphabetic ASCII letters.
 
 #### 1.1.0
 

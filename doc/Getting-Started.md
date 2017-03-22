@@ -82,10 +82,10 @@ int main( int argc, char * argv[] )
 ```
 
 Assuming you are in the main directory of the PEGTL, the above source can be
-found in the `examples/` directory. Compile the program with something like
+found in the `src/example/pegtl/` directory. Compile the program with something like
 
 ```sh
-$ g++ --std=c++11 -I. examples/hello_world.cc -o hello_world
+$ g++ --std=c++11 -Iinclude src/example/pegtl/hello_world.cc -o hello_world
 ```
 
 and then invoke it as follows:
@@ -148,14 +148,14 @@ If you can not or do not want to use a pre-packaged version of the PEGTL, see th
 Since the PEGTL is a header-only library, _it doesn't itself need to be compiled_.
 In terms of installation for use in other projects, the following steps are required.
 
-- The `pegtl/` directory, `pegtl.hh` header and `LICENSE` file should be copied somewhere, e.g.
+- The `include/` directory and the `LICENSE` file should be copied somewhere, e.g.
 
   - to `/usr/local/include/` in order to use it system-wide, or
   - to some appropriate directory within your project,
 
 - A compatible compiler with appropriate compiler switches must be used.
 - The compiler search-path for include files must include (no pun intended)
-  the directory that contains the `pegtl/` directory and `pegtl.hh` header.
+  the directory that contains the `tao/pegtl/` directory and `tao/pegtl.hh` header.
 
 The `Makefile` and `.cc`-files included in the PEGTL distribution archive serve
 as practical examples on how to develop grammars and applications with the PEGTL.

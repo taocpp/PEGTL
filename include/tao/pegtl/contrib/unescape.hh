@@ -118,7 +118,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
          }
       };
 
-      // See examples/unescape.cc for why the following two actions
+      // See src/example/pegtl/unescape.cc for why the following two actions
       // skip the first input character. They also MUST be called
       // with non-empty matched inputs!
 
