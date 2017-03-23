@@ -26,7 +26,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
 
             auto m = in.template mark< rewind_mode::REQUIRED >();
 
-            if ( rule_match_one< Rule, apply_mode::ACTION, rewind_mode::ACTIVE, Action, Control >::match( in, st ... ) ) {
+            if ( rule_match_one< Rule, apply_mode::ACTION, rewind_mode::ACTIVE, Action, Control, internal::skip_control< Rule >::value ? control_mode::NOTHING : control_mode::CONTROL, States ... >::match( in, st ... ) ) {
                const action_t i2( m.count(), in.begin(), in.source() );
                using swallow = bool[];
                (void)swallow{ ( Actions::apply( i2, st ... ), true ) ..., true };
@@ -42,7 +42,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
          template< rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_one< Rule, apply_mode::NOTHING, M, Action, Control >::match( in, st ... );
+            return rule_match_one< Rule, apply_mode::NOTHING, M, Action, Control, internal::skip_control< Rule >::value ? control_mode::NOTHING : control_mode::CONTROL, States ... >::match( in, st ... );
          }
       };
 

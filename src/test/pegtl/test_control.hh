@@ -13,8 +13,13 @@ namespace pegtl
    template< typename Rule >
    struct test_control
    {
+      static void apply_no_data()
+      {
+         applied.push_back( std::make_pair( internal::demangle< Rule >(), "" ) );
+      }
+
       template< typename Input >
-      static void apply( const Input & in )
+      static void apply_with_data( const Input & in )
       {
          applied.push_back( std::make_pair( internal::demangle< Rule >(), in.string() ) );
       }
