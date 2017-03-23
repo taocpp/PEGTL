@@ -41,7 +41,8 @@ namespace examples
    template<>
    struct value_action< pegtl::json::null >
    {
-      static void apply( result_state & result )
+      template< typename Input >
+      static void apply( const Input &, result_state & result )
       {
          result.result = std::make_shared< null_json >();
       }
@@ -50,7 +51,8 @@ namespace examples
    template<>
    struct value_action< pegtl::json::true_ >
    {
-      static void apply( result_state & result )
+      template< typename Input >
+      static void apply( const Input &, result_state & result )
       {
          result.result = std::make_shared< boolean_json >( true );
       }
@@ -59,7 +61,8 @@ namespace examples
    template<>
    struct value_action< pegtl::json::false_ >
    {
-      static void apply( result_state & result )
+      template< typename Input >
+      static void apply( const Input &, result_state & result )
       {
          result.result = std::make_shared< boolean_json >( false );
       }
@@ -102,7 +105,8 @@ namespace examples
    template<>
    struct array_action< pegtl::json::value_separator >
    {
-      static void apply( array_state & result )
+      template< typename Input >
+      static void apply( const Input &, array_state & result )
       {
          result.push_back();
       }
@@ -137,7 +141,8 @@ namespace examples
    template<>
    struct object_action< pegtl::json::value_separator >
    {
-      static void apply( object_state & result )
+      template< typename Input >
+      static void apply( const Input &, object_state & result )
       {
          result.insert();
       }
@@ -147,9 +152,7 @@ namespace examples
 
    template< typename Rule > struct control : errors< Rule > {};  // Inherit from json_errors.hh.
 
-   template< typename Rule > struct temp_action : value_action< Rule > {};
-
-   template<> struct control< pegtl::json::value > : pegtl::change_action< pegtl::json::value, temp_action, errors > {};
+   template<> struct control< pegtl::json::value > : pegtl::change_action< pegtl::json::value, value_action, errors > {};
    template<> struct control< pegtl::json::string::content > : pegtl::change_state< pegtl::json::string::content, string_state, errors > {};
    template<> struct control< pegtl::json::array::content > : pegtl::change_state_and_action< pegtl::json::array::content, array_state, array_action, errors > {};
    template<> struct control< pegtl::json::object::content > : pegtl::change_state_and_action< pegtl::json::object::content, object_state, object_action, errors > {};

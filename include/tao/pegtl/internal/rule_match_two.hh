@@ -6,7 +6,6 @@
 
 #include "../config.hh"
 #include "../nothing.hh"
-#include "../apply_here.hh"
 #include "../apply_mode.hh"
 #include "../rewind_mode.hh"
 
@@ -26,11 +25,11 @@ namespace TAOCPP_PEGTL_NAMESPACE
                 rewind_mode M,
                 template< typename ... > class Action,
                 template< typename ... > class Control,
-                apply_here H >
+                bool apply_here = ( ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Rule >::value ) ) >
       struct rule_match_two;
 
       template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_two< Rule, A, M, Action, Control, apply_here::NOTHING >
+      struct rule_match_two< Rule, A, M, Action, Control, false >
       {
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
@@ -47,29 +46,15 @@ namespace TAOCPP_PEGTL_NAMESPACE
       };
 
       template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_two< Rule, A, M, Action, Control, apply_here::ACTION_NO_DATA >
+      struct rule_match_two< Rule, A, M, Action, Control, true >
       {
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            if ( rule_match_two< Rule, A, M, Action, Control, apply_here::NOTHING >::match( in, st ... ) ) {
-               Control< Rule >::template apply_no_data< Action >( st ... );
-               return true;
-            }
-            return false;
-         }
-      };
+            auto m = in.template mark< rewind_mode::REQUIRED >();  // TODO: Allow actions to opt-out of receiving input data?
 
-      template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_two< Rule, A, M, Action, Control, apply_here::ACTION_WITH_DATA >
-      {
-         template< typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
-         {
-            auto m = in.template mark< rewind_mode::REQUIRED >();
-
-            if ( rule_match_two< Rule, A, rewind_mode::ACTIVE, Action, Control, apply_here::NOTHING >::match( in, st ... ) ) {
-               Control< Rule >::template apply_with_data< typename Input::action_t, Action >( m.count(), in.count(), in.source(), st ... );
+            if ( rule_match_two< Rule, A, rewind_mode::ACTIVE, Action, Control, false >::match( in, st ... ) ) {
+               Control< Rule >::template apply< typename Input::action_t, Action >( m.count(), in.count(), in.source(), st ... );
                return m( true );
             }
             return false;

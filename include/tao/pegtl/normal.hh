@@ -13,7 +13,6 @@
 #include "internal/demangle.hh"
 #include "internal/action_input.hh"
 #include "internal/rule_match_one.hh"
-#include "internal/skip_control.hh"
 
 namespace TAOCPP_PEGTL_NAMESPACE
 {
@@ -38,14 +37,8 @@ namespace TAOCPP_PEGTL_NAMESPACE
          throw parse_error( "parse error matching " + internal::demangle< Rule >(), in );
       }
 
-      template< template< typename ... > class Action, typename ... States >
-      static void apply_no_data( States && ... st )
-      {
-         Action< Rule >::apply( st ... );
-      }
-
       template< typename Input, template< typename ... > class Action, typename ... States >
-      static void apply_with_data( const count_data & begin, const count_data & end, const char * source, States && ... st )
+      static void apply( const count_data & begin, const count_data & end, const char * source, States && ... st )
       {
          const Input in( begin, end.data, source );
          Action< Rule >::apply( in, st ... );
@@ -54,7 +47,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
       template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
       static bool match( Input & in, States && ... st )
       {
-         return internal::rule_match_one< Rule, A, M, Action, Control, internal::skip_control< Rule >::value ? control_mode::NOTHING : control_mode::CONTROL, States ... >::match( in, st ... );
+         return internal::rule_match_one< Rule, A, M, Action, Control >::match( in, st ... );
       }
    };
 
