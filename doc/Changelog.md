@@ -46,6 +46,8 @@
 
   * Added new combinator class `minus< M, S >`.
   * Optimised superfluous input markers.
+  * Optionally optimise actions that do not need the input.
+  * Replaced layered matching with superior Duseltronik.
 
 #### 1.3.1
 
