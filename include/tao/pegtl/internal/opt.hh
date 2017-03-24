@@ -9,7 +9,7 @@
 #include "../config.hh"
 
 #include "skip_control.hh"
-#include "rule_match_three.hh"
+#include "rule_match_one.hh"
 #include "seq.hh"
 #include "trivial.hh"
 
@@ -40,7 +40,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
          static bool match( Input & in, States && ... st )
          {
             if ( ! in.empty() ) {
-               rule_match_three< seq< Rules ... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st ... );
+               rule_match_one< seq< Rules ... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st ... );
             }
             return true;
          }

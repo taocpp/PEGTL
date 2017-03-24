@@ -9,7 +9,6 @@
 #include "../rewind_mode.hh"
 
 #include "skip_control.hh"
-#include "rule_match_three.hh"
 
 namespace TAOCPP_PEGTL_NAMESPACE
 {
@@ -20,15 +19,28 @@ namespace TAOCPP_PEGTL_NAMESPACE
                 rewind_mode M,
                 template< typename ... > class Action,
                 template< typename ... > class Control,
-                bool Use_Control,
-                bool Use_Action,
-                bool Use_Apply0 >
+                bool Use_Control = false,
+                bool Use_Action = false,
+                bool Use_Apply0 = false >
       struct rule_match_one;
 
       template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_one< Rule, A, M, Action, Control, false, false, false >
-            : rule_match_three< Rule, A, M, Action, Control >
-      { };
+      {
+         template< typename Input, typename ... States >
+         static auto match( Input & in, States && ... st ) -> decltype( Rule::template match< A, M, Action, Control >( in, st ... ), true )
+         {
+            return Rule::template match< A, M, Action, Control >( in, st ... );
+         }
+
+         // NOTE: The additional "int = 0" is a work-around for missing expression SFINAE in VS2015.
+
+         template< typename Input, typename ... States, int = 0 >
+         static auto match( Input & in, States && ... ) -> decltype( Rule::match( in ), true )
+         {
+            return Rule::match( in );
+         }
+      };
 
       template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_one< Rule, A, M, Action, Control, true, false, false >
@@ -38,7 +50,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
          {
             Control< Rule >::start( const_cast< const Input & >( in ), st ... );
 
-            if ( rule_match_three< Rule, A, M, Action, Control >::match( in, st ... ) ) {
+            if ( rule_match_one< Rule, A, M, Action, Control, false, false, false >::match( in, st ... ) ) {
                Control< Rule >::success( const_cast< const Input & >( in ), st ... );
                return true;
             }

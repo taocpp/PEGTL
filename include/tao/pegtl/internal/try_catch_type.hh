@@ -10,7 +10,7 @@
 
 #include "skip_control.hh"
 #include "trivial.hh"
-#include "rule_match_three.hh"
+#include "rule_match_one.hh"
 #include "seq.hh"
 
 #include "../apply_mode.hh"
@@ -43,7 +43,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
             using m_t = decltype( m );
 
             try {
-               return m( rule_match_three< seq< Rules ... >, A, m_t::next_rewind_mode, Action, Control >::match( in, st ... ) );
+               return m( rule_match_one< seq< Rules ... >, A, m_t::next_rewind_mode, Action, Control >::match( in, st ... ) );
             }
             catch ( const Exception & ) {
                return false;

@@ -8,7 +8,7 @@
 
 #include "../config.hh"
 
-#include "rule_match_three.hh"
+#include "rule_match_one.hh"
 #include "seq.hh"
 #include "opt.hh"
 #include "skip_control.hh"
@@ -30,7 +30,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
          template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            while ( ( ! in.empty() ) && rule_match_three< seq< Rule, Rules ... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st ... ) ) {}
+            while ( ( ! in.empty() ) && rule_match_one< seq< Rule, Rules ... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st ... ) ) {}
             return true;
          }
       };

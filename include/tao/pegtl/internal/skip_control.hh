@@ -18,7 +18,6 @@ namespace TAOCPP_PEGTL_NAMESPACE
       // be hidden from the control and action class'
       // callbacks simply specializes skip_control<>
       // to return 'true' for the above expression.
-      // This is then used in rule_match_one.hh.
 
       template< typename Rule >
       struct skip_control : std::false_type {};

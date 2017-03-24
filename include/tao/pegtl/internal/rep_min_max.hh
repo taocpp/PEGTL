@@ -12,7 +12,7 @@
 #include "trivial.hh"
 #include "not_at.hh"
 #include "rule_conjunction.hh"
-#include "rule_match_three.hh"
+#include "rule_match_one.hh"
 #include "seq.hh"
 
 #include "../apply_mode.hh"
@@ -60,11 +60,11 @@ namespace TAOCPP_PEGTL_NAMESPACE
                }
             }
             for ( unsigned i = Min; i != Max; ++i ) {
-               if ( ! rule_match_three< seq< Rules ... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st ... ) ) {
+               if ( ! rule_match_one< seq< Rules ... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st ... ) ) {
                   return m( true );
                }
             }
-            return m( rule_match_three< not_at< Rules ... >, A, m_t::next_rewind_mode, Action, Control >::match( in, st ... ) );  // NOTE that not_at<> will always rewind.
+            return m( rule_match_one< not_at< Rules ... >, A, m_t::next_rewind_mode, Action, Control >::match( in, st ... ) );  // NOTE that not_at<> will always rewind.
          }
       };
 
