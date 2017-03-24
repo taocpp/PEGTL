@@ -18,7 +18,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
       struct has_apply0 : std::false_type {};
 
       template< typename A, typename ... S >
-      struct has_apply0< A, type_list< S ... >, typename std::enable_if< std::is_same< decltype( A::apply0( std::declval< S >() ... ) ), void >::value >::type > : std::true_type {};
+      struct has_apply0< A, type_list< S ... >, decltype( A::apply0( std::declval< S >() ... ), void() ) > : std::true_type {};
 
    } // namespace internal
 
