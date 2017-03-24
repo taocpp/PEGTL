@@ -5,12 +5,14 @@
 #define TAOCPP_PEGTL_INCLUDE_NORMAL_HH
 
 #include "config.hh"
+#include "nothing.hh"
 #include "count_data.hh"
 #include "apply_mode.hh"
 #include "rewind_mode.hh"
 #include "parse_error.hh"
 
 #include "internal/demangle.hh"
+#include "internal/has_apply0.hh"
 #include "internal/action_input.hh"
 #include "internal/rule_match_one.hh"
 
@@ -37,6 +39,12 @@ namespace TAOCPP_PEGTL_NAMESPACE
          throw parse_error( "parse error matching " + internal::demangle< Rule >(), in );
       }
 
+      template< template< typename ... > class Action, typename ... States >
+      static void apply0( States && ... st )
+      {
+         Action< Rule >::apply0( st ... );
+      }
+
       template< typename Input, template< typename ... > class Action, typename ... States >
       static void apply( const count_data & begin, const count_data & end, const char * source, States && ... st )
       {
@@ -44,10 +52,12 @@ namespace TAOCPP_PEGTL_NAMESPACE
          Action< Rule >::apply( in, st ... );
       }
 
+      static constexpr bool use_control = ! internal::skip_control< Rule >::value;
+
       template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
       static bool match( Input & in, States && ... st )
       {
-         return internal::rule_match_one< Rule, A, M, Action, Control >::match( in, st ... );
+         return internal::rule_match_one< Rule, A, M, Action, Control, use_control, use_control && ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Rule >::value ), use_control && internal::has_apply0< Action< Rule >, internal::type_list< States ... > >::value >::match( in, st ... );
       }
    };
 

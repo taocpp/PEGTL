@@ -76,6 +76,36 @@ namespace pegtl
          TEST_ASSERT( result == "dkskxk" );
       }
 
+      template< typename Rule > struct action0 : nothing< Rule > {};
+
+      static int i0 = 0;
+
+      template<>
+      struct action0< alpha >
+      {
+         static void apply0()
+         {
+            ++i0;
+         }
+      };
+
+      template<> struct action0< digit >
+      {
+         static void apply0( std::string & s )
+         {
+            s += '0';
+         }
+      };
+
+      void apply0_test()
+      {
+         parse_string< star< alpha >, action0 >( "abcdefgh", __FILE__ );
+         TEST_ASSERT( i0 == 8 );
+         std::string s0;
+         parse_string< star< digit >, action0 >( "12345678", __FILE__, s0 );
+         TEST_ASSERT( s0 == "00000000" );
+      }
+
    } // namespace test1
 
    void unit_test()
@@ -112,6 +142,7 @@ namespace pegtl
       test1::test_result();
 
       test1::state_test();
+      test1::apply0_test();
    }
 
 } // namespace pegtl

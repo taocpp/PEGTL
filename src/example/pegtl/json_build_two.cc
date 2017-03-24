@@ -33,8 +33,7 @@ namespace examples
    template<>
    struct action< pegtl::json::null >
    {
-      template< typename Input >
-      static void apply( const Input &, json_state & state )
+      static void apply0( json_state & state )
       {
          state.result = std::make_shared< null_json >();
       }
@@ -43,8 +42,7 @@ namespace examples
    template<>
    struct action< pegtl::json::true_ >
    {
-      template< typename Input >
-      static void apply( const Input &, json_state & state )
+      static void apply0( json_state & state )
       {
          state.result = std::make_shared< boolean_json >( true );
       }
@@ -53,8 +51,7 @@ namespace examples
    template<>
    struct action< pegtl::json::false_ >
    {
-      template< typename Input >
-      static void apply( const Input &, json_state & state )
+      static void apply0( json_state & state )
       {
          state.result = std::make_shared< boolean_json >( false );
       }
@@ -87,8 +84,7 @@ namespace examples
    template<>
    struct action< pegtl::json::array::begin >
    {
-      template< typename Input >
-      static void apply( const Input &, json_state & state )
+      static void apply0( json_state & state )
       {
          state.arrays.push_back( std::make_shared< array_json >() );
       }
@@ -97,8 +93,7 @@ namespace examples
    template<>
    struct action< pegtl::json::array::element >
    {
-      template< typename Input >
-      static void apply( const Input &, json_state & state )
+      static void apply0( json_state & state )
       {
          state.arrays.back()->data.push_back( std::move( state.result ) );
       }
@@ -107,8 +102,7 @@ namespace examples
    template<>
    struct action< pegtl::json::array::end >
    {
-      template< typename Input >
-      static void apply( const Input &, json_state & state )
+      static void apply0( json_state & state )
       {
          state.result = std::move( state.arrays.back() );
          state.arrays.pop_back();
@@ -118,8 +112,7 @@ namespace examples
    template<>
    struct action< pegtl::json::object::begin >
    {
-      template< typename Input >
-      static void apply( const Input &, json_state & state )
+      static void apply0( json_state & state )
       {
          state.objects.push_back( std::make_shared< object_json >() );
       }
@@ -141,8 +134,7 @@ namespace examples
    template<>
    struct action< pegtl::json::object::element >
    {
-      template< typename Input >
-      static void apply( const Input &, json_state & state )
+      static void apply0( json_state & state )
       {
          state.objects.back()->data[ std::move( state.keys.back() ) ] = std::move( state.result );
          state.keys.pop_back();
@@ -152,8 +144,7 @@ namespace examples
    template<>
    struct action< pegtl::json::object::end >
    {
-      template< typename Input >
-      static void apply( const Input &, json_state & state )
+      static void apply0( json_state & state )
       {
          state.result = std::move( state.objects.back() );
          state.objects.pop_back();
