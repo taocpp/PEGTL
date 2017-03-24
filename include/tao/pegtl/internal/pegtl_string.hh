@@ -83,10 +83,10 @@ namespace TAOCPP_PEGTL_NAMESPACE
          TAOCPP_PEGTL_INTERNAL_EXPAND( \
             TAOCPP_PEGTL_NAMESPACE::internal::string_max_length< TAOCPP_PEGTL_INTERNAL_STRING_512( S, x, ), sizeof( x ) - 1 >::type ) ) )
 
-#define tao_pegtl_string_t( x ) \
+#define TAOCPP_PEGTL_STRING( x ) \
    TAOCPP_PEGTL_INTERNAL_STRING( TAOCPP_PEGTL_NAMESPACE::ascii::string, x )
 
-#define tao_pegtl_istring_t( x ) \
+#define TAOCPP_PEGTL_ISTRING( x ) \
    TAOCPP_PEGTL_INTERNAL_STRING( TAOCPP_PEGTL_NAMESPACE::ascii::istring, x )
 
 #endif

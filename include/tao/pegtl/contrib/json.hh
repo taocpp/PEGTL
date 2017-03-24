@@ -28,9 +28,9 @@ namespace TAOCPP_PEGTL_NAMESPACE
       struct name_separator : pad< one< ':' >, ws > {};
       struct value_separator : padr< one< ',' > > {};
 
-      struct false_ : tao_pegtl_string_t( "false" ) {};
-      struct null : tao_pegtl_string_t( "null" ) {};
-      struct true_ : tao_pegtl_string_t( "true" ) {};
+      struct false_ : TAOCPP_PEGTL_STRING( "false" ) {};
+      struct null : TAOCPP_PEGTL_STRING( "null" ) {};
+      struct true_ : TAOCPP_PEGTL_STRING( "true" ) {};
 
       struct digits : plus< abnf::DIGIT > {};
       struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+'> >, must< digits > > {};

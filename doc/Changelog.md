@@ -7,7 +7,7 @@
 * Migrated repository to ["The Art of C++"](https://github.com/taocpp):
 
   * Moved all includes into `tao/`, e.g. `<tao/pegtl.hh>` instead of `<pegtl.hh>`.
-  * Renamed `pegtl_(i)string_t` to `tao_pegtl_(i)string_t`.
+  * Renamed `pegtl_(i)string_t` to `TAOCPP_PEGTL_(I)STRING`.
   * Added defines for the version of the PEGTL, e.g. `TAOCPP_PEGTL_VERSION_MAJOR`.
   * Version 2.x can be installed and used in parallel to version 1.x of the PEGTL.
 
@@ -36,7 +36,7 @@
   * Added `apply` and `if_apply` rules for in-grammar direct actions.
   * Added `apply()` method to control class for greater control.
 
-* Improved `tao_pegtl_(i)string_t`:
+* Improved `TAOCPP_PEGTL_(I)STRING`:
 
   * Increased allowed string length to 512.
   * Allowed embedded null bytes.
