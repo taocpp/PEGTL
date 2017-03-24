@@ -57,7 +57,9 @@ namespace TAOCPP_PEGTL_NAMESPACE
       template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
       static bool match( Input & in, States && ... st )
       {
-         return internal::rule_match_one< Rule, A, M, Action, Control, use_control, use_control && ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Rule >::value ), use_control && internal::has_apply0< Action< Rule >, internal::type_list< States ... > >::value >::match( in, st ... );
+         constexpr bool use_action = use_control && ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Rule >::value );
+         constexpr bool use_apply0 = use_action && internal::has_apply0< Action< Rule >, internal::type_list< States ... > >::value;
+         return internal::rule_match_one< Rule, A, M, Action, Control, use_control, use_action, use_apply0 >::match( in, st ... );
       }
    };
 

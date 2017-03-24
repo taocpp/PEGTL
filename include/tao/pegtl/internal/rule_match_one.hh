@@ -48,11 +48,6 @@ namespace TAOCPP_PEGTL_NAMESPACE
       };
 
       template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_one< Rule, A, M, Action, Control, true, false, true >
-            : rule_match_one< Rule, A, M, Action, Control, true, false, false >
-      { };
-
-      template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
       struct rule_match_one< Rule, A, M, Action, Control, true, true, false >
       {
          template< typename Input, typename ... States >
@@ -74,7 +69,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            if ( rule_match_one< Rule, A, rewind_mode::ACTIVE, Action, Control, true, false, false >::match( in, st ... ) ) {
+            if ( rule_match_one< Rule, A, M, Action, Control, true, false, false >::match( in, st ... ) ) {
                Control< Rule >::template apply0< Action >( st ... );
                return true;
             }
