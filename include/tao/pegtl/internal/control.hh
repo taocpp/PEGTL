@@ -8,7 +8,7 @@
 
 #include "skip_control.hh"
 #include "seq.hh"
-#include "rule_match_one.hh"
+#include "duseltronik.hh"
 
 #include "../apply_mode.hh"
 #include "../rewind_mode.hh"
@@ -27,7 +27,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
          template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class, typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            return rule_match_one< seq< Rules ... >, A, M, Action, Control >::match( in, st ... );
+            return duseltronik< seq< Rules ... >, A, M, Action, Control >::match( in, st ... );
          }
       };
 

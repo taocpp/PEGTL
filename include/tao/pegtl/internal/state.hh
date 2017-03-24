@@ -7,7 +7,7 @@
 #include "../config.hh"
 
 #include "seq.hh"
-#include "rule_match_one.hh"
+#include "duseltronik.hh"
 #include "skip_control.hh"
 
 #include "../apply_mode.hh"
@@ -43,7 +43,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
          {
             State s( const_cast< const Input & >( in ), st ... );
 
-            if ( rule_match_one< seq< Rules ... >, A, M, Action, Control >::match( in, s ) ) {
+            if ( duseltronik< seq< Rules ... >, A, M, Action, Control >::match( in, s ) ) {
                success< A, M, Action, Control >( s, in, st ... );
                return true;
             }

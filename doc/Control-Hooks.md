@@ -52,10 +52,10 @@ struct normal
              typename ... States >
    static bool match( Input & in, States && ... st )
    {
-      return internal::rule_match_one< Rule,
-                                       A, M,
-                                       Action,
-                                       Control >( in, st ... );
+      return internal::duseltronik< Rule,
+                                    A, M,
+                                    Action,
+                                    Control >( in, st ... );
    }
 };
 ```

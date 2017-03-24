@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_RULE_MATCH_ONE_HH
-#define TAOCPP_PEGTL_INCLUDE_INTERNAL_RULE_MATCH_ONE_HH
+#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_DUSELTRONIK_HH
+#define TAOCPP_PEGTL_INCLUDE_INTERNAL_DUSELTRONIK_HH
 
 #include "../config.hh"
 #include "../apply_mode.hh"
@@ -22,10 +22,10 @@ namespace TAOCPP_PEGTL_NAMESPACE
                 bool Use_Control = false,
                 bool Use_Action = false,
                 bool Use_Apply0 = false >
-      struct rule_match_one;
+      struct duseltronik;
 
       template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_one< Rule, A, M, Action, Control, false, false, false >
+      struct duseltronik< Rule, A, M, Action, Control, false, false, false >
       {
          template< typename Input, typename ... States >
          static auto match( Input & in, States && ... st ) -> decltype( Rule::template match< A, M, Action, Control >( in, st ... ), true )
@@ -43,14 +43,14 @@ namespace TAOCPP_PEGTL_NAMESPACE
       };
 
       template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_one< Rule, A, M, Action, Control, true, false, false >
+      struct duseltronik< Rule, A, M, Action, Control, true, false, false >
       {
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             Control< Rule >::start( const_cast< const Input & >( in ), st ... );
 
-            if ( rule_match_one< Rule, A, M, Action, Control, false, false, false >::match( in, st ... ) ) {
+            if ( duseltronik< Rule, A, M, Action, Control, false, false, false >::match( in, st ... ) ) {
                Control< Rule >::success( const_cast< const Input & >( in ), st ... );
                return true;
             }
@@ -60,14 +60,14 @@ namespace TAOCPP_PEGTL_NAMESPACE
       };
 
       template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_one< Rule, A, M, Action, Control, true, true, false >
+      struct duseltronik< Rule, A, M, Action, Control, true, true, false >
       {
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
             auto m = in.template mark< rewind_mode::REQUIRED >();
 
-            if ( rule_match_one< Rule, A, rewind_mode::ACTIVE, Action, Control, true, false, false >::match( in, st ... ) ) {
+            if ( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, true, false, false >::match( in, st ... ) ) {
                Control< Rule >::template apply< typename Input::action_t, Action >( m.count(), in.count(), in.source(), st ... );
                return m( true );
             }
@@ -76,12 +76,12 @@ namespace TAOCPP_PEGTL_NAMESPACE
       };
 
       template< typename Rule, apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control >
-      struct rule_match_one< Rule, A, M, Action, Control, true, true, true >
+      struct duseltronik< Rule, A, M, Action, Control, true, true, true >
       {
          template< typename Input, typename ... States >
          static bool match( Input & in, States && ... st )
          {
-            if ( rule_match_one< Rule, A, M, Action, Control, true, false, false >::match( in, st ... ) ) {
+            if ( duseltronik< Rule, A, M, Action, Control, true, false, false >::match( in, st ... ) ) {
                Control< Rule >::template apply0< Action >( st ... );
                return true;
             }

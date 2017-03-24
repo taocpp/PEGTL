@@ -14,7 +14,7 @@
 #include "internal/demangle.hh"
 #include "internal/has_apply0.hh"
 #include "internal/action_input.hh"
-#include "internal/rule_match_one.hh"
+#include "internal/duseltronik.hh"
 
 namespace TAOCPP_PEGTL_NAMESPACE
 {
@@ -58,7 +58,7 @@ namespace TAOCPP_PEGTL_NAMESPACE
          constexpr bool use_control = ! internal::skip_control< Rule >::value;
          constexpr bool use_action = use_control && ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Rule >::value );
          constexpr bool use_apply0 = use_action && internal::has_apply0< Action< Rule >, internal::type_list< States ... > >::value;
-         return internal::rule_match_one< Rule, A, M, Action, Control, use_control, use_action, use_apply0 >::match( in, st ... );
+         return internal::duseltronik< Rule, A, M, Action, Control, use_control, use_action, use_apply0 >::match( in, st ... );
       }
    };
 
