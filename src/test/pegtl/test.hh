@@ -19,7 +19,6 @@ namespace pegtl
 
 #include "test_action.hh"
 #include "test_assert.hh"
-#include "test_control.hh"
 #include "test_failed.hh"
 
 #include "verify_rule.hh"
