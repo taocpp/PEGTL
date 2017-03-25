@@ -9,12 +9,12 @@ It does however catch most cases of left-recursion that are typical for grammars
 ## Rule Analysis
 
 In order to run an analysis on a grammar it is necessary to explicitly include `<tao/pegtl/analyze.hh>`.
-Then call `pegtl::analyze()` with the top-level grammar rule as template argument.
+Then call `tao::pegtl::analyze()` with the top-level grammar rule as template argument.
 
 ```c++
 #include <tao/pegtl/analyze.hh>
 
-const size_t issues_found = pegtl::analyze< my_grammar >();
+const size_t issues_found = tao::pegtl::analyze< my_grammar >();
 ```
 
 The `analyze()`-function returns the number of issues found and writes some information about them to `std::cout`.
@@ -43,7 +43,7 @@ In order to look for infinte loops in a grammar, the `analyze()`-function needs 
 This "information" consists of a classification of the rules according to the following enum, plus, for non-atomic rules, a list of the sub-rules.
 
 ```c++
-// namespace pegtl::analysis
+// namespace tao::pegtl::analysis
 
 enum class rule_type : char
 {
@@ -67,9 +67,9 @@ At the beginning of an `analyze()`-run the function `R::analyze_t::insert()` is 
 
 ## Custom Rules
 
-For custom rules it should usually be sufficient to follow the lead of the rules supplied with the PEGTL and define `analyze_t` to either `pegtl::analysis::generic` or `pegtl::analysis::counted`.
+For custom rules it should usually be sufficient to follow the lead of the rules supplied with the PEGTL and define `analyze_t` to either `tao::pegtl::analysis::generic` or `tao::pegtl::analysis::counted`.
 In both cases, the `rule_type` and the list of sub-rules must be supplied as template parameters.
-Class `pegtl::analysis::counted` additionally takes an integer argument `Count` with the assumption being that a count of zero indicates that everything the rule type is `OPT` while a non-zero count uses the rule type given as template parameter.
+Class `tao::pegtl::analysis::counted` additionally takes an integer argument `Count` with the assumption being that a count of zero indicates that everything the rule type is `OPT` while a non-zero count uses the rule type given as template parameter.
 
 When a custom rule goes beyond what can be currently expressed and all other questions, please contact the authors at **pegtl (at) colin-hirsch.net**.
 

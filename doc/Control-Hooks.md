@@ -81,7 +81,7 @@ Depending on what happens during the attempt to match `R`, one of the other thre
 The `raise()`-control-hook-function *must* throw an exception.
 For most parts of the PEGTL the exception class is irrelevant and any user-defined data type can be thrown by a user-defined control hook.
 
-The `try_catch` rule only catches exceptions of type `pegtl::parse_error`!
+The `try_catch` rule only catches exceptions of type `tao::pegtl::parse_error`!
 
 When custom exception types are used then `try_catch_type` must be used with the custom exception class that they are supposed to catch as first template argument.
 
@@ -138,6 +138,6 @@ Just like the action class template, a custom control class template can be used
 
 1. supplying it as explicit template argument to the `parse()`-functions, or
 
-2. setting it for a portion of the grammar with the `pegtl::control` combinator.
+2. setting it for a portion of the grammar with the `tao::pegtl::control` combinator.
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey

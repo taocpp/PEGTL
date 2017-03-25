@@ -67,14 +67,14 @@ The remainder of the program checks that all characters of `argv[ 1 ]` are equal
 
 ```c++
    struct grammar
-      : pegtl::until< pegtl::eof, my_rule< 3 > > {};
+      : tao::pegtl::until< tao::pegtl::eof, my_rule< 3 > > {};
 
 }  // modulus
 
 int main( int argc, char * argv[] )
 {
    if ( argc > 1 ) {
-      pegtl::parse_arg< modulus::grammar >( 1, argv );
+      tao::pegtl::parse_arg< modulus::grammar >( 1, argv );
    }
    return 0;
 }
@@ -95,8 +95,8 @@ struct complex_rule
    // Optional; explained in the section on Grammar Analysis:
    using analyze_t = ...;
 
-   template< pegtl::apply_mode A,
-             pegtl::marker_mode M,
+   template< tao::pegtl::apply_mode A,
+             tao::pegtl::marker_mode M,
              template< typename ... > class Action,
              template< typename ... > class Control,
              typename Input,
@@ -122,9 +122,9 @@ First we define a rule for the opening of a long string literal as explained abo
 namespace dynamic
 {
    struct long_literal_open
-      : pegtl::seq< pegtl::one< '[' >,
-                    pegtl::plus< pegtl::not_one< '[' > >,
-                    pegtl::one< '[' > > {};
+      : tao::pegtl::seq< tao::pegtl::one< '[' >,
+                         tao::pegtl::plus< tao::pegtl::not_one< '[' > >,
+                         tao::pegtl::one< '[' > > {};
 ```
 
 Then we implement an action class with a specialisation for what is the `"foo"`-part of the long string literal's opening sequence.
@@ -133,9 +133,9 @@ The action stores the matched string that corresponds to `"foo"` in a string var
 ```c++
    template< typename Rule >
    struct action
-      : pegtl::nothing< Rule > {};
+      : tao::pegtl::nothing< Rule > {};
 
-   template<> struct action< pegtl::plus< pegtl::not_one< '[' > > >
+   template<> struct action< tao::pegtl::plus< tao::pegtl::not_one< '[' > > >
    {
       template< typename Input >
       static void apply( const Input & in,
@@ -151,9 +151,9 @@ The rule for the closing sequence is similar to the opening, with closing instea
 
 ```c++
    struct long_literal_close
-      : pegtl::seq< pegtl::one< ']' >,
-                    long_literal_mark,
-                    pegtl::one< ']' > > {};
+      : tao::pegtl::seq< tao::pegtl::one< ']' >,
+                         long_literal_mark,
+                         tao::pegtl::one< ']' > > {};
 ```
 
 The custom rule itself
@@ -167,8 +167,8 @@ The custom rule itself
 ```c++
    struct long_literal_mark
    {
-      template< pegtl::apply_mode A,
-                pegtl::marker_mode M,
+      template< tao::pegtl::apply_mode A,
+                tao::pegtl::marker_mode M,
                 template< typename ... > class Action,
                 template< typename ... > class Control
                 typename Input >
@@ -190,17 +190,17 @@ The custom rule itself
 ```
 
 The grammar is completed with another two rules for putting everything together, and an action that stores the body of the long string literal in a second state argument.
-In this case the rule `long_literal_body` is redundant, however real-world examples frequently contain a rule like `pegtl::any` multiple times, and so it is necessary to give it another name in order to attach different actions to different uses of the same rule.
+In this case the rule `long_literal_body` is redundant, however real-world examples frequently contain a rule like `tao::pegtl::any` multiple times, and so it is necessary to give it another name in order to attach different actions to different uses of the same rule.
 
 ```c++
    struct long_literal_body
-      : pegtl::any {};
+      : tao::pegtl::any {};
 
    struct grammar
-      : pegtl::if_must< long_literal_open,
-                        pegtl::until< long_literal_close,
-                                      long_literal_body >,
-                        pegtl::eof > {};
+      : tao::pegtl::if_must< long_literal_open,
+                             tao::pegtl::until< long_literal_close,
+                                                long_literal_body >,
+                             tao::pegtl::eof > {};
 
    template<> struct action< long_literal_body >
    {
@@ -224,7 +224,7 @@ int main( int argc, char * argv[] )
    if ( argc > 1 ) {
       std::string long_literal_mark;
       std::string long_literal_body;
-      pegtl::parse_arg< dynamic::grammar,
+      tao::pegtl::parse_arg< dynamic::grammar,
                         dynamic::action >( 1, argv
                                            long_literal_mark,
                                            long_literal_body );

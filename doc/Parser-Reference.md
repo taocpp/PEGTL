@@ -11,7 +11,7 @@ All parser functions and classes make use of the following template parameters a
 The `Rule` class *has* to be provided in order to have something to match against while parsing, some `Action<>` *usually* has to be provided (to actually *do* something while parsing, rather than only checking adherence of the input data to the grammar), whereas for `Control<>`, at least initially, the provided default will often be sufficient.
 
 Nested parsing runs are typically performed when a file "includes" another file in the middle of being parsed.
-In order to allow for error messages of the form "error in file F1 line L1 included from file F2 line L2..." the exception class `pegtl::parse_error` contains a whole vector of `pegtl::position_info` objects, and using the nested parsing functions gives the PEGTL the information it needs to correctly fill that vector.
+In order to allow for error messages of the form "error in file F1 line L1 included from file F2 line L2..." the exception class `tao::pegtl::parse_error` contains a whole vector of `tao::pegtl::position_info` objects, and using the nested parsing functions gives the PEGTL the information it needs to correctly fill that vector.
 
 ## Contents
 
@@ -22,9 +22,9 @@ In order to allow for error messages of the form "error in file F1 line L1 inclu
 
 ## Input Data
 
-During a parsing run, the PEGTL uses the an *input* class, e.g. `pegtl::memory_input`, to reference, and pass around references to, (portions of) the input data.
+During a parsing run, the PEGTL uses the an *input* class, e.g. `tao::pegtl::memory_input`, to reference, and pass around references to, (portions of) the input data.
 
-When dealing with, or implementing, *any* function that is called with an instance of an input class, or internally uses one like the `pegtl::parse()`-functions, it has to be taken into consideration that
+When dealing with, or implementing, *any* function that is called with an instance of an input class, or internally uses one like the `tao::pegtl::parse()`-functions, it has to be taken into consideration that
 
 1. the input classes do *not* copy the data they reference, they only keep pointers, therefore
 2. the parser functions do *not* copy the data they parse, therefore
@@ -37,7 +37,7 @@ In some cases it might be necessary to use highly optimised data structures that
 The parsing of files is performed with [parser classes](#parser-classes), rather than stand-alone functions, that allow extending the lifetime of the input data beyond the call to the `parse()`-function.
 
 ```c++
-pegtl::file_parser p( "path/to/file" );
+tao::pegtl::file_parser p( "path/to/file" );
 something_with_pointers s;
 p.parse< my_grammar >( s );
 // p still exists and s is safe to contain
@@ -264,7 +264,7 @@ public:
    const std::string & source() const;
 
    // Returns an input for the remaining content of the file.
-   const pegtl::input & input() const;
+   const tao::pegtl::input & input() const;
 
    template< typename Rule,
              template< typename ... > class Action = nothing,

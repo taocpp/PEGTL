@@ -21,14 +21,14 @@ First the default- or base-case of the action class template has to be defined:
 ```c++
 template< typename Rule >
 struct my_actions
-   : pegtl::nothing< Rule > {};
+   : tao::pegtl::nothing< Rule > {};
 ```
 
-Inheriting from `pegtl::nothing< Rule >` indicates to the PEGTL that no action is attached to `Rule`, i.e. that no `apply()`-method should be called for successful matches of `Rule`.
+Inheriting from `tao::pegtl::nothing< Rule >` indicates to the PEGTL that no action is attached to `Rule`, i.e. that no `apply()`-method should be called for successful matches of `Rule`.
 
 To attach an action to `Rule`, this class template has to be specialised for `Rule` with two important properties.
 
-1. The specialisation *must not* inherit from `pegtl::nothing< Rule >`.
+1. The specialisation *must not* inherit from `tao::pegtl::nothing< Rule >`.
 
 2. An *appropriate* static `apply()`-method has to be implemented.
 
@@ -36,12 +36,12 @@ The `apply()`-method has to take a const-reference to an instance of an input cl
 As mentioned above, this input contains references to the matched portion of the input; its `line()` and `byte_in_line()` indicate the line number and (byte) offset of where the rule succeeded in the input.
 
 ```c++
-template<> struct my_actions< pegtl::plus< pegtl::digit > >
+template<> struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
 {
    template< typename Input >
    static void apply( const Input & in )
    {
-      // Called whenever a call to pegtl::plus< pegtl::digit >
+      // Called whenever a call to tao::pegtl::plus< tao::pegtl::digit >
       // in the grammar succeeds.
    }
 }
@@ -67,7 +67,7 @@ In other words, the additional arguments to the `apply()`-method can be chosen f
 For example, in a practical grammar the example from above might use a second argument to store the parsed sequence of digits somewhere.
 
 ```c++
-template<> struct my_actions< pegtl::plus< pegtl::digit > >
+template<> struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
 {
    template< typename Input >
    static void apply( const Input & in,
@@ -78,18 +78,18 @@ template<> struct my_actions< pegtl::plus< pegtl::digit > >
 }
 ```
 
-If we then assume that our grammar `my_grammar` contains the rule `pegtl::plus< pegtl::digit >` somewhere, we can use
+If we then assume that our grammar `my_grammar` contains the rule `tao::pegtl::plus< tao::pegtl::digit >` somewhere, we can use
 
 ```c++
 const std::string parsed_data = ...;
 std::vector< std::string > digit_strings;
-pegtl::parse_string< my_grammar,
+tao::pegtl::parse_string< my_grammar,
                      my_actions >( parsed_data,
                                   "data-source-name",
                                   digit_strings );
 ```
 
-to collect all `digit_strings` that were detected by the grammar, i.e. the vector will contain one string for every time that the `pegtl::plus< pegtl::digit >` rule was matched against the input.
+to collect all `digit_strings` that were detected by the grammar, i.e. the vector will contain one string for every time that the `tao::pegtl::plus< tao::pegtl::digit >` rule was matched against the input.
 
 Since the `parse()`-functions are variadic function templates, an arbitrary sequence of state arguments can be used.
 
@@ -99,17 +99,17 @@ The rule class for which the action class template is specialised *must* exactly
 For example given the rule
 
 ```c++
-struct foo : pegtl::plus< pegtl::one< '*' > > {};
+struct foo : tao::pegtl::plus< tao::pegtl::one< '*' > > {};
 ```
 
-an action class template can be specialised for `foo` or for `pegtl::one< '*' >`, but *not* for `pegtl::plus< pegtl::one< '*' > >` because that is not the rule class name whose `match()`-method is called.
+an action class template can be specialised for `foo` or for `tao::pegtl::one< '*' >`, but *not* for `tao::pegtl::plus< tao::pegtl::one< '*' > >` because that is not the rule class name whose `match()`-method is called.
 
-(The method is called on class `foo`, which happens to inherit `match()` from `pegtl::plus< pegtl::one< '*' > >`, however base classes are not taken into consideration by the C++ language when choosing a specialisation.)
+(The method is called on class `foo`, which happens to inherit `match()` from `tao::pegtl::plus< tao::pegtl::one< '*' > >`, however base classes are not taken into consideration by the C++ language when choosing a specialisation.)
 
 To then use these actions in a parsing run, simply pass them as additional template parameter to one of the parser functions defined in `<tao/pegtl/parser.hh>`, e.g. `parse_string()`.
 
 ```c++
-pegtl::parse_string< my_grammar, my_actions >( ... );
+tao::pegtl::parse_string< my_grammar, my_actions >( ... );
 ```
 
 ## Changing Actions
@@ -119,15 +119,15 @@ Within a grammar, the action class template can be changed, enabled or disabled 
 The following two lines effectively do the same thing, namely parse with `my_grammar` as top-level parsing rule without invoking actions (unless actions are enabled again somewhere within the grammar).
 
 ```c++
-pegtl::parse_string< my_grammar >( ... );
-pegtl::parse_string< pegtl::disable< my_grammar >, my_actions >( ... );
+tao::pegtl::parse_string< my_grammar >( ... );
+tao::pegtl::parse_string< tao::pegtl::disable< my_grammar >, my_actions >( ... );
 ```
 
 Similarly the following two lines both start parsing `my_grammar` with `my_actions` (again with the caveat that something might change somewhere in the grammar).
 
 ```c++
-pegtl::parse_string< my_grammar, my_actions >( ... );
-pegtl::parse_string< pegtl::action< my_actions, my_grammar > >( ... );
+tao::pegtl::parse_string< my_grammar, my_actions >( ... );
+tao::pegtl::parse_string< tao::pegtl::action< my_actions, my_grammar > >( ... );
 ```
 
 As usual this applies not just to `parse_string()`, but equally to all parser functions defined in `<tao/pegtl/parser.hh>` or the `parse()` member methods of the parser classes documented in [Parser Reference](Parser-Reference.md).
@@ -140,7 +140,7 @@ User-defined parsing rules can use `action<>`, `enable<>` and `disable<>` just l
 
 ```c++
 struct comment
-   : pegtl::seq< pegtl::one< '#' >, pegtl::disable< cons_list > > {};
+   : tao::pegtl::seq< tao::pegtl::one< '#' >, tao::pegtl::disable< cons_list > > {};
 ```
 
 This also allows using the same rules multiple times with different actions within the grammar.

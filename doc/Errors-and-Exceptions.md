@@ -23,7 +23,7 @@ In this section we will only look at the first item.
 For example consider the following parsing rule for a backslash-escape-sequence, simplified from what is allowed in C++ string literals.
 
 ```c++
-   struct esc : pegtl::seq< pegtl::one< '\\' >, pegtl::one< 'n', 'r', 't' > > {};
+   struct esc : tao::pegtl::seq< tao::pegtl::one< '\\' >, tao::pegtl::one< 'n', 'r', 't' > > {};
 ```
 
 ###### Must
@@ -37,19 +37,19 @@ The PEGTL contains the `must< R... >` combinator which defines such an error poi
 It converts local failure into global failure, thereby expressing that, when this point was reached, the input *must* match the given rules, or else the parsing run immediately fails with an exception and without back-tracking.
 
 The task of actually throwing the exception is delegated to the [control class'](Control-Hooks.md) `raise()`-method.
-The exception thrown by the default control class `pegtl::normal` contains the demangled name of the failed parsing rule, and the position in the input at which the rule was attempted to match.
+The exception thrown by the default control class `tao::pegtl::normal` contains the demangled name of the failed parsing rule, and the position in the input at which the rule was attempted to match.
 
 Given the `must<>`-combinator we can rewrite the example above with the correct semantics that globally fails a parsing run when the backslash is not followed by a valid character.
 
 ```c++
-   struct esc : pegtl::seq< pegtl::one< '\\' >, pegtl::must< pegtl::one< 'n', 'r', 't' > > > {};
+   struct esc : tao::pegtl::seq< tao::pegtl::one< '\\' >, tao::pegtl::must< tao::pegtl::one< 'n', 'r', 't' > > > {};
 ```
 
 Other [convenience rules](Rule-Reference.md#convenience) that define an error point in the grammar with an implicit `must<>` all contain `must` in their name.
 One of these is `if_must<>`, which allows us to shorten our example equivalently.
 
 ```c++
-   struct esc : pegtl::if_must< pegtl::one< '\\' >, pegtl::one< 'n', 'r', 't' > > {};
+   struct esc : tao::pegtl::if_must< tao::pegtl::one< '\\' >, tao::pegtl::one< 'n', 'r', 't' > > {};
 ```
 
 Since the demangled name of the rule that failed to match is used in the error message,
@@ -57,8 +57,8 @@ the example can be improved further by choosing a more descriptive name for the 
 the rule that could trigger a global failure.
 
 ```c++
-   struct escaped_char : pegtl::one< 'n', 'r', 't' > {};
-   struct esc : pegtl::if_must< pegtl::one< '\\' >, escaped_char > {};
+   struct escaped_char : tao::pegtl::one< 'n', 'r', 't' > {};
+   struct esc : tao::pegtl::if_must< tao::pegtl::one< '\\' >, escaped_char > {};
 ```
 
 ###### Raise
@@ -86,14 +86,14 @@ This is done with a custom control class template whose `raise()`-method uses a 
 ```c++
 template< typename Rule >
 struct my_control
-      : pegtl::normal< Rule >
+      : tao::pegtl::normal< Rule >
 {
    static const std::string error_message;
 
    template< typename Input, typename ... States >
    static void raise( const Input & in, States && ... )
    {
-      throw pegtl::parse_error( error_message, in );
+      throw tao::pegtl::parse_error( error_message, in );
    }
 };
 ```
@@ -115,7 +115,7 @@ It is also possible to provide a default error message that will be chosen by th
 ```c++
 template< typename T >
 const std::string my_control< T >::error_message =
-   "parse error matching " + pegtl::internal::demangle< T >();
+   "parse error matching " + tao::pegtl::internal::demangle< T >();
 ```
 
 It is advisable to choose the error points in the grammar with prudence.

@@ -29,13 +29,13 @@ namespace hello
    // Parsing rule that matches a literal "Hello, ".
 
    struct prefix
-         : pegtl::string< 'H', 'e', 'l', 'l', 'o', ',', ' ' > {};
+         : tao::pegtl::string< 'H', 'e', 'l', 'l', 'o', ',', ' ' > {};
 
    // Parsing rule that matches a non-empty sequence of
    // alphabetic ascii-characters with greedy-matching.
 
    struct name
-         : pegtl::plus< pegtl::alpha > {};
+         : tao::pegtl::plus< tao::pegtl::alpha > {};
 
    // Parsing rule that matches a sequence of the 'prefix'
    // rule, the 'name' rule, a literal "!", and 'eof'
@@ -43,14 +43,14 @@ namespace hello
    // on failure.
 
    struct grammar
-         : pegtl::must< prefix, name, pegtl::one< '!' >, pegtl::eof > {};
+         : tao::pegtl::must< prefix, name, tao::pegtl::one< '!' >, tao::pegtl::eof > {};
 
    // Class template for user-defined actions that does
    // nothing by default.
 
    template< typename Rule >
    struct action
-         : pegtl::nothing< Rule > {};
+         : tao::pegtl::nothing< Rule > {};
 
    // Specialisation of the user-defined action to do
    // something when the 'name' rule succeeds; is called
@@ -75,7 +75,7 @@ int main( int argc, char * argv[] )
       // action; then print what the action put there.
 
       std::string name;
-      pegtl::parse_arg< hello::grammar, hello::action >( 1, argv, name );
+      tao::pegtl::parse_arg< hello::grammar, hello::action >( 1, argv, name );
       std::cout << "Good bye, " << name << "!" << std::endl;
    }
 }
@@ -96,7 +96,7 @@ Good bye, world!
 $ ./hello_world 'Hello, Colin!'
 Good bye, Colin!
 $ ./hello_world 'Hallo, Paula!'
-terminate called after throwing an instance of 'pegtl::parse_error'
+terminate called after throwing an instance of 'tao::pegtl::parse_error'
   what():  argv[1]:1:0: parse error matching hello::prefix
 Aborted (core dumped)
 ```

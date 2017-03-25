@@ -16,8 +16,10 @@ Here is an example that shows how existing rules are combined into a new rule th
 
 ```c++
 struct integer
-   : pegtl::seq< pegtl::opt< pegtl::one< '+', '-' > >,
-                 pegtl::plus< pegtl::digit > > {};
+   : tao::pegtl::seq<
+        tao::pegtl::opt< tao::pegtl::one< '+', '-' > >,  // ('+'/'-')?
+        tao::pegtl::plus< tao::pegtl::digit >            // digit+
+     > {};
 ```
 
 It defines a new rule named `integer` that is a sequence of two parts, an optional character that can be one of `+` or `-`, followed by a non-empty repetition of a digit.
@@ -29,21 +31,21 @@ Recursion, or cycles in the grammar, can be implemented after a forward-declarat
 
 ```c++
 struct number
-   : pegtl::plus< pegtl::digit > {};
+   : tao::pegtl::plus< tao::pegtl::digit > {};
 
 struct addition;  // Forward declaration to break the cyclic dependency.
 
 struct bracket
-   : pegtl::if_must< pegtl::one< '(' >, addition, one< ')' > > {};
+   : tao::pegtl::if_must< tao::pegtl::one< '(' >, addition, one< ')' > > {};
 
 struct atomic
-   : pegtl::sor< number, bracket > {};
+   : tao::pegtl::sor< number, bracket > {};
 
 struct addition
-   : pegtl::list< atomic, pegtl::one< '+' > > {};
+   : tao::pegtl::list< atomic, tao::pegtl::one< '+' > > {};
 ```
 
-When defining a large set of grammar rules in this way it can be advisable to include a `using namespace pegtl;`-definition at the beginning in order to prevent the frequent repetition of the `pegtl::` namespace qualifier.
+When defining a large set of grammar rules in this way it can be advisable to include a `using namespace tao::pegtl;`-definition at the beginning in order to prevent the frequent repetition of the `tao::pegtl::` namespace qualifier.
 This `using`-definition is often combined with the practice of confining a PEGTL grammar to a single translation unit, in which case there is no `namespace`-pollution and the compile time is kept low by only including the PEGTL in this one translation unit.
 
 A grammar is nothing else than a collection of rules.
