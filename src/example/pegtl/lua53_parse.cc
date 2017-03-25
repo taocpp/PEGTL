@@ -245,45 +245,45 @@ namespace lua53
    struct right_assoc : tao::pegtl::seq< S, seps, tao::pegtl::opt< tao::pegtl::if_must< O, seps, right_assoc< S, O > > > > {};
 
    struct unary_operators : tao::pegtl::sor< tao::pegtl::one< '-' >,
-                                        tao::pegtl::one< '#' >,
-                                        op_one< '~', '=' >,
-                                        key_not > {};
+                                             tao::pegtl::one< '#' >,
+                                             op_one< '~', '=' >,
+                                             key_not > {};
 
    struct expr_ten;
    struct expr_thirteen : tao::pegtl::seq< tao::pegtl::sor< bracket_expr, name >, tao::pegtl::star< seps, tao::pegtl::sor< function_call_tail, variable_tail > > > {};
    struct expr_twelve : tao::pegtl::sor< key_nil,
-                                    key_true,
-                                    key_false,
-                                    three_dots,
-                                    numeral,
-                                    literal_string,
-                                    function_literal,
-                                    expr_thirteen,
-                                    table_constructor > {};
+                                         key_true,
+                                         key_false,
+                                         three_dots,
+                                         numeral,
+                                         literal_string,
+                                         function_literal,
+                                         expr_thirteen,
+                                         table_constructor > {};
    struct expr_eleven : tao::pegtl::seq< expr_twelve, seps, tao::pegtl::opt< tao::pegtl::one< '^' >, seps, expr_ten, seps > > {};
    struct unary_apply : tao::pegtl::if_must< unary_operators, seps, expr_ten, seps > {};
    struct expr_ten : tao::pegtl::sor< unary_apply, expr_eleven > {};
    struct operators_nine : tao::pegtl::sor< tao::pegtl::two< '/' >,
-                                       tao::pegtl::one< '/' >,
-                                       tao::pegtl::one< '*' >,
-                                       tao::pegtl::one< '%' > > {};
+                                            tao::pegtl::one< '/' >,
+                                            tao::pegtl::one< '*' >,
+                                            tao::pegtl::one< '%' > > {};
    struct expr_nine : left_assoc< expr_ten, operators_nine > {};
    struct operators_eight : tao::pegtl::sor< tao::pegtl::one< '+' >,
-                                        tao::pegtl::one< '-' > > {};
+                                             tao::pegtl::one< '-' > > {};
    struct expr_eight : left_assoc< expr_nine, operators_eight > {};
    struct expr_seven : right_assoc< expr_eight, op_two< '.', '.', '.' > > {};
    struct operators_six : tao::pegtl::sor< tao::pegtl::two< '<' >,
-                                      tao::pegtl::two< '>' > > {};
+                                           tao::pegtl::two< '>' > > {};
    struct expr_six : left_assoc< expr_seven, operators_six > {};
    struct expr_five : left_assoc< expr_six, tao::pegtl::one< '&' > > {};
    struct expr_four : left_assoc< expr_five, op_one< '~', '=' > > {};
    struct expr_three : left_assoc< expr_four, tao::pegtl::one< '|' > > {};
    struct operators_two : tao::pegtl::sor< tao::pegtl::two< '=' >,
-                                      tao::pegtl::string< '<', '=' >,
-                                      tao::pegtl::string< '>', '=' >,
-                                      op_one< '<', '<' >,
-                                      op_one< '>', '>' >,
-                                      tao::pegtl::string< '~', '=' > > {};
+                                           tao::pegtl::string< '<', '=' >,
+                                           tao::pegtl::string< '>', '=' >,
+                                           op_one< '<', '<' >,
+                                           op_one< '>', '>' >,
+                                           tao::pegtl::string< '~', '=' > > {};
    struct expr_two : left_assoc< expr_three, operators_two > {};
    struct expr_one : left_assoc< expr_two, key_and > {};
    struct expression : left_assoc< expr_one, key_or > {};
@@ -313,18 +313,18 @@ namespace lua53
 
    struct semicolon : tao::pegtl::one< ';' > {};
    struct statement : tao::pegtl::sor< semicolon,
-                                  assignments,
-                                  function_call,
-                                  label_statement,
-                                  key_break,
-                                  goto_statement,
-                                  do_statement,
-                                  while_statement,
-                                  repeat_statement,
-                                  if_statement,
-                                  for_statement,
-                                  function_definition,
-                                  local_statement > {};
+                                       assignments,
+                                       function_call,
+                                       label_statement,
+                                       key_break,
+                                       goto_statement,
+                                       do_statement,
+                                       while_statement,
+                                       repeat_statement,
+                                       if_statement,
+                                       for_statement,
+                                       function_definition,
+                                       local_statement > {};
 
    struct interpreter : tao::pegtl::seq< tao::pegtl::one< '#' >, tao::pegtl::until< tao::pegtl::eolf > > {};
    struct grammar : tao::pegtl::must< tao::pegtl::opt< interpreter >, statement_list< tao::pegtl::eof > > {};

@@ -27,7 +27,9 @@ namespace examples
 
    // Action class for the simple cases...
 
-   template< typename Rule > struct value_action : unescape_action< Rule > {};
+   template< typename Rule >
+   struct value_action
+         : unescape_action< Rule > {};
 
    struct string_state
          : public unescape_state_base
@@ -97,7 +99,9 @@ namespace examples
       }
    };
 
-   template< typename Rule > struct array_action : tao::pegtl::nothing< Rule > {};
+   template< typename Rule >
+   struct array_action
+         : tao::pegtl::nothing< Rule > {};
 
    template<>
    struct array_action< tao::pegtl::json::value_separator >
@@ -132,7 +136,9 @@ namespace examples
       }
    };
 
-   template< typename Rule > struct object_action : unescape_action< Rule > {};
+   template< typename Rule >
+   struct object_action
+         : unescape_action< Rule > {};
 
    template<>
    struct object_action< tao::pegtl::json::value_separator >

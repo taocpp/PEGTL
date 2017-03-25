@@ -27,13 +27,15 @@ namespace tao
             return std::memcmp( s, & * l.begin(), l.size() ) == 0;
          }
 
-         template< char ... Cs > struct string;
+         template< char ... Cs >
+         struct string;
 
          template< char ... Cs >
          struct skip_control< string< Cs ... > > : std::true_type {};
 
-         template<> struct string<>
-         : trivial< true > {};
+         template<>
+         struct string<>
+               : trivial< true > {};
 
          template< char ... Cs >
          struct string

@@ -152,6 +152,7 @@ namespace examples
    };
 
    using grammar = tao::pegtl::must< tao::pegtl::json::text, tao::pegtl::eof >;
+
 } // namespace examples
 
 int main( int argc, char ** argv )

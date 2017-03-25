@@ -24,7 +24,8 @@ namespace sum
    struct action
          : tao::pegtl::nothing< Rule > {};
 
-   template<> struct action< double_::grammar >
+   template<>
+   struct action< double_::grammar >
    {
       template< typename Input >
       static void apply( const Input & in, double & sum )

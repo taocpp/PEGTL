@@ -13,9 +13,12 @@ namespace tao
       struct file_content : seq< TAOCPP_PEGTL_STRING( "dummy content" ), eol, discard > {};
       struct file_grammar : seq< rep_min_max< 11, 11, file_content >, eof > {};
 
-      template< typename Rule > struct file_action : nothing< Rule > {};
+      template< typename Rule >
+      struct file_action
+            : nothing< Rule > {};
 
-      template<> struct file_action< eof >
+      template<>
+      struct file_action< eof >
       {
          template< typename Input >
          static void apply( const Input &, bool & flag )
@@ -24,9 +27,13 @@ namespace tao
          }
       };
 
-      template< typename Rule > struct file_control : normal< Rule > {};
+      template< typename Rule >
+      struct file_control
+            : normal< Rule > {};
 
-      template<> struct file_control< eof > : normal< eof >
+      template<>
+      struct file_control< eof >
+            : normal< eof >
       {
          template< typename Input >
          static void success( const Input &, bool & flag )

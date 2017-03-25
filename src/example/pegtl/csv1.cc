@@ -38,9 +38,12 @@ namespace csv1
 
    // Action and control classes to fill in the above data structure:
 
-   template< typename Rule > struct action : tao::pegtl::nothing< Rule > {};
+   template< typename Rule >
+   struct action
+         : tao::pegtl::nothing< Rule > {};
 
-   template<> struct action< value >
+   template<>
+   struct action< value >
    {
       template< typename Input >
       static void apply( const Input & in, result_data & data )
@@ -50,9 +53,12 @@ namespace csv1
       }
    };
 
-   template< typename Rule > struct control : tao::pegtl::normal< Rule > {};
+   template< typename Rule >
+   struct control
+         : tao::pegtl::normal< Rule > {};
 
-   template<> struct control< value_line >
+   template<>
+   struct control< value_line >
          : tao::pegtl::normal< value_line >
    {
       template< typename Input >

@@ -9,7 +9,8 @@ namespace tao
 {
    namespace pegtl
    {
-      template< typename ... Rules > using test_action_rule = action< nothing, Rules ... >;
+      template< typename ... Rules >
+      using test_action_rule = action< nothing, Rules ... >;
 
       void unit_test()
       {

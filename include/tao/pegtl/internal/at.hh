@@ -21,7 +21,8 @@ namespace tao
    {
       namespace internal
       {
-         template< typename ... Rules > struct at;
+         template< typename ... Rules >
+         struct at;
 
          template< typename ... Rules >
          struct skip_control< at< Rules ... > > : std::true_type {};

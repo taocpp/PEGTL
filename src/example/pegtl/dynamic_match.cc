@@ -41,7 +41,8 @@ namespace dynamic
    struct action
          : tao::pegtl::nothing< Rule > {};
 
-   template<> struct action< tao::pegtl::plus< tao::pegtl::not_one< '[' > > >
+   template<>
+   struct action< tao::pegtl::plus< tao::pegtl::not_one< '[' > > >
    {
       template< typename Input >
       static void apply( const Input & in, std::string & long_literal_mark, const std::string & )
@@ -50,7 +51,8 @@ namespace dynamic
       }
    };
 
-   template<> struct action< long_literal_body >
+   template<>
+   struct action< long_literal_body >
    {
       template< typename Input >
       static void apply( const Input & in, const std::string &, std::string & long_literal_body )

@@ -13,9 +13,12 @@ namespace tao
 
       using rstring = raw_string< '[', '=', ']' >;
 
-      template< typename Rule > struct rsaction : nothing< Rule > {};
+      template< typename Rule >
+      struct rsaction
+            : nothing< Rule > {};
 
-      template<> struct rsaction< rstring::content >
+      template<>
+      struct rsaction< rstring::content >
       {
          template< typename Input, typename ... States >
          static void apply( const Input & in, const States & ... )
@@ -24,7 +27,8 @@ namespace tao
          }
       };
 
-      struct rgrammar : must< rstring, eof > {};
+      struct rgrammar
+            : must< rstring, eof > {};
 
       template< typename Rule, unsigned M, unsigned N >
       void verify_data( const std::size_t line, const char * file, const char ( & m )[ M ], const char ( & n )[ N ] )

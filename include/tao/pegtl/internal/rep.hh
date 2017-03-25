@@ -21,7 +21,8 @@ namespace tao
    {
       namespace internal
       {
-         template< unsigned Num, typename ... Rules > struct rep;
+         template< unsigned Num, typename ... Rules >
+         struct rep;
 
          template< unsigned Num, typename ... Rules >
          struct skip_control< rep< Num, Rules ... > > : std::true_type {};

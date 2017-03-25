@@ -9,7 +9,8 @@ namespace tao
 {
    namespace pegtl
    {
-      template< typename ... Rules > using test_try_catch_rule = try_catch< must< Rules ... > >;
+      template< typename ... Rules >
+      using test_try_catch_rule = try_catch< must< Rules ... > >;
 
       void unit_test()
       {

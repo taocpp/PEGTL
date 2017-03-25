@@ -24,9 +24,11 @@ namespace tao
          template< char C >
          using is_alpha = std::integral_constant< bool, ( ( 'a' <= C ) && ( C <= 'z' ) ) || ( ( 'A' <= C ) && ( C <= 'Z' ) ) >;
 
-         template< char C, bool A = is_alpha< C >::value > struct ichar_equal;
+         template< char C, bool A = is_alpha< C >::value >
+         struct ichar_equal;
 
-         template< char C > struct ichar_equal< C, true >
+         template< char C >
+         struct ichar_equal< C, true >
          {
             static bool match( const char c )
             {
@@ -34,7 +36,8 @@ namespace tao
             }
          };
 
-         template< char C > struct ichar_equal< C, false >
+         template< char C >
+         struct ichar_equal< C, false >
          {
             static bool match( const char c )
             {
@@ -42,9 +45,11 @@ namespace tao
             }
          };
 
-         template< char ... Cs > struct istring_equal;
+         template< char ... Cs >
+         struct istring_equal;
 
-         template<> struct istring_equal<>
+         template<>
+         struct istring_equal<>
          {
             static bool match( const char * )
             {
@@ -52,7 +57,8 @@ namespace tao
             }
          };
 
-         template< char C, char ... Cs > struct istring_equal< C, Cs ... >
+         template< char C, char ... Cs >
+         struct istring_equal< C, Cs ... >
          {
             static bool match( const char * r )
             {
@@ -60,13 +66,15 @@ namespace tao
             }
          };
 
-         template< char ... Cs > struct istring;
+         template< char ... Cs >
+         struct istring;
 
          template< char ... Cs >
          struct skip_control< istring< Cs ... > > : std::true_type {};
 
-         template<> struct istring<>
-         : trivial< true > {};
+         template<>
+         struct istring<>
+               : trivial< true > {};
 
          template< char ... Cs >
          struct istring

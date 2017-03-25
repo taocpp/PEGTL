@@ -24,7 +24,8 @@ namespace tao
    {
       namespace internal
       {
-         template< typename Exception, typename ... Rules > struct try_catch_type;
+         template< typename Exception, typename ... Rules >
+         struct try_catch_type;
 
          template< typename Exception, typename ... Rules >
          struct skip_control< try_catch_type< Exception, Rules ... > > : std::true_type {};

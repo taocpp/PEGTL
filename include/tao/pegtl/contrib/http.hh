@@ -83,10 +83,10 @@ namespace tao
          struct transfer_parameter : seq< token, BWS, one< '=' >, BWS, sor< token, quoted_string > > {};
          struct transfer_extension : seq< token, star< OWS, one< ';' >, OWS, transfer_parameter > > {};
          struct transfer_coding : sor< TAOCPP_PEGTL_ISTRING( "chunked" ),
-                                  TAOCPP_PEGTL_ISTRING( "compress" ),
-                                  TAOCPP_PEGTL_ISTRING( "deflate" ),
-                                  TAOCPP_PEGTL_ISTRING( "gzip" ),
-                                  transfer_extension > {};
+                                       TAOCPP_PEGTL_ISTRING( "compress" ),
+                                       TAOCPP_PEGTL_ISTRING( "deflate" ),
+                                       TAOCPP_PEGTL_ISTRING( "gzip" ),
+                                       transfer_extension > {};
 
          struct rank : sor< seq< one< '0' >, opt< one< '.' >, rep_opt< 3, DIGIT > > >,
                             seq< one< '1' >, opt< one< '.' >, rep_opt< 3, one< '0' > > > > > {};

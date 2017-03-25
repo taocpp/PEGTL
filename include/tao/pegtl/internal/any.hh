@@ -17,7 +17,8 @@ namespace tao
    {
       namespace internal
       {
-         template< typename Peek > struct any;
+         template< typename Peek >
+         struct any;
 
          template< typename Peek >
          struct skip_control< any< Peek > > : std::true_type {};

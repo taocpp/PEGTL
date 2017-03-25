@@ -279,7 +279,8 @@ namespace calculator
    // matched portion of the input to a long and pushes it onto the operand
    // stack.
 
-   template<> struct action< number >
+   template<>
+   struct action< number >
    {
       template< typename Input >
       static void apply( const Input & in, const operators &, stacks & s )
@@ -291,7 +292,8 @@ namespace calculator
    // The actions for the brackets call functions that create, and collect
    // a temporary additional stack for evaluating the bracketed expression.
 
-   template<> struct action< one< '(' > >
+   template<>
+   struct action< one< '(' > >
    {
       template< typename Input >
       static void apply( const Input &, const operators &, stacks & s )
@@ -300,7 +302,8 @@ namespace calculator
       }
    };
 
-   template<> struct action< one< ')' > >
+   template<>
+   struct action< one< ')' > >
    {
       template< typename Input >
       static void apply( const Input &, const operators &, stacks & s )

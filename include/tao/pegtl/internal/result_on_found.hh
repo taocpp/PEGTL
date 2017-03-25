@@ -15,8 +15,8 @@ namespace tao
          enum class result_on_found : bool
          {
             SUCCESS = true,
-               FAILURE = false
-               };
+            FAILURE = false
+         };
 
       } // namespace internal
 

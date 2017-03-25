@@ -21,7 +21,8 @@ namespace hello
    struct action
          : tao::pegtl::nothing< Rule > {};
 
-   template<> struct action< name >
+   template<>
+   struct action< name >
    {
       template< typename Input >
       static void apply( const Input & in, std::string & name )

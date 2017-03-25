@@ -19,8 +19,8 @@ namespace tao
          {
          public:
             insert_guard( insert_guard && other ) noexcept
-            : m_i( other.m_i ),
-               m_c( other.m_c )
+                  : m_i( other.m_i ),
+                    m_c( other.m_c )
             {
                other.m_c = nullptr;
             }

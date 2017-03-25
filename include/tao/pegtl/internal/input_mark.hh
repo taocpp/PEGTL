@@ -14,7 +14,8 @@ namespace tao
    {
       namespace internal
       {
-         template< rewind_mode M > class input_mark
+         template< rewind_mode M >
+         class input_mark
          {
          public:
             static constexpr rewind_mode next_rewind_mode = M;
@@ -35,7 +36,8 @@ namespace tao
             }
          };
 
-         template<> class input_mark< rewind_mode::REQUIRED >
+         template<>
+         class input_mark< rewind_mode::REQUIRED >
          {
          public:
             static constexpr rewind_mode next_rewind_mode = rewind_mode::ACTIVE;

@@ -20,7 +20,7 @@ namespace tao
 
             using data_t = Data;
 
-            explicit operator bool () const
+            explicit operator bool() const
             {
                return size > 0;
             }

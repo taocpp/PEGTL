@@ -226,7 +226,8 @@ namespace abnf2pegtl
    struct action
          : tao::pegtl::nothing< Rule > {};
 
-   template<> struct action< grammar::push_stack >
+   template<>
+   struct action< grammar::push_stack >
    {
       template< typename Input >
       static void apply( const Input &, data & d )
@@ -235,7 +236,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::rulename >
+   template<>
+   struct action< grammar::rulename >
    {
       template< typename Input >
       static void apply( const Input & in, data & d )
@@ -244,7 +246,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::rulename_val >
+   template<>
+   struct action< grammar::rulename_val >
    {
       template< typename Input >
       static void apply( const Input & in, data & d )
@@ -259,7 +262,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::quoted_string >
+   template<>
+   struct action< grammar::quoted_string >
    {
       static bool append( std::string& s, const char c )
       {
@@ -296,7 +300,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::prose_val >
+   template<>
+   struct action< grammar::prose_val >
    {
       template< typename Input >
       static void apply( const Input & in, data & d )
@@ -307,7 +312,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::case_sensitive_string >
+   template<>
+   struct action< grammar::case_sensitive_string >
    {
       template< typename Input >
       static void apply( const Input &, data & d )
@@ -320,7 +326,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::bin_val::value >
+   template<>
+   struct action< grammar::bin_val::value >
    {
       template< typename Input >
       static void apply( const Input & in, data & d )
@@ -331,7 +338,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::bin_val::range >
+   template<>
+   struct action< grammar::bin_val::range >
    {
       template< typename Input >
       static void apply( const Input &, data & d )
@@ -346,7 +354,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::bin_val::next_value >
+   template<>
+   struct action< grammar::bin_val::next_value >
    {
       template< typename Input >
       static void apply( const Input &, data & d )
@@ -360,7 +369,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::dec_val::value >
+   template<>
+   struct action< grammar::dec_val::value >
    {
       template< typename Input >
       static void apply( const Input & in, data & d )
@@ -372,10 +382,16 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::dec_val::range > : action< grammar::bin_val::range > {};
-   template<> struct action< grammar::dec_val::next_value > : action< grammar::bin_val::next_value > {};
+   template<>
+   struct action< grammar::dec_val::range >
+         : action< grammar::bin_val::range > {};
 
-   template<> struct action< grammar::hex_val::value >
+   template<>
+   struct action< grammar::dec_val::next_value >
+         : action< grammar::bin_val::next_value > {};
+
+   template<>
+   struct action< grammar::hex_val::value >
    {
       template< typename Input >
       static void apply( const Input & in, data & d )
@@ -385,10 +401,16 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::hex_val::range > : action< grammar::bin_val::range > {};
-   template<> struct action< grammar::hex_val::next_value > : action< grammar::bin_val::next_value > {};
+   template<>
+   struct action< grammar::hex_val::range >
+         : action< grammar::bin_val::range > {};
 
-   template<> struct action< grammar::option >
+   template<>
+   struct action< grammar::hex_val::next_value >
+         : action< grammar::bin_val::next_value > {};
+
+   template<>
+   struct action< grammar::option >
    {
       template< typename Input >
       static void apply( const Input &, data & d )
@@ -399,7 +421,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::repeat >
+   template<>
+   struct action< grammar::repeat >
    {
       template< typename Input >
       static void apply( const Input & in, data & d )
@@ -409,7 +432,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::repetition >
+   template<>
+   struct action< grammar::repetition >
    {
       static std::string remove_leading_zeroes( const std::string& v )
       {
@@ -490,7 +514,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::and_predicate >
+   template<>
+   struct action< grammar::and_predicate >
    {
       template< typename Input >
       static void apply( const Input &, data & d )
@@ -501,7 +526,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::not_predicate >
+   template<>
+   struct action< grammar::not_predicate >
    {
       template< typename Input >
       static void apply( const Input &, data & d )
@@ -512,7 +538,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::concatenation >
+   template<>
+   struct action< grammar::concatenation >
    {
       template< typename Input >
       static void apply( const Input &, data & d )
@@ -538,7 +565,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::alternation >
+   template<>
+   struct action< grammar::alternation >
    {
       static bool is_one( const std::string& v )
       {
@@ -580,7 +608,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::defined_as_op >
+   template<>
+   struct action< grammar::defined_as_op >
    {
       template< typename Input >
       static void apply( const Input & in, data & d )
@@ -590,7 +619,8 @@ namespace abnf2pegtl
       }
    };
 
-   template<> struct action< grammar::rule >
+   template<>
+   struct action< grammar::rule >
    {
       static std::string strip_sor( const std::string& v )
       {

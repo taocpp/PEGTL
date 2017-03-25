@@ -15,17 +15,17 @@ namespace double_
    struct dot : tao::pegtl::one< '.' > {};
 
    struct inf : tao::pegtl::seq< tao::pegtl::istring< 'i', 'n', 'f' >,
-                            tao::pegtl::opt< tao::pegtl::istring< 'i', 'n', 'i', 't', 'y' > > > {};
+                                 tao::pegtl::opt< tao::pegtl::istring< 'i', 'n', 'i', 't', 'y' > > > {};
 
    struct nan : tao::pegtl::seq< tao::pegtl::istring< 'n', 'a', 'n' >,
-                            tao::pegtl::opt< tao::pegtl::one< '(' >,
-                                        tao::pegtl::plus< tao::pegtl::alnum >,
-                                        tao::pegtl::one< ')' > > > {};
+                                 tao::pegtl::opt< tao::pegtl::one< '(' >,
+                                                  tao::pegtl::plus< tao::pegtl::alnum >,
+                                                  tao::pegtl::one< ')' > > > {};
 
    template< typename D >
    struct number : tao::pegtl::if_then_else< dot,
-                                        tao::pegtl::plus< D >,
-                                        tao::pegtl::seq< tao::pegtl::plus< D >, tao::pegtl::opt< dot, tao::pegtl::star< D > > > > {};
+                                             tao::pegtl::plus< D >,
+                                             tao::pegtl::seq< tao::pegtl::plus< D >, tao::pegtl::opt< dot, tao::pegtl::star< D > > > > {};
 
    struct e : tao::pegtl::one< 'e', 'E' > {};
    struct p : tao::pegtl::one< 'p', 'P' > {};
