@@ -13,8 +13,10 @@
 
 #include "internal/demangle.hh"
 #include "internal/has_apply0.hh"
+#include "internal/skip_control.hh"
 #include "internal/action_input.hh"
 #include "internal/duseltronik.hh"
+#include "internal/dusel_mode.hh"
 
 namespace TAOCPP_PEGTL_NAMESPACE
 {
@@ -58,7 +60,8 @@ namespace TAOCPP_PEGTL_NAMESPACE
          constexpr bool use_control = ! internal::skip_control< Rule >::value;
          constexpr bool use_action = use_control && ( A == apply_mode::ACTION ) && ( ! is_nothing< Action, Rule >::value );
          constexpr bool use_apply0 = use_action && internal::has_apply0< Action< Rule >, internal::type_list< States ... > >::value;
-         return internal::duseltronik< Rule, A, M, Action, Control, use_control, use_action, use_apply0 >::match( in, st ... );
+         constexpr dusel_mode mode = static_cast< dusel_mode >( static_cast< char >( use_control ) + static_cast< char >( use_action ) + static_cast< char >( use_apply0 ) );
+         return internal::duseltronik< Rule, A, M, Action, Control, mode >::match( in, st ... );
       }
    };
 
