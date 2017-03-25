@@ -3,12 +3,12 @@
 
 #include "json_errors.hh"
 
-using grammar = tao::pegtl::must< tao::pegtl::json::text, tao::pegtl::eof >;
+using grammar = tao::TAOCPP_PEGTL_NAMESPACE::must< tao::TAOCPP_PEGTL_NAMESPACE::json::text, tao::TAOCPP_PEGTL_NAMESPACE::eof >;
 
 int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
-      tao::pegtl::parse_arg< grammar, tao::pegtl::nothing, examples::errors >( i, argv );
+      tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< grammar, tao::TAOCPP_PEGTL_NAMESPACE::nothing, examples::errors >( i, argv );
    }
    return 0;
 }

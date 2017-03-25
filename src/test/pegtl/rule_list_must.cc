@@ -5,7 +5,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       void unit_test()
       {
@@ -51,7 +51,7 @@ namespace tao
          verify_rule< list_must< one< 'a' >, one< ',' >, blank > >( __LINE__, __FILE__,  " a , a ", result_type::LOCAL_FAILURE, 7 );
       }
 
-   } // namespace pegtl
+   } // namespace TAOCPP_PEGTL_NAMESPACE
 
 } // namespace tao
 

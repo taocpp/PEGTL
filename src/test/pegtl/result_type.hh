@@ -8,7 +8,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       enum class result_type
       {
@@ -30,7 +30,7 @@ namespace tao
          return o << int( t );
       }
 
-   } // namespace pegtl
+   } // namespace TAOCPP_PEGTL_NAMESPACE
 
 } // namespace tao
 

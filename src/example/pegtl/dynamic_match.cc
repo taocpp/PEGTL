@@ -11,11 +11,11 @@
 namespace dynamic
 {
    struct long_literal_open
-         : tao::pegtl::seq< tao::pegtl::one< '[' >, tao::pegtl::plus< tao::pegtl::not_one< '[' > >, tao::pegtl::one< '[' > > {};
+         : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::one< '[' >, tao::TAOCPP_PEGTL_NAMESPACE::plus< tao::TAOCPP_PEGTL_NAMESPACE::not_one< '[' > >, tao::TAOCPP_PEGTL_NAMESPACE::one< '[' > > {};
 
    struct long_literal_mark
    {
-      template< tao::pegtl::apply_mode, tao::pegtl::rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
+      template< tao::TAOCPP_PEGTL_NAMESPACE::apply_mode, tao::TAOCPP_PEGTL_NAMESPACE::rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
       static bool match( Input & in, const std::string & long_literal_mark, const std::string & )
       {
          if ( in.size( long_literal_mark.size() ) >= long_literal_mark.size() ) {
@@ -29,20 +29,20 @@ namespace dynamic
    };
 
    struct long_literal_close
-         : tao::pegtl::seq< tao::pegtl::one< ']' >, long_literal_mark, tao::pegtl::one< ']' > > {};
+         : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::one< ']' >, long_literal_mark, tao::TAOCPP_PEGTL_NAMESPACE::one< ']' > > {};
 
    struct long_literal_body
-         : tao::pegtl::any {};
+         : tao::TAOCPP_PEGTL_NAMESPACE::any {};
 
    struct grammar
-         : tao::pegtl::if_must< long_literal_open, tao::pegtl::until< long_literal_close, long_literal_body >, tao::pegtl::eof > {};
+         : tao::TAOCPP_PEGTL_NAMESPACE::if_must< long_literal_open, tao::TAOCPP_PEGTL_NAMESPACE::until< long_literal_close, long_literal_body >, tao::TAOCPP_PEGTL_NAMESPACE::eof > {};
 
    template< typename Rule >
    struct action
-         : tao::pegtl::nothing< Rule > {};
+         : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule > {};
 
    template<>
-   struct action< tao::pegtl::plus< tao::pegtl::not_one< '[' > > >
+   struct action< tao::TAOCPP_PEGTL_NAMESPACE::plus< tao::TAOCPP_PEGTL_NAMESPACE::not_one< '[' > > >
    {
       template< typename Input >
       static void apply( const Input & in, std::string & long_literal_mark, const std::string & )
@@ -68,7 +68,7 @@ int main( int argc, char ** argv )
    if ( argc > 1 ) {
       std::string long_literal_mark;
       std::string long_literal_body;
-      tao::pegtl::parse_arg< dynamic::grammar, dynamic::action >( 1, argv, long_literal_mark, long_literal_body );
+      tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< dynamic::grammar, dynamic::action >( 1, argv, long_literal_mark, long_literal_body );
       std::cout << "long literal mark was: " << long_literal_mark << std::endl;
       std::cout << "long literal body was: " << long_literal_body << std::endl;
    }

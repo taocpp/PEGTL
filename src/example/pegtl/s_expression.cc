@@ -86,11 +86,11 @@ namespace sexpr
 
 int main( int argc, char ** argv )
 {
-   tao::pegtl::analyze< sexpr::main >();
+   tao::TAOCPP_PEGTL_NAMESPACE::analyze< sexpr::main >();
 
    for ( int i = 1; i < argc; ++i ) {
       std::string fn;
-      tao::pegtl::parse_arg< sexpr::main, sexpr::action >( i, argv, fn );
+      tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< sexpr::main, sexpr::action >( i, argv, fn );
    }
    return 0;
 }

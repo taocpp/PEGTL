@@ -7,18 +7,18 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      using GRAMMAR = tao::pegtl::sor< tao::pegtl::failure, tao::pegtl::one< 'a' > >;
+      using GRAMMAR = tao::TAOCPP_PEGTL_NAMESPACE::sor< tao::TAOCPP_PEGTL_NAMESPACE::failure, tao::TAOCPP_PEGTL_NAMESPACE::one< 'a' > >;
 
       void unit_test()
       {
-         if ( ! tao::pegtl::trace_string< GRAMMAR >( "ab", "trace test please ignore" ) ) {
+         if ( ! tao::TAOCPP_PEGTL_NAMESPACE::trace_string< GRAMMAR >( "ab", "trace test please ignore" ) ) {
             ++failed;
          }
       }
 
-   } // namespace pegtl
+   } // namespace TAOCPP_PEGTL_NAMESPACE
 
 } // namespace tao
 

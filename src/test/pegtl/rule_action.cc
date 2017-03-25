@@ -7,7 +7,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       template< typename ... Rules >
       using test_action_rule = action< nothing, Rules ... >;
@@ -17,7 +17,7 @@ namespace tao
          verify_seqs< test_action_rule >();
       }
 
-   } // namespace pegtl
+   } // namespace TAOCPP_PEGTL_NAMESPACE
 
 } // namespace tao
 

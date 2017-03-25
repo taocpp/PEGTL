@@ -20,12 +20,12 @@ namespace csv2
    // ",,,",13,42
    // aha """,yes, this works
 
-   template< int C > struct string_without : tao::pegtl::star< tao::pegtl::not_one< C, 10, 13 > > {};
+   template< int C > struct string_without : tao::TAOCPP_PEGTL_NAMESPACE::star< tao::TAOCPP_PEGTL_NAMESPACE::not_one< C, 10, 13 > > {};
    struct plain_value : string_without< ',' > {};
-   struct quoted_value : tao::pegtl::if_must< tao::pegtl::one< '"' >, string_without< '"' >, tao::pegtl::one< '"' > > {};
-   struct value : tao::pegtl::sor< quoted_value, plain_value > {};
-   template< unsigned N > struct line : tao::pegtl::seq< value, tao::pegtl::rep< N - 1, tao::pegtl::one< ',' >, value >, tao::pegtl::eol > {};
-   template< unsigned N > struct file : tao::pegtl::until< tao::pegtl::eof, line< N > > { static_assert( N, "N must be positive" ); };
+   struct quoted_value : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< '"' >, string_without< '"' >, tao::TAOCPP_PEGTL_NAMESPACE::one< '"' > > {};
+   struct value : tao::TAOCPP_PEGTL_NAMESPACE::sor< quoted_value, plain_value > {};
+   template< unsigned N > struct line : tao::TAOCPP_PEGTL_NAMESPACE::seq< value, tao::TAOCPP_PEGTL_NAMESPACE::rep< N - 1, tao::TAOCPP_PEGTL_NAMESPACE::one< ',' >, value >, tao::TAOCPP_PEGTL_NAMESPACE::eol > {};
+   template< unsigned N > struct file : tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::eof, line< N > > { static_assert( N, "N must be positive" ); };
 
    // Meta-programming helper:
 
@@ -74,7 +74,7 @@ namespace csv2
 
    // Action class to fill in the above data structure:
 
-   template< typename Rule > struct action : tao::pegtl::nothing< Rule > {};
+   template< typename Rule > struct action : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule > {};
 
    template<> struct action< plain_value >
    {
@@ -96,7 +96,7 @@ namespace csv2
       static void apply( const Input & in, result_data< N > & data )
       {
          if ( data.temp.size() != N ) {
-            throw tao::pegtl::parse_error( "column count mismatch", in );
+            throw tao::TAOCPP_PEGTL_NAMESPACE::parse_error( "column count mismatch", in );
          }
          tuple_t temp;
          tuple_init< N - 1 >::init( temp, data.temp );
@@ -153,10 +153,10 @@ namespace csv2
 int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
-      tao::pegtl::file_parser fp( argv[ i ] );
+      tao::TAOCPP_PEGTL_NAMESPACE::file_parser fp( argv[ i ] );
       constexpr unsigned number_of_columns = 3;
       csv2::result_data< number_of_columns > data;
-      fp.parse< tao::pegtl::must< csv2::file< number_of_columns > >, csv2::action >( data );
+      fp.parse< tao::TAOCPP_PEGTL_NAMESPACE::must< csv2::file< number_of_columns > >, csv2::action >( data );
       for ( const auto & line : data.result ) {
          csv2::print_tuple( line );
       }

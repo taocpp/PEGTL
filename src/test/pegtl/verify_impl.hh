@@ -14,7 +14,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       template< typename Rule, typename Eol >
       void verify_impl( const std::size_t line, const char * file, const std::string & data, const result_type expected, const std::size_t remain )
@@ -29,7 +29,7 @@ namespace tao
          TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << i.size( 999999999 ) << " / " << remain << " ]" );
       }
 
-   } // namespace pegtl
+   } // namespace TAOCPP_PEGTL_NAMESPACE
 
 } // namespace tao
 

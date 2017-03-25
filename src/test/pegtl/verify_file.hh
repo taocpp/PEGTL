@@ -8,7 +8,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       struct file_content : seq< TAOCPP_PEGTL_STRING( "dummy content" ), eol, discard > {};
       struct file_grammar : seq< rep_min_max< 11, 11, file_content >, eof > {};
@@ -92,7 +92,7 @@ namespace tao
          }
       }
 
-   } // namespace pegtl
+   } // namespace TAOCPP_PEGTL_NAMESPACE
 
 } // namespace tao
 

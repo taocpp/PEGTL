@@ -12,12 +12,12 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       std::size_t failed = 0;
       std::vector< std::pair< std::string, std::string > > applied;
 
-   } // namespace pegtl
+   } // namespace TAOCPP_PEGTL_NAMESPACE
 
 } // namespace tao
 

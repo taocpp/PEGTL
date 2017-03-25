@@ -16,7 +16,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       template< typename Rule, typename Input >
       result_type verify_help( Input & i )
@@ -35,7 +35,7 @@ namespace tao
          }
       }
 
-   } // namespace pegtl
+   } // namespace TAOCPP_PEGTL_NAMESPACE
 
 } // namespace tao
 

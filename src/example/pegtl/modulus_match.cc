@@ -8,7 +8,7 @@ namespace modulus
    template< unsigned M, unsigned R = 0 >
    struct my_rule
    {
-      using analyze_t = tao::pegtl::analysis::generic< tao::pegtl::analysis::rule_type::ANY >;
+      using analyze_t = tao::TAOCPP_PEGTL_NAMESPACE::analysis::generic< tao::TAOCPP_PEGTL_NAMESPACE::analysis::rule_type::ANY >;
 
       static_assert( M > 1, "Modulus must be greater than 1" );
       static_assert( R < M, "Remainder must be less than modulus" );
@@ -27,14 +27,14 @@ namespace modulus
    };
 
    struct grammar
-         : tao::pegtl::until< tao::pegtl::eolf, tao::pegtl::must< my_rule< 3 > > > {};
+         : tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::eolf, tao::TAOCPP_PEGTL_NAMESPACE::must< my_rule< 3 > > > {};
 
 } // namespace modulus
 
 int main( int argc, char ** argv )
 {
    if ( argc > 1 ) {
-      tao::pegtl::parse_arg< modulus::grammar >( 1, argv );
+      tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< modulus::grammar >( 1, argv );
    }
    return 0;
 }

@@ -11,30 +11,30 @@ namespace double_
    // A grammar for doubles suitable for std::stod without locale support.
    // See also: http://en.cppreference.com/w/cpp/string/basic_string/stof
 
-   struct plus_minus : tao::pegtl::opt< tao::pegtl::one< '+', '-' > > {};
-   struct dot : tao::pegtl::one< '.' > {};
+   struct plus_minus : tao::TAOCPP_PEGTL_NAMESPACE::opt< tao::TAOCPP_PEGTL_NAMESPACE::one< '+', '-' > > {};
+   struct dot : tao::TAOCPP_PEGTL_NAMESPACE::one< '.' > {};
 
-   struct inf : tao::pegtl::seq< tao::pegtl::istring< 'i', 'n', 'f' >,
-                                 tao::pegtl::opt< tao::pegtl::istring< 'i', 'n', 'i', 't', 'y' > > > {};
+   struct inf : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::istring< 'i', 'n', 'f' >,
+                                 tao::TAOCPP_PEGTL_NAMESPACE::opt< tao::TAOCPP_PEGTL_NAMESPACE::istring< 'i', 'n', 'i', 't', 'y' > > > {};
 
-   struct nan : tao::pegtl::seq< tao::pegtl::istring< 'n', 'a', 'n' >,
-                                 tao::pegtl::opt< tao::pegtl::one< '(' >,
-                                                  tao::pegtl::plus< tao::pegtl::alnum >,
-                                                  tao::pegtl::one< ')' > > > {};
+   struct nan : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::istring< 'n', 'a', 'n' >,
+                                 tao::TAOCPP_PEGTL_NAMESPACE::opt< tao::TAOCPP_PEGTL_NAMESPACE::one< '(' >,
+                                                  tao::TAOCPP_PEGTL_NAMESPACE::plus< tao::TAOCPP_PEGTL_NAMESPACE::alnum >,
+                                                  tao::TAOCPP_PEGTL_NAMESPACE::one< ')' > > > {};
 
    template< typename D >
-   struct number : tao::pegtl::if_then_else< dot,
-                                             tao::pegtl::plus< D >,
-                                             tao::pegtl::seq< tao::pegtl::plus< D >, tao::pegtl::opt< dot, tao::pegtl::star< D > > > > {};
+   struct number : tao::TAOCPP_PEGTL_NAMESPACE::if_then_else< dot,
+                                             tao::TAOCPP_PEGTL_NAMESPACE::plus< D >,
+                                             tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::plus< D >, tao::TAOCPP_PEGTL_NAMESPACE::opt< dot, tao::TAOCPP_PEGTL_NAMESPACE::star< D > > > > {};
 
-   struct e : tao::pegtl::one< 'e', 'E' > {};
-   struct p : tao::pegtl::one< 'p', 'P' > {};
-   struct exponent : tao::pegtl::seq< plus_minus, tao::pegtl::plus< tao::pegtl::digit > > {};
+   struct e : tao::TAOCPP_PEGTL_NAMESPACE::one< 'e', 'E' > {};
+   struct p : tao::TAOCPP_PEGTL_NAMESPACE::one< 'p', 'P' > {};
+   struct exponent : tao::TAOCPP_PEGTL_NAMESPACE::seq< plus_minus, tao::TAOCPP_PEGTL_NAMESPACE::plus< tao::TAOCPP_PEGTL_NAMESPACE::digit > > {};
 
-   struct decimal : tao::pegtl::seq< number< tao::pegtl::digit >, tao::pegtl::opt< e, exponent > > {};
-   struct binary : tao::pegtl::seq< tao::pegtl::one< '0' >, tao::pegtl::one< 'x', 'X' >, number< tao::pegtl::xdigit >, tao::pegtl::opt< p, exponent > > {};
+   struct decimal : tao::TAOCPP_PEGTL_NAMESPACE::seq< number< tao::TAOCPP_PEGTL_NAMESPACE::digit >, tao::TAOCPP_PEGTL_NAMESPACE::opt< e, exponent > > {};
+   struct binary : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::one< '0' >, tao::TAOCPP_PEGTL_NAMESPACE::one< 'x', 'X' >, number< tao::TAOCPP_PEGTL_NAMESPACE::xdigit >, tao::TAOCPP_PEGTL_NAMESPACE::opt< p, exponent > > {};
 
-   struct grammar : tao::pegtl::seq< plus_minus, tao::pegtl::sor< decimal, binary, inf, nan > > {};
+   struct grammar : tao::TAOCPP_PEGTL_NAMESPACE::seq< plus_minus, tao::TAOCPP_PEGTL_NAMESPACE::sor< decimal, binary, inf, nan > > {};
 
 } // double_
 

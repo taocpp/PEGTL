@@ -7,7 +7,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       std::string content;
 
@@ -64,7 +64,7 @@ namespace tao
          verify_fail< rgrammar >( __LINE__, __FILE__, "[====[]===]" );
       }
 
-   } // namespace pegtl
+   } // namespace TAOCPP_PEGTL_NAMESPACE
 
 } // namespace tao
 

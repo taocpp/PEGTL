@@ -9,17 +9,17 @@
 namespace hello
 {
    struct prefix
-         : tao::pegtl::string< 'H', 'e', 'l', 'l', 'o', ',', ' ' > {};
+         : tao::TAOCPP_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o', ',', ' ' > {};
 
    struct name
-         : tao::pegtl::plus< tao::pegtl::alpha > {};
+         : tao::TAOCPP_PEGTL_NAMESPACE::plus< tao::TAOCPP_PEGTL_NAMESPACE::alpha > {};
 
    struct grammar
-         : tao::pegtl::must< prefix, name, tao::pegtl::one< '!' >, tao::pegtl::eof > {};
+         : tao::TAOCPP_PEGTL_NAMESPACE::must< prefix, name, tao::TAOCPP_PEGTL_NAMESPACE::one< '!' >, tao::TAOCPP_PEGTL_NAMESPACE::eof > {};
 
    template< typename Rule >
    struct action
-         : tao::pegtl::nothing< Rule > {};
+         : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule > {};
 
    template<>
    struct action< name >
@@ -37,7 +37,7 @@ int main( int argc, char ** argv )
 {
    if ( argc > 1 ) {
       std::string name;
-      tao::pegtl::parse_arg< hello::grammar, hello::action >( 1, argv, name );
+      tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< hello::grammar, hello::action >( 1, argv, name );
       std::cout << "Good bye, " << name << "!" << std::endl;
    }
 }

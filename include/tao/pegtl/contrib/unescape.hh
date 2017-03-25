@@ -54,7 +54,7 @@ namespace tao
             return false;
          }
 
-         // This function MUST only be called for characters matching tao::pegtl::ascii::xdigit!
+         // This function MUST only be called for characters matching tao::TAOCPP_PEGTL_NAMESPACE::ascii::xdigit!
          template< typename I >
          I unhex_char( const char c )
          {
@@ -91,7 +91,7 @@ namespace tao
             }
          };
 
-         // This action MUST be called for a character matching T which MUST be tao::pegtl::one< ... >.
+         // This action MUST be called for a character matching T which MUST be tao::TAOCPP_PEGTL_NAMESPACE::one< ... >.
          template< typename T, char ... Rs >
          struct unescape_c
          {
