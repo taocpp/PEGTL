@@ -39,4 +39,6 @@ if (NOT MSVC AND NOT ANDROID_NDK)
   add_subdirectory (src/example/pegtl)
 endif ()
 
-# TODO: install
+# install
+install (DIRECTORY include/ DESTINATION include)
+install (FILES LICENSE DESTINATION include/tao/pegtl)
