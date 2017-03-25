@@ -15,27 +15,31 @@
 
 #include "../analysis/generic.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename ... Rules >
-      struct enable
+      namespace internal
       {
-         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
-
-         template< apply_mode, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< typename ... Rules >
+         struct enable
          {
-            return duseltronik< seq< Rules ... >, apply_mode::ACTION, M, Action, Control >::match( in, st ... );
-         }
-      };
+            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
 
-      template< typename ... Rules >
-      struct skip_control< enable< Rules ... > > : std::true_type {};
+            template< apply_mode, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
+               return duseltronik< seq< Rules ... >, apply_mode::ACTION, M, Action, Control >::match( in, st ... );
+            }
+         };
 
-   } // namespace internal
+         template< typename ... Rules >
+         struct skip_control< enable< Rules ... > > : std::true_type {};
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

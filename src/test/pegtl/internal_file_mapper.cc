@@ -7,20 +7,24 @@
 
 #include "test.hh"
 
-namespace pegtl
+namespace tao
 {
-   void unit_test()
+   namespace pegtl
    {
-      try {
-         internal::file_mapper dummy( "pegtl" );
-         std::cerr << "pegtl: unit test failed for [ internal::file_mapper ] " << std::endl;
-         ++failed;
+      void unit_test()
+      {
+         try {
+            internal::file_mapper dummy( "pegtl" );
+            std::cerr << "pegtl: unit test failed for [ internal::file_mapper ] " << std::endl;
+            ++failed;
+         }
+         catch ( const std::exception & ) {
+         }
       }
-      catch ( const std::exception & ) {
-      }
-   }
 
-} // namespace pegtl
+   } // namespace pegtl
+
+} // namespace tao
 
 #include "main.hh"
 

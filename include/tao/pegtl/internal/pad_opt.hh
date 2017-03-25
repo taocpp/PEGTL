@@ -10,15 +10,19 @@
 #include "opt.hh"
 #include "star.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Rule, typename Pad >
-      using pad_opt = seq< star< Pad >, opt< Rule, star< Pad > > >;
+      namespace internal
+      {
+         template< typename Rule, typename Pad >
+         using pad_opt = seq< star< Pad >, opt< Rule, star< Pad > > >;
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

@@ -15,28 +15,32 @@
 #include "../rewind_mode.hh"
 #include "../analysis/generic.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename T >
-      struct raise
+      namespace internal
       {
-         using analyze_t = analysis::generic< analysis::rule_type::ANY >;
-
-         template< apply_mode, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< typename T >
+         struct raise
          {
-            Control< T >::raise( const_cast< const Input & >( in ), st ... );
-            std::abort();  // LCOV_EXCL_LINE
-         }
-      };
+            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-      template< typename T >
-      struct skip_control< raise< T > > : std::true_type {};
+            template< apply_mode, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
+               Control< T >::raise( const_cast< const Input & >( in ), st ... );
+               std::abort();  // LCOV_EXCL_LINE
+            }
+         };
 
-   } // namespace internal
+         template< typename T >
+         struct skip_control< raise< T > > : std::true_type {};
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

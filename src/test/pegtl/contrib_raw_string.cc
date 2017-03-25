@@ -5,59 +5,63 @@
 
 #include <tao/pegtl/contrib/raw_string.hh>
 
-namespace pegtl
+namespace tao
 {
-   std::string content;
-
-   using rstring = raw_string< '[', '=', ']' >;
-
-   template< typename Rule > struct rsaction : nothing< Rule > {};
-
-   template<> struct rsaction< rstring::content >
+   namespace pegtl
    {
-      template< typename Input, typename ... States >
-      static void apply( const Input & in, const States & ... )
+      std::string content;
+
+      using rstring = raw_string< '[', '=', ']' >;
+
+      template< typename Rule > struct rsaction : nothing< Rule > {};
+
+      template<> struct rsaction< rstring::content >
       {
-         content.assign( in.begin(), in.end() );
+         template< typename Input, typename ... States >
+         static void apply( const Input & in, const States & ... )
+         {
+            content.assign( in.begin(), in.end() );
+         }
+      };
+
+      struct rgrammar : must< rstring, eof > {};
+
+      template< typename Rule, unsigned M, unsigned N >
+      void verify_data( const std::size_t line, const char * file, const char ( & m )[ M ], const char ( & n )[ N ] )
+      {
+         content.clear();
+         memory_input i( { 0, line, 0, m }, m + M - 1, file );
+         const auto r = parse_input< Rule, rsaction >( i );
+         if ( ( ! r ) || ( content != std::string( n, N - 1 ) ) ) {
+            TEST_FAILED( "input data [ '" << m << "' ] expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r << " ]" );
+         }
       }
-   };
 
-   struct rgrammar : must< rstring, eof > {};
-
-   template< typename Rule, unsigned M, unsigned N >
-   void verify_data( const std::size_t line, const char * file, const char ( & m )[ M ], const char ( & n )[ N ] )
-   {
-      content.clear();
-      memory_input i( { 0, line, 0, m }, m + M - 1, file );
-      const auto r = parse_input< Rule, rsaction >( i );
-      if ( ( ! r ) || ( content != std::string( n, N - 1 ) ) ) {
-         TEST_FAILED( "input data [ '" << m << "' ] expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r << " ]" );
+      void unit_test()
+      {
+         verify_data< rgrammar >( __LINE__, __FILE__, "[[]]", "" );
+         verify_data< rgrammar >( __LINE__, __FILE__, "[[foo]]", "foo" );
+         verify_data< rgrammar >( __LINE__, __FILE__, "[===[foo]===]", "foo" );
+         verify_data< rgrammar >( __LINE__, __FILE__, "[===[\nfoo]===]", "foo" );
+         verify_data< rgrammar >( __LINE__, __FILE__, "[===[\0\0\0]===]", "\0\0\0" );
+         verify_fail< rgrammar >( __LINE__, __FILE__, "" );
+         verify_fail< rgrammar >( __LINE__, __FILE__, "[" );
+         verify_fail< rgrammar >( __LINE__, __FILE__, "[=" );
+         verify_fail< rgrammar >( __LINE__, __FILE__, "[=[" );
+         verify_fail< rgrammar >( __LINE__, __FILE__, "[=[]=" );
+         verify_fail< rgrammar >( __LINE__, __FILE__, "[=[]]" );
+         verify_fail< rgrammar >( __LINE__, __FILE__, "[]" );
+         verify_fail< rgrammar >( __LINE__, __FILE__, "[[]] " );
+         verify_fail< rgrammar >( __LINE__, __FILE__, " [[]]" );
+         verify_fail< rgrammar >( __LINE__, __FILE__, "[=[]-]" );
+         verify_fail< rgrammar >( __LINE__, __FILE__, "[-[]=]" );
+         verify_fail< rgrammar >( __LINE__, __FILE__, "[-[]-]" );
+         verify_fail< rgrammar >( __LINE__, __FILE__, "[===[]====]" );
+         verify_fail< rgrammar >( __LINE__, __FILE__, "[====[]===]" );
       }
-   }
 
-   void unit_test()
-   {
-      verify_data< rgrammar >( __LINE__, __FILE__, "[[]]", "" );
-      verify_data< rgrammar >( __LINE__, __FILE__, "[[foo]]", "foo" );
-      verify_data< rgrammar >( __LINE__, __FILE__, "[===[foo]===]", "foo" );
-      verify_data< rgrammar >( __LINE__, __FILE__, "[===[\nfoo]===]", "foo" );
-      verify_data< rgrammar >( __LINE__, __FILE__, "[===[\0\0\0]===]", "\0\0\0" );
-      verify_fail< rgrammar >( __LINE__, __FILE__, "" );
-      verify_fail< rgrammar >( __LINE__, __FILE__, "[" );
-      verify_fail< rgrammar >( __LINE__, __FILE__, "[=" );
-      verify_fail< rgrammar >( __LINE__, __FILE__, "[=[" );
-      verify_fail< rgrammar >( __LINE__, __FILE__, "[=[]=" );
-      verify_fail< rgrammar >( __LINE__, __FILE__, "[=[]]" );
-      verify_fail< rgrammar >( __LINE__, __FILE__, "[]" );
-      verify_fail< rgrammar >( __LINE__, __FILE__, "[[]] " );
-      verify_fail< rgrammar >( __LINE__, __FILE__, " [[]]" );
-      verify_fail< rgrammar >( __LINE__, __FILE__, "[=[]-]" );
-      verify_fail< rgrammar >( __LINE__, __FILE__, "[-[]=]" );
-      verify_fail< rgrammar >( __LINE__, __FILE__, "[-[]-]" );
-      verify_fail< rgrammar >( __LINE__, __FILE__, "[===[]====]" );
-      verify_fail< rgrammar >( __LINE__, __FILE__, "[====[]===]" );
-   }
+   } // namespace pegtl
 
-} // namespace pegtl
+} // namespace tao
 
 #include "main.hh"

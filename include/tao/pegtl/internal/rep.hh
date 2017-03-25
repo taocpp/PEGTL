@@ -15,45 +15,49 @@
 
 #include "../analysis/counted.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< unsigned Num, typename ... Rules > struct rep;
-
-      template< unsigned Num, typename ... Rules >
-      struct skip_control< rep< Num, Rules ... > > : std::true_type {};
-
-      template< unsigned Num >
-      struct rep< Num >
-            : trivial< true > {};
-
-      template< typename Rule, typename ... Rules >
-      struct rep< 0, Rule, Rules ... >
-            : trivial< true > {};
-
-      template< unsigned Num, typename ... Rules >
-      struct rep
+      namespace internal
       {
-         using analyze_t = analysis::counted< analysis::rule_type::SEQ, Num, Rules ... >;
+         template< unsigned Num, typename ... Rules > struct rep;
 
-         template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< unsigned Num, typename ... Rules >
+         struct skip_control< rep< Num, Rules ... > > : std::true_type {};
+
+         template< unsigned Num >
+         struct rep< Num >
+               : trivial< true > {};
+
+         template< typename Rule, typename ... Rules >
+         struct rep< 0, Rule, Rules ... >
+               : trivial< true > {};
+
+         template< unsigned Num, typename ... Rules >
+         struct rep
          {
-            auto m = in.template mark< M >();
-            using m_t = decltype( m );
+            using analyze_t = analysis::counted< analysis::rule_type::SEQ, Num, Rules ... >;
 
-            for ( unsigned i = 0; i != Num; ++i ) {
-               if ( ! rule_conjunction< Rules ... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st ... ) ) {
-                  return false;
+            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
+               auto m = in.template mark< M >();
+               using m_t = decltype( m );
+
+               for ( unsigned i = 0; i != Num; ++i ) {
+                  if ( ! rule_conjunction< Rules ... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st ... ) ) {
+                     return false;
+                  }
                }
+               return m( true );
             }
-            return m( true );
-         }
-      };
+         };
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

@@ -10,15 +10,19 @@
 #include "list.hh"
 #include "opt.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Rule, typename Sep >
-      using list_tail = seq< list< Rule, Sep >, opt< Sep > >;
+      namespace internal
+      {
+         template< typename Rule, typename Sep >
+         using list_tail = seq< list< Rule, Sep >, opt< Sep > >;
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

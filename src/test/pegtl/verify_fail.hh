@@ -11,19 +11,23 @@
 
 #include "test_failed.hh"
 
-namespace pegtl
+namespace tao
 {
-   template< typename Rule, template< typename > class Action = nothing, typename ... States >
-   void verify_fail( const std::size_t line, const char * file, const std::string & s, States && ... st )
+   namespace pegtl
    {
-      try {
-         parse_string< Rule, Action >( s, "expect_exception", st ... );
-         TEST_FAILED( "expected exception" );
+      template< typename Rule, template< typename > class Action = nothing, typename ... States >
+      void verify_fail( const std::size_t line, const char * file, const std::string & s, States && ... st )
+      {
+         try {
+            parse_string< Rule, Action >( s, "expect_exception", st ... );
+            TEST_FAILED( "expected exception" );
+         }
+         catch ( ... ) {
+         }
       }
-      catch ( ... ) {
-      }
-   }
 
-} // pegtl
+   } // namespace pegtl
+
+} // namespace tao
 
 #endif

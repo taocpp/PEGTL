@@ -5,17 +5,21 @@
 
 #include <tao/pegtl/trace.hh>
 
-namespace pegtl
+namespace tao
 {
-   using GRAMMAR = pegtl::sor< pegtl::failure, pegtl::one< 'a' > >;
-
-   void unit_test()
+   namespace pegtl
    {
-      if ( ! pegtl::trace_string< GRAMMAR >( "ab", "trace test please ignore" ) ) {
-         ++failed;
-      }
-   }
+      using GRAMMAR = tao::pegtl::sor< tao::pegtl::failure, tao::pegtl::one< 'a' > >;
 
-} // namespace pegtl
+      void unit_test()
+      {
+         if ( ! tao::pegtl::trace_string< GRAMMAR >( "ab", "trace test please ignore" ) ) {
+            ++failed;
+         }
+      }
+
+   } // namespace pegtl
+
+} // namespace tao
 
 #include "main.hh"

@@ -5,13 +5,17 @@
 
 #include "verify_seqs.hh"
 
-namespace pegtl
+namespace tao
 {
-   void unit_test()
+   namespace pegtl
    {
-      verify_seqs< must >( result_type::GLOBAL_FAILURE );
-   }
+      void unit_test()
+      {
+         verify_seqs< must >( result_type::GLOBAL_FAILURE );
+      }
 
-} // namespace pegtl
+   } // namespace pegtl
+
+} // namespace tao
 
 #include "main.hh"

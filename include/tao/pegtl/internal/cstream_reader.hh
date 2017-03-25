@@ -10,35 +10,39 @@
 #include "../config.hh"
 #include "../input_error.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      struct cstream_reader
+      namespace internal
       {
-         explicit
-         cstream_reader( std::FILE * s )
-               : m_cstream( s )
-         { }
-
-         std::size_t operator() ( char * buffer, const std::size_t length )
+         struct cstream_reader
          {
-            if ( const auto r = std::fread( buffer, 1, length, m_cstream ) ) {
-               return r;
+            explicit
+            cstream_reader( std::FILE * s )
+                  : m_cstream( s )
+            { }
+
+            std::size_t operator() ( char * buffer, const std::size_t length )
+            {
+               if ( const auto r = std::fread( buffer, 1, length, m_cstream ) ) {
+                  return r;
+               }
+               if ( std::feof( m_cstream ) != 0 ) {
+                  return 0;
+               }
+               // Please contact us if you know how to provoke the following exception.
+               // The example on cppreference.com doesn't work, at least not on Mac OS X.
+               TAOCPP_PEGTL_THROW_INPUT_ERROR( "error in fread() from cstream" );  // LCOV_EXCL_LINE
             }
-            if ( std::feof( m_cstream ) != 0 ) {
-               return 0;
-            }
-            // Please contact us if you know how to provoke the following exception.
-            // The example on cppreference.com doesn't work, at least not on Mac OS X.
-            TAOCPP_PEGTL_THROW_INPUT_ERROR( "error in fread() from cstream" );  // LCOV_EXCL_LINE
-         }
 
-         std::FILE * m_cstream;
-      };
+            std::FILE * m_cstream;
+         };
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

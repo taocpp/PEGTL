@@ -8,18 +8,22 @@
 
 #include <tao/pegtl/internal/demangle.hh>
 
-namespace pegtl
+namespace tao
 {
-   template< typename Rule >
-   struct test_action
+   namespace pegtl
    {
-      template< typename Input >
-      static void apply( const Input & in )
+      template< typename Rule >
+      struct test_action
       {
-         applied.push_back( std::make_pair( internal::demangle< Rule >(), in.string() ) );
-      }
-   };
+         template< typename Input >
+         static void apply( const Input & in )
+         {
+            applied.push_back( std::make_pair( internal::demangle< Rule >(), in.string() ) );
+         }
+      };
 
-} // pegtl
+   } // namespace pegtl
+
+} // namespace tao
 
 #endif

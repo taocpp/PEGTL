@@ -8,15 +8,16 @@
 
 #define TEST_ASSERT( eXPReSSioN )                       \
    do {                                                 \
-   if ( ! ( eXPReSSioN ) ) {                            \
-      std::cerr << "pegtl: unit test assert [ "         \
-                << ( # eXPReSSioN )                     \
-                << " ] failed in line [ "               \
-                << __LINE__                             \
-                << " ] file [ "                         \
-                << __FILE__ << " ]"                     \
-                << std::endl;                           \
-      ++failed;                                         \
-   }  } while ( 0 )
+      if ( ! ( eXPReSSioN ) ) {                         \
+         std::cerr << "pegtl: unit test assert [ "      \
+                   << ( # eXPReSSioN )                  \
+                   << " ] failed in line [ "            \
+                   << __LINE__                          \
+                   << " ] file [ "                      \
+                   << __FILE__ << " ]"                  \
+                   << std::endl;                        \
+         ++failed;                                      \
+      }                                                 \
+   } while ( false )
 
 #endif

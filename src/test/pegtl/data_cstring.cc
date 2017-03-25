@@ -3,17 +3,21 @@
 
 #include "test.hh"
 
-namespace pegtl
+namespace tao
 {
-   struct test_grammar : seq< string< 'a', 'b' >, discard, string< 'c', 'd' >, discard, string< 'e', 'f' >, discard, eof > {};
-
-   void unit_test()
+   namespace pegtl
    {
-      const char * test_data = "abcdef";
-      TEST_ASSERT( parse_cstring< test_grammar >( test_data, "test data", 2 ) );
-      TEST_ASSERT( ! parse_cstring< test_grammar >( test_data, "test data", 1 ) );
-   }
+      struct test_grammar : seq< string< 'a', 'b' >, discard, string< 'c', 'd' >, discard, string< 'e', 'f' >, discard, eof > {};
 
-} // namespace pegtl
+      void unit_test()
+      {
+         const char * test_data = "abcdef";
+         TEST_ASSERT( parse_cstring< test_grammar >( test_data, "test data", 2 ) );
+         TEST_ASSERT( ! parse_cstring< test_grammar >( test_data, "test data", 1 ) );
+      }
+
+   } // namespace pegtl
+
+} // namespace tao
 
 #include "main.hh"

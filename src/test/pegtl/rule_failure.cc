@@ -3,19 +3,23 @@
 
 #include "test.hh"
 
-namespace pegtl
+namespace tao
 {
-   void unit_test()
+   namespace pegtl
    {
-      verify_analyze< failure >( __LINE__, __FILE__, true, false );  // "Success implies consumption" is true because "success" never happens.
+      void unit_test()
+      {
+         verify_analyze< failure >( __LINE__, __FILE__, true, false );  // "Success implies consumption" is true because "success" never happens.
 
-      verify_rule< failure >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
+         verify_rule< failure >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
 
-      for ( char i = 1; i < 127; ++i ) {
-         verify_char< failure >( __LINE__, __FILE__, i, result_type::LOCAL_FAILURE );
+         for ( char i = 1; i < 127; ++i ) {
+            verify_char< failure >( __LINE__, __FILE__, i, result_type::LOCAL_FAILURE );
+         }
       }
-   }
 
-} // namespace pegtl
+   } // namespace pegtl
+
+} // namespace tao
 
 #include "main.hh"

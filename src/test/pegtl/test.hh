@@ -10,12 +10,16 @@
 
 #include <tao/pegtl.hh>
 
-namespace pegtl
+namespace tao
 {
-   std::size_t failed = 0;
-   std::vector< std::pair< std::string, std::string > > applied;
+   namespace pegtl
+   {
+      std::size_t failed = 0;
+      std::vector< std::pair< std::string, std::string > > applied;
 
-} // pegtl
+   } // namespace pegtl
+
+} // namespace tao
 
 #include "test_action.hh"
 #include "test_assert.hh"

@@ -9,15 +9,19 @@
 #include "if_then_else.hh"
 #include "must.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Cond, typename Then, typename Else >
-      using if_must_else = if_then_else< Cond, must< Then >, must< Else > >;
+      namespace internal
+      {
+         template< typename Cond, typename Then, typename Else >
+         using if_must_else = if_then_else< Cond, must< Then >, must< Else > >;
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

@@ -16,43 +16,47 @@
 
 #include "../analysis/counted.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      inline bool unsafe_equals( const char * s, const std::initializer_list< char > & l )
+      namespace internal
       {
-         return std::memcmp( s, & * l.begin(), l.size() ) == 0;
-      }
-
-      template< char ... Cs > struct string;
-
-      template< char ... Cs >
-      struct skip_control< string< Cs ... > > : std::true_type {};
-
-      template<> struct string<>
-            : trivial< true > {};
-
-      template< char ... Cs >
-      struct string
-      {
-         using analyze_t = analysis::counted< analysis::rule_type::ANY, sizeof ... ( Cs ) >;
-
-         template< typename Input >
-         static bool match( Input & in )
+         inline bool unsafe_equals( const char * s, const std::initializer_list< char > & l )
          {
-            if ( in.size( sizeof ... ( Cs ) ) >= sizeof ... ( Cs ) ) {
-               if ( unsafe_equals( in.begin(), { Cs ... } ) ) {
-                  bump_help< result_on_found::SUCCESS, Input, char, Cs ... >( in, sizeof ... ( Cs ) );
-                  return true;
-               }
-            }
-            return false;
+            return std::memcmp( s, & * l.begin(), l.size() ) == 0;
          }
-      };
 
-   } // namespace internal
+         template< char ... Cs > struct string;
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+         template< char ... Cs >
+         struct skip_control< string< Cs ... > > : std::true_type {};
+
+         template<> struct string<>
+         : trivial< true > {};
+
+         template< char ... Cs >
+         struct string
+         {
+            using analyze_t = analysis::counted< analysis::rule_type::ANY, sizeof ... ( Cs ) >;
+
+            template< typename Input >
+            static bool match( Input & in )
+            {
+               if ( in.size( sizeof ... ( Cs ) ) >= sizeof ... ( Cs ) ) {
+                  if ( unsafe_equals( in.begin(), { Cs ... } ) ) {
+                     bump_help< result_on_found::SUCCESS, Input, char, Cs ... >( in, sizeof ... ( Cs ) );
+                     return true;
+                  }
+               }
+               return false;
+            }
+         };
+
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

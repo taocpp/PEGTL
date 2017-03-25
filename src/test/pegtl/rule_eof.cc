@@ -3,20 +3,24 @@
 
 #include "test.hh"
 
-namespace pegtl
+namespace tao
 {
-   void unit_test()
+   namespace pegtl
    {
-      verify_analyze< eof >( __LINE__, __FILE__, false, false );
+      void unit_test()
+      {
+         verify_analyze< eof >( __LINE__, __FILE__, false, false );
 
-      verify_rule< eof >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
+         verify_rule< eof >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
 
-      for ( char i = 1; i < 127; ++i ) {
-         verify_char< eof >( __LINE__, __FILE__, i, result_type::LOCAL_FAILURE );
+         for ( char i = 1; i < 127; ++i ) {
+            verify_char< eof >( __LINE__, __FILE__, i, result_type::LOCAL_FAILURE );
+         }
+         verify_rule< eof >( __LINE__, __FILE__,  "abcdefghijklmn", result_type::LOCAL_FAILURE, 14 );
       }
-      verify_rule< eof >( __LINE__, __FILE__,  "abcdefghijklmn", result_type::LOCAL_FAILURE, 14 );
-   }
 
-} // namespace pegtl
+   } // namespace pegtl
+
+} // namespace tao
 
 #include "main.hh"

@@ -19,32 +19,36 @@
 
 #include "../analysis/generic.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      // While plus<> could easily be implemented with
-      // seq< Rule, Rules ..., star< Rule, Rules ... > > we
-      // provide an explicit implementation to optimize away
-      // the otherwise created input mark.
-
-      template< typename Rule, typename ... Rules >
-      struct plus
+      namespace internal
       {
-         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule, Rules ..., opt< plus > >;
+         // While plus<> could easily be implemented with
+         // seq< Rule, Rules ..., star< Rule, Rules ... > > we
+         // provide an explicit implementation to optimize away
+         // the otherwise created input mark.
 
-         template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< typename Rule, typename ... Rules >
+         struct plus
          {
-            return duseltronik< seq< Rule, Rules ... >, A, M, Action, Control >::match( in, st ... ) && duseltronik< star< Rule, Rules ... >, A, M, Action, Control >::match( in, st ... );
-         }
-      };
+            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule, Rules ..., opt< plus > >;
 
-      template< typename Rule, typename ... Rules >
-      struct skip_control< plus< Rule, Rules ... > > : std::true_type {};
+            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
+               return duseltronik< seq< Rule, Rules ... >, A, M, Action, Control >::match( in, st ... ) && duseltronik< star< Rule, Rules ... >, A, M, Action, Control >::match( in, st ... );
+            }
+         };
 
-   } // namespace internal
+         template< typename Rule, typename ... Rules >
+         struct skip_control< plus< Rule, Rules ... > > : std::true_type {};
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

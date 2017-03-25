@@ -9,101 +9,105 @@
 #include "../config.hh"
 #include "../eol_mode.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      using eol_pair = std::pair< bool, std::size_t >;
-
-      template< eol_mode EOL > struct eol_impl;
-
-      template<> struct eol_impl< eol_mode::LF_ONLY >
+      namespace internal
       {
-         template< typename Input >
-         static eol_pair match( Input & in )
+         using eol_pair = std::pair< bool, std::size_t >;
+
+         template< eol_mode EOL > struct eol_impl;
+
+         template<> struct eol_impl< eol_mode::LF_ONLY >
          {
-            eol_pair p = { false, in.size( 1 ) };
-            if ( p.second ) {
-               if ( in.peek_char() == '\n' ) {
-                  in.bump_to_next_line();
-                  p.first = true;
+            template< typename Input >
+            static eol_pair match( Input & in )
+            {
+               eol_pair p = { false, in.size( 1 ) };
+               if ( p.second ) {
+                  if ( in.peek_char() == '\n' ) {
+                     in.bump_to_next_line();
+                     p.first = true;
+                  }
                }
+               return p;
             }
-            return p;
-         }
-      };
+         };
 
-      template<> struct eol_impl< eol_mode::CR_ONLY >
-      {
-         template< typename Input >
-         static eol_pair match( Input & in )
+         template<> struct eol_impl< eol_mode::CR_ONLY >
          {
-            eol_pair p = { false, in.size( 1 ) };
-            if ( p.second ) {
-               if ( in.peek_char() == '\r' ) {
-                  in.bump_to_next_line();
-                  p.first = true;
+            template< typename Input >
+            static eol_pair match( Input & in )
+            {
+               eol_pair p = { false, in.size( 1 ) };
+               if ( p.second ) {
+                  if ( in.peek_char() == '\r' ) {
+                     in.bump_to_next_line();
+                     p.first = true;
+                  }
                }
+               return p;
             }
-            return p;
-         }
-      };
+         };
 
-      template<> struct eol_impl< eol_mode::CRLF_ONLY >
-      {
-         template< typename Input >
-         static eol_pair match( Input & in )
+         template<> struct eol_impl< eol_mode::CRLF_ONLY >
          {
-            eol_pair p = { false, in.size( 2 ) };
-            if ( p.second > 1 ) {
-               if ( ( in.peek_char() == '\r' ) && ( in.peek_char( 1 ) == '\n' ) ) {
-                  in.bump_to_next_line( 2 );
-                  p.first = true;
+            template< typename Input >
+            static eol_pair match( Input & in )
+            {
+               eol_pair p = { false, in.size( 2 ) };
+               if ( p.second > 1 ) {
+                  if ( ( in.peek_char() == '\r' ) && ( in.peek_char( 1 ) == '\n' ) ) {
+                     in.bump_to_next_line( 2 );
+                     p.first = true;
+                  }
                }
+               return p;
             }
-            return p;
-         }
-      };
+         };
 
-      template<> struct eol_impl< eol_mode::LF_WITH_CRLF >
-      {
-         template< typename Input >
-         static eol_pair match( Input & in )
+         template<> struct eol_impl< eol_mode::LF_WITH_CRLF >
          {
-            eol_pair p = { false, in.size( 2 ) };
-            if ( p.second ) {
-               const auto a = in.peek_char();
-               if ( a == '\n' ) {
-                  in.bump_to_next_line();
-                  p.first = true;
+            template< typename Input >
+            static eol_pair match( Input & in )
+            {
+               eol_pair p = { false, in.size( 2 ) };
+               if ( p.second ) {
+                  const auto a = in.peek_char();
+                  if ( a == '\n' ) {
+                     in.bump_to_next_line();
+                     p.first = true;
+                  }
+                  else if ( ( a == '\r' ) && ( p.second > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) {
+                     in.bump_to_next_line( 2 );
+                     p.first = true;
+                  }
                }
-               else if ( ( a == '\r' ) && ( p.second > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) {
-                  in.bump_to_next_line( 2 );
-                  p.first = true;
-               }
+               return p;
             }
-            return p;
-         }
-      };
+         };
 
-      template<> struct eol_impl< eol_mode::CR_WITH_CRLF >
-      {
-         template< typename Input >
-         static eol_pair match( Input & in )
+         template<> struct eol_impl< eol_mode::CR_WITH_CRLF >
          {
-            eol_pair p = { false, in.size( 2 ) };
-            if ( p.second ) {
-               if ( in.peek_char() == '\r' ) {
-                  in.bump_to_next_line( 1 + ( ( p.second > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) );
-                  p.first = true;
+            template< typename Input >
+            static eol_pair match( Input & in )
+            {
+               eol_pair p = { false, in.size( 2 ) };
+               if ( p.second ) {
+                  if ( in.peek_char() == '\r' ) {
+                     in.bump_to_next_line( 1 + ( ( p.second > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) );
+                     p.first = true;
+                  }
                }
+               return p;
             }
-            return p;
-         }
-      };
+         };
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

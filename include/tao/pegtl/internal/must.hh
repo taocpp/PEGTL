@@ -13,42 +13,46 @@
 #include "../apply_mode.hh"
 #include "../rewind_mode.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      // The general case simply applies must<> to each member of the
-      // 'Rules' parameter pack individually, below is the specialization
-      // which implements the case for a single rule.
-
-      template< typename ... Rules >
-      struct must
-            : seq< must< Rules > ... > {};
-
-      // While in theory the implementation for a single rule could
-      // be simplified to must< Rule > = sor< Rule, raise< Rule > >, this
-      // would result in some unnecessary run-time overhead.
-
-      template< typename Rule >
-      struct must< Rule >
+      namespace internal
       {
-         using analyze_t = typename Rule::analyze_t;
+         // The general case simply applies must<> to each member of the
+         // 'Rules' parameter pack individually, below is the specialization
+         // which implements the case for a single rule.
 
-         template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< typename ... Rules >
+         struct must
+               : seq< must< Rules > ... > {};
+
+         // While in theory the implementation for a single rule could
+         // be simplified to must< Rule > = sor< Rule, raise< Rule > >, this
+         // would result in some unnecessary run-time overhead.
+
+         template< typename Rule >
+         struct must< Rule >
          {
-            if ( ! Control< Rule >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... ) ) {
-               raise< Rule >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... );
+            using analyze_t = typename Rule::analyze_t;
+
+            template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
+               if ( ! Control< Rule >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... ) ) {
+                  raise< Rule >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... );
+               }
+               return true;
             }
-            return true;
-         }
-      };
+         };
 
-      template< typename ... Rules >
-      struct skip_control< must< Rules ... > > : std::true_type {};
+         template< typename ... Rules >
+         struct skip_control< must< Rules ... > > : std::true_type {};
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

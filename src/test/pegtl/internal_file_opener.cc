@@ -7,22 +7,26 @@
 
 #include "test.hh"
 
-namespace pegtl
+namespace tao
 {
-   void unit_test()
+   namespace pegtl
    {
-      const internal::file_opener fo( "Makefile" );
-      ::close( fo.m_fd );  // Provoke exception, nobody would normally do this.
-      try {
-         fo.size();
-         std::cerr << "pegtl: unit test failed for [ internal::file_opener ] " << std::endl;
-         ++failed;
+      void unit_test()
+      {
+         const internal::file_opener fo( "Makefile" );
+         ::close( fo.m_fd );  // Provoke exception, nobody would normally do this.
+         try {
+            fo.size();
+            std::cerr << "pegtl: unit test failed for [ internal::file_opener ] " << std::endl;
+            ++failed;
+         }
+         catch ( const std::exception & ) {
+         }
       }
-      catch ( const std::exception & ) {
-      }
-   }
 
-} // namespace pegtl
+   } // namespace pegtl
+
+} // namespace tao
 
 #include "main.hh"
 

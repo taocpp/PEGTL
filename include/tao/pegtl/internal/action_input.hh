@@ -11,100 +11,104 @@
 #include "../count_data.hh"
 #include "../position_info.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   template< typename Eol >
-   class basic_memory_input;
-
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       template< typename Eol >
-      class basic_action_input
+      class basic_memory_input;
+
+      namespace internal
       {
-      public:
-         using eol_t = Eol;
-         using action_t = basic_action_input< Eol >;
-         using memory_t = basic_memory_input< Eol >;
-
-         basic_action_input( const count_data & in_data, const char * in_end, const char * in_source )
-               : m_data( in_data ),
-                 m_end( in_end ),
-                 m_source( in_source )
-         { }
-
-         bool empty() const
+         template< typename Eol >
+         class basic_action_input
          {
-            return m_data.data == m_end;
-         }
+         public:
+            using eol_t = Eol;
+            using action_t = basic_action_input< Eol >;
+            using memory_t = basic_memory_input< Eol >;
 
-         std::size_t size( const std::size_t = 0 ) const
-         {
-            return std::size_t( m_end - m_data.data );
-         }
+            basic_action_input( const count_data & in_data, const char * in_end, const char * in_source )
+                  : m_data( in_data ),
+                    m_end( in_end ),
+                    m_source( in_source )
+            { }
 
-         const char * begin() const
-         {
-            return m_data.data;
-         }
+            bool empty() const
+            {
+               return m_data.data == m_end;
+            }
 
-         const char * end( const std::size_t = 0 ) const
-         {
-            return m_end;
-         }
+            std::size_t size( const std::size_t = 0 ) const
+            {
+               return std::size_t( m_end - m_data.data );
+            }
 
-         std::size_t byte() const
-         {
-            return m_data.byte;
-         }
+            const char * begin() const
+            {
+               return m_data.data;
+            }
 
-         std::size_t line() const
-         {
-            return m_data.line;
-         }
+            const char * end( const std::size_t = 0 ) const
+            {
+               return m_end;
+            }
 
-         std::size_t byte_in_line() const
-         {
-            return m_data.byte_in_line;
-         }
+            std::size_t byte() const
+            {
+               return m_data.byte;
+            }
 
-         const char * source() const
-         {
-            return m_source;
-         }
+            std::size_t line() const
+            {
+               return m_data.line;
+            }
 
-         std::string string() const
-         {
-            return std::string( begin(), end() );
-         }
+            std::size_t byte_in_line() const
+            {
+               return m_data.byte_in_line;
+            }
 
-         char peek_char( const std::size_t offset = 0 ) const
-         {
-            return m_data.data[ offset ];
-         }
+            const char * source() const
+            {
+               return m_source;
+            }
 
-         unsigned char peek_byte( const std::size_t offset = 0 ) const
-         {
-            return static_cast< unsigned char >( peek_char( offset ) );
-         }
+            std::string string() const
+            {
+               return std::string( begin(), end() );
+            }
 
-         const count_data & count() const
-         {
-            return m_data;
-         }
+            char peek_char( const std::size_t offset = 0 ) const
+            {
+               return m_data.data[ offset ];
+            }
 
-         position_info position() const
-         {
-            return position_info( m_data, m_source );
-         }
+            unsigned char peek_byte( const std::size_t offset = 0 ) const
+            {
+               return static_cast< unsigned char >( peek_char( offset ) );
+            }
 
-      private:
-         count_data m_data;
-         const char * m_end;
-         const char * m_source;
-      };
+            const count_data & count() const
+            {
+               return m_data;
+            }
 
-   } // namespace internal
+            position_info position() const
+            {
+               return position_info( m_data, m_source );
+            }
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+         private:
+            count_data m_data;
+            const char * m_end;
+            const char * m_source;
+         };
+
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

@@ -6,28 +6,32 @@
 
 #include <ostream>
 
-namespace pegtl
+namespace tao
 {
-   enum class result_type
+   namespace pegtl
    {
-      SUCCESS = 1,
-      LOCAL_FAILURE = 0,
-      GLOBAL_FAILURE = -1
-   };
+      enum class result_type
+      {
+         SUCCESS = 1,
+         LOCAL_FAILURE = 0,
+         GLOBAL_FAILURE = -1
+      };
 
-   inline std::ostream & operator<< ( std::ostream & o, const result_type t )
-   {
-      switch ( t ) {
-         case result_type::SUCCESS:
-            return o << "success";
-         case result_type::LOCAL_FAILURE:
-            return o << "local failure";
-         case result_type::GLOBAL_FAILURE:
-            return o << "global failure";
+      inline std::ostream & operator<< ( std::ostream & o, const result_type t )
+      {
+         switch ( t ) {
+            case result_type::SUCCESS:
+               return o << "success";
+            case result_type::LOCAL_FAILURE:
+               return o << "local failure";
+            case result_type::GLOBAL_FAILURE:
+               return o << "global failure";
+         }
+         return o << int( t );
       }
-      return o << int( t );
-   }
 
-} // pegtl
+   } // namespace pegtl
+
+} // namespace tao
 
 #endif

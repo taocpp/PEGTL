@@ -18,57 +18,61 @@
 
 #include "../analysis/generic.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Cond, typename ... Rules > struct until;
-
-      template< typename Cond, typename ... Rules >
-      struct skip_control< until< Cond, Rules ... > > : std::true_type {};
-
-      template< typename Cond >
-      struct until< Cond >
+      namespace internal
       {
-         using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
+         template< typename Cond, typename ... Rules > struct until;
 
-         template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< typename Cond, typename ... Rules >
+         struct skip_control< until< Cond, Rules ... > > : std::true_type {};
+
+         template< typename Cond >
+         struct until< Cond >
          {
-            auto m = in.template mark< M >();
+            using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
 
-            while ( ! Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st ... ) ) {
-               if ( in.empty() ) {
-                  return false;
+            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
+               auto m = in.template mark< M >();
+
+               while ( ! Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st ... ) ) {
+                  if ( in.empty() ) {
+                     return false;
+                  }
+                  in.bump();
                }
-               in.bump();
+               return m( true );
             }
-            return m( true );
-         }
-      };
+         };
 
-      template< typename Cond, typename ... Rules >
-      struct until
-      {
-         using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, Rules ... >, Cond >;
-
-         template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< typename Cond, typename ... Rules >
+         struct until
          {
-            auto m = in.template mark< M >();
-            using m_t = decltype( m );
+            using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, Rules ... >, Cond >;
 
-            while ( ! Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st ... ) ) {
-               if ( in.empty() || ( ! rule_conjunction< Rules ... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st ... ) ) ) {
-                  return false;
+            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
+               auto m = in.template mark< M >();
+               using m_t = decltype( m );
+
+               while ( ! Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st ... ) ) {
+                  if ( in.empty() || ( ! rule_conjunction< Rules ... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st ... ) ) ) {
+                     return false;
+                  }
                }
+               return m( true );
             }
-            return m( true );
-         }
-      };
+         };
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

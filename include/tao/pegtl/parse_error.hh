@@ -10,25 +10,29 @@
 #include "config.hh"
 #include "position_info.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   struct parse_error
-         : public std::runtime_error
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      parse_error( const std::string & message, std::vector< position_info > && in_positions )
-            : std::runtime_error( message ),
-              positions( std::move( in_positions ) )
-      { }
+      struct parse_error
+            : public std::runtime_error
+      {
+         parse_error( const std::string & message, std::vector< position_info > && in_positions )
+               : std::runtime_error( message ),
+                 positions( std::move( in_positions ) )
+         { }
 
-      template< typename Input >
-      parse_error( const std::string & message, const Input & in )
-            : std::runtime_error( to_string( in.position() ) + ": " + message ),
-              positions( 1, in.position() )
-      { }
+         template< typename Input >
+         parse_error( const std::string & message, const Input & in )
+               : std::runtime_error( to_string( in.position() ) + ": " + message ),
+                 positions( 1, in.position() )
+         { }
 
-      std::vector< position_info > positions;
-   };
+         std::vector< position_info > positions;
+      };
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

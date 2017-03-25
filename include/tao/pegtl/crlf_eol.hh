@@ -6,26 +6,30 @@
 
 #include "config.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   struct crlf_eol
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      static constexpr int ch = '\n';
-
-      template< typename Input >
-      static eol_pair match( Input & in )
+      struct crlf_eol
       {
-         eol_pair p = { false, in.size( 2 ) };
-         if ( p.second > 1 ) {
-            if ( ( in.peek_char() == '\r' ) && ( in.peek_char( 1 ) == '\n' ) ) {
-               in.bump_to_next_line( 2 );
-               p.first = true;
-            }
-         }
-         return p;
-      }
-   };
+         static constexpr int ch = '\n';
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+         template< typename Input >
+         static eol_pair match( Input & in )
+         {
+            eol_pair p = { false, in.size( 2 ) };
+            if ( p.second > 1 ) {
+               if ( ( in.peek_char() == '\r' ) && ( in.peek_char( 1 ) == '\n' ) ) {
+                  in.bump_to_next_line( 2 );
+                  p.first = true;
+               }
+            }
+            return p;
+         }
+      };
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

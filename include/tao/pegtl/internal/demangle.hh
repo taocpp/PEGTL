@@ -21,18 +21,22 @@
 #include "demangle_nop.hh"
 #endif
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename T >
-      std::string demangle()
+      namespace internal
       {
-         return demangle( typeid( T ).name() );
-      }
+         template< typename T >
+         std::string demangle()
+         {
+            return demangle( typeid( T ).name() );
+         }
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

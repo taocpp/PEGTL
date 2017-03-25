@@ -18,28 +18,32 @@
 
 #include "../analysis/generic.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Rule, typename ... Rules >
-      struct star
+      namespace internal
       {
-         using analyze_t = analysis::generic< analysis::rule_type::OPT, Rule, Rules ..., star >;
-
-         template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< typename Rule, typename ... Rules >
+         struct star
          {
-            while ( ( ! in.empty() ) && duseltronik< seq< Rule, Rules ... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st ... ) ) {}
-            return true;
-         }
-      };
+            using analyze_t = analysis::generic< analysis::rule_type::OPT, Rule, Rules ..., star >;
 
-      template< typename Rule, typename ... Rules >
-      struct skip_control< star< Rule, Rules ... > > : std::true_type {};
+            template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
+               while ( ( ! in.empty() ) && duseltronik< seq< Rule, Rules ... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st ... ) ) {}
+               return true;
+            }
+         };
 
-   } // namespace internal
+         template< typename Rule, typename ... Rules >
+         struct skip_control< star< Rule, Rules ... > > : std::true_type {};
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

@@ -6,16 +6,20 @@
 
 #include "../config.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   enum class dusel_mode : char
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      NOTHING = 0,
-      CONTROL = 1,
-      CONTROL_AND_APPLY = 2,
-      CONTROL_AND_APPLY0 = 3
-   };
+      enum class dusel_mode : char
+      {
+         NOTHING = 0,
+         CONTROL = 1,
+         CONTROL_AND_APPLY = 2,
+         CONTROL_AND_APPLY0 = 3
+      };
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

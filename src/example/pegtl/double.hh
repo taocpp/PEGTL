@@ -11,30 +11,30 @@ namespace double_
    // A grammar for doubles suitable for std::stod without locale support.
    // See also: http://en.cppreference.com/w/cpp/string/basic_string/stof
 
-   struct plus_minus : pegtl::opt< pegtl::one< '+', '-' > > {};
-   struct dot : pegtl::one< '.' > {};
+   struct plus_minus : tao::pegtl::opt< tao::pegtl::one< '+', '-' > > {};
+   struct dot : tao::pegtl::one< '.' > {};
 
-   struct inf : pegtl::seq< pegtl::istring< 'i', 'n', 'f' >,
-                            pegtl::opt< pegtl::istring< 'i', 'n', 'i', 't', 'y' > > > {};
+   struct inf : tao::pegtl::seq< tao::pegtl::istring< 'i', 'n', 'f' >,
+                            tao::pegtl::opt< tao::pegtl::istring< 'i', 'n', 'i', 't', 'y' > > > {};
 
-   struct nan : pegtl::seq< pegtl::istring< 'n', 'a', 'n' >,
-                            pegtl::opt< pegtl::one< '(' >,
-                                        pegtl::plus< pegtl::alnum >,
-                                        pegtl::one< ')' > > > {};
+   struct nan : tao::pegtl::seq< tao::pegtl::istring< 'n', 'a', 'n' >,
+                            tao::pegtl::opt< tao::pegtl::one< '(' >,
+                                        tao::pegtl::plus< tao::pegtl::alnum >,
+                                        tao::pegtl::one< ')' > > > {};
 
    template< typename D >
-   struct number : pegtl::if_then_else< dot,
-                                        pegtl::plus< D >,
-                                        pegtl::seq< pegtl::plus< D >, pegtl::opt< dot, pegtl::star< D > > > > {};
+   struct number : tao::pegtl::if_then_else< dot,
+                                        tao::pegtl::plus< D >,
+                                        tao::pegtl::seq< tao::pegtl::plus< D >, tao::pegtl::opt< dot, tao::pegtl::star< D > > > > {};
 
-   struct e : pegtl::one< 'e', 'E' > {};
-   struct p : pegtl::one< 'p', 'P' > {};
-   struct exponent : pegtl::seq< plus_minus, pegtl::plus< pegtl::digit > > {};
+   struct e : tao::pegtl::one< 'e', 'E' > {};
+   struct p : tao::pegtl::one< 'p', 'P' > {};
+   struct exponent : tao::pegtl::seq< plus_minus, tao::pegtl::plus< tao::pegtl::digit > > {};
 
-   struct decimal : pegtl::seq< number< pegtl::digit >, pegtl::opt< e, exponent > > {};
-   struct binary : pegtl::seq< pegtl::one< '0' >, pegtl::one< 'x', 'X' >, number< pegtl::xdigit >, pegtl::opt< p, exponent > > {};
+   struct decimal : tao::pegtl::seq< number< tao::pegtl::digit >, tao::pegtl::opt< e, exponent > > {};
+   struct binary : tao::pegtl::seq< tao::pegtl::one< '0' >, tao::pegtl::one< 'x', 'X' >, number< tao::pegtl::xdigit >, tao::pegtl::opt< p, exponent > > {};
 
-   struct grammar : pegtl::seq< plus_minus, pegtl::sor< decimal, binary, inf, nan > > {};
+   struct grammar : tao::pegtl::seq< plus_minus, tao::pegtl::sor< decimal, binary, inf, nan > > {};
 
 } // double_
 

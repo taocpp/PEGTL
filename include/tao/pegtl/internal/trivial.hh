@@ -10,27 +10,31 @@
 
 #include "../analysis/counted.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< bool Result >
-      struct trivial
+      namespace internal
       {
-         using analyze_t = analysis::counted< analysis::rule_type::ANY, unsigned( ! Result ) >;
-
-         template< typename Input >
-         static bool match( Input & )
+         template< bool Result >
+         struct trivial
          {
-            return Result;
-         }
-      };
+            using analyze_t = analysis::counted< analysis::rule_type::ANY, unsigned( ! Result ) >;
 
-      template< bool Result >
-      struct skip_control< trivial< Result > > : std::true_type {};
+            template< typename Input >
+            static bool match( Input & )
+            {
+               return Result;
+            }
+         };
 
-   } // namespace internal
+         template< bool Result >
+         struct skip_control< trivial< Result > > : std::true_type {};
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

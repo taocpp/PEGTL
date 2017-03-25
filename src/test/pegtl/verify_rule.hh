@@ -10,14 +10,18 @@
 #include "result_type.hh"
 #include "verify_impl.hh"
 
-namespace pegtl
+namespace tao
 {
-   template< typename Rule >
-   void verify_rule( const std::size_t line, const char * file, const std::string & data, const result_type result, const std::size_t remain )
+   namespace pegtl
    {
-      verify_impl< Rule, lf_crlf_eol >( line, file, data, result, remain );
-   }
+      template< typename Rule >
+      void verify_rule( const std::size_t line, const char * file, const std::string & data, const result_type result, const std::size_t remain )
+      {
+         verify_impl< Rule, lf_crlf_eol >( line, file, data, result, remain );
+      }
 
-} // pegtl
+   } // namespace pegtl
+
+} // namespace tao
 
 #endif

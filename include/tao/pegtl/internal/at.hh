@@ -15,34 +15,38 @@
 
 #include "../analysis/generic.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename ... Rules > struct at;
-
-      template< typename ... Rules >
-      struct skip_control< at< Rules ... > > : std::true_type {};
-
-      template<>
-      struct at<>
-            : trivial< true > {};
-
-      template< typename ... Rules >
-      struct at
+      namespace internal
       {
-         using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules ... >;
+         template< typename ... Rules > struct at;
 
-         template< apply_mode, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< typename ... Rules >
+         struct skip_control< at< Rules ... > > : std::true_type {};
+
+         template<>
+         struct at<>
+               : trivial< true > {};
+
+         template< typename ... Rules >
+         struct at
          {
-            const auto m = in.template mark< rewind_mode::REQUIRED >();
-            return rule_conjunction< Rules ... >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( in, st ... );
-         }
-      };
+            using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules ... >;
 
-   } // namespace internal
+            template< apply_mode, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
+               const auto m = in.template mark< rewind_mode::REQUIRED >();
+               return rule_conjunction< Rules ... >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( in, st ... );
+            }
+         };
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

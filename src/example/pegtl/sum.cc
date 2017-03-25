@@ -12,17 +12,17 @@
 namespace sum
 {
    struct padded_double
-         : pegtl::pad< double_::grammar, pegtl::space > {};
+         : tao::pegtl::pad< double_::grammar, tao::pegtl::space > {};
 
    struct double_list
-         : pegtl::list< padded_double, pegtl::one< ',' > > {};
+         : tao::pegtl::list< padded_double, tao::pegtl::one< ',' > > {};
 
    struct grammar
-         : pegtl::seq< double_list, pegtl::eof > {};
+         : tao::pegtl::seq< double_list, tao::pegtl::eof > {};
 
    template< typename Rule >
    struct action
-         : pegtl::nothing< Rule > {};
+         : tao::pegtl::nothing< Rule > {};
 
    template<> struct action< double_::grammar >
    {
@@ -50,7 +50,7 @@ int main()
          break;
       }
       double d = 0.0;
-      if ( pegtl::parse_string< sum::grammar, sum::action >( str, "std::cin", d ) ) {
+      if ( tao::pegtl::parse_string< sum::grammar, sum::action >( str, "std::cin", d ) ) {
          std::cout << "parsing OK; sum = " << d << std::endl;
       }
       else {

@@ -13,50 +13,54 @@
 
 #include "../analysis/generic.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
-      struct range
+      namespace internal
       {
-         using analyze_t = analysis::generic< analysis::rule_type::ANY >;
-
-         template< int Eol >
-         struct can_match_eol
+         template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+         struct range
          {
-            static constexpr bool value = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) == bool( R ) );
-         };
+            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-         // suppress warning with GCC 4.7
-         template< typename T >
-         static inline bool dummy_less_or_equal( const T a, const T b )
-         {
-            return a <= b;
-         }
+            template< int Eol >
+            struct can_match_eol
+            {
+               static constexpr bool value = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) == bool( R ) );
+            };
 
-         template< typename Input >
-         static bool match( Input & in )
-         {
-            using eol_t = typename Input::eol_t;
+            // suppress warning with GCC 4.7
+            template< typename T >
+            static inline bool dummy_less_or_equal( const T a, const T b )
+            {
+               return a <= b;
+            }
 
-            if ( ! in.empty() ) {
-               if ( const auto t = Peek::peek( in ) ) {
-                  if ( ( dummy_less_or_equal( Lo, t.data ) && dummy_less_or_equal( t.data, Hi ) ) == bool( R ) ) {
-                     bump_impl< can_match_eol< eol_t::ch >::value >::bump( in, t.size );
-                     return true;
+            template< typename Input >
+            static bool match( Input & in )
+            {
+               using eol_t = typename Input::eol_t;
+
+               if ( ! in.empty() ) {
+                  if ( const auto t = Peek::peek( in ) ) {
+                     if ( ( dummy_less_or_equal( Lo, t.data ) && dummy_less_or_equal( t.data, Hi ) ) == bool( R ) ) {
+                        bump_impl< can_match_eol< eol_t::ch >::value >::bump( in, t.size );
+                        return true;
+                     }
                   }
                }
+               return false;
             }
-            return false;
-         }
-      };
+         };
 
-      template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
-      struct skip_control< range< R, Peek, Lo, Hi > > : std::true_type {};
+         template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+         struct skip_control< range< R, Peek, Lo, Hi > > : std::true_type {};
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

@@ -20,6 +20,6 @@
                 << file << " ]"                         \
                 << std::endl;                           \
       ++failed;                                         \
-   } while ( 0 )
+   } while ( false )
 
 #endif

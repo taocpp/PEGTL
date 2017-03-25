@@ -17,140 +17,144 @@
 #include <tao/pegtl/contrib/abnf.hh>
 #include <tao/pegtl/analyze.hh>
 
-namespace pegtl
+namespace tao
 {
-   namespace abnf
+   namespace pegtl
    {
-      namespace grammar
+      namespace abnf
       {
-         // ABNF grammar according to RFC 5234, updated by RFC 7405, with
-         // the following differences:
-         //
-         // To form a C++ identifier from a rulename, all minuses are
-         // replaced with underscores.
-         //
-         // As C++ identifiers are case-sensitive, we remember the "correct"
-         // spelling from the first occurrence of a rulename, all other
-         // occurrences are automatically changed to that.
-         //
-         // Certain rulenames are reserved as their equivalent C++ identifier is
-         // reserved as a keyword, an alternative token, by the standard or
-         // for other, special reasons.
-         //
-         // When using numerical values (num-val, repeat), the values
-         // must be in the range of the corresponsing C++ data type.
-         //
-         // Remember we are defining a PEG, not a CFG. Simply copying some
-         // ABNF from somewhere might lead to surprising results as the
-         // alternations are now sequential, using the pegtl::sor<> rule.
-         //
-         // PEG also require two extensions: the and-predicate and the
-         // not-predicate. They are expressed by '&' and '!' respectively,
-         // being allowed (optionally, only one of them) before the
-         // repetition. You can use braces for more complex expressions.
-         //
-         // Finally, instead of the pre-defined CRLF sequence, we accept
-         // any type of line ending as a convencience extension:
-         struct CRLF : sor< abnf::CRLF, CR, LF > {};
-
-         // The rest is according to the RFC(s):
-         struct comment_cont : until< CRLF, sor< WSP, VCHAR > > {};
-         struct comment : if_must< one< ';' >, comment_cont > {};
-         struct c_nl : sor< comment, CRLF > {};
-         struct c_wsp : sor< WSP, seq< c_nl, WSP > > {};
-
-         struct rulename : seq< ALPHA, star< ranges< 'a', 'z', 'A', 'Z', '0', '9', '-' > > > {};
-
-         struct quoted_string_cont : until< DQUOTE, print > {};
-         struct quoted_string : if_must< DQUOTE, quoted_string_cont > {};
-         struct case_insensitive_string : seq< opt< istring< '%', 'i' > >, quoted_string > {};
-         struct case_sensitive_string : seq< istring< '%', 's' >, quoted_string > {};
-         struct char_val : sor< case_insensitive_string, case_sensitive_string > {};
-
-         struct prose_val_cont : until< one< '>' >, print > {};
-         struct prose_val : if_must< one< '<' >, prose_val_cont > {};
-
-         template< char First, typename Digit >
-         struct gen_val
+         namespace grammar
          {
-            struct value : plus< Digit > {};
-            struct range : if_must< one< '-' >, value > {};
-            struct next_value : must< value > {};
-            struct type : seq< istring< First >, must< value >, sor< range, star< one< '.' >, next_value > > > {};
-         };
+            // ABNF grammar according to RFC 5234, updated by RFC 7405, with
+            // the following differences:
+            //
+            // To form a C++ identifier from a rulename, all minuses are
+            // replaced with underscores.
+            //
+            // As C++ identifiers are case-sensitive, we remember the "correct"
+            // spelling from the first occurrence of a rulename, all other
+            // occurrences are automatically changed to that.
+            //
+            // Certain rulenames are reserved as their equivalent C++ identifier is
+            // reserved as a keyword, an alternative token, by the standard or
+            // for other, special reasons.
+            //
+            // When using numerical values (num-val, repeat), the values
+            // must be in the range of the corresponsing C++ data type.
+            //
+            // Remember we are defining a PEG, not a CFG. Simply copying some
+            // ABNF from somewhere might lead to surprising results as the
+            // alternations are now sequential, using the tao::pegtl::sor<> rule.
+            //
+            // PEG also require two extensions: the and-predicate and the
+            // not-predicate. They are expressed by '&' and '!' respectively,
+            // being allowed (optionally, only one of them) before the
+            // repetition. You can use braces for more complex expressions.
+            //
+            // Finally, instead of the pre-defined CRLF sequence, we accept
+            // any type of line ending as a convencience extension:
+            struct CRLF : sor< abnf::CRLF, CR, LF > {};
 
-         using hex_val = gen_val< 'x', HEXDIG >;
-         using dec_val = gen_val< 'd', DIGIT >;
-         using bin_val = gen_val< 'b', BIT >;
+            // The rest is according to the RFC(s):
+            struct comment_cont : until< CRLF, sor< WSP, VCHAR > > {};
+            struct comment : if_must< one< ';' >, comment_cont > {};
+            struct c_nl : sor< comment, CRLF > {};
+            struct c_wsp : sor< WSP, seq< c_nl, WSP > > {};
 
-         struct num_val_choice : sor< bin_val::type, dec_val::type, hex_val::type > {};
-         struct num_val : if_must< one< '%' >, num_val_choice > {};
+            struct rulename : seq< ALPHA, star< ranges< 'a', 'z', 'A', 'Z', '0', '9', '-' > > > {};
 
-         struct alternation;
-         struct option_close : one< ']' > {};
-         struct option : seq< one< '[' >, pad< must< alternation >, c_wsp >, must< option_close > > {};
-         struct group_close : one< ')' > {};
-         struct group : seq< one< '(' >, pad< must< alternation >, c_wsp >, must< group_close > > {};
-         struct rulename_val : rulename {};
-         struct element : sor< rulename_val, group, option, char_val, num_val, prose_val > {};
+            struct quoted_string_cont : until< DQUOTE, print > {};
+            struct quoted_string : if_must< DQUOTE, quoted_string_cont > {};
+            struct case_insensitive_string : seq< opt< istring< '%', 'i' > >, quoted_string > {};
+            struct case_sensitive_string : seq< istring< '%', 's' >, quoted_string > {};
+            struct char_val : sor< case_insensitive_string, case_sensitive_string > {};
 
-         struct repeat : sor< seq< star< DIGIT >, one< '*' >, star< DIGIT > >, plus< DIGIT > > {};
-         struct repetition : seq< opt< repeat >, element > {};
+            struct prose_val_cont : until< one< '>' >, print > {};
+            struct prose_val : if_must< one< '<' >, prose_val_cont > {};
 
-         struct and_predicate : if_must< one< '&' >, repetition > {};
-         struct not_predicate : if_must< one< '!' >, repetition > {};
-         struct predicate : sor< and_predicate, not_predicate, repetition > {};
-
-         struct push_stack : success {};
-         struct concatenation : seq< push_stack, list< predicate, plus< c_wsp > > > {};
-         struct alternation : seq< push_stack, list_must< concatenation, pad< one< '/' >, c_wsp > > > {};
-
-         struct defined_as_op : sor< string< '=', '/' >, one< '=' > > {};
-         struct defined_as : pad< defined_as_op, c_wsp > {};
-         struct rule : seq< push_stack, if_must< rulename, defined_as, alternation >, star< c_wsp >, must< c_nl > > {};
-         struct rulelist : until< eof, sor< seq< star< c_wsp >, c_nl >, must< rule > > > {};
-
-         // end of grammar
-
-         template< typename Rule >
-         struct error_control
-               : public normal< Rule >
-         {
-            static const std::string error_message;
-
-            template< typename Input, typename ... States >
-            static void raise( const Input & in, States && ... )
+            template< char First, typename Digit >
+            struct gen_val
             {
-               throw parse_error( error_message, in );
-            }
-         };
+               struct value : plus< Digit > {};
+               struct range : if_must< one< '-' >, value > {};
+               struct next_value : must< value > {};
+               struct type : seq< istring< First >, must< value >, sor< range, star< one< '.' >, next_value > > > {};
+            };
 
-         template<> const std::string error_control< comment_cont >::error_message = "unterminated comment";
+            using hex_val = gen_val< 'x', HEXDIG >;
+            using dec_val = gen_val< 'd', DIGIT >;
+            using bin_val = gen_val< 'b', BIT >;
 
-         template<> const std::string error_control< quoted_string_cont >::error_message = "unterminated string (missing '\"')";
-         template<> const std::string error_control< prose_val_cont >::error_message = "unterminated prose description (missing '>')";
+            struct num_val_choice : sor< bin_val::type, dec_val::type, hex_val::type > {};
+            struct num_val : if_must< one< '%' >, num_val_choice > {};
 
-         template<> const std::string error_control< hex_val::value >::error_message = "expected hexadecimal value";
-         template<> const std::string error_control< dec_val::value >::error_message = "expected decimal value";
-         template<> const std::string error_control< bin_val::value >::error_message = "expected binary value";
-         template<> const std::string error_control< num_val_choice >::error_message = "expected base specifier (one of 'bBdDxX')";
+            struct alternation;
+            struct option_close : one< ']' > {};
+            struct option : seq< one< '[' >, pad< must< alternation >, c_wsp >, must< option_close > > {};
+            struct group_close : one< ')' > {};
+            struct group : seq< one< '(' >, pad< must< alternation >, c_wsp >, must< group_close > > {};
+            struct rulename_val : rulename {};
+            struct element : sor< rulename_val, group, option, char_val, num_val, prose_val > {};
 
-         template<> const std::string error_control< option_close >::error_message = "unterminated option (missing ']')";
-         template<> const std::string error_control< group_close >::error_message = "unterminated group (missing ')')";
+            struct repeat : sor< seq< star< DIGIT >, one< '*' >, star< DIGIT > >, plus< DIGIT > > {};
+            struct repetition : seq< opt< repeat >, element > {};
 
-         template<> const std::string error_control< repetition >::error_message = "expected element";
-         template<> const std::string error_control< concatenation >::error_message = "expected element";
-         template<> const std::string error_control< alternation >::error_message = "expected element";
+            struct and_predicate : if_must< one< '&' >, repetition > {};
+            struct not_predicate : if_must< one< '!' >, repetition > {};
+            struct predicate : sor< and_predicate, not_predicate, repetition > {};
 
-         template<> const std::string error_control< defined_as >::error_message = "expected '=' or '=/'";
-         template<> const std::string error_control< c_nl >::error_message = "unterminated rule";
-         template<> const std::string error_control< rule >::error_message = "expected rule";
+            struct push_stack : success {};
+            struct concatenation : seq< push_stack, list< predicate, plus< c_wsp > > > {};
+            struct alternation : seq< push_stack, list_must< concatenation, pad< one< '/' >, c_wsp > > > {};
 
-      } // namespace grammar
+            struct defined_as_op : sor< string< '=', '/' >, one< '=' > > {};
+            struct defined_as : pad< defined_as_op, c_wsp > {};
+            struct rule : seq< push_stack, if_must< rulename, defined_as, alternation >, star< c_wsp >, must< c_nl > > {};
+            struct rulelist : until< eof, sor< seq< star< c_wsp >, c_nl >, must< rule > > > {};
 
-   } // namespace abnf
+            // end of grammar
 
-} // namespace pegtl
+            template< typename Rule >
+            struct error_control
+                  : public normal< Rule >
+            {
+               static const std::string error_message;
+
+               template< typename Input, typename ... States >
+               static void raise( const Input & in, States && ... )
+               {
+                  throw parse_error( error_message, in );
+               }
+            };
+
+            template<> const std::string error_control< comment_cont >::error_message = "unterminated comment";
+
+            template<> const std::string error_control< quoted_string_cont >::error_message = "unterminated string (missing '\"')";
+            template<> const std::string error_control< prose_val_cont >::error_message = "unterminated prose description (missing '>')";
+
+            template<> const std::string error_control< hex_val::value >::error_message = "expected hexadecimal value";
+            template<> const std::string error_control< dec_val::value >::error_message = "expected decimal value";
+            template<> const std::string error_control< bin_val::value >::error_message = "expected binary value";
+            template<> const std::string error_control< num_val_choice >::error_message = "expected base specifier (one of 'bBdDxX')";
+
+            template<> const std::string error_control< option_close >::error_message = "unterminated option (missing ']')";
+            template<> const std::string error_control< group_close >::error_message = "unterminated group (missing ')')";
+
+            template<> const std::string error_control< repetition >::error_message = "expected element";
+            template<> const std::string error_control< concatenation >::error_message = "expected element";
+            template<> const std::string error_control< alternation >::error_message = "expected element";
+
+            template<> const std::string error_control< defined_as >::error_message = "expected '=' or '=/'";
+            template<> const std::string error_control< c_nl >::error_message = "unterminated rule";
+            template<> const std::string error_control< rule >::error_message = "expected rule";
+
+         } // namespace grammar
+
+      } // namespace abnf
+
+   } // namespace pegtl
+
+} // namespace tao
 
 namespace abnf2pegtl
 {
@@ -211,16 +215,16 @@ namespace abnf2pegtl
          return it->first;
       }
       if( keywords.find( v ) != keywords.end() || v.find( "__" ) != std::string::npos ) {
-         throw pegtl::parse_error( "'" + in.string() + "' is a reserved rulename", in );
+         throw tao::pegtl::parse_error( "'" + in.string() + "' is a reserved rulename", in );
       }
       return v;
    }
 
-   namespace grammar = pegtl::abnf::grammar;
+   namespace grammar = tao::pegtl::abnf::grammar;
 
    template< typename Rule >
    struct action
-         : pegtl::nothing< Rule > {};
+         : tao::pegtl::nothing< Rule > {};
 
    template<> struct action< grammar::push_stack >
    {
@@ -281,13 +285,13 @@ namespace abnf2pegtl
             alpha = append( s, in.peek_char( pos ) ) || alpha;
          }
          if( alpha ) {
-            d.elements.back().push_back( "pegtl::istring< " + s + " >" );
+            d.elements.back().push_back( "tao::pegtl::istring< " + s + " >" );
          }
          else if( in.size() > 3 ) {
-            d.elements.back().push_back( "pegtl::string< " + s + " >" );
+            d.elements.back().push_back( "tao::pegtl::string< " + s + " >" );
          }
          else {
-            d.elements.back().push_back( "pegtl::one< " + s + " >" );
+            d.elements.back().push_back( "tao::pegtl::one< " + s + " >" );
          }
       }
    };
@@ -323,7 +327,7 @@ namespace abnf2pegtl
       {
          assert( !d.elements.empty() );
          const auto v = in.string();
-         d.elements.back().push_back( "pegtl::one< " + std::to_string( std::strtoull( v.c_str(), nullptr, 2 ) ) + " >" );
+         d.elements.back().push_back( "tao::pegtl::one< " + std::to_string( std::strtoull( v.c_str(), nullptr, 2 ) ) + " >" );
       }
    };
 
@@ -338,7 +342,7 @@ namespace abnf2pegtl
          d.elements.back().pop_back();
          assert( !d.elements.back().empty() );
          const auto begin = d.elements.back().back();
-         d.elements.back().back() = "pegtl::range< " + begin.substr( 12, begin.size() - 14 ) + ", " + end.substr( 12, end.size() - 14 ) + " >";
+         d.elements.back().back() = "tao::pegtl::range< " + begin.substr( 12, begin.size() - 14 ) + ", " + end.substr( 12, end.size() - 14 ) + " >";
       }
    };
 
@@ -364,7 +368,7 @@ namespace abnf2pegtl
          assert( !d.elements.empty() );
          const auto v = in.string();
          const auto p = v.find_first_not_of( '0' );
-         d.elements.back().push_back( "pegtl::one< " + ( ( p == std::string::npos ) ? "0" : v.substr( p ) ) + " >" );
+         d.elements.back().push_back( "tao::pegtl::one< " + ( ( p == std::string::npos ) ? "0" : v.substr( p ) ) + " >" );
       }
    };
 
@@ -377,7 +381,7 @@ namespace abnf2pegtl
       static void apply( const Input & in, data & d )
       {
          assert( !d.elements.empty() );
-         d.elements.back().push_back( "pegtl::one< 0x" + in.string() + " >" );
+         d.elements.back().push_back( "tao::pegtl::one< 0x" + in.string() + " >" );
       }
    };
 
@@ -391,7 +395,7 @@ namespace abnf2pegtl
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
-         d.elements.back().back() = "pegtl::opt< " + d.elements.back().back() + " >";
+         d.elements.back().back() = "tao::pegtl::opt< " + d.elements.back().back() + " >";
       }
    };
 
@@ -432,52 +436,52 @@ namespace abnf2pegtl
                if( star == std::string::npos ) {
                   const auto num = remove_leading_zeroes( value );
                   if( num == "" ) {
-                     throw pegtl::parse_error( "repetition of zero not allowed", in );
+                     throw tao::pegtl::parse_error( "repetition of zero not allowed", in );
                   }
-                  d.elements.back().push_back( "pegtl::rep< " + num + ", " + element + " >" );
+                  d.elements.back().push_back( "tao::pegtl::rep< " + num + ", " + element + " >" );
                }
                else {
                   const auto min = remove_leading_zeroes( value.substr( 0, star ) );
                   const auto max = remove_leading_zeroes( value.substr( star + 1 ) );
                   if( star != value.size() - 1 && max == "" ) {
-                     throw pegtl::parse_error( "repetition maximum of zero not allowed", in );
+                     throw tao::pegtl::parse_error( "repetition maximum of zero not allowed", in );
                   }
                   if( min.empty() && max.empty() ) {
-                     d.elements.back().push_back( "pegtl::star< " + element + " >" );
+                     d.elements.back().push_back( "tao::pegtl::star< " + element + " >" );
                   }
                   else if( !min.empty() && max.empty() ) {
                      if( min == "1" ) {
-                        d.elements.back().push_back( "pegtl::plus< " + element + " >" );
+                        d.elements.back().push_back( "tao::pegtl::plus< " + element + " >" );
                      }
                      else {
-                        d.elements.back().push_back( "pegtl::rep_min< " + min + ", " + element + " >" );
+                        d.elements.back().push_back( "tao::pegtl::rep_min< " + min + ", " + element + " >" );
                      }
                   }
                   else if( min.empty() && !max.empty() ) {
                      if( max == "1" ) {
-                        d.elements.back().push_back( "pegtl::opt< " + element + " >" );
+                        d.elements.back().push_back( "tao::pegtl::opt< " + element + " >" );
                      }
                      else {
-                        d.elements.back().push_back( "pegtl::rep_opt< " + max + ", " + element + " >" );
+                        d.elements.back().push_back( "tao::pegtl::rep_opt< " + max + ", " + element + " >" );
                      }
                   }
                   else {
                      const auto min_val = std::strtoull( min.c_str(), nullptr, 10 );
                      const auto max_val = std::strtoull( max.c_str(), nullptr, 10 );
                      if( min_val > max_val ) {
-                        throw pegtl::parse_error( "repetition minimum which is greater than the repetition maximum not allowed", in );
+                        throw tao::pegtl::parse_error( "repetition minimum which is greater than the repetition maximum not allowed", in );
                      }
-                     const auto min_element = ( min_val == 1 ) ? element : "pegtl::rep< " + min + ", " + element + " >";
+                     const auto min_element = ( min_val == 1 ) ? element : "tao::pegtl::rep< " + min + ", " + element + " >";
                      if( min_val == max_val ) {
                         d.elements.back().push_back( min_element );
                      }
                      else if( max_val - min_val == 1 ) {
-                        const auto max_element = "pegtl::opt< " + element + " >";
-                        d.elements.back().push_back( "pegtl::seq< " + min_element + ", " + max_element + " >" );
+                        const auto max_element = "tao::pegtl::opt< " + element + " >";
+                        d.elements.back().push_back( "tao::pegtl::seq< " + min_element + ", " + max_element + " >" );
                      }
                      else {
-                        const auto max_element = "pegtl::rep_opt< " + std::to_string( max_val - min_val ) + ", " + element + " >";
-                        d.elements.back().push_back( "pegtl::seq< " + min_element + ", " + max_element + " >" );
+                        const auto max_element = "tao::pegtl::rep_opt< " + std::to_string( max_val - min_val ) + ", " + element + " >";
+                        d.elements.back().push_back( "tao::pegtl::seq< " + min_element + ", " + max_element + " >" );
                      }
                   }
                }
@@ -493,7 +497,7 @@ namespace abnf2pegtl
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
-         d.elements.back().back() = "pegtl::at< " + d.elements.back().back() + " >";
+         d.elements.back().back() = "tao::pegtl::at< " + d.elements.back().back() + " >";
       }
    };
 
@@ -504,7 +508,7 @@ namespace abnf2pegtl
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
-         d.elements.back().back() = "pegtl::not_at< " + d.elements.back().back() + " >";
+         d.elements.back().back() = "tao::pegtl::not_at< " + d.elements.back().back() + " >";
       }
    };
 
@@ -529,7 +533,7 @@ namespace abnf2pegtl
             }
             d.elements.pop_back();
             assert( !d.elements.empty() );
-            d.elements.back().push_back( "pegtl::seq< " + s + " >" );
+            d.elements.back().push_back( "tao::pegtl::seq< " + s + " >" );
          }
       }
    };
@@ -538,7 +542,7 @@ namespace abnf2pegtl
    {
       static bool is_one( const std::string& v )
       {
-         return v.compare( 0, 12, "pegtl::one< " ) == 0;
+         return v.compare( 0, 12, "tao::pegtl::one< " ) == 0;
       }
 
       template< typename Input >
@@ -569,7 +573,7 @@ namespace abnf2pegtl
             d.elements.pop_back();
             assert( !d.elements.empty() );
             if( !one ) {
-               s = "pegtl::sor< " + s + " >";
+               s = "tao::pegtl::sor< " + s + " >";
             }
             d.elements.back().push_back( s );
          }
@@ -590,7 +594,7 @@ namespace abnf2pegtl
    {
       static std::string strip_sor( const std::string& v )
       {
-         return ( v.compare( 0, 12, "pegtl::sor< " ) == 0 ) ? v.substr( 12, v.size() - 14 ) : v;
+         return ( v.compare( 0, 12, "tao::pegtl::sor< " ) == 0 ) ? v.substr( 12, v.size() - 14 ) : v;
       }
 
       template< typename Input >
@@ -605,15 +609,15 @@ namespace abnf2pegtl
          const auto it = d.find_rule( d.rulename );
          if( op == "=" ) {
             if( it != d.rules.rend() && it->second != "" ) {
-               throw pegtl::parse_error( "'" + d.rulename + "' has already been assigned", in );
+               throw tao::pegtl::parse_error( "'" + d.rulename + "' has already been assigned", in );
             }
          }
          else {
             assert( op == "=/" );
             if( it == d.rules.rend() || it->second == "" ) {
-               throw pegtl::parse_error( "'" + d.rulename + "' has not yet been assigned", in );
+               throw tao::pegtl::parse_error( "'" + d.rulename + "' has not yet been assigned", in );
             }
-            value = "pegtl::sor< " + strip_sor( it->second ) + ", " + strip_sor( value ) + " >";
+            value = "tao::pegtl::sor< " + strip_sor( it->second ) + ", " + strip_sor( value ) + " >";
             if( d.find_rule( d.rulename, std::next( it ) ) == d.rules.rend() ) {
                it->second.clear();
             }
@@ -631,7 +635,7 @@ namespace abnf2pegtl
 
 int main( int argc, char ** argv )
 {
-   using namespace pegtl;
+   using namespace tao::pegtl;
 
    if( argc != 2 ) {
       analyze< abnf::grammar::rulelist >();

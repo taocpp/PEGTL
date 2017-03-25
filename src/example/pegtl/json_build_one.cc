@@ -39,7 +39,7 @@ namespace examples
    };
 
    template<>
-   struct value_action< pegtl::json::null >
+   struct value_action< tao::pegtl::json::null >
    {
       static void apply0( result_state & result )
       {
@@ -48,7 +48,7 @@ namespace examples
    };
 
    template<>
-   struct value_action< pegtl::json::true_ >
+   struct value_action< tao::pegtl::json::true_ >
    {
       static void apply0( result_state & result )
       {
@@ -57,7 +57,7 @@ namespace examples
    };
 
    template<>
-   struct value_action< pegtl::json::false_ >
+   struct value_action< tao::pegtl::json::false_ >
    {
       static void apply0( result_state & result )
       {
@@ -66,7 +66,7 @@ namespace examples
    };
 
    template<>
-   struct value_action< pegtl::json::number >
+   struct value_action< tao::pegtl::json::number >
    {
       template< typename Input >
       static void apply( const Input & in, result_state & result )
@@ -97,10 +97,10 @@ namespace examples
       }
    };
 
-   template< typename Rule > struct array_action : pegtl::nothing< Rule > {};
+   template< typename Rule > struct array_action : tao::pegtl::nothing< Rule > {};
 
    template<>
-   struct array_action< pegtl::json::value_separator >
+   struct array_action< tao::pegtl::json::value_separator >
    {
       static void apply0( array_state & result )
       {
@@ -135,7 +135,7 @@ namespace examples
    template< typename Rule > struct object_action : unescape_action< Rule > {};
 
    template<>
-   struct object_action< pegtl::json::value_separator >
+   struct object_action< tao::pegtl::json::value_separator >
    {
       static void apply0( object_state & result )
       {
@@ -147,12 +147,12 @@ namespace examples
 
    template< typename Rule > struct control : errors< Rule > {};  // Inherit from json_errors.hh.
 
-   template<> struct control< pegtl::json::value > : pegtl::change_action< pegtl::json::value, value_action, errors > {};
-   template<> struct control< pegtl::json::string::content > : pegtl::change_state< pegtl::json::string::content, string_state, errors > {};
-   template<> struct control< pegtl::json::array::content > : pegtl::change_state_and_action< pegtl::json::array::content, array_state, array_action, errors > {};
-   template<> struct control< pegtl::json::object::content > : pegtl::change_state_and_action< pegtl::json::object::content, object_state, object_action, errors > {};
+   template<> struct control< tao::pegtl::json::value > : tao::pegtl::change_action< tao::pegtl::json::value, value_action, errors > {};
+   template<> struct control< tao::pegtl::json::string::content > : tao::pegtl::change_state< tao::pegtl::json::string::content, string_state, errors > {};
+   template<> struct control< tao::pegtl::json::array::content > : tao::pegtl::change_state_and_action< tao::pegtl::json::array::content, array_state, array_action, errors > {};
+   template<> struct control< tao::pegtl::json::object::content > : tao::pegtl::change_state_and_action< tao::pegtl::json::object::content, object_state, object_action, errors > {};
 
-   struct grammar : pegtl::must< pegtl::json::text, pegtl::eof > {};
+   struct grammar : tao::pegtl::must< tao::pegtl::json::text, tao::pegtl::eof > {};
 
 } // namespace examples
 
@@ -160,7 +160,7 @@ int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
       examples::result_state result;
-      pegtl::file_parser( argv[ i ] ).parse< examples::grammar, pegtl::nothing, examples::control >( result );
+      tao::pegtl::file_parser( argv[ i ] ).parse< examples::grammar, tao::pegtl::nothing, examples::control >( result );
       assert( result.result );
       std::cout << result.result << std::endl;
    }

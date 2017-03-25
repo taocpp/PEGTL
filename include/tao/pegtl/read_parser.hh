@@ -10,35 +10,39 @@
 
 #include "internal/file_reader.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   template< typename Eol >
-   class basic_read_parser
-         : public basic_string_parser< Eol >
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-   public:
-      explicit
-      basic_read_parser( const std::string & filename )
-            : basic_string_parser< Eol >( internal::file_reader( filename ).read(), filename )
-      { }
+      template< typename Eol >
+      class basic_read_parser
+            : public basic_string_parser< Eol >
+      {
+      public:
+         explicit
+         basic_read_parser( const std::string & filename )
+               : basic_string_parser< Eol >( internal::file_reader( filename ).read(), filename )
+         { }
 
-      using eol = Eol;
-   };
+         using eol = Eol;
+      };
 
-   using read_parser = basic_read_parser< lf_crlf_eol >;
+      using read_parser = basic_read_parser< lf_crlf_eol >;
 
-   template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
-   bool parse_read( const std::string & filename, States && ... st )
-   {
-      return read_parser( filename ).parse< Rule, Action, Control >( st ... );
-   }
+      template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
+      bool parse_read( const std::string & filename, States && ... st )
+      {
+         return read_parser( filename ).parse< Rule, Action, Control >( st ... );
+      }
 
-   template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
-   bool parse_read_nested( Outer & oi, const std::string & filename, States && ... st )
-   {
-      return basic_read_parser< typename Outer::eol >( filename ).template parse_nested< Rule, Action, Control >( oi, st ... );
-   }
+      template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
+      bool parse_read_nested( Outer & oi, const std::string & filename, States && ... st )
+      {
+         return basic_read_parser< typename Outer::eol >( filename ).template parse_nested< Rule, Action, Control >( oi, st ... );
+      }
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

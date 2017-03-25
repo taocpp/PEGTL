@@ -8,54 +8,58 @@
 
 #include "../config.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace analysis
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename C >
-      class insert_guard
+      namespace analysis
       {
-      public:
-         insert_guard( insert_guard && other ) noexcept
-               : m_i( other.m_i ),
-                 m_c( other.m_c )
+         template< typename C >
+         class insert_guard
          {
-            other.m_c = nullptr;
-         }
-
-         insert_guard( C & container, const typename C::value_type & value )
-               : m_i( container.insert( value ) ),
-                 m_c( & container )
-         { }
-
-         ~insert_guard()
-         {
-            if ( m_c && m_i.second ) {
-               m_c->erase( m_i.first );
+         public:
+            insert_guard( insert_guard && other ) noexcept
+            : m_i( other.m_i ),
+               m_c( other.m_c )
+            {
+               other.m_c = nullptr;
             }
-         }
 
-         insert_guard( const insert_guard & ) = delete;
-         void operator= ( const insert_guard & ) = delete;
+            insert_guard( C & container, const typename C::value_type & value )
+                  : m_i( container.insert( value ) ),
+                    m_c( & container )
+            { }
 
-         explicit operator bool () const
+            ~insert_guard()
+            {
+               if ( m_c && m_i.second ) {
+                  m_c->erase( m_i.first );
+               }
+            }
+
+            insert_guard( const insert_guard & ) = delete;
+            void operator= ( const insert_guard & ) = delete;
+
+            explicit operator bool () const
+            {
+               return m_i.second;
+            }
+
+         private:
+            const std::pair< typename C::iterator, bool > m_i;
+            C * m_c;
+         };
+
+         template< typename C >
+         insert_guard< C > make_insert_guard( C & container, const typename C::value_type & value )
          {
-            return m_i.second;
+            return insert_guard< C >( container, value );
          }
 
-      private:
-         const std::pair< typename C::iterator, bool > m_i;
-         C * m_c;
-      };
+      } // namespace analysis
 
-      template< typename C >
-      insert_guard< C > make_insert_guard( C & container, const typename C::value_type & value )
-      {
-         return insert_guard< C >( container, value );
-      }
+   } // namespace TAOCPP_PEGTL_NAMESPACE
 
-   } // namespace analysis
-
-} // namespace TAOCPP_PEGTL_NAMESPACE
+} // namespace tao
 
 #endif

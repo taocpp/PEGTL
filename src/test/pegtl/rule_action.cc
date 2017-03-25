@@ -5,15 +5,19 @@
 
 #include "verify_seqs.hh"
 
-namespace pegtl
+namespace tao
 {
-   template< typename ... Rules > using test_action_rule = action< nothing, Rules ... >;
-
-   void unit_test()
+   namespace pegtl
    {
-      verify_seqs< test_action_rule >();
-   }
+      template< typename ... Rules > using test_action_rule = action< nothing, Rules ... >;
 
-} // namespace pegtl
+      void unit_test()
+      {
+         verify_seqs< test_action_rule >();
+      }
+
+   } // namespace pegtl
+
+} // namespace tao
 
 #include "main.hh"

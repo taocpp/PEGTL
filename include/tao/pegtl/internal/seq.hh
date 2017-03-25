@@ -15,47 +15,51 @@
 
 #include "../analysis/generic.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename ... Rules > struct seq;
-
-      template< typename ... Rules >
-      struct skip_control< seq< Rules ... > > : std::true_type {};
-
-      template<>
-      struct seq<>
-            : trivial< true > {};
-
-      template< typename Rule >
-      struct seq< Rule >
+      namespace internal
       {
-         using analyze_t = typename Rule::analyze_t;
+         template< typename ... Rules > struct seq;
 
-         template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< typename ... Rules >
+         struct skip_control< seq< Rules ... > > : std::true_type {};
+
+         template<>
+         struct seq<>
+               : trivial< true > {};
+
+         template< typename Rule >
+         struct seq< Rule >
          {
-            return Control< Rule >::template match< A, M, Action, Control >( in, st ... );
-         }
-      };
+            using analyze_t = typename Rule::analyze_t;
 
-      template< typename ... Rules >
-      struct seq
-      {
-         using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
+            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
+               return Control< Rule >::template match< A, M, Action, Control >( in, st ... );
+            }
+         };
 
-         template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< typename ... Rules >
+         struct seq
          {
-            auto m = in.template mark< M >();
-            using m_t = decltype( m );
-            return m( rule_conjunction< Rules ... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st ... ) );
-         }
-      };
+            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
 
-   } // namespace internal
+            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
+               auto m = in.template mark< M >();
+               using m_t = decltype( m );
+               return m( rule_conjunction< Rules ... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st ... ) );
+            }
+         };
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

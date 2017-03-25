@@ -10,27 +10,31 @@
 
 #include "config.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   struct input_error
-         : std::runtime_error
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      input_error( const std::string & message, const int in_errorno )
-            : std::runtime_error( message ),
-              errorno( in_errorno )
-      { }
+      struct input_error
+            : std::runtime_error
+      {
+         input_error( const std::string & message, const int in_errorno )
+               : std::runtime_error( message ),
+                 errorno( in_errorno )
+         { }
 
-      int errorno;
-   };
+         int errorno;
+      };
 
-#define TAOCPP_PEGTL_THROW_INPUT_ERROR( MESSAGE )                              \
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
+
+#define TAOCPP_PEGTL_THROW_INPUT_ERROR( MESSAGE )                       \
    do {                                                                 \
       const int errorno = errno;                                        \
       std::ostringstream oss;                                           \
       oss << "pegtl: " << MESSAGE << " errno " << errorno;              \
-      throw TAOCPP_PEGTL_NAMESPACE::input_error( oss.str(), errorno );         \
+      throw tao::TAOCPP_PEGTL_NAMESPACE::input_error( oss.str(), errorno ); \
    } while ( false )
-
-} // namespace TAOCPP_PEGTL_NAMESPACE
 
 #endif

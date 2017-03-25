@@ -15,40 +15,40 @@ namespace unescape
    // - \U followed by eight hex-digits to insert any Unicdoe code points.
    // - A backslash followed by one of the characters listed in the grammar below.
 
-   struct escaped_x : pegtl::seq< pegtl::one< 'x' >, pegtl::rep< 2, pegtl::must< pegtl::xdigit > > > {};
-   struct escaped_u : pegtl::seq< pegtl::one< 'u' >, pegtl::rep< 4, pegtl::must< pegtl::xdigit > > > {};
-   struct escaped_U : pegtl::seq< pegtl::one< 'U' >, pegtl::rep< 8, pegtl::must< pegtl::xdigit > > > {};
-   struct escaped_c : pegtl::one< '\'', '"', '?', '\\', 'a', 'b', 'f', 'n', 'r', 't', 'v' > {};
+   struct escaped_x : tao::pegtl::seq< tao::pegtl::one< 'x' >, tao::pegtl::rep< 2, tao::pegtl::must< tao::pegtl::xdigit > > > {};
+   struct escaped_u : tao::pegtl::seq< tao::pegtl::one< 'u' >, tao::pegtl::rep< 4, tao::pegtl::must< tao::pegtl::xdigit > > > {};
+   struct escaped_U : tao::pegtl::seq< tao::pegtl::one< 'U' >, tao::pegtl::rep< 8, tao::pegtl::must< tao::pegtl::xdigit > > > {};
+   struct escaped_c : tao::pegtl::one< '\'', '"', '?', '\\', 'a', 'b', 'f', 'n', 'r', 't', 'v' > {};
 
-   struct escaped : pegtl::sor< escaped_x,
-                                escaped_u,
-                                escaped_U,
-                                escaped_c > {};
+   struct escaped : tao::pegtl::sor< escaped_x,
+                                     escaped_u,
+                                     escaped_U,
+                                     escaped_c > {};
 
-   struct character : pegtl::if_must_else< pegtl::one< '\\' >, escaped, pegtl::utf8::range< 0x20, 0x10FFFF > > {};
-   struct literal : pegtl::if_must< pegtl::one< '"' >, pegtl::until< pegtl::one< '"' >, character > > {};
+   struct character : tao::pegtl::if_must_else< tao::pegtl::one< '\\' >, escaped, tao::pegtl::utf8::range< 0x20, 0x10FFFF > > {};
+   struct literal : tao::pegtl::if_must< tao::pegtl::one< '"' >, tao::pegtl::until< tao::pegtl::one< '"' >, character > > {};
 
-   struct padded : pegtl::must< pegtl::pad< literal, pegtl::blank >, pegtl::eof > {};
+   struct padded : tao::pegtl::must< tao::pegtl::pad< literal, tao::pegtl::blank >, tao::pegtl::eof > {};
 
    // Action class that uses the actions from tao/pegtl/contrib/unescape.hh to
    // produce a UTF-8 encoded result string where all escape sequences are
    // replaced with their intended meaning.
 
-   template< typename Rule > struct action : pegtl::nothing< Rule > {};
+   template< typename Rule > struct action : tao::pegtl::nothing< Rule > {};
 
-   template<> struct action< pegtl::utf8::range< 0x20, 0x10FFFF > > : pegtl::unescape::append_all {};
-   template<> struct action< escaped_x > : pegtl::unescape::unescape_x {};
-   template<> struct action< escaped_u > : pegtl::unescape::unescape_u {};
-   template<> struct action< escaped_U > : pegtl::unescape::unescape_u {};
-   template<> struct action< escaped_c > : pegtl::unescape::unescape_c< escaped_c, '\'', '"', '?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' > {};
+   template<> struct action< tao::pegtl::utf8::range< 0x20, 0x10FFFF > > : tao::pegtl::unescape::append_all {};
+   template<> struct action< escaped_x > : tao::pegtl::unescape::unescape_x {};
+   template<> struct action< escaped_u > : tao::pegtl::unescape::unescape_u {};
+   template<> struct action< escaped_U > : tao::pegtl::unescape::unescape_u {};
+   template<> struct action< escaped_c > : tao::pegtl::unescape::unescape_c< escaped_c, '\'', '"', '?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' > {};
 
 } // namespace unescape
 
 int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
-      pegtl::unescape::state s;
-      pegtl::parse_arg< unescape::padded, unescape::action >( i, argv, s );
+      tao::pegtl::unescape::state s;
+      tao::pegtl::parse_arg< unescape::padded, unescape::action >( i, argv, s );
       std::cout << "argv[ " << i << " ] = " << s.unescaped << std::endl;
    }
    return 0;

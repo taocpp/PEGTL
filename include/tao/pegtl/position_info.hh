@@ -12,35 +12,39 @@
 #include "config.hh"
 #include "count_data.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   struct position_info
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      position_info( const count_data & in_data, const char * in_source )
-            : byte( in_data.byte ),
-              line( in_data.line ),
-              byte_in_line( in_data.byte_in_line ),
-              source( in_source )
-      { }
+      struct position_info
+      {
+         position_info( const count_data & in_data, const char * in_source )
+               : byte( in_data.byte ),
+                 line( in_data.line ),
+                 byte_in_line( in_data.byte_in_line ),
+                 source( in_source )
+         { }
 
-      std::size_t byte;
-      std::size_t line;
-      std::size_t byte_in_line;
-      std::string source;
-   };
+         std::size_t byte;
+         std::size_t line;
+         std::size_t byte_in_line;
+         std::string source;
+      };
 
-   inline std::ostream & operator<< ( std::ostream & o, const position_info & p )
-   {
-      return o << p.source << ':' << p.line << ':' << p.byte_in_line << '(' << p.byte << ')';
-   }
+      inline std::ostream & operator<< ( std::ostream & o, const position_info & p )
+      {
+         return o << p.source << ':' << p.line << ':' << p.byte_in_line << '(' << p.byte << ')';
+      }
 
-   inline std::string to_string( const position_info & p )
-   {
-      std::ostringstream o;
-      o << p;
-      return o.str();
-   }
+      inline std::string to_string( const position_info & p )
+      {
+         std::ostringstream o;
+         o << p;
+         return o.str();
+      }
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

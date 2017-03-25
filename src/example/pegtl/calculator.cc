@@ -177,7 +177,7 @@ namespace calculator
 
    // Here the actual grammar starts.
 
-   using namespace pegtl;
+   using namespace tao::pegtl;
 
    // Comments are introduced by a '#' and proceed to the end-of-line/file.
 
@@ -268,12 +268,12 @@ namespace calculator
    // required to let our calculator actually do something.
 
    // The base-case of the class template for the actions must derive from
-   // pegtl::nothing (or, alternatively, define an action that does something
+   // tao::pegtl::nothing (or, alternatively, define an action that does something
    // sensible for all rules for which no specialisation exists).
 
    template< typename Rule >
    struct action
-         : pegtl::nothing< Rule > {};
+         : tao::pegtl::nothing< Rule > {};
 
    // This action will be called when the number rule matches; it converts the
    // matched portion of the input to a long and pushes it onto the operand
@@ -315,7 +315,7 @@ int main( int argc, char ** argv )
 {
    // Check the grammar for some possible issues.
 
-   pegtl::analyze< calculator::grammar >();
+   tao::pegtl::analyze< calculator::grammar >();
 
    // The objects required as state by the actions.
 
@@ -325,7 +325,7 @@ int main( int argc, char ** argv )
    for ( int i = 1; i < argc; ++i ) {
       // Parse and process the command-line arguments as calculator expressions...
 
-      pegtl::parse_arg< calculator::grammar, calculator::action >( i, argv, b, s );
+      tao::pegtl::parse_arg< calculator::grammar, calculator::action >( i, argv, b, s );
 
       // ...and print the respective results to std::cout.
 

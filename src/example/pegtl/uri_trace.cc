@@ -7,13 +7,13 @@
 #include <tao/pegtl/trace.hh>
 #include <tao/pegtl/contrib/uri.hh>
 
-using grammar = pegtl::must< pegtl::uri::URI >;
+using grammar = tao::pegtl::must< tao::pegtl::uri::URI >;
 
 int main( int argc, char ** argv )
 {
    for ( int i = 1; i < argc; ++i ) {
       std::cout << "Parsing " << argv[ i ] << std::endl;
-      pegtl::trace_arg< grammar >( i, argv );
+      tao::pegtl::trace_arg< grammar >( i, argv );
    }
    return 0;
 }

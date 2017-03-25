@@ -6,26 +6,30 @@
 
 #include "../config.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Data >
-      struct input_pair
+      namespace internal
       {
-         Data data;
-         unsigned char size;
-
-         using data_t = Data;
-
-         explicit operator bool () const
+         template< typename Data >
+         struct input_pair
          {
-            return size > 0;
-         }
-      };
+            Data data;
+            unsigned char size;
 
-   } // namespace internal
+            using data_t = Data;
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+            explicit operator bool () const
+            {
+               return size > 0;
+            }
+         };
+
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

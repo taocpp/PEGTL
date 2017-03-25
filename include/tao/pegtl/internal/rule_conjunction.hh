@@ -8,29 +8,33 @@
 #include "../apply_mode.hh"
 #include "../rewind_mode.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename ... Rules >
-      struct rule_conjunction
+      namespace internal
       {
-         template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< typename ... Rules >
+         struct rule_conjunction
          {
+            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
 #ifdef __cpp_fold_expressions
-            return ( Control< Rules >::template match< A, M, Action, Control >( in, st ... ) && ... );
+               return ( Control< Rules >::template match< A, M, Action, Control >( in, st ... ) && ... );
 #else
-            bool result = true;
-            using swallow = bool[];
-            (void)swallow{ result = result && Control< Rules >::template match< A, M, Action, Control >( in, st ... ) ..., true };
-            return result;
+               bool result = true;
+               using swallow = bool[];
+               (void)swallow{ result = result && Control< Rules >::template match< A, M, Action, Control >( in, st ... ) ..., true };
+               return result;
 #endif
-         }
-      };
+            }
+         };
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

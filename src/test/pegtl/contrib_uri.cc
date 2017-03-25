@@ -7,17 +7,17 @@
 #include <tao/pegtl/analyze.hh>
 #include <tao/pegtl/contrib/uri.hh>
 
-using GRAMMAR = pegtl::must< pegtl::uri::URI, pegtl::eof >;
+using GRAMMAR = tao::pegtl::must< tao::pegtl::uri::URI, tao::pegtl::eof >;
 
 void test( const std::string & in )
 {
-   pegtl::parse_string< GRAMMAR >( in, "test" );
+   tao::pegtl::parse_string< GRAMMAR >( in, "test" );
 }
 
 void fail( const std::string & in )
 {
    try {
-      pegtl::parse_string< GRAMMAR >( in, "expect_exception" );
+      tao::pegtl::parse_string< GRAMMAR >( in, "expect_exception" );
       std::cerr << "FAILED: " << in << std::endl;
       assert( false );
    }
@@ -28,7 +28,7 @@ void fail( const std::string & in )
 int main( int, char ** )
 {
    // ensure the grammar does not contain any obvious problems
-   pegtl::analyze< GRAMMAR >();
+   tao::pegtl::analyze< GRAMMAR >();
 
    // some unit tests that should work
    test( "http://de.wikipedia.org/wiki/Uniform_Resource_Identifier" );

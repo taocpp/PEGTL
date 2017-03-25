@@ -26,12 +26,12 @@ namespace examples
 
    // Action class for parsing literal strings, uses the PEGTL unescape utilities, cf. unescape.cc.
 
-   template< typename Rule, template< typename ... > class Base = pegtl::nothing >
+   template< typename Rule, template< typename ... > class Base = tao::pegtl::nothing >
    struct unescape_action : Base< Rule > {};
 
-   template<> struct unescape_action< pegtl::json::unicode > : pegtl::unescape::unescape_j {};
-   template<> struct unescape_action< pegtl::json::escaped_char > : pegtl::unescape::unescape_c< pegtl::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
-   template<> struct unescape_action< pegtl::json::unescaped > : pegtl::unescape::append_all {};
+   template<> struct unescape_action< tao::pegtl::json::unicode > : tao::pegtl::unescape::unescape_j {};
+   template<> struct unescape_action< tao::pegtl::json::escaped_char > : tao::pegtl::unescape::unescape_c< tao::pegtl::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
+   template<> struct unescape_action< tao::pegtl::json::unescaped > : tao::pegtl::unescape::append_all {};
 
 } // examples
 

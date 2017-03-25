@@ -18,36 +18,40 @@
 
 #include "../analysis/generic.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename ... Rules > struct opt;
-
-      template< typename ... Rules >
-      struct skip_control< opt< Rules ... > > : std::true_type {};
-
-      template<>
-      struct opt<>
-            : trivial< true > {};
-
-      template< typename ... Rules >
-      struct opt
+      namespace internal
       {
-         using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules ... >;
+         template< typename ... Rules > struct opt;
 
-         template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< typename ... Rules >
+         struct skip_control< opt< Rules ... > > : std::true_type {};
+
+         template<>
+         struct opt<>
+               : trivial< true > {};
+
+         template< typename ... Rules >
+         struct opt
          {
-            if ( ! in.empty() ) {
-               duseltronik< seq< Rules ... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st ... );
+            using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules ... >;
+
+            template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
+               if ( ! in.empty() ) {
+                  duseltronik< seq< Rules ... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st ... );
+               }
+               return true;
             }
-            return true;
-         }
-      };
+         };
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

@@ -9,15 +9,19 @@
 #include "seq.hh"
 #include "must.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Cond, typename ... Thens >
-      using if_must = seq< Cond, must< Thens ... > >;
+      namespace internal
+      {
+         template< typename Cond, typename ... Thens >
+         using if_must = seq< Cond, must< Thens ... > >;
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

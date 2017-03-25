@@ -8,100 +8,104 @@
 #include "../count_data.hh"
 #include "../rewind_mode.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< rewind_mode M > class input_mark
+      namespace internal
       {
-      public:
-         static constexpr rewind_mode next_rewind_mode = M;
-
-         explicit
-         input_mark( const count_data & )
-         { }
-
-         input_mark( input_mark && ) noexcept
-         { }
-
-         input_mark( const input_mark & ) = delete;
-         void operator= ( const input_mark & ) = delete;
-
-         bool operator() ( const bool result ) noexcept
+         template< rewind_mode M > class input_mark
          {
-            return result;
-         }
-      };
+         public:
+            static constexpr rewind_mode next_rewind_mode = M;
 
-      template<> class input_mark< rewind_mode::REQUIRED >
-      {
-      public:
-         static constexpr rewind_mode next_rewind_mode = rewind_mode::ACTIVE;
+            explicit
+            input_mark( const count_data & )
+            { }
 
-         explicit
-         input_mark( count_data & i ) noexcept
+            input_mark( input_mark && ) noexcept
+            { }
+
+            input_mark( const input_mark & ) = delete;
+            void operator= ( const input_mark & ) = delete;
+
+            bool operator() ( const bool result ) noexcept
+            {
+               return result;
+            }
+         };
+
+         template<> class input_mark< rewind_mode::REQUIRED >
+         {
+         public:
+            static constexpr rewind_mode next_rewind_mode = rewind_mode::ACTIVE;
+
+            explicit
+            input_mark( count_data & i ) noexcept
                : m_count( i ),
-                 m_input( & i )
-         { }
+               m_input( & i )
+            { }
 
-         input_mark( input_mark && i ) noexcept
-               : m_count( i.m_count ),
-                 m_input( i.m_input )
-         {
-            i.m_input = nullptr;
-         }
-
-         ~input_mark() noexcept
-         {
-            if ( m_input != nullptr ) {
-               ( * m_input ) = m_count;
+            input_mark( input_mark && i ) noexcept
+            : m_count( i.m_count ),
+               m_input( i.m_input )
+            {
+               i.m_input = nullptr;
             }
-         }
 
-         input_mark( const input_mark & ) = delete;
-         void operator= ( const input_mark & ) = delete;
-
-         bool operator() ( const bool result ) noexcept
-         {
-            if ( result ) {
-               m_input = nullptr;
-               return true;
+            ~input_mark() noexcept
+            {
+               if ( m_input != nullptr ) {
+                  ( * m_input ) = m_count;
+               }
             }
-            return false;
-         }
 
-         std::size_t byte() const noexcept
-         {
-            return m_count.byte;
-         }
+            input_mark( const input_mark & ) = delete;
+            void operator= ( const input_mark & ) = delete;
 
-         std::size_t line() const noexcept
-         {
-            return m_count.line;
-         }
+            bool operator() ( const bool result ) noexcept
+            {
+               if ( result ) {
+                  m_input = nullptr;
+                  return true;
+               }
+               return false;
+            }
 
-         std::size_t byte_in_line() const noexcept
-         {
-            return m_count.byte_in_line;
-         }
+            std::size_t byte() const noexcept
+            {
+               return m_count.byte;
+            }
 
-         const char * begin() const noexcept
-         {
-            return m_count.data;
-         }
+            std::size_t line() const noexcept
+            {
+               return m_count.line;
+            }
 
-         const count_data & count() const noexcept
-         {
-            return m_count;
-         }
+            std::size_t byte_in_line() const noexcept
+            {
+               return m_count.byte_in_line;
+            }
 
-      private:
-         const count_data m_count;
-         count_data * m_input;
-      };
+            const char * begin() const noexcept
+            {
+               return m_count.data;
+            }
 
-   } // namespace internal
+            const count_data & count() const noexcept
+            {
+               return m_count;
+            }
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+         private:
+            const count_data m_count;
+            count_data * m_input;
+         };
+
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

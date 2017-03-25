@@ -10,27 +10,31 @@
 
 #include "../analysis/generic.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< unsigned Amount >
-      struct require
+      namespace internal
       {
-         using analyze_t = analysis::generic< analysis::rule_type::OPT >;
-
-         template< typename Input >
-         static bool match( Input & in )
+         template< unsigned Amount >
+         struct require
          {
-            return in.size( Amount ) >= Amount;
-         }
-      };
+            using analyze_t = analysis::generic< analysis::rule_type::OPT >;
 
-      template< unsigned Amount >
-      struct skip_control< require< Amount > > : std::true_type {};
+            template< typename Input >
+            static bool match( Input & in )
+            {
+               return in.size( Amount ) >= Amount;
+            }
+         };
 
-   } // namespace internal
+         template< unsigned Amount >
+         struct skip_control< require< Amount > > : std::true_type {};
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

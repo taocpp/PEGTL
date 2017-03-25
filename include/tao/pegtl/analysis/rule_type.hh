@@ -6,20 +6,24 @@
 
 #include "../config.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace analysis
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      enum class rule_type : char
+      namespace analysis
       {
-         ANY,  // Consumption-on-success is always true; assumes bounded repetition of conjunction of sub-rules.
-         OPT,  // Consumption-on-success not necessarily true; assumes bounded repetition of conjunction of sub-rules.
-         SEQ,  // Consumption-on-success depends on consumption of (non-zero bounded repetition of) conjunction of sub-rules.
-         SOR   // Consumption-on-success depends on consumption of (non-zero bounded repetition of) disjunction of sub-rules.
-      };
+         enum class rule_type : char
+         {
+            ANY,  // Consumption-on-success is always true; assumes bounded repetition of conjunction of sub-rules.
+            OPT,  // Consumption-on-success not necessarily true; assumes bounded repetition of conjunction of sub-rules.
+            SEQ,  // Consumption-on-success depends on consumption of (non-zero bounded repetition of) conjunction of sub-rules.
+            SOR   // Consumption-on-success depends on consumption of (non-zero bounded repetition of) disjunction of sub-rules.
+         };
 
-   } // namespace analysis
+      } // namespace analysis
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

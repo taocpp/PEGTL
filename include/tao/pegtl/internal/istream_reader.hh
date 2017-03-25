@@ -9,35 +9,39 @@
 #include "../config.hh"
 #include "../input_error.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      struct istream_reader
+      namespace internal
       {
-         explicit
-         istream_reader( std::istream & s )
-               : m_istream( s )
-         { }
-
-         std::size_t operator() ( char * buffer, const std::size_t length )
+         struct istream_reader
          {
-            m_istream.read( buffer, std::streamsize( length ) );
+            explicit
+            istream_reader( std::istream & s )
+                  : m_istream( s )
+            { }
 
-            if ( const auto r = m_istream.gcount() ) {
-               return std::size_t( r );
+            std::size_t operator() ( char * buffer, const std::size_t length )
+            {
+               m_istream.read( buffer, std::streamsize( length ) );
+
+               if ( const auto r = m_istream.gcount() ) {
+                  return std::size_t( r );
+               }
+               if ( m_istream.eof() ) {
+                  return 0;
+               }
+               TAOCPP_PEGTL_THROW_INPUT_ERROR( "error in istream.read()" );
             }
-            if ( m_istream.eof() ) {
-               return 0;
-            }
-            TAOCPP_PEGTL_THROW_INPUT_ERROR( "error in istream.read()" );
-         }
 
-         std::istream & m_istream;
-      };
+            std::istream & m_istream;
+         };
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

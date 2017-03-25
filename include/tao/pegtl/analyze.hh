@@ -7,14 +7,18 @@
 #include "config.hh"
 #include "analysis/analyze_cycles.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   template< typename Rule >
-   std::size_t analyze( const bool verbose = true )
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      return analysis::analyze_cycles< Rule >( verbose ).problems();
-   }
+      template< typename Rule >
+      std::size_t analyze( const bool verbose = true )
+      {
+         return analysis::analyze_cycles< Rule >( verbose ).problems();
+      }
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

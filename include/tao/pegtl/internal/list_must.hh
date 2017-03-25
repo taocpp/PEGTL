@@ -10,15 +10,19 @@
 #include "star.hh"
 #include "must.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Rule, typename Sep >
-      using list_must = seq< Rule, star< Sep, must< Rule > > >;
+      namespace internal
+      {
+         template< typename Rule, typename Sep >
+         using list_must = seq< Rule, star< Sep, must< Rule > > >;
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

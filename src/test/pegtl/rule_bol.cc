@@ -3,24 +3,28 @@
 
 #include "test.hh"
 
-namespace pegtl
+namespace tao
 {
-   void unit_test()
+   namespace pegtl
    {
-      verify_analyze< bol >( __LINE__, __FILE__, false, false );
+      void unit_test()
+      {
+         verify_analyze< bol >( __LINE__, __FILE__, false, false );
 
-      verify_rule< bol >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
+         verify_rule< bol >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
 
-      for ( char i = 1; i < 127; ++i ) {
-         const char s[] = { i, 0 };
-         verify_rule< bol >( __LINE__, __FILE__, s, result_type::SUCCESS, 1 );
+         for ( char i = 1; i < 127; ++i ) {
+            const char s[] = { i, 0 };
+            verify_rule< bol >( __LINE__, __FILE__, s, result_type::SUCCESS, 1 );
+         }
+         verify_rule< seq< alpha, bol > >( __LINE__, __FILE__, "a", result_type::LOCAL_FAILURE, 1 );
+         verify_rule< seq< alpha, bol > >( __LINE__, __FILE__, "ab", result_type::LOCAL_FAILURE, 2 );
+         verify_rule< seq< alpha, bol, alpha > >( __LINE__, __FILE__, "ab", result_type::LOCAL_FAILURE, 2 );
+         verify_rule< seq< alpha, eol, bol, alpha, eof > >( __LINE__, __FILE__,  "a\nb", result_type::SUCCESS, 0 );
       }
-      verify_rule< seq< alpha, bol > >( __LINE__, __FILE__, "a", result_type::LOCAL_FAILURE, 1 );
-      verify_rule< seq< alpha, bol > >( __LINE__, __FILE__, "ab", result_type::LOCAL_FAILURE, 2 );
-      verify_rule< seq< alpha, bol, alpha > >( __LINE__, __FILE__, "ab", result_type::LOCAL_FAILURE, 2 );
-      verify_rule< seq< alpha, eol, bol, alpha, eof > >( __LINE__, __FILE__,  "a\nb", result_type::SUCCESS, 0 );
-   }
 
-} // namespace pegtl
+   } // namespace pegtl
+
+} // namespace tao
 
 #include "main.hh"

@@ -10,15 +10,19 @@
 #include "rep.hh"
 #include "star.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< unsigned Min, typename Rule, typename ... Rules >
-      using rep_min = seq< rep< Min, Rule, Rules ... >, star< Rule, Rules ... > >;
+      namespace internal
+      {
+         template< unsigned Min, typename Rule, typename ... Rules >
+         using rep_min = seq< rep< Min, Rule, Rules ... >, star< Rule, Rules ... > >;
 
-   } // namespace internal
+      } // namespace internal
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

@@ -11,42 +11,46 @@
 
 #include "result_on_found.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< bool > struct bump_impl;
-
-      template<> struct bump_impl< true >
+      namespace internal
       {
-         template< typename Input >
-         static void bump( Input & in, const std::size_t count )
+         template< bool > struct bump_impl;
+
+         template<> struct bump_impl< true >
          {
-            in.bump( count );
-         }
-      };
+            template< typename Input >
+            static void bump( Input & in, const std::size_t count )
+            {
+               in.bump( count );
+            }
+         };
 
-      template<> struct bump_impl< false >
-      {
-         template< typename Input >
-         static void bump( Input & in, const std::size_t count )
+         template<> struct bump_impl< false >
          {
-            in.bump_in_this_line( count );
+            template< typename Input >
+            static void bump( Input & in, const std::size_t count )
+            {
+               in.bump_in_this_line( count );
+            }
+         };
+
+         template< bool ... > struct bool_list {};
+         template< bool ... Bs > using bool_and = std::is_same< bool_list< Bs..., true >, bool_list< true, Bs... > >;
+
+         template< result_on_found R, typename Input, typename Char, Char ... Cs >
+         void bump_help( Input & in, const std::size_t count )
+         {
+            using eol_t = typename Input::eol_t;
+            bump_impl< bool_and< ( Cs != eol_t::ch ) ... >::value != bool( R ) >::bump( in, count );
          }
-      };
 
-      template< bool ... > struct bool_list {};
-      template< bool ... Bs > using bool_and = std::is_same< bool_list< Bs..., true >, bool_list< true, Bs... > >;
+      } // namespace internal
 
-      template< result_on_found R, typename Input, typename Char, Char ... Cs >
-      void bump_help( Input & in, const std::size_t count )
-      {
-         using eol_t = typename Input::eol_t;
-         bump_impl< bool_and< ( Cs != eol_t::ch ) ... >::value != bool( R ) >::bump( in, count );
-      }
+   } // namespace TAOCPP_PEGTL_NAMESPACE
 
-   } // namespace internal
-
-} // namespace TAOCPP_PEGTL_NAMESPACE
+} // namespace tao
 
 #endif

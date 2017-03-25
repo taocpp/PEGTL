@@ -9,31 +9,35 @@
 #include "rule_info.hh"
 #include "grammar_info.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace analysis
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename ... > struct insert_rules;
-
-      template<>
-      struct insert_rules<>
+      namespace analysis
       {
-         static void insert( grammar_info &, rule_info & )
-         { }
-      };
+         template< typename ... > struct insert_rules;
 
-      template< typename Rule, typename ... Rules >
-      struct insert_rules< Rule, Rules ... >
-      {
-         static void insert( grammar_info & g, rule_info & r )
+         template<>
+         struct insert_rules<>
          {
-            r.rules.push_back( Rule::analyze_t::template insert< Rule >( g ) );
-            insert_rules< Rules ... >::insert( g, r );
-         }
-      };
+            static void insert( grammar_info &, rule_info & )
+            { }
+         };
 
-   } // namespace analysis
+         template< typename Rule, typename ... Rules >
+         struct insert_rules< Rule, Rules ... >
+         {
+            static void insert( grammar_info & g, rule_info & r )
+            {
+               r.rules.push_back( Rule::analyze_t::template insert< Rule >( g ) );
+               insert_rules< Rules ... >::insert( g, r );
+            }
+         };
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+      } // namespace analysis
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

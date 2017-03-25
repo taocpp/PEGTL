@@ -6,15 +6,19 @@
 
 #include "config.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   enum class rewind_mode : char
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      ACTIVE,
-      REQUIRED,
-      DONTCARE
-   };
+      enum class rewind_mode : char
+      {
+         ACTIVE,
+         REQUIRED,
+         DONTCARE
+      };
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

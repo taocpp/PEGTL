@@ -5,27 +5,31 @@
 
 #include "test.hh"
 
-namespace pegtl
+namespace tao
 {
-   struct file_content : seq< TAOCPP_PEGTL_STRING( "dummy content" ), eol, discard > {};
-   struct file_grammar : seq< rep_min_max< 11, 11, file_content >, eof > {};
-
-   void unit_test()
+   namespace pegtl
    {
-      try {
-         const std::string filename = "src/test/pegtl/no_such_file.txt";
-         std::ifstream stream( filename );
-         parse_istream< file_grammar >( stream, filename, 16 );
-         TEST_ASSERT( false );
-      }
-      catch ( const input_error & e ) {
-         TEST_ASSERT( std::string( e.what() ).find( "error in istream.read()" ) != std::string::npos );
-      }
-      const std::string filename = "src/test/pegtl/file_data.txt";
-      std::ifstream stream( filename );
-      TEST_ASSERT( parse_istream< file_grammar >( stream, filename, 16 ) );
-   }
+      struct file_content : seq< TAOCPP_PEGTL_STRING( "dummy content" ), eol, discard > {};
+      struct file_grammar : seq< rep_min_max< 11, 11, file_content >, eof > {};
 
-} // namespace pegtl
+      void unit_test()
+      {
+         try {
+            const std::string filename = "src/test/pegtl/no_such_file.txt";
+            std::ifstream stream( filename );
+            parse_istream< file_grammar >( stream, filename, 16 );
+            TEST_ASSERT( false );
+         }
+         catch ( const input_error & e ) {
+            TEST_ASSERT( std::string( e.what() ).find( "error in istream.read()" ) != std::string::npos );
+         }
+         const std::string filename = "src/test/pegtl/file_data.txt";
+         std::ifstream stream( filename );
+         TEST_ASSERT( parse_istream< file_grammar >( stream, filename, 16 ) );
+      }
+
+   } // namespace pegtl
+
+} // namespace tao
 
 #include "main.hh"

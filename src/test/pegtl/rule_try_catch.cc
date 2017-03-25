@@ -5,16 +5,20 @@
 
 #include "verify_seqs.hh"
 
-namespace pegtl
+namespace tao
 {
-   template< typename ... Rules > using test_try_catch_rule = try_catch< must< Rules ... > >;
-
-   void unit_test()
+   namespace pegtl
    {
-      verify_seqs< try_catch >();
-      verify_seqs< test_try_catch_rule >();
-   }
+      template< typename ... Rules > using test_try_catch_rule = try_catch< must< Rules ... > >;
 
-} // namespace pegtl
+      void unit_test()
+      {
+         verify_seqs< try_catch >();
+         verify_seqs< test_try_catch_rule >();
+      }
+
+   } // namespace pegtl
+
+} // namespace tao
 
 #include "main.hh"

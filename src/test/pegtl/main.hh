@@ -8,12 +8,12 @@
 
 int main( int, char ** argv )
 {
-   pegtl::unit_test();
+   tao::pegtl::unit_test();
 
-   if ( pegtl::failed ) {
-      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << pegtl::failed << std::endl;
+   if ( tao::pegtl::failed ) {
+      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << tao::pegtl::failed << std::endl;
    }
-   return ( pegtl::failed == 0 ) ? EXIT_SUCCESS : EXIT_FAILURE;
+   return ( tao::pegtl::failed == 0 ) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
 #endif

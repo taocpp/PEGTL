@@ -15,30 +15,34 @@
 #include "mmap_parser.hh"
 #endif
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
+   namespace TAOCPP_PEGTL_NAMESPACE
+   {
 #if defined(_POSIX_MAPPED_FILES)
-   using file_parser = mmap_parser;
-   template< typename Eol >
-   using basic_file_parser = basic_mmap_parser< Eol >;
+      using file_parser = mmap_parser;
+      template< typename Eol >
+      using basic_file_parser = basic_mmap_parser< Eol >;
 #else
-   using file_parser = read_parser;
-   template< typename Eol >
-   using basic_file_parser = basic_read_parser< Eol >;
+      using file_parser = read_parser;
+      template< typename Eol >
+      using basic_file_parser = basic_read_parser< Eol >;
 #endif
 
-   template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
-   bool parse_file( const std::string & filename, States && ... st )
-   {
-      return file_parser( filename ).parse< Rule, Action, Control >( st ... );
-   }
+      template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename ... States >
+      bool parse_file( const std::string & filename, States && ... st )
+      {
+         return file_parser( filename ).parse< Rule, Action, Control >( st ... );
+      }
 
-   template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
-   bool parse_file_nested( Outer & oi, const std::string & filename, States && ... st )
-   {
-      return basic_file_parser< typename Outer::eol >( filename ).template parse_nested< Rule, Action, Control >( oi, st ... );
-   }
+      template< typename Rule, template< typename ... > class Action = nothing, template< typename ... > class Control = normal, typename Outer, typename ... States >
+      bool parse_file_nested( Outer & oi, const std::string & filename, States && ... st )
+      {
+         return basic_file_parser< typename Outer::eol >( filename ).template parse_nested< Rule, Action, Control >( oi, st ... );
+      }
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

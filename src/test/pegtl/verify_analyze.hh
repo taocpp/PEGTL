@@ -8,24 +8,28 @@
 
 #include "test_failed.hh"
 
-namespace pegtl
+namespace tao
 {
-   template< typename Rule >
-   void verify_analyze( const unsigned line, const char * file, const bool expect_consume, const bool expect_problems )
+   namespace pegtl
    {
-      analysis::analyze_cycles< Rule > a( true );
+      template< typename Rule >
+      void verify_analyze( const unsigned line, const char * file, const bool expect_consume, const bool expect_problems )
+      {
+         analysis::analyze_cycles< Rule > a( true );
 
-      const bool has_problems = ( a.problems() != 0 );
-      const bool does_consume = a.template consumes< Rule >();
+         const bool has_problems = ( a.problems() != 0 );
+         const bool does_consume = a.template consumes< Rule >();
 
-      if ( has_problems != expect_problems ) {
-         TEST_FAILED( "analyze -- problems received/expected [ " << has_problems << " / " << expect_problems << " ]" );
+         if ( has_problems != expect_problems ) {
+            TEST_FAILED( "analyze -- problems received/expected [ " << has_problems << " / " << expect_problems << " ]" );
+         }
+         if ( does_consume != expect_consume ) {
+            TEST_FAILED( "analyze -- consumes received/expected [ " << does_consume << " / " << expect_consume << " ]" );
+         }
       }
-      if ( does_consume != expect_consume ) {
-         TEST_FAILED( "analyze -- consumes received/expected [ " << does_consume << " / " << expect_consume << " ]" );
-      }
-   }
 
-} // pegtl
+   } // namespace pegtl
+
+} // namespace tao
 
 #endif

@@ -11,11 +11,11 @@
 namespace dynamic
 {
    struct long_literal_open
-         : pegtl::seq< pegtl::one< '[' >, pegtl::plus< pegtl::not_one< '[' > >, pegtl::one< '[' > > {};
+         : tao::pegtl::seq< tao::pegtl::one< '[' >, tao::pegtl::plus< tao::pegtl::not_one< '[' > >, tao::pegtl::one< '[' > > {};
 
    struct long_literal_mark
    {
-      template< pegtl::apply_mode, pegtl::rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
+      template< tao::pegtl::apply_mode, tao::pegtl::rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
       static bool match( Input & in, const std::string & long_literal_mark, const std::string & )
       {
          if ( in.size( long_literal_mark.size() ) >= long_literal_mark.size() ) {
@@ -29,19 +29,19 @@ namespace dynamic
    };
 
    struct long_literal_close
-         : pegtl::seq< pegtl::one< ']' >, long_literal_mark, pegtl::one< ']' > > {};
+         : tao::pegtl::seq< tao::pegtl::one< ']' >, long_literal_mark, tao::pegtl::one< ']' > > {};
 
    struct long_literal_body
-         : pegtl::any {};
+         : tao::pegtl::any {};
 
    struct grammar
-         : pegtl::if_must< long_literal_open, pegtl::until< long_literal_close, long_literal_body >, pegtl::eof > {};
+         : tao::pegtl::if_must< long_literal_open, tao::pegtl::until< long_literal_close, long_literal_body >, tao::pegtl::eof > {};
 
    template< typename Rule >
    struct action
-         : pegtl::nothing< Rule > {};
+         : tao::pegtl::nothing< Rule > {};
 
-   template<> struct action< pegtl::plus< pegtl::not_one< '[' > > >
+   template<> struct action< tao::pegtl::plus< tao::pegtl::not_one< '[' > > >
    {
       template< typename Input >
       static void apply( const Input & in, std::string & long_literal_mark, const std::string & )
@@ -58,6 +58,7 @@ namespace dynamic
          long_literal_body += in.string();
       }
    };
+
 } // namespace dynamic
 
 int main( int argc, char ** argv )
@@ -65,7 +66,7 @@ int main( int argc, char ** argv )
    if ( argc > 1 ) {
       std::string long_literal_mark;
       std::string long_literal_body;
-      pegtl::parse_arg< dynamic::grammar, dynamic::action >( 1, argv, long_literal_mark, long_literal_body );
+      tao::pegtl::parse_arg< dynamic::grammar, dynamic::action >( 1, argv, long_literal_mark, long_literal_body );
       std::cout << "long literal mark was: " << long_literal_mark << std::endl;
       std::cout << "long literal body was: " << long_literal_body << std::endl;
    }

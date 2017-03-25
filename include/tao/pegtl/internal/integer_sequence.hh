@@ -8,73 +8,77 @@
 #include <utility>
 #include <type_traits>
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename T, T... Ns >
-      struct integer_sequence
+      namespace internal
       {
-         using value_type = T;
-
-         static constexpr std::size_t size() noexcept
+         template< typename T, T... Ns >
+         struct integer_sequence
          {
-            return sizeof...( Ns );
-         }
-      };
+            using value_type = T;
 
-      template< std::size_t ... Ns >
-      using index_sequence = integer_sequence< std::size_t, Ns ... >;
+            static constexpr std::size_t size() noexcept
+            {
+               return sizeof...( Ns );
+            }
+         };
 
-      template< typename, std::size_t, bool >
-      struct double_up;
+         template< std::size_t ... Ns >
+         using index_sequence = integer_sequence< std::size_t, Ns ... >;
 
-      template< typename T, T ... Ns, std::size_t N >
-      struct double_up< integer_sequence< T, Ns ... >, N, false >
-      {
-         using type = integer_sequence< T, Ns ..., ( N + Ns ) ... >;
-      };
+         template< typename, std::size_t, bool >
+         struct double_up;
 
-      template< typename T, T ... Ns, std::size_t N >
-      struct double_up< integer_sequence< T, Ns ... >, N, true >
-      {
-         using type = integer_sequence< T, Ns ..., ( N + Ns ) ..., 2 * N >;
-      };
+         template< typename T, T ... Ns, std::size_t N >
+         struct double_up< integer_sequence< T, Ns ... >, N, false >
+         {
+            using type = integer_sequence< T, Ns ..., ( N + Ns ) ... >;
+         };
 
-      template< typename T, T N, typename = void >
-      struct generate_sequence;
+         template< typename T, T ... Ns, std::size_t N >
+         struct double_up< integer_sequence< T, Ns ... >, N, true >
+         {
+            using type = integer_sequence< T, Ns ..., ( N + Ns ) ..., 2 * N >;
+         };
 
-      template< typename T, T N >
-      using generate_sequence_t = typename generate_sequence< T, N >::type;
+         template< typename T, T N, typename = void >
+         struct generate_sequence;
 
-      template< typename T, T N, typename >
-      struct generate_sequence
-           : double_up< generate_sequence_t< T, N / 2 >, N / 2, N % 2 == 1 >
-      {};
+         template< typename T, T N >
+         using generate_sequence_t = typename generate_sequence< T, N >::type;
 
-      template< typename T, T N >
-      struct generate_sequence< T, N, typename std::enable_if< ( N == 0 ) >::type >
-      {
-         using type = integer_sequence< T >;
-      };
+         template< typename T, T N, typename >
+         struct generate_sequence
+               : double_up< generate_sequence_t< T, N / 2 >, N / 2, N % 2 == 1 >
+         {};
 
-      template< typename T, T N >
-      struct generate_sequence< T, N, typename std::enable_if< ( N == 1 ) >::type >
-      {
-         using type = integer_sequence< T, 0 >;
-      };
+         template< typename T, T N >
+         struct generate_sequence< T, N, typename std::enable_if< ( N == 0 ) >::type >
+         {
+            using type = integer_sequence< T >;
+         };
 
-      template< typename T, T N >
-      using make_integer_sequence = generate_sequence_t< T, N >;
+         template< typename T, T N >
+         struct generate_sequence< T, N, typename std::enable_if< ( N == 1 ) >::type >
+         {
+            using type = integer_sequence< T, 0 >;
+         };
 
-      template< std::size_t N >
-      using make_index_sequence = make_integer_sequence< std::size_t, N >;
+         template< typename T, T N >
+         using make_integer_sequence = generate_sequence_t< T, N >;
 
-      template< typename ... Ts >
-      using index_sequence_for = make_index_sequence< sizeof...( Ts ) >;
+         template< std::size_t N >
+         using make_index_sequence = make_integer_sequence< std::size_t, N >;
 
-   } // namespace internal
+         template< typename ... Ts >
+         using index_sequence_for = make_index_sequence< sizeof...( Ts ) >;
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

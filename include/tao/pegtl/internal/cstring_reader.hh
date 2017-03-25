@@ -10,37 +10,41 @@
 #include "../config.hh"
 #include "../input_error.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      struct cstring_reader
+      namespace internal
       {
-         explicit
-         cstring_reader( const char * zero_terminated )
-               : m_cstring( zero_terminated )
+         struct cstring_reader
          {
-            assert( m_cstring );
-         }
-
-         std::size_t operator() ( char * buffer, const std::size_t length )
-         {
-            std::size_t i = 0;
-            char c;
-
-            while ( ( i < length ) && ( ( c = m_cstring[ i ] ) != 0 ) ) {
-               *buffer++ = c;
-               ++i;
+            explicit
+            cstring_reader( const char * zero_terminated )
+                  : m_cstring( zero_terminated )
+            {
+               assert( m_cstring );
             }
-            m_cstring += i;
-            return i;
-         }
 
-         const char * m_cstring;
-      };
+            std::size_t operator() ( char * buffer, const std::size_t length )
+            {
+               std::size_t i = 0;
+               char c;
 
-   } // namespace internal
+               while ( ( i < length ) && ( ( c = m_cstring[ i ] ) != 0 ) ) {
+                  *buffer++ = c;
+                  ++i;
+               }
+               m_cstring += i;
+               return i;
+            }
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+            const char * m_cstring;
+         };
+
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

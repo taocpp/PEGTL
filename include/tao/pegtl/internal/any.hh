@@ -11,51 +11,55 @@
 
 #include "../analysis/generic.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Peek > struct any;
-
-      template< typename Peek >
-      struct skip_control< any< Peek > > : std::true_type {};
-
-      template<>
-      struct any< peek_char >
+      namespace internal
       {
-         using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+         template< typename Peek > struct any;
 
-         template< typename Input >
-         static bool match( Input & in )
+         template< typename Peek >
+         struct skip_control< any< Peek > > : std::true_type {};
+
+         template<>
+         struct any< peek_char >
          {
-            if ( ! in.empty() ) {
-               in.bump();
-               return true;
-            }
-            return false;
-         }
-      };
+            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-      template< typename Peek >
-      struct any
-      {
-         using analyze_t = analysis::generic< analysis::rule_type::ANY >;
-
-         template< typename Input >
-         static bool match( Input & in )
-         {
-            if ( ! in.empty() ) {
-               if ( const auto t = Peek::peek( in ) ) {
-                  in.bump( t.size );
+            template< typename Input >
+            static bool match( Input & in )
+            {
+               if ( ! in.empty() ) {
+                  in.bump();
                   return true;
                }
+               return false;
             }
-            return false;
-         }
-      };
+         };
 
-   } // namespace internal
+         template< typename Peek >
+         struct any
+         {
+            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+            template< typename Input >
+            static bool match( Input & in )
+            {
+               if ( ! in.empty() ) {
+                  if ( const auto t = Peek::peek( in ) ) {
+                     in.bump( t.size );
+                     return true;
+                  }
+               }
+               return false;
+            }
+         };
+
+      } // namespace internal
+
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #endif

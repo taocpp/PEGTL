@@ -12,38 +12,42 @@
 #include "../rewind_mode.hh"
 #include "../memory_input.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   namespace internal
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename R, typename S >
-      struct minus
+      namespace internal
       {
-         using analyze_t = typename R::analyze_t;  // NOTE: S is currently ignored for analyze().
-
-         template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-         static bool match( Input & in, States && ... st )
+         template< typename R, typename S >
+         struct minus
          {
-            auto m = in.template mark< rewind_mode::REQUIRED >();
+            using analyze_t = typename R::analyze_t;  // NOTE: S is currently ignored for analyze().
 
-            if ( ! Control< R >::template match< A, rewind_mode::ACTIVE, Action, Control >( in, st ... ) ) {
-               return false;
+            template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
+            static bool match( Input & in, States && ... st )
+            {
+               auto m = in.template mark< rewind_mode::REQUIRED >();
+
+               if ( ! Control< R >::template match< A, rewind_mode::ACTIVE, Action, Control >( in, st ... ) ) {
+                  return false;
+               }
+               using memory_t = typename Input::memory_t;
+               memory_t i2( m.count(), in.begin(), in.source() );
+
+               if ( ! Control< S >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( i2, st ... ) ) {
+                  return m( true );
+               }
+               return m( ! i2.empty() );
             }
-            using memory_t = typename Input::memory_t;
-            memory_t i2( m.count(), in.begin(), in.source() );
+         };
 
-            if ( ! Control< S >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( i2, st ... ) ) {
-               return m( true );
-            }
-            return m( ! i2.empty() );
-         }
-      };
+         template< typename R, typename S >
+         struct skip_control< minus< R, S > > : std::true_type {};
 
-      template< typename R, typename S >
-      struct skip_control< minus< R, S > > : std::true_type {};
+      } // namespace internal
 
-   } // namespace internal
+   } // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+} // namespace tao
 
 #endif

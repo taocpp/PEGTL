@@ -9,7 +9,7 @@
 
 namespace sexpr
 {
-   using namespace pegtl;
+   using namespace tao::pegtl;
 
    struct hash_comment
          : until< eolf > {};
@@ -84,11 +84,11 @@ namespace sexpr
 
 int main( int argc, char ** argv )
 {
-   pegtl::analyze< sexpr::main >();
+   tao::pegtl::analyze< sexpr::main >();
 
    for ( int i = 1; i < argc; ++i ) {
       std::string fn;
-      pegtl::parse_arg< sexpr::main, sexpr::action >( i, argv, fn );
+      tao::pegtl::parse_arg< sexpr::main, sexpr::action >( i, argv, fn );
    }
    return 0;
 }

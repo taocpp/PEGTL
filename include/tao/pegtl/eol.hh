@@ -9,11 +9,15 @@
 
 #include "config.hh"
 
-namespace TAOCPP_PEGTL_NAMESPACE
+namespace tao
 {
-   using eol_pair = std::pair< bool, std::size_t >;
+   namespace TAOCPP_PEGTL_NAMESPACE
+   {
+      using eol_pair = std::pair< bool, std::size_t >;
 
-} // namespace TAOCPP_PEGTL_NAMESPACE
+   } // namespace TAOCPP_PEGTL_NAMESPACE
+
+} // namespace tao
 
 #include "lf_eol.hh"
 #include "cr_eol.hh"

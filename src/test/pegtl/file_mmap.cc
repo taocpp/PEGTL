@@ -9,14 +9,18 @@
 
 #include "verify_file.hh"
 
-namespace pegtl
+namespace tao
 {
-   void unit_test()
+   namespace pegtl
    {
-      verify_file< mmap_parser >();
-   }
+      void unit_test()
+      {
+         verify_file< mmap_parser >();
+      }
 
-} // namespace pegtl
+   } // namespace pegtl
+
+} // namespace tao
 
 #include "main.hh"
 
