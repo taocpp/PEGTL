@@ -29,9 +29,11 @@ namespace examples
    template< typename Rule, template< typename ... > class Base = tao::TAOCPP_PEGTL_NAMESPACE::nothing >
    struct unescape_action : Base< Rule > {};
 
+   // clang-format off
    template<> struct unescape_action< tao::TAOCPP_PEGTL_NAMESPACE::json::unicode > : tao::TAOCPP_PEGTL_NAMESPACE::unescape::unescape_j {};
    template<> struct unescape_action< tao::TAOCPP_PEGTL_NAMESPACE::json::escaped_char > : tao::TAOCPP_PEGTL_NAMESPACE::unescape::unescape_c< tao::TAOCPP_PEGTL_NAMESPACE::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
    template<> struct unescape_action< tao::TAOCPP_PEGTL_NAMESPACE::json::unescaped > : tao::TAOCPP_PEGTL_NAMESPACE::unescape::append_all {};
+   // clang-format on
 
 } // examples
 
