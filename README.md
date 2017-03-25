@@ -29,7 +29,7 @@ Here is an example of how a PEG grammar rule is implemented as C++ class with th
 
 // The same parsing rule implemented with the PEGTL:
 
-using namespace pegtl;
+using namespace tao::pegtl;
 
 struct integer
    : seq< opt< one< '+', '-' > >,
@@ -89,7 +89,7 @@ For details see the [changelog](doc/Changelog.md).
 * Stephan Beal for the bug reports, suggestions and discussions.
 * Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
 * Sam Hocevar for contributing Visual Studio 2015 compatibility.
-* George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `pegtl_string_t`.
+* George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `TAOCPP_PEGTL_STRING`.
 * Kenneth Geisshirt for Android compatibility and Android CI.
 * Paulo Custodio for Windows-related fixes.
 * Kuzma Shapran for EOL testing and fixes.
