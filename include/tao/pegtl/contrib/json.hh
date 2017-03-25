@@ -19,6 +19,7 @@ namespace tao
       {
          // JSON grammar according to RFC 7159 (for UTF-8 encoded JSON only).
 
+         // clang-format off
          struct ws : one< ' ', '\t', '\n', '\r' > {};
 
          template< typename R, typename P = ws > struct padr : internal::seq< R, internal::star< P > > {};
@@ -85,6 +86,7 @@ namespace tao
          struct array_element : seq< value > {};
 
          struct text : seq< star< ws >, value > {};
+         // clang-format on
 
       } // namespace json
 

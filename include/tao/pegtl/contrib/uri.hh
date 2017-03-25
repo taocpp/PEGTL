@@ -30,6 +30,7 @@ namespace tao
          using dot = one< '.' >;
          using colon = one< ':' >;
 
+         // clang-format off
          struct dec_octet : sor< one< '0' >,
                                  rep_min_max< 1, 2, DIGIT >,
                                  seq< one< '1' >, DIGIT, DIGIT >,
@@ -104,6 +105,7 @@ namespace tao
          struct URI : seq< scheme, one< ':' >, hier_part, opt_query, opt_fragment > {};
          struct URI_reference : sor< URI, relative_ref > {};
          struct absolute_URI : seq< scheme, one< ':' >, hier_part, opt_query > {};
+         // clang-format on
 
       } // namespace uri
 

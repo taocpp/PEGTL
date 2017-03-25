@@ -33,6 +33,7 @@ namespace tao
          using obs_text = not_range< 0x00, 0x7F >;
          using obs_fold = seq< CRLF, plus< WSP > >;
 
+         // clang-format off
          struct tchar : sor< ALPHA, DIGIT, one< '!', '#', '$', '%', '&', '\'', '*', '+', '-', '.', '^', '_', '`', '|', '~' > > {};
          struct token : plus< tchar > {};
 
@@ -140,6 +141,7 @@ namespace tao
          struct trailer_part : star< header_field, CRLF > {};
 
          struct chunked_body : seq< until< last_chunk, chunk >, trailer_part, CRLF > {};
+         // clang-format on
 
       } // namespace http
 

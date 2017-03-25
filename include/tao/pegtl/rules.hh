@@ -13,6 +13,7 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
+      // clang-format off
       template< typename ... Actions > struct apply : internal::apply< Actions ... > {};
       template< template< typename ... > class Action, typename ... Rules > struct action : internal::action< Action, Rules ... > {};
       template< typename ... Rules > struct at : internal::at< Rules ... > {};
@@ -58,6 +59,7 @@ namespace tao
       template< typename ... Rules > struct try_catch : internal::try_catch_type< parse_error, Rules ... > {};
       template< typename Exception, typename ... Rules > struct try_catch_type : internal::try_catch_type< Exception, Rules ... > {};
       template< typename Cond, typename ... Rules > struct until : internal::until< Cond, Rules ... > {};
+      // clang-format on
 
    } // namespace TAOCPP_PEGTL_NAMESPACE
 
