@@ -20,12 +20,14 @@ namespace csv2
    // ",,,",13,42
    // aha """,yes, this works
 
+   // clang-format off
    template< int C > struct string_without : tao::TAOCPP_PEGTL_NAMESPACE::star< tao::TAOCPP_PEGTL_NAMESPACE::not_one< C, 10, 13 > > {};
    struct plain_value : string_without< ',' > {};
    struct quoted_value : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< '"' >, string_without< '"' >, tao::TAOCPP_PEGTL_NAMESPACE::one< '"' > > {};
    struct value : tao::TAOCPP_PEGTL_NAMESPACE::sor< quoted_value, plain_value > {};
    template< unsigned N > struct line : tao::TAOCPP_PEGTL_NAMESPACE::seq< value, tao::TAOCPP_PEGTL_NAMESPACE::rep< N - 1, tao::TAOCPP_PEGTL_NAMESPACE::one< ',' >, value >, tao::TAOCPP_PEGTL_NAMESPACE::eol > {};
    template< unsigned N > struct file : tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::eof, line< N > > { static_assert( N, "N must be positive" ); };
+   // clang-format on
 
    // Meta-programming helper:
 

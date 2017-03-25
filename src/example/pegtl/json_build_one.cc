@@ -151,6 +151,7 @@ namespace examples
 
    // Put together a control class that changes the actions and states as required.
 
+   // clang-format off
    template< typename Rule > struct control : errors< Rule > {};  // Inherit from json_errors.hh.
 
    template<> struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::value > : tao::TAOCPP_PEGTL_NAMESPACE::change_action< tao::TAOCPP_PEGTL_NAMESPACE::json::value, value_action, errors > {};
@@ -159,6 +160,7 @@ namespace examples
    template<> struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::object::content > : tao::TAOCPP_PEGTL_NAMESPACE::change_state_and_action< tao::TAOCPP_PEGTL_NAMESPACE::json::object::content, object_state, object_action, errors > {};
 
    struct grammar : tao::TAOCPP_PEGTL_NAMESPACE::must< tao::TAOCPP_PEGTL_NAMESPACE::json::text, tao::TAOCPP_PEGTL_NAMESPACE::eof > {};
+   // clang-format on
 
 } // namespace examples
 

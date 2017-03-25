@@ -89,12 +89,15 @@ namespace lua53
    // comments). In some places, where it is more efficient,
    // right padding is used.
 
-   struct short_comment : tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::eolf > {};
-   struct long_string : tao::TAOCPP_PEGTL_NAMESPACE::raw_string< '[', '=', ']' > {};
-   struct comment : tao::TAOCPP_PEGTL_NAMESPACE::disable< tao::TAOCPP_PEGTL_NAMESPACE::two< '-' >, tao::TAOCPP_PEGTL_NAMESPACE::sor< long_string, short_comment > > {};
+   namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
 
-   struct sep : tao::TAOCPP_PEGTL_NAMESPACE::sor< tao::TAOCPP_PEGTL_NAMESPACE::ascii::space, comment > {};
-   struct seps : tao::TAOCPP_PEGTL_NAMESPACE::star< sep > {};
+   // clang-format off
+   struct short_comment : pegtl::until< pegtl::eolf > {};
+   struct long_string : pegtl::raw_string< '[', '=', ']' > {};
+   struct comment : pegtl::disable< pegtl::two< '-' >, pegtl::sor< long_string, short_comment > > {};
+
+   struct sep : pegtl::sor< pegtl::ascii::space, comment > {};
+   struct seps : pegtl::star< sep > {};
 
    struct str_and : TAOCPP_PEGTL_STRING( "and" ) {};
    struct str_break : TAOCPP_PEGTL_STRING( "break" ) {};
@@ -123,10 +126,10 @@ namespace lua53
    // the "else" part of an "elseif" and running into an error in the
    // 'keyword' rule.
 
-   struct str_keyword : tao::TAOCPP_PEGTL_NAMESPACE::sor< str_and, str_break, str_do, str_elseif, str_else, str_end, str_false, str_for, str_function, str_goto, str_if, str_in, str_local, str_nil, str_not, str_repeat, str_return, str_then, str_true, str_until, str_while > {};
+   struct str_keyword : pegtl::sor< str_and, str_break, str_do, str_elseif, str_else, str_end, str_false, str_for, str_function, str_goto, str_if, str_in, str_local, str_nil, str_not, str_repeat, str_return, str_then, str_true, str_until, str_while > {};
 
    template< typename Key >
-   struct key : tao::TAOCPP_PEGTL_NAMESPACE::seq< Key, tao::TAOCPP_PEGTL_NAMESPACE::not_at< tao::TAOCPP_PEGTL_NAMESPACE::identifier_other > > {};
+   struct key : pegtl::seq< Key, pegtl::not_at< pegtl::identifier_other > > {};
 
    struct key_and : key< str_and > {};
    struct key_break : key< str_break > {};
@@ -154,180 +157,181 @@ namespace lua53
    struct keyword : key< str_keyword > {};
 
    template< typename R >
-   struct pad : tao::TAOCPP_PEGTL_NAMESPACE::pad< R, sep > {};
+   struct pad : pegtl::pad< R, sep > {};
 
-   struct three_dots : tao::TAOCPP_PEGTL_NAMESPACE::string< '.', '.', '.' > {};
+   struct three_dots : pegtl::string< '.', '.', '.' > {};
 
-   struct name : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::not_at< keyword >, tao::TAOCPP_PEGTL_NAMESPACE::identifier > {};
+   struct name : pegtl::seq< pegtl::not_at< keyword >, pegtl::identifier > {};
 
-   struct single : tao::TAOCPP_PEGTL_NAMESPACE::one< 'a', 'b', 'f', 'n', 'r', 't', 'v', '\\', '"', '\'', '0', '\n' > {};
-   struct spaces : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::one< 'z' >, tao::TAOCPP_PEGTL_NAMESPACE::star< tao::TAOCPP_PEGTL_NAMESPACE::space > > {};
-   struct hexbyte : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< 'x' >, tao::TAOCPP_PEGTL_NAMESPACE::xdigit, tao::TAOCPP_PEGTL_NAMESPACE::xdigit > {};
-   struct decbyte : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::digit, tao::TAOCPP_PEGTL_NAMESPACE::rep_opt< 2, tao::TAOCPP_PEGTL_NAMESPACE::digit > > {};
-   struct unichar : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< 'u' >, tao::TAOCPP_PEGTL_NAMESPACE::one< '{' >, tao::TAOCPP_PEGTL_NAMESPACE::plus< tao::TAOCPP_PEGTL_NAMESPACE::xdigit >, tao::TAOCPP_PEGTL_NAMESPACE::one< '}' > > {};
-   struct escaped : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< '\\' >, tao::TAOCPP_PEGTL_NAMESPACE::sor< hexbyte, decbyte, unichar, single, spaces > > {};
-   struct regular : tao::TAOCPP_PEGTL_NAMESPACE::not_one< '\r', '\n' > {};
-   struct character : tao::TAOCPP_PEGTL_NAMESPACE::sor< escaped, regular > {};
+   struct single : pegtl::one< 'a', 'b', 'f', 'n', 'r', 't', 'v', '\\', '"', '\'', '0', '\n' > {};
+   struct spaces : pegtl::seq< pegtl::one< 'z' >, pegtl::star< pegtl::space > > {};
+   struct hexbyte : pegtl::if_must< pegtl::one< 'x' >, pegtl::xdigit, pegtl::xdigit > {};
+   struct decbyte : pegtl::if_must< pegtl::digit, pegtl::rep_opt< 2, pegtl::digit > > {};
+   struct unichar : pegtl::if_must< pegtl::one< 'u' >, pegtl::one< '{' >, pegtl::plus< pegtl::xdigit >, pegtl::one< '}' > > {};
+   struct escaped : pegtl::if_must< pegtl::one< '\\' >, pegtl::sor< hexbyte, decbyte, unichar, single, spaces > > {};
+   struct regular : pegtl::not_one< '\r', '\n' > {};
+   struct character : pegtl::sor< escaped, regular > {};
 
    template< char Q >
-   struct short_string : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< Q >, tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::one< Q >, character > > {};
-   struct literal_string : tao::TAOCPP_PEGTL_NAMESPACE::sor< short_string< '"' >, short_string< '\'' >, long_string > {};
+   struct short_string : pegtl::if_must< pegtl::one< Q >, pegtl::until< pegtl::one< Q >, character > > {};
+   struct literal_string : pegtl::sor< short_string< '"' >, short_string< '\'' >, long_string > {};
 
    template< typename E >
-   struct exponent : tao::TAOCPP_PEGTL_NAMESPACE::opt< tao::TAOCPP_PEGTL_NAMESPACE::if_must< E, tao::TAOCPP_PEGTL_NAMESPACE::opt< tao::TAOCPP_PEGTL_NAMESPACE::one< '+', '-' > >, tao::TAOCPP_PEGTL_NAMESPACE::plus< tao::TAOCPP_PEGTL_NAMESPACE::digit > > > {};
+   struct exponent : pegtl::opt< pegtl::if_must< E, pegtl::opt< pegtl::one< '+', '-' > >, pegtl::plus< pegtl::digit > > > {};
 
    template< typename D, typename E >
-   struct numeral_three : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< '.' >, tao::TAOCPP_PEGTL_NAMESPACE::plus< D > >, exponent< E > > {};
+   struct numeral_three : pegtl::seq< pegtl::if_must< pegtl::one< '.' >, pegtl::plus< D > >, exponent< E > > {};
    template< typename D, typename E >
-   struct numeral_two : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::plus< D >, tao::TAOCPP_PEGTL_NAMESPACE::opt< tao::TAOCPP_PEGTL_NAMESPACE::one< '.' >, tao::TAOCPP_PEGTL_NAMESPACE::star< D > >, exponent< E > > {};
+   struct numeral_two : pegtl::seq< pegtl::plus< D >, pegtl::opt< pegtl::one< '.' >, pegtl::star< D > >, exponent< E > > {};
    template< typename D, typename E >
-   struct numeral_one : tao::TAOCPP_PEGTL_NAMESPACE::sor< numeral_two< D, E >, numeral_three< D, E > > {};
+   struct numeral_one : pegtl::sor< numeral_two< D, E >, numeral_three< D, E > > {};
 
-   struct decimal : numeral_one< tao::TAOCPP_PEGTL_NAMESPACE::digit, tao::TAOCPP_PEGTL_NAMESPACE::one< 'e', 'E' > > {};
-   struct hexadecimal : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::istring< '0', 'x' >, numeral_one< tao::TAOCPP_PEGTL_NAMESPACE::xdigit, tao::TAOCPP_PEGTL_NAMESPACE::one< 'p', 'P' > > > {};
-   struct numeral : tao::TAOCPP_PEGTL_NAMESPACE::sor< hexadecimal, decimal > {};
+   struct decimal : numeral_one< pegtl::digit, pegtl::one< 'e', 'E' > > {};
+   struct hexadecimal : pegtl::if_must< pegtl::istring< '0', 'x' >, numeral_one< pegtl::xdigit, pegtl::one< 'p', 'P' > > > {};
+   struct numeral : pegtl::sor< hexadecimal, decimal > {};
 
-   struct label_statement : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::two< ':' >, seps, name, seps, tao::TAOCPP_PEGTL_NAMESPACE::two< ':' > > {};
-   struct goto_statement : tao::TAOCPP_PEGTL_NAMESPACE::if_must< key_goto, seps, name > {};
+   struct label_statement : pegtl::if_must< pegtl::two< ':' >, seps, name, seps, pegtl::two< ':' > > {};
+   struct goto_statement : pegtl::if_must< key_goto, seps, name > {};
 
    struct statement;
    struct expression;
 
-   struct name_list : tao::TAOCPP_PEGTL_NAMESPACE::list< name, tao::TAOCPP_PEGTL_NAMESPACE::one< ',' >, sep > {};
-   struct name_list_must : tao::TAOCPP_PEGTL_NAMESPACE::list_must< name, tao::TAOCPP_PEGTL_NAMESPACE::one< ',' >, sep > {};
-   struct expr_list_must : tao::TAOCPP_PEGTL_NAMESPACE::list_must< expression, tao::TAOCPP_PEGTL_NAMESPACE::one< ',' >, sep > {};
+   struct name_list : pegtl::list< name, pegtl::one< ',' >, sep > {};
+   struct name_list_must : pegtl::list_must< name, pegtl::one< ',' >, sep > {};
+   struct expr_list_must : pegtl::list_must< expression, pegtl::one< ',' >, sep > {};
 
-   struct statement_return : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::pad_opt< expr_list_must, sep >, tao::TAOCPP_PEGTL_NAMESPACE::opt< tao::TAOCPP_PEGTL_NAMESPACE::one< ';' >, seps > > {};
+   struct statement_return : pegtl::seq< pegtl::pad_opt< expr_list_must, sep >, pegtl::opt< pegtl::one< ';' >, seps > > {};
 
    template< typename E >
-   struct statement_list : tao::TAOCPP_PEGTL_NAMESPACE::seq< seps, tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::sor< E, tao::TAOCPP_PEGTL_NAMESPACE::if_must< key_return, statement_return, E > >, statement, seps > > {};
+   struct statement_list : pegtl::seq< seps, pegtl::until< pegtl::sor< E, pegtl::if_must< key_return, statement_return, E > >, statement, seps > > {};
 
-   struct table_field_one : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< '[' >, seps, expression, seps, tao::TAOCPP_PEGTL_NAMESPACE::one< ']' >, seps, tao::TAOCPP_PEGTL_NAMESPACE::one< '=' >, seps, expression > {};
-   struct table_field_two : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::seq< name, seps, tao::TAOCPP_PEGTL_NAMESPACE::one< '=' > >, seps, expression > {};
-   struct table_field : tao::TAOCPP_PEGTL_NAMESPACE::sor< table_field_one, table_field_two, expression > {};
-   struct table_field_list : tao::TAOCPP_PEGTL_NAMESPACE::list_tail< table_field, tao::TAOCPP_PEGTL_NAMESPACE::one< ',', ';' >, sep > {};
-   struct table_constructor : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< '{' >, tao::TAOCPP_PEGTL_NAMESPACE::pad_opt< table_field_list, sep >, tao::TAOCPP_PEGTL_NAMESPACE::one< '}' > > {};
+   struct table_field_one : pegtl::if_must< pegtl::one< '[' >, seps, expression, seps, pegtl::one< ']' >, seps, pegtl::one< '=' >, seps, expression > {};
+   struct table_field_two : pegtl::if_must< pegtl::seq< name, seps, pegtl::one< '=' > >, seps, expression > {};
+   struct table_field : pegtl::sor< table_field_one, table_field_two, expression > {};
+   struct table_field_list : pegtl::list_tail< table_field, pegtl::one< ',', ';' >, sep > {};
+   struct table_constructor : pegtl::if_must< pegtl::one< '{' >, pegtl::pad_opt< table_field_list, sep >, pegtl::one< '}' > > {};
 
-   struct parameter_list_one : tao::TAOCPP_PEGTL_NAMESPACE::seq< name_list, tao::TAOCPP_PEGTL_NAMESPACE::opt< tao::TAOCPP_PEGTL_NAMESPACE::if_must< pad< tao::TAOCPP_PEGTL_NAMESPACE::one< ',' > >, three_dots > > > {};
-   struct parameter_list : tao::TAOCPP_PEGTL_NAMESPACE::sor< three_dots, parameter_list_one > {};
+   struct parameter_list_one : pegtl::seq< name_list, pegtl::opt< pegtl::if_must< pad< pegtl::one< ',' > >, three_dots > > > {};
+   struct parameter_list : pegtl::sor< three_dots, parameter_list_one > {};
 
-   struct function_body : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::one< '(' >, tao::TAOCPP_PEGTL_NAMESPACE::pad_opt< parameter_list, sep >, tao::TAOCPP_PEGTL_NAMESPACE::one< ')' >, seps, statement_list< key_end > > {};
-   struct function_literal : tao::TAOCPP_PEGTL_NAMESPACE::if_must< key_function, seps, function_body > {};
+   struct function_body : pegtl::seq< pegtl::one< '(' >, pegtl::pad_opt< parameter_list, sep >, pegtl::one< ')' >, seps, statement_list< key_end > > {};
+   struct function_literal : pegtl::if_must< key_function, seps, function_body > {};
 
-   struct bracket_expr : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< '(' >, seps, expression, seps, tao::TAOCPP_PEGTL_NAMESPACE::one< ')' > > {};
+   struct bracket_expr : pegtl::if_must< pegtl::one< '(' >, seps, expression, seps, pegtl::one< ')' > > {};
 
-   struct function_args_one : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< '(' >, tao::TAOCPP_PEGTL_NAMESPACE::pad_opt< expr_list_must, sep >, tao::TAOCPP_PEGTL_NAMESPACE::one< ')' > > {};
-   struct function_args : tao::TAOCPP_PEGTL_NAMESPACE::sor< function_args_one, table_constructor, literal_string > {};
+   struct function_args_one : pegtl::if_must< pegtl::one< '(' >, pegtl::pad_opt< expr_list_must, sep >, pegtl::one< ')' > > {};
+   struct function_args : pegtl::sor< function_args_one, table_constructor, literal_string > {};
 
-   struct variable_tail_one : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< '[' >, seps, expression, seps, tao::TAOCPP_PEGTL_NAMESPACE::one< ']' > > {};
-   struct variable_tail_two : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::not_at< tao::TAOCPP_PEGTL_NAMESPACE::two< '.' > >, tao::TAOCPP_PEGTL_NAMESPACE::one< '.' > >, seps, name > {};
-   struct variable_tail : tao::TAOCPP_PEGTL_NAMESPACE::sor< variable_tail_one, variable_tail_two > {};
+   struct variable_tail_one : pegtl::if_must< pegtl::one< '[' >, seps, expression, seps, pegtl::one< ']' > > {};
+   struct variable_tail_two : pegtl::if_must< pegtl::seq< pegtl::not_at< pegtl::two< '.' > >, pegtl::one< '.' > >, seps, name > {};
+   struct variable_tail : pegtl::sor< variable_tail_one, variable_tail_two > {};
 
-   struct function_call_tail_one : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::not_at< tao::TAOCPP_PEGTL_NAMESPACE::two< ':' > >, tao::TAOCPP_PEGTL_NAMESPACE::one< ':' > >, seps, name, seps, function_args > {};
-   struct function_call_tail : tao::TAOCPP_PEGTL_NAMESPACE::sor< function_args, function_call_tail_one > {};
+   struct function_call_tail_one : pegtl::if_must< pegtl::seq< pegtl::not_at< pegtl::two< ':' > >, pegtl::one< ':' > >, seps, name, seps, function_args > {};
+   struct function_call_tail : pegtl::sor< function_args, function_call_tail_one > {};
 
-   struct variable_head_one : tao::TAOCPP_PEGTL_NAMESPACE::seq< bracket_expr, seps, variable_tail > {};
-   struct variable_head : tao::TAOCPP_PEGTL_NAMESPACE::sor< name, variable_head_one > {};
+   struct variable_head_one : pegtl::seq< bracket_expr, seps, variable_tail > {};
+   struct variable_head : pegtl::sor< name, variable_head_one > {};
 
-   struct function_call_head : tao::TAOCPP_PEGTL_NAMESPACE::sor< name, bracket_expr > {};
+   struct function_call_head : pegtl::sor< name, bracket_expr > {};
 
-   struct variable : tao::TAOCPP_PEGTL_NAMESPACE::seq< variable_head, tao::TAOCPP_PEGTL_NAMESPACE::star< tao::TAOCPP_PEGTL_NAMESPACE::star< seps, function_call_tail >, seps, variable_tail > > {};
-   struct function_call : tao::TAOCPP_PEGTL_NAMESPACE::seq< function_call_head, tao::TAOCPP_PEGTL_NAMESPACE::plus< tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::seq< seps, function_call_tail >, seps, variable_tail > > > {};
+   struct variable : pegtl::seq< variable_head, pegtl::star< pegtl::star< seps, function_call_tail >, seps, variable_tail > > {};
+   struct function_call : pegtl::seq< function_call_head, pegtl::plus< pegtl::until< pegtl::seq< seps, function_call_tail >, seps, variable_tail > > > {};
 
    template< char O, char ... N >
-   struct op_one : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::one< O >, tao::TAOCPP_PEGTL_NAMESPACE::at< tao::TAOCPP_PEGTL_NAMESPACE::not_one< N ... > > > {};
+   struct op_one : pegtl::seq< pegtl::one< O >, pegtl::at< pegtl::not_one< N ... > > > {};
    template< char O, char P, char ... N >
-   struct op_two : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::string< O, P >, tao::TAOCPP_PEGTL_NAMESPACE::at< tao::TAOCPP_PEGTL_NAMESPACE::not_one< N ... > > > {};
+   struct op_two : pegtl::seq< pegtl::string< O, P >, pegtl::at< pegtl::not_one< N ... > > > {};
 
    template< typename S, typename O >
-   struct left_assoc : tao::TAOCPP_PEGTL_NAMESPACE::seq< S, seps, tao::TAOCPP_PEGTL_NAMESPACE::star< tao::TAOCPP_PEGTL_NAMESPACE::if_must< O, seps, S, seps > > > {};
+   struct left_assoc : pegtl::seq< S, seps, pegtl::star< pegtl::if_must< O, seps, S, seps > > > {};
    template< typename S, typename O >
-   struct right_assoc : tao::TAOCPP_PEGTL_NAMESPACE::seq< S, seps, tao::TAOCPP_PEGTL_NAMESPACE::opt< tao::TAOCPP_PEGTL_NAMESPACE::if_must< O, seps, right_assoc< S, O > > > > {};
+   struct right_assoc : pegtl::seq< S, seps, pegtl::opt< pegtl::if_must< O, seps, right_assoc< S, O > > > > {};
 
-   struct unary_operators : tao::TAOCPP_PEGTL_NAMESPACE::sor< tao::TAOCPP_PEGTL_NAMESPACE::one< '-' >,
-                                             tao::TAOCPP_PEGTL_NAMESPACE::one< '#' >,
-                                             op_one< '~', '=' >,
-                                             key_not > {};
+   struct unary_operators : pegtl::sor< pegtl::one< '-' >,
+                                        pegtl::one< '#' >,
+                                        op_one< '~', '=' >,
+                                        key_not > {};
 
    struct expr_ten;
-   struct expr_thirteen : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::sor< bracket_expr, name >, tao::TAOCPP_PEGTL_NAMESPACE::star< seps, tao::TAOCPP_PEGTL_NAMESPACE::sor< function_call_tail, variable_tail > > > {};
-   struct expr_twelve : tao::TAOCPP_PEGTL_NAMESPACE::sor< key_nil,
-                                         key_true,
-                                         key_false,
-                                         three_dots,
-                                         numeral,
-                                         literal_string,
-                                         function_literal,
-                                         expr_thirteen,
-                                         table_constructor > {};
-   struct expr_eleven : tao::TAOCPP_PEGTL_NAMESPACE::seq< expr_twelve, seps, tao::TAOCPP_PEGTL_NAMESPACE::opt< tao::TAOCPP_PEGTL_NAMESPACE::one< '^' >, seps, expr_ten, seps > > {};
-   struct unary_apply : tao::TAOCPP_PEGTL_NAMESPACE::if_must< unary_operators, seps, expr_ten, seps > {};
-   struct expr_ten : tao::TAOCPP_PEGTL_NAMESPACE::sor< unary_apply, expr_eleven > {};
-   struct operators_nine : tao::TAOCPP_PEGTL_NAMESPACE::sor< tao::TAOCPP_PEGTL_NAMESPACE::two< '/' >,
-                                            tao::TAOCPP_PEGTL_NAMESPACE::one< '/' >,
-                                            tao::TAOCPP_PEGTL_NAMESPACE::one< '*' >,
-                                            tao::TAOCPP_PEGTL_NAMESPACE::one< '%' > > {};
+   struct expr_thirteen : pegtl::seq< pegtl::sor< bracket_expr, name >, pegtl::star< seps, pegtl::sor< function_call_tail, variable_tail > > > {};
+   struct expr_twelve : pegtl::sor< key_nil,
+                                    key_true,
+                                    key_false,
+                                    three_dots,
+                                    numeral,
+                                    literal_string,
+                                    function_literal,
+                                    expr_thirteen,
+                                    table_constructor > {};
+   struct expr_eleven : pegtl::seq< expr_twelve, seps, pegtl::opt< pegtl::one< '^' >, seps, expr_ten, seps > > {};
+   struct unary_apply : pegtl::if_must< unary_operators, seps, expr_ten, seps > {};
+   struct expr_ten : pegtl::sor< unary_apply, expr_eleven > {};
+   struct operators_nine : pegtl::sor< pegtl::two< '/' >,
+                                       pegtl::one< '/' >,
+                                       pegtl::one< '*' >,
+                                       pegtl::one< '%' > > {};
    struct expr_nine : left_assoc< expr_ten, operators_nine > {};
-   struct operators_eight : tao::TAOCPP_PEGTL_NAMESPACE::sor< tao::TAOCPP_PEGTL_NAMESPACE::one< '+' >,
-                                             tao::TAOCPP_PEGTL_NAMESPACE::one< '-' > > {};
+   struct operators_eight : pegtl::sor< pegtl::one< '+' >,
+                                        pegtl::one< '-' > > {};
    struct expr_eight : left_assoc< expr_nine, operators_eight > {};
    struct expr_seven : right_assoc< expr_eight, op_two< '.', '.', '.' > > {};
-   struct operators_six : tao::TAOCPP_PEGTL_NAMESPACE::sor< tao::TAOCPP_PEGTL_NAMESPACE::two< '<' >,
-                                           tao::TAOCPP_PEGTL_NAMESPACE::two< '>' > > {};
+   struct operators_six : pegtl::sor< pegtl::two< '<' >,
+                                      pegtl::two< '>' > > {};
    struct expr_six : left_assoc< expr_seven, operators_six > {};
-   struct expr_five : left_assoc< expr_six, tao::TAOCPP_PEGTL_NAMESPACE::one< '&' > > {};
+   struct expr_five : left_assoc< expr_six, pegtl::one< '&' > > {};
    struct expr_four : left_assoc< expr_five, op_one< '~', '=' > > {};
-   struct expr_three : left_assoc< expr_four, tao::TAOCPP_PEGTL_NAMESPACE::one< '|' > > {};
-   struct operators_two : tao::TAOCPP_PEGTL_NAMESPACE::sor< tao::TAOCPP_PEGTL_NAMESPACE::two< '=' >,
-                                           tao::TAOCPP_PEGTL_NAMESPACE::string< '<', '=' >,
-                                           tao::TAOCPP_PEGTL_NAMESPACE::string< '>', '=' >,
-                                           op_one< '<', '<' >,
-                                           op_one< '>', '>' >,
-                                           tao::TAOCPP_PEGTL_NAMESPACE::string< '~', '=' > > {};
+   struct expr_three : left_assoc< expr_four, pegtl::one< '|' > > {};
+   struct operators_two : pegtl::sor< pegtl::two< '=' >,
+                                      pegtl::string< '<', '=' >,
+                                      pegtl::string< '>', '=' >,
+                                      op_one< '<', '<' >,
+                                      op_one< '>', '>' >,
+                                      pegtl::string< '~', '=' > > {};
    struct expr_two : left_assoc< expr_three, operators_two > {};
    struct expr_one : left_assoc< expr_two, key_and > {};
    struct expression : left_assoc< expr_one, key_or > {};
 
-   struct do_statement : tao::TAOCPP_PEGTL_NAMESPACE::if_must< key_do, statement_list< key_end > > {};
-   struct while_statement : tao::TAOCPP_PEGTL_NAMESPACE::if_must< key_while, seps, expression, seps, key_do, statement_list< key_end > > {};
-   struct repeat_statement : tao::TAOCPP_PEGTL_NAMESPACE::if_must< key_repeat, statement_list< key_until >, seps, expression > {};
+   struct do_statement : pegtl::if_must< key_do, statement_list< key_end > > {};
+   struct while_statement : pegtl::if_must< key_while, seps, expression, seps, key_do, statement_list< key_end > > {};
+   struct repeat_statement : pegtl::if_must< key_repeat, statement_list< key_until >, seps, expression > {};
 
-   struct at_elseif_else_end : tao::TAOCPP_PEGTL_NAMESPACE::sor< tao::TAOCPP_PEGTL_NAMESPACE::at< key_elseif >, tao::TAOCPP_PEGTL_NAMESPACE::at< key_else >, tao::TAOCPP_PEGTL_NAMESPACE::at< key_end > > {};
-   struct elseif_statement : tao::TAOCPP_PEGTL_NAMESPACE::if_must< key_elseif, seps, expression, seps, key_then, statement_list< at_elseif_else_end > > {};
-   struct else_statement : tao::TAOCPP_PEGTL_NAMESPACE::if_must< key_else, statement_list< key_end > > {};
-   struct if_statement : tao::TAOCPP_PEGTL_NAMESPACE::if_must< key_if, seps, expression, seps, key_then, statement_list< at_elseif_else_end >, seps, tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::sor< else_statement, key_end >, elseif_statement, seps > > {};
+   struct at_elseif_else_end : pegtl::sor< pegtl::at< key_elseif >, pegtl::at< key_else >, pegtl::at< key_end > > {};
+   struct elseif_statement : pegtl::if_must< key_elseif, seps, expression, seps, key_then, statement_list< at_elseif_else_end > > {};
+   struct else_statement : pegtl::if_must< key_else, statement_list< key_end > > {};
+   struct if_statement : pegtl::if_must< key_if, seps, expression, seps, key_then, statement_list< at_elseif_else_end >, seps, pegtl::until< pegtl::sor< else_statement, key_end >, elseif_statement, seps > > {};
 
-   struct for_statement_one : tao::TAOCPP_PEGTL_NAMESPACE::seq< name, seps, tao::TAOCPP_PEGTL_NAMESPACE::one< '=' >, seps, expression, seps, tao::TAOCPP_PEGTL_NAMESPACE::one< ',' >, seps, expression, tao::TAOCPP_PEGTL_NAMESPACE::pad_opt< tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< ',' >, seps, expression >, sep >, key_do, statement_list< key_end > > {};
-   struct for_statement_two : tao::TAOCPP_PEGTL_NAMESPACE::seq< name_list_must, seps, key_in, seps, expr_list_must, seps, key_do, statement_list< key_end > > {};
-   struct for_statement : tao::TAOCPP_PEGTL_NAMESPACE::if_must< key_for, seps, tao::TAOCPP_PEGTL_NAMESPACE::sor< for_statement_one, for_statement_two > > {};
+   struct for_statement_one : pegtl::seq< name, seps, pegtl::one< '=' >, seps, expression, seps, pegtl::one< ',' >, seps, expression, pegtl::pad_opt< pegtl::if_must< pegtl::one< ',' >, seps, expression >, sep >, key_do, statement_list< key_end > > {};
+   struct for_statement_two : pegtl::seq< name_list_must, seps, key_in, seps, expr_list_must, seps, key_do, statement_list< key_end > > {};
+   struct for_statement : pegtl::if_must< key_for, seps, pegtl::sor< for_statement_one, for_statement_two > > {};
 
-   struct assignment_variable_list : tao::TAOCPP_PEGTL_NAMESPACE::list_must< variable, tao::TAOCPP_PEGTL_NAMESPACE::one< ',' >, sep > {};
-   struct assignments_one : tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< '=' >, seps, expr_list_must > {};
-   struct assignments : tao::TAOCPP_PEGTL_NAMESPACE::seq< assignment_variable_list, seps, assignments_one > {};
-   struct function_name : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::list< name, tao::TAOCPP_PEGTL_NAMESPACE::one< '.' >, sep >, seps, tao::TAOCPP_PEGTL_NAMESPACE::opt< tao::TAOCPP_PEGTL_NAMESPACE::if_must< tao::TAOCPP_PEGTL_NAMESPACE::one< ':' >, seps, name, seps > > > {};
-   struct function_definition : tao::TAOCPP_PEGTL_NAMESPACE::if_must< key_function, seps, function_name, function_body > {};
+   struct assignment_variable_list : pegtl::list_must< variable, pegtl::one< ',' >, sep > {};
+   struct assignments_one : pegtl::if_must< pegtl::one< '=' >, seps, expr_list_must > {};
+   struct assignments : pegtl::seq< assignment_variable_list, seps, assignments_one > {};
+   struct function_name : pegtl::seq< pegtl::list< name, pegtl::one< '.' >, sep >, seps, pegtl::opt< pegtl::if_must< pegtl::one< ':' >, seps, name, seps > > > {};
+   struct function_definition : pegtl::if_must< key_function, seps, function_name, function_body > {};
 
-   struct local_function : tao::TAOCPP_PEGTL_NAMESPACE::if_must< key_function, seps, name, seps, function_body > {};
-   struct local_variables : tao::TAOCPP_PEGTL_NAMESPACE::if_must< name_list_must, seps, tao::TAOCPP_PEGTL_NAMESPACE::opt< assignments_one > > {};
-   struct local_statement : tao::TAOCPP_PEGTL_NAMESPACE::if_must< key_local, seps, tao::TAOCPP_PEGTL_NAMESPACE::sor< local_function, local_variables > > {};
+   struct local_function : pegtl::if_must< key_function, seps, name, seps, function_body > {};
+   struct local_variables : pegtl::if_must< name_list_must, seps, pegtl::opt< assignments_one > > {};
+   struct local_statement : pegtl::if_must< key_local, seps, pegtl::sor< local_function, local_variables > > {};
 
-   struct semicolon : tao::TAOCPP_PEGTL_NAMESPACE::one< ';' > {};
-   struct statement : tao::TAOCPP_PEGTL_NAMESPACE::sor< semicolon,
-                                       assignments,
-                                       function_call,
-                                       label_statement,
-                                       key_break,
-                                       goto_statement,
-                                       do_statement,
-                                       while_statement,
-                                       repeat_statement,
-                                       if_statement,
-                                       for_statement,
-                                       function_definition,
-                                       local_statement > {};
+   struct semicolon : pegtl::one< ';' > {};
+   struct statement : pegtl::sor< semicolon,
+                                  assignments,
+                                  function_call,
+                                  label_statement,
+                                  key_break,
+                                  goto_statement,
+                                  do_statement,
+                                  while_statement,
+                                  repeat_statement,
+                                  if_statement,
+                                  for_statement,
+                                  function_definition,
+                                  local_statement > {};
 
-   struct interpreter : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::one< '#' >, tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::eolf > > {};
-   struct grammar : tao::TAOCPP_PEGTL_NAMESPACE::must< tao::TAOCPP_PEGTL_NAMESPACE::opt< interpreter >, statement_list< tao::TAOCPP_PEGTL_NAMESPACE::eof > > {};
+   struct interpreter : pegtl::seq< pegtl::one< '#' >, pegtl::until< pegtl::eolf > > {};
+   struct grammar : pegtl::must< pegtl::opt< interpreter >, statement_list< pegtl::eof > > {};
+   // clang-format on
 
 } // namespace lua53
 

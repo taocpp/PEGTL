@@ -24,6 +24,7 @@ namespace csv1
    // 1
    //    1,2
 
+   // clang-format off
    struct value : tao::TAOCPP_PEGTL_NAMESPACE::plus< tao::TAOCPP_PEGTL_NAMESPACE::digit > {};
    struct value_item : tao::TAOCPP_PEGTL_NAMESPACE::pad< value, tao::TAOCPP_PEGTL_NAMESPACE::blank > {};
    struct value_list : tao::TAOCPP_PEGTL_NAMESPACE::list_must< value_item, tao::TAOCPP_PEGTL_NAMESPACE::one< ',' > > {};
@@ -31,6 +32,7 @@ namespace csv1
    struct comment_line : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::one< '#' >, tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::eolf > > {};
    struct line : tao::TAOCPP_PEGTL_NAMESPACE::sor< comment_line, value_line > {};
    struct file : tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::eof, line > {};
+   // clang-format on
 
    // Data structure to store the result of a parsing run:
 

@@ -56,6 +56,8 @@ namespace tao
             //
             // Finally, instead of the pre-defined CRLF sequence, we accept
             // any type of line ending as a convencience extension:
+
+            // clang-format off
             struct CRLF : sor< abnf::CRLF, CR, LF > {};
 
             // The rest is according to the RFC(s):
@@ -118,8 +120,7 @@ namespace tao
             // end of grammar
 
             template< typename Rule >
-            struct error_control
-                  : public normal< Rule >
+            struct error_control : normal< Rule >
             {
                static const std::string error_message;
 
@@ -150,6 +151,7 @@ namespace tao
             template<> const std::string error_control< defined_as >::error_message = "expected '=' or '=/'";
             template<> const std::string error_control< c_nl >::error_message = "unterminated rule";
             template<> const std::string error_control< rule >::error_message = "expected rule";
+            // clang-format on
 
          } // namespace grammar
 
@@ -182,6 +184,7 @@ namespace abnf2pegtl
 
    namespace
    {
+      // clang-format off
       std::set< std::string > keywords = {
          "alignas", "alignof", "and", "and_eq",
          "asm", "auto", "bitand", "bitor",
@@ -206,6 +209,8 @@ namespace abnf2pegtl
          "wchar_t", "while", "xor", "xor_eq",
          "pegtl" // this would not end well :)
       };
+      // clang-format on
+
    } // namespace
 
    template< typename Input >

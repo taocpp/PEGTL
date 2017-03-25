@@ -31,6 +31,7 @@ namespace examples
    // The following specialisations of the static string
    // member are then used in the exception messages:
 
+   // clang-format off
    template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::text >::error_message = "no valid JSON";
 
    template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::end_array >::error_message = "incomplete array, expected ']'";
@@ -48,6 +49,7 @@ namespace examples
    template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::key::content >::error_message = "unterminated key";
 
    template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::eof >::error_message = "unexpected character after JSON value";
+   // clang-format on
 
    // The raise()-function-template is instantiated exactly
    // for the specialisations of errors< Rule > for which a

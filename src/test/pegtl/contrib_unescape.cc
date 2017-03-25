@@ -9,6 +9,7 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
+      // clang-format off
       struct escaped_c : one< '"', '\\', 't' > {};
       struct escaped_u : seq< one< 'u' >, rep< 4, must< xdigit > > > {};
       struct escaped_U : seq< one< 'U' >, rep< 8, must< xdigit > > > {};
@@ -26,6 +27,7 @@ namespace tao
       template<> struct unaction< escaped_j > : unescape::unescape_j {};
       template<> struct unaction< escaped_x > : unescape::unescape_x {};
       template<> struct unaction< utf8::any > : unescape::append_all {};
+      // clang-format on
 
       template< unsigned M, unsigned N >
       void verify_data( const char ( & m )[ M ], const char ( & n )[ N ] )
