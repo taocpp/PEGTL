@@ -40,9 +40,9 @@ BreakBeforeBinaryOperators: All
 BreakBeforeBraces: Custom
 BreakBeforeTernaryOperators: false
 BreakStringLiterals: false
-BreakConstructorInitializersBeforeComma: true
+BreakConstructorInitializersBeforeComma: false
 ColumnLimit: 0
-ConstructorInitializerAllOnOneLineOrOnePerLine: false
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 3
 ContinuationIndentWidth: 3
 Cpp11BracedListStyle: false
@@ -65,7 +65,7 @@ SpaceBeforeParens: ControlStatements
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 2
 SpacesInAngles: true
-SpacesInCStyleCastParentheses: true
+SpacesInCStyleCastParentheses: false
 SpacesInContainerLiterals: true
 SpacesInParentheses: true
 SpacesInSquareBrackets: true
