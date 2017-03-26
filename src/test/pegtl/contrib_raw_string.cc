@@ -37,7 +37,7 @@ namespace tao
          memory_input i( { 0, line, 0, m }, m + M - 1, file );
          const auto r = parse_input< Rule, rsaction >( i );
          if ( ( ! r ) || ( content != std::string( n, N - 1 ) ) ) {
-            TEST_FAILED( "input data [ '" << m << "' ] expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r << " ]" );
+            TAOCPP_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r << " ]" );
          }
       }
 

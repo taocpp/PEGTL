@@ -26,7 +26,7 @@ namespace tao
          if ( ( received == expected ) && ( ( received == result_type::GLOBAL_FAILURE ) || ( i.size( 999999999 ) == remain ) ) ) {
             return;
          }
-         TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << i.size( 999999999 ) << " / " << remain << " ]" );
+         TAOCPP_PEGTL_TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << i.size( 999999999 ) << " / " << remain << " ]" );
       }
 
    } // namespace TAOCPP_PEGTL_NAMESPACE

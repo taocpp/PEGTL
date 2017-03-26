@@ -15,29 +15,29 @@ namespace tao
 
          void test_result()
          {
-            TEST_ASSERT( applied.size() == 10 );
+            TAOCPP_PEGTL_TEST_ASSERT( applied.size() == 10 );
 
-            TEST_ASSERT( applied[ 0 ].first == internal::demangle< one< 'b' > >() );
-            TEST_ASSERT( applied[ 1 ].first == internal::demangle< foo >() );
-            TEST_ASSERT( applied[ 2 ].first == internal::demangle< at< one< 'a' > > >() );
-            TEST_ASSERT( applied[ 3 ].first == internal::demangle< two< 'a' > >() );
-            TEST_ASSERT( applied[ 4 ].first == internal::demangle< fiz >() );
-            TEST_ASSERT( applied[ 5 ].first == internal::demangle< foo >() );
-            TEST_ASSERT( applied[ 6 ].first == internal::demangle< one< 'b' > >() );
-            TEST_ASSERT( applied[ 7 ].first == internal::demangle< foo >() );
-            TEST_ASSERT( applied[ 8 ].first == internal::demangle< eof >() );
-            TEST_ASSERT( applied[ 9 ].first == internal::demangle< bar >() );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 0 ].first == internal::demangle< one< 'b' > >() );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 1 ].first == internal::demangle< foo >() );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 2 ].first == internal::demangle< at< one< 'a' > > >() );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 3 ].first == internal::demangle< two< 'a' > >() );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 4 ].first == internal::demangle< fiz >() );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 5 ].first == internal::demangle< foo >() );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 6 ].first == internal::demangle< one< 'b' > >() );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 7 ].first == internal::demangle< foo >() );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 8 ].first == internal::demangle< eof >() );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 9 ].first == internal::demangle< bar >() );
 
-            TEST_ASSERT( applied[ 0 ].second == "b" );
-            TEST_ASSERT( applied[ 1 ].second == "b" );
-            TEST_ASSERT( applied[ 2 ].second == "" );
-            TEST_ASSERT( applied[ 3 ].second == "aa" );
-            TEST_ASSERT( applied[ 4 ].second == "aa" );
-            TEST_ASSERT( applied[ 5 ].second == "aa" );
-            TEST_ASSERT( applied[ 6 ].second == "b" );
-            TEST_ASSERT( applied[ 7 ].second == "b" );
-            TEST_ASSERT( applied[ 8 ].second == "" );
-            TEST_ASSERT( applied[ 9 ].second == "baab" );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 0 ].second == "b" );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 1 ].second == "b" );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 2 ].second == "" );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 3 ].second == "aa" );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 4 ].second == "aa" );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 5 ].second == "aa" );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 6 ].second == "b" );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 7 ].second == "b" );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 8 ].second == "" );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 9 ].second == "baab" );
          }
 
          struct state1
@@ -75,7 +75,7 @@ namespace tao
          {
             std::string result;
             parse_string< fibble, action1 >( "dk41sk41xk3", __FILE__, result );
-            TEST_ASSERT( result == "dkskxk" );
+            TAOCPP_PEGTL_TEST_ASSERT( result == "dkskxk" );
          }
 
          template< typename Rule > struct action0 : nothing< Rule > {};
@@ -102,10 +102,10 @@ namespace tao
          void apply0_test()
          {
             parse_string< star< alpha >, action0 >( "abcdefgh", __FILE__ );
-            TEST_ASSERT( i0 == 8 );
+            TAOCPP_PEGTL_TEST_ASSERT( i0 == 8 );
             std::string s0;
             parse_string< star< digit >, action0 >( "12345678", __FILE__, s0 );
-            TEST_ASSERT( s0 == "00000000" );
+            TAOCPP_PEGTL_TEST_ASSERT( s0 == "00000000" );
          }
 
       } // namespace test1
@@ -114,16 +114,16 @@ namespace tao
       {
          parse_string< disable< test1::bar >, test_action >( "baab", __FILE__ );
 
-         TEST_ASSERT( applied.size() == 1 );
+         TAOCPP_PEGTL_TEST_ASSERT( applied.size() == 1 );
 
-         TEST_ASSERT( applied[ 0 ].first == internal::demangle< disable< test1::bar > >() );
-         TEST_ASSERT( applied[ 0 ].second == "baab" );
+         TAOCPP_PEGTL_TEST_ASSERT( applied[ 0 ].first == internal::demangle< disable< test1::bar > >() );
+         TAOCPP_PEGTL_TEST_ASSERT( applied[ 0 ].second == "baab" );
 
          applied.clear();
 
          parse_string< at< action< test_action, test1::bar > > >( "baab", __FILE__ );
 
-         TEST_ASSERT( applied.empty() );
+         TAOCPP_PEGTL_TEST_ASSERT( applied.empty() );
 
          applied.clear();
 

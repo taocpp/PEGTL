@@ -14,8 +14,8 @@ namespace tao
             template< typename Input >
             static void apply( const Input &, int & r, int & s )
             {
-               TEST_ASSERT( ! r );
-               TEST_ASSERT( ! s );
+               TAOCPP_PEGTL_TEST_ASSERT( ! r );
+               TAOCPP_PEGTL_TEST_ASSERT( ! s );
                r += 1;
             }
          };
@@ -25,8 +25,8 @@ namespace tao
             template< typename Input >
             static void apply( const Input &, int & r, int & s )
             {
-               TEST_ASSERT( ! s );
-               TEST_ASSERT( r == 1 );
+               TAOCPP_PEGTL_TEST_ASSERT( ! s );
+               TAOCPP_PEGTL_TEST_ASSERT( r == 1 );
                s += 2;
             }
          };
@@ -38,11 +38,11 @@ namespace tao
          int state_r = 0;
          int state_s = 0;
          parse_string< must< apply< test1::action_a, test1::action_b > > >( "", __FILE__, state_r, state_s );
-         TEST_ASSERT( state_r == 1 );
-         TEST_ASSERT( state_s == 2 );
+         TAOCPP_PEGTL_TEST_ASSERT( state_r == 1 );
+         TAOCPP_PEGTL_TEST_ASSERT( state_s == 2 );
          parse_string< must< disable< apply< test1::action_a, test1::action_b > > > >( "", __FILE__, state_r, state_s );
-         TEST_ASSERT( state_r == 1 );
-         TEST_ASSERT( state_s == 2 );
+         TAOCPP_PEGTL_TEST_ASSERT( state_r == 1 );
+         TAOCPP_PEGTL_TEST_ASSERT( state_s == 2 );
 
          verify_analyze< apply<> >( __LINE__, __FILE__, false, false );
 

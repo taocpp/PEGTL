@@ -16,8 +16,8 @@ namespace tao
             template< typename Input >
             static void apply( const Input & in, std::string & r, std::string & s )
             {
-               TEST_ASSERT( r.empty() );
-               TEST_ASSERT( s.empty() );
+               TAOCPP_PEGTL_TEST_ASSERT( r.empty() );
+               TAOCPP_PEGTL_TEST_ASSERT( s.empty() );
                r += in.string();
             }
          };
@@ -27,7 +27,7 @@ namespace tao
             template< typename Input >
             static void apply( const Input & in, std::string & r, std::string & s )
             {
-               TEST_ASSERT( s.empty() );
+               TAOCPP_PEGTL_TEST_ASSERT( s.empty() );
                s += in.string();
                s += "*";
                s += r;
@@ -60,15 +60,15 @@ namespace tao
       {
          std::string state_r;
          std::string state_s;
-         TEST_ASSERT( test1::flag == 0 );
+         TAOCPP_PEGTL_TEST_ASSERT( test1::flag == 0 );
          parse_string< must< if_apply< one< '-' >, test1::action_a, test1::action_b > >, test1::action >( "-", __FILE__, state_r, state_s );
-         TEST_ASSERT( test1::flag == 1 );
-         TEST_ASSERT( state_r == "-" );
-         TEST_ASSERT( state_s == "-*-" );
+         TAOCPP_PEGTL_TEST_ASSERT( test1::flag == 1 );
+         TAOCPP_PEGTL_TEST_ASSERT( state_r == "-" );
+         TAOCPP_PEGTL_TEST_ASSERT( state_s == "-*-" );
          parse_string< must< disable< if_apply< one< '-' >, test1::action_a, test1::action_b > > >, test1::action >( "-", __FILE__, state_r, state_s );
-         TEST_ASSERT( test1::flag == 1 );
-         TEST_ASSERT( state_r == "-" );
-         TEST_ASSERT( state_s == "-*-" );
+         TAOCPP_PEGTL_TEST_ASSERT( test1::flag == 1 );
+         TAOCPP_PEGTL_TEST_ASSERT( state_r == "-" );
+         TAOCPP_PEGTL_TEST_ASSERT( state_s == "-*-" );
 
          verify_seqs< if_apply_seq >();
          verify_seqs< if_apply_disable >();

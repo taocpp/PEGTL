@@ -21,10 +21,10 @@ namespace tao
          const bool does_consume = a.template consumes< Rule >();
 
          if ( has_problems != expect_problems ) {
-            TEST_FAILED( "analyze -- problems received/expected [ " << has_problems << " / " << expect_problems << " ]" );
+            TAOCPP_PEGTL_TEST_FAILED( "analyze -- problems received/expected [ " << has_problems << " / " << expect_problems << " ]" );
          }
          if ( does_consume != expect_consume ) {
-            TEST_FAILED( "analyze -- consumes received/expected [ " << does_consume << " / " << expect_consume << " ]" );
+            TAOCPP_PEGTL_TEST_FAILED( "analyze -- consumes received/expected [ " << does_consume << " / " << expect_consume << " ]" );
          }
       }
 

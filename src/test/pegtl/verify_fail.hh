@@ -20,7 +20,7 @@ namespace tao
       {
          try {
             parse_string< Rule, Action >( s, "expect_exception", st ... );
-            TEST_FAILED( "expected exception" );
+            TAOCPP_PEGTL_TEST_FAILED( "expected exception" );
          }
          catch ( ... ) {
          }

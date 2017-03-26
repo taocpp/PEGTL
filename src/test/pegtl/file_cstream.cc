@@ -22,8 +22,8 @@ namespace tao
 #else
          std::FILE * stream = std::fopen( filename, "rb" );
 #endif
-         TEST_ASSERT( stream != nullptr );
-         TEST_ASSERT( parse_cstream< file_grammar >( stream, filename, 16 ) );
+         TAOCPP_PEGTL_TEST_ASSERT( stream != nullptr );
+         TAOCPP_PEGTL_TEST_ASSERT( parse_cstream< file_grammar >( stream, filename, 16 ) );
          std::fclose( stream );
       }
 

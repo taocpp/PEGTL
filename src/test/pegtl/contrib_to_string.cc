@@ -12,22 +12,22 @@ namespace tao
    {
       void unit_test()
       {
-         TEST_ASSERT( to_string< string<> >() == "" );
-         TEST_ASSERT(( to_string< string< 'a', 'b', 'c' > >() == "abc" ));
+         TAOCPP_PEGTL_TEST_ASSERT( to_string< string<> >() == "" );
+         TAOCPP_PEGTL_TEST_ASSERT(( to_string< string< 'a', 'b', 'c' > >() == "abc" ));
 
-         TEST_ASSERT( to_string< istring<> >() == "" );
-         TEST_ASSERT(( to_string< istring< 'a', 'b', 'c' > >() == "abc" ));
+         TAOCPP_PEGTL_TEST_ASSERT( to_string< istring<> >() == "" );
+         TAOCPP_PEGTL_TEST_ASSERT(( to_string< istring< 'a', 'b', 'c' > >() == "abc" ));
 
-         TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "" ) >() == "" );
-         TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "abc" ) >() == "abc" );
-         TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "AbC" ) >() == "AbC" );
-         TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "abc" ) >() != "AbC" );
-         TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "abc" ) >() == "abc" );
-         TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "AbC" ) >() == "AbC" );
-         TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "abc" ) >() != "AbC" );
+         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "" ) >() == "" );
+         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "abc" ) >() == "abc" );
+         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "AbC" ) >() == "AbC" );
+         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "abc" ) >() != "AbC" );
+         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "abc" ) >() == "abc" );
+         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "AbC" ) >() == "AbC" );
+         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "abc" ) >() != "AbC" );
 
          // to_string does *not* care about the outer class template
-         TEST_ASSERT(( to_string< one< 'a', 'b', 'c' > >() == "abc" ));
+         TAOCPP_PEGTL_TEST_ASSERT(( to_string< one< 'a', 'b', 'c' > >() == "abc" ));
       }
 
    } // namespace TAOCPP_PEGTL_NAMESPACE
