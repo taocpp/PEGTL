@@ -43,8 +43,8 @@ BreakStringLiterals: false
 BreakConstructorInitializersBeforeComma: false
 ColumnLimit: 0
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
-ConstructorInitializerIndentWidth: 3
-ContinuationIndentWidth: 3
+ConstructorInitializerIndentWidth: 6
+ContinuationIndentWidth: 6
 Cpp11BracedListStyle: false
 DerivePointerAlignment: false
 DisableFormat: false
