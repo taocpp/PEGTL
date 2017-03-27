@@ -62,19 +62,31 @@ The master branch of the PEGTL is stable in the sense that all known bugs are fi
 
 Each commit is [automatically](https://travis-ci.org/taocpp/PEGTL) [tested](https://ci.appveyor.com/project/taocpp/PEGTL) with [multiple](https://doozer.io/user/taocpp/PEGTL) architectures, operating systems, compilers and versions, currently:
 
-* Debian 8 (i386), GCC (4.9) with libstdc++
-* Ubuntu 12.04 LTS (amd64), GCC (4.7, 4.8, 4.9, 5, 6) with libstdc++
-* Ubuntu 12.04 LTS (amd64), Clang (3.4, 3.5, 3.6, 3.7, 3.8) with libstdc++
-* Ubuntu 14.04 LTS (amd64), Clang (3.9, 4.0) with libstdc++
-* Ubuntu 14.04 LTS (i386, amd64), GCC (4.8) with libstdc++
-* Ubuntu 16.04 LTS (i386, amd64, armhf, arm64), GCC (5) with libstdc++
-* Fedora 24 (x86_64), GCC (6) with libstdc++
-* Fedora 24 (x86_64), Clang (3.8) with libstdc++
-* Mac OS X 10.10, Xcode (6.4) with libc++
-* Mac OS X 10.11, Xcode (7.3) with libc++
-* Mac OS X 10.12, Xcode (8.2) with libc++
-* Windows, Visual Studio 2015
-* Android 5.1, NDK release 10e
+* Windows
+
+  * Visual Studio 2015
+  * Visual Studio 2017
+
+* Mac OS X (using libc++)
+
+  * Mac OS X 10.10, Xcode (6.4)
+  * Mac OS X 10.11, Xcode (7.3)
+  * Mac OS X 10.12, Xcode (8.2)
+
+* Linux (using libstdc++)
+
+  * Debian 8 (i386), GCC 4.9
+  * Ubuntu 12.04 LTS (amd64), GCC (4.7, 4.8, 4.9, 5, 6)
+  * Ubuntu 12.04 LTS (amd64), Clang (3.4, 3.5, 3.6, 3.7, 3.8)
+  * Ubuntu 14.04 LTS (amd64), Clang (3.9, 4.0)
+  * Ubuntu 14.04 LTS (i386, amd64), GCC 4.8
+  * Ubuntu 16.04 LTS (i386, amd64, armhf, arm64), GCC 5
+  * Fedora 24 (x86_64), GCC 6
+  * Fedora 24 (x86_64), Clang 3.8
+
+* Android
+
+  * Android 5.1, NDK release 10e
 
 Additionally, each commit is checked with GCC's and Clang's sanitizers as well as [`valgrind`](http://valgrind.org/).
 Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
