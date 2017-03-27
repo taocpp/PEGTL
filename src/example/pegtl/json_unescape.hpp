@@ -24,7 +24,7 @@ namespace examples
       std::string unescaped;
    };
 
-   // Action class for parsing literal strings, uses the PEGTL unescape utilities, cf. unescape.cc.
+   // Action class for parsing literal strings, uses the PEGTL unescape utilities, cf. unescape.cpp.
 
    template< typename Rule, template< typename ... > class Base = tao::TAOCPP_PEGTL_NAMESPACE::nothing >
    struct unescape_action : Base< Rule > {};

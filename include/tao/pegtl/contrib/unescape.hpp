@@ -120,7 +120,7 @@ namespace tao
             }
          };
 
-         // See src/example/pegtl/unescape.cc for why the following two actions
+         // See src/example/pegtl/unescape.cpp for why the following two actions
          // skip the first input character. They also MUST be called
          // with non-empty matched inputs!
 
@@ -149,7 +149,7 @@ namespace tao
          // The unescape_j action is similar to unescape_u, however unlike
          // unescape_u it
          // (a) assumes exactly 4 hexdigits per escape sequence,
-         // (b) accepts multiple consecutive escaped 16-bit values.
+         // (b) .cppepts multiple consecutive escaped 16-bit values.
          // When applied to more than one escape sequence, unescape_j
          // translates UTF-16 surrogate pairs in the input into a single
          // UTF-8 sequence in st.unescaped, as required for JSON by RFC 7159.

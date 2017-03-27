@@ -21,7 +21,7 @@ The different styles can also be freely mixed within the same parser.
 
 The "no switching style" consists of having one (or more) state-arguments that are passed to a parsing run and that are the arguments to all action's `apply()`-methods.
 
-For an example of how to build a generic JSON data structure with the "no switching style" see `src/example/pegtl/json_build_two.cc`.
+For an example of how to build a generic JSON data structure with the "no switching style" see `src/example/pegtl/json_build_two.cpp`.
 
 ## Intrusive Switching
 
@@ -35,7 +35,7 @@ For an example see `<tao/pegtl/contrib/raw_string.hpp>` where a state-switch is 
 
 "External switching" is when the states and/or actions are switched from outside of the grammar by providing a specialised control class.
 
-For an example of how to build a generic JSON data structure with the "external switching style" see `src/example/pegtl/json_build_one.cc`.
+For an example of how to build a generic JSON data structure with the "external switching style" see `src/example/pegtl/json_build_one.cpp`.
 
 The actual switching control classes are defined in `<tao/pegtl/contrib/changes.hpp>` and can be used as template for custom switching.
 

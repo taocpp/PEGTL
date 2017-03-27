@@ -234,7 +234,7 @@ The header file `<tao/pegtl/trace.hpp>` contains a [control class](Control-Hooks
 
 For convenience, a group of functions called `trace_foo()` is included, too, that behaves exactly like the corresponding `parse_foo()`-functions explained above, except that the template argument `Control` is removed and the `parse()`-functions are called with `tracer` as control class.
 
-To see the tracing in action, the supplied example `src/example/pegtl/uri_trace.cc` can be used; the compiled binary can be found in `build/src/example/pegtl/uri_trace` after building the PEGTL examples and unit tests by invoking `make`.
+To see the tracing in action, the supplied example `src/example/pegtl/uri_trace.cpp` can be used; the compiled binary can be found in `build/src/example/pegtl/uri_trace` after building the PEGTL examples and unit tests by invoking `make`.
 
 ## Parser Classes
 
@@ -242,7 +242,7 @@ All of the following parser classes reside in namespace `pegtl`.
 
 The parser class `file_parser` allows parsing the contents of a file.
 
-It is implemented as a class, rather than a function, in order to retain the to-be-parsed data across the call to the `parse()`-function so that, in case of an exception while parsing, it is possible to access the data and use it for error messages.
+It is implemented as a class, rather than a function, in order to retain the to-be-parsed data across the call to the `parse()`-function so that, in case of an exception while parsing, it is possible to .cppess the data and use it for error messages.
 
 The (template) arguments to the `parse()` member function are the same as for the stand-alone `parse()` functions above.
 
@@ -251,7 +251,7 @@ The `input` returned by the `input()` method represents the *remaining* data fro
 - After the constructor was called it represents the complete file data;
 - each time `parse()` is called, and data is consumed by that parsing run, the input is advanced.
 
-Advancing the input consists of advancing the pointer to the beginning of the data, and decrementing the size accordingly.
+Advancing the input consists of advancing the pointer to the beginning of the data, and decrementing the size .cppordingly.
 
 ```c++
 class file_parser
@@ -284,13 +284,13 @@ public:
 ###### Implementation
 
 The interface shown above is actually of the two classes `read_parser` and `mmap_parser`.
-Their interfaces are identical and the only difference is with how the file is accessed:
+Their interfaces are identical and the only difference is with how the file is .cppessed:
 
 - Class `read_parser` reads with `read(2)` and caches the entire content of the file when it is constructed.
 - Class `mmap_parser` uses `mmap(2)` to map the contents of the file and only caches the file size in the constructor.
 
 The `mmap_parser` is only available when compiling on Unix or Mac OS X, in which case `file_parser` is an alias for `mmap_parser`. Otherwise `file_parser` is an alias for `read_parser`.
 
-It is also possible to directly use the classes `read_parser` and `mmap_parser` as such, taking into account that the latter will not always be available.
+It is also possible to directly use the classes `read_parser` and `mmap_parser` as such, taking into .cppount that the latter will not always be available.
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey

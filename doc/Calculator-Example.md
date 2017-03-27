@@ -1,6 +1,6 @@
 # Calculator Example
 
-The PEGTL includes an example that shows how to implement a calculator that parses arithmetic expressions given as command line arguments. Here is the full source code of [`src/example/pegtl/calculator.cc`](../src/example/pegtl/calculator.cc).
+The PEGTL includes an example that shows how to implement a calculator that parses arithmetic expressions given as command line arguments. Here is the full source code of [`src/example/pegtl/calculator.cpp`](../src/example/pegtl/calculator.cpp).
 
 The implementation uses `long` integers as data type for all calculations, and understands all binary arithmetic operators from the C programming language.
 In addition, round brackets can be used to change the evaluation order.

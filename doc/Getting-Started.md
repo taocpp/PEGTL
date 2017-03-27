@@ -53,7 +53,7 @@ namespace hello
          : tao::pegtl::nothing< Rule > {};
 
    // Specialisation of the user-defined action to do
-   // something when the 'name' rule succeeds; is called
+   // something when the 'name' rule s.cppeeds; is called
    // with the portion of the input that matched the rule.
 
    template<> struct action< name >
@@ -85,7 +85,7 @@ Assuming you are in the main directory of the PEGTL, the above source can be
 found in the `src/example/pegtl/` directory. Compile the program with something like
 
 ```sh
-$ g++ --std=c++11 -Iinclude src/example/pegtl/hello_world.cc -o hello_world
+$ g++ --std=c++11 -Iinclude src/example/pegtl/hello_world.cpp -o hello_world
 ```
 
 and then invoke it as follows:
@@ -157,7 +157,7 @@ In terms of installation for use in other projects, the following steps are requ
 - The compiler search-path for include files must include (no pun intended)
   the directory that contains the `tao/pegtl/` directory and `tao/pegtl.hpp` header.
 
-The `Makefile` and `.cc`-files included in the PEGTL distribution archive serve
+The `Makefile` and `.cpp`-files included in the PEGTL distribution archive serve
 as practical examples on how to develop grammars and applications with the PEGTL.
 Invoking `make` in the main PEGTL directory builds all included example programs
 and builds and runs all unit tests.

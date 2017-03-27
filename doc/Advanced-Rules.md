@@ -19,7 +19,7 @@ For performance reasons this assumption is neither ensured nor verified by the P
 ## Simple Rules
 
 In the simplified rule, the `match()`-function is called with a single argument, the input.
-All rules' `match()`-method return a `bool` to indicate success or (local) failure.
+All rules' `match()`-method return a `bool` to indicate s.cppess or (local) failure.
 Rules with the simplified interface are called without the states as arguments.
 
 ```c++
@@ -30,12 +30,12 @@ struct simple_rule
 };
 ```
 
-Here is an excerpt from the included example program `src/example/pegtl/modulus_match.cc` that shows a simple custom rule.
+Here is an excerpt from the included example program `src/example/pegtl/modulus_match.cpp` that shows a simple custom rule.
 The - slightly artificial - rule `my_rule` uses three important `input` methods,
 
 1. first `size()` to check whether the input is not empty,
 
-2. then `begin()` to access the data and check whether the remainder of the first remaining input character `C` happens to satisfy `C % M == R`,
+2. then `begin()` to .cppess the data and check whether the remainder of the first remaining input character `C` happens to satisfy `C % M == R`,
 
 3. and finally `bump()` to consume one `char` from the input if the two above conditions are satisfied.
 
@@ -84,7 +84,7 @@ This shows how custom rule classes using the simple calling convention are restr
 
 ## Complex Rules
 
-The complex calling convention gives a rule's `match()`-method access to "everything", i.e. the error mode, the action and control classes, and all state arguments.
+The complex calling convention gives a rule's `match()`-method .cppess to "everything", i.e. the error mode, the action and control classes, and all state arguments.
 All of these parameters are required for custom rules that need to themselves call other rules for matching.
 
 The `match()`-method in a complex rule takes the following form.
@@ -106,7 +106,7 @@ struct complex_rule
 };
 ```
 
-The following excerpt from the included example program `src/example/pegtl/dynamic_match.cc` shows a complex custom rule that itself makes use of a state argument.
+The following excerpt from the included example program `src/example/pegtl/dynamic_match.cpp` shows a complex custom rule that itself makes use of a state argument.
 This is necessary to cleanly implement dynamic matching, i.e. where (set of) string(s) that a rule is intended to match depends on some run-time data structure rather than some compile-time type (the latter of which includes all template arguments).
 
 The aim is to parse a kind of *long string literal*, an arbitrary string literal that does not require escaping of any special characters, as is common in many scripting languages.
@@ -162,7 +162,7 @@ The custom rule itself
 
 2. then checks whether the input bytes match the stored string, and
 
-3. finally calls `bump()` to consume the correct number of bytes from the input when both checks succeed.
+3. finally calls `bump()` to consume the correct number of bytes from the input when both checks s.cppeed.
 
 ```c++
    struct long_literal_mark
