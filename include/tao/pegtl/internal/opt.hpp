@@ -8,9 +8,9 @@
 
 #include "../config.hpp"
 
-#include "skip_control.hpp"
 #include "duseltronik.hpp"
 #include "seq.hpp"
+#include "skip_control.hpp"
 #include "trivial.hpp"
 
 #include "../apply_mode.hpp"
@@ -24,34 +24,39 @@ namespace tao
    {
       namespace internal
       {
-         template< typename ... Rules > struct opt;
+         template< typename... Rules >
+         struct opt;
 
-         template< typename ... Rules >
-         struct skip_control< opt< Rules ... > > : std::true_type {};
+         template< typename... Rules >
+         struct skip_control< opt< Rules... > > : std::true_type
+         {
+         };
 
          template<>
          struct opt<>
-               : trivial< true > {};
+            : trivial< true >
+         {
+         };
 
-         template< typename ... Rules >
+         template< typename... Rules >
          struct opt
          {
-            using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules ... >;
+            using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules... >;
 
-            template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-            static bool match( Input & in, States && ... st )
+            template< apply_mode A, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            static bool match( Input& in, States&&... st )
             {
-               if ( ! in.empty() ) {
-                  duseltronik< seq< Rules ... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st ... );
+               if( !in.empty() ) {
+                  duseltronik< seq< Rules... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st... );
                }
                return true;
             }
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

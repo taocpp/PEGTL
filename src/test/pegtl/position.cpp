@@ -20,7 +20,7 @@ namespace tao
       }
 
       template< typename Rule >
-      void test_matches_other( const std::string & s2 )
+      void test_matches_other( const std::string& s2 )
       {
          TAOCPP_PEGTL_TEST_ASSERT( s2.size() == 1 );
 
@@ -32,32 +32,38 @@ namespace tao
       }
 
       template< typename Rule >
-      void test_mismatch( const std::string & s3 )
+      void test_mismatch( const std::string& s3 )
       {
          TAOCPP_PEGTL_TEST_ASSERT( s3.size() == 1 );
 
          memory_input i3( { 0, 1, 0, s3.data() }, s3.data() + s3.size(), __FUNCTION__ );
 
-         TAOCPP_PEGTL_TEST_ASSERT( ! parse_input< Rule >( i3 ) );
+         TAOCPP_PEGTL_TEST_ASSERT( !parse_input< Rule >( i3 ) );
          TAOCPP_PEGTL_TEST_ASSERT( i3.line() == 1 );
          TAOCPP_PEGTL_TEST_ASSERT( i3.byte_in_line() == 0 );
       }
 
       struct outer_grammar
-            : must< two< 'a' >, two< 'b' >, two< 'c' >, eof > {};
+         : must< two< 'a' >, two< 'b' >, two< 'c' >, eof >
+      {
+      };
 
       struct inner_grammar
-            : must< one< 'd' >, two< 'e' >, eof > {};
+         : must< one< 'd' >, two< 'e' >, eof >
+      {
+      };
 
       template< typename Rule >
       struct outer_action
-            : nothing< Rule > {};
+         : nothing< Rule >
+      {
+      };
 
       template<>
       struct outer_action< two< 'b' > >
       {
          template< typename Input >
-         static void apply( const Input & in )
+         static void apply( const Input& in )
          {
             const position_info p = in.position();
             TAOCPP_PEGTL_TEST_ASSERT( p.source == "outer" );
@@ -73,7 +79,7 @@ namespace tao
          try {
             parse_string< outer_grammar, outer_action >( "aabbcc", "outer" );
          }
-         catch ( const parse_error & e ) {
+         catch( const parse_error& e ) {
             TAOCPP_PEGTL_TEST_ASSERT( e.positions.size() == 2 );
             TAOCPP_PEGTL_TEST_ASSERT( e.positions[ 0 ].source == "inner" );
             TAOCPP_PEGTL_TEST_ASSERT( e.positions[ 0 ].byte == 1 );
@@ -129,8 +135,8 @@ namespace tao
          test_nested();
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

@@ -11,10 +11,10 @@ namespace tao
       {
          std::string u32s( const char32_t u )
          {
-            return std::string( reinterpret_cast< const char * >( & u ), sizeof( u ) );
+            return std::string( reinterpret_cast< const char* >( &u ), sizeof( u ) );
          }
 
-      } // namespace
+      }  // namespace
 
       void unit_test()
       {
@@ -43,8 +43,8 @@ namespace tao
          verify_rule< utf32::one< 0x10fedc > >( __LINE__, __FILE__, u32s( 0x10fedc ), result_type::SUCCESS, 0 );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

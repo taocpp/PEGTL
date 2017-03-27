@@ -14,8 +14,8 @@ namespace tao
          verify_seqs< must >( result_type::GLOBAL_FAILURE );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

@@ -46,11 +46,11 @@ namespace example
    template<> struct action< escaped_c > : unescape::unescape_c< escaped_c, '\'', '"', '?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' > {};
    // clang-format on
 
-} // namespace example
+}  // namespace example
 
-int main( int argc, char ** argv )
+int main( int argc, char** argv )
 {
-   for ( int i = 1; i < argc; ++i ) {
+   for( int i = 1; i < argc; ++i ) {
       tao::TAOCPP_PEGTL_NAMESPACE::unescape::state s;
       tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< example::padded, example::action >( i, argv, s );
       std::cout << "argv[ " << i << " ] = " << s.unescaped << std::endl;

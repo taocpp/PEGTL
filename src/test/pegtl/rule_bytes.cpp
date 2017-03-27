@@ -16,7 +16,7 @@ namespace tao
 
          verify_analyze< bytes< 1 > >( __LINE__, __FILE__, true, false );
 
-         for ( char c = 0; c < 127; ++c ) {
+         for( char c = 0; c < 127; ++c ) {
             verify_char< bytes< 1 > >( __LINE__, __FILE__, c, result_type::SUCCESS );
          }
          verify_rule< bytes< 1 > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
@@ -32,8 +32,8 @@ namespace tao
          verify_rule< bytes< 4 > >( __LINE__, __FILE__, "abcdefghij", result_type::SUCCESS, 6 );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

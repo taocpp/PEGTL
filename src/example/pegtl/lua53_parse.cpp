@@ -333,13 +333,13 @@ namespace lua53
    struct grammar : pegtl::must< pegtl::opt< interpreter >, statement_list< pegtl::eof > > {};
    // clang-format on
 
-} // namespace lua53
+}  // namespace lua53
 
-int main( int argc, char ** argv )
+int main( int argc, char** argv )
 {
    tao::TAOCPP_PEGTL_NAMESPACE::analyze< lua53::grammar >();
 
-   for ( int i = 1; i < argc; ++i ) {
+   for( int i = 1; i < argc; ++i ) {
       tao::TAOCPP_PEGTL_NAMESPACE::file_parser( argv[ i ] ).parse< lua53::grammar >();
    }
    return 0;

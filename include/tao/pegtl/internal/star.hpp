@@ -9,8 +9,8 @@
 #include "../config.hpp"
 
 #include "duseltronik.hpp"
-#include "seq.hpp"
 #include "opt.hpp"
+#include "seq.hpp"
 #include "skip_control.hpp"
 
 #include "../apply_mode.hpp"
@@ -24,26 +24,29 @@ namespace tao
    {
       namespace internal
       {
-         template< typename Rule, typename ... Rules >
+         template< typename Rule, typename... Rules >
          struct star
          {
-            using analyze_t = analysis::generic< analysis::rule_type::OPT, Rule, Rules ..., star >;
+            using analyze_t = analysis::generic< analysis::rule_type::OPT, Rule, Rules..., star >;
 
-            template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-            static bool match( Input & in, States && ... st )
+            template< apply_mode A, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            static bool match( Input& in, States&&... st )
             {
-               while ( ( ! in.empty() ) && duseltronik< seq< Rule, Rules ... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st ... ) ) {}
+               while( ( !in.empty() ) && duseltronik< seq< Rule, Rules... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st... ) ) {
+               }
                return true;
             }
          };
 
-         template< typename Rule, typename ... Rules >
-         struct skip_control< star< Rule, Rules ... > > : std::true_type {};
+         template< typename Rule, typename... Rules >
+         struct skip_control< star< Rule, Rules... > > : std::true_type
+         {
+         };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

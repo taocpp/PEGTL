@@ -9,8 +9,8 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename ... Rules >
-      using test_try_catch_rule = try_catch< must< Rules ... > >;
+      template< typename... Rules >
+      using test_try_catch_rule = try_catch< must< Rules... > >;
 
       void unit_test()
       {
@@ -18,8 +18,8 @@ namespace tao
          verify_seqs< test_try_catch_rule >();
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

@@ -12,10 +12,10 @@ namespace tao
          struct action_a
          {
             template< typename Input >
-            static void apply( const Input &, int & r, int & s )
+            static void apply( const Input&, int& r, int& s )
             {
-               TAOCPP_PEGTL_TEST_ASSERT( ! r );
-               TAOCPP_PEGTL_TEST_ASSERT( ! s );
+               TAOCPP_PEGTL_TEST_ASSERT( !r );
+               TAOCPP_PEGTL_TEST_ASSERT( !s );
                r += 1;
             }
          };
@@ -23,15 +23,15 @@ namespace tao
          struct action_b
          {
             template< typename Input >
-            static void apply( const Input &, int & r, int & s )
+            static void apply( const Input&, int& r, int& s )
             {
-               TAOCPP_PEGTL_TEST_ASSERT( ! s );
+               TAOCPP_PEGTL_TEST_ASSERT( !s );
                TAOCPP_PEGTL_TEST_ASSERT( r == 1 );
                s += 2;
             }
          };
 
-      } // namespace test1
+      }  // namespace test1
 
       void unit_test()
       {
@@ -46,16 +46,16 @@ namespace tao
 
          verify_analyze< apply<> >( __LINE__, __FILE__, false, false );
 
-         verify_rule< apply<> >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
+         verify_rule< apply<> >( __LINE__, __FILE__, "", result_type::SUCCESS, 0 );
 
-         for ( char i = 1; i < 127; ++i ) {
+         for( char i = 1; i < 127; ++i ) {
             char t[] = { i, 0 };
-            verify_rule< apply<> >( __LINE__, __FILE__,  std::string( t ), result_type::SUCCESS, 1 );
+            verify_rule< apply<> >( __LINE__, __FILE__, std::string( t ), result_type::SUCCESS, 1 );
          }
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

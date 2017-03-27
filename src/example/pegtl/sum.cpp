@@ -2,8 +2,8 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <cstdlib>
-#include <string>
 #include <iostream>
+#include <string>
 
 #include <tao/pegtl.hpp>
 
@@ -12,31 +12,39 @@
 namespace sum
 {
    struct padded_double
-         : tao::TAOCPP_PEGTL_NAMESPACE::pad< double_::grammar, tao::TAOCPP_PEGTL_NAMESPACE::space > {};
+      : tao::TAOCPP_PEGTL_NAMESPACE::pad< double_::grammar, tao::TAOCPP_PEGTL_NAMESPACE::space >
+   {
+   };
 
    struct double_list
-         : tao::TAOCPP_PEGTL_NAMESPACE::list< padded_double, tao::TAOCPP_PEGTL_NAMESPACE::one< ',' > > {};
+      : tao::TAOCPP_PEGTL_NAMESPACE::list< padded_double, tao::TAOCPP_PEGTL_NAMESPACE::one< ',' > >
+   {
+   };
 
    struct grammar
-         : tao::TAOCPP_PEGTL_NAMESPACE::seq< double_list, tao::TAOCPP_PEGTL_NAMESPACE::eof > {};
+      : tao::TAOCPP_PEGTL_NAMESPACE::seq< double_list, tao::TAOCPP_PEGTL_NAMESPACE::eof >
+   {
+   };
 
    template< typename Rule >
    struct action
-         : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule > {};
+      : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule >
+   {
+   };
 
    template<>
    struct action< double_::grammar >
    {
       template< typename Input >
-      static void apply( const Input & in, double & sum )
+      static void apply( const Input& in, double& sum )
       {
          // assume all values will fit into a C++ double
          char* ptr = const_cast< char* >( in.end() );
-         sum += std::strtod( const_cast< char* >( in.begin() ), & ptr );
+         sum += std::strtod( const_cast< char* >( in.begin() ), &ptr );
       }
    };
 
-} // namespace sum
+}  // namespace sum
 
 int main()
 {
@@ -46,12 +54,12 @@ int main()
 
    std::string str;
 
-   while ( std::getline( std::cin, str ) ) {
-      if ( str.empty() || str[ 0 ] == 'q' || str[ 0 ] == 'Q' ) {
+   while( std::getline( std::cin, str ) ) {
+      if( str.empty() || str[ 0 ] == 'q' || str[ 0 ] == 'Q' ) {
          break;
       }
       double d = 0.0;
-      if ( tao::TAOCPP_PEGTL_NAMESPACE::parse_string< sum::grammar, sum::action >( str, "std::cin", d ) ) {
+      if( tao::TAOCPP_PEGTL_NAMESPACE::parse_string< sum::grammar, sum::action >( str, "std::cin", d ) ) {
          std::cout << "parsing OK; sum = " << d << std::endl;
       }
       else {

@@ -22,12 +22,14 @@ namespace tao
          // to return 'true' for the above expression.
 
          template< typename Rule >
-         struct skip_control : std::false_type {};
+         struct skip_control : std::false_type
+         {
+         };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

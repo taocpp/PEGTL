@@ -18,34 +18,34 @@ namespace tao
          verify_analyze< pad< any, any, eof > >( __LINE__, __FILE__, true, true );
          verify_analyze< pad< any, any, any > >( __LINE__, __FILE__, true, false );
 
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  " ", result_type::LOCAL_FAILURE, 1 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "  ", result_type::LOCAL_FAILURE, 2 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "b", result_type::LOCAL_FAILURE, 1 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "ba", result_type::LOCAL_FAILURE, 2 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  " a", result_type::SUCCESS, 0 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "a ", result_type::SUCCESS, 0 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "  a", result_type::SUCCESS, 0 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "a  ", result_type::SUCCESS, 0 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "  a  ", result_type::SUCCESS, 0 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "   a   ", result_type::SUCCESS, 0 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "aa", result_type::SUCCESS, 1 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "a a", result_type::SUCCESS, 1 );
-         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__,  "  a  a ", result_type::SUCCESS, 2 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, " ", result_type::LOCAL_FAILURE, 1 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, "  ", result_type::LOCAL_FAILURE, 2 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, "b", result_type::LOCAL_FAILURE, 1 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, "ba", result_type::LOCAL_FAILURE, 2 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, "a", result_type::SUCCESS, 0 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, " a", result_type::SUCCESS, 0 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, "a ", result_type::SUCCESS, 0 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, "  a", result_type::SUCCESS, 0 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, "a  ", result_type::SUCCESS, 0 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, "  a  ", result_type::SUCCESS, 0 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, "   a   ", result_type::SUCCESS, 0 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, "aa", result_type::SUCCESS, 1 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, "a a", result_type::SUCCESS, 1 );
+         verify_rule< pad< one< 'a' >, space > >( __LINE__, __FILE__, "  a  a ", result_type::SUCCESS, 2 );
 
-         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );
-         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "1a", result_type::SUCCESS, 0 );
-         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "123a", result_type::SUCCESS, 0 );
-         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "a ", result_type::SUCCESS, 0 );
-         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "a   ", result_type::SUCCESS, 0 );
-         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "123a   ", result_type::SUCCESS, 0 );
-         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  " a", result_type::LOCAL_FAILURE, 2 );
-         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__,  "a1", result_type::SUCCESS, 1 );
+         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__, "a", result_type::SUCCESS, 0 );
+         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__, "1a", result_type::SUCCESS, 0 );
+         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__, "123a", result_type::SUCCESS, 0 );
+         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__, "a ", result_type::SUCCESS, 0 );
+         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__, "a   ", result_type::SUCCESS, 0 );
+         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__, "123a   ", result_type::SUCCESS, 0 );
+         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__, " a", result_type::LOCAL_FAILURE, 2 );
+         verify_rule< pad< one< 'a' >, digit, blank > >( __LINE__, __FILE__, "a1", result_type::SUCCESS, 1 );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

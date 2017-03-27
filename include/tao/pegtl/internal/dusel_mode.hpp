@@ -18,8 +18,8 @@ namespace tao
          CONTROL_AND_APPLY0 = 3
       };
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

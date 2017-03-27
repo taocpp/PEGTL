@@ -17,12 +17,12 @@ namespace examples
 
    template< typename Rule >
    struct errors
-         : public tao::TAOCPP_PEGTL_NAMESPACE::normal< Rule >
+      : public tao::TAOCPP_PEGTL_NAMESPACE::normal< Rule >
    {
       static const std::string error_message;
 
-      template< typename Input, typename ... States >
-      static void raise( const Input & in, States && ... )
+      template< typename Input, typename... States >
+      static void raise( const Input& in, States&&... )
       {
          throw tao::TAOCPP_PEGTL_NAMESPACE::parse_error( error_message, in );
       }
@@ -57,6 +57,6 @@ namespace examples
    // error_message needs to be supplied only for these rules
    // (and the compiler will complain if one is missing).
 
-} // examples
+}  // examples
 
 #endif

@@ -4,11 +4,11 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_UNESCAPE_HPP
 #define TAOCPP_PEGTL_INCLUDE_CONTRIB_UNESCAPE_HPP
 
-#include <string>
 #include <cassert>
+#include <string>
 
-#include "../config.hpp"
 #include "../ascii.hpp"
+#include "../config.hpp"
 #include "../parse_error.hpp"
 
 namespace tao
@@ -24,30 +24,30 @@ namespace tao
 
          // Utility functions for the unescape actions.
 
-         inline bool utf8_append_utf32( std::string & string, const unsigned utf32 )
+         inline bool utf8_append_utf32( std::string& string, const unsigned utf32 )
          {
-            if ( utf32 <= 0x7f ) {
+            if( utf32 <= 0x7f ) {
                string += char( utf32 & 0xff );
                return true;
             }
-            if ( utf32 <= 0x7ff ) {
+            if( utf32 <= 0x7ff ) {
                char tmp[] = { char( ( ( utf32 & 0x7c0 ) >> 6 ) | 0xc0 ),
-                              char( ( ( utf32 & 0x03f )      ) | 0x80 ) };
+                              char( ( ( utf32 & 0x03f ) ) | 0x80 ) };
                string.append( tmp, sizeof( tmp ) );
                return true;
             }
-            if ( utf32 <= 0xffff ) {
+            if( utf32 <= 0xffff ) {
                char tmp[] = { char( ( ( utf32 & 0xf000 ) >> 12 ) | 0xe0 ),
-                              char( ( ( utf32 & 0x0fc0 ) >> 6  ) | 0x80 ),
-                              char( ( ( utf32 & 0x003f )       ) | 0x80 ) };
+                              char( ( ( utf32 & 0x0fc0 ) >> 6 ) | 0x80 ),
+                              char( ( ( utf32 & 0x003f ) ) | 0x80 ) };
                string.append( tmp, sizeof( tmp ) );
                return true;
             }
-            if ( utf32 <= 0x10ffff ) {
+            if( utf32 <= 0x10ffff ) {
                char tmp[] = { char( ( ( utf32 & 0x1c0000 ) >> 18 ) | 0xf0 ),
                               char( ( ( utf32 & 0x03f000 ) >> 12 ) | 0x80 ),
-                              char( ( ( utf32 & 0x000fc0 ) >> 6  ) | 0x80 ),
-                              char( ( ( utf32 & 0x00003f )       ) | 0x80 ) };
+                              char( ( ( utf32 & 0x000fc0 ) >> 6 ) | 0x80 ),
+                              char( ( ( utf32 & 0x00003f ) ) | 0x80 ) };
                string.append( tmp, sizeof( tmp ) );
                return true;
             }
@@ -58,22 +58,41 @@ namespace tao
          template< typename I >
          I unhex_char( const char c )
          {
-            switch ( c ) {
-               case '0': case '1': case '2': case '3': case '4': case '5': case '6': case '7': case '8': case '9':
+            switch( c ) {
+               case '0':
+               case '1':
+               case '2':
+               case '3':
+               case '4':
+               case '5':
+               case '6':
+               case '7':
+               case '8':
+               case '9':
                   return I( c - '0' );
-               case 'a': case 'b': case 'c': case 'd': case 'e': case 'f':
+               case 'a':
+               case 'b':
+               case 'c':
+               case 'd':
+               case 'e':
+               case 'f':
                   return I( c - 'a' + 10 );
-               case 'A': case 'B': case 'C': case 'D': case 'E': case 'F':
+               case 'A':
+               case 'B':
+               case 'C':
+               case 'D':
+               case 'E':
+               case 'F':
                   return I( c - 'A' + 10 );
             }
             throw std::runtime_error( "invalid character in unhex" );  // LCOV_EXCL_LINE
          }
 
          template< typename I >
-         I unhex_string( const char * begin, const char * const end )
+         I unhex_string( const char* begin, const char* const end )
          {
             I r = 0;
-            while ( begin != end ) {
+            while( begin != end ) {
                r <<= 4;
                r += unhex_char< I >( *begin++ );
             }
@@ -85,35 +104,35 @@ namespace tao
          struct append_all
          {
             template< typename Input, typename State >
-            static void apply( const Input & in, State & st )
+            static void apply( const Input& in, State& st )
             {
                st.unescaped.append( in.begin(), in.size() );
             }
          };
 
          // This action MUST be called for a character matching T which MUST be tao::TAOCPP_PEGTL_NAMESPACE::one< ... >.
-         template< typename T, char ... Rs >
+         template< typename T, char... Rs >
          struct unescape_c
          {
             template< typename Input, typename State >
-            static void apply( const Input & in, State & st )
+            static void apply( const Input& in, State& st )
             {
                assert( in.size() == 1 );
-               st.unescaped += apply_one( * in.begin(), static_cast< const T * >( nullptr ) );
+               st.unescaped += apply_one( *in.begin(), static_cast< const T* >( nullptr ) );
             }
 
-            template< char ... Qs >
-            static char apply_one( const char c, const one< Qs ... > * )
+            template< char... Qs >
+            static char apply_one( const char c, const one< Qs... >* )
             {
-               static_assert( sizeof ... ( Qs ) == sizeof ... ( Rs ), "size mismatch between escaped characters and their mappings" );
-               return apply_two( c, { Qs ... }, { Rs ... } );
+               static_assert( sizeof...( Qs ) == sizeof...( Rs ), "size mismatch between escaped characters and their mappings" );
+               return apply_two( c, { Qs... }, { Rs... } );
             }
 
-            static char apply_two( const char c, const std::initializer_list< char > & q, const std::initializer_list< char > & r )
+            static char apply_two( const char c, const std::initializer_list< char >& q, const std::initializer_list< char >& r )
             {
-               for ( std::size_t i = 0; i < q.size(); ++i ) {
-                  if ( * ( q.begin() + i ) == c ) {
-                     return * ( r.begin() + i );
+               for( std::size_t i = 0; i < q.size(); ++i ) {
+                  if( *( q.begin() + i ) == c ) {
+                     return *( r.begin() + i );
                   }
                }
                throw std::runtime_error( "invalid character in unescape" );  // LCOV_EXCL_LINE
@@ -127,10 +146,10 @@ namespace tao
          struct unescape_u
          {
             template< typename Input, typename State >
-            static void apply( const Input & in, State & st )
+            static void apply( const Input& in, State& st )
             {
-               assert( ! in.empty() );  // First character MUST be present, usually 'u' or 'U'.
-               if ( ! utf8_append_utf32( st.unescaped, unhex_string< unsigned >( in.begin() + 1, in.end() ) ) ) {
+               assert( !in.empty() );  // First character MUST be present, usually 'u' or 'U'.
+               if( !utf8_append_utf32( st.unescaped, unhex_string< unsigned >( in.begin() + 1, in.end() ) ) ) {
                   throw parse_error( "invalid escaped unicode code point", in );
                }
             }
@@ -139,9 +158,9 @@ namespace tao
          struct unescape_x
          {
             template< typename Input, typename State >
-            static void apply( const Input & in, State & st )
+            static void apply( const Input& in, State& st )
             {
-               assert( ! in.empty() );  // First character MUST be present, usually 'x'.
+               assert( !in.empty() );  // First character MUST be present, usually 'x'.
                st.unescaped += unhex_string< char >( in.begin() + 1, in.end() );
             }
          };
@@ -157,14 +176,14 @@ namespace tao
          struct unescape_j
          {
             template< typename Input, typename State >
-            static void apply( const Input & in, State & st )
+            static void apply( const Input& in, State& st )
             {
                assert( ( ( in.size() + 1 ) % 6 ) == 0 );  // Expects multiple "\\u1234", starting with the first "u".
-               for ( const char * b = in.begin() + 1; b < in.end(); b += 6 ) {
+               for( const char* b = in.begin() + 1; b < in.end(); b += 6 ) {
                   const auto c = unhex_string< unsigned >( b, b + 4 );
-                  if ( ( 0xd800 <= c ) && ( c <= 0xdbff ) && ( b + 6 < in.end() ) ) {
+                  if( ( 0xd800 <= c ) && ( c <= 0xdbff ) && ( b + 6 < in.end() ) ) {
                      const auto d = unhex_string< unsigned >( b + 6, b + 10 );
-                     if ( ( 0xdc00 <= d ) && ( d <= 0xdfff ) ) {
+                     if( ( 0xdc00 <= d ) && ( d <= 0xdfff ) ) {
                         b += 6;
                         utf8_append_utf32( st.unescaped, ( ( ( c & 0x03ff ) << 10 ) | ( d & 0x03ff ) ) + 0x10000 );
                         continue;
@@ -175,10 +194,10 @@ namespace tao
             }
          };
 
-      } // namespace unescape
+      }  // namespace unescape
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

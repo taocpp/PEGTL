@@ -4,17 +4,17 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_BUFFER_INPUT_HPP
 #define TAOCPP_PEGTL_INCLUDE_BUFFER_INPUT_HPP
 
-#include <memory>
-#include <cstring>
 #include <cstddef>
+#include <cstring>
+#include <memory>
 
 #include "config.hpp"
-#include "eol.hpp"
 #include "count_data.hpp"
-#include "position_info.hpp"
+#include "eol.hpp"
+#include "internal/action_input.hpp"
 #include "internal/bump_impl.hpp"
 #include "internal/input_mark.hpp"
-#include "internal/action_input.hpp"
+#include "position_info.hpp"
 
 namespace tao
 {
@@ -32,18 +32,19 @@ namespace tao
          using action_t = internal::basic_action_input< Eol >;
          using memory_t = basic_memory_input< Eol >;
 
-         template< typename ... As >
-         basic_buffer_input( const char * in_source, const std::size_t maximum, As && ... as )
-               : m_reader( std::forward< As >( as ) ... ),
-                 m_maximum( maximum ),
-                 m_buffer( new char[ maximum ] ),
-                 m_data( { 0, 1, 0, m_buffer.get() } ),
-                 m_end( m_buffer.get() ),
-                 m_source( in_source )
-         { }
+         template< typename... As >
+         basic_buffer_input( const char* in_source, const std::size_t maximum, As&&... as )
+            : m_reader( std::forward< As >( as )... ),
+              m_maximum( maximum ),
+              m_buffer( new char[ maximum ] ),
+              m_data( { 0, 1, 0, m_buffer.get() } ),
+              m_end( m_buffer.get() ),
+              m_source( in_source )
+         {
+         }
 
-         basic_buffer_input( const basic_buffer_input & ) = delete;
-         void operator= ( const basic_buffer_input & ) = delete;
+         basic_buffer_input( const basic_buffer_input& ) = delete;
+         void operator=( const basic_buffer_input& ) = delete;
 
          bool empty()
          {
@@ -57,12 +58,12 @@ namespace tao
             return std::size_t( m_end - m_data.data );
          }
 
-         const char * begin() const
+         const char* begin() const
          {
             return m_data.data;
          }
 
-         const char * end( const std::size_t amount )
+         const char* end( const std::size_t amount )
          {
             require( amount );
             return m_end;
@@ -83,7 +84,7 @@ namespace tao
             return m_data.byte_in_line;
          }
 
-         const char * source() const
+         const char* source() const
          {
             return m_source;
          }
@@ -123,9 +124,9 @@ namespace tao
 
          void require( const std::size_t amount )
          {
-            if ( m_data.data + amount > m_end ) {
-               if ( m_data.data + amount <= m_buffer.get() + m_maximum ) {
-                  if ( const auto r = m_reader( const_cast< char * >( m_end ), amount - std::size_t( m_end - m_data.data ) ) ) {
+            if( m_data.data + amount > m_end ) {
+               if( m_data.data + amount <= m_buffer.get() + m_maximum ) {
+                  if( const auto r = m_reader( const_cast< char* >( m_end ), amount - std::size_t( m_end - m_data.data ) ) ) {
                      m_end += r;
                   }
                   else {
@@ -146,7 +147,7 @@ namespace tao
             return position_info( m_data, m_source );
          }
 
-         const count_data & count() const
+         const count_data& count() const
          {
             return m_data;
          }
@@ -156,15 +157,15 @@ namespace tao
          std::size_t m_maximum;
          std::unique_ptr< char[] > m_buffer;
          count_data m_data;
-         const char * m_end;
-         const char * m_source;
+         const char* m_end;
+         const char* m_source;
       };
 
       template< typename Reader >
       using buffer_input = basic_buffer_input< lf_crlf_eol, Reader >;
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

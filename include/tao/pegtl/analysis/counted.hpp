@@ -14,15 +14,16 @@ namespace tao
    {
       namespace analysis
       {
-         template< rule_type Type, unsigned Count, typename ... Rules >
+         template< rule_type Type, unsigned Count, typename... Rules >
          struct counted
-               : generic< ( Count != 0 ) ? Type : rule_type::OPT, Rules ... >
-         { };
+            : generic< ( Count != 0 ) ? Type : rule_type::OPT, Rules... >
+         {
+         };
 
-      } // namespace analysis
+      }  // namespace analysis
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

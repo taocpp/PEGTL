@@ -12,54 +12,80 @@ namespace sexpr
    using namespace tao::pegtl;
 
    struct hash_comment
-         : until< eolf > {};
+      : until< eolf >
+   {
+   };
 
    struct list;
 
    struct list_comment
-         : if_must< at< one< '(' > >, disable< list > > {};
+      : if_must< at< one< '(' > >, disable< list > >
+   {
+   };
 
    struct read_include
-         : seq< one< ' ' >, one< '"' >, plus< not_one< '"' > >, one< '"' > > {};
+      : seq< one< ' ' >, one< '"' >, plus< not_one< '"' > >, one< '"' > >
+   {
+   };
 
    struct hash_include
-         : if_must< string< 'i', 'n', 'c', 'l', 'u', 'd', 'e' >, read_include > {};
+      : if_must< string< 'i', 'n', 'c', 'l', 'u', 'd', 'e' >, read_include >
+   {
+   };
 
    struct hashed
-         : if_must< one< '#' >, sor< hash_include, list_comment, hash_comment > > {};
+      : if_must< one< '#' >, sor< hash_include, list_comment, hash_comment > >
+   {
+   };
 
    struct number
-         : plus< digit > {};
+      : plus< digit >
+   {
+   };
 
    struct symbol
-         : identifier {};
+      : identifier
+   {
+   };
 
    struct atom
-         : sor< number, symbol > {};
+      : sor< number, symbol >
+   {
+   };
 
    struct anything;
 
    struct list
-         : if_must< one< '(' >, until< one< ')' >, anything > > {};
+      : if_must< one< '(' >, until< one< ')' >, anything > >
+   {
+   };
 
    struct normal
-         : sor< atom, list > {};
+      : sor< atom, list >
+   {
+   };
 
    struct anything
-         : sor< space, hashed, normal > {};
+      : sor< space, hashed, normal >
+   {
+   };
 
    struct main
-         : until< eof, must< anything > > {};
+      : until< eof, must< anything > >
+   {
+   };
 
    template< typename Rule >
    struct action
-         : nothing< Rule > {};
+      : nothing< Rule >
+   {
+   };
 
    template<>
    struct action< plus< not_one< '"' > > >
    {
       template< typename Input >
-      static void apply( const Input & in, std::string & fn )
+      static void apply( const Input& in, std::string& fn )
       {
          fn = in.string();
       }
@@ -69,7 +95,7 @@ namespace sexpr
    struct action< hash_include >
    {
       template< typename Input >
-      static void apply( const Input & in, std::string & fn )
+      static void apply( const Input& in, std::string& fn )
       {
          std::string f2;
          // Here f2 is the state argument for the nested parsing
@@ -82,13 +108,13 @@ namespace sexpr
       }
    };
 
-} // namespace sexpr
+}  // namespace sexpr
 
-int main( int argc, char ** argv )
+int main( int argc, char** argv )
 {
    tao::TAOCPP_PEGTL_NAMESPACE::analyze< sexpr::main >();
 
-   for ( int i = 1; i < argc; ++i ) {
+   for( int i = 1; i < argc; ++i ) {
       std::string fn;
       tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< sexpr::main, sexpr::action >( i, argv, fn );
    }

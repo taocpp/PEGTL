@@ -6,9 +6,9 @@
 
 #include "config.hpp"
 
-#include "internal/rules.hpp"
 #include "internal/peek_utf8.hpp"
 #include "internal/result_on_found.hpp"
+#include "internal/rules.hpp"
 
 namespace tao
 {
@@ -25,10 +25,10 @@ namespace tao
          template< char32_t ... Cs > struct ranges : internal::ranges< internal::peek_utf8, Cs ... > {};
          // clang-format on
 
-      } // namespace utf8
+      }  // namespace utf8
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

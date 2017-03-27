@@ -6,8 +6,8 @@
 
 #include <tao/pegtl.hpp>
 
-#include "verify_rule.hpp"
 #include "verify_analyze.hpp"
+#include "verify_rule.hpp"
 
 namespace tao
 {
@@ -25,11 +25,11 @@ namespace tao
          verify_analyze< S< any, any, eof > >( __LINE__, __FILE__, false, false );
          verify_analyze< S< any, any, any > >( __LINE__, __FILE__, true, false );
 
-         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__,  "", failure, 0 );
-         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__,  "b", failure, 1 );
-         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__,  "c", result_type::SUCCESS, 0 );
-         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__,  "ab", result_type::SUCCESS, 0 );
-         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__,  "ac", failure, 2 );
+         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "", failure, 0 );
+         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "b", failure, 1 );
+         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "c", result_type::SUCCESS, 0 );
+         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "ab", result_type::SUCCESS, 0 );
+         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "ac", failure, 2 );
 
          verify_rule< must< S< one< 'a' >, one< 'b' >, one< 'c' > > > >( __LINE__, __FILE__, "", result_type::GLOBAL_FAILURE, 0 );
          verify_rule< must< S< one< 'a' >, one< 'b' >, one< 'c' > > > >( __LINE__, __FILE__, "a", result_type::GLOBAL_FAILURE, 0 );
@@ -40,8 +40,8 @@ namespace tao
          verify_rule< must< S< one< 'a' >, one< 'b' >, seq< one< 'c' >, one< 'd' > > > > >( __LINE__, __FILE__, "cc", result_type::GLOBAL_FAILURE, 1 );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

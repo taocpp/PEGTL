@@ -13,10 +13,10 @@ namespace tao
    {
       namespace internal
       {
-         inline void bump( count_data & data, const std::size_t count, const int ch )
+         inline void bump( count_data& data, const std::size_t count, const int ch )
          {
-            for ( std::size_t i = 0; i < count; ++i ) {
-               if ( data.data[ i ] == ch ) {
+            for( std::size_t i = 0; i < count; ++i ) {
+               if( data.data[ i ] == ch ) {
                   ++data.line;
                   data.byte_in_line = 0;
                }
@@ -28,14 +28,14 @@ namespace tao
             data.data += count;
          }
 
-         inline void bump_in_this_line( count_data & data, const std::size_t count )
+         inline void bump_in_this_line( count_data& data, const std::size_t count )
          {
             data.data += count;
             data.byte += count;
             data.byte_in_line += count;
          }
 
-         inline void bump_to_next_line( count_data & data, const std::size_t count )
+         inline void bump_to_next_line( count_data& data, const std::size_t count )
          {
             ++data.line;
             data.byte += count;
@@ -43,10 +43,10 @@ namespace tao
             data.data += count;
          }
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

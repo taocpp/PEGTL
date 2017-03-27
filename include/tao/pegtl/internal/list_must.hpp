@@ -6,9 +6,9 @@
 
 #include "../config.hpp"
 
+#include "must.hpp"
 #include "seq.hpp"
 #include "star.hpp"
-#include "must.hpp"
 
 namespace tao
 {
@@ -19,10 +19,10 @@ namespace tao
          template< typename Rule, typename Sep >
          using list_must = seq< Rule, star< Sep, must< Rule > > >;
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

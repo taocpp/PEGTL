@@ -19,19 +19,19 @@ namespace tao
       {
          struct rule_info
          {
-            explicit
-            rule_info( const rule_type in_type )
-                  : type( in_type )
-            { }
+            explicit rule_info( const rule_type in_type )
+               : type( in_type )
+            {
+            }
 
             rule_type type;
             std::vector< std::string > rules;
          };
 
-      } // namespace analysis
+      }  // namespace analysis
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

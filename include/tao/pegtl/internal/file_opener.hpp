@@ -5,9 +5,9 @@
 #define TAOCPP_PEGTL_INCLUDE_INTERNAL_FILE_OPENER_HPP
 
 #include <fcntl.h>
-#include <unistd.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 #include <utility>
 
@@ -22,25 +22,25 @@ namespace tao
       {
          struct file_opener
          {
-            explicit
-            file_opener( std::string filename )
-                  : m_source( std::move( filename ) ),
-                    m_fd( open() )
-            { }
+            explicit file_opener( std::string filename )
+               : m_source( std::move( filename ) ),
+                 m_fd( open() )
+            {
+            }
 
             ~file_opener()
             {
                ::close( m_fd );
             }
 
-            file_opener( const file_opener & ) = delete;
-            void operator= ( const file_opener & ) = delete;
+            file_opener( const file_opener& ) = delete;
+            void operator=( const file_opener& ) = delete;
 
             std::size_t size() const
             {
                struct stat st;
                errno = 0;
-               if ( ::fstat( m_fd, & st ) < 0 ) {
+               if(::fstat( m_fd, &st ) < 0 ) {
                   TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to fstat() file " << m_source << " descriptor " << m_fd );
                }
                return std::size_t( st.st_size );
@@ -54,17 +54,17 @@ namespace tao
             {
                errno = 0;
                const int fd = ::open( m_source.c_str(), O_RDONLY );
-               if ( fd >= 0 ) {
+               if( fd >= 0 ) {
                   return fd;
                }
                TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to open() file " << m_source << " for reading" );
             }
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

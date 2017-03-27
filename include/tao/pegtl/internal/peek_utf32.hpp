@@ -31,12 +31,12 @@ namespace tao
             }
 
             template< typename Input >
-            static pair_t peek( Input & in )
+            static pair_t peek( Input& in )
             {
                const std::size_t s = in.size( 4 );
-               if ( s >= 4 ) {
-                  const char32_t t = * reinterpret_cast< const char32_t * >( in.begin() );
-                  if ( dummy_less_or_equal< char32_t >( 0, t ) && dummy_less_or_equal< char32_t >( t, 0x10ffff ) ) {
+               if( s >= 4 ) {
+                  const char32_t t = *reinterpret_cast< const char32_t* >( in.begin() );
+                  if( dummy_less_or_equal< char32_t >( 0, t ) && dummy_less_or_equal< char32_t >( t, 0x10ffff ) ) {
                      return { t, 4 };
                   }
                }
@@ -44,10 +44,10 @@ namespace tao
             }
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

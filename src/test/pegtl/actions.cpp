@@ -9,9 +9,15 @@ namespace tao
    {
       namespace test1
       {
-         struct fiz : if_must< at< one< 'a' > >, two< 'a' > > {};
-         struct foo : sor< fiz, one< 'b' > > {};
-         struct bar : until< eof, foo > {};
+         struct fiz : if_must< at< one< 'a' > >, two< 'a' > >
+         {
+         };
+         struct foo : sor< fiz, one< 'b' > >
+         {
+         };
+         struct bar : until< eof, foo >
+         {
+         };
 
          void test_result()
          {
@@ -45,29 +51,37 @@ namespace tao
             char c;
 
             template< typename Input >
-            state1( const Input &, std::string & )
-            { }
+            state1( const Input&, std::string& )
+            {
+            }
 
             template< typename Input >
-            void success( const Input &, std::string & s ) const
+            void success( const Input&, std::string& s ) const
             {
                s += c;
             }
          };
 
-         struct fobble : sor< state< state1, alpha >, digit > {};
-         struct fibble : until< eof, fobble > {};
+         struct fobble : sor< state< state1, alpha >, digit >
+         {
+         };
+         struct fibble : until< eof, fobble >
+         {
+         };
 
-         template< typename Rule > struct action1 : nothing< Rule > {};
+         template< typename Rule >
+         struct action1 : nothing< Rule >
+         {
+         };
 
          template<>
          struct action1< alpha >
          {
             template< typename Input >
-            static void apply( const Input & in, state1 & s )
+            static void apply( const Input& in, state1& s )
             {
                assert( in.size() == 1 );
-               s.c = 0[ in.begin() ];
+               s.c = 0 [ in.begin() ];
             }
          };
 
@@ -78,7 +92,10 @@ namespace tao
             TAOCPP_PEGTL_TEST_ASSERT( result == "dkskxk" );
          }
 
-         template< typename Rule > struct action0 : nothing< Rule > {};
+         template< typename Rule >
+         struct action0 : nothing< Rule >
+         {
+         };
 
          static int i0 = 0;
 
@@ -91,9 +108,10 @@ namespace tao
             }
          };
 
-         template<> struct action0< digit >
+         template<>
+         struct action0< digit >
          {
-            static void apply0( std::string & s )
+            static void apply0( std::string& s )
             {
                s += '0';
             }
@@ -108,7 +126,7 @@ namespace tao
             TAOCPP_PEGTL_TEST_ASSERT( s0 == "00000000" );
          }
 
-      } // namespace test1
+      }  // namespace test1
 
       void unit_test()
       {
@@ -147,8 +165,8 @@ namespace tao
          test1::apply0_test();
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

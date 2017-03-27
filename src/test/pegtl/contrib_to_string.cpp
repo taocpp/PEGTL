@@ -13,10 +13,10 @@ namespace tao
       void unit_test()
       {
          TAOCPP_PEGTL_TEST_ASSERT( to_string< string<> >() == "" );
-         TAOCPP_PEGTL_TEST_ASSERT(( to_string< string< 'a', 'b', 'c' > >() == "abc" ));
+         TAOCPP_PEGTL_TEST_ASSERT( ( to_string< string< 'a', 'b', 'c' > >() == "abc" ) );
 
          TAOCPP_PEGTL_TEST_ASSERT( to_string< istring<> >() == "" );
-         TAOCPP_PEGTL_TEST_ASSERT(( to_string< istring< 'a', 'b', 'c' > >() == "abc" ));
+         TAOCPP_PEGTL_TEST_ASSERT( ( to_string< istring< 'a', 'b', 'c' > >() == "abc" ) );
 
          TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "" ) >() == "" );
          TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "abc" ) >() == "abc" );
@@ -27,11 +27,11 @@ namespace tao
          TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "abc" ) >() != "AbC" );
 
          // to_string does *not* care about the outer class template
-         TAOCPP_PEGTL_TEST_ASSERT(( to_string< one< 'a', 'b', 'c' > >() == "abc" ));
+         TAOCPP_PEGTL_TEST_ASSERT( ( to_string< one< 'a', 'b', 'c' > >() == "abc" ) );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

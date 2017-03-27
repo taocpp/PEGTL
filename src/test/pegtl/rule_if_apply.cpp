@@ -14,7 +14,7 @@ namespace tao
          struct action_a
          {
             template< typename Input >
-            static void apply( const Input & in, std::string & r, std::string & s )
+            static void apply( const Input& in, std::string& r, std::string& s )
             {
                TAOCPP_PEGTL_TEST_ASSERT( r.empty() );
                TAOCPP_PEGTL_TEST_ASSERT( s.empty() );
@@ -25,7 +25,7 @@ namespace tao
          struct action_b
          {
             template< typename Input >
-            static void apply( const Input & in, std::string & r, std::string & s )
+            static void apply( const Input& in, std::string& r, std::string& s )
             {
                TAOCPP_PEGTL_TEST_ASSERT( s.empty() );
                s += in.string();
@@ -34,7 +34,10 @@ namespace tao
             }
          };
 
-         template< typename Rule > struct action : nothing< Rule > {};
+         template< typename Rule >
+         struct action : nothing< Rule >
+         {
+         };
 
          int flag = 0;
 
@@ -42,19 +45,19 @@ namespace tao
          struct action< one< '-' > >
          {
             template< typename Input >
-            static void apply( const Input &, std::string &, std::string & )
+            static void apply( const Input&, std::string&, std::string& )
             {
                ++flag;
             }
          };
 
-      } // namespace test1
+      }  // namespace test1
 
-      template< typename ... Rules >
-      using if_apply_seq = if_apply< seq< Rules ... > >;
+      template< typename... Rules >
+      using if_apply_seq = if_apply< seq< Rules... > >;
 
-      template< typename ... Rules >
-      using if_apply_disable = if_apply< disable< Rules ... > >;
+      template< typename... Rules >
+      using if_apply_disable = if_apply< disable< Rules... > >;
 
       void unit_test()
       {
@@ -74,8 +77,8 @@ namespace tao
          verify_seqs< if_apply_disable >();
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

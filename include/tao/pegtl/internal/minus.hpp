@@ -9,8 +9,8 @@
 #include "skip_control.hpp"
 
 #include "../apply_mode.hpp"
-#include "../rewind_mode.hpp"
 #include "../memory_input.hpp"
+#include "../rewind_mode.hpp"
 
 namespace tao
 {
@@ -23,31 +23,33 @@ namespace tao
          {
             using analyze_t = typename R::analyze_t;  // NOTE: S is currently ignored for analyze().
 
-            template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-            static bool match( Input & in, States && ... st )
+            template< apply_mode A, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< rewind_mode::REQUIRED >();
 
-               if ( ! Control< R >::template match< A, rewind_mode::ACTIVE, Action, Control >( in, st ... ) ) {
+               if( !Control< R >::template match< A, rewind_mode::ACTIVE, Action, Control >( in, st... ) ) {
                   return false;
                }
                using memory_t = typename Input::memory_t;
                memory_t i2( m.count(), in.begin(), in.source() );
 
-               if ( ! Control< S >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( i2, st ... ) ) {
+               if( !Control< S >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( i2, st... ) ) {
                   return m( true );
                }
-               return m( ! i2.empty() );
+               return m( !i2.empty() );
             }
          };
 
          template< typename R, typename S >
-         struct skip_control< minus< R, S > > : std::true_type {};
+         struct skip_control< minus< R, S > > : std::true_type
+         {
+         };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

@@ -6,8 +6,8 @@
 
 #include "../config.hpp"
 
-#include "skip_control.hpp"
 #include "peek_char.hpp"
+#include "skip_control.hpp"
 
 #include "../analysis/generic.hpp"
 
@@ -21,7 +21,9 @@ namespace tao
          struct any;
 
          template< typename Peek >
-         struct skip_control< any< Peek > > : std::true_type {};
+         struct skip_control< any< Peek > > : std::true_type
+         {
+         };
 
          template<>
          struct any< peek_char >
@@ -29,9 +31,9 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
             template< typename Input >
-            static bool match( Input & in )
+            static bool match( Input& in )
             {
-               if ( ! in.empty() ) {
+               if( !in.empty() ) {
                   in.bump();
                   return true;
                }
@@ -45,10 +47,10 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
             template< typename Input >
-            static bool match( Input & in )
+            static bool match( Input& in )
             {
-               if ( ! in.empty() ) {
-                  if ( const auto t = Peek::peek( in ) ) {
+               if( !in.empty() ) {
+                  if( const auto t = Peek::peek( in ) ) {
                      in.bump( t.size );
                      return true;
                   }
@@ -57,10 +59,10 @@ namespace tao
             }
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

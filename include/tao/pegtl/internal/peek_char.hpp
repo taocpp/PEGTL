@@ -20,16 +20,16 @@ namespace tao
             using pair_t = input_pair< char >;
 
             template< typename Input >
-            static pair_t peek( Input & in, const std::size_t o = 0 )
+            static pair_t peek( Input& in, const std::size_t o = 0 )
             {
                return { in.peek_char( o ), 1 };
             }
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

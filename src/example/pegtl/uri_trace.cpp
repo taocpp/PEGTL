@@ -4,14 +4,14 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/trace.hpp>
 #include <tao/pegtl/contrib/uri.hpp>
+#include <tao/pegtl/trace.hpp>
 
 using grammar = tao::TAOCPP_PEGTL_NAMESPACE::must< tao::TAOCPP_PEGTL_NAMESPACE::uri::URI >;
 
-int main( int argc, char ** argv )
+int main( int argc, char** argv )
 {
-   for ( int i = 1; i < argc; ++i ) {
+   for( int i = 1; i < argc; ++i ) {
       std::cout << "Parsing " << argv[ i ] << std::endl;
       tao::TAOCPP_PEGTL_NAMESPACE::trace_arg< grammar >( i, argv );
    }

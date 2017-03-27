@@ -17,17 +17,17 @@ namespace tao
          template< typename >
          struct to_string;
 
-         template< template< char ... > class X, char ... Cs >
-         struct to_string< X< Cs ... > >
+         template< template< char... > class X, char... Cs >
+         struct to_string< X< Cs... > >
          {
             static std::string get()
             {
-               const char s[] = { Cs ..., 0 };
-               return std::string( s, sizeof ... ( Cs ) );
+               const char s[] = { Cs..., 0 };
+               return std::string( s, sizeof...( Cs ) );
             }
          };
 
-      } // namespace internal
+      }  // namespace internal
 
       template< typename T >
       std::string to_string()
@@ -35,8 +35,8 @@ namespace tao
          return internal::to_string< T >::get();
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

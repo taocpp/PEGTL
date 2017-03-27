@@ -9,12 +9,12 @@
 
 using GRAMMAR = tao::TAOCPP_PEGTL_NAMESPACE::must< tao::TAOCPP_PEGTL_NAMESPACE::uri::URI, tao::TAOCPP_PEGTL_NAMESPACE::eof >;
 
-void test( const std::string & in )
+void test( const std::string& in )
 {
    tao::TAOCPP_PEGTL_NAMESPACE::parse_string< GRAMMAR >( in, "test" );
 }
 
-void fail( const std::string & in )
+void fail( const std::string& in )
 {
    try {
       tao::TAOCPP_PEGTL_NAMESPACE::parse_string< GRAMMAR >( in, "expect_exception" );
@@ -25,7 +25,7 @@ void fail( const std::string & in )
    }
 }
 
-int main( int, char ** )
+int main( int, char** )
 {
    // ensure the grammar does not contain any obvious problems
    tao::TAOCPP_PEGTL_NAMESPACE::analyze< GRAMMAR >();

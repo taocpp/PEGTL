@@ -7,8 +7,8 @@
 #include "../config.hpp"
 
 #include "any.hpp"
-#include "range.hpp"
 #include "bump_help.hpp"
+#include "range.hpp"
 #include "skip_control.hpp"
 
 #include "../analysis/generic.hpp"
@@ -19,7 +19,8 @@ namespace tao
    {
       namespace internal
       {
-         template< int Eol, typename Char, Char ... Cs > struct ranges_impl;
+         template< int Eol, typename Char, Char... Cs >
+         struct ranges_impl;
 
          template< int Eol, typename Char >
          struct ranges_impl< Eol, Char >
@@ -43,18 +44,18 @@ namespace tao
             }
          };
 
-         template< int Eol, typename Char, Char Lo, Char Hi, Char ... Cs >
-         struct ranges_impl< Eol, Char, Lo, Hi, Cs ... >
+         template< int Eol, typename Char, Char Lo, Char Hi, Char... Cs >
+         struct ranges_impl< Eol, Char, Lo, Hi, Cs... >
          {
-            static constexpr bool can_match_eol = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) || ranges_impl< Eol, Char, Cs ... >::can_match_eol );
+            static constexpr bool can_match_eol = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) || ranges_impl< Eol, Char, Cs... >::can_match_eol );
 
             static bool match( const Char c )
             {
-               return ( ( Lo <= c ) && ( c <= Hi ) ) || ranges_impl< Eol, Char, Cs ... >::match( c );
+               return ( ( Lo <= c ) && ( c <= Hi ) ) || ranges_impl< Eol, Char, Cs... >::match( c );
             }
          };
 
-         template< typename Peek, typename Peek::data_t ... Cs >
+         template< typename Peek, typename Peek::data_t... Cs >
          struct ranges
          {
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
@@ -62,17 +63,17 @@ namespace tao
             template< int Eol >
             struct can_match_eol
             {
-               static constexpr bool value = ranges_impl< Eol, typename Peek::data_t, Cs ... >::can_match_eol;
+               static constexpr bool value = ranges_impl< Eol, typename Peek::data_t, Cs... >::can_match_eol;
             };
 
             template< typename Input >
-            static bool match( Input & in )
+            static bool match( Input& in )
             {
                using eol_t = typename Input::eol_t;
 
-               if ( ! in.empty() ) {
-                  if ( const auto t = Peek::peek( in ) ) {
-                     if ( ranges_impl< eol_t::ch, typename Peek::data_t, Cs ... >::match( t.data ) ) {
+               if( !in.empty() ) {
+                  if( const auto t = Peek::peek( in ) ) {
+                     if( ranges_impl< eol_t::ch, typename Peek::data_t, Cs... >::match( t.data ) ) {
                         bump_impl< can_match_eol< eol_t::ch >::value >::bump( in, t.size );
                         return true;
                      }
@@ -84,15 +85,19 @@ namespace tao
 
          template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
          struct ranges< Peek, Lo, Hi >
-               : range< result_on_found::SUCCESS, Peek, Lo, Hi > {};
+            : range< result_on_found::SUCCESS, Peek, Lo, Hi >
+         {
+         };
 
-         template< typename Peek, typename Peek::data_t ... Cs >
-         struct skip_control< ranges< Peek, Cs ... > > : std::true_type {};
+         template< typename Peek, typename Peek::data_t... Cs >
+         struct skip_control< ranges< Peek, Cs... > > : std::true_type
+         {
+         };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

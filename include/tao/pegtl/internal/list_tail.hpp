@@ -6,9 +6,9 @@
 
 #include "../config.hpp"
 
-#include "seq.hpp"
 #include "list.hpp"
 #include "opt.hpp"
+#include "seq.hpp"
 
 namespace tao
 {
@@ -19,10 +19,10 @@ namespace tao
          template< typename Rule, typename Sep >
          using list_tail = seq< list< Rule, Sep >, opt< Sep > >;
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

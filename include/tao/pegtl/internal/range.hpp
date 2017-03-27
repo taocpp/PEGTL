@@ -8,8 +8,8 @@
 
 #include "any.hpp"
 #include "bump_help.hpp"
-#include "skip_control.hpp"
 #include "result_on_found.hpp"
+#include "skip_control.hpp"
 
 #include "../analysis/generic.hpp"
 
@@ -38,13 +38,13 @@ namespace tao
             }
 
             template< typename Input >
-            static bool match( Input & in )
+            static bool match( Input& in )
             {
                using eol_t = typename Input::eol_t;
 
-               if ( ! in.empty() ) {
-                  if ( const auto t = Peek::peek( in ) ) {
-                     if ( ( dummy_less_or_equal( Lo, t.data ) && dummy_less_or_equal( t.data, Hi ) ) == bool( R ) ) {
+               if( !in.empty() ) {
+                  if( const auto t = Peek::peek( in ) ) {
+                     if( ( dummy_less_or_equal( Lo, t.data ) && dummy_less_or_equal( t.data, Hi ) ) == bool( R ) ) {
                         bump_impl< can_match_eol< eol_t::ch >::value >::bump( in, t.size );
                         return true;
                      }
@@ -55,12 +55,14 @@ namespace tao
          };
 
          template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
-         struct skip_control< range< R, Peek, Lo, Hi > > : std::true_type {};
+         struct skip_control< range< R, Peek, Lo, Hi > > : std::true_type
+         {
+         };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

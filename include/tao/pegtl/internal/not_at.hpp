@@ -6,9 +6,9 @@
 
 #include "../config.hpp"
 
-#include "trivial.hpp"
-#include "skip_control.hpp"
 #include "rule_conjunction.hpp"
+#include "skip_control.hpp"
+#include "trivial.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
@@ -21,32 +21,37 @@ namespace tao
    {
       namespace internal
       {
-         template< typename ... Rules > struct not_at;
+         template< typename... Rules >
+         struct not_at;
 
-         template< typename ... Rules >
-         struct skip_control< not_at< Rules ... > > : std::true_type {};
+         template< typename... Rules >
+         struct skip_control< not_at< Rules... > > : std::true_type
+         {
+         };
 
          template<>
          struct not_at<>
-               : trivial< false > {};
+            : trivial< false >
+         {
+         };
 
-         template< typename ... Rules >
+         template< typename... Rules >
          struct not_at
          {
-            using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules ... >;
+            using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules... >;
 
-            template< apply_mode, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-            static bool match( Input & in, States && ... st )
+            template< apply_mode, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            static bool match( Input& in, States&&... st )
             {
                const auto m = in.template mark< rewind_mode::REQUIRED >();
-               return ! rule_conjunction< Rules ... >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( in, st ... );
+               return !rule_conjunction< Rules... >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( in, st... );
             }
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

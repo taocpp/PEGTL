@@ -6,14 +6,14 @@
 
 #include <tao/pegtl.hpp>
 
-#include "verify_rule.hpp"
 #include "verify_analyze.hpp"
+#include "verify_rule.hpp"
 
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< template< typename ... > class S >
+      template< template< typename... > class S >
       void verify_seqs( const result_type failure = result_type::LOCAL_FAILURE )
       {
          verify_analyze< S< any > >( __LINE__, __FILE__, true, false );
@@ -64,8 +64,8 @@ namespace tao
          verify_rule< try_catch< must< S< one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "aba", result_type::SUCCESS, 1 );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

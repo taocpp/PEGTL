@@ -15,19 +15,19 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Rule, template< typename > class Action = nothing, typename ... States >
-      void verify_fail( const std::size_t line, const char * file, const std::string & s, States && ... st )
+      template< typename Rule, template< typename > class Action = nothing, typename... States >
+      void verify_fail( const std::size_t line, const char* file, const std::string& s, States&&... st )
       {
          try {
-            parse_string< Rule, Action >( s, "expect_exception", st ... );
+            parse_string< Rule, Action >( s, "expect_exception", st... );
             TAOCPP_PEGTL_TEST_FAILED( "expected exception" );
          }
-         catch ( ... ) {
+         catch( ... ) {
          }
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

@@ -52,14 +52,14 @@ namespace tao
 
          verify_rule< not_one< 'a' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
          verify_rule< not_one< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< not_range< 'a' ,'z' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
+         verify_rule< not_range< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
          verify_rule< one< 'a' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
          verify_rule< one< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
          verify_rule< range< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
          verify_rule< ranges< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
          verify_rule< ranges< 'a', 'z', '4' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
 
-         for ( int i = -100; i < 200; ++i ) {
+         for( int i = -100; i < 200; ++i ) {
             const char c = char( i );
 
             const bool is_blank = ( c == ' ' ) || ( c == '\t' );
@@ -97,8 +97,8 @@ namespace tao
             const bool is_ranges = is_range || ( c == 3 );
 
             verify_char< not_one< 'P' > >( __LINE__, __FILE__, c, c != 'P' );
-            verify_char< not_one< 'a', '#', ' ' > >( __LINE__, __FILE__, c, ! is_one );
-            verify_char< not_range< 20, 120 > >( __LINE__, __FILE__, c, ! is_range );
+            verify_char< not_one< 'a', '#', ' ' > >( __LINE__, __FILE__, c, !is_one );
+            verify_char< not_range< 20, 120 > >( __LINE__, __FILE__, c, !is_range );
             verify_char< one< 'T' > >( __LINE__, __FILE__, c, c == 'T' );
             verify_char< one< 'a', '#', ' ' > >( __LINE__, __FILE__, c, is_one );
             verify_char< range< 20, 120 > >( __LINE__, __FILE__, c, is_range );
@@ -109,8 +109,8 @@ namespace tao
          }
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

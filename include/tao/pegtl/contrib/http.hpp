@@ -4,9 +4,9 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_HTTP_HPP
 #define TAOCPP_PEGTL_INCLUDE_CONTRIB_HTTP_HPP
 
+#include "../ascii.hpp"
 #include "../config.hpp"
 #include "../rules.hpp"
-#include "../ascii.hpp"
 #include "../utf8.hpp"
 #include "abnf.hpp"
 #include "uri.hpp"
@@ -25,9 +25,9 @@ namespace tao
 
          using namespace abnf;
 
-         using OWS = star< WSP >; // optional whitespace
-         using RWS = plus< WSP >; // required whitespace
-         using BWS = OWS; // "bad" whitespace
+         using OWS = star< WSP >;  // optional whitespace
+         using RWS = plus< WSP >;  // required whitespace
+         using BWS = OWS;          // "bad" whitespace
 
          // cppcheck-suppress constStatement
          using obs_text = not_range< 0x00, 0x7F >;
@@ -143,10 +143,10 @@ namespace tao
          struct chunked_body : seq< until< last_chunk, chunk >, trailer_part, CRLF > {};
          // clang-format on
 
-      } // namespace http
+      }  // namespace http
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

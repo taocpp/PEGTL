@@ -4,8 +4,8 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_EOL_HPP
 #define TAOCPP_PEGTL_INCLUDE_EOL_HPP
 
-#include <utility>
 #include <cstdlib>
+#include <utility>
 
 #include "config.hpp"
 
@@ -15,14 +15,14 @@ namespace tao
    {
       using eol_pair = std::pair< bool, std::size_t >;
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
-#include "lf_eol.hpp"
+#include "cr_crlf_eol.hpp"
 #include "cr_eol.hpp"
 #include "crlf_eol.hpp"
 #include "lf_crlf_eol.hpp"
-#include "cr_crlf_eol.hpp"
+#include "lf_eol.hpp"
 
 #endif

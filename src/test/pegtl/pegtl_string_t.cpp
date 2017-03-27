@@ -10,11 +10,15 @@ namespace test
 {
    // We only need to test that this compiles...
 
-   struct foo : TAOCPP_PEGTL_STRING( "foo" ) {};
-   struct foobar : tao::TAOCPP_PEGTL_NAMESPACE::sor< TAOCPP_PEGTL_STRING( "foo" ), TAOCPP_PEGTL_STRING( "bar" ) > {};
+   struct foo : TAOCPP_PEGTL_STRING( "foo" )
+   {
+   };
+   struct foobar : tao::TAOCPP_PEGTL_NAMESPACE::sor< TAOCPP_PEGTL_STRING( "foo" ), TAOCPP_PEGTL_STRING( "bar" ) >
+   {
+   };
 
    static_assert( std::is_same< TAOCPP_PEGTL_STRING( "Hello" ), tao::TAOCPP_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o' > >::value, "TAOCPP_PEGTL_STRING broken" );
-   static_assert( ! std::is_same< TAOCPP_PEGTL_ISTRING( "Hello" ), tao::TAOCPP_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o' > >::value, "TAOCPP_PEGTL_ISTRING broken" );
+   static_assert( !std::is_same< TAOCPP_PEGTL_ISTRING( "Hello" ), tao::TAOCPP_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o' > >::value, "TAOCPP_PEGTL_ISTRING broken" );
    static_assert( std::is_same< TAOCPP_PEGTL_ISTRING( "Hello" ), tao::TAOCPP_PEGTL_NAMESPACE::istring< 'H', 'e', 'l', 'l', 'o' > >::value, "TAOCPP_PEGTL_ISTRING broken" );
 
    // Strings may even contain embedded nulls
@@ -25,9 +29,10 @@ namespace test
 
    using namespace tao::TAOCPP_PEGTL_NAMESPACE::alphabet;
    static_assert( std::is_same< TAOCPP_PEGTL_STRING( "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz" ),
-                  tao::TAOCPP_PEGTL_NAMESPACE::string< a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z > >::value, "TAOCPP_PEGTL_STRING broken" );
+                                tao::TAOCPP_PEGTL_NAMESPACE::string< a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z > >::value,
+                  "TAOCPP_PEGTL_STRING broken" );
 
-} // namespace test
+}  // namespace test
 
 int main()
 {

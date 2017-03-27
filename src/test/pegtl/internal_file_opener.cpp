@@ -3,7 +3,7 @@
 
 #include <tao/pegtl/file_parser.hpp>
 
-#if defined(_POSIX_MAPPED_FILES)
+#if defined( _POSIX_MAPPED_FILES )
 
 #include "test.hpp"
 
@@ -20,19 +20,19 @@ namespace tao
             std::cerr << "pegtl: unit test failed for [ internal::file_opener ] " << std::endl;
             ++failed;
          }
-         catch ( const std::exception & ) {
+         catch( const std::exception& ) {
          }
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"
 
 #else
 
-int main( int, char ** )
+int main( int, char** )
 {
    return 0;
 }

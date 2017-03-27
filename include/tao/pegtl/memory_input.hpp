@@ -4,17 +4,17 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_MEMORY_INPUT_HPP
 #define TAOCPP_PEGTL_INCLUDE_MEMORY_INPUT_HPP
 
-#include <string>
 #include <cstddef>
+#include <string>
 #include <utility>
 
 #include "config.hpp"
-#include "eol.hpp"
 #include "count_data.hpp"
-#include "position_info.hpp"
+#include "eol.hpp"
+#include "internal/action_input.hpp"
 #include "internal/bump_impl.hpp"
 #include "internal/input_mark.hpp"
-#include "internal/action_input.hpp"
+#include "position_info.hpp"
 
 namespace tao
 {
@@ -28,19 +28,22 @@ namespace tao
          using action_t = internal::basic_action_input< Eol >;
          using memory_t = basic_memory_input< Eol >;
 
-         basic_memory_input( const char * in_begin, const char * in_end, const char * in_source )
-               : basic_memory_input( { 0, 1, 0, in_begin }, in_end, in_source )
-         { }
+         basic_memory_input( const char* in_begin, const char* in_end, const char* in_source )
+            : basic_memory_input( { 0, 1, 0, in_begin }, in_end, in_source )
+         {
+         }
 
-         basic_memory_input( const char * in_begin, const char * in_end, const char * in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line )
-               : basic_memory_input( { in_byte, in_line, in_byte_in_line, in_begin }, in_end, in_source )
-         { }
+         basic_memory_input( const char* in_begin, const char* in_end, const char* in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line )
+            : basic_memory_input( { in_byte, in_line, in_byte_in_line, in_begin }, in_end, in_source )
+         {
+         }
 
-         basic_memory_input( const count_data & in_data, const char * in_end, const char * in_source )
-               : m_data( in_data ),
-                 m_end( in_end ),
-                 m_source( in_source )
-         { }
+         basic_memory_input( const count_data& in_data, const char* in_end, const char* in_source )
+            : m_data( in_data ),
+              m_end( in_end ),
+              m_source( in_source )
+         {
+         }
 
          bool empty() const
          {
@@ -52,12 +55,12 @@ namespace tao
             return std::size_t( m_end - m_data.data );
          }
 
-         const char * begin() const
+         const char* begin() const
          {
             return m_data.data;
          }
 
-         const char * end( const std::size_t ) const
+         const char* end( const std::size_t ) const
          {
             return m_end;
          }
@@ -77,7 +80,7 @@ namespace tao
             return m_data.byte_in_line;
          }
 
-         const char * source() const
+         const char* source() const
          {
             return m_source;
          }
@@ -108,10 +111,12 @@ namespace tao
          }
 
          void discard()
-         { }
+         {
+         }
 
          void require( const std::size_t )
-         { }
+         {
+         }
 
          template< rewind_mode M >
          internal::input_mark< M > mark()
@@ -124,21 +129,21 @@ namespace tao
             return position_info( m_data, m_source );
          }
 
-         const count_data & count() const
+         const count_data& count() const
          {
             return m_data;
          }
 
       private:
          count_data m_data;
-         const char * m_end;
-         const char * m_source;
+         const char* m_end;
+         const char* m_source;
       };
 
       using memory_input = basic_memory_input< lf_crlf_eol >;
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

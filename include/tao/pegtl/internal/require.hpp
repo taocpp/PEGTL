@@ -22,19 +22,21 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::OPT >;
 
             template< typename Input >
-            static bool match( Input & in )
+            static bool match( Input& in )
             {
                return in.size( Amount ) >= Amount;
             }
          };
 
          template< unsigned Amount >
-         struct skip_control< require< Amount > > : std::true_type {};
+         struct skip_control< require< Amount > > : std::true_type
+         {
+         };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

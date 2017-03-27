@@ -5,15 +5,15 @@
 #define TAOCPP_PEGTL_INCLUDE_TRACE_HPP
 
 #include <cassert>
-#include <vector>
 #include <iomanip>
-#include <utility>
 #include <iostream>
+#include <utility>
+#include <vector>
 
 #include "config.hpp"
-#include "parse.hpp"
 #include "normal.hpp"
 #include "nothing.hpp"
+#include "parse.hpp"
 #include "position_info.hpp"
 
 #include "internal/demangle.hpp"
@@ -31,100 +31,100 @@ namespace tao
 
       template< typename Rule >
       struct tracer
-            : normal< Rule >
+         : normal< Rule >
       {
-         template< typename Input, typename ... States >
-         static void start( const Input & in, States && ... )
+         template< typename Input, typename... States >
+         static void start( const Input& in, States&&... )
          {
             std::cerr << in.position() << "  start  " << internal::demangle< Rule >() << std::endl;
          }
 
          template< typename Input >
-         static void start( const Input & in, trace_state & ts )
+         static void start( const Input& in, trace_state& ts )
          {
             std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ++ts.rule << " " << in.position() << "  start  " << internal::demangle< Rule >() << std::endl;
             ts.stack.push_back( ts.rule );
          }
 
-         template< typename Input, typename ... States >
-         static void success( const Input & in, States && ... )
+         template< typename Input, typename... States >
+         static void success( const Input& in, States&&... )
          {
             std::cerr << in.position() << " success " << internal::demangle< Rule >() << std::endl;
          }
 
          template< typename Input >
-         static void success( const Input & in, trace_state & ts )
+         static void success( const Input& in, trace_state& ts )
          {
-            assert( ! ts.stack.empty() );
+            assert( !ts.stack.empty() );
             std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ts.stack.back() << " " << in.position() << " success " << internal::demangle< Rule >() << std::endl;
             ts.stack.pop_back();
          }
 
-         template< typename Input, typename ... States >
-         static void failure( const Input & in, States && ... )
+         template< typename Input, typename... States >
+         static void failure( const Input& in, States&&... )
          {
             std::cerr << in.position() << " failure " << internal::demangle< Rule >() << std::endl;
          }
 
          template< typename Input >
-         static void failure( const Input & in, trace_state & ts )
+         static void failure( const Input& in, trace_state& ts )
          {
-            assert( ! ts.stack.empty() );
+            assert( !ts.stack.empty() );
             std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ts.stack.back() << " " << in.position() << " failure " << internal::demangle< Rule >() << std::endl;
             ts.stack.pop_back();
          }
       };
 
-      template< typename Rule, template< typename ... > class Action = nothing, typename Input, typename ... States >
-      bool trace_input( Input & in, States && ... st )
+      template< typename Rule, template< typename... > class Action = nothing, typename Input, typename... States >
+      bool trace_input( Input& in, States&&... st )
       {
-         return parse_input< Rule, Action, tracer >( in, st ... );
+         return parse_input< Rule, Action, tracer >( in, st... );
       }
 
-      template< typename Rule, template< typename ... > class Action = nothing, typename ... Args >
-      bool trace_arg( Args && ... args )
+      template< typename Rule, template< typename... > class Action = nothing, typename... Args >
+      bool trace_arg( Args&&... args )
       {
-         return parse_arg< Rule, Action, tracer >( std::forward< Args >( args ) ... );
+         return parse_arg< Rule, Action, tracer >( std::forward< Args >( args )... );
       }
 
-      template< typename Rule, template< typename ... > class Action = nothing, typename ... Args >
-      bool trace_memory( Args && ... args )
+      template< typename Rule, template< typename... > class Action = nothing, typename... Args >
+      bool trace_memory( Args&&... args )
       {
-         return parse_memory< Rule, Action, tracer >( std::forward< Args >( args ) ... );
+         return parse_memory< Rule, Action, tracer >( std::forward< Args >( args )... );
       }
 
-      template< typename Rule, template< typename ... > class Action = nothing, typename ... Args >
-      bool trace_string( Args && ... args )
+      template< typename Rule, template< typename... > class Action = nothing, typename... Args >
+      bool trace_string( Args&&... args )
       {
-         return parse_string< Rule, Action, tracer >( std::forward< Args >( args ) ... );
+         return parse_string< Rule, Action, tracer >( std::forward< Args >( args )... );
       }
 
-      template< typename Rule, template< typename ... > class Action = nothing, typename ... Args >
-      bool trace_cstream( Args && ... args )
+      template< typename Rule, template< typename... > class Action = nothing, typename... Args >
+      bool trace_cstream( Args&&... args )
       {
-         return parse_cstream< Rule, Action, tracer >( std::forward< Args >( args ) ... );
+         return parse_cstream< Rule, Action, tracer >( std::forward< Args >( args )... );
       }
 
-      template< typename Rule, template< typename ... > class Action = nothing, typename ... Args >
-      bool trace_stdin( Args && ... args )
+      template< typename Rule, template< typename... > class Action = nothing, typename... Args >
+      bool trace_stdin( Args&&... args )
       {
-         return parse_stdin< Rule, Action, tracer >( std::forward< Args >( args ) ... );
+         return parse_stdin< Rule, Action, tracer >( std::forward< Args >( args )... );
       }
 
-      template< typename Rule, template< typename ... > class Action = nothing, typename ... Args >
-      bool trace_cstring( Args && ... args )
+      template< typename Rule, template< typename... > class Action = nothing, typename... Args >
+      bool trace_cstring( Args&&... args )
       {
-         return parse_cstring< Rule, Action, tracer >( std::forward< Args >( args ) ... );
+         return parse_cstring< Rule, Action, tracer >( std::forward< Args >( args )... );
       }
 
-      template< typename Rule, template< typename ... > class Action = nothing, typename ... Args >
-      bool trace_istream( Args && ... args )
+      template< typename Rule, template< typename... > class Action = nothing, typename... Args >
+      bool trace_istream( Args&&... args )
       {
-         return parse_istream< Rule, Action, tracer >( std::forward< Args >( args ) ... );
+         return parse_istream< Rule, Action, tracer >( std::forward< Args >( args )... );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

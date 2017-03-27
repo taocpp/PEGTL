@@ -1,11 +1,11 @@
 // Copyright (c) 2016-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <vector>
-#include <string>
 #include <cassert>
 #include <cstdint>
 #include <iostream>
+#include <string>
+#include <vector>
 
 #include <tao/pegtl.hpp>
 
@@ -20,7 +20,7 @@ namespace csv1
    // Example file contents parsed by this grammar (excluding C++ comment intro):
    // # This is a comment
    // 123 , 124,41,1
-   //  1,2,3,4    
+   //  1,2,3,4
    // 1
    //    1,2
 
@@ -42,53 +42,57 @@ namespace csv1
 
    template< typename Rule >
    struct action
-         : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule > {};
+      : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule >
+   {
+   };
 
    template<>
    struct action< value >
    {
       template< typename Input >
-      static void apply( const Input & in, result_data & data )
+      static void apply( const Input& in, result_data& data )
       {
-         assert( ! data.empty() );
+         assert( !data.empty() );
          data.back().push_back( std::stoul( in.string() ) );
       }
    };
 
    template< typename Rule >
    struct control
-         : tao::TAOCPP_PEGTL_NAMESPACE::normal< Rule > {};
+      : tao::TAOCPP_PEGTL_NAMESPACE::normal< Rule >
+   {
+   };
 
    template<>
    struct control< value_line >
-         : tao::TAOCPP_PEGTL_NAMESPACE::normal< value_line >
+      : tao::TAOCPP_PEGTL_NAMESPACE::normal< value_line >
    {
       template< typename Input >
-      static void start( Input &, result_data & data )
+      static void start( Input&, result_data& data )
       {
          data.push_back( std::vector< unsigned long >() );
       }
 
       template< typename Input >
-      static void failure( Input &, result_data & data )
+      static void failure( Input&, result_data& data )
       {
-         assert( ! data.empty() );
+         assert( !data.empty() );
          data.pop_back();
       }
    };
 
-} // csv1
+}  // csv1
 
-int main( int argc, char ** argv )
+int main( int argc, char** argv )
 {
-   for ( int i = 1; i < argc; ++i ) {
+   for( int i = 1; i < argc; ++i ) {
       tao::TAOCPP_PEGTL_NAMESPACE::file_parser fp( argv[ i ] );
       csv1::result_data data;
       fp.parse< tao::TAOCPP_PEGTL_NAMESPACE::must< csv1::file >, csv1::action, csv1::control >( data );
-      for ( const auto & line : data ) {
-         assert( ! line.empty() );  // The grammar doesn't allow empty lines.
+      for( const auto& line : data ) {
+         assert( !line.empty() );  // The grammar doesn't allow empty lines.
          std::cout << line.front();
-         for ( std::size_t j = 1; j < line.size(); ++j ) {
+         for( std::size_t j = 1; j < line.size(); ++j ) {
             std::cout << ", " << line[ j ];
          }
          std::cout << std::endl;

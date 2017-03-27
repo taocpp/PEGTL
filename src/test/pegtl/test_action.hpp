@@ -16,14 +16,14 @@ namespace tao
       struct test_action
       {
          template< typename Input >
-         static void apply( const Input & in )
+         static void apply( const Input& in )
          {
             applied.push_back( std::make_pair( internal::demangle< Rule >(), in.string() ) );
          }
       };
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

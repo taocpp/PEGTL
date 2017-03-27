@@ -6,9 +6,9 @@
 
 #include "../config.hpp"
 
-#include "trivial.hpp"
-#include "skip_control.hpp"
 #include "rule_conjunction.hpp"
+#include "skip_control.hpp"
+#include "trivial.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
@@ -21,46 +21,50 @@ namespace tao
    {
       namespace internal
       {
-         template< typename ... Rules >
+         template< typename... Rules >
          struct seq;
 
-         template< typename ... Rules >
-         struct skip_control< seq< Rules ... > > : std::true_type {};
+         template< typename... Rules >
+         struct skip_control< seq< Rules... > > : std::true_type
+         {
+         };
 
          template<>
          struct seq<>
-               : trivial< true > {};
+            : trivial< true >
+         {
+         };
 
          template< typename Rule >
          struct seq< Rule >
          {
             using analyze_t = typename Rule::analyze_t;
 
-            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-            static bool match( Input & in, States && ... st )
+            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            static bool match( Input& in, States&&... st )
             {
-               return Control< Rule >::template match< A, M, Action, Control >( in, st ... );
+               return Control< Rule >::template match< A, M, Action, Control >( in, st... );
             }
          };
 
-         template< typename ... Rules >
+         template< typename... Rules >
          struct seq
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
+            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules... >;
 
-            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-            static bool match( Input & in, States && ... st )
+            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< M >();
                using m_t = decltype( m );
-               return m( rule_conjunction< Rules ... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st ... ) );
+               return m( rule_conjunction< Rules... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );
             }
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

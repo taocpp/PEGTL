@@ -5,8 +5,8 @@
 #define TAOCPP_PEGTL_INCLUDE_ASCII_HPP
 
 #include "config.hpp"
-#include "internal/rules.hpp"
 #include "internal/result_on_found.hpp"
+#include "internal/rules.hpp"
 
 namespace tao
 {
@@ -43,11 +43,11 @@ namespace tao
          struct xdigit : internal::ranges< internal::peek_char, '0', '9', 'a', 'f', 'A', 'F' > {};
          // clang-format on
 
-      } // namespace ascii
+      }  // namespace ascii
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "internal/pegtl_string.hpp"
 

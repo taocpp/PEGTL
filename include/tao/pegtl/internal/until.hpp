@@ -6,12 +6,12 @@
 
 #include "../config.hpp"
 
-#include "eof.hpp"
-#include "star.hpp"
 #include "bytes.hpp"
+#include "eof.hpp"
 #include "not_at.hpp"
-#include "skip_control.hpp"
 #include "rule_conjunction.hpp"
+#include "skip_control.hpp"
+#include "star.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
@@ -24,23 +24,26 @@ namespace tao
    {
       namespace internal
       {
-         template< typename Cond, typename ... Rules > struct until;
+         template< typename Cond, typename... Rules >
+         struct until;
 
-         template< typename Cond, typename ... Rules >
-         struct skip_control< until< Cond, Rules ... > > : std::true_type {};
+         template< typename Cond, typename... Rules >
+         struct skip_control< until< Cond, Rules... > > : std::true_type
+         {
+         };
 
          template< typename Cond >
          struct until< Cond >
          {
             using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
 
-            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-            static bool match( Input & in, States && ... st )
+            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< M >();
 
-               while ( ! Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st ... ) ) {
-                  if ( in.empty() ) {
+               while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st... ) ) {
+                  if( in.empty() ) {
                      return false;
                   }
                   in.bump();
@@ -49,19 +52,19 @@ namespace tao
             }
          };
 
-         template< typename Cond, typename ... Rules >
+         template< typename Cond, typename... Rules >
          struct until
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, Rules ... >, Cond >;
+            using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, Rules... >, Cond >;
 
-            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-            static bool match( Input & in, States && ... st )
+            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< M >();
                using m_t = decltype( m );
 
-               while ( ! Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st ... ) ) {
-                  if ( in.empty() || ( ! rule_conjunction< Rules ... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st ... ) ) ) {
+               while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st... ) ) {
+                  if( in.empty() || ( !rule_conjunction< Rules... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) ) {
                      return false;
                   }
                }
@@ -69,10 +72,10 @@ namespace tao
             }
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

@@ -21,24 +21,26 @@ namespace tao
    {
       namespace internal
       {
-         template< typename ... Rules >
+         template< typename... Rules >
          struct sor
-               : sor< index_sequence_for< Rules ... >, Rules ... > {};
-
-         template< std::size_t ... Indices, typename ... Rules >
-         struct sor< index_sequence< Indices ... >, Rules ... >
+            : sor< index_sequence_for< Rules... >, Rules... >
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SOR, Rules ... >;
+         };
 
-            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-            static bool match( Input & in, States && ... st )
+         template< std::size_t... Indices, typename... Rules >
+         struct sor< index_sequence< Indices... >, Rules... >
+         {
+            using analyze_t = analysis::generic< analysis::rule_type::SOR, Rules... >;
+
+            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            static bool match( Input& in, States&&... st )
             {
 #ifdef __cpp_fold_expressions
-               return ( Control< Rules >::template match< A, ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::REQUIRED, Action, Control >( in, st ... ) || ... );
+               return ( Control< Rules >::template match < A, ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::REQUIRED, Action, Control > ( in, st... ) || ... );
 #else
                bool result = false;
                using swallow = bool[];
-               (void)swallow{ result = result || Control< Rules >::template match< A, ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::REQUIRED, Action, Control >( in, st ... ) ... };
+               (void)swallow{ result = result || Control< Rules >::template match < A, ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::REQUIRED, Action, Control > ( in, st... )... };
                return result;
 #endif
             }
@@ -46,15 +48,19 @@ namespace tao
 
          template<>
          struct sor<>
-               : trivial< false > {};
+            : trivial< false >
+         {
+         };
 
-         template< typename ... Rules >
-         struct skip_control< sor< Rules ... > > : std::true_type {};
+         template< typename... Rules >
+         struct skip_control< sor< Rules... > > : std::true_type
+         {
+         };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

@@ -6,9 +6,9 @@
 
 #include "../config.hpp"
 
-#include "rule_type.hpp"
-#include "insert_rules.hpp"
 #include "grammar_info.hpp"
+#include "insert_rules.hpp"
+#include "rule_type.hpp"
 
 namespace tao
 {
@@ -16,24 +16,24 @@ namespace tao
    {
       namespace analysis
       {
-         template< rule_type Type, typename ... Rules >
+         template< rule_type Type, typename... Rules >
          struct generic
          {
             template< typename Name >
-            static std::string insert( grammar_info & g )
+            static std::string insert( grammar_info& g )
             {
                const auto r = g.insert< Name >( Type );
-               if ( r.second ) {
-                  insert_rules< Rules ... >::insert( g, r.first->second );
+               if( r.second ) {
+                  insert_rules< Rules... >::insert( g, r.first->second );
                }
                return r.first->first;
             }
          };
 
-      } // namespace analysis
+      }  // namespace analysis
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

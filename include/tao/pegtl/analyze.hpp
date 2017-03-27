@@ -4,8 +4,8 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_ANALYZE_HPP
 #define TAOCPP_PEGTL_INCLUDE_ANALYZE_HPP
 
-#include "config.hpp"
 #include "analysis/analyze_cycles.hpp"
+#include "config.hpp"
 
 namespace tao
 {
@@ -17,8 +17,8 @@ namespace tao
          return analysis::analyze_cycles< Rule >( verbose ).problems();
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

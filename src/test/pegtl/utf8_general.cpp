@@ -11,7 +11,7 @@ namespace tao
       {
          verify_rule< utf8::any >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
 
-         for ( int i = -100; i < 200; ++i ) {
+         for( int i = -100; i < 200; ++i ) {
             verify_char< utf8::any >( __LINE__, __FILE__, char( i ), ( i & 0x80 ) == 0 );
          }
          verify_rule< utf8::any >( __LINE__, __FILE__, "\x30", result_type::SUCCESS, 0 );
@@ -253,8 +253,8 @@ namespace tao
          verify_rule< utf8::one< 0x10348 > >( __LINE__, __FILE__, "\xf0\x90\x8d\x88", result_type::SUCCESS, 0 );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

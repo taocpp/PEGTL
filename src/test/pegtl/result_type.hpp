@@ -17,9 +17,9 @@ namespace tao
          GLOBAL_FAILURE = -1
       };
 
-      inline std::ostream & operator<< ( std::ostream & o, const result_type t )
+      inline std::ostream& operator<<( std::ostream& o, const result_type t )
       {
-         switch ( t ) {
+         switch( t ) {
             case result_type::SUCCESS:
                return o << "success";
             case result_type::LOCAL_FAILURE:
@@ -30,8 +30,8 @@ namespace tao
          return o << int( t );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

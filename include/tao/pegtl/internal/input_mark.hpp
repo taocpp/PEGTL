@@ -20,17 +20,18 @@ namespace tao
          public:
             static constexpr rewind_mode next_rewind_mode = M;
 
-            explicit
-            input_mark( const count_data & )
-            { }
+            explicit input_mark( const count_data& )
+            {
+            }
 
-            input_mark( input_mark && ) noexcept
-            { }
+            input_mark( input_mark&& ) noexcept
+            {
+            }
 
-            input_mark( const input_mark & ) = delete;
-            void operator= ( const input_mark & ) = delete;
+            input_mark( const input_mark& ) = delete;
+            void operator=( const input_mark& ) = delete;
 
-            bool operator() ( const bool result ) noexcept
+            bool operator()( const bool result ) noexcept
             {
                return result;
             }
@@ -42,32 +43,32 @@ namespace tao
          public:
             static constexpr rewind_mode next_rewind_mode = rewind_mode::ACTIVE;
 
-            explicit
-            input_mark( count_data & i ) noexcept
+            explicit input_mark( count_data& i ) noexcept
                : m_count( i ),
-               m_input( & i )
-            { }
+                 m_input( &i )
+            {
+            }
 
-            input_mark( input_mark && i ) noexcept
-            : m_count( i.m_count ),
-               m_input( i.m_input )
+            input_mark( input_mark&& i ) noexcept
+               : m_count( i.m_count ),
+                 m_input( i.m_input )
             {
                i.m_input = nullptr;
             }
 
             ~input_mark() noexcept
             {
-               if ( m_input != nullptr ) {
-                  ( * m_input ) = m_count;
+               if( m_input != nullptr ) {
+                  ( *m_input ) = m_count;
                }
             }
 
-            input_mark( const input_mark & ) = delete;
-            void operator= ( const input_mark & ) = delete;
+            input_mark( const input_mark& ) = delete;
+            void operator=( const input_mark& ) = delete;
 
-            bool operator() ( const bool result ) noexcept
+            bool operator()( const bool result ) noexcept
             {
-               if ( result ) {
+               if( result ) {
                   m_input = nullptr;
                   return true;
                }
@@ -89,25 +90,25 @@ namespace tao
                return m_count.byte_in_line;
             }
 
-            const char * begin() const noexcept
+            const char* begin() const noexcept
             {
                return m_count.data;
             }
 
-            const count_data & count() const noexcept
+            const count_data& count() const noexcept
             {
                return m_count;
             }
 
          private:
             const count_data m_count;
-            count_data * m_input;
+            count_data* m_input;
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

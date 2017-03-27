@@ -1,8 +1,8 @@
 // Copyright (c) 2016-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <utility>
 #include <iostream>
+#include <utility>
 
 #include <tao/pegtl.hpp>
 
@@ -31,34 +31,39 @@ namespace csv2
 
    // Meta-programming helper:
 
-   template< unsigned N, typename T > struct tuple_help;
+   template< unsigned N, typename T >
+   struct tuple_help;
 
-   template< unsigned N, typename ... S > struct tuple_help< N, std::tuple< S ... > >
+   template< unsigned N, typename... S >
+   struct tuple_help< N, std::tuple< S... > >
    {
-      using tuple_t = typename tuple_help< N - 1, std::tuple< std::string, S ... > >::tuple_t;
+      using tuple_t = typename tuple_help< N - 1, std::tuple< std::string, S... > >::tuple_t;
    };
 
-   template< typename ... S > struct tuple_help< 0, std::tuple< S ... > >
+   template< typename... S >
+   struct tuple_help< 0, std::tuple< S... > >
    {
-      using tuple_t = std::tuple< S ... >;
+      using tuple_t = std::tuple< S... >;
    };
 
    // Ad-hoc helper to initialise a tuple from a vector:
 
-   template< unsigned I > struct tuple_init
+   template< unsigned I >
+   struct tuple_init
    {
-      template< typename ... S >
-      static void init( std::tuple< S ... > & t, std::vector< std::string > & v )
+      template< typename... S >
+      static void init( std::tuple< S... >& t, std::vector< std::string >& v )
       {
          std::get< I >( t ) = std::move( v[ I ] );
          tuple_init< I - 1 >::init( t, v );
       }
    };
 
-   template<> struct tuple_init< 0 >
+   template<>
+   struct tuple_init< 0 >
    {
-      template< typename ... S >
-      static void init( std::tuple< S ... > & t, std::vector< std::string > & v )
+      template< typename... S >
+      static void init( std::tuple< S... >& t, std::vector< std::string >& v )
       {
          std::get< 0 >( t ) = std::move( v[ 0 ] );
       }
@@ -66,7 +71,8 @@ namespace csv2
 
    // Data structure to store the result of a parsing run:
 
-   template< unsigned N > struct result_data
+   template< unsigned N >
+   struct result_data
    {
       using tuple_t = typename tuple_help< N, std::tuple<> >::tuple_t;
 
@@ -76,28 +82,36 @@ namespace csv2
 
    // Action class to fill in the above data structure:
 
-   template< typename Rule > struct action : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule > {};
+   template< typename Rule >
+   struct action : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule >
+   {
+   };
 
-   template<> struct action< plain_value >
+   template<>
+   struct action< plain_value >
    {
       template< typename Input, unsigned N >
-      static void apply( const Input & in, result_data< N > & data )
+      static void apply( const Input& in, result_data< N >& data )
       {
          data.temp.push_back( in.string() );
       }
    };
 
-   template<> struct action< string_without< '"' > >
-         : action< plain_value > {};
+   template<>
+   struct action< string_without< '"' > >
+      : action< plain_value >
+   {
+   };
 
-   template< unsigned N > struct action< line< N > >
+   template< unsigned N >
+   struct action< line< N > >
    {
       using tuple_t = typename tuple_help< N, std::tuple<> >::tuple_t;
 
       template< typename Input >
-      static void apply( const Input & in, result_data< N > & data )
+      static void apply( const Input& in, result_data< N >& data )
       {
-         if ( data.temp.size() != N ) {
+         if( data.temp.size() != N ) {
             throw tao::TAOCPP_PEGTL_NAMESPACE::parse_error( "column count mismatch", in );
          }
          tuple_t temp;
@@ -109,11 +123,11 @@ namespace csv2
 
    // Another helper to print tuples of arbitrary sizes:
 
-   inline void print_string( const std::string & s )
+   inline void print_string( const std::string& s )
    {
       // Needs more elaborate escaping in practice...
 
-      if ( s.find( ',' ) != std::string::npos ) {
+      if( s.find( ',' ) != std::string::npos ) {
          std::cout << '"' << s << '"';
       }
       else {
@@ -121,10 +135,11 @@ namespace csv2
       }
    }
 
-   template< unsigned I > struct print_help
+   template< unsigned I >
+   struct print_help
    {
-      template< typename ... S >
-      static void print( const std::tuple< S ... > & t )
+      template< typename... S >
+      static void print( const std::tuple< S... >& t )
       {
          print_help< I - 1 >::print( t );
          std::cout << ',';
@@ -132,17 +147,18 @@ namespace csv2
       }
    };
 
-   template<> struct print_help< 0 >
+   template<>
+   struct print_help< 0 >
    {
-      template< typename ... S >
-      static void print( const std::tuple< S ... > & t )
+      template< typename... S >
+      static void print( const std::tuple< S... >& t )
       {
          print_string( std::get< 0 >( t ) );
       }
    };
 
-   template< typename ... S >
-   void print_tuple( const std::tuple< S ... > & t )
+   template< typename... S >
+   void print_tuple( const std::tuple< S... >& t )
    {
       constexpr unsigned size = sizeof...( S );
       static_assert( size, "empty tuple doesn't work here" );
@@ -150,16 +166,16 @@ namespace csv2
       std::cout << std::endl;
    }
 
-} // csv2
+}  // csv2
 
-int main( int argc, char ** argv )
+int main( int argc, char** argv )
 {
-   for ( int i = 1; i < argc; ++i ) {
+   for( int i = 1; i < argc; ++i ) {
       tao::TAOCPP_PEGTL_NAMESPACE::file_parser fp( argv[ i ] );
       constexpr unsigned number_of_columns = 3;
       csv2::result_data< number_of_columns > data;
       fp.parse< tao::TAOCPP_PEGTL_NAMESPACE::must< csv2::file< number_of_columns > >, csv2::action >( data );
-      for ( const auto & line : data.result ) {
+      for( const auto& line : data.result ) {
          csv2::print_tuple( line );
       }
    }

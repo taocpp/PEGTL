@@ -14,10 +14,10 @@ namespace modulus
       static_assert( R < M, "Remainder must be less than modulus" );
 
       template< typename Input >
-      static bool match( Input & in )
+      static bool match( Input& in )
       {
-         if ( ! in.empty() ) {
-            if ( ( ( * in.begin() ) % M ) == R ) {
+         if( !in.empty() ) {
+            if( ( ( *in.begin() ) % M ) == R ) {
                in.bump( 1 );
                return true;
             }
@@ -27,13 +27,15 @@ namespace modulus
    };
 
    struct grammar
-         : tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::eolf, tao::TAOCPP_PEGTL_NAMESPACE::must< my_rule< 3 > > > {};
+      : tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::eolf, tao::TAOCPP_PEGTL_NAMESPACE::must< my_rule< 3 > > >
+   {
+   };
 
-} // namespace modulus
+}  // namespace modulus
 
-int main( int argc, char ** argv )
+int main( int argc, char** argv )
 {
-   if ( argc > 1 ) {
+   if( argc > 1 ) {
       tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< modulus::grammar >( 1, argv );
    }
    return 0;

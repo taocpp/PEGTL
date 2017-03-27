@@ -15,28 +15,32 @@ namespace tao
 
       template< typename Rule >
       struct rsaction
-            : nothing< Rule > {};
+         : nothing< Rule >
+      {
+      };
 
       template<>
       struct rsaction< rstring::content >
       {
-         template< typename Input, typename ... States >
-         static void apply( const Input & in, const States & ... )
+         template< typename Input, typename... States >
+         static void apply( const Input& in, const States&... )
          {
             content.assign( in.begin(), in.end() );
          }
       };
 
       struct rgrammar
-            : must< rstring, eof > {};
+         : must< rstring, eof >
+      {
+      };
 
       template< typename Rule, unsigned M, unsigned N >
-      void verify_data( const std::size_t line, const char * file, const char ( & m )[ M ], const char ( & n )[ N ] )
+      void verify_data( const std::size_t line, const char* file, const char ( &m )[ M ], const char ( &n )[ N ] )
       {
          content.clear();
          memory_input i( { 0, line, 0, m }, m + M - 1, file );
          const auto r = parse_input< Rule, rsaction >( i );
-         if ( ( ! r ) || ( content != std::string( n, N - 1 ) ) ) {
+         if( ( !r ) || ( content != std::string( n, N - 1 ) ) ) {
             TAOCPP_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r << " ]" );
          }
       }
@@ -64,8 +68,8 @@ namespace tao
          verify_fail< rgrammar >( __LINE__, __FILE__, "[====[]===]" );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

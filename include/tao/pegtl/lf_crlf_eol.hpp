@@ -15,16 +15,16 @@ namespace tao
          static constexpr int ch = '\n';
 
          template< typename Input >
-         static eol_pair match( Input & in )
+         static eol_pair match( Input& in )
          {
             eol_pair p = { false, in.size( 2 ) };
-            if ( p.second ) {
+            if( p.second ) {
                const auto a = in.peek_char();
-               if ( a == '\n' ) {
+               if( a == '\n' ) {
                   in.bump_to_next_line();
                   p.first = true;
                }
-               else if ( ( a == '\r' ) && ( p.second > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) {
+               else if( ( a == '\r' ) && ( p.second > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) {
                   in.bump_to_next_line( 2 );
                   p.first = true;
                }
@@ -33,8 +33,8 @@ namespace tao
          }
       };
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

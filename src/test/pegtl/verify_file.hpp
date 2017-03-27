@@ -10,18 +10,24 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      struct file_content : seq< TAOCPP_PEGTL_STRING( "dummy content" ), eol, discard > {};
-      struct file_grammar : seq< rep_min_max< 11, 11, file_content >, eof > {};
+      struct file_content : seq< TAOCPP_PEGTL_STRING( "dummy content" ), eol, discard >
+      {
+      };
+      struct file_grammar : seq< rep_min_max< 11, 11, file_content >, eof >
+      {
+      };
 
       template< typename Rule >
       struct file_action
-            : nothing< Rule > {};
+         : nothing< Rule >
+      {
+      };
 
       template<>
       struct file_action< eof >
       {
          template< typename Input >
-         static void apply( const Input &, bool & flag )
+         static void apply( const Input&, bool& flag )
          {
             flag = true;
          }
@@ -29,14 +35,16 @@ namespace tao
 
       template< typename Rule >
       struct file_control
-            : normal< Rule > {};
+         : normal< Rule >
+      {
+      };
 
       template<>
       struct file_control< eof >
-            : normal< eof >
+         : normal< eof >
       {
          template< typename Input >
-         static void success( const Input &, bool & flag )
+         static void success( const Input&, bool& flag )
          {
             flag = true;
          }
@@ -51,29 +59,33 @@ namespace tao
                T p{ f };
                TAOCPP_PEGTL_TEST_ASSERT( !"no error on opening non-existing file" );
             }
-            catch( const input_error & ) {
+            catch( const input_error& ) {
             }
-         } {
+         }
+         {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T p{ f };
             TAOCPP_PEGTL_TEST_ASSERT( p.source() == f );
             TAOCPP_PEGTL_TEST_ASSERT( p.template parse< file_grammar >() );
             TAOCPP_PEGTL_TEST_ASSERT( p.source() == f );
-         } {
+         }
+         {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T p{ f };
             bool flag = true;
             TAOCPP_PEGTL_TEST_ASSERT( p.source() == f );
             TAOCPP_PEGTL_TEST_ASSERT( p.template parse< file_grammar >( flag ) );
             TAOCPP_PEGTL_TEST_ASSERT( flag == true );
-         } {
+         }
+         {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T p{ f };
             bool flag = false;
             TAOCPP_PEGTL_TEST_ASSERT( p.source() == f );
             TAOCPP_PEGTL_TEST_ASSERT( p.template parse< file_grammar >( flag ) );
             TAOCPP_PEGTL_TEST_ASSERT( flag == false );
-         } {
+         }
+         {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T p{ f };
             bool flag = false;
@@ -81,7 +93,8 @@ namespace tao
             const bool result = p.template parse< file_grammar, file_action >( flag );
             TAOCPP_PEGTL_TEST_ASSERT( result );
             TAOCPP_PEGTL_TEST_ASSERT( flag == true );
-         } {
+         }
+         {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T p{ f };
             bool flag = false;
@@ -92,8 +105,8 @@ namespace tao
          }
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

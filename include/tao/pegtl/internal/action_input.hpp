@@ -4,8 +4,8 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_ACTION_INPUT_HPP
 #define TAOCPP_PEGTL_INCLUDE_INTERNAL_ACTION_INPUT_HPP
 
-#include <string>
 #include <cstddef>
+#include <string>
 
 #include "../config.hpp"
 #include "../count_data.hpp"
@@ -28,11 +28,12 @@ namespace tao
             using action_t = basic_action_input< Eol >;
             using memory_t = basic_memory_input< Eol >;
 
-            basic_action_input( const count_data & in_data, const char * in_end, const char * in_source )
-                  : m_data( in_data ),
-                    m_end( in_end ),
-                    m_source( in_source )
-            { }
+            basic_action_input( const count_data& in_data, const char* in_end, const char* in_source )
+               : m_data( in_data ),
+                 m_end( in_end ),
+                 m_source( in_source )
+            {
+            }
 
             bool empty() const
             {
@@ -44,12 +45,12 @@ namespace tao
                return std::size_t( m_end - m_data.data );
             }
 
-            const char * begin() const
+            const char* begin() const
             {
                return m_data.data;
             }
 
-            const char * end( const std::size_t = 0 ) const
+            const char* end( const std::size_t = 0 ) const
             {
                return m_end;
             }
@@ -69,7 +70,7 @@ namespace tao
                return m_data.byte_in_line;
             }
 
-            const char * source() const
+            const char* source() const
             {
                return m_source;
             }
@@ -89,7 +90,7 @@ namespace tao
                return static_cast< unsigned char >( peek_char( offset ) );
             }
 
-            const count_data & count() const
+            const count_data& count() const
             {
                return m_data;
             }
@@ -101,14 +102,14 @@ namespace tao
 
          private:
             count_data m_data;
-            const char * m_end;
-            const char * m_source;
+            const char* m_end;
+            const char* m_source;
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

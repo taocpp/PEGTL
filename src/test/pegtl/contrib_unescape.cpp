@@ -30,11 +30,11 @@ namespace tao
       // clang-format on
 
       template< unsigned M, unsigned N >
-      void verify_data( const char ( & m )[ M ], const char ( & n )[ N ] )
+      void verify_data( const char ( &m )[ M ], const char ( &n )[ N ] )
       {
          unescape::state st;
          parse_string< unstring, unaction >( std::string( m, M - 1 ), __FUNCTION__, st );
-         if ( st.unescaped != std::string( n, N - 1 ) ) {
+         if( st.unescaped != std::string( n, N - 1 ) ) {
             throw std::runtime_error( "test failed!" );
          }
       }
@@ -100,8 +100,8 @@ namespace tao
          verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\Uffffffff", st );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

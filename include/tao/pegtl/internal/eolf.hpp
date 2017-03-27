@@ -21,21 +21,23 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::OPT >;
 
             template< typename Input >
-            static bool match( Input & in )
+            static bool match( Input& in )
             {
                using eol_t = typename Input::eol_t;
                const auto p = eol_t::match( in );
-               return p.first || ( ! p.second );
+               return p.first || ( !p.second );
             }
          };
 
          template<>
-         struct skip_control< eolf > : std::true_type {};
+         struct skip_control< eolf > : std::true_type
+         {
+         };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

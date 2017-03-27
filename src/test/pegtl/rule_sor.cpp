@@ -26,26 +26,26 @@ namespace tao
          verify_analyze< sor< eof, eof, any > >( __LINE__, __FILE__, false, false );
          verify_analyze< sor< eof, any, any > >( __LINE__, __FILE__, false, false );
 
-         verify_rule< sor<> >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< sor<> >( __LINE__, __FILE__,  "a", result_type::LOCAL_FAILURE, 1 );
+         verify_rule< sor<> >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
+         verify_rule< sor<> >( __LINE__, __FILE__, "a", result_type::LOCAL_FAILURE, 1 );
 
-         verify_rule< sor< one< 'a' > > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< sor< one< 'a' > > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );
-         verify_rule< sor< one< 'a' > > >( __LINE__, __FILE__,  "aa", result_type::SUCCESS, 1 );
+         verify_rule< sor< one< 'a' > > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
+         verify_rule< sor< one< 'a' > > >( __LINE__, __FILE__, "a", result_type::SUCCESS, 0 );
+         verify_rule< sor< one< 'a' > > >( __LINE__, __FILE__, "aa", result_type::SUCCESS, 1 );
 
-         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "a", result_type::SUCCESS, 0 );
-         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "b", result_type::SUCCESS, 0 );
-         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "c", result_type::LOCAL_FAILURE, 1 );
-         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "aa", result_type::SUCCESS, 1 );
-         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "ab", result_type::SUCCESS, 1 );
-         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "ba", result_type::SUCCESS, 1 );
-         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "bb", result_type::SUCCESS, 1 );
-         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__,  "cb", result_type::LOCAL_FAILURE, 2 );
+         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
+         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "a", result_type::SUCCESS, 0 );
+         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "b", result_type::SUCCESS, 0 );
+         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "c", result_type::LOCAL_FAILURE, 1 );
+         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "aa", result_type::SUCCESS, 1 );
+         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab", result_type::SUCCESS, 1 );
+         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ba", result_type::SUCCESS, 1 );
+         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "bb", result_type::SUCCESS, 1 );
+         verify_rule< sor< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "cb", result_type::LOCAL_FAILURE, 2 );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

@@ -66,10 +66,10 @@ namespace tao
          static const int Y = 'Y';
          static const int Z = 'Z';
 
-      } // namespace alphabet
+      }  // namespace alphabet
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

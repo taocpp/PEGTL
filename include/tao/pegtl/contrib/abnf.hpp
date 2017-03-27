@@ -34,10 +34,10 @@ namespace tao
          struct WSP : internal::one< internal::result_on_found::SUCCESS, internal::peek_char, ' ', '\t' > {};
          // clang-format on
 
-      } // namespace abnf
+      }  // namespace abnf
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

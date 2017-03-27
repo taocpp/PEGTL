@@ -4,9 +4,9 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_JSON_HPP
 #define TAOCPP_PEGTL_INCLUDE_CONTRIB_JSON_HPP
 
+#include "../ascii.hpp"
 #include "../config.hpp"
 #include "../rules.hpp"
-#include "../ascii.hpp"
 #include "../utf8.hpp"
 
 #include "abnf.hpp"
@@ -88,10 +88,10 @@ namespace tao
          struct text : seq< star< ws >, value > {};
          // clang-format on
 
-      } // namespace json
+      }  // namespace json
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

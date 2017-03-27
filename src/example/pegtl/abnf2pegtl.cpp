@@ -1,24 +1,24 @@
 // Copyright (c) 2015-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <string>
-#include <vector>
-#include <utility>
 #include <algorithm>
-#include <set>
-#include <iterator>
 #include <iostream>
+#include <iterator>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
-#include <cstring>
 #include <cctype>
 #include <cstdlib>
+#include <cstring>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/abnf.hpp>
 #include <tao/pegtl/analyze.hpp>
+#include <tao/pegtl/contrib/abnf.hpp>
 
-#define TAOCPP_PEGTL_STRINGIFY_IMPL(X) #X
-#define TAOCPP_PEGTL_STRINGIFY(X) TAOCPP_PEGTL_STRINGIFY_IMPL(X)
+#define TAOCPP_PEGTL_STRINGIFY_IMPL( X ) #X
+#define TAOCPP_PEGTL_STRINGIFY( X ) TAOCPP_PEGTL_STRINGIFY_IMPL( X )
 
 namespace tao
 {
@@ -153,13 +153,13 @@ namespace tao
             template<> const std::string error_control< rule >::error_message = "expected rule";
             // clang-format on
 
-         } // namespace grammar
+         }  // namespace grammar
 
-      } // namespace abnf
+      }  // namespace abnf
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 namespace abnf2pegtl
 {
@@ -173,7 +173,7 @@ namespace abnf2pegtl
 
       rules_t::reverse_iterator find_rule( const std::string& v, const rules_t::reverse_iterator& rbegin )
       {
-         return std::find_if( rbegin, rules.rend(), [&]( const rules_t::value_type& p ){ return ::strcasecmp( p.first.c_str(), v.c_str() ) == 0; } );
+         return std::find_if( rbegin, rules.rend(), [&]( const rules_t::value_type& p ) { return ::strcasecmp( p.first.c_str(), v.c_str() ) == 0; } );
       }
 
       rules_t::reverse_iterator find_rule( const std::string& v )
@@ -211,10 +211,10 @@ namespace abnf2pegtl
       };
       // clang-format on
 
-   } // namespace
+   }  // namespace
 
    template< typename Input >
-   std::string get_rulename( const Input & in, data & d )
+   std::string get_rulename( const Input& in, data& d )
    {
       std::string v = in.string();
       std::replace( v.begin(), v.end(), '-', '_' );
@@ -232,13 +232,15 @@ namespace abnf2pegtl
 
    template< typename Rule >
    struct action
-         : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule > {};
+      : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule >
+   {
+   };
 
    template<>
    struct action< grammar::push_stack >
    {
       template< typename Input >
-      static void apply( const Input &, data & d )
+      static void apply( const Input&, data& d )
       {
          d.elements.emplace_back();
       }
@@ -248,7 +250,7 @@ namespace abnf2pegtl
    struct action< grammar::rulename >
    {
       template< typename Input >
-      static void apply( const Input & in, data & d )
+      static void apply( const Input& in, data& d )
       {
          d.rulename = get_rulename( in, d );
       }
@@ -258,7 +260,7 @@ namespace abnf2pegtl
    struct action< grammar::rulename_val >
    {
       template< typename Input >
-      static void apply( const Input & in, data & d )
+      static void apply( const Input& in, data& d )
       {
          assert( !d.elements.empty() );
          std::string v = get_rulename( in, d );
@@ -288,7 +290,7 @@ namespace abnf2pegtl
       }
 
       template< typename Input >
-      static void apply( const Input & in, data & d )
+      static void apply( const Input& in, data& d )
       {
          assert( !d.elements.empty() );
          std::string s;
@@ -297,13 +299,13 @@ namespace abnf2pegtl
             alpha = append( s, in.peek_char( pos ) ) || alpha;
          }
          if( alpha ) {
-            d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::istring< " + s + " >" );
+            d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::istring< " + s + " >" );
          }
          else if( in.size() > 3 ) {
-            d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::string< " + s + " >" );
+            d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::string< " + s + " >" );
          }
          else {
-            d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::one< " + s + " >" );
+            d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::one< " + s + " >" );
          }
       }
    };
@@ -312,7 +314,7 @@ namespace abnf2pegtl
    struct action< grammar::prose_val >
    {
       template< typename Input >
-      static void apply( const Input & in, data & d )
+      static void apply( const Input& in, data& d )
       {
          assert( !d.elements.empty() );
          const auto v = in.string();
@@ -324,7 +326,7 @@ namespace abnf2pegtl
    struct action< grammar::case_sensitive_string >
    {
       template< typename Input >
-      static void apply( const Input &, data & d )
+      static void apply( const Input&, data& d )
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
@@ -338,11 +340,11 @@ namespace abnf2pegtl
    struct action< grammar::bin_val::value >
    {
       template< typename Input >
-      static void apply( const Input & in, data & d )
+      static void apply( const Input& in, data& d )
       {
          assert( !d.elements.empty() );
          const auto v = in.string();
-         d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::one< " + std::to_string( std::strtoull( v.c_str(), nullptr, 2 ) ) + " >" );
+         d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::one< " + std::to_string( std::strtoull( v.c_str(), nullptr, 2 ) ) + " >" );
       }
    };
 
@@ -350,7 +352,7 @@ namespace abnf2pegtl
    struct action< grammar::bin_val::range >
    {
       template< typename Input >
-      static void apply( const Input &, data & d )
+      static void apply( const Input&, data& d )
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
@@ -358,7 +360,7 @@ namespace abnf2pegtl
          d.elements.back().pop_back();
          assert( !d.elements.back().empty() );
          const auto begin = d.elements.back().back();
-         d.elements.back().back() = "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::range< " + begin.substr( 12, begin.size() - 14 ) + ", " + end.substr( 12, end.size() - 14 ) + " >";
+         d.elements.back().back() = "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::range< " + begin.substr( 12, begin.size() - 14 ) + ", " + end.substr( 12, end.size() - 14 ) + " >";
       }
    };
 
@@ -366,7 +368,7 @@ namespace abnf2pegtl
    struct action< grammar::bin_val::next_value >
    {
       template< typename Input >
-      static void apply( const Input &, data & d )
+      static void apply( const Input&, data& d )
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
@@ -381,51 +383,59 @@ namespace abnf2pegtl
    struct action< grammar::dec_val::value >
    {
       template< typename Input >
-      static void apply( const Input & in, data & d )
+      static void apply( const Input& in, data& d )
       {
          assert( !d.elements.empty() );
          const auto v = in.string();
          const auto p = v.find_first_not_of( '0' );
-         d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::one< " + ( ( p == std::string::npos ) ? "0" : v.substr( p ) ) + " >" );
+         d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::one< " + ( ( p == std::string::npos ) ? "0" : v.substr( p ) ) + " >" );
       }
    };
 
    template<>
    struct action< grammar::dec_val::range >
-         : action< grammar::bin_val::range > {};
+      : action< grammar::bin_val::range >
+   {
+   };
 
    template<>
    struct action< grammar::dec_val::next_value >
-         : action< grammar::bin_val::next_value > {};
+      : action< grammar::bin_val::next_value >
+   {
+   };
 
    template<>
    struct action< grammar::hex_val::value >
    {
       template< typename Input >
-      static void apply( const Input & in, data & d )
+      static void apply( const Input& in, data& d )
       {
          assert( !d.elements.empty() );
-         d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::one< 0x" + in.string() + " >" );
+         d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::one< 0x" + in.string() + " >" );
       }
    };
 
    template<>
    struct action< grammar::hex_val::range >
-         : action< grammar::bin_val::range > {};
+      : action< grammar::bin_val::range >
+   {
+   };
 
    template<>
    struct action< grammar::hex_val::next_value >
-         : action< grammar::bin_val::next_value > {};
+      : action< grammar::bin_val::next_value >
+   {
+   };
 
    template<>
    struct action< grammar::option >
    {
       template< typename Input >
-      static void apply( const Input &, data & d )
+      static void apply( const Input&, data& d )
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
-         d.elements.back().back() = "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::opt< " + d.elements.back().back() + " >";
+         d.elements.back().back() = "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::opt< " + d.elements.back().back() + " >";
       }
    };
 
@@ -433,7 +443,7 @@ namespace abnf2pegtl
    struct action< grammar::repeat >
    {
       template< typename Input >
-      static void apply( const Input & in, data & d )
+      static void apply( const Input& in, data& d )
       {
          assert( !d.elements.empty() );
          d.elements.back().push_back( in.string() );
@@ -453,7 +463,7 @@ namespace abnf2pegtl
       }
 
       template< typename Input >
-      static void apply( const Input & in, data & d )
+      static void apply( const Input& in, data& d )
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
@@ -470,7 +480,7 @@ namespace abnf2pegtl
                   if( num == "" ) {
                      throw tao::TAOCPP_PEGTL_NAMESPACE::parse_error( "repetition of zero not allowed", in );
                   }
-                  d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::rep< " + num + ", " + element + " >" );
+                  d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::rep< " + num + ", " + element + " >" );
                }
                else {
                   const auto min = remove_leading_zeroes( value.substr( 0, star ) );
@@ -479,22 +489,22 @@ namespace abnf2pegtl
                      throw tao::TAOCPP_PEGTL_NAMESPACE::parse_error( "repetition maximum of zero not allowed", in );
                   }
                   if( min.empty() && max.empty() ) {
-                     d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::star< " + element + " >" );
+                     d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::star< " + element + " >" );
                   }
                   else if( !min.empty() && max.empty() ) {
                      if( min == "1" ) {
-                        d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::plus< " + element + " >" );
+                        d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::plus< " + element + " >" );
                      }
                      else {
-                        d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::rep_min< " + min + ", " + element + " >" );
+                        d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::rep_min< " + min + ", " + element + " >" );
                      }
                   }
                   else if( min.empty() && !max.empty() ) {
                      if( max == "1" ) {
-                        d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::opt< " + element + " >" );
+                        d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::opt< " + element + " >" );
                      }
                      else {
-                        d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::rep_opt< " + max + ", " + element + " >" );
+                        d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::rep_opt< " + max + ", " + element + " >" );
                      }
                   }
                   else {
@@ -503,17 +513,17 @@ namespace abnf2pegtl
                      if( min_val > max_val ) {
                         throw tao::TAOCPP_PEGTL_NAMESPACE::parse_error( "repetition minimum which is greater than the repetition maximum not allowed", in );
                      }
-                     const auto min_element = ( min_val == 1 ) ? element : "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::rep< " + min + ", " + element + " >";
+                     const auto min_element = ( min_val == 1 ) ? element : "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::rep< " + min + ", " + element + " >";
                      if( min_val == max_val ) {
                         d.elements.back().push_back( min_element );
                      }
                      else if( max_val - min_val == 1 ) {
-                        const auto max_element = "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::opt< " + element + " >";
-                        d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::seq< " + min_element + ", " + max_element + " >" );
+                        const auto max_element = "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::opt< " + element + " >";
+                        d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::seq< " + min_element + ", " + max_element + " >" );
                      }
                      else {
-                        const auto max_element = "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::rep_opt< " + std::to_string( max_val - min_val ) + ", " + element + " >";
-                        d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::seq< " + min_element + ", " + max_element + " >" );
+                        const auto max_element = "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::rep_opt< " + std::to_string( max_val - min_val ) + ", " + element + " >";
+                        d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::seq< " + min_element + ", " + max_element + " >" );
                      }
                   }
                }
@@ -526,11 +536,11 @@ namespace abnf2pegtl
    struct action< grammar::and_predicate >
    {
       template< typename Input >
-      static void apply( const Input &, data & d )
+      static void apply( const Input&, data& d )
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
-         d.elements.back().back() = "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::at< " + d.elements.back().back() + " >";
+         d.elements.back().back() = "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::at< " + d.elements.back().back() + " >";
       }
    };
 
@@ -538,11 +548,11 @@ namespace abnf2pegtl
    struct action< grammar::not_predicate >
    {
       template< typename Input >
-      static void apply( const Input &, data & d )
+      static void apply( const Input&, data& d )
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
-         d.elements.back().back() = "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::not_at< " + d.elements.back().back() + " >";
+         d.elements.back().back() = "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::not_at< " + d.elements.back().back() + " >";
       }
    };
 
@@ -550,7 +560,7 @@ namespace abnf2pegtl
    struct action< grammar::concatenation >
    {
       template< typename Input >
-      static void apply( const Input &, data & d )
+      static void apply( const Input&, data& d )
       {
          assert( !d.elements.empty() );
          if( d.elements.back().size() == 1 ) {
@@ -568,7 +578,7 @@ namespace abnf2pegtl
             }
             d.elements.pop_back();
             assert( !d.elements.empty() );
-            d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::seq< " + s + " >" );
+            d.elements.back().push_back( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::seq< " + s + " >" );
          }
       }
    };
@@ -578,11 +588,11 @@ namespace abnf2pegtl
    {
       static bool is_one( const std::string& v )
       {
-         return v.compare( 0, 12, "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::one< " ) == 0;
+         return v.compare( 0, 12, "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::one< " ) == 0;
       }
 
       template< typename Input >
-      static void apply( const Input &, data & d )
+      static void apply( const Input&, data& d )
       {
          assert( !d.elements.empty() );
          if( d.elements.back().size() == 1 ) {
@@ -609,7 +619,7 @@ namespace abnf2pegtl
             d.elements.pop_back();
             assert( !d.elements.empty() );
             if( !one ) {
-               s = "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::sor< " + s + " >";
+               s = "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::sor< " + s + " >";
             }
             d.elements.back().push_back( s );
          }
@@ -620,7 +630,7 @@ namespace abnf2pegtl
    struct action< grammar::defined_as_op >
    {
       template< typename Input >
-      static void apply( const Input & in, data & d )
+      static void apply( const Input& in, data& d )
       {
          assert( !d.elements.empty() );
          d.elements.back().push_back( in.string() );
@@ -632,11 +642,11 @@ namespace abnf2pegtl
    {
       static std::string strip_sor( const std::string& v )
       {
-         return ( v.compare( 0, 12, "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::sor< " ) == 0 ) ? v.substr( 12, v.size() - 14 ) : v;
+         return ( v.compare( 0, 12, "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::sor< " ) == 0 ) ? v.substr( 12, v.size() - 14 ) : v;
       }
 
       template< typename Input >
-      static void apply( const Input & in, data & d )
+      static void apply( const Input& in, data& d )
       {
          assert( !d.elements.empty() );
          assert( d.elements.back().size() == 2 );
@@ -655,7 +665,7 @@ namespace abnf2pegtl
             if( it == d.rules.rend() || it->second == "" ) {
                throw tao::TAOCPP_PEGTL_NAMESPACE::parse_error( "'" + d.rulename + "' has not yet been assigned", in );
             }
-            value = "tao::" TAOCPP_PEGTL_STRINGIFY(TAOCPP_PEGTL_NAMESPACE) "::sor< " + strip_sor( it->second ) + ", " + strip_sor( value ) + " >";
+            value = "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::sor< " + strip_sor( it->second ) + ", " + strip_sor( value ) + " >";
             if( d.find_rule( d.rulename, std::next( it ) ) == d.rules.rend() ) {
                it->second.clear();
             }
@@ -669,9 +679,9 @@ namespace abnf2pegtl
       }
    };
 
-} // namespace abnf2pegtl
+}  // namespace abnf2pegtl
 
-int main( int argc, char ** argv )
+int main( int argc, char** argv )
 {
    using namespace tao::pegtl;
 

@@ -4,11 +4,11 @@
 #include <vector>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/json.hpp>
 #include <tao/pegtl/contrib/changes.hpp>
+#include <tao/pegtl/contrib/json.hpp>
 
-#include "json_errors.hpp"
 #include "json_classes.hpp"
+#include "json_errors.hpp"
 #include "json_unescape.hpp"
 
 namespace examples
@@ -27,13 +27,19 @@ namespace examples
 
    // Action and Control classes
 
-   template< typename Rule > struct action : unescape_action< Rule > {};  // Inherit from json_unescape.hpp.
-   template< typename Rule > struct control : errors< Rule > {};  // Inherit from json_errors.hpp.
+   template< typename Rule >
+   struct action : unescape_action< Rule >
+   {
+   };  // Inherit from json_unescape.hpp.
+   template< typename Rule >
+   struct control : errors< Rule >
+   {
+   };  // Inherit from json_errors.hpp.
 
    template<>
    struct action< tao::TAOCPP_PEGTL_NAMESPACE::json::null >
    {
-      static void apply0( json_state & state )
+      static void apply0( json_state& state )
       {
          state.result = std::make_shared< null_json >();
       }
@@ -42,7 +48,7 @@ namespace examples
    template<>
    struct action< tao::TAOCPP_PEGTL_NAMESPACE::json::true_ >
    {
-      static void apply0( json_state & state )
+      static void apply0( json_state& state )
       {
          state.result = std::make_shared< boolean_json >( true );
       }
@@ -51,7 +57,7 @@ namespace examples
    template<>
    struct action< tao::TAOCPP_PEGTL_NAMESPACE::json::false_ >
    {
-      static void apply0( json_state & state )
+      static void apply0( json_state& state )
       {
          state.result = std::make_shared< boolean_json >( false );
       }
@@ -61,7 +67,7 @@ namespace examples
    struct action< tao::TAOCPP_PEGTL_NAMESPACE::json::number >
    {
       template< typename Input >
-      static void apply( const Input & in, json_state & state )
+      static void apply( const Input& in, json_state& state )
       {
          state.result = std::make_shared< number_json >( std::stold( in.string() ) );  // NOTE: stold() is not quite correct for JSON but we'll use it for this simple example.
       }
@@ -70,21 +76,23 @@ namespace examples
    // To parse a string, we change the state to decouple string parsing/unescaping
 
    struct string_state
-         : public unescape_state_base
+      : public unescape_state_base
    {
-      void success( json_state & state )
+      void success( json_state& state )
       {
          state.result = std::make_shared< string_json >( unescaped );
       }
    };
 
    template<>
-   struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::string::content > : tao::TAOCPP_PEGTL_NAMESPACE::change_state< tao::TAOCPP_PEGTL_NAMESPACE::json::string::content, string_state, errors > {};
+   struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::string::content > : tao::TAOCPP_PEGTL_NAMESPACE::change_state< tao::TAOCPP_PEGTL_NAMESPACE::json::string::content, string_state, errors >
+   {
+   };
 
    template<>
    struct action< tao::TAOCPP_PEGTL_NAMESPACE::json::array::begin >
    {
-      static void apply0( json_state & state )
+      static void apply0( json_state& state )
       {
          state.arrays.push_back( std::make_shared< array_json >() );
       }
@@ -93,7 +101,7 @@ namespace examples
    template<>
    struct action< tao::TAOCPP_PEGTL_NAMESPACE::json::array::element >
    {
-      static void apply0( json_state & state )
+      static void apply0( json_state& state )
       {
          state.arrays.back()->data.push_back( std::move( state.result ) );
       }
@@ -102,7 +110,7 @@ namespace examples
    template<>
    struct action< tao::TAOCPP_PEGTL_NAMESPACE::json::array::end >
    {
-      static void apply0( json_state & state )
+      static void apply0( json_state& state )
       {
          state.result = std::move( state.arrays.back() );
          state.arrays.pop_back();
@@ -112,7 +120,7 @@ namespace examples
    template<>
    struct action< tao::TAOCPP_PEGTL_NAMESPACE::json::object::begin >
    {
-      static void apply0( json_state & state )
+      static void apply0( json_state& state )
       {
          state.objects.push_back( std::make_shared< object_json >() );
       }
@@ -122,19 +130,21 @@ namespace examples
 
    struct key_state : unescape_state_base
    {
-      void success( json_state & state )
+      void success( json_state& state )
       {
          state.keys.push_back( std::move( unescaped ) );
       }
    };
 
    template<>
-   struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::key::content > : tao::TAOCPP_PEGTL_NAMESPACE::change_state< tao::TAOCPP_PEGTL_NAMESPACE::json::key::content, key_state, errors > {};
+   struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::key::content > : tao::TAOCPP_PEGTL_NAMESPACE::change_state< tao::TAOCPP_PEGTL_NAMESPACE::json::key::content, key_state, errors >
+   {
+   };
 
    template<>
    struct action< tao::TAOCPP_PEGTL_NAMESPACE::json::object::element >
    {
-      static void apply0( json_state & state )
+      static void apply0( json_state& state )
       {
          state.objects.back()->data[ std::move( state.keys.back() ) ] = std::move( state.result );
          state.keys.pop_back();
@@ -144,7 +154,7 @@ namespace examples
    template<>
    struct action< tao::TAOCPP_PEGTL_NAMESPACE::json::object::end >
    {
-      static void apply0( json_state & state )
+      static void apply0( json_state& state )
       {
          state.result = std::move( state.objects.back() );
          state.objects.pop_back();
@@ -153,12 +163,12 @@ namespace examples
 
    using grammar = tao::TAOCPP_PEGTL_NAMESPACE::must< tao::TAOCPP_PEGTL_NAMESPACE::json::text, tao::TAOCPP_PEGTL_NAMESPACE::eof >;
 
-} // namespace examples
+}  // namespace examples
 
-int main( int argc, char ** argv )
+int main( int argc, char** argv )
 {
-   if ( argc != 2 ) {
-     std::cerr << "usage: " << argv[ 0 ] << " <json>";
+   if( argc != 2 ) {
+      std::cerr << "usage: " << argv[ 0 ] << " <json>";
    }
    else {
       examples::json_state state;

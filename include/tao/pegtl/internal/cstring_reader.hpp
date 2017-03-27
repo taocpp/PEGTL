@@ -18,19 +18,18 @@ namespace tao
       {
          struct cstring_reader
          {
-            explicit
-            cstring_reader( const char * zero_terminated )
-                  : m_cstring( zero_terminated )
+            explicit cstring_reader( const char* zero_terminated )
+               : m_cstring( zero_terminated )
             {
                assert( m_cstring );
             }
 
-            std::size_t operator() ( char * buffer, const std::size_t length )
+            std::size_t operator()( char* buffer, const std::size_t length )
             {
                std::size_t i = 0;
                char c;
 
-               while ( ( i < length ) && ( ( c = m_cstring[ i ] ) != 0 ) ) {
+               while( ( i < length ) && ( ( c = m_cstring[ i ] ) != 0 ) ) {
                   *buffer++ = c;
                   ++i;
                }
@@ -38,13 +37,13 @@ namespace tao
                return i;
             }
 
-            const char * m_cstring;
+            const char* m_cstring;
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

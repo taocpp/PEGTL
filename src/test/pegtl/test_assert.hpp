@@ -6,18 +6,18 @@
 
 #include <iostream>
 
-#define TAOCPP_PEGTL_TEST_ASSERT( eXPReSSioN )                       \
-   do {                                                 \
-      if ( ! ( eXPReSSioN ) ) {                         \
-         std::cerr << "pegtl: unit test assert [ "      \
-                   << ( # eXPReSSioN )                  \
-                   << " ] failed in line [ "            \
-                   << __LINE__                          \
-                   << " ] file [ "                      \
-                   << __FILE__ << " ]"                  \
-                   << std::endl;                        \
-         ++failed;                                      \
-      }                                                 \
-   } while ( false )
+#define TAOCPP_PEGTL_TEST_ASSERT( eXPReSSioN )     \
+   do {                                            \
+      if( !( eXPReSSioN ) ) {                      \
+         std::cerr << "pegtl: unit test assert [ " \
+                   << ( #eXPReSSioN )              \
+                   << " ] failed in line [ "       \
+                   << __LINE__                     \
+                   << " ] file [ "                 \
+                   << __FILE__ << " ]"             \
+                   << std::endl;                   \
+         ++failed;                                 \
+      }                                            \
+   } while( false )
 
 #endif

@@ -9,16 +9,16 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename ... Rules >
-      using test_action_rule = action< nothing, Rules ... >;
+      template< typename... Rules >
+      using test_action_rule = action< nothing, Rules... >;
 
       void unit_test()
       {
          verify_seqs< test_action_rule >();
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

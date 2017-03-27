@@ -8,9 +8,9 @@
 
 #include "../config.hpp"
 
+#include "bump_help.hpp"
 #include "result_on_found.hpp"
 #include "skip_control.hpp"
-#include "bump_help.hpp"
 #include "trivial.hpp"
 
 #include "../analysis/counted.hpp"
@@ -45,48 +45,52 @@ namespace tao
             }
          };
 
-         template< char ... Cs >
+         template< char... Cs >
          struct istring_equal;
 
          template<>
          struct istring_equal<>
          {
-            static bool match( const char * )
+            static bool match( const char* )
             {
                return true;
             }
          };
 
-         template< char C, char ... Cs >
-         struct istring_equal< C, Cs ... >
+         template< char C, char... Cs >
+         struct istring_equal< C, Cs... >
          {
-            static bool match( const char * r )
+            static bool match( const char* r )
             {
-               return ichar_equal< C >::match( * r ) && istring_equal< Cs ... >::match( r + 1 );
+               return ichar_equal< C >::match( *r ) && istring_equal< Cs... >::match( r + 1 );
             }
          };
 
-         template< char ... Cs >
+         template< char... Cs >
          struct istring;
 
-         template< char ... Cs >
-         struct skip_control< istring< Cs ... > > : std::true_type {};
+         template< char... Cs >
+         struct skip_control< istring< Cs... > > : std::true_type
+         {
+         };
 
          template<>
          struct istring<>
-               : trivial< true > {};
+            : trivial< true >
+         {
+         };
 
-         template< char ... Cs >
+         template< char... Cs >
          struct istring
          {
-            using analyze_t = analysis::counted< analysis::rule_type::ANY, sizeof ... ( Cs ) >;
+            using analyze_t = analysis::counted< analysis::rule_type::ANY, sizeof...( Cs ) >;
 
             template< typename Input >
-            static bool match( Input & in )
+            static bool match( Input& in )
             {
-               if ( in.size( sizeof ... ( Cs ) ) >= sizeof ... ( Cs ) ) {
-                  if ( istring_equal< Cs ... >::match( in.begin() ) ) {
-                     bump_help< result_on_found::SUCCESS, Input, char, Cs ... >( in, sizeof ... ( Cs ) );
+               if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
+                  if( istring_equal< Cs... >::match( in.begin() ) ) {
+                     bump_help< result_on_found::SUCCESS, Input, char, Cs... >( in, sizeof...( Cs ) );
                      return true;
                   }
                }
@@ -94,10 +98,10 @@ namespace tao
             }
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

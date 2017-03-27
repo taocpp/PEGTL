@@ -17,16 +17,18 @@ namespace tao
       {
          using eol_pair = std::pair< bool, std::size_t >;
 
-         template< eol_mode EOL > struct eol_impl;
+         template< eol_mode EOL >
+         struct eol_impl;
 
-         template<> struct eol_impl< eol_mode::LF_ONLY >
+         template<>
+         struct eol_impl< eol_mode::LF_ONLY >
          {
             template< typename Input >
-            static eol_pair match( Input & in )
+            static eol_pair match( Input& in )
             {
                eol_pair p = { false, in.size( 1 ) };
-               if ( p.second ) {
-                  if ( in.peek_char() == '\n' ) {
+               if( p.second ) {
+                  if( in.peek_char() == '\n' ) {
                      in.bump_to_next_line();
                      p.first = true;
                   }
@@ -35,14 +37,15 @@ namespace tao
             }
          };
 
-         template<> struct eol_impl< eol_mode::CR_ONLY >
+         template<>
+         struct eol_impl< eol_mode::CR_ONLY >
          {
             template< typename Input >
-            static eol_pair match( Input & in )
+            static eol_pair match( Input& in )
             {
                eol_pair p = { false, in.size( 1 ) };
-               if ( p.second ) {
-                  if ( in.peek_char() == '\r' ) {
+               if( p.second ) {
+                  if( in.peek_char() == '\r' ) {
                      in.bump_to_next_line();
                      p.first = true;
                   }
@@ -51,14 +54,15 @@ namespace tao
             }
          };
 
-         template<> struct eol_impl< eol_mode::CRLF_ONLY >
+         template<>
+         struct eol_impl< eol_mode::CRLF_ONLY >
          {
             template< typename Input >
-            static eol_pair match( Input & in )
+            static eol_pair match( Input& in )
             {
                eol_pair p = { false, in.size( 2 ) };
-               if ( p.second > 1 ) {
-                  if ( ( in.peek_char() == '\r' ) && ( in.peek_char( 1 ) == '\n' ) ) {
+               if( p.second > 1 ) {
+                  if( ( in.peek_char() == '\r' ) && ( in.peek_char( 1 ) == '\n' ) ) {
                      in.bump_to_next_line( 2 );
                      p.first = true;
                   }
@@ -67,19 +71,20 @@ namespace tao
             }
          };
 
-         template<> struct eol_impl< eol_mode::LF_WITH_CRLF >
+         template<>
+         struct eol_impl< eol_mode::LF_WITH_CRLF >
          {
             template< typename Input >
-            static eol_pair match( Input & in )
+            static eol_pair match( Input& in )
             {
                eol_pair p = { false, in.size( 2 ) };
-               if ( p.second ) {
+               if( p.second ) {
                   const auto a = in.peek_char();
-                  if ( a == '\n' ) {
+                  if( a == '\n' ) {
                      in.bump_to_next_line();
                      p.first = true;
                   }
-                  else if ( ( a == '\r' ) && ( p.second > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) {
+                  else if( ( a == '\r' ) && ( p.second > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) {
                      in.bump_to_next_line( 2 );
                      p.first = true;
                   }
@@ -88,14 +93,15 @@ namespace tao
             }
          };
 
-         template<> struct eol_impl< eol_mode::CR_WITH_CRLF >
+         template<>
+         struct eol_impl< eol_mode::CR_WITH_CRLF >
          {
             template< typename Input >
-            static eol_pair match( Input & in )
+            static eol_pair match( Input& in )
             {
                eol_pair p = { false, in.size( 2 ) };
-               if ( p.second ) {
-                  if ( in.peek_char() == '\r' ) {
+               if( p.second ) {
+                  if( in.peek_char() == '\r' ) {
                      in.bump_to_next_line( 1 + ( ( p.second > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) );
                      p.first = true;
                   }
@@ -104,10 +110,10 @@ namespace tao
             }
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

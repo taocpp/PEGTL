@@ -61,8 +61,8 @@ namespace tao
       template< typename Cond, typename ... Rules > struct until : internal::until< Cond, Rules ... > {};
       // clang-format on
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

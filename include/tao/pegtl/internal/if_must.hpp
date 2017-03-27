@@ -6,8 +6,8 @@
 
 #include "../config.hpp"
 
-#include "seq.hpp"
 #include "must.hpp"
+#include "seq.hpp"
 
 namespace tao
 {
@@ -15,13 +15,13 @@ namespace tao
    {
       namespace internal
       {
-         template< typename Cond, typename ... Thens >
-         using if_must = seq< Cond, must< Thens ... > >;
+         template< typename Cond, typename... Thens >
+         using if_must = seq< Cond, must< Thens... > >;
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

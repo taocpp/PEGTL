@@ -14,15 +14,15 @@ namespace tao
    {
       namespace internal
       {
-         inline std::string demangle( const char * symbol )
+         inline std::string demangle( const char* symbol )
          {
             return symbol;
          }
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

@@ -29,9 +29,9 @@ namespace tao
             }
 
             template< typename Input >
-            static bool match( Input & in )
+            static bool match( Input& in )
             {
-               if ( dummy_greater_or_equal( in.size( Num ), Num ) ) {
+               if( dummy_greater_or_equal( in.size( Num ), Num ) ) {
                   in.bump( Num );
                   return true;
                }
@@ -40,12 +40,14 @@ namespace tao
          };
 
          template< unsigned Num >
-         struct skip_control< bytes< Num > > : std::true_type {};
+         struct skip_control< bytes< Num > > : std::true_type
+         {
+         };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

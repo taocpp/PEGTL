@@ -6,10 +6,10 @@
 
 #include "../config.hpp"
 
-#include "sor.hpp"
-#include "seq.hpp"
 #include "not_at.hpp"
+#include "seq.hpp"
 #include "skip_control.hpp"
+#include "sor.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
@@ -27,26 +27,28 @@ namespace tao
          {
             using analyze_t = analysis::generic< analysis::rule_type::SOR, seq< Cond, Then >, seq< not_at< Cond >, Else > >;
 
-            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-            static bool match( Input & in, States && ... st )
+            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< M >();
                using m_t = decltype( m );
 
-               if ( Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st ... ) ) {
-                  return m( Control< Then >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st ... ) );
+               if( Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st... ) ) {
+                  return m( Control< Then >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );
                }
-               return m( Control< Else >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st ... ) );
+               return m( Control< Else >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );
             }
          };
 
          template< typename Cond, typename Then, typename Else >
-         struct skip_control< if_then_else< Cond, Then, Else > > : std::true_type {};
+         struct skip_control< if_then_else< Cond, Then, Else > > : std::true_type
+         {
+         };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

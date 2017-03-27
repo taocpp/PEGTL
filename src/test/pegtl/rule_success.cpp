@@ -11,16 +11,16 @@ namespace tao
       {
          verify_analyze< success >( __LINE__, __FILE__, false, false );
 
-         verify_rule< success >( __LINE__, __FILE__,  "", result_type::SUCCESS, 0 );
+         verify_rule< success >( __LINE__, __FILE__, "", result_type::SUCCESS, 0 );
 
-         for ( char i = 1; i < 127; ++i ) {
+         for( char i = 1; i < 127; ++i ) {
             char t[] = { i, 0 };
-            verify_rule< success >( __LINE__, __FILE__,  std::string( t ), result_type::SUCCESS, 1 );
+            verify_rule< success >( __LINE__, __FILE__, std::string( t ), result_type::SUCCESS, 1 );
          }
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

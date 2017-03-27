@@ -8,10 +8,10 @@
 
 #include "../config.hpp"
 
-#include "skip_control.hpp"
-#include "trivial.hpp"
 #include "duseltronik.hpp"
 #include "seq.hpp"
+#include "skip_control.hpp"
+#include "trivial.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
@@ -24,40 +24,44 @@ namespace tao
    {
       namespace internal
       {
-         template< typename Exception, typename ... Rules >
+         template< typename Exception, typename... Rules >
          struct try_catch_type;
 
-         template< typename Exception, typename ... Rules >
-         struct skip_control< try_catch_type< Exception, Rules ... > > : std::true_type {};
+         template< typename Exception, typename... Rules >
+         struct skip_control< try_catch_type< Exception, Rules... > > : std::true_type
+         {
+         };
 
          template< typename Exception >
          struct try_catch_type< Exception >
-               : trivial< true > {};
+            : trivial< true >
+         {
+         };
 
-         template< typename Exception, typename ... Rules >
+         template< typename Exception, typename... Rules >
          struct try_catch_type
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules ... >;
+            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules... >;
 
-            template< apply_mode A, rewind_mode M, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-            static bool match( Input & in, States && ... st )
+            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< M >();
                using m_t = decltype( m );
 
                try {
-                  return m( duseltronik< seq< Rules ... >, A, m_t::next_rewind_mode, Action, Control >::match( in, st ... ) );
+                  return m( duseltronik< seq< Rules... >, A, m_t::next_rewind_mode, Action, Control >::match( in, st... ) );
                }
-               catch ( const Exception & ) {
+               catch( const Exception& ) {
                   return false;
                }
             }
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

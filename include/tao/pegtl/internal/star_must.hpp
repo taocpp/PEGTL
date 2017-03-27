@@ -6,8 +6,8 @@
 
 #include "../config.hpp"
 
-#include "star.hpp"
 #include "if_must.hpp"
+#include "star.hpp"
 
 namespace tao
 {
@@ -15,13 +15,13 @@ namespace tao
    {
       namespace internal
       {
-         template< typename Cond, typename ... Rules >
-         using star_must = star< if_must< Cond, Rules ... > >;
+         template< typename Cond, typename... Rules >
+         using star_must = star< if_must< Cond, Rules... > >;
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

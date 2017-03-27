@@ -31,10 +31,10 @@ namespace tao
             }
          };
 
-      } // namespace analysis
+      }  // namespace analysis
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

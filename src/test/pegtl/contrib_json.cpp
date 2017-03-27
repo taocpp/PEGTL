@@ -11,13 +11,13 @@ namespace tao
    namespace TAOCPP_PEGTL_NAMESPACE
    {
       template< typename Rule >
-      void verify_file_fail( const std::size_t line, const char * file, const std::string & s )
+      void verify_file_fail( const std::size_t line, const char* file, const std::string& s )
       {
          try {
             file_parser( s ).parse< Rule >();
             TAOCPP_PEGTL_TEST_FAILED( "expected exception" );
          }
-         catch ( ... ) {
+         catch( ... ) {
          }
       }
 
@@ -26,7 +26,7 @@ namespace tao
       void unit_test()
       {
          const auto p = analyze< GRAMMAR >();
-         if ( p != 0 ) {
+         if( p != 0 ) {
             throw std::runtime_error( "analyze< GRAMMAR >() failed!" );
          }
 
@@ -51,11 +51,11 @@ namespace tao
          verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"ab\\u002Ccd\"]", result_type::SUCCESS, 0 );
          verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"ab\\u002ccd\"]", result_type::SUCCESS, 0 );
          verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\\uD834\\uDD1E\"]", result_type::SUCCESS, 0 );
-         verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\\uD834\"]", result_type::SUCCESS, 0 ); // unfortunately, this is valid for the grammar...
-         verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\\uDD1E\"]", result_type::SUCCESS, 0 ); // ...although both inputs are invalid in unicode.
-         verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\xC3\x84\"]", result_type::SUCCESS, 0 ); // German a-umlaut
-         verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\xF4\x8F\xBF\xBF\"]", result_type::SUCCESS, 0 ); // largest allowed codepoint U+10FFFF
-         verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\U0010FFFF\"]", result_type::SUCCESS, 0 ); // largest allowed codepoint U+10FFFF
+         verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\\uD834\"]", result_type::SUCCESS, 0 );           // unfortunately, this is valid for the grammar...
+         verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\\uDD1E\"]", result_type::SUCCESS, 0 );           // ...although both inputs are invalid in unicode.
+         verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\xC3\x84\"]", result_type::SUCCESS, 0 );          // German a-umlaut
+         verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\xF4\x8F\xBF\xBF\"]", result_type::SUCCESS, 0 );  // largest allowed codepoint U+10FFFF
+         verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\U0010FFFF\"]", result_type::SUCCESS, 0 );        // largest allowed codepoint U+10FFFF
 
          verify_fail< GRAMMAR >( __LINE__, __FILE__, "" );
          verify_fail< GRAMMAR >( __LINE__, __FILE__, " " );
@@ -133,8 +133,8 @@ namespace tao
          verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail39.json" );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

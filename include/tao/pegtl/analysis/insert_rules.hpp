@@ -6,8 +6,8 @@
 
 #include "../config.hpp"
 
-#include "rule_info.hpp"
 #include "grammar_info.hpp"
+#include "rule_info.hpp"
 
 namespace tao
 {
@@ -15,29 +15,31 @@ namespace tao
    {
       namespace analysis
       {
-         template< typename ... > struct insert_rules;
+         template< typename... >
+         struct insert_rules;
 
          template<>
          struct insert_rules<>
          {
-            static void insert( grammar_info &, rule_info & )
-            { }
-         };
-
-         template< typename Rule, typename ... Rules >
-         struct insert_rules< Rule, Rules ... >
-         {
-            static void insert( grammar_info & g, rule_info & r )
+            static void insert( grammar_info&, rule_info& )
             {
-               r.rules.push_back( Rule::analyze_t::template insert< Rule >( g ) );
-               insert_rules< Rules ... >::insert( g, r );
             }
          };
 
-      } // namespace analysis
+         template< typename Rule, typename... Rules >
+         struct insert_rules< Rule, Rules... >
+         {
+            static void insert( grammar_info& g, rule_info& r )
+            {
+               r.rules.push_back( Rule::analyze_t::template insert< Rule >( g ) );
+               insert_rules< Rules... >::insert( g, r );
+            }
+         };
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+      }  // namespace analysis
 
-} // namespace tao
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
+
+}  // namespace tao
 
 #endif

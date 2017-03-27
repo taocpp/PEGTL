@@ -18,10 +18,10 @@ namespace tao
          template< typename Rule, typename Pad1, typename Pad2 = Pad1 >
          using pad = seq< star< Pad1 >, Rule, star< Pad2 > >;
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

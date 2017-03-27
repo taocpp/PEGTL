@@ -1,11 +1,11 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#include <cassert>
+#include <functional>
+#include <iostream>
 #include <map>
 #include <vector>
-#include <cassert>
-#include <iostream>
-#include <functional>
 
 #include <tao/pegtl.hpp>
 
@@ -20,7 +20,9 @@ namespace calculator
    // evaluated, i.e. the priority of the operators; a higher
    // number indicates a lower priority.
 
-   enum class order : int {};
+   enum class order : int
+   {
+   };
 
    // For each binary operator known to the calculator we need an
    // instance of the following data structure with the priority,
@@ -30,7 +32,7 @@ namespace calculator
    struct op
    {
       order p;
-      std::function< long ( long, long ) > f;
+      std::function< long( long, long ) > f;
    };
 
    // Class that takes care of an operand and an operator stack for
@@ -40,9 +42,9 @@ namespace calculator
 
    struct stack
    {
-      void push( const op & b )
+      void push( const op& b )
       {
-         while ( ( ! m_o.empty() ) && ( m_o.back().p <= b.p ) ) {
+         while( ( !m_o.empty() ) && ( m_o.back().p <= b.p ) ) {
             reduce();
          }
          m_o.push_back( b );
@@ -55,7 +57,7 @@ namespace calculator
 
       long finish()
       {
-         while ( ! m_o.empty() ) {
+         while( !m_o.empty() ) {
             reduce();
          }
          assert( m_l.size() == 1 );
@@ -70,7 +72,7 @@ namespace calculator
 
       void reduce()
       {
-         assert( ! m_o.empty() );
+         assert( !m_o.empty() );
          assert( m_l.size() > 1 );
 
          const auto r = m_l.back();
@@ -104,9 +106,9 @@ namespace calculator
       }
 
       template< typename T >
-      void push( const T & t )
+      void push( const T& t )
       {
-         assert( ! m_v.empty() );
+         assert( !m_v.empty() );
          m_v.back().push( t );
       }
 
@@ -138,35 +140,35 @@ namespace calculator
          // By default we initialise with all binary operators from the C language that can be
          // used on integers, all with their usual priority.
 
-         insert( "*", order( 5 ), []( const long l, const long r ){ return l * r; } );
-         insert( "/", order( 5 ), []( const long l, const long r ){ return l / r; } );
-         insert( "%", order( 5 ), []( const long l, const long r ){ return l % r; } );
-         insert( "+", order( 6 ), []( const long l, const long r ){ return l + r; } );
-         insert( "-", order( 6 ), []( const long l, const long r ){ return l - r; } );
-         insert( "<<", order( 7 ), []( const long l, const long r ){ return l << r; } );
-         insert( ">>", order( 7 ), []( const long l, const long r ){ return l >> r; } );
-         insert( "<", order( 8 ), []( const long l, const long r ){ return l < r; } );
-         insert( ">", order( 8 ), []( const long l, const long r ){ return l > r; } );
-         insert( "<=", order( 8 ), []( const long l, const long r ){ return l <= r; } );
-         insert( ">=", order( 8 ), []( const long l, const long r ){ return l >= r; } );
-         insert( "==", order( 9 ), []( const long l, const long r ){ return l == r; } );
-         insert( "!=", order( 9 ), []( const long l, const long r ){ return l != r; } );
-         insert( "&", order( 10 ), []( const long l, const long r ){ return l & r; } );
-         insert( "^", order( 11 ), []( const long l, const long r ){ return l ^ r; } );
-         insert( "|", order( 12 ), []( const long l, const long r ){ return l | r; } );
-         insert( "&&", order( 13 ), []( const long l, const long r ){ return static_cast< bool >( l ) && static_cast< bool >( r ); } );
-         insert( "||", order( 14 ), []( const long l, const long r ){ return static_cast< bool >( l ) || static_cast< bool >( r ); } );
+         insert( "*", order( 5 ), []( const long l, const long r ) { return l * r; } );
+         insert( "/", order( 5 ), []( const long l, const long r ) { return l / r; } );
+         insert( "%", order( 5 ), []( const long l, const long r ) { return l % r; } );
+         insert( "+", order( 6 ), []( const long l, const long r ) { return l + r; } );
+         insert( "-", order( 6 ), []( const long l, const long r ) { return l - r; } );
+         insert( "<<", order( 7 ), []( const long l, const long r ) { return l << r; } );
+         insert( ">>", order( 7 ), []( const long l, const long r ) { return l >> r; } );
+         insert( "<", order( 8 ), []( const long l, const long r ) { return l < r; } );
+         insert( ">", order( 8 ), []( const long l, const long r ) { return l > r; } );
+         insert( "<=", order( 8 ), []( const long l, const long r ) { return l <= r; } );
+         insert( ">=", order( 8 ), []( const long l, const long r ) { return l >= r; } );
+         insert( "==", order( 9 ), []( const long l, const long r ) { return l == r; } );
+         insert( "!=", order( 9 ), []( const long l, const long r ) { return l != r; } );
+         insert( "&", order( 10 ), []( const long l, const long r ) { return l & r; } );
+         insert( "^", order( 11 ), []( const long l, const long r ) { return l ^ r; } );
+         insert( "|", order( 12 ), []( const long l, const long r ) { return l | r; } );
+         insert( "&&", order( 13 ), []( const long l, const long r ) { return static_cast< bool >( l ) && static_cast< bool >( r ); } );
+         insert( "||", order( 14 ), []( const long l, const long r ) { return static_cast< bool >( l ) || static_cast< bool >( r ); } );
       }
 
       // Arbitrary user-defined operators can be added at runtime.
 
-      void insert( const std::string & name, const order p, const std::function< long( long, long ) > & f )
+      void insert( const std::string& name, const order p, const std::function< long( long, long ) >& f )
       {
-         assert( ! name.empty() );
+         assert( !name.empty() );
          m_ops.insert( { name, { p, f } } );
       }
 
-      const std::map< std::string, op > & ops() const
+      const std::map< std::string, op >& ops() const
       {
          return m_ops;
       }
@@ -182,14 +184,18 @@ namespace calculator
    // Comments are introduced by a '#' and proceed to the end-of-line/file.
 
    struct comment
-         : if_must< one< '#' >, until< eolf > > {};
+      : if_must< one< '#' >, until< eolf > >
+   {
+   };
 
    // The calculator ignores all spaces and comments; space is a pegtl rule
    // that matches the usual ascii characters ' ', '\t', '\n' etc. In other
    // words, everything that is space or a comment is ignored.
 
    struct ignored
-         : sor< space, comment > {};
+      : sor< space, comment >
+   {
+   };
 
    // Since the binary operators are taken from a runtime data structure
    // (rather than hard-coding them into the grammar), we need a custom
@@ -200,8 +206,8 @@ namespace calculator
    {
       using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-      template< apply_mode, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input >
-      static bool match( Input & in, const operators & b, stacks & s )
+      template< apply_mode, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input >
+      static bool match( Input& in, const operators& b, stacks& s )
       {
          // Look for the longest match of the input against the operators in the operator map.
 
@@ -210,16 +216,16 @@ namespace calculator
 
    private:
       template< typename Input >
-      static bool match( Input & in, const operators & b, stacks & s, std::string t )
+      static bool match( Input& in, const operators& b, stacks& s, std::string t )
       {
-         if ( in.size( t.size() + 1 ) > t.size() ) {
+         if( in.size( t.size() + 1 ) > t.size() ) {
             t += in.peek_char( t.size() );
             const auto i = b.ops().lower_bound( t );
-            if ( i != b.ops().end() ) {
-               if ( match( in, b, s, t ) ) {
+            if( i != b.ops().end() ) {
+               if( match( in, b, s, t ) ) {
                   return true;
                }
-               if ( i->first == t ) {
+               if( i->first == t ) {
                   // While we are at it, this rule also performs the task of what would
                   // usually be an associated action: To push the matched operator onto
                   // the operator stack.
@@ -236,7 +242,9 @@ namespace calculator
    // A number is a non-empty sequence of digits preceeded by an optional sign.
 
    struct number
-         : seq< opt< one< '+', '-' > >, plus< digit > > {};
+      : seq< opt< one< '+', '-' > >, plus< digit > >
+   {
+   };
 
    struct expression;
 
@@ -244,25 +252,33 @@ namespace calculator
    // proceed with an expression and a ')'.
 
    struct bracket
-         : if_must< one< '(' >, expression, one< ')' > > {};
+      : if_must< one< '(' >, expression, one< ')' > >
+   {
+   };
 
    // An atomic expression, i.e. one without operators, is either a number or
    // a bracketed expression.
 
    struct atomic
-         : sor< number, bracket > {};
+      : sor< number, bracket >
+   {
+   };
 
    // An expression is a non-empty list of atomic expressions where each pair
    // of atomic expressions is separated by an infix operator and we allow
    // the rule ignored as padding (before and after every singlar expression).
 
    struct expression
-         : list< atomic, infix, ignored > {};
+      : list< atomic, infix, ignored >
+   {
+   };
 
    // The top-level grammar allows one expression and then expects eof.
 
    struct grammar
-         : must< expression, eof > {};
+      : must< expression, eof >
+   {
+   };
 
    // After the grammar we proceed with the additional actions that are
    // required to let our calculator actually do something.
@@ -273,7 +289,9 @@ namespace calculator
 
    template< typename Rule >
    struct action
-         : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule > {};
+      : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule >
+   {
+   };
 
    // This action will be called when the number rule matches; it converts the
    // matched portion of the input to a long and pushes it onto the operand
@@ -283,7 +301,7 @@ namespace calculator
    struct action< number >
    {
       template< typename Input >
-      static void apply( const Input & in, const operators &, stacks & s )
+      static void apply( const Input& in, const operators&, stacks& s )
       {
          s.push( std::stol( in.string() ) );
       }
@@ -296,7 +314,7 @@ namespace calculator
    struct action< one< '(' > >
    {
       template< typename Input >
-      static void apply( const Input &, const operators &, stacks & s )
+      static void apply( const Input&, const operators&, stacks& s )
       {
          s.open();
       }
@@ -306,15 +324,15 @@ namespace calculator
    struct action< one< ')' > >
    {
       template< typename Input >
-      static void apply( const Input &, const operators &, stacks & s )
+      static void apply( const Input&, const operators&, stacks& s )
       {
          s.close();
       }
    };
 
-} // namespace calculator
+}  // namespace calculator
 
-int main( int argc, char ** argv )
+int main( int argc, char** argv )
 {
    // Check the grammar for some possible issues.
 
@@ -325,7 +343,7 @@ int main( int argc, char ** argv )
    calculator::stacks s;
    calculator::operators b;
 
-   for ( int i = 1; i < argc; ++i ) {
+   for( int i = 1; i < argc; ++i ) {
       // Parse and process the command-line arguments as calculator expressions...
 
       tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< calculator::grammar, calculator::action >( i, argv, b, s );

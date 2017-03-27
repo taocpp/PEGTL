@@ -9,8 +9,12 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      struct file_content : seq< TAOCPP_PEGTL_STRING( "dummy content" ), eol, discard > {};
-      struct file_grammar : seq< rep_min_max< 11, 11, file_content >, eof > {};
+      struct file_content : seq< TAOCPP_PEGTL_STRING( "dummy content" ), eol, discard >
+      {
+      };
+      struct file_grammar : seq< rep_min_max< 11, 11, file_content >, eof >
+      {
+      };
 
       void unit_test()
       {
@@ -20,7 +24,7 @@ namespace tao
             parse_istream< file_grammar >( stream, filename, 16 );
             TAOCPP_PEGTL_TEST_ASSERT( false );
          }
-         catch ( const input_error & e ) {
+         catch( const input_error& e ) {
             TAOCPP_PEGTL_TEST_ASSERT( std::string( e.what() ).find( "error in istream.read()" ) != std::string::npos );
          }
          const std::string filename = "src/test/pegtl/file_data.txt";
@@ -28,8 +32,8 @@ namespace tao
          TAOCPP_PEGTL_TEST_ASSERT( parse_istream< file_grammar >( stream, filename, 16 ) );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

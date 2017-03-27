@@ -6,8 +6,8 @@
 
 #include "../config.hpp"
 
-#include "seq.hpp"
 #include "rep.hpp"
+#include "seq.hpp"
 #include "star.hpp"
 
 namespace tao
@@ -16,13 +16,13 @@ namespace tao
    {
       namespace internal
       {
-         template< unsigned Min, typename Rule, typename ... Rules >
-         using rep_min = seq< rep< Min, Rule, Rules ... >, star< Rule, Rules ... > >;
+         template< unsigned Min, typename Rule, typename... Rules >
+         using rep_min = seq< rep< Min, Rule, Rules... >, star< Rule, Rules... > >;
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

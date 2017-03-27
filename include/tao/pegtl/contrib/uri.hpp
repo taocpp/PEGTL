@@ -4,9 +4,9 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_URI_HPP
 #define TAOCPP_PEGTL_INCLUDE_CONTRIB_URI_HPP
 
+#include "../ascii.hpp"
 #include "../config.hpp"
 #include "../rules.hpp"
-#include "../ascii.hpp"
 #include "../utf8.hpp"
 
 #include "abnf.hpp"
@@ -107,10 +107,10 @@ namespace tao
          struct absolute_URI : seq< scheme, one< ':' >, hier_part, opt_query > {};
          // clang-format on
 
-      } // namespace uri
+      }  // namespace uri
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

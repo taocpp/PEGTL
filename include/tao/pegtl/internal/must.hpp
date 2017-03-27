@@ -6,8 +6,8 @@
 
 #include "../config.hpp"
 
-#include "seq.hpp"
 #include "raise.hpp"
+#include "seq.hpp"
 #include "skip_control.hpp"
 
 #include "../apply_mode.hpp"
@@ -23,9 +23,11 @@ namespace tao
          // 'Rules' parameter pack individually, below is the specialization
          // which implements the case for a single rule.
 
-         template< typename ... Rules >
+         template< typename... Rules >
          struct must
-               : seq< must< Rules > ... > {};
+            : seq< must< Rules >... >
+         {
+         };
 
          // While in theory the implementation for a single rule could
          // be simplified to must< Rule > = sor< Rule, raise< Rule > >, this
@@ -36,23 +38,25 @@ namespace tao
          {
             using analyze_t = typename Rule::analyze_t;
 
-            template< apply_mode A, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-            static bool match( Input & in, States && ... st )
+            template< apply_mode A, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            static bool match( Input& in, States&&... st )
             {
-               if ( ! Control< Rule >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... ) ) {
-                  raise< Rule >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st ... );
+               if( !Control< Rule >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st... ) ) {
+                  raise< Rule >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st... );
                }
                return true;
             }
          };
 
-         template< typename ... Rules >
-         struct skip_control< must< Rules ... > > : std::true_type {};
+         template< typename... Rules >
+         struct skip_control< must< Rules... > > : std::true_type
+         {
+         };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

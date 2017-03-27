@@ -18,16 +18,18 @@ namespace examples
    {
       unescape_state_base() = default;
 
-      unescape_state_base( const unescape_state_base & ) = delete;
-      void operator= ( const unescape_state_base & ) = delete;
+      unescape_state_base( const unescape_state_base& ) = delete;
+      void operator=( const unescape_state_base& ) = delete;
 
       std::string unescaped;
    };
 
    // Action class for parsing literal strings, uses the PEGTL unescape utilities, cf. unescape.cpp.
 
-   template< typename Rule, template< typename ... > class Base = tao::TAOCPP_PEGTL_NAMESPACE::nothing >
-   struct unescape_action : Base< Rule > {};
+   template< typename Rule, template< typename... > class Base = tao::TAOCPP_PEGTL_NAMESPACE::nothing >
+   struct unescape_action : Base< Rule >
+   {
+   };
 
    // clang-format off
    template<> struct unescape_action< tao::TAOCPP_PEGTL_NAMESPACE::json::unicode > : tao::TAOCPP_PEGTL_NAMESPACE::unescape::unescape_j {};
@@ -35,6 +37,6 @@ namespace examples
    template<> struct unescape_action< tao::TAOCPP_PEGTL_NAMESPACE::json::unescaped > : tao::TAOCPP_PEGTL_NAMESPACE::unescape::append_all {};
    // clang-format on
 
-} // examples
+}  // examples
 
 #endif

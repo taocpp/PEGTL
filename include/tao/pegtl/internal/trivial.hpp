@@ -19,22 +19,24 @@ namespace tao
          template< bool Result >
          struct trivial
          {
-            using analyze_t = analysis::counted< analysis::rule_type::ANY, unsigned( ! Result ) >;
+            using analyze_t = analysis::counted< analysis::rule_type::ANY, unsigned( !Result ) >;
 
             template< typename Input >
-            static bool match( Input & )
+            static bool match( Input& )
             {
                return Result;
             }
          };
 
          template< bool Result >
-         struct skip_control< trivial< Result > > : std::true_type {};
+         struct skip_control< trivial< Result > > : std::true_type
+         {
+         };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

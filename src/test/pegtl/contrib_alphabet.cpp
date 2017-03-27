@@ -66,8 +66,8 @@ namespace tao
          static_assert( alphabet::Z == 'Z', "Z" );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #include "main.hpp"

@@ -8,18 +8,18 @@
 
 #include <tao/pegtl/internal/demangle.hpp>
 
-#define TAOCPP_PEGTL_TEST_FAILED( MeSSaGe )                          \
-   do {                                                 \
-      std::cerr << "pegtl: unit test failed for [ "     \
-                << internal::demangle< Rule >()         \
-                << " ] "                                \
-                << MeSSaGe                              \
-                << " in line [ "                        \
-                << line                                 \
-                << " ] file [ "                         \
-                << file << " ]"                         \
-                << std::endl;                           \
-      ++failed;                                         \
-   } while ( false )
+#define TAOCPP_PEGTL_TEST_FAILED( MeSSaGe )         \
+   do {                                             \
+      std::cerr << "pegtl: unit test failed for [ " \
+                << internal::demangle< Rule >()     \
+                << " ] "                            \
+                << MeSSaGe                          \
+                << " in line [ "                    \
+                << line                             \
+                << " ] file [ "                     \
+                << file << " ]"                     \
+                << std::endl;                       \
+      ++failed;                                     \
+   } while( false )
 
 #endif

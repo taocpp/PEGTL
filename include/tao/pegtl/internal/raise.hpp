@@ -11,9 +11,9 @@
 
 #include "skip_control.hpp"
 
+#include "../analysis/generic.hpp"
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
-#include "../analysis/generic.hpp"
 
 namespace tao
 {
@@ -26,21 +26,23 @@ namespace tao
          {
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-            template< apply_mode, rewind_mode, template< typename ... > class Action, template< typename ... > class Control, typename Input, typename ... States >
-            static bool match( Input & in, States && ... st )
+            template< apply_mode, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            static bool match( Input& in, States&&... st )
             {
-               Control< T >::raise( const_cast< const Input & >( in ), st ... );
+               Control< T >::raise( const_cast< const Input& >( in ), st... );
                std::abort();  // LCOV_EXCL_LINE
             }
          };
 
          template< typename T >
-         struct skip_control< raise< T > > : std::true_type {};
+         struct skip_control< raise< T > > : std::true_type
+         {
+         };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif
