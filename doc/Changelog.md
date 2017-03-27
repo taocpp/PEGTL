@@ -1,12 +1,12 @@
 # Changelog
 
-#### 2.0.0
+## 2.0.0
 
 **Not yet released**
 
 * Migrated repository to ["The Art of C++"](https://github.com/taocpp):
 
-  * Use file extensions `.hpp` and `.cpp`.
+  * Adapted MS-DOS file extensions `.hpp` and `.cpp`.
   * Moved all includes into `tao/`, e.g. `<tao/pegtl.hpp>` instead of `<pegtl.hh>`.
   * Added outer namespace `tao::`, e.g. `tao::pegtl::seq<>` instead of `pegtl::seq<>`.
   * Renamed `pegtl_(i)string_t` to `TAOCPP_PEGTL_(I)STRING`.
@@ -51,13 +51,13 @@
   * Optionally optimise actions that do not need the input.
   * Replaced layered matching with superior Duseltronik.
 
-#### 1.3.1
+## 1.3.1
 
 Released 2016-04-06
 
 * Fixed unit test to use `eol` instead of hard-coded line ending.
 
-#### 1.3.0
+## 1.3.0
 
 Released 2016-04-06
 
@@ -68,7 +68,7 @@ Released 2016-04-06
 * Optimised bumping the input forward and removed little used bump function.
 * Simplified grammar analysis algorithm (and more `analyze()` tests).
 
-#### 1.2.2
+## 1.2.2
 
 Released 2015-11-12
 
@@ -77,7 +77,7 @@ Released 2015-11-12
 * Optimised bumping the input forward and string unescaping.
 * Promoted `examples/json_changes.hh` to `pegtl/contrib/changes.hh`.
 
-#### 1.2.1
+## 1.2.1
 
 Released on 2015-09-21
 
@@ -87,7 +87,7 @@ Released on 2015-09-21
 * Added coverage test and improved test coverage to 100%.
 * Fixed state changing bug in `json_build_one` example.
 
-#### 1.2.0
+## 1.2.0
 
 Released on 2015-08-23
 
@@ -99,7 +99,7 @@ Released on 2015-08-23
 * Added [`examples/abnf2pegtl.cc`](Contrib-and-Examples.md#srcexamplepegtlabnf2pegtlcpp) application that converts grammars based on [ABNF (RFC 5234)](https://tools.ietf.org/html/rfc5234) into a PEGTL C++ grammar.
 * Added [`contrib/alphabet.hh`](Contrib-and-Examples.md#taopegtlcontribalphabethpp) with integer constants for alphabetic ASCII letters.
 
-#### 1.1.0
+## 1.1.0
 
 Released on 2015-07-31
 
@@ -110,17 +110,211 @@ Released on 2015-07-31
 * A [state](Rule-Reference.md#state-s-r-)'s `S::success()`-method can now have an extended signature to get access to the current `apply_mode`, *action*- and *control* class (template).
 * The `contrib/raw_string` class template now calls `Action<raw_string<...>::content>::apply()` with the user's state(s).
 
-#### 1.0.0
+## 1.0.0
 
 Released on 2015-03-29
 
-* First release.
+* Deprecated old site on Google code and published new version on GitHub.
+* Removed the semi-automatic pretty-printing of grammar rules; now the class names are used, when possible demangled.
+* Renamed some of the classes that have more words in their name to use an underscore, e.g. `ifmust<>` is now `if_must<>`.
+* The input layer was simplified and can only parse memory blocks and files which allows for some optimisations, with possible future work in this area to find a more generic solution if necessary.
+* Removed the rules `apply<>` and `if_apply<>` that were used to directly call actions from within the grammar (*reintroduced in 2.0.0*), and:
+* Where the other method of attaching actions to rules in PEGTL 0.x required specialisation of a given class template `action<>`, in PEGTL 1.y the action class template can be chosen by the user and changed at any point in the grammar.
+* As a side-effect there is a much cleaner way of enabling and disabling actions in a portion of the grammar.
+* Actions now have access to the current position in the input, i.e. to the filename, and line and column number.
+* Actions now receive a pointer to, and the size of, the matched portion of the input (previously a `std::string` with a copy of the matched data), therefore:
+* There is no distinction between actions that require access to the matched data and those that don't, furthermore:
+* The object via which the actions gain access to the matched data is of a similar type that the rules work on, ~~so actions can easily invoke another grammar on the matched data.~~
+* The `at<>` and `not_at<>` rules now call their subordinate rules with actions disabled.
+* The variadic `states...` arguments that are passed through all rule invocations for use by the actions are *not* forwarded with `std::forward<>` anymore since it (usually) doesn't make much sense to move them, and accidentially moving multiple times was a possible error scenario.
+* There are now five different `rep` rules for repeating a sequence of rules with more control over the acceptable or required number of repetitions.
+* There are new rules `try_catch<>` and `try_catch_type<>` that convert global errors, i.e. exceptions, into local errors, i.e. a return value of `false`.
+* Unified concept for actions and debug hooks, i.e. just like the actions are called from a class template that is passed into the top-level `parse()`-function, there is another class template that is called for debug/trace and error throwing purposes; both can be changed at any point within the grammar.
+* A large under-the-hood reorganisation has the benefit of preventing actions from being invoked on rules that are implementation details of other rules, e.g. the `pad< Rule, Padding >` rule contains `star< Padding >` in its implementation, so a specialisation of the action-class-template for `star< Padding >` would be called within `pad<>`, even though the `star< Pad >` was not explicitly written by the user; in PEGTL 1.y these unintended action invocations no longer occur.
+* Partial support for Unicode has been added in the form of some basic rules like `one<>` and `range<>` also being supplied in a UTF-8 (and experimental UTF-32 *and UTF-16*) aware version(s) that can correctly process arbitrary code points from `0` to `0x10ffff`.
+* The supplied input class works together with the supplied exception throwing to support better error locations when performing nested file parsing, i.e. a `parse_error` contains a vector of parse positions.
+* Added a function to analyse a grammar for the presence of infinite loops, i.e. cycles in the rules that do not (necessarily) consume any input like left recursion.
+* As actions are applied to a grammar in a non-invasive way, several common grammars were added to the PEGTL as documented in [Contrib and Examples](Contrib-and-Examples.md).
+* The `list<>`-rule was replaced by a set of new list rules with different padding semantics.
+* The `at_one<>` and other rules `foo` that are merely shortcuts for `at< foo >` were removed.
+* The `if_then<>` rule was removed.
+* The `error_mode` flag was removed.
+* The semantics of the `must<>` rules was changed to convert local failure to global failure only for the immediate sub-rules of a `must<>` rule.
+* The `parse` methods no longer implicitly generate a global failure, they can return a local failure as a Boolean value. If a global failure is required, the top-level grammar rule has to start with a `must<>`.
 
-#### Previous
+## Note
 
-The changelog of the old 0.x versions was dropped due to the [large refactoring](2014-Refactoring.md) preceding version 1.0.0.
+Version 1.0.0 was a very large refactoring based on the previous years of experience.
+The core design and approach were kept, but nearly all details of the implementation were changed, and some parts were added to, or removed from, the library.
+Semantic versioning was introduced with version 1.0.0.
+
+## 0.32
+
+* Removed superfluous includes (issue 5 from Google code hosting).
+* Fixed bug in `not_at` rule regarding wrong propagation of errors (issue 3 from Google code hosting).
+
+## 0.31
+
+* Fixed bug in `not_at` rule regarding wrong propagation of errors (issue 3 from Google code hosting).
+
+## 0.30
+
+* Fixed missing template arguments in the implementation of `smart_parse_string()`.
+
+## 0.29
+
+* Fixed broken convenience rules `space_until_eof` and `blank_until_eol`.
+* Extended the included examples that show how to build parse trees etc.
+
+## 0.28
+
+* Optimised object file footprint of class `printer` and some related functions.
+* Renamed class `rule_helper` to `rule_base` and `action_helper` to `action_base`.
+
+## 0.27
+
+* Changed the type of exceptions thrown by the library to `pegtl::parse_error`.
+* Changed class `basic_debug` to only generate a grammar back-trace when a `pegtl::parse_error` is flying.
+* Changed logging to use a virtual method on the debug class inherited from common debug base class.
+* Removed all `*_parse_*_nothrow()` parse functions.
+* Removed the `_throws` substring from all remaining parse functions and changed the return type to `void`.
+* Added convenience classes `file_input`, `ascii_file_input` and `dummy_file_input` for custom parse functions.
+
+## 0.26
+
+* Changed pretty-printing of the `until` and `if...` rules (consistency).
+* Changed pretty-printing of rules to use ":=" instead of "===" (conciseness).
+* Renamed rule `action` to `ifapply` and removed rule `action_nth` (orthogonality).
+* Renamed action `apply_nth` to `nth`, and renamed some other actions (consistency).
+* Extended pretty-printing to the `apply` and `ifapply` rules (completeness).
+
+The last of these changes effectively requires custom action classes to derive either from a valid rule class, or from the new class `pegtl::action_helper<>`, passing itself as template argument.
+
+## 0.25
+
+* Fixed and cleaned up the rule pretty-printer in many places (readability).
+* Added new convenience rule `enclose`, useful for quoted strings (convenience).
+* Added new rule `apply` to unconditionally apply an action with empty matched string (convenience).
+* Added action argument to `list` rule and added action `nop` for use as default action (convenience).
+
+## 0.24
+
+* Fixed some bugs in the pretty-printer; still in the experimental phase (usability).
+
+## 0.23
+
+* Added new rules `padl` and `padr` (convenience).
+* Added example for quoted strings with arbitrary unicode characters (documentation).
+* Changed rule `pad` to not suppress the padding in diagnostic messages (consistency).
+
+## 0.22
+
+* Cleaned up the source to compile with `-std=c++0x -pedantic` (compliance).
+* Cleaned out some superfluous compiler flags from the Makefile (minimalism).
+* Changed the default compiler to `g++`, which can be overriden by `$CXX` (consistency).
+* Cleaned up unittests for where `char` is signed but `-fno-strict-overflow` is not given (compliance).
+* Removed `list/not_list/at_list/at_not_list`, but `one/not_one/at_one/at_not_one` are now variadic (orthogonality).
+* Removed the redundant rules `space_star`, `space_plus`, `blank_star`, and `blank_plus` (minimalism).
+* Added new rule class `list` (not to be confused with the old, very different, rule `list`) (convenience).
+* Changed class `seq` to invoke the `marker` with a modified `Must` flag for single-rule sequences (performance).
+* Changed rule class `until1` to be a specialisation of `until`, rather than have a different name (consistency).
+* Changed around the order of the template arguments of the `until` rule (consistency and flexibility).
+* Changed around the order of the template arguments of the `rep` rule and reduced to strict repeat (minimalism).
+* Changed many rule classes from one template argument to variadic sequence of arguments (flexibility).
+
+## 0.21
+
+* Changed the pretty-printing of rules, this is work in progress (aesthetics).
+* Fixed the exception that occurred when `mmap()`ing an empty file (correctness).
+
+## 0.20
+
+* Added the missing `pegtl.hh` header file to the release archive...
+
+## 0.19
+
+* Cleanly layered implementation of `action_nth` (flexibility).
+* Renamed class `action_all` back to `action` (was better that way).
+* Moved main `pegtl.hh` include file out of `pegtl` directory (simplicity).
+* Renamed the rule method from `s_match` to `match` (readability).
+* Renamed the action method from `matched` to `apply` (readability).
+* Renamed the rule method from `s_insert` to `prepare (consistency).
+* Changed the input iterator classes to report byte offsets (consistency).
+* Added rule and action class to match captured sub-expressions (experiment).
+* Changed class `action` to invoke arbitrary many actions (succinctness).
+* Changed classes `ifmust` and `ifthen` to accept arbitrary many 'then' rules (succinctness).
+* Fixed potential dangling reference in helper class `names` (correctness).
+
+## 0.18
+
+* Added parser functions `parse_forward` for forward iterators (completeness).
+* Renamed parser functions for input iterators to `parse_input` (consistency).
+* Added parser functions `parse_file` for files, implemented with `mmap(2)` (necessity).
+* Added initial support for customised logging of error messages (flexibility).
+
+## 0.17
+
+* Added support for ranges of input iterators with automatic minimal buffering (flexibility).
+
+## 0.16
+
+* Added class `action_nth` (flexibility).
+* Renamed class `action` to `action_all` (consistency).
+* Changed class `marker` to a nop when "must" is true (performance).
+* Changed `dummy_debug` to interpret "must" tracking (consistency).
+* Fixed typo in name of `PEGTL_IMPURE_OPTIMISATIONS` macro (correctness).
+* Made the marker class a sub-class of the input class (simplicity).
+* Renamed some of classes named `white`, `space`, or `blank` (consistency).
+* Fixed some issues in the R6RS example (CFG to PEG mismatch, only first datum).
+* Added missing template arguments to `smart_parse`-functions (correctness).
+
+## 0.15
+
+* Removed some small superfluous functions (less is more).
+* Changed the "must" tracking from run-time to compile-time (better?).
+
+## 0.14
+
+* Optimised behaviour of `seq<>` and `string<>` (performance).
+* Added detection of division-by-zero to calculator example.
+* Removed data source debug tracking from the library (simplicity).
+* Removed run-time limits on rule applications and nesting (simplicity).
+* Disentangled a couple of header files (maintainability).
+* Renamed class `iterator_input` to forward_input (consistency).
+* Added class `string_input` to initialise forward_input from a string (convenience).
+* Removed template argument Rule to action functor's `matched()` method (simplicity).
+
+## 0.13
+
+* Added more wrapper functions for parsing (convenience).
+* Renamed existing wrapper functions for parsing (consistency).
+* Added `rewind()` method to class `iterator_input` (indirect).
+
+## 0.12
+
+* Added more directory structure.
+* Fixed compile-error in `sexpression.cc` (correctness).
+
+## 0.11
+
+* Fixed back-tracking in class `string` (correctness).
+* Fixed order of operands in calculator example (correctness).
+
+## 0.10
+
+* Added Scheme R6RS grammar (example).
+* Fixed behaviour at end-of-input (aesthetics).
+* Fixed behaviour and use of class `position` (correctness).
+* Changed to lazy initialisation of pretty-printer (performance).
+* Changed the design of the input and parser classes (flexibility).
+* Changed how expression rules provide their printer key (simplicity).
+
+## 0.9
+
+* First public release.
+
+## History
 
 The PEGTL was initially developed in 2008 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
-Several years of real-world experience and smaller updates passed until 2014, when some of the more experimental PEGTL features were removed, the remaining parts refactored and refined, and some interesting additions made.
 
-Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2008-2017 Dr. Colin Hirsch and Daniel Frey
