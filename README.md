@@ -69,16 +69,16 @@ Each commit is [automatically](https://travis-ci.org/taocpp/PEGTL) [tested](http
 
 * Mac OS X (using libc++)
 
-  * Mac OS X 10.10, Xcode (6.4)
-  * Mac OS X 10.11, Xcode (7.3)
-  * Mac OS X 10.12, Xcode (8.2)
+  * Mac OS X 10.10, Xcode 6.4
+  * Mac OS X 10.11, Xcode 7.3
+  * Mac OS X 10.12, Xcode 8.2
 
 * Linux (using libstdc++)
 
   * Debian 8 (i386), GCC 4.9
-  * Ubuntu 12.04 LTS (amd64), GCC (4.7, 4.8, 4.9, 5, 6)
-  * Ubuntu 12.04 LTS (amd64), Clang (3.4, 3.5, 3.6, 3.7, 3.8)
-  * Ubuntu 14.04 LTS (amd64), Clang (3.9, 4.0)
+  * Ubuntu 12.04 LTS (amd64), GCC 4.7, 4.8, 4.9, 5, 6
+  * Ubuntu 12.04 LTS (amd64), Clang 3.4, 3.5, 3.6, 3.7, 3.8
+  * Ubuntu 14.04 LTS (amd64), Clang 3.9, 4.0
   * Ubuntu 14.04 LTS (i386, amd64), GCC 4.8
   * Ubuntu 16.04 LTS (i386, amd64, armhf, arm64), GCC 5
   * Fedora 24 (x86_64), GCC 6
