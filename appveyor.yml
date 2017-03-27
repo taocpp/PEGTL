@@ -18,7 +18,8 @@ before_build:
 build_script:
 - md build
 - cd build
-- cmake -Wno-dev ..
+- IF "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" (SET GEN="Visual Studio 14 2015") ELSE (SET GEN="Visual Studio 15 2017")
+- cmake -Wno-dev .. -G%GEN%
 - cmake --build .
 
 test_script:
