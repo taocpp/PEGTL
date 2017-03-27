@@ -1,8 +1,6 @@
-# EXPERIMENTAL .clang-format for taocpp/PEGTL
+# the official .clang-format style for https://github.com/taocpp
 #
-# clang-format-4.0 -i -style=file $(find -name '[^.]*.[hc][hc]')
-#
-# Note that we are not (yet) using this in practice
+# clang-format-4.0 -i -style=file $(find -name '[^.]*.[hc]pp')
 
 Language: Cpp
 Standard: Cpp11
