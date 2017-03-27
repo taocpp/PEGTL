@@ -238,7 +238,7 @@ The last of these changes effectively requires custom action classes to derive e
 * Moved main `pegtl.hh` include file out of `pegtl` directory (simplicity).
 * Renamed the rule method from `s_match` to `match` (readability).
 * Renamed the action method from `matched` to `apply` (readability).
-* Renamed the rule method from `s_insert` to `prepare (consistency).
+* Renamed the rule method from `s_insert` to `prepare` (consistency).
 * Changed the input iterator classes to report byte offsets (consistency).
 * Added rule and action class to match captured sub-expressions (experiment).
 * Changed class `action` to invoke arbitrary many actions (succinctness).
