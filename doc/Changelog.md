@@ -91,7 +91,7 @@ Released on 2015-09-21
 
 Released on 2015-08-23
 
-* Added [`pegtl_string_t`](Rule-Reference.md#tao_pegtl_string_t--) and [`pegtl_istring_t`](Rule-Reference.md#tao_pegtl_istring_t--) to simplify string definitions as follows:
+* Added [`pegtl_string_t`](Rule-Reference.md#taocpp_pegtl_string--) and [`pegtl_istring_t`](Rule-Reference.md#taocpp_pegtl_istring--) to simplify string definitions as follows:
 ```c++
    pegtl::string< 'h', 'e', 'l', 'l', 'o' >  // Normal
    pegtl_string_t( "hello" )                 // New shortcut
