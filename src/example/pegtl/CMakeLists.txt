@@ -9,7 +9,7 @@ else ()
 endif ()
 
 # add examples
-file (GLOB examplesources *.cc)
+file (GLOB examplesources *.cpp)
 foreach (examplesourcefile ${examplesources})
   get_filename_component (exename ${examplesourcefile} NAME_WE)
   add_executable (${exename} ${examplesourcefile})

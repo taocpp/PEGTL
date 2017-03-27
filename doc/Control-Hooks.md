@@ -88,7 +88,7 @@ When custom exception types are used then `try_catch_type` must be used with the
 ## Debugging and Tracing
 
 For debugging a grammar and tracing exactly what happens during a parsing run, the control class methods `start()`, `success()` and `failure()` can be used.
-A minimal example of how this can be done is included with the PEGTL in the `<tao/pegtl/trace.hh>` header file.
+A minimal example of how this can be done is included with the PEGTL in the `<tao/pegtl/trace.hpp>` header file.
 
 ```c++
 template< typename Rule >

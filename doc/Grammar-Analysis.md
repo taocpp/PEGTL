@@ -8,11 +8,11 @@ It does however catch most cases of left-recursion that are typical for grammars
 
 ## Rule Analysis
 
-In order to run an analysis on a grammar it is necessary to explicitly include `<tao/pegtl/analyze.hh>`.
+In order to run an analysis on a grammar it is necessary to explicitly include `<tao/pegtl/analyze.hpp>`.
 Then call `tao::pegtl::analyze()` with the top-level grammar rule as template argument.
 
 ```c++
-#include <tao/pegtl/analyze.hh>
+#include <tao/pegtl/analyze.hpp>
 
 const size_t issues_found = tao::pegtl::analyze< my_grammar >();
 ```

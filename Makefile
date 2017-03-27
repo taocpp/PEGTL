@@ -34,9 +34,9 @@ CXXFLAGS ?= -Wall -Wextra -Wshadow -Werror -O3 $(MINGW_CXXFLAGS)
 
 CLANG_TIDY ?= clang-tidy
 
-SOURCES := $(shell find src -name '*.cc')
-DEPENDS := $(SOURCES:%.cc=build/%.d)
-BINARIES := $(SOURCES:%.cc=build/%)
+SOURCES := $(shell find src -name '*.cpp')
+DEPENDS := $(SOURCES:%.cpp=build/%.d)
+BINARIES := $(SOURCES:%.cpp=build/%)
 
 UNIT_TESTS := $(filter build/src/test/%,$(BINARIES))
 
@@ -58,13 +58,13 @@ build/%.valgrind: build/%
 valgrind: $(UNIT_TESTS:%=%.valgrind)
 	@echo "All $(words $(UNIT_TESTS)) valgrind tests passed."
 
-build/%.cppcheck: %.hh
+build/%.cppcheck: %.hpp
 	cppcheck --error-exitcode=1 --inconclusive --force --std=c++11 $<
 	@mkdir -p $(@D)
 	@touch $@
 
 .PHONY: cppcheck
-cppcheck: $(HEADERS:%.hh=build/%.cppcheck)
+cppcheck: $(HEADERS:%.hpp=build/%.cppcheck)
 	@echo "All $(words $(HEADERS)) cppcheck tests passed."
 
 build/%.clang-tidy: %
@@ -81,11 +81,11 @@ clean:
 	@rm -rf build
 	@find . -name '*~' -delete
 
-build/%.d: %.cc Makefile
+build/%.d: %.cpp Makefile
 	@mkdir -p $(@D)
 	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) -MM -MQ $@ $< -o $@
 
-build/%: %.cc build/%.d
+build/%: %.cpp build/%.d
 	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
 ifeq ($(findstring $(MAKECMDGOALS),clean),)

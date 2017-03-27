@@ -22,7 +22,7 @@ rather than prints, the string `Hello, foo!` for any sequence of alphabetic ASCI
 #include <string>
 #include <iostream>
 
-#include <tao/pegtl.hh>
+#include <tao/pegtl.hpp>
 
 namespace hello
 {
@@ -155,7 +155,7 @@ In terms of installation for use in other projects, the following steps are requ
 
 - A compatible compiler with appropriate compiler switches must be used.
 - The compiler search-path for include files must include (no pun intended)
-  the directory that contains the `tao/pegtl/` directory and `tao/pegtl.hh` header.
+  the directory that contains the `tao/pegtl/` directory and `tao/pegtl.hpp` header.
 
 The `Makefile` and `.cc`-files included in the PEGTL distribution archive serve
 as practical examples on how to develop grammars and applications with the PEGTL.

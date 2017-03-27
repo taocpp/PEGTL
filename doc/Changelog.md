@@ -6,7 +6,8 @@
 
 * Migrated repository to ["The Art of C++"](https://github.com/taocpp):
 
-  * Moved all includes into `tao/`, e.g. `<tao/pegtl.hh>` instead of `<pegtl.hh>`.
+  * Use file extensions `.hpp` and `.cpp`.
+  * Moved all includes into `tao/`, e.g. `<tao/pegtl.hpp>` instead of `<pegtl.hh>`.
   * Added outer namespace `tao::`, e.g. `tao::pegtl::seq<>` instead of `pegtl::seq<>`.
   * Renamed `pegtl_(i)string_t` to `TAOCPP_PEGTL_(I)STRING`.
   * Added defines for the version of the PEGTL, e.g. `TAOCPP_PEGTL_VERSION_MAJOR`.
@@ -96,7 +97,7 @@ Released on 2015-08-23
    pegtl_string_t( "hello" )                 // New shortcut
 ```
 * Added [`examples/abnf2pegtl.cc`](Contrib-and-Examples.md#srcexamplepegtlabnf2pegtlcc) application that converts grammars based on [ABNF (RFC 5234)](https://tools.ietf.org/html/rfc5234) into a PEGTL C++ grammar.
-* Added [`contrib/alphabet.hh`](Contrib-and-Examples.md#includetaopegtlcontribalphabethh) with integer constants for alphabetic ASCII letters.
+* Added [`contrib/alphabet.hh`](Contrib-and-Examples.md#includetaopegtlcontribalphabethpp) with integer constants for alphabetic ASCII letters.
 
 #### 1.1.0
 

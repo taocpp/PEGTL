@@ -108,7 +108,7 @@ const std::string my_control< MyRule >::error_message =
 
 Since the `raise()`-method is only instantiated for those rules for which `must<>` could trigger an exception, it is sufficient to provide specialisations of the error message string for those rules.
 Furthermore, there will be a linker error for all rules for which the specialisation was forgotten although `raise()` could be called.
-For an example of this method see `examples/json_errors.hh`.
+For an example of this method see `examples/json_errors.hpp`.
 
 It is also possible to provide a default error message that will be chosen by the compiler in the absence of a specialised one as follows.
 
