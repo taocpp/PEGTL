@@ -44,12 +44,23 @@ before_build:
     }
 
 build_script:
-- md build
-- cd build
-- cmake -Wno-dev --config "$env:CONFIGURATION" -G "$generator" ..
-- cmake --build --config "$env:CONFIGURATION" .
+- ps: |
+    md build
+    cd build
+    & cmake -Wno-dev --config "$env:CONFIGURATION" -G "$generator" ..
+    if ($LastExitCode -ne 0) {
+      throw "Exec: $ErrorMessage"
+    }
+    & cmake --build --config "$env:CONFIGURATION" .
+    if ($LastExitCode -ne 0) {
+      throw "Exec: $ErrorMessage"
+    }
 
 test_script:
-- ctest -C "$env:CONFIGURATION" --output-on-failure
+- ps: |
+    & ctest -C "$env:CONFIGURATION" --output-on-failure
+    if ($LastExitCode -ne 0) {
+      throw "Exec: $ErrorMessage"
+    }
 
 install: []
