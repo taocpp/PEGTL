@@ -29,7 +29,7 @@ build_script:
 - cd build
 - IF "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" (SET GEN="Visual Studio 14 2015") ELSE (SET GEN="Visual Studio 15 2017")
 - cmake -Wno-dev --config "%CONFIGURATION%" .. -G%GEN%
-- cmake --build --config "%CONFIGURATION%" .
+- cmake --build . --config "%CONFIGURATION%"
 
 test_script:
 - ctest -C "%CONFIGURATION%" --output-on-failure
