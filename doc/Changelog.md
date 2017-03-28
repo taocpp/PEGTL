@@ -6,7 +6,7 @@
 
 * Migrated repository to ["The Art of C++"](https://github.com/taocpp):
 
-  * Adapted MS-DOS file extensions `.hpp` and `.cpp`.
+  * Adopted MS-DOS file extensions `.hpp` and `.cpp`.
   * Moved all includes into `tao/`, e.g. `<tao/pegtl.hpp>` instead of `<pegtl.hh>`.
   * Added outer namespace `tao::`, e.g. `tao::pegtl::seq<>` instead of `pegtl::seq<>`.
   * Renamed `pegtl_(i)string_t` to `TAOCPP_PEGTL_(I)STRING`.
@@ -35,6 +35,7 @@
 
 * Improved parsing layer:
 
+  * Added new combinator class `minus< M, S >`.
   * Added `apply` and `if_apply` rules for in-grammar direct actions.
   * Added `apply()` method to control class for greater control.
 
@@ -46,7 +47,6 @@
 
 * Other:
 
-  * Added new combinator class `minus< M, S >`.
   * Optimised superfluous input markers.
   * Optionally optimise actions that do not need the input.
   * Replaced layered matching with superior Duseltronik.

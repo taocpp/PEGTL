@@ -50,5 +50,6 @@
 * [Grammar Analysis](Grammar-Analysis.md)
 * [Calculator Example](Calculator-Example.md)
 * [Changelog](Changelog.md)
+* [Migration Guide](Migration-Guide.md)
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
