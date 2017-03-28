@@ -1,12 +1,15 @@
 version: '{branch}-{build}'
 
-os:
-- Visual Studio 2015
-- Visual Studio 2017
+os: Visual Studio 2015
 
 platform:
 - Win32
 - x64
+
+environment:
+  matrix:
+  - Toolset: v150
+  - Toolset: v140
 
 configuration:
 - Release
@@ -15,6 +18,9 @@ configuration:
 branches:
   only:
     - master
+
+build:
+  verbosity: minimal
 
 init: []
 
