@@ -4,7 +4,13 @@ os:
 - Visual Studio 2015
 - Visual Studio 2017
 
-configuration: Release
+platform:
+- Win32
+- x64
+
+configuration:
+- Release
+- Debug
 
 branches:
   only:
@@ -13,16 +19,31 @@ branches:
 init: []
 
 before_build:
-- del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
+- ps: |
+    Write-Output "Configuration: $env:CONFIGURATION"
+    Write-Output "Platform: $env:PLATFORM"
+    Write-Output "Toolset: $env:TOOLSET"
+    $generator = switch ($env:TOOLSET)
+    {
+      "v150" {"Visual Studio 15 2017"}
+      "v140" {"Visual Studio 14 2015"}
+    }
+    if ($env:PLATFORM -eq "x64")
+    {
+      $generator = "$generator Win64"
+    }
+    if ($env:TOOLSET -eq "v140")
+    {
+      del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
+    }
 
 build_script:
 - md build
 - cd build
-- IF "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" (SET GEN="Visual Studio 14 2015") ELSE (SET GEN="Visual Studio 15 2017")
-- cmake -Wno-dev .. -G%GEN%
-- cmake --build .
+- cmake -Wno-dev --config "$env:CONFIGURATION" -G "$generator" ..
+- cmake --build --config "$env:CONFIGURATION" .
 
 test_script:
-- ctest -C Debug --output-on-failure
+- ctest -C "$env:CONFIGURATION" --output-on-failure
 
 install: []
