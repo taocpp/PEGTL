@@ -38,7 +38,7 @@ and therefore which rule will be used to call the control class' `raise()`-metho
 
 ## Meta Rules
 
-These rules are in namespace `::pegtl`.
+These rules are in namespace `tao::pegtl`.
 
 ###### `action< A, R... >`
 
