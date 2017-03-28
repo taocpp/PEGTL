@@ -21,7 +21,7 @@ For all questions and remarks contact us at **pegtl (at) colin-hirsch.net**.
 
 ###### `<tao/pegtl/contrib/abnf.hpp>`
 
-* Core ABNF rules .cppording to [RFC 5234, Appendix B](https://tools.ietf.org/html/rfc5234).
+* Core ABNF rules according to [RFC 5234, Appendix B](https://tools.ietf.org/html/rfc5234).
 * Ready for production use.
 
 ###### `<tao/pegtl/contrib/alphabet.hpp>`
@@ -37,12 +37,12 @@ For all questions and remarks contact us at **pegtl (at) colin-hirsch.net**.
 
 ###### `<tao/pegtl/contrib/http.hpp>`
 
-* HTTP 1.1 grammar .cppording to [RFC 7230](https://tools.ietf.org/html/rfc7230).
+* HTTP 1.1 grammar according to [RFC 7230](https://tools.ietf.org/html/rfc7230).
 * This is still experimental.
 
 ###### `<tao/pegtl/contrib/json.hpp>`
 
-* JSON grammar .cppording to [RFC 7159](https://tools.ietf.org/html/rfc7159) (for UTF-8 encoded JSON only).
+* JSON grammar according to [RFC 7159](https://tools.ietf.org/html/rfc7159) (for UTF-8 encoded JSON only).
 * Ready for production use.
 
 ###### `<tao/pegtl/contrib/raw_string.hpp>`
@@ -59,7 +59,7 @@ This file does not contain a grammar, but rather:
 
 ###### `<tao/pegtl/contrib/uri.hpp>`
 
-* URI grammar .cppording to [RFC 3986](https://tools.ietf.org/html/rfc3986).
+* URI grammar according to [RFC 3986](https://tools.ietf.org/html/rfc3986).
 * This is still experimental.
 
 ## Examples
@@ -70,7 +70,7 @@ Reads a file with a grammar based on [ABNF (RFC 5234)](https://tools.ietf.org/ht
 
 * As we are defining PEGs, the alternations are now ordered (`sor<>`)
 * The *and*- and *not*-predicates from PEGs have been added as `&` and `!` respectively
-* All line endings (CR, LF, CRLF) are .cppepted
+* All line endings (CR, LF, CRLF) are accepted
 * C++ identifier are formed by replacing the minus(es) of the rulename with underscore(s)
 * Reserved identifiers (keywords, ...) are rejected
 * When using numerical values, they must be within the range of the corresponding C++ data type

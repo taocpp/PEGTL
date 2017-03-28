@@ -19,7 +19,7 @@ For performance reasons this assumption is neither ensured nor verified by the P
 ## Simple Rules
 
 In the simplified rule, the `match()`-function is called with a single argument, the input.
-All rules' `match()`-method return a `bool` to indicate s.cppess or (local) failure.
+All rules' `match()`-method return a `bool` to indicate success or (local) failure.
 Rules with the simplified interface are called without the states as arguments.
 
 ```c++
@@ -35,7 +35,7 @@ The - slightly artificial - rule `my_rule` uses three important `input` methods,
 
 1. first `size()` to check whether the input is not empty,
 
-2. then `begin()` to .cppess the data and check whether the remainder of the first remaining input character `C` happens to satisfy `C % M == R`,
+2. then `begin()` to access the data and check whether the remainder of the first remaining input character `C` happens to satisfy `C % M == R`,
 
 3. and finally `bump()` to consume one `char` from the input if the two above conditions are satisfied.
 
@@ -84,7 +84,7 @@ This shows how custom rule classes using the simple calling convention are restr
 
 ## Complex Rules
 
-The complex calling convention gives a rule's `match()`-method .cppess to "everything", i.e. the error mode, the action and control classes, and all state arguments.
+The complex calling convention gives a rule's `match()`-method access to "everything", i.e. the error mode, the action and control classes, and all state arguments.
 All of these parameters are required for custom rules that need to themselves call other rules for matching.
 
 The `match()`-method in a complex rule takes the following form.
@@ -162,7 +162,7 @@ The custom rule itself
 
 2. then checks whether the input bytes match the stored string, and
 
-3. finally calls `bump()` to consume the correct number of bytes from the input when both checks s.cppeed.
+3. finally calls `bump()` to consume the correct number of bytes from the input when both checks succeed.
 
 ```c++
    struct long_literal_mark

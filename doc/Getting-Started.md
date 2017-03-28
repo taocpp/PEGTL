@@ -53,7 +53,7 @@ namespace hello
          : tao::pegtl::nothing< Rule > {};
 
    // Specialisation of the user-defined action to do
-   // something when the 'name' rule s.cppeeds; is called
+   // something when the 'name' rule succeeds; is called
    // with the portion of the input that matched the rule.
 
    template<> struct action< name >

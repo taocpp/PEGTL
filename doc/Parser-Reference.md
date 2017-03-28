@@ -242,7 +242,7 @@ All of the following parser classes reside in namespace `pegtl`.
 
 The parser class `file_parser` allows parsing the contents of a file.
 
-It is implemented as a class, rather than a function, in order to retain the to-be-parsed data across the call to the `parse()`-function so that, in case of an exception while parsing, it is possible to .cppess the data and use it for error messages.
+It is implemented as a class, rather than a function, in order to retain the to-be-parsed data across the call to the `parse()`-function so that, in case of an exception while parsing, it is possible to access the data and use it for error messages.
 
 The (template) arguments to the `parse()` member function are the same as for the stand-alone `parse()` functions above.
 
@@ -251,7 +251,7 @@ The `input` returned by the `input()` method represents the *remaining* data fro
 - After the constructor was called it represents the complete file data;
 - each time `parse()` is called, and data is consumed by that parsing run, the input is advanced.
 
-Advancing the input consists of advancing the pointer to the beginning of the data, and decrementing the size .cppordingly.
+Advancing the input consists of advancing the pointer to the beginning of the data, and decrementing the size accordingly.
 
 ```c++
 class file_parser
@@ -284,13 +284,13 @@ public:
 ###### Implementation
 
 The interface shown above is actually of the two classes `read_parser` and `mmap_parser`.
-Their interfaces are identical and the only difference is with how the file is .cppessed:
+Their interfaces are identical and the only difference is with how the file is accessed:
 
 - Class `read_parser` reads with `read(2)` and caches the entire content of the file when it is constructed.
 - Class `mmap_parser` uses `mmap(2)` to map the contents of the file and only caches the file size in the constructor.
 
 The `mmap_parser` is only available when compiling on Unix or Mac OS X, in which case `file_parser` is an alias for `mmap_parser`. Otherwise `file_parser` is an alias for `read_parser`.
 
-It is also possible to directly use the classes `read_parser` and `mmap_parser` as such, taking into .cppount that the latter will not always be available.
+It is also possible to directly use the classes `read_parser` and `mmap_parser` as such, taking into account that the latter will not always be available.
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
