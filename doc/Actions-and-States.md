@@ -3,7 +3,7 @@
 Parsing, i.e. matching an input with a grammar rule, by itself only indicates whether (a portion of the input) is valid according to the grammar.
 In order to do something useful with the input, it is usually necessary to attach user-defined *actions* to one or more rules.
 An action is *applied* whenever its *anchor point*, i.e. the rule to which the action is attached, succeeds.
-Applying an action means that its static `apply()`-method is called.
+Applying an action means that its static `apply()` or `apply0()`-method is called.
 The first argument to an action application is always an instance that represents the portion of the input consumed by the successful match of the rule.
 
 ## Contents
@@ -15,7 +15,7 @@ The first argument to an action application is always an instance that represent
 
 ## Actions
 
-Actions are implemented as static `apply()`-methods of specialisations of custom class templates (which is not quite as difficult as it sounds).
+Actions are implemented as static `apply()` or `apply0()`-method of specialisations of custom class templates (which is not quite as difficult as it sounds).
 First the default- or base-case of the action class template has to be defined:
 
 ```c++
@@ -24,15 +24,18 @@ struct my_actions
    : tao::pegtl::nothing< Rule > {};
 ```
 
-Inheriting from `tao::pegtl::nothing< Rule >` indicates to the PEGTL that no action is attached to `Rule`, i.e. that no `apply()`-method should be called for successful matches of `Rule`.
+Inheriting from `tao::pegtl::nothing< Rule >` indicates to the PEGTL that no action is attached to `Rule`, i.e. that no `apply()` or `apply0()`-method should be called for successful matches of `Rule`.
 
 To attach an action to `Rule`, this class template has to be specialised for `Rule` with two important properties.
 
 1. The specialisation *must not* inherit from `tao::pegtl::nothing< Rule >`.
 
-2. An *appropriate* static `apply()`-method has to be implemented.
+2. An *appropriate* static `apply()` or `apply0()`-method has to be implemented.
 
-The `apply()`-method has to take a const-reference to an instance of an input class as first argument. TODO: Document guaranteed interface of that input class.
+The `apply()`-method has to take a const-reference to an instance of an input class as first argument.
+
+TODO: Document guaranteed interface of that input class.
+
 As mentioned above, this input contains references to the matched portion of the input; its `line()` and `byte_in_line()` indicate the line number and (byte) offset of where the rule succeeded in the input.
 
 ```c++
@@ -42,10 +45,27 @@ template<> struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
    static void apply( const Input & in )
    {
       // Called whenever a call to tao::pegtl::plus< tao::pegtl::digit >
+      // in the grammar succeeds. The argument named 'in' represents the
+      // matched part of the input.
+   }
+}
+```
+
+Alternatively, in cases where the matched part of the input is not required, the action method can be named `apply0()` instead of `apply()`.
+This will suppress the first argument, the matched input, which allows for some optimisations to be applied.
+
+```c++
+template<> struct my_actions< tao::pegtl::plus< tao::pegtl::alpha > >
+{
+   static void apply0()
+   {
+      // Called whenever a call to tao::pegtl::plus< tao::pegtl::alpha >
       // in the grammar succeeds.
    }
 }
 ```
+
+The PEGTL will auto-detect whether a viable `apply0()`-method exists and will prefer it over `apply()`, however it is recommended to implement only either one of the two functions as future versions might flag the existence of both as error.
 
 Actions often need to store and/or reference portions of the input for after the parsing run, for example when an abstract syntax tree is generated.
 Some of the syntax tree nodes will contain portions of the input, for example for a variable name in a script language that needs to be stored in the syntax tree just as it occurs in the input data.
@@ -55,14 +75,14 @@ The **default safe choice** is to copy the matched portions of the input data th
 ## States
 
 In most applications, the actions also need some kind of data or user-defined (parser/action) *state* to operate on.
-Since the `apply()`-methods are `static`, they do not have an instance of the class of which they are a member function available for this purpose.
+Since the `apply()` and `apply0()`-methods are `static`, they do not have an instance of the class of which they are a member function available for this purpose.
 Therefore the *state(s)* are an arbitrary collection of objects that are
 
 * passed by the user as additional arguments to the `parse()`-function that starts a parsing run, and then
 
-* passed by the PEGTL as additional arguments to all actions' `apply()`-method.
+* passed by the PEGTL as additional arguments to all actions' `apply()` or `apply0()`-method.
 
-In other words, the additional arguments to the `apply()`-method can be chosen freely, however **all** actions **must** accept the same argument list since they are **all** called with the same arguments.
+In other words, the additional arguments to the `apply()` and `apply0()`-method can be chosen freely, however **all** actions **must** accept the same argument list since they are **all** called with the same arguments.
 
 For example, in a practical grammar the example from above might use a second argument to store the parsed sequence of digits somewhere.
 
