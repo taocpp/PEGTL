@@ -6,7 +6,7 @@ Some of the [changes](Changelog.md#200) for version 2.0.0 require modifications 
 The good news is that the semantics of all parsing rules has remained unchanged.
 Existing grammars will continue to work as before once the following list of naming and namespace related changes is taken into account.
 
-* Everything in the PEGTL is now in namespace `::tao::pegtl`.
+* Everything in the PEGTL is now in namespace `tao::pegtl`.
 * The main include files is now `include/tao/pegtl.hh`, all other include files are in `include/tao/pegtl/`.
 * The class of the first argument to actions' `apply()`-method is now of type `tao::pegtl::action_input`.
 * The [parse functions](Parser-Reference.md#parser-functions) now have different names (and there are more of them).
