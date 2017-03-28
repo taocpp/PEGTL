@@ -11,7 +11,7 @@ Existing grammars will continue to work as before once the following list of nam
 * The main include files is now `<tao/pegtl.hpp>`, all other include files are `<tao/pegtl/....hpp>`.
 * The [parse functions](Parser-Reference.md#parser-functions) now have different names (and there are more of them).
 * The string macros have been renamed from `pegtl_(i)string_t` to `TAOCPP_PEGTL_(I)STRING`.
-* The class of the first argument to actions' `apply()`-method is now of type `tao::pegtl::action_input`.
+* The first argument to actions' `apply()`-methods is now of type `tao::pegtl::action_input`.
 
 For flexibility and future compatibility it is recommended to "template over" the first argument to `apply()` as shown in [Actions and States](Actions-and-States.md#actions).
 
