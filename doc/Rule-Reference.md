@@ -83,7 +83,7 @@ These rules are in namespace `tao::pegtl`.
 
 Combinators (or combinator rules) are rules that combine (other) rules into new ones.
 
-These are the classical PEG combinator rules defined in namespace `::pegtl`.
+These are the classical PEG combinator rules defined in namespace `tao::pegtl`.
 
 ###### `at< R... >`
 
@@ -273,7 +273,7 @@ These rules are in namespace `tao::pegtl`.
 
 ## Action Rules
 
-These rules are in namespace `::pegtl`.
+These rules are in namespace `tao::pegtl`.
 
 These rules replicate the intrusive way actions were attached to grammars in PEGTL 0.x versions.
 The `apply` and `if_apply`-rules allow actions to be explicitly called from within the grammar.
