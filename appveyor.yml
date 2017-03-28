@@ -1,15 +1,8 @@
 version: '{branch}-{build}'
 
-os: Visual Studio 2015
-
-platform:
-- Win32
-- x64
-
-environment:
-  matrix:
-  - Toolset: v150
-  - Toolset: v140
+os:
+- Visual Studio 2015
+- Visual Studio 2017
 
 configuration:
 - Release
@@ -26,41 +19,19 @@ init: []
 
 before_build:
 - ps: |
-    Write-Output "Configuration: $env:CONFIGURATION"
-    Write-Output "Platform: $env:PLATFORM"
-    Write-Output "Toolset: $env:TOOLSET"
-    $generator = switch ($env:TOOLSET)
-    {
-      "v150" {"Visual Studio 15 2017"}
-      "v140" {"Visual Studio 14 2015"}
-    }
-    if ($env:PLATFORM -eq "x64")
-    {
-      $generator = "$generator Win64"
-    }
-    if ($env:TOOLSET -eq "v140")
+    if ($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2015")
     {
       del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
     }
 
 build_script:
-- ps: |
-    md build
-    cd build
-    & cmake -Wno-dev --config "$env:CONFIGURATION" -G "$generator" ..
-    if ($LastExitCode -ne 0) {
-      throw "Exec: $ErrorMessage"
-    }
-    & cmake --build --config "$env:CONFIGURATION" .
-    if ($LastExitCode -ne 0) {
-      throw "Exec: $ErrorMessage"
-    }
+- md build
+- cd build
+- IF "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" (SET GEN="Visual Studio 14 2015") ELSE (SET GEN="Visual Studio 15 2017")
+- cmake -Wno-dev --config "%CONFIGURATION%" -G "%GEN%" ..
+- cmake --build --config "%CONFIGURATION%" .
 
 test_script:
-- ps: |
-    & ctest -C "$env:CONFIGURATION" --output-on-failure
-    if ($LastExitCode -ne 0) {
-      throw "Exec: $ErrorMessage"
-    }
+- ctest -C "%CONFIGURATION%" --output-on-failure
 
 install: []
