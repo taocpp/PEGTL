@@ -4,25 +4,25 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_TEST_VERIFY_IMPL_HPP
 #define TAOCPP_PEGTL_INCLUDE_TEST_VERIFY_IMPL_HPP
 
-#include <string>
-#include <cstddef>
 #include <cassert>
+#include <cstddef>
 #include <stdexcept>
+#include <string>
 
+#include <tao/pegtl/apply_mode.hpp>
+#include <tao/pegtl/memory_input.hpp>
 #include <tao/pegtl/normal.hpp>
 #include <tao/pegtl/nothing.hpp>
-#include <tao/pegtl/apply_mode.hpp>
 #include <tao/pegtl/rewind_mode.hpp>
-#include <tao/pegtl/memory_input.hpp>
 
-#include "test_failed.hpp"
 #include "result_type.hpp"
+#include "test_failed.hpp"
 
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Rule, template< typename ... > class Action, typename Input >
+      template< typename Rule, template< typename... > class Action, typename Input >
       result_type verify_impl_impl_impl( Input& i )
       {
          try {
@@ -39,7 +39,7 @@ namespace tao
          }
       }
 
-      template< typename Rule, typename Eol, template< typename ... > class Action >
+      template< typename Rule, typename Eol, template< typename... > class Action >
       void verify_impl_impl( const std::size_t line, const char* file, const std::string& data, const result_type expected, const std::size_t remain )
       {
          basic_memory_input< Eol > i( { 0, line, 0, data.data() }, data.data() + data.size(), file );
@@ -55,17 +55,19 @@ namespace tao
       template< typename Rule >
       struct verify_action_impl
       {
-         template< typename Input, typename ... States >
-         static void apply( const Input &, States && ... )
-         { }
+         template< typename Input, typename... States >
+         static void apply( const Input&, States&&... )
+         {
+         }
       };
 
       template< typename Rule >
       struct verify_action_impl0
       {
-         template< typename ... States >
-         static void apply0( States && ... )
-         { }
+         template< typename... States >
+         static void apply0( States&&... )
+         {
+         }
       };
 
       template< typename Rule, typename Eol >
