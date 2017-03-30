@@ -18,6 +18,8 @@ namespace tao
          verify_rule< not_at< any > >( __LINE__, __FILE__, "a", result_type::LOCAL_FAILURE, 1 );
          verify_rule< not_at< any > >( __LINE__, __FILE__, "aa", result_type::LOCAL_FAILURE, 2 );
          verify_rule< not_at< any > >( __LINE__, __FILE__, "aaaa", result_type::LOCAL_FAILURE, 4 );
+         verify_rule< must< not_at< alpha > > >( __LINE__, __FILE__, "a", result_type::GLOBAL_FAILURE, 1 );
+         verify_rule< must< not_at< alpha, alpha > > >( __LINE__, __FILE__, "aa1", result_type::GLOBAL_FAILURE, 3 );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

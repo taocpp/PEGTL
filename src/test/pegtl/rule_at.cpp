@@ -18,6 +18,8 @@ namespace tao
          verify_rule< at< any > >( __LINE__, __FILE__, "a", result_type::SUCCESS, 1 );
          verify_rule< at< any > >( __LINE__, __FILE__, "aa", result_type::SUCCESS, 2 );
          verify_rule< at< any > >( __LINE__, __FILE__, "aaaa", result_type::SUCCESS, 4 );
+         verify_rule< must< at< alpha > > >( __LINE__, __FILE__, "1", result_type::GLOBAL_FAILURE, 1 );
+         verify_rule< must< at< alpha, alpha > > >( __LINE__, __FILE__, "a1a", result_type::GLOBAL_FAILURE, 3 );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
