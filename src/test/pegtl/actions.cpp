@@ -129,6 +129,33 @@ namespace tao
             TAOCPP_PEGTL_TEST_ASSERT( s0 == "00000000" );
          }
 
+         const std::size_t count_byte = 12345;
+         const std::size_t count_line = 42;
+         const std::size_t count_byte_in_line = 12;
+
+         const char* count_source = "count_source";
+
+         template< typename Rule >
+         struct count_action
+         {
+            template< typename Input >
+            static void apply( const Input& in )
+            {
+               TAOCPP_PEGTL_TEST_ASSERT( in.byte() == count_byte );
+               TAOCPP_PEGTL_TEST_ASSERT( in.line() == count_line );
+               TAOCPP_PEGTL_TEST_ASSERT( in.byte_in_line() == count_byte_in_line );
+               TAOCPP_PEGTL_TEST_ASSERT( in.source() == count_source );
+            }
+         };
+
+         void count_test()
+         {
+            const char * foo = "f";
+            memory_input in( foo, foo + 1, count_source, count_byte, count_line, count_byte_in_line );
+            const auto result = parse_input< must< alpha >, count_action >( in );
+            TAOCPP_PEGTL_TEST_ASSERT( result );
+         }
+
       }  // namespace test1
 
       void unit_test()
@@ -166,6 +193,7 @@ namespace tao
 
          test1::state_test();
          test1::apply0_test();
+         test1::count_test();
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
