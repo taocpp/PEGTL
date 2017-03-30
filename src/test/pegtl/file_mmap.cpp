@@ -18,8 +18,7 @@ namespace tao
          class mmap_function_wrapper
          {
          public:
-            explicit
-            mmap_function_wrapper( const std::string& in_source )
+            explicit mmap_function_wrapper( const std::string& in_source )
                : m_source( in_source )
             {
             }
@@ -45,7 +44,7 @@ namespace tao
             const std::string m_source;
          };
 
-      } // namespace test1
+      }  // namespace test1
 
       void unit_test()
       {

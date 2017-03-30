@@ -154,7 +154,7 @@ namespace tao
 
          void count_test()
          {
-            const char * foo = "f";
+            const char* foo = "f";
             memory_input in( foo, foo + 1, count_source, count_byte, count_line, count_byte_in_line );
             const auto result = parse_input< must< alpha >, count_action >( in );
             TAOCPP_PEGTL_TEST_ASSERT( result );
