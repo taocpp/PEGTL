@@ -12,6 +12,7 @@
   * Renamed `pegtl_(i)string_t` to `TAOCPP_PEGTL_(I)STRING`.
   * Added defines for the version of the PEGTL, e.g. `TAOCPP_PEGTL_VERSION_MAJOR`.
   * Version 2.x can be installed and used in parallel to version 1.x of the PEGTL.
+  * A [**migration guide**](Migration-Guide.md) for porting applications from 1.x to 2.x is available.
 
 * Build system improvements:
 
