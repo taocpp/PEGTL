@@ -8,7 +8,8 @@ At the beginning of a parsing run, the input represents the complete data-to-be-
 During the parsing run, many rules *consume* the data that matched from the input.
 Consuming data from an input advances the pointer to the data that the input's `begin()`-method returns, and decrements the size by the same amount.
 
-The PEGTL makes one important assumption about all parsing rules; if a call to a `match()`-method does not return with `true` then the rule **must not** have consumed input.
+The PEGTL makes one **important** assumption about all parsing rules.
+If a call to a `match()`-method returns with `false`, then the rule **must not** have consumed input (for [complex rules](#complex-rules): only when the `rewind_mode` is `REQUIRED`).
 For performance reasons this assumption is neither ensured nor verified by the PEGTL.
 
 ## Contents
