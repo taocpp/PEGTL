@@ -15,8 +15,8 @@ namespace tao
          {
          public:
             explicit
-            file_function_wrapper( const std::string& source )
-               : m_source( source )
+            file_function_wrapper( const std::string& in_source )
+               : m_source( in_source )
             {
             }
 

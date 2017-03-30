@@ -19,8 +19,8 @@ namespace tao
          {
          public:
             explicit
-            mmap_function_wrapper( const std::string& source )
-               : m_source( source )
+            mmap_function_wrapper( const std::string& in_source )
+               : m_source( in_source )
             {
             }
 
