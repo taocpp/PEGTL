@@ -36,7 +36,7 @@ namespace tao
       }
 
       template< typename Rule, template< typename... > class Action = nothing, template< typename... > class Control = normal, typename Outer, typename... States >
-      bool parse_file_nested( Outer& oi, const std::string& filename, States&&... st )
+      bool parse_file_nested( const Outer& oi, const std::string& filename, States&&... st )
       {
          return basic_file_parser< typename Outer::eol >( filename ).template parse_nested< Rule, Action, Control >( oi, st... );
       }

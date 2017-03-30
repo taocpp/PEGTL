@@ -46,7 +46,7 @@ namespace tao
          }
 
          template< typename Rule, template< typename... > class Action = nothing, template< typename... > class Control = normal, typename Outer, typename... States >
-         bool parse_nested( Outer& oi, States&&... st )
+         bool parse_nested( const Outer& oi, States&&... st )
          {
             return parse_input_nested< Rule, Action, Control >( oi, m_input, st... );
          }
