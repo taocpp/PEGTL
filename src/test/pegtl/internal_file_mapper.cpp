@@ -14,11 +14,15 @@ namespace tao
       void unit_test()
       {
          try {
-            internal::file_mapper dummy( "pegtl" );
-            std::cerr << "pegtl: unit test failed for [ internal::file_mapper ] " << std::endl;
+            internal::file_mapper dummy( "include" );
+            std::cerr << "pegtl: unit test failed for [ internal::file_mapper ]" << std::endl;
             ++failed;
          }
-         catch( const std::exception& ) {
+         catch( const input_error& ) {
+         }
+         catch( ... ) {
+            std::cerr << "pegtl: unit test failed for [ internal::file_mapper ] with unexpected exception" << std::endl;
+            ++failed;
          }
       }
 
