@@ -120,7 +120,7 @@ For example within a `must<>`-rule (which converts local failure, a return value
 The following implementation of the seq-rule's `match()`-method shows how to correctly handle the `rewind_mode`.
 The input's `mark()`-method uses the `apply_mode` to choose which input marker to return, either one that takes care of rewinding when required, or a dummy object that does nothing.
 In the first case, `next_rewind_mode` is set to `ACTIVE`, otherwise it is equal to `M`, just as required for the next rules called by the current one.
-The return value of the `match()`-method is then passed through the input marker `m` so that, if it is not the dummy and the return value is `false`, it can rewind the input `in`.
+The return value of the `match()`-method is then passed through the input marker `m` so that, if the return value is `false` and the marker is not the dummy, it can rewind the input `in`.
 
 ```c++
 template< typename... Rules >
