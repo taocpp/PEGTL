@@ -50,7 +50,7 @@ namespace tao
             return parse_input_nested< Rule, Action, Control >( oi, m_input, st... );
          }
 
-         using eol = Eol;
+         using eol_t = Eol;
 
       private:
          internal::file_mapper m_file;
@@ -69,7 +69,7 @@ namespace tao
       template< typename Rule, template< typename... > class Action = nothing, template< typename... > class Control = normal, typename Outer, typename... States >
       bool parse_mmap_nested( const Outer& oi, const std::string& filename, States&&... st )
       {
-         return basic_mmap_parser< typename Outer::eol >( filename ).template parse_nested< Rule, Action, Control >( oi, st... );
+         return basic_mmap_parser< typename Outer::eol_t >( filename ).template parse_nested< Rule, Action, Control >( oi, st... );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

@@ -24,7 +24,7 @@ namespace tao
          {
          }
 
-         using eol = Eol;
+         using eol_t = Eol;
       };
 
       using read_parser = basic_read_parser< lf_crlf_eol >;
@@ -38,7 +38,7 @@ namespace tao
       template< typename Rule, template< typename... > class Action = nothing, template< typename... > class Control = normal, typename Outer, typename... States >
       bool parse_read_nested( Outer& oi, const std::string& filename, States&&... st )
       {
-         return basic_read_parser< typename Outer::eol >( filename ).template parse_nested< Rule, Action, Control >( oi, st... );
+         return basic_read_parser< typename Outer::eol_t >( filename ).template parse_nested< Rule, Action, Control >( oi, st... );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

@@ -51,7 +51,7 @@ namespace tao
             return parse_input_nested< Rule, Action, Control >( oi, m_input, st... );
          }
 
-         using eol = Eol;
+         using eol_t = Eol;
 
       private:
          std::string m_data;
