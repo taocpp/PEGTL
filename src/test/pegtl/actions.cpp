@@ -12,9 +12,11 @@ namespace tao
          struct fiz : if_must< at< one< 'a' > >, two< 'a' > >
          {
          };
+
          struct foo : sor< fiz, one< 'b' > >
          {
          };
+
          struct bar : until< eof, foo >
          {
          };
@@ -65,6 +67,7 @@ namespace tao
          struct fobble : sor< state< state1, alpha >, digit >
          {
          };
+
          struct fibble : until< eof, fobble >
          {
          };
