@@ -84,7 +84,7 @@ This shows how custom rule classes using the simple calling convention are restr
 
 ## Complex Rules
 
-The complex calling convention gives a rule's `match()`-method access to "everything", i.e. the error mode, the action and control classes, and all state arguments.
+The complex calling convention gives a rule's `match()`-method access to "everything", i.e. some modes, the action and control classes, and all state arguments.
 All of these parameters are required for custom rules that need to themselves call other rules for matching.
 
 The `match()`-method in a complex rule takes the following form.
@@ -96,7 +96,7 @@ struct complex_rule
    using analyze_t = ...;
 
    template< tao::pegtl::apply_mode A,
-             tao::pegtl::marker_mode M,
+             tao::pegtl::rewind_mode M,
              template< typename ... > class Action,
              template< typename ... > class Control,
              typename Input,
@@ -106,8 +106,46 @@ struct complex_rule
 };
 ```
 
+#### Modes
+
+The `apply_mode` can take the value `apply_mode::ACTION` or `apply_mode::NOTHING`, depending on whether actions are currently enabled or disabled.
+Most custom parsing rules will either ignore, or pass on the `apply_mode` unchanged; usually only the control interprets the `apply_mode`.
+
+The `rewind_mode` can take the value `rewind_mode::ACTIVE`, `rewind_mode::REQUIRED` or `rewind_mode::DONTCARE`.
+When `M` is `rewind_mode::REQUIRED`, the custom rule's `match()`-implementation **must**, on local failure, rewind the input to where it (the input) was when it (the `match()`-function) was first called.
+
+When `M` is **not** `rewind_mode::REQUIRED`, it is not necessary to perform rewinding as either some other rule further up the call stack is already taking care of it (`rewind_mode::ACTIVE`), or rewinding is not necessary (`rewind_mode::DONTCARE`).
+For example within a `must<>`-rule (which converts local failure, a return value of `false` from the `match()`-function, to global failure, an exception) the `rewind_mode` is `DONTCARE`.
+
+The following implementation of the seq-rule's `match()`-method shows how to correctly handle the `rewind_mode`.
+The input's `mark()`-method uses the `apply_mode` to choose which input marker to return, either one that takes care of rewinding when required, or a dummy object that does nothing.
+In the first case, `next_rewind_mode` is set to `ACTIVE`, otherwise it is equal to `M`, just as required for the next rules called by the current one.
+The return value of the `match()`-method is then passed through the input marker `m` so that, if it is not the dummy and the return value is `false`, it can rewind the input `in`.
+
+```c++
+template< typename... Rules >
+struct seq
+{
+    template< apply_mode A,
+              rewind_mode M,
+              template< typename... > class Action,
+              template< typename... > class Control,
+              typename Input,
+              typename... States >
+    static bool match( Input& in, States&&... st )
+    {
+       auto m = in.template mark< M >();
+       using m_t = decltype( m );
+       return m( rule_conjunction< Rules... >::template
+                 match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );
+    }
+};
+```
+
+#### Example
+
 The following excerpt from the included example program `src/example/pegtl/dynamic_match.cpp` shows a complex custom rule that itself makes use of a state argument.
-This is necessary to cleanly implement dynamic matching, i.e. where (set of) string(s) that a rule is intended to match depends on some run-time data structure rather than some compile-time type (the latter of which includes all template arguments).
+This is necessary to cleanly implement dynamic matching, i.e. where a (set of) string(s) that a rule is intended to match depends on some run-time data structure rather than some compile-time type (the latter of which includes all template arguments).
 
 The aim is to parse a kind of *long string literal*, an arbitrary string literal that does not require escaping of any special characters, as is common in many scripting languages.
 In order to allow for arbitrary content without escaping it has to be possible to choose a string sequence that is not part of the string literal as delimiter.
@@ -168,7 +206,7 @@ The custom rule itself
    struct long_literal_mark
    {
       template< tao::pegtl::apply_mode A,
-                tao::pegtl::marker_mode M,
+                tao::pegtl::rewind_mode M,
                 template< typename ... > class Action,
                 template< typename ... > class Control
                 typename Input >
@@ -177,9 +215,9 @@ The custom rule itself
                          const std::string & )
       {
          if ( in.size( long_literal_mark.size() ) >= long_literal_mark.size() ) {
-            if ( ::memcmp( in.begin(),
-                           long_literal_mark.data(),
-                           long_literal_mark.size() ) == 0 ) {
+            if ( std::memcmp( in.begin(),
+                              long_literal_mark.data(),
+                              long_literal_mark.size() ) == 0 ) {
                in.bump( long_literal_mark.size() );
                return true;
             }
