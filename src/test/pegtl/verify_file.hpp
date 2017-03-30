@@ -58,6 +58,7 @@ namespace tao
             const std::string f{ "src/test/pegtl/no_such_file.txt" };
             try {
                T p{ f };
+               p.template parse< file_grammar >();
                TAOCPP_PEGTL_TEST_ASSERT( !"no error on opening non-existing file" );
             }
             catch( const input_error& ) {
