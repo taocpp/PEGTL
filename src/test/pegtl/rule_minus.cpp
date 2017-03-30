@@ -18,6 +18,9 @@ namespace tao
          verify_rule< minus< alnum, digit > >( __LINE__, __FILE__, "%", result_type::LOCAL_FAILURE, 1 );
          verify_rule< minus< alnum, digit > >( __LINE__, __FILE__, "a%", result_type::SUCCESS, 1 );
 
+         verify_rule< must< minus< alnum, digit > > >( __LINE__, __FILE__, "%", result_type::GLOBAL_FAILURE, 1 );
+         verify_rule< must< minus< alnum, digit > > >( __LINE__, __FILE__, "1", result_type::GLOBAL_FAILURE, 0 );
+
          verify_rule< minus< plus< alnum >, digit > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
          verify_rule< minus< plus< alnum >, digit > >( __LINE__, __FILE__, "a", result_type::SUCCESS, 0 );
          verify_rule< minus< plus< alnum >, digit > >( __LINE__, __FILE__, "1", result_type::LOCAL_FAILURE, 1 );
