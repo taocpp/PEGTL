@@ -75,26 +75,6 @@ namespace tao
                return false;
             }
 
-            std::size_t byte() const noexcept
-            {
-               return m_count.byte;
-            }
-
-            std::size_t line() const noexcept
-            {
-               return m_count.line;
-            }
-
-            std::size_t byte_in_line() const noexcept
-            {
-               return m_count.byte_in_line;
-            }
-
-            const char* begin() const noexcept
-            {
-               return m_count.data;
-            }
-
             const count_data& count() const noexcept
             {
                return m_count;
