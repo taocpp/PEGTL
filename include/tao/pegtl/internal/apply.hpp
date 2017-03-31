@@ -65,6 +65,11 @@ namespace tao
             }
          };
 
+         template< typename... Actions >
+         struct skip_control< apply< Actions... > > : std::true_type
+         {
+         };
+
       }  // namespace internal
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
