@@ -5,27 +5,19 @@
 #include <string>
 
 #include <tao/pegtl.hpp>
+namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
 
 namespace hello
 {
-   struct prefix
-      : tao::TAOCPP_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o', ',', ' ' >
-   {
-   };
-
-   struct name
-      : tao::TAOCPP_PEGTL_NAMESPACE::plus< tao::TAOCPP_PEGTL_NAMESPACE::alpha >
-   {
-   };
-
-   struct grammar
-      : tao::TAOCPP_PEGTL_NAMESPACE::must< prefix, name, tao::TAOCPP_PEGTL_NAMESPACE::one< '!' >, tao::TAOCPP_PEGTL_NAMESPACE::eof >
-   {
-   };
+   // clang-format off
+   struct prefix : pegtl::string< 'H', 'e', 'l', 'l', 'o', ',', ' ' > {};
+   struct name : pegtl::plus< pegtl::alpha > {};
+   struct grammar : pegtl::must< prefix, name, pegtl::one< '!' >, pegtl::eof > {};
+   // clang-format on
 
    template< typename Rule >
    struct action
-      : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule >
+      : pegtl::nothing< Rule >
    {
    };
 
@@ -45,7 +37,7 @@ int main( int argc, char** argv )
 {
    if( argc > 1 ) {
       std::string name;
-      tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< hello::grammar, hello::action >( 1, argv, name );
+      pegtl::parse_arg< hello::grammar, hello::action >( 1, argv, name );
       std::cout << "Good bye, " << name << "!" << std::endl;
    }
 }
