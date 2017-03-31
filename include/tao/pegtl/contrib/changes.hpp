@@ -28,9 +28,7 @@ namespace tao
 
       }  // namespace internal
 
-      template< typename Rule,
-                typename State,
-                template< typename... > class Base = normal >
+      template< typename Rule, typename State, template< typename... > class Base = normal >
       struct change_state
          : public Base< Rule >
       {
@@ -52,9 +50,7 @@ namespace tao
          }
       };
 
-      template< typename Rule,
-                template< typename... > class Action,
-                template< typename... > class Base = normal >
+      template< typename Rule, template< typename... > class Action, template< typename... > class Base = normal >
       struct change_action
          : public Base< Rule >
       {
@@ -70,18 +66,14 @@ namespace tao
          }
       };
 
-      template< template< typename... > class Action,
-                template< typename... > class Base >
+      template< template< typename... > class Action, template< typename... > class Base >
       struct change_both_helper
       {
          template< typename T >
          using change_action = change_action< T, Action, Base >;
       };
 
-      template< typename Rule,
-                typename State,
-                template< typename... > class Action,
-                template< typename... > class Base = normal >
+      template< typename Rule, typename State, template< typename... > class Action, template< typename... > class Base = normal >
       struct change_state_and_action
          : public change_state< Rule, State, change_both_helper< Action, Base >::template change_action >
       {
