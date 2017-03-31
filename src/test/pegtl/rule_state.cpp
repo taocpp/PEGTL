@@ -41,6 +41,7 @@ namespace tao
 
       template< typename... Rules >
       using test_state_rule = state< test_state_state, Rules... >;
+
       template< typename... Rules >
       using test_state_with_template_parameters_rule = state< test_state_with_template_parameters_state, Rules... >;
 
