@@ -44,6 +44,7 @@ namespace tao
          struct bool_list
          {
          };
+
          template< bool... Bs >
          using bool_and = std::is_same< bool_list< Bs..., true >, bool_list< true, Bs... > >;
 
