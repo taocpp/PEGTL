@@ -12,6 +12,7 @@ The first argument to an action application is always an instance that represent
 * [States](#states)
 * [Action Specialisation](#action-specialisation)
 * [Changing Actions](#changing-actions)
+* [Legacy Actions](#legacy-actions)
 
 ## Actions
 
@@ -167,6 +168,10 @@ This also allows using the same rules multiple times with different actions with
 
 ## Changing States
 
-[See the page on Switching Style](Switching-Style.md).
+See the [page on Switching Style](Switching-Style.md).
+
+## Legacy Actions
+
+See the [section on legacy-style action rules](Rule-Reference.md#action-rules).
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
