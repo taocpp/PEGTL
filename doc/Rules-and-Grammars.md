@@ -50,7 +50,7 @@ This `using`-definition is often combined with the practice of confining a PEGTL
 
 A grammar is nothing else than a collection of rules.
 In theory, as long as a grammar does not contain cycles, complete grammars could be implemented as a single, large rule.
-Un practice, this is not advisable as it greatly reduces the readability and testability of the grammar, in addition to being quite unmaintainable.
+In practice, this is not advisable as it greatly reduces the readability and testability of the grammar, in addition to being quite unmaintainable.
 
 ## Implementing New Rules
 
