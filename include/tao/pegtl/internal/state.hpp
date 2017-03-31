@@ -26,7 +26,12 @@ namespace tao
          {
             using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules... >;
 
-            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode A,
+                      rewind_mode M,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static auto success( State& s, const Input& in, States&&... st ) -> decltype( s.template success< A, M, Action, Control >( in, st... ), void() )
             {
                s.template success< A, M, Action, Control >( in, st... );

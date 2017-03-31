@@ -40,7 +40,12 @@ namespace tao
          {
             using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules... >;
 
-            template< apply_mode, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode,
+                      rewind_mode,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static bool match( Input& in, States&&... st )
             {
                const auto m = in.template mark< rewind_mode::REQUIRED >();
