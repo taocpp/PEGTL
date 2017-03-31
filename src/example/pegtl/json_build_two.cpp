@@ -28,13 +28,14 @@ namespace examples
    // Action and Control classes
 
    template< typename Rule >
-   struct action : unescape_action< Rule >
+   struct action : unescape_action< Rule >  // Inherit from json_unescape.hpp.
    {
-   };  // Inherit from json_unescape.hpp.
+   };
+
    template< typename Rule >
-   struct control : errors< Rule >
+   struct control : errors< Rule >  // Inherit from json_errors.hpp.
    {
-   };  // Inherit from json_errors.hpp.
+   };
 
    template<>
    struct action< tao::TAOCPP_PEGTL_NAMESPACE::json::null >
@@ -85,7 +86,8 @@ namespace examples
    };
 
    template<>
-   struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::string::content > : tao::TAOCPP_PEGTL_NAMESPACE::change_state< tao::TAOCPP_PEGTL_NAMESPACE::json::string::content, string_state, errors >
+   struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::string::content >
+      : tao::TAOCPP_PEGTL_NAMESPACE::change_state< tao::TAOCPP_PEGTL_NAMESPACE::json::string::content, string_state, errors >
    {
    };
 
@@ -137,7 +139,8 @@ namespace examples
    };
 
    template<>
-   struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::key::content > : tao::TAOCPP_PEGTL_NAMESPACE::change_state< tao::TAOCPP_PEGTL_NAMESPACE::json::key::content, key_state, errors >
+   struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::key::content >
+      : tao::TAOCPP_PEGTL_NAMESPACE::change_state< tao::TAOCPP_PEGTL_NAMESPACE::json::key::content, key_state, errors >
    {
    };
 
