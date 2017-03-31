@@ -10,7 +10,7 @@ All feedback is highly welcome, in particular whether more sub-rules to serve as
 
 Similarly, if you have written a grammar with the PEGTL that might be generally useful, you are welcome to contribute it for inclusion in future versions.
 
-For all questions and remarks contact us at **pegtl (at) colin-hirsch.net**.
+For all questions and remarks contact us at **taocpp(at)icemx.net**.
 
 ## Contents
 
@@ -71,7 +71,7 @@ Reads a file with a grammar based on [ABNF (RFC 5234)](https://tools.ietf.org/ht
 * As we are defining PEGs, the alternations are now ordered (`sor<>`)
 * The *and*- and *not*-predicates from PEGs have been added as `&` and `!` respectively
 * All line endings (CR, LF, CRLF) are accepted
-* C++ identifier are formed by replacing the minus(es) of the rulename with underscore(s)
+* C++ identifiers are formed by replacing the dashes in rulenames with underscores
 * Reserved identifiers (keywords, ...) are rejected
 * When using numerical values, they must be within the range of the corresponding C++ data type
 
