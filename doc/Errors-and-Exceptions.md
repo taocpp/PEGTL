@@ -90,12 +90,12 @@ This is done with a custom control class template whose `raise()`-method uses a 
 ```c++
 template< typename Rule >
 struct my_control
-      : tao::pegtl::normal< Rule >
+   : tao::pegtl::normal< Rule >
 {
    static const std::string error_message;
 
-   template< typename Input, typename ... States >
-   static void raise( const Input & in, States && ... )
+   template< typename Input, typename... States >
+   static void raise( const Input& in, States&&... )
    {
       throw tao::pegtl::parse_error( error_message, in );
    }
