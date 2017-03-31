@@ -28,8 +28,12 @@ namespace tao
             {
                using action_t = typename Input::action_t;
                const action_t i2( in.count(), in.begin(), in.source() );  // No data -- range is from begin to begin.
+#ifdef __cpp_fold_expressions
+               ( Actions::apply( i2, st... ), ... );
+#else
                using swallow = bool[];
                (void)swallow{ ( Actions::apply( i2, st... ), true )..., true };
+#endif
                return true;
             }
          };
