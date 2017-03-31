@@ -15,6 +15,7 @@ namespace tao
    {
       // clang-format off
       template< typename ... Actions > struct apply : internal::apply< Actions ... > {};
+      template< typename ... Actions > struct apply0 : internal::apply0< Actions ... > {};
       template< template< typename ... > class Action, typename ... Rules > struct action : internal::action< Action, Rules ... > {};
       template< typename ... Rules > struct at : internal::at< Rules ... > {};
       struct bof : internal::bof {};

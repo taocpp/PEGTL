@@ -7,6 +7,7 @@
 #include "action.hpp"
 #include "any.hpp"
 #include "apply.hpp"
+#include "apply0.hpp"
 #include "at.hpp"
 #include "bof.hpp"
 #include "bol.hpp"
