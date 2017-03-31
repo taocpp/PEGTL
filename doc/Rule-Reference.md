@@ -675,6 +675,7 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`any`](#any-2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
 * [`any`](#any-3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
 * [`apply< A... >`](#apply-a-) <sup>[(action rules)](#action-rules)</sup>
+* [`apply0< A... >`](#apply0-a-) <sup>[(action rules)](#action-rules)</sup>
 * [`at< R... >`](#at-r-) <sup>[(combinators)](#combinators)</sup>
 * [`blank`](#blank) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`bof`](#bof) <sup>[(atomic rules)](#atomic-rules)</sup>
