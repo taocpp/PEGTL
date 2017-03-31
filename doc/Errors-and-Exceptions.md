@@ -23,10 +23,11 @@ In this section we will only look at the first item.
 For example consider the following parsing rule for a backslash-escape-sequence, simplified from what is allowed in C++ string literals.
 
 ```c++
-   struct esc : tao::pegtl::seq< tao::pegtl::one< '\\' >, tao::pegtl::one< 'n', 'r', 't' > > {};
+   using namespace tao::pegtl;
+   struct esc : seq< one< '\\' >, one< 'n', 'r', 't' > > {};
 ```
 
-###### Must
+#### Must
 
 Usually in a string literal, the backslash *must* be followed by one of a certain set of characters.
 
@@ -42,14 +43,16 @@ The exception thrown by the default control class `tao::pegtl::normal` contains 
 Given the `must<>`-combinator we can rewrite the example above with the correct semantics that globally fails a parsing run when the backslash is not followed by a valid character.
 
 ```c++
-   struct esc : tao::pegtl::seq< tao::pegtl::one< '\\' >, tao::pegtl::must< tao::pegtl::one< 'n', 'r', 't' > > > {};
+   using namespace tao::pegtl;
+   struct esc : seq< one< '\\' >, must< one< 'n', 'r', 't' > > > {};
 ```
 
 Other [convenience rules](Rule-Reference.md#convenience) that define an error point in the grammar with an implicit `must<>` all contain `must` in their name.
 One of these is `if_must<>`, which allows us to shorten our example equivalently.
 
 ```c++
-   struct esc : tao::pegtl::if_must< tao::pegtl::one< '\\' >, tao::pegtl::one< 'n', 'r', 't' > > {};
+   using namespace tao::pegtl;
+   struct esc : if_must< one< '\\' >, one< 'n', 'r', 't' > > {};
 ```
 
 Since the demangled name of the rule that failed to match is used in the error message,
@@ -57,11 +60,12 @@ the example can be improved further by choosing a more descriptive name for the 
 the rule that could trigger a global failure.
 
 ```c++
-   struct escaped_char : tao::pegtl::one< 'n', 'r', 't' > {};
-   struct esc : tao::pegtl::if_must< tao::pegtl::one< '\\' >, escaped_char > {};
+   using namespace tao::pegtl;
+   struct escaped_char : one< 'n', 'r', 't' > {};
+   struct esc : if_must< one< '\\' >, escaped_char > {};
 ```
 
-###### Raise
+#### Raise
 
 It is also possible to generate a global failure via the `raise< T >` parsing rule.
 
@@ -119,6 +123,6 @@ const std::string my_control< T >::error_message =
 ```
 
 It is advisable to choose the error points in the grammar with prudence.
-This choice becoming particularly cumbersome and/or resulting in a large number of error points might be an indication of the grammar needing some kind simplification or restructuring.
+This choice becoming particularly cumbersome and/or resulting in a large number of error points might be an indication of the grammar needing some kind of simplification or restructuring.
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
