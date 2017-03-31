@@ -46,10 +46,11 @@ struct addition
 ```
 
 When defining a large set of grammar rules in this way it can be advisable to include a `using namespace tao::pegtl;`-definition at the beginning in order to prevent the frequent repetition of the `tao::pegtl::` namespace qualifier.
-This `using`-definition is often combined with the practice of confining a PEGTL grammar to a single translation unit, in which case there is no `namespace`-pollution and the compile time is kept low by only including the PEGTL in this one translation unit.
+This `using`-definition is often combined with the practice of confining a PEGTL grammar to a single translation unit, in which case there is no `namespace`-pollution, and the compile time is kept low by only including the PEGTL only in the translation unit with the grammar.
 
 A grammar is nothing else than a collection of rules.
-In theory, as long as a grammar does not contain cycles, complete grammars could be implemented as a single, large rule, however in practice this is not advisable since it greatly reduces the readability and testability of the grammar, in addition to being quite unmaintainable.
+In theory, as long as a grammar does not contain cycles, complete grammars could be implemented as a single, large rule.
+Un practice, this is not advisable as it greatly reduces the readability and testability of the grammar, in addition to being quite unmaintainable.
 
 ## Implementing New Rules
 
@@ -58,12 +59,13 @@ Writing a new rule from scratch is covered in the [Advanced Rules](Advanced-Rule
 ## Toy S-Expression Grammar
 
 To give another example of what a small real-world grammar might look like, below is the grammar for a toy-version of S-expressions.
-It only supports proper lists, symbols, comments and numbers, and the numbers are only non-empty sequences of ASCII digits.
+It only supports proper lists, symbols, comments and numbers.
+Numbers are non-empty sequences of ASCII digits.
 
-The rule named `file` is the intended top-level rule of the grammar, i.e. the rule that is supplied as template argument to one of the [`parse()`-functions](Parser-Reference.md) in order to start a parsing run with this grammar.
+The rule named `file` is the intended top-level rule of the grammar, i.e. the rule that is supplied as template argument to one of the [`parse()`-family of functions](Parser-Reference.md) in order to start a parsing run with this grammar.
 
 ```c++
-using namespace pegtl;
+using namespace tao::pegtl;
 
 struct line_comment
    : until< eolf > {};
@@ -103,6 +105,6 @@ struct file
    : until< eof, anything > {};
 ```
 
-In order to let a parsing run do more than verify whether an input conforms to the grammar, it is necessary to attach some user-defined actions to some grammar rules, as explained in the section on [Actions and States](Actions-and-States.md).
+In order to let a parsing run do more than verify whether an input conforms to the grammar, it is necessary to attach user-defined *actions* to some grammar rules, as explained in [Actions and States](Actions-and-States.md).
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
