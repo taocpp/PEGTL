@@ -26,7 +26,12 @@ namespace tao
          {
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-            template< apply_mode, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode,
+                      rewind_mode,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static bool match( Input& in, States&&... st )
             {
                Control< T >::raise( const_cast< const Input& >( in ), st... );

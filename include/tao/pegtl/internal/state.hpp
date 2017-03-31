@@ -34,13 +34,24 @@ namespace tao
 
             // NOTE: The additional "int = 0" is a work-around for missing expression SFINAE in VS2015.
 
-            template< apply_mode, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States, int = 0 >
+            template< apply_mode,
+                      rewind_mode,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States,
+                      int = 0 >
             static auto success( State& s, const Input& in, States&&... st ) -> decltype( s.success( in, st... ), void() )
             {
                s.success( in, st... );
             }
 
-            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode A,
+                      rewind_mode M,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static bool match( Input& in, States&&... st )
             {
                State s( const_cast< const Input& >( in ), st... );

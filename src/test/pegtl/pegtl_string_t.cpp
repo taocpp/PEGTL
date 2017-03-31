@@ -13,6 +13,7 @@ namespace test
    struct foo : TAOCPP_PEGTL_STRING( "foo" )
    {
    };
+
    struct foobar : tao::TAOCPP_PEGTL_NAMESPACE::sor< TAOCPP_PEGTL_STRING( "foo" ), TAOCPP_PEGTL_STRING( "bar" ) >
    {
    };

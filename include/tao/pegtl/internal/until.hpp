@@ -37,7 +37,12 @@ namespace tao
          {
             using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
 
-            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode A,
+                      rewind_mode M,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< M >();
@@ -57,7 +62,12 @@ namespace tao
          {
             using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, Rules... >, Cond >;
 
-            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode A,
+                      rewind_mode M,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< M >();

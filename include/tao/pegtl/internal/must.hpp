@@ -38,7 +38,12 @@ namespace tao
          {
             using analyze_t = typename Rule::analyze_t;
 
-            template< apply_mode A, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode A,
+                      rewind_mode,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static bool match( Input& in, States&&... st )
             {
                if( !Control< Rule >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st... ) ) {

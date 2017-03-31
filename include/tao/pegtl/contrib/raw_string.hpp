@@ -38,7 +38,12 @@ namespace tao
             {
             }
 
-            template< apply_mode A, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode A,
+                      rewind_mode,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             typename std::enable_if< ( ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Tag >::value ) ) >::type
             success( const Input& in, States&&... st ) const
             {
@@ -50,7 +55,12 @@ namespace tao
                Action< Tag >::apply( ai, st... );
             }
 
-            template< apply_mode A, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode A,
+                      rewind_mode,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             typename std::enable_if< !( ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Tag >::value ) ) >::type
             success( const Input&, States&&... ) const
             {
@@ -69,7 +79,11 @@ namespace tao
          {
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-            template< apply_mode A, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input >
+            template< apply_mode A,
+                      rewind_mode,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input >
             static bool match( Input& in, raw_string_state< Tag >& ls )
             {
                if( in.empty() || ( in.peek_char( 0 ) != Open ) ) {
@@ -96,7 +110,11 @@ namespace tao
          {
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-            template< apply_mode A, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input >
+            template< apply_mode A,
+                      rewind_mode,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input >
             static bool match( Input& in, const raw_string_state< Tag >& ls )
             {
                if( in.size( ls.count ) < ls.count ) {

@@ -43,7 +43,12 @@ namespace tao
          {
             using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules... >;
 
-            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode A,
+                      rewind_mode M,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< M >();

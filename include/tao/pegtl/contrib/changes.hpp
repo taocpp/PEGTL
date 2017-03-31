@@ -28,11 +28,18 @@ namespace tao
 
       }  // namespace internal
 
-      template< typename Rule, typename State, template< typename... > class Base = normal >
+      template< typename Rule,
+                typename State,
+                template< typename... > class Base = normal >
       struct change_state
          : public Base< Rule >
       {
-         template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+         template< apply_mode A,
+                   rewind_mode M,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
+                   typename Input,
+                   typename... States >
          static bool match( Input& in, States&&... st )
          {
             internal::state_disable_helper< A, State > s;
@@ -51,7 +58,12 @@ namespace tao
       struct change_action
          : public Base< Rule >
       {
-         template< apply_mode A, rewind_mode M, template< typename... > class, template< typename... > class Control, typename Input, typename... States >
+         template< apply_mode A,
+                   rewind_mode M,
+                   template< typename... > class,
+                   template< typename... > class Control,
+                   typename Input,
+                   typename... States >
          static bool match( Input& in, States&&... st )
          {
             return Base< Rule >::template match< A, M, Action, Control >( in, st... );
@@ -66,7 +78,10 @@ namespace tao
          using change_action = change_action< T, Action, Base >;
       };
 
-      template< typename Rule, typename State, template< typename... > class Action, template< typename... > class Base = normal >
+      template< typename Rule,
+                typename State,
+                template< typename... > class Action,
+                template< typename... > class Base = normal >
       struct change_state_and_action
          : public change_state< Rule, State, change_both_helper< Action, Base >::template change_action >
       {

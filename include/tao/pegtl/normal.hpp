@@ -52,16 +52,19 @@ namespace tao
             Action< Rule >::apply0( st... );
          }
 
-         template< typename Input,
-                   template< typename... > class Action,
-                   typename... States >
+         template< typename Input, template< typename... > class Action, typename... States >
          static void apply( const count_data& begin, const count_data& end, const char* source, States&&... st )
          {
             const Input in( begin, end.data, source );
             Action< Rule >::apply( in, st... );
          }
 
-         template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+         template< apply_mode A,
+                   rewind_mode M,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
+                   typename Input,
+                   typename... States >
          static bool match( Input& in, States&&... st )
          {
             constexpr bool use_control = !internal::skip_control< Rule >::value;

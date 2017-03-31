@@ -22,7 +22,8 @@ namespace tao
          // clang-format off
          struct ws : one< ' ', '\t', '\n', '\r' > {};
 
-         template< typename R, typename P = ws > struct padr : internal::seq< R, internal::star< P > > {};
+         template< typename R, typename P = ws >
+         struct padr : internal::seq< R, internal::star< P > > {};
 
          struct begin_array : padr< one< '[' > > {};
          struct begin_object : padr< one< '{' > > {};

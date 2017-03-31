@@ -29,7 +29,12 @@ namespace tao
          {
             using analyze_t = analysis::generic< analysis::rule_type::OPT, Rule, Rules..., star >;
 
-            template< apply_mode A, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode A,
+                      rewind_mode,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static bool match( Input& in, States&&... st )
             {
                while( ( !in.empty() ) && duseltronik< seq< Rule, Rules... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st... ) ) {

@@ -49,7 +49,12 @@ namespace tao
          {
             using analyze_t = analysis::counted< analysis::rule_type::ANY, 0 >;
 
-            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode A,
+                      rewind_mode M,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static bool match( Input& in, States&&... st )
             {
                return apply_impl< A, Actions... >::match( in, st... );

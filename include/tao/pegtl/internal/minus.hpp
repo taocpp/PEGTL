@@ -23,7 +23,12 @@ namespace tao
          {
             using analyze_t = typename R::analyze_t;  // NOTE: S is currently ignored for analyze().
 
-            template< apply_mode A, rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode A,
+                      rewind_mode,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< rewind_mode::REQUIRED >();

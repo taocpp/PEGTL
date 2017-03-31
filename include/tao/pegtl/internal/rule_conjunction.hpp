@@ -17,7 +17,12 @@ namespace tao
          template< typename... Rules >
          struct rule_conjunction
          {
-            template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< apply_mode A,
+                      rewind_mode M,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static bool match( Input& in, States&&... st )
             {
 #ifdef __cpp_fold_expressions
