@@ -20,7 +20,11 @@ namespace tao
          template< typename Rule, typename... Actions >
          struct if_apply_impl< apply_mode::ACTION, Rule, Actions... >
          {
-            template< rewind_mode, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< rewind_mode,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static bool match( Input& in, States&&... st )
             {
                using action_t = typename Input::action_t;
@@ -40,7 +44,11 @@ namespace tao
          template< typename Rule, typename... Actions >
          struct if_apply_impl< apply_mode::NOTHING, Rule, Actions... >
          {
-            template< rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename Input, typename... States >
+            template< rewind_mode M,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
             static bool match( Input& in, States&&... st )
             {
                return Control< Rule >::template match< apply_mode::NOTHING, M, Action, Control >( in, st... );

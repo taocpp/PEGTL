@@ -19,13 +19,20 @@ namespace tao
             {
             }
 
-            template< typename Rule, template< typename... > class Action = nothing, template< typename... > class Control = normal, typename... States >
+            template< typename Rule,
+                      template< typename... > class Action = nothing,
+                      template< typename... > class Control = normal,
+                      typename... States >
             bool parse( States&&... st )
             {
                return parse_file< Rule, Action, Control >( m_source, st... );
             }
 
-            template< typename Rule, template< typename... > class Action = nothing, template< typename... > class Control = normal, typename Outer, typename... States >
+            template< typename Rule,
+                      template< typename... > class Action = nothing,
+                      template< typename... > class Control = normal,
+                      typename Outer,
+                      typename... States >
             bool parse_nested( const Outer& oi, States&&... st )
             {
                return parse_file_nested< Rule, Action, Control >( oi, m_source, st... );

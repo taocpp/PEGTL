@@ -22,7 +22,9 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Rule, template< typename... > class Action, typename Input >
+      template< typename Rule,
+                template< typename... > class Action,
+                typename Input >
       result_type verify_impl_impl_impl( Input& i )
       {
          try {

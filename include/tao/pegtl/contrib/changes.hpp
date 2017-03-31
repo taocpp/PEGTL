@@ -45,7 +45,9 @@ namespace tao
          }
       };
 
-      template< typename Rule, template< typename... > class Action, template< typename... > class Base = normal >
+      template< typename Rule,
+                template< typename... > class Action,
+                template< typename... > class Base = normal >
       struct change_action
          : public Base< Rule >
       {
@@ -56,7 +58,8 @@ namespace tao
          }
       };
 
-      template< template< typename... > class Action, template< typename... > class Base >
+      template< template< typename... > class Action,
+                template< typename... > class Base >
       struct change_both_helper
       {
          template< typename T >

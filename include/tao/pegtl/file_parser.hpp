@@ -29,13 +29,20 @@ namespace tao
       using basic_file_parser = basic_read_parser< Eol >;
 #endif
 
-      template< typename Rule, template< typename... > class Action = nothing, template< typename... > class Control = normal, typename... States >
+      template< typename Rule,
+                template< typename... > class Action = nothing,
+                template< typename... > class Control = normal,
+                typename... States >
       bool parse_file( const std::string& filename, States&&... st )
       {
          return file_parser( filename ).parse< Rule, Action, Control >( st... );
       }
 
-      template< typename Rule, template< typename... > class Action = nothing, template< typename... > class Control = normal, typename Outer, typename... States >
+      template< typename Rule,
+                template< typename... > class Action = nothing,
+                template< typename... > class Control = normal,
+                typename Outer,
+                typename... States >
       bool parse_file_nested( const Outer& oi, const std::string& filename, States&&... st )
       {
          return basic_file_parser< typename Outer::eol_t >( filename ).template parse_nested< Rule, Action, Control >( oi, st... );

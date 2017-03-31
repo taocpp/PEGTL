@@ -38,13 +38,20 @@ namespace tao
             return m_input;
          }
 
-         template< typename Rule, template< typename... > class Action = nothing, template< typename... > class Control = normal, typename... States >
+         template< typename Rule,
+                   template< typename... > class Action = nothing,
+                   template< typename... > class Control = normal,
+                   typename... States >
          bool parse( States&&... st )
          {
             return parse_input< Rule, Action, Control >( m_input, st... );
          }
 
-         template< typename Rule, template< typename... > class Action = nothing, template< typename... > class Control = normal, typename Outer, typename... States >
+         template< typename Rule,
+                   template< typename... > class Action = nothing,
+                   template< typename... > class Control = normal,
+                   typename Outer,
+                   typename... States >
          bool parse_nested( const Outer& oi, States&&... st )
          {
             return parse_input_nested< Rule, Action, Control >( oi, m_input, st... );
@@ -60,13 +67,20 @@ namespace tao
 
       using mmap_parser = basic_mmap_parser< lf_crlf_eol >;
 
-      template< typename Rule, template< typename... > class Action = nothing, template< typename... > class Control = normal, typename... States >
+      template< typename Rule,
+                template< typename... > class Action = nothing,
+                template< typename... > class Control = normal,
+                typename... States >
       bool parse_mmap( const std::string& filename, States&&... st )
       {
          return mmap_parser( filename ).parse< Rule, Action, Control >( st... );
       }
 
-      template< typename Rule, template< typename... > class Action = nothing, template< typename... > class Control = normal, typename Outer, typename... States >
+      template< typename Rule,
+                template< typename... > class Action = nothing,
+                template< typename... > class Control = normal,
+                typename Outer,
+                typename... States >
       bool parse_mmap_nested( const Outer& oi, const std::string& filename, States&&... st )
       {
          return basic_mmap_parser< typename Outer::eol_t >( filename ).template parse_nested< Rule, Action, Control >( oi, st... );
