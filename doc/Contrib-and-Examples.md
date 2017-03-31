@@ -114,13 +114,13 @@ Simple `cat` replacement to test the included `mmap(2)`-based file reader on pla
 
 Shows how to implement a simple custom parsing rule with the simplified calling convention.
 
-###### `src/example/pegtl/read_test.cpp`
-
-Simple `cat` replacement to test the included `fread(3)`-based file reader.
-
 ###### `src/example/pegtl/s_expression.cpp`
 
 Grammar for a toy-version of S-expressions that shows how to include other files during a parsing run.
+
+###### `src/example/pegtl/sum.cpp`
+
+Simple example that adds a list of comma-separated `double`s read from `std::cin`.
 
 ###### `src/example/pegtl/unescape.cpp`
 
