@@ -21,6 +21,7 @@
   * [Meta Rules](Rule-Reference.md#meta-rules)
   * [Combinators](Rule-Reference.md#combinators)
   * [Convenience](Rule-Reference.md#convenience)
+  * [Action Rules](Rule-Reference.md#action-rules)
   * [Atomic Rules](Rule-Reference.md#atomic-rules)
   * [ASCII Rules](Rule-Reference.md#ascii-rules)
   * [UTF-8 Rules](Rule-Reference.md#utf-8-rules)
