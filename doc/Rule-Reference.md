@@ -277,19 +277,23 @@ These rules are in namespace `tao::pegtl`.
 
 These rules replicate the intrusive way actions were attached to grammars in PEGTL 0.x versions.
 The `apply` and `if_apply`-rules allow actions to be explicitly called from within the grammar.
-The actions are classes, rather than class templates as required for the `parse()`-functions or
-`action<>`-rule. The `apply()`-methods need to satisfy the same requirements as the
-`apply()`-methods of action template specializations.
+The actions for these rules are classes (rather than class templates as required for the `parse()`-functions and `action<>`-rule).
+These rules respect the current `apply_mode`, but do *not* use the control-class to invoke the actions.
 
 ###### `apply< A... >`
 
 * Equivalent to `success` wrt. parsing, but also:
-* Calls all actions `A`, in order, with an empty `input` (and all states).
+* Calls `A::apply()` for all `A`, in order, with an empty input and all states as arguments.
+
+###### `apply0< A... >`
+
+* Equivalent to `success` wrt. parsing, but also:
+* Calls `A::apply0()` for all `A`, in order, with all states as arguments.
 
 ###### `if_apply< R, A... >`
 
 * Equivalent to `R` wrt. parsing, but also:
-* If `R` matches, calls all actions `A`, in order, with the input matched by `R` (and all states).
+* If `R` matches, calls `A::apply()`, for all `A`, in order, with the input matched by `R` and all states as arguments.
 
 ## Atomic Rules
 
