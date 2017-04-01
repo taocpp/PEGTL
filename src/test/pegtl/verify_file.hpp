@@ -27,8 +27,7 @@ namespace tao
       template<>
       struct file_action< eof >
       {
-         template< typename Input >
-         static void apply( const Input&, bool& flag )
+         static void apply0( bool& flag )
          {
             flag = true;
          }

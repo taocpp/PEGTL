@@ -44,8 +44,7 @@ namespace tao
          template<>
          struct action< one< '-' > >
          {
-            template< typename Input >
-            static void apply( const Input&, std::string&, std::string& )
+            static void apply0( std::string&, std::string& )
             {
                ++flag;
             }

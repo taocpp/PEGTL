@@ -239,8 +239,7 @@ namespace abnf2pegtl
    template<>
    struct action< grammar::push_stack >
    {
-      template< typename Input >
-      static void apply( const Input&, data& d )
+      static void apply0( data& d )
       {
          d.elements.emplace_back();
       }
@@ -325,8 +324,7 @@ namespace abnf2pegtl
    template<>
    struct action< grammar::case_sensitive_string >
    {
-      template< typename Input >
-      static void apply( const Input&, data& d )
+      static void apply0( data& d )
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
@@ -351,8 +349,7 @@ namespace abnf2pegtl
    template<>
    struct action< grammar::bin_val::range >
    {
-      template< typename Input >
-      static void apply( const Input&, data& d )
+      static void apply0( data& d )
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
@@ -367,8 +364,7 @@ namespace abnf2pegtl
    template<>
    struct action< grammar::bin_val::next_value >
    {
-      template< typename Input >
-      static void apply( const Input&, data& d )
+      static void apply0( data& d )
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
@@ -430,8 +426,7 @@ namespace abnf2pegtl
    template<>
    struct action< grammar::option >
    {
-      template< typename Input >
-      static void apply( const Input&, data& d )
+      static void apply0( data& d )
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
@@ -535,8 +530,7 @@ namespace abnf2pegtl
    template<>
    struct action< grammar::and_predicate >
    {
-      template< typename Input >
-      static void apply( const Input&, data& d )
+      static void apply0( data& d )
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
@@ -547,8 +541,7 @@ namespace abnf2pegtl
    template<>
    struct action< grammar::not_predicate >
    {
-      template< typename Input >
-      static void apply( const Input&, data& d )
+      static void apply0( data& d )
       {
          assert( !d.elements.empty() );
          assert( !d.elements.back().empty() );
@@ -559,8 +552,7 @@ namespace abnf2pegtl
    template<>
    struct action< grammar::concatenation >
    {
-      template< typename Input >
-      static void apply( const Input&, data& d )
+      static void apply0( data& d )
       {
          assert( !d.elements.empty() );
          if( d.elements.back().size() == 1 ) {
@@ -591,8 +583,7 @@ namespace abnf2pegtl
          return v.compare( 0, 12, "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::one< " ) == 0;
       }
 
-      template< typename Input >
-      static void apply( const Input&, data& d )
+      static void apply0( data& d )
       {
          assert( !d.elements.empty() );
          if( d.elements.back().size() == 1 ) {

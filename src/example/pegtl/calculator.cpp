@@ -317,8 +317,7 @@ namespace calculator
    template<>
    struct action< one< '(' > >
    {
-      template< typename Input >
-      static void apply( const Input&, const operators&, stacks& s )
+      static void apply0( const operators&, stacks& s )
       {
          s.open();
       }
@@ -327,8 +326,7 @@ namespace calculator
    template<>
    struct action< one< ')' > >
    {
-      template< typename Input >
-      static void apply( const Input&, const operators&, stacks& s )
+      static void apply0( const operators&, stacks& s )
       {
          s.close();
       }
