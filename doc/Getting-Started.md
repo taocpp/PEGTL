@@ -160,7 +160,7 @@ $ make install
 ```
 
 The above will install the PEGTL into the standard installation path on a
-UNIX system, e.g. `/usr/local/install/`. To change the installation path, use:
+UNIX system, e.g. `/usr/local/include/`. To change the installation path, use:
 
 ```sh
 $ cmake .. -DCMAKE_INSTALL_PREFIX=../install
