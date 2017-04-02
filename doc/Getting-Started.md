@@ -149,7 +149,7 @@ Packages for Mac OS X are available from:
 
 ## Installation via CMake
 
-The PEGTL can be build and installed using [CMake](https://cmake.org/), e.g.
+The PEGTL can be built and installed using [CMake](https://cmake.org/), e.g.
 
 ```sh
 $ mkdir build
