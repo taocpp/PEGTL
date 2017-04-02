@@ -6,8 +6,9 @@ This page should contain everything to get you started with the PEGTL.
 
 * [Hello, world!](#hello-world)
 * [Requirements](#requirements)
-* [Installation](#installation)
-* [Compilation](#compilation)
+* [Installation via Packages](#installation-via-packages)
+* [Installation via CMake](#installation-via-cmake)
+* [Manual Installation](#manual-installation)
 * [Limitations](#limitations)
 
 ## Hello, world!
@@ -29,13 +30,15 @@ namespace hello
    // Parsing rule that matches a literal "Hello, ".
 
    struct prefix
-         : tao::pegtl::string< 'H', 'e', 'l', 'l', 'o', ',', ' ' > {};
+      : tao::pegtl::string< 'H', 'e', 'l', 'l', 'o', ',', ' ' >
+   {};
 
    // Parsing rule that matches a non-empty sequence of
    // alphabetic ascii-characters with greedy-matching.
 
    struct name
-         : tao::pegtl::plus< tao::pegtl::alpha > {};
+      : tao::pegtl::plus< tao::pegtl::alpha >
+   {};
 
    // Parsing rule that matches a sequence of the 'prefix'
    // rule, the 'name' rule, a literal "!", and 'eof'
@@ -43,23 +46,26 @@ namespace hello
    // on failure.
 
    struct grammar
-         : tao::pegtl::must< prefix, name, tao::pegtl::one< '!' >, tao::pegtl::eof > {};
+      : tao::pegtl::must< prefix, name, tao::pegtl::one< '!' >, tao::pegtl::eof >
+   {};
 
    // Class template for user-defined actions that does
    // nothing by default.
 
    template< typename Rule >
    struct action
-         : tao::pegtl::nothing< Rule > {};
+      : tao::pegtl::nothing< Rule >
+   {};
 
    // Specialisation of the user-defined action to do
    // something when the 'name' rule succeeds; is called
    // with the portion of the input that matched the rule.
 
-   template<> struct action< name >
+   template<>
+   struct action< name >
    {
       template< typename Input >
-      static void apply( const Input & in, std::string & name )
+      static void apply( const Input& in, std::string& name )
       {
          name = in.string();
       }
@@ -67,9 +73,9 @@ namespace hello
 
 } // hello
 
-int main( int argc, char * argv[] )
+int main( int argc, char* argv[] )
 {
-   if ( argc > 1 ) {
+   if( argc > 1 ) {
       // Start a parsing run of argv[1] with the string
       // variable 'name' as additional argument to the
       // action; then print what the action put there.
@@ -128,7 +134,7 @@ The PEGTL is written with an emphasis on clean code and is compatible with
 the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches, which
 are also used by the included `Makefile` by default.
 
-## Installation
+## Installation via Packages
 
 Packages are available for the major GNU/Linux distributions, including but not limited to:
 
@@ -141,9 +147,28 @@ Packages for Mac OS X are available from:
 
 * [Homebrew](http://brewformulas.org/Pegtl)
 
-If you can not or do not want to use a pre-packaged version of the PEGTL, see the next paragraph:
+## Installation via CMake
 
-## Compilation
+The PEGTL can be build and installed using [CMake](https://cmake.org/), e.g.
+
+```sh
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+$ make install
+```
+
+The above will install the PEGTL into the standard installation path on a
+UNIX system, e.g. `/usr/local/install/`. To change the installation path, use:
+
+```sh
+$ cmake .. -DCMAKE_INSTALL_PREFIX=../install
+```
+
+in the above. For more options and ways to use CMake, please refer to the [CMake documentation](https://cmake.org/documentation/).
+
+## Manual Installation
 
 Since the PEGTL is a header-only library, _it doesn't itself need to be compiled_.
 In terms of installation for use in other projects, the following steps are required.
