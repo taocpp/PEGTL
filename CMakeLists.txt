@@ -1,5 +1,10 @@
 cmake_minimum_required (VERSION 3.2.0 FATAL_ERROR)
 
+# options
+option (BUILD_TESTS "Build test programs" ON)
+option (BUILD_EXAMPLES "Build example programs" ON)
+
+# Android stuff
 if (ANDROID_NDK)
   # TODO: why do we need 3.6.0?
   cmake_minimum_required (VERSION 3.6.0 FATAL_ERROR)
@@ -31,11 +36,13 @@ target_include_directories (PEGTL INTERFACE
 )
 
 # testing
-enable_testing ()
-add_subdirectory (src/test/pegtl)
+if (BUILD_TESTS)
+  enable_testing ()
+  add_subdirectory (src/test/pegtl)
+endif ()
 
 # examples
-if (NOT MSVC AND NOT ANDROID_NDK)
+if (BUILD_EXAMPLES)
   add_subdirectory (src/example/pegtl)
 endif ()
 
