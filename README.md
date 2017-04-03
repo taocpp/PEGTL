@@ -31,9 +31,7 @@ Here is an example of how a PEG grammar rule is implemented as C++ class with th
 
 using namespace tao::pegtl;
 
-struct integer
-   : seq< opt< one< '+', '-' > >,
-          plus< digit > > {};
+struct integer : seq< opt< one< '+', '-' > >, plus< digit > > {};
 ```
 
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic nature of PEGs gives rise to some very important differences.
