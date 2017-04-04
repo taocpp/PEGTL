@@ -177,7 +177,6 @@ matrix:
         - sed -i -e '/^import sys$/a import urllib3.contrib.pyopenssl\nurllib3.contrib.pyopenssl.inject_into_urllib3()' $(which coveralls)
       script:
         - make CXX=$COMPILER -j3 check
-      after_success:
         - coveralls --gcov gcov-6 --gcov-options '\-lp' --exclude src
 
     - os: linux
