@@ -5,6 +5,8 @@
 #include <string>
 
 #include <tao/pegtl.hpp>
+#include <tao/pegtl/parse_arg.hpp>
+
 namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
 
 namespace hello

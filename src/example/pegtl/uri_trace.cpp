@@ -5,15 +5,18 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/uri.hpp>
+#include <tao/pegtl/parse_arg.hpp>
 #include <tao/pegtl/trace.hpp>
 
-using grammar = tao::TAOCPP_PEGTL_NAMESPACE::must< tao::TAOCPP_PEGTL_NAMESPACE::uri::URI >;
+namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
+
+using grammar = pegtl::must< pegtl::uri::URI >;
 
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
       std::cout << "Parsing " << argv[ i ] << std::endl;
-      tao::TAOCPP_PEGTL_NAMESPACE::trace_arg< grammar >( i, argv );
+      pegtl::parse_arg< grammar, pegtl::nothing, pegtl::tracer >( i, argv );
    }
    return 0;
 }

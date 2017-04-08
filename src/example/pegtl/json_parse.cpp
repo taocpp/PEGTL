@@ -1,6 +1,9 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#include <tao/pegtl.hpp>
+#include <tao/pegtl/parse_arg.hpp>
+
 #include "json_errors.hpp"
 
 using grammar = tao::TAOCPP_PEGTL_NAMESPACE::must< tao::TAOCPP_PEGTL_NAMESPACE::json::text, tao::TAOCPP_PEGTL_NAMESPACE::eof >;

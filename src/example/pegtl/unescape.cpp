@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
+#include <tao/pegtl/parse_arg.hpp>
 
 #include <tao/pegtl/contrib/unescape.hpp>
 

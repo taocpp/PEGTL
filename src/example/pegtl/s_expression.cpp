@@ -6,6 +6,7 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
 #include <tao/pegtl/file_parser.hpp>
+#include <tao/pegtl/parse_arg.hpp>
 
 namespace sexpr
 {
@@ -104,7 +105,7 @@ namespace sexpr
          // last string literal that we use as filename here, and
          // the input is passed on for chained error messages (as
          // in "error in line x file foo included from file bar...)
-         file_parser( fn ).parse_nested< main, sexpr::action >( in, f2 );
+         parse_file_nested< main, sexpr::action >( in, fn, f2 );
       }
    };
 

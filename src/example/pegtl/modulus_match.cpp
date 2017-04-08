@@ -2,6 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <tao/pegtl.hpp>
+#include <tao/pegtl/parse_arg.hpp>
 
 namespace modulus
 {

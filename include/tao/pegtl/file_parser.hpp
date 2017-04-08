@@ -32,20 +32,24 @@ namespace tao
       template< typename Rule,
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
+                apply_mode A = apply_mode::ACTION,
+                rewind_mode M = rewind_mode::REQUIRED,
                 typename... States >
       bool parse_file( const std::string& filename, States&&... st )
       {
-         return file_parser( filename ).parse< Rule, Action, Control >( st... );
+         return file_parser( filename ).parse< Rule, Action, Control, A, M >( st... );
       }
 
       template< typename Rule,
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
+                apply_mode A = apply_mode::ACTION,
+                rewind_mode M = rewind_mode::REQUIRED,
                 typename Outer,
                 typename... States >
       bool parse_file_nested( const Outer& oi, const std::string& filename, States&&... st )
       {
-         return basic_file_parser< typename Outer::eol_t >( filename ).template parse_nested< Rule, Action, Control >( oi, st... );
+         return basic_file_parser< typename Outer::eol_t >( filename ).template parse_nested< Rule, Action, Control, A, M >( oi, st... );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

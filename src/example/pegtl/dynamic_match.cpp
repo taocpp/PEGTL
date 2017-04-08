@@ -7,6 +7,7 @@
 #include <string>
 
 #include <tao/pegtl.hpp>
+#include <tao/pegtl/parse_arg.hpp>
 
 namespace dynamic
 {

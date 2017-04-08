@@ -3,10 +3,23 @@
 
 #include "test.hpp"
 
+#include <tao/pegtl.hpp>
+#include <tao/pegtl/internal/cstring_reader.hpp>
+
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
+      template< typename Rule,
+                template< typename... > class Action = nothing,
+                template< typename... > class Control = normal,
+                typename... States >
+      bool parse_cstring( const char* string, const char* source, const std::size_t maximum, States&&... st )
+      {
+         buffer_input< internal::cstring_reader > in( source, maximum, string );
+         return parse< Rule, Action, Control >( in, st... );
+      }
+
       struct test_grammar : seq< string< 'a', 'b' >, discard, string< 'c', 'd' >, discard, string< 'e', 'f' >, discard, eof >
       {
       };

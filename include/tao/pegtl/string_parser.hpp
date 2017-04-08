@@ -42,20 +42,24 @@ namespace tao
          template< typename Rule,
                    template< typename... > class Action = nothing,
                    template< typename... > class Control = normal,
+                   apply_mode A = apply_mode::ACTION,
+                   rewind_mode M = rewind_mode::REQUIRED,
                    typename... States >
          bool parse( States&&... st )
          {
-            return parse_input< Rule, Action, Control >( m_input, st... );
+            return TAOCPP_PEGTL_NAMESPACE::parse< Rule, Action, Control, A, M >( m_input, st... );
          }
 
          template< typename Rule,
                    template< typename... > class Action = nothing,
                    template< typename... > class Control = normal,
+                   apply_mode A = apply_mode::ACTION,
+                   rewind_mode M = rewind_mode::REQUIRED,
                    typename Outer,
                    typename... States >
          bool parse_nested( const Outer& oi, States&&... st )
          {
-            return parse_input_nested< Rule, Action, Control >( oi, m_input, st... );
+            return TAOCPP_PEGTL_NAMESPACE::parse_nested< Rule, Action, Control, A, M >( oi, m_input, st... );
          }
 
          using eol_t = Eol;

@@ -14,7 +14,7 @@ namespace tao
 
          memory_input i1( { 0, 1, 0, s1.data() }, s1.data() + s1.size(), __FUNCTION__ );
 
-         TAOCPP_PEGTL_TEST_ASSERT( parse_input< Rule >( i1 ) );
+         TAOCPP_PEGTL_TEST_ASSERT( parse< Rule >( i1 ) );
          TAOCPP_PEGTL_TEST_ASSERT( i1.line() == 2 );
          TAOCPP_PEGTL_TEST_ASSERT( i1.byte_in_line() == 0 );
       }
@@ -26,7 +26,7 @@ namespace tao
 
          memory_input i2( { 0, 1, 0, s2.data() }, s2.data() + s2.size(), __FUNCTION__ );
 
-         TAOCPP_PEGTL_TEST_ASSERT( parse_input< Rule >( i2 ) );
+         TAOCPP_PEGTL_TEST_ASSERT( parse< Rule >( i2 ) );
          TAOCPP_PEGTL_TEST_ASSERT( i2.line() == 1 );
          TAOCPP_PEGTL_TEST_ASSERT( i2.byte_in_line() == 1 );
       }
@@ -38,7 +38,7 @@ namespace tao
 
          memory_input i3( { 0, 1, 0, s3.data() }, s3.data() + s3.size(), __FUNCTION__ );
 
-         TAOCPP_PEGTL_TEST_ASSERT( !parse_input< Rule >( i3 ) );
+         TAOCPP_PEGTL_TEST_ASSERT( !parse< Rule >( i3 ) );
          TAOCPP_PEGTL_TEST_ASSERT( i3.line() == 1 );
          TAOCPP_PEGTL_TEST_ASSERT( i3.byte_in_line() == 0 );
       }
