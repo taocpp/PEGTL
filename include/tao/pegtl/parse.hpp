@@ -27,11 +27,12 @@ namespace tao
       template< typename Rule,
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
+                rewind_mode M = rewind_mode::REQUIRED,
                 typename Input,
                 typename... States >
       bool parse_input( Input& in, States&&... st )
       {
-         return Control< Rule >::template match< apply_mode::ACTION, rewind_mode::REQUIRED, Action, Control >( in, st... );
+         return Control< Rule >::template match< apply_mode::ACTION, M, Action, Control >( in, st... );
       }
 
       template< typename Rule,
@@ -118,13 +119,14 @@ namespace tao
       template< typename Rule,
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
+                rewind_mode M = rewind_mode::REQUIRED,
                 typename Outer,
                 typename Input,
                 typename... States >
       bool parse_input_nested( const Outer& oi, Input& in, States&&... st )
       {
          try {
-            return Control< Rule >::template match< apply_mode::ACTION, rewind_mode::REQUIRED, Action, Control >( in, st... );
+            return Control< Rule >::template match< apply_mode::ACTION, M, Action, Control >( in, st... );
          }
          catch( parse_error& e ) {
             e.positions.push_back( oi.position() );
