@@ -51,6 +51,7 @@ namespace tao
          verify_data< rgrammar >( __LINE__, __FILE__, "[[foo]]", "foo" );
          verify_data< rgrammar >( __LINE__, __FILE__, "[===[foo]===]", "foo" );
          verify_data< rgrammar >( __LINE__, __FILE__, "[===[\nfoo]===]", "foo" );
+         verify_data< rgrammar >( __LINE__, __FILE__, "[===[\r\nfoo]===]", "foo" );
          verify_data< rgrammar >( __LINE__, __FILE__, "[===[\0\0\0]===]", "\0\0\0" );
          verify_fail< rgrammar >( __LINE__, __FILE__, "" );
          verify_fail< rgrammar >( __LINE__, __FILE__, "[" );
