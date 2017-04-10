@@ -5,8 +5,9 @@
 #define TAOCPP_PEGTL_INCLUDE_INTERNAL_INPUT_MARK_HPP
 
 #include "../config.hpp"
-#include "../count_data.hpp"
 #include "../rewind_mode.hpp"
+
+#include "iterator.hpp"
 
 namespace tao
 {
@@ -20,7 +21,7 @@ namespace tao
          public:
             static constexpr rewind_mode next_rewind_mode = M;
 
-            explicit input_mark( const count_data& )
+            explicit input_mark( const internal::iterator& )
             {
             }
 
@@ -43,14 +44,14 @@ namespace tao
          public:
             static constexpr rewind_mode next_rewind_mode = rewind_mode::ACTIVE;
 
-            explicit input_mark( count_data& i ) noexcept
-               : m_count( i ),
+            explicit input_mark( internal::iterator& i ) noexcept
+               : m_saved( i ),
                  m_input( &i )
             {
             }
 
             input_mark( input_mark&& i ) noexcept
-               : m_count( i.m_count ),
+               : m_saved( i.m_saved ),
                  m_input( i.m_input )
             {
                i.m_input = nullptr;
@@ -59,7 +60,7 @@ namespace tao
             ~input_mark() noexcept
             {
                if( m_input != nullptr ) {
-                  ( *m_input ) = m_count;
+                  ( *m_input ) = m_saved;
                }
             }
 
@@ -75,14 +76,14 @@ namespace tao
                return false;
             }
 
-            const count_data& count() const noexcept
+            const internal::iterator& iterator() const noexcept
             {
-               return m_count;
+               return m_saved;
             }
 
          private:
-            const count_data m_count;
-            count_data* m_input;
+            const internal::iterator m_saved;
+            internal::iterator* m_input;
          };
 
       }  // namespace internal

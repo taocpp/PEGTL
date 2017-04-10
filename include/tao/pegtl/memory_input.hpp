@@ -9,12 +9,13 @@
 #include <utility>
 
 #include "config.hpp"
-#include "count_data.hpp"
 #include "eol.hpp"
+#include "position.hpp"
+
 #include "internal/action_input.hpp"
 #include "internal/bump_impl.hpp"
 #include "internal/input_mark.hpp"
-#include "position_info.hpp"
+#include "internal/iterator.hpp"
 
 namespace tao
 {
@@ -38,8 +39,8 @@ namespace tao
          {
          }
 
-         basic_memory_input( const count_data& in_data, const char* in_end, const char* in_source )
-            : m_data( in_data ),
+         basic_memory_input( const internal::iterator& in_iter, const char* in_end, const char* in_source )
+            : m_data( in_iter ),
               m_end( in_end ),
               m_source( in_source )
          {
@@ -124,18 +125,18 @@ namespace tao
             return internal::input_mark< M >( m_data );
          }
 
-         position_info position() const
+         TAOCPP_PEGTL_NAMESPACE::position position() const
          {
-            return position_info( m_data, m_source );
+            return TAOCPP_PEGTL_NAMESPACE::position( m_data, m_source );
          }
 
-         const count_data& count() const
+         const internal::iterator& iterator() const
          {
             return m_data;
          }
 
       private:
-         count_data m_data;
+         internal::iterator m_data;
          const char* m_end;
          const char* m_source;
       };

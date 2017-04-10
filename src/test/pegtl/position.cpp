@@ -65,7 +65,7 @@ namespace tao
          template< typename Input >
          static void apply( const Input& in )
          {
-            const position_info p = in.position();
+            const auto p = in.position();
             TAOCPP_PEGTL_TEST_ASSERT( p.source == "outer" );
             TAOCPP_PEGTL_TEST_ASSERT( p.byte == 2 );
             TAOCPP_PEGTL_TEST_ASSERT( p.line == 1 );

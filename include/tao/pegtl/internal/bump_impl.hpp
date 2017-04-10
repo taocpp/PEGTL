@@ -5,7 +5,8 @@
 #define TAOCPP_PEGTL_INCLUDE_INTERNAL_BUMP_IMPL_HPP
 
 #include "../config.hpp"
-#include "../count_data.hpp"
+
+#include "iterator.hpp"
 
 namespace tao
 {
@@ -13,34 +14,34 @@ namespace tao
    {
       namespace internal
       {
-         inline void bump( count_data& data, const std::size_t count, const int ch )
+         inline void bump( iterator& iter, const std::size_t count, const int ch )
          {
             for( std::size_t i = 0; i < count; ++i ) {
-               if( data.data[ i ] == ch ) {
-                  ++data.line;
-                  data.byte_in_line = 0;
+               if( iter.data[ i ] == ch ) {
+                  ++iter.line;
+                  iter.byte_in_line = 0;
                }
                else {
-                  ++data.byte_in_line;
+                  ++iter.byte_in_line;
                }
             }
-            data.byte += count;
-            data.data += count;
+            iter.byte += count;
+            iter.data += count;
          }
 
-         inline void bump_in_this_line( count_data& data, const std::size_t count )
+         inline void bump_in_this_line( iterator& iter, const std::size_t count )
          {
-            data.data += count;
-            data.byte += count;
-            data.byte_in_line += count;
+            iter.data += count;
+            iter.byte += count;
+            iter.byte_in_line += count;
          }
 
-         inline void bump_to_next_line( count_data& data, const std::size_t count )
+         inline void bump_to_next_line( iterator& iter, const std::size_t count )
          {
-            ++data.line;
-            data.byte += count;
-            data.byte_in_line = 0;
-            data.data += count;
+            ++iter.line;
+            iter.byte += count;
+            iter.byte_in_line = 0;
+            iter.data += count;
          }
 
       }  // namespace internal

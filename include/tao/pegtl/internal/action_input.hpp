@@ -7,9 +7,10 @@
 #include <cstddef>
 #include <string>
 
+#include "iterator.hpp"
+
 #include "../config.hpp"
-#include "../count_data.hpp"
-#include "../position_info.hpp"
+#include "../position.hpp"
 
 namespace tao
 {
@@ -28,9 +29,9 @@ namespace tao
             using action_t = basic_action_input< Eol >;
             using memory_t = basic_memory_input< Eol >;
 
-            basic_action_input( const count_data& in_data, const char* in_end, const char* in_source )
+            basic_action_input( const internal::iterator& in_data, const internal::iterator& in_end, const char* in_source )
                : m_data( in_data ),
-                 m_end( in_end ),
+                 m_end( in_end.data ),
                  m_source( in_source )
             {
             }
@@ -90,18 +91,18 @@ namespace tao
                return static_cast< unsigned char >( peek_char( offset ) );
             }
 
-            const count_data& count() const
+            TAOCPP_PEGTL_NAMESPACE::position position() const
+            {
+               return TAOCPP_PEGTL_NAMESPACE::position( m_data, m_source );
+            }
+
+            const internal::iterator& iterator() const
             {
                return m_data;
             }
 
-            position_info position() const
-            {
-               return position_info( m_data, m_source );
-            }
-
          private:
-            count_data m_data;
+            internal::iterator m_data;
             const char* m_end;
             const char* m_source;
          };

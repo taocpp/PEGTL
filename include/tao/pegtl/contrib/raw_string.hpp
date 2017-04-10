@@ -10,6 +10,7 @@
 #include "../rewind_mode.hpp"
 
 #include "../internal/action_input.hpp"
+#include "../internal/iterator.hpp"
 #include "../internal/must.hpp"
 #include "../internal/skip_control.hpp"
 #include "../internal/state.hpp"
@@ -54,8 +55,8 @@ namespace tao
                       typename... States >
             static void success( const State& s, const Input& in, States&&... st )
             {
-               const count_data dend = { in.byte() - s.marker_size, in.line(), in.byte_in_line() - s.marker_size, in.begin() - s.marker_size };
-               Control< Tag >::template apply< typename Input::action_t, Action >( s.data, dend, in.source(), st... );
+               const internal::iterator dend = { in.byte() - s.marker_size, in.line(), in.byte_in_line() - s.marker_size, in.begin() - s.marker_size };
+               Control< Tag >::template apply< typename Input::action_t, Action >( s.iter, dend, in.source(), st... );
             }
          };
 
@@ -97,7 +98,7 @@ namespace tao
             raw_string_state( const raw_string_state& ) = delete;
             void operator=( const raw_string_state& ) = delete;
 
-            count_data data;
+            internal::iterator iter;
             std::size_t marker_size = 0;
          };
 
@@ -122,7 +123,7 @@ namespace tao
                         ls.marker_size = i + 1;
                         in.bump( ls.marker_size );
                         internal::eol::match( in );
-                        ls.data = in.count();
+                        ls.iter = in.iterator();
                         return true;
                      case Marker:
                         break;

@@ -8,7 +8,7 @@
 #include <vector>
 
 #include "config.hpp"
-#include "position_info.hpp"
+#include "position.hpp"
 
 namespace tao
 {
@@ -17,20 +17,25 @@ namespace tao
       struct parse_error
          : public std::runtime_error
       {
-         parse_error( const std::string& message, std::vector< position_info >&& in_positions )
-            : std::runtime_error( message ),
+         parse_error( const std::string& msg, std::vector< position >&& in_positions )
+            : std::runtime_error( msg ),
               positions( std::move( in_positions ) )
          {
          }
 
          template< typename Input >
-         parse_error( const std::string& message, const Input& in )
-            : std::runtime_error( to_string( in.position() ) + ": " + message ),
-              positions( 1, in.position() )
+         parse_error( const std::string& msg, const Input& in )
+            : parse_error( msg, in.position() )
          {
          }
 
-         std::vector< position_info > positions;
+         parse_error( const std::string& msg, const position& pos )
+            : std::runtime_error( to_string( pos ) + ": " + msg ),
+              positions( 1, pos )
+         {
+         }
+
+         std::vector< position > positions;
       };
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

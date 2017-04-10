@@ -6,7 +6,6 @@
 
 #include "apply_mode.hpp"
 #include "config.hpp"
-#include "count_data.hpp"
 #include "nothing.hpp"
 #include "parse_error.hpp"
 #include "rewind_mode.hpp"
@@ -52,10 +51,10 @@ namespace tao
             Action< Rule >::apply0( st... );
          }
 
-         template< typename Input, template< typename... > class Action, typename... States >
-         static void apply( const count_data& begin, const count_data& end, const char* source, States&&... st )
+         template< typename Input, template< typename... > class Action, typename Iterator, typename... States >
+         static void apply( const Iterator begin, const Iterator end, const char* source, States&&... st )
          {
-            const Input in( begin, end.data, source );
+            const Input in( begin, end, source );
             Action< Rule >::apply( in, st... );
          }
 

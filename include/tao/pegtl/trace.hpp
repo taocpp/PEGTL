@@ -16,7 +16,6 @@
 #include "parse.hpp"
 #include "parse_memory.hpp"
 #include "parse_stream.hpp"
-#include "position_info.hpp"
 
 #include "internal/demangle.hpp"
 
