@@ -8,8 +8,6 @@
 
 #include "pegtl/ascii.hpp"
 #include "pegtl/parse.hpp"
-#include "pegtl/parse_memory.hpp"
-#include "pegtl/parse_stream.hpp"
 #include "pegtl/rules.hpp"
 #include "pegtl/utf16.hpp"
 #include "pegtl/utf32.hpp"
@@ -22,6 +20,10 @@
 // #include "pegtl/analyze.hpp"
 // #include "pegtl/parse_arg.hpp"
 // #include "pegtl/trace.hpp"
+
+#include "pegtl/parse_future.hpp"
+#include "pegtl/parse_memory.hpp"
+#include "pegtl/parse_stream.hpp"
 
 #include "pegtl/file_parser.hpp"
 #include "pegtl/string_parser.hpp"

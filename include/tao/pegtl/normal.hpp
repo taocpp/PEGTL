@@ -10,7 +10,7 @@
 #include "parse_error.hpp"
 #include "rewind_mode.hpp"
 
-#include "internal/action_input.hpp"
+#include "internal/memory_action_input.hpp"
 #include "internal/demangle.hpp"
 #include "internal/dusel_mode.hpp"
 #include "internal/duseltronik.hpp"

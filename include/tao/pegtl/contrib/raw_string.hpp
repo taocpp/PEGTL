@@ -9,7 +9,7 @@
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../internal/action_input.hpp"
+#include "../internal/memory_action_input.hpp"
 #include "../internal/iterator.hpp"
 #include "../internal/must.hpp"
 #include "../internal/skip_control.hpp"
@@ -45,6 +45,18 @@ namespace tao
             }
          };
 
+         void raw_adjust( const char*& i, const std::size_t s ) noexcept
+         {
+            i -= s;
+         }
+
+         void raw_adjust( internal::iterator& i, const std::size_t s ) noexcept
+         {
+            i.byte -= s;
+            i.byte_in_line -= s;
+            i.data -= s;
+         }
+
          template< typename Tag >
          struct raw_string_state_apply< true, false, Tag >
          {
@@ -55,7 +67,8 @@ namespace tao
                       typename... States >
             static void success( const State& s, const Input& in, States&&... st )
             {
-               const internal::iterator dend = { in.byte() - s.marker_size, in.line(), in.byte_in_line() - s.marker_size, in.begin() - s.marker_size };
+               auto dend = in.iterator();
+               raw_adjust( dend, s.marker_size );
                Control< Tag >::template apply< typename Input::action_t, Action >( s.iter, dend, in.source(), st... );
             }
          };

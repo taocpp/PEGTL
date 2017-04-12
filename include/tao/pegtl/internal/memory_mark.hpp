@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_INPUT_MARK_HPP
-#define TAOCPP_PEGTL_INCLUDE_INTERNAL_INPUT_MARK_HPP
+#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_MEMORY_MARK_HPP
+#define TAOCPP_PEGTL_INCLUDE_INTERNAL_MEMORY_MARK_HPP
 
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
@@ -16,21 +16,21 @@ namespace tao
       namespace internal
       {
          template< rewind_mode M >
-         class input_mark
+         class memory_mark
          {
          public:
             static constexpr rewind_mode next_rewind_mode = M;
 
-            explicit input_mark( const internal::iterator& )
+            explicit memory_mark( const internal::iterator& )
             {
             }
 
-            input_mark( input_mark&& ) noexcept
+            memory_mark( memory_mark&& ) noexcept
             {
             }
 
-            input_mark( const input_mark& ) = delete;
-            void operator=( const input_mark& ) = delete;
+            memory_mark( const memory_mark& ) = delete;
+            void operator=( const memory_mark& ) = delete;
 
             bool operator()( const bool result ) noexcept
             {
@@ -39,33 +39,33 @@ namespace tao
          };
 
          template<>
-         class input_mark< rewind_mode::REQUIRED >
+         class memory_mark< rewind_mode::REQUIRED >
          {
          public:
             static constexpr rewind_mode next_rewind_mode = rewind_mode::ACTIVE;
 
-            explicit input_mark( internal::iterator& i ) noexcept
+            explicit memory_mark( internal::iterator& i ) noexcept
                : m_saved( i ),
                  m_input( &i )
             {
             }
 
-            input_mark( input_mark&& i ) noexcept
+            memory_mark( memory_mark&& i ) noexcept
                : m_saved( i.m_saved ),
                  m_input( i.m_input )
             {
                i.m_input = nullptr;
             }
 
-            ~input_mark() noexcept
+            ~memory_mark() noexcept
             {
                if( m_input != nullptr ) {
                   ( *m_input ) = m_saved;
                }
             }
 
-            input_mark( const input_mark& ) = delete;
-            void operator=( const input_mark& ) = delete;
+            memory_mark( const memory_mark& ) = delete;
+            void operator=( const memory_mark& ) = delete;
 
             bool operator()( const bool result ) noexcept
             {

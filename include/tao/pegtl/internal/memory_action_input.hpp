@@ -1,8 +1,8 @@
 // Copyright (c) 2016-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_ACTION_INPUT_HPP
-#define TAOCPP_PEGTL_INCLUDE_INTERNAL_ACTION_INPUT_HPP
+#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_MEMORY_ACTION_INPUT_HPP
+#define TAOCPP_PEGTL_INCLUDE_INTERNAL_MEMORY_ACTION_INPUT_HPP
 
 #include <cstddef>
 #include <string>
@@ -22,14 +22,14 @@ namespace tao
       namespace internal
       {
          template< typename Eol >
-         class basic_action_input
+         class basic_memory_action_input
          {
          public:
             using eol_t = Eol;
-            using action_t = basic_action_input< Eol >;
             using memory_t = basic_memory_input< Eol >;
+            using action_t = basic_memory_action_input< Eol >;
 
-            basic_action_input( const internal::iterator& in_data, const internal::iterator& in_end, const char* in_source )
+            basic_memory_action_input( const internal::iterator& in_data, const internal::iterator& in_end, const char* in_source )
                : m_data( in_data ),
                  m_end( in_end.data ),
                  m_source( in_source )

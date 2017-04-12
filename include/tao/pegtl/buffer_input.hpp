@@ -12,10 +12,10 @@
 #include "eol.hpp"
 #include "position.hpp"
 
-#include "internal/action_input.hpp"
 #include "internal/bump_impl.hpp"
-#include "internal/input_mark.hpp"
 #include "internal/iterator.hpp"
+#include "internal/memory_action_input.hpp"
+#include "internal/memory_mark.hpp"
 
 namespace tao
 {
@@ -30,8 +30,8 @@ namespace tao
       public:
          using eol_t = Eol;
          using reader_t = Reader;
-         using action_t = internal::basic_action_input< Eol >;
          using memory_t = basic_memory_input< Eol >;
+         using action_t = internal::basic_memory_action_input< Eol >;
 
          template< typename... As >
          basic_buffer_input( const char* in_source, const std::size_t maximum, As&&... as )
@@ -138,9 +138,9 @@ namespace tao
          }
 
          template< rewind_mode M >
-         internal::input_mark< M > mark()
+         internal::memory_mark< M > mark()
          {
-            return internal::input_mark< M >( m_data );
+            return internal::memory_mark< M >( m_data );
          }
 
          TAOCPP_PEGTL_NAMESPACE::position position() const

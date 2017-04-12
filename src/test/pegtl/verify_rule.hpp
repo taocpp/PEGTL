@@ -15,9 +15,57 @@ namespace tao
    namespace TAOCPP_PEGTL_NAMESPACE
    {
       template< typename Rule >
-      void verify_rule( const std::size_t line, const char* file, const std::string& data, const result_type result, const std::size_t remain )
+      struct verify_action_impl
       {
-         verify_impl< Rule, lf_crlf_eol >( line, file, data, result, remain );
+         template< typename Input, typename... States >
+         static void apply( const Input&, States&&... )
+         {
+         }
+      };
+
+      template< typename Rule >
+      struct verify_action_impl0
+      {
+         template< typename... States >
+         static void apply0( States&&... )
+         {
+         }
+      };
+
+      template< typename Rule, typename Eol = lf_crlf_eol >
+      void verify_rule( const std::size_t line, const char* file, const std::string& data, const result_type expected, const std::size_t remain )
+      {
+         {
+            basic_memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
+            verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
+            basic_future_input< Eol > i2( data.data(), data.data() + data.size(), file );
+            verify_impl_one< Rule, nothing >( line, file, data, i2, expected, remain );
+         } {
+            basic_memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
+            verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
+            basic_future_input< Eol > i2( data.data(), data.data() + data.size(), file );
+            verify_impl_one< Rule, verify_action_impl >( line, file, data, i2, expected, remain );
+         } {
+            basic_memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
+            verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
+            basic_future_input< Eol > i2( data.data(), data.data() + data.size(), file );
+            verify_impl_one< Rule, verify_action_impl0 >( line, file, data, i2, expected, remain );
+         }
+      }
+
+      template< typename Rule, typename Eol = lf_crlf_eol >
+      void verify_only( const std::size_t line, const char* file, const std::string& data, const result_type expected, const std::size_t remain )
+      {
+         {
+            basic_memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
+            verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
+         } {
+            basic_memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
+            verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
+         } {
+            basic_memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
+            verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
+         }
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
