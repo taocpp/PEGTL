@@ -278,7 +278,7 @@ These rules are in namespace `tao::pegtl`.
 These rules replicate the intrusive way actions were attached to grammars in PEGTL 0.x versions.
 The `apply` and `if_apply`-rules allow actions to be explicitly called from within the grammar.
 The actions for these rules are classes (rather than class templates as required for the `parse()`-functions and `action<>`-rule).
-These rules respect the current `apply_mode`, but do *not* use the control-class to invoke the actions.
+These rules respect the current `apply_mode`, but do **not** use the control-class to invoke the actions.
 
 ###### `apply< A... >`
 
@@ -303,13 +303,15 @@ Atomic rules do not rely on other rules.
 
 ###### `bof`
 
-* Succeeds when the input is at the beginning-of-file, i.e. when the input's `byte()` method returns zero.
+* Succeeds at "beginning-of-file", i.e. when the input's `byte()` method returns zero.
 * Does not consume input.
+* Does **not** work with inputs that don't have a 'byte()` method.
 
 ###### `bol`
 
-* Succeeds when the input is at a beginning-of-line, i.e. when the input's `byte_in_line()` method returns zero.
+* Succeeds at "beginning-of-line", i.e. when the input's `byte_in_line()` method returns zero.
 * Does not consume input.
+* Does **not** work with inputs that don't have a 'byte_in_line()` method.
 
 ###### `bytes< Num >`
 
