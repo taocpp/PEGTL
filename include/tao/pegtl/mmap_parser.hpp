@@ -33,7 +33,7 @@ namespace tao
             return m_source;
          }
 
-         const memory_input& input() const
+         const basic_memory_input< Eol >& input() const
          {
             return m_input;
          }
