@@ -58,8 +58,8 @@ template< typename Rule,
           template< typename ... > class Control = normal,
           typename Input,
           typename ... States >
-bool parse_input( Input & in,
-                  States && ... st );
+bool parse( Input & in,
+            States && ... st );
 
 template< typename Rule,
           template< typename ... > class Action = nothing,
@@ -67,9 +67,9 @@ template< typename Rule,
           typename Outer,
           typename Input,
           typename ... States >
-bool parse_input_nested( const Outer & oi,
-                         Input & in,
-                         States && ... st );
+bool parse_nested( const Outer & oi,
+                   Input & in,
+                   States && ... st );
 ```
 
 #### Memory Parser Functions
@@ -176,15 +176,6 @@ template< typename Rule,
           template< typename ... > class Action = nothing,
           template< typename ... > class Control = normal,
           typename ... States >
-bool parse_cstring( const char * string,
-                    const char * source,
-                    const std::size_t maximum,
-                    States && ... st );
-
-template< typename Rule,
-          template< typename ... > class Action = nothing,
-          template< typename ... > class Control = normal,
-          typename ... States >
 bool parse_istream( std::istream & stream,
                     const std::string & source,
                     const std::size_t maximum,
@@ -201,17 +192,6 @@ template< typename Rule,
           typename ... States >
 bool parse_cstream_nested( const Outer & oi,
                            std::FILE * stream,
-                           const char * source,
-                           const std::size_t maximum,
-                           States && ... st );
-
-template< typename Rule,
-          template< typename ... > class Action = nothing,
-          template< typename ... > class Control = normal,
-          typename Outer,
-          typename ... States >
-bool parse_cstring_nested( const Outer & oi,
-                           const char * string,
                            const char * source,
                            const std::size_t maximum,
                            States && ... st );
