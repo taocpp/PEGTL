@@ -32,7 +32,7 @@ namespace tao
             memory_mark( const memory_mark& ) = delete;
             void operator=( const memory_mark& ) = delete;
 
-            bool operator()( const bool result ) noexcept
+            bool operator()( const bool result ) const noexcept
             {
                return result;
             }

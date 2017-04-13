@@ -30,7 +30,7 @@ namespace tao
             future_mark( const future_mark& ) = delete;
             void operator= ( const future_mark& ) = delete;
 
-            bool operator() ( const bool result )
+            bool operator() ( const bool result ) const noexcept
             {
                return result;
             }
@@ -64,7 +64,7 @@ namespace tao
             future_mark( const future_mark& ) = delete;
             void operator= ( const future_mark& ) = delete;
 
-            bool operator() ( const bool result )
+            bool operator() ( const bool result ) noexcept
             {
                if ( result ) {
                   m_input = nullptr;
@@ -73,12 +73,12 @@ namespace tao
                return false;
             }
 
-            const char* begin() const
+            const char* begin() const noexcept
             {
                return m_saved;
             }
 
-            const char* iterator() const
+            const char* iterator() const noexcept
             {
                return m_saved;
             }

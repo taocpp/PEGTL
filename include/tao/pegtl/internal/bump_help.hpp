@@ -24,7 +24,7 @@ namespace tao
          struct bump_impl< true >
          {
             template< typename Input >
-            static void bump( Input& in, const std::size_t count )
+            static void bump( Input& in, const std::size_t count ) noexcept
             {
                in.bump( count );
             }
@@ -34,7 +34,7 @@ namespace tao
          struct bump_impl< false >
          {
             template< typename Input >
-            static void bump( Input& in, const std::size_t count )
+            static void bump( Input& in, const std::size_t count ) noexcept
             {
                in.bump_in_this_line( count );
             }
@@ -49,7 +49,7 @@ namespace tao
          using bool_and = std::is_same< bool_list< Bs..., true >, bool_list< true, Bs... > >;
 
          template< result_on_found R, typename Input, typename Char, Char... Cs >
-         void bump_help( Input& in, const std::size_t count )
+         void bump_help( Input& in, const std::size_t count ) noexcept
          {
             using eol_t = typename Input::eol_t;
             bump_impl< bool_and< ( Cs != eol_t::ch )... >::value != bool( R ) >::bump( in, count );

@@ -115,7 +115,7 @@ namespace tao
             internal::bump_to_next_line( m_data, in_count );
          }
 
-         void discard()
+         void discard() noexcept
          {
             const auto s = m_end - m_data.data;
             std::memmove( m_buffer.get(), m_data.data, s );
@@ -138,12 +138,12 @@ namespace tao
          }
 
          template< rewind_mode M >
-         internal::memory_mark< M > mark()
+         internal::memory_mark< M > mark() noexcept
          {
             return internal::memory_mark< M >( m_data );
          }
 
-         TAOCPP_PEGTL_NAMESPACE::position position() const
+         TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
          {
             return TAOCPP_PEGTL_NAMESPACE::position( m_data, m_source );
          }

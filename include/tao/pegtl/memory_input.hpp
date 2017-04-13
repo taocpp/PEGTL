@@ -46,91 +46,91 @@ namespace tao
          {
          }
 
-         bool empty() const
+         bool empty() const noexcept
          {
             return m_end == m_data.data;
          }
 
-         std::size_t size( const std::size_t ) const
+         std::size_t size( const std::size_t ) const noexcept
          {
             return std::size_t( m_end - m_data.data );
          }
 
-         const char* begin() const
+         const char* begin() const noexcept
          {
             return m_data.data;
          }
 
-         const char* end( const std::size_t ) const
+         const char* end( const std::size_t ) const noexcept
          {
             return m_end;
          }
 
-         std::size_t byte() const
+         std::size_t byte() const noexcept
          {
             return m_data.byte;
          }
 
-         std::size_t line() const
+         std::size_t line() const noexcept
          {
             return m_data.line;
          }
 
-         std::size_t byte_in_line() const
+         std::size_t byte_in_line() const noexcept
          {
             return m_data.byte_in_line;
          }
 
-         const char* source() const
+         const char* source() const noexcept
          {
             return m_source;
          }
 
-         char peek_char( const std::size_t offset = 0 ) const
+         char peek_char( const std::size_t offset = 0 ) const noexcept
          {
             return m_data.data[ offset ];
          }
 
-         unsigned char peek_byte( const std::size_t offset = 0 ) const
+         unsigned char peek_byte( const std::size_t offset = 0 ) const noexcept
          {
             return static_cast< unsigned char >( peek_char( offset ) );
          }
 
-         void bump( const std::size_t in_count = 1 )
+         void bump( const std::size_t in_count = 1 ) noexcept
          {
             internal::bump( m_data, in_count, Eol::ch );
          }
 
-         void bump_in_this_line( const std::size_t in_count = 1 )
+         void bump_in_this_line( const std::size_t in_count = 1 ) noexcept
          {
             internal::bump_in_this_line( m_data, in_count );
          }
 
-         void bump_to_next_line( const std::size_t in_count = 1 )
+         void bump_to_next_line( const std::size_t in_count = 1 ) noexcept
          {
             internal::bump_to_next_line( m_data, in_count );
          }
 
-         void discard()
+         void discard() const noexcept
          {
          }
 
-         void require( const std::size_t )
+         void require( const std::size_t ) const noexcept
          {
          }
 
          template< rewind_mode M >
-         internal::memory_mark< M > mark()
+         internal::memory_mark< M > mark() noexcept
          {
             return internal::memory_mark< M >( m_data );
          }
 
-         TAOCPP_PEGTL_NAMESPACE::position position() const
+         TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
          {
             return TAOCPP_PEGTL_NAMESPACE::position( m_data, m_source );
          }
 
-         const internal::iterator& iterator() const
+         const internal::iterator& iterator() const noexcept
          {
             return m_data;
          }

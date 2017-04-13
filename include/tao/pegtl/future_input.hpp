@@ -25,83 +25,88 @@ namespace tao
          using memory_t = basic_future_input< Eol >;
          using action_t = internal::future_action_input< Eol >;
 
-         basic_future_input( const char* in_begin, const char* in_end, const char* in_source )
+         basic_future_input( const char* in_begin, const char* in_end, const char* in_source ) noexcept
             : m_all( in_begin ),
               m_run( in_begin ),
               m_end( in_end ),
               m_source( in_source )
          { }
 
-         bool empty() const
+         bool empty() const noexcept
          {
             return m_end == m_run;
          }
 
-         std::size_t size( const std::size_t ) const
+         std::size_t size( const std::size_t ) const noexcept
          {
             return std::size_t( m_end - m_run );
          }
 
-         const char* begin() const
+         const char* begin() const noexcept
          {
             return m_run;
          }
 
-         const char* end( const std::size_t ) const
+         const char* end( const std::size_t ) const noexcept
          {
             return m_end;
          }
 
-         const char* source() const
+         std::size_t byte() const noexcept
+         {
+            return std::size_t( m_run - m_all );
+         }
+
+         const char* source() const noexcept
          {
             return m_source;
          }
 
-         char peek_char( const std::size_t offset = 0 ) const
+         char peek_char( const std::size_t offset = 0 ) const noexcept
          {
             return m_run[ offset ];
          }
 
-         unsigned char peek_byte( const std::size_t offset = 0 ) const
+         unsigned char peek_byte( const std::size_t offset = 0 ) const noexcept
          {
             return static_cast< unsigned char >( peek_char( offset ) );
          }
 
-         void bump( const std::size_t in_count = 1 )
+         void bump( const std::size_t in_count = 1 ) noexcept
          {
             m_run += in_count;
          }
 
-         void bump_in_this_line( const std::size_t in_count = 1 )
+         void bump_in_this_line( const std::size_t in_count = 1 ) noexcept
          {
             m_run += in_count;
          }
 
-         void bump_to_next_line( const std::size_t in_count = 1 )
+         void bump_to_next_line( const std::size_t in_count = 1 ) noexcept
          {
             m_run += in_count;
          }
 
-         void discard()
+         void discard() const noexcept
          { }
 
-         void require( const std::size_t )
+         void require( const std::size_t ) const noexcept
          { }
 
          template< rewind_mode M >
-         internal::future_mark< M > mark()
+         internal::future_mark< M > mark() noexcept
          {
             return internal::future_mark< M >( m_run );
          }
 
-         TAOCPP_PEGTL_NAMESPACE::position position() const
+         TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
          {
             internal::iterator c{ 0, 1, 0, m_all };
             internal::bump( c, m_run - m_all, eol_t::ch );
             return TAOCPP_PEGTL_NAMESPACE::position( c, m_source );
          }
 
-         const char* iterator() const
+         const char* iterator() const noexcept
          {
             return m_run;
          }

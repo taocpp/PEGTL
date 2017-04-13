@@ -14,7 +14,7 @@ namespace tao
    {
       namespace internal
       {
-         inline void bump( iterator& iter, const std::size_t count, const int ch )
+         inline void bump( iterator& iter, const std::size_t count, const int ch ) noexcept
          {
             for( std::size_t i = 0; i < count; ++i ) {
                if( iter.data[ i ] == ch ) {
@@ -29,14 +29,14 @@ namespace tao
             iter.data += count;
          }
 
-         inline void bump_in_this_line( iterator& iter, const std::size_t count )
+         inline void bump_in_this_line( iterator& iter, const std::size_t count ) noexcept
          {
             iter.data += count;
             iter.byte += count;
             iter.byte_in_line += count;
          }
 
-         inline void bump_to_next_line( iterator& iter, const std::size_t count )
+         inline void bump_to_next_line( iterator& iter, const std::size_t count ) noexcept
          {
             ++iter.line;
             iter.byte += count;
