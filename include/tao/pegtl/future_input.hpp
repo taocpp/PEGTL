@@ -10,8 +10,8 @@
 #include "position.hpp"
 #include "rewind_mode.hpp"
 
-#include "internal/future_mark.hpp"
 #include "internal/future_action_input.hpp"
+#include "internal/future_mark.hpp"
 
 namespace tao
 {
@@ -30,7 +30,8 @@ namespace tao
               m_run( in_begin ),
               m_end( in_end ),
               m_source( in_source )
-         { }
+         {
+         }
 
          bool empty() const noexcept
          {
@@ -88,10 +89,12 @@ namespace tao
          }
 
          void discard() const noexcept
-         { }
+         {
+         }
 
          void require( const std::size_t ) const noexcept
-         { }
+         {
+         }
 
          template< rewind_mode M >
          internal::future_mark< M > mark() noexcept
@@ -120,8 +123,8 @@ namespace tao
 
       using future_input = basic_future_input< lf_crlf_eol >;
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

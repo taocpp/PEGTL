@@ -40,12 +40,14 @@ namespace tao
             verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
             basic_future_input< Eol > i2( data.data(), data.data() + data.size(), file );
             verify_impl_one< Rule, nothing >( line, file, data, i2, expected, remain );
-         } {
+         }
+         {
             basic_memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
             verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
             basic_future_input< Eol > i2( data.data(), data.data() + data.size(), file );
             verify_impl_one< Rule, verify_action_impl >( line, file, data, i2, expected, remain );
-         } {
+         }
+         {
             basic_memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
             verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
             basic_future_input< Eol > i2( data.data(), data.data() + data.size(), file );
@@ -59,10 +61,12 @@ namespace tao
          {
             basic_memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
             verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
-         } {
+         }
+         {
             basic_memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
             verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
-         } {
+         }
+         {
             basic_memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
             verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
          }

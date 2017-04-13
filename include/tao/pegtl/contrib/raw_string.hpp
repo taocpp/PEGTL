@@ -9,8 +9,8 @@
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../internal/memory_action_input.hpp"
 #include "../internal/iterator.hpp"
+#include "../internal/memory_action_input.hpp"
 #include "../internal/must.hpp"
 #include "../internal/skip_control.hpp"
 #include "../internal/state.hpp"

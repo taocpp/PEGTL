@@ -13,13 +13,13 @@ namespace tao
    {
       namespace internal
       {
-         template< rewind_mode M > class future_mark
+         template< rewind_mode M >
+         class future_mark
          {
          public:
             static constexpr rewind_mode next_rewind_mode = M;
 
-            explicit
-            future_mark( const char*& )
+            explicit future_mark( const char*& )
             {
             }
 
@@ -28,24 +28,25 @@ namespace tao
             }
 
             future_mark( const future_mark& ) = delete;
-            void operator= ( const future_mark& ) = delete;
+            void operator=( const future_mark& ) = delete;
 
-            bool operator() ( const bool result ) const noexcept
+            bool operator()( const bool result ) const noexcept
             {
                return result;
             }
          };
 
-         template<> class future_mark< rewind_mode::REQUIRED >
+         template<>
+         class future_mark< rewind_mode::REQUIRED >
          {
          public:
             static constexpr rewind_mode next_rewind_mode = rewind_mode::ACTIVE;
 
-            explicit
-            future_mark( const char*& i ) noexcept
+            explicit future_mark( const char*& i ) noexcept
                : m_saved( i ),
                  m_input( &i )
-            { }
+            {
+            }
 
             future_mark( future_mark&& i ) noexcept
                : m_saved( i.m_saved ),
@@ -56,17 +57,17 @@ namespace tao
 
             ~future_mark()
             {
-               if ( m_input != nullptr ) {
+               if( m_input != nullptr ) {
                   ( *m_input ) = m_saved;
                }
             }
 
             future_mark( const future_mark& ) = delete;
-            void operator= ( const future_mark& ) = delete;
+            void operator=( const future_mark& ) = delete;
 
-            bool operator() ( const bool result ) noexcept
+            bool operator()( const bool result ) noexcept
             {
-               if ( result ) {
+               if( result ) {
                   m_input = nullptr;
                   return true;
                }
@@ -88,10 +89,10 @@ namespace tao
             const char** m_input;
          };
 
-      } // namespace internal
+      }  // namespace internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

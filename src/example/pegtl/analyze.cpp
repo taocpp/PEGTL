@@ -9,10 +9,14 @@ using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 struct bar;
 
 struct foo
-   : sor< digit, bar > {};
+   : sor< digit, bar >
+{
+};
 
 struct bar
-   : plus< foo > {};
+   : plus< foo >
+{
+};
 
 int main( int, char** )
 {

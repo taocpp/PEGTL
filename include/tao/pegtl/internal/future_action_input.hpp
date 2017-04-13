@@ -72,10 +72,10 @@ namespace tao
             const char* m_end;
          };
 
-      } // internal
+      }  // internal
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif

@@ -33,7 +33,7 @@ namespace tao
             const char* data;
          };
 
-      } // namespace internal
+      }  // namespace internal
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
 
