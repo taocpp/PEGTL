@@ -43,13 +43,13 @@ These rules are in namespace `tao::pegtl`.
 ###### `action< A, R... >`
 
 * Equivalent to `seq< R... >`, but:
-* Uses the given action class template `A` for actions.
+* Uses the given class template `A` for [actions](Actions-and-States.md).
 * Actions can still be disabled explicitly (via `disable`) or implicitly (via `at` or `not_at`).
 
 ###### `control< C, R... >`
 
 * Equivalent to `seq< R... >`, but:
-* Uses the given control class template `C` for raising errors and debug hooks.
+* Uses the given class template `C` as [control class](Control-Hooks.md).
 
 ###### `disable< R... >`
 
