@@ -305,13 +305,13 @@ Atomic rules do not rely on other rules.
 
 * Succeeds at "beginning-of-file", i.e. when the input's `byte()` method returns zero.
 * Does not consume input.
-* Does **not** work with inputs that don't have a 'byte()` method.
+* Does **not** work with inputs that don't have a `byte()` method.
 
 ###### `bol`
 
 * Succeeds at "beginning-of-line", i.e. when the input's `byte_in_line()` method returns zero.
 * Does not consume input.
-* Does **not** work with inputs that don't have a 'byte_in_line()` method.
+* Does **not** work with inputs that don't have a `byte_in_line()` method.
 
 ###### `bytes< Num >`
 
