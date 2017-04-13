@@ -29,6 +29,7 @@
   * Added support for parsing C++ streams, i.e. `std::istream`.
   * Added incremental input support rule `discard`.
   * Added the byte position to input classes and `position_info`.
+  * Added fast parsing without line counting (except in errors).
   * Removed the `begin` member from class `position_info`.
   * Refactored the `input` class into multiple classes.
   * Refactored the handling of nested parsing.
