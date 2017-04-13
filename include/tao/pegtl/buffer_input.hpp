@@ -159,7 +159,7 @@ namespace tao
          std::unique_ptr< char[] > m_buffer;
          internal::iterator m_data;
          const char* m_end;
-         const char* m_source;
+         const char* const m_source;
       };
 
       template< typename Reader >

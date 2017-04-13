@@ -137,8 +137,8 @@ namespace tao
 
       private:
          internal::iterator m_data;
-         const char* m_end;
-         const char* m_source;
+         const char* const m_end;
+         const char* const m_source;
       };
 
       using memory_input = basic_memory_input< lf_crlf_eol >;

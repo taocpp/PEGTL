@@ -115,10 +115,10 @@ namespace tao
          }
 
       private:
-         const char* m_all;
+         const char* const m_all;
          const char* m_run;
-         const char* m_end;
-         const char* m_source;
+         const char* const m_end;
+         const char* const m_source;
       };
 
       using future_input = basic_future_input< lf_crlf_eol >;
