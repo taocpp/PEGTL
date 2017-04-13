@@ -101,7 +101,7 @@ $ ./hello_world 'Hello, world!'
 Good bye, world!
 $ ./hello_world 'Hello, Colin!'
 Good bye, Colin!
-$ ./hello_world 'Hallo, Paula!'
+$ ./hello_world 'Howdy, Paula!'
 terminate called after throwing an instance of 'tao::pegtl::parse_error'
   what():  argv[1]:1:0: parse error matching hello::prefix
 Aborted (core dumped)
