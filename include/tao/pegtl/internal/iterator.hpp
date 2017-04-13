@@ -18,6 +18,14 @@ namespace tao
          {
             iterator() = default;
 
+            iterator( const char* in_data ) noexcept
+               : byte( 0 ),
+                 line( 1 ),
+                 byte_in_line( 0 ),
+                 data( in_data )
+            {
+            }
+
             iterator( const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line, const char* in_data ) noexcept
                : byte( in_byte ),
                  line( in_line ),

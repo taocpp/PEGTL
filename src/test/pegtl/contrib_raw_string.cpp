@@ -38,7 +38,7 @@ namespace tao
       void verify_data( const std::size_t line, const char* file, const char ( &m )[ M ], const char ( &n )[ N ] )
       {
          content.clear();
-         memory_input i( { 0, line, 0, m }, m + M - 1, file );
+         memory_input<> i( { 0, line, 0, m }, m + M - 1, file );
          const auto r = parse< Rule, rsaction >( i );
          if( ( !r ) || ( content != std::string( n, N - 1 ) ) ) {
             TAOCPP_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r << " ]" );

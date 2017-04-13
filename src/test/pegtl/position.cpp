@@ -12,7 +12,7 @@ namespace tao
       {
          static const std::string s1 = "\n";
 
-         memory_input i1( { 0, 1, 0, s1.data() }, s1.data() + s1.size(), __FUNCTION__ );
+         memory_input<> i1( { 0, 1, 0, s1.data() }, s1.data() + s1.size(), __FUNCTION__ );
 
          TAOCPP_PEGTL_TEST_ASSERT( parse< Rule >( i1 ) );
          TAOCPP_PEGTL_TEST_ASSERT( i1.line() == 2 );
@@ -24,7 +24,7 @@ namespace tao
       {
          TAOCPP_PEGTL_TEST_ASSERT( s2.size() == 1 );
 
-         memory_input i2( { 0, 1, 0, s2.data() }, s2.data() + s2.size(), __FUNCTION__ );
+         memory_input<> i2( { 0, 1, 0, s2.data() }, s2.data() + s2.size(), __FUNCTION__ );
 
          TAOCPP_PEGTL_TEST_ASSERT( parse< Rule >( i2 ) );
          TAOCPP_PEGTL_TEST_ASSERT( i2.line() == 1 );
@@ -36,7 +36,7 @@ namespace tao
       {
          TAOCPP_PEGTL_TEST_ASSERT( s3.size() == 1 );
 
-         memory_input i3( { 0, 1, 0, s3.data() }, s3.data() + s3.size(), __FUNCTION__ );
+         memory_input<> i3( { 0, 1, 0, s3.data() }, s3.data() + s3.size(), __FUNCTION__ );
 
          TAOCPP_PEGTL_TEST_ASSERT( !parse< Rule >( i3 ) );
          TAOCPP_PEGTL_TEST_ASSERT( i3.line() == 1 );

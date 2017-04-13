@@ -27,7 +27,7 @@ namespace tao
                 typename... States >
       bool parse_memory( const char* data, const char* dend, const char* source, States&&... st )
       {
-         memory_input in( data, dend, source );
+         memory_input< position_tracking::IMMEDIATE > in( data, dend, source );
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
 
@@ -62,7 +62,7 @@ namespace tao
                 typename... States >
       bool parse_memory_nested( const Outer& oi, const char* data, const char* dend, const char* source, States&&... st )
       {
-         basic_memory_input< typename Outer::eol_t > in( data, dend, source );
+         basic_memory_input< typename Outer::eol_t, position_tracking::IMMEDIATE > in( data, dend, source );
          return parse_nested< Rule, Action, Control, A, M >( oi, in, st... );
       }
 

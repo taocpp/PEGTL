@@ -9,7 +9,7 @@
 
 #include "apply_mode.hpp"
 #include "config.hpp"
-#include "future_input.hpp"
+#include "memory_input.hpp"
 #include "normal.hpp"
 #include "nothing.hpp"
 #include "parse.hpp"
@@ -27,7 +27,7 @@ namespace tao
                 typename... States >
       bool parse_future( const char* data, const char* dend, const char* source, States&&... st )
       {
-         future_input in( data, dend, source );
+         memory_input< position_tracking::LAZY > in( data, dend, source );
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
 
@@ -62,7 +62,7 @@ namespace tao
                 typename... States >
       bool parse_future_nested( const Outer& oi, const char* data, const char* dend, const char* source, States&&... st )
       {
-         basic_future_input< typename Outer::eol_t > in( data, dend, source );
+         basic_memory_input< typename Outer::eol_t, position_tracking::LAZY > in( data, dend, source );
          return parse_nested< Rule, Action, Control, A, M >( oi, in, st... );
       }
 

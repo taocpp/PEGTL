@@ -12,12 +12,13 @@
 #include "normal.hpp"
 #include "nothing.hpp"
 #include "parse.hpp"
+#include "position_tracking.hpp"
 
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Eol >
+      template< typename Eol, position_tracking P = position_tracking::IMMEDIATE >
       class basic_mmap_parser
       {
       public:
@@ -33,7 +34,7 @@ namespace tao
             return m_source;
          }
 
-         const basic_memory_input< Eol >& input() const
+         const basic_memory_input< Eol, P >& input() const
          {
             return m_input;
          }
@@ -66,7 +67,7 @@ namespace tao
       private:
          internal::file_mapper m_file;
          std::string m_source;
-         basic_memory_input< Eol > m_input;
+         basic_memory_input< Eol, P > m_input;
       };
 
       using mmap_parser = basic_mmap_parser< lf_crlf_eol >;

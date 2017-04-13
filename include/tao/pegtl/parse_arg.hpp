@@ -33,7 +33,7 @@ namespace tao
          os << "argv[" << argn << ']';
          const std::string source = os.str();
          assert( argv[ argn ] );
-         memory_input in( argv[ argn ], argv[ argn ] + std::strlen( argv[ argn ] ), source.c_str() );
+         memory_input<> in( argv[ argn ], argv[ argn ] + std::strlen( argv[ argn ] ), source.c_str() );
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
 

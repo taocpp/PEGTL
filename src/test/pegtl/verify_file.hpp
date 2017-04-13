@@ -105,7 +105,7 @@ namespace tao
             TAOCPP_PEGTL_TEST_ASSERT( flag == true );
          }
          const char* foo = "foo";
-         const memory_input m{ foo, foo + 3, foo };
+         const memory_input<> m{ foo, foo + 3, foo };
          {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T p{ f };
