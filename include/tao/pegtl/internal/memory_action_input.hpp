@@ -96,11 +96,6 @@ namespace tao
                return TAOCPP_PEGTL_NAMESPACE::position( m_data, m_source );
             }
 
-            const internal::iterator& iterator() const
-            {
-               return m_data;
-            }
-
          private:
             internal::iterator m_data;
             const char* m_end;
