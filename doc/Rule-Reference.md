@@ -381,7 +381,8 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 
 ###### `eol`
 
-* Matches and consumes a Unix or MS-DOS line ending.
+* Depends on the `Eol` template parameter of the input, by default:
+* Matches and consumes a Unix or MS-DOS line ending, that is:
 * Equivalent to `sor< one< '\n' >, string< '\r', '\n' > >`.
 
 ###### `eolf`
