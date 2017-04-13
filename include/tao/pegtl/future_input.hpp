@@ -11,7 +11,7 @@
 #include "rewind_mode.hpp"
 
 #include "internal/future_action_input.hpp"
-#include "internal/future_mark.hpp"
+#include "internal/marker.hpp"
 
 namespace tao
 {
@@ -97,9 +97,9 @@ namespace tao
          }
 
          template< rewind_mode M >
-         internal::future_mark< M > mark() noexcept
+         internal::marker< const char*, M > mark() noexcept
          {
-            return internal::future_mark< M >( m_run );
+            return internal::marker< const char*, M >( m_run );
          }
 
          TAOCPP_PEGTL_NAMESPACE::position position() const noexcept

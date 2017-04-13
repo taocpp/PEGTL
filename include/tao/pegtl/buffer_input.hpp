@@ -14,8 +14,8 @@
 
 #include "internal/bump_impl.hpp"
 #include "internal/iterator.hpp"
+#include "internal/marker.hpp"
 #include "internal/memory_action_input.hpp"
-#include "internal/memory_mark.hpp"
 
 namespace tao
 {
@@ -138,9 +138,9 @@ namespace tao
          }
 
          template< rewind_mode M >
-         internal::memory_mark< M > mark() noexcept
+         internal::marker< internal::iterator, M > mark() noexcept
          {
-            return internal::memory_mark< M >( m_data );
+            return internal::marker< internal::iterator, M >( m_data );
          }
 
          TAOCPP_PEGTL_NAMESPACE::position position() const noexcept

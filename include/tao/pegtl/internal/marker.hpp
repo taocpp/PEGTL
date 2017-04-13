@@ -1,8 +1,8 @@
-// Copyright (c) 2017 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_FUTURE_MARK_HPP
-#define TAOCPP_PEGTL_INCLUDE_INTERNAL_FUTURE_MARK_HPP
+#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_MARKER_HPP
+#define TAOCPP_PEGTL_INCLUDE_INTERNAL_MARKER_HPP
 
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
@@ -13,22 +13,22 @@ namespace tao
    {
       namespace internal
       {
-         template< rewind_mode M >
-         class future_mark
+         template< typename Iterator, rewind_mode M >
+         class marker
          {
          public:
             static constexpr rewind_mode next_rewind_mode = M;
 
-            explicit future_mark( const char*& )
+            explicit marker( const Iterator& )
             {
             }
 
-            future_mark( future_mark&& ) noexcept
+            marker( marker&& ) noexcept
             {
             }
 
-            future_mark( const future_mark& ) = delete;
-            void operator=( const future_mark& ) = delete;
+            marker( const marker& ) = delete;
+            void operator=( const marker& ) = delete;
 
             bool operator()( const bool result ) const noexcept
             {
@@ -36,34 +36,34 @@ namespace tao
             }
          };
 
-         template<>
-         class future_mark< rewind_mode::REQUIRED >
+         template< typename Iterator >
+         class marker< Iterator, rewind_mode::REQUIRED >
          {
          public:
             static constexpr rewind_mode next_rewind_mode = rewind_mode::ACTIVE;
 
-            explicit future_mark( const char*& i ) noexcept
+            explicit marker( Iterator& i ) noexcept
                : m_saved( i ),
                  m_input( &i )
             {
             }
 
-            future_mark( future_mark&& i ) noexcept
+            marker( marker&& i ) noexcept
                : m_saved( i.m_saved ),
                  m_input( i.m_input )
             {
                i.m_input = nullptr;
             }
 
-            ~future_mark()
+            ~marker() noexcept
             {
                if( m_input != nullptr ) {
                   ( *m_input ) = m_saved;
                }
             }
 
-            future_mark( const future_mark& ) = delete;
-            void operator=( const future_mark& ) = delete;
+            marker( const marker& ) = delete;
+            void operator=( const marker& ) = delete;
 
             bool operator()( const bool result ) noexcept
             {
@@ -74,19 +74,14 @@ namespace tao
                return false;
             }
 
-            const char* begin() const noexcept
-            {
-               return m_saved;
-            }
-
-            const char* iterator() const noexcept
+            const Iterator& iterator() const noexcept
             {
                return m_saved;
             }
 
          private:
-            const char* m_saved;
-            const char** m_input;
+            const Iterator m_saved;
+            Iterator* m_input;
          };
 
       }  // namespace internal
