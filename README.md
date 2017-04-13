@@ -39,7 +39,7 @@ The included [grammar analysis](doc/Grammar-Analysis.md) finds several typical e
 
 ### Design
 
-The PEGTL is designed to be "lean and mean", the core library consists of approximately 4000 lines of code.
+The PEGTL is designed to be "lean and mean", the core library consists of approximately 5000 lines of code.
 Emphasis is on simplicity and efficiency, preferring a well-tuned simple approach over complicated optimisations.
 
 The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user of the library (the possibility of) full control over all other aspects of a parsing run. Whether/which actions are taken, and whether/which data structures are created during a parsing run, is entirely up to the user.
