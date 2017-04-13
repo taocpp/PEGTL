@@ -35,6 +35,8 @@ struct bar
 
 When attempting to match `bar` against an input where the next character is not a digit the parser immediately goes into an infinite loop between `bar` calling `foo` and then `foo` calling `bar` again.
 
+As shown by the example program `src/example/pegtl/analyze.cpp`, the grammar analysis will correctly detect a cycle without loop in this grammar.
+
 Due to the differences regarding back-tracking and non-deterministic behaviour, this kind of infinite loop is a frequent issue when translating a CFG into a PEG.
 
 ## Background
