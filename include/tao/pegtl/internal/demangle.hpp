@@ -12,7 +12,7 @@
 #if defined( __GLIBCXX__ )
 #include "demangle_cxxabi.hpp"
 #elif defined( __has_include )
-#if __has_include( < cxxabi.h > )
+#if __has_include( <cxxabi.h> )
 #include "demangle_cxxabi.hpp"
 #else
 #include "demangle_nop.hpp"
