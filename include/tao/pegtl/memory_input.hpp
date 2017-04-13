@@ -51,16 +51,6 @@ namespace tao
          {
          }
 
-         bool empty() const noexcept
-         {
-            return m_end == m_data.data;
-         }
-
-         std::size_t size( const std::size_t ) const noexcept
-         {
-            return std::size_t( m_end - m_data.data );
-         }
-
          const char* begin() const noexcept
          {
             return m_data.data;
@@ -69,6 +59,16 @@ namespace tao
          const char* end( const std::size_t ) const noexcept
          {
             return m_end;
+         }
+
+         bool empty() const noexcept
+         {
+            return begin() == m_end;
+         }
+
+         std::size_t size( const std::size_t ) const noexcept
+         {
+            return std::size_t( m_end - begin() );
          }
 
          std::size_t byte() const noexcept
@@ -93,7 +93,7 @@ namespace tao
 
          char peek_char( const std::size_t offset = 0 ) const noexcept
          {
-            return m_data.data[ offset ];
+            return begin()[ offset ];
          }
 
          unsigned char peek_byte( const std::size_t offset = 0 ) const noexcept
@@ -162,16 +162,6 @@ namespace tao
          {
          }
 
-         bool empty() const noexcept
-         {
-            return m_end == m_run;
-         }
-
-         std::size_t size( const std::size_t ) const noexcept
-         {
-            return std::size_t( m_end - m_run );
-         }
-
          const char* begin() const noexcept
          {
             return m_run;
@@ -182,9 +172,19 @@ namespace tao
             return m_end;
          }
 
+         bool empty() const noexcept
+         {
+            return begin() == m_end;
+         }
+
+         std::size_t size( const std::size_t ) const noexcept
+         {
+            return std::size_t( m_end - begin() );
+         }
+
          std::size_t byte() const noexcept
          {
-            return std::size_t( m_run - m_all );
+            return std::size_t( begin() - m_all );
          }
 
          const char* source() const noexcept
@@ -194,7 +194,7 @@ namespace tao
 
          char peek_char( const std::size_t offset = 0 ) const noexcept
          {
-            return m_run[ offset ];
+            return begin()[ offset ];
          }
 
          unsigned char peek_byte( const std::size_t offset = 0 ) const noexcept
