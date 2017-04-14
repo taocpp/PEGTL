@@ -13,10 +13,10 @@
 #include "position.hpp"
 #include "position_tracking.hpp"
 
+#include "internal/action_input.hpp"
 #include "internal/bump_impl.hpp"
 #include "internal/iterator.hpp"
 #include "internal/marker.hpp"
-#include "internal/memory_action_input.hpp"
 
 namespace tao
 {
@@ -32,7 +32,7 @@ namespace tao
          using eol_t = Eol;
          using reader_t = Reader;
          using memory_t = basic_memory_input< Eol, position_tracking::IMMEDIATE >;
-         using action_t = internal::basic_memory_action_input< Eol, position_tracking::IMMEDIATE >;
+         using action_t = internal::action_input< Eol, position_tracking::IMMEDIATE >;
 
          template< typename... As >
          basic_buffer_input( const char* in_source, const std::size_t maximum, As&&... as )

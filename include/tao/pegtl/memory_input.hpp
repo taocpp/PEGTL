@@ -14,10 +14,10 @@
 #include "position.hpp"
 #include "position_tracking.hpp"
 
+#include "internal/action_input.hpp"
 #include "internal/bump_impl.hpp"
 #include "internal/iterator.hpp"
 #include "internal/marker.hpp"
-#include "internal/memory_action_input.hpp"
 
 namespace tao
 {
@@ -197,7 +197,7 @@ namespace tao
       public:
          using eol_t = Eol;
          using memory_t = basic_memory_input;
-         using action_t = internal::basic_memory_action_input< Eol, P >;
+         using action_t = internal::action_input< Eol, P >;
 
          using internal::basic_memory_input_base< Eol, P >::basic_memory_input_base;
 
