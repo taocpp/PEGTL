@@ -24,6 +24,7 @@ namespace tao
       template< typename Rule,
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
+                position_tracking P = position_tracking::IMMEDIATE,
                 apply_mode A = apply_mode::ACTION,
                 rewind_mode M = rewind_mode::REQUIRED,
                 typename... States >
@@ -33,7 +34,7 @@ namespace tao
          os << "argv[" << argn << ']';
          const std::string source = os.str();
          assert( argv[ argn ] );
-         memory_input<> in( argv[ argn ], argv[ argn ] + std::strlen( argv[ argn ] ), source.c_str() );
+         memory_input< P > in( argv[ argn ], argv[ argn ] + std::strlen( argv[ argn ] ), source.c_str() );
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
 
