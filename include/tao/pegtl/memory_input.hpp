@@ -14,7 +14,6 @@
 #include "position_tracking.hpp"
 
 #include "internal/bump_impl.hpp"
-#include "internal/future_action_input.hpp"
 #include "internal/iterator.hpp"
 #include "internal/marker.hpp"
 #include "internal/memory_action_input.hpp"
@@ -32,7 +31,7 @@ namespace tao
       public:
          using eol_t = Eol;
          using memory_t = basic_memory_input;
-         using action_t = internal::basic_memory_action_input< Eol >;
+         using action_t = internal::basic_memory_action_input< Eol, position_tracking::IMMEDIATE >;
 
          basic_memory_input( const char* in_begin, const char* in_end, const char* in_source )
             : basic_memory_input( { 0, 1, 0, in_begin }, in_end, in_source )
@@ -152,7 +151,7 @@ namespace tao
       public:
          using eol_t = Eol;
          using memory_t = basic_memory_input;
-         using action_t = internal::future_action_input< Eol >;
+         using action_t = internal::basic_memory_action_input< Eol, position_tracking::LAZY >;
 
          basic_memory_input( const char* in_begin, const char* in_end, const char* in_source ) noexcept
             : m_all( in_begin ),

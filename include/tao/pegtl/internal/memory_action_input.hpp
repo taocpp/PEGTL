@@ -22,29 +22,22 @@ namespace tao
 
       namespace internal
       {
+         template< typename Eol, position_tracking >
+         class basic_memory_action_input;
+
          template< typename Eol >
-         class basic_memory_action_input
+         class basic_memory_action_input< Eol, position_tracking::IMMEDIATE >
          {
          public:
             using eol_t = Eol;
             using memory_t = basic_memory_input< Eol, position_tracking::IMMEDIATE >;
-            using action_t = basic_memory_action_input< Eol >;
+            using action_t = basic_memory_action_input;
 
             basic_memory_action_input( const internal::iterator& in_data, const internal::iterator& in_end, const char* in_source )
                : m_data( in_data ),
                  m_end( in_end.data ),
                  m_source( in_source )
             {
-            }
-
-            bool empty() const
-            {
-               return m_data.data == m_end;
-            }
-
-            std::size_t size( const std::size_t = 0 ) const
-            {
-               return std::size_t( m_end - m_data.data );
             }
 
             const char* begin() const
@@ -55,6 +48,16 @@ namespace tao
             const char* end( const std::size_t = 0 ) const
             {
                return m_end;
+            }
+
+            bool empty() const
+            {
+               return begin() == m_end;
+            }
+
+            std::size_t size( const std::size_t = 0 ) const
+            {
+               return std::size_t( m_end - begin() );
             }
 
             std::size_t byte() const
@@ -84,7 +87,7 @@ namespace tao
 
             char peek_char( const std::size_t offset = 0 ) const
             {
-               return m_data.data[ offset ];
+               return begin()[ offset ];
             }
 
             unsigned char peek_byte( const std::size_t offset = 0 ) const
@@ -101,6 +104,60 @@ namespace tao
             internal::iterator m_data;
             const char* m_end;
             const char* m_source;
+         };
+
+         template< typename Eol >
+         class basic_memory_action_input< Eol, position_tracking::LAZY >
+         {
+         public:
+            using eol_t = Eol;
+            using memory_t = basic_memory_input< Eol, position_tracking::LAZY >;
+            using action_t = basic_memory_action_input;
+
+            basic_memory_action_input( const char* in_begin, const char* in_end, const char* )
+               : m_begin( in_begin ),
+                 m_end( in_end )
+            {
+            }
+
+            const char* begin() const
+            {
+               return m_begin;
+            }
+
+            const char* end( const std::size_t = 0 ) const
+            {
+               return m_end;
+            }
+
+            bool empty() const
+            {
+               return begin() == m_end;
+            }
+
+            std::size_t size( const std::size_t = 0 ) const
+            {
+               return std::size_t( m_end - begin() );
+            }
+
+            std::string string() const
+            {
+               return std::string( begin(), end() );
+            }
+
+            char peek_char( const std::size_t offset = 0 ) const
+            {
+               return begin()[ offset ];
+            }
+
+            unsigned char peek_byte( const std::size_t offset = 0 ) const
+            {
+               return static_cast< unsigned char >( peek_char( offset ) );
+            }
+
+         private:
+            const char* m_begin;
+            const char* m_end;
          };
 
       }  // namespace internal

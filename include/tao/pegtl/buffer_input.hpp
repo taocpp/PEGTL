@@ -32,7 +32,7 @@ namespace tao
          using eol_t = Eol;
          using reader_t = Reader;
          using memory_t = basic_memory_input< Eol, position_tracking::IMMEDIATE >;
-         using action_t = internal::basic_memory_action_input< Eol >;
+         using action_t = internal::basic_memory_action_input< Eol, position_tracking::IMMEDIATE >;
 
          template< typename... As >
          basic_buffer_input( const char* in_source, const std::size_t maximum, As&&... as )
