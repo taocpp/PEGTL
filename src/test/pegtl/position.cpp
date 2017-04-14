@@ -70,14 +70,14 @@ namespace tao
             TAOCPP_PEGTL_TEST_ASSERT( p.byte == 2 );
             TAOCPP_PEGTL_TEST_ASSERT( p.line == 1 );
             TAOCPP_PEGTL_TEST_ASSERT( p.byte_in_line == 2 );
-            parse_string_nested< inner_grammar >( in, "dFF", "inner" );
+            parse_memory_nested< inner_grammar >( in, { "dFF", "inner" } );
          }
       };
 
       void test_nested()
       {
          try {
-            parse_string< outer_grammar, outer_action >( "aabbcc", "outer" );
+            parse_memory< outer_grammar, outer_action >( { "aabbcc", "outer" } );
          }
          catch( const parse_error& e ) {
             TAOCPP_PEGTL_TEST_ASSERT( e.positions.size() == 2 );

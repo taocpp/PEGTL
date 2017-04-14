@@ -59,7 +59,7 @@ int main()
          break;
       }
       double d = 0.0;
-      if( tao::TAOCPP_PEGTL_NAMESPACE::parse_string< sum::grammar, sum::action >( str, "std::cin", d ) ) {
+      if( tao::TAOCPP_PEGTL_NAMESPACE::parse_memory< sum::grammar, sum::action >( { str, "std::cin" }, d ) ) {
          std::cout << "parsing OK; sum = " << d << std::endl;
       }
       else {

@@ -11,13 +11,13 @@ using GRAMMAR = tao::TAOCPP_PEGTL_NAMESPACE::must< tao::TAOCPP_PEGTL_NAMESPACE::
 
 void test( const std::string& in )
 {
-   tao::TAOCPP_PEGTL_NAMESPACE::parse_string< GRAMMAR >( in, "test" );
+   tao::TAOCPP_PEGTL_NAMESPACE::parse_memory< GRAMMAR >( { in, "test" } );
 }
 
 void fail( const std::string& in )
 {
    try {
-      tao::TAOCPP_PEGTL_NAMESPACE::parse_string< GRAMMAR >( in, "expect_exception" );
+      tao::TAOCPP_PEGTL_NAMESPACE::parse_memory< GRAMMAR >( { in, "expect_exception" } );
       std::cerr << "FAILED: " << in << std::endl;
       assert( false );
    }

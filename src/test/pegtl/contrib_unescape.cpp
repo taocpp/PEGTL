@@ -33,7 +33,7 @@ namespace tao
       void verify_data( const char ( &m )[ M ], const char ( &n )[ N ] )
       {
          unescape::state st;
-         parse_string< unstring, unaction >( std::string( m, M - 1 ), __FUNCTION__, st );
+         parse_memory< unstring, unaction >( { m, M - 1, __FUNCTION__ }, st );
          if( st.unescaped != std::string( n, N - 1 ) ) {
             throw std::runtime_error( "test failed!" );
          }

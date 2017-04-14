@@ -27,74 +27,27 @@ namespace tao
                 apply_mode A = apply_mode::ACTION,
                 rewind_mode M = rewind_mode::REQUIRED,
                 typename... States >
-      bool parse_memory( const char* data, const char* dend, const char* source, States&&... st )
+      bool parse_memory( memory_input< P > in, States&&... st )
       {
-         memory_input< P > in( data, dend, source );
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
 
       template< typename Rule,
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
-                position_tracking P = position_tracking::IMMEDIATE,
-                apply_mode A = apply_mode::ACTION,
-                rewind_mode M = rewind_mode::REQUIRED,
-                typename... States >
-      bool parse_memory( const char* data, const std::size_t size, const char* source, States&&... st )
-      {
-         return parse_memory< Rule, Action, Control, P, A, M >( data, data + size, source, st... );
-      }
-
-      template< typename Rule,
-                template< typename... > class Action = nothing,
-                template< typename... > class Control = normal,
-                position_tracking P = position_tracking::IMMEDIATE,
-                apply_mode A = apply_mode::ACTION,
-                rewind_mode M = rewind_mode::REQUIRED,
-                typename... States >
-      bool parse_string( const std::string& data, const std::string& source, States&&... st )
-      {
-         return parse_memory< Rule, Action, Control, P, A, M >( data.data(), data.data() + data.size(), source.c_str(), st... );
-      }
-
-      template< typename Rule,
-                template< typename... > class Action = nothing,
-                template< typename... > class Control = normal,
-                position_tracking P = position_tracking::IMMEDIATE,
                 apply_mode A = apply_mode::ACTION,
                 rewind_mode M = rewind_mode::REQUIRED,
                 typename Outer,
                 typename... States >
-      bool parse_memory_nested( const Outer& oi, const char* data, const char* dend, const char* source, States&&... st )
+      bool parse_memory_nested( const Outer& oi, basic_memory_input< typename Outer::eol_t, Outer::position_tracking_v > in, States&&... st )
       {
-         basic_memory_input< typename Outer::eol_t, P > in( data, dend, source );
-         return parse_nested< Rule, Action, Control, A, M >( oi, in, st... );
-      }
-
-      template< typename Rule,
-                template< typename... > class Action = nothing,
-                template< typename... > class Control = normal,
-                position_tracking P = position_tracking::IMMEDIATE,
-                apply_mode A = apply_mode::ACTION,
-                rewind_mode M = rewind_mode::REQUIRED,
-                typename Outer,
-                typename... States >
-      bool parse_memory_nested( const Outer& oi, const char* data, const std::size_t size, const char* source, States&&... st )
-      {
-         return parse_memory_nested< Rule, Action, Control, P, A, M >( oi, data, data + size, source, st... );
-      }
-
-      template< typename Rule,
-                template< typename... > class Action = nothing,
-                template< typename... > class Control = normal,
-                position_tracking P = position_tracking::IMMEDIATE,
-                apply_mode A = apply_mode::ACTION,
-                rewind_mode M = rewind_mode::REQUIRED,
-                typename Outer,
-                typename... States >
-      bool parse_string_nested( const Outer& oi, const std::string& data, const std::string& source, States&&... st )
-      {
-         return parse_memory_nested< Rule, Action, Control, P, A, M >( oi, data.data(), data.data() + data.size(), source.c_str(), st... );
+         try {
+            return parse< Rule, Action, Control, A, M >( in, st... );
+         }
+         catch( parse_error& e ) {
+            e.positions.push_back( oi.position() );
+            throw;
+         }
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

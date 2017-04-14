@@ -30,6 +30,8 @@ namespace tao
          {
          public:
             using eol_t = Eol;
+            static constexpr position_tracking position_tracking_v = position_tracking::IMMEDIATE;
+
             using memory_t = basic_memory_input< Eol, position_tracking::IMMEDIATE >;
             using action_t = basic_memory_action_input;
 
@@ -111,6 +113,8 @@ namespace tao
          {
          public:
             using eol_t = Eol;
+            static constexpr position_tracking position_tracking_v = position_tracking::LAZY;
+
             using memory_t = basic_memory_input< Eol, position_tracking::LAZY >;
             using action_t = basic_memory_action_input;
 

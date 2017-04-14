@@ -33,20 +33,30 @@ namespace tao
          using memory_t = basic_memory_input;
          using action_t = internal::basic_memory_action_input< Eol, position_tracking::IMMEDIATE >;
 
+         basic_memory_input( const internal::iterator& in_iter, const char* in_end, const char* in_source )
+            : m_data( in_iter ),
+              m_end( in_end ),
+              m_source( in_source )
+         {
+         }
+
          basic_memory_input( const char* in_begin, const char* in_end, const char* in_source )
             : basic_memory_input( { 0, 1, 0, in_begin }, in_end, in_source )
          {
          }
 
-         basic_memory_input( const char* in_begin, const char* in_end, const char* in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line )
-            : basic_memory_input( { in_byte, in_line, in_byte_in_line, in_begin }, in_end, in_source )
+         basic_memory_input( const char* in_begin, const std::size_t in_size, const char* in_source )
+            : basic_memory_input( in_begin, in_begin + in_size, in_source )
          {
          }
 
-         basic_memory_input( const internal::iterator& in_iter, const char* in_end, const char* in_source )
-            : m_data( in_iter ),
-              m_end( in_end ),
-              m_source( in_source )
+         basic_memory_input( const std::string& in, const char* in_source )
+            : basic_memory_input( in.data(), in.size(), in_source )
+         {
+         }
+
+         basic_memory_input( const char* in_begin, const char* in_end, const char* in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line )
+            : basic_memory_input( { in_byte, in_line, in_byte_in_line, in_begin }, in_end, in_source )
          {
          }
 

@@ -13,7 +13,7 @@ namespace tao
 
       void unit_test()
       {
-         if( !tao::TAOCPP_PEGTL_NAMESPACE::trace_string< GRAMMAR >( "ab", "trace test please ignore" ) ) {
+         if( !tao::TAOCPP_PEGTL_NAMESPACE::parse_memory< GRAMMAR, tao::TAOCPP_PEGTL_NAMESPACE::nothing, tao::TAOCPP_PEGTL_NAMESPACE::tracer >( { "ab", "trace test please ignore" } ) ) {
             ++failed;
          }
       }
