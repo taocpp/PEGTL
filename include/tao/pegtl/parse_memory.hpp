@@ -6,6 +6,7 @@
 
 #include "apply_mode.hpp"
 #include "config.hpp"
+#include "eol.hpp"
 #include "memory_input.hpp"
 #include "normal.hpp"
 #include "nothing.hpp"
@@ -20,11 +21,12 @@ namespace tao
       template< typename Rule,
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
+                typename Eol = lf_crlf_eol,
                 position_tracking P = position_tracking::IMMEDIATE,
                 apply_mode A = apply_mode::ACTION,
                 rewind_mode M = rewind_mode::REQUIRED,
                 typename... States >
-      bool parse_memory( memory_input< P > in, States&&... st )
+      bool parse_memory( basic_memory_input< Eol, P > in, States&&... st )
       {
          return parse< Rule, Action, Control, A, M >( in, st... );
       }

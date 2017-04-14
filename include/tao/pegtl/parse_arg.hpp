@@ -11,6 +11,7 @@
 
 #include "apply_mode.hpp"
 #include "config.hpp"
+#include "eol.hpp"
 #include "memory_input.hpp"
 #include "normal.hpp"
 #include "nothing.hpp"
@@ -24,6 +25,7 @@ namespace tao
       template< typename Rule,
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
+                typename Eol = lf_crlf_eol,
                 position_tracking P = position_tracking::IMMEDIATE,
                 apply_mode A = apply_mode::ACTION,
                 rewind_mode M = rewind_mode::REQUIRED,
@@ -34,7 +36,7 @@ namespace tao
          os << "argv[" << argn << ']';
          const std::string source = os.str();
          assert( argv[ argn ] );
-         memory_input< P > in( argv[ argn ], argv[ argn ] + std::strlen( argv[ argn ] ), source.c_str() );
+         basic_memory_input< Eol, P > in( argv[ argn ], argv[ argn ] + std::strlen( argv[ argn ] ), source.c_str() );
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
 
