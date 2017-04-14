@@ -114,7 +114,7 @@ the exception.
 
 The PEGTL requires a C++11-capable compiler, e.g. one of
 
-* GCC 4.7
+* GCC 4.8
 * Clang 3.4
 * Visual Studio 2015
 

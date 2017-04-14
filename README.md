@@ -74,7 +74,7 @@ Each commit is [automatically](https://travis-ci.org/taocpp/PEGTL) [tested](http
 * Linux (using libstdc++)
 
   * Debian 8 (i386), GCC 4.9
-  * Ubuntu 12.04 LTS (amd64), GCC 4.7, 4.8, 4.9, 5, 6
+  * Ubuntu 12.04 LTS (amd64), GCC 4.8, 4.9, 5, 6
   * Ubuntu 12.04 LTS (amd64), Clang 3.4, 3.5, 3.6, 3.7, 3.8
   * Ubuntu 14.04 LTS (amd64), Clang 3.9, 4.0
   * Ubuntu 14.04 LTS (i386, amd64), GCC 4.8
