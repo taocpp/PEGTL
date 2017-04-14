@@ -4,9 +4,6 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_PARSE_MEMORY_HPP
 #define TAOCPP_PEGTL_INCLUDE_PARSE_MEMORY_HPP
 
-#include <cstddef>
-#include <string>
-
 #include "apply_mode.hpp"
 #include "config.hpp"
 #include "memory_input.hpp"
