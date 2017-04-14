@@ -196,6 +196,8 @@ namespace tao
       {
       public:
          using eol_t = Eol;
+         static constexpr position_tracking position_tracking_v = P;
+
          using memory_t = basic_memory_input;
          using action_t = internal::action_input< Eol, P >;
 

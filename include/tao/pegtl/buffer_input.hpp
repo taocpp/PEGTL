@@ -31,6 +31,7 @@ namespace tao
       public:
          using eol_t = Eol;
          using reader_t = Reader;
+
          using memory_t = basic_memory_input< Eol, position_tracking::IMMEDIATE >;
          using action_t = internal::action_input< Eol, position_tracking::IMMEDIATE >;
 

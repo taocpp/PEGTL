@@ -25,6 +25,7 @@
 #include "pegtl/parse_stream.hpp"
 
 #include "pegtl/file_parser.hpp"
+#include "pegtl/read_parser.hpp"
 #include "pegtl/string_parser.hpp"
 
 #endif
