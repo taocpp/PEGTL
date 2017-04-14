@@ -19,7 +19,7 @@ namespace tao
       void verify_fail( const std::size_t line, const char* file, const std::string& s, States&&... st )
       {
          try {
-            parse_memory< Rule, Action >( { s, "expect_exception" }, st... );
+            parse_memory< Rule, Action >( { s }, st... );
             TAOCPP_PEGTL_TEST_FAILED( "expected exception" );
          }
          catch( ... ) {
