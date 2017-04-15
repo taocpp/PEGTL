@@ -10,7 +10,7 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      enum class position_tracking
+      enum class position_tracking : bool
       {
          IMMEDIATE,
          LAZY
