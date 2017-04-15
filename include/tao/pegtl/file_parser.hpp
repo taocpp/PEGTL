@@ -11,8 +11,8 @@
 #include "eol.hpp"
 #include "normal.hpp"
 #include "nothing.hpp"
-#include "position_tracking.hpp"
 #include "rewind_mode.hpp"
+#include "tracking_mode.hpp"
 
 #if defined( __unix__ ) || ( defined( __APPLE__ ) && defined( __MACH__ ) )
 #include <unistd.h>  // Required for _POSIX_MAPPED_FILES
@@ -29,10 +29,10 @@ namespace tao
    namespace TAOCPP_PEGTL_NAMESPACE
    {
 #if defined( _POSIX_MAPPED_FILES )
-      template< typename Eol = lf_crlf_eol, position_tracking P = position_tracking::IMMEDIATE >
+      template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
       using file_parser = mmap_parser< Eol, P >;
 #else
-      template< typename Eol = lf_crlf_eol, position_tracking P = position_tracking::IMMEDIATE >
+      template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
       using file_parser = read_parser< Eol, P >;
 #endif
 
@@ -40,7 +40,7 @@ namespace tao
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
                 typename Eol = lf_crlf_eol,
-                position_tracking P = position_tracking::IMMEDIATE,
+                tracking_mode P = tracking_mode::IMMEDIATE,
                 apply_mode A = apply_mode::ACTION,
                 rewind_mode M = rewind_mode::REQUIRED,
                 typename... States >
@@ -58,7 +58,7 @@ namespace tao
                 typename... States >
       bool parse_file_nested( const Outer& oi, const std::string& filename, States&&... st )
       {
-         return file_parser< typename Outer::eol_t, Outer::position_tracking_v >( filename ).template parse_nested< Rule, Action, Control, A, M >( oi, st... );
+         return file_parser< typename Outer::eol_t, Outer::tracking_mode_v >( filename ).template parse_nested< Rule, Action, Control, A, M >( oi, st... );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

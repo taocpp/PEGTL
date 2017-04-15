@@ -13,8 +13,8 @@
 #include "normal.hpp"
 #include "nothing.hpp"
 #include "parse.hpp"
-#include "position_tracking.hpp"
 #include "rewind_mode.hpp"
+#include "tracking_mode.hpp"
 
 #include "internal/file_mapper.hpp"
 
@@ -22,7 +22,7 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Eol = lf_crlf_eol, position_tracking P = position_tracking::IMMEDIATE >
+      template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
       class mmap_parser
       {
       public:
@@ -76,7 +76,7 @@ namespace tao
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
                 typename Eol = lf_crlf_eol,
-                position_tracking P = position_tracking::IMMEDIATE,
+                tracking_mode P = tracking_mode::IMMEDIATE,
                 apply_mode A = apply_mode::ACTION,
                 rewind_mode M = rewind_mode::REQUIRED,
                 typename... States >
@@ -94,7 +94,7 @@ namespace tao
                 typename... States >
       bool parse_mmap_nested( const Outer& oi, const std::string& filename, States&&... st )
       {
-         return mmap_parser< typename Outer::eol_t, Outer::position_tracking_v >( filename ).template parse_nested< Rule, Action, Control, A, M >( oi, st... );
+         return mmap_parser< typename Outer::eol_t, Outer::tracking_mode_v >( filename ).template parse_nested< Rule, Action, Control, A, M >( oi, st... );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

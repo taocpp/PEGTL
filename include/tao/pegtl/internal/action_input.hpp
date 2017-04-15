@@ -12,23 +12,23 @@
 #include "../config.hpp"
 #include "../eol.hpp"
 #include "../position.hpp"
-#include "../position_tracking.hpp"
+#include "../tracking_mode.hpp"
 
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      // template< typename Eol = lf_crlf_eol, position_tracking P = position_tracking::IMMEDIATE >
-      template< typename, position_tracking >
+      // template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
+      template< typename, tracking_mode >
       class memory_input;
 
       namespace internal
       {
-         template< typename Eol, position_tracking >
+         template< typename Eol, tracking_mode >
          class action_input_base;
 
          template< typename Eol >
-         class action_input_base< Eol, position_tracking::IMMEDIATE >
+         class action_input_base< Eol, tracking_mode::IMMEDIATE >
          {
          public:
             action_input_base( const iterator& in_data, const iterator& in_end, const char* in_source ) noexcept
@@ -80,7 +80,7 @@ namespace tao
          };
 
          template< typename Eol >
-         class action_input_base< Eol, position_tracking::LAZY >
+         class action_input_base< Eol, tracking_mode::LAZY >
          {
          public:
             action_input_base( const char* in_begin, const char* in_end, const char* ) noexcept
@@ -104,13 +104,13 @@ namespace tao
             const char* const m_end;
          };
 
-         template< typename Eol, position_tracking P >
+         template< typename Eol, tracking_mode P >
          class action_input
             : public action_input_base< Eol, P >
          {
          public:
             using eol_t = Eol;
-            static constexpr position_tracking position_tracking_v = P;
+            static constexpr tracking_mode tracking_mode_v = P;
 
             using memory_t = memory_input< Eol, P >;
             using action_t = action_input;

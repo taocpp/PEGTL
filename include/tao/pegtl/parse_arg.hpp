@@ -26,7 +26,7 @@ namespace tao
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
                 typename Eol = lf_crlf_eol,
-                position_tracking P = position_tracking::IMMEDIATE,
+                tracking_mode P = tracking_mode::IMMEDIATE,
                 apply_mode A = apply_mode::ACTION,
                 rewind_mode M = rewind_mode::REQUIRED,
                 typename... States >

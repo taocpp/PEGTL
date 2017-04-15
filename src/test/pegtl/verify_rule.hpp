@@ -38,19 +38,19 @@ namespace tao
          {
             memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
             verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
-            memory_input< Eol, position_tracking::LAZY > i2( data.data(), data.data() + data.size(), file );
+            memory_input< Eol, tracking_mode::LAZY > i2( data.data(), data.data() + data.size(), file );
             verify_impl_one< Rule, nothing >( line, file, data, i2, expected, remain );
          }
          {
             memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
             verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
-            memory_input< Eol, position_tracking::LAZY > i2( data.data(), data.data() + data.size(), file );
+            memory_input< Eol, tracking_mode::LAZY > i2( data.data(), data.data() + data.size(), file );
             verify_impl_one< Rule, verify_action_impl >( line, file, data, i2, expected, remain );
          }
          {
             memory_input< Eol > in( { 0, line, 0, data.data() }, data.data() + data.size(), file );
             verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
-            memory_input< Eol, position_tracking::LAZY > i2( data.data(), data.data() + data.size(), file );
+            memory_input< Eol, tracking_mode::LAZY > i2( data.data(), data.data() + data.size(), file );
             verify_impl_one< Rule, verify_action_impl0 >( line, file, data, i2, expected, remain );
          }
       }

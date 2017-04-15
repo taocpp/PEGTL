@@ -13,13 +13,13 @@
 #include "normal.hpp"
 #include "nothing.hpp"
 #include "parse.hpp"
-#include "position_tracking.hpp"
+#include "tracking_mode.hpp"
 
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Eol = lf_crlf_eol, position_tracking P = position_tracking::IMMEDIATE >
+      template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
       class string_parser
       {
       public:

@@ -12,7 +12,7 @@
 #include "config.hpp"
 #include "eol.hpp"
 #include "position.hpp"
-#include "position_tracking.hpp"
+#include "tracking_mode.hpp"
 
 #include "internal/action_input.hpp"
 #include "internal/bump_impl.hpp"
@@ -25,11 +25,11 @@ namespace tao
    {
       namespace internal
       {
-         template< typename Eol, position_tracking >
+         template< typename Eol, tracking_mode >
          class memory_input_base;
 
          template< typename Eol >
-         class memory_input_base< Eol, position_tracking::IMMEDIATE >
+         class memory_input_base< Eol, tracking_mode::IMMEDIATE >
          {
          public:
             memory_input_base( const internal::iterator& in_iter, const char* in_end, const char* in_source ) noexcept
@@ -117,7 +117,7 @@ namespace tao
          };
 
          template< typename Eol >
-         class memory_input_base< Eol, position_tracking::LAZY >
+         class memory_input_base< Eol, tracking_mode::LAZY >
          {
          public:
             memory_input_base( const char* in_begin, const char* in_end, const char* in_source ) noexcept
@@ -190,13 +190,13 @@ namespace tao
 
       }  // namespace internal
 
-      template< typename Eol = lf_crlf_eol, position_tracking P = position_tracking::IMMEDIATE >
+      template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
       class memory_input
          : public internal::memory_input_base< Eol, P >
       {
       public:
          using eol_t = Eol;
-         static constexpr position_tracking position_tracking_v = P;
+         static constexpr tracking_mode tracking_mode_v = P;
 
          using memory_t = memory_input;
          using action_t = internal::action_input< Eol, P >;

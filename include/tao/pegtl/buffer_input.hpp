@@ -12,7 +12,7 @@
 #include "eol.hpp"
 #include "memory_input.hpp"
 #include "position.hpp"
-#include "position_tracking.hpp"
+#include "tracking_mode.hpp"
 
 #include "internal/action_input.hpp"
 #include "internal/bump_impl.hpp"
@@ -31,7 +31,7 @@ namespace tao
          using eol_t = Eol;
 
          using memory_t = memory_input< Eol >;
-         using action_t = internal::action_input< Eol, position_tracking::IMMEDIATE >;
+         using action_t = internal::action_input< Eol, tracking_mode::IMMEDIATE >;
 
          template< typename... As >
          buffer_input( const char* in_source, const std::size_t maximum, As&&... as )
