@@ -10,6 +10,7 @@
 #include "iterator.hpp"
 
 #include "../config.hpp"
+#include "../eol.hpp"
 #include "../position.hpp"
 #include "../position_tracking.hpp"
 
@@ -17,8 +18,9 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Eol, position_tracking >
-      class basic_memory_input;
+      // template< typename Eol = lf_crlf_eol, position_tracking P = position_tracking::IMMEDIATE >
+      template< typename, position_tracking >
+      class memory_input;
 
       namespace internal
       {
@@ -110,7 +112,7 @@ namespace tao
             using eol_t = Eol;
             static constexpr position_tracking position_tracking_v = P;
 
-            using memory_t = basic_memory_input< Eol, P >;
+            using memory_t = memory_input< Eol, P >;
             using action_t = action_input;
 
             using action_input_base< Eol, P >::action_input_base;

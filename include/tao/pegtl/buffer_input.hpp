@@ -10,6 +10,7 @@
 
 #include "config.hpp"
 #include "eol.hpp"
+#include "memory_input.hpp"
 #include "position.hpp"
 #include "position_tracking.hpp"
 
@@ -22,21 +23,18 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Eol, position_tracking >
-      class basic_memory_input;
-
-      template< typename Eol, typename Reader >
-      class basic_buffer_input
+      template< typename Reader, typename Eol = lf_crlf_eol >
+      class buffer_input
       {
       public:
-         using eol_t = Eol;
          using reader_t = Reader;
+         using eol_t = Eol;
 
-         using memory_t = basic_memory_input< Eol, position_tracking::IMMEDIATE >;
+         using memory_t = memory_input< Eol >;
          using action_t = internal::action_input< Eol, position_tracking::IMMEDIATE >;
 
          template< typename... As >
-         basic_buffer_input( const char* in_source, const std::size_t maximum, As&&... as )
+         buffer_input( const char* in_source, const std::size_t maximum, As&&... as )
             : m_reader( std::forward< As >( as )... ),
               m_maximum( maximum ),
               m_buffer( new char[ maximum ] ),
@@ -46,8 +44,8 @@ namespace tao
          {
          }
 
-         basic_buffer_input( const basic_buffer_input& ) = delete;
-         void operator=( const basic_buffer_input& ) = delete;
+         buffer_input( const buffer_input& ) = delete;
+         void operator=( const buffer_input& ) = delete;
 
          bool empty()
          {
@@ -163,9 +161,6 @@ namespace tao
          const char* m_end;
          const char* const m_source;
       };
-
-      template< typename Reader >
-      using buffer_input = basic_buffer_input< lf_crlf_eol, Reader >;
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
 

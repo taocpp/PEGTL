@@ -38,7 +38,7 @@ namespace tao
             return m_source;
          }
 
-         const basic_memory_input< Eol, P >& input() const noexcept
+         const memory_input< Eol, P >& input() const noexcept
          {
             return m_input;
          }
@@ -69,7 +69,7 @@ namespace tao
       private:
          const internal::file_mapper m_file;
          const std::string m_source;
-         basic_memory_input< Eol, P > m_input;
+         memory_input< Eol, P > m_input;
       };
 
       using mmap_parser = basic_mmap_parser< lf_crlf_eol >;

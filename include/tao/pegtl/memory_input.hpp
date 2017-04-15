@@ -26,26 +26,26 @@ namespace tao
       namespace internal
       {
          template< typename Eol, position_tracking >
-         class basic_memory_input_base;
+         class memory_input_base;
 
          template< typename Eol >
-         class basic_memory_input_base< Eol, position_tracking::IMMEDIATE >
+         class memory_input_base< Eol, position_tracking::IMMEDIATE >
          {
          public:
-            basic_memory_input_base( const internal::iterator& in_iter, const char* in_end, const char* in_source ) noexcept
+            memory_input_base( const internal::iterator& in_iter, const char* in_end, const char* in_source ) noexcept
                : m_data( in_iter ),
                  m_end( in_end ),
                  m_source( in_source )
             {
             }
 
-            basic_memory_input_base( const char* in_begin, const char* in_end, const char* in_source ) noexcept
-               : basic_memory_input_base( internal::iterator( in_begin ), in_end, in_source )
+            memory_input_base( const char* in_begin, const char* in_end, const char* in_source ) noexcept
+               : memory_input_base( internal::iterator( in_begin ), in_end, in_source )
             {
             }
 
-            basic_memory_input_base( const char* in_begin, const char* in_end, const char* in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept
-               : basic_memory_input_base( { in_byte, in_line, in_byte_in_line, in_begin }, in_end, in_source )
+            memory_input_base( const char* in_begin, const char* in_end, const char* in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept
+               : memory_input_base( { in_byte, in_line, in_byte_in_line, in_begin }, in_end, in_source )
             {
             }
 
@@ -117,10 +117,10 @@ namespace tao
          };
 
          template< typename Eol >
-         class basic_memory_input_base< Eol, position_tracking::LAZY >
+         class memory_input_base< Eol, position_tracking::LAZY >
          {
          public:
-            basic_memory_input_base( const char* in_begin, const char* in_end, const char* in_source ) noexcept
+            memory_input_base( const char* in_begin, const char* in_end, const char* in_source ) noexcept
                : m_all( in_begin ),
                  m_run( in_begin ),
                  m_end( in_end ),
@@ -190,31 +190,31 @@ namespace tao
 
       }  // namespace internal
 
-      template< typename Eol, position_tracking P >
-      class basic_memory_input
-         : public internal::basic_memory_input_base< Eol, P >
+      template< typename Eol = lf_crlf_eol, position_tracking P = position_tracking::IMMEDIATE >
+      class memory_input
+         : public internal::memory_input_base< Eol, P >
       {
       public:
          using eol_t = Eol;
          static constexpr position_tracking position_tracking_v = P;
 
-         using memory_t = basic_memory_input;
+         using memory_t = memory_input;
          using action_t = internal::action_input< Eol, P >;
 
-         using internal::basic_memory_input_base< Eol, P >::basic_memory_input_base;
+         using internal::memory_input_base< Eol, P >::memory_input_base;
 
-         basic_memory_input( const char* in_begin, const std::size_t in_size, const char* in_source ) noexcept
-            : basic_memory_input( in_begin, in_begin + in_size, in_source )
+         memory_input( const char* in_begin, const std::size_t in_size, const char* in_source ) noexcept
+            : memory_input( in_begin, in_begin + in_size, in_source )
          {
          }
 
-         basic_memory_input( const std::string& in_string, const char* in_source = "std::string" ) noexcept
-            : basic_memory_input( in_string.data(), in_string.size(), in_source )
+         memory_input( const std::string& in_string, const char* in_source = "std::string" ) noexcept
+            : memory_input( in_string.data(), in_string.size(), in_source )
          {
          }
 
-         basic_memory_input( const char* in_begin, const char* in_source = "const char*" ) noexcept
-            : basic_memory_input( in_begin, std::strlen( in_begin ), in_source )
+         memory_input( const char* in_begin, const char* in_source = "const char*" ) noexcept
+            : memory_input( in_begin, std::strlen( in_begin ), in_source )
          {
          }
 
@@ -246,9 +246,6 @@ namespace tao
          {
          }
       };
-
-      template< position_tracking P = position_tracking::IMMEDIATE >
-      using memory_input = basic_memory_input< lf_crlf_eol, P >;
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
 

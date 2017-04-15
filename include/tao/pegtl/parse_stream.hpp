@@ -10,6 +10,7 @@
 #include "apply_mode.hpp"
 #include "buffer_input.hpp"
 #include "config.hpp"
+#include "eol.hpp"
 #include "normal.hpp"
 #include "nothing.hpp"
 #include "parse.hpp"
@@ -25,24 +26,26 @@ namespace tao
       template< typename Rule,
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
+                typename Eol = lf_crlf_eol,
                 apply_mode A = apply_mode::ACTION,
                 rewind_mode M = rewind_mode::REQUIRED,
                 typename... States >
       bool parse_cstream( std::FILE* stream, const char* source, const std::size_t maximum, States&&... st )
       {
-         buffer_input< internal::cstream_reader > in( source, maximum, stream );
+         buffer_input< internal::cstream_reader, Eol > in( source, maximum, stream );
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
 
       template< typename Rule,
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
+                typename Eol = lf_crlf_eol,
                 apply_mode A = apply_mode::ACTION,
                 rewind_mode M = rewind_mode::REQUIRED,
                 typename... States >
       bool parse_istream( std::istream& stream, const std::string& source, const std::size_t maximum, States&&... st )
       {
-         buffer_input< internal::istream_reader > in( source.c_str(), maximum, stream );
+         buffer_input< internal::istream_reader, Eol > in( source.c_str(), maximum, stream );
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
 
@@ -55,7 +58,7 @@ namespace tao
                 typename... States >
       bool parse_cstream_nested( const Outer& oi, std::FILE* stream, const char* source, const std::size_t maximum, States&&... st )
       {
-         basic_buffer_input< typename Outer::eol_t, internal::cstream_reader > in( source, maximum, stream );
+         buffer_input< internal::cstream_reader, typename Outer::eol_t > in( source, maximum, stream );
          return parse_nested< Rule, Action, Control, A, M >( oi, in, st... );
       }
 
@@ -68,7 +71,7 @@ namespace tao
                 typename... States >
       bool parse_istream_nested( const Outer& oi, std::istream& stream, const std::string& source, const std::size_t maximum, States&&... st )
       {
-         basic_buffer_input< typename Outer::eol_t, internal::istream_reader > in( source.c_str(), maximum, stream );
+         buffer_input< internal::istream_reader, typename Outer::eol_t > in( source.c_str(), maximum, stream );
          return parse_nested< Rule, Action, Control, A, M >( oi, in, st... );
       }
 

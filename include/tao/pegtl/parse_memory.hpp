@@ -26,7 +26,7 @@ namespace tao
                 apply_mode A = apply_mode::ACTION,
                 rewind_mode M = rewind_mode::REQUIRED,
                 typename... States >
-      bool parse_memory( basic_memory_input< Eol, P > in, States&&... st )
+      bool parse_memory( memory_input< Eol, P > in, States&&... st )
       {
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
@@ -38,7 +38,7 @@ namespace tao
                 rewind_mode M = rewind_mode::REQUIRED,
                 typename Outer,
                 typename... States >
-      bool parse_memory_nested( const Outer& oi, basic_memory_input< typename Outer::eol_t, Outer::position_tracking_v > in, States&&... st )
+      bool parse_memory_nested( const Outer& oi, memory_input< typename Outer::eol_t, Outer::position_tracking_v > in, States&&... st )
       {
          try {
             return parse< Rule, Action, Control, A, M >( in, st... );
