@@ -21,11 +21,11 @@ namespace tao
       {
          struct filename_holder
          {
-            const std::string data;
+            const std::string filename;
 
             template< typename T >
-            explicit filename_holder( T&& in_data )
-               : data( std::forward< T >( in_data ) )
+            explicit filename_holder( T&& in_filename )
+               : filename( std::forward< T >( in_filename ) )
             {
             }
          };
@@ -37,10 +37,10 @@ namespace tao
          : private internal::filename_holder,
            public string_input< Eol, P >
       {
-         template< typename T >
-         explicit read_input( T&& filename )
-            : internal::filename_holder( std::forward< T >( filename ) ),
-              string_input< Eol, P >( internal::file_reader( data.c_str() ).read(), data.c_str() )
+         template< typename T, typename... Ts >
+         explicit read_input( T&& in_filename, Ts&&... ts )
+            : internal::filename_holder( std::forward< T >( in_filename ) ),
+              string_input< Eol, P >( internal::file_reader( filename.c_str() ).read(), filename.c_str(), std::forward< Ts >( ts )... )
          {
          }
       };
