@@ -171,10 +171,10 @@ namespace csv2
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      tao::TAOCPP_PEGTL_NAMESPACE::file_parser<> fp( argv[ i ] );
+      tao::TAOCPP_PEGTL_NAMESPACE::file_input<> in( argv[ i ] );
       constexpr unsigned number_of_columns = 3;
       csv2::result_data< number_of_columns > data;
-      fp.parse< tao::TAOCPP_PEGTL_NAMESPACE::must< csv2::file< number_of_columns > >, csv2::action >( data );
+      tao::TAOCPP_PEGTL_NAMESPACE::parse< tao::TAOCPP_PEGTL_NAMESPACE::must< csv2::file< number_of_columns > >, csv2::action >( in, data );
       for( const auto& line : data.result ) {
          csv2::print_tuple( line );
       }

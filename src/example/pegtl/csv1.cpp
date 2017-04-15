@@ -86,9 +86,9 @@ namespace csv1
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      tao::TAOCPP_PEGTL_NAMESPACE::file_parser<> fp( argv[ i ] );
+      tao::TAOCPP_PEGTL_NAMESPACE::file_input<> in( argv[ i ] );
       csv1::result_data data;
-      fp.parse< tao::TAOCPP_PEGTL_NAMESPACE::must< csv1::file >, csv1::action, csv1::control >( data );
+      tao::TAOCPP_PEGTL_NAMESPACE::parse< tao::TAOCPP_PEGTL_NAMESPACE::must< csv1::file >, csv1::action, csv1::control >( in, data );
       for( const auto& line : data ) {
          assert( !line.empty() );  // The grammar doesn't allow empty lines.
          std::cout << line.front();

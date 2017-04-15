@@ -1,7 +1,7 @@
 // Copyright (c) 2015-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <tao/pegtl/file_parser.hpp>
+#include <tao/pegtl/file_input.hpp>
 
 #if defined( _POSIX_MAPPED_FILES )
 

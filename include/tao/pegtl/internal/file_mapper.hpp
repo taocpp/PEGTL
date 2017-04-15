@@ -22,7 +22,7 @@ namespace tao
          class file_mapper
          {
          public:
-            explicit file_mapper( const std::string& filename )
+            explicit file_mapper( const char* filename )
                : file_mapper( file_opener( filename ) )
             {
             }

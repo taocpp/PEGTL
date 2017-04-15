@@ -104,7 +104,8 @@ namespace sexpr
          // last string literal that we use as filename here, and
          // the input is passed on for chained error messages (as
          // in "error in line x file foo included from file bar...)
-         parse_file_nested< main, sexpr::action >( in, fn, f2 );
+         file_input<> i2( fn );
+         parse_nested< main, sexpr::action >( in, i2, f2 );
       }
    };
 

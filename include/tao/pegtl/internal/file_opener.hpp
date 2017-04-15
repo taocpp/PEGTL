@@ -22,8 +22,8 @@ namespace tao
       {
          struct file_opener
          {
-            explicit file_opener( std::string filename )
-               : m_source( std::move( filename ) ),
+            explicit file_opener( const char* filename )
+               : m_source( filename ),
                  m_fd( open() )
             {
             }
@@ -46,14 +46,14 @@ namespace tao
                return std::size_t( st.st_size );
             }
 
-            const std::string m_source;
+            const char* m_source;
             const int m_fd;
 
          private:
             int open() const
             {
                errno = 0;
-               const int fd = ::open( m_source.c_str(), O_RDONLY );
+               const int fd = ::open( m_source, O_RDONLY );
                if( fd >= 0 ) {
                   return fd;
                }

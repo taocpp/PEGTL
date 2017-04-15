@@ -21,14 +21,13 @@
 // #include "pegtl/parse_arg.hpp"
 // #include "pegtl/trace.hpp"
 
-#include "pegtl/buffer_input.hpp"
-#include "pegtl/memory_input.hpp"
-#include "pegtl/stream_input.hpp"
-
 #include "pegtl/parse.hpp"
 
-#include "pegtl/file_parser.hpp"
-#include "pegtl/read_parser.hpp"
-#include "pegtl/string_parser.hpp"
+#include "pegtl/buffer_input.hpp"
+#include "pegtl/file_input.hpp"
+#include "pegtl/memory_input.hpp"
+#include "pegtl/read_input.hpp"
+#include "pegtl/stream_input.hpp"
+#include "pegtl/string_input.hpp"
 
 #endif

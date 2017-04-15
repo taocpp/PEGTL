@@ -174,7 +174,8 @@ int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
       examples::result_state result;
-      tao::TAOCPP_PEGTL_NAMESPACE::file_parser<>( argv[ i ] ).parse< examples::grammar, tao::TAOCPP_PEGTL_NAMESPACE::nothing, examples::control >( result );
+      tao::TAOCPP_PEGTL_NAMESPACE::file_input<> in( argv[ i ] );
+      tao::TAOCPP_PEGTL_NAMESPACE::parse< examples::grammar, tao::TAOCPP_PEGTL_NAMESPACE::nothing, examples::control >( in, result );
       assert( result.result );
       std::cout << result.result << std::endl;
    }

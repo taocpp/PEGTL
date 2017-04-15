@@ -175,7 +175,8 @@ int main( int argc, char** argv )
    }
    else {
       examples::json_state state;
-      tao::TAOCPP_PEGTL_NAMESPACE::file_parser<>( argv[ 1 ] ).parse< examples::grammar, examples::action, examples::control >( state );
+      tao::TAOCPP_PEGTL_NAMESPACE::file_input<> in( argv[ 1 ] );
+      tao::TAOCPP_PEGTL_NAMESPACE::parse< examples::grammar, examples::action, examples::control >( in, state );
       assert( state.keys.empty() );
       assert( state.arrays.empty() );
       assert( state.objects.empty() );

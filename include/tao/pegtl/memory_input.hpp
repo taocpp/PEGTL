@@ -39,13 +39,28 @@ namespace tao
             {
             }
 
+            memory_input_base( const internal::iterator& in_iter, const char* in_end, const std::string& in_source ) noexcept
+               : memory_input_base( in_iter, in_end, in_source.c_str() )
+            {
+            }
+
             memory_input_base( const char* in_begin, const char* in_end, const char* in_source ) noexcept
                : memory_input_base( internal::iterator( in_begin ), in_end, in_source )
             {
             }
 
+            memory_input_base( const char* in_begin, const char* in_end, const std::string& in_source ) noexcept
+               : memory_input_base( in_begin, in_end, in_source.c_str() )
+            {
+            }
+
             memory_input_base( const char* in_begin, const char* in_end, const char* in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept
                : memory_input_base( { in_byte, in_line, in_byte_in_line, in_begin }, in_end, in_source )
+            {
+            }
+
+            memory_input_base( const char* in_begin, const char* in_end, const std::string& in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept
+               : memory_input_base( in_begin, in_end, in_source.c_str(), in_byte, in_line, in_byte_in_line )
             {
             }
 
@@ -125,6 +140,11 @@ namespace tao
                  m_run( in_begin ),
                  m_end( in_end ),
                  m_source( in_source )
+            {
+            }
+
+            memory_input_base( const char* in_begin, const char* in_end, const std::string& in_source ) noexcept
+               : memory_input_base( in_begin, in_end, in_source.c_str() )
             {
             }
 
@@ -208,13 +228,28 @@ namespace tao
          {
          }
 
+         memory_input( const char* in_begin, const std::size_t in_size, const std::string& in_source ) noexcept
+            : memory_input( in_begin, in_size, in_source.c_str() )
+         {
+         }
+
          memory_input( const std::string& in_string, const char* in_source ) noexcept
             : memory_input( in_string.data(), in_string.size(), in_source )
          {
          }
 
+         memory_input( const std::string& in_string, const std::string& in_source ) noexcept
+            : memory_input( in_string, in_source.c_str() )
+         {
+         }
+
          memory_input( const char* in_begin, const char* in_source ) noexcept
             : memory_input( in_begin, std::strlen( in_begin ), in_source )
+         {
+         }
+
+         memory_input( const char* in_begin, const std::string& in_source ) noexcept
+            : memory_input( in_begin, in_source.c_str() )
          {
          }
 

@@ -21,8 +21,8 @@ namespace tao
          class file_reader
          {
          public:
-            explicit file_reader( std::string filename )
-               : m_source( std::move( filename ) ),
+            explicit file_reader( const char* filename )
+               : m_source( filename ),
                  m_file( open(), &std::fclose )
             {
             }
@@ -60,7 +60,7 @@ namespace tao
             }
 
          private:
-            const std::string m_source;
+            const char* m_source;
             const std::unique_ptr< std::FILE, decltype( &std::fclose ) > m_file;
 
             std::FILE* open() const
@@ -68,9 +68,9 @@ namespace tao
                errno = 0;
 #if defined( _WIN32 )
                std::FILE* file;
-               if(::fopen_s( &file, m_source.c_str(), "rb" ) == 0 )
+               if(::fopen_s( &file, m_source, "rb" ) == 0 )
 #else
-               if( auto* file = std::fopen( m_source.c_str(), "rb" ) )
+               if( auto* file = std::fopen( m_source, "rb" ) )
 #endif
                {
                   return file;
