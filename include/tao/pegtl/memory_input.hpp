@@ -208,12 +208,12 @@ namespace tao
          {
          }
 
-         memory_input( const std::string& in_string, const char* in_source = "std::string" ) noexcept
+         memory_input( const std::string& in_string, const char* in_source ) noexcept
             : memory_input( in_string.data(), in_string.size(), in_source )
          {
          }
 
-         memory_input( const char* in_begin, const char* in_source = "const char*" ) noexcept
+         memory_input( const char* in_begin, const char* in_source ) noexcept
             : memory_input( in_begin, std::strlen( in_begin ), in_source )
          {
          }

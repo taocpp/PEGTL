@@ -4,15 +4,12 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_TEST_VERIFY_IMPL_HPP
 #define TAOCPP_PEGTL_INCLUDE_TEST_VERIFY_IMPL_HPP
 
-#include <cassert>
 #include <cstddef>
 #include <stdexcept>
 #include <string>
 
 #include <tao/pegtl/apply_mode.hpp>
-#include <tao/pegtl/memory_input.hpp>
 #include <tao/pegtl/normal.hpp>
-#include <tao/pegtl/nothing.hpp>
 #include <tao/pegtl/rewind_mode.hpp>
 
 #include "result_type.hpp"

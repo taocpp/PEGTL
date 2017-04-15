@@ -63,21 +63,23 @@ namespace tao
       struct outer_action< two< 'b' > >
       {
          template< typename Input >
-         static void apply( const Input& in )
+         static void apply( const Input& oi )
          {
-            const auto p = in.position();
+            const auto p = oi.position();
             TAOCPP_PEGTL_TEST_ASSERT( p.source == "outer" );
             TAOCPP_PEGTL_TEST_ASSERT( p.byte == 2 );
             TAOCPP_PEGTL_TEST_ASSERT( p.line == 1 );
             TAOCPP_PEGTL_TEST_ASSERT( p.byte_in_line == 2 );
-            parse_nested< inner_grammar >( in, memory_input<>( "dFF", "inner" ) );
+            memory_input<> in( "dFF", "inner" );
+            parse_nested< inner_grammar >( oi, in );
          }
       };
 
       void test_nested()
       {
          try {
-            parse< outer_grammar, outer_action >( memory_input<>( "aabbcc", "outer" ) );
+            memory_input<> oi( "aabbcc", "outer" );
+            parse< outer_grammar, outer_action >( oi );
          }
          catch( const parse_error& e ) {
             TAOCPP_PEGTL_TEST_ASSERT( e.positions.size() == 2 );

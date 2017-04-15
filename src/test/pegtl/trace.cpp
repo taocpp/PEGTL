@@ -13,7 +13,8 @@ namespace tao
 
       void unit_test()
       {
-         if( !parse< GRAMMAR, nothing, tracer >( memory_input<>( "ab", "trace test please ignore" ) ) ) {
+         memory_input<> in( "ab", "trace test please ignore" );
+         if( !parse< GRAMMAR, nothing, tracer >( in ) ) {
             ++failed;
          }
       }

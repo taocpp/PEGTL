@@ -10,16 +10,18 @@
 using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 using GRAMMAR = must< uri::URI, eof >;
 
-void test( const std::string& in )
+void test( const std::string& s )
 {
-   parse< GRAMMAR >( memory_input<>( in ) );
+   memory_input<> in( s, "expect success" );
+   parse< GRAMMAR >( in );
 }
 
-void fail( const std::string& in )
+void fail( const std::string& s )
 {
+   memory_input<> in( s, "expect exception" );
    try {
-      parse< GRAMMAR >( memory_input<>( in ) );
-      std::cerr << "FAILED: " << in << std::endl;
+      parse< GRAMMAR >( in );
+      std::cerr << "FAILED: " << s << std::endl;
       assert( false );
    }
    catch( ... ) {
@@ -52,5 +54,6 @@ int main( int, char** )
 
    // some unit tests that should fail
    fail( "" );
+
    return 0;
 }

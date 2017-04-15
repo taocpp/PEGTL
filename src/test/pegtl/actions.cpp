@@ -91,7 +91,8 @@ namespace tao
          void state_test()
          {
             std::string result;
-            parse< fibble, action1 >( memory_input<>( "dk41sk41xk3" ), result );
+            memory_input<> in( "dk41sk41xk3", __FUNCTION__ );
+            parse< fibble, action1 >( in, result );
             TAOCPP_PEGTL_TEST_ASSERT( result == "dkskxk" );
          }
 
@@ -122,10 +123,12 @@ namespace tao
 
          void apply0_test()
          {
-            parse< star< alpha >, action0 >( memory_input<>( "abcdefgh" ) );
+            memory_input<> ina( "abcdefgh", __FUNCTION__ );
+            parse< star< alpha >, action0 >( ina );
             TAOCPP_PEGTL_TEST_ASSERT( i0 == 8 );
             std::string s0;
-            parse< star< digit >, action0 >( memory_input<>( "12345678" ), s0 );
+            memory_input<> ind( "12345678", __FUNCTION__ );
+            parse< star< digit >, action0 >( ind, s0 );
             TAOCPP_PEGTL_TEST_ASSERT( s0 == "00000000" );
          }
 
@@ -164,8 +167,7 @@ namespace tao
 
       void unit_test()
       {
-         parse< disable< test1::bar >, test_action >( memory_input<>( "baab" ) );
-
+         parse< disable< test1::bar >, test_action >( memory_input<>( "baab", __FUNCTION__ ) );
          TAOCPP_PEGTL_TEST_ASSERT( applied.size() == 1 );
 
          TAOCPP_PEGTL_TEST_ASSERT( applied[ 0 ].first == internal::demangle< disable< test1::bar > >() );
@@ -173,25 +175,25 @@ namespace tao
 
          applied.clear();
 
-         parse< at< action< test_action, test1::bar > > >( memory_input<>( "baab" ) );
+         parse< at< action< test_action, test1::bar > > >( memory_input<>( "baab", __FUNCTION__ ) );
 
          TAOCPP_PEGTL_TEST_ASSERT( applied.empty() );
 
          applied.clear();
 
-         parse< test1::bar, test_action >( memory_input<>( "baab" ) );
+         parse< test1::bar, test_action >( memory_input<>( "baab", __FUNCTION__ ) );
 
          test1::test_result();
 
          applied.clear();
 
-         parse< action< test_action, test1::bar > >( memory_input<>( "baab" ) );
+         parse< action< test_action, test1::bar > >( memory_input<>( "baab", __FUNCTION__ ) );
 
          test1::test_result();
 
          applied.clear();
 
-         parse< disable< enable< action< test_action, test1::bar > > > >( memory_input<>( "baab" ) );
+         parse< disable< enable< action< test_action, test1::bar > > > >( memory_input<>( "baab", __FUNCTION__ ) );
 
          test1::test_result();
 

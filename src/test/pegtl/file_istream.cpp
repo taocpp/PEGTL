@@ -20,17 +20,17 @@ namespace tao
       void unit_test()
       {
          try {
-            const std::string filename = "src/test/pegtl/no_such_file.txt";
+            const char* filename = "src/test/pegtl/no_such_file.txt";
             std::ifstream stream( filename );
-            parse_istream< file_grammar >( stream, filename, 16 );
+            parse< file_grammar >( istream_input<>( stream, 16, filename ) );
             TAOCPP_PEGTL_TEST_ASSERT( false );
          }
          catch( const input_error& e ) {
             TAOCPP_PEGTL_TEST_ASSERT( std::string( e.what() ).find( "error in istream.read()" ) != std::string::npos );
          }
-         const std::string filename = "src/test/pegtl/file_data.txt";
+         const char* filename = "src/test/pegtl/file_data.txt";
          std::ifstream stream( filename );
-         TAOCPP_PEGTL_TEST_ASSERT( parse_istream< file_grammar >( stream, filename, 16 ) );
+         TAOCPP_PEGTL_TEST_ASSERT( parse< file_grammar >( istream_input<>( stream, 16, filename ) ) );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

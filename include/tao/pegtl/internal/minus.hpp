@@ -9,7 +9,6 @@
 #include "skip_control.hpp"
 
 #include "../apply_mode.hpp"
-#include "../memory_input.hpp"
 #include "../rewind_mode.hpp"
 
 namespace tao

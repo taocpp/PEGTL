@@ -4,8 +4,8 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_TEST_VERIFY_FAIL_HPP
 #define TAOCPP_PEGTL_INCLUDE_TEST_VERIFY_FAIL_HPP
 
-#include <cassert>
-#include <iostream>
+#include <cstddef>
+#include <string>
 
 #include <tao/pegtl.hpp>
 
@@ -19,7 +19,8 @@ namespace tao
       void verify_fail( const std::size_t line, const char* file, const std::string& s, States&&... st )
       {
          try {
-            parse< Rule, Action >( memory_input<>( s ), st... );
+            memory_input<> in( s, "expect exception" );
+            parse< Rule, Action >( in, st... );
             TAOCPP_PEGTL_TEST_FAILED( "expected exception" );
          }
          catch( ... ) {
