@@ -50,7 +50,7 @@ namespace tao
       }  // namespace test1
       void unit_test()
       {
-         verify_file< read_parser >();
+         verify_file< read_parser<> >();
          verify_file< test1::file_function_wrapper >();
       }
 

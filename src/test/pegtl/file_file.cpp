@@ -11,7 +11,7 @@ namespace tao
    {
       void unit_test()
       {
-         verify_file< file_parser >();
+         verify_file< file_parser<> >();
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

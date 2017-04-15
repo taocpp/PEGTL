@@ -5,7 +5,6 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
-#include <tao/pegtl/file_parser.hpp>
 #include <tao/pegtl/parse_arg.hpp>
 
 namespace sexpr

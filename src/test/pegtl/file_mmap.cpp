@@ -1,7 +1,7 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <tao/pegtl/file_parser.hpp>
+#include <tao/pegtl/mmap_parser.hpp>
 
 #if defined( _POSIX_MAPPED_FILES )
 
@@ -55,7 +55,7 @@ namespace tao
 
       void unit_test()
       {
-         verify_file< mmap_parser >();
+         verify_file< mmap_parser<> >();
          verify_file< test1::mmap_function_wrapper >();
       }
 

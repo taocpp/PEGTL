@@ -19,11 +19,11 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Eol, position_tracking P = position_tracking::IMMEDIATE >
-      class basic_string_parser
+      template< typename Eol = lf_crlf_eol, position_tracking P = position_tracking::IMMEDIATE >
+      class string_parser
       {
       public:
-         basic_string_parser( std::string data, std::string in_source, const std::size_t byte = 0, const std::size_t line = 1, const std::size_t byte_in_line = 0 ) noexcept
+         string_parser( std::string data, std::string in_source, const std::size_t byte = 0, const std::size_t line = 1, const std::size_t byte_in_line = 0 ) noexcept
             : m_data( std::move( data ) ),
               m_source( std::move( in_source ) ),
               m_input( { byte, line, byte_in_line, m_data.data() }, m_data.data() + m_data.size(), m_source.c_str() )
@@ -63,15 +63,11 @@ namespace tao
             return TAOCPP_PEGTL_NAMESPACE::parse_nested< Rule, Action, Control, A, M >( oi, m_input, st... );
          }
 
-         using eol_t = Eol;
-
       private:
          const std::string m_data;
          const std::string m_source;
          memory_input< Eol, P > m_input;
       };
-
-      using string_parser = basic_string_parser< lf_crlf_eol >;
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
 

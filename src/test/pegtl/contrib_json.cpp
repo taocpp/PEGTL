@@ -14,7 +14,7 @@ namespace tao
       void verify_file_fail( const std::size_t line, const char* file, const std::string& s )
       {
          try {
-            file_parser( s ).parse< Rule >();
+            file_parser<>( s ).parse< Rule >();
             TAOCPP_PEGTL_TEST_FAILED( "expected exception" );
          }
          catch( ... ) {
@@ -86,11 +86,11 @@ namespace tao
          verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\xF4\x90\x80\x80\"]" );
          verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\xF7\xBF\xBF\xBF\"]" );
 
-         TAOCPP_PEGTL_TEST_ASSERT( file_parser( "src/test/pegtl/data/pass1.json" ).parse< GRAMMAR >() );
-         TAOCPP_PEGTL_TEST_ASSERT( file_parser( "src/test/pegtl/data/pass2.json" ).parse< GRAMMAR >() );
-         TAOCPP_PEGTL_TEST_ASSERT( file_parser( "src/test/pegtl/data/pass3.json" ).parse< GRAMMAR >() );
+         TAOCPP_PEGTL_TEST_ASSERT( file_parser<>( "src/test/pegtl/data/pass1.json" ).parse< GRAMMAR >() );
+         TAOCPP_PEGTL_TEST_ASSERT( file_parser<>( "src/test/pegtl/data/pass2.json" ).parse< GRAMMAR >() );
+         TAOCPP_PEGTL_TEST_ASSERT( file_parser<>( "src/test/pegtl/data/pass3.json" ).parse< GRAMMAR >() );
 
-         TAOCPP_PEGTL_TEST_ASSERT( file_parser( "src/test/pegtl/data/blns.json" ).parse< GRAMMAR >() );
+         TAOCPP_PEGTL_TEST_ASSERT( file_parser<>( "src/test/pegtl/data/blns.json" ).parse< GRAMMAR >() );
 
          // verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail1.json" ); // disabled as it is valid now
          verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail2.json" );

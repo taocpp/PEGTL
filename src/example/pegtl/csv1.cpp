@@ -86,7 +86,7 @@ namespace csv1
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      tao::TAOCPP_PEGTL_NAMESPACE::file_parser fp( argv[ i ] );
+      tao::TAOCPP_PEGTL_NAMESPACE::file_parser<> fp( argv[ i ] );
       csv1::result_data data;
       fp.parse< tao::TAOCPP_PEGTL_NAMESPACE::must< csv1::file >, csv1::action, csv1::control >( data );
       for( const auto& line : data ) {
