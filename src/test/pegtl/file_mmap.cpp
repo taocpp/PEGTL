@@ -1,7 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <tao/pegtl/mmap_parser.hpp>
+// this include gives us _POSIX_MAPPED_FILES to test and mmap_parser<> if it is set
+#include <tao/pegtl/file_parser.hpp>
 
 #if defined( _POSIX_MAPPED_FILES )
 
