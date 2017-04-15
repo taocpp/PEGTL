@@ -63,11 +63,11 @@ namespace tao
          std::string state_r;
          std::string state_s;
          TAOCPP_PEGTL_TEST_ASSERT( test1::flag == 0 );
-         parse_memory< must< if_apply< one< '-' >, test1::action_a, test1::action_b > >, test1::action >( { "-" }, state_r, state_s );
+         parse< must< if_apply< one< '-' >, test1::action_a, test1::action_b > >, test1::action >( memory_input<>( "-" ), state_r, state_s );
          TAOCPP_PEGTL_TEST_ASSERT( test1::flag == 1 );
          TAOCPP_PEGTL_TEST_ASSERT( state_r == "-" );
          TAOCPP_PEGTL_TEST_ASSERT( state_s == "-*-" );
-         parse_memory< must< disable< if_apply< one< '-' >, test1::action_a, test1::action_b > > >, test1::action >( { "-" }, state_r, state_s );
+         parse< must< disable< if_apply< one< '-' >, test1::action_a, test1::action_b > > >, test1::action >( memory_input<>( "-" ), state_r, state_s );
          TAOCPP_PEGTL_TEST_ASSERT( test1::flag == 1 );
          TAOCPP_PEGTL_TEST_ASSERT( state_r == "-" );
          TAOCPP_PEGTL_TEST_ASSERT( state_s == "-*-" );

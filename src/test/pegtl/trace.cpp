@@ -9,11 +9,11 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      using GRAMMAR = tao::TAOCPP_PEGTL_NAMESPACE::sor< tao::TAOCPP_PEGTL_NAMESPACE::failure, tao::TAOCPP_PEGTL_NAMESPACE::one< 'a' > >;
+      using GRAMMAR = sor< failure, one< 'a' > >;
 
       void unit_test()
       {
-         if( !tao::TAOCPP_PEGTL_NAMESPACE::parse_memory< GRAMMAR, tao::TAOCPP_PEGTL_NAMESPACE::nothing, tao::TAOCPP_PEGTL_NAMESPACE::tracer >( { "ab", "trace test please ignore" } ) ) {
+         if( !parse< GRAMMAR, nothing, tracer >( memory_input<>( "ab", "trace test please ignore" ) ) ) {
             ++failed;
          }
       }

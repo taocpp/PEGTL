@@ -7,28 +7,30 @@
 
 #include <tao/pegtl.hpp>
 
+using namespace tao::TAOCPP_PEGTL_NAMESPACE;
+
 #include "double.hpp"
 
 namespace sum
 {
    struct padded_double
-      : tao::TAOCPP_PEGTL_NAMESPACE::pad< double_::grammar, tao::TAOCPP_PEGTL_NAMESPACE::space >
+      : pad< double_::grammar, space >
    {
    };
 
    struct double_list
-      : tao::TAOCPP_PEGTL_NAMESPACE::list< padded_double, tao::TAOCPP_PEGTL_NAMESPACE::one< ',' > >
+      : list< padded_double, one< ',' > >
    {
    };
 
    struct grammar
-      : tao::TAOCPP_PEGTL_NAMESPACE::seq< double_list, tao::TAOCPP_PEGTL_NAMESPACE::eof >
+      : seq< double_list, eof >
    {
    };
 
    template< typename Rule >
    struct action
-      : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule >
+      : nothing< Rule >
    {
    };
 
@@ -59,7 +61,7 @@ int main()
          break;
       }
       double d = 0.0;
-      if( tao::TAOCPP_PEGTL_NAMESPACE::parse_memory< sum::grammar, sum::action >( { str, "std::cin" }, d ) ) {
+      if( parse< sum::grammar, sum::action >( memory_input<>( str, "std::cin" ), d ) ) {
          std::cout << "parsing OK; sum = " << d << std::endl;
       }
       else {

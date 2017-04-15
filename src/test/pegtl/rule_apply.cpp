@@ -37,10 +37,10 @@ namespace tao
       {
          int state_r = 0;
          int state_s = 0;
-         parse_memory< must< apply< test1::action_a, test1::action_b > > >( { "" }, state_r, state_s );
+         parse< must< apply< test1::action_a, test1::action_b > > >( memory_input<>( "" ), state_r, state_s );
          TAOCPP_PEGTL_TEST_ASSERT( state_r == 1 );
          TAOCPP_PEGTL_TEST_ASSERT( state_s == 2 );
-         parse_memory< must< disable< apply< test1::action_a, test1::action_b > > > >( { "" }, state_r, state_s );
+         parse< must< disable< apply< test1::action_a, test1::action_b > > > >( memory_input<>( "" ), state_r, state_s );
          TAOCPP_PEGTL_TEST_ASSERT( state_r == 1 );
          TAOCPP_PEGTL_TEST_ASSERT( state_s == 2 );
 

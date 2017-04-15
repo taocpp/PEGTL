@@ -21,7 +21,7 @@
 // #include "pegtl/parse_arg.hpp"
 // #include "pegtl/trace.hpp"
 
-#include "pegtl/parse_memory.hpp"
+#include "pegtl/parse.hpp"
 #include "pegtl/parse_stream.hpp"
 
 #include "pegtl/file_parser.hpp"

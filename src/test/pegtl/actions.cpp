@@ -91,7 +91,7 @@ namespace tao
          void state_test()
          {
             std::string result;
-            parse_memory< fibble, action1 >( { "dk41sk41xk3" }, result );
+            parse< fibble, action1 >( memory_input<>( "dk41sk41xk3" ), result );
             TAOCPP_PEGTL_TEST_ASSERT( result == "dkskxk" );
          }
 
@@ -122,10 +122,10 @@ namespace tao
 
          void apply0_test()
          {
-            parse_memory< star< alpha >, action0 >( { "abcdefgh" } );
+            parse< star< alpha >, action0 >( memory_input<>( "abcdefgh" ) );
             TAOCPP_PEGTL_TEST_ASSERT( i0 == 8 );
             std::string s0;
-            parse_memory< star< digit >, action0 >( { "12345678" }, s0 );
+            parse< star< digit >, action0 >( memory_input<>( "12345678" ), s0 );
             TAOCPP_PEGTL_TEST_ASSERT( s0 == "00000000" );
          }
 
@@ -164,7 +164,7 @@ namespace tao
 
       void unit_test()
       {
-         parse_memory< disable< test1::bar >, test_action >( { "baab" } );
+         parse< disable< test1::bar >, test_action >( memory_input<>( "baab" ) );
 
          TAOCPP_PEGTL_TEST_ASSERT( applied.size() == 1 );
 
@@ -173,25 +173,25 @@ namespace tao
 
          applied.clear();
 
-         parse_memory< at< action< test_action, test1::bar > > >( { "baab" } );
+         parse< at< action< test_action, test1::bar > > >( memory_input<>( "baab" ) );
 
          TAOCPP_PEGTL_TEST_ASSERT( applied.empty() );
 
          applied.clear();
 
-         parse_memory< test1::bar, test_action >( { "baab" } );
+         parse< test1::bar, test_action >( memory_input<>( "baab" ) );
 
          test1::test_result();
 
          applied.clear();
 
-         parse_memory< action< test_action, test1::bar > >( { "baab" } );
+         parse< action< test_action, test1::bar > >( memory_input<>( "baab" ) );
 
          test1::test_result();
 
          applied.clear();
 
-         parse_memory< disable< enable< action< test_action, test1::bar > > > >( { "baab" } );
+         parse< disable< enable< action< test_action, test1::bar > > > >( memory_input<>( "baab" ) );
 
          test1::test_result();
 

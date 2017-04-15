@@ -22,7 +22,7 @@ namespace tao
                 rewind_mode M = rewind_mode::REQUIRED,
                 typename Input,
                 typename... States >
-      bool parse( Input& in, States&&... st )
+      bool parse( Input&& in, States&&... st )
       {
          return Control< Rule >::template match< A, M, Action, Control >( in, st... );
       }
@@ -35,7 +35,7 @@ namespace tao
                 typename Outer,
                 typename Input,
                 typename... States >
-      bool parse_nested( const Outer& oi, Input& in, States&&... st )
+      bool parse_nested( const Outer& oi, Input&& in, States&&... st )
       {
          try {
             return parse< Rule, Action, Control, A, M >( in, st... );
