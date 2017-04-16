@@ -3,9 +3,9 @@ set (CMAKE_CXX_EXTENSIONS OFF)
 
 # add warnings
 if (MSVC)
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4 /WX /utf-8")
+  add_compile_options (/W4 /WX /utf-8)
 else ()
-  set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pedantic -Wall -Wextra -Wshadow -Werror")
+  add_compile_options (-pedantic -Wall -Wextra -Wshadow -Werror)
 endif ()
 
 # add examples
