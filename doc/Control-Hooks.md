@@ -124,41 +124,10 @@ When custom exception types are used then `try_catch_type` must be used with the
 ## Debugging and Tracing
 
 For debugging a grammar and tracing exactly what happens during a parsing run, the control class methods `start()`, `success()` and `failure()` can be used.
-A minimal example of how this can be done is included with the PEGTL in the `<tao/pegtl/trace.hpp>` header file.
+In addition, `apply()` and `apply0()` can be used to see which actions are invoked.
 
-```c++
-template< typename Rule >
-struct tracer
-      : normal< Rule >
-{
-   template< typename Input, typename ... States >
-   static void start( const Input & in, States && ... )
-   {
-      std::cerr << position_info( in )
-                << "  start  "
-                << internal::demangle< Rule >()
-                << std::endl;
-   }
-
-   template< typename Input, typename ... States >
-   static void success( const Input & in, States && ... )
-   {
-      std::cerr << position_info( in )
-                << " success "
-                << internal::demangle< Rule >()
-                << std::endl;
-   }
-
-   template< typename Input, typename ... States >
-   static void failure( const Input & in, States && ... st )
-   {
-      std::cerr << position_info( in )
-                << " failure "
-                << internal::demangle< Rule >()
-                << std::endl;
-   }
-};
-```
+The included class `tao::pegtl::tracer` in `<tao/pegtl/tracer.hpp>` gives a pratical example that can be used as control class to debug grammars.
+When an instance of class `tao::pegtl::trace_state` is used as single state in a parsing run with the tracer-control then the debug output contains a line number and rule number as additional information.
 
 ## Advanced Control
 
