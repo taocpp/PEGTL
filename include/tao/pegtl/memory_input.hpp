@@ -69,7 +69,7 @@ namespace tao
                return m_data.data;
             }
 
-            const char* end( const std::size_t ) const noexcept
+            const char* end( const std::size_t = 0 ) const noexcept
             {
                return m_end;
             }
@@ -153,7 +153,7 @@ namespace tao
                return m_run;
             }
 
-            const char* end( const std::size_t ) const noexcept
+            const char* end( const std::size_t = 0 ) const noexcept
             {
                return m_end;
             }
@@ -255,12 +255,12 @@ namespace tao
 
          bool empty() const noexcept
          {
-            return this->begin() == this->end( 0 );
+            return this->begin() == this->end();
          }
 
-         std::size_t size( const std::size_t ) const noexcept
+         std::size_t size( const std::size_t = 0 ) const noexcept
          {
-            return std::size_t( this->end( 0 ) - this->begin() );
+            return std::size_t( this->end() - this->begin() );
          }
 
          char peek_char( const std::size_t offset = 0 ) const noexcept
