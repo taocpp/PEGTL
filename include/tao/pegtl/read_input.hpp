@@ -37,10 +37,10 @@ namespace tao
          : private internal::filename_holder,
            public string_input< Eol, P >
       {
-         template< typename T, typename... Ts >
-         explicit read_input( T&& in_filename, Ts&&... ts )
+         template< typename T >
+         explicit read_input( T&& in_filename )
             : internal::filename_holder( std::forward< T >( in_filename ) ),
-              string_input< Eol, P >( internal::file_reader( filename.c_str() ).read(), filename.c_str(), std::forward< Ts >( ts )... )
+              string_input< Eol, P >( internal::file_reader( filename.c_str() ).read(), filename.c_str() )
          {
          }
       };
