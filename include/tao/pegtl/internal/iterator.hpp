@@ -18,7 +18,7 @@ namespace tao
          {
             iterator() = default;
 
-            iterator( const char* in_data ) noexcept
+            explicit iterator( const char* in_data ) noexcept
                : byte( 0 ),
                  line( 1 ),
                  byte_in_line( 0 ),

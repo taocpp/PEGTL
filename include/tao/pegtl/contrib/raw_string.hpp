@@ -44,18 +44,6 @@ namespace tao
             }
          };
 
-         void raw_adjust( const char*& i, const std::size_t s ) noexcept
-         {
-            i -= s;
-         }
-
-         void raw_adjust( internal::iterator& i, const std::size_t s ) noexcept
-         {
-            i.byte -= s;
-            i.byte_in_line -= s;
-            i.data -= s;
-         }
-
          template< typename Tag >
          struct raw_string_state_apply< true, false, Tag >
          {
@@ -67,7 +55,9 @@ namespace tao
             static void success( const State& s, const Input& in, States&&... st )
             {
                auto dend = in.iterator();
-               raw_adjust( dend, s.marker_size );
+               dend.byte -= s.marker_size;
+               dend.byte_in_line -= s.marker_size;
+               dend.data -= s.marker_size;
                Control< Tag >::template apply< typename Input::action_t, Action >( s.iter, dend, in.source(), st... );
             }
          };
@@ -135,7 +125,7 @@ namespace tao
                         ls.marker_size = i + 1;
                         in.bump( ls.marker_size );
                         internal::eol::match( in );
-                        ls.iter = in.iterator();
+                        ls.iter = in.iterator();  // Currently prevents use with LAZY.
                         return true;
                      case Marker:
                         break;
