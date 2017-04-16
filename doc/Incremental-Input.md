@@ -15,19 +15,24 @@ It must be chosen large enough to keep the data required for (a) any backtrackin
 The buffer is automatically filled by the parsing rules that require input data, however **discarding data from the buffer is** (currently) **not automatic**:
 The grammar has to call [`discard`](Rule-Reference.md#discard) in appropriate places to free the buffer again.
 
-More precisely, each rule that uses one of the following methods on the input will implicitly make a call to `tao::pegtl::buffer_input::require( amount )`.
+More precisely, each rule that uses one of the following methods on the input will implicitly make a call to `tao::pegtl::buffer_input<>::require( amount )`.
 (The `empty()`-method uses a hard-coded `amount` of 1.)
 
 ```c++
-namespace pegtl
+namespace tao
 {
-   template< class Reader > class buffer_input
+   namespace pegtl
    {
-      empty();
-      size( const std::size_t amount );
-      end( const std::size_t amount );
-      ...
-   };
+      template< class Reader,
+                typename Eol = lf_crlf_eol >
+      class buffer_input
+      {
+         empty();
+         size( const std::size_t amount );
+         end( const std::size_t amount );
+         ...
+      };
+   }
 }
 ```
 
@@ -40,7 +45,7 @@ The number of actually consumed bytes can again be `0`, `1` or `2`, depending on
 
 To prevent the buffer from overflowing, the `discard()`-method of class `tao::pegtl::buffer_input` must be called, usually by using the `discard` parsing rule.
 It discards all data in the buffer that precedes the current `begin()`-point, and any remaining data is moved to the beginning of the buffer.
-**A `discard` invalidates all pointers to the input's data, including those contained in other input objects.**
+**A `discard` invalidates all pointers to the input's data.**
 
 ```
 Buffer Memory Layout
@@ -58,8 +63,8 @@ A discard moves the data in the buffer such that `X` is zero, and updates `begin
 
 ## Custom Data Sources
 
-The PEGTL contains a set of stream parser functions that take care of everything (except discarding data from the buffer, see above) for certain data sources.
-In order to support other data sources, it is necessary to create a custom input class, usually by creating a suitable *reader* class that can be supplied as template argument to class `tao::pegtl::buffer_input`.
+The PEGTL contains a set of stream parser input classes that take care of everything (except discarding data from the buffer, see above) for certain data sources.
+In order to support other data sources, it is necessary to create a custom input class, usually by creating a suitable *reader* class that can be supplied as template argument to class `tao::pegtl::buffer_input<>`.
 
 The reader class can be anything that can be called like the following standard function wrapper:
 
@@ -75,8 +80,8 @@ The steps required to use a custom reader for a parsing run are:
 
 1. Create a suitable reader class `Reader` (or function).
 2. Create an instance of class `tao::pegtl::buffer_input< Reader >`, using the fact that the `buffer_input`'s constructor can pass arbitrary arguments to the embedded reader instance.
-3. Call `tao::pegtl::parse_input()` (or `tao::pegtl::parse_input_nested()`) with the previously created `buffer_input` instance as first argument.
+3. Call `tao::pegtl::parse()` (or `tao::pegtl::parse_nested()`) with the previously created `buffer_input` instance as first argument.
 
-The included examples for C- and C++-style streams can also be used as reference on how to create and use suitable readers, simply `grep(1)` for `cstring_reader`, `cstream_reader` and `istream_reader` in the PEGTL source code.
+The included examples for C- and C++-style streams can also be used as reference on how to create and use suitable readers, simply `grep(1)` for `cstream_reader` and `istream_reader` (and `cstring_reader`) in the PEGTL source code.
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
