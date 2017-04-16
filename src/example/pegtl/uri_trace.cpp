@@ -6,7 +6,7 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/uri.hpp>
 #include <tao/pegtl/parse_arg.hpp>
-#include <tao/pegtl/trace.hpp>
+#include <tao/pegtl/tracer.hpp>
 
 namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
 
