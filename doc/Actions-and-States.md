@@ -43,7 +43,7 @@ As mentioned above, this input contains references to the matched portion of the
 template<> struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
 {
    template< typename Input >
-   static void apply( const Input & in )
+   static void apply( const Input& in )
    {
       // Called whenever a call to tao::pegtl::plus< tao::pegtl::digit >
       // in the grammar succeeds. The argument named 'in' represents the
@@ -91,8 +91,8 @@ For example, in a practical grammar the example from above might use a second ar
 template<> struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
 {
    template< typename Input >
-   static void apply( const Input & in,
-                      std::vector< std::string > & digit_strings )
+   static void apply( const Input& in,
+                      std::vector< std::string >& digit_strings )
    {
       digit_strings.push_back( in.string() );
    }
