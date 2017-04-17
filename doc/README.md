@@ -34,6 +34,7 @@
   * [Tracking Mode](Inputs-and-Parsing.md#tracking-mode)
   * [File Input](Inputs-and-Parsing.md#file-input)
   * [Memory Input](Inputs-and-Parsing.md#memory-input)
+  * [String Input](Inputs-and-Parsing.md#string-input)
   * [Stream Inputs](Inputs-and-Parsing.md#stream-inputs)
   * [Parse Function](Inputs-and-Parsing.md#parse-function)
   * [Nested Parsing](Inputs-and-Parsing.md#nested-parsing)

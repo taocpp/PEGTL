@@ -10,16 +10,15 @@ using namespace tao::pegtl;
 
 struct my_grammar : ...;
 
-template< typename Rule > struct my_actions
-   : nothing< Rule > {};
+template< typename Rule >
+struct my_actions : nothing< Rule > {};
 
 // Specialisations of my_actions as required...
 
-void my_parse( const std::string& filename,
-               my_state& state )
+bool my_parse( const std::string& filename, my_state& state )
 {
    file_input<> in( filename );
-   parse< my_grammar, my_actions >( in, state );  // Can return `false` if no top-level `must<>`-rule.
+   return parse< my_grammar, my_actions >( in, state );
 }
 ```
 
@@ -34,6 +33,7 @@ All classes and functions on this page are in namespace `tao::pegtl`.
 * [Tracking Mode](#tracking-mode)
 * [File Input](#file-input)
 * [Memory Input](#memory-input)
+* [String Input](#string-input)
 * [Stream Inputs](#stream-inputs)
 * [Parse Function](#parse-function)
 * [Nested Parsing](#nested-parsing)
@@ -83,7 +83,6 @@ struct mmap_input  // Only on POSIX compliant systems.
 
 template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
 using file_input = mmap_input< Eol, P >;  // Or read_input when no mmap_input available.
-
 ```
 
 Note that the implementation of the constructors is different than shown.
@@ -104,25 +103,46 @@ The constructors that take additional `byte`, `line` and `byte_in_line` argument
 template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
 class memory_input
 {
-// Constructors available with any tracking_mode:
+   // Constructors available with any tracking_mode:
 
    memory_input( const char* begin, const char* end, const char* source ) noexcept;
    memory_input( const char* begin, const char* end, const std::string& source ) noexcept;
+
    memory_input( const char* begin, const std::size_t size, const char* source ) noexcept;
    memory_input( const char* begin, const std::size_t size, const std::string& source ) noexcept;
+
    memory_input( const std::string& string, const char* source ) noexcept;
    memory_input( const std::string& string, const std::string& source ) noexcept;
+
    memory_input( const char* begin, const char* source ) noexcept;
    memory_input( const char* begin, const std::string& source ) noexcept;
 
-// Constructors available only with tracking_mode::IMMEDIATE:
+   // Constructors available only with tracking_mode::IMMEDIATE:
 
    memory_input( const internal::iterator& iter, const char* end, const char* source ) noexcept;
    memory_input( const internal::iterator& iter, const char* end, const std::string& source ) noexcept;
+
    memory_input( const char* begin, const char* end, const char* source,
                  const std::size_t byte, const std::size_t line, const std::size_t byte_in_line ) noexcept;
    memory_input( const char* begin, const char* end, const std::string& source,
                  const std::size_t byte, const std::size_t line, const std::size_t byte_in_line ) noexcept;
+};
+```
+
+## String Input
+
+The class `string_input<>` can be used to parse a `std::string`.
+The input does take onwership by copying or moving the data into itself.
+
+```c++
+template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
+class memory_input
+{
+   string_input( const std::string& string, const char* source ) noexcept;
+   string_input( const std::string& string, const std::string& source ) noexcept;
+
+   string_input( const char* begin, const char* source ) noexcept;
+   string_input( const char* begin, const std::string& source ) noexcept;
 };
 ```
 
@@ -146,7 +166,7 @@ struct cstream_input
 template< typename Eol = lf_crlf_eol >
 struct istream_input
 {
-   istream_input( std::istream& stream, const std::size_t maximum, const char* source )
+   istream_input( std::istream& stream, const std::size_t maximum, const char* source );
 };
 ```
 
