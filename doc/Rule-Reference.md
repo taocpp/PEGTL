@@ -410,6 +410,11 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 * Similar to `string< C, D, ... >`, but:
 * For ASCII letters a-z and A-Z the match is case insensitive.
 
+###### `keyword< C, ... >`
+
+* Matches and consumes a string not followed by a subsequent identifier character.
+* Equivalent to `seq< string< C, ... >, not_at< identifier_other > >`.
+
 ###### `lower`
 
 * Matches and consumes a single ASCII lower-case alphabetic character.
@@ -701,6 +706,7 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`if_must_else< R, S, T >`](#if_must_else-r-s-t-) <sup>[(convenience)](#convenience)</sup>
 * [`if_then_else< R, S, T >`](#if_then_else-r-s-t-) <sup>[(convenience)](#convenience)</sup>
 * [`istring< C, D, ... >`](#istring-c-d--) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`keyword< C, ... >`](#keyword-c--) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`list< R, S >`](#list-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`list< R, S, P >`](#list-r-s-p-) <sup>[(convenience)](#convenience)</sup>
 * [`list_must< R, S >`](#list_must-r-s-) <sup>[(convenience)](#convenience)</sup>

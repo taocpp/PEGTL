@@ -26,6 +26,7 @@ namespace tao
          struct identifier_other : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9', '_' > {};
          struct identifier : internal::seq< identifier_first, internal::star< identifier_other > > {};
          template< char... Cs > struct istring : internal::istring< Cs... > {};
+         template< char... Cs > struct keyword : internal::seq< internal::string< Cs... >, internal::not_at< internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9', '_' > > > {};
          struct lower : internal::range< internal::result_on_found::SUCCESS, internal::peek_char, 'a', 'z' > {};
          template< char... Cs > struct not_one : internal::one< internal::result_on_found::FAILURE, internal::peek_char, Cs... > {};
          template< char Lo, char Hi > struct not_range : internal::range< internal::result_on_found::FAILURE, internal::peek_char, Lo, Hi > {};
