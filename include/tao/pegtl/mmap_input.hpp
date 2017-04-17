@@ -40,10 +40,10 @@ namespace tao
          : private internal::mmap_holder,
            public memory_input< Eol, P >
       {
-         template< typename T, typename... Ts >
-         explicit mmap_input( T&& in_filename, Ts&&... ts )
+         template< typename T >
+         explicit mmap_input( T&& in_filename )
             : internal::mmap_holder( std::forward< T >( in_filename ) ),
-              memory_input< Eol, P >( data.begin(), data.end(), filename.c_str(), std::forward< Ts >( ts )... )
+              memory_input< Eol, P >( data.begin(), data.end(), filename.c_str() )
          {
          }
       };
