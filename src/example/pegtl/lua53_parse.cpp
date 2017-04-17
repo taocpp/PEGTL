@@ -237,10 +237,10 @@ namespace lua53
    struct variable : pegtl::seq< variable_head, pegtl::star< pegtl::star< seps, function_call_tail >, seps, variable_tail > > {};
    struct function_call : pegtl::seq< function_call_head, pegtl::plus< pegtl::until< pegtl::seq< seps, function_call_tail >, seps, variable_tail > > > {};
 
-   template< char O, char ... N >
-   struct op_one : pegtl::seq< pegtl::one< O >, pegtl::at< pegtl::not_one< N ... > > > {};
-   template< char O, char P, char ... N >
-   struct op_two : pegtl::seq< pegtl::string< O, P >, pegtl::at< pegtl::not_one< N ... > > > {};
+   template< char O, char... N >
+   struct op_one : pegtl::seq< pegtl::one< O >, pegtl::at< pegtl::not_one< N... > > > {};
+   template< char O, char P, char... N >
+   struct op_two : pegtl::seq< pegtl::string< O, P >, pegtl::at< pegtl::not_one< N... > > > {};
 
    template< typename S, typename O >
    struct left_assoc : pegtl::seq< S, seps, pegtl::star< pegtl::if_must< O, seps, S, seps > > > {};

@@ -27,7 +27,7 @@ Rules with the simplified interface are called without the states as arguments.
 struct simple_rule
 {
    template< typename Input >
-   static bool match( Input & in ) { ... }
+   static bool match( Input& in ) { ... }
 };
 ```
 
@@ -50,10 +50,10 @@ namespace modulus
       static_assert( R < M, "Remainder must be less than modulus" );
 
       template< typename Input >
-      static bool match( Input & in )
+      static bool match( Input& in )
       {
-         if ( ! in.empty() ) {
-            if ( ( ( * in.begin() ) % M ) == R ) {
+         if( ! in.empty() ) {
+            if( ( ( * in.begin() ) % M ) == R ) {
                in.bump( 1 );
                return true;
             }
@@ -99,11 +99,11 @@ struct complex_rule
 
    template< tao::pegtl::apply_mode A,
              tao::pegtl::rewind_mode M,
-             template< typename ... > class Action,
-             template< typename ... > class Control,
+             template< typename... > class Action,
+             template< typename... > class Control,
              typename Input,
-             typename ... States >
-   static bool match( Input & in, States & ... )
+             typename... States >
+   static bool match( Input& in, States&&... )
    { ... }
 };
 ```
@@ -178,9 +178,9 @@ The action stores the matched string that corresponds to `"foo"` in a string var
    template<> struct action< tao::pegtl::plus< tao::pegtl::not_one< '[' > > >
    {
       template< typename Input >
-      static void apply( const Input & in,
-                         std::string & long_literal_mark,
-                         const std::string & )
+      static void apply( const Input& in,
+                         std::string& long_literal_mark,
+                         const std::string& )
       {
          long_literal_mark = in.string();
       }
@@ -209,17 +209,17 @@ The custom rule itself
    {
       template< tao::pegtl::apply_mode A,
                 tao::pegtl::rewind_mode M,
-                template< typename ... > class Action,
-                template< typename ... > class Control
+                template< typename... > class Action,
+                template< typename... > class Control
                 typename Input >
-      static bool match( Input & in,
-                         const std::string & long_literal_mark,
-                         const std::string & )
+      static bool match( Input& in,
+                         const std::string& long_literal_mark,
+                         const std::string& )
       {
-         if ( in.size( long_literal_mark.size() ) >= long_literal_mark.size() ) {
-            if ( std::memcmp( in.begin(),
-                              long_literal_mark.data(),
-                              long_literal_mark.size() ) == 0 ) {
+         if( in.size( long_literal_mark.size() ) >= long_literal_mark.size() ) {
+            if( std::memcmp( in.begin(),
+                             long_literal_mark.data(),
+                             long_literal_mark.size() ) == 0 ) {
                in.bump( long_literal_mark.size() );
                return true;
             }
@@ -245,9 +245,9 @@ In this case the rule `long_literal_body` is redundant, however real-world examp
    template<> struct action< long_literal_body >
    {
       template< typename Input >
-      static void apply( const Input & in,
-                         const std::string &,
-                         std::string & long_literal_body )
+      static void apply( const Input& in,
+                         const std::string&,
+                         std::string& long_literal_body )
       {
          long_literal_body += in.string();
       }
@@ -261,7 +261,7 @@ Given the main function...
 ```c++
 int main( int argc, char * argv[] )
 {
-   if ( argc > 1 ) {
+   if( argc > 1 ) {
       std::string long_literal_mark;
       std::string long_literal_body;
       tao::pegtl::argv_input<> in( argv, 1 );

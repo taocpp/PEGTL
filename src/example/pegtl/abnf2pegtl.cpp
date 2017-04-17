@@ -124,8 +124,8 @@ namespace tao
             {
                static const std::string error_message;
 
-               template< typename Input, typename ... States >
-               static void raise( const Input & in, States && ... )
+               template< typename Input, typename... States >
+               static void raise( const Input& in, States&&... )
                {
                   throw parse_error( error_message, in );
                }
