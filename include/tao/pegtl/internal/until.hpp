@@ -27,11 +27,6 @@ namespace tao
          template< typename Cond, typename... Rules >
          struct until;
 
-         template< typename Cond, typename... Rules >
-         struct skip_control< until< Cond, Rules... > > : std::true_type
-         {
-         };
-
          template< typename Cond >
          struct until< Cond >
          {
@@ -80,6 +75,11 @@ namespace tao
                }
                return m( true );
             }
+         };
+
+         template< typename Cond, typename... Rules >
+         struct skip_control< until< Cond, Rules... > > : std::true_type
+         {
          };
 
       }  // namespace internal

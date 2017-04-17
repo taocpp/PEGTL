@@ -24,11 +24,6 @@ namespace tao
          template< typename... Rules >
          struct at;
 
-         template< typename... Rules >
-         struct skip_control< at< Rules... > > : std::true_type
-         {
-         };
-
          template<>
          struct at<>
             : trivial< true >
@@ -51,6 +46,11 @@ namespace tao
                const auto m = in.template mark< rewind_mode::REQUIRED >();
                return rule_conjunction< Rules... >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( in, st... );
             }
+         };
+
+         template< typename... Rules >
+         struct skip_control< at< Rules... > > : std::true_type
+         {
          };
 
       }  // namespace internal

@@ -22,6 +22,15 @@ namespace tao
       namespace internal
       {
          template< typename... Rules >
+         struct sor;
+
+         template<>
+         struct sor<>
+            : trivial< false >
+         {
+         };
+
+         template< typename... Rules >
          struct sor
             : sor< index_sequence_for< Rules... >, Rules... >
          {
@@ -49,12 +58,6 @@ namespace tao
                return result;
 #endif
             }
-         };
-
-         template<>
-         struct sor<>
-            : trivial< false >
-         {
          };
 
          template< typename... Rules >

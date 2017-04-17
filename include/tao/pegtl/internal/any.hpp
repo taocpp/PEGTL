@@ -20,11 +20,6 @@ namespace tao
          template< typename Peek >
          struct any;
 
-         template< typename Peek >
-         struct skip_control< any< Peek > > : std::true_type
-         {
-         };
-
          template<>
          struct any< peek_char >
          {
@@ -57,6 +52,11 @@ namespace tao
                }
                return false;
             }
+         };
+
+         template< typename Peek >
+         struct skip_control< any< Peek > > : std::true_type
+         {
          };
 
       }  // namespace internal

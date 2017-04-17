@@ -24,11 +24,6 @@ namespace tao
          template< unsigned Num, typename... Rules >
          struct rep;
 
-         template< unsigned Num, typename... Rules >
-         struct skip_control< rep< Num, Rules... > > : std::true_type
-         {
-         };
-
          template< unsigned Num >
          struct rep< Num >
             : trivial< true >
@@ -64,6 +59,11 @@ namespace tao
                }
                return m( true );
             }
+         };
+
+         template< unsigned Num, typename... Rules >
+         struct skip_control< rep< Num, Rules... > > : std::true_type
+         {
          };
 
       }  // namespace internal

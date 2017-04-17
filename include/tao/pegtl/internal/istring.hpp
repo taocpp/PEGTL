@@ -69,11 +69,6 @@ namespace tao
          template< char... Cs >
          struct istring;
 
-         template< char... Cs >
-         struct skip_control< istring< Cs... > > : std::true_type
-         {
-         };
-
          template<>
          struct istring<>
             : trivial< true >
@@ -96,6 +91,11 @@ namespace tao
                }
                return false;
             }
+         };
+
+         template< char... Cs >
+         struct skip_control< istring< Cs... > > : std::true_type
+         {
          };
 
       }  // namespace internal

@@ -30,11 +30,6 @@ namespace tao
          template< char... Cs >
          struct string;
 
-         template< char... Cs >
-         struct skip_control< string< Cs... > > : std::true_type
-         {
-         };
-
          template<>
          struct string<>
             : trivial< true >
@@ -57,6 +52,11 @@ namespace tao
                }
                return false;
             }
+         };
+
+         template< char... Cs >
+         struct skip_control< string< Cs... > > : std::true_type
+         {
          };
 
       }  // namespace internal

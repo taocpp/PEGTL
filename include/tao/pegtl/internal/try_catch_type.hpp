@@ -27,11 +27,6 @@ namespace tao
          template< typename Exception, typename... Rules >
          struct try_catch_type;
 
-         template< typename Exception, typename... Rules >
-         struct skip_control< try_catch_type< Exception, Rules... > > : std::true_type
-         {
-         };
-
          template< typename Exception >
          struct try_catch_type< Exception >
             : trivial< true >
@@ -61,6 +56,11 @@ namespace tao
                   return false;
                }
             }
+         };
+
+         template< typename Exception, typename... Rules >
+         struct skip_control< try_catch_type< Exception, Rules... > > : std::true_type
+         {
          };
 
       }  // namespace internal

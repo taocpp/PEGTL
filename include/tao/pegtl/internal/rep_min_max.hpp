@@ -29,11 +29,6 @@ namespace tao
          template< unsigned Min, unsigned Max, typename... Rules >
          struct rep_min_max;
 
-         template< unsigned Min, unsigned Max, typename... Rules >
-         struct skip_control< rep_min_max< Min, Max, Rules... > > : std::true_type
-         {
-         };
-
          template< unsigned Min, unsigned Max >
          struct rep_min_max< Min, Max >
             : trivial< false >
@@ -77,6 +72,11 @@ namespace tao
                }
                return m( duseltronik< not_at< Rules... >, A, m_t::next_rewind_mode, Action, Control >::match( in, st... ) );  // NOTE that not_at<> will always rewind.
             }
+         };
+
+         template< unsigned Min, unsigned Max, typename... Rules >
+         struct skip_control< rep_min_max< Min, Max, Rules... > > : std::true_type
+         {
          };
 
       }  // namespace internal

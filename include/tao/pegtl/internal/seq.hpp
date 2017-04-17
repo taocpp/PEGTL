@@ -24,11 +24,6 @@ namespace tao
          template< typename... Rules >
          struct seq;
 
-         template< typename... Rules >
-         struct skip_control< seq< Rules... > > : std::true_type
-         {
-         };
-
          template<>
          struct seq<>
             : trivial< true >
@@ -69,6 +64,11 @@ namespace tao
                using m_t = decltype( m );
                return m( rule_conjunction< Rules... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );
             }
+         };
+
+         template< typename... Rules >
+         struct skip_control< seq< Rules... > > : std::true_type
+         {
          };
 
       }  // namespace internal
