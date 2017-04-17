@@ -38,9 +38,10 @@
 
 * Improved parsing layer:
 
-  * Added new combinator class `minus< M, S >`.
+  * Added combinator class `minus< M, S >`.
+  * Added ASCII rule class `keyword< C, ... >`.
   * Added `apply` and `if_apply` rules for in-grammar direct actions.
-  * Added `apply()` method to control class for greater control.
+  * Added `apply()` and `apply0()` methods to control class for greater control.
 
 * Improved `TAOCPP_PEGTL_(I)STRING`:
 
@@ -51,7 +52,7 @@
 * Other:
 
   * Optimised superfluous input markers.
-  * Optionally optimise actions that do not need the input.
+  * Allowed optimisation of actions that do not need the input.
   * Replaced layered matching with superior Duseltronik™.
 
 ## 1.3.1

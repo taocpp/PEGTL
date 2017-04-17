@@ -18,11 +18,11 @@ namespace tao
       {
          // clang-format off
          struct any : internal::any< internal::peek_utf8 > {};
-         template< char32_t ... Cs > struct not_one : internal::one< internal::result_on_found::FAILURE, internal::peek_utf8, Cs ... > {};
+         template< char32_t... Cs > struct not_one : internal::one< internal::result_on_found::FAILURE, internal::peek_utf8, Cs... > {};
          template< char32_t Lo, char32_t Hi > struct not_range : internal::range< internal::result_on_found::FAILURE, internal::peek_utf8, Lo, Hi > {};
-         template< char32_t ... Cs > struct one : internal::one< internal::result_on_found::SUCCESS, internal::peek_utf8, Cs ... > {};
+         template< char32_t... Cs > struct one : internal::one< internal::result_on_found::SUCCESS, internal::peek_utf8, Cs... > {};
          template< char32_t Lo, char32_t Hi > struct range : internal::range< internal::result_on_found::SUCCESS, internal::peek_utf8, Lo, Hi > {};
-         template< char32_t ... Cs > struct ranges : internal::ranges< internal::peek_utf8, Cs ... > {};
+         template< char32_t... Cs > struct ranges : internal::ranges< internal::peek_utf8, Cs... > {};
          // clang-format on
 
       }  // namespace utf8
