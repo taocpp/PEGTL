@@ -26,7 +26,7 @@ namespace tao
          class analyze_cycles_impl
          {
          protected:
-            explicit analyze_cycles_impl( const bool verbose )
+            explicit analyze_cycles_impl( const bool verbose ) noexcept
                : m_verbose( verbose ),
                  m_problems( 0 )
             {
@@ -39,7 +39,7 @@ namespace tao
             std::map< std::string, bool > m_cache;
             std::map< std::string, bool > m_results;
 
-            const std::map< std::string, rule_info >::const_iterator find( const std::string& name ) const
+            const std::map< std::string, rule_info >::const_iterator find( const std::string& name ) const noexcept
             {
                const auto iter = m_info.map.find( name );
                assert( iter != m_info.map.end() );
@@ -117,7 +117,7 @@ namespace tao
             }
 
             template< typename Rule >
-            bool consumes() const
+            bool consumes() const noexcept
             {
                const auto i = m_results.find( internal::demangle< Rule >() );
                assert( i != m_results.end() );

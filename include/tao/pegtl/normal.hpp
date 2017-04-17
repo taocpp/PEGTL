@@ -24,17 +24,17 @@ namespace tao
       struct normal
       {
          template< typename Input, typename... States >
-         static void start( const Input&, States&&... )
+         static void start( const Input&, States&&... ) noexcept
          {
          }
 
          template< typename Input, typename... States >
-         static void success( const Input&, States&&... )
+         static void success( const Input&, States&&... ) noexcept
          {
          }
 
          template< typename Input, typename... States >
-         static void failure( const Input&, States&&... )
+         static void failure( const Input&, States&&... ) noexcept
          {
          }
 

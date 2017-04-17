@@ -18,7 +18,7 @@ namespace tao
          struct dummy_disabled_state
          {
             template< typename... Ts >
-            void success( Ts&&... )
+            void success( Ts&&... ) const noexcept
             {
             }
          };

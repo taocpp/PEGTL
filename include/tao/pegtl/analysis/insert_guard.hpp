@@ -41,7 +41,7 @@ namespace tao
             insert_guard( const insert_guard& ) = delete;
             void operator=( const insert_guard& ) = delete;
 
-            explicit operator bool() const
+            explicit operator bool() const noexcept
             {
                return m_i.second;
             }
