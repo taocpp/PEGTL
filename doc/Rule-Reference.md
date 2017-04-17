@@ -404,15 +404,15 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 * Matches and consumes an ASCII identifier as defined for the C programming language.
 * Equivalent to `seq< identifier_first, star< identifier_other > >`.
 
-###### `istring< C, D, ... >`
+###### `istring< C, ... >`
 
-* Matches and consumes the given ASCII string `C, D, ...` with case insensitive matching.
-* Similar to `string< C, D, ... >`, but:
+* Matches and consumes the given ASCII string `C, ...` with case insensitive matching.
+* Similar to `string< C, ... >`, but:
 * For ASCII letters a-z and A-Z the match is case insensitive.
 
 ###### `keyword< C, ... >`
 
-* Matches and consumes a string not followed by a subsequent identifier character.
+* Matches and consumes a non-empty string not followed by a subsequent identifier character.
 * Equivalent to `seq< string< C, ... >, not_at< identifier_other > >`.
 
 ###### `lower`
@@ -476,10 +476,10 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 * Matches and consumes a single space, line-feed, carriage-return, horizontal-tab, vertical-tab or form-feed.
 * Equivalent to `one< ' ', '\n', '\r', 't', '\v', '\f' >`.
 
-###### `string< C, D, ... >`
+###### `string< C1, C2, ... >`
 
 * Matches and consumes a string, a sequence of bytes or single-byte characters.
-* Equivalent to `seq< one< C >, one< D >, ... >`.
+* Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
 
 ###### `TAOCPP_PEGTL_ISTRING( "..." )`
 
@@ -487,6 +487,14 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
   `istring< 'f', 'o', 'o' >`.
 * The argument must be a string literal.
 * Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
+* Strings may contain embedded `'\0'`.
+
+###### `TAOCPP_PEGTL_KEYWORD( "..." )`
+
+* Macro where `TAOCPP_PEGTL_KEYWORD( "foo" )` yields<br>
+  `keyword< 'f', 'o', 'o' >`.
+* The argument must be a string literal.
+* Works for keywords up to 512 bytes of length (excluding trailing `'\0'`).
 * Strings may contain embedded `'\0'`.
 
 ###### `TAOCPP_PEGTL_STRING( "..." )`

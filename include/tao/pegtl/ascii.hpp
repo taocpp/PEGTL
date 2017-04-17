@@ -15,18 +15,18 @@ namespace tao
       inline namespace ascii
       {
          // clang-format off
-         struct alnum : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9' > {};
-         struct alpha : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z' > {};
+         struct alnum : internal::alnum {};
+         struct alpha : internal::alpha {};
          struct any : internal::any< internal::peek_char > {};
          struct blank : internal::one< internal::result_on_found::SUCCESS, internal::peek_char, ' ', '\t' > {};
          struct digit : internal::range< internal::result_on_found::SUCCESS, internal::peek_char, '0', '9' > {};
          struct eol : internal::eol {};
          struct eolf : internal::eolf {};
-         struct identifier_first : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '_' > {};
-         struct identifier_other : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9', '_' > {};
-         struct identifier : internal::seq< identifier_first, internal::star< identifier_other > > {};
+         struct identifier_first : internal::identifier_first {};
+         struct identifier_other : internal::identifier_other {};
+         struct identifier : internal::identifier {};
          template< char... Cs > struct istring : internal::istring< Cs... > {};
-         template< char... Cs > struct keyword : internal::seq< internal::string< Cs... >, internal::not_at< internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9', '_' > > > {};
+         template< char C, char... Cs > struct keyword : internal::seq< internal::string< C, Cs... >, internal::not_at< internal::identifier_other > > {};
          struct lower : internal::range< internal::result_on_found::SUCCESS, internal::peek_char, 'a', 'z' > {};
          template< char... Cs > struct not_one : internal::one< internal::result_on_found::FAILURE, internal::peek_char, Cs... > {};
          template< char Lo, char Hi > struct not_range : internal::range< internal::result_on_found::FAILURE, internal::peek_char, Lo, Hi > {};

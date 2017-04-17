@@ -5,6 +5,8 @@
 #define TAOCPP_PEGTL_INCLUDE_INTERNAL_RULES_HPP
 
 #include "action.hpp"
+#include "alnum.hpp"
+#include "alpha.hpp"
 #include "any.hpp"
 #include "apply.hpp"
 #include "apply0.hpp"
@@ -19,6 +21,7 @@
 #include "eof.hpp"
 #include "eol.hpp"
 #include "eolf.hpp"
+#include "identifier.hpp"
 #include "if_apply.hpp"
 #include "if_must.hpp"
 #include "if_must_else.hpp"
