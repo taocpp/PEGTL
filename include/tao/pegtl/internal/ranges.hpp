@@ -27,7 +27,7 @@ namespace tao
          {
             static constexpr bool can_match_eol = false;
 
-            static bool match( const Char )
+            static bool match( const Char ) noexcept
             {
                return false;
             }
@@ -38,7 +38,7 @@ namespace tao
          {
             static constexpr bool can_match_eol = ( Eq == Eol );
 
-            static bool match( const Char c )
+            static bool match( const Char c ) noexcept
             {
                return c == Eq;
             }
@@ -49,7 +49,7 @@ namespace tao
          {
             static constexpr bool can_match_eol = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) || ranges_impl< Eol, Char, Cs... >::can_match_eol );
 
-            static bool match( const Char c )
+            static bool match( const Char c ) noexcept
             {
                return ( ( Lo <= c ) && ( c <= Hi ) ) || ranges_impl< Eol, Char, Cs... >::match( c );
             }

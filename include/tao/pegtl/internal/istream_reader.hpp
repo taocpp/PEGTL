@@ -17,7 +17,7 @@ namespace tao
       {
          struct istream_reader
          {
-            explicit istream_reader( std::istream& s )
+            explicit istream_reader( std::istream& s ) noexcept
                : m_istream( s )
             {
             }

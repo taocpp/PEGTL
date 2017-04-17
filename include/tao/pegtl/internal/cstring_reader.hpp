@@ -18,13 +18,13 @@ namespace tao
       {
          struct cstring_reader
          {
-            explicit cstring_reader( const char* zero_terminated )
+            explicit cstring_reader( const char* zero_terminated ) noexcept
                : m_cstring( zero_terminated )
             {
                assert( m_cstring );
             }
 
-            std::size_t operator()( char* buffer, const std::size_t length )
+            std::size_t operator()( char* buffer, const std::size_t length ) noexcept
             {
                std::size_t i = 0;
                char c;

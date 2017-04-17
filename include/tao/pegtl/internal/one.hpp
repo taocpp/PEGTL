@@ -22,7 +22,7 @@ namespace tao
       namespace internal
       {
          template< typename Char >
-         bool contains( const Char c, const std::initializer_list< Char >& l )
+         bool contains( const Char c, const std::initializer_list< Char >& l ) noexcept
          {
             return std::find( l.begin(), l.end(), c ) != l.end();
          }

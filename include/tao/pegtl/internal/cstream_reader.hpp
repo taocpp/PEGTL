@@ -18,7 +18,7 @@ namespace tao
       {
          struct cstream_reader
          {
-            explicit cstream_reader( std::FILE* s )
+            explicit cstream_reader( std::FILE* s ) noexcept
                : m_cstream( s )
             {
             }

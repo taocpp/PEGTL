@@ -28,7 +28,7 @@ namespace tao
             {
             }
 
-            ~file_opener()
+            ~file_opener() noexcept
             {
                ::close( m_fd );
             }
