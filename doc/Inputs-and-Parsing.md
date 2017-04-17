@@ -131,8 +131,8 @@ class memory_input
 
 ## String Input
 
-The class `string_input<>` can be used to parse a `std::string`.
-The input does take onwership by copying or moving the data into itself.
+The class `string_input<>` can also be used to parse a `std::string`.
+Unlike class `memory_input<>`, this class stores a copied (or moved) version of the data for which it takes ownership.
 
 ```c++
 template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
