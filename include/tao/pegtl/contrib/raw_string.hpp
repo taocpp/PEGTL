@@ -4,8 +4,6 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_RAW_STRING_HPP
 #define TAOCPP_PEGTL_INCLUDE_CONTRIB_RAW_STRING_HPP
 
-#include <type_traits>
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../nothing.hpp"
