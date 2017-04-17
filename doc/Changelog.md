@@ -27,12 +27,13 @@
   * Added support for parsing C streams, i.e. `std::FILE *`.
   * Added support for parsing C++ streams, i.e. `std::istream`.
   * Added incremental input support rule `discard`.
-  * Added the byte position to input classes and `position_info`.
+  * Renamed `position_info` class to `position`.
+  * Added the byte position to input classes and `position`.
   * Added fast parsing without line counting (except in errors).
-  * Refactored the `input` class into multiple classes.
+  * Refactored the `input` class into multiple input classes.
   * Refactored the file parser classes into input classes.
   * Refactored the handling of nested parsing.
-  * Removed the `begin` member from class `position_info`.
+  * Removed the `begin` member from class `position`.
   * Removed most parsing front-end functions.
 
 * Improved parsing layer:
@@ -51,7 +52,7 @@
 
   * Optimised superfluous input markers.
   * Optionally optimise actions that do not need the input.
-  * Replaced layered matching with superior Duseltronik.
+  * Replaced layered matching with superior Duseltronik™.
 
 ## 1.3.1
 
