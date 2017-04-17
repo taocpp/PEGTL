@@ -4,6 +4,8 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_RAW_STRING_HPP
 #define TAOCPP_PEGTL_INCLUDE_CONTRIB_RAW_STRING_HPP
 
+#include <type_traits>
+
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../nothing.hpp"
@@ -44,6 +46,18 @@ namespace tao
             }
          };
 
+         void raw_adjust( const char*& i, const std::size_t s ) noexcept
+         {
+            i -= s;
+         }
+
+         void raw_adjust( internal::iterator& i, const std::size_t s ) noexcept
+         {
+            i.byte -= s;
+            i.byte_in_line -= s;
+            i.data -= s;
+         }
+
          template< typename Tag >
          struct raw_string_state_apply< true, false, Tag >
          {
@@ -55,9 +69,7 @@ namespace tao
             static void success( const State& s, const Input& in, States&&... st )
             {
                auto dend = in.iterator();
-               dend.byte -= s.marker_size;
-               dend.byte_in_line -= s.marker_size;
-               dend.data -= s.marker_size;
+               raw_adjust( dend, s.marker_size );
                Control< Tag >::template apply< typename Input::action_t, Action >( s.iter, dend, in.source(), st... );
             }
          };
@@ -76,7 +88,7 @@ namespace tao
             }
          };
 
-         template< typename Tag >
+         template< typename Tag, typename Iterator >
          struct raw_string_state
          {
             template< typename Input, typename... States >
@@ -93,18 +105,18 @@ namespace tao
             void success( const Input& in, States&&... st ) const
             {
                constexpr bool use_action = ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Tag >::value );
-               constexpr bool use_apply0 = use_action && internal::has_apply0< Action< Tag >, internal::type_list< States... > >::value;
+               constexpr bool use_apply0 = use_action && has_apply0< Action< Tag >, type_list< States... > >::value;
                raw_string_state_apply< use_action, use_apply0, Tag >::template success< Action, Control >( *this, in, st... );
             }
 
             raw_string_state( const raw_string_state& ) = delete;
             void operator=( const raw_string_state& ) = delete;
 
-            internal::iterator iter;
+            Iterator iter;
             std::size_t marker_size = 0;
          };
 
-         template< typename Tag, char Open, char Marker >
+         template< char Open, char Marker >
          struct raw_string_open
          {
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
@@ -113,8 +125,9 @@ namespace tao
                       rewind_mode,
                       template< typename... > class Action,
                       template< typename... > class Control,
-                      typename Input >
-            static bool match( Input& in, raw_string_state< Tag >& ls )
+                      typename Input,
+                      typename State >
+            static bool match( Input& in, State& ls )
             {
                if( in.empty() || ( in.peek_char( 0 ) != Open ) ) {
                   return false;
@@ -124,8 +137,8 @@ namespace tao
                      case Open:
                         ls.marker_size = i + 1;
                         in.bump( ls.marker_size );
-                        internal::eol::match( in );
-                        ls.iter = in.iterator();  // Currently prevents use with LAZY.
+                        eol::match( in );
+                        ls.iter = in.iterator();
                         return true;
                      case Marker:
                         break;
@@ -137,7 +150,12 @@ namespace tao
             }
          };
 
-         template< typename Tag, char Marker, char Close >
+         template< char Open, char Marker >
+         struct skip_control< raw_string_open< Open, Marker > > : std::true_type
+         {
+         };
+
+         template< char Marker, char Close >
          struct raw_string_close
          {
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
@@ -146,8 +164,9 @@ namespace tao
                       rewind_mode,
                       template< typename... > class Action,
                       template< typename... > class Control,
-                      typename Input >
-            static bool match( Input& in, const raw_string_state< Tag >& ls )
+                      typename Input,
+                      typename State >
+            static bool match( Input& in, const State& ls )
             {
                if( in.size( ls.marker_size ) < ls.marker_size ) {
                   return false;
@@ -168,13 +187,37 @@ namespace tao
             }
          };
 
-         template< typename Tag, char Open, char Marker >
-         struct skip_control< raw_string_open< Tag, Open, Marker > > : std::true_type
+         template< char Marker, char Close >
+         struct skip_control< raw_string_close< Marker, Close > > : std::true_type
          {
          };
 
-         template< typename Tag, char Marker, char Close >
-         struct skip_control< raw_string_close< Tag, Marker, Close > > : std::true_type
+         template< class Tag, typename... Rules >
+         struct raw_string_switch_state
+         {
+            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules... >;
+
+            template< apply_mode A,
+                      rewind_mode M,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
+            static bool match( Input& in, States&&... st )
+            {
+               using Iterator = typename Input::iterator_t;
+               raw_string_state< Tag, Iterator > s( const_cast< const Input& >( in ), st... );
+
+               if( duseltronik< seq< Rules... >, A, M, Action, Control >::match( in, s ) ) {
+                  s.template success< A, M, Action, Control >( in, st... );
+                  return true;
+               }
+               return false;
+            }
+         };
+
+         template< typename Tag, typename... Rules >
+         struct skip_control< raw_string_switch_state< Tag, Rules... > > : std::true_type
          {
          };
 
@@ -207,15 +250,15 @@ namespace tao
 
       template< char Open, char Marker, char Close, typename Tag = internal::raw_string_tag< Open, Marker, Close > >
       struct raw_string
-         : internal::state< internal::raw_string_state< Tag >,
-                            internal::raw_string_open< Tag, Open, Marker >,
-                            internal::must< internal::until< internal::raw_string_close< Tag, Marker, Close > > > >
+         : internal::raw_string_switch_state< Tag,
+                                              internal::raw_string_open< Open, Marker >,
+                                              internal::must< internal::until< internal::raw_string_close< Marker, Close > > > >
       {
          // This is used to bind an action to the content.
          using content = Tag;
 
          // This is used for error-reporting when a raw string is not closed properly.
-         using close = internal::until< internal::raw_string_close< Tag, Marker, Close > >;
+         using close = internal::until< internal::raw_string_close< Marker, Close > >;
       };
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

@@ -32,6 +32,8 @@ namespace tao
          class memory_input_base< Eol, tracking_mode::IMMEDIATE >
          {
          public:
+            using iterator_t = internal::iterator;
+
             memory_input_base( const internal::iterator& in_iter, const char* in_end, const char* in_source ) noexcept
                : m_data( in_iter ),
                  m_end( in_end ),
@@ -109,15 +111,14 @@ namespace tao
                internal::bump_to_next_line( m_data, in_count );
             }
 
-            template< rewind_mode M >
-            marker< internal::iterator, M > mark() noexcept
-            {
-               return marker< internal::iterator, M >( m_data );
-            }
-
             TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
             {
                return TAOCPP_PEGTL_NAMESPACE::position( m_data, m_source );
+            }
+
+            internal::iterator& iterator() noexcept
+            {
+               return m_data;
             }
 
             const internal::iterator& iterator() const noexcept
@@ -135,6 +136,8 @@ namespace tao
          class memory_input_base< Eol, tracking_mode::LAZY >
          {
          public:
+            using iterator_t = const char*;
+
             memory_input_base( const char* in_begin, const char* in_end, const char* in_source ) noexcept
                : m_all( in_begin ),
                  m_run( in_begin ),
@@ -183,17 +186,16 @@ namespace tao
                m_run += in_count;
             }
 
-            template< rewind_mode M >
-            marker< const char*, M > mark() noexcept
-            {
-               return marker< const char*, M >( m_run );
-            }
-
             TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
             {
                internal::iterator c( m_all );
                internal::bump( c, byte(), Eol::ch );
                return TAOCPP_PEGTL_NAMESPACE::position( c, m_source );
+            }
+
+            const char*& iterator() noexcept
+            {
+               return m_run;
             }
 
             const char* iterator() const noexcept
@@ -217,6 +219,8 @@ namespace tao
       public:
          using eol_t = Eol;
          static constexpr tracking_mode tracking_mode_v = P;
+
+         using typename internal::memory_input_base< Eol, P >::iterator_t;
 
          using memory_t = memory_input;
          using action_t = internal::action_input< Eol, P >;
@@ -279,6 +283,12 @@ namespace tao
 
          void require( const std::size_t ) const noexcept
          {
+         }
+
+         template< rewind_mode M >
+         internal::marker< iterator_t, M > mark() noexcept
+         {
+            return internal::marker< iterator_t, M >( this->iterator() );
          }
       };
 
