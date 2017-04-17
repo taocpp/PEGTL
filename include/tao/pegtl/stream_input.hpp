@@ -22,8 +22,9 @@ namespace tao
       struct cstream_input
          : buffer_input< internal::cstream_reader, Eol >
       {
-         cstream_input( std::FILE* in_stream, const std::size_t in_maximum, const char* in_source )
-            : buffer_input< internal::cstream_reader, Eol >( in_source, in_maximum, in_stream )
+         template< typename T >
+         cstream_input( std::FILE* in_stream, const std::size_t in_maximum, T&& in_source )
+            : buffer_input< internal::cstream_reader, Eol >( std::forward< T >( in_source ), in_maximum, in_stream )
          {
          }
       };
@@ -32,8 +33,9 @@ namespace tao
       struct istream_input
          : buffer_input< internal::istream_reader, Eol >
       {
-         istream_input( std::istream& in_stream, const std::size_t in_maximum, const char* in_source )
-            : buffer_input< internal::istream_reader, Eol >( in_source, in_maximum, in_stream )
+         template< typename T >
+         istream_input( std::istream& in_stream, const std::size_t in_maximum, T&& in_source )
+            : buffer_input< internal::istream_reader, Eol >( std::forward< T >( in_source ), in_maximum, in_stream )
          {
          }
       };
