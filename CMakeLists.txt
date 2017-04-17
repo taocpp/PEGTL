@@ -15,9 +15,9 @@ endif ()
 
 # set project and version
 if (ANDROID_NDK)
-  project (PEGTL VERSION 2.0.0)
+  project (pegtl VERSION 2.0.0)
 else ()
-  project (PEGTL VERSION 2.0.0 LANGUAGES CXX)
+  project (pegtl VERSION 2.0.0 LANGUAGES CXX)
 endif ()
 
 # options
@@ -29,8 +29,8 @@ set (CMAKE_CXX_STANDARD 11)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # define a header-only library
-add_library (PEGTL INTERFACE)
-target_include_directories (PEGTL INTERFACE
+add_library (pegtl INTERFACE)
+target_include_directories (pegtl INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
