@@ -41,6 +41,8 @@ namespace tao
          verify_rule< utf32::one< 0x20 > >( __LINE__, __FILE__, u32s( 0x20 ), result_type::SUCCESS, 0 );
          verify_rule< utf32::one< 0x20ac > >( __LINE__, __FILE__, u32s( 0x20ac ), result_type::SUCCESS, 0 );
          verify_rule< utf32::one< 0x10fedc > >( __LINE__, __FILE__, u32s( 0x10fedc ), result_type::SUCCESS, 0 );
+
+         verify_rule< utf32::string< 0x20, 0x20ac, 0x10fedc > >( __LINE__, __FILE__, u32s( 0x20 ) + u32s( 0x20ac ) + u32s( 0x10fedc ) + u32s( 0x20 ), result_type::SUCCESS, 4 );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

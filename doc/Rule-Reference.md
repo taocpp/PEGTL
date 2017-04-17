@@ -569,6 +569,10 @@ A unicode code point is considered *valid* when it is in the range `0` to `0x10f
 
 * Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ..., one< E > >`.
 
+###### `string< C, D, ... >`
+
+* Equivalent to `seq< one< C >, one< D >, ... >`.
+
 ## UTF-16 Rules
 
 These rules are in namespace `tao::pegtl::utf16`.
@@ -627,6 +631,10 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 
 * Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ..., one< E > >`.
 
+###### `string< C, D, ... >`
+
+* Equivalent to `seq< one< C >, one< D >, ... >`.
+
 ## UTF-32 Rules
 
 These rules are in namespace `tao::pegtl::utf32`.
@@ -680,6 +688,10 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 ###### `ranges< C1, D1, C2, D2, ..., E >`
 
 * Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ..., one< E > >`.
+
+###### `string< C, D, ... >`
+
+* Equivalent to `seq< one< C >, one< D >, ... >`.
 
 ## Full Index
 
@@ -771,6 +783,9 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`star_must< R, S... >`](#star_must-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`state< R, S... >`](#state-r-s-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`string< C, D, ... >`](#string-c-d--) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`string< C, D, ... >`](#string-c-d--1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
+* [`string< C, D, ... >`](#string-c-d--2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
+* [`string< C, D, ... >`](#string-c-d--3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
 * [`success`](#success) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`TAOCPP_PEGTL_ISTRING( "..." )`](#tao_pegtl_istring_t--) <sup>[(ascii rules)](#ascii_rules)</sup>
 * [`TAOCPP_PEGTL_STRING( "..." )`](#tao_pegtl_string_t--) <sup>[(ascii rules)](#ascii_rules)</sup>

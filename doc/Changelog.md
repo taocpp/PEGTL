@@ -40,6 +40,7 @@
 
   * Added combinator class `minus< M, S >`.
   * Added ASCII rule class `keyword< C, ... >`.
+  * Added `string<>` rules for UTF-8, UTF-16 and UTF-32.
   * Added `apply` and `if_apply` rules for in-grammar direct actions.
   * Added `apply()` and `apply0()` methods to control class for greater control.
 

@@ -23,6 +23,7 @@ namespace tao
          template< char32_t... Cs > struct one : internal::one< internal::result_on_found::SUCCESS, internal::peek_utf8, Cs... > {};
          template< char32_t Lo, char32_t Hi > struct range : internal::range< internal::result_on_found::SUCCESS, internal::peek_utf8, Lo, Hi > {};
          template< char32_t... Cs > struct ranges : internal::ranges< internal::peek_utf8, Cs... > {};
+         template< char32_t... Cs > struct string : internal::seq< internal::one< internal::result_on_found::SUCCESS, internal::peek_utf8, Cs >... > {};
          // clang-format on
 
       }  // namespace utf8
