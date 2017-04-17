@@ -4,9 +4,11 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/parse_arg.hpp>
+#include <tao/pegtl/argv_input.hpp>
 
 #include <tao/pegtl/contrib/unescape.hpp>
+
+using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 
 namespace example
 {
@@ -15,8 +17,6 @@ namespace example
    // - \u followed by four hex-digits to insert a Unicode code point.
    // - \U followed by eight hex-digits to insert any Unicdoe code points.
    // - A backslash followed by one of the characters listed in the grammar below.
-
-   using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 
    // clang-format off
    struct escaped_x : seq< one< 'x' >, rep< 2, must< xdigit > > > {};
@@ -52,8 +52,9 @@ namespace example
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      tao::TAOCPP_PEGTL_NAMESPACE::unescape::state s;
-      tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< example::padded, example::action >( i, argv, s );
+      unescape::state s;
+      argv_input<> in( argv, i );
+      parse< example::padded, example::action >( in, s );
       std::cout << "argv[ " << i << " ] = " << s.unescaped << std::endl;
    }
    return 0;

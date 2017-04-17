@@ -81,7 +81,8 @@ int main( int argc, char* argv[] )
       // action; then print what the action put there.
 
       std::string name;
-      tao::pegtl::parse_arg< hello::grammar, hello::action >( 1, argv, name );
+      tao::pegtl::argv_input<> in( argv, 1 );
+      tao::pegtl::parse< hello::grammar, hello::action >( in, name );
       std::cout << "Good bye, " << name << "!" << std::endl;
    }
 }

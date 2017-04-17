@@ -5,12 +5,12 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
-#include <tao/pegtl/parse_arg.hpp>
+#include <tao/pegtl/argv_input.hpp>
+
+using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 
 namespace sexpr
 {
-   using namespace tao::pegtl;
-
    struct hash_comment
       : until< eolf >
    {
@@ -113,11 +113,12 @@ namespace sexpr
 
 int main( int argc, char** argv )
 {
-   tao::TAOCPP_PEGTL_NAMESPACE::analyze< sexpr::main >();
+   analyze< sexpr::main >();
 
    for( int i = 1; i < argc; ++i ) {
       std::string fn;
-      tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< sexpr::main, sexpr::action >( i, argv, fn );
+      argv_input<> in( argv, i );
+      parse< sexpr::main, sexpr::action >( in, fn );
    }
    return 0;
 }

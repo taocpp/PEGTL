@@ -5,7 +5,7 @@
 #include <string>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/parse_arg.hpp>
+#include <tao/pegtl/argv_input.hpp>
 
 namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
 
@@ -39,7 +39,8 @@ int main( int argc, char** argv )
 {
    if( argc > 1 ) {
       std::string name;
-      pegtl::parse_arg< hello::grammar, hello::action >( 1, argv, name );
+      pegtl::argv_input<> in( argv, 1 );
+      pegtl::parse< hello::grammar, hello::action >( in, name );
       std::cout << "Good bye, " << name << "!" << std::endl;
    }
 }

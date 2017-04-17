@@ -2,16 +2,18 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/parse_arg.hpp>
+#include <tao/pegtl/argv_input.hpp>
 
 #include "json_errors.hpp"
 
-using grammar = tao::TAOCPP_PEGTL_NAMESPACE::must< tao::TAOCPP_PEGTL_NAMESPACE::json::text, tao::TAOCPP_PEGTL_NAMESPACE::eof >;
+using namespace tao::TAOCPP_PEGTL_NAMESPACE;
+using grammar = must< json::text, eof >;
 
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< grammar, tao::TAOCPP_PEGTL_NAMESPACE::nothing, examples::errors >( i, argv );
+      argv_input<> in( argv, i );
+      parse< grammar, nothing, examples::errors >( in );
    }
    return 0;
 }

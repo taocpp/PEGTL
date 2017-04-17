@@ -8,12 +8,14 @@
 #include <vector>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/parse_arg.hpp>
+#include <tao/pegtl/argv_input.hpp>
 
 // Include the analyze function that checks
 // a grammar for possible infinite cycles.
 
 #include <tao/pegtl/analyze.hpp>
+
+namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
 
 namespace calculator
 {
@@ -289,12 +291,12 @@ namespace calculator
    // required to let our calculator actually do something.
 
    // The base-case of the class template for the actions must derive from
-   // tao::TAOCPP_PEGTL_NAMESPACE::nothing (or, alternatively, define an action that does something
+   // pegtl::nothing (or, alternatively, define an action that does something
    // sensible for all rules for which no specialisation exists).
 
    template< typename Rule >
    struct action
-      : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule >
+      : pegtl::nothing< Rule >
    {
    };
 
@@ -339,7 +341,7 @@ int main( int argc, char** argv )
 {
    // Check the grammar for some possible issues.
 
-   tao::TAOCPP_PEGTL_NAMESPACE::analyze< calculator::grammar >();
+   pegtl::analyze< calculator::grammar >();
 
    // The objects required as state by the actions.
 
@@ -349,7 +351,8 @@ int main( int argc, char** argv )
    for( int i = 1; i < argc; ++i ) {
       // Parse and process the command-line arguments as calculator expressions...
 
-      tao::TAOCPP_PEGTL_NAMESPACE::parse_arg< calculator::grammar, calculator::action >( i, argv, b, s );
+      pegtl::argv_input<> in( argv, i );
+      pegtl::parse< calculator::grammar, calculator::action >( in, b, s );
 
       // ...and print the respective results to std::cout.
 
