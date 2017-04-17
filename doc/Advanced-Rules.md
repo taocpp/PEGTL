@@ -75,7 +75,8 @@ The remainder of the program checks that all characters of `argv[ 1 ]` are equal
 int main( int argc, char * argv[] )
 {
    if ( argc > 1 ) {
-      tao::pegtl::parse_arg< modulus::grammar >( 1, argv );
+      tao::pegtl::argv_input<> in( argv, 1 );
+      tao::pegtl::parse< modulus::grammar >( in );
    }
    return 0;
 }
@@ -263,10 +264,11 @@ int main( int argc, char * argv[] )
    if ( argc > 1 ) {
       std::string long_literal_mark;
       std::string long_literal_body;
-      tao::pegtl::parse_arg< dynamic::grammar,
-                        dynamic::action >( 1, argv
-                                           long_literal_mark,
-                                           long_literal_body );
+      tao::pegtl::argv_input<> in( argv, 1 );
+      tao::pegtl::parse< dynamic::grammar,
+                         dynamic::action >( in,
+                                            long_literal_mark,
+                                            long_literal_body );
       std::cout << "long literal mark was: "
                 << long_literal_mark
                 << std::endl;

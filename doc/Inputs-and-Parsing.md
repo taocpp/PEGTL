@@ -35,9 +35,9 @@ All classes and functions on this page are in namespace `tao::pegtl`.
 * [Memory Input](#memory-input)
 * [String Input](#string-input)
 * [Stream Inputs](#stream-inputs)
+* [Argument Input](#argument-input)
 * [Parse Function](#parse-function)
 * [Nested Parsing](#nested-parsing)
-* [Other Functions](#other-functions)
 
 ## Line Ending
 
@@ -161,12 +161,27 @@ template< typename Eol = lf_crlf_eol >
 struct cstream_input
 {
    cstream_input( std::FILE* stream, const std::size_t maximum, const char* source );
+   cstream_input( std::FILE* stream, const std::size_t maximum, const std::string& source );
 };
 
 template< typename Eol = lf_crlf_eol >
 struct istream_input
 {
    istream_input( std::istream& stream, const std::size_t maximum, const char* source );
+   istream_input( std::istream& stream, const std::size_t maximum, const std::string& source );
+};
+```
+
+## Argument Input
+
+The class `argv_input<>` can be used to parse a string passed from the command line.
+
+```c++
+template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
+class argv_input
+{
+   argv_input( char** argv, const std::size_t n, const char* source );
+   argv_input( char** argv, const std::size_t n, const std::string& source );
 };
 ```
 
@@ -193,14 +208,14 @@ The result of a parsing run, i.e. an invocation of `tao::pegtl::parse()`, can be
 
 ```c++
 template< typename Rule,
-          template< typename ... > class Action = nothing,
-          template< typename ... > class Control = normal,
+          template< typename... > class Action = nothing,
+          template< typename... > class Control = normal,
           apply_mode A = apply_mode::ACTION,
           rewind_mode M = rewind_mode::REQUIRED,
           typename Input,
-          typename ... States >
-bool parse( Input & in,
-            States && ... st );
+          typename... States >
+bool parse( Input& in,
+            States&&... st );
 ```
 
 ## Nested Parsing
@@ -215,35 +230,16 @@ Everything else remains the same.
 
 ```c++
 template< typename Rule,
-          template< typename ... > class Action = nothing,
-          template< typename ... > class Control = normal,
+          template< typename... > class Action = nothing,
+          template< typename... > class Control = normal,
           apply_mode A = apply_mode::ACTION,
           rewind_mode M = rewind_mode::REQUIRED,
           typename Outer,
           typename Input,
-          typename ... States >
-bool parse_nested( const Outer & oi,
-                   Input & in,
-                   States && ... st );
-```
-
-## Other Functions
-
-The function `tao::pegtl::parse_arg()` declared in the header `<tao/pegtl/parse_arg.hpp>` is a convenience function to parse the command line argument `argv[ argn ]`.
-It sets the *source* for the position to `"arg[n]"` where `n` corresponds to `argn`.
-
-```c++
-template< typename Rule,
-          template< typename... > class Action = nothing,
-          template< typename... > class Control = normal,
-          typename Eol = lf_crlf_eol,
-          tracking_mode P = tracking_mode::IMMEDIATE,
-          apply_mode A = apply_mode::ACTION,
-          rewind_mode M = rewind_mode::REQUIRED,
           typename... States >
-bool parse_arg( const int argn,
-                char** argv,
-                States&&... st );
+bool parse_nested( const Outer& oi,
+                   Input& in,
+                   States&&... st );
 ```
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
