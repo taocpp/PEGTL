@@ -1,11 +1,29 @@
 # Inputs and Parsing
 
-Performing a parsing run consists of two steps:
+Assuming that the [grammar rules](Rules-and-Grammars.md) are ready, and the [actions and states](Actions-and-States.md) prepared, performing a parsing run consists of two steps:
 
 1. Constructing an *input* class that represents the to-be-parsed data.
-2. Calling a PEGTL *parse* function with, among other things, the input.
+2. Calling a PEGTL *parse* function with the input (and any states).
 
-In the context of PEGTL input classes and positions, `source` is a string that identifies where the to-be-parsed data comes from, its source.
+```c++
+using namespace tao::pegtl;
+
+struct my_grammar : ...;
+
+template< typename Rule > struct my_actions
+   : nothing< Rule > {};
+
+// Specialisations of my_actions as required...
+
+void my_parse( const std::string& filename,
+               my_state& state )
+{
+   file_input<> in( filename );
+   parse< my_grammar, my_actions >( in, state );  // Can return `false` if no top-level `must<>`-rule.
+}
+```
+
+In the context of PEGTL input classes and positions, `source` is a string that identifies where the to-be-parsed data comes from.
 For example when parsing a file, the filename is the source.
 
 All classes and functions on this page are in namespace `tao::pegtl`.
