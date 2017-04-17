@@ -79,7 +79,7 @@ In most applications, the actions also need some kind of data or user-defined (p
 Since the `apply()` and `apply0()`-methods are `static`, they do not have an instance of the class of which they are a member function available for this purpose.
 Therefore the *state(s)* are an arbitrary collection of objects that are
 
-* passed by the user as additional arguments to the `parse()`-function that starts a parsing run, and then
+* passed by the user as additional arguments to the [`parse()`-function](Inputs-and-Parsing.md#parse-function) that starts a parsing run, and then
 
 * passed by the PEGTL as additional arguments to all actions' `apply()` or `apply0()`-method.
 
@@ -104,10 +104,10 @@ If we then assume that our grammar `my_grammar` contains the rule `tao::pegtl::p
 ```c++
 const std::string parsed_data = ...;
 std::vector< std::string > digit_strings;
-tao::pegtl::parse_string< my_grammar,
-                     my_actions >( parsed_data,
-                                  "data-source-name",
-                                  digit_strings );
+tao::pegtl::parse< my_grammar,
+                   my_actions >( parsed_data,
+                                 "data-source-name",
+                                 digit_strings );
 ```
 
 to collect all `digit_strings` that were detected by the grammar, i.e. the vector will contain one string for every time that the `tao::pegtl::plus< tao::pegtl::digit >` rule was matched against the input.
@@ -127,10 +127,10 @@ an action class template can be specialised for `foo` or for `tao::pegtl::one< '
 
 (The method is called on class `foo`, which happens to inherit `match()` from `tao::pegtl::plus< tao::pegtl::one< '*' > >`, however base classes are not taken into consideration by the C++ language when choosing a specialisation.)
 
-To then use these actions in a parsing run, simply pass them as additional template parameter to one of the parser functions defined in `<tao/pegtl/parser.hpp>`, e.g. `parse_string()`.
+To then use these actions in a parsing run, simply pass them as additional template parameter to one of the parser functions defined in `<tao/pegtl/parse.hpp>`.
 
 ```c++
-tao::pegtl::parse_string< my_grammar, my_actions >( ... );
+tao::pegtl::parse< my_grammar, my_actions >( ... );
 ```
 
 ## Changing Actions
@@ -140,18 +140,16 @@ Within a grammar, the action class template can be changed, enabled or disabled 
 The following two lines effectively do the same thing, namely parse with `my_grammar` as top-level parsing rule without invoking actions (unless actions are enabled again somewhere within the grammar).
 
 ```c++
-tao::pegtl::parse_string< my_grammar >( ... );
-tao::pegtl::parse_string< tao::pegtl::disable< my_grammar >, my_actions >( ... );
+tao::pegtl::parse< my_grammar >( ... );
+tao::pegtl::parse< tao::pegtl::disable< my_grammar >, my_actions >( ... );
 ```
 
 Similarly the following two lines both start parsing `my_grammar` with `my_actions` (again with the caveat that something might change somewhere in the grammar).
 
 ```c++
-tao::pegtl::parse_string< my_grammar, my_actions >( ... );
-tao::pegtl::parse_string< tao::pegtl::action< my_actions, my_grammar > >( ... );
+tao::pegtl::parse< my_grammar, my_actions >( ... );
+tao::pegtl::parse< tao::pegtl::action< my_actions, my_grammar > >( ... );
 ```
-
-As usual this applies not just to `parse_string()`, but equally to all parser functions defined in `<tao/pegtl/parser.hpp>` or the `parse()` member methods of the parser classes documented in [Parser Reference](Parser-Reference.md).
 
 In other words, `enable<>` and `disable<>` behave just like `seq<>` but enable or disable the calling of actions. `action<>` changes the active action class template, which must be supplied as first template parameter to `action<>`.
 

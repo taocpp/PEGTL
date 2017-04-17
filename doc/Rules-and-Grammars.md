@@ -62,7 +62,7 @@ To give another example of what a small real-world grammar might look like, belo
 It only supports proper lists, symbols, comments and numbers.
 Numbers are non-empty sequences of ASCII digits.
 
-The rule named `file` is the intended top-level rule of the grammar, i.e. the rule that is supplied as template argument to one of the [`parse()`-family of functions](Parser-Reference.md) in order to start a parsing run with this grammar.
+The rule named `file` is the intended top-level rule of the grammar, i.e. the rule that is supplied as template argument to [the `parse()` function](Inputs-and-Parsing.md#parse-function) in order to start a parsing run with this grammar.
 
 ```c++
 using namespace tao::pegtl;

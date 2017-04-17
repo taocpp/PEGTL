@@ -9,7 +9,7 @@ Existing grammars will continue to work as before once the following list of nam
 * Everything in the PEGTL is now in namespace `tao::pegtl`.
 * The file name extensions were changed from `.hh` to `.hpp`.
 * The main include file is now `<tao/pegtl.hpp>`, all other include files are `<tao/pegtl/*.hpp>`.
-* The [parse functions](Parser-Reference.md#parser-functions) and their naming were changed.
+* The distribution of tasks between [the parse functions and input classes](Inputs-and-Parsing.md) was changed.
 * The string macros have been renamed from `pegtl_(i)string_t` to `TAOCPP_PEGTL_(I)STRING`.
 * The first argument to actions' `apply()`-methods is now of type `tao::pegtl::action_input`.
 

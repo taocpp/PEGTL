@@ -29,10 +29,11 @@
   * Added incremental input support rule `discard`.
   * Added the byte position to input classes and `position_info`.
   * Added fast parsing without line counting (except in errors).
-  * Removed the `begin` member from class `position_info`.
   * Refactored the `input` class into multiple classes.
+  * Refactored the file parser classes into input classes.
   * Refactored the handling of nested parsing.
-  * Renamed some parsing front-end functions.
+  * Removed the `begin` member from class `position_info`.
+  * Removed most parsing front-end functions.
 
 * Improved parsing layer:
 
@@ -82,7 +83,7 @@ Released 2015-11-12
 
 Released on 2015-09-21
 
-* Added [`file_parser`](Parser-Reference.md#parser-classes) as alias for [`mmap_parser`](Parser-Reference.md#parser-classes) or [`read_parser`](Parser-Reference.md#parser-classes) depending on availability of the former.
+* Added `file_parser` as alias for `mmap_parser`or `read_parser` depending on availability of the former.
 * Added Clang 3.7 to the automated tests.
 * Added MacOS X with XCode 6 and XCode 7 to the automated tests.
 * Added coverage test and improved test coverage to 100%.
