@@ -27,13 +27,20 @@ struct skipping : until< T > {};
 template< typename R, typename T >
 struct recoverable : sor< try_catch< must< R, T > >, skipping< T > > {};
 
-struct sum;
-struct value : sor< plus< digit >, if_must< one< '(' >, sum, one< ')' > > > {};
-struct prod : list< must< value >, one< '*', '/' > > {};
-struct sum : list_must< prod, one< '+', '-' > > {};
+struct expr_sum;
+struct expr_identifier : identifier {};
+struct expr_number : plus< digit > {};
+struct expr_braced : if_must< one< '(' >, pad< expr_sum, space >, one< ')' > > {};
+
+struct expr_value : sor< expr_identifier, expr_number, expr_braced > {};
+
+struct expr_power : list< must< expr_value >, one< '^' >, space > {};
+struct expr_prod : list_must< expr_power, one< '*', '/', '%' >, space > {};
+struct expr_sum : list_must< expr_prod, one< '+', '-' >, space > {};
 
 struct term : sor< one< ';' >, eof > {};
-struct expr : recoverable< sum, term > {};
+struct expr : recoverable< pad< expr_sum, space >, term > {};
+
 struct my_grammar : star< expr > {};
 
 // clang-format on
@@ -70,9 +77,13 @@ struct found
 };
 
 // clang-format off
-template<> struct my_action< value > : found< value > {};
-template<> struct my_action< prod > : found< prod > {};
-template<> struct my_action< sum > : found< sum > {};
+template<> struct my_action< expr_identifier > : found< expr_identifier > {};
+template<> struct my_action< expr_number > : found< expr_number > {};
+template<> struct my_action< expr_braced > : found< expr_braced > {};
+template<> struct my_action< expr_value > : found< expr_value > {};
+template<> struct my_action< expr_power > : found< expr_power > {};
+template<> struct my_action< expr_prod > : found< expr_prod > {};
+template<> struct my_action< expr_sum > : found< expr_sum > {};
 // clang-format on
 
 template<>
