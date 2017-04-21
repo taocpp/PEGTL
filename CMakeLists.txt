@@ -46,6 +46,15 @@ if (PEGTL_BUILD_EXAMPLES)
   add_subdirectory (src/example/pegtl)
 endif ()
 
+# installation directories
+if (NOT PEGTL_INSTALL_INCLUDE_DIR)
+  set (PEGTL_INSTALL_INCLUDE_DIR "include")
+endif ()
+
+if (NOT PEGTL_INSTALL_DOC_DIR)
+  set (PEGTL_INSTALL_DOC_DIR "share/doc/tao/pegtl")
+endif ()
+
 # install
-install (DIRECTORY include/ DESTINATION include)
-install (FILES LICENSE DESTINATION include/tao/pegtl)
+install (DIRECTORY include/ DESTINATION ${PEGTL_INSTALL_INCLUDE_DIR})
+install (FILES LICENSE DESTINATION ${PEGTL_INSTALL_DOC_DIR})
