@@ -47,13 +47,8 @@ if (PEGTL_BUILD_EXAMPLES)
 endif ()
 
 # installation directories
-if (NOT PEGTL_INSTALL_INCLUDE_DIR)
-  set (PEGTL_INSTALL_INCLUDE_DIR "include")
-endif ()
-
-if (NOT PEGTL_INSTALL_DOC_DIR)
-  set (PEGTL_INSTALL_DOC_DIR "share/doc/tao/pegtl")
-endif ()
+set(PEGTL_INSTALL_INCLUDE_DIR "include" CACHE STRING "The installation include directory")
+set(PEGTL_INSTALL_DOC_DIR "share/doc/tao/pegtl" CACHE STRING "The installation doc directory")
 
 # install
 install (DIRECTORY include/ DESTINATION ${PEGTL_INSTALL_INCLUDE_DIR})
