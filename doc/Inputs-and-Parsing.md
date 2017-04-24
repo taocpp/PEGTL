@@ -136,7 +136,7 @@ Unlike class `memory_input<>`, this class stores a copied (or moved) version of 
 
 ```c++
 template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
-class memory_input
+class string_input
 {
    string_input( const std::string& string, const char* source ) noexcept;
    string_input( const std::string& string, const std::string& source ) noexcept;
