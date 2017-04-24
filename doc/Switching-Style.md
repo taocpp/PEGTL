@@ -29,8 +29,6 @@ The `state<>` and `action<>` [meta combinators](Rule-Reference.md#meta-rules) ca
 
 In some cases a state object is required for the grammar itself, and in these cases embedding the state-switch into the grammar is recommended.
 
-For an example see `<tao/pegtl/contrib/raw_string.hpp>` where a state-switch is necessary for the parsing rules to function correctly.
-
 ## External Switching
 
 "External switching" is when the states and/or actions are switched from outside of the grammar by providing a specialised control class.
