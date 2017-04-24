@@ -68,7 +68,7 @@ namespace tao
             {
                auto dend = in.iterator();
                raw_adjust( dend, s.marker_size );
-               Control< Tag >::template apply< typename Input::action_t, Action >( s.iter, dend, in.source(), st... );
+               Control< Tag >::template apply< Action >( s.iter, dend, in, st... );
             }
          };
 
@@ -80,9 +80,9 @@ namespace tao
                       typename State,
                       typename Input,
                       typename... States >
-            static void success( const State&, const Input&, States&&... st )
+            static void success( const State&, const Input& in, States&&... st )
             {
-               Control< Tag >::template apply0< Action >( st... );
+               Control< Tag >::template apply0< Action >( in, st... );
             }
          };
 

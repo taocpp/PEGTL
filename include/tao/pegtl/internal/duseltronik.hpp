@@ -80,7 +80,7 @@ namespace tao
                auto m = in.template mark< rewind_mode::REQUIRED >();
 
                if( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, dusel_mode::CONTROL >::match( in, st... ) ) {
-                  Control< Rule >::template apply< typename Input::action_t, Action >( m.iterator(), in.iterator(), in.source(), st... );
+                  Control< Rule >::template apply< Action >( m.iterator(), in.iterator(), const_cast< const Input& >( in ), st... );
                   return m( true );
                }
                return false;
@@ -98,7 +98,7 @@ namespace tao
             static bool match( Input& in, States&&... st )
             {
                if( duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL >::match( in, st... ) ) {
-                  Control< Rule >::template apply0< Action >( st... );
+                  Control< Rule >::template apply0< Action >( const_cast< const Input& >( in ), st... );
                   return true;
                }
                return false;

@@ -44,17 +44,18 @@ namespace tao
             throw parse_error( "parse error matching " + internal::demangle< Rule >(), in );
          }
 
-         template< template< typename... > class Action, typename... States >
-         static void apply0( States&&... st )
+         template< template< typename... > class Action, typename Input, typename... States >
+         static void apply0( const Input&, States&&... st )
          {
             Action< Rule >::apply0( st... );
          }
 
-         template< typename Input, template< typename... > class Action, typename Iterator, typename... States >
-         static void apply( const Iterator begin, const Iterator end, const char* source, States&&... st )
+         template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
+         static void apply( const Iterator begin, const Iterator end, const Input& in, States&&... st )
          {
-            const Input in( begin, end, source );
-            Action< Rule >::apply( in, st... );
+            using action_t = typename Input::action_t;
+            const action_t action_input( begin, end, in.source() );
+            Action< Rule >::apply( action_input, st... );
          }
 
          template< apply_mode A,
