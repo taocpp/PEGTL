@@ -119,6 +119,10 @@ Released on 2015-07-31
 
 Released on 2015-03-29
 
+Version 1.0.0 was a very large refactoring based on the previous years of experience.
+The core design and approach were kept, but nearly all details of the implementation were changed, and some parts were added to, or removed from, the library.
+Semantic versioning was introduced with version 1.0.0.
+
 * Deprecated old site on Google code and published new version on GitHub.
 * Removed the semi-automatic pretty-printing of grammar rules; now the class names are used, when possible demangled.
 * Renamed some of the classes that have more words in their name to use an underscore, e.g. `ifmust<>` is now `if_must<>`.
@@ -146,12 +150,6 @@ Released on 2015-03-29
 * The `error_mode` flag was removed.
 * The semantics of the `must<>` rules was changed to convert local failure to global failure only for the immediate sub-rules of a `must<>` rule.
 * The `parse` methods no longer implicitly generate a global failure, they can return a local failure as a Boolean value. If a global failure is required, the top-level grammar rule has to start with a `must<>`.
-
-## Note
-
-Version 1.0.0 was a very large refactoring based on the previous years of experience.
-The core design and approach were kept, but nearly all details of the implementation were changed, and some parts were added to, or removed from, the library.
-Semantic versioning was introduced with version 1.0.0.
 
 ## 0.32
 
@@ -320,6 +318,6 @@ The last of these changes effectively requires custom action classes to derive e
 
 ## History
 
-The PEGTL was initially developed in 2008 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
+The PEGTL was initially developed starting in November 2007 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
 
-Copyright (c) 2008-2017 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2007-2017 Dr. Colin Hirsch and Daniel Frey
