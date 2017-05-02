@@ -24,11 +24,11 @@ namespace tao
 
       namespace internal
       {
-         template< typename Eol, tracking_mode >
+         template< tracking_mode >
          class action_input_base;
 
-         template< typename Eol >
-         class action_input_base< Eol, tracking_mode::IMMEDIATE >
+         template<>
+         class action_input_base< tracking_mode::IMMEDIATE >
          {
          public:
             action_input_base( const iterator& in_data, const iterator& in_end, const char* in_source ) noexcept
@@ -79,8 +79,8 @@ namespace tao
             const char* const m_source;
          };
 
-         template< typename Eol >
-         class action_input_base< Eol, tracking_mode::LAZY >
+         template<>
+         class action_input_base< tracking_mode::LAZY >
          {
          public:
             action_input_base( const char* in_begin, const char* in_end, const char* ) noexcept
@@ -106,7 +106,7 @@ namespace tao
 
          template< typename Eol, tracking_mode P >
          class action_input
-            : public action_input_base< Eol, P >
+            : public action_input_base< P >
          {
          public:
             using eol_t = Eol;
@@ -115,7 +115,7 @@ namespace tao
             using memory_t = memory_input< Eol, P >;
             using action_t = action_input;
 
-            using action_input_base< Eol, P >::action_input_base;
+            using action_input_base< P >::action_input_base;
 
             bool empty() const noexcept
             {
