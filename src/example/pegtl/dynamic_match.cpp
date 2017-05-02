@@ -28,7 +28,7 @@ namespace dynamic
       static bool match( Input& in, const std::string& long_literal_mark, const std::string& )
       {
          if( in.size( long_literal_mark.size() ) >= long_literal_mark.size() ) {
-            if( std::memcmp( in.begin(), long_literal_mark.data(), long_literal_mark.size() ) == 0 ) {
+            if( std::memcmp( in.current(), long_literal_mark.data(), long_literal_mark.size() ) == 0 ) {
                in.bump( long_literal_mark.size() );
                return true;
             }

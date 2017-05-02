@@ -34,20 +34,20 @@ namespace tao
          public:
             using iterator_t = internal::iterator;
 
-            memory_input_base( const internal::iterator& in_iter, const char* in_end, const char* in_source ) noexcept
-               : m_data( in_iter ),
+            memory_input_base( const iterator_t& in_begin, const char* in_end, const char* in_source ) noexcept
+               : m_current( in_begin ),
                  m_end( in_end ),
                  m_source( in_source )
             {
             }
 
-            memory_input_base( const internal::iterator& in_iter, const char* in_end, const std::string& in_source ) noexcept
-               : memory_input_base( in_iter, in_end, in_source.c_str() )
+            memory_input_base( const iterator_t& in_begin, const char* in_end, const std::string& in_source ) noexcept
+               : memory_input_base( in_begin, in_end, in_source.c_str() )
             {
             }
 
             memory_input_base( const char* in_begin, const char* in_end, const char* in_source ) noexcept
-               : memory_input_base( internal::iterator( in_begin ), in_end, in_source )
+               : memory_input_base( iterator_t( in_begin ), in_end, in_source )
             {
             }
 
@@ -66,9 +66,9 @@ namespace tao
             {
             }
 
-            const char* begin() const noexcept
+            const char* current() const noexcept
             {
-               return m_data.data;
+               return m_current.data;
             }
 
             const char* end( const std::size_t = 0 ) const noexcept
@@ -78,17 +78,17 @@ namespace tao
 
             std::size_t byte() const noexcept
             {
-               return m_data.byte;
+               return m_current.byte;
             }
 
             std::size_t line() const noexcept
             {
-               return m_data.line;
+               return m_current.line;
             }
 
             std::size_t byte_in_line() const noexcept
             {
-               return m_data.byte_in_line;
+               return m_current.byte_in_line;
             }
 
             const char* source() const noexcept
@@ -98,41 +98,36 @@ namespace tao
 
             void bump( const std::size_t in_count = 1 ) noexcept
             {
-               internal::bump( m_data, in_count, Eol::ch );
+               internal::bump( m_current, in_count, Eol::ch );
             }
 
             void bump_in_this_line( const std::size_t in_count = 1 ) noexcept
             {
-               internal::bump_in_this_line( m_data, in_count );
+               internal::bump_in_this_line( m_current, in_count );
             }
 
             void bump_to_next_line( const std::size_t in_count = 1 ) noexcept
             {
-               internal::bump_to_next_line( m_data, in_count );
+               internal::bump_to_next_line( m_current, in_count );
             }
 
-            TAOCPP_PEGTL_NAMESPACE::position position( const internal::iterator& it ) const noexcept
+            TAOCPP_PEGTL_NAMESPACE::position position( const iterator_t& it ) const noexcept
             {
                return TAOCPP_PEGTL_NAMESPACE::position( it, m_source );
             }
 
-            TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
+            iterator_t& iterator() noexcept
             {
-               return position( m_data );
+               return m_current;
             }
 
-            internal::iterator& iterator() noexcept
+            const iterator_t& iterator() const noexcept
             {
-               return m_data;
-            }
-
-            const internal::iterator& iterator() const noexcept
-            {
-               return m_data;
+               return m_current;
             }
 
          private:
-            internal::iterator m_data;
+            iterator_t m_current;
             const char* const m_end;
             const char* const m_source;
          };
@@ -144,8 +139,8 @@ namespace tao
             using iterator_t = const char*;
 
             memory_input_base( const char* in_begin, const char* in_end, const char* in_source ) noexcept
-               : m_all( in_begin ),
-                 m_run( in_begin ),
+               : m_begin( in_begin ),
+                 m_current( in_begin ),
                  m_end( in_end ),
                  m_source( in_source )
             {
@@ -156,9 +151,9 @@ namespace tao
             {
             }
 
-            const char* begin() const noexcept
+            const char* current() const noexcept
             {
-               return m_run;
+               return m_current;
             }
 
             const char* end( const std::size_t = 0 ) const noexcept
@@ -168,7 +163,7 @@ namespace tao
 
             std::size_t byte() const noexcept
             {
-               return std::size_t( begin() - m_all );
+               return std::size_t( current() - m_begin );
             }
 
             const char* source() const noexcept
@@ -178,44 +173,39 @@ namespace tao
 
             void bump( const std::size_t in_count = 1 ) noexcept
             {
-               m_run += in_count;
+               m_current += in_count;
             }
 
             void bump_in_this_line( const std::size_t in_count = 1 ) noexcept
             {
-               m_run += in_count;
+               m_current += in_count;
             }
 
             void bump_to_next_line( const std::size_t in_count = 1 ) noexcept
             {
-               m_run += in_count;
+               m_current += in_count;
             }
 
             TAOCPP_PEGTL_NAMESPACE::position position( const char* it ) const noexcept
             {
-               internal::iterator c( m_all );
-               internal::bump( c, std::size_t( it - m_all ), Eol::ch );
+               internal::iterator c( m_begin );
+               internal::bump( c, std::size_t( it - m_begin ), Eol::ch );
                return TAOCPP_PEGTL_NAMESPACE::position( c, m_source );
             }
 
-            TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
+            iterator_t& iterator() noexcept
             {
-               return position( m_run );
+               return m_current;
             }
 
-            const char*& iterator() noexcept
+            const iterator_t& iterator() const noexcept
             {
-               return m_run;
-            }
-
-            const char* iterator() const noexcept
-            {
-               return m_run;
+               return m_current;
             }
 
          private:
-            const char* const m_all;
-            const char* m_run;
+            const iterator_t m_begin;
+            iterator_t m_current;
             const char* const m_end;
             const char* const m_source;
          };
@@ -269,22 +259,29 @@ namespace tao
 
          bool empty() const noexcept
          {
-            return this->begin() == this->end();
+            return this->current() == this->end();
          }
 
          std::size_t size( const std::size_t = 0 ) const noexcept
          {
-            return std::size_t( this->end() - this->begin() );
+            return std::size_t( this->end() - this->current() );
          }
 
          char peek_char( const std::size_t offset = 0 ) const noexcept
          {
-            return this->begin()[ offset ];
+            return this->current()[ offset ];
          }
 
          unsigned char peek_byte( const std::size_t offset = 0 ) const noexcept
          {
             return static_cast< unsigned char >( peek_char( offset ) );
+         }
+
+         using internal::memory_input_base< Eol, P >::position;
+
+         TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
+         {
+            return this->position( this->iterator() );
          }
 
          void discard() const noexcept

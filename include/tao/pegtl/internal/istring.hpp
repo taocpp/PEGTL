@@ -84,7 +84,7 @@ namespace tao
             static bool match( Input& in )
             {
                if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
-                  if( istring_equal< Cs... >::match( in.begin() ) ) {
+                  if( istring_equal< Cs... >::match( in.current() ) ) {
                      bump_help< result_on_found::SUCCESS, Input, char, Cs... >( in, sizeof...( Cs ) );
                      return true;
                   }

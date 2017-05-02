@@ -51,13 +51,11 @@ namespace tao
             {
             }
 
-            // the iterator points to the begin of the match
             const iterator_t& iterator() const noexcept
             {
                return m_begin;
             }
 
-            // the input's begin points to the end of the match
             const Input& input() const noexcept
             {
                return m_input;
@@ -70,7 +68,7 @@ namespace tao
 
             const char* end( const std::size_t = 0 ) const noexcept
             {
-               return input().begin();
+               return input().current();
             }
 
             bool empty() const noexcept

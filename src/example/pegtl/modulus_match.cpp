@@ -20,7 +20,7 @@ namespace modulus
       static bool match( Input& in )
       {
          if( !in.empty() ) {
-            if( ( ( *in.begin() ) % M ) == R ) {
+            if( ( ( *in.current() ) % M ) == R ) {
                in.bump( 1 );
                return true;
             }
