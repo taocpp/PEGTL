@@ -32,7 +32,7 @@ namespace tao
                auto m = in.template mark< rewind_mode::REQUIRED >();
 
                if( Control< Rule >::template match< apply_mode::ACTION, rewind_mode::ACTIVE, Action, Control >( in, st... ) ) {
-                  const action_t i2( m.iterator(), in.iterator(), in.source() );
+                  const action_t i2( m.iterator(), in );
 #ifdef __cpp_fold_expressions
                   ( Actions::apply( i2, st... ), ... );
 #else

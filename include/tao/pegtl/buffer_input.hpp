@@ -30,8 +30,10 @@ namespace tao
          using reader_t = Reader;
          using eol_t = Eol;
 
+         using iterator_t = internal::iterator;
+
          using memory_t = memory_input< Eol >;
-         using action_t = internal::action_input< Eol, tracking_mode::IMMEDIATE >;
+         using action_t = internal::action_input< buffer_input, tracking_mode::IMMEDIATE >;
 
          template< typename... As >
          buffer_input( const char* in_source, const std::size_t maximum, As&&... as )
@@ -144,17 +146,22 @@ namespace tao
          }
 
          template< rewind_mode M >
-         internal::marker< internal::iterator, M > mark() noexcept
+         internal::marker< iterator_t, M > mark() noexcept
          {
-            return internal::marker< internal::iterator, M >( m_data );
+            return internal::marker< iterator_t, M >( m_data );
+         }
+
+         TAOCPP_PEGTL_NAMESPACE::position position( const iterator_t& it ) const noexcept
+         {
+            return TAOCPP_PEGTL_NAMESPACE::position( it, m_source );
          }
 
          TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
          {
-            return TAOCPP_PEGTL_NAMESPACE::position( m_data, m_source );
+            return position( m_data );
          }
 
-         const internal::iterator& iterator() const noexcept
+         const iterator_t& iterator() const noexcept
          {
             return m_data;
          }
@@ -163,7 +170,7 @@ namespace tao
          Reader m_reader;
          std::size_t m_maximum;
          std::unique_ptr< char[] > m_buffer;
-         internal::iterator m_data;
+         iterator_t m_data;
          const char* m_end;
          const char* const m_source;
       };

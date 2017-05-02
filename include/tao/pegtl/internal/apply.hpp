@@ -27,7 +27,7 @@ namespace tao
             static bool match( Input& in, States&&... st )
             {
                using action_t = typename Input::action_t;
-               const action_t i2( in.iterator(), in.iterator(), in.source() );  // No data -- range is from begin to begin.
+               const action_t i2( in.iterator(), in );  // No data -- range is from begin to begin.
 #ifdef __cpp_fold_expressions
                ( Actions::apply( i2, st... ), ... );
 #else

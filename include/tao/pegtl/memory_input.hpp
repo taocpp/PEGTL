@@ -111,9 +111,14 @@ namespace tao
                internal::bump_to_next_line( m_data, in_count );
             }
 
+            TAOCPP_PEGTL_NAMESPACE::position position( const internal::iterator& it ) const noexcept
+            {
+               return TAOCPP_PEGTL_NAMESPACE::position( it, m_source );
+            }
+
             TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
             {
-               return TAOCPP_PEGTL_NAMESPACE::position( m_data, m_source );
+               return position( m_data );
             }
 
             internal::iterator& iterator() noexcept
@@ -186,11 +191,16 @@ namespace tao
                m_run += in_count;
             }
 
-            TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
+            TAOCPP_PEGTL_NAMESPACE::position position( const char* it ) const noexcept
             {
                internal::iterator c( m_all );
-               internal::bump( c, byte(), Eol::ch );
+               internal::bump( c, std::size_t( it - m_all ), Eol::ch );
                return TAOCPP_PEGTL_NAMESPACE::position( c, m_source );
+            }
+
+            TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
+            {
+               return position( m_run );
             }
 
             const char*& iterator() noexcept
@@ -223,7 +233,7 @@ namespace tao
          using typename internal::memory_input_base< Eol, P >::iterator_t;
 
          using memory_t = memory_input;
-         using action_t = internal::action_input< Eol, P >;
+         using action_t = internal::action_input< memory_input, P >;
 
          using internal::memory_input_base< Eol, P >::memory_input_base;
 

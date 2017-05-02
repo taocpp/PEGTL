@@ -86,20 +86,20 @@ namespace tao
          }
 
          template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
-         static void apply( const Iterator begin, const Iterator end, const Input& in, States&&... st )
+         static void apply( const Iterator& begin, const Input& in, States&&... st )
          {
             std::cerr << "apply " << internal::demangle< Action< Rule > >() << std::endl;
             using action_t = typename Input::action_t;
-            const action_t action_input( begin, end, in.source() );
+            const action_t action_input( begin, in );
             Action< Rule >::apply( action_input, st... );
          }
 
          template< template< typename... > class Action, typename Iterator, typename Input >
-         static void apply( const Iterator begin, const Iterator end, const Input& in, trace_state& ts )
+         static void apply( const Iterator& begin, const Input& in, trace_state& ts )
          {
             std::cerr << std::setw( 6 ) << ++ts.line << "        " << internal::demangle< Action< Rule > >() << "::apply()" << std::endl;
             using action_t = typename Input::action_t;
-            const action_t action_input( begin, end, in.source() );
+            const action_t action_input( begin, in );
             Action< Rule >::apply( action_input, ts );
          }
       };

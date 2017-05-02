@@ -144,10 +144,10 @@ namespace tao
             template< typename Input >
             static void apply( const Input& in )
             {
-               TAOCPP_PEGTL_TEST_ASSERT( in.byte() == count_byte );
-               TAOCPP_PEGTL_TEST_ASSERT( in.line() == count_line );
-               TAOCPP_PEGTL_TEST_ASSERT( in.byte_in_line() == count_byte_in_line );
-               TAOCPP_PEGTL_TEST_ASSERT( in.source() == count_source );
+               TAOCPP_PEGTL_TEST_ASSERT( in.iterator().byte == count_byte );
+               TAOCPP_PEGTL_TEST_ASSERT( in.iterator().line == count_line );
+               TAOCPP_PEGTL_TEST_ASSERT( in.iterator().byte_in_line == count_byte_in_line );
+               TAOCPP_PEGTL_TEST_ASSERT( in.input().source() == count_source );
                TAOCPP_PEGTL_TEST_ASSERT( in.size() == 1 );
                TAOCPP_PEGTL_TEST_ASSERT( in.begin() + 1 == in.end() );
                TAOCPP_PEGTL_TEST_ASSERT( in.peek_char() == 'f' );

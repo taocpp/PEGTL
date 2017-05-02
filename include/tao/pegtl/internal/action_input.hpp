@@ -1,8 +1,8 @@
 // Copyright (c) 2016-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_MEMORY_ACTION_INPUT_HPP
-#define TAOCPP_PEGTL_INCLUDE_INTERNAL_MEMORY_ACTION_INPUT_HPP
+#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_ACTION_INPUT_HPP
+#define TAOCPP_PEGTL_INCLUDE_INTERNAL_ACTION_INPUT_HPP
 
 #include <cstddef>
 #include <string>
@@ -18,129 +18,95 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      // template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
       template< typename, tracking_mode >
       class memory_input;
 
       namespace internal
       {
-         template< tracking_mode >
-         class action_input_base;
+         inline const char* begin_c_ptr( const char* p ) noexcept
+         {
+            return p;
+         }
 
-         template<>
-         class action_input_base< tracking_mode::IMMEDIATE >
+         inline const char* begin_c_ptr( const iterator& it ) noexcept
+         {
+            return it.data;
+         }
+
+         template< typename Input, tracking_mode P >
+         class action_input
          {
          public:
-            action_input_base( const iterator& in_data, const iterator& in_end, const char* in_source ) noexcept
-               : m_data( in_data ),
-                 m_end( in_end.data ),
-                 m_source( in_source )
-            {
-            }
+            using eol_t = typename Input::eol_t;
+            static constexpr tracking_mode tracking_mode_v = P;
 
-            const char* begin() const noexcept
-            {
-               return m_data.data;
-            }
+            using iterator_t = typename Input::iterator_t;
 
-            const char* end( const std::size_t = 0 ) const noexcept
-            {
-               return m_end;
-            }
+            using memory_t = memory_input< eol_t, P >;
+            using action_t = action_input;
 
-            std::size_t byte() const noexcept
-            {
-               return m_data.byte;
-            }
-
-            std::size_t line() const noexcept
-            {
-               return m_data.line;
-            }
-
-            std::size_t byte_in_line() const noexcept
-            {
-               return m_data.byte_in_line;
-            }
-
-            const char* source() const noexcept
-            {
-               return m_source;
-            }
-
-            TAOCPP_PEGTL_NAMESPACE::position position() const
-            {
-               return TAOCPP_PEGTL_NAMESPACE::position( m_data, m_source );
-            }
-
-         private:
-            const iterator m_data;
-            const char* const m_end;
-            const char* const m_source;
-         };
-
-         template<>
-         class action_input_base< tracking_mode::LAZY >
-         {
-         public:
-            action_input_base( const char* in_begin, const char* in_end, const char* ) noexcept
+            action_input( const iterator_t& in_begin, const Input& in_input ) noexcept
                : m_begin( in_begin ),
-                 m_end( in_end )
+                 m_input( in_input )
             {
             }
 
-            const char* begin() const noexcept
+            // the iterator points to the begin of the match
+            const iterator_t& iterator() const noexcept
             {
                return m_begin;
             }
 
-            const char* end( const std::size_t = 0 ) const noexcept
+            // the input's begin points to the end of the match
+            const Input& input() const noexcept
             {
-               return m_end;
+               return m_input;
             }
 
-         private:
-            const char* const m_begin;
-            const char* const m_end;
-         };
+            const char* begin() const noexcept
+            {
+               return begin_c_ptr( iterator() );
+            }
 
-         template< typename Eol, tracking_mode P >
-         class action_input
-            : public action_input_base< P >
-         {
-         public:
-            using eol_t = Eol;
-            static constexpr tracking_mode tracking_mode_v = P;
-
-            using memory_t = memory_input< Eol, P >;
-            using action_t = action_input;
-
-            using action_input_base< P >::action_input_base;
+            const char* end( const std::size_t = 0 ) const noexcept
+            {
+               return input().begin();
+            }
 
             bool empty() const noexcept
             {
-               return this->begin() == this->end();
+               return begin() == end();
             }
 
             std::size_t size( const std::size_t s = 0 ) const noexcept
             {
-               return std::size_t( this->end( s ) - this->begin() );
+               return std::size_t( end( s ) - begin() );
             }
 
             std::string string() const
             {
-               return std::string( this->begin(), this->end() );
+               return std::string( begin(), end() );
             }
 
             char peek_char( const std::size_t offset = 0 ) const noexcept
             {
-               return this->begin()[ offset ];
+               return begin()[ offset ];
             }
 
             unsigned char peek_byte( const std::size_t offset = 0 ) const noexcept
             {
                return static_cast< unsigned char >( peek_char( offset ) );
             }
+
+            // potentially inefficient
+            TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
+            {
+               return input().position( iterator() );
+            }
+
+         protected:
+            const iterator_t m_begin;
+            const Input& m_input;
          };
 
       }  // namespace internal

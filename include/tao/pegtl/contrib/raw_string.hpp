@@ -44,18 +44,6 @@ namespace tao
             }
          };
 
-         void raw_adjust( const char*& i, const std::size_t s ) noexcept
-         {
-            i -= s;
-         }
-
-         void raw_adjust( iterator& i, const std::size_t s ) noexcept
-         {
-            i.byte -= s;
-            i.byte_in_line -= s;
-            i.data -= s;
-         }
-
          template< typename Tag >
          struct raw_string_state_apply< true, false, Tag >
          {
@@ -66,9 +54,7 @@ namespace tao
                       typename... States >
             static void success( const State& s, const Input& in, States&&... st )
             {
-               auto dend = in.iterator();
-               raw_adjust( dend, s.marker_size );
-               Control< Tag >::template apply< Action >( s.iter, dend, in, st... );
+               Control< Tag >::template apply< Action >( s.iter, in, st... );
             }
          };
 
@@ -100,11 +86,12 @@ namespace tao
                       template< typename... > class Control,
                       typename Input,
                       typename... States >
-            void success( const Input& in, States&&... st ) const
+            void success( Input& in, States&&... st ) const
             {
                constexpr bool use_action = ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Tag >::value );
                constexpr bool use_apply0 = use_action && has_apply0< Action< Tag >, type_list< States... > >::value;
                raw_string_state_apply< use_action, use_apply0, Tag >::template success< Action, Control >( *this, in, st... );
+               in.bump_in_this_line( marker_size );
             }
 
             raw_string_state( const raw_string_state& ) = delete;
@@ -154,7 +141,7 @@ namespace tao
          };
 
          template< char Marker, char Close >
-         struct raw_string_close
+         struct at_raw_string_close
          {
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
@@ -180,13 +167,12 @@ namespace tao
                      return false;
                   }
                }
-               in.bump( ls.marker_size );
                return true;
             }
          };
 
          template< char Marker, char Close >
-         struct skip_control< raw_string_close< Marker, Close > > : std::true_type
+         struct skip_control< at_raw_string_close< Marker, Close > > : std::true_type
          {
          };
 
@@ -250,13 +236,13 @@ namespace tao
       struct raw_string
          : internal::raw_string_switch_state< internal::raw_string_tag< Open, Marker, Close >,
                                               internal::raw_string_open< Open, Marker >,
-                                              internal::must< internal::until< internal::raw_string_close< Marker, Close > > > >
+                                              internal::must< internal::until< internal::at_raw_string_close< Marker, Close > > > >
       {
          // This is used to bind an action to the content.
          using content = internal::raw_string_tag< Open, Marker, Close >;
 
          // This is used for error-reporting when a raw string is not closed properly.
-         using close = internal::until< internal::raw_string_close< Marker, Close > >;
+         using close = internal::until< internal::at_raw_string_close< Marker, Close > >;
       };
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
