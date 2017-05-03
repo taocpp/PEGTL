@@ -164,11 +164,6 @@ namespace tao
             {
             }
 
-            const char* begin() const noexcept
-            {
-               return m_begin.data;
-            }
-
             const char* current() const noexcept
             {
                return m_current;
