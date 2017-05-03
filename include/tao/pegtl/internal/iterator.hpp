@@ -34,6 +34,9 @@ namespace tao
             {
             }
 
+            iterator( const iterator& ) = default;
+            iterator& operator=( const iterator& ) = default;
+
             std::size_t byte;
             std::size_t line;
             std::size_t byte_in_line;

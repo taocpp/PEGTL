@@ -61,6 +61,9 @@ namespace tao
             {
             }
 
+            memory_input_base( const memory_input_base& ) = delete;
+            memory_input_base operator=( const memory_input_base& ) = delete;
+
             const char* current() const noexcept
             {
                return m_current.data;
@@ -138,6 +141,9 @@ namespace tao
                  m_source( in_source )
             {
             }
+
+            memory_input_base( const memory_input_base& ) = delete;
+            memory_input_base operator=( const memory_input_base& ) = delete;
 
             const char* current() const noexcept
             {
@@ -234,6 +240,9 @@ namespace tao
             : memory_input( in_begin, in_end, in_source.c_str(), in_byte, in_line, in_byte_in_line )
          {
          }
+
+         memory_input( const memory_input& ) = delete;
+         memory_input operator=( const memory_input& ) = delete;
 
          const char* source() const noexcept
          {
