@@ -46,12 +46,6 @@ namespace tao
          {
          }
 
-         template< typename... As >
-         buffer_input( const std::string& in_source, As&&... as )
-            : buffer_input( in_source.c_str(), std::forward< As >( as )... )
-         {
-         }
-
          buffer_input( const buffer_input& ) = delete;
          void operator=( const buffer_input& ) = delete;
 

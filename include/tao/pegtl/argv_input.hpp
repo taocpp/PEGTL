@@ -48,7 +48,7 @@ namespace tao
          template< typename T >
          argv_input( char** argv, const std::size_t argn, T&& in_source )
             : internal::argv_holder( std::forward< T >( in_source ) ),
-              memory_input< Eol, P >( static_cast< const char* >( argv[ argn ] ), argv_source )
+              memory_input< Eol, P >( static_cast< const char* >( argv[ argn ] ), argv_source.c_str() )
          {
          }
 
