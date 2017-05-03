@@ -23,11 +23,11 @@ namespace tao
    namespace TAOCPP_PEGTL_NAMESPACE
    {
 #if defined( _POSIX_MAPPED_FILES )
-      template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
-      using file_input = mmap_input< Eol, P >;
+      template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = lf_crlf_eol >
+      using file_input = mmap_input< P, Eol >;
 #else
-      template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
-      using file_input = read_input< Eol, P >;
+      template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = lf_crlf_eol >
+      using file_input = read_input< P, Eol >;
 #endif
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

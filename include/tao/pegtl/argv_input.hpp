@@ -27,28 +27,15 @@ namespace tao
             return os.str();
          }
 
-         struct argv_holder
-         {
-            const std::string argv_source;
-
-            template< typename T >
-            explicit argv_holder( T&& in_argv_source )
-               : argv_source( std::forward< T >( in_argv_source ) )
-            {
-            }
-         };
-
       }  // namespace internal
 
-      template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
+      template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = lf_crlf_eol >
       struct argv_input
-         : private internal::argv_holder,
-           public memory_input< Eol, P >
+         : public memory_input< P, Eol >
       {
          template< typename T >
          argv_input( char** argv, const std::size_t argn, T&& in_source )
-            : internal::argv_holder( std::forward< T >( in_source ) ),
-              memory_input< Eol, P >( static_cast< const char* >( argv[ argn ] ), argv_source.c_str() )
+            : memory_input< P, Eol >( static_cast< const char* >( argv[ argn ] ), std::forward< T >( in_source ) )
          {
          }
 

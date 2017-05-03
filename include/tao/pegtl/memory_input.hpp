@@ -25,29 +25,31 @@ namespace tao
    {
       namespace internal
       {
-         template< typename Eol, tracking_mode >
+         template< tracking_mode, typename Eol, typename Source >
          class memory_input_base;
 
-         template< typename Eol >
-         class memory_input_base< Eol, tracking_mode::IMMEDIATE >
+         template< typename Eol, typename Source >
+         class memory_input_base< tracking_mode::IMMEDIATE, Eol, Source >
          {
          public:
             using iterator_t = internal::iterator;
 
-            memory_input_base( const iterator_t& in_begin, const char* in_end, const char* in_source ) noexcept
+            memory_input_base( const iterator_t& in_begin, const char* in_end, Source in_source ) noexcept
                : m_current( in_begin ),
                  m_end( in_end ),
-                 m_source( in_source )
+                 m_source( std::move( in_source ) )
             {
             }
 
-            memory_input_base( const char* in_begin, const char* in_end, const char* in_source ) noexcept
-               : memory_input_base( iterator_t( in_begin ), in_end, in_source )
+            template< typename T >
+            memory_input_base( const char* in_begin, const char* in_end, T&& in_source ) noexcept
+               : memory_input_base( iterator_t( in_begin ), in_end, std::forward< T >( in_source ) )
             {
             }
 
-            memory_input_base( const char* in_begin, const char* in_end, const char* in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept
-               : memory_input_base( { in_byte, in_line, in_byte_in_line, in_begin }, in_end, in_source )
+            template< typename T >
+            memory_input_base( const char* in_begin, const char* in_end, T&& in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept
+               : memory_input_base( { in_byte, in_line, in_byte_in_line, in_begin }, in_end, std::forward< T >( in_source ) )
             {
             }
 
@@ -102,28 +104,28 @@ namespace tao
          protected:
             iterator_t m_current;
             const char* const m_end;
-            const char* const m_source;
+            const Source m_source;
          };
 
-         template< typename Eol >
-         class memory_input_base< Eol, tracking_mode::LAZY >
+         template< typename Eol, typename Source >
+         class memory_input_base< tracking_mode::LAZY, Eol, Source >
          {
          public:
             using iterator_t = const char*;
 
-            memory_input_base( const char* in_begin, const char* in_end, const char* in_source ) noexcept
+            memory_input_base( const char* in_begin, const char* in_end, Source in_source ) noexcept
                : m_begin( in_begin ),
                  m_current( in_begin ),
                  m_end( in_end ),
-                 m_source( in_source )
+                 m_source( std::move( in_source ) )
             {
             }
 
-            memory_input_base( const char* in_begin, const char* in_end, const char* in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept
+            memory_input_base( const char* in_begin, const char* in_end, Source in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept
                : m_begin( in_byte, in_line, in_byte_in_line, in_begin ),
                  m_current( in_begin ),
                  m_end( in_end ),
-                 m_source( in_source )
+                 m_source( std::move( in_source ) )
             {
             }
 
@@ -171,45 +173,50 @@ namespace tao
             const internal::iterator m_begin;
             iterator_t m_current;
             const char* const m_end;
-            const char* const m_source;
+            const Source m_source;
          };
 
       }  // namespace internal
 
-      template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
+      template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = lf_crlf_eol, typename Source = std::string >
       class memory_input
-         : public internal::memory_input_base< Eol, P >
+         : public internal::memory_input_base< P, Eol, Source >
       {
       public:
-         using eol_t = Eol;
          static constexpr tracking_mode tracking_mode_v = P;
 
-         using typename internal::memory_input_base< Eol, P >::iterator_t;
+         using eol_t = Eol;
+         using source_t = Source;
+
+         using typename internal::memory_input_base< P, Eol, Source >::iterator_t;
 
          using memory_t = memory_input;
          using action_t = internal::action_input< memory_input, P >;
 
-         using internal::memory_input_base< Eol, P >::memory_input_base;
+         using internal::memory_input_base< P, Eol, Source >::memory_input_base;
 
-         memory_input( const char* in_begin, const std::size_t in_size, const char* in_source ) noexcept
-            : memory_input( in_begin, in_begin + in_size, in_source )
+         template< typename T >
+         memory_input( const char* in_begin, const std::size_t in_size, T&& in_source ) noexcept
+            : memory_input( in_begin, in_begin + in_size, std::forward< T >( in_source ) )
          {
          }
 
-         memory_input( const std::string& in_string, const char* in_source ) noexcept
-            : memory_input( in_string.data(), in_string.size(), in_source )
+         template< typename T >
+         memory_input( const std::string& in_string, T&& in_source ) noexcept
+            : memory_input( in_string.data(), in_string.size(), std::forward< T >( in_source ) )
          {
          }
 
-         memory_input( const char* in_begin, const char* in_source ) noexcept
-            : memory_input( in_begin, std::strlen( in_begin ), in_source )
+         template< typename T >
+         memory_input( const char* in_begin, T&& in_source ) noexcept
+            : memory_input( in_begin, std::strlen( in_begin ), std::forward< T >( in_source ) )
          {
          }
 
          memory_input( const memory_input& ) = delete;
          memory_input operator=( const memory_input& ) = delete;
 
-         const char* source() const noexcept
+         const Source& source() const noexcept
          {
             return this->m_source;
          }
@@ -244,7 +251,7 @@ namespace tao
             return this->m_current;
          }
 
-         using internal::memory_input_base< Eol, P >::position;
+         using internal::memory_input_base< P, Eol, Source >::position;
 
          TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
          {

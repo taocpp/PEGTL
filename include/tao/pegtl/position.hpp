@@ -8,6 +8,7 @@
 #include <ostream>
 #include <sstream>
 #include <string>
+#include <utility>
 
 #include "config.hpp"
 
@@ -19,11 +20,12 @@ namespace tao
    {
       struct position
       {
-         position( const internal::iterator& in_iter, const char* in_source )
+         template< typename T >
+         position( const internal::iterator& in_iter, T&& in_source )
             : byte( in_iter.byte ),
               line( in_iter.line ),
               byte_in_line( in_iter.byte_in_line ),
-              source( in_source )
+              source( std::forward< T >( in_source ) )
          {
          }
 

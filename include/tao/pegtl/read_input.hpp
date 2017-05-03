@@ -32,15 +32,15 @@ namespace tao
 
       }  // namespace internal
 
-      template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
+      template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = lf_crlf_eol >
       struct read_input
          : private internal::filename_holder,
-           public string_input< Eol, P >
+           public string_input< P, Eol, const char* >
       {
          template< typename T >
          explicit read_input( T&& in_filename )
             : internal::filename_holder( std::forward< T >( in_filename ) ),
-              string_input< Eol, P >( internal::file_reader( filename.c_str() ).read(), filename.c_str() )
+              string_input< P, Eol, const char* >( internal::file_reader( filename.c_str() ).read(), filename.c_str() )
          {
          }
       };

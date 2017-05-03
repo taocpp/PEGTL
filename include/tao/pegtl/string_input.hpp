@@ -31,15 +31,15 @@ namespace tao
 
       }  // namespace internal
 
-      template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
+      template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = lf_crlf_eol, typename Source = std::string >
       struct string_input
          : private internal::string_holder,
-           public memory_input< Eol, P >
+           public memory_input< P, Eol, Source >
       {
          template< typename T, typename... Ts >
          explicit string_input( T&& in_data, Ts&&... ts )
             : internal::string_holder( std::forward< T >( in_data ) ),
-              memory_input< Eol, P >( data.data(), data.data() + data.size(), std::forward< Ts >( ts )... )
+              memory_input< P, Eol, Source >( data.data(), data.size(), std::forward< Ts >( ts )... )
          {
          }
       };

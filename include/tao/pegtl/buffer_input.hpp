@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <cstring>
 #include <memory>
+#include <string>
 
 #include "config.hpp"
 #include "eol.hpp"
@@ -23,26 +24,29 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Reader, typename Eol = lf_crlf_eol >
+      template< typename Reader, typename Eol = lf_crlf_eol, typename Source = std::string >
       class buffer_input
       {
       public:
+         static constexpr tracking_mode tracking_mode_v = tracking_mode::IMMEDIATE;
          using reader_t = Reader;
+
          using eol_t = Eol;
+         using source_t = Source;
 
          using iterator_t = internal::iterator;
 
-         using memory_t = memory_input< Eol >;
+         using memory_t = memory_input< tracking_mode::IMMEDIATE, Eol, Source >;
          using action_t = internal::action_input< buffer_input, tracking_mode::IMMEDIATE >;
 
          template< typename... As >
-         buffer_input( const char* in_source, const std::size_t maximum, As&&... as )
+         buffer_input( Source in_source, const std::size_t maximum, As&&... as )
             : m_reader( std::forward< As >( as )... ),
               m_maximum( maximum ),
               m_buffer( new char[ maximum ] ),
               m_current( { 0, 1, 0, m_buffer.get() } ),
               m_end( m_buffer.get() ),
-              m_source( in_source )
+              m_source( std::move( in_source ) )
          {
          }
 
@@ -87,7 +91,7 @@ namespace tao
             return m_current.byte_in_line;
          }
 
-         const char* source() const noexcept
+         const Source& source() const noexcept
          {
             return m_source;
          }
@@ -166,7 +170,7 @@ namespace tao
          std::unique_ptr< char[] > m_buffer;
          iterator_t m_current;
          const char* m_end;
-         const char* const m_source;
+         const Source m_source;
       };
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

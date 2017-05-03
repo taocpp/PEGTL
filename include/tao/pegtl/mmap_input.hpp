@@ -35,15 +35,15 @@ namespace tao
 
       }  // namespace internal
 
-      template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
+      template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = lf_crlf_eol >
       struct mmap_input
          : private internal::mmap_holder,
-           public memory_input< Eol, P >
+           public memory_input< P, Eol, const char* >
       {
          template< typename T >
          explicit mmap_input( T&& in_filename )
             : internal::mmap_holder( std::forward< T >( in_filename ) ),
-              memory_input< Eol, P >( data.begin(), data.end(), filename.c_str() )
+              memory_input< P, Eol, const char* >( data.begin(), data.end(), filename.c_str() )
          {
          }
       };

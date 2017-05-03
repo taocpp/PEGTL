@@ -18,7 +18,7 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename, tracking_mode >
+      template< tracking_mode, typename Eol, typename Source >
       class memory_input;
 
       namespace internal
@@ -37,12 +37,14 @@ namespace tao
          class action_input
          {
          public:
-            using eol_t = typename Input::eol_t;
             static constexpr tracking_mode tracking_mode_v = P;
+
+            using eol_t = typename Input::eol_t;
+            using source_t = typename Input::source_t;
 
             using iterator_t = typename Input::iterator_t;
 
-            using memory_t = memory_input< eol_t, P >;
+            using memory_t = memory_input< P, eol_t, source_t >;
             using action_t = action_input;
 
             action_input( const iterator_t& in_begin, const Input& in_input ) noexcept
