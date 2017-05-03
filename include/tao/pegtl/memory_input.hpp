@@ -164,6 +164,11 @@ namespace tao
             {
             }
 
+            const char* begin() const noexcept
+            {
+               return m_begin.data;
+            }
+
             const char* current() const noexcept
             {
                return m_current;
@@ -199,7 +204,7 @@ namespace tao
                m_current += in_count;
             }
 
-            TAOCPP_PEGTL_NAMESPACE::position position( const char* it ) const noexcept
+            TAOCPP_PEGTL_NAMESPACE::position position( const iterator_t it ) const noexcept
             {
                internal::iterator c( m_begin );
                internal::bump( c, std::size_t( it - m_begin.data ), Eol::ch );
@@ -211,7 +216,7 @@ namespace tao
                return m_current;
             }
 
-            const iterator_t& iterator() const noexcept
+            iterator_t iterator() const noexcept
             {
                return m_current;
             }

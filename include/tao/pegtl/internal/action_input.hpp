@@ -96,10 +96,9 @@ namespace tao
                return static_cast< unsigned char >( peek_char( offset ) );
             }
 
-            // potentially inefficient
             TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
             {
-               return input().position( iterator() );
+               return input().position( iterator() );  // NOTE: Not efficient with LAZY inputs.
             }
 
          protected:
