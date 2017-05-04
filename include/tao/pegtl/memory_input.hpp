@@ -255,7 +255,7 @@ namespace tao
 
          TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
          {
-            return this->position( this->iterator() );
+            return this->position( iterator() );
          }
 
          void discard() const noexcept
@@ -269,7 +269,7 @@ namespace tao
          template< rewind_mode M >
          internal::marker< iterator_t, M > mark() noexcept
          {
-            return internal::marker< iterator_t, M >( this->iterator() );
+            return internal::marker< iterator_t, M >( iterator() );
          }
       };
 
