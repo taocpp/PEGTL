@@ -149,12 +149,12 @@ namespace tao
             return internal::marker< iterator_t, M >( m_current );
          }
 
-         TAOCPP_PEGTL_NAMESPACE::position position( const iterator_t& it ) const noexcept
+         TAOCPP_PEGTL_NAMESPACE::position position( const iterator_t& it ) const
          {
             return TAOCPP_PEGTL_NAMESPACE::position( it, m_source );
          }
 
-         TAOCPP_PEGTL_NAMESPACE::position position() const noexcept
+         TAOCPP_PEGTL_NAMESPACE::position position() const
          {
             return position( m_current );
          }
