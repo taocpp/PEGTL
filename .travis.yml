@@ -40,6 +40,10 @@ matrix:
 
     - os: linux
       compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-4.8']
       env:
         - COMPILER=clang++
 
