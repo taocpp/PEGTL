@@ -2,9 +2,6 @@ cmake_minimum_required (VERSION 3.2.0 FATAL_ERROR)
 
 # Android stuff
 if (ANDROID_NDK)
-  # TODO: why do we need 3.6.0?
-  cmake_minimum_required (VERSION 3.6.0 FATAL_ERROR)
-
   # TODO: shouldn't this file be somewhere in the NDK? Where's the source for this?
   set (CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/src/test/pegtl/android.toolchain.cmake")
 
@@ -47,8 +44,8 @@ if (PEGTL_BUILD_EXAMPLES)
 endif ()
 
 # installation directories
-set(PEGTL_INSTALL_INCLUDE_DIR "include" CACHE STRING "The installation include directory")
-set(PEGTL_INSTALL_DOC_DIR "share/doc/tao/pegtl" CACHE STRING "The installation doc directory")
+set (PEGTL_INSTALL_INCLUDE_DIR "include" CACHE STRING "The installation include directory")
+set (PEGTL_INSTALL_DOC_DIR "share/doc/tao/pegtl" CACHE STRING "The installation doc directory")
 
 # install
 install (DIRECTORY include/ DESTINATION ${PEGTL_INSTALL_INCLUDE_DIR})
