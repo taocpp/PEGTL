@@ -44,7 +44,7 @@ namespace tao
             TAOCPP_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r << " ]" );
          }
          content.clear();
-         memory_input< tracking_mode::LAZY, lf_crlf_eol > in2( m, m + M - 1, file );
+         memory_input< tracking_mode::LAZY > in2( m, m + M - 1, file );
          const auto r2 = parse< Rule, rsaction >( in2 );
          if( ( !r2 ) || ( content != std::string( n, N - 1 ) ) ) {
             TAOCPP_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] with tracking_mode::LAZY expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r2 << " ]" );
