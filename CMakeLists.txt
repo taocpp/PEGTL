@@ -17,10 +17,6 @@ else ()
   project (pegtl VERSION 2.0.0 LANGUAGES CXX)
 endif ()
 
-# options
-option (PEGTL_BUILD_TESTS "Build test programs" ON)
-option (PEGTL_BUILD_EXAMPLES "Build example programs" ON)
-
 # set C++ language standard
 set (CMAKE_CXX_STANDARD 11)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -34,12 +30,14 @@ target_include_directories (pegtl INTERFACE
 )
 
 # testing
+option (PEGTL_BUILD_TESTS "Build test programs" ON)
 if (PEGTL_BUILD_TESTS)
   enable_testing ()
   add_subdirectory (src/test/pegtl)
 endif ()
 
 # examples
+option (PEGTL_BUILD_EXAMPLES "Build example programs" ON)
 if (PEGTL_BUILD_EXAMPLES)
   add_subdirectory (src/example/pegtl)
 endif ()
