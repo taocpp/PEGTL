@@ -17,10 +17,6 @@ else ()
   project (pegtl VERSION 2.0.0 LANGUAGES CXX)
 endif ()
 
-# set C++ language standard
-set (CMAKE_CXX_STANDARD 11)
-set (CMAKE_CXX_STANDARD_REQUIRED ON)
-
 # define a header-only library
 add_library (pegtl INTERFACE)
 add_library (taocpp::pegtl ALIAS pegtl)
