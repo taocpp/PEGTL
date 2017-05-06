@@ -27,6 +27,7 @@ set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # define a header-only library
 add_library (pegtl INTERFACE)
+add_library (taocpp::pegtl ALIAS pegtl)
 target_include_directories (pegtl INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
