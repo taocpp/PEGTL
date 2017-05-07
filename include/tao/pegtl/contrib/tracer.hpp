@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAOCPP_PEGTL_INCLUDE_TRACER_HPP
-#define TAOCPP_PEGTL_INCLUDE_TRACER_HPP
+#ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_TRACER_HPP
+#define TAOCPP_PEGTL_INCLUDE_CONTRIB_TRACER_HPP
 
 #include <cassert>
 #include <iomanip>
@@ -10,10 +10,10 @@
 #include <utility>
 #include <vector>
 
-#include "config.hpp"
-#include "normal.hpp"
+#include "../config.hpp"
+#include "../normal.hpp"
 
-#include "internal/demangle.hpp"
+#include "../internal/demangle.hpp"
 
 namespace tao
 {

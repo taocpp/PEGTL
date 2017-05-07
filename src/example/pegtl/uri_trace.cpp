@@ -5,8 +5,8 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/argv_input.hpp>
+#include <tao/pegtl/contrib/tracer.hpp>
 #include <tao/pegtl/contrib/uri.hpp>
-#include <tao/pegtl/tracer.hpp>
 
 namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
 

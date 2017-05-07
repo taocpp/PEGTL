@@ -3,7 +3,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/tracer.hpp>
+#include <tao/pegtl/contrib/tracer.hpp>
 
 namespace tao
 {
@@ -11,7 +11,8 @@ namespace tao
    {
       using GRAMMAR = sor< failure, one< 'a' > >;
 
-      template< typename Rule > struct tracer_action
+      template< typename Rule >
+      struct tracer_action
          : nothing< Rule >
       {
       };
@@ -19,7 +20,8 @@ namespace tao
       unsigned a0 = 0;
       unsigned a = 0;
 
-      template<> struct tracer_action< one< 'a' > >
+      template<>
+      struct tracer_action< one< 'a' > >
       {
          template< typename... Ts >
          static void apply0( Ts&&... )
@@ -28,7 +30,8 @@ namespace tao
          }
       };
 
-      template<> struct tracer_action< GRAMMAR >
+      template<>
+      struct tracer_action< GRAMMAR >
       {
          template< typename... Ts >
          static void apply( Ts&&... )
@@ -45,20 +48,23 @@ namespace tao
             TAOCPP_PEGTL_TEST_ASSERT( result );
             TAOCPP_PEGTL_TEST_ASSERT( a0 == 0 );
             TAOCPP_PEGTL_TEST_ASSERT( a == 0 );
-         } {
+         }
+         {
             memory_input<> in( "ab", "trace test please ignore" );
             const auto result = parse< GRAMMAR, tracer_action, tracer >( in );
             TAOCPP_PEGTL_TEST_ASSERT( result );
             TAOCPP_PEGTL_TEST_ASSERT( a0 == 1 );
             TAOCPP_PEGTL_TEST_ASSERT( a == 1 );
-         } {
+         }
+         {
             trace_state ts;
             memory_input<> in( "ab", "trace test please ignore" );
             const auto result = parse< GRAMMAR, nothing, tracer >( in, ts );
             TAOCPP_PEGTL_TEST_ASSERT( result );
             TAOCPP_PEGTL_TEST_ASSERT( a0 == 1 );
             TAOCPP_PEGTL_TEST_ASSERT( a == 1 );
-         } {
+         }
+         {
             trace_state ts;
             memory_input<> in( "ab", "trace test please ignore" );
             const auto result = parse< GRAMMAR, tracer_action, tracer >( in, ts );
