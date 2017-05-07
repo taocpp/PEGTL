@@ -96,17 +96,17 @@ For details see the [changelog](doc/Changelog.md).
 ### Thank You
 
 * Christopher Diggins and the YARD parser for the general idea.
-* Stephan Beal for the bug reports, suggestions and discussions.
-* Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
-* Sam Hocevar for contributing Visual Studio 2015 compatibility.
 * George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `TAOCPP_PEGTL_STRING`.
+* Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
+* Kai Wolf for help with CMake.
 * Kenneth Geisshirt for Android compatibility and Android CI.
-* Paulo Custodio for Windows-related fixes.
 * Kuzma Shapran for EOL testing and fixes.
 * Michael Becker for help with CMake.
+* Paulo Custodio for Windows-related fixes.
+* Sam Hocevar for contributing Visual Studio 2015 compatibility.
+* Stephan Beal for the bug reports, suggestions and discussions.
 * Sven Johannsen for help with CMake.
 * Zhihao Yuan for fixing several warnings when compiling with Visual Studio 2015.
-* Kai Wolf for help with CMake.
 
 ### Contact
 
