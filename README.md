@@ -103,8 +103,10 @@ For details see the [changelog](doc/Changelog.md).
 * Kenneth Geisshirt for Android compatibility and Android CI.
 * Paulo Custodio for Windows-related fixes.
 * Kuzma Shapran for EOL testing and fixes.
-* Michael Becker and Sven Johannsen for help with CMake.
+* Michael Becker for help with CMake.
+* Sven Johannsen for help with CMake.
 * Zhihao Yuan for fixing several warnings when compiling with Visual Studio 2015.
+* Kai Wolf for help with CMake.
 
 ### Contact
 
