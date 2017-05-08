@@ -27,7 +27,7 @@ namespace tao
       {
          // While plus<> could easily be implemented with
          // seq< Rule, Rules ..., star< Rule, Rules ... > > we
-         // provide an explicit implementation to optimize away
+         // provide an explicit implementation to optimise away
          // the otherwise created input mark.
 
          template< typename Rule, typename... Rules >
