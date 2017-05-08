@@ -52,19 +52,22 @@ struct normal
    }
 
    template< template< typename... > class Action,
+             typename Input,
              typename... States >
-   static void apply0( States&&... st )
+   static void apply0( const Input&, States&&... st )
    {
       Action< Rule >::apply0( st... );
    }
 
-   template< typename Input,
-             template< typename... > class Action,
+   template< template< typename... > class Action,
+             typename Iterator,
+             typename Input,
              typename... States >
-   static void apply( const count_data& begin, const count_data& end, const char* source, States&&... st )
+   static void apply( const Iterator& begin, const Input& in, States&&... st )
    {
-      const Input in( begin, end.data, source );
-      Action< Rule >::apply( in, st... );
+      using action_t = typename Input::action_t;
+      const action_t action_input( begin, in );
+      Action< Rule >::apply( action_input, st... );
    }
 
    template< apply_mode A,
@@ -126,7 +129,7 @@ When custom exception types are used then `try_catch_type` must be used with the
 For debugging a grammar and tracing exactly what happens during a parsing run, the control class methods `start()`, `success()` and `failure()` can be used.
 In addition, `apply()` and `apply0()` can be used to see which actions are invoked.
 
-The included class `tao::pegtl::tracer` in `<tao/pegtl/tracer.hpp>` gives a pratical example that can be used as control class to debug grammars.
+The included class `tao::pegtl::tracer` in `<tao/pegtl/contrib/tracer.hpp>` gives a pratical example that can be used as control class to debug grammars.
 When an instance of class `tao::pegtl::trace_state` is used as single state in a parsing run with the tracer-control then the debug output contains a line number and rule number as additional information.
 
 ## Advanced Control
