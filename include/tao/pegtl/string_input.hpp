@@ -31,7 +31,7 @@ namespace tao
 
       }  // namespace internal
 
-      template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = lf_crlf_eol, typename Source = std::string >
+      template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf, typename Source = std::string >
       struct string_input
          : private internal::string_holder,
            public memory_input< P, Eol, Source >

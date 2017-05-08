@@ -5,6 +5,8 @@
 #define TAOCPP_PEGTL_INCLUDE_ASCII_HPP
 
 #include "config.hpp"
+#include "eol.hpp"
+
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
@@ -20,7 +22,6 @@ namespace tao
          struct any : internal::any< internal::peek_char > {};
          struct blank : internal::one< internal::result_on_found::SUCCESS, internal::peek_char, ' ', '\t' > {};
          struct digit : internal::range< internal::result_on_found::SUCCESS, internal::peek_char, '0', '9' > {};
-         struct eol : internal::eol {};
          struct eolf : internal::eolf {};
          struct identifier_first : internal::identifier_first {};
          struct identifier_other : internal::identifier_other {};

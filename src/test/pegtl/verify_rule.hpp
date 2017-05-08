@@ -32,7 +32,7 @@ namespace tao
          }
       };
 
-      template< typename Rule, typename Eol = lf_crlf_eol >
+      template< typename Rule, typename Eol = eol::lf_crlf >
       void verify_rule( const std::size_t line, const char* file, const std::string& data, const result_type expected, const std::size_t remain )
       {
          {
@@ -55,7 +55,7 @@ namespace tao
          }
       }
 
-      template< typename Rule, typename Eol = lf_crlf_eol >
+      template< typename Rule, typename Eol = eol::lf_crlf >
       void verify_only( const std::size_t line, const char* file, const std::string& data, const result_type expected, const std::size_t remain )
       {
          {

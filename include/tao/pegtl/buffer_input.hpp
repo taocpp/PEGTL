@@ -24,7 +24,7 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Reader, typename Eol = lf_crlf_eol, typename Source = std::string >
+      template< typename Reader, typename Eol = eol::lf_crlf, typename Source = std::string >
       class buffer_input
       {
       public:

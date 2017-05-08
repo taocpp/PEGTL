@@ -18,7 +18,7 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< typename Eol = lf_crlf_eol >
+      template< typename Eol = eol::lf_crlf >
       struct cstream_input
          : buffer_input< internal::cstream_reader, Eol >
       {
@@ -29,7 +29,7 @@ namespace tao
          }
       };
 
-      template< typename Eol = lf_crlf_eol >
+      template< typename Eol = eol::lf_crlf >
       struct istream_input
          : buffer_input< internal::istream_reader, Eol >
       {
