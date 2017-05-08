@@ -46,7 +46,7 @@ struct addition
 ```
 
 When defining a large set of grammar rules in this way it can be advisable to include a `using namespace tao::pegtl;`-definition at the beginning in order to prevent the frequent repetition of the `tao::pegtl::` namespace qualifier.
-This `using`-definition is often combined with the practice of confining a PEGTL grammar to a single translation unit, in which case there is no `namespace`-pollution, and the compile time is kept low by only including the PEGTL only in the translation unit with the grammar.
+This `using`-definition is often combined with the practice of confining a PEGTL grammar to a single translation unit, in which case there is no `namespace`-pollution, and the compile time is kept low by including the PEGTL only in the translation unit with the grammar.
 
 A grammar is nothing else than a collection of rules.
 In theory, as long as a grammar does not contain cycles, complete grammars could be implemented as a single, large rule.
