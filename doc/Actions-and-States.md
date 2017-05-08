@@ -104,10 +104,9 @@ If we then assume that our grammar `my_grammar` contains the rule `tao::pegtl::p
 ```c++
 const std::string parsed_data = ...;
 std::vector< std::string > digit_strings;
-tao::pegtl::parse< my_grammar,
-                   my_actions >( parsed_data,
-                                 "data-source-name",
-                                 digit_strings );
+
+tao::pegtl::memory_input<> in( parsed_data, "data-source-name" );
+tao::pegtl::parse< my_grammar, my_actions >( in, digit_strings );
 ```
 
 to collect all `digit_strings` that were detected by the grammar, i.e. the vector will contain one string for every time that the `tao::pegtl::plus< tao::pegtl::digit >` rule was matched against the input.
