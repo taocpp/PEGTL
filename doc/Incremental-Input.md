@@ -24,7 +24,7 @@ namespace tao
    namespace pegtl
    {
       template< class Reader,
-                typename Eol = lf_crlf_eol >
+                typename Eol = eol::lf_crlf >
       class buffer_input
       {
          empty();
