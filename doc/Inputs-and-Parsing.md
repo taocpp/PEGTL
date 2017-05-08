@@ -29,8 +29,9 @@ All classes and functions on this page are in namespace `tao::pegtl`.
 
 ## Contents
 
-* [Line Ending](#line-ending)
 * [Tracking Mode](#tracking-mode)
+* [Line Ending](#line-ending)
+* [Source](#source)
 * [File Input](#file-input)
 * [Memory Input](#memory-input)
 * [String Input](#string-input)
@@ -39,21 +40,25 @@ All classes and functions on this page are in namespace `tao::pegtl`.
 * [Parse Function](#parse-function)
 * [Nested Parsing](#nested-parsing)
 
+## Tracking Mode
+
+Some input classes allow a choice of tracking mode, or whether the `byte`, `line` and `byte_in_line` counters are continuously updated during a parsing run with `tracking_mode::IMMEDIATE`, or only calculated on-demand in the `position()`-method by scanning the complete input again with `tracking_mode::LAZY`.
+
+Lazy tracking is recommended when the position is used very infrequently, for example only in the case of throwing a `parse_error`.
+
+Immediate tracking is recommended when the position is used frequently and/or in non-exceptional cases, for example when annotating every AST node with the position.
+
 ## Line Ending
 
 All input classes allow the choice of which line endings should be recognised by the `eol` and `eolf` rules, and used for line counting.
 The supported line endings are `cr`, a single carriage-return/`"\r"`/`0x0d` character as used on classic Mac OS, `lf`, a single line-feed/`"\n"`/`0x0a` as used on Unix, Linux, Mac OS X and macOS, and `crlf`, a sequence of both as used on MS-DOS and Windows.
 
-The default template argument for all input classes is `lf_crlf_eol` which recognises both Unix and MS-DOS line endings.
-The supplied alternatives are `cr_eol`, `lf_eol`, `crlf_eol` and `cr_crlf_eol`.
+The default template argument for all input classes is `eol::lf_crlf` which recognises both Unix and MS-DOS line endings.
+The supplied alternatives are `eol::cr`, `eol::lf`, `eol::crlf` and `eol::cr_crlf`.
 
-## Tracking Mode
+## Source
 
-Some input classes allow a choice of tracking mode, or whether the `byte`, `line` and `byte_in_line` counters are continuously updated during a parsing run with `tracking_mode::IMMEDIATE`, or only calculated on-demand in the `position()`-method by scanning the complete input again with `tracking_mode::LAZY`.
-
-Lazy tracking is recommended when the position is used very infrequently, for example only in the case throwing a `parse_error`.
-
-Immediate tracking is recommended when the position is used frequently and/or in non-exceptional cases, for example when annotating every AST node with the position.
+Some input classes allow a choice of how to store the source parameter. TODO: Explain in more detail.
 
 ## File Input
 
@@ -67,22 +72,22 @@ All file input classes take a single argument, the filename, which can be suppli
 They immediately make available the complete contents of the file; `read_input<>` reads the entire file upon construction.
 
 ```c++
-template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
+template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
 struct read_input
 {
    explicit read_input( const char* filename );
    explicit read_input( const std::string& filename );
 };
 
-template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
+template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
 struct mmap_input  // Only on POSIX compliant systems.
 {
    explicit mmap_input( const char* filename );
    explicit mmap_input( const std::string& filename );
 };
 
-template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
-using file_input = mmap_input< Eol, P >;  // Or read_input when no mmap_input available.
+template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
+using file_input = mmap_input< P, Eol >;  // Or read_input when no mmap_input available.
 ```
 
 Note that the implementation of the constructors is different than shown.
@@ -100,7 +105,7 @@ It will therefore *only* work correctly with data that is terminated with a 0-by
 The constructors that take additional `byte`, `line` and `byte_in_line` arguments initialise the internal counters with the supplied values, rather than the defaults of `0`, `1` and `0`.
 
 ```c++
-template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
+template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf, typename Source = const char* >
 class memory_input
 {
    // Constructors available with any tracking_mode:
@@ -117,15 +122,15 @@ class memory_input
    memory_input( const char* begin, const char* source ) noexcept;
    memory_input( const char* begin, const std::string& source ) noexcept;
 
-   // Constructors available only with tracking_mode::IMMEDIATE:
-
-   memory_input( const internal::iterator& iter, const char* end, const char* source ) noexcept;
-   memory_input( const internal::iterator& iter, const char* end, const std::string& source ) noexcept;
-
    memory_input( const char* begin, const char* end, const char* source,
                  const std::size_t byte, const std::size_t line, const std::size_t byte_in_line ) noexcept;
    memory_input( const char* begin, const char* end, const std::string& source,
                  const std::size_t byte, const std::size_t line, const std::size_t byte_in_line ) noexcept;
+
+   // Constructors available only with tracking_mode::IMMEDIATE:
+
+   memory_input( const internal::iterator& iter, const char* end, const char* source ) noexcept;
+   memory_input( const internal::iterator& iter, const char* end, const std::string& source ) noexcept;
 };
 ```
 
@@ -135,7 +140,7 @@ The class `string_input<>` can also be used to parse a `std::string`.
 Unlike class `memory_input<>`, this class stores a copied (or moved) version of the data for which it takes ownership.
 
 ```c++
-template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
+template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf, typename Source = std::string >
 class string_input
 {
    string_input( const std::string& string, const char* source ) noexcept;
@@ -157,14 +162,14 @@ Note that these classes only keep a pointer/reference to the stream and do *not*
 Please read [Incremental Input](Incremental-Input.md) for details on the `maximum` argument, and how to prepare a grammar for incremental input support using the `discard`-rule.
 
 ```c++
-template< typename Eol = lf_crlf_eol >
+template< typename Eol = eol::lf_crlf >
 struct cstream_input
 {
    cstream_input( std::FILE* stream, const std::size_t maximum, const char* source );
    cstream_input( std::FILE* stream, const std::size_t maximum, const std::string& source );
 };
 
-template< typename Eol = lf_crlf_eol >
+template< typename Eol = eol::lf_crlf >
 struct istream_input
 {
    istream_input( std::istream& stream, const std::size_t maximum, const char* source );
@@ -177,7 +182,7 @@ struct istream_input
 The class `argv_input<>` can be used to parse a string passed from the command line.
 
 ```c++
-template< typename Eol = lf_crlf_eol, tracking_mode P = tracking_mode::IMMEDIATE >
+template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
 class argv_input
 {
    argv_input( char** argv, const std::size_t n, const char* source );

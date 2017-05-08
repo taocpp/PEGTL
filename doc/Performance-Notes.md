@@ -5,7 +5,7 @@ This page collects some notes and hints, observations and comments regarding the
 ###### Regarding `at` and `one`
 
 The `at<>`-rule never consumes input, and therefore always uses an input-marker to rewind the input back to where it started, regardless of the match-result.
-In the context of optimising our [JSON](https://github.com/taocpp/json), we noticed that the combination `at< one< ... > >` could be combined into an optimised `at_one< ... >` rule:
+In the context of optimising our [JSON library](https://github.com/taocpp/json), we noticed that the combination `at< one< ... > >` could be combined into an optimised `at_one< ... >` rule:
 Instead of having `one< ... >` possibly advancing the input, and the `at< ... >` rewinding back, the combined rule could omit both the advancing and the rewinding.
 
 We then put this idea to the test, pitching an optimised `at_one< '"' >` against the previous `at< one< '"' > >`.
