@@ -57,6 +57,10 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * Grammar rules to parse Lua-style long (or raw) string literals.
 * Ready for production use.
 
+###### `<tao/pegtl/contrib/tracer.hpp>`
+
+* Control class that prints debug trace information to `std::cerr` during a parsing run.
+
 ###### `<tao/pegtl/contrib/unescape.hpp>`
 
 This file does not contain a grammar, but rather:
