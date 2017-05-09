@@ -17,7 +17,8 @@ namespace tao
    {
       namespace internal
       {
-         inline void demangle_sanitise_chars( std::string & s )
+#ifdef TAOCPP_PEGTL_PRETTY_DEMANGLE
+         inline void demangle_sanitise_chars( std::string& s )
          {
             std::string::size_type p;
             while( ( p = s.find( "(char)" ) ) != std::string::npos ) {
@@ -41,7 +42,11 @@ namespace tao
                }
             }
          }
-
+#else
+         inline void demangle_sanitise_chars( std::string& )
+         {
+         }
+#endif
          inline std::string demangle( const char* symbol )
          {
             const std::unique_ptr< char, decltype( &std::free ) > demangled( abi::__cxa_demangle( symbol, nullptr, nullptr, nullptr ), &std::free );

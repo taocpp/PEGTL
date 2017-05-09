@@ -10,4 +10,8 @@
 #define TAOCPP_PEGTL_NAMESPACE pegtl
 #endif
 
+// Enable some improvements to the readability of
+// demangled type names under some circumstances.
+// #define TAOCPP_PEGTL_PRETTY_DEMANGLE
+
 #endif

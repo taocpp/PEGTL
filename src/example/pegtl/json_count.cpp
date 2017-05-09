@@ -4,6 +4,8 @@
 #include <iostream>
 #include <iomanip>
 
+#define TAOCPP_PEGTL_PRETTY_DEMANGLE
+
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/file_input.hpp>
 #include <tao/pegtl/contrib/json.hpp>
