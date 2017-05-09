@@ -35,6 +35,13 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * Control class components for [external switching style](Switching-Style.md).
 * Ready for production use but might be changed in the future.
 
+###### `<tao/pegtl/contrib/counter.hpp>`
+
+* Control class for obtaining basic statistics from a parsing run, namely how often each rule
+  1. was started to match,
+  2. was successfully matched,
+  3. did not match.
+
 ###### `<tao/pegtl/contrib/http.hpp>`
 
 * HTTP 1.1 grammar according to [RFC 7230](https://tools.ietf.org/html/rfc7230).
@@ -102,6 +109,11 @@ Extends on `json_parse.cpp` by parsing JSON files into generic JSON data structu
 
 Extends on `json_parse.cpp` by parsing JSON files into generic JSON data structures using a single monolithic state and action for the entire parsing run.
 
+###### `src/example/pegtl/json_count.cpp`
+
+Shows how to use the included [counter control](#taopegtlcontribcounterhpp), here together with the JSON grammar from `<tao/pegtl/contrib/json.hpp>`.
+Invoked with one or more JSON files as argument will attempt to parse the files and print the statistics counters to `std::cout`.
+
 ###### `src/example/pegtl/lua53_parse.cpp`
 
 Parses all files passed on the command line with a slightly experimental grammar that should correspond to the [Lua](http://www.lua.org/) 5.3 lexer and parser.
@@ -128,6 +140,7 @@ Uses the building blocks from `<tao/pegtl/contrib/unescape.hpp>` to show how to 
 
 ###### `src/example/pegtl/uri_trace.cpp`
 
-Shows how to use the included tracer control, here together with the URI grammar from `<tao/pegtl/contrib/uri.hpp>`.
+Shows how to use the included (tracer control)[#taopegtlcontribtracerhpp], here together with the URI grammar from `<tao/pegtl/contrib/uri.hpp>`.
+Invoked with one or more URIs as command line arguments will attempt to parse the URIs while printing trace information to `std::cerr`.
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
