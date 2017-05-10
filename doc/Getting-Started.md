@@ -9,6 +9,7 @@ This page should contain everything to get you started with the PEGTL.
 * [Installation via Packages](#installation-via-packages)
 * [Installation via CMake](#installation-via-cmake)
 * [Manual Installation](#manual-installation)
+* [Embedding the PEGTL](#embedding)
 * [Limitations](#limitations)
 
 ## Hello, world!
@@ -187,6 +188,11 @@ The `Makefile` and `.cpp`-files included in the PEGTL distribution archive serve
 as practical examples on how to develop grammars and applications with the PEGTL.
 Invoking `make` in the main PEGTL directory builds all included example programs
 and builds and runs all unit tests.
+
+## Embedding the PEGTL
+
+To avoid ODR violations, some precautions are necessary when embedding the PEGTL
+source directly in your code or when building libraries, see [Embedding the PEGTL](Embedding.md).
 
 ## Limitations
 
