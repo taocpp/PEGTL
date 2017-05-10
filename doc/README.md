@@ -7,7 +7,7 @@
   * [Installation via Packages](Getting-Started.md#installation-via-packages)
   * [Installation via CMake](Getting-Started.md#installation-via-cmake)
   * [Manual Installation](Getting-Started.md#manual-installation)
-  * [Embedding the PEGTL](Getting-Started.md#embedding)
+  * [Embedding the PEGTL](Getting-Started.md#embedding-the-pegtl)
   * [Limitations](Getting-Started.md#limitations)
 * [Rules and Grammars](Rules-and-Grammars.md)
   * [Combining Existing Rules](Rules-and-Grammars.md#combining-existing-rules)

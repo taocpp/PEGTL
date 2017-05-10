@@ -9,7 +9,7 @@ This page should contain everything to get you started with the PEGTL.
 * [Installation via Packages](#installation-via-packages)
 * [Installation via CMake](#installation-via-cmake)
 * [Manual Installation](#manual-installation)
-* [Embedding the PEGTL](#embedding)
+* [Embedding the PEGTL](#embedding-the-pegtl)
 * [Limitations](#limitations)
 
 ## Hello, world!
