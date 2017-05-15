@@ -3,6 +3,8 @@
 
 #include "test.hpp"
 
+#include <tao/pegtl/internal/demangle_sanitise.hpp>
+
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
