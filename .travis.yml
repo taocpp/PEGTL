@@ -107,6 +107,16 @@ matrix:
       env:
         - COMPILER=clang++-4.0
 
+    - os: linux
+      dist: trusty
+      compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
+          packages: ['clang-4.0']
+      env:
+        - COMPILER=clang++-4.0 CXXSTD="-std=c++1z"
+
     - os: osx
       osx_image: xcode6.4
       compiler: clang
