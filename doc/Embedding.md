@@ -14,14 +14,14 @@ to the compiler's or project's include paths. No further changes are needed.
 
 When writing libraries with the PEGTL, it has to be ensured that applications
 that are built with these libraries, and that themselves use the PEGTL, do not
-violate the One Definition Rule (ODR) as would be the case when application 
+violate the One Definition Rule (ODR) as would be the case when application
 and libraries contain different versions of the PEGTL.
 
 Since the PEGTL does *not* guarantee ABI compatibility, not even across minor
 or patch releases, libraries *have* to ensure that the symbols for the PEGTL
 they include differ from those of the applications that use them.
 
-This can be achieved by chaning the macro `TAOCPP_PEGTL_NAMESPACE` which, by
+This can be achieved by changing the macro `TAOCPP_PEGTL_NAMESPACE` which, by
 default, is set to `pegtl`, which leads to all symbols residing in namespace
 `tao::pegtl`. To change the namespace, simply define `TAOCPP_PEGTL_NAMESPACE`
 to a unique name before including the PEGTL, for example:
@@ -56,7 +56,7 @@ from clashing. In a Unix-shell, the following command will achieve this:
 $ sed -i 's/TAOCPP_PEGTL_/MYLIB_PEGTL_/g' $(find -name '[^.]*.[hc]pp')
 ```
 
-Rhe above command needs to run from the top-level directory of the embedded PEGTL.
+The above command needs to run from the top-level directory of the embedded PEGTL.
 Additionally, `MYLIB_PEGTL_NAMESPACE` needs to be set as explained above;
 alternatively `include/tao/pegtl/config.hpp` can be directly modified.
 
