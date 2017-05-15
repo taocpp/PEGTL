@@ -7,7 +7,6 @@
 #include <string>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/argv_input.hpp>
 
 namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
 

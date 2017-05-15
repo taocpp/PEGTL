@@ -9,6 +9,7 @@
 #include "skip_control.hpp"
 
 #include "../apply_mode.hpp"
+#include "../memory_input.hpp"
 #include "../rewind_mode.hpp"
 
 namespace tao
@@ -17,6 +18,16 @@ namespace tao
    {
       namespace internal
       {
+         inline const char* source_pointer( const char* source ) noexcept
+         {
+            return source;
+         }
+
+         inline const char* source_pointer( const std::string& source ) noexcept
+         {
+            return source.c_str();
+         }
+
          template< typename R, typename S >
          struct minus
          {
@@ -35,8 +46,7 @@ namespace tao
                if( !Control< R >::template match< A, rewind_mode::ACTIVE, Action, Control >( in, st... ) ) {
                   return false;
                }
-               using memory_t = typename Input::memory_t;
-               memory_t i2( m.iterator(), in.current(), in.source() );
+               memory_input< tracking_mode::LAZY, typename Input::eol_t, const char* > i2( m.iterator(), in.current(), source_pointer( in.source() ) );
 
                if( !Control< S >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( i2, st... ) ) {
                   return m( true );

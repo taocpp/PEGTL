@@ -2,7 +2,6 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/argv_input.hpp>
 
 #include "json_errors.hpp"
 

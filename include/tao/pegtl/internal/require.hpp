@@ -7,6 +7,7 @@
 #include "../config.hpp"
 
 #include "skip_control.hpp"
+#include "trivial.hpp"
 
 #include "../analysis/generic.hpp"
 
@@ -16,6 +17,15 @@ namespace tao
    {
       namespace internal
       {
+         template< unsigned Amount >
+         struct require;
+
+         template<>
+         struct require< 0 >
+            : trivial< true >
+         {
+         };
+
          template< unsigned Amount >
          struct require
          {

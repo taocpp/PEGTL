@@ -60,7 +60,7 @@ namespace tao
             }
 
          private:
-            const char* m_source;
+            const char* const m_source;
             const std::unique_ptr< std::FILE, decltype( &std::fclose ) > m_file;
 
             std::FILE* open() const

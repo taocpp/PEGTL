@@ -5,7 +5,6 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
-#include <tao/pegtl/argv_input.hpp>
 
 using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 

@@ -8,7 +8,6 @@
 #include <vector>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/argv_input.hpp>
 
 // Include the analyze function that checks
 // a grammar for possible infinite cycles.

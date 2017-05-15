@@ -22,7 +22,7 @@ namespace tao
    {
       namespace internal
       {
-         inline bool unsafe_equals( const char* s, const std::initializer_list< char >& l )
+         inline bool unsafe_equals( const char* s, const std::initializer_list< char >& l ) noexcept
          {
             return std::memcmp( s, &*l.begin(), l.size() ) == 0;
          }

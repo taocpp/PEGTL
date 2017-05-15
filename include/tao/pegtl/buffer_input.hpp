@@ -36,8 +36,7 @@ namespace tao
 
          using iterator_t = internal::iterator;
 
-         using memory_t = memory_input< tracking_mode::IMMEDIATE, Eol, Source >;
-         using action_t = internal::action_input< buffer_input, tracking_mode::IMMEDIATE >;
+         using action_t = internal::action_input< buffer_input >;
 
          template< typename... As >
          buffer_input( Source in_source, const std::size_t maximum, As&&... as )

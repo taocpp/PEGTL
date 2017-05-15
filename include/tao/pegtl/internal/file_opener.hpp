@@ -46,7 +46,7 @@ namespace tao
                return std::size_t( st.st_size );
             }
 
-            const char* m_source;
+            const char* const m_source;
             const int m_fd;
 
          private:

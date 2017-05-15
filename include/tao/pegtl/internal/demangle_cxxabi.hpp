@@ -11,42 +11,14 @@
 
 #include "../config.hpp"
 
+#include "demangle_sanitise.hpp"
+
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
       namespace internal
       {
-#ifdef TAOCPP_PEGTL_PRETTY_DEMANGLE
-         inline void demangle_sanitise_chars( std::string& s )
-         {
-            std::string::size_type p;
-            while( ( p = s.find( "(char)" ) ) != std::string::npos ) {
-               int c = 0;
-               std::string::size_type q;
-               for( q = p + 6; ( q < s.size() ) && ( s[ q ] >= '0' ) && ( s[ q ] <= '9' ); ++q ) {
-                  c *= 10;
-                  c += s[ q ] - '0';
-               }
-               if( c == '\'' ) {
-                  s.replace( p, q - p, "'\''" );
-               }
-               else if( c == '\\' ) {
-                  s.replace( p, q - p, "'\\'" );
-               }
-               else if( ( c < 32 ) || ( c > 126 ) ) {
-                  s.replace( p, p + 6, "" );
-               }
-               else {
-                  s.replace( p, q - p, std::string( 1, '\'' ) + char( c ) + '\'' );
-               }
-            }
-         }
-#else
-         inline void demangle_sanitise_chars( std::string& )
-         {
-         }
-#endif
          inline std::string demangle( const char* symbol )
          {
             const std::unique_ptr< char, decltype( &std::free ) > demangled( abi::__cxa_demangle( symbol, nullptr, nullptr, nullptr ), &std::free );
@@ -54,7 +26,9 @@ namespace tao
                return symbol;
             }
             std::string result( demangled.get() );
+#ifdef TAOCPP_PEGTL_PRETTY_DEMANGLE
             demangle_sanitise_chars( result );
+#endif
             return result;
          }
 

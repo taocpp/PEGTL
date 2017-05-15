@@ -3,7 +3,6 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl.hpp>
 #include <tao/pegtl/internal/cstring_reader.hpp>
 
 namespace tao
@@ -20,7 +19,7 @@ namespace tao
          return parse< Rule, Action, Control >( in, st... );
       }
 
-      struct test_grammar : seq< string< 'a', 'b' >, discard, string< 'c', 'd' >, discard, string< 'e', 'f' >, discard, eof >
+      struct test_grammar : seq< string< 'a', 'b' >, discard, string< 'c', 'd' >, discard, any, any, discard, eof >
       {
       };
 

@@ -36,7 +36,7 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               while( ( !in.empty() ) && duseltronik< seq< Rule, Rules... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st... ) ) {
+               while( duseltronik< seq< Rule, Rules... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st... ) ) {
                }
                return true;
             }

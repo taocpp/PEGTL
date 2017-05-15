@@ -114,6 +114,14 @@ namespace tao
          public:
             using iterator_t = const char*;
 
+            memory_input_base( const internal::iterator& in_begin, const char* in_end, Source in_source ) noexcept( std::is_nothrow_move_constructible< Source >::value )
+               : m_begin( in_begin ),
+                 m_current( in_begin.data ),
+                 m_end( in_end ),
+                 m_source( std::move( in_source ) )
+            {
+            }
+
             memory_input_base( const char* in_begin, const char* in_end, Source in_source ) noexcept( std::is_nothrow_move_constructible< Source >::value )
                : m_begin( in_begin ),
                  m_current( in_begin ),
@@ -191,8 +199,7 @@ namespace tao
 
          using typename internal::memory_input_base< P, Eol, Source >::iterator_t;
 
-         using memory_t = memory_input;
-         using action_t = internal::action_input< memory_input, P >;
+         using action_t = internal::action_input< memory_input >;
 
          using internal::memory_input_base< P, Eol, Source >::memory_input_base;
 

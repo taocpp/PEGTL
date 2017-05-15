@@ -33,18 +33,15 @@ namespace tao
             return it.data;
          }
 
-         template< typename Input, tracking_mode P >
+         template< typename Input >
          class action_input
          {
          public:
-            static constexpr tracking_mode tracking_mode_v = P;
-
             using eol_t = typename Input::eol_t;
             using source_t = typename Input::source_t;
 
             using iterator_t = typename Input::iterator_t;
 
-            using memory_t = memory_input< P, eol_t, source_t >;
             using action_t = action_input;
 
             action_input( const iterator_t& in_begin, const Input& in_input ) noexcept

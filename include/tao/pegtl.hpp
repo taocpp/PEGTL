@@ -5,6 +5,7 @@
 #define TAOCPP_PEGTL_INCLUDE_PEGTL_HPP
 
 #include "pegtl/config.hpp"
+#include "pegtl/version.hpp"
 
 #include "pegtl/ascii.hpp"
 #include "pegtl/parse.hpp"
@@ -13,20 +14,18 @@
 #include "pegtl/utf32.hpp"
 #include "pegtl/utf8.hpp"
 
-#include "pegtl/parse.hpp"
-
+#include "pegtl/argv_input.hpp"
 #include "pegtl/buffer_input.hpp"
+#include "pegtl/cstream_input.hpp"
 #include "pegtl/file_input.hpp"
+#include "pegtl/istream_input.hpp"
 #include "pegtl/memory_input.hpp"
 #include "pegtl/read_input.hpp"
-#include "pegtl/stream_input.hpp"
 #include "pegtl/string_input.hpp"
 
-// The following files can be included whenever needed;
-// they are not included by default because they include
-// a stream header like <iostream> or <sstream>.
+// The following are not included by
+// default because they include <iostream>.
 
-// #include "pegtl/argv_input.hpp"
 // #include "pegtl/analyze.hpp"
 
 #endif

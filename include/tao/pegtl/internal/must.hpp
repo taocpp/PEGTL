@@ -7,11 +7,13 @@
 #include "../config.hpp"
 
 #include "raise.hpp"
-#include "seq.hpp"
+#include "rule_conjunction.hpp"
 #include "skip_control.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
+
+#include "../analysis/generic.hpp"
 
 namespace tao
 {
@@ -19,14 +21,24 @@ namespace tao
    {
       namespace internal
       {
-         // The general case simply applies must<> to each member of the
-         // 'Rules' parameter pack individually, below is the specialization
-         // which implements the case for a single rule.
+         // The general case applies must<> to each of the
+         // rules in the 'Rules' parameter pack individually.
 
          template< typename... Rules >
          struct must
-            : seq< must< Rules >... >
          {
+            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules... >;
+
+            template< apply_mode A,
+                      rewind_mode M,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
+            static bool match( Input& in, States&&... st )
+            {
+               return rule_conjunction< must< Rules >... >::template match< A, M, Action, Control >( in, st... );
+            }
          };
 
          // While in theory the implementation for a single rule could
