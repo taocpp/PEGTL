@@ -50,7 +50,7 @@ namespace tao
 
             template< typename T >
             memory_input_base( const char* in_begin, const char* in_end, T&& in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept( std::is_nothrow_constructible< Source, T&& >::value )
-               : memory_input_base( { in_byte, in_line, in_byte_in_line, in_begin }, in_end, std::forward< T >( in_source ) )
+               : memory_input_base( { in_begin, in_byte, in_line, in_byte_in_line }, in_end, std::forward< T >( in_source ) )
             {
             }
 
@@ -131,7 +131,7 @@ namespace tao
             }
 
             memory_input_base( const char* in_begin, const char* in_end, Source in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept( std::is_nothrow_move_constructible< Source >::value )
-               : m_begin( in_byte, in_line, in_byte_in_line, in_begin ),
+               : m_begin( in_begin, in_byte, in_line, in_byte_in_line ),
                  m_current( in_begin ),
                  m_end( in_end ),
                  m_source( std::move( in_source ) )

@@ -43,7 +43,7 @@ namespace tao
             : m_reader( std::forward< As >( as )... ),
               m_maximum( maximum ),
               m_buffer( new char[ maximum ] ),
-              m_current( { 0, 1, 0, m_buffer.get() } ),
+              m_current( m_buffer.get() ),
               m_end( m_buffer.get() ),
               m_source( std::move( in_source ) )
          {
