@@ -1,29 +1,30 @@
 # Embedding the PEGTL
 
-When embedding the PEGTL into your projects, several problem may come up
-due to the nature of C++ header-only libraries. Depending on the szenario,
-the PEGTL offers three major solutions.
+When embedding the PEGTL into other projects, several problem may come up
+due to the nature of C++ header-only libraries. Depending on the scenario,
+there are various ways of working around these problems.
 
-## Embedding the PEGTL in binaries
+## Embedding in Binaries
 
-When you are writing binaries, i.e. executable files, you can copy the
-source tree to some subdirectory and simply add it to the compilers or
-projects include paths. No further changes are needed.
+When creating application binaries, i.e. executable files, the PEGTL source
+tree can be copied to some subdirectory in the application source, and added
+to the compiler's or project's include paths. No further changes are needed.
 
-## Embedding the PEGTL in library code
+## Embedding in Libraries
 
-When you are writing libraries and you are using the PEGTL, you need to
-take care of ODR violations if a user of your library also uses the PEGTL,
-but with a slightly different version. Since the PEGTL does *not* guarantee
-ABI compatibility between versions (even between minor- or patch-releases),
-one needs to make sure that all symbols of the two different PEGTL header
-sets are distinct. To support this use case, the PEGTL does support setting
-`TAOCPP_PEGTL_NAMESPACE`. By default, it will be set to `pegtl`, result in
-all symbols residing in the namespace `tao::pegtl`.
+When writing libraries with the PEGTL, it has to be ensured that applications
+that are built with these libraries, and that themselves use the PEGTL, do not
+violate the One Definition Rule (ODR) as would be the case when application 
+and libraries contain different versions of the PEGTL.
 
-If you want to change the namespace name, simply define `TAOCPP_PEGTL_NAMESPACE`
-to a unique name before including any header from the embedded PEGTL set.
-A simple example might look like this:
+Since the PEGTL does *not* guarantee ABI compatibility, not even across minor
+or patch releases, libraries *have* to ensure that the symbols for the PEGTL
+they include differ from those of the applications that use them.
+
+This can be achieved by chaning the macro `TAOCPP_PEGTL_NAMESPACE` which, by
+default, is set to `pegtl`, which leads to all symbols residing in namespace
+`tao::pegtl`. To change the namespace, simply define `TAOCPP_PEGTL_NAMESPACE`
+to a unique name before including the PEGTL, for example:
 
 ```c++
 #define TAOCPP_PEGTL_NAMESPACE mylib_pegtl
@@ -34,7 +35,6 @@ A simple example might look like this:
 int main( int argc, char* argv[] )
 {
    if( argc > 1 ) {
-     // pretty useless, but everything is in tao::mylib_pegtl now
      tao::mylib_pegtl::argv_input<> in( argv, 1 );
      tao::mylib_pegtl::parse< tao::mylib_pegtl::json::text >( in );
    }
@@ -42,25 +42,25 @@ int main( int argc, char* argv[] )
 
 ```
 
-## Embedding the PEGTL in library interfaces
+## Embedding in Library Interfaces
 
-In case the PEGTL headers are included in the headers of your library,
-setting `TAOCPP_PEGTL_NAMESPACE` is not sufficient. Both copies of the PEGTL
-would use `TAOCPP_PEGTL_NAMESPACE` for the symbols as well as the identical
-names for internal macros and include guards. Our solution to this problem is
-as simple as it is efficient: The embedded copy needs to replace all occurrences
-of the string `TAOCPP_PEGTL_` with a different (and unique) prefix. On a unix-shell,
-the following command will achieve this:
+When PEGTL headers are included in headers of a library, setting the namespace
+to a unique name via `TAOCPP_PEGTL_NAMESPACE` is not sufficient since both the
+application's and the library's copy of the PEGTL use the same macro names.
+
+In this case it is necessary to change the prefix of all macros of the embedded
+PEGTL from `TAOCPP_PEGTL_` to another unique string in order to prevent macros
+from clashing. In a Unix-shell, the following command will achieve this:
 
 ```sh
 $ sed -i 's/TAOCPP_PEGTL_/MYLIB_PEGTL_/g' $(find -name '[^.]*.[hc]pp')
 ```
 
-Run the above command from the directory, where the embedded PEGTL is stored.
-Afterwards, don't forget to set `MYLIB_PEGTL_NAMESPACE` or, alternatively,
-modify `include/tao/pegtl/config.hpp`.
+Rhe above command needs to run from the top-level directory of the embedded PEGTL.
+Additionally, `MYLIB_PEGTL_NAMESPACE` needs to be set as explained above;
+alternatively `include/tao/pegtl/config.hpp` can be directly modified.
 
-A practical example of how the result looks like can be found in our
+A practical example of how the result looks like can be found in our own
 header-only [JSON library](https://github.com/taocpp/json/).
 
 Copyright (c) 2017 Dr. Colin Hirsch and Daniel Frey
