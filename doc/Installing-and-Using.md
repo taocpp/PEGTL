@@ -40,16 +40,16 @@ the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches.
 
 ### Linux Packages
 
-* [Fedora/RHEL/CentOS](https://apps.fedoraproject.org/packages/PEGTL)
-* [Debian](https://packages.debian.org/search?keywords=pegtl-dev)
-* [Ubuntu](http://packages.ubuntu.com/search?keywords=pegtl-dev)
-* [Gentoo](https://packages.gentoo.org/packages/dev-libs/pegtl)
+* Fedora/RHEL/CentOS [1.3.1](https://apps.fedoraproject.org/packages/PEGTL)
+* Debian [1.3.1](https://packages.debian.org/search?keywords=pegtl-dev)
+* Ubuntu [1.3.1](http://packages.ubuntu.com/search?keywords=pegtl-dev)
+* Gentoo [1.3.1](https://packages.gentoo.org/packages/dev-libs/pegtl)
 
 Packages for other distributions might be available, too.
 
 ### macOS Packages
 
-* [Homebrew](http://brewformulas.org/Pegtl)
+* Homebrew [1.3.1](http://brewformulas.org/Pegtl)
 
 ## CMake Installation
 
