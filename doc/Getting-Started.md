@@ -123,7 +123,7 @@ The PEGTL requires a C++11-capable compiler, e.g. one of
 on either
 
 * GNU/Linux
-* Mac OS X
+* macOS
 * Windows
 
 It requires C++11, e.g. using the `--std=c++11` compiler switch.
