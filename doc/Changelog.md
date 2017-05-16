@@ -318,6 +318,7 @@ The last of these changes effectively requires custom action classes to derive e
 
 ## History
 
-The PEGTL was initially developed starting in November 2007 as an experiment in C++0x based on ideas from the YARD library by Christopher Diggins.
+Development of the PEGTL started in November 2007 as an experiment in C++0x.
+It is based on ideas from the YARD library by Christopher Diggins.
 
 Copyright (c) 2007-2017 Dr. Colin Hirsch and Daniel Frey
