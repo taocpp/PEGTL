@@ -16,6 +16,7 @@
 
 * Build system improvements:
 
+  * Added support for GCC 4.7.
   * Added support for [CMake](https://cmake.org/).
   * Added automatic testing (CI) of Visual Studio 2015 / 2017.
   * Added automatic testing (CI) of Android 5.1, NDK r10e.
