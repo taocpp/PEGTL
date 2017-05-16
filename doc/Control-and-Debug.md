@@ -1,4 +1,4 @@
-# Control Hooks
+# Control and Debug
 
 Beyond the top-level grammar rule, which *has* to be supplied to a parsing run, and an action class template, which *can* be supplied to a parsing run, a third customisation point within the PEGTL allows the user to provide a *control* class to a parsing run.
 

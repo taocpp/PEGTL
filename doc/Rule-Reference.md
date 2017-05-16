@@ -49,7 +49,7 @@ These rules are in namespace `tao::pegtl`.
 ###### `control< C, R... >`
 
 * Equivalent to `seq< R... >`, but:
-* Uses the given class template `C` as [control class](Control-Hooks.md).
+* Uses the given class template `C` as [control class](Control-and-Debug.md).
 
 ###### `disable< R... >`
 
