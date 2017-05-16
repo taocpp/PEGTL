@@ -60,7 +60,7 @@
 * [Contrib and Examples](Contrib-and-Examples.md)
   * [Contrib](Contrib-and-Examples.md#contrib)
   * [Examples](Contrib-and-Examples.md#examples)
-* [Control Hooks](Control-and-Debug.md)
+* [Control and Debug](Control-and-Debug.md)
   * [Normal Control](Control-and-Debug.md#normal-control)
   * [Control Functions](Control-and-Debug.md#control-functions)
   * [Exception Throwing](Control-and-Debug.md#exception-throwing)
