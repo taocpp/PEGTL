@@ -104,6 +104,18 @@ A calculator with all binary operators from the C language that shows
 * how to use stack-based actions to perform a calculation on-the-fly during the parsing run, and
 * how to build a grammar with a run-time data structure for arbitrary binary operators with arbitrary precedence and associativity.
 
+In addition to the binary operators, round brackets can be used to change the evaluation order. The implementation uses `long` integers as data type for all calculations.
+
+```sh
+$ build/src/example/pegtl/calculator  "2 + 3 * -7"  "(2 + 3) * 7"
+-19
+35
+```
+
+In this example the grammar takes a bit of a second place behind the infrastructure for the actions required to actually evaluate the arithmetic expressions.
+The basic approach is "shift-reduce", which is very close to a stack machine, which is a model often well suited to PEGTL grammar actions:
+Some actions merely push something onto a stack, while other actions apply some functions to the objects on the stack, usually reducing its size.
+
 ###### `src/example/pegtl/csv1.cpp` and `src/example/pegtl/csv2.cpp`
 
 Two simple examples for grammars that parse different kinds of CSV-style file formats.

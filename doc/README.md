@@ -67,7 +67,6 @@
   * [Advanced Control](Control-Hooks.md#advanced-control)
   * [Changing Control](Control-Hooks.md#changing-control)
 * [Grammar Analysis](Grammar-Analysis.md)
-* [Calculator Example](Calculator-Example.md)
 * [Changelog](Changelog.md)
 * [Migration Guide](Migration-Guide.md)
 
