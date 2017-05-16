@@ -12,8 +12,13 @@ namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
 
 namespace dynamic
 {
+   struct long_literal_id
+      : pegtl::plus< pegtl::not_one< '[' > >
+   {
+   };
+
    struct long_literal_open
-      : pegtl::seq< pegtl::one< '[' >, pegtl::plus< pegtl::not_one< '[' > >, pegtl::one< '[' > >
+      : pegtl::seq< pegtl::one< '[' >, long_literal_id, pegtl::one< '[' > >
    {
    };
 
@@ -24,11 +29,11 @@ namespace dynamic
                 template< typename... > class Action,
                 template< typename... > class Control,
                 typename Input >
-      static bool match( Input& in, const std::string& long_literal_mark, const std::string& )
+      static bool match( Input& in, const std::string& id, const std::string& )
       {
-         if( in.size( long_literal_mark.size() ) >= long_literal_mark.size() ) {
-            if( std::memcmp( in.current(), long_literal_mark.data(), long_literal_mark.size() ) == 0 ) {
-               in.bump( long_literal_mark.size() );
+         if( in.size( id.size() ) >= id.size() ) {
+            if( std::memcmp( in.current(), id.data(), id.size() ) == 0 ) {
+               in.bump( id.size() );
                return true;
             }
          }
@@ -58,12 +63,12 @@ namespace dynamic
    };
 
    template<>
-   struct action< pegtl::plus< pegtl::not_one< '[' > > >
+   struct action< long_literal_id >
    {
       template< typename Input >
-      static void apply( const Input& in, std::string& long_literal_mark, const std::string& )
+      static void apply( const Input& in, std::string& id, const std::string& )
       {
-         long_literal_mark = in.string();
+         id = in.string();
       }
    };
 
@@ -71,9 +76,9 @@ namespace dynamic
    struct action< long_literal_body >
    {
       template< typename Input >
-      static void apply( const Input& in, const std::string&, std::string& long_literal_body )
+      static void apply( const Input& in, const std::string&, std::string& body )
       {
-         long_literal_body += in.string();
+         body += in.string();
       }
    };
 
@@ -82,12 +87,14 @@ namespace dynamic
 int main( int argc, char** argv )
 {
    if( argc > 1 ) {
-      std::string long_literal_mark;
-      std::string long_literal_body;
+      std::string id;
+      std::string body;
+
       pegtl::argv_input<> in( argv, 1 );
-      pegtl::parse< dynamic::grammar, dynamic::action >( in, long_literal_mark, long_literal_body );
-      std::cout << "long literal mark was: " << long_literal_mark << std::endl;
-      std::cout << "long literal body was: " << long_literal_body << std::endl;
+      pegtl::parse< dynamic::grammar, dynamic::action >( in, id, body );
+
+      std::cout << "long literal id was: " << id << std::endl;
+      std::cout << "long literal body was: " << body << std::endl;
    }
    return 0;
 }

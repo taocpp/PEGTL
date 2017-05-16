@@ -21,7 +21,7 @@ namespace tao
 
          // This grammar is a direct PEG translation of the original URI grammar.
          // It should be considered experimental -- in case of any issues, in particular
-         // missing anchor rules for actions, please contact the developers.
+         // missing rules for attached actions, please contact the developers.
 
          // Note that this grammar has multiple top-level rules.
 

@@ -1,10 +1,10 @@
 # Actions and States
 
-Parsing, i.e. matching an input with a grammar rule, by itself only indicates whether (a portion of the input) is valid according to the grammar.
+Parsing, i.e. matching an input with a grammar rule, by itself only indicates whether (a portion of) the input is valid according to the grammar.
 In order to do something useful with the input, it is usually necessary to attach user-defined *actions* to one or more rules.
-An action is *applied* whenever its *anchor point*, i.e. the rule to which the action is attached, succeeds.
+An action is *applied* whenever the rule to which it is attached succeeds.
 Applying an action means that its static `apply()` or `apply0()`-method is called.
-The first argument to an action application is always an instance that represents the portion of the input consumed by the successful match of the rule.
+The first argument to an `apply()` method is always an object that represents the portion of the input consumed by the successful match of the rule.
 
 ## Contents
 
@@ -12,6 +12,10 @@ The first argument to an action application is always an instance that represent
 * [States](#states)
 * [Action Specialisation](#action-specialisation)
 * [Changing Actions](#changing-actions)
+* [Changing State](#changing-state)
+  * [No Switching](#no-switching)
+  * [Intrusive Switching](#intrusive-switching)
+  * [External Switching](#external-switching)
 * [Legacy Actions](#legacy-actions)
 
 ## Actions
@@ -37,10 +41,9 @@ The `apply()`-method has to take a const-reference to an instance of an input cl
 
 TODO: Document guaranteed interface of that input class.
 
-As mentioned above, this input contains references to the matched portion of the input; its `line()` and `byte_in_line()` indicate the line number and (byte) offset of where the rule succeeded in the input.
-
 ```c++
-template<> struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
+template<>
+struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
 {
    template< typename Input >
    static void apply( const Input& in )
@@ -53,10 +56,11 @@ template<> struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
 ```
 
 Alternatively, in cases where the matched part of the input is not required, the action method can be named `apply0()` instead of `apply()`.
-This will suppress the first argument, the matched input, which allows for some optimisations to be applied.
+This will suppress the first argument, the matched input, which allows for some optimisations.
 
 ```c++
-template<> struct my_actions< tao::pegtl::plus< tao::pegtl::alpha > >
+template<>
+struct my_actions< tao::pegtl::plus< tao::pegtl::alpha > >
 {
    static void apply0()
    {
@@ -126,6 +130,8 @@ an action class template can be specialised for `foo` or for `tao::pegtl::one< '
 
 (The method is called on class `foo`, which happens to inherit `match()` from `tao::pegtl::plus< tao::pegtl::one< '*' > >`, however base classes are not taken into consideration by the C++ language when choosing a specialisation.)
 
+While it is possible to specialize for `tao::pegtl::one< '*' >` in the above rule, any such specialization would also match any other occurrence in the grammar. It is therefore best practice to *always* specialize for explicitly named top-level rules.
+
 To then use these actions in a parsing run, simply pass them as additional template parameter to one of the parser functions defined in `<tao/pegtl/parse.hpp>`.
 
 ```c++
@@ -165,7 +171,42 @@ This also allows using the same rules multiple times with different actions with
 
 ## Changing States
 
-See the [page on Switching Style](Switching-Style.md).
+Implementing a parser with the PEGTL consists of two main parts.
+
+1. The actual grammar that drives the parser.
+2. The states and actions that "do something".
+
+For the second part, there are three distinct styles of how to manage the states and actions in non-trivial parsers.
+
+The **main issue** addressed by the switching styles is the **growing complexity** encountered when a single state argument to a parsing run must perform multiple different tasks, including the management of nested data structures.
+
+The way that this issue is addressed is by providing another tool for performing divide-and-conquer: A large state class with multiple tasks can be divided into
+
+- multiple smaller state classes that each take care of a single issue,
+- one or more [control classes](Control-Hooks.md) that switch between the states,
+- using the C++ stack for nested structures (rather than manually managing a stack).
+
+The different styles can also be freely mixed within the same parser.
+
+### No Switching
+
+The "no switching style" consists of having one (or more) state-arguments that are passed to a parsing run and that are the arguments to all action's `apply0()`- and `apply()`-methods.
+
+For an example of how to build a generic JSON data structure with the "no switching style" see `src/example/pegtl/json_build_two.cpp`.
+
+### Intrusive Switching
+
+The `state<>` and `action<>` [meta combinators](Rule-Reference.md#meta-rules) can be used to hard-code state and actions switches in the grammar.
+
+In some cases a state object is required for the grammar itself, and in these cases embedding the state-switch into the grammar is recommended.
+
+### External Switching
+
+"External switching" is when the states and/or actions are switched from outside of the grammar by providing a specialised control class.
+
+For an example of how to build a generic JSON data structure with the "external switching style" see `src/example/pegtl/json_build_one.cpp`.
+
+The actual switching control classes are defined in `<tao/pegtl/contrib/changes.hpp>` and can be used as template for custom switching.
 
 ## Legacy Actions
 

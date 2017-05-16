@@ -26,9 +26,9 @@ namespace hello
    struct action< name >
    {
       template< typename Input >
-      static void apply( const Input& in, std::string& name )
+      static void apply( const Input& in, std::string& v )
       {
-         name = in.string();
+         v = in.string();
       }
    };
 
@@ -38,8 +38,10 @@ int main( int argc, char** argv )
 {
    if( argc > 1 ) {
       std::string name;
+
       pegtl::argv_input<> in( argv, 1 );
       pegtl::parse< hello::grammar, hello::action >( in, name );
+
       std::cout << "Good bye, " << name << "!" << std::endl;
    }
 }
