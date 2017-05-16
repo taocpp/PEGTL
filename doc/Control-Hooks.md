@@ -1,19 +1,22 @@
 # Control Hooks
 
-Beyond the top-level grammar rule, which *has* to be supplied to a parsing run, and an action class template, which *can* be supplied to a parsing run, a third customisation point within the PEGTL allows the user to provide a *control* class (template) to a parsing run.
+Beyond the top-level grammar rule, which *has* to be supplied to a parsing run, and an action class template, which *can* be supplied to a parsing run, a third customisation point within the PEGTL allows the user to provide a *control* class to a parsing run.
 
-The control class must implement a set of static hook functions that are called by the PEGTL in order to
+(Actually the control class is a class template which takes a parsing rule as template argument, however in many cases there will be no specialisations, wherefore we will drop the distinction and pretend here that it is simply a class.)
 
-1. customise which exceptions are thrown in case of errors, and
+Functions from the control class are called in strategic places during a parsing run and can be used to customise internal behaviour of the PEGTL and/or as debug aids.
+More precisely, the control class has functions to
 
-2. add custom debug logging to follow the details of a parsing run.
+1. trace which rules are attempted to match where, and whether they succeed or fail,
+1. customise which exceptions are thrown in case of errors,
+3. customise how actions' `apply()` and `apply0()` methods are called,
+4. customise how rules' `match()` methods are called.
 
 ## Contents
 
 * [Normal Control](#normal-control)
-* [Debug Functions](#debug-functions)
+* [Control Functions](#control-functions)
 * [Exception Throwing](#exception-throwing)
-* [Debugging and Tracing](#debugging-and-tracing)
 * [Advanced Control](#advanced-control)
 * [Changing Control](#changing-control)
 
@@ -95,7 +98,10 @@ The `apply()` and `apply0()`-functions can customise how actions with, and witho
 
 The `match`-function wraps the actual matching duseltronik and chooses the correct one based on whether control is enabled for `Rule`, and whether the current action is enabled and has an `apply()` or `apply0()`-function.
 
-## Debug Functions
+## Control Functions
+
+For debugging a grammar and tracing exactly what happens during a parsing run, the control class methods `start()`, `success()` and `failure()` can be used.
+In addition, `apply()` and `apply0()` can be used to see which actions are invoked.
 
 Before attempting to match a rule `R`, the PEGTL calls `C< R >::start()` where `C` is the current control class template.
 
@@ -115,22 +121,17 @@ Additionally, if matching `R` was successful, actions are enabled, and `A< R >` 
 
 - Else `C< R >::apply()` is called with the begin and end of the matched input, and the current state arguments.
 
+The included class `tao::pegtl::tracer` in `<tao/pegtl/contrib/tracer.hpp>` gives a pratical example that can be used as control class to debug grammars.
+When an instance of class `tao::pegtl::trace_state` is used as single state in a parsing run with the tracer-control then the debug output contains a line number and rule number as additional information.
+
 ## Exception Throwing
 
-The `raise()`-control-hook-function *must* throw an exception.
+The `raise()`-control-hook-function **must** throw an exception.
 For most parts of the PEGTL the exception class is irrelevant and any user-defined data type can be thrown by a user-defined control hook.
 
 The `try_catch` rule only catches exceptions of type `tao::pegtl::parse_error`!
 
 When custom exception types are used then `try_catch_type` must be used with the custom exception class that they are supposed to catch as first template argument.
-
-## Debugging and Tracing
-
-For debugging a grammar and tracing exactly what happens during a parsing run, the control class methods `start()`, `success()` and `failure()` can be used.
-In addition, `apply()` and `apply0()` can be used to see which actions are invoked.
-
-The included class `tao::pegtl::tracer` in `<tao/pegtl/contrib/tracer.hpp>` gives a pratical example that can be used as control class to debug grammars.
-When an instance of class `tao::pegtl::trace_state` is used as single state in a parsing run with the tracer-control then the debug output contains a line number and rule number as additional information.
 
 ## Advanced Control
 
@@ -145,7 +146,6 @@ Similarly the control's `apply()` and `apply0()`-functions can customise action 
 Just like the action class template, a custom control class template can be used by either
 
 1. supplying it as explicit template argument to the `parse()`-functions, or
-
 2. setting it for a portion of the grammar with the `tao::pegtl::control` combinator.
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
