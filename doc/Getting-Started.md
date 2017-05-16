@@ -122,15 +122,14 @@ The PEGTL requires a C++11-capable compiler, e.g. one of
 
 on either
 
-* GNU/Linux
+* Linux
 * macOS
 * Windows
 
 It requires C++11, e.g. using the `--std=c++11` compiler switch.
 Using newer versions of the C++ standard is supported.
 
-It might also work with other compilers with good C++11 support on any sufficiently
-compatible platform.
+It should also work with other C++11 compilers on other Unix systems (or any sufficiently compatible platform).
 
 The PEGTL is written with an emphasis on clean code and is compatible with
 the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches.
@@ -198,7 +197,7 @@ source directly in your code or when building libraries, see [Embedding the PEGT
 ## Limitations
 
 The `Makefile` is as simple as possible, but should manage to build the examples
-and unit tests on Linux with GCC and on Mac OS X with Clang (as supplied by Apple).
+and unit tests on Linux with GCC and on macOS with Clang (as supplied by Apple).
 When running into problems using other combinations, please consult the `Makefile`
 for customising the build process.
 
@@ -206,7 +205,7 @@ The following limitations exist when **not** compiling with GCC or Clang.
 
 - The demangling of class names for error messages is not performed (the mangled name is used instead).
 
-The following limitations exist when **not** compiling on Unix or Mac OS X.
+The following limitations exist when **not** compiling on Unix or macOS.
 
 - `::mmap(2)`-based file reading is not included (but `std::fread(3)`-based reading is).
 
