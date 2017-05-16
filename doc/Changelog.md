@@ -7,12 +7,9 @@
 * Project
 
   * Migrated to ["The Art of C++"](https://github.com/taocpp).
-  * Adopted MS-DOS file extensions `.hpp` and `.cpp`.
-  * Moved all includes into `tao/`, e.g. `<tao/pegtl.hpp>` instead of `<pegtl.hh>`.
-  * Added outer namespace `tao::`, e.g. `tao::pegtl::seq<>` instead of `pegtl::seq<>`.
-  * Added defines for the version of the PEGTL, e.g. `TAOCPP_PEGTL_VERSION_MAJOR`.
-  * Version 2.x can be installed and used in parallel to version 1.x of the PEGTL.
-  * A [**migration guide**](Migration-Guide.md) for porting applications from 1.x to 2.x is available.
+  * A [**migration guide**](Migration-Guide.md) for porting applications from 1.y to 2.z is available.
+  * Version 2.z can be installed and used in parallel to version 1.y of the PEGTL.
+  * The semantics of all parsing rules and grammars is the same as for versions 1.y.
 
 * Build System
 
