@@ -4,24 +4,24 @@
 
 **Not yet released**
 
-* Migrated repository to ["The Art of C++"](https://github.com/taocpp):
+* Project
 
+  * Migrated to ["The Art of C++"](https://github.com/taocpp).
   * Adopted MS-DOS file extensions `.hpp` and `.cpp`.
   * Moved all includes into `tao/`, e.g. `<tao/pegtl.hpp>` instead of `<pegtl.hh>`.
   * Added outer namespace `tao::`, e.g. `tao::pegtl::seq<>` instead of `pegtl::seq<>`.
-  * Renamed `pegtl_(i)string_t` to `TAOCPP_PEGTL_(I)STRING`.
   * Added defines for the version of the PEGTL, e.g. `TAOCPP_PEGTL_VERSION_MAJOR`.
   * Version 2.x can be installed and used in parallel to version 1.x of the PEGTL.
   * A [**migration guide**](Migration-Guide.md) for porting applications from 1.x to 2.x is available.
 
-* Build system improvements:
+* Build System
 
   * Added support for GCC 4.7.
   * Added support for [CMake](https://cmake.org/).
   * Added automatic testing (CI) of Visual Studio 2015 / 2017.
   * Added automatic testing (CI) of Android 5.1, NDK r10e.
 
-* Improved input layer:
+* Input Layer
 
   * Added support for different EOL-styles.
   * Added support for custom incremental input readers.
@@ -37,24 +37,26 @@
   * Removed the `begin` member from class `position`.
   * Removed most parsing front-end functions.
 
-* Improved parsing layer:
+* Parsing Layer
 
   * Added combinator class `minus< M, S >`.
   * Added ASCII rule class `keyword< C, ... >`.
   * Added `string<>` rules for UTF-8, UTF-16 and UTF-32.
   * Added `apply` and `if_apply` rules for in-grammar direct actions.
-  * Added `apply()` and `apply0()` methods to control class for greater control.
+  * Added `apply()` and `apply0()` methods to control class.
 
-* Improved `TAOCPP_PEGTL_(I)STRING`:
+* String Macros
 
+  * Renamed to `TAOCPP_PEGTL_(I)STRING`
   * Increased allowed string length to 512.
   * Allowed embedded null bytes.
   * Reduced template instantiation depth.
 
-* Other:
+* Optimisations
 
   * Optimised superfluous input markers.
   * Allowed optimisation of actions that do not need the input.
+  * Reduced template instantiation depth.
   * Replaced layered matching with superior Duseltronik™.
 
 ## 1.3.1
