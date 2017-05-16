@@ -3,7 +3,7 @@
 ## From 1.y to 2.z
 
 Some of the [changes](Changelog.md#200) for version 2.0.0 require modifications to any source using the PEGTL.
-The good news is that the semantics of all parsing rules has remained unchanged.
+The good news is that the semantics of all parsing rules and grammars is the same as for version 1.0.0.
 Existing grammars will continue to work as before once the following list of naming and namespace related changes is taken into account.
 
 * Everything in the PEGTL is now in namespace `tao::pegtl`.
