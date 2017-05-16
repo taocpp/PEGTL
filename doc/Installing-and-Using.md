@@ -163,6 +163,6 @@ header-only [JSON library](https://github.com/taocpp/json/).
 
 ## Limitations
 
-When **not** compiling on Unix or macOS, then `::mmap(2)`-based file reading is not available (but `std::fread(3)`-based reading is).
+When **not** compiling on Unix or macOS, then `mmap(2)`-based file reading is not available (but `std::fread(3)`-based reading is).
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
