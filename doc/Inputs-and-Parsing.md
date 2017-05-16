@@ -49,7 +49,7 @@ Some input classes allow a choice of tracking mode, or whether the `byte`, `line
 
 Lazy tracking is recommended when the position is used very infrequently, for example only in the case of throwing a `parse_error`.
 
-Immediate tracking is recommended when the position is used frequently and/or in non-exceptional cases, for example when annotating every AST node with the position.
+Immediate tracking is recommended when the position is used frequently and/or in non-exceptional cases, for example when annotating every AST node with the line number.
 
 ## Line Ending
 
@@ -61,7 +61,8 @@ The supplied alternatives are `eol::cr`, `eol::lf`, `eol::crlf` and `eol::cr_crl
 
 ## Source
 
-Some input classes allow a choice of how to store the source parameter. TODO: Explain in more detail.
+Some input classes allow a choice of how to store the source parameter, with the default being a `std::string`.
+When creating many instances of an input class, it can be changed to a non-owning `const char*` to optimise away the memory allocation performed by `std::string`.
 
 ## File Input
 
@@ -99,16 +100,16 @@ They should be used "as if" this was the actual signature.
 ## Memory Input
 
 The class `memory_input<>` can be used to parse existing contiguous blocks of memory like the contents of a `std::string`.
-The input neither copies the data nor takes ownership, it only keeps pointers.
+The input **neither copies the data nor takes ownership, it only keeps pointers**.
 The various constructors accept the to-be-parsed data and the source in different formats.
 
-The constructors that only takes a `const char* begin` uses `std::strlen()` to determine the length of the data.
-It will therefore *only* work correctly with data that is terminated with a 0-byte (and does not contain embedded 0-bytes).
+The constructors that only takes a `const char* begin` for the data uses `std::strlen()` to determine the length.
+It will therefore *only* work correctly with data that is terminated with a 0-byte (and does not contain embedded 0-bytes, which are otherwise fine).
 
 The constructors that take additional `byte`, `line` and `byte_in_line` arguments initialise the internal counters with the supplied values, rather than the defaults of `0`, `1` and `0`.
 
 ```c++
-template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf, typename Source = const char* >
+template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf, typename Source = std::string >
 class memory_input
 {
    // Constructors available with any tracking_mode:
@@ -137,6 +138,9 @@ class memory_input
 };
 ```
 
+Note that the implementation of the constructors is different than shown.
+They should be used "as if" this was the actual signature.
+
 ## String Input
 
 The class `string_input<>` can also be used to parse a `std::string`.
@@ -154,13 +158,16 @@ class string_input
 };
 ```
 
+Note that the implementation of the constructors is different than shown.
+They should be used "as if" this was the actual signature.
+
 ## Stream Inputs
 
 The classes `cstream_input<>` and `istream_input<>` can be used to parse data from C-streams (`std::FILE*`) and C++-streams (`std::istream`), respectively.
 Unlike the file inputs above, they internally use `buffer_input<>` and therefore do *not* read the complete stream upon construction.
 
 They all have a single constructor that takes a stream, the maximum buffer size, and the name of the source.
-Note that these classes only keep a pointer/reference to the stream and do *not* take ownership; `cstream_input<>` does *not* call `std::close()`.
+Note that these classes only keep a pointer/reference to the stream and do **not** take ownership; in particular `cstream_input<>` does **not** call `std::close()`.
 
 See [Incremental Input](#incremental-input) for details on the `maximum` argument, and how to prepare a grammar for incremental input support using the `discard`-rule.
 
@@ -180,6 +187,9 @@ struct istream_input
 };
 ```
 
+Note that the implementation of the constructors is different than shown.
+They should be used "as if" this was the actual signature.
+
 ## Argument Input
 
 The class `argv_input<>` can be used to parse a string passed from the command line.
@@ -192,6 +202,9 @@ class argv_input
    argv_input( char** argv, const std::size_t n, const std::string& source );
 };
 ```
+
+Note that the implementation of the constructors is different than shown.
+They should be used "as if" this was the actual signature.
 
 ## Parse Function
 
