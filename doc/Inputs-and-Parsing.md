@@ -112,34 +112,32 @@ The constructors that take additional `byte`, `line` and `byte_in_line` argument
 template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf, typename Source = std::string >
 class memory_input
 {
-   // Constructors available with any tracking_mode:
+   template< typename T >
+   memory_input( const internal::iterator& iter, const char* end, T&& source ) noexcept(...);
 
-   memory_input( const char* begin, const char* end, const char* source ) noexcept;
-   memory_input( const char* begin, const char* end, const std::string& source ) noexcept;
+   template< typename T >
+   memory_input( const char* begin, const char* end, T&& source ) noexcept(...);
 
-   memory_input( const char* begin, const std::size_t size, const char* source ) noexcept;
-   memory_input( const char* begin, const std::size_t size, const std::string& source ) noexcept;
+   template< typename T >
+   memory_input( const char* begin, const std::size_t size, T&& source ) noexcept(...);
 
-   memory_input( const std::string& string, const char* source ) noexcept;
-   memory_input( const std::string& string, const std::string& source ) noexcept;
+   template< typename T >
+   memory_input( const std::string& string, T&& source ) noexcept(...);
 
-   memory_input( const char* begin, const char* source ) noexcept;
-   memory_input( const char* begin, const std::string& source ) noexcept;
+   template< typename T >
+   memory_input( const char* begin, T&& source ) noexcept(...);
 
-   memory_input( const char* begin, const char* end, const char* source,
-                 const std::size_t byte, const std::size_t line, const std::size_t byte_in_line ) noexcept;
-   memory_input( const char* begin, const char* end, const std::string& source,
-                 const std::size_t byte, const std::size_t line, const std::size_t byte_in_line ) noexcept;
-
-   // Constructors available only with tracking_mode::IMMEDIATE:
-
-   memory_input( const internal::iterator& iter, const char* end, const char* source ) noexcept;
-   memory_input( const internal::iterator& iter, const char* end, const std::string& source ) noexcept;
+   template< typename T >
+   memory_input( const char* begin, const char* end, T&& source,
+                 const std::size_t byte, const std::size_t line, const std::size_t byte_in_line ) noexcept(...);
 };
 ```
 
+`noexcept(...)` is a conditional noexcept-specification, depending on whether the construction of the source stored in the class can throw given the perfectly-forwarded parameter `source`. Technically, it is implemented as `noexcept( std::is_nothrow_constructible< Source, T&& >::value )`.
+
 Note that the implementation of the constructors is different than shown.
 They should be used "as if" this was the actual signature.
+
 
 ## String Input
 
@@ -150,11 +148,12 @@ Unlike class `memory_input<>`, this class stores a copied (or moved) version of 
 template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf, typename Source = std::string >
 class string_input
 {
-   string_input( const std::string& string, const char* source ) noexcept;
-   string_input( const std::string& string, const std::string& source ) noexcept;
+   template< typename V, typename T >
+   string_input( V&& data, T&& source ) noexcept(...);
 
-   string_input( const char* begin, const char* source ) noexcept;
-   string_input( const char* begin, const std::string& source ) noexcept;
+   template< typename V, typename T >
+   string_input( V&& data, T&& source,
+                 const std::size_t byte, const std::size_t line, const std::size_t byte_in_line ) noexcept(...);
 };
 ```
 
@@ -198,10 +197,13 @@ The class `argv_input<>` can be used to parse a string passed from the command l
 template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
 class argv_input
 {
+   argv_input( char** argv, const std::size_t n );
    argv_input( char** argv, const std::size_t n, const char* source );
    argv_input( char** argv, const std::size_t n, const std::string& source );
 };
 ```
+
+If no `source` is given, the source is set to `"argv[N]"` where N is the string representation of `n`.
 
 Note that the implementation of the constructors is different than shown.
 They should be used "as if" this was the actual signature.

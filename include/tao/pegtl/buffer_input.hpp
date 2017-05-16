@@ -38,14 +38,14 @@ namespace tao
 
          using action_t = internal::action_input< buffer_input >;
 
-         template< typename... As >
-         buffer_input( Source in_source, const std::size_t maximum, As&&... as )
+         template< typename T, typename... As >
+         buffer_input( T&& in_source, const std::size_t maximum, As&&... as )
             : m_reader( std::forward< As >( as )... ),
               m_maximum( maximum ),
               m_buffer( new char[ maximum ] ),
               m_current( m_buffer.get() ),
               m_end( m_buffer.get() ),
-              m_source( std::move( in_source ) )
+              m_source( std::forward< T >( in_source ) )
          {
          }
 
