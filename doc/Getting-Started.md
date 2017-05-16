@@ -133,8 +133,7 @@ It might also work with other compilers with good C++11 support on any sufficien
 compatible platform.
 
 The PEGTL is written with an emphasis on clean code and is compatible with
-the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches, which
-are also used by the included `Makefile` by default.
+the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches.
 
 ## Installation via Packages
 
