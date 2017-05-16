@@ -88,7 +88,7 @@ Released on 2015-09-21
 
 * Added `file_parser` as alias for `mmap_parser`or `read_parser` depending on availability of the former.
 * Added Clang 3.7 to the automated tests.
-* Added MacOS X with XCode 6 and XCode 7 to the automated tests.
+* Added Mac OS X with Xcode 6 and Xcode 7 to the automated tests.
 * Added coverage test and improved test coverage to 100%.
 * Fixed state changing bug in `json_build_one` example.
 

@@ -66,11 +66,11 @@ Each commit is [automatically](https://travis-ci.org/taocpp/PEGTL) [tested](http
   * Visual Studio 2015
   * Visual Studio 2017
 
-* Mac OS X (using libc++)
+* Mac OS X / macOS (using libc++)
 
   * Mac OS X 10.10, Xcode 6.4
   * Mac OS X 10.11, Xcode 7.3
-  * Mac OS X 10.12, Xcode 8.3
+  * macOS 10.12, Xcode 8.3
 
 * Linux (using libstdc++)
 
