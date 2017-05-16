@@ -6,8 +6,8 @@ This page should contain everything to get you started with the PEGTL.
 
 * [Hello, world!](#hello-world)
 * [Requirements](#requirements)
-* [Installation via Packages](#installation-via-packages)
-* [Installation via CMake](#installation-via-cmake)
+* [Installation Packages](#installation-packages)
+* [CMake Installation](#cmake-installation)
 * [Manual Installation](#manual-installation)
 * [Embedding the PEGTL](#embedding-the-pegtl)
 * [Limitations](#limitations)
@@ -135,20 +135,22 @@ compatible platform.
 The PEGTL is written with an emphasis on clean code and is compatible with
 the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches.
 
-## Installation via Packages
+## Installation Packages
 
-Packages are available for the major GNU/Linux distributions, including but not limited to:
+### Linux Packages
 
 * [Fedora/RHEL/CentOS](https://apps.fedoraproject.org/packages/PEGTL)
 * [Debian](https://packages.debian.org/search?keywords=pegtl-dev)
 * [Ubuntu](http://packages.ubuntu.com/search?keywords=pegtl-dev)
 * [Gentoo](https://packages.gentoo.org/packages/dev-libs/pegtl)
 
-Packages for Mac OS X are available from:
+Packages for other distributions might be available, too.
+
+### macOS Packages
 
 * [Homebrew](http://brewformulas.org/Pegtl)
 
-## Installation via CMake
+## CMake Installation
 
 The PEGTL can be built and installed using [CMake](https://cmake.org/), e.g.
 
