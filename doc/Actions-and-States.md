@@ -90,6 +90,8 @@ class action_input
 };
 ```
 
+Note that the `action_input` does **not** own the data it points to, it belongs to the original input used in the parsing run. Therefore **the validity of the pointed-to data might not extend (much) beyond the call to the `apply()`-method**!
+
 When the original input has tracking mode `IMMEDIATE`, the `iterator_t` returned by `action_input::iterator()` will contain the `byte`, `line` and `byte_in_line` counters corresponding to the beginning of the matched input represented by the `action_input`.
 
 When the original input has tracking mode `LAZY`, then `action_input::position()` is not efficient because it calculates the line number etc. by scanning the complete original input from the beginning.
@@ -111,7 +113,8 @@ struct my_actions< tao::pegtl::plus< tao::pegtl::alpha > >
 }
 ```
 
-The PEGTL will auto-detect whether a viable `apply0()`-method exists and will prefer it over `apply()`, however it is recommended to implement only either one of the two functions as future versions might flag the existence of both as error.
+The PEGTL will auto-detect whether a viable `apply0()`-method exists and will prefer it over `apply()`.
+It is recommended to implement only either one of the two functions, future versions of the PEGTL might flag the existence of both as error.
 
 Actions often need to store and/or reference portions of the input for after the parsing run, for example when an abstract syntax tree is generated.
 Some of the syntax tree nodes will contain portions of the input, for example for a variable name in a script language that needs to be stored in the syntax tree just as it occurs in the input data.
