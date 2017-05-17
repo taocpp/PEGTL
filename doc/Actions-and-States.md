@@ -61,6 +61,9 @@ It is currently best practice to "template over" the type of the input as shown 
 Actions can then assume that the input provides (at least) the following members.
 The `Input` template parameter is set to the class of the input used at the point in the parsing run where the action is applied.
 
+For illustrative purposes, we will assume that the input passed to `apply()` is of type `action_input`.
+Any resemblance to real classes is not a coincidence.
+
 ```c++
 template< typename Input >
 class action_input
