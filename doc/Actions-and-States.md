@@ -68,8 +68,8 @@ Any resemblance to real classes is not a coincidence.
 template< typename Input >
 class action_input
 {
+public:
    using input_t = Input;
-   using action_t = action_input;
    using iterator_t = typename Input::iterator_t;
 
    bool empty() const noexcept;
@@ -86,6 +86,7 @@ class action_input
    pegtl::position position() const noexcept;  // Not efficient with LAZY inputs.
 
    const Input& input() const noexcept;  // The input from the parsing run.
+
    const iterator_t& iterator() const noexcept;
 };
 ```

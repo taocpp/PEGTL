@@ -10,17 +10,12 @@
 #include "iterator.hpp"
 
 #include "../config.hpp"
-#include "../eol.hpp"
 #include "../position.hpp"
-#include "../tracking_mode.hpp"
 
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      template< tracking_mode, typename Eol, typename Source >
-      class memory_input;
-
       namespace internal
       {
          inline const char* begin_c_ptr( const char* p ) noexcept
@@ -38,7 +33,6 @@ namespace tao
          {
          public:
             using input_t = Input;
-            using action_t = action_input;
             using iterator_t = typename Input::iterator_t;
 
             action_input( const iterator_t& in_begin, const Input& in_input ) noexcept
