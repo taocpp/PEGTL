@@ -37,12 +37,9 @@ namespace tao
          class action_input
          {
          public:
-            using eol_t = typename Input::eol_t;
-            using source_t = typename Input::source_t;
-
-            using iterator_t = typename Input::iterator_t;
-
+            using input_t = Input;
             using action_t = action_input;
+            using iterator_t = typename Input::iterator_t;
 
             action_input( const iterator_t& in_begin, const Input& in_input ) noexcept
                : m_begin( in_begin ),
@@ -68,7 +65,7 @@ namespace tao
                return begin_c_ptr( iterator() );
             }
 
-            const char* end( const std::size_t = 0 ) const noexcept
+            const char* end() const noexcept
             {
                return input().current();
             }
@@ -78,9 +75,9 @@ namespace tao
                return begin() == end();
             }
 
-            std::size_t size( const std::size_t s = 0 ) const noexcept
+            std::size_t size() const noexcept
             {
-               return std::size_t( end( s ) - begin() );
+               return std::size_t( end() - begin() );
             }
 
             std::string string() const
