@@ -1,8 +1,9 @@
 # Errors and Exceptions
 
-In the most basic case, the result of a parsing run is a `bool` that indicates whether a given input adheres to a given grammar or parsing rule.
+The return value of a parsing run (a call to one of the `parse()`-functions) that does not throw is a `bool` that indicates whether a given input adheres to a given grammar or parsing rule.
+However a meaningful error message to the user needs to contain more information than just `"false"`, it needs to specify where, both in the input and in the grammar, parsing failed.
 
-Usually it is necessary to obtain a more precise error message than `false`, one that indicates what went wrong and where.
+Note that the following does not take into account grammars that use the [`try_catch`](Rule-Reference.md#try_catch-r-) and [`try_catch_type`](Rule-Reference.md#try_catch_type-e-r-) rules which catch exceptions and return `false`, thereby converting global failure to local failure.
 
 ## Contents
 
@@ -11,7 +12,7 @@ Usually it is necessary to obtain a more precise error message than `false`, one
 
 ## Failure
 
-The PEGTL offers facilities to define error points in the grammar where a return value of `false`, in PEGTL terminology a "local failure", should be converted into an exception, a "global failure".
+The PEGTL offers facilities to define error points in the grammar where a return value of `false`, in PEGTL terminology a *local failure*, is converted to an exception, a *global failure*.
 
 These global failures prevent back-tracking to proceed beyond the error points in order to
 
@@ -29,7 +30,7 @@ For example consider the following parsing rule for a backslash-escape-sequence,
 
 #### Must
 
-Usually in a string literal, the backslash *must* be followed by one of a certain set of characters.
+Inside a string literal, the backslash *must* be followed by one of a certain set of characters.
 
 If the following input character is not valid, we do not want to allow back-tracking via a local failure.
 We rather want to generate a global failure *at that point* by throwing an exception.

@@ -37,9 +37,9 @@ To attach an action to `Rule`, this class template has to be specialised for `Ru
 
 2. An *appropriate* static `apply()` or `apply0()`-method has to be implemented.
 
-The `apply()`-method has to take a const-reference to an instance of an input class as first argument.
+###### Apply
 
-TODO: Document guaranteed interface of that input class.
+The `apply()`-method receives a const-reference to an instance of an input class as first argument.
 
 ```c++
 template<>
@@ -54,6 +54,44 @@ struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
    }
 }
 ```
+
+The exact type of the input class passed to an action's `apply()`-method is not specified.
+It is currently best practice to "template over" the type of the input as shown above.
+
+Actions can then assume that the input provides (at least) the following members.
+The `Input` template parameter is set to the class of the input used at the point in the parsing run where the action is applied.
+
+```c++
+template< typename Input >
+class action_input
+{
+   using input_t = Input;
+   using action_t = action_input;
+   using iterator_t = typename Input::iterator_t;
+
+   bool empty() const noexcept;
+   std::size_t size() const noexcept;
+
+   const char* begin() const noexcept;  // Non-owning pointer!
+   const char* end() const noexcept;  // Non-owning pointer!
+
+   std::string string() const;  // { return std::string( begin(), end() ); }
+
+   char peek_char( const std::size_t offset = 0 ) const noexcept;   // { return begin()[ offset ]; }
+   unsigned char peek_byte( const std::size_t offset = 0 ) const noexcept;  // As above with cast.
+
+   pegtl::position position() const noexcept;  // Not efficient with LAZY inputs.
+
+   const Input& input() const noexcept;  // The input from the parsing run.
+   const iterator_t& iterator() const noexcept;
+};
+```
+
+When the original input has tracking mode `IMMEDIATE`, the `iterator_t` returned by `action_input::iterator()` will contain the `byte`, `line` and `byte_in_line` counters corresponding to the beginning of the matched input represented by the `action_input`.
+
+When the original input has tracking mode `LAZY`, then `action_input::position()` is not efficient because it calculates the line number etc. by scanning the complete original input from the beginning.
+
+###### Apply0
 
 Alternatively, in cases where the matched part of the input is not required, the action method can be named `apply0()` instead of `apply()`.
 This will suppress the first argument, the matched input, which allows for some optimisations.
