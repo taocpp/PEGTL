@@ -21,7 +21,7 @@
 
   * Added support for different EOL-styles.
   * Added support for custom incremental input readers.
-  * Added support for parsing C streams, i.e. `std::FILE *`.
+  * Added support for parsing C streams, i.e. `std::FILE*`.
   * Added support for parsing C++ streams, i.e. `std::istream`.
   * Added incremental input support rule `discard`.
   * Renamed `position_info` class to `position`.
