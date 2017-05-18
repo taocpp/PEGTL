@@ -2,7 +2,7 @@
 
 ## 2.0.0
 
-**Not yet released**
+Released 2017-05-18
 
 * Project
 
@@ -80,7 +80,7 @@ Released 2015-11-12
 
 ## 1.2.1
 
-Released on 2015-09-21
+Released 2015-09-21
 
 * Added `file_parser` as alias for `mmap_parser`or `read_parser` depending on availability of the former.
 * Added Clang 3.7 to the automated tests.
@@ -90,7 +90,7 @@ Released on 2015-09-21
 
 ## 1.2.0
 
-Released on 2015-08-23
+Released 2015-08-23
 
 * Added [`pegtl_string_t`](Rule-Reference.md#taocpp_pegtl_string--) and [`pegtl_istring_t`](Rule-Reference.md#taocpp_pegtl_istring--) to simplify string definitions as follows:
 ```c++
@@ -102,7 +102,7 @@ Released on 2015-08-23
 
 ## 1.1.0
 
-Released on 2015-07-31
+Released 2015-07-31
 
 * Renamed namespace `pegtl::ucs4` to `pegtl::utf32` and generally adopted UTF-32 in all naming.
 * Added experimental support for UTF-16 similar to the previously existing UTF-32 parsing rules.
@@ -113,7 +113,7 @@ Released on 2015-07-31
 
 ## 1.0.0
 
-Released on 2015-03-29
+Released 2015-03-29
 
 Version 1.0.0 was a very large refactoring based on the previous years of experience.
 The core design and approach were kept, but nearly all details of the implementation were changed, and some parts were added to, or removed from, the library.
