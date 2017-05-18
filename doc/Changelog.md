@@ -7,53 +7,53 @@
 * Project
 
   * Migrated to ["The Art of C++"](https://github.com/taocpp).
-  * A [**migration guide**](Migration-Guide.md) for porting applications from 1.y to 2.z is available.
+  * A [**migration guide**](Migration-Guide.md#from-1y-to-2z) for porting applications from 1.y to 2.z is available.
   * Version 2.z can be installed and used in parallel to version 1.y of the PEGTL.
   * The semantics of all parsing rules and grammars is the same as for versions 1.y.
 
-* Build System
-
-  * Added support for [CMake](https://cmake.org/).
-  * Added automatic testing (CI) of Visual Studio 2015 / 2017.
-  * Added automatic testing (CI) of Android 5.1, NDK r10e.
-
 * Input Layer
 
-  * Added support for different EOL-styles.
   * Added support for custom incremental input readers.
   * Added support for parsing C streams, i.e. `std::FILE*`.
   * Added support for parsing C++ streams, i.e. `std::istream`.
-  * Added incremental input support rule `discard`.
+  * Added support for different EOL-styles.
   * Renamed `position_info` class to `position`.
   * Added the byte position to input classes and `position`.
   * Added fast parsing without line counting (except in errors).
   * Refactored the `input` class into multiple input classes.
   * Refactored the file parser classes into input classes.
   * Refactored the handling of nested parsing.
-  * Removed the `begin` member from class `position`.
+  * Removed the `begin()` member from class `position`.
   * Removed most parsing front-end functions.
 
-* Parsing Layer
+* Parsing Rules
 
-  * Added combinator class `minus< M, S >`.
-  * Added ASCII rule class `keyword< C, ... >`.
-  * Added `string<>` rules for UTF-8, UTF-16 and UTF-32.
-  * Added `apply` and `if_apply` rules for in-grammar direct actions.
-  * Added `apply()` and `apply0()` methods to control class.
+  * Added combinator class [`minus`](Rule-Reference.md#minus-m-s-).
+  * Added ASCII rule class [`keyword`](Rule-Reference.md#keyword-c--).
+  * Added [`string`](Rule-Reference.md#string-c1-c2--) rules for [UTF-8](Rule-Reference.md#string-c1-c2---1), [UTF-16](Rule-Reference.md#string-c1-c2---2) and [UTF-32](Rule-Reference.md#string-c1-c2---3).
+  * Added [`apply`](Rule-Reference.md#apply-a-), [`apply0`](Rule-Reference.md#apply0-a-) and [`if_apply`](Rule-Reference.md#if_apply-r-a-) rules for intrusive actions.
+  * Added incremental input support rules [`discard`](Rule-Reference.md#discard) and [`require`](Rule-Reference.md#require-num-).
 
 * String Macros
 
-  * Renamed to `TAOCPP_PEGTL_(I)STRING`
+  * Renamed to [`TAOCPP_PEGTL_(I)STRING`](Rule-Reference.md#taocpp_pegtl_istring--).
   * Increased allowed string length to 512.
   * Allowed embedded null bytes.
   * Reduced template instantiation depth.
 
-* Optimisations
+* Other
 
+  * Added `apply()` and `apply0()` methods to control class.
   * Optimised superfluous input markers.
   * Allowed optimisation of actions that do not need the input.
-  * Reduced template instantiation depth.
   * Replaced layered matching with superior Duseltronik™.
+  * Reduced template instantiation depth.
+
+* Build System
+
+  * Added support for [CMake](https://cmake.org/).
+  * Added automatic testing (CI) of Visual Studio 2015 / 2017.
+  * Added automatic testing (CI) of Android 5.1, NDK r10e.
 
 ## 1.3.1
 
