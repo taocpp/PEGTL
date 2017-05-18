@@ -48,7 +48,7 @@ namespace tao
 #else
                bool result = true;
                using swallow = bool[];
-               (void)swallow{ result = result && Control< Rules >::template match< A, M, Action, Control >( in, st... )..., true };
+               (void)swallow{ result = result && Control< Rules >::template match< A, M, Action, Control >( in, st... )... };
                return result;
 #endif
             }
