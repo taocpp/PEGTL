@@ -13,18 +13,18 @@
 
 * Input Layer
 
-  * Added support for custom incremental input readers.
-  * Added support for parsing C streams, i.e. `std::FILE*`.
-  * Added support for parsing C++ streams, i.e. `std::istream`.
-  * Added support for different EOL-styles.
-  * Renamed `position_info` class to `position`.
+  * Added support for custom [incremental input](Inputs-and-Parsing.md#incremental-input) readers.
+  * Added support for parsing [C streams](Inputs-and-Parsing.md#stream-inputs), i.e. `std::FILE*`.
+  * Added support for parsing [C++ streams](Inputs-and-Parsing.md#stream-inputs), i.e. `std::istream`.
+  * Added support for different [EOL-styles](Inputs-and-Parsing.md#line-ending).
+  * Renamed class `position_info` to `position`.
   * Added the byte position to input classes and `position`.
-  * Added fast parsing without line counting (except in errors).
+  * Added [fast parsing without line counting](Inputs-and-Parsing.md#tracking-mode) (except in errors).
   * Refactored the `input` class into multiple input classes.
-  * Refactored the file parser classes into input classes.
-  * Refactored the handling of nested parsing.
+  * Refactored the file parser classes into [input classes](Inputs-and-Parsing.md#file-input).
+  * Refactored the handling of [nested parsing](Inputs-and-Parsing.md#nested-parsing).
   * Removed the `begin()` member from class `position`.
-  * Removed most parsing front-end functions.
+  * Removed most [parsing front-end functions](Inputs-and-Parsing.md#parse-function).
 
 * Parsing Rules
 
@@ -41,19 +41,16 @@
   * Allowed embedded null bytes.
   * Reduced template instantiation depth.
 
-* Other
+* Other Changes
 
   * Added `apply()` and `apply0()` methods to control class.
   * Optimised superfluous input markers.
   * Allowed optimisation of actions that do not need the input.
   * Replaced layered matching with superior Duseltronik™.
   * Reduced template instantiation depth.
-
-* Build System
-
   * Added support for [CMake](https://cmake.org/).
-  * Added automatic testing (CI) of Visual Studio 2015 / 2017.
-  * Added automatic testing (CI) of Android 5.1, NDK r10e.
+  * Added [automated testing](https://ci.appveyor.com/project/taocpp/PEGTL) with Visual Studio 2015 and 2017.
+  * Added automated testing with Android 5.1, NDK r10e.
 
 ## 1.3.1
 
