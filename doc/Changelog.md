@@ -43,9 +43,9 @@
 
 * Other Changes
 
-  * Added `apply()` and `apply0()` methods to control class.
+  * Added `apply()` and `apply0()` methods to [control class](Control-and-Debug.md#control-functions).
   * Optimised superfluous input markers.
-  * Allowed optimisation of actions that do not need the input.
+  * Allowed optimisation of [actions that do not need the input](Actions-and-States.md#apply0).
   * Replaced layered matching with superior Duseltronik™.
   * Reduced template instantiation depth.
   * Added support for [CMake](https://cmake.org/).
