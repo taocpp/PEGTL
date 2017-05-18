@@ -19,7 +19,7 @@ For flexibility and future compatibility it is recommended to "template over" th
 The `pegtl` part of the namespace can be controlled with the `TAOCPP_PEGTL_NAMESPACE` macro which is set in `include/tao/pegtl/config.hpp` if not defined previously.
 
 Most of the other changes for version 2.0.0 extend or optimise the PEGTL without breaking compatibility.
-Only applications integrated more tightly with the PEGTL might require some changes.
+Applications integrated more tightly with the PEGTL might require additional changes.
 
 Please contact the authors at `taocpp(at)icemx.net` for any further questions when updating the PEGTL.
 
