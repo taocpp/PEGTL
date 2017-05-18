@@ -10,8 +10,8 @@ The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++
 
 ### Documentation
 
-* [Master Branch Documentation](doc/README.md)
-* [Version 1.3.x Documentation](https://github.com/taocpp/PEGTL/blob/1.3.x/doc/README.md)
+* [Version 2.0 Documentation](doc/README.md)
+* [Version 1.3 Documentation](https://github.com/taocpp/PEGTL/blob/1.3.x/doc/README.md)
 
 ### Introduction
 
@@ -57,7 +57,7 @@ This leads to slightly increased compile times as the C++ compiler is given the 
 
 The master branch of the PEGTL is stable in the sense that all known bugs are fixed and all unit tests run without errors.
 
-Each commit is [automatically](https://travis-ci.org/taocpp/PEGTL) [tested](https://ci.appveyor.com/project/taocpp/PEGTL) with [multiple](https://doozer.io/user/taocpp/PEGTL) architectures, operating systems, compilers and versions, currently:
+Each commit is automatically tested with multiple architectures, operating systems, compilers, and versions thereof.
 
 * Windows
 
