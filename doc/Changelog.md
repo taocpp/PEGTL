@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.0.1
+
+**Not yet released**
+
+* Fixed build with MinGW on Windows.
+
 ## 2.0.0
 
 Released 2017-05-18

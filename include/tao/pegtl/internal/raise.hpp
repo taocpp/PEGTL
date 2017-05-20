@@ -35,7 +35,7 @@ namespace tao
             static bool match( Input& in, States&&... st )
             {
                Control< T >::raise( const_cast< const Input& >( in ), st... );
-#if defined( _WIN32 )
+#if defined( _MSC_VER )
                __assume( false );  // LCOV_EXCL_LINE
 #else
                std::abort();  // LCOV_EXCL_LINE
