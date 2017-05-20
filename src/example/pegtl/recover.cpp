@@ -24,7 +24,7 @@ template< typename T >
 struct skipping : until< T > {};
 
 template< typename R, typename T >
-struct recoverable : sor< try_catch< must< R, T > >, skipping< T > > {};
+struct recoverable : sor< try_catch< must< R >, T >, skipping< T > > {};
 
 struct expr_sum;
 struct expr_identifier : identifier {};
@@ -38,9 +38,10 @@ struct expr_prod : list_must< expr_power, one< '*', '/', '%' >, space > {};
 struct expr_sum : list_must< expr_prod, one< '+', '-' >, space > {};
 
 struct term : sor< one< ';' >, eof > {};
-struct expr : recoverable< pad< expr_sum, space >, term > {};
+struct expr : pad< expr_sum, space > {};
+struct recoverable_expr : recoverable< expr, term > {};
 
-struct my_grammar : star< expr > {};
+struct my_grammar : star< not_at< eof >, recoverable_expr > {};
 
 // clang-format on
 
@@ -76,22 +77,22 @@ struct found
 };
 
 // clang-format off
-template<> struct my_action< expr_identifier > : found< expr_identifier > {};
-template<> struct my_action< expr_number > : found< expr_number > {};
-template<> struct my_action< expr_braced > : found< expr_braced > {};
-template<> struct my_action< expr_value > : found< expr_value > {};
-template<> struct my_action< expr_power > : found< expr_power > {};
-template<> struct my_action< expr_prod > : found< expr_prod > {};
-template<> struct my_action< expr_sum > : found< expr_sum > {};
+// template<> struct my_action< expr_identifier > : found< expr_identifier > {};
+// template<> struct my_action< expr_number > : found< expr_number > {};
+// template<> struct my_action< expr_braced > : found< expr_braced > {};
+// template<> struct my_action< expr_value > : found< expr_value > {};
+// template<> struct my_action< expr_power > : found< expr_power > {};
+// template<> struct my_action< expr_prod > : found< expr_prod > {};
+// template<> struct my_action< expr_sum > : found< expr_sum > {};
+template<> struct my_action< expr > : found< expr > {};
 // clang-format on
 
 template<>
-struct my_action< expr >
+struct my_action< recoverable_expr >
 {
    template< typename Input >
-   static void apply( const Input& in, bool& error )
+   static void apply( const Input&, bool& error )
    {
-      found< expr >::apply( in, error );
       error = false;
       std::cout << std::string( 79, '-' ) << std::endl;
    }
