@@ -4,6 +4,10 @@ os:
 - Visual Studio 2015
 - Visual Studio 2017
 
+platform:
+- x86
+- x64
+
 configuration:
 - Release
 - Debug
@@ -27,7 +31,8 @@ before_build:
 build_script:
 - md build
 - cd build
-- IF "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" (SET GEN="Visual Studio 14 2015") ELSE (SET GEN="Visual Studio 15 2017")
+- IF "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" (SET GEN="Visual Studio 14 2015")
+- IF "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" (SET GEN="Visual Studio 15 2017")
 - cmake -Wno-dev -DPEGTL_BUILD_EXAMPLES=OFF --config "%CONFIGURATION%" .. -G%GEN%
 - cmake --build . --config "%CONFIGURATION%"
 
