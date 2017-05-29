@@ -63,7 +63,7 @@ namespace tao
 
          struct request_line : if_must< method, SP, request_target, SP, HTTP_version, CRLF > {};
          struct status_line : if_must< HTTP_version, SP, status_code, SP, reason_phrase, CRLF > {};
-         struct start_line : sor< request_line, status_line > {};
+         struct start_line : sor< status_line, request_line > {};
 
          struct message_body : star< OCTET > {};
          struct HTTP_message : seq< start_line, star< header_field, CRLF >, CRLF, opt< message_body > > {};
