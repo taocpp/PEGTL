@@ -5,6 +5,8 @@
 **Not yet released**
 
 * Fixed build with MinGW on Windows.
+* Fixed a bug in the contrib HTTP grammar which prevented it from parsing status lines in some cases.
+* Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with GCC 7.
 
 ## 2.0.0
 
