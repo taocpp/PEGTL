@@ -1,8 +1,6 @@
 // Copyright (c) 2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <cassert>
-
 #define TAOCPP_PEGTL_PRETTY_DEMANGLE 1
 
 #include <tao/pegtl.hpp>
@@ -142,8 +140,7 @@ int main( int argc, char** argv )
 
    for( int i = 1; i < argc; ++i ) {
       file_input<> in( argv[ i ] );
-      const auto result = parse< proto3::proto >( in );
-      assert( result );
+      parse< proto3::proto >( in );
    }
    return 0;
 }
