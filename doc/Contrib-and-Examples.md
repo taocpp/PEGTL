@@ -149,6 +149,10 @@ Parses all files passed on the command line with a slightly experimental grammar
 
 Shows how to implement a custom parsing rule with the simplified calling convention.
 
+###### `src/example/pegtl/proto3.cpp`
+
+Experimental grammar that parses Protocol Buffers (`.proto3`) files.
+
 ###### `src/example/pegtl/recover.cpp`
 
 See [PEGTL issue 55](https://github.com/taocpp/PEGTL/issues/55) and the source code for a description.
