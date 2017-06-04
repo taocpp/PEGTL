@@ -4,7 +4,8 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_PEGTL_HPP
 #define TAOCPP_PEGTL_INCLUDE_PEGTL_HPP
 
-#include <tao/pegtl.hpp>clude <tao/pegtl.hpp>
+#include "pegtl/config.hpp"
+#include "pegtl/version.hpp"
 
 #include "pegtl/ascii.hpp"
 #include "pegtl/parse.hpp"

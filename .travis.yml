@@ -209,48 +209,44 @@ matrix:
         - coveralls --gcov gcov-6 --gcov-options '\-lp' --exclude src
 
     - os: linux
-      dist: trusty
       compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7']
+          packages: ['g++-6']
       env:
         - CPPFLAGS=-fsanitize=undefined
-        - COMPILER=g++-7
+        - COMPILER=g++-6
 
     - os: linux
-      dist: trusty
       compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7']
+          packages: ['g++-6']
       env:
-        - CPPFLAGS="-fsanitize=address"
-        - COMPILER=g++-7
+        - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
+        - COMPILER=g++-6
 
     - os: linux
-      dist: trusty
       compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
-          packages: ['clang-4.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
+          packages: ['clang-3.8']
       env:
         - CPPFLAGS=-fsanitize=undefined
-        - COMPILER=clang++-4.0
+        - COMPILER=clang++-3.8
 
     - os: linux
-      dist: trusty
       compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
-          packages: ['clang-4.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
+          packages: ['clang-3.8']
       env:
         - CPPFLAGS=-fsanitize=address
-        - COMPILER=clang++-4.0
+        - COMPILER=clang++-3.8
 
     - os: linux
       compiler: gcc
@@ -277,15 +273,14 @@ matrix:
         - make CXX=$COMPILER -j3 cppcheck
 
     - os: linux
-      dist: trusty
       compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
-          packages: ['clang-4.0', 'clang-tidy-4.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.8']
+          packages: ['clang-3.8', 'clang-tidy-3.8']
       env:
-        - COMPILER=clang++-4.0
-        - CLANG_TIDY=clang-tidy-4.0
+        - COMPILER=clang++-3.8
+        - CLANG_TIDY=clang-tidy-3.8
       script:
         - make CXX=$COMPILER -j3 clang-tidy
 

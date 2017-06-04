@@ -4,7 +4,7 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_TRACER_HPP
 #define TAOCPP_PEGTL_INCLUDE_CONTRIB_TRACER_HPP
 
-#include <tao/pegtl/contrib/tracer.hpp>
+#include <cassert>
 #include <iomanip>
 #include <iostream>
 #include <utility>

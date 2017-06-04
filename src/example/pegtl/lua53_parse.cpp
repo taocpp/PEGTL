@@ -3,7 +3,7 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
-#include "../apply_mode.hpp"
+#include <tao/pegtl/contrib/raw_string.hpp>
 
 namespace lua53
 {

@@ -4,10 +4,10 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_RAW_STRING_HPP
 #define TAOCPP_PEGTL_INCLUDE_CONTRIB_RAW_STRING_HPP
 
+#include "../apply_mode.hpp"
+#include "../config.hpp"
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
-#include <tao/pegtl/contrib/raw_string.hpp>
-#include <tao/pegtl/contrib/raw_string.hpp>
 
 #include "../internal/iterator.hpp"
 #include "../internal/must.hpp"

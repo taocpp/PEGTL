@@ -4,7 +4,7 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_UNESCAPE_HPP
 #define TAOCPP_PEGTL_INCLUDE_CONTRIB_UNESCAPE_HPP
 
-#include <tao/pegtl/contrib/unescape.hpp>
+#include <cassert>
 #include <string>
 
 #include "../ascii.hpp"

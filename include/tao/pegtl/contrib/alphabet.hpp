@@ -4,7 +4,7 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_ALPHABET_HPP
 #define TAOCPP_PEGTL_INCLUDE_CONTRIB_ALPHABET_HPP
 
-#include <tao/pegtl/contrib/alphabet.hpp>
+#include "../config.hpp"
 
 namespace tao
 {
