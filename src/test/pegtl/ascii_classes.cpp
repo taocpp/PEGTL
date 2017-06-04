@@ -60,7 +60,7 @@ namespace tao
          verify_rule< ranges< 'a', 'z', '4' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
 
          for( int i = -100; i < 200; ++i ) {
-            const char c = char( i );
+            const auto c = char( i );
 
             const bool is_blank = ( c == ' ' ) || ( c == '\t' );
             const bool is_digit = ( '0' <= c ) && ( c <= '9' );

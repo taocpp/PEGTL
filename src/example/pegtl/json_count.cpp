@@ -1,16 +1,15 @@
 // Copyright (c) 2017 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
 #define TAOCPP_PEGTL_PRETTY_DEMANGLE
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/file_input.hpp>
-#include <tao/pegtl/contrib/json.hpp>
 #include <tao/pegtl/contrib/counter.hpp>
-
+#include <tao/pegtl/contrib/json.hpp>
+#include <tao/pegtl/file_input.hpp>
 
 using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 using grammar = must< json::text, eof >;

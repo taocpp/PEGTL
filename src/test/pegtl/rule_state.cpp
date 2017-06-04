@@ -12,12 +12,12 @@ namespace tao
       struct test_state_state
       {
          template< typename Input >
-         test_state_state( const Input& )
+         test_state_state( const Input& /*unused*/ )
          {
          }
 
          template< typename Input >
-         void success( const Input& ) const
+         void success( const Input& /*unused*/ ) const
          {
          }
       };
@@ -25,7 +25,7 @@ namespace tao
       struct test_state_with_template_parameters_state
       {
          template< typename Input >
-         test_state_with_template_parameters_state( const Input& )
+         test_state_with_template_parameters_state( const Input& /*unused*/ )
          {
          }
 
@@ -34,7 +34,7 @@ namespace tao
                    template< typename... > class Action,
                    template< typename... > class Control,
                    typename Input >
-         void success( const Input& ) const
+         void success( const Input& /*unused*/ ) const
          {
          }
       };

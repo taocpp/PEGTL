@@ -23,7 +23,7 @@ namespace tao
       struct rsaction< rstring::content >
       {
          template< typename Input, typename... States >
-         static void apply( const Input& in, const States&... )
+         static void apply( const Input& in, const States&... /*unused*/ )
          {
             content.assign( in.begin(), in.end() );
          }

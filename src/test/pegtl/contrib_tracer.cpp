@@ -24,7 +24,7 @@ namespace tao
       struct tracer_action< one< 'a' > >
       {
          template< typename... Ts >
-         static void apply0( Ts&&... )
+         static void apply0( Ts&&... /*unused*/ )
          {
             ++a0;
          }
@@ -34,7 +34,7 @@ namespace tao
       struct tracer_action< GRAMMAR >
       {
          template< typename... Ts >
-         static void apply( Ts&&... )
+         static void apply( Ts&&... /*unused*/ )
          {
             ++a;
          }

@@ -18,9 +18,9 @@ struct bar
 {
 };
 
-int main( int, char** )
+int main( int /*unused*/, char** /*unused*/ )
 {
-   if( analyze< foo >() ) {
+   if( analyze< foo >() != 0 ) {
       std::cout << "there are problems" << std::endl;
       return 1;
    }

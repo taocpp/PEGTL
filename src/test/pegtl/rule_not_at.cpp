@@ -19,7 +19,7 @@ namespace tao
       struct at_action< alpha >
       {
          template< typename Input >
-         static void apply( const Input& )
+         static void apply( const Input& /*unused*/ )
          {
             ++at_counter;
          }

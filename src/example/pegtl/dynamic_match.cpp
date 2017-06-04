@@ -29,7 +29,7 @@ namespace dynamic
                 template< typename... > class Action,
                 template< typename... > class Control,
                 typename Input >
-      static bool match( Input& in, const std::string& id, const std::string& )
+      static bool match( Input& in, const std::string& id, const std::string& /*unused*/ )
       {
          if( in.size( id.size() ) >= id.size() ) {
             if( std::memcmp( in.current(), id.data(), id.size() ) == 0 ) {
@@ -66,7 +66,7 @@ namespace dynamic
    struct action< long_literal_id >
    {
       template< typename Input >
-      static void apply( const Input& in, std::string& id, const std::string& )
+      static void apply( const Input& in, std::string& id, const std::string& /*unused*/ )
       {
          id = in.string();
       }
@@ -76,7 +76,7 @@ namespace dynamic
    struct action< long_literal_body >
    {
       template< typename Input >
-      static void apply( const Input& in, const std::string&, std::string& body )
+      static void apply( const Input& in, const std::string& /*unused*/, std::string& body )
       {
          body += in.string();
       }

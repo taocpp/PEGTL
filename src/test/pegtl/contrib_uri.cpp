@@ -28,7 +28,7 @@ void fail( const std::string& s )
    }
 }
 
-int main( int, char** )
+int main( int /*unused*/, char** /*unused*/ )
 {
    // ensure the grammar does not contain any obvious problems
    analyze< GRAMMAR >();

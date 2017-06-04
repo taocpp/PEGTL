@@ -12,7 +12,7 @@ namespace tao
          struct action_a
          {
             template< typename Input >
-            static void apply( const Input&, int& r, int& s )
+            static void apply( const Input& /*unused*/, int& r, int& s )
             {
                TAOCPP_PEGTL_TEST_ASSERT( !r );
                TAOCPP_PEGTL_TEST_ASSERT( !s );
@@ -23,7 +23,7 @@ namespace tao
          struct action_b
          {
             template< typename Input >
-            static void apply( const Input&, int& r, int& s )
+            static void apply( const Input& /*unused*/, int& r, int& s )
             {
                TAOCPP_PEGTL_TEST_ASSERT( !s );
                TAOCPP_PEGTL_TEST_ASSERT( r == 1 );

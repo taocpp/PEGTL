@@ -53,12 +53,12 @@ namespace tao
             char c;
 
             template< typename Input >
-            state1( const Input&, std::string& )
+            state1( const Input& /*unused*/, std::string& /*unused*/ )
             {
             }
 
             template< typename Input >
-            void success( const Input&, std::string& s ) const
+            void success( const Input& /*unused*/, std::string& s ) const
             {
                s += c;
             }
@@ -84,7 +84,7 @@ namespace tao
             static void apply( const Input& in, state1& s )
             {
                assert( in.size() == 1 );
-               s.c = 0 [ in.begin() ];
+               s.c = in.begin()[ 0 ];
             }
          };
 

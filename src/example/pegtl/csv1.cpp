@@ -68,13 +68,13 @@ namespace csv1
       : tao::TAOCPP_PEGTL_NAMESPACE::normal< value_line >
    {
       template< typename Input >
-      static void start( Input&, result_data& data )
+      static void start( Input& /*unused*/, result_data& data )
       {
-         data.push_back( std::vector< unsigned long >() );
+         data.emplace_back();
       }
 
       template< typename Input >
-      static void failure( Input&, result_data& data )
+      static void failure( Input& /*unused*/, result_data& data )
       {
          assert( !data.empty() );
          data.pop_back();

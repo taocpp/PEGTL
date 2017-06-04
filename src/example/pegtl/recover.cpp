@@ -91,7 +91,7 @@ template<>
 struct my_action< recoverable_expr >
 {
    template< typename Input >
-   static void apply( const Input&, bool& error )
+   static void apply( const Input& /*unused*/, bool& error )
    {
       error = false;
       std::cout << std::string( 79, '-' ) << std::endl;
@@ -103,7 +103,7 @@ struct my_control
    : normal< Rule >
 {
    template< typename Input, typename... States >
-   static void raise( const Input& in, States&&... )
+   static void raise( const Input& in, States&&... /*unused*/ )
    {
       std::cout << in.position() << ": Parse error matching " << internal::demangle< Rule >() << std::endl;
       throw parse_error( "parse error matching " + internal::demangle< Rule >(), in );

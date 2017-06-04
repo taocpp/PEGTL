@@ -104,7 +104,7 @@ namespace calculator
 
       void open()
       {
-         m_v.push_back( stack() );
+         m_v.emplace_back();
       }
 
       template< typename T >
@@ -307,7 +307,7 @@ namespace calculator
    struct action< number >
    {
       template< typename Input >
-      static void apply( const Input& in, const operators&, stacks& s )
+      static void apply( const Input& in, const operators& /*unused*/, stacks& s )
       {
          s.push( std::stol( in.string() ) );
       }
@@ -319,7 +319,7 @@ namespace calculator
    template<>
    struct action< one< '(' > >
    {
-      static void apply0( const operators&, stacks& s )
+      static void apply0( const operators& /*unused*/, stacks& s )
       {
          s.open();
       }
@@ -328,7 +328,7 @@ namespace calculator
    template<>
    struct action< one< ')' > >
    {
-      static void apply0( const operators&, stacks& s )
+      static void apply0( const operators& /*unused*/, stacks& s )
       {
          s.close();
       }
