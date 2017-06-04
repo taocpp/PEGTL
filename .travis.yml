@@ -227,7 +227,7 @@ matrix:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-7']
       env:
-        - CPPFLAGS=-fsanitize=address
+        - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
         - COMPILER=g++-7
 
     - os: linux
