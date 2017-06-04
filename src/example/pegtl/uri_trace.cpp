@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include <tao/pegtl.hpp>
+#include "pegtl/config.hpp"
 #include <tao/pegtl/contrib/tracer.hpp>
 #include <tao/pegtl/contrib/uri.hpp>
 

@@ -3,7 +3,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/contrib/tracer.hpp>
+#include <cassert>
 
 namespace tao
 {

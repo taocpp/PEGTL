@@ -3,7 +3,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/contrib/unescape.hpp>
+#include <cassert>
 
 namespace tao
 {

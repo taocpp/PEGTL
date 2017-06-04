@@ -3,7 +3,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/cstring_reader.hpp>
+#include <cassert>
 
 namespace tao
 {

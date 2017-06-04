@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#include <tao/pegtl.hpp>
+#include "pegtl/version.hpp"
 
 #include <tao/pegtl/contrib/unescape.hpp>
 

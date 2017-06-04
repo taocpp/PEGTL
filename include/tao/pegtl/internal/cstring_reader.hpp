@@ -4,7 +4,7 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_CSTRING_READER_HPP
 #define TAOCPP_PEGTL_INCLUDE_INTERNAL_CSTRING_READER_HPP
 
-#include <cassert>
+#include <tao/pegtl/internal/cstring_reader.hpp>l/internal/cstring_reader.hpp>
 #include <cstddef>
 
 #include "../config.hpp"

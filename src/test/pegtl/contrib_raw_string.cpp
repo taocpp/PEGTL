@@ -3,7 +3,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/contrib/raw_string.hpp>
+#include "../config.hpp"
 
 namespace tao
 {
