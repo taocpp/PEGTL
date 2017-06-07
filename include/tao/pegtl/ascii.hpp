@@ -27,7 +27,7 @@ namespace tao
          struct identifier_other : internal::identifier_other {};
          struct identifier : internal::identifier {};
          template< char... Cs > struct istring : internal::istring< Cs... > {};
-         template< char C, char... Cs > struct keyword : internal::seq< internal::string< C, Cs... >, internal::not_at< internal::identifier_other > > {};
+         template< char... Cs > struct keyword : internal::seq< internal::string< Cs... >, internal::not_at< internal::identifier_other > > {};
          struct lower : internal::range< internal::result_on_found::SUCCESS, internal::peek_char, 'a', 'z' > {};
          template< char... Cs > struct not_one : internal::one< internal::result_on_found::FAILURE, internal::peek_char, Cs... > {};
          template< char Lo, char Hi > struct not_range : internal::range< internal::result_on_found::FAILURE, internal::peek_char, Lo, Hi > {};
@@ -44,6 +44,19 @@ namespace tao
          struct upper : internal::range< internal::result_on_found::SUCCESS, internal::peek_char, 'A', 'Z' > {};
          struct xdigit : internal::ranges< internal::peek_char, '0', '9', 'a', 'f', 'A', 'F' > {};
          // clang-format on
+
+         template<>
+         struct keyword<>
+         {
+            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+
+            template< typename Input >
+            static bool match( Input& ) noexcept
+            {
+               static_assert( sizeof( Input ) == 0, "empty keywords not allowed" );
+               return false;
+            }
+         };
 
       }  // namespace ascii
 

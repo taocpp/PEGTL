@@ -22,6 +22,8 @@ namespace test
    static_assert( !std::is_same< TAOCPP_PEGTL_ISTRING( "Hello" ), tao::TAOCPP_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o' > >::value, "TAOCPP_PEGTL_ISTRING broken" );
    static_assert( std::is_same< TAOCPP_PEGTL_ISTRING( "Hello" ), tao::TAOCPP_PEGTL_NAMESPACE::istring< 'H', 'e', 'l', 'l', 'o' > >::value, "TAOCPP_PEGTL_ISTRING broken" );
 
+   static_assert( std::is_same< TAOCPP_PEGTL_KEYWORD( "private" ), tao::TAOCPP_PEGTL_NAMESPACE::keyword< 'p', 'r', 'i', 'v', 'a', 't', 'e' > >::value, "TAOCPP_PEGTL_KEYWORD broken" );
+
    // Strings may even contain embedded nulls
 
    static_assert( std::is_same< TAOCPP_PEGTL_STRING( "Hello, w\0rld!" ), tao::TAOCPP_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o', ',', ' ', 'w', 0, 'r', 'l', 'd', '!' > >::value, "TAOCPP_PEGTL_STRING broken" );

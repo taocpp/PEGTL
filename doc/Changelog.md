@@ -5,6 +5,7 @@
 **Not yet released**
 
 * Fixed build with MinGW on Windows.
+* Fixed broken `TAOCPP_PEGTL_KEYWORD` macro.
 * Fixed a bug in the contrib HTTP grammar which prevented it from parsing status lines in some cases.
 * Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with GCC 7.
 
