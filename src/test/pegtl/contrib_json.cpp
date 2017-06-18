@@ -26,10 +26,7 @@ namespace tao
 
       void unit_test()
       {
-         const auto p = analyze< GRAMMAR >();
-         if( p != 0 ) {
-            throw std::runtime_error( "analyze< GRAMMAR >() failed!" );
-         }
+         verify_analyze< GRAMMAR >( __LINE__, __FILE__, true, false );
 
          verify_rule< GRAMMAR >( __LINE__, __FILE__, "[]", result_type::SUCCESS, 0 );
          verify_rule< GRAMMAR >( __LINE__, __FILE__, "{}", result_type::SUCCESS, 0 );
