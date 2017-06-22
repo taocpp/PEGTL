@@ -1,6 +1,6 @@
 # Changelog
 
-## 2.0.1
+## 2.1.0
 
 **Not yet released**
 
@@ -8,6 +8,7 @@
 * Fixed broken `TAOCPP_PEGTL_KEYWORD` macro.
 * Fixed a bug in the contrib HTTP grammar which prevented it from parsing status lines in some cases.
 * Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with GCC 7.
+* Added optional template parameters to `raw_string` for rules that the content must match.
 
 ## 2.0.0
 

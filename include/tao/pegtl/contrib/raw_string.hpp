@@ -23,7 +23,7 @@ namespace tao
    {
       namespace internal
       {
-         template< char Open, char Marker, char Close >
+         template< char Open, char Marker, char Close, typename... Contents >
          struct raw_string_tag
          {
          };
@@ -232,14 +232,14 @@ namespace tao
       // introduced newline-specific replacements in Lua 5.2, which we do not
       // support on the grammar level.
 
-      template< char Open, char Marker, char Close >
+      template< char Open, char Marker, char Close, typename... Contents >
       struct raw_string
          : internal::raw_string_switch_state< internal::raw_string_tag< Open, Marker, Close >,
                                               internal::raw_string_open< Open, Marker >,
-                                              internal::must< internal::until< internal::at_raw_string_close< Marker, Close > > > >
+                                              internal::must< internal::until< internal::at_raw_string_close< Marker, Close >, Contents... > > >
       {
          // This is used to bind an action to the content.
-         using content = internal::raw_string_tag< Open, Marker, Close >;
+         using content = internal::raw_string_tag< Open, Marker, Close, Contents... >;
 
          // This is used for error-reporting when a raw string is not closed properly.
          using close = internal::until< internal::at_raw_string_close< Marker, Close > >;
