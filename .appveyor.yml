@@ -1,16 +1,40 @@
 version: '{branch}-{build}'
 
-os:
-- Visual Studio 2015
-- Visual Studio 2017
-
-platform:
-- x86
-- x64
-
 configuration:
 - Release
 - Debug
+
+environment:
+  matrix:
+    - COMPILER: Visual Studio 14 2015
+      GENERATOR: Visual Studio 14 2015
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PLATFORM: x86
+
+    - COMPILER: Visual Studio 14 2015
+      GENERATOR: Visual Studio 14 2015
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+      PLATFORM: x64
+
+    - COMPILER: Visual Studio 15 2017
+      GENERATOR: Visual Studio 15 2017
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      PLATFORM: x86
+
+    - COMPILER: Visual Studio 15 2017
+      GENERATOR: Visual Studio 15 2017
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      PLATFORM: x64
+
+    - COMPILER: MinGW 5
+      GENERATOR: MinGW Makefiles
+      BINDIR: C:\mingw-w64\i686-5.3.0-posix-dwarf-rt_v4-rev0\mingw32\bin
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+    - COMPILER: MinGW 6
+      GENERATOR: MinGW Makefiles
+      BINDIR: C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 
 branches:
   only:
@@ -21,22 +45,18 @@ build:
 
 init: []
 
+install: []
+
 before_build:
-- ps: |
-    if ($env:APPVEYOR_BUILD_WORKER_IMAGE -eq "Visual Studio 2015")
-    {
-      del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets"
-    }
+- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets")
+- set PATH=%PATH:C:\Program Files\Git\usr\bin;=%
+- if defined BINDIR (set "PATH=%BINDIR%;%PATH%")
 
 build_script:
 - md build
 - cd build
-- IF "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2015" (SET GEN="Visual Studio 14 2015")
-- IF "%APPVEYOR_BUILD_WORKER_IMAGE%" == "Visual Studio 2017" (SET GEN="Visual Studio 15 2017")
-- cmake -Wno-dev -DPEGTL_BUILD_EXAMPLES=OFF --config "%CONFIGURATION%" .. -G%GEN%
-- cmake --build . --config "%CONFIGURATION%"
+- cmake --config "%CONFIGURATION%" -G "%GENERATOR%" -Wno-dev -DPEGTL_BUILD_EXAMPLES=OFF ..
+- cmake --config "%CONFIGURATION%" --build .
 
 test_script:
 - ctest -C "%CONFIGURATION%" --output-on-failure
-
-install: []
