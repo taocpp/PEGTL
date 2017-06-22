@@ -158,10 +158,14 @@ Semantic versioning was introduced with version 1.0.0.
 
 ## 0.32
 
+Released 2012-12
+
 * Removed superfluous includes (issue 5 from Google code hosting).
 * Fixed bug in `not_at` rule regarding wrong propagation of errors (issue 3 from Google code hosting).
 
 ## 0.31
+
+Released 2011-02
 
 * Fixed bug in `not_at` rule regarding wrong propagation of errors (issue 3 from Google code hosting).
 
@@ -318,6 +322,8 @@ The last of these changes effectively requires custom action classes to derive e
 * Changed how expression rules provide their printer key (simplicity).
 
 ## 0.9
+
+Released 2008
 
 * First public release.
 
