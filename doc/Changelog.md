@@ -4,8 +4,8 @@
 
 **Not yet released**
 
-* Added optional template parameters to `raw_string` for rules that the content must match.
-* Fixed broken `TAOCPP_PEGTL_KEYWORD` macro.
+* Added optional template parameters to [`raw_string`](Contrib-and-Examples.md#taopegtlcontribraw_stringhpp) for rules that the content must match.
+* Fixed broken [`TAOCPP_PEGTL_KEYWORD`](Rule-Reference.md#taocpp_pegtl_keyword--) macro.
 * Fixed a bug in the contrib HTTP grammar which prevented it from parsing status lines in some cases.
 * Fixed build with MinGW on Windows.
 * Added [automated testing](https://ci.appveyor.com/project/taocpp/PEGTL) with MinGW.
