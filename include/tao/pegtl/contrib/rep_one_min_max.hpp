@@ -30,23 +30,11 @@ namespace tao
             static bool match( Input& in )
             {
                const auto size = in.size( Max + 1 );
-               if( size < Min ) {
-                  return false;
-               }
                std::size_t i = 0;
-               for( ; i != Min; ++i ) {
-                  if( in.peek_char( i ) != C ) {
-                     return false;
-                  }
+               while( ( i < size ) && ( in.peek_char( i ) == C ) ) {
+                  ++i;
                }
-               const auto n = std::min( std::size_t( Max ), std::size_t( size ) );
-               for( ; i != n; ++i ) {
-                  if( in.peek_char( i ) != C ) {
-                     bump_help< result_on_found::SUCCESS, Input, char, C >( in, i );
-                     return true;
-                  }
-               }
-               if( ( size <= Max ) || ( in.peek_char( Max ) != C ) ) {
+               if( ( Min <= i ) && ( i <= Max ) ) {
                   bump_help< result_on_found::SUCCESS, Input, char, C >( in, i );
                   return true;
                }
