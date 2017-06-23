@@ -12,9 +12,9 @@ endif ()
 
 # set project and version
 if (ANDROID_NDK)
-  project (pegtl VERSION 2.0.0)
+  project (pegtl VERSION 2.1.0)
 else ()
-  project (pegtl VERSION 2.0.0 LANGUAGES CXX)
+  project (pegtl VERSION 2.1.0 LANGUAGES CXX)
 endif ()
 
 # define a header-only library
