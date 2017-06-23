@@ -185,7 +185,7 @@ matrix:
         - export _NO_CHECK_SIGNATURE=true
         - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
         - emulator -avd test -no-audio -no-window &
-        - android-wait-for-emulator
+        - android-wait-for-emulator || android-wait-for-emulator
       script:
         - cmake -DANDROID_NDK="$ANDROID_NDK_HOME" -DANDROID_ABI=armeabi-v7a -DPEGTL_BUILD_EXAMPLES=OFF
         - make -j2
