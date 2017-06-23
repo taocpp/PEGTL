@@ -58,6 +58,7 @@ namespace tao
          struct rep_one_min_max : internal::rep_one_min_max< Min, Max, C >
          {
          };
+
          struct ellipsis : internal::rep_one_min_max< 3, 3, '.' >
          {
          };
