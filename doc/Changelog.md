@@ -5,6 +5,7 @@
 Released 2017-06-23
 
 * Added optional template parameters to [`raw_string`](Contrib-and-Examples.md#taopegtlcontribraw_stringhpp) for rules that the content must match.
+* Added new contrib rules [`rep_one_min_max`](Contrib-and-Examples.md#taopegtlcontribrep_one_min_maxhpp) and `ellipsis`.
 * Fixed broken [`TAOCPP_PEGTL_KEYWORD`](Rule-Reference.md#taocpp_pegtl_keyword--) macro.
 * Fixed a bug in the contrib HTTP grammar which prevented it from parsing status lines in some cases.
 * Fixed build with MinGW on Windows.
