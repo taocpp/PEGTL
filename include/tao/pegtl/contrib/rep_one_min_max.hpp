@@ -50,17 +50,22 @@ namespace tao
          {
          };
 
-      } // namespace internal
+      }  // namespace internal
 
       inline namespace ascii
       {
-         template< unsigned Min, unsigned Max, char C > struct rep_one_min_max : internal::rep_one_min_max< Min, Max, C > {};
-         struct ellipsis : internal::rep_one_min_max< 3, 3, '.' > {};
+         template< unsigned Min, unsigned Max, char C >
+         struct rep_one_min_max : internal::rep_one_min_max< Min, Max, C >
+         {
+         };
+         struct ellipsis : internal::rep_one_min_max< 3, 3, '.' >
+         {
+         };
 
-      } // namespace ascii
+      }  // namespace ascii
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // namespace tao
+}  // namespace tao
 
 #endif
