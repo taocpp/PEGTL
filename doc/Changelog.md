@@ -2,7 +2,7 @@
 
 ## 2.1.0
 
-**Not yet released**
+Released 2017-06-23
 
 * Added optional template parameters to [`raw_string`](Contrib-and-Examples.md#taopegtlcontribraw_stringhpp) for rules that the content must match.
 * Fixed broken [`TAOCPP_PEGTL_KEYWORD`](Rule-Reference.md#taocpp_pegtl_keyword--) macro.
