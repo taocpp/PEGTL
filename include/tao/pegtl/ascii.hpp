@@ -48,8 +48,6 @@ namespace tao
          template<>
          struct keyword<>
          {
-            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
-
             template< typename Input >
             static bool match( Input& ) noexcept
             {
