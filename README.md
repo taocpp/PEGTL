@@ -63,7 +63,7 @@ Each commit is automatically tested with multiple architectures, operating syste
 
   * Visual Studio 2015 (x86, x64)
   * Visual Studio 2017 (x86, x64)
-  * MinGW (x86), GCC 5, 6
+  * MinGW-w64 (x86), GCC 5, 6
 
 * Mac OS X / macOS (using libc++)
 
