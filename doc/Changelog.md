@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.2
+
+Released 2017-06-25
+
+* Bump version.
+
 ## 2.1.1
 
 Released 2017-06-25
