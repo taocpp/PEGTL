@@ -66,7 +66,7 @@ namespace tao
             std::FILE* open() const
             {
                errno = 0;
-#if defined( _WIN32 )
+#if defined( _MSC_VER )
                std::FILE* file;
                if(::fopen_s( &file, m_source, "rb" ) == 0 )
 #else

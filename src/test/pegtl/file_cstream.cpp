@@ -21,7 +21,7 @@ namespace tao
       void unit_test()
       {
          const char* const filename = "src/test/pegtl/file_data.txt";
-#if defined( _WIN32 )
+#if defined( _MSC_VER )
          std::FILE* stream;
          ::fopen_s( &stream, filename, "rb" );
 #else

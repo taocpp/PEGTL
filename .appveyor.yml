@@ -23,9 +23,8 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       GENERATOR: Visual Studio 15 2017 Win64
 
-# disabled: MinGW does not have fopen_s
-#    - GENERATOR: MinGW Makefiles
-#      BINDIR: C:\MinGW\bin
+    - GENERATOR: MinGW Makefiles
+      BINDIR: C:\MinGW\bin
 
     - GENERATOR: MinGW Makefiles
       COMPILER: MinGW 5
