@@ -35,6 +35,10 @@ environment:
       COMPILER: MinGW 6
       BINDIR: C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin
 
+    - GENERATOR: MinGW Makefiles
+      COMPILER: MinGW 6
+      BINDIR: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin
+
 init: []
 
 install: []
