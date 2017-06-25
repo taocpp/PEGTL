@@ -2,7 +2,7 @@ language: cpp
 
 branches:
   only:
-  - master
+    - master
 
 matrix:
   include:
