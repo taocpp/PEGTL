@@ -8,8 +8,8 @@ Released 2017-06-23
 * Added new contrib rules [`rep_one_min_max`](Contrib-and-Examples.md#taopegtlcontribrep_one_min_maxhpp) and `ellipsis`.
 * Fixed broken [`TAOCPP_PEGTL_KEYWORD`](Rule-Reference.md#taocpp_pegtl_keyword--) macro.
 * Fixed a bug in the contrib HTTP grammar which prevented it from parsing status lines in some cases.
-* Fixed build with MinGW on Windows.
-* Added [automated testing](https://ci.appveyor.com/project/taocpp/PEGTL) with MinGW.
+* Fixed build with MinGW-w64 on Windows.
+* Added [automated testing](https://ci.appveyor.com/project/taocpp/PEGTL) with MinGW-w64.
 * Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with GCC 7.
 
 ## 2.0.0
