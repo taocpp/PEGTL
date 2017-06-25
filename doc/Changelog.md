@@ -2,7 +2,7 @@
 
 ## 2.1.1
 
-**Not yet released**
+Released 2017-06-25
 
 * Fixed build with MinGW on Windows.
 * Added [automated testing](https://ci.appveyor.com/project/taocpp/PEGTL) with MinGW.
