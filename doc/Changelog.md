@@ -2,7 +2,7 @@
 
 ## 2.1.3
 
-**Not yet released**
+Released 2017-06-27
 
 * Fix [`raw_string`](Contrib-and-Examples.md#taopegtlcontribraw_stringhpp) with optional parameters.
 
