@@ -14,7 +14,7 @@ else
 UNAME_S := $(shell uname -s)
 endif
 
-# For Darwin we assume that the default compiler
+# For Darwin (Mac OS X / macOS) we assume that the default compiler
 # clang++ is used; when $(CXX) is some version of g++, then
 # $(CXXSTD) has to be set to -std=c++11 (or newer) so
 # that -stdlib=libc++ is not automatically added.

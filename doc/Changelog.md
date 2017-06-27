@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.4
+
+Released 2017-06-27
+
+* Fix shadow warning.
+
 ## 2.1.3
 
 Released 2017-06-27
