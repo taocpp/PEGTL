@@ -234,7 +234,7 @@ namespace tao
 
       template< char Open, char Marker, char Close, typename... Contents >
       struct raw_string
-         : internal::raw_string_switch_state< internal::raw_string_tag< Open, Marker, Close >,
+         : internal::raw_string_switch_state< internal::raw_string_tag< Open, Marker, Close, Contents... >,
                                               internal::raw_string_open< Open, Marker >,
                                               internal::must< internal::until< internal::at_raw_string_close< Marker, Close >, Contents... > > >
       {
@@ -242,7 +242,7 @@ namespace tao
          using content = internal::raw_string_tag< Open, Marker, Close, Contents... >;
 
          // This is used for error-reporting when a raw string is not closed properly.
-         using close = internal::until< internal::at_raw_string_close< Marker, Close > >;
+         using close = internal::until< internal::at_raw_string_close< Marker, Close >, Contents... >;
       };
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
