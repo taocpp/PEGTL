@@ -18,12 +18,20 @@ namespace tao
    {
       namespace internal
       {
+         struct file_close
+         {
+            void operator()( FILE* f ) const
+            {
+               std::fclose( f );
+            }
+         };
+
          class file_reader
          {
          public:
             explicit file_reader( const char* filename )
                : m_source( filename ),
-                 m_file( open(), &std::fclose )
+                 m_file( open() )
             {
             }
 
@@ -61,7 +69,7 @@ namespace tao
 
          private:
             const char* const m_source;
-            const std::unique_ptr< std::FILE, decltype( &std::fclose ) > m_file;
+            const std::unique_ptr< std::FILE, file_close > m_file;
 
             std::FILE* open() const
             {
