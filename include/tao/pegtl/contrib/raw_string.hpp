@@ -174,35 +174,6 @@ namespace tao
          {
          };
 
-         template< class Tag, typename... Rules >
-         struct raw_string_switch_state
-         {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules... >;
-
-            template< apply_mode A,
-                      rewind_mode M,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
-                      typename Input,
-                      typename... States >
-            static bool match( Input& in, States&&... st )
-            {
-               using Iterator = typename Input::iterator_t;
-               raw_string_state< Tag, Iterator > s( const_cast< const Input& >( in ), st... );
-
-               if( duseltronik< seq< Rules... >, A, M, Action, Control >::match( in, s ) ) {
-                  s.template success< A, M, Action, Control >( in, st... );
-                  return true;
-               }
-               return false;
-            }
-         };
-
-         template< typename Tag, typename... Rules >
-         struct skip_control< raw_string_switch_state< Tag, Rules... > > : std::true_type
-         {
-         };
-
       }  // namespace internal
 
       // raw_string matches Lua-style long literals.
@@ -232,15 +203,35 @@ namespace tao
 
       template< char Open, char Marker, char Close, typename... Contents >
       struct raw_string
-         : internal::raw_string_switch_state< internal::raw_string_tag< Open, Marker, Close, Contents... >,
-                                              internal::raw_string_open< Open, Marker >,
-                                              internal::must< internal::until< internal::at_raw_string_close< Marker, Close >, Contents... > > >
       {
-         // This is used to bind an action to the content.
+         // This is used as a tag to bind an action to the content.
          using content = internal::raw_string_tag< Open, Marker, Close, Contents... >;
+
+         // This is used internally.
+         using open = internal::raw_string_open< Open, Marker >;
 
          // This is used for error-reporting when a raw string is not closed properly.
          using close = internal::until< internal::at_raw_string_close< Marker, Close >, Contents... >;
+
+         using analyze_t = analysis::generic< analysis::rule_type::SEQ, open, internal::must< close > >;
+
+         template< apply_mode A,
+                   rewind_mode M,
+                   template< typename... > class Action,
+                   template< typename... > class Control,
+                   typename Input,
+                   typename... States >
+         static bool match( Input& in, States&&... st )
+         {
+            using Iterator = typename Input::iterator_t;
+            internal::raw_string_state< content, Iterator > s( const_cast< const Input& >( in ), st... );
+
+            if( Control< internal::seq< open, internal::must< close > > >::template match< A, M, Action, Control >( in, s ) ) {
+               s.template success< A, M, Action, Control >( in, st... );
+               return true;
+            }
+            return false;
+         }
       };
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
