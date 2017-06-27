@@ -24,9 +24,7 @@ namespace tao
       namespace internal
       {
          template< char Open, char Marker, char Close, typename... Contents >
-         struct raw_string_tag
-         {
-         };
+         struct raw_string_tag;
 
          template< bool use_action, bool use_apply0, typename Tag >
          struct raw_string_state_apply;
