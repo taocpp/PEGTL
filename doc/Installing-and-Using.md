@@ -40,20 +40,25 @@ the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches.
 
 ### Linux Packages
 
-* Fedora/RHEL/CentOS ([1.3.1](https://apps.fedoraproject.org/packages/PEGTL))
-* Debian ([1.3.1](https://packages.debian.org/search?keywords=pegtl-dev))
-* Ubuntu ([1.3.1](http://packages.ubuntu.com/search?keywords=pegtl-dev))
-* Gentoo ([1.3.1](https://packages.gentoo.org/packages/dev-libs/pegtl))
+* [Fedora/RHEL/CentOS]
+* [Debian]
+* [Ubuntu]
+* [Gentoo]
 
 Packages for other distributions might be available, too.
 
 ### macOS Packages
 
-* Homebrew ([1.3.1](http://brewformulas.org/Pegtl))
+* [Homebrew]
+
+### Others
+
+* [Buckaroo]
+* [Spack]
 
 ## CMake Installation
 
-The PEGTL can be built and installed using [CMake](https://cmake.org/), e.g.
+The PEGTL can be built and installed using [CMake], e.g.
 
 ```sh
 $ mkdir build
@@ -70,7 +75,7 @@ UNIX system, e.g. `/usr/local/include/`. To change the installation path, use:
 $ cmake .. -DCMAKE_INSTALL_PREFIX=../install
 ```
 
-in the above. For more options and ways to use CMake, please refer to the [CMake documentation](https://cmake.org/documentation/).
+in the above. For more options and ways to use CMake, please refer to the [CMake documentation].
 
 ## Manual Installation
 
@@ -166,3 +171,13 @@ header-only [JSON library](https://github.com/taocpp/json/).
 When **not** compiling on Unix or macOS, then `mmap(2)`-based file reading is not available (but `std::fread(3)`-based reading is).
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
+
+[Buckaroo]: https://buckaroo.pm/project/taocpp/pegtl
+[CMake]: https://cmake.org/
+[CMake documentation]: https://cmake.org/documentation/
+[Debian]: https://packages.debian.org/search?keywords=pegtl-dev
+[Fedora/RHEL/CentOS]: https://apps.fedoraproject.org/packages/PEGTL
+[Gentoo]: https://packages.gentoo.org/packages/dev-libs/pegtl
+[Homebrew]: http://brewformulas.org/Pegtl
+[Spack]: http://spack.readthedocs.io/en/latest/package_list.html#pegtl
+[Ubuntu]: http://packages.ubuntu.com/search?keywords=pegtl-dev
