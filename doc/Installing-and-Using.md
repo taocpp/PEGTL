@@ -52,7 +52,7 @@ Packages for other distributions might be available, too.
 
 * [Homebrew]
 
-### Others
+### Other
 
 * [Spack]
 
