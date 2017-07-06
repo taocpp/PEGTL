@@ -6,6 +6,7 @@
 * [Installation Packages](#installation-packages)
   * [Linux Packages](#linux-packages)
   * [macOS Packages](#macos-packages)
+  * [Other](#other)
 * [CMake Installation](#cmake-installation)
 * [Manual Installation](#manual-installation)
 * [Embedding the PEGTL](#embedding-the-pegtl)
@@ -53,7 +54,6 @@ Packages for other distributions might be available, too.
 
 ### Others
 
-* [Buckaroo]
 * [Spack]
 
 ## CMake Installation
@@ -172,7 +172,6 @@ When **not** compiling on Unix or macOS, then `mmap(2)`-based file reading is no
 
 Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
 
-[Buckaroo]: https://buckaroo.pm/project/taocpp/pegtl
 [CMake]: https://cmake.org/
 [CMake documentation]: https://cmake.org/documentation/
 [Debian]: https://packages.debian.org/search?keywords=pegtl-dev
