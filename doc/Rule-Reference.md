@@ -533,6 +533,12 @@ A unicode code point is considered *valid* when it is in the range `0` to `0x10f
 * The next 1-4 bytes are the UTF-8 encoding of a valid unicode code point.
 * Consumes the 1-4 bytes when it succeeds.
 
+###### `bom`
+
+* Succeeds when the input is not empty, and:
+* The next 3 bytes are the UTF-8 encoding of character U+FEFF, byte order mark (BOM).
+* Equivalent to `one< 0xfeff >`.
+
 ###### `not_one< C, ... >`
 
 * Succeeds when the input is not empty, and:
@@ -572,12 +578,6 @@ A unicode code point is considered *valid* when it is in the range `0` to `0x10f
 ###### `string< C1, C2, ... >`
 
 * Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
-
-###### `bom`
-
-* Succeeds when the input is not empty, and:
-* The next 3 bytes are the UTF-8 encoding of character U+FEFF, byte order mark (BOM).
-* Equivalent to `one< 0xfeff >`.
 
 ## UTF-16 Rules
 
@@ -601,6 +601,12 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * The next 2 (or 4) input bytes encode a valid unicode code point.
 * Consumes these 2 (or 4) bytes when it succeeds.
 
+###### `bom`
+
+* Succeeds when the input is not empty, and:
+* The next 2 bytes are the UTF-16 encoding of character U+FEFF, byte order mark (BOM).
+* Equivalent to `one< 0xfeff >`.
+
 ###### `not_one< C, ... >`
 
 * Succeeds when the input contains at least 2 bytes, and:
@@ -641,12 +647,6 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 
 * Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
 
-###### `bom`
-
-* Succeeds when the input is not empty, and:
-* The next 2 bytes are the UTF-16 encoding of character U+FEFF, byte order mark (BOM).
-* Equivalent to `one< 0xfeff >`.
-
 ## UTF-32 Rules
 
 These rules are in namespace `tao::pegtl::utf32`.
@@ -664,6 +664,12 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * Succeeds when the input contains at least 4 bytes, and:
 * The next 4 input bytes encode a valid unicode code point.
 * Consumes these 4 bytes when it succeeds.
+
+###### `bom`
+
+* Succeeds when the input is not empty, and:
+* The next 4 bytes are the UTF-32 encoding of character U+FEFF, byte order mark (BOM).
+* Equivalent to `one< 0xfeff >`.
 
 ###### `not_one< C, ... >`
 

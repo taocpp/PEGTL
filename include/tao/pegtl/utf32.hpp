@@ -18,6 +18,7 @@ namespace tao
       {
          // clang-format off
          struct any : internal::any< internal::peek_utf32 > {};
+         struct bom : internal::one< internal::result_on_found::SUCCESS, internal::peek_utf32, 0xfeff > {};
          template< char32_t... Cs > struct not_one : internal::one< internal::result_on_found::FAILURE, internal::peek_utf32, Cs... > {};
          template< char32_t Lo, char32_t Hi > struct not_range : internal::range< internal::result_on_found::FAILURE, internal::peek_utf32, Lo, Hi > {};
          template< char32_t... Cs > struct one : internal::one< internal::result_on_found::SUCCESS, internal::peek_utf32, Cs... > {};
