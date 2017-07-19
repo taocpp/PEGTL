@@ -728,6 +728,7 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`bol`](#bol) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`bom`](#bom) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
 * [`bom`](#bom-1) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
+* [`bom`](#bom-2) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
 * [`bytes< Num >`](#bytes-num-) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`control< C, R... >`](#control-c-r-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`digit`](#digit) <sup>[(ascii rules)](#ascii-rules)</sup>

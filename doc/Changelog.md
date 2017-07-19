@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.1.5
+
+**Not yet released**
+
+* Add `bom` rules for UTF-8, UTF-16 and UTF-32.
+
 ## 2.1.4
 
 Released 2017-06-27
