@@ -49,6 +49,9 @@ namespace tao
          verify_rule< utf16::one< 0x20ac > >( __LINE__, __FILE__, u16s( 0x20ac ), result_type::SUCCESS, 0 );
          verify_rule< utf16::one< 0x10437 > >( __LINE__, __FILE__, u16s( 0xd801 ) + u16s( 0xdc37 ), result_type::SUCCESS, 0 );
 
+         verify_rule< utf16::bom >( __LINE__, __FILE__, u16s( 0xfeff ), result_type::SUCCESS, 0 );
+         verify_rule< utf16::bom >( __LINE__, __FILE__, u16s( 0xfffe ), result_type::LOCAL_FAILURE, 2 );
+
          verify_rule< utf16::string< 0x20, 0x20ac, 0x10437 > >( __LINE__, __FILE__, u16s( 0x20 ) + u16s( 0x20ac ) + u16s( 0xd801 ) + u16s( 0xdc37 ) + u16s( 0x20 ), result_type::SUCCESS, 2 );
       }
 

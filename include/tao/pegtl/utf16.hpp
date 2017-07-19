@@ -24,6 +24,7 @@ namespace tao
          template< char32_t Lo, char32_t Hi > struct range : internal::range< internal::result_on_found::SUCCESS, internal::peek_utf16, Lo, Hi > {};
          template< char32_t... Cs > struct ranges : internal::ranges< internal::peek_utf16, Cs... > {};
          template< char32_t... Cs > struct string : internal::seq< internal::one< internal::result_on_found::SUCCESS, internal::peek_utf16, Cs >... > {};
+         struct bom : one< 0xfeff > {};
          // clang-format on
 
       }  // namespace utf16
