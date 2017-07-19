@@ -573,6 +573,12 @@ A unicode code point is considered *valid* when it is in the range `0` to `0x10f
 
 * Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
 
+###### `bom`
+
+* Succeeds when the input is not empty, and:
+* The next 3 bytes are the UTF-8 encoding of character U+FEFF, byte order mark (BOM).
+* Equivalent to `one< 0xfeff >`.
+
 ## UTF-16 Rules
 
 These rules are in namespace `tao::pegtl::utf16`.
@@ -634,6 +640,12 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 ###### `string< C1, C2, ... >`
 
 * Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
+
+###### `bom`
+
+* Succeeds when the input is not empty, and:
+* The next 2 bytes are the UTF-16 encoding of character U+FEFF, byte order mark (BOM).
+* Equivalent to `one< 0xfeff >`.
 
 ## UTF-32 Rules
 
@@ -708,6 +720,8 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`blank`](#blank) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`bof`](#bof) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`bol`](#bol) <sup>[(atomic rules)](#atomic-rules)</sup>
+* [`bom`](#bom) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
+* [`bom`](#bom-1) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
 * [`bytes< Num >`](#bytes-num-) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`control< C, R... >`](#control-c-r-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`digit`](#digit) <sup>[(ascii rules)](#ascii-rules)</sup>

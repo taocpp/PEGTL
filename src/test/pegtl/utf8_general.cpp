@@ -252,6 +252,9 @@ namespace tao
          verify_rule< utf8::one< 0x20ac > >( __LINE__, __FILE__, "\xe2\x82\xac", result_type::SUCCESS, 0 );
          verify_rule< utf8::one< 0x10348 > >( __LINE__, __FILE__, "\xf0\x90\x8d\x88", result_type::SUCCESS, 0 );
 
+         verify_rule< utf8::bom >( __LINE__, __FILE__, "\xef\xbb\xbf", result_type::SUCCESS, 0 );
+         verify_rule< utf8::bom >( __LINE__, __FILE__, "\xef\xbb\xbf ", result_type::SUCCESS, 1 );
+
          verify_rule< utf8::string< 0x20, 0xa2, 0x20ac, 0x10348 > >( __LINE__, __FILE__, "\x20\xc2\xa2\xe2\x82\xac\xf0\x90\x8d\x88\x20", result_type::SUCCESS, 1 );
       }
 
