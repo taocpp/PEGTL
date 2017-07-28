@@ -28,47 +28,46 @@ namespace tao
          template< std::size_t... Ns >
          using index_sequence = integer_sequence< std::size_t, Ns... >;
 
-         template< typename, std::size_t, bool >
-         struct double_up;
-
-         template< typename T, T... Ns, std::size_t N >
-         struct double_up< integer_sequence< T, Ns... >, N, false >
-         {
-            using type = integer_sequence< T, Ns..., ( N + Ns )... >;
-         };
-
-         template< typename T, T... Ns, std::size_t N >
-         struct double_up< integer_sequence< T, Ns... >, N, true >
-         {
-            using type = integer_sequence< T, Ns..., ( N + Ns )..., 2 * N >;
-         };
-
-         template< typename T, T N, typename = void >
+         template< bool V, bool E >
          struct generate_sequence;
 
-         template< typename T, T N >
-         using generate_sequence_t = typename generate_sequence< T, N >::type;
-
-         template< typename T, T N, typename >
-         struct generate_sequence
-            : double_up< generate_sequence_t< T, N / 2 >, N / 2, N % 2 == 1 >
+         template<>
+         struct generate_sequence< false, true >
          {
+            template< typename T, T M, T N, std::size_t S, T... Ns >
+            using f = integer_sequence< T, Ns... >;
+         };
+
+         template<>
+         struct generate_sequence< true, true >
+         {
+            template< typename T, T M, T N, std::size_t S, T... Ns >
+            using f = integer_sequence< T, Ns..., S >;
+         };
+
+         template<>
+         struct generate_sequence< false, false >
+         {
+            template< typename T, T M, T N, std::size_t S, T... Ns >
+            using f = typename generate_sequence< ( N & ( M / 2 ) ) != 0, ( M / 2 ) == 0 >::template f< T, M / 2, N, 2 * S, Ns..., ( Ns + S )... >;
+         };
+
+         template<>
+         struct generate_sequence< true, false >
+         {
+            template< typename T, T M, T N, std::size_t S, T... Ns >
+            using f = typename generate_sequence< ( N & ( M / 2 ) ) != 0, ( M / 2 ) == 0 >::template f< T, M / 2, N, 2 * S + 1, Ns..., ( Ns + S )..., 2 * S >;
          };
 
          template< typename T, T N >
-         struct generate_sequence< T, N, typename std::enable_if< ( N == 0 ) >::type >
+         struct memoize_sequence
          {
-            using type = integer_sequence< T >;
+            static_assert( N < T( 1 << 20 ), "N too large" );
+            using type = typename generate_sequence< false, false >::template f< T, ( N < T( 1 << 1 ) ) ? T( 1 << 1 ) : ( N < T( 1 << 2 ) ) ? T( 1 << 2 ) : ( N < T( 1 << 3 ) ) ? T( 1 << 3 ) : ( N < T( 1 << 4 ) ) ? T( 1 << 4 ) : ( N < T( 1 << 5 ) ) ? T( 1 << 5 ) : ( N < T( 1 << 6 ) ) ? T( 1 << 6 ) : ( N < T( 1 << 7 ) ) ? T( 1 << 7 ) : ( N < T( 1 << 8 ) ) ? T( 1 << 8 ) : ( N < T( 1 << 9 ) ) ? T( 1 << 9 ) : ( N < T( 1 << 10 ) ) ? T( 1 << 10 ) : T( 1 << 20 ), N, 0 >;
          };
 
          template< typename T, T N >
-         struct generate_sequence< T, N, typename std::enable_if< ( N == 1 ) >::type >
-         {
-            using type = integer_sequence< T, 0 >;
-         };
-
-         template< typename T, T N >
-         using make_integer_sequence = generate_sequence_t< T, N >;
+         using make_integer_sequence = typename memoize_sequence< T, N >::type;
 
          template< std::size_t N >
          using make_index_sequence = make_integer_sequence< std::size_t, N >;
