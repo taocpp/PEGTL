@@ -111,8 +111,7 @@ namespace ast
    struct term : seq< open_bracket, expression, close_bracket > {};
    struct value : sor< integer, variable, term > {};
    struct product : list< value, sor< multiply, divide > > {};
-   struct sum : list< product, sor< plus, minus > > {};
-   struct expression : seq< sum > {};
+   struct expression : list< product, sor< plus, minus > > {};
 
    struct grammar : must< expression, eof > {};
 
@@ -124,7 +123,6 @@ namespace ast
    template<> struct marker< multiply > : std::true_type {};
    template<> struct marker< divide > : std::true_type {};
    template<> struct marker< product > : std::true_type {};
-   template<> struct marker< sum > : std::true_type {};
    template<> struct marker< expression > : std::true_type {};
    // clang-format on
 
