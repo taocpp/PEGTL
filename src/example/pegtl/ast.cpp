@@ -29,6 +29,20 @@ namespace ast
    struct state
    {
       std::vector< std::unique_ptr< node > > stack;
+
+      state()
+      {
+         std::unique_ptr< node > r( new node );
+         r->id = &typeid( void );
+         r->begin = "root";
+         r->end = r->begin + 4;
+         stack.emplace_back( std::move( r ) );
+      }
+
+      const node& root() const
+      {
+         return *stack.front();
+      }
    };
 
    template< typename Rule, bool = marker< Rule >::value >
@@ -122,14 +136,8 @@ int main( int argc, char** argv )
       argv_input<> in( argv, i );
 
       ast::state s;
-      s.stack.emplace_back( new ast::node );
-      s.stack.back()->id = &typeid( void );
-      s.stack.back()->begin = "root";
-      s.stack.back()->end = s.stack.back()->begin + 4;
-
       parse< ast::grammar, nothing, ast::builder >( in, s );
-
-      print_node( *s.stack.back() );
+      print_node( s.root() );
    }
    return 0;
 }
