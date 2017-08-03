@@ -112,7 +112,7 @@ namespace ast
    struct value : sor< integer, variable, term > {};
    struct product : list< value, sor< multiply, divide > > {};
    struct sum : list< product, sor< plus, minus > > {};
-   struct expression : sum {};
+   struct expression : seq< sum > {};
 
    struct grammar : must< expression, eof > {};
 
