@@ -301,7 +301,7 @@ namespace lua53
    struct if_statement : pegtl::if_must< key_if, seps, expression, seps, key_then, statement_list< at_elseif_else_end >, seps, pegtl::until< pegtl::sor< else_statement, key_end >, elseif_statement, seps > > {};
 
    struct for_statement_one : pegtl::seq< pegtl::one< '=' >, seps, expression, seps, pegtl::one< ',' >, seps, expression, pegtl::pad_opt< pegtl::if_must< pegtl::one< ',' >, seps, expression >, sep > > {};
-   struct for_statement_two : pegtl::seq< pegtl::opt< pegtl::if_must< pegtl::one< ',' >, name_list_must, seps > >, key_in, seps, expr_list_must, seps > {};
+   struct for_statement_two : pegtl::seq< pegtl::opt< pegtl::if_must< pegtl::one< ',' >, seps, name_list_must, seps > >, key_in, seps, expr_list_must, seps > {};
    struct for_statement : pegtl::if_must< key_for, seps, name, seps, pegtl::sor< for_statement_one, for_statement_two >, key_do, statement_list< key_end > > {};
 
    struct assignment_variable_list : pegtl::list_must< variable, pegtl::one< ',' >, sep > {};
