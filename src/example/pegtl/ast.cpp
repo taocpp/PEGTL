@@ -14,7 +14,12 @@ using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 namespace ast
 {
    template< typename >
-   struct marker : std::false_type
+   struct store_simple : std::false_type
+   {
+   };
+
+   template< typename >
+   struct store_content : std::false_type
    {
    };
 
@@ -33,9 +38,6 @@ namespace ast
       state()
       {
          std::unique_ptr< node > r( new node );
-         r->id = &typeid( void );
-         r->begin = "root";
-         r->end = r->begin + 4;
          stack.emplace_back( std::move( r ) );
       }
 
@@ -45,7 +47,7 @@ namespace ast
       }
    };
 
-   template< typename Rule, bool = marker< Rule >::value >
+   template< typename Rule, bool = store_simple< Rule >::value, bool = store_content< Rule >::value >
    struct builder_impl;
 
    template< typename Rule >
@@ -54,23 +56,56 @@ namespace ast
    };
 
    template< typename Rule >
-   struct builder_impl< Rule, false >
+   struct builder_impl< Rule, false, false >
       : normal< Rule >
    {
    };
 
    template< typename Rule >
-   struct builder_impl< Rule, true >
+   struct builder_impl< Rule, true, true >
       : normal< Rule >
    {
-      template< typename Input, typename = typename std::enable_if< marker< Rule >::value >::type >
+      static_assert( sizeof( Rule ) == 0, "error: both store_simple and store_content are set" );
+   };
+
+   template< typename Rule >
+   struct builder_impl< Rule, true, false >
+      : normal< Rule >
+   {
+      template< typename Input >
+      static void start( const Input&, state& s )
+      {
+         s.stack.emplace_back( new ast::node );
+      }
+
+      template< typename Input >
+      static void success( const Input&, state& s )
+      {
+         auto n = std::move( s.stack.back() );
+         n->id = &typeid( Rule );
+         s.stack.pop_back();
+         s.stack.back()->children.emplace_back( std::move( n ) );
+      }
+
+      template< typename Input >
+      static void failure( const Input&, state& s )
+      {
+         s.stack.pop_back();
+      }
+   };
+
+   template< typename Rule >
+   struct builder_impl< Rule, false, true >
+      : normal< Rule >
+   {
+      template< typename Input >
       static void start( const Input& in, state& s )
       {
          s.stack.emplace_back( new ast::node );
          s.stack.back()->begin = in.current();
       }
 
-      template< typename Input, typename = typename std::enable_if< marker< Rule >::value >::type >
+      template< typename Input >
       static void success( const Input& in, state& s )
       {
          auto n = std::move( s.stack.back() );
@@ -80,7 +115,7 @@ namespace ast
          s.stack.back()->children.emplace_back( std::move( n ) );
       }
 
-      template< typename Input, typename = typename std::enable_if< marker< Rule >::value >::type >
+      template< typename Input >
       static void failure( const Input&, state& s )
       {
          s.stack.pop_back();
@@ -89,9 +124,22 @@ namespace ast
 
    void print_node( const node& n, const std::string& s = "" )
    {
-      std::cout << s << internal::demangle( n.id->name() ) << " \"" << std::string( n.begin, n.end ) << '"' << std::endl;
-      for( auto& up : n.children ) {
-         print_node( *up, s + "  " );
+      if( n.id ) {
+         if( n.begin ) {
+            std::cout << s << internal::demangle( n.id->name() ) << " \"" << std::string( n.begin, n.end ) << '"' << std::endl;
+         }
+         else {
+            std::cout << s << internal::demangle( n.id->name() ) << std::endl;
+         }
+      }
+      else {
+         std::cout << "ROOT" << std::endl;
+      }
+      if( !n.children.empty() ) {
+         const auto s2 = s + "  ";
+         for( auto& up : n.children ) {
+            print_node( *up, s2 );
+         }
       }
    }
 
@@ -115,15 +163,15 @@ namespace ast
 
    struct grammar : must< expression, eof > {};
 
-   template<> struct marker< integer > : std::true_type {};
-   template<> struct marker< variable > : std::true_type {};
-   template<> struct marker< plus > : std::true_type {};
-   template<> struct marker< minus > : std::true_type {};
-   template<> struct marker< term > : std::true_type {};
-   template<> struct marker< multiply > : std::true_type {};
-   template<> struct marker< divide > : std::true_type {};
-   template<> struct marker< product > : std::true_type {};
-   template<> struct marker< expression > : std::true_type {};
+   template<> struct store_content< integer > : std::true_type {};
+   template<> struct store_content< variable > : std::true_type {};
+   template<> struct store_simple< plus > : std::true_type {};
+   template<> struct store_simple< minus > : std::true_type {};
+   template<> struct store_simple< multiply > : std::true_type {};
+   template<> struct store_simple< divide > : std::true_type {};
+   template<> struct store_simple< term > : std::true_type {};
+   template<> struct store_simple< product > : std::true_type {};
+   template<> struct store_simple< expression > : std::true_type {};
    // clang-format on
 
 }  // namespace ast
