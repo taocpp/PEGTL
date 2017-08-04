@@ -88,6 +88,34 @@ This file contains helpers to unescape JSON and C and similar escape sequences.
 
 ## Examples
 
+###### `src/example/pegtl/ast.cpp`
+
+A small example which shows how to create an AST (abstract syntax tree) for a given grammar. You can choose which rules will produce an AST node and which rules will store the content.
+
+```sh
+$ build/src/example/pegtl/ast "2 + a*4 - x / ( 2 - b )"
+ROOT
+  ast::expression
+    ast::product
+      ast::integer "2"
+    ast::plus
+    ast::product
+      ast::variable "a"
+      ast::multiply
+      ast::integer "4"
+    ast::minus
+    ast::product
+      ast::variable "x"
+      ast::divide
+      ast::term
+        ast::expression
+          ast::product
+            ast::integer "2"
+          ast::minus
+          ast::product
+            ast::variable "b"
+```
+
 ###### `src/example/pegtl/abnf2pegtl.cpp`
 
 Reads a file with an [ABNF (RFC 5234)](https://tools.ietf.org/html/rfc5234)-style grammar and converts it into corresponding PEGTL rules in C++. Some extensions and restrictions compared to RFC 5234:
@@ -113,7 +141,7 @@ A calculator with all binary operators from the C language that shows
 In addition to the binary operators, round brackets can be used to change the evaluation order. The implementation uses `long` integers as data type for all calculations.
 
 ```sh
-$ build/src/example/pegtl/calculator  "2 + 3 * -7"  "(2 + 3) * 7"
+$ build/src/example/pegtl/calculator "2 + 3 * -7"  "(2 + 3) * 7"
 -19
 35
 ```

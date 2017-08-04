@@ -4,6 +4,7 @@
 
 **Not yet released**
 
+* Add [`examples/ast.cpp`](Contrib-and-Examples.md#srcexamplepegtlastcpp) application that shows how to build an [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
 * Add `bom` rules for UTF-8, UTF-16 and UTF-32.
 
 ## 2.1.4
