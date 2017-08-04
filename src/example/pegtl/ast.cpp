@@ -37,13 +37,18 @@ namespace ast
 
       state()
       {
-         std::unique_ptr< node > r( new node );
-         stack.emplace_back( std::move( r ) );
+         emplace_back();
       }
 
       const node& root() const
       {
          return *stack.front();
+      }
+
+      void emplace_back()
+      {
+         std::unique_ptr< node > r( new node );
+         stack.emplace_back( std::move( r ) );
       }
    };
 
@@ -75,7 +80,7 @@ namespace ast
       template< typename Input >
       static void start( const Input&, state& s )
       {
-         s.stack.emplace_back( new ast::node );
+         s.emplace_back();
       }
 
       template< typename Input >
@@ -101,7 +106,7 @@ namespace ast
       template< typename Input >
       static void start( const Input& in, state& s )
       {
-         s.stack.emplace_back( new ast::node );
+         s.emplace_back();
          s.stack.back()->begin = in.current();
       }
 
@@ -156,8 +161,8 @@ namespace ast
    struct close_bracket : seq< star< space >, one< ')' > > {};
 
    struct expression;
-   struct term : seq< open_bracket, expression, close_bracket > {};
-   struct value : sor< integer, variable, term > {};
+   struct bracketed : seq< open_bracket, expression, close_bracket > {};
+   struct value : sor< integer, variable, bracketed > {};
    struct product : list< value, sor< multiply, divide > > {};
    struct expression : list< product, sor< plus, minus > > {};
 
@@ -169,7 +174,7 @@ namespace ast
    template<> struct store_simple< minus > : std::true_type {};
    template<> struct store_simple< multiply > : std::true_type {};
    template<> struct store_simple< divide > : std::true_type {};
-   template<> struct store_simple< term > : std::true_type {};
+   template<> struct store_simple< bracketed > : std::true_type {};
    template<> struct store_simple< product > : std::true_type {};
    template<> struct store_simple< expression > : std::true_type {};
    // clang-format on
