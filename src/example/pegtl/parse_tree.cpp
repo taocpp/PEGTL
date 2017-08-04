@@ -100,6 +100,12 @@ namespace parse_tree
    };
 
    template< typename Rule >
+   struct action
+      : nothing< Rule >
+   {
+   };
+
+   template< typename Rule >
    struct builder_impl< Rule, false, true >
       : normal< Rule >
    {
@@ -168,16 +174,30 @@ namespace parse_tree
 
    struct grammar : must< expression, eof > {};
 
+   // select which rules in the grammar will produce parse tree nodes
    template<> struct store_content< integer > : std::true_type {};
    template<> struct store_content< variable > : std::true_type {};
    template<> struct store_simple< plus > : std::true_type {};
    template<> struct store_simple< minus > : std::true_type {};
    template<> struct store_simple< multiply > : std::true_type {};
    template<> struct store_simple< divide > : std::true_type {};
-   template<> struct store_simple< bracketed > : std::true_type {};
    template<> struct store_simple< product > : std::true_type {};
    template<> struct store_simple< expression > : std::true_type {};
    // clang-format on
+
+   // use actions to transform the parse tree in order to simplify it
+   template<>
+   struct action< product >
+   {
+      template< typename Input >
+      static void apply( const Input&, state& s )
+      {
+         auto& n = s.stack.back()->children.back();
+         if( n->children.size() == 1 ) {
+            n = std::move( n->children.back() );
+         }
+      }
+   };
 
 }  // namespace parse_tree
 
@@ -187,7 +207,7 @@ int main( int argc, char** argv )
       argv_input<> in( argv, i );
 
       parse_tree::state s;
-      parse< parse_tree::grammar, nothing, parse_tree::builder >( in, s );
+      parse< parse_tree::grammar, parse_tree::action, parse_tree::builder >( in, s );
       print_node( s.root() );
    }
    return 0;
