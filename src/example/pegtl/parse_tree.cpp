@@ -210,8 +210,7 @@ namespace parse_tree
       template< typename Input >
       static void apply( const Input&, state& s )
       {
-         auto& n = s.stack.back()->children.back();
-         rearrange( n );
+         rearrange( s.stack.back()->children.back() );
       }
    };
 
