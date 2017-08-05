@@ -174,7 +174,7 @@ namespace parse_tree
 
    struct grammar : must< expression, eof > {};
 
-   // select which rules in the grammar will produce parse tree nodes
+   // select which rules in the grammar will produce parse tree nodes:
    template<> struct store_content< integer > : std::true_type {};
    template<> struct store_content< variable > : std::true_type {};
    template<> struct store_simple< plus > : std::true_type {};
@@ -185,18 +185,40 @@ namespace parse_tree
    template<> struct store_simple< expression > : std::true_type {};
    // clang-format on
 
-   // use actions to transform the parse tree in order to simplify it
+   // use actions to transform the parse tree:
    template<>
    struct action< product >
    {
+      static void rearrange( std::unique_ptr< node >& n )
+      {
+         auto& c = n->children;
+         if( c.size() == 1 ) {
+            n = std::move( c.back() );
+         }
+         else {
+            auto r = std::move( c.back() );
+            c.pop_back();
+            auto o = std::move( c.back() );
+            c.pop_back();
+            o->children.emplace_back( std::move( n ) );
+            o->children.emplace_back( std::move( r ) );
+            n = std::move( o );
+            rearrange( n->children.front() );
+         }
+      }
+
       template< typename Input >
       static void apply( const Input&, state& s )
       {
          auto& n = s.stack.back()->children.back();
-         if( n->children.size() == 1 ) {
-            n = std::move( n->children.back() );
-         }
+         rearrange( n );
       }
+   };
+
+   template<>
+   struct action< expression >
+      : action< product >
+   {
    };
 
 }  // namespace parse_tree

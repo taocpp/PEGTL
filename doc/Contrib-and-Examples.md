@@ -88,32 +88,30 @@ This file contains helpers to unescape JSON and C and similar escape sequences.
 
 ## Examples
 
-###### `src/example/pegtl/ast.cpp`
+###### `src/example/pegtl/parse_tree.cpp`
 
-A small example which shows how to create an AST (abstract syntax tree) for a given grammar. You can choose which rules will produce an AST node and which rules will store the content.
+A small example which shows how to create a parse tree for a given grammar. You can choose which rules will produce a parse tree node and which rules will store the content. You can also add additional transformations to the parse tree to transform it into an AST-like structure or to simplify it. While technically it might not be a full AST, it allows you to create and manipulate a parse tree which might often be sufficient and which, again, shows the flexibility the PEGTL offers.
 
 ```sh
-$ build/src/example/pegtl/ast "2 + a*4 - x / ( 2 - b )"
+$ build/src/example/pegtl/parse_tree "2 + a*b*4 - x / ( 2 - b + c - d )"
 ROOT
-  ast::expression
-    ast::product
-      ast::integer "2"
-    ast::plus
-    ast::product
-      ast::variable "a"
-      ast::multiply
-      ast::integer "4"
-    ast::minus
-    ast::product
-      ast::variable "x"
-      ast::divide
-      ast::term
-        ast::expression
-          ast::product
-            ast::integer "2"
-          ast::minus
-          ast::product
-            ast::variable "b"
+  parse_tree::minus
+    parse_tree::plus
+      parse_tree::integer "2"
+      parse_tree::multiply
+        parse_tree::multiply
+          parse_tree::variable "a"
+          parse_tree::variable "b"
+        parse_tree::integer "4"
+    parse_tree::divide
+      parse_tree::variable "x"
+      parse_tree::minus
+        parse_tree::plus
+          parse_tree::minus
+            parse_tree::integer "2"
+            parse_tree::variable "b"
+          parse_tree::variable "c"
+        parse_tree::variable "d"
 ```
 
 ###### `src/example/pegtl/abnf2pegtl.cpp`

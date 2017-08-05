@@ -4,7 +4,7 @@
 
 **Not yet released**
 
-* Add [`examples/ast.cpp`](Contrib-and-Examples.md#srcexamplepegtlastcpp) application that shows how to build an [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
+* Add [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp) application that shows how to build a [parse tree](https://en.wikipedia.org/wiki/Parse_tree). The example goes beyond a traditional parse trees and also demonstrates how to use the PEGTL to transform the nodes into an [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)-like structure.
 * Add `bom` rules for UTF-8, UTF-16 and UTF-32.
 
 ## 2.1.4
