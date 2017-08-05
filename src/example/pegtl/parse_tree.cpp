@@ -47,8 +47,7 @@ namespace parse_tree
 
       void emplace_back()
       {
-         std::unique_ptr< node > r( new node );
-         stack.emplace_back( std::move( r ) );
+         stack.emplace_back( new node );
       }
    };
 
@@ -155,6 +154,7 @@ namespace parse_tree
    }
 
    // clang-format off
+
    struct integer : plus< digit > {};
    struct variable : identifier {};
 
@@ -177,12 +177,15 @@ namespace parse_tree
    // select which rules in the grammar will produce parse tree nodes:
    template<> struct store_content< integer > : std::true_type {};
    template<> struct store_content< variable > : std::true_type {};
+
    template<> struct store_simple< plus > : std::true_type {};
    template<> struct store_simple< minus > : std::true_type {};
    template<> struct store_simple< multiply > : std::true_type {};
    template<> struct store_simple< divide > : std::true_type {};
+
    template<> struct store_simple< product > : std::true_type {};
    template<> struct store_simple< expression > : std::true_type {};
+
    // clang-format on
 
    // use actions to transform the parse tree:
