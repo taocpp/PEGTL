@@ -88,32 +88,6 @@ This file contains helpers to unescape JSON and C and similar escape sequences.
 
 ## Examples
 
-###### `src/example/pegtl/parse_tree.cpp`
-
-A small example which shows how to create a parse tree for a given grammar. You can choose which rules will produce a parse tree node and which rules will store the content. You can also add additional transformations to the parse tree to transform it into an AST-like structure or to simplify it. While technically it might not be a full AST, it allows you to create and manipulate a parse tree which might often be sufficient and which, again, shows the flexibility the PEGTL offers.
-
-```sh
-$ build/src/example/pegtl/parse_tree "2 + a*b*4 - x / ( 2 - b + c - d )"
-ROOT
-  parse_tree::minus
-    parse_tree::plus
-      parse_tree::integer "2"
-      parse_tree::multiply
-        parse_tree::multiply
-          parse_tree::variable "a"
-          parse_tree::variable "b"
-        parse_tree::integer "4"
-    parse_tree::divide
-      parse_tree::variable "x"
-      parse_tree::minus
-        parse_tree::plus
-          parse_tree::minus
-            parse_tree::integer "2"
-            parse_tree::variable "b"
-          parse_tree::variable "c"
-        parse_tree::variable "d"
-```
-
 ###### `src/example/pegtl/abnf2pegtl.cpp`
 
 Reads a file with an [ABNF (RFC 5234)](https://tools.ietf.org/html/rfc5234)-style grammar and converts it into corresponding PEGTL rules in C++. Some extensions and restrictions compared to RFC 5234:
@@ -180,6 +154,32 @@ Parses all files passed on the command line with a slightly experimental grammar
 ###### `src/example/pegtl/modulus_match.cpp`
 
 Shows how to implement a custom parsing rule with the simplified calling convention.
+
+###### `src/example/pegtl/parse_tree.cpp`
+
+A small example which shows how to create a parse tree for a given grammar. You can choose which rules will produce a parse tree node and which rules will store the content. You can also add additional transformations to the parse tree to transform it into an AST-like structure or to simplify it. While technically it might not be a full AST, it allows you to create and manipulate a parse tree which might often be sufficient and which, again, shows the flexibility the PEGTL offers.
+
+```sh
+$ build/src/example/pegtl/parse_tree "2 + a*b*4 - x / ( 2 - b + c - d )"
+ROOT
+  parse_tree::minus
+    parse_tree::plus
+      parse_tree::integer "2"
+      parse_tree::multiply
+        parse_tree::multiply
+          parse_tree::variable "a"
+          parse_tree::variable "b"
+        parse_tree::integer "4"
+    parse_tree::divide
+      parse_tree::variable "x"
+      parse_tree::minus
+        parse_tree::plus
+          parse_tree::minus
+            parse_tree::integer "2"
+            parse_tree::variable "b"
+          parse_tree::variable "c"
+        parse_tree::variable "d"
+```
 
 ###### `src/example/pegtl/proto3.cpp`
 
