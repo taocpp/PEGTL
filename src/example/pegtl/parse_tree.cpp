@@ -47,7 +47,7 @@ namespace parse_tree
 
       void emplace_back()
       {
-         stack.emplace_back( new node );
+         stack.emplace_back( std::unique_ptr< node >( new node ) );
       }
    };
 
