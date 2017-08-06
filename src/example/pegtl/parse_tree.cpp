@@ -31,18 +31,30 @@ namespace parse_tree
       const char* end = nullptr;
    };
 
-   struct state
+   class state
    {
+   private:
       std::vector< std::unique_ptr< node > > stack;
 
+   public:
       state()
       {
          emplace_back();
       }
 
-      const node& root() const
+      const node& root() const noexcept
       {
          return *stack.front();
+      }
+
+      std::unique_ptr< node >& back() noexcept
+      {
+         return stack.back();
+      }
+
+      void pop_back() noexcept
+      {
+         return stack.pop_back();
       }
 
       void emplace_back()
@@ -53,11 +65,6 @@ namespace parse_tree
 
    template< typename Rule, bool = store_simple< Rule >::value, bool = store_content< Rule >::value >
    struct builder_impl;
-
-   template< typename Rule >
-   struct builder : builder_impl< Rule >
-   {
-   };
 
    template< typename Rule >
    struct builder_impl< Rule, false, false >
@@ -85,23 +92,17 @@ namespace parse_tree
       template< typename Input >
       static void success( const Input&, state& s )
       {
-         auto n = std::move( s.stack.back() );
+         auto n = std::move( s.back() );
          n->id = &typeid( Rule );
-         s.stack.pop_back();
-         s.stack.back()->children.emplace_back( std::move( n ) );
+         s.pop_back();
+         s.back()->children.emplace_back( std::move( n ) );
       }
 
       template< typename Input >
       static void failure( const Input&, state& s )
       {
-         s.stack.pop_back();
+         s.pop_back();
       }
-   };
-
-   template< typename Rule >
-   struct action
-      : nothing< Rule >
-   {
    };
 
    template< typename Rule >
@@ -112,24 +113,29 @@ namespace parse_tree
       static void start( const Input& in, state& s )
       {
          s.emplace_back();
-         s.stack.back()->begin = in.current();
+         s.back()->begin = in.current();
       }
 
       template< typename Input >
       static void success( const Input& in, state& s )
       {
-         auto n = std::move( s.stack.back() );
+         auto n = std::move( s.back() );
          n->id = &typeid( Rule );
          n->end = in.current();
-         s.stack.pop_back();
-         s.stack.back()->children.emplace_back( std::move( n ) );
+         s.pop_back();
+         s.back()->children.emplace_back( std::move( n ) );
       }
 
       template< typename Input >
       static void failure( const Input&, state& s )
       {
-         s.stack.pop_back();
+         s.pop_back();
       }
+   };
+
+   template< typename Rule >
+   struct builder : builder_impl< Rule >
+   {
    };
 
    void print_node( const node& n, const std::string& s = "" )
@@ -189,6 +195,12 @@ namespace parse_tree
    // clang-format on
 
    // use actions to transform the parse tree:
+   template< typename Rule >
+   struct action
+      : nothing< Rule >
+   {
+   };
+
    template<>
    struct action< product >
    {
@@ -213,7 +225,7 @@ namespace parse_tree
       template< typename Input >
       static void apply( const Input&, state& s )
       {
-         rearrange( s.stack.back()->children.back() );
+         rearrange( s.back()->children.back() );
       }
    };
 
