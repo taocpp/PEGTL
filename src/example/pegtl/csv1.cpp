@@ -9,6 +9,8 @@
 
 #include <tao/pegtl.hpp>
 
+namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
+
 namespace csv1
 {
    // Simple CSV-file format for an unknown-at-compile-time number of values per
@@ -25,13 +27,13 @@ namespace csv1
    //    1,2
 
    // clang-format off
-   struct value : tao::TAOCPP_PEGTL_NAMESPACE::plus< tao::TAOCPP_PEGTL_NAMESPACE::digit > {};
-   struct value_item : tao::TAOCPP_PEGTL_NAMESPACE::pad< value, tao::TAOCPP_PEGTL_NAMESPACE::blank > {};
-   struct value_list : tao::TAOCPP_PEGTL_NAMESPACE::list_must< value_item, tao::TAOCPP_PEGTL_NAMESPACE::one< ',' > > {};
-   struct value_line : tao::TAOCPP_PEGTL_NAMESPACE::if_must< value_list, tao::TAOCPP_PEGTL_NAMESPACE::eolf > {};
-   struct comment_line : tao::TAOCPP_PEGTL_NAMESPACE::seq< tao::TAOCPP_PEGTL_NAMESPACE::one< '#' >, tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::eolf > > {};
-   struct line : tao::TAOCPP_PEGTL_NAMESPACE::sor< comment_line, value_line > {};
-   struct file : tao::TAOCPP_PEGTL_NAMESPACE::until< tao::TAOCPP_PEGTL_NAMESPACE::eof, line > {};
+   struct value : pegtl::plus< pegtl::digit > {};
+   struct value_item : pegtl::pad< value, pegtl::blank > {};
+   struct value_list : pegtl::list_must< value_item, pegtl::one< ',' > > {};
+   struct value_line : pegtl::if_must< value_list, pegtl::eolf > {};
+   struct comment_line : pegtl::seq< pegtl::one< '#' >, pegtl::until< pegtl::eolf > > {};
+   struct line : pegtl::sor< comment_line, value_line > {};
+   struct file : pegtl::until< pegtl::eof, line > {};
    // clang-format on
 
    // Data structure to store the result of a parsing run:
@@ -42,7 +44,7 @@ namespace csv1
 
    template< typename Rule >
    struct action
-      : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule >
+      : pegtl::nothing< Rule >
    {
    };
 
@@ -59,13 +61,13 @@ namespace csv1
 
    template< typename Rule >
    struct control
-      : tao::TAOCPP_PEGTL_NAMESPACE::normal< Rule >
+      : pegtl::normal< Rule >
    {
    };
 
    template<>
    struct control< value_line >
-      : tao::TAOCPP_PEGTL_NAMESPACE::normal< value_line >
+      : pegtl::normal< value_line >
    {
       template< typename Input >
       static void start( Input& /*unused*/, result_data& data )
@@ -86,9 +88,9 @@ namespace csv1
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      tao::TAOCPP_PEGTL_NAMESPACE::file_input<> in( argv[ i ] );
+      pegtl::file_input<> in( argv[ i ] );
       csv1::result_data data;
-      tao::TAOCPP_PEGTL_NAMESPACE::parse< tao::TAOCPP_PEGTL_NAMESPACE::must< csv1::file >, csv1::action, csv1::control >( in, data );
+      pegtl::parse< pegtl::must< csv1::file >, csv1::action, csv1::control >( in, data );
       for( const auto& line : data ) {
          assert( !line.empty() );  // The grammar doesn't allow empty lines.
          std::cout << line.front();
