@@ -4,163 +4,18 @@
 #include <iostream>
 #include <string>
 #include <type_traits>
-#include <typeinfo>
-#include <vector>
 
 #include <tao/pegtl.hpp>
+#include <tao/pegtl/contrib/parse_tree.hpp>
+#include <tao/pegtl/internal/demangle.hpp>
 
 using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 
-namespace parse_tree
+namespace example
 {
-   template< typename >
-   struct store_simple : std::false_type
-   {
-   };
-
-   template< typename >
-   struct store_content : std::false_type
-   {
-   };
-
-   struct node
-   {
-      std::vector< std::unique_ptr< node > > children;
-      const std::type_info* id = nullptr;
-      const char* begin = nullptr;
-      const char* end = nullptr;
-   };
-
-   class state
-   {
-   private:
-      std::vector< std::unique_ptr< node > > stack;
-
-   public:
-      state()
-      {
-         emplace_back();
-      }
-
-      const node& root() const noexcept
-      {
-         return *stack.front();
-      }
-
-      std::unique_ptr< node >& back() noexcept
-      {
-         return stack.back();
-      }
-
-      void pop_back() noexcept
-      {
-         return stack.pop_back();
-      }
-
-      void emplace_back()
-      {
-         stack.emplace_back( std::unique_ptr< node >( new node ) );
-      }
-   };
-
-   template< typename Rule, bool = store_simple< Rule >::value, bool = store_content< Rule >::value >
-   struct builder_impl;
-
-   template< typename Rule >
-   struct builder_impl< Rule, false, false >
-      : normal< Rule >
-   {
-   };
-
-   template< typename Rule >
-   struct builder_impl< Rule, true, true >
-      : normal< Rule >
-   {
-      static_assert( sizeof( Rule ) == 0, "error: both store_simple and store_content are set" );
-   };
-
-   template< typename Rule >
-   struct builder_impl< Rule, true, false >
-      : normal< Rule >
-   {
-      template< typename Input >
-      static void start( const Input&, state& s )
-      {
-         s.emplace_back();
-      }
-
-      template< typename Input >
-      static void success( const Input&, state& s )
-      {
-         auto n = std::move( s.back() );
-         n->id = &typeid( Rule );
-         s.pop_back();
-         s.back()->children.emplace_back( std::move( n ) );
-      }
-
-      template< typename Input >
-      static void failure( const Input&, state& s )
-      {
-         s.pop_back();
-      }
-   };
-
-   template< typename Rule >
-   struct builder_impl< Rule, false, true >
-      : normal< Rule >
-   {
-      template< typename Input >
-      static void start( const Input& in, state& s )
-      {
-         s.emplace_back();
-         s.back()->begin = in.current();
-      }
-
-      template< typename Input >
-      static void success( const Input& in, state& s )
-      {
-         auto n = std::move( s.back() );
-         n->id = &typeid( Rule );
-         n->end = in.current();
-         s.pop_back();
-         s.back()->children.emplace_back( std::move( n ) );
-      }
-
-      template< typename Input >
-      static void failure( const Input&, state& s )
-      {
-         s.pop_back();
-      }
-   };
-
-   template< typename Rule >
-   struct builder : builder_impl< Rule >
-   {
-   };
-
-   void print_node( const node& n, const std::string& s = "" )
-   {
-      if( n.id ) {
-         if( n.begin ) {
-            std::cout << s << internal::demangle( n.id->name() ) << " \"" << std::string( n.begin, n.end ) << '"' << std::endl;
-         }
-         else {
-            std::cout << s << internal::demangle( n.id->name() ) << std::endl;
-         }
-      }
-      else {
-         std::cout << "ROOT" << std::endl;
-      }
-      if( !n.children.empty() ) {
-         const auto s2 = s + "  ";
-         for( auto& up : n.children ) {
-            print_node( *up, s2 );
-         }
-      }
-   }
-
    // clang-format off
 
+   // the grammar
    struct integer : plus< digit > {};
    struct variable : identifier {};
 
@@ -181,6 +36,9 @@ namespace parse_tree
    struct grammar : must< expression, eof > {};
 
    // select which rules in the grammar will produce parse tree nodes:
+   template< typename > struct store_simple : std::false_type {};
+   template< typename > struct store_content : std::false_type {};
+
    template<> struct store_content< integer > : std::true_type {};
    template<> struct store_content< variable > : std::true_type {};
 
@@ -204,7 +62,22 @@ namespace parse_tree
    template<>
    struct action< product >
    {
-      static void rearrange( std::unique_ptr< node >& n )
+      // recursively rearrange nodes. the basic principle is:
+      //
+      // from:          PROD/EXPR
+      //                /   |   \          (LHS... may be one or more children, followed by:)
+      //             LHS... OP   RHS       (OP is one operator, RHS is a single child)
+      //
+      // to:               OP
+      //                  /  \             (OP now has two children, the original PROD/EXPR and RHS)
+      //         PROD/EXPR    RHS          (Note that PROD/EXPR has two fewer children now)
+      //             |
+      //            LHS...
+      //
+      // if only one child is left for LHS..., replace the PROD/EXPR with the child directly.
+      // otherwise, perform the above transformation, than apply it recursively until LHS...
+      // becomes a single child, which than repaces the parent node and the recursion ends.
+      static void rearrange( std::unique_ptr< parse_tree::node >& n )
       {
          auto& c = n->children;
          if( c.size() == 1 ) {
@@ -223,7 +96,7 @@ namespace parse_tree
       }
 
       template< typename Input >
-      static void apply( const Input&, state& s )
+      static void apply( const Input&, parse_tree::state& s )
       {
          rearrange( s.back()->children.back() );
       }
@@ -235,7 +108,28 @@ namespace parse_tree
    {
    };
 
-}  // namespace parse_tree
+   void print_node( const parse_tree::node& n, const std::string& s = "" )
+   {
+      if( n.id ) {
+         if( n.begin ) {
+            std::cout << s << internal::demangle( n.id->name() ) << " \"" << std::string( n.begin, n.end ) << '"' << std::endl;
+         }
+         else {
+            std::cout << s << internal::demangle( n.id->name() ) << std::endl;
+         }
+      }
+      else {
+         std::cout << "ROOT" << std::endl;
+      }
+      if( !n.children.empty() ) {
+         const auto s2 = s + "  ";
+         for( auto& up : n.children ) {
+            print_node( *up, s2 );
+         }
+      }
+   }
+
+}  // namespace example
 
 int main( int argc, char** argv )
 {
@@ -243,8 +137,8 @@ int main( int argc, char** argv )
       argv_input<> in( argv, i );
 
       parse_tree::state s;
-      parse< parse_tree::grammar, parse_tree::action, parse_tree::builder >( in, s );
-      print_node( s.root() );
+      parse< example::grammar, example::action, parse_tree::make_builder< example::store_simple, example::store_content >::type >( in, s );
+      example::print_node( s.root() );
    }
    return 0;
 }
