@@ -52,6 +52,13 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * JSON grammar according to [RFC 7159](https://tools.ietf.org/html/rfc7159) (for UTF-8 encoded JSON only).
 * Ready for production use.
 
+###### `<tao/pegtl/contrib/parse_tree.hpp>`
+
+* Basic infrastructure to build a parse tree.
+* Builds a full parse tree by default.
+* Supports selectors to choose which nodes will be stored in the parse tree and which nodes will store the matched content.
+* See also the [example](#srcexamplepegtlparse_treecpp) below.
+
 ###### `<tao/pegtl/contrib/raw_string.hpp>`
 
 * Grammar rules to parse Lua-style long (or raw) string literals.
@@ -157,7 +164,11 @@ Shows how to implement a custom parsing rule with the simplified calling convent
 
 ###### `src/example/pegtl/parse_tree.cpp`
 
-A small example which shows how to create a parse tree for a given grammar. You can choose which rules will produce a parse tree node and which rules will store the content. You can also add additional transformations to the parse tree to transform it into an AST-like structure or to simplify it. While technically it might not be a full AST, it allows you to create and manipulate a parse tree which might often be sufficient and which, again, shows the flexibility the PEGTL offers.
+A small example which shows how to create a parse tree for a given grammar using [`<tao/pegtl/contrib/parse_tree.hpp>`](#taopegtlcontribparse_treehpp).
+
+The example shows how to choose which rules will produce a parse tree node and which rules will store the content. The example also shows how to add additional transformations to the parse tree to transform it into an AST-like structure or to simplify it.
+
+Running the example with a slightly longer expression:
 
 ```sh
 $ build/src/example/pegtl/parse_tree "2 + a*b*4 - x / ( 2 - b + c - d )"
