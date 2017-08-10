@@ -1,4 +1,6 @@
 language: cpp
+os: linux
+dist: trusty
 
 branches:
   only:
@@ -6,19 +8,14 @@ branches:
 
 matrix:
   include:
-    - os: linux
-      dist: trusty
-      compiler: gcc
+    - compiler: gcc
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-4.8']
       env:
         - COMPILER=g++-4.8
 
-    - os: linux
-      dist: trusty
-      compiler: gcc
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -26,9 +23,7 @@ matrix:
       env:
         - COMPILER=g++-4.9
 
-    - os: linux
-      dist: trusty
-      compiler: gcc
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -36,9 +31,7 @@ matrix:
       env:
         - COMPILER=g++-5
 
-    - os: linux
-      dist: trusty
-      compiler: gcc
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -46,9 +39,7 @@ matrix:
       env:
         - COMPILER=g++-6
 
-    - os: linux
-      dist: trusty
-      compiler: gcc
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -56,9 +47,7 @@ matrix:
       env:
         - COMPILER=g++-7
 
-    - os: linux
-      dist: trusty
-      compiler: gcc
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -67,69 +56,53 @@ matrix:
         - COMPILER=g++-7
         - CXXSTD="-std=c++17"
 
-    - os: linux
-      dist: trusty
-      compiler: clang
+    - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-3.4']
-          packages: ['clang-3.4', 'g++-4.8']
+          packages: ['clang-3.4']
       env:
-        - COMPILER=clang++
+        - COMPILER=clang++-3.4
 
-    - os: linux
-      dist: trusty
-      compiler: clang
+    - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-3.5']
           packages: ['clang-3.5']
       env:
         - COMPILER=clang++-3.5
 
-    - os: linux
-      dist: trusty
-      compiler: clang
+    - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-3.6']
           packages: ['clang-3.6']
       env:
         - COMPILER=clang++-3.6
 
-    - os: linux
-      dist: trusty
+    - dist: precise
       compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-3.7']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.7']
           packages: ['clang-3.7']
       env:
         - COMPILER=clang++-3.7
 
-    - os: linux
-      dist: trusty
-      compiler: clang
+    - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-3.8']
+          #sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-3.8']
           packages: ['clang-3.8']
       env:
         - COMPILER=clang++-3.8
 
-    - os: linux
-      dist: trusty
-      compiler: clang
+    - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-3.9']
+          #sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-3.9']
           packages: ['clang-3.9']
       env:
         - COMPILER=clang++-3.9
 
-    - os: linux
-      dist: trusty
-      compiler: clang
+    - compiler: clang
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
@@ -137,9 +110,7 @@ matrix:
       env:
         - COMPILER=clang++-4.0
 
-    - os: linux
-      dist: trusty
-      compiler: clang
+    - compiler: clang
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
@@ -147,16 +118,6 @@ matrix:
       env:
         - COMPILER=clang++-4.0
         - CXXSTD="-std=c++1z"
-
-    - os: linux
-      dist: trusty
-      compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
-          packages: ['clang-5.0']
-      env:
-        - COMPILER=clang++-5.0
 
     - os: osx
       osx_image: xcode6.4
@@ -210,9 +171,7 @@ matrix:
         - make -j2
         - make test
 
-    - os: linux
-      dist: trusty
-      compiler: gcc
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -226,9 +185,7 @@ matrix:
         - make CXX=$COMPILER -j3 check
         - coveralls --gcov gcov-7 --gcov-options '\-lp' --exclude src
 
-    - os: linux
-      dist: trusty
-      compiler: gcc
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -237,9 +194,7 @@ matrix:
         - COMPILER=g++-7
         - CPPFLAGS=-fsanitize=undefined
 
-    - os: linux
-      dist: trusty
-      compiler: gcc
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -248,9 +203,7 @@ matrix:
         - COMPILER=g++-6
         - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
 
-    - os: linux
-      dist: trusty
-      compiler: clang
+    - compiler: clang
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
@@ -259,9 +212,7 @@ matrix:
         - COMPILER=clang++-4.0
         - CPPFLAGS=-fsanitize=undefined
 
-    - os: linux
-      dist: trusty
-      compiler: clang
+    - compiler: clang
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
@@ -270,9 +221,7 @@ matrix:
         - COMPILER=clang++-4.0
         - CPPFLAGS=-fsanitize=address
 
-    - os: linux
-      dist: trusty
-      compiler: gcc
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -283,9 +232,7 @@ matrix:
       script:
         - make CXX=$COMPILER -j3 valgrind
 
-    - os: linux
-      dist: trusty
-      compiler: gcc
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -296,9 +243,7 @@ matrix:
       script:
         - make CXX=$COMPILER -j3 cppcheck
 
-    - os: linux
-      dist: trusty
-      compiler: clang
+    - compiler: clang
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
