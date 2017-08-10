@@ -80,7 +80,6 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          #sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-3.8']
           packages: ['clang-3.8']
       env:
         - COMPILER=clang++-3.8
