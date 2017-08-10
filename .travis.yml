@@ -61,7 +61,7 @@ matrix:
         apt:
           packages: ['clang-3.4']
       env:
-        - COMPILER=clang++-3.4
+        - COMPILER=clang++
 
     - compiler: clang
       addons:
