@@ -9,6 +9,8 @@ branches:
 matrix:
   include:
     - compiler: gcc
+      env:
+        - COMPILER=g++-4.8
 
     - compiler: gcc
       addons:
@@ -53,6 +55,8 @@ matrix:
 
     - dist: precise
       compiler: clang
+      env:
+        - COMPILER=clang++
 
     - compiler: clang
       addons:
