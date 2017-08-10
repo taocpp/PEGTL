@@ -255,4 +255,5 @@ matrix:
         - make CXX=$COMPILER -j3 clang-tidy
 
 script:
-  make CXX=$COMPILER -j3
+  - $COMPILER --version
+  - make CXX=$COMPILER -j3
