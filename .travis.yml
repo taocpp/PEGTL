@@ -202,11 +202,7 @@ matrix:
         - COMPILER=g++-7
         - CXXFLAGS="-O0 --coverage"
       before_script:
-        - pip install --user urllib3[secure] cpp-coveralls
-        # Work around https://github.com/eddyxu/cpp-coveralls/issues/108 by manually
-        # installing the pyOpenSSL module and injecting it into urllib3 as per
-        # https://urllib3.readthedocs.io/en/latest/user-guide.html#ssl-py2
-        - sed -i -e '/^import sys$/a import urllib3.contrib.pyopenssl\nurllib3.contrib.pyopenssl.inject_into_urllib3()' $(which coveralls)
+        - pip install --user cpp-coveralls
       script:
         - make CXX=$COMPILER -j3 check
         - coveralls --gcov gcov-7 --gcov-options '\-lp' --exclude src
