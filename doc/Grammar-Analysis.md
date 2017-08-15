@@ -14,7 +14,7 @@ Then call `tao::pegtl::analyze()` with the top-level grammar rule as template ar
 ```c++
 #include <tao/pegtl/analyze.hpp>
 
-const size_t issues_found = tao::pegtl::analyze< my_grammar >();
+const std::size_t issues_found = tao::pegtl::analyze< my_grammar >();
 ```
 
 The `analyze()`-function returns the number of issues found and writes some information about them to `std::cout`.
@@ -41,7 +41,7 @@ Due to the differences regarding back-tracking and non-deterministic behaviour, 
 
 ## Background
 
-In order to look for infinte loops in a grammar, the `analyze()`-function needs some information about all rules in the grammar.
+In order to look for infinite loops in a grammar, the `analyze()`-function needs some information about all rules in the grammar.
 This "information" consists of a classification of the rules according to the following enum, plus, for non-atomic rules, a list of the sub-rules.
 
 ```c++
