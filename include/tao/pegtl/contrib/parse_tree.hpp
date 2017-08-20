@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "../config.hpp"
 #include "../normal.hpp"
 
 namespace tao

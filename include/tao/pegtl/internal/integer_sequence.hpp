@@ -8,6 +8,8 @@
 #include <type_traits>
 #include <utility>
 
+#include "../config.hpp"
+
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE

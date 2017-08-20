@@ -6,6 +6,8 @@
 
 #include <ostream>
 
+#include <tao/pegtl/config.hpp>
+
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE

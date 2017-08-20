@@ -6,6 +6,7 @@
 
 * Add [`<tao/pegtl/contrib/parse_tree.hpp>`](Contrib-and-Examples.md#taopegtlcontribparse_treehpp) and the [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp) application that shows how to build a [parse tree](https://en.wikipedia.org/wiki/Parse_tree). The example goes beyond a traditional parse trees and demonstrates how to select which nodes to include in the parse tree and how to transform the nodes into an [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)-like structure.
 * Add `bom` rules for UTF-8, UTF-16 and UTF-32.
+* Add some missing includes for `config.hpp`.
 
 ## 2.1.4
 

@@ -6,6 +6,8 @@
 
 #include <cstddef>
 
+#include "../config.hpp"
+
 #include "input_pair.hpp"
 
 namespace tao
