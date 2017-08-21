@@ -8,102 +8,136 @@ branches:
 
 matrix:
   include:
-    - compiler: gcc-4.8
+    - compiler: gcc
+      env:
+        - COMPILER=g++-4.8
 
-    - compiler: gcc-4.9
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-4.9']
+      env:
+        - COMPILER=g++-4.9
 
-    - compiler: gcc-5
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-5']
+      env:
+        - COMPILER=g++-5
 
-    - compiler: gcc-6
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-6']
+      env:
+        - COMPILER=g++-6
 
-    - compiler: gcc-7
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7']
-
-    - compiler: gcc-7
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-7']
       env:
+        - COMPILER=g++-7
+
+    - compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-7']
+      env:
+        - COMPILER=g++-7
         - CXXSTD=-std=c++17
 
     - dist: precise
       compiler: clang
+      env:
+        - COMPILER=clang++
 
-    - compiler: clang-3.5
+    - compiler: clang
       addons:
         apt:
           packages: ['clang-3.5']
+      env:
+        - COMPILER=clang++-3.5
 
-    - compiler: clang-3.6
+    - compiler: clang
       addons:
         apt:
           packages: ['clang-3.6']
+      env:
+        - COMPILER=clang++-3.6
 
     - dist: precise
-      compiler: clang-3.7
+      compiler: clang
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.7']
           packages: ['clang-3.7']
+      env:
+        - COMPILER=clang++-3.7
 
-    - compiler: clang-3.8
+    - compiler: clang
       addons:
         apt:
           packages: ['clang-3.8']
+      env:
+        - COMPILER=clang++-3.8
 
-    - compiler: clang-3.9
+    - compiler: clang
       addons:
         apt:
           #sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-3.9']
           packages: ['clang-3.9']
+      env:
+        - COMPILER=clang++-3.9
 
-    - compiler: clang-4.0
+    - compiler: clang
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
           packages: ['clang-4.0']
+      env:
+        - COMPILER=clang++-4.0
 
-    - compiler: clang-5.0
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
-          packages: ['clang-5.0']
-
-    - compiler: clang-5.0
+    - compiler: clang
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
           packages: ['clang-5.0']
       env:
+        - COMPILER=clang++-5.0
+
+    - compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
+          packages: ['clang-5.0']
+      env:
+        - COMPILER=clang++-5.0
         - CXXSTD=-std=c++17
 
     - os: osx
       osx_image: xcode6.4
       compiler: clang
+      env:
+        - COMPILER=clang++
 
     - os: osx
       osx_image: xcode7.3
       compiler: clang
+      env:
+        - COMPILER=clang++
 
     - os: osx
       osx_image: xcode8.3
       compiler: clang
+      env:
+        - COMPILER=clang++
 
     - language: android
       jdk: openjdk7
@@ -139,80 +173,89 @@ matrix:
         - make -j2
         - make test
 
-    - compiler: gcc-7
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-7']
       env:
+        - COMPILER=g++-7
         - CXXFLAGS="-O0 --coverage"
       before_script:
         - pip install --user cpp-coveralls
       script:
-        - make -j3 check
+        - make CXX=$COMPILER -j3 check
         - coveralls --gcov gcov-7 --gcov-options '\-lp' --exclude src
 
-    - compiler: gcc-7
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-7']
       env:
+        - COMPILER=g++-7
         - CPPFLAGS=-fsanitize=undefined
 
-    - compiler: gcc-7
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-7']
       env:
+        - COMPILER=g++-7
         - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
 
-    - compiler: clang-5.0
+    - compiler: clang
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
           packages: ['clang-5.0']
       env:
+        - COMPILER=clang++-5.0
         - CPPFLAGS=-fsanitize=undefined
 
-    - compiler: clang-5.0
+    - compiler: clang
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
           packages: ['clang-5.0']
       env:
+        - COMPILER=clang++-5.0
         - CPPFLAGS=-fsanitize=address
 
-    - compiler: gcc-7
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-7', 'valgrind']
       env:
+        - COMPILER=g++-7
         - SPECIAL=valgrind
       script:
-        - make -j3 valgrind
+        - make CXX=$COMPILER -j3 valgrind
 
-    - compiler: gcc-7
+    - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-7', 'cppcheck']
       env:
+        - COMPILER=g++-7
         - SPECIAL=cppcheck
       script:
-        - make -j3 cppcheck
+        - make CXX=$COMPILER -j3 cppcheck
 
-    - compiler: clang-5.0
+    - compiler: clang
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
           packages: ['clang-5.0', 'clang-tidy-5.0']
       env:
+        - COMPILER=clang++-5.0
         - CLANG_TIDY=clang-tidy-5.0
       script:
-        - make -j3 clang-tidy
+        - make CXX=$COMPILER -j3 clang-tidy
 
 script:
-  - make -j3
+  - $COMPILER --version
+  - make CXX=$COMPILER -j3
