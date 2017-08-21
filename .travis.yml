@@ -217,19 +217,19 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
-          packages: ['clang-4.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
+          packages: ['clang-5.0']
       env:
-        - COMPILER=clang++-4.0
+        - COMPILER=clang++-5.0
         - CPPFLAGS=-fsanitize=undefined
 
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
-          packages: ['clang-4.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
+          packages: ['clang-5.0']
       env:
-        - COMPILER=clang++-4.0
+        - COMPILER=clang++-5.0
         - CPPFLAGS=-fsanitize=address
 
     - compiler: gcc
@@ -257,11 +257,11 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
-          packages: ['clang-4.0', 'clang-tidy-4.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
+          packages: ['clang-5.0', 'clang-tidy-5.0']
       env:
-        - COMPILER=clang++-4.0
-        - CLANG_TIDY=clang-tidy-4.0
+        - COMPILER=clang++-5.0
+        - CLANG_TIDY=clang-tidy-5.0
       script:
         - make CXX=$COMPILER -j3 clang-tidy
 
