@@ -212,7 +212,7 @@ matrix:
           packages: ['g++-7']
       env:
         - COMPILER=g++-7
-        - CPPFLAGS=-fsanitize=address
+        - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
 
     - compiler: clang
       addons:
