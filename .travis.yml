@@ -209,10 +209,10 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-6']
+          packages: ['g++-7']
       env:
-        - COMPILER=g++-6
-        - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
+        - COMPILER=g++-7
+        - CPPFLAGS=-fsanitize=address
 
     - compiler: clang
       addons:
@@ -236,9 +236,9 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-6', 'valgrind']
+          packages: ['g++-7', 'valgrind']
       env:
-        - COMPILER=g++-6
+        - COMPILER=g++-7
         - SPECIAL=valgrind
       script:
         - make CXX=$COMPILER -j3 valgrind
@@ -247,9 +247,9 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-6', 'cppcheck']
+          packages: ['g++-7', 'cppcheck']
       env:
-        - COMPILER=g++-6
+        - COMPILER=g++-7
         - SPECIAL=cppcheck
       script:
         - make CXX=$COMPILER -j3 cppcheck
