@@ -183,8 +183,7 @@ matrix:
         - CXXFLAGS="-O0 --coverage"
       before_script:
         - pip install --user cpp-coveralls
-      script:
-        - make -j3 check
+      after_script:
         - coveralls --gcov gcov-7 --gcov-options '\-lp' --exclude src
 
     - compiler: gcc
