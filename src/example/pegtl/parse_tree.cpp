@@ -28,10 +28,10 @@ namespace example
    struct close_bracket : seq< star< space >, one< ')' > > {};
 
    struct expression;
-   struct bracketed : seq< open_bracket, expression, close_bracket > {};
-   struct value : sor< integer, variable, bracketed > {};
-   struct product : list< value, sor< multiply, divide > > {};
-   struct expression : list< product, sor< plus, minus > > {};
+   struct bracketed : if_must< open_bracket, expression, close_bracket > {};
+   struct value : sor< integer, variable, bracketed >{};
+   struct product : list_must< value, sor< multiply, divide > > {};
+   struct expression : list_must< product, sor< plus, minus > > {};
 
    struct grammar : must< expression, eof > {};
 
