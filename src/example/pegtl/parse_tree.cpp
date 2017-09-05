@@ -80,6 +80,9 @@ namespace example
       static void rearrange( std::unique_ptr< parse_tree::node >& n )
       {
          auto& c = n->children;
+         if( c.empty() ) {
+            return;
+         }
          if( c.size() == 1 ) {
             n = std::move( c.back() );
          }
