@@ -111,11 +111,11 @@ namespace example
    void print_node( const parse_tree::node& n, const std::string& s = "" )
    {
       if( n.id ) {
-         if( n.begin ) {
-            std::cout << s << internal::demangle( n.id->name() ) << " \"" << std::string( n.begin, n.end ) << '"' << std::endl;
+         if( n.end.data ) {
+            std::cout << s << internal::demangle( n.id->name() ) << " \"" << std::string( n.begin.data, n.end.data ) << "\" at " << position( n.begin, "" ) << " to " << position( n.end, "" ) << std::endl;
          }
          else {
-            std::cout << s << internal::demangle( n.id->name() ) << std::endl;
+            std::cout << s << internal::demangle( n.id->name() ) << " at " << position( n.begin, "" ) << std::endl;
          }
       }
       else {

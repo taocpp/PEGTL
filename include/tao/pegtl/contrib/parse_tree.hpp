@@ -13,6 +13,8 @@
 #include "../config.hpp"
 #include "../normal.hpp"
 
+#include "../internal/iterator.hpp"
+
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
@@ -23,8 +25,8 @@ namespace tao
          {
             std::vector< std::unique_ptr< node > > children;
             const std::type_info* id = nullptr;
-            const char* begin = nullptr;
-            const char* end = nullptr;
+            internal::iterator begin;
+            internal::iterator end;
          };
 
          class state
@@ -91,9 +93,10 @@ namespace tao
             : normal< Rule >
          {
             template< typename Input >
-            static void start( const Input&, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void start( const Input& in, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
             {
                s.emplace_back();
+               s.back()->begin = in.iterator();
             }
 
             template< typename Input >
@@ -121,7 +124,7 @@ namespace tao
             static void start( const Input& in, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
             {
                s.emplace_back();
-               s.back()->begin = in.current();
+               s.back()->begin = in.iterator();
             }
 
             template< typename Input >
@@ -129,7 +132,7 @@ namespace tao
             {
                auto n = std::move( s.back() );
                n->id = &typeid( Rule );
-               n->end = in.current();
+               n->end = in.iterator();
                s.pop_back();
                s.back()->children.emplace_back( std::move( n ) );
             }

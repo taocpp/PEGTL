@@ -37,7 +37,7 @@ namespace tao
             iterator( const iterator& ) = default;
             iterator& operator=( const iterator& ) = default;
 
-            const char* data;
+            const char* data = nullptr;
 
             std::size_t byte;
             std::size_t line;
