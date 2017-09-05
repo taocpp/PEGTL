@@ -173,23 +173,23 @@ Running the example with a slightly longer expression:
 ```sh
 $ build/src/example/pegtl/parse_tree "2 + a*b*4 - x / ( 2 - b + c - d )"
 ROOT
-  parse_tree::minus
-    parse_tree::plus
-      parse_tree::integer "2"
-      parse_tree::multiply
-        parse_tree::multiply
-          parse_tree::variable "a"
-          parse_tree::variable "b"
-        parse_tree::integer "4"
-    parse_tree::divide
-      parse_tree::variable "x"
-      parse_tree::minus
-        parse_tree::plus
-          parse_tree::minus
-            parse_tree::integer "2"
-            parse_tree::variable "b"
-          parse_tree::variable "c"
-        parse_tree::variable "d"
+  example::minus at :1:9(9)
+    example::plus at :1:1(1)
+      example::integer "2" at :1:0(0) to :1:1(1)
+      example::multiply at :1:7(7)
+        example::multiply at :1:5(5)
+          example::variable "a" at :1:4(4) to :1:5(5)
+          example::variable "b" at :1:6(6) to :1:7(7)
+        example::integer "4" at :1:8(8) to :1:9(9)
+    example::divide at :1:13(13)
+      example::variable "x" at :1:12(12) to :1:13(13)
+      example::minus at :1:27(27)
+        example::plus at :1:23(23)
+          example::minus at :1:19(19)
+            example::integer "2" at :1:18(18) to :1:19(19)
+            example::variable "b" at :1:22(22) to :1:23(23)
+          example::variable "c" at :1:26(26) to :1:27(27)
+        example::variable "d" at :1:30(30) to :1:31(31)
 ```
 
 ###### `src/example/pegtl/proto3.cpp`
