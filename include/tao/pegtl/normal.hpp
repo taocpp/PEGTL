@@ -4,6 +4,8 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_NORMAL_HPP
 #define TAOCPP_PEGTL_INCLUDE_NORMAL_HPP
 
+#include <utility>
+
 #include "apply_mode.hpp"
 #include "config.hpp"
 #include "nothing.hpp"
@@ -45,17 +47,17 @@ namespace tao
          }
 
          template< template< typename... > class Action, typename Input, typename... States >
-         static void apply0( const Input&, States&&... st )
+         static auto apply0( const Input&, States&&... st ) -> decltype( Action< Rule >::apply0( st... ) )
          {
-            Action< Rule >::apply0( st... );
+            return Action< Rule >::apply0( st... );
          }
 
          template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
-         static void apply( const Iterator& begin, const Input& in, States&&... st )
+         static auto apply( const Iterator& begin, const Input& in, States&&... st ) -> decltype( Action< Rule >::apply( std::declval< typename Input::action_t >(), st... ) )
          {
             using action_t = typename Input::action_t;
             const action_t action_input( begin, in );
-            Action< Rule >::apply( action_input, st... );
+            return Action< Rule >::apply( action_input, st... );
          }
 
          template< apply_mode A,

@@ -14,8 +14,10 @@ namespace tao
       {
          NOTHING = 0,
          CONTROL = 1,
-         CONTROL_AND_APPLY = 2,
-         CONTROL_AND_APPLY0 = 3
+         CONTROL_AND_APPLY_VOID = 2,
+         CONTROL_AND_APPLY0_VOID = 3,
+         CONTROL_AND_APPLY_BOOL = 4,
+         CONTROL_AND_APPLY0_BOOL = 5
       };
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
