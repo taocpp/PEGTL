@@ -26,7 +26,7 @@ namespace tao
          template< char Open, char Marker, char Close, typename... Contents >
          struct raw_string_tag;
 
-         template< bool use_action, bool use_apply0, typename Tag >
+         template< bool use_apply_void, bool use_apply0_void, typename Tag >
          struct raw_string_state_apply;
 
          template< typename Tag >
@@ -57,7 +57,7 @@ namespace tao
          };
 
          template< typename Tag >
-         struct raw_string_state_apply< true, true, Tag >
+         struct raw_string_state_apply< false, true, Tag >
          {
             template< template< typename... > class Action,
                       template< typename... > class Control,
@@ -86,9 +86,15 @@ namespace tao
                       typename... States >
             void success( Input& in, States&&... st ) const
             {
-               constexpr bool use_action = ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Tag >::value );
-               constexpr bool use_apply0 = use_action && has_apply0< Action< Tag >, type_list< States... > >::value;
-               raw_string_state_apply< use_action, use_apply0, Tag >::template success< Action, Control >( *this, in, st... );
+               constexpr char use_action = ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Tag >::value );
+               constexpr char use_apply_void = use_action && internal::has_apply_void< Action< Tag >, typename Input::action_t, internal::type_list< States... > >::value;
+               constexpr char use_apply_bool = use_action && internal::has_apply_bool< Action< Tag >, typename Input::action_t, internal::type_list< States... > >::value;
+               constexpr char use_apply0_void = use_action && internal::has_apply0_void< Action< Tag >, internal::type_list< States... > >::value;
+               constexpr char use_apply0_bool = use_action && internal::has_apply0_bool< Action< Tag >, internal::type_list< States... > >::value;
+               static_assert( use_apply_void + use_apply_bool + use_apply0_void + use_apply0_bool < 2, "more than one apply or apply0 defined" );
+               static_assert( !use_action || use_apply_bool || use_apply_void || use_apply0_bool || use_apply0_void, "actions not disabled but no apply or apply0 found" );
+               static_assert( use_apply_bool + use_apply0_bool == 0, "actions with bool result not supported in raw_string" );
+               raw_string_state_apply< use_apply_void, use_apply0_void, Tag >::template success< Action, Control >( *this, in, st... );
                in.bump_in_this_line( marker_size );
             }
 

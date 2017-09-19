@@ -8,24 +8,31 @@
 
 #include "../config.hpp"
 
+#include "type_list.hpp"
+
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
       namespace internal
       {
-         template< typename... S >
-         struct type_list
-         {
-         };
-
          template< typename A, typename L, typename = void >
-         struct has_apply0 : std::false_type
+         struct has_apply0_void : std::false_type
          {
          };
 
          template< typename A, typename... S >
-         struct has_apply0< A, type_list< S... >, decltype( A::apply0( std::declval< S >()... ), void() ) > : std::true_type
+         struct has_apply0_void< A, type_list< S... >, decltype( A::apply0( std::declval< S >()... ) ) > : std::true_type
+         {
+         };
+
+         template< typename A, typename L, typename = bool >
+         struct has_apply0_bool : std::false_type
+         {
+         };
+
+         template< typename A, typename... S >
+         struct has_apply0_bool< A, type_list< S... >, decltype( A::apply0( std::declval< S >()... ) ) > : std::true_type
          {
          };
 

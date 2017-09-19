@@ -15,6 +15,7 @@
 #include "internal/demangle.hpp"
 #include "internal/dusel_mode.hpp"
 #include "internal/duseltronik.hpp"
+#include "internal/has_apply.hpp"
 #include "internal/has_apply0.hpp"
 #include "internal/skip_control.hpp"
 
@@ -68,10 +69,15 @@ namespace tao
                    typename... States >
          static bool match( Input& in, States&&... st )
          {
-            constexpr bool use_control = !internal::skip_control< Rule >::value;
-            constexpr bool use_action = use_control && ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Rule >::value );
-            constexpr bool use_apply0 = use_action && internal::has_apply0< Action< Rule >, internal::type_list< States... > >::value;
-            constexpr dusel_mode mode = static_cast< dusel_mode >( static_cast< char >( use_control ) + static_cast< char >( use_action ) + static_cast< char >( use_apply0 ) );
+            constexpr char use_control = !internal::skip_control< Rule >::value;
+            constexpr char use_action = use_control && ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Rule >::value );
+            constexpr char use_apply_void = use_action && internal::has_apply_void< Action< Rule >, typename Input::action_t, internal::type_list< States... > >::value;
+            constexpr char use_apply_bool = use_action && internal::has_apply_bool< Action< Rule >, typename Input::action_t, internal::type_list< States... > >::value;
+            constexpr char use_apply0_void = use_action && internal::has_apply0_void< Action< Rule >, internal::type_list< States... > >::value;
+            constexpr char use_apply0_bool = use_action && internal::has_apply0_bool< Action< Rule >, internal::type_list< States... > >::value;
+            static_assert( use_apply_void + use_apply_bool + use_apply0_void + use_apply0_bool < 2, "more than one apply or apply0 defined" );
+            static_assert( !use_action || use_apply_bool || use_apply_void || use_apply0_bool || use_apply0_void, "actions not disabled but no apply or apply0 found" );
+            constexpr dusel_mode mode = static_cast< dusel_mode >( use_control + use_apply_void + 2 * use_apply_bool + 3 * use_apply0_void + 4 * use_apply0_bool );
             return internal::duseltronik< Rule, A, M, Action, Control, mode >::match( in, st... );
          }
       };

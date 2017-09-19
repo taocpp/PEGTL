@@ -163,6 +163,53 @@ namespace tao
             TAOCPP_PEGTL_TEST_ASSERT( result );
          }
 
+         template< typename Rule >
+         struct apply_bool_action : nothing< Rule >
+         {
+         };
+
+         template<>
+         struct apply_bool_action< any >
+         {
+            template< typename Input >
+            static bool apply( const Input& )
+            {
+               return false;
+            }
+         };
+
+         void apply_bool()
+         {
+            memory_input<> in( "ab", __FUNCTION__ );
+            const auto result = parse< any, apply_bool_action >( in );
+            TAOCPP_PEGTL_TEST_ASSERT( !result );
+            TAOCPP_PEGTL_TEST_ASSERT( in.size() == 2 );
+            TAOCPP_PEGTL_TEST_ASSERT( in.peek_char() == 'a' );
+         }
+
+         template< typename Rule >
+         struct apply0_bool_action : nothing< Rule >
+         {
+         };
+
+         template<>
+         struct apply0_bool_action< any >
+         {
+            static bool apply0()
+            {
+               return false;
+            }
+         };
+
+         void apply0_bool()
+         {
+            memory_input<> in( "ab", __FUNCTION__ );
+            const auto result = parse< any, apply0_bool_action >( in );
+            TAOCPP_PEGTL_TEST_ASSERT( !result );
+            TAOCPP_PEGTL_TEST_ASSERT( in.size() == 2 );
+            TAOCPP_PEGTL_TEST_ASSERT( in.peek_char() == 'a' );
+         }
+
       }  // namespace test1
 
       void unit_test()
@@ -200,6 +247,8 @@ namespace tao
          test1::state_test();
          test1::apply0_test();
          test1::count_test();
+         test1::apply_bool();
+         test1::apply0_bool();
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
