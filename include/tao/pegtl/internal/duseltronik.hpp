@@ -92,14 +92,15 @@ namespace tao
                    rewind_mode M,
                    template< typename... > class Action,
                    template< typename... > class Control >
-         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL_AND_APPLY0_VOID >
+         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL_AND_APPLY_BOOL >
          {
             template< typename Input, typename... States >
             static bool match( Input& in, States&&... st )
             {
-               if( duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL >::match( in, st... ) ) {
-                  Control< Rule >::template apply0< Action >( const_cast< const Input& >( in ), st... );
-                  return true;
+               auto m = in.template mark< rewind_mode::REQUIRED >();
+
+               if( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, dusel_mode::CONTROL >::match( in, st... ) ) {
+                  return m( Control< Rule >::template apply< Action >( m.iterator(), const_cast< const Input& >( in ), st... ) );
                }
                return false;
             }
@@ -110,15 +111,14 @@ namespace tao
                    rewind_mode M,
                    template< typename... > class Action,
                    template< typename... > class Control >
-         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL_AND_APPLY_BOOL >
+         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL_AND_APPLY0_VOID >
          {
             template< typename Input, typename... States >
             static bool match( Input& in, States&&... st )
             {
-               auto m = in.template mark< rewind_mode::REQUIRED >();
-
-               if( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, dusel_mode::CONTROL >::match( in, st... ) ) {
-                  return m( Control< Rule >::template apply< Action >( m.iterator(), const_cast< const Input& >( in ), st... ) );
+               if( duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL >::match( in, st... ) ) {
+                  Control< Rule >::template apply0< Action >( const_cast< const Input& >( in ), st... );
+                  return true;
                }
                return false;
             }
