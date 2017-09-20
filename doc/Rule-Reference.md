@@ -275,10 +275,9 @@ These rules are in namespace `tao::pegtl`.
 
 These rules are in namespace `tao::pegtl`.
 
-These rules replicate the intrusive way actions were attached to grammars in PEGTL 0.x versions.
-The `apply` and `if_apply`-rules allow actions to be explicitly called from within the grammar.
+These rules replicate the intrusive way actions were called from within the grammar in the PEGTL 0.x with the `apply<>` and `if_apply<>` rules.
 The actions for these rules are classes (rather than class templates as required for the `parse()`-functions and `action<>`-rule).
-These rules respect the current `apply_mode`, but do **not** use the control-class to invoke the actions.
+These rules respect the current `apply_mode`, but neither use the control-class to invoke the actions, nor support actions that return `bool`.
 
 ###### `apply< A... >`
 
