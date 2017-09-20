@@ -88,10 +88,19 @@ struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
       // in the grammar succeeds. The argument named 'in' represents the
       // matched part of the input.
    }
+
+   // OR ALTERNATIVELY
+
+   template< typename Input >
+   static void apply( const Input& in, /* all the states */ )
+   {
+      // Called whenever a call to tao::pegtl::plus< tao::pegtl::digit >
+      // in the grammar succeeds. The argument named 'in' represents the
+      // matched part of the input.
+      return // see description for apply0() above 
+   }
 }
 ```
-
-The return type can also be `bool` as explained for [`apply0()`](#apply0) above.
 
 The exact type of the input class passed to an action's `apply()`-method is not specified.
 It is currently best practice to "template over" the type of the input as shown above.
