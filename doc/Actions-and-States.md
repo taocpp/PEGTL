@@ -92,7 +92,7 @@ struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
    // OR ALTERNATIVELY
 
    template< typename Input >
-   static void apply( const Input& in, /* all the states */ )
+   static bool apply( const Input& in, /* all the states */ )
    {
       // Called whenever a call to tao::pegtl::plus< tao::pegtl::digit >
       // in the grammar succeeds. The argument named 'in' represents the
