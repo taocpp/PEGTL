@@ -45,7 +45,7 @@ It will fail to compile when both `apply()` and `apply0()` are found.
 
 ### Apply0
 
-In cases where the matched part of the input is not required, the action method named `apply0()` is used.
+In cases where the matched part of the input is not required, an action method named `apply0()` is implemented.
 This allows for some optimisations compared to the `apply()` method which receives the matched input as first argument.
 
 ```c++
