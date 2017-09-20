@@ -5,10 +5,13 @@ In order to do something useful with the input, it is usually necessary to attac
 An action is *applied* whenever the rule to which it is attached succeeds.
 Applying an action means that its static `apply()` or `apply0()`-method is called.
 The first argument to an `apply()` method is always an object that represents the portion of the input consumed by the successful match of the rule.
+An action's `apply()` or `apply0()`-method can either return `void`, or a `bool`.
 
 ## Contents
 
 * [Actions](#actions)
+  * [Apply0](#apply0)
+  * [Apply](#apply)
 * [States](#states)
 * [Action Specialisation](#action-specialisation)
 * [Changing Actions](#changing-actions)
@@ -37,16 +40,49 @@ To attach an action to `Rule`, this class template has to be specialised for `Ru
 
 2. An *appropriate* static `apply()` or `apply0()`-method has to be implemented.
 
-###### Apply
+The PEGTL will auto-detect whether an action, i.e. a specialisation of an action class template, contains an appropriate `apply()` or `apply0()` function, and whether it returns `void` or `bool`.
+It will fail to compile when both `apply()` and `apply0()` are found.
 
-The `apply()`-method receives a const-reference to an instance of an input class as first argument.
+### Apply0
+
+In cases where the matched part of the input is not required, the action method named `apply0()` is used.
+This allows for some optimisations compared to the `apply()` method which receives the matched input as first argument.
+
+```c++
+template<>
+struct my_actions< tao::pegtl::plus< tao::pegtl::alpha > >
+{
+   static void apply0( /* all the states */ )
+   {
+      // Called whenever a call to tao::pegtl::plus< tao::pegtl::alpha >
+      // in the grammar succeeds.
+   }
+   
+   // OR ALTERNATIVELY
+
+   static bool apply0( /* all the states */ )
+   {
+      // Called whenever a call to tao::pegtl::plus< tao::pegtl::alpha >
+      // in the grammar succeeds.
+      return // see below
+   }
+}
+```
+
+When the return type is `bool`, the action can determine whether matching the rule to which it was attached, and which already returned with success, should be retro-actively considered a (local) failure.
+For the overall parsing run, there is no difference between a rule or an attached action returning `false` (but of course the action is not called when the rule already returned `false`).
+When an action returns `false`, the PEGTL takes care of rewinding the input to where it was when the rule to which the action was attached started its (successful) match (which is unlike rules' `match()` methods that have to take care of rewinding themselves).
+
+### Apply
+
+When the action method is called `apply()`, it receives a const-reference to an instance of an input class as first argument.
 
 ```c++
 template<>
 struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
 {
    template< typename Input >
-   static void apply( const Input& in )
+   static void apply( const Input& in, /* all the states */ )
    {
       // Called whenever a call to tao::pegtl::plus< tao::pegtl::digit >
       // in the grammar succeeds. The argument named 'in' represents the
@@ -54,6 +90,8 @@ struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
    }
 }
 ```
+
+The return type can also be `bool` as explained for [`apply0()`](#apply0) above.
 
 The exact type of the input class passed to an action's `apply()`-method is not specified.
 It is currently best practice to "template over" the type of the input as shown above.
@@ -96,26 +134,6 @@ Note that the `action_input` does **not** own the data it points to, it belongs 
 When the original input has tracking mode `IMMEDIATE`, the `iterator_t` returned by `action_input::iterator()` will contain the `byte`, `line` and `byte_in_line` counters corresponding to the beginning of the matched input represented by the `action_input`.
 
 When the original input has tracking mode `LAZY`, then `action_input::position()` is not efficient because it calculates the line number etc. by scanning the complete original input from the beginning.
-
-###### Apply0
-
-Alternatively, in cases where the matched part of the input is not required, the action method can be named `apply0()` instead of `apply()`.
-This will suppress the first argument, the matched input, which allows for some optimisations.
-
-```c++
-template<>
-struct my_actions< tao::pegtl::plus< tao::pegtl::alpha > >
-{
-   static void apply0()
-   {
-      // Called whenever a call to tao::pegtl::plus< tao::pegtl::alpha >
-      // in the grammar succeeds.
-   }
-}
-```
-
-The PEGTL will auto-detect whether a viable `apply0()`-method exists and will prefer it over `apply()`.
-It is recommended to implement only either one of the two functions, future versions of the PEGTL might flag the existence of both as error.
 
 Actions often need to store and/or reference portions of the input for after the parsing run, for example when an abstract syntax tree is generated.
 Some of the syntax tree nodes will contain portions of the input, for example for a variable name in a script language that needs to be stored in the syntax tree just as it occurs in the input data.
