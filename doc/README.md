@@ -22,6 +22,8 @@
     * [Complex Rules](Rules-and-Grammars.md#complex-rules)
 * [Actions and States](Actions-and-States.md)
   * [Actions](Actions-and-States.md#actions)
+    * [Apply0](Actions-and-States.md#apply0)
+    * [Apply](Actions-and-States.md#apply)
   * [States](Actions-and-States.md#states)
   * [Action Specialisation](Actions-and-States.md#action-specialisation)
   * [Changing Actions](Actions-and-States.md#changing-actions)
