@@ -87,10 +87,10 @@ namespace tao
             void success( Input& in, States&&... st ) const
             {
                constexpr char use_action = ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Tag >::value );
-               constexpr char use_apply_void = use_action && internal::has_apply_void< Action< Tag >, typename Input::action_t, internal::type_list< States... > >::value;
-               constexpr char use_apply_bool = use_action && internal::has_apply_bool< Action< Tag >, typename Input::action_t, internal::type_list< States... > >::value;
-               constexpr char use_apply0_void = use_action && internal::has_apply0_void< Action< Tag >, internal::type_list< States... > >::value;
-               constexpr char use_apply0_bool = use_action && internal::has_apply0_bool< Action< Tag >, internal::type_list< States... > >::value;
+               constexpr char use_apply_void = use_action && internal::has_apply< Action< Tag >, void, typename Input::action_t, States... >::value;
+               constexpr char use_apply_bool = use_action && internal::has_apply< Action< Tag >, bool, typename Input::action_t, States... >::value;
+               constexpr char use_apply0_void = use_action && internal::has_apply0< Action< Tag >, void, States... >::value;
+               constexpr char use_apply0_bool = use_action && internal::has_apply0< Action< Tag >, bool, States... >::value;
                static_assert( use_apply_void + use_apply_bool + use_apply0_void + use_apply0_bool < 2, "more than one apply or apply0 defined" );
                static_assert( !use_action || use_apply_bool || use_apply_void || use_apply0_bool || use_apply0_void, "actions not disabled but no apply or apply0 found" );
                static_assert( use_apply_bool + use_apply0_bool == 0, "actions with bool result not supported in raw_string" );
