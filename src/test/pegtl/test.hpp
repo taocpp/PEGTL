@@ -24,6 +24,7 @@ namespace tao
 #include "test_action.hpp"
 #include "test_assert.hpp"
 #include "test_failed.hpp"
+#include "test_rule.hpp"
 
 #include "verify_char.hpp"
 #include "verify_fail.hpp"
