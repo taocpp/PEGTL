@@ -57,7 +57,7 @@ struct my_actions< tao::pegtl::plus< tao::pegtl::alpha > >
       // Called whenever a call to tao::pegtl::plus< tao::pegtl::alpha >
       // in the grammar succeeds.
    }
-   
+
    // OR ALTERNATIVELY
 
    static bool apply0( /* all the states */ )
@@ -72,6 +72,10 @@ struct my_actions< tao::pegtl::plus< tao::pegtl::alpha > >
 When the return type is `bool`, the action can determine whether matching the rule to which it was attached, and which already returned with success, should be retro-actively considered a (local) failure.
 For the overall parsing run, there is no difference between a rule or an attached action returning `false` (but of course the action is not called when the rule already returned `false`).
 When an action returns `false`, the PEGTL takes care of rewinding the input to where it was when the rule to which the action was attached started its (successful) match (which is unlike rules' `match()` methods that have to take care of rewinding themselves).
+
+Note that actions returning `bool` are an advanced use case that should be used with caution.
+They prevent some internal optimisations, in particular when used with `apply0()`.
+They can also have weird effects on the semantics of a parsing run, for example `at< rule >` can succeed for the same input for which `rule` fails when there is a `bool`-action attached to `rule` that returns `false` (remembering that actions are disabled within an `at<>` combinator).
 
 ### Apply
 
@@ -97,7 +101,7 @@ struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
       // Called whenever a call to tao::pegtl::plus< tao::pegtl::digit >
       // in the grammar succeeds. The argument named 'in' represents the
       // matched part of the input.
-      return // see description for apply0() above 
+      return // see description for apply0() above
    }
 }
 ```

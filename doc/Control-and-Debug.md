@@ -117,9 +117,16 @@ Depending on what happens during the attempt to match `R`, one of the other thre
 
 Additionally, if matching `R` was successful, actions are enabled, and `A< R >` is not derived from `tao::pegtl::nothing`, where `A` is the current action class template:
 
-- If `A< R >::apply0()` exists, then `C< R >::apply0()` is called with the current state-arguments.
+- If `A< R >::apply0()` exists, then `C< R >::apply0()` is called with the current state arguments.
 
-- Else `C< R >::apply()` is called with the begin and end of the matched input, and the current state arguments.
+- If `A< R >::apply()` exists, then `C< R >::apply()` is called with the matched input and the current state arguments.
+
+It is an error when both `A< R >::apply0()` and `A< R >::apply()` exist.
+
+In case of actions that return `bool`, i.e. actions whose `apply0()` or `apply()` function returns `bool`, the `C< R >::succes()` function is only called when both the rule **and** the action succeed.
+If either produce a (local) failure then `C< R >::failure()` is called.
+
+In **all** cases where an action is called, the success or failure hooks are invoked **after** the action returns.
 
 The included class `tao::pegtl::tracer` in `<tao/pegtl/contrib/tracer.hpp>` gives a pratical example that can be used as control class to debug grammars.
 When an instance of class `tao::pegtl::trace_state` is used as single state in a parsing run with the tracer-control then the debug output contains a line number and rule number as additional information.
