@@ -9,6 +9,7 @@
 * Added `bom` rules for UTF-8, UTF-16 and UTF-32.
 * Added some missing includes for `config.hpp`.
 * Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with Clang 5.
+* Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with Xcode 9.
 
 ## 2.1.4
 
