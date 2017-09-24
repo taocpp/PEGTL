@@ -44,7 +44,8 @@ namespace tao
             memory_input<> in( "f", 1, __FILE__ );
             parse< any, at_action >( in );
             TAOCPP_PEGTL_TEST_ASSERT( at_counter == 1 );
-         } {
+         }
+         {
             memory_input<> in( "f", 1, __FILE__ );
             parse< at< any >, at_action >( in );
             TAOCPP_PEGTL_TEST_ASSERT( at_counter == 1 );

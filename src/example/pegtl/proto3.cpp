@@ -126,11 +126,11 @@ namespace tao
 
          // clang-format on
 
-      } // namespace proto3
+      }  // namespace proto3
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // tao
+}  // tao
 
 int main( int argc, char** argv )
 {

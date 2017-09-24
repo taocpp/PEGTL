@@ -12,7 +12,7 @@ namespace tao
       struct buffer_input_t
          : buffer_input< internal::cstring_reader >
       {
-         buffer_input_t( const std::string & in_string, const std::string & in_source )
+         buffer_input_t( const std::string& in_string, const std::string& in_source )
             : buffer_input< internal::cstring_reader >( in_source, 42, in_string.c_str() )
          {
          }

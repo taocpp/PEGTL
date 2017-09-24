@@ -36,8 +36,8 @@ namespace tao
          verify_fail< GRAMMAR >( __LINE__, __FILE__, "" );
       }
 
-   } // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-} // tao
+}  // tao
 
 #include "main.hpp"

@@ -9,7 +9,7 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      void test_chars( std::string a, const std::string & b )
+      void test_chars( std::string a, const std::string& b )
       {
          internal::demangle_sanitise_chars( a );
          TAOCPP_PEGTL_TEST_ASSERT( a == b );
