@@ -89,7 +89,7 @@ namespace tao
                if( !accum ) {
                   ++m_problems;
                   if( m_verbose ) {
-                     std::cout << "problem: cycle without progress detected at rule class " << start->first << std::endl;
+                     std::cout << "problem: cycle without progress detected at rule class " << start->first << std::endl;  // LCOV_EXCL_LINE
                   }
                }
                return m_cache[ start->first ] = accum;
