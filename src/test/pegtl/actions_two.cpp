@@ -15,6 +15,7 @@ namespace tao
 
             template< typename Input >
             state1( const Input& /*unused*/, std::string& /*unused*/ )
+               : c()
             {
             }
 

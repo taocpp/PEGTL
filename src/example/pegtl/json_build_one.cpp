@@ -18,9 +18,13 @@ namespace examples
    struct result_state
    {
       result_state() = default;
-
       result_state( const result_state& ) = delete;
+      result_state( result_state&& ) = delete;
+
+      ~result_state() = default;
+
       void operator=( const result_state& ) = delete;
+      void operator=( result_state&& ) = delete;
 
       std::shared_ptr< json_base > result;
    };

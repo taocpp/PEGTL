@@ -12,7 +12,7 @@ namespace tao
       struct test_state_state
       {
          template< typename Input >
-         test_state_state( const Input& /*unused*/ )
+         explicit test_state_state( const Input& /*unused*/ )
          {
          }
 
@@ -25,7 +25,7 @@ namespace tao
       struct test_state_with_template_parameters_state
       {
          template< typename Input >
-         test_state_with_template_parameters_state( const Input& /*unused*/ )
+         explicit test_state_with_template_parameters_state( const Input& /*unused*/ )
          {
          }
 

@@ -12,13 +12,13 @@ namespace tao
    {
       void unit_test()
       {
-         TAOCPP_PEGTL_TEST_ASSERT( to_string< string<> >() == "" );
+         TAOCPP_PEGTL_TEST_ASSERT( to_string< string<> >().empty() );
          TAOCPP_PEGTL_TEST_ASSERT( ( to_string< string< 'a', 'b', 'c' > >() == "abc" ) );
 
-         TAOCPP_PEGTL_TEST_ASSERT( to_string< istring<> >() == "" );
+         TAOCPP_PEGTL_TEST_ASSERT( to_string< istring<> >().empty() );
          TAOCPP_PEGTL_TEST_ASSERT( ( to_string< istring< 'a', 'b', 'c' > >() == "abc" ) );
 
-         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "" ) >() == "" );
+         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "" ) >().empty() );
          TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "abc" ) >() == "abc" );
          TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "AbC" ) >() == "AbC" );
          TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "abc" ) >() != "AbC" );

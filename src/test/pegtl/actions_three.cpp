@@ -25,7 +25,7 @@ namespace tao
          struct apply_bool_action< grammar >
          {
             template< typename Input >
-            static bool apply( const Input& )
+            static bool apply( const Input& /*unused*/ )
             {
                return apply_result;
             }

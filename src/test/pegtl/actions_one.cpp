@@ -38,13 +38,13 @@ namespace tao
 
             TAOCPP_PEGTL_TEST_ASSERT( applied[ 0 ].second == "b" );
             TAOCPP_PEGTL_TEST_ASSERT( applied[ 1 ].second == "b" );
-            TAOCPP_PEGTL_TEST_ASSERT( applied[ 2 ].second == "" );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 2 ].second.empty() );
             TAOCPP_PEGTL_TEST_ASSERT( applied[ 3 ].second == "aa" );
             TAOCPP_PEGTL_TEST_ASSERT( applied[ 4 ].second == "aa" );
             TAOCPP_PEGTL_TEST_ASSERT( applied[ 5 ].second == "aa" );
             TAOCPP_PEGTL_TEST_ASSERT( applied[ 6 ].second == "b" );
             TAOCPP_PEGTL_TEST_ASSERT( applied[ 7 ].second == "b" );
-            TAOCPP_PEGTL_TEST_ASSERT( applied[ 8 ].second == "" );
+            TAOCPP_PEGTL_TEST_ASSERT( applied[ 8 ].second.empty() );
             TAOCPP_PEGTL_TEST_ASSERT( applied[ 9 ].second == "baab" );
          }
 
