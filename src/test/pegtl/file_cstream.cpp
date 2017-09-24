@@ -23,9 +23,9 @@ namespace tao
          const char* const filename = "src/test/pegtl/file_data.txt";
 #if defined( _MSC_VER )
          std::FILE* stream;
-         ::fopen_s( &stream, filename, "rb" );
+         ::fopen_s( &stream, filename, "rb" );  // NOLINT
 #else
-         std::FILE* stream = std::fopen( filename, "rb" );
+         std::FILE* stream = std::fopen( filename, "rb" );  // NOLINT
 #endif
          TAOCPP_PEGTL_TEST_ASSERT( stream != nullptr );
          TAOCPP_PEGTL_TEST_ASSERT( parse< file_grammar >( cstream_input<>( stream, 16, filename ) ) );
