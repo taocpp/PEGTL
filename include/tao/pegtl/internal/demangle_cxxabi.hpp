@@ -27,7 +27,7 @@ namespace tao
             }
             std::string result( demangled.get() );
 #ifdef TAOCPP_PEGTL_PRETTY_DEMANGLE
-            demangle_sanitise_chars( result );
+            demangle_sanitise_chars( result );  // LCOV_EXCL_LINE
 #endif
             return result;
          }
