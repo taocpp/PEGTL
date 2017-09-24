@@ -25,8 +25,9 @@ namespace tao
                    typename... States >
          static bool match( Input& in, States&&... st )
          {
-            TAOCPP_PEGTL_TEST_ASSERT( A == B );
-            TAOCPP_PEGTL_TEST_ASSERT( M == N );
+            static_assert( A == B, "unexpected apply mode" );
+            static_assert( M == N, "unexpected rewind mode" );
+
             TAOCPP_PEGTL_TEST_ASSERT( in.size() == Size );
 
             return seq< Rules... >::template match< A, M, Action, Control >( in, st... );
