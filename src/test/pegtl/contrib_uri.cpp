@@ -38,6 +38,6 @@ namespace tao
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-}  // tao
+}  // namespace tao
 
 #include "main.hpp"

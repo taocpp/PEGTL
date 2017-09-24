@@ -130,7 +130,7 @@ namespace tao
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
 
-}  // tao
+}  // namespace tao
 
 int main( int argc, char** argv )
 {
