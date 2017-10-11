@@ -135,7 +135,7 @@ Two simple examples for grammars that parse different kinds of CSV-style file fo
 
 ###### `src/example/pegtl/hello_world.cpp`
 
-Minimal parser-style "hello world" example from the [Getting Started)(Getting-Started.md) page.
+Minimal parser-style "hello world" example from the [Getting Started](Getting-Started.md) page.
 
 ###### `src/example/pegtl/json_parse.cpp`
 
