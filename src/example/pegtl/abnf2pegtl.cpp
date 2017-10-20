@@ -228,6 +228,8 @@ namespace abnf2pegtl
       return v;
    }
 
+   const std::size_t one_size = std::string( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::one< " ).size();
+
    namespace grammar = tao::TAOCPP_PEGTL_NAMESPACE::abnf::grammar;
 
    template< typename Rule >
@@ -357,7 +359,7 @@ namespace abnf2pegtl
          d.elements.back().pop_back();
          assert( !d.elements.back().empty() );
          const auto begin = d.elements.back().back();
-         d.elements.back().back() = "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::range< " + begin.substr( 12, begin.size() - 14 ) + ", " + end.substr( 12, end.size() - 14 ) + " >";
+         d.elements.back().back() = "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::range< " + begin.substr( one_size, begin.size() - one_size - 2 ) + ", " + end.substr( one_size, end.size() - one_size - 2 ) + " >";
       }
    };
 
@@ -371,7 +373,7 @@ namespace abnf2pegtl
          const auto end = d.elements.back().back();
          d.elements.back().pop_back();
          assert( !d.elements.back().empty() );
-         d.elements.back().back().replace( d.elements.back().back().size() - 2, 2, ", " + end.substr( 12 ) );
+         d.elements.back().back().replace( d.elements.back().back().size() - 2, 2, ", " + end.substr( one_size ) );
       }
    };
 
@@ -580,7 +582,7 @@ namespace abnf2pegtl
    {
       static bool is_one( const std::string& v )
       {
-         return v.compare( 0, 12, "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::one< " ) == 0;
+         return v.compare( 0, one_size, "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::one< " ) == 0;
       }
 
       static void apply0( data& d )
@@ -599,7 +601,7 @@ namespace abnf2pegtl
             for( std::size_t p = 1; p != d.elements.back().size(); ++p ) {
                const auto v = d.elements.back()[ p ];
                if( one && is_one( v ) ) {
-                  s.replace( s.size() - 2, 2, ", " + v.substr( 12 ) );
+                  s.replace( s.size() - 2, 2, ", " + v.substr( one_size ) );
                }
                else {
                   one = false;
@@ -633,7 +635,7 @@ namespace abnf2pegtl
    {
       static std::string strip_sor( const std::string& v )
       {
-         return ( v.compare( 0, 12, "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::sor< " ) == 0 ) ? v.substr( 12, v.size() - 14 ) : v;
+         return ( v.compare( 0, one_size, "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::sor< " ) == 0 ) ? v.substr( one_size, v.size() - one_size - 2 ) : v;
       }
 
       template< typename Input >

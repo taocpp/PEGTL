@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.1
+
+**Not yet released**
+
+* Fixed string handling in [`examples/abnf2pegtl.cc`](Contrib-and-Examples.md#srcexamplepegtlabnf2pegtlcpp).
+
 ## 2.2.0
 
 Released 2017-09-24
