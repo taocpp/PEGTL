@@ -373,7 +373,13 @@ namespace abnf2pegtl
          const auto end = d.elements.back().back();
          d.elements.back().pop_back();
          assert( !d.elements.back().empty() );
-         d.elements.back().back().replace( d.elements.back().back().size() - 2, 2, ", " + end.substr( one_size ) );
+         if( d.elements.back().back().substr( 0, one_size ) == "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::one< " ) {
+            const auto begin = d.elements.back().back();
+            d.elements.back().back() = "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::string< " + begin.substr( one_size, begin.size() - one_size - 2 ) + ", " + end.substr( one_size, end.size() - one_size - 2 ) + " >";
+         }
+         else {
+            d.elements.back().back().replace( d.elements.back().back().size() - 2, 2, ", " + end.substr( one_size ) );
+         }
       }
    };
 
