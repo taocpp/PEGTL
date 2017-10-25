@@ -222,7 +222,7 @@ namespace abnf2pegtl
       if( it != d.rules.rend() ) {
          return it->first;
       }
-      if( keywords.find( v ) != keywords.end() || v.find( "__" ) != std::string::npos ) {
+      if( keywords.count( v ) != 0 || v.find( "__" ) != std::string::npos ) {
          throw tao::TAOCPP_PEGTL_NAMESPACE::parse_error( "'" + in.string() + "' is a reserved rulename", in );
       }
       return v;
