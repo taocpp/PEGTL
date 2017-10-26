@@ -105,9 +105,11 @@ namespace tao
 
                Control< Rule >::start( const_cast< const Input& >( in ), st... );
 
-               if( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, dusel_mode::NOTHING >::match( in, st... ) && Control< Rule >::template apply< Action >( m.iterator(), const_cast< const Input& >( in ), st... ) ) {
-                  Control< Rule >::success( const_cast< const Input& >( in ), st... );
-                  return m( true );
+               if( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, dusel_mode::NOTHING >::match( in, st... ) ) {
+                  if( Control< Rule >::template apply< Action >( m.iterator(), const_cast< const Input& >( in ), st... ) ) {
+                     Control< Rule >::success( const_cast< const Input& >( in ), st... );
+                     return m( true );
+                  }
                }
                return false;
             }
@@ -149,9 +151,11 @@ namespace tao
 
                Control< Rule >::start( const_cast< const Input& >( in ), st... );
 
-               if( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, dusel_mode::NOTHING >::match( in, st... ) && Control< Rule >::template apply0< Action >( const_cast< const Input& >( in ), st... ) ) {
-                  Control< Rule >::success( const_cast< const Input& >( in ), st... );
-                  return m( true );
+               if( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, dusel_mode::NOTHING >::match( in, st... ) ) {
+                  if( Control< Rule >::template apply0< Action >( const_cast< const Input& >( in ), st... ) ) {
+                     Control< Rule >::success( const_cast< const Input& >( in ), st... );
+                     return m( true );
+                  }
                }
                Control< Rule >::failure( const_cast< const Input& >( in ), st... );
                return false;
