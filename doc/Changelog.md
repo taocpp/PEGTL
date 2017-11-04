@@ -5,6 +5,7 @@
 **Not yet released**
 
 * Fixed string handling in [`examples/abnf2pegtl.cc`](Contrib-and-Examples.md#srcexamplepegtlabnf2pegtlcpp).
+* Simplified/improved Android build.
 
 ## 2.2.0
 

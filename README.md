@@ -87,7 +87,7 @@ Each commit is automatically tested with multiple architectures, operating syste
 
 * Android
 
-  * Android 5.1, NDK release 10e
+  * Android 5.1
 
 Additionally, each commit is checked with GCC's and Clang's sanitizers as well as [`valgrind`](http://valgrind.org/).
 Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
@@ -101,6 +101,7 @@ For details see the [changelog](doc/Changelog.md).
 * Christopher Diggins and the YARD parser for the general idea.
 * George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `TAOCPP_PEGTL_STRING`.
 * Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
+* Jörg-Christian Böhme for improving the Android CI build.
 * Kai Wolf for help with CMake.
 * Kenneth Geisshirt for Android compatibility and Android CI.
 * Kuzma Shapran for EOL testing and fixes.
