@@ -163,38 +163,41 @@ matrix:
         - CXX=clang++
 
     - language: android
-      jdk: openjdk7
+      jdk: openjdk8
       android:
         components:
+          - tools
+          - platform-tools
           - tools
           - build-tools-23.0.3
           - extra-android-support
           - extra-android-m2repository
           - android-22
           - sys-img-armeabi-v7a-android-22
-          - cmake
+          # Unfortunaly travis use the old android sdk tool instead of using the new sdkmanager.
+          # In this deprecated android sdk tool there is no ndk-bundle or cmake package!
         licenses:
           - '.+'
+      before_install:
+        # install NDK and cmake via android sdkmanager. Unfortunaly to acknowledge the licenses 
+        # takes a while. Looks like the "echo y" solution is not working. Needs improvement !
+        - export TERM=dumb
+        - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "ndk-bundle" "cmake;3.6.4111459"      
       before_script:
         - export TERM=dumb
-        - curl -L http://dl.google.com/android/repository/android-ndk-r10e-linux-x86_64.zip -O
-        - unzip -q android-ndk-r10e-linux-x86_64.zip
-        - export ANDROID_NDK_HOME=`pwd`/android-ndk-r10e
-        - export LOCAL_ANDROID_NDK_HOME="$ANDROID_NDK_HOME"
-        - export LOCAL_ANDROID_NDK_HOST_PLATFORM="linux-x86_64"
-        - export PATH=$PATH:${ANDROID_NDK_HOME}
-        - export CMAKE_VERSION=3.6.2
-        - curl -L https://cmake.org/files/v3.6/cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz -O
-        - tar xzf cmake-${CMAKE_VERSION}-Linux-x86_64.tar.gz
-        - export PATH=cmake-${CMAKE_VERSION}-Linux-x86_64/bin:$PATH
         - export _NO_CHECK_SIGNATURE=true
         - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a
         - emulator -avd test -no-audio -no-window &
-        - android-wait-for-emulator || android-wait-for-emulator
+        - android-wait-for-emulator
       script:
-        - cmake -DANDROID_NDK="$ANDROID_NDK_HOME" -DANDROID_ABI=armeabi-v7a -DPEGTL_BUILD_EXAMPLES=OFF
-        - make -j2
-        - make test
+        # Mandatory cmake parameter for the android toolchain:
+        # /usr/local/android-sdk/cmake/3.6.4111459/bin/cmake -DANDROID_ABI=armeabi-v7a -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-22
+        # See also in /usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake
+        
+        # Using the ninja build command. Is much faster then make build command.
+        - /usr/local/android-sdk/cmake/3.6.4111459/bin/cmake -G'Android Gradle - Ninja' -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-22 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.6.4111459/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
+        - /usr/local/android-sdk/cmake/3.6.4111459/bin/cmake --build . --target all
+        - /usr/local/android-sdk/cmake/3.6.4111459/bin/cmake --build . --target test
 
     - compiler: gcc
       addons:
