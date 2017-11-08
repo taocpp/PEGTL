@@ -63,7 +63,7 @@ matrix:
       before_script:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
-        - echo no | android create avd --force -n test -t android-26 --abi arm64-v8a
+        - /usr/local/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-26;google_apis;armeabi-v7a"
         - emulator -avd test -no-audio -no-window &
         - android-wait-for-emulator || android-wait-for-emulator
       script:
@@ -95,7 +95,7 @@ matrix:
       before_script:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
-        - echo no | android create avd --force -n test -t android-23 --abi arm64-v8a
+        - /usr/local/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-23;google_apis;armeabi-v7a"
         - emulator -avd test -no-audio -no-window &
         - android-wait-for-emulator || android-wait-for-emulator
       script:
