@@ -35,9 +35,9 @@ namespace double_
    struct exponent : seq< plus_minus, plus< digit > > {};
 
    struct decimal : seq< number< digit >, opt< e, exponent > > {};
-   struct binary : seq< one< '0' >, one< 'x', 'X' >, number< xdigit >, opt< p, exponent > > {};
+   struct hexadecimal : seq< one< '0' >, one< 'x', 'X' >, number< xdigit >, opt< p, exponent > > {};
 
-   struct grammar : seq< plus_minus, sor< decimal, binary, inf, nan > > {};
+   struct grammar : seq< plus_minus, sor< hexadecimal, decimal, inf, nan > > {};
    // clang-format on
 
 }  // double_
