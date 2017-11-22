@@ -4,6 +4,7 @@
 
 **Not yet released**
 
+* Fixed missing call to the [control class'](Control-and-Debug.md#control-functions) `failure()`-method when a rule with an `apply()`-method with a boolean return type fails.
 * Fixed string handling in [`examples/abnf2pegtl.cc`](Contrib-and-Examples.md#srcexamplepegtlabnf2pegtlcpp).
 * Simplified/improved Android build.
 
