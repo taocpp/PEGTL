@@ -27,13 +27,15 @@ namespace example
    struct open_bracket : seq< one< '(' >, star< space > > {};
    struct close_bracket : seq< star< space >, one< ')' > > {};
 
-   struct expression;
-   struct bracketed : if_must< open_bracket, expression, close_bracket > {};
+   struct expression_outer;
+   struct bracketed : if_must< open_bracket, expression_outer, close_bracket > {};
    struct value : sor< integer, variable, bracketed >{};
    struct product : list_must< value, sor< multiply, divide > > {};
-   struct expression : list_must< product, sor< plus, minus > > {};
+   struct product_outer : seq< product > {};
+   struct expression : list_must< product_outer, sor< plus, minus > > {};
+   struct expression_outer : seq< expression > {};
 
-   struct grammar : must< expression, eof > {};
+   struct grammar : must< expression_outer, eof > {};
 
    // select which rules in the grammar will produce parse tree nodes:
    template< typename > struct store_simple : std::false_type {};
@@ -60,7 +62,7 @@ namespace example
    };
 
    template<>
-   struct action< product >
+   struct action< product_outer >
    {
       // recursively rearrange nodes. the basic principle is:
       //
@@ -76,7 +78,10 @@ namespace example
       //
       // if only one child is left for LHS..., replace the PROD/EXPR with the child directly.
       // otherwise, perform the above transformation, than apply it recursively until LHS...
-      // becomes a single child, which than repaces the parent node and the recursion ends.
+      // becomes a single child, which than replaces the parent node and the recursion ends.
+      //
+      // additionally, notice how we use product vs product_outer to make sure the below
+      // apply()-method for product_outer is called *after* the success()-method for product.
       static void rearrange( std::unique_ptr< parse_tree::node >& n )
       {
          auto& c = n->children;
@@ -103,8 +108,8 @@ namespace example
    };
 
    template<>
-   struct action< expression >
-      : action< product >
+   struct action< expression_outer >
+      : action< product_outer >
    {
    };
 
