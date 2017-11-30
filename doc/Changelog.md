@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.2.3
+
+**Not yet released**
+
+* Fix [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp).
+
 ## 2.2.2
 
 Released 2017-11-22
