@@ -81,7 +81,7 @@ namespace example
       // becomes a single child, which than replaces the parent node and the recursion ends.
       //
       // additionally, notice how we use product vs product_outer to make sure the below
-      // apply()-method for product_outer is called *after* the success()-method for product.
+      // apply0()-method for product_outer is called *after* the success()-method for product.
       static void rearrange( std::unique_ptr< parse_tree::node >& n )
       {
          auto& c = n->children;
@@ -100,8 +100,7 @@ namespace example
          }
       }
 
-      template< typename Input >
-      static void apply( const Input& /*unused*/, parse_tree::state& s )
+      static void apply0( parse_tree::state& s )
       {
          rearrange( s.back()->children.back() );
       }
