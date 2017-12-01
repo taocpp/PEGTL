@@ -1,10 +1,10 @@
 # Changelog
 
-## 2.2.3
+## 2.3.0
 
 **Not yet released**
 
-* Fix [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp).
+* Simplify and improve [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp).
 
 ## 2.2.2
 

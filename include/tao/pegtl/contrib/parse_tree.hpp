@@ -65,6 +65,23 @@ namespace tao
 
       namespace internal
       {
+         template< typename T, typename = void >
+         struct transform
+         {
+            static void call( std::unique_ptr< parse_tree::node >& )
+            {
+            }
+         };
+
+         template< typename T >
+         struct transform< T, decltype( T::transform( std::declval< std::unique_ptr< parse_tree::node >& >() ), void() ) >
+         {
+            static void call( std::unique_ptr< parse_tree::node >& n )
+            {
+               T::transform( n );
+            }
+         };
+
          template< template< typename > class S, template< typename > class C >
          struct parse_tree
          {
@@ -106,6 +123,7 @@ namespace tao
                n->id = &typeid( Rule );
                s.pop_back();
                s.back()->children.emplace_back( std::move( n ) );
+               transform< S< Rule > >::call( s.back()->children.back() );
             }
 
             template< typename Input >
@@ -135,6 +153,7 @@ namespace tao
                n->end = in.iterator();
                s.pop_back();
                s.back()->children.emplace_back( std::move( n ) );
+               transform< C< Rule > >::call( s.back()->children.back() );
             }
 
             template< typename Input >

@@ -27,15 +27,13 @@ namespace example
    struct open_bracket : seq< one< '(' >, star< space > > {};
    struct close_bracket : seq< star< space >, one< ')' > > {};
 
-   struct expression_outer;
-   struct bracketed : if_must< open_bracket, expression_outer, close_bracket > {};
+   struct expression;
+   struct bracketed : if_must< open_bracket, expression, close_bracket > {};
    struct value : sor< integer, variable, bracketed >{};
    struct product : list_must< value, sor< multiply, divide > > {};
-   struct product_outer : seq< product > {};
-   struct expression : list_must< product_outer, sor< plus, minus > > {};
-   struct expression_outer : seq< expression > {};
+   struct expression : list_must< product, sor< plus, minus > > {};
 
-   struct grammar : must< expression_outer, eof > {};
+   struct grammar : must< expression, eof > {};
 
    // select which rules in the grammar will produce parse tree nodes:
    template< typename > struct store_simple : std::false_type {};
@@ -49,20 +47,10 @@ namespace example
    template<> struct store_simple< multiply > : std::true_type {};
    template<> struct store_simple< divide > : std::true_type {};
 
-   template<> struct store_simple< product > : std::true_type {};
-   template<> struct store_simple< expression > : std::true_type {};
-
    // clang-format on
 
-   // use actions to transform the parse tree:
-   template< typename Rule >
-   struct action
-      : nothing< Rule >
-   {
-   };
-
-   template<>
-   struct action< product_outer >
+   // after a node is stored successfully, you can add an optional transformer like this:
+   struct rearrange : std::true_type
    {
       // recursively rearrange nodes. the basic principle is:
       //
@@ -79,10 +67,7 @@ namespace example
       // if only one child is left for LHS..., replace the PROD/EXPR with the child directly.
       // otherwise, perform the above transformation, than apply it recursively until LHS...
       // becomes a single child, which than replaces the parent node and the recursion ends.
-      //
-      // additionally, notice how we use product vs product_outer to make sure the below
-      // apply0()-method for product_outer is called *after* the success()-method for product.
-      static void rearrange( std::unique_ptr< parse_tree::node >& n )
+      static void transform( std::unique_ptr< parse_tree::node >& n )
       {
          auto& c = n->children;
          if( c.size() == 1 ) {
@@ -96,19 +81,22 @@ namespace example
             o->children.emplace_back( std::move( n ) );
             o->children.emplace_back( std::move( r ) );
             n = std::move( o );
-            rearrange( n->children.front() );
+            transform( n->children.front() );
          }
-      }
-
-      static void apply0( parse_tree::state& s )
-      {
-         rearrange( s.back()->children.back() );
       }
    };
 
+   // use the transformer from above.
    template<>
-   struct action< expression_outer >
-      : action< product_outer >
+   struct store_simple< product > : rearrange
+   {
+   };
+
+   // use the transformer from above.
+   // if a transformer is only used once,
+   // there is no need for an intermediate class.
+   template<>
+   struct store_simple< expression > : rearrange
    {
    };
 
@@ -141,7 +129,7 @@ int main( int argc, char** argv )
       argv_input<> in( argv, i );
 
       parse_tree::state s;
-      parse< example::grammar, example::action, parse_tree::make_builder< example::store_simple, example::store_content >::type >( in, s );
+      parse< example::grammar, nothing, parse_tree::make_builder< example::store_simple, example::store_content >::type >( in, s );
       example::print_node( s.root() );
    }
    return 0;
