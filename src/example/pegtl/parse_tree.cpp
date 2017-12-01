@@ -57,8 +57,8 @@ namespace example
       // recursively rearrange nodes. the basic principle is:
       //
       // from:          PROD/EXPR
-      //                /   |   \          (LHS... may be one or more children, followed by:)
-      //             LHS... OP   RHS       (OP is one operator, RHS is a single child)
+      //                /   |   \          (LHS... may be one or more children, followed by OP,)
+      //             LHS... OP   RHS       (which is one operator, and RHS, which is a single child)
       //
       // to:               OP
       //                  /  \             (OP now has two children, the original PROD/EXPR and RHS)
@@ -67,8 +67,8 @@ namespace example
       //            LHS...
       //
       // if only one child is left for LHS..., replace the PROD/EXPR with the child directly.
-      // otherwise, perform the above transformation, than apply it recursively until LHS...
-      // becomes a single child, which than replaces the parent node and the recursion ends.
+      // otherwise, perform the above transformation, then apply it recursively until LHS...
+      // becomes a single child, which then replaces the parent node and the recursion ends.
       static void transform( std::unique_ptr< parse_tree::node >& n )
       {
          auto& c = n->children;
