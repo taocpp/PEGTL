@@ -13,9 +13,9 @@ using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 
 namespace example
 {
-   // clang-format off
-
    // the grammar
+
+   // clang-format off
    struct integer : plus< digit > {};
    struct variable : identifier {};
 
@@ -34,8 +34,11 @@ namespace example
    struct expression : list_must< product, sor< plus, minus > > {};
 
    struct grammar : must< expression, eof > {};
+   // clang-format on
 
    // select which rules in the grammar will produce parse tree nodes:
+
+   // clang-format off
    template< typename > struct store_simple : std::false_type {};
    template< typename > struct store_content : std::false_type {};
 
@@ -46,7 +49,6 @@ namespace example
    template<> struct store_simple< minus > : std::true_type {};
    template<> struct store_simple< multiply > : std::true_type {};
    template<> struct store_simple< divide > : std::true_type {};
-
    // clang-format on
 
    // after a node is stored successfully, you can add an optional transformer like this:
@@ -87,18 +89,13 @@ namespace example
    };
 
    // use the transformer from above.
-   template<>
-   struct store_simple< product > : rearrange
-   {
-   };
-
-   // use the transformer from above.
    // if a transformer is only used once,
    // there is no need for an intermediate class.
-   template<>
-   struct store_simple< expression > : rearrange
-   {
-   };
+
+   // clang-format off
+   template<> struct store_simple< product > : rearrange {};
+   template<> struct store_simple< expression > : rearrange {};
+   // clang-format on
 
    void print_node( const parse_tree::node& n, const std::string& s = "" )
    {
