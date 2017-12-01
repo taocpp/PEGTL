@@ -177,12 +177,6 @@ namespace tao
 
       namespace parse_tree
       {
-         template< typename Rule >
-         struct builder
-            : internal::parse_tree< internal::default_store_simple, internal::default_store_content >::builder< Rule >
-         {
-         };
-
          template< template< typename > class S, template< typename > class C >
          struct make_builder
          {
@@ -192,6 +186,14 @@ namespace tao
             {
             };
          };
+
+         template< typename Grammar, template< typename > class S, template< typename > class C, typename Input >
+         state parse( Input& in )
+         {
+            state s;
+            TAOCPP_PEGTL_NAMESPACE::parse< Grammar, nothing, make_builder< S, C >::template type >( in, s );
+            return s;
+         }
 
       }  // namespace parse_tree
 

@@ -97,6 +97,8 @@ namespace example
    template<> struct store_simple< expression > : rearrange {};
    // clang-format on
 
+   // debugging/show result:
+
    void print_node( const parse_tree::node& n, const std::string& s = "" )
    {
       if( n.id != nullptr ) {
@@ -124,10 +126,8 @@ int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
       argv_input<> in( argv, i );
-
-      parse_tree::state s;
-      parse< example::grammar, nothing, parse_tree::make_builder< example::store_simple, example::store_content >::type >( in, s );
-      example::print_node( s.root() );
+      const auto result = parse_tree::parse< example::grammar, example::store_simple, example::store_content >( in );
+      example::print_node( result.root() );
    }
    return 0;
 }
