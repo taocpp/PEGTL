@@ -11,10 +11,14 @@
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 
+#include "../internal/bytes.hpp"
+#include "../internal/eof.hpp"
 #include "../internal/must.hpp"
+#include "../internal/not_at.hpp"
+#include "../internal/rule_conjunction.hpp"
 #include "../internal/seq.hpp"
 #include "../internal/skip_control.hpp"
-#include "../internal/until.hpp"
+#include "../internal/star.hpp"
 
 #include "../analysis/generic.hpp"
 
@@ -96,6 +100,64 @@ namespace tao
          {
          };
 
+         template< typename Cond, typename... Rules >
+         struct raw_string_until;
+
+         template< typename Cond >
+         struct raw_string_until< Cond >
+         {
+            using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
+
+            template< apply_mode A,
+                      rewind_mode M,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
+            static bool match( Input& in, const std::size_t& marker_size, States&&... )
+            {
+               auto m = in.template mark< M >();
+
+               while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, marker_size ) ) {
+                  if( in.empty() ) {
+                     return false;
+                  }
+                  in.bump();
+               }
+               return m( true );
+            }
+         };
+
+         template< typename Cond, typename... Rules >
+         struct raw_string_until
+         {
+            using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, Rules... >, Cond >;
+
+            template< apply_mode A,
+                      rewind_mode M,
+                      template< typename... > class Action,
+                      template< typename... > class Control,
+                      typename Input,
+                      typename... States >
+            static bool match( Input& in, const std::size_t& marker_size, States&&... st )
+            {
+               auto m = in.template mark< M >();
+               using m_t = decltype( m );
+
+               while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, marker_size ) ) {
+                  if( in.empty() || ( !rule_conjunction< Rules... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) ) {
+                     return false;
+                  }
+               }
+               return m( true );
+            }
+         };
+
+         template< typename Cond, typename... Rules >
+         struct skip_control< raw_string_until< Cond, Rules... > > : std::true_type
+         {
+         };
+
       }  // namespace internal
 
       // raw_string matches Lua-style long literals.
@@ -131,7 +193,7 @@ namespace tao
          // This is used for binding the apply()-method and for error-reporting
          // when a raw string is not closed properly or has invalid content.
          struct content
-            : internal::until< internal::at_raw_string_close< Marker, Close >, Contents... >
+            : internal::raw_string_until< internal::at_raw_string_close< Marker, Close >, Contents... >
          {
          };
 
@@ -143,13 +205,12 @@ namespace tao
                    typename... States >
          static bool match( Input& in, States&&... st )
          {
-            using open = internal::raw_string_open< Open, Marker >;
-            using raw_string_grammar = internal::seq< open, internal::must< content > >;
-
             std::size_t marker_size;
-            if( Control< raw_string_grammar >::template match< A, M, Action, Control >( in, marker_size ) ) {
-               in.bump_in_this_line( marker_size );
-               return true;
+            if( Control< internal::raw_string_open< Open, Marker > >::template match< A, M, Action, Control >( in, marker_size ) ) {
+               if( Control< internal::must< content > >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
+                  in.bump_in_this_line( marker_size );
+                  return true;
+               }
             }
             return false;
          }
