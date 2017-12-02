@@ -6,10 +6,10 @@
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
-#include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
 #include "../internal/must.hpp"
+#include "../internal/seq.hpp"
 #include "../internal/skip_control.hpp"
 #include "../internal/until.hpp"
 
