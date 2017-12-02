@@ -12,7 +12,6 @@
 #include "../internal/iterator.hpp"
 #include "../internal/must.hpp"
 #include "../internal/skip_control.hpp"
-#include "../internal/state.hpp"
 #include "../internal/until.hpp"
 
 #include "../analysis/generic.hpp"
@@ -23,53 +22,6 @@ namespace tao
    {
       namespace internal
       {
-         template< char Open, char Marker, char Close, typename... Contents >
-         struct raw_string_tag;
-
-         template< bool use_apply_void, bool use_apply0_void, typename Tag >
-         struct raw_string_state_apply;
-
-         template< typename Tag >
-         struct raw_string_state_apply< false, false, Tag >
-         {
-            template< template< typename... > class,
-                      template< typename... > class,
-                      typename State,
-                      typename Input,
-                      typename... States >
-            static void success( const State&, const Input&, States&&... )
-            {
-            }
-         };
-
-         template< typename Tag >
-         struct raw_string_state_apply< true, false, Tag >
-         {
-            template< template< typename... > class Action,
-                      template< typename... > class Control,
-                      typename State,
-                      typename Input,
-                      typename... States >
-            static void success( const State& s, const Input& in, States&&... st )
-            {
-               Control< Tag >::template apply< Action >( s.iter, in, st... );
-            }
-         };
-
-         template< typename Tag >
-         struct raw_string_state_apply< false, true, Tag >
-         {
-            template< template< typename... > class Action,
-                      template< typename... > class Control,
-                      typename State,
-                      typename Input,
-                      typename... States >
-            static void success( const State&, const Input& in, States&&... st )
-            {
-               Control< Tag >::template apply0< Action >( in, st... );
-            }
-         };
-
          template< typename Tag, typename Iterator >
          struct raw_string_state
          {
@@ -86,15 +38,6 @@ namespace tao
                       typename... States >
             void success( Input& in, States&&... st ) const
             {
-               constexpr char use_action = ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Tag >::value );
-               constexpr char use_apply_void = use_action && internal::has_apply< Action< Tag >, void, typename Input::action_t, States... >::value;
-               constexpr char use_apply_bool = use_action && internal::has_apply< Action< Tag >, bool, typename Input::action_t, States... >::value;
-               constexpr char use_apply0_void = use_action && internal::has_apply0< Action< Tag >, void, States... >::value;
-               constexpr char use_apply0_bool = use_action && internal::has_apply0< Action< Tag >, bool, States... >::value;
-               static_assert( use_apply_void + use_apply_bool + use_apply0_void + use_apply0_bool < 2, "more than one apply or apply0 defined" );
-               static_assert( !use_action || use_apply_bool || use_apply_void || use_apply0_bool || use_apply0_void, "actions not disabled but no apply or apply0 found" );
-               static_assert( use_apply_bool + use_apply0_bool == 0, "actions with bool result not supported in raw_string" );
-               raw_string_state_apply< use_apply_void, use_apply0_void, Tag >::template success< Action, Control >( *this, in, st... );
                in.bump_in_this_line( marker_size );
             }
 
@@ -210,16 +153,15 @@ namespace tao
       template< char Open, char Marker, char Close, typename... Contents >
       struct raw_string
       {
-         // This is used as a tag to bind an action to the content.
-         using content = internal::raw_string_tag< Open, Marker, Close, Contents... >;
-
          // This is used internally.
          using open = internal::raw_string_open< Open, Marker >;
 
-         // This is used for error-reporting when a raw string is not closed properly.
-         using close = internal::until< internal::at_raw_string_close< Marker, Close >, Contents... >;
+         // This is used for binding the apply()-method and for error-reporting when a raw string is not closed properly.
+         struct content : internal::until< internal::at_raw_string_close< Marker, Close >, Contents... >
+         {
+         };
 
-         using analyze_t = analysis::generic< analysis::rule_type::SEQ, open, internal::must< close > >;
+         using analyze_t = analysis::generic< analysis::rule_type::SEQ, open, internal::must< content > >;
 
          template< apply_mode A,
                    rewind_mode M,
@@ -232,7 +174,7 @@ namespace tao
             using Iterator = typename Input::iterator_t;
             internal::raw_string_state< content, Iterator > s( const_cast< const Input& >( in ), st... );
 
-            if( Control< internal::seq< open, internal::must< close > > >::template match< A, M, Action, Control >( in, s ) ) {
+            if( Control< internal::seq< open, internal::must< content > > >::template match< A, M, Action, Control >( in, s ) ) {
                s.template success< A, M, Action, Control >( in, st... );
                return true;
             }

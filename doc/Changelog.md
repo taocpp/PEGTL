@@ -4,7 +4,8 @@
 
 **Not yet released**
 
-* Simplify and improve [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp).
+* Fixed, simplified and improved [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp).
+* Simplified implementation of [`raw_string`](Contrib-and-Examples.md#taopegtlcontribraw_stringhpp).
 
 ## 2.2.2
 
