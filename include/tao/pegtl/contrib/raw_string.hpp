@@ -9,7 +9,6 @@
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../internal/iterator.hpp"
 #include "../internal/must.hpp"
 #include "../internal/skip_control.hpp"
 #include "../internal/until.hpp"
@@ -22,7 +21,6 @@ namespace tao
    {
       namespace internal
       {
-         template< typename Tag, typename Iterator >
          struct raw_string_state
          {
             template< typename Input, typename... States >
@@ -36,7 +34,7 @@ namespace tao
                       template< typename... > class Control,
                       typename Input,
                       typename... States >
-            void success( Input& in, States&&... st ) const
+            void success( Input& in, States&&... ) const
             {
                in.bump_in_this_line( marker_size );
             }
@@ -44,7 +42,6 @@ namespace tao
             raw_string_state( const raw_string_state& ) = delete;
             void operator=( const raw_string_state& ) = delete;
 
-            Iterator iter;
             std::size_t marker_size = 0;
          };
 
@@ -70,7 +67,6 @@ namespace tao
                         ls.marker_size = i + 1;
                         in.bump( ls.marker_size );
                         eol::match( in );
-                        ls.iter = in.iterator();
                         return true;
                      case Marker:
                         break;
@@ -171,8 +167,7 @@ namespace tao
                    typename... States >
          static bool match( Input& in, States&&... st )
          {
-            using Iterator = typename Input::iterator_t;
-            internal::raw_string_state< content, Iterator > s( const_cast< const Input& >( in ), st... );
+            internal::raw_string_state s( const_cast< const Input& >( in ), st... );
 
             if( Control< internal::seq< open, internal::must< content > > >::template match< A, M, Action, Control >( in, s ) ) {
                s.template success< A, M, Action, Control >( in, st... );
