@@ -24,30 +24,6 @@ namespace tao
    {
       namespace internal
       {
-         struct raw_string_state
-         {
-            template< typename Input, typename... States >
-            raw_string_state( const Input&, States&&... )
-            {
-            }
-
-            template< apply_mode A,
-                      rewind_mode,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
-                      typename Input,
-                      typename... States >
-            void success( Input& in, States&&... ) const
-            {
-               in.bump_in_this_line( marker_size );
-            }
-
-            raw_string_state( const raw_string_state& ) = delete;
-            void operator=( const raw_string_state& ) = delete;
-
-            std::size_t marker_size = 0;
-         };
-
          template< char Open, char Marker >
          struct raw_string_open
          {
@@ -57,9 +33,8 @@ namespace tao
                       rewind_mode,
                       template< typename... > class Action,
                       template< typename... > class Control,
-                      typename Input,
-                      typename State >
-            static bool match( Input& in, State& ls )
+                      typename Input >
+            static bool match( Input& in, std::size_t& marker_size )
             {
                if( in.empty() || ( in.peek_char( 0 ) != Open ) ) {
                   return false;
@@ -67,8 +42,8 @@ namespace tao
                for( std::size_t i = 1; i < in.size( i + 1 ); ++i ) {
                   switch( const auto c = in.peek_char( i ) ) {
                      case Open:
-                        ls.marker_size = i + 1;
-                        in.bump( ls.marker_size );
+                        marker_size = i + 1;
+                        in.bump( marker_size );
                         eol::match( in );
                         return true;
                      case Marker:
@@ -95,20 +70,19 @@ namespace tao
                       rewind_mode,
                       template< typename... > class Action,
                       template< typename... > class Control,
-                      typename Input,
-                      typename State >
-            static bool match( Input& in, const State& ls )
+                      typename Input >
+            static bool match( Input& in, const std::size_t& marker_size )
             {
-               if( in.size( ls.marker_size ) < ls.marker_size ) {
+               if( in.size( marker_size ) < marker_size ) {
                   return false;
                }
                if( in.peek_char( 0 ) != Close ) {
                   return false;
                }
-               if( in.peek_char( ls.marker_size - 1 ) != Close ) {
+               if( in.peek_char( marker_size - 1 ) != Close ) {
                   return false;
                }
-               for( std::size_t i = 0; i < ls.marker_size - 2; ++i ) {
+               for( std::size_t i = 0; i < ( marker_size - 2 ); ++i ) {
                   if( in.peek_char( i + 1 ) != Marker ) {
                      return false;
                   }
@@ -172,9 +146,9 @@ namespace tao
             using open = internal::raw_string_open< Open, Marker >;
             using raw_string_grammar = internal::seq< open, internal::must< content > >;
 
-            internal::raw_string_state s( const_cast< const Input& >( in ), st... );
-            if( Control< raw_string_grammar >::template match< A, M, Action, Control >( in, s ) ) {
-               s.template success< A, M, Action, Control >( in, st... );
+            std::size_t marker_size;
+            if( Control< raw_string_grammar >::template match< A, M, Action, Control >( in, marker_size ) ) {
+               in.bump_in_this_line( marker_size );
                return true;
             }
             return false;
