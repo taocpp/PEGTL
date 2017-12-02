@@ -4,6 +4,9 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_RAW_STRING_HPP
 #define TAOCPP_PEGTL_INCLUDE_CONTRIB_RAW_STRING_HPP
 
+#include <cstddef>
+#include <type_traits>
+
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
@@ -149,15 +152,14 @@ namespace tao
       template< char Open, char Marker, char Close, typename... Contents >
       struct raw_string
       {
-         // This is used internally.
-         using open = internal::raw_string_open< Open, Marker >;
+         using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-         // This is used for binding the apply()-method and for error-reporting when a raw string is not closed properly.
-         struct content : internal::until< internal::at_raw_string_close< Marker, Close >, Contents... >
+         // This is used for binding the apply()-method and for error-reporting
+         // when a raw string is not closed properly or has invalid content.
+         struct content
+            : internal::until< internal::at_raw_string_close< Marker, Close >, Contents... >
          {
          };
-
-         using analyze_t = analysis::generic< analysis::rule_type::SEQ, open, internal::must< content > >;
 
          template< apply_mode A,
                    rewind_mode M,
@@ -167,9 +169,11 @@ namespace tao
                    typename... States >
          static bool match( Input& in, States&&... st )
          {
-            internal::raw_string_state s( const_cast< const Input& >( in ), st... );
+            using open = internal::raw_string_open< Open, Marker >;
+            using raw_string_grammar = internal::seq< open, internal::must< content > >;
 
-            if( Control< internal::seq< open, internal::must< content > > >::template match< A, M, Action, Control >( in, s ) ) {
+            internal::raw_string_state s( const_cast< const Input& >( in ), st... );
+            if( Control< raw_string_grammar >::template match< A, M, Action, Control >( in, s ) ) {
                s.template success< A, M, Action, Control >( in, st... );
                return true;
             }
