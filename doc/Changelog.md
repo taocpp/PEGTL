@@ -2,7 +2,7 @@
 
 ## 2.2.3
 
-Released 2017-12-04
+**Not yet released**
 
 * Fixed, simplified and improved [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp).
 * Simplified implementation of [`raw_string`](Contrib-and-Examples.md#taopegtlcontribraw_stringhpp), the optional `Contents...` rules' `apply()`/`apply0` methods are now called with the original states.
