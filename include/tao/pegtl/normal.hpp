@@ -64,7 +64,7 @@ namespace tao
                    typename... States >
          static bool match( Input& in, States&&... st )
          {
-            return internal::match< Rule, A, M, Action, Control >( in, st... );
+            return internal::dusel< Rule >::template match< A, M, Action, Control >( in, st... );
          }
       };
 
