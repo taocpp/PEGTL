@@ -72,35 +72,35 @@ namespace tao
          }
 
          template< template< typename... > class Action, typename Input, typename... States >
-         static void apply0( const Input&, States&&... st )
+         static auto apply0( const Input&, States&&... st ) -> decltype( Action< Rule >::apply0( st... ) )
          {
             std::cerr << "apply0 " << internal::demangle< Action< Rule > >() << std::endl;
-            Action< Rule >::apply0( st... );
+            return Action< Rule >::apply0( st... );
          }
 
          template< template< typename... > class Action, typename Input >
-         static void apply0( const Input&, trace_state& ts )
+         static auto apply0( const Input&, trace_state& ts ) -> decltype( Action< Rule >::apply0( ts ) )
          {
             std::cerr << std::setw( 6 ) << ++ts.line << "        " << internal::demangle< Action< Rule > >() << "::apply0()" << std::endl;
-            Action< Rule >::apply0( ts );
+            return Action< Rule >::apply0( ts );
          }
 
          template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
-         static void apply( const Iterator& begin, const Input& in, States&&... st )
+         static auto apply( const Iterator& begin, const Input& in, States&&... st ) -> decltype( Action< Rule >::apply( std::declval< typename Input::action_t >(), st... ) )
          {
             std::cerr << "apply " << internal::demangle< Action< Rule > >() << std::endl;
             using action_t = typename Input::action_t;
             const action_t action_input( begin, in );
-            Action< Rule >::apply( action_input, st... );
+            return Action< Rule >::apply( action_input, st... );
          }
 
          template< template< typename... > class Action, typename Iterator, typename Input >
-         static void apply( const Iterator& begin, const Input& in, trace_state& ts )
+         static auto apply( const Iterator& begin, const Input& in, trace_state& ts ) -> decltype( Action< Rule >::apply( std::declval< typename Input::action_t >(), ts ) )
          {
             std::cerr << std::setw( 6 ) << ++ts.line << "        " << internal::demangle< Action< Rule > >() << "::apply()" << std::endl;
             using action_t = typename Input::action_t;
             const action_t action_input( begin, in );
-            Action< Rule >::apply( action_input, ts );
+            return Action< Rule >::apply( action_input, ts );
          }
       };
 
