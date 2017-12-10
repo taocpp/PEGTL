@@ -34,6 +34,37 @@ namespace tao
             }
          };
 
+         struct action2_a
+         {
+            template< typename Input >
+            static void apply( const Input& in, bool& state_b )
+            {
+               TAOCPP_PEGTL_TEST_ASSERT( in.string() == "foo" );
+               TAOCPP_PEGTL_TEST_ASSERT( !state_b );
+            }
+         };
+
+         struct action2_b
+         {
+            template< typename Input >
+            static bool apply( const Input& in, bool& state_b )
+            {
+               TAOCPP_PEGTL_TEST_ASSERT( in.string() == "foo" );
+               TAOCPP_PEGTL_TEST_ASSERT( !state_b );
+               state_b = true;
+               return false;
+            }
+         };
+
+         struct action2_c
+         {
+            template< typename Input >
+            static void apply( const Input& /*unused*/, bool& /*unused*/ )
+            {
+               TAOCPP_PEGTL_TEST_ASSERT( false );
+            }
+         };
+
          template< typename Rule >
          struct action : nothing< Rule >
          {
@@ -73,6 +104,11 @@ namespace tao
          TAOCPP_PEGTL_TEST_ASSERT( test1::flag == 1 );
          TAOCPP_PEGTL_TEST_ASSERT( state_r == "-" );
          TAOCPP_PEGTL_TEST_ASSERT( state_s == "-*-" );
+
+         bool state_b = false;
+         const bool result = parse< if_apply< star< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input<>( "foo bar", __FUNCTION__ ), state_b );
+         TAOCPP_PEGTL_TEST_ASSERT( !result );
+         TAOCPP_PEGTL_TEST_ASSERT( state_b );
 
          verify_seqs< if_apply_seq >();
          verify_seqs< if_apply_disable >();
