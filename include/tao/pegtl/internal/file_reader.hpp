@@ -18,19 +18,19 @@ namespace tao
    {
       namespace internal
       {
-         std::FILE* file_open( const char* source )
+         std::FILE* file_open( const char* filename )
          {
             errno = 0;
 #if defined( _MSC_VER )
             std::FILE* file;
-            if(::fopen_s( &file, source, "rb" ) == 0 )
+            if(::fopen_s( &file, filename, "rb" ) == 0 )
 #else
-            if( auto* file = std::fopen( source, "rb" ) )
+            if( auto* file = std::fopen( filename, "rb" ) )
 #endif
             {
                return file;
             }
-            TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to fopen() file " << source << " for reading" );
+            TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to fopen() file " << filename << " for reading" );
          }
 
          struct file_close
