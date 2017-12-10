@@ -63,7 +63,7 @@ namespace tao
                using action_t = typename Input::action_t;
                const action_t i2( in.iterator(), in );  // No data -- range is from begin to begin.
 #ifdef __cpp_fold_expressions
-               return ( apply_impl< Actions, decltype( Actions::apply( i2, st... ) ) >::match( i2, st... ) && ... );
+               return ( apply_single< Actions, decltype( Actions::apply( i2, st... ) ) >::match( i2, st... ) && ... );
 #else
                bool result = true;
                using swallow = bool[];
