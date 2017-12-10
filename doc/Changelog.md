@@ -4,7 +4,8 @@
 
 **Not yet released**
 
-* Enhance [`apply`](Rule-Reference.md#apply-a-), [`apply0`](Rule-Reference.md#apply0-a-) and [`if_apply`](Rule-Reference.md#if_apply-r-a-) to support `apply()`/`apply0`-methods returning boolean values.
+* Added constructor to `read_input<>` that accepts a `FILE*`, see issue [#78](https://github.com/taocpp/PEGTL/issues/78).
+* Enhanced [`apply`](Rule-Reference.md#apply-a-), [`apply0`](Rule-Reference.md#apply0-a-) and [`if_apply`](Rule-Reference.md#if_apply-r-a-) to support `apply()`/`apply0`-methods returning boolean values.
 * Simplified implementation of [`raw_string`](Contrib-and-Examples.md#taopegtlcontribraw_stringhpp), the optional `Contents...` rules' `apply()`/`apply0`-methods are now called with the original states.
 * Fixed the tracer to work with `apply()`/`apply0()`-methods returning boolean values. (Thanks Joel Frederico)
 * Fixed, simplified and improved [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp).
