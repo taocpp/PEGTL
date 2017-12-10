@@ -277,22 +277,25 @@ These rules are in namespace `tao::pegtl`.
 
 These rules replicate the intrusive way actions were called from within the grammar in the PEGTL 0.x with the `apply<>` and `if_apply<>` rules.
 The actions for these rules are classes (rather than class templates as required for the `parse()`-functions and `action<>`-rule).
-These rules respect the current `apply_mode`, but neither use the control-class to invoke the actions, nor support actions that return `bool`.
+These rules respect the current `apply_mode`, but don't use the control-class to invoke the actions.
 
 ###### `apply< A... >`
 
-* Equivalent to `success` wrt. parsing, but also:
 * Calls `A::apply()` for all `A`, in order, with an empty input and all states as arguments.
+* If any `A::apply()` has a boolean return type and returns `false`, no further `A::apply()` calls are made and the result is equivalent to `failure`, otherwise:
+* Equivalent to `success` wrt. parsing.
 
 ###### `apply0< A... >`
 
-* Equivalent to `success` wrt. parsing, but also:
 * Calls `A::apply0()` for all `A`, in order, with all states as arguments.
+* If any `A::apply0()` has a boolean return type and returns `false`, no further `A::apply0()` calls are made and the result is equivalent to `failure`, otherwise:
+* Equivalent to `success` wrt. parsing.
 
 ###### `if_apply< R, A... >`
 
-* Equivalent to `R` wrt. parsing, but also:
+* Equivalent to `seq< R, apply< A... > >` wrt. parsing, but also:
 * If `R` matches, calls `A::apply()`, for all `A`, in order, with the input matched by `R` and all states as arguments.
+* If any `A::apply()` has a boolean return type and returns `false`, no further `A::apply()` calls are made.
 
 ## Atomic Rules
 

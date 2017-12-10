@@ -21,11 +21,12 @@ namespace tao
 
          struct action_b
          {
-            static void apply0( int& r, int& s )
+            static bool apply0( int& r, int& s )
             {
                TAOCPP_PEGTL_TEST_ASSERT( !s );
                TAOCPP_PEGTL_TEST_ASSERT( r == 1 );
                s += 2;
+               return true;
             }
          };
 

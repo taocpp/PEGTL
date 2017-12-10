@@ -1,12 +1,13 @@
 # Changelog
 
-## 2.2.3
+## 2.3.0
 
 **Not yet released**
 
+* Enhance [`apply`](Rule-Reference.md#apply-a-), [`apply0`](Rule-Reference.md#apply0-a-) and [`if_apply`](Rule-Reference.md#if_apply-r-a-) to support `apply()`/`apply0`-methods returning boolean values.
+* Simplified implementation of [`raw_string`](Contrib-and-Examples.md#taopegtlcontribraw_stringhpp), the optional `Contents...` rules' `apply()`/`apply0`-methods are now called with the original states.
+* Fixed the tracer to work with `apply()`/`apply0()`-methods returning boolean values. (Thanks Joel Frederico)
 * Fixed, simplified and improved [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp).
-* Simplified implementation of [`raw_string`](Contrib-and-Examples.md#taopegtlcontribraw_stringhpp), the optional `Contents...` rules' `apply()`/`apply0` methods are now called with the original states.
-* Fixed the tracer to work with `apply()`/`apply0()` returning boolean values. (Thanks Joel Frederico)
 
 ## 2.2.2
 
@@ -27,7 +28,7 @@ Released 2017-11-22
 
 Released 2017-09-24
 
-* Added possibility for actions' `apply()` or `apply0()`-methods to return a `bool` which is then used to determine overall success or failure of the rule to which such an action was attached.
+* Added possibility for actions' `apply()`- or `apply0()`-methods to return a `bool` which is then used to determine overall success or failure of the rule to which such an action was attached.
 * Added [`<tao/pegtl/contrib/parse_tree.hpp>`](Contrib-and-Examples.md#taopegtlcontribparse_treehpp) and the [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp) application that shows how to build a [parse tree](https://en.wikipedia.org/wiki/Parse_tree). The example goes beyond a traditional parse tree and demonstrates how to select which nodes to include in the parse tree and how to transform the nodes into an [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)-like structure.
 * Added `bom` rules for UTF-8, UTF-16 and UTF-32.
 * Added some missing includes for `config.hpp`.

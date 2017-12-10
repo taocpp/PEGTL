@@ -17,8 +17,42 @@ namespace tao
    {
       namespace internal
       {
+         template< typename Action, typename >
+         struct apply0_single;
+
+         template< typename Action >
+         struct apply0_single< Action, void >
+         {
+            template< typename... States >
+            static bool match( States&&... st )
+            {
+               Action::apply0( st... );
+               return true;
+            }
+         };
+
+         template< typename Action >
+         struct apply0_single< Action, bool >
+         {
+            template< typename... States >
+            static bool match( States&&... st )
+            {
+               return Action::apply0( st... );
+            }
+         };
+
          template< apply_mode A, typename... Actions >
          struct apply0_impl;
+
+         template<>
+         struct apply0_impl< apply_mode::ACTION >
+         {
+            template< typename... States >
+            static bool match( States&&... )
+            {
+               return true;
+            }
+         };
 
          template< typename... Actions >
          struct apply0_impl< apply_mode::ACTION, Actions... >
@@ -27,12 +61,13 @@ namespace tao
             static bool match( States&&... st )
             {
 #ifdef __cpp_fold_expressions
-               ( Actions::apply0( st... ), ... );
+               return ( apply0_single< Actions, decltype( Actions::apply0( st... ) ) >::match( st... ) && ... );
 #else
+               bool result = true;
                using swallow = bool[];
-               (void)swallow{ ( Actions::apply0( st... ), true )..., true };
+               (void)swallow{ result = result && apply0_single< Actions, decltype( Actions::apply0( st... ) ) >::match( st... )... };
+               return result;
 #endif
-               return true;
             }
          };
 

@@ -23,11 +23,12 @@ namespace tao
          struct action_b
          {
             template< typename Input >
-            static void apply( const Input& /*unused*/, int& r, int& s )
+            static bool apply( const Input& /*unused*/, int& r, int& s )
             {
                TAOCPP_PEGTL_TEST_ASSERT( !s );
                TAOCPP_PEGTL_TEST_ASSERT( r == 1 );
                s += 2;
+               return true;
             }
          };
 
