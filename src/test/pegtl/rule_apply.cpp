@@ -32,6 +32,35 @@ namespace tao
             }
          };
 
+         struct action2_a
+         {
+            template< typename Input >
+            static void apply( const Input& /*unused*/, bool& state_b )
+            {
+               TAOCPP_PEGTL_TEST_ASSERT( !state_b );
+            }
+         };
+
+         struct action2_b
+         {
+            template< typename Input >
+            static bool apply( const Input& /*unused*/, bool& state_b )
+            {
+               TAOCPP_PEGTL_TEST_ASSERT( !state_b );
+               state_b = true;
+               return false;
+            }
+         };
+
+         struct action2_c
+         {
+            template< typename Input >
+            static void apply( const Input& /*unused*/, bool& /*unused*/ )
+            {
+               TAOCPP_PEGTL_TEST_ASSERT( false );
+            }
+         };
+
       }  // namespace test1
 
       void unit_test()
@@ -44,6 +73,11 @@ namespace tao
          parse< must< disable< apply< test1::action_a, test1::action_b > > > >( memory_input<>( "", __FUNCTION__ ), state_r, state_s );
          TAOCPP_PEGTL_TEST_ASSERT( state_r == 1 );
          TAOCPP_PEGTL_TEST_ASSERT( state_s == 2 );
+
+         bool state_b = false;
+         const bool result = parse< apply< test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input<>( "", __FUNCTION__ ), state_b );
+         TAOCPP_PEGTL_TEST_ASSERT( !result );
+         TAOCPP_PEGTL_TEST_ASSERT( state_b );
 
          verify_analyze< apply<> >( __LINE__, __FILE__, false, false );
 
