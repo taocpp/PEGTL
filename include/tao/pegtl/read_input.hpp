@@ -43,6 +43,13 @@ namespace tao
               string_input< P, Eol, const char* >( internal::file_reader( filename.c_str() ).read(), filename.c_str() )
          {
          }
+
+         template< typename T >
+         read_input( FILE* in_file, T&& in_filename )
+            : internal::filename_holder( std::forward< T >( in_filename ) ),
+              string_input< P, Eol, const char* >( internal::file_reader( in_file, filename.c_str() ).read(), filename.c_str() )
+         {
+         }
       };
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

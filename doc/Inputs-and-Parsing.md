@@ -72,8 +72,10 @@ The classes `file_input<>`, `read_input<>` and, on supported platforms, `mmap_in
 * `mmap_input<>` uses `mmap(2)` and is available on POSIX compliant systems.
 * `file_input<>` is a type alias for `mmap_input<>` when available, and `read_input<>` otherwise.
 
-All file input classes take a single argument, the filename, which can be supplied as `std::string` or `const char*`.
+Most file input classes take a single argument, the filename, which can be supplied as `std::string` or `const char*`.
 They immediately make available the complete contents of the file; `read_input<>` reads the entire file upon construction.
+
+The constructors that take a `FILE*` argument take ownership of the file pointer, i.e. they `fclose()` it in the destructor.
 
 ```c++
 template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
@@ -81,6 +83,9 @@ struct read_input
 {
    explicit read_input( const char* filename );
    explicit read_input( const std::string& filename );
+
+   read_input( FILE* file, const char* filename );
+   read_input( FILE* file, const std::string& filename );
 };
 
 template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >

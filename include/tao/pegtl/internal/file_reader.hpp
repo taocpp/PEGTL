@@ -18,6 +18,21 @@ namespace tao
    {
       namespace internal
       {
+         std::FILE* file_open( const char* source )
+         {
+            errno = 0;
+#if defined( _MSC_VER )
+            std::FILE* file;
+            if(::fopen_s( &file, source, "rb" ) == 0 )
+#else
+            if( auto* file = std::fopen( source, "rb" ) )
+#endif
+            {
+               return file;
+            }
+            TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to fopen() file " << source << " for reading" );
+         }
+
          struct file_close
          {
             void operator()( FILE* f ) const
@@ -31,7 +46,13 @@ namespace tao
          public:
             explicit file_reader( const char* filename )
                : m_source( filename ),
-                 m_file( open() )
+                 m_file( file_open( m_source ) )
+            {
+            }
+
+            file_reader( FILE* file, const char* filename )
+               : m_source( filename ),
+                 m_file( file )
             {
             }
 
@@ -70,21 +91,6 @@ namespace tao
          private:
             const char* const m_source;
             const std::unique_ptr< std::FILE, file_close > m_file;
-
-            std::FILE* open() const
-            {
-               errno = 0;
-#if defined( _MSC_VER )
-               std::FILE* file;
-               if(::fopen_s( &file, m_source, "rb" ) == 0 )
-#else
-               if( auto* file = std::fopen( m_source, "rb" ) )
-#endif
-               {
-                  return file;
-               }
-               TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to fopen() file " << m_source << " for reading" );
-            }
          };
 
       }  // namespace internal
