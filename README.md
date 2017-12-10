@@ -72,7 +72,7 @@ Each commit is automatically tested with multiple architectures, operating syste
   * Mac OS X 10.10, Xcode 6.4
   * Mac OS X 10.11, Xcode 7.3
   * macOS 10.12, Xcode 8.3
-  * macOS 10.12, Xcode 9.1
+  * macOS 10.12, Xcode 9.2
 
 * Linux (using libstdc++)
 
@@ -87,6 +87,7 @@ Each commit is automatically tested with multiple architectures, operating syste
 
 * Android
 
+  * Android 4.4
   * Android 5.1
 
 Additionally, each commit is checked with GCC's and Clang's sanitizers as well as [`valgrind`](http://valgrind.org/).
