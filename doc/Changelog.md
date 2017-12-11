@@ -2,7 +2,7 @@
 
 ## 2.3.0
 
-**Not yet released**
+Released 2017-12-11
 
 * Added constructor to `read_input<>` that accepts a `FILE*`, see issue [#78](https://github.com/taocpp/PEGTL/issues/78).
 * Enhanced [`apply`](Rule-Reference.md#apply-a-), [`apply0`](Rule-Reference.md#apply0-a-) and [`if_apply`](Rule-Reference.md#if_apply-r-a-) to support `apply()`/`apply0`-methods returning boolean values.
