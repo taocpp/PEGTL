@@ -105,10 +105,19 @@ namespace tao
          TAOCPP_PEGTL_TEST_ASSERT( state_r == "-" );
          TAOCPP_PEGTL_TEST_ASSERT( state_s == "-*-" );
 
-         bool state_b = false;
-         const bool result = parse< if_apply< star< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input<>( "foo bar", __FUNCTION__ ), state_b );
-         TAOCPP_PEGTL_TEST_ASSERT( !result );
-         TAOCPP_PEGTL_TEST_ASSERT( state_b );
+         {
+            bool state_b = false;
+            const bool result = parse< if_apply< plus< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input<>( "foo bar", __FUNCTION__ ), state_b );
+            TAOCPP_PEGTL_TEST_ASSERT( !result );
+            TAOCPP_PEGTL_TEST_ASSERT( state_b );
+         }
+
+         {
+            bool state_b = false;
+            const bool result = parse< if_apply< plus< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input<>( "", __FUNCTION__ ), state_b );
+            TAOCPP_PEGTL_TEST_ASSERT( !result );
+            TAOCPP_PEGTL_TEST_ASSERT( !state_b );
+         }
 
          verify_seqs< if_apply_seq >();
          verify_seqs< if_apply_disable >();
