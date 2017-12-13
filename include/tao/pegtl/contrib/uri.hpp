@@ -90,7 +90,8 @@ namespace tao
          struct port : star< DIGIT > {};
          struct host : sor< IP_literal, IPv4address, reg_name > {};
          struct userinfo : star< sor< unreserved, pct_encoded, sub_delims, colon > > {};
-         struct authority : seq< opt< userinfo, one< '@' > >, host, opt< colon, port > > {};
+         struct opt_userinfo : opt< userinfo, one< '@' > > {};
+         struct authority : seq< opt_userinfo, host, opt< colon, port > > {};
 
          struct scheme : seq< ALPHA, star< sor< ALPHA, DIGIT, one< '+', '-', '.' > > > > {};
 
