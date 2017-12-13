@@ -58,16 +58,13 @@ namespace uri
          }
       }
    };
-
-   struct grammar : pegtl::must< pegtl::uri::URI >
-   {
-   };
 }
 
 URI::URI( const std::string& uri )
 {
-   pegtl::memory_input<> input( uri.data(), uri.size(), "uri" );
-   pegtl::parse< uri::grammar, uri::action >( input, *this );
+   using grammar = pegtl::must< pegtl::uri::URI >;
+   pegtl::memory_input<> input( uri, "uri" );
+   pegtl::parse< grammar, uri::action >( input, *this );
 }
 
 int main( int argc, char** argv )
