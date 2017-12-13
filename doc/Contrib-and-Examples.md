@@ -108,7 +108,7 @@ Reads a file with an [ABNF (RFC 5234)](https://tools.ietf.org/html/rfc5234)-styl
 
 ###### `src/example/pegtl/analyze.cpp`
 
-A small example that provokes the [grammar analysis](Grammar-Analisys.md) to find problems.
+A small example that provokes the [grammar analysis](Grammar-Analysis.md) to find problems.
 
 ###### `src/example/pegtl/calculator.cpp`
 
