@@ -36,10 +36,10 @@ namespace tao
          : private internal::string_holder,
            public memory_input< P, Eol, Source >
       {
-         template< typename T, typename... Ts >
-         explicit string_input( T&& in_data, Ts&&... ts )
-            : internal::string_holder( std::forward< T >( in_data ) ),
-              memory_input< P, Eol, Source >( data.data(), data.size(), std::forward< Ts >( ts )... )
+         template< typename V, typename T, typename... Ts >
+         explicit string_input( V&& in_data, T&& in_source, Ts&&... ts )
+            : internal::string_holder( std::forward< V >( in_data ) ),
+              memory_input< P, Eol, Source >( data.data(), data.size(), std::forward< T >( in_source ), std::forward< Ts >( ts )... )
          {
          }
       };
