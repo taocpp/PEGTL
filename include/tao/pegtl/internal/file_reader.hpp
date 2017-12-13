@@ -18,7 +18,7 @@ namespace tao
    {
       namespace internal
       {
-         std::FILE* file_open( const char* filename )
+         inline std::FILE* file_open( const char* filename )
          {
             errno = 0;
 #if defined( _MSC_VER )
