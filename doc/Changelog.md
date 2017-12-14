@@ -2,7 +2,7 @@
 
 ## 2.3.1
 
-**Not yet released**
+Released 2017-12-14
 
 * Fixed linkage of `tao::pegtl::internal::file_open`.
 * Improved error message for missing `source` parameter of `string_input<>`.
