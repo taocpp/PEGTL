@@ -206,8 +206,8 @@ namespace tao
          static bool match( Input& in, States&&... st )
          {
             std::size_t marker_size;
-            if( Control< internal::raw_string_open< Open, Marker > >::template match< A, M, Action, Control >( in, marker_size ) ) {
-               if( Control< internal::must< content > >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
+            if( internal::raw_string_open< Open, Marker >::template match< A, M, Action, Control >( in, marker_size ) ) {
+               if( internal::must< content >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
                   in.bump_in_this_line( marker_size );
                   return true;
                }

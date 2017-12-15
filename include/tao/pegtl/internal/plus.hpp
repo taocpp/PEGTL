@@ -43,7 +43,7 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               return duseltronik< seq< Rule, Rules... >, A, M, Action, Control >::match( in, st... ) && duseltronik< star< Rule, Rules... >, A, M, Action, Control >::match( in, st... );
+               return seq< Rule, Rules... >::template match< A, M, Action, Control >( in, st... ) && star< Rule, Rules... >::template match< A, M, Action, Control >( in, st... );
             }
          };
 
