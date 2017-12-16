@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.3.2
+
+**Not yet released**
+
+* Worked around a Visual Studio 15.5 bug.
+
 ## 2.3.1
 
 Released 2017-12-14
