@@ -2,7 +2,7 @@
 
 ## 2.3.2
 
-**Not yet released**
+Released 2017-12-16
 
 * Worked around a Visual Studio 15.5 bug.
 
