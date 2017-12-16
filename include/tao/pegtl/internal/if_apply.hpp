@@ -6,7 +6,12 @@
 
 #include "../config.hpp"
 
+#include "apply_single.hpp"
 #include "skip_control.hpp"
+
+#include "../analysis/counted.hpp"
+#include "../apply_mode.hpp"
+#include "../rewind_mode.hpp"
 
 namespace tao
 {
@@ -14,30 +19,6 @@ namespace tao
    {
       namespace internal
       {
-         template< typename Action, typename >
-         struct if_apply_single;
-
-         template< typename Action >
-         struct if_apply_single< Action, void >
-         {
-            template< typename Input, typename... States >
-            static bool match( const Input& i2, States&&... st )
-            {
-               Action::apply( i2, st... );
-               return true;
-            }
-         };
-
-         template< typename Action >
-         struct if_apply_single< Action, bool >
-         {
-            template< typename Input, typename... States >
-            static bool match( const Input& i2, States&&... st )
-            {
-               return Action::apply( i2, st... );
-            }
-         };
-
          template< apply_mode A, typename Rule, typename... Actions >
          struct if_apply_impl;
 
@@ -72,11 +53,11 @@ namespace tao
                if( Control< Rule >::template match< apply_mode::ACTION, rewind_mode::ACTIVE, Action, Control >( in, st... ) ) {
                   const action_t i2( m.iterator(), in );
 #ifdef __cpp_fold_expressions
-                  return m( ( if_apply_single< Actions, decltype( Actions::apply( i2, st... ) ) >::match( i2, st... ) && ... ) );
+                  return m( ( apply_single< Actions >::match( i2, st... ) && ... ) );
 #else
                   bool result = true;
                   using swallow = bool[];
-                  (void)swallow{ result = result && if_apply_single< Actions, decltype( Actions::apply( i2, st... ) ) >::match( i2, st... )... };
+                  (void)swallow{ result = result && apply_single< Actions >::match( i2, st... )... };
                   return m( result );
 #endif
                }

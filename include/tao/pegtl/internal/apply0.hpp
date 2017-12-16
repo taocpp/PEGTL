@@ -6,10 +6,12 @@
 
 #include "../config.hpp"
 
+#include "apply0_single.hpp"
 #include "skip_control.hpp"
-#include "trivial.hpp"
 
 #include "../analysis/counted.hpp"
+#include "../apply_mode.hpp"
+#include "../rewind_mode.hpp"
 
 namespace tao
 {
@@ -17,30 +19,6 @@ namespace tao
    {
       namespace internal
       {
-         template< typename Action, typename >
-         struct apply0_single;
-
-         template< typename Action >
-         struct apply0_single< Action, void >
-         {
-            template< typename... States >
-            static bool match( States&&... st )
-            {
-               Action::apply0( st... );
-               return true;
-            }
-         };
-
-         template< typename Action >
-         struct apply0_single< Action, bool >
-         {
-            template< typename... States >
-            static bool match( States&&... st )
-            {
-               return Action::apply0( st... );
-            }
-         };
-
          template< apply_mode A, typename... Actions >
          struct apply0_impl;
 
@@ -61,11 +39,11 @@ namespace tao
             static bool match( States&&... st )
             {
 #ifdef __cpp_fold_expressions
-               return ( apply0_single< Actions, decltype( Actions::apply0( st... ) ) >::match( st... ) && ... );
+               return ( apply0_single< Actions >::match( st... ) && ... );
 #else
                bool result = true;
                using swallow = bool[];
-               (void)swallow{ result = result && apply0_single< Actions, decltype( Actions::apply0( st... ) ) >::match( st... )... };
+               (void)swallow{ result = result && apply0_single< Actions >::match( st... )... };
                return result;
 #endif
             }
