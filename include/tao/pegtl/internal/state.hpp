@@ -32,7 +32,8 @@ namespace tao
                       template< typename... > class Control,
                       typename Input,
                       typename... States >
-            static auto success( State& s, const Input& in, States&&... st ) -> decltype( s.template success< A, M, Action, Control >( in, st... ), void() )
+            static auto success( State& s, const Input& in, States&&... st )
+               -> decltype( s.template success< A, M, Action, Control >( in, st... ), void() )
             {
                s.template success< A, M, Action, Control >( in, st... );
             }
@@ -46,7 +47,8 @@ namespace tao
                       typename Input,
                       typename... States,
                       int = 0 >
-            static auto success( State& s, const Input& in, States&&... st ) -> decltype( s.success( in, st... ), void() )
+            static auto success( State& s, const Input& in, States&&... st )
+               -> decltype( s.success( in, st... ), void() )
             {
                s.success( in, st... );
             }

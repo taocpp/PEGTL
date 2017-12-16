@@ -32,7 +32,8 @@ namespace tao
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::NOTHING >
          {
             template< typename Input, typename... States >
-            static auto match( Input& in, States&&... st ) -> decltype( Rule::template match< A, M, Action, Control >( in, st... ), true )
+            static auto match( Input& in, States&&... st )
+               -> decltype( Rule::template match< A, M, Action, Control >( in, st... ), true )
             {
                return Rule::template match< A, M, Action, Control >( in, st... );
             }
@@ -40,7 +41,8 @@ namespace tao
             // NOTE: The additional "int = 0" is a work-around for missing expression SFINAE in VS2015.
 
             template< typename Input, typename... States, int = 0 >
-            static auto match( Input& in, States&&... ) -> decltype( Rule::match( in ), true )
+            static auto match( Input& in, States&&... )
+               -> decltype( Rule::match( in ), true )
             {
                return Rule::match( in );
             }
