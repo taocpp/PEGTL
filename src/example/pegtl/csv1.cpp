@@ -83,7 +83,7 @@ namespace csv1
       }
    };
 
-}  // csv1
+}  // namespace csv1
 
 int main( int argc, char** argv )
 {

@@ -168,7 +168,7 @@ namespace csv2
       std::cout << std::endl;
    }
 
-}  // csv2
+}  // namespace csv2
 
 int main( int argc, char** argv )
 {
