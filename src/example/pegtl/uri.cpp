@@ -58,7 +58,8 @@ namespace uri
          }
       }
    };
-}
+
+}  // namespace uri
 
 URI::URI( const std::string& uri )
 {
