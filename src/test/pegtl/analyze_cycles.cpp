@@ -5,7 +5,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
       template< typename... Rules >
       struct any_seq
@@ -291,7 +291,7 @@ namespace tao
          }
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 

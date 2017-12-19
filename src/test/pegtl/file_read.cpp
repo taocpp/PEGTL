@@ -7,7 +7,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
       template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
       struct open_input
@@ -30,7 +30,7 @@ namespace tao
          verify_file< open_input<> >();
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 

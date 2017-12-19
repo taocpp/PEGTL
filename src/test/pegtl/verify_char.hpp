@@ -12,7 +12,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
       template< typename Rule >
       void verify_char( const std::size_t line, const char* file, const char data, const result_type result )
@@ -26,7 +26,7 @@ namespace tao
          verify_char< Rule >( line, file, data, result ? result_type::SUCCESS : result_type::LOCAL_FAILURE );
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 

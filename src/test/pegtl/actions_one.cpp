@@ -5,7 +5,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
       namespace test1
       {
@@ -83,7 +83,7 @@ namespace tao
          test1::test_result();
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 

@@ -7,7 +7,7 @@
 
 #include <tao/pegtl.hpp>
 
-using namespace tao::TAOCPP_PEGTL_NAMESPACE;
+using namespace tao::pegtl;
 
 #include "double.hpp"
 

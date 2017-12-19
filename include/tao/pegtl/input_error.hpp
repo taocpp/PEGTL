@@ -12,7 +12,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
       struct input_error
          : std::runtime_error
@@ -26,7 +26,7 @@ namespace tao
          int errorno;
       };
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 
@@ -35,7 +35,7 @@ namespace tao
       const int errorno = errno;                                            \
       std::ostringstream oss;                                               \
       oss << "pegtl: " << MESSAGE << " errno " << errorno;                  \
-      throw tao::TAOCPP_PEGTL_NAMESPACE::input_error( oss.str(), errorno ); \
+      throw tao::pegtl::input_error( oss.str(), errorno ); \
    } while( false )
 
 #endif

@@ -20,7 +20,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
 #if defined( _POSIX_MAPPED_FILES )
       template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
@@ -30,7 +30,7 @@ namespace tao
       using file_input = read_input< P, Eol >;
 #endif
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 

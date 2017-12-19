@@ -17,7 +17,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
       namespace parse_tree
       {
@@ -110,14 +110,14 @@ namespace tao
             : normal< Rule >
          {
             template< typename Input >
-            static void start( const Input& in, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void start( const Input& in, pegtl::parse_tree::state& s )
             {
                s.emplace_back();
                s.back()->begin = in.iterator();
             }
 
             template< typename Input >
-            static void success( const Input&, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void success( const Input&, pegtl::parse_tree::state& s )
             {
                auto n = std::move( s.back() );
                n->id = &typeid( Rule );
@@ -127,7 +127,7 @@ namespace tao
             }
 
             template< typename Input >
-            static void failure( const Input&, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void failure( const Input&, pegtl::parse_tree::state& s )
             {
                s.pop_back();
             }
@@ -139,14 +139,14 @@ namespace tao
             : normal< Rule >
          {
             template< typename Input >
-            static void start( const Input& in, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void start( const Input& in, pegtl::parse_tree::state& s )
             {
                s.emplace_back();
                s.back()->begin = in.iterator();
             }
 
             template< typename Input >
-            static void success( const Input& in, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void success( const Input& in, pegtl::parse_tree::state& s )
             {
                auto n = std::move( s.back() );
                n->id = &typeid( Rule );
@@ -157,7 +157,7 @@ namespace tao
             }
 
             template< typename Input >
-            static void failure( const Input&, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void failure( const Input&, pegtl::parse_tree::state& s )
             {
                s.pop_back();
             }
@@ -191,13 +191,13 @@ namespace tao
          state parse( Input& in )
          {
             state s;
-            TAOCPP_PEGTL_NAMESPACE::parse< Grammar, nothing, make_builder< S, C >::template type >( in, s );
+            pegtl::parse< Grammar, nothing, make_builder< S, C >::template type >( in, s );
             return s;
          }
 
       }  // namespace parse_tree
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 

@@ -11,7 +11,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
       // clang-format off
       template< typename... Actions > struct apply : internal::apply< Actions... > {};
@@ -62,7 +62,7 @@ namespace tao
       template< typename Cond, typename... Rules > struct until : internal::until< Cond, Rules... > {};
       // clang-format on
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 

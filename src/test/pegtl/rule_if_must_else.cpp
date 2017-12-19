@@ -7,14 +7,14 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
       void unit_test()
       {
          verify_ifmt< if_must_else >( result_type::GLOBAL_FAILURE );
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 

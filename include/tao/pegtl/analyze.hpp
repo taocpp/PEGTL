@@ -10,7 +10,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
       template< typename Rule >
       std::size_t analyze( const bool verbose = true )
@@ -18,7 +18,7 @@ namespace tao
          return analysis::analyze_cycles< Rule >( verbose ).problems();
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 

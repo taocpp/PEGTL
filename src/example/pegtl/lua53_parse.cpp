@@ -89,7 +89,7 @@ namespace lua53
    // comments). In some places, where it is more efficient,
    // right padding is used.
 
-   namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
+   namespace pegtl = tao::pegtl;
 
    // clang-format off
    struct short_comment : pegtl::until< pegtl::eolf > {};
@@ -337,11 +337,11 @@ namespace lua53
 
 int main( int argc, char** argv )
 {
-   tao::TAOCPP_PEGTL_NAMESPACE::analyze< lua53::grammar >();
+   tao::pegtl::analyze< lua53::grammar >();
 
    for( int i = 1; i < argc; ++i ) {
-      tao::TAOCPP_PEGTL_NAMESPACE::file_input<> in( argv[ i ] );
-      tao::TAOCPP_PEGTL_NAMESPACE::parse< lua53::grammar >( in );
+      tao::pegtl::file_input<> in( argv[ i ] );
+      tao::pegtl::parse< lua53::grammar >( in );
    }
    return 0;
 }

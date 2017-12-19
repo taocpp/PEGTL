@@ -11,7 +11,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
       template< template< typename... > class S >
       void verify_seqs( const result_type failure = result_type::LOCAL_FAILURE )
@@ -64,7 +64,7 @@ namespace tao
          verify_rule< try_catch< must< S< one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "aba", result_type::SUCCESS, 1 );
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 

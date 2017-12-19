@@ -10,7 +10,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
       template< typename Rule >
       struct nothing
@@ -20,7 +20,7 @@ namespace tao
       template< template< typename... > class Action, typename Rule >
       using is_nothing = std::is_base_of< nothing< Rule >, Action< Rule > >;
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 

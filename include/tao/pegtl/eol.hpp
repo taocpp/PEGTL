@@ -11,11 +11,11 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
       using eol_pair = std::pair< bool, std::size_t >;
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 
@@ -29,7 +29,7 @@ namespace tao
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace pegtl
    {
       inline namespace ascii
       {
@@ -47,7 +47,7 @@ namespace tao
 
       }  // namespace ascii
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace pegtl
 
 }  // namespace tao
 

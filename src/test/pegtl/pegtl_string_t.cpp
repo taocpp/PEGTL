@@ -14,25 +14,25 @@ namespace test
    {
    };
 
-   struct foobar : tao::TAOCPP_PEGTL_NAMESPACE::sor< TAOCPP_PEGTL_STRING( "foo" ), TAOCPP_PEGTL_STRING( "bar" ) >
+   struct foobar : tao::pegtl::sor< TAOCPP_PEGTL_STRING( "foo" ), TAOCPP_PEGTL_STRING( "bar" ) >
    {
    };
 
-   static_assert( std::is_same< TAOCPP_PEGTL_STRING( "Hello" ), tao::TAOCPP_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o' > >::value, "TAOCPP_PEGTL_STRING broken" );
-   static_assert( !std::is_same< TAOCPP_PEGTL_ISTRING( "Hello" ), tao::TAOCPP_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o' > >::value, "TAOCPP_PEGTL_ISTRING broken" );
-   static_assert( std::is_same< TAOCPP_PEGTL_ISTRING( "Hello" ), tao::TAOCPP_PEGTL_NAMESPACE::istring< 'H', 'e', 'l', 'l', 'o' > >::value, "TAOCPP_PEGTL_ISTRING broken" );
+   static_assert( std::is_same< TAOCPP_PEGTL_STRING( "Hello" ), tao::pegtl::string< 'H', 'e', 'l', 'l', 'o' > >::value, "TAOCPP_PEGTL_STRING broken" );
+   static_assert( !std::is_same< TAOCPP_PEGTL_ISTRING( "Hello" ), tao::pegtl::string< 'H', 'e', 'l', 'l', 'o' > >::value, "TAOCPP_PEGTL_ISTRING broken" );
+   static_assert( std::is_same< TAOCPP_PEGTL_ISTRING( "Hello" ), tao::pegtl::istring< 'H', 'e', 'l', 'l', 'o' > >::value, "TAOCPP_PEGTL_ISTRING broken" );
 
-   static_assert( std::is_same< TAOCPP_PEGTL_KEYWORD( "private" ), tao::TAOCPP_PEGTL_NAMESPACE::keyword< 'p', 'r', 'i', 'v', 'a', 't', 'e' > >::value, "TAOCPP_PEGTL_KEYWORD broken" );
+   static_assert( std::is_same< TAOCPP_PEGTL_KEYWORD( "private" ), tao::pegtl::keyword< 'p', 'r', 'i', 'v', 'a', 't', 'e' > >::value, "TAOCPP_PEGTL_KEYWORD broken" );
 
    // Strings may even contain embedded nulls
 
-   static_assert( std::is_same< TAOCPP_PEGTL_STRING( "Hello, w\0rld!" ), tao::TAOCPP_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o', ',', ' ', 'w', 0, 'r', 'l', 'd', '!' > >::value, "TAOCPP_PEGTL_STRING broken" );
+   static_assert( std::is_same< TAOCPP_PEGTL_STRING( "Hello, w\0rld!" ), tao::pegtl::string< 'H', 'e', 'l', 'l', 'o', ',', ' ', 'w', 0, 'r', 'l', 'd', '!' > >::value, "TAOCPP_PEGTL_STRING broken" );
 
    // The strings currently have a maximum length of 512 characters.
 
-   using namespace tao::TAOCPP_PEGTL_NAMESPACE::alphabet;
+   using namespace tao::pegtl::alphabet;
    static_assert( std::is_same< TAOCPP_PEGTL_STRING( "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz" ),
-                                tao::TAOCPP_PEGTL_NAMESPACE::string< a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z > >::value,
+                                tao::pegtl::string< a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z > >::value,
                   "TAOCPP_PEGTL_STRING broken" );
 
 }  // namespace test
