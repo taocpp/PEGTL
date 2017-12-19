@@ -238,7 +238,7 @@ matrix:
       before_script:
         - pip install --user cpp-coveralls
       script:
-        - make -j3 check
+        - make -kj3 check
         - coveralls --gcov gcov-7 --gcov-options '\-lp' --exclude src
 
     - compiler: gcc
@@ -286,7 +286,7 @@ matrix:
         - CXX=g++-7
         - SPECIAL=valgrind
       script:
-        - make -j3 valgrind
+        - make -kj3 valgrind
 
     - compiler: gcc
       addons:
@@ -297,7 +297,7 @@ matrix:
         - CXX=g++-7
         - SPECIAL=cppcheck
       script:
-        - make -j3 cppcheck
+        - make -kj3 cppcheck
 
     - compiler: clang
       addons:
@@ -310,8 +310,8 @@ matrix:
       script:
         - "sed -i 's#TAOCPP_PEGTL_NAMESPACE#pegtl#g' $(find . -name '*.[hc]pp')"
         - echo >include/tao/pegtl/config.hpp
-        - make -j3 clang-tidy
+        - make -kj3 clang-tidy
 
 script:
   - $CXX --version
-  - make -j3
+  - make -kj3
