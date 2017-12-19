@@ -90,8 +90,9 @@ Each commit is automatically tested with multiple architectures, operating syste
   * Android 4.4
   * Android 5.1
 
-Additionally, each commit is checked with GCC's and Clang's sanitizers as well as [`valgrind`](http://valgrind.org/).
-Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
+Additionally, each commit is checked with GCC's and Clang's sanitizers, as well as [`valgrind`](http://valgrind.org/)
+and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/). Code coverage is automatically measured and the unit tests
+cover 100% of the core library code (for releases).
 
 [Releases](https://github.com/taocpp/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
 Incompatible API changes are *only* allowed to occur between major versions.
