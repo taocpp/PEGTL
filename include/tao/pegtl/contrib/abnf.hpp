@@ -9,7 +9,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       namespace abnf
       {
@@ -36,7 +36,7 @@ namespace tao
 
       }  // namespace abnf
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

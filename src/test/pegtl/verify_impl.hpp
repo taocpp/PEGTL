@@ -17,7 +17,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       template< typename Rule, template< typename... > class Action, typename Input >
       result_type verify_impl_two( Input& in )
@@ -47,7 +47,7 @@ namespace tao
          TAOCPP_PEGTL_TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << in.size( 999999999 ) << " / " << remain << " ]" );
       }
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

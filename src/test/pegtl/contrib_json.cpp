@@ -8,7 +8,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       template< typename Rule >
       void verify_file_fail( const std::size_t line, const char* file, const std::string& s )
@@ -131,7 +131,7 @@ namespace tao
          verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail39.json" );
       }
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

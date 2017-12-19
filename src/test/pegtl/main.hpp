@@ -8,12 +8,12 @@
 
 int main( int, char** argv )
 {
-   tao::pegtl::unit_test();
+   tao::TAOCPP_PEGTL_NAMESPACE::unit_test();
 
-   if( tao::pegtl::failed ) {
-      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << tao::pegtl::failed << std::endl;
+   if( tao::TAOCPP_PEGTL_NAMESPACE::failed ) {
+      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << tao::TAOCPP_PEGTL_NAMESPACE::failed << std::endl;
    }
-   return ( tao::pegtl::failed == 0 ) ? EXIT_SUCCESS : EXIT_FAILURE;
+   return ( tao::TAOCPP_PEGTL_NAMESPACE::failed == 0 ) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
 #endif

@@ -8,7 +8,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       enum class rewind_mode : char
       {
@@ -17,7 +17,7 @@ namespace tao
          DONTCARE
       };
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

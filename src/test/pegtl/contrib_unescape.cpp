@@ -7,7 +7,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       // clang-format off
       struct escaped_c : one< '"', '\\', 't' > {};
@@ -101,7 +101,7 @@ namespace tao
          verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\Uffffffff", st );
       }
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

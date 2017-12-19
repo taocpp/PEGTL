@@ -8,7 +8,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       namespace proto3
       {
@@ -128,13 +128,13 @@ namespace tao
 
       }  // namespace proto3
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 
 int main( int argc, char** argv )
 {
-   using namespace tao::pegtl;
+   using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 
    analyze< proto3::proto >();
 

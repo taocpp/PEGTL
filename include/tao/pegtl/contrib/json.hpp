@@ -13,7 +13,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       namespace json
       {
@@ -91,7 +91,7 @@ namespace tao
 
       }  // namespace json
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

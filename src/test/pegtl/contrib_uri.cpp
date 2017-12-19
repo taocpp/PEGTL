@@ -7,7 +7,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       using GRAMMAR = must< uri::URI, eof >;
 
@@ -36,7 +36,7 @@ namespace tao
          verify_fail< GRAMMAR >( __LINE__, __FILE__, "" );
       }
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

@@ -22,7 +22,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       namespace internal
       {
@@ -94,9 +94,9 @@ namespace tao
                internal::bump_to_next_line( m_current, in_count );
             }
 
-            pegtl::position position( const iterator_t& it ) const
+            TAOCPP_PEGTL_NAMESPACE::position position( const iterator_t& it ) const
             {
-               return pegtl::position( it, m_source );
+               return TAOCPP_PEGTL_NAMESPACE::position( it, m_source );
             }
 
          protected:
@@ -162,11 +162,11 @@ namespace tao
                m_current += in_count;
             }
 
-            pegtl::position position( const iterator_t it ) const
+            TAOCPP_PEGTL_NAMESPACE::position position( const iterator_t it ) const
             {
                internal::iterator c( m_begin );
                internal::bump( c, std::size_t( it - m_begin.data ), Eol::ch );
-               return pegtl::position( c, m_source );
+               return TAOCPP_PEGTL_NAMESPACE::position( c, m_source );
             }
 
          protected:
@@ -258,7 +258,7 @@ namespace tao
 
          using internal::memory_input_base< P, Eol, Source >::position;
 
-         pegtl::position position() const
+         TAOCPP_PEGTL_NAMESPACE::position position() const
          {
             return position( iterator() );
          }
@@ -278,7 +278,7 @@ namespace tao
          }
       };
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

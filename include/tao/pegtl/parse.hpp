@@ -13,7 +13,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       template< typename Rule,
                 template< typename... > class Action = nothing,
@@ -46,7 +46,7 @@ namespace tao
          }
       }
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

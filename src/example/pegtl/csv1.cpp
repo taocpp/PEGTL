@@ -9,7 +9,7 @@
 
 #include <tao/pegtl.hpp>
 
-namespace pegtl = tao::pegtl;
+namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
 
 namespace csv1
 {
@@ -83,7 +83,7 @@ namespace csv1
       }
    };
 
-}  // namespace csv1
+}  // csv1
 
 int main( int argc, char** argv )
 {

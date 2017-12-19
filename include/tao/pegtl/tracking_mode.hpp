@@ -8,7 +8,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       enum class tracking_mode : bool
       {
@@ -16,7 +16,7 @@ namespace tao
          LAZY
       };
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

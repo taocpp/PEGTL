@@ -8,7 +8,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       enum class apply_mode : bool
       {
@@ -16,7 +16,7 @@ namespace tao
          NOTHING = false
       };
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

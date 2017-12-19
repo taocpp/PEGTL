@@ -12,7 +12,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       struct parse_error
          : public std::runtime_error
@@ -38,7 +38,7 @@ namespace tao
          std::vector< position > positions;
       };
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

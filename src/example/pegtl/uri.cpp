@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-namespace pegtl = tao::pegtl;
+namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
 
 struct URI
 {
@@ -58,8 +58,7 @@ namespace uri
          }
       }
    };
-
-}  // namespace uri
+}
 
 URI::URI( const std::string& uri )
 {

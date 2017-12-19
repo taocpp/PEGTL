@@ -14,7 +14,7 @@
 
 #include <tao/pegtl/analyze.hpp>
 
-namespace pegtl = tao::pegtl;
+namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
 
 namespace calculator
 {

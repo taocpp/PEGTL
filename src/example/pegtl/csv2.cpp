@@ -6,7 +6,7 @@
 
 #include <tao/pegtl.hpp>
 
-namespace pegtl = tao::pegtl;
+namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
 
 namespace csv2
 {
@@ -168,7 +168,7 @@ namespace csv2
       std::cout << std::endl;
    }
 
-}  // namespace csv2
+}  // csv2
 
 int main( int argc, char** argv )
 {

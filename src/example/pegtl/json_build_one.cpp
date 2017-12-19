@@ -47,7 +47,7 @@ namespace examples
    };
 
    template<>
-   struct value_action< tao::pegtl::json::null >
+   struct value_action< tao::TAOCPP_PEGTL_NAMESPACE::json::null >
    {
       static void apply0( result_state& result )
       {
@@ -56,7 +56,7 @@ namespace examples
    };
 
    template<>
-   struct value_action< tao::pegtl::json::true_ >
+   struct value_action< tao::TAOCPP_PEGTL_NAMESPACE::json::true_ >
    {
       static void apply0( result_state& result )
       {
@@ -65,7 +65,7 @@ namespace examples
    };
 
    template<>
-   struct value_action< tao::pegtl::json::false_ >
+   struct value_action< tao::TAOCPP_PEGTL_NAMESPACE::json::false_ >
    {
       static void apply0( result_state& result )
       {
@@ -74,7 +74,7 @@ namespace examples
    };
 
    template<>
-   struct value_action< tao::pegtl::json::number >
+   struct value_action< tao::TAOCPP_PEGTL_NAMESPACE::json::number >
    {
       template< typename Input >
       static void apply( const Input& in, result_state& result )
@@ -107,12 +107,12 @@ namespace examples
 
    template< typename Rule >
    struct array_action
-      : tao::pegtl::nothing< Rule >
+      : tao::TAOCPP_PEGTL_NAMESPACE::nothing< Rule >
    {
    };
 
    template<>
-   struct array_action< tao::pegtl::json::value_separator >
+   struct array_action< tao::TAOCPP_PEGTL_NAMESPACE::json::value_separator >
    {
       static void apply0( array_state& result )
       {
@@ -151,7 +151,7 @@ namespace examples
    };
 
    template<>
-   struct object_action< tao::pegtl::json::value_separator >
+   struct object_action< tao::TAOCPP_PEGTL_NAMESPACE::json::value_separator >
    {
       static void apply0( object_state& result )
       {
@@ -164,12 +164,12 @@ namespace examples
    // clang-format off
    template< typename Rule > struct control : errors< Rule > {};  // Inherit from json_errors.hpp.
 
-   template<> struct control< tao::pegtl::json::value > : tao::pegtl::change_action< tao::pegtl::json::value, value_action, errors > {};
-   template<> struct control< tao::pegtl::json::string::content > : tao::pegtl::change_state< tao::pegtl::json::string::content, string_state, errors > {};
-   template<> struct control< tao::pegtl::json::array::content > : tao::pegtl::change_state_and_action< tao::pegtl::json::array::content, array_state, array_action, errors > {};
-   template<> struct control< tao::pegtl::json::object::content > : tao::pegtl::change_state_and_action< tao::pegtl::json::object::content, object_state, object_action, errors > {};
+   template<> struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::value > : tao::TAOCPP_PEGTL_NAMESPACE::change_action< tao::TAOCPP_PEGTL_NAMESPACE::json::value, value_action, errors > {};
+   template<> struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::string::content > : tao::TAOCPP_PEGTL_NAMESPACE::change_state< tao::TAOCPP_PEGTL_NAMESPACE::json::string::content, string_state, errors > {};
+   template<> struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::array::content > : tao::TAOCPP_PEGTL_NAMESPACE::change_state_and_action< tao::TAOCPP_PEGTL_NAMESPACE::json::array::content, array_state, array_action, errors > {};
+   template<> struct control< tao::TAOCPP_PEGTL_NAMESPACE::json::object::content > : tao::TAOCPP_PEGTL_NAMESPACE::change_state_and_action< tao::TAOCPP_PEGTL_NAMESPACE::json::object::content, object_state, object_action, errors > {};
 
-   struct grammar : tao::pegtl::must< tao::pegtl::json::text, tao::pegtl::eof > {};
+   struct grammar : tao::TAOCPP_PEGTL_NAMESPACE::must< tao::TAOCPP_PEGTL_NAMESPACE::json::text, tao::TAOCPP_PEGTL_NAMESPACE::eof > {};
    // clang-format on
 
 }  // namespace examples
@@ -178,8 +178,8 @@ int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
       examples::result_state result;
-      tao::pegtl::file_input<> in( argv[ i ] );
-      tao::pegtl::parse< examples::grammar, tao::pegtl::nothing, examples::control >( in, result );
+      tao::TAOCPP_PEGTL_NAMESPACE::file_input<> in( argv[ i ] );
+      tao::TAOCPP_PEGTL_NAMESPACE::parse< examples::grammar, tao::TAOCPP_PEGTL_NAMESPACE::nothing, examples::control >( in, result );
       assert( result.result );
       std::cout << result.result << std::endl;
    }

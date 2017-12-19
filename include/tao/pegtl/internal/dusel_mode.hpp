@@ -8,7 +8,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       enum class dusel_mode : char
       {
@@ -20,7 +20,7 @@ namespace tao
          CONTROL_AND_APPLY0_BOOL = 5
       };
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

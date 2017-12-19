@@ -7,7 +7,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       using GRAMMAR = sor< failure, one< 'a' > >;
 
@@ -74,7 +74,7 @@ namespace tao
          }
       }
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

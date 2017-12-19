@@ -4,7 +4,7 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
 
-using namespace tao::pegtl;
+using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 
 struct bar;
 

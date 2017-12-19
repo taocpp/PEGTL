@@ -10,7 +10,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       template< unsigned Size, apply_mode B, rewind_mode N, typename... Rules >
       struct test_rule
@@ -34,7 +34,7 @@ namespace tao
          }
       };
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

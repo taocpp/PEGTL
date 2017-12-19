@@ -10,7 +10,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       namespace internal
       {
@@ -35,7 +35,7 @@ namespace tao
          return internal::to_string< T >::get();
       }
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

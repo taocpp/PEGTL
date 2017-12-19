@@ -68,7 +68,7 @@ cppcheck: $(HEADERS:%.hpp=build/%.cppcheck)
 	@echo "All $(words $(HEADERS)) cppcheck tests passed."
 
 build/%.clang-tidy: %
-	$(CLANG_TIDY) -extra-arg "-Iinclude" -extra-arg "-std=c++11" -checks=*,-google-*,-clang-analyzer-alpha*,-cppcoreguidelines*,-modernize-raw-string-literal,-misc-sizeof-expression,-cert-err58-cpp,-cert-err60-cpp -warnings-as-errors=* $< 2>/dev/null
+	$(CLANG_TIDY) -extra-arg "-Iinclude" -extra-arg "-std=c++11" -checks=*,-google-*,-llvm-namespace-comment,-clang-analyzer-alpha*,-cppcoreguidelines*,-modernize-raw-string-literal,-misc-sizeof-expression,-cert-err58-cpp,-cert-err60-cpp -warnings-as-errors=* $< 2>/dev/null
 	@mkdir -p $(@D)
 	@touch $@
 

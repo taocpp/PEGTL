@@ -13,7 +13,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       template< typename Rule, template< typename > class Action = nothing, typename... States >
       void verify_fail( const std::size_t line, const char* file, const std::string& s, States&&... st )
@@ -27,7 +27,7 @@ namespace tao
          }
       }
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

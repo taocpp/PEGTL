@@ -7,7 +7,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       struct test_state_state
       {
@@ -51,7 +51,7 @@ namespace tao
          verify_seqs< test_state_with_template_parameters_rule >();
       }
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

@@ -12,7 +12,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       namespace utf16
       {
@@ -29,7 +29,7 @@ namespace tao
 
       }  // namespace utf16
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

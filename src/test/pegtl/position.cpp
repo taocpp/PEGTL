@@ -7,7 +7,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAOCPP_PEGTL_NAMESPACE
    {
       struct buffer_input_t
          : buffer_input< internal::cstring_reader >
@@ -175,7 +175,7 @@ namespace tao
          test_nested< buffer_input_t >();
       }
 
-   }  // namespace pegtl
+   }  // namespace TAOCPP_PEGTL_NAMESPACE
 
 }  // namespace tao
 

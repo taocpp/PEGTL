@@ -5,7 +5,7 @@
 
 #include "json_errors.hpp"
 
-using namespace tao::pegtl;
+using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 using grammar = must< json::text, eof >;
 
 int main( int argc, char** argv )

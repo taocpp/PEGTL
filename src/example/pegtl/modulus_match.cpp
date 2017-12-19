@@ -3,7 +3,7 @@
 
 #include <tao/pegtl.hpp>
 
-using namespace tao::pegtl;
+using namespace tao::TAOCPP_PEGTL_NAMESPACE;
 
 namespace modulus
 {
