@@ -26,7 +26,7 @@ namespace tao
                       template< typename... > class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input&, States&&... )
+            static bool match( Input&, States&&... ) noexcept
             {
                return true;
             }
