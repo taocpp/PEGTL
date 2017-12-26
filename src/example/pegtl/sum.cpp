@@ -41,8 +41,7 @@ namespace sum
       static void apply( const Input& in, double& sum )
       {
          // assume all values will fit into a C++ double
-         auto ptr = const_cast< char* >( in.end() );
-         sum += std::strtod( const_cast< char* >( in.begin() ), &ptr );
+         sum += std::strtod( in.string().c_str(), nullptr );
       }
    };
 

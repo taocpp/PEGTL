@@ -11,7 +11,7 @@ namespace tao
       {
          std::string u32s( const char32_t u )
          {
-            return std::string( reinterpret_cast< const char* >( &u ), sizeof( u ) );
+            return std::string( static_cast< const char* >( static_cast< const void* >( &u ) ), sizeof( u ) );
          }
 
       }  // namespace
