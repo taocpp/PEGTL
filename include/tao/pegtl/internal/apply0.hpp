@@ -26,7 +26,7 @@ namespace tao
          struct apply0_impl< apply_mode::ACTION >
          {
             template< typename... States >
-            static bool match( States&&... )
+            static bool match( States&&... /*unused*/ )
             {
                return true;
             }
@@ -53,7 +53,7 @@ namespace tao
          struct apply0_impl< apply_mode::NOTHING, Actions... >
          {
             template< typename... States >
-            static bool match( States&&... )
+            static bool match( States&&... /*unused*/ )
             {
                return true;
             }
@@ -70,7 +70,7 @@ namespace tao
                       template< typename... > class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input&, States&&... st )
+            static bool match( Input& /*unused*/, States&&... st )
             {
                return apply0_impl< A, Actions... >::match( st... );
             }

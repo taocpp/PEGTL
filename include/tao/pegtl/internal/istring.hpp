@@ -51,7 +51,7 @@ namespace tao
          template<>
          struct istring_equal<>
          {
-            static bool match( const char* ) noexcept
+            static bool match( const char* /*unused*/ ) noexcept
             {
                return true;
             }

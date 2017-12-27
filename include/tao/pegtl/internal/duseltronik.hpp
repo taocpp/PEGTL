@@ -41,7 +41,7 @@ namespace tao
             // NOTE: The additional "int = 0" is a work-around for missing expression SFINAE in VS2015.
 
             template< typename Input, typename... States, int = 0 >
-            static auto match( Input& in, States&&... )
+            static auto match( Input& in, States&&... /*unused*/ )
                -> decltype( Rule::match( in ), true )
             {
                return Rule::match( in );

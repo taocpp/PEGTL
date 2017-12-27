@@ -12,6 +12,7 @@
 
 #include "../config.hpp"
 #include "../normal.hpp"
+#include "../parse.hpp"
 
 #include "../internal/iterator.hpp"
 
@@ -68,7 +69,7 @@ namespace tao
          template< typename T, typename = void >
          struct transform
          {
-            static void call( std::unique_ptr< parse_tree::node >& )
+            static void call( std::unique_ptr< parse_tree::node >& /*unused*/ )
             {
             }
          };
@@ -117,7 +118,7 @@ namespace tao
             }
 
             template< typename Input >
-            static void success( const Input&, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void success( const Input& /*unused*/, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
             {
                auto n = std::move( s.back() );
                n->id = &typeid( Rule );
@@ -127,7 +128,7 @@ namespace tao
             }
 
             template< typename Input >
-            static void failure( const Input&, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void failure( const Input& /*unused*/, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
             {
                s.pop_back();
             }
@@ -157,7 +158,7 @@ namespace tao
             }
 
             template< typename Input >
-            static void failure( const Input&, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void failure( const Input& /*unused*/, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
             {
                s.pop_back();
             }

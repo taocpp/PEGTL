@@ -5,6 +5,8 @@
 #define TAOCPP_PEGTL_INCLUDE_CONTRIB_COUNTER_HPP
 
 #include <cassert>
+#include <map>
+#include <string>
 #include <utility>
 
 #include "../config.hpp"
@@ -33,19 +35,19 @@ namespace tao
          : normal< Rule >
       {
          template< typename Input >
-         static void start( const Input&, counter_state& ts )
+         static void start( const Input& /*unused*/, counter_state& ts )
          {
             ++ts.counts[ internal::demangle< Rule >() ].start;
          }
 
          template< typename Input >
-         static void success( const Input&, counter_state& ts )
+         static void success( const Input& /*unused*/, counter_state& ts )
          {
             ++ts.counts[ internal::demangle< Rule >() ].success;
          }
 
          template< typename Input >
-         static void failure( const Input&, counter_state& ts )
+         static void failure( const Input& /*unused*/, counter_state& ts )
          {
             ++ts.counts[ internal::demangle< Rule >() ].failure;
          }

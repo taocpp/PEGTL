@@ -19,11 +19,11 @@ namespace tao
          public:
             static constexpr rewind_mode next_rewind_mode = M;
 
-            explicit marker( const Iterator& ) noexcept
+            explicit marker( const Iterator& /*unused*/ ) noexcept
             {
             }
 
-            marker( marker&& ) noexcept
+            marker( marker&& /*unused*/ ) noexcept
             {
             }
 

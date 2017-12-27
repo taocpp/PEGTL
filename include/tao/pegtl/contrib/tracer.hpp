@@ -31,7 +31,7 @@ namespace tao
          : normal< Rule >
       {
          template< typename Input, typename... States >
-         static void start( const Input& in, States&&... )
+         static void start( const Input& in, States&&... /*unused*/ )
          {
             std::cerr << in.position() << "  start  " << internal::demangle< Rule >() << std::endl;
          }
@@ -44,7 +44,7 @@ namespace tao
          }
 
          template< typename Input, typename... States >
-         static void success( const Input& in, States&&... )
+         static void success( const Input& in, States&&... /*unused*/ )
          {
             std::cerr << in.position() << " success " << internal::demangle< Rule >() << std::endl;
          }
@@ -58,7 +58,7 @@ namespace tao
          }
 
          template< typename Input, typename... States >
-         static void failure( const Input& in, States&&... )
+         static void failure( const Input& in, States&&... /*unused*/ )
          {
             std::cerr << in.position() << " failure " << internal::demangle< Rule >() << std::endl;
          }
@@ -72,7 +72,7 @@ namespace tao
          }
 
          template< template< typename... > class Action, typename Input, typename... States >
-         static auto apply0( const Input&, States&&... st )
+         static auto apply0( const Input& /*unused*/, States&&... st )
             -> decltype( Action< Rule >::apply0( st... ) )
          {
             std::cerr << "apply0 " << internal::demangle< Action< Rule > >() << std::endl;
@@ -80,7 +80,7 @@ namespace tao
          }
 
          template< template< typename... > class Action, typename Input >
-         static auto apply0( const Input&, trace_state& ts )
+         static auto apply0( const Input& /*unused*/, trace_state& ts )
             -> decltype( Action< Rule >::apply0( ts ) )
          {
             std::cerr << std::setw( 6 ) << ++ts.line << "        " << internal::demangle< Action< Rule > >() << "::apply0()" << std::endl;

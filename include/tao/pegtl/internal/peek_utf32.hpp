@@ -28,7 +28,7 @@ namespace tao
             {
                const std::size_t s = in.size( 4 );
                if( s >= 4 ) {
-                  const char32_t t = *reinterpret_cast< const char32_t* >( in.current() );
+                  const char32_t t = *static_cast< const char32_t* >( static_cast< const void* >( in.current() ) );
                   if( ( 0 <= t ) && ( t <= 0x10ffff ) ) {
                      return { t, 4 };
                   }

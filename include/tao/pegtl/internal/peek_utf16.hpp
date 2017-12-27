@@ -31,11 +31,11 @@ namespace tao
             {
                const std::size_t s = in.size( 4 );
                if( s >= 2 ) {
-                  const char32_t t = *reinterpret_cast< const short_t* >( in.current() );
+                  const char32_t t = *static_cast< const short_t* >( static_cast< const void* >( in.current() ) );
                   if( ( t < 0xd800 ) || ( t > 0xdbff ) || ( s < 4 ) ) {
                      return { t, 2 };
                   }
-                  const char32_t u = *reinterpret_cast< const short_t* >( in.current() + 2 );
+                  const char32_t u = *static_cast< const short_t* >( static_cast< const void* >( in.current() + 2 ) );
                   if( ( u < 0xdc00 ) || ( u > 0xdfff ) ) {
                      return { t, 2 };
                   }

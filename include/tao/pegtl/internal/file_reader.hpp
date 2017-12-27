@@ -23,9 +23,9 @@ namespace tao
             errno = 0;
 #if defined( _MSC_VER )
             std::FILE* file;
-            if(::fopen_s( &file, filename, "rb" ) == 0 )
+            if(::fopen_s( &file, filename, "rbe" ) == 0 )
 #else
-            if( auto* file = std::fopen( filename, "rb" ) )
+            if( auto* file = std::fopen( filename, "rbe" ) )
 #endif
             {
                return file;
@@ -82,7 +82,7 @@ namespace tao
                std::string nrv;
                nrv.resize( size() );
                errno = 0;
-               if( ( nrv.size() != 0 ) && ( std::fread( &nrv[ 0 ], nrv.size(), 1, m_file.get() ) != 1 ) ) {
+               if( !nrv.empty() && ( std::fread( &nrv[ 0 ], nrv.size(), 1, m_file.get() ) != 1 ) ) {
                   TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to fread() file " << m_source << " size " << nrv.size() );  // LCOV_EXCL_LINE
                }
                return nrv;

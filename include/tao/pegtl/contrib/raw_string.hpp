@@ -13,6 +13,7 @@
 
 #include "../internal/bytes.hpp"
 #include "../internal/eof.hpp"
+#include "../internal/eol.hpp"
 #include "../internal/must.hpp"
 #include "../internal/not_at.hpp"
 #include "../internal/rule_conjunction.hpp"
@@ -114,7 +115,7 @@ namespace tao
                       template< typename... > class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input& in, const std::size_t& marker_size, States&&... )
+            static bool match( Input& in, const std::size_t& marker_size, States&&... /*unused*/ )
             {
                auto m = in.template mark< M >();
 

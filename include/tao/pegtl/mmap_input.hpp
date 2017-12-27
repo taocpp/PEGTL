@@ -26,7 +26,7 @@ namespace tao
             const file_mapper data;
 
             template< typename T >
-            mmap_holder( T&& in_filename )
+            explicit mmap_holder( T&& in_filename )
                : filename( std::forward< T >( in_filename ) ),
                  data( filename.c_str() )
             {

@@ -6,14 +6,14 @@
 
 #include "../config.hpp"
 
+#include "integer_sequence.hpp"
 #include "skip_control.hpp"
+#include "trivial.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
 #include "../analysis/generic.hpp"
-
-#include "integer_sequence.hpp"
 
 namespace tao
 {

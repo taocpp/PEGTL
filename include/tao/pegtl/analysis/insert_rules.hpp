@@ -21,7 +21,7 @@ namespace tao
          template<>
          struct insert_rules<>
          {
-            static void insert( grammar_info&, rule_info& )
+            static void insert( grammar_info& /*unused*/, rule_info& /*unused*/ )
             {
             }
          };

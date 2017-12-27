@@ -26,7 +26,7 @@ namespace tao
          {
             static constexpr bool can_match_eol = false;
 
-            static bool match( const Char ) noexcept
+            static bool match( const Char /*unused*/ ) noexcept
             {
                return false;
             }

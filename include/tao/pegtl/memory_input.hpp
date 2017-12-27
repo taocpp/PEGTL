@@ -59,7 +59,7 @@ namespace tao
                return m_current.data;
             }
 
-            const char* end( const std::size_t = 0 ) const noexcept
+            const char* end( const std::size_t /*unused*/ = 0 ) const noexcept
             {
                return m_end;
             }
@@ -137,7 +137,7 @@ namespace tao
                return m_current;
             }
 
-            const char* end( const std::size_t = 0 ) const noexcept
+            const char* end( const std::size_t /*unused*/ = 0 ) const noexcept
             {
                return m_end;
             }
@@ -231,7 +231,7 @@ namespace tao
             return this->current() == this->end();
          }
 
-         std::size_t size( const std::size_t = 0 ) const noexcept
+         std::size_t size( const std::size_t /*unused*/ = 0 ) const noexcept
          {
             return std::size_t( this->end() - this->current() );
          }
@@ -267,7 +267,7 @@ namespace tao
          {
          }
 
-         void require( const std::size_t ) const noexcept
+         void require( const std::size_t /*unused*/ ) const noexcept
          {
          }
 

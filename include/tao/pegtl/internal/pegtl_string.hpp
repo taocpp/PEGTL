@@ -59,7 +59,7 @@ namespace tao
 #define TAOCPP_PEGTL_INTERNAL_EXPAND( ... ) __VA_ARGS__
 
 #define TAOCPP_PEGTL_INTERNAL_STRING_AT( S, x, n ) \
-   tao::TAOCPP_PEGTL_NAMESPACE::internal::string_at< S, ( 0##n < sizeof( x ) ) ? x[ 0##n ] : 0, ( 0##n < sizeof( x ) - 1 ) >::type
+   tao::TAOCPP_PEGTL_NAMESPACE::internal::string_at< S, ( 0##n < sizeof( x ) ) ? ( x )[ 0##n ] : 0, ( 0##n < sizeof( x ) - 1 ) >::type
 
 #define TAOCPP_PEGTL_INTERNAL_JOIN_8( M, S, x, n )                                                     \
    tao::TAOCPP_PEGTL_NAMESPACE::internal::string_join< TAOCPP_PEGTL_INTERNAL_DEFER( M )( S, x, n##0 ), \

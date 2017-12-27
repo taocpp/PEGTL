@@ -89,7 +89,7 @@ namespace tao
          }
 
          template< typename I >
-         I unhex_string( const char* begin, const char* const end )
+         I unhex_string( const char* begin, const char* end )
          {
             I r = 0;
             while( begin != end ) {
@@ -122,7 +122,7 @@ namespace tao
             }
 
             template< char... Qs >
-            static char apply_one( const char c, const one< Qs... >* )
+            static char apply_one( const char c, const one< Qs... >* /*unused*/ )
             {
                static_assert( sizeof...( Qs ) == sizeof...( Rs ), "size mismatch between escaped characters and their mappings" );
                return apply_two( c, { Qs... }, { Rs... } );

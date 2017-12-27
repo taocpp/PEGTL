@@ -5,6 +5,7 @@
 #define TAOCPP_PEGTL_INCLUDE_INTERNAL_CR_EOL_HPP
 
 #include "../config.hpp"
+#include "../eol_pair.hpp"
 
 namespace tao
 {
