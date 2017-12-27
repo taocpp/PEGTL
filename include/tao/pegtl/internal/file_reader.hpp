@@ -24,6 +24,8 @@ namespace tao
 #if defined( _MSC_VER )
             std::FILE* file;
             if(::fopen_s( &file, filename, "rb" ) == 0 )
+#elif defined( __MINGW32__ )
+            if( auto* file = std::fopen( filename, "rb" ) )
 #else
             if( auto* file = std::fopen( filename, "rbe" ) )
 #endif
