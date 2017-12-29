@@ -31,6 +31,14 @@ namespace tao
                  data( filename.c_str() )
             {
             }
+
+            mmap_holder( const mmap_holder& ) = delete;
+            mmap_holder( mmap_holder&& ) = delete;
+
+            ~mmap_holder() = default;
+
+            void operator=( const mmap_holder& ) = delete;
+            void operator=( mmap_holder&& ) = delete;
          };
 
       }  // namespace internal
@@ -46,6 +54,14 @@ namespace tao
               memory_input< P, Eol, const char* >( data.begin(), data.end(), filename.c_str() )
          {
          }
+
+         mmap_input( const mmap_input& ) = delete;
+         mmap_input( mmap_input&& ) = delete;
+
+         ~mmap_input() = default;
+
+         void operator=( const mmap_input& ) = delete;
+         void operator=( mmap_input&& ) = delete;
       };
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

@@ -30,12 +30,14 @@ namespace tao
 
 }  // namespace tao
 
-#define TAOCPP_PEGTL_THROW_INPUT_ERROR( MESSAGE )                           \
-   do {                                                                     \
-      const int errorno = errno;                                            \
-      std::ostringstream oss;                                               \
-      oss << "pegtl: " << MESSAGE << " errno " << errorno;                  \
-      throw tao::TAOCPP_PEGTL_NAMESPACE::input_error( oss.str(), errorno ); \
+#define TAOCPP_PEGTL_UNWRAP( ... ) __VA_ARGS__
+
+#define TAOCPP_PEGTL_THROW_INPUT_ERROR( MESSAGE )                                 \
+   do {                                                                           \
+      const int errorno = errno;                                                  \
+      std::ostringstream oss;                                                     \
+      oss << "pegtl: " << TAOCPP_PEGTL_UNWRAP( MESSAGE ) << " errno " << errorno; \
+      throw tao::TAOCPP_PEGTL_NAMESPACE::input_error( oss.str(), errorno );       \
    } while( false )
 
 #endif

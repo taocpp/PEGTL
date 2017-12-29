@@ -27,6 +27,14 @@ namespace tao
                : data( std::forward< T >( in_data ) )
             {
             }
+
+            string_holder( const string_holder& ) = delete;
+            string_holder( string_holder&& ) = delete;
+
+            ~string_holder() = default;
+
+            void operator=( const string_holder& ) = delete;
+            void operator=( string_holder&& ) = delete;
          };
 
       }  // namespace internal
@@ -42,6 +50,14 @@ namespace tao
               memory_input< P, Eol, Source >( data.data(), data.size(), std::forward< T >( in_source ), std::forward< Ts >( ts )... )
          {
          }
+
+         string_input( const string_input& ) = delete;
+         string_input( string_input&& ) = delete;
+
+         ~string_input() = default;
+
+         void operator=( const string_input& ) = delete;
+         void operator=( string_input&& ) = delete;
       };
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
