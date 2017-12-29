@@ -19,10 +19,7 @@ namespace tao
             iterator() noexcept = default;
 
             explicit iterator( const char* in_data ) noexcept
-               : data( in_data ),
-                 byte( 0 ),
-                 line( 1 ),
-                 byte_in_line( 0 )
+               : data( in_data )
             {
             }
 
@@ -35,13 +32,18 @@ namespace tao
             }
 
             iterator( const iterator& ) = default;
+            iterator( iterator&& ) = default;
+
+            ~iterator() = default;
+
             iterator& operator=( const iterator& ) = default;
+            iterator& operator=( iterator&& ) = default;
 
             const char* data = nullptr;
 
-            std::size_t byte;
-            std::size_t line;
-            std::size_t byte_in_line;
+            std::size_t byte = 0;
+            std::size_t line = 1;
+            std::size_t byte_in_line = 0;
          };
 
       }  // namespace internal

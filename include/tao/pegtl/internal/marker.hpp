@@ -23,12 +23,16 @@ namespace tao
             {
             }
 
+            marker( const marker& ) = delete;
+
             marker( marker&& /*unused*/ ) noexcept
             {
             }
 
-            marker( const marker& ) = delete;
+            ~marker() = default;
+
             void operator=( const marker& ) = delete;
+            void operator=( marker&& ) = delete;
 
             bool operator()( const bool result ) const noexcept
             {
@@ -48,6 +52,8 @@ namespace tao
             {
             }
 
+            marker( const marker& ) = delete;
+
             marker( marker&& i ) noexcept
                : m_saved( i.m_saved ),
                  m_input( i.m_input )
@@ -62,8 +68,8 @@ namespace tao
                }
             }
 
-            marker( const marker& ) = delete;
             void operator=( const marker& ) = delete;
+            void operator=( marker&& ) = delete;
 
             bool operator()( const bool result ) noexcept
             {

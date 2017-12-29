@@ -50,7 +50,12 @@ namespace tao
          }
 
          buffer_input( const buffer_input& ) = delete;
+         buffer_input( buffer_input&& ) = delete;
+
+         ~buffer_input() = default;
+
          void operator=( const buffer_input& ) = delete;
+         void operator=( buffer_input&& ) = delete;
 
          bool empty()
          {

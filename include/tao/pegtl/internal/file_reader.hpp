@@ -59,7 +59,12 @@ namespace tao
             }
 
             file_reader( const file_reader& ) = delete;
+            file_reader( file_reader&& ) = delete;
+
+            ~file_reader() = default;
+
             void operator=( const file_reader& ) = delete;
+            void operator=( file_reader&& ) = delete;
 
             std::size_t size() const
             {

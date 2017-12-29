@@ -52,7 +52,12 @@ namespace tao
             }
 
             memory_input_base( const memory_input_base& ) = delete;
+            memory_input_base( memory_input_base&& ) = delete;
+
+            ~memory_input_base() = default;
+
             memory_input_base operator=( const memory_input_base& ) = delete;
+            memory_input_base operator=( memory_input_base&& ) = delete;
 
             const char* current() const noexcept
             {
@@ -130,7 +135,12 @@ namespace tao
             }
 
             memory_input_base( const memory_input_base& ) = delete;
+            memory_input_base( memory_input_base&& ) = delete;
+
+            ~memory_input_base() = default;
+
             memory_input_base operator=( const memory_input_base& ) = delete;
+            memory_input_base operator=( memory_input_base&& ) = delete;
 
             const char* current() const noexcept
             {
@@ -219,7 +229,12 @@ namespace tao
          }
 
          memory_input( const memory_input& ) = delete;
+         memory_input( memory_input&& ) = delete;
+
+         ~memory_input() = default;
+
          memory_input operator=( const memory_input& ) = delete;
+         memory_input operator=( memory_input&& ) = delete;
 
          const Source& source() const noexcept
          {

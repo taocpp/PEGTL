@@ -42,7 +42,12 @@ namespace tao
             }
 
             action_input( const action_input& ) = delete;
+            action_input( action_input&& ) = delete;
+
+            ~action_input() = default;
+
             action_input& operator=( const action_input& ) = delete;
+            action_input& operator=( action_input&& ) = delete;
 
             const iterator_t& iterator() const noexcept
             {

@@ -18,17 +18,19 @@ namespace tao
          class insert_guard
          {
          public:
+            insert_guard( C& container, const typename C::value_type& value )
+               : m_i( container.insert( value ) ),
+                 m_c( &container )
+            {
+            }
+
+            insert_guard( const insert_guard& ) = delete;
+
             insert_guard( insert_guard&& other ) noexcept
                : m_i( other.m_i ),
                  m_c( other.m_c )
             {
                other.m_c = nullptr;
-            }
-
-            insert_guard( C& container, const typename C::value_type& value )
-               : m_i( container.insert( value ) ),
-                 m_c( &container )
-            {
             }
 
             ~insert_guard()
@@ -38,8 +40,8 @@ namespace tao
                }
             }
 
-            insert_guard( const insert_guard& ) = delete;
             void operator=( const insert_guard& ) = delete;
+            void operator=( insert_guard&& ) = delete;
 
             explicit operator bool() const noexcept
             {

@@ -28,17 +28,20 @@ namespace tao
             {
             }
 
+            file_opener( const file_opener& ) = delete;
+            file_opener( file_opener&& ) = delete;
+
             ~file_opener() noexcept
             {
                ::close( m_fd );
             }
 
-            file_opener( const file_opener& ) = delete;
             void operator=( const file_opener& ) = delete;
+            void operator=( file_opener&& ) = delete;
 
             std::size_t size() const
             {
-               struct stat st;
+               struct stat st;  // NOLINT
                errno = 0;
                if(::fstat( m_fd, &st ) < 0 ) {
                   TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to fstat() file " << m_source << " descriptor " << m_fd );
@@ -53,7 +56,7 @@ namespace tao
             int open() const
             {
                errno = 0;
-               const int fd = ::open( m_source, O_RDONLY | O_CLOEXEC );
+               const int fd = ::open( m_source, O_RDONLY | O_CLOEXEC );  // NOLINT
                if( fd >= 0 ) {
                   return fd;
                }
