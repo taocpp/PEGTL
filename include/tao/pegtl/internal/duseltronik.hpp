@@ -58,13 +58,13 @@ namespace tao
             template< typename Input, typename... States >
             static bool match( Input& in, States&&... st )
             {
-               Control< Rule >::start( const_cast< const Input& >( in ), st... );  // NOLINT
+               Control< Rule >::start( static_cast< const Input& >( in ), st... );
 
                if( duseltronik< Rule, A, M, Action, Control, dusel_mode::NOTHING >::match( in, st... ) ) {
-                  Control< Rule >::success( const_cast< const Input& >( in ), st... );  // NOLINT
+                  Control< Rule >::success( static_cast< const Input& >( in ), st... );
                   return true;
                }
-               Control< Rule >::failure( const_cast< const Input& >( in ), st... );  // NOLINT
+               Control< Rule >::failure( static_cast< const Input& >( in ), st... );
                return false;
             }
          };
@@ -81,14 +81,14 @@ namespace tao
             {
                auto m = in.template mark< rewind_mode::REQUIRED >();
 
-               Control< Rule >::start( const_cast< const Input& >( in ), st... );  // NOLINT
+               Control< Rule >::start( static_cast< const Input& >( in ), st... );
 
                if( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, dusel_mode::NOTHING >::match( in, st... ) ) {
-                  Control< Rule >::template apply< Action >( m.iterator(), const_cast< const Input& >( in ), st... );  // NOLINT
-                  Control< Rule >::success( const_cast< const Input& >( in ), st... );                                 // NOLINT
+                  Control< Rule >::template apply< Action >( m.iterator(), static_cast< const Input& >( in ), st... );
+                  Control< Rule >::success( static_cast< const Input& >( in ), st... );
                   return m( true );
                }
-               Control< Rule >::failure( const_cast< const Input& >( in ), st... );  // NOLINT
+               Control< Rule >::failure( static_cast< const Input& >( in ), st... );
                return false;
             }
          };
@@ -105,15 +105,15 @@ namespace tao
             {
                auto m = in.template mark< rewind_mode::REQUIRED >();
 
-               Control< Rule >::start( const_cast< const Input& >( in ), st... );  // NOLINT
+               Control< Rule >::start( static_cast< const Input& >( in ), st... );
 
                if( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, dusel_mode::NOTHING >::match( in, st... ) ) {
-                  if( Control< Rule >::template apply< Action >( m.iterator(), const_cast< const Input& >( in ), st... ) ) {  // NOLINT
-                     Control< Rule >::success( const_cast< const Input& >( in ), st... );                                     // NOLINT
+                  if( Control< Rule >::template apply< Action >( m.iterator(), static_cast< const Input& >( in ), st... ) ) {
+                     Control< Rule >::success( static_cast< const Input& >( in ), st... );
                      return m( true );
                   }
                }
-               Control< Rule >::failure( const_cast< const Input& >( in ), st... );  // NOLINT
+               Control< Rule >::failure( static_cast< const Input& >( in ), st... );
                return false;
             }
          };
@@ -128,14 +128,14 @@ namespace tao
             template< typename Input, typename... States >
             static bool match( Input& in, States&&... st )
             {
-               Control< Rule >::start( const_cast< const Input& >( in ), st... );  // NOLINT
+               Control< Rule >::start( static_cast< const Input& >( in ), st... );
 
                if( duseltronik< Rule, A, M, Action, Control, dusel_mode::NOTHING >::match( in, st... ) ) {
-                  Control< Rule >::template apply0< Action >( const_cast< const Input& >( in ), st... );  // NOLINT
-                  Control< Rule >::success( const_cast< const Input& >( in ), st... );                    // NOLINT
+                  Control< Rule >::template apply0< Action >( static_cast< const Input& >( in ), st... );
+                  Control< Rule >::success( static_cast< const Input& >( in ), st... );
                   return true;
                }
-               Control< Rule >::failure( const_cast< const Input& >( in ), st... );  // NOLINT
+               Control< Rule >::failure( static_cast< const Input& >( in ), st... );
                return false;
             }
          };
@@ -152,15 +152,15 @@ namespace tao
             {
                auto m = in.template mark< rewind_mode::REQUIRED >();
 
-               Control< Rule >::start( const_cast< const Input& >( in ), st... );  // NOLINT
+               Control< Rule >::start( static_cast< const Input& >( in ), st... );
 
                if( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, dusel_mode::NOTHING >::match( in, st... ) ) {
-                  if( Control< Rule >::template apply0< Action >( const_cast< const Input& >( in ), st... ) ) {  // NOLINT
-                     Control< Rule >::success( const_cast< const Input& >( in ), st... );                        // NOLINT
+                  if( Control< Rule >::template apply0< Action >( static_cast< const Input& >( in ), st... ) ) {
+                     Control< Rule >::success( static_cast< const Input& >( in ), st... );
                      return m( true );
                   }
                }
-               Control< Rule >::failure( const_cast< const Input& >( in ), st... );  // NOLINT
+               Control< Rule >::failure( static_cast< const Input& >( in ), st... );
                return false;
             }
          };

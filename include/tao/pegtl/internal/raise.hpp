@@ -34,7 +34,7 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               Control< T >::raise( const_cast< const Input& >( in ), st... );  // NOLINT
+               Control< T >::raise( static_cast< const Input& >( in ), st... );
 #if defined( _MSC_VER )
                __assume( false );  // LCOV_EXCL_LINE
 #else

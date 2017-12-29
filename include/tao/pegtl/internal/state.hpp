@@ -61,7 +61,7 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               State s( const_cast< const Input& >( in ), st... );  // NOLINT
+               State s( static_cast< const Input& >( in ), st... );
 
                if( duseltronik< seq< Rules... >, A, M, Action, Control >::match( in, s ) ) {
                   success< A, M, Action, Control >( s, in, st... );
