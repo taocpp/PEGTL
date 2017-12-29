@@ -22,7 +22,7 @@ namespace tao
             explicit cstream_reader( std::FILE* s ) noexcept
                : m_cstream( s )
             {
-               assert( m_cstream );
+               assert( m_cstream != nullptr );
             }
 
             std::size_t operator()( char* buffer, const std::size_t length )

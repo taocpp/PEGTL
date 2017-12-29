@@ -21,7 +21,7 @@ namespace tao
             explicit cstring_reader( const char* zero_terminated ) noexcept
                : m_cstring( zero_terminated )
             {
-               assert( m_cstring );
+               assert( m_cstring != nullptr );
             }
 
             std::size_t operator()( char* buffer, const std::size_t length ) noexcept
