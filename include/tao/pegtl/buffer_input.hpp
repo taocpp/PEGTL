@@ -132,7 +132,7 @@ namespace tao
          {
             if( m_current.data + amount > m_end ) {
                if( m_current.data + amount <= m_buffer.get() + m_maximum ) {
-                  if( const auto r = m_reader( const_cast< char* >( m_end ), amount - std::size_t( m_end - m_current.data ) ) ) {
+                  if( const auto r = m_reader( m_end, amount - std::size_t( m_end - m_current.data ) ) ) {
                      m_end += r;
                   }
                   else {
@@ -168,7 +168,7 @@ namespace tao
          std::size_t m_maximum;
          std::unique_ptr< char[] > m_buffer;
          iterator_t m_current;
-         const char* m_end;
+         char* m_end;
          const Source m_source;
       };
 
