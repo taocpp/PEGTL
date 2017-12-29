@@ -38,7 +38,8 @@ namespace tao
 
             ~file_mapper() noexcept
             {
-               ::munmap( const_cast< char* >( m_data ), m_size );  // Legacy C interface requires pointer-to-mutable but does not write through the pointer.
+               // Legacy C interface requires pointer-to-mutable but does not write through the pointer.
+               ::munmap( const_cast< char* >( m_data ), m_size );  // NOLINT
             }
 
             file_mapper( const file_mapper& ) = delete;
