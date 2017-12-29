@@ -4,6 +4,7 @@
 #ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_CSTREAM_READER_HPP
 #define TAOCPP_PEGTL_INCLUDE_INTERNAL_CSTREAM_READER_HPP
 
+#include <cassert>
 #include <cstddef>
 #include <cstdio>
 
@@ -21,6 +22,7 @@ namespace tao
             explicit cstream_reader( std::FILE* s ) noexcept
                : m_cstream( s )
             {
+               assert( m_cstream );
             }
 
             std::size_t operator()( char* buffer, const std::size_t length )
