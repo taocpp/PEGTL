@@ -181,7 +181,7 @@ namespace calculator
 
    // Here the actual grammar starts.
 
-   using namespace tao::pegtl;
+   using namespace tao::pegtl;  // NOLINT
 
    // Comments are introduced by a '#' and proceed to the end-of-line/file.
 

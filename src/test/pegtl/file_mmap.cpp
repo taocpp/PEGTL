@@ -7,7 +7,6 @@
 #if defined( _POSIX_MAPPED_FILES )
 
 #include "test.hpp"
-
 #include "verify_file.hpp"
 
 namespace tao

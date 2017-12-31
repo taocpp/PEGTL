@@ -34,7 +34,7 @@ CXXFLAGS ?= -Wall -Wextra -Wshadow -Werror -O3 $(MINGW_CXXFLAGS)
 
 CLANG_TIDY ?= clang-tidy
 
-HEADERS := $(shell find include -name '*.hpp')
+HEADERS := $(shell find include -name '*.hpp') $(filter-out src/test/pegtl/main.hpp,$(shell find src -name '*.hpp'))
 SOURCES := $(shell find src -name '*.cpp')
 DEPENDS := $(SOURCES:%.cpp=build/%.d)
 BINARIES := $(SOURCES:%.cpp=build/%)
@@ -69,7 +69,7 @@ cppcheck: $(HEADERS:%.hpp=build/%.cppcheck)
 	@echo "All $(words $(HEADERS)) cppcheck tests passed."
 
 build/%.clang-tidy: %
-	$(CLANG_TIDY) -extra-arg "-Iinclude" -extra-arg "-std=c++11" -checks=*,-google-runtime-references,-google-runtime-int,-google-build-using-namespace,-google-readability-todo,-llvm-header-guard,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-modernize-raw-string-literal,-misc-sizeof-expression,-cert-err58-cpp,-cert-err60-cpp -warnings-as-errors=* $< 2>/dev/null
+	$(CLANG_TIDY) -extra-arg "-Iinclude" -extra-arg "-std=c++11" -checks=*,-google-runtime-references,-google-runtime-int,-google-readability-todo,-llvm-header-guard,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-modernize-raw-string-literal,-misc-sizeof-expression -warnings-as-errors=* $< 2>/dev/null
 	@mkdir -p $(@D)
 	@touch $@
 

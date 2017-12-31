@@ -2,6 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include "test.hpp"
+#include "verify_fail.hpp"
 
 #include <tao/pegtl/contrib/raw_string.hpp>
 
@@ -9,7 +10,7 @@ namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
    {
-      std::string content;
+      std::string content;  // NOLINT
 
       using rstring = raw_string< '[', '=', ']' >;
       using qstring = raw_string< '[', '=', ']', alpha, digit >;

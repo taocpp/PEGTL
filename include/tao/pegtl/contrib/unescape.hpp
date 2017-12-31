@@ -85,7 +85,7 @@ namespace tao
                case 'F':
                   return I( c - 'A' + 10 );
             }
-            throw std::runtime_error( "invalid character in unhex" );  // LCOV_EXCL_LINE
+            throw std::runtime_error( "invalid character in unhex" );  // NOLINT, LCOV_EXCL_LINE
          }
 
          template< typename I >
@@ -135,7 +135,7 @@ namespace tao
                      return *( r.begin() + i );
                   }
                }
-               throw std::runtime_error( "invalid character in unescape" );  // LCOV_EXCL_LINE
+               throw std::runtime_error( "invalid character in unescape" );  // NOLINT, LCOV_EXCL_LINE
             }
          };
 

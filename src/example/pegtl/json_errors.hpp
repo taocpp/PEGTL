@@ -22,7 +22,7 @@ namespace examples
       static const std::string error_message;
 
       template< typename Input, typename... States >
-      static void raise( const Input& in, States&&... )
+      static void raise( const Input& in, States&&... /*unused*/ )
       {
          throw tao::TAOCPP_PEGTL_NAMESPACE::parse_error( error_message, in );
       }
@@ -32,23 +32,23 @@ namespace examples
    // member are then used in the exception messages:
 
    // clang-format off
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::text >::error_message = "no valid JSON";
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::text >::error_message = "no valid JSON";  // NOLINT
 
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::end_array >::error_message = "incomplete array, expected ']'";
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::end_object >::error_message = "incomplete object, expected '}'";
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::member >::error_message = "expected member";
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::name_separator >::error_message = "expected ':'";
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::array_element >::error_message = "expected value";
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::value >::error_message = "expected value";
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::end_array >::error_message = "incomplete array, expected ']'";  // NOLINT
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::end_object >::error_message = "incomplete object, expected '}'";  // NOLINT
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::member >::error_message = "expected member";  // NOLINT
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::name_separator >::error_message = "expected ':'";  // NOLINT
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::array_element >::error_message = "expected value";  // NOLINT
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::value >::error_message = "expected value";  // NOLINT
 
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::digits >::error_message = "expected at least one digit";
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::xdigit >::error_message = "incomplete universal character name";
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::escaped >::error_message = "unknown escape sequence";
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::char_ >::error_message = "invalid character in string";
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::string::content >::error_message = "unterminated string";
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::key::content >::error_message = "unterminated key";
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::digits >::error_message = "expected at least one digit";  // NOLINT
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::xdigit >::error_message = "incomplete universal character name";  // NOLINT
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::escaped >::error_message = "unknown escape sequence";  // NOLINT
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::char_ >::error_message = "invalid character in string";  // NOLINT
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::string::content >::error_message = "unterminated string";  // NOLINT
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::json::key::content >::error_message = "unterminated key";  // NOLINT
 
-   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::eof >::error_message = "unexpected character after JSON value";
+   template<> const std::string errors< tao::TAOCPP_PEGTL_NAMESPACE::eof >::error_message = "unexpected character after JSON value";  // NOLINT
    // clang-format on
 
    // The raise()-function-template is instantiated exactly

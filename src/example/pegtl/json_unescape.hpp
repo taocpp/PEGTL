@@ -19,7 +19,12 @@ namespace examples
       unescape_state_base() = default;
 
       unescape_state_base( const unescape_state_base& ) = delete;
+      unescape_state_base( unescape_state_base&& ) = delete;
+
+      ~unescape_state_base() = default;
+
       void operator=( const unescape_state_base& ) = delete;
+      void operator=( unescape_state_base&& ) = delete;
 
       std::string unescaped;
    };

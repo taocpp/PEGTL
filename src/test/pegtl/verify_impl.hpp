@@ -13,7 +13,7 @@
 #include <tao/pegtl/rewind_mode.hpp>
 
 #include "result_type.hpp"
-#include "test_failed.hpp"
+#include "test.hpp"
 
 namespace tao
 {
@@ -32,7 +32,7 @@ namespace tao
             return result_type::GLOBAL_FAILURE;
          }
          catch( ... ) {
-            throw std::runtime_error( "code should be unreachable" );  // LCOV_EXCL_LINE
+            throw std::runtime_error( "code should be unreachable" );  // NOLINT, LCOV_EXCL_LINE
          }
       }
 

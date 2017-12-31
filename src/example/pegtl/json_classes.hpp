@@ -24,20 +24,24 @@ namespace examples
 
    class json_base
    {
-   public:
-      const json_type type;
-
-      virtual void stream( std::ostream& ) const = 0;
-
    protected:
       explicit json_base( const json_type in_type )
          : type( in_type )
       {
       }
 
-      ~json_base()
-      {
-      }
+      ~json_base() = default;
+
+   public:
+      json_base( const json_base& ) = delete;
+      json_base( json_base&& ) = delete;
+
+      void operator=( const json_base& ) = delete;
+      void operator=( json_base&& ) = delete;
+
+      virtual void stream( std::ostream& ) const = 0;
+
+      const json_type type;
    };
 
    inline std::ostream& operator<<( std::ostream& o, const json_base& j )
@@ -61,7 +65,7 @@ namespace examples
 
       std::vector< std::shared_ptr< json_base > > data;
 
-      virtual void stream( std::ostream& o ) const override
+      void stream( std::ostream& o ) const override
       {
          o << '[';
          if( !data.empty() ) {
@@ -86,7 +90,7 @@ namespace examples
 
       bool data;
 
-      virtual void stream( std::ostream& o ) const override
+      void stream( std::ostream& o ) const override
       {
          o << ( data ? "true" : "false" );
       }
@@ -100,7 +104,7 @@ namespace examples
       {
       }
 
-      virtual void stream( std::ostream& o ) const override
+      void stream( std::ostream& o ) const override
       {
          o << "null";
       }
@@ -117,7 +121,7 @@ namespace examples
 
       long double data;
 
-      virtual void stream( std::ostream& o ) const override
+      void stream( std::ostream& o ) const override
       {
          o << data;
       }
@@ -131,7 +135,7 @@ namespace examples
 
       static const char* h = "0123456789abcdef";
 
-      const unsigned char* d = reinterpret_cast< const unsigned char* >( data.data() );
+      const auto* d = static_cast< const unsigned char* >( static_cast< const void* >( data.data() ) );
 
       for( std::size_t i = 0; i < data.size(); ++i ) {
          switch( const auto c = d[ i ] ) {
@@ -174,7 +178,7 @@ namespace examples
    struct string_json
       : public json_base
    {
-      explicit string_json( const std::string& in_data )
+      explicit string_json( const std::string& in_data )  // NOLINT
          : json_base( json_type::STRING ),
            data( in_data )
       {
@@ -182,7 +186,7 @@ namespace examples
 
       std::string data;
 
-      virtual void stream( std::ostream& o ) const override
+      void stream( std::ostream& o ) const override
       {
          o << json_escape( data );
       }
@@ -198,7 +202,7 @@ namespace examples
 
       std::map< std::string, std::shared_ptr< json_base > > data;
 
-      virtual void stream( std::ostream& o ) const override
+      void stream( std::ostream& o ) const override
       {
          o << '{';
          if( !data.empty() ) {

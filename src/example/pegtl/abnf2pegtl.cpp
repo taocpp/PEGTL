@@ -131,26 +131,26 @@ namespace tao
                }
             };
 
-            template<> const std::string error_control< comment_cont >::error_message = "unterminated comment";
+            template<> const std::string error_control< comment_cont >::error_message = "unterminated comment";  // NOLINT
 
-            template<> const std::string error_control< quoted_string_cont >::error_message = "unterminated string (missing '\"')";
-            template<> const std::string error_control< prose_val_cont >::error_message = "unterminated prose description (missing '>')";
+            template<> const std::string error_control< quoted_string_cont >::error_message = "unterminated string (missing '\"')";  // NOLINT
+            template<> const std::string error_control< prose_val_cont >::error_message = "unterminated prose description (missing '>')";  // NOLINT
 
-            template<> const std::string error_control< hex_val::value >::error_message = "expected hexadecimal value";
-            template<> const std::string error_control< dec_val::value >::error_message = "expected decimal value";
-            template<> const std::string error_control< bin_val::value >::error_message = "expected binary value";
-            template<> const std::string error_control< num_val_choice >::error_message = "expected base specifier (one of 'bBdDxX')";
+            template<> const std::string error_control< hex_val::value >::error_message = "expected hexadecimal value";  // NOLINT
+            template<> const std::string error_control< dec_val::value >::error_message = "expected decimal value";  // NOLINT
+            template<> const std::string error_control< bin_val::value >::error_message = "expected binary value";  // NOLINT
+            template<> const std::string error_control< num_val_choice >::error_message = "expected base specifier (one of 'bBdDxX')";  // NOLINT
 
-            template<> const std::string error_control< option_close >::error_message = "unterminated option (missing ']')";
-            template<> const std::string error_control< group_close >::error_message = "unterminated group (missing ')')";
+            template<> const std::string error_control< option_close >::error_message = "unterminated option (missing ']')";  // NOLINT
+            template<> const std::string error_control< group_close >::error_message = "unterminated group (missing ')')";  // NOLINT
 
-            template<> const std::string error_control< repetition >::error_message = "expected element";
-            template<> const std::string error_control< concatenation >::error_message = "expected element";
-            template<> const std::string error_control< alternation >::error_message = "expected element";
+            template<> const std::string error_control< repetition >::error_message = "expected element";  // NOLINT
+            template<> const std::string error_control< concatenation >::error_message = "expected element";  // NOLINT
+            template<> const std::string error_control< alternation >::error_message = "expected element";  // NOLINT
 
-            template<> const std::string error_control< defined_as >::error_message = "expected '=' or '=/'";
-            template<> const std::string error_control< c_nl >::error_message = "unterminated rule";
-            template<> const std::string error_control< rule >::error_message = "expected rule";
+            template<> const std::string error_control< defined_as >::error_message = "expected '=' or '=/'";  // NOLINT
+            template<> const std::string error_control< c_nl >::error_message = "unterminated rule";  // NOLINT
+            template<> const std::string error_control< rule >::error_message = "expected rule";  // NOLINT
             // clang-format on
 
          }  // namespace grammar
@@ -185,7 +185,7 @@ namespace abnf2pegtl
    namespace
    {
       // clang-format off
-      std::set< std::string > keywords = {
+      std::set< std::string > keywords = {  // NOLINT
          "alignas", "alignof", "and", "and_eq",
          "asm", "auto", "bitand", "bitor",
          "bool", "break", "case", "catch",
@@ -228,7 +228,7 @@ namespace abnf2pegtl
       return v;
    }
 
-   const std::size_t one_size = std::string( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::one< " ).size();
+   const std::size_t one_size = std::string( "tao::" TAOCPP_PEGTL_STRINGIFY( TAOCPP_PEGTL_NAMESPACE ) "::one< " ).size();  // NOLINT
 
    namespace grammar = tao::TAOCPP_PEGTL_NAMESPACE::abnf::grammar;
 
@@ -682,7 +682,7 @@ namespace abnf2pegtl
 
 int main( int argc, char** argv )
 {
-   using namespace tao::pegtl;
+   using namespace tao::pegtl;  // NOLINT
 
    if( argc != 2 ) {
       analyze< abnf::grammar::rulelist >();

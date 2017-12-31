@@ -2,6 +2,9 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include "test.hpp"
+#include "verify_analyze.hpp"
+#include "verify_fail.hpp"
+#include "verify_rule.hpp"
 
 #include <tao/pegtl/contrib/uri.hpp>
 

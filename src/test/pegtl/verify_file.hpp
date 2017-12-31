@@ -6,6 +6,8 @@
 
 #include <tao/pegtl.hpp>
 
+#include "test.hpp"
+
 namespace tao
 {
    namespace TAOCPP_PEGTL_NAMESPACE
@@ -44,7 +46,7 @@ namespace tao
          : normal< eof >
       {
          template< typename Input >
-         static void success( const Input&, bool& flag )
+         static void success( const Input& /*unused*/, bool& flag )
          {
             flag = true;
          }

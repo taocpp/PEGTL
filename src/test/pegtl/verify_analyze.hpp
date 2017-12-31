@@ -6,7 +6,7 @@
 
 #include <tao/pegtl/analyze.hpp>
 
-#include "test_failed.hpp"
+#include "test.hpp"
 
 namespace tao
 {

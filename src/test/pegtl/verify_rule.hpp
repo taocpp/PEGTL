@@ -7,6 +7,10 @@
 #include <cstdlib>
 #include <string>
 
+#include <tao/pegtl/eol.hpp>
+#include <tao/pegtl/memory_input.hpp>
+#include <tao/pegtl/tracking_mode.hpp>
+
 #include "result_type.hpp"
 #include "verify_impl.hpp"
 
@@ -18,7 +22,7 @@ namespace tao
       struct verify_action_impl
       {
          template< typename Input, typename... States >
-         static void apply( const Input&, States&&... )
+         static void apply( const Input& /*unused*/, States&&... /*unused*/ )
          {
          }
       };
@@ -27,7 +31,7 @@ namespace tao
       struct verify_action_impl0
       {
          template< typename... States >
-         static void apply0( States&&... )
+         static void apply0( States&&... /*unused*/ )
          {
          }
       };

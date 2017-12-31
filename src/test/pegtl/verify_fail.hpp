@@ -7,9 +7,11 @@
 #include <cstddef>
 #include <string>
 
-#include <tao/pegtl.hpp>
+#include <tao/pegtl/memory_input.hpp>
+#include <tao/pegtl/nothing.hpp>
+#include <tao/pegtl/parse.hpp>
 
-#include "test_failed.hpp"
+#include "test.hpp"
 
 namespace tao
 {

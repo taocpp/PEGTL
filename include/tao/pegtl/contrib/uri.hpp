@@ -25,21 +25,19 @@ namespace tao
 
          // Note that this grammar has multiple top-level rules.
 
-         using namespace abnf;
-
          using dot = one< '.' >;
          using colon = one< ':' >;
 
          // clang-format off
          struct dec_octet : sor< one< '0' >,
-                                 rep_min_max< 1, 2, DIGIT >,
-                                 seq< one< '1' >, DIGIT, DIGIT >,
-                                 seq< one< '2' >, range< '0', '4' >, DIGIT >,
+                                 rep_min_max< 1, 2, abnf::DIGIT >,
+                                 seq< one< '1' >, abnf::DIGIT, abnf::DIGIT >,
+                                 seq< one< '2' >, range< '0', '4' >, abnf::DIGIT >,
                                  seq< string< '2', '5' >, range< '0', '5' > > > {};
 
          struct IPv4address : seq< dec_octet, dot, dec_octet, dot, dec_octet, dot, dec_octet > {};
 
-         struct h16 : rep_min_max< 1, 4, HEXDIG > {};
+         struct h16 : rep_min_max< 1, 4, abnf::HEXDIG > {};
          struct ls32 : sor< seq< h16, colon, h16 >, IPv4address > {};
 
          struct dcolon : two< ':' > {};
@@ -57,14 +55,14 @@ namespace tao
          struct gen_delims : one< ':', '/', '?', '#', '[', ']', '@' > {};
          struct sub_delims : one< '!', '$', '&', '\'', '(', ')', '*', '+', ',', ';', '=' > {};
 
-         struct unreserved : sor< ALPHA, DIGIT, one< '-', '.', '_', '~' > > {};
+         struct unreserved : sor< abnf::ALPHA, abnf::DIGIT, one< '-', '.', '_', '~' > > {};
          struct reserved : sor< gen_delims, sub_delims > {};
 
-         struct IPvFuture : if_must< one< 'v' >, plus< HEXDIG >, dot, plus< sor< unreserved, sub_delims, colon > > > {};
+         struct IPvFuture : if_must< one< 'v' >, plus< abnf::HEXDIG >, dot, plus< sor< unreserved, sub_delims, colon > > > {};
 
          struct IP_literal : if_must< one< '[' >, sor< IPvFuture, IPv6address >, one< ']' > > {};
 
-         struct pct_encoded : if_must< one< '%' >, HEXDIG, HEXDIG > {};
+         struct pct_encoded : if_must< one< '%' >, abnf::HEXDIG, abnf::HEXDIG > {};
          struct pchar : sor< unreserved, pct_encoded, sub_delims, one< ':', '@' > > {};
 
          struct query : star< sor< pchar, one< '/', '?' > > > {};
@@ -87,13 +85,13 @@ namespace tao
 
          struct reg_name : star< sor< unreserved, pct_encoded, sub_delims > > {};
 
-         struct port : star< DIGIT > {};
+         struct port : star< abnf::DIGIT > {};
          struct host : sor< IP_literal, IPv4address, reg_name > {};
          struct userinfo : star< sor< unreserved, pct_encoded, sub_delims, colon > > {};
          struct opt_userinfo : opt< userinfo, one< '@' > > {};
          struct authority : seq< opt_userinfo, host, opt< colon, port > > {};
 
-         struct scheme : seq< ALPHA, star< sor< ALPHA, DIGIT, one< '+', '-', '.' > > > > {};
+         struct scheme : seq< abnf::ALPHA, star< sor< abnf::ALPHA, abnf::DIGIT, one< '+', '-', '.' > > > > {};
 
          using dslash = two< '/' >;
          using opt_query = opt< if_must< one< '?' >, query > >;

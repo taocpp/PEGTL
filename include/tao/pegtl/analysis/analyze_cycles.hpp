@@ -84,7 +84,7 @@ namespace tao
                         return m_cache[ start->first ] = a;
                      }
                   }
-                  throw std::runtime_error( "code should be unreachable" );  // LCOV_EXCL_LINE
+                  throw std::runtime_error( "code should be unreachable" );  // NOLINT, LCOV_EXCL_LINE
                }
                if( !accum ) {
                   ++m_problems;

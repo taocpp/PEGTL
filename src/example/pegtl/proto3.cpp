@@ -134,7 +134,7 @@ namespace tao
 
 int main( int argc, char** argv )
 {
-   using namespace tao::TAOCPP_PEGTL_NAMESPACE;
+   using namespace tao::TAOCPP_PEGTL_NAMESPACE;  // NOLINT
 
    analyze< proto3::proto >();
 

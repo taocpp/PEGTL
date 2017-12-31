@@ -2,6 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include "test.hpp"
+#include "verify_fail.hpp"
 
 #include <tao/pegtl/contrib/unescape.hpp>
 
@@ -36,7 +37,7 @@ namespace tao
          memory_input<> in( m, M - 1, __FUNCTION__ );
          parse< unstring, unaction >( in, st );
          if( st.unescaped != std::string( n, N - 1 ) ) {
-            throw std::runtime_error( "test failed!" );
+            throw std::runtime_error( "test failed!" );  // NOLINT
          }
       }
 

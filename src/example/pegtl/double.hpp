@@ -11,7 +11,7 @@ namespace double_
    // A grammar for doubles suitable for std::stod without locale support.
    // See also: http://en.cppreference.com/w/cpp/string/basic_string/stof
 
-   using namespace tao::TAOCPP_PEGTL_NAMESPACE;
+   using namespace tao::TAOCPP_PEGTL_NAMESPACE;  // NOLINT
 
    // clang-format off
    struct plus_minus : opt< one< '+', '-' > > {};
