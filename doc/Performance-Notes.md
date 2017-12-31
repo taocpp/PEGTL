@@ -42,4 +42,4 @@ However with `-O0`, the optimised `at_one< '"' >` was faster by 5-10% in a [JSON
 
 We still need to test whether the compiler manages to perform the same optimisation in more complex cases.
 
-Copyright (c) 2017 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2017-2018 Dr. Colin Hirsch and Daniel Frey

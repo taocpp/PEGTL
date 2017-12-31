@@ -395,4 +395,4 @@ long literal id was: "fraggle"
 long literal body was: "[foo["
 ```
 
-Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey

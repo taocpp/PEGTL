@@ -821,4 +821,4 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`upper`](#upper) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`xdigit`](#xdigit) <sup>[(ascii rules)](#ascii-rules)</sup>
 
-Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey

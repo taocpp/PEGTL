@@ -4,7 +4,7 @@ Since the PEGTL is a parser library, here is an "inverse hello world" example th
 rather than prints, the string `Hello, foo!` for any sequence of alphabetic ASCII characters `foo`.
 
 ```c++
-// Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <string>
@@ -102,4 +102,4 @@ Aborted (core dumped)
 Frequently an application will include a top-level `try-catch` block to handle
 the exception.
 
-Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey

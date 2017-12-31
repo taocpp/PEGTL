@@ -74,4 +74,4 @@
 * [Changelog](Changelog.md)
 * [Migration Guide](Migration-Guide.md)
 
-Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey

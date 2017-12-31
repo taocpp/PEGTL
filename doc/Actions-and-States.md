@@ -288,4 +288,4 @@ The actual switching control classes are defined in `<tao/pegtl/contrib/changes.
 
 See the [section on legacy-style action rules](Rule-Reference.md#action-rules).
 
-Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey

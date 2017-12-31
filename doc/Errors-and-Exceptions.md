@@ -159,4 +159,4 @@ This is similar to the default behaviour, but one will not get a linker error in
 It is advisable to choose the error points in the grammar with prudence.
 This choice becoming particularly cumbersome and/or resulting in a large number of error points might be an indication of the grammar needing some kind of simplification or restructuring.
 
-Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey

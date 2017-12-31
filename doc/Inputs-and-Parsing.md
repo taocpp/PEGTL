@@ -357,4 +357,4 @@ The steps required to use a custom reader for a parsing run are:
 
 The included examples for C- and C++-style streams can also be used as reference on how to create and use suitable readers, simply `grep(1)` for `cstream_reader` and `istream_reader` (and `cstring_reader`) in the PEGTL source code.
 
-Copyright (c) 2014-2017 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey
