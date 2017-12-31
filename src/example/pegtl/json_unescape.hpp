@@ -42,6 +42,6 @@ namespace examples
    template<> struct unescape_action< tao::TAOCPP_PEGTL_NAMESPACE::json::unescaped > : tao::TAOCPP_PEGTL_NAMESPACE::unescape::append_all {};
    // clang-format on
 
-}  // examples
+}  // namespace examples
 
 #endif

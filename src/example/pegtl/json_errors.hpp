@@ -57,6 +57,6 @@ namespace examples
    // error_message needs to be supplied only for these rules
    // (and the compiler will complain if one is missing).
 
-}  // examples
+}  // namespace examples
 
 #endif

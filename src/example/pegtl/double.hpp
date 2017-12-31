@@ -40,6 +40,6 @@ namespace double_
    struct grammar : seq< plus_minus, sor< hexadecimal, decimal, inf, nan > > {};
    // clang-format on
 
-}  // double_
+}  // namespace double_
 
 #endif

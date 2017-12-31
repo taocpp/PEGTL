@@ -216,6 +216,6 @@ namespace examples
       }
    };
 
-}  // examples
+}  // namespace examples
 
 #endif
