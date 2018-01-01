@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.3
+
+Released 2018-01-01
+
+* Added more `noexcept`-specifications.
+* Fixed most `clang-tidy`-issues.
+
 ## 2.3.2
 
 Released 2017-12-16
