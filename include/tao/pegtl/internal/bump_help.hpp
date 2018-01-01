@@ -51,8 +51,7 @@ namespace tao
          template< result_on_found R, typename Input, typename Char, Char... Cs >
          void bump_help( Input& in, const std::size_t count ) noexcept
          {
-            using eol_t = typename Input::eol_t;
-            bump_impl< bool_and< ( Cs != eol_t::ch )... >::value != bool( R ) >::bump( in, count );
+            bump_impl< bool_and< ( Cs != Input::eol_t::ch )... >::value != bool( R ) >::bump( in, count );
          }
 
       }  // namespace internal

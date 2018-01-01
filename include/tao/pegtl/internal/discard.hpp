@@ -21,8 +21,9 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::OPT >;
 
             template< typename Input >
-            static bool match( Input& in )
+            static bool match( Input& in ) noexcept
             {
+               static_assert( noexcept( in.discard() ), "an input's discard()-method must be noexcept" );
                in.discard();
                return true;
             }

@@ -37,7 +37,7 @@ namespace tao
 
          struct file_close
          {
-            void operator()( FILE* f ) const
+            void operator()( FILE* f ) const noexcept
             {
                std::fclose( f );
             }
@@ -52,7 +52,7 @@ namespace tao
             {
             }
 
-            file_reader( FILE* file, const char* filename )
+            file_reader( FILE* file, const char* filename ) noexcept
                : m_source( filename ),
                  m_file( file )
             {

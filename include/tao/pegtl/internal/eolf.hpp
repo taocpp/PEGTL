@@ -21,10 +21,9 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::OPT >;
 
             template< typename Input >
-            static bool match( Input& in )
+            static bool match( Input& in ) noexcept( noexcept( Input::eol_t::match( in ) ) )
             {
-               using eol_t = typename Input::eol_t;
-               const auto p = eol_t::match( in );
+               const auto p = Input::eol_t::match( in );
                return p.first || ( !p.second );
             }
          };

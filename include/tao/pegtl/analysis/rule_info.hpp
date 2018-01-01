@@ -19,7 +19,7 @@ namespace tao
       {
          struct rule_info
          {
-            explicit rule_info( const rule_type in_type )
+            explicit rule_info( const rule_type in_type ) noexcept
                : type( in_type )
             {
             }

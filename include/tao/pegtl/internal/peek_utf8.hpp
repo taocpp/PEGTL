@@ -20,7 +20,7 @@ namespace tao
             using pair_t = input_pair< char32_t >;
 
             template< typename Input >
-            static pair_t peek( Input& in )
+            static pair_t peek( Input& in ) noexcept( noexcept( in.size( 4 ) ) )
             {
                char32_t c0 = in.peek_byte();
 

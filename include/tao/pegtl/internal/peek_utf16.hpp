@@ -27,7 +27,7 @@ namespace tao
             static_assert( sizeof( char16_t ) == 2, "expected size 2 for 16bit value" );
 
             template< typename Input >
-            static pair_t peek( Input& in )
+            static pair_t peek( Input& in ) noexcept( noexcept( in.size( 4 ) ) )
             {
                const std::size_t s = in.size( 4 );
                if( s >= 2 ) {

@@ -33,7 +33,7 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
             template< typename Input >
-            static bool match( Input& in )
+            static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
             {
                if( !in.empty() ) {
                   if( const auto t = Peek::peek( in ) ) {
@@ -53,7 +53,7 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
             template< typename Input >
-            static bool match( Input& in )
+            static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
             {
                if( !in.empty() ) {
                   if( const auto t = Peek::peek( in ) ) {

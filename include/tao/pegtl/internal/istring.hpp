@@ -81,7 +81,7 @@ namespace tao
             using analyze_t = analysis::counted< analysis::rule_type::ANY, sizeof...( Cs ) >;
 
             template< typename Input >
-            static bool match( Input& in )
+            static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
             {
                if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
                   if( istring_equal< Cs... >::match( in.current() ) ) {

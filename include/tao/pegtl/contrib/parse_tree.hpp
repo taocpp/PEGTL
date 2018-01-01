@@ -69,7 +69,7 @@ namespace tao
          template< typename T, typename = void >
          struct transform
          {
-            static void call( std::unique_ptr< parse_tree::node >& /*unused*/ )
+            static void call( std::unique_ptr< parse_tree::node >& /*unused*/ ) noexcept
             {
             }
          };
@@ -128,7 +128,7 @@ namespace tao
             }
 
             template< typename Input >
-            static void failure( const Input& /*unused*/, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void failure( const Input& /*unused*/, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s ) noexcept
             {
                s.pop_back();
             }
@@ -158,7 +158,7 @@ namespace tao
             }
 
             template< typename Input >
-            static void failure( const Input& /*unused*/, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void failure( const Input& /*unused*/, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s ) noexcept
             {
                s.pop_back();
             }

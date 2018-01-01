@@ -58,8 +58,7 @@ namespace tao
          static auto apply( const Iterator& begin, const Input& in, States&&... st )
             -> decltype( Action< Rule >::apply( std::declval< typename Input::action_t >(), st... ) )
          {
-            using action_t = typename Input::action_t;
-            const action_t action_input( begin, in );
+            const typename Input::action_t action_input( begin, in );
             return Action< Rule >::apply( action_input, st... );
          }
 

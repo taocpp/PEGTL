@@ -18,7 +18,7 @@ namespace tao
             static constexpr int ch = '\n';
 
             template< typename Input >
-            static eol_pair match( Input& in )
+            static eol_pair match( Input& in ) noexcept( noexcept( in.size( 2 ) ) )
             {
                eol_pair p = { false, in.size( 2 ) };
                if( p.second ) {

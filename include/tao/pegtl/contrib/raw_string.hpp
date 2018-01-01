@@ -39,7 +39,7 @@ namespace tao
                       template< typename... > class Action,
                       template< typename... > class Control,
                       typename Input >
-            static bool match( Input& in, std::size_t& marker_size )
+            static bool match( Input& in, std::size_t& marker_size ) noexcept( noexcept( in.size( 0 ) ) )
             {
                if( in.empty() || ( in.peek_char( 0 ) != Open ) ) {
                   return false;
@@ -76,7 +76,7 @@ namespace tao
                       template< typename... > class Action,
                       template< typename... > class Control,
                       typename Input >
-            static bool match( Input& in, const std::size_t& marker_size )
+            static bool match( Input& in, const std::size_t& marker_size ) noexcept( noexcept( in.size( 0 ) ) )
             {
                if( in.size( marker_size ) < marker_size ) {
                   return false;
