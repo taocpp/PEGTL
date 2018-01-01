@@ -32,9 +32,9 @@ namespace tao
          struct name_separator : pad< one< ':' >, ws > {};
          struct value_separator : padr< one< ',' > > {};
 
-         struct false_ : TAOCPP_PEGTL_STRING( "false" ) {};
-         struct null : TAOCPP_PEGTL_STRING( "null" ) {};
-         struct true_ : TAOCPP_PEGTL_STRING( "true" ) {};
+         struct false_ : string< 'f', 'a', 'l', 's', 'e' > {};
+         struct null : string< 'n', 'u', 'l', 'l' > {};
+         struct true_ : string< 't', 'r', 'u', 'e' > {};
 
          struct digits : plus< abnf::DIGIT > {};
          struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+'> >, must< digits > > {};

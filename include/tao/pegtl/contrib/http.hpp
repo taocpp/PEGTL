@@ -58,7 +58,7 @@ namespace tao
          struct status_code : rep< 3, abnf::DIGIT > {};
          struct reason_phrase : star< sor< abnf::VCHAR, obs_text, abnf::WSP > > {};
 
-         struct HTTP_version : if_must< TAOCPP_PEGTL_STRING( "HTTP/" ), abnf::DIGIT, one< '.' >, abnf::DIGIT > {};
+         struct HTTP_version : if_must< string< 'H', 'T', 'T', 'P', '/' >, abnf::DIGIT, one< '.' >, abnf::DIGIT > {};
 
          struct request_line : if_must< method, abnf::SP, request_target, abnf::SP, HTTP_version, abnf::CRLF > {};
          struct status_line : if_must< HTTP_version, abnf::SP, status_code, abnf::SP, reason_phrase, abnf::CRLF > {};
@@ -82,17 +82,17 @@ namespace tao
 
          struct transfer_parameter : seq< token, BWS, one< '=' >, BWS, sor< token, quoted_string > > {};
          struct transfer_extension : seq< token, star< OWS, one< ';' >, OWS, transfer_parameter > > {};
-         struct transfer_coding : sor< TAOCPP_PEGTL_ISTRING( "chunked" ),
-                                       TAOCPP_PEGTL_ISTRING( "compress" ),
-                                       TAOCPP_PEGTL_ISTRING( "deflate" ),
-                                       TAOCPP_PEGTL_ISTRING( "gzip" ),
+         struct transfer_coding : sor< istring< 'c', 'h', 'u', 'n', 'k', 'e', 'd' >,
+                                       istring< 'c', 'o', 'm', 'p', 'r', 'e', 's', 's' >,
+                                       istring< 'd', 'e', 'f', 'l', 'a', 't', 'e' >,
+                                       istring< 'g', 'z', 'i', 'p' >,
                                        transfer_extension > {};
 
          struct rank : sor< seq< one< '0' >, opt< one< '.' >, rep_opt< 3, abnf::DIGIT > > >,
                             seq< one< '1' >, opt< one< '.' >, rep_opt< 3, one< '0' > > > > > {};
 
          struct t_ranking : seq< OWS, one< ';' >, OWS, one< 'q', 'Q' >, one< '=' >, rank > {};
-         struct t_codings : sor< TAOCPP_PEGTL_ISTRING( "trailers" ), seq< transfer_coding, opt< t_ranking > > > {};
+         struct t_codings : sor< istring< 't', 'r', 'a', 'i', 'l', 'e', 'r', 's' >, seq< transfer_coding, opt< t_ranking > > > {};
 
          struct TE : opt< sor< one< ',' >, t_codings >, star< OWS, one< ',' >, opt< OWS, t_codings > > > {};
 
@@ -120,8 +120,8 @@ namespace tao
 
          struct Via : make_comma_list< seq< received_protocol, RWS, received_by, opt< RWS, comment > > > {};
 
-         struct http_URI : if_must< TAOCPP_PEGTL_ISTRING( "http://" ), uri::authority, uri::path_abempty, uri::opt_query, uri::opt_fragment > {};
-         struct https_URI : if_must< TAOCPP_PEGTL_ISTRING( "https://" ), uri::authority, uri::path_abempty, uri::opt_query, uri::opt_fragment > {};
+         struct http_URI : if_must< istring< 'h', 't', 't', 'p', ':', '/', '/' >, uri::authority, uri::path_abempty, uri::opt_query, uri::opt_fragment > {};
+         struct https_URI : if_must< istring< 'h', 't', 't', 'p', 's', ':', '/', '/' >, uri::authority, uri::path_abempty, uri::opt_query, uri::opt_fragment > {};
 
          struct partial_URI : seq< uri::relative_part, uri::opt_query > {};
 
