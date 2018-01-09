@@ -15,7 +15,7 @@ An action's `apply()` or `apply0()`-method can either return `void`, or a `bool`
 * [States](#states)
 * [Action Specialisation](#action-specialisation)
 * [Changing Actions](#changing-actions)
-* [Changing State](#changing-state)
+* [Changing States](#changing-states)
   * [No Switching](#no-switching)
   * [Intrusive Switching](#intrusive-switching)
   * [External Switching](#external-switching)
