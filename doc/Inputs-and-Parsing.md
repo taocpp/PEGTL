@@ -222,7 +222,7 @@ The parse functions accept the following template parameters and arguments:
 - The [`Rule` class](Rules-and-Grammars.md) represents the top-level parsing rule of the grammar and is mandatory.
 - The [`Action<>` class template](Actions-and-States.md) is required to actually do something during a parsing run.
 - The [`Control<>` class template](Control-and-Debug.md) is only required for grammar debugging or some advanced uses.
-- The [`States`](Actions-and-States) are the types of the objects that are passed to all actions and control hooks.
+- The [`States`](Actions-and-States.md#changing-states) are the types of the objects that are passed to all actions and control hooks.
 
 Additionally, two enumeration values can be used to control the behaviour:
 

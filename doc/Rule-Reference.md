@@ -60,7 +60,7 @@ These rules are in namespace `tao::pegtl`.
 
 * Equivalent to `success`, but:
 * Calls the input's `discard()`-method.
-* See [Incremental Input](Incremental-Input.md) for details.
+* See [Incremental Input](Inputs-and-Parsing.md#incremental-input) for details.
 
 ###### `enable< R... >`
 
@@ -70,7 +70,7 @@ These rules are in namespace `tao::pegtl`.
 ###### `require< Num >`
 
 * Succeeds if at least `Num` further input bytes are available.
-* With [Incremental Input](Incremental-Input.md) reads the bytes into the buffer.
+* With [Incremental Input](Inputs-and-Parsing.md#incremental-input) reads the bytes into the buffer.
 
 ###### `state< S, R... >`
 
