@@ -804,7 +804,7 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`space`](#space) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`star< R, ... >`](#star-r--) <sup>[(combinators)](#combinators)</sup>
 * [`star_must< R, S... >`](#star_must-r-s-) <sup>[(convenience)](#convenience)</sup>
-* [`state< R, S... >`](#state-r-s-) <sup>[(meta rules)](#meta-rules)</sup>
+* [`state< S, R... >`](#state-s-r-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`string< C1, C2, ... >`](#string-c1-c2--) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`string< C1, C2, ... >`](#string-c1-c2---1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
 * [`string< C1, C2, ... >`](#string-c1-c2---2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
