@@ -27,7 +27,7 @@
   * [States](Actions-and-States.md#states)
   * [Action Specialisation](Actions-and-States.md#action-specialisation)
   * [Changing Actions](Actions-and-States.md#changing-actions)
-  * [Changing State](Actions-and-States.md#changing-state)
+  * [Changing States](Actions-and-States.md#changing-states)
     * [No Switching](Actions-and-States.md#no-switching)
     * [Intrusive Switching](Actions-and-States.md#intrusive-switching)
     * [External Switching](Actions-and-States.md#external-switching)
