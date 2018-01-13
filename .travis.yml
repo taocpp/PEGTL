@@ -251,6 +251,7 @@ matrix:
         - CPPFLAGS=-fsanitize=undefined
 
     - compiler: gcc
+      sudo: true
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
@@ -269,6 +270,7 @@ matrix:
         - CPPFLAGS=-fsanitize=undefined
 
     - compiler: clang
+      sudo: true
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
