@@ -1,6 +1,6 @@
 # the official .clang-format style for https://github.com/taocpp
 #
-# clang-format-4.0 -i -style=file $(find -name '[^.]*.[hc]pp')
+# clang-format-5.0 -i -style=file $(find -name '[^.]*.[hc]pp')
 
 Language: Cpp
 Standard: Cpp11
