@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.3.4
+
+**Not yet released**
+
+* Fixed build on older systems where `O_CLOEXEC` is not available.
+* Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with Android 4.4, 6.0, and 7.0.
+
 ## 2.3.3
 
 Released 2018-01-01
