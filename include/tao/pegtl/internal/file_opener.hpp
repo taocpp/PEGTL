@@ -56,7 +56,7 @@ namespace tao
             int open() const
             {
                errno = 0;
-               const int fd = ::open( m_source,
+               const int fd = ::open( m_source,  // NOLINT
                                       O_RDONLY
 #ifdef O_CLOEXEC
                                          | O_CLOEXEC
