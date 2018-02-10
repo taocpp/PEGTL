@@ -51,21 +51,21 @@ namespace tao
       }                                            \
    } while( false )
 
-#define TAOCPP_PEGTL_TEST_THROWS( ... )                            \
-   do {                                                            \
-      try {                                                        \
-         __VA_ARGS__;                                              \
-         std::cerr << "pegtl: unit test [ "                        \
-                   << ( #__VA_ARGS__ )                             \
-                   << " ] did not throw in line [ "                \
-                   << __LINE__                                     \
-                   << " ] file [ "                                 \
-                   << __FILE__ << " ]"                             \
-                   << std::endl;                                   \
-         ++failed;                                                 \
-      }                                                            \
-      catch( ... ) {                                               \
-      }                                                            \
+#define TAOCPP_PEGTL_TEST_THROWS( ... )             \
+   do {                                             \
+      try {                                         \
+         __VA_ARGS__;                               \
+         std::cerr << "pegtl: unit test [ "         \
+                   << ( #__VA_ARGS__ )              \
+                   << " ] did not throw in line [ " \
+                   << __LINE__                      \
+                   << " ] file [ "                  \
+                   << __FILE__ << " ]"              \
+                   << std::endl;                    \
+         ++failed;                                  \
+      }                                             \
+      catch( ... ) {                                \
+      }                                             \
    } while( false )
 
 namespace tao
