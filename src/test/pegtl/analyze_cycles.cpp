@@ -22,6 +22,18 @@ namespace tao
          verify_analyze< success >( __LINE__, __FILE__, false, false );
          verify_analyze< failure >( __LINE__, __FILE__, true, false );
          {
+            struct tst : star< tst >
+            {
+            };
+            verify_analyze< tst >( __LINE__, __FILE__, false, true );
+         }
+         {
+            struct tst : plus< tst >
+            {
+            };
+            verify_analyze< tst >( __LINE__, __FILE__, false, true );
+         }
+         {
             struct tst : seq< eof, at< digit >, tst >
             {
             };
