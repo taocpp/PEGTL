@@ -47,6 +47,10 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * HTTP 1.1 grammar according to [RFC 7230](https://tools.ietf.org/html/rfc7230).
 * Has been used successfully but is still considered experimental.
 
+###### `<tao/pegtl/contrib/integer.hpp>`
+
+* Grammars and actions for PEGTL-input-to-integer conversions.
+
 ###### `<tao/pegtl/contrib/json.hpp>`
 
 * JSON grammar according to [RFC 7159](https://tools.ietf.org/html/rfc7159) (for UTF-8 encoded JSON only).
