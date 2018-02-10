@@ -41,7 +41,6 @@ namespace tao
             I convert_positive( const Input& in, std::size_t index )
             {
                static constexpr I limit = std::numeric_limits< I >::max();
-
                return actual_convert< I, limit >( in, index );
             }
 
@@ -49,9 +48,7 @@ namespace tao
             I convert_negative( const Input& in, std::size_t index )
             {
                using U = typename std::make_unsigned< I >::type;
-
-               static constexpr U limit = -std::numeric_limits< I >::min();
-
+               static constexpr U limit = static_cast< U >( std::numeric_limits< I >::max() ) + 1;
                return -actual_convert< U, limit >( in, index );
             }
 

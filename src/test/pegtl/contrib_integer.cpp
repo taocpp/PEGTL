@@ -103,6 +103,9 @@ namespace tao
          test_unsigned< unsigned char >( "000255", 255 );
          test_unsigned< unsigned char >( "256" );
          test_unsigned< unsigned char >( "000256" );
+
+         test_signed< signed long long >( "0", 0 );
+         test_unsigned< unsigned long long >( "0", 0 );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE
