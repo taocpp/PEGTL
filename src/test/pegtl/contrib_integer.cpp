@@ -1,6 +1,8 @@
 // Copyright (c) 2018 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#include <limits>
+
 #include "test.hpp"
 
 #include <tao/pegtl/contrib/integer.hpp>
@@ -51,6 +53,16 @@ namespace tao
       }
 
       template< typename S >
+      void test_signed( const S s )
+      {
+         int_state< S > st;
+         const auto i = std::to_string( s );
+         memory_input<> in( i, __FUNCTION__ );
+         parse< must< integer::signed_rule, eof >, int_action >( in, st );
+         TAOCPP_PEGTL_TEST_ASSERT( st.converted == s );
+      }
+
+      template< typename S >
       void test_unsigned( const std::string& i, const S s )
       {
          int_state< S > st;
@@ -65,6 +77,16 @@ namespace tao
          int_state< S > st;
          memory_input<> in( i, __FUNCTION__ );
          TAOCPP_PEGTL_TEST_THROWS( parse< must< integer::unsigned_rule, eof >, int_action >( in, st ) );
+      }
+
+      template< typename S >
+      void test_unsigned( const S s )
+      {
+         int_state< S > st;
+         const auto i = std::to_string( s );
+         memory_input<> in( i, __FUNCTION__ );
+         parse< must< integer::unsigned_rule, eof >, int_action >( in, st );
+         TAOCPP_PEGTL_TEST_ASSERT( st.converted == s );
       }
 
       void unit_test()
@@ -105,7 +127,11 @@ namespace tao
          test_unsigned< unsigned char >( "000256" );
 
          test_signed< signed long long >( "0", 0 );
+         test_signed< signed long long >( std::numeric_limits< signed long long >::max() );
+         test_signed< signed long long >( std::numeric_limits< signed long long >::min() );
+
          test_unsigned< unsigned long long >( "0", 0 );
+         test_unsigned< unsigned long long >( std::numeric_limits< unsigned long long >::max() );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

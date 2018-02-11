@@ -49,7 +49,7 @@ namespace tao
             {
                using U = typename std::make_unsigned< I >::type;
                static constexpr U limit = static_cast< U >( std::numeric_limits< I >::max() ) + 1;
-               return -actual_convert< U, limit >( in, index );
+               return static_cast< I >( ~actual_convert< U, limit >( in, index ) ) + 1;
             }
 
          }  // namespace internal
