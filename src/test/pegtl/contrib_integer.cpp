@@ -2,6 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <limits>
+#include <sstream>
 
 #include "test.hpp"
 
@@ -53,10 +54,18 @@ namespace tao
       }
 
       template< typename S >
+      std::string lexical_cast( const S s )
+      {
+         std::ostringstream o;
+         o << s;
+         return o.str();
+      }
+
+      template< typename S >
       void test_signed( const S s )
       {
          int_state< S > st;
-         const auto i = std::to_string( s );
+         const auto i = lexical_cast( s );
          memory_input<> in( i, __FUNCTION__ );
          parse< must< integer::signed_rule, eof >, int_action >( in, st );
          TAOCPP_PEGTL_TEST_ASSERT( st.converted == s );
@@ -83,7 +92,7 @@ namespace tao
       void test_unsigned( const S s )
       {
          int_state< S > st;
-         const auto i = std::to_string( s );
+         const auto i = lexical_cast( s );
          memory_input<> in( i, __FUNCTION__ );
          parse< must< integer::unsigned_rule, eof >, int_action >( in, st );
          TAOCPP_PEGTL_TEST_ASSERT( st.converted == s );
