@@ -28,6 +28,7 @@ namespace tao
             const std::type_info* id = nullptr;
             internal::iterator begin;
             internal::iterator end;
+            std::string source;
          };
 
          class state
@@ -115,6 +116,7 @@ namespace tao
             {
                s.emplace_back();
                s.back()->begin = in.iterator();
+               s.back()->source = in.source();
             }
 
             template< typename Input >
@@ -144,6 +146,7 @@ namespace tao
             {
                s.emplace_back();
                s.back()->begin = in.iterator();
+               s.back()->source = in.source();
             }
 
             template< typename Input >

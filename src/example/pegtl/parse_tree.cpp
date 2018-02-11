@@ -103,10 +103,10 @@ namespace example
    {
       if( n.id != nullptr ) {
          if( n.end.data != nullptr ) {
-            std::cout << s << internal::demangle( n.id->name() ) << " \"" << std::string( n.begin.data, n.end.data ) << "\" at " << position( n.begin, "" ) << " to " << position( n.end, "" ) << std::endl;
+            std::cout << s << internal::demangle( n.id->name() ) << " \"" << std::string( n.begin.data, n.end.data ) << "\" at " << position( n.begin, n.source ) << " to " << position( n.end, n.source ) << std::endl;
          }
          else {
-            std::cout << s << internal::demangle( n.id->name() ) << " at " << position( n.begin, "" ) << std::endl;
+            std::cout << s << internal::demangle( n.id->name() ) << " at " << position( n.begin, n.source ) << std::endl;
          }
       }
       else {
