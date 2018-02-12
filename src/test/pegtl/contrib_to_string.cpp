@@ -12,22 +12,22 @@ namespace tao
    {
       void unit_test()
       {
-         TAOCPP_PEGTL_TEST_ASSERT( to_string< string<> >().empty() );
-         TAOCPP_PEGTL_TEST_ASSERT( ( to_string< string< 'a', 'b', 'c' > >() == "abc" ) );
+         TAO_PEGTL_TEST_ASSERT( to_string< string<> >().empty() );
+         TAO_PEGTL_TEST_ASSERT( ( to_string< string< 'a', 'b', 'c' > >() == "abc" ) );
 
-         TAOCPP_PEGTL_TEST_ASSERT( to_string< istring<> >().empty() );
-         TAOCPP_PEGTL_TEST_ASSERT( ( to_string< istring< 'a', 'b', 'c' > >() == "abc" ) );
+         TAO_PEGTL_TEST_ASSERT( to_string< istring<> >().empty() );
+         TAO_PEGTL_TEST_ASSERT( ( to_string< istring< 'a', 'b', 'c' > >() == "abc" ) );
 
-         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "" ) >().empty() );
-         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "abc" ) >() == "abc" );
-         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "AbC" ) >() == "AbC" );
-         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "abc" ) >() != "AbC" );
-         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "abc" ) >() == "abc" );
-         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "AbC" ) >() == "AbC" );
-         TAOCPP_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "abc" ) >() != "AbC" );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "" ) >().empty() );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "abc" ) >() == "abc" );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "AbC" ) >() == "AbC" );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "abc" ) >() != "AbC" );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "abc" ) >() == "abc" );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "AbC" ) >() == "AbC" );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "abc" ) >() != "AbC" );
 
          // to_string does *not* care about the outer class template
-         TAOCPP_PEGTL_TEST_ASSERT( ( to_string< one< 'a', 'b', 'c' > >() == "abc" ) );
+         TAO_PEGTL_TEST_ASSERT( ( to_string< one< 'a', 'b', 'c' > >() == "abc" ) );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

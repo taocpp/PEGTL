@@ -12,14 +12,14 @@ namespace tao
       void test_chars( std::string a, const std::string& b )
       {
          internal::demangle_sanitise_chars( a );
-         TAOCPP_PEGTL_TEST_ASSERT( a == b );
+         TAO_PEGTL_TEST_ASSERT( a == b );
       }
 
       void unit_test()
       {
          const std::string s = "something that can't be demangled";
          const std::string a = internal::demangle( s.c_str() );
-         TAOCPP_PEGTL_TEST_ASSERT( a == s );
+         TAO_PEGTL_TEST_ASSERT( a == s );
          const std::string b = internal::demangle< std::string >();
          (void)b;  // Not standardised.
 

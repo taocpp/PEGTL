@@ -26,8 +26,8 @@ namespace tao
       void unit_test()
       {
          const char* test_data = "abcdef";
-         TAOCPP_PEGTL_TEST_ASSERT( parse_cstring< test_grammar >( test_data, "test data", 2 ) );
-         TAOCPP_PEGTL_TEST_ASSERT( !parse_cstring< test_grammar >( test_data, "test data", 1 ) );
+         TAO_PEGTL_TEST_ASSERT( parse_cstring< test_grammar >( test_data, "test data", 2 ) );
+         TAO_PEGTL_TEST_ASSERT( !parse_cstring< test_grammar >( test_data, "test data", 1 ) );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

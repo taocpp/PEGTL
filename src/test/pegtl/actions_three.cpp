@@ -36,9 +36,9 @@ namespace tao
             apply_result = true;
             memory_input<> in( "ab", __FUNCTION__ );
             const auto result = parse< grammar, apply_bool_action >( in );
-            TAOCPP_PEGTL_TEST_ASSERT( result );
-            TAOCPP_PEGTL_TEST_ASSERT( in.size() == 1 );
-            TAOCPP_PEGTL_TEST_ASSERT( in.peek_char() == 'b' );
+            TAO_PEGTL_TEST_ASSERT( result );
+            TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
+            TAO_PEGTL_TEST_ASSERT( in.peek_char() == 'b' );
          }
 
          void apply_bool_false()
@@ -46,9 +46,9 @@ namespace tao
             apply_result = false;
             memory_input<> in( "ab", __FUNCTION__ );
             const auto result = parse< grammar, apply_bool_action >( in );
-            TAOCPP_PEGTL_TEST_ASSERT( !result );
-            TAOCPP_PEGTL_TEST_ASSERT( in.size() == 2 );
-            TAOCPP_PEGTL_TEST_ASSERT( in.peek_char() == 'a' );
+            TAO_PEGTL_TEST_ASSERT( !result );
+            TAO_PEGTL_TEST_ASSERT( in.size() == 2 );
+            TAO_PEGTL_TEST_ASSERT( in.peek_char() == 'a' );
          }
 
          template< typename Rule >
@@ -70,9 +70,9 @@ namespace tao
             apply_result = true;
             memory_input<> in( "ab", __FUNCTION__ );
             const auto result = parse< grammar, apply0_bool_action >( in );
-            TAOCPP_PEGTL_TEST_ASSERT( result );
-            TAOCPP_PEGTL_TEST_ASSERT( in.size() == 1 );
-            TAOCPP_PEGTL_TEST_ASSERT( in.peek_char() == 'b' );
+            TAO_PEGTL_TEST_ASSERT( result );
+            TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
+            TAO_PEGTL_TEST_ASSERT( in.peek_char() == 'b' );
          }
 
          void apply0_bool_false()
@@ -80,9 +80,9 @@ namespace tao
             apply_result = false;
             memory_input<> in( "ab", __FUNCTION__ );
             const auto result = parse< grammar, apply0_bool_action >( in );
-            TAOCPP_PEGTL_TEST_ASSERT( !result );
-            TAOCPP_PEGTL_TEST_ASSERT( in.size() == 2 );
-            TAOCPP_PEGTL_TEST_ASSERT( in.peek_char() == 'a' );
+            TAO_PEGTL_TEST_ASSERT( !result );
+            TAO_PEGTL_TEST_ASSERT( in.size() == 2 );
+            TAO_PEGTL_TEST_ASSERT( in.peek_char() == 'a' );
          }
 
       }  // namespace test1

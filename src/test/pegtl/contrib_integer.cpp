@@ -42,7 +42,7 @@ namespace tao
          int_state< S > st;
          memory_input<> in( i, __FUNCTION__ );
          parse< must< integer::signed_rule, eof >, int_action >( in, st );
-         TAOCPP_PEGTL_TEST_ASSERT( st.converted == s );
+         TAO_PEGTL_TEST_ASSERT( st.converted == s );
       }
 
       template< typename S >
@@ -50,7 +50,7 @@ namespace tao
       {
          int_state< S > st;
          memory_input<> in( i, __FUNCTION__ );
-         TAOCPP_PEGTL_TEST_THROWS( parse< must< integer::signed_rule, eof >, int_action >( in, st ) );
+         TAO_PEGTL_TEST_THROWS( parse< must< integer::signed_rule, eof >, int_action >( in, st ) );
       }
 
       template< typename S >
@@ -68,7 +68,7 @@ namespace tao
          const auto i = lexical_cast( s );
          memory_input<> in( i, __FUNCTION__ );
          parse< must< integer::signed_rule, eof >, int_action >( in, st );
-         TAOCPP_PEGTL_TEST_ASSERT( st.converted == s );
+         TAO_PEGTL_TEST_ASSERT( st.converted == s );
       }
 
       template< typename S >
@@ -77,7 +77,7 @@ namespace tao
          int_state< S > st;
          memory_input<> in( i, __FUNCTION__ );
          parse< must< integer::unsigned_rule, eof >, int_action >( in, st );
-         TAOCPP_PEGTL_TEST_ASSERT( st.converted == s );
+         TAO_PEGTL_TEST_ASSERT( st.converted == s );
       }
 
       template< typename S >
@@ -85,7 +85,7 @@ namespace tao
       {
          int_state< S > st;
          memory_input<> in( i, __FUNCTION__ );
-         TAOCPP_PEGTL_TEST_THROWS( parse< must< integer::unsigned_rule, eof >, int_action >( in, st ) );
+         TAO_PEGTL_TEST_THROWS( parse< must< integer::unsigned_rule, eof >, int_action >( in, st ) );
       }
 
       template< typename S >
@@ -95,7 +95,7 @@ namespace tao
          const auto i = lexical_cast( s );
          memory_input<> in( i, __FUNCTION__ );
          parse< must< integer::unsigned_rule, eof >, int_action >( in, st );
-         TAOCPP_PEGTL_TEST_ASSERT( st.converted == s );
+         TAO_PEGTL_TEST_ASSERT( st.converted == s );
       }
 
       void unit_test()

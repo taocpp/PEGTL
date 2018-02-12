@@ -25,33 +25,33 @@ namespace tao
 
          Input i1( s1, __FUNCTION__ );
 
-         TAOCPP_PEGTL_TEST_ASSERT( parse< Rule >( i1 ) );
-         TAOCPP_PEGTL_TEST_ASSERT( i1.line() == 2 );
-         TAOCPP_PEGTL_TEST_ASSERT( i1.byte_in_line() == 0 );
+         TAO_PEGTL_TEST_ASSERT( parse< Rule >( i1 ) );
+         TAO_PEGTL_TEST_ASSERT( i1.line() == 2 );
+         TAO_PEGTL_TEST_ASSERT( i1.byte_in_line() == 0 );
       }
 
       template< typename Rule, typename Input = memory_input<> >
       void test_matches_other( const std::string& s2 )
       {
-         TAOCPP_PEGTL_TEST_ASSERT( s2.size() == 1 );
+         TAO_PEGTL_TEST_ASSERT( s2.size() == 1 );
 
          Input i2( s2, __FUNCTION__ );
 
-         TAOCPP_PEGTL_TEST_ASSERT( parse< Rule >( i2 ) );
-         TAOCPP_PEGTL_TEST_ASSERT( i2.line() == 1 );
-         TAOCPP_PEGTL_TEST_ASSERT( i2.byte_in_line() == 1 );
+         TAO_PEGTL_TEST_ASSERT( parse< Rule >( i2 ) );
+         TAO_PEGTL_TEST_ASSERT( i2.line() == 1 );
+         TAO_PEGTL_TEST_ASSERT( i2.byte_in_line() == 1 );
       }
 
       template< typename Rule, typename Input = memory_input<> >
       void test_mismatch( const std::string& s3 )
       {
-         TAOCPP_PEGTL_TEST_ASSERT( s3.size() == 1 );
+         TAO_PEGTL_TEST_ASSERT( s3.size() == 1 );
 
          Input i3( s3, __FUNCTION__ );
 
-         TAOCPP_PEGTL_TEST_ASSERT( !parse< Rule >( i3 ) );
-         TAOCPP_PEGTL_TEST_ASSERT( i3.line() == 1 );
-         TAOCPP_PEGTL_TEST_ASSERT( i3.byte_in_line() == 0 );
+         TAO_PEGTL_TEST_ASSERT( !parse< Rule >( i3 ) );
+         TAO_PEGTL_TEST_ASSERT( i3.line() == 1 );
+         TAO_PEGTL_TEST_ASSERT( i3.byte_in_line() == 0 );
       }
 
       struct outer_grammar
@@ -77,10 +77,10 @@ namespace tao
          static void apply( const Input& oi )
          {
             const auto p = oi.position();
-            TAOCPP_PEGTL_TEST_ASSERT( p.source == "outer" );
-            TAOCPP_PEGTL_TEST_ASSERT( p.byte == 2 );
-            TAOCPP_PEGTL_TEST_ASSERT( p.line == 1 );
-            TAOCPP_PEGTL_TEST_ASSERT( p.byte_in_line == 2 );
+            TAO_PEGTL_TEST_ASSERT( p.source == "outer" );
+            TAO_PEGTL_TEST_ASSERT( p.byte == 2 );
+            TAO_PEGTL_TEST_ASSERT( p.line == 1 );
+            TAO_PEGTL_TEST_ASSERT( p.byte_in_line == 2 );
             memory_input<> in( "dFF", "inner" );
             parse_nested< inner_grammar >( oi, in );
          }
@@ -94,15 +94,15 @@ namespace tao
             parse< outer_grammar, outer_action >( oi );
          }
          catch( const parse_error& e ) {
-            TAOCPP_PEGTL_TEST_ASSERT( e.positions.size() == 2 );
-            TAOCPP_PEGTL_TEST_ASSERT( e.positions[ 0 ].source == "inner" );
-            TAOCPP_PEGTL_TEST_ASSERT( e.positions[ 0 ].byte == 1 );
-            TAOCPP_PEGTL_TEST_ASSERT( e.positions[ 0 ].line == 1 );
-            TAOCPP_PEGTL_TEST_ASSERT( e.positions[ 0 ].byte_in_line == 1 );
-            TAOCPP_PEGTL_TEST_ASSERT( e.positions[ 1 ].source == "outer" );
-            TAOCPP_PEGTL_TEST_ASSERT( e.positions[ 1 ].byte == 2 );
-            TAOCPP_PEGTL_TEST_ASSERT( e.positions[ 1 ].line == 1 );
-            TAOCPP_PEGTL_TEST_ASSERT( e.positions[ 1 ].byte_in_line == 2 );
+            TAO_PEGTL_TEST_ASSERT( e.positions.size() == 2 );
+            TAO_PEGTL_TEST_ASSERT( e.positions[ 0 ].source == "inner" );
+            TAO_PEGTL_TEST_ASSERT( e.positions[ 0 ].byte == 1 );
+            TAO_PEGTL_TEST_ASSERT( e.positions[ 0 ].line == 1 );
+            TAO_PEGTL_TEST_ASSERT( e.positions[ 0 ].byte_in_line == 1 );
+            TAO_PEGTL_TEST_ASSERT( e.positions[ 1 ].source == "outer" );
+            TAO_PEGTL_TEST_ASSERT( e.positions[ 1 ].byte == 2 );
+            TAO_PEGTL_TEST_ASSERT( e.positions[ 1 ].line == 1 );
+            TAO_PEGTL_TEST_ASSERT( e.positions[ 1 ].byte_in_line == 2 );
          }
       }
 

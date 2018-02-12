@@ -45,32 +45,32 @@ namespace tao
          {
             memory_input<> in( "ab", "trace test please ignore" );
             const auto result = parse< GRAMMAR, nothing, tracer >( in );
-            TAOCPP_PEGTL_TEST_ASSERT( result );
-            TAOCPP_PEGTL_TEST_ASSERT( a0 == 0 );
-            TAOCPP_PEGTL_TEST_ASSERT( a == 0 );
+            TAO_PEGTL_TEST_ASSERT( result );
+            TAO_PEGTL_TEST_ASSERT( a0 == 0 );
+            TAO_PEGTL_TEST_ASSERT( a == 0 );
          }
          {
             memory_input<> in( "ab", "trace test please ignore" );
             const auto result = parse< GRAMMAR, tracer_action, tracer >( in );
-            TAOCPP_PEGTL_TEST_ASSERT( result );
-            TAOCPP_PEGTL_TEST_ASSERT( a0 == 1 );
-            TAOCPP_PEGTL_TEST_ASSERT( a == 1 );
+            TAO_PEGTL_TEST_ASSERT( result );
+            TAO_PEGTL_TEST_ASSERT( a0 == 1 );
+            TAO_PEGTL_TEST_ASSERT( a == 1 );
          }
          {
             trace_state ts;
             memory_input<> in( "ab", "trace test please ignore" );
             const auto result = parse< GRAMMAR, nothing, tracer >( in, ts );
-            TAOCPP_PEGTL_TEST_ASSERT( result );
-            TAOCPP_PEGTL_TEST_ASSERT( a0 == 1 );
-            TAOCPP_PEGTL_TEST_ASSERT( a == 1 );
+            TAO_PEGTL_TEST_ASSERT( result );
+            TAO_PEGTL_TEST_ASSERT( a0 == 1 );
+            TAO_PEGTL_TEST_ASSERT( a == 1 );
          }
          {
             trace_state ts;
             memory_input<> in( "ab", "trace test please ignore" );
             const auto result = parse< GRAMMAR, tracer_action, tracer >( in, ts );
-            TAOCPP_PEGTL_TEST_ASSERT( result );
-            TAOCPP_PEGTL_TEST_ASSERT( a0 == 2 );
-            TAOCPP_PEGTL_TEST_ASSERT( a == 2 );
+            TAO_PEGTL_TEST_ASSERT( result );
+            TAO_PEGTL_TEST_ASSERT( a0 == 2 );
+            TAO_PEGTL_TEST_ASSERT( a == 2 );
          }
       }
 

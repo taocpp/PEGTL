@@ -23,7 +23,7 @@ namespace tao
          try {
             memory_input<> in( s, "expect exception" );
             parse< Rule, Action >( in, st... );
-            TAOCPP_PEGTL_TEST_FAILED( "expected exception" );
+            TAO_PEGTL_TEST_FAILED( "expected exception" );
          }
          catch( ... ) {
          }

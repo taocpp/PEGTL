@@ -21,14 +21,14 @@ namespace tao
 
 }  // namespace tao
 
-#define TAOCPP_PEGTL_TEST_UNWRAP( ... ) __VA_ARGS__
+#define TAO_PEGTL_TEST_UNWRAP( ... ) __VA_ARGS__
 
-#define TAOCPP_PEGTL_TEST_FAILED( MeSSaGe )            \
+#define TAO_PEGTL_TEST_FAILED( MeSSaGe )            \
    do {                                                \
       std::cerr << "pegtl: unit test failed for [ "    \
                 << internal::demangle< Rule >()        \
                 << " ] "                               \
-                << TAOCPP_PEGTL_TEST_UNWRAP( MeSSaGe ) \
+                << TAO_PEGTL_TEST_UNWRAP( MeSSaGe ) \
                 << " in line [ "                       \
                 << line                                \
                 << " ] file [ "                        \
@@ -37,7 +37,7 @@ namespace tao
       ++failed;                                        \
    } while( false )
 
-#define TAOCPP_PEGTL_TEST_ASSERT( eXPReSSioN )     \
+#define TAO_PEGTL_TEST_ASSERT( eXPReSSioN )     \
    do {                                            \
       if( !( eXPReSSioN ) ) {                      \
          std::cerr << "pegtl: unit test assert [ " \
@@ -51,7 +51,7 @@ namespace tao
       }                                            \
    } while( false )
 
-#define TAOCPP_PEGTL_TEST_THROWS( ... )             \
+#define TAO_PEGTL_TEST_THROWS( ... )             \
    do {                                             \
       try {                                         \
          __VA_ARGS__;                               \
@@ -88,7 +88,7 @@ namespace tao
             static_assert( A == B, "unexpected apply mode" );
             static_assert( M == N, "unexpected rewind mode" );
 
-            TAOCPP_PEGTL_TEST_ASSERT( in.size() == Size );
+            TAO_PEGTL_TEST_ASSERT( in.size() == Size );
 
             return seq< Rules... >::template match< A, M, Action, Control >( in, st... );
          }

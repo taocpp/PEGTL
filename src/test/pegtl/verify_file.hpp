@@ -60,7 +60,7 @@ namespace tao
             try {
                T in( f );
                parse< file_grammar >( in );
-               TAOCPP_PEGTL_TEST_ASSERT( !"no error on opening non-existing file" );
+               TAO_PEGTL_TEST_ASSERT( !"no error on opening non-existing file" );
             }
             catch( const input_error& ) {
             }
@@ -69,86 +69,86 @@ namespace tao
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T in( f );
             std::cout << in.source() << std::endl;
-            TAOCPP_PEGTL_TEST_ASSERT( in.source() == f );
-            TAOCPP_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
-            TAOCPP_PEGTL_TEST_ASSERT( in.source() == f );
+            TAO_PEGTL_TEST_ASSERT( in.source() == f );
+            TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
+            TAO_PEGTL_TEST_ASSERT( in.source() == f );
          }
          {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T in( f );
             bool flag = true;
-            TAOCPP_PEGTL_TEST_ASSERT( in.source() == f );
-            TAOCPP_PEGTL_TEST_ASSERT( parse< file_grammar >( in, flag ) );
-            TAOCPP_PEGTL_TEST_ASSERT( flag == true );
+            TAO_PEGTL_TEST_ASSERT( in.source() == f );
+            TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in, flag ) );
+            TAO_PEGTL_TEST_ASSERT( flag == true );
          }
          {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T in( f );
             bool flag = false;
-            TAOCPP_PEGTL_TEST_ASSERT( in.source() == f );
-            TAOCPP_PEGTL_TEST_ASSERT( parse< file_grammar >( in, flag ) );
-            TAOCPP_PEGTL_TEST_ASSERT( flag == false );
+            TAO_PEGTL_TEST_ASSERT( in.source() == f );
+            TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in, flag ) );
+            TAO_PEGTL_TEST_ASSERT( flag == false );
          }
          {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T in( f );
             bool flag = false;
-            TAOCPP_PEGTL_TEST_ASSERT( in.source() == f );
+            TAO_PEGTL_TEST_ASSERT( in.source() == f );
             const bool result = parse< file_grammar, file_action >( in, flag );
-            TAOCPP_PEGTL_TEST_ASSERT( result );
-            TAOCPP_PEGTL_TEST_ASSERT( flag == true );
+            TAO_PEGTL_TEST_ASSERT( result );
+            TAO_PEGTL_TEST_ASSERT( flag == true );
          }
          {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T in( f );
             bool flag = false;
-            TAOCPP_PEGTL_TEST_ASSERT( in.source() == f );
+            TAO_PEGTL_TEST_ASSERT( in.source() == f );
             const bool result = parse< file_grammar, nothing, file_control >( in, flag );
-            TAOCPP_PEGTL_TEST_ASSERT( result );
-            TAOCPP_PEGTL_TEST_ASSERT( flag == true );
+            TAO_PEGTL_TEST_ASSERT( result );
+            TAO_PEGTL_TEST_ASSERT( flag == true );
          }
          const char* foo = "foo";
          const memory_input<> m( foo, foo + 3, foo );
          {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T in( f );
-            TAOCPP_PEGTL_TEST_ASSERT( in.source() == f );
-            TAOCPP_PEGTL_TEST_ASSERT( parse_nested< file_grammar >( m, in ) );
-            TAOCPP_PEGTL_TEST_ASSERT( in.source() == f );
+            TAO_PEGTL_TEST_ASSERT( in.source() == f );
+            TAO_PEGTL_TEST_ASSERT( parse_nested< file_grammar >( m, in ) );
+            TAO_PEGTL_TEST_ASSERT( in.source() == f );
          }
          {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T in( f );
             bool flag = true;
-            TAOCPP_PEGTL_TEST_ASSERT( in.source() == f );
-            TAOCPP_PEGTL_TEST_ASSERT( parse_nested< file_grammar >( m, in, flag ) );
-            TAOCPP_PEGTL_TEST_ASSERT( flag == true );
+            TAO_PEGTL_TEST_ASSERT( in.source() == f );
+            TAO_PEGTL_TEST_ASSERT( parse_nested< file_grammar >( m, in, flag ) );
+            TAO_PEGTL_TEST_ASSERT( flag == true );
          }
          {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T in( f );
             bool flag = false;
-            TAOCPP_PEGTL_TEST_ASSERT( in.source() == f );
-            TAOCPP_PEGTL_TEST_ASSERT( parse_nested< file_grammar >( m, in, flag ) );
-            TAOCPP_PEGTL_TEST_ASSERT( flag == false );
+            TAO_PEGTL_TEST_ASSERT( in.source() == f );
+            TAO_PEGTL_TEST_ASSERT( parse_nested< file_grammar >( m, in, flag ) );
+            TAO_PEGTL_TEST_ASSERT( flag == false );
          }
          {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T in( f );
             bool flag = false;
-            TAOCPP_PEGTL_TEST_ASSERT( in.source() == f );
+            TAO_PEGTL_TEST_ASSERT( in.source() == f );
             const bool result = parse_nested< file_grammar, file_action >( m, in, flag );
-            TAOCPP_PEGTL_TEST_ASSERT( result );
-            TAOCPP_PEGTL_TEST_ASSERT( flag == true );
+            TAO_PEGTL_TEST_ASSERT( result );
+            TAO_PEGTL_TEST_ASSERT( flag == true );
          }
          {
             const std::string f{ "src/test/pegtl/file_data.txt" };
             T in( f );
             bool flag = false;
-            TAOCPP_PEGTL_TEST_ASSERT( in.source() == f );
+            TAO_PEGTL_TEST_ASSERT( in.source() == f );
             const bool result = parse_nested< file_grammar, nothing, file_control >( m, in, flag );
-            TAOCPP_PEGTL_TEST_ASSERT( result );
-            TAOCPP_PEGTL_TEST_ASSERT( flag == true );
+            TAO_PEGTL_TEST_ASSERT( result );
+            TAO_PEGTL_TEST_ASSERT( flag == true );
          }
       }
 

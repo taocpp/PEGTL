@@ -15,8 +15,8 @@ namespace tao
             template< typename Input >
             static void apply( const Input& in, std::string& r, std::string& s )
             {
-               TAOCPP_PEGTL_TEST_ASSERT( r.empty() );
-               TAOCPP_PEGTL_TEST_ASSERT( s.empty() );
+               TAO_PEGTL_TEST_ASSERT( r.empty() );
+               TAO_PEGTL_TEST_ASSERT( s.empty() );
                r += in.string();
             }
          };
@@ -26,7 +26,7 @@ namespace tao
             template< typename Input >
             static void apply( const Input& in, std::string& r, std::string& s )
             {
-               TAOCPP_PEGTL_TEST_ASSERT( s.empty() );
+               TAO_PEGTL_TEST_ASSERT( s.empty() );
                s += in.string();
                s += "*";
                s += r;
@@ -38,8 +38,8 @@ namespace tao
             template< typename Input >
             static void apply( const Input& in, bool& state_b )
             {
-               TAOCPP_PEGTL_TEST_ASSERT( in.string() == "foo" );
-               TAOCPP_PEGTL_TEST_ASSERT( !state_b );
+               TAO_PEGTL_TEST_ASSERT( in.string() == "foo" );
+               TAO_PEGTL_TEST_ASSERT( !state_b );
             }
          };
 
@@ -48,8 +48,8 @@ namespace tao
             template< typename Input >
             static bool apply( const Input& in, bool& state_b )
             {
-               TAOCPP_PEGTL_TEST_ASSERT( in.string() == "foo" );
-               TAOCPP_PEGTL_TEST_ASSERT( !state_b );
+               TAO_PEGTL_TEST_ASSERT( in.string() == "foo" );
+               TAO_PEGTL_TEST_ASSERT( !state_b );
                state_b = true;
                return false;
             }
@@ -60,7 +60,7 @@ namespace tao
             template< typename Input >
             static void apply( const Input& /*unused*/, bool& /*unused*/ )
             {
-               TAOCPP_PEGTL_TEST_ASSERT( false );
+               TAO_PEGTL_TEST_ASSERT( false );
             }
          };
 
@@ -92,30 +92,30 @@ namespace tao
       {
          std::string state_r;
          std::string state_s;
-         TAOCPP_PEGTL_TEST_ASSERT( test1::flag == 0 );
+         TAO_PEGTL_TEST_ASSERT( test1::flag == 0 );
          memory_input<> in1( "-", __FUNCTION__ );
          parse< must< if_apply< one< '-' >, test1::action_a, test1::action_b > >, test1::action >( in1, state_r, state_s );
-         TAOCPP_PEGTL_TEST_ASSERT( test1::flag == 1 );
-         TAOCPP_PEGTL_TEST_ASSERT( state_r == "-" );
-         TAOCPP_PEGTL_TEST_ASSERT( state_s == "-*-" );
+         TAO_PEGTL_TEST_ASSERT( test1::flag == 1 );
+         TAO_PEGTL_TEST_ASSERT( state_r == "-" );
+         TAO_PEGTL_TEST_ASSERT( state_s == "-*-" );
          memory_input<> in2( "-", __FUNCTION__ );
          parse< must< disable< if_apply< one< '-' >, test1::action_a, test1::action_b > > >, test1::action >( in2, state_r, state_s );
-         TAOCPP_PEGTL_TEST_ASSERT( test1::flag == 1 );
-         TAOCPP_PEGTL_TEST_ASSERT( state_r == "-" );
-         TAOCPP_PEGTL_TEST_ASSERT( state_s == "-*-" );
+         TAO_PEGTL_TEST_ASSERT( test1::flag == 1 );
+         TAO_PEGTL_TEST_ASSERT( state_r == "-" );
+         TAO_PEGTL_TEST_ASSERT( state_s == "-*-" );
 
          {
             bool state_b = false;
             const bool result = parse< if_apply< plus< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input<>( "foo bar", __FUNCTION__ ), state_b );
-            TAOCPP_PEGTL_TEST_ASSERT( !result );
-            TAOCPP_PEGTL_TEST_ASSERT( state_b );
+            TAO_PEGTL_TEST_ASSERT( !result );
+            TAO_PEGTL_TEST_ASSERT( state_b );
          }
 
          {
             bool state_b = false;
             const bool result = parse< if_apply< plus< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input<>( "", __FUNCTION__ ), state_b );
-            TAOCPP_PEGTL_TEST_ASSERT( !result );
-            TAOCPP_PEGTL_TEST_ASSERT( !state_b );
+            TAO_PEGTL_TEST_ASSERT( !result );
+            TAO_PEGTL_TEST_ASSERT( !state_b );
          }
 
          verify_seqs< if_apply_seq >();

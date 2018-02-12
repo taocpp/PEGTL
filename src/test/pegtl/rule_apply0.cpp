@@ -15,8 +15,8 @@ namespace tao
          {
             static void apply0( int& r, int& s )
             {
-               TAOCPP_PEGTL_TEST_ASSERT( !r );
-               TAOCPP_PEGTL_TEST_ASSERT( !s );
+               TAO_PEGTL_TEST_ASSERT( !r );
+               TAO_PEGTL_TEST_ASSERT( !s );
                r += 1;
             }
          };
@@ -25,8 +25,8 @@ namespace tao
          {
             static bool apply0( int& r, int& s )
             {
-               TAOCPP_PEGTL_TEST_ASSERT( !s );
-               TAOCPP_PEGTL_TEST_ASSERT( r == 1 );
+               TAO_PEGTL_TEST_ASSERT( !s );
+               TAO_PEGTL_TEST_ASSERT( r == 1 );
                s += 2;
                return true;
             }
@@ -36,7 +36,7 @@ namespace tao
          {
             static void apply0( bool& state_b )
             {
-               TAOCPP_PEGTL_TEST_ASSERT( !state_b );
+               TAO_PEGTL_TEST_ASSERT( !state_b );
             }
          };
 
@@ -44,7 +44,7 @@ namespace tao
          {
             static bool apply0( bool& state_b )
             {
-               TAOCPP_PEGTL_TEST_ASSERT( !state_b );
+               TAO_PEGTL_TEST_ASSERT( !state_b );
                state_b = true;
                return false;
             }
@@ -54,7 +54,7 @@ namespace tao
          {
             static void apply0( bool& /*unused*/ )
             {
-               TAOCPP_PEGTL_TEST_ASSERT( false );
+               TAO_PEGTL_TEST_ASSERT( false );
             }
          };
 
@@ -65,16 +65,16 @@ namespace tao
          int state_r = 0;
          int state_s = 0;
          parse< must< apply0< test1::action_a, test1::action_b > > >( memory_input<>( "", __FUNCTION__ ), state_r, state_s );
-         TAOCPP_PEGTL_TEST_ASSERT( state_r == 1 );
-         TAOCPP_PEGTL_TEST_ASSERT( state_s == 2 );
+         TAO_PEGTL_TEST_ASSERT( state_r == 1 );
+         TAO_PEGTL_TEST_ASSERT( state_s == 2 );
          parse< must< disable< apply< test1::action_a, test1::action_b > > > >( memory_input<>( "", __FUNCTION__ ), state_r, state_s );
-         TAOCPP_PEGTL_TEST_ASSERT( state_r == 1 );
-         TAOCPP_PEGTL_TEST_ASSERT( state_s == 2 );
+         TAO_PEGTL_TEST_ASSERT( state_r == 1 );
+         TAO_PEGTL_TEST_ASSERT( state_s == 2 );
 
          bool state_b = false;
          const bool result = parse< apply0< test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input<>( "", __FUNCTION__ ), state_b );
-         TAOCPP_PEGTL_TEST_ASSERT( !result );
-         TAOCPP_PEGTL_TEST_ASSERT( state_b );
+         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( state_b );
 
          verify_analyze< apply0<> >( __LINE__, __FILE__, false, false );
 

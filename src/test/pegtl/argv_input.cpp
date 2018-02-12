@@ -17,9 +17,9 @@ namespace tao
          std::memcpy( data, "foo\0bar\0baz", 12 );
          char* argv[] = { data, data + 4, data + 8 };
          argv_input<> in( argv, 1 );
-         TAOCPP_PEGTL_TEST_ASSERT( in.source() == "argv[1]" );
+         TAO_PEGTL_TEST_ASSERT( in.source() == "argv[1]" );
          const auto result = parse< string< 'b', 'a', 'r' > >( in );
-         TAOCPP_PEGTL_TEST_ASSERT( result );
+         TAO_PEGTL_TEST_ASSERT( result );
       }
 
    }  // namespace TAOCPP_PEGTL_NAMESPACE

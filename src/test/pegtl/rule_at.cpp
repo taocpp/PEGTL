@@ -29,7 +29,7 @@ namespace tao
 
       void unit_test()
       {
-         TAOCPP_PEGTL_TEST_ASSERT( at_counter == 0 );
+         TAO_PEGTL_TEST_ASSERT( at_counter == 0 );
 
          verify_analyze< at< eof > >( __LINE__, __FILE__, false, false );
          verify_analyze< at< any > >( __LINE__, __FILE__, false, false );
@@ -45,12 +45,12 @@ namespace tao
          {
             memory_input<> in( "f", 1, __FILE__ );
             parse< any, at_action >( in );
-            TAOCPP_PEGTL_TEST_ASSERT( at_counter == 1 );
+            TAO_PEGTL_TEST_ASSERT( at_counter == 1 );
          }
          {
             memory_input<> in( "f", 1, __FILE__ );
             parse< at< any >, at_action >( in );
-            TAOCPP_PEGTL_TEST_ASSERT( at_counter == 1 );
+            TAO_PEGTL_TEST_ASSERT( at_counter == 1 );
          }
       }
 
