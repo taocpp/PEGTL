@@ -24,20 +24,20 @@ namespace tao
 #define TAO_PEGTL_TEST_UNWRAP( ... ) __VA_ARGS__
 
 #define TAO_PEGTL_TEST_FAILED( MeSSaGe )            \
-   do {                                                \
-      std::cerr << "pegtl: unit test failed for [ "    \
-                << internal::demangle< Rule >()        \
-                << " ] "                               \
+   do {                                             \
+      std::cerr << "pegtl: unit test failed for [ " \
+                << internal::demangle< Rule >()     \
+                << " ] "                            \
                 << TAO_PEGTL_TEST_UNWRAP( MeSSaGe ) \
-                << " in line [ "                       \
-                << line                                \
-                << " ] file [ "                        \
-                << file << " ]"                        \
-                << std::endl;                          \
-      ++failed;                                        \
+                << " in line [ "                    \
+                << line                             \
+                << " ] file [ "                     \
+                << file << " ]"                     \
+                << std::endl;                       \
+      ++failed;                                     \
    } while( false )
 
-#define TAO_PEGTL_TEST_ASSERT( eXPReSSioN )     \
+#define TAO_PEGTL_TEST_ASSERT( eXPReSSioN )        \
    do {                                            \
       if( !( eXPReSSioN ) ) {                      \
          std::cerr << "pegtl: unit test assert [ " \
@@ -51,7 +51,7 @@ namespace tao
       }                                            \
    } while( false )
 
-#define TAO_PEGTL_TEST_THROWS( ... )             \
+#define TAO_PEGTL_TEST_THROWS( ... )                \
    do {                                             \
       try {                                         \
          __VA_ARGS__;                               \
