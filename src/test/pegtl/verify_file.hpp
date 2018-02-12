@@ -10,9 +10,9 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
-      struct file_content : seq< TAOCPP_PEGTL_STRING( "dummy content" ), eol, discard >
+      struct file_content : seq< TAO_PEGTL_STRING( "dummy content" ), eol, discard >
       {
       };
 
@@ -152,7 +152,7 @@ namespace tao
          }
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

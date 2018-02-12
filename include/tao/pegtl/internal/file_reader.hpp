@@ -14,7 +14,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       namespace internal
       {
@@ -32,7 +32,7 @@ namespace tao
             {
                return file;
             }
-            TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to fopen() file " << filename << " for reading" );
+            TAO_PEGTL_THROW_INPUT_ERROR( "unable to fopen() file " << filename << " for reading" );
          }
 
          struct file_close
@@ -70,16 +70,16 @@ namespace tao
             {
                errno = 0;
                if( std::fseek( m_file.get(), 0, SEEK_END ) != 0 ) {
-                  TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to fseek() to end of file " << m_source );  // LCOV_EXCL_LINE
+                  TAO_PEGTL_THROW_INPUT_ERROR( "unable to fseek() to end of file " << m_source );  // LCOV_EXCL_LINE
                }
                errno = 0;
                const auto s = std::ftell( m_file.get() );
                if( s < 0 ) {
-                  TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to ftell() file size of file " << m_source );  // LCOV_EXCL_LINE
+                  TAO_PEGTL_THROW_INPUT_ERROR( "unable to ftell() file size of file " << m_source );  // LCOV_EXCL_LINE
                }
                errno = 0;
                if( std::fseek( m_file.get(), 0, SEEK_SET ) != 0 ) {
-                  TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to fseek() to beginning of file " << m_source );  // LCOV_EXCL_LINE
+                  TAO_PEGTL_THROW_INPUT_ERROR( "unable to fseek() to beginning of file " << m_source );  // LCOV_EXCL_LINE
                }
                return std::size_t( s );
             }
@@ -90,7 +90,7 @@ namespace tao
                nrv.resize( size() );
                errno = 0;
                if( !nrv.empty() && ( std::fread( &nrv[ 0 ], nrv.size(), 1, m_file.get() ) != 1 ) ) {
-                  TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to fread() file " << m_source << " size " << nrv.size() );  // LCOV_EXCL_LINE
+                  TAO_PEGTL_THROW_INPUT_ERROR( "unable to fread() file " << m_source << " size " << nrv.size() );  // LCOV_EXCL_LINE
                }
                return nrv;
             }
@@ -102,7 +102,7 @@ namespace tao
 
       }  // namespace internal
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

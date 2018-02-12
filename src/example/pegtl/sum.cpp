@@ -7,7 +7,7 @@
 
 #include <tao/pegtl.hpp>
 
-using namespace tao::TAOCPP_PEGTL_NAMESPACE;  // NOLINT
+using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 
 #include "double.hpp"
 

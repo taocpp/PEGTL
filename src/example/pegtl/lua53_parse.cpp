@@ -89,7 +89,7 @@ namespace lua53
    // comments). In some places, where it is more efficient,
    // right padding is used.
 
-   namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
+   namespace pegtl = tao::TAO_PEGTL_NAMESPACE;
 
    // clang-format off
    struct short_comment : pegtl::until< pegtl::eolf > {};
@@ -99,28 +99,28 @@ namespace lua53
    struct sep : pegtl::sor< pegtl::ascii::space, comment > {};
    struct seps : pegtl::star< sep > {};
 
-   struct str_and : TAOCPP_PEGTL_STRING( "and" ) {};
-   struct str_break : TAOCPP_PEGTL_STRING( "break" ) {};
-   struct str_do : TAOCPP_PEGTL_STRING( "do" ) {};
-   struct str_else : TAOCPP_PEGTL_STRING( "else" ) {};
-   struct str_elseif : TAOCPP_PEGTL_STRING( "elseif" ) {};
-   struct str_end : TAOCPP_PEGTL_STRING( "end" ) {};
-   struct str_false : TAOCPP_PEGTL_STRING( "false" ) {};
-   struct str_for : TAOCPP_PEGTL_STRING( "for" ) {};
-   struct str_function : TAOCPP_PEGTL_STRING( "function" ) {};
-   struct str_goto : TAOCPP_PEGTL_STRING( "goto" ) {};
-   struct str_if : TAOCPP_PEGTL_STRING( "if" ) {};
-   struct str_in : TAOCPP_PEGTL_STRING( "in" ) {};
-   struct str_local : TAOCPP_PEGTL_STRING( "local" ) {};
-   struct str_nil : TAOCPP_PEGTL_STRING( "nil" ) {};
-   struct str_not : TAOCPP_PEGTL_STRING( "not" ) {};
-   struct str_or : TAOCPP_PEGTL_STRING( "or" ) {};
-   struct str_repeat : TAOCPP_PEGTL_STRING( "repeat" ) {};
-   struct str_return : TAOCPP_PEGTL_STRING( "return" ) {};
-   struct str_then : TAOCPP_PEGTL_STRING( "then" ) {};
-   struct str_true : TAOCPP_PEGTL_STRING( "true" ) {};
-   struct str_until : TAOCPP_PEGTL_STRING( "until" ) {};
-   struct str_while : TAOCPP_PEGTL_STRING( "while" ) {};
+   struct str_and : TAO_PEGTL_STRING( "and" ) {};
+   struct str_break : TAO_PEGTL_STRING( "break" ) {};
+   struct str_do : TAO_PEGTL_STRING( "do" ) {};
+   struct str_else : TAO_PEGTL_STRING( "else" ) {};
+   struct str_elseif : TAO_PEGTL_STRING( "elseif" ) {};
+   struct str_end : TAO_PEGTL_STRING( "end" ) {};
+   struct str_false : TAO_PEGTL_STRING( "false" ) {};
+   struct str_for : TAO_PEGTL_STRING( "for" ) {};
+   struct str_function : TAO_PEGTL_STRING( "function" ) {};
+   struct str_goto : TAO_PEGTL_STRING( "goto" ) {};
+   struct str_if : TAO_PEGTL_STRING( "if" ) {};
+   struct str_in : TAO_PEGTL_STRING( "in" ) {};
+   struct str_local : TAO_PEGTL_STRING( "local" ) {};
+   struct str_nil : TAO_PEGTL_STRING( "nil" ) {};
+   struct str_not : TAO_PEGTL_STRING( "not" ) {};
+   struct str_or : TAO_PEGTL_STRING( "or" ) {};
+   struct str_repeat : TAO_PEGTL_STRING( "repeat" ) {};
+   struct str_return : TAO_PEGTL_STRING( "return" ) {};
+   struct str_then : TAO_PEGTL_STRING( "then" ) {};
+   struct str_true : TAO_PEGTL_STRING( "true" ) {};
+   struct str_until : TAO_PEGTL_STRING( "until" ) {};
+   struct str_while : TAO_PEGTL_STRING( "while" ) {};
 
    // Note that 'elseif' precedes 'else' in order to prevent only matching
    // the "else" part of an "elseif" and running into an error in the
@@ -337,11 +337,11 @@ namespace lua53
 
 int main( int argc, char** argv )
 {
-   tao::TAOCPP_PEGTL_NAMESPACE::analyze< lua53::grammar >();
+   tao::TAO_PEGTL_NAMESPACE::analyze< lua53::grammar >();
 
    for( int i = 1; i < argc; ++i ) {
-      tao::TAOCPP_PEGTL_NAMESPACE::file_input<> in( argv[ i ] );
-      tao::TAOCPP_PEGTL_NAMESPACE::parse< lua53::grammar >( in );
+      tao::TAO_PEGTL_NAMESPACE::file_input<> in( argv[ i ] );
+      tao::TAO_PEGTL_NAMESPACE::parse< lua53::grammar >( in );
    }
    return 0;
 }

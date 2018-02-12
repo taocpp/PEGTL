@@ -16,7 +16,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       namespace internal
       {
@@ -44,7 +44,7 @@ namespace tao
                struct stat st;  // NOLINT
                errno = 0;
                if(::fstat( m_fd, &st ) < 0 ) {
-                  TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to fstat() file " << m_source << " descriptor " << m_fd );
+                  TAO_PEGTL_THROW_INPUT_ERROR( "unable to fstat() file " << m_source << " descriptor " << m_fd );
                }
                return std::size_t( st.st_size );
             }
@@ -65,13 +65,13 @@ namespace tao
                if( fd >= 0 ) {
                   return fd;
                }
-               TAOCPP_PEGTL_THROW_INPUT_ERROR( "unable to open() file " << m_source << " for reading" );
+               TAO_PEGTL_THROW_INPUT_ERROR( "unable to open() file " << m_source << " for reading" );
             }
          };
 
       }  // namespace internal
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

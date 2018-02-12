@@ -11,7 +11,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       namespace internal
       {
@@ -32,7 +32,7 @@ namespace tao
                if( m_istream.eof() ) {
                   return 0;
                }
-               TAOCPP_PEGTL_THROW_INPUT_ERROR( "error in istream.read()" );
+               TAO_PEGTL_THROW_INPUT_ERROR( "error in istream.read()" );
             }
 
             std::istream& m_istream;
@@ -40,7 +40,7 @@ namespace tao
 
       }  // namespace internal
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

@@ -1,14 +1,14 @@
 // Copyright (c) 2017-2018 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#define TAOCPP_PEGTL_PRETTY_DEMANGLE 1
+#define TAO_PEGTL_PRETTY_DEMANGLE 1
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       namespace proto3
       {
@@ -128,13 +128,13 @@ namespace tao
 
       }  // namespace proto3
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 
 int main( int argc, char** argv )
 {
-   using namespace tao::TAOCPP_PEGTL_NAMESPACE;  // NOLINT
+   using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 
    analyze< proto3::proto >();
 

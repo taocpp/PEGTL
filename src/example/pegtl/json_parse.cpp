@@ -5,7 +5,7 @@
 
 #include "json_errors.hpp"
 
-using namespace tao::TAOCPP_PEGTL_NAMESPACE;  // NOLINT
+using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 using grammar = must< json::text, eof >;
 
 int main( int argc, char** argv )

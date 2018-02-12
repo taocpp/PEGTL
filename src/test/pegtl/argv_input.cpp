@@ -9,7 +9,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       void unit_test()
       {
@@ -22,7 +22,7 @@ namespace tao
          TAO_PEGTL_TEST_ASSERT( result );
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

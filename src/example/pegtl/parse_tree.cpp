@@ -9,7 +9,7 @@
 #include <tao/pegtl/contrib/parse_tree.hpp>
 #include <tao/pegtl/internal/demangle.hpp>
 
-using namespace tao::TAOCPP_PEGTL_NAMESPACE;  // NOLINT
+using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 
 namespace example
 {

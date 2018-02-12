@@ -7,7 +7,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       void test_chars( std::string a, const std::string& b )
       {
@@ -32,7 +32,7 @@ namespace tao
          test_chars( "tao::pegtl::internal::until<tao::pegtl::at<tao::pegtl::ascii::one<(char)34> >", "tao::pegtl::internal::until<tao::pegtl::at<tao::pegtl::ascii::one<'\"'> >" );
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

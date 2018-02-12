@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-namespace pegtl = tao::TAOCPP_PEGTL_NAMESPACE;
+namespace pegtl = tao::TAO_PEGTL_NAMESPACE;
 
 struct URI
 {

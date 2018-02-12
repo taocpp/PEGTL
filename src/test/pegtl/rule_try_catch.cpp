@@ -6,7 +6,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       template< typename... Rules >
       using test_try_catch_rule = try_catch< must< Rules... > >;
@@ -17,7 +17,7 @@ namespace tao
          verify_seqs< test_try_catch_rule >();
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

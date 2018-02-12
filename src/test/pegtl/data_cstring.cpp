@@ -7,7 +7,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       template< typename Rule,
                 template< typename... > class Action = nothing,
@@ -30,7 +30,7 @@ namespace tao
          TAO_PEGTL_TEST_ASSERT( !parse_cstring< test_grammar >( test_data, "test data", 1 ) );
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

@@ -7,7 +7,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       void unit_test()
       {
@@ -260,7 +260,7 @@ namespace tao
          verify_rule< utf8::string< 0x20, 0xa2, 0x20ac, 0x10348 > >( __LINE__, __FILE__, "\x20\xc2\xa2\xe2\x82\xac\xf0\x90\x8d\x88\x20", result_type::SUCCESS, 1 );
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

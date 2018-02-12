@@ -4,14 +4,14 @@
 #include <iomanip>
 #include <iostream>
 
-#define TAOCPP_PEGTL_PRETTY_DEMANGLE
+#define TAO_PEGTL_PRETTY_DEMANGLE
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/counter.hpp>
 #include <tao/pegtl/contrib/json.hpp>
 #include <tao/pegtl/file_input.hpp>
 
-using namespace tao::TAOCPP_PEGTL_NAMESPACE;  // NOLINT
+using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 using grammar = must< json::text, eof >;
 
 int main( int argc, char** argv )

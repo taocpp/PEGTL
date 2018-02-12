@@ -15,7 +15,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       namespace internal
       {
@@ -26,7 +26,7 @@ namespace tao
                return symbol;
             }
             std::string result( demangled.get() );
-#ifdef TAOCPP_PEGTL_PRETTY_DEMANGLE
+#ifdef TAO_PEGTL_PRETTY_DEMANGLE
             demangle_sanitise_chars( result );  // LCOV_EXCL_LINE
 #endif
             return result;
@@ -34,7 +34,7 @@ namespace tao
 
       }  // namespace internal
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

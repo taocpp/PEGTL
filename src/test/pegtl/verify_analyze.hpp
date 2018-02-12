@@ -10,7 +10,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       template< typename Rule >
       void verify_analyze( const unsigned line, const char* file, const bool expect_consume, const bool expect_problems )
@@ -28,7 +28,7 @@ namespace tao
          }
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

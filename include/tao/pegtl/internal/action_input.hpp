@@ -14,7 +14,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       namespace internal
       {
@@ -94,7 +94,7 @@ namespace tao
                return static_cast< unsigned char >( peek_char( offset ) );
             }
 
-            TAOCPP_PEGTL_NAMESPACE::position position() const
+            TAO_PEGTL_NAMESPACE::position position() const
             {
                return input().position( iterator() );  // NOTE: Not efficient with LAZY inputs.
             }
@@ -106,7 +106,7 @@ namespace tao
 
       }  // namespace internal
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

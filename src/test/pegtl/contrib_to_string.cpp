@@ -8,7 +8,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       void unit_test()
       {
@@ -18,19 +18,19 @@ namespace tao
          TAO_PEGTL_TEST_ASSERT( to_string< istring<> >().empty() );
          TAO_PEGTL_TEST_ASSERT( ( to_string< istring< 'a', 'b', 'c' > >() == "abc" ) );
 
-         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "" ) >().empty() );
-         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "abc" ) >() == "abc" );
-         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "AbC" ) >() == "AbC" );
-         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_STRING( "abc" ) >() != "AbC" );
-         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "abc" ) >() == "abc" );
-         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "AbC" ) >() == "AbC" );
-         TAO_PEGTL_TEST_ASSERT( to_string< TAOCPP_PEGTL_ISTRING( "abc" ) >() != "AbC" );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAO_PEGTL_STRING( "" ) >().empty() );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAO_PEGTL_STRING( "abc" ) >() == "abc" );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAO_PEGTL_STRING( "AbC" ) >() == "AbC" );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAO_PEGTL_STRING( "abc" ) >() != "AbC" );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAO_PEGTL_ISTRING( "abc" ) >() == "abc" );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAO_PEGTL_ISTRING( "AbC" ) >() == "AbC" );
+         TAO_PEGTL_TEST_ASSERT( to_string< TAO_PEGTL_ISTRING( "abc" ) >() != "AbC" );
 
          // to_string does *not* care about the outer class template
          TAO_PEGTL_TEST_ASSERT( ( to_string< one< 'a', 'b', 'c' > >() == "abc" ) );
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

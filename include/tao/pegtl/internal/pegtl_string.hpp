@@ -12,7 +12,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       // Inspired by https://github.com/irrequietus/typestring
       // Rewritten and reduced to what is needed for the PEGTL
@@ -50,7 +50,7 @@ namespace tao
 
       }  // namespace internal
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 
@@ -59,17 +59,17 @@ namespace tao
 #define TAO_PEGTL_INTERNAL_EXPAND( ... ) __VA_ARGS__
 
 #define TAO_PEGTL_INTERNAL_STRING_AT( S, x, n ) \
-   tao::TAOCPP_PEGTL_NAMESPACE::internal::string_at< S, ( 0##n < sizeof( x ) ) ? ( x )[ 0##n ] : 0, ( 0##n < sizeof( x ) - 1 ) >::type
+   tao::TAO_PEGTL_NAMESPACE::internal::string_at< S, ( 0##n < sizeof( x ) ) ? ( x )[ 0##n ] : 0, ( 0##n < sizeof( x ) - 1 ) >::type
 
-#define TAO_PEGTL_INTERNAL_JOIN_8( M, S, x, n )                                                     \
-   tao::TAOCPP_PEGTL_NAMESPACE::internal::string_join< TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##0 ), \
-                                                       TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##1 ), \
-                                                       TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##2 ), \
-                                                       TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##3 ), \
-                                                       TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##4 ), \
-                                                       TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##5 ), \
-                                                       TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##6 ), \
-                                                       TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##7 ) >::type
+#define TAO_PEGTL_INTERNAL_JOIN_8( M, S, x, n )                                                  \
+   tao::TAO_PEGTL_NAMESPACE::internal::string_join< TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##0 ), \
+                                                    TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##1 ), \
+                                                    TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##2 ), \
+                                                    TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##3 ), \
+                                                    TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##4 ), \
+                                                    TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##5 ), \
+                                                    TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##6 ), \
+                                                    TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##7 ) >::type
 
 #define TAO_PEGTL_INTERNAL_STRING_8( S, x, n ) \
    TAO_PEGTL_INTERNAL_JOIN_8( TAO_PEGTL_INTERNAL_STRING_AT, S, x, n )
@@ -84,15 +84,20 @@ namespace tao
    TAO_PEGTL_INTERNAL_EXPAND(             \
       TAO_PEGTL_INTERNAL_EXPAND(          \
          TAO_PEGTL_INTERNAL_EXPAND(       \
-            tao::TAOCPP_PEGTL_NAMESPACE::internal::string_max_length< TAO_PEGTL_INTERNAL_STRING_512( S, x, ), sizeof( x ) - 1 >::type ) ) )
+            tao::TAO_PEGTL_NAMESPACE::internal::string_max_length< TAO_PEGTL_INTERNAL_STRING_512( S, x, ), sizeof( x ) - 1 >::type ) ) )
 
-#define TAOCPP_PEGTL_STRING( x ) \
-   TAO_PEGTL_INTERNAL_STRING( tao::TAOCPP_PEGTL_NAMESPACE::ascii::string, x )
+#define TAO_PEGTL_STRING( x ) \
+   TAO_PEGTL_INTERNAL_STRING( tao::TAO_PEGTL_NAMESPACE::ascii::string, x )
 
-#define TAOCPP_PEGTL_ISTRING( x ) \
-   TAO_PEGTL_INTERNAL_STRING( tao::TAOCPP_PEGTL_NAMESPACE::ascii::istring, x )
+#define TAO_PEGTL_ISTRING( x ) \
+   TAO_PEGTL_INTERNAL_STRING( tao::TAO_PEGTL_NAMESPACE::ascii::istring, x )
 
-#define TAOCPP_PEGTL_KEYWORD( x ) \
-   TAO_PEGTL_INTERNAL_STRING( tao::TAOCPP_PEGTL_NAMESPACE::ascii::keyword, x )
+#define TAO_PEGTL_KEYWORD( x ) \
+   TAO_PEGTL_INTERNAL_STRING( tao::TAO_PEGTL_NAMESPACE::ascii::keyword, x )
+
+// Compatibility, remove with 3.0
+#define TAOCPP_PEGTL_STRING( x ) TAO_PEGTL_STRING( x )
+#define TAOCPP_PEGTL_ISTRING( x ) TAO_PEGTL_ISTRING( x )
+#define TAOCPP_PEGTL_KEYWORD( x ) TAO_PEGTL_KEYWORD( x )
 
 #endif

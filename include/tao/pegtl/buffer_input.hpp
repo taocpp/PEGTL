@@ -22,7 +22,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       template< typename Reader, typename Eol = eol::lf_crlf, typename Source = std::string >
       class buffer_input
@@ -153,12 +153,12 @@ namespace tao
             return internal::marker< iterator_t, M >( m_current );
          }
 
-         TAOCPP_PEGTL_NAMESPACE::position position( const iterator_t& it ) const
+         TAO_PEGTL_NAMESPACE::position position( const iterator_t& it ) const
          {
-            return TAOCPP_PEGTL_NAMESPACE::position( it, m_source );
+            return TAO_PEGTL_NAMESPACE::position( it, m_source );
          }
 
-         TAOCPP_PEGTL_NAMESPACE::position position() const
+         TAO_PEGTL_NAMESPACE::position position() const
          {
             return position( m_current );
          }
@@ -177,7 +177,7 @@ namespace tao
          const Source m_source;
       };
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

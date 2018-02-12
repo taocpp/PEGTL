@@ -31,15 +31,15 @@ namespace examples
 
    // Action class for parsing literal strings, uses the PEGTL unescape utilities, cf. unescape.cpp.
 
-   template< typename Rule, template< typename... > class Base = tao::TAOCPP_PEGTL_NAMESPACE::nothing >
+   template< typename Rule, template< typename... > class Base = tao::TAO_PEGTL_NAMESPACE::nothing >
    struct unescape_action : Base< Rule >
    {
    };
 
    // clang-format off
-   template<> struct unescape_action< tao::TAOCPP_PEGTL_NAMESPACE::json::unicode > : tao::TAOCPP_PEGTL_NAMESPACE::unescape::unescape_j {};
-   template<> struct unescape_action< tao::TAOCPP_PEGTL_NAMESPACE::json::escaped_char > : tao::TAOCPP_PEGTL_NAMESPACE::unescape::unescape_c< tao::TAOCPP_PEGTL_NAMESPACE::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
-   template<> struct unescape_action< tao::TAOCPP_PEGTL_NAMESPACE::json::unescaped > : tao::TAOCPP_PEGTL_NAMESPACE::unescape::append_all {};
+   template<> struct unescape_action< tao::TAO_PEGTL_NAMESPACE::json::unicode > : tao::TAO_PEGTL_NAMESPACE::unescape::unescape_j {};
+   template<> struct unescape_action< tao::TAO_PEGTL_NAMESPACE::json::escaped_char > : tao::TAO_PEGTL_NAMESPACE::unescape::unescape_c< tao::TAO_PEGTL_NAMESPACE::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
+   template<> struct unescape_action< tao::TAO_PEGTL_NAMESPACE::json::unescaped > : tao::TAO_PEGTL_NAMESPACE::unescape::append_all {};
    // clang-format on
 
 }  // namespace examples

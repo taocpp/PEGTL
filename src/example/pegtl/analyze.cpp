@@ -4,7 +4,7 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
 
-using namespace tao::TAOCPP_PEGTL_NAMESPACE;  // NOLINT
+using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 
 struct bar;
 

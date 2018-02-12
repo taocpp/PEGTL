@@ -18,7 +18,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       namespace parse_tree
       {
@@ -112,7 +112,7 @@ namespace tao
             : normal< Rule >
          {
             template< typename Input >
-            static void start( const Input& in, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void start( const Input& in, TAO_PEGTL_NAMESPACE::parse_tree::state& s )
             {
                s.emplace_back();
                s.back()->begin = in.iterator();
@@ -120,7 +120,7 @@ namespace tao
             }
 
             template< typename Input >
-            static void success( const Input& /*unused*/, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void success( const Input& /*unused*/, TAO_PEGTL_NAMESPACE::parse_tree::state& s )
             {
                auto n = std::move( s.back() );
                n->id = &typeid( Rule );
@@ -130,7 +130,7 @@ namespace tao
             }
 
             template< typename Input >
-            static void failure( const Input& /*unused*/, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s ) noexcept
+            static void failure( const Input& /*unused*/, TAO_PEGTL_NAMESPACE::parse_tree::state& s ) noexcept
             {
                s.pop_back();
             }
@@ -142,7 +142,7 @@ namespace tao
             : normal< Rule >
          {
             template< typename Input >
-            static void start( const Input& in, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void start( const Input& in, TAO_PEGTL_NAMESPACE::parse_tree::state& s )
             {
                s.emplace_back();
                s.back()->begin = in.iterator();
@@ -150,7 +150,7 @@ namespace tao
             }
 
             template< typename Input >
-            static void success( const Input& in, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s )
+            static void success( const Input& in, TAO_PEGTL_NAMESPACE::parse_tree::state& s )
             {
                auto n = std::move( s.back() );
                n->id = &typeid( Rule );
@@ -161,7 +161,7 @@ namespace tao
             }
 
             template< typename Input >
-            static void failure( const Input& /*unused*/, TAOCPP_PEGTL_NAMESPACE::parse_tree::state& s ) noexcept
+            static void failure( const Input& /*unused*/, TAO_PEGTL_NAMESPACE::parse_tree::state& s ) noexcept
             {
                s.pop_back();
             }
@@ -195,13 +195,13 @@ namespace tao
          state parse( Input& in )
          {
             state s;
-            TAOCPP_PEGTL_NAMESPACE::parse< Grammar, nothing, make_builder< S, C >::template type >( in, s );
+            TAO_PEGTL_NAMESPACE::parse< Grammar, nothing, make_builder< S, C >::template type >( in, s );
             return s;
          }
 
       }  // namespace parse_tree
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

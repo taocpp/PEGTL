@@ -9,7 +9,7 @@
 
 namespace tao
 {
-   namespace TAOCPP_PEGTL_NAMESPACE
+   namespace TAO_PEGTL_NAMESPACE
    {
       void unit_test()
       {
@@ -34,7 +34,7 @@ namespace tao
          verify_rule< rep_one_min_max< 0, 2, '+' > >( __LINE__, __FILE__, "+++", result_type::LOCAL_FAILURE, 3 );
       }
 
-   }  // namespace TAOCPP_PEGTL_NAMESPACE
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 
