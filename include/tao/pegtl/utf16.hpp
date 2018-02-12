@@ -1,8 +1,8 @@
 // Copyright (c) 2015-2018 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAOCPP_PEGTL_INCLUDE_UTF16_HPP
-#define TAOCPP_PEGTL_INCLUDE_UTF16_HPP
+#ifndef TAO_PEGTL_UTF16_HPP
+#define TAO_PEGTL_UTF16_HPP
 
 #include "config.hpp"
 

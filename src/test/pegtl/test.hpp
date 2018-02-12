@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAOCPP_PEGTL_INCLUDE_TEST_TEST_HPP
-#define TAOCPP_PEGTL_INCLUDE_TEST_TEST_HPP
+#ifndef TAO_PEGTL_TEST_TEST_HPP
+#define TAO_PEGTL_TEST_TEST_HPP
 
 #include <cassert>
 #include <cstddef>

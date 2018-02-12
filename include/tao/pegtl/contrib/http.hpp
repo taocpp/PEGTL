@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAOCPP_PEGTL_INCLUDE_CONTRIB_HTTP_HPP
-#define TAOCPP_PEGTL_INCLUDE_CONTRIB_HTTP_HPP
+#ifndef TAO_PEGTL_CONTRIB_HTTP_HPP
+#define TAO_PEGTL_CONTRIB_HTTP_HPP
 
 #include "../ascii.hpp"
 #include "../config.hpp"

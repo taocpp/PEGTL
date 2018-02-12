@@ -1,8 +1,8 @@
 // Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAOCPP_PEGTL_INCLUDE_INTERNAL_FILE_OPENER_HPP
-#define TAOCPP_PEGTL_INCLUDE_INTERNAL_FILE_OPENER_HPP
+#ifndef TAO_PEGTL_INTERNAL_FILE_OPENER_HPP
+#define TAO_PEGTL_INTERNAL_FILE_OPENER_HPP
 
 #include <fcntl.h>
 #include <sys/stat.h>
