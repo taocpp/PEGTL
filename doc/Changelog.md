@@ -2,7 +2,7 @@
 
 ## 2.4.0
 
-Released 2018-02-12
+**Not yet released**
 
 * Changed prefix of all macros from `TAOCPP_PEGTL_` to `TAO_PEGTL_`. Compatibility macros with the old names are provided, they will be removed in version 3.0.
 * Added the source name to the parse-tree nodes, see [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp).
