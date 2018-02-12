@@ -1,8 +1,8 @@
 // Copyright (c) 2015-2018 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_INTERNAL_TAOCPP_PEGTL_STRING_HPP
-#define TAO_PEGTL_INTERNAL_TAOCPP_PEGTL_STRING_HPP
+#ifndef TAO_PEGTL_INTERNAL_PEGTL_STRING_HPP
+#define TAO_PEGTL_INTERNAL_PEGTL_STRING_HPP
 
 #include <cstddef>
 #include <type_traits>
