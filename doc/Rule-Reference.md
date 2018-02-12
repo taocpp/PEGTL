@@ -483,25 +483,25 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 * Matches and consumes a string, a sequence of bytes or single-byte characters.
 * Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
 
-###### `TAOCPP_PEGTL_ISTRING( "..." )`
+###### `TAO_PEGTL_ISTRING( "..." )`
 
-* Macro where `TAOCPP_PEGTL_ISTRING( "foo" )` yields<br>
+* Macro where `TAO_PEGTL_ISTRING( "foo" )` yields<br>
   `istring< 'f', 'o', 'o' >`.
 * The argument must be a string literal.
 * Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
 * Strings may contain embedded `'\0'`.
 
-###### `TAOCPP_PEGTL_KEYWORD( "..." )`
+###### `TAO_PEGTL_KEYWORD( "..." )`
 
-* Macro where `TAOCPP_PEGTL_KEYWORD( "foo" )` yields<br>
+* Macro where `TAO_PEGTL_KEYWORD( "foo" )` yields<br>
   `keyword< 'f', 'o', 'o' >`.
 * The argument must be a string literal.
 * Works for keywords up to 512 bytes of length (excluding trailing `'\0'`).
 * Strings may contain embedded `'\0'`.
 
-###### `TAOCPP_PEGTL_STRING( "..." )`
+###### `TAO_PEGTL_STRING( "..." )`
 
-* Macro where `TAOCPP_PEGTL_STRING( "foo" )` yields<br>
+* Macro where `TAO_PEGTL_STRING( "foo" )` yields<br>
   `string< 'f', 'o', 'o' >`.
 * The argument must be a string literal.
 * Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
@@ -810,9 +810,9 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 * [`string< C1, C2, ... >`](#string-c1-c2---2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
 * [`string< C1, C2, ... >`](#string-c1-c2---3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
 * [`success`](#success) <sup>[(atomic rules)](#atomic-rules)</sup>
-* [`TAOCPP_PEGTL_ISTRING( "..." )`](#taocpp_pegtl_istring--) <sup>[(ascii rules)](#ascii_rules)</sup>
-* [`TAOCPP_PEGTL_KEYWORD( "..." )`](#taocpp_pegtl_keyword--) <sup>[(ascii rules)](#ascii_rules)</sup>
-* [`TAOCPP_PEGTL_STRING( "..." )`](#taocpp_pegtl_string--) <sup>[(ascii rules)](#ascii_rules)</sup>
+* [`TAO_PEGTL_ISTRING( "..." )`](#tao_pegtl_istring--) <sup>[(ascii rules)](#ascii_rules)</sup>
+* [`TAO_PEGTL_KEYWORD( "..." )`](#tao_pegtl_keyword--) <sup>[(ascii rules)](#ascii_rules)</sup>
+* [`TAO_PEGTL_STRING( "..." )`](#tao_pegtl_string--) <sup>[(ascii rules)](#ascii_rules)</sup>
 * [`try_catch< R... >`](#try_catch-r-) <sup>[(convenience)](#convenience)</sup>
 * [`try_catch_type< E, R... >`](#try_catch_type-e-r-) <sup>[(convenience)](#convenience)</sup>
 * [`two< C >`](#two-c-) <sup>[(ascii rules)](#ascii-rules)</sup>

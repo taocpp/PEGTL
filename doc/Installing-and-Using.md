@@ -124,13 +124,13 @@ Since the PEGTL does *not* guarantee ABI compatibility, not even across minor
 or patch releases, libraries *have* to ensure that the symbols for the PEGTL
 they include differ from those of the applications that use them.
 
-This can be achieved by changing the macro `TAOCPP_PEGTL_NAMESPACE` which, by
+This can be achieved by changing the macro `TAO_PEGTL_NAMESPACE` which, by
 default, is set to `pegtl`, which leads to all symbols residing in namespace
-`tao::pegtl`. To change the namespace, simply define `TAOCPP_PEGTL_NAMESPACE`
+`tao::pegtl`. To change the namespace, simply define `TAO_PEGTL_NAMESPACE`
 to a unique name before including the PEGTL, for example:
 
 ```c++
-#define TAOCPP_PEGTL_NAMESPACE mylib_pegtl
+#define TAO_PEGTL_NAMESPACE mylib_pegtl
 
 #include <tao/pegtl.hpp>
 #include <tao/contrib/json.hpp>
@@ -148,20 +148,27 @@ int main( int argc, char* argv[] )
 ### Embedding in Library Interfaces
 
 When PEGTL headers are included in headers of a library, setting the namespace
-to a unique name via `TAOCPP_PEGTL_NAMESPACE` is not sufficient since both the
+to a unique name via `TAO_PEGTL_NAMESPACE` is not sufficient since both the
 application's and the library's copy of the PEGTL use the same macro names.
 
 In this case it is necessary to change the prefix of all macros of the embedded
-PEGTL from `TAOCPP_PEGTL_` to another unique string in order to prevent macros
-from clashing. In a Unix-shell, the following command will achieve this:
+PEGTL from `TAO_PEGTL_` to another unique string in order to prevent macros
+from clashing. In a Unix-shell, the following commands will achieve this:
 
 ```sh
-$ sed -i 's/TAOCPP_PEGTL_/MYLIB_PEGTL_/g' $(find -name '[^.]*.[hc]pp')
+$ sed -i 's/TAO_PEGTL_/MYLIB_TAO_PEGTL_/g' $(find -name '[^.]*.[hc]pp')
+$ sed -i 's/TAOCPP_PEGTL_/MYLIB_TAOCPP_PEGTL_/g' $(find -name '[^.]*.[hc]pp')
 ```
 
-The above command needs to run from the top-level directory of the embedded PEGTL.
-Additionally, `MYLIB_PEGTL_NAMESPACE` needs to be set as explained above;
-alternatively `include/tao/pegtl/config.hpp` can be directly modified.
+The above commands needs to run from the top-level directory of the embedded
+PEGTL. Additionally, `MYLIB_TAO_PEGTL_NAMESPACE` needs to be set as explained
+above; alternatively `include/tao/pegtl/config.hpp` can be directly modified.
+
+Note that the second command is only needed because the PEGTL contains
+some compatibility macros for older versions that start with `TAOCPP_PEGTL_`
+instead of `TAO_PEGTL_`. Those older compatibility macros will be removed
+in version 3.0. Starting with version 2.4.0 you should only use macros
+that start with `TAO_PEGTL_`.
 
 A practical example of how the result looks like can be found in our own
 header-only [JSON library](https://github.com/taocpp/json/).

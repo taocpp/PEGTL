@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.4.0
+
+Released 2018-02-12
+
+* Changed prefix of all macros from `TAOCPP_PEGTL_` to `TAO_PEGTL_`. Compatibility macros with the old names are provided, they will be removed in version 3.0.
+* Added the source name to the parse-tree nodes, see [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp).
+
 ## 2.3.4
 
 Released 2018-02-08
@@ -94,7 +101,7 @@ Released 2017-06-23
 
 * Added optional template parameters to [`raw_string`](Contrib-and-Examples.md#taopegtlcontribraw_stringhpp) for rules that the content must match.
 * Added new contrib rules [`rep_one_min_max`](Contrib-and-Examples.md#taopegtlcontribrep_one_min_maxhpp) and `ellipsis`.
-* Fixed broken [`TAOCPP_PEGTL_KEYWORD`](Rule-Reference.md#taocpp_pegtl_keyword--) macro.
+* Fixed broken [`TAOCPP_PEGTL_KEYWORD`](Rule-Reference.md#tao_pegtl_keyword--) macro.
 * Fixed a bug in the contrib HTTP grammar which prevented it from parsing status lines in some cases.
 * Fixed build with MinGW-w64 on Windows.
 * Added [automated testing](https://ci.appveyor.com/project/taocpp/PEGTL) with MinGW-w64.
@@ -136,7 +143,7 @@ Released 2017-05-18
 
 * String Macros
 
-  * Renamed to [`TAOCPP_PEGTL_(I)STRING`](Rule-Reference.md#taocpp_pegtl_istring--).
+  * Renamed to [`TAOCPP_PEGTL_(I)STRING`](Rule-Reference.md#tao_pegtl_istring--).
   * Increased allowed string length to 512.
   * Allowed embedded null bytes.
   * Reduced template instantiation depth.
@@ -192,7 +199,7 @@ Released 2015-09-21
 
 Released 2015-08-23
 
-* Added [`pegtl_string_t`](Rule-Reference.md#taocpp_pegtl_string--) and [`pegtl_istring_t`](Rule-Reference.md#taocpp_pegtl_istring--) to simplify string definitions as follows:
+* Added [`pegtl_string_t`](Rule-Reference.md#tao_pegtl_string--) and [`pegtl_istring_t`](Rule-Reference.md#tao_pegtl_istring--) to simplify string definitions as follows:
 ```c++
    pegtl::string< 'h', 'e', 'l', 'l', 'o' >  // Normal
    pegtl_string_t( "hello" )                 // New shortcut
