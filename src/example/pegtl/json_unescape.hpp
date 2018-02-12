@@ -1,7 +1,7 @@
 // Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_SRC_EXAMPLES_PEGTL_JSON_UNESCAPE_HPP
+#ifndef TAO_PEGTL_SRC_EXAMPLES_PEGTL_JSON_UNESCAPE_HPP  // NOLINT
 #define TAO_PEGTL_SRC_EXAMPLES_PEGTL_JSON_UNESCAPE_HPP
 
 #include <string>
