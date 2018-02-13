@@ -103,7 +103,7 @@ For details see the [changelog](doc/Changelog.md).
 ### Thank You
 
 * Christopher Diggins and the YARD parser for the general idea.
-* George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `TAOCPP_PEGTL_STRING`.
+* George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `TAO_PEGTL_STRING`.
 * Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
 * Jörg-Christian Böhme for improving the Android CI build.
 * Kai Wolf for help with CMake.
