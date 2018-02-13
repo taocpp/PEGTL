@@ -401,7 +401,7 @@ matrix:
         - CXX=clang++-5.0
         - CLANG_TIDY=clang-tidy-5.0
       script:
-        - "sed -i 's#TAOCPP_PEGTL_NAMESPACE#pegtl#g' $(find . -name '*.[hc]pp')"
+        - "sed -i 's#TAO_PEGTL_NAMESPACE#pegtl#g' $(find . -name '*.[hc]pp')"
         - echo >include/tao/pegtl/config.hpp
         - make -kj3 clang-tidy
 
