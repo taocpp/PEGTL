@@ -117,13 +117,13 @@ namespace tao
                s.emplace_back();
                s.back()->begin = in.iterator();
                s.back()->source = in.source();
+               s.back()->id = &typeid( Rule );
             }
 
             template< typename Input >
             static void success( const Input& /*unused*/, TAO_PEGTL_NAMESPACE::parse_tree::state& s )
             {
                auto n = std::move( s.back() );
-               n->id = &typeid( Rule );
                s.pop_back();
                s.back()->children.emplace_back( std::move( n ) );
                transform< S< Rule > >::call( s.back()->children.back() );
@@ -147,13 +147,13 @@ namespace tao
                s.emplace_back();
                s.back()->begin = in.iterator();
                s.back()->source = in.source();
+               s.back()->id = &typeid( Rule );
             }
 
             template< typename Input >
             static void success( const Input& in, TAO_PEGTL_NAMESPACE::parse_tree::state& s )
             {
                auto n = std::move( s.back() );
-               n->id = &typeid( Rule );
                n->end = in.iterator();
                s.pop_back();
                s.back()->children.emplace_back( std::move( n ) );
