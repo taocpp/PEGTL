@@ -217,6 +217,9 @@ namespace tao
          }
 
          template< typename T >
+         memory_input( std::string&&, T&& ) = delete;
+
+         template< typename T >
          memory_input( const char* in_begin, T&& in_source ) noexcept( std::is_nothrow_constructible< Source, T&& >::value )
             : memory_input( in_begin, std::strlen( in_begin ), std::forward< T >( in_source ) )
          {
