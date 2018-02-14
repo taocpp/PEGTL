@@ -6,6 +6,7 @@
 
 * Changed prefix of all macros from `TAOCPP_PEGTL_` to `TAO_PEGTL_`. Compatibility macros with the old names are provided, they will be removed in version 3.0.
 * Added the source name to the parse-tree nodes, see [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp).
+* Added a deleted overload to prevent creating a `memory_input<>` from a temporary `std::string`.
 
 ## 2.3.4
 
