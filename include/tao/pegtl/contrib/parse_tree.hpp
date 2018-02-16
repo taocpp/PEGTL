@@ -84,63 +84,23 @@ namespace tao
             }
          };
 
-         template< template< typename > class S, template< typename > class C >
+         template< template< typename > class S >
          struct parse_tree
          {
-            template< typename Rule, bool = S< Rule >::value, bool = C< Rule >::value >
+            template< typename Rule, bool = S< Rule >::value >
             struct builder;
          };
 
-         template< template< typename > class S, template< typename > class C >
+         template< template< typename > class S >
          template< typename Rule >
-         struct parse_tree< S, C >::builder< Rule, false, false >
+         struct parse_tree< S >::builder< Rule, false >
             : normal< Rule >
          {
          };
 
-         template< template< typename > class S, template< typename > class C >
+         template< template< typename > class S >
          template< typename Rule >
-         struct parse_tree< S, C >::builder< Rule, true, true >
-            : normal< Rule >
-         {
-            static_assert( sizeof( Rule ) == 0, "error: both S<Rule>::value and C<Rule>::value are true" );
-         };
-
-         template< template< typename > class S, template< typename > class C >
-         template< typename Rule >
-         struct parse_tree< S, C >::builder< Rule, true, false >
-            : normal< Rule >
-         {
-            template< typename Input >
-            static void start( const Input& in, TAO_PEGTL_NAMESPACE::parse_tree::state& s )
-            {
-               s.emplace_back();
-               s.back()->begin = in.iterator();
-               s.back()->source = in.source();
-               s.back()->id = &typeid( Rule );
-            }
-
-            template< typename Input >
-            static void success( const Input& /*unused*/, TAO_PEGTL_NAMESPACE::parse_tree::state& s )
-            {
-               auto n = std::move( s.back() );
-               s.pop_back();
-               transform< S< Rule > >::call( n );
-               if( n ) {
-                  s.back()->children.emplace_back( std::move( n ) );
-               }
-            }
-
-            template< typename Input >
-            static void failure( const Input& /*unused*/, TAO_PEGTL_NAMESPACE::parse_tree::state& s ) noexcept
-            {
-               s.pop_back();
-            }
-         };
-
-         template< template< typename > class S, template< typename > class C >
-         template< typename Rule >
-         struct parse_tree< S, C >::builder< Rule, false, true >
+         struct parse_tree< S >::builder< Rule, true >
             : normal< Rule >
          {
             template< typename Input >
@@ -158,7 +118,7 @@ namespace tao
                auto n = std::move( s.back() );
                n->end = in.iterator();
                s.pop_back();
-               transform< C< Rule > >::call( n );
+               transform< S< Rule > >::call( n );
                if( n ) {
                   s.back()->children.emplace_back( std::move( n ) );
                }
@@ -171,36 +131,36 @@ namespace tao
             }
          };
 
-         template< typename >
-         struct default_store_simple : std::false_type
-         {
-         };
-
-         template< typename >
-         struct default_store_content : std::true_type
-         {
-         };
-
       }  // namespace internal
 
       namespace parse_tree
       {
-         template< template< typename > class S, template< typename > class C >
+         template< typename >
+         struct store_false : std::false_type
+         {
+         };
+
+         template< typename >
+         struct store_true : std::true_type
+         {
+         };
+
+         template< template< typename > class S = store_true >
          struct make_builder
          {
             template< typename Rule >
             struct type
-               : internal::parse_tree< S, C >::template builder< Rule >
+               : internal::parse_tree< S >::template builder< Rule >
             {
             };
          };
 
-         template< typename Grammar, template< typename > class S, template< typename > class C, typename Input >
+         template< typename Grammar, template< typename > class S = store_true, typename Input >
          std::pair< bool, state > parse( Input& in )
          {
-            state st;
-            const bool result = TAO_PEGTL_NAMESPACE::parse< Grammar, nothing, make_builder< S, C >::template type >( in, st );
-            return { result, std::move( st ) };
+            std::pair< bool, state > result;
+            result.first = TAO_PEGTL_NAMESPACE::parse< Grammar, nothing, make_builder< S >::template type >( in, result.second );
+            return result;
          }
 
       }  // namespace parse_tree

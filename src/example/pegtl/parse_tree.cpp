@@ -39,16 +39,27 @@ namespace example
    // select which rules in the grammar will produce parse tree nodes:
 
    // clang-format off
-   template< typename > struct store_simple : std::false_type {};
-   template< typename > struct store_content : std::false_type {};
+   template< typename > struct store : std::false_type {};
 
-   template<> struct store_content< integer > : std::true_type {};
-   template<> struct store_content< variable > : std::true_type {};
+   template<> struct store< integer > : std::true_type {};
+   template<> struct store< variable > : std::true_type {};
+   // clang-format on
 
-   template<> struct store_simple< plus > : std::true_type {};
-   template<> struct store_simple< minus > : std::true_type {};
-   template<> struct store_simple< multiply > : std::true_type {};
-   template<> struct store_simple< divide > : std::true_type {};
+   struct remove_content : std::true_type
+   {
+      static void transform( std::unique_ptr< parse_tree::node >& n ) noexcept
+      {
+         n->end.reset();
+      }
+   };
+
+   // select which rules in the grammar will produce parse tree nodes:
+
+   // clang-format off
+   template<> struct store< plus > : remove_content {};
+   template<> struct store< minus > : remove_content {};
+   template<> struct store< multiply > : remove_content {};
+   template<> struct store< divide > : remove_content {};
    // clang-format on
 
    // after a node is stored successfully, you can add an optional transformer like this:
@@ -93,8 +104,8 @@ namespace example
    // there is no need for an intermediate class.
 
    // clang-format off
-   template<> struct store_simple< product > : rearrange {};
-   template<> struct store_simple< expression > : rearrange {};
+   template<> struct store< product > : rearrange {};
+   template<> struct store< expression > : rearrange {};
    // clang-format on
 
    // debugging/show result:
@@ -126,7 +137,7 @@ int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
       argv_input<> in( argv, i );
-      const auto result = parse_tree::parse< example::grammar, example::store_simple, example::store_content >( in );
+      const auto result = parse_tree::parse< example::grammar, example::store >( in );
       if( result.first ) {
          example::print_node( result.second.root() );
       }

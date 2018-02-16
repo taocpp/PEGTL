@@ -39,6 +39,11 @@ namespace tao
             iterator& operator=( const iterator& ) = default;
             iterator& operator=( iterator&& ) = default;
 
+            void reset() noexcept
+            {
+               *this = iterator();
+            }
+
             const char* data = nullptr;
 
             std::size_t byte = 0;
