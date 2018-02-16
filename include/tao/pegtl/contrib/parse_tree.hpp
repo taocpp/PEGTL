@@ -196,11 +196,11 @@ namespace tao
          };
 
          template< typename Grammar, template< typename > class S, template< typename > class C, typename Input >
-         state parse( Input& in )
+         std::pair< bool, state > parse( Input& in )
          {
-            state s;
-            TAO_PEGTL_NAMESPACE::parse< Grammar, nothing, make_builder< S, C >::template type >( in, s );
-            return s;
+            state st;
+            const bool result = TAO_PEGTL_NAMESPACE::parse< Grammar, nothing, make_builder< S, C >::template type >( in, st );
+            return { result, std::move( st ) };
          }
 
       }  // namespace parse_tree

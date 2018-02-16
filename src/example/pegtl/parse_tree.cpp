@@ -33,7 +33,7 @@ namespace example
    struct product : list_must< value, sor< multiply, divide > > {};
    struct expression : list_must< product, sor< plus, minus > > {};
 
-   struct grammar : must< expression, eof > {};
+   struct grammar : seq< expression, eof > {};
    // clang-format on
 
    // select which rules in the grammar will produce parse tree nodes:
@@ -127,7 +127,12 @@ int main( int argc, char** argv )
    for( int i = 1; i < argc; ++i ) {
       argv_input<> in( argv, i );
       const auto result = parse_tree::parse< example::grammar, example::store_simple, example::store_content >( in );
-      example::print_node( result.root() );
+      if( result.first ) {
+         example::print_node( result.second.root() );
+      }
+      else {
+         std::cout << "PARSE FAILED" << std::endl;
+      }
    }
    return 0;
 }
