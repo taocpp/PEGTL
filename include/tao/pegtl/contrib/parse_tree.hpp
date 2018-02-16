@@ -125,8 +125,10 @@ namespace tao
             {
                auto n = std::move( s.back() );
                s.pop_back();
-               s.back()->children.emplace_back( std::move( n ) );
-               transform< S< Rule > >::call( s.back()->children.back() );
+               transform< S< Rule > >::call( n );
+               if( n ) {
+                  s.back()->children.emplace_back( std::move( n ) );
+               }
             }
 
             template< typename Input >
@@ -156,8 +158,10 @@ namespace tao
                auto n = std::move( s.back() );
                n->end = in.iterator();
                s.pop_back();
-               s.back()->children.emplace_back( std::move( n ) );
-               transform< C< Rule > >::call( s.back()->children.back() );
+               transform< C< Rule > >::call( n );
+               if( n ) {
+                  s.back()->children.emplace_back( std::move( n ) );
+               }
             }
 
             template< typename Input >
