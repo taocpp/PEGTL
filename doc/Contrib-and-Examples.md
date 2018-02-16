@@ -58,10 +58,7 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 
 ###### `<tao/pegtl/contrib/parse_tree.hpp>`
 
-* Basic infrastructure to build a parse tree.
-* Builds a full parse tree by default.
-* Supports selectors to choose which nodes will be stored in the parse tree and which nodes will store the matched content.
-* See also the [example](#srcexamplepegtlparse_treecpp) below.
+* See [Parse Tree](Parse-Tree.md).
 
 ###### `<tao/pegtl/contrib/raw_string.hpp>`
 
@@ -168,9 +165,9 @@ Shows how to implement a custom parsing rule with the simplified calling convent
 
 ###### `src/example/pegtl/parse_tree.cpp`
 
-A small example which shows how to create a parse tree for a given grammar using [`<tao/pegtl/contrib/parse_tree.hpp>`](#taopegtlcontribparse_treehpp).
+A small example which shows how to create a parse tree for a given grammar using [`<tao/pegtl/contrib/parse_tree.hpp>`](Parse-Tree.md).
 
-The example shows how to choose which rules will produce a parse tree node and which rules will store the content. The example also shows how to add additional transformations to the parse tree to transform it into an AST-like structure or to simplify it.
+The example shows how to choose which rules will produce a parse tree node, which rules will store the content, and how to add additional transformations to the parse tree to transform it into an AST-like structure or to simplify it.
 
 Running the example with a slightly longer expression:
 

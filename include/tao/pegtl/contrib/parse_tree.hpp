@@ -4,6 +4,7 @@
 #ifndef TAO_PEGTL_CONTRIB_PARSE_TREE_HPP
 #define TAO_PEGTL_CONTRIB_PARSE_TREE_HPP
 
+#include <cassert>
 #include <memory>
 #include <type_traits>
 #include <typeinfo>
@@ -31,110 +32,101 @@ namespace tao
             std::string source;
          };
 
-         class state
+         namespace internal
          {
-         private:
-            std::vector< std::unique_ptr< node > > stack;
-
-         public:
-            state()
+            class state
             {
-               emplace_back();
-            }
+            private:
+               std::vector< std::unique_ptr< node > > stack;
 
-            const node& root() const noexcept
-            {
-               return *stack.front();
-            }
-
-            std::unique_ptr< node >& back() noexcept
-            {
-               return stack.back();
-            }
-
-            void pop_back() noexcept
-            {
-               return stack.pop_back();
-            }
-
-            void emplace_back()
-            {
-               stack.emplace_back( std::unique_ptr< node >( new node ) );  // NOLINT: std::make_unique requires C++14
-            }
-         };
-
-      }  // namespace parse_tree
-
-      namespace internal
-      {
-         template< typename T, typename = void >
-         struct transform
-         {
-            static void call( std::unique_ptr< parse_tree::node >& /*unused*/ ) noexcept
-            {
-            }
-         };
-
-         template< typename T >
-         struct transform< T, decltype( T::transform( std::declval< std::unique_ptr< parse_tree::node >& >() ), void() ) >
-         {
-            static void call( std::unique_ptr< parse_tree::node >& n )
-            {
-               T::transform( n );
-            }
-         };
-
-         template< template< typename > class S >
-         struct parse_tree
-         {
-            template< typename Rule, bool = S< Rule >::value >
-            struct builder;
-         };
-
-         template< template< typename > class S >
-         template< typename Rule >
-         struct parse_tree< S >::builder< Rule, false >
-            : normal< Rule >
-         {
-         };
-
-         template< template< typename > class S >
-         template< typename Rule >
-         struct parse_tree< S >::builder< Rule, true >
-            : normal< Rule >
-         {
-            template< typename Input >
-            static void start( const Input& in, TAO_PEGTL_NAMESPACE::parse_tree::state& s )
-            {
-               s.emplace_back();
-               s.back()->begin = in.iterator();
-               s.back()->source = in.source();
-               s.back()->id = &typeid( Rule );
-            }
-
-            template< typename Input >
-            static void success( const Input& in, TAO_PEGTL_NAMESPACE::parse_tree::state& s )
-            {
-               auto n = std::move( s.back() );
-               n->end = in.iterator();
-               s.pop_back();
-               transform< S< Rule > >::call( n );
-               if( n ) {
-                  s.back()->children.emplace_back( std::move( n ) );
+            public:
+               state()
+               {
+                  emplace_back();
                }
-            }
 
-            template< typename Input >
-            static void failure( const Input& /*unused*/, TAO_PEGTL_NAMESPACE::parse_tree::state& s ) noexcept
+               void emplace_back()
+               {
+                  stack.emplace_back( std::unique_ptr< node >( new node ) );  // NOLINT: std::make_unique requires C++14
+               }
+
+               std::unique_ptr< node >& back() noexcept
+               {
+                  return stack.back();
+               }
+
+               void pop_back() noexcept
+               {
+                  return stack.pop_back();
+               }
+            };
+
+            template< typename T, typename = void >
+            struct transform
             {
-               s.pop_back();
-            }
-         };
+               static void call( std::unique_ptr< node >& /*unused*/ ) noexcept
+               {
+               }
+            };
 
-      }  // namespace internal
+            template< typename T >
+            struct transform< T, decltype( T::transform( std::declval< std::unique_ptr< node >& >() ), void() ) >
+            {
+               static void call( std::unique_ptr< node >& n )
+               {
+                  T::transform( n );
+               }
+            };
 
-      namespace parse_tree
-      {
+            template< template< typename > class S >
+            struct parse_tree
+            {
+               template< typename Rule, bool = S< Rule >::value >
+               struct builder;
+            };
+
+            template< template< typename > class S >
+            template< typename Rule >
+            struct parse_tree< S >::builder< Rule, false >
+               : normal< Rule >
+            {
+            };
+
+            template< template< typename > class S >
+            template< typename Rule >
+            struct parse_tree< S >::builder< Rule, true >
+               : normal< Rule >
+            {
+               template< typename Input >
+               static void start( const Input& in, state& st )
+               {
+                  st.emplace_back();
+                  st.back()->begin = in.iterator();
+                  st.back()->source = in.source();
+                  st.back()->id = &typeid( Rule );
+               }
+
+               template< typename Input >
+               static void success( const Input& in, state& st )
+               {
+                  auto n = std::move( st.back() );
+                  n->end = in.iterator();
+                  st.pop_back();
+                  transform< S< Rule > >::call( n );
+                  if( n ) {
+                     st.back()->children.emplace_back( std::move( n ) );
+                  }
+               }
+
+               template< typename Input >
+               static void failure( const Input& /*unused*/, state& st ) noexcept
+               {
+                  st.pop_back();
+               }
+            };
+
+         }  // namespace internal
+
          template< typename >
          struct store_false : std::false_type
          {
@@ -156,11 +148,11 @@ namespace tao
          };
 
          template< typename Grammar, template< typename > class S = store_true, typename Input >
-         std::pair< bool, state > parse( Input& in )
+         std::pair< bool, std::unique_ptr< node > > parse( Input& in )
          {
-            std::pair< bool, state > result;
-            result.first = TAO_PEGTL_NAMESPACE::parse< Grammar, nothing, make_builder< S >::template type >( in, result.second );
-            return result;
+            internal::state st;
+            const bool result = TAO_PEGTL_NAMESPACE::parse< Grammar, nothing, make_builder< S >::template type >( in, st );
+            return { result, std::move( st.back() ) };
          }
 
       }  // namespace parse_tree

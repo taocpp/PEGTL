@@ -115,7 +115,7 @@ namespace example
          std::cout << "ROOT" << std::endl;
       }
       else {
-         // detect nodes which don't need content (see remove_content above)
+         // detect nodes which don't have content (see remove_content above)
          if( n.end.data == nullptr ) {
             std::cout << s << internal::demangle( n.id->name() ) << " at " << position( n.begin, n.source ) << std::endl;
          }
@@ -140,7 +140,7 @@ int main( int argc, char** argv )
       argv_input<> in( argv, i );
       const auto result = parse_tree::parse< example::grammar, example::store >( in );
       if( result.first ) {
-         example::print_node( result.second.root() );
+         example::print_node( *result.second );
       }
       else {
          std::cout << "PARSE FAILED" << std::endl;
