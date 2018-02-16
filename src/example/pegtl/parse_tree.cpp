@@ -39,23 +39,25 @@ namespace example
    // select which rules in the grammar will produce parse tree nodes:
 
    // clang-format off
+
+   // by default, nodes are not stored
    template< typename > struct store : std::false_type {};
 
+   // select which rules in the grammar will produce parse tree nodes:
    template<> struct store< integer > : std::true_type {};
    template<> struct store< variable > : std::true_type {};
-   // clang-format on
 
+   // some nodes don't need to store their content,
+   // the existance (and the type-id) are sufficient.
    struct remove_content : std::true_type
    {
+      // we simply reset the end iterator as a marker.
       static void transform( std::unique_ptr< parse_tree::node >& n ) noexcept
       {
          n->end.reset();
       }
    };
 
-   // select which rules in the grammar will produce parse tree nodes:
-
-   // clang-format off
    template<> struct store< plus > : remove_content {};
    template<> struct store< minus > : remove_content {};
    template<> struct store< multiply > : remove_content {};
@@ -99,10 +101,6 @@ namespace example
       }
    };
 
-   // use the transformer from above.
-   // if a transformer is only used once,
-   // there is no need for an intermediate class.
-
    // clang-format off
    template<> struct store< product > : rearrange {};
    template<> struct store< expression > : rearrange {};
@@ -112,17 +110,20 @@ namespace example
 
    void print_node( const parse_tree::node& n, const std::string& s = "" )
    {
-      if( n.id != nullptr ) {
-         if( n.end.data != nullptr ) {
-            std::cout << s << internal::demangle( n.id->name() ) << " \"" << std::string( n.begin.data, n.end.data ) << "\" at " << position( n.begin, n.source ) << " to " << position( n.end, n.source ) << std::endl;
-         }
-         else {
-            std::cout << s << internal::demangle( n.id->name() ) << " at " << position( n.begin, n.source ) << std::endl;
-         }
-      }
-      else {
+      // detect the root node:
+      if( n.id == nullptr ) {
          std::cout << "ROOT" << std::endl;
       }
+      else {
+         // detect nodes which don't need content (see remove_content above)
+         if( n.end.data == nullptr ) {
+            std::cout << s << internal::demangle( n.id->name() ) << " at " << position( n.begin, n.source ) << std::endl;
+         }
+         else {
+            std::cout << s << internal::demangle( n.id->name() ) << " \"" << std::string( n.begin.data, n.end.data ) << "\" at " << position( n.begin, n.source ) << " to " << position( n.end, n.source ) << std::endl;
+         }
+      }
+      // print all child nodes
       if( !n.children.empty() ) {
          const auto s2 = s + "  ";
          for( auto& up : n.children ) {
