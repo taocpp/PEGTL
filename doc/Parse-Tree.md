@@ -31,7 +31,7 @@ The result is a `std::unique_ptr< tao::pegtl::parse_tree::node >`. The pointer i
 
 ## Partial Parse Tree
 
-A full parse tree is often too much, one does not need *every* node in a grammar, only the main nodes are important. This is supported by adding another template parameter to the `parse_tree::parse` call. The second template parameter `S` is a class template, for each rule that matched to compiler checks if `S<Rule>::value` is `true`. Hence, you can select the rules to generate nodes from your grammar like this:
+A full parse tree is often too much, one does not need *every* node in a grammar, only the main nodes are important. This is supported by adding another template parameter to the `parse_tree::parse` call. The second template parameter `S` is a class template. For each rule that matched, the compiler checks whether `S<Rule>::value` is `true`. You can then select the rules that should generate nodes from your grammar like this:
 
 ```c++
 template< typename Rule > struct my_selector : std::false_type {};
@@ -62,7 +62,7 @@ template<> struct my_selector< my_rule_2 > : std::true_type
 
 You can transform `n` in almost any way you can imagine, the [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/master/src/example/pegtl/parse_tree.cpp)-example shows two techniques for marking nodes as "content-less" and for actual transformations of the parse tree into an AST.
 
-There is another option not shown in the example: You can call `n.reset()` before returning from `transform()`, this will prevent the node from being added to its parent. It removes the node (as well as all of its children) from the generated parse tree.
+There is another option not shown in the example: You can call `n.reset()` before returning from `transform()`. This prevents the node from being added to its parent. It removes the node (as well as all of its children) from the generated parse tree.
 
 ## `tao::pegtl::parse_tree::node`
 
@@ -89,7 +89,7 @@ struct node
 };
 ```
 
-The name is the demangled name of the rule. By default all nodes (except the root node) can provide the content that matched, i.e. the part of the input that a rule matched on. You only need to check has_content() if you also used remove_content() in your transform methods.
+The name is the demangled name of the rule. By default all nodes (except the root node) can provide the content that matched, i.e. the part of the input that the rule the node was created for matched. You only need to check `has_content()` if you previously used `remove_content()` in your transform methods.
 
 See the [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/master/src/example/pegtl/parse_tree.cpp)-example for more information how to output (or otherwise use) the nodes.
 
