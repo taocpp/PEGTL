@@ -34,12 +34,10 @@ namespace tao
 
          namespace internal
          {
-            class state
+            struct state
             {
-            private:
                std::vector< std::unique_ptr< node > > stack;
 
-            public:
                state()
                {
                   emplace_back();
@@ -72,7 +70,7 @@ namespace tao
             template< typename T >
             struct transform< T, decltype( T::transform( std::declval< std::unique_ptr< node >& >() ), void() ) >
             {
-               static void call( std::unique_ptr< node >& n )
+               static void call( std::unique_ptr< node >& n ) noexcept( noexcept( T::transform( n ) ) )
                {
                   T::transform( n );
                }
@@ -101,9 +99,9 @@ namespace tao
                static void start( const Input& in, state& st )
                {
                   st.emplace_back();
+                  st.back()->id = &typeid( Rule );
                   st.back()->begin = in.iterator();
                   st.back()->source = in.source();
-                  st.back()->id = &typeid( Rule );
                }
 
                template< typename Input >
@@ -148,11 +146,14 @@ namespace tao
          };
 
          template< typename Grammar, template< typename > class S = store_true, typename Input >
-         std::pair< bool, std::unique_ptr< node > > parse( Input& in )
+         std::unique_ptr< node > parse( Input& in )
          {
             internal::state st;
-            const bool result = TAO_PEGTL_NAMESPACE::parse< Grammar, nothing, make_builder< S >::template type >( in, st );
-            return { result, std::move( st.back() ) };
+            if( !TAO_PEGTL_NAMESPACE::parse< Grammar, nothing, make_builder< S >::template type >( in, st ) ) {
+               return nullptr;
+            }
+            assert( st.stack.size() == 1 );
+            return std::move( st.back() );
          }
 
       }  // namespace parse_tree

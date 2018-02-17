@@ -20,13 +20,13 @@ This provides
 
 ## Full Parse Tree
 
-If you want to get a full parse tree, you call with `tao::pegtl::parse_tree::parse()`-method with only your grammar and an input:
+If you want to get a full parse tree, you call the `tao::pegtl::parse_tree::parse()`-method with only your grammar and an input:
 
 ```c++
-auto result = tao::pegtl::parse_tree::parse< my_grammar >( in );
+auto root = tao::pegtl::parse_tree::parse< my_grammar >( in );
 ```
 
-The result is of type `std::pair< bool, std::unique_ptr< tao::pegtl::parse_tree::node > >`. The boolean value contains the result from the parser, whether the input matched or not. The node is described below, it might be in an inconsistent state when the parser returned `false`. Intermediate nodes from rules which did not match will be removed automatically.
+The result is a `std::unique_ptr< tao::pegtl::parse_tree::node >`. The pointer is empty when the input did not match the grammar, otherwise it contains the root node of the resulting parse tree. Intermediate nodes from rules which did not match will be removed automatically.
 
 ## `tao::pegtl::tao::pegtl::parse_tree::node`
 
@@ -59,7 +59,7 @@ template<> struct my_selector< my_rule_3 > : std::true_type {};
 
 // ...
 
-auto result = tao::pegtl::parse_tree::parse< my_grammar, my_selector >( in );
+auto root = tao::pegtl::parse_tree::parse< my_grammar, my_selector >( in );
 ```
 
 The above style is a white-list, where the default is `std::false_type` and you explicitly list those rules which will generate a node. Of course, you can also set the default to `std::true_type` and explicitly list the rules which will *not* generate a node (black-list style).

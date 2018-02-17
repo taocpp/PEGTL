@@ -40,7 +40,7 @@ namespace example
 
    // clang-format off
 
-   // by default, nodes are not stored
+   // by default, nodes are not generated/stored
    template< typename > struct store : std::false_type {};
 
    // select which rules in the grammar will produce parse tree nodes:
@@ -138,9 +138,8 @@ int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
       argv_input<> in( argv, i );
-      const auto result = parse_tree::parse< example::grammar, example::store >( in );
-      if( result.first ) {
-         example::print_node( *result.second );
+      if( const auto root = parse_tree::parse< example::grammar, example::store >( in ) ) {
+         example::print_node( *root );
       }
       else {
          std::cout << "PARSE FAILED" << std::endl;
