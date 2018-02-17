@@ -27,17 +27,48 @@ namespace tao
          struct node
          {
             std::vector< std::unique_ptr< node > > children;
+
             const std::type_info* id = nullptr;
             internal::iterator begin;
             internal::iterator end;
             std::string source;
+
+            node() = default;
+
+            node( const node& ) = delete;
+            node( node&& ) = default;
+
+            ~node() = default;
+
+            node& operator=( const node& ) = delete;
+            node& operator=( node&& ) = delete;
+
+            template< typename Rule, typename Input >
+            void initialize( const Input& in )
+            {
+               id = &typeid( Rule );
+               begin = in.iterator();
+               source = in.source();
+            }
+
+            template< typename Rule, typename Input >
+            void finalize( const Input& in )
+            {
+               end = in.iterator();
+            }
+
+            void append( std::unique_ptr< node > child )
+            {
+               children.emplace_back( std::move( child ) );
+            }
          };
 
          namespace internal
          {
+            template< typename Node >
             struct state
             {
-               std::vector< std::unique_ptr< node > > stack;
+               std::vector< std::unique_ptr< Node > > stack;
 
                state()
                {
@@ -46,10 +77,10 @@ namespace tao
 
                void emplace_back()
                {
-                  stack.emplace_back( std::unique_ptr< node >( new node ) );  // NOLINT: std::make_unique requires C++14
+                  stack.emplace_back( std::unique_ptr< Node >( new Node ) );  // NOLINT: std::make_unique requires C++14
                }
 
-               std::unique_ptr< node >& back() noexcept
+               std::unique_ptr< Node >& back() noexcept
                {
                   return stack.back();
                }
@@ -60,68 +91,66 @@ namespace tao
                }
             };
 
-            template< typename T, typename = void >
+            template< typename Node, typename S, typename = void >
             struct transform
             {
-               static void call( std::unique_ptr< node >& /*unused*/ ) noexcept
+               static void call( std::unique_ptr< Node >& /*unused*/ ) noexcept
                {
                }
             };
 
-            template< typename T >
-            struct transform< T, decltype( T::transform( std::declval< std::unique_ptr< node >& >() ), void() ) >
+            template< typename Node, typename S >
+            struct transform< Node, S, decltype( S::transform( std::declval< std::unique_ptr< Node >& >() ), void() ) >
             {
-               static void call( std::unique_ptr< node >& n ) noexcept( noexcept( T::transform( n ) ) )
+               static void call( std::unique_ptr< Node >& n ) noexcept( noexcept( S::transform( n ) ) )
                {
-                  T::transform( n );
+                  S::transform( n );
                }
             };
 
             template< template< typename > class S >
-            struct parse_tree
+            struct make_control
             {
                template< typename Rule, bool = S< Rule >::value >
-               struct builder;
+               struct control;
 
                template< typename Rule >
-               using type = builder< Rule >;
+               using type = control< Rule >;
             };
 
             template< template< typename > class S >
             template< typename Rule >
-            struct parse_tree< S >::builder< Rule, false >
+            struct make_control< S >::control< Rule, false >
                : normal< Rule >
             {
             };
 
             template< template< typename > class S >
             template< typename Rule >
-            struct parse_tree< S >::builder< Rule, true >
+            struct make_control< S >::control< Rule, true >
                : normal< Rule >
             {
-               template< typename Input >
-               static void start( const Input& in, state& st )
+               template< typename Input, typename Node >
+               static void start( const Input& in, state< Node >& st )
                {
                   st.emplace_back();
-                  st.back()->id = &typeid( Rule );
-                  st.back()->begin = in.iterator();
-                  st.back()->source = in.source();
+                  st.back()->template initialize< Rule >( in );
                }
 
-               template< typename Input >
-               static void success( const Input& in, state& st )
+               template< typename Input, typename Node >
+               static void success( const Input& in, state< Node >& st )
                {
                   auto n = std::move( st.back() );
-                  n->end = in.iterator();
                   st.pop_back();
-                  transform< S< Rule > >::call( n );
+                  n->template finalize< Rule >( in );
+                  transform< Node, S< Rule > >::call( n );
                   if( n ) {
-                     st.back()->children.emplace_back( std::move( n ) );
+                     st.back()->append( std::move( n ) );
                   }
                }
 
-               template< typename Input >
-               static void failure( const Input& /*unused*/, state& st ) noexcept
+               template< typename Input, typename Node >
+               static void failure( const Input& /*unused*/, state< Node >& st ) noexcept
                {
                   st.pop_back();
                }
@@ -134,15 +163,21 @@ namespace tao
 
          }  // namespace internal
 
-         template< typename Rule, template< typename > class S = internal::store_all, typename Input >
-         std::unique_ptr< node > parse( Input& in )
+         template< typename Rule, typename Node, template< typename > class S = internal::store_all, typename Input >
+         std::unique_ptr< Node > parse( Input& in )
          {
-            internal::state st;
-            if( !TAO_PEGTL_NAMESPACE::parse< Rule, nothing, internal::parse_tree< S >::template type >( in, st ) ) {
+            internal::state< Node > st;
+            if( !TAO_PEGTL_NAMESPACE::parse< Rule, nothing, internal::make_control< S >::template type >( in, st ) ) {
                return nullptr;
             }
             assert( st.stack.size() == 1 );
             return std::move( st.back() );
+         }
+
+         template< typename Rule, template< typename > class S = internal::store_all, typename Input >
+         std::unique_ptr< node > parse( Input& in )
+         {
+            return parse< Rule, node, S >( in );
          }
 
       }  // namespace parse_tree
