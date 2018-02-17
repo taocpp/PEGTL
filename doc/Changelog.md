@@ -2,11 +2,11 @@
 
 ## 2.4.0
 
-**Not yet released**
+Released 2018-02-17
 
+* Improved and documented the [Parse Tree / AST support](Parse-Tree.md).
 * Changed prefix of all macros from `TAOCPP_PEGTL_` to `TAO_PEGTL_`. Compatibility macros with the old names are provided, they will be removed in version 3.0.
 * Added a deleted overload to prevent creating a `memory_input<>` from a temporary `std::string`.
-* Improved and documented the [Parse Tree / AST support](Parse-Tree.md).
 
 ## 2.3.4
 
