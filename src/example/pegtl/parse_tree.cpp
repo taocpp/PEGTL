@@ -135,12 +135,17 @@ namespace example
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      argv_input<> in( argv, i );
-      if( const auto root = parse_tree::parse< example::grammar, example::store >( in ) ) {
-         example::print_node( *root );
+      try {
+         argv_input<> in( argv, i );
+         if( const auto root = parse_tree::parse< example::grammar, example::store >( in ) ) {
+            example::print_node( *root );
+         }
+         else {
+            std::cout << "PARSE FAILED" << std::endl;
+         }
       }
-      else {
-         std::cout << "PARSE FAILED" << std::endl;
+      catch( const std::exception& e ) {
+         std::cout << "PARSE FAILED WITH EXCEPTION: " << e.what() << std::endl;
       }
    }
    return 0;
