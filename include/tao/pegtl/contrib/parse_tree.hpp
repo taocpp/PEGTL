@@ -33,32 +33,44 @@ namespace tao
             internal::iterator end;
             std::string source;
 
+            // each node will be default constructed
             node() = default;
 
+            // no copy/move is necessary
+            // (nodes are always owned/handled by a std::unique_ptr)
             node( const node& ) = delete;
-            node( node&& ) = default;
+            node( node&& ) = delete;
 
             ~node() = default;
 
+            // no assignment either
             node& operator=( const node& ) = delete;
             node& operator=( node&& ) = delete;
 
+            // all non-root nodes are initialized by calling this method
             template< typename Rule, typename Input >
-            void initialize( const Input& in )
+            void start( const Input& in )
             {
-               id = &typeid( Rule );
                begin = in.iterator();
                source = in.source();
             }
 
+            // if parsing of the rule succeeded, this method is called
             template< typename Rule, typename Input >
-            void finalize( const Input& in )
+            void success( const Input& in )
             {
+               id = &typeid( Rule );
                end = in.iterator();
+               // idea: check for source == in.source()?
             }
 
+            // if parsing succeeded and the (optional) transform call
+            // did not discard the node, it is appended to its parent.
+            // note that "child" is the node whose Rule just succeeded
+            // and *this is the parent where the node should be appended.
             void append( std::unique_ptr< node > child )
             {
+               assert( child );
                children.emplace_back( std::move( child ) );
             }
          };
@@ -134,7 +146,7 @@ namespace tao
                static void start( const Input& in, state< Node >& st )
                {
                   st.emplace_back();
-                  st.back()->template initialize< Rule >( in );
+                  st.back()->template start< Rule >( in );
                }
 
                template< typename Input, typename Node >
@@ -142,7 +154,7 @@ namespace tao
                {
                   auto n = std::move( st.back() );
                   st.pop_back();
-                  n->template finalize< Rule >( in );
+                  n->template success< Rule >( in );
                   transform< Node, S< Rule > >::call( n );
                   if( n ) {
                      st.back()->append( std::move( n ) );
