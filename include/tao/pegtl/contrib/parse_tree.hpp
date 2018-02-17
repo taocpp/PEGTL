@@ -13,6 +13,7 @@
 
 #include "../config.hpp"
 #include "../normal.hpp"
+#include "../nothing.hpp"
 #include "../parse.hpp"
 
 #include "../internal/iterator.hpp"
@@ -133,11 +134,11 @@ namespace tao
 
          }  // namespace internal
 
-         template< typename Grammar, template< typename > class S = internal::store_all, typename Input >
+         template< typename Rule, template< typename > class S = internal::store_all, typename Input >
          std::unique_ptr< node > parse( Input& in )
          {
             internal::state st;
-            if( !TAO_PEGTL_NAMESPACE::parse< Grammar, nothing, internal::parse_tree< S >::template type >( in, st ) ) {
+            if( !TAO_PEGTL_NAMESPACE::parse< Rule, nothing, internal::parse_tree< S >::template type >( in, st ) ) {
                return nullptr;
             }
             assert( st.stack.size() == 1 );
