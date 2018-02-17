@@ -28,7 +28,7 @@ auto root = tao::pegtl::parse_tree::parse< my_grammar >( in );
 
 The result is a `std::unique_ptr< tao::pegtl::parse_tree::node >`. The pointer is empty when the input did not match the grammar, otherwise it contains the root node of the resulting parse tree. Intermediate nodes from rules which did not match will be removed automatically.
 
-## `tao::pegtl::tao::pegtl::parse_tree::node`
+## `tao::pegtl::parse_tree::node`
 
 The root node, as well as all (nested) child nodes provide the following interface:
 
