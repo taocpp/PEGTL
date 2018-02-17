@@ -7,7 +7,6 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/parse_tree.hpp>
-#include <tao/pegtl/internal/demangle.hpp>
 
 using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 
@@ -54,7 +53,7 @@ namespace example
       // we simply reset the end iterator as a marker.
       static void transform( std::unique_ptr< parse_tree::node >& n ) noexcept
       {
-         n->end.reset();
+         n->remove_content();
       }
    };
 
@@ -111,16 +110,15 @@ namespace example
    void print_node( const parse_tree::node& n, const std::string& s = "" )
    {
       // detect the root node:
-      if( n.id == nullptr ) {
+      if( n.is_root() ) {
          std::cout << "ROOT" << std::endl;
       }
       else {
-         // detect nodes which don't have content (see remove_content above)
-         if( n.end.data == nullptr ) {
-            std::cout << s << internal::demangle( n.id->name() ) << " at " << position( n.begin, n.source ) << std::endl;
+         if( n.has_content() ) {
+            std::cout << s << n.name() << " \"" << n.content() << "\" at " << n.begin() << " to " << n.end() << std::endl;
          }
          else {
-            std::cout << s << internal::demangle( n.id->name() ) << " \"" << std::string( n.begin.data, n.end.data ) << "\" at " << position( n.begin, n.source ) << " to " << position( n.end, n.source ) << std::endl;
+            std::cout << s << n.name() << " at " << n.begin() << std::endl;
          }
       }
       // print all child nodes

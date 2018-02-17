@@ -8,13 +8,14 @@ The PEGTL supports building a [parse tree](https://en.wikipedia.org/wiki/Parse_t
 #include <tao/pegtl/contrib/parse_tree.hpp>
 ```
 
-This provides
+It provides
 
 * The basic infrastructure to build a parse tree.
 * Builds a full parse tree by default.
+* A default node class to hold parse tree information.
+* Supports custom node classes.
 * Supports a selector class template to choose which nodes will be stored in the parse tree.
 * Each selector specialization for a node may have an optional transformation method which allows modifying the current node (including its child nodes).
-
 
 > The parse tree / AST part of the PEGTL is currently in active development and serves as a prove-of-concept, expect changes at any time. Try it out, experiment with it, and most importantly let us know what you think of it. We need **your** feedback!
 
@@ -36,16 +37,26 @@ The root node, as well as all (nested) child nodes provide the following interfa
 struct node
 {
    std::vector< std::unique_ptr< node > > children;
-   const std::type_info* id;
-   tao::pegtl::internal::iterator begin;
-   tao::pegtl::internal::iterator end;
-   std::string source;
+
+   bool is_root() const noexcept();
+
+   // precondition from here on: !is_root()
+
+   std::string name() const;
+
+   bool has_content() const noexcept();
+   std::string content() const;  // precondition: has_content()
+
+   std::string source() const;
+
+   // useful for transform:
+   void remove_content();
 };
 ```
 
-The root node contains an empty `id`, i.e. `id == nullptr`. Otherwise, `id` points to the type info of the grammar rule that matched/generated this node. `begin` and `end` denote the position of the match, as well as a `const char*` to the input that matched. See the [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/master/src/example/pegtl/parse_tree.cpp)-example for more information how to output (or otherwise use) the nodes.
+The name is the demangled name of the rule. By default all nodes (except the root node) can provide the content that matched, i.e. the part of the input that a rule matched on. You only need to check has_content() if you also used remove_content() in your transform methods.
 
-> Note that Parse Tree / AST support is still in development, when the above will stabilize it is likely that we won't use `internal::iterator` or store a *copy* of the source in each node. The code currently focuses on functionality, structure, and ease of use - not efficiency.
+See the [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/master/src/example/pegtl/parse_tree.cpp)-example for more information how to output (or otherwise use) the nodes.
 
 ## Partial Parse Tree
 

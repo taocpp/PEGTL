@@ -16,6 +16,7 @@
 #include "../nothing.hpp"
 #include "../parse.hpp"
 
+#include "../internal/demangle.hpp"
 #include "../internal/iterator.hpp"
 
 namespace tao
@@ -28,10 +29,10 @@ namespace tao
          {
             std::vector< std::unique_ptr< node > > children;
 
-            const std::type_info* id = nullptr;
-            internal::iterator begin;
-            internal::iterator end;
-            std::string source;
+            const std::type_info* id_ = nullptr;
+            internal::iterator begin_;
+            internal::iterator end_;
+            std::string source_;
 
             // each node will be default constructed
             node() = default;
@@ -47,20 +48,62 @@ namespace tao
             node& operator=( const node& ) = delete;
             node& operator=( node&& ) = delete;
 
+            bool is_root() const noexcept
+            {
+               return id_ == nullptr;
+            }
+
+            std::string name() const
+            {
+               assert( !is_root() );
+               return TAO_PEGTL_NAMESPACE::internal::demangle( id_->name() );
+            }
+
+            position begin() const
+            {
+               return position( begin_, source_ );
+            }
+
+            position end() const
+            {
+               return position( end_, source_ );
+            }
+
+            const std::string& source() const noexcept
+            {
+               return source_;
+            }
+
+            void remove_content() noexcept
+            {
+               end_.reset();
+            }
+
+            bool has_content() const noexcept
+            {
+               return end_.data != nullptr;
+            }
+
+            std::string content() const
+            {
+               assert( has_content() );
+               return std::string( begin_.data, end_.data );
+            }
+
             // all non-root nodes are initialized by calling this method
             template< typename Rule, typename Input >
             void start( const Input& in )
             {
-               begin = in.iterator();
-               source = in.source();
+               begin_ = in.iterator();
+               source_ = in.source();
             }
 
             // if parsing of the rule succeeded, this method is called
             template< typename Rule, typename Input >
             void success( const Input& in )
             {
-               id = &typeid( Rule );
-               end = in.iterator();
+               id_ = &typeid( Rule );
+               end_ = in.iterator();
                // idea: check for source == in.source()?
             }
 
