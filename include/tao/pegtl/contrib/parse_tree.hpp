@@ -81,6 +81,9 @@ namespace tao
             {
                template< typename Rule, bool = S< Rule >::value >
                struct builder;
+
+               template< typename Rule >
+               using type = builder< Rule >;
             };
 
             template< template< typename > class S >
@@ -123,33 +126,18 @@ namespace tao
                }
             };
 
-         }  // namespace internal
-
-         template< typename >
-         struct store_false : std::false_type
-         {
-         };
-
-         template< typename >
-         struct store_true : std::true_type
-         {
-         };
-
-         template< template< typename > class S = store_true >
-         struct make_builder
-         {
-            template< typename Rule >
-            struct type
-               : internal::parse_tree< S >::template builder< Rule >
+            template< typename >
+            struct store_all : std::true_type
             {
             };
-         };
 
-         template< typename Grammar, template< typename > class S = store_true, typename Input >
+         }  // namespace internal
+
+         template< typename Grammar, template< typename > class S = internal::store_all, typename Input >
          std::unique_ptr< node > parse( Input& in )
          {
             internal::state st;
-            if( !TAO_PEGTL_NAMESPACE::parse< Grammar, nothing, make_builder< S >::template type >( in, st ) ) {
+            if( !TAO_PEGTL_NAMESPACE::parse< Grammar, nothing, internal::parse_tree< S >::template type >( in, st ) ) {
                return nullptr;
             }
             assert( st.stack.size() == 1 );
