@@ -46,21 +46,10 @@ namespace example
    template<> struct store< integer > : std::true_type {};
    template<> struct store< variable > : std::true_type {};
 
-   // some nodes don't need to store their content,
-   // the existance (and the type-id) are sufficient.
-   struct remove_content : std::true_type
-   {
-      // we simply reset the end iterator as a marker.
-      static void transform( std::unique_ptr< parse_tree::node >& n ) noexcept
-      {
-         n->remove_content();
-      }
-   };
-
-   template<> struct store< plus > : remove_content {};
-   template<> struct store< minus > : remove_content {};
-   template<> struct store< multiply > : remove_content {};
-   template<> struct store< divide > : remove_content {};
+   template<> struct store< plus > : parse_tree::remove_content {};
+   template<> struct store< minus > : parse_tree::remove_content {};
+   template<> struct store< multiply > : parse_tree::remove_content {};
+   template<> struct store< divide > : parse_tree::remove_content {};
    // clang-format on
 
    // after a node is stored successfully, you can add an optional transformer like this:

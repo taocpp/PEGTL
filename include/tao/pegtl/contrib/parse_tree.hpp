@@ -218,6 +218,17 @@ namespace tao
 
          }  // namespace internal
 
+         // some nodes don't need to store their content,
+         // use this helper as a base class to derive your specialization from.
+         struct remove_content : std::true_type
+         {
+            template< typename Node >
+            static void transform( std::unique_ptr< Node >& n ) noexcept( noexcept( n->remove_content() ) )
+            {
+               n->remove_content();
+            }
+         };
+
          template< typename Rule, typename Node, template< typename > class S = internal::store_all, typename Input >
          std::unique_ptr< Node > parse( Input& in )
          {
