@@ -74,11 +74,6 @@ namespace tao
                return source_;
             }
 
-            void remove_content() noexcept
-            {
-               end_.reset();
-            }
-
             bool has_content() const noexcept
             {
                return end_.data != nullptr;
@@ -91,30 +86,36 @@ namespace tao
             }
 
             // all non-root nodes are initialized by calling this method
-            template< typename Rule, typename Input >
-            void start( const Input& in )
+            template< typename Rule, typename Input, typename... States >
+            void start( const Input& in, States&&... /*unused*/ )
             {
                begin_ = in.iterator();
                source_ = in.source();
             }
 
             // if parsing of the rule succeeded, this method is called
-            template< typename Rule, typename Input >
-            void success( const Input& in )
+            template< typename Rule, typename Input, typename... States >
+            void success( const Input& in, States&&... /*unused*/ )
             {
                id_ = &typeid( Rule );
                end_ = in.iterator();
-               // idea: check for source == in.source()?
             }
 
             // if parsing succeeded and the (optional) transform call
             // did not discard the node, it is appended to its parent.
             // note that "child" is the node whose Rule just succeeded
             // and *this is the parent where the node should be appended.
-            void append( std::unique_ptr< node > child )
+            template< typename... States >
+            void append( std::unique_ptr< node > child, States&&... /*unused*/ )
             {
                assert( child );
                children.emplace_back( std::move( child ) );
+            }
+
+            template< typename... States >
+            void remove_content( States&&... /*unused*/ ) noexcept
+            {
+               end_.reset();
             }
          };
 
@@ -149,7 +150,8 @@ namespace tao
             template< typename Node, typename S, typename = void >
             struct transform
             {
-               static void call( std::unique_ptr< Node >& /*unused*/ ) noexcept
+               template< typename... States >
+               static void call( std::unique_ptr< Node >& /*unused*/, States&&... /*unused*/ ) noexcept
                {
                }
             };
@@ -157,9 +159,10 @@ namespace tao
             template< typename Node, typename S >
             struct transform< Node, S, decltype( S::transform( std::declval< std::unique_ptr< Node >& >() ), void() ) >
             {
-               static void call( std::unique_ptr< Node >& n ) noexcept( noexcept( S::transform( n ) ) )
+               template< typename... States >
+               static void call( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( S::transform( n ) ) )
                {
-                  S::transform( n );
+                  S::transform( n, st... );
                }
             };
 
@@ -185,29 +188,29 @@ namespace tao
             struct make_control< S >::control< Rule, true >
                : normal< Rule >
             {
-               template< typename Input, typename Node >
-               static void start( const Input& in, state< Node >& st )
+               template< typename Input, typename Node, typename... States >
+               static void start( const Input& in, state< Node >& state, States&&... st )
                {
-                  st.emplace_back();
-                  st.back()->template start< Rule >( in );
+                  state.emplace_back();
+                  state.back()->template start< Rule >( in, st... );
                }
 
-               template< typename Input, typename Node >
-               static void success( const Input& in, state< Node >& st )
+               template< typename Input, typename Node, typename... States >
+               static void success( const Input& in, state< Node >& state, States&&... st )
                {
-                  auto n = std::move( st.back() );
-                  st.pop_back();
-                  n->template success< Rule >( in );
-                  transform< Node, S< Rule > >::call( n );
+                  auto n = std::move( state.back() );
+                  state.pop_back();
+                  n->template success< Rule >( in, st... );
+                  transform< Node, S< Rule > >::call( n, st... );
                   if( n ) {
-                     st.back()->append( std::move( n ) );
+                     state.back()->append( std::move( n ), st... );
                   }
                }
 
-               template< typename Input, typename Node >
-               static void failure( const Input& /*unused*/, state< Node >& st ) noexcept
+               template< typename Input, typename Node, typename... States >
+               static void failure( const Input& /*unused*/, state< Node >& state, States&&... /*unused*/ ) noexcept
                {
-                  st.pop_back();
+                  state.pop_back();
                }
             };
 
@@ -222,28 +225,28 @@ namespace tao
          // use this helper as a base class to derive your specialization from.
          struct remove_content : std::true_type
          {
-            template< typename Node >
-            static void transform( std::unique_ptr< Node >& n ) noexcept( noexcept( n->remove_content() ) )
+            template< typename Node, typename... States >
+            static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->remove_content( st... ) ) )
             {
-               n->remove_content();
+               n->remove_content( st... );
             }
          };
 
-         template< typename Rule, typename Node, template< typename > class S = internal::store_all, typename Input >
-         std::unique_ptr< Node > parse( Input& in )
+         template< typename Rule, typename Node, template< typename > class S = internal::store_all, typename Input, typename... States >
+         std::unique_ptr< Node > parse( Input& in, States&&... st )
          {
-            internal::state< Node > st;
-            if( !TAO_PEGTL_NAMESPACE::parse< Rule, nothing, internal::make_control< S >::template type >( in, st ) ) {
+            internal::state< Node > state;
+            if( !TAO_PEGTL_NAMESPACE::parse< Rule, nothing, internal::make_control< S >::template type >( in, state, st... ) ) {
                return nullptr;
             }
-            assert( st.stack.size() == 1 );
-            return std::move( st.back() );
+            assert( state.stack.size() == 1 );
+            return std::move( state.back() );
          }
 
-         template< typename Rule, template< typename > class S = internal::store_all, typename Input >
-         std::unique_ptr< node > parse( Input& in )
+         template< typename Rule, template< typename > class S = internal::store_all, typename Input, typename... States >
+         std::unique_ptr< node > parse( Input& in, States&&... st )
          {
-            return parse< Rule, node, S >( in );
+            return parse< Rule, node, S >( in, st... );
          }
 
       }  // namespace parse_tree
