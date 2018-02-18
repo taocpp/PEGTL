@@ -101,12 +101,18 @@ namespace tao
                end_ = in.iterator();
             }
 
+            // if parsing of the rule failed, this method is called
+            template< typename Rule, typename Input, typename... States >
+            void failure( const Input& /*unused*/, States&&... /*unused*/ )
+            {
+            }
+
             // if parsing succeeded and the (optional) transform call
             // did not discard the node, it is appended to its parent.
             // note that "child" is the node whose Rule just succeeded
-            // and *this is the parent where the node should be appended.
+            // and "*this" is the parent where the node should be appended.
             template< typename... States >
-            void append( std::unique_ptr< node > child, States&&... /*unused*/ )
+            void emplace_back( std::unique_ptr< node > child, States&&... /*unused*/ )
             {
                assert( child );
                children.emplace_back( std::move( child ) );
@@ -203,13 +209,14 @@ namespace tao
                   n->template success< Rule >( in, st... );
                   transform< Node, S< Rule > >::call( n, st... );
                   if( n ) {
-                     state.back()->append( std::move( n ), st... );
+                     state.back()->emplace_back( std::move( n ), st... );
                   }
                }
 
                template< typename Input, typename Node, typename... States >
-               static void failure( const Input& /*unused*/, state< Node >& state, States&&... /*unused*/ ) noexcept
+               static void failure( const Input& in, state< Node >& state, States&&... st ) noexcept
                {
+                  state.back()->template failure< Rule >( in, st... );
                   state.pop_back();
                }
             };
