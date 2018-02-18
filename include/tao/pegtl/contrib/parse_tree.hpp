@@ -95,7 +95,7 @@ namespace tao
 
             // if parsing of the rule succeeded, this method is called
             template< typename Rule, typename Input, typename... States >
-            void success( const Input& in, States&&... /*unused*/ )
+            void success( const Input& in, States&&... /*unused*/ ) noexcept
             {
                id_ = &typeid( Rule );
                end_ = in.iterator();
@@ -103,7 +103,7 @@ namespace tao
 
             // if parsing of the rule failed, this method is called
             template< typename Rule, typename Input, typename... States >
-            void failure( const Input& /*unused*/, States&&... /*unused*/ )
+            void failure( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
             {
             }
 
