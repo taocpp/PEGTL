@@ -214,7 +214,7 @@ namespace tao
                }
 
                template< typename Input, typename Node, typename... States >
-               static void failure( const Input& in, state< Node >& state, States&&... st ) noexcept
+               static void failure( const Input& in, state< Node >& state, States&&... st ) noexcept( noexcept( std::declval< node& >().template failure< Rule >( in, st... ) ) )
                {
                   state.back()->template failure< Rule >( in, st... );
                   state.pop_back();
