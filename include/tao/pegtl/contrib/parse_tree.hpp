@@ -27,7 +27,7 @@ namespace tao
       {
          struct node
          {
-            std::vector< std::unique_ptr< node > > children;
+            std::vector< std::unique_ptr< node > > children_;
 
             const std::type_info* id_ = nullptr;
             internal::iterator begin_;
@@ -115,7 +115,7 @@ namespace tao
             void emplace_back( std::unique_ptr< node > child, States&&... /*unused*/ )
             {
                assert( child );
-               children.emplace_back( std::move( child ) );
+               children_.emplace_back( std::move( child ) );
             }
 
             template< typename... States >
