@@ -9,7 +9,7 @@
 
 namespace tao
 {
-   namespace pegtl
+   namespace TAO_PEGTL_NAMESPACE
    {
       namespace internal
       {
@@ -208,7 +208,7 @@ namespace tao
 
       }  // namespace internal
 
-   }  // namespace pegtl
+   }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
 

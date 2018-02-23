@@ -17,9 +17,7 @@ namespace tao
    {
       namespace internal
       {
-         using read32_f = std::uint32_t( const void* );
-
-         template< read32_f F >
+         template< typename R >
          struct peek_utf32_impl
          {
             using data_t = char32_t;
@@ -32,7 +30,7 @@ namespace tao
             {
                const std::size_t s = in.size( 4 );
                if( s >= 4 ) {
-                  const char32_t t = F( in.current() );
+                  const char32_t t = R::read( in.current() );
                   if( ( 0 <= t ) && ( t <= 0x10ffff ) ) {
                      return { t, 4 };
                   }
@@ -41,8 +39,24 @@ namespace tao
             }
          };
 
-         using peek_utf32_be = peek_utf32_impl< be_to_h< std::uint32_t > >;
-         using peek_utf32_le = peek_utf32_impl< le_to_h< std::uint32_t > >;
+         struct read_utf32_be
+         {
+            static std::uint32_t read( const void* d ) noexcept
+            {
+               return be_to_h< std::uint32_t >( d );
+            }
+         };
+
+         struct read_utf32_le
+         {
+            static std::uint32_t read( const void* d ) noexcept
+            {
+               return le_to_h< std::uint32_t >( d );
+            }
+         };
+
+         using peek_utf32_be = peek_utf32_impl< read_utf32_be >;
+         using peek_utf32_le = peek_utf32_impl< read_utf32_le >;
 
          using peek_utf32 = peek_utf32_le;
 

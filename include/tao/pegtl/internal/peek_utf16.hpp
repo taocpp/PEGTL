@@ -17,9 +17,7 @@ namespace tao
    {
       namespace internal
       {
-         using read16_f = std::uint16_t( const void* );
-
-         template< read16_f F >
+         template< typename R >
          struct peek_utf16_impl
          {
             using data_t = char32_t;
@@ -35,11 +33,11 @@ namespace tao
             {
                const std::size_t s = in.size( 4 );
                if( s >= 2 ) {
-                  const char32_t t = F( in.current() );
+                  const char32_t t = R::read( in.current() );
                   if( ( t < 0xd800 ) || ( t > 0xdbff ) || ( s < 4 ) ) {
                      return { t, 2 };
                   }
-                  const char32_t u = F( in.current() + 2 );
+                  const char32_t u = R::read( in.current() + 2 );
                   if( ( u < 0xdc00 ) || ( u > 0xdfff ) ) {
                      return { t, 2 };
                   }
@@ -49,8 +47,24 @@ namespace tao
             }
          };
 
-         using peek_utf16_be = peek_utf16_impl< be_to_h< std::uint16_t > >;
-         using peek_utf16_le = peek_utf16_impl< le_to_h< std::uint16_t > >;
+         struct read_utf16_be
+         {
+            static std::uint16_t read( const void* d ) noexcept
+            {
+               return be_to_h< std::uint16_t >( d );
+            }
+         };
+
+         struct read_utf16_le
+         {
+            static std::uint16_t read( const void* d ) noexcept
+            {
+               return le_to_h< std::uint16_t >( d );
+            }
+         };
+
+         using peek_utf16_be = peek_utf16_impl< read_utf16_be >;
+         using peek_utf16_le = peek_utf16_impl< read_utf16_le >;
 
          using peek_utf16 = peek_utf16_le;
 
