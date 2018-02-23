@@ -8,6 +8,7 @@
 
 #include "../config.hpp"
 
+#include "endian.hpp"
 #include "input_pair.hpp"
 
 namespace tao
@@ -16,7 +17,10 @@ namespace tao
    {
       namespace internal
       {
-         struct peek_utf16
+         using read16_f = std::uint16_t( const void* );
+
+         template< read16_f F >
+         struct peek_utf16_impl
          {
             using data_t = char32_t;
             using pair_t = input_pair< char32_t >;
@@ -31,11 +35,11 @@ namespace tao
             {
                const std::size_t s = in.size( 4 );
                if( s >= 2 ) {
-                  const char32_t t = *static_cast< const short_t* >( static_cast< const void* >( in.current() ) );
+                  const char32_t t = F( in.current() );
                   if( ( t < 0xd800 ) || ( t > 0xdbff ) || ( s < 4 ) ) {
                      return { t, 2 };
                   }
-                  const char32_t u = *static_cast< const short_t* >( static_cast< const void* >( in.current() + 2 ) );
+                  const char32_t u = F( in.current() + 2 );
                   if( ( u < 0xdc00 ) || ( u > 0xdfff ) ) {
                      return { t, 2 };
                   }
@@ -44,6 +48,11 @@ namespace tao
                return { 0, 0 };
             }
          };
+
+         using peek_utf16_be = peek_utf16_impl< be_to_h< std::uint16_t > >;
+         using peek_utf16_le = peek_utf16_impl< le_to_h< std::uint16_t > >;
+
+         using peek_utf16 = peek_utf16_le;
 
       }  // namespace internal
 
