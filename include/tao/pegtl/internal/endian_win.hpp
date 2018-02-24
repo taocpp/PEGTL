@@ -47,12 +47,12 @@ namespace tao
          {
             static std::int16_t convert( const std::int16_t n ) noexcept
             {
-               return std::int16_t( _byteswap_ushort( std::uint16_t( n ) ) );  // NOLINT
+               return std::int16_t( _byteswap_ushort( std::uint16_t( n ) ) );  // NOLINT(clang-diagnostic-error)
             }
 
             static std::uint16_t convert( const std::uint16_t n ) noexcept
             {
-               return _byteswap_ushort( n );  // NOLINT
+               return _byteswap_ushort( n );  // NOLINT(clang-diagnostic-error)
             }
          };
 
@@ -70,12 +70,12 @@ namespace tao
 
             static std::int32_t convert( const std::int32_t n ) noexcept
             {
-               return std::int32_t( _byteswap_ulong( std::uint32_t( n ) ) );  // NOLINT
+               return std::int32_t( _byteswap_ulong( std::uint32_t( n ) ) );  // NOLINT(clang-diagnostic-error)
             }
 
             static std::uint32_t convert( const std::uint32_t n ) noexcept
             {
-               return _byteswap_ulong( n );  // NOLINT
+               return _byteswap_ulong( n );  // NOLINT(clang-diagnostic-error)
             }
          };
 
@@ -93,12 +93,12 @@ namespace tao
 
             static std::int64_t convert( const std::int64_t n ) noexcept
             {
-               return std::int64_t( _byteswap_uint64( std::uint64_t( n ) ) );  // NOLINT
+               return std::int64_t( _byteswap_uint64( std::uint64_t( n ) ) );  // NOLINT(clang-diagnostic-error)
             }
 
             static std::uint64_t convert( const std::uint64_t n ) noexcept
             {
-               return _byteswap_uint64( n );  // NOLINT
+               return _byteswap_uint64( n );  // NOLINT(clang-diagnostic-error)
             }
          };
 
