@@ -11,6 +11,7 @@ namespace tao
    {
       void unit_test()
       {
+#if !defined( _WIN32 ) || defined( __MINGW32__ )
          static_assert( alphabet::a == 'a', "a" );
          static_assert( alphabet::b == 'b', "b" );
          static_assert( alphabet::c == 'c', "c" );
@@ -64,6 +65,7 @@ namespace tao
          static_assert( alphabet::X == 'X', "X" );
          static_assert( alphabet::Y == 'Y', "Y" );
          static_assert( alphabet::Z == 'Z', "Z" );
+#endif
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE

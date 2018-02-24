@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <cstring>
 
-#include <stdlib.h>  // TODO: Or is intrin.h the 'more correct' header for the _byteswap_foo() functions?
+#include <stdlib.h>  // NOLINT
 
 namespace tao
 {
@@ -47,12 +47,12 @@ namespace tao
          {
             static std::int16_t convert( const std::int16_t n ) noexcept
             {
-               return std::int16_t( _byteswap_ushort( std::uint16_t( n ) ) );
+               return std::int16_t( _byteswap_ushort( std::uint16_t( n ) ) );  // NOLINT
             }
 
             static std::uint16_t convert( const std::uint16_t n ) noexcept
             {
-               return _byteswap_ushort( n );
+               return _byteswap_ushort( n );  // NOLINT
             }
          };
 
@@ -70,12 +70,12 @@ namespace tao
 
             static std::int32_t convert( const std::int32_t n ) noexcept
             {
-               return std::int32_t( _byteswap_ulong( std::uint32_t( n ) ) );
+               return std::int32_t( _byteswap_ulong( std::uint32_t( n ) ) );  // NOLINT
             }
 
             static std::uint32_t convert( const std::uint32_t n ) noexcept
             {
-               return _byteswap_ulong( n );
+               return _byteswap_ulong( n );  // NOLINT
             }
          };
 
@@ -93,12 +93,12 @@ namespace tao
 
             static std::int64_t convert( const std::int64_t n ) noexcept
             {
-               return std::int64_t( _byteswap_uint64( std::uint64_t( n ) ) );
+               return std::int64_t( _byteswap_uint64( std::uint64_t( n ) ) );  // NOLINT
             }
 
             static std::uint64_t convert( const std::uint64_t n ) noexcept
             {
-               return _byteswap_uint64( n );
+               return _byteswap_uint64( n );  // NOLINT
             }
          };
 
