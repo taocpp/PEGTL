@@ -11,6 +11,7 @@
 #include <tao/pegtl/apply_mode.hpp>
 #include <tao/pegtl/normal.hpp>
 #include <tao/pegtl/rewind_mode.hpp>
+#include <tao/pegtl/unreachable.hpp>
 
 #include "result_type.hpp"
 #include "test.hpp"
@@ -32,7 +33,7 @@ namespace tao
             return result_type::GLOBAL_FAILURE;
          }
          catch( ... ) {
-            throw std::runtime_error( "code should be unreachable" );  // NOLINT, LCOV_EXCL_LINE
+            TAO_PEGTL_UNREACHABLE;  // NOLINT, LCOV_EXCL_LINE
          }
       }
 

@@ -13,6 +13,7 @@
 #include <utility>
 
 #include "../config.hpp"
+#include "../unreachable.hpp"
 
 #include "grammar_info.hpp"
 #include "insert_guard.hpp"
@@ -84,7 +85,7 @@ namespace tao
                         return m_cache[ start->first ] = a;
                      }
                   }
-                  throw std::runtime_error( "code should be unreachable" );  // NOLINT, LCOV_EXCL_LINE
+                  TAO_PEGTL_UNREACHABLE;  // NOLINT, LCOV_EXCL_LINE
                }
                if( !accum ) {
                   ++m_problems;
