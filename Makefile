@@ -34,7 +34,7 @@ CXXFLAGS ?= -Wall -Wextra -Wshadow -Werror -O3 $(MINGW_CXXFLAGS)
 
 CLANG_TIDY ?= clang-tidy
 
-HEADERS := $(shell find include -name '*.hpp') $(filter-out src/test/pegtl/main.hpp,$(shell find src -name '*.hpp'))
+HEADERS := $(shell find include -name '*.hpp') $(filter-out include/tao/pegtl/internal/endian_win.hpp src/test/pegtl/main.hpp,$(shell find src -name '*.hpp'))
 SOURCES := $(shell find src -name '*.cpp')
 DEPENDS := $(SOURCES:%.cpp=build/%.d)
 BINARIES := $(SOURCES:%.cpp=build/%)

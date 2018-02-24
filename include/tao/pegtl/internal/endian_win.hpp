@@ -1,5 +1,5 @@
 // Copyright (c) 2017-2018 Dr. Colin Hirsch and Daniel Frey
-// Please see LICENSE for license or visit https://github.com/taocpp/pegtl/
+// Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #ifndef TAO_PEGTL_INTERNAL_ENDIAN_WIN_HPP
 #define TAO_PEGTL_INTERNAL_ENDIAN_WIN_HPP
@@ -7,7 +7,7 @@
 #include <cstdint>
 #include <cstring>
 
-#include <stdlib.h>  // NOLINT
+#include <stdlib.h>
 
 namespace tao
 {
@@ -47,12 +47,12 @@ namespace tao
          {
             static std::int16_t convert( const std::int16_t n ) noexcept
             {
-               return std::int16_t( _byteswap_ushort( std::uint16_t( n ) ) );  // NOLINT(clang-diagnostic-error)
+               return std::int16_t( _byteswap_ushort( std::uint16_t( n ) ) );
             }
 
             static std::uint16_t convert( const std::uint16_t n ) noexcept
             {
-               return _byteswap_ushort( n );  // NOLINT(clang-diagnostic-error)
+               return _byteswap_ushort( n );
             }
          };
 
@@ -70,12 +70,12 @@ namespace tao
 
             static std::int32_t convert( const std::int32_t n ) noexcept
             {
-               return std::int32_t( _byteswap_ulong( std::uint32_t( n ) ) );  // NOLINT(clang-diagnostic-error)
+               return std::int32_t( _byteswap_ulong( std::uint32_t( n ) ) );
             }
 
             static std::uint32_t convert( const std::uint32_t n ) noexcept
             {
-               return _byteswap_ulong( n );  // NOLINT(clang-diagnostic-error)
+               return _byteswap_ulong( n );
             }
          };
 
@@ -93,12 +93,12 @@ namespace tao
 
             static std::int64_t convert( const std::int64_t n ) noexcept
             {
-               return std::int64_t( _byteswap_uint64( std::uint64_t( n ) ) );  // NOLINT(clang-diagnostic-error)
+               return std::int64_t( _byteswap_uint64( std::uint64_t( n ) ) );
             }
 
             static std::uint64_t convert( const std::uint64_t n ) noexcept
             {
-               return _byteswap_uint64( n );  // NOLINT(clang-diagnostic-error)
+               return _byteswap_uint64( n );
             }
          };
 
@@ -111,6 +111,5 @@ namespace tao
    }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
-
 
 #endif
