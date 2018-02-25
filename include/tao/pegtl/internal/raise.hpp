@@ -5,10 +5,10 @@
 #define TAO_PEGTL_INTERNAL_RAISE_HPP
 
 #include <cstdlib>
+#include <stdexcept>
 #include <type_traits>
 
 #include "../config.hpp"
-#include "../unreachable.hpp"
 
 #include "skip_control.hpp"
 
@@ -36,7 +36,7 @@ namespace tao
             static bool match( Input& in, States&&... st )
             {
                Control< T >::raise( static_cast< const Input& >( in ), st... );
-               TAO_PEGTL_UNREACHABLE;
+               throw std::logic_error( "code should be unreachable: Control< T >::raise() did not throw an exception" );
             }
          };
 

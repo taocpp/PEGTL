@@ -8,12 +8,12 @@
 
 #include <map>
 #include <set>
+#include <stdexcept>
 
 #include <iostream>
 #include <utility>
 
 #include "../config.hpp"
-#include "../unreachable.hpp"
 
 #include "grammar_info.hpp"
 #include "insert_guard.hpp"
@@ -85,7 +85,7 @@ namespace tao
                         return m_cache[ start->first ] = a;
                      }
                   }
-                  TAO_PEGTL_UNREACHABLE;  // NOLINT, LCOV_EXCL_LINE
+                  throw std::logic_error( "code should be unreachable: invalid rule_type value" );  // NOLINT, LCOV_EXCL_LINE
                }
                if( !accum ) {
                   ++m_problems;

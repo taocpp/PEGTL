@@ -5,13 +5,13 @@
 #define TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_IMPL_HPP
 
 #include <cstddef>
-#include <stdexcept>
+#include <cstdlib>
+#include <iostream>
 #include <string>
 
 #include <tao/pegtl/apply_mode.hpp>
 #include <tao/pegtl/normal.hpp>
 #include <tao/pegtl/rewind_mode.hpp>
-#include <tao/pegtl/unreachable.hpp>
 
 #include "result_type.hpp"
 #include "test.hpp"
@@ -33,7 +33,8 @@ namespace tao
             return result_type::GLOBAL_FAILURE;
          }
          catch( ... ) {
-            TAO_PEGTL_UNREACHABLE;  // NOLINT, LCOV_EXCL_LINE
+            std::cerr << "Code should be unreachable in " << __FUNCTION__ << " (" << __FILE__ << ':' << __LINE__ << ')' << std::endl;
+            std::abort();
          }
       }
 
