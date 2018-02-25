@@ -8,6 +8,7 @@
 #include <type_traits>
 
 #include "../config.hpp"
+#include "../unreachable.hpp"
 
 #include "skip_control.hpp"
 
@@ -35,11 +36,7 @@ namespace tao
             static bool match( Input& in, States&&... st )
             {
                Control< T >::raise( static_cast< const Input& >( in ), st... );
-#if defined( _MSC_VER )
-               __assume( false );  // LCOV_EXCL_LINE
-#else
-               std::abort();  // LCOV_EXCL_LINE
-#endif
+               TAO_PEGTL_UNREACHABLE;
             }
          };
 
