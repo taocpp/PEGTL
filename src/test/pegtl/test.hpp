@@ -4,9 +4,11 @@
 #ifndef TAO_PEGTL_SRC_TEST_PEGTL_TEST_HPP  // NOLINT
 #define TAO_PEGTL_SRC_TEST_PEGTL_TEST_HPP
 
-#include <cassert>
 #include <cstddef>
 #include <iostream>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include <tao/pegtl.hpp>
 
