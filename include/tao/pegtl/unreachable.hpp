@@ -5,7 +5,7 @@
 #define TAO_PEGTL_UNREACHABLE_HPP
 
 #ifndef TAO_PEGTL_UNREACHABLE
-#if defined( __MSC_VER )
+#if defined( _MSC_VER )
 #define TAO_PEGTL_UNREACHABLE __assume( false )
 #else
 #define TAO_PEGTL_UNREACHABLE __builtin_unreachable()
