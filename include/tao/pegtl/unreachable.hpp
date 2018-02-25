@@ -4,16 +4,20 @@
 #ifndef TAO_PEGTL_UNREACHABLE_HPP
 #define TAO_PEGTL_UNREACHABLE_HPP
 
+#include <cassert>
+
 #ifndef TAO_PEGTL_UNREACHABLE
 #if defined( _MSC_VER ) && !defined( __ICC )
-#define TAO_PEGTL_UNREACHABLE \
-   do {                       \
-      __assume( false );      \
+#define TAO_PEGTL_UNREACHABLE                  \
+   do {                                        \
+      assert( !"code should be unreachable" ); \
+      __assume( false );                       \
    } while( false )
 #else
-#define TAO_PEGTL_UNREACHABLE  \
-   do {                        \
-      __builtin_unreachable(); \
+#define TAO_PEGTL_UNREACHABLE                  \
+   do {                                        \
+      assert( !"code should be unreachable" ); \
+      __builtin_unreachable();                 \
    } while( false )
 #endif
 #endif
