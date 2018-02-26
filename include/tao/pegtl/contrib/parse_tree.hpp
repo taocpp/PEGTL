@@ -53,6 +53,12 @@ namespace tao
                return id_ == nullptr;
             }
 
+            template< typename T >
+            bool is() const noexcept
+            {
+               return id_ == &typeid( T );
+            }
+
             std::string name() const
             {
                assert( !is_root() );
