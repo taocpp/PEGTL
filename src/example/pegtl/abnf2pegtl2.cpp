@@ -426,7 +426,12 @@ namespace tao
                if( min_val > max_val ) {
                   throw std::runtime_error( to_string( n->begin() ) + ": repetition minimum which is greater than the repetition maximum not allowed" );  // NOLINT
                }
-               return prefix + "rep_min_max< " + min + ", " + max + ", " + content + " >";
+               const auto min_element = ( min_val == 1 ) ? content : ( prefix + "rep< " + min + ", " + content + " >" );
+               if( min_val == max_val ) {
+                  return min_element;
+               }
+               const auto max_element = prefix + ( ( max_val - min_val == 1 ) ? "opt< " : ( "rep_opt< " + std::to_string( max_val - min_val ) + ", " ) ) + content + " >";
+               return prefix + "seq< " + min_element + ", " + max_element + " >";
             }
 
             // and_predicate
