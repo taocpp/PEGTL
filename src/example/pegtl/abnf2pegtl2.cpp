@@ -209,11 +209,11 @@ namespace tao
             };
             // clang-format on
 
-            std::string prefix = "tao::pegtl::";
+            std::string prefix = "tao::pegtl::";  // NOLINT
 
             using rules_t = std::vector< std::string >;
-            rules_t rules_defined;
-            rules_t rules;
+            rules_t rules_defined;  // NOLINT
+            rules_t rules;          // NOLINT
 
             rules_t::reverse_iterator find_rule( rules_t& r, const std::string& v, const rules_t::reverse_iterator& rbegin )
             {
@@ -241,7 +241,7 @@ namespace tao
                   return *it;
                }
                if( keywords.count( v ) != 0 || v.find( "__" ) != std::string::npos ) {
-                  throw std::runtime_error( to_string( n->begin() ) + ": '" + v + "' is a reserved rulename" );
+                  throw std::runtime_error( to_string( n->begin() ) + ": '" + v + "' is a reserved rulename" );  // NOLINT
                }
                if( print_forward_declarations && find_rule( rules_defined, v ) != rules_defined.rend() ) {
                   std::cout << "struct " << v << ";\n";
@@ -397,7 +397,7 @@ namespace tao
                if( star == std::string::npos ) {
                   const auto v = remove_leading_zeroes( rep );
                   if( v.empty() ) {
-                     throw std::runtime_error( to_string( n->begin() ) + ": repetition of zero not allowed" );
+                     throw std::runtime_error( to_string( n->begin() ) + ": repetition of zero not allowed" );  // NOLINT
                   }
                   return prefix + "rep< " + v + ", " + content + " >";
                }
@@ -405,7 +405,7 @@ namespace tao
                   const auto min = remove_leading_zeroes( rep.substr( 0, star ) );
                   const auto max = remove_leading_zeroes( rep.substr( star + 1 ) );
                   if( ( star != rep.size() - 1 ) && max.empty() ) {
-                     throw std::runtime_error( to_string( n->begin() ) + ": repetition maximum of zero not allowed" );
+                     throw std::runtime_error( to_string( n->begin() ) + ": repetition maximum of zero not allowed" );  // NOLINT
                   }
                   if( min.empty() && max.empty() ) {
                      return prefix + "star< " + content + " >";
@@ -414,22 +414,18 @@ namespace tao
                      if( min == "1" ) {
                         return prefix + "plus< " + content + " >";
                      }
-                     else {
-                        return prefix + "rep_min< " + min + ", " + content + " >";
-                     }
+                     return prefix + "rep_min< " + min + ", " + content + " >";
                   }
                   if( min.empty() && !max.empty() ) {
                      if( max == "1" ) {
                         return prefix + "opt< " + content + " >";
                      }
-                     else {
-                        return prefix + "rep_max< " + max + ", " + content + " >";
-                     }
+                     return prefix + "rep_max< " + max + ", " + content + " >";
                   }
                   const auto min_val = std::strtoull( min.c_str(), nullptr, 10 );
                   const auto max_val = std::strtoull( max.c_str(), nullptr, 10 );
                   if( min_val > max_val ) {
-                     throw std::runtime_error( to_string( n->begin() ) + ": repetition minimum which is greater than the repetition maximum not allowed" );
+                     throw std::runtime_error( to_string( n->begin() ) + ": repetition minimum which is greater than the repetition maximum not allowed" );  // NOLINT
                   }
                   return prefix + "rep_min_max< " + min + ", " + max + ", " + content + " >";
                }
@@ -461,7 +457,7 @@ namespace tao
                return "struct " + get_rulename( n->children.front(), false ) + " : " + to_string( n->children.back() ) + " {};";
             }
 
-            throw std::runtime_error( to_string( n->begin() ) + ": missing to_string() for " + n->name() );
+            throw std::runtime_error( to_string( n->begin() ) + ": missing to_string() for " + n->name() );  // NOLINT
          }
 
          std::string to_string( const std::vector< std::unique_ptr< tao::TAO_PEGTL_NAMESPACE::parse_tree::node > >& v )
