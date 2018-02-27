@@ -401,34 +401,32 @@ namespace tao
                   }
                   return prefix + "rep< " + v + ", " + content + " >";
                }
-               else {
-                  const auto min = remove_leading_zeroes( rep.substr( 0, star ) );
-                  const auto max = remove_leading_zeroes( rep.substr( star + 1 ) );
-                  if( ( star != rep.size() - 1 ) && max.empty() ) {
-                     throw std::runtime_error( to_string( n->begin() ) + ": repetition maximum of zero not allowed" );  // NOLINT
-                  }
-                  if( min.empty() && max.empty() ) {
-                     return prefix + "star< " + content + " >";
-                  }
-                  if( !min.empty() && max.empty() ) {
-                     if( min == "1" ) {
-                        return prefix + "plus< " + content + " >";
-                     }
-                     return prefix + "rep_min< " + min + ", " + content + " >";
-                  }
-                  if( min.empty() && !max.empty() ) {
-                     if( max == "1" ) {
-                        return prefix + "opt< " + content + " >";
-                     }
-                     return prefix + "rep_max< " + max + ", " + content + " >";
-                  }
-                  const auto min_val = std::strtoull( min.c_str(), nullptr, 10 );
-                  const auto max_val = std::strtoull( max.c_str(), nullptr, 10 );
-                  if( min_val > max_val ) {
-                     throw std::runtime_error( to_string( n->begin() ) + ": repetition minimum which is greater than the repetition maximum not allowed" );  // NOLINT
-                  }
-                  return prefix + "rep_min_max< " + min + ", " + max + ", " + content + " >";
+               const auto min = remove_leading_zeroes( rep.substr( 0, star ) );
+               const auto max = remove_leading_zeroes( rep.substr( star + 1 ) );
+               if( ( star != rep.size() - 1 ) && max.empty() ) {
+                  throw std::runtime_error( to_string( n->begin() ) + ": repetition maximum of zero not allowed" );  // NOLINT
                }
+               if( min.empty() && max.empty() ) {
+                  return prefix + "star< " + content + " >";
+               }
+               if( !min.empty() && max.empty() ) {
+                  if( min == "1" ) {
+                     return prefix + "plus< " + content + " >";
+                  }
+                  return prefix + "rep_min< " + min + ", " + content + " >";
+               }
+               if( min.empty() && !max.empty() ) {
+                  if( max == "1" ) {
+                     return prefix + "opt< " + content + " >";
+                  }
+                  return prefix + "rep_max< " + max + ", " + content + " >";
+               }
+               const auto min_val = std::strtoull( min.c_str(), nullptr, 10 );
+               const auto max_val = std::strtoull( max.c_str(), nullptr, 10 );
+               if( min_val > max_val ) {
+                  throw std::runtime_error( to_string( n->begin() ) + ": repetition minimum which is greater than the repetition maximum not allowed" );  // NOLINT
+               }
+               return prefix + "rep_min_max< " + min + ", " + max + ", " + content + " >";
             }
 
             // and_predicate
