@@ -25,8 +25,10 @@ namespace tao
    {
       namespace abnf
       {
-         std::string to_string( const std::unique_ptr< tao::TAO_PEGTL_NAMESPACE::parse_tree::node >& n );
-         std::string to_string( const std::vector< std::unique_ptr< tao::TAO_PEGTL_NAMESPACE::parse_tree::node > >& v );
+         using tao::TAO_PEGTL_NAMESPACE::parse_tree::node;
+
+         std::string to_string( const std::unique_ptr< node >& n );
+         std::string to_string( const std::vector< std::unique_ptr< node > >& v );
 
          namespace grammar
          {
@@ -225,7 +227,7 @@ namespace tao
                return find_rule( r, v, r.rbegin() );
             }
 
-            std::string get_rulename( const std::unique_ptr< tao::TAO_PEGTL_NAMESPACE::parse_tree::node >& n )
+            std::string get_rulename( const std::unique_ptr< node >& n )
             {
                assert( n->is< grammar::rulename >() );
                std::string v = n->content();
@@ -233,7 +235,7 @@ namespace tao
                return v;
             }
 
-            std::string get_rulename( const std::unique_ptr< tao::TAO_PEGTL_NAMESPACE::parse_tree::node >& n, const bool print_forward_declarations )
+            std::string get_rulename( const std::unique_ptr< node >& n, const bool print_forward_declarations )
             {
                std::string v = get_rulename( n );
                const auto it = find_rule( rules, v );
@@ -265,7 +267,7 @@ namespace tao
             }
 
             template< typename T >
-            std::string gen_val( const std::unique_ptr< tao::TAO_PEGTL_NAMESPACE::parse_tree::node >& n )
+            std::string gen_val( const std::unique_ptr< node >& n )
             {
                if( n->children.size() == 2 ) {
                   if( n->children.back()->is< T >() ) {
@@ -289,7 +291,7 @@ namespace tao
 
          }  // namespace
 
-         std::string to_string( const std::unique_ptr< tao::TAO_PEGTL_NAMESPACE::parse_tree::node >& n )
+         std::string to_string( const std::unique_ptr< node >& n )
          {
             // rulename
             if( n->is< grammar::rulename >() ) {
@@ -463,7 +465,7 @@ namespace tao
             throw std::runtime_error( to_string( n->begin() ) + ": missing to_string() for " + n->name() );  // NOLINT
          }
 
-         std::string to_string( const std::vector< std::unique_ptr< tao::TAO_PEGTL_NAMESPACE::parse_tree::node > >& v )
+         std::string to_string( const std::vector< std::unique_ptr< node > >& v )
          {
             std::string result;
             for( const auto& c : v ) {
