@@ -27,7 +27,8 @@ namespace tao
       {
          struct node
          {
-            std::vector< std::unique_ptr< node > > children;
+            using children_t = std::vector< std::unique_ptr< node > >;
+            children_t children;
 
             const std::type_info* id_ = nullptr;
             internal::iterator begin_;
@@ -89,6 +90,46 @@ namespace tao
             {
                assert( has_content() );
                return std::string( begin_.data, end_.data );
+            }
+
+            children_t::reference at( const children_t::size_type pos )
+            {
+               return children.at( pos );
+            }
+
+            children_t::const_reference at( const children_t::size_type pos ) const
+            {
+               return children.at( pos );
+            }
+
+            children_t::reference front()
+            {
+               return children.front();
+            }
+
+            children_t::const_reference front() const
+            {
+               return children.front();
+            }
+
+            children_t::reference back()
+            {
+               return children.back();
+            }
+
+            children_t::const_reference back() const
+            {
+               return children.back();
+            }
+
+            bool empty() const noexcept
+            {
+               return children.empty();
+            }
+
+            children_t::size_type size() const noexcept
+            {
+               return children.size();
             }
 
             // all non-root nodes are initialized by calling this method

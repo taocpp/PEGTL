@@ -269,12 +269,12 @@ namespace tao
             template< typename T >
             std::string gen_val( const std::unique_ptr< node >& n )
             {
-               if( n->children.size() == 2 ) {
-                  if( n->children.back()->is< T >() ) {
-                     return prefix + "range< " + to_string( n->children.front() ) + ", " + to_string( n->children.back()->children.front() ) + " >";
+               if( n->size() == 2 ) {
+                  if( n->back()->is< T >() ) {
+                     return prefix + "range< " + to_string( n->front() ) + ", " + to_string( n->back()->front() ) + " >";
                   }
                }
-               if( n->children.size() == 1 ) {
+               if( n->size() == 1 ) {
                   return prefix + "one< " + to_string( n->children ) + " >";
                }
                return prefix + "string< " + to_string( n->children ) + " >";
@@ -365,9 +365,9 @@ namespace tao
 
             // alternation
             if( n->is< grammar::alternation >() ) {
-               assert( !n->children.empty() );
-               if( n->children.size() == 1 ) {
-                  return to_string( n->children.front() );
+               assert( !n->empty() );
+               if( n->size() == 1 ) {
+                  return to_string( n->front() );
                }
                return prefix + "sor< " + to_string( n->children ) + " >";
             }
@@ -379,22 +379,22 @@ namespace tao
 
             // group
             if( n->is< grammar::group >() ) {
-               assert( !n->children.empty() );
-               if( n->children.size() == 1 ) {
-                  return to_string( n->children.front() );
+               assert( !n->empty() );
+               if( n->size() == 1 ) {
+                  return to_string( n->front() );
                }
                return prefix + "seq< " + to_string( n->children ) + " >";
             }
 
             // repetition
             if( n->is< grammar::repetition >() ) {
-               assert( !n->children.empty() );
-               const auto content = to_string( n->children.back() );
-               if( n->children.size() == 1 ) {
+               assert( !n->empty() );
+               const auto content = to_string( n->back() );
+               if( n->size() == 1 ) {
                   return content;
                }
-               assert( n->children.size() == 2 );
-               const auto rep = n->children.front()->content();
+               assert( n->size() == 2 );
+               const auto rep = n->front()->content();
                const auto star = rep.find( '*' );
                if( star == std::string::npos ) {
                   const auto v = remove_leading_zeroes( rep );
@@ -438,28 +438,28 @@ namespace tao
 
             // and_predicate
             if( n->is< grammar::and_predicate >() ) {
-               assert( n->children.size() == 1 );
-               return prefix + "at< " + to_string( n->children.front() ) + " >";
+               assert( n->size() == 1 );
+               return prefix + "at< " + to_string( n->front() ) + " >";
             }
 
             // not_predicate
             if( n->is< grammar::not_predicate >() ) {
-               assert( n->children.size() == 1 );
-               return prefix + "not_at< " + to_string( n->children.front() ) + " >";
+               assert( n->size() == 1 );
+               return prefix + "not_at< " + to_string( n->front() ) + " >";
             }
 
             // concatenation
             if( n->is< grammar::concatenation >() ) {
-               assert( !n->children.empty() );
-               if( n->children.size() == 1 ) {
-                  return to_string( n->children.front() );
+               assert( !n->empty() );
+               if( n->size() == 1 ) {
+                  return to_string( n->front() );
                }
                return prefix + "seq< " + to_string( n->children ) + " >";
             }
 
             // rule
             if( n->is< grammar::rule >() ) {
-               return "struct " + get_rulename( n->children.front(), false ) + " : " + to_string( n->children.back() ) + " {};";
+               return "struct " + get_rulename( n->front(), false ) + " : " + to_string( n->back() ) + " {};";
             }
 
             throw std::runtime_error( to_string( n->begin() ) + ": missing to_string() for " + n->name() );  // NOLINT
@@ -497,7 +497,7 @@ int main( int argc, char** argv )
    const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::grammar::selector >( in );
    for( const auto& rule : root->children ) {
       assert( rule->is< abnf::grammar::rule >() );
-      abnf::rules_defined.push_back( abnf::get_rulename( rule->children.front() ) );
+      abnf::rules_defined.push_back( abnf::get_rulename( rule->front() ) );
    }
    for( const auto& rule : root->children ) {
       std::cout << abnf::to_string( rule ) << std::endl;
