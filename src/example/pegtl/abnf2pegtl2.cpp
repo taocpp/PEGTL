@@ -304,14 +304,14 @@ namespace tao
          {
             // inserting a rule is handled here since we need access to all previously inserted rules
             if( child->is< grammar::rule >() ) {
-               const auto name = get_rulename( child->front() );
+               const auto rname = get_rulename( child->front() );
                assert( child->at( 1 )->is< grammar::defined_as_op >() );
                const auto op = child->at( 1 )->content();
                // when we insert a normal rule, we need to check for duplicates
                if( op == "=" ) {
                   for( const auto& n : children ) {
-                     if(::strcasecmp( name.c_str(), abnf::get_rulename( n->front() ).c_str() ) == 0 ) {
-                        throw std::runtime_error( to_string( child->begin() ) + ": rule '" + name + "' is already defined" );  // NOLINT
+                     if(::strcasecmp( rname.c_str(), abnf::get_rulename( n->front() ).c_str() ) == 0 ) {
+                        throw std::runtime_error( to_string( child->begin() ) + ": rule '" + rname + "' is already defined" );  // NOLINT
                      }
                   }
                }
@@ -319,7 +319,7 @@ namespace tao
                else if( op == "=/" ) {
                   std::size_t i = 0;
                   while( i < this->size() ) {
-                     if(::strcasecmp( name.c_str(), abnf::get_rulename( this->at( i )->front() ).c_str() ) == 0 ) {
+                     if(::strcasecmp( rname.c_str(), abnf::get_rulename( this->at( i )->front() ).c_str() ) == 0 ) {
                         auto& previous = this->at( i )->back();
 
                         // if the previous rule does not assign an alternation, create an intermediate alternation and move its assignee into it.
@@ -359,7 +359,7 @@ namespace tao
                      ++i;
                   }
                   if( i == this->size() ) {
-                     throw std::runtime_error( to_string( child->begin() ) + ": incremental alternation '" + name + "' without previous rule definition" );  // NOLINT
+                     throw std::runtime_error( to_string( child->begin() ) + ": incremental alternation '" + rname + "' without previous rule definition" );  // NOLINT
                   }
                }
                else {
