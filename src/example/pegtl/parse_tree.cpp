@@ -72,11 +72,11 @@ namespace example
       // becomes a single child, which then replaces the parent node and the recursion ends.
       static void transform( std::unique_ptr< parse_tree::node >& n )
       {
-         auto& c = n->children;
-         if( c.size() == 1 ) {
-            n = std::move( c.back() );
+         if( n->size() == 1 ) {
+            n = std::move( n->back() );
          }
          else {
+            auto& c = n->children;
             auto r = std::move( c.back() );
             c.pop_back();
             auto o = std::move( c.back() );
@@ -84,7 +84,7 @@ namespace example
             o->children.emplace_back( std::move( n ) );
             o->children.emplace_back( std::move( r ) );
             n = std::move( o );
-            transform( n->children.front() );
+            transform( n->front() );
          }
       }
    };
