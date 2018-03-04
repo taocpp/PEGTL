@@ -25,6 +25,88 @@ namespace tao
    {
       namespace abnf
       {
+         namespace
+         {
+            std::string prefix = "tao::pegtl::";  // NOLINT
+
+            // clang-format off
+            std::set< std::string > keywords = {  // NOLINT
+               "alignas", "alignof", "and", "and_eq",
+               "asm", "auto", "bitand", "bitor",
+               "bool", "break", "case", "catch",
+               "char", "char16_t", "char32_t", "class",
+               "compl", "const", "constexpr", "const_cast",
+               "continue", "decltype", "default", "delete",
+               "do", "double", "dynamic_cast", "else",
+               "enum", "explicit", "export", "extern",
+               "false", "float", "for", "friend",
+               "goto", "if", "inline", "int",
+               "long", "mutable", "namespace", "new",
+               "noexcept", "not", "not_eq", "nullptr",
+               "operator", "or", "or_eq", "private",
+               "protected", "public", "register", "reinterpret_cast",
+               "return", "short", "signed", "sizeof",
+               "static", "static_assert", "static_cast", "struct",
+               "switch", "template", "this", "thread_local",
+               "throw", "true", "try", "typedef",
+               "typeid", "typename", "union", "unsigned",
+               "using", "virtual", "void", "volatile",
+               "wchar_t", "while", "xor", "xor_eq"
+            };
+            // clang-format on
+
+            using rules_t = std::vector< std::string >;
+            rules_t rules_defined;  // NOLINT
+            rules_t rules;          // NOLINT
+
+            // clang-format off
+            struct one_tag {};
+            struct string_tag {};
+            struct istring_tag {};
+            // clang-format on
+
+            rules_t::reverse_iterator find_rule( rules_t& r, const std::string& v, const rules_t::reverse_iterator& rbegin )
+            {
+               return std::find_if( rbegin, r.rend(), [&]( const rules_t::value_type& p ) { return ::strcasecmp( p.c_str(), v.c_str() ) == 0; } );
+            }
+
+            rules_t::reverse_iterator find_rule( rules_t& r, const std::string& v )
+            {
+               return find_rule( r, v, r.rbegin() );
+            }
+
+            bool append_char( std::string& s, const char c )
+            {
+               if( !s.empty() ) {
+                  s += ", ";
+               }
+               s += '\'';
+               if( c == '\'' || c == '\\' ) {
+                  s += '\\';
+               }
+               s += c;
+               s += '\'';
+               return std::isalpha( c ) != 0;
+            }
+
+            std::string remove_leading_zeroes( const std::string& v )
+            {
+               const auto pos = v.find_first_not_of( '0' );
+               if( pos == std::string::npos ) {
+                  return "";
+               }
+               return v.substr( pos );
+            }
+
+            void shift( internal::iterator& it, int delta )
+            {
+               it.data += delta;
+               it.byte += delta;
+               it.byte_in_line += delta;
+            }
+
+         }  // namespace
+
          struct node;
 
          std::string to_string( const std::unique_ptr< node >& n );
@@ -153,34 +235,6 @@ namespace tao
             template<> const std::string error_control< defined_as >::error_message = "expected '=' or '=/'";  // NOLINT
             template<> const std::string error_control< c_nl >::error_message = "unterminated rule";  // NOLINT
             template<> const std::string error_control< rule >::error_message = "expected rule";  // NOLINT
-            // clang-format on
-
-            // clang-format off
-            template< typename Rule > struct selector : std::false_type {};
-            template<> struct selector< rulename > : std::true_type {};
-            template<> struct selector< quoted_string > : std::true_type {};
-            template<> struct selector< case_sensitive_string > : std::true_type {};
-            template<> struct selector< prose_val > : std::true_type {};
-            template<> struct selector< hex_val::value > : std::true_type {};
-            template<> struct selector< dec_val::value > : std::true_type {};
-            template<> struct selector< bin_val::value > : std::true_type {};
-            template<> struct selector< hex_val::range > : std::true_type {};
-            template<> struct selector< dec_val::range > : std::true_type {};
-            template<> struct selector< bin_val::range > : std::true_type {};
-            template<> struct selector< hex_val::type > : std::true_type {};
-            template<> struct selector< dec_val::type > : std::true_type {};
-            template<> struct selector< bin_val::type > : std::true_type {};
-            template<> struct selector< alternation > : std::true_type {};
-            template<> struct selector< option > : std::true_type {};
-            template<> struct selector< group > : std::true_type {};
-            template<> struct selector< repeat > : std::true_type {};
-            template<> struct selector< repetition > : std::true_type {};
-            template<> struct selector< and_predicate > : std::true_type {};
-            template<> struct selector< not_predicate > : std::true_type {};
-            template<> struct selector< concatenation > : std::true_type {};
-            template<> struct selector< defined_as_op > : std::true_type {};
-            template<> struct selector< rule > : std::true_type {};
-            // clang-format on
 
          }  // namespace grammar
 
@@ -191,50 +245,80 @@ namespace tao
             void emplace_back( std::unique_ptr< node > child, States&&... st );
          };
 
+         struct fold_one : std::true_type
+         {
+            static void transform( std::unique_ptr< node >& n )
+            {
+               if( n->size() == 1 ) {
+                  n = std::move( n->front() );
+               }
+            }
+         };
+
+         template< typename Rule > struct selector : std::false_type {};
+         template<> struct selector< grammar::rulename > : std::true_type {};
+
+         template<> struct selector< grammar::quoted_string > : std::true_type
+         {
+            static void transform( std::unique_ptr< node >& n )
+            {
+               shift( n->begin_, 1 );
+               shift( n->end_, -1 );
+
+               const std::string content = n->content();
+               for( const auto c : content ) {
+                  if( std::isalpha( c ) != 0 ) {
+                     n->id_ = &typeid( istring_tag );
+                     return;
+                  }
+               }
+               if( content.size() == 1 ) {
+                  n->id_ = &typeid( one_tag );
+               }
+               else {
+                  n->id_ = &typeid( string_tag );
+               }
+            }
+         };
+
+         template<> struct selector< grammar::case_sensitive_string > : std::true_type
+         {
+            static void transform( std::unique_ptr< node >& n )
+            {
+               n = std::move( n->back() );
+               if( n->content().size() == 1 ) {
+                  n->id_ = &typeid( one_tag );
+               }
+               else {
+                  n->id_ = &typeid( string_tag );
+               }
+            }
+         };
+
+         template<> struct selector< grammar::prose_val > : std::true_type {};
+         template<> struct selector< grammar::hex_val::value > : std::true_type {};
+         template<> struct selector< grammar::dec_val::value > : std::true_type {};
+         template<> struct selector< grammar::bin_val::value > : std::true_type {};
+         template<> struct selector< grammar::hex_val::range > : std::true_type {};
+         template<> struct selector< grammar::dec_val::range > : std::true_type {};
+         template<> struct selector< grammar::bin_val::range > : std::true_type {};
+         template<> struct selector< grammar::hex_val::type > : std::true_type {};
+         template<> struct selector< grammar::dec_val::type > : std::true_type {};
+         template<> struct selector< grammar::bin_val::type > : std::true_type {};
+         template<> struct selector< grammar::alternation > : fold_one {};
+         template<> struct selector< grammar::option > : std::true_type {};
+         template<> struct selector< grammar::group > : fold_one {};
+         template<> struct selector< grammar::repeat > : std::true_type {};
+         template<> struct selector< grammar::repetition > : fold_one {};
+         template<> struct selector< grammar::and_predicate > : std::true_type {};
+         template<> struct selector< grammar::not_predicate > : std::true_type {};
+         template<> struct selector< grammar::concatenation > : fold_one {};
+         template<> struct selector< grammar::defined_as_op > : std::true_type {};
+         template<> struct selector< grammar::rule > : std::true_type {};
+         // clang-format on
+
          namespace
          {
-            // clang-format off
-            std::set< std::string > keywords = {  // NOLINT
-               "alignas", "alignof", "and", "and_eq",
-               "asm", "auto", "bitand", "bitor",
-               "bool", "break", "case", "catch",
-               "char", "char16_t", "char32_t", "class",
-               "compl", "const", "constexpr", "const_cast",
-               "continue", "decltype", "default", "delete",
-               "do", "double", "dynamic_cast", "else",
-               "enum", "explicit", "export", "extern",
-               "false", "float", "for", "friend",
-               "goto", "if", "inline", "int",
-               "long", "mutable", "namespace", "new",
-               "noexcept", "not", "not_eq", "nullptr",
-               "operator", "or", "or_eq", "private",
-               "protected", "public", "register", "reinterpret_cast",
-               "return", "short", "signed", "sizeof",
-               "static", "static_assert", "static_cast", "struct",
-               "switch", "template", "this", "thread_local",
-               "throw", "true", "try", "typedef",
-               "typeid", "typename", "union", "unsigned",
-               "using", "virtual", "void", "volatile",
-               "wchar_t", "while", "xor", "xor_eq"
-            };
-            // clang-format on
-
-            std::string prefix = "tao::pegtl::";  // NOLINT
-
-            using rules_t = std::vector< std::string >;
-            rules_t rules_defined;  // NOLINT
-            rules_t rules;          // NOLINT
-
-            rules_t::reverse_iterator find_rule( rules_t& r, const std::string& v, const rules_t::reverse_iterator& rbegin )
-            {
-               return std::find_if( rbegin, r.rend(), [&]( const rules_t::value_type& p ) { return ::strcasecmp( p.c_str(), v.c_str() ) == 0; } );
-            }
-
-            rules_t::reverse_iterator find_rule( rules_t& r, const std::string& v )
-            {
-               return find_rule( r, v, r.rbegin() );
-            }
-
             std::string get_rulename( const std::unique_ptr< node >& n )
             {
                assert( n->is< grammar::rulename >() );
@@ -260,20 +344,6 @@ namespace tao
                return v;
             }
 
-            bool append_char( std::string& s, const char c )
-            {
-               if( !s.empty() ) {
-                  s += ", ";
-               }
-               s += '\'';
-               if( c == '\'' || c == '\\' ) {
-                  s += '\\';
-               }
-               s += c;
-               s += '\'';
-               return std::isalpha( c ) != 0;
-            }
-
             template< typename T >
             std::string gen_val( const std::unique_ptr< node >& n )
             {
@@ -286,15 +356,6 @@ namespace tao
                   return prefix + "one< " + to_string( n->children ) + " >";
                }
                return prefix + "string< " + to_string( n->children ) + " >";
-            }
-
-            std::string remove_leading_zeroes( const std::string& v )
-            {
-               const auto pos = v.find_first_not_of( '0' );
-               if( pos == std::string::npos ) {
-                  return "";
-               }
-               return v.substr( pos );
             }
 
          }  // namespace
@@ -378,32 +439,32 @@ namespace tao
                return get_rulename( n, true );
             }
 
-            // quoted_string
-            if( n->is< grammar::quoted_string >() ) {
+            // string
+            if( n->is< string_tag >() ) {
                const std::string content = n->content();
                std::string s;
-               bool alpha = false;
-               for( const auto c : content.substr( 1, content.size() - 2 ) ) {
-                  alpha = append_char( s, c ) || alpha;
-               }
-               if( alpha ) {
-                  return prefix + "istring< " + s + " >";
-               }
-               if( content.size() > 3 ) {
-                  return prefix + "string< " + s + " >";
-               }
-               return prefix + "one< " + s + " >";
-            }
-
-            // case_sensitive_string
-            if( n->is< grammar::case_sensitive_string >() ) {
-               const std::string content = n->content();
-               std::string s;
-               for( const auto c : content.substr( 1, content.size() - 2 ) ) {
+               for( const auto c : content ) {
                   append_char( s, c );
                }
-               if( content.size() > 3 ) {
-                  return prefix + "string< " + s + " >";
+               return prefix + "string< " + s + " >";
+            }
+
+            // istring
+            if( n->is< istring_tag >() ) {
+               const std::string content = n->content();
+               std::string s;
+               for( const auto c : content ) {
+                  append_char( s, c );
+               }
+               return prefix + "istring< " + s + " >";
+            }
+
+            // one
+            if( n->is< one_tag >() ) {
+               const std::string content = n->content();
+               std::string s;
+               for( const auto c : content ) {
+                  append_char( s, c );
                }
                return prefix + "one< " + s + " >";
             }
@@ -445,10 +506,6 @@ namespace tao
 
             // alternation
             if( n->is< grammar::alternation >() ) {
-               assert( !n->empty() );
-               if( n->size() == 1 ) {
-                  return to_string( n->front() );
-               }
                return prefix + "sor< " + to_string( n->children ) + " >";
             }
 
@@ -459,21 +516,13 @@ namespace tao
 
             // group
             if( n->is< grammar::group >() ) {
-               assert( !n->empty() );
-               if( n->size() == 1 ) {
-                  return to_string( n->front() );
-               }
                return prefix + "seq< " + to_string( n->children ) + " >";
             }
 
             // repetition
             if( n->is< grammar::repetition >() ) {
-               assert( !n->empty() );
-               const auto content = to_string( n->back() );
-               if( n->size() == 1 ) {
-                  return content;
-               }
                assert( n->size() == 2 );
+               const auto content = to_string( n->back() );
                const auto rep = n->front()->content();
                const auto star = rep.find( '*' );
                if( star == std::string::npos ) {
@@ -531,9 +580,6 @@ namespace tao
             // concatenation
             if( n->is< grammar::concatenation >() ) {
                assert( !n->empty() );
-               if( n->size() == 1 ) {
-                  return to_string( n->front() );
-               }
                return prefix + "seq< " + to_string( n->children ) + " >";
             }
 
@@ -574,7 +620,7 @@ int main( int argc, char** argv )
    }
 
    file_input<> in( argv[ 1 ] );
-   const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::node, abnf::grammar::selector >( in );
+   const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::node, abnf::selector >( in );
 
    for( const auto& rule : root->children ) {
       abnf::rules_defined.push_back( abnf::get_rulename( rule->front() ) );
