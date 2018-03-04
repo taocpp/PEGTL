@@ -25,7 +25,7 @@ namespace tao
    {
       namespace abnf
       {
-         using tao::TAO_PEGTL_NAMESPACE::parse_tree::node;
+         struct node;
 
          std::string to_string( const std::unique_ptr< node >& n );
          std::string to_string( const std::vector< std::unique_ptr< node > >& v );
@@ -178,10 +178,18 @@ namespace tao
             template<> struct selector< and_predicate > : std::true_type {};
             template<> struct selector< not_predicate > : std::true_type {};
             template<> struct selector< concatenation > : std::true_type {};
+            template<> struct selector< defined_as_op > : std::true_type {};
             template<> struct selector< rule > : std::true_type {};
             // clang-format on
 
          }  // namespace grammar
+
+         struct node
+            : tao::TAO_PEGTL_NAMESPACE::parse_tree::basic_node< node >
+         {
+            template< typename... States >
+            void emplace_back( std::unique_ptr< node > child, States&&... st );
+         };
 
          namespace
          {
@@ -290,6 +298,78 @@ namespace tao
             }
 
          }  // namespace
+
+         template< typename... States >
+         void node::emplace_back( std::unique_ptr< node > child, States&&... st )
+         {
+            // inserting a rule is handled here since we need access to all previously inserted rules
+            if( child->is< grammar::rule >() ) {
+               const auto name = get_rulename( child->front() );
+               assert( child->at( 1 )->is< grammar::defined_as_op >() );
+               const auto op = child->at( 1 )->content();
+               // when we insert a normal rule, we need to check for duplicates
+               if( op == "=" ) {
+                  for( const auto& n : children ) {
+                     if(::strcasecmp( name.c_str(), abnf::get_rulename( n->front() ).c_str() ) == 0 ) {
+                        throw std::runtime_error( to_string( child->begin() ) + ": rule '" + name + "' is already defined" );  // NOLINT
+                     }
+                  }
+               }
+               // if it is an "incremental alternation", we need to consolidate the assigned alternations
+               else if( op == "=/" ) {
+                  std::size_t i = 0;
+                  while( i < this->size() ) {
+                     if(::strcasecmp( name.c_str(), abnf::get_rulename( this->at( i )->front() ).c_str() ) == 0 ) {
+                        auto& previous = this->at( i )->back();
+
+                        // if the previous rule does not assign an alternation, create an intermediate alternation and move its assignee into it.
+                        if( !previous->is< abnf::grammar::alternation >() ) {
+                           std::unique_ptr< node > s( new node );
+                           s->id_ = &typeid( abnf::grammar::alternation );
+                           s->source_ = previous->source_;
+                           s->begin_ = previous->begin_;
+                           s->end_ = previous->end_;
+                           s->children.emplace_back( std::move( previous ) );
+                           previous = std::move( s );
+                        }
+
+                        // append all new options to the previous rule's assignee (which now always an alternation)
+                        previous->end_ = child->back()->end_;
+
+                        // if the new rule itself contains an alternation, append the individual entries...
+                        if( child->back()->is< abnf::grammar::alternation >() ) {
+                           for( auto& n : child->back()->children ) {
+                              previous->children.emplace_back( std::move( n ) );
+                           }
+                        }
+                        // ...otherwise add the node itself as another option.
+                        else {
+                           previous->children.emplace_back( std::move( child->back() ) );
+                        }
+
+                        // finally, move the previous rule to the current position...
+                        child = std::move( this->at( i ) );
+
+                        // ...and remove the previous rule from the list.
+                        this->children.erase( this->children.begin() + i );
+
+                        // all OK now
+                        break;
+                     }
+                     ++i;
+                  }
+                  if( i == this->size() ) {
+                     throw std::runtime_error( to_string( child->begin() ) + ": incremental alternation '" + name + "' without previous rule definition" );  // NOLINT
+                  }
+               }
+               else {
+                  throw std::runtime_error( to_string( child->begin() ) + ": invalid operator '" + op + "', this should not happen!" );  // NOLINT
+               }
+            }
+
+            // perform the normal emplace_back operation by forwarding to the original method
+            tao::TAO_PEGTL_NAMESPACE::parse_tree::basic_node< node >::emplace_back( std::move( child ), st... );
+         }
 
          std::string to_string( const std::unique_ptr< node >& n )
          {
@@ -494,13 +574,15 @@ int main( int argc, char** argv )
    }
 
    file_input<> in( argv[ 1 ] );
-   const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::grammar::selector >( in );
+   const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::node, abnf::grammar::selector >( in );
+
    for( const auto& rule : root->children ) {
-      assert( rule->is< abnf::grammar::rule >() );
       abnf::rules_defined.push_back( abnf::get_rulename( rule->front() ) );
    }
+
    for( const auto& rule : root->children ) {
       std::cout << abnf::to_string( rule ) << std::endl;
    }
+
    return 0;
 }

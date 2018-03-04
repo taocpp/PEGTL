@@ -25,29 +25,85 @@ namespace tao
    {
       namespace parse_tree
       {
-         struct node
+         template< typename T >
+         struct default_node_children
          {
-            using children_t = std::vector< std::unique_ptr< node > >;
+            using node_t = T;
+            using children_t = std::vector< std::unique_ptr< node_t > >;
             children_t children;
 
+            // each node will be default constructed
+            default_node_children() = default;
+
+            // no copy/move is necessary
+            // (nodes are always owned/handled by a std::unique_ptr)
+            default_node_children( const default_node_children& ) = delete;
+            default_node_children( default_node_children&& ) = delete;
+
+            ~default_node_children() = default;
+
+            // no assignment either
+            default_node_children& operator=( const default_node_children& ) = delete;
+            default_node_children& operator=( default_node_children&& ) = delete;
+
+            typename children_t::reference at( const typename children_t::size_type pos )
+            {
+               return children.at( pos );
+            }
+
+            typename children_t::const_reference at( const typename children_t::size_type pos ) const
+            {
+               return children.at( pos );
+            }
+
+            typename children_t::reference front()
+            {
+               return children.front();
+            }
+
+            typename children_t::const_reference front() const
+            {
+               return children.front();
+            }
+
+            typename children_t::reference back()
+            {
+               return children.back();
+            }
+
+            typename children_t::const_reference back() const
+            {
+               return children.back();
+            }
+
+            bool empty() const noexcept
+            {
+               return children.empty();
+            }
+
+            typename children_t::size_type size() const noexcept
+            {
+               return children.size();
+            }
+
+            // if parsing succeeded and the (optional) transform call
+            // did not discard the node, it is appended to its parent.
+            // note that "child" is the node whose Rule just succeeded
+            // and "*this" is the parent where the node should be appended.
+            template< typename... States >
+            void emplace_back( std::unique_ptr< node_t > child, States&&... /*unused*/ )
+            {
+               assert( child );
+               children.emplace_back( std::move( child ) );
+            }
+         };
+
+         struct default_node_content
+         {
             const std::type_info* id_ = nullptr;
             internal::iterator begin_;
             internal::iterator end_;
             std::string source_;
-
-            // each node will be default constructed
-            node() = default;
-
-            // no copy/move is necessary
-            // (nodes are always owned/handled by a std::unique_ptr)
-            node( const node& ) = delete;
-            node( node&& ) = delete;
-
-            ~node() = default;
-
-            // no assignment either
-            node& operator=( const node& ) = delete;
-            node& operator=( node&& ) = delete;
 
             bool is_root() const noexcept
             {
@@ -92,46 +148,6 @@ namespace tao
                return std::string( begin_.data, end_.data );
             }
 
-            children_t::reference at( const children_t::size_type pos )
-            {
-               return children.at( pos );
-            }
-
-            children_t::const_reference at( const children_t::size_type pos ) const
-            {
-               return children.at( pos );
-            }
-
-            children_t::reference front()
-            {
-               return children.front();
-            }
-
-            children_t::const_reference front() const
-            {
-               return children.front();
-            }
-
-            children_t::reference back()
-            {
-               return children.back();
-            }
-
-            children_t::const_reference back() const
-            {
-               return children.back();
-            }
-
-            bool empty() const noexcept
-            {
-               return children.empty();
-            }
-
-            children_t::size_type size() const noexcept
-            {
-               return children.size();
-            }
-
             // all non-root nodes are initialized by calling this method
             template< typename Rule, typename Input, typename... States >
             void start( const Input& in, States&&... /*unused*/ )
@@ -154,22 +170,23 @@ namespace tao
             {
             }
 
-            // if parsing succeeded and the (optional) transform call
-            // did not discard the node, it is appended to its parent.
-            // note that "child" is the node whose Rule just succeeded
-            // and "*this" is the parent where the node should be appended.
-            template< typename... States >
-            void emplace_back( std::unique_ptr< node > child, States&&... /*unused*/ )
-            {
-               assert( child );
-               children.emplace_back( std::move( child ) );
-            }
-
             template< typename... States >
             void remove_content( States&&... /*unused*/ ) noexcept
             {
                end_.reset();
             }
+         };
+
+         template< typename T >
+         struct basic_node
+            : default_node_children< T >,
+              default_node_content
+         {
+         };
+
+         struct node
+            : basic_node< node >
+         {
          };
 
          namespace internal
