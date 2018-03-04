@@ -152,6 +152,7 @@ namespace tao
             template< typename Rule, typename Input, typename... States >
             void start( const Input& in, States&&... /*unused*/ )
             {
+               id_ = &typeid( Rule );
                begin_ = in.iterator();
                source_ = in.source();
             }
@@ -160,7 +161,6 @@ namespace tao
             template< typename Rule, typename Input, typename... States >
             void success( const Input& in, States&&... /*unused*/ ) noexcept
             {
-               id_ = &typeid( Rule );
                end_ = in.iterator();
             }
 
