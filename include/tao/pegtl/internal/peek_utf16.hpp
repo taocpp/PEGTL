@@ -8,8 +8,8 @@
 
 #include "../config.hpp"
 
-#include "endian.hpp"
 #include "input_pair.hpp"
+#include "read_uint.hpp"
 
 namespace tao
 {
@@ -47,26 +47,8 @@ namespace tao
             }
          };
 
-         struct read_utf16_be
-         {
-            static std::uint16_t read( const void* d ) noexcept
-            {
-               return be_to_h< std::uint16_t >( d );
-            }
-         };
-
-         struct read_utf16_le
-         {
-            static std::uint16_t read( const void* d ) noexcept
-            {
-               return le_to_h< std::uint16_t >( d );
-            }
-         };
-
-         using peek_utf16_be = peek_utf16_impl< read_utf16_be >;
-         using peek_utf16_le = peek_utf16_impl< read_utf16_le >;
-
-         using peek_utf16 = peek_utf16_le;
+         using peek_utf16_be = peek_utf16_impl< read_uint16_be >;
+         using peek_utf16_le = peek_utf16_impl< read_uint16_le >;
 
       }  // namespace internal
 
