@@ -148,6 +148,12 @@ namespace tao
                return std::string( begin_.data, end_.data );
             }
 
+            template< typename... States >
+            void remove_content( States&&... /*unused*/ ) noexcept
+            {
+               end_.reset();
+            }
+
             // all non-root nodes are initialized by calling this method
             template< typename Rule, typename Input, typename... States >
             void start( const Input& in, States&&... /*unused*/ )
@@ -168,12 +174,6 @@ namespace tao
             template< typename Rule, typename Input, typename... States >
             void failure( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
             {
-            }
-
-            template< typename... States >
-            void remove_content( States&&... /*unused*/ ) noexcept
-            {
-               end_.reset();
             }
          };
 
@@ -292,14 +292,39 @@ namespace tao
 
          }  // namespace internal
 
-         // some nodes don't need to store their content,
-         // use this helper as a base class to derive your specialization from.
+         // use these helper classes as a base class to derive your specialization from:
+
+         // some nodes don't need to store their content
          struct remove_content : std::true_type
          {
             template< typename Node, typename... States >
             static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->remove_content( st... ) ) )
             {
                n->remove_content( st... );
+            }
+         };
+
+         // if a node has only one child, replace the node with its child
+         struct fold_one : std::true_type
+         {
+            template< typename Node, typename... States >
+            static void transform( std::unique_ptr< Node >& n, States&&... /*unused*/ ) noexcept( noexcept( n->size(), n->front() ) )
+            {
+               if( n->size() == 1 ) {
+                  n = std::move( n->front() );
+               }
+            }
+         };
+
+         // if a node has only one child, replace the node with its child
+         struct discard_empty : std::true_type
+         {
+            template< typename Node, typename... States >
+            static void transform( std::unique_ptr< Node >& n, States&&... /*unused*/ ) noexcept( noexcept( n->empty() ) )
+            {
+               if( n->empty() ) {
+                  n.reset();
+               }
             }
          };
 

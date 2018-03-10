@@ -245,16 +245,6 @@ namespace tao
             void emplace_back( std::unique_ptr< node > child, States&&... st );
          };
 
-         struct fold_one : std::true_type
-         {
-            static void transform( std::unique_ptr< node >& n )
-            {
-               if( n->size() == 1 ) {
-                  n = std::move( n->front() );
-               }
-            }
-         };
-
          template< typename Rule > struct selector : std::false_type {};
          template<> struct selector< grammar::rulename > : std::true_type {};
 
@@ -305,14 +295,14 @@ namespace tao
          template<> struct selector< grammar::hex_val::type > : std::true_type {};
          template<> struct selector< grammar::dec_val::type > : std::true_type {};
          template<> struct selector< grammar::bin_val::type > : std::true_type {};
-         template<> struct selector< grammar::alternation > : fold_one {};
+         template<> struct selector< grammar::alternation > : parse_tree::fold_one {};
          template<> struct selector< grammar::option > : std::true_type {};
-         template<> struct selector< grammar::group > : fold_one {};
+         template<> struct selector< grammar::group > : parse_tree::fold_one {};
          template<> struct selector< grammar::repeat > : std::true_type {};
-         template<> struct selector< grammar::repetition > : fold_one {};
+         template<> struct selector< grammar::repetition > : parse_tree::fold_one {};
          template<> struct selector< grammar::and_predicate > : std::true_type {};
          template<> struct selector< grammar::not_predicate > : std::true_type {};
-         template<> struct selector< grammar::concatenation > : fold_one {};
+         template<> struct selector< grammar::concatenation > : parse_tree::fold_one {};
          template<> struct selector< grammar::defined_as_op > : std::true_type {};
          template<> struct selector< grammar::rule > : std::true_type {};
          // clang-format on
