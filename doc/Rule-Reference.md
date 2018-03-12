@@ -60,6 +60,7 @@ These rules are in namespace `tao::pegtl`.
 
 * Equivalent to `success`, but:
 * Calls the input's `discard()`-method.
+* Must not be used where backtracking to before the `discard` might occur and/or nested within a rule for which an action with input can be called.
 * See [Incremental Input](Inputs-and-Parsing.md#incremental-input) for details.
 
 ###### `enable< R... >`

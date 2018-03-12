@@ -318,7 +318,8 @@ The number of actually consumed bytes can again be `0`, `1` or `2`, depending on
 
 To prevent the buffer from overflowing, the `discard()`-method of class `tao::pegtl::buffer_input` must be called, usually by using the `discard` parsing rule.
 It discards all data in the buffer that precedes the current `begin()`-point, and any remaining data is moved to the beginning of the buffer.
-**A `discard` invalidates all pointers to the input's data.**
+
+**A `discard` invalidates all pointers to the input's data and MUST NOT be used where backtracking to before the `discard` might occur AND/OR nested within a rule for which an action with input can be called.**
 
 ```
 Buffer Memory Layout
