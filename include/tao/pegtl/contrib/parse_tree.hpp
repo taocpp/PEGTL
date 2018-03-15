@@ -236,7 +236,7 @@ namespace tao
                }
             };
 
-            template< template< typename > class S >
+            template< template< typename > class S, template< typename > class C >
             struct make_control
             {
                template< typename Rule, bool = S< Rule >::value >
@@ -246,17 +246,17 @@ namespace tao
                using type = control< Rule >;
             };
 
-            template< template< typename > class S >
+            template< template< typename > class S, template< typename > class C >
             template< typename Rule >
-            struct make_control< S >::control< Rule, false >
-               : normal< Rule >
+            struct make_control< S, C >::control< Rule, false >
+               : C< Rule >
             {
             };
 
-            template< template< typename > class S >
+            template< template< typename > class S, template< typename > class C >
             template< typename Rule >
-            struct make_control< S >::control< Rule, true >
-               : normal< Rule >
+            struct make_control< S, C >::control< Rule, true >
+               : C< Rule >
             {
                template< typename Input, typename Node, typename... States >
                static void start( const Input& in, state< Node >& state, States&&... st )
@@ -328,21 +328,21 @@ namespace tao
             }
          };
 
-         template< typename Rule, typename Node, template< typename > class S = internal::store_all, typename Input, typename... States >
+         template< typename Rule, typename Node, template< typename > class S = internal::store_all, template< typename > class C = normal, typename Input, typename... States >
          std::unique_ptr< Node > parse( Input& in, States&&... st )
          {
             internal::state< Node > state;
-            if( !TAO_PEGTL_NAMESPACE::parse< Rule, nothing, internal::make_control< S >::template type >( in, state, st... ) ) {
+            if( !TAO_PEGTL_NAMESPACE::parse< Rule, nothing, internal::make_control< S, C >::template type >( in, state, st... ) ) {
                return nullptr;
             }
             assert( state.stack.size() == 1 );
             return std::move( state.back() );
          }
 
-         template< typename Rule, template< typename > class S = internal::store_all, typename Input, typename... States >
+         template< typename Rule, template< typename > class S = internal::store_all, template< typename > class C = normal, typename Input, typename... States >
          std::unique_ptr< node > parse( Input& in, States&&... st )
          {
-            return parse< Rule, node, S >( in, st... );
+            return parse< Rule, node, S, C >( in, st... );
          }
 
       }  // namespace parse_tree

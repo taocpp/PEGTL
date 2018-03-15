@@ -610,7 +610,7 @@ int main( int argc, char** argv )
    }
 
    file_input<> in( argv[ 1 ] );
-   const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::node, abnf::selector >( in );
+   const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::node, abnf::selector, abnf::grammar::error_control >( in );
 
    for( const auto& rule : root->children ) {
       abnf::rules_defined.push_back( abnf::get_rulename( rule->front() ) );
