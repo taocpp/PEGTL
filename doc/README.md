@@ -61,6 +61,7 @@
   * [Incremental Input](Inputs-and-Parsing.md#incremental-input)
     * [Grammars and Buffering](Inputs-and-Parsing.md#grammars-and-buffering)
     * [Custom Data Sources](Inputs-and-Parsing.md#custom-data-sources)
+  * [Error Reporting](Inputs-and-Parsing.md#error-reporting)
 * [Control and Debug](Control-and-Debug.md)
   * [Normal Control](Control-and-Debug.md#normal-control)
   * [Control Functions](Control-and-Debug.md#control-functions)

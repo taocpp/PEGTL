@@ -42,6 +42,7 @@ All classes and functions on this page are in namespace `tao::pegtl`.
 * [Incremental Input](#incremental-input)
   * [Grammars and Buffering](#grammars-and-buffering)
   * [Custom Data Sources](#custom-data-sources)
+* [Error Reporting](#error-reporting)
 
 ## Tracking Mode
 
@@ -357,5 +358,25 @@ The steps required to use a custom reader for a parsing run are:
 3. Call `tao::pegtl::parse()` (or `tao::pegtl::parse_nested()`) with the previously created `buffer_input` instance as first argument.
 
 The included examples for C- and C++-style streams can also be used as reference on how to create and use suitable readers, simply `grep(1)` for `cstream_reader` and `istream_reader` (and `cstring_reader`) in the PEGTL source code.
+
+## Error Reporting
+
+When reporting an error, one often wants to print the complete line from the input where the error occurred and a marker at the position where the error is found within that line. To support this, the `memory_input<>` class has a method called `line_at()` which takes a `tao::pegtl::position` as its parameter. Example usage:
+
+```c++
+
+// create input 'in' here...
+try {
+  // call parse on the input 'in' here...
+}
+catch( const parse_error& e ) {
+   const auto p = e.positions.front();
+   std::cerr << e.what() << std::endl
+             << in.line_at( p ) << std::endl
+             << std::string( p.byte_in_line, ' ' ) << '^' << std::endl;
+}
+```
+
+All input classes based on `memory_input<>` support the above, while all classes based on `buffer_input<>` are unable to supply the same functionality as previous input might have been discarded already. Trying to call `line_at()` on those inputs will lead to a compile error.
 
 Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey
