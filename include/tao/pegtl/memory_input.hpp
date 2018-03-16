@@ -314,11 +314,26 @@ namespace tao
             return internal::marker< iterator_t, M >( iterator() );
          }
 
-         std::string line_at( const TAO_PEGTL_NAMESPACE::position& p ) const
+         const char* at( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
          {
-            memory_input< tracking_mode::LAZY, Eol, const char* > in( this->begin() + p.byte, this->end(), nullptr );
+            return this->begin() + p.byte;
+         }
+
+         const char* begin_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
+         {
+            return at( p ) - p.byte_in_line;
+         }
+
+         const char* end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
+         {
+            memory_input< tracking_mode::LAZY, Eol, const char* > in( at( p ), this->end(), nullptr );
             normal< internal::until< internal::at< internal::eolf > > >::match< apply_mode::NOTHING, rewind_mode::DONTCARE, nothing, normal >( in );
-            return std::string( this->begin() + p.byte - p.byte_in_line, in.current() );
+            return in.current();
+         }
+
+         std::string line_as_string( const TAO_PEGTL_NAMESPACE::position& p ) const
+         {
+            return std::string( begin_of_line( p ), end_of_line( p ) );
          }
       };
 
