@@ -747,7 +747,7 @@ These rules are in namespace `tao::pegtl::uint8`.
 * The input byte `B` satisfies `( B & M ) < C || D < ( B & M )`.
 * Consumes 1 byte when it succeeds.
 
-###### `mask_one< M, C, ...>`
+###### `mask_one< M, C, ... >`
 
 * Succeeds when the input contains at least 1 byte, and:
 * The input byte masked with `M` is one of the given bytes `C, ...`.
@@ -783,7 +783,7 @@ These rules are in namespace `tao::pegtl::uint8`.
 * The input byte `B` satisfies `B < C || D < B`.
 * Consumes 1 byte when it succeeds.
 
-###### `one< C, ...>`
+###### `one< C, ... >`
 
 * Succeeds when the input contains at least 1 byte, and:
 * The input byte is one of the given bytes `C, ...`.
@@ -833,7 +833,7 @@ The parameters are given as `std::uint16_t`.
 * The (endian adjusted) input `uint16` `B` satisfies `( B & M ) < C || D < ( B & M )`.
 * Consumes 2 bytes when it succeeds.
 
-###### `mask_one< M, C, ...>`
+###### `mask_one< M, C, ... >`
 
 * Succeeds when the input contains at least 2 bytes, and:
 * The (endian adjusted) input `uint16` masked with `M` is one of the given values `C, ...`.
@@ -869,7 +869,7 @@ The parameters are given as `std::uint16_t`.
 * The (endian adjusted) input `uint16` `B` satisfies `B < C || D < B`.
 * Consumes 2 bytes when it succeeds.
 
-###### `one< C, ...>`
+###### `one< C, ... >`
 
 * Succeeds when the input contains at least 2 bytes, and:
 * The (endian adjusted) input `uint16` is one of the given values `C, ...`.
@@ -919,7 +919,7 @@ The parameters are given as `std::uint32_t`.
 * The (endian adjusted) input `uint32` `B` satisfies `( B & M ) < C || D < ( B & M )`.
 * Consumes 4 bytes when it succeeds.
 
-###### `mask_one< M, C, ...>`
+###### `mask_one< M, C, ... >`
 
 * Succeeds when the input contains at least 4 bytes, and:
 * The (endian adjusted) input `uint32` masked with `M` is one of the given values `C, ...`.
@@ -955,7 +955,7 @@ The parameters are given as `std::uint32_t`.
 * The (endian adjusted) input `uint32` `B` satisfies `B < C || D < B`.
 * Consumes 4 bytes when it succeeds.
 
-###### `one< C, ...>`
+###### `one< C, ... >`
 
 * Succeeds when the input contains at least 4 bytes, and:
 * The (endian adjusted) input `uint32` is one of the given values `C, ...`.
@@ -1005,7 +1005,7 @@ The parameters are given as `std::uint64_t`.
 * The (endian adjusted) input `uint64` `B` satisfies `( B & M ) < C || D < ( B & M )`.
 * Consumes 8 bytes when it succeeds.
 
-###### `mask_one< M, C, ...>`
+###### `mask_one< M, C, ... >`
 
 * Succeeds when the input contains at least 8 bytes, and:
 * The (endian adjusted) input `uint64` masked with `M` is one of the given values `C, ...`.
@@ -1041,7 +1041,7 @@ The parameters are given as `std::uint64_t`.
 * The (endian adjusted) input `uint64` `B` satisfies `B < C || D < B`.
 * Consumes 8 bytes when it succeeds.
 
-###### `one< C, ...>`
+###### `one< C, ... >`
 
 * Succeeds when the input contains at least 8 bytes, and:
 * The (endian adjusted) input `uint64` is one of the given values `C, ...`.
