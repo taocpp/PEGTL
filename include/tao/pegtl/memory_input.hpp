@@ -13,13 +13,18 @@
 
 #include "config.hpp"
 #include "eol.hpp"
+#include "normal.hpp"
+#include "nothing.hpp"
 #include "position.hpp"
 #include "tracking_mode.hpp"
 
 #include "internal/action_input.hpp"
+#include "internal/at.hpp"
 #include "internal/bump_impl.hpp"
+#include "internal/eolf.hpp"
 #include "internal/iterator.hpp"
 #include "internal/marker.hpp"
+#include "internal/until.hpp"
 
 namespace tao
 {
@@ -38,7 +43,8 @@ namespace tao
 
             template< typename T >
             memory_input_base( const iterator_t& in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible< Source, T&& >::value )
-               : m_current( in_begin ),
+               : m_begin( in_begin.data ),
+                 m_current( in_begin ),
                  m_end( in_end ),
                  m_source( std::forward< T >( in_source ) )
             {
@@ -46,7 +52,8 @@ namespace tao
 
             template< typename T >
             memory_input_base( const char* in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible< Source, T&& >::value )
-               : m_current( in_begin ),
+               : m_begin( in_begin ),
+                 m_current( in_begin ),
                  m_end( in_end ),
                  m_source( std::forward< T >( in_source ) )
             {
@@ -63,6 +70,11 @@ namespace tao
             const char* current() const noexcept
             {
                return m_current.data;
+            }
+
+            const char* begin() const noexcept
+            {
+               return m_begin;
             }
 
             const char* end( const std::size_t /*unused*/ = 0 ) const noexcept
@@ -106,6 +118,7 @@ namespace tao
             }
 
          protected:
+            const char* const m_begin;
             iterator_t m_current;
             const char* const m_end;
             const Source m_source;
@@ -146,6 +159,11 @@ namespace tao
             const char* current() const noexcept
             {
                return m_current;
+            }
+
+            const char* begin() const noexcept
+            {
+               return m_begin.data;
             }
 
             const char* end( const std::size_t /*unused*/ = 0 ) const noexcept
@@ -294,6 +312,13 @@ namespace tao
          internal::marker< iterator_t, M > mark() noexcept
          {
             return internal::marker< iterator_t, M >( iterator() );
+         }
+
+         std::string line_at( const TAO_PEGTL_NAMESPACE::position& p ) const
+         {
+            memory_input< tracking_mode::LAZY, Eol, const char* > in( this->begin() + p.byte, this->end(), nullptr );
+            normal< internal::until< internal::at< internal::eolf > > >::match< apply_mode::NOTHING, rewind_mode::DONTCARE, nothing, normal >( in );
+            return std::string( this->begin() + p.byte - p.byte_in_line, in.current() );
          }
       };
 

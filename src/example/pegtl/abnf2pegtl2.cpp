@@ -610,14 +610,22 @@ int main( int argc, char** argv )
    }
 
    file_input<> in( argv[ 1 ] );
-   const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::node, abnf::selector, abnf::grammar::error_control >( in );
+   try {
+      const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::node, abnf::selector, abnf::grammar::error_control >( in );
 
-   for( const auto& rule : root->children ) {
-      abnf::rules_defined.push_back( abnf::get_rulename( rule->front() ) );
+      for( const auto& rule : root->children ) {
+         abnf::rules_defined.push_back( abnf::get_rulename( rule->front() ) );
+      }
+
+      for( const auto& rule : root->children ) {
+         std::cout << abnf::to_string( rule ) << std::endl;
+      }
    }
-
-   for( const auto& rule : root->children ) {
-      std::cout << abnf::to_string( rule ) << std::endl;
+   catch( const parse_error& e ) {
+      const auto p = e.positions.front();
+      std::cerr << e.what() << std::endl
+                << in.line_at( p ) << std::endl
+                << std::string( p.byte_in_line, ' ' ) << '^' << std::endl;
    }
 
    return 0;
