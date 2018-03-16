@@ -1,5 +1,14 @@
 # Changelog
 
+## 2.5.0
+
+*Not Released Yet*
+
+* Added function to `memory_input` to obtain the line around a position.
+* Added big- and little-endian support to the UTF-16 and UTF-32 rules.
+* Added rules for UINT-8 and big- and little-endian UINT-16, UINT-32 and UINT-64.
+* TODO: Document improvements to parse-tree example etc.
+
 ## 2.4.0
 
 Released 2018-02-17
