@@ -61,7 +61,7 @@ namespace tao
             struct ids_trinary_operator : binary_property< UCHAR_IDS_TRINARY_OPERATOR > {};
             struct join_control : binary_property< UCHAR_JOIN_CONTROL > {};
             struct logical_order_exception : binary_property< UCHAR_LOGICAL_ORDER_EXCEPTION > {};
-            struct lower : binary_property< UCHAR_LOWERCASE > {};
+            struct lowercase : binary_property< UCHAR_LOWERCASE > {};
             struct math : binary_property< UCHAR_MATH > {};
             struct noncharacter_code_point : binary_property< UCHAR_NONCHARACTER_CODE_POINT > {};
             struct pattern_syntax : binary_property< UCHAR_PATTERN_SYNTAX > {};
@@ -72,7 +72,7 @@ namespace tao
             struct s_term : binary_property< UCHAR_S_TERM > {};
             struct terminal_punctuation : binary_property< UCHAR_TERMINAL_PUNCTUATION > {};
             struct unified_ideograph : binary_property< UCHAR_UNIFIED_IDEOGRAPH > {};
-            struct upper : binary_property< UCHAR_UPPERCASE > {};
+            struct uppercase : binary_property< UCHAR_UPPERCASE > {};
             struct white_space : binary_property< UCHAR_WHITE_SPACE > {};
             struct xid_continue : binary_property< UCHAR_XID_CONTINUE > {};
             struct xid_start : binary_property< UCHAR_XID_START > {};
@@ -143,7 +143,7 @@ namespace tao
             struct ids_trinary_operator : binary_property< UCHAR_IDS_TRINARY_OPERATOR > {};
             struct join_control : binary_property< UCHAR_JOIN_CONTROL > {};
             struct logical_order_exception : binary_property< UCHAR_LOGICAL_ORDER_EXCEPTION > {};
-            struct lower : binary_property< UCHAR_LOWERCASE > {};
+            struct lowercase : binary_property< UCHAR_LOWERCASE > {};
             struct math : binary_property< UCHAR_MATH > {};
             struct noncharacter_code_point : binary_property< UCHAR_NONCHARACTER_CODE_POINT > {};
             struct pattern_syntax : binary_property< UCHAR_PATTERN_SYNTAX > {};
@@ -154,7 +154,7 @@ namespace tao
             struct s_term : binary_property< UCHAR_S_TERM > {};
             struct terminal_punctuation : binary_property< UCHAR_TERMINAL_PUNCTUATION > {};
             struct unified_ideograph : binary_property< UCHAR_UNIFIED_IDEOGRAPH > {};
-            struct upper : binary_property< UCHAR_UPPERCASE > {};
+            struct uppercase : binary_property< UCHAR_UPPERCASE > {};
             struct white_space : binary_property< UCHAR_WHITE_SPACE > {};
             struct xid_continue : binary_property< UCHAR_XID_CONTINUE > {};
             struct xid_start : binary_property< UCHAR_XID_START > {};
