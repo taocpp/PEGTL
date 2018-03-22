@@ -54,6 +54,7 @@
     * [Basic Rules](Rule-Reference.md#basic-rules)
     * [Convenience Rules for Binary Properties](Rule-Reference.md#convenience-rules-for-binary-properties)
     * [Convenience Rules for Enumerated Properties](Rule-Reference.md#convenience-rules-for-enumerated-properties)
+    * [Convenience Rules for Value Properties](Rule-Reference.md#convenience-rules-for-value-properties)
   * [Full Index](Rule-Reference.md#full-index)
 * [Inputs and Parsing](Inputs-and-Parsing.md)
   * [Tracking Mode](Inputs-and-Parsing.md#tracking-mode)

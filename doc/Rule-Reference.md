@@ -42,6 +42,7 @@ and therefore which rule will be used to call the control class' `raise()`-metho
   * [Basic Rules](#basic-rules)
   * [Convenience Rules for Binary Properties](#convenience-rules-for-binary-properties)
   * [Convenience Rules for Enumerated Properties](#convenience-rules-for-enumerated-properties)
+  * [Convenience Rules for Value Properties](#convenience-rules-for-value-properties)
 * [Full Index](#full-index)
 
 ## Meta Rules
@@ -1115,7 +1116,7 @@ Each of the above namespaces provides two basic rules for matching binary proper
 
 ### Convenience Rules for Binary Properties
 
-The headers provide convenience wrappers for binary properties as follows:
+Convenience wrappers for binary properties.
 
 ###### `alphabetic`
 
@@ -1347,7 +1348,7 @@ The headers provide convenience wrappers for binary properties as follows:
 
 ### Convenience Rules for Enumerated Properties
 
-The headers provide convenience wrappers for enumerated properties as follows:
+Convenience wrappers for enumerated properties.
 
 ###### `bidi_class< V >`
 
@@ -1413,6 +1414,25 @@ The headers provide convenience wrappers for enumerated properties as follows:
 
 * `V` is of type `UWordBreakValues`.
 * Equivalent to `property_value< UCHAR_WORD_BREAK, V >`.
+
+### Convenience Rules for Value Properties
+
+Convenience wrappers for enumerated properties that return a value instead of an actual `enum`.
+
+###### `canonical_combining_class< V >`
+
+* `V` is of type `std::uint8_t`.
+* Equivalent to `property_value< UCHAR_CANONICAL_COMBINING_CLASS, V >`.
+
+###### `lead_canonical_combining_class< V >`
+
+* `V` is of type `std::uint8_t`.
+* Equivalent to `property_value< UCHAR_LEAD_CANONICAL_COMBINING_CLASS, V >`.
+
+###### `trail_canonical_combining_class< V >`
+
+* `V` is of type `std::uint8_t`.
+* Equivalent to `property_value< UCHAR_TRAIL_CANONICAL_COMBINING_CLASS, V >`.
 
 ## Full Index
 
