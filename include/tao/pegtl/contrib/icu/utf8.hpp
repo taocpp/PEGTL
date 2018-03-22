@@ -33,9 +33,11 @@ namespace tao
 
             // clang-format off
             struct alphabetic : binary_property< UCHAR_ALPHABETIC > {};
+            struct ascii_hex_digit : binary_property< UCHAR_ASCII_HEX_DIGIT > {};
             struct bidi_control : binary_property< UCHAR_BIDI_CONTROL > {};
             struct bidi_mirrored : binary_property< UCHAR_BIDI_MIRRORED > {};
             struct case_ignorable : binary_property< UCHAR_CASE_IGNORABLE > {};
+            struct case_sensitive : binary_property< UCHAR_CASE_SENSITIVE > {};
             struct cased : binary_property< UCHAR_CASED > {};
             struct changes_when_casefolded : binary_property< UCHAR_CHANGES_WHEN_CASEFOLDED > {};
             struct changes_when_casemapped : binary_property< UCHAR_CHANGES_WHEN_CASEMAPPED > {};
@@ -63,34 +65,53 @@ namespace tao
             struct logical_order_exception : binary_property< UCHAR_LOGICAL_ORDER_EXCEPTION > {};
             struct lowercase : binary_property< UCHAR_LOWERCASE > {};
             struct math : binary_property< UCHAR_MATH > {};
+            struct nfc_inert : binary_property< UCHAR_NFC_INERT > {};
+            struct nfd_inert : binary_property< UCHAR_NFD_INERT > {};
+            struct nfkc_inert : binary_property< UCHAR_NFKC_INERT > {};
+            struct nfkd_inert : binary_property< UCHAR_NFKD_INERT > {};
             struct noncharacter_code_point : binary_property< UCHAR_NONCHARACTER_CODE_POINT > {};
             struct pattern_syntax : binary_property< UCHAR_PATTERN_SYNTAX > {};
             struct pattern_white_space : binary_property< UCHAR_PATTERN_WHITE_SPACE > {};
+            struct posix_alnum : binary_property< UCHAR_POSIX_ALNUM > {};
+            struct posix_blank : binary_property< UCHAR_POSIX_BLANK > {};
+            struct posix_graph : binary_property< UCHAR_POSIX_GRAPH > {};
+            struct posix_print : binary_property< UCHAR_POSIX_PRINT > {};
+            struct posix_xdigit : binary_property< UCHAR_POSIX_XDIGIT > {};
             struct quotation_mark : binary_property< UCHAR_QUOTATION_MARK > {};
             struct radical : binary_property< UCHAR_RADICAL > {};
-            struct soft_dotted : binary_property< UCHAR_SOFT_DOTTED > {};
             struct s_term : binary_property< UCHAR_S_TERM > {};
+            struct segment_starter : binary_property< UCHAR_SEGMENT_STARTER > {};
+            struct soft_dotted : binary_property< UCHAR_SOFT_DOTTED > {};
             struct terminal_punctuation : binary_property< UCHAR_TERMINAL_PUNCTUATION > {};
             struct unified_ideograph : binary_property< UCHAR_UNIFIED_IDEOGRAPH > {};
             struct uppercase : binary_property< UCHAR_UPPERCASE > {};
+            struct variation_selector : binary_property< UCHAR_VARIATION_SELECTOR > {};
             struct white_space : binary_property< UCHAR_WHITE_SPACE > {};
             struct xid_continue : binary_property< UCHAR_XID_CONTINUE > {};
             struct xid_start : binary_property< UCHAR_XID_START > {};
 
             template< UCharDirection V > struct bidi_class : property_value< UCHAR_BIDI_CLASS, V > {};
             template< UBlockCode V > struct block : property_value< UCHAR_BLOCK, V > {};
-            template< std::uint8_t V > struct canonical_combining_class : property_value< UCHAR_CANONICAL_COMBINING_CLASS, V > {};
             template< UDecompositionType V > struct decomposition_type : property_value< UCHAR_DECOMPOSITION_TYPE, V > {};
             template< UEastAsianWidth V > struct east_asian_width : property_value< UCHAR_EAST_ASIAN_WIDTH, V > {};
-            template< int V > struct general_category : property_value< UCHAR_GENERAL_CATEGORY, V > {};
+            template< UCharCategory V > struct general_category : property_value< UCHAR_GENERAL_CATEGORY, V > {};
             template< UGraphemeClusterBreak V > struct grapheme_cluster_break : property_value< UCHAR_GRAPHEME_CLUSTER_BREAK, V > {};
             template< UHangulSyllableType V > struct hangul_syllable_type : property_value< UCHAR_HANGUL_SYLLABLE_TYPE, V > {};
             template< UJoiningGroup V > struct joining_group : property_value< UCHAR_JOINING_GROUP, V > {};
             template< UJoiningType V > struct joining_type : property_value< UCHAR_JOINING_TYPE, V > {};
             template< ULineBreak V > struct line_break : property_value< UCHAR_LINE_BREAK, V > {};
+            // UNormalizationCheckResult requires an additional header <unicode/unorm2.h>:
+            // template< UNormalizationCheckResult V > struct nfc_quick_check : property_value< UCHAR_NFC_QUICK_CHECK, V > {};
+            // template< UNormalizationCheckResult V > struct nfd_quick_check : property_value< UCHAR_NFD_QUICK_CHECK, V > {};
+            // template< UNormalizationCheckResult V > struct nfkc_quick_check : property_value< UCHAR_NFKC_QUICK_CHECK, V > {};
+            // template< UNormalizationCheckResult V > struct nfkd_quick_check : property_value< UCHAR_NFKD_QUICK_CHECK, V > {};
             template< UNumericType V > struct numeric_type : property_value< UCHAR_NUMERIC_TYPE, V > {};
             template< USentenceBreak V > struct sentence_break : property_value< UCHAR_SENTENCE_BREAK, V > {};
             template< UWordBreakValues V > struct word_break : property_value< UCHAR_WORD_BREAK, V > {};
+
+            template< std::uint8_t V > struct canonical_combining_class : property_value< UCHAR_CANONICAL_COMBINING_CLASS, V > {};
+            template< std::uint8_t V > struct lead_canonical_combining_class : property_value< UCHAR_LEAD_CANONICAL_COMBINING_CLASS, V > {};
+            template< std::uint8_t V > struct trail_canonical_combining_class : property_value< UCHAR_TRAIL_CANONICAL_COMBINING_CLASS, V > {};
             // clang-format on
 
          }  // namespace icu
