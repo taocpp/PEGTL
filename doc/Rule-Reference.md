@@ -38,6 +38,7 @@ and therefore which rule will be used to call the control class' `raise()`-metho
 * [UINT-16 Rules](#uint-16-rules)
 * [UINT-32 Rules](#uint-32-rules)
 * [UINT-64 Rules](#uint-64-rules)
+* [ICU Rules](#icu-rules)
 * [Full Index](#full-index)
 
 ## Meta Rules
@@ -1064,6 +1065,351 @@ The parameters are given as `std::uint64_t`.
 ###### `string< C1, C2, ... >`
 
 * Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
+
+## ICU Rules
+
+These rules are depending on the [International Components for Unicode (ICU)](http://icu-project.org/). They provide means to match characters of specific unicode character properties. As they are creating an external dependency, the headers are in the contrib-section:
+
+* `tao/pegtl/contrib/icu/utf8.hpp`
+* `tao/pegtl/contrib/icu/utf16.hpp`
+* `tao/pegtl/contrib/icu/utf32.hpp`
+
+The rules are available in multiple versions, depending on which header you included,
+
+* in namespace `tao::pegtl::icu::utf8` for UTF-8 encoded inputs,
+* in namespace `tao::pegtl::icu::utf16_be` for big-endian UTF-16 inputs,
+* in namespace `tao::pegtl::icu::utf16_le` for little-endian UTF-16 inputs,
+* in namespace `tao::pegtl::icu::utf32_be` for big-endian UTF-32 inputs, and
+* in namespace `tao::pegtl::icu::utf32_le` for little-endian UTF-32 inputs.
+
+If you want to use the headers, remember to provide the include path for and link with libicu.
+
+### Basic Rules
+
+Each of the above namespaces provides two basic rules for matching binary properties and property value matching for enum properties.
+
+###### `binary_property< P, V >`
+
+* `P` is a binary property defined by ICU, see [`UProperty`](http://icu-project.org/apiref/icu4c/uchar_8h.html).
+* `V` is a boolean value.
+* Succeeds when the input is not empty, and:
+* The next following bytes are a valid unicode code point according to the encoding specified by the enclosing namespace, and:
+* The code point's property `P`, i.e. [`u_hasBinaryProperty( cp, P );`](http://icu-project.org/apiref/icu4c/uchar_8h.html), returns `V`.
+* Consumes the input bytes when it succeeds.
+
+###### `binary_property< P >`
+
+* Equivalent to `binary_property< P, true >`.
+
+###### `property_value< P, V >`
+
+* `P` is an enumerated property defined by ICU, see [`UProperty`](http://icu-project.org/apiref/icu4c/uchar_8h.html).
+* `V` is an integer value.
+* Succeeds when the input is not empty, and:
+* The next following bytes are a valid unicode code point according to the encoding specified by the enclosing namespace, and:
+* The code point's property `P`, i.e. [`u_getIntPropertyValue( cp, P );`](http://icu-project.org/apiref/icu4c/uchar_8h.html), returns `V`.
+* Consumes the input bytes when it succeeds.
+
+### Convenience Rules for Binary Properties
+
+The headers provide convenience wrappers for binary properties as follows:
+
+###### `alphabetic`
+
+* Equivalent to `binary_property< UCHAR_ALPHABETIC >`.
+
+###### `ascii_hex_digit`
+
+* Equivalent to `binary_property< UCHAR_ASCII_HEX_DIGIT >`.
+
+###### `bidi_control`
+
+* Equivalent to `binary_property< UCHAR_BIDI_CONTROL >`.
+
+###### `bidi_mirrored`
+
+* Equivalent to `binary_property< UCHAR_BIDI_MIRRORED >`.
+
+###### `case_ignorable`
+
+* Equivalent to `binary_property< UCHAR_CASE_IGNORABLE >`.
+
+###### `case_sensitive`
+
+* Equivalent to `binary_property< UCHAR_CASE_SENSITIVE >`.
+
+###### `cased`
+
+* Equivalent to `binary_property< UCHAR_CASED >`.
+
+###### `changes_when_casefolded`
+
+* Equivalent to `binary_property< UCHAR_CHANGES_WHEN_CASEFOLDED >`.
+
+###### `changes_when_casemapped`
+
+* Equivalent to `binary_property< UCHAR_CHANGES_WHEN_CASEMAPPED >`.
+
+###### `changes_when_nfkc_casefolded`
+
+* Equivalent to `binary_property< UCHAR_CHANGES_WHEN_NFKC_CASEFOLDED >`.
+
+###### `changes_when_lowercased`
+
+* Equivalent to `binary_property< UCHAR_CHANGES_WHEN_LOWERCASED >`.
+
+###### `changes_when_titlecased`
+
+* Equivalent to `binary_property< UCHAR_CHANGES_WHEN_TITLECASED >`.
+
+###### `changes_when_uppercased`
+
+* Equivalent to `binary_property< UCHAR_CHANGES_WHEN_UPPERCASED >`.
+
+###### `dash`
+
+* Equivalent to `binary_property< UCHAR_DASH >`.
+
+###### `default_ignorable_code_point`
+
+* Equivalent to `binary_property< UCHAR_DEFAULT_IGNORABLE_CODE_POINT >`.
+
+###### `deprecated`
+
+* Equivalent to `binary_property< UCHAR_DEPRECATED >`.
+
+###### `diacritic`
+
+* Equivalent to `binary_property< UCHAR_DIACRITIC >`.
+
+###### `extender`
+
+* Equivalent to `binary_property< UCHAR_EXTENDER >`.
+
+###### `full_composition_exclusion`
+
+* Equivalent to `binary_property< UCHAR_FULL_COMPOSITION_EXCLUSION >`.
+
+###### `grapheme_base`
+
+* Equivalent to `binary_property< UCHAR_GRAPHEME_BASE >`.
+
+###### `grapheme_extend`
+
+* Equivalent to `binary_property< UCHAR_GRAPHEME_EXTEND >`.
+
+###### `grapheme_link`
+
+* Equivalent to `binary_property< UCHAR_GRAPHEME_LINK >`.
+
+###### `hex_digit`
+
+* Equivalent to `binary_property< UCHAR_HEX_DIGIT >`.
+
+###### `hyphen`
+
+* Equivalent to `binary_property< UCHAR_HYPHEN >`.
+
+###### `id_continue`
+
+* Equivalent to `binary_property< UCHAR_ID_CONTINUE >`.
+
+###### `id_start`
+
+* Equivalent to `binary_property< UCHAR_ID_START >`.
+
+###### `ideographic`
+
+* Equivalent to `binary_property< UCHAR_IDEOGRAPHIC >`.
+
+###### `ids_binary_operator`
+
+* Equivalent to `binary_property< UCHAR_IDS_BINARY_OPERATOR >`.
+
+###### `ids_trinary_operator`
+
+* Equivalent to `binary_property< UCHAR_IDS_TRINARY_OPERATOR >`.
+
+###### `join_control`
+
+* Equivalent to `binary_property< UCHAR_JOIN_CONTROL >`.
+
+###### `logical_order_exception`
+
+* Equivalent to `binary_property< UCHAR_LOGICAL_ORDER_EXCEPTION >`.
+
+###### `lowercase`
+
+* Equivalent to `binary_property< UCHAR_LOWERCASE >`.
+
+###### `math`
+
+* Equivalent to `binary_property< UCHAR_MATH >`.
+
+###### `nfc_inert`
+
+* Equivalent to `binary_property< UCHAR_NFC_INERT >`.
+
+###### `nfd_inert`
+
+* Equivalent to `binary_property< UCHAR_NFD_INERT >`.
+
+###### `nfkc_inert`
+
+* Equivalent to `binary_property< UCHAR_NFKC_INERT >`.
+
+###### `nfkd_inert`
+
+* Equivalent to `binary_property< UCHAR_NFKD_INERT >`.
+
+###### `noncharacter_code_point`
+
+* Equivalent to `binary_property< UCHAR_NONCHARACTER_CODE_POINT >`.
+
+###### `pattern_syntax`
+
+* Equivalent to `binary_property< UCHAR_PATTERN_SYNTAX >`.
+
+###### `pattern_white_space`
+
+* Equivalent to `binary_property< UCHAR_PATTERN_WHITE_SPACE >`.
+
+###### `posix_alnum`
+
+* Equivalent to `binary_property< UCHAR_POSIX_ALNUM >`.
+
+###### `posix_blank`
+
+* Equivalent to `binary_property< UCHAR_POSIX_BLANK >`.
+
+###### `posix_graph`
+
+* Equivalent to `binary_property< UCHAR_POSIX_GRAPH >`.
+
+###### `posix_print`
+
+* Equivalent to `binary_property< UCHAR_POSIX_PRINT >`.
+
+###### `posix_xdigit`
+
+* Equivalent to `binary_property< UCHAR_POSIX_XDIGIT >`.
+
+###### `quotation_mark`
+
+* Equivalent to `binary_property< UCHAR_QUOTATION_MARK >`.
+
+###### `radical`
+
+* Equivalent to `binary_property< UCHAR_RADICAL >`.
+
+###### `s_term`
+
+* Equivalent to `binary_property< UCHAR_S_TERM >`.
+
+###### `segment_starter`
+
+* Equivalent to `binary_property< UCHAR_SEGMENT_STARTER >`.
+
+###### `soft_dotted`
+
+* Equivalent to `binary_property< UCHAR_SOFT_DOTTED >`.
+
+###### `terminal_punctuation`
+
+* Equivalent to `binary_property< UCHAR_TERMINAL_PUNCTUATION >`.
+
+###### `unified_ideograph`
+
+* Equivalent to `binary_property< UCHAR_UNIFIED_IDEOGRAPH >`.
+
+###### `uppercase`
+
+* Equivalent to `binary_property< UCHAR_UPPERCASE >`.
+
+###### `variation_selector`
+
+* Equivalent to `binary_property< UCHAR_VARIATION_SELECTOR >`.
+
+###### `white_space`
+
+* Equivalent to `binary_property< UCHAR_WHITE_SPACE >`.
+
+###### `xid_continue`
+
+* Equivalent to `binary_property< UCHAR_XID_CONTINUE >`.
+
+###### `xid_start`
+
+* Equivalent to `binary_property< UCHAR_XID_START >`.
+
+### Convenience Rules for Enumerated Properties
+
+The headers provide convenience wrappers for enumerated properties as follows:
+
+###### `bidi_class< V >`
+
+* `V` is of type `UCharDirection`.
+* Equivalent to `property_value< UCHAR_BIDI_CLASS, V >`.
+
+###### `block< V >`
+
+* `V` is of type `UBlockCode`.
+* Equivalent to `property_value< UCHAR_BLOCK, V >`.
+
+###### `decomposition_type< V >`
+
+* `V` is of type `UDecompositionType`.
+* Equivalent to `property_value< UCHAR_DECOMPOSITION_TYPE, V >`.
+
+###### `east_asian_width< V >`
+
+* `V` is of type `UEastAsianWidth`.
+* Equivalent to `property_value< UCHAR_EAST_ASIAN_WIDTH, V >`.
+
+###### `general_category< V >`
+
+* `V` is of type `UCharCategory`.
+* Equivalent to `property_value< UCHAR_GENERAL_CATEGORY, V >`.
+
+###### `grapheme_cluster_break< V >`
+
+* `V` is of type `UGraphemeClusterBreak`.
+* Equivalent to `property_value< UCHAR_GRAPHEME_CLUSTER_BREAK, V >`.
+
+###### `hangul_syllable_type< V >`
+
+* `V` is of type `UHangulSyllableType`.
+* Equivalent to `property_value< UCHAR_HANGUL_SYLLABLE_TYPE, V >`.
+
+###### `joining_group< V >`
+
+* `V` is of type `UJoiningGroup`.
+* Equivalent to `property_value< UCHAR_JOINING_GROUP, V >`.
+
+###### `joining_type< V >`
+
+* `V` is of type `UJoiningType`.
+* Equivalent to `property_value< UCHAR_JOINING_TYPE, V >`.
+
+###### `line_break< V >`
+
+* `V` is of type `ULineBreak`.
+* Equivalent to `property_value< UCHAR_LINE_BREAK, V >`.
+
+###### `numeric_type< V >`
+
+* `V` is of type `UNumericType`.
+* Equivalent to `property_value< UCHAR_NUMERIC_TYPE, V >`.
+
+###### `sentence_break< V >`
+
+* `V` is of type `USentenceBreak`.
+* Equivalent to `property_value< UCHAR_SENTENCE_BREAK, V >`.
+
+###### `word_break< V >`
+
+* `V` is of type `UWordBreakValues`.
+* Equivalent to `property_value< UCHAR_WORD_BREAK, V >`.
 
 ## Full Index
 
