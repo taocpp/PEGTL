@@ -6,6 +6,9 @@
 
 #include "internal.hpp"
 
+#include "../../config.hpp"
+#include "../../utf8.hpp"
+
 #include "../../internal/peek_utf8.hpp"
 
 namespace tao

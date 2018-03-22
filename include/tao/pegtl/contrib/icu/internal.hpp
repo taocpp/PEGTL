@@ -6,6 +6,8 @@
 
 #include <unicode/uchar.h>
 
+#include "../../config.hpp"
+
 #include "../../analysis/generic.hpp"
 #include "../../internal/skip_control.hpp"
 
