@@ -1077,15 +1077,15 @@ These rules are depending on the [International Components for Unicode (ICU)](ht
 * `tao/pegtl/contrib/icu/utf16.hpp`
 * `tao/pegtl/contrib/icu/utf32.hpp`
 
+If you want to use these headers, remember to provide the include path for and link with libicu.
+
 The rules are available in multiple versions, depending on which header you included,
 
 * in namespace `tao::pegtl::icu::utf8` for UTF-8 encoded inputs,
-* in namespace `tao::pegtl::icu::utf16_be` for big-endian UTF-16 inputs,
-* in namespace `tao::pegtl::icu::utf16_le` for little-endian UTF-16 inputs,
-* in namespace `tao::pegtl::icu::utf32_be` for big-endian UTF-32 inputs, and
-* in namespace `tao::pegtl::icu::utf32_le` for little-endian UTF-32 inputs.
-
-If you want to use the headers, remember to provide the include path for and link with libicu.
+* in namespace `tao::pegtl::icu::utf16_be` for big-endian UTF-16 encoded inputs,
+* in namespace `tao::pegtl::icu::utf16_le` for little-endian UTF-16 encoded inputs,
+* in namespace `tao::pegtl::icu::utf32_be` for big-endian UTF-32 encoded inputs, and
+* in namespace `tao::pegtl::icu::utf32_le` for little-endian UTF-32 encoded inputs.
 
 ### Basic Rules
 
@@ -1097,12 +1097,12 @@ Each of the above namespaces provides two basic rules for matching binary proper
 * `V` is a boolean value.
 * Succeeds when the input is not empty, and:
 * The next following bytes are a valid unicode code point according to the encoding specified by the enclosing namespace, and:
-* The code point's property `P`, i.e. [`u_hasBinaryProperty( cp, P );`](http://icu-project.org/apiref/icu4c/uchar_8h.html), returns `V`.
+* The code point's property `P`, i.e. [`u_hasBinaryProperty( cp, P )`](http://icu-project.org/apiref/icu4c/uchar_8h.html), equals `V`.
 * Consumes the input bytes when it succeeds.
 
 ###### `binary_property< P >`
 
-* Equivalent to `binary_property< P, true >`.
+* Identical to `binary_property< P, true >`.
 
 ###### `property_value< P, V >`
 
@@ -1110,7 +1110,7 @@ Each of the above namespaces provides two basic rules for matching binary proper
 * `V` is an integer value.
 * Succeeds when the input is not empty, and:
 * The next following bytes are a valid unicode code point according to the encoding specified by the enclosing namespace, and:
-* The code point's property `P`, i.e. [`u_getIntPropertyValue( cp, P );`](http://icu-project.org/apiref/icu4c/uchar_8h.html), returns `V`.
+* The code point's property `P`, i.e. [`u_getIntPropertyValue( cp, P )`](http://icu-project.org/apiref/icu4c/uchar_8h.html), equals `V`.
 * Consumes the input bytes when it succeeds.
 
 ### Convenience Rules for Binary Properties
