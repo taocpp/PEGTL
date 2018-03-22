@@ -39,6 +39,9 @@ and therefore which rule will be used to call the control class' `raise()`-metho
 * [UINT-32 Rules](#uint-32-rules)
 * [UINT-64 Rules](#uint-64-rules)
 * [ICU Rules](#icu-rules)
+  * [Basic Rules](#basic-rules)
+  * [Convenience Rules for Binary Properties](#convenience-rules-for-binary-properties)
+  * [Convenience Rules for Enumerated Properties](#convenience-rules-for-enumerated-properties)
 * [Full Index](#full-index)
 
 ## Meta Rules
