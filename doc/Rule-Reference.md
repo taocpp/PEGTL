@@ -1450,13 +1450,13 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`any`](#any-7) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
 * [`apply< A... >`](#apply-a-) <sup>[(action rules)](#action-rules)</sup>
 * [`apply0< A... >`](#apply0-a-) <sup>[(action rules)](#action-rules)</sup>
-* [`ascii_hex_digit`](#ascii-hex-digit) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`ascii_hex_digit`](#ascii_hex_digit) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`at< R... >`](#at-r-) <sup>[(combinators)](#combinators)</sup>
-* [`bidi_class< V >`](#bidi-class-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
-* [`bidi_control`](#bidi-control) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`bidi_mirrored`](#bidi-mirrored) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`binary_property< P >`](#binary-property-p-) <sup>[(icu rules)](#basic-rules)</sup>
-* [`binary_property< P, V >`](#binary-property-p-v-) <sup>[(icu rules)](#basic-rules)</sup>
+* [`bidi_class< V >`](#bidi_class-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
+* [`bidi_control`](#bidi_control) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`bidi_mirrored`](#bidi_mirrored) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`binary_property< P >`](#binary_property-p-) <sup>[(icu rules)](#basic-rules)</sup>
+* [`binary_property< P, V >`](#binary_property-p-v-) <sup>[(icu rules)](#basic-rules)</sup>
 * [`blank`](#blank) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`block< V >`](#block-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
 * [`bof`](#bof) <sup>[(atomic rules)](#atomic-rules)</sup>
@@ -1465,67 +1465,67 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`bom`](#bom-1) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
 * [`bom`](#bom-2) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
 * [`bytes< Num >`](#bytes-num-) <sup>[(atomic rules)](#atomic-rules)</sup>
-* [`canonical_combining_class< V >`](#canonical-combining-class-v-) <sup>[(icu rules)](#convenience-rules-for-value-properties)</sup>
-* [`case_ignorable`](#case-ignorable) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`case_sensitive`](#case-sensitive) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`canonical_combining_class< V >`](#canonical_combining_class-v-) <sup>[(icu rules)](#convenience-rules-for-value-properties)</sup>
+* [`case_ignorable`](#case_ignorable) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`case_sensitive`](#case_sensitive) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`cased`](#cased) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`changes_when_casefolded`](#changes-when-casefolded) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`changes_when_casemapped`](#changes-when-casemapped) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`changes_when_lowercased`](#changes-when-lowercased) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`changes_when_nfkc_casefolded`](#changes-when-nfkc-casefolded) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`changes_when_titlecased`](#changes-when-titlecased) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`changes_when_uppercased`](#changes-when-uppercased) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`changes_when_casefolded`](#changes_when_casefolded) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`changes_when_casemapped`](#changes_when_casemapped) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`changes_when_lowercased`](#changes_when_lowercased) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`changes_when_nfkc_casefolded`](#changes_when_nfkc_casefolded) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`changes_when_titlecased`](#changes_when_titlecased) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`changes_when_uppercased`](#changes_when_uppercased) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`control< C, R... >`](#control-c-r-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`dash`](#dash) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`decomposition_type< V >`](#decomposition-type-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
-* [`default_ignorable_code_point`](#default-ignorable-code-point) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`decomposition_type< V >`](#decomposition_type-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
+* [`default_ignorable_code_point`](#default_ignorable_code_point) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`deprecated`](#deprecated) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`diacritic`](#diacritic) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`digit`](#digit) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`disable< R... >`](#disable-r-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`discard`](#discard) <sup>[(meta rules)](#meta-rules)</sup>
-* [`east_asian_width< V >`](#east-asian-width-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
+* [`east_asian_width< V >`](#east_asian_width-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
 * [`enable< R... >`](#enable-r-) <sup>[(meta-rules)](#meta-rules)</sup>
 * [`eof`](#eof) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`eol`](#eol) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`eolf`](#eolf) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`extender`](#extender) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`failure`](#failure) <sup>[(atomic rules)](#atomic-rules)</sup>
-* [`full_composition_exclusion`](#full-composition-exclusion) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`general_category< V >`](#general-category-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
-* [`grapheme_base`](#grapheme-base) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`grapheme_cluster_break< V >`](#grapheme-cluster-break-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
-* [`grapheme_extend`](#grapheme-extend) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`grapheme_link`](#grapheme-link) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`hangul_syllable_type< V >`](#hangul-syllable-type-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
-* [`hex_digit`](#hex-digit) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`full_composition_exclusion`](#full_composition_exclusion) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`general_category< V >`](#general_category-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
+* [`grapheme_base`](#grapheme_base) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`grapheme_cluster_break< V >`](#grapheme_cluster_break-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
+* [`grapheme_extend`](#grapheme_extend) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`grapheme_link`](#grapheme_link) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`hangul_syllable_type< V >`](#hangul_syllable_type-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
+* [`hex_digit`](#hex_digit) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`hyphen`](#hyphen) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`id_continue`](#id-continue) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`id_start`](#id-start) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`id_continue`](#id_continue) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`id_start`](#id_start) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`identifier_first`](#identifier_first) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`identifier_other`](#identifier_other) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`identifier`](#identifier) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`ideographic`](#ideographic) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`ids_binary_operator`](#ids-binary-operator) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`ids_trinary_operator`](#ids-trinary-operator) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`ids_binary_operator`](#ids_binary_operator) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`ids_trinary_operator`](#ids_trinary_operator) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`if_apply< R, A... >`](#if_apply-r-a-) <sup>[(action rules)](#action-rules)</sup>
 * [`if_must< R, S... >`](#if_must-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`if_must_else< R, S, T >`](#if_must_else-r-s-t-) <sup>[(convenience)](#convenience)</sup>
 * [`if_then_else< R, S, T >`](#if_then_else-r-s-t-) <sup>[(convenience)](#convenience)</sup>
 * [`istring< C, D, ... >`](#istring-c-d--) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`join_control`](#join-control) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`joining_group< V >`](#joining-group-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
-* [`joining_type< V >`](#joining-type-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
+* [`join_control`](#join_control) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`joining_group< V >`](#joining_group-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
+* [`joining_type< V >`](#joining_type-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
 * [`keyword< C, ... >`](#keyword-c--) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`lead_canonical_combining_class< V >`](#lead-canonical-combining-class-v-) <sup>[(icu rules)](#convenience-rules-for-value-properties)</sup>
-* [`line_break< V >`](#line-break-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
+* [`lead_canonical_combining_class< V >`](#lead_canonical_combining_class-v-) <sup>[(icu rules)](#convenience-rules-for-value-properties)</sup>
+* [`line_break< V >`](#line_break-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
 * [`list< R, S >`](#list-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`list< R, S, P >`](#list-r-s-p-) <sup>[(convenience)](#convenience)</sup>
 * [`list_must< R, S >`](#list_must-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`list_must< R, S, P >`](#list_must-r-s-p-) <sup>[(convenience)](#convenience)</sup>
 * [`list_tail< R, S >`](#list_tail-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`list_tail< R, S, P >`](#list_tail-r-s-p-) <sup>[(convenience)](#convenience)</sup>
-* [`logical_order_exception`](#logical-order-exception) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`logical_order_exception`](#logical_order_exception) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`lower`](#lower) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`lowercase`](#lowercase) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`mask_not_one< M, C, ... >`](#mask_not_one-m-c--) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
@@ -1559,11 +1559,11 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`math`](#math) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`minus< M, S >`](#minus-m-s-) <sup>[(convenience)](#convenience)</sup>
 * [`must< R... >`](#must-r-) <sup>[(convenience)](#convenience)</sup>
-* [`nfc_inert`](#nfc-inert) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`nfd_inert`](#nfd-inert) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`nfkc_inert`](#nfkc-inert) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`nfkd_inert`](#nfkd-inert) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`noncharacter_code_point`](#noncharacter-code-point) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`nfc_inert`](#nfc_inert) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`nfd_inert`](#nfd_inert) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`nfkc_inert`](#nfkc_inert) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`nfkd_inert`](#nfkd_inert) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`noncharacter_code_point`](#noncharacter_code_point) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`not_at< R... >`](#not_at-r-) <sup>[(combinators)](#combinators)</sup>
 * [`not_one< C, ... >`](#not_one-c--) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`not_one< C, ... >`](#not_one-c---1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
@@ -1582,7 +1582,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`not_range< C, D >`](#not_range-c-d--6) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
 * [`not_range< C, D >`](#not_range-c-d--7) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
 * [`nul`](#nul) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`numeric_type< V >`](#numeric-type-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
+* [`numeric_type< V >`](#numeric_type-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
 * [`one< C, ... >`](#one-c--) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`one< C, ... >`](#one-c---1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
 * [`one< C, ... >`](#one-c---2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
@@ -1594,17 +1594,17 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`opt< R... >`](#opt-r-) <sup>[(combinators)](#combinators)</sup>
 * [`pad< R, S, T = S >`](#pad-r-s-t--s-) <sup>[(convenience)](#convenience)</sup>
 * [`pad_opt< R, P >`](#pad_opt-r-p-) <sup>[(convenience)](#convenience)</sup>
-* [`pattern_syntax`](#pattern-syntax) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`pattern_white_space`](#pattern-white-space) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`pattern_syntax`](#pattern_syntax) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`pattern_white_space`](#pattern_white_space) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`plus< R, ... >`](#plus-r--) <sup>[(combinators)](#combinators)</sup>
-* [`posix_alnum`](#posix-alnum) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`posix_blank`](#posix-blank) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`posix_graph`](#posix-graph) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`posix_print`](#posix-print) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`posix_xdigit`](#posix-xdigit) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`posix_alnum`](#posix_alnum) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`posix_blank`](#posix_blank) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`posix_graph`](#posix_graph) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`posix_print`](#posix_print) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`posix_xdigit`](#posix_xdigit) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`print`](#print) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`property_value< P, V >`](#property-value-p-v-) <sup>[(icu rules)](#basic-rules)</sup>
-* [`quotation_mark`](#quotation-mark) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`property_value< P, V >`](#property_value-p-v-) <sup>[(icu rules)](#basic-rules)</sup>
+* [`quotation_mark`](#quotation_mark) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`radical`](#radical) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`raise< T >`](#raise-t-) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`range< C, D >`](#range-c-d-) <sup>[(ascii rules)](#ascii-rules)</sup>
@@ -1637,13 +1637,13 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`rep_min_max< Min, Max, R... >`](#rep_min_max-min-max-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_opt< Num, R... >`](#rep_opt-num-r-) <sup>[(convenience)](#convenience)</sup>
 * [`require< Num >`](#require-num-) <sup>[(meta-rules)](#meta-rules)</sup>
-* [`s_term`](#s-term) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`segment_starter`](#segment-starter) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`sentence_break< V >`](#sentence-break-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
+* [`s_term`](#s_term) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`segment_starter`](#segment_starter) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`sentence_break< V >`](#sentence_break-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
 * [`seq< R... >`](#seq-r-) <sup>[(combinators)](#combinators)</sup>
 * [`seven`](#seven) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`shebang`](#shebang) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`soft_dotted`](#soft-dotted) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`soft_dotted`](#soft_dotted) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`sor< R... >`](#sor-r-) <sup>[(combinators)](#combinators)</sup>
 * [`space`](#space) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`star< R, ... >`](#star-r--) <sup>[(combinators)](#combinators)</sup>
@@ -1661,8 +1661,8 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`TAO_PEGTL_ISTRING( "..." )`](#tao_pegtl_istring--) <sup>[(ascii rules)](#ascii_rules)</sup>
 * [`TAO_PEGTL_KEYWORD( "..." )`](#tao_pegtl_keyword--) <sup>[(ascii rules)](#ascii_rules)</sup>
 * [`TAO_PEGTL_STRING( "..." )`](#tao_pegtl_string--) <sup>[(ascii rules)](#ascii_rules)</sup>
-* [`terminal_punctuation`](#terminal-punctuation) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`trail_canonical_combining_class< V >`](#trail-canonical-combining-class-v-) <sup>[(icu rules)](#convenience-rules-for-value-properties)</sup>
+* [`terminal_punctuation`](#terminal_punctuation) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`trail_canonical_combining_class< V >`](#trail_canonical_combining_class-v-) <sup>[(icu rules)](#convenience-rules-for-value-properties)</sup>
 * [`try_catch< R... >`](#try_catch-r-) <sup>[(convenience)](#convenience)</sup>
 * [`try_catch_type< E, R... >`](#try_catch_type-e-r-) <sup>[(convenience)](#convenience)</sup>
 * [`two< C >`](#two-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
@@ -1671,11 +1671,11 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`until< R, S, ... >`](#until-r-s--) <sup>[(convenience)](#convenience)</sup>
 * [`upper`](#upper) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`uppercase`](#uppercase) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`variation_selector`](#variation-selector) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`white_space`](#white-space) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`word_break< V >`](#word-break-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
+* [`variation_selector`](#variation_selector) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`white_space`](#white_space) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`word_break< V >`](#word_break-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
 * [`xdigit`](#xdigit) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`xid_continue`](#xid-continue) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`xid_start`](#xid-start) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`xid_continue`](#xid_continue) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
+* [`xid_start`](#xid_start) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 
 Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey
