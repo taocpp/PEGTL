@@ -550,11 +550,12 @@ The following limitations apply to the UTF-16 and UTF-32 rules:
 
 Unaligned memory is no problem on x86 compatible processors; on some other architectures like ARM an unaligned access will crash the application.
 
-In the following descriptions a Unicode code point is considered *valid* when it is in the range `0` to `0x10ffff`, and the parameter N stands for the size of the encoding of a single Unicode code point, i.e.
+In the following descriptions a Unicode code point is considered *valid* when it is in the range `0` to `0x10ffff`.
+The parameter N stands for the size of the encoding of the next Unicode code point in the input, i.e.
 
-* for the multi-byte-sequence-aware UTF-8 rules a value of 1, 2, 3 or 4,
-* for the surrogate-pair-aware UTF-16 rules a value of either 2 or 4,
-* for UTF-32 always 4.
+* for UTF-8 the rules are multi-byte-sequence-aware and N is either 1, 2, 3 or 4,
+* for UTF-16 the rules are surrogate-pair-aware and N is either 2 or 4, and
+* for UTF-32 everything is simple and N is always 4.
 
 Following what appears to be "best" practice for UTF-16, it is *not* an error when a code unit in the range `0xd800` to `0xdfff` is encountered outside of a valid surrogate pair!
 
@@ -612,13 +613,13 @@ Following what appears to be "best" practice for UTF-16, it is *not* an error wh
 
 These rules are available in multiple versions,
 
-* in namespace `tao::pegtl::uint8` to parse 8-bit values,
-* in namespace `tao::pegtl::uint16_be` to parse 16-bit big-endian values,
-* in namespace `tao::pegtl::uint16_le` to parse 16-bit little-endian values,
-* in namespace `tao::pegtl::uint32_be` to parse 32-bit big-endian values,
-* in namespace `tao::pegtl::uint32_le` to parse 32-bit little-endian values,
-* in namespace `tao::pegtl::uint64_be` to parse 64-bit big-endian values, and
-* in namespace `tao::pegtl::uint64_le` to parse 64-bit little-endian values.
+* in namespace `tao::pegtl::uint8` to parse 8-bit integer values,
+* in namespace `tao::pegtl::uint16_be` to parse big-endian 16-bit integer values,
+* in namespace `tao::pegtl::uint16_le` to parse little-endian 16-bit integer values,
+* in namespace `tao::pegtl::uint32_be` to parse big-endian 32-bit integer values,
+* in namespace `tao::pegtl::uint32_le` to parse little-endian 32-bit integer values,
+* in namespace `tao::pegtl::uint64_be` to parse big-endian 64-bit integer values, and
+* in namespace `tao::pegtl::uint64_le` to parse little-endian 64-bit integer values.
 
 These rules read one or more bytes from the input to form (and match) an 8, 16, 32 or 64-bit value, respectively, and template parameters are given as matching `std::uint8_t`, `std::uint16_t`, `std::uint32_t` or `std::uin64_t`.
 
