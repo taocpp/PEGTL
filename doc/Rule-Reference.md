@@ -32,12 +32,12 @@ and therefore which rule will be used to call the control class' `raise()`-metho
 * [Atomic Rules](#atomic-rules)
 * [ASCII Rules](#ascii-rules)
 * [Unicode Rules](#unicode-rules)
-* [Binary Rules](#binary-rules)
 * [ICU Rules](#icu-rules)
   * [Basic Rules](#basic-rules)
   * [Convenience Rules for Binary Properties](#convenience-rules-for-binary-properties)
   * [Convenience Rules for Enumerated Properties](#convenience-rules-for-enumerated-properties)
   * [Convenience Rules for Value Properties](#convenience-rules-for-value-properties)
+* [Binary Rules](#binary-rules)
 * [Full Index](#full-index)
 
 ## Meta Rules
@@ -609,100 +609,6 @@ Following what appears to be "best" practice for UTF-16, it is *not* an error wh
 
 * Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
 
-## Binary Rules
-
-These rules are available in multiple versions,
-
-* in namespace `tao::pegtl::uint8` to parse 8-bit integer values,
-* in namespace `tao::pegtl::uint16_be` to parse big-endian 16-bit integer values,
-* in namespace `tao::pegtl::uint16_le` to parse little-endian 16-bit integer values,
-* in namespace `tao::pegtl::uint32_be` to parse big-endian 32-bit integer values,
-* in namespace `tao::pegtl::uint32_le` to parse little-endian 32-bit integer values,
-* in namespace `tao::pegtl::uint64_be` to parse big-endian 64-bit integer values, and
-* in namespace `tao::pegtl::uint64_le` to parse little-endian 64-bit integer values.
-
-These rules read one or more bytes from the input to form (and match) an 8, 16, 32 or 64-bit value, respectively, and template parameters are given as matching `std::uint8_t`, `std::uint16_t`, `std::uint32_t` or `std::uin64_t`.
-
-In the following descriptions the parameter N is the size of a single value in bytes, i.e. either 1, 2, 4 or 8.
-The term *input value* indicates a correspondingly sized integer value read from successive bytes of the input.
-
-###### `any`
-
-* Succeeds when the input contains at least N bytes.
-* Consumes N bytes when it succeeds.
-
-###### `mask_not_one< M, C, ... >`
-
-* Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value masked with `M` is **not** one of the given values `C, ...`.
-* Consumes N bytes when it succeeds.
-
-###### `mask_not_range< M, C, D >`
-
-* Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value `B` satisfies `( B & M ) < C || D < ( B & M )`.
-* Consumes N bytes when it succeeds.
-
-###### `mask_one< M, C, ... >`
-
-* Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value masked with `M` is one of the given values `C, ...`.
-* Consumes N bytes when it succeeds.
-
-###### `mask_range< M, C, D >`
-
-* Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value `B` satisfies `C <= ( B & M ) && ( B & M ) <= D`.
-* Consumes N bytes when it succeeds.
-
-###### `mask_ranges< M, C1, D1, C2, D2, ... >`
-
-* Equivalent to `sor< mask_range< M, C1, D1 >, mask_range< M, C2, D2 >, ... >`.
-
-###### `mask_ranges< M, C1, D1, C2, D2, ..., E >`
-
-* Equivalent to `sor< mask_range< M, C1, D1 >, mask_range< M, C2, D2 >, ..., mask_one< M, E > >`.
-
-###### `mask_string< M, C1, C2, ... >`
-
-* Equivalent to `seq< mask_one< M, C1 >, mask_one< M, C2 >, ... >`.
-
-###### `not_one< C, ... >`
-
-* Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value is **not** one of the given values `C, ...`.
-* Consumes N bytes when it succeeds.
-
-###### `not_range< C, D >`
-
-* Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value `B` satisfies `B < C || D < B`.
-* Consumes N bytes when it succeeds.
-
-###### `one< C, ... >`
-
-* Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value is one of the given values `C, ...`.
-* Consumes N bytes when it succeeds.
-
-###### `range< C, D >`
-
-* Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value `B` satisfies `C <= B && B <= D`.
-* Consumes N byte when it succeeds.
-
-###### `ranges< C1, D1, C2, D2, ... >`
-
-* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ... >`.
-
-###### `ranges< C1, D1, C2, D2, ..., E >`
-
-* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ..., one< E > >`.
-
-###### `string< C1, C2, ... >`
-
-* Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
-
 ## ICU Rules
 
 These rules depend on the [International Components for Unicode (ICU)](http://icu-project.org/) that provide the means to match characters with specific Unicode character properties.
@@ -1071,6 +977,100 @@ Convenience wrappers for enumerated properties that return a value instead of an
 
 * `V` is of type `std::uint8_t`.
 * Equivalent to `property_value< UCHAR_TRAIL_CANONICAL_COMBINING_CLASS, V >`.
+
+## Binary Rules
+
+These rules are available in multiple versions,
+
+* in namespace `tao::pegtl::uint8` to parse 8-bit integer values,
+* in namespace `tao::pegtl::uint16_be` to parse big-endian 16-bit integer values,
+* in namespace `tao::pegtl::uint16_le` to parse little-endian 16-bit integer values,
+* in namespace `tao::pegtl::uint32_be` to parse big-endian 32-bit integer values,
+* in namespace `tao::pegtl::uint32_le` to parse little-endian 32-bit integer values,
+* in namespace `tao::pegtl::uint64_be` to parse big-endian 64-bit integer values, and
+* in namespace `tao::pegtl::uint64_le` to parse little-endian 64-bit integer values.
+
+These rules read one or more bytes from the input to form (and match) an 8, 16, 32 or 64-bit value, respectively, and template parameters are given as matching `std::uint8_t`, `std::uint16_t`, `std::uint32_t` or `std::uin64_t`.
+
+In the following descriptions the parameter N is the size of a single value in bytes, i.e. either 1, 2, 4 or 8.
+The term *input value* indicates a correspondingly sized integer value read from successive bytes of the input.
+
+###### `any`
+
+* Succeeds when the input contains at least N bytes.
+* Consumes N bytes when it succeeds.
+
+###### `mask_not_one< M, C, ... >`
+
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value masked with `M` is **not** one of the given values `C, ...`.
+* Consumes N bytes when it succeeds.
+
+###### `mask_not_range< M, C, D >`
+
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value `B` satisfies `( B & M ) < C || D < ( B & M )`.
+* Consumes N bytes when it succeeds.
+
+###### `mask_one< M, C, ... >`
+
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value masked with `M` is one of the given values `C, ...`.
+* Consumes N bytes when it succeeds.
+
+###### `mask_range< M, C, D >`
+
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value `B` satisfies `C <= ( B & M ) && ( B & M ) <= D`.
+* Consumes N bytes when it succeeds.
+
+###### `mask_ranges< M, C1, D1, C2, D2, ... >`
+
+* Equivalent to `sor< mask_range< M, C1, D1 >, mask_range< M, C2, D2 >, ... >`.
+
+###### `mask_ranges< M, C1, D1, C2, D2, ..., E >`
+
+* Equivalent to `sor< mask_range< M, C1, D1 >, mask_range< M, C2, D2 >, ..., mask_one< M, E > >`.
+
+###### `mask_string< M, C1, C2, ... >`
+
+* Equivalent to `seq< mask_one< M, C1 >, mask_one< M, C2 >, ... >`.
+
+###### `not_one< C, ... >`
+
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value is **not** one of the given values `C, ...`.
+* Consumes N bytes when it succeeds.
+
+###### `not_range< C, D >`
+
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value `B` satisfies `B < C || D < B`.
+* Consumes N bytes when it succeeds.
+
+###### `one< C, ... >`
+
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value is one of the given values `C, ...`.
+* Consumes N bytes when it succeeds.
+
+###### `range< C, D >`
+
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value `B` satisfies `C <= B && B <= D`.
+* Consumes N byte when it succeeds.
+
+###### `ranges< C1, D1, C2, D2, ... >`
+
+* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ... >`.
+
+###### `ranges< C1, D1, C2, D2, ..., E >`
+
+* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ..., one< E > >`.
+
+###### `string< C1, C2, ... >`
+
+* Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
 
 ## Full Index
 
