@@ -981,13 +981,13 @@ Convenience wrappers for enumerated properties that return a value instead of an
 
 These rules are available in multiple versions,
 
-* in namespace `tao::pegtl::uint8` to parse 8-bit integer values,
-* in namespace `tao::pegtl::uint16_be` to parse big-endian 16-bit integer values,
-* in namespace `tao::pegtl::uint16_le` to parse little-endian 16-bit integer values,
-* in namespace `tao::pegtl::uint32_be` to parse big-endian 32-bit integer values,
-* in namespace `tao::pegtl::uint32_le` to parse little-endian 32-bit integer values,
-* in namespace `tao::pegtl::uint64_be` to parse big-endian 64-bit integer values, and
-* in namespace `tao::pegtl::uint64_le` to parse little-endian 64-bit integer values.
+* in namespace `tao::pegtl::uint8` for 8-bit integer values,
+* in namespace `tao::pegtl::uint16_be` for big-endian 16-bit integer values,
+* in namespace `tao::pegtl::uint16_le` for little-endian 16-bit integer values,
+* in namespace `tao::pegtl::uint32_be` for big-endian 32-bit integer values,
+* in namespace `tao::pegtl::uint32_le` for little-endian 32-bit integer values,
+* in namespace `tao::pegtl::uint64_be` for big-endian 64-bit integer values, and
+* in namespace `tao::pegtl::uint64_le` for little-endian 64-bit integer values.
 
 These rules read one or more bytes from the input to form (and match) an 8, 16, 32 or 64-bit value, respectively, and template parameters are given as matching `std::uint8_t`, `std::uint16_t`, `std::uint32_t` or `std::uin64_t`.
 
