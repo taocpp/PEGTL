@@ -629,7 +629,7 @@ To use these rules it is necessary to provide an include path to the ICU library
 * `tao/pegtl/contrib/icu/utf32.hpp`
 
 The convenience ICU rules are supplied for all properties found in ICU version 4.4.
-Users of later versions can manually create specialisations of the basic rules for additional enumeration values found in those later versions of the ICU library.
+Users of later versions can use the basic rules manually or create their own convenience rules derived from the basic rules for additional enumeration values found in those later versions of the ICU library.
 
 ### Basic ICU Rules
 
