@@ -712,7 +712,7 @@ Because of the external dependency the rules are in the contrib-section, and the
 * `tao/pegtl/contrib/icu/utf16.hpp`
 * `tao/pegtl/contrib/icu/utf32.hpp`
 
-To use these rules it is necessary to privde an include path to the ICU library, and to link the application against `libicu`.
+To use these rules it is necessary to provide an include path to the ICU library, and to link the application against `libicu`.
 
 These rules are available in multiple versions,
 
