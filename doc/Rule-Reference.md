@@ -34,10 +34,7 @@ and therefore which rule will be used to call the control class' `raise()`-metho
 * [UTF-8 Rules](#utf-8-rules)
 * [UTF-16 Rules](#utf-16-rules)
 * [UTF-32 Rules](#utf-32-rules)
-* [UINT-8 Rules](#uint-8-rules)
-* [UINT-16 Rules](#uint-16-rules)
-* [UINT-32 Rules](#uint-32-rules)
-* [UINT-64 Rules](#uint-64-rules)
+* [Binary Rules](#binary-rules)
 * [ICU Rules](#icu-rules)
   * [Basic Rules](#basic-rules)
   * [Convenience Rules for Binary Properties](#convenience-rules-for-binary-properties)
@@ -731,38 +728,51 @@ Unaligned memory is no problem on x86 compatible processors; on some other archi
 
 * Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
 
-## UINT-8 Rules
+## Binary Rules
 
-These rules are in namespace `tao::pegtl::uint8`.
+These rules are available in multiple versions,
+
+* in namespace `tao::pegtl::uint8` to parse 8-bit values,
+* in namespace `tao::pegtl::uint16_be` to parse 16-bit big-endian values,
+* in namespace `tao::pegtl::uint16_le` to parse 16-bit little-endian values,
+* in namespace `tao::pegtl::uint32_be` to parse 32-bit big-endian values,
+* in namespace `tao::pegtl::uint32_le` to parse 32-bit little-endian values,
+* in namespace `tao::pegtl::uint64_be` to parse 64-bit big-endian values, and
+* in namespace `tao::pegtl::uint64_le` to parse 64-bit little-endian values.
+
+These rules read one or more bytes from the input to form (and match) an 8, 16, 32 or 64-bit value, respectively, and template parameters are given as matching `std::uint8_t`, `std::uint16_t`, `std::uint32_t` or `std::uin64_t`.
+
+In the following descriptions the parameter N is the size of a single value in bytes, i.e. either 1, 2, 4 or 8.
+The term *input value* indicates a correspondingly sized integer value read from successive bytes of the input.
 
 ###### `any`
 
-* Succeeds when the input contains at least 1 byte.
-* Consumes 1 byte when it succeeds.
+* Succeeds when the input contains at least N bytes.
+* Consumes N bytes when it succeeds.
 
 ###### `mask_not_one< M, C, ... >`
 
-* Succeeds when the input contains at least 1 byte, and:
-* The input byte masked with `M` is **not** one of the given bytes `C, ...`.
-* Consumes 1 byte when it succeeds.
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value masked with `M` is **not** one of the given values `C, ...`.
+* Consumes N bytes when it succeeds.
 
 ###### `mask_not_range< M, C, D >`
 
-* Succeeds when the input contains at least 1 byte, and:
-* The input byte `B` satisfies `( B & M ) < C || D < ( B & M )`.
-* Consumes 1 byte when it succeeds.
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value `B` satisfies `( B & M ) < C || D < ( B & M )`.
+* Consumes N bytes when it succeeds.
 
 ###### `mask_one< M, C, ... >`
 
-* Succeeds when the input contains at least 1 byte, and:
-* The input byte masked with `M` is one of the given bytes `C, ...`.
-* Consumes 1 byte when it succeeds.
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value masked with `M` is one of the given values `C, ...`.
+* Consumes N bytes when it succeeds.
 
 ###### `mask_range< M, C, D >`
 
-* Succeeds when the input contains at least 1 byte, and:
-* The input byte `B` satisfies `C <= ( B & M ) && ( B & M ) <= D`.
-* Consumes 1 byte when it succeeds.
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value `B` satisfies `C <= ( B & M ) && ( B & M ) <= D`.
+* Consumes N bytes when it succeeds.
 
 ###### `mask_ranges< M, C1, D1, C2, D2, ... >`
 
@@ -778,285 +788,27 @@ These rules are in namespace `tao::pegtl::uint8`.
 
 ###### `not_one< C, ... >`
 
-* Succeeds when the input contains at least 1 byte, and:
-* The input byte is **not** one of the given bytes `C, ...`.
-* Consumes 1 byte when it succeeds.
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value is **not** one of the given values `C, ...`.
+* Consumes N bytes when it succeeds.
 
 ###### `not_range< C, D >`
 
-* Succeeds when the input contains at least 1 byte, and:
-* The input byte `B` satisfies `B < C || D < B`.
-* Consumes 1 byte when it succeeds.
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value `B` satisfies `B < C || D < B`.
+* Consumes N bytes when it succeeds.
 
 ###### `one< C, ... >`
 
-* Succeeds when the input contains at least 1 byte, and:
-* The input byte is one of the given bytes `C, ...`.
-* Consumes 1 byte when it succeeds.
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value is one of the given values `C, ...`.
+* Consumes N bytes when it succeeds.
 
 ###### `range< C, D >`
 
-* Succeeds when the input contains at least 1 byte, and:
-* The input byte `B` satisfies `C <= B && B <= D`.
-* Consumes 1 byte when it succeeds.
-
-###### `ranges< C1, D1, C2, D2, ... >`
-
-* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ... >`.
-
-###### `ranges< C1, D1, C2, D2, ..., E >`
-
-* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ..., one< E > >`.
-
-###### `string< C1, C2, ... >`
-
-* Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
-
-## UINT-16 Rules
-
-These rules are available in two versions,
-
-* in namespace `tao::pegtl::uint16_be` for big-endian values, and
-* in namespace `tao::pegtl::uint16_le` for little-endian values.
-
-The parameters are given as `std::uint16_t`.
-
-###### `any`
-
-* Succeeds when the input contains at least 2 bytes.
-* Consumes 2 bytes when it succeeds.
-
-###### `mask_not_one< M, C, ... >`
-
-* Succeeds when the input contains at least 2 bytes, and:
-* The (endian adjusted) input `uint16` masked with `M` is **not** one of the given values `C, ...`.
-* Consumes 2 bytes when it succeeds.
-
-###### `mask_not_range< M, C, D >`
-
-* Succeeds when the input contains at least 2 bytes, and:
-* The (endian adjusted) input `uint16` `B` satisfies `( B & M ) < C || D < ( B & M )`.
-* Consumes 2 bytes when it succeeds.
-
-###### `mask_one< M, C, ... >`
-
-* Succeeds when the input contains at least 2 bytes, and:
-* The (endian adjusted) input `uint16` masked with `M` is one of the given values `C, ...`.
-* Consumes 2 bytes when it succeeds.
-
-###### `mask_range< M, C, D >`
-
-* Succeeds when the input contains at least 2 bytes, and:
-* The (endian adjusted) input `uint16` `B` satisfies `C <= ( B & M ) && ( B & M ) <= D`.
-* Consumes 2 bytes when it succeeds.
-
-###### `mask_ranges< M, C1, D1, C2, D2, ... >`
-
-* Equivalent to `sor< mask_range< M, C1, D1 >, mask_range< M, C2, D2 >, ... >`.
-
-###### `mask_ranges< M, C1, D1, C2, D2, ..., E >`
-
-* Equivalent to `sor< mask_range< M, C1, D1 >, mask_range< M, C2, D2 >, ..., mask_one< M, E > >`.
-
-###### `mask_string< M, C1, C2, ... >`
-
-* Equivalent to `seq< mask_one< M, C1 >, mask_one< M, C2 >, ... >`.
-
-###### `not_one< C, ... >`
-
-* Succeeds when the input contains at least 2 bytes, and:
-* The (endian adjusted) input `uint16` is **not** one of the given values `C, ...`.
-* Consumes 2 bytes when it succeeds.
-
-###### `not_range< C, D >`
-
-* Succeeds when the input contains at least 2 bytes, and:
-* The (endian adjusted) input `uint16` `B` satisfies `B < C || D < B`.
-* Consumes 2 bytes when it succeeds.
-
-###### `one< C, ... >`
-
-* Succeeds when the input contains at least 2 bytes, and:
-* The (endian adjusted) input `uint16` is one of the given values `C, ...`.
-* Consumes 2 bytes when it succeeds.
-
-###### `range< C, D >`
-
-* Succeeds when the input contains at least 2 bytes, and:
-* The (endian adjusted) input `uint16` `B` satisfies `C <= B && B <= D`.
-* Consumes 2 byte when it succeeds.
-
-###### `ranges< C1, D1, C2, D2, ... >`
-
-* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ... >`.
-
-###### `ranges< C1, D1, C2, D2, ..., E >`
-
-* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ..., one< E > >`.
-
-###### `string< C1, C2, ... >`
-
-* Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
-
-## UINT-32 Rules
-
-These rules are available in two versions,
-
-* in namespace `tao::pegtl::uint32_be` for big-endian values, and
-* in namespace `tao::pegtl::uint32_le` for little-endian values.
-
-The parameters are given as `std::uint32_t`.
-
-###### `any`
-
-* Succeeds when the input contains at least 4 bytes.
-* Consumes 4 bytes when it succeeds.
-
-###### `mask_not_one< M, C, ... >`
-
-* Succeeds when the input contains at least 4 bytes, and:
-* The (endian adjusted) input `uint32` masked with `M` is **not** one of the given values `C, ...`.
-* Consumes 4 bytes when it succeeds.
-
-###### `mask_not_range< M, C, D >`
-
-* Succeeds when the input contains at least 4 bytes, and:
-* The (endian adjusted) input `uint32` `B` satisfies `( B & M ) < C || D < ( B & M )`.
-* Consumes 4 bytes when it succeeds.
-
-###### `mask_one< M, C, ... >`
-
-* Succeeds when the input contains at least 4 bytes, and:
-* The (endian adjusted) input `uint32` masked with `M` is one of the given values `C, ...`.
-* Consumes 4 bytes when it succeeds.
-
-###### `mask_range< M, C, D >`
-
-* Succeeds when the input contains at least 4 bytes, and:
-* The (endian adjusted) input `uint32` `B` satisfies `C <= ( B & M ) && ( B & M ) <= D`.
-* Consumes 4 bytes when it succeeds.
-
-###### `mask_ranges< M, C1, D1, C2, D2, ... >`
-
-* Equivalent to `sor< mask_range< M, C1, D1 >, mask_range< M, C2, D2 >, ... >`.
-
-###### `mask_ranges< M, C1, D1, C2, D2, ..., E >`
-
-* Equivalent to `sor< mask_range< M, C1, D1 >, mask_range< M, C2, D2 >, ..., mask_one< M, E > >`.
-
-###### `mask_string< M, C1, C2, ... >`
-
-* Equivalent to `seq< mask_one< M, C1 >, mask_one< M, C2 >, ... >`.
-
-###### `not_one< C, ... >`
-
-* Succeeds when the input contains at least 4 bytes, and:
-* The (endian adjusted) input `uint32` is **not** one of the given values `C, ...`.
-* Consumes 4 bytes when it succeeds.
-
-###### `not_range< C, D >`
-
-* Succeeds when the input contains at least 4 bytes, and:
-* The (endian adjusted) input `uint32` `B` satisfies `B < C || D < B`.
-* Consumes 4 bytes when it succeeds.
-
-###### `one< C, ... >`
-
-* Succeeds when the input contains at least 4 bytes, and:
-* The (endian adjusted) input `uint32` is one of the given values `C, ...`.
-* Consumes 1 byte when it succeeds.
-
-###### `range< C, D >`
-
-* Succeeds when the input contains at least 4 bytes, and:
-* The (endian adjusted) input `uint32` `B` satisfies `C <= B && B <= D`.
-* Consumes 4 byte when it succeeds.
-
-###### `ranges< C1, D1, C2, D2, ... >`
-
-* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ... >`.
-
-###### `ranges< C1, D1, C2, D2, ..., E >`
-
-* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ..., one< E > >`.
-
-###### `string< C1, C2, ... >`
-
-* Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
-
-## UINT-64 Rules
-
-These rules are available in two versions,
-
-* in namespace `tao::pegtl::uint64_be` for big-endian values, and
-* in namespace `tao::pegtl::uint64_le` for little-endian values.
-
-The parameters are given as `std::uint64_t`.
-
-###### `any`
-
-* Succeeds when the input contains at least 8 bytes.
-* Consumes 8 bytes when it succeeds.
-
-###### `mask_not_one< M, C, ... >`
-
-* Succeeds when the input contains at least 8 bytes, and:
-* The (endian adjusted) input `uint64` masked with `M` is **not** one of the given values `C, ...`.
-* Consumes 8 bytes when it succeeds.
-
-###### `mask_not_range< M, C, D >`
-
-* Succeeds when the input contains at least 8 bytes, and:
-* The (endian adjusted) input `uint64` `B` satisfies `( B & M ) < C || D < ( B & M )`.
-* Consumes 8 bytes when it succeeds.
-
-###### `mask_one< M, C, ... >`
-
-* Succeeds when the input contains at least 8 bytes, and:
-* The (endian adjusted) input `uint64` masked with `M` is one of the given values `C, ...`.
-* Consumes 8 bytes when it succeeds.
-
-###### `mask_range< M, C, D >`
-
-* Succeeds when the input contains at least 8 bytes, and:
-* The (endian adjusted) input `uint64` `B` satisfies `C <= ( B & M ) && ( B & M ) <= D`.
-* Consumes 8 bytes when it succeeds.
-
-###### `mask_ranges< M, C1, D1, C2, D2, ... >`
-
-* Equivalent to `sor< mask_range< M, C1, D1 >, mask_range< M, C2, D2 >, ... >`.
-
-###### `mask_ranges< M, C1, D1, C2, D2, ..., E >`
-
-* Equivalent to `sor< mask_range< M, C1, D1 >, mask_range< M, C2, D2 >, ..., mask_one< M, E > >`.
-
-###### `mask_string< M, C1, C2, ... >`
-
-* Equivalent to `seq< mask_one< M, C1 >, mask_one< M, C2 >, ... >`.
-
-###### `not_one< C, ... >`
-
-* Succeeds when the input contains at least 8 bytes, and:
-* The (endian adjusted) input `uint64` is **not** one of the given values `C, ...`.
-* Consumes 8 bytes when it succeeds.
-
-###### `not_range< C, D >`
-
-* Succeeds when the input contains at least 8 bytes, and:
-* The (endian adjusted) input `uint64` `B` satisfies `B < C || D < B`.
-* Consumes 8 bytes when it succeeds.
-
-###### `one< C, ... >`
-
-* Succeeds when the input contains at least 8 bytes, and:
-* The (endian adjusted) input `uint64` is one of the given values `C, ...`.
-* Consumes 8 byte when it succeeds.
-
-###### `range< C, D >`
-
-* Succeeds when the input contains at least 8 bytes, and:
-* The (endian adjusted) input `uint64` `B` satisfies `C <= B && B <= D`.
-* Consumes 8 byte when it succeeds.
+* Succeeds when the input contains at least N bytes, and:
+* The (endian adjusted) input value `B` satisfies `C <= B && B <= D`.
+* Consumes N byte when it succeeds.
 
 ###### `ranges< C1, D1, C2, D2, ... >`
 
@@ -1444,10 +1196,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`any`](#any-1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
 * [`any`](#any-2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
 * [`any`](#any-3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`any`](#any-4) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`any`](#any-5) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`any`](#any-6) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`any`](#any-7) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
+* [`any`](#any-4) <sup>[(binary rules)](#binary-rules)</sup>
 * [`apply< A... >`](#apply-a-) <sup>[(action rules)](#action-rules)</sup>
 * [`apply0< A... >`](#apply0-a-) <sup>[(action rules)](#action-rules)</sup>
 * [`ascii_hex_digit`](#ascii_hex_digit) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
@@ -1528,34 +1277,13 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`logical_order_exception`](#logical_order_exception) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`lower`](#lower) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`lowercase`](#lowercase) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
-* [`mask_not_one< M, C, ... >`](#mask_not_one-m-c--) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`mask_not_one< M, C, ... >`](#mask_not_one-m-c---1) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`mask_not_one< M, C, ... >`](#mask_not_one-m-c---2) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`mask_not_one< M, C, ... >`](#mask_not_one-m-c---3) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
-* [`mask_not_range< M, C, D >`](#mask_not_range-m-c-d-) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`mask_not_range< M, C, D >`](#mask_not_range-m-c-d--1) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`mask_not_range< M, C, D >`](#mask_not_range-m-c-d--2) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`mask_not_range< M, C, D >`](#mask_not_range-m-c-d--3) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
-* [`mask_one< M, C, ... >`](#mask_one-m-c--) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`mask_one< M, C, ... >`](#mask_one-m-c---1) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`mask_one< M, C, ... >`](#mask_one-m-c---2) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`mask_one< M, C, ... >`](#mask_one-m-c---3) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
-* [`mask_range< M, C, D >`](#mask_range-m-c-d-) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`mask_range< M, C, D >`](#mask_range-m-c-d--1) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`mask_range< M, C, D >`](#mask_range-m-c-d--2) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`mask_range< M, C, D >`](#mask_range-m-c-d--3) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
-* [`mask_ranges< M, C1, D1, C2, D2, ... >`](#mask_ranges-m-c1-d1-c2-d2--) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`mask_ranges< M, C1, D1, C2, D2, ... >`](#mask_ranges-m-c1-d1-c2-d2---1) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`mask_ranges< M, C1, D1, C2, D2, ... >`](#mask_ranges-m-c1-d1-c2-d2---2) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`mask_ranges< M, C1, D1, C2, D2, ... >`](#mask_ranges-m-c1-d1-c2-d2---3) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
-* [`mask_ranges< M, C1, D1, C2, D2, ..., E >`](#mask_ranges-m-c1-d1-c2-d2--e-) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`mask_ranges< M, C1, D1, C2, D2, ..., E >`](#mask_ranges-m-c1-d1-c2-d2--e--1) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`mask_ranges< M, C1, D1, C2, D2, ..., E >`](#mask_ranges-m-c1-d1-c2-d2--e--2) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`mask_ranges< M, C1, D1, C2, D2, ..., E >`](#mask_ranges-m-c1-d1-c2-d2--e--3) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
-* [`mask_string< M, C1, C2, ... >`](#mask_string-m-c1-c2--) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`mask_string< M, C1, C2, ... >`](#mask_string-m-c1-c2---1) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`mask_string< M, C1, C2, ... >`](#mask_string-m-c1-c2---2) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`mask_string< M, C1, C2, ... >`](#mask_string-m-c1-c2---3) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
+* [`mask_not_one< M, C, ... >`](#mask_not_one-m-c--) <sup>[(binary rules)](#binary-rules)</sup>
+* [`mask_not_range< M, C, D >`](#mask_not_range-m-c-d-) <sup>[(binary rules)](#binary-rules)</sup>
+* [`mask_one< M, C, ... >`](#mask_one-m-c--) <sup>[(binary rules)](#binary-rules)</sup>
+* [`mask_range< M, C, D >`](#mask_range-m-c-d-) <sup>[(binary rules)](#binary-rules)</sup>
+* [`mask_ranges< M, C1, D1, C2, D2, ... >`](#mask_ranges-m-c1-d1-c2-d2--) <sup>[(binary rules)](#binary-rules)</sup>
+* [`mask_ranges< M, C1, D1, C2, D2, ..., E >`](#mask_ranges-m-c1-d1-c2-d2--e-) <sup>[(binary rules)](#binary-rules)</sup>
+* [`mask_string< M, C1, C2, ... >`](#mask_string-m-c1-c2--) <sup>[(binary rules)](#binary-rules)</sup>
 * [`math`](#math) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`minus< M, S >`](#minus-m-s-) <sup>[(convenience)](#convenience)</sup>
 * [`must< R... >`](#must-r-) <sup>[(convenience)](#convenience)</sup>
@@ -1569,28 +1297,19 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`not_one< C, ... >`](#not_one-c---1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
 * [`not_one< C, ... >`](#not_one-c---2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
 * [`not_one< C, ... >`](#not_one-c---3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`not_one< C, ... >`](#not_one-c---4) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`not_one< C, ... >`](#not_one-c---5) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`not_one< C, ... >`](#not_one-c---6) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`not_one< C, ... >`](#not_one-c---7) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
+* [`not_one< C, ... >`](#not_one-c---4) <sup>[(binary rules)](#binary-rules)</sup>
 * [`not_range< C, D >`](#not_range-c-d-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`not_range< C, D >`](#not_range-c-d--1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
 * [`not_range< C, D >`](#not_range-c-d--2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
 * [`not_range< C, D >`](#not_range-c-d--3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`not_range< C, D >`](#not_range-c-d--4) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`not_range< C, D >`](#not_range-c-d--5) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`not_range< C, D >`](#not_range-c-d--6) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`not_range< C, D >`](#not_range-c-d--7) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
+* [`not_range< C, D >`](#not_range-c-d--4) <sup>[(binary rules)](#binary-rules)</sup>
 * [`nul`](#nul) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`numeric_type< V >`](#numeric_type-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
 * [`one< C, ... >`](#one-c--) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`one< C, ... >`](#one-c---1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
 * [`one< C, ... >`](#one-c---2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
 * [`one< C, ... >`](#one-c---3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`one< C, ... >`](#one-c---4) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`one< C, ... >`](#one-c---5) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`one< C, ... >`](#one-c---6) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`one< C, ... >`](#one-c---7) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
+* [`one< C, ... >`](#one-c---4) <sup>[(binary rules)](#binary-rules)</sup>
 * [`opt< R... >`](#opt-r-) <sup>[(combinators)](#combinators)</sup>
 * [`pad< R, S, T = S >`](#pad-r-s-t--s-) <sup>[(convenience)](#convenience)</sup>
 * [`pad_opt< R, P >`](#pad_opt-r-p-) <sup>[(convenience)](#convenience)</sup>
@@ -1611,26 +1330,17 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`range< C, D >`](#range-c-d--1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
 * [`range< C, D >`](#range-c-d--2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
 * [`range< C, D >`](#range-c-d--3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`range< C, D >`](#range-c-d--4) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`range< C, D >`](#range-c-d--5) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`range< C, D >`](#range-c-d--6) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`range< C, D >`](#range-c-d--7) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
+* [`range< C, D >`](#range-c-d--4) <sup>[(binary rules)](#binary-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2--) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---4) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---5) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---6) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---7) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
+* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---4) <sup>[(binary rules)](#binary-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--4) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--5) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--6) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--7) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
+* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--4) <sup>[(binary rules)](#binary-rules)</sup>
 * [`rep< Num, R... >`](#rep-num-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_max< Max, R... >`](#rep_max-max-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_min< Min, R, ... >`](#rep_min-min-r--) <sup>[(convenience)](#convenience)</sup>
@@ -1653,10 +1363,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`string< C1, C2, ... >`](#string-c1-c2---1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
 * [`string< C1, C2, ... >`](#string-c1-c2---2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
 * [`string< C1, C2, ... >`](#string-c1-c2---3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`string< C1, C2, ... >`](#string-c1-c2---4) <sup>[(uint-8 rules)](#uint-8-rules)</sup>
-* [`string< C1, C2, ... >`](#string-c1-c2---5) <sup>[(uint-16 rules)](#uint-16-rules)</sup>
-* [`string< C1, C2, ... >`](#string-c1-c2---6) <sup>[(uint-32 rules)](#uint-32-rules)</sup>
-* [`string< C1, C2, ... >`](#string-c1-c2---7) <sup>[(uint-64 rules)](#uint-64-rules)</sup>
+* [`string< C1, C2, ... >`](#string-c1-c2---4) <sup>[(binary rules)](#binary-rules)</sup>
 * [`success`](#success) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`TAO_PEGTL_ISTRING( "..." )`](#tao_pegtl_istring--) <sup>[(ascii rules)](#ascii_rules)</sup>
 * [`TAO_PEGTL_KEYWORD( "..." )`](#tao_pegtl_keyword--) <sup>[(ascii rules)](#ascii_rules)</sup>
