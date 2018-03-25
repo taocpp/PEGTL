@@ -532,16 +532,16 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 
 These rules are available in multiple versions,
 
-* in namespace `tao::pegtl::utf8` to parse UTF-8,
-* in namespace `tao::pegtl::utf16_be` to parse big-endian UTF-16,
-* in namespace `tao::pegtl::utf16_le` to parse little-endian UTF-16,
-* in namespace `tao::pegtl::utf32_be` to parse big-endian UTF-32,
-* in namespace `tao::pegtl::utf32_le` to parse little-endian UTF-32.
+* in namespace `tao::pegtl::utf8` for UTF-8 encoded inputs,
+* in namespace `tao::pegtl::utf16_be` for big-endian UTF-16 encoded inputs,
+* in namespace `tao::pegtl::utf16_le` for little-endian UTF-16 encoded inputs,
+* in namespace `tao::pegtl::utf32_be` for big-endian UTF-32 encoded inputs,
+* in namespace `tao::pegtl::utf32_le` for little-endian UTF-32 encoded inputs.
 
 For convenience, they also appear in multiple namespace aliases,
 
-* namespace alias `tao::pegtl::utf16` to parse native-endian UTF-16, and
-* namespace alias `tao::pegtl::utf32` to parse native-endian UTF-32.
+* namespace alias `tao::pegtl::utf16` for native-endian UTF-16 encoded inputs,
+* namespace alias `tao::pegtl::utf32` for native-endian UTF-32 encoded inputs.
 
 The following limitations apply to the UTF-16 and UTF-32 rules:
 
@@ -705,21 +705,26 @@ The term *input value* indicates a correspondingly sized integer value read from
 
 ## ICU Rules
 
-These rules are depending on the [International Components for Unicode (ICU)](http://icu-project.org/). They provide means to match characters of specific unicode character properties. As they are creating an external dependency, the headers are in the contrib-section:
+These rules depend on the [International Components for Unicode (ICU)](http://icu-project.org/) that provide the means to match characters with specific Unicode character properties.
+Because of the external dependency the rules are in the contrib-section, and the required header files are not automatically included in `tao/pegtl.hpp`.
 
 * `tao/pegtl/contrib/icu/utf8.hpp`
 * `tao/pegtl/contrib/icu/utf16.hpp`
 * `tao/pegtl/contrib/icu/utf32.hpp`
 
-If you want to use these headers, remember to provide the include path for and link with libicu.
+To use these rules it is necessary to privde an include path to the ICU library, and to link the application against `libicu`.
 
-The rules are available in multiple versions, depending on which header you included,
+These rules are available in multiple versions,
 
 * in namespace `tao::pegtl::icu::utf8` for UTF-8 encoded inputs,
 * in namespace `tao::pegtl::icu::utf16_be` for big-endian UTF-16 encoded inputs,
 * in namespace `tao::pegtl::icu::utf16_le` for little-endian UTF-16 encoded inputs,
 * in namespace `tao::pegtl::icu::utf32_be` for big-endian UTF-32 encoded inputs, and
 * in namespace `tao::pegtl::icu::utf32_le` for little-endian UTF-32 encoded inputs.
+
+It is necessary to manually include the header with the rules for the required encoding.
+
+The same conventions and limitations apply as for the [Unicode rules](#unicode-rules).
 
 ### Basic Rules
 
@@ -730,9 +735,9 @@ Each of the above namespaces provides two basic rules for matching binary proper
 * `P` is a binary property defined by ICU, see [`UProperty`](http://icu-project.org/apiref/icu4c/uchar_8h.html).
 * `V` is a boolean value.
 * Succeeds when the input is not empty, and:
-* The next following bytes are a valid unicode code point according to the encoding specified by the enclosing namespace, and:
+* The next N bytes encode a valid unicode code point, and:
 * The code point's property `P`, i.e. [`u_hasBinaryProperty( cp, P )`](http://icu-project.org/apiref/icu4c/uchar_8h.html), equals `V`.
-* Consumes the input bytes when it succeeds.
+* Consumes the N bytes when it succeeds.
 
 ###### `binary_property< P >`
 
@@ -743,9 +748,9 @@ Each of the above namespaces provides two basic rules for matching binary proper
 * `P` is an enumerated property defined by ICU, see [`UProperty`](http://icu-project.org/apiref/icu4c/uchar_8h.html).
 * `V` is an integer value.
 * Succeeds when the input is not empty, and:
-* The next following bytes are a valid unicode code point according to the encoding specified by the enclosing namespace, and:
+* The next N bytes encode a valid unicode code point, and:
 * The code point's property `P`, i.e. [`u_getIntPropertyValue( cp, P )`](http://icu-project.org/apiref/icu4c/uchar_8h.html), equals `V`.
-* Consumes the input bytes when it succeeds.
+* Consumes the N bytes when it succeeds.
 
 ### Convenience Rules for Binary Properties
 
