@@ -31,9 +31,7 @@ and therefore which rule will be used to call the control class' `raise()`-metho
 * [Action Rules](#action-rules)
 * [Atomic Rules](#atomic-rules)
 * [ASCII Rules](#ascii-rules)
-* [UTF-8 Rules](#utf-8-rules)
-* [UTF-16 Rules](#utf-16-rules)
-* [UTF-32 Rules](#utf-32-rules)
+* [Unicode Rules](#unicode-rules)
 * [Binary Rules](#binary-rules)
 * [ICU Rules](#icu-rules)
   * [Basic Rules](#basic-rules)
@@ -530,191 +528,73 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 * Matches and consumes a single ASCII hexadecimal digit character.
 * Equivalent to `ranges< '0', '9', 'a', 'f', 'A', 'F' >`.
 
-## UTF-8 Rules
+## Unicode Rules
 
-These rules are in namespace `tao::pegtl::utf8`.
+These rules are available in multiple versions,
 
-A unicode code point is considered *valid* when it is in the range `0` to `0x10ffff`.
+* in namespace `tao::pegtl::utf8` to parse UTF-8,
+* in namespace `tao::pegtl::utf16_be` to parse big-endian UTF-16,
+* in namespace `tao::pegtl::utf16_le` to parse little-endian UTF-16,
+* in namespace `tao::pegtl::utf32_be` to parse big-endian UTF-32,
+* in namespace `tao::pegtl::utf32_le` to parse little-endian UTF-32.
 
-###### `any`
+For convenience, they also appear in multiple namespace aliases,
 
-* Succeeds when the input is not empty, and:
-* The next 1-4 bytes are the UTF-8 encoding of a valid unicode code point.
-* Consumes the 1-4 bytes when it succeeds.
+* namespace alias `tao::pegtl::utf16` to parse native-endian UTF-16, and
+* namespace alias `tao::pegtl::utf32` to parse native-endian UTF-32.
 
-###### `bom`
+The following limitations apply to the UTF-16 and UTF-32 rules:
 
-* Succeeds when the input is not empty, and:
-* The next 3 bytes are the UTF-8 encoding of character U+FEFF, byte order mark (BOM).
-* Equivalent to `one< 0xfeff >`.
-
-###### `not_one< C, ... >`
-
-* Succeeds when the input is not empty, and:
-* The next 1-4 bytes are the UTF-8 encoding of a valid unicode code point, and:
-* The input code point is **not** one of the given code points `C, ...`.
-* Consumes the 1-4 bytes when it succeeds.
-
-###### `not_range< C, D >`
-
-* Succeeds when the input is not empty, and:
-* The next 1-4 bytes are the UTF-8 encoding of a valid unicode code point, and:
-* The input code point `B` satisfies `B < C || D < B`.
-* Consumes the 1-4 bytes when it succeeds.
-
-###### `one< C, ... >`
-
-* Succeeds when the input is not empty, and:
-* The next 1-4 bytes are the UTF-8 encoding of a valid unicode code point, and:
-* The input code point is one of the given code points `C, ...`.
-* Consumes the 1-4 bytes when it succeeds.
-
-###### `range< C, D >`
-
-* Succeeds when the input is not empty, and:
-* The next 1-4 bytes are the UTF-8 encoding of a valid unicode code point, and:
-* The input code point `B` satisfies `C <= B && B <= D`.
-* Consumes the 1-4 bytes when it succeeds.
-
-###### `ranges< C1, D1, C2, D2, ... >`
-
-* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ... >`.
-
-###### `ranges< C1, D1, C2, D2, ..., E >`
-
-* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ..., one< E > >`.
-
-###### `string< C1, C2, ... >`
-
-* Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
-
-## UTF-16 Rules
-
-These rules are available in two versions,
-
-* in namespace `tao::pegtl::utf16_be` for big-endian values, and
-* in namespace `tao::pegtl::utf16_le` for little-endian values.
-
-Namespace `tao::pegtl::utf16` aliases the namespace with the native byte order.
-
-The UTF-16 rules are surrogate-pair-aware and will consume 4 bytes for a single matched code point,
-rather than 2, whenever a valid surrogate pair is detected. Following what appears to be "best" practice,
-it is *not* an error when a code unit in the range `0xd800` to `0xdfff` is encountered outside of a valid surrogate pair.
-
-UTF-16 support should be considered **experimental** and the following limitations apply to the UTF-16 rules:
-
-- Unaligned input leads to unaligned memory access.
-- The line and column numbers are not counted correctly.
+* Unaligned input leads to unaligned memory access.
+* The line and column numbers are not counted correctly.
 
 Unaligned memory is no problem on x86 compatible processors; on some other architectures like ARM an unaligned access will crash the application.
 
+In the following descriptions a Unicode code point is considered *valid* when it is in the range `0` to `0x10ffff`, and the parameter N stands for the size of the encoding of a single Unicode code point, i.e.
+
+* for the multi-byte-sequence-aware UTF-8 rules a value of 1, 2, 3 or 4,
+* for the surrogate-pair-aware UTF-16 rules a value of either 2 or 4,
+* for UTF-32 always 4.
+
+Following what appears to be "best" practice for UTF-16, it is *not* an error when a code unit in the range `0xd800` to `0xdfff` is encountered outside of a valid surrogate pair!
+
 ###### `any`
 
-* Succeeds when the input contains at least 2 bytes, and:
-* The next 2 (or 4) input bytes encode a valid unicode code point.
-* Consumes these 2 (or 4) bytes when it succeeds.
+* Succeeds when the input is not empty, and:
+* The next N bytes encode of a valid Unicode code point.
+* Consumes the N bytes when it succeeds.
 
 ###### `bom`
 
-* Succeeds when the input is not empty, and:
-* The next 2 bytes are the UTF-16 encoding of character U+FEFF, byte order mark (BOM).
 * Equivalent to `one< 0xfeff >`.
 
 ###### `not_one< C, ... >`
 
-* Succeeds when the input contains at least 2 bytes, and:
-* The next 2 (or 4) input bytes encode a valid unicode code point, and:
+* Succeeds when the input is not empty, and:
+* The next N bytes encode a valid Unicode code point, and:
 * The input code point is **not** one of the given code points `C, ...`.
-* Consumes these 2 (or 4) bytes when it succeeds.
+* Consumes the N bytes when it succeeds.
 
 ###### `not_range< C, D >`
-
-* Succeeds when the input contains at least 2 bytes, and:
-* The next 2 (or 4) input bytes encode a valid unicode code point, and:
-* The input code point `B` satisfies `B < C || D < B`.
-* Consumes these 2 (or 4) bytes when it succeeds.
-
-###### `one< C, ... >`
-
-* Succeeds when the input contains at least 2 bytes, and:
-* The next 2 (or 4) input bytes encode a valid unicode code point, and:
-* The input code point is one of the given code points `C, ...`.
-* Consumes these 2 (or 4) bytes when it succeeds.
-
-###### `range< C, D >`
-
-* Succeeds when the input contains at least 2 bytes, and:
-* The next 2 (or 4) input bytes encode a valid unicode code point, and:
-* The input code point `B` satisfies `C <= B && B <= D`.
-* Consumes these 2 (or 4) bytes when it succeeds.
-
-###### `ranges< C1, D1, C2, D2, ... >`
-
-* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ... >`.
-
-###### `ranges< C1, D1, C2, D2, ..., E >`
-
-* Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ..., one< E > >`.
-
-###### `string< C1, C2, ... >`
-
-* Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
-
-## UTF-32 Rules
-
-These rules are available in two versions,
-
-* in namespace `tao::pegtl::utf32_be` for big-endian values, and
-* in namespace `tao::pegtl::utf32_le` for little-endian values.
-
-Namespace `tao::pegtl::utf32` aliases the namespace with the native byte order.
-
-UTF-32 support should be considered experimental and the following limitations apply to the UTF-32 rules:
-
-- Unaligned input leads to unaligned memory access.
-- The line and column numbers are not counted correctly.
-
-Unaligned memory is no problem on x86 compatible processors; on some other architectures like ARM an unaligned access will crash the application.
-
-###### `any`
-
-* Succeeds when the input contains at least 4 bytes, and:
-* The next 4 input bytes encode a valid unicode code point.
-* Consumes these 4 bytes when it succeeds.
-
-###### `bom`
 
 * Succeeds when the input is not empty, and:
-* The next 4 bytes are the UTF-32 encoding of character U+FEFF, byte order mark (BOM).
-* Equivalent to `one< 0xfeff >`.
-
-###### `not_one< C, ... >`
-
-* Succeeds when the input contains at least 4 bytes, and:
-* The next 4 input bytes encode a valid unicode code point, and:
-* The input code point is **not** one of the given code points `C, ...`.
-* Consumes these 4 bytes when it succeeds.
-
-###### `not_range< C, D >`
-
-* Succeeds when the input contains at least 4 bytes, and:
-* The next 4 input bytes encode a valid unicode code point, and:
+* The next N bytes encode a valid Unicode code point, and:
 * The input code point `B` satisfies `B < C || D < B`.
-* Consumes these 4 bytes when it succeeds.
+* Consumes the N bytes when it succeeds.
 
 ###### `one< C, ... >`
 
-* Succeeds when the input contains at least 4 bytes, and:
-* The next 4 input bytes encode a valid unicode code point, and:
+* Succeeds when the input is not empty, and:
+* The next N bytes encode a valid Unicode code point, and:
 * The input code point is one of the given code points `C, ...`.
-* Consumes these 4 bytes when it succeeds.
+* Consumes the N bytes when it succeeds.
 
 ###### `range< C, D >`
 
-* Succeeds when the input contains at least 4 bytes, and:
-* The next 4 input bytes encode a valid unicode code point, and:
+* Succeeds when the input is not empty, and:
+* The next N bytes encode a valid Unicode code point, and:
 * The input code point `B` satisfies `C <= B && B <= D`.
-* Consumes these 4 bytes when it succeeds.
+* Consumes the N bytes when it succeeds.
 
 ###### `ranges< C1, D1, C2, D2, ... >`
 
@@ -1193,10 +1073,8 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`alpha`](#alpha) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`alphabetic`](#alphabetic) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`any`](#any) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`any`](#any-1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
-* [`any`](#any-2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
-* [`any`](#any-3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`any`](#any-4) <sup>[(binary rules)](#binary-rules)</sup>
+* [`any`](#any-1) <sup>[(unicode rules)](#unicode-rules)</sup>
+* [`any`](#any-2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`apply< A... >`](#apply-a-) <sup>[(action rules)](#action-rules)</sup>
 * [`apply0< A... >`](#apply0-a-) <sup>[(action rules)](#action-rules)</sup>
 * [`ascii_hex_digit`](#ascii_hex_digit) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
@@ -1210,9 +1088,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`block< V >`](#block-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
 * [`bof`](#bof) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`bol`](#bol) <sup>[(atomic rules)](#atomic-rules)</sup>
-* [`bom`](#bom) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
-* [`bom`](#bom-1) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
-* [`bom`](#bom-2) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
+* [`bom`](#bom) <sup>[(unicode rules)](#unicode-rules)</sup>
 * [`bytes< Num >`](#bytes-num-) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`canonical_combining_class< V >`](#canonical_combining_class-v-) <sup>[(icu rules)](#convenience-rules-for-value-properties)</sup>
 * [`case_ignorable`](#case_ignorable) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
@@ -1294,22 +1170,16 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`noncharacter_code_point`](#noncharacter_code_point) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`not_at< R... >`](#not_at-r-) <sup>[(combinators)](#combinators)</sup>
 * [`not_one< C, ... >`](#not_one-c--) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`not_one< C, ... >`](#not_one-c---1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
-* [`not_one< C, ... >`](#not_one-c---2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
-* [`not_one< C, ... >`](#not_one-c---3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`not_one< C, ... >`](#not_one-c---4) <sup>[(binary rules)](#binary-rules)</sup>
+* [`not_one< C, ... >`](#not_one-c---1) <sup>[(unicode rules)](#unicode-rules)</sup>
+* [`not_one< C, ... >`](#not_one-c---2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`not_range< C, D >`](#not_range-c-d-) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`not_range< C, D >`](#not_range-c-d--1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
-* [`not_range< C, D >`](#not_range-c-d--2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
-* [`not_range< C, D >`](#not_range-c-d--3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`not_range< C, D >`](#not_range-c-d--4) <sup>[(binary rules)](#binary-rules)</sup>
+* [`not_range< C, D >`](#not_range-c-d--1) <sup>[(unicode rules)](#unicode-rules)</sup>
+* [`not_range< C, D >`](#not_range-c-d--2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`nul`](#nul) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`numeric_type< V >`](#numeric_type-v-) <sup>[(icu rules)](#convenience-rules-for-enumerated-properties)</sup>
 * [`one< C, ... >`](#one-c--) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`one< C, ... >`](#one-c---1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
-* [`one< C, ... >`](#one-c---2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
-* [`one< C, ... >`](#one-c---3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`one< C, ... >`](#one-c---4) <sup>[(binary rules)](#binary-rules)</sup>
+* [`one< C, ... >`](#one-c---1) <sup>[(unicode rules)](#unicode-rules)</sup>
+* [`one< C, ... >`](#one-c---2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`opt< R... >`](#opt-r-) <sup>[(combinators)](#combinators)</sup>
 * [`pad< R, S, T = S >`](#pad-r-s-t--s-) <sup>[(convenience)](#convenience)</sup>
 * [`pad_opt< R, P >`](#pad_opt-r-p-) <sup>[(convenience)](#convenience)</sup>
@@ -1327,20 +1197,14 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`radical`](#radical) <sup>[(icu rules)](#convenience-rules-for-binary-properties)</sup>
 * [`raise< T >`](#raise-t-) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`range< C, D >`](#range-c-d-) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`range< C, D >`](#range-c-d--1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
-* [`range< C, D >`](#range-c-d--2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
-* [`range< C, D >`](#range-c-d--3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`range< C, D >`](#range-c-d--4) <sup>[(binary rules)](#binary-rules)</sup>
+* [`range< C, D >`](#range-c-d--1) <sup>[(unicode rules)](#unicode-rules)</sup>
+* [`range< C, D >`](#range-c-d--2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2--) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---4) <sup>[(binary rules)](#binary-rules)</sup>
+* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---1) <sup>[(unicode rules)](#unicode-rules)</sup>
+* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e-) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--4) <sup>[(binary rules)](#binary-rules)</sup>
+* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--1) <sup>[(unicode rules)](#unicode-rules)</sup>
+* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`rep< Num, R... >`](#rep-num-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_max< Max, R... >`](#rep_max-max-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_min< Min, R, ... >`](#rep_min-min-r--) <sup>[(convenience)](#convenience)</sup>
@@ -1360,10 +1224,8 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`star_must< R, S... >`](#star_must-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`state< S, R... >`](#state-s-r-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`string< C1, C2, ... >`](#string-c1-c2--) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`string< C1, C2, ... >`](#string-c1-c2---1) <sup>[(utf-8 rules)](#utf-8-rules)</sup>
-* [`string< C1, C2, ... >`](#string-c1-c2---2) <sup>[(utf-16 rules)](#utf-16-rules)</sup>
-* [`string< C1, C2, ... >`](#string-c1-c2---3) <sup>[(utf-32 rules)](#utf-32-rules)</sup>
-* [`string< C1, C2, ... >`](#string-c1-c2---4) <sup>[(binary rules)](#binary-rules)</sup>
+* [`string< C1, C2, ... >`](#string-c1-c2---1) <sup>[(unicode rules)](#unicode-rules)</sup>
+* [`string< C1, C2, ... >`](#string-c1-c2---2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`success`](#success) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`TAO_PEGTL_ISTRING( "..." )`](#tao_pegtl_istring--) <sup>[(ascii rules)](#ascii_rules)</sup>
 * [`TAO_PEGTL_KEYWORD( "..." )`](#tao_pegtl_keyword--) <sup>[(ascii rules)](#ascii_rules)</sup>
