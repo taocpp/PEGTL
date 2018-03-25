@@ -105,15 +105,7 @@
 * [`bom`](Rule-Reference.md#bom) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
 * [`bytes< Num >`](Rule-Reference.md#bytes-num-) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
 * [`canonical_combining_class< V >`](Rule-Reference.md#canonical_combining_class-v-) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-value-properties)</sup>
-* [`case_ignorable`](Rule-Reference.md#case_ignorable) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`case_sensitive`](Rule-Reference.md#case_sensitive) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
-* [`cased`](Rule-Reference.md#cased) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
-* [`changes_when_casefolded`](Rule-Reference.md#changes_when_casefolded) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
-* [`changes_when_casemapped`](Rule-Reference.md#changes_when_casemapped) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
-* [`changes_when_lowercased`](Rule-Reference.md#changes_when_lowercased) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
-* [`changes_when_nfkc_casefolded`](Rule-Reference.md#changes_when_nfkc_casefolded) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
-* [`changes_when_titlecased`](Rule-Reference.md#changes_when_titlecased) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
-* [`changes_when_uppercased`](Rule-Reference.md#changes_when_uppercased) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`control< C, R... >`](Rule-Reference.md#control-c-r-) <sup>[(meta rules)](Rule-Reference.md#meta-rules)</sup>
 * [`dash`](Rule-Reference.md#dash) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`decomposition_type< V >`](Rule-Reference.md#decomposition_type-v-) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-enumerated-properties)</sup>

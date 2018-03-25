@@ -36,15 +36,7 @@ namespace tao
             struct ascii_hex_digit : binary_property< UCHAR_ASCII_HEX_DIGIT > {};
             struct bidi_control : binary_property< UCHAR_BIDI_CONTROL > {};
             struct bidi_mirrored : binary_property< UCHAR_BIDI_MIRRORED > {};
-            struct case_ignorable : binary_property< UCHAR_CASE_IGNORABLE > {};
             struct case_sensitive : binary_property< UCHAR_CASE_SENSITIVE > {};
-            struct cased : binary_property< UCHAR_CASED > {};
-            struct changes_when_casefolded : binary_property< UCHAR_CHANGES_WHEN_CASEFOLDED > {};
-            struct changes_when_casemapped : binary_property< UCHAR_CHANGES_WHEN_CASEMAPPED > {};
-            struct changes_when_nfkc_casefolded : binary_property< UCHAR_CHANGES_WHEN_NFKC_CASEFOLDED > {};
-            struct changes_when_lowercased : binary_property< UCHAR_CHANGES_WHEN_LOWERCASED > {};
-            struct changes_when_titlecased : binary_property< UCHAR_CHANGES_WHEN_TITLECASED > {};
-            struct changes_when_uppercased : binary_property< UCHAR_CHANGES_WHEN_UPPERCASED > {};
             struct dash : binary_property< UCHAR_DASH > {};
             struct default_ignorable_code_point : binary_property< UCHAR_DEFAULT_IGNORABLE_CODE_POINT > {};
             struct deprecated : binary_property< UCHAR_DEPRECATED > {};

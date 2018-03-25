@@ -628,7 +628,7 @@ To use these rules it is necessary to provide an include path to the ICU library
 * `tao/pegtl/contrib/icu/utf16.hpp`
 * `tao/pegtl/contrib/icu/utf32.hpp`
 
-The convenience ICU rules are supplied for all properties found in ICU version 4.4.
+The convenience ICU rules are supplied for all properties found in ICU version 3.4.
 Users of later versions can use the basic rules manually or create their own convenience rules derived from the basic rules for additional enumeration values found in those later versions of the ICU library.
 
 ### Basic ICU Rules
@@ -677,41 +677,9 @@ Convenience wrappers for binary properties.
 
 * Equivalent to `binary_property< UCHAR_BIDI_MIRRORED >`.
 
-###### `case_ignorable`
-
-* Equivalent to `binary_property< UCHAR_CASE_IGNORABLE >`.
-
 ###### `case_sensitive`
 
 * Equivalent to `binary_property< UCHAR_CASE_SENSITIVE >`.
-
-###### `cased`
-
-* Equivalent to `binary_property< UCHAR_CASED >`.
-
-###### `changes_when_casefolded`
-
-* Equivalent to `binary_property< UCHAR_CHANGES_WHEN_CASEFOLDED >`.
-
-###### `changes_when_casemapped`
-
-* Equivalent to `binary_property< UCHAR_CHANGES_WHEN_CASEMAPPED >`.
-
-###### `changes_when_nfkc_casefolded`
-
-* Equivalent to `binary_property< UCHAR_CHANGES_WHEN_NFKC_CASEFOLDED >`.
-
-###### `changes_when_lowercased`
-
-* Equivalent to `binary_property< UCHAR_CHANGES_WHEN_LOWERCASED >`.
-
-###### `changes_when_titlecased`
-
-* Equivalent to `binary_property< UCHAR_CHANGES_WHEN_TITLECASED >`.
-
-###### `changes_when_uppercased`
-
-* Equivalent to `binary_property< UCHAR_CHANGES_WHEN_UPPERCASED >`.
 
 ###### `dash`
 
@@ -1096,15 +1064,7 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`bom`](#bom) <sup>[(unicode rules)](#unicode-rules)</sup>
 * [`bytes< Num >`](#bytes-num-) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`canonical_combining_class< V >`](#canonical_combining_class-v-) <sup>[(icu rules)](#icu-rules-for-value-properties)</sup>
-* [`case_ignorable`](#case_ignorable) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`case_sensitive`](#case_sensitive) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
-* [`cased`](#cased) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
-* [`changes_when_casefolded`](#changes_when_casefolded) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
-* [`changes_when_casemapped`](#changes_when_casemapped) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
-* [`changes_when_lowercased`](#changes_when_lowercased) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
-* [`changes_when_nfkc_casefolded`](#changes_when_nfkc_casefolded) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
-* [`changes_when_titlecased`](#changes_when_titlecased) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
-* [`changes_when_uppercased`](#changes_when_uppercased) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`control< C, R... >`](#control-c-r-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`dash`](#dash) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`decomposition_type< V >`](#decomposition_type-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
