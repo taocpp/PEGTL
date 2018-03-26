@@ -7,6 +7,8 @@
 #include <cstdint>
 #include <cstring>
 
+#include "../config.hpp"
+
 #if defined( _WIN32 ) && !defined( __MINGW32__ )
 #include "endian_win.hpp"
 #else
