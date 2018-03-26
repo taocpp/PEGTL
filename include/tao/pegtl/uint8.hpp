@@ -31,7 +31,7 @@ namespace tao
          template< std::uint8_t M, std::uint8_t Lo, std::uint8_t Hi > struct mask_not_range : internal::range< internal::result_on_found::FAILURE, internal::peek_mask_uint8< M >, Lo, Hi > {};
          template< std::uint8_t M, std::uint8_t... Cs > struct mask_one : internal::one< internal::result_on_found::SUCCESS, internal::peek_mask_uint8< M >, Cs... > {};
          template< std::uint8_t M, std::uint8_t Lo, std::uint8_t Hi > struct mask_range : internal::range< internal::result_on_found::SUCCESS, internal::peek_mask_uint8< M >, Lo, Hi > {};
-         template< std::uint8_t M, std::uint8_t... Cs > struct mask_ranges : internal::ranges< internal::peek_uint8, Cs... > {};
+         template< std::uint8_t M, std::uint8_t... Cs > struct mask_ranges : internal::ranges< internal::peek_mask_uint8< M >, Cs... > {};
          template< std::uint8_t M, std::uint8_t... Cs > struct mask_string : internal::seq< internal::one< internal::result_on_found::SUCCESS, internal::peek_mask_uint8< M >, Cs >... > {};
          // clang-format on
 
