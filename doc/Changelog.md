@@ -7,7 +7,7 @@
 * Added function to `memory_input` to obtain the line around a position.
 * Added big- and little-endian support to the UTF-16 and UTF-32 rules.
 * Added rules for UINT-8 and big- and little-endian UINT-16, UINT-32 and UINT-64.
-* Added rules for matching Unicode properties to contrib.
+* Added rules to match Unicode properties via [ICU](http://site.icu-project.org) to contrib.
 * TODO: Document improvements to parse-tree example etc.
 
 ## 2.4.0
