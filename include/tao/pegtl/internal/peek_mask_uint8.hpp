@@ -26,7 +26,7 @@ namespace tao
             template< typename Input >
             static pair_t peek( Input& in, const std::size_t o = 0 ) noexcept( noexcept( in.peek_byte( 0 ) ) )
             {
-               return { in.peek_byte( o ) & M, 1 };
+               return { std::uint8_t( in.peek_byte( o ) & M ), 1 };
             }
          };
 
