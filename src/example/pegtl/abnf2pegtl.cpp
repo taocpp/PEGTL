@@ -12,7 +12,8 @@
 #include <cassert>
 #include <cctype>
 #include <cstdlib>
-#include <cstring>
+
+#include <strings.h>
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
