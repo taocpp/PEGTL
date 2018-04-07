@@ -30,7 +30,7 @@ namespace examples
       {
       }
 
-      ~json_base() = default;
+      virtual ~json_base() = default;
 
    public:
       json_base( const json_base& ) = delete;
