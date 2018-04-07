@@ -371,20 +371,20 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
-          packages: ['clang-5.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
+          packages: ['clang-6.0']
       env:
-        - CXX=clang++-5.0
+        - CXX=clang++-6.0
         - CPPFLAGS=-fsanitize=undefined
 
     - compiler: clang
       sudo: true
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
-          packages: ['clang-5.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
+          packages: ['clang-6.0']
       env:
-        - CXX=clang++-5.0
+        - CXX=clang++-6.0
         - CPPFLAGS=-fsanitize=address
 
     - compiler: gcc
@@ -412,11 +412,11 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
-          packages: ['clang-5.0', 'clang-tidy-5.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
+          packages: ['clang-6.0', 'clang-tidy-6.0']
       env:
-        - CXX=clang++-5.0
-        - CLANG_TIDY=clang-tidy-5.0
+        - CXX=clang++-6.0
+        - CLANG_TIDY=clang-tidy-6.0
       script:
         - "sed -i 's#TAO_PEGTL_NAMESPACE#pegtl#g' $(find . -name '*.[hc]pp')"
         - make -kj3 clang-tidy
