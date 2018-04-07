@@ -298,7 +298,7 @@ namespace tao
          struct remove_content : std::true_type
          {
             template< typename Node, typename... States >
-            static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->remove_content( st... ) ) )
+            static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->Node::remove_content( st... ) ) )
             {
                n->remove_content( st... );
             }
