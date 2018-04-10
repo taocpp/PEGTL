@@ -39,7 +39,7 @@ namespace tao
          {
             void operator()( FILE* f ) const noexcept
             {
-               std::fclose( f );
+               std::fclose( f );  // NOLINT(cppcoreguidelines-owning-memory)
             }
          };
 

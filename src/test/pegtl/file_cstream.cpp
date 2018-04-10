@@ -29,7 +29,7 @@ namespace tao
 #endif
          TAO_PEGTL_TEST_ASSERT( stream != nullptr );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( cstream_input<>( stream, 16, filename ) ) );
-         std::fclose( stream );
+         std::fclose( stream );  // NOLINT(cppcoreguidelines-owning-memory)
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE
