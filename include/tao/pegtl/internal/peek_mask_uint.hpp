@@ -29,7 +29,8 @@ namespace tao
             {
                const std::size_t s = in.size( sizeof( data_t ) );
                if( s >= sizeof( data_t ) ) {
-                  return { R::read( in.current() ) & M, sizeof( data_t ) };
+                  const data_t data = R::read( in.current() ) & M;
+                  return { data, sizeof( data_t ) };
                }
                return { 0, 0 };
             }
