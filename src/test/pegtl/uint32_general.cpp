@@ -32,6 +32,11 @@ namespace tao
          verify_rule< uint32_le::any >( __LINE__, __FILE__, "\x01\x02\x03\x55", result_type::SUCCESS );
          verify_rule< uint32_le::any >( __LINE__, __FILE__, "\x71\x72\x03\x55", result_type::SUCCESS );
 
+         verify_rule< uint32_be::any >( __LINE__, __FILE__, "\x01\x02\x03\x55\x44", result_type::SUCCESS, 1 );
+         verify_rule< uint32_be::any >( __LINE__, __FILE__, "\x71\x72\x03\x55\x44", result_type::SUCCESS, 1 );
+         verify_rule< uint32_le::any >( __LINE__, __FILE__, "\x01\x02\x03\x55\x44", result_type::SUCCESS, 1 );
+         verify_rule< uint32_le::any >( __LINE__, __FILE__, "\x71\x72\x03\x55\x44", result_type::SUCCESS, 1 );
+
          verify_rule< uint32_be::mask_not_one< 0xffffffff, 0x01111111, 0x02222222 > >( __LINE__, __FILE__, "\x01\x11\x11\x11", result_type::LOCAL_FAILURE );
          verify_rule< uint32_be::mask_not_one< 0xffffffff, 0x01111111, 0x02222222 > >( __LINE__, __FILE__, "\x11\x11\x11\x01", result_type::SUCCESS );
 
@@ -167,7 +172,6 @@ namespace tao
 
          verify_rule< uint32_le::string< 0x01233210, 0x45677654 > >( __LINE__, __FILE__, "\x01\x23\x32\x10\x45\x67\x76\x54", result_type::LOCAL_FAILURE );
          verify_rule< uint32_le::string< 0x01233210, 0x45677654 > >( __LINE__, __FILE__, "\x10\x32\x23\x01\x54\x76\x67\x45", result_type::SUCCESS );
-
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE
