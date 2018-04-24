@@ -49,8 +49,8 @@ namespace example
 
    struct state
    {
-      unsigned indent;
-      unsigned converted;
+      unsigned indent = 0;
+      unsigned converted = 0;
       std::vector< entry > stack;
       std::map< std::string, unsigned > result;
    };
