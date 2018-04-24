@@ -72,14 +72,14 @@ Each commit is automatically tested with multiple architectures, operating syste
   * Mac OS X 10.10, Xcode 6.4
   * Mac OS X 10.11, Xcode 7.3
   * macOS 10.12, Xcode 8.3
-  * macOS 10.12, Xcode 9.2
+  * macOS 10.13, Xcode 9.3
 
 * Linux (using libstdc++)
 
   * Debian 8 (i386), GCC 4.9
   * Ubuntu 12.04 LTS (amd64), Clang 3.4, 3.7
   * Ubuntu 14.04 LTS (amd64), GCC 4.8, 4.9, 5, 6, 7
-  * Ubuntu 14.04 LTS (amd64), Clang 3.5, 3.6, 3.8, 3.9, 4.0, 5.0, 6.0
+  * Ubuntu 14.04 LTS (amd64), Clang 3.5, 3.6, 3.8, 3.9, 4, 5, 6
   * Ubuntu 14.04 LTS (i386, amd64), GCC 4.8
   * Ubuntu 16.04 LTS (i386, amd64, armhf, arm64), GCC 5
   * Fedora 24 (x86_64), GCC 6
