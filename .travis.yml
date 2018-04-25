@@ -356,7 +356,7 @@ matrix:
           packages: ['g++-7']
       env:
         - CXX=g++-7
-        - CPPFLAGS=-fsanitize=undefined
+        - CPPFLAGS="-fsanitize=undefined -fuse-ld=gold"
 
     - compiler: gcc
       sudo: true
