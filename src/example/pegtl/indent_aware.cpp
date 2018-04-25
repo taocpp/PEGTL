@@ -137,7 +137,7 @@ namespace example
       {
          assert( !s.stack.empty() );
          if( ( s.stack.back().type != type::IF ) || ( s.stack.back().indent != s.current_indent ) ) {
-            throw std::runtime_error( "expected previous if on same indent as current else" );
+            throw std::runtime_error( "expected previous if on same indent as current else" );  // NOLINT
          }
          s.stack.back().type = type::ELSE;
       }
@@ -158,7 +158,7 @@ namespace example
       static void apply0( state& s )
       {
          if( s.minimum_indent > 0 ) {
-            throw std::runtime_error( "expected indented block instead of empty line" );
+            throw std::runtime_error( "expected indented block instead of empty line" );  // NOLINT
          }
          s.stack.clear();
       }
@@ -177,12 +177,12 @@ namespace example
          }
          if( s.minimum_indent > 0 ) {
             if( s.current_indent < s.minimum_indent ) {
-               throw std::runtime_error( "expected indented block with more indent" );
+               throw std::runtime_error( "expected indented block with more indent" );  // NOLINT
             }
             s.minimum_indent = 0;
          }
          else if( ( !s.stack.empty() ) && ( s.current_indent != s.stack.back().indent ) ) {
-            throw std::runtime_error( "indentation mismatch" );
+            throw std::runtime_error( "indentation mismatch" );  // NOLINT
          }
          return true;
       }
@@ -194,7 +194,7 @@ namespace example
       static void apply0( state& s )
       {
          if( s.minimum_indent > 0 ) {
-            throw std::runtime_error( "expected indented block instead of eof" );
+            throw std::runtime_error( "expected indented block instead of eof" );  // NOLINT
          }
       }
    };
