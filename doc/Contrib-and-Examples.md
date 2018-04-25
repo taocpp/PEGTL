@@ -138,6 +138,10 @@ Two simple examples for grammars that parse different kinds of CSV-style file fo
 
 Minimal parser-style "hello world" example from the [Getting Started](Getting-Started.md) page.
 
+###### `src/example/pegtl/indent_aware.cpp`
+
+Shows one approach to implementing an indentation-aware language with a very very small subset of Python.
+
 ###### `src/example/pegtl/json_parse.cpp`
 
 Shows how to use the custom error messages defined in `json_errors.hpp` with the `<tao/pegtl/contrib/json.hpp>` grammar to parse command line arguments as JSON data.

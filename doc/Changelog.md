@@ -10,6 +10,7 @@
 * Added rules to match Unicode properties via [ICU](http://site.icu-project.org) to contrib.
 * Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with Clang 6.
 * Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with Clang and `-fms-extensions`.
+* Added example for Python-style indentation-aware grammars.
 * Fixed build with Clang when `-fms-extensions` is used (`clang-cl`).
 * TODO: Document improvements to parse-tree example etc.
 

@@ -91,10 +91,10 @@ namespace example
 
    struct state
    {
-      unsigned current_indent = 0;
-      unsigned minimum_indent = 0;
+      unsigned current_indent = 0;  // Temporary value, the indentation of the current line.
+      unsigned minimum_indent = 0;  // Set to non-zero when the next line needs a greater indent.
 
-      std::vector< entry > stack;
+      std::vector< entry > stack;  // Follows the nesting of the indented blocks.
    };
 
    template< typename Rule >
@@ -133,11 +133,12 @@ namespace example
    template<>
    struct action< else_line >
    {
-      static void apply0( state& s )
+      template< typename Input >
+      static void apply( const Input& in, state& s )
       {
          assert( !s.stack.empty() );
          if( ( s.stack.back().type != type::IF ) || ( s.stack.back().indent != s.current_indent ) ) {
-            throw std::runtime_error( "expected previous if on same indent as current else" );  // NOLINT
+            throw pegtl::parse_error( "expected previous 'if' on same indent as current 'else'", in );  // NOLINT
          }
          s.stack.back().type = type::ELSE;
       }
@@ -155,10 +156,11 @@ namespace example
    template<>
    struct action< nothing >
    {
-      static void apply0( state& s )
+      template< typename Input >
+      static void apply( const Input& in, state& s )
       {
          if( s.minimum_indent > 0 ) {
-            throw std::runtime_error( "expected indented block instead of empty line" );  // NOLINT
+            throw pegtl::parse_error( "expected indented block instead of empty line", in );  // NOLINT
          }
          s.stack.clear();
       }
@@ -168,7 +170,7 @@ namespace example
    struct action< indent >
    {
       template< typename Input >
-      static bool apply( const Input& in, state& s )
+      static void apply( const Input& in, state& s )
       {
          if( ( s.current_indent = in.size() ) ) {
             while( ( !s.stack.empty() ) && ( s.stack.back().indent > s.current_indent ) ) {
@@ -177,24 +179,24 @@ namespace example
          }
          if( s.minimum_indent > 0 ) {
             if( s.current_indent < s.minimum_indent ) {
-               throw std::runtime_error( "expected indented block with more indent" );  // NOLINT
+               throw pegtl::parse_error( "expected indented block with more indent", in );  // NOLINT
             }
             s.minimum_indent = 0;
          }
          else if( ( !s.stack.empty() ) && ( s.current_indent != s.stack.back().indent ) ) {
-            throw std::runtime_error( "indentation mismatch" );  // NOLINT
+            throw pegtl::parse_error( "indentation mismatch", in );  // NOLINT
          }
-         return true;
       }
    };
 
    template<>
    struct action< grammar >
    {
-      static void apply0( state& s )
+      template< typename Input >
+      static void apply( const Input& in, state& s )
       {
          if( s.minimum_indent > 0 ) {
-            throw std::runtime_error( "expected indented block instead of eof" );  // NOLINT
+            throw pegtl::parse_error( "expected indented block instead of eof", in );  // NOLINT
          }
       }
    };
