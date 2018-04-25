@@ -117,6 +117,14 @@ namespace tao
                return TAO_PEGTL_NAMESPACE::position( it, m_source );
             }
 
+            void restart( const std::size_t in_byte = 0, const std::size_t in_line = 1, const std::size_t in_byte_in_line = 0 )
+            {
+               m_current.data = m_begin;
+               m_current.byte = in_byte;
+               m_current.line = in_line;
+               m_current.byte_in_line = in_byte_in_line;
+            }
+
          protected:
             const char* const m_begin;
             iterator_t m_current;
@@ -196,6 +204,11 @@ namespace tao
                internal::iterator c( m_begin );
                internal::bump( c, std::size_t( it - m_begin.data ), Eol::ch );
                return TAO_PEGTL_NAMESPACE::position( c, m_source );
+            }
+
+            void restart()
+            {
+               m_current = m_begin.data;
             }
 
          protected:

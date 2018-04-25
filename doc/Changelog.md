@@ -4,10 +4,11 @@
 
 *Not Released Yet*
 
+* Added rules to match Unicode properties via [ICU](http://site.icu-project.org) to contrib.
 * Added function to `memory_input<>` to obtain the line around a position.
+* Added function to `memory_input<>` to start again from the beginning.
 * Added big- and little-endian support to the UTF-16 and UTF-32 rules.
 * Added rules for UINT-8 and big- and little-endian UINT-16, UINT-32 and UINT-64.
-* Added rules to match Unicode properties via [ICU](http://site.icu-project.org) to contrib.
 * Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with Clang 6.
 * Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with Clang and `-fms-extensions`.
 * Added example for Python-style indentation-aware grammars.
