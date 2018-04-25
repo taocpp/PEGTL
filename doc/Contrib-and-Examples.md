@@ -130,6 +130,10 @@ In this example the grammar takes a bit of a second place behind the infrastruct
 The basic approach is "shift-reduce", which is very close to a stack machine, which is a model often well suited to PEGTL grammar actions:
 Some actions merely push something onto a stack, while other actions apply some functions to the objects on the stack, usually reducing its size.
 
+###### `src/example/pegtl/chomsky_hierarchy.cpp`
+
+Examples of grammars for regular, context-free, and context-sensitive languages.
+
 ###### `src/example/pegtl/csv1.cpp` and `src/example/pegtl/csv2.cpp`
 
 Two simple examples for grammars that parse different kinds of CSV-style file formats.
