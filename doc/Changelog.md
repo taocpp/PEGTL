@@ -13,6 +13,7 @@
 * Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with Clang and `-fms-extensions`.
 * Added example for Python-style indentation-aware grammars.
 * Added examples for regular, context-free, and context-sensitive grammars.
+* Added example for how to parse with a symbol table.
 * Fixed build with Clang when `-fms-extensions` is used (`clang-cl`).
 * TODO: Document improvements to parse-tree example etc.
 

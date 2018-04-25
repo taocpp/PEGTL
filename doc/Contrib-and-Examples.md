@@ -217,6 +217,10 @@ Grammar for a toy-version of S-expressions that shows how to include other files
 
 Simple example that adds a list of comma-separated `double`s read from `std::cin`.
 
+###### `src/example/pegtl/symbol_table.cpp`
+
+Simple example that shows how to parse with a symbol table.
+
 ###### `src/example/pegtl/unescape.cpp`
 
 Uses the building blocks from `<tao/pegtl/contrib/unescape.hpp>` to show how to actually unescape a string literal with various typical escape sequences.
