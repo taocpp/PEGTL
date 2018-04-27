@@ -251,6 +251,27 @@ namespace tao
             struct make_control< S, C >::control< Rule, false >
                : C< Rule >
             {
+               template< typename Input, typename Node, typename... States >
+               static void start( const Input& /*unused*/, state< Node >& state, States&&... /*unused*/ )
+               {
+                  state.emplace_back();
+               }
+
+               template< typename Input, typename Node, typename... States >
+               static void success( const Input& /*unused*/, state< Node >& state, States&&... /*unused*/ )
+               {
+                  auto n = std::move( state.back() );
+                  state.pop_back();
+                  for( auto& c : n->children ) {
+                     state.back()->children.emplace_back( std::move( c ) );
+                  }
+               }
+
+               template< typename Input, typename Node, typename... States >
+               static void failure( const Input& /*unused*/, state< Node >& state, States&&... /*unused*/ ) noexcept
+               {
+                  state.pop_back();
+               }
             };
 
             template< template< typename > class S, template< typename > class C >
