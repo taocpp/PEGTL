@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2018 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2018 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <algorithm>
@@ -18,9 +18,7 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
 #include <tao/pegtl/contrib/abnf.hpp>
-
-#define TAO_PEGTL_STRINGIFY_IMPL( X ) #X
-#define TAO_PEGTL_STRINGIFY( X ) TAO_PEGTL_STRINGIFY_IMPL( X )
+#include <tao/pegtl/contrib/parse_tree.hpp>
 
 namespace tao
 {
@@ -28,6 +26,93 @@ namespace tao
    {
       namespace abnf
       {
+         namespace
+         {
+            std::string prefix = "tao::pegtl::";  // NOLINT
+
+            // clang-format off
+            std::set< std::string > keywords = {  // NOLINT
+               "alignas", "alignof", "and", "and_eq",
+               "asm", "auto", "bitand", "bitor",
+               "bool", "break", "case", "catch",
+               "char", "char16_t", "char32_t", "class",
+               "compl", "const", "constexpr", "const_cast",
+               "continue", "decltype", "default", "delete",
+               "do", "double", "dynamic_cast", "else",
+               "enum", "explicit", "export", "extern",
+               "false", "float", "for", "friend",
+               "goto", "if", "inline", "int",
+               "long", "mutable", "namespace", "new",
+               "noexcept", "not", "not_eq", "nullptr",
+               "operator", "or", "or_eq", "private",
+               "protected", "public", "register", "reinterpret_cast",
+               "return", "short", "signed", "sizeof",
+               "static", "static_assert", "static_cast", "struct",
+               "switch", "template", "this", "thread_local",
+               "throw", "true", "try", "typedef",
+               "typeid", "typename", "union", "unsigned",
+               "using", "virtual", "void", "volatile",
+               "wchar_t", "while", "xor", "xor_eq"
+            };
+            // clang-format on
+
+            using rules_t = std::vector< std::string >;
+            rules_t rules_defined;  // NOLINT
+            rules_t rules;          // NOLINT
+
+            // clang-format off
+            struct one_tag {};
+            struct string_tag {};
+            struct istring_tag {};
+            // clang-format on
+
+            rules_t::reverse_iterator find_rule( rules_t& r, const std::string& v, const rules_t::reverse_iterator& rbegin )
+            {
+               return std::find_if( rbegin, r.rend(), [&]( const rules_t::value_type& p ) { return ::strcasecmp( p.c_str(), v.c_str() ) == 0; } );
+            }
+
+            rules_t::reverse_iterator find_rule( rules_t& r, const std::string& v )
+            {
+               return find_rule( r, v, r.rbegin() );
+            }
+
+            bool append_char( std::string& s, const char c )
+            {
+               if( !s.empty() ) {
+                  s += ", ";
+               }
+               s += '\'';
+               if( c == '\'' || c == '\\' ) {
+                  s += '\\';
+               }
+               s += c;
+               s += '\'';
+               return std::isalpha( c ) != 0;
+            }
+
+            std::string remove_leading_zeroes( const std::string& v )
+            {
+               const auto pos = v.find_first_not_of( '0' );
+               if( pos == std::string::npos ) {
+                  return "";
+               }
+               return v.substr( pos );
+            }
+
+            void shift( internal::iterator& it, int delta )
+            {
+               it.data += delta;
+               it.byte += delta;
+               it.byte_in_line += delta;
+            }
+
+         }  // namespace
+
+         struct node;
+
+         std::string to_string( const std::unique_ptr< node >& n );
+         std::string to_string( const std::vector< std::unique_ptr< node > >& v );
+
          namespace grammar
          {
             // ABNF grammar according to RFC 5234, updated by RFC 7405, with
@@ -100,8 +185,7 @@ namespace tao
             struct option : seq< one< '[' >, pad< must< alternation >, c_wsp >, must< option_close > > {};
             struct group_close : one< ')' > {};
             struct group : seq< one< '(' >, pad< must< alternation >, c_wsp >, must< group_close > > {};
-            struct rulename_val : rulename {};
-            struct element : sor< rulename_val, group, option, char_val, num_val, prose_val > {};
+            struct element : sor< rulename, group, option, char_val, num_val, prose_val > {};
 
             struct repeat : sor< seq< star< DIGIT >, one< '*' >, star< DIGIT > >, plus< DIGIT > > {};
             struct repetition : seq< opt< repeat >, element > {};
@@ -110,13 +194,12 @@ namespace tao
             struct not_predicate : if_must< one< '!' >, repetition > {};
             struct predicate : sor< and_predicate, not_predicate, repetition > {};
 
-            struct push_stack : success {};
-            struct concatenation : seq< push_stack, list< predicate, plus< c_wsp > > > {};
-            struct alternation : seq< push_stack, list_must< concatenation, pad< one< '/' >, c_wsp > > > {};
+            struct concatenation : list< predicate, plus< c_wsp > > {};
+            struct alternation : list_must< concatenation, pad< one< '/' >, c_wsp > > {};
 
             struct defined_as_op : sor< string< '=', '/' >, one< '=' > > {};
             struct defined_as : pad< defined_as_op, c_wsp > {};
-            struct rule : seq< push_stack, if_must< rulename, defined_as, alternation >, star< c_wsp >, must< c_nl > > {};
+            struct rule : seq< if_must< rulename, defined_as, alternation >, star< c_wsp >, must< c_nl > > {};
             struct rulelist : until< eof, sor< seq< star< c_wsp >, c_nl >, must< rule > > > {};
 
             // end of grammar
@@ -153,9 +236,363 @@ namespace tao
             template<> const std::string error_control< defined_as >::error_message = "expected '=' or '=/'";  // NOLINT
             template<> const std::string error_control< c_nl >::error_message = "unterminated rule";  // NOLINT
             template<> const std::string error_control< rule >::error_message = "expected rule";  // NOLINT
-            // clang-format on
 
          }  // namespace grammar
+
+         struct node
+            : tao::TAO_PEGTL_NAMESPACE::parse_tree::basic_node< node >
+         {
+            template< typename... States >
+            void emplace_back( std::unique_ptr< node > child, States&&... st );
+         };
+
+         template< typename Rule > struct selector : std::false_type {};
+         template<> struct selector< grammar::rulename > : std::true_type {};
+
+         template<> struct selector< grammar::quoted_string > : std::true_type
+         {
+            static void transform( std::unique_ptr< node >& n )
+            {
+               shift( n->begin_, 1 );
+               shift( n->end_, -1 );
+
+               const std::string content = n->content();
+               for( const auto c : content ) {
+                  if( std::isalpha( c ) != 0 ) {
+                     n->id_ = &typeid( istring_tag );
+                     return;
+                  }
+               }
+               if( content.size() == 1 ) {
+                  n->id_ = &typeid( one_tag );
+               }
+               else {
+                  n->id_ = &typeid( string_tag );
+               }
+            }
+         };
+
+         template<> struct selector< grammar::case_sensitive_string > : std::true_type
+         {
+            static void transform( std::unique_ptr< node >& n )
+            {
+               n = std::move( n->back() );
+               if( n->content().size() == 1 ) {
+                  n->id_ = &typeid( one_tag );
+               }
+               else {
+                  n->id_ = &typeid( string_tag );
+               }
+            }
+         };
+
+         template<> struct selector< grammar::prose_val > : std::true_type {};
+         template<> struct selector< grammar::hex_val::value > : std::true_type {};
+         template<> struct selector< grammar::dec_val::value > : std::true_type {};
+         template<> struct selector< grammar::bin_val::value > : std::true_type {};
+         template<> struct selector< grammar::hex_val::range > : std::true_type {};
+         template<> struct selector< grammar::dec_val::range > : std::true_type {};
+         template<> struct selector< grammar::bin_val::range > : std::true_type {};
+         template<> struct selector< grammar::hex_val::type > : std::true_type {};
+         template<> struct selector< grammar::dec_val::type > : std::true_type {};
+         template<> struct selector< grammar::bin_val::type > : std::true_type {};
+         template<> struct selector< grammar::alternation > : parse_tree::fold_one {};
+         template<> struct selector< grammar::option > : std::true_type {};
+         template<> struct selector< grammar::group > : parse_tree::fold_one {};
+         template<> struct selector< grammar::repeat > : std::true_type {};
+         template<> struct selector< grammar::repetition > : parse_tree::fold_one {};
+         template<> struct selector< grammar::and_predicate > : std::true_type {};
+         template<> struct selector< grammar::not_predicate > : std::true_type {};
+         template<> struct selector< grammar::concatenation > : parse_tree::fold_one {};
+         template<> struct selector< grammar::defined_as_op > : std::true_type {};
+         template<> struct selector< grammar::rule > : std::true_type {};
+         // clang-format on
+
+         namespace
+         {
+            std::string get_rulename( const std::unique_ptr< node >& n )
+            {
+               assert( n->is< grammar::rulename >() );
+               std::string v = n->content();
+               std::replace( v.begin(), v.end(), '-', '_' );
+               return v;
+            }
+
+            std::string get_rulename( const std::unique_ptr< node >& n, const bool print_forward_declarations )
+            {
+               std::string v = get_rulename( n );
+               const auto it = find_rule( rules, v );
+               if( it != rules.rend() ) {
+                  return *it;
+               }
+               if( keywords.count( v ) != 0 || v.find( "__" ) != std::string::npos ) {
+                  throw std::runtime_error( to_string( n->begin() ) + ": '" + v + "' is a reserved rulename" );  // NOLINT
+               }
+               if( print_forward_declarations && find_rule( rules_defined, v ) != rules_defined.rend() ) {
+                  std::cout << "struct " << v << ";\n";
+               }
+               rules.push_back( v );
+               return v;
+            }
+
+            template< typename T >
+            std::string gen_val( const std::unique_ptr< node >& n )
+            {
+               if( n->size() == 2 ) {
+                  if( n->back()->is< T >() ) {
+                     return prefix + "range< " + to_string( n->front() ) + ", " + to_string( n->back()->front() ) + " >";
+                  }
+               }
+               if( n->size() == 1 ) {
+                  return prefix + "one< " + to_string( n->children ) + " >";
+               }
+               return prefix + "string< " + to_string( n->children ) + " >";
+            }
+
+         }  // namespace
+
+         template< typename... States >
+         void node::emplace_back( std::unique_ptr< node > child, States&&... st )
+         {
+            // inserting a rule is handled here since we need access to all previously inserted rules
+            if( child->is< grammar::rule >() ) {
+               const auto rname = get_rulename( child->front() );
+               assert( child->at( 1 )->is< grammar::defined_as_op >() );
+               const auto op = child->at( 1 )->content();
+               // when we insert a normal rule, we need to check for duplicates
+               if( op == "=" ) {
+                  for( const auto& n : children ) {
+                     if(::strcasecmp( rname.c_str(), abnf::get_rulename( n->front() ).c_str() ) == 0 ) {
+                        throw std::runtime_error( to_string( child->begin() ) + ": rule '" + rname + "' is already defined" );  // NOLINT
+                     }
+                  }
+               }
+               // if it is an "incremental alternation", we need to consolidate the assigned alternations
+               else if( op == "=/" ) {
+                  std::size_t i = 0;
+                  while( i < this->size() ) {
+                     if(::strcasecmp( rname.c_str(), abnf::get_rulename( this->at( i )->front() ).c_str() ) == 0 ) {
+                        auto& previous = this->at( i )->back();
+
+                        // if the previous rule does not assign an alternation, create an intermediate alternation and move its assignee into it.
+                        if( !previous->is< abnf::grammar::alternation >() ) {
+                           std::unique_ptr< node > s( new node );
+                           s->id_ = &typeid( abnf::grammar::alternation );
+                           s->source_ = previous->source_;
+                           s->begin_ = previous->begin_;
+                           s->end_ = previous->end_;
+                           s->children.emplace_back( std::move( previous ) );
+                           previous = std::move( s );
+                        }
+
+                        // append all new options to the previous rule's assignee (which now always an alternation)
+                        previous->end_ = child->back()->end_;
+
+                        // if the new rule itself contains an alternation, append the individual entries...
+                        if( child->back()->is< abnf::grammar::alternation >() ) {
+                           for( auto& n : child->back()->children ) {
+                              previous->children.emplace_back( std::move( n ) );
+                           }
+                        }
+                        // ...otherwise add the node itself as another option.
+                        else {
+                           previous->children.emplace_back( std::move( child->back() ) );
+                        }
+
+                        // finally, move the previous rule to the current position...
+                        child = std::move( this->at( i ) );
+
+                        // ...and remove the previous rule from the list.
+                        this->children.erase( this->children.begin() + i );
+
+                        // all OK now
+                        break;
+                     }
+                     ++i;
+                  }
+                  if( i == this->size() ) {
+                     throw std::runtime_error( to_string( child->begin() ) + ": incremental alternation '" + rname + "' without previous rule definition" );  // NOLINT
+                  }
+               }
+               else {
+                  throw std::runtime_error( to_string( child->begin() ) + ": invalid operator '" + op + "', this should not happen!" );  // NOLINT
+               }
+            }
+
+            // perform the normal emplace_back operation by forwarding to the original method
+            tao::TAO_PEGTL_NAMESPACE::parse_tree::basic_node< node >::emplace_back( std::move( child ), st... );
+         }
+
+         std::string to_string( const std::unique_ptr< node >& n )
+         {
+            // rulename
+            if( n->is< grammar::rulename >() ) {
+               return get_rulename( n, true );
+            }
+
+            // string
+            if( n->is< string_tag >() ) {
+               const std::string content = n->content();
+               std::string s;
+               for( const auto c : content ) {
+                  append_char( s, c );
+               }
+               return prefix + "string< " + s + " >";
+            }
+
+            // istring
+            if( n->is< istring_tag >() ) {
+               const std::string content = n->content();
+               std::string s;
+               for( const auto c : content ) {
+                  append_char( s, c );
+               }
+               return prefix + "istring< " + s + " >";
+            }
+
+            // one
+            if( n->is< one_tag >() ) {
+               const std::string content = n->content();
+               std::string s;
+               for( const auto c : content ) {
+                  append_char( s, c );
+               }
+               return prefix + "one< " + s + " >";
+            }
+
+            // prose_val
+            if( n->is< grammar::prose_val >() ) {
+               return "/* " + n->content() + " */";
+            }
+
+            // hex_val::value
+            if( n->is< grammar::hex_val::value >() ) {
+               return "0x" + n->content();
+            }
+
+            // hex_val::type
+            if( n->is< grammar::hex_val::type >() ) {
+               return gen_val< grammar::hex_val::range >( n );
+            }
+
+            // dec_val::value
+            if( n->is< grammar::dec_val::value >() ) {
+               return n->content();
+            }
+
+            // dec_val::type
+            if( n->is< grammar::dec_val::type >() ) {
+               return gen_val< grammar::dec_val::range >( n );
+            }
+
+            // bin_val::value
+            if( n->is< grammar::bin_val::value >() ) {
+               return std::to_string( std::strtoull( n->content().c_str(), nullptr, 2 ) );
+            }
+
+            // bin_val::type
+            if( n->is< grammar::bin_val::type >() ) {
+               return gen_val< grammar::bin_val::range >( n );
+            }
+
+            // alternation
+            if( n->is< grammar::alternation >() ) {
+               return prefix + "sor< " + to_string( n->children ) + " >";
+            }
+
+            // option
+            if( n->is< grammar::option >() ) {
+               return prefix + "opt< " + to_string( n->children ) + " >";
+            }
+
+            // group
+            if( n->is< grammar::group >() ) {
+               return prefix + "seq< " + to_string( n->children ) + " >";
+            }
+
+            // repetition
+            if( n->is< grammar::repetition >() ) {
+               assert( n->size() == 2 );
+               const auto content = to_string( n->back() );
+               const auto rep = n->front()->content();
+               const auto star = rep.find( '*' );
+               if( star == std::string::npos ) {
+                  const auto v = remove_leading_zeroes( rep );
+                  if( v.empty() ) {
+                     throw std::runtime_error( to_string( n->begin() ) + ": repetition of zero not allowed" );  // NOLINT
+                  }
+                  return prefix + "rep< " + v + ", " + content + " >";
+               }
+               const auto min = remove_leading_zeroes( rep.substr( 0, star ) );
+               const auto max = remove_leading_zeroes( rep.substr( star + 1 ) );
+               if( ( star != rep.size() - 1 ) && max.empty() ) {
+                  throw std::runtime_error( to_string( n->begin() ) + ": repetition maximum of zero not allowed" );  // NOLINT
+               }
+               if( min.empty() && max.empty() ) {
+                  return prefix + "star< " + content + " >";
+               }
+               if( !min.empty() && max.empty() ) {
+                  if( min == "1" ) {
+                     return prefix + "plus< " + content + " >";
+                  }
+                  return prefix + "rep_min< " + min + ", " + content + " >";
+               }
+               if( min.empty() && !max.empty() ) {
+                  if( max == "1" ) {
+                     return prefix + "opt< " + content + " >";
+                  }
+                  return prefix + "rep_max< " + max + ", " + content + " >";
+               }
+               const auto min_val = std::strtoull( min.c_str(), nullptr, 10 );
+               const auto max_val = std::strtoull( max.c_str(), nullptr, 10 );
+               if( min_val > max_val ) {
+                  throw std::runtime_error( to_string( n->begin() ) + ": repetition minimum which is greater than the repetition maximum not allowed" );  // NOLINT
+               }
+               const auto min_element = ( min_val == 1 ) ? content : ( prefix + "rep< " + min + ", " + content + " >" );
+               if( min_val == max_val ) {
+                  return min_element;
+               }
+               const auto max_element = prefix + ( ( max_val - min_val == 1 ) ? "opt< " : ( "rep_opt< " + std::to_string( max_val - min_val ) + ", " ) ) + content + " >";
+               return prefix + "seq< " + min_element + ", " + max_element + " >";
+            }
+
+            // and_predicate
+            if( n->is< grammar::and_predicate >() ) {
+               assert( n->size() == 1 );
+               return prefix + "at< " + to_string( n->front() ) + " >";
+            }
+
+            // not_predicate
+            if( n->is< grammar::not_predicate >() ) {
+               assert( n->size() == 1 );
+               return prefix + "not_at< " + to_string( n->front() ) + " >";
+            }
+
+            // concatenation
+            if( n->is< grammar::concatenation >() ) {
+               assert( !n->empty() );
+               return prefix + "seq< " + to_string( n->children ) + " >";
+            }
+
+            // rule
+            if( n->is< grammar::rule >() ) {
+               return "struct " + get_rulename( n->front(), false ) + " : " + to_string( n->back() ) + " {};";
+            }
+
+            throw std::runtime_error( to_string( n->begin() ) + ": missing to_string() for " + n->name() );  // NOLINT
+         }
+
+         std::string to_string( const std::vector< std::unique_ptr< node > >& v )
+         {
+            std::string result;
+            for( const auto& c : v ) {
+               if( !result.empty() ) {
+                  result += ", ";
+               }
+               result += to_string( c );
+            }
+            return result;
+         }
 
       }  // namespace abnf
 
@@ -163,528 +600,9 @@ namespace tao
 
 }  // namespace tao
 
-namespace abnf2pegtl
-{
-   struct data
-   {
-      std::string rulename;
-      std::vector< std::vector< std::string > > elements;
-
-      using rules_t = std::vector< std::pair< std::string, std::string > >;
-      rules_t rules;
-
-      rules_t::reverse_iterator find_rule( const std::string& v, const rules_t::reverse_iterator& rbegin )
-      {
-         return std::find_if( rbegin, rules.rend(), [&]( const rules_t::value_type& p ) { return ::strcasecmp( p.first.c_str(), v.c_str() ) == 0; } );
-      }
-
-      rules_t::reverse_iterator find_rule( const std::string& v )
-      {
-         return find_rule( v, rules.rbegin() );
-      }
-   };
-
-   namespace
-   {
-      // clang-format off
-      std::set< std::string > keywords = {  // NOLINT
-         "alignas", "alignof", "and", "and_eq",
-         "asm", "auto", "bitand", "bitor",
-         "bool", "break", "case", "catch",
-         "char", "char16_t", "char32_t", "class",
-         "compl", "const", "constexpr", "const_cast",
-         "continue", "decltype", "default", "delete",
-         "do", "double", "dynamic_cast", "else",
-         "enum", "explicit", "export", "extern",
-         "false", "float", "for", "friend",
-         "goto", "if", "inline", "int",
-         "long", "mutable", "namespace", "new",
-         "noexcept", "not", "not_eq", "nullptr",
-         "operator", "or", "or_eq", "private",
-         "protected", "public", "register", "reinterpret_cast",
-         "return", "short", "signed", "sizeof",
-         "static", "static_assert", "static_cast", "struct",
-         "switch", "template", "this", "thread_local",
-         "throw", "true", "try", "typedef",
-         "typeid", "typename", "union", "unsigned",
-         "using", "virtual", "void", "volatile",
-         "wchar_t", "while", "xor", "xor_eq",
-         "pegtl" // this would not end well :)
-      };
-      // clang-format on
-
-   }  // namespace
-
-   template< typename Input >
-   std::string get_rulename( const Input& in, data& d )
-   {
-      std::string v = in.string();
-      std::replace( v.begin(), v.end(), '-', '_' );
-      const auto it = d.find_rule( v );
-      if( it != d.rules.rend() ) {
-         return it->first;
-      }
-      if( keywords.count( v ) != 0 || v.find( "__" ) != std::string::npos ) {
-         throw tao::TAO_PEGTL_NAMESPACE::parse_error( "'" + in.string() + "' is a reserved rulename", in );
-      }
-      return v;
-   }
-
-   const std::size_t one_size = std::string( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::one< " ).size();  // NOLINT
-
-   namespace grammar = tao::TAO_PEGTL_NAMESPACE::abnf::grammar;
-
-   template< typename Rule >
-   struct action
-      : tao::TAO_PEGTL_NAMESPACE::nothing< Rule >
-   {
-   };
-
-   template<>
-   struct action< grammar::push_stack >
-   {
-      static void apply0( data& d )
-      {
-         d.elements.emplace_back();
-      }
-   };
-
-   template<>
-   struct action< grammar::rulename >
-   {
-      template< typename Input >
-      static void apply( const Input& in, data& d )
-      {
-         d.rulename = get_rulename( in, d );
-      }
-   };
-
-   template<>
-   struct action< grammar::rulename_val >
-   {
-      template< typename Input >
-      static void apply( const Input& in, data& d )
-      {
-         assert( !d.elements.empty() );
-         std::string v = get_rulename( in, d );
-         const auto it = d.find_rule( v );
-         if( it == d.rules.rend() ) {
-            d.rules.emplace_back( v, "" );
-         }
-         d.elements.back().push_back( v );
-      }
-   };
-
-   template<>
-   struct action< grammar::quoted_string >
-   {
-      static bool append( std::string& s, const char c )
-      {
-         if( !s.empty() ) {
-            s += ", ";
-         }
-         s += '\'';
-         if( c == '\'' || c == '\\' ) {
-            s += '\\';
-         }
-         s += c;
-         s += '\'';
-         return std::isalpha( c ) != 0;
-      }
-
-      template< typename Input >
-      static void apply( const Input& in, data& d )
-      {
-         assert( !d.elements.empty() );
-         std::string s;
-         bool alpha = append( s, in.peek_char( 1 ) );
-         for( std::size_t pos = 2; pos < in.size() - 1; ++pos ) {
-            alpha = append( s, in.peek_char( pos ) ) || alpha;
-         }
-         if( alpha ) {
-            d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::istring< " + s + " >" );
-         }
-         else if( in.size() > 3 ) {
-            d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::string< " + s + " >" );
-         }
-         else {
-            d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::one< " + s + " >" );
-         }
-      }
-   };
-
-   template<>
-   struct action< grammar::prose_val >
-   {
-      template< typename Input >
-      static void apply( const Input& in, data& d )
-      {
-         assert( !d.elements.empty() );
-         const auto v = in.string();
-         d.elements.back().push_back( "/* " + v.substr( 1, v.size() - 2 ) + " */" );
-      }
-   };
-
-   template<>
-   struct action< grammar::case_sensitive_string >
-   {
-      static void apply0( data& d )
-      {
-         assert( !d.elements.empty() );
-         assert( !d.elements.back().empty() );
-         if( d.elements.back().back()[ 7 ] == 'i' ) {
-            d.elements.back().back().erase( 7, 1 );
-         }
-      }
-   };
-
-   template<>
-   struct action< grammar::bin_val::value >
-   {
-      template< typename Input >
-      static void apply( const Input& in, data& d )
-      {
-         assert( !d.elements.empty() );
-         const auto v = in.string();
-         d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::one< " + std::to_string( std::strtoull( v.c_str(), nullptr, 2 ) ) + " >" );
-      }
-   };
-
-   template<>
-   struct action< grammar::bin_val::range >
-   {
-      static void apply0( data& d )
-      {
-         assert( !d.elements.empty() );
-         assert( !d.elements.back().empty() );
-         const auto end = d.elements.back().back();
-         d.elements.back().pop_back();
-         assert( !d.elements.back().empty() );
-         const auto begin = d.elements.back().back();
-         d.elements.back().back() = "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::range< " + begin.substr( one_size, begin.size() - one_size - 2 ) + ", " + end.substr( one_size, end.size() - one_size - 2 ) + " >";
-      }
-   };
-
-   template<>
-   struct action< grammar::bin_val::next_value >
-   {
-      static void apply0( data& d )
-      {
-         assert( !d.elements.empty() );
-         assert( !d.elements.back().empty() );
-         const auto end = d.elements.back().back();
-         d.elements.back().pop_back();
-         assert( !d.elements.back().empty() );
-         if( d.elements.back().back().substr( 0, one_size ) == "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::one< " ) {
-            const auto begin = d.elements.back().back();
-            d.elements.back().back() = "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::string< " + begin.substr( one_size, begin.size() - one_size - 2 ) + ", " + end.substr( one_size, end.size() - one_size - 2 ) + " >";
-         }
-         else {
-            d.elements.back().back().replace( d.elements.back().back().size() - 2, 2, ", " + end.substr( one_size ) );
-         }
-      }
-   };
-
-   template<>
-   struct action< grammar::dec_val::value >
-   {
-      template< typename Input >
-      static void apply( const Input& in, data& d )
-      {
-         assert( !d.elements.empty() );
-         const auto v = in.string();
-         const auto p = v.find_first_not_of( '0' );
-         d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::one< " + ( ( p == std::string::npos ) ? "0" : v.substr( p ) ) + " >" );
-      }
-   };
-
-   template<>
-   struct action< grammar::dec_val::range >
-      : action< grammar::bin_val::range >
-   {
-   };
-
-   template<>
-   struct action< grammar::dec_val::next_value >
-      : action< grammar::bin_val::next_value >
-   {
-   };
-
-   template<>
-   struct action< grammar::hex_val::value >
-   {
-      template< typename Input >
-      static void apply( const Input& in, data& d )
-      {
-         assert( !d.elements.empty() );
-         d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::one< 0x" + in.string() + " >" );
-      }
-   };
-
-   template<>
-   struct action< grammar::hex_val::range >
-      : action< grammar::bin_val::range >
-   {
-   };
-
-   template<>
-   struct action< grammar::hex_val::next_value >
-      : action< grammar::bin_val::next_value >
-   {
-   };
-
-   template<>
-   struct action< grammar::option >
-   {
-      static void apply0( data& d )
-      {
-         assert( !d.elements.empty() );
-         assert( !d.elements.back().empty() );
-         d.elements.back().back() = "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::opt< " + d.elements.back().back() + " >";
-      }
-   };
-
-   template<>
-   struct action< grammar::repeat >
-   {
-      template< typename Input >
-      static void apply( const Input& in, data& d )
-      {
-         assert( !d.elements.empty() );
-         d.elements.back().push_back( in.string() );
-      }
-   };
-
-   template<>
-   struct action< grammar::repetition >
-   {
-      static std::string remove_leading_zeroes( const std::string& v )
-      {
-         const auto pos = v.find_first_not_of( '0' );
-         if( pos == std::string::npos ) {
-            return "";
-         }
-         return v.substr( pos );
-      }
-
-      template< typename Input >
-      static void apply( const Input& in, data& d )
-      {
-         assert( !d.elements.empty() );
-         assert( !d.elements.back().empty() );
-         const auto size = d.elements.back().size();
-         if( size > 1 ) {
-            const auto value = d.elements.back()[ size - 2 ];
-            if( value.find_first_not_of( "0123456789*" ) == std::string::npos ) {
-               const auto element = d.elements.back().back();
-               d.elements.back().pop_back();
-               d.elements.back().pop_back();
-               const auto star = value.find( '*' );
-               if( star == std::string::npos ) {
-                  const auto num = remove_leading_zeroes( value );
-                  if( num.empty() ) {
-                     throw tao::TAO_PEGTL_NAMESPACE::parse_error( "repetition of zero not allowed", in );
-                  }
-                  d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::rep< " + num + ", " + element + " >" );
-               }
-               else {
-                  const auto min = remove_leading_zeroes( value.substr( 0, star ) );
-                  const auto max = remove_leading_zeroes( value.substr( star + 1 ) );
-                  if( ( star != value.size() - 1 ) && max.empty() ) {
-                     throw tao::TAO_PEGTL_NAMESPACE::parse_error( "repetition maximum of zero not allowed", in );
-                  }
-                  if( min.empty() && max.empty() ) {
-                     d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::star< " + element + " >" );
-                  }
-                  else if( !min.empty() && max.empty() ) {
-                     if( min == "1" ) {
-                        d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::plus< " + element + " >" );
-                     }
-                     else {
-                        d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::rep_min< " + min + ", " + element + " >" );
-                     }
-                  }
-                  else if( min.empty() && !max.empty() ) {
-                     if( max == "1" ) {
-                        d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::opt< " + element + " >" );
-                     }
-                     else {
-                        d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::rep_opt< " + max + ", " + element + " >" );
-                     }
-                  }
-                  else {
-                     const auto min_val = std::strtoull( min.c_str(), nullptr, 10 );
-                     const auto max_val = std::strtoull( max.c_str(), nullptr, 10 );
-                     if( min_val > max_val ) {
-                        throw tao::TAO_PEGTL_NAMESPACE::parse_error( "repetition minimum which is greater than the repetition maximum not allowed", in );
-                     }
-                     const auto min_element = ( min_val == 1 ) ? element : "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::rep< " + min + ", " + element + " >";
-                     if( min_val == max_val ) {
-                        d.elements.back().push_back( min_element );
-                     }
-                     else if( max_val - min_val == 1 ) {
-                        const auto max_element = "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::opt< " + element + " >";
-                        d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::seq< " + min_element + ", " + max_element + " >" );
-                     }
-                     else {
-                        const auto max_element = "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::rep_opt< " + std::to_string( max_val - min_val ) + ", " + element + " >";
-                        d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::seq< " + min_element + ", " + max_element + " >" );
-                     }
-                  }
-               }
-            }
-         }
-      }
-   };
-
-   template<>
-   struct action< grammar::and_predicate >
-   {
-      static void apply0( data& d )
-      {
-         assert( !d.elements.empty() );
-         assert( !d.elements.back().empty() );
-         d.elements.back().back() = "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::at< " + d.elements.back().back() + " >";
-      }
-   };
-
-   template<>
-   struct action< grammar::not_predicate >
-   {
-      static void apply0( data& d )
-      {
-         assert( !d.elements.empty() );
-         assert( !d.elements.back().empty() );
-         d.elements.back().back() = "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::not_at< " + d.elements.back().back() + " >";
-      }
-   };
-
-   template<>
-   struct action< grammar::concatenation >
-   {
-      static void apply0( data& d )
-      {
-         assert( !d.elements.empty() );
-         if( d.elements.back().size() == 1 ) {
-            assert( d.elements.back().size() == 1 );
-            const auto v = d.elements.back().back();
-            d.elements.pop_back();
-            assert( !d.elements.empty() );
-            d.elements.back().push_back( v );
-         }
-         else {
-            std::string s = d.elements.back().front();
-            for( std::size_t p = 1; p != d.elements.back().size(); ++p ) {
-               s += ", ";
-               s += d.elements.back()[ p ];
-            }
-            d.elements.pop_back();
-            assert( !d.elements.empty() );
-            d.elements.back().push_back( "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::seq< " + s + " >" );
-         }
-      }
-   };
-
-   template<>
-   struct action< grammar::alternation >
-   {
-      static bool is_one( const std::string& v )
-      {
-         return v.compare( 0, one_size, "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::one< " ) == 0;
-      }
-
-      static void apply0( data& d )
-      {
-         assert( !d.elements.empty() );
-         if( d.elements.back().size() == 1 ) {
-            assert( d.elements.back().size() == 1 );
-            const auto v = d.elements.back().back();
-            d.elements.pop_back();
-            assert( !d.elements.empty() );
-            d.elements.back().push_back( v );
-         }
-         else {
-            std::string s = d.elements.back().front();
-            bool one = is_one( s );
-            for( std::size_t p = 1; p != d.elements.back().size(); ++p ) {
-               const auto v = d.elements.back()[ p ];
-               if( one && is_one( v ) ) {
-                  s.replace( s.size() - 2, 2, ", " + v.substr( one_size ) );
-               }
-               else {
-                  one = false;
-                  s += ", ";
-                  s += v;
-               }
-            }
-            d.elements.pop_back();
-            assert( !d.elements.empty() );
-            if( !one ) {
-               s = "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::sor< " + s + " >";
-            }
-            d.elements.back().push_back( s );
-         }
-      }
-   };
-
-   template<>
-   struct action< grammar::defined_as_op >
-   {
-      template< typename Input >
-      static void apply( const Input& in, data& d )
-      {
-         assert( !d.elements.empty() );
-         d.elements.back().push_back( in.string() );
-      }
-   };
-
-   template<>
-   struct action< grammar::rule >
-   {
-      static std::string strip_sor( const std::string& v )
-      {
-         return ( v.compare( 0, one_size, "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::sor< " ) == 0 ) ? v.substr( one_size, v.size() - one_size - 2 ) : v;
-      }
-
-      template< typename Input >
-      static void apply( const Input& in, data& d )
-      {
-         assert( !d.elements.empty() );
-         assert( d.elements.back().size() == 2 );
-         auto value = d.elements.back().back();
-         d.elements.back().pop_back();
-         const auto op = d.elements.back().back();
-         d.elements.back().pop_back();
-         const auto it = d.find_rule( d.rulename );
-         if( op == "=" ) {
-            if( ( it != d.rules.rend() ) && !it->second.empty() ) {
-               throw tao::TAO_PEGTL_NAMESPACE::parse_error( "'" + d.rulename + "' has already been assigned", in );
-            }
-         }
-         else {
-            assert( op == "=/" );
-            if( ( it == d.rules.rend() ) || it->second.empty() ) {
-               throw tao::TAO_PEGTL_NAMESPACE::parse_error( "'" + d.rulename + "' has not yet been assigned", in );
-            }
-            value = "tao::" TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE ) "::sor< " + strip_sor( it->second ) + ", " + strip_sor( value ) + " >";
-            if( d.find_rule( d.rulename, std::next( it ) ) == d.rules.rend() ) {
-               it->second.clear();
-            }
-            else {
-               d.rules.erase( --it.base() );
-            }
-         }
-         d.rules.emplace_back( d.rulename, value );
-         d.elements.pop_back();
-         assert( d.elements.empty() );
-      }
-   };
-
-}  // namespace abnf2pegtl
-
 int main( int argc, char** argv )
 {
-   using namespace tao::pegtl;  // NOLINT
+   using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 
    if( argc != 2 ) {
       analyze< abnf::grammar::rulelist >();
@@ -692,18 +610,24 @@ int main( int argc, char** argv )
       return 1;
    }
 
-   abnf2pegtl::data d;
    file_input<> in( argv[ 1 ] );
-   parse< abnf::grammar::rulelist, abnf2pegtl::action, abnf::grammar::error_control >( in, d );
-   for( const auto& e : d.rules ) {
-      if( e.second.empty() ) {
-         if( !d.find_rule( e.first )->second.empty() ) {
-            std::cout << "struct " << e.first << ";\n";
-         }
+   try {
+      const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::node, abnf::selector, abnf::grammar::error_control >( in );
+
+      for( const auto& rule : root->children ) {
+         abnf::rules_defined.push_back( abnf::get_rulename( rule->front() ) );
       }
-      else {
-         std::cout << "struct " << e.first << " : " << e.second << " {};\n";
+
+      for( const auto& rule : root->children ) {
+         std::cout << abnf::to_string( rule ) << std::endl;
       }
    }
+   catch( const parse_error& e ) {
+      const auto p = e.positions.front();
+      std::cerr << e.what() << std::endl
+                << in.line_as_string( p ) << std::endl
+                << std::string( p.byte_in_line, ' ' ) << '^' << std::endl;
+   }
+
    return 0;
 }
