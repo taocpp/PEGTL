@@ -2,6 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <algorithm>
+#include <functional>
 #include <iostream>
 #include <iterator>
 #include <set>
@@ -107,11 +108,6 @@ namespace tao
             }
 
          }  // namespace
-
-         struct node;
-
-         std::string to_string( const std::unique_ptr< node >& n );
-         std::string to_string( const std::vector< std::unique_ptr< node > >& v );
 
          namespace grammar
          {
@@ -308,6 +304,9 @@ namespace tao
          template<> struct selector< grammar::rule > : std::true_type {};
          // clang-format on
 
+         std::string to_string( const std::unique_ptr< node >& n );
+         std::string to_string( const std::vector< std::unique_ptr< node > >& v );
+
          namespace
          {
             std::string get_rulename( const std::unique_ptr< node >& n )
@@ -423,95 +422,100 @@ namespace tao
             tao::TAO_PEGTL_NAMESPACE::parse_tree::basic_node< node >::emplace_back( std::move( child ), st... );
          }
 
-         std::string to_string( const std::unique_ptr< node >& n )
+         struct stringifier
          {
-            // rulename
-            if( n->is< grammar::rulename >() ) {
-               return get_rulename( n, true );
+            using function_t = std::function< std::string( const std::unique_ptr< node >& n ) >;
+            function_t default_;
+
+            using map_t = std::map< const std::type_info*, function_t >;
+            map_t map_;
+
+            template< typename T >
+            void add( const function_t f )
+            {
+               map_.insert( { &typeid( T ), f } );
             }
 
-            // string
-            if( n->is< string_tag >() ) {
+            std::string operator()( const std::unique_ptr< node >& n ) const
+            {
+               const auto it = map_.find( n->id_ );
+               if( it != map_.end() ) {
+                  return it->second( n );
+               }
+               return default_( n );
+            }
+         };
+
+         stringifier make_stringifier()
+         {
+            stringifier nrv;
+            nrv.default_ = []( const std::unique_ptr< node >& n ) -> std::string {
+               throw std::runtime_error( to_string( n->begin() ) + ": missing to_string() for " + n->name() );  // NOLINT
+            };
+
+            nrv.add< grammar::rulename >( []( const std::unique_ptr< node >& n ) { return get_rulename( n, true ); } );
+
+            nrv.add< grammar::rule >( []( const std::unique_ptr< node >& n ) {
+               return "struct " + get_rulename( n->front(), false ) + " : " + to_string( n->back() ) + " {};";
+            } );
+
+            nrv.add< string_tag >( []( const std::unique_ptr< node >& n ) {
                const std::string content = n->content();
                std::string s;
                for( const auto c : content ) {
                   append_char( s, c );
                }
                return prefix + "string< " + s + " >";
-            }
+            } );
 
-            // istring
-            if( n->is< istring_tag >() ) {
+            nrv.add< istring_tag >( []( const std::unique_ptr< node >& n ) {
                const std::string content = n->content();
                std::string s;
                for( const auto c : content ) {
                   append_char( s, c );
                }
                return prefix + "istring< " + s + " >";
-            }
+            } );
 
-            // one
-            if( n->is< one_tag >() ) {
+            nrv.add< one_tag >( []( const std::unique_ptr< node >& n ) {
                const std::string content = n->content();
                std::string s;
                for( const auto c : content ) {
                   append_char( s, c );
                }
                return prefix + "one< " + s + " >";
-            }
+            } );
 
-            // prose_val
-            if( n->is< grammar::prose_val >() ) {
-               return "/* " + n->content() + " */";
-            }
+            nrv.add< grammar::hex_val::value >( []( const std::unique_ptr< node >& n ) { return "0x" + n->content(); } );
+            nrv.add< grammar::dec_val::value >( []( const std::unique_ptr< node >& n ) { return n->content(); } );
+            nrv.add< grammar::bin_val::value >( []( const std::unique_ptr< node >& n ) { return std::to_string( std::strtoull( n->content().c_str(), nullptr, 2 ) ); } );
 
-            // hex_val::value
-            if( n->is< grammar::hex_val::value >() ) {
-               return "0x" + n->content();
-            }
+            nrv.add< grammar::hex_val::type >( []( const std::unique_ptr< node >& n ) { return gen_val< grammar::hex_val::range >( n ); } );
+            nrv.add< grammar::dec_val::type >( []( const std::unique_ptr< node >& n ) { return gen_val< grammar::dec_val::range >( n ); } );
+            nrv.add< grammar::bin_val::type >( []( const std::unique_ptr< node >& n ) { return gen_val< grammar::bin_val::range >( n ); } );
 
-            // hex_val::type
-            if( n->is< grammar::hex_val::type >() ) {
-               return gen_val< grammar::hex_val::range >( n );
-            }
+            nrv.add< grammar::alternation >( []( const std::unique_ptr< node >& n ) { return prefix + "sor< " + to_string( n->children ) + " >"; } );
+            nrv.add< grammar::option >( []( const std::unique_ptr< node >& n ) { return prefix + "opt< " + to_string( n->children ) + " >"; } );
+            nrv.add< grammar::group >( []( const std::unique_ptr< node >& n ) { return prefix + "seq< " + to_string( n->children ) + " >"; } );
 
-            // dec_val::value
-            if( n->is< grammar::dec_val::value >() ) {
-               return n->content();
-            }
+            nrv.add< grammar::prose_val >( []( const std::unique_ptr< node >& n ) { return "/* " + n->content() + " */"; } );
 
-            // dec_val::type
-            if( n->is< grammar::dec_val::type >() ) {
-               return gen_val< grammar::dec_val::range >( n );
-            }
+            nrv.add< grammar::and_predicate >( []( const std::unique_ptr< node >& n ) {
+               assert( n->size() == 1 );
+               return prefix + "at< " + to_string( n->front() ) + " >";
+            } );
 
-            // bin_val::value
-            if( n->is< grammar::bin_val::value >() ) {
-               return std::to_string( std::strtoull( n->content().c_str(), nullptr, 2 ) );
-            }
+            nrv.add< grammar::not_predicate >( []( const std::unique_ptr< node >& n ) {
+               assert( n->size() == 1 );
+               return prefix + "not_at< " + to_string( n->front() ) + " >";
+            } );
 
-            // bin_val::type
-            if( n->is< grammar::bin_val::type >() ) {
-               return gen_val< grammar::bin_val::range >( n );
-            }
-
-            // alternation
-            if( n->is< grammar::alternation >() ) {
-               return prefix + "sor< " + to_string( n->children ) + " >";
-            }
-
-            // option
-            if( n->is< grammar::option >() ) {
-               return prefix + "opt< " + to_string( n->children ) + " >";
-            }
-
-            // group
-            if( n->is< grammar::group >() ) {
+            nrv.add< grammar::concatenation >( []( const std::unique_ptr< node >& n ) {
+               assert( !n->empty() );
                return prefix + "seq< " + to_string( n->children ) + " >";
-            }
+            } );
 
-            // repetition
-            if( n->is< grammar::repetition >() ) {
+            nrv.add< grammar::repetition >( []( const std::unique_ptr< node >& n ) {
                assert( n->size() == 2 );
                const auto content = to_string( n->back() );
                const auto rep = n->front()->content();
@@ -554,32 +558,15 @@ namespace tao
                }
                const auto max_element = prefix + ( ( max_val - min_val == 1 ) ? "opt< " : ( "rep_opt< " + std::to_string( max_val - min_val ) + ", " ) ) + content + " >";
                return prefix + "seq< " + min_element + ", " + max_element + " >";
-            }
+            } );
 
-            // and_predicate
-            if( n->is< grammar::and_predicate >() ) {
-               assert( n->size() == 1 );
-               return prefix + "at< " + to_string( n->front() ) + " >";
-            }
+            return nrv;
+         }
 
-            // not_predicate
-            if( n->is< grammar::not_predicate >() ) {
-               assert( n->size() == 1 );
-               return prefix + "not_at< " + to_string( n->front() ) + " >";
-            }
-
-            // concatenation
-            if( n->is< grammar::concatenation >() ) {
-               assert( !n->empty() );
-               return prefix + "seq< " + to_string( n->children ) + " >";
-            }
-
-            // rule
-            if( n->is< grammar::rule >() ) {
-               return "struct " + get_rulename( n->front(), false ) + " : " + to_string( n->back() ) + " {};";
-            }
-
-            throw std::runtime_error( to_string( n->begin() ) + ": missing to_string() for " + n->name() );  // NOLINT
+         std::string to_string( const std::unique_ptr< node >& n )
+         {
+            static stringifier s = make_stringifier();
+            return s( n );
          }
 
          std::string to_string( const std::vector< std::unique_ptr< node > >& v )
