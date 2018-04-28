@@ -9,14 +9,14 @@
 * Added function to `memory_input<>` to start again from the beginning.
 * Added big- and little-endian support to the UTF-16 and UTF-32 rules.
 * Added rules for UINT-8 and big- and little-endian UINT-16, UINT-32 and UINT-64.
-* Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with Clang 6.
-* Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with Clang and `-fms-extensions`.
+* Improved the [Parse Tree / AST interface](Parse-Tree.md).
+* Fixed parse tree node generation to remove intermediate nodes.
 * Added example for Python-style indentation-aware grammars.
 * Added examples for regular, context-free, and context-sensitive grammars.
 * Added example for how to parse with a symbol table.
+* Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with Clang 6.
+* Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with Clang's `-fms-extensions`.
 * Fixed build with Clang when `-fms-extensions` is used (`clang-cl`).
-* Improved the [Parse Tree / AST interface](Parse-Tree.md).
-* Fixed parse tree node generation to remove intermediate nodes.
 
 ## 2.4.0
 
