@@ -515,7 +515,7 @@ namespace tao
                return prefix + "seq< " + to_string( n->children ) + " >";
             } );
 
-            nrv.add< grammar::repetition >( []( const std::unique_ptr< node >& n ) {
+            nrv.add< grammar::repetition >( []( const std::unique_ptr< node >& n ) -> std::string {
                assert( n->size() == 2 );
                const auto content = to_string( n->back() );
                const auto rep = n->front()->content();
