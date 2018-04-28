@@ -431,7 +431,7 @@ namespace tao
             map_t map_;
 
             template< typename T >
-            void add( const function_t f )
+            void add( const function_t& f )
             {
                map_.insert( { &typeid( T ), f } );
             }
