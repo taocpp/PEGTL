@@ -15,7 +15,8 @@
 * Added examples for regular, context-free, and context-sensitive grammars.
 * Added example for how to parse with a symbol table.
 * Fixed build with Clang when `-fms-extensions` is used (`clang-cl`).
-* TODO: Document improvements to parse-tree example etc.
+* Improved the [Parse Tree / AST interface](Parse-Tree.md).
+* Fixed parse tree node generation to remove intermediate nodes.
 
 ## 2.4.0
 
