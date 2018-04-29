@@ -272,7 +272,7 @@ namespace tao
          {
             static void transform( std::unique_ptr< node >& n )
             {
-               n = std::move( n->back() );
+               n = std::move( n->children.back() );
                if( n->content().size() == 1 ) {
                   n->id_ = &typeid( one_tag );
                }
@@ -337,12 +337,12 @@ namespace tao
             template< typename T >
             std::string gen_val( const std::unique_ptr< node >& n )
             {
-               if( n->size() == 2 ) {
-                  if( n->back()->is< T >() ) {
-                     return prefix + "range< " + to_string( n->front() ) + ", " + to_string( n->back()->front() ) + " >";
+               if( n->children.size() == 2 ) {
+                  if( n->children.back()->is< T >() ) {
+                     return prefix + "range< " + to_string( n->children.front() ) + ", " + to_string( n->children.back()->children.front() ) + " >";
                   }
                }
-               if( n->size() == 1 ) {
+               if( n->children.size() == 1 ) {
                   return prefix + "one< " + to_string( n->children ) + " >";
                }
                return prefix + "string< " + to_string( n->children ) + " >";
@@ -355,13 +355,13 @@ namespace tao
          {
             // inserting a rule is handled here since we need access to all previously inserted rules
             if( child->is< grammar::rule >() ) {
-               const auto rname = get_rulename( child->front() );
-               assert( child->at( 1 )->is< grammar::defined_as_op >() );
-               const auto op = child->at( 1 )->content();
+               const auto rname = get_rulename( child->children.front() );
+               assert( child->children.at( 1 )->is< grammar::defined_as_op >() );
+               const auto op = child->children.at( 1 )->content();
                // when we insert a normal rule, we need to check for duplicates
                if( op == "=" ) {
                   for( const auto& n : children ) {
-                     if(::strcasecmp( rname.c_str(), abnf::get_rulename( n->front() ).c_str() ) == 0 ) {
+                     if(::strcasecmp( rname.c_str(), abnf::get_rulename( n->children.front() ).c_str() ) == 0 ) {
                         throw std::runtime_error( to_string( child->begin() ) + ": rule '" + rname + "' is already defined" );  // NOLINT
                      }
                   }
@@ -369,9 +369,9 @@ namespace tao
                // if it is an "incremental alternation", we need to consolidate the assigned alternations
                else if( op == "=/" ) {
                   std::size_t i = 0;
-                  while( i < this->size() ) {
-                     if(::strcasecmp( rname.c_str(), abnf::get_rulename( this->at( i )->front() ).c_str() ) == 0 ) {
-                        auto& previous = this->at( i )->back();
+                  while( i < children.size() ) {
+                     if(::strcasecmp( rname.c_str(), abnf::get_rulename( children.at( i )->children.front() ).c_str() ) == 0 ) {
+                        auto& previous = children.at( i )->children.back();
 
                         // if the previous rule does not assign an alternation, create an intermediate alternation and move its assignee into it.
                         if( !previous->is< abnf::grammar::alternation >() ) {
@@ -385,31 +385,31 @@ namespace tao
                         }
 
                         // append all new options to the previous rule's assignee (which now always an alternation)
-                        previous->end_ = child->back()->end_;
+                        previous->end_ = child->children.back()->end_;
 
                         // if the new rule itself contains an alternation, append the individual entries...
-                        if( child->back()->is< abnf::grammar::alternation >() ) {
-                           for( auto& n : child->back()->children ) {
+                        if( child->children.back()->is< abnf::grammar::alternation >() ) {
+                           for( auto& n : child->children.back()->children ) {
                               previous->children.emplace_back( std::move( n ) );
                            }
                         }
                         // ...otherwise add the node itself as another option.
                         else {
-                           previous->children.emplace_back( std::move( child->back() ) );
+                           previous->children.emplace_back( std::move( child->children.back() ) );
                         }
 
                         // finally, move the previous rule to the current position...
-                        child = std::move( this->at( i ) );
+                        child = std::move( children.at( i ) );
 
                         // ...and remove the previous rule from the list.
-                        this->children.erase( this->children.begin() + i );
+                        children.erase( children.begin() + i );
 
                         // all OK now
                         break;
                      }
                      ++i;
                   }
-                  if( i == this->size() ) {
+                  if( i == children.size() ) {
                      throw std::runtime_error( to_string( child->begin() ) + ": incremental alternation '" + rname + "' without previous rule definition" );  // NOLINT
                   }
                }
@@ -456,7 +456,7 @@ namespace tao
             nrv.add< grammar::rulename >( []( const std::unique_ptr< node >& n ) { return get_rulename( n, true ); } );
 
             nrv.add< grammar::rule >( []( const std::unique_ptr< node >& n ) {
-               return "struct " + get_rulename( n->front(), false ) + " : " + to_string( n->back() ) + " {};";
+               return "struct " + get_rulename( n->children.front(), false ) + " : " + to_string( n->children.back() ) + " {};";
             } );
 
             nrv.add< string_tag >( []( const std::unique_ptr< node >& n ) {
@@ -501,24 +501,24 @@ namespace tao
             nrv.add< grammar::prose_val >( []( const std::unique_ptr< node >& n ) { return "/* " + n->content() + " */"; } );
 
             nrv.add< grammar::and_predicate >( []( const std::unique_ptr< node >& n ) {
-               assert( n->size() == 1 );
-               return prefix + "at< " + to_string( n->front() ) + " >";
+               assert( n->children.size() == 1 );
+               return prefix + "at< " + to_string( n->children.front() ) + " >";
             } );
 
             nrv.add< grammar::not_predicate >( []( const std::unique_ptr< node >& n ) {
-               assert( n->size() == 1 );
-               return prefix + "not_at< " + to_string( n->front() ) + " >";
+               assert( n->children.size() == 1 );
+               return prefix + "not_at< " + to_string( n->children.front() ) + " >";
             } );
 
             nrv.add< grammar::concatenation >( []( const std::unique_ptr< node >& n ) {
-               assert( !n->empty() );
+               assert( !n->children.empty() );
                return prefix + "seq< " + to_string( n->children ) + " >";
             } );
 
             nrv.add< grammar::repetition >( []( const std::unique_ptr< node >& n ) -> std::string {
-               assert( n->size() == 2 );
-               const auto content = to_string( n->back() );
-               const auto rep = n->front()->content();
+               assert( n->children.size() == 2 );
+               const auto content = to_string( n->children.back() );
+               const auto rep = n->children.front()->content();
                const auto star = rep.find( '*' );
                if( star == std::string::npos ) {
                   const auto v = remove_leading_zeroes( rep );
@@ -602,7 +602,7 @@ int main( int argc, char** argv )
       const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::node, abnf::selector, abnf::grammar::error_control >( in );
 
       for( const auto& rule : root->children ) {
-         abnf::rules_defined.push_back( abnf::get_rulename( rule->front() ) );
+         abnf::rules_defined.push_back( abnf::get_rulename( rule->children.front() ) );
       }
 
       for( const auto& rule : root->children ) {

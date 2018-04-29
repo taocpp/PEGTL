@@ -46,46 +46,6 @@ namespace tao
             default_node_children& operator=( const default_node_children& ) = delete;
             default_node_children& operator=( default_node_children&& ) = delete;
 
-            typename children_t::reference at( const typename children_t::size_type pos )
-            {
-               return children.at( pos );
-            }
-
-            typename children_t::const_reference at( const typename children_t::size_type pos ) const
-            {
-               return children.at( pos );
-            }
-
-            typename children_t::reference front()
-            {
-               return children.front();
-            }
-
-            typename children_t::const_reference front() const
-            {
-               return children.front();
-            }
-
-            typename children_t::reference back()
-            {
-               return children.back();
-            }
-
-            typename children_t::const_reference back() const
-            {
-               return children.back();
-            }
-
-            bool empty() const noexcept
-            {
-               return children.empty();
-            }
-
-            typename children_t::size_type size() const noexcept
-            {
-               return children.size();
-            }
-
             // if parsing succeeded and the (optional) transform call
             // did not discard the node, it is appended to its parent.
             // note that "child" is the node whose Rule just succeeded
@@ -329,21 +289,21 @@ namespace tao
          struct fold_one : std::true_type
          {
             template< typename Node, typename... States >
-            static void transform( std::unique_ptr< Node >& n, States&&... /*unused*/ ) noexcept( noexcept( n->size(), n->front() ) )
+            static void transform( std::unique_ptr< Node >& n, States&&... /*unused*/ ) noexcept( noexcept( n->children.size(), n->children.front() ) )
             {
-               if( n->size() == 1 ) {
-                  n = std::move( n->front() );
+               if( n->children.size() == 1 ) {
+                  n = std::move( n->children.front() );
                }
             }
          };
 
-         // if a node has only one child, replace the node with its child
+         // if a node has only no children, discard the node
          struct discard_empty : std::true_type
          {
             template< typename Node, typename... States >
-            static void transform( std::unique_ptr< Node >& n, States&&... /*unused*/ ) noexcept( noexcept( n->empty() ) )
+            static void transform( std::unique_ptr< Node >& n, States&&... /*unused*/ ) noexcept( noexcept( n->children.empty() ) )
             {
-               if( n->empty() ) {
+               if( n->children.empty() ) {
                   n.reset();
                }
             }
