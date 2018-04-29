@@ -37,6 +37,8 @@ namespace tao
          verify_rule< uint32_le::any >( __LINE__, __FILE__, "\x01\x02\x03\x55\x44", result_type::SUCCESS, 1 );
          verify_rule< uint32_le::any >( __LINE__, __FILE__, "\x71\x72\x03\x55\x44", result_type::SUCCESS, 1 );
 
+         verify_rule< uint32_be::mask_not_one< 0xffffffff, 0x01111111, 0x02222222 > >( __LINE__, __FILE__, "\x01\x11\x11", result_type::LOCAL_FAILURE );
+
          verify_rule< uint32_be::mask_not_one< 0xffffffff, 0x01111111, 0x02222222 > >( __LINE__, __FILE__, "\x01\x11\x11\x11", result_type::LOCAL_FAILURE );
          verify_rule< uint32_be::mask_not_one< 0xffffffff, 0x01111111, 0x02222222 > >( __LINE__, __FILE__, "\x11\x11\x11\x01", result_type::SUCCESS );
 
