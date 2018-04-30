@@ -249,21 +249,21 @@ namespace tao
          {
             static void transform( std::unique_ptr< node >& n )
             {
-               shift( n->begin_, 1 );
-               shift( n->end_, -1 );
+               shift( n->m_begin, 1 );
+               shift( n->m_end, -1 );
 
                const std::string content = n->content();
                for( const auto c : content ) {
                   if( std::isalpha( c ) != 0 ) {
-                     n->id_ = &typeid( istring_tag );
+                     n->id = &typeid( istring_tag );
                      return;
                   }
                }
                if( content.size() == 1 ) {
-                  n->id_ = &typeid( one_tag );
+                  n->id = &typeid( one_tag );
                }
                else {
-                  n->id_ = &typeid( string_tag );
+                  n->id = &typeid( string_tag );
                }
             }
          };
@@ -274,10 +274,10 @@ namespace tao
             {
                n = std::move( n->children.back() );
                if( n->content().size() == 1 ) {
-                  n->id_ = &typeid( one_tag );
+                  n->id = &typeid( one_tag );
                }
                else {
-                  n->id_ = &typeid( string_tag );
+                  n->id = &typeid( string_tag );
                }
             }
          };
@@ -376,16 +376,16 @@ namespace tao
                         // if the previous rule does not assign an alternation, create an intermediate alternation and move its assignee into it.
                         if( !previous->is< abnf::grammar::alternation >() ) {
                            std::unique_ptr< node > s( new node );
-                           s->id_ = &typeid( abnf::grammar::alternation );
-                           s->source_ = previous->source_;
-                           s->begin_ = previous->begin_;
-                           s->end_ = previous->end_;
+                           s->id = &typeid( abnf::grammar::alternation );
+                           s->source = previous->source;
+                           s->m_begin = previous->m_begin;
+                           s->m_end = previous->m_end;
                            s->children.emplace_back( std::move( previous ) );
                            previous = std::move( s );
                         }
 
                         // append all new options to the previous rule's assignee (which now always an alternation)
-                        previous->end_ = child->children.back()->end_;
+                        previous->m_end = child->children.back()->m_end;
 
                         // if the new rule itself contains an alternation, append the individual entries...
                         if( child->children.back()->is< abnf::grammar::alternation >() ) {
@@ -438,7 +438,7 @@ namespace tao
 
             std::string operator()( const std::unique_ptr< node >& n ) const
             {
-               const auto it = map_.find( n->id_ );
+               const auto it = map_.find( n->id );
                if( it != map_.end() ) {
                   return it->second( n );
                }

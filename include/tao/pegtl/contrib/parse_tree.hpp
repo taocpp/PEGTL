@@ -60,74 +60,70 @@ namespace tao
 
          struct default_node_content
          {
-            const std::type_info* id_ = nullptr;
-            internal::iterator begin_;
-            internal::iterator end_;
-            std::string source_;
+            const std::type_info* id = nullptr;
+            std::string source;
+
+            internal::iterator m_begin;
+            internal::iterator m_end;
 
             bool is_root() const noexcept
             {
-               return id_ == nullptr;
+               return id == nullptr;
             }
 
             template< typename T >
             bool is() const noexcept
             {
-               return id_ == &typeid( T );
+               return id == &typeid( T );
             }
 
             std::string name() const
             {
                assert( !is_root() );
-               return TAO_PEGTL_NAMESPACE::internal::demangle( id_->name() );
+               return TAO_PEGTL_NAMESPACE::internal::demangle( id->name() );
             }
 
             position begin() const
             {
-               return position( begin_, source_ );
+               return position( m_begin, source );
             }
 
             position end() const
             {
-               return position( end_, source_ );
-            }
-
-            const std::string& source() const noexcept
-            {
-               return source_;
+               return position( m_end, source );
             }
 
             bool has_content() const noexcept
             {
-               return end_.data != nullptr;
+               return m_end.data != nullptr;
             }
 
             std::string content() const
             {
                assert( has_content() );
-               return std::string( begin_.data, end_.data );
+               return std::string( m_begin.data, m_end.data );
             }
 
             template< typename... States >
             void remove_content( States&&... /*unused*/ ) noexcept
             {
-               end_.reset();
+               m_end.reset();
             }
 
             // all non-root nodes are initialized by calling this method
             template< typename Rule, typename Input, typename... States >
             void start( const Input& in, States&&... /*unused*/ )
             {
-               id_ = &typeid( Rule );
-               begin_ = in.iterator();
-               source_ = in.source();
+               id = &typeid( Rule );
+               source = in.source();
+               m_begin = in.iterator();
             }
 
             // if parsing of the rule succeeded, this method is called
             template< typename Rule, typename Input, typename... States >
             void success( const Input& in, States&&... /*unused*/ ) noexcept
             {
-               end_ = in.iterator();
+               m_end = in.iterator();
             }
 
             // if parsing of the rule failed, this method is called
