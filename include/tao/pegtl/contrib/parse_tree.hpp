@@ -26,55 +26,41 @@ namespace tao
       namespace parse_tree
       {
          template< typename T >
-         struct default_node_children
+         struct basic_node
          {
             using node_t = T;
             using children_t = std::vector< std::unique_ptr< node_t > >;
             children_t children;
 
-            // each node will be default constructed
-            default_node_children() = default;
-
-            // no copy/move is necessary
-            // (nodes are always owned/handled by a std::unique_ptr)
-            default_node_children( const default_node_children& ) = delete;
-            default_node_children( default_node_children&& ) = delete;
-
-            ~default_node_children() = default;
-
-            // no assignment either
-            default_node_children& operator=( const default_node_children& ) = delete;
-            default_node_children& operator=( default_node_children&& ) = delete;
-
-            // if parsing succeeded and the (optional) transform call
-            // did not discard the node, it is appended to its parent.
-            // note that "child" is the node whose Rule just succeeded
-            // and "*this" is the parent where the node should be appended.
-            template< typename... States >
-            void emplace_back( std::unique_ptr< node_t > child, States&&... /*unused*/ )
-            {
-               assert( child );
-               children.emplace_back( std::move( child ) );
-            }
-         };
-
-         struct default_node_content
-         {
             const std::type_info* id = nullptr;
             std::string source;
 
             internal::iterator m_begin;
             internal::iterator m_end;
 
+            // each node will be default constructed
+            basic_node() = default;
+
+            // no copy/move is necessary
+            // (nodes are always owned/handled by a std::unique_ptr)
+            basic_node( const basic_node& ) = delete;
+            basic_node( basic_node&& ) = delete;
+
+            ~basic_node() = default;
+
+            // no assignment either
+            basic_node& operator=( const basic_node& ) = delete;
+            basic_node& operator=( basic_node&& ) = delete;
+
             bool is_root() const noexcept
             {
                return id == nullptr;
             }
 
-            template< typename T >
+            template< typename U >
             bool is() const noexcept
             {
-               return id == &typeid( T );
+               return id == &typeid( U );
             }
 
             std::string name() const
@@ -131,13 +117,17 @@ namespace tao
             void failure( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
             {
             }
-         };
 
-         template< typename T >
-         struct basic_node
-            : default_node_children< T >,
-              default_node_content
-         {
+            // if parsing succeeded and the (optional) transform call
+            // did not discard the node, it is appended to its parent.
+            // note that "child" is the node whose Rule just succeeded
+            // and "*this" is the parent where the node should be appended.
+            template< typename... States >
+            void emplace_back( std::unique_ptr< node_t > child, States&&... /*unused*/ )
+            {
+               assert( child );
+               children.emplace_back( std::move( child ) );
+            }
          };
 
          struct node
@@ -269,8 +259,6 @@ namespace tao
 
          }  // namespace internal
 
-         // use these helper classes as a base class to derive your specialization from:
-
          // some nodes don't need to store their content
          struct remove_content : std::true_type
          {
@@ -293,7 +281,7 @@ namespace tao
             }
          };
 
-         // if a node has only no children, discard the node
+         // if a node has no children, discard the node
          struct discard_empty : std::true_type
          {
             template< typename Node, typename... States >
