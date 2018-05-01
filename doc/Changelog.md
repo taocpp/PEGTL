@@ -2,15 +2,15 @@
 
 ## 2.5.0
 
-*Not Released Yet*
+Released 2018-05-01
 
 * Added rules to match Unicode properties via [ICU](http://site.icu-project.org) to contrib.
-* Added function to `memory_input<>` to obtain the line around a position.
-* Added function to `memory_input<>` to start again from the beginning.
+* Improved the [Parse Tree / AST interface](Parse-Tree.md).
+* Fixed parse tree node generation to correctly remove intermediate nodes.
 * Added big- and little-endian support to the UTF-16 and UTF-32 rules.
 * Added rules for UINT-8 and big- and little-endian UINT-16, UINT-32 and UINT-64.
-* Improved the [Parse Tree / AST interface](Parse-Tree.md).
-* Fixed parse tree node generation to remove intermediate nodes.
+* Added function to `memory_input<>` to obtain the line around a position.
+* Added function to `memory_input<>` to start again from the beginning.
 * Added example for Python-style indentation-aware grammars.
 * Added examples for regular, context-free, and context-sensitive grammars.
 * Added example for how to parse with a symbol table.

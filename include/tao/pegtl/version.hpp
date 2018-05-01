@@ -4,10 +4,10 @@
 #ifndef TAO_PEGTL_VERSION_HPP
 #define TAO_PEGTL_VERSION_HPP
 
-#define TAO_PEGTL_VERSION "2.4.0"
+#define TAO_PEGTL_VERSION "2.5.0"
 
 #define TAO_PEGTL_VERSION_MAJOR 2
-#define TAO_PEGTL_VERSION_MINOR 4
+#define TAO_PEGTL_VERSION_MINOR 5
 #define TAO_PEGTL_VERSION_PATCH 0
 
 // Compatibility, remove with 3.0
