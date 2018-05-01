@@ -171,7 +171,7 @@ namespace tao
          // (b) accepts multiple consecutive escaped 16-bit values.
          // When applied to more than one escape sequence, unescape_j
          // translates UTF-16 surrogate pairs in the input into a single
-         // UTF-8 sequence in st.unescaped, as required for JSON by RFC 7159.
+         // UTF-8 sequence in st.unescaped, as required for JSON by RFC 8259.
 
          struct unescape_j
          {
