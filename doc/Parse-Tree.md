@@ -41,7 +41,7 @@ template<> struct my_selector< my_rule_3 > : std::true_type {};
 auto root = tao::pegtl::parse_tree::parse< my_grammar, my_selector >( in );
 ```
 
-The above style is a white-list, where the default is `std::false_type` and you explicitly list those rules which will generate a node. Of course, you can also set the default to `std::true_type` and explicitly list the rules thar are *not* to generate a node (black-list style).
+The above style is a white-list, where the default is `std::false_type` and you explicitly list those rules which will generate a node. Of course, you can also set the default to `std::true_type` and explicitly list the rules that are *not* to generate a node (black-list style).
 
 ## Transforming Nodes
 
