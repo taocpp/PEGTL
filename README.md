@@ -47,11 +47,8 @@ Included are some [examples](doc/Contrib-and-Examples.md#examples) for typical s
 
 Through the use of template programming and template specialisations it is possible to write a grammar once, and use it in multiple ways with different (semantic) actions in different (or the same) parsing runs.
 
-Unlike [Antlr](http://www.antlr.org/) and Yacc/[Bison](http://www.gnu.org/software/bison/), the grammar is expressed in C++ and is part of the C++ source code.
-Also, with the PEG formalism the separation into lexer and parser stages is usually dropped -- everything is done in a single grammar.
-
-Unlike [Spirit](http://boost-spirit.com/), the grammar is implemented with compile-time template instantiations rather than run-time operator calls.
-This leads to slightly increased compile times as the C++ compiler is given the task of optimising PEGTL grammars.
+With the PEG formalism, the separation into lexer and parser stages is usually dropped -- everything is done in a single grammar.
+The rules are expressed in C++ as template instantiations, and the compiler has the task to optimise PEGTL grammars.
 
 ### Status
 
