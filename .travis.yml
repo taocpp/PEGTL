@@ -32,9 +32,10 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-6']
+          packages: ['g++-5']
       env:
-        - CXX=g++-6
+        - CXX=g++-5
+        - CXXSTD=-std=c++14
 
     - compiler: gcc
       addons:
@@ -43,7 +44,6 @@ matrix:
           packages: ['g++-6']
       env:
         - CXX=g++-6
-        - CXXSTD=-std=c++14
 
     - compiler: gcc
       addons:
@@ -61,6 +61,14 @@ matrix:
       env:
         - CXX=g++-7
         - CXXSTD=-std=c++17
+
+    - compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-8']
+      env:
+        - CXX=g++-8
 
     - dist: precise
       compiler: clang
@@ -339,23 +347,23 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7']
+          packages: ['g++-8']
       env:
-        - CXX=g++-7
+        - CXX=g++-8
         - CXXFLAGS="-O0 --coverage"
       before_script:
         - pip install --user cpp-coveralls
       script:
         - make -kj3 check
-        - coveralls --gcov gcov-7 --gcov-options '\-lp' --exclude src
+        - coveralls --gcov gcov-8 --gcov-options '\-lp' --exclude src
 
     - compiler: gcc
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7']
+          packages: ['g++-8']
       env:
-        - CXX=g++-7
+        - CXX=g++-8
         - CPPFLAGS="-fsanitize=undefined -fuse-ld=gold"
 
     - compiler: gcc
@@ -363,9 +371,9 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7']
+          packages: ['g++-8']
       env:
-        - CXX=g++-7
+        - CXX=g++-8
         - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
 
     - compiler: clang
@@ -391,9 +399,9 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7', 'valgrind']
+          packages: ['g++-8', 'valgrind']
       env:
-        - CXX=g++-7
+        - CXX=g++-8
         - SPECIAL=valgrind
       script:
         - make -kj3 valgrind
@@ -402,9 +410,9 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7', 'cppcheck']
+          packages: ['g++-8', 'cppcheck']
       env:
-        - CXX=g++-7
+        - CXX=g++-8
         - SPECIAL=cppcheck
       script:
         - make -kj3 cppcheck
