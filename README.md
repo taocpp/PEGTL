@@ -48,7 +48,7 @@ Included are some [examples](doc/Contrib-and-Examples.md#examples) for typical s
 Through the use of template programming and template specialisations it is possible to write a grammar once, and use it in multiple ways with different (semantic) actions in different (or the same) parsing runs.
 
 With the PEG formalism, the separation into lexer and parser stages is usually dropped -- everything is done in a single grammar.
-The rules are expressed in C++ as template instantiations, and the compiler has the task to optimise PEGTL grammars.
+The rules are expressed in C++ as template instantiations, and it is the compiler's task to optimise PEGTL grammars.
 
 ### Status
 
