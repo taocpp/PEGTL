@@ -185,11 +185,11 @@ namespace tao
             template< template< typename > class S, template< typename > class C >
             struct make_control
             {
-               template< typename Rule, bool = S< Rule >::value >
+               template< typename Rule, bool >
                struct control;
 
                template< typename Rule >
-               using type = control< Rule >;
+               using type = control< Rule, S< Rule >::value >;
             };
 
             template< template< typename > class S, template< typename > class C >

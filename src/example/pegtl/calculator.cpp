@@ -158,8 +158,8 @@ namespace calculator
          insert( "&", order( 10 ), []( const long l, const long r ) { return l & r; } );
          insert( "^", order( 11 ), []( const long l, const long r ) { return l ^ r; } );
          insert( "|", order( 12 ), []( const long l, const long r ) { return l | r; } );
-         insert( "&&", order( 13 ), []( const long l, const long r ) { return static_cast< bool >( l ) && static_cast< bool >( r ); } );
-         insert( "||", order( 14 ), []( const long l, const long r ) { return static_cast< bool >( l ) || static_cast< bool >( r ); } );
+         insert( "&&", order( 13 ), []( const long l, const long r ) { return ( ( l != 0 ) && ( r != 0 ) ) ? 1 : 0; } );
+         insert( "||", order( 14 ), []( const long l, const long r ) { return ( ( l != 0 ) || ( r != 0 ) ) ? 1 : 0; } );
       }
 
       // Arbitrary user-defined operators can be added at runtime.

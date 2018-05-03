@@ -83,7 +83,8 @@ namespace example
       entry( const unsigned i, const example::type t )
          : indent( i ),
            type( t )
-      {}
+      {
+      }
 
       unsigned indent;
       example::type type;
@@ -172,7 +173,8 @@ namespace example
       template< typename Input >
       static void apply( const Input& in, state& s )
       {
-         if( ( s.current_indent = in.size() ) ) {
+         s.current_indent = in.size();
+         if( s.current_indent != 0 ) {
             while( ( !s.stack.empty() ) && ( s.stack.back().indent > s.current_indent ) ) {
                s.stack.pop_back();
             }

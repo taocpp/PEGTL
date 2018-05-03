@@ -14,7 +14,13 @@
 #include <cctype>
 #include <cstdlib>
 
+#if defined( _MSC_VER ) && !( defined( _WIN32 ) || defined( _WIN64 ) )
+#include <string.h>
+#define TAO_PEGTL_STRCASECMP _stricmp
+#else
 #include <strings.h>
+#define TAO_PEGTL_STRCASECMP strcasecmp
+#endif
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
@@ -69,7 +75,7 @@ namespace tao
 
             rules_t::reverse_iterator find_rule( rules_t& r, const std::string& v, const rules_t::reverse_iterator& rbegin )
             {
-               return std::find_if( rbegin, r.rend(), [&]( const rules_t::value_type& p ) { return ::strcasecmp( p.c_str(), v.c_str() ) == 0; } );
+               return std::find_if( rbegin, r.rend(), [&]( const rules_t::value_type& p ) { return TAO_PEGTL_STRCASECMP( p.c_str(), v.c_str() ) == 0; } );
             }
 
             rules_t::reverse_iterator find_rule( rules_t& r, const std::string& v )
@@ -361,7 +367,7 @@ namespace tao
                // when we insert a normal rule, we need to check for duplicates
                if( op == "=" ) {
                   for( const auto& n : children ) {
-                     if(::strcasecmp( rname.c_str(), abnf::get_rulename( n->children.front() ).c_str() ) == 0 ) {
+                     if( TAO_PEGTL_STRCASECMP( rname.c_str(), abnf::get_rulename( n->children.front() ).c_str() ) == 0 ) {
                         throw std::runtime_error( to_string( child->begin() ) + ": rule '" + rname + "' is already defined" );  // NOLINT
                      }
                   }
@@ -370,7 +376,7 @@ namespace tao
                else if( op == "=/" ) {
                   std::size_t i = 0;
                   while( i < children.size() ) {
-                     if(::strcasecmp( rname.c_str(), abnf::get_rulename( children.at( i )->children.front() ).c_str() ) == 0 ) {
+                     if( TAO_PEGTL_STRCASECMP( rname.c_str(), abnf::get_rulename( children.at( i )->children.front() ).c_str() ) == 0 ) {
                         auto& previous = children.at( i )->children.back();
 
                         // if the previous rule does not assign an alternation, create an intermediate alternation and move its assignee into it.
