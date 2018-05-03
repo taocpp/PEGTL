@@ -120,7 +120,7 @@ namespace tao
          verify_rule< uint64_be::mask_string< 0xffffffffffffffff, 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\x01\x23\x32\x10\xde\xad\xca\xfe\x45\x67\x76\x54\xba\xff\xb1\xff", result_type::SUCCESS );
          verify_rule< uint64_be::mask_string< 0xffffffffffffffff, 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\xfe\xca\xad\xde\x10\x32\x23\x01\xff\xb1\xff\xba\x54\x76\x67\x45", result_type::LOCAL_FAILURE );
 
-         verify_rule< uint64_le::mask_string< 0xffffffffffffffff, 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\x01\x23\x32\x10\xde\xad\xca\xfe\x45\x67\x76\x54\xba\xff\xb1\xff", result_type::LOCAL_FAILURE);
+         verify_rule< uint64_le::mask_string< 0xffffffffffffffff, 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\x01\x23\x32\x10\xde\xad\xca\xfe\x45\x67\x76\x54\xba\xff\xb1\xff", result_type::LOCAL_FAILURE );
          verify_rule< uint64_le::mask_string< 0xffffffffffffffff, 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\xfe\xca\xad\xde\x10\x32\x23\x01\xff\xb1\xff\xba\x54\x76\x67\x45", result_type::SUCCESS );
 
          verify_rule< uint64_be::mask_string< 0x4fffffffffffffff, 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\x81\x23\x32\x10\xde\xad\xca\xfe\x45\x67\x76\x54\xba\xff\xb1\xff", result_type::SUCCESS );
@@ -176,7 +176,7 @@ namespace tao
          verify_rule< uint64_be::string< 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\x01\x23\x32\x10\xde\xad\xca\xfe\x45\x67\x76\x54\xba\xff\xb1\xff", result_type::SUCCESS );
          verify_rule< uint64_be::string< 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\xfe\xca\xad\xde\x10\x32\x23\x01\xff\xb1\xff\xba\x54\x76\x67\x45", result_type::LOCAL_FAILURE );
 
-         verify_rule< uint64_le::string< 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\x01\x23\x32\x10\xde\xad\xca\xfe\x45\x67\x76\x54\xba\xff\xb1\xff", result_type::LOCAL_FAILURE);
+         verify_rule< uint64_le::string< 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\x01\x23\x32\x10\xde\xad\xca\xfe\x45\x67\x76\x54\xba\xff\xb1\xff", result_type::LOCAL_FAILURE );
          verify_rule< uint64_le::string< 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\xfe\xca\xad\xde\x10\x32\x23\x01\xff\xb1\xff\xba\x54\x76\x67\x45", result_type::SUCCESS );
       }
 
