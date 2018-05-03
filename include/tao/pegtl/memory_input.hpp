@@ -339,7 +339,7 @@ namespace tao
 
          const char* end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
          {
-            memory_input< tracking_mode::LAZY, Eol, const char* > in( at( p ), this->end(), nullptr );
+            TAO_PEGTL_NAMESPACE::memory_input< tracking_mode::LAZY, Eol, const char* > in( at( p ), this->end(), nullptr );
             normal< internal::until< internal::at< internal::eolf > > >::match< apply_mode::NOTHING, rewind_mode::DONTCARE, nothing, normal >( in );
             return in.current();
          }
