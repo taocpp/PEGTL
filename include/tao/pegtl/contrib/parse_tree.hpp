@@ -35,8 +35,8 @@ namespace tao
             const std::type_info* id = nullptr;
             std::string source;
 
-            internal::iterator m_begin;
-            internal::iterator m_end;
+            TAO_PEGTL_NAMESPACE::internal::iterator m_begin;
+            TAO_PEGTL_NAMESPACE::internal::iterator m_end;
 
             // each node will be default constructed
             basic_node() = default;
