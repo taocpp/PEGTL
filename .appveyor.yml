@@ -47,7 +47,7 @@ before_build:
 - if defined BINDIR (set "PATH=%BINDIR%;%PATH:C:\Program Files\Git\usr\bin;=%")
 - md build
 - cd build
-- cmake -Wno-dev -DPEGTL_BUILD_EXAMPLES=OFF --config "%CONFIGURATION%" -G "%GENERATOR%" ..
+- cmake -Wno-dev --config "%CONFIGURATION%" -G "%GENERATOR%" ..
 
 build_script:
 - cmake --build . --config "%CONFIGURATION%"
