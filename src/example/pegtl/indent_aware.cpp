@@ -2,6 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <cassert>
+#include <cstddef>
 #include <iostream>
 
 #include <tao/pegtl.hpp>
@@ -80,20 +81,20 @@ namespace example
 
    struct entry
    {
-      entry( const unsigned i, const example::type t )
+      entry( const std::size_t i, const example::type t )
          : indent( i ),
            type( t )
       {
       }
 
-      unsigned indent;
+      std::size_t indent;
       example::type type;
    };
 
    struct state
    {
-      unsigned current_indent = 0;  // Temporary value, the indentation of the current line.
-      unsigned minimum_indent = 0;  // Set to non-zero when the next line needs a greater indent.
+      std::size_t current_indent = 0;  // Temporary value, the indentation of the current line.
+      std::size_t minimum_indent = 0;  // Set to non-zero when the next line needs a greater indent.
 
       std::vector< entry > stack;  // Follows the nesting of the indented blocks.
    };
