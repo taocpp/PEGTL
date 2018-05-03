@@ -14,7 +14,7 @@
 #include <cctype>
 #include <cstdlib>
 
-#if defined( _MSC_VER ) && !( defined( _WIN32 ) || defined( _WIN64 ) )
+#if defined( _MSC_VER )
 #include <string.h>
 #define TAO_PEGTL_STRCASECMP _stricmp
 #else
