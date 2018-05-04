@@ -5,6 +5,7 @@
 #include <functional>
 #include <iostream>
 #include <map>
+#include <sstream>
 #include <vector>
 
 #include <tao/pegtl.hpp>
@@ -309,7 +310,11 @@ namespace calculator
       template< typename Input >
       static void apply( const Input& in, const operators& /*unused*/, stacks& s )
       {
-         s.push( std::stol( in.string() ) );
+         std::stringstream ss;
+         ss.str( in.string() );
+         long v;
+         ss >> v;
+         s.push( v );
       }
    };
 
