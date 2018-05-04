@@ -582,7 +582,9 @@ namespace tao
                if( min_val == max_val ) {
                   return min_element;
                }
-               const auto max_element = prefix + ( ( max_val - min_val == 1 ) ? "opt< " : ( "rep_opt< " + std::to_string( max_val - min_val ) + ", " ) ) + content + " >";
+               std::ostringstream os;
+               os << ( max_val - min_val );
+               const auto max_element = prefix + ( ( max_val - min_val == 1 ) ? "opt< " : ( "rep_opt< " + os.str() + ", " ) ) + content + " >";
                return prefix + "seq< " + min_element + ", " + max_element + " >";
             } );
 
