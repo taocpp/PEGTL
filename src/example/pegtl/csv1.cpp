@@ -4,6 +4,7 @@
 #include <cassert>
 #include <cstdint>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -55,7 +56,11 @@ namespace csv1
       static void apply( const Input& in, result_data& data )
       {
          assert( !data.empty() );
-         data.back().push_back( std::stoul( in.string() ) );
+         std::stringstream ss;
+         ss << in.string();
+         unsigned long v;
+         ss >> v;
+         data.back().push_back( v );
       }
    };
 

@@ -2,6 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <cassert>
+#include <sstream>
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/changes.hpp>
@@ -79,7 +80,11 @@ namespace examples
       template< typename Input >
       static void apply( const Input& in, result_state& result )
       {
-         result.result = std::make_shared< number_json >( std::stold( in.string() ) );  // NOTE: stold() is not quite correct for JSON but we'll use it for this simple example.
+         std::stringstream ss;
+         ss << in.string();
+         long double v;
+         ss >> v;  // NOTE: not quite correct for JSON but we'll use it for this simple example.
+         result.result = std::make_shared< number_json >( v );
       }
    };
 
