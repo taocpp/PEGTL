@@ -337,18 +337,21 @@ namespace tao
             return at( p ) - p.byte_in_line;
          }
 
-         const char* end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
-         {
-            TAO_PEGTL_NAMESPACE::memory_input< tracking_mode::LAZY, Eol, const char* > in( at( p ), this->end(), nullptr );
-            normal< internal::until< internal::at< internal::eolf > > >::match< apply_mode::NOTHING, rewind_mode::DONTCARE, nothing, normal >( in );
-            return in.current();
-         }
+         const char* end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept;
 
          std::string line_as_string( const TAO_PEGTL_NAMESPACE::position& p ) const
          {
             return std::string( begin_of_line( p ), end_of_line( p ) );
          }
       };
+
+      template< tracking_mode P, typename Eol, typename Source >
+      const char* memory_input< P, Eol, Source >::end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
+      {
+         TAO_PEGTL_NAMESPACE::memory_input< tracking_mode::LAZY, Eol, const char* > in( at( p ), this->end(), nullptr );
+         normal< internal::until< internal::at< internal::eolf > > >::match< apply_mode::NOTHING, rewind_mode::DONTCARE, nothing, normal >( in );
+         return in.current();
+      }
 
    }  // namespace TAO_PEGTL_NAMESPACE
 
