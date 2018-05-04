@@ -32,6 +32,9 @@ namespace tao
    {
       namespace internal
       {
+         template< typename Eol >
+         const char* find_end_of_line( const char* begin, const char* end ) noexcept;
+
          template< tracking_mode, typename Eol, typename Source >
          class memory_input_base;
 
@@ -337,7 +340,10 @@ namespace tao
             return at( p ) - p.byte_in_line;
          }
 
-         const char* end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept;
+         const char* end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
+         {
+            return internal::find_end_of_line< Eol >( at( p ), this->end() );
+         }
 
          std::string line_as_string( const TAO_PEGTL_NAMESPACE::position& p ) const
          {
@@ -345,13 +351,17 @@ namespace tao
          }
       };
 
-      template< tracking_mode P, typename Eol, typename Source >
-      const char* memory_input< P, Eol, Source >::end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
+      namespace internal
       {
-         TAO_PEGTL_NAMESPACE::memory_input< tracking_mode::LAZY, Eol, const char* > in( at( p ), this->end(), nullptr );
-         normal< internal::until< internal::at< internal::eolf > > >::match< apply_mode::NOTHING, rewind_mode::DONTCARE, nothing, normal >( in );
-         return in.current();
-      }
+         template< typename Eol >
+         const char* find_end_of_line( const char* begin, const char* end ) noexcept
+         {
+            memory_input< tracking_mode::LAZY, Eol, const char* > in( begin, end, nullptr );
+            normal< internal::until< internal::at< internal::eolf > > >::match< apply_mode::NOTHING, rewind_mode::DONTCARE, nothing, normal >( in );
+            return in.current();
+         }
+
+      }  // namespace internal
 
    }  // namespace TAO_PEGTL_NAMESPACE
 
