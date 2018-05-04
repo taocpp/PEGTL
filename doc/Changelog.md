@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.5.1
+
+**Not yet released**
+
+* Fixed examples to compile with Visual Studio and MinGW.
+* Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with GCC 8.
+
 ## 2.5.0
 
 Released 2018-05-01
