@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <sstream>
 #include <string>
 
 #include <tao/pegtl.hpp>
@@ -41,7 +42,11 @@ namespace sum
       static void apply( const Input& in, double& sum )
       {
          // assume all values will fit into a C++ double
-         sum += std::strtod( in.string().c_str(), nullptr );
+         std::stringstream ss;
+         ss << in.string();
+         double v;
+         ss >> v;
+         sum += v;
       }
    };
 
