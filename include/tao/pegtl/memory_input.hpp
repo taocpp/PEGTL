@@ -356,8 +356,11 @@ namespace tao
          template< typename Eol >
          const char* find_end_of_line( const char* begin, const char* end ) noexcept
          {
-            memory_input< tracking_mode::LAZY, Eol, const char* > in( begin, end, nullptr );
-            normal< internal::until< internal::at< internal::eolf > > >::match< apply_mode::NOTHING, rewind_mode::DONTCARE, nothing, normal >( in );
+            using input_t = memory_input< tracking_mode::LAZY, Eol, const char* >;
+            input_t in( begin, end, "" );
+            using grammar = internal::until< internal::at< internal::eolf > >;
+            using normal_t = normal< grammar >;
+            normal_t::match< apply_mode::NOTHING, rewind_mode::DONTCARE, nothing, normal >( in );
             return in.current();
          }
 
