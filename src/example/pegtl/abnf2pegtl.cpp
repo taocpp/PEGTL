@@ -6,6 +6,7 @@
 #include <iostream>
 #include <iterator>
 #include <set>
+#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
@@ -494,7 +495,18 @@ namespace tao
 
             nrv.add< grammar::hex_val::value >( []( const std::unique_ptr< node >& n ) { return "0x" + n->content(); } );
             nrv.add< grammar::dec_val::value >( []( const std::unique_ptr< node >& n ) { return n->content(); } );
-            nrv.add< grammar::bin_val::value >( []( const std::unique_ptr< node >& n ) { return std::to_string( std::strtoull( n->content().c_str(), nullptr, 2 ) ); } );
+            nrv.add< grammar::bin_val::value >( []( const std::unique_ptr< node >& n ) {
+               unsigned long long v = 0;
+               const char* p = n->m_begin.data;
+               // TODO: Detect overflow
+               do {
+                  v <<= 1;
+                  v |= ( *p++ & 1 );
+               } while( p != n->m_end.data );
+               std::ostringstream o;
+               o << v;
+               return o.str();
+            } );
 
             nrv.add< grammar::hex_val::type >( []( const std::unique_ptr< node >& n ) { return gen_val< grammar::hex_val::range >( n ); } );
             nrv.add< grammar::dec_val::type >( []( const std::unique_ptr< node >& n ) { return gen_val< grammar::dec_val::range >( n ); } );
@@ -553,8 +565,16 @@ namespace tao
                   }
                   return prefix + "rep_max< " + max + ", " + content + " >";
                }
-               const auto min_val = std::strtoull( min.c_str(), nullptr, 10 );
-               const auto max_val = std::strtoull( max.c_str(), nullptr, 10 );
+               unsigned long long min_val;
+               unsigned long long max_val;
+               {
+                  std::stringstream s;
+                  s.str( min );
+                  s >> min_val;
+                  s.clear();
+                  s.str( max );
+                  s >> max_val;
+               }
                if( min_val > max_val ) {
                   throw std::runtime_error( to_string( n->begin() ) + ": repetition minimum which is greater than the repetition maximum not allowed" );  // NOLINT
                }
