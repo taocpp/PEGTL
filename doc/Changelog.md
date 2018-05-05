@@ -6,6 +6,7 @@
 
 * Fixed examples to compile with Visual Studio and MinGW.
 * Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with GCC 8.
+* Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with Android 8.0 (Oreo).
 
 ## 2.5.0
 

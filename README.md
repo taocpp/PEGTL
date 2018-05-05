@@ -58,9 +58,9 @@ Each commit is automatically tested with multiple architectures, operating syste
 
   * Visual Studio 2015 (x86, x64)
   * Visual Studio 2017 (x86, x64)
-  * MinGW (i686), GCC 5
-  * MinGW-w64 (i686), GCC 5, 6
-  * MinGW-w64 (x86_64), GCC 6
+  * MinGW (i686), GCC 5.x
+  * MinGW-w64 (i686), GCC 5.x, 6.x
+  * MinGW-w64 (x86_64), GCC 6.x
 
 * Mac OS X / macOS (using libc++)
 
@@ -73,19 +73,20 @@ Each commit is automatically tested with multiple architectures, operating syste
 
   * Debian 8 (i386), GCC 4.9
   * Ubuntu 12.04 LTS (amd64), Clang 3.4, 3.7
-  * Ubuntu 14.04 LTS (amd64), GCC 4.8, 4.9, 5, 6, 7, 8
-  * Ubuntu 14.04 LTS (amd64), Clang 3.5, 3.6, 3.8, 3.9, 4, 5, 6
+  * Ubuntu 14.04 LTS (amd64), GCC 4.8, 4.9, 5.x, 6.x, 7.x, 8.x
+  * Ubuntu 14.04 LTS (amd64), Clang 3.5, 3.6, 3.8, 3.9, 4.x, 5.x, 6.x
   * Ubuntu 14.04 LTS (i386, amd64), GCC 4.8
-  * Ubuntu 16.04 LTS (i386, amd64, armhf, arm64), GCC 5
-  * Fedora 24 (x86_64), GCC 6
+  * Ubuntu 16.04 LTS (i386, amd64, armhf, arm64), GCC 5.x
+  * Fedora 24 (x86_64), GCC 6.x
   * Fedora 24 (x86_64), Clang 3.8
 
 * Android
 
-  * Android 4.4
-  * Android 5.1
-  * Android 6.0
-  * Android 7.0
+  * Android 4.4 "KitKat" (API level 19)
+  * Android 5.1 "Lollipop" (API level 22)
+  * Android 6.0 "Marshmellow" (API level 23)
+  * Android 7.0 "Nougat" (API level 24)
+  * Android 8.0 "Oreo" (API level 26)
 
 Additionally, each commit is checked with GCC's and Clang's sanitizers, as well as [`valgrind`](http://valgrind.org/)
 and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/). Code coverage is automatically measured and the unit tests
