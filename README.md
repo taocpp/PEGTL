@@ -86,7 +86,6 @@ Each commit is automatically tested with multiple architectures, operating syste
   * Android 5.1 "Lollipop" (API level 22)
   * Android 6.0 "Marshmellow" (API level 23)
   * Android 7.0 "Nougat" (API level 24)
-  * Android 8.0 "Oreo" (API level 26)
 
 Additionally, each commit is checked with GCC's and Clang's sanitizers, as well as [`valgrind`](http://valgrind.org/)
 and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/). Code coverage is automatically measured and the unit tests
