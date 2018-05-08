@@ -2,7 +2,6 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <algorithm>
-#include <functional>
 #include <iostream>
 #include <iterator>
 #include <set>
@@ -431,7 +430,7 @@ namespace tao
 
          struct stringifier
          {
-            using function_t = std::function< std::string( const std::unique_ptr< node >& n ) >;
+            using function_t = std::string ( * )( const std::unique_ptr< node >& n );
             function_t default_;
 
             using map_t = std::map< const std::type_info*, function_t >;
