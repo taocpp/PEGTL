@@ -431,7 +431,7 @@ namespace tao
          struct stringifier
          {
             using function_t = std::string ( * )( const std::unique_ptr< node >& n );
-            function_t default_;
+            function_t default_ = nullptr;
 
             using map_t = std::map< const std::type_info*, function_t >;
             map_t map_;
