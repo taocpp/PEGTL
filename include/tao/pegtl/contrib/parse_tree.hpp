@@ -294,15 +294,13 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st )
-                  -> decltype( C< Rule >::template apply0< Action >( in, st... ) )
+               static typename return_type_apply0< C< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st )
                {
                   return C< Rule >::template apply0< Action >( in, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
-               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st )
-                  -> decltype( C< Rule >::template apply< Action >( begin, in, st... ) )
+               static typename return_type_apply< C< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st )
                {
                   return C< Rule >::template apply< Action >( begin, in, st... );
                }
