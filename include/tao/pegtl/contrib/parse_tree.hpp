@@ -192,6 +192,18 @@ namespace tao
                using type = control< Rule, S< Rule >::value >;
             };
 
+            template< typename Control, template< typename... > class Action, typename Input, typename... States >
+            struct return_type_apply0
+            {
+               using type = decltype( Control::template apply0< Action >( std::declval< const Input& >(), std::declval< States&& >()... ) );
+            };
+
+            template< typename Control, template< typename... > class Action, typename Iterator, typename Input, typename... States >
+            struct return_type_apply
+            {
+               using type = decltype( Control::template apply< Action >( std::declval< const Iterator& >(), std::declval< const Input& >(), std::declval< States&& >()... ) );
+            };
+
             template< template< typename > class S, template< typename > class C >
             template< typename Rule >
             struct make_control< S, C >::control< Rule, false >
@@ -229,15 +241,13 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st )
-                  -> decltype( C< Rule >::template apply0< Action >( in, st... ) )
+               static typename return_type_apply0< C< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st )
                {
                   return C< Rule >::template apply0< Action >( in, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
-               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st )
-                  -> decltype( C< Rule >::template apply< Action >( begin, in, st... ) )
+               static typename return_type_apply< C< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st )
                {
                   return C< Rule >::template apply< Action >( begin, in, st... );
                }
