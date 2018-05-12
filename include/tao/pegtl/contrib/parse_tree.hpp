@@ -198,14 +198,16 @@ namespace tao
                : C< Rule >
             {
                template< typename Input, typename Node, typename... States >
-               static void start( const Input& /*unused*/, state< Node >& state, States&&... /*unused*/ )
+               static void start( const Input& in, state< Node >& state, States&&... st )
                {
+                  C< Rule >::start( in, st... );
                   state.emplace_back();
                }
 
                template< typename Input, typename Node, typename... States >
-               static void success( const Input& /*unused*/, state< Node >& state, States&&... /*unused*/ )
+               static void success( const Input& in, state< Node >& state, States&&... st )
                {
+                  C< Rule >::success( in, st... );
                   auto n = std::move( state.back() );
                   state.pop_back();
                   for( auto& c : n->children ) {
@@ -214,9 +216,30 @@ namespace tao
                }
 
                template< typename Input, typename Node, typename... States >
-               static void failure( const Input& /*unused*/, state< Node >& state, States&&... /*unused*/ ) noexcept
+               static void failure( const Input& in, state< Node >& state, States&&... st ) noexcept( noexcept( C< Rule >::failure( in, st... ) ) )
                {
+                  C< Rule >::failure( in, st... );
                   state.pop_back();
+               }
+
+               template< typename Input, typename Node, typename... States >
+               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
+               {
+                  C< Rule >::raise( in, st... );
+               }
+
+               template< template< typename... > class Action, typename Input, typename Node, typename... States >
+               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st )
+                  -> decltype( C< Rule >::template apply0< Action >( in, st... ) )
+               {
+                  return C< Rule >::template apply0< Action >( in, st... );
+               }
+
+               template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
+               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st )
+                  -> decltype( C< Rule >::template apply< Action >( begin, in, st... ) )
+               {
+                  return C< Rule >::template apply< Action >( begin, in, st... );
                }
             };
 
@@ -228,6 +251,7 @@ namespace tao
                template< typename Input, typename Node, typename... States >
                static void start( const Input& in, state< Node >& state, States&&... st )
                {
+                  C< Rule >::start( in, st... );
                   state.emplace_back();
                   state.back()->template start< Rule >( in, st... );
                }
@@ -235,6 +259,7 @@ namespace tao
                template< typename Input, typename Node, typename... States >
                static void success( const Input& in, state< Node >& state, States&&... st )
                {
+                  C< Rule >::success( in, st... );
                   auto n = std::move( state.back() );
                   state.pop_back();
                   n->template success< Rule >( in, st... );
@@ -245,10 +270,31 @@ namespace tao
                }
 
                template< typename Input, typename Node, typename... States >
-               static void failure( const Input& in, state< Node >& state, States&&... st ) noexcept( noexcept( std::declval< node& >().template failure< Rule >( in, st... ) ) )
+               static void failure( const Input& in, state< Node >& state, States&&... st ) noexcept( noexcept( C< Rule >::failure( in, st... ) ) && noexcept( std::declval< node& >().template failure< Rule >( in, st... ) ) )
                {
+                  C< Rule >::failure( in, st... );
                   state.back()->template failure< Rule >( in, st... );
                   state.pop_back();
+               }
+
+               template< typename Input, typename Node, typename... States >
+               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
+               {
+                  C< Rule >::raise( in, st... );
+               }
+
+               template< template< typename... > class Action, typename Input, typename Node, typename... States >
+               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st )
+                  -> decltype( C< Rule >::template apply0< Action >( in, st... ) )
+               {
+                  return C< Rule >::template apply0< Action >( in, st... );
+               }
+
+               template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
+               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st )
+                  -> decltype( C< Rule >::template apply< Action >( begin, in, st... ) )
+               {
+                  return C< Rule >::template apply< Action >( begin, in, st... );
                }
             };
 
