@@ -14,7 +14,7 @@
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../analysis/generic.hpp"
+#include "../analysis/counted.hpp"
 
 namespace tao
 {
@@ -22,36 +22,10 @@ namespace tao
    {
       namespace internal
       {
-         template< typename... Rules >
-         struct if_must;
-
-         template<>
-         struct if_must<>
-            : trivial< true >
+         template< bool Default, typename Cond, typename... Rules >
+         struct if_must
          {
-         };
-
-         template< typename Cond >
-         struct if_must< Cond >
-         {
-            using analyze_t = typename Cond::analyze_t;
-
-            template< apply_mode A,
-                      rewind_mode M,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
-                      typename Input,
-                      typename... States >
-            static bool match( Input& in, States&&... st )
-            {
-               return Control< Cond >::template match< A, M, Action, Control >( in, st... );
-            }
-         };
-
-         template< typename Cond, typename... Rules >
-         struct if_must< Cond, Rules... >
-         {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Cond, must< Rules... > >;
+            using analyze_t = analysis::counted< analysis::rule_type::SEQ, Default ? 0 : 1, Cond, must< Rules... > >;
 
             template< apply_mode A,
                       rewind_mode M,
@@ -64,12 +38,12 @@ namespace tao
                if( Control< Cond >::template match< A, M, Action, Control >( in, st... ) ) {
                   return rule_conjunction< must< Rules >... >::template match< A, M, Action, Control >( in, st... );
                }
-               return false;
+               return Default;
             }
          };
 
-         template< typename... Rules >
-         struct skip_control< if_must< Rules... > > : std::true_type
+         template< bool Default, typename Cond, typename... Rules >
+         struct skip_control< if_must< Default, Cond, Rules... > > : std::true_type
          {
          };
 
