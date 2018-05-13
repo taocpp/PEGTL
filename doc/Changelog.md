@@ -4,6 +4,8 @@
 
 **Not yet released**
 
+* Added new convenience rule `opt_must<>`.
+* Optimised convenience rule `if_must<>`.
 * Fixed examples to compile with Visual Studio and MinGW.
 * Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with GCC 8.
 

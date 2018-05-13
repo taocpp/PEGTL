@@ -187,6 +187,7 @@
 * [`one< C, ... >`](Rule-Reference.md#one-c---1) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
 * [`one< C, ... >`](Rule-Reference.md#one-c---2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`opt< R... >`](Rule-Reference.md#opt-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>
+* [`opt_must< R, S...>`](Rule-Reference.md#opt_must-r-s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`pad< R, S, T = S >`](Rule-Reference.md#pad-r-s-t--s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`pad_opt< R, P >`](Rule-Reference.md#pad_opt-r-p-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`pattern_syntax`](Rule-Reference.md#pattern_syntax) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>

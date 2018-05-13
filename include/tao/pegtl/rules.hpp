@@ -41,6 +41,7 @@ namespace tao
       template< typename... Rules > struct must : internal::must< Rules... > {};
       template< typename... Rules > struct not_at : internal::not_at< Rules... > {};
       template< typename... Rules > struct opt : internal::opt< Rules... > {};
+      template< typename Cond, typename... Rules > struct opt_must : internal::opt_must< Cond, Rules... > {};
       template< typename Rule, typename Pad1, typename Pad2 = Pad1 > struct pad : internal::pad< Rule, Pad1, Pad2 > {};
       template< typename Rule, typename Pad > struct pad_opt : internal::pad_opt< Rule, Pad > {};
       template< typename Rule, typename... Rules > struct plus : internal::plus< Rule, Rules... > {};

@@ -214,6 +214,10 @@ These rules are in namespace `tao::pegtl`.
 * Calls `raise< R >` for the `R` that failed.
 * Equivalent to `seq< sor< R, raise< R > >... >`.
 
+###### `opt_must< R, S... >`
+
+* Equivalent to `opt< if_must< R, S... > >`.
+
 ###### `pad< R, S, T = S >`
 
 * Matches an `R` that can be padded by arbitrary many `S` on the left and `T` on the right.
@@ -1146,6 +1150,7 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`one< C, ... >`](#one-c---1) <sup>[(unicode rules)](#unicode-rules)</sup>
 * [`one< C, ... >`](#one-c---2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`opt< R... >`](#opt-r-) <sup>[(combinators)](#combinators)</sup>
+* [`opt_must< R, S...>`](#opt_must-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`pad< R, S, T = S >`](#pad-r-s-t--s-) <sup>[(convenience)](#convenience)</sup>
 * [`pad_opt< R, P >`](#pad_opt-r-p-) <sup>[(convenience)](#convenience)</sup>
 * [`pattern_syntax`](#pattern_syntax) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
