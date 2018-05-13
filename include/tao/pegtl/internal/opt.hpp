@@ -46,7 +46,8 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               return duseltronik< seq< Rules... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st... ) || true;
+               duseltronik< seq< Rules... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st... );
+               return true;
             }
          };
 
