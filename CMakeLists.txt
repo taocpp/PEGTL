@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.2.0 FATAL_ERROR)
 
-project (pegtl VERSION 2.5.0 LANGUAGES CXX)
+project (pegtl VERSION 2.5.1 LANGUAGES CXX)
 
 # define a header-only library
 add_library (pegtl INTERFACE)

@@ -2,7 +2,7 @@
 
 ## 2.5.1
 
-**Not yet released**
+Released 2018-05-14
 
 * Added new convenience rule [`opt_must`](Rule-Reference.md#opt_must-r-s-).
 * Optimised convenience rule [`if_must`](Rule-Reference.md#if_must-r-s-).
