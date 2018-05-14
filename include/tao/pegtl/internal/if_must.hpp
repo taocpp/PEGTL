@@ -36,7 +36,8 @@ namespace tao
             static bool match( Input& in, States&&... st )
             {
                if( Control< Cond >::template match< A, M, Action, Control >( in, st... ) ) {
-                  return rule_conjunction< must< Rules >... >::template match< A, M, Action, Control >( in, st... );
+                  rule_conjunction< must< Rules >... >::template match< A, M, Action, Control >( in, st... );
+                  return true;
                }
                return Default;
             }

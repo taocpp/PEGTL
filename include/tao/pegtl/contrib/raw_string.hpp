@@ -208,10 +208,9 @@ namespace tao
          {
             std::size_t marker_size;
             if( internal::raw_string_open< Open, Marker >::template match< A, M, Action, Control >( in, marker_size ) ) {
-               if( internal::must< content >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
-                  in.bump_in_this_line( marker_size );
-                  return true;
-               }
+               internal::must< content >::template match< A, M, Action, Control >( in, marker_size, st... );
+               in.bump_in_this_line( marker_size );
+               return true;
             }
             return false;
          }
