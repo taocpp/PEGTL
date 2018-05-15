@@ -100,7 +100,7 @@ namespace tao
 
          struct enum_name : ident {};
          struct enum_value_option : seq< option_name, sps, equ, sps, constant > {};
-         struct enum_field : seq< ident, sps, equ, sps, int_lit, sps, opt< if_must< one< '[' >, sps, list_must< enum_value_option, comma, sp >, sps, one< ']' >, sps > >, semi > {};
+         struct enum_field : seq< ident, sps, equ, sps, int_lit, sps, opt_must< one< '[' >, sps, list_must< enum_value_option, comma, sp >, sps, one< ']' >, sps >, semi > {};
          struct enum_body : if_must< one< '{' >, sps, star< sor< option, enum_field, semi >, sps >, one< '}' > > {};
          struct enum_ : if_must< string< 'e', 'n', 'u', 'm' >, sps, enum_name, sps, enum_body > {};
 
