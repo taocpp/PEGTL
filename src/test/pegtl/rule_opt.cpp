@@ -9,6 +9,20 @@ namespace tao
 {
    namespace TAO_PEGTL_NAMESPACE
    {
+      template< typename Rule >
+      struct my_action : nothing< Rule >
+      {
+      };
+
+      template<>
+      struct my_action< eof >
+      {
+         static void apply0( bool& b )
+         {
+            b = true;
+         }
+      };
+
       void unit_test()
       {
          verify_analyze< opt< any > >( __LINE__, __FILE__, false, false );
@@ -41,6 +55,11 @@ namespace tao
          verify_rule< must< opt< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "abab", result_type::SUCCESS, 2 );
          verify_rule< must< opt< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "bab", result_type::SUCCESS, 3 );
          verify_rule< must< opt< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "cb", result_type::SUCCESS, 2 );
+
+         bool success = false;
+         const bool result = parse< opt< eof >, my_action >( memory_input<>( "", __FUNCTION__ ), success );
+         TAO_PEGTL_TEST_ASSERT( result );
+         TAO_PEGTL_TEST_ASSERT( success );
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE
