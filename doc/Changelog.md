@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.2
+
+Released 2018-??-??
+
+* Fixed the semantics of opt<> to work as documented in some edge cases.
+
 ## 2.5.1
 
 Released 2018-05-14
