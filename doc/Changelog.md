@@ -4,7 +4,7 @@
 
 Released 2018-??-??
 
-* Fixed the semantics of opt<> and until<> to work as documented in some edge cases.
+* Fixed the semantics of [`opt`](Rule-Reference.md#opt-r-) and [`until`](Rule-Reference.md#until-r-s-) to work as documented in some rare edge cases.
 
 ## 2.5.1
 
