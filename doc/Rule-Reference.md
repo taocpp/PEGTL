@@ -113,11 +113,11 @@ These are the classical PEG combinator rules defined in namespace `tao::pegtl`.
 * Equivalent to `sor< seq< R... >, success >`.
 * Allows local failure of `R...` even within `must<>` etc.
 
-###### `plus< R, ... >`
+###### `plus< R... >`
 
 * PEG **one-or-more** *e*+
-* Matches `seq< R, ... >` as often as possible and succeeds if it matches at least once.
-* Equivalent to `rep_min< 1, R, ... >`.
+* Matches `seq< R... >` as often as possible and succeeds if it matches at least once.
+* Equivalent to `rep_min< 1, R... >`.
 * Requires at least one rule `R`.
 
 ###### `seq< R... >`
@@ -139,11 +139,11 @@ These are the classical PEG combinator rules defined in namespace `tao::pegtl`.
 * Allows local failure of `R...` even within `must<>` etc.
 * Fails if no rule is given.
 
-###### `star< R, ... >`
+###### `star< R... >`
 
 * PEG **zero-or-more** *e**
-* Matches `seq< R, ... >` as often as possible and always succeeds.
-* Allows local failure of `R, ...` even within `must<>` etc.
+* Matches `seq< R... >` as often as possible and always succeeds.
+* Allows local failure of `R...` even within `must<>` etc.
 * Requires at least one rule `R`.
 
 ## Convenience
@@ -238,10 +238,10 @@ These rules are in namespace `tao::pegtl`.
 * Matches `seq< R... >` for at most `Max` times and verifies that it doesn't match more often.
 * Equivalent to `rep_min_max< 0, Max, R... >`.
 
-###### `rep_min< Min, R, ... >`
+###### `rep_min< Min, R... >`
 
-* Matches `seq< R, ... >` as often as possible and succeeds if it matches at least `Min` times.
-* Equivalent to `seq< rep< Min, R, ... >, star< R, ... > >`.
+* Matches `seq< R... >` as often as possible and succeeds if it matches at least `Min` times.
+* Equivalent to `seq< rep< Min, R... >, star< R... > >`.
 * Requires at least one rule `R`.
 
 ###### `rep_min_max< Min, Max, R... >`
@@ -275,10 +275,10 @@ These rules are in namespace `tao::pegtl`.
 * Consumes all input until `R` matches.
 * Equivalent to `until< R, any >`.
 
-###### `until< R, S, ... >`
+###### `until< R, S... >`
 
-* Matches `seq< S, ... >` as long as `at< R >` does not match and succeeds when `R` matches.
-* Equivalent to `seq< star< not_at< R >, not_at< eof >, S, ... >, R >`.
+* Matches `seq< S... >` as long as `at< R >` does not match and succeeds when `R` matches.
+* Equivalent to `seq< star< not_at< R >, not_at< eof >, S... >, R >`.
 
 ## Action Rules
 
@@ -415,26 +415,26 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 * Matches and consumes an ASCII identifier as defined for the C programming language.
 * Equivalent to `seq< identifier_first, star< identifier_other > >`.
 
-###### `istring< C, ... >`
+###### `istring< C... >`
 
-* Matches and consumes the given ASCII string `C, ...` with case insensitive matching.
-* Similar to `string< C, ... >`, but:
+* Matches and consumes the given ASCII string `C...` with case insensitive matching.
+* Similar to `string< C... >`, but:
 * For ASCII letters a-z and A-Z the match is case insensitive.
 
-###### `keyword< C, ... >`
+###### `keyword< C... >`
 
 * Matches and consumes a non-empty string not followed by a subsequent identifier character.
-* Equivalent to `seq< string< C, ... >, not_at< identifier_other > >`.
+* Equivalent to `seq< string< C... >, not_at< identifier_other > >`.
 
 ###### `lower`
 
 * Matches and consumes a single ASCII lower-case alphabetic character.
 * Equivalent to `range< 'a', 'z' >`.
 
-###### `not_one< C, ... >`
+###### `not_one< C... >`
 
 * Succeeds when the input is not empty, and:
-* The next input byte is **not** one of `C, ...`.
+* The next input byte is **not** one of `C...`.
 * Consumes one byte when it succeeds.
 
 ###### `not_range< C, D >`
@@ -448,10 +448,10 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 * Matches and consumes an ASCII nul character.
 * Equivalent to `one< 0 >`.
 
-###### `one< C, ... >`
+###### `one< C... >`
 
 * Succeeds when the input is not empty, and:
-* The next input byte is one of `C, ...`.
+* The next input byte is one of `C...`.
 * Consumes one byte when it succeeds.
 
 ###### `print`
@@ -573,11 +573,11 @@ Following what appears to be "best" practice for UTF-16, it is *not* an error wh
 
 * Equivalent to `one< 0xfeff >`.
 
-###### `not_one< C, ... >`
+###### `not_one< C... >`
 
 * Succeeds when the input is not empty, and:
 * The next N bytes encode a valid Unicode code point, and:
-* The input code point is **not** one of the given code points `C, ...`.
+* The input code point is **not** one of the given code points `C...`.
 * Consumes the N bytes when it succeeds.
 
 ###### `not_range< C, D >`
@@ -587,11 +587,11 @@ Following what appears to be "best" practice for UTF-16, it is *not* an error wh
 * The input code point `B` satisfies `B < C || D < B`.
 * Consumes the N bytes when it succeeds.
 
-###### `one< C, ... >`
+###### `one< C... >`
 
 * Succeeds when the input is not empty, and:
 * The next N bytes encode a valid Unicode code point, and:
-* The input code point is one of the given code points `C, ...`.
+* The input code point is one of the given code points `C...`.
 * Consumes the N bytes when it succeeds.
 
 ###### `range< C, D >`
@@ -971,10 +971,10 @@ The term *input value* indicates a correspondingly sized integer value read from
 * Succeeds when the input contains at least N bytes.
 * Consumes N bytes when it succeeds.
 
-###### `mask_not_one< M, C, ... >`
+###### `mask_not_one< M, C... >`
 
 * Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value masked with `M` is **not** one of the given values `C, ...`.
+* The (endian adjusted) input value masked with `M` is **not** one of the given values `C...`.
 * Consumes N bytes when it succeeds.
 
 ###### `mask_not_range< M, C, D >`
@@ -983,10 +983,10 @@ The term *input value* indicates a correspondingly sized integer value read from
 * The (endian adjusted) input value `B` satisfies `( B & M ) < C || D < ( B & M )`.
 * Consumes N bytes when it succeeds.
 
-###### `mask_one< M, C, ... >`
+###### `mask_one< M, C... >`
 
 * Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value masked with `M` is one of the given values `C, ...`.
+* The (endian adjusted) input value masked with `M` is one of the given values `C...`.
 * Consumes N bytes when it succeeds.
 
 ###### `mask_range< M, C, D >`
@@ -1007,10 +1007,10 @@ The term *input value* indicates a correspondingly sized integer value read from
 
 * Equivalent to `seq< mask_one< M, C1 >, mask_one< M, C2 >, ... >`.
 
-###### `not_one< C, ... >`
+###### `not_one< C... >`
 
 * Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value is **not** one of the given values `C, ...`.
+* The (endian adjusted) input value is **not** one of the given values `C...`.
 * Consumes N bytes when it succeeds.
 
 ###### `not_range< C, D >`
@@ -1019,10 +1019,10 @@ The term *input value* indicates a correspondingly sized integer value read from
 * The (endian adjusted) input value `B` satisfies `B < C || D < B`.
 * Consumes N bytes when it succeeds.
 
-###### `one< C, ... >`
+###### `one< C... >`
 
 * Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value is one of the given values `C, ...`.
+* The (endian adjusted) input value is one of the given values `C...`.
 * Consumes N bytes when it succeeds.
 
 ###### `range< C, D >`
@@ -1106,11 +1106,11 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`if_must< R, S... >`](#if_must-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`if_must_else< R, S, T >`](#if_must_else-r-s-t-) <sup>[(convenience)](#convenience)</sup>
 * [`if_then_else< R, S, T >`](#if_then_else-r-s-t-) <sup>[(convenience)](#convenience)</sup>
-* [`istring< C, D, ... >`](#istring-c-d--) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`istring< C... >`](#istring-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`join_control`](#join_control) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`joining_group< V >`](#joining_group-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`joining_type< V >`](#joining_type-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
-* [`keyword< C, ... >`](#keyword-c--) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`keyword< C... >`](#keyword-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`lead_canonical_combining_class< V >`](#lead_canonical_combining_class-v-) <sup>[(icu rules)](#icu-rules-for-value-properties)</sup>
 * [`line_break< V >`](#line_break-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`list< R, S >`](#list-r-s-) <sup>[(convenience)](#convenience)</sup>
@@ -1122,9 +1122,9 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`logical_order_exception`](#logical_order_exception) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`lower`](#lower) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`lowercase`](#lowercase) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
-* [`mask_not_one< M, C, ... >`](#mask_not_one-m-c--) <sup>[(binary rules)](#binary-rules)</sup>
+* [`mask_not_one< M, C... >`](#mask_not_one-m-c-) <sup>[(binary rules)](#binary-rules)</sup>
 * [`mask_not_range< M, C, D >`](#mask_not_range-m-c-d-) <sup>[(binary rules)](#binary-rules)</sup>
-* [`mask_one< M, C, ... >`](#mask_one-m-c--) <sup>[(binary rules)](#binary-rules)</sup>
+* [`mask_one< M, C... >`](#mask_one-m-c-) <sup>[(binary rules)](#binary-rules)</sup>
 * [`mask_range< M, C, D >`](#mask_range-m-c-d-) <sup>[(binary rules)](#binary-rules)</sup>
 * [`mask_ranges< M, C1, D1, C2, D2, ... >`](#mask_ranges-m-c1-d1-c2-d2--) <sup>[(binary rules)](#binary-rules)</sup>
 * [`mask_ranges< M, C1, D1, C2, D2, ..., E >`](#mask_ranges-m-c1-d1-c2-d2--e-) <sup>[(binary rules)](#binary-rules)</sup>
@@ -1138,24 +1138,24 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`nfkd_inert`](#nfkd_inert) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`noncharacter_code_point`](#noncharacter_code_point) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`not_at< R... >`](#not_at-r-) <sup>[(combinators)](#combinators)</sup>
-* [`not_one< C, ... >`](#not_one-c--) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`not_one< C, ... >`](#not_one-c---1) <sup>[(unicode rules)](#unicode-rules)</sup>
-* [`not_one< C, ... >`](#not_one-c---2) <sup>[(binary rules)](#binary-rules)</sup>
+* [`not_one< C... >`](#not_one-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`not_one< C... >`](#not_one-c--1) <sup>[(unicode rules)](#unicode-rules)</sup>
+* [`not_one< C... >`](#not_one-c--2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`not_range< C, D >`](#not_range-c-d-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`not_range< C, D >`](#not_range-c-d--1) <sup>[(unicode rules)](#unicode-rules)</sup>
 * [`not_range< C, D >`](#not_range-c-d--2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`nul`](#nul) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`numeric_type< V >`](#numeric_type-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
-* [`one< C, ... >`](#one-c--) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`one< C, ... >`](#one-c---1) <sup>[(unicode rules)](#unicode-rules)</sup>
-* [`one< C, ... >`](#one-c---2) <sup>[(binary rules)](#binary-rules)</sup>
+* [`one< C... >`](#one-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`one< C... >`](#one-c--1) <sup>[(unicode rules)](#unicode-rules)</sup>
+* [`one< C... >`](#one-c--2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`opt< R... >`](#opt-r-) <sup>[(combinators)](#combinators)</sup>
 * [`opt_must< R, S...>`](#opt_must-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`pad< R, S, T = S >`](#pad-r-s-t--s-) <sup>[(convenience)](#convenience)</sup>
 * [`pad_opt< R, P >`](#pad_opt-r-p-) <sup>[(convenience)](#convenience)</sup>
 * [`pattern_syntax`](#pattern_syntax) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`pattern_white_space`](#pattern_white_space) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
-* [`plus< R, ... >`](#plus-r--) <sup>[(combinators)](#combinators)</sup>
+* [`plus< R... >`](#plus-r-) <sup>[(combinators)](#combinators)</sup>
 * [`posix_alnum`](#posix_alnum) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`posix_blank`](#posix_blank) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`posix_graph`](#posix_graph) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
@@ -1177,7 +1177,7 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`rep< Num, R... >`](#rep-num-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_max< Max, R... >`](#rep_max-max-r-) <sup>[(convenience)](#convenience)</sup>
-* [`rep_min< Min, R, ... >`](#rep_min-min-r--) <sup>[(convenience)](#convenience)</sup>
+* [`rep_min< Min, R... >`](#rep_min-min-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_min_max< Min, Max, R... >`](#rep_min_max-min-max-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_opt< Num, R... >`](#rep_opt-num-r-) <sup>[(convenience)](#convenience)</sup>
 * [`require< Num >`](#require-num-) <sup>[(meta-rules)](#meta-rules)</sup>
@@ -1190,7 +1190,7 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`soft_dotted`](#soft_dotted) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`sor< R... >`](#sor-r-) <sup>[(combinators)](#combinators)</sup>
 * [`space`](#space) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`star< R, ... >`](#star-r--) <sup>[(combinators)](#combinators)</sup>
+* [`star< R... >`](#star-r-) <sup>[(combinators)](#combinators)</sup>
 * [`star_must< R, S... >`](#star_must-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`state< S, R... >`](#state-s-r-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`string< C1, C2, ... >`](#string-c1-c2--) <sup>[(ascii rules)](#ascii-rules)</sup>
@@ -1207,7 +1207,7 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`two< C >`](#two-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`unified_ideograph`](#unified_ideograph) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`until< R >`](#until-r-) <sup>[(convenience)](#convenience)</sup>
-* [`until< R, S, ... >`](#until-r-s--) <sup>[(convenience)](#convenience)</sup>
+* [`until< R, S... >`](#until-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`upper`](#upper) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`uppercase`](#uppercase) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`variation_selector`](#variation_selector) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>

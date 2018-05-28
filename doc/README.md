@@ -143,11 +143,11 @@
 * [`if_must< R, S... >`](Rule-Reference.md#if_must-r-s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`if_must_else< R, S, T >`](Rule-Reference.md#if_must_else-r-s-t-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`if_then_else< R, S, T >`](Rule-Reference.md#if_then_else-r-s-t-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
-* [`istring< C, D, ... >`](Rule-Reference.md#istring-c-d--) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
+* [`istring< C... >`](Rule-Reference.md#istring-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`join_control`](Rule-Reference.md#join_control) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`joining_group< V >`](Rule-Reference.md#joining_group-v-) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-enumerated-properties)</sup>
 * [`joining_type< V >`](Rule-Reference.md#joining_type-v-) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-enumerated-properties)</sup>
-* [`keyword< C, ... >`](Rule-Reference.md#keyword-c--) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
+* [`keyword< C... >`](Rule-Reference.md#keyword-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`lead_canonical_combining_class< V >`](Rule-Reference.md#lead_canonical_combining_class-v-) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-value-properties)</sup>
 * [`line_break< V >`](Rule-Reference.md#line_break-v-) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-enumerated-properties)</sup>
 * [`list< R, S >`](Rule-Reference.md#list-r-s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
@@ -159,9 +159,9 @@
 * [`logical_order_exception`](Rule-Reference.md#logical_order_exception) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`lower`](Rule-Reference.md#lower) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`lowercase`](Rule-Reference.md#lowercase) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
-* [`mask_not_one< M, C, ... >`](Rule-Reference.md#mask_not_one-m-c--) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
+* [`mask_not_one< M, C... >`](Rule-Reference.md#mask_not_one-m-c-) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`mask_not_range< M, C, D >`](Rule-Reference.md#mask_not_range-m-c-d-) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
-* [`mask_one< M, C, ... >`](Rule-Reference.md#mask_one-m-c--) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
+* [`mask_one< M, C... >`](Rule-Reference.md#mask_one-m-c-) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`mask_range< M, C, D >`](Rule-Reference.md#mask_range-m-c-d-) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`mask_ranges< M, C1, D1, C2, D2, ... >`](Rule-Reference.md#mask_ranges-m-c1-d1-c2-d2--) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`mask_ranges< M, C1, D1, C2, D2, ..., E >`](Rule-Reference.md#mask_ranges-m-c1-d1-c2-d2--e-) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
@@ -175,24 +175,24 @@
 * [`nfkd_inert`](Rule-Reference.md#nfkd_inert) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`noncharacter_code_point`](Rule-Reference.md#noncharacter_code_point) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`not_at< R... >`](Rule-Reference.md#not_at-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>
-* [`not_one< C, ... >`](Rule-Reference.md#not_one-c--) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
-* [`not_one< C, ... >`](Rule-Reference.md#not_one-c---1) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
-* [`not_one< C, ... >`](Rule-Reference.md#not_one-c---2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
+* [`not_one< C... >`](Rule-Reference.md#not_one-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
+* [`not_one< C... >`](Rule-Reference.md#not_one-c--1) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
+* [`not_one< C... >`](Rule-Reference.md#not_one-c--2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`not_range< C, D >`](Rule-Reference.md#not_range-c-d-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`not_range< C, D >`](Rule-Reference.md#not_range-c-d--1) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
 * [`not_range< C, D >`](Rule-Reference.md#not_range-c-d--2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`nul`](Rule-Reference.md#nul) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`numeric_type< V >`](Rule-Reference.md#numeric_type-v-) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-enumerated-properties)</sup>
-* [`one< C, ... >`](Rule-Reference.md#one-c--) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
-* [`one< C, ... >`](Rule-Reference.md#one-c---1) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
-* [`one< C, ... >`](Rule-Reference.md#one-c---2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
+* [`one< C... >`](Rule-Reference.md#one-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
+* [`one< C... >`](Rule-Reference.md#one-c--1) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
+* [`one< C... >`](Rule-Reference.md#one-c--2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`opt< R... >`](Rule-Reference.md#opt-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>
 * [`opt_must< R, S...>`](Rule-Reference.md#opt_must-r-s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`pad< R, S, T = S >`](Rule-Reference.md#pad-r-s-t--s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`pad_opt< R, P >`](Rule-Reference.md#pad_opt-r-p-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`pattern_syntax`](Rule-Reference.md#pattern_syntax) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`pattern_white_space`](Rule-Reference.md#pattern_white_space) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
-* [`plus< R, ... >`](Rule-Reference.md#plus-r--) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>
+* [`plus< R... >`](Rule-Reference.md#plus-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>
 * [`posix_alnum`](Rule-Reference.md#posix_alnum) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`posix_blank`](Rule-Reference.md#posix_blank) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`posix_graph`](Rule-Reference.md#posix_graph) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
@@ -214,7 +214,7 @@
 * [`ranges< C1, D1, C2, D2, ..., E >`](Rule-Reference.md#ranges-c1-d1-c2-d2--e--2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`rep< Num, R... >`](Rule-Reference.md#rep-num-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`rep_max< Max, R... >`](Rule-Reference.md#rep_max-max-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
-* [`rep_min< Min, R, ... >`](Rule-Reference.md#rep_min-min-r--) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
+* [`rep_min< Min, R... >`](Rule-Reference.md#rep_min-min-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`rep_min_max< Min, Max, R... >`](Rule-Reference.md#rep_min_max-min-max-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`rep_opt< Num, R... >`](Rule-Reference.md#rep_opt-num-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`require< Num >`](Rule-Reference.md#require-num-) <sup>[(meta-rules)](Rule-Reference.md#meta-rules)</sup>
@@ -227,7 +227,7 @@
 * [`soft_dotted`](Rule-Reference.md#soft_dotted) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`sor< R... >`](Rule-Reference.md#sor-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>
 * [`space`](Rule-Reference.md#space) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
-* [`star< R, ... >`](Rule-Reference.md#star-r--) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>
+* [`star< R... >`](Rule-Reference.md#star-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>
 * [`star_must< R, S... >`](Rule-Reference.md#star_must-r-s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`state< S, R... >`](Rule-Reference.md#state-s-r-) <sup>[(meta rules)](Rule-Reference.md#meta-rules)</sup>
 * [`string< C1, C2, ... >`](Rule-Reference.md#string-c1-c2--) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
@@ -244,7 +244,7 @@
 * [`two< C >`](Rule-Reference.md#two-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`unified_ideograph`](Rule-Reference.md#unified_ideograph) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`until< R >`](Rule-Reference.md#until-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
-* [`until< R, S, ... >`](Rule-Reference.md#until-r-s--) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
+* [`until< R, S... >`](Rule-Reference.md#until-r-s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`upper`](Rule-Reference.md#upper) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`uppercase`](Rule-Reference.md#uppercase) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`variation_selector`](Rule-Reference.md#variation_selector) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
