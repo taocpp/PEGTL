@@ -4,7 +4,8 @@
 
 Released 2018-??-??
 
-* Fixed the semantics of [`opt`](Rule-Reference.md#opt-r-) and [`until`](Rule-Reference.md#until-r-s-) to work as documented in some rare edge cases.
+* Fixed the [`opt`](Rule-Reference.md#opt-r-) and [`until`](Rule-Reference.md#until-r-s-) to work as documented in some rare edge cases.
+* Optimized some included grammars by using [`opt_must`](Rule-Reference.md#opt_must-r-s-) and [`star_must`](Rule-Reference.md#star_must-r-s-).
 
 ## 2.5.1
 
@@ -223,7 +224,7 @@ Released 2015-11-12
 
 Released 2015-09-21
 
-* Added `file_parser` as alias for `mmap_parser`or `read_parser` depending on availability of the former.
+* Added `file_parser` as alias for `mmap_parser` or `read_parser` depending on availability of the former.
 * Added Clang 3.7 to the automated tests.
 * Added Mac OS X with Xcode 6 and Xcode 7 to the automated tests.
 * Added coverage test and improved test coverage to 100%.
