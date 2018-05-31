@@ -2,7 +2,7 @@
 
 ## 2.5.2
 
-Released 2018-??-??
+Released 2018-05-31
 
 * Fixed the [`opt`](Rule-Reference.md#opt-r-) and [`until`](Rule-Reference.md#until-r-s-) to work as documented in some rare edge cases.
 * Optimized some included grammars by using [`opt_must`](Rule-Reference.md#opt_must-r-s-) and [`star_must`](Rule-Reference.md#star_must-r-s-).
