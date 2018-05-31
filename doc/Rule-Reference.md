@@ -23,6 +23,14 @@ is not how they are implemented, therefore:
 However, rule equivalence does show exactly where the `raise<>` rule is inserted
 and therefore which rule will be used to call the control class' `raise()`-method.
 
+## Packs
+
+The documentation will use packs if zero-or-more or one-or-more of a parameter is allowed.
+As an example, `seq< R... >` may have zero-or-more template parameters.
+If it is zero, i.e. if you write `seq<>`, we say that `R` is "empty".
+If it is at least one rule, i.e. `seq< A >` or `seq< A, B, C >`, `R` is "non-empty".
+The documentation will state when empty packs are allowed or disallowed and, if empty packs are allowed we will state the meaning either explicity, or implicitly via the documented equivalence.
+
 ## Contents
 
 * [Meta Rules](#meta-rules)
@@ -118,7 +126,7 @@ These are the classical PEG combinator rules defined in namespace `tao::pegtl`.
 * PEG **one-or-more** *e*+
 * Matches `seq< R... >` as often as possible and succeeds if it matches at least once.
 * Equivalent to `rep_min< 1, R... >`.
-* Requires at least one rule `R`.
+* `R` must be a non-empty rule pack.
 
 ###### `seq< R... >`
 
@@ -127,7 +135,7 @@ These are the classical PEG combinator rules defined in namespace `tao::pegtl`.
 * Matches the given rules `R...` in the given order.
 * Fails and stops matching when one of the given rules fails.
 * Consumes everything that the rules `R...` consumed.
-* Succeeds if no rule is given.
+* Succeeds if `R` is an empty rule pack.
 
 ###### `sor< R... >`
 
@@ -137,14 +145,14 @@ These are the classical PEG combinator rules defined in namespace `tao::pegtl`.
 * Succeeds and stops matching when one of the given rules succeeds.
 * Consumes whatever the first rule that succeeded consumed.
 * Allows local failure of `R...` even within `must<>` etc.
-* Fails if no rule is given.
+* Fails if `R` is an empty rule pack.
 
 ###### `star< R... >`
 
 * PEG **zero-or-more** *e**
 * Matches `seq< R... >` as often as possible and always succeeds.
 * Allows local failure of `R...` even within `must<>` etc.
-* Requires at least one rule `R`.
+* `R` must be a non-empty rule pack.
 
 ## Convenience
 
@@ -242,7 +250,7 @@ These rules are in namespace `tao::pegtl`.
 
 * Matches `seq< R... >` as often as possible and succeeds if it matches at least `Min` times.
 * Equivalent to `seq< rep< Min, R... >, star< R... > >`.
-* Requires at least one rule `R`.
+* `R` must be a non-empty rule pack.
 
 ###### `rep_min_max< Min, Max, R... >`
 
@@ -279,6 +287,7 @@ These rules are in namespace `tao::pegtl`.
 
 * Matches `seq< S... >` as long as `at< R >` does not match and succeeds when `R` matches.
 * Equivalent to `seq< star< not_at< R >, not_at< eof >, S... >, R >`.
+* Does not apply if `S` is an empty rule pack, see the previous entry for the semantics of `until< R >`.
 
 ## Action Rules
 
@@ -434,7 +443,7 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 ###### `not_one< C... >`
 
 * Succeeds when the input is not empty, and:
-* The next input byte is **not** one of `C...`.
+* `C` is an empty character pack or the next input byte is **not** one of `C...`.
 * Consumes one byte when it succeeds.
 
 ###### `not_range< C, D >`
@@ -453,6 +462,7 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 * Succeeds when the input is not empty, and:
 * The next input byte is one of `C...`.
 * Consumes one byte when it succeeds.
+* Fails if `C` is an empty character pack.
 
 ###### `print`
 
@@ -487,31 +497,28 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 * Matches and consumes a single space, line-feed, carriage-return, horizontal-tab, vertical-tab or form-feed.
 * Equivalent to `one< ' ', '\n', '\r', 't', '\v', '\f' >`.
 
-###### `string< C1, C2, ... >`
+###### `string< C... >`
 
 * Matches and consumes a string, a sequence of bytes or single-byte characters.
-* Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
+* Equivalent to `seq< one< C >... >`.
 
 ###### `TAO_PEGTL_ISTRING( "..." )`
 
-* Macro where `TAO_PEGTL_ISTRING( "foo" )` yields<br>
-  `istring< 'f', 'o', 'o' >`.
+* Macro where `TAO_PEGTL_ISTRING( "foo" )` yields `istring< 'f', 'o', 'o' >`.
 * The argument must be a string literal.
 * Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
 * Strings may contain embedded `'\0'`.
 
 ###### `TAO_PEGTL_KEYWORD( "..." )`
 
-* Macro where `TAO_PEGTL_KEYWORD( "foo" )` yields<br>
-  `keyword< 'f', 'o', 'o' >`.
+* Macro where `TAO_PEGTL_KEYWORD( "foo" )` yields `keyword< 'f', 'o', 'o' >`.
 * The argument must be a string literal.
 * Works for keywords up to 512 bytes of length (excluding trailing `'\0'`).
 * Strings may contain embedded `'\0'`.
 
 ###### `TAO_PEGTL_STRING( "..." )`
 
-* Macro where `TAO_PEGTL_STRING( "foo" )` yields<br>
-  `string< 'f', 'o', 'o' >`.
+* Macro where `TAO_PEGTL_STRING( "foo" )` yields `string< 'f', 'o', 'o' >`.
 * The argument must be a string literal.
 * Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
 * Strings may contain embedded `'\0'`.
@@ -577,7 +584,7 @@ Following what appears to be "best" practice for UTF-16, it is *not* an error wh
 
 * Succeeds when the input is not empty, and:
 * The next N bytes encode a valid Unicode code point, and:
-* The input code point is **not** one of the given code points `C...`.
+* `C` is an empty character pack or the input code point is **not** one of the given code points `C...`.
 * Consumes the N bytes when it succeeds.
 
 ###### `not_range< C, D >`
@@ -591,7 +598,7 @@ Following what appears to be "best" practice for UTF-16, it is *not* an error wh
 
 * Succeeds when the input is not empty, and:
 * The next N bytes encode a valid Unicode code point, and:
-* The input code point is one of the given code points `C...`.
+* `C` is a non-empty character pack and the input code point is one of the given code points `C...`.
 * Consumes the N bytes when it succeeds.
 
 ###### `range< C, D >`
@@ -609,9 +616,9 @@ Following what appears to be "best" practice for UTF-16, it is *not* an error wh
 
 * Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ..., one< E > >`.
 
-###### `string< C1, C2, ... >`
+###### `string< C... >`
 
-* Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
+* Equivalent to `seq< one< C >... >`.
 
 ### ICU Support
 
@@ -974,7 +981,7 @@ The term *input value* indicates a correspondingly sized integer value read from
 ###### `mask_not_one< M, C... >`
 
 * Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value masked with `M` is **not** one of the given values `C...`.
+* `C` is an empty character pack or the (endian adjusted) input value masked with `M` is **not** one of the given values `C...`.
 * Consumes N bytes when it succeeds.
 
 ###### `mask_not_range< M, C, D >`
@@ -986,7 +993,7 @@ The term *input value* indicates a correspondingly sized integer value read from
 ###### `mask_one< M, C... >`
 
 * Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value masked with `M` is one of the given values `C...`.
+* `C` is a non-empty character pack and the (endian adjusted) input value masked with `M` is one of the given values `C...`.
 * Consumes N bytes when it succeeds.
 
 ###### `mask_range< M, C, D >`
@@ -1003,14 +1010,14 @@ The term *input value* indicates a correspondingly sized integer value read from
 
 * Equivalent to `sor< mask_range< M, C1, D1 >, mask_range< M, C2, D2 >, ..., mask_one< M, E > >`.
 
-###### `mask_string< M, C1, C2, ... >`
+###### `mask_string< M, C... >`
 
-* Equivalent to `seq< mask_one< M, C1 >, mask_one< M, C2 >, ... >`.
+* Equivalent to `seq< mask_one< M, C >... >`.
 
 ###### `not_one< C... >`
 
 * Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value is **not** one of the given values `C...`.
+* `C` is an empty character pack or the (endian adjusted) input value is **not** one of the given values `C...`.
 * Consumes N bytes when it succeeds.
 
 ###### `not_range< C, D >`
@@ -1022,7 +1029,7 @@ The term *input value* indicates a correspondingly sized integer value read from
 ###### `one< C... >`
 
 * Succeeds when the input contains at least N bytes, and:
-* The (endian adjusted) input value is one of the given values `C...`.
+* `C` is a non-empty character pack and the (endian adjusted) input value is one of the given values `C...`.
 * Consumes N bytes when it succeeds.
 
 ###### `range< C, D >`
@@ -1039,9 +1046,9 @@ The term *input value* indicates a correspondingly sized integer value read from
 
 * Equivalent to `sor< range< C1, D1 >, range< C2, D2 >, ..., one< E > >`.
 
-###### `string< C1, C2, ... >`
+###### `string< C... >`
 
-* Equivalent to `seq< one< C1 >, one< C2 >, ... >`.
+* Equivalent to `seq< one< C >... >`.
 
 ## Full Index
 
@@ -1128,7 +1135,7 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`mask_range< M, C, D >`](#mask_range-m-c-d-) <sup>[(binary rules)](#binary-rules)</sup>
 * [`mask_ranges< M, C1, D1, C2, D2, ... >`](#mask_ranges-m-c1-d1-c2-d2--) <sup>[(binary rules)](#binary-rules)</sup>
 * [`mask_ranges< M, C1, D1, C2, D2, ..., E >`](#mask_ranges-m-c1-d1-c2-d2--e-) <sup>[(binary rules)](#binary-rules)</sup>
-* [`mask_string< M, C1, C2, ... >`](#mask_string-m-c1-c2--) <sup>[(binary rules)](#binary-rules)</sup>
+* [`mask_string< M, C... >`](#mask_string-m-c-) <sup>[(binary rules)](#binary-rules)</sup>
 * [`math`](#math) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`minus< M, S >`](#minus-m-s-) <sup>[(convenience)](#convenience)</sup>
 * [`must< R... >`](#must-r-) <sup>[(convenience)](#convenience)</sup>
@@ -1193,9 +1200,9 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`star< R... >`](#star-r-) <sup>[(combinators)](#combinators)</sup>
 * [`star_must< R, S... >`](#star_must-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`state< S, R... >`](#state-s-r-) <sup>[(meta rules)](#meta-rules)</sup>
-* [`string< C1, C2, ... >`](#string-c1-c2--) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`string< C1, C2, ... >`](#string-c1-c2---1) <sup>[(unicode rules)](#unicode-rules)</sup>
-* [`string< C1, C2, ... >`](#string-c1-c2---2) <sup>[(binary rules)](#binary-rules)</sup>
+* [`string< C... >`](#string-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`string< C... >`](#string-c--1) <sup>[(unicode rules)](#unicode-rules)</sup>
+* [`string< C... >`](#string-c--2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`success`](#success) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`TAO_PEGTL_ISTRING( "..." )`](#tao_pegtl_istring--) <sup>[(ascii rules)](#ascii_rules)</sup>
 * [`TAO_PEGTL_KEYWORD( "..." )`](#tao_pegtl_keyword--) <sup>[(ascii rules)](#ascii_rules)</sup>

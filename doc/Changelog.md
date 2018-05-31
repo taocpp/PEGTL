@@ -172,7 +172,7 @@ Released 2017-05-18
 
   * Added combinator class [`minus`](Rule-Reference.md#minus-m-s-).
   * Added ASCII rule class [`keyword`](Rule-Reference.md#keyword-c--).
-  * Added [`string`](Rule-Reference.md#string-c1-c2--) rules for [UTF-8](Rule-Reference.md#string-c1-c2---1), [UTF-16](Rule-Reference.md#string-c1-c2---2) and [UTF-32](Rule-Reference.md#string-c1-c2---3).
+  * Added [`string`](Rule-Reference.md#string-c--1) rules for UTF-8, UTF-16 and UTF-32.
   * Added [`apply`](Rule-Reference.md#apply-a-), [`apply0`](Rule-Reference.md#apply0-a-) and [`if_apply`](Rule-Reference.md#if_apply-r-a-) rules for intrusive actions.
   * Added incremental input support rules [`discard`](Rule-Reference.md#discard) and [`require`](Rule-Reference.md#require-num-).
 

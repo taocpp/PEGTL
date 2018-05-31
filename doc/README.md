@@ -165,7 +165,7 @@
 * [`mask_range< M, C, D >`](Rule-Reference.md#mask_range-m-c-d-) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`mask_ranges< M, C1, D1, C2, D2, ... >`](Rule-Reference.md#mask_ranges-m-c1-d1-c2-d2--) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`mask_ranges< M, C1, D1, C2, D2, ..., E >`](Rule-Reference.md#mask_ranges-m-c1-d1-c2-d2--e-) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
-* [`mask_string< M, C1, C2, ... >`](Rule-Reference.md#mask_string-m-c1-c2--) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
+* [`mask_string< M, C... >`](Rule-Reference.md#mask_string-m-c-) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`math`](Rule-Reference.md#math) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`minus< M, S >`](Rule-Reference.md#minus-m-s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`must< R... >`](Rule-Reference.md#must-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
@@ -230,9 +230,9 @@
 * [`star< R... >`](Rule-Reference.md#star-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>
 * [`star_must< R, S... >`](Rule-Reference.md#star_must-r-s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`state< S, R... >`](Rule-Reference.md#state-s-r-) <sup>[(meta rules)](Rule-Reference.md#meta-rules)</sup>
-* [`string< C1, C2, ... >`](Rule-Reference.md#string-c1-c2--) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
-* [`string< C1, C2, ... >`](Rule-Reference.md#string-c1-c2---1) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
-* [`string< C1, C2, ... >`](Rule-Reference.md#string-c1-c2---2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
+* [`string< C... >`](Rule-Reference.md#string-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
+* [`string< C... >`](Rule-Reference.md#string-c--1) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
+* [`string< C... >`](Rule-Reference.md#string-c--2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`success`](Rule-Reference.md#success) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
 * [`TAO_PEGTL_ISTRING( "..." )`](Rule-Reference.md#tao_pegtl_istring--) <sup>[(ascii rules)](Rule-Reference.md#ascii_rules)</sup>
 * [`TAO_PEGTL_KEYWORD( "..." )`](Rule-Reference.md#tao_pegtl_keyword--) <sup>[(ascii rules)](Rule-Reference.md#ascii_rules)</sup>
