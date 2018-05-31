@@ -23,9 +23,9 @@ is not how they are implemented, therefore:
 However, rule equivalence does show exactly where the `raise<>` rule is inserted
 and therefore which rule will be used to call the control class' `raise()`-method.
 
-## Packs
+## Parameter Packs
 
-The documentation will use packs if zero-or-more or one-or-more of a parameter is allowed.
+The documentation will use [(template parameter) packs](https://en.cppreference.com/w/cpp/language/parameter_pack) if zero-or-more or one-or-more of a (template) parameter is allowed.
 As an example, `seq< R... >` may have zero-or-more template parameters.
 If it is zero, i.e. if you write `seq<>`, we say that `R` is "empty".
 If it is at least one rule, i.e. `seq< A >` or `seq< A, B, C >`, `R` is "non-empty".
