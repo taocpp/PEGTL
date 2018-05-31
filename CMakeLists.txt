@@ -58,3 +58,4 @@ set (PEGTL_INSTALL_DOC_DIR "share/doc/tao/pegtl" CACHE STRING "The installation 
 # install
 install (DIRECTORY include/ DESTINATION ${PEGTL_INSTALL_INCLUDE_DIR})
 install (FILES LICENSE DESTINATION ${PEGTL_INSTALL_DOC_DIR})
+install (FILES pegtl-config.cmake DESTINATION share/pegtl/cmake)
