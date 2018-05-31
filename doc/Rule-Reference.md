@@ -25,11 +25,10 @@ and therefore which rule will be used to call the control class' `raise()`-metho
 
 ## Parameter Packs
 
-The documentation will use [(template parameter) packs](https://en.cppreference.com/w/cpp/language/parameter_pack) if zero-or-more or one-or-more of a (template) parameter is allowed.
-As an example, `seq< R... >` may have zero-or-more template parameters.
-If it is zero, i.e. if you write `seq<>`, we say that `R` is "empty".
-If it is at least one rule, i.e. `seq< A >` or `seq< A, B, C >`, `R` is "non-empty".
-The documentation will state when empty packs are allowed or disallowed and, if empty packs are allowed we will state the meaning either explicity, or implicitly via the documented equivalence.
+The documentation will use [(template parameter) packs](https://en.cppreference.com/w/cpp/language/parameter_pack) when zero-or-more or one-or-more of a (template) parameter are allowed.
+For example `seq< R... >` accepts zero-or-more template parameters.
+In the zero case, i.e. `seq<>`, we describe `R` as "empty".
+When at least one parameter is given, i.e. `seq< A >` or `seq< A, B, C >`, `R` is "non-empty".
 
 ## Contents
 
