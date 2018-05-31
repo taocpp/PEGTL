@@ -2,12 +2,17 @@ cmake_minimum_required (VERSION 3.2.0 FATAL_ERROR)
 
 project (pegtl VERSION 2.5.2 LANGUAGES CXX)
 
+# installation directories
+set (PEGTL_INSTALL_INCLUDE_DIR "include" CACHE STRING "The installation include directory")
+set (PEGTL_INSTALL_DOC_DIR "share/doc/tao/pegtl" CACHE STRING "The installation doc directory")
+set (PEGTL_INSTALL_CMAKE_DIR "share/pegtl/cmake" CACHE STRING "The installation cmake directory")
+
 # define a header-only library
 add_library (pegtl INTERFACE)
 add_library (taocpp::pegtl ALIAS pegtl)
 target_include_directories (pegtl INTERFACE
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
-  $<INSTALL_INTERFACE:include>
+  $<INSTALL_INTERFACE:${PEGTL_INSTALL_INCLUDE_DIR}>
 )
 
 # features used by the PEGTL
@@ -51,11 +56,15 @@ if (PEGTL_BUILD_EXAMPLES)
   add_subdirectory (src/example/pegtl)
 endif ()
 
-# installation directories
-set (PEGTL_INSTALL_INCLUDE_DIR "include" CACHE STRING "The installation include directory")
-set (PEGTL_INSTALL_DOC_DIR "share/doc/tao/pegtl" CACHE STRING "The installation doc directory")
+# install and export target
+install(TARGETS pegtl EXPORT pegtl-targets)
+
+install(EXPORT pegtl-targets
+  FILE pegtl-config.cmake
+  NAMESPACE taocpp::
+  DESTINATION ${PEGTL_INSTALL_CMAKE_DIR}
+  )
 
 # install
 install (DIRECTORY include/ DESTINATION ${PEGTL_INSTALL_INCLUDE_DIR})
 install (FILES LICENSE DESTINATION ${PEGTL_INSTALL_DOC_DIR})
-install (FILES pegtl-config.cmake DESTINATION share/pegtl/cmake)
