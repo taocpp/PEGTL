@@ -57,14 +57,13 @@ if (PEGTL_BUILD_EXAMPLES)
 endif ()
 
 # install and export target
-install(TARGETS pegtl EXPORT pegtl-targets)
+install (TARGETS pegtl EXPORT pegtl-targets)
 
-install(EXPORT pegtl-targets
+install (EXPORT pegtl-targets
   FILE pegtl-config.cmake
   NAMESPACE taocpp::
   DESTINATION ${PEGTL_INSTALL_CMAKE_DIR}
-  )
+)
 
-# install
 install (DIRECTORY include/ DESTINATION ${PEGTL_INSTALL_INCLUDE_DIR})
 install (FILES LICENSE DESTINATION ${PEGTL_INSTALL_DOC_DIR})
