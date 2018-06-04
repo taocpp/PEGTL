@@ -1,7 +1,7 @@
 ## Welcome to the PEGTL
 
 [![Release](https://img.shields.io/github/release/taocpp/PEGTL.svg)](https://github.com/taocpp/PEGTL/releases/latest)
-[![Download](https://api.bintray.com/packages/bincrafters/public-conan/pegtl%3Abincrafters/images/download.svg)](https://bintray.com/bincrafters/public-conan/pegtl%3Abincrafters/_latestVersion)
+[![Download](https://api.bintray.com/packages/taocpp/public-conan/pegtl%3Ataocpp/images/download.svg)](https://bintray.com/taocpp/public-conan/pegtl%3Ataocpp/_latestVersion)
 [![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/pa5sbnw68tu650aq/branch/master?svg=true)](https://ci.appveyor.com/project/taocpp/PEGTL)
 [![Doozer.io](https://doozer.io/badge/taocpp/PEGTL/buildstatus/master)](https://doozer.io/user/taocpp/PEGTL)
