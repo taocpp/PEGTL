@@ -1,6 +1,7 @@
 ## Welcome to the PEGTL
 
 [![Release](https://img.shields.io/github/release/taocpp/PEGTL.svg)](https://github.com/taocpp/PEGTL/releases/latest)
+[![Download](https://api.bintray.com/packages/bincrafters/public-conan/pegtl%3Abincrafters/images/download.svg)](https://bintray.com/bincrafters/public-conan/pegtl%3Abincrafters/_latestVersion)
 [![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/pa5sbnw68tu650aq/branch/master?svg=true)](https://ci.appveyor.com/project/taocpp/PEGTL)
 [![Doozer.io](https://doozer.io/badge/taocpp/PEGTL/buildstatus/master)](https://doozer.io/user/taocpp/PEGTL)
@@ -105,6 +106,7 @@ For details see the [changelog](doc/Changelog.md).
 * Kenneth Geisshirt for Android compatibility and Android CI.
 * Kuzma Shapran for EOL testing and fixes.
 * Michael Becker for help with CMake.
+* Paul Le Roux for CMake improvements and Conan support.
 * Paulo Custodio for Windows-related fixes.
 * Sam Hocevar for contributing Visual Studio 2015 compatibility.
 * Stephan Beal for the bug reports, suggestions and discussions.
