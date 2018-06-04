@@ -4,8 +4,10 @@ import os
 class PEGTLConan(ConanFile):
     name = "pegtl"
     description = "C++11 header-only parser combinator library for creating PEG parsers"
-    url = "https://github.com/taocpp/PEGTL"
+    homepage = "https://github.com/taocpp/PEGTL"
+    url = homepage
     license = "MIT"
+    author = "taocpp@icemx.net"
     exports_sources = "include*", "LICENSE", "CMakeLists.txt"
 
     def package(self):
