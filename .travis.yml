@@ -2,6 +2,10 @@ language: generic
 os: linux
 dist: trusty
 
+branches:
+  only:
+    - master
+
 matrix:
   include:
     - compiler: gcc
