@@ -34,9 +34,19 @@ environment:
       COMPILER: MinGW 6
       BINDIR: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin
 
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      GENERATOR: Visual Studio 15 2017
+      CONAN_VISUAL_VERSIONS: 15
+      PYTHON: "C:\\Python27"
+      PYTHON_VERSION: "2.7.8"
+      PYTHON_ARCH: "32"
+      CONAN: TRUE
+
 init: []
 
-install: []
+install:
+- if defined CONAN (set PATH=%PATH%;%PYTHON%/Scripts/)
+- if defined CONAN (pip.exe install -U conan conan-package-tools)
 
 before_build:
 - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets")
@@ -50,3 +60,4 @@ build_script:
 
 test_script:
 - ctest -C "%CONFIGURATION%" --output-on-failure
+- if defined CONAN (python build.py)
