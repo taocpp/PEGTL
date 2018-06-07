@@ -2,12 +2,6 @@ cmake_minimum_required (VERSION 3.2.0 FATAL_ERROR)
 
 project (pegtl VERSION 2.5.2 LANGUAGES CXX)
 
-# Build project by Conan
-if(EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
-    include("${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
-    conan_basic_setup()
-endif(EXISTS "${CMAKE_BINARY_DIR}/conanbuildinfo.cmake")
-
 # installation directories
 set (PEGTL_INSTALL_INCLUDE_DIR "include" CACHE STRING "The installation include directory")
 set (PEGTL_INSTALL_DOC_DIR "share/doc/tao/pegtl" CACHE STRING "The installation doc directory")
