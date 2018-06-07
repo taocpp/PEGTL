@@ -45,8 +45,8 @@ environment:
 init: []
 
 install:
-- if defined CONAN (set PATH=%PATH%;%PYTHON%/Scripts/)
 - if defined CONAN (pip.exe install -U conan conan-package-tools)
+- if defined CONAN (conan profile new default --detect)
 
 before_build:
 - if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets")
@@ -60,4 +60,5 @@ build_script:
 
 test_script:
 - ctest -C "%CONFIGURATION%" --output-on-failure
+- if defined CONAN (cd ..)
 - if defined CONAN (python build.py)
