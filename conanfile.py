@@ -27,6 +27,7 @@ class PEGTLConan(ConanFile):
         cmake.definitions["PEGTL_INSTALL_CMAKE_DIR"] = self.package_folder
         cmake.configure()
         cmake.install()
+        cmake.patch_config_paths()
 
     def package_id(self):
         self.info.header_only()
