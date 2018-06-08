@@ -6,6 +6,7 @@ set(CMAKE_VERBOSE_MAKEFILE TRUE)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
+find_package(PEGTL REQUIRED CONFIG)
+
 add_executable(${PROJECT_NAME} test_package.cpp)
-target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
-set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 11)
+target_link_libraries(${PROJECT_NAME} taocpp::pegtl)
