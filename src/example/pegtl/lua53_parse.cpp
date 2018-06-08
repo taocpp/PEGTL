@@ -159,7 +159,7 @@ namespace lua53
    template< typename R >
    struct pad : pegtl::pad< R, sep > {};
 
-   struct three_dots : pegtl::string< '.', '.', '.' > {};
+   struct three_dots : pegtl::three< '.' > {};
 
    struct name : pegtl::seq< pegtl::not_at< keyword >, pegtl::identifier > {};
 

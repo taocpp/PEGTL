@@ -238,6 +238,7 @@
 * [`TAO_PEGTL_KEYWORD( "..." )`](Rule-Reference.md#tao_pegtl_keyword--) <sup>[(ascii rules)](Rule-Reference.md#ascii_rules)</sup>
 * [`TAO_PEGTL_STRING( "..." )`](Rule-Reference.md#tao_pegtl_string--) <sup>[(ascii rules)](Rule-Reference.md#ascii_rules)</sup>
 * [`terminal_punctuation`](Rule-Reference.md#terminal_punctuation) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
+* [`three< C >`](Rule-Reference.md#three-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`trail_canonical_combining_class< V >`](Rule-Reference.md#trail_canonical_combining_class-v-) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-value-properties)</sup>
 * [`try_catch< R... >`](Rule-Reference.md#try_catch-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`try_catch_type< E, R... >`](Rule-Reference.md#try_catch_type-e-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>

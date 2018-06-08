@@ -522,6 +522,12 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 * Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
 * Strings may contain embedded `'\0'`.
 
+###### `three< C >`
+
+* Succeeds when the input contains at least three bytes, and:
+* These three input bytes are all `C`.
+* Consumes three bytes when it succeeds.
+
 ###### `two< C >`
 
 * Succeeds when the input contains at least two bytes, and:
@@ -1207,6 +1213,7 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`TAO_PEGTL_KEYWORD( "..." )`](#tao_pegtl_keyword--) <sup>[(ascii rules)](#ascii_rules)</sup>
 * [`TAO_PEGTL_STRING( "..." )`](#tao_pegtl_string--) <sup>[(ascii rules)](#ascii_rules)</sup>
 * [`terminal_punctuation`](#terminal_punctuation) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
+* [`three< C >`](#three-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`trail_canonical_combining_class< V >`](#trail_canonical_combining_class-v-) <sup>[(icu rules)](#icu-rules-for-value-properties)</sup>
 * [`try_catch< R... >`](#try_catch-r-) <sup>[(convenience)](#convenience)</sup>
 * [`try_catch_type< E, R... >`](#try_catch_type-e-r-) <sup>[(convenience)](#convenience)</sup>

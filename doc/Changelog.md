@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.5.3
+
+**Not yet released**
+
+* Added [`three`](Rule-Reference.md#three-c-).
+
 ## 2.5.2
 
 Released 2018-05-31
