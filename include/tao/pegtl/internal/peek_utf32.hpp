@@ -31,7 +31,7 @@ namespace tao
                const std::size_t s = in.size( 4 );
                if( s >= 4 ) {
                   const char32_t t = R::read( in.current() );
-                  if( ( 0 <= t ) && ( t <= 0x10ffff ) ) {
+                  if( ( 0 <= t ) && ( t <= 0x10ffff ) && !( t >= 0xd800 && t <= 0xdfff ) ) {
                      return { t, 4 };
                   }
                }

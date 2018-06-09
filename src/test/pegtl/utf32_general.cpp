@@ -42,12 +42,18 @@ namespace tao
          verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0x0100 ) + "  ", result_type::SUCCESS, 2 );
          verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0x0fff ) + "   ", result_type::SUCCESS, 3 );
          verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0x1000 ) + "    ", result_type::SUCCESS, 4 );
+         verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0xd7ff ), result_type::SUCCESS, 0 );
+         verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0xe000 ), result_type::SUCCESS, 0 );
          verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0xfffe ), result_type::SUCCESS, 0 );
          verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0xffff ), result_type::SUCCESS, 0 );
          verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0x100000 ), result_type::SUCCESS, 0 );
          verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0x10fffe ), result_type::SUCCESS, 0 );
          verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0x10ffff ), result_type::SUCCESS, 0 );
 
+         verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0xd800 ), result_type::LOCAL_FAILURE, 4 );
+         verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0xd900 ), result_type::LOCAL_FAILURE, 4 );
+         verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0xdc00 ), result_type::LOCAL_FAILURE, 4 );
+         verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0xdfff ), result_type::LOCAL_FAILURE, 4 );
          verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0x110000 ), result_type::LOCAL_FAILURE, 4 );
          verify_rule< utf32::any >( __LINE__, __FILE__, u32s( 0x110000 ) + u32s( 0 ), result_type::LOCAL_FAILURE, 8 );
 
