@@ -1,5 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 from conans import ConanFile, CMake
-import os
 
 class PEGTLConan(ConanFile):
     name = "pegtl"
@@ -8,15 +9,20 @@ class PEGTLConan(ConanFile):
     url = homepage
     license = "MIT"
     author = "taocpp@icemx.net"
-    exports_sources = "include*", "LICENSE", "CMakeLists.txt"
+    settings = "compiler", "arch"
+    exports = "LICENSE"
+    exports_sources = "include/*", "CMakeLists.txt"
+    generators = "cmake"
+    no_copy_source = True
+
+    def build(self):
+        pass
 
     def package(self):
         cmake = CMake(self)
-
         cmake.definitions["PEGTL_BUILD_TESTS"] = "OFF"
         cmake.definitions["PEGTL_BUILD_EXAMPLES"] = "OFF"
         cmake.definitions["PEGTL_INSTALL_DOC_DIR"] = "licenses"
-
         cmake.configure()
         cmake.install()
 
