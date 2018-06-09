@@ -32,16 +32,20 @@ namespace tao
             static pair_t peek( Input& in ) noexcept( noexcept( in.size( 4 ) ) )
             {
                const std::size_t s = in.size( 4 );
-               if( s >= 2 ) {
-                  const char32_t t = R::read( in.current() );
-                  if( ( t < 0xd800 ) || ( t > 0xdbff ) || ( s < 4 ) ) {
-                     return { t, 2 };
-                  }
-                  const char32_t u = R::read( in.current() + 2 );
-                  if( ( u < 0xdc00 ) || ( u > 0xdfff ) ) {
-                     return { t, 2 };
-                  }
-                  return { ( ( ( t & 0x03ff ) << 10 ) | ( u & 0x03ff ) ) + 0x10000, 4 };
+               if( s < 2 ) {
+                  return { 0, 0 };
+               }
+               const char32_t t = R::read( in.current() );
+               if( ( t < 0xd800 ) || ( t > 0xdfff ) ) {
+                  return { t, 2 };
+               }
+               if( ( t >= 0xdc00 ) || ( s < 4 ) ) {
+                  return { 0, 0 };
+               }
+               const char32_t u = R::read( in.current() + 2 );
+               if( ( u >= 0xdc00 ) && ( u <= 0xdfff ) ) {
+                  const auto cp = ( ( ( t & 0x03ff ) << 10 ) | ( u & 0x03ff ) ) + 0x10000;
+                  return { cp, 4 };
                }
                return { 0, 0 };
             }

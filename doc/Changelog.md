@@ -6,6 +6,7 @@
 
 * Added [`three`](Rule-Reference.md#three-c-).
 * Fixed the UTF-8 decoder to no longer accept UTF-16 surrogates.
+* Fixed the UTF-16 decoder to no longer accept UTF-16 unmatched surrogates.
 * Fixed `pegtl/contrib/unescape.hh` to no longer accept unmatched surrogates.
 
 ## 2.5.2
