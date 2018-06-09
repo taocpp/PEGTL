@@ -37,6 +37,10 @@ namespace tao
                return true;
             }
             if( utf32 <= 0xffff ) {
+               if( utf32 >= 0xd800 && utf32 <= 0xdfff ) {
+                  // nope, this is a UTF-16 surrogate
+                  return false;
+               }
                char tmp[] = { char( ( ( utf32 & 0xf000 ) >> 12 ) | 0xe0 ),
                               char( ( ( utf32 & 0x0fc0 ) >> 6 ) | 0x80 ),
                               char( ( ( utf32 & 0x003f ) ) | 0x80 ) };
@@ -185,11 +189,14 @@ namespace tao
                      const auto d = unhex_string< unsigned >( b + 6, b + 10 );
                      if( ( 0xdc00 <= d ) && ( d <= 0xdfff ) ) {
                         b += 6;
+                        // note: no need to check the result code, as we are always >= 0x10000 and < 0x110000.
                         utf8_append_utf32( st.unescaped, ( ( ( c & 0x03ff ) << 10 ) | ( d & 0x03ff ) ) + 0x10000 );
                         continue;
                      }
                   }
-                  utf8_append_utf32( st.unescaped, c );
+                  if( !utf8_append_utf32( st.unescaped, c ) ) {
+                     throw parse_error( "invalid escaped unicode code point", in );
+                  }
                }
             }
          };

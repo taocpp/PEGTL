@@ -55,14 +55,26 @@ namespace tao
          verify_data( "\\u00e4", "\xc3\xa4" );
          verify_data( "\\u00E4", "\xC3\xA4" );
          verify_data( "\\u20ac", "\xe2\x82\xac" );
-         verify_data( "\\ud800\\u0020", "\xed\xa0\x80 " );
-         verify_data( "\\ud800\\udc00", "\xed\xa0\x80\xed\xb0\x80" );
+
+         TAO_PEGTL_TEST_THROWS( verify_data( "\\ud800", "" ) );
+         TAO_PEGTL_TEST_THROWS( verify_data( "\\ud800X", "" ) );
+         TAO_PEGTL_TEST_THROWS( verify_data( "\\ud800\\u0020", "" ) );
+         TAO_PEGTL_TEST_THROWS( verify_data( "\\ud800\\udc00", "" ) );  // unescape_u does not support surrogate pairs.
+         TAO_PEGTL_TEST_THROWS( verify_data( "\\udc00\\ud800", "" ) );
+
          verify_data( "\\j0020", " " );
          verify_data( "\\j0020\\j0020", "  " );
          verify_data( "\\j20ac", "\xe2\x82\xac" );
-         verify_data( "\\jd800\\j0020", "\xed\xa0\x80 " );
-         verify_data( "\\jd800\\jdc00", "\xf0\x90\x80\x80" );
+
+         verify_data( "\\jd800\\jdc00", "\xf0\x90\x80\x80" );  // unescape_j does support proper surrogate pairs.
+
+         TAO_PEGTL_TEST_THROWS( verify_data( "\\jd800", "" ) );
+         TAO_PEGTL_TEST_THROWS( verify_data( "\\jd800X", "" ) );
+         TAO_PEGTL_TEST_THROWS( verify_data( "\\jd800\\j0020", "" ) );
+         TAO_PEGTL_TEST_THROWS( verify_data( "\\jdc00\\jd800", "" ) );
+
          verify_data( "\\j0000\\u0000\x00", "\x00\x00\x00" );
+
          unescape::state st;
          verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\", st );
          verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\\\\\", st );
