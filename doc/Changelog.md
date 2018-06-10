@@ -1,14 +1,15 @@
 # Changelog
 
-## 2.5.3
+## 2.6.0
 
 **Not yet released**
 
-* Added [`three`](Rule-Reference.md#three-c-).
+* Added [Conan](https://conan.io/) [packages](https://bintray.com/taocpp/public-conan/pegtl%3Ataocpp/).
 * Fixed the UTF-8 decoder to no longer accept UTF-16 surrogates.
 * Fixed the UTF-16 decoder to no longer accept UTF-16 unmatched surrogates.
 * Fixed the UTF-32 "decoder" to no longer accept UTF-16 surrogates.
 * Fixed `pegtl/contrib/unescape.hh` to no longer accept unmatched surrogates.
+* Added new convenience rule [`three`](Rule-Reference.md#three-c-).
 
 ## 2.5.2
 
