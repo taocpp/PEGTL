@@ -48,7 +48,7 @@ namespace tao
                   switch( const auto c = in.peek_char( i ) ) {
                      case Open:
                         marker_size = i + 1;
-                        in.bump( marker_size );
+                        in.bump_in_this_line( marker_size );
                         eol::match( in );
                         return true;
                      case Marker:
