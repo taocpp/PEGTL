@@ -61,4 +61,4 @@ build_script:
 test_script:
 - ctest -C "%CONFIGURATION%" --output-on-failure
 - if defined CONAN (cd ..)
-- if defined CONAN (python build.py)
+- if defined CONAN (python .conan/build.py)
