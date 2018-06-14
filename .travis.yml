@@ -435,7 +435,7 @@ matrix:
         - CONAN_GCC_VERSIONS=7
         - CONAN_DOCKER_IMAGE=lasote/conangcc7
       script:
-        - python build.py
+        - python .conan/build.py
 
 script:
   - $CXX --version

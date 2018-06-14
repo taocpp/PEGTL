@@ -54,6 +54,7 @@ if __name__ == "__main__":
         username=settings.username,
         upload=settings.upload,
         upload_only_when_stable=settings.upload_only_when_stable,
-        stable_branch_pattern=settings.stable_branch_pattern)
+        stable_branch_pattern=settings.stable_branch_pattern,
+        test_folder=os.path.join(".conan", "test_package"))
     builder.add()
     builder.run()
