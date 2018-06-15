@@ -22,8 +22,9 @@ bool my_parse( const std::string& filename, my_state& state )
 }
 ```
 
-In the context of PEGTL input classes and positions, `source` is a string that identifies where the to-be-parsed data comes from.
-For example when parsing a file, the filename is the source.
+In the context of PEGTL input classes and positions there is usually an additional (i.e. beyond indicating or supplying the to-be-parsed data) string parameter `source` that identifies where the to-be-parsed data comes from.
+For example when parsing a file with one of the appropriate included input classes, the filename is automatically used as `source` so that it will appear in exceptions and error messages.
+In other cases the `source` parameter needs to be explicitly passed to the input's constructor.
 
 All classes and functions on this page are in namespace `tao::pegtl`.
 
