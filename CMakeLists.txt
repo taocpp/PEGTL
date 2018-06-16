@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.2.0 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.3.0 FATAL_ERROR)
 
 project (pegtl VERSION 2.5.2 LANGUAGES CXX)
 
