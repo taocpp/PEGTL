@@ -96,6 +96,11 @@ foreach (testsourcefile ${test_sources})
   get_filename_component (exename ${testsourcefile} NAME_WE)
   add_executable (${exename} ${testsourcefile})
   target_link_libraries (${exename} PRIVATE taocpp::pegtl)
+  set_target_properties(${exename} PROPERTIES
+    CXX_EXTENSIONS OFF
+    CXX_STANDARD 11
+    CXX_STANDARD_REQUIRED ON
+  )
   if (MSVC)
     target_compile_options (${exename} PRIVATE /W4 /WX /utf-8)
   else ()
