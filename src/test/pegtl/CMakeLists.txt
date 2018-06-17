@@ -14,6 +14,7 @@ set (test_sources
   ascii_keyword.cpp
   ascii_shebang.cpp
   ascii_string.cpp
+  ascii_three.cpp
   ascii_two.cpp
   contrib_alphabet.cpp
   contrib_integer.cpp
