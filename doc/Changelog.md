@@ -9,6 +9,7 @@
 * Fixed the UTF-16 decoder to no longer accept UTF-16 unmatched surrogates.
 * Fixed the UTF-32 "decoder" to no longer accept UTF-16 surrogates.
 * Fixed `pegtl/contrib/unescape.hh` to no longer accept unmatched surrogates.
+* Optimised convenience rule [`two`](Rule-Reference.md#two-c-).
 * Added new convenience rule [`three`](Rule-Reference.md#three-c-).
 
 ## 2.5.2
