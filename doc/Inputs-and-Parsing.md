@@ -108,7 +108,9 @@ They should be used "as if" this was the actual signature.
 
 The class `memory_input<>` can be used to parse existing contiguous blocks of memory like the contents of a `std::string`.
 The input **neither copies the data nor takes ownership, it only keeps pointers**.
-The various constructors accept the to-be-parsed data and the source in different formats.
+The various constructors accept the to-be-parsed data in different formats.
+The `source` parameter is required for all constructors to disambiguate the different overloads.
+If you don't want to specify a source just use the empty string (`""`).
 
 The constructors that only takes a `const char* begin` for the data uses `std::strlen()` to determine the length.
 It will therefore *only* work correctly with data that is terminated with a 0-byte (and does not contain embedded 0-bytes, which are otherwise fine).
@@ -140,13 +142,52 @@ class memory_input
 };
 ```
 
+### Examples
+
+###### Example 1
+
+```c++
+memory_input<> in1( "this is the input to parse", "" );
+```
+
+Construct a `memory_input` with default tracking mode, default end-of-line mode (accepting Unix and MS-DOS line endings), and default source storage.
+As there are only two parameters, the 5th overload from above is choosen.
+The data to parse is given directly as a string literal which is not copied.
+As no pointer to the end or the size of the input is given, the length of the data to be parsed will be determined by calling `strlen` on the pointer passed as the first parameter.
+The source is the empty string.
+
+###### Example 2
+
+```c++
+struct packet
+{
+   // ...
+   const std::array< char >& buffer() const noexcept;
+   std::string identifier() const;
+   // ...
+};
+
+packet p = ...; // some UDP packet class
+
+memory_input< tracking_mode::LAZY, eol::crlf > in2( p.buffer().begin(), p.buffer().end(), p.identifier() );
+```
+
+Consider a UDP packet that was received and should be parsed.
+Construct a `memory_input` with lazy tracking mode, MS-DOS end-of-line mode (accepting only MS-DOS line endings), and default source storage.
+This example chooses the second overload from above.
+The data to parse is given as two `const char*` pointers (as the data is not null-terminated) and is, of course, not copied.
+Consider the source to be an identifier for the packet that was received, e.g. a string constructed from the timestamp, the source IP/port, the interface it was received on, a sequence number, or similar information.
+Note that this example shows why the source parameter is necessary to disambiguate the overloads.
+If the source would be optional (defaulted), the signature of this overload would also match the first example and therefore be ambiguous.
+
+### Additional Remarks
+
 Note that `noexcept(...)` is a conditional noexcept-specification, depending on whether the construction of the source stored in the class can throw given the perfectly-forwarded parameter `source`. Technically, it is implemented as `noexcept( std::is_nothrow_constructible< Source, T&& >::value )`.
 
 With the default `Source` type of `std::string`, the `source` parameter to the constructors is usually a `const char*` or (any reference to) a `std::string`, but anything that can be used to construct a `std::string` will work. When `Source` is set to `const char*` then only a `const char *` (or something that can implicitly be converted to one) will work.
 
 The implementation of the constructors is different than shown.
 They should be used "as if" this was the actual signature.
-
 
 ## String Input
 
@@ -165,6 +206,8 @@ class string_input
                  const std::size_t byte, const std::size_t line, const std::size_t byte_in_line ) noexcept(...);
 };
 ```
+
+### Additional Remarks
 
 Note that the implementation of the constructors is different than shown.
 They should be used "as if" this was the actual signature.
