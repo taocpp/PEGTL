@@ -404,7 +404,12 @@ namespace tao
          using apply_fold_one = apply< fold_one >;
          using apply_discard_empty = apply< discard_empty >;
 
-         template< typename Rule, typename Node, template< typename > class S = internal::store_all, template< typename > class C = normal, typename Input, typename... States >
+         template< typename Rule,
+                   typename Node,
+                   template< typename > class S = internal::store_all,
+                   template< typename > class C = normal,
+                   typename Input,
+                   typename... States >
          std::unique_ptr< Node > parse( Input&& in, States&&... st )
          {
             internal::state< Node > state;
@@ -415,7 +420,11 @@ namespace tao
             return std::move( state.back() );
          }
 
-         template< typename Rule, template< typename > class S = internal::store_all, template< typename > class C = normal, typename Input, typename... States >
+         template< typename Rule,
+                   template< typename > class S = internal::store_all,
+                   template< typename > class C = normal,
+                   typename Input,
+                   typename... States >
          std::unique_ptr< node > parse( Input&& in, States&&... st )
          {
             return parse< Rule, node, S, C >( in, st... );
