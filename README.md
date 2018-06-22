@@ -1,4 +1,4 @@
-## Welcome to the PEGTL
+# Welcome to the PEGTL
 
 [![Release](https://img.shields.io/github/release/taocpp/PEGTL.svg)](https://github.com/taocpp/PEGTL/releases/latest)
 [![Download](https://api.bintray.com/packages/taocpp/public-conan/pegtl%3Ataocpp/images/download.svg)](https://bintray.com/taocpp/public-conan/pegtl%3Ataocpp/_latestVersion)
@@ -9,12 +9,12 @@
 
 The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++11 header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
-### Documentation
+## Documentation
 
 * [Version 2.x Documentation](doc/README.md)
 * [Version 1.3 Documentation](https://github.com/taocpp/PEGTL/blob/1.3.x/doc/README.md)
 
-### Introduction
+## Introduction
 
 Grammars are written as regular C++ code, created with template programming (not template meta programming), i.e. nested template instantiations that naturally correspond to the inductive definition of PEGs (and other parser-combinator approaches).
 
@@ -37,7 +37,7 @@ struct integer : seq< opt< one< '+', '-' > >, plus< digit > > {};
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic nature of PEGs gives rise to some very important differences.
 The included [grammar analysis](doc/Grammar-Analysis.md) finds several typical errors in PEGs, including left recursion.
 
-### Design
+## Design
 
 The PEGTL is designed to be "lean and mean", the core library consists of approximately 6000 lines of code.
 Emphasis is on simplicity and efficiency, preferring a well-tuned simple approach over complicated optimisations.
@@ -51,7 +51,7 @@ Through the use of template programming and template specialisations it is possi
 With the PEG formalism, the separation into lexer and parser stages is usually dropped -- everything is done in a single grammar.
 The rules are expressed in C++ as template instantiations, and it is the compiler's task to optimise PEGTL grammars.
 
-### Status
+## Status
 
 Each commit is automatically tested with multiple architectures, operating systems, compilers, and versions thereof.
 
@@ -96,7 +96,7 @@ cover 100% of the core library code (for releases).
 Incompatible API changes are *only* allowed to occur between major versions.
 For details see the [changelog](doc/Changelog.md).
 
-### Thank You
+## Thank You
 
 * Christopher Diggins and the YARD parser for the general idea.
 * George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `TAO_PEGTL_STRING`.
@@ -113,11 +113,13 @@ For details see the [changelog](doc/Changelog.md).
 * Sven Johannsen for help with CMake.
 * Zhihao Yuan for fixing several warnings when compiling with Visual Studio 2015.
 
-### Contact
+## Contact
+
+The PEGTL is part of [The Art of C++](https://taocpp.github.io/).
 
 For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to contact the authors at `taocpp(at)icemx.net`.
 
-### License
+## License
 
 The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.html) software. It may be used for any purpose, including commercial purposes, at absolutely no cost. It is distributed under the terms of the [MIT license](http://www.opensource.org/licenses/mit-license.html) reproduced here.
 
