@@ -39,6 +39,8 @@ the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches.
 
 ## Installation Packages
 
+Note that some of the listed package sources are not updated regularly.
+
 ### Linux Packages
 
 * [Fedora/RHEL/CentOS]
@@ -54,6 +56,8 @@ Packages for other distributions might be available, too.
 
 ### Other
 
+* [Conan]
+* [Buckaroo]
 * [Spack]
 
 ## CMake Installation
@@ -179,8 +183,10 @@ When **not** compiling on Unix or macOS, then `mmap(2)`-based file reading is no
 
 Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey
 
+[Buckaroo]: https://buckaroo.pm/project/taocpp/pegtl/
 [CMake]: https://cmake.org/
 [CMake documentation]: https://cmake.org/documentation/
+[Conan]: https://bintray.com/taocpp/public-conan/pegtl%3Ataocpp
 [Debian]: https://packages.debian.org/search?keywords=pegtl-dev
 [Fedora/RHEL/CentOS]: https://apps.fedoraproject.org/packages/PEGTL
 [Gentoo]: https://packages.gentoo.org/packages/dev-libs/pegtl
