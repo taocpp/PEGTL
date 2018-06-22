@@ -24,6 +24,7 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
+#include <tao/pegtl/nothing.hpp>
 #include <tao/pegtl/contrib/abnf.hpp>
 #include <tao/pegtl/contrib/parse_tree.hpp>
 
@@ -621,7 +622,7 @@ int main( int argc, char** argv )
 
    file_input<> in( argv[ 1 ] );
    try {
-      const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::selector, abnf::grammar::error_control >( in );
+      const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::node, abnf::selector, nothing, abnf::grammar::error_control >( in );
 
       for( const auto& rule : root->children ) {
          abnf::rules_defined.push_back( abnf::get_rulename( rule->children.front() ) );

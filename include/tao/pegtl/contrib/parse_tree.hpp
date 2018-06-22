@@ -407,13 +407,14 @@ namespace tao
          template< typename Rule,
                    typename Node,
                    template< typename > class S = internal::store_all,
+                   template< typename > class A = nothing,
                    template< typename > class C = normal,
                    typename Input,
                    typename... States >
          std::unique_ptr< Node > parse( Input&& in, States&&... st )
          {
             internal::state< Node > state;
-            if( !TAO_PEGTL_NAMESPACE::parse< Rule, nothing, internal::make_control< S, C >::template type >( in, state, st... ) ) {
+            if( !TAO_PEGTL_NAMESPACE::parse< Rule, A, internal::make_control< S, C >::template type >( in, state, st... ) ) {
                return nullptr;
             }
             assert( state.stack.size() == 1 );
@@ -422,12 +423,13 @@ namespace tao
 
          template< typename Rule,
                    template< typename > class S = internal::store_all,
+                   template< typename > class A = nothing,
                    template< typename > class C = normal,
                    typename Input,
                    typename... States >
          std::unique_ptr< node > parse( Input&& in, States&&... st )
          {
-            return parse< Rule, node, S, C >( in, st... );
+            return parse< Rule, node, S, A, C >( in, st... );
          }
 
       }  // namespace parse_tree
