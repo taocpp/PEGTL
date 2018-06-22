@@ -2,7 +2,7 @@
 
 ## 2.6.0
 
-**Not yet released**
+Released 2018-06-22
 
 * Added [Conan](https://conan.io/) [packages](https://bintray.com/taocpp/public-conan/pegtl%3Ataocpp/).
 * Fixed the UTF-8 decoder to no longer accept UTF-16 surrogates.
