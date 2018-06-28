@@ -99,20 +99,26 @@ namespace tao
                m_end.reset();
             }
 
+            // if matching of the rule succeeded, this method is called
+            template< typename Rule, typename ActionInput, typename... States >
+            void apply( const ActionInput& in, States&&... /*unused*/ ) noexcept
+            {
+               m_begin = in.iterator();
+               m_end = in.input().iterator();
+            }
+
             // all non-root nodes are initialized by calling this method
             template< typename Rule, typename Input, typename... States >
             void start( const Input& in, States&&... /*unused*/ )
             {
                id = &typeid( Rule );
                source = in.source();
-               m_begin = in.iterator();
             }
 
             // if application of the rule succeeded, this method is called
             template< typename Rule, typename Input, typename... States >
-            void success( const Input& in, States&&... /*unused*/ ) noexcept
+            void success( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
             {
-               m_end = in.iterator();
             }
 
             // if parsing of the rule failed, this method is called
