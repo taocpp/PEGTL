@@ -18,6 +18,8 @@
 
 #include "../internal/conditional.hpp"
 #include "../internal/demangle.hpp"
+#include "../internal/has_apply.hpp"
+#include "../internal/has_apply0.hpp"
 #include "../internal/iterator.hpp"
 
 namespace tao
@@ -106,7 +108,7 @@ namespace tao
                m_begin = in.iterator();
             }
 
-            // if parsing of the rule succeeded, this method is called
+            // if application of the rule succeeded, this method is called
             template< typename Rule, typename Input, typename... States >
             void success( const Input& in, States&&... /*unused*/ ) noexcept
             {
@@ -183,6 +185,418 @@ namespace tao
                }
             };
 
+            template< typename Control, template< typename... > class Action, typename Input, typename... States >
+            struct return_type_control_apply0
+            {
+               using type = decltype( Control::template apply0< Action >( std::declval< const Input& >(), std::declval< States&& >()... ) );
+            };
+
+            template< typename Node, typename Rule, typename... States >
+            struct return_type_node_apply0
+            {
+               using type = decltype( std::declval< Node >().template apply0< Rule, States... >( std::declval< States&& >()... ) );
+            };
+
+            template< typename Control, template< typename... > class Action, typename Iterator, typename Input, typename... States >
+            struct return_type_control_apply
+            {
+               using type = decltype( Control::template apply< Action >( std::declval< const Iterator& >(), std::declval< const Input& >(), std::declval< States&& >()... ) );
+            };
+
+            template< typename Node, typename Rule, typename ActionInput, typename... States >
+            struct return_type_node_apply
+            {
+               using type = decltype( std::declval< Node >().template apply< Rule, ActionInput, States... >( std::declval< const ActionInput& >(), std::declval< States&& >()... ) );
+            };
+
+            template< typename, typename, typename, typename... >
+            struct has_node_apply0 : std::false_type
+            {
+            };
+
+            template< typename Node, typename Rule, typename... Args >
+            struct has_node_apply0< Node, Rule, decltype( std::declval< Node >().template apply0< Rule, Args... > ( std::declval< Args >()... ) ), Args... > : std::true_type
+            {
+            };
+
+            template< typename, typename, typename, typename... >
+            struct has_node_apply : std::false_type
+            {
+            };
+
+            template< typename Node, typename Rule, typename... Args >
+            struct has_node_apply< Node, Rule, decltype( std::declval< Node >().template apply< Rule, Args... > ( std::declval< Args >()... ) ), Args... > : std::true_type
+            {
+            };
+
+            enum class apply_mode : char
+            {
+               NOTHING = 0,
+               VOID_APPLY0 = 1,
+               BOOL_APPLY0 = 2,
+               VOID_APPLY = 3,
+               BOOL_APPLY = 4
+            };
+
+            template< typename Rule, template < typename... > class A, typename... States >
+            using has_void_apply0 = tao::TAO_PEGTL_NAMESPACE::internal::has_apply0< A< Rule >, void, States... >;
+            template< typename Rule, template < typename... > class A, typename... States >
+            using has_bool_apply0 = tao::TAO_PEGTL_NAMESPACE::internal::has_apply0< A< Rule >, bool, States... >;
+            template< typename Rule, template < typename... > class A, typename ActionInput, typename... States >
+            using has_void_apply = tao::TAO_PEGTL_NAMESPACE::internal::has_apply< A< Rule >, void, ActionInput, States... >;
+            template< typename Rule, template < typename... > class A, typename ActionInput, typename... States >
+            using has_bool_apply = tao::TAO_PEGTL_NAMESPACE::internal::has_apply< A< Rule >, bool, ActionInput, States... >;
+            template< typename Rule, template < typename... > class A, typename... States >
+            using has_void_or_bool_apply0 = typename std::conditional< has_void_apply0< Rule, A, States... >::value ||
+                                                                       has_bool_apply0< Rule, A, States... >::value,
+                                                                       std::true_type, std::false_type >::type;
+            template< typename Rule, template < typename... > class A, typename ActionInput, typename... States >
+            using has_void_or_bool_apply = typename std::conditional< has_void_apply< Rule, A, ActionInput, States... >::value ||
+                                                                      has_bool_apply< Rule, A, ActionInput, States... >::value,
+                                                                      std::true_type, std::false_type >::type;
+            template< typename Rule, template < typename... > class A, typename ActionInput, typename... States >
+            using has_void_or_bool_apply0_or_apply = typename std::conditional< has_void_or_bool_apply0< Rule, A, States... >::value ||
+                                                                                has_void_or_bool_apply< Rule, A, ActionInput, States... >::value,
+                                                                                std::true_type, std::false_type >::type;
+            template< typename Rule, template < typename... > class A, typename ActionInput, typename... States >
+            using has_void_or_bool_apply0_and_apply = typename std::conditional< has_void_or_bool_apply0< Rule, A, States... >::value &&
+                                                                                 has_void_or_bool_apply< Rule, A, ActionInput, States... >::value,
+                                                                                 std::true_type, std::false_type >::type;
+            template< typename Rule, template < typename... > class A, typename ActionInput, typename... States >
+            using valid_action_apply = typename std::conditional< !has_void_or_bool_apply0_and_apply< Rule, A, ActionInput, States... >::value,
+                                                                  std::true_type, std::false_type >::type;
+            template< typename Rule, template < typename... > class A, typename ActionInput, typename... States >
+            using action_apply_mode = typename std::integral_constant< char,
+                                                                       static_cast< char >( apply_mode::NOTHING ) +
+                                                                       static_cast< char >( apply_mode::VOID_APPLY0 ) * has_void_apply0< Rule, A, States... >::value +
+                                                                       static_cast< char >( apply_mode::BOOL_APPLY0 ) * has_bool_apply0< Rule, A, States... >::value +
+                                                                       static_cast< char >( apply_mode::VOID_APPLY ) * has_void_apply< Rule, A, ActionInput, States... >::value +
+                                                                       static_cast< char >( apply_mode::BOOL_APPLY ) * has_bool_apply< Rule, A, ActionInput, States... >::value >::type;
+
+            template< typename Node, typename Rule, typename... States >
+            using has_node_void_apply0 = has_node_apply0< Node, Rule, void, States... >;
+            template< typename Node, typename Rule, typename... States >
+            using has_node_bool_apply0 = has_node_apply0< Node, Rule, bool, States... >;
+            template< typename Node, typename Rule, typename ActionInput, typename... States >
+            using has_node_void_apply = has_node_apply< Node, Rule, void, ActionInput, States... >;
+            template< typename Node, typename Rule, typename ActionInput, typename... States >
+            using has_node_bool_apply = has_node_apply< Node, Rule, bool, ActionInput, States... >;
+            template< typename Node, typename Rule, typename... States >
+            using has_node_void_or_bool_apply0 = typename std::conditional< has_node_void_apply0< Node, Rule, States... >::value ||
+                                                                            has_node_bool_apply0< Node, Rule, States... >::value,
+                                                                            std::true_type, std::false_type >::type;
+            template< typename Node, typename Rule, typename ActionInput, typename... States >
+            using has_node_void_or_bool_apply = typename std::conditional< has_node_void_apply< Node, Rule, ActionInput, States... >::value ||
+                                                                           has_node_bool_apply< Node, Rule, ActionInput, States... >::value,
+                                                                           std::true_type, std::false_type >::type;
+            template< typename Node, typename Rule, typename ActionInput, typename... States >
+            using has_node_void_or_bool_apply0_or_apply = typename std::conditional< has_node_void_or_bool_apply0< Node, Rule, States... >::value ||
+                                                                                     has_node_void_or_bool_apply< Node, Rule, ActionInput, States... >::value,
+                                                                                     std::true_type, std::false_type >::type;
+            template< typename Node, typename Rule, typename ActionInput, typename... States >
+            using has_node_void_or_bool_apply0_and_apply = typename std::conditional< has_node_void_or_bool_apply0< Node, Rule, States... >::value &&
+                                                                                      has_node_void_or_bool_apply< Node, Rule, ActionInput, States... >::value,
+                                                                                      std::true_type, std::false_type >::type;
+            template< typename Node, typename Rule, typename ActionInput, typename... States >
+            using valid_node_apply = typename std::conditional< !has_node_void_or_bool_apply0_and_apply< Node, Rule, ActionInput, States... >::value,
+                                                                std::true_type, std::false_type >::type;
+            template< typename Node, typename Rule, typename ActionInput, typename... States >
+            using node_apply_mode = typename std::integral_constant< char,
+                                                                     static_cast< char >( apply_mode::NOTHING ) +
+                                                                     static_cast< char >( apply_mode::VOID_APPLY0 ) * has_node_void_apply0< Node, Rule, States... >::value +
+                                                                     static_cast< char >( apply_mode::BOOL_APPLY0 ) * has_node_bool_apply0< Node, Rule, States... >::value +
+                                                                     static_cast< char >( apply_mode::VOID_APPLY ) * has_node_void_apply< Node, Rule, ActionInput, States... >::value +
+                                                                     static_cast< char >( apply_mode::BOOL_APPLY ) * has_node_bool_apply< Node, Rule, ActionInput, States... >::value >::type;
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            struct make_action
+            {
+               template< typename Rule,
+                         apply_mode action_apply_mode = apply_mode::NOTHING,
+                         apply_mode node_apply_mode = apply_mode::NOTHING >
+               struct action;
+
+               template< typename Rule >
+               using type = action< Rule,
+                                    static_cast< apply_mode >( action_apply_mode< Rule, A, ActionInput, States... >::value ),
+                                    static_cast< apply_mode >( node_apply_mode< Node, Rule, ActionInput, States... >::value ) >;
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::NOTHING, apply_mode::NOTHING >
+               : nothing< Rule >
+            {
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::NOTHING, apply_mode::VOID_APPLY0 >
+            {
+               static void apply0( state< Node >& state, States&&... st )
+               {
+                  state.back()->template apply0< Rule >( st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::NOTHING, apply_mode::BOOL_APPLY0 >
+            {
+               static bool apply0( state< Node >& state, States&&... st )
+               {
+                  return state.back()->template apply0< Rule >( st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::NOTHING, apply_mode::VOID_APPLY >
+            {
+               static void apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  state.back()->template apply< Rule >( in, st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::NOTHING, apply_mode::BOOL_APPLY >
+            {
+               static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  return state.back()->template apply< Rule >( in, st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::VOID_APPLY0, apply_mode::NOTHING >
+            {
+               static void apply0( state< Node >& /*state*/, States&&... st )
+               {
+                  A< Rule >::apply0( st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::VOID_APPLY0, apply_mode::VOID_APPLY0 >
+            {
+               static void apply0( state< Node >& state, States&&... st )
+               {
+                  A< Rule >::apply0( st... );
+                  state.back()->template apply0< Rule >( st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::VOID_APPLY0, apply_mode::BOOL_APPLY0 >
+            {
+               static bool apply0( state< Node >& state, States&&... st )
+               {
+                  A< Rule >::apply0( st... );
+                  return state.back()->template apply0< Rule >( st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::VOID_APPLY0, apply_mode::VOID_APPLY >
+            {
+               static void apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  A< Rule >::apply0( st... );
+                  state.back()->template apply< Rule >( in, st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::VOID_APPLY0, apply_mode::BOOL_APPLY >
+            {
+               static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  A< Rule >::apply0( st... );
+                  return state.back()->template apply< Rule >( in, st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::BOOL_APPLY0, apply_mode::NOTHING >
+            {
+               static bool apply0( state< Node >& /*state*/, States&&... st )
+               {
+                  return A< Rule >::apply0( st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::BOOL_APPLY0, apply_mode::VOID_APPLY0 >
+            {
+               static bool apply0( state< Node >& state, States&&... st )
+               {
+                  if ( !A< Rule >::apply0( st... ) )
+                     return false;
+                  state.back()->template apply0< Rule >( st... );
+                  return true;
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::BOOL_APPLY0, apply_mode::BOOL_APPLY0 >
+            {
+               static bool apply0( state< Node >& state, States&&... st )
+               {
+                  if ( !A< Rule >::apply0( st... ) )
+                     return false;
+                  return state.back()->template apply0< Rule >( st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::BOOL_APPLY0, apply_mode::VOID_APPLY >
+            {
+               static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  if ( !A< Rule >::apply0( st... ) )
+                     return false;
+                  state.back()->template apply< Rule >( in, st... );
+                  return true;
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::BOOL_APPLY0, apply_mode::BOOL_APPLY >
+            {
+               static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  if ( !A< Rule >::apply0( st... ) )
+                     return false;
+                  return state.back()->template apply< Rule >( in, st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::VOID_APPLY, apply_mode::NOTHING >
+            {
+               static void apply( const ActionInput& in, state< Node >& /*state*/, States&&... st )
+               {
+                  A< Rule >::apply( in, st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::VOID_APPLY, apply_mode::VOID_APPLY0 >
+            {
+               static void apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  A< Rule >::apply( in, st... );
+                  state.back()->template apply0< Rule >( st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::VOID_APPLY, apply_mode::BOOL_APPLY0 >
+            {
+               static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  A< Rule >::apply( in, st... );
+                  return state.back()->template apply0< Rule >( st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::VOID_APPLY, apply_mode::VOID_APPLY >
+            {
+               static void apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  A< Rule >::apply( in, st... );
+                  state.back()->template apply< Rule >( in, st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::VOID_APPLY, apply_mode::BOOL_APPLY >
+            {
+               static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  A< Rule >::apply( in, st... );
+                  return state.back()->template apply< Rule >( in, st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::BOOL_APPLY, apply_mode::NOTHING >
+            {
+               static bool apply( const ActionInput& in, state< Node >& /*state*/, States&&... st )
+               {
+                  return A< Rule >::apply( in, st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::BOOL_APPLY, apply_mode::VOID_APPLY0 >
+            {
+               static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  if ( !A< Rule >::apply( in, st... ) )
+                     return false;
+                  state.back()->template apply0< Rule >( st... );
+                  return true;
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::BOOL_APPLY, apply_mode::BOOL_APPLY0 >
+            {
+               static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  if ( !A< Rule >::apply( in, st... ) )
+                     return false;
+                  return state.back()->template apply0< Rule >( st... );
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::BOOL_APPLY, apply_mode::VOID_APPLY >
+            {
+               static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  if ( !A< Rule >::apply( in, st... ) )
+                     return false;
+                  state.back()->template apply< Rule >( in, st... );
+                  return true;
+               }
+            };
+
+            template< typename Node, template< typename > class A, typename ActionInput, typename... States >
+            template< typename Rule >
+            struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::BOOL_APPLY, apply_mode::BOOL_APPLY >
+            {
+               static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
+               {
+                  if ( !A< Rule >::apply( in, st... ) )
+                     return false;
+                  return state.back()->template apply< Rule >( in, st... );
+               }
+            };
+
             template< template< typename > class S, template< typename > class C >
             struct make_control
             {
@@ -191,18 +605,6 @@ namespace tao
 
                template< typename Rule >
                using type = control< Rule, S< Rule >::value >;
-            };
-
-            template< typename Control, template< typename... > class Action, typename Input, typename... States >
-            struct return_type_apply0
-            {
-               using type = decltype( Control::template apply0< Action >( std::declval< const Input& >(), std::declval< States&& >()... ) );
-            };
-
-            template< typename Control, template< typename... > class Action, typename Iterator, typename Input, typename... States >
-            struct return_type_apply
-            {
-               using type = decltype( Control::template apply< Action >( std::declval< const Iterator& >(), std::declval< const Input& >(), std::declval< States&& >()... ) );
             };
 
             template< template< typename > class S, template< typename > class C >
@@ -242,15 +644,17 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static typename return_type_apply0< C< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st )
+               static typename return_type_control_apply0< C< Rule >, Action, Input, state< Node >, States... >::type
+               apply0( const Input& in, state< Node >& state, States&&... st )
                {
-                  return C< Rule >::template apply0< Action >( in, st... );
+                  return C< Rule >::template apply0< Action >( in, state, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
-               static typename return_type_apply< C< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st )
+               static typename return_type_control_apply< C< Rule >, Action, Iterator, Input, state< Node >, States... >::type
+               apply( const Iterator& begin, const Input& in, state< Node >& state, States&&... st )
                {
-                  return C< Rule >::template apply< Action >( begin, in, st... );
+                  return C< Rule >::template apply< Action >( begin, in, state, st... );
                }
             };
 
@@ -295,15 +699,17 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static typename return_type_apply0< C< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st )
+               static typename return_type_control_apply0< C< Rule >, Action, Input, state< Node >, States... >::type
+               apply0( const Input& in, state< Node >& state, States&&... st )
                {
-                  return C< Rule >::template apply0< Action >( in, st... );
+                  return C< Rule >::template apply0< Action >( in, state, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
-               static typename return_type_apply< C< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st )
+               static typename return_type_control_apply< C< Rule >, Action, Iterator, Input, state< Node >, States... >::type
+               apply( const Iterator& begin, const Input& in, state< Node >& state, States&&... st )
                {
-                  return C< Rule >::template apply< Action >( begin, in, st... );
+                  return C< Rule >::template apply< Action >( begin, in, state, st... );
                }
             };
 
@@ -414,7 +820,12 @@ namespace tao
          std::unique_ptr< Node > parse( Input&& in, States&&... st )
          {
             internal::state< Node > state;
-            if( !TAO_PEGTL_NAMESPACE::parse< Rule, A, internal::make_control< S, C >::template type >( in, state, st... ) ) {
+            using ActionInput = typename std::remove_reference<Input>::type::action_t;
+            static_assert(internal::valid_action_apply< Rule, A, ActionInput, States... >::value, "Invalid action: must not define both apply0 and apply");
+            static_assert(internal::valid_node_apply< Node, Rule, ActionInput, States... >::value, "Invalid node: must not define both apply0 and apply");
+            if( !TAO_PEGTL_NAMESPACE::parse< Rule,
+                internal::make_action< Node, A, ActionInput, States... >::template type,
+                internal::make_control< S, C >::template type >( in, state, st... ) ) {
                return nullptr;
             }
             assert( state.stack.size() == 1 );
