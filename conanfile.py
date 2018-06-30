@@ -9,7 +9,6 @@ class PEGTLConan(ConanFile):
     url = homepage
     license = "MIT"
     author = "taocpp@icemx.net"
-    settings = "compiler", "arch"
     exports = "LICENSE"
     exports_sources = "include/*", "CMakeLists.txt"
     generators = "cmake"

@@ -4,6 +4,8 @@
 import os
 import re
 from cpt.packager import ConanMultiPackager
+from cpt.ci_manager import CIManager
+from cpt.printer import Printer
 
 
 class BuilderSettings(object):
@@ -15,10 +17,26 @@ class BuilderSettings(object):
 
     @property
     def upload(self):
-        """ Set taocpp repository to be used on upload
+        """ Set taocpp repository to be used on upload.
+            The upload server address could be customized by env var
+            CONAN_UPLOAD. If not defined, the method will check the branch name.
+            Only master or CONAN_STABLE_BRANCH_PATTERN will be accepted.
+            The master branch will be pushed to testing channel, because it does
+            not match the stable pattern. Otherwise it will upload to stable
+            channel.
         """
-        bintray_url = "https://api.bintray.com/conan/taocpp/public-conan"
-        return os.getenv("CONAN_UPLOAD", bintray_url)
+        if os.getenv("CONAN_UPLOAD", None) is not None:
+            return os.getenv("CONAN_UPLOAD")
+
+        printer = Printer(None)
+        ci_manager = CIManager(printer)
+        branch = ci_manager.get_branch()
+
+        patterns = [r"v?\d+\.\d+\.\d+-.*", self.stable_branch_pattern]
+        for pattern in patterns:
+            prog = re.compile(pattern)
+            if branch and prog.match(branch):
+                return "https://api.bintray.com/conan/taocpp/public-conan"
 
     @property
     def upload_only_when_stable(self):
