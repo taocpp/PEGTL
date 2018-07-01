@@ -5,6 +5,8 @@
 #define TAO_PEGTL_CONTRIB_PARSE_TREE_HPP
 
 #include <cassert>
+#include <limits>
+#include <map>
 #include <memory>
 #include <type_traits>
 #include <typeinfo>
@@ -103,27 +105,15 @@ namespace tao
             template< typename Rule, typename ActionInput, typename... States >
             void apply( const ActionInput& in, States&&... /*unused*/ ) noexcept
             {
+               id = &typeid( Rule );
                m_begin = in.iterator();
                m_end = in.input().iterator();
-            }
-
-            // all non-root nodes are initialized by calling this method
-            template< typename Rule, typename Input, typename... States >
-            void start( const Input& in, States&&... /*unused*/ )
-            {
-               id = &typeid( Rule );
-               source = in.source();
+               source = in.input().source();
             }
 
             // if application of the rule succeeded, this method is called
             template< typename Rule, typename Input, typename... States >
             void success( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
-            {
-            }
-
-            // if parsing of the rule failed, this method is called
-            template< typename Rule, typename Input, typename... States >
-            void failure( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
             {
             }
 
@@ -147,28 +137,235 @@ namespace tao
          namespace internal
          {
             template< typename Node >
-            struct state
+            class state
             {
-               std::vector< std::unique_ptr< Node > > stack;
+            private:
+               using stack_t = std::vector< std::unique_ptr< Node > >;
+               // level in the grammar hierarchy
+               using level_t = std::size_t;
 
-               state()
+               struct span
                {
-                  emplace_back();
+                  // must store indices rather than iterators because iterators will be invalidated
+                  // upon changing the stack capacity
+                  using index_type = typename stack_t::size_type;
+                  using size_type = typename stack_t::size_type;
+
+                  index_type start;
+                  size_type size;
+               };
+
+               using level_span_t = span;
+               using level_map_t = std::map< level_t, level_span_t >;
+
+               level_map_t m_level_children_map;
+               stack_t m_stack;
+               level_t m_level;
+               bool m_has_parent;
+
+            public:
+               state() : m_level_children_map{},
+                         m_stack{},
+                         m_level{std::numeric_limits< level_t >::max()},
+                         m_has_parent{}
+               {
                }
 
-               void emplace_back()
+               inline bool at_root() const noexcept
                {
-                  stack.emplace_back( std::unique_ptr< Node >( new Node ) );  // NOLINT: std::make_unique requires C++14
+                  return m_level == 0;
+               }
+
+               level_t& push_level() noexcept
+               {
+                  return ++m_level;
+               }
+
+               level_t& pop_level() noexcept
+               {
+                  return --m_level;
+               }
+
+               inline bool has_parent() const noexcept
+               {
+                  return m_has_parent;
+               }
+
+               void create_parent()
+               {
+                  create_node();
+                  typename level_map_t::iterator branch_siblings_map_it = find_branch_siblings_span();
+                  if ( branch_map_has_span( branch_siblings_map_it ) )
+                     ++branch_siblings_map_it->second.size;
+                  else
+                     m_level_children_map.emplace( m_level, level_span_t{ m_stack.size() - 1, 1 } );
+                  m_has_parent = true;
+               }
+
+               void create_root()
+               {
+                  create_node();
+                  typename level_map_t::const_iterator branch_siblings_map_it = find_branch_siblings_span();
+                  if ( branch_map_has_span( branch_siblings_map_it ) )
+                  {
+                     // move siblings to the new root node
+                     const level_span_t& branch_siblings_span = branch_siblings_map_it->second;
+                     typename stack_t::iterator begin_children = m_stack.begin() + branch_siblings_span.start;
+                     typename stack_t::iterator end_children = begin_children + branch_siblings_span.size;
+                     m_stack.back()->children.reserve( count_children( begin_children, end_children ) );
+                     move_children_to_parent( begin_children, end_children );
+                     m_stack.erase( begin_children, end_children );
+                  }
+               }
+
+               // moves child nodes to the parent node
+               void collect_children()
+               {
+                  assert( m_has_parent );
+                  typename level_map_t::const_iterator branch_children_map_it = find_branch_children_span();
+                  if ( branch_map_has_span( branch_children_map_it ) )
+                  {
+                     // move children to the new parent node
+                     const level_span_t& branch_children_span = branch_children_map_it->second;
+                     typename stack_t::iterator begin_children = m_stack.begin() + branch_children_span.start;
+                     typename stack_t::iterator end_children = begin_children + branch_children_span.size;
+                     m_stack.back()->children.reserve( count_children( begin_children, end_children ) );
+                     move_children_to_parent( begin_children, end_children );
+                     m_stack.erase( begin_children, end_children );
+                     // update the level map spans
+                     level_span_t& branch_siblings_span = find_branch_siblings_span()->second;
+                     if ( branch_siblings_span.size == 1 )
+                        branch_siblings_span.start -= branch_children_span.size;
+                     m_level_children_map.erase( branch_children_map_it );
+                  }
+               }
+
+               // moves any children of the current node to the current level and removes the current node
+               void elevate_children() noexcept
+               {
+                  assert( m_has_parent );
+                  typename level_map_t::iterator branch_siblings_map_it = find_branch_siblings_span();
+                  typename level_map_t::const_iterator branch_children_map_it = find_branch_children_span();
+                  level_span_t& branch_siblings_span = branch_siblings_map_it->second;
+                  // remove the current node from the map
+                  --branch_siblings_span.size;
+                  if ( branch_map_has_span( branch_children_map_it ) )
+                  {
+                     elevate_children_to_current_level( branch_siblings_span, branch_children_map_it );
+                  }
+                  else {
+                     if ( branch_siblings_span.size == 0 )
+                     {
+                        m_level_children_map.erase( branch_siblings_map_it );
+                     }
+                  }
+                  // remove the current node from the stack
+                  m_stack.pop_back();
+                  m_has_parent = false;
+               }
+
+               // moves any children of the current node to the current level
+               void elevate_children_without_parent() noexcept
+               {
+                  assert( !m_has_parent );
+                  typename level_map_t::const_iterator branch_children_map_it = find_branch_children_span();
+                  if ( branch_map_has_span( branch_children_map_it ) )
+                  {
+                     elevate_children_to_current_level( find_branch_siblings_span()->second, branch_children_map_it );
+                  }
+               }
+
+               void erase_children() noexcept
+               {
+                  typename level_map_t::const_iterator branch_children_map_it = find_branch_children_span();
+                  if ( branch_map_has_span( branch_children_map_it ) )
+                  {
+                     // erase children
+                     const level_span_t& branch_children_span = branch_children_map_it->second;
+                     typename stack_t::iterator begin_children = m_stack.begin() + branch_children_span.start;
+                     typename stack_t::iterator end_children = begin_children + branch_children_span.size;
+                     m_stack.erase( begin_children, end_children );
+                     m_level_children_map.erase( branch_children_map_it );
+                  }
                }
 
                std::unique_ptr< Node >& back() noexcept
                {
-                  return stack.back();
+                  return m_stack.back();
                }
 
-               void pop_back() noexcept
+               typename stack_t::size_type stack_size() const noexcept
                {
-                  return stack.pop_back();
+                  return m_stack.size();
+               }
+
+            private:
+               inline void create_node()
+               {
+                  m_stack.emplace_back( std::unique_ptr< Node >( new Node ) );  // NOLINT: std::make_unique requires C++14
+               }
+
+               inline typename level_map_t::iterator find_branch_siblings_span() noexcept
+               {
+                  return m_level_children_map.find( m_level );
+               }
+
+               inline typename level_map_t::const_iterator find_branch_siblings_span() const noexcept
+               {
+                  return find_branch_siblings_span();
+               }
+
+               inline typename level_map_t::iterator find_branch_children_span() noexcept
+               {
+                  return m_level_children_map.find( m_level + 1 );
+               }
+
+               inline typename level_map_t::const_iterator find_branch_children_span() const noexcept
+               {
+                  return find_branch_children_span();
+               }
+
+               template < typename Iterator >
+               inline bool branch_map_has_span( Iterator map_it ) const noexcept
+               {
+                  return map_it != m_level_children_map.end();
+               }
+
+               std::size_t count_children( typename stack_t::iterator begin_children, typename stack_t::iterator end_children ) const noexcept
+               {
+                  std::size_t num_children{};
+                  for ( typename stack_t::iterator child = begin_children; child != end_children; ++child )
+                  {
+                     // check if child was reset or deleted in transform
+                     if ( *child )
+                        ++num_children;
+                  }
+                  return num_children;
+               }
+
+               void move_children_to_parent( typename stack_t::iterator begin_children, typename stack_t::iterator end_children ) noexcept
+               {
+                  for ( typename stack_t::iterator child = begin_children; child != end_children; ++child )
+                  {
+                     // check if child was reset or deleted in transform
+                     if ( *child )
+                        m_stack.back()->children.emplace_back( std::move( *child ) );
+                  }
+               }
+
+               void elevate_children_to_current_level( level_span_t& branch_siblings_span, typename level_map_t::const_iterator branch_children_map_it ) noexcept
+               {
+                  // move children to the current level
+                  typename span::index_type begin_child_index = branch_children_map_it->second.start;
+                  typename span::size_type num_children = branch_children_map_it->second.size;
+                  if ( branch_siblings_span.size == 0 )
+                  {
+                     // set the span start index to the first child
+                     branch_siblings_span.start = begin_child_index;
+                  }
+                  // add the children to the current level span
+                  branch_siblings_span.size += num_children;
+                  m_level_children_map.erase( branch_children_map_it );
                }
             };
 
@@ -341,6 +538,7 @@ namespace tao
             {
                static void apply0( state< Node >& state, States&&... st )
                {
+                  state.create_parent();
                   state.back()->template apply0< Rule >( st... );
                }
             };
@@ -351,6 +549,7 @@ namespace tao
             {
                static bool apply0( state< Node >& state, States&&... st )
                {
+                  state.create_parent();
                   return state.back()->template apply0< Rule >( st... );
                }
             };
@@ -361,6 +560,7 @@ namespace tao
             {
                static void apply( const ActionInput& in, state< Node >& state, States&&... st )
                {
+                  state.create_parent();
                   state.back()->template apply< Rule >( in, st... );
                }
             };
@@ -371,6 +571,7 @@ namespace tao
             {
                static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
                {
+                  state.create_parent();
                   return state.back()->template apply< Rule >( in, st... );
                }
             };
@@ -379,9 +580,10 @@ namespace tao
             template< typename Rule >
             struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::VOID_APPLY0, apply_mode::NOTHING >
             {
-               static void apply0( state< Node >& /*state*/, States&&... st )
+               static void apply0( state< Node >& state, States&&... st )
                {
                   A< Rule >::apply0( st... );
+                  state.create_parent();
                }
             };
 
@@ -392,6 +594,7 @@ namespace tao
                static void apply0( state< Node >& state, States&&... st )
                {
                   A< Rule >::apply0( st... );
+                  state.create_parent();
                   state.back()->template apply0< Rule >( st... );
                }
             };
@@ -403,6 +606,7 @@ namespace tao
                static bool apply0( state< Node >& state, States&&... st )
                {
                   A< Rule >::apply0( st... );
+                  state.create_parent();
                   return state.back()->template apply0< Rule >( st... );
                }
             };
@@ -414,6 +618,7 @@ namespace tao
                static void apply( const ActionInput& in, state< Node >& state, States&&... st )
                {
                   A< Rule >::apply0( st... );
+                  state.create_parent();
                   state.back()->template apply< Rule >( in, st... );
                }
             };
@@ -425,6 +630,7 @@ namespace tao
                static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
                {
                   A< Rule >::apply0( st... );
+                  state.create_parent();
                   return state.back()->template apply< Rule >( in, st... );
                }
             };
@@ -433,9 +639,12 @@ namespace tao
             template< typename Rule >
             struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::BOOL_APPLY0, apply_mode::NOTHING >
             {
-               static bool apply0( state< Node >& /*state*/, States&&... st )
+               static bool apply0( state< Node >& state, States&&... st )
                {
-                  return A< Rule >::apply0( st... );
+                  if ( !A< Rule >::apply0( st... ) )
+                     return false;
+                  state.create_parent();
+                  return true;
                }
             };
 
@@ -447,6 +656,7 @@ namespace tao
                {
                   if ( !A< Rule >::apply0( st... ) )
                      return false;
+                  state.create_parent();
                   state.back()->template apply0< Rule >( st... );
                   return true;
                }
@@ -460,6 +670,7 @@ namespace tao
                {
                   if ( !A< Rule >::apply0( st... ) )
                      return false;
+                  state.create_parent();
                   return state.back()->template apply0< Rule >( st... );
                }
             };
@@ -472,6 +683,7 @@ namespace tao
                {
                   if ( !A< Rule >::apply0( st... ) )
                      return false;
+                  state.create_parent();
                   state.back()->template apply< Rule >( in, st... );
                   return true;
                }
@@ -485,6 +697,7 @@ namespace tao
                {
                   if ( !A< Rule >::apply0( st... ) )
                      return false;
+                  state.create_parent();
                   return state.back()->template apply< Rule >( in, st... );
                }
             };
@@ -493,9 +706,10 @@ namespace tao
             template< typename Rule >
             struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::VOID_APPLY, apply_mode::NOTHING >
             {
-               static void apply( const ActionInput& in, state< Node >& /*state*/, States&&... st )
+               static void apply( const ActionInput& in, state< Node >& state, States&&... st )
                {
                   A< Rule >::apply( in, st... );
+                  state.create_parent();
                }
             };
 
@@ -506,6 +720,7 @@ namespace tao
                static void apply( const ActionInput& in, state< Node >& state, States&&... st )
                {
                   A< Rule >::apply( in, st... );
+                  state.create_parent();
                   state.back()->template apply0< Rule >( st... );
                }
             };
@@ -517,6 +732,7 @@ namespace tao
                static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
                {
                   A< Rule >::apply( in, st... );
+                  state.create_parent();
                   return state.back()->template apply0< Rule >( st... );
                }
             };
@@ -528,6 +744,7 @@ namespace tao
                static void apply( const ActionInput& in, state< Node >& state, States&&... st )
                {
                   A< Rule >::apply( in, st... );
+                  state.create_parent();
                   state.back()->template apply< Rule >( in, st... );
                }
             };
@@ -539,6 +756,7 @@ namespace tao
                static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
                {
                   A< Rule >::apply( in, st... );
+                  state.create_parent();
                   return state.back()->template apply< Rule >( in, st... );
                }
             };
@@ -547,9 +765,11 @@ namespace tao
             template< typename Rule >
             struct make_action< Node, A, ActionInput, States... >::action< Rule, apply_mode::BOOL_APPLY, apply_mode::NOTHING >
             {
-               static bool apply( const ActionInput& in, state< Node >& /*state*/, States&&... st )
+               static bool apply( const ActionInput& in, state< Node >& state, States&&... st )
                {
-                  return A< Rule >::apply( in, st... );
+                  if ( !A< Rule >::apply( in, st... ) )
+                     return false;
+                  state.create_parent();
                }
             };
 
@@ -561,6 +781,7 @@ namespace tao
                {
                   if ( !A< Rule >::apply( in, st... ) )
                      return false;
+                  state.create_parent();
                   state.back()->template apply0< Rule >( st... );
                   return true;
                }
@@ -574,6 +795,7 @@ namespace tao
                {
                   if ( !A< Rule >::apply( in, st... ) )
                      return false;
+                  state.create_parent();
                   return state.back()->template apply0< Rule >( st... );
                }
             };
@@ -586,6 +808,7 @@ namespace tao
                {
                   if ( !A< Rule >::apply( in, st... ) )
                      return false;
+                  state.create_parent();
                   state.back()->template apply< Rule >( in, st... );
                   return true;
                }
@@ -599,6 +822,7 @@ namespace tao
                {
                   if ( !A< Rule >::apply( in, st... ) )
                      return false;
+                  state.create_parent();
                   return state.back()->template apply< Rule >( in, st... );
                }
             };
@@ -619,28 +843,31 @@ namespace tao
                : C< Rule >
             {
                template< typename Input, typename Node, typename... States >
-               static void start( const Input& in, state< Node >& state, States&&... st )
+               static void start( const Input& in, state< Node >& state, States&&... st ) noexcept( noexcept( C< Rule >::start( in, st... ) ) )
                {
                   C< Rule >::start( in, st... );
-                  state.emplace_back();
+                  state.push_level();
                }
 
                template< typename Input, typename Node, typename... States >
                static void success( const Input& in, state< Node >& state, States&&... st )
                {
                   C< Rule >::success( in, st... );
-                  auto n = std::move( state.back() );
-                  state.pop_back();
-                  for( auto& c : n->children ) {
-                     state.back()->children.emplace_back( std::move( c ) );
-                  }
+                  if ( state.has_parent() )
+                     state.elevate_children();
+                  else
+                     state.elevate_children_without_parent();
+                  if ( state.at_root() )
+                     state.create_root();
+                  state.pop_level();
                }
 
                template< typename Input, typename Node, typename... States >
                static void failure( const Input& in, state< Node >& state, States&&... st ) noexcept( noexcept( C< Rule >::failure( in, st... ) ) )
                {
                   C< Rule >::failure( in, st... );
-                  state.pop_back();
+                  state.erase_children();
+                  state.pop_level();
                }
 
                template< typename Input, typename Node, typename... States >
@@ -670,32 +897,32 @@ namespace tao
                : C< Rule >
             {
                template< typename Input, typename Node, typename... States >
-               static void start( const Input& in, state< Node >& state, States&&... st )
+               static void start( const Input& in, state< Node >& state, States&&... st ) noexcept( noexcept( C< Rule >::start( in, st... ) ) )
                {
                   C< Rule >::start( in, st... );
-                  state.emplace_back();
-                  state.back()->template start< Rule >( in, st... );
+                  state.push_level();
                }
 
                template< typename Input, typename Node, typename... States >
                static void success( const Input& in, state< Node >& state, States&&... st )
                {
                   C< Rule >::success( in, st... );
-                  auto n = std::move( state.back() );
-                  state.pop_back();
-                  n->template success< Rule >( in, st... );
-                  transform< Node, S< Rule > >::call( n, st... );
-                  if( n ) {
-                     state.back()->emplace_back( std::move( n ), st... );
-                  }
+                  if ( !state.has_parent() )
+                     state.create_parent();
+                  state.collect_children();
+                  state.back()->template success< Rule >( in, st... );
+                  transform< Node, S< Rule > >::call( state.back(), st... );
+                  if ( state.at_root() )
+                     state.create_root();
+                  state.pop_level();
                }
 
                template< typename Input, typename Node, typename... States >
-               static void failure( const Input& in, state< Node >& state, States&&... st ) noexcept( noexcept( C< Rule >::failure( in, st... ) ) && noexcept( std::declval< node& >().template failure< Rule >( in, st... ) ) )
+               static void failure( const Input& in, state< Node >& state, States&&... st ) noexcept( noexcept( C< Rule >::failure( in, st... ) ) )
                {
                   C< Rule >::failure( in, st... );
-                  state.back()->template failure< Rule >( in, st... );
-                  state.pop_back();
+                  state.erase_children();
+                  state.pop_level();
                }
 
                template< typename Input, typename Node, typename... States >
@@ -834,7 +1061,7 @@ namespace tao
                 internal::make_control< S, C >::template type >( in, state, st... ) ) {
                return nullptr;
             }
-            assert( state.stack.size() == 1 );
+            assert( state.stack_size() == 1 );
             return std::move( state.back() );
          }
 
