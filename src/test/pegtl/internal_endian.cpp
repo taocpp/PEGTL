@@ -21,7 +21,7 @@ namespace tao
          TAO_PEGTL_TEST_ASSERT( internal::le_to_h( std::uint8_t( 0x7a ) ) == std::uint8_t( 0x7a ) );
 
          const std::uint16_t a = 1;
-         if(*static_cast<const std::uint8_t *>(static_cast<const void *>(&a)) != 1) {
+         if( *static_cast< const std::uint8_t* >( static_cast< const void* >( &a ) ) != 1 ) {
             TAO_PEGTL_TEST_ASSERT( internal::h_to_be( std::int16_t( 0x7a39 ) ) == std::int16_t( 0x7a39 ) );
             TAO_PEGTL_TEST_ASSERT( internal::h_to_be( std::uint16_t( 0x7a39 ) ) == std::uint16_t( 0x7a39 ) );
             TAO_PEGTL_TEST_ASSERT( internal::h_to_le( std::int16_t( 0x7a39 ) ) == std::int16_t( 0x397a ) );
