@@ -4,8 +4,6 @@
 #ifndef TAO_PEGTL_CONTRIB_CHANGES_HPP
 #define TAO_PEGTL_CONTRIB_CHANGES_HPP
 
-#include <type_traits>
-
 #include "../config.hpp"
 #include "../normal.hpp"
 
@@ -23,8 +21,25 @@ namespace tao
             }
          };
 
+         template< bool >
+         struct conditional;
+
+         template<>
+         struct conditional< true >
+         {
+            template< typename R, typename >
+            using type = R;
+         };
+
+         template<>
+         struct conditional< false >
+         {
+            template< typename, typename R >
+            using type = R;
+         };
+
          template< apply_mode A, typename State >
-         using state_disable_helper = typename std::conditional< A == apply_mode::ACTION, State, dummy_disabled_state >::type;
+         using state_disable_helper = typename conditional< A == apply_mode::ACTION >::template type< State, dummy_disabled_state >;
 
       }  // namespace internal
 
