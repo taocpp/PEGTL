@@ -1,6 +1,6 @@
 cmake_minimum_required (VERSION 3.3.0 FATAL_ERROR)
 
-project (pegtl VERSION 2.6.0 LANGUAGES CXX)
+project (pegtl VERSION 2.6.1 LANGUAGES CXX)
 
 # installation directories
 set (PEGTL_INSTALL_INCLUDE_DIR "include" CACHE STRING "The installation include directory")

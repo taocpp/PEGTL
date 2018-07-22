@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.6.1
+
+Released 2018-07-22
+
+* Fixed endianness detection in test program.
+
 ## 2.6.0
 
 Released 2018-06-22
