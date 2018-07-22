@@ -4,9 +4,6 @@
 
 * [Requirements](#requirements)
 * [Installation Packages](#installation-packages)
-  * [Linux Packages](#linux-packages)
-  * [macOS Packages](#macos-packages)
-  * [Other](#other)
 * [CMake Installation](#cmake-installation)
 * [Manual Installation](#manual-installation)
 * [Embedding the PEGTL](#embedding-the-pegtl)
@@ -39,7 +36,7 @@ the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches.
 
 ## Installation Packages
 
-Installation packages are available from a several package managers. Note that some of the listed package sources are not updated regularly.
+Installation packages are available from several package managers. Note that some of the listed packages are not updated regularly.
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/pegtl.svg)](https://repology.org/metapackage/pegtl)
 

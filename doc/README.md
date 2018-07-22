@@ -5,8 +5,6 @@
 * [Installing and Using](Installing-and-Using.md)
   * [Requirements](Installing-and-Using.md#requirements)
   * [Installation Packages](Installing-and-Using.md#installation-packages)
-    * [Linux Packages](Installing-and-Using.md#linux-packages)
-    * [macOS Packages](Installing-and-Using.md#macos-packages)
   * [CMake Installation](Installing-and-Using.md#cmake-installation)
   * [Manual Installation](Installing-and-Using.md#manual-installation)
   * [Embedding the PEGTL](Installing-and-Using.md#embedding-the-pegtl)
