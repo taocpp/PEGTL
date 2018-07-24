@@ -6,7 +6,13 @@
 
 #define NOMINMAX
 #define WIN32_MEAN_AND_LEAN
-#include <Windows.h>
+#if defined( _M_IX86 ) && !defined( _AMD64_ )
+#define _X86_
+#endif
+// #include <errhandlingapi.h>  // For GetLastError, SetLastError
+// #include <fileapi.h>         // For CreateFileA
+// #include <handleapi.h>       // For CloseHandle
+// #include <memoryapi.h>       // For CreateFileMappingW, MapViewOfFile, UnmapViewOfFile
 #undef NOMINMAX
 #undef WIN32_MEAN_AND_LEAN
 
@@ -101,7 +107,11 @@ namespace tao
             {
                const uint64_t file_size = reader.size();
                SetLastError( 0 );
-               const HANDLE handle = ::CreateFileMappingA( reader.m_handle,
+               // Use `CreateFileMappingW` because a) we're not specifying a
+               // mapping name, so the character type is of no consequence, and
+               // b) it's defined in `memoryapi.h`, unlike
+               // `CreateFileMappingA`(?!)
+               const HANDLE handle = ::CreateFileMappingW( reader.m_handle,
                                                            nullptr,
                                                            PAGE_READONLY,
                                                            DWORD( file_size >> 32 ),
@@ -110,7 +120,7 @@ namespace tao
                if( handle != NULL ) {
                   return handle;
                }
-               TAO_PEGTL_THROW_INPUT_WIN32_ERROR( "unable to CreateFileMappingA() file " << reader.m_source << " for reading" );
+               TAO_PEGTL_THROW_INPUT_WIN32_ERROR( "unable to CreateFileMappingW() file " << reader.m_source << " for reading" );
             }
          };
 
