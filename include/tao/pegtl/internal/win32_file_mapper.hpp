@@ -9,10 +9,10 @@
 #if defined( _M_IX86 ) && !defined( _AMD64_ )
 #define _X86_
 #endif
-// #include <errhandlingapi.h>  // For GetLastError, SetLastError
-// #include <fileapi.h>         // For CreateFileA
-// #include <handleapi.h>       // For CloseHandle
-// #include <memoryapi.h>       // For CreateFileMappingW, MapViewOfFile, UnmapViewOfFile
+#include <errhandlingapi.h>  // For GetLastError, SetLastError
+#include <fileapi.h>         // For CreateFileA
+#include <handleapi.h>       // For CloseHandle
+#include <memoryapi.h>       // For CreateFileMappingW, MapViewOfFile, UnmapViewOfFile
 #undef NOMINMAX
 #undef WIN32_MEAN_AND_LEAN
 
