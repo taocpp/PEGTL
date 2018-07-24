@@ -4,17 +4,34 @@
 #ifndef TAO_PEGTL_INTERNAL_WIN32_FILE_MAPPER_HPP
 #define TAO_PEGTL_INTERNAL_WIN32_FILE_MAPPER_HPP
 
+#if !defined( NOMINMAX )
 #define NOMINMAX
+#define TAO_PEGTL_INTERNAL_WIN32_FILE_MAPPER_HPP_NOMINMAX_WAS_DEFINED
+#endif
+#if defined( WIN32_LEAN_AND_MEAN )
 #define WIN32_MEAN_AND_LEAN
-#if defined( _M_IX86 ) && !defined( _AMD64_ )
+#define TAO_PEGTL_INTERNAL_WIN32_FILE_MAPPER_HPP_WIN32_MEAN_AND_LEAN_WAS_DEFINED
+#endif
+#if !defined( _X86_ ) && defined( _M_IX86 ) && !defined( _AMD64_ )
 #define _X86_
+#define TAO_PEGTL_INTERNAL_WIN32_FILE_MAPPER_HPP_X86_WAS_DEFINED
 #endif
 #include <errhandlingapi.h>  // For GetLastError, SetLastError
 #include <fileapi.h>         // For CreateFileA
 #include <handleapi.h>       // For CloseHandle
 #include <memoryapi.h>       // For CreateFileMappingW, MapViewOfFile, UnmapViewOfFile
+#if defined( TAO_PEGTL_INTERNAL_WIN32_FILE_MAPPER_HPP_NOMINMAX_WAS_DEFINED )
 #undef NOMINMAX
+#undef TAO_PEGTL_INTERNAL_WIN32_FILE_MAPPER_HPP_NOMINMAX_WAS_DEFINED
+#endif
+#if defined( TAO_PEGTL_INTERNAL_WIN32_FILE_MAPPER_HPP_WIN32_MEAN_AND_LEAN_WAS_DEFINED )
 #undef WIN32_MEAN_AND_LEAN
+#undef TAO_PEGTL_INTERNAL_WIN32_FILE_MAPPER_HPP_WIN32_MEAN_AND_LEAN_WAS_DEFINED
+#endif
+#if defined( TAO_PEGTL_INTERNAL_WIN32_FILE_MAPPER_HPP_X86_WAS_DEFINED )
+#undef _X86_
+#undef TAO_PEGTL_INTERNAL_WIN32_FILE_MAPPER_HPP_X86_WAS_DEFINED
+#endif
 
 #include "../config.hpp"
 
