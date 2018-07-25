@@ -54,7 +54,7 @@ namespace tao
             std::size_t size() const
             {
                LARGE_INTEGER size;
-               if(::GetFileSizeEx( m_handle, &size ) < 0 ) {
+               if( !::GetFileSizeEx( m_handle, &size ) ) {
                   TAO_PEGTL_THROW_INPUT_WIN32_ERROR( "unable to GetFileSizeEx() file " << m_source << " handle " << m_handle );
                }
                return std::size_t( size.QuadPart );
