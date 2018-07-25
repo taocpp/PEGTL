@@ -123,7 +123,7 @@ namespace tao
                                                            DWORD( file_size >> 32 ),
                                                            DWORD( file_size & 0xffffffff ),
                                                            nullptr );
-               if( handle != NULL ) {
+               if( handle != NULL || file_size == 0 ) {
                   return handle;
                }
                TAO_PEGTL_THROW_INPUT_WIN32_ERROR( "unable to CreateFileMappingW() file " << reader.m_source << " for reading" );
