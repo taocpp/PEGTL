@@ -12,10 +12,15 @@
 #include "memory_input.hpp"
 #include "tracking_mode.hpp"
 
-#if defined( _WIN32 )
-#include "internal/win32_file_mapper.hpp"
+#if defined( __unix__ ) || ( defined( __APPLE__ ) && defined( __MACH__ ) )
+#include <unistd.h>  // Required for _POSIX_MAPPED_FILES
+#endif
+
+#if defined( _POSIX_MAPPED_FILES )
+#include "internal/file_mapper_posix.hpp"
+#elif defined( _WIN32 )
+#include "internal/file_mapper_win32.hpp"
 #else
-#include "internal/file_mapper.hpp"
 #endif
 
 namespace tao
