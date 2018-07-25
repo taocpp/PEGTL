@@ -67,7 +67,7 @@ namespace tao
             HANDLE open() const
             {
                SetLastError( 0 );
-               const HANDLE handle = ::CreateFileA( m_source,  // NOLINT
+               const HANDLE handle = ::CreateFileA( m_source,
                                                     GENERIC_READ,
                                                     FILE_SHARE_READ,
                                                     nullptr,
