@@ -71,7 +71,7 @@ When creating many instances of an input class, it can be changed to a non-ownin
 The classes `file_input<>`, `read_input<>` and, on supported platforms, `mmap_input<>`, can be used to parse the contents of a file.
 
 * `read_input<>` uses C "stdio" facilities to read the file.
-* `mmap_input<>` uses `mmap(2)` and is available on POSIX compliant systems.
+* `mmap_input<>` uses `mmap(2)` on POSIX compliant systems or `MapViewOfFile()` on Windows.
 * `file_input<>` is a type alias for `mmap_input<>` when available, and `read_input<>` otherwise.
 
 Most file input classes take a single argument, the filename, which can be supplied as `std::string` or `const char*`.
@@ -91,7 +91,7 @@ struct read_input
 };
 
 template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
-struct mmap_input  // Only on POSIX compliant systems.
+struct mmap_input
 {
    explicit mmap_input( const char* filename );
    explicit mmap_input( const std::string& filename );

@@ -110,6 +110,7 @@ For details see the [changelog](doc/Changelog.md).
 * Paulo Custodio for Windows-related fixes.
 * Sam Hocevar for contributing Visual Studio 2015 compatibility.
 * Stephan Beal for the bug reports, suggestions and discussions.
+* Stuart Dootson for `mmap_input<>` support on Windows.
 * Sven Johannsen for help with CMake.
 * Zhihao Yuan for fixing several warnings when compiling with Visual Studio 2015.
 

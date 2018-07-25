@@ -162,10 +162,6 @@ that start with `TAO_PEGTL_`.
 A practical example of how the result looks like can be found in our own
 header-only [JSON library](https://github.com/taocpp/json/).
 
-## Limitations
-
-When **not** compiling on Unix or macOS, then `mmap(2)`-based file reading is not available (but `std::fread(3)`-based reading is).
-
 Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey
 
 [CMake]: https://cmake.org/
