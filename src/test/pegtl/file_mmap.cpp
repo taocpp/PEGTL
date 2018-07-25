@@ -4,7 +4,7 @@
 // this include gives us _POSIX_MAPPED_FILES to test and mmap_input<> if it is set
 #include <tao/pegtl/file_input.hpp>
 
-#if defined( _POSIX_MAPPED_FILES )
+#if defined( _POSIX_MAPPED_FILES ) || defined( _WIN32 )
 
 #include "test.hpp"
 #include "verify_file.hpp"

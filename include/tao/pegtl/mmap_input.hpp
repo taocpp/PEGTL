@@ -12,7 +12,11 @@
 #include "memory_input.hpp"
 #include "tracking_mode.hpp"
 
+#if defined( _WIN32 )
+#include "internal/win32_file_mapper.hpp"
+#else
 #include "internal/file_mapper.hpp"
+#endif
 
 namespace tao
 {
