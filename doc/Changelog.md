@@ -1,5 +1,12 @@
 # Changelog
 
+## 2.7.0
+
+**Not yet released**
+
+* Added `mmap_file<>` support for Windows.
+* Added deduction guides for the input classes when compiling with C++17.
+
 ## 2.6.1
 
 Released 2018-07-22

@@ -44,6 +44,7 @@ All classes and functions on this page are in namespace `tao::pegtl`.
   * [Grammars and Buffering](#grammars-and-buffering)
   * [Custom Data Sources](#custom-data-sources)
 * [Error Reporting](#error-reporting)
+* [C++17 Deduction Guides](#c-17-deduction-guides)
 
 ## Tracking Mode
 
@@ -72,7 +73,7 @@ The classes `file_input<>`, `read_input<>` and, on supported platforms, `mmap_in
 
 * `read_input<>` uses C "stdio" facilities to read the file.
 * `mmap_input<>` uses `mmap(2)` on POSIX compliant systems or `MapViewOfFile()` on Windows.
-* `file_input<>` is a type alias for `mmap_input<>` when available, and `read_input<>` otherwise.
+* `file_input<>` is derived from `mmap_input<>` when available, and `read_input<>` otherwise, inheriting the respective contructors.
 
 Most file input classes take a single argument, the filename, which can be supplied as `std::string` or `const char*`.
 They immediately make available the complete contents of the file; `read_input<>` reads the entire file upon construction.
@@ -427,5 +428,9 @@ catch( const parse_error& e ) {
 
 All input classes based on `memory_input<>` support the above, while all classes based on `buffer_input<>` are unable to supply the same functionality as previous input might have been discarded already.
 Trying to call any of those methods on `buffer_input<>`-based instances will lead to a compile error.
+
+## C++17 Deduction Guides
+
+All input classes support C++17's [deduction guides](https://en.cppreference.com/w/cpp/language/class_template_argument_deduction) when compiling with C++17 or newer, e.g. instead of `file_input<> in( "filename.txt" )` one can use `file_input in( "filename.txt" )`.
 
 Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey

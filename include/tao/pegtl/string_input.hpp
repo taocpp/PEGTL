@@ -60,6 +60,13 @@ namespace tao
          void operator=( string_input&& ) = delete;
       };
 
+#if( __cplusplus >= 201703L )
+
+      template< typename V, typename T, typename... Ts >
+      explicit string_input( V&& in_data, T&& in_source, Ts&&... ts )->string_input<>;
+
+#endif
+
    }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao

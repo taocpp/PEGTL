@@ -68,6 +68,16 @@ namespace tao
          void operator=( read_input&& ) = delete;
       };
 
+#if( __cplusplus >= 201703L )
+
+      template< typename T >
+      read_input( T&& in_filename )->read_input<>;
+
+      template< typename T >
+      read_input( FILE* in_file, T&& in_filename )->read_input<>;
+
+#endif
+
    }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao

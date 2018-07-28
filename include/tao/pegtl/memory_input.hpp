@@ -352,6 +352,31 @@ namespace tao
          }
       };
 
+#if( __cplusplus >= 201703L )
+
+      template< typename T >
+      memory_input( const internal::iterator& in_begin, const char* in_end, T&& in_source )->memory_input<>;
+
+      template< typename T >
+      memory_input( const char* in_begin, const char* in_end, T&& in_source )->memory_input<>;
+
+      template< typename T >
+      memory_input( const char* in_begin, const std::size_t in_size, T&& in_source )->memory_input<>;
+
+      template< typename T >
+      memory_input( const std::string& in_string, T&& in_source )->memory_input<>;
+
+      template< typename T >
+      memory_input( std::string&&, T && )->memory_input<>;
+
+      template< typename T >
+      memory_input( const char* in_begin, T&& in_source )->memory_input<>;
+
+      template< typename T >
+      memory_input( const char* in_begin, const char* in_end, T&& in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line )->memory_input<>;
+
+#endif
+
    }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao

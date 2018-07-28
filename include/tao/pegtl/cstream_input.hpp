@@ -27,6 +27,13 @@ namespace tao
          }
       };
 
+#if( __cplusplus >= 201703L )
+
+      template< typename T >
+      cstream_input( std::FILE* in_stream, const std::size_t in_maximum, T&& in_source )->cstream_input<>;
+
+#endif
+
    }  // namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace tao
