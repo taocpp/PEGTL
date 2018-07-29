@@ -28,10 +28,8 @@ namespace tao
       };
 
 #ifdef __cpp_deduction_guides
-
-      template< typename T >
-      cstream_input( std::FILE* in_stream, const std::size_t in_maximum, T&& in_source )->cstream_input<>;
-
+      template< typename... Ts >
+      cstream_input( Ts&&... )->cstream_input<>;
 #endif
 
    }  // namespace TAO_PEGTL_NAMESPACE

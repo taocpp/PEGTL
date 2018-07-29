@@ -69,13 +69,8 @@ namespace tao
       };
 
 #ifdef __cpp_deduction_guides
-
-      template< typename T >
-      read_input( T&& in_filename )->read_input<>;
-
-      template< typename T >
-      read_input( FILE* in_file, T&& in_filename )->read_input<>;
-
+      template< typename... Ts >
+      explicit read_input( Ts&&... )->read_input<>;
 #endif
 
    }  // namespace TAO_PEGTL_NAMESPACE

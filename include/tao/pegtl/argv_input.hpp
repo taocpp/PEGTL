@@ -46,12 +46,8 @@ namespace tao
       };
 
 #ifdef __cpp_deduction_guides
-
-      template< typename T >
-      argv_input( char** argv, const std::size_t argn, T&& in_source )->argv_input<>;
-
-      argv_input( char** argv, const std::size_t argn )->argv_input<>;
-
+      template< typename... Ts >
+      argv_input( Ts&&... )->argv_input<>;
 #endif
 
    }  // namespace TAO_PEGTL_NAMESPACE

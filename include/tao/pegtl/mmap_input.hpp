@@ -74,10 +74,8 @@ namespace tao
       };
 
 #ifdef __cpp_deduction_guides
-
-      template< typename T >
-      mmap_input( T&& in_filename )->mmap_input<>;
-
+      template< typename... Ts >
+      explicit mmap_input( Ts&&... )->mmap_input<>;
 #endif
 
    }  // namespace TAO_PEGTL_NAMESPACE

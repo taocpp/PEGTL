@@ -61,10 +61,8 @@ namespace tao
       };
 
 #ifdef __cpp_deduction_guides
-
-      template< typename V, typename T, typename... Ts >
-      explicit string_input( V&& in_data, T&& in_source, Ts&&... ts )->string_input<>;
-
+      template< typename... Ts >
+      explicit string_input( Ts&&... )->string_input<>;
 #endif
 
    }  // namespace TAO_PEGTL_NAMESPACE
