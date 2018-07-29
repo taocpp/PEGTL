@@ -66,6 +66,15 @@ matrix:
       env:
         - CXX=g++-8
 
+    - compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-8']
+      env:
+        - CXX=g++-8
+        - CXXSTD=-std=c++17
+
     - dist: precise
       compiler: clang
       env:
@@ -439,4 +448,6 @@ matrix:
 
 script:
   - $CXX --version
+  - make -j3 build/src/test/pegtl/tester
+  - build/src/test/pegtl/tester
   - make -kj3
