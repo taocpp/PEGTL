@@ -53,7 +53,7 @@ int main()
    std::cout << "__cpp_fold_expressions: " << __cpp_fold_expressions << std::endl;
 #endif
 #ifdef __cpp_deduction_guides
-   std::cout << "__cpp_fold_expressions: " << __cpp_deduction_guides << std::endl;
+   std::cout << "__cpp_deduction_guides: " << __cpp_deduction_guides << std::endl;
 #endif
 #ifdef __cpp_lib_integer_sequence
    std::cout << "__cpp_lib_integer_sequence: " << __cpp_lib_integer_sequence << std::endl;
