@@ -45,7 +45,7 @@ namespace tao
          }
       };
 
-#if( __cplusplus >= 201703L )
+#ifdef __cpp_deduction_guides
 
       template< typename T >
       argv_input( char** argv, const std::size_t argn, T&& in_source )->argv_input<>;

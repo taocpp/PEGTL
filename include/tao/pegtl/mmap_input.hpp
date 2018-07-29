@@ -73,7 +73,7 @@ namespace tao
          void operator=( mmap_input&& ) = delete;
       };
 
-#if( __cplusplus >= 201703L )
+#ifdef __cpp_deduction_guides
 
       template< typename T >
       mmap_input( T&& in_filename )->mmap_input<>;

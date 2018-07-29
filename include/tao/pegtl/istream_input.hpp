@@ -27,7 +27,7 @@ namespace tao
          }
       };
 
-#if( __cplusplus >= 201703L )
+#ifdef __cpp_deduction_guides
 
       template< typename T >
       istream_input( std::istream& in_stream, const std::size_t in_maximum, T&& in_source )->istream_input<>;

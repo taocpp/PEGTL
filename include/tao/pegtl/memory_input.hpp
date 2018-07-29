@@ -352,7 +352,7 @@ namespace tao
          }
       };
 
-#if( __cplusplus >= 201703L )
+#ifdef __cpp_deduction_guides
 
       template< typename T >
       memory_input( const internal::iterator& in_begin, const char* in_end, T&& in_source )->memory_input<>;

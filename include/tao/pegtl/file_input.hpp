@@ -31,7 +31,7 @@ namespace tao
          using mmap_input< P, Eol >::mmap_input;
       };
 
-#if( __cplusplus >= 201703L )
+#ifdef __cpp_deduction_guides
       template< typename T >
       file_input( T&& in_filename )->file_input<>;
 #endif
@@ -45,7 +45,7 @@ namespace tao
          using read_input< P, Eol >::read_input;
       };
 
-#if( __cplusplus >= 201703L )
+#ifdef __cpp_deduction_guides
       template< typename T >
       file_input( T&& in_filename )->file_input<>;
 

@@ -68,7 +68,7 @@ namespace tao
          void operator=( read_input&& ) = delete;
       };
 
-#if( __cplusplus >= 201703L )
+#ifdef __cpp_deduction_guides
 
       template< typename T >
       read_input( T&& in_filename )->read_input<>;
