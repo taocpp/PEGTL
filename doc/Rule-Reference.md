@@ -573,7 +573,7 @@ The parameter N stands for the size of the encoding of the next Unicode code poi
 * for UTF-16 the rules are surrogate-pair-aware and N is either 2 or 4, and
 * for UTF-32 everything is simple and N is always 4.
 
-Following what appears to be "best" practice for UTF-16, it is *not* an error when a code unit in the range `0xd800` to `0xdfff` is encountered outside of a valid surrogate pair!
+It is an error when a code unit in the range `0xd800` to `0xdfff` is encountered outside of a valid UTF-16 surrogate pair (this changed in version 2.6.0).
 
 ###### `any`
 
