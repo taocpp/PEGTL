@@ -38,6 +38,7 @@ foreach (examplesourcefile ${example_sources})
   endif ()
 
   get_filename_component (exename ${examplesourcefile} NAME_WE)
+  set (exename "pegtl-example-${exename}")
   add_executable (${exename} ${examplesourcefile})
   target_link_libraries (${exename} PRIVATE taocpp::pegtl)
   set_target_properties (${exename} PROPERTIES
