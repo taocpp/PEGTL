@@ -14,7 +14,7 @@
 #define TAO_PEGTL_WIN32_MEAN_AND_LEAN_WAS_DEFINED
 #endif
 
-#include <Windows.h>
+#include <windows.h>
 
 #if defined( TAO_PEGTL_NOMINMAX_WAS_DEFINED )
 #undef NOMINMAX
