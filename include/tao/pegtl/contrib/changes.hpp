@@ -7,6 +7,8 @@
 #include "../config.hpp"
 #include "../normal.hpp"
 
+#include "../internal/conditional.hpp"
+
 namespace tao
 {
    namespace TAO_PEGTL_NAMESPACE
@@ -19,23 +21,6 @@ namespace tao
             void success( Ts&&... /*unused*/ ) const noexcept
             {
             }
-         };
-
-         template< bool >
-         struct conditional;
-
-         template<>
-         struct conditional< true >
-         {
-            template< typename R, typename >
-            using type = R;
-         };
-
-         template<>
-         struct conditional< false >
-         {
-            template< typename, typename R >
-            using type = R;
          };
 
          template< apply_mode A, typename State >
