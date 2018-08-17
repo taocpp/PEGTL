@@ -33,24 +33,6 @@ namespace example
    struct expression : list_must< product, sor< plus, minus > > {};
 
    struct grammar : seq< expression, eof > {};
-   // clang-format on
-
-   // select which rules in the grammar will produce parse tree nodes:
-
-   // clang-format off
-
-   // by default, nodes are not generated/stored
-   template< typename > struct store : std::false_type {};
-
-   // select which rules in the grammar will produce parse tree nodes:
-   template<> struct store< integer > : std::true_type {};
-   template<> struct store< variable > : std::true_type {};
-
-   template<> struct store< plus > : parse_tree::remove_content {};
-   template<> struct store< minus > : parse_tree::remove_content {};
-   template<> struct store< multiply > : parse_tree::remove_content {};
-   template<> struct store< divide > : parse_tree::remove_content {};
-   // clang-format on
 
    // after a node is stored successfully, you can add an optional transformer like this:
    struct rearrange : std::true_type
@@ -76,6 +58,7 @@ namespace example
             n = std::move( n->children.back() );
          }
          else {
+            n->remove_content();
             auto& c = n->children;
             auto r = std::move( c.back() );
             c.pop_back();
@@ -89,10 +72,22 @@ namespace example
       }
    };
 
-   // clang-format off
-   template<> struct store< product > : rearrange {};
-   template<> struct store< expression > : rearrange {};
-   // clang-format on
+   // select which rules in the grammar will produce parse tree nodes:
+
+   template< typename Rule >
+   using store = parse_tree::store<
+      Rule,
+      parse_tree::apply_store_content::to<
+         integer,
+         variable >,
+      parse_tree::apply_remove_content::to<
+         plus,
+         minus,
+         multiply,
+         divide >,
+      parse_tree::apply< rearrange >::to<
+         product,
+         expression > >;
 
    // debugging/show result:
 

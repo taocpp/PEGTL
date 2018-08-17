@@ -16,6 +16,7 @@
 #include "../nothing.hpp"
 #include "../parse.hpp"
 
+#include "../internal/conditional.hpp"
 #include "../internal/demangle.hpp"
 #include "../internal/iterator.hpp"
 
@@ -307,11 +308,18 @@ namespace tao
             };
 
             template< typename >
+            struct element
+            {
+            };
+
+            template< typename >
             struct store_all : std::true_type
             {
             };
 
          }  // namespace internal
+
+         using store_content = std::true_type;
 
          // some nodes don't need to store their content
          struct remove_content : std::true_type
@@ -345,6 +353,36 @@ namespace tao
                   n.reset();
                }
             }
+         };
+
+         template< typename Base >
+         struct apply
+         {
+            template< typename... Rules >
+            struct to
+               : internal::element< Rules >...
+            {
+               using type = Base;
+
+               template< typename Rule >
+               using contains = std::is_base_of< internal::element< Rule >, to >;
+            };
+         };
+
+         using apply_store_content = apply< store_content >;
+         using apply_remove_content = apply< remove_content >;
+         using apply_fold_one = apply< fold_one >;
+         using apply_discard_empty = apply< discard_empty >;
+
+         template< typename Rule, typename... Collections >
+         struct store : std::false_type
+         {
+         };
+
+         template< typename Rule, typename Collection, typename... Collections >
+         struct store< Rule, Collection, Collections... >
+            : TAO_PEGTL_NAMESPACE::internal::conditional< Collection::template contains< Rule >::value >::template type< typename Collection::type, store< Rule, Collections... > >
+         {
          };
 
          template< typename Rule, typename Node, template< typename > class S = internal::store_all, template< typename > class C = normal, typename Input, typename... States >

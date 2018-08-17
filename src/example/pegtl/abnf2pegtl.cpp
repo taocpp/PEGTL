@@ -238,6 +238,7 @@ namespace tao
             template<> const std::string error_control< defined_as >::error_message = "expected '=' or '=/'";  // NOLINT
             template<> const std::string error_control< c_nl >::error_message = "unterminated rule";  // NOLINT
             template<> const std::string error_control< rule >::error_message = "expected rule";  // NOLINT
+            // clang-format on
 
          }  // namespace grammar
 
@@ -248,10 +249,38 @@ namespace tao
             void emplace_back( std::unique_ptr< node > child, States&&... st );
          };
 
-         template< typename Rule > struct selector : std::false_type {};
-         template<> struct selector< grammar::rulename > : std::true_type {};
+         template< typename Rule >
+         struct selector
+            : parse_tree::store<
+                 Rule,
+                 parse_tree::apply_store_content::to<
+                    grammar::rulename,
+                    grammar::prose_val,
+                    grammar::hex_val::value,
+                    grammar::dec_val::value,
+                    grammar::bin_val::value,
+                    grammar::hex_val::range,
+                    grammar::dec_val::range,
+                    grammar::bin_val::range,
+                    grammar::hex_val::type,
+                    grammar::dec_val::type,
+                    grammar::bin_val::type,
+                    grammar::option,
+                    grammar::repeat,
+                    grammar::and_predicate,
+                    grammar::not_predicate,
+                    grammar::defined_as_op,
+                    grammar::rule >,
+                 parse_tree::apply_fold_one::to<
+                    grammar::alternation,
+                    grammar::group,
+                    grammar::repetition,
+                    grammar::concatenation > >
+         {
+         };
 
-         template<> struct selector< grammar::quoted_string > : std::true_type
+         template<>
+         struct selector< grammar::quoted_string > : std::true_type
          {
             static void transform( std::unique_ptr< node >& n )
             {
@@ -274,7 +303,8 @@ namespace tao
             }
          };
 
-         template<> struct selector< grammar::case_sensitive_string > : std::true_type
+         template<>
+         struct selector< grammar::case_sensitive_string > : std::true_type
          {
             static void transform( std::unique_ptr< node >& n )
             {
@@ -287,28 +317,6 @@ namespace tao
                }
             }
          };
-
-         template<> struct selector< grammar::prose_val > : std::true_type {};
-         template<> struct selector< grammar::hex_val::value > : std::true_type {};
-         template<> struct selector< grammar::dec_val::value > : std::true_type {};
-         template<> struct selector< grammar::bin_val::value > : std::true_type {};
-         template<> struct selector< grammar::hex_val::range > : std::true_type {};
-         template<> struct selector< grammar::dec_val::range > : std::true_type {};
-         template<> struct selector< grammar::bin_val::range > : std::true_type {};
-         template<> struct selector< grammar::hex_val::type > : std::true_type {};
-         template<> struct selector< grammar::dec_val::type > : std::true_type {};
-         template<> struct selector< grammar::bin_val::type > : std::true_type {};
-         template<> struct selector< grammar::alternation > : parse_tree::fold_one {};
-         template<> struct selector< grammar::option > : std::true_type {};
-         template<> struct selector< grammar::group > : parse_tree::fold_one {};
-         template<> struct selector< grammar::repeat > : std::true_type {};
-         template<> struct selector< grammar::repetition > : parse_tree::fold_one {};
-         template<> struct selector< grammar::and_predicate > : std::true_type {};
-         template<> struct selector< grammar::not_predicate > : std::true_type {};
-         template<> struct selector< grammar::concatenation > : parse_tree::fold_one {};
-         template<> struct selector< grammar::defined_as_op > : std::true_type {};
-         template<> struct selector< grammar::rule > : std::true_type {};
-         // clang-format on
 
          std::string to_string( const std::unique_ptr< node >& n );
          std::string to_string( const std::vector< std::unique_ptr< node > >& v );
