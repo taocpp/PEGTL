@@ -251,7 +251,7 @@ namespace tao
 
          template< typename Rule >
          struct selector
-            : parse_tree::store<
+            : parse_tree::selector<
                  Rule,
                  parse_tree::apply_store_content::to<
                     grammar::rulename,

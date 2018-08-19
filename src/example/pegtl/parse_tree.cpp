@@ -75,7 +75,7 @@ namespace example
    // select which rules in the grammar will produce parse tree nodes:
 
    template< typename Rule >
-   using store = parse_tree::store<
+   using selector = parse_tree::selector<
       Rule,
       parse_tree::apply_store_content::to<
          integer,
@@ -121,7 +121,7 @@ int main( int argc, char** argv )
    for( int i = 1; i < argc; ++i ) {
       try {
          argv_input<> in( argv, i );
-         if( const auto root = parse_tree::parse< example::grammar, example::store >( in ) ) {
+         if( const auto root = parse_tree::parse< example::grammar, example::selector >( in ) ) {
             example::print_node( *root );
          }
          else {

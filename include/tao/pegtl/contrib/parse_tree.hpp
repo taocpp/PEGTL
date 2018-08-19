@@ -319,7 +319,13 @@ namespace tao
 
          }  // namespace internal
 
-         using store_content = std::true_type;
+         struct store_content : std::true_type
+         {
+            template< typename Node, typename... States >
+            static void transform( std::unique_ptr< Node >& /*unused*/, States&&... /*unused*/ ) noexcept
+            {
+            }
+         };
 
          // some nodes don't need to store their content
          struct remove_content : std::true_type
@@ -331,28 +337,52 @@ namespace tao
             }
          };
 
-         // if a node has only one child, replace the node with its child
-         struct fold_one : std::true_type
+         // if a node has only one child, replace the node with its child, otherwise apply B
+         template< typename B >
+         struct fold_one_or : B
          {
             template< typename Node, typename... States >
-            static void transform( std::unique_ptr< Node >& n, States&&... /*unused*/ ) noexcept( noexcept( n->children.size(), n->children.front() ) )
+            static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->children.size(), n->children.front(), B::transform( n, st... ) ) )
             {
                if( n->children.size() == 1 ) {
                   n = std::move( n->children.front() );
                }
+               else {
+                  B::transform( n, st... );
+               }
             }
          };
 
-         // if a node has no children, discard the node
-         struct discard_empty : std::true_type
+         // if a node has no children, discard the node, otherwise apply B
+         template< typename B >
+         struct discard_empty_or : B
          {
             template< typename Node, typename... States >
-            static void transform( std::unique_ptr< Node >& n, States&&... /*unused*/ ) noexcept( noexcept( n->children.empty() ) )
+            static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->children.empty(), B::transform( n, st... ) ) )
             {
                if( n->children.empty() ) {
                   n.reset();
                }
+               else {
+                  B::transform( n, st... );
+               }
             }
+         };
+
+         using fold_one = fold_one_or< remove_content >;
+         using discard_empty = discard_empty_or< remove_content >;
+
+         template< typename Rule, typename... Collections >
+         struct selector : std::false_type
+         {
+         };
+
+         // TODO: Implement in a non-recursive way
+         // TODO: Check for multiple matches (currently: first match wins)
+         template< typename Rule, typename Collection, typename... Collections >
+         struct selector< Rule, Collection, Collections... >
+            : TAO_PEGTL_NAMESPACE::internal::conditional< Collection::template contains< Rule >::value >::template type< typename Collection::type, selector< Rule, Collections... > >
+         {
          };
 
          template< typename Base >
@@ -373,17 +403,6 @@ namespace tao
          using apply_remove_content = apply< remove_content >;
          using apply_fold_one = apply< fold_one >;
          using apply_discard_empty = apply< discard_empty >;
-
-         template< typename Rule, typename... Collections >
-         struct store : std::false_type
-         {
-         };
-
-         template< typename Rule, typename Collection, typename... Collections >
-         struct store< Rule, Collection, Collections... >
-            : TAO_PEGTL_NAMESPACE::internal::conditional< Collection::template contains< Rule >::value >::template type< typename Collection::type, store< Rule, Collections... > >
-         {
-         };
 
          template< typename Rule, typename Node, template< typename > class S = internal::store_all, template< typename > class C = normal, typename Input, typename... States >
          std::unique_ptr< Node > parse( Input&& in, States&&... st )
