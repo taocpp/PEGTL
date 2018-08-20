@@ -494,7 +494,7 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 ###### `space`
 
 * Matches and consumes a single space, line-feed, carriage-return, horizontal-tab, vertical-tab or form-feed.
-* Equivalent to `one< ' ', '\n', '\r', 't', '\v', '\f' >`.
+* Equivalent to `one< ' ', '\n', '\r', '\t', '\v', '\f' >`.
 
 ###### `string< C... >`
 
