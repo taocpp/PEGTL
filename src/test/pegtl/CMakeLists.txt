@@ -18,6 +18,7 @@ set (test_sources
   ascii_two.cpp
   contrib_alphabet.cpp
   contrib_integer.cpp
+  contrib_if_then_else.cpp
   contrib_json.cpp
   contrib_raw_string.cpp
   contrib_rep_one_min_max.cpp
