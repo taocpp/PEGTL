@@ -122,24 +122,26 @@ namespace tao
             static void apply( const Input& in, State& st )
             {
                assert( in.size() == 1 );
-               st.unescaped += apply_one( *in.begin(), static_cast< const T* >( nullptr ) );
+               st.unescaped += apply_one( in, static_cast< const T* >( nullptr ) );
             }
 
-            template< char... Qs >
-            static char apply_one( const char c, const one< Qs... >* /*unused*/ )
+            template< typename Input, char... Qs >
+            static char apply_one( const Input& in, const one< Qs... >* /*unused*/ )
             {
                static_assert( sizeof...( Qs ) == sizeof...( Rs ), "size mismatch between escaped characters and their mappings" );
-               return apply_two( c, { Qs... }, { Rs... } );
+               return apply_two( in, { Qs... }, { Rs... } );
             }
 
-            static char apply_two( const char c, const std::initializer_list< char >& q, const std::initializer_list< char >& r )
+            template< typename Input >
+            static char apply_two( const Input& in, const std::initializer_list< char >& q, const std::initializer_list< char >& r )
             {
+               const char c = *in.begin();
                for( std::size_t i = 0; i < q.size(); ++i ) {
                   if( *( q.begin() + i ) == c ) {
                      return *( r.begin() + i );
                   }
                }
-               throw std::runtime_error( "invalid character in unescape" );  // NOLINT, LCOV_EXCL_LINE
+               throw parse_error( "invalid character in unescape", in );  // NOLINT, LCOV_EXCL_LINE
             }
          };
 
