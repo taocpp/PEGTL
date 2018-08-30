@@ -34,7 +34,7 @@ namespace tao
    {
       namespace abnf
       {
-         using parse_tree::node;
+         using node_ptr = std::unique_ptr< parse_tree::node >;
 
          namespace
          {
@@ -278,7 +278,7 @@ namespace tao
          template<>
          struct selector< grammar::quoted_string > : std::true_type
          {
-            static void transform( std::unique_ptr< node >& n )
+            static void transform( node_ptr& n )
             {
                shift( n->m_begin, 1 );
                shift( n->m_end, -1 );
@@ -302,7 +302,7 @@ namespace tao
          template<>
          struct selector< grammar::case_sensitive_string > : std::true_type
          {
-            static void transform( std::unique_ptr< node >& n )
+            static void transform( node_ptr& n )
             {
                n = std::move( n->children.back() );
                if( n->content().size() == 1 ) {
@@ -314,12 +314,12 @@ namespace tao
             }
          };
 
-         std::string to_string( const std::unique_ptr< node >& n );
-         std::string to_string( const std::vector< std::unique_ptr< node > >& v );
+         std::string to_string( const node_ptr& n );
+         std::string to_string( const std::vector< node_ptr >& v );
 
          namespace
          {
-            std::string get_rulename( const std::unique_ptr< node >& n )
+            std::string get_rulename( const node_ptr& n )
             {
                assert( n->is< grammar::rulename >() );
                std::string v = n->content();
@@ -327,7 +327,7 @@ namespace tao
                return v;
             }
 
-            std::string get_rulename( const std::unique_ptr< node >& n, const bool print_forward_declarations )
+            std::string get_rulename( const node_ptr& n, const bool print_forward_declarations )
             {
                std::string v = get_rulename( n );
                const auto it = find_rule( rules, v );
@@ -345,7 +345,7 @@ namespace tao
             }
 
             template< typename T >
-            std::string gen_val( const std::unique_ptr< node >& n )
+            std::string gen_val( const node_ptr& n )
             {
                if( n->children.size() == 2 ) {
                   if( n->children.back()->is< T >() ) {
@@ -366,14 +366,14 @@ namespace tao
                }
             };
 
-            std::map< std::string, node*, ccmp > previous_rules;  // NOLINT
+            std::map< std::string, parse_tree::node*, ccmp > previous_rules;  // NOLINT
 
          }  // namespace
 
          template<>
          struct selector< grammar::rule > : std::true_type
          {
-            static void transform( std::unique_ptr< node >& n )
+            static void transform( node_ptr& n )
             {
                const auto rname = get_rulename( n->children.front() );
                assert( n->children.at( 1 )->is< grammar::defined_as_op >() );
@@ -394,7 +394,7 @@ namespace tao
 
                   // if the previous rule does not assign an alternation, create an intermediate alternation and move its assignee into it.
                   if( !previous->is< abnf::grammar::alternation >() ) {
-                     std::unique_ptr< node > s( new node );
+                     node_ptr s( new parse_tree::node );
                      s->id = &typeid( abnf::grammar::alternation );
                      s->source = previous->source;
                      s->m_begin = previous->m_begin;
@@ -426,7 +426,7 @@ namespace tao
 
          struct stringifier
          {
-            using function_t = std::string ( * )( const std::unique_ptr< node >& n );
+            using function_t = std::string ( * )( const node_ptr& n );
             function_t default_ = nullptr;
 
             using map_t = std::map< const std::type_info*, function_t >;
@@ -438,7 +438,7 @@ namespace tao
                map_.insert( { &typeid( T ), f } );
             }
 
-            std::string operator()( const std::unique_ptr< node >& n ) const
+            std::string operator()( const node_ptr& n ) const
             {
                const auto it = map_.find( n->id );
                if( it != map_.end() ) {
@@ -451,17 +451,17 @@ namespace tao
          stringifier make_stringifier()
          {
             stringifier nrv;
-            nrv.default_ = []( const std::unique_ptr< node >& n ) -> std::string {
+            nrv.default_ = []( const node_ptr& n ) -> std::string {
                throw parse_error( "missing to_string() for " + n->name(), n->begin() );  // NOLINT
             };
 
-            nrv.add< grammar::rulename >( []( const std::unique_ptr< node >& n ) { return get_rulename( n, true ); } );
+            nrv.add< grammar::rulename >( []( const node_ptr& n ) { return get_rulename( n, true ); } );
 
-            nrv.add< grammar::rule >( []( const std::unique_ptr< node >& n ) {
+            nrv.add< grammar::rule >( []( const node_ptr& n ) {
                return "struct " + get_rulename( n->children.front(), false ) + " : " + to_string( n->children.back() ) + " {};";
             } );
 
-            nrv.add< string_tag >( []( const std::unique_ptr< node >& n ) {
+            nrv.add< string_tag >( []( const node_ptr& n ) {
                const std::string content = n->content();
                std::string s;
                for( const auto c : content ) {
@@ -470,7 +470,7 @@ namespace tao
                return prefix + "string< " + s + " >";
             } );
 
-            nrv.add< istring_tag >( []( const std::unique_ptr< node >& n ) {
+            nrv.add< istring_tag >( []( const node_ptr& n ) {
                const std::string content = n->content();
                std::string s;
                for( const auto c : content ) {
@@ -479,7 +479,7 @@ namespace tao
                return prefix + "istring< " + s + " >";
             } );
 
-            nrv.add< one_tag >( []( const std::unique_ptr< node >& n ) {
+            nrv.add< one_tag >( []( const node_ptr& n ) {
                const std::string content = n->content();
                std::string s;
                for( const auto c : content ) {
@@ -488,9 +488,9 @@ namespace tao
                return prefix + "one< " + s + " >";
             } );
 
-            nrv.add< grammar::hex_val::value >( []( const std::unique_ptr< node >& n ) { return "0x" + n->content(); } );
-            nrv.add< grammar::dec_val::value >( []( const std::unique_ptr< node >& n ) { return n->content(); } );
-            nrv.add< grammar::bin_val::value >( []( const std::unique_ptr< node >& n ) {
+            nrv.add< grammar::hex_val::value >( []( const node_ptr& n ) { return "0x" + n->content(); } );
+            nrv.add< grammar::dec_val::value >( []( const node_ptr& n ) { return n->content(); } );
+            nrv.add< grammar::bin_val::value >( []( const node_ptr& n ) {
                unsigned long long v = 0;
                const char* p = n->m_begin.data;
                // TODO: Detect overflow
@@ -503,32 +503,32 @@ namespace tao
                return o.str();
             } );
 
-            nrv.add< grammar::hex_val::type >( []( const std::unique_ptr< node >& n ) { return gen_val< grammar::hex_val::range >( n ); } );
-            nrv.add< grammar::dec_val::type >( []( const std::unique_ptr< node >& n ) { return gen_val< grammar::dec_val::range >( n ); } );
-            nrv.add< grammar::bin_val::type >( []( const std::unique_ptr< node >& n ) { return gen_val< grammar::bin_val::range >( n ); } );
+            nrv.add< grammar::hex_val::type >( []( const node_ptr& n ) { return gen_val< grammar::hex_val::range >( n ); } );
+            nrv.add< grammar::dec_val::type >( []( const node_ptr& n ) { return gen_val< grammar::dec_val::range >( n ); } );
+            nrv.add< grammar::bin_val::type >( []( const node_ptr& n ) { return gen_val< grammar::bin_val::range >( n ); } );
 
-            nrv.add< grammar::alternation >( []( const std::unique_ptr< node >& n ) { return prefix + "sor< " + to_string( n->children ) + " >"; } );
-            nrv.add< grammar::option >( []( const std::unique_ptr< node >& n ) { return prefix + "opt< " + to_string( n->children ) + " >"; } );
-            nrv.add< grammar::group >( []( const std::unique_ptr< node >& n ) { return prefix + "seq< " + to_string( n->children ) + " >"; } );
+            nrv.add< grammar::alternation >( []( const node_ptr& n ) { return prefix + "sor< " + to_string( n->children ) + " >"; } );
+            nrv.add< grammar::option >( []( const node_ptr& n ) { return prefix + "opt< " + to_string( n->children ) + " >"; } );
+            nrv.add< grammar::group >( []( const node_ptr& n ) { return prefix + "seq< " + to_string( n->children ) + " >"; } );
 
-            nrv.add< grammar::prose_val >( []( const std::unique_ptr< node >& n ) { return "/* " + n->content() + " */"; } );
+            nrv.add< grammar::prose_val >( []( const node_ptr& n ) { return "/* " + n->content() + " */"; } );
 
-            nrv.add< grammar::and_predicate >( []( const std::unique_ptr< node >& n ) {
+            nrv.add< grammar::and_predicate >( []( const node_ptr& n ) {
                assert( n->children.size() == 1 );
                return prefix + "at< " + to_string( n->children.front() ) + " >";
             } );
 
-            nrv.add< grammar::not_predicate >( []( const std::unique_ptr< node >& n ) {
+            nrv.add< grammar::not_predicate >( []( const node_ptr& n ) {
                assert( n->children.size() == 1 );
                return prefix + "not_at< " + to_string( n->children.front() ) + " >";
             } );
 
-            nrv.add< grammar::concatenation >( []( const std::unique_ptr< node >& n ) {
+            nrv.add< grammar::concatenation >( []( const node_ptr& n ) {
                assert( !n->children.empty() );
                return prefix + "seq< " + to_string( n->children ) + " >";
             } );
 
-            nrv.add< grammar::repetition >( []( const std::unique_ptr< node >& n ) -> std::string {
+            nrv.add< grammar::repetition >( []( const node_ptr& n ) -> std::string {
                assert( n->children.size() == 2 );
                const auto content = to_string( n->children.back() );
                const auto rep = n->children.front()->content();
@@ -586,13 +586,13 @@ namespace tao
             return nrv;
          }
 
-         std::string to_string( const std::unique_ptr< node >& n )
+         std::string to_string( const node_ptr& n )
          {
             static stringifier s = make_stringifier();
             return s( n );
          }
 
-         std::string to_string( const std::vector< std::unique_ptr< node > >& v )
+         std::string to_string( const std::vector< node_ptr >& v )
          {
             std::string result;
             for( const auto& c : v ) {
