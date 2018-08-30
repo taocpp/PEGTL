@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <iostream>
 #include <iterator>
+#include <map>
 #include <set>
 #include <sstream>
 #include <string>
@@ -365,7 +366,7 @@ namespace tao
                }
             };
 
-            std::map< std::string, node*, ccmp > previous_rules;
+            std::map< std::string, node*, ccmp > previous_rules;  // NOLINT
 
          }  // namespace
 
