@@ -4,11 +4,14 @@
 #ifndef TAO_PEGTL_CONTRIB_IF_THEN_HPP
 #define TAO_PEGTL_CONTRIB_IF_THEN_HPP
 
+#include <type_traits>
+
 #include "../config.hpp"
 
 #include "../internal/if_then_else.hpp"
 #include "../internal/seq.hpp"
 #include "../internal/skip_control.hpp"
+#include "../internal/trivial.hpp"
 
 namespace tao
 {
@@ -28,16 +31,16 @@ namespace tao
          struct if_then< if_pair< Cond, Then >, Pairs... >
             : if_then_else< Cond, Then, if_then< Pairs... > >
          {
-            template< typename Cond2, typename... Rules2 >
-            using else_if_then = if_then< if_pair< Cond, Then >, Pairs..., if_pair< Cond2, seq< Rules2... > > >;
+            template< typename ElseCond, typename... Thens >
+            using else_if_then = if_then< if_pair< Cond, Then >, Pairs..., if_pair< ElseCond, seq< Thens... > > >;
 
-            template< typename... Rules2 >
-            using else_then = if_then_else< Cond, Then, if_then< Pairs..., if_pair< success, seq< Rules2... > > > >;
+            template< typename... Thens >
+            using else_then = if_then_else< Cond, Then, if_then< Pairs..., if_pair< trivial< true >, seq< Thens... > > > >;
          };
 
          template<>
          struct if_then<>
-            : failure
+            : trivial< false >
          {
          };
 
@@ -48,8 +51,8 @@ namespace tao
 
       }  // namespace internal
 
-      template< typename Cond, typename... Rules >
-      using if_then = internal::if_then< internal::if_pair< Cond, seq< Rules... > > >;
+      template< typename Cond, typename... Thens >
+      using if_then = internal::if_then< internal::if_pair< Cond, internal::seq< Thens... > > >;
 
    }  // namespace TAO_PEGTL_NAMESPACE
 
