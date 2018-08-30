@@ -33,6 +33,8 @@ namespace tao
    {
       namespace abnf
       {
+         using parse_tree::node;
+
          namespace
          {
             std::string prefix = "tao::pegtl::";  // NOLINT
@@ -242,13 +244,6 @@ namespace tao
 
          }  // namespace grammar
 
-         struct node
-            : tao::TAO_PEGTL_NAMESPACE::parse_tree::basic_node< node >
-         {
-            template< typename... States >
-            void emplace_back( std::unique_ptr< node > child, States&&... st );
-         };
-
          template< typename Rule >
          struct selector
             : parse_tree::selector<
@@ -339,7 +334,7 @@ namespace tao
                   return *it;
                }
                if( keywords.count( v ) != 0 || v.find( "__" ) != std::string::npos ) {
-                  throw std::runtime_error( to_string( n->begin() ) + ": '" + v + "' is a reserved rulename" );  // NOLINT
+                  throw parse_error( '\'' + n->content() + "' is a reserved rulename", n->begin() );  // NOLINT
                }
                if( print_forward_declarations && find_rule( rules_defined, v ) != rules_defined.rend() ) {
                   std::cout << "struct " << v << ";\n";
@@ -362,79 +357,71 @@ namespace tao
                return prefix + "string< " + to_string( n->children ) + " >";
             }
 
+            struct ccmp
+            {
+               bool operator()( const std::string& lhs, const std::string& rhs ) const noexcept
+               {
+                  return TAO_PEGTL_STRCASECMP( lhs.c_str(), rhs.c_str() ) < 0;
+               }
+            };
+
+            std::map< std::string, node*, ccmp > previous_rules;
+
          }  // namespace
 
-         template< typename... States >
-         void node::emplace_back( std::unique_ptr< node > child, States&&... st )
+         template<>
+         struct selector< grammar::rule > : std::true_type
          {
-            // inserting a rule is handled here since we need access to all previously inserted rules
-            if( child->is< grammar::rule >() ) {
-               const auto rname = get_rulename( child->children.front() );
-               assert( child->children.at( 1 )->is< grammar::defined_as_op >() );
-               const auto op = child->children.at( 1 )->content();
+            static void transform( std::unique_ptr< node >& n )
+            {
+               const auto rname = get_rulename( n->children.front() );
+               assert( n->children.at( 1 )->is< grammar::defined_as_op >() );
+               const auto op = n->children.at( 1 )->content();
                // when we insert a normal rule, we need to check for duplicates
                if( op == "=" ) {
-                  for( const auto& n : children ) {
-                     if( TAO_PEGTL_STRCASECMP( rname.c_str(), abnf::get_rulename( n->children.front() ).c_str() ) == 0 ) {
-                        throw std::runtime_error( to_string( child->begin() ) + ": rule '" + rname + "' is already defined" );  // NOLINT
-                     }
+                  if( !previous_rules.insert( { rname, n.get() } ).second ) {
+                     throw parse_error( "rule '" + rname + "' is already defined", n->begin() );  // NOLINT
                   }
                }
                // if it is an "incremental alternation", we need to consolidate the assigned alternations
                else if( op == "=/" ) {
-                  std::size_t i = 0;
-                  while( i < children.size() ) {
-                     if( TAO_PEGTL_STRCASECMP( rname.c_str(), abnf::get_rulename( children.at( i )->children.front() ).c_str() ) == 0 ) {
-                        auto& previous = children.at( i )->children.back();
+                  const auto p = previous_rules.find( rname );
+                  if( p == previous_rules.end() ) {
+                     throw parse_error( "incremental alternation '" + rname + "' without previous rule definition", n->begin() );  // NOLINT
+                  }
+                  auto& previous = p->second->children.back();
 
-                        // if the previous rule does not assign an alternation, create an intermediate alternation and move its assignee into it.
-                        if( !previous->is< abnf::grammar::alternation >() ) {
-                           std::unique_ptr< node > s( new node );
-                           s->id = &typeid( abnf::grammar::alternation );
-                           s->source = previous->source;
-                           s->m_begin = previous->m_begin;
-                           s->m_end = previous->m_end;
-                           s->children.emplace_back( std::move( previous ) );
-                           previous = std::move( s );
-                        }
+                  // if the previous rule does not assign an alternation, create an intermediate alternation and move its assignee into it.
+                  if( !previous->is< abnf::grammar::alternation >() ) {
+                     std::unique_ptr< node > s( new node );
+                     s->id = &typeid( abnf::grammar::alternation );
+                     s->source = previous->source;
+                     s->m_begin = previous->m_begin;
+                     s->m_end = previous->m_end;
+                     s->children.emplace_back( std::move( previous ) );
+                     previous = std::move( s );
+                  }
 
-                        // append all new options to the previous rule's assignee (which now always an alternation)
-                        previous->m_end = child->children.back()->m_end;
+                  // append all new options to the previous rule's assignee (which always is an alternation now)
+                  previous->m_end = n->children.back()->m_end;
 
-                        // if the new rule itself contains an alternation, append the individual entries...
-                        if( child->children.back()->is< abnf::grammar::alternation >() ) {
-                           for( auto& n : child->children.back()->children ) {
-                              previous->children.emplace_back( std::move( n ) );
-                           }
-                        }
-                        // ...otherwise add the node itself as another option.
-                        else {
-                           previous->children.emplace_back( std::move( child->children.back() ) );
-                        }
-
-                        // finally, move the previous rule to the current position...
-                        child = std::move( children.at( i ) );
-
-                        // ...and remove the previous rule from the list.
-                        children.erase( children.begin() + i );
-
-                        // all OK now
-                        break;
+                  // if the new rule itself contains an alternation, append the individual entries...
+                  if( n->children.back()->is< abnf::grammar::alternation >() ) {
+                     for( auto& e : n->children.back()->children ) {
+                        previous->children.emplace_back( std::move( e ) );
                      }
-                     ++i;
                   }
-                  if( i == children.size() ) {
-                     throw std::runtime_error( to_string( child->begin() ) + ": incremental alternation '" + rname + "' without previous rule definition" );  // NOLINT
+                  // ...otherwise add the node itself as another option.
+                  else {
+                     previous->children.emplace_back( std::move( n->children.back() ) );
                   }
+                  n.reset();
                }
                else {
-                  throw std::runtime_error( to_string( child->begin() ) + ": invalid operator '" + op + "', this should not happen!" );  // NOLINT
+                  throw parse_error( "invalid operator '" + op + "', this should not happen!", n->begin() );  // NOLINT
                }
             }
-
-            // perform the normal emplace_back operation by forwarding to the original method
-            tao::TAO_PEGTL_NAMESPACE::parse_tree::basic_node< node >::emplace_back( std::move( child ), st... );
-         }
+         };
 
          struct stringifier
          {
@@ -464,7 +451,7 @@ namespace tao
          {
             stringifier nrv;
             nrv.default_ = []( const std::unique_ptr< node >& n ) -> std::string {
-               throw std::runtime_error( to_string( n->begin() ) + ": missing to_string() for " + n->name() );  // NOLINT
+               throw parse_error( "missing to_string() for " + n->name(), n->begin() );  // NOLINT
             };
 
             nrv.add< grammar::rulename >( []( const std::unique_ptr< node >& n ) { return get_rulename( n, true ); } );
@@ -548,14 +535,14 @@ namespace tao
                if( star == std::string::npos ) {
                   const auto v = remove_leading_zeroes( rep );
                   if( v.empty() ) {
-                     throw std::runtime_error( to_string( n->begin() ) + ": repetition of zero not allowed" );  // NOLINT
+                     throw parse_error( "repetition of zero not allowed", n->begin() );  // NOLINT
                   }
                   return prefix + "rep< " + v + ", " + content + " >";
                }
                const auto min = remove_leading_zeroes( rep.substr( 0, star ) );
                const auto max = remove_leading_zeroes( rep.substr( star + 1 ) );
                if( ( star != rep.size() - 1 ) && max.empty() ) {
-                  throw std::runtime_error( to_string( n->begin() ) + ": repetition maximum of zero not allowed" );  // NOLINT
+                  throw parse_error( "repetition maximum of zero not allowed", n->begin() );  // NOLINT
                }
                if( min.empty() && max.empty() ) {
                   return prefix + "star< " + content + " >";
@@ -583,7 +570,7 @@ namespace tao
                   s >> max_val;
                }
                if( min_val > max_val ) {
-                  throw std::runtime_error( to_string( n->begin() ) + ": repetition minimum which is greater than the repetition maximum not allowed" );  // NOLINT
+                  throw parse_error( "repetition minimum which is greater than the repetition maximum not allowed", n->begin() );  // NOLINT
                }
                const auto min_element = ( min_val == 1 ) ? content : ( prefix + "rep< " + min + ", " + content + " >" );
                if( min_val == max_val ) {
@@ -634,7 +621,7 @@ int main( int argc, char** argv )
 
    file_input<> in( argv[ 1 ] );
    try {
-      const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::node, abnf::selector, abnf::grammar::error_control >( in );
+      const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::selector, abnf::grammar::error_control >( in );
 
       for( const auto& rule : root->children ) {
          abnf::rules_defined.push_back( abnf::get_rulename( rule->children.front() ) );
