@@ -614,7 +614,6 @@ namespace tao
                   throw parse_error( "repetition maximum of zero not allowed", n->begin() );  // NOLINT
                }
                if( min.empty() && max.empty() ) {
-                  // TODO: star< seq< ... > > -> star< ... >:
                   return prefix + "star< " + content + " >";
                }
                if( !min.empty() && max.empty() ) {
