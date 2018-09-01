@@ -378,6 +378,14 @@ namespace tao
          std::string to_string( const node_ptr& n );
          std::string to_string( const std::vector< node_ptr >& v );
 
+         std::string to_string_unwrap_seq( const node_ptr& n )
+         {
+            if( n->is< grammar::group >() || n->is< grammar::concatenation >() ) {
+               return to_string( n->children );
+            }
+            return to_string( n );
+         }
+
          namespace
          {
             std::string get_rulename( const node_ptr& n )
@@ -575,12 +583,12 @@ namespace tao
 
             nrv.add< grammar::and_predicate >( []( const node_ptr& n ) {
                assert( n->children.size() == 1 );
-               return prefix + "at< " + to_string( n->children.front() ) + " >";
+               return prefix + "at< " + to_string_unwrap_seq( n->children.front() ) + " >";
             } );
 
             nrv.add< grammar::not_predicate >( []( const node_ptr& n ) {
                assert( n->children.size() == 1 );
-               return prefix + "not_at< " + to_string( n->children.front() ) + " >";
+               return prefix + "not_at< " + to_string_unwrap_seq( n->children.front() ) + " >";
             } );
 
             nrv.add< grammar::concatenation >( []( const node_ptr& n ) {
@@ -590,7 +598,7 @@ namespace tao
 
             nrv.add< grammar::repetition >( []( const node_ptr& n ) -> std::string {
                assert( n->children.size() == 2 );
-               const auto content = to_string( n->children.back() );
+               const auto content = to_string_unwrap_seq( n->children.back() );
                const auto rep = n->children.front()->content();
                const auto star = rep.find( '*' );
                if( star == std::string::npos ) {
@@ -606,6 +614,7 @@ namespace tao
                   throw parse_error( "repetition maximum of zero not allowed", n->begin() );  // NOLINT
                }
                if( min.empty() && max.empty() ) {
+                  // TODO: star< seq< ... > > -> star< ... >:
                   return prefix + "star< " + content + " >";
                }
                if( !min.empty() && max.empty() ) {
@@ -632,6 +641,10 @@ namespace tao
                }
                if( min_val > max_val ) {
                   throw parse_error( "repetition minimum which is greater than the repetition maximum not allowed", n->begin() );  // NOLINT
+               }
+               if( ( min_val == 1 ) && ( max_val == 1 ) ) {
+                  // note: content can not be used here!
+                  return to_string( n->children.back() );
                }
                const auto min_element = ( min_val == 1 ) ? content : ( prefix + "rep< " + min + ", " + content + " >" );
                if( min_val == max_val ) {
