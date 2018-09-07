@@ -35,7 +35,9 @@ namespace tao
          TAO_PEGTL_TEST_ASSERT( !d->is_root() );
          TAO_PEGTL_TEST_ASSERT( d->id == &typeid( D ) );
          TAO_PEGTL_TEST_ASSERT( d->is< D >() );
+#if !defined( _MSC_VER )
          TAO_PEGTL_TEST_ASSERT( d->name() == "tao::pegtl::D" );
+#endif
 
          TAO_PEGTL_TEST_ASSERT( d->has_content() );
          TAO_PEGTL_TEST_ASSERT( d->begin().byte == 0 );
