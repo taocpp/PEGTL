@@ -30,15 +30,18 @@ namespace tao
          TAO_PEGTL_TEST_ASSERT( r->is_root() );
          TAO_PEGTL_TEST_ASSERT( !r->has_content() );
          TAO_PEGTL_TEST_ASSERT( r->children.size() == 1 );
-         const auto* d = r->children.begin()->get();
+
+         const auto& d = r->children.front();
          TAO_PEGTL_TEST_ASSERT( !d->is_root() );
          TAO_PEGTL_TEST_ASSERT( d->id == &typeid( D ) );
          TAO_PEGTL_TEST_ASSERT( d->is< D >() );
          TAO_PEGTL_TEST_ASSERT( d->name() == "tao::pegtl::D" );
+
          TAO_PEGTL_TEST_ASSERT( d->has_content() );
          TAO_PEGTL_TEST_ASSERT( d->begin().byte == 0 );
          TAO_PEGTL_TEST_ASSERT( d->end().byte == 2 );
          TAO_PEGTL_TEST_ASSERT( d->content() == "ac" );
+
          TAO_PEGTL_TEST_ASSERT( d->children.size() == 2 );
          TAO_PEGTL_TEST_ASSERT( d->children.front()->is< A >() );
          TAO_PEGTL_TEST_ASSERT( d->children.back()->is< C >() );
