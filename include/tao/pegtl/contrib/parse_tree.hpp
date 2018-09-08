@@ -26,13 +26,6 @@ namespace tao
    {
       namespace parse_tree
       {
-         namespace
-         {
-            unsigned node_counter = 0;
-            std::map< const std::type_info*, unsigned > node_type_counter;
-
-         }  // namespace
-
          template< typename T >
          struct basic_node
          {
@@ -54,12 +47,7 @@ namespace tao
             basic_node( const basic_node& ) = delete;
             basic_node( basic_node&& ) = delete;
 
-            //~basic_node() = default;
-            ~basic_node() noexcept
-            {
-               ++node_counter;
-               ++node_type_counter[ id ];
-            }
+            ~basic_node() = default;
 
             // no assignment either
             basic_node& operator=( const basic_node& ) = delete;

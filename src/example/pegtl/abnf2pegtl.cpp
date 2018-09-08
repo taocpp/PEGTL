@@ -1,8 +1,6 @@
 // Copyright (c) 2018 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <iomanip>
-
 #include <algorithm>
 #include <iostream>
 #include <iterator>
@@ -706,19 +704,12 @@ int main( int argc, char** argv )
       for( const auto& rule : root->children ) {
          std::cout << abnf::to_string( rule ) << std::endl;
       }
-
-      std::cout << "intermediate: " << parse_tree::node_counter << std::endl;
    }
    catch( const parse_error& e ) {
       const auto p = e.positions.front();
       std::cerr << e.what() << std::endl
                 << in.line_as_string( p ) << std::endl
                 << std::string( p.byte_in_line, ' ' ) << '^' << std::endl;
-   }
-
-   std::cout << "total: " << parse_tree::node_counter << std::endl;
-   for( const auto& e : parse_tree::node_type_counter ) {
-      std::cout << std::setw( 6 ) << e.second << ": " << ( !e.first ? "<null>" : internal::demangle( e.first->name() ) ) << std::endl;
    }
 
    return 0;
