@@ -16,6 +16,8 @@
 #include "../nothing.hpp"
 #include "../parse.hpp"
 
+#include "../analysis/counted.hpp"
+#include "../analysis/generic.hpp"
 #include "../internal/conditional.hpp"
 #include "../internal/demangle.hpp"
 #include "../internal/iterator.hpp"

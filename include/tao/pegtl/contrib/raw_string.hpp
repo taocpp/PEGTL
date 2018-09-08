@@ -196,7 +196,7 @@ namespace tao
          {
          };
 
-         using analyze_t = typename seq< bytes< 1 >, content, bytes< 1 > >::analyze_t;
+         using analyze_t = typename internal::seq< internal::bytes< 1 >, content, internal::bytes< 1 > >::analyze_t;
 
          template< apply_mode A,
                    rewind_mode M,
