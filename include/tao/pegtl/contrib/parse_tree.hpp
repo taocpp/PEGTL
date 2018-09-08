@@ -256,13 +256,13 @@ namespace tao
                : Control< Rule >
             {
                template< typename Input, typename Node, typename... States >
-               static void start( const Input& in, state< Node >& /*unused*/, States&&... st )
+               static void start( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::start( in, st... ) ) )
                {
                   Control< Rule >::start( in, st... );
                }
 
                template< typename Input, typename Node, typename... States >
-               static void success( const Input& in, state< Node >& /*unused*/, States&&... st )
+               static void success( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::success( in, st... ) ) )
                {
                   Control< Rule >::success( in, st... );
                }
@@ -280,13 +280,13 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static typename return_type_apply0< Control< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st )
+               static typename return_type_apply0< Control< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
                {
                   return Control< Rule >::template apply0< Action >( in, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
-               static typename return_type_apply< Control< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st )
+               static typename return_type_apply< Control< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
                {
                   return Control< Rule >::template apply< Action >( begin, in, st... );
                }
@@ -329,13 +329,13 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static typename return_type_apply0< Control< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st )
+               static typename return_type_apply0< Control< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
                {
                   return Control< Rule >::template apply0< Action >( in, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
-               static typename return_type_apply< Control< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st )
+               static typename return_type_apply< Control< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
                {
                   return Control< Rule >::template apply< Action >( begin, in, st... );
                }
@@ -382,13 +382,13 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static typename return_type_apply0< Control< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st )
+               static typename return_type_apply0< Control< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
                {
                   return Control< Rule >::template apply0< Action >( in, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
-               static typename return_type_apply< Control< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st )
+               static typename return_type_apply< Control< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
                {
                   return Control< Rule >::template apply< Action >( begin, in, st... );
                }
@@ -429,7 +429,7 @@ namespace tao
          struct fold_one_or : Base
          {
             template< typename Node, typename... States >
-            static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->children.size(), n->children.front(), Base::transform( n, st... ) ) )
+            static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->children.size(), Base::transform( n, st... ) ) )
             {
                if( n->children.size() == 1 ) {
                   n = std::move( n->children.front() );
