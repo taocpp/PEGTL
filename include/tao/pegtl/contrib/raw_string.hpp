@@ -69,7 +69,7 @@ namespace tao
          template< char Marker, char Close >
          struct at_raw_string_close
          {
-            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+            using analyze_t = analysis::generic< analysis::rule_type::OPT >;
 
             template< apply_mode A,
                       rewind_mode,
@@ -189,14 +189,14 @@ namespace tao
       template< char Open, char Marker, char Close, typename... Contents >
       struct raw_string
       {
-         using analyze_t = analysis::generic< analysis::rule_type::ANY >;
-
          // This is used for binding the apply()-method and for error-reporting
          // when a raw string is not closed properly or has invalid content.
          struct content
             : internal::raw_string_until< internal::at_raw_string_close< Marker, Close >, Contents... >
          {
          };
+
+         using analyze_t = typename seq< bytes< 1 >, content, bytes< 1 > >::analyze_t;
 
          template< apply_mode A,
                    rewind_mode M,
