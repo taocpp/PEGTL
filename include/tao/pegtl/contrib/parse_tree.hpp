@@ -186,18 +186,18 @@ namespace tao
             };
 
             template< typename Analyse >
-            struct is_final_node : std::false_type
+            struct is_leaf : std::false_type
             {
             };
 
             template< analysis::rule_type Type >
-            struct is_final_node< analysis::generic< Type > >
+            struct is_leaf< analysis::generic< Type > >
                : std::true_type
             {
             };
 
             template< analysis::rule_type Type, unsigned Count >
-            struct is_final_node< analysis::counted< Type, Count > >
+            struct is_leaf< analysis::counted< Type, Count > >
                : std::true_type
             {
             };
@@ -209,22 +209,22 @@ namespace tao
             using is_all = std::is_same< bool_sequence< Bs..., true >, bool_sequence< true, Bs... > >;
 
             template< typename Rule, template< typename... > class Selector >
-            using is_ignored_and_final = std::integral_constant< bool, !Selector< Rule >::value && is_final_node< typename Rule::analyze_t >::value >;
+            using is_unselected_leaf = std::integral_constant< bool, !Selector< Rule >::value && is_leaf< typename Rule::analyze_t >::value >;
 
             template< typename Analyse, template< typename... > class Selector >
-            struct is_final_node_2 : std::false_type
+            struct is_leaf_or_parent_of_unselected_leafs : std::false_type
             {
             };
 
             template< analysis::rule_type Type, typename... Rules, template< typename... > class Selector >
-            struct is_final_node_2< analysis::generic< Type, Rules... >, Selector >
-               : is_all< is_ignored_and_final< Rules, Selector >::value... >
+            struct is_leaf_or_parent_of_unselected_leafs< analysis::generic< Type, Rules... >, Selector >
+               : is_all< is_unselected_leaf< Rules, Selector >::value... >
             {
             };
 
             template< analysis::rule_type Type, unsigned Count, typename... Rules, template< typename... > class Selector >
-            struct is_final_node_2< analysis::counted< Type, Count, Rules... >, Selector >
-               : is_all< is_ignored_and_final< Rules, Selector >::value... >
+            struct is_leaf_or_parent_of_unselected_leafs< analysis::counted< Type, Count, Rules... >, Selector >
+               : is_all< is_unselected_leaf< Rules, Selector >::value... >
             {
             };
 
@@ -235,7 +235,7 @@ namespace tao
                struct control;
 
                template< typename Rule >
-               using type = control< Rule, Selector< Rule >::value, is_final_node_2< typename Rule::analyze_t, Selector >::value >;
+               using type = control< Rule, Selector< Rule >::value, is_leaf_or_parent_of_unselected_leafs< typename Rule::analyze_t, Selector >::value >;
             };
 
             template< typename Control, template< typename... > class Action, typename Input, typename... States >
