@@ -26,6 +26,13 @@ namespace tao
    {
       namespace parse_tree
       {
+         namespace
+         {
+            unsigned node_counter = 0;
+            std::map< const std::type_info*, unsigned > node_type_counter;
+
+         }  // namespace
+
          template< typename T >
          struct basic_node
          {
@@ -47,7 +54,12 @@ namespace tao
             basic_node( const basic_node& ) = delete;
             basic_node( basic_node&& ) = delete;
 
-            ~basic_node() = default;
+            //~basic_node() = default;
+            ~basic_node() noexcept
+            {
+               ++node_counter;
+               ++node_type_counter[ id ];
+            }
 
             // no assignment either
             basic_node& operator=( const basic_node& ) = delete;
@@ -200,6 +212,32 @@ namespace tao
             {
             };
 
+            template< bool... >
+            struct bool_sequence;
+
+            template< bool... Bs >
+            using is_all = std::is_same< bool_sequence< Bs..., true >, bool_sequence< true, Bs... > >;
+
+            template< typename Rule, template< typename... > class Selector >
+            using is_ignored_and_final = std::integral_constant< bool, !Selector< Rule >::value && is_final_node< typename Rule::analyze_t >::value >;
+
+            template< typename Analyse, template< typename... > class Selector >
+            struct is_final_node_2 : std::false_type
+            {
+            };
+
+            template< analysis::rule_type Type, typename... Rules, template< typename... > class Selector >
+            struct is_final_node_2< analysis::generic< Type, Rules... >, Selector >
+               : is_all< is_ignored_and_final< Rules, Selector >::value... >
+            {
+            };
+
+            template< analysis::rule_type Type, unsigned Count, typename... Rules, template< typename... > class Selector >
+            struct is_final_node_2< analysis::counted< Type, Count, Rules... >, Selector >
+               : is_all< is_ignored_and_final< Rules, Selector >::value... >
+            {
+            };
+
             template< template< typename... > class Selector, template< typename... > class Control >
             struct make_control
             {
@@ -207,7 +245,7 @@ namespace tao
                struct control;
 
                template< typename Rule >
-               using type = control< Rule, Selector< Rule >::value, is_final_node< typename Rule::analyze_t >::value >;
+               using type = control< Rule, Selector< Rule >::value, is_final_node_2< typename Rule::analyze_t, Selector >::value >;
             };
 
             template< typename Control, template< typename... > class Action, typename Input, typename... States >
