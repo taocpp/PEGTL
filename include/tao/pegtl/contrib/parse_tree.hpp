@@ -183,14 +183,31 @@ namespace tao
                }
             };
 
+            template< typename Analyse >
+            struct is_final_node : std::false_type
+            {
+            };
+
+            template< analysis::rule_type Type >
+            struct is_final_node< analysis::generic< Type > >
+               : std::true_type
+            {
+            };
+
+            template< analysis::rule_type Type, unsigned Count >
+            struct is_final_node< analysis::counted< Type, Count > >
+               : std::true_type
+            {
+            };
+
             template< template< typename... > class Selector, template< typename... > class Control >
             struct make_control
             {
-               template< typename Rule, bool >
+               template< typename Rule, bool, bool >
                struct control;
 
                template< typename Rule >
-               using type = control< Rule, Selector< Rule >::value >;
+               using type = control< Rule, Selector< Rule >::value, is_final_node< typename Rule::analyze_t >::value >;
             };
 
             template< typename Control, template< typename... > class Action, typename Input, typename... States >
@@ -207,7 +224,49 @@ namespace tao
 
             template< template< typename... > class Selector, template< typename... > class Control >
             template< typename Rule >
-            struct make_control< Selector, Control >::control< Rule, false >
+            struct make_control< Selector, Control >::control< Rule, false, true >
+               : Control< Rule >
+            {
+               template< typename Input, typename Node, typename... States >
+               static void start( const Input& in, state< Node >& /*unused*/, States&&... st )
+               {
+                  Control< Rule >::start( in, st... );
+               }
+
+               template< typename Input, typename Node, typename... States >
+               static void success( const Input& in, state< Node >& /*unused*/, States&&... st )
+               {
+                  Control< Rule >::success( in, st... );
+               }
+
+               template< typename Input, typename Node, typename... States >
+               static void failure( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
+               {
+                  Control< Rule >::failure( in, st... );
+               }
+
+               template< typename Input, typename Node, typename... States >
+               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
+               {
+                  Control< Rule >::raise( in, st... );
+               }
+
+               template< template< typename... > class Action, typename Input, typename Node, typename... States >
+               static typename return_type_apply0< Control< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st )
+               {
+                  return Control< Rule >::template apply0< Action >( in, st... );
+               }
+
+               template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
+               static typename return_type_apply< Control< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st )
+               {
+                  return Control< Rule >::template apply< Action >( begin, in, st... );
+               }
+            };
+
+            template< template< typename... > class Selector, template< typename... > class Control >
+            template< typename Rule >
+            struct make_control< Selector, Control >::control< Rule, false, false >
                : Control< Rule >
             {
                template< typename Input, typename Node, typename... States >
@@ -255,8 +314,8 @@ namespace tao
             };
 
             template< template< typename... > class Selector, template< typename... > class Control >
-            template< typename Rule >
-            struct make_control< Selector, Control >::control< Rule, true >
+            template< typename Rule, bool B >
+            struct make_control< Selector, Control >::control< Rule, true, B >
                : Control< Rule >
             {
                template< typename Input, typename Node, typename... States >
