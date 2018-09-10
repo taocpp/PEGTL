@@ -185,20 +185,33 @@ namespace tao
                }
             };
 
-            template< typename Analyse >
-            struct is_leaf : std::false_type
+            template< unsigned Level, typename Analyse, template< typename... > class Selector >
+            struct is_leaf
+               : std::false_type
             {
             };
 
-            template< analysis::rule_type Type >
-            struct is_leaf< analysis::generic< Type > >
+            template< analysis::rule_type Type, template< typename... > class Selector >
+            struct is_leaf< 0, analysis::generic< Type >, Selector >
                : std::true_type
             {
             };
 
-            template< analysis::rule_type Type, unsigned Count >
-            struct is_leaf< analysis::counted< Type, Count > >
+            template< analysis::rule_type Type, unsigned Count, template< typename... > class Selector >
+            struct is_leaf< 0, analysis::counted< Type, Count >, Selector >
                : std::true_type
+            {
+            };
+
+            template< analysis::rule_type Type, typename... Rules, template< typename... > class Selector >
+            struct is_leaf< 0, analysis::generic< Type, Rules... >, Selector >
+               : std::false_type
+            {
+            };
+
+            template< analysis::rule_type Type, unsigned Count, typename... Rules, template< typename... > class Selector >
+            struct is_leaf< 0, analysis::counted< Type, Count, Rules... >, Selector >
+               : std::false_type
             {
             };
 
@@ -208,23 +221,18 @@ namespace tao
             template< bool... Bs >
             using is_all = std::is_same< bool_sequence< Bs..., true >, bool_sequence< true, Bs... > >;
 
-            template< typename Rule, template< typename... > class Selector >
-            using is_unselected_leaf = std::integral_constant< bool, !Selector< Rule >::value && is_leaf< typename Rule::analyze_t >::value >;
+            template< unsigned Level, typename Rule, template< typename... > class Selector >
+            using is_unselected_leaf = std::integral_constant< bool, !Selector< Rule >::value && is_leaf< Level, typename Rule::analyze_t, Selector >::value >;
 
-            template< typename Analyse, template< typename... > class Selector >
-            struct is_leaf_or_parent_of_unselected_leafs : std::false_type
+            template< unsigned Level, analysis::rule_type Type, typename... Rules, template< typename... > class Selector >
+            struct is_leaf< Level, analysis::generic< Type, Rules... >, Selector >
+               : is_all< is_unselected_leaf< Level - 1, Rules, Selector >::value... >
             {
             };
 
-            template< analysis::rule_type Type, typename... Rules, template< typename... > class Selector >
-            struct is_leaf_or_parent_of_unselected_leafs< analysis::generic< Type, Rules... >, Selector >
-               : is_all< is_unselected_leaf< Rules, Selector >::value... >
-            {
-            };
-
-            template< analysis::rule_type Type, unsigned Count, typename... Rules, template< typename... > class Selector >
-            struct is_leaf_or_parent_of_unselected_leafs< analysis::counted< Type, Count, Rules... >, Selector >
-               : is_all< is_unselected_leaf< Rules, Selector >::value... >
+            template< unsigned Level, analysis::rule_type Type, unsigned Count, typename... Rules, template< typename... > class Selector >
+            struct is_leaf< Level, analysis::counted< Type, Count, Rules... >, Selector >
+               : is_all< is_unselected_leaf< Level - 1, Rules, Selector >::value... >
             {
             };
 
@@ -235,7 +243,7 @@ namespace tao
                struct control;
 
                template< typename Rule >
-               using type = control< Rule, Selector< Rule >::value, is_leaf_or_parent_of_unselected_leafs< typename Rule::analyze_t, Selector >::value >;
+               using type = control< Rule, Selector< Rule >::value, is_leaf< 8, typename Rule::analyze_t, Selector >::value >;
             };
 
             template< typename Control, template< typename... > class Action, typename Input, typename... States >
