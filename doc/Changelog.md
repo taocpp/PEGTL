@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.7.1
+
+Not yet released
+
+* Added new ASCII convenience rule [`forty_two`](Rule-Reference.md#forty_two-c-).
+
 ## 2.7.0
 
 Released 2018-07-31

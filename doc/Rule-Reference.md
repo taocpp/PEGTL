@@ -408,6 +408,10 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 
 * Equivalent to `sor< eof, eol >`.
 
+###### `forty_two< C... >`
+
+* Equivalent to `rep< 42, one< C... > >`.
+
 ###### `identifier_first`
 
 * Matches and consumes a single ASCII character permissible as first character of a C identifier.
@@ -1097,6 +1101,7 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`eolf`](#eolf) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`extender`](#extender) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`failure`](#failure) <sup>[(atomic rules)](#atomic-rules)</sup>
+* [`forty_two< C... >`](#forty_two-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`full_composition_exclusion`](#full_composition_exclusion) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`general_category< V >`](#general_category-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`grapheme_base`](#grapheme_base) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
