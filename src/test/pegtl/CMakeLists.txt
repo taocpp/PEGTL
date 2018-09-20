@@ -9,6 +9,7 @@ set (test_sources
   ascii_classes.cpp
   ascii_eol.cpp
   ascii_eolf.cpp
+  ascii_forty_two.cpp
   ascii_identifier.cpp
   ascii_istring.cpp
   ascii_keyword.cpp
