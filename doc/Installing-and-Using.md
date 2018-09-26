@@ -10,7 +10,6 @@
   * [Embedding in Binaries](#embedding-in-binaries)
   * [Embedding in Libraries](#embedding-in-libraries)
   * [Embedding in Library Interfaces](#embedding-in-library-interfaces)
-* [Limitations](#limitations)
 
 ## Requirements
 
