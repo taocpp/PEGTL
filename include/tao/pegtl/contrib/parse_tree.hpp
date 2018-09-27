@@ -247,7 +247,7 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
+               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
                   -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
                {
                   return Control< Rule >::template apply0< Action >( in, st... );
