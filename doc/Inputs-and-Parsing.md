@@ -73,7 +73,7 @@ The classes `file_input<>`, `read_input<>` and, on supported platforms, `mmap_in
 
 * `read_input<>` uses C "stdio" facilities to read the file.
 * `mmap_input<>` uses `mmap(2)` on POSIX compliant systems or `MapViewOfFile()` on Windows.
-* `file_input<>` is derived from `mmap_input<>` when available, and `read_input<>` otherwise, inheriting the respective contructors.
+* `file_input<>` is derived from `mmap_input<>` when available, and `read_input<>` otherwise, inheriting the respective constructors.
 
 Most file input classes take a single argument, the filename, which can be supplied as `std::string` or `const char*`.
 They immediately make available the complete contents of the file; `read_input<>` reads the entire file upon construction.
