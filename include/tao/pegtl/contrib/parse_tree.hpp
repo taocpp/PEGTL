@@ -236,45 +236,10 @@ namespace tao
             {
             };
 
-            template< template< typename... > class Selector, template< typename... > class Control >
-            struct make_control
-            {
-               template< typename Rule, bool, bool >
-               struct control;
-
-               template< typename Rule >
-               using type = control< Rule, Selector< Rule >::value, is_leaf< 8, typename Rule::analyze_t, Selector >::value >;
-            };
-
-            template< template< typename... > class Selector, template< typename... > class Control >
-            template< typename Rule >
-            struct make_control< Selector, Control >::control< Rule, false, true >
+            template< template< typename... > class Control, typename Rule >
+            struct control_base
                : Control< Rule >
             {
-               template< typename Input, typename Node, typename... States >
-               static void start( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::start( in, st... ) ) )
-               {
-                  Control< Rule >::start( in, st... );
-               }
-
-               template< typename Input, typename Node, typename... States >
-               static void success( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::success( in, st... ) ) )
-               {
-                  Control< Rule >::success( in, st... );
-               }
-
-               template< typename Input, typename Node, typename... States >
-               static void failure( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
-               {
-                  Control< Rule >::failure( in, st... );
-               }
-
-               template< typename Input, typename Node, typename... States >
-               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
-               {
-                  Control< Rule >::raise( in, st... );
-               }
-
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
                static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
                   -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
@@ -309,12 +274,52 @@ namespace tao
                   constexpr auto mode = static_cast< dusel_mode >( use_control + use_apply_void + 2 * use_apply_bool + 3 * use_apply0_void + 4 * use_apply0_bool );
                   return TAO_PEGTL_NAMESPACE::internal::duseltronik< Rule, A, M, Action, Control2, mode >::match( in, n, st... );
                }
+
+               template< typename Input, typename Node, typename... States >
+               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
+               {
+                  Control< Rule >::raise( in, st... );
+               }
+            };
+
+            template< template< typename... > class Selector, template< typename... > class Control >
+            struct make_control
+            {
+               template< typename Rule, bool, bool >
+               struct control;
+
+               template< typename Rule >
+               using type = control< Rule, Selector< Rule >::value, is_leaf< 8, typename Rule::analyze_t, Selector >::value >;
+            };
+
+            template< template< typename... > class Selector, template< typename... > class Control >
+            template< typename Rule >
+            struct make_control< Selector, Control >::control< Rule, false, true >
+               : control_base< Control, Rule >
+            {
+               template< typename Input, typename Node, typename... States >
+               static void start( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::start( in, st... ) ) )
+               {
+                  Control< Rule >::start( in, st... );
+               }
+
+               template< typename Input, typename Node, typename... States >
+               static void success( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::success( in, st... ) ) )
+               {
+                  Control< Rule >::success( in, st... );
+               }
+
+               template< typename Input, typename Node, typename... States >
+               static void failure( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
+               {
+                  Control< Rule >::failure( in, st... );
+               }
             };
 
             template< template< typename... > class Selector, template< typename... > class Control >
             template< typename Rule >
             struct make_control< Selector, Control >::control< Rule, false, false >
-               : Control< Rule >
+               : control_base< Control, Rule >
             {
                template< typename Input, typename Node, typename... States >
                static void start( const Input& in, state< Node >& state, States&&... st )
@@ -340,53 +345,12 @@ namespace tao
                   Control< Rule >::failure( in, st... );
                   state.pop_back();
                }
-
-               template< typename Input, typename Node, typename... States >
-               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
-               {
-                  Control< Rule >::raise( in, st... );
-               }
-
-               template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
-                  -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
-               {
-                  return Control< Rule >::template apply0< Action >( in, st... );
-               }
-
-               template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
-               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
-                  -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
-               {
-                  return Control< Rule >::template apply< Action >( begin, in, st... );
-               }
-
-               template< apply_mode A,
-                         rewind_mode M,
-                         template< typename... > class Action,
-                         template< typename... > class Control2,
-                         typename Input,
-                         typename Node,
-                         typename... States >
-               static bool match( Input& in, state< Node >& n, States&&... st )
-               {
-                  constexpr char use_control = !TAO_PEGTL_NAMESPACE::internal::skip_control< Rule >::value;
-                  constexpr char use_action = use_control && ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Rule >::value );
-                  constexpr char use_apply_void = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply< Action< Rule >, void, typename Input::action_t, States... >::value;
-                  constexpr char use_apply_bool = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply< Action< Rule >, bool, typename Input::action_t, States... >::value;
-                  constexpr char use_apply0_void = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply0< Action< Rule >, void, States... >::value;
-                  constexpr char use_apply0_bool = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply0< Action< Rule >, bool, States... >::value;
-                  static_assert( !use_action || use_apply_bool || use_apply_void || use_apply0_bool || use_apply0_void, "actions not disabled but no apply() or apply0() found" );
-                  static_assert( use_apply_void + use_apply_bool + use_apply0_void + use_apply0_bool < 2, "both apply() and apply0() defined" );
-                  constexpr auto mode = static_cast< dusel_mode >( use_control + use_apply_void + 2 * use_apply_bool + 3 * use_apply0_void + 4 * use_apply0_bool );
-                  return TAO_PEGTL_NAMESPACE::internal::duseltronik< Rule, A, M, Action, Control2, mode >::match( in, n, st... );
-               }
             };
 
             template< template< typename... > class Selector, template< typename... > class Control >
             template< typename Rule, bool B >
             struct make_control< Selector, Control >::control< Rule, true, B >
-               : Control< Rule >
+               : control_base< Control, Rule >
             {
                template< typename Input, typename Node, typename... States >
                static void start( const Input& in, state< Node >& state, States&&... st )
@@ -415,47 +379,6 @@ namespace tao
                   Control< Rule >::failure( in, st... );
                   state.back()->template failure< Rule >( in, st... );
                   state.pop_back();
-               }
-
-               template< typename Input, typename Node, typename... States >
-               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
-               {
-                  Control< Rule >::raise( in, st... );
-               }
-
-               template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
-                  -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
-               {
-                  return Control< Rule >::template apply0< Action >( in, st... );
-               }
-
-               template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
-               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
-                  -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
-               {
-                  return Control< Rule >::template apply< Action >( begin, in, st... );
-               }
-
-               template< apply_mode A,
-                         rewind_mode M,
-                         template< typename... > class Action,
-                         template< typename... > class Control2,
-                         typename Input,
-                         typename Node,
-                         typename... States >
-               static bool match( Input& in, state< Node >& n, States&&... st )
-               {
-                  constexpr char use_control = !TAO_PEGTL_NAMESPACE::internal::skip_control< Rule >::value;
-                  constexpr char use_action = use_control && ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Rule >::value );
-                  constexpr char use_apply_void = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply< Action< Rule >, void, typename Input::action_t, States... >::value;
-                  constexpr char use_apply_bool = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply< Action< Rule >, bool, typename Input::action_t, States... >::value;
-                  constexpr char use_apply0_void = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply0< Action< Rule >, void, States... >::value;
-                  constexpr char use_apply0_bool = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply0< Action< Rule >, bool, States... >::value;
-                  static_assert( !use_action || use_apply_bool || use_apply_void || use_apply0_bool || use_apply0_void, "actions not disabled but no apply() or apply0() found" );
-                  static_assert( use_apply_void + use_apply_bool + use_apply0_void + use_apply0_bool < 2, "both apply() and apply0() defined" );
-                  constexpr auto mode = static_cast< dusel_mode >( use_control + use_apply_void + 2 * use_apply_bool + 3 * use_apply0_void + 4 * use_apply0_bool );
-                  return TAO_PEGTL_NAMESPACE::internal::duseltronik< Rule, A, M, Action, Control2, mode >::match( in, n, st... );
                }
             };
 
