@@ -240,6 +240,12 @@ namespace tao
             struct control_base
                : Control< Rule >
             {
+               template< typename Input, typename Node, typename... States >
+               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
+               {
+                  Control< Rule >::raise( in, st... );
+               }
+
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
                static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
                   -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
@@ -273,12 +279,6 @@ namespace tao
                   static_assert( use_apply_void + use_apply_bool + use_apply0_void + use_apply0_bool < 2, "both apply() and apply0() defined" );
                   constexpr auto mode = static_cast< dusel_mode >( use_control + use_apply_void + 2 * use_apply_bool + 3 * use_apply0_void + 4 * use_apply0_bool );
                   return TAO_PEGTL_NAMESPACE::internal::duseltronik< Rule, A, M, Action, Control2, mode >::match( in, n, st... );
-               }
-
-               template< typename Input, typename Node, typename... States >
-               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
-               {
-                  Control< Rule >::raise( in, st... );
                }
             };
 
