@@ -246,18 +246,6 @@ namespace tao
                using type = control< Rule, Selector< Rule >::value, is_leaf< 8, typename Rule::analyze_t, Selector >::value >;
             };
 
-            template< typename Control, template< typename... > class Action, typename Input, typename... States >
-            struct return_type_apply0
-            {
-               using type = decltype( Control::template apply0< Action >( std::declval< const Input& >(), std::declval< States&& >()... ) );
-            };
-
-            template< typename Control, template< typename... > class Action, typename Iterator, typename Input, typename... States >
-            struct return_type_apply
-            {
-               using type = decltype( Control::template apply< Action >( std::declval< const Iterator& >(), std::declval< const Input& >(), std::declval< States&& >()... ) );
-            };
-
             template< template< typename... > class Selector, template< typename... > class Control >
             template< typename Rule >
             struct make_control< Selector, Control >::control< Rule, false, true >
@@ -288,13 +276,17 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static typename return_type_apply0< Control< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
+               static auto
+               apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
+                  -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
                {
                   return Control< Rule >::template apply0< Action >( in, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
-               static typename return_type_apply< Control< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
+               static auto
+               apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
+                  -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
                {
                   return Control< Rule >::template apply< Action >( begin, in, st... );
                }
@@ -337,13 +329,16 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static typename return_type_apply0< Control< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
+               static auto
+               apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
+                  -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
                {
                   return Control< Rule >::template apply0< Action >( in, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
-               static typename return_type_apply< Control< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
+               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
+                  -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
                {
                   return Control< Rule >::template apply< Action >( begin, in, st... );
                }
@@ -390,13 +385,15 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static typename return_type_apply0< Control< Rule >, Action, Input, States... >::type apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
+               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
+                  -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
                {
                   return Control< Rule >::template apply0< Action >( in, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
-               static typename return_type_apply< Control< Rule >, Action, Iterator, Input, States... >::type apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
+               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
+                  -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
                {
                   return Control< Rule >::template apply< Action >( begin, in, st... );
                }
