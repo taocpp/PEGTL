@@ -288,6 +288,27 @@ namespace tao
                {
                   return Control< Rule >::template apply< Action >( begin, in, st... );
                }
+
+               template< apply_mode A,
+                         rewind_mode M,
+                         template< typename... > class Action,
+                         template< typename... > class Control2,
+                         typename Input,
+                         typename Node,
+                         typename... States >
+               static bool match( Input& in, state< Node >& n, States&&... st )
+               {
+                  constexpr char use_control = !TAO_PEGTL_NAMESPACE::internal::skip_control< Rule >::value;
+                  constexpr char use_action = use_control && ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Rule >::value );
+                  constexpr char use_apply_void = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply< Action< Rule >, void, typename Input::action_t, States... >::value;
+                  constexpr char use_apply_bool = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply< Action< Rule >, bool, typename Input::action_t, States... >::value;
+                  constexpr char use_apply0_void = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply0< Action< Rule >, void, States... >::value;
+                  constexpr char use_apply0_bool = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply0< Action< Rule >, bool, States... >::value;
+                  static_assert( !use_action || use_apply_bool || use_apply_void || use_apply0_bool || use_apply0_void, "actions not disabled but no apply() or apply0() found" );
+                  static_assert( use_apply_void + use_apply_bool + use_apply0_void + use_apply0_bool < 2, "both apply() and apply0() defined" );
+                  constexpr auto mode = static_cast< dusel_mode >( use_control + use_apply_void + 2 * use_apply_bool + 3 * use_apply0_void + 4 * use_apply0_bool );
+                  return TAO_PEGTL_NAMESPACE::internal::duseltronik< Rule, A, M, Action, Control2, mode >::match( in, n, st... );
+               }
             };
 
             template< template< typename... > class Selector, template< typename... > class Control >
@@ -338,6 +359,27 @@ namespace tao
                   -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
                {
                   return Control< Rule >::template apply< Action >( begin, in, st... );
+               }
+
+               template< apply_mode A,
+                         rewind_mode M,
+                         template< typename... > class Action,
+                         template< typename... > class Control2,
+                         typename Input,
+                         typename Node,
+                         typename... States >
+               static bool match( Input& in, state< Node >& n, States&&... st )
+               {
+                  constexpr char use_control = !TAO_PEGTL_NAMESPACE::internal::skip_control< Rule >::value;
+                  constexpr char use_action = use_control && ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Rule >::value );
+                  constexpr char use_apply_void = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply< Action< Rule >, void, typename Input::action_t, States... >::value;
+                  constexpr char use_apply_bool = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply< Action< Rule >, bool, typename Input::action_t, States... >::value;
+                  constexpr char use_apply0_void = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply0< Action< Rule >, void, States... >::value;
+                  constexpr char use_apply0_bool = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply0< Action< Rule >, bool, States... >::value;
+                  static_assert( !use_action || use_apply_bool || use_apply_void || use_apply0_bool || use_apply0_void, "actions not disabled but no apply() or apply0() found" );
+                  static_assert( use_apply_void + use_apply_bool + use_apply0_void + use_apply0_bool < 2, "both apply() and apply0() defined" );
+                  constexpr auto mode = static_cast< dusel_mode >( use_control + use_apply_void + 2 * use_apply_bool + 3 * use_apply0_void + 4 * use_apply0_bool );
+                  return TAO_PEGTL_NAMESPACE::internal::duseltronik< Rule, A, M, Action, Control2, mode >::match( in, n, st... );
                }
             };
 
@@ -393,6 +435,27 @@ namespace tao
                   -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
                {
                   return Control< Rule >::template apply< Action >( begin, in, st... );
+               }
+
+               template< apply_mode A,
+                         rewind_mode M,
+                         template< typename... > class Action,
+                         template< typename... > class Control2,
+                         typename Input,
+                         typename Node,
+                         typename... States >
+               static bool match( Input& in, state< Node >& n, States&&... st )
+               {
+                  constexpr char use_control = !TAO_PEGTL_NAMESPACE::internal::skip_control< Rule >::value;
+                  constexpr char use_action = use_control && ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Rule >::value );
+                  constexpr char use_apply_void = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply< Action< Rule >, void, typename Input::action_t, States... >::value;
+                  constexpr char use_apply_bool = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply< Action< Rule >, bool, typename Input::action_t, States... >::value;
+                  constexpr char use_apply0_void = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply0< Action< Rule >, void, States... >::value;
+                  constexpr char use_apply0_bool = use_action && TAO_PEGTL_NAMESPACE::internal::has_apply0< Action< Rule >, bool, States... >::value;
+                  static_assert( !use_action || use_apply_bool || use_apply_void || use_apply0_bool || use_apply0_void, "actions not disabled but no apply() or apply0() found" );
+                  static_assert( use_apply_void + use_apply_bool + use_apply0_void + use_apply0_bool < 2, "both apply() and apply0() defined" );
+                  constexpr auto mode = static_cast< dusel_mode >( use_control + use_apply_void + 2 * use_apply_bool + 3 * use_apply0_void + 4 * use_apply0_bool );
+                  return TAO_PEGTL_NAMESPACE::internal::duseltronik< Rule, A, M, Action, Control2, mode >::match( in, n, st... );
                }
             };
 
