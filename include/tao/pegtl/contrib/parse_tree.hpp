@@ -276,16 +276,14 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static auto
-               apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
+               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
                   -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
                {
                   return Control< Rule >::template apply0< Action >( in, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename Node, typename... States >
-               static auto
-               apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
+               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
                   -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
                {
                   return Control< Rule >::template apply< Action >( begin, in, st... );
@@ -329,8 +327,7 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Node, typename... States >
-               static auto
-               apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
+               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0( in, st... ) ) )
                   -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
                {
                   return Control< Rule >::template apply0< Action >( in, st... );
