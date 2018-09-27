@@ -11,7 +11,6 @@
     * [Embedding in Binaries](Installing-and-Using.md#embedding-in-binaries)
     * [Embedding in Libraries](Installing-and-Using.md#embedding-in-libraries)
     * [Embedding in Library Interfaces](Installing-and-Using.md#embedding-in-library-interfaces)
-  * [Limitations](Installing-and-Using.md#limitations)
 * [Rules and Grammars](Rules-and-Grammars.md)
   * [Combining Existing Rules](Rules-and-Grammars.md#combining-existing-rules)
   * [Toy S-Expression Grammar](Rules-and-Grammars.md#toy-s-expression-grammar)
