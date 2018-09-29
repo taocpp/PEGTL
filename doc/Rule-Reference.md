@@ -582,7 +582,7 @@ It is an error when a code unit in the range `0xd800` to `0xdfff` is encountered
 ###### `any`
 
 * Succeeds when the input is not empty, and:
-* The next N bytes encode of a valid Unicode code point.
+* The next N bytes encode a valid Unicode code point.
 * Consumes the N bytes when it succeeds.
 
 ###### `bom`
