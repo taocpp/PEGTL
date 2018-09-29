@@ -2,9 +2,13 @@
 
 ## 2.7.1
 
-Not yet released
+Released 2018-09-29
 
 * Added new ASCII convenience rule [`forty_two`](Rule-Reference.md#forty_two-c-).
+* Added experimental `if_then` rule.
+* Simplified how parse tree nodes can be selected.
+* Reduced the number of intermediate parse tree nodes.
+* Allowed an action class template to be used with the parse tree.
 
 ## 2.7.0
 
