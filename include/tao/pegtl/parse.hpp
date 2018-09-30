@@ -42,6 +42,7 @@ namespace tao
                to.internal_state = from.input().internal_state;
             }
          };
+
       }  // namespace internal
 
       template< typename Rule,
