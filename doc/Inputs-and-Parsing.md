@@ -208,6 +208,18 @@ class string_input
 };
 ```
 
+### Example
+
+```c++
+std::string content(); // returns the content
+
+string_input<> in1( content(), "from_content" );
+```
+
+Construct a `string_input` with default tracking mode, default end-of-line mode (accepting Unix and MS-DOS line endings), and default source storage.
+The data returned from calling `content()` is copied into the input.
+The source is `from_content`.
+
 ### Additional Remarks
 
 Note that the implementation of the constructors is different than shown.
