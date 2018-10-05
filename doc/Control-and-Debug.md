@@ -128,7 +128,7 @@ If either produce a (local) failure then `C< R >::failure()` is called.
 
 In all cases where an action is called, the success or failure hooks are invoked after the action returns.
 
-The included class `tao::pegtl::tracer` in `<tao/pegtl/contrib/tracer.hpp>` gives a pratical example that can be used as control class to debug grammars.
+The included class `tao::pegtl::tracer` in `<tao/pegtl/contrib/tracer.hpp>` gives a practical example that can be used as control class to debug grammars.
 When an instance of class `tao::pegtl::trace_state` is used as single state in a parsing run with the tracer-control then the debug output contains a line number and rule number as additional information.
 
 ## Exception Throwing
