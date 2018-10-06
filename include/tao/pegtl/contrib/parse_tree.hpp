@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "../config.hpp"
+#include "../memory_input.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../parse.hpp"
@@ -92,6 +93,13 @@ namespace tao
             {
                assert( has_content() );
                return std::string( m_begin.data, m_end.data );
+            }
+
+            template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
+            memory_input< P, Eol > as_memory_input() const
+            {
+               assert( has_content() );
+               return memory_input< P, Eol >( m_begin.data, m_end.data - m_begin.data, source, m_begin.byte, m_begin.line, m_begin.byte_in_line );
             }
 
             template< typename... States >
