@@ -167,24 +167,17 @@ namespace tao
                }
             };
 
-            template< typename Node, typename Selector, typename = void >
-            struct transform
+            template< typename Selector, typename... States >
+            void transform( States&&... /*unused*/ ) noexcept
             {
-               template< typename... States >
-               static void call( std::unique_ptr< Node >& /*unused*/, States&&... /*unused*/ ) noexcept
-               {
-               }
-            };
+            }
 
-            template< typename Node, typename Selector >
-            struct transform< Node, Selector, decltype( Selector::transform( std::declval< std::unique_ptr< Node >& >() ), void() ) >
+            template< typename Selector, typename Node, typename... States >
+            auto transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( Selector::transform( n, st... ) ) )
+               -> decltype( Selector::transform( n, st... ), void() )
             {
-               template< typename... States >
-               static void call( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( Selector::transform( n, st... ) ) )
-               {
-                  Selector::transform( n, st... );
-               }
-            };
+               Selector::transform( n, st... );
+            }
 
             template< unsigned Level, typename Analyse, template< typename... > class Selector >
             struct is_leaf
@@ -310,7 +303,7 @@ namespace tao
                   auto n = std::move( state.back() );
                   state.pop_back();
                   n->template success< Rule >( in, st... );
-                  transform< Node, Selector< Rule > >::call( n, st... );
+                  transform< Selector< Rule > >( n, st... );
                   if( n ) {
                      state.back()->emplace_back( std::move( n ), st... );
                   }
