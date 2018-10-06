@@ -52,7 +52,8 @@ namespace example
       // if only one child is left for LHS..., replace the PROD/EXPR with the child directly.
       // otherwise, perform the above transformation, then apply it recursively until LHS...
       // becomes a single child, which then replaces the parent node and the recursion ends.
-      static void transform( std::unique_ptr< parse_tree::node >& n )
+      template< typename... States >
+      static void transform( std::unique_ptr< parse_tree::node >& n, States&&... st )
       {
          if( n->children.size() == 1 ) {
             n = std::move( n->children.back() );
@@ -67,7 +68,7 @@ namespace example
             o->children.emplace_back( std::move( n ) );
             o->children.emplace_back( std::move( r ) );
             n = std::move( o );
-            transform( n->children.front() );
+            transform( n->children.front(), st... );
          }
       }
    };

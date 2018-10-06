@@ -176,7 +176,6 @@ namespace tao
          iterator_t m_current;
          char* m_end;
          const Source m_source;
-         void* internal_state = nullptr;
       };
 
    }  // namespace TAO_PEGTL_NAMESPACE

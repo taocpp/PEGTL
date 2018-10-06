@@ -6,6 +6,7 @@
 
 #include <cassert>
 #include <memory>
+#include <tuple>
 #include <type_traits>
 #include <typeinfo>
 #include <utility>
@@ -236,7 +237,7 @@ namespace tao
             {
             };
 
-            template< typename Node, template< typename... > class Selector, template< typename... > class Control >
+            template< typename Node, template< typename... > class Selector, template< typename... > class Control, std::size_t P >
             struct make_control
             {
                template< typename Rule, bool, bool >
@@ -246,23 +247,23 @@ namespace tao
                using type = control< Rule, Selector< Rule >::value, is_leaf< 8, typename Rule::analyze_t, Selector >::value >;
             };
 
-            template< typename Node, template< typename... > class Selector, template< typename... > class Control >
+            template< typename Node, template< typename... > class Selector, template< typename... > class Control, std::size_t P >
             template< typename Rule >
-            struct make_control< Node, Selector, Control >::control< Rule, false, true >
+            struct make_control< Node, Selector, Control, P >::control< Rule, false, true >
                : Control< Rule >
             {
             };
 
-            template< typename Node, template< typename... > class Selector, template< typename... > class Control >
+            template< typename Node, template< typename... > class Selector, template< typename... > class Control, std::size_t P >
             template< typename Rule >
-            struct make_control< Node, Selector, Control >::control< Rule, false, false >
+            struct make_control< Node, Selector, Control, P >::control< Rule, false, false >
                : Control< Rule >
             {
                template< typename Input, typename... States >
                static void start( const Input& in, States&&... st )
                {
                   Control< Rule >::start( in, st... );
-                  auto& state = *static_cast< internal::state< Node >* >( in.internal_state );
+                  auto& state = std::get< P >( std::tie( st... ) );
                   state.emplace_back();
                }
 
@@ -270,7 +271,7 @@ namespace tao
                static void success( const Input& in, States&&... st )
                {
                   Control< Rule >::success( in, st... );
-                  auto& state = *static_cast< internal::state< Node >* >( in.internal_state );
+                  auto& state = std::get< P >( std::tie( st... ) );
                   auto n = std::move( state.back() );
                   state.pop_back();
                   for( auto& c : n->children ) {
@@ -282,21 +283,21 @@ namespace tao
                static void failure( const Input& in, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
                {
                   Control< Rule >::failure( in, st... );
-                  auto& state = *static_cast< internal::state< Node >* >( in.internal_state );
+                  auto& state = std::get< P >( std::tie( st... ) );
                   state.pop_back();
                }
             };
 
-            template< typename Node, template< typename... > class Selector, template< typename... > class Control >
+            template< typename Node, template< typename... > class Selector, template< typename... > class Control, std::size_t P >
             template< typename Rule, bool B >
-            struct make_control< Node, Selector, Control >::control< Rule, true, B >
+            struct make_control< Node, Selector, Control, P >::control< Rule, true, B >
                : Control< Rule >
             {
                template< typename Input, typename... States >
                static void start( const Input& in, States&&... st )
                {
                   Control< Rule >::start( in, st... );
-                  auto& state = *static_cast< internal::state< Node >* >( in.internal_state );
+                  auto& state = std::get< P >( std::tie( st... ) );
                   state.emplace_back();
                   state.back()->template start< Rule >( in, st... );
                }
@@ -305,7 +306,7 @@ namespace tao
                static void success( const Input& in, States&&... st )
                {
                   Control< Rule >::success( in, st... );
-                  auto& state = *static_cast< internal::state< Node >* >( in.internal_state );
+                  auto& state = std::get< P >( std::tie( st... ) );
                   auto n = std::move( state.back() );
                   state.pop_back();
                   n->template success< Rule >( in, st... );
@@ -319,7 +320,7 @@ namespace tao
                static void failure( const Input& in, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) && noexcept( std::declval< node& >().template failure< Rule >( in, st... ) ) )
                {
                   Control< Rule >::failure( in, st... );
-                  auto& state = *static_cast< internal::state< Node >* >( in.internal_state );
+                  auto& state = std::get< P >( std::tie( st... ) );
                   state.back()->template failure< Rule >( in, st... );
                   state.pop_back();
                }
@@ -432,9 +433,7 @@ namespace tao
          std::unique_ptr< Node > parse( Input&& in, States&&... st )
          {
             internal::state< Node > state;
-            assert( in.internal_state == nullptr );
-            in.internal_state = &state;
-            if( !TAO_PEGTL_NAMESPACE::parse< Rule, Action, internal::make_control< Node, Selector, Control >::template type >( in, st... ) ) {
+            if( !TAO_PEGTL_NAMESPACE::parse< Rule, Action, internal::make_control< Node, Selector, Control, sizeof...( st ) >::template type >( in, st..., state ) ) {
                return nullptr;
             }
             assert( state.stack.size() == 1 );

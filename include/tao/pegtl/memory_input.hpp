@@ -350,8 +350,6 @@ namespace tao
          {
             return std::string( begin_of_line( p ), end_of_line( p ) );
          }
-
-         void* internal_state = nullptr;
       };
 
 #ifdef __cpp_deduction_guides
