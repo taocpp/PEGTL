@@ -99,7 +99,7 @@ namespace tao
             memory_input< P, Eol > as_memory_input() const
             {
                assert( has_content() );
-               return memory_input< P, Eol >( m_begin.data, m_end.data - m_begin.data, source, m_begin.byte, m_begin.line, m_begin.byte_in_line );
+               return { m_begin.data, m_end.data, source, m_begin.byte, m_begin.line, m_begin.byte_in_line };
             }
 
             template< typename... States >
