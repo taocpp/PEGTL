@@ -331,13 +331,7 @@ namespace tao
 
          }  // namespace internal
 
-         struct store_content : std::true_type
-         {
-            template< typename Node, typename... States >
-            static void transform( std::unique_ptr< Node >& /*unused*/, States&&... /*unused*/ ) noexcept
-            {
-            }
-         };
+         using store_content = std::true_type;
 
          // some nodes don't need to store their content
          struct remove_content : std::true_type
