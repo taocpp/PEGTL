@@ -28,8 +28,9 @@ namespace dynamic
                 pegtl::rewind_mode,
                 template< typename... > class Action,
                 template< typename... > class Control,
-                typename Input >
-      static bool match( Input& in, const std::string& id, const std::string& /*unused*/ )
+                typename Input,
+                typename... States >
+      static bool match( Input& in, const std::string& id, const std::string& /*unused*/, States&&... /*unused*/ )
       {
          if( in.size( id.size() ) >= id.size() ) {
             if( std::memcmp( in.current(), id.data(), id.size() ) == 0 ) {

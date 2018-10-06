@@ -38,8 +38,9 @@ namespace tao
                       rewind_mode,
                       template< typename... > class Action,
                       template< typename... > class Control,
-                      typename Input >
-            static bool match( Input& in, std::size_t& marker_size ) noexcept( noexcept( in.size( 0 ) ) )
+                      typename Input,
+                      typename... States >
+            static bool match( Input& in, std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 0 ) ) )
             {
                if( in.empty() || ( in.peek_char( 0 ) != Open ) ) {
                   return false;
@@ -75,8 +76,9 @@ namespace tao
                       rewind_mode,
                       template< typename... > class Action,
                       template< typename... > class Control,
-                      typename Input >
-            static bool match( Input& in, const std::size_t& marker_size ) noexcept( noexcept( in.size( 0 ) ) )
+                      typename Input,
+                      typename... States >
+            static bool match( Input& in, const std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 0 ) ) )
             {
                if( in.size( marker_size ) < marker_size ) {
                   return false;
@@ -115,11 +117,11 @@ namespace tao
                       template< typename... > class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input& in, const std::size_t& marker_size, States&&... /*unused*/ )
+            static bool match( Input& in, const std::size_t& marker_size, States&&... st )
             {
                auto m = in.template mark< M >();
 
-               while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, marker_size ) ) {
+               while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, marker_size, st... ) ) {
                   if( in.empty() ) {
                      return false;
                   }
@@ -145,7 +147,7 @@ namespace tao
                auto m = in.template mark< M >();
                using m_t = decltype( m );
 
-               while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, marker_size ) ) {
+               while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, marker_size, st... ) ) {
                   if( in.empty() || ( !rule_conjunction< Rules... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) ) {
                      return false;
                   }
@@ -207,7 +209,7 @@ namespace tao
          static bool match( Input& in, States&&... st )
          {
             std::size_t marker_size;
-            if( internal::raw_string_open< Open, Marker >::template match< A, M, Action, Control >( in, marker_size ) ) {
+            if( internal::raw_string_open< Open, Marker >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
                internal::must< content >::template match< A, M, Action, Control >( in, marker_size, st... );
                in.bump_in_this_line( marker_size );
                return true;

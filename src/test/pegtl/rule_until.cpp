@@ -15,8 +15,9 @@ namespace tao
                    rewind_mode M,
                    template< typename... > class Action,
                    template< typename... > class Control,
-                   typename Input >
-         static bool match( Input& /*unused*/, bool& v )
+                   typename Input,
+                   typename... States >
+         static bool match( Input& /*unused*/, bool& v, States... /*unused*/ )
          {
             return v;
          }

@@ -213,8 +213,9 @@ namespace calculator
                 rewind_mode,
                 template< typename... > class Action,
                 template< typename... > class Control,
-                typename Input >
-      static bool match( Input& in, const operators& b, stacks& s )
+                typename Input,
+                typename... States >
+      static bool match( Input& in, const operators& b, stacks& s, States&&... /*unused*/ )
       {
          // Look for the longest match of the input against the operators in the operator map.
 

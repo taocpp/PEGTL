@@ -44,8 +44,9 @@ namespace example
                 pegtl::rewind_mode,
                 template< typename... > class Action,
                 template< typename... > class Control,
-                typename Input >
-      static bool match( Input& in, std::size_t& count )
+                typename Input,
+                typename... States >
+      static bool match( Input& in, std::size_t& count, States&&... /*unused*/ )
       {
          if( in.size( count ) >= count ) {
             for( std::size_t i = 0; i < count; ++i ) {

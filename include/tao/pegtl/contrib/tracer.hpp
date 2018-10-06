@@ -79,12 +79,12 @@ namespace tao
             return Action< Rule >::apply0( st... );
          }
 
-         template< template< typename... > class Action, typename Input >
-         static auto apply0( const Input& /*unused*/, trace_state& ts )
-            -> decltype( Action< Rule >::apply0( ts ) )
+         template< template< typename... > class Action, typename Input, typename... States >
+         static auto apply0( const Input& /*unused*/, trace_state& ts, States&&... st )
+            -> decltype( Action< Rule >::apply0( ts, st... ) )
          {
             std::cerr << std::setw( 6 ) << ++ts.line << "        " << internal::demangle< Action< Rule > >() << "::apply0()" << std::endl;
-            return Action< Rule >::apply0( ts );
+            return Action< Rule >::apply0( ts, st... );
          }
 
          template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
@@ -97,14 +97,14 @@ namespace tao
             return Action< Rule >::apply( action_input, st... );
          }
 
-         template< template< typename... > class Action, typename Iterator, typename Input >
-         static auto apply( const Iterator& begin, const Input& in, trace_state& ts )
-            -> decltype( Action< Rule >::apply( std::declval< typename Input::action_t >(), ts ) )
+         template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
+         static auto apply( const Iterator& begin, const Input& in, trace_state& ts, States&&... st )
+            -> decltype( Action< Rule >::apply( std::declval< typename Input::action_t >(), ts, st... ) )
          {
             std::cerr << std::setw( 6 ) << ++ts.line << "        " << internal::demangle< Action< Rule > >() << "::apply()" << std::endl;
             using action_t = typename Input::action_t;
             const action_t action_input( begin, in );
-            return Action< Rule >::apply( action_input, ts );
+            return Action< Rule >::apply( action_input, ts, st... );
          }
       };
 
