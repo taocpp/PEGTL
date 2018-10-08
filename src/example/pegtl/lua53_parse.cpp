@@ -159,8 +159,6 @@ namespace lua53
    template< typename R >
    struct pad : pegtl::pad< R, sep > {};
 
-   struct three_dots : pegtl::three< '.' > {};
-
    struct name : pegtl::seq< pegtl::not_at< keyword >, pegtl::identifier > {};
 
    struct single : pegtl::one< 'a', 'b', 'f', 'n', 'r', 't', 'v', '\\', '"', '\'', '0', '\n' > {};
@@ -216,8 +214,8 @@ namespace lua53
    struct table_field_list : pegtl::list_tail< table_field, pegtl::one< ',', ';' >, sep > {};
    struct table_constructor : pegtl::if_must< pegtl::one< '{' >, pegtl::pad_opt< table_field_list, sep >, pegtl::one< '}' > > {};
 
-   struct parameter_list_one : pegtl::seq< name_list, pegtl::opt_must< pad< pegtl::one< ',' > >, three_dots > > {};
-   struct parameter_list : pegtl::sor< three_dots, parameter_list_one > {};
+   struct parameter_list_one : pegtl::seq< name_list, pegtl::opt_must< pad< pegtl::one< ',' > >, pegtl::ellipsis > > {};
+   struct parameter_list : pegtl::sor< pegtl::ellipsis, parameter_list_one > {};
 
    struct function_body : pegtl::seq< pegtl::one< '(' >, pegtl::pad_opt< parameter_list, sep >, pegtl::one< ')' >, seps, statement_list< key_end > > {};
    struct function_literal : pegtl::if_must< key_function, seps, function_body > {};
@@ -257,7 +255,7 @@ namespace lua53
    struct expr_twelve : pegtl::sor< key_nil,
                                     key_true,
                                     key_false,
-                                    three_dots,
+                                    pegtl::ellipsis,
                                     numeral,
                                     literal_string,
                                     function_literal,

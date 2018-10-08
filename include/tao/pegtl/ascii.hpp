@@ -22,6 +22,7 @@ namespace tao
          struct any : internal::any< internal::peek_char > {};
          struct blank : internal::one< internal::result_on_found::SUCCESS, internal::peek_char, ' ', '\t' > {};
          struct digit : internal::range< internal::result_on_found::SUCCESS, internal::peek_char, '0', '9' > {};
+         struct ellipsis : internal::three< '.' > {};
          struct eolf : internal::eolf {};
          template< char... Cs > struct forty_two : internal::rep< 42, internal::one< internal::result_on_found::SUCCESS, internal::peek_char, Cs... > > {};
          struct identifier_first : internal::identifier_first {};

@@ -398,6 +398,11 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 * Matches and consumes a single ASCII decimal digit character.
 * Equivalent to `range< '0', '9' >`.
 
+###### `ellipsis`
+
+* Matches and consumes three dots.
+* Equivalent to `three< '.' >`.
+
 ###### `eol`
 
 * Depends on the `Eol` template parameter of the input, by default:
