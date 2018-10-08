@@ -38,14 +38,7 @@ namespace tao
             template< typename... States >
             static bool match( States&&... st )
             {
-#ifdef __cpp_fold_expressions
                return ( apply0_single< Actions >::match( st... ) && ... );
-#else
-               bool result = true;
-               using swallow = bool[];
-               (void)swallow{ result = result && apply0_single< Actions >::match( st... )... };
-               return result;
-#endif
             }
          };
 

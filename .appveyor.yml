@@ -9,10 +9,6 @@ configuration:
 
 environment:
   matrix:
-    - GENERATOR: Visual Studio 14 2015
-
-    - GENERATOR: Visual Studio 14 2015 Win64
-
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       GENERATOR: Visual Studio 15 2017
 

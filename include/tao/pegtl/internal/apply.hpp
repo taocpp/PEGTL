@@ -40,14 +40,7 @@ namespace tao
             {
                using action_t = typename Input::action_t;
                const action_t i2( in.iterator(), in );  // No data -- range is from begin to begin.
-#ifdef __cpp_fold_expressions
                return ( apply_single< Actions >::match( i2, st... ) && ... );
-#else
-               bool result = true;
-               using swallow = bool[];
-               (void)swallow{ result = result && apply_single< Actions >::match( i2, st... )... };
-               return result;
-#endif
             }
          };
 

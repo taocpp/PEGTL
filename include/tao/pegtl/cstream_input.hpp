@@ -27,10 +27,8 @@ namespace tao
          }
       };
 
-#ifdef __cpp_deduction_guides
       template< typename... Ts >
       cstream_input( Ts&&... )->cstream_input<>;
-#endif
 
    }  // namespace TAO_PEGTL_NAMESPACE
 

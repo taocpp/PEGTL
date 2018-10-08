@@ -52,14 +52,7 @@ namespace tao
 
                if( Control< Rule >::template match< apply_mode::ACTION, rewind_mode::ACTIVE, Action, Control >( in, st... ) ) {
                   const action_t i2( m.iterator(), in );
-#ifdef __cpp_fold_expressions
                   return m( ( apply_single< Actions >::match( i2, st... ) && ... ) );
-#else
-                  bool result = true;
-                  using swallow = bool[];
-                  (void)swallow{ result = result && apply_single< Actions >::match( i2, st... )... };
-                  return m( result );
-#endif
                }
                return false;
             }

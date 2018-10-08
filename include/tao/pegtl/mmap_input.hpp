@@ -73,10 +73,8 @@ namespace tao
          void operator=( mmap_input&& ) = delete;
       };
 
-#ifdef __cpp_deduction_guides
       template< typename... Ts >
       explicit mmap_input( Ts&&... )->mmap_input<>;
-#endif
 
    }  // namespace TAO_PEGTL_NAMESPACE
 

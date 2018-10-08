@@ -38,10 +38,8 @@ namespace tao
       };
 #endif
 
-#ifdef __cpp_deduction_guides
       template< typename... Ts >
       explicit file_input( Ts&&... )->file_input<>;
-#endif
 
    }  // namespace TAO_PEGTL_NAMESPACE
 

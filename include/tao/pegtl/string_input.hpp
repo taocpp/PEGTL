@@ -60,10 +60,8 @@ namespace tao
          void operator=( string_input&& ) = delete;
       };
 
-#ifdef __cpp_deduction_guides
       template< typename... Ts >
       explicit string_input( Ts&&... )->string_input<>;
-#endif
 
    }  // namespace TAO_PEGTL_NAMESPACE
 
