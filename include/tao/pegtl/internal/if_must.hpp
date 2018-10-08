@@ -7,7 +7,6 @@
 #include "../config.hpp"
 
 #include "must.hpp"
-#include "rule_conjunction.hpp"
 #include "skip_control.hpp"
 #include "trivial.hpp"
 
@@ -36,7 +35,7 @@ namespace tao
             static bool match( Input& in, States&&... st )
             {
                if( Control< Cond >::template match< A, M, Action, Control >( in, st... ) ) {
-                  rule_conjunction< must< Rules >... >::template match< A, M, Action, Control >( in, st... );
+                  (void)( Control< must< Rules > >::template match< A, M, Action, Control >( in, st... ) && ... );
                   return true;
                }
                return Default;

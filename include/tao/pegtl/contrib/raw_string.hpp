@@ -16,7 +16,6 @@
 #include "../internal/eol.hpp"
 #include "../internal/must.hpp"
 #include "../internal/not_at.hpp"
-#include "../internal/rule_conjunction.hpp"
 #include "../internal/seq.hpp"
 #include "../internal/skip_control.hpp"
 #include "../internal/star.hpp"
@@ -148,7 +147,7 @@ namespace tao
                using m_t = decltype( m );
 
                while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, marker_size, st... ) ) {
-                  if( in.empty() || ( !rule_conjunction< Rules... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) ) {
+                  if( in.empty() || !( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) ) {
                      return false;
                   }
                }

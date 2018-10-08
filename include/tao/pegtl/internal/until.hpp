@@ -9,7 +9,6 @@
 #include "bytes.hpp"
 #include "eof.hpp"
 #include "not_at.hpp"
-#include "rule_conjunction.hpp"
 #include "skip_control.hpp"
 #include "star.hpp"
 
@@ -69,7 +68,7 @@ namespace tao
                using m_t = decltype( m );
 
                while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st... ) ) {
-                  if( !rule_conjunction< Rules... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
+                  if( !( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) ) {
                      return false;
                   }
                }

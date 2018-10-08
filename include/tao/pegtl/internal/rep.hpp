@@ -6,7 +6,6 @@
 
 #include "../config.hpp"
 
-#include "rule_conjunction.hpp"
 #include "skip_control.hpp"
 #include "trivial.hpp"
 
@@ -53,7 +52,7 @@ namespace tao
                using m_t = decltype( m );
 
                for( unsigned i = 0; i != Num; ++i ) {
-                  if( !rule_conjunction< Rules... >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
+                  if( !( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) ) {
                      return false;
                   }
                }

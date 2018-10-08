@@ -7,7 +7,6 @@
 #include "../config.hpp"
 
 #include "raise.hpp"
-#include "rule_conjunction.hpp"
 #include "skip_control.hpp"
 
 #include "../apply_mode.hpp"
@@ -37,7 +36,7 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               return rule_conjunction< must< Rules >... >::template match< A, M, Action, Control >( in, st... );
+               return ( Control< must< Rules > >::template match< A, M, Action, Control >( in, st... ) && ... );
             }
          };
 
