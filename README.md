@@ -4,7 +4,6 @@
 [![Download](https://api.bintray.com/packages/taocpp/public-conan/pegtl%3Ataocpp/images/download.svg)](https://bintray.com/taocpp/public-conan/pegtl%3Ataocpp/_latestVersion)
 [![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
 [![AppVeyor](https://ci.appveyor.com/api/projects/status/pa5sbnw68tu650aq/branch/master?svg=true)](https://ci.appveyor.com/project/taocpp/PEGTL)
-[![Doozer.io](https://doozer.io/badge/taocpp/PEGTL/buildstatus/master)](https://doozer.io/user/taocpp/PEGTL)
 [![Coverage](https://coveralls.io/repos/github/taocpp/PEGTL/badge.svg?branch=master)](https://coveralls.io/github/taocpp/PEGTL)
 
 The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++17 (and C++11) header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
@@ -65,11 +64,10 @@ Each commit is automatically tested with multiple architectures, operating syste
   * macOS 10.13, Xcode 9.4
   * macOS 10.13, Xcode 10.0
 
-* Linux (using libstdc++)
+* Ubuntu 14.04 LTS (using libstdc++)
 
-  * Ubuntu 14.04 LTS (amd64), GCC 7.x, 8.x
-  * Ubuntu 14.04 LTS (amd64), Clang 5.x, 6.x, 7.x
-  * Fedora 24 (x86_64), GCC 6.x
+  * GCC 7.x, 8.x
+  * Clang 5.x, 6.x, 7.x
 
 Additionally, each commit is checked with GCC's and Clang's sanitizers, as well as [`valgrind`](http://valgrind.org/)
 and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/). Code coverage is automatically measured and the unit tests
