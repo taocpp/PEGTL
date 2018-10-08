@@ -6,7 +6,6 @@
 
 #include "../config.hpp"
 
-#include "bump_help.hpp"
 #include "range.hpp"
 #include "skip_control.hpp"
 
@@ -73,7 +72,12 @@ namespace tao
                if( !in.empty() ) {
                   if( const auto t = Peek::peek( in ) ) {
                      if( ranges_impl< Input::eol_t::ch, typename Peek::data_t, Cs... >::match( t.data ) ) {
-                        bump_impl< can_match_eol< Input::eol_t::ch >::value >::bump( in, t.size );
+                        if constexpr( can_match_eol< Input::eol_t::ch >::value ) {
+                           in.bump( t.size );
+                        }
+                        else {
+                           in.bump_in_this_line( t.size );
+                        }
                         return true;
                      }
                   }

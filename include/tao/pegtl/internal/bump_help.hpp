@@ -17,41 +17,15 @@ namespace tao
    {
       namespace internal
       {
-         template< bool >
-         struct bump_impl;
-
-         template<>
-         struct bump_impl< true >
-         {
-            template< typename Input >
-            static void bump( Input& in, const std::size_t count ) noexcept
-            {
-               in.bump( count );
-            }
-         };
-
-         template<>
-         struct bump_impl< false >
-         {
-            template< typename Input >
-            static void bump( Input& in, const std::size_t count ) noexcept
-            {
-               in.bump_in_this_line( count );
-            }
-         };
-
-         template< bool... >
-         struct bool_list
-         {
-         };
-
-         template< bool... Bs >
-         using bool_and = std::is_same< bool_list< Bs..., true >, bool_list< true, Bs... > >;
-
          template< result_on_found R, typename Input, typename Char, Char... Cs >
          void bump_help( Input& in, const std::size_t count ) noexcept
          {
-            bump_impl< bool_and< ( Cs != Input::eol_t::ch )... >::value != bool( R ) >::bump( in, count );
+            if constexpr( ( ( Cs != Input::eol_t::ch ) && ... ) != bool( R ) ) {
+               in.bump( count );
+            }
+            else {
+               in.bump_in_this_line( count );
+            }
          }
 
       }  // namespace internal

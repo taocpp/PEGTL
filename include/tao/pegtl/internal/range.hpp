@@ -6,7 +6,6 @@
 
 #include "../config.hpp"
 
-#include "bump_help.hpp"
 #include "result_on_found.hpp"
 #include "skip_control.hpp"
 
@@ -37,7 +36,12 @@ namespace tao
                if( !in.empty() ) {
                   if( const auto t = Peek::peek( in ) ) {
                      if( ( ( Lo <= t.data ) && ( t.data <= Hi ) ) == bool( R ) ) {
-                        bump_impl< can_match_eol< Input::eol_t::ch >::value >::bump( in, t.size );
+                        if constexpr( can_match_eol< Input::eol_t::ch >::value ) {
+                           in.bump( t.size );
+                        }
+                        else {
+                           in.bump_in_this_line( t.size );
+                        }
                         return true;
                      }
                   }
