@@ -58,36 +58,18 @@ Each commit is automatically tested with multiple architectures, operating syste
 
 * Windows
 
-  * Visual Studio 2015 (x86, x64)
   * Visual Studio 2017 (x86, x64)
-  * MinGW (i686), GCC 5.x
-  * MinGW-w64 (i686), GCC 5.x, 6.x
-  * MinGW-w64 (x86_64), GCC 6.x
 
-* Mac OS X / macOS (using libc++)
+* macOS (using libc++)
 
-  * Mac OS X 10.10, Xcode 6.4
-  * Mac OS X 10.11, Xcode 7.3
-  * macOS 10.12, Xcode 8.3
   * macOS 10.13, Xcode 9.4
+  * macOS 10.13, Xcode 10.0
 
 * Linux (using libstdc++)
 
-  * Debian 8 (i386), GCC 4.9
-  * Ubuntu 12.04 LTS (amd64), Clang 3.4, 3.7
-  * Ubuntu 14.04 LTS (amd64), GCC 4.8, 4.9, 5.x, 6.x, 7.x, 8.x
-  * Ubuntu 14.04 LTS (amd64), Clang 3.5, 3.6, 3.8, 3.9, 4.x, 5.x, 6.x
-  * Ubuntu 14.04 LTS (i386, amd64), GCC 4.8
-  * Ubuntu 16.04 LTS (i386, amd64, armhf, arm64), GCC 5.x
+  * Ubuntu 14.04 LTS (amd64), GCC 7.x, 8.x
+  * Ubuntu 14.04 LTS (amd64), Clang 5.x, 6.x, 7.x
   * Fedora 24 (x86_64), GCC 6.x
-  * Fedora 24 (x86_64), Clang 3.8
-
-* Android
-
-  * Android 4.4 "KitKat" (API level 19)
-  * Android 5.1 "Lollipop" (API level 22)
-  * Android 6.0 "Marshmellow" (API level 23)
-  * Android 7.0 "Nougat" (API level 24)
 
 Additionally, each commit is checked with GCC's and Clang's sanitizers, as well as [`valgrind`](http://valgrind.org/)
 and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/). Code coverage is automatically measured and the unit tests

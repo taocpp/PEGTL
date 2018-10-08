@@ -39,10 +39,18 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
-          packages: ['clang-6.0', 'g++-7']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-7']
+          packages: ['clang-7', 'g++-7']
       env:
-        - CXX=clang++-6.0
+        - CXX=clang++-7
+
+    - compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-7']
+          packages: ['clang-7', 'g++-7']
+      env:
+        - CXX=clang++-7
         - CPPFLAGS=-fms-extensions
 
     - os: osx
@@ -249,20 +257,20 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
-          packages: ['clang-6.0', 'g++-7']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-7']
+          packages: ['clang-7', 'g++-8']
       env:
-        - CXX=clang++-6.0
+        - CXX=clang++-7
         - CPPFLAGS=-fsanitize=undefined
 
     - compiler: clang
       sudo: true
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
-          packages: ['clang-6.0', 'g++-7']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-7']
+          packages: ['clang-7', 'g++-8']
       env:
-        - CXX=clang++-6.0
+        - CXX=clang++-7
         - CPPFLAGS=-fsanitize=address
 
     - compiler: gcc
@@ -276,16 +284,20 @@ matrix:
       script:
         - make -kj3 valgrind
 
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-8', 'cppcheck']
-      env:
-        - CXX=g++-8
-        - SPECIAL=cppcheck
-      script:
-        - make -kj3 cppcheck
+###
+#
+# CppCheck 1.84 does not support C++17
+#
+#    - compiler: gcc
+#      addons:
+#        apt:
+#          sources: ['ubuntu-toolchain-r-test']
+#          packages: ['g++-8', 'cppcheck']
+#      env:
+#        - CXX=g++-8
+#        - SPECIAL=cppcheck
+#      script:
+#        - make -kj3 cppcheck
 
     - compiler: clang
       addons:
