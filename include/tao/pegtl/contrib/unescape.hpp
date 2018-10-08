@@ -107,8 +107,8 @@ namespace tao
 
          struct append_all
          {
-            template< typename Input, typename State, typename... States >
-            static void apply( const Input& in, State& st, States&&... /*unused*/ )
+            template< typename Input, typename State >
+            static void apply( const Input& in, State& st )
             {
                st.unescaped.append( in.begin(), in.size() );
             }
@@ -118,8 +118,8 @@ namespace tao
          template< typename T, char... Rs >
          struct unescape_c
          {
-            template< typename Input, typename State, typename... States >
-            static void apply( const Input& in, State& st, States&&... /*unused*/ )
+            template< typename Input, typename State >
+            static void apply( const Input& in, State& st )
             {
                assert( in.size() == 1 );
                st.unescaped += apply_one( in, static_cast< const T* >( nullptr ) );
@@ -151,8 +151,8 @@ namespace tao
 
          struct unescape_u
          {
-            template< typename Input, typename State, typename... States >
-            static void apply( const Input& in, State& st, States&&... /*unused*/ )
+            template< typename Input, typename State >
+            static void apply( const Input& in, State& st )
             {
                assert( !in.empty() );  // First character MUST be present, usually 'u' or 'U'.
                if( !utf8_append_utf32( st.unescaped, unhex_string< unsigned >( in.begin() + 1, in.end() ) ) ) {
@@ -163,8 +163,8 @@ namespace tao
 
          struct unescape_x
          {
-            template< typename Input, typename State, typename... States >
-            static void apply( const Input& in, State& st, States&&... /*unused*/ )
+            template< typename Input, typename State >
+            static void apply( const Input& in, State& st )
             {
                assert( !in.empty() );  // First character MUST be present, usually 'x'.
                st.unescaped += unhex_string< char >( in.begin() + 1, in.end() );
@@ -181,8 +181,8 @@ namespace tao
 
          struct unescape_j
          {
-            template< typename Input, typename State, typename... States >
-            static void apply( const Input& in, State& st, States&&... /*unused*/ )
+            template< typename Input, typename State >
+            static void apply( const Input& in, State& st )
             {
                assert( ( ( in.size() + 1 ) % 6 ) == 0 );  // Expects multiple "\\u1234", starting with the first "u".
                for( const char* b = in.begin() + 1; b < in.end(); b += 6 ) {

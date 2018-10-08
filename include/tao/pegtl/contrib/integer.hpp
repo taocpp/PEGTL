@@ -63,8 +63,8 @@ namespace tao
          {
             // Assumes that 'in' contains a non-empty sequence of ASCII digits.
 
-            template< typename Input, typename State, typename... States >
-            static void apply( const Input& in, State& st, States&&... /*unused*/ )
+            template< typename Input, typename State >
+            static void apply( const Input& in, State& st )
             {
                using T = typename std::decay< decltype( st.converted ) >::type;
                static_assert( std::is_integral< T >::value, "need integral type" );
@@ -83,8 +83,8 @@ namespace tao
             // Assumes that 'in' contains a non-empty sequence of ASCII digits,
             // with optional leading sign; with sign, in.size() must be >= 2.
 
-            template< typename Input, typename State, typename... States >
-            static void apply( const Input& in, State& st, States&&... /*unused*/ )
+            template< typename Input, typename State >
+            static void apply( const Input& in, State& st )
             {
                using T = typename std::decay< decltype( st.converted ) >::type;
                static_assert( std::is_integral< T >::value, "need integral type" );
