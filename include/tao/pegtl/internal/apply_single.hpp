@@ -19,7 +19,7 @@ namespace tao
          {
             template< typename Input, typename... States >
             static auto match( const Input& i2, States&&... st )
-               -> typename std::enable_if< std::is_same< decltype( Action::apply( i2, st... ) ), void >::value, bool >::type
+               -> std::enable_if_t< std::is_same_v< decltype( Action::apply( i2, st... ) ), void >, bool >
             {
                Action::apply( i2, st... );
                return true;
@@ -27,7 +27,7 @@ namespace tao
 
             template< typename Input, typename... States >
             static auto match( const Input& i2, States&&... st )
-               -> typename std::enable_if< std::is_same< decltype( Action::apply( i2, st... ) ), bool >::value, bool >::type
+               -> std::enable_if_t< std::is_same_v< decltype( Action::apply( i2, st... ) ), bool >, bool >
             {
                return Action::apply( i2, st... );
             }
