@@ -4,11 +4,6 @@
 #ifndef TAO_PEGTL_CONFIG_HPP
 #define TAO_PEGTL_CONFIG_HPP
 
-// Compatibility, remove with 3.0
-#ifdef TAOCPP_PEGTL_NAMESPACE
-#define TAO_PEGTL_NAMESPACE TAOCPP_PEGTL_NAMESPACE
-#endif
-
 #ifndef TAO_PEGTL_NAMESPACE
 #define TAO_PEGTL_NAMESPACE pegtl
 #endif
