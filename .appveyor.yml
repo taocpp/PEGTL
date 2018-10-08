@@ -1,7 +1,7 @@
 version: '{branch}-{build}'
 
 os:
-- Visual Studio 2015
+- Visual Studio 2017
 
 configuration:
 - Release
@@ -9,29 +9,16 @@ configuration:
 
 environment:
   matrix:
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      GENERATOR: Visual Studio 15 2017
 
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      GENERATOR: Visual Studio 15 2017 Win64
+    - GENERATOR: Visual Studio 15 2017
 
-    - GENERATOR: MinGW Makefiles
-      BINDIR: C:\MinGW\bin
-
-    - GENERATOR: MinGW Makefiles
-      COMPILER: MinGW 5
-      BINDIR: C:\mingw-w64\i686-5.3.0-posix-dwarf-rt_v4-rev0\mingw32\bin
+    - GENERATOR: Visual Studio 15 2017 Win64
 
     - GENERATOR: MinGW Makefiles
       COMPILER: MinGW 6
       BINDIR: C:\mingw-w64\i686-6.3.0-posix-dwarf-rt_v5-rev1\mingw32\bin
 
-    - GENERATOR: MinGW Makefiles
-      COMPILER: MinGW 6
-      BINDIR: C:\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin
-
-    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-      GENERATOR: Visual Studio 15 2017
+    - GENERATOR: Visual Studio 15 2017
       CONAN_VISUAL_VERSIONS: 15
       PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7.8"
@@ -45,7 +32,6 @@ install:
 - if defined CONAN (conan profile new default --detect)
 
 before_build:
-- if "%APPVEYOR_BUILD_WORKER_IMAGE%"=="Visual Studio 2015" (del "C:\Program Files (x86)\MSBuild\14.0\Microsoft.Common.targets\ImportAfter\Xamarin.Common.targets")
 - if defined BINDIR (set "PATH=%BINDIR%;%PATH:C:\Program Files\Git\usr\bin;=%")
 - md build
 - cd build
