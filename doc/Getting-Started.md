@@ -83,7 +83,7 @@ Assuming you are in the main directory of the PEGTL, the above source can be
 found in the `src/example/pegtl/` directory. Compile the program with something like
 
 ```sh
-$ g++ --std=c++11 -Iinclude src/example/pegtl/hello_world.cpp -o hello_world
+$ g++ --std=c++17 -Iinclude src/example/pegtl/hello_world.cpp -o hello_world
 ```
 
 and then invoke it as follows:

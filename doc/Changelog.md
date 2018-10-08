@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.0.0
+
+Released 2018-??-??
+
+Version 3.0.0 is version 2.7.1 updated to C++17.
+
 ## 2.7.1
 
 Released 2018-09-29

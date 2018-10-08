@@ -13,11 +13,11 @@
 
 ## Requirements
 
-The PEGTL requires a C++11-capable compiler, e.g. one of
+The PEGTL requires a C++17-capable compiler, e.g. one of
 
-* GCC 4.8
-* Clang 3.4
-* Visual Studio 2015
+* GCC 7
+* Clang 5
+* Visual Studio 2017
 
 on either
 
@@ -25,10 +25,10 @@ on either
 * macOS
 * Windows
 
-It requires C++11, e.g. using the `--std=c++11` compiler switch.
+It requires C++17, e.g. using the `--std=c++17` compiler switch.
 Using newer versions of the C++ standard is supported.
 
-It should also work with other C++11 compilers on other Unix systems (or any sufficiently compatible platform).
+It should also work with other C++17 compilers on other Unix systems (or any sufficiently compatible platform).
 
 The PEGTL is written with an emphasis on clean code and is compatible with
 the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches.
