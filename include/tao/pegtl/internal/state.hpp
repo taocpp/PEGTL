@@ -38,15 +38,12 @@ namespace tao
                s.template success< A, M, Action, Control >( in, st... );
             }
 
-            // NOTE: The additional "int = 0" is a work-around for missing expression SFINAE in VS2015.
-
             template< apply_mode,
                       rewind_mode,
                       template< typename... > class Action,
                       template< typename... > class Control,
                       typename Input,
-                      typename... States,
-                      int = 0 >
+                      typename... States >
             static auto success( State& s, const Input& in, States&&... st )
                -> decltype( s.success( in, st... ), void() )
             {

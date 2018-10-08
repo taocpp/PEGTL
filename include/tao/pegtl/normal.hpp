@@ -49,14 +49,12 @@ namespace tao
 
          template< template< typename... > class Action, typename Input, typename... States >
          static auto apply0( const Input& /*unused*/, States&&... st )
-            -> decltype( Action< Rule >::apply0( st... ) )
          {
             return Action< Rule >::apply0( st... );
          }
 
          template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
          static auto apply( const Iterator& begin, const Input& in, States&&... st )
-            -> decltype( Action< Rule >::apply( std::declval< typename Input::action_t >(), st... ) )
          {
             const typename Input::action_t action_input( begin, in );
             return Action< Rule >::apply( action_input, st... );

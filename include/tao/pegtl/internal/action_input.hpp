@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <string>
+#include <string_view>
 
 #include "iterator.hpp"
 
@@ -83,6 +84,11 @@ namespace tao
             std::string string() const
             {
                return std::string( begin(), end() );
+            }
+
+            std::string_view string_view() const noexcept
+            {
+               return std::string_view( begin(), end() );
             }
 
             char peek_char( const std::size_t offset = 0 ) const noexcept
