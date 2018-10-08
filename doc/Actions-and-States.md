@@ -185,7 +185,7 @@ If we then assume that our grammar `my_grammar` contains the rule `tao::pegtl::p
 const std::string parsed_data = ...;
 std::vector< std::string > digit_strings;
 
-tao::pegtl::memory_input<> in( parsed_data, "data-source-name" );
+tao::pegtl::memory_input in( parsed_data, "data-source-name" );
 tao::pegtl::parse< my_grammar, my_actions >( in, digit_strings );
 ```
 

@@ -17,7 +17,7 @@ struct my_actions : nothing< Rule > {};
 
 bool my_parse( const std::string& filename, my_state& state )
 {
-   file_input<> in( filename );
+   file_input in( filename );
    return parse< my_grammar, my_actions >( in, state );
 }
 ```
@@ -148,7 +148,7 @@ class memory_input
 ###### Example 1
 
 ```c++
-memory_input<> in1( "this is the input to parse", "" );
+memory_input in1( "this is the input to parse", "" );
 ```
 
 Construct a `memory_input` with default tracking mode, default end-of-line mode (accepting Unix and MS-DOS line endings), and default source storage.
@@ -213,7 +213,7 @@ class string_input
 ```c++
 std::string content(); // returns the content
 
-string_input<> in1( content(), "from_content" );
+string_input in1( content(), "from_content" );
 ```
 
 Construct a `string_input` with default tracking mode, default end-of-line mode (accepting Unix and MS-DOS line endings), and default source storage.
@@ -443,6 +443,6 @@ Trying to call any of those methods on `buffer_input<>`-based instances will lea
 
 ## C++17 Deduction Guides
 
-All input classes support C++17's [deduction guides](https://en.cppreference.com/w/cpp/language/class_template_argument_deduction) when compiling with C++17 or newer, e.g. instead of `file_input<> in( "filename.txt" )` one can use `file_input in( "filename.txt" )`.
+All input classes support C++17's [deduction guides](https://en.cppreference.com/w/cpp/language/class_template_argument_deduction), e.g. instead of `file_input<> in( "filename.txt" )` one can use `file_input in( "filename.txt" )`.
 
 Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey

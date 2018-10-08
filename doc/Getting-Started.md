@@ -71,7 +71,7 @@ int main( int argc, char* argv[] )
 
       std::string name;
 
-      pegtl::argv_input<> in( argv, 1 );
+      pegtl::argv_input in( argv, 1 );
       pegtl::parse< hello::grammar, hello::action >( in, name );
 
       std::cout << "Good bye, " << name << "!" << std::endl;

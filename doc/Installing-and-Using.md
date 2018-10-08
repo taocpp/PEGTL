@@ -126,7 +126,7 @@ to a unique name before including the PEGTL, for example:
 int main( int argc, char* argv[] )
 {
    if( argc > 1 ) {
-     tao::mylib_pegtl::argv_input<> in( argv, 1 );
+     tao::mylib_pegtl::argv_input in( argv, 1 );
      tao::mylib_pegtl::parse< tao::mylib_pegtl::json::text >( in );
    }
 }

@@ -183,7 +183,7 @@ namespace modulus
 int main( int argc, char* argv[] )
 {
    if( argc > 1 ) {
-      tao::pegtl::argv_input<> in( argv, 1 );
+      tao::pegtl::argv_input in( argv, 1 );
       tao::pegtl::parse< modulus::grammar >( in );
    }
    return 0;
@@ -373,7 +373,7 @@ int main( int argc, char* argv[] )
       std::string id;
       std::string body;
 
-      tao::pegtl::argv_input<> in( argv, 1 );
+      tao::pegtl::argv_input in( argv, 1 );
       tao::pegtl::parse< dynamic::grammar, dynamic::action >( in, id, body );
 
       std::cout << "long literal id was: " << id << std::endl;
