@@ -173,7 +173,7 @@ namespace csv2
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      pegtl::file_input<> in( argv[ i ] );
+      pegtl::file_input in( argv[ i ] );
       constexpr unsigned number_of_columns = 3;
       csv2::result_data< number_of_columns > data;
       pegtl::parse< pegtl::must< csv2::file< number_of_columns > >, csv2::action >( in, data );

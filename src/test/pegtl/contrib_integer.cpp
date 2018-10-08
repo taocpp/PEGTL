@@ -40,7 +40,7 @@ namespace tao
       void test_signed( const std::string& i, const S s )
       {
          int_state< S > st;
-         memory_input<> in( i, __FUNCTION__ );
+         memory_input in( i, __FUNCTION__ );
          parse< must< integer::signed_rule, eof >, int_action >( in, st );
          TAO_PEGTL_TEST_ASSERT( st.converted == s );
       }
@@ -49,7 +49,7 @@ namespace tao
       void test_signed( const std::string& i )
       {
          int_state< S > st;
-         memory_input<> in( i, __FUNCTION__ );
+         memory_input in( i, __FUNCTION__ );
          TAO_PEGTL_TEST_THROWS( parse< must< integer::signed_rule, eof >, int_action >( in, st ) );
       }
 
@@ -66,7 +66,7 @@ namespace tao
       {
          int_state< S > st;
          const auto i = lexical_cast( s );
-         memory_input<> in( i, __FUNCTION__ );
+         memory_input in( i, __FUNCTION__ );
          parse< must< integer::signed_rule, eof >, int_action >( in, st );
          TAO_PEGTL_TEST_ASSERT( st.converted == s );
       }
@@ -75,7 +75,7 @@ namespace tao
       void test_unsigned( const std::string& i, const S s )
       {
          int_state< S > st;
-         memory_input<> in( i, __FUNCTION__ );
+         memory_input in( i, __FUNCTION__ );
          parse< must< integer::unsigned_rule, eof >, int_action >( in, st );
          TAO_PEGTL_TEST_ASSERT( st.converted == s );
       }
@@ -84,7 +84,7 @@ namespace tao
       void test_unsigned( const std::string& i )
       {
          int_state< S > st;
-         memory_input<> in( i, __FUNCTION__ );
+         memory_input in( i, __FUNCTION__ );
          TAO_PEGTL_TEST_THROWS( parse< must< integer::unsigned_rule, eof >, int_action >( in, st ) );
       }
 
@@ -93,7 +93,7 @@ namespace tao
       {
          int_state< S > st;
          const auto i = lexical_cast( s );
-         memory_input<> in( i, __FUNCTION__ );
+         memory_input in( i, __FUNCTION__ );
          parse< must< integer::unsigned_rule, eof >, int_action >( in, st );
          TAO_PEGTL_TEST_ASSERT( st.converted == s );
       }

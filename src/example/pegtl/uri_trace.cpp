@@ -15,7 +15,7 @@ int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
       std::cout << "Parsing " << argv[ i ] << std::endl;
-      pegtl::argv_input<> in( argv, i );
+      pegtl::argv_input in( argv, i );
       pegtl::parse< grammar, pegtl::nothing, pegtl::tracer >( in );
    }
    return 0;

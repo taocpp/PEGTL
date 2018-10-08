@@ -338,7 +338,7 @@ int main( int argc, char** argv )
    tao::TAO_PEGTL_NAMESPACE::analyze< lua53::grammar >();
 
    for( int i = 1; i < argc; ++i ) {
-      tao::TAO_PEGTL_NAMESPACE::file_input<> in( argv[ i ] );
+      tao::TAO_PEGTL_NAMESPACE::file_input in( argv[ i ] );
       tao::TAO_PEGTL_NAMESPACE::parse< lua53::grammar >( in );
    }
    return 0;

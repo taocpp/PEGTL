@@ -25,7 +25,7 @@ namespace tao
 
       void unit_test()
       {
-         memory_input<> in( "ac", "input" );
+         memory_input in( "ac", "input" );
          const auto r = parse_tree::parse< D, selector >( in );
          TAO_PEGTL_TEST_ASSERT( r->is_root() );
          TAO_PEGTL_TEST_ASSERT( !r->has_content() );
@@ -48,7 +48,7 @@ namespace tao
          TAO_PEGTL_TEST_ASSERT( d->children.front()->is< A >() );
          TAO_PEGTL_TEST_ASSERT( d->children.back()->is< C >() );
 
-         memory_input<> in2( "x", "input" );
+         memory_input in2( "x", "input" );
          const auto r2 = parse_tree::parse< D, selector >( in2 );
          TAO_PEGTL_TEST_ASSERT( !r2 );
       }

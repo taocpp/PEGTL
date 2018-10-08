@@ -91,7 +91,7 @@ int main( int argc, char** argv )
       std::string id;
       std::string body;
 
-      pegtl::argv_input<> in( argv, 1 );
+      pegtl::argv_input in( argv, 1 );
       pegtl::parse< dynamic::grammar, dynamic::action >( in, id, body );
 
       std::cout << "long literal id was: " << id << std::endl;

@@ -81,7 +81,7 @@ namespace tao
             TAO_PEGTL_TEST_ASSERT( p.byte == 2 );
             TAO_PEGTL_TEST_ASSERT( p.line == 1 );
             TAO_PEGTL_TEST_ASSERT( p.byte_in_line == 2 );
-            memory_input<> in( "dFF", "inner" );
+            memory_input in( "dFF", "inner" );
             parse_nested< inner_grammar >( oi, in );
          }
       };
@@ -90,7 +90,7 @@ namespace tao
       void test_nested()
       {
          try {
-            memory_input<> oi( "aabbcc", "outer" );
+            memory_input oi( "aabbcc", "outer" );
             parse< outer_grammar, outer_action >( oi );
          }
          catch( const parse_error& e ) {

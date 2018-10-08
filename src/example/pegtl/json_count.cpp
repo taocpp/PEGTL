@@ -19,7 +19,7 @@ int main( int argc, char** argv )
    counter_state cs;
 
    for( int i = 1; i < argc; ++i ) {
-      file_input<> in( argv[ i ] );
+      file_input in( argv[ i ] );
       parse< grammar, nothing, counter >( in, cs );
    }
    std::cout << std::right << std::setw( 72 ) << "RULE NAME" << std::left << "      START  SUCCESS  FAILURE" << std::endl;

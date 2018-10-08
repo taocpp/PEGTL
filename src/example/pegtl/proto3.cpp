@@ -139,7 +139,7 @@ int main( int argc, char** argv )
    analyze< proto3::proto >();
 
    for( int i = 1; i < argc; ++i ) {
-      file_input<> in( argv[ i ] );
+      file_input in( argv[ i ] );
       parse< proto3::proto >( in );
    }
    return 0;

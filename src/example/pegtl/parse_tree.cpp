@@ -121,7 +121,7 @@ int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
       try {
-         argv_input<> in( argv, i );
+         argv_input in( argv, i );
          if( const auto root = parse_tree::parse< example::grammar, example::selector >( in ) ) {
             example::print_node( *root );
          }

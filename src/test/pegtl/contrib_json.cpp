@@ -16,7 +16,7 @@ namespace tao
       template< typename Rule >
       void verify_file_fail( const std::size_t line, const char* file, const std::string& s )
       {
-         file_input<> in( s );
+         file_input in( s );
          try {
             parse< Rule >( in );
             TAO_PEGTL_TEST_FAILED( "expected exception" );

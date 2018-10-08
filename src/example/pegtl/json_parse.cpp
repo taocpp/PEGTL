@@ -11,7 +11,7 @@ using grammar = must< json::text, eof >;
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      argv_input<> in( argv, i );
+      argv_input in( argv, i );
       parse< grammar, nothing, examples::errors >( in );
    }
    return 0;

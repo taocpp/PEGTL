@@ -209,7 +209,7 @@ namespace example
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      pegtl::file_input<> in( argv[ i ] );
+      pegtl::file_input in( argv[ i ] );
       example::state is;
       pegtl::parse< example::grammar, example::action >( in, is );
    }

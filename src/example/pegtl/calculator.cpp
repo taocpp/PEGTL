@@ -356,7 +356,7 @@ int main( int argc, char** argv )
    for( int i = 1; i < argc; ++i ) {
       // Parse and process the command-line arguments as calculator expressions...
 
-      pegtl::argv_input<> in( argv, i );
+      pegtl::argv_input in( argv, i );
       pegtl::parse< calculator::grammar, calculator::action >( in, b, s );
 
       // ...and print the respective results to std::cout.

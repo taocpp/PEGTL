@@ -93,12 +93,12 @@ namespace tao
          std::string state_r;
          std::string state_s;
          TAO_PEGTL_TEST_ASSERT( test1::flag == 0 );
-         memory_input<> in1( "-", __FUNCTION__ );
+         memory_input in1( "-", __FUNCTION__ );
          parse< must< if_apply< one< '-' >, test1::action_a, test1::action_b > >, test1::action >( in1, state_r, state_s );
          TAO_PEGTL_TEST_ASSERT( test1::flag == 1 );
          TAO_PEGTL_TEST_ASSERT( state_r == "-" );
          TAO_PEGTL_TEST_ASSERT( state_s == "-*-" );
-         memory_input<> in2( "-", __FUNCTION__ );
+         memory_input in2( "-", __FUNCTION__ );
          parse< must< disable< if_apply< one< '-' >, test1::action_a, test1::action_b > > >, test1::action >( in2, state_r, state_s );
          TAO_PEGTL_TEST_ASSERT( test1::flag == 1 );
          TAO_PEGTL_TEST_ASSERT( state_r == "-" );

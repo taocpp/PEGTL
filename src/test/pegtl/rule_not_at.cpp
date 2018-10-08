@@ -43,17 +43,17 @@ namespace tao
          verify_rule< must< not_at< alpha > > >( __LINE__, __FILE__, "a", result_type::GLOBAL_FAILURE, 1 );
          verify_rule< must< not_at< alpha, alpha > > >( __LINE__, __FILE__, "aa1", result_type::GLOBAL_FAILURE, 3 );
          {
-            memory_input<> in( "a", 1, __FILE__ );
+            memory_input in( "a", 1, __FILE__ );
             parse< alpha, at_action >( in );
             TAO_PEGTL_TEST_ASSERT( at_counter == 1 );
          }
          {
-            memory_input<> in( "1", 1, __FILE__ );
+            memory_input in( "1", 1, __FILE__ );
             parse< not_at< alpha >, at_action >( in );
             TAO_PEGTL_TEST_ASSERT( at_counter == 1 );
          }
          {
-            memory_input<> in( "a", 1, __FILE__ );
+            memory_input in( "a", 1, __FILE__ );
             parse< not_at< alpha >, at_action >( in );
             TAO_PEGTL_TEST_ASSERT( at_counter == 1 );
          }

@@ -103,7 +103,7 @@ namespace sexpr
          // last string literal that we use as filename here, and
          // the input is passed on for chained error messages (as
          // in "error in line x file foo included from file bar...)
-         file_input<> i2( fn );
+         file_input i2( fn );
          parse_nested< main, sexpr::action >( in, i2, f2 );
       }
    };
@@ -116,7 +116,7 @@ int main( int argc, char** argv )
 
    for( int i = 1; i < argc; ++i ) {
       std::string fn;
-      argv_input<> in( argv, i );
+      argv_input in( argv, i );
       parse< sexpr::main, sexpr::action >( in, fn );
    }
    return 0;

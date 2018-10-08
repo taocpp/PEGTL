@@ -95,7 +95,7 @@ namespace example
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      pegtl::file_input<> in( argv[ i ] );
+      pegtl::file_input in( argv[ i ] );
       example::state st;
       pegtl::parse< example::grammar, example::action >( in, st );
       for( const auto& j : st.symbol_table ) {

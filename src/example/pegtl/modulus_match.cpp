@@ -38,7 +38,7 @@ namespace modulus
 int main( int argc, char** argv )
 {
    if( argc > 1 ) {
-      argv_input<> in( argv, 1 );
+      argv_input in( argv, 1 );
       parse< modulus::grammar >( in );
    }
    return 0;

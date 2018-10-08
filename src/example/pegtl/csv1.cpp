@@ -93,7 +93,7 @@ namespace csv1
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      pegtl::file_input<> in( argv[ i ] );
+      pegtl::file_input in( argv[ i ] );
       csv1::result_data data;
       pegtl::parse< pegtl::must< csv1::file >, csv1::action, csv1::control >( in, data );
       for( const auto& line : data ) {

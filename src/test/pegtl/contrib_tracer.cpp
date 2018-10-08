@@ -43,14 +43,14 @@ namespace tao
       void unit_test()
       {
          {
-            memory_input<> in( "ab", "trace test please ignore" );
+            memory_input in( "ab", "trace test please ignore" );
             const auto result = parse< GRAMMAR, nothing, tracer >( in );
             TAO_PEGTL_TEST_ASSERT( result );
             TAO_PEGTL_TEST_ASSERT( a0 == 0 );
             TAO_PEGTL_TEST_ASSERT( a == 0 );
          }
          {
-            memory_input<> in( "ab", "trace test please ignore" );
+            memory_input in( "ab", "trace test please ignore" );
             const auto result = parse< GRAMMAR, tracer_action, tracer >( in );
             TAO_PEGTL_TEST_ASSERT( result );
             TAO_PEGTL_TEST_ASSERT( a0 == 1 );
@@ -58,7 +58,7 @@ namespace tao
          }
          {
             trace_state ts;
-            memory_input<> in( "ab", "trace test please ignore" );
+            memory_input in( "ab", "trace test please ignore" );
             const auto result = parse< GRAMMAR, nothing, tracer >( in, ts );
             TAO_PEGTL_TEST_ASSERT( result );
             TAO_PEGTL_TEST_ASSERT( a0 == 1 );
@@ -66,7 +66,7 @@ namespace tao
          }
          {
             trace_state ts;
-            memory_input<> in( "ab", "trace test please ignore" );
+            memory_input in( "ab", "trace test please ignore" );
             const auto result = parse< GRAMMAR, tracer_action, tracer >( in, ts );
             TAO_PEGTL_TEST_ASSERT( result );
             TAO_PEGTL_TEST_ASSERT( a0 == 2 );

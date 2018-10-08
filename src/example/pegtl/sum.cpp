@@ -65,7 +65,7 @@ int main()
          break;
       }
       double d = 0.0;
-      memory_input<> in( str, "std::cin" );
+      memory_input in( str, "std::cin" );
       if( parse< sum::grammar, sum::action >( in, d ) ) {
          std::cout << "parsing OK; sum = " << d << std::endl;
       }

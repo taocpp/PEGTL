@@ -67,7 +67,7 @@ namespace uri
 URI::URI( const std::string& uri )
 {
    using grammar = pegtl::must< pegtl::uri::URI >;
-   pegtl::memory_input<> input( uri, "uri" );
+   pegtl::memory_input input( uri, "uri" );
    pegtl::parse< grammar, uri::action >( input, *this );
 }
 

@@ -696,7 +696,7 @@ int main( int argc, char** argv )
       return 1;
    }
 
-   file_input<> in( argv[ 1 ] );
+   file_input in( argv[ 1 ] );
    try {
       const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::selector, nothing, abnf::grammar::error_control >( in );
 
