@@ -18,18 +18,18 @@ namespace tao
          struct apply_single
          {
             template< typename Input, typename... States >
-            static auto match( const Input& i2, States&&... st )
-               -> std::enable_if_t< std::is_same_v< decltype( Action::apply( i2, st... ) ), void >, bool >
+            static auto match( const Input& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
+               -> std::enable_if_t< std::is_same_v< decltype( Action::apply( in, st... ) ), void >, bool >
             {
-               Action::apply( i2, st... );
+               Action::apply( in, st... );
                return true;
             }
 
             template< typename Input, typename... States >
-            static auto match( const Input& i2, States&&... st )
-               -> std::enable_if_t< std::is_same_v< decltype( Action::apply( i2, st... ) ), bool >, bool >
+            static auto match( const Input& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
+               -> std::enable_if_t< std::is_same_v< decltype( Action::apply( in, st... ) ), bool >, bool >
             {
-               return Action::apply( i2, st... );
+               return Action::apply( in, st... );
             }
          };
 

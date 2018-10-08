@@ -18,7 +18,7 @@ namespace tao
          struct apply0_single
          {
             template< typename... States >
-            static auto match( States&&... st )
+            static auto match( States&&... st ) noexcept( noexcept( Action::apply0( st... ) ) )
                -> std::enable_if_t< std::is_same_v< decltype( Action::apply0( st... ) ), void >, bool >
             {
                Action::apply0( st... );
@@ -26,7 +26,7 @@ namespace tao
             }
 
             template< typename... States >
-            static auto match( States&&... st )
+            static auto match( States&&... st ) noexcept( noexcept( Action::apply0( st... ) ) )
                -> std::enable_if_t< std::is_same_v< decltype( Action::apply0( st... ) ), bool >, bool >
             {
                return Action::apply0( st... );
