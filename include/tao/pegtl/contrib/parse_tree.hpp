@@ -397,9 +397,7 @@ namespace tao
             };
 
             template< typename >
-            struct store_all : std::true_type
-            {
-            };
+            using store_all = std::true_type;
 
          }  // namespace internal
 
