@@ -22,16 +22,6 @@ namespace tao
          template< apply_mode A, typename... Actions >
          struct apply0_impl;
 
-         template<>
-         struct apply0_impl< apply_mode::ACTION >
-         {
-            template< typename... States >
-            static bool match( States&&... /*unused*/ ) noexcept
-            {
-               return true;
-            }
-         };
-
          template< typename... Actions >
          struct apply0_impl< apply_mode::ACTION, Actions... >
          {
