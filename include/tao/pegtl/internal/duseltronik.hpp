@@ -31,14 +31,14 @@ namespace tao
                    template< typename... > class Control >
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::NOTHING >
          {
-            template< typename Input, typename... States >
+            template< typename Input, typename... States, int = 1 >
             static auto match( Input& in, States&&... st )
                -> decltype( Rule::template match< A, M, Action, Control >( in, st... ), true )
             {
                return Rule::template match< A, M, Action, Control >( in, st... );
             }
 
-            template< typename Input, typename... States >
+            template< typename Input, typename... States, int = 2 >
             static auto match( Input& in, States&&... /*unused*/ )
                -> decltype( Rule::match( in ), true )
             {
