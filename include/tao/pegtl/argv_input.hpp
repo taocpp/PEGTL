@@ -34,12 +34,12 @@ namespace tao
          : public memory_input< P, Eol >
       {
          template< typename T >
-         argv_input( char** argv, const std::size_t argn, T&& in_source )
+         argv_input( char** argv, const std::size_t argn, T&& in_source )  // NOLINT
             : memory_input< P, Eol >( static_cast< const char* >( argv[ argn ] ), std::forward< T >( in_source ) )
          {
          }
 
-         argv_input( char** argv, const std::size_t argn )
+         argv_input( char** argv, const std::size_t argn )  // NOLINT
             : argv_input( argv, argn, internal::make_argv_source( argn ) )
          {
          }
