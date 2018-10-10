@@ -30,7 +30,7 @@ namespace tao
             if constexpr( is_alpha< C > ) {
                return ( C | 0x20 ) == ( c | 0x20 );
             }
-            else {
+            else {  // NOLINT
                return c == C;
             }
          }
