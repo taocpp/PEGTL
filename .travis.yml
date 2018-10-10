@@ -147,10 +147,10 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
-          packages: ['clang-6.0', 'clang-tidy-6.0', 'g++-7']
+          packages: ['clang-7', 'clang-tidy-7', 'g++-7']
       env:
-        - CXX=clang++-6.0
-        - CLANG_TIDY=clang-tidy-6.0
+        - CXX=clang++-7
+        - CLANG_TIDY=clang-tidy-7
       script:
         - "sed -i 's#TAO_PEGTL_NAMESPACE#pegtl#g' $(find . -name '*.[hc]pp')"
         - make -kj3 clang-tidy
