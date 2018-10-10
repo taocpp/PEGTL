@@ -67,8 +67,8 @@ namespace tao
             static void apply( const Input& in, State& st )
             {
                using T = typename std::decay< decltype( st.converted ) >::type;
-               static_assert( std::is_integral< T >::value, "need integral type" );
-               static_assert( std::is_unsigned< T >::value, "need unsigned type" );
+               static_assert( std::is_integral_v< T >, "need integral type" );
+               static_assert( std::is_unsigned_v< T >, "need unsigned type" );
                st.converted = internal::convert_positive< T >( in, 0 );
             }
          };
@@ -87,8 +87,8 @@ namespace tao
             static void apply( const Input& in, State& st )
             {
                using T = typename std::decay< decltype( st.converted ) >::type;
-               static_assert( std::is_integral< T >::value, "need integral type" );
-               static_assert( std::is_signed< T >::value, "need signed type" );
+               static_assert( std::is_integral_v< T >, "need integral type" );
+               static_assert( std::is_signed_v< T >, "need signed type" );
                const auto c = in.peek_char();
                if( c == '-' ) {
                   st.converted = internal::convert_negative< T >( in, 1 );

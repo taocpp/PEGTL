@@ -46,9 +46,7 @@ namespace tao
          };
 
          template< typename Cond, typename Then, typename Else >
-         struct skip_control< if_then_else< Cond, Then, Else > > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< if_then_else< Cond, Then, Else > > = true;
 
       }  // namespace internal
 

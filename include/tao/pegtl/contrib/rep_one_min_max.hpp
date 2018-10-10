@@ -46,9 +46,7 @@ namespace tao
          };
 
          template< unsigned Min, unsigned Max, char C >
-         struct skip_control< rep_one_min_max< Min, Max, C > > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< rep_one_min_max< Min, Max, C > > = true;
 
       }  // namespace internal
 

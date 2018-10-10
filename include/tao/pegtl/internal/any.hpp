@@ -55,9 +55,7 @@ namespace tao
          };
 
          template< typename Peek >
-         struct skip_control< any< Peek > > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< any< Peek > > = true;
 
       }  // namespace internal
 

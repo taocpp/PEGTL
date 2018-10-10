@@ -28,9 +28,7 @@ namespace tao
          };
 
          template<>
-         struct skip_control< eof > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< eof > = true;
 
       }  // namespace internal
 

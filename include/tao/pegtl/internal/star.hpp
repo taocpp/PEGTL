@@ -43,9 +43,7 @@ namespace tao
          };
 
          template< typename Rule, typename... Rules >
-         struct skip_control< star< Rule, Rules... > > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< star< Rule, Rules... > > = true;
 
       }  // namespace internal
 

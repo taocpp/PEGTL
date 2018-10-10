@@ -39,9 +39,7 @@ namespace tao
          };
 
          template< char C >
-         struct skip_control< three< C > > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< three< C > > = true;
 
       }  // namespace internal
 

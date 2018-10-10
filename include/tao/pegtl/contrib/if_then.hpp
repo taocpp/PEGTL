@@ -45,9 +45,7 @@ namespace tao
          };
 
          template< typename... Pairs >
-         struct skip_control< if_then< Pairs... > > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< if_then< Pairs... > > = true;
 
       }  // namespace internal
 

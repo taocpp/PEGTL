@@ -18,7 +18,7 @@ namespace tao
       };
 
       template< template< typename... > class Action, typename Rule >
-      using is_nothing = std::is_base_of< nothing< Rule >, Action< Rule > >;
+      inline constexpr bool is_nothing = std::is_base_of< nothing< Rule >, Action< Rule > >::value;
 
    }  // namespace TAO_PEGTL_NAMESPACE
 

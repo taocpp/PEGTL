@@ -58,14 +58,10 @@ namespace tao
          }  // namespace icu
 
          template< typename Peek, UProperty P, bool V >
-         struct skip_control< icu::binary_property< Peek, P, V > > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< icu::binary_property< Peek, P, V > > = true;
 
          template< typename Peek, UProperty P, int V >
-         struct skip_control< icu::property_value< Peek, P, V > > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< icu::property_value< Peek, P, V > > = true;
 
       }  // namespace internal
 

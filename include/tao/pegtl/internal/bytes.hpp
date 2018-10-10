@@ -33,9 +33,7 @@ namespace tao
          };
 
          template< unsigned Num >
-         struct skip_control< bytes< Num > > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< bytes< Num > > = true;
 
       }  // namespace internal
 

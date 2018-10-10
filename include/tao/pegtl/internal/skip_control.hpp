@@ -15,16 +15,14 @@ namespace tao
       namespace internal
       {
          // This class is a simple tagging mechanism.
-         // By default, skip_control< Rule >::value
-         // is 'false'. Each internal (!) rule that should
-         // be hidden from the control and action class'
-         // callbacks simply specializes skip_control<>
-         // to return 'true' for the above expression.
+         // By default, skip_control< Rule > is  'false'.
+         // Each internal (!) rule that should be hidden
+         // from the control and action class' callbacks
+         // simply specializes skip_control<> to return
+         // 'true' for the above expression.
 
          template< typename Rule >
-         struct skip_control : std::false_type
-         {
-         };
+         inline constexpr bool skip_control = false;
 
       }  // namespace internal
 

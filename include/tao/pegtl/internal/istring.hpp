@@ -94,9 +94,7 @@ namespace tao
          };
 
          template< char... Cs >
-         struct skip_control< istring< Cs... > > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< istring< Cs... > > = true;
 
       }  // namespace internal
 

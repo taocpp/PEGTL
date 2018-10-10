@@ -39,9 +39,7 @@ namespace tao
          };
 
          template< unsigned Amount >
-         struct skip_control< require< Amount > > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< require< Amount > > = true;
 
       }  // namespace internal
 

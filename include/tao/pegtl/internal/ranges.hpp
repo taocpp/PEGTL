@@ -61,10 +61,7 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
             template< int Eol >
-            struct can_match_eol
-            {
-               static constexpr bool value = ranges_impl< Eol, typename Peek::data_t, Cs... >::can_match_eol;
-            };
+            static constexpr bool can_match_eol = ranges_impl< Eol, typename Peek::data_t, Cs... >::can_match_eol;
 
             template< typename Input >
             static bool match( Input& in )
@@ -72,7 +69,7 @@ namespace tao
                if( !in.empty() ) {
                   if( const auto t = Peek::peek( in ) ) {
                      if( ranges_impl< Input::eol_t::ch, typename Peek::data_t, Cs... >::match( t.data ) ) {
-                        if constexpr( can_match_eol< Input::eol_t::ch >::value ) {
+                        if constexpr( can_match_eol< Input::eol_t::ch > ) {
                            in.bump( t.size );
                         }
                         else {
@@ -93,9 +90,7 @@ namespace tao
          };
 
          template< typename Peek, typename Peek::data_t... Cs >
-         struct skip_control< ranges< Peek, Cs... > > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< ranges< Peek, Cs... > > = true;
 
       }  // namespace internal
 

@@ -30,9 +30,7 @@ namespace tao
          };
 
          template<>
-         struct skip_control< discard > : std::true_type
-         {
-         };
+         inline constexpr bool skip_control< discard > = true;
 
       }  // namespace internal
 
