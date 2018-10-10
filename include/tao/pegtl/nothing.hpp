@@ -4,8 +4,6 @@
 #ifndef TAO_PEGTL_NOTHING_HPP
 #define TAO_PEGTL_NOTHING_HPP
 
-#include <type_traits>
-
 #include "config.hpp"
 
 namespace tao
@@ -16,9 +14,6 @@ namespace tao
       struct nothing
       {
       };
-
-      template< template< typename... > class Action, typename Rule >
-      inline constexpr bool is_nothing = std::is_base_of< nothing< Rule >, Action< Rule > >::value;
 
    }  // namespace TAO_PEGTL_NAMESPACE
 
