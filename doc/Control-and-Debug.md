@@ -57,20 +57,20 @@ struct normal
    template< template< typename... > class Action,
              typename Input,
              typename... States >
-   static void apply0( const Input&, States&&... st )
+   static auto apply0( const Input&, States&&... st )
    {
-      Action< Rule >::apply0( st... );
+      return Action< Rule >::apply0( st... );
    }
 
    template< template< typename... > class Action,
              typename Iterator,
              typename Input,
              typename... States >
-   static void apply( const Iterator& begin, const Input& in, States&&... st )
+   static auto apply( const Iterator& begin, const Input& in, States&&... st )
    {
       using action_t = typename Input::action_t;
       const action_t action_input( begin, in );
-      Action< Rule >::apply( action_input, st... );
+      return Action< Rule >::apply( action_input, st... );
    }
 
    template< apply_mode A,
@@ -81,11 +81,7 @@ struct normal
              typename... States >
    static bool match( Input& in, States&&... st )
    {
-      constexpr bool use_control = !internal::skip_control< Rule >::value;
-      constexpr bool use_action = use_control && ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Rule >::value );
-      constexpr bool use_apply0 = use_action && internal::has_apply0< Action< Rule >, internal::type_list< States... > >::value;
-      constexpr dusel_mode mode = static_cast< dusel_mode >( static_cast< char >( use_control ) + static_cast< char >( use_action ) + static_cast< char >( use_apply0 ) );
-      return internal::duseltronik< Rule, A, M, Action, Control, mode >::match( in, st... );
+      // ...skipped...
    }
 };
 ```
@@ -96,7 +92,7 @@ The `raise()`-function is used to create a global error, and any replacement sho
 
 The `apply()` and `apply0()`-functions can customise how actions with, and without, receiving the matched input are called, respectively.
 
-The `match`-function wraps the actual matching duseltronik and chooses the correct one based on whether control is enabled for `Rule`, and whether the current action is enabled and has an `apply()` or `apply0()`-function.
+The `match`-function wraps the actual matching Duseltronik and chooses the correct one based on whether control is enabled for `Rule`, and whether the current action is enabled and has an `apply()` or `apply0()`-function.
 
 ## Control Functions
 
