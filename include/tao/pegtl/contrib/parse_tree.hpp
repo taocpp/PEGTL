@@ -174,11 +174,12 @@ namespace tao
                }
             };
 
-            template< typename Selector, typename... States >
-            void transform( States&&... /*unused*/ ) noexcept
+            template< typename Selector, typename... Parameters >
+            void transform( Parameters&&... /*unused*/ ) noexcept
             {
             }
 
+            // this one, if applicable, is more specialized than the above
             template< typename Selector, typename Node, typename... States >
             auto transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( Selector::transform( n, st... ) ) )
                -> decltype( Selector::transform( n, st... ), void() )
