@@ -1,6 +1,6 @@
-cmake_minimum_required (VERSION 3.3.0 FATAL_ERROR)
+cmake_minimum_required (VERSION 3.8.0 FATAL_ERROR)
 
-project (pegtl VERSION 2.7.1 LANGUAGES CXX)
+project (pegtl VERSION 3.0.0 LANGUAGES CXX)
 
 # installation directories
 set (PEGTL_INSTALL_INCLUDE_DIR "include" CACHE STRING "The installation include directory")
@@ -15,7 +15,7 @@ target_include_directories (pegtl INTERFACE
   $<INSTALL_INTERFACE:${PEGTL_INSTALL_INCLUDE_DIR}>
 )
 
-# features required by the PEGTL
+# require C++17
 target_compile_features (pegtl INTERFACE cxx_std_17)
 
 # testing

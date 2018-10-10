@@ -4,7 +4,8 @@
 
 Released 2018-??-??
 
-Version 3.0.0 is version 2.7.1 updated to C++17.
+* Switched to C++17.
+* Updated minimum CMake version zu 3.8.
 
 ## 2.7.1
 
