@@ -22,49 +22,24 @@ namespace tao
       namespace internal
       {
          template< char C >
-         using is_alpha = std::integral_constant< bool, ( ( 'a' <= C ) && ( C <= 'z' ) ) || ( ( 'A' <= C ) && ( C <= 'Z' ) ) >;
-
-         template< char C, bool A = is_alpha< C >::value >
-         struct ichar_equal;
+         inline constexpr bool is_alpha = ( ( 'a' <= C ) && ( C <= 'z' ) ) || ( ( 'A' <= C ) && ( C <= 'Z' ) );
 
          template< char C >
-         struct ichar_equal< C, true >
+         bool ichar_equal( const char c ) noexcept
          {
-            static bool match( const char c ) noexcept
-            {
+            if constexpr( is_alpha< C > ) {
                return ( C | 0x20 ) == ( c | 0x20 );
             }
-         };
-
-         template< char C >
-         struct ichar_equal< C, false >
-         {
-            static bool match( const char c ) noexcept
-            {
+            else {
                return c == C;
             }
-         };
+         }
 
          template< char... Cs >
-         struct istring_equal;
-
-         template<>
-         struct istring_equal<>
+         bool istring_equal( const char* r ) noexcept
          {
-            static bool match( const char* /*unused*/ ) noexcept
-            {
-               return true;
-            }
-         };
-
-         template< char C, char... Cs >
-         struct istring_equal< C, Cs... >
-         {
-            static bool match( const char* r ) noexcept
-            {
-               return ichar_equal< C >::match( *r ) && istring_equal< Cs... >::match( r + 1 );
-            }
-         };
+            return ( ichar_equal< Cs >( *r++ ) && ... );
+         }
 
          template< char... Cs >
          struct istring;
@@ -84,7 +59,7 @@ namespace tao
             static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
             {
                if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
-                  if( istring_equal< Cs... >::match( in.current() ) ) {
+                  if( istring_equal< Cs... >( in.current() ) ) {
                      bump_help< result_on_found::SUCCESS, Input, char, Cs... >( in, sizeof...( Cs ) );
                      return true;
                   }
