@@ -216,24 +216,18 @@ namespace tao
             {
             };
 
-            template< bool... >
-            struct bool_sequence;
-
-            template< bool... Bs >
-            using is_all = std::is_same< bool_sequence< Bs..., true >, bool_sequence< true, Bs... > >;
-
             template< unsigned Level, typename Rule, template< typename... > class Selector >
-            using is_unselected_leaf = std::integral_constant< bool, !Selector< Rule >::value && is_leaf< Level, typename Rule::analyze_t, Selector >::value >;
+            inline constexpr bool is_unselected_leaf = !Selector< Rule >::value && is_leaf< Level, typename Rule::analyze_t, Selector >::value;
 
             template< unsigned Level, analysis::rule_type Type, typename... Rules, template< typename... > class Selector >
             struct is_leaf< Level, analysis::generic< Type, Rules... >, Selector >
-               : is_all< is_unselected_leaf< Level - 1, Rules, Selector >::value... >
+               : std::bool_constant< ( is_unselected_leaf< Level - 1, Rules, Selector > && ... ) >
             {
             };
 
             template< unsigned Level, analysis::rule_type Type, unsigned Count, typename... Rules, template< typename... > class Selector >
             struct is_leaf< Level, analysis::counted< Type, Count, Rules... >, Selector >
-               : is_all< is_unselected_leaf< Level - 1, Rules, Selector >::value... >
+               : std::bool_constant< ( is_unselected_leaf< Level - 1, Rules, Selector > && ... ) >
             {
             };
 
