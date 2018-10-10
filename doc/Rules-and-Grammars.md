@@ -320,7 +320,7 @@ The custom rule itself
       template< tao::pegtl::apply_mode A,
                 tao::pegtl::rewind_mode M,
                 template< typename... > class Action,
-                template< typename... > class Control
+                template< typename... > class Control,
                 typename Input >
       static bool match( Input& in,
                          const std::string& id,
