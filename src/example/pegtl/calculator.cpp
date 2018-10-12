@@ -249,7 +249,7 @@ namespace calculator
       }
    };
 
-   // A number is a non-empty sequence of digits preceeded by an optional sign.
+   // A number is a non-empty sequence of digits preceded by an optional sign.
 
    struct number
       : seq< opt< one< '+', '-' > >, plus< digit > >
@@ -276,7 +276,7 @@ namespace calculator
 
    // An expression is a non-empty list of atomic expressions where each pair
    // of atomic expressions is separated by an infix operator and we allow
-   // the rule ignored as padding (before and after every singlar expression).
+   // the rule ignored as padding (before and after every single expression).
 
    struct expression
       : list< atomic, infix, ignored >

@@ -14,7 +14,7 @@ namespace example
    // Grammar for string literals with some escape sequences from the C language:
    // - \x followed by two hex-digits to insert any byte value.
    // - \u followed by four hex-digits to insert a Unicode code point.
-   // - \U followed by eight hex-digits to insert any Unicdoe code points.
+   // - \U followed by eight hex-digits to insert any Unicode code points.
    // - A backslash followed by one of the characters listed in the grammar below.
 
    // clang-format off
