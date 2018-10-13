@@ -6,6 +6,7 @@ Released 2018-??-??
 
 * Updated required C++ version to C++17.
 * Updated required CMake version to 3.8.
+* Removed compatibility macros starting with `TAOCPP_PEGTL_`.
 
 ## 2.7.1
 

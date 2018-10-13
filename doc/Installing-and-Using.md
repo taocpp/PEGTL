@@ -141,22 +141,15 @@ application's and the library's copy of the PEGTL use the same macro names.
 
 In this case it is necessary to change the prefix of all macros of the embedded
 PEGTL from `TAO_PEGTL_` to another unique string in order to prevent macros
-from clashing. In a Unix-shell, the following commands will achieve this:
+from clashing. In a Unix-shell, the following command will achieve this:
 
 ```sh
 $ sed -i 's/TAO_PEGTL_/MYLIB_TAO_PEGTL_/g' $(find -name '[^.]*.[hc]pp')
-$ sed -i 's/TAOCPP_PEGTL_/MYLIB_TAOCPP_PEGTL_/g' $(find -name '[^.]*.[hc]pp')
 ```
 
-The above commands needs to run from the top-level directory of the embedded
+The above command needs to run from the top-level directory of the embedded
 PEGTL. Additionally, `MYLIB_TAO_PEGTL_NAMESPACE` needs to be set as explained
 above; alternatively `include/tao/pegtl/config.hpp` can be directly modified.
-
-Note that the second command is only needed because the PEGTL contains
-some compatibility macros for older versions that start with `TAOCPP_PEGTL_`
-instead of `TAO_PEGTL_`. Those older compatibility macros will be removed
-in version 3.0. Starting with version 2.4.0 you should only use macros
-that start with `TAO_PEGTL_`.
 
 A practical example of how the result looks like can be found in our own
 header-only [JSON library](https://github.com/taocpp/json/).
