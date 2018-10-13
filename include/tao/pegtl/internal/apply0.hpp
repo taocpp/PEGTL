@@ -36,6 +36,7 @@ namespace tao
                   return ( apply0_single< Actions >::match( st... ) && ... );
                }
                else {
+                  (void)( (void)st, ... );
                   return true;
                }
             }

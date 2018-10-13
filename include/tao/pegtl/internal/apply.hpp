@@ -38,6 +38,8 @@ namespace tao
                   return ( apply_single< Actions >::match( i2, st... ) && ... );
                }
                else {
+                  (void)in;
+                  (void)( (void)st, ... );
                   return true;
                }
             }
