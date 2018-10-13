@@ -37,7 +37,7 @@ namespace tao
                   const action_t i2( in.iterator(), in );  // No data -- range is from begin to begin.
                   return ( apply_single< Actions >::match( i2, st... ) && ... );
                }
-               else {
+               else {  // NOLINT
 #ifdef _MSC_VER
                   (void)in;
                   (void)( (void)st, ... );

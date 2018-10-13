@@ -41,7 +41,7 @@ namespace tao
                   }
                   return false;
                }
-               else {
+               else {  // NOLINT
                   return Control< Rule >::template match< A, M, Action, Control >( in, st... );
                }
             }

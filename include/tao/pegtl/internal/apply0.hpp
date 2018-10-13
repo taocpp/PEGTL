@@ -35,7 +35,7 @@ namespace tao
                if constexpr( A == apply_mode::ACTION ) {
                   return ( apply0_single< Actions >::match( st... ) && ... );
                }
-               else {
+               else {  // NOLINT
 #ifdef _MSC_VER
                   (void)( (void)st, ... );
 #endif
