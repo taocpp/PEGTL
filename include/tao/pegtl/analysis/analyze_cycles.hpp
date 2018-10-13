@@ -54,7 +54,7 @@ namespace tao
                if( j != m_cache.end() ) {
                   return j->second;
                }
-               if( const auto g = make_insert_guard( m_stack, start->first ) ) {
+               if( const auto g = insert_guard( m_stack, start->first ) ) {
                   switch( start->second.type ) {
                      case rule_type::ANY: {
                         bool a = false;

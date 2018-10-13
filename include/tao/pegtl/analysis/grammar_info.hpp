@@ -25,9 +25,9 @@ namespace tao
             map_t map;
 
             template< typename Name >
-            std::pair< map_t::iterator, bool > insert( const rule_type type )
+            auto insert( const rule_type type )
             {
-               return map.insert( map_t::value_type( internal::demangle< Name >(), rule_info( type ) ) );
+               return map.emplace( internal::demangle< Name >(), rule_info( type ) );
             }
          };
 

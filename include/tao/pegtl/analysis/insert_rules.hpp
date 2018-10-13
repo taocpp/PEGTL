@@ -15,24 +15,12 @@ namespace tao
    {
       namespace analysis
       {
-         template< typename... >
-         struct insert_rules;
-
-         template<>
-         struct insert_rules<>
-         {
-            static void insert( grammar_info& /*unused*/, rule_info& /*unused*/ )
-            {
-            }
-         };
-
-         template< typename Rule, typename... Rules >
-         struct insert_rules< Rule, Rules... >
+         template< typename... Rules >
+         struct insert_rules
          {
             static void insert( grammar_info& g, rule_info& r )
             {
-               r.rules.push_back( Rule::analyze_t::template insert< Rule >( g ) );
-               insert_rules< Rules... >::insert( g, r );
+               ( r.rules.emplace_back( Rules::analyze_t::template insert< Rules >( g ) ), ... );
             }
          };
 

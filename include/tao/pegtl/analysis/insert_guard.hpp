@@ -20,23 +20,17 @@ namespace tao
          public:
             insert_guard( C& container, const typename C::value_type& value )
                : m_i( container.insert( value ) ),
-                 m_c( &container )
+                 m_c( container )
             {
             }
 
             insert_guard( const insert_guard& ) = delete;
-
-            insert_guard( insert_guard&& other ) noexcept
-               : m_i( other.m_i ),
-                 m_c( other.m_c )
-            {
-               other.m_c = nullptr;
-            }
+            insert_guard( insert_guard&& ) = delete;
 
             ~insert_guard()
             {
-               if( m_c && m_i.second ) {
-                  m_c->erase( m_i.first );
+               if( m_i.second ) {
+                  m_c.erase( m_i.first );
                }
             }
 
@@ -50,14 +44,11 @@ namespace tao
 
          private:
             const std::pair< typename C::iterator, bool > m_i;
-            C* m_c;
+            C& m_c;
          };
 
          template< typename C >
-         insert_guard< C > make_insert_guard( C& container, const typename C::value_type& value )
-         {
-            return insert_guard< C >( container, value );
-         }
+         insert_guard( C&, const typename C::value_type& )->insert_guard< C >;
 
       }  // namespace analysis
 
