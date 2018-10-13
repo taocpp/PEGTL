@@ -4,7 +4,7 @@
 #ifndef TAO_PEGTL_CONFIG_HPP
 #define TAO_PEGTL_CONFIG_HPP
 
-#ifndef TAO_PEGTL_NAMESPACE
+#if !defined( TAO_PEGTL_NAMESPACE )
 #define TAO_PEGTL_NAMESPACE pegtl
 #endif
 

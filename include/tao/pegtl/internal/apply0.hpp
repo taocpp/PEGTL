@@ -36,7 +36,7 @@ namespace tao
                   return ( apply0_single< Actions >::match( st... ) && ... );
                }
                else {  // NOLINT
-#ifdef _MSC_VER
+#if defined( _MSC_VER )
                   (void)( (void)st, ... );
 #endif
                   return true;

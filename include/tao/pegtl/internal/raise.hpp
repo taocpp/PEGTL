@@ -27,7 +27,7 @@ namespace tao
          {
             using analyze_t = analysis::generic< analysis::rule_type::ANY >;
 
-#ifdef _MSC_VER
+#if defined( _MSC_VER )
 #pragma warning( push )
 #pragma warning( disable : 4702 )
 #endif
@@ -41,7 +41,7 @@ namespace tao
             {
                Control< T >::raise( static_cast< const Input& >( in ), st... );
                throw std::logic_error( "code should be unreachable: Control< T >::raise() did not throw an exception" );  // NOLINT, LCOV_EXCL_LINE
-#ifdef _MSC_VER
+#if defined( _MSC_VER )
 #pragma warning( pop )
 #endif
             }
