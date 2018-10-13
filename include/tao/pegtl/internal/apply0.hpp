@@ -9,6 +9,10 @@
 #include "apply0_single.hpp"
 #include "skip_control.hpp"
 
+#ifdef _MSC_VER
+#include "silence.hpp"
+#endif
+
 #include "../analysis/counted.hpp"
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
@@ -36,7 +40,9 @@ namespace tao
                   return ( apply0_single< Actions >::match( st... ) && ... );
                }
                else {
-                  (void)( (void)st, ... );
+#ifdef _MSC_VER
+                  silence( st... );
+#endif
                   return true;
                }
             }
