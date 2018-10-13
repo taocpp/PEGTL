@@ -88,7 +88,7 @@ namespace tao
                case 'E':
                case 'F':
                   return I( c - 'A' + 10 );
-               default:
+               default:                                                      // LCOV_EXCL_LINE
                   throw std::runtime_error( "invalid character in unhex" );  // NOLINT, LCOV_EXCL_LINE
             }
          }
