@@ -4,8 +4,8 @@
 
 Released 2018-??-??
 
-* Switched to C++17.
-* Updated minimum CMake version zu 3.8.
+* Updated required C++ version to C++17.
+* Updated required CMake version to 3.8.
 
 ## 2.7.1
 
