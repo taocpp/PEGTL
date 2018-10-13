@@ -4,7 +4,7 @@ from conans import ConanFile, CMake
 
 class PEGTLConan(ConanFile):
     name = "pegtl"
-    description = "C++17 (and C++11) header-only parser combinator library for creating PEG parsers"
+    description = "C++ header-only parser combinator library for creating PEG parsers"
     homepage = "https://github.com/taocpp/PEGTL"
     url = homepage
     license = "MIT"
