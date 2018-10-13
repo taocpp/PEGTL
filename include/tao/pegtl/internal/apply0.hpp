@@ -19,29 +19,6 @@ namespace tao
    {
       namespace internal
       {
-         template< apply_mode A, typename... Actions >
-         struct apply0_impl;
-
-         template< typename... Actions >
-         struct apply0_impl< apply_mode::ACTION, Actions... >
-         {
-            template< typename... States >
-            static bool match( States&&... st )
-            {
-               return ( apply0_single< Actions >::match( st... ) && ... );
-            }
-         };
-
-         template< typename... Actions >
-         struct apply0_impl< apply_mode::NOTHING, Actions... >
-         {
-            template< typename... States >
-            static bool match( States&&... /*unused*/ ) noexcept
-            {
-               return true;
-            }
-         };
-
          template< typename... Actions >
          struct apply0
          {
@@ -55,7 +32,12 @@ namespace tao
                       typename... States >
             static bool match( Input& /*unused*/, States&&... st )
             {
-               return apply0_impl< A, Actions... >::match( st... );
+               if constexpr( A == apply_mode::ACTION ) {
+                  return ( apply0_single< Actions >::match( st... ) && ... );
+               }
+               else {
+                  return true;
+               }
             }
          };
 

@@ -24,10 +24,7 @@ namespace tao
             }
 
             marker( const marker& ) = delete;
-
-            marker( marker&& /*unused*/ ) noexcept
-            {
-            }
+            marker( marker&& ) = delete;
 
             ~marker() = default;
 
@@ -53,13 +50,7 @@ namespace tao
             }
 
             marker( const marker& ) = delete;
-
-            marker( marker&& i ) noexcept
-               : m_saved( i.m_saved ),
-                 m_input( i.m_input )
-            {
-               i.m_input = nullptr;
-            }
+            marker( marker&& ) = delete;
 
             ~marker() noexcept
             {

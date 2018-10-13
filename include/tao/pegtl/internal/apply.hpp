@@ -19,41 +19,6 @@ namespace tao
    {
       namespace internal
       {
-         template< apply_mode A, typename... Actions >
-         struct apply_impl;
-
-         template<>
-         struct apply_impl< apply_mode::ACTION >
-         {
-            template< typename Input, typename... States >
-            static bool match( Input& /*unused*/, States&&... /*unused*/ )
-            {
-               return true;
-            }
-         };
-
-         template< typename... Actions >
-         struct apply_impl< apply_mode::ACTION, Actions... >
-         {
-            template< typename Input, typename... States >
-            static bool match( Input& in, States&&... st )
-            {
-               using action_t = typename Input::action_t;
-               const action_t i2( in.iterator(), in );  // No data -- range is from begin to begin.
-               return ( apply_single< Actions >::match( i2, st... ) && ... );
-            }
-         };
-
-         template< typename... Actions >
-         struct apply_impl< apply_mode::NOTHING, Actions... >
-         {
-            template< typename Input, typename... States >
-            static bool match( Input& /*unused*/, States&&... /*unused*/ )
-            {
-               return true;
-            }
-         };
-
          template< typename... Actions >
          struct apply
          {
@@ -67,7 +32,14 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               return apply_impl< A, Actions... >::match( in, st... );
+               if constexpr( ( A == apply_mode::ACTION ) && ( sizeof...( Actions ) > 0 ) ) {
+                  using action_t = typename Input::action_t;
+                  const action_t i2( in.iterator(), in );  // No data -- range is from begin to begin.
+                  return ( apply_single< Actions >::match( i2, st... ) && ... );
+               }
+               else {
+                  return true;
+               }
             }
          };
 
