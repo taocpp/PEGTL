@@ -2,7 +2,7 @@
 
 ## 3.0.0
 
-Released 2018-??-??
+**Not yet released**
 
 * Updated required C++ standard to C++17.
 * Updated required [CMake](https://cmake.org/) version to 3.8.
