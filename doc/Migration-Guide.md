@@ -8,14 +8,14 @@ Compatibility macros starting with `TAOCPP_PEGTL_` were removed, use the macros 
 
 The common prefix for all macros was changed from `TAOCPP_PEGTL_` to `TAO_PEGTL_`.
 
-Compatibility macros can still be used, the library should be fully compatible when
-used with older macros. Note, however, that the old macros will be removed in a
-future version 3.0. Consider updating your macro prefixes now.
+Compatibility macros can still be used, the library should be fully compatible when used with older macros.
+The old macros have been removed in version 3.0.0.
+Consider updating your macro prefixes now.
 
 ## Version 2.0.0
 
 Some of the [changes](Changelog.md#200) for version 2.0.0 require modifications to any source using the PEGTL.
-The good news is that the semantics of all parsing rules and grammars is the same as for versions 1.y.
+The good news is that the semantics of all parsing rules and grammars is the same as for versions 1.x.
 Existing grammars will continue to work as before once the following list of mostly naming and namespace related changes is taken into account.
 
 * Everything in the PEGTL is now in namespace `tao::pegtl`.
