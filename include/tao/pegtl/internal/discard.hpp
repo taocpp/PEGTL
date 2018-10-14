@@ -23,7 +23,7 @@ namespace tao
             template< typename Input >
             static bool match( Input& in ) noexcept
             {
-               static_assert( noexcept( in.discard() ), "an input's discard()-method must be noexcept" );
+               static_assert( noexcept( in.discard() ) );
                in.discard();
                return true;
             }

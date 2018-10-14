@@ -25,8 +25,8 @@ namespace tao
 
             using short_t = std::make_unsigned< char16_t >::type;
 
-            static_assert( sizeof( short_t ) == 2, "expected size 2 for 16bit value" );
-            static_assert( sizeof( char16_t ) == 2, "expected size 2 for 16bit value" );
+            static_assert( sizeof( short_t ) == 2 );
+            static_assert( sizeof( char16_t ) == 2 );
 
             template< typename Input >
             static pair_t peek( Input& in ) noexcept( noexcept( in.size( 4 ) ) )

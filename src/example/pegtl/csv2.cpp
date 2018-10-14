@@ -28,7 +28,7 @@ namespace csv2
    struct quoted_value : pegtl::if_must< pegtl::one< '"' >, string_without< '"' >, pegtl::one< '"' > > {};
    struct value : pegtl::sor< quoted_value, plain_value > {};
    template< unsigned N > struct line : pegtl::seq< value, pegtl::rep< N - 1, pegtl::one< ',' >, value >, pegtl::eol > {};
-   template< unsigned N > struct file : pegtl::until< pegtl::eof, line< N > > { static_assert( N, "N must be positive" ); };
+   template< unsigned N > struct file : pegtl::until< pegtl::eof, line< N > > { static_assert( N != 0 ); };
    // clang-format on
 
    // Meta-programming helper:

@@ -32,7 +32,7 @@ namespace tao
          struct rep_min_max< Min, Max >
             : trivial< false >
          {
-            static_assert( Min <= Max, "invalid rep_min_max rule (maximum number of repetitions smaller than minimum)" );
+            static_assert( Min <= Max );
          };
 
          template< typename Rule, typename... Rules >
@@ -46,7 +46,7 @@ namespace tao
          {
             using analyze_t = analysis::counted< analysis::rule_type::SEQ, Min, Rules... >;
 
-            static_assert( Min <= Max, "invalid rep_min_max rule (maximum number of repetitions smaller than minimum)" );
+            static_assert( Min <= Max );
 
             template< apply_mode A,
                       rewind_mode M,

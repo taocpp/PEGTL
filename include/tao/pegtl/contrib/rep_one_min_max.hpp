@@ -24,7 +24,7 @@ namespace tao
          {
             using analyze_t = analysis::counted< analysis::rule_type::ANY, Min >;
 
-            static_assert( Min <= Max, "invalid rep_one_min_max rule (maximum number of repetitions smaller than minimum)" );
+            static_assert( Min <= Max );
 
             template< typename Input >
             static bool match( Input& in )

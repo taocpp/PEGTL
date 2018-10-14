@@ -23,7 +23,7 @@ namespace tao
             using data_t = char32_t;
             using pair_t = input_pair< char32_t >;
 
-            static_assert( sizeof( char32_t ) == 4, "expected size 4 for 32bit value" );
+            static_assert( sizeof( char32_t ) == 4 );
 
             template< typename Input >
             static pair_t peek( Input& in ) noexcept( noexcept( in.size( 4 ) ) )
