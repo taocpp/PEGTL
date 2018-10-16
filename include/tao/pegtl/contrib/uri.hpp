@@ -58,7 +58,7 @@ namespace tao
          struct unreserved : sor< abnf::ALPHA, abnf::DIGIT, one< '-', '.', '_', '~' > > {};
          struct reserved : sor< gen_delims, sub_delims > {};
 
-         struct IPvFuture : if_must< one< 'v' >, plus< abnf::HEXDIG >, dot, plus< sor< unreserved, sub_delims, colon > > > {};
+         struct IPvFuture : if_must< one< 'v', 'V' >, plus< abnf::HEXDIG >, dot, plus< sor< unreserved, sub_delims, colon > > > {};
 
          struct IP_literal : if_must< one< '[' >, sor< IPvFuture, IPv6address >, one< ']' > > {};
 
