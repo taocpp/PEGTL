@@ -15,7 +15,10 @@ namespace tao
       namespace internal
       {
          template< typename... >
-         using always_false = std::false_type;
+         struct always_false
+            : std::false_type
+         {
+         };
 
       }  // namespace internal
 
