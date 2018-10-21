@@ -7,6 +7,7 @@
 #include "config.hpp"
 #include "eol.hpp"
 
+#include "internal/always_false.hpp"
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
@@ -54,7 +55,7 @@ namespace tao
             template< typename Input >
             static bool match( Input& /*unused*/ ) noexcept
             {
-               static_assert( sizeof( Input ) == 0, "empty keywords not allowed" );
+               static_assert( internal::always_false< Input >::value, "empty keywords not allowed" );
                return false;
             }
          };
