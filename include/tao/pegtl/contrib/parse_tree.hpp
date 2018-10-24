@@ -19,7 +19,6 @@
 
 #include "../analysis/counted.hpp"
 #include "../analysis/generic.hpp"
-#include "../internal/conditional.hpp"
 #include "../internal/demangle.hpp"
 #include "../internal/iterator.hpp"
 
@@ -452,7 +451,7 @@ namespace tao
          // TODO: Check for multiple matches (currently: first match wins)
          template< typename Rule, typename Collection, typename... Collections >
          struct selector< Rule, Collection, Collections... >
-            : TAO_PEGTL_NAMESPACE::internal::conditional< Collection::template contains< Rule >::value >::template type< typename Collection::type, selector< Rule, Collections... > >
+            : std::conditional_t< Collection::template contains< Rule >::value, typename Collection::type, selector< Rule, Collections... > >
          {
          };
 
