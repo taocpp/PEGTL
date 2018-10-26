@@ -29,7 +29,7 @@ namespace tao
       class buffer_input
       {
       public:
-         static constexpr tracking_mode tracking_mode_v = tracking_mode::immediate;
+         static constexpr tracking_mode tracking_mode_v = tracking_mode::eager;
          using reader_t = Reader;
 
          using eol_t = Eol;

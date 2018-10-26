@@ -8,6 +8,7 @@
 * Updated required [CMake](https://cmake.org/) version to 3.8.
 * Removed compatibility macros starting with `TAOCPP_PEGTL_`.
 * Changed enumerators to lowercase.
+* Renamed `tracking_mode::IMMEDIATE` to `tracking_mode::eager`.
 
 ## 2.7.1
 

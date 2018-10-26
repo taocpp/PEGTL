@@ -12,7 +12,7 @@ namespace tao
    {
       enum class tracking_mode : bool
       {
-         immediate,
+         eager,
          lazy
       };
 

@@ -37,7 +37,7 @@ namespace tao
          class memory_input_base;
 
          template< typename Eol, typename Source >
-         class memory_input_base< tracking_mode::immediate, Eol, Source >
+         class memory_input_base< tracking_mode::eager, Eol, Source >
          {
          public:
             using iterator_t = internal::iterator;
@@ -221,7 +221,7 @@ namespace tao
 
       }  // namespace internal
 
-      template< tracking_mode P = tracking_mode::immediate, typename Eol = eol::lf_crlf, typename Source = std::string >
+      template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf, typename Source = std::string >
       class memory_input
          : public internal::memory_input_base< P, Eol, Source >
       {

@@ -173,7 +173,7 @@ namespace tao
       // - Literals in this bracketed form can run for several lines, do not
       //   interpret any escape sequences, and ignore long brackets of any other
       //   level.
-      // - For convenience, when the opening long bracket is immediately followed
+      // - For convenience, when the opening long bracket is eagerly followed
       //   by a newline, the newline is not included in the string.
       //
       // Note that unlike Lua's long literal, a raw_string is customizable to use

@@ -41,19 +41,19 @@ namespace tao
       {
          remain = ( expected == result_type::success ) ? remain : data.size();
          {
-            memory_input< tracking_mode::immediate, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
+            memory_input< tracking_mode::eager, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
             verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
             memory_input< tracking_mode::lazy, Eol > i2( data.data(), data.data() + data.size(), file );
             verify_impl_one< Rule, nothing >( line, file, data, i2, expected, remain );
          }
          {
-            memory_input< tracking_mode::immediate, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
+            memory_input< tracking_mode::eager, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
             verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
             memory_input< tracking_mode::lazy, Eol > i2( data.data(), data.data() + data.size(), file );
             verify_impl_one< Rule, verify_action_impl >( line, file, data, i2, expected, remain );
          }
          {
-            memory_input< tracking_mode::immediate, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
+            memory_input< tracking_mode::eager, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
             verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
             memory_input< tracking_mode::lazy, Eol > i2( data.data(), data.data() + data.size(), file );
             verify_impl_one< Rule, verify_action_impl0 >( line, file, data, i2, expected, remain );
@@ -64,15 +64,15 @@ namespace tao
       void verify_only( const std::size_t line, const char* file, const std::string& data, const result_type expected, const std::size_t remain )
       {
          {
-            memory_input< tracking_mode::immediate, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
+            memory_input< tracking_mode::eager, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
             verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
          }
          {
-            memory_input< tracking_mode::immediate, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
+            memory_input< tracking_mode::eager, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
             verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
          }
          {
-            memory_input< tracking_mode::immediate, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
+            memory_input< tracking_mode::eager, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
             verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
          }
       }

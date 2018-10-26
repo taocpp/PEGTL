@@ -4,6 +4,7 @@
 
 * Compatibility macros starting with `TAOCPP_PEGTL_` were removed, use the macros starting with `TAO_PEGTL_` instead.
 * All enumerators were changed from uppercase to lowercase, avoiding conflicts with macros defined on Microsoft Windows.
+* The enumerator `tracking_mode::IMMEDIATE` was renamed to `tracking_mode::eager`.
 
 ## Version 2.4.0
 
