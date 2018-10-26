@@ -13,21 +13,6 @@ namespace tao
 {
    namespace TAO_PEGTL_NAMESPACE
    {
-      namespace internal
-      {
-         struct dummy_disabled_state
-         {
-            template< typename... Ts >
-            void success( Ts&&... /*unused*/ ) const noexcept
-            {
-            }
-         };
-
-         template< apply_mode A, typename State >
-         using state_disable_helper = std::conditional_t< A == apply_mode::action, State, dummy_disabled_state >;
-
-      }  // namespace internal
-
       template< typename Rule, typename State, template< typename... > class Base = normal >
       struct change_state
          : public Base< Rule >
@@ -40,10 +25,11 @@ namespace tao
                    typename... States >
          static bool match( Input& in, States&&... st )
          {
-            internal::state_disable_helper< A, State > s;
-
+            State s( static_cast< const Input& >( in ), st... );
             if( Base< Rule >::template match< A, M, Action, Control >( in, s ) ) {
-               s.success( st... );
+               if constexpr( A == apply_mode::action ) {
+                  s.success( static_cast< const Input& >( in ), st... );
+               }
                return true;
             }
             return false;

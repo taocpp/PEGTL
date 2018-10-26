@@ -41,7 +41,13 @@ namespace examples
    struct string_state
       : public unescape_state_base
    {
-      void success( result_state& result )
+      template< typename Input, typename... States >
+      string_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      {
+      }
+
+      template< typename Input >
+      void success( const Input& /*unused*/, result_state& result )
       {
          result.result = std::make_shared< string_json >( std::move( unescaped ) );
       }
@@ -95,13 +101,19 @@ namespace examples
    {
       std::shared_ptr< array_json > array = std::make_shared< array_json >();
 
+      template< typename Input, typename... States >
+      array_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      {
+      }
+
       void push_back()
       {
          array->data.push_back( std::move( result ) );
          result.reset();
       }
 
-      void success( result_state& in_result )
+      template< typename Input >
+      void success( const Input& /*unused*/, result_state& in_result )
       {
          if( this->result ) {
             push_back();
@@ -133,6 +145,11 @@ namespace examples
       std::string unescaped;
       std::shared_ptr< object_json > object = std::make_shared< object_json >();
 
+      template< typename Input, typename... States >
+      object_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      {
+      }
+
       void insert()
       {
          object->data.insert( std::make_pair( std::move( unescaped ), std::move( result ) ) );
@@ -140,7 +157,8 @@ namespace examples
          result.reset();
       }
 
-      void success( result_state& in_result )
+      template< typename Input >
+      void success( const Input& /*unused*/, result_state& in_result )
       {
          if( this->result ) {
             insert();

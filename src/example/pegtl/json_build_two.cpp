@@ -85,7 +85,13 @@ namespace examples
    struct string_state
       : public unescape_state_base
    {
-      void success( json_state& state )
+      template< typename Input, typename... States >
+      string_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      {
+      }
+
+      template< typename Input >
+      void success( const Input& /*unused*/, json_state& state )
       {
          state.result = std::make_shared< string_json >( unescaped );
       }
@@ -138,7 +144,13 @@ namespace examples
 
    struct key_state : unescape_state_base
    {
-      void success( json_state& state )
+      template< typename Input, typename... States >
+      key_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      {
+      }
+
+      template< typename Input >
+      void success( const Input& /*unused*/, json_state& state )
       {
          state.keys.push_back( std::move( unescaped ) );
       }
