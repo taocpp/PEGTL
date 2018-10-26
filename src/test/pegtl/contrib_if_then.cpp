@@ -18,10 +18,10 @@ namespace tao
             else_if_then< one< 'a' >, one< 'b' > >::
             else_then< one< 'c' > >;
 
-         verify_rule< grammar >( __LINE__, __FILE__, "abc", result_type::SUCCESS, 0 );
-         verify_rule< grammar >( __LINE__, __FILE__, "abcd", result_type::SUCCESS, 1 );
-         verify_rule< grammar >( __LINE__, __FILE__, "ab", result_type::LOCAL_FAILURE, 2 );
-         verify_rule< grammar >( __LINE__, __FILE__, "c", result_type::SUCCESS, 0 );
+         verify_rule< grammar >( __LINE__, __FILE__, "abc", result_type::success, 0 );
+         verify_rule< grammar >( __LINE__, __FILE__, "abcd", result_type::success, 1 );
+         verify_rule< grammar >( __LINE__, __FILE__, "ab", result_type::local_failure, 2 );
+         verify_rule< grammar >( __LINE__, __FILE__, "c", result_type::success, 0 );
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE

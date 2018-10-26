@@ -22,7 +22,7 @@ namespace tao
          template< unsigned Min, unsigned Max, char C >
          struct rep_one_min_max
          {
-            using analyze_t = analysis::counted< analysis::rule_type::ANY, Min >;
+            using analyze_t = analysis::counted< analysis::rule_type::any, Min >;
 
             static_assert( Min <= Max );
 
@@ -38,7 +38,7 @@ namespace tao
                   ++i;
                }
                if( ( Min <= i ) && ( i <= Max ) ) {
-                  bump_help< result_on_found::SUCCESS, Input, char, C >( in, i );
+                  bump_help< result_on_found::success, Input, char, C >( in, i );
                   return true;
                }
                return false;

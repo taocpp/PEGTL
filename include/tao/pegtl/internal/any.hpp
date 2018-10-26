@@ -23,7 +23,7 @@ namespace tao
          template<>
          struct any< peek_char >
          {
-            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+            using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< typename Input >
             static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
@@ -39,7 +39,7 @@ namespace tao
          template< typename Peek >
          struct any
          {
-            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+            using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< typename Input >
             static bool match( Input& in ) noexcept( noexcept( in.empty() ) )

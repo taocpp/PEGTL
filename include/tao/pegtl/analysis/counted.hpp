@@ -16,7 +16,7 @@ namespace tao
       {
          template< rule_type Type, unsigned Count, typename... Rules >
          struct counted
-            : generic< ( Count != 0 ) ? Type : rule_type::OPT, Rules... >
+            : generic< ( Count != 0 ) ? Type : rule_type::opt, Rules... >
          {
          };
 

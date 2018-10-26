@@ -37,30 +37,30 @@ namespace tao
          verify_analyze< ranges< 'a', 'z' > >( __LINE__, __FILE__, true, false );
          verify_analyze< ranges< 'a', 'z', '4' > >( __LINE__, __FILE__, true, false );
 
-         verify_rule< alnum >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< alpha >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< any >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< blank >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< digit >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< eol >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< identifier_first >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< identifier_other >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< lower >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< nul >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< print >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< seven >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< space >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< upper >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< xdigit >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
+         verify_rule< alnum >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< alpha >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< any >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< blank >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< digit >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< eol >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< identifier_first >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< identifier_other >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< lower >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< nul >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< print >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< seven >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< space >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< upper >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< xdigit >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
 
-         verify_rule< not_one< 'a' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< not_one< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< not_range< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< one< 'a' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< one< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< range< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< ranges< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< ranges< 'a', 'z', '4' > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
+         verify_rule< not_one< 'a' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< not_one< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< not_range< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< one< 'a' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< one< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< range< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< ranges< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< ranges< 'a', 'z', '4' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
 
          for( int i = -100; i < 200; ++i ) {
             const auto c = char( i );

@@ -32,7 +32,7 @@ namespace tao
          template< typename... Rules >
          struct at
          {
-            using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules... >;
+            using analyze_t = analysis::generic< analysis::rule_type::opt, Rules... >;
 
             template< apply_mode,
                       rewind_mode,
@@ -42,8 +42,8 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               const auto m = in.template mark< rewind_mode::REQUIRED >();
-               return ( Control< Rules >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( in, st... ) && ... );
+               const auto m = in.template mark< rewind_mode::required >();
+               return ( Control< Rules >::template match< apply_mode::nothing, rewind_mode::active, Action, Control >( in, st... ) && ... );
             }
          };
 

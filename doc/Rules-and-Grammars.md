@@ -124,7 +124,7 @@ During the parsing run, many rules *consume* the data that matched from the inpu
 Consuming data from an input advances the pointer to the data that the input's `begin()`-method returns, and decrements the size by the same amount.
 
 The PEGTL makes one **important** assumption about all parsing rules.
-If a call to a `match()`-method returns with `false`, then the rule **must not** have consumed input (for [complex rules](#complex-rules): only when the `rewind_mode` is `REQUIRED`).
+If a call to a `match()`-method returns with `false`, then the rule **must not** have consumed input (for [complex rules](#complex-rules): only when the `rewind_mode` is `required`).
 For performance reasons this assumption is neither ensured nor verified by the PEGTL.
 
 ### Simple Rules
@@ -216,18 +216,18 @@ struct complex_rule
 
 #### Modes
 
-The `apply_mode` can take the value `apply_mode::ACTION` or `apply_mode::NOTHING`, depending on whether actions are currently enabled or disabled.
+The `apply_mode` can take the value `apply_mode::action` or `apply_mode::nothing`, depending on whether actions are currently enabled or disabled.
 Most custom parsing rules will either ignore, or pass on the `apply_mode` unchanged; usually only the control interprets the `apply_mode`.
 
-The `rewind_mode` can take the value `rewind_mode::ACTIVE`, `rewind_mode::REQUIRED` or `rewind_mode::DONTCARE`.
-When `M` is `rewind_mode::REQUIRED`, the custom rule's `match()`-implementation **must**, on local failure, rewind the input to where it (the input) was when it (the `match()`-function) was first called.
+The `rewind_mode` can take the value `rewind_mode::active`, `rewind_mode::required` or `rewind_mode::dontcare`.
+When `M` is `rewind_mode::required`, the custom rule's `match()`-implementation **must**, on local failure, rewind the input to where it (the input) was when it (the `match()`-function) was first called.
 
-When `M` is **not** `rewind_mode::REQUIRED`, it is not necessary to perform rewinding as either some other rule further up the call stack is already taking care of it (`rewind_mode::ACTIVE`), or rewinding is not necessary (`rewind_mode::DONTCARE`).
-For example within a `must<>`-rule (which converts local failure, a return value of `false` from the `match()`-function, to global failure, an exception) the `rewind_mode` is `DONTCARE`.
+When `M` is **not** `rewind_mode::required`, it is not necessary to perform rewinding as either some other rule further up the call stack is already taking care of it (`rewind_mode::active`), or rewinding is not necessary (`rewind_mode::dontcare`).
+For example within a `must<>`-rule (which converts local failure, a return value of `false` from the `match()`-function, to global failure, an exception) the `rewind_mode` is `dontcare`.
 
 The following implementation of the `seq`-rule's `match()`-method shows how to correctly handle the `rewind_mode`.
 The input's `mark()`-method uses the `rewind_mode` to choose which input marker to return, either one that takes care of rewinding when required, or a dummy object that does nothing.
-In the first case, `next_rewind_mode` is set to `ACTIVE`, otherwise it is equal to `M`, just as required for the next rules called by the current one.
+In the first case, `next_rewind_mode` is set to `active`, otherwise it is equal to `M`, just as required for the next rules called by the current one.
 The return value of the `match()`-method is then passed through the input marker `m` so that, if the return value is `false` and the marker is not the dummy, it can rewind the input `in`.
 
 ```c++

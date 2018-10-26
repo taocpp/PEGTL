@@ -49,7 +49,7 @@ namespace tao
          template< typename... Rules >
          struct seq
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules... >;
+            using analyze_t = analysis::generic< analysis::rule_type::seq, Rules... >;
 
             template< apply_mode A,
                       rewind_mode M,

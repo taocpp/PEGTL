@@ -12,7 +12,7 @@ namespace tao
          bool apply_result;
 
          struct grammar
-            : test_rule< 2, apply_mode::ACTION, rewind_mode::ACTIVE, any >
+            : test_rule< 2, apply_mode::action, rewind_mode::active, any >
          {
          };
 

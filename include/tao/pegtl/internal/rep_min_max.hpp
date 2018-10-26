@@ -44,7 +44,7 @@ namespace tao
          template< unsigned Min, unsigned Max, typename... Rules >
          struct rep_min_max
          {
-            using analyze_t = analysis::counted< analysis::rule_type::SEQ, Min, Rules... >;
+            using analyze_t = analysis::counted< analysis::rule_type::seq, Min, Rules... >;
 
             static_assert( Min <= Max );
 
@@ -65,7 +65,7 @@ namespace tao
                   }
                }
                for( unsigned i = Min; i != Max; ++i ) {
-                  if( !duseltronik< seq< Rules... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st... ) ) {
+                  if( !duseltronik< seq< Rules... >, A, rewind_mode::required, Action, Control >::match( in, st... ) ) {
                      return m( true );
                   }
                }

@@ -58,7 +58,7 @@ namespace tao
          template< typename Peek, typename Peek::data_t... Cs >
          struct ranges
          {
-            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+            using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< int Eol >
             static constexpr bool can_match_eol = ranges_impl< Eol, typename Peek::data_t, Cs... >::can_match_eol;
@@ -85,7 +85,7 @@ namespace tao
 
          template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
          struct ranges< Peek, Lo, Hi >
-            : range< result_on_found::SUCCESS, Peek, Lo, Hi >
+            : range< result_on_found::success, Peek, Lo, Hi >
          {
          };
 

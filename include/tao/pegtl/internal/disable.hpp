@@ -24,7 +24,7 @@ namespace tao
          template< typename... Rules >
          struct disable
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules... >;
+            using analyze_t = analysis::generic< analysis::rule_type::seq, Rules... >;
 
             template< apply_mode,
                       rewind_mode M,
@@ -34,7 +34,7 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               return duseltronik< seq< Rules... >, apply_mode::NOTHING, M, Action, Control >::match( in, st... );
+               return duseltronik< seq< Rules... >, apply_mode::nothing, M, Action, Control >::match( in, st... );
             }
          };
 

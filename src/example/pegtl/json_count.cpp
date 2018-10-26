@@ -22,7 +22,7 @@ int main( int argc, char** argv )
       file_input in( argv[ i ] );
       parse< grammar, nothing, counter >( in, cs );
    }
-   std::cout << std::right << std::setw( 72 ) << "RULE NAME" << std::left << "      START  SUCCESS  FAILURE" << std::endl;
+   std::cout << std::right << std::setw( 72 ) << "RULE NAME" << std::left << "      START  success  FAILURE" << std::endl;
    for( const auto& j : cs.counts ) {
       std::cout << std::right << std::setw( 72 ) << j.first << "   " << std::setw( 8 ) << j.second.start << " " << std::setw( 8 ) << j.second.success << " " << std::setw( 8 ) << j.second.failure << std::endl;
    }

@@ -18,7 +18,7 @@ namespace tao
       {
          struct bol
          {
-            using analyze_t = analysis::generic< analysis::rule_type::OPT >;
+            using analyze_t = analysis::generic< analysis::rule_type::opt >;
 
             template< typename Input >
             static bool match( Input& in ) noexcept

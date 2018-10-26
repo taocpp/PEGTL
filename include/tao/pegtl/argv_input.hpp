@@ -29,7 +29,7 @@ namespace tao
 
       }  // namespace internal
 
-      template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
+      template< tracking_mode P = tracking_mode::immediate, typename Eol = eol::lf_crlf >
       struct argv_input
          : public memory_input< P, Eol >
       {

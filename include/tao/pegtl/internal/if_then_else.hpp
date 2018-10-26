@@ -25,7 +25,7 @@ namespace tao
          template< typename Cond, typename Then, typename Else >
          struct if_then_else
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SOR, seq< Cond, Then >, seq< not_at< Cond >, Else > >;
+            using analyze_t = analysis::generic< analysis::rule_type::sor, seq< Cond, Then >, seq< not_at< Cond >, Else > >;
 
             template< apply_mode A,
                       rewind_mode M,
@@ -38,7 +38,7 @@ namespace tao
                auto m = in.template mark< M >();
                using m_t = decltype( m );
 
-               if( Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st... ) ) {
+               if( Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, st... ) ) {
                   return m( Control< Then >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );
                }
                return m( Control< Else >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );

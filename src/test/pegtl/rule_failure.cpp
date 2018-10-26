@@ -14,10 +14,10 @@ namespace tao
       {
          verify_analyze< failure >( __LINE__, __FILE__, true, false );  // "Success implies consumption" is true because "success" never happens.
 
-         verify_rule< failure >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
+         verify_rule< failure >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
 
          for( char i = 1; i < 127; ++i ) {
-            verify_char< failure >( __LINE__, __FILE__, i, result_type::LOCAL_FAILURE );
+            verify_char< failure >( __LINE__, __FILE__, i, result_type::local_failure );
          }
       }
 

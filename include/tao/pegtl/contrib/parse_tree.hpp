@@ -93,7 +93,7 @@ namespace tao
                return std::string( m_begin.data, m_end.data );
             }
 
-            template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
+            template< tracking_mode P = tracking_mode::immediate, typename Eol = eol::lf_crlf >
             memory_input< P, Eol > as_memory_input() const
             {
                assert( has_content() );

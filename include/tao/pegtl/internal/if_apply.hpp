@@ -32,10 +32,10 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               if constexpr( ( A == apply_mode::ACTION ) && ( sizeof...( Actions ) != 0 ) ) {
+               if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) != 0 ) ) {
                   using action_t = typename Input::action_t;
-                  auto m = in.template mark< rewind_mode::REQUIRED >();
-                  if( Control< Rule >::template match< apply_mode::ACTION, rewind_mode::ACTIVE, Action, Control >( in, st... ) ) {
+                  auto m = in.template mark< rewind_mode::required >();
+                  if( Control< Rule >::template match< apply_mode::action, rewind_mode::active, Action, Control >( in, st... ) ) {
                      const action_t i2( m.iterator(), in );
                      return m( ( apply_single< Actions >::match( i2, st... ) && ... ) );
                   }

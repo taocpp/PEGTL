@@ -41,14 +41,14 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               auto m = in.template mark< rewind_mode::REQUIRED >();
+               auto m = in.template mark< rewind_mode::required >();
 
-               if( !Control< R >::template match< A, rewind_mode::ACTIVE, Action, Control >( in, st... ) ) {
+               if( !Control< R >::template match< A, rewind_mode::active, Action, Control >( in, st... ) ) {
                   return false;
                }
-               memory_input< tracking_mode::LAZY, typename Input::eol_t, const char* > i2( m.iterator(), in.current(), source_pointer( in.source() ) );
+               memory_input< tracking_mode::lazy, typename Input::eol_t, const char* > i2( m.iterator(), in.current(), source_pointer( in.source() ) );
 
-               if( !Control< S >::template match< apply_mode::NOTHING, rewind_mode::ACTIVE, Action, Control >( i2, st... ) ) {
+               if( !Control< S >::template match< apply_mode::nothing, rewind_mode::active, Action, Control >( i2, st... ) ) {
                   return m( true );
                }
                return m( !i2.empty() );

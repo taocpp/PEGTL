@@ -18,7 +18,7 @@ namespace tao
       {
          struct eol
          {
-            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+            using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< typename Input >
             static bool match( Input& in ) noexcept( noexcept( Input::eol_t::match( in ) ) )

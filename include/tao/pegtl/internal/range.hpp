@@ -22,7 +22,7 @@ namespace tao
          {
             static_assert( Lo <= Hi, "invalid range detected" );
 
-            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+            using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< int Eol >
             static constexpr bool can_match_eol = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) == bool( R ) );

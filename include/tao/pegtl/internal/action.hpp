@@ -24,7 +24,7 @@ namespace tao
          template< template< typename... > class Action, typename... Rules >
          struct action
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules... >;
+            using analyze_t = analysis::generic< analysis::rule_type::seq, Rules... >;
 
             template< apply_mode A,
                       rewind_mode M,

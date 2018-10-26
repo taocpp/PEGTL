@@ -22,7 +22,7 @@ namespace tao
          template< typename... Actions >
          struct apply
          {
-            using analyze_t = analysis::counted< analysis::rule_type::ANY, 0 >;
+            using analyze_t = analysis::counted< analysis::rule_type::any, 0 >;
 
             template< apply_mode A,
                       rewind_mode M,
@@ -32,7 +32,7 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               if constexpr( ( A == apply_mode::ACTION ) && ( sizeof...( Actions ) > 0 ) ) {
+               if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) > 0 ) ) {
                   using action_t = typename Input::action_t;
                   const action_t i2( in.iterator(), in );  // No data -- range is from begin to begin.
                   return ( apply_single< Actions >::match( i2, st... ) && ... );

@@ -19,7 +19,7 @@ namespace tao
          template< bool Result >
          struct trivial
          {
-            using analyze_t = analysis::counted< analysis::rule_type::ANY, unsigned( !Result ) >;
+            using analyze_t = analysis::counted< analysis::rule_type::any, unsigned( !Result ) >;
 
             template< typename Input >
             static bool match( Input& /*unused*/ ) noexcept

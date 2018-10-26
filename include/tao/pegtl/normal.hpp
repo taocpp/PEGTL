@@ -70,7 +70,7 @@ namespace tao
          static bool match( Input& in, States&&... st )
          {
             constexpr char use_control = !internal::skip_control< Rule >;
-            constexpr char use_action = use_control && ( A == apply_mode::ACTION ) && ( !std::is_base_of_v< nothing< Rule >, Action< Rule > > );
+            constexpr char use_action = use_control && ( A == apply_mode::action ) && ( !std::is_base_of_v< nothing< Rule >, Action< Rule > > );
             constexpr char use_apply_void = use_action && internal::has_apply< Action< Rule >, void, typename Input::action_t, States... >::value;
             constexpr char use_apply_bool = use_action && internal::has_apply< Action< Rule >, bool, typename Input::action_t, States... >::value;
             constexpr char use_apply0_void = use_action && internal::has_apply0< Action< Rule >, void, States... >::value;

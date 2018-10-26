@@ -10,7 +10,7 @@ namespace tao
    {
       void unit_test()
       {
-         verify_seqs< must >( result_type::GLOBAL_FAILURE );
+         verify_seqs< must >( result_type::global_failure );
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE

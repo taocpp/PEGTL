@@ -14,19 +14,19 @@ namespace tao
    {
       enum class result_type
       {
-         SUCCESS = 1,
-         LOCAL_FAILURE = 0,
-         GLOBAL_FAILURE = -1
+         success = 1,
+         local_failure = 0,
+         global_failure = -1
       };
 
       inline std::ostream& operator<<( std::ostream& o, const result_type t )
       {
          switch( t ) {
-            case result_type::SUCCESS:
+            case result_type::success:
                return o << "success";
-            case result_type::LOCAL_FAILURE:
+            case result_type::local_failure:
                return o << "local failure";
-            case result_type::GLOBAL_FAILURE:
+            case result_type::global_failure:
                return o << "global failure";
          }
          return o << int( t );

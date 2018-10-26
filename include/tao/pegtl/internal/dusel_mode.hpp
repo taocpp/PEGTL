@@ -12,12 +12,12 @@ namespace tao
    {
       enum class dusel_mode : char
       {
-         NOTHING = 0,
-         CONTROL = 1,
-         CONTROL_AND_APPLY_VOID = 2,
-         CONTROL_AND_APPLY_BOOL = 3,
-         CONTROL_AND_APPLY0_VOID = 4,
-         CONTROL_AND_APPLY0_BOOL = 5
+         nothing = 0,
+         control = 1,
+         control_and_apply_void = 2,
+         control_and_apply_bool = 3,
+         control_and_apply0_void = 4,
+         control_and_apply0_bool = 5
       };
 
    }  // namespace TAO_PEGTL_NAMESPACE

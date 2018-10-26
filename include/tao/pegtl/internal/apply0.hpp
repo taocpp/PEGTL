@@ -22,7 +22,7 @@ namespace tao
          template< typename... Actions >
          struct apply0
          {
-            using analyze_t = analysis::counted< analysis::rule_type::ANY, 0 >;
+            using analyze_t = analysis::counted< analysis::rule_type::any, 0 >;
 
             template< apply_mode A,
                       rewind_mode M,
@@ -32,7 +32,7 @@ namespace tao
                       typename... States >
             static bool match( Input& /*unused*/, States&&... st )
             {
-               if constexpr( A == apply_mode::ACTION ) {
+               if constexpr( A == apply_mode::action ) {
                   return ( apply0_single< Actions >::match( st... ) && ... );
                }
                else {  // NOLINT

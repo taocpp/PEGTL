@@ -67,10 +67,10 @@ namespace tao
             TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r << " ]" );
          }
          content.clear();
-         memory_input< tracking_mode::LAZY > in2( m, m + M - 1, file, 0, line, 0 );
+         memory_input< tracking_mode::lazy > in2( m, m + M - 1, file, 0, line, 0 );
          const auto r2 = parse< Rule, Action >( in2 );
          if( ( !r2 ) || ( content != std::string( n, N - 1 ) ) ) {
-            TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] with tracking_mode::LAZY expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r2 << " ]" );
+            TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] with tracking_mode::lazy expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r2 << " ]" );
          }
       }
 

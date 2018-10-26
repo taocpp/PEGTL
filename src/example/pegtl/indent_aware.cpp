@@ -73,10 +73,10 @@ namespace example
 
    enum class type
    {
-      DEF,
-      IF,
-      ELSE,
-      LET
+      def,
+      if_,
+      else_,
+      let
    };
 
    struct entry
@@ -119,7 +119,7 @@ namespace example
    {
       static void apply0( state& s )
       {
-         s.stack.emplace_back( s.current_indent, type::DEF );
+         s.stack.emplace_back( s.current_indent, type::def );
       }
    };
 
@@ -128,7 +128,7 @@ namespace example
    {
       static void apply0( state& s )
       {
-         s.stack.emplace_back( s.current_indent, type::IF );
+         s.stack.emplace_back( s.current_indent, type::if_ );
       }
    };
 
@@ -139,10 +139,10 @@ namespace example
       static void apply( const Input& in, state& s )
       {
          assert( !s.stack.empty() );
-         if( ( s.stack.back().type != type::IF ) || ( s.stack.back().indent != s.current_indent ) ) {
+         if( ( s.stack.back().type != type::if_ ) || ( s.stack.back().indent != s.current_indent ) ) {
             throw pegtl::parse_error( "expected previous 'if' on same indent as current 'else'", in );  // NOLINT
          }
-         s.stack.back().type = type::ELSE;
+         s.stack.back().type = type::else_;
       }
    };
 
@@ -151,7 +151,7 @@ namespace example
    {
       static void apply0( state& s )
       {
-         s.stack.emplace_back( s.current_indent, type::LET );
+         s.stack.emplace_back( s.current_indent, type::let );
       }
    };
 

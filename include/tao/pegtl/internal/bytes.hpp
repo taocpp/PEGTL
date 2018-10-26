@@ -19,7 +19,7 @@ namespace tao
          template< unsigned Num >
          struct bytes
          {
-            using analyze_t = analysis::counted< analysis::rule_type::ANY, Num >;
+            using analyze_t = analysis::counted< analysis::rule_type::any, Num >;
 
             template< typename Input >
             static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )

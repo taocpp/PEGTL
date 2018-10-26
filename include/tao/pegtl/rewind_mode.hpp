@@ -12,9 +12,9 @@ namespace tao
    {
       enum class rewind_mode : char
       {
-         ACTIVE,
-         REQUIRED,
-         DONTCARE
+         active,
+         required,
+         dontcare
       };
 
    }  // namespace TAO_PEGTL_NAMESPACE

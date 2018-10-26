@@ -49,10 +49,10 @@ This "information" consists of a classification of the rules according to the fo
 
 enum class rule_type : char
 {
-   ANY,
-   OPT,
-   SEQ,
-   SOR
+   any,
+   opt,
+   seq,
+   sor
 };
 ```
 
@@ -60,10 +60,10 @@ This enum value and rule list are provided to the `analyze()`-function via an `a
 
 The names of the enum values correspond to one of the PEGTL rule classes that has this rule type, however some rule types are used by many different classes.
 
-* `ANY` is for rules where "success implies consumption" is true; assumes bounded repetition of conjunction of sub-rules.
-* `OPT` is for rules where "success implies consumption" is false; assumes bounded repetition of conjunction of sub-rules.
-* `SEQ` is for rules where consumption on success depends on non-zero bounded repetition of the conjunction of sub-rules.
-* `SOR` is for rules where consumption on success depends on non-zero bounded repetition of the disjunction of sub-rules.
+* `any` is for rules where "success implies consumption" is true; assumes bounded repetition of conjunction of sub-rules.
+* `opt` is for rules where "success implies consumption" is false; assumes bounded repetition of conjunction of sub-rules.
+* `seq` is for rules where consumption on success depends on non-zero bounded repetition of the conjunction of sub-rules.
+* `sor` is for rules where consumption on success depends on non-zero bounded repetition of the disjunction of sub-rules.
 
 At the beginning of an `analyze()`-run the function `R::analyze_t::insert()` is called for all rules `R` in the grammar in order to insert the information about the rule `R` into a data structure.
 
@@ -71,7 +71,7 @@ At the beginning of an `analyze()`-run the function `R::analyze_t::insert()` is 
 
 For custom rules it should usually be sufficient to follow the lead of the rules supplied with the PEGTL and define `analyze_t` to either `tao::pegtl::analysis::generic` or `tao::pegtl::analysis::counted`.
 In both cases, the `rule_type` and the list of sub-rules must be supplied as template parameters.
-Class `tao::pegtl::analysis::counted` additionally takes an integer argument `Count` with the assumption being that a count of zero indicates that everything the rule type is `OPT` while a non-zero count uses the rule type given as template parameter.
+Class `tao::pegtl::analysis::counted` additionally takes an integer argument `Count` with the assumption being that a count of zero indicates that everything the rule type is `opt` while a non-zero count uses the rule type given as template parameter.
 
 When a custom rule goes beyond what can be currently expressed and all other questions, please contact the authors at **taocpp(at)icemx.net**.
 

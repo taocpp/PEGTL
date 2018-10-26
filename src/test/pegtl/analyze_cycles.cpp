@@ -12,7 +12,7 @@ namespace tao
       struct any_seq
          : public seq< Rules... >
       {
-         using analyze_t = analysis::generic< analysis::rule_type::ANY, Rules... >;
+         using analyze_t = analysis::generic< analysis::rule_type::any, Rules... >;
       };
 
       void unit_test()

@@ -2,7 +2,8 @@
 
 ## Version 3.0.0
 
-Compatibility macros starting with `TAOCPP_PEGTL_` were removed, use the macros starting with `TAO_PEGTL_` instead.
+* Compatibility macros starting with `TAOCPP_PEGTL_` were removed, use the macros starting with `TAO_PEGTL_` instead.
+* All enumerators were changed from uppercase to lowercase, avoiding conflicts with macros defined on Microsoft Windows.
 
 ## Version 2.4.0
 

@@ -14,7 +14,7 @@ namespace tao
    namespace TAO_PEGTL_NAMESPACE
    {
       template< template< typename, typename, typename > class S >
-      void verify_ifmt( const result_type failure = result_type::LOCAL_FAILURE )
+      void verify_ifmt( const result_type failure = result_type::local_failure )
       {
          verify_analyze< S< eof, eof, eof > >( __LINE__, __FILE__, false, false );
          verify_analyze< S< eof, eof, any > >( __LINE__, __FILE__, false, false );
@@ -27,17 +27,17 @@ namespace tao
 
          verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "", failure, 0 );
          verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "b", failure, 1 );
-         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "c", result_type::SUCCESS, 0 );
-         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "ab", result_type::SUCCESS, 0 );
+         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "c", result_type::success, 0 );
+         verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "ab", result_type::success, 0 );
          verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "ac", failure, 2 );
 
-         verify_rule< must< S< one< 'a' >, one< 'b' >, one< 'c' > > > >( __LINE__, __FILE__, "", result_type::GLOBAL_FAILURE, 0 );
-         verify_rule< must< S< one< 'a' >, one< 'b' >, one< 'c' > > > >( __LINE__, __FILE__, "a", result_type::GLOBAL_FAILURE, 0 );
-         verify_rule< must< S< one< 'a' >, one< 'b' >, one< 'c' > > > >( __LINE__, __FILE__, "ac", result_type::GLOBAL_FAILURE, 1 );
-         verify_rule< must< S< one< 'a' >, one< 'b' >, one< 'c' > > > >( __LINE__, __FILE__, "b", result_type::GLOBAL_FAILURE, 1 );
+         verify_rule< must< S< one< 'a' >, one< 'b' >, one< 'c' > > > >( __LINE__, __FILE__, "", result_type::global_failure, 0 );
+         verify_rule< must< S< one< 'a' >, one< 'b' >, one< 'c' > > > >( __LINE__, __FILE__, "a", result_type::global_failure, 0 );
+         verify_rule< must< S< one< 'a' >, one< 'b' >, one< 'c' > > > >( __LINE__, __FILE__, "ac", result_type::global_failure, 1 );
+         verify_rule< must< S< one< 'a' >, one< 'b' >, one< 'c' > > > >( __LINE__, __FILE__, "b", result_type::global_failure, 1 );
 
-         verify_rule< must< S< one< 'a' >, one< 'b' >, seq< one< 'c' >, one< 'd' > > > > >( __LINE__, __FILE__, "c", result_type::GLOBAL_FAILURE, 0 );
-         verify_rule< must< S< one< 'a' >, one< 'b' >, seq< one< 'c' >, one< 'd' > > > > >( __LINE__, __FILE__, "cc", result_type::GLOBAL_FAILURE, 1 );
+         verify_rule< must< S< one< 'a' >, one< 'b' >, seq< one< 'c' >, one< 'd' > > > > >( __LINE__, __FILE__, "c", result_type::global_failure, 0 );
+         verify_rule< must< S< one< 'a' >, one< 'b' >, seq< one< 'c' >, one< 'd' > > > > >( __LINE__, __FILE__, "cc", result_type::global_failure, 1 );
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE

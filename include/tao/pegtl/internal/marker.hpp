@@ -38,10 +38,10 @@ namespace tao
          };
 
          template< typename Iterator >
-         class marker< Iterator, rewind_mode::REQUIRED >
+         class marker< Iterator, rewind_mode::required >
          {
          public:
-            static constexpr rewind_mode next_rewind_mode = rewind_mode::ACTIVE;
+            static constexpr rewind_mode next_rewind_mode = rewind_mode::active;
 
             explicit marker( Iterator& i ) noexcept
                : m_saved( i ),

@@ -24,13 +24,13 @@ namespace tao
       result_type verify_impl_two( Input& in )
       {
          try {
-            if( normal< Rule >::template match< apply_mode::ACTION, rewind_mode::REQUIRED, Action, normal >( in ) ) {
-               return result_type::SUCCESS;
+            if( normal< Rule >::template match< apply_mode::action, rewind_mode::required, Action, normal >( in ) ) {
+               return result_type::success;
             }
-            return result_type::LOCAL_FAILURE;
+            return result_type::local_failure;
          }
          catch( const std::exception& ) {
-            return result_type::GLOBAL_FAILURE;
+            return result_type::global_failure;
          }
          catch( ... ) {
             std::cerr << "Code should be unreachable in " << __FUNCTION__ << " (" << __FILE__ << ':' << __LINE__ << ')' << std::endl;
@@ -43,7 +43,7 @@ namespace tao
       {
          const result_type received = verify_impl_two< Rule, Action >( in );
 
-         if( ( received == expected ) && ( ( received == result_type::GLOBAL_FAILURE ) || ( in.size( 999999999 ) == remain ) ) ) {
+         if( ( received == expected ) && ( ( received == result_type::global_failure ) || ( in.size( 999999999 ) == remain ) ) ) {
             return;
          }
          TAO_PEGTL_TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << in.size( 999999999 ) << " / " << remain << " ]" );

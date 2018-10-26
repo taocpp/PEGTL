@@ -36,7 +36,7 @@ namespace tao
          template< typename Exception, typename... Rules >
          struct try_catch_type
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules... >;
+            using analyze_t = analysis::generic< analysis::rule_type::seq, Rules... >;
 
             template< apply_mode A,
                       rewind_mode M,

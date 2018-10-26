@@ -8,7 +8,7 @@ namespace tao
 {
    namespace TAO_PEGTL_NAMESPACE
    {
-      template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
+      template< tracking_mode P = tracking_mode::immediate, typename Eol = eol::lf_crlf >
       struct open_input
          : public read_input< P, Eol >
       {

@@ -56,28 +56,28 @@ namespace tao
                }
                if( const auto g = insert_guard( m_stack, start->first ) ) {
                   switch( start->second.type ) {
-                     case rule_type::ANY: {
+                     case rule_type::any: {
                         bool a = false;
                         for( const auto& r : start->second.rules ) {
                            a = a || work( find( r ), accum || a );
                         }
                         return m_cache[ start->first ] = true;
                      }
-                     case rule_type::OPT: {
+                     case rule_type::opt: {
                         bool a = false;
                         for( const auto& r : start->second.rules ) {
                            a = a || work( find( r ), accum || a );
                         }
                         return m_cache[ start->first ] = false;
                      }
-                     case rule_type::SEQ: {
+                     case rule_type::seq: {
                         bool a = false;
                         for( const auto& r : start->second.rules ) {
                            a = a || work( find( r ), accum || a );
                         }
                         return m_cache[ start->first ] = a;
                      }
-                     case rule_type::SOR: {
+                     case rule_type::sor: {
                         bool a = true;
                         for( const auto& r : start->second.rules ) {
                            a = a && work( find( r ), accum );

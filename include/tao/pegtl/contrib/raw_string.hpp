@@ -31,7 +31,7 @@ namespace tao
          template< char Open, char Marker >
          struct raw_string_open
          {
-            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+            using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< apply_mode A,
                       rewind_mode,
@@ -67,7 +67,7 @@ namespace tao
          template< char Marker, char Close >
          struct at_raw_string_close
          {
-            using analyze_t = analysis::generic< analysis::rule_type::OPT >;
+            using analyze_t = analysis::generic< analysis::rule_type::opt >;
 
             template< apply_mode A,
                       rewind_mode,
@@ -104,7 +104,7 @@ namespace tao
          template< typename Cond >
          struct raw_string_until< Cond >
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
+            using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
 
             template< apply_mode A,
                       rewind_mode M,
@@ -116,7 +116,7 @@ namespace tao
             {
                auto m = in.template mark< M >();
 
-               while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, marker_size, st... ) ) {
+               while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, marker_size, st... ) ) {
                   if( in.empty() ) {
                      return false;
                   }
@@ -129,7 +129,7 @@ namespace tao
          template< typename Cond, typename... Rules >
          struct raw_string_until
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, Rules... >, Cond >;
+            using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, Rules... >, Cond >;
 
             template< apply_mode A,
                       rewind_mode M,
@@ -142,7 +142,7 @@ namespace tao
                auto m = in.template mark< M >();
                using m_t = decltype( m );
 
-               while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, marker_size, st... ) ) {
+               while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, marker_size, st... ) ) {
                   if( in.empty() || !( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) ) {
                      return false;
                   }

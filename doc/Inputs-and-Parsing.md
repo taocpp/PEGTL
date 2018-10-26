@@ -48,7 +48,7 @@ All classes and functions on this page are in namespace `tao::pegtl`.
 
 ## Tracking Mode
 
-Some input classes allow a choice of tracking mode, or whether the `byte`, `line` and `byte_in_line` counters are continuously updated during a parsing run with `tracking_mode::IMMEDIATE`, or only calculated on-demand in the `position()`-method by scanning the complete input again with `tracking_mode::LAZY`.
+Some input classes allow a choice of tracking mode, or whether the `byte`, `line` and `byte_in_line` counters are continuously updated during a parsing run with `tracking_mode::immediate`, or only calculated on-demand in the `position()`-method by scanning the complete input again with `tracking_mode::lazy`.
 
 Lazy tracking is recommended when the position is used very infrequently, for example only in the case of throwing a `parse_error`.
 
@@ -81,7 +81,7 @@ They immediately make available the complete contents of the file; `read_input<>
 The constructors that take a `FILE*` argument take ownership of the file pointer, i.e. they `fclose()` it in the destructor.
 
 ```c++
-template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
+template< tracking_mode P = tracking_mode::immediate, typename Eol = eol::lf_crlf >
 struct read_input
 {
    explicit read_input( const char* filename );
@@ -91,14 +91,14 @@ struct read_input
    read_input( FILE* file, const std::string& filename );
 };
 
-template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
+template< tracking_mode P = tracking_mode::immediate, typename Eol = eol::lf_crlf >
 struct mmap_input
 {
    explicit mmap_input( const char* filename );
    explicit mmap_input( const std::string& filename );
 };
 
-template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
+template< tracking_mode P = tracking_mode::immediate, typename Eol = eol::lf_crlf >
 using file_input = mmap_input< P, Eol >;  // Or read_input when no mmap_input available.
 ```
 
@@ -119,7 +119,7 @@ It will therefore *only* work correctly with data that is terminated with a 0-by
 The constructors that take additional `byte`, `line` and `byte_in_line` arguments initialise the internal counters with the supplied values, rather than the defaults of `0`, `1` and `0`.
 
 ```c++
-template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf, typename Source = std::string >
+template< tracking_mode P = tracking_mode::immediate, typename Eol = eol::lf_crlf, typename Source = std::string >
 class memory_input
 {
    template< typename T >
@@ -170,7 +170,7 @@ struct packet
 
 packet p = ...; // some UDP packet class
 
-memory_input< tracking_mode::LAZY, eol::crlf > in2( p.buffer().begin(), p.buffer().end(), p.identifier() );
+memory_input< tracking_mode::lazy, eol::crlf > in2( p.buffer().begin(), p.buffer().end(), p.identifier() );
 ```
 
 Consider a UDP packet that was received and should be parsed.
@@ -196,7 +196,7 @@ The class `string_input<>` can also be used to parse a `std::string`.
 Unlike class `memory_input<>`, this class stores a copied (or moved) version of the data for which it takes ownership.
 
 ```c++
-template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf, typename Source = std::string >
+template< tracking_mode P = tracking_mode::immediate, typename Eol = eol::lf_crlf, typename Source = std::string >
 class string_input
 {
    template< typename V, typename T >
@@ -259,7 +259,7 @@ They should be used "as if" this was the actual signature.
 The class `argv_input<>` can be used to parse a string passed from the command line.
 
 ```c++
-template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
+template< tracking_mode P = tracking_mode::immediate, typename Eol = eol::lf_crlf >
 class argv_input
 {
    argv_input( char** argv, const std::size_t n );
@@ -284,8 +284,8 @@ The parse functions accept the following template parameters and arguments:
 
 Additionally, two enumeration values can be used to control the behaviour:
 
-- The `apply_mode` which can also be set to `NOTHING` in order to disable action invocations, just like the `disable<>` rule does.
-- The `rewind_mode` which can also be set to `DONTCARE` in order to not require rewinding of the input on local failure, a micro optimisation.
+- The `apply_mode` which can also be set to `nothing` in order to disable action invocations, just like the `disable<>` rule does.
+- The `rewind_mode` which can also be set to `dontcare` in order to not require rewinding of the input on local failure, a micro optimisation.
 
 The result of a parsing run, i.e. an invocation of `tao::pegtl::parse()`, can be either
 
@@ -298,8 +298,8 @@ The result of a parsing run, i.e. an invocation of `tao::pegtl::parse()`, can be
 template< typename Rule,
           template< typename... > class Action = nothing,
           template< typename... > class Control = normal,
-          apply_mode A = apply_mode::ACTION,
-          rewind_mode M = rewind_mode::REQUIRED,
+          apply_mode A = apply_mode::action,
+          rewind_mode M = rewind_mode::required,
           typename Input,
           typename... States >
 bool parse( Input& in,
@@ -320,8 +320,8 @@ Everything else remains the same.
 template< typename Rule,
           template< typename... > class Action = nothing,
           template< typename... > class Control = normal,
-          apply_mode A = apply_mode::ACTION,
-          rewind_mode M = rewind_mode::REQUIRED,
+          apply_mode A = apply_mode::action,
+          rewind_mode M = rewind_mode::required,
           typename Outer,
           typename Input,
           typename... States >

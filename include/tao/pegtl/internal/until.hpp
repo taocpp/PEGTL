@@ -29,7 +29,7 @@ namespace tao
          template< typename Cond >
          struct until< Cond >
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
+            using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
 
             template< apply_mode A,
                       rewind_mode M,
@@ -41,7 +41,7 @@ namespace tao
             {
                auto m = in.template mark< M >();
 
-               while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st... ) ) {
+               while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, st... ) ) {
                   if( in.empty() ) {
                      return false;
                   }
@@ -54,7 +54,7 @@ namespace tao
          template< typename Cond, typename... Rules >
          struct until
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, star< not_at< Cond >, not_at< eof >, Rules... >, Cond >;
+            using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, Rules... >, Cond >;
 
             template< apply_mode A,
                       rewind_mode M,
@@ -67,7 +67,7 @@ namespace tao
                auto m = in.template mark< M >();
                using m_t = decltype( m );
 
-               while( !Control< Cond >::template match< A, rewind_mode::REQUIRED, Action, Control >( in, st... ) ) {
+               while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, st... ) ) {
                   if( !( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) ) {
                      return false;
                   }

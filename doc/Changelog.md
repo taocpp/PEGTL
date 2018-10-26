@@ -7,6 +7,7 @@
 * Updated required C++ standard to C++17.
 * Updated required [CMake](https://cmake.org/) version to 3.8.
 * Removed compatibility macros starting with `TAOCPP_PEGTL_`.
+* Changed enumerators to lowercase.
 
 ## 2.7.1
 
