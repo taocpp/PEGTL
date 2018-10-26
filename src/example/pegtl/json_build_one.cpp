@@ -42,7 +42,7 @@ namespace examples
       : public unescape_state_base
    {
       template< typename Input, typename... States >
-      string_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      explicit string_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
       {
       }
 
@@ -102,7 +102,7 @@ namespace examples
       std::shared_ptr< array_json > array = std::make_shared< array_json >();
 
       template< typename Input, typename... States >
-      array_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      explicit array_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
       {
       }
 
@@ -146,7 +146,7 @@ namespace examples
       std::shared_ptr< object_json > object = std::make_shared< object_json >();
 
       template< typename Input, typename... States >
-      object_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      explicit object_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
       {
       }
 

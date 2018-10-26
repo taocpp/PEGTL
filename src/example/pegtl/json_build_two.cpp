@@ -86,7 +86,7 @@ namespace examples
       : public unescape_state_base
    {
       template< typename Input, typename... States >
-      string_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      explicit string_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
       {
       }
 
@@ -145,7 +145,7 @@ namespace examples
    struct key_state : unescape_state_base
    {
       template< typename Input, typename... States >
-      key_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      explicit key_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
       {
       }
 
