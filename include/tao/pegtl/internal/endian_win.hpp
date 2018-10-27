@@ -5,9 +5,8 @@
 #define TAO_PEGTL_INTERNAL_ENDIAN_WIN_HPP
 
 #include <cstdint>
+#include <cstdlib>
 #include <cstring>
-
-#include <stdlib.h>
 
 namespace tao
 {
