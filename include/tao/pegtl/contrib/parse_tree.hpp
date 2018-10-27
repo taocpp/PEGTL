@@ -159,7 +159,7 @@ namespace tao
 
                void emplace_back()
                {
-                  stack.emplace_back( std::unique_ptr< Node >( new Node ) );  // NOLINT: std::make_unique requires C++14
+                  stack.emplace_back( std::make_unique< Node >() );
                }
 
                std::unique_ptr< Node >& back() noexcept
