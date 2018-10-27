@@ -32,19 +32,19 @@ namespace tao
 
 #define TAO_PEGTL_INTERNAL_UNWRAP( ... ) __VA_ARGS__
 
-#define TAO_PEGTL_THROW_INPUT_ERROR( MESSAGE )                                          \
+#define TAO_PEGTL_THROW_INPUT_ERROR( MeSSaGe )                                          \
    do {                                                                                 \
       const int errorno = errno;                                                        \
       std::ostringstream oss;                                                           \
-      oss << "pegtl: " << TAO_PEGTL_INTERNAL_UNWRAP( MESSAGE ) << " errno " << errorno; \
+      oss << "pegtl: " << TAO_PEGTL_INTERNAL_UNWRAP( MeSSaGe ) << " errno " << errorno; \
       throw tao::TAO_PEGTL_NAMESPACE::input_error( oss.str(), errorno );                \
    } while( false )
 
-#define TAO_PEGTL_THROW_INPUT_WIN32_ERROR( MESSAGE )                                             \
+#define TAO_PEGTL_THROW_INPUT_WIN32_ERROR( MeSSaGe )                                             \
    do {                                                                                          \
       const int errorno = GetLastError();                                                        \
       std::ostringstream oss;                                                                    \
-      oss << "pegtl: " << TAO_PEGTL_INTERNAL_UNWRAP( MESSAGE ) << " GetLastError() " << errorno; \
+      oss << "pegtl: " << TAO_PEGTL_INTERNAL_UNWRAP( MeSSaGe ) << " GetLastError() " << errorno; \
       throw tao::TAO_PEGTL_NAMESPACE::input_error( oss.str(), errorno );                         \
    } while( false )
 
