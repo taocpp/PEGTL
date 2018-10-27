@@ -467,7 +467,7 @@ namespace tao
 
                   // if the previous rule does not assign an alternation, create an intermediate alternation and move its assignee into it.
                   if( !previous->is< abnf::grammar::alternation >() ) {
-                     node_ptr s( new parse_tree::node );
+                     auto s = std::make_unique< parse_tree::node >();
                      s->id = &typeid( abnf::grammar::alternation );
                      s->source = previous->source;
                      s->m_begin = previous->m_begin;
