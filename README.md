@@ -77,6 +77,12 @@ cover 100% of the core library code (for releases).
 Incompatible API changes are *only* allowed to occur between major versions.
 For details see the [changelog](doc/Changelog.md).
 
+## Contact
+
+The PEGTL is part of [The Art of C++](https://taocpp.github.io/).
+
+For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to contact the authors at `taocpp(at)icemx.net`.
+
 ## Thank You
 
 * Christopher Diggins and the YARD parser for the general idea.
@@ -94,12 +100,6 @@ For details see the [changelog](doc/Changelog.md).
 * Stuart Dootson for `mmap_input<>` support on Windows.
 * Sven Johannsen for help with CMake.
 * Zhihao Yuan for fixing several warnings when compiling with Visual Studio 2015.
-
-## Contact
-
-The PEGTL is part of [The Art of C++](https://taocpp.github.io/).
-
-For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to contact the authors at `taocpp(at)icemx.net`.
 
 ## License
 
