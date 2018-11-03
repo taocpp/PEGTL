@@ -19,6 +19,40 @@ namespace tao
 {
    namespace TAO_PEGTL_NAMESPACE
    {
+      namespace internal
+      {
+         template< typename Input >
+         void print_current( const Input& in )
+         {
+            if( in.empty() ) {
+               std::cerr << "<eof>";
+            }
+            else {
+               const auto c = in.peek_byte();
+               switch( c ) {
+                  case 0:
+                     std::cerr << "<nul> = ";
+                     break;
+                  case 9:
+                     std::cerr << "<ht> = ";
+                     break;
+                  case 10:
+                     std::cerr << "<lf> = ";
+                     break;
+                  case 13:
+                     std::cerr << "<cr> = ";
+                     break;
+                  default:
+                     if( isprint( c ) ) {
+                        std::cerr << '\'' << c << "' = ";
+                     }
+               }
+               std::cerr << "(char)" << unsigned( c );
+            }
+         }
+
+      }  // namespace internal
+
       struct trace_state
       {
          unsigned rule = 0;
@@ -39,14 +73,18 @@ namespace tao
          template< typename Input >
          static void start( const Input& in, trace_state& ts )
          {
-            std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ++ts.rule << " " << in.position() << "  start  " << internal::demangle< Rule >() << std::endl;
+            std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ++ts.rule << " " << in.position() << "  start  " << internal::demangle< Rule >() << " at ";
+            print_current( in );
+            std::cerr << std::endl;
             ts.stack.push_back( ts.rule );
          }
 
          template< typename Input, typename... States >
          static void success( const Input& in, States&&... /*unused*/ )
          {
-            std::cerr << in.position() << " success " << internal::demangle< Rule >() << std::endl;
+            std::cerr << in.position() << " success " << internal::demangle< Rule >() << " at ";
+            print_current( in );
+            std::cerr << std::endl;
          }
 
          template< typename Input >
