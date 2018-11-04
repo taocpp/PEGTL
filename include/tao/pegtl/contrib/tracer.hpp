@@ -67,22 +67,23 @@ namespace tao
          template< typename Input, typename... States >
          static void start( const Input& in, States&&... /*unused*/ )
          {
-            std::cerr << in.position() << "  start  " << internal::demangle< Rule >() << std::endl;
+            std::cerr << in.position() << "  start  " << internal::demangle< Rule >() << "; current ";
+            print_current( in );
+            std::cerr << std::endl;
          }
 
          template< typename Input >
          static void start( const Input& in, trace_state& ts )
          {
-            std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ++ts.rule << " " << in.position() << "  start  " << internal::demangle< Rule >() << " at ";
-            print_current( in );
-            std::cerr << std::endl;
+            std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ++ts.rule << " ";
+            start( in );
             ts.stack.push_back( ts.rule );
          }
 
          template< typename Input, typename... States >
          static void success( const Input& in, States&&... /*unused*/ )
          {
-            std::cerr << in.position() << " success " << internal::demangle< Rule >() << " at ";
+            std::cerr << in.position() << " success " << internal::demangle< Rule >() << "; next ";
             print_current( in );
             std::cerr << std::endl;
          }
@@ -91,7 +92,8 @@ namespace tao
          static void success( const Input& in, trace_state& ts )
          {
             assert( !ts.stack.empty() );
-            std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ts.stack.back() << " " << in.position() << " success " << internal::demangle< Rule >() << std::endl;
+            std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ts.stack.back() << " ";
+            success( in );
             ts.stack.pop_back();
          }
 
@@ -105,13 +107,13 @@ namespace tao
          static void failure( const Input& in, trace_state& ts )
          {
             assert( !ts.stack.empty() );
-            std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ts.stack.back() << " " << in.position() << " failure " << internal::demangle< Rule >() << std::endl;
+            std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ts.stack.back() << " ";
+            failure( in );
             ts.stack.pop_back();
          }
 
          template< template< typename... > class Action, typename Input, typename... States >
          static auto apply0( const Input& /*unused*/, States&&... st )
-            -> decltype( Action< Rule >::apply0( st... ) )
          {
             std::cerr << "apply0 " << internal::demangle< Action< Rule > >() << std::endl;
             return Action< Rule >::apply0( st... );
@@ -119,7 +121,6 @@ namespace tao
 
          template< template< typename... > class Action, typename Input, typename... States >
          static auto apply0( const Input& /*unused*/, trace_state& ts, States&&... st )
-            -> decltype( Action< Rule >::apply0( ts, st... ) )
          {
             std::cerr << std::setw( 6 ) << ++ts.line << "        " << internal::demangle< Action< Rule > >() << "::apply0()" << std::endl;
             return Action< Rule >::apply0( ts, st... );
@@ -127,7 +128,6 @@ namespace tao
 
          template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
          static auto apply( const Iterator& begin, const Input& in, States&&... st )
-            -> decltype( Action< Rule >::apply( std::declval< typename Input::action_t >(), st... ) )
          {
             std::cerr << "apply " << internal::demangle< Action< Rule > >() << std::endl;
             using action_t = typename Input::action_t;
@@ -137,7 +137,6 @@ namespace tao
 
          template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
          static auto apply( const Iterator& begin, const Input& in, trace_state& ts, States&&... st )
-            -> decltype( Action< Rule >::apply( std::declval< typename Input::action_t >(), ts, st... ) )
          {
             std::cerr << std::setw( 6 ) << ++ts.line << "        " << internal::demangle< Action< Rule > >() << "::apply()" << std::endl;
             using action_t = typename Input::action_t;
