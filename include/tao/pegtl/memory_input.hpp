@@ -349,7 +349,7 @@ namespace tao
             using input_t = memory_input< tracking_mode::lazy, Eol, const char* >;
             input_t in( at( p ), this->end(), "" );
             using grammar = internal::until< internal::at< internal::eolf > >;
-            normal< grammar >::match< apply_mode::nothing, rewind_mode::dontcare, nothing, normal >( in );
+            (void)normal< grammar >::match< apply_mode::nothing, rewind_mode::dontcare, nothing, normal >( in );
             return in.current();
          }
 
