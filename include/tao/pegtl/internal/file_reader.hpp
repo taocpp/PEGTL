@@ -18,12 +18,12 @@ namespace tao
    {
       namespace internal
       {
-         inline std::FILE* file_open( const char* filename )
+         [[nodiscard]] inline std::FILE* file_open( const char* filename )
          {
             errno = 0;
 #if defined( _MSC_VER )
             std::FILE* file;
-            if(::fopen_s( &file, filename, "rb" ) == 0 )
+            if( ::fopen_s( &file, filename, "rb" ) == 0 )
 #elif defined( __MINGW32__ )
             if( auto* file = std::fopen( filename, "rb" ) )  // NOLINT(cppcoreguidelines-owning-memory)
 #else
@@ -66,7 +66,7 @@ namespace tao
             void operator=( const file_reader& ) = delete;
             void operator=( file_reader&& ) = delete;
 
-            std::size_t size() const
+            [[nodiscard]] std::size_t size() const
             {
                errno = 0;
                if( std::fseek( m_file.get(), 0, SEEK_END ) != 0 ) {
@@ -84,7 +84,7 @@ namespace tao
                return std::size_t( s );
             }
 
-            std::string read() const
+            [[nodiscard]] std::string read() const
             {
                std::string nrv;
                nrv.resize( size() );

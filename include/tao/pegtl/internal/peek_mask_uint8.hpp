@@ -24,7 +24,7 @@ namespace tao
             using pair_t = input_pair< std::uint8_t >;
 
             template< typename Input >
-            static pair_t peek( Input& in, const std::size_t o = 0 ) noexcept( noexcept( in.peek_byte( 0 ) ) )
+            [[nodiscard]] static pair_t peek( Input& in, const std::size_t o = 0 ) noexcept( noexcept( in.peek_byte( 0 ) ) )
             {
                return { std::uint8_t( in.peek_byte( o ) & M ), 1 };
             }

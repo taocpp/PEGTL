@@ -26,11 +26,13 @@ namespace tao
 
             template< apply_mode A,
                       rewind_mode M,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
+                      template< typename... >
+                      class Action,
+                      template< typename... >
+                      class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input& /*unused*/, States&&... st )
+            [[nodiscard]] static bool match( Input& /*unused*/, States&&... st )
             {
                if constexpr( A == apply_mode::action ) {
                   return ( apply0_single< Actions >::match( st... ) && ... );

@@ -18,7 +18,7 @@ namespace tao
          struct apply_single
          {
             template< typename Input, typename... States >
-            static auto match( const Input& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
+            [[nodiscard]] static auto match( const Input& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
                -> std::enable_if_t< std::is_same_v< decltype( Action::apply( in, st... ) ), void >, bool >
             {
                Action::apply( in, st... );
@@ -26,7 +26,7 @@ namespace tao
             }
 
             template< typename Input, typename... States >
-            static auto match( const Input& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
+            [[nodiscard]] static auto match( const Input& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
                -> std::enable_if_t< std::is_same_v< decltype( Action::apply( in, st... ) ), bool >, bool >
             {
                return Action::apply( in, st... );

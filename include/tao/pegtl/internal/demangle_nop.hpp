@@ -14,7 +14,7 @@ namespace tao
    {
       namespace internal
       {
-         inline std::string demangle( const char* symbol )
+         [[nodiscard]] inline std::string demangle( const char* symbol )
          {
             return symbol;
          }

@@ -22,7 +22,7 @@ namespace tao
             using analyze_t = analysis::counted< analysis::rule_type::any, unsigned( !Result ) >;
 
             template< typename Input >
-            static bool match( Input& /*unused*/ ) noexcept
+            [[nodiscard]] static bool match( Input& /*unused*/ ) noexcept
             {
                return Result;
             }

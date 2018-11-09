@@ -53,7 +53,7 @@ namespace tao
          struct keyword<>
          {
             template< typename Input >
-            static bool match( Input& /*unused*/ ) noexcept
+            [[nodiscard]] static bool match( Input& /*unused*/ ) noexcept
             {
                static_assert( internal::always_false< Input >::value, "empty keywords not allowed" );
                return false;

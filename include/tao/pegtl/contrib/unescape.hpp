@@ -24,7 +24,7 @@ namespace tao
 
          // Utility functions for the unescape actions.
 
-         inline bool utf8_append_utf32( std::string& string, const unsigned utf32 )
+         [[nodiscard]] inline bool utf8_append_utf32( std::string& string, const unsigned utf32 )
          {
             if( utf32 <= 0x7f ) {
                string += char( utf32 & 0xff );
@@ -60,7 +60,7 @@ namespace tao
 
          // This function MUST only be called for characters matching tao::TAO_PEGTL_NAMESPACE::ascii::xdigit!
          template< typename I >
-         I unhex_char( const char c )
+         [[nodiscard]] I unhex_char( const char c )
          {
             switch( c ) {
                case '0':
@@ -94,7 +94,7 @@ namespace tao
          }
 
          template< typename I >
-         I unhex_string( const char* begin, const char* end )
+         [[nodiscard]] I unhex_string( const char* begin, const char* end )
          {
             I r = 0;
             while( begin != end ) {
@@ -127,14 +127,14 @@ namespace tao
             }
 
             template< typename Input, char... Qs >
-            static char apply_one( const Input& in, const one< Qs... >* /*unused*/ )
+            [[nodiscard]] static char apply_one( const Input& in, const one< Qs... >* /*unused*/ )
             {
                static_assert( sizeof...( Qs ) == sizeof...( Rs ), "size mismatch between escaped characters and their mappings" );
                return apply_two( in, { Qs... }, { Rs... } );
             }
 
             template< typename Input >
-            static char apply_two( const Input& in, const std::initializer_list< char >& q, const std::initializer_list< char >& r )
+            [[nodiscard]] static char apply_two( const Input& in, const std::initializer_list< char >& q, const std::initializer_list< char >& r )
             {
                const char c = *in.begin();
                for( std::size_t i = 0; i < q.size(); ++i ) {
@@ -192,8 +192,7 @@ namespace tao
                      const auto d = unhex_string< unsigned >( b + 6, b + 10 );
                      if( ( 0xdc00 <= d ) && ( d <= 0xdfff ) ) {
                         b += 6;
-                        // note: no need to check the result code, as we are always >= 0x10000 and < 0x110000.
-                        utf8_append_utf32( st.unescaped, ( ( ( c & 0x03ff ) << 10 ) | ( d & 0x03ff ) ) + 0x10000 );
+                        (void)utf8_append_utf32( st.unescaped, ( ( ( c & 0x03ff ) << 10 ) | ( d & 0x03ff ) ) + 0x10000 );
                         continue;
                      }
                   }

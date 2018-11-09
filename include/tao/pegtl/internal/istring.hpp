@@ -25,7 +25,7 @@ namespace tao
          inline constexpr bool is_alpha = ( ( 'a' <= C ) && ( C <= 'z' ) ) || ( ( 'A' <= C ) && ( C <= 'Z' ) );
 
          template< char C >
-         bool ichar_equal( const char c ) noexcept
+         [[nodiscard]] bool ichar_equal( const char c ) noexcept
          {
             if constexpr( is_alpha< C > ) {
                return ( C | 0x20 ) == ( c | 0x20 );
@@ -36,7 +36,7 @@ namespace tao
          }
 
          template< char... Cs >
-         bool istring_equal( const char* r ) noexcept
+         [[nodiscard]] bool istring_equal( const char* r ) noexcept
          {
             return ( ichar_equal< Cs >( *r++ ) && ... );
          }
@@ -56,7 +56,7 @@ namespace tao
             using analyze_t = analysis::counted< analysis::rule_type::any, sizeof...( Cs ) >;
 
             template< typename Input >
-            static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
+            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
             {
                if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
                   if( istring_equal< Cs... >( in.current() ) ) {

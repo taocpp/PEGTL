@@ -54,7 +54,7 @@ namespace tao
             void operator=( const win32_file_opener& ) = delete;
             void operator=( win32_file_opener&& ) = delete;
 
-            std::size_t size() const
+            [[nodiscard]] std::size_t size() const
             {
                LARGE_INTEGER size;
                if( !::GetFileSizeEx( m_handle, &size ) ) {
@@ -67,7 +67,7 @@ namespace tao
             const HANDLE m_handle;
 
          private:
-            HANDLE open() const
+            [[nodiscard]] HANDLE open() const
             {
                SetLastError( 0 );
                const HANDLE handle = ::CreateFileA( m_source,
@@ -112,7 +112,7 @@ namespace tao
             const HANDLE m_handle;
 
          private:
-            HANDLE open( const win32_file_opener& reader ) const
+            [[nodiscard]] HANDLE open( const win32_file_opener& reader ) const
             {
                const uint64_t file_size = reader.size();
                SetLastError( 0 );
@@ -143,11 +143,11 @@ namespace tao
 
             explicit file_mapper( const win32_file_mapper& mapper )
                : m_size( mapper.m_size ),
-                 m_data( static_cast< const char* const >(::MapViewOfFile( mapper.m_handle,
-                                                                           FILE_MAP_READ,
-                                                                           0,
-                                                                           0,
-                                                                           0 ) ) )
+                 m_data( static_cast< const char* const >( ::MapViewOfFile( mapper.m_handle,
+                                                                            FILE_MAP_READ,
+                                                                            0,
+                                                                            0,
+                                                                            0 ) ) )
             {
                if( ( m_size != 0 ) && ( intptr_t( m_data ) == 0 ) ) {
                   TAO_PEGTL_THROW_INPUT_WIN32_ERROR( "unable to MapViewOfFile() file mapping object with handle " << mapper.m_handle );
@@ -165,12 +165,12 @@ namespace tao
             void operator=( const file_mapper& ) = delete;
             void operator=( file_mapper&& ) = delete;
 
-            bool empty() const noexcept
+            [[nodiscard]] bool empty() const noexcept
             {
                return m_size == 0;
             }
 
-            std::size_t size() const noexcept
+            [[nodiscard]] std::size_t size() const noexcept
             {
                return m_size;
             }
@@ -178,22 +178,22 @@ namespace tao
             using iterator = const char*;
             using const_iterator = const char*;
 
-            iterator data() const noexcept
+            [[nodiscard]] iterator data() const noexcept
             {
                return m_data;
             }
 
-            iterator begin() const noexcept
+            [[nodiscard]] iterator begin() const noexcept
             {
                return m_data;
             }
 
-            iterator end() const noexcept
+            [[nodiscard]] iterator end() const noexcept
             {
                return m_data + m_size;
             }
 
-            std::string string() const
+            [[nodiscard]] std::string string() const
             {
                return std::string( m_data, m_size );
             }

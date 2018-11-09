@@ -20,7 +20,7 @@ namespace tao
          {
             using type = std::uint16_t;
 
-            static std::uint16_t read( const void* d ) noexcept
+            [[nodiscard]] static std::uint16_t read( const void* d ) noexcept
             {
                return be_to_h< std::uint16_t >( d );
             }
@@ -30,7 +30,7 @@ namespace tao
          {
             using type = std::uint16_t;
 
-            static std::uint16_t read( const void* d ) noexcept
+            [[nodiscard]] static std::uint16_t read( const void* d ) noexcept
             {
                return le_to_h< std::uint16_t >( d );
             }
@@ -40,7 +40,7 @@ namespace tao
          {
             using type = std::uint32_t;
 
-            static std::uint32_t read( const void* d ) noexcept
+            [[nodiscard]] static std::uint32_t read( const void* d ) noexcept
             {
                return be_to_h< std::uint32_t >( d );
             }
@@ -50,7 +50,7 @@ namespace tao
          {
             using type = std::uint32_t;
 
-            static std::uint32_t read( const void* d ) noexcept
+            [[nodiscard]] static std::uint32_t read( const void* d ) noexcept
             {
                return le_to_h< std::uint32_t >( d );
             }
@@ -60,7 +60,7 @@ namespace tao
          {
             using type = std::uint64_t;
 
-            static std::uint64_t read( const void* d ) noexcept
+            [[nodiscard]] static std::uint64_t read( const void* d ) noexcept
             {
                return be_to_h< std::uint64_t >( d );
             }
@@ -70,7 +70,7 @@ namespace tao
          {
             using type = std::uint64_t;
 
-            static std::uint64_t read( const void* d ) noexcept
+            [[nodiscard]] static std::uint64_t read( const void* d ) noexcept
             {
                return le_to_h< std::uint64_t >( d );
             }

@@ -20,12 +20,12 @@ namespace tao
    {
       namespace internal
       {
-         inline const char* begin_c_ptr( const char* p ) noexcept
+         [[nodiscard]] inline const char* begin_c_ptr( const char* p ) noexcept
          {
             return p;
          }
 
-         inline const char* begin_c_ptr( const iterator& it ) noexcept
+         [[nodiscard]] inline const char* begin_c_ptr( const iterator& it ) noexcept
          {
             return it.data;
          }
@@ -51,57 +51,57 @@ namespace tao
             action_input& operator=( const action_input& ) = delete;
             action_input& operator=( action_input&& ) = delete;
 
-            const iterator_t& iterator() const noexcept
+            [[nodiscard]] const iterator_t& iterator() const noexcept
             {
                return m_begin;
             }
 
-            const Input& input() const noexcept
+            [[nodiscard]] const Input& input() const noexcept
             {
                return m_input;
             }
 
-            const char* begin() const noexcept
+            [[nodiscard]] const char* begin() const noexcept
             {
                return begin_c_ptr( iterator() );
             }
 
-            const char* end() const noexcept
+            [[nodiscard]] const char* end() const noexcept
             {
                return input().current();
             }
 
-            bool empty() const noexcept
+            [[nodiscard]] bool empty() const noexcept
             {
                return begin() == end();
             }
 
-            std::size_t size() const noexcept
+            [[nodiscard]] std::size_t size() const noexcept
             {
                return std::size_t( end() - begin() );
             }
 
-            std::string string() const
+            [[nodiscard]] std::string string() const
             {
                return std::string( begin(), end() );
             }
 
-            std::string_view string_view() const noexcept
+            [[nodiscard]] std::string_view string_view() const noexcept
             {
                return std::string_view( begin(), end() );
             }
 
-            char peek_char( const std::size_t offset = 0 ) const noexcept
+            [[nodiscard]] char peek_char( const std::size_t offset = 0 ) const noexcept
             {
                return begin()[ offset ];
             }
 
-            std::uint8_t peek_byte( const std::size_t offset = 0 ) const noexcept
+            [[nodiscard]] std::uint8_t peek_byte( const std::size_t offset = 0 ) const noexcept
             {
                return static_cast< std::uint8_t >( peek_char( offset ) );
             }
 
-            TAO_PEGTL_NAMESPACE::position position() const
+            [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
             {
                return input().position( iterator() );  // NOTE: Not efficient with lazy inputs.
             }

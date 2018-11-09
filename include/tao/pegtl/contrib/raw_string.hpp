@@ -35,11 +35,13 @@ namespace tao
 
             template< apply_mode A,
                       rewind_mode,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
+                      template< typename... >
+                      class Action,
+                      template< typename... >
+                      class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input& in, std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 0 ) ) )
+            [[nodiscard]] static bool match( Input& in, std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 0 ) ) )
             {
                if( in.empty() || ( in.peek_char( 0 ) != Open ) ) {
                   return false;
@@ -49,7 +51,7 @@ namespace tao
                      case Open:
                         marker_size = i + 1;
                         in.bump_in_this_line( marker_size );
-                        eol::match( in );
+                        (void)eol::match( in );
                         return true;
                      case Marker:
                         break;
@@ -71,11 +73,13 @@ namespace tao
 
             template< apply_mode A,
                       rewind_mode,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
+                      template< typename... >
+                      class Action,
+                      template< typename... >
+                      class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input& in, const std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 0 ) ) )
+            [[nodiscard]] static bool match( Input& in, const std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 0 ) ) )
             {
                if( in.size( marker_size ) < marker_size ) {
                   return false;
@@ -108,11 +112,13 @@ namespace tao
 
             template< apply_mode A,
                       rewind_mode M,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
+                      template< typename... >
+                      class Action,
+                      template< typename... >
+                      class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input& in, const std::size_t& marker_size, States&&... st )
+            [[nodiscard]] static bool match( Input& in, const std::size_t& marker_size, States&&... st )
             {
                auto m = in.template mark< M >();
 
@@ -133,11 +139,13 @@ namespace tao
 
             template< apply_mode A,
                       rewind_mode M,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
+                      template< typename... >
+                      class Action,
+                      template< typename... >
+                      class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input& in, const std::size_t& marker_size, States&&... st )
+            [[nodiscard]] static bool match( Input& in, const std::size_t& marker_size, States&&... st )
             {
                auto m = in.template mark< M >();
                using m_t = decltype( m );
@@ -195,15 +203,18 @@ namespace tao
 
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control,
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control,
                    typename Input,
                    typename... States >
-         static bool match( Input& in, States&&... st )
+         [[nodiscard]] static bool match( Input& in, States&&... st )
          {
             std::size_t marker_size;
             if( internal::raw_string_open< Open, Marker >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
-               internal::must< content >::template match< A, M, Action, Control >( in, marker_size, st... );
+               // TODO: Do not rely on must<>
+               (void)internal::must< content >::template match< A, M, Action, Control >( in, marker_size, st... );
                in.bump_in_this_line( marker_size );
                return true;
             }

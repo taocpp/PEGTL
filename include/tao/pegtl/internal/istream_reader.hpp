@@ -22,7 +22,7 @@ namespace tao
             {
             }
 
-            std::size_t operator()( char* buffer, const std::size_t length )
+            [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length )
             {
                m_istream.read( buffer, std::streamsize( length ) );
 

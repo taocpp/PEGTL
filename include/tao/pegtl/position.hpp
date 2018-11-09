@@ -40,7 +40,7 @@ namespace tao
          return o << p.source << ':' << p.line << ':' << p.byte_in_line << '(' << p.byte << ')';
       }
 
-      inline std::string to_string( const position& p )
+      [[nodiscard]] inline std::string to_string( const position& p )
       {
          std::ostringstream o;
          o << p;

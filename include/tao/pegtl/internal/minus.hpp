@@ -18,12 +18,12 @@ namespace tao
    {
       namespace internal
       {
-         inline const char* source_pointer( const char* source ) noexcept
+         [[nodiscard]] inline const char* source_pointer( const char* source ) noexcept
          {
             return source;
          }
 
-         inline const char* source_pointer( const std::string& source ) noexcept
+         [[nodiscard]] inline const char* source_pointer( const std::string& source ) noexcept
          {
             return source.c_str();
          }
@@ -35,11 +35,13 @@ namespace tao
 
             template< apply_mode A,
                       rewind_mode,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
+                      template< typename... >
+                      class Action,
+                      template< typename... >
+                      class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input& in, States&&... st )
+            [[nodiscard]] static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< rewind_mode::required >();
 

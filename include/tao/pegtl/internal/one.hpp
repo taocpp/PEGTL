@@ -22,7 +22,7 @@ namespace tao
       namespace internal
       {
          template< typename Char >
-         bool contains( const Char c, const std::initializer_list< Char >& l ) noexcept
+         [[nodiscard]] bool contains( const Char c, const std::initializer_list< Char >& l ) noexcept
          {
             return std::find( l.begin(), l.end(), c ) != l.end();
          }
@@ -33,7 +33,7 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< typename Input >
-            static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
+            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
             {
                if( !in.empty() ) {
                   if( const auto t = Peek::peek( in ) ) {
@@ -53,7 +53,7 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< typename Input >
-            static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
+            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
             {
                if( !in.empty() ) {
                   if( const auto t = Peek::peek( in ) ) {

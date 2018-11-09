@@ -22,7 +22,7 @@ namespace tao
    {
       namespace internal
       {
-         inline bool unsafe_equals( const char* s, const std::initializer_list< char >& l ) noexcept
+         [[nodiscard]] inline bool unsafe_equals( const char* s, const std::initializer_list< char >& l ) noexcept
          {
             return std::memcmp( s, &*l.begin(), l.size() ) == 0;
          }
@@ -42,7 +42,7 @@ namespace tao
             using analyze_t = analysis::counted< analysis::rule_type::any, sizeof...( Cs ) >;
 
             template< typename Input >
-            static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
+            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
             {
                if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
                   if( unsafe_equals( in.current(), { Cs... } ) ) {

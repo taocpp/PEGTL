@@ -21,7 +21,7 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::opt >;
 
             template< typename Input >
-            static bool match( Input& in ) noexcept( noexcept( Input::eol_t::match( in ) ) )
+            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( Input::eol_t::match( in ) ) )
             {
                const auto p = Input::eol_t::match( in );
                return p.first || ( !p.second );

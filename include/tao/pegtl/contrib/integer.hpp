@@ -20,7 +20,7 @@ namespace tao
          namespace internal
          {
             template< typename I, I Limit, typename Input >
-            I actual_convert( const Input& in, std::size_t index )
+            [[nodiscard]] I actual_convert( const Input& in, std::size_t index )
             {
                static constexpr I cutoff = Limit / 10;
                static constexpr I cutlim = Limit % 10;
@@ -38,14 +38,14 @@ namespace tao
             }
 
             template< typename I, typename Input >
-            I convert_positive( const Input& in, std::size_t index )
+            [[nodiscard]] I convert_positive( const Input& in, std::size_t index )
             {
                static constexpr I limit = std::numeric_limits< I >::max();
                return actual_convert< I, limit >( in, index );
             }
 
             template< typename I, typename Input >
-            I convert_negative( const Input& in, std::size_t index )
+            [[nodiscard]] I convert_negative( const Input& in, std::size_t index )
             {
                using U = std::make_unsigned_t< I >;
                static constexpr U limit = static_cast< U >( std::numeric_limits< I >::max() ) + 1;

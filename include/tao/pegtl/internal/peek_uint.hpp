@@ -25,7 +25,7 @@ namespace tao
             using pair_t = input_pair< data_t >;
 
             template< typename Input >
-            static pair_t peek( Input& in ) noexcept( noexcept( in.size( sizeof( data_t ) ) ) )
+            [[nodiscard]] static pair_t peek( Input& in ) noexcept( noexcept( in.size( sizeof( data_t ) ) ) )
             {
                const std::size_t s = in.size( sizeof( data_t ) );
                if( s >= sizeof( data_t ) ) {

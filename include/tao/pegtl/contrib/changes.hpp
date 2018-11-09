@@ -19,11 +19,13 @@ namespace tao
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control,
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control,
                    typename Input,
                    typename... States >
-         static bool match( Input& in, States&&... st )
+         [[nodiscard]] static bool match( Input& in, States&&... st )
          {
             State s( static_cast< const Input& >( in ), st... );
             if( Base< Rule >::template match< A, M, Action, Control >( in, s ) ) {
@@ -42,11 +44,13 @@ namespace tao
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... > class,
-                   template< typename... > class Control,
+                   template< typename... >
+                   class,
+                   template< typename... >
+                   class Control,
                    typename Input,
                    typename... States >
-         static bool match( Input& in, States&&... st )
+         [[nodiscard]] static bool match( Input& in, States&&... st )
          {
             return Base< Rule >::template match< A, M, Action, Control >( in, st... );
          }
@@ -61,7 +65,7 @@ namespace tao
 
       template< typename Rule, typename State, template< typename... > class Action, template< typename... > class Base = normal >
       struct change_state_and_action
-         : public change_state< Rule, State, change_both_helper< Action, Base >::template change_action >
+         : change_state< Rule, State, change_both_helper< Action, Base >::template change_action >
       {
       };
 

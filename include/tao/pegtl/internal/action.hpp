@@ -28,11 +28,13 @@ namespace tao
 
             template< apply_mode A,
                       rewind_mode M,
-                      template< typename... > class,
-                      template< typename... > class Control,
+                      template< typename... >
+                      class,
+                      template< typename... >
+                      class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input& in, States&&... st )
+            [[nodiscard]] static bool match( Input& in, States&&... st )
             {
                return duseltronik< seq< Rules... >, A, M, Action, Control >::match( in, st... );
             }

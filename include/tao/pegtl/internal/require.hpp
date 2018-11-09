@@ -32,7 +32,7 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::opt >;
 
             template< typename Input >
-            static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
+            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
             {
                return in.size( Amount ) >= Amount;
             }

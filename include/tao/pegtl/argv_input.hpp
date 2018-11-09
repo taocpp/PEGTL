@@ -20,7 +20,7 @@ namespace tao
    {
       namespace internal
       {
-         inline std::string make_argv_source( const std::size_t argn )
+         [[nodiscard]] inline std::string make_argv_source( const std::size_t argn )
          {
             std::ostringstream os;
             os << "argv[" << argn << ']';

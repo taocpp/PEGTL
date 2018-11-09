@@ -26,7 +26,7 @@ namespace tao
             static_assert( sizeof( char32_t ) == 4 );
 
             template< typename Input >
-            static pair_t peek( Input& in ) noexcept( noexcept( in.size( 4 ) ) )
+            [[nodiscard]] static pair_t peek( Input& in ) noexcept( noexcept( in.size( 4 ) ) )
             {
                const std::size_t s = in.size( 4 );
                if( s >= 4 ) {

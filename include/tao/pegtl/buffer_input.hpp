@@ -58,55 +58,55 @@ namespace tao
          void operator=( const buffer_input& ) = delete;
          void operator=( buffer_input&& ) = delete;
 
-         bool empty()
+         [[nodiscard]] bool empty()
          {
             require( 1 );
             return m_current.data == m_end;
          }
 
-         std::size_t size( const std::size_t amount )
+         [[nodiscard]] std::size_t size( const std::size_t amount )
          {
             require( amount );
             return std::size_t( m_end - m_current.data );
          }
 
-         const char* current() const noexcept
+         [[nodiscard]] const char* current() const noexcept
          {
             return m_current.data;
          }
 
-         const char* end( const std::size_t amount )
+         [[nodiscard]] const char* end( const std::size_t amount )
          {
             require( amount );
             return m_end;
          }
 
-         std::size_t byte() const noexcept
+         [[nodiscard]] std::size_t byte() const noexcept
          {
             return m_current.byte;
          }
 
-         std::size_t line() const noexcept
+         [[nodiscard]] std::size_t line() const noexcept
          {
             return m_current.line;
          }
 
-         std::size_t byte_in_line() const noexcept
+         [[nodiscard]] std::size_t byte_in_line() const noexcept
          {
             return m_current.byte_in_line;
          }
 
-         const Source& source() const noexcept
+         [[nodiscard]] const Source& source() const noexcept
          {
             return m_source;
          }
 
-         char peek_char( const std::size_t offset = 0 ) const noexcept
+         [[nodiscard]] char peek_char( const std::size_t offset = 0 ) const noexcept
          {
             return m_current.data[ offset ];
          }
 
-         std::uint8_t peek_byte( const std::size_t offset = 0 ) const noexcept
+         [[nodiscard]] std::uint8_t peek_byte( const std::size_t offset = 0 ) const noexcept
          {
             return static_cast< std::uint8_t >( peek_char( offset ) );
          }
@@ -149,22 +149,22 @@ namespace tao
          }
 
          template< rewind_mode M >
-         internal::marker< iterator_t, M > mark() noexcept
+         [[nodiscard]] internal::marker< iterator_t, M > mark() noexcept
          {
             return internal::marker< iterator_t, M >( m_current );
          }
 
-         TAO_PEGTL_NAMESPACE::position position( const iterator_t& it ) const
+         [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const iterator_t& it ) const
          {
             return TAO_PEGTL_NAMESPACE::position( it, m_source );
          }
 
-         TAO_PEGTL_NAMESPACE::position position() const
+         [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
          {
             return position( m_current );
          }
 
-         const iterator_t& iterator() const noexcept
+         [[nodiscard]] const iterator_t& iterator() const noexcept
          {
             return m_current;
          }

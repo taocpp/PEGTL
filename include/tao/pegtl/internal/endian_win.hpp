@@ -18,7 +18,7 @@ namespace tao
          struct to_and_from_le
          {
             template< typename T >
-            static T convert( const T t ) noexcept
+            [[nodiscard]] static T convert( const T t ) noexcept
             {
                return t;
             }
@@ -30,12 +30,12 @@ namespace tao
          template<>
          struct to_and_from_be< 1 >
          {
-            static std::int8_t convert( const std::int8_t n ) noexcept
+            [[nodiscard]] static std::int8_t convert( const std::int8_t n ) noexcept
             {
                return n;
             }
 
-            static std::uint8_t convert( const std::uint8_t n ) noexcept
+            [[nodiscard]] static std::uint8_t convert( const std::uint8_t n ) noexcept
             {
                return n;
             }
@@ -44,12 +44,12 @@ namespace tao
          template<>
          struct to_and_from_be< 2 >
          {
-            static std::int16_t convert( const std::int16_t n ) noexcept
+            [[nodiscard]] static std::int16_t convert( const std::int16_t n ) noexcept
             {
                return std::int16_t( _byteswap_ushort( std::uint16_t( n ) ) );
             }
 
-            static std::uint16_t convert( const std::uint16_t n ) noexcept
+            [[nodiscard]] static std::uint16_t convert( const std::uint16_t n ) noexcept
             {
                return _byteswap_ushort( n );
             }
@@ -58,7 +58,7 @@ namespace tao
          template<>
          struct to_and_from_be< 4 >
          {
-            static float convert( float n ) noexcept
+            [[nodiscard]] static float convert( float n ) noexcept
             {
                std::uint32_t u;
                std::memcpy( &u, &n, 4 );
@@ -67,12 +67,12 @@ namespace tao
                return n;
             }
 
-            static std::int32_t convert( const std::int32_t n ) noexcept
+            [[nodiscard]] static std::int32_t convert( const std::int32_t n ) noexcept
             {
                return std::int32_t( _byteswap_ulong( std::uint32_t( n ) ) );
             }
 
-            static std::uint32_t convert( const std::uint32_t n ) noexcept
+            [[nodiscard]] static std::uint32_t convert( const std::uint32_t n ) noexcept
             {
                return _byteswap_ulong( n );
             }
@@ -81,7 +81,7 @@ namespace tao
          template<>
          struct to_and_from_be< 8 >
          {
-            static double convert( double n ) noexcept
+            [[nodiscard]] static double convert( double n ) noexcept
             {
                std::uint64_t u;
                std::memcpy( &u, &n, 8 );
@@ -90,12 +90,12 @@ namespace tao
                return n;
             }
 
-            static std::int64_t convert( const std::int64_t n ) noexcept
+            [[nodiscard]] static std::int64_t convert( const std::int64_t n ) noexcept
             {
                return std::int64_t( _byteswap_uint64( std::uint64_t( n ) ) );
             }
 
-            static std::uint64_t convert( const std::uint64_t n ) noexcept
+            [[nodiscard]] static std::uint64_t convert( const std::uint64_t n ) noexcept
             {
                return _byteswap_uint64( n );
             }

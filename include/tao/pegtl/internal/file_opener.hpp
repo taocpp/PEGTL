@@ -39,11 +39,11 @@ namespace tao
             void operator=( const file_opener& ) = delete;
             void operator=( file_opener&& ) = delete;
 
-            std::size_t size() const
+            [[nodiscard]] std::size_t size() const
             {
                struct stat st;  // NOLINT
                errno = 0;
-               if(::fstat( m_fd, &st ) < 0 ) {
+               if( ::fstat( m_fd, &st ) < 0 ) {
                   TAO_PEGTL_THROW_INPUT_ERROR( "unable to fstat() file " << m_source << " descriptor " << m_fd );
                }
                return std::size_t( st.st_size );
@@ -53,7 +53,7 @@ namespace tao
             const int m_fd;
 
          private:
-            int open() const
+            [[nodiscard]] int open() const
             {
                errno = 0;
                const int fd = ::open( m_source,  // NOLINT

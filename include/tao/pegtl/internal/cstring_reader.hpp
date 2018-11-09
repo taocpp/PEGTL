@@ -24,7 +24,7 @@ namespace tao
                assert( m_cstring != nullptr );
             }
 
-            std::size_t operator()( char* buffer, const std::size_t length ) noexcept
+            [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length ) noexcept
             {
                std::size_t i = 0;
                char c;

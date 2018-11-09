@@ -27,7 +27,7 @@ namespace tao
             static_assert( Min <= Max );
 
             template< typename Input >
-            static bool match( Input& in )
+            [[nodiscard]] static bool match( Input& in )
             {
                const auto size = in.size( Max + 1 );
                if( size < Min ) {

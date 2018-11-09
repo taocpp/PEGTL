@@ -28,8 +28,10 @@ namespace tao
 
             template< apply_mode A,
                       rewind_mode M,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
+                      template< typename... >
+                      class Action,
+                      template< typename... >
+                      class Control,
                       typename Input,
                       typename... States >
             static auto success( State& s, const Input& in, States&&... st )
@@ -40,8 +42,10 @@ namespace tao
 
             template< apply_mode A,
                       rewind_mode M,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
+                      template< typename... >
+                      class Action,
+                      template< typename... >
+                      class Control,
                       typename Input,
                       typename... States,
                       int = 0 >
@@ -53,11 +57,13 @@ namespace tao
 
             template< apply_mode A,
                       rewind_mode M,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
+                      template< typename... >
+                      class Action,
+                      template< typename... >
+                      class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input& in, States&&... st )
+            [[nodiscard]] static bool match( Input& in, States&&... st )
             {
                State s( static_cast< const Input& >( in ), st... );
 

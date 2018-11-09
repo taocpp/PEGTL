@@ -33,11 +33,13 @@ namespace tao
 #endif
             template< apply_mode,
                       rewind_mode,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
+                      template< typename... >
+                      class Action,
+                      template< typename... >
+                      class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input& in, States&&... st )
+            [[nodiscard]] static bool match( Input& in, States&&... st )
             {
                Control< T >::raise( static_cast< const Input& >( in ), st... );
                throw std::logic_error( "code should be unreachable: Control< T >::raise() did not throw an exception" );  // NOLINT, LCOV_EXCL_LINE

@@ -30,8 +30,10 @@ namespace tao
 
          template< apply_mode,
                    rewind_mode,
-                   template< typename... > class Action,
-                   template< typename... > class Control,
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control,
                    typename Input >
          void success( const Input& /*unused*/ ) const
          {

@@ -29,7 +29,7 @@ namespace tao
 
             explicit file_mapper( const file_opener& reader )
                : m_size( reader.size() ),
-                 m_data( static_cast< const char* >(::mmap( nullptr, m_size, PROT_READ, MAP_PRIVATE, reader.m_fd, 0 ) ) )
+                 m_data( static_cast< const char* >( ::mmap( nullptr, m_size, PROT_READ, MAP_PRIVATE, reader.m_fd, 0 ) ) )
             {
                if( ( m_size != 0 ) && ( intptr_t( m_data ) == -1 ) ) {
                   TAO_PEGTL_THROW_INPUT_ERROR( "unable to mmap() file " << reader.m_source << " descriptor " << reader.m_fd );
@@ -48,12 +48,12 @@ namespace tao
             void operator=( const file_mapper& ) = delete;
             void operator=( file_mapper&& ) = delete;
 
-            bool empty() const noexcept
+            [[nodiscard]] bool empty() const noexcept
             {
                return m_size == 0;
             }
 
-            std::size_t size() const noexcept
+            [[nodiscard]] std::size_t size() const noexcept
             {
                return m_size;
             }
@@ -61,22 +61,22 @@ namespace tao
             using iterator = const char*;
             using const_iterator = const char*;
 
-            iterator data() const noexcept
+            [[nodiscard]] iterator data() const noexcept
             {
                return m_data;
             }
 
-            iterator begin() const noexcept
+            [[nodiscard]] iterator begin() const noexcept
             {
                return m_data;
             }
 
-            iterator end() const noexcept
+            [[nodiscard]] iterator end() const noexcept
             {
                return m_data + m_size;
             }
 
-            std::string string() const
+            [[nodiscard]] std::string string() const
             {
                return std::string( m_data, m_size );
             }

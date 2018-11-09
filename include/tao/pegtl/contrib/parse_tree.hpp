@@ -55,46 +55,46 @@ namespace tao
             basic_node& operator=( const basic_node& ) = delete;
             basic_node& operator=( basic_node&& ) = delete;
 
-            bool is_root() const noexcept
+            [[nodiscard]] bool is_root() const noexcept
             {
                return id == nullptr;
             }
 
             template< typename U >
-            bool is() const noexcept
+            [[nodiscard]] bool is() const noexcept
             {
                return id == &typeid( U );
             }
 
-            std::string name() const
+            [[nodiscard]] std::string name() const
             {
                assert( !is_root() );
                return TAO_PEGTL_NAMESPACE::internal::demangle( id->name() );
             }
 
-            position begin() const
+            [[nodiscard]] position begin() const
             {
                return position( m_begin, source );
             }
 
-            position end() const
+            [[nodiscard]] position end() const
             {
                return position( m_end, source );
             }
 
-            bool has_content() const noexcept
+            [[nodiscard]] bool has_content() const noexcept
             {
                return m_end.data != nullptr;
             }
 
-            std::string content() const
+            [[nodiscard]] std::string content() const
             {
                assert( has_content() );
                return std::string( m_begin.data, m_end.data );
             }
 
             template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
-            memory_input< P, Eol > as_memory_input() const
+            [[nodiscard]] memory_input< P, Eol > as_memory_input() const
             {
                assert( has_content() );
                return { m_begin.data, m_end.data, source, m_begin.byte, m_begin.line, m_begin.byte_in_line };
@@ -162,7 +162,7 @@ namespace tao
                   stack.emplace_back( std::make_unique< Node >() );
                }
 
-               std::unique_ptr< Node >& back() noexcept
+               [[nodiscard]] std::unique_ptr< Node >& back() noexcept
                {
                   return stack.back();
                }
@@ -481,7 +481,7 @@ namespace tao
                    template< typename... > class Control = normal,
                    typename Input,
                    typename... States >
-         std::unique_ptr< Node > parse( Input&& in, States&&... st )
+         [[nodiscard]] std::unique_ptr< Node > parse( Input&& in, States&&... st )
          {
             internal::state< Node > state;
             if( !TAO_PEGTL_NAMESPACE::parse< Rule, Action, internal::make_control< Node, Selector, Control >::template type >( in, st..., state ) ) {
@@ -497,7 +497,7 @@ namespace tao
                    template< typename... > class Control = normal,
                    typename Input,
                    typename... States >
-         std::unique_ptr< node > parse( Input&& in, States&&... st )
+         [[nodiscard]] std::unique_ptr< node > parse( Input&& in, States&&... st )
          {
             return parse< Rule, node, Selector, Action, Control >( in, st... );
          }

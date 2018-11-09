@@ -21,7 +21,7 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::opt >;
 
             template< typename Input >
-            static bool match( Input& in ) noexcept
+            [[nodiscard]] static bool match( Input& in ) noexcept
             {
                return in.byte_in_line() == 0;
             }

@@ -31,7 +31,7 @@ namespace tao
             void operator=( const marker& ) = delete;
             void operator=( marker&& ) = delete;
 
-            bool operator()( const bool result ) const noexcept
+            [[nodiscard]] bool operator()( const bool result ) const noexcept
             {
                return result;
             }
@@ -62,7 +62,7 @@ namespace tao
             void operator=( const marker& ) = delete;
             void operator=( marker&& ) = delete;
 
-            bool operator()( const bool result ) noexcept
+            [[nodiscard]] bool operator()( const bool result ) noexcept
             {
                if( result ) {
                   m_input = nullptr;
@@ -71,7 +71,7 @@ namespace tao
                return false;
             }
 
-            const Iterator& iterator() const noexcept
+            [[nodiscard]] const Iterator& iterator() const noexcept
             {
                return m_saved;
             }

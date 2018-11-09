@@ -19,28 +19,32 @@ namespace tao
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control,
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control,
                    dusel_mode = dusel_mode::nothing >
          struct duseltronik;
 
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control >
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control >
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::nothing >
          {
             template< typename Input, typename... States >
-            static auto match( Input& in, States&&... st )
-               -> decltype( Rule::template match< A, M, Action, Control >( in, st... ), bool() )
+            [[nodiscard]] static auto match( Input& in, States&&... st )
+               -> decltype( (void)Rule::template match< A, M, Action, Control >( in, st... ), bool() )
             {
                return Rule::template match< A, M, Action, Control >( in, st... );
             }
 
             template< typename Input, typename... States >
-            static auto match( Input& in, States&&... /*unused*/ )
-               -> decltype( Rule::match( in ), bool() )
+            [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ )
+               -> decltype( (void)Rule::match( in ), bool() )
             {
                return Rule::match( in );
             }
@@ -49,12 +53,14 @@ namespace tao
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control >
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control >
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control >
          {
             template< typename Input, typename... States >
-            static bool match( Input& in, States&&... st )
+            [[nodiscard]] static bool match( Input& in, States&&... st )
             {
                Control< Rule >::start( static_cast< const Input& >( in ), st... );
 
@@ -70,12 +76,14 @@ namespace tao
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control >
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control >
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control_and_apply_void >
          {
             template< typename Input, typename... States >
-            static bool match( Input& in, States&&... st )
+            [[nodiscard]] static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< rewind_mode::required >();
 
@@ -94,12 +102,14 @@ namespace tao
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control >
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control >
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control_and_apply_bool >
          {
             template< typename Input, typename... States >
-            static bool match( Input& in, States&&... st )
+            [[nodiscard]] static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< rewind_mode::required >();
 
@@ -119,12 +129,14 @@ namespace tao
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control >
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control >
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control_and_apply0_void >
          {
             template< typename Input, typename... States >
-            static bool match( Input& in, States&&... st )
+            [[nodiscard]] static bool match( Input& in, States&&... st )
             {
                Control< Rule >::start( static_cast< const Input& >( in ), st... );
 
@@ -141,12 +153,14 @@ namespace tao
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control >
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control >
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control_and_apply0_bool >
          {
             template< typename Input, typename... States >
-            static bool match( Input& in, States&&... st )
+            [[nodiscard]] static bool match( Input& in, States&&... st )
             {
                auto m = in.template mark< rewind_mode::required >();
 

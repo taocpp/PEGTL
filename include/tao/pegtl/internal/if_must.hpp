@@ -28,11 +28,13 @@ namespace tao
 
             template< apply_mode A,
                       rewind_mode M,
-                      template< typename... > class Action,
-                      template< typename... > class Control,
+                      template< typename... >
+                      class Action,
+                      template< typename... >
+                      class Control,
                       typename Input,
                       typename... States >
-            static bool match( Input& in, States&&... st )
+            [[nodiscard]] static bool match( Input& in, States&&... st )
             {
                if( Control< Cond >::template match< A, M, Action, Control >( in, st... ) ) {
                   (void)( Control< must< Rules > >::template match< A, M, Action, Control >( in, st... ) && ... );

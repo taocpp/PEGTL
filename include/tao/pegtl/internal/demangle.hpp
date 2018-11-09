@@ -28,7 +28,7 @@ namespace tao
       namespace internal
       {
          template< typename T >
-         std::string demangle()
+         [[nodiscard]] std::string demangle()
          {
             return demangle( typeid( T ).name() );
          }

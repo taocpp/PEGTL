@@ -40,14 +40,14 @@ namespace tao
             std::map< std::string, bool > m_cache;
             std::map< std::string, bool > m_results;
 
-            const std::map< std::string, rule_info >::const_iterator find( const std::string& name ) const noexcept
+            [[nodiscard]] std::map< std::string, rule_info >::const_iterator find( const std::string& name ) const noexcept
             {
                const auto iter = m_info.map.find( name );
                assert( iter != m_info.map.end() );
                return iter;
             }
 
-            bool work( const std::map< std::string, rule_info >::const_iterator& start, const bool accum )
+            [[nodiscard]] bool work( const std::map< std::string, rule_info >::const_iterator& start, const bool accum )
             {
                const auto j = m_cache.find( start->first );
 
@@ -108,7 +108,7 @@ namespace tao
                Grammar::analyze_t::template insert< Grammar >( m_info );
             }
 
-            std::size_t problems()
+            [[nodiscard]] std::size_t problems()
             {
                for( auto i = m_info.map.begin(); i != m_info.map.end(); ++i ) {
                   m_results[ i->first ] = work( i, false );
@@ -118,7 +118,7 @@ namespace tao
             }
 
             template< typename Rule >
-            bool consumes() const noexcept
+            [[nodiscard]] bool consumes() const noexcept
             {
                const auto i = m_results.find( internal::demangle< Rule >() );
                assert( i != m_results.end() );

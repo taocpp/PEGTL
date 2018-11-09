@@ -28,7 +28,7 @@ namespace tao
             static constexpr bool can_match_eol = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) == bool( R ) );
 
             template< typename Input >
-            static bool match( Input& in )
+            [[nodiscard]] static bool match( Input& in )
             {
                if( !in.empty() ) {
                   if( const auto t = Peek::peek( in ) ) {

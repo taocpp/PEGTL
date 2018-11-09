@@ -19,7 +19,7 @@ namespace tao
    {
       namespace internal
       {
-         inline std::string demangle( const char* symbol )
+         [[nodiscard]] inline std::string demangle( const char* symbol )
          {
             const std::unique_ptr< char, decltype( &std::free ) > demangled( abi::__cxa_demangle( symbol, nullptr, nullptr, nullptr ), &std::free );
             if( !demangled ) {

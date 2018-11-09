@@ -26,7 +26,7 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< typename Input >
-            static bool match( Input& in ) noexcept( noexcept( in.size( 3 ) ) )
+            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 3 ) ) )
             {
                if( in.size( 3 ) >= 3 ) {
                   if( ( in.peek_char( 0 ) == C ) && ( in.peek_char( 1 ) == C ) && ( in.peek_char( 2 ) == C ) ) {

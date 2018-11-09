@@ -16,7 +16,8 @@ namespace tao
          const internal::file_opener fo( "Makefile" );
          ::close( fo.m_fd );  // Provoke exception, nobody would normally do this.
          try {
-            fo.size();
+            (void)fo.size();  // expected to throw
+
             std::cerr << "pegtl: unit test failed for [ internal::file_opener ] " << std::endl;
             ++failed;
          }

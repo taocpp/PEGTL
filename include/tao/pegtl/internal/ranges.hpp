@@ -25,7 +25,7 @@ namespace tao
          {
             static constexpr bool can_match_eol = false;
 
-            static bool match( const Char /*unused*/ ) noexcept
+            [[nodiscard]] static bool match( const Char /*unused*/ ) noexcept
             {
                return false;
             }
@@ -36,7 +36,7 @@ namespace tao
          {
             static constexpr bool can_match_eol = ( Eq == Eol );
 
-            static bool match( const Char c ) noexcept
+            [[nodiscard]] static bool match( const Char c ) noexcept
             {
                return c == Eq;
             }
@@ -49,7 +49,7 @@ namespace tao
 
             static constexpr bool can_match_eol = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) || ranges_impl< Eol, Char, Cs... >::can_match_eol );
 
-            static bool match( const Char c ) noexcept
+            [[nodiscard]] static bool match( const Char c ) noexcept
             {
                return ( ( Lo <= c ) && ( c <= Hi ) ) || ranges_impl< Eol, Char, Cs... >::match( c );
             }
@@ -64,7 +64,7 @@ namespace tao
             static constexpr bool can_match_eol = ranges_impl< Eol, typename Peek::data_t, Cs... >::can_match_eol;
 
             template< typename Input >
-            static bool match( Input& in )
+            [[nodiscard]] static bool match( Input& in )
             {
                if( !in.empty() ) {
                   if( const auto t = Peek::peek( in ) ) {

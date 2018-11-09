@@ -25,7 +25,7 @@ namespace tao
                using analyze_t = analysis::generic< analysis::rule_type::any >;
 
                template< typename Input >
-               static bool match( Input& in ) noexcept( noexcept( Peek::peek( in ) ) )
+               [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( Peek::peek( in ) ) )
                {
                   if( const auto r = Peek::peek( in ) ) {
                      if( u_hasBinaryProperty( r.data, P ) == V ) {
@@ -43,7 +43,7 @@ namespace tao
                using analyze_t = analysis::generic< analysis::rule_type::any >;
 
                template< typename Input >
-               static bool match( Input& in ) noexcept( noexcept( Peek::peek( in ) ) )
+               [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( Peek::peek( in ) ) )
                {
                   if( const auto r = Peek::peek( in ) ) {
                      if( u_getIntPropertyValue( r.data, P ) == V ) {
