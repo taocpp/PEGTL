@@ -335,7 +335,9 @@ namespace lua53
 
 int main( int argc, char** argv )
 {
-   tao::TAO_PEGTL_NAMESPACE::analyze< lua53::grammar >();
+   if( tao::TAO_PEGTL_NAMESPACE::analyze< lua53::grammar >() != 0 ) {
+      return 1;
+   }
 
    for( int i = 1; i < argc; ++i ) {
       tao::TAO_PEGTL_NAMESPACE::file_input in( argv[ i ] );

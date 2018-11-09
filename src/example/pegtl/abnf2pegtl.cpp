@@ -691,9 +691,12 @@ int main( int argc, char** argv )
    using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 
    if( argc != 2 ) {
-      analyze< abnf::grammar::rulelist >();
       std::cerr << "Usage: " << argv[ 0 ] << " SOURCE" << std::endl;
       return 1;
+   }
+
+   if( analyze< abnf::grammar::rulelist >() != 0 ) {
+      return 2;
    }
 
    file_input in( argv[ 1 ] );

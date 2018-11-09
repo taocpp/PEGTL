@@ -348,7 +348,9 @@ int main( int argc, char** argv )
 {
    // Check the grammar for some possible issues.
 
-   pegtl::analyze< calculator::grammar >();
+   if( pegtl::analyze< calculator::grammar >() != 0 ) {
+      return 1;
+   }
 
    // The objects required as state by the actions.
 

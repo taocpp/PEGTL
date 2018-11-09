@@ -136,7 +136,9 @@ int main( int argc, char** argv )
 {
    using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 
-   analyze< proto3::proto >();
+   if( analyze< proto3::proto >() != 0 ) {
+      return 1;
+   }
 
    for( int i = 1; i < argc; ++i ) {
       file_input in( argv[ i ] );
