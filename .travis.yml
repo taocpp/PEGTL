@@ -1,6 +1,6 @@
 language: generic
 os: linux
-dist: trusty
+dist: xenial
 
 matrix:
   include:
@@ -23,7 +23,7 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-5']
           packages: ['clang-5.0', 'g++-7']
       env:
         - CXX=clang++-5.0
@@ -31,7 +31,7 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-6']
           packages: ['clang-6.0', 'g++-7']
       env:
         - CXX=clang++-6.0
@@ -39,7 +39,7 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-7']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
           packages: ['clang-7', 'g++-7']
       env:
         - CXX=clang++-7
@@ -47,7 +47,7 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-7']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
           packages: ['clang-7', 'g++-7']
       env:
         - CXX=clang++-7
@@ -101,7 +101,7 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-7']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
           packages: ['clang-7', 'g++-8']
       env:
         - CXX=clang++-7
@@ -111,7 +111,7 @@ matrix:
       sudo: true
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-7']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
           packages: ['clang-7', 'g++-8']
       env:
         - CXX=clang++-7
@@ -146,7 +146,7 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-7']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
           packages: ['clang-7', 'clang-tidy-7', 'g++-7']
       env:
         - CXX=clang++-7
