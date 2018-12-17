@@ -70,12 +70,11 @@ namespace tao
             HANDLE open() const
             {
                SetLastError( 0 );
-               const HANDLE handle = ::CreateFileA( m_source,
+               std::wstring ws(m_source, m_source + strlen(m_source));
+               const HANDLE handle = ::CreateFile2( ws.c_str(),
                                                     GENERIC_READ,
                                                     FILE_SHARE_READ,
-                                                    nullptr,
                                                     OPEN_EXISTING,
-                                                    FILE_ATTRIBUTE_NORMAL,
                                                     nullptr );
                if( handle != INVALID_HANDLE_VALUE ) {
                   return handle;
