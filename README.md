@@ -55,7 +55,7 @@ The rules are expressed in C++ as template instantiations, and it is the compile
 
 Each commit is automatically tested with multiple architectures, operating systems, compilers, and versions thereof.
 
-* Windows
+* Windows (UWP)
 
   * Visual Studio 2017 (x86, x64)
 
@@ -89,6 +89,7 @@ For questions and suggestions regarding the PEGTL, success or failure stories, a
 * George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `TAO_PEGTL_STRING`.
 * Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
 * Jörg-Christian Böhme for improving the Android CI build.
+* Jørgen Edelbo for UWP support.
 * Kai Wolf for help with CMake.
 * Kenneth Geisshirt for Android compatibility and Android CI.
 * Kuzma Shapran for EOL testing and fixes.

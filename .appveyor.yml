@@ -33,7 +33,7 @@ before_build:
 - cmake -Wno-dev --config "%CONFIGURATION%" -DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=10.0 -G "%GENERATOR%" ..
 
 build_script:
-- cmake --build . --config "%CONFIGURATION%" -DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=10.0
+- cmake --build . --config "%CONFIGURATION%"
 
 test_script:
 - ctest -C "%CONFIGURATION%" --output-on-failure
