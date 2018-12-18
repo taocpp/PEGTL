@@ -9,7 +9,6 @@ configuration:
 
 environment:
   matrix:
-
     - GENERATOR: Visual Studio 15 2017
 
     - GENERATOR: Visual Studio 15 2017 Win64
@@ -31,10 +30,10 @@ before_build:
 - if defined BINDIR (set "PATH=%BINDIR%;%PATH:C:\Program Files\Git\usr\bin;=%")
 - md build
 - cd build
-- cmake -Wno-dev --config "%CONFIGURATION%" -G "%GENERATOR%" ..
+- cmake -Wno-dev --config "%CONFIGURATION%" -DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=10.0 -G "%GENERATOR%" ..
 
 build_script:
-- cmake --build . --config "%CONFIGURATION%"
+- cmake --build . --config "%CONFIGURATION%" -DCMAKE_SYSTEM_NAME=WindowsStore -DCMAKE_SYSTEM_VERSION=10.0
 
 test_script:
 - ctest -C "%CONFIGURATION%" --output-on-failure
