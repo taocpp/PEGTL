@@ -70,7 +70,7 @@ namespace tao
             [[nodiscard]] HANDLE open() const
             {
                SetLastError( 0 );
-               std::wstring ws(m_source, m_source + strlen(m_source));
+               std::wstring ws( m_source, m_source + strlen( m_source ) );
                const HANDLE handle = ::CreateFile2( ws.c_str(),
                                                     GENERIC_READ,
                                                     FILE_SHARE_READ,
