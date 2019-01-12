@@ -112,14 +112,14 @@ namespace tao
             {
                id = &typeid( Rule );
                source = in.source();
-               m_begin = in.iterator();
+               m_begin = TAO_PEGTL_NAMESPACE::internal::iterator( in.iterator() );
             }
 
             // if parsing of the rule succeeded, this method is called
             template< typename Rule, typename Input, typename... States >
             void success( const Input& in, States&&... /*unused*/ ) noexcept
             {
-               m_end = in.iterator();
+               m_end = TAO_PEGTL_NAMESPACE::internal::iterator( in.iterator() );
             }
 
             // if parsing of the rule failed, this method is called
