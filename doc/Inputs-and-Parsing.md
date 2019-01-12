@@ -445,4 +445,4 @@ Trying to call any of those methods on `buffer_input<>`-based instances will lea
 
 All input classes support C++17's [deduction guides](https://en.cppreference.com/w/cpp/language/class_template_argument_deduction), e.g. instead of `file_input<> in( "filename.txt" )` one can use `file_input in( "filename.txt" )`.
 
-Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2019 Dr. Colin Hirsch and Daniel Frey

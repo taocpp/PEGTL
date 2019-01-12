@@ -254,4 +254,4 @@
 * [`xid_continue`](Rule-Reference.md#xid_continue) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`xid_start`](Rule-Reference.md#xid_start) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 
-Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2019 Dr. Colin Hirsch and Daniel Frey
