@@ -88,6 +88,10 @@ namespace tao
          verify_rule< rematch< plus< alnum >, seq< string< 'f', 'o', 'o' >, eof >, success > >( __LINE__, __FILE__, "foo", result_type::success, 0 );
          verify_rule< rematch< plus< alnum >, seq< string< 'f', 'o', 'o' >, eof >, success > >( __LINE__, __FILE__, "foo%", result_type::success, 1 );
          verify_rule< rematch< plus< alnum >, seq< string< 'f', 'o', 'o' >, eof >, success > >( __LINE__, __FILE__, "foo5", result_type::local_failure, 4 );
+
+         verify_rule< rematch< plus< alnum >, seq< string< 'f', 'o', 'o' >, eof >, string< 'f', 'o', 'o' > > >( __LINE__, __FILE__, "foo", result_type::success, 0 );
+         verify_rule< rematch< plus< alnum >, seq< string< 'f', 'o', 'o' >, eof >, string< 'f', 'o', 'o' > > >( __LINE__, __FILE__, "foo%", result_type::success, 1 );
+         verify_rule< rematch< plus< alnum >, seq< string< 'f', 'o', 'o' >, eof >, string< 'f', 'o', 'o' > > >( __LINE__, __FILE__, "foo5", result_type::local_failure, 4 );
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE
