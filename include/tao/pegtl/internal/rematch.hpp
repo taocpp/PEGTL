@@ -40,31 +40,6 @@ namespace tao
             }
          };
 
-         template< typename Head, typename Rule >
-         struct rematch< Head, Rule >
-         {
-            using analyze_t = typename Head::analyze_t;  // NOTE: Rule is ignored for analyze().
-
-            template< apply_mode A,
-                      rewind_mode,
-                      template< typename... >
-                      class Action,
-                      template< typename... >
-                      class Control,
-                      typename Input,
-                      typename... States >
-            [[nodiscard]] static bool match( Input& in, States&&... st )
-            {
-               auto m = in.template mark< rewind_mode::required >();
-
-               if( Control< Head >::template match< A, rewind_mode::active, Action, Control >( in, st... ) ) {
-                  memory_input< Input::tracking_mode_v, typename Input::eol_t, typename Input::source_t > i2( m.iterator(), in.current(), in.source() );
-                  return m( Control< Rule >::template match< A, rewind_mode::active, Action, Control >( i2, st... ) );
-               }
-               return false;
-            }
-         };
-
          template< typename Head, typename Rule, typename... Rules >
          struct rematch< Head, Rule, Rules... >
          {
