@@ -42,6 +42,7 @@
 #include "raise.hpp"
 #include "range.hpp"
 #include "ranges.hpp"
+#include "rematch.hpp"
 #include "rep.hpp"
 #include "rep_min.hpp"
 #include "rep_min_max.hpp"
