@@ -9,6 +9,7 @@
 * Removed compatibility macros starting with `TAOCPP_PEGTL_`.
 * Changed enumerators to lowercase.
 * Renamed `tracking_mode::IMMEDIATE` to `tracking_mode::eager`.
+* Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
 * Added support for Universal Windows Platform (UWP).
 
 ## 2.7.1
