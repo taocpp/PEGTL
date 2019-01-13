@@ -18,16 +18,6 @@ namespace tao
    {
       namespace internal
       {
-         [[nodiscard]] inline const char* source_pointer( const char* source ) noexcept
-         {
-            return source;
-         }
-
-         [[nodiscard]] inline const char* source_pointer( const std::string& source ) noexcept
-         {
-            return source.c_str();
-         }
-
          template< typename R, typename S >
          struct rematch
          {
@@ -46,7 +36,7 @@ namespace tao
                auto m = in.template mark< rewind_mode::required >();
 
                if( Control< R >::template match< A, rewind_mode::active, Action, Control >( in, st... ) ) {
-                  memory_input< Input::tracking_mode_v, typename Input::eol_t, const char* > i2( m.iterator(), in.current(), source_pointer( in.source() ) );
+                  memory_input< Input::tracking_mode_v, typename Input::eol_t, typename Input::source_t > i2( m.iterator(), in.current(), in.source() );
                   return m( Control< S >::template match< A, rewind_mode::active, Action, Control >( i2, st... ) );
                }
                return false;
