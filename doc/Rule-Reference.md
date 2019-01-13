@@ -234,10 +234,10 @@ These rules are in namespace `tao::pegtl`.
 * Matches an optional `R` that can be padded by arbitrary many `P` or just arbitrary many `P`.
 * Equivalent to `seq< star< P >, opt< R, star< P > > >`.
 
-###### `rematch< R, S >`
+###### `rematch< R, S... >`
 
-* Succeeds if `R` matches, and `S` matches the input that `R` matched.
-* Ignores `S` for the [grammar analysis](Grammar-Analysis.md).
+* Succeeds if `R` matches, and each `S` matches the input that `R` matched.
+* Ignores all `S` for the [grammar analysis](Grammar-Analysis.md).
 
 ###### `rep< Num, R... >`
 
@@ -1201,7 +1201,7 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--1) <sup>[(unicode rules)](#unicode-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--2) <sup>[(binary rules)](#binary-rules)</sup>
-* [`rematch< R, S >`](#rematch-r-s-) <sup>[(convenience)](#convenience)</sup>
+* [`rematch< R, S... >`](#rematch-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`rep< Num, R... >`](#rep-num-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_max< Max, R... >`](#rep_max-max-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_min< Min, R... >`](#rep_min-min-r-) <sup>[(convenience)](#convenience)</sup>

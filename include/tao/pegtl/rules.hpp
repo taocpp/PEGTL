@@ -46,7 +46,7 @@ namespace tao
       template< typename Rule, typename Pad > struct pad_opt : internal::pad_opt< Rule, Pad > {};
       template< typename Rule, typename... Rules > struct plus : internal::plus< Rule, Rules... > {};
       template< typename Exception > struct raise : internal::raise< Exception > {};
-      template< typename R, typename S > struct rematch : internal::rematch< R, S > {};
+      template< typename Head, typename... Rules > struct rematch : internal::rematch< Head, Rules... > {};
       template< unsigned Num, typename... Rules > struct rep : internal::rep< Num, Rules... > {};
       template< unsigned Max, typename... Rules > struct rep_max : internal::rep_min_max< 0, Max, Rules... > {};
       template< unsigned Min, typename Rule, typename... Rules > struct rep_min : internal::rep_min< Min, Rule, Rules... > {};
