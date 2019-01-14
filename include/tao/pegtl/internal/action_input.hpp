@@ -88,7 +88,7 @@ namespace tao
 
             [[nodiscard]] std::string_view string_view() const noexcept
             {
-               return std::string_view( begin(), end() );
+               return std::string_view( begin(), size() );
             }
 
             [[nodiscard]] char peek_char( const std::size_t offset = 0 ) const noexcept

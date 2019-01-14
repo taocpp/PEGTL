@@ -67,6 +67,7 @@ set(test_sources
   rule_pad.cpp
   rule_pad_opt.cpp
   rule_plus.cpp
+  rule_rematch.cpp
   rule_rep.cpp
   rule_rep_max.cpp
   rule_rep_min.cpp
