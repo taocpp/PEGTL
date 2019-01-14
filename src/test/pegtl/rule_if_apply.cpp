@@ -38,7 +38,7 @@ namespace tao
             template< typename Input >
             static void apply( const Input& in, bool& state_b )
             {
-               TAO_PEGTL_TEST_ASSERT( in.string() == "foo" );
+               TAO_PEGTL_TEST_ASSERT( in.string_view() == "foo" );
                TAO_PEGTL_TEST_ASSERT( !state_b );
             }
          };
@@ -48,7 +48,7 @@ namespace tao
             template< typename Input >
             static bool apply( const Input& in, bool& state_b )
             {
-               TAO_PEGTL_TEST_ASSERT( in.string() == "foo" );
+               TAO_PEGTL_TEST_ASSERT( in.string_view() == "foo" );
                TAO_PEGTL_TEST_ASSERT( !state_b );
                state_b = true;
                return false;
