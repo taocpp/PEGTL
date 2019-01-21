@@ -236,7 +236,7 @@ namespace tao
             struct reorder
             {
                template< typename Input, typename Tuple, std::size_t... Is >
-               static void start_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > ) noexcept( noexcept( T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               static void start_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
                {
                   T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
                }
@@ -248,7 +248,7 @@ namespace tao
                }
 
                template< typename Input, typename Tuple, std::size_t... Is >
-               static void success_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > ) noexcept( noexcept( T::success( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               static void success_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::success( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
                {
                   T::success( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
                }
@@ -260,7 +260,7 @@ namespace tao
                }
 
                template< typename Input, typename Tuple, std::size_t... Is >
-               static void failure_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > ) noexcept( noexcept( T::failure( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               static void failure_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::failure( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
                {
                   T::failure( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
                }
@@ -272,7 +272,7 @@ namespace tao
                }
 
                template< typename Input, typename Tuple, std::size_t... Is >
-               static void raise_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > ) noexcept( noexcept( T::raise( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               static void raise_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::raise( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
                {
                   T::raise( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
                }
@@ -284,7 +284,7 @@ namespace tao
                }
 
                template< typename Input, typename Tuple, std::size_t... Is >
-               static auto apply0_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > ) noexcept( noexcept( T::apply0( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               static auto apply0_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::apply0( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
                {
                   return T::apply0( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
                }
@@ -296,7 +296,7 @@ namespace tao
                }
 
                template< typename Iterator, typename Input, typename Tuple, std::size_t... Is >
-               static auto apply_impl( const Iterator& begin, const Input& in, const Tuple& t, std::index_sequence< Is... > ) noexcept( noexcept( T::apply( begin, in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               static auto apply_impl( const Iterator& begin, const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::apply( begin, in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
                {
                   return T::apply( begin, in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
                }
