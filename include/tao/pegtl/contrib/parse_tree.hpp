@@ -6,6 +6,7 @@
 
 #include <cassert>
 #include <memory>
+#include <tuple>
 #include <type_traits>
 #include <typeinfo>
 #include <utility>
@@ -231,6 +232,95 @@ namespace tao
             {
             };
 
+            template< typename T >
+            struct reorder
+            {
+               template< typename Input, typename Tuple, std::size_t... Is >
+               static void start_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > ) noexcept( noexcept( T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               {
+                  T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+               }
+
+               template< typename Input, typename... States >
+               static void start( const Input& in, States&&... st ) noexcept( noexcept( start_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+               {
+                  start_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
+               }
+
+               template< typename Input, typename Tuple, std::size_t... Is >
+               static void success_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > ) noexcept( noexcept( T::success( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               {
+                  T::success( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+               }
+
+               template< typename Input, typename... States >
+               static void success( const Input& in, States&&... st ) noexcept( noexcept( success_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+               {
+                  success_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
+               }
+
+               template< typename Input, typename Tuple, std::size_t... Is >
+               static void failure_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > ) noexcept( noexcept( T::failure( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               {
+                  T::failure( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+               }
+
+               template< typename Input, typename... States >
+               static void failure( const Input& in, States&&... st ) noexcept( noexcept( failure_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+               {
+                  failure_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
+               }
+
+               template< typename Input, typename Tuple, std::size_t... Is >
+               static void raise_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > ) noexcept( noexcept( T::raise( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               {
+                  T::raise( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+               }
+
+               template< typename Input, typename... States >
+               static void raise( const Input& in, States&&... st ) noexcept( noexcept( raise_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+               {
+                  raise_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
+               }
+
+               template< typename Input, typename Tuple, std::size_t... Is >
+               static auto apply0_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > ) noexcept( noexcept( T::apply0( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               {
+                  return T::apply0( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+               }
+
+               template< typename Input, typename... States >
+               static auto apply0( const Input& in, States&&... st ) noexcept( noexcept( apply0_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+               {
+                  return apply0_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
+               }
+
+               template< typename Iterator, typename Input, typename Tuple, std::size_t... Is >
+               static auto apply_impl( const Iterator& begin, const Input& in, const Tuple& t, std::index_sequence< Is... > ) noexcept( noexcept( T::apply( begin, in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               {
+                  return T::apply( begin, in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+               }
+
+               template< typename Iterator, typename Input, typename... States >
+               static auto apply( const Iterator& begin, const Input& in, States&&... st ) noexcept( noexcept( apply_impl( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+               {
+                  return apply_impl( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
+               }
+
+               template< apply_mode A,
+                         rewind_mode M,
+                         template< typename... >
+                         class Action,
+                         template< typename... >
+                         class Control,
+                         typename Input,
+                         typename... States >
+               [[nodiscard]] static bool match( Input& in, States&&... st )
+               {
+                  return T::template match< A, M, Action, Control >( in, st... );
+               }
+            };
+
             template< typename Node, template< typename... > class Selector, template< typename... > class Control >
             struct make_control
             {
@@ -238,7 +328,7 @@ namespace tao
                struct control;
 
                template< typename Rule >
-               using type = control< Rule, Selector< Rule >::value, is_leaf< 8, typename Rule::analyze_t, Selector >::value >;
+               using type = reorder< control< Rule, Selector< Rule >::value, is_leaf< 8, typename Rule::analyze_t, Selector >::value > >;
             };
 
             template< typename Node, template< typename... > class Selector, template< typename... > class Control >
@@ -484,7 +574,7 @@ namespace tao
          [[nodiscard]] std::unique_ptr< Node > parse( Input&& in, States&&... st )
          {
             internal::state< Node > state;
-            if( !TAO_PEGTL_NAMESPACE::parse< Rule, Action, internal::make_control< Node, Selector, Control >::template type >( in, state, st... ) ) {
+            if( !TAO_PEGTL_NAMESPACE::parse< Rule, Action, internal::make_control< Node, Selector, Control >::template type >( in, st..., state ) ) {
                return nullptr;
             }
             assert( state.stack.size() == 1 );
