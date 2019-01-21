@@ -247,37 +247,37 @@ namespace tao
                : Control< Rule >
             {
                template< typename Input, typename... States >
-               static void start( const Input& in, States&&... st, state< Node >& /*unused*/ ) noexcept( noexcept( Control< Rule >::start( in, st... ) ) )
+               static void start( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::start( in, st... ) ) )
                {
                   Control< Rule >::start( in, st... );
                }
 
                template< typename Input, typename... States >
-               static void success( const Input& in, States&&... st, state< Node >& /*unused*/ ) noexcept( noexcept( Control< Rule >::success( in, st... ) ) )
+               static void success( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::success( in, st... ) ) )
                {
                   Control< Rule >::success( in, st... );
                }
 
                template< typename Input, typename... States >
-               static void failure( const Input& in, States&&... st, state< Node >& /*unused*/ ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
+               static void failure( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
                {
                   Control< Rule >::failure( in, st... );
                }
 
                template< typename Input, typename... States >
-               static void raise( const Input& in, States&&... st, state< Node >& /*unused*/ )
+               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
                {
                   Control< Rule >::raise( in, st... );
                }
 
                template< template< typename... > class Action, typename Input, typename... States >
-               static auto apply0( const Input& in, States&&... st, state< Node >& /*unused*/ ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
+               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
                {
                   return Control< Rule >::template apply0< Action >( in, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
-               static auto apply( const Iterator& begin, const Input& in, States&&... st, state< Node >& /*unused*/ ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
+               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
                {
                   return Control< Rule >::template apply< Action >( begin, in, st... );
                }
@@ -289,14 +289,14 @@ namespace tao
                : Control< Rule >
             {
                template< typename Input, typename... States >
-               static void start( const Input& in, States&&... st, state< Node >& state )
+               static void start( const Input& in, state< Node >& state, States&&... st )
                {
                   Control< Rule >::start( in, st... );
                   state.emplace_back();
                }
 
                template< typename Input, typename... States >
-               static void success( const Input& in, States&&... st, state< Node >& state )
+               static void success( const Input& in, state< Node >& state, States&&... st )
                {
                   Control< Rule >::success( in, st... );
                   auto n = std::move( state.back() );
@@ -307,26 +307,26 @@ namespace tao
                }
 
                template< typename Input, typename... States >
-               static void failure( const Input& in, States&&... st, state< Node >& state ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
+               static void failure( const Input& in, state< Node >& state, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
                {
                   Control< Rule >::failure( in, st... );
                   state.pop_back();
                }
 
                template< typename Input, typename... States >
-               static void raise( const Input& in, States&&... st, state< Node >& /*unused*/ )
+               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
                {
                   Control< Rule >::raise( in, st... );
                }
 
                template< template< typename... > class Action, typename Input, typename... States >
-               static auto apply0( const Input& in, States&&... st, state< Node >& /*unused*/ ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
+               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
                {
                   return Control< Rule >::template apply0< Action >( in, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
-               static auto apply( const Iterator& begin, const Input& in, States&&... st, state< Node >& /*unused*/ ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
+               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
                {
                   return Control< Rule >::template apply< Action >( begin, in, st... );
                }
@@ -338,7 +338,7 @@ namespace tao
                : Control< Rule >
             {
                template< typename Input, typename... States >
-               static void start( const Input& in, States&&... st, state< Node >& state )
+               static void start( const Input& in, state< Node >& state, States&&... st )
                {
                   Control< Rule >::start( in, st... );
                   state.emplace_back();
@@ -346,7 +346,7 @@ namespace tao
                }
 
                template< typename Input, typename... States >
-               static void success( const Input& in, States&&... st, state< Node >& state )
+               static void success( const Input& in, state< Node >& state, States&&... st )
                {
                   Control< Rule >::success( in, st... );
                   auto n = std::move( state.back() );
@@ -359,7 +359,7 @@ namespace tao
                }
 
                template< typename Input, typename... States >
-               static void failure( const Input& in, States&&... st, state< Node >& state ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) && noexcept( std::declval< node& >().template failure< Rule >( in, st... ) ) )
+               static void failure( const Input& in, state< Node >& state, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) && noexcept( std::declval< node& >().template failure< Rule >( in, st... ) ) )
                {
                   Control< Rule >::failure( in, st... );
                   state.back()->template failure< Rule >( in, st... );
@@ -367,19 +367,19 @@ namespace tao
                }
 
                template< typename Input, typename... States >
-               static void raise( const Input& in, States&&... st, state< Node >& /*unused*/ )
+               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
                {
                   Control< Rule >::raise( in, st... );
                }
 
                template< template< typename... > class Action, typename Input, typename... States >
-               static auto apply0( const Input& in, States&&... st, state< Node >& /*unused*/ ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
+               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
                {
                   return Control< Rule >::template apply0< Action >( in, st... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
-               static auto apply( const Iterator& begin, const Input& in, States&&... st, state< Node >& /*unused*/ ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
+               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
                {
                   return Control< Rule >::template apply< Action >( begin, in, st... );
                }
@@ -484,7 +484,7 @@ namespace tao
          [[nodiscard]] std::unique_ptr< Node > parse( Input&& in, States&&... st )
          {
             internal::state< Node > state;
-            if( !TAO_PEGTL_NAMESPACE::parse< Rule, Action, internal::make_control< Node, Selector, Control >::template type >( in, st..., state ) ) {
+            if( !TAO_PEGTL_NAMESPACE::parse< Rule, Action, internal::make_control< Node, Selector, Control >::template type >( in, state, st... ) ) {
                return nullptr;
             }
             assert( state.stack.size() == 1 );
