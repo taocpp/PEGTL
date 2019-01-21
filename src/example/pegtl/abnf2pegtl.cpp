@@ -196,7 +196,7 @@ namespace tao
             // for other, special reasons.
             //
             // When using numerical values (num-val, repeat), the values
-            // must be in the range of the corresponsing C++ data type.
+            // must be in the range of the corresponding C++ data type.
             //
             // Remember we are defining a PEG, not a CFG. Simply copying some
             // ABNF from somewhere might lead to surprising results as the
@@ -208,7 +208,7 @@ namespace tao
             // repetition. You can use braces for more complex expressions.
             //
             // Finally, instead of the pre-defined CRLF sequence, we accept
-            // any type of line ending as a convencience extension:
+            // any type of line ending as a convenience extension:
 
             // clang-format off
             struct CRLF : sor< abnf::CRLF, CR, LF > {};

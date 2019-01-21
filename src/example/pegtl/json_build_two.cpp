@@ -16,8 +16,8 @@
 namespace examples
 {
    // State class that stores the result of a JSON parsing run -- a single JSON object.
-   // The other members are used temporarily, at the end of a (successful) parsing run
-   // they are expected to be empty.
+   // The other members are used temporarily, at the end of a (successful) parsing run.
+   // They are expected to be empty.
 
    struct json_state
    {
