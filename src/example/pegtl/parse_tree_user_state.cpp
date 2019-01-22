@@ -23,7 +23,7 @@ template<>
 struct work< success >
 {
    template< typename Input, typename... States >
-   static void apply( const Input&, user_state& /*state*/, States&&... /*unused*/ )
+   static void apply( const Input& /*unused*/, user_state& /*unused*/, States&&... /*unused*/ )
    {}
 };
 
