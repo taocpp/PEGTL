@@ -284,25 +284,29 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, typename Tuple, std::size_t... Is >
-               static auto apply0_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::template apply0< Action >( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               static auto apply0_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::template apply0< Action >( in, std::get< Is >( t )... ) ) )
+                  -> decltype( T::template apply0< Action >( in, std::get< Is >( t )... ) )
                {
-                  return T::template apply0< Action >( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+                  return T::template apply0< Action >( in, std::get< Is >( t )... );
                }
 
                template< template< typename... > class Action, typename Input, typename... States >
                static auto apply0( const Input& in, States&&... st ) noexcept( noexcept( apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+                  -> decltype( apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) )
                {
                   return apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename Tuple, std::size_t... Is >
-               static auto apply_impl( const Iterator& begin, const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::template apply< Action >( begin, in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               static auto apply_impl( const Iterator& begin, const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::template apply< Action >( begin, in, std::get< Is >( t )... ) ) )
+                  -> decltype( T::template apply< Action >( begin, in, std::get< Is >( t )... ) )
                {
-                  return T::template apply< Action >( begin, in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+                  return T::template apply< Action >( begin, in, std::get< Is >( t )... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
                static auto apply( const Iterator& begin, const Input& in, States&&... st ) noexcept( noexcept( apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+                  -> decltype( apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) )
                {
                   return apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
                }
@@ -359,18 +363,6 @@ namespace tao
                {
                   Control< Rule >::raise( in, st... );
                }
-
-               template< template< typename... > class Action, typename Input, typename... States >
-               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
-               {
-                  return Control< Rule >::template apply0< Action >( in, st... );
-               }
-
-               template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
-               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
-               {
-                  return Control< Rule >::template apply< Action >( begin, in, st... );
-               }
             };
 
             template< typename Node, template< typename... > class Selector, template< typename... > class Control >
@@ -407,18 +399,6 @@ namespace tao
                static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
                {
                   Control< Rule >::raise( in, st... );
-               }
-
-               template< template< typename... > class Action, typename Input, typename... States >
-               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
-               {
-                  return Control< Rule >::template apply0< Action >( in, st... );
-               }
-
-               template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
-               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
-               {
-                  return Control< Rule >::template apply< Action >( begin, in, st... );
                }
             };
 
@@ -460,18 +440,6 @@ namespace tao
                static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
                {
                   Control< Rule >::raise( in, st... );
-               }
-
-               template< template< typename... > class Action, typename Input, typename... States >
-               static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
-               {
-                  return Control< Rule >::template apply0< Action >( in, st... );
-               }
-
-               template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
-               static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
-               {
-                  return Control< Rule >::template apply< Action >( begin, in, st... );
                }
             };
 

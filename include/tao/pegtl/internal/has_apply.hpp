@@ -14,13 +14,13 @@ namespace tao
    {
       namespace internal
       {
-         template< typename, typename, typename... >
+         template< typename, typename, template< typename... > class, typename... >
          struct has_apply
             : std::false_type
          {};
 
-         template< typename A, typename... S >
-         struct has_apply< A, decltype( A::apply( std::declval< S >()... ) ), S... >
+         template< typename C, template< typename... > class Action, typename... S >
+         struct has_apply< C, decltype( C::template apply< Action >( std::declval< S >()... ) ), Action, S... >
             : std::true_type
          {};
 

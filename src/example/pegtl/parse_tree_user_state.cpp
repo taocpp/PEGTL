@@ -22,8 +22,8 @@ struct work : nothing< Rule >
 template<>
 struct work< success >
 {
-   template< typename Input, typename... States >
-   static void apply( const Input& /*unused*/, user_state& /*unused*/, States&&... /*unused*/ )
+   template< typename Input >
+   static void apply( const Input& /*unused*/, user_state& /*unused*/ )
    {}
 };
 
