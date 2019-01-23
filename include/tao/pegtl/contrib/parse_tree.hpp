@@ -272,9 +272,9 @@ namespace tao
                }
 
                template< typename Input, typename Tuple, std::size_t... Is >
-               static void raise_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::raise( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+               static void raise_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::raise( in, std::get< Is >( t )... ) ) )
                {
-                  T::raise( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+                  T::raise( in, std::get< Is >( t )... );
                }
 
                template< typename Input, typename... States >
@@ -357,12 +357,6 @@ namespace tao
                {
                   Control< Rule >::failure( in, st... );
                }
-
-               template< typename Input, typename... States >
-               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
-               {
-                  Control< Rule >::raise( in, st... );
-               }
             };
 
             template< typename Node, template< typename... > class Selector, template< typename... > class Control >
@@ -393,12 +387,6 @@ namespace tao
                {
                   Control< Rule >::failure( in, st... );
                   state.pop_back();
-               }
-
-               template< typename Input, typename... States >
-               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
-               {
-                  Control< Rule >::raise( in, st... );
                }
             };
 
@@ -434,12 +422,6 @@ namespace tao
                   Control< Rule >::failure( in, st... );
                   state.back()->template failure< Rule >( in, st... );
                   state.pop_back();
-               }
-
-               template< typename Input, typename... States >
-               static void raise( const Input& in, state< Node >& /*unused*/, States&&... st )
-               {
-                  Control< Rule >::raise( in, st... );
                }
             };
 
