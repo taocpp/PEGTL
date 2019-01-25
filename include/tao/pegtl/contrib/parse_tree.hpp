@@ -233,7 +233,7 @@ namespace tao
             };
 
             template< typename T >
-            struct reorder
+            struct control
             {
                template< typename Input, typename Tuple, std::size_t... Is >
                static void start_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
@@ -329,15 +329,15 @@ namespace tao
             struct make_control
             {
                template< typename Rule, bool, bool >
-               struct control;
+               struct state_handler;
 
                template< typename Rule >
-               using type = reorder< control< Rule, Selector< Rule >::value, is_leaf< 8, typename Rule::analyze_t, Selector >::value > >;
+               using type = control< state_handler< Rule, Selector< Rule >::value, is_leaf< 8, typename Rule::analyze_t, Selector >::value > >;
             };
 
             template< typename Node, template< typename... > class Selector, template< typename... > class Control >
             template< typename Rule >
-            struct make_control< Node, Selector, Control >::control< Rule, false, true >
+            struct make_control< Node, Selector, Control >::state_handler< Rule, false, true >
                : Control< Rule >
             {
                template< typename Input, typename... States >
@@ -361,7 +361,7 @@ namespace tao
 
             template< typename Node, template< typename... > class Selector, template< typename... > class Control >
             template< typename Rule >
-            struct make_control< Node, Selector, Control >::control< Rule, false, false >
+            struct make_control< Node, Selector, Control >::state_handler< Rule, false, false >
                : Control< Rule >
             {
                template< typename Input, typename... States >
@@ -392,7 +392,7 @@ namespace tao
 
             template< typename Node, template< typename... > class Selector, template< typename... > class Control >
             template< typename Rule, bool B >
-            struct make_control< Node, Selector, Control >::control< Rule, true, B >
+            struct make_control< Node, Selector, Control >::state_handler< Rule, true, B >
                : Control< Rule >
             {
                template< typename Input, typename... States >
