@@ -23,7 +23,7 @@ namespace tao
          struct any : internal::any< internal::peek_char > {};
          struct blank : internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\t' > {};
          struct digit : internal::range< internal::result_on_found::success, internal::peek_char, '0', '9' > {};
-         struct ellipsis : internal::three< '.' > {};
+         struct ellipsis : internal::any_amount< '.', 3 > {};
          struct eolf : internal::eolf {};
          template< char... Cs > struct forty_two : internal::rep< 42, internal::one< internal::result_on_found::success, internal::peek_char, Cs... > > {};
          struct identifier_first : internal::identifier_first {};
@@ -43,8 +43,9 @@ namespace tao
          struct shebang : internal::if_must< false, internal::string< '#', '!' >, internal::until< internal::eolf > > {};
          struct space : internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\n', '\r', '\t', '\v', '\f' > {};
          template< char... Cs > struct string : internal::string< Cs... > {};
-         template< char C > struct three : internal::three< C > {};
-         template< char C > struct two : internal::two< C > {};
+         template< char C > struct three : internal::any_amount< C, 3 > {};
+         template< char C > struct two : internal::any_amount< C, 2 > {};
+         template< char C, unsigned int N > struct any_amount : internal::any_amount< C, N > {};
          struct upper : internal::range< internal::result_on_found::success, internal::peek_char, 'A', 'Z' > {};
          struct xdigit : internal::ranges< internal::peek_char, '0', '9', 'a', 'f', 'A', 'F' > {};
          // clang-format on

@@ -1,8 +1,8 @@
 // Copyright (c) 2018-2019 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_INTERNAL_THREE_HPP
-#define TAO_PEGTL_INTERNAL_THREE_HPP
+#ifndef TAO_PEGTL_INTERNAL_ANY_AMOUNT_HPP
+#define TAO_PEGTL_INTERNAL_ANY_AMOUNT_HPP
 
 #include <utility>
 
@@ -20,26 +20,29 @@ namespace tao
    {
       namespace internal
       {
-         template< char C >
-         struct three
+         template< char C, unsigned int N >
+         struct any_amount
          {
             using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< typename Input >
-            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 3 ) ) )
+            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( N ) ) )
             {
-               if( in.size( 3 ) >= 3 ) {
-                  if( ( in.peek_char( 0 ) == C ) && ( in.peek_char( 1 ) == C ) && ( in.peek_char( 2 ) == C ) ) {
-                     bump_help< result_on_found::success, Input, char, C >( in, 3 );
-                     return true;
+               if( in.size( N ) >= N ) {
+                  for (unsigned int i = 0; i < N; i++) {
+                     if (in.peek_char(i) != C) {
+                        return false;
+                     }
                   }
+                  bump_help< result_on_found::success, Input, char, C >( in, N );
+                  return true;
                }
                return false;
             }
          };
 
-         template< char C >
-         inline constexpr bool skip_control< three< C > > = true;
+         template< char C, unsigned int N >
+         inline constexpr bool skip_control< any_amount< C, N > > = true;
 
       }  // namespace internal
 
