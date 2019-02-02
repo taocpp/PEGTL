@@ -65,11 +65,15 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * Grammar rules to parse Lua-style long (or raw) string literals.
 * Ready for production use.
 
+###### `<tao/pegtl/contrib/rep_string.hpp>`
+
+* Contains optimised version of `rep< N, string< Cs... > >`:
+* Rule `ascii::rep_string< N, Cs... >`.
+
 ###### `<tao/pegtl/contrib/rep_one_min_max.hpp>`
 
 * Contains optimised version of `rep_min_max< Min, Max, ascii::one< C > >`:
 * Rule `ascii::rep_one_min_max< Min, Max, C >`.
-* Rule `ascii::ellipsis` as shortcut for `ascii::rep_one_min_max< 3, 3, '.' >`.
 
 ###### `<tao/pegtl/contrib/to_string.hpp>`
 
