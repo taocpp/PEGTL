@@ -36,7 +36,7 @@ namespace tao
       {
          template< std::size_t N, char... Cs >
          struct rep_string
-            : internal::make_rep_string< N, string<>, Cs... >::type
+            : internal::make_rep_string< N, internal::string<>, Cs... >::type
          {};
 
       }  // namespace ascii
