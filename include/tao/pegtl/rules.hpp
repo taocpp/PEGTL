@@ -37,7 +37,7 @@ namespace tao
       template< typename Rule, typename Sep > struct list_must< Rule, Sep, void > : internal::list_must< Rule, Sep > {};
       template< typename Rule, typename Sep, typename Pad = void > struct list_tail : internal::list_tail_pad< Rule, Sep, Pad > {};
       template< typename Rule, typename Sep > struct list_tail< Rule, Sep, void > : internal::list_tail< Rule, Sep > {};
-      template< typename M, typename S > struct minus : internal::minus< M, S > {};
+      template< typename M, typename S > struct minus : internal::rematch< M, internal::not_at< S, internal::eof > > {};
       template< typename... Rules > struct must : internal::must< Rules... > {};
       template< typename... Rules > struct not_at : internal::not_at< Rules... > {};
       template< typename... Rules > struct opt : internal::opt< Rules... > {};
