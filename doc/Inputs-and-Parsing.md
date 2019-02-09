@@ -419,9 +419,9 @@ The included examples for C- and C++-style streams can also be used as reference
 ## Error Reporting
 
 When reporting an error, one often wants to print the complete line from the input where the error occurred and a marker at the position where the error is found within that line.
-To support this, the `memory_input<>` class has methods `at( p )`, `begin_of_line( p )`, `end_of_line( p )` and `line_as_string_view( p )` which take a `tao::pegtl::position` as parameter.
+To support this, the `memory_input<>` class has methods `at( p )`, `begin_of_line( p )`, `end_of_line( p )` and `line_at( p )` which take a `tao::pegtl::position` as parameter.
 The first three methods return a `const char*` to position `p`, the begin-of-line before `p`, or the end-of-line after `p` (or the end of the input if the input is not terminated by an end-of-line), respectively.
-For convenience, `line_as_string_view( p )` returns a `std::string_view` with the complete line around `p`.
+For convenience, `line_at( p )` returns a `std::string_view` with the complete line around `p`.
 Example usage:
 
 ```c++
@@ -433,7 +433,7 @@ try {
 catch( const parse_error& e ) {
    const auto p = e.positions.front();
    std::cerr << e.what() << std::endl
-             << in.line_as_string_view( p ) << std::endl
+             << in.line_at( p ) << std::endl
              << std::string( p.byte_in_line, ' ' ) << '^' << std::endl;
 }
 ```
