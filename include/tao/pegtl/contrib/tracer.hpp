@@ -28,7 +28,7 @@ namespace tao
                std::cerr << "<eof>";
             }
             else {
-               const auto c = in.peek_byte();
+               const auto c = in.peek_uint8();
                switch( c ) {
                   case 0:
                      std::cerr << "<nul> = ";
