@@ -368,6 +368,12 @@ namespace tao
             return in.current();
          }
 
+         [[nodiscard]] std::string_view line_as_string_view( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
+         {
+            const char* b = begin_of_line( p );
+            return std::string_view( b, end_of_line( p ) - b );
+         }
+
          [[nodiscard]] std::string line_as_string( const TAO_PEGTL_NAMESPACE::position& p ) const
          {
             return std::string( begin_of_line( p ), end_of_line( p ) );
