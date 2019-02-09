@@ -433,6 +433,22 @@ namespace tao
             template< typename >
             using store_all = std::true_type;
 
+            template< typename >
+            struct selector;
+
+            template< typename T >
+            struct selector< std::tuple< T > >
+            {
+               using type = typename T::type;
+            };
+
+            template< typename... Ts >
+            struct selector< std::tuple< Ts... > >
+            {
+               static_assert( sizeof...( Ts ) == 0, "multiple matches found" );
+               using type = std::false_type;
+            };
+
          }  // namespace internal
 
          using store_content = std::true_type;
@@ -483,17 +499,7 @@ namespace tao
          using discard_empty = discard_empty_or< remove_content >;
 
          template< typename Rule, typename... Collections >
-         struct selector : std::false_type
-         {
-         };
-
-         // TODO: Implement in a non-recursive way
-         // TODO: Check for multiple matches (currently: first match wins)
-         template< typename Rule, typename Collection, typename... Collections >
-         struct selector< Rule, Collection, Collections... >
-            : std::conditional_t< Collection::template contains< Rule >::value, typename Collection::type, selector< Rule, Collections... > >
-         {
-         };
+         using selector = typename internal::selector< decltype( std::tuple_cat( std::declval< std::conditional_t< Collections::template contains< Rule >::value, std::tuple< Collections >, std::tuple<> > >()... ) ) >::type;
 
          template< typename Base >
          struct apply
