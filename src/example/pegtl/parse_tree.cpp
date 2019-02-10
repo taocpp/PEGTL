@@ -100,7 +100,7 @@ namespace example
       }
       else {
          if( n.has_content() ) {
-            std::cout << s << n.name() << " \"" << n.content() << "\" at " << n.begin() << " to " << n.end() << std::endl;
+            std::cout << s << n.name() << " \"" << n.string_view() << "\" at " << n.begin() << " to " << n.end() << std::endl;
          }
          else {
             std::cout << s << n.name() << " at " << n.begin() << std::endl;

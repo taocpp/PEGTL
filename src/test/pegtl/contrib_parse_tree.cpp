@@ -42,7 +42,7 @@ namespace tao
          TAO_PEGTL_TEST_ASSERT( d->has_content() );
          TAO_PEGTL_TEST_ASSERT( d->begin().byte == 0 );
          TAO_PEGTL_TEST_ASSERT( d->end().byte == 2 );
-         TAO_PEGTL_TEST_ASSERT( d->content() == "ac" );
+         TAO_PEGTL_TEST_ASSERT( d->string_view() == "ac" );
 
          TAO_PEGTL_TEST_ASSERT( d->children.size() == 2 );
          TAO_PEGTL_TEST_ASSERT( d->children.front()->is< A >() );

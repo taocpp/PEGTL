@@ -6,6 +6,8 @@
 
 #include <cassert>
 #include <memory>
+#include <string>
+#include <string_view>
 #include <tuple>
 #include <type_traits>
 #include <typeinfo>
@@ -88,7 +90,13 @@ namespace tao
                return m_end.data != nullptr;
             }
 
-            [[nodiscard]] std::string content() const
+            [[nodiscard]] std::string_view string_view() const noexcept
+            {
+               assert( has_content() );
+               return std::string_view( m_begin.data, m_end.data - m_begin.data );
+            }
+
+            [[nodiscard]] std::string string() const
             {
                assert( has_content() );
                return std::string( m_begin.data, m_end.data );

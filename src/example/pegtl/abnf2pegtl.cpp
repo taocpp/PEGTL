@@ -161,13 +161,13 @@ namespace tao
                return std::isalpha( c ) != 0;
             }
 
-            std::string remove_leading_zeroes( const std::string& v )
+            std::string remove_leading_zeroes( const std::string_view v )
             {
                const auto pos = v.find_first_not_of( '0' );
                if( pos == std::string::npos ) {
                   return "";
                }
-               return v.substr( pos );
+               return std::string( v.substr( pos ) );
             }
 
             void shift( internal::iterator& it, int delta )
@@ -346,7 +346,7 @@ namespace tao
                shift( n->m_begin, 1 );
                shift( n->m_end, -1 );
 
-               const std::string content = n->content();
+               const auto content = n->string_view();
                for( const auto c : content ) {
                   if( std::isalpha( c ) != 0 ) {
                      n->id = &typeid( istring_tag );
@@ -369,7 +369,7 @@ namespace tao
             static void transform( node_ptr& n, States&&... /*unused*/ )
             {
                n = std::move( n->children.back() );
-               if( n->content().size() == 1 ) {
+               if( n->string_view().size() == 1 ) {
                   n->id = &typeid( one_tag );
                }
                else {
@@ -394,7 +394,7 @@ namespace tao
             std::string get_rulename( const node_ptr& n )
             {
                assert( n->is< grammar::rulename >() );
-               std::string v = n->content();
+               std::string v = n->string();
                std::replace( v.begin(), v.end(), '-', '_' );
                return v;
             }
@@ -407,7 +407,7 @@ namespace tao
                   return *it;
                }
                if( keywords.count( v ) != 0 || v.find( "__" ) != std::string::npos ) {
-                  throw parse_error( '\'' + n->content() + "' is a reserved rulename", n->begin() );  // NOLINT
+                  throw parse_error( '\'' + n->string() + "' is a reserved rulename", n->begin() );  // NOLINT
                }
                if( print_forward_declarations && find_rule( rules_defined, v ) != rules_defined.rend() ) {
                   std::cout << "struct " << v << ";\n";
@@ -450,7 +450,7 @@ namespace tao
             {
                const auto rname = get_rulename( n->children.front() );
                assert( n->children.at( 1 )->is< grammar::defined_as_op >() );
-               const auto op = n->children.at( 1 )->content();
+               const auto op = n->children.at( 1 )->string();
                // when we insert a normal rule, we need to check for duplicates
                if( op == "=" ) {
                   if( !previous_rules.insert( { rname, n.get() } ).second ) {
@@ -534,7 +534,7 @@ namespace tao
             } );
 
             nrv.add< string_tag >( []( const node_ptr& n ) {
-               const std::string content = n->content();
+               const auto content = n->string_view();
                std::string s;
                for( const auto c : content ) {
                   append_char( s, c );
@@ -543,7 +543,7 @@ namespace tao
             } );
 
             nrv.add< istring_tag >( []( const node_ptr& n ) {
-               const std::string content = n->content();
+               const auto content = n->string_view();
                std::string s;
                for( const auto c : content ) {
                   append_char( s, c );
@@ -552,7 +552,7 @@ namespace tao
             } );
 
             nrv.add< one_tag >( []( const node_ptr& n ) {
-               const std::string content = n->content();
+               const auto content = n->string_view();
                std::string s;
                for( const auto c : content ) {
                   append_char( s, c );
@@ -560,8 +560,8 @@ namespace tao
                return prefix + "one< " + s + " >";
             } );
 
-            nrv.add< grammar::hex_val::value >( []( const node_ptr& n ) { return "0x" + n->content(); } );
-            nrv.add< grammar::dec_val::value >( []( const node_ptr& n ) { return n->content(); } );
+            nrv.add< grammar::hex_val::value >( []( const node_ptr& n ) { return "0x" + n->string(); } );
+            nrv.add< grammar::dec_val::value >( []( const node_ptr& n ) { return n->string(); } );
             nrv.add< grammar::bin_val::value >( []( const node_ptr& n ) {
                unsigned long long v = 0;
                const char* p = n->m_begin.data;
@@ -583,7 +583,7 @@ namespace tao
             nrv.add< grammar::option >( []( const node_ptr& n ) { return prefix + "opt< " + to_string( n->children ) + " >"; } );
             nrv.add< grammar::group >( []( const node_ptr& n ) { return prefix + "seq< " + to_string( n->children ) + " >"; } );
 
-            nrv.add< grammar::prose_val >( []( const node_ptr& n ) { return "/* " + n->content() + " */"; } );
+            nrv.add< grammar::prose_val >( []( const node_ptr& n ) { return "/* " + n->string() + " */"; } );
 
             nrv.add< grammar::and_predicate >( []( const node_ptr& n ) {
                assert( n->children.size() == 1 );
@@ -603,7 +603,7 @@ namespace tao
             nrv.add< grammar::repetition >( []( const node_ptr& n ) -> std::string {
                assert( n->children.size() == 2 );
                const auto content = to_string_unwrap_seq( n->children.back() );
-               const auto rep = n->children.front()->content();
+               const auto rep = n->children.front()->string();
                const auto star = rep.find( '*' );
                if( star == std::string::npos ) {
                   const auto v = remove_leading_zeroes( rep );

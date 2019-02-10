@@ -70,14 +70,15 @@ struct node
 {
    std::vector< std::unique_ptr< node > > children;
 
-   bool is_root() const noexcept();
+   bool is_root() const noexcept;
 
    // precondition from here on: !is_root()
 
    std::string name() const;
 
-   bool has_content() const noexcept();
-   std::string content() const;  // precondition: has_content()
+   bool has_content() const noexcept;
+   std::string_view string_view() const noexcept;  // precondition: has_content()
+   std::string string() const;  // precondition: has_content()
 
    std::string source() const;
 
