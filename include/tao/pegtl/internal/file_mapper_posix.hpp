@@ -76,11 +76,6 @@ namespace tao
                return m_data + m_size;
             }
 
-            [[nodiscard]] std::string string() const
-            {
-               return std::string( m_data, m_size );
-            }
-
          private:
             const std::size_t m_size;
             const char* const m_data;
