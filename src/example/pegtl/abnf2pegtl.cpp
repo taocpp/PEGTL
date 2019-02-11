@@ -161,13 +161,13 @@ namespace tao
                return std::isalpha( c ) != 0;
             }
 
-            std::string remove_leading_zeroes( const std::string_view v )
+            std::string remove_leading_zeroes( const std::string& v )
             {
                const auto pos = v.find_first_not_of( '0' );
                if( pos == std::string::npos ) {
                   return "";
                }
-               return std::string( v.substr( pos ) );
+               return v.substr( pos );
             }
 
             void shift( internal::iterator& it, int delta )
