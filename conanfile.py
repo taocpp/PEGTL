@@ -6,11 +6,13 @@ class PEGTLConan(ConanFile):
     name = "pegtl"
     description = "C++ header-only parser combinator library for creating PEG parsers"
     homepage = "https://github.com/taocpp/PEGTL"
+    topics = ("conan", "taocpp", "pegtl", "peg", "grammar", "parsing")
     url = homepage
     license = "MIT"
     author = "taocpp@icemx.net"
     exports = "LICENSE"
     exports_sources = "include/*", "CMakeLists.txt"
+    settings = "build_type", "compiler", "os", "arch"
     generators = "cmake"
     no_copy_source = True
 
