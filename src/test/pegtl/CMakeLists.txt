@@ -18,6 +18,7 @@ set(test_sources
   ascii_three.cpp
   ascii_two.cpp
   contrib_alphabet.cpp
+  contrib_hierarchical.cpp
   contrib_integer.cpp
   contrib_if_then.cpp
   contrib_json.cpp
