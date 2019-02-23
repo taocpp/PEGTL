@@ -15,7 +15,6 @@
 #include "internal/duseltronik.hpp"
 #include "internal/has_apply.hpp"
 #include "internal/has_apply0.hpp"
-#include "internal/has_match.hpp"
 #include "internal/skip_control.hpp"
 
 namespace tao

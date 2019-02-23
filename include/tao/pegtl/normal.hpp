@@ -14,6 +14,7 @@
 #include "rewind_mode.hpp"
 
 #include "internal/demangle.hpp"
+#include "internal/has_match.hpp"
 
 namespace tao
 {
