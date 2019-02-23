@@ -149,11 +149,10 @@ The **default safe choice** is to copy the matched portions of the input data th
 
 ## Troubleshooting
 
-As the compiler auto-detects the presence of an *suitable* `apply` or `apply0` method, it will simply think that there is no action to apply when the signature is incorrect.
+As the compiler auto-detects the presence of a *suitable* `apply` or `apply0` method, it will simply think that there is no action to apply when the signature is incorrect.
 In this case, the code will compile but silently fail to call `apply` or `apply0`.
 If you think that this is the case, you can turn this silent failure to call the method into a compile-time error.
-Simply derive your specialisation from `require_apply` or `require_apply0`, respectively.
-Example:
+Simply derive your specialisation from `require_apply` or `require_apply0`, respectively:
 
 ```c++
 template<>
@@ -162,8 +161,7 @@ struct my_actions< my_rule >
 {
    static void apply0( double )
    {
-      // Called whenever a call to tao::pegtl::plus< tao::pegtl::alpha >
-      // in the grammar succeeds.
+      // ...
    }
 }
 ```
