@@ -28,17 +28,12 @@ First the default- or base-case of the action class template has to be defined:
 
 ```c++
 template< typename Rule >
-struct my_actions
-   : tao::pegtl::nothing< Rule > {};
+struct my_actions {};
 ```
-
-Inheriting from `tao::pegtl::nothing< Rule >` indicates to the PEGTL that no action is attached to `Rule`, i.e. that no `apply()` or `apply0()`-method should be called for successful matches of `Rule`.
 
 To attach an action to `Rule`, this class template has to be specialised for `Rule` with two important properties.
 
-1. The specialisation *must not* inherit from `tao::pegtl::nothing< Rule >`.
-
-2. An *appropriate* static `apply()` or `apply0()`-method has to be implemented.
+1. An *appropriate* static `apply()` or `apply0()`-method has to be implemented.
 
 The PEGTL will auto-detect whether an action, i.e. a specialisation of an action class template, contains an appropriate `apply()` or `apply0()` function, and whether it returns `void` or `bool`.
 It will fail to compile when both `apply()` and `apply0()` are found.

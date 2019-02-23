@@ -111,7 +111,7 @@ Depending on what happens during the attempt to match `R`, one of the other thre
 
 - If a sub-rule of `R` finishes with a global failure, and the exception is not caught by a `try_catch` or similar combinator, then no other function of `C< R >` is called after `C< R >::start()`.
 
-Additionally, if matching `R` was successful, actions are enabled, and `A< R >` is not derived from `tao::pegtl::nothing`, where `A` is the current action class template:
+Additionally, if matching `R` was successful and actions are enabled, where `A` is the current action class template:
 
 - If `A< R >::apply0()` exists, then `C< R >::apply0()` is called with the current state arguments.
 
