@@ -56,19 +56,15 @@ namespace tao
 
       struct outer_grammar
          : must< two< 'a' >, two< 'b' >, two< 'c' >, eof >
-      {
-      };
+      {};
 
       struct inner_grammar
          : must< one< 'd' >, two< 'e' >, eof >
-      {
-      };
+      {};
 
       template< typename Rule >
       struct outer_action
-         : nothing< Rule >
-      {
-      };
+      {};
 
       template<>
       struct outer_action< two< 'b' > >

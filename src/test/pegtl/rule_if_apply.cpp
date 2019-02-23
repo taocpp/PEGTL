@@ -65,9 +65,8 @@ namespace tao
          };
 
          template< typename Rule >
-         struct action : nothing< Rule >
-         {
-         };
+         struct action
+         {};
 
          int flag = 0;
 

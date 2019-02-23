@@ -15,7 +15,7 @@ struct user_state
 {};
 
 template< typename Rule >
-struct work : nothing< Rule >
+struct work
 {};
 
 template<>

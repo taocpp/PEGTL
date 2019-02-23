@@ -16,24 +16,19 @@ namespace sum
 {
    struct padded_double
       : pad< double_::grammar, space >
-   {
-   };
+   {};
 
    struct double_list
       : list< padded_double, one< ',' > >
-   {
-   };
+   {};
 
    struct grammar
       : seq< double_list, eof >
-   {
-   };
+   {};
 
    template< typename Rule >
    struct action
-      : nothing< Rule >
-   {
-   };
+   {};
 
    template<>
    struct action< double_::grammar >

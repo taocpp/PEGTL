@@ -27,6 +27,9 @@
 #include "pegtl/read_input.hpp"
 #include "pegtl/string_input.hpp"
 
+#include "pegtl/require_apply.hpp"
+#include "pegtl/require_apply0.hpp"
+
 // The following are not included by
 // default because they include <iostream>.
 

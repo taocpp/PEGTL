@@ -10,9 +10,8 @@ namespace tao
    namespace TAO_PEGTL_NAMESPACE
    {
       template< typename Rule >
-      struct my_action : nothing< Rule >
-      {
-      };
+      struct my_action
+      {};
 
       template<>
       struct my_action< eof >

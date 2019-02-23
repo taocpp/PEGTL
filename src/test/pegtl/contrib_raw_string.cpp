@@ -17,9 +17,7 @@ namespace tao
 
       template< typename Rule >
       struct raction
-         : nothing< Rule >
-      {
-      };
+      {};
 
       template<>
       struct raction< rstring::content >
@@ -33,9 +31,7 @@ namespace tao
 
       template< typename Rule >
       struct qaction
-         : nothing< Rule >
-      {
-      };
+      {};
 
       template<>
       struct qaction< qstring::content >

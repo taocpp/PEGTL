@@ -85,9 +85,8 @@ namespace csv2
    // Action class to fill in the above data structure:
 
    template< typename Rule >
-   struct action : pegtl::nothing< Rule >
-   {
-   };
+   struct action
+   {};
 
    template<>
    struct action< plain_value >
@@ -102,8 +101,7 @@ namespace csv2
    template<>
    struct action< string_without< '"' > >
       : action< plain_value >
-   {
-   };
+   {};
 
    template< unsigned N >
    struct action< line< N > >
