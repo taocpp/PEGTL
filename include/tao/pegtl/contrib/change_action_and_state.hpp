@@ -1,8 +1,8 @@
 // Copyright (c) 2019 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_CHANGE_ACTION_AND_STATE_HPP
-#define TAO_PEGTL_CHANGE_ACTION_AND_STATE_HPP
+#ifndef TAO_PEGTL_CONTRIB_CHANGE_ACTION_AND_STATE_HPP
+#define TAO_PEGTL_CONTRIB_CHANGE_ACTION_AND_STATE_HPP
 
 #include "change_state.hpp"
 
