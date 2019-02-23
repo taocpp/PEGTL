@@ -12,6 +12,7 @@ An action's `apply()` or `apply0()`-method can either return `void`, or a `bool`
 * [Actions](#actions)
   * [Apply0](#apply0)
   * [Apply](#apply)
+* [Troubleshooting](#troubleshooting)
 * [States](#states)
 * [Action Specialisation](#action-specialisation)
 * [Changing Actions](#changing-actions)
@@ -31,9 +32,7 @@ template< typename Rule >
 struct my_actions {};
 ```
 
-To attach an action to `Rule`, this class template has to be specialised for `Rule` with two important properties.
-
-1. An *appropriate* static `apply()` or `apply0()`-method has to be implemented.
+To attach an action to `Rule`, this class template has to be specialised for `Rule` and an *appropriate* static `apply()` or `apply0()`-method has to be implemented.
 
 The PEGTL will auto-detect whether an action, i.e. a specialisation of an action class template, contains an appropriate `apply()` or `apply0()` function, and whether it returns `void` or `bool`.
 It will fail to compile when both `apply()` and `apply0()` are found.
@@ -147,6 +146,34 @@ Actions often need to store and/or reference portions of the input for after the
 Some of the syntax tree nodes will contain portions of the input, for example for a variable name in a script language that needs to be stored in the syntax tree just as it occurs in the input data.
 
 The **default safe choice** is to copy the matched portions of the input data that are passed to an action by storing a deep copy of the data as `std::string`, as obtained by the input class' `string()` method, in the data structures built while parsing.
+
+## Troubleshooting
+
+As the compiler auto-detects the presence of an *suitable* `apply` or `apply0` method, it will simply think that there is no action to apply when the signature is incorrect.
+In this case, the code will compile but silently fail to call `apply` or `apply0`.
+If you think that this is the case, you can turn this silent failure to call the method into a compile-time error.
+Simply derive your specialisation from `require_apply` or `require_apply0`, respectively.
+Example:
+
+```c++
+template<>
+struct my_actions< my_rule >
+  : require_apply0
+{
+   static void apply0( double )
+   {
+      // Called whenever a call to tao::pegtl::plus< tao::pegtl::alpha >
+      // in the grammar succeeds.
+   }
+}
+```
+
+By adding the base class `require_apply0` to the above specialisation, the compiler will be required to call `apply0`.
+If the states (in this example a `double`) don't match, an error message is given and the compilation fails.
+
+Note that deriving from `require_apply` or `require_apply0` increases the compile time as well as the instantiation depth.
+It should therefore be used only temporarily to hunt down bugs.
+Once the specialisation is working as intended, these base classes should be removed.
 
 ## States
 
