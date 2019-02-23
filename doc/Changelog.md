@@ -10,6 +10,10 @@
 * Changed enumerators to lowercase.
 * Renamed `tracking_mode::IMMEDIATE` to `tracking_mode::eager`.
 * Renamed `peek_byte` to `peek_uint8`.
+* Allowed the action class template to overwrite `match`.
+* Refactored contrib's `change_action`, `change_state`, and `change_action_and_state`.
+* Removed the need to derive action class template's from `nothing`.
+* Added `require_apply` and `require_apply0` to improve compiler error messages.
 * Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
 * Added support for Universal Windows Platform (UWP).
 
