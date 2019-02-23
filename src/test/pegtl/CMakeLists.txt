@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.8.0 FATAL_ERROR)
 
 set(test_sources
+  action_match.cpp
   actions_one.cpp
   actions_three.cpp
   actions_two.cpp
