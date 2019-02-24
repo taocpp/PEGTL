@@ -9,9 +9,8 @@
 #include "apply_mode.hpp"
 #include "config.hpp"
 #include "match.hpp"
+#include "nothing.hpp"
 #include "rewind_mode.hpp"
-
-#include "internal/require_type.hpp"
 
 namespace tao
 {
@@ -30,7 +29,7 @@ namespace tao
                    typename... States >
          [[nodiscard]] static bool match( Input& in, States&&... st )
          {
-            internal::require_type< decltype( Control< Rule >::template apply< Action >( std::declval< const typename Input::action_t& >(), in, st... ) ) >();
+            nothing< decltype( Control< Rule >::template apply< Action >( std::declval< const typename Input::action_t& >(), in, st... ) ) >();
             return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
          }
       };
