@@ -27,7 +27,7 @@ namespace tao
                    typename... States >
          [[nodiscard]] static bool match( Input& in, States&&... st )
          {
-            nothing< decltype( Control< Rule >::template apply0< Action >( in, st... ) ) >();
+            nothing< decltype( Control< Rule >::template apply0< Action >( static_cast< const Input& >( in ), st... ) ) >();
             return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
          }
       };
