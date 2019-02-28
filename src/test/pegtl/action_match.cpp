@@ -39,8 +39,8 @@ namespace tao
 
       struct state_one
       {
-         int byte_in_line_a;
-         int byte_in_line_b;
+         std::size_t byte_in_line_a;
+         std::size_t byte_in_line_b;
       };
 
       // clang-format off
