@@ -123,10 +123,11 @@ public:
    const char* begin() const noexcept;  // Non-owning pointer!
    const char* end() const noexcept;  // Non-owning pointer!
 
-   std::string string() const;  // { return std::string( begin(), end() ); }
+   std::string string() const { return std::string( begin(), end() ); }
+   std::string_view string_view() const noexcept { return std::string_view( begin(), size() ); }
 
    char peek_char( const std::size_t offset = 0 ) const noexcept;   // { return begin()[ offset ]; }
-   unsigned char peek_byte( const std::size_t offset = 0 ) const noexcept;  // As above with cast.
+   std::uint8_t peek_uint8( const std::size_t offset = 0 ) const noexcept;  // As above with cast.
 
    pegtl::position position() const noexcept;  // Not efficient with lazy inputs.
 
