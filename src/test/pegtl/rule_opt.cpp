@@ -56,7 +56,7 @@ namespace tao
          verify_rule< must< opt< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "cb", result_type::success, 2 );
 
          bool success = false;
-         const bool result = parse< opt< eof >, my_action >( memory_input<>( "", __FUNCTION__ ), success );
+         const bool result = parse< opt< eof >, my_action >( memory_input( "", __FUNCTION__ ), success );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( success );
       }

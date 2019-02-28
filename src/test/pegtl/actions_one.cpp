@@ -52,7 +52,7 @@ namespace tao
 
       void unit_test()
       {
-         parse< disable< test1::bar >, test_action >( memory_input<>( "baab", __FUNCTION__ ) );
+         parse< disable< test1::bar >, test_action >( memory_input( "baab", __FUNCTION__ ) );
          TAO_PEGTL_TEST_ASSERT( applied.size() == 1 );
 
          TAO_PEGTL_TEST_ASSERT( applied[ 0 ].first == internal::demangle< disable< test1::bar > >() );
@@ -60,25 +60,25 @@ namespace tao
 
          applied.clear();
 
-         parse< at< action< test_action, test1::bar > > >( memory_input<>( "baab", __FUNCTION__ ) );
+         parse< at< action< test_action, test1::bar > > >( memory_input( "baab", __FUNCTION__ ) );
 
          TAO_PEGTL_TEST_ASSERT( applied.empty() );
 
          applied.clear();
 
-         parse< test1::bar, test_action >( memory_input<>( "baab", __FUNCTION__ ) );
+         parse< test1::bar, test_action >( memory_input( "baab", __FUNCTION__ ) );
 
          test1::test_result();
 
          applied.clear();
 
-         parse< action< test_action, test1::bar > >( memory_input<>( "baab", __FUNCTION__ ) );
+         parse< action< test_action, test1::bar > >( memory_input( "baab", __FUNCTION__ ) );
 
          test1::test_result();
 
          applied.clear();
 
-         parse< disable< enable< action< test_action, test1::bar > > > >( memory_input<>( "baab", __FUNCTION__ ) );
+         parse< disable< enable< action< test_action, test1::bar > > > >( memory_input( "baab", __FUNCTION__ ) );
 
          test1::test_result();
       }

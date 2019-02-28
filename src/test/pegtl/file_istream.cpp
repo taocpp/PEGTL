@@ -24,7 +24,7 @@ namespace tao
             const char* filename = "src/test/pegtl/no_such_file.txt";
             try {
                std::ifstream stream( filename );
-               parse< file_grammar >( istream_input<>( stream, 16, filename ) );
+               parse< file_grammar >( istream_input( stream, 16, filename ) );
                TAO_PEGTL_TEST_ASSERT( false );
             }
             catch( const std::system_error& e ) {
@@ -35,7 +35,7 @@ namespace tao
 
          const char* filename = "src/test/pegtl/file_data.txt";
          std::ifstream stream( filename );
-         TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( istream_input<>( stream, 16, filename ) ) );
+         TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( istream_input( stream, 16, filename ) ) );
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE

@@ -28,7 +28,7 @@ namespace tao
          std::FILE* stream = std::fopen( filename, "rb" );  // NOLINT
 #endif
          TAO_PEGTL_TEST_ASSERT( stream != nullptr );
-         TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( cstream_input<>( stream, 16, filename ) ) );
+         TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( cstream_input( stream, 16, filename ) ) );
          std::fclose( stream );  // NOLINT(cppcoreguidelines-owning-memory)
       }
 

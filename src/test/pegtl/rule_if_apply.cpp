@@ -105,14 +105,14 @@ namespace tao
 
          {
             bool state_b = false;
-            const bool result = parse< if_apply< plus< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input<>( "foo bar", __FUNCTION__ ), state_b );
+            const bool result = parse< if_apply< plus< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input( "foo bar", __FUNCTION__ ), state_b );
             TAO_PEGTL_TEST_ASSERT( !result );
             TAO_PEGTL_TEST_ASSERT( state_b );
          }
 
          {
             bool state_b = false;
-            const bool result = parse< if_apply< plus< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input<>( "", __FUNCTION__ ), state_b );
+            const bool result = parse< if_apply< plus< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input( "", __FUNCTION__ ), state_b );
             TAO_PEGTL_TEST_ASSERT( !result );
             TAO_PEGTL_TEST_ASSERT( !state_b );
          }
