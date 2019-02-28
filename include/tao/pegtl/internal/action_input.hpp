@@ -20,16 +20,6 @@ namespace tao
    {
       namespace internal
       {
-         [[nodiscard]] inline const char* begin_c_ptr( const char* p ) noexcept
-         {
-            return p;
-         }
-
-         [[nodiscard]] inline const char* begin_c_ptr( const iterator& it ) noexcept
-         {
-            return it.data;
-         }
-
          template< typename Input >
          class action_input
          {
@@ -63,7 +53,12 @@ namespace tao
 
             [[nodiscard]] const char* begin() const noexcept
             {
-               return begin_c_ptr( iterator() );
+               if constexpr( std::is_same_v< iterator_t, const char* > ) {
+                  return iterator();
+               }
+               else {  // NOLINT
+                  return iterator().data;
+               }
             }
 
             [[nodiscard]] const char* end() const noexcept

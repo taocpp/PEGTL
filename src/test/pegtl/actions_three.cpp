@@ -13,13 +13,11 @@ namespace tao
 
          struct grammar
             : test_rule< 2, apply_mode::action, rewind_mode::active, any >
-         {
-         };
+         {};
 
          template< typename Rule >
-         struct apply_bool_action : nothing< Rule >
-         {
-         };
+         struct apply_bool_action
+         {};
 
          template<>
          struct apply_bool_action< grammar >
@@ -52,9 +50,8 @@ namespace tao
          }
 
          template< typename Rule >
-         struct apply0_bool_action : nothing< Rule >
-         {
-         };
+         struct apply0_bool_action
+         {};
 
          template<>
          struct apply0_bool_action< grammar >

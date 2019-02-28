@@ -55,7 +55,7 @@ The rules are expressed in C++ as template instantiations, and it is the compile
 
 Each commit is automatically tested with multiple architectures, operating systems, compilers, and versions thereof.
 
-* Windows (UWP)
+* Windows
 
   * Visual Studio 2017 (x86, x64)
 
@@ -94,7 +94,7 @@ For questions and suggestions regarding the PEGTL, success or failure stories, a
 * Kenneth Geisshirt for Android compatibility and Android CI.
 * Kuzma Shapran for EOL testing and fixes.
 * Michael Becker for help with CMake.
-* Paul Le Roux for CMake improvements and Conan support.
+* Paul Le Roux for CMake improvements, Conan support and [PR #150](https://github.com/taocpp/PEGTL/pull/150).
 * Paulo Custodio for Windows-related fixes.
 * Sam Hocevar for contributing Visual Studio 2015 compatibility.
 * Stephan Beal for the bug reports, suggestions and discussions.

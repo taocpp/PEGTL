@@ -14,13 +14,11 @@ namespace dynamic
 {
    struct long_literal_id
       : pegtl::plus< pegtl::not_one< '[' > >
-   {
-   };
+   {};
 
    struct long_literal_open
       : pegtl::seq< pegtl::one< '[' >, long_literal_id, pegtl::one< '[' > >
-   {
-   };
+   {};
 
    struct long_literal_mark
    {
@@ -46,24 +44,19 @@ namespace dynamic
 
    struct long_literal_close
       : pegtl::seq< pegtl::one< ']' >, long_literal_mark, pegtl::one< ']' > >
-   {
-   };
+   {};
 
    struct long_literal_body
       : pegtl::any
-   {
-   };
+   {};
 
    struct grammar
       : pegtl::if_must< long_literal_open, pegtl::until< long_literal_close, long_literal_body >, pegtl::eof >
-   {
-   };
+   {};
 
    template< typename Rule >
    struct action
-      : pegtl::nothing< Rule >
-   {
-   };
+   {};
 
    template<>
    struct action< long_literal_id >

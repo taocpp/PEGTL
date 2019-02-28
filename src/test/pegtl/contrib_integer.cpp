@@ -20,21 +20,17 @@ namespace tao
 
       template< typename Rule >
       struct int_action
-         : nothing< Rule >
-      {
-      };
+      {};
 
       template<>
       struct int_action< integer::signed_rule >
          : integer::signed_action
-      {
-      };
+      {};
 
       template<>
       struct int_action< integer::unsigned_rule >
          : integer::unsigned_action
-      {
-      };
+      {};
 
       template< typename S >
       void test_signed( const std::string& i, const S s )

@@ -27,17 +27,14 @@ namespace tao
          };
 
          struct fobble : sor< state< state1, alpha >, digit >
-         {
-         };
+         {};
 
          struct fibble : until< eof, fobble >
-         {
-         };
+         {};
 
          template< typename Rule >
-         struct action1 : nothing< Rule >
-         {
-         };
+         struct action1
+         {};
 
          template<>
          struct action1< alpha >
@@ -59,9 +56,8 @@ namespace tao
          }
 
          template< typename Rule >
-         struct action0 : nothing< Rule >
-         {
-         };
+         struct action0
+         {};
 
          static int i0 = 0;
 

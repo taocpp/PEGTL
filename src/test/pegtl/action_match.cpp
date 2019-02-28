@@ -3,101 +3,15 @@
 
 #include "test.hpp"
 
-// Based on PR #150 from Paul Le Roux, see https://github.com/taocpp/PEGTL/pull/150
+#include <tao/pegtl/contrib/change_action.hpp>
 
 namespace tao
 {
    namespace TAO_PEGTL_NAMESPACE
    {
-      namespace internal
-      {
-         template< typename,
-                   template< typename... >
-                   class Base,
-                   typename Rule,
-                   apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename Input,
-                   typename... States >
-         struct has_match
-            : std::false_type
-         {};
-
-         template< template< typename... >
-                   class Base,
-                   typename Rule,
-                   apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename Input,
-                   typename... States >
-         struct has_match< decltype( (void)Action< Rule >::template match< Base, Rule, A, M, Action, Control >( std::declval< Input& >(), std::declval< States&& >()... ), void() ), Base, Rule, A, M, Action, Control, Input, States... >
-            : std::true_type
-         {};
-
-      }  // namespace internal
-
-      template< template< typename... > class Base >
-      struct enable_action_match
-      {
-         template< class Rule >
-         struct control : Base< Rule >
-         {
-            template< apply_mode A,
-                      rewind_mode M,
-                      template< typename... >
-                      class Action,
-                      template< typename... >
-                      class Control,
-                      typename Input,
-                      typename... States >
-            [[nodiscard]] static bool match( Input& in, States&&... st )
-            {
-               if constexpr( internal::has_match< void, Base, Rule, A, M, Action, Control, Input, States... >::value ) {
-                  return Action< Rule >::template match< Base, Rule, A, M, Action, Control >( in, st... );
-               }
-               else {
-                  return Base< Rule >::template match< A, M, Action, Control >( in, st... );
-               }
-            }
-         };
-      };
-
-      template< typename Rule >
-      using action_match = enable_action_match< normal >::control< Rule >;
-
-      template< template< typename... > class NewAction >
-      struct change_action
-      {
-         template< template< typename... >
-                   class Base,
-                   typename Rule,
-                   apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename Input,
-                   typename... States >
-         [[nodiscard]] static bool match( Input& in, States&&... st )
-         {
-            return Base< Rule >::template match< A, M, NewAction, Control >( in, st... );
-         }
-      };
-
       struct remove_state
       {
-         template< template< typename... >
-                   class Base,
-                   typename Rule,
+         template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
                    template< typename... >
@@ -108,7 +22,7 @@ namespace tao
                    typename... States >
          [[nodiscard]] static bool match( Input& in, States&&... /*unused*/ )
          {
-            return Base< Rule >::template match< A, M, Action, Control >( in );
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in );
          }
       };
 
@@ -125,8 +39,8 @@ namespace tao
 
       struct state_one
       {
-         int byte_in_line_a;
-         int byte_in_line_b;
+         std::size_t byte_in_line_a;
+         std::size_t byte_in_line_b;
       };
 
       // clang-format off
@@ -134,29 +48,36 @@ namespace tao
       struct grammar_one_c : seq< grammar_inner > {};
       struct grammar_one_b : seq< grammar_inner, grammar_one_c > {};
       struct grammar_one_a : seq< grammar_inner, grammar_one_b, eof > {};
-
-      template< typename Rule >
-      struct action_one_b : nothing< Rule > {};
-
-      template< typename Rule >
-      struct action_one_a : nothing< Rule > {};
       // clang-format on
+
+      template< typename Rule >
+      struct action_one_b
+      {};
+
+      template< typename Rule >
+      struct action_one_t
+      {};
+
+      template< typename Rule >
+      struct action_one_a
+      {};
 
       template<>
       struct action_one_b< grammar_one_c >
-         : remove_state,
-           nothing< grammar_one_c >  // TODO: Get rid of this!
+         : remove_state
       {};
 
       template<>
       struct action_one_b< grammar_inner >
       {
+         // used inside of remove_state
          template< typename Input >
          static void apply( const Input& /*unused*/ )
          {
             ++global_state;
          }
 
+         // used outside of remove_state
          template< typename Input >
          static void apply( const Input& in, state_one& state )
          {
@@ -165,8 +86,13 @@ namespace tao
       };
 
       template<>
-      struct action_one_a< grammar_one_b >
+      struct action_one_t< grammar_one_b >
          : change_action< action_one_b >
+      {};
+
+      template<>
+      struct action_one_a< grammar_one_b >
+         : change_action< action_one_t >
       {};
 
       template<>
@@ -182,7 +108,7 @@ namespace tao
       void unit_test()
       {
          state_one state{ 0, 0 };
-         bool parse_result = parse< grammar_one_a, action_one_a, action_match >( memory_input( "aaa", __FUNCTION__ ), state );
+         bool parse_result = parse< grammar_one_a, action_one_a >( memory_input( "aaa", __FUNCTION__ ), state );
          TAO_PEGTL_TEST_ASSERT( parse_result );
          TAO_PEGTL_TEST_ASSERT( state.byte_in_line_a == 1 );
          TAO_PEGTL_TEST_ASSERT( state.byte_in_line_b == 2 );

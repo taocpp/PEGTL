@@ -52,7 +52,7 @@ namespace tao
                       typename... States >
             [[nodiscard]] static bool match( Input& in, States&&... st )
             {
-               return ( Control< Rules >::template match < A, ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::required, Action, Control > ( in, st... ) || ... );
+               return ( Control< Rules >::template match< A, ( ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::required ), Action, Control >( in, st... ) || ... );
             }
          };
 

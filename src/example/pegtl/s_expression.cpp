@@ -10,75 +10,36 @@ using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 
 namespace sexpr
 {
-   struct hash_comment
-      : until< eolf >
-   {
-   };
+   // clang-format off
+   struct hash_comment : until< eolf > {};
 
    struct list;
+   struct list_comment : if_must< at< one< '(' > >, disable< list > > {};
 
-   struct list_comment
-      : if_must< at< one< '(' > >, disable< list > >
-   {
-   };
+   struct read_include : seq< one< ' ' >, one< '"' >, plus< not_one< '"' > >, one< '"' > > {};
+   struct hash_include : if_must< string< 'i', 'n', 'c', 'l', 'u', 'd', 'e' >, read_include > {};
 
-   struct read_include
-      : seq< one< ' ' >, one< '"' >, plus< not_one< '"' > >, one< '"' > >
-   {
-   };
+   struct hashed : if_must< one< '#' >, sor< hash_include, list_comment, hash_comment > > {};
 
-   struct hash_include
-      : if_must< string< 'i', 'n', 'c', 'l', 'u', 'd', 'e' >, read_include >
-   {
-   };
+   struct number : plus< digit > {};
+   struct symbol : identifier {};
 
-   struct hashed
-      : if_must< one< '#' >, sor< hash_include, list_comment, hash_comment > >
-   {
-   };
-
-   struct number
-      : plus< digit >
-   {
-   };
-
-   struct symbol
-      : identifier
-   {
-   };
-
-   struct atom
-      : sor< number, symbol >
-   {
-   };
+   struct atom : sor< number, symbol > {};
 
    struct anything;
 
-   struct list
-      : if_must< one< '(' >, until< one< ')' >, anything > >
-   {
-   };
+   struct list : if_must< one< '(' >, until< one< ')' >, anything > > {};
 
-   struct normal
-      : sor< atom, list >
-   {
-   };
+   struct normal : sor< atom, list > {};
 
-   struct anything
-      : sor< space, hashed, normal >
-   {
-   };
+   struct anything : sor< space, hashed, normal > {};
 
-   struct main
-      : until< eof, must< anything > >
-   {
-   };
+   struct main : until< eof, must< anything > > {};
+   // clang-format on
 
    template< typename Rule >
    struct action
-      : nothing< Rule >
-   {
-   };
+   {};
 
    template<>
    struct action< plus< not_one< '"' > > >

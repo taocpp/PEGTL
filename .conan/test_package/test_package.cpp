@@ -188,8 +188,7 @@ namespace calculator
 
    struct comment
       : if_must< one< '#' >, until< eolf > >
-   {
-   };
+   {};
 
    // The calculator ignores all spaces and comments; space is a pegtl rule
    // that matches the usual ascii characters ' ', '\t', '\n' etc. In other
@@ -197,8 +196,7 @@ namespace calculator
 
    struct ignored
       : sor< space, comment >
-   {
-   };
+   {};
 
    // Since the binary operators are taken from a runtime data structure
    // (rather than hard-coding them into the grammar), we need a custom
@@ -253,8 +251,7 @@ namespace calculator
 
    struct number
       : seq< opt< one< '+', '-' > >, plus< digit > >
-   {
-   };
+   {};
 
    struct expression;
 
@@ -263,16 +260,14 @@ namespace calculator
 
    struct bracket
       : if_must< one< '(' >, expression, one< ')' > >
-   {
-   };
+   {};
 
    // An atomic expression, i.e. one without operators, is either a number or
    // a bracketed expression.
 
    struct atomic
       : sor< number, bracket >
-   {
-   };
+   {};
 
    // An expression is a non-empty list of atomic expressions where each pair
    // of atomic expressions is separated by an infix operator and we allow
@@ -280,28 +275,20 @@ namespace calculator
 
    struct expression
       : list< atomic, infix, ignored >
-   {
-   };
+   {};
 
    // The top-level grammar allows one expression and then expects eof.
 
    struct grammar
       : must< expression, eof >
-   {
-   };
+   {};
 
    // After the grammar we proceed with the additional actions that are
    // required to let our calculator actually do something.
 
-   // The base-case of the class template for the actions must derive from
-   // pegtl::nothing (or, alternatively, define an action that does something
-   // sensible for all rules for which no specialisation exists).
-
    template< typename Rule >
    struct action
-      : pegtl::nothing< Rule >
-   {
-   };
+   {};
 
    // This action will be called when the number rule matches; it converts the
    // matched portion of the input to a long and pushes it onto the operand

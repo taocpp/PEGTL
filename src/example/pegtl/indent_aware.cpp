@@ -84,8 +84,7 @@ namespace example
       entry( const std::size_t i, const example::type t )
          : indent( i ),
            type( t )
-      {
-      }
+      {}
 
       std::size_t indent;
       example::type type;
@@ -101,9 +100,7 @@ namespace example
 
    template< typename Rule >
    struct action
-      : pegtl::nothing< Rule >
-   {
-   };
+   {};
 
    template<>
    struct action< co >

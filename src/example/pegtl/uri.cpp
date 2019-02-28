@@ -35,7 +35,7 @@ namespace uri
    };
 
    // clang-format off
-   template< typename Rule > struct action : tao::pegtl::nothing< Rule > {};
+   template< typename Rule > struct action {};
 
    template<> struct action< pegtl::uri::scheme > : bind< &URI::scheme > {};
    template<> struct action< pegtl::uri::authority > : bind< &URI::authority > {};

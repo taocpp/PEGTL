@@ -14,9 +14,7 @@ namespace tao
 
       template< typename Rule >
       struct tracer_action
-         : nothing< Rule >
-      {
-      };
+      {};
 
       unsigned a0 = 0;
       unsigned a = 0;
