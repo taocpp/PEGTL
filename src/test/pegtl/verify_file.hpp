@@ -57,7 +57,7 @@ namespace tao
                parse< file_grammar >( in );
                TAO_PEGTL_TEST_ASSERT( !"no error on opening non-existing file" );
             }
-            catch( const input_error& ) {
+            catch( const std::system_error& e ) {
             }
          }
          {

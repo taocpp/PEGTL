@@ -7,11 +7,11 @@
 #include <sys/mman.h>
 #include <unistd.h>
 
+#include <system_error>
+
 #include "../config.hpp"
 
 #include "file_opener.hpp"
-
-#include "../input_error.hpp"
 
 namespace tao
 {
@@ -32,7 +32,8 @@ namespace tao
                  m_data( static_cast< const char* >( ::mmap( nullptr, m_size, PROT_READ, MAP_PRIVATE, reader.m_fd, 0 ) ) )
             {
                if( ( m_size != 0 ) && ( intptr_t( m_data ) == -1 ) ) {
-                  TAO_PEGTL_THROW_INPUT_ERROR( "unable to mmap() file " << reader.m_source << " descriptor " << reader.m_fd );
+                  const auto ec = errno;
+                  throw std::system_error( ec, std::system_category(), reader.m_source );
                }
             }
 

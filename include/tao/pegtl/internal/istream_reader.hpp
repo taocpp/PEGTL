@@ -5,9 +5,9 @@
 #define TAO_PEGTL_INTERNAL_ISTREAM_READER_HPP
 
 #include <istream>
+#include <system_error>
 
 #include "../config.hpp"
-#include "../input_error.hpp"
 
 namespace tao
 {
@@ -32,7 +32,8 @@ namespace tao
                if( m_istream.eof() ) {
                   return 0;
                }
-               TAO_PEGTL_THROW_INPUT_ERROR( "error in istream.read()" );
+               const auto ec = errno;
+               throw std::system_error( ec, std::system_category(), "std::istream::read() failed" );
             }
 
             std::istream& m_istream;

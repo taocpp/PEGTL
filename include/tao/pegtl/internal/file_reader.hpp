@@ -7,10 +7,10 @@
 #include <cstdio>
 #include <memory>
 #include <string>
+#include <system_error>
 #include <utility>
 
 #include "../config.hpp"
-#include "../input_error.hpp"
 
 namespace tao
 {
@@ -32,7 +32,8 @@ namespace tao
             {
                return file;
             }
-            TAO_PEGTL_THROW_INPUT_ERROR( "unable to fopen() file " << filename << " for reading" );
+            const auto ec = errno;
+            throw std::system_error( ec, std::system_category(), filename );
          }
 
          struct file_close
@@ -70,16 +71,19 @@ namespace tao
             {
                errno = 0;
                if( std::fseek( m_file.get(), 0, SEEK_END ) != 0 ) {
-                  TAO_PEGTL_THROW_INPUT_ERROR( "unable to fseek() to end of file " << m_source );  // LCOV_EXCL_LINE
+                  const auto ec = errno;
+                  throw std::system_error( ec, std::system_category(), m_source );  // LCOV_EXCL_LINE
                }
                errno = 0;
                const auto s = std::ftell( m_file.get() );
                if( s < 0 ) {
-                  TAO_PEGTL_THROW_INPUT_ERROR( "unable to ftell() file size of file " << m_source );  // LCOV_EXCL_LINE
+                  const auto ec = errno;
+                  throw std::system_error( ec, std::system_category(), m_source );  // LCOV_EXCL_LINE
                }
                errno = 0;
                if( std::fseek( m_file.get(), 0, SEEK_SET ) != 0 ) {
-                  TAO_PEGTL_THROW_INPUT_ERROR( "unable to fseek() to beginning of file " << m_source );  // LCOV_EXCL_LINE
+                  const auto ec = errno;
+                  throw std::system_error( ec, std::system_category(), m_source );  // LCOV_EXCL_LINE
                }
                return std::size_t( s );
             }
@@ -90,7 +94,8 @@ namespace tao
                nrv.resize( size() );
                errno = 0;
                if( !nrv.empty() && ( std::fread( &nrv[ 0 ], nrv.size(), 1, m_file.get() ) != 1 ) ) {
-                  TAO_PEGTL_THROW_INPUT_ERROR( "unable to fread() file " << m_source << " size " << nrv.size() );  // LCOV_EXCL_LINE
+                  const auto ec = errno;
+                  throw std::system_error( ec, std::system_category(), m_source );  // LCOV_EXCL_LINE
                }
                return nrv;
             }

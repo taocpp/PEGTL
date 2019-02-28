@@ -26,8 +26,9 @@
 #undef TAO_PEGTL_WIN32_LEAN_AND_MEAN_WAS_DEFINED
 #endif
 
+#include <system_error>
+
 #include "../config.hpp"
-#include "../input_error.hpp"
 
 namespace tao
 {
@@ -58,7 +59,8 @@ namespace tao
             {
                LARGE_INTEGER size;
                if( !::GetFileSizeEx( m_handle, &size ) ) {
-                  TAO_PEGTL_THROW_INPUT_WIN32_ERROR( "unable to GetFileSizeEx() file " << m_source << " handle " << m_handle );
+                  const auto ec = ::GetLastError();
+                  throw std::system_error( ec, std::system_category(), std::string( "GetFileSizeEx(): " ) + m_source );
                }
                return std::size_t( size.QuadPart );
             }
@@ -79,7 +81,8 @@ namespace tao
                if( handle != INVALID_HANDLE_VALUE ) {
                   return handle;
                }
-               TAO_PEGTL_THROW_INPUT_WIN32_ERROR( "unable to CreateFileA() file " << m_source << " for reading" );
+               const auto ec = ::GetLastError();
+               throw std::system_error( ec, std::system_category(), std::string( "CreateFile2(): " ) + m_source );
             }
          };
 
@@ -128,7 +131,8 @@ namespace tao
                if( handle != NULL || file_size == 0 ) {
                   return handle;
                }
-               TAO_PEGTL_THROW_INPUT_WIN32_ERROR( "unable to CreateFileMappingW() file " << reader.m_source << " for reading" );
+               const auto ec = ::GetLastError();
+               throw std::system_error( ec, std::system_category(), std::string( "CreateFileMappingW(): " ) + reader.m_source );
             }
          };
 
@@ -149,7 +153,8 @@ namespace tao
                                                                             0 ) ) )
             {
                if( ( m_size != 0 ) && ( intptr_t( m_data ) == 0 ) ) {
-                  TAO_PEGTL_THROW_INPUT_WIN32_ERROR( "unable to MapViewOfFile() file mapping object with handle " << mapper.m_handle );
+                  const auto ec = ::GetLastError();
+                  throw std::system_error( ec, std::system_category(), "MapViewOfFile()" );
                }
             }
 

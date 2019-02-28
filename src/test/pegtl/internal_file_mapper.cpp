@@ -18,7 +18,7 @@ namespace tao
             std::cerr << "pegtl: unit test failed for [ internal::file_mapper ]" << std::endl;
             ++failed;
          }
-         catch( const input_error& ) {
+         catch( const std::system_error& e ) {
          }
          catch( ... ) {
             std::cerr << "pegtl: unit test failed for [ internal::file_mapper ] with unexpected exception" << std::endl;

@@ -9,10 +9,10 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <system_error>
 #include <utility>
 
 #include "../config.hpp"
-#include "../input_error.hpp"
 
 namespace tao
 {
@@ -44,7 +44,8 @@ namespace tao
                struct stat st;  // NOLINT
                errno = 0;
                if( ::fstat( m_fd, &st ) < 0 ) {
-                  TAO_PEGTL_THROW_INPUT_ERROR( "unable to fstat() file " << m_source << " descriptor " << m_fd );
+                  const auto ec = errno;
+                  throw std::system_error( ec, std::system_category(), m_source );
                }
                return std::size_t( st.st_size );
             }
@@ -65,7 +66,8 @@ namespace tao
                if( fd >= 0 ) {
                   return fd;
                }
-               TAO_PEGTL_THROW_INPUT_ERROR( "unable to open() file " << m_source << " for reading" );
+               const auto ec = errno;
+               throw std::system_error( ec, std::system_category(), m_source );
             }
          };
 

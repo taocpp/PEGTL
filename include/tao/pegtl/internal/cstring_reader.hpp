@@ -8,7 +8,6 @@
 #include <cstddef>
 
 #include "../config.hpp"
-#include "../input_error.hpp"
 
 namespace tao
 {
