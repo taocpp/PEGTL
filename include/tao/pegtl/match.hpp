@@ -9,6 +9,8 @@
 
 #include "apply_mode.hpp"
 #include "config.hpp"
+#include "require_apply.hpp"
+#include "require_apply0.hpp"
 #include "rewind_mode.hpp"
 
 #include "internal/dusel_mode.hpp"
@@ -37,11 +39,18 @@ namespace tao
 
          constexpr bool has_apply_void = use_apply && internal::has_apply< Control< Rule >, void, Action, const typename Input::iterator_t&, const Input&, States... >::value;
          constexpr bool has_apply_bool = use_apply && internal::has_apply< Control< Rule >, bool, Action, const typename Input::iterator_t&, const Input&, States... >::value;
+         constexpr bool has_apply = has_apply_void || has_apply_bool;
 
          constexpr bool has_apply0_void = use_apply && internal::has_apply0< Control< Rule >, void, Action, const Input&, States... >::value;
          constexpr bool has_apply0_bool = use_apply && internal::has_apply0< Control< Rule >, bool, Action, const Input&, States... >::value;
+         constexpr bool has_apply0 = has_apply0_void || has_apply0_bool;
 
-         static_assert( !( ( has_apply_void || has_apply_bool ) && ( has_apply0_void || has_apply0_bool ) ), "both apply() and apply0() defined" );
+         constexpr bool is_required_apply0 = std::is_base_of_v< require_apply0, Action< Rule > >;
+         constexpr bool is_required_apply = std::is_base_of_v< require_apply, Action< Rule > >;
+
+         static_assert( !is_required_apply || has_apply, "required_apply did not have apply()" );
+         static_assert( !is_required_apply0 || has_apply0, "required_apply0 did not have apply0()" );
+         static_assert( !( has_apply && has_apply0 ), "both apply() and apply0() defined" );
 
          constexpr auto mode = static_cast< dusel_mode >( use_control + has_apply_void + 2 * has_apply_bool + 3 * has_apply0_void + 4 * has_apply0_bool );
          return internal::duseltronik< Rule, A, M, Action, Control, mode >::match( in, st... );

@@ -146,7 +146,7 @@ namespace tao
 
             explicit file_mapper( const win32_file_mapper& mapper )
                : m_size( mapper.m_size ),
-                 m_data( static_cast< const char* const >( ::MapViewOfFile( mapper.m_handle,
+                 m_data( static_cast< const char* >( ::MapViewOfFile( mapper.m_handle,
                                                                             FILE_MAP_READ,
                                                                             0,
                                                                             0,
