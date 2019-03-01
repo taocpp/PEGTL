@@ -4,6 +4,8 @@
 #ifndef TAO_PEGTL_REQUIRE_APPLY0_HPP
 #define TAO_PEGTL_REQUIRE_APPLY0_HPP
 
+#include "config.hpp"
+
 namespace tao
 {
    namespace TAO_PEGTL_NAMESPACE
