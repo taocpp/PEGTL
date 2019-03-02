@@ -37,14 +37,14 @@ namespace tao
          {
             template< typename Input, typename... States >
             [[nodiscard]] static auto match( Input& in, States&&... st )
-               -> decltype( (void)Rule::template match< A, M, Action, Control >( in, st... ), bool() )
+               -> decltype( Rule::template match< A, M, Action, Control >( in, st... ) )
             {
                return Rule::template match< A, M, Action, Control >( in, st... );
             }
 
             template< typename Input, typename... States >
             [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ )
-               -> decltype( (void)Rule::match( in ), bool() )
+               -> decltype( Rule::match( in ) )
             {
                return Rule::match( in );
             }
