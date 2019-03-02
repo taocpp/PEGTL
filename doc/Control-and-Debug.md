@@ -30,48 +30,30 @@ struct normal
 {
    template< typename Input,
              typename... States >
-   static void start( const Input&, States&&... )
-   {
-   }
+   static void start( const Input&, States&&... );
 
    template< typename Input,
              typename... States >
-   static void success( const Input&, States&&... )
-   {
-   }
+   static void success( const Input&, States&&... );
 
    template< typename Input,
              typename... States >
-   static void failure( const Input&, States&&... )
-   {
-   }
+   static void failure( const Input&, States&&... );
 
    template< typename Input,
              typename... States >
-   static void raise( const Input& in, States&&... )
-   {
-      throw parse_error( "parse error matching " +
-                         internal::demangle< Rule >(), in );
-   }
-
-   template< template< typename... > class Action,
-             typename Input,
-             typename... States >
-   static auto apply0( const Input&, States&&... st )
-   {
-      return Action< Rule >::apply0( st... );
-   }
+   static void raise( const Input& in, States&&... );
 
    template< template< typename... > class Action,
              typename Iterator,
              typename Input,
              typename... States >
-   static auto apply( const Iterator& begin, const Input& in, States&&... st )
-   {
-      using action_t = typename Input::action_t;
-      const action_t action_input( begin, in );
-      return Action< Rule >::apply( action_input, st... );
-   }
+   static auto apply( const Iterator& begin, const Input& in, States&&... st );
+
+   template< template< typename... > class Action,
+             typename Input,
+             typename... States >
+   static auto apply0( const Input&, States&&... st );
 
    template< apply_mode A,
              rewind_mode M,
@@ -79,10 +61,7 @@ struct normal
              template< typename... > class Control,
              typename Input,
              typename... States >
-   static bool match( Input& in, States&&... st )
-   {
-      // ...skipped...
-   }
+   static bool match( Input& in, States&&... st );
 };
 ```
 
@@ -92,7 +71,7 @@ The `raise()`-function is used to create a global error, and any replacement sho
 
 The `apply()` and `apply0()`-functions can customise how actions with, and without, receiving the matched input are called, respectively.
 
-The `match`-function wraps the actual matching Duseltronik and chooses the correct one based on whether control is enabled for `Rule`, and whether the current action is enabled and has an `apply()` or `apply0()`-function.
+The `match()`-function which checks if there exists a suitable `match()`-method in the action class template for the current rule. If so, it is called, otherwise it calls the main `tao::pegtl::match()`-function.
 
 ## Control Functions
 
@@ -113,13 +92,13 @@ Depending on what happens during the attempt to match `R`, one of the other thre
 
 Additionally, if matching `R` was successful and actions are enabled, where `A` is the current action class template:
 
-- If `A< R >::apply0()` exists, then `C< R >::apply0()` is called with the current state arguments.
-
 - If `A< R >::apply()` exists, then `C< R >::apply()` is called with the matched input and the current state arguments.
 
-It is an error when both `A< R >::apply0()` and `A< R >::apply()` exist.
+- If `A< R >::apply0()` exists, then `C< R >::apply0()` is called with the current state arguments.
 
-In case of actions that return `bool`, i.e. actions whose `apply0()` or `apply()` function returns `bool`, the `C< R >::success()` function is only called when both the rule *and* the action succeed.
+It is an error when both `A< R >::apply()` and `A< R >::apply0()` exist.
+
+In case of actions that return `bool`, i.e. actions whose `apply()` or `apply0()` function returns `bool`, the `C< R >::success()` function is only called when both the rule *and* the action succeed.
 If either produce a (local) failure then `C< R >::failure()` is called.
 
 In all cases where an action is called, the success or failure hooks are invoked after the action returns.
