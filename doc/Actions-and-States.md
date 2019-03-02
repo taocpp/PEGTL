@@ -152,7 +152,8 @@ The **default safe choice** is to copy the matched portions of the input data th
 
 As the compiler auto-detects the presence of a *suitable* `apply` or `apply0` method, it will simply think that there is no action to apply when the signature is incorrect.
 In this case, the code will compile but silently fail to call `apply` or `apply0`.
-If you think that this is the case, you can turn this silent failure to call the method into a compile-time error.
+
+To help troubleshooting those cases, you can turn the silent failure to call the method into a compile-time error.
 Simply derive your specialisation from `require_apply` or `require_apply0`, respectively:
 
 ```c++
@@ -170,9 +171,7 @@ struct my_actions< my_rule >
 By adding the base class `require_apply0` to the above specialisation, the compiler will be required to call `apply0`.
 If the states (in this example a `double`) don't match, an error message is given and the compilation fails.
 
-Note that deriving from `require_apply` or `require_apply0` increases the compile time as well as the instantiation depth.
-It should therefore be used only temporarily to hunt down bugs.
-Once the specialisation is working as intended, these base classes should be removed.
+Note that deriving from `require_apply` or `require_apply0` is optional and is only meant to help troubleshooting problems.
 
 ## States
 
