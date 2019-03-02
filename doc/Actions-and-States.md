@@ -25,12 +25,14 @@ An action's `apply()` or `apply0()`-method can either return `void`, or a `bool`
 ## Actions
 
 Actions are implemented as static `apply()` or `apply0()`-method of specialisations of custom class templates (which is not quite as difficult as it sounds).
-First the default- or base-case of the action class template has to be defined:
+First an action class template has to be defined:
 
 ```c++
 template< typename Rule >
 struct my_actions {};
 ```
+
+The above class template does not have any `apply` or `apply0` method, hence it does nothing by default.
 
 To attach an action to `Rule`, this class template has to be specialised for `Rule` and an *appropriate* static `apply()` or `apply0()`-method has to be implemented.
 
@@ -40,7 +42,7 @@ It will fail to compile when both `apply()` and `apply0()` are found.
 ### Apply0
 
 In cases where the matched part of the input is not required, an action method named `apply0()` is implemented.
-This allows for some optimisations compared to the `apply()` method which receives the matched input as first argument.
+This allows for some internal optimisations compared to the `apply()` method which receives the matched input as first argument.
 
 ```c++
 template<>
@@ -298,11 +300,11 @@ In some cases a state object is required for the grammar itself, and in these ca
 
 ### External Switching
 
-"External switching" is when the states and/or actions are switched from outside of the grammar by providing a specialised control class.
+"External switching" is when the states and/or actions are switched from outside of the grammar by using the action class.
 
 For an example of how to build a generic JSON data structure with the "external switching style" see `src/example/pegtl/json_build_one.cpp`.
 
-The actual switching control classes are defined in `<tao/pegtl/contrib/changes.hpp>` and can be used as template for custom switching.
+The actual switching actions are defined in `<tao/pegtl/contrib/change_*.hpp>` and can be used as template for custom switching.
 
 ## Legacy Actions
 
