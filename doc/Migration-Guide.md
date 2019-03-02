@@ -2,9 +2,11 @@
 
 ## Version 3.0.0
 
+* We now require C++17, make sure to update your compiler/build-system accordingly.
 * Compatibility macros starting with `TAOCPP_PEGTL_` were removed, use the macros starting with `TAO_PEGTL_` instead.
 * All enumerators were changed from uppercase to lowercase, avoiding conflicts with macros defined on Microsoft Windows.
 * The enumerator `tracking_mode::IMMEDIATE` was renamed to `tracking_mode::eager`.
+* The input-classes' `peek_byte`-method was renamed to `peek_uint8`.
 
 ## Version 2.4.0
 
@@ -25,7 +27,7 @@ Existing grammars will continue to work as before once the following list of mos
 * The main include file is now `<tao/pegtl.hpp>`, all other include files are `<tao/pegtl/*.hpp>`.
 * The distribution of tasks between [the parse functions and input classes](Inputs-and-Parsing.md) was changed.
 * The string macros have been renamed from `pegtl_(i)string_t` to `TAOCPP_PEGTL_(I)STRING`.
-* The `begin()` method of the input-classes is now called `current()`.
+* The `begin()`-method of the input-classes is now called `current()`.
 * The first argument to actions' `apply()`-methods is now of type `tao::pegtl::internal::action_input< ... >`.
 
 For flexibility and future compatibility it is recommended to "template over" the first argument to `apply()` as shown in [Actions and States](Actions-and-States.md#actions).
