@@ -43,6 +43,23 @@ auto root = tao::pegtl::parse_tree::parse< my_grammar, my_selector >( in );
 
 The above style is a white-list, where the default is `std::false_type` and you explicitly list those rules which will generate a node. Of course, you can also set the default to `std::true_type` and explicitly list the rules that are *not* to generate a node (black-list style).
 
+With the supplied `selector` class template the above could also be shortened to:
+
+```c++
+template< typename Rule >
+using my_selector = tao::pegtl::parse_tree::selector< Rule,
+   tao::pegtl::parse_tree::apply_store_content::to<
+      my_rule_1,
+      my_rule_2,
+      my_rule_3 > >;
+
+// ...
+
+auto root = tao::pegtl::parse_tree::parse< my_grammar, my_selector >( in );
+```
+
+Note that besides `apply_store_content` further options are available.
+
 ## Transforming Nodes
 
 A parse tree, full or partial, can still be too closely related to the structure of the grammar. In order to simplify the tree (or otherwise improve its structure), an optional `transform()` method can be added to each specialization of the selector class template (that generates a node). This methods gets passed a reference to the current node, which also gives access to the children, but not to the parent:
@@ -66,9 +83,18 @@ There is another option not shown in the example: You can call `n.reset()` befor
 This is the default node class used by `tao::pegtl::parse_tree::parse` if no custom node class is specified. In that case, the root node, as well as all (nested) child nodes, provide the following interface:
 
 ```c++
-struct node
+template< typename T >
+struct basic_node
 {
-   std::vector< std::unique_ptr< node > > children;
+   using node_t = T;
+   using children_t = std::vector< std::unique_ptr< node_t > >;
+
+   children_t children;
+   const std::type_info* id;
+   std::string source;
+
+   template< typename U >
+   bool is() const noexcept { return id == &typeid( U ); }
 
    bool is_root() const noexcept;
 
@@ -76,18 +102,24 @@ struct node
 
    std::string name() const;
 
+   position begin() const;
+   position end() const;
+
    bool has_content() const noexcept;
    std::string_view string_view() const noexcept;  // precondition: has_content()
    std::string string() const;  // precondition: has_content()
 
-   std::string source() const;
+   template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
+   memory_input< P, Eol > as_memory_input() const;
 
    // useful for transform:
    void remove_content();
 };
+
+struct node : basic_node< node > {};
 ```
 
-The name is the demangled name of the rule. By default all nodes (except the root node) can provide the content that matched, i.e. the part of the input that the rule the node was created for matched. You only need to check `has_content()` if you previously used `remove_content()` in your transform methods, otherwise there will always be content (except for at the root).
+The name is the demangled name of the rule. By default all nodes (except the root node) can provide the content that matched, i.e. the part of the input that the rule the node was created for matched. You only need to check `has_content()` if you previously used `remove_content()` in your transform methods (or via the equivalent convenience helpers), otherwise there will always be content (except for at the root).
 
 See the [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/master/src/example/pegtl/parse_tree.cpp)-example for more information how to output (or otherwise use) the nodes.
 
@@ -121,18 +153,23 @@ struct my_node
    my_node& operator=( my_node&& ) = delete;
 
    // all non-root nodes are initialized by calling this method
-   template< typename Rule, typename Input >
-   void start( const Input& in );
+   template< typename Rule, typename Input, typename... States >
+   void start( const Input& in, States&&... st );
 
    // if parsing of the rule succeeded, this method is called
-   template< typename Rule, typename Input >
-   void success( const Input& in );
+   template< typename Rule, typename Input, typename... States >
+   void success( const Input& in, States&&... st );
+
+   // if parsing of the rule failed, this method is called
+   template< typename Rule, typename Input, typename... States >
+   void failure( const Input& in, States&&... st );
 
    // if parsing succeeded and the (optional) transform call
    // did not discard the node, it is appended to its parent.
    // note that "child" is the node whose Rule just succeeded
-   // and *this is the parent where the node should be appended.
-   void append( std::unique_ptr< my_node > child );
+   // and "*this" is the parent where the node should be appended.
+   template< typename... States >
+   void emplace_back( std::unique_ptr< node_t > child, States&&... st );
 };
 ```
 
