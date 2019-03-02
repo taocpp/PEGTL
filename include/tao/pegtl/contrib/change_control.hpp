@@ -6,6 +6,7 @@
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../match.hpp"
 #include "../rewind_mode.hpp"
 
 namespace tao
