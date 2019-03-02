@@ -30,7 +30,7 @@ namespace tao
                    class Action,
                    typename Input,
                    typename... States >
-         void missing_apply( Input& in, States&&... st ) noexcept
+         void missing_apply( Input& in, States&&... st )
          {
             auto m = in.template mark< rewind_mode::required >();
             (void)Control::template apply< Action >( m.iterator(), in, st... );
@@ -41,7 +41,7 @@ namespace tao
                    class Action,
                    typename Input,
                    typename... States >
-         void missing_apply0( Input& in, States&&... st ) noexcept
+         void missing_apply0( Input& in, States&&... st )
          {
             (void)Control::template apply0< Action >( in, st... );
          }
@@ -62,8 +62,9 @@ namespace tao
          constexpr bool enable_control = !internal::skip_control< Rule >;
          constexpr bool enable_apply = enable_control && ( A == apply_mode::action );
 
-         constexpr bool has_apply_void = enable_apply && internal::has_apply< Control< Rule >, void, Action, const typename Input::iterator_t&, const Input&, States... >::value;
-         constexpr bool has_apply_bool = enable_apply && internal::has_apply< Control< Rule >, bool, Action, const typename Input::iterator_t&, const Input&, States... >::value;
+         using iterator_t = typename Input::iterator_t;
+         constexpr bool has_apply_void = enable_apply && internal::has_apply< Control< Rule >, void, Action, const iterator_t&, const Input&, States... >::value;
+         constexpr bool has_apply_bool = enable_apply && internal::has_apply< Control< Rule >, bool, Action, const iterator_t&, const Input&, States... >::value;
          constexpr bool has_apply = has_apply_void || has_apply_bool;
 
          constexpr bool has_apply0_void = enable_apply && internal::has_apply0< Control< Rule >, void, Action, const Input&, States... >::value;
