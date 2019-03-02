@@ -48,12 +48,14 @@ struct normal
              typename Iterator,
              typename Input,
              typename... States >
-   static auto apply( const Iterator& begin, const Input& in, States&&... st );
+   static auto apply( const Iterator& begin, const Input& in, States&&... st )
+      -> decltype( ... );
 
    template< template< typename... > class Action,
              typename Input,
              typename... States >
-   static auto apply0( const Input&, States&&... st );
+   static auto apply0( const Input&, States&&... st )
+      -> decltype( ... );
 
    template< apply_mode A,
              rewind_mode M,
@@ -70,8 +72,10 @@ The `start()`-, `success()`- and `failure()`-methods can be used to debug a gram
 The `raise()`-method is used to create a global error, and any replacement should again throw an exception, or abort the application.
 
 The `apply()`- and `apply0()`-methods can customise how actions with, and without, receiving the matched input are called, respectively.
+Note that these methods should only exist or be visible when an appropriate `apply()`- or `apply0`-method exists in the action class template.
+This can be achieved via SFINAE, e.g. with a trailing return type as shown above.
 
-The `match()`-method which checks if there exists a suitable `match()`-method in the action class template for the current rule. If so, it is called, otherwise it calls the main `tao::pegtl::match()`-function.
+The `match()`-method which, by default, checks if there exists a suitable `match()`-method in the action class template for the current rule. If so, it is called, otherwise it calls the main `tao::pegtl::match()`-function.
 
 ## Control Methods
 

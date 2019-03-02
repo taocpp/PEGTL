@@ -6,7 +6,8 @@
 * Compatibility macros starting with `TAOCPP_PEGTL_` were removed, use the macros starting with `TAO_PEGTL_` instead.
 * All enumerators were changed from uppercase to lowercase, avoiding conflicts with macros defined on Microsoft Windows.
 * The enumerator `tracking_mode::IMMEDIATE` was renamed to `tracking_mode::eager`.
-* The input-classes' `peek_byte`-method was renamed to `peek_uint8`.
+* The input-classes' `peek_byte()`-method was renamed to `peek_uint8()`.
+* The control class template's `apply()`- and `apply0()`-methods must now been visible (e.g. via SFINAE) when an action class template method with the appropriate signature exists.
 
 ## Version 2.4.0
 
