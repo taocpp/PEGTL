@@ -4,6 +4,7 @@
 
 **Not yet released**
 
+* A [**migration guide**](Migration-Guide.md#version-300) is available.
 * Updated required C++ standard to C++17.
 * Updated required [CMake](https://cmake.org/) version to 3.8.
 * Removed compatibility macros starting with `TAOCPP_PEGTL_`.
@@ -201,7 +202,7 @@ Released 2017-05-18
 * Project
 
   * Migrated to ["The Art of C++"](https://github.com/taocpp).
-  * A [**migration guide**](Migration-Guide.md#from-1y-to-2z) for porting applications from 1.y to 2.z is available.
+  * A [**migration guide**](Migration-Guide.md#version-200) is available.
   * Version 2.z can be installed and used in parallel to version 1.y of the PEGTL.
   * The semantics of all parsing rules and grammars is the same as for versions 1.y.
 
