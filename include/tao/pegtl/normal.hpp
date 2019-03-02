@@ -45,15 +45,6 @@ namespace tao
          }
 
          template< template< typename... > class Action,
-                   typename Input,
-                   typename... States >
-         static auto apply0( const Input& /*unused*/, States&&... st ) noexcept( noexcept( Action< Rule >::apply0( st... ) ) )
-            -> decltype( Action< Rule >::apply0( st... ) )
-         {
-            return Action< Rule >::apply0( st... );
-         }
-
-         template< template< typename... > class Action,
                    typename Iterator,
                    typename Input,
                    typename... States >
@@ -62,6 +53,15 @@ namespace tao
          {
             const typename Input::action_t action_input( begin, in );
             return Action< Rule >::apply( action_input, st... );
+         }
+
+         template< template< typename... > class Action,
+                   typename Input,
+                   typename... States >
+         static auto apply0( const Input& /*unused*/, States&&... st ) noexcept( noexcept( Action< Rule >::apply0( st... ) ) )
+            -> decltype( Action< Rule >::apply0( st... ) )
+         {
+            return Action< Rule >::apply0( st... );
          }
 
          template< apply_mode A,

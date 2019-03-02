@@ -3,16 +3,18 @@
 Parsing, i.e. matching an input with a grammar rule, by itself only indicates whether (a portion of) the input is valid according to the grammar.
 In order to do something useful with the input, it is usually necessary to attach user-defined *actions* to one or more rules.
 An action is *applied* whenever the rule to which it is attached succeeds.
-Applying an action means that its static `apply()` or `apply0()`-method is called.
-The first argument to an `apply()` method is always an object that represents the portion of the input consumed by the successful match of the rule.
-An action's `apply()` or `apply0()`-method can either return `void`, or a `bool`.
+Applying an action means that its static `apply()`- or `apply0()`-method is called.
+The first argument to an `apply()`-method is always an object that represents the portion of the input consumed by the successful match of the rule.
+An action's `apply()`- or `apply0()`-method can either return `void`, or a `bool`.
 
 ## Contents
 
 * [Actions](#actions)
-  * [Apply0](#apply0)
   * [Apply](#apply)
+  * [Apply0](#apply0)
 * [Troubleshooting](#troubleshooting)
+  * [Boolean Return](#boolean-return)
+  * [Signature Mismatch](#signature-mismatch)
 * [States](#states)
 * [Action Specialisation](#action-specialisation)
 * [Changing Actions](#changing-actions)
@@ -25,7 +27,7 @@ An action's `apply()` or `apply0()`-method can either return `void`, or a `bool`
 
 ## Actions
 
-Actions are implemented as static `apply()` or `apply0()`-method of specialisations of custom class templates (which is not quite as difficult as it sounds).
+Actions are implemented as static `apply()`- or `apply0()`-method of specialisations of custom class templates (which is not quite as difficult as it sounds).
 First an action class template has to be defined:
 
 ```c++
@@ -33,46 +35,12 @@ template< typename Rule >
 struct my_actions {};
 ```
 
-The above class template does not have any `apply` or `apply0` method, hence it does nothing by default.
+The above class template does not have any `apply()`- or `apply0()`-method, hence it does nothing by default.
 
-To attach an action to `Rule`, this class template has to be specialised for `Rule` and an *appropriate* static `apply()` or `apply0()`-method has to be implemented.
+To attach an action to `Rule`, this class template has to be specialised for `Rule` and an *appropriate* static `apply()`- or `apply0()`-method has to be implemented.
 
-The PEGTL will auto-detect whether an action, i.e. a specialisation of an action class template, contains an appropriate `apply()` or `apply0()` function, and whether it returns `void` or `bool`.
+The PEGTL will auto-detect whether an action, i.e. a specialisation of an action class template, contains an appropriate `apply()`- or `apply0()`-method, and whether it returns `void` or `bool`.
 It will fail to compile when both `apply()` and `apply0()` are found.
-
-### Apply0
-
-In cases where the matched part of the input is not required, an action method named `apply0()` is implemented.
-This allows for some internal optimisations compared to the `apply()` method which receives the matched input as first argument.
-
-```c++
-template<>
-struct my_actions< tao::pegtl::plus< tao::pegtl::alpha > >
-{
-   static void apply0( /* all the states */ )
-   {
-      // Called whenever a call to tao::pegtl::plus< tao::pegtl::alpha >
-      // in the grammar succeeds.
-   }
-
-   // OR ALTERNATIVELY
-
-   static bool apply0( /* all the states */ )
-   {
-      // Called whenever a call to tao::pegtl::plus< tao::pegtl::alpha >
-      // in the grammar succeeds.
-      return // see below
-   }
-}
-```
-
-When the return type is `bool`, the action can determine whether matching the rule to which it was attached, and which already returned with success, should be retro-actively considered a (local) failure.
-For the overall parsing run, there is no difference between a rule or an attached action returning `false` (but of course the action is not called when the rule already returned `false`).
-When an action returns `false`, the PEGTL takes care of rewinding the input to where it was when the rule to which the action was attached started its (successful) match (which is unlike rules' `match()` methods that have to take care of rewinding themselves).
-
-Note that actions returning `bool` are an advanced use case that should be used with caution.
-They prevent some internal optimisations, in particular when used with `apply0()`.
-They can also have weird effects on the semantics of a parsing run, for example `at< rule >` can succeed for the same input for which `rule` fails when there is a `bool`-action attached to `rule` that returns `false` (remembering that actions are disabled within an `at<>` combinator).
 
 ### Apply
 
@@ -149,12 +117,50 @@ When the original input has tracking mode `lazy`, then `action_input::position()
 Actions often need to store and/or reference portions of the input for after the parsing run, for example when an abstract syntax tree is generated.
 Some of the syntax tree nodes will contain portions of the input, for example for a variable name in a script language that needs to be stored in the syntax tree just as it occurs in the input data.
 
-The **default safe choice** is to copy the matched portions of the input data that are passed to an action by storing a deep copy of the data as `std::string`, as obtained by the input class' `string()` method, in the data structures built while parsing.
+The **default safe choice** is to copy the matched portions of the input data that are passed to an action by storing a deep copy of the data as `std::string`, as obtained by the input class' `string()`-method, in the data structures built while parsing.
+
+### Apply0
+
+In cases where the matched part of the input is not required, an action method named `apply0()` is implemented.
+This allows for some internal optimisations compared to the `apply()`-method which receives the matched input as first argument.
+
+```c++
+template<>
+struct my_actions< tao::pegtl::plus< tao::pegtl::alpha > >
+{
+   static void apply0( /* all the states */ )
+   {
+      // Called whenever a call to tao::pegtl::plus< tao::pegtl::alpha >
+      // in the grammar succeeds.
+   }
+
+   // OR ALTERNATIVELY
+
+   static bool apply0( /* all the states */ )
+   {
+      // Called whenever a call to tao::pegtl::plus< tao::pegtl::alpha >
+      // in the grammar succeeds.
+      return // see below
+   }
+}
+```
+
+When the return type is `bool`, the action can determine whether matching the rule to which it was attached, and which already returned with success, should be retro-actively considered a (local) failure.
+For the overall parsing run, there is no difference between a rule or an attached action returning `false` (but of course the action is not called when the rule already returned `false`).
+When an action returns `false`, the PEGTL takes care of rewinding the input to where it was when the rule to which the action was attached started its (successful) match (which is unlike the rules' `match()`-method that has to take care of rewinding themself).
 
 ## Troubleshooting
 
-As the compiler auto-detects the presence of a *suitable* `apply` or `apply0` method, it will simply think that there is no action to apply when the signature is incorrect.
-In this case, the code will compile but silently fail to call `apply` or `apply0`.
+### Boolean Return
+
+Note that actions returning `bool` are an advanced use case that should be used with caution.
+They prevent some internal optimisations, in particular when used with `apply0()`.
+They can also have weird effects on the semantics of a parsing run, for example `at< rule >` can succeed for the same input for which `rule` fails when there is a `bool`-action attached to `rule` that returns `false` (remembering that actions are disabled within an `at<>` combinator).
+
+### Signature Mismatch
+
+As the compiler auto-detects the presence of a *suitable* `apply()`- or `apply0()`-method, it will simply think that there is no action to apply when the signature is incorrect.
+In this case, the code will compile but silently fail to call `apply()` or `apply0()`.
 
 To help troubleshooting those cases, you can turn the silent failure to call the method into a compile-time error.
 Simply derive your specialisation from `require_apply` or `require_apply0`, respectively:
@@ -171,7 +177,7 @@ struct my_actions< my_rule >
 }
 ```
 
-By adding the base class `require_apply0` to the above specialisation, the compiler will be required to call `apply0`.
+By adding the base class `require_apply0` to the above specialisation, the compiler will be required to call `apply0()`.
 If the states (in this example a `double`) don't match, an error message is given and the compilation fails.
 
 Note that deriving from `require_apply` or `require_apply0` is optional and is only meant to help troubleshooting problems.
@@ -179,14 +185,14 @@ Note that deriving from `require_apply` or `require_apply0` is optional and is o
 ## States
 
 In most applications, the actions also need some kind of data or user-defined (parser/action) *state* to operate on.
-Since the `apply()` and `apply0()`-methods are `static`, they do not have an instance of the class of which they are a member function available for this purpose.
+Since the `apply()`- and `apply0()`-methods are `static`, they do not have an instance of the class of which they are a member function available for this purpose.
 Therefore the *state(s)* are an arbitrary collection of objects that are
 
 * passed by the user as additional arguments to the [`parse()`-function](Inputs-and-Parsing.md#parse-function) that starts a parsing run, and then
 
-* passed by the PEGTL as additional arguments to all actions' `apply()` or `apply0()`-method.
+* passed by the PEGTL as additional arguments to all actions' `apply()`- or `apply0()`-method.
 
-In other words, the additional arguments to the `apply()` and `apply0()`-method can be chosen freely, however **all** actions **must** accept the same argument list since they are **all** called with the same arguments.
+In other words, the additional arguments to the `apply()`- and `apply0()`-method can be chosen freely, however **all** actions **must** accept the same argument list since they are **all** called with the same arguments.
 
 For example, in a practical grammar the example from above might use a second argument to store the parsed sequence of digits somewhere.
 
@@ -289,7 +295,7 @@ The different styles can also be freely mixed within the same parser.
 
 ### No Switching
 
-The "no switching style" consists of having one (or more) state-arguments that are passed to a parsing run and that are the arguments to all action's `apply0()`- and `apply()`-methods.
+The "no switching style" consists of having one (or more) state-arguments that are passed to a parsing run and that are the arguments to all action's `apply()`- and `apply0()`-methods.
 
 For an example of how to build a generic JSON data structure with the "no switching style" see `src/example/pegtl/json_build_two.cpp`.
 

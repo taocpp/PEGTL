@@ -291,20 +291,6 @@ namespace tao
                   raise_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
                }
 
-               template< template< typename... > class Action, typename Input, typename Tuple, std::size_t... Is >
-               static auto apply0_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::template apply0< Action >( in, std::get< Is >( t )... ) ) )
-                  -> decltype( T::template apply0< Action >( in, std::get< Is >( t )... ) )
-               {
-                  return T::template apply0< Action >( in, std::get< Is >( t )... );
-               }
-
-               template< template< typename... > class Action, typename Input, typename... States >
-               static auto apply0( const Input& in, States&&... st ) noexcept( noexcept( apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
-                  -> decltype( apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) )
-               {
-                  return apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
-               }
-
                template< template< typename... > class Action, typename Iterator, typename Input, typename Tuple, std::size_t... Is >
                static auto apply_impl( const Iterator& begin, const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::template apply< Action >( begin, in, std::get< Is >( t )... ) ) )
                   -> decltype( T::template apply< Action >( begin, in, std::get< Is >( t )... ) )
@@ -317,6 +303,20 @@ namespace tao
                   -> decltype( apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) )
                {
                   return apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
+               }
+
+               template< template< typename... > class Action, typename Input, typename Tuple, std::size_t... Is >
+               static auto apply0_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::template apply0< Action >( in, std::get< Is >( t )... ) ) )
+                  -> decltype( T::template apply0< Action >( in, std::get< Is >( t )... ) )
+               {
+                  return T::template apply0< Action >( in, std::get< Is >( t )... );
+               }
+
+               template< template< typename... > class Action, typename Input, typename... States >
+               static auto apply0( const Input& in, States&&... st ) noexcept( noexcept( apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+                  -> decltype( apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) )
+               {
+                  return apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
                }
 
                template< apply_mode A,

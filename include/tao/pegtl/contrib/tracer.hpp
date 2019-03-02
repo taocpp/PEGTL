@@ -118,22 +118,6 @@ namespace tao
                ts.stack.pop_back();
             }
 
-            template< template< typename... > class Action, typename Input, typename... States >
-            static auto apply0( const Input& in, States&&... st )
-               -> decltype( Base< Rule >::template apply0< Action >( in, st... ) )
-            {
-               std::cerr << in.position() << "  apply0 " << internal::demangle< Rule >() << std::endl;
-               return Base< Rule >::template apply0< Action >( in, st... );
-            }
-
-            template< template< typename... > class Action, typename Input, typename... States >
-            static auto apply0( const Input& in, trace_state& ts, States&&... st )
-               -> decltype( apply0< Action >( in, st... ) )
-            {
-               std::cerr << std::setw( 6 ) << ++ts.line << "        ";
-               return apply0< Action >( in, st... );
-            }
-
             template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
             static auto apply( const Iterator& begin, const Input& in, States&&... st )
                -> decltype( Base< Rule >::template apply< Action >( begin, in, st... ) )
@@ -148,6 +132,22 @@ namespace tao
             {
                std::cerr << std::setw( 6 ) << ++ts.line << "        ";
                return apply< Action >( begin, in, st... );
+            }
+
+            template< template< typename... > class Action, typename Input, typename... States >
+            static auto apply0( const Input& in, States&&... st )
+               -> decltype( Base< Rule >::template apply0< Action >( in, st... ) )
+            {
+               std::cerr << in.position() << "  apply0 " << internal::demangle< Rule >() << std::endl;
+               return Base< Rule >::template apply0< Action >( in, st... );
+            }
+
+            template< template< typename... > class Action, typename Input, typename... States >
+            static auto apply0( const Input& in, trace_state& ts, States&&... st )
+               -> decltype( apply0< Action >( in, st... ) )
+            {
+               std::cerr << std::setw( 6 ) << ++ts.line << "        ";
+               return apply0< Action >( in, st... );
             }
          };
       };
