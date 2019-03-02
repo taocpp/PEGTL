@@ -32,19 +32,25 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 
 ###### `<tao/pegtl/contrib/change_action.hpp>`
 
-* Control class components for [external switching style](Actions-and-States.md#external-switching).
+* Action class components for [external switching style](Actions-and-States.md#external-switching).
 * Changes the action class template.
 * Ready for production use but might be changed in the future.
 
 ###### `<tao/pegtl/contrib/change_action_and_state.hpp>`
 
-* Control class components for [external switching style](Actions-and-States.md#external-switching).
+* Action class components for [external switching style](Actions-and-States.md#external-switching).
 * Changes the action class template and the state.
+* Ready for production use but might be changed in the future.
+
+###### `<tao/pegtl/contrib/change_control.hpp>`
+
+* Action class components for [external switching style](Actions-and-States.md#external-switching).
+* Changes the control class template.
 * Ready for production use but might be changed in the future.
 
 ###### `<tao/pegtl/contrib/change_state.hpp>`
 
-* Control class components for [external switching style](Actions-and-States.md#external-switching).
+* Action class components for [external switching style](Actions-and-States.md#external-switching).
 * Changes the state.
 * Ready for production use but might be changed in the future.
 
