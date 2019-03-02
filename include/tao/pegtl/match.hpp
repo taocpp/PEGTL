@@ -59,15 +59,15 @@ namespace tao
                 typename... States >
       [[nodiscard]] bool match( Input& in, States&&... st )
       {
-         constexpr bool use_control = !internal::skip_control< Rule >;
-         constexpr bool use_apply = use_control && ( A == apply_mode::action );
+         constexpr bool enable_control = !internal::skip_control< Rule >;
+         constexpr bool enable_apply = enable_control && ( A == apply_mode::action );
 
-         constexpr bool has_apply_void = use_apply && internal::has_apply< Control< Rule >, void, Action, const typename Input::iterator_t&, const Input&, States... >::value;
-         constexpr bool has_apply_bool = use_apply && internal::has_apply< Control< Rule >, bool, Action, const typename Input::iterator_t&, const Input&, States... >::value;
+         constexpr bool has_apply_void = enable_apply && internal::has_apply< Control< Rule >, void, Action, const typename Input::iterator_t&, const Input&, States... >::value;
+         constexpr bool has_apply_bool = enable_apply && internal::has_apply< Control< Rule >, bool, Action, const typename Input::iterator_t&, const Input&, States... >::value;
          constexpr bool has_apply = has_apply_void || has_apply_bool;
 
-         constexpr bool has_apply0_void = use_apply && internal::has_apply0< Control< Rule >, void, Action, const Input&, States... >::value;
-         constexpr bool has_apply0_bool = use_apply && internal::has_apply0< Control< Rule >, bool, Action, const Input&, States... >::value;
+         constexpr bool has_apply0_void = enable_apply && internal::has_apply0< Control< Rule >, void, Action, const Input&, States... >::value;
+         constexpr bool has_apply0_bool = enable_apply && internal::has_apply0< Control< Rule >, bool, Action, const Input&, States... >::value;
          constexpr bool has_apply0 = has_apply0_void || has_apply0_bool;
 
          static_assert( !( has_apply && has_apply0 ), "both apply() and apply0() defined" );
@@ -80,7 +80,7 @@ namespace tao
             internal::missing_apply0< Control< Rule >, Action >( in, st... );
          }
 
-         constexpr auto mode = static_cast< dusel_mode >( use_control + has_apply_void + 2 * has_apply_bool + 3 * has_apply0_void + 4 * has_apply0_bool );
+         constexpr auto mode = static_cast< dusel_mode >( enable_control + has_apply_void + 2 * has_apply_bool + 3 * has_apply0_void + 4 * has_apply0_bool );
          return internal::duseltronik< Rule, A, M, Action, Control, mode >::match( in, st... );
       }
 
