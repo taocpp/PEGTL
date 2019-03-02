@@ -30,9 +30,22 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * Shortens `string<'f','o','o'>` to `string<f,o,o>`.
 * Ready for production use.
 
-###### `<tao/pegtl/contrib/changes.hpp>`
+###### `<tao/pegtl/contrib/change_action.hpp>`
 
 * Control class components for [external switching style](Actions-and-States.md#external-switching).
+* Changes the action class template.
+* Ready for production use but might be changed in the future.
+
+###### `<tao/pegtl/contrib/change_action_and_state.hpp>`
+
+* Control class components for [external switching style](Actions-and-States.md#external-switching).
+* Changes the action class template and the state.
+* Ready for production use but might be changed in the future.
+
+###### `<tao/pegtl/contrib/change_state.hpp>`
+
+* Control class components for [external switching style](Actions-and-States.md#external-switching).
+* Changes the state.
 * Ready for production use but might be changed in the future.
 
 ###### `<tao/pegtl/contrib/counter.hpp>`
