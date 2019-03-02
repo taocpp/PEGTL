@@ -71,19 +71,25 @@ namespace tao
             {
                errno = 0;
                if( std::fseek( m_file.get(), 0, SEEK_END ) != 0 ) {
+                  // LCOV_EXCL_START
                   const auto ec = errno;
-                  throw std::system_error( ec, std::system_category(), m_source );  // LCOV_EXCL_LINE
+                  throw std::system_error( ec, std::system_category(), m_source );
+                  // LCOV_EXCL_STOP
                }
                errno = 0;
                const auto s = std::ftell( m_file.get() );
                if( s < 0 ) {
+                  // LCOV_EXCL_START
                   const auto ec = errno;
-                  throw std::system_error( ec, std::system_category(), m_source );  // LCOV_EXCL_LINE
+                  throw std::system_error( ec, std::system_category(), m_source );
+                  // LCOV_EXCL_STOP
                }
                errno = 0;
                if( std::fseek( m_file.get(), 0, SEEK_SET ) != 0 ) {
+                  // LCOV_EXCL_START
                   const auto ec = errno;
-                  throw std::system_error( ec, std::system_category(), m_source );  // LCOV_EXCL_LINE
+                  throw std::system_error( ec, std::system_category(), m_source );
+                  // LCOV_EXCL_STOP
                }
                return std::size_t( s );
             }
@@ -94,8 +100,10 @@ namespace tao
                nrv.resize( size() );
                errno = 0;
                if( !nrv.empty() && ( std::fread( &nrv[ 0 ], nrv.size(), 1, m_file.get() ) != 1 ) ) {
+                  // LCOV_EXCL_START
                   const auto ec = errno;
-                  throw std::system_error( ec, std::system_category(), m_source );  // LCOV_EXCL_LINE
+                  throw std::system_error( ec, std::system_category(), m_source );
+                  // LCOV_EXCL_STOP
                }
                return nrv;
             }
