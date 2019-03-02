@@ -341,7 +341,7 @@ namespace tao
          struct selector< grammar::quoted_string > : std::true_type
          {
             template< typename... States >
-            static void transform( node_ptr& n, States&&... /*unused*/ )
+            static void transform( node_ptr& n )
             {
                shift( n->m_begin, 1 );
                shift( n->m_end, -1 );
@@ -366,7 +366,7 @@ namespace tao
          struct selector< grammar::case_sensitive_string > : std::true_type
          {
             template< typename... States >
-            static void transform( node_ptr& n, States&&... /*unused*/ )
+            static void transform( node_ptr& n )
             {
                n = std::move( n->children.back() );
                if( n->string_view().size() == 1 ) {
@@ -446,7 +446,7 @@ namespace tao
          struct selector< grammar::rule > : std::true_type
          {
             template< typename... States >
-            static void transform( node_ptr& n, States&&... /*unused*/ )
+            static void transform( node_ptr& n )
             {
                const auto rname = get_rulename( n->children.front() );
                assert( n->children.at( 1 )->is< grammar::defined_as_op >() );
