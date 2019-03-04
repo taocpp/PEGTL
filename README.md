@@ -70,9 +70,8 @@ Each commit is automatically tested with multiple architectures, operating syste
   * GCC 7.x, 8.x
   * Clang 5.x, 6.x, 7.x
 
-Additionally, each commit is checked with GCC's and Clang's sanitizers, as well as [`valgrind`](http://valgrind.org/)
-and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/). Code coverage is automatically measured and the unit tests
-cover 100% of the core library code (for releases).
+Additionally, each commit is checked with GCC's and Clang's sanitizers, [`clang-analyze`](https://clang-analyzer.llvm.org/), [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/), and [`valgrind`](http://valgrind.org/).
+Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
 
 [Releases](https://github.com/taocpp/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
 Incompatible API changes are *only* allowed to occur between major versions.
