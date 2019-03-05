@@ -4,6 +4,8 @@
 #ifndef TAO_PEGTL_CONTRIB_CHANGE_ACTION_HPP
 #define TAO_PEGTL_CONTRIB_CHANGE_ACTION_HPP
 
+#include <type_traits>
+
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
@@ -26,6 +28,7 @@ namespace tao
                    typename... States >
          [[nodiscard]] static bool match( Input& in, States&&... st )
          {
+            static_assert( !std::is_same_v< Action< void >, NewAction< void > >, "old and new action class templates are identical" );
             return Control< Rule >::template match< A, M, NewAction, Control >( in, st... );
          }
       };
