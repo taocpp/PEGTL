@@ -29,28 +29,25 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * Constants for ASCII letters.
 * Shortens `string<'f','o','o'>` to `string<f,o,o>`.
 * Ready for production use.
+* Superceeded by `TAO_PEGTL_STRING()`.
 
 ###### `<tao/pegtl/contrib/change_action.hpp>`
 
-* Action class components for [external switching style](Actions-and-States.md#external-switching).
 * Changes the action class template.
-* Ready for production use but might be changed in the future.
+* Ready for production use.
 
 ###### `<tao/pegtl/contrib/change_action_and_state.hpp>`
 
-* Action class components for [external switching style](Actions-and-States.md#external-switching).
 * Changes the action class template and the state.
 * Ready for production use but might be changed in the future.
 
 ###### `<tao/pegtl/contrib/change_control.hpp>`
 
-* Action class components for [external switching style](Actions-and-States.md#external-switching).
 * Changes the control class template.
-* Ready for production use but might be changed in the future.
+* Ready for production use.
 
 ###### `<tao/pegtl/contrib/change_state.hpp>`
 
-* Action class components for [external switching style](Actions-and-States.md#external-switching).
 * Changes the state.
 * Ready for production use but might be changed in the future.
 
@@ -60,6 +57,16 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
   1. was attempted to match,
   2. succeeded to match,
   3. failed to match.
+
+###### `<tao/pegtl/contrib/disable_action.hpp>`
+
+* Disables actions.
+* Ready for production use.
+
+###### `<tao/pegtl/contrib/enable_action.hpp>`
+
+* Enables actions.
+* Ready for production use.
 
 ###### `<tao/pegtl/contrib/http.hpp>`
 
