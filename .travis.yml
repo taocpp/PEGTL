@@ -47,10 +47,18 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
-          packages: ['clang-7', 'g++-7']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'g++-8']
       env:
-        - CXX=clang++-7
+        - CXX=clang++-8
+
+    - compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'g++-8']
+      env:
+        - CXX=clang++-8
         - CPPFLAGS=-fms-extensions
 
     - os: osx
@@ -60,7 +68,7 @@ matrix:
         - CXX=clang++
 
     - os: osx
-      osx_image: xcode10
+      osx_image: xcode10.1
       compiler: clang
       env:
         - CXX=clang++
@@ -101,20 +109,20 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
-          packages: ['clang-7', 'g++-8']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'g++-8']
       env:
-        - CXX=clang++-7
+        - CXX=clang++-8
         - CPPFLAGS=-fsanitize=undefined
 
     - compiler: clang
       sudo: true
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
-          packages: ['clang-7', 'g++-8']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'g++-8']
       env:
-        - CXX=clang++-7
+        - CXX=clang++-8
         - CPPFLAGS=-fsanitize=address
 
     - compiler: gcc
@@ -146,11 +154,11 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
-          packages: ['clang-7', 'clang-tidy-7', 'g++-7']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'clang-tidy-8', 'g++-8']
       env:
-        - CXX=clang++-7
-        - CLANG_TIDY=clang-tidy-7
+        - CXX=clang++-8
+        - CLANG_TIDY=clang-tidy-8
       script:
         - "sed -i 's#TAO_PEGTL_NAMESPACE#pegtl#g' $(find . -name '*.[hc]pp')"
         - make -kj3 clang-tidy
