@@ -33,6 +33,7 @@ namespace example
    struct expression : list_must< product, sor< plus, minus > > {};
 
    struct grammar : seq< expression, eof > {};
+   // clang-format on
 
    // after a node is stored successfully, you can add an optional transformer like this:
    struct rearrange : std::true_type
