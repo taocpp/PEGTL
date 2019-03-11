@@ -20,7 +20,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          [[nodiscard]] static std::string get()
          {
-            const char s[] = { Cs..., 0 };
+            const char s[] = { Cs..., 0 };  // NOLINT
             return std::string( s, sizeof...( Cs ) );
          }
       };
