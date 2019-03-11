@@ -170,7 +170,7 @@ namespace TAO_PEGTL_NAMESPACE
    private:
       Reader m_reader;
       std::size_t m_maximum;
-      std::unique_ptr< char[] > m_buffer;
+      std::unique_ptr< char[] > m_buffer;  // NOLINT
       iterator_t m_current;
       char* m_end;
       const Source m_source;

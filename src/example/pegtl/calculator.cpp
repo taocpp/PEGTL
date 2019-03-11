@@ -171,7 +171,7 @@ namespace calculator
          m_ops.insert( { name, { p, f } } );
       }
 
-      const std::map< std::string, op >& ops() const
+      [[nodiscard]] const std::map< std::string, op >& ops() const noexcept
       {
          return m_ops;
       }

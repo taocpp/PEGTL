@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
    // clang-format on
 
    template< unsigned M, unsigned N >
-   void verify_data( const char ( &m )[ M ], const char ( &n )[ N ] )
+   void verify_data( const char ( &m )[ M ], const char ( &n )[ N ] )  // NOLINT
    {
       unescape::state st;
       memory_input in( m, M - 1, __FUNCTION__ );
