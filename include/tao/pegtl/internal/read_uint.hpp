@@ -10,76 +10,68 @@
 
 #include "endian.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   struct read_uint16_be
    {
-      namespace internal
+      using type = std::uint16_t;
+
+      [[nodiscard]] static std::uint16_t read( const void* d ) noexcept
       {
-         struct read_uint16_be
-         {
-            using type = std::uint16_t;
+         return be_to_h< std::uint16_t >( d );
+      }
+   };
 
-            [[nodiscard]] static std::uint16_t read( const void* d ) noexcept
-            {
-               return be_to_h< std::uint16_t >( d );
-            }
-         };
+   struct read_uint16_le
+   {
+      using type = std::uint16_t;
 
-         struct read_uint16_le
-         {
-            using type = std::uint16_t;
+      [[nodiscard]] static std::uint16_t read( const void* d ) noexcept
+      {
+         return le_to_h< std::uint16_t >( d );
+      }
+   };
 
-            [[nodiscard]] static std::uint16_t read( const void* d ) noexcept
-            {
-               return le_to_h< std::uint16_t >( d );
-            }
-         };
+   struct read_uint32_be
+   {
+      using type = std::uint32_t;
 
-         struct read_uint32_be
-         {
-            using type = std::uint32_t;
+      [[nodiscard]] static std::uint32_t read( const void* d ) noexcept
+      {
+         return be_to_h< std::uint32_t >( d );
+      }
+   };
 
-            [[nodiscard]] static std::uint32_t read( const void* d ) noexcept
-            {
-               return be_to_h< std::uint32_t >( d );
-            }
-         };
+   struct read_uint32_le
+   {
+      using type = std::uint32_t;
 
-         struct read_uint32_le
-         {
-            using type = std::uint32_t;
+      [[nodiscard]] static std::uint32_t read( const void* d ) noexcept
+      {
+         return le_to_h< std::uint32_t >( d );
+      }
+   };
 
-            [[nodiscard]] static std::uint32_t read( const void* d ) noexcept
-            {
-               return le_to_h< std::uint32_t >( d );
-            }
-         };
+   struct read_uint64_be
+   {
+      using type = std::uint64_t;
 
-         struct read_uint64_be
-         {
-            using type = std::uint64_t;
+      [[nodiscard]] static std::uint64_t read( const void* d ) noexcept
+      {
+         return be_to_h< std::uint64_t >( d );
+      }
+   };
 
-            [[nodiscard]] static std::uint64_t read( const void* d ) noexcept
-            {
-               return be_to_h< std::uint64_t >( d );
-            }
-         };
+   struct read_uint64_le
+   {
+      using type = std::uint64_t;
 
-         struct read_uint64_le
-         {
-            using type = std::uint64_t;
+      [[nodiscard]] static std::uint64_t read( const void* d ) noexcept
+      {
+         return le_to_h< std::uint64_t >( d );
+      }
+   };
 
-            [[nodiscard]] static std::uint64_t read( const void* d ) noexcept
-            {
-               return le_to_h< std::uint64_t >( d );
-            }
-         };
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

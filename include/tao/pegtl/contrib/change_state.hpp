@@ -9,37 +9,33 @@
 #include "../match.hpp"
 #include "../rewind_mode.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename State >
+   struct change_state
    {
-      template< typename State >
-      struct change_state
+      template< typename Rule,
+                apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         template< typename Rule,
-                   apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename Input,
-                   typename... States >
-         [[nodiscard]] static bool match( Input& in, States&&... st )
-         {
-            State s( static_cast< const Input& >( in ), st... );
-            if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, s ) ) {
-               if constexpr( A == apply_mode::action ) {
-                  s.success( static_cast< const Input& >( in ), st... );
-               }
-               return true;
+         State s( static_cast< const Input& >( in ), st... );
+         if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, s ) ) {
+            if constexpr( A == apply_mode::action ) {
+               s.success( static_cast< const Input& >( in ), st... );
             }
-            return false;
+            return true;
          }
-      };
+         return false;
+      }
+   };
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

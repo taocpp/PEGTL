@@ -13,49 +13,41 @@
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename Rule, typename... Actions >
+   struct if_apply
    {
-      namespace internal
+      using analyze_t = typename Rule::analyze_t;
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         template< typename Rule, typename... Actions >
-         struct if_apply
-         {
-            using analyze_t = typename Rule::analyze_t;
-
-            template< apply_mode A,
-                      rewind_mode M,
-                      template< typename... >
-                      class Action,
-                      template< typename... >
-                      class Control,
-                      typename Input,
-                      typename... States >
-            [[nodiscard]] static bool match( Input& in, States&&... st )
-            {
-               if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) != 0 ) ) {
-                  using action_t = typename Input::action_t;
-                  auto m = in.template mark< rewind_mode::required >();
-                  if( Control< Rule >::template match< apply_mode::action, rewind_mode::active, Action, Control >( in, st... ) ) {
-                     const action_t i2( m.iterator(), in );
-                     return m( ( apply_single< Actions >::match( i2, st... ) && ... ) );
-                  }
-                  return false;
-               }
-               else {  // NOLINT
-                  return Control< Rule >::template match< A, M, Action, Control >( in, st... );
-               }
+         if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) != 0 ) ) {
+            using action_t = typename Input::action_t;
+            auto m = in.template mark< rewind_mode::required >();
+            if( Control< Rule >::template match< apply_mode::action, rewind_mode::active, Action, Control >( in, st... ) ) {
+               const action_t i2( m.iterator(), in );
+               return m( ( apply_single< Actions >::match( i2, st... ) && ... ) );
             }
-         };
+            return false;
+         }
+         else {  // NOLINT
+            return Control< Rule >::template match< A, M, Action, Control >( in, st... );
+         }
+      }
+   };
 
-         template< typename Rule, typename... Actions >
-         inline constexpr bool skip_control< if_apply< Rule, Actions... > > = true;
+   template< typename Rule, typename... Actions >
+   inline constexpr bool skip_control< if_apply< Rule, Actions... > > = true;
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

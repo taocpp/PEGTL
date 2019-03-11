@@ -6,40 +6,36 @@
 
 #include "test.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   struct file_content : seq< TAO_PEGTL_STRING( "dummy content" ), eol, discard >
    {
-      struct file_content : seq< TAO_PEGTL_STRING( "dummy content" ), eol, discard >
-      {
-      };
+   };
 
-      struct file_grammar : seq< rep_min_max< 11, 11, file_content >, eof >
-      {
-      };
+   struct file_grammar : seq< rep_min_max< 11, 11, file_content >, eof >
+   {
+   };
 
-      void unit_test()
+   void unit_test()
+   {
       {
-         {
-            const char* filename = "src/test/pegtl/no_such_file.txt";
-            try {
-               std::ifstream stream( filename );
-               parse< file_grammar >( istream_input( stream, 16, filename ) );
-               TAO_PEGTL_TEST_ASSERT( false );
-            }
-            catch( const std::system_error& e ) {
-               TAO_PEGTL_TEST_ASSERT( e.code().category() == std::system_category() );
-               TAO_PEGTL_TEST_ASSERT( e.code().value() == ENOENT );
-            }
+         const char* filename = "src/test/pegtl/no_such_file.txt";
+         try {
+            std::ifstream stream( filename );
+            parse< file_grammar >( istream_input( stream, 16, filename ) );
+            TAO_PEGTL_TEST_ASSERT( false );
          }
-
-         const char* filename = "src/test/pegtl/file_data.txt";
-         std::ifstream stream( filename );
-         TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( istream_input( stream, 16, filename ) ) );
+         catch( const std::system_error& e ) {
+            TAO_PEGTL_TEST_ASSERT( e.code().category() == std::system_category() );
+            TAO_PEGTL_TEST_ASSERT( e.code().value() == ENOENT );
+         }
       }
 
-   }  // namespace TAO_PEGTL_NAMESPACE
+      const char* filename = "src/test/pegtl/file_data.txt";
+      std::ifstream stream( filename );
+      TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( istream_input( stream, 16, filename ) ) );
+   }
 
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"

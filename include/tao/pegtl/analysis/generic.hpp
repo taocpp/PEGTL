@@ -10,30 +10,22 @@
 #include "insert_rules.hpp"
 #include "rule_type.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::analysis
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< rule_type Type, typename... Rules >
+   struct generic
    {
-      namespace analysis
+      template< typename Name >
+      static std::string insert( grammar_info& g )
       {
-         template< rule_type Type, typename... Rules >
-         struct generic
-         {
-            template< typename Name >
-            static std::string insert( grammar_info& g )
-            {
-               const auto r = g.insert< Name >( Type );
-               if( r.second ) {
-                  insert_rules< Rules... >::insert( g, r.first->second );
-               }
-               return r.first->first;
-            }
-         };
+         const auto r = g.insert< Name >( Type );
+         if( r.second ) {
+            insert_rules< Rules... >::insert( g, r.first->second );
+         }
+         return r.first->first;
+      }
+   };
 
-      }  // namespace analysis
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::analysis
 
 #endif

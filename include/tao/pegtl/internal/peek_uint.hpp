@@ -12,43 +12,35 @@
 #include "input_pair.hpp"
 #include "read_uint.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename R >
+   struct peek_uint_impl
    {
-      namespace internal
+      using data_t = typename R::type;
+      using pair_t = input_pair< data_t >;
+
+      template< typename Input >
+      [[nodiscard]] static pair_t peek( Input& in ) noexcept( noexcept( in.size( sizeof( data_t ) ) ) )
       {
-         template< typename R >
-         struct peek_uint_impl
-         {
-            using data_t = typename R::type;
-            using pair_t = input_pair< data_t >;
+         const std::size_t s = in.size( sizeof( data_t ) );
+         if( s >= sizeof( data_t ) ) {
+            const data_t data = R::read( in.current() );
+            return { data, sizeof( data_t ) };
+         }
+         return { 0, 0 };
+      }
+   };
 
-            template< typename Input >
-            [[nodiscard]] static pair_t peek( Input& in ) noexcept( noexcept( in.size( sizeof( data_t ) ) ) )
-            {
-               const std::size_t s = in.size( sizeof( data_t ) );
-               if( s >= sizeof( data_t ) ) {
-                  const data_t data = R::read( in.current() );
-                  return { data, sizeof( data_t ) };
-               }
-               return { 0, 0 };
-            }
-         };
+   using peek_uint16_be = peek_uint_impl< read_uint16_be >;
+   using peek_uint16_le = peek_uint_impl< read_uint16_le >;
 
-         using peek_uint16_be = peek_uint_impl< read_uint16_be >;
-         using peek_uint16_le = peek_uint_impl< read_uint16_le >;
+   using peek_uint32_be = peek_uint_impl< read_uint32_be >;
+   using peek_uint32_le = peek_uint_impl< read_uint32_le >;
 
-         using peek_uint32_be = peek_uint_impl< read_uint32_be >;
-         using peek_uint32_le = peek_uint_impl< read_uint32_le >;
+   using peek_uint64_be = peek_uint_impl< read_uint64_be >;
+   using peek_uint64_le = peek_uint_impl< read_uint64_le >;
 
-         using peek_uint64_be = peek_uint_impl< read_uint64_be >;
-         using peek_uint64_le = peek_uint_impl< read_uint64_le >;
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

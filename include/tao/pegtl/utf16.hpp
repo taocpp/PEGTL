@@ -10,44 +10,40 @@
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   namespace utf16_be
    {
-      namespace utf16_be
-      {
-         // clang-format off
-         struct any : internal::any< internal::peek_utf16_be > {};
-         struct bom : internal::one< internal::result_on_found::success, internal::peek_utf16_be, 0xfeff > {};
-         template< char32_t... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_utf16_be, Cs... > {};
-         template< char32_t Lo, char32_t Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_utf16_be, Lo, Hi > {};
-         template< char32_t... Cs > struct one : internal::one< internal::result_on_found::success, internal::peek_utf16_be, Cs... > {};
-         template< char32_t Lo, char32_t Hi > struct range : internal::range< internal::result_on_found::success, internal::peek_utf16_be, Lo, Hi > {};
-         template< char32_t... Cs > struct ranges : internal::ranges< internal::peek_utf16_be, Cs... > {};
-         template< char32_t... Cs > struct string : internal::seq< internal::one< internal::result_on_found::success, internal::peek_utf16_be, Cs >... > {};
-         // clang-format on
+      // clang-format off
+      struct any : internal::any< internal::peek_utf16_be > {};
+      struct bom : internal::one< internal::result_on_found::success, internal::peek_utf16_be, 0xfeff > {};
+      template< char32_t... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_utf16_be, Cs... > {};
+      template< char32_t Lo, char32_t Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_utf16_be, Lo, Hi > {};
+      template< char32_t... Cs > struct one : internal::one< internal::result_on_found::success, internal::peek_utf16_be, Cs... > {};
+      template< char32_t Lo, char32_t Hi > struct range : internal::range< internal::result_on_found::success, internal::peek_utf16_be, Lo, Hi > {};
+      template< char32_t... Cs > struct ranges : internal::ranges< internal::peek_utf16_be, Cs... > {};
+      template< char32_t... Cs > struct string : internal::seq< internal::one< internal::result_on_found::success, internal::peek_utf16_be, Cs >... > {};
+      // clang-format on
 
-      }  // namespace utf16_be
+   }  // namespace utf16_be
 
-      namespace utf16_le
-      {
-         // clang-format off
-         struct any : internal::any< internal::peek_utf16_le > {};
-         struct bom : internal::one< internal::result_on_found::success, internal::peek_utf16_le, 0xfeff > {};
-         template< char32_t... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_utf16_le, Cs... > {};
-         template< char32_t Lo, char32_t Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_utf16_le, Lo, Hi > {};
-         template< char32_t... Cs > struct one : internal::one< internal::result_on_found::success, internal::peek_utf16_le, Cs... > {};
-         template< char32_t Lo, char32_t Hi > struct range : internal::range< internal::result_on_found::success, internal::peek_utf16_le, Lo, Hi > {};
-         template< char32_t... Cs > struct ranges : internal::ranges< internal::peek_utf16_le, Cs... > {};
-         template< char32_t... Cs > struct string : internal::seq< internal::one< internal::result_on_found::success, internal::peek_utf16_le, Cs >... > {};
-         // clang-format on
+   namespace utf16_le
+   {
+      // clang-format off
+      struct any : internal::any< internal::peek_utf16_le > {};
+      struct bom : internal::one< internal::result_on_found::success, internal::peek_utf16_le, 0xfeff > {};
+      template< char32_t... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_utf16_le, Cs... > {};
+      template< char32_t Lo, char32_t Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_utf16_le, Lo, Hi > {};
+      template< char32_t... Cs > struct one : internal::one< internal::result_on_found::success, internal::peek_utf16_le, Cs... > {};
+      template< char32_t Lo, char32_t Hi > struct range : internal::range< internal::result_on_found::success, internal::peek_utf16_le, Lo, Hi > {};
+      template< char32_t... Cs > struct ranges : internal::ranges< internal::peek_utf16_le, Cs... > {};
+      template< char32_t... Cs > struct string : internal::seq< internal::one< internal::result_on_found::success, internal::peek_utf16_le, Cs >... > {};
+      // clang-format on
 
-      }  // namespace utf16_le
+   }  // namespace utf16_le
 
-      namespace utf16 = TAO_PEGTL_NATIVE_UTF16;  // NOLINT(misc-unused-alias-decls)
+   namespace utf16 = TAO_PEGTL_NATIVE_UTF16;  // NOLINT(misc-unused-alias-decls)
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

@@ -14,7 +14,7 @@
 #include "json_errors.hpp"
 #include "json_unescape.hpp"
 
-namespace pegtl = tao::TAO_PEGTL_NAMESPACE;
+namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 namespace examples
 {

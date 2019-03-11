@@ -8,30 +8,22 @@
 
 #include "../config.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename Data >
+   struct input_pair
    {
-      namespace internal
+      Data data;
+      std::uint8_t size;
+
+      using data_t = Data;
+
+      explicit operator bool() const noexcept
       {
-         template< typename Data >
-         struct input_pair
-         {
-            Data data;
-            std::uint8_t size;
+         return size > 0;
+      }
+   };
 
-            using data_t = Data;
-
-            explicit operator bool() const noexcept
-            {
-               return size > 0;
-            }
-         };
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

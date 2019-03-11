@@ -13,46 +13,38 @@
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename... Actions >
+   struct apply0
    {
-      namespace internal
+      using analyze_t = analysis::counted< analysis::rule_type::any, 0 >;
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& /*unused*/, States&&... st )
       {
-         template< typename... Actions >
-         struct apply0
-         {
-            using analyze_t = analysis::counted< analysis::rule_type::any, 0 >;
-
-            template< apply_mode A,
-                      rewind_mode M,
-                      template< typename... >
-                      class Action,
-                      template< typename... >
-                      class Control,
-                      typename Input,
-                      typename... States >
-            [[nodiscard]] static bool match( Input& /*unused*/, States&&... st )
-            {
-               if constexpr( A == apply_mode::action ) {
-                  return ( apply0_single< Actions >::match( st... ) && ... );
-               }
-               else {  // NOLINT
+         if constexpr( A == apply_mode::action ) {
+            return ( apply0_single< Actions >::match( st... ) && ... );
+         }
+         else {  // NOLINT
 #if defined( _MSC_VER )
-                  (void)( (void)st, ... );
+            (void)( (void)st, ... );
 #endif
-                  return true;
-               }
-            }
-         };
+            return true;
+         }
+      }
+   };
 
-         template< typename... Actions >
-         inline constexpr bool skip_control< apply0< Actions... > > = true;
+   template< typename... Actions >
+   inline constexpr bool skip_control< apply0< Actions... > > = true;
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

@@ -12,26 +12,22 @@
 
 #include "internal/istream_reader.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename Eol = eol::lf_crlf >
+   struct istream_input
+      : buffer_input< internal::istream_reader, Eol >
    {
-      template< typename Eol = eol::lf_crlf >
-      struct istream_input
-         : buffer_input< internal::istream_reader, Eol >
+      template< typename T >
+      istream_input( std::istream& in_stream, const std::size_t in_maximum, T&& in_source )  // NOLINT
+         : buffer_input< internal::istream_reader, Eol >( std::forward< T >( in_source ), in_maximum, in_stream )
       {
-         template< typename T >
-         istream_input( std::istream& in_stream, const std::size_t in_maximum, T&& in_source )  // NOLINT
-            : buffer_input< internal::istream_reader, Eol >( std::forward< T >( in_source ), in_maximum, in_stream )
-         {
-         }
-      };
+      }
+   };
 
-      template< typename... Ts >
-      istream_input( Ts&&... )->istream_input<>;
+   template< typename... Ts >
+   istream_input( Ts&&... )->istream_input<>;
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

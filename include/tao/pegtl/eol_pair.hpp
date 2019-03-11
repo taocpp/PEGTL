@@ -9,14 +9,10 @@
 
 #include "config.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
-   {
-      using eol_pair = std::pair< bool, std::size_t >;
+   using eol_pair = std::pair< bool, std::size_t >;
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

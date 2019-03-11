@@ -10,28 +10,20 @@
 
 #include "input_pair.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   struct peek_char
    {
-      namespace internal
+      using data_t = char;
+      using pair_t = input_pair< char >;
+
+      template< typename Input >
+      [[nodiscard]] static pair_t peek( Input& in, const std::size_t o = 0 ) noexcept( noexcept( in.Input::peek_char( 0 ) ) )
       {
-         struct peek_char
-         {
-            using data_t = char;
-            using pair_t = input_pair< char >;
+         return { in.peek_char( o ), 1 };
+      }
+   };
 
-            template< typename Input >
-            [[nodiscard]] static pair_t peek( Input& in, const std::size_t o = 0 ) noexcept( noexcept( in.Input::peek_char( 0 ) ) )
-            {
-               return { in.peek_char( o ), 1 };
-            }
-         };
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

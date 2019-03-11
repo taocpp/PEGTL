@@ -4,17 +4,13 @@
 #include "test.hpp"
 #include "verify_ifmt.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   void unit_test()
    {
-      void unit_test()
-      {
-         verify_ifmt< if_must_else >( result_type::global_failure );
-      }
+      verify_ifmt< if_must_else >( result_type::global_failure );
+   }
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"

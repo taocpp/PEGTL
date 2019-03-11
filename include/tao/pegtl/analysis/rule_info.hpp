@@ -11,27 +11,19 @@
 
 #include "rule_type.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::analysis
 {
-   namespace TAO_PEGTL_NAMESPACE
+   struct rule_info
    {
-      namespace analysis
+      explicit rule_info( const rule_type in_type ) noexcept
+         : type( in_type )
       {
-         struct rule_info
-         {
-            explicit rule_info( const rule_type in_type ) noexcept
-               : type( in_type )
-            {
-            }
+      }
 
-            rule_type type;
-            std::vector< std::string > rules;
-         };
+      rule_type type;
+      std::vector< std::string > rules;
+   };
 
-      }  // namespace analysis
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::analysis
 
 #endif

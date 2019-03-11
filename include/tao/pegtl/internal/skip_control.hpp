@@ -8,26 +8,18 @@
 
 #include "../config.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
-   {
-      namespace internal
-      {
-         // This class is a simple tagging mechanism.
-         // By default, skip_control< Rule > is  'false'.
-         // Each internal (!) rule that should be hidden
-         // from the control and action class' callbacks
-         // simply specializes skip_control<> to return
-         // 'true' for the above expression.
+   // This class is a simple tagging mechanism.
+   // By default, skip_control< Rule > is  'false'.
+   // Each internal (!) rule that should be hidden
+   // from the control and action class' callbacks
+   // simply specializes skip_control<> to return
+   // 'true' for the above expression.
 
-         template< typename Rule >
-         inline constexpr bool skip_control = false;
+   template< typename Rule >
+   inline constexpr bool skip_control = false;
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

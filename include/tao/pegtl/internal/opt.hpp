@@ -18,48 +18,40 @@
 
 #include "../analysis/generic.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename... Rules >
+   struct opt;
+
+   template<>
+   struct opt<>
+      : trivial< true >
    {
-      namespace internal
+   };
+
+   template< typename... Rules >
+   struct opt
+   {
+      using analyze_t = analysis::generic< analysis::rule_type::opt, Rules... >;
+
+      template< apply_mode A,
+                rewind_mode,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         template< typename... Rules >
-         struct opt;
+         (void)duseltronik< seq< Rules... >, A, rewind_mode::required, Action, Control >::match( in, st... );
+         return true;
+      }
+   };
 
-         template<>
-         struct opt<>
-            : trivial< true >
-         {
-         };
+   template< typename... Rules >
+   inline constexpr bool skip_control< opt< Rules... > > = true;
 
-         template< typename... Rules >
-         struct opt
-         {
-            using analyze_t = analysis::generic< analysis::rule_type::opt, Rules... >;
-
-            template< apply_mode A,
-                      rewind_mode,
-                      template< typename... >
-                      class Action,
-                      template< typename... >
-                      class Control,
-                      typename Input,
-                      typename... States >
-            [[nodiscard]] static bool match( Input& in, States&&... st )
-            {
-               (void)duseltronik< seq< Rules... >, A, rewind_mode::required, Action, Control >::match( in, st... );
-               return true;
-            }
-         };
-
-         template< typename... Rules >
-         inline constexpr bool skip_control< opt< Rules... > > = true;
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

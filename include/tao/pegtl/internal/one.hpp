@@ -15,65 +15,57 @@
 
 #include "../analysis/generic.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename Char >
+   [[nodiscard]] bool contains( const Char c, const std::initializer_list< Char >& l ) noexcept
    {
-      namespace internal
+      return std::find( l.begin(), l.end(), c ) != l.end();
+   }
+
+   template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
+   struct one
+   {
+      using analyze_t = analysis::generic< analysis::rule_type::any >;
+
+      template< typename Input >
+      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
       {
-         template< typename Char >
-         [[nodiscard]] bool contains( const Char c, const std::initializer_list< Char >& l ) noexcept
-         {
-            return std::find( l.begin(), l.end(), c ) != l.end();
+         if( !in.empty() ) {
+            if( const auto t = Peek::peek( in ) ) {
+               if( contains( t.data, { Cs... } ) == bool( R ) ) {
+                  bump_help< R, Input, typename Peek::data_t, Cs... >( in, t.size );
+                  return true;
+               }
+            }
          }
+         return false;
+      }
+   };
 
-         template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
-         struct one
-         {
-            using analyze_t = analysis::generic< analysis::rule_type::any >;
+   template< result_on_found R, typename Peek, typename Peek::data_t C >
+   struct one< R, Peek, C >
+   {
+      using analyze_t = analysis::generic< analysis::rule_type::any >;
 
-            template< typename Input >
-            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
-            {
-               if( !in.empty() ) {
-                  if( const auto t = Peek::peek( in ) ) {
-                     if( contains( t.data, { Cs... } ) == bool( R ) ) {
-                        bump_help< R, Input, typename Peek::data_t, Cs... >( in, t.size );
-                        return true;
-                     }
-                  }
+      template< typename Input >
+      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
+      {
+         if( !in.empty() ) {
+            if( const auto t = Peek::peek( in ) ) {
+               if( ( t.data == C ) == bool( R ) ) {
+                  bump_help< R, Input, typename Peek::data_t, C >( in, t.size );
+                  return true;
                }
-               return false;
             }
-         };
+         }
+         return false;
+      }
+   };
 
-         template< result_on_found R, typename Peek, typename Peek::data_t C >
-         struct one< R, Peek, C >
-         {
-            using analyze_t = analysis::generic< analysis::rule_type::any >;
+   template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
+   inline constexpr bool skip_control< one< R, Peek, Cs... > > = true;
 
-            template< typename Input >
-            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
-            {
-               if( !in.empty() ) {
-                  if( const auto t = Peek::peek( in ) ) {
-                     if( ( t.data == C ) == bool( R ) ) {
-                        bump_help< R, Input, typename Peek::data_t, C >( in, t.size );
-                        return true;
-                     }
-                  }
-               }
-               return false;
-            }
-         };
-
-         template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
-         inline constexpr bool skip_control< one< R, Peek, Cs... > > = true;
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

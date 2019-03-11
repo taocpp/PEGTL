@@ -13,47 +13,43 @@
 #include "../internal/skip_control.hpp"
 #include "../internal/trivial.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   namespace internal
    {
-      namespace internal
+      template< typename Cond, typename Then >
+      struct if_pair
       {
-         template< typename Cond, typename Then >
-         struct if_pair
-         {
-         };
+      };
 
-         template< typename... Pairs >
-         struct if_then;
+      template< typename... Pairs >
+      struct if_then;
 
-         template< typename Cond, typename Then, typename... Pairs >
-         struct if_then< if_pair< Cond, Then >, Pairs... >
-            : if_then_else< Cond, Then, if_then< Pairs... > >
-         {
-            template< typename ElseCond, typename... Thens >
-            using else_if_then = if_then< if_pair< Cond, Then >, Pairs..., if_pair< ElseCond, seq< Thens... > > >;
+      template< typename Cond, typename Then, typename... Pairs >
+      struct if_then< if_pair< Cond, Then >, Pairs... >
+         : if_then_else< Cond, Then, if_then< Pairs... > >
+      {
+         template< typename ElseCond, typename... Thens >
+         using else_if_then = if_then< if_pair< Cond, Then >, Pairs..., if_pair< ElseCond, seq< Thens... > > >;
 
-            template< typename... Thens >
-            using else_then = if_then_else< Cond, Then, if_then< Pairs..., if_pair< trivial< true >, seq< Thens... > > > >;
-         };
+         template< typename... Thens >
+         using else_then = if_then_else< Cond, Then, if_then< Pairs..., if_pair< trivial< true >, seq< Thens... > > > >;
+      };
 
-         template<>
-         struct if_then<>
-            : trivial< false >
-         {
-         };
+      template<>
+      struct if_then<>
+         : trivial< false >
+      {
+      };
 
-         template< typename... Pairs >
-         inline constexpr bool skip_control< if_then< Pairs... > > = true;
+      template< typename... Pairs >
+      inline constexpr bool skip_control< if_then< Pairs... > > = true;
 
-      }  // namespace internal
+   }  // namespace internal
 
-      template< typename Cond, typename... Thens >
-      using if_then = internal::if_then< internal::if_pair< Cond, internal::seq< Thens... > > >;
+   template< typename Cond, typename... Thens >
+   using if_then = internal::if_then< internal::if_pair< Cond, internal::seq< Thens... > > >;
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

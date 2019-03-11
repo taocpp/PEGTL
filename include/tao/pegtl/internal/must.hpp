@@ -14,67 +14,59 @@
 
 #include "../analysis/generic.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   // The general case applies must<> to each of the
+   // rules in the 'Rules' parameter pack individually.
+
+   template< typename... Rules >
+   struct must
    {
-      namespace internal
+      using analyze_t = analysis::generic< analysis::rule_type::seq, Rules... >;
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         // The general case applies must<> to each of the
-         // rules in the 'Rules' parameter pack individually.
+         return ( Control< must< Rules > >::template match< A, M, Action, Control >( in, st... ) && ... );
+      }
+   };
 
-         template< typename... Rules >
-         struct must
-         {
-            using analyze_t = analysis::generic< analysis::rule_type::seq, Rules... >;
+   // While in theory the implementation for a single rule could
+   // be simplified to must< Rule > = sor< Rule, raise< Rule > >, this
+   // would result in some unnecessary run-time overhead.
 
-            template< apply_mode A,
-                      rewind_mode M,
-                      template< typename... >
-                      class Action,
-                      template< typename... >
-                      class Control,
-                      typename Input,
-                      typename... States >
-            [[nodiscard]] static bool match( Input& in, States&&... st )
-            {
-               return ( Control< must< Rules > >::template match< A, M, Action, Control >( in, st... ) && ... );
-            }
-         };
+   template< typename Rule >
+   struct must< Rule >
+   {
+      using analyze_t = typename Rule::analyze_t;
 
-         // While in theory the implementation for a single rule could
-         // be simplified to must< Rule > = sor< Rule, raise< Rule > >, this
-         // would result in some unnecessary run-time overhead.
+      template< apply_mode A,
+                rewind_mode,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& in, States&&... st )
+      {
+         if( !Control< Rule >::template match< A, rewind_mode::dontcare, Action, Control >( in, st... ) ) {
+            (void)raise< Rule >::template match< A, rewind_mode::dontcare, Action, Control >( in, st... );
+         }
+         return true;
+      }
+   };
 
-         template< typename Rule >
-         struct must< Rule >
-         {
-            using analyze_t = typename Rule::analyze_t;
+   template< typename... Rules >
+   inline constexpr bool skip_control< must< Rules... > > = true;
 
-            template< apply_mode A,
-                      rewind_mode,
-                      template< typename... >
-                      class Action,
-                      template< typename... >
-                      class Control,
-                      typename Input,
-                      typename... States >
-            [[nodiscard]] static bool match( Input& in, States&&... st )
-            {
-               if( !Control< Rule >::template match< A, rewind_mode::dontcare, Action, Control >( in, st... ) ) {
-                  (void)raise< Rule >::template match< A, rewind_mode::dontcare, Action, Control >( in, st... );
-               }
-               return true;
-            }
-         };
-
-         template< typename... Rules >
-         inline constexpr bool skip_control< must< Rules... > > = true;
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

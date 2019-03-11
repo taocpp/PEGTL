@@ -14,61 +14,53 @@
 
 #include "../analysis/counted.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< unsigned Num, typename... Rules >
+   struct rep;
+
+   template< unsigned Num >
+   struct rep< Num >
+      : trivial< true >
    {
-      namespace internal
+   };
+
+   template< typename Rule, typename... Rules >
+   struct rep< 0, Rule, Rules... >
+      : trivial< true >
+   {
+   };
+
+   template< unsigned Num, typename... Rules >
+   struct rep
+   {
+      using analyze_t = analysis::counted< analysis::rule_type::seq, Num, Rules... >;
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         template< unsigned Num, typename... Rules >
-         struct rep;
+         auto m = in.template mark< M >();
+         using m_t = decltype( m );
 
-         template< unsigned Num >
-         struct rep< Num >
-            : trivial< true >
-         {
-         };
-
-         template< typename Rule, typename... Rules >
-         struct rep< 0, Rule, Rules... >
-            : trivial< true >
-         {
-         };
-
-         template< unsigned Num, typename... Rules >
-         struct rep
-         {
-            using analyze_t = analysis::counted< analysis::rule_type::seq, Num, Rules... >;
-
-            template< apply_mode A,
-                      rewind_mode M,
-                      template< typename... >
-                      class Action,
-                      template< typename... >
-                      class Control,
-                      typename Input,
-                      typename... States >
-            [[nodiscard]] static bool match( Input& in, States&&... st )
-            {
-               auto m = in.template mark< M >();
-               using m_t = decltype( m );
-
-               for( unsigned i = 0; i != Num; ++i ) {
-                  if( !( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) ) {
-                     return false;
-                  }
-               }
-               return m( true );
+         for( unsigned i = 0; i != Num; ++i ) {
+            if( !( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) ) {
+               return false;
             }
-         };
+         }
+         return m( true );
+      }
+   };
 
-         template< unsigned Num, typename... Rules >
-         inline constexpr bool skip_control< rep< Num, Rules... > > = true;
+   template< unsigned Num, typename... Rules >
+   inline constexpr bool skip_control< rep< Num, Rules... > > = true;
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

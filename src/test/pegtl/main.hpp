@@ -9,12 +9,12 @@
 
 int main( int /*unused*/, char** argv )
 {
-   tao::TAO_PEGTL_NAMESPACE::unit_test();
+   TAO_PEGTL_NAMESPACE::unit_test();
 
-   if( tao::TAO_PEGTL_NAMESPACE::failed != 0 ) {
-      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << tao::TAO_PEGTL_NAMESPACE::failed << std::endl;
+   if( TAO_PEGTL_NAMESPACE::failed != 0 ) {
+      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << TAO_PEGTL_NAMESPACE::failed << std::endl;
    }
-   return ( tao::TAO_PEGTL_NAMESPACE::failed == 0 ) ? EXIT_SUCCESS : EXIT_FAILURE;
+   return ( TAO_PEGTL_NAMESPACE::failed == 0 ) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 
 #endif

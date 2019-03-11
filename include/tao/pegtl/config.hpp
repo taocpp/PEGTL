@@ -5,7 +5,7 @@
 #define TAO_PEGTL_CONFIG_HPP
 
 #if !defined( TAO_PEGTL_NAMESPACE )
-#define TAO_PEGTL_NAMESPACE pegtl
+#define TAO_PEGTL_NAMESPACE tao::pegtl
 #endif
 
 // Enable some improvements to the readability of

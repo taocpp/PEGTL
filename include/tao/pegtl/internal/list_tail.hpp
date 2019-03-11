@@ -10,19 +10,11 @@
 #include "opt.hpp"
 #include "seq.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
-   {
-      namespace internal
-      {
-         template< typename Rule, typename Sep >
-         using list_tail = seq< list< Rule, Sep >, opt< Sep > >;
+   template< typename Rule, typename Sep >
+   using list_tail = seq< list< Rule, Sep >, opt< Sep > >;
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

@@ -8,35 +8,31 @@
 
 #include "../config.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   namespace internal
    {
-      namespace internal
-      {
-         template< typename >
-         struct to_string;
+      template< typename >
+      struct to_string;
 
-         template< template< char... > class X, char... Cs >
-         struct to_string< X< Cs... > >
+      template< template< char... > class X, char... Cs >
+      struct to_string< X< Cs... > >
+      {
+         [[nodiscard]] static std::string get()
          {
-            [[nodiscard]] static std::string get()
-            {
-               const char s[] = { Cs..., 0 };
-               return std::string( s, sizeof...( Cs ) );
-            }
-         };
+            const char s[] = { Cs..., 0 };
+            return std::string( s, sizeof...( Cs ) );
+         }
+      };
 
-      }  // namespace internal
+   }  // namespace internal
 
-      template< typename T >
-      [[nodiscard]] std::string to_string()
-      {
-         return internal::to_string< T >::get();
-      }
+   template< typename T >
+   [[nodiscard]] std::string to_string()
+   {
+      return internal::to_string< T >::get();
+   }
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

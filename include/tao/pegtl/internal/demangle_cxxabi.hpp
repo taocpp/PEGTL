@@ -13,29 +13,21 @@
 
 #include "demangle_sanitise.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   [[nodiscard]] inline std::string demangle( const char* symbol )
    {
-      namespace internal
-      {
-         [[nodiscard]] inline std::string demangle( const char* symbol )
-         {
-            const std::unique_ptr< char, decltype( &std::free ) > demangled( abi::__cxa_demangle( symbol, nullptr, nullptr, nullptr ), &std::free );
-            if( !demangled ) {
-               return symbol;
-            }
-            std::string result( demangled.get() );
+      const std::unique_ptr< char, decltype( &std::free ) > demangled( abi::__cxa_demangle( symbol, nullptr, nullptr, nullptr ), &std::free );
+      if( !demangled ) {
+         return symbol;
+      }
+      std::string result( demangled.get() );
 #if defined( TAO_PEGTL_PRETTY_DEMANGLE )
-            demangle_sanitise_chars( result );  // LCOV_EXCL_LINE
+      demangle_sanitise_chars( result );  // LCOV_EXCL_LINE
 #endif
-            return result;
-         }
+      return result;
+   }
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

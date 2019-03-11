@@ -18,31 +18,27 @@
 #include "read_input.hpp"
 #endif
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
-   {
 #if defined( _POSIX_MAPPED_FILES ) || defined( _WIN32 )
-      template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
-      struct file_input
-         : mmap_input< P, Eol >
-      {
-         using mmap_input< P, Eol >::mmap_input;
-      };
+   template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
+   struct file_input
+      : mmap_input< P, Eol >
+   {
+      using mmap_input< P, Eol >::mmap_input;
+   };
 #else
-      template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
-      struct file_input
-         : read_input< P, Eol >
-      {
-         using read_input< P, Eol >::read_input;
-      };
+   template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
+   struct file_input
+      : read_input< P, Eol >
+   {
+      using read_input< P, Eol >::read_input;
+   };
 #endif
 
-      template< typename... Ts >
-      explicit file_input( Ts&&... )->file_input<>;
+   template< typename... Ts >
+   explicit file_input( Ts&&... )->file_input<>;
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

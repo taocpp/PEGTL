@@ -8,35 +8,27 @@
 
 #include <type_traits>
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename Action >
+   struct apply_single
    {
-      namespace internal
+      template< typename Input, typename... States >
+      [[nodiscard]] static auto match( const Input& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
+         -> std::enable_if_t< std::is_same_v< decltype( Action::apply( in, st... ) ), void >, bool >
       {
-         template< typename Action >
-         struct apply_single
-         {
-            template< typename Input, typename... States >
-            [[nodiscard]] static auto match( const Input& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
-               -> std::enable_if_t< std::is_same_v< decltype( Action::apply( in, st... ) ), void >, bool >
-            {
-               Action::apply( in, st... );
-               return true;
-            }
+         Action::apply( in, st... );
+         return true;
+      }
 
-            template< typename Input, typename... States >
-            [[nodiscard]] static auto match( const Input& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
-               -> std::enable_if_t< std::is_same_v< decltype( Action::apply( in, st... ) ), bool >, bool >
-            {
-               return Action::apply( in, st... );
-            }
-         };
+      template< typename Input, typename... States >
+      [[nodiscard]] static auto match( const Input& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
+         -> std::enable_if_t< std::is_same_v< decltype( Action::apply( in, st... ) ), bool >, bool >
+      {
+         return Action::apply( in, st... );
+      }
+   };
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

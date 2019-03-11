@@ -19,43 +19,35 @@
 
 #include "../analysis/generic.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   // While plus<> could easily be implemented with
+   // seq< Rule, Rules ..., star< Rule, Rules ... > > we
+   // provide an explicit implementation to optimise away
+   // the otherwise created input mark.
+
+   template< typename Rule, typename... Rules >
+   struct plus
    {
-      namespace internal
+      using analyze_t = analysis::generic< analysis::rule_type::seq, Rule, Rules..., opt< plus > >;
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         // While plus<> could easily be implemented with
-         // seq< Rule, Rules ..., star< Rule, Rules ... > > we
-         // provide an explicit implementation to optimise away
-         // the otherwise created input mark.
+         return seq< Rule, Rules... >::template match< A, M, Action, Control >( in, st... ) && star< Rule, Rules... >::template match< A, M, Action, Control >( in, st... );
+      }
+   };
 
-         template< typename Rule, typename... Rules >
-         struct plus
-         {
-            using analyze_t = analysis::generic< analysis::rule_type::seq, Rule, Rules..., opt< plus > >;
+   template< typename Rule, typename... Rules >
+   inline constexpr bool skip_control< plus< Rule, Rules... > > = true;
 
-            template< apply_mode A,
-                      rewind_mode M,
-                      template< typename... >
-                      class Action,
-                      template< typename... >
-                      class Control,
-                      typename Input,
-                      typename... States >
-            [[nodiscard]] static bool match( Input& in, States&&... st )
-            {
-               return seq< Rule, Rules... >::template match< A, M, Action, Control >( in, st... ) && star< Rule, Rules... >::template match< A, M, Action, Control >( in, st... );
-            }
-         };
-
-         template< typename Rule, typename... Rules >
-         inline constexpr bool skip_control< plus< Rule, Rules... > > = true;
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

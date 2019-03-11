@@ -15,43 +15,39 @@
 
 #include "internal/action_input.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename Rule,
+             template< typename... > class Action = nothing,
+             template< typename... > class Control = normal,
+             apply_mode A = apply_mode::action,
+             rewind_mode M = rewind_mode::required,
+             typename Input,
+             typename... States >
+   bool parse( Input&& in, States&&... st )
    {
-      template< typename Rule,
-                template< typename... > class Action = nothing,
-                template< typename... > class Control = normal,
-                apply_mode A = apply_mode::action,
-                rewind_mode M = rewind_mode::required,
-                typename Input,
-                typename... States >
-      bool parse( Input&& in, States&&... st )
-      {
-         return Control< Rule >::template match< A, M, Action, Control >( in, st... );
+      return Control< Rule >::template match< A, M, Action, Control >( in, st... );
+   }
+
+   template< typename Rule,
+             template< typename... > class Action = nothing,
+             template< typename... > class Control = normal,
+             apply_mode A = apply_mode::action,
+             rewind_mode M = rewind_mode::required,
+             typename Outer,
+             typename Input,
+             typename... States >
+   bool parse_nested( const Outer& oi, Input&& in, States&&... st )
+   {
+      try {
+         return parse< Rule, Action, Control, A, M >( in, st... );
       }
-
-      template< typename Rule,
-                template< typename... > class Action = nothing,
-                template< typename... > class Control = normal,
-                apply_mode A = apply_mode::action,
-                rewind_mode M = rewind_mode::required,
-                typename Outer,
-                typename Input,
-                typename... States >
-      bool parse_nested( const Outer& oi, Input&& in, States&&... st )
-      {
-         try {
-            return parse< Rule, Action, Control, A, M >( in, st... );
-         }
-         catch( parse_error& e ) {
-            e.positions.push_back( oi.position() );
-            throw;
-         }
+      catch( parse_error& e ) {
+         e.positions.push_back( oi.position() );
+         throw;
       }
+   }
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

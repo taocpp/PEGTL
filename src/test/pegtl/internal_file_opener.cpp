@@ -7,27 +7,23 @@
 
 #include "test.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   void unit_test()
    {
-      void unit_test()
-      {
-         const internal::file_opener fo( "Makefile" );
-         ::close( fo.m_fd );  // Provoke exception, nobody would normally do this.
-         try {
-            (void)fo.size();  // expected to throw
+      const internal::file_opener fo( "Makefile" );
+      ::close( fo.m_fd );  // Provoke exception, nobody would normally do this.
+      try {
+         (void)fo.size();  // expected to throw
 
-            std::cerr << "pegtl: unit test failed for [ internal::file_opener ] " << std::endl;
-            ++failed;
-         }
-         catch( const std::exception& ) {
-         }
+         std::cerr << "pegtl: unit test failed for [ internal::file_opener ] " << std::endl;
+         ++failed;
       }
+      catch( const std::exception& ) {
+      }
+   }
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"
 

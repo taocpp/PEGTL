@@ -3,7 +3,7 @@
 
 #include <tao/pegtl.hpp>
 
-using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
+using namespace TAO_PEGTL_NAMESPACE;  // NOLINT
 
 namespace modulus
 {

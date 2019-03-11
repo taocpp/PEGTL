@@ -7,14 +7,14 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/json.hpp>
 
-namespace pegtl = tao::TAO_PEGTL_NAMESPACE;
+namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 namespace examples
 {
    // This file shows how to throw exceptions with
    // custom error messages for parse errors. A custom
    // control class is created that delegates everything
-   // to the PEGTL default control class tao::TAO_PEGTL_NAMESPACE::normal<>
+   // to the PEGTL default control class TAO_PEGTL_NAMESPACE::normal<>
    // except for the throwing of exceptions:
 
    template< typename Rule >

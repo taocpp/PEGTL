@@ -11,29 +11,21 @@
 
 #include "input_pair.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< std::uint8_t M >
+   struct peek_mask_uint8
    {
-      namespace internal
+      using data_t = std::uint8_t;
+      using pair_t = input_pair< std::uint8_t >;
+
+      template< typename Input >
+      [[nodiscard]] static pair_t peek( Input& in, const std::size_t o = 0 ) noexcept( noexcept( in.peek_uint8( 0 ) ) )
       {
-         template< std::uint8_t M >
-         struct peek_mask_uint8
-         {
-            using data_t = std::uint8_t;
-            using pair_t = input_pair< std::uint8_t >;
+         return { std::uint8_t( in.peek_uint8( o ) & M ), 1 };
+      }
+   };
 
-            template< typename Input >
-            [[nodiscard]] static pair_t peek( Input& in, const std::size_t o = 0 ) noexcept( noexcept( in.peek_uint8( 0 ) ) )
-            {
-               return { std::uint8_t( in.peek_uint8( o ) & M ), 1 };
-            }
-         };
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

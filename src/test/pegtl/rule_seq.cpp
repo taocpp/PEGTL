@@ -4,17 +4,13 @@
 #include "test.hpp"
 #include "verify_seqs.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   void unit_test()
    {
-      void unit_test()
-      {
-         verify_seqs< seq >();
-      }
+      verify_seqs< seq >();
+   }
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"

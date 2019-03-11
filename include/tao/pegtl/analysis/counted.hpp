@@ -8,22 +8,14 @@
 
 #include "generic.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::analysis
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< rule_type Type, unsigned Count, typename... Rules >
+   struct counted
+      : generic< ( Count != 0 ) ? Type : rule_type::opt, Rules... >
    {
-      namespace analysis
-      {
-         template< rule_type Type, unsigned Count, typename... Rules >
-         struct counted
-            : generic< ( Count != 0 ) ? Type : rule_type::opt, Rules... >
-         {
-         };
+   };
 
-      }  // namespace analysis
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::analysis
 
 #endif

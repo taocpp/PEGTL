@@ -11,54 +11,46 @@
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
-   {
-      namespace internal
-      {
-         template< typename,
-                   typename Rule,
-                   apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename Input,
-                   typename... States >
-         struct has_match
-            : std::false_type
-         {};
+   template< typename,
+             typename Rule,
+             apply_mode A,
+             rewind_mode M,
+             template< typename... >
+             class Action,
+             template< typename... >
+             class Control,
+             typename Input,
+             typename... States >
+   struct has_match
+      : std::false_type
+   {};
 
-         template< typename Rule,
-                   apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename Input,
-                   typename... States >
-         struct has_match< decltype( (void)Action< Rule >::template match< Rule, A, M, Action, Control >( std::declval< Input& >(), std::declval< States&& >()... ), void() ), Rule, A, M, Action, Control, Input, States... >
-            : std::true_type
-         {};
+   template< typename Rule,
+             apply_mode A,
+             rewind_mode M,
+             template< typename... >
+             class Action,
+             template< typename... >
+             class Control,
+             typename Input,
+             typename... States >
+   struct has_match< decltype( (void)Action< Rule >::template match< Rule, A, M, Action, Control >( std::declval< Input& >(), std::declval< States&& >()... ), void() ), Rule, A, M, Action, Control, Input, States... >
+      : std::true_type
+   {};
 
-         template< typename Rule,
-                   apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename Input,
-                   typename... States >
-         inline constexpr bool has_match_v = has_match< void, Rule, A, M, Action, Control, Input, States... >::value;
+   template< typename Rule,
+             apply_mode A,
+             rewind_mode M,
+             template< typename... >
+             class Action,
+             template< typename... >
+             class Control,
+             typename Input,
+             typename... States >
+   inline constexpr bool has_match_v = has_match< void, Rule, A, M, Action, Control, Input, States... >::value;
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

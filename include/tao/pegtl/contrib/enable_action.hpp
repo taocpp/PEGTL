@@ -11,29 +11,25 @@
 #include "../match.hpp"
 #include "../rewind_mode.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   struct enable_action
    {
-      struct enable_action
+      template< typename Rule,
+                apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         template< typename Rule,
-                   apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename Input,
-                   typename... States >
-         [[nodiscard]] static bool match( Input& in, States&&... st )
-         {
-            return TAO_PEGTL_NAMESPACE::match< Rule, apply_mode::action, M, Action, Control >( in, st... );
-         }
-      };
+         return TAO_PEGTL_NAMESPACE::match< Rule, apply_mode::action, M, Action, Control >( in, st... );
+      }
+   };
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

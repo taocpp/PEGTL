@@ -13,24 +13,20 @@
 
 #include "test.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename Rule, template< typename > class Action = nothing, typename... States >
+   void verify_fail( const std::size_t line, const char* file, const std::string& s, States&&... st )
    {
-      template< typename Rule, template< typename > class Action = nothing, typename... States >
-      void verify_fail( const std::size_t line, const char* file, const std::string& s, States&&... st )
-      {
-         try {
-            memory_input in( s, "expect exception" );
-            parse< Rule, Action >( in, st... );
-            TAO_PEGTL_TEST_FAILED( "expected exception" );
-         }
-         catch( ... ) {
-         }
+      try {
+         memory_input in( s, "expect exception" );
+         parse< Rule, Action >( in, st... );
+         TAO_PEGTL_TEST_FAILED( "expected exception" );
       }
+      catch( ... ) {
+      }
+   }
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

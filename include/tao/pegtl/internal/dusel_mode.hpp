@@ -6,22 +6,18 @@
 
 #include "../config.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   enum class dusel_mode : char
    {
-      enum class dusel_mode : char
-      {
-         nothing = 0,
-         control = 1,
-         control_and_apply_void = 2,
-         control_and_apply_bool = 3,
-         control_and_apply0_void = 4,
-         control_and_apply0_bool = 5
-      };
+      nothing = 0,
+      control = 1,
+      control_and_apply_void = 2,
+      control_and_apply_bool = 3,
+      control_and_apply0_void = 4,
+      control_and_apply0_bool = 5
+   };
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

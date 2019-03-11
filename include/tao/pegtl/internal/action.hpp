@@ -15,38 +15,30 @@
 
 #include "../analysis/generic.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< template< typename... > class Action, typename... Rules >
+   struct action
    {
-      namespace internal
+      using analyze_t = analysis::generic< analysis::rule_type::seq, Rules... >;
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         template< template< typename... > class Action, typename... Rules >
-         struct action
-         {
-            using analyze_t = analysis::generic< analysis::rule_type::seq, Rules... >;
+         return duseltronik< seq< Rules... >, A, M, Action, Control >::match( in, st... );
+      }
+   };
 
-            template< apply_mode A,
-                      rewind_mode M,
-                      template< typename... >
-                      class,
-                      template< typename... >
-                      class Control,
-                      typename Input,
-                      typename... States >
-            [[nodiscard]] static bool match( Input& in, States&&... st )
-            {
-               return duseltronik< seq< Rules... >, A, M, Action, Control >::match( in, st... );
-            }
-         };
+   template< template< typename... > class Action, typename... Rules >
+   inline constexpr bool skip_control< action< Action, Rules... > > = true;
 
-         template< template< typename... > class Action, typename... Rules >
-         inline constexpr bool skip_control< action< Action, Rules... > > = true;
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

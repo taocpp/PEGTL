@@ -4,20 +4,16 @@
 #include "test.hpp"
 #include "verify_seqs.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename... Rules >
+   using test_action_rule = action< nothing, Rules... >;
+
+   void unit_test()
    {
-      template< typename... Rules >
-      using test_action_rule = action< nothing, Rules... >;
+      verify_seqs< test_action_rule >();
+   }
 
-      void unit_test()
-      {
-         verify_seqs< test_action_rule >();
-      }
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"

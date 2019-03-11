@@ -9,19 +9,11 @@
 #include "if_must.hpp"
 #include "star.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
-   {
-      namespace internal
-      {
-         template< typename Cond, typename... Rules >
-         using star_must = star< if_must< false, Cond, Rules... > >;
+   template< typename Cond, typename... Rules >
+   using star_must = star< if_must< false, Cond, Rules... > >;
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

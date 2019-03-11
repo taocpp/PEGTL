@@ -10,35 +10,27 @@
 
 #include "../analysis/counted.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< unsigned Num >
+   struct bytes
    {
-      namespace internal
+      using analyze_t = analysis::counted< analysis::rule_type::any, Num >;
+
+      template< typename Input >
+      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
       {
-         template< unsigned Num >
-         struct bytes
-         {
-            using analyze_t = analysis::counted< analysis::rule_type::any, Num >;
+         if( in.size( Num ) >= Num ) {
+            in.bump( Num );
+            return true;
+         }
+         return false;
+      }
+   };
 
-            template< typename Input >
-            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
-            {
-               if( in.size( Num ) >= Num ) {
-                  in.bump( Num );
-                  return true;
-               }
-               return false;
-            }
-         };
+   template< unsigned Num >
+   inline constexpr bool skip_control< bytes< Num > > = true;
 
-         template< unsigned Num >
-         inline constexpr bool skip_control< bytes< Num > > = true;
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

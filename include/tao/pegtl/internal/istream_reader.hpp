@@ -9,40 +9,32 @@
 
 #include "../config.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   struct istream_reader
    {
-      namespace internal
+      explicit istream_reader( std::istream& s ) noexcept
+         : m_istream( s )
       {
-         struct istream_reader
-         {
-            explicit istream_reader( std::istream& s ) noexcept
-               : m_istream( s )
-            {
-            }
+      }
 
-            [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length )
-            {
-               m_istream.read( buffer, std::streamsize( length ) );
+      [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length )
+      {
+         m_istream.read( buffer, std::streamsize( length ) );
 
-               if( const auto r = m_istream.gcount() ) {
-                  return std::size_t( r );
-               }
-               if( m_istream.eof() ) {
-                  return 0;
-               }
-               const auto ec = errno;
-               throw std::system_error( ec, std::system_category(), "std::istream::read() failed" );
-            }
+         if( const auto r = m_istream.gcount() ) {
+            return std::size_t( r );
+         }
+         if( m_istream.eof() ) {
+            return 0;
+         }
+         const auto ec = errno;
+         throw std::system_error( ec, std::system_category(), "std::istream::read() failed" );
+      }
 
-            std::istream& m_istream;
-         };
+      std::istream& m_istream;
+   };
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

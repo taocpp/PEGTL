@@ -9,19 +9,11 @@
 #include "seq.hpp"
 #include "star.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
-   {
-      namespace internal
-      {
-         template< typename Rule, typename Pad1, typename Pad2 = Pad1 >
-         using pad = seq< star< Pad1 >, Rule, star< Pad2 > >;
+   template< typename Rule, typename Pad1, typename Pad2 = Pad1 >
+   using pad = seq< star< Pad1 >, Rule, star< Pad2 > >;
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

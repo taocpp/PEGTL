@@ -12,47 +12,43 @@
 
 #include "../internal/demangle.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   struct counter_data
    {
-      struct counter_data
+      unsigned start = 0;
+      unsigned success = 0;
+      unsigned failure = 0;
+   };
+
+   struct counter_state
+   {
+      std::map< std::string, counter_data > counts;
+   };
+
+   template< typename Rule >
+   struct counter
+      : normal< Rule >
+   {
+      template< typename Input >
+      static void start( const Input& /*unused*/, counter_state& ts )
       {
-         unsigned start = 0;
-         unsigned success = 0;
-         unsigned failure = 0;
-      };
+         ++ts.counts[ internal::demangle< Rule >() ].start;
+      }
 
-      struct counter_state
+      template< typename Input >
+      static void success( const Input& /*unused*/, counter_state& ts )
       {
-         std::map< std::string, counter_data > counts;
-      };
+         ++ts.counts[ internal::demangle< Rule >() ].success;
+      }
 
-      template< typename Rule >
-      struct counter
-         : normal< Rule >
+      template< typename Input >
+      static void failure( const Input& /*unused*/, counter_state& ts )
       {
-         template< typename Input >
-         static void start( const Input& /*unused*/, counter_state& ts )
-         {
-            ++ts.counts[ internal::demangle< Rule >() ].start;
-         }
+         ++ts.counts[ internal::demangle< Rule >() ].failure;
+      }
+   };
 
-         template< typename Input >
-         static void success( const Input& /*unused*/, counter_state& ts )
-         {
-            ++ts.counts[ internal::demangle< Rule >() ].success;
-         }
-
-         template< typename Input >
-         static void failure( const Input& /*unused*/, counter_state& ts )
-         {
-            ++ts.counts[ internal::demangle< Rule >() ].failure;
-         }
-      };
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

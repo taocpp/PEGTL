@@ -9,18 +9,14 @@
 #include "test.hpp"
 #include "verify_file.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   void unit_test()
    {
-      void unit_test()
-      {
-         verify_file< mmap_input<> >();
-      }
+      verify_file< mmap_input<> >();
+   }
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"
 

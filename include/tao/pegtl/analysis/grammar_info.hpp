@@ -13,28 +13,20 @@
 
 #include "rule_info.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::analysis
 {
-   namespace TAO_PEGTL_NAMESPACE
+   struct grammar_info
    {
-      namespace analysis
+      using map_t = std::map< std::string, rule_info >;
+      map_t map;
+
+      template< typename Name >
+      auto insert( const rule_type type )
       {
-         struct grammar_info
-         {
-            using map_t = std::map< std::string, rule_info >;
-            map_t map;
+         return map.emplace( internal::demangle< Name >(), rule_info( type ) );
+      }
+   };
 
-            template< typename Name >
-            auto insert( const rule_type type )
-            {
-               return map.emplace( internal::demangle< Name >(), rule_info( type ) );
-            }
-         };
-
-      }  // namespace analysis
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::analysis
 
 #endif

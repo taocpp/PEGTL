@@ -8,18 +8,14 @@
 
 #include "analysis/analyze_cycles.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename Rule >
+   [[nodiscard]] std::size_t analyze( const bool verbose = true )
    {
-      template< typename Rule >
-      [[nodiscard]] std::size_t analyze( const bool verbose = true )
-      {
-         return analysis::analyze_cycles< Rule >( verbose ).problems();
-      }
+      return analysis::analyze_cycles< Rule >( verbose ).problems();
+   }
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

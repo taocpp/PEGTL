@@ -14,41 +14,37 @@
 
 #include "internal/iterator.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   struct position
    {
-      struct position
+      template< typename T >
+      position( const internal::iterator& in_iter, T&& in_source )
+         : byte( in_iter.byte ),
+           line( in_iter.line ),
+           byte_in_line( in_iter.byte_in_line ),
+           source( std::forward< T >( in_source ) )
       {
-         template< typename T >
-         position( const internal::iterator& in_iter, T&& in_source )
-            : byte( in_iter.byte ),
-              line( in_iter.line ),
-              byte_in_line( in_iter.byte_in_line ),
-              source( std::forward< T >( in_source ) )
-         {
-         }
-
-         std::size_t byte;
-         std::size_t line;
-         std::size_t byte_in_line;
-         std::string source;
-      };
-
-      inline std::ostream& operator<<( std::ostream& o, const position& p )
-      {
-         return o << p.source << ':' << p.line << ':' << p.byte_in_line << '(' << p.byte << ')';
       }
 
-      [[nodiscard]] inline std::string to_string( const position& p )
-      {
-         std::ostringstream o;
-         o << p;
-         return o.str();
-      }
+      std::size_t byte;
+      std::size_t line;
+      std::size_t byte_in_line;
+      std::string source;
+   };
 
-   }  // namespace TAO_PEGTL_NAMESPACE
+   inline std::ostream& operator<<( std::ostream& o, const position& p )
+   {
+      return o << p.source << ':' << p.line << ':' << p.byte_in_line << '(' << p.byte << ')';
+   }
 
-}  // namespace tao
+   [[nodiscard]] inline std::string to_string( const position& p )
+   {
+      std::ostringstream o;
+      o << p;
+      return o.str();
+   }
+
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

@@ -11,27 +11,19 @@
 
 #include "result_on_found.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< result_on_found R, typename Input, typename Char, Char... Cs >
+   void bump_help( Input& in, const std::size_t count ) noexcept
    {
-      namespace internal
-      {
-         template< result_on_found R, typename Input, typename Char, Char... Cs >
-         void bump_help( Input& in, const std::size_t count ) noexcept
-         {
-            if constexpr( ( ( Cs != Input::eol_t::ch ) && ... ) != bool( R ) ) {
-               in.bump( count );
-            }
-            else {
-               in.bump_in_this_line( count );
-            }
-         }
+      if constexpr( ( ( Cs != Input::eol_t::ch ) && ... ) != bool( R ) ) {
+         in.bump( count );
+      }
+      else {
+         in.bump_in_this_line( count );
+      }
+   }
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

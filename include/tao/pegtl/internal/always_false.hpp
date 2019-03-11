@@ -8,22 +8,14 @@
 
 #include <type_traits>
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename... >
+   struct always_false
+      : std::false_type
    {
-      namespace internal
-      {
-         template< typename... >
-         struct always_false
-            : std::false_type
-         {
-         };
+   };
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

@@ -8,52 +8,44 @@
 
 #include "../config.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::analysis
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename C >
+   class insert_guard
    {
-      namespace analysis
+   public:
+      insert_guard( C& container, const typename C::value_type& value )
+         : m_i( container.insert( value ) ),
+           m_c( container )
       {
-         template< typename C >
-         class insert_guard
-         {
-         public:
-            insert_guard( C& container, const typename C::value_type& value )
-               : m_i( container.insert( value ) ),
-                 m_c( container )
-            {
-            }
+      }
 
-            insert_guard( const insert_guard& ) = delete;
-            insert_guard( insert_guard&& ) = delete;
+      insert_guard( const insert_guard& ) = delete;
+      insert_guard( insert_guard&& ) = delete;
 
-            ~insert_guard()
-            {
-               if( m_i.second ) {
-                  m_c.erase( m_i.first );
-               }
-            }
+      ~insert_guard()
+      {
+         if( m_i.second ) {
+            m_c.erase( m_i.first );
+         }
+      }
 
-            void operator=( const insert_guard& ) = delete;
-            void operator=( insert_guard&& ) = delete;
+      void operator=( const insert_guard& ) = delete;
+      void operator=( insert_guard&& ) = delete;
 
-            explicit operator bool() const noexcept
-            {
-               return m_i.second;
-            }
+      explicit operator bool() const noexcept
+      {
+         return m_i.second;
+      }
 
-         private:
-            const std::pair< typename C::iterator, bool > m_i;
-            C& m_c;
-         };
+   private:
+      const std::pair< typename C::iterator, bool > m_i;
+      C& m_c;
+   };
 
-         template< typename C >
-         insert_guard( C&, const typename C::value_type& )->insert_guard< C >;
+   template< typename C >
+   insert_guard( C&, const typename C::value_type& )->insert_guard< C >;
 
-      }  // namespace analysis
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::analysis
 
 #endif

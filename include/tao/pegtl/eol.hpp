@@ -14,28 +14,24 @@
 #include "internal/lf_crlf_eol.hpp"
 #include "internal/lf_eol.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   inline namespace ascii
    {
-      inline namespace ascii
+      // this is both a rule and a pseudo-namespace for eol::cr, ...
+      struct eol : internal::eol
       {
-         // this is both a rule and a pseudo-namespace for eol::cr, ...
-         struct eol : internal::eol
-         {
-            // clang-format off
-            struct cr : internal::cr_eol {};
-            struct cr_crlf : internal::cr_crlf_eol {};
-            struct crlf : internal::crlf_eol {};
-            struct lf : internal::lf_eol {};
-            struct lf_crlf : internal::lf_crlf_eol {};
-            // clang-format on
-         };
+         // clang-format off
+         struct cr : internal::cr_eol {};
+         struct cr_crlf : internal::cr_crlf_eol {};
+         struct crlf : internal::crlf_eol {};
+         struct lf : internal::lf_eol {};
+         struct lf_crlf : internal::lf_crlf_eol {};
+         // clang-format on
+      };
 
-      }  // namespace ascii
+   }  // namespace ascii
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

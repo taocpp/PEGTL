@@ -5,33 +5,29 @@
 #include "verify_analyze.hpp"
 #include "verify_rule.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   void unit_test()
    {
-      void unit_test()
-      {
-         verify_analyze< shebang >( __LINE__, __FILE__, true, false );
+      verify_analyze< shebang >( __LINE__, __FILE__, true, false );
 
-         verify_rule< shebang >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
-         verify_rule< shebang >( __LINE__, __FILE__, "#", result_type::local_failure, 1 );
-         verify_rule< shebang >( __LINE__, __FILE__, "!", result_type::local_failure, 1 );
-         verify_rule< shebang >( __LINE__, __FILE__, "!#", result_type::local_failure, 2 );
-         verify_rule< shebang >( __LINE__, __FILE__, "#  ", result_type::local_failure, 3 );
-         verify_rule< shebang >( __LINE__, __FILE__, "!  ", result_type::local_failure, 3 );
-         verify_rule< shebang >( __LINE__, __FILE__, "## ", result_type::local_failure, 3 );
-         verify_rule< shebang >( __LINE__, __FILE__, "!! ", result_type::local_failure, 3 );
-         verify_rule< shebang >( __LINE__, __FILE__, "#!", result_type::success, 0 );
-         verify_rule< shebang >( __LINE__, __FILE__, "#! ", result_type::success, 0 );
-         verify_rule< shebang >( __LINE__, __FILE__, "#!/bin/bash", result_type::success, 0 );
-         verify_rule< shebang >( __LINE__, __FILE__, "#!/bin/bash\n", result_type::success, 0 );
-         verify_rule< shebang >( __LINE__, __FILE__, "#!/bin/bash\n#!/b", result_type::success, 4 );
-         verify_rule< shebang >( __LINE__, __FILE__, "#!\n", result_type::success, 0 );
-         verify_rule< shebang >( __LINE__, __FILE__, "#!\n ", result_type::success, 1 );
-      }
+      verify_rule< shebang >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+      verify_rule< shebang >( __LINE__, __FILE__, "#", result_type::local_failure, 1 );
+      verify_rule< shebang >( __LINE__, __FILE__, "!", result_type::local_failure, 1 );
+      verify_rule< shebang >( __LINE__, __FILE__, "!#", result_type::local_failure, 2 );
+      verify_rule< shebang >( __LINE__, __FILE__, "#  ", result_type::local_failure, 3 );
+      verify_rule< shebang >( __LINE__, __FILE__, "!  ", result_type::local_failure, 3 );
+      verify_rule< shebang >( __LINE__, __FILE__, "## ", result_type::local_failure, 3 );
+      verify_rule< shebang >( __LINE__, __FILE__, "!! ", result_type::local_failure, 3 );
+      verify_rule< shebang >( __LINE__, __FILE__, "#!", result_type::success, 0 );
+      verify_rule< shebang >( __LINE__, __FILE__, "#! ", result_type::success, 0 );
+      verify_rule< shebang >( __LINE__, __FILE__, "#!/bin/bash", result_type::success, 0 );
+      verify_rule< shebang >( __LINE__, __FILE__, "#!/bin/bash\n", result_type::success, 0 );
+      verify_rule< shebang >( __LINE__, __FILE__, "#!/bin/bash\n#!/b", result_type::success, 4 );
+      verify_rule< shebang >( __LINE__, __FILE__, "#!\n", result_type::success, 0 );
+      verify_rule< shebang >( __LINE__, __FILE__, "#!\n ", result_type::success, 1 );
+   }
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"

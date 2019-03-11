@@ -6,22 +6,14 @@
 
 #include "../config.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   enum class result_on_found : bool
    {
-      namespace internal
-      {
-         enum class result_on_found : bool
-         {
-            success = true,
-            failure = false
-         };
+      success = true,
+      failure = false
+   };
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

@@ -15,56 +15,48 @@
 #include "endian_gcc.hpp"
 #endif
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename N >
+   [[nodiscard]] N h_to_be( const N n ) noexcept
    {
-      namespace internal
-      {
-         template< typename N >
-         [[nodiscard]] N h_to_be( const N n ) noexcept
-         {
-            return N( to_and_from_be< sizeof( N ) >::convert( n ) );
-         }
+      return N( to_and_from_be< sizeof( N ) >::convert( n ) );
+   }
 
-         template< typename N >
-         [[nodiscard]] N be_to_h( const N n ) noexcept
-         {
-            return h_to_be( n );
-         }
+   template< typename N >
+   [[nodiscard]] N be_to_h( const N n ) noexcept
+   {
+      return h_to_be( n );
+   }
 
-         template< typename N >
-         [[nodiscard]] N be_to_h( const void* p ) noexcept
-         {
-            N n;
-            std::memcpy( &n, p, sizeof( n ) );
-            return internal::be_to_h( n );
-         }
+   template< typename N >
+   [[nodiscard]] N be_to_h( const void* p ) noexcept
+   {
+      N n;
+      std::memcpy( &n, p, sizeof( n ) );
+      return internal::be_to_h( n );
+   }
 
-         template< typename N >
-         [[nodiscard]] N h_to_le( const N n ) noexcept
-         {
-            return N( to_and_from_le< sizeof( N ) >::convert( n ) );
-         }
+   template< typename N >
+   [[nodiscard]] N h_to_le( const N n ) noexcept
+   {
+      return N( to_and_from_le< sizeof( N ) >::convert( n ) );
+   }
 
-         template< typename N >
-         [[nodiscard]] N le_to_h( const N n ) noexcept
-         {
-            return h_to_le( n );
-         }
+   template< typename N >
+   [[nodiscard]] N le_to_h( const N n ) noexcept
+   {
+      return h_to_le( n );
+   }
 
-         template< typename N >
-         [[nodiscard]] N le_to_h( const void* p ) noexcept
-         {
-            N n;
-            std::memcpy( &n, p, sizeof( n ) );
-            return internal::le_to_h( n );
-         }
+   template< typename N >
+   [[nodiscard]] N le_to_h( const void* p ) noexcept
+   {
+      N n;
+      std::memcpy( &n, p, sizeof( n ) );
+      return internal::le_to_h( n );
+   }
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

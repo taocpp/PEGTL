@@ -9,25 +9,17 @@
 #include "grammar_info.hpp"
 #include "rule_info.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::analysis
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename... Rules >
+   struct insert_rules
    {
-      namespace analysis
+      static void insert( grammar_info& g, rule_info& r )
       {
-         template< typename... Rules >
-         struct insert_rules
-         {
-            static void insert( grammar_info& g, rule_info& r )
-            {
-               ( r.rules.emplace_back( Rules::analyze_t::template insert< Rules >( g ) ), ... );
-            }
-         };
+         ( r.rules.emplace_back( Rules::analyze_t::template insert< Rules >( g ) ), ... );
+      }
+   };
 
-      }  // namespace analysis
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::analysis
 
 #endif

@@ -10,30 +10,22 @@
 
 #include "../analysis/generic.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   struct eol
    {
-      namespace internal
+      using analyze_t = analysis::generic< analysis::rule_type::any >;
+
+      template< typename Input >
+      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( Input::eol_t::match( in ) ) )
       {
-         struct eol
-         {
-            using analyze_t = analysis::generic< analysis::rule_type::any >;
+         return Input::eol_t::match( in ).first;
+      }
+   };
 
-            template< typename Input >
-            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( Input::eol_t::match( in ) ) )
-            {
-               return Input::eol_t::match( in ).first;
-            }
-         };
+   template<>
+   inline constexpr bool skip_control< eol > = true;
 
-         template<>
-         inline constexpr bool skip_control< eol > = true;
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

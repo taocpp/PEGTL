@@ -5,24 +5,20 @@
 #include "verify_analyze.hpp"
 #include "verify_rule.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   void unit_test()
    {
-      void unit_test()
-      {
-         verify_analyze< success >( __LINE__, __FILE__, false, false );
+      verify_analyze< success >( __LINE__, __FILE__, false, false );
 
-         verify_rule< success >( __LINE__, __FILE__, "", result_type::success, 0 );
+      verify_rule< success >( __LINE__, __FILE__, "", result_type::success, 0 );
 
-         for( char i = 1; i < 127; ++i ) {
-            char t[] = { i, 0 };
-            verify_rule< success >( __LINE__, __FILE__, std::string( t ), result_type::success, 1 );
-         }
+      for( char i = 1; i < 127; ++i ) {
+         char t[] = { i, 0 };
+         verify_rule< success >( __LINE__, __FILE__, std::string( t ), result_type::success, 1 );
       }
+   }
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"

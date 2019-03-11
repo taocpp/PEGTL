@@ -8,35 +8,27 @@
 
 #include <type_traits>
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename Action >
+   struct apply0_single
    {
-      namespace internal
+      template< typename... States >
+      [[nodiscard]] static auto match( States&&... st ) noexcept( noexcept( Action::apply0( st... ) ) )
+         -> std::enable_if_t< std::is_same_v< decltype( Action::apply0( st... ) ), void >, bool >
       {
-         template< typename Action >
-         struct apply0_single
-         {
-            template< typename... States >
-            [[nodiscard]] static auto match( States&&... st ) noexcept( noexcept( Action::apply0( st... ) ) )
-               -> std::enable_if_t< std::is_same_v< decltype( Action::apply0( st... ) ), void >, bool >
-            {
-               Action::apply0( st... );
-               return true;
-            }
+         Action::apply0( st... );
+         return true;
+      }
 
-            template< typename... States >
-            [[nodiscard]] static auto match( States&&... st ) noexcept( noexcept( Action::apply0( st... ) ) )
-               -> std::enable_if_t< std::is_same_v< decltype( Action::apply0( st... ) ), bool >, bool >
-            {
-               return Action::apply0( st... );
-            }
-         };
+      template< typename... States >
+      [[nodiscard]] static auto match( States&&... st ) noexcept( noexcept( Action::apply0( st... ) ) )
+         -> std::enable_if_t< std::is_same_v< decltype( Action::apply0( st... ) ), bool >, bool >
+      {
+         return Action::apply0( st... );
+      }
+   };
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

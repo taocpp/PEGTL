@@ -8,21 +8,13 @@
 
 #include "../config.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   [[nodiscard]] inline std::string demangle( const char* symbol )
    {
-      namespace internal
-      {
-         [[nodiscard]] inline std::string demangle( const char* symbol )
-         {
-            return symbol;
-         }
+      return symbol;
+   }
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

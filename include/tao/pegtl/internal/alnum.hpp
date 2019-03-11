@@ -9,18 +9,10 @@
 #include "peek_char.hpp"
 #include "ranges.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
-   {
-      namespace internal
-      {
-         using alnum = ranges< peek_char, 'a', 'z', 'A', 'Z', '0', '9' >;
+   using alnum = ranges< peek_char, 'a', 'z', 'A', 'Z', '0', '9' >;
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

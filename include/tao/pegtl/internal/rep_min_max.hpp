@@ -19,69 +19,61 @@
 
 #include "../analysis/counted.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< unsigned Min, unsigned Max, typename... Rules >
+   struct rep_min_max;
+
+   template< unsigned Min, unsigned Max >
+   struct rep_min_max< Min, Max >
+      : trivial< false >
    {
-      namespace internal
+      static_assert( Min <= Max );
+   };
+
+   template< typename Rule, typename... Rules >
+   struct rep_min_max< 0, 0, Rule, Rules... >
+      : not_at< Rule, Rules... >
+   {
+   };
+
+   template< unsigned Min, unsigned Max, typename... Rules >
+   struct rep_min_max
+   {
+      using analyze_t = analysis::counted< analysis::rule_type::seq, Min, Rules... >;
+
+      static_assert( Min <= Max );
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         template< unsigned Min, unsigned Max, typename... Rules >
-         struct rep_min_max;
+         auto m = in.template mark< M >();
+         using m_t = decltype( m );
 
-         template< unsigned Min, unsigned Max >
-         struct rep_min_max< Min, Max >
-            : trivial< false >
-         {
-            static_assert( Min <= Max );
-         };
-
-         template< typename Rule, typename... Rules >
-         struct rep_min_max< 0, 0, Rule, Rules... >
-            : not_at< Rule, Rules... >
-         {
-         };
-
-         template< unsigned Min, unsigned Max, typename... Rules >
-         struct rep_min_max
-         {
-            using analyze_t = analysis::counted< analysis::rule_type::seq, Min, Rules... >;
-
-            static_assert( Min <= Max );
-
-            template< apply_mode A,
-                      rewind_mode M,
-                      template< typename... >
-                      class Action,
-                      template< typename... >
-                      class Control,
-                      typename Input,
-                      typename... States >
-            [[nodiscard]] static bool match( Input& in, States&&... st )
-            {
-               auto m = in.template mark< M >();
-               using m_t = decltype( m );
-
-               for( unsigned i = 0; i != Min; ++i ) {
-                  if( !( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) ) {
-                     return false;
-                  }
-               }
-               for( unsigned i = Min; i != Max; ++i ) {
-                  if( !duseltronik< seq< Rules... >, A, rewind_mode::required, Action, Control >::match( in, st... ) ) {
-                     return m( true );
-                  }
-               }
-               return m( duseltronik< not_at< Rules... >, A, m_t::next_rewind_mode, Action, Control >::match( in, st... ) );  // NOTE that not_at<> will always rewind.
+         for( unsigned i = 0; i != Min; ++i ) {
+            if( !( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) ) {
+               return false;
             }
-         };
+         }
+         for( unsigned i = Min; i != Max; ++i ) {
+            if( !duseltronik< seq< Rules... >, A, rewind_mode::required, Action, Control >::match( in, st... ) ) {
+               return m( true );
+            }
+         }
+         return m( duseltronik< not_at< Rules... >, A, m_t::next_rewind_mode, Action, Control >::match( in, st... ) );  // NOTE that not_at<> will always rewind.
+      }
+   };
 
-         template< unsigned Min, unsigned Max, typename... Rules >
-         inline constexpr bool skip_control< rep_min_max< Min, Max, Rules... > > = true;
+   template< unsigned Min, unsigned Max, typename... Rules >
+   inline constexpr bool skip_control< rep_min_max< Min, Max, Rules... > > = true;
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

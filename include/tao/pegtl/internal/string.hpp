@@ -16,51 +16,43 @@
 
 #include "../analysis/counted.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   [[nodiscard]] inline bool unsafe_equals( const char* s, const std::initializer_list< char >& l ) noexcept
    {
-      namespace internal
+      return std::memcmp( s, &*l.begin(), l.size() ) == 0;
+   }
+
+   template< char... Cs >
+   struct string;
+
+   template<>
+   struct string<>
+      : trivial< true >
+   {
+   };
+
+   template< char... Cs >
+   struct string
+   {
+      using analyze_t = analysis::counted< analysis::rule_type::any, sizeof...( Cs ) >;
+
+      template< typename Input >
+      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
       {
-         [[nodiscard]] inline bool unsafe_equals( const char* s, const std::initializer_list< char >& l ) noexcept
-         {
-            return std::memcmp( s, &*l.begin(), l.size() ) == 0;
-         }
-
-         template< char... Cs >
-         struct string;
-
-         template<>
-         struct string<>
-            : trivial< true >
-         {
-         };
-
-         template< char... Cs >
-         struct string
-         {
-            using analyze_t = analysis::counted< analysis::rule_type::any, sizeof...( Cs ) >;
-
-            template< typename Input >
-            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
-            {
-               if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
-                  if( unsafe_equals( in.current(), { Cs... } ) ) {
-                     bump_help< result_on_found::success, Input, char, Cs... >( in, sizeof...( Cs ) );
-                     return true;
-                  }
-               }
-               return false;
+         if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
+            if( unsafe_equals( in.current(), { Cs... } ) ) {
+               bump_help< result_on_found::success, Input, char, Cs... >( in, sizeof...( Cs ) );
+               return true;
             }
-         };
+         }
+         return false;
+      }
+   };
 
-         template< char... Cs >
-         inline constexpr bool skip_control< string< Cs... > > = true;
+   template< char... Cs >
+   inline constexpr bool skip_control< string< Cs... > > = true;
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

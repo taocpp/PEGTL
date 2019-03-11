@@ -10,7 +10,7 @@
 
 #include <tao/pegtl/contrib/integer.hpp>
 
-namespace pegtl = tao::TAO_PEGTL_NAMESPACE;
+namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 namespace example
 {

@@ -7,7 +7,7 @@
 #include <tao/pegtl/contrib/tracer.hpp>
 #include <tao/pegtl/contrib/uri.hpp>
 
-namespace pegtl = tao::TAO_PEGTL_NAMESPACE;
+namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 using grammar = pegtl::must< pegtl::uri::URI >;
 

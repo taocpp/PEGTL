@@ -12,46 +12,38 @@
 
 #include "../config.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   struct cstream_reader
    {
-      namespace internal
+      explicit cstream_reader( std::FILE* s ) noexcept
+         : m_cstream( s )
       {
-         struct cstream_reader
-         {
-            explicit cstream_reader( std::FILE* s ) noexcept
-               : m_cstream( s )
-            {
-               assert( m_cstream != nullptr );
-            }
+         assert( m_cstream != nullptr );
+      }
 
-            [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length )
-            {
-               if( const auto r = std::fread( buffer, 1, length, m_cstream ) ) {
-                  return r;
-               }
-               if( std::feof( m_cstream ) != 0 ) {
-                  return 0;
-               }
+      [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length )
+      {
+         if( const auto r = std::fread( buffer, 1, length, m_cstream ) ) {
+            return r;
+         }
+         if( std::feof( m_cstream ) != 0 ) {
+            return 0;
+         }
 
-               // Please contact us if you know how to provoke the following exception.
-               // The example on cppreference.com doesn't work, at least not on macOS.
+         // Please contact us if you know how to provoke the following exception.
+         // The example on cppreference.com doesn't work, at least not on macOS.
 
-               // LCOV_EXCL_START
-               const auto ec = std::ferror( m_cstream );
-               assert( ec != 0 );
-               throw std::system_error( ec, std::system_category(), "fread() failed" );
-               // LCOV_EXCL_STOP
-            }
+         // LCOV_EXCL_START
+         const auto ec = std::ferror( m_cstream );
+         assert( ec != 0 );
+         throw std::system_error( ec, std::system_category(), "fread() failed" );
+         // LCOV_EXCL_STOP
+      }
 
-            std::FILE* m_cstream;
-         };
+      std::FILE* m_cstream;
+   };
 
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

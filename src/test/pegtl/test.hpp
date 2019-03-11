@@ -12,16 +12,12 @@
 
 #include <tao/pegtl.hpp>
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
-   {
-      std::size_t failed = 0;                                        // NOLINT
-      std::vector< std::pair< std::string, std::string > > applied;  // NOLINT
+   std::size_t failed = 0;                                        // NOLINT
+   std::vector< std::pair< std::string, std::string > > applied;  // NOLINT
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #define TAO_PEGTL_TEST_UNWRAP( ... ) __VA_ARGS__
 
@@ -70,46 +66,42 @@ namespace tao
       }                                             \
    } while( false )
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< unsigned Size, apply_mode B, rewind_mode N, typename... Rules >
+   struct test_rule
    {
-      template< unsigned Size, apply_mode B, rewind_mode N, typename... Rules >
-      struct test_rule
+      using analyze_t = typename seq< Rules... >::analyze_t;
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      static bool match( Input& in, States&&... st )
       {
-         using analyze_t = typename seq< Rules... >::analyze_t;
+         static_assert( A == B, "unexpected apply mode" );
+         static_assert( M == N, "unexpected rewind mode" );
 
-         template< apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename Input,
-                   typename... States >
-         static bool match( Input& in, States&&... st )
-         {
-            static_assert( A == B, "unexpected apply mode" );
-            static_assert( M == N, "unexpected rewind mode" );
+         TAO_PEGTL_TEST_ASSERT( in.size() == Size );
 
-            TAO_PEGTL_TEST_ASSERT( in.size() == Size );
+         return seq< Rules... >::template match< A, M, Action, Control >( in, st... );
+      }
+   };
 
-            return seq< Rules... >::template match< A, M, Action, Control >( in, st... );
-         }
-      };
-
-      template< typename Rule >
-      struct test_action
+   template< typename Rule >
+   struct test_action
+   {
+      template< typename Input >
+      static void apply( const Input& in )
       {
-         template< typename Input >
-         static void apply( const Input& in )
-         {
-            applied.push_back( std::make_pair( internal::demangle< Rule >(), in.string() ) );
-         }
-      };
+         applied.push_back( std::make_pair( internal::demangle< Rule >(), in.string() ) );
+      }
+   };
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

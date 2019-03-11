@@ -8,7 +8,7 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/parse_tree.hpp>
 
-using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
+using namespace TAO_PEGTL_NAMESPACE;  // NOLINT
 
 namespace example
 {

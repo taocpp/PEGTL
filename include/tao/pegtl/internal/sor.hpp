@@ -16,53 +16,45 @@
 
 #include "../analysis/generic.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename... Rules >
+   struct sor;
+
+   template<>
+   struct sor<>
+      : trivial< false >
    {
-      namespace internal
+   };
+
+   template< typename... Rules >
+   struct sor
+      : sor< std::index_sequence_for< Rules... >, Rules... >
+   {
+   };
+
+   template< std::size_t... Indices, typename... Rules >
+   struct sor< std::index_sequence< Indices... >, Rules... >
+   {
+      using analyze_t = analysis::generic< analysis::rule_type::sor, Rules... >;
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         template< typename... Rules >
-         struct sor;
+         return ( Control< Rules >::template match< A, ( ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::required ), Action, Control >( in, st... ) || ... );
+      }
+   };
 
-         template<>
-         struct sor<>
-            : trivial< false >
-         {
-         };
+   template< typename... Rules >
+   inline constexpr bool skip_control< sor< Rules... > > = true;
 
-         template< typename... Rules >
-         struct sor
-            : sor< std::index_sequence_for< Rules... >, Rules... >
-         {
-         };
-
-         template< std::size_t... Indices, typename... Rules >
-         struct sor< std::index_sequence< Indices... >, Rules... >
-         {
-            using analyze_t = analysis::generic< analysis::rule_type::sor, Rules... >;
-
-            template< apply_mode A,
-                      rewind_mode M,
-                      template< typename... >
-                      class Action,
-                      template< typename... >
-                      class Control,
-                      typename Input,
-                      typename... States >
-            [[nodiscard]] static bool match( Input& in, States&&... st )
-            {
-               return ( Control< Rules >::template match< A, ( ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::required ), Action, Control >( in, st... ) || ... );
-            }
-         };
-
-         template< typename... Rules >
-         inline constexpr bool skip_control< sor< Rules... > > = true;
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

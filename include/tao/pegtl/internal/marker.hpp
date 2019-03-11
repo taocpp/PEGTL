@@ -7,84 +7,76 @@
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename Iterator, rewind_mode M >
+   class marker
    {
-      namespace internal
+   public:
+      static constexpr rewind_mode next_rewind_mode = M;
+
+      explicit marker( const Iterator& /*unused*/ ) noexcept
       {
-         template< typename Iterator, rewind_mode M >
-         class marker
-         {
-         public:
-            static constexpr rewind_mode next_rewind_mode = M;
+      }
 
-            explicit marker( const Iterator& /*unused*/ ) noexcept
-            {
-            }
+      marker( const marker& ) = delete;
+      marker( marker&& ) = delete;
 
-            marker( const marker& ) = delete;
-            marker( marker&& ) = delete;
+      ~marker() = default;
 
-            ~marker() = default;
+      void operator=( const marker& ) = delete;
+      void operator=( marker&& ) = delete;
 
-            void operator=( const marker& ) = delete;
-            void operator=( marker&& ) = delete;
+      [[nodiscard]] bool operator()( const bool result ) const noexcept
+      {
+         return result;
+      }
+   };
 
-            [[nodiscard]] bool operator()( const bool result ) const noexcept
-            {
-               return result;
-            }
-         };
+   template< typename Iterator >
+   class marker< Iterator, rewind_mode::required >
+   {
+   public:
+      static constexpr rewind_mode next_rewind_mode = rewind_mode::active;
 
-         template< typename Iterator >
-         class marker< Iterator, rewind_mode::required >
-         {
-         public:
-            static constexpr rewind_mode next_rewind_mode = rewind_mode::active;
+      explicit marker( Iterator& i ) noexcept
+         : m_saved( i ),
+           m_input( &i )
+      {
+      }
 
-            explicit marker( Iterator& i ) noexcept
-               : m_saved( i ),
-                 m_input( &i )
-            {
-            }
+      marker( const marker& ) = delete;
+      marker( marker&& ) = delete;
 
-            marker( const marker& ) = delete;
-            marker( marker&& ) = delete;
+      ~marker() noexcept
+      {
+         if( m_input != nullptr ) {
+            ( *m_input ) = m_saved;
+         }
+      }
 
-            ~marker() noexcept
-            {
-               if( m_input != nullptr ) {
-                  ( *m_input ) = m_saved;
-               }
-            }
+      void operator=( const marker& ) = delete;
+      void operator=( marker&& ) = delete;
 
-            void operator=( const marker& ) = delete;
-            void operator=( marker&& ) = delete;
+      [[nodiscard]] bool operator()( const bool result ) noexcept
+      {
+         if( result ) {
+            m_input = nullptr;
+            return true;
+         }
+         return false;
+      }
 
-            [[nodiscard]] bool operator()( const bool result ) noexcept
-            {
-               if( result ) {
-                  m_input = nullptr;
-                  return true;
-               }
-               return false;
-            }
+      [[nodiscard]] const Iterator& iterator() const noexcept
+      {
+         return m_saved;
+      }
 
-            [[nodiscard]] const Iterator& iterator() const noexcept
-            {
-               return m_saved;
-            }
+   private:
+      const Iterator m_saved;
+      Iterator* m_input;
+   };
 
-         private:
-            const Iterator m_saved;
-            Iterator* m_input;
-         };
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

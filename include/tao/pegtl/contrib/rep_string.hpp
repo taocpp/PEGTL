@@ -9,40 +9,36 @@
 #include "../config.hpp"
 #include "../internal/string.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   namespace internal
    {
-      namespace internal
+      template< std::size_t, typename, char... >
+      struct make_rep_string;
+
+      template< char... Ss, char... Cs >
+      struct make_rep_string< 0, string< Ss... >, Cs... >
       {
-         template< std::size_t, typename, char... >
-         struct make_rep_string;
+         using type = string< Ss... >;
+      };
 
-         template< char... Ss, char... Cs >
-         struct make_rep_string< 0, string< Ss... >, Cs... >
-         {
-            using type = string< Ss... >;
-         };
-
-         template< std::size_t N, char... Ss, char... Cs >
-         struct make_rep_string< N, string< Ss... >, Cs... >
-            : make_rep_string< N - 1, string< Ss..., Cs... >, Cs... >
-         {
-         };
-
-      }  // namespace internal
-
-      inline namespace ascii
+      template< std::size_t N, char... Ss, char... Cs >
+      struct make_rep_string< N, string< Ss... >, Cs... >
+         : make_rep_string< N - 1, string< Ss..., Cs... >, Cs... >
       {
-         template< std::size_t N, char... Cs >
-         struct rep_string
-            : internal::make_rep_string< N, internal::string<>, Cs... >::type
-         {};
+      };
 
-      }  // namespace ascii
+   }  // namespace internal
 
-   }  // namespace TAO_PEGTL_NAMESPACE
+   inline namespace ascii
+   {
+      template< std::size_t N, char... Cs >
+      struct rep_string
+         : internal::make_rep_string< N, internal::string<>, Cs... >::type
+      {};
 
-}  // namespace tao
+   }  // namespace ascii
+
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

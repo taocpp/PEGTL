@@ -11,40 +11,32 @@
 
 #include "../analysis/generic.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< unsigned Amount >
+   struct require;
+
+   template<>
+   struct require< 0 >
+      : trivial< true >
    {
-      namespace internal
+   };
+
+   template< unsigned Amount >
+   struct require
+   {
+      using analyze_t = analysis::generic< analysis::rule_type::opt >;
+
+      template< typename Input >
+      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
       {
-         template< unsigned Amount >
-         struct require;
+         return in.size( Amount ) >= Amount;
+      }
+   };
 
-         template<>
-         struct require< 0 >
-            : trivial< true >
-         {
-         };
+   template< unsigned Amount >
+   inline constexpr bool skip_control< require< Amount > > = true;
 
-         template< unsigned Amount >
-         struct require
-         {
-            using analyze_t = analysis::generic< analysis::rule_type::opt >;
-
-            template< typename Input >
-            [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
-            {
-               return in.size( Amount ) >= Amount;
-            }
-         };
-
-         template< unsigned Amount >
-         inline constexpr bool skip_control< require< Amount > > = true;
-
-      }  // namespace internal
-
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

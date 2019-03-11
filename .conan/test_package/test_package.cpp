@@ -15,7 +15,7 @@
 
 #include <tao/pegtl/analyze.hpp>
 
-namespace pegtl = tao::TAO_PEGTL_NAMESPACE;
+namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 namespace calculator
 {
@@ -182,7 +182,7 @@ namespace calculator
 
    // Here the actual grammar starts.
 
-   using namespace tao::pegtl;  // NOLINT
+   using namespace pegtl;  // NOLINT
 
    // Comments are introduced by a '#' and proceed to the end-of-line/file.
 

@@ -6,18 +6,14 @@
 
 #include "config.hpp"
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   enum class apply_mode : bool
    {
-      enum class apply_mode : bool
-      {
-         action = true,
-         nothing = false
-      };
+      action = true,
+      nothing = false
+   };
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

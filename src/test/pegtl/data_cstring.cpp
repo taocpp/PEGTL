@@ -5,33 +5,29 @@
 
 #include <tao/pegtl/internal/cstring_reader.hpp>
 
-namespace tao
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace TAO_PEGTL_NAMESPACE
+   template< typename Rule,
+             template< typename... > class Action = nothing,
+             template< typename... > class Control = normal,
+             typename... States >
+   bool parse_cstring( const char* string, const char* source, const std::size_t maximum, States&&... st )
    {
-      template< typename Rule,
-                template< typename... > class Action = nothing,
-                template< typename... > class Control = normal,
-                typename... States >
-      bool parse_cstring( const char* string, const char* source, const std::size_t maximum, States&&... st )
-      {
-         buffer_input< internal::cstring_reader > in( source, maximum, string );
-         return parse< Rule, Action, Control >( in, st... );
-      }
+      buffer_input< internal::cstring_reader > in( source, maximum, string );
+      return parse< Rule, Action, Control >( in, st... );
+   }
 
-      struct test_grammar : seq< string< 'a', 'b' >, discard, string< 'c', 'd' >, discard, any, any, discard, eof >
-      {
-      };
+   struct test_grammar : seq< string< 'a', 'b' >, discard, string< 'c', 'd' >, discard, any, any, discard, eof >
+   {
+   };
 
-      void unit_test()
-      {
-         const char* test_data = "abcdef";
-         TAO_PEGTL_TEST_ASSERT( parse_cstring< test_grammar >( test_data, "test data", 2 ) );
-         TAO_PEGTL_TEST_ASSERT( !parse_cstring< test_grammar >( test_data, "test data", 1 ) );
-      }
+   void unit_test()
+   {
+      const char* test_data = "abcdef";
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< test_grammar >( test_data, "test data", 2 ) );
+      TAO_PEGTL_TEST_ASSERT( !parse_cstring< test_grammar >( test_data, "test data", 1 ) );
+   }
 
-   }  // namespace TAO_PEGTL_NAMESPACE
-
-}  // namespace tao
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"
