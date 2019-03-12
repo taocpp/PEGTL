@@ -351,19 +351,16 @@ More precisely, each rule that uses one of the following methods on the input wi
 (The `empty()`-method uses a hard-coded `amount` of 1.)
 
 ```c++
-namespace tao
+namespace tao::pegtl
 {
-   namespace pegtl
+   template< class Reader, typename Eol = eol::lf_crlf >
+   class buffer_input
    {
-      template< class Reader, typename Eol = eol::lf_crlf >
-      class buffer_input
-      {
-         empty();
-         size( const std::size_t amount );
-         end( const std::size_t amount );
-         ...
-      };
-   }
+      empty();
+      size( const std::size_t amount );
+      end( const std::size_t amount );
+      ...
+   };
 }
 ```
 
@@ -425,7 +422,6 @@ For convenience, `line_at( p )` returns a `std::string_view` with the complete l
 Example usage:
 
 ```c++
-
 // create input 'in' here...
 try {
   // call parse on the input 'in' here...

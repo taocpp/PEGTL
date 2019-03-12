@@ -45,10 +45,10 @@ For another use case consider the following parsing rules for a simplified C-str
 The rule `escaped` is for a single escaped character, the rule `content` is for the complete content of such a literal.
 
 ```c++
-   using namespace tao::pegtl;
-   struct escaped : seq< one< '\\' >, one< 'n', 'r', 't' > > {};
-   struct content : star< sor< escaped, not_one< '\\', '"' > > > {};
-   struct literal : seq< one< '"' >, content, one< '"' > > {};
+using namespace tao::pegtl;
+struct escaped : seq< one< '\\' >, one< 'n', 'r', 't' > > {};
+struct content : star< sor< escaped, not_one< '\\', '"' > > > {};
+struct literal : seq< one< '"' >, content, one< '"' > > {};
 ```
 
 The `escaped` rule first matches a backslash, and then one of the allowed subsequent characters.
@@ -61,24 +61,24 @@ It is however *not* appropriate when the backslash was not followed by one of th
 We can therefore re-write the `escaped` rule as follows so that once the backslash has matched we need one of the following allowed characters to match, otherwise a global failure is thrown.
 
 ```c++
-   using namespace tao::pegtl;
-   struct escaped : seq< one< '\\' >, must< one< 'n', 'r', 't' > > > {};
+using namespace tao::pegtl;
+struct escaped : seq< one< '\\' >, must< one< 'n', 'r', 't' > > > {};
 ```
 
 A `seq<>` where all but the first sub-rule is inside a `must<>` occurs frequently enough to merit a convenience rule.
 The following rule is equivalent to the above.
 
 ```c++
-   using namespace tao::pegtl;
-   struct escaped : if_must< one< '\\' >, one< 'n', 'r', 't' > > {};
+using namespace tao::pegtl;
+struct escaped : if_must< one< '\\' >, one< 'n', 'r', 't' > > {};
 ```
 
 Now the `escaped` rule can only return local failure when the next input byte is not a backslash.
 This knowledge can be used to simplify the `content` rule by not needing to exclude the backslash in the following rule.
 
 ```c++
-   using namespace tao::pegtl;
-   struct content : star< sor< escaped, not_one< '"' > > > {};
+using namespace tao::pegtl;
+struct content : star< sor< escaped, not_one< '"' > > > {};
 ```
 
 Finally we apply our "best practice" and give the `one< 'n', 'r', 't' >` rule a dedicated name.
@@ -86,11 +86,11 @@ This will improve the built-in error message when the global failure is thrown, 
 The resulting example is as follows.
 
 ```c++
-   using namespace tao::pegtl;
-   struct escchar : one< 'n', 'r', 't' > {};
-   struct escaped : if_must< one< '\\' >, escchar > {};
-   struct content : star< sor< escaped, not_one< '"' > > > {};
-   struct literal : seq< one< '"' >, content, one< '"' > > {};
+using namespace tao::pegtl;
+struct escchar : one< 'n', 'r', 't' > {};
+struct escaped : if_must< one< '\\' >, escchar > {};
+struct content : star< sor< escaped, not_one< '"' > > > {};
+struct literal : seq< one< '"' >, content, one< '"' > > {};
 ```
 
 The same use of `if_must<>` can be applied to the `literal` rule assuming that it occurs in some `sor<>` where it is the only rule whose matched input can begin with a quotation mark...
@@ -119,7 +119,7 @@ struct my_control
 Now only the `error_message` string needs to be specialised per error point as follows.
 
 ```c++
-template<> const std::string my_control< MyRule >::error_message = "expected ...";
+template<> inline const std::string my_control< MyRule >::error_message = "expected ...";
 ```
 
 Since the `raise()`-method is only instantiated for those rules for which `must<>` could trigger an exception, it is sufficient to provide specialisations of the error message string for those rules.
@@ -127,30 +127,30 @@ Furthermore, there will be a linker error for all rules for which the specialisa
 For an example of this method see `src/examples/pegtl/json_errors.hpp`, where all errors that might occur in the supplied JSON grammar are customised like this:
 
 ```c++
-template<> const std::string errors< tao::pegtl::json::text >::error_message = "no valid JSON";
+template<> inline const std::string errors< tao::pegtl::json::text >::error_message = "no valid JSON";
 
-template<> const std::string errors< tao::pegtl::json::end_array >::error_message = "incomplete array, expected ']'";
-template<> const std::string errors< tao::pegtl::json::end_object >::error_message = "incomplete object, expected '}'";
-template<> const std::string errors< tao::pegtl::json::member >::error_message = "expected member";
-template<> const std::string errors< tao::pegtl::json::name_separator >::error_message = "expected ':'";
-template<> const std::string errors< tao::pegtl::json::array_element >::error_message = "expected value";
-template<> const std::string errors< tao::pegtl::json::value >::error_message = "expected value";
+template<> inline const std::string errors< tao::pegtl::json::end_array >::error_message = "incomplete array, expected ']'";
+template<> inline const std::string errors< tao::pegtl::json::end_object >::error_message = "incomplete object, expected '}'";
+template<> inline const std::string errors< tao::pegtl::json::member >::error_message = "expected member";
+template<> inline const std::string errors< tao::pegtl::json::name_separator >::error_message = "expected ':'";
+template<> inline const std::string errors< tao::pegtl::json::array_element >::error_message = "expected value";
+template<> inline const std::string errors< tao::pegtl::json::value >::error_message = "expected value";
 
-template<> const std::string errors< tao::pegtl::json::digits >::error_message = "expected at least one digit";
-template<> const std::string errors< tao::pegtl::json::xdigit >::error_message = "incomplete universal character name";
-template<> const std::string errors< tao::pegtl::json::escaped >::error_message = "unknown escape sequence";
-template<> const std::string errors< tao::pegtl::json::char_ >::error_message = "invalid character in string";
-template<> const std::string errors< tao::pegtl::json::string::content >::error_message = "unterminated string";
-template<> const std::string errors< tao::pegtl::json::key::content >::error_message = "unterminated key";
+template<> inline const std::string errors< tao::pegtl::json::digits >::error_message = "expected at least one digit";
+template<> inline const std::string errors< tao::pegtl::json::xdigit >::error_message = "incomplete universal character name";
+template<> inline const std::string errors< tao::pegtl::json::escaped >::error_message = "unknown escape sequence";
+template<> inline const std::string errors< tao::pegtl::json::char_ >::error_message = "invalid character in string";
+template<> inline const std::string errors< tao::pegtl::json::string::content >::error_message = "unterminated string";
+template<> inline const std::string errors< tao::pegtl::json::key::content >::error_message = "unterminated key";
 
-template<> const std::string errors< tao::pegtl::eof >::error_message = "unexpected character after JSON value";
+template<> inline const std::string errors< tao::pegtl::eof >::error_message = "unexpected character after JSON value";
 ```
 
 It is also possible to provide a default error message that will be chosen by the compiler in the absence of a specialised one as follows.
 
 ```c++
 template< typename T >
-const std::string my_control< T >::error_message =
+inline const std::string my_control< T >::error_message =
    "parse error matching " + tao::pegtl::internal::demangle< T >();
 ```
 
