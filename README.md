@@ -26,13 +26,15 @@ Here is an example of how a PEG grammar rule is implemented as C++ class with th
 // PEG rule for integers consisting of a non-empty
 // sequence of digits with an optional sign:
 
-// integer ::= ( '+' / '-' )? digit+
+// sign ::= '+' / '-'
+// integer ::= sign? digit+
 
 // The same parsing rule implemented with the PEGTL:
 
 using namespace tao::pegtl;
 
-struct integer : seq< opt< one< '+', '-' > >, plus< digit > > {};
+struct sign : one< '+', '-' > {};
+struct integer : seq< opt< sign >, plus< digit > > {};
 ```
 
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic nature of PEGs gives rise to some very important differences.
