@@ -8,6 +8,7 @@
 * The enumerator `tracking_mode::IMMEDIATE` was renamed to `tracking_mode::eager`.
 * The input-classes' `peek_byte()`-method was renamed to `peek_uint8()`.
 * The control class template's `apply()`- and `apply0()`-methods must only be visible (e.g. via SFINAE) when an action class template method with the appropriate signature exists.
+* The default for `TAO_PEGTL_NAMESPACE` was changed from `pegtl` to `tao::pegtl`. The macro now defines the *full* namespace, including nested namespaces. This gives more freedom. If you are setting `TAO_PEGTL_NAMESPACE`, adapt as needed. In case of doubt, add `tao::` as a prefix.
 
 ## Version 2.4.0
 

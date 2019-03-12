@@ -113,12 +113,11 @@ or patch releases, libraries *have* to ensure that the symbols for the PEGTL
 they include differ from those of the applications that use them.
 
 This can be achieved by changing the macro `TAO_PEGTL_NAMESPACE` which, by
-default, is set to `pegtl`, which leads to all symbols residing in namespace
-`tao::pegtl`. To change the namespace, simply define `TAO_PEGTL_NAMESPACE`
-to a unique name before including the PEGTL, for example:
+default, is set to `tao::pegtl`. To change the namespace, simply define
+`TAO_PEGTL_NAMESPACE` to a unique name before including the PEGTL, for example:
 
 ```c++
-#define TAO_PEGTL_NAMESPACE mylib_pegtl
+#define TAO_PEGTL_NAMESPACE mylib::pegtl
 
 #include <tao/pegtl.hpp>
 #include <tao/contrib/json.hpp>
@@ -126,8 +125,8 @@ to a unique name before including the PEGTL, for example:
 int main( int argc, char* argv[] )
 {
    if( argc > 1 ) {
-     tao::mylib_pegtl::argv_input in( argv, 1 );
-     tao::mylib_pegtl::parse< tao::mylib_pegtl::json::text >( in );
+     mylib::pegtl::argv_input in( argv, 1 );
+     mylib::pegtl::parse< mylib::pegtl::json::text >( in );
    }
 }
 
@@ -144,15 +143,15 @@ PEGTL from `TAO_PEGTL_` to another unique string in order to prevent macros
 from clashing. In a Unix-shell, the following command will achieve this:
 
 ```sh
-$ sed -i 's/TAO_PEGTL_/MYLIB_TAO_PEGTL_/g' $(find -name '[^.]*.[hc]pp')
+$ sed -i 's/TAO_PEGTL_/MYLIB_PEGTL_/g' $(find -name '[^.]*.[hc]pp')
 ```
 
 The above command needs to run from the top-level directory of the embedded
-PEGTL. Additionally, `MYLIB_TAO_PEGTL_NAMESPACE` needs to be set as explained
+PEGTL. Additionally, `MYLIB_PEGTL_NAMESPACE` needs to be set as explained
 above; alternatively `include/tao/pegtl/config.hpp` can be directly modified.
 
 A practical example of how the result looks like can be found in our own
-header-only [JSON library](https://github.com/taocpp/json/).
+header-only JSON library [taoJSON](https://github.com/taocpp/json/).
 
 Copyright (c) 2014-2019 Dr. Colin Hirsch and Daniel Frey
 
