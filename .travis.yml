@@ -125,16 +125,27 @@ matrix:
         - CXX=clang++-8
         - CPPFLAGS=-fsanitize=address
 
-    - compiler: gcc
+    - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-8', 'valgrind']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'clang-tools-8']
       env:
-        - CXX=g++-8
-        - SPECIAL=valgrind
+        - CXX=clang++-8
       script:
-        - make -kj3 valgrind
+        - scan-build-8 make -kj3
+
+    - compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'clang-tidy-8', 'g++-8']
+      env:
+        - CXX=clang++-8
+        - CLANG_TIDY=clang-tidy-8
+      script:
+        - "sed -i 's#namespace TAO_PEGTL_NAMESPACE#namespace tao::pegtl#g' $(find . -name '*.[hc]pp')"
+        - make -kj3 clang-tidy
 
 ###
 #
@@ -151,17 +162,16 @@ matrix:
 #      script:
 #        - make -kj3 cppcheck
 
-    - compiler: clang
+    - compiler: gcc
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'clang-tidy-8', 'g++-8']
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-8', 'valgrind']
       env:
-        - CXX=clang++-8
-        - CLANG_TIDY=clang-tidy-8
+        - CXX=g++-8
+        - SPECIAL=valgrind
       script:
-        - "sed -i 's#namespace TAO_PEGTL_NAMESPACE#namespace tao::pegtl#g' $(find . -name '*.[hc]pp')"
-        - make -kj3 clang-tidy
+        - make -kj3 valgrind
 
     - language: python
       python:
