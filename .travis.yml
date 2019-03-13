@@ -131,7 +131,7 @@ matrix:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
           packages: ['clang-8', 'clang-tools-8', 'g++-8']
       script:
-        - scan-build-8 --use-analyser=/usr/bin/clang++-8 make -kj3
+        - scan-build-8 --use-analyzer=/usr/bin/clang++-8 make -kj3
 
     - compiler: clang
       addons:
