@@ -12,6 +12,14 @@ matrix:
       env:
         - CXX=g++-7
 
+    - compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'clang-tools-8', 'g++-8']
+      script:
+        - scan-build-8 --use-c++=clang++-8 make -kj3
+
     - compiler: gcc
       addons:
         apt:
@@ -124,14 +132,6 @@ matrix:
       env:
         - CXX=clang++-8
         - CPPFLAGS=-fsanitize=address
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'clang-tools-8', 'g++-8']
-      script:
-        - scan-build-8 --use-c++=clang++-8 make -kj3
 
     - compiler: clang
       addons:
