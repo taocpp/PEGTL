@@ -5,7 +5,6 @@
 #define TAO_PEGTL_MATCH_HPP
 
 #include <type_traits>
-#include <utility>
 
 #include "apply_mode.hpp"
 #include "config.hpp"
@@ -17,35 +16,12 @@
 #include "internal/duseltronik.hpp"
 #include "internal/has_apply.hpp"
 #include "internal/has_apply0.hpp"
+#include "internal/missing_apply.hpp"
+#include "internal/missing_apply0.hpp"
 #include "internal/skip_control.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   namespace internal
-   {
-      template< typename Control,
-                template< typename... >
-                class Action,
-                typename Input,
-                typename... States >
-      void missing_apply( Input& in, States&&... st )
-      {
-         auto m = in.template mark< rewind_mode::required >();
-         (void)Control::template apply< Action >( m.iterator(), in, st... );
-      }
-
-      template< typename Control,
-                template< typename... >
-                class Action,
-                typename Input,
-                typename... States >
-      void missing_apply0( Input& in, States&&... st )
-      {
-         (void)Control::template apply0< Action >( in, st... );
-      }
-
-   }  // namespace internal
-
    template< typename Rule,
              apply_mode A,
              rewind_mode M,
