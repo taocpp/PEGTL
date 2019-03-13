@@ -111,21 +111,6 @@ matrix:
         - CXX=clang++-8
         - CPPFLAGS=-fsanitize=address
 
-###
-#
-# CppCheck 1.84 does not support C++17
-#
-#    - compiler: gcc
-#      addons:
-#        apt:
-#          sources: ['ubuntu-toolchain-r-test']
-#          packages: ['g++-8', 'cppcheck']
-#      env:
-#        - CXX=g++-8
-#        - SPECIAL=cppcheck
-#      script:
-#        - make -kj3 cppcheck
-
     - compiler: clang
       addons:
         apt:
