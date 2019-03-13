@@ -17,6 +17,7 @@
 * Added `require_apply` and `require_apply0` to improve compiler error messages.
 * Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
 * Added support for Universal Windows Platform (UWP).
+* Added the Clang Static Analyzer to the CI build.
 
 ## 2.7.1
 
