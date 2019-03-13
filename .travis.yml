@@ -77,20 +77,6 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7']
-      env:
-        - CXX=g++-7
-        - CXXFLAGS="-O0 --coverage"
-      before_script:
-        - pip install --user cpp-coveralls
-      script:
-        - make -kj3 check
-        - coveralls --gcov gcov-7 --gcov-options '\-lp' --exclude src
-
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-8']
       env:
         - CXX=g++-8
@@ -125,26 +111,6 @@ matrix:
         - CXX=clang++-8
         - CPPFLAGS=-fsanitize=address
 
-    - compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'clang-tools-8', 'g++-8']
-      script:
-        - scan-build-8 --use-c++=clang++-8 --status-bugs make -kj3
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'clang-tidy-8', 'g++-8']
-      env:
-        - CXX=clang++-8
-        - CLANG_TIDY=clang-tidy-8
-      script:
-        - "sed -i 's#namespace TAO_PEGTL_NAMESPACE#namespace tao::pegtl#g' $(find . -name '*.[hc]pp')"
-        - make -kj3 clang-tidy
-
 ###
 #
 # CppCheck 1.84 does not support C++17
@@ -160,6 +126,26 @@ matrix:
 #      script:
 #        - make -kj3 cppcheck
 
+    - compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'clang-tidy-8', 'g++-8']
+      env:
+        - CXX=clang++-8
+        - CLANG_TIDY=clang-tidy-8
+      script:
+        - "sed -i 's#namespace TAO_PEGTL_NAMESPACE#namespace tao::pegtl#g' $(find . -name '*.[hc]pp')"
+        - make -kj3 clang-tidy
+
+    - compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'clang-tools-8', 'g++-8']
+      script:
+        - scan-build-8 --use-c++=clang++-8 --status-bugs make -kj3
+
     - compiler: gcc
       addons:
         apt:
@@ -170,6 +156,20 @@ matrix:
         - SPECIAL=valgrind
       script:
         - make -kj3 valgrind
+
+    - compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-7']
+      env:
+        - CXX=g++-7
+        - CXXFLAGS="-O0 --coverage"
+      before_script:
+        - pip install --user cpp-coveralls
+      script:
+        - make -kj3 check
+        - coveralls --gcov gcov-7 --gcov-options '\-lp' --exclude src
 
     - language: python
       python:
