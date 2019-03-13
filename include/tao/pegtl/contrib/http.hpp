@@ -24,7 +24,6 @@ namespace TAO_PEGTL_NAMESPACE::http
    using RWS = plus< abnf::WSP >;  // required whitespace
    using BWS = OWS;                // "bad" whitespace
 
-   // cppcheck-suppress constStatement
    using obs_text = not_range< 0x00, 0x7F >;
    using obs_fold = seq< abnf::CRLF, plus< abnf::WSP > >;
 
