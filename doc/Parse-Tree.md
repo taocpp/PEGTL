@@ -90,11 +90,11 @@ struct basic_node
    using children_t = std::vector< std::unique_ptr< node_t > >;
 
    children_t children;
-   const std::type_info* id;
+   std::type_index id;
    std::string source;
 
    template< typename U >
-   bool is() const noexcept { return id == &typeid( U ); }
+   bool is() const noexcept { return id == typeid( U ); }
 
    bool is_root() const noexcept;
 
