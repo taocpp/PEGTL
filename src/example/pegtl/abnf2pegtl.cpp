@@ -345,15 +345,15 @@ namespace TAO_PEGTL_NAMESPACE::abnf
          const auto content = n->string_view();
          for( const auto c : content ) {
             if( std::isalpha( c ) != 0 ) {
-               n->id = &typeid( istring_tag );
+               n->id = typeid( istring_tag );
                return;
             }
          }
          if( content.size() == 1 ) {
-            n->id = &typeid( one_tag );
+            n->id = typeid( one_tag );
          }
          else {
-            n->id = &typeid( string_tag );
+            n->id = typeid( string_tag );
          }
       }
    };
@@ -366,10 +366,10 @@ namespace TAO_PEGTL_NAMESPACE::abnf
       {
          n = std::move( n->children.back() );
          if( n->string_view().size() == 1 ) {
-            n->id = &typeid( one_tag );
+            n->id = typeid( one_tag );
          }
          else {
-            n->id = &typeid( string_tag );
+            n->id = typeid( string_tag );
          }
       }
    };
@@ -464,7 +464,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
             // if the previous rule does not assign an alternation, create an intermediate alternation and move its assignee into it.
             if( !previous->is< abnf::grammar::alternation >() ) {
                auto s = std::make_unique< parse_tree::node >();
-               s->id = &typeid( abnf::grammar::alternation );
+               s->id = typeid( abnf::grammar::alternation );
                s->source = previous->source;
                s->m_begin = previous->m_begin;
                s->m_end = previous->m_end;
@@ -498,12 +498,12 @@ namespace TAO_PEGTL_NAMESPACE::abnf
       using function_t = std::string ( * )( const node_ptr& n );
       function_t default_ = nullptr;
 
-      std::map< const std::type_info*, function_t > map_;
+      std::map< std::type_index, function_t > map_;
 
       template< typename T >
       void add( const function_t& f )
       {
-         map_.insert( { &typeid( T ), f } );
+         map_.insert( { typeid( T ), f } );
       }
 
       std::string operator()( const node_ptr& n ) const

@@ -10,7 +10,7 @@
 #include <string_view>
 #include <tuple>
 #include <type_traits>
-#include <typeinfo>
+#include <typeindex>
 #include <utility>
 #include <vector>
 
@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       using children_t = std::vector< std::unique_ptr< node_t > >;
       children_t children;
 
-      const std::type_info* id = nullptr;
+      std::type_index id = typeid( void );
       std::string source;
 
       TAO_PEGTL_NAMESPACE::internal::iterator m_begin;
@@ -56,19 +56,19 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
 
       [[nodiscard]] bool is_root() const noexcept
       {
-         return id == nullptr;
+         return id == typeid( void );
       }
 
       template< typename U >
       [[nodiscard]] bool is() const noexcept
       {
-         return id == &typeid( U );
+         return id == typeid( U );
       }
 
       [[nodiscard]] std::string name() const
       {
          assert( !is_root() );
-         return TAO_PEGTL_NAMESPACE::internal::demangle( id->name() );
+         return TAO_PEGTL_NAMESPACE::internal::demangle( id.name() );
       }
 
       [[nodiscard]] position begin() const
@@ -115,7 +115,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename Rule, typename Input, typename... States >
       void start( const Input& in, States&&... /*unused*/ )
       {
-         id = &typeid( Rule );
+         id = typeid( Rule );
          source = in.source();
          m_begin = TAO_PEGTL_NAMESPACE::internal::iterator( in.iterator() );
       }

@@ -31,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       const auto& d = r->children.front();
       TAO_PEGTL_TEST_ASSERT( !d->is_root() );
-      TAO_PEGTL_TEST_ASSERT( d->id == &typeid( D ) );
+      TAO_PEGTL_TEST_ASSERT( d->id == typeid( D ) );
       TAO_PEGTL_TEST_ASSERT( d->is< D >() );
 #if !defined( _MSC_VER )
       TAO_PEGTL_TEST_ASSERT( d->name() == "tao::pegtl::D" );
