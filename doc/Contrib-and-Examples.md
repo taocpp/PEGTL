@@ -29,6 +29,7 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * Constants for ASCII letters.
 * Shortens `string<'f','o','o'>` to `string<f,o,o>`.
 * Ready for production use.
+* Superceeded by `TAO_PEGTL_STRING()`.
 
 ###### `<tao/pegtl/contrib/changes.hpp>`
 
@@ -65,11 +66,15 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * Grammar rules to parse Lua-style long (or raw) string literals.
 * Ready for production use.
 
+###### `<tao/pegtl/contrib/rep_string.hpp>`
+
+* Contains optimised version of `rep< N, string< Cs... > >`:
+* Rule `ascii::rep_string< N, Cs... >`.
+
 ###### `<tao/pegtl/contrib/rep_one_min_max.hpp>`
 
 * Contains optimised version of `rep_min_max< Min, Max, ascii::one< C > >`:
 * Rule `ascii::rep_one_min_max< Min, Max, C >`.
-* Rule `ascii::ellipsis` as shortcut for `ascii::rep_one_min_max< 3, 3, '.' >`.
 
 ###### `<tao/pegtl/contrib/to_string.hpp>`
 
