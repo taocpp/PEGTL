@@ -1,17 +1,19 @@
 language: generic
 os: linux
-dist: trusty
+dist: xenial
 
 matrix:
   include:
     - compiler: gcc
+      addons:
+        apt:
+          packages: ['g++-4.8']
       env:
         - CXX=g++-4.8
 
     - compiler: gcc
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-4.9']
       env:
         - CXX=g++-4.9
@@ -19,7 +21,6 @@ matrix:
     - compiler: gcc
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-5']
       env:
         - CXX=g++-5
@@ -27,7 +28,6 @@ matrix:
     - compiler: gcc
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-5']
       env:
         - CXX=g++-5
@@ -94,11 +94,9 @@ matrix:
       env:
         - CXX=clang++-3.6
 
-    - dist: precise
-      compiler: clang
+    - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-precise-3.7']
           packages: ['clang-3.7']
       env:
         - CXX=clang++-3.7
@@ -120,7 +118,7 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-4.0']
           packages: ['clang-4.0']
       env:
         - CXX=clang++-4.0
@@ -128,7 +126,7 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-4.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-4.0']
           packages: ['clang-4.0']
       env:
         - CXX=clang++-4.0
@@ -137,7 +135,7 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-5.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-5.0']
           packages: ['clang-5.0']
       env:
         - CXX=clang++-5.0
@@ -145,7 +143,7 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-6.0']
           packages: ['clang-6.0']
       env:
         - CXX=clang++-6.0
@@ -153,20 +151,36 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
-          packages: ['clang-6.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
+          packages: ['clang-7']
       env:
-        - CXX=clang++-6.0
-        - CPPFLAGS=-fms-extensions
+        - CXX=clang++-7
 
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
-          packages: ['clang-6.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8']
       env:
-        - CXX=clang++-6.0
+        - CXX=clang++-8
+
+    - compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8']
+      env:
+        - CXX=clang++-8
         - CXXSTD=-std=c++17
+
+    - compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8']
+      env:
+        - CXX=clang++-8
+        - CPPFLAGS=-fms-extensions
 
     - os: osx
       osx_image: xcode6.4
@@ -188,6 +202,12 @@ matrix:
 
     - os: osx
       osx_image: xcode9.4
+      compiler: clang
+      env:
+        - CXX=clang++
+
+    - os: osx
+      osx_image: xcode10.1
       compiler: clang
       env:
         - CXX=clang++
@@ -362,6 +382,16 @@ matrix:
         - make -kj3 check
         - coveralls --gcov gcov-7 --gcov-options '\-lp' --exclude src
 
+    - compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'clang-tools-8']
+      env:
+        - CXX=clang++-8
+      script:
+        - scan-build-8 make -kj3
+
     - compiler: gcc
       addons:
         apt:
@@ -411,25 +441,14 @@ matrix:
       script:
         - make -kj3 valgrind
 
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-8', 'cppcheck']
-      env:
-        - CXX=g++-8
-        - SPECIAL=cppcheck
-      script:
-        - make -kj3 cppcheck
-
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
-          packages: ['clang-6.0', 'clang-tidy-6.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'clang-tidy-8']
       env:
-        - CXX=clang++-6.0
-        - CLANG_TIDY=clang-tidy-6.0
+        - CXX=clang++-8
+        - CLANG_TIDY=clang-tidy-8
       script:
         - "sed -i 's#TAO_PEGTL_NAMESPACE#pegtl#g' $(find . -name '*.[hc]pp')"
         - make -kj3 clang-tidy

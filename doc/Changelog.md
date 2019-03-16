@@ -8,17 +8,8 @@
 * Changed enumerators to lowercase. Compatibility enumerators with the old names are provided, they will be removed in version 3.0.0.
 * Renamed `tracking_mode::IMMEDIATE` to `tracking_mode::eager`.
 * Renamed `peek_byte()` to `peek_uint8()`. Compatibility methods with the old name are provided, they will be removed in version 3.0.0.
-* Added new Makefile target `amalgamate` to generate a single-header version of the PEGTL.
-
-TODO / Work-in-Progress:
-
-* Allowed the action class template to overwrite `match`.
-* Refactored contrib's `change_action`, `change_state`, and `change_action_and_state`.
-* Removed the need to derive action class template's from `nothing`.
-* Added `require_apply` and `require_apply0` to improve compiler error messages.
-* Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
-* Added support for Universal Windows Platform (UWP).
 * Added the Clang Static Analyzer to the CI build.
+* Added new Makefile target `amalgamate` to generate a single-header version of the PEGTL.
 
 ## 2.7.1
 
@@ -80,8 +71,8 @@ Released 2018-05-01
 * Fixed parse tree node generation to correctly remove intermediate nodes.
 * Added big- and little-endian support to the UTF-16 and UTF-32 rules.
 * Added rules for UINT-8 and big- and little-endian UINT-16, UINT-32 and UINT-64.
-* Added function to `memory_input<>` to obtain the line around a position.
-* Added function to `memory_input<>` to start again from the beginning.
+* Added methods to `memory_input<>` to obtain the line around a position.
+* Added methods to `memory_input<>` to start again from the beginning.
 * Added example for Python-style indentation-aware grammars.
 * Added examples for regular, context-free, and context-sensitive grammars.
 * Added example for how to parse with a symbol table.
@@ -145,7 +136,7 @@ Released 2017-11-22
 Released 2017-11-22
 
 * Celebrating the PEGTL's 10th anniversary!
-* Fixed missing call to the [control class'](Control-and-Debug.md#control-functions) `failure()`-method when a rule with an `apply()`-method with a boolean return type fails.
+* Fixed missing call to the [control class'](Control-and-Debug.md#control-methods) `failure()`-method when a rule with an `apply()`-method with a boolean return type fails.
 * Fixed string handling in [`examples/abnf2pegtl.cc`](Contrib-and-Examples.md#srcexamplepegtlabnf2pegtlcpp).
 * Simplified/improved Android build.
 
@@ -204,7 +195,7 @@ Released 2017-05-18
 * Project
 
   * Migrated to ["The Art of C++"](https://github.com/taocpp).
-  * A [**migration guide**](Migration-Guide.md#from-1y-to-2z) for porting applications from 1.y to 2.z is available.
+  * A [**migration guide**](Migration-Guide.md#version-200) is available.
   * Version 2.z can be installed and used in parallel to version 1.y of the PEGTL.
   * The semantics of all parsing rules and grammars is the same as for versions 1.y.
 
@@ -240,7 +231,7 @@ Released 2017-05-18
 
 * Other Changes
 
-  * Added `apply()` and `apply0()` methods to [control class](Control-and-Debug.md#control-functions).
+  * Added `apply()`- and `apply0()`-methods to [control class](Control-and-Debug.md#control-methods).
   * Optimised superfluous input markers.
   * Allowed optimisation of [actions that do not need the input](Actions-and-States.md#apply0).
   * Replaced layered matching with superior Duseltronik™.
@@ -342,7 +333,7 @@ Semantic versioning was introduced with version 1.0.0.
 * The `if_then<>` rule was removed.
 * The `error_mode` flag was removed.
 * The semantics of the `must<>` rules was changed to convert local failure to global failure only for the immediate sub-rules of a `must<>` rule.
-* The `parse` methods now return a `bool` and can also produce local failures. To obtain the previous behaviour of success-or-global-failure, the top-level grammar rule has to be wrapped in a `must<>`.
+* The `parse`-methods now return a `bool` and can also produce local failures. To obtain the previous behaviour of success-or-global-failure, the top-level grammar rule has to be wrapped in a `must<>`.
 
 ## 0.32
 
