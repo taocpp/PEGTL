@@ -90,14 +90,14 @@ build/consolidated/pegtl.hpp: $(HEADERS)
 	@rm -rf build/include
 	@cp -a include build/
 	@rm -rf build/include/tao/pegtl/contrib/icu
-	@sed -i 's%^#\([^i]\|if\|include <\)%//\0%g' $$(find build/include -name '*.hpp')
-	@sed -i 's%^// Copyright%#pragma once\n#line 1\n\0%g' $$(find build/include -name '*.hpp')
+	@sed -i -e 's%^#\([^i]\|if\|include <\)%//\0%g' $$(find build/include -name '*.hpp')
+	@sed -i -e 's%^// Copyright%#pragma once\n#line 1\n\0%g' $$(find build/include -name '*.hpp')
 	@echo '#include "tao/pegtl.hpp"' >build/include/consolidated.hpp
 	@echo '#include "tao/pegtl/analyze.hpp"' >>build/include/consolidated.hpp
 	@( cd build/include ; find tao/pegtl/contrib -name '*.hpp' -printf '#include "%p"\n') >>build/include/consolidated.hpp
 	@( cd build/include ; g++ -E -C -nostdinc consolidated.hpp ) >$@
-	@sed -i 's%^//#%#%g' $@
-	@sed -i 's%^# \([0-9]* "[^"]*"\).*%#line \1%g' $@
+	@sed -i -e 's%^//#%#%g' $@
+	@sed -i -e 's%^# \([0-9]* "[^"]*"\).*%#line \1%g' $@
 	@echo "Generated/updated $@ successfully."
 
 ifeq ($(findstring $(MAKECMDGOALS),clean),)
