@@ -12,8 +12,12 @@ namespace tao
    {
       enum class apply_mode : bool
       {
-         ACTION = true,
-         NOTHING = false
+         action = true,
+         nothing = false,
+
+         // Compatibility, remove with 3.0
+         ACTION = action,
+         NOTHING = nothing
       };
 
    }  // namespace TAO_PEGTL_NAMESPACE

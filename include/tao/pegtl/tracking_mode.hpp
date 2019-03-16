@@ -12,8 +12,12 @@ namespace tao
    {
       enum class tracking_mode : bool
       {
-         IMMEDIATE,
-         LAZY
+         eager,
+         lazy,
+
+         // Compatibility, remove with 3.0
+         IMMEDIATE = eager,
+         LAZY = lazy
       };
 
    }  // namespace TAO_PEGTL_NAMESPACE

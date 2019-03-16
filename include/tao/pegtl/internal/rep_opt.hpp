@@ -24,7 +24,7 @@ namespace tao
          template< unsigned Max, typename... Rules >
          struct rep_opt
          {
-            using analyze_t = analysis::generic< analysis::rule_type::OPT, Rules... >;
+            using analyze_t = analysis::generic< analysis::rule_type::opt, Rules... >;
 
             template< apply_mode A,
                       rewind_mode,
@@ -36,7 +36,7 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               for( unsigned i = 0; ( i != Max ) && duseltronik< seq< Rules... >, A, rewind_mode::REQUIRED, Action, Control >::match( in, st... ); ++i ) {
+               for( unsigned i = 0; ( i != Max ) && duseltronik< seq< Rules... >, A, rewind_mode::required, Action, Control >::match( in, st... ); ++i ) {
                }
                return true;
             }

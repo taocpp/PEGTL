@@ -24,7 +24,7 @@ namespace tao
          };
 
          template< apply_mode A, typename State >
-         using state_disable_helper = typename conditional< A == apply_mode::ACTION >::template type< State, dummy_disabled_state >;
+         using state_disable_helper = typename conditional< A == apply_mode::action >::template type< State, dummy_disabled_state >;
 
       }  // namespace internal
 

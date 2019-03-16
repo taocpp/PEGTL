@@ -33,7 +33,7 @@ namespace tao
          template< typename Rule, typename... Rules >
          struct plus
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rule, Rules..., opt< plus > >;
+            using analyze_t = analysis::generic< analysis::rule_type::seq, Rule, Rules..., opt< plus > >;
 
             template< apply_mode A,
                       rewind_mode M,

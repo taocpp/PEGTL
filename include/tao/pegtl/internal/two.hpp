@@ -23,14 +23,14 @@ namespace tao
          template< char C >
          struct two
          {
-            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+            using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< typename Input >
             static bool match( Input& in ) noexcept( noexcept( in.size( 2 ) ) )
             {
                if( in.size( 2 ) >= 2 ) {
                   if( ( in.peek_char( 0 ) == C ) && ( in.peek_char( 1 ) == C ) ) {
-                     bump_help< result_on_found::SUCCESS, Input, char, C >( in, 2 );
+                     bump_help< result_on_found::success, Input, char, C >( in, 2 );
                      return true;
                   }
                }

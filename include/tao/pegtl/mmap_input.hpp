@@ -52,7 +52,7 @@ namespace tao
 
       }  // namespace internal
 
-      template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf >
+      template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
       struct mmap_input
          : private internal::mmap_holder,
            public memory_input< P, Eol, const char* >

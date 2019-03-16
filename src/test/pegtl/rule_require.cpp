@@ -15,23 +15,23 @@ namespace tao
          verify_analyze< require< 1 > >( __LINE__, __FILE__, false, false );
          verify_analyze< require< 9 > >( __LINE__, __FILE__, false, false );
 
-         verify_rule< require< 0 > >( __LINE__, __FILE__, "", result_type::SUCCESS, 0 );
-         verify_rule< require< 0 > >( __LINE__, __FILE__, "a", result_type::SUCCESS, 1 );
-         verify_rule< require< 0 > >( __LINE__, __FILE__, "  ", result_type::SUCCESS, 2 );
-         verify_rule< require< 1 > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< require< 1 > >( __LINE__, __FILE__, "a", result_type::SUCCESS, 1 );
-         verify_rule< require< 1 > >( __LINE__, __FILE__, "  ", result_type::SUCCESS, 2 );
-         verify_rule< require< 9 > >( __LINE__, __FILE__, "", result_type::LOCAL_FAILURE, 0 );
-         verify_rule< require< 9 > >( __LINE__, __FILE__, "1", result_type::LOCAL_FAILURE, 1 );
-         verify_rule< require< 9 > >( __LINE__, __FILE__, "12", result_type::LOCAL_FAILURE, 2 );
-         verify_rule< require< 9 > >( __LINE__, __FILE__, "123", result_type::LOCAL_FAILURE, 3 );
-         verify_rule< require< 9 > >( __LINE__, __FILE__, "1234", result_type::LOCAL_FAILURE, 4 );
-         verify_rule< require< 9 > >( __LINE__, __FILE__, "12345", result_type::LOCAL_FAILURE, 5 );
-         verify_rule< require< 9 > >( __LINE__, __FILE__, "123456", result_type::LOCAL_FAILURE, 6 );
-         verify_rule< require< 9 > >( __LINE__, __FILE__, "1234567", result_type::LOCAL_FAILURE, 7 );
-         verify_rule< require< 9 > >( __LINE__, __FILE__, "12345678", result_type::LOCAL_FAILURE, 8 );
-         verify_rule< require< 9 > >( __LINE__, __FILE__, "123456789", result_type::SUCCESS, 9 );
-         verify_rule< require< 9 > >( __LINE__, __FILE__, "123456789123456789", result_type::SUCCESS, 18 );
+         verify_rule< require< 0 > >( __LINE__, __FILE__, "", result_type::success, 0 );
+         verify_rule< require< 0 > >( __LINE__, __FILE__, "a", result_type::success, 1 );
+         verify_rule< require< 0 > >( __LINE__, __FILE__, "  ", result_type::success, 2 );
+         verify_rule< require< 1 > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< require< 1 > >( __LINE__, __FILE__, "a", result_type::success, 1 );
+         verify_rule< require< 1 > >( __LINE__, __FILE__, "  ", result_type::success, 2 );
+         verify_rule< require< 9 > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+         verify_rule< require< 9 > >( __LINE__, __FILE__, "1", result_type::local_failure, 1 );
+         verify_rule< require< 9 > >( __LINE__, __FILE__, "12", result_type::local_failure, 2 );
+         verify_rule< require< 9 > >( __LINE__, __FILE__, "123", result_type::local_failure, 3 );
+         verify_rule< require< 9 > >( __LINE__, __FILE__, "1234", result_type::local_failure, 4 );
+         verify_rule< require< 9 > >( __LINE__, __FILE__, "12345", result_type::local_failure, 5 );
+         verify_rule< require< 9 > >( __LINE__, __FILE__, "123456", result_type::local_failure, 6 );
+         verify_rule< require< 9 > >( __LINE__, __FILE__, "1234567", result_type::local_failure, 7 );
+         verify_rule< require< 9 > >( __LINE__, __FILE__, "12345678", result_type::local_failure, 8 );
+         verify_rule< require< 9 > >( __LINE__, __FILE__, "123456789", result_type::success, 9 );
+         verify_rule< require< 9 > >( __LINE__, __FILE__, "123456789123456789", result_type::success, 18 );
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE

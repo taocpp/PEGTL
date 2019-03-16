@@ -10,7 +10,7 @@ namespace tao
    {
       void unit_test()
       {
-         verify_ifmt< if_must_else >( result_type::GLOBAL_FAILURE );
+         verify_ifmt< if_must_else >( result_type::global_failure );
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE

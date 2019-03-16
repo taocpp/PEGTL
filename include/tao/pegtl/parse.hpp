@@ -22,8 +22,8 @@ namespace tao
       template< typename Rule,
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
-                apply_mode A = apply_mode::ACTION,
-                rewind_mode M = rewind_mode::REQUIRED,
+                apply_mode A = apply_mode::action,
+                rewind_mode M = rewind_mode::required,
                 typename Input,
                 typename... States >
       bool parse( Input&& in, States&&... st )
@@ -34,8 +34,8 @@ namespace tao
       template< typename Rule,
                 template< typename... > class Action = nothing,
                 template< typename... > class Control = normal,
-                apply_mode A = apply_mode::ACTION,
-                rewind_mode M = rewind_mode::REQUIRED,
+                apply_mode A = apply_mode::action,
+                rewind_mode M = rewind_mode::required,
                 typename Outer,
                 typename Input,
                 typename... States >

@@ -78,14 +78,14 @@ namespace tao
          template< char... Cs >
          struct istring
          {
-            using analyze_t = analysis::counted< analysis::rule_type::ANY, sizeof...( Cs ) >;
+            using analyze_t = analysis::counted< analysis::rule_type::any, sizeof...( Cs ) >;
 
             template< typename Input >
             static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
             {
                if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
                   if( istring_equal< Cs... >::match( in.current() ) ) {
-                     bump_help< result_on_found::SUCCESS, Input, char, Cs... >( in, sizeof...( Cs ) );
+                     bump_help< result_on_found::success, Input, char, Cs... >( in, sizeof...( Cs ) );
                      return true;
                   }
                }

@@ -36,7 +36,7 @@ namespace tao
          class memory_input_base;
 
          template< typename Eol, typename Source >
-         class memory_input_base< tracking_mode::IMMEDIATE, Eol, Source >
+         class memory_input_base< tracking_mode::eager, Eol, Source >
          {
          public:
             using iterator_t = internal::iterator;
@@ -133,7 +133,7 @@ namespace tao
          };
 
          template< typename Eol, typename Source >
-         class memory_input_base< tracking_mode::LAZY, Eol, Source >
+         class memory_input_base< tracking_mode::lazy, Eol, Source >
          {
          public:
             using iterator_t = const char*;
@@ -220,7 +220,7 @@ namespace tao
 
       }  // namespace internal
 
-      template< tracking_mode P = tracking_mode::IMMEDIATE, typename Eol = eol::lf_crlf, typename Source = std::string >
+      template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf, typename Source = std::string >
       class memory_input
          : public internal::memory_input_base< P, Eol, Source >
       {
@@ -339,10 +339,10 @@ namespace tao
 
          const char* end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
          {
-            using input_t = memory_input< tracking_mode::LAZY, Eol, const char* >;
+            using input_t = memory_input< tracking_mode::lazy, Eol, const char* >;
             input_t in( at( p ), this->end(), "" );
             using grammar = internal::until< internal::at< internal::eolf > >;
-            normal< grammar >::match< apply_mode::NOTHING, rewind_mode::DONTCARE, nothing, normal >( in );
+            normal< grammar >::match< apply_mode::nothing, rewind_mode::dontcare, nothing, normal >( in );
             return in.current();
          }
 

@@ -14,12 +14,12 @@ namespace examples
 {
    enum class json_type
    {
-      ARRAY,
-      BOOLEAN,
-      NULL_,
-      NUMBER,
-      OBJECT,
-      STRING
+      array,
+      boolean,
+      null,
+      number,
+      object,
+      string
    };
 
    class json_base
@@ -59,7 +59,7 @@ namespace examples
       : public json_base
    {
       array_json()
-         : json_base( json_type::ARRAY )
+         : json_base( json_type::array )
       {
       }
 
@@ -83,7 +83,7 @@ namespace examples
       : public json_base
    {
       explicit boolean_json( const bool in_data )
-         : json_base( json_type::BOOLEAN ),
+         : json_base( json_type::boolean ),
            data( in_data )
       {
       }
@@ -100,7 +100,7 @@ namespace examples
       : public json_base
    {
       null_json()
-         : json_base( json_type::NULL_ )
+         : json_base( json_type::null )
       {
       }
 
@@ -114,7 +114,7 @@ namespace examples
       : public json_base
    {
       explicit number_json( const long double in_data )
-         : json_base( json_type::NUMBER ),
+         : json_base( json_type::number ),
            data( in_data )
       {
       }
@@ -179,7 +179,7 @@ namespace examples
       : public json_base
    {
       explicit string_json( const std::string& in_data )  // NOLINT
-         : json_base( json_type::STRING ),
+         : json_base( json_type::string ),
            data( in_data )
       {
       }
@@ -196,7 +196,7 @@ namespace examples
       : public json_base
    {
       object_json()
-         : json_base( json_type::OBJECT )
+         : json_base( json_type::object )
       {
       }
 

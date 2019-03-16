@@ -134,7 +134,7 @@ public:
    char peek_char( const std::size_t offset = 0 ) const noexcept;   // { return begin()[ offset ]; }
    unsigned char peek_byte( const std::size_t offset = 0 ) const noexcept;  // As above with cast.
 
-   pegtl::position position() const noexcept;  // Not efficient with LAZY inputs.
+   pegtl::position position() const noexcept;  // Not efficient with lazy inputs.
 
    const Input& input() const noexcept;  // The input from the parsing run.
 
@@ -144,9 +144,9 @@ public:
 
 Note that the `action_input` does **not** own the data it points to, it belongs to the original input used in the parsing run. Therefore **the validity of the pointed-to data might not extend (much) beyond the call to the `apply()`-method**!
 
-When the original input has tracking mode `IMMEDIATE`, the `iterator_t` returned by `action_input::iterator()` will contain the `byte`, `line` and `byte_in_line` counters corresponding to the beginning of the matched input represented by the `action_input`.
+When the original input has tracking mode `eager`, the `iterator_t` returned by `action_input::iterator()` will contain the `byte`, `line` and `byte_in_line` counters corresponding to the beginning of the matched input represented by the `action_input`.
 
-When the original input has tracking mode `LAZY`, then `action_input::position()` is not efficient because it calculates the line number etc. by scanning the complete original input from the beginning.
+When the original input has tracking mode `lazy`, then `action_input::position()` is not efficient because it calculates the line number etc. by scanning the complete original input from the beginning.
 
 Actions often need to store and/or reference portions of the input for after the parsing run, for example when an abstract syntax tree is generated.
 Some of the syntax tree nodes will contain portions of the input, for example for a variable name in a script language that needs to be stored in the syntax tree just as it occurs in the input data.

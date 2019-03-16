@@ -39,7 +39,7 @@ namespace tao
          template< std::size_t... Indices, typename... Rules >
          struct sor< index_sequence< Indices... >, Rules... >
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SOR, Rules... >;
+            using analyze_t = analysis::generic< analysis::rule_type::sor, Rules... >;
 
             template< apply_mode A,
                       rewind_mode M,
@@ -52,11 +52,11 @@ namespace tao
             static bool match( Input& in, States&&... st )
             {
 #ifdef __cpp_fold_expressions
-               return ( Control< Rules >::template match < A, ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::REQUIRED, Action, Control > ( in, st... ) || ... );
+               return ( Control< Rules >::template match < A, ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::required, Action, Control > ( in, st... ) || ... );
 #else
                bool result = false;
                using swallow = bool[];
-               (void)swallow{ result = result || Control< Rules >::template match < A, ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::REQUIRED, Action, Control > ( in, st... )... };
+               (void)swallow{ result = result || Control< Rules >::template match < A, ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::required, Action, Control > ( in, st... )... };
                return result;
 #endif
             }

@@ -23,7 +23,7 @@ namespace tao
          struct apply0_impl;
 
          template<>
-         struct apply0_impl< apply_mode::ACTION >
+         struct apply0_impl< apply_mode::action >
          {
             template< typename... States >
             static bool match( States&&... /*unused*/ ) noexcept
@@ -33,7 +33,7 @@ namespace tao
          };
 
          template< typename... Actions >
-         struct apply0_impl< apply_mode::ACTION, Actions... >
+         struct apply0_impl< apply_mode::action, Actions... >
          {
             template< typename... States >
             static bool match( States&&... st )
@@ -50,7 +50,7 @@ namespace tao
          };
 
          template< typename... Actions >
-         struct apply0_impl< apply_mode::NOTHING, Actions... >
+         struct apply0_impl< apply_mode::nothing, Actions... >
          {
             template< typename... States >
             static bool match( States&&... /*unused*/ ) noexcept
@@ -62,7 +62,7 @@ namespace tao
          template< typename... Actions >
          struct apply0
          {
-            using analyze_t = analysis::counted< analysis::rule_type::ANY, 0 >;
+            using analyze_t = analysis::counted< analysis::rule_type::any, 0 >;
 
             template< apply_mode A,
                       rewind_mode M,

@@ -27,7 +27,7 @@ namespace tao
          template< typename... Rules >
          struct must
          {
-            using analyze_t = analysis::generic< analysis::rule_type::SEQ, Rules... >;
+            using analyze_t = analysis::generic< analysis::rule_type::seq, Rules... >;
 
             template< apply_mode A,
                       rewind_mode M,
@@ -62,8 +62,8 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               if( !Control< Rule >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st... ) ) {
-                  raise< Rule >::template match< A, rewind_mode::DONTCARE, Action, Control >( in, st... );
+               if( !Control< Rule >::template match< A, rewind_mode::dontcare, Action, Control >( in, st... ) ) {
+                  raise< Rule >::template match< A, rewind_mode::dontcare, Action, Control >( in, st... );
                }
                return true;
             }

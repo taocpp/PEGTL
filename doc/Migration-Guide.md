@@ -1,12 +1,21 @@
 # Migration Guide
 
+## Version 2.8.0
+
+All enumerators were changed from uppercase to lowercase.
+Additionally, `tracking_mode::IMMEDIATE` was renamed to `tracking_mode::eager`.
+
+Compatibility enumerators can still be used, the library should be fully compatible when used with older enumerators.
+Note, however, that the old enumerators will be removed in version 3.0.0.
+Consider updating your enumerators now.
+
 ## Version 2.4.0
 
 The common prefix for all macros was changed from `TAOCPP_PEGTL_` to `TAO_PEGTL_`.
 
-Compatibility macros can still be used, the library should be fully compatible when
-used with older macros. Note, however, that the old macros will be removed in a
-future version 3.0. Consider updating your macro prefixes now.
+Compatibility macros can still be used, the library should be fully compatible when used with older macros.
+Note, however, that the old macros will be removed in version 3.0.0.
+Consider updating your macro prefixes now.
 
 ## From 1.y to 2.z
 

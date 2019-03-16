@@ -23,7 +23,7 @@ namespace tao
                    class Action,
                    template< typename... >
                    class Control,
-                   dusel_mode = dusel_mode::NOTHING >
+                   dusel_mode = dusel_mode::nothing >
          struct duseltronik;
 
          template< typename Rule,
@@ -33,7 +33,7 @@ namespace tao
                    class Action,
                    template< typename... >
                    class Control >
-         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::NOTHING >
+         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::nothing >
          {
             template< typename Input, typename... States >
             static auto match( Input& in, States&&... st )
@@ -59,14 +59,14 @@ namespace tao
                    class Action,
                    template< typename... >
                    class Control >
-         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL >
+         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control >
          {
             template< typename Input, typename... States >
             static bool match( Input& in, States&&... st )
             {
                Control< Rule >::start( static_cast< const Input& >( in ), st... );
 
-               if( duseltronik< Rule, A, M, Action, Control, dusel_mode::NOTHING >::match( in, st... ) ) {
+               if( duseltronik< Rule, A, M, Action, Control, dusel_mode::nothing >::match( in, st... ) ) {
                   Control< Rule >::success( static_cast< const Input& >( in ), st... );
                   return true;
                }
@@ -82,16 +82,16 @@ namespace tao
                    class Action,
                    template< typename... >
                    class Control >
-         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL_AND_APPLY_VOID >
+         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control_and_apply_void >
          {
             template< typename Input, typename... States >
             static bool match( Input& in, States&&... st )
             {
-               auto m = in.template mark< rewind_mode::REQUIRED >();
+               auto m = in.template mark< rewind_mode::required >();
 
                Control< Rule >::start( static_cast< const Input& >( in ), st... );
 
-               if( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, dusel_mode::NOTHING >::match( in, st... ) ) {
+               if( duseltronik< Rule, A, rewind_mode::active, Action, Control, dusel_mode::nothing >::match( in, st... ) ) {
                   Control< Rule >::template apply< Action >( m.iterator(), static_cast< const Input& >( in ), st... );
                   Control< Rule >::success( static_cast< const Input& >( in ), st... );
                   return m( true );
@@ -108,16 +108,16 @@ namespace tao
                    class Action,
                    template< typename... >
                    class Control >
-         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL_AND_APPLY_BOOL >
+         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control_and_apply_bool >
          {
             template< typename Input, typename... States >
             static bool match( Input& in, States&&... st )
             {
-               auto m = in.template mark< rewind_mode::REQUIRED >();
+               auto m = in.template mark< rewind_mode::required >();
 
                Control< Rule >::start( static_cast< const Input& >( in ), st... );
 
-               if( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, dusel_mode::NOTHING >::match( in, st... ) ) {
+               if( duseltronik< Rule, A, rewind_mode::active, Action, Control, dusel_mode::nothing >::match( in, st... ) ) {
                   if( Control< Rule >::template apply< Action >( m.iterator(), static_cast< const Input& >( in ), st... ) ) {
                      Control< Rule >::success( static_cast< const Input& >( in ), st... );
                      return m( true );
@@ -135,14 +135,14 @@ namespace tao
                    class Action,
                    template< typename... >
                    class Control >
-         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL_AND_APPLY0_VOID >
+         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control_and_apply0_void >
          {
             template< typename Input, typename... States >
             static bool match( Input& in, States&&... st )
             {
                Control< Rule >::start( static_cast< const Input& >( in ), st... );
 
-               if( duseltronik< Rule, A, M, Action, Control, dusel_mode::NOTHING >::match( in, st... ) ) {
+               if( duseltronik< Rule, A, M, Action, Control, dusel_mode::nothing >::match( in, st... ) ) {
                   Control< Rule >::template apply0< Action >( static_cast< const Input& >( in ), st... );
                   Control< Rule >::success( static_cast< const Input& >( in ), st... );
                   return true;
@@ -159,16 +159,16 @@ namespace tao
                    class Action,
                    template< typename... >
                    class Control >
-         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL_AND_APPLY0_BOOL >
+         struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control_and_apply0_bool >
          {
             template< typename Input, typename... States >
             static bool match( Input& in, States&&... st )
             {
-               auto m = in.template mark< rewind_mode::REQUIRED >();
+               auto m = in.template mark< rewind_mode::required >();
 
                Control< Rule >::start( static_cast< const Input& >( in ), st... );
 
-               if( duseltronik< Rule, A, rewind_mode::ACTIVE, Action, Control, dusel_mode::NOTHING >::match( in, st... ) ) {
+               if( duseltronik< Rule, A, rewind_mode::active, Action, Control, dusel_mode::nothing >::match( in, st... ) ) {
                   if( Control< Rule >::template apply0< Action >( static_cast< const Input& >( in ), st... ) ) {
                      Control< Rule >::success( static_cast< const Input& >( in ), st... );
                      return m( true );

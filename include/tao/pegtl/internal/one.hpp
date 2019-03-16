@@ -30,7 +30,7 @@ namespace tao
          template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
          struct one
          {
-            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+            using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< typename Input >
             static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
@@ -50,7 +50,7 @@ namespace tao
          template< result_on_found R, typename Peek, typename Peek::data_t C >
          struct one< R, Peek, C >
          {
-            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+            using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< typename Input >
             static bool match( Input& in ) noexcept( noexcept( in.empty() ) )

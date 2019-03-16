@@ -22,7 +22,7 @@ namespace tao
             template< typename Peek, UProperty P, bool V = true >
             struct binary_property
             {
-               using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+               using analyze_t = analysis::generic< analysis::rule_type::any >;
 
                template< typename Input >
                static bool match( Input& in ) noexcept( noexcept( Peek::peek( in ) ) )
@@ -40,7 +40,7 @@ namespace tao
             template< typename Peek, UProperty P, int V >
             struct property_value
             {
-               using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+               using analyze_t = analysis::generic< analysis::rule_type::any >;
 
                template< typename Input >
                static bool match( Input& in ) noexcept( noexcept( Peek::peek( in ) ) )

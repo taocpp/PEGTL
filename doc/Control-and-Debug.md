@@ -82,7 +82,7 @@ struct normal
    static bool match( Input& in, States&&... st )
    {
       constexpr bool use_control = !internal::skip_control< Rule >::value;
-      constexpr bool use_action = use_control && ( A == apply_mode::ACTION ) && ( !is_nothing< Action, Rule >::value );
+      constexpr bool use_action = use_control && ( A == apply_mode::action ) && ( !is_nothing< Action, Rule >::value );
       constexpr bool use_apply0 = use_action && internal::has_apply0< Action< Rule >, internal::type_list< States... > >::value;
       constexpr dusel_mode mode = static_cast< dusel_mode >( static_cast< char >( use_control ) + static_cast< char >( use_action ) + static_cast< char >( use_apply0 ) );
       return internal::duseltronik< Rule, A, M, Action, Control, mode >::match( in, st... );

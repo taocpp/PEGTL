@@ -207,7 +207,7 @@ namespace calculator
 
    struct infix
    {
-      using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+      using analyze_t = analysis::generic< analysis::rule_type::any >;
 
       template< apply_mode,
                 rewind_mode,

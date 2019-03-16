@@ -13,16 +13,16 @@ namespace tao
       {
          verify_analyze< bol >( __LINE__, __FILE__, false, false );
 
-         verify_only< bol >( __LINE__, __FILE__, "", result_type::SUCCESS, 0 );
+         verify_only< bol >( __LINE__, __FILE__, "", result_type::success, 0 );
 
          for( char i = 1; i < 127; ++i ) {
             const char s[] = { i, 0 };
-            verify_only< bol >( __LINE__, __FILE__, s, result_type::SUCCESS, 1 );
+            verify_only< bol >( __LINE__, __FILE__, s, result_type::success, 1 );
          }
-         verify_only< seq< alpha, bol > >( __LINE__, __FILE__, "a", result_type::LOCAL_FAILURE, 1 );
-         verify_only< seq< alpha, bol > >( __LINE__, __FILE__, "ab", result_type::LOCAL_FAILURE, 2 );
-         verify_only< seq< alpha, bol, alpha > >( __LINE__, __FILE__, "ab", result_type::LOCAL_FAILURE, 2 );
-         verify_only< seq< alpha, eol, bol, alpha, eof > >( __LINE__, __FILE__, "a\nb", result_type::SUCCESS, 0 );
+         verify_only< seq< alpha, bol > >( __LINE__, __FILE__, "a", result_type::local_failure, 1 );
+         verify_only< seq< alpha, bol > >( __LINE__, __FILE__, "ab", result_type::local_failure, 2 );
+         verify_only< seq< alpha, bol, alpha > >( __LINE__, __FILE__, "ab", result_type::local_failure, 2 );
+         verify_only< seq< alpha, eol, bol, alpha, eof > >( __LINE__, __FILE__, "a\nb", result_type::success, 0 );
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE

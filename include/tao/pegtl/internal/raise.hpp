@@ -25,7 +25,7 @@ namespace tao
          template< typename T >
          struct raise
          {
-            using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+            using analyze_t = analysis::generic< analysis::rule_type::any >;
 
 #ifdef _MSC_VER
 #pragma warning( push )

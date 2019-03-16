@@ -39,7 +39,7 @@ namespace tao
          template< unsigned Num, typename... Rules >
          struct rep
          {
-            using analyze_t = analysis::counted< analysis::rule_type::SEQ, Num, Rules... >;
+            using analyze_t = analysis::counted< analysis::rule_type::seq, Num, Rules... >;
 
             template< apply_mode A,
                       rewind_mode M,

@@ -97,7 +97,7 @@ namespace tao
 
             TAO_PEGTL_NAMESPACE::position position() const
             {
-               return input().position( iterator() );  // NOTE: Not efficient with LAZY inputs.
+               return input().position( iterator() );  // NOTE: Not efficient with lazy inputs.
             }
 
          protected:

@@ -10,7 +10,7 @@ namespace modulus
    template< unsigned M, unsigned R = 0 >
    struct my_rule
    {
-      using analyze_t = analysis::generic< analysis::rule_type::ANY >;
+      using analyze_t = analysis::generic< analysis::rule_type::any >;
 
       static_assert( M > 1, "Modulus must be greater than 1" );
       static_assert( R < M, "Remainder must be less than modulus" );
