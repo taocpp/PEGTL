@@ -19,7 +19,7 @@ namespace tao
             seq,  // Consumption-on-success depends on consumption of (non-zero bounded repetition of) conjunction of sub-rules.
             sor,  // Consumption-on-success depends on consumption of (non-zero bounded repetition of) disjunction of sub-rules.
 
-            // Compatibility, remove with 3.0
+            // Compatibility, remove with 3.0.0
             ANY = any,
             OPT = opt,
             SEQ = seq,

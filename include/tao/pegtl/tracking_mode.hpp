@@ -15,7 +15,7 @@ namespace tao
          eager,
          lazy,
 
-         // Compatibility, remove with 3.0
+         // Compatibility, remove with 3.0.0
          IMMEDIATE = eager,
          LAZY = lazy
       };

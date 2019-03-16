@@ -15,7 +15,7 @@ namespace tao
          action = true,
          nothing = false,
 
-         // Compatibility, remove with 3.0
+         // Compatibility, remove with 3.0.0
          ACTION = action,
          NOTHING = nothing
       };

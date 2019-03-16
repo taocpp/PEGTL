@@ -16,7 +16,7 @@ namespace tao
          required,
          dontcare,
 
-         // Compatibility, remove with 3.0
+         // Compatibility, remove with 3.0.0
          ACTIVE = active,
          REQUIRED = required,
          DONTCARE = dontcare
