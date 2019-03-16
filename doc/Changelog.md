@@ -18,6 +18,7 @@
 * Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
 * Added support for Universal Windows Platform (UWP).
 * Added the Clang Static Analyzer to the CI build.
+* Added new Makefile target `consolidate` to generate a single-header version of the PEGTL.
 
 ## 2.7.1
 

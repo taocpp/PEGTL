@@ -34,10 +34,12 @@ CXXFLAGS ?= -Wall -Wextra -Wshadow -Werror -O3 $(MINGW_CXXFLAGS)
 
 CLANG_TIDY ?= clang-tidy
 
-HEADERS := $(filter-out include/tao/pegtl/internal/endian_win.hpp include/tao/pegtl/internal/file_mapper_win32.hpp,$(shell find include -name '*.hpp')) $(filter-out src/test/pegtl/main.hpp,$(shell find src -name '*.hpp'))
+HEADERS := $(shell find include -name '*.hpp')
 SOURCES := $(shell find src -name '*.cpp')
 DEPENDS := $(SOURCES:%.cpp=build/%.d)
 BINARIES := $(SOURCES:%.cpp=build/%)
+
+CLANG_TIDY_HEADERS := $(filter-out include/tao/pegtl/internal/endian_win.hpp include/tao/pegtl/internal/file_mapper_win32.hpp,$(HEADER)) $(filter-out src/test/pegtl/main.hpp,$(shell find src -name '*.hpp'))
 
 UNIT_TESTS := $(filter build/src/test/%,$(BINARIES))
 
@@ -65,8 +67,8 @@ build/%.clang-tidy: %
 	@touch $@
 
 .PHONY: clang-tidy
-clang-tidy: $(HEADERS:%=build/%.clang-tidy) $(SOURCES:%=build/%.clang-tidy)
-	@echo "All $(words $(HEADERS) $(SOURCES)) clang-tidy tests passed."
+clang-tidy: $(CLANG_TIDY_HEADERS:%=build/%.clang-tidy) $(SOURCES:%=build/%.clang-tidy)
+	@echo "All $(words $(CLANG_TIDY_HEADERS) $(SOURCES)) clang-tidy tests passed."
 
 .PHONY: clean
 clean:
@@ -79,6 +81,24 @@ build/%.d: %.cpp Makefile
 
 build/%: %.cpp build/%.d
 	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+
+.PHONY: consolidate
+consolidate: build/consolidated/pegtl.hpp
+
+build/consolidated/pegtl.hpp: $(HEADERS)
+	@mkdir -p $(@D)
+	@rm -rf build/include
+	@cp -a include build/
+	@rm -rf build/include/tao/pegtl/contrib/icu
+	@sed -i 's%^#\([^i]\|if\|include <\)%//\0%g' $$(find build/include -name '*.hpp')
+	@sed -i 's%^// Copyright%#pragma once\n#line 1\n\0%g' $$(find build/include -name '*.hpp')
+	@echo '#include "tao/pegtl.hpp"' >build/include/consolidated.hpp
+	@echo '#include "tao/pegtl/analyze.hpp"' >>build/include/consolidated.hpp
+	@( cd build/include ; find tao/pegtl/contrib -name '*.hpp' -printf '#include "%p"\n') >>build/include/consolidated.hpp
+	@( cd build/include ; g++ -E -C -nostdinc consolidated.hpp ) >$@
+	@sed -i 's%^//#%#%g' $@
+	@sed -i 's%^# \([0-9]* "[^"]*"\).*%#line \1%g' $@
+	@echo "Generated/updated $@ successfully."
 
 ifeq ($(findstring $(MAKECMDGOALS),clean),)
 -include $(DEPENDS)
