@@ -19,16 +19,20 @@ namespace tao
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control,
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control,
                    dusel_mode = dusel_mode::NOTHING >
          struct duseltronik;
 
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control >
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control >
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::NOTHING >
          {
             template< typename Input, typename... States >
@@ -51,8 +55,10 @@ namespace tao
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control >
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control >
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL >
          {
             template< typename Input, typename... States >
@@ -72,8 +78,10 @@ namespace tao
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control >
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control >
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL_AND_APPLY_VOID >
          {
             template< typename Input, typename... States >
@@ -96,8 +104,10 @@ namespace tao
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control >
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control >
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL_AND_APPLY_BOOL >
          {
             template< typename Input, typename... States >
@@ -121,8 +131,10 @@ namespace tao
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control >
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control >
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL_AND_APPLY0_VOID >
          {
             template< typename Input, typename... States >
@@ -143,8 +155,10 @@ namespace tao
          template< typename Rule,
                    apply_mode A,
                    rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control >
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control >
          struct duseltronik< Rule, A, M, Action, Control, dusel_mode::CONTROL_AND_APPLY0_BOOL >
          {
             template< typename Input, typename... States >

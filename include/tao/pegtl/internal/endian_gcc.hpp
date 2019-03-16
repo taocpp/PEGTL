@@ -13,7 +13,6 @@ namespace tao
    {
       namespace internal
       {
-
 #if not defined( __BYTE_ORDER__ )
 #error No byte order defined!
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__

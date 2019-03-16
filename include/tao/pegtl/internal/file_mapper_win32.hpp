@@ -143,11 +143,11 @@ namespace tao
 
             explicit file_mapper( const win32_file_mapper& mapper )
                : m_size( mapper.m_size ),
-                 m_data( static_cast< const char* >(::MapViewOfFile( mapper.m_handle,
-                                                                           FILE_MAP_READ,
-                                                                           0,
-                                                                           0,
-                                                                           0 ) ) )
+                 m_data( static_cast< const char* >( ::MapViewOfFile( mapper.m_handle,
+                                                                      FILE_MAP_READ,
+                                                                      0,
+                                                                      0,
+                                                                      0 ) ) )
             {
                if( ( m_size != 0 ) && ( intptr_t( m_data ) == 0 ) ) {
                   TAO_PEGTL_THROW_INPUT_WIN32_ERROR( "unable to MapViewOfFile() file mapping object with handle " << mapper.m_handle );

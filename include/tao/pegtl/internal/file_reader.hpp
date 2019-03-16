@@ -23,7 +23,7 @@ namespace tao
             errno = 0;
 #if defined( _MSC_VER )
             std::FILE* file;
-            if(::fopen_s( &file, filename, "rb" ) == 0 )
+            if( ::fopen_s( &file, filename, "rb" ) == 0 )
 #elif defined( __MINGW32__ )
             if( auto* file = std::fopen( filename, "rb" ) )  // NOLINT(cppcoreguidelines-owning-memory)
 #else

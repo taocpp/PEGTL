@@ -29,7 +29,7 @@ namespace tao
 
             explicit file_mapper( const file_opener& reader )
                : m_size( reader.size() ),
-                 m_data( static_cast< const char* >(::mmap( nullptr, m_size, PROT_READ, MAP_PRIVATE, reader.m_fd, 0 ) ) )
+                 m_data( static_cast< const char* >( ::mmap( nullptr, m_size, PROT_READ, MAP_PRIVATE, reader.m_fd, 0 ) ) )
             {
                if( ( m_size != 0 ) && ( intptr_t( m_data ) == -1 ) ) {
                   TAO_PEGTL_THROW_INPUT_ERROR( "unable to mmap() file " << reader.m_source << " descriptor " << reader.m_fd );

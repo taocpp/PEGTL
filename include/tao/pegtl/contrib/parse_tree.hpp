@@ -6,7 +6,7 @@
 
 #include <cassert>
 #include <memory>
-#if defined(_MSC_VER) && _MSC_VER == 1900
+#if defined( _MSC_VER ) && _MSC_VER == 1900
 #include <tuple>
 #endif
 #include <type_traits>
@@ -255,12 +255,12 @@ namespace tao
             struct make_control< Node, Selector, Control >::control< Rule, false, true >
                : Control< Rule >
             {
-#if defined(_MSC_VER) && _MSC_VER == 1900
+#if defined( _MSC_VER ) && _MSC_VER == 1900
                template< typename Input, std::size_t... Is, typename... States >
-               static void start_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::start( in, std::get< Is >( std::forward_as_tuple ( st... ) )... ) ) )
+               static void start_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::start( in, std::get< Is >( std::forward_as_tuple( st... ) )... ) ) )
                {
-                  std::get< sizeof...(st) - 1 >( std::forward_as_tuple( st... ) ); // silence C4100
-                  Control< Rule >::start( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );  // silence C4100
+                  Control< Rule >::start( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                }
 
                template< typename Input, typename... States >
@@ -270,10 +270,10 @@ namespace tao
                }
 
                template< typename Input, std::size_t... Is, typename... States >
-               static void success_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::success( in, std::get< Is >( std::forward_as_tuple ( st... ) )... ) ) )
+               static void success_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::success( in, std::get< Is >( std::forward_as_tuple( st... ) )... ) ) )
                {
-                  std::get< sizeof...(st) - 1 >( std::forward_as_tuple( st... ) ); // silence C4100
-                  Control< Rule >::success( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );  // silence C4100
+                  Control< Rule >::success( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                }
 
                template< typename Input, typename... States >
@@ -283,10 +283,10 @@ namespace tao
                }
 
                template< typename Input, std::size_t... Is, typename... States >
-               static void failure_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, std::get< Is >( std::forward_as_tuple ( st... ) )... ) ) )
+               static void failure_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, std::get< Is >( std::forward_as_tuple( st... ) )... ) ) )
                {
-                  std::get< sizeof...(st) - 1 >( std::forward_as_tuple( st... ) ); // silence C4100
-                  Control< Rule >::failure( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );  // silence C4100
+                  Control< Rule >::failure( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                }
 
                template< typename Input, typename... States >
@@ -296,10 +296,10 @@ namespace tao
                }
 
                template< typename Input, std::size_t... Is, typename... States >
-               static void raise_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::raise( in, std::get< Is >( std::forward_as_tuple ( st... ) )... ) ) )
+               static void raise_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::raise( in, std::get< Is >( std::forward_as_tuple( st... ) )... ) ) )
                {
-                  std::get< sizeof...(st) - 1 >( std::forward_as_tuple( st... ) ); // silence C4100
-                  Control< Rule >::raise( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );  // silence C4100
+                  Control< Rule >::raise( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                }
 
                template< typename Input, typename... States >
@@ -309,11 +309,11 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, std::size_t... Is, typename... States >
-               static auto apply0_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, std::get< Is >( std::forward_as_tuple ( st... ) )... ) ) )
+               static auto apply0_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, std::get< Is >( std::forward_as_tuple( st... ) )... ) ) )
                   -> decltype( auto )
                {
-                  std::get< sizeof...(st) - 1 >( std::forward_as_tuple( st... ) ); // silence C4100
-                  return Control< Rule >::template apply0< Action >( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );  // silence C4100
+                  return Control< Rule >::template apply0< Action >( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                }
 
                template< template< typename... > class Action, typename Input, typename... States >
@@ -324,11 +324,11 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, std::size_t... Is, typename... States >
-               static auto apply_impl( const Iterator& begin, const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, std::get< Is >( std::forward_as_tuple ( st... ) )... ) ) )
+               static auto apply_impl( const Iterator& begin, const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, std::get< Is >( std::forward_as_tuple( st... ) )... ) ) )
                   -> decltype( auto )
                {
-                  std::get< sizeof...(st) - 1 >( std::forward_as_tuple( st... ) ); // silence C4100
-                  return Control< Rule >::template apply< Action >( begin, in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );  // silence C4100
+                  return Control< Rule >::template apply< Action >( begin, in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
@@ -383,11 +383,11 @@ namespace tao
             struct make_control< Node, Selector, Control >::control< Rule, false, false >
                : Control< Rule >
             {
-#if defined(_MSC_VER) && _MSC_VER == 1900
+#if defined( _MSC_VER ) && _MSC_VER == 1900
                template< typename Input, std::size_t... Is, typename... States >
                static void start_impl( const Input& in, std::index_sequence< Is... >, States&&... st )
                {
-                  Control< Rule >::start( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  Control< Rule >::start( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                   state< Node >& state = std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );
                   state.emplace_back();
                }
@@ -401,7 +401,7 @@ namespace tao
                template< typename Input, std::size_t... Is, typename... States >
                static void success_impl( const Input& in, std::index_sequence< Is... >, States&&... st )
                {
-                  Control< Rule >::success( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  Control< Rule >::success( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                   state< Node >& state = std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );
                   auto n = std::move( state.back() );
                   state.pop_back();
@@ -419,7 +419,7 @@ namespace tao
                template< typename Input, std::size_t... Is, typename... States >
                static void failure_impl( const Input& in, std::index_sequence< Is... >, States&&... st )
                {
-                  Control< Rule >::failure( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  Control< Rule >::failure( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                   state< Node >& state = std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );
                   state.pop_back();
                }
@@ -433,8 +433,8 @@ namespace tao
                template< typename Input, std::size_t... Is, typename... States >
                static void raise_impl( const Input& in, std::index_sequence< Is... >, States&&... st )
                {
-                  std::get< sizeof...(st) - 1 >( std::forward_as_tuple( st... ) ); // silence C4100
-                  Control< Rule >::raise( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );  // silence C4100
+                  Control< Rule >::raise( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                }
 
                template< typename Input, typename... States >
@@ -444,11 +444,11 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, std::size_t... Is, typename... States >
-               static auto apply0_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, std::get< Is >( std::forward_as_tuple ( st... ) )... ) ) )
+               static auto apply0_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, std::get< Is >( std::forward_as_tuple( st... ) )... ) ) )
                   -> decltype( auto )
                {
-                  std::get< sizeof...(st) - 1 >( std::forward_as_tuple( st... ) ); // silence C4100
-                  return Control< Rule >::template apply0< Action >( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );  // silence C4100
+                  return Control< Rule >::template apply0< Action >( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                }
 
                template< template< typename... > class Action, typename Input, typename... States >
@@ -459,11 +459,11 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, std::size_t... Is, typename... States >
-               static auto apply_impl( const Iterator& begin, const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, std::get< Is >( std::forward_as_tuple ( st... ) )... ) ) )
+               static auto apply_impl( const Iterator& begin, const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, std::get< Is >( std::forward_as_tuple( st... ) )... ) ) )
                   -> decltype( auto )
                {
-                  std::get< sizeof...(st) - 1 >( std::forward_as_tuple( st... ) ); // silence C4100
-                  return Control< Rule >::template apply< Action >( begin, in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );  // silence C4100
+                  return Control< Rule >::template apply< Action >( begin, in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
@@ -525,14 +525,14 @@ namespace tao
             struct make_control< Node, Selector, Control >::control< Rule, true, B >
                : Control< Rule >
             {
-#if defined(_MSC_VER) && _MSC_VER == 1900
+#if defined( _MSC_VER ) && _MSC_VER == 1900
                template< typename Input, std::size_t... Is, typename... States >
                static void start_impl( const Input& in, std::index_sequence< Is... >, States&&... st )
                {
-                  Control< Rule >::start( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  Control< Rule >::start( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                   state< Node >& state = std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );
                   state.emplace_back();
-                  state.back()->template start< Rule >( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  state.back()->template start< Rule >( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                }
 
                template< typename Input, typename... States >
@@ -544,14 +544,14 @@ namespace tao
                template< typename Input, std::size_t... Is, typename... States >
                static void success_impl( const Input& in, std::index_sequence< Is... >, States&&... st )
                {
-                  Control< Rule >::success( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  Control< Rule >::success( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                   state< Node >& state = std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );
                   auto n = std::move( state.back() );
                   state.pop_back();
-                  n->template success< Rule >( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
-                  transform< Selector< Rule > >( n, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  n->template success< Rule >( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
+                  transform< Selector< Rule > >( n, std::get< Is >( std::forward_as_tuple( st... ) )... );
                   if( n ) {
-                     state.back()->emplace_back( std::move( n ), std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                     state.back()->emplace_back( std::move( n ), std::get< Is >( std::forward_as_tuple( st... ) )... );
                   }
                }
 
@@ -564,9 +564,9 @@ namespace tao
                template< typename Input, std::size_t... Is, typename... States >
                static void failure_impl( const Input& in, std::index_sequence< Is... >, States&&... st )
                {
-                  Control< Rule >::failure( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  Control< Rule >::failure( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                   state< Node >& state = std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );
-                  state.back()->template failure< Rule >( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  state.back()->template failure< Rule >( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                   state.pop_back();
                }
 
@@ -577,10 +577,10 @@ namespace tao
                }
 
                template< typename Input, std::size_t... Is, typename... States >
-               static void raise_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::raise( in, std::get< Is >( std::forward_as_tuple ( st... ) )... ) ) )
+               static void raise_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::raise( in, std::get< Is >( std::forward_as_tuple( st... ) )... ) ) )
                {
-                  std::get< sizeof...(st) - 1 >( std::forward_as_tuple( st... ) ); // silence C4100
-                  Control< Rule >::raise( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );  // silence C4100
+                  Control< Rule >::raise( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                }
 
                template< typename Input, typename... States >
@@ -590,11 +590,11 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Input, std::size_t... Is, typename... States >
-               static auto apply0_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, std::get< Is >( std::forward_as_tuple ( st... ) )... ) ) )
+               static auto apply0_impl( const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, std::get< Is >( std::forward_as_tuple( st... ) )... ) ) )
                   -> decltype( auto )
                {
-                  std::get< sizeof...(st) - 1 >( std::forward_as_tuple( st... ) ); // silence C4100
-                  return Control< Rule >::template apply0< Action >( in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );  // silence C4100
+                  return Control< Rule >::template apply0< Action >( in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                }
 
                template< template< typename... > class Action, typename Input, typename... States >
@@ -605,11 +605,11 @@ namespace tao
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, std::size_t... Is, typename... States >
-               static auto apply_impl( const Iterator& begin, const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, std::get< Is >( std::forward_as_tuple ( st... ) )... ) ) )
+               static auto apply_impl( const Iterator& begin, const Input& in, std::index_sequence< Is... >, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, std::get< Is >( std::forward_as_tuple( st... ) )... ) ) )
                   -> decltype( auto )
                {
-                  std::get< sizeof...(st) - 1 >( std::forward_as_tuple( st... ) ); // silence C4100
-                  return Control< Rule >::template apply< Action >( begin, in, std::get< Is >( std::forward_as_tuple ( st... ) )... );
+                  std::get< sizeof...( st ) - 1 >( std::forward_as_tuple( st... ) );  // silence C4100
+                  return Control< Rule >::template apply< Action >( begin, in, std::get< Is >( std::forward_as_tuple( st... ) )... );
                }
 
                template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
