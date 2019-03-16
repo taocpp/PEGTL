@@ -367,7 +367,7 @@ namespace tao
             return in.current();
          }
 
-         std::string line_as_string( const TAO_PEGTL_NAMESPACE::position& p ) const
+         std::string line_at( const TAO_PEGTL_NAMESPACE::position& p ) const
          {
             return std::string( begin_of_line( p ), end_of_line( p ) );
          }

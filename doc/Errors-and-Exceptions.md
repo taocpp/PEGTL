@@ -45,10 +45,10 @@ For another use case consider the following parsing rules for a simplified C-str
 The rule `escaped` is for a single escaped character, the rule `content` is for the complete content of such a literal.
 
 ```c++
-   using namespace tao::pegtl;
-   struct escaped : seq< one< '\\' >, one< 'n', 'r', 't' > > {};
-   struct content : star< sor< escaped, not_one< '\\', '"' > > > {};
-   struct literal : seq< one< '"' >, content, one< '"' > > {};
+using namespace tao::pegtl;
+struct escaped : seq< one< '\\' >, one< 'n', 'r', 't' > > {};
+struct content : star< sor< escaped, not_one< '\\', '"' > > > {};
+struct literal : seq< one< '"' >, content, one< '"' > > {};
 ```
 
 The `escaped` rule first matches a backslash, and then one of the allowed subsequent characters.
@@ -61,24 +61,24 @@ It is however *not* appropriate when the backslash was not followed by one of th
 We can therefore re-write the `escaped` rule as follows so that once the backslash has matched we need one of the following allowed characters to match, otherwise a global failure is thrown.
 
 ```c++
-   using namespace tao::pegtl;
-   struct escaped : seq< one< '\\' >, must< one< 'n', 'r', 't' > > > {};
+using namespace tao::pegtl;
+struct escaped : seq< one< '\\' >, must< one< 'n', 'r', 't' > > > {};
 ```
 
 A `seq<>` where all but the first sub-rule is inside a `must<>` occurs frequently enough to merit a convenience rule.
 The following rule is equivalent to the above.
 
 ```c++
-   using namespace tao::pegtl;
-   struct escaped : if_must< one< '\\' >, one< 'n', 'r', 't' > > {};
+using namespace tao::pegtl;
+struct escaped : if_must< one< '\\' >, one< 'n', 'r', 't' > > {};
 ```
 
 Now the `escaped` rule can only return local failure when the next input byte is not a backslash.
 This knowledge can be used to simplify the `content` rule by not needing to exclude the backslash in the following rule.
 
 ```c++
-   using namespace tao::pegtl;
-   struct content : star< sor< escaped, not_one< '"' > > > {};
+using namespace tao::pegtl;
+struct content : star< sor< escaped, not_one< '"' > > > {};
 ```
 
 Finally we apply our "best practice" and give the `one< 'n', 'r', 't' >` rule a dedicated name.
@@ -86,11 +86,11 @@ This will improve the built-in error message when the global failure is thrown, 
 The resulting example is as follows.
 
 ```c++
-   using namespace tao::pegtl;
-   struct escchar : one< 'n', 'r', 't' > {};
-   struct escaped : if_must< one< '\\' >, escchar > {};
-   struct content : star< sor< escaped, not_one< '"' > > > {};
-   struct literal : seq< one< '"' >, content, one< '"' > > {};
+using namespace tao::pegtl;
+struct escchar : one< 'n', 'r', 't' > {};
+struct escaped : if_must< one< '\\' >, escchar > {};
+struct content : star< sor< escaped, not_one< '"' > > > {};
+struct literal : seq< one< '"' >, content, one< '"' > > {};
 ```
 
 The same use of `if_must<>` can be applied to the `literal` rule assuming that it occurs in some `sor<>` where it is the only rule whose matched input can begin with a quotation mark...

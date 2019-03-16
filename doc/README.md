@@ -21,6 +21,8 @@
   * [Actions](Actions-and-States.md#actions)
     * [Apply](Actions-and-States.md#apply)
     * [Apply0](Actions-and-States.md#apply0)
+  * [Troubleshooting](Actions-and-States.md#troubleshooting)
+    * [Boolean Return](#boolean-return)
   * [States](Actions-and-States.md#states)
   * [Action Specialisation](Actions-and-States.md#action-specialisation)
   * [Changing Actions](Actions-and-States.md#changing-actions)
@@ -211,6 +213,7 @@
 * [`ranges< C1, D1, C2, D2, ..., E >`](Rule-Reference.md#ranges-c1-d1-c2-d2--e-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ..., E >`](Rule-Reference.md#ranges-c1-d1-c2-d2--e--1) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
 * [`ranges< C1, D1, C2, D2, ..., E >`](Rule-Reference.md#ranges-c1-d1-c2-d2--e--2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
+* [`rematch< R, S... >`](Rule-Reference.md#rematch-r-s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`rep< Num, R... >`](Rule-Reference.md#rep-num-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`rep_max< Max, R... >`](Rule-Reference.md#rep_max-max-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`rep_min< Min, R... >`](Rule-Reference.md#rep_min-min-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>

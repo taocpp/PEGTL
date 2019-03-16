@@ -52,7 +52,7 @@ Some input classes allow a choice of tracking mode, or whether the `byte`, `line
 
 Lazy tracking is recommended when the position is used very infrequently, for example only in the case of throwing a `parse_error`.
 
-Immediate tracking is recommended when the position is used frequently and/or in non-exceptional cases, for example when annotating every AST node with the line number.
+Eager tracking is recommended when the position is used frequently and/or in non-exceptional cases, for example when annotating every AST node with the line number.
 
 ## Line Ending
 
@@ -419,13 +419,12 @@ The included examples for C- and C++-style streams can also be used as reference
 ## Error Reporting
 
 When reporting an error, one often wants to print the complete line from the input where the error occurred and a marker at the position where the error is found within that line.
-To support this, the `memory_input<>` class has methods `at( p )`, `begin_of_line( p )`, `end_of_line( p )` and `line_as_string( p )` which take a `tao::pegtl::position` as parameter.
+To support this, the `memory_input<>` class has methods `at( p )`, `begin_of_line( p )`, `end_of_line( p )` and `line_at( p )` which take a `tao::pegtl::position` as parameter.
 The first three methods return a `const char*` to position `p`, the begin-of-line before `p`, or the end-of-line after `p` (or the end of the input if the input is not terminated by an end-of-line), respectively.
-For convenience, `line_as_string( p )` returns a `std::string` with the complete line around `p`.
+For convenience, `line_at( p )` returns a `std::string` with the complete line around `p`.
 Example usage:
 
 ```c++
-
 // create input 'in' here...
 try {
   // call parse on the input 'in' here...
@@ -433,7 +432,7 @@ try {
 catch( const parse_error& e ) {
    const auto p = e.positions.front();
    std::cerr << e.what() << std::endl
-             << in.line_as_string( p ) << std::endl
+             << in.line_at( p ) << std::endl
              << std::string( p.byte_in_line, ' ' ) << '^' << std::endl;
 }
 ```
