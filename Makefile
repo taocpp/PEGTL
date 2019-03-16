@@ -82,10 +82,10 @@ build/%.d: %.cpp Makefile
 build/%: %.cpp build/%.d
 	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) $< -o $@
 
-.PHONY: consolidate
-consolidate: build/consolidated/pegtl.hpp
+.PHONY: amalgamate
+amalgamate: build/amalgamated/pegtl.hpp
 
-build/consolidated/pegtl.hpp: $(HEADERS)
+build/amalgamated/pegtl.hpp: $(HEADERS)
 	@mkdir -p $(@D)
 	@rm -rf build/include
 	@cp -a include build/
@@ -93,10 +93,10 @@ build/consolidated/pegtl.hpp: $(HEADERS)
 	@sed -i -e 's%^#%//#%g' $$(find build/include -name '*.hpp')
 	@sed -i -e 's%^//#include "%#include "%g' $$(find build/include -name '*.hpp')
 	@for i in $$(find build/include -name '*.hpp'); do echo "#pragma once" >tmp.out; echo "#line 1" >>tmp.out; cat $$i >>tmp.out; mv tmp.out $$i; done
-	@echo '#include "tao/pegtl.hpp"' >build/include/consolidated.hpp
-	@echo '#include "tao/pegtl/analyze.hpp"' >>build/include/consolidated.hpp
-	@( cd build/include ; for i in tao/pegtl/contrib/*.hpp; do echo "#include \"$$i\""; done ) >>build/include/consolidated.hpp
-	@( cd build/include ; g++ -E -C -nostdinc consolidated.hpp ) >$@
+	@echo '#include "tao/pegtl.hpp"' >build/include/amalgamated.hpp
+	@echo '#include "tao/pegtl/analyze.hpp"' >>build/include/amalgamated.hpp
+	@( cd build/include ; for i in tao/pegtl/contrib/*.hpp; do echo "#include \"$$i\""; done ) >>build/include/amalgamated.hpp
+	@( cd build/include ; g++ -E -C -nostdinc amalgamated.hpp ) >$@
 	@sed -i -e 's%^//#%#%g' $@
 	@sed -i -e 's%^# \([0-9]* "[^"]*"\).*%#line \1%g' $@
 	@echo "Generated/updated $@ successfully."

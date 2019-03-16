@@ -160,10 +160,10 @@ You can generate a single-header-version of the PEGTL with the included `Makefil
 In a Unix-shell, the following command will achieve this:
 
 ```sh
-$ make consolidate
+$ make amalgamate
 ```
 
-The above will generate a `build/consolidated/pegtl.hpp` which will consist of all headers for `tao/pegtl.hpp`, `tao/pegtl/analyze.hpp`, and all headers in `tao/pegtl/contrib/` except all headers in `tao/pegtl/contrib/icu/`.
+The above will generate a `build/amalgamated/pegtl.hpp` which will consist of the headers `tao/pegtl.hpp`, `tao/pegtl/analyze.hpp`, their dependencies, and all headers in `tao/pegtl/contrib/` except for the headers in `tao/pegtl/contrib/icu/`.
 
 Copyright (c) 2014-2019 Dr. Colin Hirsch and Daniel Frey
 
