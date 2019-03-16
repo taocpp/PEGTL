@@ -16,7 +16,7 @@ namespace tao
          verify_only< bol >( __LINE__, __FILE__, "", result_type::success, 0 );
 
          for( char i = 1; i < 127; ++i ) {
-            const char s[] = { i, 0 };
+            const char s[] = { i, 0 };  // NOLINT
             verify_only< bol >( __LINE__, __FILE__, s, result_type::success, 1 );
          }
          verify_only< seq< alpha, bol > >( __LINE__, __FILE__, "a", result_type::local_failure, 1 );
