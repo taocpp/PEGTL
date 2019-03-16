@@ -2,12 +2,12 @@
 
 [![Release](https://img.shields.io/github/release/taocpp/PEGTL.svg)](https://github.com/taocpp/PEGTL/releases/latest)
 [![Download](https://api.bintray.com/packages/taocpp/public-conan/pegtl%3Ataocpp/images/download.svg)](https://bintray.com/taocpp/public-conan/pegtl%3Ataocpp/_latestVersion)
-[![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/pa5sbnw68tu650aq/branch/master?svg=true)](https://ci.appveyor.com/project/taocpp/PEGTL)
-[![Doozer.io](https://doozer.io/badge/taocpp/PEGTL/buildstatus/master)](https://doozer.io/user/taocpp/PEGTL)
-[![Coverage](https://coveralls.io/repos/github/taocpp/PEGTL/badge.svg?branch=master)](https://coveralls.io/github/taocpp/PEGTL)
+[![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=2.x)](https://travis-ci.org/taocpp/PEGTL)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/pa5sbnw68tu650aq/branch/2.x?svg=true)](https://ci.appveyor.com/project/taocpp/PEGTL)
+[![Coverage](https://coveralls.io/repos/github/taocpp/PEGTL/badge.svg?branch=2.x)](https://coveralls.io/github/taocpp/PEGTL)
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/taocpp/PEGTL.svg)](https://lgtm.com/projects/g/taocpp/PEGTL/context:cpp)
 
-The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++11 header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
+The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++ header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
 ## Documentation
 
@@ -25,13 +25,15 @@ Here is an example of how a PEG grammar rule is implemented as C++ class with th
 // PEG rule for integers consisting of a non-empty
 // sequence of digits with an optional sign:
 
-// integer ::= ( '+' / '-' )? digit+
+// sign ::= '+' / '-'
+// integer ::= sign? digit+
 
 // The same parsing rule implemented with the PEGTL:
 
 using namespace tao::pegtl;
 
-struct integer : seq< opt< one< '+', '-' > >, plus< digit > > {};
+struct sign : one< '+', '-' > {};
+struct integer : seq< opt< sign >, plus< digit > > {};
 ```
 
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic nature of PEGs gives rise to some very important differences.
@@ -96,29 +98,30 @@ cover 100% of the core library code (for releases).
 Incompatible API changes are *only* allowed to occur between major versions.
 For details see the [changelog](doc/Changelog.md).
 
+## Contact
+
+The PEGTL is part of [The Art of C++](https://taocpp.github.io/).
+
+For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to contact the authors at `taocpp(at)icemx.net`.
+
 ## Thank You
 
 * Christopher Diggins and the YARD parser for the general idea.
 * George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `TAO_PEGTL_STRING`.
 * Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
 * Jörg-Christian Böhme for improving the Android CI build.
+* Jørgen Edelbo for UWP support.
 * Kai Wolf for help with CMake.
 * Kenneth Geisshirt for Android compatibility and Android CI.
 * Kuzma Shapran for EOL testing and fixes.
 * Michael Becker for help with CMake.
-* Paul Le Roux for CMake improvements and Conan support.
+* Paul Le Roux for CMake improvements, Conan support and [PR #150](https://github.com/taocpp/PEGTL/pull/150).
 * Paulo Custodio for Windows-related fixes.
 * Sam Hocevar for contributing Visual Studio 2015 compatibility.
 * Stephan Beal for the bug reports, suggestions and discussions.
 * Stuart Dootson for `mmap_input<>` support on Windows.
 * Sven Johannsen for help with CMake.
 * Zhihao Yuan for fixing several warnings when compiling with Visual Studio 2015.
-
-## Contact
-
-The PEGTL is part of [The Art of C++](https://taocpp.github.io/).
-
-For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to contact the authors at `taocpp(at)icemx.net`.
 
 ## License
 

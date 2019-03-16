@@ -1,6 +1,6 @@
-cmake_minimum_required (VERSION 3.3.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.3.0 FATAL_ERROR)
 
-set (test_sources
+set(test_sources
   actions_one.cpp
   actions_three.cpp
   actions_two.cpp
@@ -91,39 +91,38 @@ set (test_sources
   utf8_general.cpp
 )
 
-# file (GLOB ...) is used to validate the above list of test_sources
-file (GLOB glob_test_sources RELATIVE ${CMAKE_CURRENT_LIST_DIR} *.cpp)
+# file(GLOB ...) is used to validate the above list of test_sources
+file(GLOB glob_test_sources RELATIVE ${CMAKE_CURRENT_LIST_DIR} *.cpp)
 
-foreach (testsourcefile ${test_sources})
-  if (${testsourcefile} IN_LIST glob_test_sources)
-    list (REMOVE_ITEM glob_test_sources ${testsourcefile})
-  else ()
-    message (SEND_ERROR "File ${testsourcefile} is missing from src/test/pegtl")
-  endif ()
+foreach(testsourcefile ${test_sources})
+  if(${testsourcefile} IN_LIST glob_test_sources)
+    list(REMOVE_ITEM glob_test_sources ${testsourcefile})
+  else()
+    message(SEND_ERROR "File ${testsourcefile} is missing from src/test/pegtl")
+  endif()
 
-  get_filename_component (exename ${testsourcefile} NAME_WE)
-  set (exename "pegtl-test-${exename}")
-  add_executable (${exename} ${testsourcefile})
-  target_link_libraries (${exename} PRIVATE taocpp::pegtl)
-  set_target_properties (${exename} PROPERTIES
+  get_filename_component(exename pegtl-test-${testsourcefile} NAME_WE)
+  add_executable(${exename} ${testsourcefile})
+  target_link_libraries(${exename} PRIVATE taocpp::pegtl)
+  set_target_properties(${exename} PROPERTIES
     CXX_STANDARD 11
     CXX_STANDARD_REQUIRED ON
     CXX_EXTENSIONS OFF
   )
-  if (MSVC)
-    target_compile_options (${exename} PRIVATE /W4 /WX /utf-8)
-  else ()
-    target_compile_options (${exename} PRIVATE -pedantic -Wall -Wextra -Wshadow -Werror)
-  endif ()
-  if (ANDROID)
-    add_test (NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../.. COMMAND ${CMAKE_COMMAND} -DANDROID_NDK=${ANDROID_NDK} "-DTEST_RESOURCES=src/test/pegtl/data;src/test/pegtl/file_data.txt;Makefile" -DTEST_RESOURCES_DIR=${CMAKE_CURRENT_SOURCE_DIR}/../../.. -DUNITTEST=${CMAKE_CURRENT_BINARY_DIR}/${exename} -DTEST_PARAMETER=-all -P ${CMAKE_CURRENT_SOURCE_DIR}/ExecuteOnAndroid.cmake)
-  else ()
-    add_test (NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../.. COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${exename})
-  endif ()
-endforeach (testsourcefile)
+  if(MSVC)
+    target_compile_options(${exename} PRIVATE /W4 /WX /utf-8)
+  else()
+    target_compile_options(${exename} PRIVATE -pedantic -Wall -Wextra -Wshadow -Werror)
+  endif()
+  if(ANDROID)
+    add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../.. COMMAND ${CMAKE_COMMAND} -DANDROID_NDK=${ANDROID_NDK} "-DTEST_RESOURCES=src/test/pegtl/data;src/test/pegtl/file_data.txt;Makefile" -DTEST_RESOURCES_DIR=${CMAKE_CURRENT_SOURCE_DIR}/../../.. -DUNITTEST=${CMAKE_CURRENT_BINARY_DIR}/${exename} -DTEST_PARAMETER=-all -P ${CMAKE_CURRENT_SOURCE_DIR}/ExecuteOnAndroid.cmake)
+  else()
+    add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../.. COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${exename})
+  endif()
+endforeach(testsourcefile)
 
-if (glob_test_sources)
-  foreach (ignored_source_file ${glob_test_sources})
-    message (SEND_ERROR "File ${ignored_source_file} in src/test/pegtl is ignored")
-  endforeach (ignored_source_file)
-endif ()
+if(glob_test_sources)
+  foreach(ignored_source_file ${glob_test_sources})
+    message(SEND_ERROR "File ${ignored_source_file} in src/test/pegtl is ignored")
+  endforeach(ignored_source_file)
+endif()
