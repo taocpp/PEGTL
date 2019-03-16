@@ -159,10 +159,11 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
+          packages: ['clang-7']
       env:
-        - CXX=clang++-8
+        - CXX=clang++-7
+        - CXXSTD=-std=c++17
 
     - compiler: clang
       addons:
@@ -171,7 +172,6 @@ matrix:
           packages: ['clang-8']
       env:
         - CXX=clang++-8
-        - CXXSTD=-std=c++17
 
     - compiler: clang
       addons:
@@ -372,30 +372,6 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7']
-      env:
-        - CXX=g++-7
-        - CXXFLAGS="-O0 --coverage"
-      before_script:
-        - pip install --user cpp-coveralls
-      script:
-        - make -kj3 check
-        - coveralls --gcov gcov-7 --gcov-options '\-lp' --exclude src
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'clang-tools-8']
-      env:
-        - CXX=clang++-8
-      script:
-        - scan-build-8 make -kj3
-
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-8']
       env:
         - CXX=g++-8
@@ -414,32 +390,21 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
-          packages: ['clang-6.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8']
       env:
-        - CXX=clang++-6.0
+        - CXX=clang++-8
         - CPPFLAGS=-fsanitize=undefined
 
     - compiler: clang
       sudo: true
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-trusty-6.0']
-          packages: ['clang-6.0']
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8']
       env:
-        - CXX=clang++-6.0
+        - CXX=clang++-8
         - CPPFLAGS=-fsanitize=address
-
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-8', 'valgrind']
-      env:
-        - CXX=g++-8
-        - SPECIAL=valgrind
-      script:
-        - make -kj3 valgrind
 
     - compiler: clang
       addons:
@@ -452,6 +417,39 @@ matrix:
       script:
         - "sed -i 's#TAO_PEGTL_NAMESPACE#pegtl#g' $(find . -name '*.[hc]pp')"
         - make -kj3 clang-tidy
+
+    - compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'clang-tools-8']
+      script:
+        - scan-build-8 --use-c++=clang++-8 --status-bugs make -kj3
+
+    - compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-8', 'valgrind']
+      env:
+        - CXX=g++-8
+        - SPECIAL=valgrind
+      script:
+        - make -kj3 valgrind
+
+    - compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-7']
+      env:
+        - CXX=g++-7
+        - CXXFLAGS="-O0 --coverage"
+      before_script:
+        - pip install --user cpp-coveralls
+      script:
+        - make -kj3 check
+        - coveralls --gcov gcov-7 --gcov-options '\-lp' --exclude src
 
     - language: python
       python:
