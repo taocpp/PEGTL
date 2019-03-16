@@ -8,6 +8,7 @@
 * Changed enumerators to lowercase. Compatibility enumerators with the old names are provided, they will be removed in version 3.0.0.
 * Renamed `tracking_mode::IMMEDIATE` to `tracking_mode::eager`.
 * Renamed `peek_byte()` to `peek_uint8()`. Compatibility methods with the old name are provided, they will be removed in version 3.0.0.
+* Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
 * Added the Clang Static Analyzer to the CI build.
 * Added new Makefile target `amalgamate` to generate a single-header version of the PEGTL.
 

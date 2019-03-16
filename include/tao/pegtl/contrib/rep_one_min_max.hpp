@@ -59,10 +59,6 @@ namespace tao
          {
          };
 
-         struct ellipsis : internal::rep_one_min_max< 3, 3, '.' >
-         {
-         };
-
       }  // namespace ascii
 
    }  // namespace TAO_PEGTL_NAMESPACE

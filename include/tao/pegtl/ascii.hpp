@@ -7,6 +7,7 @@
 #include "config.hpp"
 #include "eol.hpp"
 
+#include "internal/always_false.hpp"
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
@@ -22,6 +23,7 @@ namespace tao
          struct any : internal::any< internal::peek_char > {};
          struct blank : internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\t' > {};
          struct digit : internal::range< internal::result_on_found::success, internal::peek_char, '0', '9' > {};
+         struct ellipsis : internal::string< '.', '.', '.' > {};
          struct eolf : internal::eolf {};
          template< char... Cs > struct forty_two : internal::rep< 42, internal::one< internal::result_on_found::success, internal::peek_char, Cs... > > {};
          struct identifier_first : internal::identifier_first {};
@@ -41,8 +43,8 @@ namespace tao
          struct shebang : internal::if_must< false, internal::string< '#', '!' >, internal::until< internal::eolf > > {};
          struct space : internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\n', '\r', '\t', '\v', '\f' > {};
          template< char... Cs > struct string : internal::string< Cs... > {};
-         template< char C > struct three : internal::three< C > {};
-         template< char C > struct two : internal::two< C > {};
+         template< char C > struct three : internal::string< C, C, C > {};
+         template< char C > struct two : internal::string< C, C > {};
          struct upper : internal::range< internal::result_on_found::success, internal::peek_char, 'A', 'Z' > {};
          struct xdigit : internal::ranges< internal::peek_char, '0', '9', 'a', 'f', 'A', 'F' > {};
          // clang-format on
@@ -53,7 +55,7 @@ namespace tao
             template< typename Input >
             static bool match( Input& /*unused*/ ) noexcept
             {
-               static_assert( sizeof( Input ) == 0, "empty keywords not allowed" );
+               static_assert( internal::always_false< Input >::value, "empty keywords not allowed" );
                return false;
             }
          };
