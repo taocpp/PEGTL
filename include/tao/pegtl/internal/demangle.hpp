@@ -9,8 +9,17 @@
 
 #include "../config.hpp"
 
-#if defined( __GLIBCXX__ ) || ( defined( __has_include ) && __has_include( <cxxabi.h> ) )
+#if defined( __GLIBCXX__ )
+#define TAO_PEGTL_USE_CXXABI_DEMANGLE
+#elif defined( __has_include )
+#if __has_include( <cxxabi.h> ) )
+#define TAO_PEGTL_USE_CXXABI_DEMANGLE
+#endif
+#endif
+
+#if defined( TAO_PEGTL_USE_CXXABI_DEMANGLE )
 #include "demangle_cxxabi.hpp"
+#undef TAO_PEGTL_USE_CXXABI_DEMANGLE
 #else
 #include "demangle_nop.hpp"
 #endif
