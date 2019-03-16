@@ -94,7 +94,7 @@ build/consolidated/pegtl.hpp: $(HEADERS)
 	@sed -i -e 's%^// Copyright%#pragma once\n#line 1\n\0%g' $$(find build/include -name '*.hpp')
 	@echo '#include "tao/pegtl.hpp"' >build/include/consolidated.hpp
 	@echo '#include "tao/pegtl/analyze.hpp"' >>build/include/consolidated.hpp
-	@( cd build/include ; find tao/pegtl/contrib -name '*.hpp' -printf '#include "%p"\n') >>build/include/consolidated.hpp
+	@( cd build/include ; for i in tao/pegtl/contrib/*.hpp; do echo "#include \"$$i\""; done ) >>build/include/consolidated.hpp
 	@( cd build/include ; g++ -E -C -nostdinc consolidated.hpp ) >$@
 	@sed -i -e 's%^//#%#%g' $@
 	@sed -i -e 's%^# \([0-9]* "[^"]*"\).*%#line \1%g' $@
