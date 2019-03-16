@@ -1235,4 +1235,4 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`xid_continue`](#xid_continue) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`xid_start`](#xid_start) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 
-Copyright (c) 2014-2018 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2019 Dr. Colin Hirsch and Daniel Frey
