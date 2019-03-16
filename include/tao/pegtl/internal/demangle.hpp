@@ -9,14 +9,8 @@
 
 #include "../config.hpp"
 
-#if defined( __GLIBCXX__ )
+#if defined( __GLIBCXX__ ) || ( defined( __has_include ) && __has_include( <cxxabi.h> ) )
 #include "demangle_cxxabi.hpp"
-#elif defined( __has_include )
-#if __has_include( <cxxabi.h> )
-#include "demangle_cxxabi.hpp"
-#else
-#include "demangle_nop.hpp"
-#endif
 #else
 #include "demangle_nop.hpp"
 #endif
