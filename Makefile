@@ -90,9 +90,9 @@ build/consolidated/pegtl.hpp: $(HEADERS)
 	@rm -rf build/include
 	@cp -a include build/
 	@rm -rf build/include/tao/pegtl/contrib/icu
-	@sed -i -e 's%^#\([^i]\|if\|include <\)%//\0%g' $$(find build/include -name '*.hpp')
-	@sed -i -e '/^\/\/ Copyright/{x;s/$$/#pragma once/;G;}' $$(find build/include -name '*.hpp')
-	@sed -i -e '/^\/\/ Copyright/{x;s/$$/#line 1/;G;}' $$(find build/include -name '*.hpp')
+	@sed -i -e 's%^#%//#%g' $$(find build/include -name '*.hpp')
+	@sed -i -e 's%^//#include "%#include "%g' $$(find build/include -name '*.hpp')
+	@for i in $$(find build/include -name '*.hpp'); do echo "#pragma once" >tmp.out; echo "#line 1" >>tmp.out; cat $$i >>tmp.out; mv tmp.out $$i; done
 	@echo '#include "tao/pegtl.hpp"' >build/include/consolidated.hpp
 	@echo '#include "tao/pegtl/analyze.hpp"' >>build/include/consolidated.hpp
 	@( cd build/include ; for i in tao/pegtl/contrib/*.hpp; do echo "#include \"$$i\""; done ) >>build/include/consolidated.hpp
