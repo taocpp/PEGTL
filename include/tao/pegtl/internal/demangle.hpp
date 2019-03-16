@@ -12,7 +12,7 @@
 #if defined( __GLIBCXX__ )
 #define TAO_PEGTL_USE_CXXABI_DEMANGLE
 #elif defined( __has_include )
-#if __has_include( <cxxabi.h> ) )
+#if __has_include( <cxxabi.h> )
 #define TAO_PEGTL_USE_CXXABI_DEMANGLE
 #endif
 #endif
