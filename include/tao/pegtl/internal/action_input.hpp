@@ -90,6 +90,12 @@ namespace tao
                return begin()[ offset ];
             }
 
+            std::uint8_t peek_uint8( const std::size_t offset = 0 ) const noexcept
+            {
+               return static_cast< std::uint8_t >( peek_char( offset ) );
+            }
+
+            // Compatibility, remove with 3.0
             std::uint8_t peek_byte( const std::size_t offset = 0 ) const noexcept
             {
                return static_cast< std::uint8_t >( peek_char( offset ) );

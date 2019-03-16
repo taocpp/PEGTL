@@ -9,6 +9,10 @@ Compatibility enumerators can still be used, the library should be fully compati
 Note, however, that the old enumerators will be removed in version 3.0.0.
 Consider updating your enumerators now.
 
+The input-classes' `peek_byte()`-method was renamed to `peek_uint8()`.
+The old method is still available, it will be removed in version 3.0.0.
+Consider updating your calls to `peek_byte()` now.
+
 ## Version 2.4.0
 
 The common prefix for all macros was changed from `TAOCPP_PEGTL_` to `TAO_PEGTL_`.

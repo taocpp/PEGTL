@@ -113,7 +113,7 @@ namespace tao
                TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
                TAO_PEGTL_TEST_ASSERT( in.begin() + 1 == in.end() );
                TAO_PEGTL_TEST_ASSERT( in.peek_char() == 'f' );
-               TAO_PEGTL_TEST_ASSERT( in.peek_byte() == static_cast< unsigned char >( 'f' ) );
+               TAO_PEGTL_TEST_ASSERT( in.peek_uint8() == static_cast< unsigned char >( 'f' ) );
             }
          };
 

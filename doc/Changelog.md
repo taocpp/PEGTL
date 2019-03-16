@@ -7,10 +7,10 @@
 * A [**migration guide**](Migration-Guide.md#version-280) is available.
 * Changed enumerators to lowercase. Compatibility enumerators with the old names are provided, they will be removed in version 3.0.0.
 * Renamed `tracking_mode::IMMEDIATE` to `tracking_mode::eager`.
+* Renamed `peek_byte()` to `peek_uint8()`. Compatibility methods with the old name are provided, they will be removed in version 3.0.0.
 
 TODO / Work-in-Progress:
 
-* Renamed `peek_byte` to `peek_uint8`.
 * Allowed the action class template to overwrite `match`.
 * Refactored contrib's `change_action`, `change_state`, and `change_action_and_state`.
 * Removed the need to derive action class template's from `nothing`.

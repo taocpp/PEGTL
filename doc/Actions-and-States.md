@@ -132,7 +132,7 @@ public:
    std::string string() const;  // { return std::string( begin(), end() ); }
 
    char peek_char( const std::size_t offset = 0 ) const noexcept;   // { return begin()[ offset ]; }
-   unsigned char peek_byte( const std::size_t offset = 0 ) const noexcept;  // As above with cast.
+   unsigned char peek_uint8( const std::size_t offset = 0 ) const noexcept;  // As above with cast.
 
    pegtl::position position() const noexcept;  // Not efficient with lazy inputs.
 
