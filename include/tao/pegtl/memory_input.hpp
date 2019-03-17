@@ -20,7 +20,7 @@
 
 #include "internal/action_input.hpp"
 #include "internal/at.hpp"
-#include "internal/bump_impl.hpp"
+#include "internal/bump.hpp"
 #include "internal/eolf.hpp"
 #include "internal/iterator.hpp"
 #include "internal/marker.hpp"
