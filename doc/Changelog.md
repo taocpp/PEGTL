@@ -4,7 +4,7 @@
 
 **Not yet released**
 
-* A [**migration guide**](Migration-Guide.md#version-280) is available.
+* Use the [**migration guide**](Migration-Guide.md#version-280) when updating.
 * Changed enumerators to lowercase. Compatibility enumerators with the old names are provided, they will be removed in version 3.0.0.
 * Renamed `tracking_mode::IMMEDIATE` to `tracking_mode::eager`.
 * Renamed `peek_byte()` to `peek_uint8()`. Compatibility methods with the old name are provided, they will be removed in version 3.0.0.
@@ -90,6 +90,7 @@ Released 2018-05-01
 
 Released 2018-02-17
 
+* Use the [**migration guide**](Migration-Guide.md#version-240) when updating.
 * Improved and documented the [Parse Tree / AST support](Parse-Tree.md).
 * Changed prefix of all macros from `TAOCPP_PEGTL_` to `TAO_PEGTL_`. Compatibility macros with the old names are provided, they will be removed in version 3.0.0.
 * Added a deleted overload to prevent creating a `memory_input<>` from a temporary `std::string`.
@@ -201,7 +202,7 @@ Released 2017-05-18
 * Project
 
   * Migrated to ["The Art of C++"](https://github.com/taocpp).
-  * A [**migration guide**](Migration-Guide.md#version-200) is available.
+  * Use the [**migration guide**](Migration-Guide.md#version-200) when updating.
   * Version 2.z can be installed and used in parallel to version 1.y of the PEGTL.
   * The semantics of all parsing rules and grammars is the same as for versions 1.y.
 
