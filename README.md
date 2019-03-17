@@ -71,28 +71,19 @@ Each commit is automatically tested with multiple architectures, operating syste
   * Mac OS X 10.11, Xcode 7.3
   * macOS 10.12, Xcode 8.3
   * macOS 10.13, Xcode 9.4
+  * macOS 10.13, Xcode 10.1
 
-* Linux (using libstdc++)
+* Ubuntu 12.04 LTS (using libstdc++)
 
-  * Debian 8 (i386), GCC 4.9
-  * Ubuntu 12.04 LTS (amd64), Clang 3.4, 3.7
-  * Ubuntu 14.04 LTS (amd64), GCC 4.8, 4.9, 5.x, 6.x, 7.x, 8.x
-  * Ubuntu 14.04 LTS (amd64), Clang 3.5, 3.6, 3.8, 3.9, 4.x, 5.x, 6.x
-  * Ubuntu 14.04 LTS (i386, amd64), GCC 4.8
-  * Ubuntu 16.04 LTS (i386, amd64, armhf, arm64), GCC 5.x
-  * Fedora 24 (x86_64), GCC 6.x
-  * Fedora 24 (x86_64), Clang 3.8
+  * Clang 3.4
 
-* Android
+* Ubuntu 16.04 LTS (using libstdc++)
 
-  * Android 4.4 "KitKat" (API level 19)
-  * Android 5.1 "Lollipop" (API level 22)
-  * Android 6.0 "Marshmellow" (API level 23)
-  * Android 7.0 "Nougat" (API level 24)
+  * GCC 4.8, 4.9, 5.x, 6.x, 7.x, 8.x
+  * Clang 3.5, 3.6, 3.8, 3.9, 4.x, 5.x, 6.x, 7.x, 8.x
 
-Additionally, each commit is checked with GCC's and Clang's sanitizers, as well as [`valgrind`](http://valgrind.org/)
-and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/). Code coverage is automatically measured and the unit tests
-cover 100% of the core library code (for releases).
+Additionally, each commit is checked with Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), GCC's and Clang's [sanitizers](https://github.com/google/sanitizers), [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/), and [`valgrind`](http://valgrind.org/).
+Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
 
 [Releases](https://github.com/taocpp/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
 Incompatible API changes are *only* allowed to occur between major versions.
