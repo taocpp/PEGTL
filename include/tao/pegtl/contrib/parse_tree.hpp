@@ -463,9 +463,6 @@ namespace tao
                using type = std::false_type;
             };
 
-            template< typename T >
-            using selector_t = typename selector< T >::type;
-
             template< typename Rule, typename Collection >
             using select_tuple = typename std::conditional< Collection::template contains< Rule >::value, std::tuple< Collection >, std::tuple<> >::type;
 
@@ -519,7 +516,9 @@ namespace tao
          using discard_empty = discard_empty_or< remove_content >;
 
          template< typename Rule, typename... Collections >
-         using selector = internal::selector_t< decltype( std::tuple_cat( std::declval< internal::select_tuple< Rule, Collections > >()... ) ) >;
+         struct selector
+            : internal::selector< decltype( std::tuple_cat( std::declval< internal::select_tuple< Rule, Collections > >()... ) ) >::type
+         {};
 
          template< typename Base >
          struct apply
