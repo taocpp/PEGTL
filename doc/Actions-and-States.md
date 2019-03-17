@@ -21,6 +21,7 @@ An action's `apply()`- or `apply0()`-method can either return `void`, or a `bool
   * [No Switching](#no-switching)
   * [Intrusive Switching](#intrusive-switching)
   * [External Switching](#external-switching)
+* [Match](#match)
 * [Legacy Actions](#legacy-actions)
 
 ## Actions
@@ -284,11 +285,35 @@ In some cases a state object is required for the grammar itself, and in these ca
 
 ### External Switching
 
-"External switching" is when the states and/or actions are switched from outside of the grammar by providing a specialised control class.
+"External switching" is when the states and/or actions are switched from outside of the grammar by using the action class.
 
 For an example of how to build a generic JSON data structure with the "external switching style" see `src/example/pegtl/json_build_one.cpp`.
 
-The actual switching control classes are defined in `<tao/pegtl/contrib/changes.hpp>` and can be used as template for custom switching.
+The actual switching actions are defined in `<tao/pegtl/contrib/change_*.hpp>` and can be used as template for custom switching.
+
+## Match
+
+Besides the `apply()`- and `apply0()`-methods, an action class specialization may also have a `match()`-method.
+The standard control class template `normal` will detect the presence of a suitable method and call this method instead of forwarding to `tao::pegtl::match()` directly.
+
+```c++
+template<>
+struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
+{
+   template< typename Rule,
+             apply_mode A,
+             rewind_mode M,
+             template< typename... > class Action,
+             template< typename... > class Control,
+             typename Input,
+             typename... States >
+   static bool match( Input& in, States&&... st )
+   {
+      // default implementation:
+      return tao::pegtl::match< Rule, A, M, Action, Control >( in, st... );
+   }
+}
+```
 
 ## Legacy Actions
 

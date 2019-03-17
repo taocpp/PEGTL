@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.3.0 FATAL_ERROR)
 
 set(test_sources
+  action_match.cpp
   actions_one.cpp
   actions_three.cpp
   actions_two.cpp
@@ -22,6 +23,7 @@ set(test_sources
   contrib_if_then.cpp
   contrib_json.cpp
   contrib_parse_tree.cpp
+  contrib_partial_trace.cpp
   contrib_raw_string.cpp
   contrib_rep_one_min_max.cpp
   contrib_to_string.cpp
@@ -67,6 +69,7 @@ set(test_sources
   rule_pad.cpp
   rule_pad_opt.cpp
   rule_plus.cpp
+  rule_rematch.cpp
   rule_rep.cpp
   rule_rep_max.cpp
   rule_rep_min.cpp

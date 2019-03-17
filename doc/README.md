@@ -30,6 +30,8 @@
     * [No Switching](Actions-and-States.md#no-switching)
     * [Intrusive Switching](Actions-and-States.md#intrusive-switching)
     * [External Switching](Actions-and-States.md#external-switching)
+  * [Match](Actions-and-States.md#match)
+  * [Legacy Actions](Actions-and-States.md#legacy-actions)
 * [Errors and Exceptions](Errors-and-Exceptions.md)
   * [Local to Global Failure](Errors-and-Exceptions.md#local-to-global-failure)
   * [Global to Local Failure](Errors-and-Exceptions.md#global-to-local-failure)

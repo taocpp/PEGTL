@@ -31,9 +31,24 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * Ready for production use.
 * Superceeded by `TAO_PEGTL_STRING()`.
 
-###### `<tao/pegtl/contrib/changes.hpp>`
+###### `<tao/pegtl/contrib/change_action.hpp>`
 
-* Control class components for [external switching style](Actions-and-States.md#external-switching).
+* Changes the action class template.
+* Ready for production use.
+
+###### `<tao/pegtl/contrib/change_action_and_state.hpp>`
+
+* Changes the action class template and the state.
+* Ready for production use but might be changed in the future.
+
+###### `<tao/pegtl/contrib/change_control.hpp>`
+
+* Changes the control class template.
+* Ready for production use.
+
+###### `<tao/pegtl/contrib/change_state.hpp>`
+
+* Changes the state.
 * Ready for production use but might be changed in the future.
 
 ###### `<tao/pegtl/contrib/counter.hpp>`
@@ -42,6 +57,16 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
   1. was attempted to match,
   2. succeeded to match,
   3. failed to match.
+
+###### `<tao/pegtl/contrib/disable_action.hpp>`
+
+* Disables actions.
+* Ready for production use.
+
+###### `<tao/pegtl/contrib/enable_action.hpp>`
+
+* Enables actions.
+* Ready for production use.
 
 ###### `<tao/pegtl/contrib/http.hpp>`
 

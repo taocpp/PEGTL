@@ -5,12 +5,16 @@
 #include <sstream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/changes.hpp>
+#include <tao/pegtl/contrib/change_action.hpp>
+#include <tao/pegtl/contrib/change_action_and_state.hpp>
+#include <tao/pegtl/contrib/change_state.hpp>
 #include <tao/pegtl/contrib/json.hpp>
 
 #include "json_classes.hpp"
 #include "json_errors.hpp"
 #include "json_unescape.hpp"
+
+namespace pegtl = tao::TAO_PEGTL_NAMESPACE;
 
 namespace examples
 {
@@ -35,20 +39,25 @@ namespace examples
    template< typename Rule >
    struct value_action
       : unescape_action< Rule >
-   {
-   };
+   {};
 
    struct string_state
       : public unescape_state_base
    {
-      void success( result_state& result )
+      template< typename Input, typename... States >
+      explicit string_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      {
+      }
+
+      template< typename Input >
+      void success( const Input& /*unused*/, result_state& result )
       {
          result.result = std::make_shared< string_json >( std::move( unescaped ) );
       }
    };
 
    template<>
-   struct value_action< tao::TAO_PEGTL_NAMESPACE::json::null >
+   struct value_action< pegtl::json::null >
    {
       static void apply0( result_state& result )
       {
@@ -57,7 +66,7 @@ namespace examples
    };
 
    template<>
-   struct value_action< tao::TAO_PEGTL_NAMESPACE::json::true_ >
+   struct value_action< pegtl::json::true_ >
    {
       static void apply0( result_state& result )
       {
@@ -66,7 +75,7 @@ namespace examples
    };
 
    template<>
-   struct value_action< tao::TAO_PEGTL_NAMESPACE::json::false_ >
+   struct value_action< pegtl::json::false_ >
    {
       static void apply0( result_state& result )
       {
@@ -75,7 +84,7 @@ namespace examples
    };
 
    template<>
-   struct value_action< tao::TAO_PEGTL_NAMESPACE::json::number >
+   struct value_action< pegtl::json::number >
    {
       template< typename Input >
       static void apply( const Input& in, result_state& result )
@@ -95,13 +104,18 @@ namespace examples
    {
       std::shared_ptr< array_json > array = std::make_shared< array_json >();
 
+      template< typename Input, typename... States >
+      explicit array_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      {}
+
       void push_back()
       {
          array->data.push_back( std::move( result ) );
          result.reset();
       }
 
-      void success( result_state& in_result )
+      template< typename Input >
+      void success( const Input& /*unused*/, result_state& in_result )
       {
          if( this->result ) {
             push_back();
@@ -112,12 +126,10 @@ namespace examples
 
    template< typename Rule >
    struct array_action
-      : tao::TAO_PEGTL_NAMESPACE::nothing< Rule >
-   {
-   };
+   {};
 
    template<>
-   struct array_action< tao::TAO_PEGTL_NAMESPACE::json::value_separator >
+   struct array_action< pegtl::json::value_separator >
    {
       static void apply0( array_state& result )
       {
@@ -133,6 +145,11 @@ namespace examples
       std::string unescaped;
       std::shared_ptr< object_json > object = std::make_shared< object_json >();
 
+      template< typename Input, typename... States >
+      explicit object_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      {
+      }
+
       void insert()
       {
          object->data.insert( std::make_pair( std::move( unescaped ), std::move( result ) ) );
@@ -140,7 +157,8 @@ namespace examples
          result.reset();
       }
 
-      void success( result_state& in_result )
+      template< typename Input >
+      void success( const Input& /*unused*/, result_state& in_result )
       {
          if( this->result ) {
             insert();
@@ -152,11 +170,10 @@ namespace examples
    template< typename Rule >
    struct object_action
       : unescape_action< Rule >
-   {
-   };
+   {};
 
    template<>
-   struct object_action< tao::TAO_PEGTL_NAMESPACE::json::value_separator >
+   struct object_action< pegtl::json::value_separator >
    {
       static void apply0( object_state& result )
       {
@@ -164,17 +181,17 @@ namespace examples
       }
    };
 
-   // Put together a control class that changes the actions and states as required.
+   // Put together an action class that changes the actions and states as required.
 
    // clang-format off
-   template< typename Rule > struct control : errors< Rule > {};  // Inherit from json_errors.hpp.
+   template< typename Rule > struct action {};
+   template<> struct action< pegtl::json::value > : pegtl::change_action< value_action > {};
 
-   template<> struct control< tao::TAO_PEGTL_NAMESPACE::json::value > : tao::TAO_PEGTL_NAMESPACE::change_action< tao::TAO_PEGTL_NAMESPACE::json::value, value_action, errors > {};
-   template<> struct control< tao::TAO_PEGTL_NAMESPACE::json::string::content > : tao::TAO_PEGTL_NAMESPACE::change_state< tao::TAO_PEGTL_NAMESPACE::json::string::content, string_state, errors > {};
-   template<> struct control< tao::TAO_PEGTL_NAMESPACE::json::array::content > : tao::TAO_PEGTL_NAMESPACE::change_state_and_action< tao::TAO_PEGTL_NAMESPACE::json::array::content, array_state, array_action, errors > {};
-   template<> struct control< tao::TAO_PEGTL_NAMESPACE::json::object::content > : tao::TAO_PEGTL_NAMESPACE::change_state_and_action< tao::TAO_PEGTL_NAMESPACE::json::object::content, object_state, object_action, errors > {};
+   template<> struct value_action< pegtl::json::string::content > : pegtl::change_state< string_state > {};
+   template<> struct value_action< pegtl::json::array::content > : pegtl::change_action_and_state< array_action, array_state > {};
+   template<> struct value_action< pegtl::json::object::content > : pegtl::change_action_and_state< object_action, object_state > {};
 
-   struct grammar : tao::TAO_PEGTL_NAMESPACE::must< tao::TAO_PEGTL_NAMESPACE::json::text, tao::TAO_PEGTL_NAMESPACE::eof > {};
+   struct grammar : pegtl::must< pegtl::json::text, pegtl::eof > {};
    // clang-format on
 
 }  // namespace examples
@@ -183,8 +200,8 @@ int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
       examples::result_state result;
-      tao::TAO_PEGTL_NAMESPACE::file_input<> in( argv[ i ] );
-      tao::TAO_PEGTL_NAMESPACE::parse< examples::grammar, tao::TAO_PEGTL_NAMESPACE::nothing, examples::control >( in, result );
+      pegtl::file_input<> in( argv[ i ] );
+      pegtl::parse< examples::grammar, examples::action, examples::errors >( in, result );
       assert( result.result );
       std::cout << result.result << std::endl;
    }

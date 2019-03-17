@@ -6,18 +6,20 @@
 #include <vector>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/changes.hpp>
+#include <tao/pegtl/contrib/change_state.hpp>
 #include <tao/pegtl/contrib/json.hpp>
 
 #include "json_classes.hpp"
 #include "json_errors.hpp"
 #include "json_unescape.hpp"
 
+namespace pegtl = tao::TAO_PEGTL_NAMESPACE;
+
 namespace examples
 {
    // State class that stores the result of a JSON parsing run -- a single JSON object.
-   // The other members are used temporarily, at the end of a (successful) parsing run
-   // they are expected to be empty.
+   // The other members are used temporarily, at the end of a (successful) parsing run.
+   // They are expected to be empty.
 
    struct json_state
    {
@@ -27,20 +29,15 @@ namespace examples
       std::vector< std::shared_ptr< object_json > > objects;
    };
 
-   // Action and Control classes
+   // Action class
 
    template< typename Rule >
    struct action : unescape_action< Rule >  // Inherit from json_unescape.hpp.
    {
    };
 
-   template< typename Rule >
-   struct control : errors< Rule >  // Inherit from json_errors.hpp.
-   {
-   };
-
    template<>
-   struct action< tao::TAO_PEGTL_NAMESPACE::json::null >
+   struct action< pegtl::json::null >
    {
       static void apply0( json_state& state )
       {
@@ -49,7 +46,7 @@ namespace examples
    };
 
    template<>
-   struct action< tao::TAO_PEGTL_NAMESPACE::json::true_ >
+   struct action< pegtl::json::true_ >
    {
       static void apply0( json_state& state )
       {
@@ -58,7 +55,7 @@ namespace examples
    };
 
    template<>
-   struct action< tao::TAO_PEGTL_NAMESPACE::json::false_ >
+   struct action< pegtl::json::false_ >
    {
       static void apply0( json_state& state )
       {
@@ -67,7 +64,7 @@ namespace examples
    };
 
    template<>
-   struct action< tao::TAO_PEGTL_NAMESPACE::json::number >
+   struct action< pegtl::json::number >
    {
       template< typename Input >
       static void apply( const Input& in, json_state& state )
@@ -85,20 +82,26 @@ namespace examples
    struct string_state
       : public unescape_state_base
    {
-      void success( json_state& state )
+      template< typename Input, typename... States >
+      explicit string_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      {
+      }
+
+      template< typename Input >
+      void success( const Input& /*unused*/, json_state& state )
       {
          state.result = std::make_shared< string_json >( unescaped );
       }
    };
 
    template<>
-   struct control< tao::TAO_PEGTL_NAMESPACE::json::string::content >
-      : tao::TAO_PEGTL_NAMESPACE::change_state< tao::TAO_PEGTL_NAMESPACE::json::string::content, string_state, errors >
+   struct action< pegtl::json::string::content >
+      : pegtl::change_state< string_state >
    {
    };
 
    template<>
-   struct action< tao::TAO_PEGTL_NAMESPACE::json::array::begin >
+   struct action< pegtl::json::array::begin >
    {
       static void apply0( json_state& state )
       {
@@ -107,7 +110,7 @@ namespace examples
    };
 
    template<>
-   struct action< tao::TAO_PEGTL_NAMESPACE::json::array::element >
+   struct action< pegtl::json::array::element >
    {
       static void apply0( json_state& state )
       {
@@ -116,7 +119,7 @@ namespace examples
    };
 
    template<>
-   struct action< tao::TAO_PEGTL_NAMESPACE::json::array::end >
+   struct action< pegtl::json::array::end >
    {
       static void apply0( json_state& state )
       {
@@ -126,7 +129,7 @@ namespace examples
    };
 
    template<>
-   struct action< tao::TAO_PEGTL_NAMESPACE::json::object::begin >
+   struct action< pegtl::json::object::begin >
    {
       static void apply0( json_state& state )
       {
@@ -138,20 +141,26 @@ namespace examples
 
    struct key_state : unescape_state_base
    {
-      void success( json_state& state )
+      template< typename Input, typename... States >
+      explicit key_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      {
+      }
+
+      template< typename Input >
+      void success( const Input& /*unused*/, json_state& state )
       {
          state.keys.push_back( std::move( unescaped ) );
       }
    };
 
    template<>
-   struct control< tao::TAO_PEGTL_NAMESPACE::json::key::content >
-      : tao::TAO_PEGTL_NAMESPACE::change_state< tao::TAO_PEGTL_NAMESPACE::json::key::content, key_state, errors >
+   struct action< pegtl::json::key::content >
+      : pegtl::change_state< key_state >
    {
    };
 
    template<>
-   struct action< tao::TAO_PEGTL_NAMESPACE::json::object::element >
+   struct action< pegtl::json::object::element >
    {
       static void apply0( json_state& state )
       {
@@ -161,7 +170,7 @@ namespace examples
    };
 
    template<>
-   struct action< tao::TAO_PEGTL_NAMESPACE::json::object::end >
+   struct action< pegtl::json::object::end >
    {
       static void apply0( json_state& state )
       {
@@ -170,7 +179,7 @@ namespace examples
       }
    };
 
-   using grammar = tao::TAO_PEGTL_NAMESPACE::must< tao::TAO_PEGTL_NAMESPACE::json::text, tao::TAO_PEGTL_NAMESPACE::eof >;
+   using grammar = pegtl::must< pegtl::json::text, pegtl::eof >;
 
 }  // namespace examples
 
@@ -181,8 +190,8 @@ int main( int argc, char** argv )
    }
    else {
       examples::json_state state;
-      tao::TAO_PEGTL_NAMESPACE::file_input<> in( argv[ 1 ] );
-      tao::TAO_PEGTL_NAMESPACE::parse< examples::grammar, examples::action, examples::control >( in, state );
+      pegtl::file_input<> in( argv[ 1 ] );
+      pegtl::parse< examples::grammar, examples::action, examples::errors >( in, state );
       assert( state.keys.empty() );
       assert( state.arrays.empty() );
       assert( state.objects.empty() );
