@@ -76,6 +76,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
                                               FILE_SHARE_READ,
                                               OPEN_EXISTING,
                                               nullptr );
+         if( handle != INVALID_HANDLE_VALUE ) {
+            return handle;
+         }
+         const auto ec = ::GetLastError();
+         throw std::system_error( ec, std::system_category(), std::string( "CreateFile2(): " ) + m_source );
 #else
          const HANDLE handle = ::CreateFileW( ws.c_str(),
                                               GENERIC_READ,
@@ -84,13 +89,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
                                               OPEN_EXISTING,
                                               FILE_ATTRIBUTE_NORMAL,
                                               nullptr );
-#endif
-
          if( handle != INVALID_HANDLE_VALUE ) {
             return handle;
          }
          const auto ec = ::GetLastError();
-         throw std::system_error( ec, std::system_category(), std::string( "CreateFile2(): " ) + m_source );
+         throw std::system_error( ec, std::system_category(), std::string( "CreateFileW(): " ) + m_source );
+#endif
       }
    };
 
