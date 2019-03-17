@@ -10,7 +10,7 @@
 * Renamed `peek_byte()` to `peek_uint8()`. Compatibility methods with the old name are provided, they will be removed in version 3.0.0.
 * Allowed the action class template to overwrite `match`.
 * Refactored contrib's `change_action`, `change_state`, and `change_action_and_state`.
-* Removed the need to derive action class template's from `nothing`.
+* Removed the need to derive action class templates from `nothing`.
 * Added `require_apply` and `require_apply0` to improve compiler error messages.
 * Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
 * Added the Clang Static Analyzer to the CI build.
