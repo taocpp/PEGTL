@@ -253,6 +253,7 @@ namespace tao
                static void start_impl( const Input& in, const Tuple& t, TAO_PEGTL_NAMESPACE::internal::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
                {
                   T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+                  (void)t;
                }
 
                template< typename Input, typename... States >
@@ -265,6 +266,7 @@ namespace tao
                static void success_impl( const Input& in, const Tuple& t, TAO_PEGTL_NAMESPACE::internal::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::success( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
                {
                   T::success( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+                  (void)t;
                }
 
                template< typename Input, typename... States >
@@ -277,6 +279,7 @@ namespace tao
                static void failure_impl( const Input& in, const Tuple& t, TAO_PEGTL_NAMESPACE::internal::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::failure( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
                {
                   T::failure( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+                  (void)t;
                }
 
                template< typename Input, typename... States >
@@ -289,6 +292,7 @@ namespace tao
                static void raise_impl( const Input& in, const Tuple& t, TAO_PEGTL_NAMESPACE::internal::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::raise( in, std::get< Is >( t )... ) ) )
                {
                   T::raise( in, std::get< Is >( t )... );
+                  (void)t;
                }
 
                template< typename Input, typename... States >
