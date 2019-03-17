@@ -67,7 +67,7 @@ Each commit is automatically tested with multiple architectures, operating syste
   * macOS 10.13, Xcode 9.4
   * macOS 10.13, Xcode 10.1
 
-* Ubuntu 14.04 LTS (using libstdc++)
+* Ubuntu 16.04 LTS (using libstdc++)
 
   * GCC 7.x, 8.x
   * Clang 5.x, 6.x, 7.x, 8.x
