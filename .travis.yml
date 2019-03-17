@@ -66,17 +66,12 @@ matrix:
       env:
         - CXX=g++-8
 
-    - compiler: gcc
+    - dist: precise
+      compiler: clang
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-8']
-      env:
-        - CXX=g++-8
-        - CXXSTD=-std=c++17
-
-    - dist: precise
-      compiler: clang
+          packages: ['g++-4.7']
       env:
         - CXX=clang++
 
