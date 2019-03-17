@@ -6,9 +6,24 @@
 * Compatibility macros starting with `TAOCPP_PEGTL_` were removed, use the macros starting with `TAO_PEGTL_` instead.
 * All enumerators were changed from uppercase to lowercase, avoiding conflicts with macros defined on Microsoft Windows.
 * The enumerator `tracking_mode::IMMEDIATE` was renamed to `tracking_mode::eager`.
+* Compatibility uppercase enumerators were removed, use the lowercase enumerators instead.
 * The input-classes' `peek_byte()`-method was renamed to `peek_uint8()`.
+* Compatibility `peek_byte()`-methods were removed, use `peek_uint8()` instead.
 * The control class template's `apply()`- and `apply0()`-methods must only be visible (e.g. via SFINAE) when an action class template method with the appropriate signature exists.
 * The default for `TAO_PEGTL_NAMESPACE` was changed from `pegtl` to `tao::pegtl`. The macro now defines the *full* namespace, including nested namespaces. This gives more freedom. If you are setting `TAO_PEGTL_NAMESPACE`, adapt as needed. In case of doubt, add `tao::` as a prefix.
+
+## Version 2.8.0
+
+All enumerators were changed from uppercase to lowercase.
+Additionally, `tracking_mode::IMMEDIATE` was renamed to `tracking_mode::eager`.
+
+Compatibility enumerators can still be used, the library should be fully compatible when used with older enumerators.
+The old enumerators have been removed in version 3.0.0.
+Consider updating your enumerators now.
+
+The input-classes' `peek_byte()`-method was renamed to `peek_uint8()`.
+The old method is still available, it was removed in version 3.0.0.
+Consider updating your calls to `peek_byte()` now.
 
 ## Version 2.4.0
 

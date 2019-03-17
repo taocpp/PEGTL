@@ -7,16 +7,24 @@
 * A [**migration guide**](Migration-Guide.md#version-300) is available.
 * Updated required C++ standard to C++17.
 * Updated required [CMake](https://cmake.org/) version to 3.8.
-* Removed compatibility macros starting with `TAOCPP_PEGTL_`.
-* Changed enumerators to lowercase.
-* Renamed `tracking_mode::IMMEDIATE` to `tracking_mode::eager`.
-* Renamed `peek_byte` to `peek_uint8`.
-* Allowed the action class template to overwrite `match`.
-* Refactored contrib's `change_action`, `change_state`, and `change_action_and_state`.
 * Removed the need to derive action class template's from `nothing`.
 * Added `require_apply` and `require_apply0` to improve compiler error messages.
-* Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
 * Added support for Universal Windows Platform (UWP).
+* Removed compatibility macros starting with `TAOCPP_PEGTL_`.
+* Removed compatibility uppercase enumerators.
+* Removed compatibility `peek_byte()`-methods.
+
+## 2.8.0
+
+**Not yet released**
+
+* A [**migration guide**](Migration-Guide.md#version-280) is available.
+* Changed enumerators to lowercase. Compatibility enumerators with the old names are provided, they will be removed in version 3.0.0.
+* Renamed `tracking_mode::IMMEDIATE` to `tracking_mode::eager`.
+* Renamed `peek_byte()` to `peek_uint8()`. Compatibility methods with the old name are provided, they will be removed in version 3.0.0.
+* Allowed the action class template to overwrite `match`.
+* Refactored contrib's `change_action`, `change_state`, and `change_action_and_state`.
+* Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
 * Added the Clang Static Analyzer to the CI build.
 * Added new Makefile target `amalgamate` to generate a single-header version of the PEGTL.
 
@@ -94,7 +102,7 @@ Released 2018-05-01
 Released 2018-02-17
 
 * Improved and documented the [Parse Tree / AST support](Parse-Tree.md).
-* Changed prefix of all macros from `TAOCPP_PEGTL_` to `TAO_PEGTL_`. Compatibility macros with the old names are provided, they will be removed in version 3.0.
+* Changed prefix of all macros from `TAOCPP_PEGTL_` to `TAO_PEGTL_`. Compatibility macros with the old names are provided, they will be removed in version 3.0.0.
 * Added a deleted overload to prevent creating a `memory_input<>` from a temporary `std::string`.
 
 ## 2.3.4
