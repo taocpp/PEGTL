@@ -7,6 +7,7 @@
 * A [**migration guide**](Migration-Guide.md#version-300) is available.
 * Updated required C++ standard to C++17.
 * Updated required [CMake](https://cmake.org/) version to 3.8.
+* The macro `TAO_PEGTL_NAMESPACE` now contains the fully qualified namespace, e.g. `tao::pegtl`.
 * Removed compatibility macros starting with `TAOCPP_PEGTL_`.
 * Removed compatibility uppercase enumerators.
 * Removed compatibility `peek_byte()`-methods.
@@ -21,7 +22,7 @@
 * Renamed `peek_byte()` to `peek_uint8()`. Compatibility methods with the old name are provided, they will be removed in version 3.0.0.
 * Allowed the action class template to overwrite `match`.
 * Refactored contrib's `change_action`, `change_state`, and `change_action_and_state`.
-* Removed the need to derive action class template's from `nothing`.
+* Removed the need to derive action class templates from `nothing`.
 * Added `require_apply` and `require_apply0` to improve compiler error messages.
 * Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
 * Added the Clang Static Analyzer to the CI build.

@@ -3,35 +3,25 @@
 ## Version 3.0.0
 
 * We now require C++17, make sure to update your compiler/build-system accordingly.
-* Compatibility macros starting with `TAOCPP_PEGTL_` were removed, use the macros starting with `TAO_PEGTL_` instead.
-* All enumerators were changed from uppercase to lowercase, avoiding conflicts with macros defined on Microsoft Windows.
-* The enumerator `tracking_mode::IMMEDIATE` was renamed to `tracking_mode::eager`.
-* Compatibility uppercase enumerators were removed, use the lowercase enumerators instead.
-* The input-classes' `peek_byte()`-method was renamed to `peek_uint8()`.
-* Compatibility `peek_byte()`-methods were removed, use `peek_uint8()` instead.
+* The default for `TAO_PEGTL_NAMESPACE` was changed from `pegtl` to `tao::pegtl`. The macro now defines the fully qualified namespace. If you are setting `TAO_PEGTL_NAMESPACE`, adapt as needed. In case of doubt, add `tao::` as a prefix.
 * The control class template's `apply()`- and `apply0()`-methods must only be visible (e.g. via SFINAE) when an action class template method with the appropriate signature exists.
-* The default for `TAO_PEGTL_NAMESPACE` was changed from `pegtl` to `tao::pegtl`. The macro now defines the *full* namespace, including nested namespaces. This gives more freedom. If you are setting `TAO_PEGTL_NAMESPACE`, adapt as needed. In case of doubt, add `tao::` as a prefix.
+* Compatibility macros starting with `TAOCPP_PEGTL_` were removed.
+* Compatibility uppercase enumerators were removed.
+* Compatibility `peek_byte()`-methods were removed.
 
 ## Version 2.8.0
 
-All enumerators were changed from uppercase to lowercase.
-Additionally, `tracking_mode::IMMEDIATE` was renamed to `tracking_mode::eager`.
+* All enumerators were changed from uppercase to lowercase.
+* The enumerator `tracking_mode::IMMEDIATE` was renamed to `tracking_mode::eager`.
+* The input-classes' `peek_byte()`-method was renamed to `peek_uint8()`.
 
-Compatibility enumerators can still be used, the library should be fully compatible when used with older enumerators.
-The old enumerators have been removed in version 3.0.0.
-Consider updating your enumerators now.
-
-The input-classes' `peek_byte()`-method was renamed to `peek_uint8()`.
-The old method is still available, it was removed in version 3.0.0.
-Consider updating your calls to `peek_byte()` now.
+Compatibility enumerators and methods are provided, they will be removed in version 3.0.0.
 
 ## Version 2.4.0
 
-The common prefix for all macros was changed from `TAOCPP_PEGTL_` to `TAO_PEGTL_`.
+* The common prefix for all macros was changed from `TAOCPP_PEGTL_` to `TAO_PEGTL_`.
 
-Compatibility macros can still be used, the library should be fully compatible when used with older macros.
-The old macros have been removed in version 3.0.0.
-Consider updating your macro prefixes now.
+Compatibility macros are provided, they will be removed in version 3.0.0.
 
 ## Version 2.0.0
 
