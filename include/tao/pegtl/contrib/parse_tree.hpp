@@ -38,7 +38,7 @@ namespace tao
             using children_t = std::vector< std::unique_ptr< node_t > >;
             children_t children;
 
-            std::type_index id = typeid( void );
+            std::type_index id = std::type_index( typeid( void ) );
             std::string source;
 
             TAO_PEGTL_NAMESPACE::internal::iterator m_begin;
