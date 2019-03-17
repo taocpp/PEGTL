@@ -9,7 +9,6 @@
 * Updated required [CMake](https://cmake.org/) version to 3.8.
 * Removed the need to derive action class template's from `nothing`.
 * Added `require_apply` and `require_apply0` to improve compiler error messages.
-* Added support for Universal Windows Platform (UWP).
 * Removed compatibility macros starting with `TAOCPP_PEGTL_`.
 * Removed compatibility uppercase enumerators.
 * Removed compatibility `peek_byte()`-methods.
@@ -27,6 +26,7 @@
 * Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
 * Added the Clang Static Analyzer to the CI build.
 * Added new Makefile target `amalgamate` to generate a single-header version of the PEGTL.
+* Added support for Universal Windows Platform (UWP).
 
 ## 2.7.1
 
