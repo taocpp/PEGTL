@@ -45,7 +45,6 @@ namespace csv1
 
    template< typename Rule >
    struct action
-      : pegtl::nothing< Rule >
    {
    };
 

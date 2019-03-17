@@ -8,6 +8,7 @@
 
 #include "apply_mode.hpp"
 #include "config.hpp"
+#include "nothing.hpp"
 #include "require_apply.hpp"
 #include "require_apply0.hpp"
 #include "rewind_mode.hpp"
@@ -16,8 +17,7 @@
 #include "internal/duseltronik.hpp"
 #include "internal/has_apply.hpp"
 #include "internal/has_apply0.hpp"
-#include "internal/missing_apply.hpp"
-#include "internal/missing_apply0.hpp"
+#include "internal/if_missing.hpp"
 #include "internal/skip_control.hpp"
 
 namespace tao
@@ -36,7 +36,7 @@ namespace tao
       bool match( Input& in, States&&... st )
       {
          constexpr bool enable_control = !internal::skip_control< Rule >::value;
-         constexpr bool enable_apply = enable_control && ( A == apply_mode::action );
+         constexpr bool enable_apply = enable_control && ( A == apply_mode::action ) && ( !is_nothing< Action, Rule >::value );
 
          using iterator_t = typename Input::iterator_t;
          constexpr bool has_apply_void = enable_apply && internal::has_apply< Control< Rule >, void, Action, const iterator_t&, const Input&, States... >::value;
@@ -49,13 +49,8 @@ namespace tao
 
          static_assert( !( has_apply && has_apply0 ), "both apply() and apply0() defined" );
 
-         // if constexpr( !has_apply && std::is_base_of< require_apply, Action< Rule > >::value ) {
-         //    internal::missing_apply< Control< Rule >, Action >( in, st... );
-         // }
-
-         // if constexpr( !has_apply0 && std::is_base_of< require_apply0, Action< Rule > >::value ) {
-         //    internal::missing_apply0< Control< Rule >, Action >( in, st... );
-         // }
+         internal::if_missing< !has_apply && std::is_base_of< require_apply, Action< Rule > >::value >::template apply< Control< Rule >, Action >( in, st... );
+         internal::if_missing< !has_apply0 && std::is_base_of< require_apply0, Action< Rule > >::value >::template apply0< Control< Rule >, Action >( in, st... );
 
          constexpr auto mode = static_cast< internal::dusel_mode >( enable_control + has_apply_void + 2 * has_apply_bool + 3 * has_apply0_void + 4 * has_apply0_bool );
          return internal::duseltronik< Rule, A, M, Action, Control, mode >::match( in, st... );

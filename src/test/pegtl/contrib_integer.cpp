@@ -20,7 +20,6 @@ namespace tao
 
       template< typename Rule >
       struct int_action
-         : nothing< Rule >
       {
       };
 

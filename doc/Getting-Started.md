@@ -43,7 +43,6 @@ namespace hello
 
    template< typename Rule >
    struct action
-      : pegtl::nothing< Rule >
    {};
 
    // Specialisation of the user-defined action to do

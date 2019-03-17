@@ -13,7 +13,6 @@ namespace tao
 
       template< typename Rule >
       struct at_action
-         : public nothing< Rule >
       {
       };
 

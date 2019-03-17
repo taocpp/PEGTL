@@ -17,7 +17,6 @@ namespace tao
 
       template< typename Rule >
       struct raction
-         : nothing< Rule >
       {
       };
 
@@ -33,7 +32,6 @@ namespace tao
 
       template< typename Rule >
       struct qaction
-         : nothing< Rule >
       {
       };
 

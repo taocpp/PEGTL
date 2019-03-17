@@ -13,7 +13,6 @@ namespace tao
 
       template< typename Rule >
       struct tracer_action
-         : nothing< Rule >
       {
       };
 

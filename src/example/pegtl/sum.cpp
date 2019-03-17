@@ -31,7 +31,6 @@ namespace sum
 
    template< typename Rule >
    struct action
-      : nothing< Rule >
    {
    };
 

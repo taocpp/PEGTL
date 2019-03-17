@@ -11,7 +11,7 @@ using namespace tao::pegtl;
 struct my_grammar : ...;
 
 template< typename Rule >
-struct my_actions : nothing< Rule > {};
+struct my_actions {};
 
 // Specialisations of my_actions as required...
 

@@ -17,7 +17,7 @@ namespace tao
          };
 
          template< typename Rule >
-         struct apply_bool_action : nothing< Rule >
+         struct apply_bool_action
          {
          };
 
@@ -52,7 +52,7 @@ namespace tao
          }
 
          template< typename Rule >
-         struct apply0_bool_action : nothing< Rule >
+         struct apply0_bool_action
          {
          };
 

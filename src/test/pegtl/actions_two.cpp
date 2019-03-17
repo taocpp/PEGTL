@@ -35,7 +35,7 @@ namespace tao
          };
 
          template< typename Rule >
-         struct action1 : nothing< Rule >
+         struct action1
          {
          };
 
@@ -59,7 +59,7 @@ namespace tao
          }
 
          template< typename Rule >
-         struct action0 : nothing< Rule >
+         struct action0
          {
          };
 

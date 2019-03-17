@@ -66,7 +66,6 @@ namespace tao
 
       template< typename Rule >
       struct outer_action
-         : nothing< Rule >
       {
       };
 

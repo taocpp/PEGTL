@@ -20,7 +20,7 @@ namespace tao
       struct character : if_then_else< one< '\\' >, must< escaped >, utf8::any > {};
       struct unstring : until< eof, character > {};
 
-      template< typename Rule > struct unaction : nothing< Rule > {};
+      template< typename Rule > struct unaction {};
 
       template<> struct unaction< escaped_c > : unescape::unescape_c< escaped_c, '"', '\\', '\t' > {};
       template<> struct unaction< escaped_u > : unescape::unescape_u {};

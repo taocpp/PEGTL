@@ -47,7 +47,6 @@ struct my_grammar : star< not_at< eof >, recoverable_expr > {};
 
 template< typename Rule >
 struct my_action
-   : nothing< Rule >
 {
 };
 

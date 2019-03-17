@@ -76,7 +76,6 @@ namespace sexpr
 
    template< typename Rule >
    struct action
-      : nothing< Rule >
    {
    };
 

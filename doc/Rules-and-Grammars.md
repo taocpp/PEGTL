@@ -281,8 +281,7 @@ The action stores the matched string that corresponds to `"foo"` in a string var
 
 ```c++
    template< typename Rule >
-   struct action
-      : tao::pegtl::nothing< Rule > {};
+   struct action {};
 
    template<>
    struct action< long_literal_id >

@@ -293,13 +293,8 @@ namespace calculator
    // After the grammar we proceed with the additional actions that are
    // required to let our calculator actually do something.
 
-   // The base-case of the class template for the actions must derive from
-   // pegtl::nothing (or, alternatively, define an action that does something
-   // sensible for all rules for which no specialisation exists).
-
    template< typename Rule >
    struct action
-      : pegtl::nothing< Rule >
    {
    };
 

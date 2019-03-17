@@ -22,7 +22,6 @@ namespace tao
 
       template< typename Rule >
       struct file_action
-         : nothing< Rule >
       {
       };
 

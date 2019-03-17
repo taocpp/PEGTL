@@ -70,7 +70,6 @@ namespace example
 
    template< typename Rule >
    struct action_2_with_state
-      : pegtl::nothing< Rule >
    {
    };
 

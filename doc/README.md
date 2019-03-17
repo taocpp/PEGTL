@@ -23,6 +23,7 @@
     * [Apply0](Actions-and-States.md#apply0)
   * [Troubleshooting](Actions-and-States.md#troubleshooting)
     * [Boolean Return](#boolean-return)
+    * [Signature Mismatch](#signature-mismatch)
   * [States](Actions-and-States.md#states)
   * [Action Specialisation](Actions-and-States.md#action-specialisation)
   * [Changing Actions](Actions-and-States.md#changing-actions)
