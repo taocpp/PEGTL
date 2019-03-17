@@ -2,12 +2,12 @@
 
 ## Version 3.0.0
 
-* We now require C++17, make sure to update your compiler/build-system accordingly.
-* The default for `TAO_PEGTL_NAMESPACE` was changed from `pegtl` to `tao::pegtl`. The macro now defines the fully qualified namespace. If you are setting `TAO_PEGTL_NAMESPACE`, adapt as needed. In case of doubt, add `tao::` as a prefix.
-* The control class template's `apply()`- and `apply0()`-methods must only be visible (e.g. via SFINAE) when an action class template method with the appropriate signature exists.
-* Compatibility macros starting with `TAOCPP_PEGTL_` were removed.
-* Compatibility uppercase enumerators were removed.
-* Compatibility `peek_byte()`-methods were removed.
+* The build system needs to be configured for C++17 or later.
+* The macro `TAO_PEGTL_NAMESPACE` now defines the fully qualified namespace and was changed from `pegtl` to `tao::pegtl`. When setting `TAO_PEGTL_NAMESPACE`, adapt as needed; in case of doubt, add `tao::` as prefix.
+* The control class template's `apply()`- and `apply0()`-methods must only be visible (e.g. via SFINAE) when an action class template method with the appropriate signature exists. See `tao::pegtl::normal` as example.
+* The compatibility macros starting with `TAOCPP_PEGTL_` were removed, the corresponding `TAO_PEGTL_`-prefixed macros must be used.
+* The compatibility uppercase enumerators were removed, the corresponding lowercase enumerators must be used.
+* The compatibility `peek_byte()`-methods were removed, the `peek_uint8()`-methods must be used.
 
 ## Version 2.8.0
 
