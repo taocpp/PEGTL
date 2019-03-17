@@ -13,6 +13,7 @@
 * Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
 * Added the Clang Static Analyzer to the CI build.
 * Added new Makefile target `amalgamate` to generate a single-header version of the PEGTL.
+* Added support for Universal Windows Platform (UWP).
 
 ## 2.7.1
 

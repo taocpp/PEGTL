@@ -10,8 +10,8 @@
 #endif
 
 #if !defined( WIN32_LEAN_AND_MEAN )
-#define WIN32_MEAN_AND_LEAN
-#define TAO_PEGTL_WIN32_MEAN_AND_LEAN_WAS_DEFINED
+#define WIN32_LEAN_AND_MEAN
+#define TAO_PEGTL_WIN32_LEAN_AND_MEAN_WAS_DEFINED
 #endif
 
 #include <windows.h>
@@ -21,9 +21,9 @@
 #undef TAO_PEGTL_NOMINMAX_WAS_DEFINED
 #endif
 
-#if defined( TAO_PEGTL_WIN32_MEAN_AND_LEAN_WAS_DEFINED )
-#undef WIN32_MEAN_AND_LEAN
-#undef TAO_PEGTL_WIN32_MEAN_AND_LEAN_WAS_DEFINED
+#if defined( TAO_PEGTL_WIN32_LEAN_AND_MEAN_WAS_DEFINED )
+#undef WIN32_LEAN_AND_MEAN
+#undef TAO_PEGTL_WIN32_LEAN_AND_MEAN_WAS_DEFINED
 #endif
 
 #include "../config.hpp"
@@ -70,7 +70,20 @@ namespace tao
             HANDLE open() const
             {
                SetLastError( 0 );
-               const HANDLE handle = ::CreateFileA( m_source,
+               std::wstring ws( m_source, m_source + strlen( m_source ) );
+
+#if( _WIN32_WINNT >= 0x0602 )
+               const HANDLE handle = ::CreateFile2( ws.c_str(),
+                                                    GENERIC_READ,
+                                                    FILE_SHARE_READ,
+                                                    OPEN_EXISTING,
+                                                    nullptr );
+               if( handle != INVALID_HANDLE_VALUE ) {
+                  return handle;
+               }
+               TAO_PEGTL_THROW_INPUT_WIN32_ERROR( "CreateFile2() failed opening file " << m_source << " for reading" );
+#else
+               const HANDLE handle = ::CreateFileW( ws.c_str(),
                                                     GENERIC_READ,
                                                     FILE_SHARE_READ,
                                                     nullptr,
@@ -80,7 +93,8 @@ namespace tao
                if( handle != INVALID_HANDLE_VALUE ) {
                   return handle;
                }
-               TAO_PEGTL_THROW_INPUT_WIN32_ERROR( "unable to CreateFileA() file " << m_source << " for reading" );
+               TAO_PEGTL_THROW_INPUT_WIN32_ERROR( "CreateFileW() failed opening file " << m_source << " for reading" );
+#endif
             }
          };
 
