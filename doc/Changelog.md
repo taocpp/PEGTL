@@ -8,6 +8,7 @@
 * Updated required C++ standard to C++17.
 * Updated required [CMake](https://cmake.org/) version to 3.8.
 * The macro `TAO_PEGTL_NAMESPACE` now contains the fully qualified namespace, e.g. `tao::pegtl`.
+* Replaced `tao::pegtl::input_error` with `std::system_error`.
 * Added `[[nodiscard]]` to almost all functions/methods returning values.
 * Removed compatibility macros starting with `TAOCPP_PEGTL_`.
 * Removed compatibility uppercase enumerators.
