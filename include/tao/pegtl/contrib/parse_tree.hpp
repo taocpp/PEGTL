@@ -142,7 +142,7 @@ namespace tao
             // note that "child" is the node whose Rule just succeeded
             // and "*this" is the parent where the node should be appended.
             template< typename... States >
-            void emplace_back( std::unique_ptr< node_t > child, States&&... /*unused*/ )
+            void emplace_back( std::unique_ptr< node_t >&& child, States&&... /*unused*/ )
             {
                assert( child );
                children.emplace_back( std::move( child ) );
