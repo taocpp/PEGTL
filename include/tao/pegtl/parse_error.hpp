@@ -35,6 +35,13 @@ namespace tao
          {
          }
 
+         parse_error( const std::string& msg, position&& pos )
+            : std::runtime_error( to_string( pos ) + ": " + msg ),
+              positions()
+         {
+            positions.emplace_back( std::move( pos ) );
+         }
+
          std::vector< position > positions;
       };
 
