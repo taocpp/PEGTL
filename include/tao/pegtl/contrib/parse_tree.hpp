@@ -173,11 +173,13 @@ namespace tao
 
                std::unique_ptr< Node >& back() noexcept
                {
+                  assert( !stack.empty() );
                   return stack.back();
                }
 
                void pop_back() noexcept
                {
+                  assert( !stack.empty() );
                   return stack.pop_back();
                }
             };
