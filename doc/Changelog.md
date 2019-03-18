@@ -13,6 +13,7 @@
 * Removed the need to derive action class templates from `nothing`.
 * Added `require_apply` and `require_apply0` to improve compiler error messages.
 * Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
+* Improved the [Parse Tree / AST interface](Parse-Tree.md) to hide its internal state except for the `match()`-method.
 * Added the Clang Static Analyzer to the CI build.
 * Added new Makefile target `amalgamate` to generate a single-header version of the PEGTL.
 * Added support for Universal Windows Platform (UWP).
