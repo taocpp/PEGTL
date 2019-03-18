@@ -169,11 +169,13 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
 
          [[nodiscard]] std::unique_ptr< Node >& back() noexcept
          {
+            assert( !stack.empty() );
             return stack.back();
          }
 
          void pop_back() noexcept
          {
+            assert( !stack.empty() );
             return stack.pop_back();
          }
       };
