@@ -19,9 +19,13 @@
 **Not yet released**
 
 * Use the [**migration guide**](Migration-Guide.md#version-280) when updating.
-* Changed enumerators to lowercase. Compatibility enumerators with the old names are provided, they will be removed in version 3.0.0.
+* Changed enumerators to lowercase.
+  * Compatibility enumerators with the old names are provided.
+  * They will be removed in version 3.0.0.
 * Renamed `tracking_mode::IMMEDIATE` to `tracking_mode::eager`.
-* Renamed `peek_byte()` to `peek_uint8()`. Compatibility methods with the old name are provided, they will be removed in version 3.0.0.
+* Renamed `peek_byte()` to `peek_uint8()`.
+  * Compatibility methods with the old names are provided.
+  * They will be removed in version 3.0.0.
 * Allowed the action class template to overwrite `match`.
 * Refactored contrib's `change_action`, `change_state`, and `change_action_and_state`.
 * Removed the need to derive action class templates from `nothing`.
@@ -107,7 +111,9 @@ Released 2018-02-17
 
 * Use the [**migration guide**](Migration-Guide.md#version-240) when updating.
 * Improved and documented the [Parse Tree / AST support](Parse-Tree.md).
-* Changed prefix of all macros from `TAOCPP_PEGTL_` to `TAO_PEGTL_`. Compatibility macros with the old names are provided, they will be removed in version 3.0.0.
+* Changed prefix of all macros from `TAOCPP_PEGTL_` to `TAO_PEGTL_`.
+  * Compatibility macros with the old names are provided.
+  * They will be removed in version 3.0.0.
 * Added a deleted overload to prevent creating a `memory_input<>` from a temporary `std::string`.
 
 ## 2.3.4
