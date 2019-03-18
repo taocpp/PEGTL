@@ -8,6 +8,7 @@
 * Updated required C++ standard to C++17.
 * Updated required [CMake](https://cmake.org/) version to 3.8.
 * The macro `TAO_PEGTL_NAMESPACE` now contains the fully qualified namespace, e.g. `tao::pegtl`.
+* Added `[[nodiscard]]` to almost all functions/methods returning values.
 * Removed compatibility macros starting with `TAOCPP_PEGTL_`.
 * Removed compatibility uppercase enumerators.
 * Removed compatibility `peek_byte()`-methods.
@@ -25,6 +26,7 @@
 * Removed the need to derive action class templates from `nothing`.
 * Added `require_apply` and `require_apply0` to improve compiler error messages.
 * Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
+* Improved the [Parse Tree / AST interface](Parse-Tree.md) to hide its internal state except for the `match()`-method.
 * Added the Clang Static Analyzer to the CI build.
 * Added new Makefile target `amalgamate` to generate a single-header version of the PEGTL.
 * Added support for Universal Windows Platform (UWP).
