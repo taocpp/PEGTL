@@ -87,22 +87,14 @@ For questions and suggestions regarding the PEGTL, success or failure stories, a
 
 ## Thank You
 
-* Christopher Diggins and the YARD parser for the general idea.
-* George Makrydakis for the [inspiration](https://github.com/irrequietus/typestring) to `TAO_PEGTL_STRING`.
-* Johannes Overmann for his invaluable [`streplace`](https://code.google.com/p/streplace/) command-line tool.
-* Jörg-Christian Böhme for improving the Android CI build.
-* Jørgen Edelbo for UWP support.
-* Kai Wolf for help with CMake.
-* Kenneth Geisshirt for Android compatibility and Android CI.
-* Kuzma Shapran for EOL testing and fixes.
-* Michael Becker for help with CMake.
-* Paul Le Roux for CMake improvements, Conan support and [PR #150](https://github.com/taocpp/PEGTL/pull/150).
-* Paulo Custodio for Windows-related fixes.
-* Sam Hocevar for contributing Visual Studio 2015 compatibility.
-* Stephan Beal for the bug reports, suggestions and discussions.
-* Stuart Dootson for `mmap_input<>` support on Windows.
-* Sven Johannsen for help with CMake.
-* Zhihao Yuan for fixing several warnings when compiling with Visual Studio 2015.
+* Our [contributors](https://github.com/taocpp/PEGTL/graphs/contributors)
+* Christopher Diggins
+* George Makrydakis
+* Johannes Overmann
+* Kai Wolf
+* Michael Becker
+* Stephan Beal
+* Sven Johannsen
 
 ## License
 
