@@ -3,9 +3,9 @@
 Parsing, i.e. matching an input with a grammar rule, by itself only indicates whether (a portion of) the input is valid according to the grammar.
 In order to do something useful with the input, it is usually necessary to attach user-defined *actions* to one or more rules.
 An action is *applied* whenever the rule to which it is attached succeeds.
-Applying an action means that its static `apply()`- or `apply0()`-method is called.
-The first argument to an `apply()`-method is always an object that represents the portion of the input consumed by the successful match of the rule.
-An action's `apply()`- or `apply0()`-method can either return `void`, or a `bool`.
+Applying an action means that an `apply()` or `apply0()` static member function is called.
+The first argument to `apply()` is always an object that represents the portion of the input consumed by the successful match of the rule.
+An action's `apply()` or `apply0()` can both return either `void` or `bool`.
 
 ## Contents
 
@@ -27,7 +27,7 @@ An action's `apply()`- or `apply0()`-method can either return `void`, or a `bool
 
 ## Actions
 
-Actions are implemented as static `apply()`- or `apply0()`-method of specialisations of custom class templates (which is not quite as difficult as it sounds).
+Actions are implemented as static member functions called `apply()` or `apply0()` of specialisations of custom class templates (which is not quite as difficult as it sounds).
 First an action class template has to be defined:
 
 ```c++
@@ -35,16 +35,16 @@ template< typename Rule >
 struct my_actions {};
 ```
 
-The above class template does not have any `apply()`- or `apply0()`-method, hence it does nothing by default.
+The above class template does not have `apply()` or `apply0()`, hence it does nothing, an empty action.
 
-To attach an action to `Rule`, this class template has to be specialised for `Rule` and an *appropriate* static `apply()`- or `apply0()`-method has to be implemented.
+To attach an action to `Rule`, this class template has to be specialised for `Rule` and an *appropriate* static member function, either called `apply()` or `apply0()`, has to be implemented.
 
-The PEGTL will auto-detect whether an action, i.e. a specialisation of an action class template, contains an appropriate `apply()`- or `apply0()`-method, and whether it returns `void` or `bool`.
+The PEGTL will auto-detect whether an action, i.e. a specialisation of an action class template, contains an appropriate `apply()` or `apply0()`, and whether it returns `void` or `bool`.
 It will fail to compile when both `apply()` and `apply0()` are found.
 
 ### Apply
 
-When the action method is called `apply()`, it receives a const-reference to an instance of an input class as first argument.
+When an action's static member function is called `apply()`, it receives a const-reference to an instance of an input class as first argument.
 
 ```c++
 template<>
@@ -71,7 +71,7 @@ struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
 }
 ```
 
-The exact type of the input class passed to an action's `apply()`-method is not specified.
+The exact type of the input class passed to `apply()` is not specified.
 It is currently best practice to "template over" the type of the input as shown above.
 
 Actions can then assume that the input provides (at least) the following members.
@@ -108,7 +108,7 @@ public:
 };
 ```
 
-Note that the `action_input` does **not** own the data it points to, it belongs to the original input used in the parsing run. Therefore **the validity of the pointed-to data might not extend (much) beyond the call to the `apply()`-method**!
+Note that the `action_input` does **not** own the data it points to, it belongs to the original input used in the parsing run. Therefore **the validity of the pointed-to data might not extend (much) beyond the call to `apply()`**!
 
 When the original input has tracking mode `eager`, the `iterator_t` returned by `action_input::iterator()` will contain the `byte`, `line` and `byte_in_line` counters corresponding to the beginning of the matched input represented by the `action_input`.
 
@@ -117,12 +117,12 @@ When the original input has tracking mode `lazy`, then `action_input::position()
 Actions often need to store and/or reference portions of the input for after the parsing run, for example when an abstract syntax tree is generated.
 Some of the syntax tree nodes will contain portions of the input, for example for a variable name in a script language that needs to be stored in the syntax tree just as it occurs in the input data.
 
-The **default safe choice** is to copy the matched portions of the input data that are passed to an action by storing a deep copy of the data as `std::string`, as obtained by the input class' `string()`-method, in the data structures built while parsing.
+The **default safe choice** is to copy the matched portions of the input data that are passed to an action by storing a deep copy of the data as `std::string`, as obtained by the input class' `string()` member function, in the data structures built while parsing.
 
 ### Apply0
 
-In cases where the matched part of the input is not required, an action method named `apply0()` is implemented.
-This allows for some internal optimisations compared to the `apply()`-method which receives the matched input as first argument.
+In cases where the matched part of the input is not required, an action can implement `apply0()`.
+This allows for some internal optimisations compared to when the action's static member function is called `apply()`.
 
 ```c++
 template<>
@@ -147,7 +147,7 @@ struct my_actions< tao::pegtl::plus< tao::pegtl::alpha > >
 
 When the return type is `bool`, the action can determine whether matching the rule to which it was attached, and which already returned with success, should be retro-actively considered a (local) failure.
 For the overall parsing run, there is no difference between a rule or an attached action returning `false` (but of course the action is not called when the rule already returned `false`).
-When an action returns `false`, the PEGTL takes care of rewinding the input to where it was when the rule to which the action was attached started its (successful) match (which is unlike the rules' `match()`-method that has to take care of rewinding themself).
+When an action returns `false`, the PEGTL takes care of rewinding the input to where it was when the rule to which the action was attached started its (successful) match (which is unlike the rules' `match()` static member function that has to take care of rewinding themself).
 
 ## Troubleshooting
 
@@ -159,11 +159,8 @@ They can also have weird effects on the semantics of a parsing run, for example 
 
 ### Signature Mismatch
 
-As the compiler auto-detects the presence of a *suitable* `apply()`- or `apply0()`-method, it will simply think that there is no action to apply when the signature is incorrect.
-In this case, the code will compile but silently fail to call `apply()` or `apply0()`.
-
-To help troubleshooting those cases, you can turn the silent failure to call the method into a compile-time error.
-Simply derive your specialisation from `require_apply` or `require_apply0`, respectively:
+The presence of a *suitable* `apply()` or `apply0()` is auto-detected, however the code will compile without a call to `apply()` or `apply0()` when the signature of the implemented function is not correct!
+In these cases the error message from the compiler can be improved by deriving the action specialisation from either `require_apply` or `require_apply0`, respectively.
 
 ```c++
 template<>
@@ -177,24 +174,24 @@ struct my_actions< my_rule >
 }
 ```
 
-By adding the base class `require_apply0` to the above specialisation, the compiler will be required to call `apply0()`.
-If the states (in this example a `double`) don't match, an error message is given and the compilation fails.
+The presence of one of these base classes will force a call to `apply()` or `apply0()`, respectively, and compilation will fail when such a call is not possible.
+The error message should make clear why the call was not possible, usually a type mismatch for one of the state parameters, the `double` in the example above.
 
-Note that deriving from `require_apply` or `require_apply0` is optional and is only meant to help troubleshooting problems.
+Note that deriving from `require_apply` or `require_apply0` is optional and usually only used for troubleshooting.
 
 ## States
 
-In most applications, the actions also need some kind of data or user-defined (parser/action) *state* to operate on.
-Since the `apply()`- and `apply0()`-methods are `static`, they do not have an instance of the class of which they are a member function available for this purpose.
-Therefore the *state(s)* are an arbitrary collection of objects that are
+In most applications, actions need some kind of data or user-defined (parser/action) *state* to operate on.
+Given that `apply()`- and `apply0()` are static member functions, they are called without an instance of the class they belong to (which would usually fill this role).
+Therefore a PEGTL parsing run can be performed with arbitrary many *state(s)* parameters that are
 
 * passed by the user as additional arguments to the [`parse()`-function](Inputs-and-Parsing.md#parse-function) that starts a parsing run, and then
 
-* passed by the PEGTL as additional arguments to all actions' `apply()`- or `apply0()`-method.
+* passed by the PEGTL as additional arguments to all actions' `apply()` or `apply0()` static member functions.
 
-In other words, the additional arguments to the `apply()`- and `apply0()`-method can be chosen freely, however **all** actions **must** accept the same argument list since they are **all** called with the same arguments.
+In other words, the additional arguments to `apply()`- and `apply0()` can be chosen freely, however **all** actions **must** accept the same argument list since they are **all** called with the same arguments.
 
-For example, in a practical grammar the example from above might use a second argument to store the parsed sequence of digits somewhere.
+For example, in a practical grammar the example from above might use a second argument to store the matched sequence of digits.
 
 ```c++
 template<> struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
@@ -208,7 +205,7 @@ template<> struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
 }
 ```
 
-If we then assume that our grammar `my_grammar` contains the rule `tao::pegtl::plus< tao::pegtl::digit >` somewhere, we can use
+Assuming that `my_grammar` contains `tao::pegtl::plus< tao::pegtl::digit >` as rule, it is possible to use
 
 ```c++
 const std::string parsed_data = ...;
@@ -231,7 +228,7 @@ For example given the rule
 struct foo : tao::pegtl::plus< tao::pegtl::one< '*' > > {};
 ```
 
-an action class template can be specialised for `foo` or for `tao::pegtl::one< '*' >`, but *not* for `tao::pegtl::plus< tao::pegtl::one< '*' > >` because that is not the rule class name whose `match()`-method is called.
+an action class template can be specialised for `foo`, or for `tao::pegtl::one< '*' >`, but *not* for `tao::pegtl::plus< tao::pegtl::one< '*' > >` because that is not the rule class name whose `match()`-method is called.
 
 (The method is called on class `foo`, which happens to inherit `match()` from `tao::pegtl::plus< tao::pegtl::one< '*' > >`, however base classes are not taken into consideration by the C++ language when choosing a specialisation.)
 
@@ -261,9 +258,9 @@ tao::pegtl::parse< my_grammar, my_actions >( ... );
 tao::pegtl::parse< tao::pegtl::action< my_actions, my_grammar > >( ... );
 ```
 
-In other words, `enable<>` and `disable<>` behave just like `seq<>` but enable or disable the calling of actions. `action<>` changes the active action class template, which must be supplied as first template parameter to `action<>`.
+In other words, `enable<>` and `disable<>` behave just like `seq<>` but enable or disable the calling of actions, while `action<>` changes the active action class template to a new one, which must be supplied as first template parameter to `action<>`.
 
-Note that `action<>` does *not* implicitly enable actions when they were previously explicitly disabled.
+Note that `action<>` does *not* implicitly enable actions when they were previously explicitly disabled!
 
 User-defined parsing rules can use `action<>`, `enable<>` and `disable<>` just like any other combinator rules, for example to disable actions in LISP-style comments:
 
@@ -272,7 +269,7 @@ struct comment
    : tao::pegtl::seq< tao::pegtl::one< '#' >, tao::pegtl::disable< cons_list > > {};
 ```
 
-This also allows using the same rules multiple times with different actions within the grammar.
+This also allows using the same rules multiple times with different actions within a grammar.
 
 ## Changing States
 
