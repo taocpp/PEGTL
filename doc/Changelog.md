@@ -9,10 +9,10 @@
 * Updated required [CMake](https://cmake.org/) version to 3.8.
 * The macro `TAO_PEGTL_NAMESPACE` now contains the fully qualified namespace, e.g. `tao::pegtl`.
 * Replaced `tao::pegtl::input_error` with `std::system_error`.
-* Added `[[nodiscard]]` to almost all functions/methods returning values.
+* Added `[[nodiscard]]` to almost all functions returning values.
 * Removed compatibility macros starting with `TAOCPP_PEGTL_`.
 * Removed compatibility uppercase enumerators.
-* Removed compatibility `peek_byte()`-methods.
+* Removed compatibility `peek_byte()` member functions.
 
 ## 2.8.0
 
@@ -24,14 +24,14 @@
   * They will be removed in version 3.0.0.
 * Renamed `tracking_mode::IMMEDIATE` to `tracking_mode::eager`.
 * Renamed `peek_byte()` to `peek_uint8()`.
-  * Compatibility methods with the old names are provided.
+  * Compatibility member functions with the old names are provided.
   * They will be removed in version 3.0.0.
 * Allowed the action class template to overwrite `match`.
 * Refactored contrib's `change_action`, `change_state`, and `change_action_and_state`.
 * Removed the need to derive action class templates from `nothing`.
 * Added `require_apply` and `require_apply0` to improve compiler error messages.
 * Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
-* Improved the [Parse Tree / AST interface](Parse-Tree.md) to hide its internal state except for the `match()`-method.
+* Improved the [Parse Tree / AST interface](Parse-Tree.md) to hide its internal state except for `match()`.
 * Added the Clang Static Analyzer to the CI build.
 * Added new Makefile target `amalgamate` to generate a single-header version of the PEGTL.
 * Added support for Universal Windows Platform (UWP).
@@ -96,8 +96,8 @@ Released 2018-05-01
 * Fixed parse tree node generation to correctly remove intermediate nodes.
 * Added big- and little-endian support to the UTF-16 and UTF-32 rules.
 * Added rules for UINT-8 and big- and little-endian UINT-16, UINT-32 and UINT-64.
-* Added methods to `memory_input<>` to obtain the line around a position.
-* Added methods to `memory_input<>` to start again from the beginning.
+* Added member functions to `memory_input<>` to obtain the line around a position.
+* Added member functions to `memory_input<>` to start again from the beginning.
 * Added example for Python-style indentation-aware grammars.
 * Added examples for regular, context-free, and context-sensitive grammars.
 * Added example for how to parse with a symbol table.
@@ -148,9 +148,9 @@ Released 2017-12-14
 Released 2017-12-11
 
 * Added constructor to `read_input<>` that accepts a `FILE*`, see issue [#78](https://github.com/taocpp/PEGTL/issues/78).
-* Enhanced [`apply`](Rule-Reference.md#apply-a-), [`apply0`](Rule-Reference.md#apply0-a-) and [`if_apply`](Rule-Reference.md#if_apply-r-a-) to support `apply()`/`apply0()`-methods returning boolean values.
-* Simplified implementation of [`raw_string`](Contrib-and-Examples.md#taopegtlcontribraw_stringhpp), the optional `Contents...` rules' `apply()`/`apply0()`-methods are now called with the original states.
-* Fixed the tracer to work with `apply()`/`apply0()`-methods returning boolean values. (Thanks Joel Frederico)
+* Enhanced [`apply`](Rule-Reference.md#apply-a-), [`apply0`](Rule-Reference.md#apply0-a-) and [`if_apply`](Rule-Reference.md#if_apply-r-a-) to support `apply()`/`apply0()` returning boolean values.
+* Simplified implementation of [`raw_string`](Contrib-and-Examples.md#taopegtlcontribraw_stringhpp), the optional `Contents...` rules' `apply()`/`apply0()` are now called with the original states.
+* Fixed the tracer to work with `apply()`/`apply0()` returning boolean values.
 * Fixed, simplified and improved [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp).
 
 ## 2.2.2
@@ -164,7 +164,7 @@ Released 2017-11-22
 Released 2017-11-22
 
 * Celebrating the PEGTL's 10th anniversary!
-* Fixed missing call to the [control class'](Control-and-Debug.md#control-methods) `failure()`-method when a rule with an `apply()`-method with a boolean return type fails.
+* Fixed missing call to the [control class'](Control-and-Debug.md#control-functions) `failure()` when a rule with `apply()` with a boolean return type fails.
 * Fixed string handling in [`examples/abnf2pegtl.cc`](Contrib-and-Examples.md#srcexamplepegtlabnf2pegtlcpp).
 * Simplified/improved Android build.
 
@@ -172,7 +172,7 @@ Released 2017-11-22
 
 Released 2017-09-24
 
-* Added possibility for actions' `apply()`- or `apply0()`-methods to return a `bool` which is then used to determine overall success or failure of the rule to which such an action was attached.
+* Added possibility for an actions' `apply()` or `apply0()` to return a `bool` which is then used to determine overall success or failure of the rule to which such an action was attached.
 * Added [`<tao/pegtl/contrib/parse_tree.hpp>`](Contrib-and-Examples.md#taopegtlcontribparse_treehpp) and the [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp) application that shows how to build a [parse tree](https://en.wikipedia.org/wiki/Parse_tree). The example goes beyond a traditional parse tree and demonstrates how to select which nodes to include in the parse tree and how to transform the nodes into an [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)-like structure.
 * Added `bom` rules for UTF-8, UTF-16 and UTF-32.
 * Added some missing includes for `config.hpp`.
@@ -259,7 +259,7 @@ Released 2017-05-18
 
 * Other Changes
 
-  * Added `apply()`- and `apply0()`-methods to [control class](Control-and-Debug.md#control-methods).
+  * Added `apply()` and `apply0()` to the [control class](Control-and-Debug.md#control-functions).
   * Optimised superfluous input markers.
   * Allowed optimisation of [actions that do not need the input](Actions-and-States.md#apply0).
   * Replaced layered matching with superior Duseltronik™.
@@ -324,7 +324,7 @@ Released 2015-07-31
 * Added experimental support for UTF-16 similar to the previously existing UTF-32 parsing rules.
 * Added support for merging escaped UTF-16 surrogate pairs to `pegtl/contrib/unescape.hh`.
 * Fixed incorrect handling of escaped UTF-16 surrogate pairs in the JSON examples.
-* A [state](Rule-Reference.md#state-s-r-)'s `S::success()`-method can now have an extended signature to get access to the current `apply_mode`, *action*- and *control* class (template).
+* A [state](Rule-Reference.md#state-s-r-)'s `S::success()` can now have an extended signature to get access to the current `apply_mode`, *action*- and *control* class (template).
 * The `contrib/raw_string` class template now calls `Action<raw_string<...>::content>::apply()` with the user's state(s).
 
 ## 1.0.0
@@ -350,7 +350,7 @@ Semantic versioning was introduced with version 1.0.0.
 * The variadic `states...` arguments that are passed through all rule invocations for use by the actions are *not* forwarded with `std::forward<>` anymore since it (usually) doesn't make much sense to move them, and accidentially moving multiple times was a possible error scenario.
 * There are now five different `rep` rules for repeating a sequence of rules with more control over the acceptable or required number of repetitions.
 * There are new rules `try_catch<>` and `try_catch_type<>` that convert global errors, i.e. exceptions, into local errors, i.e. a return value of `false`.
-* Unified concept for actions and debug hooks, i.e. just like the actions are called from a class template that is passed into the top-level `parse()`-function, there is another class template that is called for debug/trace and error throwing purposes; both can be changed at any point within the grammar.
+* Unified concept for actions and debug hooks, i.e. just like the actions are called from a class template that is passed into the top-level `parse()` function, there is another class template that is called for debug/trace and error throwing purposes; both can be changed at any point within the grammar.
 * A large under-the-hood reorganisation has the benefit of preventing actions from being invoked on rules that are implementation details of other rules, e.g. the `pad< Rule, Padding >` rule contains `star< Padding >` in its implementation, so a specialisation of the action-class-template for `star< Padding >` would be called within `pad<>`, even though the `star< Pad >` was not explicitly written by the user; in PEGTL 1.y these unintended action invocations no longer occur.
 * Partial support for Unicode has been added in the form of some basic rules like `one<>` and `range<>` also being supplied in a UTF-8 (and experimental UTF-16 and UTF-32) aware version(s) that can correctly process arbitrary code points from `0` to `0x10ffff`.
 * The supplied input classes work together with the supplied exception throwing to support better error locations when performing nested file parsing, i.e. a `parse_error` contains a vector of parse positions.
@@ -361,7 +361,7 @@ Semantic versioning was introduced with version 1.0.0.
 * The `if_then<>` rule was removed.
 * The `error_mode` flag was removed.
 * The semantics of the `must<>` rules was changed to convert local failure to global failure only for the immediate sub-rules of a `must<>` rule.
-* The `parse`-methods now return a `bool` and can also produce local failures. To obtain the previous behaviour of success-or-global-failure, the top-level grammar rule has to be wrapped in a `must<>`.
+* The `parse()` functions now return a `bool` and can also produce local failures. To obtain the previous behaviour of success-or-global-failure, the top-level grammar rule has to be wrapped in a `must<>`.
 
 ## 0.32
 
@@ -394,7 +394,7 @@ Released 2011-02
 
 * Changed the type of exceptions thrown by the library to `pegtl::parse_error`.
 * Changed class `basic_debug` to only generate a grammar back-trace when a `pegtl::parse_error` is flying.
-* Changed logging to use a virtual method on the debug class inherited from common debug base class.
+* Changed logging to use a virtual member function on the debug class inherited from common debug base class.
 * Removed all `*_parse_*_nothrow()` parse functions.
 * Removed the `_throws` substring from all remaining parse functions and changed the return type to `void`.
 * Added convenience classes `file_input`, `ascii_file_input` and `dummy_file_input` for custom parse functions.

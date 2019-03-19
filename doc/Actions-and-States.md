@@ -185,7 +185,7 @@ In most applications, actions need some kind of data or user-defined (parser/act
 Given that `apply()` and `apply0()` are static member functions, they are called without an instance of the class they belong to (which would usually fill this role).
 Therefore a PEGTL parsing run can be performed with arbitrary many *state* parameters that are
 
-* passed by the user as additional arguments to the [`parse()`-function](Inputs-and-Parsing.md#parse-function) that starts a parsing run, and then
+* passed by the user as additional arguments to the [`parse()` function](Inputs-and-Parsing.md#parse-function) that starts a parsing run, and then
 
 * passed by the PEGTL as additional arguments to all actions' `apply()` or `apply0()` static member functions.
 
@@ -217,7 +217,7 @@ tao::pegtl::parse< my_grammar, my_actions >( in, digit_strings );
 
 to collect all `digit_strings` that were detected by the grammar, i.e. the vector will contain one string for every time that the `tao::pegtl::plus< tao::pegtl::digit >` rule was matched against the input.
 
-Since the `parse()`-functions are variadic function templates, an arbitrary sequence of state arguments can be used.
+Since the `parse()` functions are variadic function templates, an arbitrary sequence of state arguments can be used.
 
 ## Action Specialisation
 
@@ -228,9 +228,9 @@ For example given the rule
 struct foo : tao::pegtl::plus< tao::pegtl::one< '*' > > {};
 ```
 
-an action class template can be specialised for `foo`, or for `tao::pegtl::one< '*' >`, but *not* for `tao::pegtl::plus< tao::pegtl::one< '*' > >` because that is not the rule class name whose `match()`-method is called.
+an action class template can be specialised for `foo`, or for `tao::pegtl::one< '*' >`, but *not* for `tao::pegtl::plus< tao::pegtl::one< '*' > >`.
 
-(The method is called on class `foo`, which happens to inherit `match()` from `tao::pegtl::plus< tao::pegtl::one< '*' > >`, however base classes are not taken into consideration by the C++ language when choosing a specialisation.)
+(The function is called on class `foo`, which happens to inherit `match()` from `tao::pegtl::plus< tao::pegtl::one< '*' > >`, however base classes are not taken into consideration by the C++ language when choosing a specialisation.)
 
 While it is possible to specialize for `tao::pegtl::one< '*' >` in the above rule, any such specialization would also match any other occurrence in the grammar. It is therefore best practice to *always* specialize for explicitly named top-level rules.
 
@@ -292,7 +292,7 @@ The different styles can also be freely mixed within the same parser.
 
 ### No Switching
 
-The "no switching style" consists of having one (or more) state-arguments that are passed to a parsing run and that are the arguments to all action's `apply()`- and `apply0()`-methods.
+The "no switching style" consists of having one (or more) state-arguments that are passed to a parsing run and that are the arguments to all action's `apply()` and `apply0()`.
 
 For an example of how to build a generic JSON data structure with the "no switching style" see `src/example/pegtl/json_build_two.cpp`.
 
@@ -312,8 +312,8 @@ The actual switching actions are defined in `<tao/pegtl/contrib/change_*.hpp>` a
 
 ## Match
 
-Besides the `apply()`- and `apply0()`-methods, an action class specialization may also have a `match()`-method.
-The standard control class template `normal` will detect the presence of a suitable method and call this method instead of forwarding to `tao::pegtl::match()` directly.
+Besides `apply()` and `apply0()`, an action class specialization may also have a static `match()` member function.
+The standard control class template `normal` will detect the presence of a suitable function and call this function instead of forwarding to `tao::pegtl::match()` directly.
 
 ```c++
 template<>
