@@ -182,14 +182,14 @@ Note that deriving from `require_apply` or `require_apply0` is optional and usua
 ## States
 
 In most applications, actions need some kind of data or user-defined (parser/action) *state* to operate on.
-Given that `apply()`- and `apply0()` are static member functions, they are called without an instance of the class they belong to (which would usually fill this role).
-Therefore a PEGTL parsing run can be performed with arbitrary many *state(s)* parameters that are
+Given that `apply()` and `apply0()` are static member functions, they are called without an instance of the class they belong to (which would usually fill this role).
+Therefore a PEGTL parsing run can be performed with arbitrary many *state* parameters that are
 
 * passed by the user as additional arguments to the [`parse()`-function](Inputs-and-Parsing.md#parse-function) that starts a parsing run, and then
 
 * passed by the PEGTL as additional arguments to all actions' `apply()` or `apply0()` static member functions.
 
-In other words, the additional arguments to `apply()`- and `apply0()` can be chosen freely, however **all** actions **must** accept the same argument list since they are **all** called with the same arguments.
+In other words, the additional arguments to `apply()` and `apply0()` can be chosen freely, however **all** actions **must** accept the same argument list since they are **all** called with the same arguments.
 
 For example, in a practical grammar the example from above might use a second argument to store the matched sequence of digits.
 

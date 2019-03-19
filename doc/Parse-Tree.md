@@ -7,7 +7,7 @@ It provides the basic infrastructure to build a parse tree that
 * by default is *complete*, with one tree node for every successfully matched rule,
   * with an optional *selection* to only generate nodes for a chosen subset of rules;
 * by default uses the included tree node class that stores all pertinent information,
-  * but can be also be used with a customis tree node class that adheres to certain rules;
+  * but can also be used with a custom tree node class that adheres to certain rules;
 * and supports on-the-fly tree transformations; some of the more common ones are included.
 
 > The parse tree / AST part of the PEGTL is currently in active development and serves as a prove-of-concept, expect changes at any time. Try it out, experiment with it, and most importantly let us know what you think of it. We need **your** feedback!
@@ -22,17 +22,21 @@ To obtain a (complete) parse tree, simply call `tao::pegtl::parse_tree::parse()`
 auto root = tao::pegtl::parse_tree::parse< my_grammar >( in );
 ```
 
-The result is a `std::unique_ptr< tao::pegtl::parse_tree::node >`. The pointer is empty when the input did not match the grammar, otherwise it contains the root node of the resulting parse tree.
+The result is a `std::unique_ptr< tao::pegtl::parse_tree::node >`.
+The pointer is empty when the input did not match the grammar, otherwise it contains the root node of the resulting parse tree.
 
 The tree nodes have a `name()` member function that returns the name of the grammar rule of which it represents a successful match, `begin() and `end()` member functions to access the position of the matched portion of the input, `string()` and `string_view()` to actually access said matched input, and a vector called `children` with unique pointers to the child nodes.
 
-Note that the included tree node class **pointers** to the matched data, rather than copying it into the node, wherefore the input **must** still be "alive" when accessing the matched data!
+Note that the included tree node class **points** to the matched data, rather than copying it into the node, wherefore the input **must** still be "alive" when accessing the matched data!
 
 A more complete description of the included tree node class can be found below.
 
 ## Partial Parse Tree
 
-Usually only a subset of grammar rules should generate parse tree nodes. In order to select the grammar rules for which a successful match is to generate a parse tree node, a second template parameter can be passed to `parse_tree::parse()`. This parameter is a class template that is called a *selector*. For each rule `Rule`, the Boolean value `selector< Rule >::value` determines whether a parse tree node is generated.
+Usually only a subset of grammar rules should generate parse tree nodes.
+In order to select the grammar rules for which a successful match is to generate a parse tree node, a second template parameter can be passed to `parse_tree::parse()`.
+This parameter is a class template that is called a *selector*.
+For each rule `Rule`, the boolean value `selector< Rule >::value` determines whether a parse tree node is generated.
 
 ```c++
 template< typename Rule > struct my_selector : std::false_type {};
@@ -68,7 +72,9 @@ Note that `apply_store_content` further specifies that the information about the
 
 ## Transforming Nodes
 
-A parse tree, full or partial, can still be too closely related to the structure of the grammar. In order to simplify the tree (or otherwise improve its structure), an optional `transform()` static member function can be added to each specialization of the selector class template (that generates a node). This function gets passed a reference to the current node, which also gives access to the children, but not to the parent:
+A parse tree, full or partial, can still be too closely related to the structure of the grammar.
+In order to simplify the tree (or otherwise improve its structure), an optional `transform()` static member function can be added to each specialization of the selector class template (that generates a node).
+This function gets passed a reference to the current node, which also gives access to the children, but not to the parent:
 
 ```c++
 template<> struct my_selector< my_rule_2 > : std::true_type
@@ -80,9 +86,9 @@ template<> struct my_selector< my_rule_2 > : std::true_type
 };
 ```
 
-`transform` can modify `n` in any way you, the [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/master/src/example/pegtl/parse_tree.cpp)-example shows two techniques for marking nodes as "content-less", and for transforming the parse tree into an AST.
+`transform` can modify `n` in any way you like, the [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/master/src/example/pegtl/parse_tree.cpp)-example shows two techniques for marking nodes as "content-less", and for transforming the parse tree into an AST.
 
-It is also possible to all `n.rest()`, or otherwise set `n` to an empty pointer, which effectively removes `n` (and all of its child nodes) from the parse tree.
+It is also possible to call `n.reset()`, or otherwise set `n` to an empty pointer, which effectively removes `n` (and all of its child nodes) from the parse tree.
 
 ## `tao::pegtl::parse_tree::node`
 
@@ -131,14 +137,15 @@ See [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/master/src/example/p
 
 ## Custom Node Class
 
-For more control over how data is stored/handled in the nodes, a custom node class can be utilised. The type of node is passed as additional template parameter to the parse tree `parse()` function.
+For more control over how data is stored/handled in the nodes, a custom node class can be utilised.
+The type of node is passed as an additional template parameter to the parse tree `parse()` function.
 
 ```c++
 auto r1 = tao::pegtl::parse_tree::parse< my_grammar, my_node >( in );
 auto r2 = tao::pegtl::parse_tree::parse< my_grammar, my_node, my_selector >( in );
 ```
 
-Note that `my_node` is a class, while `my_selector` is a class template. A custom node class must implement to the following interface.
+Note that `my_node` is a class, while `my_selector` is a class template. A custom node class must implement the following interface.
 
 ```c++
 struct my_node
