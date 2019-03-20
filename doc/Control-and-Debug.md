@@ -133,7 +133,7 @@ Similarly the control's `apply()` and `apply0()` can customise action invocation
 
 Just like the action class template, a custom control class template can be used by either
 
-1. supplying it as explicit template argument to the `parse()`-functions, or
+1. supplying it as explicit template argument to the `parse()` functions, or
 2. setting it for a portion of the grammar with the `tao::pegtl::control` combinator.
 
 Copyright (c) 2014-2019 Dr. Colin Hirsch and Daniel Frey

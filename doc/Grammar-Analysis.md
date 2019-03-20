@@ -1,6 +1,6 @@
 # Grammar Analysis
 
-The PEGTL contains an `analyze()`-function that checks a grammar for rules that can go into an infinite loop without consuming input.
+The PEGTL contains an `analyze()` function that checks a grammar for rules that can go into an infinite loop without consuming input.
 
 Unfortunately, given the expressive power of PEGs and the possibility of arbitrary custom combinator rules, it is impossible to detect *all* kinds of infinite loops.
 
@@ -17,7 +17,7 @@ Then call `tao::pegtl::analyze()` with the top-level grammar rule as template ar
 const std::size_t issues_found = tao::pegtl::analyze< my_grammar >();
 ```
 
-The `analyze()`-function returns the number of issues found and writes some information about them to `std::cout`.
+`analyze()` returns the number of issues found and writes some information about them to `std::cout`.
 
 Analysing a grammar is usually only done while developing and debugging a grammar, or after changing it.
 
@@ -41,7 +41,7 @@ Due to the differences regarding back-tracking and non-deterministic behaviour, 
 
 ## Background
 
-In order to look for infinite loops in a grammar, the `analyze()`-function needs some information about all rules in the grammar.
+In order to look for infinite loops in a grammar, `analyze()` needs some information about all rules in the grammar.
 This "information" consists of a classification of the rules according to the following enum, plus, for non-atomic rules, a list of the sub-rules.
 
 ```c++
@@ -56,7 +56,7 @@ enum class rule_type : char
 };
 ```
 
-This enum value and rule list are provided to the `analyze()`-function via an `analyze_t` type member that all rules that are part of a grammar that is to be analysed with `analyze()` need to define.
+This enum value and rule list are provided to `analyze()` via an `analyze_t` type member that all rules that are part of a grammar that is to be analysed with `analyze()` need to define.
 
 The names of the enum values correspond to one of the PEGTL rule classes that has this rule type, however some rule types are used by many different classes.
 
@@ -65,7 +65,7 @@ The names of the enum values correspond to one of the PEGTL rule classes that ha
 * `seq` is for rules where consumption on success depends on non-zero bounded repetition of the conjunction of sub-rules.
 * `sor` is for rules where consumption on success depends on non-zero bounded repetition of the disjunction of sub-rules.
 
-At the beginning of an `analyze()`-run the function `R::analyze_t::insert()` is called for all rules `R` in the grammar in order to insert the information about the rule `R` into a data structure.
+At the beginning of an `analyze()` run the function `R::analyze_t::insert()` is called for all rules `R` in the grammar in order to insert the information about the rule `R` into a data structure.
 
 ## Custom Rules
 
