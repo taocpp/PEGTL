@@ -71,7 +71,7 @@
   * [C++17 Deduction Guides](Inputs-and-Parsing.md#c17-deduction-guides)
 * [Control and Debug](Control-and-Debug.md)
   * [Normal Control](Control-and-Debug.md#normal-control)
-  * [Control Methods](Control-and-Debug.md#control-methods)
+  * [Control Functions](Control-and-Debug.md#control-functions)
   * [Exception Throwing](Control-and-Debug.md#exception-throwing)
   * [Advanced Control](Control-and-Debug.md#advanced-control)
   * [Changing Control](Control-and-Debug.md#changing-control)

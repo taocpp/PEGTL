@@ -4,25 +4,25 @@ Beyond the top-level grammar rule, which *has* to be supplied to a parsing run, 
 
 (Actually the control class is a class template which takes a parsing rule as template argument, however in many cases there will be no specialisations, wherefore we will drop the distinction and pretend here that it is simply a class.)
 
-Methods from the control class are called in strategic places during a parsing run and can be used to customise internal behaviour of the PEGTL and/or as debug aids.
-More precisely, the control class has methods to
+Functions from the control class are called in strategic places during a parsing run and can be used to customise internal behaviour of the PEGTL and/or as debug aids.
+More precisely, the control class has static member functions to
 
 1. trace which rules are attempted to match where, and whether they succeed or fail,
-1. customise which exceptions are thrown in case of errors,
-3. customise how actions' `apply()`- and `apply0()`-methods are called,
-4. customise how rules' `match()`-methods are called.
+2. customise which exceptions are thrown in case of errors,
+3. customise how an action's `apply()` or `apply0()` is called,
+4. customise how a rule's `match()` is called.
 
 ## Contents
 
 * [Normal Control](#normal-control)
-* [Control Methods](#control-methods)
+* [Control Functions](#control-functions)
 * [Exception Throwing](#exception-throwing)
 * [Advanced Control](#advanced-control)
 * [Changing Control](#changing-control)
 
 ## Normal Control
 
-The `normal` control class template included with the PEGTL is used by default and shows which hook methods there are.
+The `normal` control class template included with the PEGTL is used by default and shows which hook functions there are.
 
 ```c++
 template< typename Rule >
@@ -67,32 +67,32 @@ struct normal
 };
 ```
 
-The `start()`-, `success()`- and `failure()`-methods can be used to debug a grammar by using them to provide insight into what exactly is going on during a parsing run.
+The static member functions `start()`, `success()` and `failure()` can be used to debug a grammar by using them to provide insight into what exactly is going on during a parsing run, or to construct a parse tree, etc.
 
-The `raise()`-method is used to create a global error, and any replacement should again throw an exception, or abort the application.
+The static member function `raise()` is used to create a global error, and any replacement should again throw an exception, or abort the application.
 
-The `apply()`- and `apply0()`-methods can customise how actions with, and without, receiving the matched input are called, respectively.
-Note that these methods should only exist or be visible when an appropriate `apply()`- or `apply0`-method exists in the action class template.
+The static member functions `apply()` and `apply0()` can customise how actions with, and without, receiving the matched input are called, respectively.
+Note that these functions should only exist or be visible when an appropriate `apply()` or `apply0` exists in the action class template.
 This can be achieved via SFINAE, e.g. with a trailing return type as shown above.
 
-The `match()`-method which, by default, checks if there exists a suitable `match()`-method in the action class template for the current rule. If so, it is called, otherwise it calls the main `tao::pegtl::match()`-function.
+The static member function `match()` by default checks if there exists a suitable `match()` in the action class template for the current rule. If so, it is called, otherwise it calls the main `tao::pegtl::match()` function.
 
-## Control Methods
+## Control Functions
 
-For debugging a grammar and tracing exactly what happens during a parsing run, the control class methods `start()`, `success()` and `failure()` can be used.
+For debugging a grammar and tracing exactly what happens during a parsing run, the control class' `start()`, `success()` and `failure()` can be used.
 In addition, `apply()` and `apply0()` can be used to see which actions are invoked.
 
 Before attempting to match a rule `R`, the PEGTL calls `C< R >::start()` where `C` is the current control class template.
 
-Depending on what happens during the attempt to match `R`, one of the other three methods might be called.
+Depending on what happens during the attempt to match `R`, one of the other three functions might be called.
 
 - If `R` succeeds, then `C< R >::success()` is called; compared to the call to `C< R >::start()`, the input will have consumed whatever the successful match of `R` consumed.
 
-- If `R` finishes with a failure, i.e. a return value of `false` from its `match()`-method, then `C< R >::failure()` is called; a failed match is not allowed to consume input.
+- If `R` finishes with a failure, i.e. a return value of `false` from `match()`, then `C< R >::failure()` is called; a failed match **must not** consume input.
 
 - If `R` is wrapped in `must< R >`, a global failure is generated by calling `C< R >::raise()` to throw some exception as is expected by the PEGTL in this case.
 
-- If a sub-rule of `R` finishes with a global failure, and the exception is not caught by a `try_catch` or similar combinator, then no other method of `C< R >` is called after `C< R >::start()`.
+- If a sub-rule of `R` finishes with a global failure, and the exception is not caught by a `try_catch` or similar combinator, then no other function of `C< R >` is called after `C< R >::start()`.
 
 Additionally, if matching `R` was successful and actions are enabled:
 
@@ -104,7 +104,7 @@ It is an error when both `C< R >::apply()` and `C< R >::apply0()` exist.
 
 Note that the default `C< R >::apply()` is SFINAE-enabled if `A< R >::apply()` exists (where `A` is the current action class template) and calls the latter. A control class might modify state, etc.
 
-In case of actions that return `bool`, i.e. actions whose `apply()`- or `apply0()`-method returns `bool`, `C< R >::success()` is only called when both the rule *and* the action succeed.
+In case of actions that return `bool`, i.e. actions where `apply()` or `apply0()` return `bool`, `C< R >::success()` is only called when both the rule *and* the action succeed.
 If either produce a (local) failure then `C< R >::failure()` is called.
 
 In all cases where an action is called, the success or failure hooks are invoked after the action returns.
@@ -114,7 +114,7 @@ When an instance of class `tao::pegtl::trace_state` is used as single state in a
 
 ## Exception Throwing
 
-The `raise()`-control-hook-method **must** throw an exception.
+The control-hook, the `raise()` static member function, **must** throw an exception.
 For most parts of the PEGTL the exception class is irrelevant and any user-defined data type can be thrown by a user-defined control hook.
 
 The `try_catch` rule only catches exceptions of type `tao::pegtl::parse_error`!
@@ -123,17 +123,17 @@ When custom exception types are used then `try_catch_type` must be used with the
 
 ## Advanced Control
 
-The control template's `match()`-method is the first, or outside-most, method that is called in the flow that eventually leads to calling a rule's `match()`-method.
+The control's `match()` is the first, outer-most function in the call-chain that eventually leads the rule's `match()`.
 
-For advanced use cases it is possible to create a custom control class with a custom `match()`-method that can change "everything" before calling the actual rule's `match()`-method.
+For advanced use cases, it is possible to create a custom control class with a custom `match()` that can change "everything" before calling the rule's `match()`.
 
-Similarly the control's `apply()`- and `apply0()`-methods can customise action invocation; in particular `apply()` can change how the matched portion of the input is presented to the action.
+Similarly, the control's `apply()` and `apply0()` can customise action invocation; in particular `apply()` can change how the matched portion of the input is passed to the action.
 
 ## Changing Control
 
 Just like the action class template, a custom control class template can be used by either
 
-1. supplying it as explicit template argument to the `parse()`-functions, or
+1. supplying it as explicit template argument to the `parse()` functions, or
 2. setting it for a portion of the grammar with the `tao::pegtl::control` combinator.
 
 Copyright (c) 2014-2019 Dr. Colin Hirsch and Daniel Frey

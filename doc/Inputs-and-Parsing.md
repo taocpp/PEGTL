@@ -48,7 +48,7 @@ All classes and functions on this page are in namespace `tao::pegtl`.
 
 ## Tracking Mode
 
-Some input classes allow a choice of tracking mode, or whether the `byte`, `line` and `byte_in_line` counters are continuously updated during a parsing run with `tracking_mode::eager`, or only calculated on-demand in the `position()`-method by scanning the complete input again with `tracking_mode::lazy`.
+Some input classes allow a choice of tracking mode, or whether the `byte`, `line` and `byte_in_line` counters are continuously updated during a parsing run with `tracking_mode::eager`, or only calculated on-demand in `position()` by scanning the complete input again with `tracking_mode::lazy`.
 
 Lazy tracking is recommended when the position is used very infrequently, for example only in the case of throwing a `parse_error`.
 
@@ -292,7 +292,7 @@ The result of a parsing run, i.e. an invocation of `tao::pegtl::parse()`, can be
 - *success*, a return value of `true`,
 - *local failure*, a return value of `false`,
 - *global failure*, an exception of type `tao::pegtl::parse_error`, or
-- any other exception thrown by the input class or an action method.
+- any other exception thrown by the input class or an action function.
 
 ```c++
 template< typename Rule,
@@ -347,8 +347,8 @@ It must be chosen large enough to keep the data required for (a) any backtrackin
 The buffer is automatically filled by the parsing rules that require input data, however **discarding data from the buffer is** (currently) **not automatic**:
 The grammar has to call [`discard`](Rule-Reference.md#discard) in appropriate places to free the buffer again.
 
-More precisely, each rule that uses one of the following methods on the input will implicitly make a call to `tao::pegtl::buffer_input<>::require( amount )`.
-(The `empty()`-method uses a hard-coded `amount` of 1.)
+More precisely, each rule that uses one of the following functions on the input will implicitly make a call to `tao::pegtl::buffer_input<>::require( amount )`.
+(The `empty()` function uses a hard-coded `amount` of 1.)
 
 ```c++
 namespace tao
@@ -374,7 +374,7 @@ For example, the rule `tao::pegtl::ascii::eol`, which (usually) checks for both 
 Depending on whether the result of `size(2)` is `0`, `1` or `2`, it will choose which of these two sequences it can attempt to match.
 The number of actually consumed bytes can again be `0`, `1` or `2`, depending on whether they match a valid `eol`-sequence.
 
-To prevent the buffer from overflowing, the `discard()`-method of class `tao::pegtl::buffer_input` must be called, usually by using the `discard` parsing rule.
+To prevent the buffer from overflowing, the `discard()` member function of class `tao::pegtl::buffer_input` must be called, usually by using the `discard` parsing rule.
 It discards all data in the buffer that precedes the current `begin()`-point, and any remaining data is moved to the beginning of the buffer.
 
 **A `discard` invalidates all pointers to the input's data and MUST NOT be used where backtracking to before the `discard` might occur AND/OR nested within a rule for which an action with input can be called.**
@@ -419,8 +419,8 @@ The included examples for C- and C++-style streams can also be used as reference
 ## Error Reporting
 
 When reporting an error, one often wants to print the complete line from the input where the error occurred and a marker at the position where the error is found within that line.
-To support this, the `memory_input<>` class has methods `at( p )`, `begin_of_line( p )`, `end_of_line( p )` and `line_at( p )` which take a `tao::pegtl::position` as parameter.
-The first three methods return a `const char*` to position `p`, the begin-of-line before `p`, or the end-of-line after `p` (or the end of the input if the input is not terminated by an end-of-line), respectively.
+To support this, the `memory_input<>` class has member functions `at( p )`, `begin_of_line( p )`, `end_of_line( p )` and `line_at( p )` which take a `tao::pegtl::position` as parameter.
+The first three functions return a `const char*` to position `p`, the begin-of-line before `p`, or the end-of-line after `p` (or the end of the input if the input is not terminated by an end-of-line), respectively.
 For convenience, `line_at( p )` returns a `std::string` with the complete line around `p`.
 Example usage:
 
@@ -438,7 +438,7 @@ catch( const parse_error& e ) {
 ```
 
 All input classes based on `memory_input<>` support the above, while all classes based on `buffer_input<>` are unable to supply the same functionality as previous input might have been discarded already.
-Trying to call any of those methods on `buffer_input<>`-based instances will lead to a compile error.
+Trying to call any of those functions on `buffer_input<>`-based instances will lead to a compile error.
 
 ## C++17 Deduction Guides
 
