@@ -123,11 +123,11 @@ When custom exception types are used then `try_catch_type` must be used with the
 
 ## Advanced Control
 
-The control's `match()` is the first, or outside-most, function that is called in the flow that eventually leads to calling a rule's `match()`.
+The control's `match()` is the first, outer-most function in the call-chain that eventually leads the rule's `match()`.
 
-For advanced use cases it is possible to create a custom control class with a custom `match()` that can change "everything" before calling the actual rule's `match()`.
+For advanced use cases, it is possible to create a custom control class with a custom `match()` that can change "everything" before calling the rule's `match()`.
 
-Similarly the control's `apply()` and `apply0()` can customise action invocation; in particular `apply()` can change how the matched portion of the input is presented to the action.
+Similarly, the control's `apply()` and `apply0()` can customise action invocation; in particular `apply()` can change how the matched portion of the input is passed to the action.
 
 ## Changing Control
 
