@@ -185,11 +185,11 @@ In most applications, actions need some kind of data or user-defined (parser/act
 Given that `apply()` and `apply0()` are static member functions, they are called without an instance of the class they belong to (which would usually fill this role).
 Therefore a PEGTL parsing run can be performed with arbitrary many *state* parameters that are
 
-* passed by the user as additional arguments to the [`parse()` function](Inputs-and-Parsing.md#parse-function) that starts a parsing run, and then
+* passed by the user as additional arguments to [`tao::pegtl::parse()`](Inputs-and-Parsing.md#parse-function) that starts a parsing run, and then
 
 * passed by the PEGTL as additional arguments to all actions' `apply()` or `apply0()` static member functions.
 
-In other words, the additional arguments to `apply()` and `apply0()` can be chosen freely, however **all** actions **must** accept the same argument list since they are **all** called with the same arguments.
+In other words, the additional arguments to `apply()` and `apply0()` can be chosen freely, however all actions must accept the same argument list since they are all called with the same arguments by default.
 
 For example, in a practical grammar the example from above might use a second argument to store the matched sequence of digits.
 
@@ -292,7 +292,7 @@ The different styles can also be freely mixed within the same parser.
 
 ### No Switching
 
-The "no switching style" consists of having one (or more) state-arguments that are passed to a parsing run and that are the arguments to all action's `apply()` and `apply0()`.
+The "no switching style" consists of having one (or more) state-arguments that are passed to a parsing run and that are the arguments to all actions' `apply()` and `apply0()` static member functions.
 
 For an example of how to build a generic JSON data structure with the "no switching style" see `src/example/pegtl/json_build_two.cpp`.
 
@@ -312,8 +312,8 @@ The actual switching actions are defined in `<tao/pegtl/contrib/change_*.hpp>` a
 
 ## Match
 
-Besides `apply()` and `apply0()`, an action class specialization may also have a static `match()` member function.
-The standard control class template `normal` will detect the presence of a suitable function and call this function instead of forwarding to `tao::pegtl::match()` directly.
+Besides `apply()` and `apply0()`, an action class specialization may also have a `match()` static member function.
+The standard control class template `normal` will detect the presence of a suitable function and call this function instead of calling `tao::pegtl::match()`.
 
 ```c++
 template<>

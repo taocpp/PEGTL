@@ -116,7 +116,7 @@ In order to let a parsing run do more than verify whether an input conforms to t
 ## Creating New Rules
 
 Sometimes a grammar requires a parsing rule that can not be readily created as combination of the existing rules.
-In these cases a custom grammar rule, i.e. a class with a static `match()` member function that has to adhere to one of two possible interfaces or prototypes, can be implemented from scratch.
+In these cases a custom grammar rule, i.e. a class with a static member function called `match()` that has to adhere to one of two possible interfaces or prototypes, can be implemented from scratch.
 
 When implementing a custom rule class, it is important to remember that the input passed to `match()` represents the *remainder* of the complete input.
 At the beginning of a parsing run, the input represents the complete data-to-be-parsed.

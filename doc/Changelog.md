@@ -9,7 +9,7 @@
 * Updated required [CMake](https://cmake.org/) version to 3.8.
 * The macro `TAO_PEGTL_NAMESPACE` now contains the fully qualified namespace, e.g. `tao::pegtl`.
 * Replaced `tao::pegtl::input_error` with `std::system_error`.
-* Added `[[nodiscard]]` to almost all functions returning values.
+* Added `[[nodiscard]]` to most non-void functions.
 * Removed compatibility macros starting with `TAOCPP_PEGTL_`.
 * Removed compatibility uppercase enumerators.
 * Removed compatibility `peek_byte()` member functions.
@@ -172,7 +172,7 @@ Released 2017-11-22
 
 Released 2017-09-24
 
-* Added possibility for an actions' `apply()` or `apply0()` to return a `bool` which is then used to determine overall success or failure of the rule to which such an action was attached.
+* Added possibility for an action's `apply()` or `apply0()` to return `bool` which is then used to determine overall success or failure of the rule to which such an action was attached.
 * Added [`<tao/pegtl/contrib/parse_tree.hpp>`](Contrib-and-Examples.md#taopegtlcontribparse_treehpp) and the [`examples/parse_tree.cpp`](Contrib-and-Examples.md#srcexamplepegtlparse_treecpp) application that shows how to build a [parse tree](https://en.wikipedia.org/wiki/Parse_tree). The example goes beyond a traditional parse tree and demonstrates how to select which nodes to include in the parse tree and how to transform the nodes into an [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)-like structure.
 * Added `bom` rules for UTF-8, UTF-16 and UTF-32.
 * Added some missing includes for `config.hpp`.
