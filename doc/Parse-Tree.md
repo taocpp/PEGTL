@@ -25,7 +25,7 @@ auto root = tao::pegtl::parse_tree::parse< my_grammar >( in );
 The result is a `std::unique_ptr< tao::pegtl::parse_tree::node >`.
 The pointer is empty when the input did not match the grammar, otherwise it contains the root node of the resulting parse tree.
 
-The tree nodes have a `name()` member function that returns the name of the grammar rule of which it represents a successful match, `begin() and `end()` member functions to access the position of the matched portion of the input, `string()` and `string_view()` to actually access said matched input, and a vector called `children` with unique pointers to the child nodes.
+The tree nodes have a `name()` member function that returns the name of the grammar rule of which it represents a successful match, `begin()` and `end()` member functions to access the position of the matched portion of the input, `string()` to actually access said matched input, and a vector called `children` with unique pointers to the child nodes.
 
 Note that the included tree node class **points** to the matched data, rather than copying it into the node, wherefore the input **must** still be "alive" when accessing the matched data!
 
