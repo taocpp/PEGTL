@@ -2,19 +2,22 @@ cmake_minimum_required(VERSION 3.8.0 FATAL_ERROR)
 
 project(pegtl VERSION 3.0.0 LANGUAGES CXX)
 
-# Dont re-include pegtl
 if(${PROJECT_NAME}_FOUND)
+  # Multiple versions of PEGTL can't co-exist
   if(NOT ${PROJECT_NAME}_VERSION STREQUAL ${PROJECT_VERSION})
     message(FATAL_ERROR "Multiple mismatched PEGTL versions")
   endif()
 
-  return()
+  # Only include if this is the first include
+  if(NOT ${PROJECT_NAME}_DIR STREQUAL "${PROJECT_BINARY_DIR}")
+    return()
+  endif()
 endif()
 
 # Keep track of pegtl version
 set(${PROJECT_NAME}_FOUND TRUE CACHE BOOL "" FORCE)
-set(${PROJECT_NAME}_VERSION ${PROJECT_VERSION} CACHE STRING "" FORCE)
-set(${PROJECT_NAME}_DIR ${PROJECT_BINARY_DIR} CACHE PATH "" FORCE)
+set(${PROJECT_NAME}_VERSION "${PROJECT_VERSION}" CACHE STRING "" FORCE)
+set(${PROJECT_NAME}_DIR "${PROJECT_BINARY_DIR}" CACHE PATH "" FORCE)
 
 mark_as_advanced(${PROJECT_NAME}_FOUND)
 mark_as_advanced(${PROJECT_NAME}_VERSION)
