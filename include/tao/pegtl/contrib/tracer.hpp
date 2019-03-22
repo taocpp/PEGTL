@@ -67,7 +67,7 @@ namespace tao
          : normal< Rule >
       {
          template< typename Input, typename... States >
-         static void start( const Input& in, States&&... st )
+         static void start( const Input& in, States&&... /*unused*/ )
          {
             std::cerr << in.position() << "  start  " << internal::demangle< Rule >() << "; current ";
             print_current( in );
@@ -83,7 +83,7 @@ namespace tao
          }
 
          template< typename Input, typename... States >
-         static void success( const Input& in, States&&... st )
+         static void success( const Input& in, States&&... /*unused*/ )
          {
             std::cerr << in.position() << " success " << internal::demangle< Rule >() << "; next ";
             print_current( in );
@@ -100,7 +100,7 @@ namespace tao
          }
 
          template< typename Input, typename... States >
-         static void failure( const Input& in, States&&... st )
+         static void failure( const Input& in, States&&... /*unused*/ )
          {
             std::cerr << in.position() << " failure " << internal::demangle< Rule >() << std::endl;
          }
