@@ -19,7 +19,7 @@ namespace tao
 
       template< typename Rule >
       struct selector
-         : parse_tree::selector< Rule, parse_tree::store_content::to< A, B, C, D > >
+         : parse_tree::selector< Rule, parse_tree::store_content::on< A, B, C, D > >
       {
       };
 

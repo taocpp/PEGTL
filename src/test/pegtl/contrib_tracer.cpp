@@ -10,11 +10,11 @@ namespace tao
    namespace TAO_PEGTL_NAMESPACE
    {
       using GRAMMAR = sor< failure, one< 'a' > >;
+      using GRAMMAR2 = seq< one< 'a' >, any, any, any, any, one< 'b' >, eof >;
 
       template< typename Rule >
       struct tracer_action
-      {
-      };
+      {};
 
       unsigned a0 = 0;
       unsigned a = 0;
@@ -70,6 +70,20 @@ namespace tao
             TAO_PEGTL_TEST_ASSERT( result );
             TAO_PEGTL_TEST_ASSERT( a0 == 2 );
             TAO_PEGTL_TEST_ASSERT( a == 2 );
+         }
+         {
+            trace_state ts;
+            memory_input<> in( "a\r\n\t\0b", 6, "trace test please ignore" );
+            const auto result = parse< GRAMMAR2, nothing, tracer >( in, ts );
+            TAO_PEGTL_TEST_ASSERT( result );
+            TAO_PEGTL_TEST_ASSERT( a0 == 2 );
+            TAO_PEGTL_TEST_ASSERT( a == 2 );
+         }
+         {
+            trace_state ts;
+            memory_input<> in( "a\r\n\t\0b", 6, "trace test please ignore" );
+            const auto result = parse< GRAMMAR2, tracer_action, tracer >( in, ts );
+            TAO_PEGTL_TEST_ASSERT( result );
          }
       }
 

@@ -484,7 +484,7 @@ namespace tao
             : std::true_type
          {
             template< typename... Rules >
-            struct to
+            struct on
                : internal::element< Rules >...
             {
                using type = Base;
