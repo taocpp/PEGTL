@@ -96,9 +96,16 @@ build/amalgamated/pegtl.hpp: $(HEADERS)
 	@echo '#include "tao/pegtl.hpp"' >build/include/amalgamated.hpp
 	@echo '#include "tao/pegtl/analyze.hpp"' >>build/include/amalgamated.hpp
 	@( cd build/include ; for i in tao/pegtl/contrib/*.hpp; do echo "#include \"$$i\""; done ) >>build/include/amalgamated.hpp
-	@( cd build/include ; g++ -E -C -nostdinc amalgamated.hpp ) >$@
+	@echo -e "/*\n\nWelcome to the Parsing Expression Grammar Template Library (PEGTL)." >$@
+	@echo -e "See https://github.com/taocpp/PEGTL/ for more information, documentation, etc.\n" >>$@
+	@echo -e "The library is licensed as follows:\n" >>$@
+	@cat LICENSE >>$@
+	@echo -e "\n*/\n" >>$@
+	@( cd build/include ; g++ -E -C -nostdinc amalgamated.hpp ) >>$@
 	@sed -i -e 's%^//#%#%g' $@
 	@sed -i -e 's%^# \([0-9]* "[^"]*"\).*%#line \1%g' $@
+	@sed -i -e 's%^// Copyright.*%%g' $@
+	@sed -i -e 's%^// Please.*%%g' $@
 	@echo "Generated/updated $@ successfully."
 
 ifeq ($(findstring $(MAKECMDGOALS),clean),)
