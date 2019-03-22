@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Rule >
    struct selector
-      : parse_tree::selector< Rule, parse_tree::apply_store_content::to< A, B, C, D > >
+      : parse_tree::selector< Rule, parse_tree::store_content::to< A, B, C, D > >
    {
    };
 

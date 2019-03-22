@@ -306,7 +306,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
    struct selector
       : parse_tree::selector<
            Rule,
-           parse_tree::apply_store_content::to<
+           parse_tree::store_content::to<
               grammar::rulename,
               grammar::prose_val,
               grammar::hex_val::value,
@@ -320,12 +320,12 @@ namespace TAO_PEGTL_NAMESPACE::abnf
               grammar::bin_val::type,
               grammar::repeat,
               grammar::defined_as_op >,
-           parse_tree::apply_remove_content::to<
+           parse_tree::remove_content::to<
               grammar::option,
               grammar::and_predicate,
               grammar::not_predicate,
               grammar::rule >,
-           parse_tree::apply_fold_one::to<
+           parse_tree::fold_one::to<
               grammar::alternation,
               grammar::group,
               grammar::repetition,

@@ -58,7 +58,7 @@ The following definition of `my_selector` will behave just like the one above.
 ```c++
 template< typename Rule >
 using my_selector = tao::pegtl::parse_tree::selector< Rule,
-   tao::pegtl::parse_tree::apply_store_content::to<
+   tao::pegtl::parse_tree::store_content::to<
       my_rule_1,
       my_rule_2,
       my_rule_3 > >;
@@ -68,7 +68,7 @@ using my_selector = tao::pegtl::parse_tree::selector< Rule,
 auto root = tao::pegtl::parse_tree::parse< my_grammar, my_selector >( in );
 ```
 
-Note that `apply_store_content` further specifies that the information about the matched portion of the input be stored in the generated nodes; other possibilities are discussed below.
+Note that `store_content` further specifies that the information about the matched portion of the input be stored in the generated nodes; other possibilities are discussed below.
 
 ## Transforming Nodes
 
@@ -97,11 +97,11 @@ As shown above, the selector class template allows to specify which nodes should
 ```c++
 template< typename Rule >
 using my_selector = tao::pegtl::parse_tree::selector< Rule,
-   tao::pegtl::parse_tree::apply_store_content::to<
+   tao::pegtl::parse_tree::store_content::to<
       my_rule_1,
       my_rule_2,
       my_rule_3 >,
-   tao::pegtl::parse_tree::apply_remove_content::to<
+   tao::pegtl::parse_tree::remove_content::to<
       my_rule_4,
       my_rule_5 >,
    tao::pegtl::parse_tree::apply< my_helper >::to<
@@ -111,8 +111,7 @@ using my_selector = tao::pegtl::parse_tree::selector< Rule,
 
 Note that each rule may only be used in one section, it is an error to add a rule to multiple sections.
 
-`apply_store_content` and `apply_remove_content` are predefined by the library, whereas `my_helper` can be defined by yourself.
-`apply_store_content` is a short-cut for `apply< tao::pegtl::parse_tree::store_content >` to prevent repeating the namespaces in your user code, likewise `apply_remove_content`, `apply_fold_one`, and `apply_discard_empty` (see below) are short-cuts for the respective helpers.
+`store_content` and `remove_content` are predefined by the library, whereas `my_helper` can be defined by yourself.
 
 ###### `tao::pegtl::parse_tree::store_content`
 

@@ -79,10 +79,10 @@ namespace example
    template< typename Rule >
    using selector = parse_tree::selector<
       Rule,
-      parse_tree::apply_store_content::to<
+      parse_tree::store_content::to<
          integer,
          variable >,
-      parse_tree::apply_remove_content::to<
+      parse_tree::remove_content::to<
          plus,
          minus,
          multiply,
