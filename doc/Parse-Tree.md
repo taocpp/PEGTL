@@ -58,7 +58,7 @@ The following definition of `my_selector` will behave just like the one above.
 ```c++
 template< typename Rule >
 using my_selector = tao::pegtl::parse_tree::selector< Rule,
-   tao::pegtl::parse_tree::store_content::to<
+   tao::pegtl::parse_tree::store_content::on<
       my_rule_1,
       my_rule_2,
       my_rule_3 > >;
@@ -97,14 +97,14 @@ As shown above, the selector class template allows to specify which nodes should
 ```c++
 template< typename Rule >
 using my_selector = tao::pegtl::parse_tree::selector< Rule,
-   tao::pegtl::parse_tree::store_content::to<
+   tao::pegtl::parse_tree::store_content::on<
       my_rule_1,
       my_rule_2,
       my_rule_3 >,
-   tao::pegtl::parse_tree::remove_content::to<
+   tao::pegtl::parse_tree::remove_content::on<
       my_rule_4,
       my_rule_5 >,
-   tao::pegtl::parse_tree::apply< my_helper >::to<
+   tao::pegtl::parse_tree::apply< my_helper >::on<
       my_rule_7,
       my_rule_8 > >;
 ```
