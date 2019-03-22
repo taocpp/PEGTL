@@ -123,7 +123,7 @@ When custom exception types are used then `try_catch_type` must be used with the
 
 ## Advanced Control
 
-The control's `match()` is the first, outer-most function in the call-chain that eventually leads the rule's `match()`.
+The control's `match()` is the first, outer-most function in the call-chain that eventually calls the rule's `match()`.
 
 For advanced use cases, it is possible to create a custom control class with a custom `match()` that can change "everything" before calling the rule's `match()`.
 
