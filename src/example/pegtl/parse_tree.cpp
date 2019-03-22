@@ -36,7 +36,8 @@ namespace example
    // clang-format on
 
    // after a node is stored successfully, you can add an optional transformer like this:
-   struct rearrange : std::true_type
+   struct rearrange
+      : parse_tree::apply< rearrange >  // allows bulk selection, see selector<...>
    {
       // recursively rearrange nodes. the basic principle is:
       //
@@ -79,15 +80,15 @@ namespace example
    template< typename Rule >
    using selector = parse_tree::selector<
       Rule,
-      parse_tree::store_content::to<
+      parse_tree::store_content::on<
          integer,
          variable >,
-      parse_tree::remove_content::to<
+      parse_tree::remove_content::on<
          plus,
          minus,
          multiply,
          divide >,
-      parse_tree::apply< rearrange >::to<
+      rearrange::on<
          product,
          expression > >;
 

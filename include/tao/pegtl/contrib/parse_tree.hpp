@@ -466,7 +466,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       : std::true_type
    {
       template< typename... Rules >
-      struct to
+      struct on
       {
          using type = Base;
 
