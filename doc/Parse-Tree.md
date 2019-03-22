@@ -58,7 +58,7 @@ The following definition of `my_selector` will behave just like the one above.
 ```c++
 template< typename Rule >
 using my_selector = tao::pegtl::parse_tree::selector< Rule,
-   tao::pegtl::parse_tree::apply_store_content::to<
+   tao::pegtl::parse_tree::store_content::to<
       my_rule_1,
       my_rule_2,
       my_rule_3 > >;
@@ -68,7 +68,7 @@ using my_selector = tao::pegtl::parse_tree::selector< Rule,
 auto root = tao::pegtl::parse_tree::parse< my_grammar, my_selector >( in );
 ```
 
-Note that `apply_store_content` further specifies that the information about the matched portion of the input be stored in the generated nodes; other possibilities are discussed below.
+Note that `store_content` further specifies that the information about the matched portion of the input be stored in the generated nodes; other possibilities are discussed below.
 
 ## Transforming Nodes
 
@@ -89,6 +89,49 @@ template<> struct my_selector< my_rule_2 > : std::true_type
 `transform` can modify `n` in any way you like, the [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/master/src/example/pegtl/parse_tree.cpp)-example shows two techniques for marking nodes as "content-less", and for transforming the parse tree into an AST.
 
 It is also possible to call `n.reset()`, or otherwise set `n` to an empty pointer, which effectively removes `n` (and all of its child nodes) from the parse tree.
+
+## Transformer
+
+As shown above, the selector class template allows to specify which nodes should be stored. Several additional helper classes are predefined that have common `transform` methods. The selector allows to add multiple sections with different helpers like this:
+
+```c++
+template< typename Rule >
+using my_selector = tao::pegtl::parse_tree::selector< Rule,
+   tao::pegtl::parse_tree::store_content::to<
+      my_rule_1,
+      my_rule_2,
+      my_rule_3 >,
+   tao::pegtl::parse_tree::remove_content::to<
+      my_rule_4,
+      my_rule_5 >,
+   tao::pegtl::parse_tree::apply< my_helper >::to<
+      my_rule_7,
+      my_rule_8 > >;
+```
+
+Note that each rule may only be used in one section, it is an error to add a rule to multiple sections.
+
+`store_content` and `remove_content` are predefined by the library, whereas `my_helper` can be defined by yourself.
+
+###### `tao::pegtl::parse_tree::store_content`
+
+This stores the node, including pointing to the content it matched on.
+
+###### `tao::pegtl::parse_tree::remove_content`
+
+This stores the node, but calls the node's `remove_content` member function.
+
+###### `tao::pegtl::parse_tree::fold_one`
+
+This stores the node, but when a node has exactly one child, the node replaces itself with this child, otherwise removes its own content (not children).
+
+###### `tao::pegtl::parse_tree::discard_empty`
+
+This stores the node, except for when the node does *not* have any children, in which case it removes itself, otherwise removes its own content (not children).
+
+### Example
+
+An example of using some of the transformers can be found in `src/example/pegtl/abnf2pegtl.cpp`.
 
 ## `tao::pegtl::parse_tree::node`
 

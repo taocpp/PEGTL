@@ -474,53 +474,6 @@ namespace tao
 
          }  // namespace internal
 
-         using store_content = std::true_type;
-
-         // some nodes don't need to store their content
-         struct remove_content : std::true_type
-         {
-            template< typename Node, typename... States >
-            static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->Node::remove_content( st... ) ) )
-            {
-               n->remove_content( st... );
-            }
-         };
-
-         // if a node has only one child, replace the node with its child, otherwise apply B
-         template< typename Base >
-         struct fold_one_or : Base
-         {
-            template< typename Node, typename... States >
-            static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->children.size(), Base::transform( n, st... ) ) )
-            {
-               if( n->children.size() == 1 ) {
-                  n = std::move( n->children.front() );
-               }
-               else {
-                  Base::transform( n, st... );
-               }
-            }
-         };
-
-         // if a node has no children, discard the node, otherwise apply B
-         template< typename Base >
-         struct discard_empty_or : Base
-         {
-            template< typename Node, typename... States >
-            static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->children.empty(), Base::transform( n, st... ) ) )
-            {
-               if( n->children.empty() ) {
-                  n.reset();
-               }
-               else {
-                  Base::transform( n, st... );
-               }
-            }
-         };
-
-         using fold_one = fold_one_or< remove_content >;
-         using discard_empty = discard_empty_or< remove_content >;
-
          template< typename Rule, typename... Collections >
          struct selector
             : internal::selector< decltype( std::tuple_cat( std::declval< internal::select_tuple< Rule, Collections > >()... ) ) >::type
@@ -528,6 +481,7 @@ namespace tao
 
          template< typename Base >
          struct apply
+            : std::true_type
          {
             template< typename... Rules >
             struct to
@@ -540,10 +494,52 @@ namespace tao
             };
          };
 
-         using apply_store_content = apply< store_content >;
-         using apply_remove_content = apply< remove_content >;
-         using apply_fold_one = apply< fold_one >;
-         using apply_discard_empty = apply< discard_empty >;
+         struct store_content
+            : apply< store_content >
+         {};
+
+         // some nodes don't need to store their content
+         struct remove_content
+            : apply< remove_content >
+         {
+            template< typename Node, typename... States >
+            static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->Node::remove_content( st... ) ) )
+            {
+               n->remove_content( st... );
+            }
+         };
+
+         // if a node has only one child, replace the node with its child, otherwise remove content
+         struct fold_one
+            : apply< fold_one >
+         {
+            template< typename Node, typename... States >
+            static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->children.size(), n->Node::remove_content( st... ) ) )
+            {
+               if( n->children.size() == 1 ) {
+                  n = std::move( n->children.front() );
+               }
+               else {
+                  n->remove_content( st... );
+               }
+            }
+         };
+
+         // if a node has no children, discard the node, otherwise remove content
+         struct discard_empty
+            : apply< discard_empty >
+         {
+            template< typename Node, typename... States >
+            static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->children.empty(), n->Node::remove_content( st... ) ) )
+            {
+               if( n->children.empty() ) {
+                  n.reset();
+               }
+               else {
+                  n->remove_content( st... );
+               }
+            }
+         };
 
          template< typename Rule,
                    typename Node,
