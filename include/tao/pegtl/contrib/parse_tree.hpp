@@ -490,7 +490,7 @@ namespace tao
                using type = Base;
 
                template< typename Rule >
-               using contains = std::is_base_of< internal::element< Rule >, to >;
+               using contains = std::is_base_of< internal::element< Rule >, on >;
             };
          };
 
