@@ -109,26 +109,26 @@ using my_selector = tao::pegtl::parse_tree::selector< Rule,
       my_rule_8 > >;
 ```
 
-Where `apply_store_content` and `apply_remove_content` are predefined by the library, whereas `my_helper` can be defined by yourself.
-`apply_store_content` is a short-cut for `apply< store_content >` to prevent repeating the namespaces in your user code, likewise `apply_remove_content`, `apply_fold_one`, and `apply_discard_empty` (see below) are short-cuts for the respective helpers.
+Note that each rule may only be used in one section, it is an error to add a rule to multiple sections.
 
-We provide the following helper:
+`apply_store_content` and `apply_remove_content` are predefined by the library, whereas `my_helper` can be defined by yourself.
+`apply_store_content` is a short-cut for `apply< tao::pegtl::parse_tree::store_content >` to prevent repeating the namespaces in your user code, likewise `apply_remove_content`, `apply_fold_one`, and `apply_discard_empty` (see below) are short-cuts for the respective helpers.
 
-### `tao::pegtl::parse_tree::store_content`
+###### `tao::pegtl::parse_tree::store_content`
 
 This stores the node, including pointing to the content it matched on.
 
-### `tao::pegtl::parse_tree::remove_content`
+###### `tao::pegtl::parse_tree::remove_content`
 
 This stores the node, but calls the node's `remove_content` member function.
 
-### `tao::pegtl::parse_tree::fold_one`
+###### `tao::pegtl::parse_tree::fold_one`
 
-This stores the node, but when a node has exactly one child, the node replaces itself with this child.
+This stores the node, but when a node has exactly one child, the node replaces itself with this child, otherwise removes its own content (not children).
 
-### `tao::pegtl::parse_tree::discard_empty`
+###### `tao::pegtl::parse_tree::discard_empty`
 
-This stores the node, except for when the node does *not* have any children, in which case it removes itself.
+This stores the node, except for when the node does *not* have any children, in which case it removes itself, otherwise removes its own content (not children).
 
 ### Example
 
