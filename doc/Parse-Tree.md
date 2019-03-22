@@ -90,6 +90,50 @@ template<> struct my_selector< my_rule_2 > : std::true_type
 
 It is also possible to call `n.reset()`, or otherwise set `n` to an empty pointer, which effectively removes `n` (and all of its child nodes) from the parse tree.
 
+## Transformer
+
+As shown above, the selector class template allows to specify which nodes should be stored. Several additional helper classes are predefined that have common `transform` methods. The selector allows to add multiple sections with different helpers like this:
+
+```c++
+template< typename Rule >
+using my_selector = tao::pegtl::parse_tree::selector< Rule,
+   tao::pegtl::parse_tree::apply_store_content::to<
+      my_rule_1,
+      my_rule_2,
+      my_rule_3 >,
+   tao::pegtl::parse_tree::apply_remove_content::to<
+      my_rule_4,
+      my_rule_5 >,
+   tao::pegtl::parse_tree::apply< my_helper >::to<
+      my_rule_7,
+      my_rule_8 > >;
+```
+
+Where `apply_store_content` and `apply_remove_content` are predefined by the library, whereas `my_helper` can be defined by yourself.
+`apply_store_content` is a short-cut for `apply< store_content >` to prevent repeating the namespaces in your user code, likewise `apply_remove_content`, `apply_fold_one`, and `apply_discard_empty` (see below) are short-cuts for the respective helpers.
+
+We provide the following helper:
+
+### `tao::pegtl::parse_tree::store_content`
+
+This stores the node, including pointing to the content it matched on.
+
+### `tao::pegtl::parse_tree::remove_content`
+
+This stores the node, but calls the node's `remove_content` member function.
+
+### `tao::pegtl::parse_tree::fold_one`
+
+This stores the node, but when a node has exactly one child, the node replaces itself with this child.
+
+### `tao::pegtl::parse_tree::discard_empty`
+
+This stores the node, except for when the node does *not* have any children, in which case it removes itself.
+
+### Example
+
+An example of using some of the transformers can be found in `src/example/pegtl/abnf2pegtl.cpp`.
+
 ## `tao::pegtl::parse_tree::node`
 
 This is the interface of the node class used by `tao::pegtl::parse_tree::parse` when no custom node class is specified.
