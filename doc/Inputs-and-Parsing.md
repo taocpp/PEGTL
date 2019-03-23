@@ -44,7 +44,7 @@ All classes and functions on this page are in namespace `tao::pegtl`.
   * [Grammars and Buffering](#grammars-and-buffering)
   * [Custom Data Sources](#custom-data-sources)
 * [Error Reporting](#error-reporting)
-* [C++17 Deduction Guides](#c17-deduction-guides)
+* [Deduction Guides](#deduction-guides)
 
 ## Tracking Mode
 
