@@ -82,6 +82,7 @@
 * [Grammar Analysis](Grammar-Analysis.md)
 * [Changelog](Changelog.md)
 * [Migration Guide](Migration-Guide.md)
+* [Thank You](Thank-You.md)
 
 # Rule Reference Index
 
