@@ -83,18 +83,9 @@ For details see the [changelog](doc/Changelog.md).
 
 The PEGTL is part of [The Art of C++](https://taocpp.github.io/).
 
-For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to contact the authors at `taocpp(at)icemx.net`.
+We [appreciate](doc/Thank-You.md) any contribution.
 
-## Thank You
-
-* Our [contributors](https://github.com/taocpp/PEGTL/graphs/contributors)
-* Christopher Diggins
-* George Makrydakis
-* Johannes Overmann
-* Kai Wolf
-* Michael Becker
-* Stephan Beal
-* Sven Johannsen
+For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to open an issue or a PR on GitHub or contact the authors at `taocpp(at)icemx.net`.
 
 ## License
 
