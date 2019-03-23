@@ -233,6 +233,9 @@ namespace tao
             template< bool... Bs >
             using is_all = std::is_same< bool_sequence< Bs..., true >, bool_sequence< true, Bs... > >;
 
+            template< bool... Bs >
+            using is_none = std::integral_constant< bool, !is_all< !Bs... >::value >;
+
             template< unsigned Level, typename Rule, template< typename... > class Selector >
             using is_unselected_leaf = std::integral_constant< bool, !Selector< Rule >::value && is_leaf< Level, typename Rule::analyze_t, Selector >::value >;
 
@@ -446,11 +449,6 @@ namespace tao
             };
 
             template< typename >
-            struct element
-            {
-            };
-
-            template< typename >
             using store_all = std::true_type;
 
             template< typename >
@@ -485,12 +483,11 @@ namespace tao
          {
             template< typename... Rules >
             struct on
-               : internal::element< Rules >...
             {
                using type = Base;
 
                template< typename Rule >
-               using contains = std::is_base_of< internal::element< Rule >, on >;
+               using contains = internal::is_none< std::is_same< Rule, Rules >::value... >;
             };
          };
 
