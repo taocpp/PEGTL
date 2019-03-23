@@ -83,7 +83,7 @@ For details see the [changelog](doc/Changelog.md).
 
 The PEGTL is part of [The Art of C++](https://taocpp.github.io/).
 
-We [appreciate](doc/Thank-You.md) any contribution.
+We [are grateful](doc/Thank-You.md) for all support and contributions.
 
 For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to open an issue or a PR on GitHub or contact the authors at `taocpp(at)icemx.net`.
 

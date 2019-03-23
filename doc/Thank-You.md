@@ -1,5 +1,7 @@
 # Thank You
 
+In appreciation of all contributions here are the people that have [directly contributed](https://github.com/taocpp/PEGTL/graphs/contributors) to the PEGTL and/or its development.
+
 [<img alt="andoma" src="https://avatars2.githubusercontent.com/u/216384?v=4&s=117" width="117">](https://github.com/andoma)
 [<img alt="Bjoe" src="https://avatars3.githubusercontent.com/u/727911?v=4&s=117" width="117">](https://github.com/Bjoe)
 [<img alt="bwagner" src="https://avatars3.githubusercontent.com/u/447049?v=4&s=117" width="117">](https://github.com/bwagner)
@@ -27,11 +29,12 @@
 [<img alt="SvenJo" src="https://avatars1.githubusercontent.com/u/1538181?s=460&v=4?v=4&s=117" width="117">](https://github.com/SvenJo)
 [<img alt="zhihaoy" src="https://avatars2.githubusercontent.com/u/43971430?v=4&s=117" width="117">](https://github.com/zhihaoy)
 
-The above list is based on GitHub's [Contributors](https://github.com/taocpp/PEGTL/graphs/contributors).
-We added some people manually, please let us know if we forgot someone or if the above list needs an update.
-
 ## The Art of C++
+
+Members of the *Art of C++* project.
 
 [<img alt="ColinH" src="https://avatars0.githubusercontent.com/u/113184?v=4&s=117" width="117">](https://github.com/ColinH)
 [<img alt="d-frey" src="https://avatars2.githubusercontent.com/u/3956325?v=4&s=117" width="117">](https://github.com/d-frey)
 [<img alt="uilianries" src="https://avatars0.githubusercontent.com/u/4870173?v=4&s=117" width="117">](https://github.com/uilianries)
+
+Copyright (c) 2019 Dr. Colin Hirsch and Daniel Frey
