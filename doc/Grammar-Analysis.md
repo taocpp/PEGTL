@@ -6,6 +6,12 @@ Unfortunately, given the expressive power of PEGs and the possibility of arbitra
 
 It does however catch most cases of left-recursion that are typical for grammars converted from CFGs or other formalisms that gracefully handle left-recursion.
 
+## Content
+
+* [Rule Analysis](#rule-analysis)
+* [Background](#background)
+* [Custom Rules](#custom-rules)
+
 ## Rule Analysis
 
 In order to run an analysis on a grammar it is necessary to explicitly include `<tao/pegtl/analyze.hpp>`.

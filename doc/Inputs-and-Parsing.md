@@ -44,7 +44,7 @@ All classes and functions on this page are in namespace `tao::pegtl`.
   * [Grammars and Buffering](#grammars-and-buffering)
   * [Custom Data Sources](#custom-data-sources)
 * [Error Reporting](#error-reporting)
-* [C++17 Deduction Guides](#c17-deduction-guides)
+* [Deduction Guides](#deduction-guides)
 
 ## Tracking Mode
 
@@ -440,8 +440,8 @@ catch( const parse_error& e ) {
 All input classes based on `memory_input<>` support the above, while all classes based on `buffer_input<>` are unable to supply the same functionality as previous input might have been discarded already.
 Trying to call any of those functions on `buffer_input<>`-based instances will lead to a compile error.
 
-## C++17 Deduction Guides
+## Deduction Guides
 
-All input classes support C++17's [deduction guides](https://en.cppreference.com/w/cpp/language/class_template_argument_deduction) when compiling with C++17 or newer, e.g. instead of `file_input<> in( "filename.txt" )` one can use `file_input in( "filename.txt" )`.
+All input classes support [deduction guides](https://en.cppreference.com/w/cpp/language/class_template_argument_deduction) when compiling with C++17 or newer, e.g. instead of `file_input<> in( "filename.txt" )` one can use `file_input in( "filename.txt" )`.
 
 Copyright (c) 2014-2019 Dr. Colin Hirsch and Daniel Frey
