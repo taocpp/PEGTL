@@ -1,14 +1,5 @@
 # Dummy config file
 # When a dependency is added with add_subdirectory, but searched with find_package
 
-# Project must already be found
-if (NOT @PROJECT_NAME@_FOUND)
-  message(FATAL_ERROR "Dummy config, but @PROJECT_NAME@ is not found")
-endif()
-
-if(NOT @PROJECT_NAME@_VERSION STREQUAL "@PROJECT_VERSION@")
-  # Alreadt included project version must match
-  message(FATAL_ERROR "Multiple find/add multiple versions of @PROJECT_NAME@")
-endif()
-
-# Dependency succesfully already included
+# Redirect to the directory added with add_subdirectory
+add_subdirectory(@PROJECT_SOURCE_DIR@ @PROJECT_BINARY_DIR@)
