@@ -11,7 +11,7 @@ class PEGTLConan(ConanFile):
     license = "MIT"
     author = "taocpp@icemx.net"
     exports = "LICENSE"
-    exports_sources = "include/*", "CMakeLists.txt"
+    exports_sources = "cmake/*", "include/*", "CMakeLists.txt"
     settings = "build_type", "compiler", "os", "arch"
     generators = "cmake"
     no_copy_source = True
