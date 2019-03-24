@@ -4,7 +4,11 @@
 
 * [Requirements](#requirements)
 * [Installation Packages](#installation-packages)
-* [CMake Installation](#cmake-installation)
+* [Using CMake](#using-cmake)
+  * [CMake Installation](#cmake-installation)
+  * [`find_package`](#find_package)
+  * [`add_subdirectory`](#add_subdirectory)
+  * [Mixing `find_package` and `add_subdirectory`](#mixing-find_package-and-add_subdirectory)
 * [Manual Installation](#manual-installation)
 * [Embedding the PEGTL](#embedding-the-pegtl)
   * [Embedding in Binaries](#embedding-in-binaries)
@@ -45,9 +49,9 @@ Installation packages are available from several package managers. Note that som
 * [Conan]
 * [Spack]
 
-## CMake
+## Using CMake
 
-### CMake install (Recommended)
+### CMake Installation
 
 The PEGTL can be built and installed using [CMake], e.g.
 
@@ -66,15 +70,19 @@ system, e.g. `/usr/local/include/`. To change the installation path, use:
 $ cmake .. -DCMAKE_INSTALL_PREFIX=../install
 ```
 
-in the above. Installation creates a `pegtl-config.cmake` which allows CMake
-project to find PEGTL using `find_package`:
+in the above.
+
+### `find_package`
+
+Installation creates a `pegtl-config.cmake` which allows CMake
+projects to find the PEGTL using `find_package`:
 
 ```cmake
 find_package(pegtl)
 ```
 
 This exports the `taocpp::pegtl` target which can be linked against any other
-target. Linking against `taocpp:pegtl` automatically set the include
+target. Linking against `taocpp:pegtl` automatically sets the include
 directories and required flags for C++17 or later. For example:
 
 ```cmake
@@ -82,23 +90,26 @@ add_executable(myexe mysources...)
 target_link_libraries(myexe PRIVATE taocpp::pegtl)
 ```
 
-### CMake add_subdirectory
+### `add_subdirectory`
 
-The PEGTL can also be added as a dependency with `add_subdirectory`.
+The PEGTL can also be added as a dependency with `add_subdirectory`:
 
 ```cmake
 add_subdirectory(path/to/PEGTL)
 ```
 
 This also exports the `taocpp::pegtl` target which can be linked against any
-other target just as with the installation case. Due to the global nature of
-CMake targets the target `pegtl` is also defined, but only `taocpp::pegtl`
-should be used for consistency. If `PEGTL_BUILD_TESTS` is true then the test
-targets, `pegtl-test-*`, are also defined and their corresponding tests
-registered with `add_test`. If `PEGTL_BUILD_EXAMPLES` is true then the example
-targets, `pegtl-example-*`, are also defined.
+other target just as with the installation case.
 
-### CMake mixing add_subdirectory and find_package
+Due to the global nature of CMake targets the target `pegtl` is also defined,
+but only `taocpp::pegtl` should be used for consistency.
+
+If `PEGTL_BUILD_TESTS` is true then the test targets, `pegtl-test-*`, are also
+defined and their corresponding tests registered with `add_test`.
+If `PEGTL_BUILD_EXAMPLES` is true then the example targets, `pegtl-example-*`,
+are also defined.
+
+### Mixing `find_package` and `add_subdirectory`
 
 With the advent of improved methods of managing dependencies (such as [Conan],
 [Spack], [CMake FetchContent]), multiple package inclusion methods needs to be
@@ -106,16 +117,16 @@ able to co-exist.
 
 If PEGTL was first included with `find_package` then subsequent calls to
 `add_subdirectory(path/to/PEGTL)` will skip over the body of the
-`CMakeLists.txt` and use the installed package if the version matches. If the
-version does not match a fatal cmake error will be signalled.
+`CMakeLists.txt` and use the installed package if the version matches.
+If the version does not match a fatal error will be signalled.
 
 If PEGTL was first included with `add_subdirectory` then a dummy
 `pegtl-config.cmake` is created and `pegtl_DIR` is set. Subsequent calls to
 `find_package(pegtl)` will then use the already added package if the version
-matches. If the version does not match a fatal cmake error will be signalled.
+matches. If the version does not match a fatal error will be signalled.
 
 Since CMake targets are global, there exists no way for a CMake project to use
-2 different versions of PEGTL simultaneously and signalling a fatal error
+two different versions of PEGTL simultaneously and signalling a fatal error
 becomes the only practical way of handling the inclusion of multiple different
 PEGTL versions.
 
