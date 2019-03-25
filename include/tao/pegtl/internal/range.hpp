@@ -41,6 +41,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
          return false;
       }
+
+      struct inverted
+         : range< !R, Peek, Lo, Hi >
+      {};
    };
 
    template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
