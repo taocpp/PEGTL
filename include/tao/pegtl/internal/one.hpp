@@ -42,9 +42,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return false;
       }
 
-      struct inverted
-         : one< !R, Peek, Cs... >
+      struct inverted_t
+         : public one< !R, Peek, Cs... >
       {};
+
+      using inverted = inverted_t;
    };
 
    template< result_on_found R, typename Peek, typename Peek::data_t C >
@@ -66,9 +68,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return false;
       }
 
-      struct inverted
-         : one< !R, Peek, C >
+      struct inverted_t
+         : public one< !R, Peek, C >
       {};
+
+      using inverted = inverted_t;
    };
 
    template< result_on_found R, typename Peek, typename Peek::data_t... Cs >

@@ -81,11 +81,16 @@ namespace TAO_PEGTL_NAMESPACE
          verify_char< alpha >( __LINE__, __FILE__, c, is_lower || is_upper );
          verify_char< any >( __LINE__, __FILE__, c, true );
          verify_char< blank >( __LINE__, __FILE__, c, is_blank );
+         verify_char< blank::inverted >( __LINE__, __FILE__, c, !is_blank );
+         verify_char< blank::inverted::inverted >( __LINE__, __FILE__, c, is_blank );
          verify_char< digit >( __LINE__, __FILE__, c, is_digit );
+         verify_char< digit::inverted >( __LINE__, __FILE__, c, !is_digit );
+         verify_char< digit::inverted::inverted >( __LINE__, __FILE__, c, is_digit );
          verify_char< eol >( __LINE__, __FILE__, c, is_newline );
          verify_char< identifier_first >( __LINE__, __FILE__, c, is_ident_first );
          verify_char< identifier_other >( __LINE__, __FILE__, c, is_ident_other );
          verify_char< lower >( __LINE__, __FILE__, c, is_lower );
+         verify_char< lower::inverted >( __LINE__, __FILE__, c, !is_lower );
          verify_char< nul >( __LINE__, __FILE__, c, c == 0 );
          verify_char< print >( __LINE__, __FILE__, c, is_print );
          verify_char< seven >( __LINE__, __FILE__, c, is_seven );
