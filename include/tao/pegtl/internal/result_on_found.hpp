@@ -14,11 +14,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       failure = false
    };
 
-   constexpr result_on_found operator!( const result_on_found v ) noexcept
-   {
-      return ( v == result_on_found::success ) ? result_on_found::failure : result_on_found::success;
-   }
-
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

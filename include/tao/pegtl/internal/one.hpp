@@ -41,11 +41,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
          return false;
       }
-
-      typedef struct
-         : one< !R, Peek, Cs... >
-      {
-      } inverted;
    };
 
    template< result_on_found R, typename Peek, typename Peek::data_t C >
@@ -66,11 +61,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
          return false;
       }
-
-      typedef struct
-         : one< !R, Peek, C >
-      {
-      } inverted;
    };
 
    template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
