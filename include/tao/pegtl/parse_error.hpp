@@ -4,7 +4,10 @@
 #ifndef TAO_PEGTL_PARSE_ERROR_HPP
 #define TAO_PEGTL_PARSE_ERROR_HPP
 
+#include <ostream>
+#include <sstream>
 #include <stdexcept>
+#include <string>
 #include <utility>
 #include <vector>
 
@@ -52,6 +55,21 @@ namespace TAO_PEGTL_NAMESPACE
 
       std::vector< position > positions;
    };
+
+   inline std::ostream& operator<<( std::ostream& o, const parse_error& e )
+   {
+      for( auto it = e.positions.rbegin(); it != e.positions.rend(); ++it ) {
+         o << *it << ": ";
+      }
+      return o << e.what();
+   }
+
+   [[nodiscard]] inline std::string to_string( const parse_error& e )
+   {
+      std::stringstream o;
+      o << e;
+      return o.str();
+   }
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
