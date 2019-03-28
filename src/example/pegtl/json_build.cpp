@@ -6,7 +6,6 @@
 #include <vector>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/change_action_and_state.hpp>
 #include <tao/pegtl/contrib/json.hpp>
 
 #include "json_classes.hpp"

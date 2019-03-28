@@ -5,7 +5,7 @@
 
 #include <string>
 
-#include <tao/pegtl/contrib/change_state.hpp>
+#include <tao/pegtl/contrib/change_states.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template<>
    struct my_action< B >
-      : change_state< int >
+      : change_states< int >
    {
       template< typename Input >
       static void success( const Input&, int& i, std::string& s )
