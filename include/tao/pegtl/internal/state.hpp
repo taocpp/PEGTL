@@ -29,24 +29,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 template< typename... >
                 class Control,
                 typename Input,
-                typename... States >
-      static auto success( State& s, const Input& in, States&&... st )
-         -> decltype( s.template success< A, M, Action, Control >( in, st... ), void() )
-      {
-         s.template success< A, M, Action, Control >( in, st... );
-      }
-
-      template< apply_mode A,
-                rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename Input,
                 typename... States,
                 int = 0 >
-      static auto success( State& s, const Input& in, States&&... st )
-         -> decltype( s.success( in, st... ), void() )
+      static void success( State& s, const Input& in, States&&... st )
       {
          s.success( in, st... );
       }
@@ -62,7 +47,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
          State s( static_cast< const Input& >( in ), st... );
-
          if( duseltronik< seq< Rules... >, A, M, Action, Control >::match( in, s ) ) {
             success< A, M, Action, Control >( s, in, st... );
             return true;

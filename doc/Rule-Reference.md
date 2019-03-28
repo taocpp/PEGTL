@@ -89,7 +89,7 @@ These rules are in namespace `tao::pegtl`.
 * Equivalent to `seq< R... >`, but:
 * Replaces all state arguments with a new instance `s` of type `S`.
 * `s` is constructed with the input and all previous states as arguments.
-* If `seq< R... >` succeeds then `s.success()` is called with the input after the match and all previous states as arguments, and, if expected, with `A, M, Action, Control` as template parameters.
+* If `seq< R... >` succeeds then `s.success()` is called with the input after the match and all previous states as arguments.
 
 ## Combinators
 

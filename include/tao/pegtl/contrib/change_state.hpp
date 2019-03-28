@@ -12,7 +12,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename... NewStates >
+   template< typename NewState >
    struct change_state
    {
       template< typename Rule,
@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         return change_action_and_state< Action, NewStates... >::template match< Rule, A, M, Action, Control >( in, st... );
+         return change_action_and_state< Action, NewState >::template match< Rule, A, M, Action, Control >( in, st... );
       }
    };
 
