@@ -19,6 +19,7 @@ set(test_sources
   ascii_three.cpp
   ascii_two.cpp
   contrib_alphabet.cpp
+  contrib_change_state.cpp
   contrib_integer.cpp
   contrib_if_then.cpp
   contrib_json.cpp

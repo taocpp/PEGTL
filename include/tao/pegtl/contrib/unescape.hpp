@@ -13,11 +13,6 @@
 
 namespace TAO_PEGTL_NAMESPACE::unescape
 {
-   struct state
-   {
-      std::string unescaped;
-   };
-
    // Utility functions for the unescape actions.
 
    [[nodiscard]] inline bool utf8_append_utf32( std::string& string, const unsigned utf32 )
@@ -104,10 +99,10 @@ namespace TAO_PEGTL_NAMESPACE::unescape
 
    struct append_all
    {
-      template< typename Input, typename State >
-      static void apply( const Input& in, State& st )
+      template< typename Input >
+      static void apply( const Input& in, std::string& s )
       {
-         st.unescaped.append( in.begin(), in.size() );
+         s.append( in.begin(), in.size() );
       }
    };
 
@@ -115,11 +110,11 @@ namespace TAO_PEGTL_NAMESPACE::unescape
    template< typename T, char... Rs >
    struct unescape_c
    {
-      template< typename Input, typename State >
-      static void apply( const Input& in, State& st )
+      template< typename Input >
+      static void apply( const Input& in, std::string& s )
       {
          assert( in.size() == 1 );
-         st.unescaped += apply_one( in, static_cast< const T* >( nullptr ) );
+         s += apply_one( in, static_cast< const T* >( nullptr ) );
       }
 
       template< typename Input, char... Qs >
@@ -148,11 +143,11 @@ namespace TAO_PEGTL_NAMESPACE::unescape
 
    struct unescape_u
    {
-      template< typename Input, typename State >
-      static void apply( const Input& in, State& st )
+      template< typename Input >
+      static void apply( const Input& in, std::string& s )
       {
          assert( !in.empty() );  // First character MUST be present, usually 'u' or 'U'.
-         if( !utf8_append_utf32( st.unescaped, unhex_string< unsigned >( in.begin() + 1, in.end() ) ) ) {
+         if( !utf8_append_utf32( s, unhex_string< unsigned >( in.begin() + 1, in.end() ) ) ) {
             throw parse_error( "invalid escaped unicode code point", in );
          }
       }
@@ -160,11 +155,11 @@ namespace TAO_PEGTL_NAMESPACE::unescape
 
    struct unescape_x
    {
-      template< typename Input, typename State >
-      static void apply( const Input& in, State& st )
+      template< typename Input >
+      static void apply( const Input& in, std::string& s )
       {
          assert( !in.empty() );  // First character MUST be present, usually 'x'.
-         st.unescaped += unhex_string< char >( in.begin() + 1, in.end() );
+         s += unhex_string< char >( in.begin() + 1, in.end() );
       }
    };
 
@@ -174,12 +169,12 @@ namespace TAO_PEGTL_NAMESPACE::unescape
    // (b) accepts multiple consecutive escaped 16-bit values.
    // When applied to more than one escape sequence, unescape_j
    // translates UTF-16 surrogate pairs in the input into a single
-   // UTF-8 sequence in st.unescaped, as required for JSON by RFC 8259.
+   // UTF-8 sequence in s, as required for JSON by RFC 8259.
 
    struct unescape_j
    {
-      template< typename Input, typename State >
-      static void apply( const Input& in, State& st )
+      template< typename Input >
+      static void apply( const Input& in, std::string& s )
       {
          assert( ( ( in.size() + 1 ) % 6 ) == 0 );  // Expects multiple "\\u1234", starting with the first "u".
          for( const char* b = in.begin() + 1; b < in.end(); b += 6 ) {
@@ -188,11 +183,11 @@ namespace TAO_PEGTL_NAMESPACE::unescape
                const auto d = unhex_string< unsigned >( b + 6, b + 10 );
                if( ( 0xdc00 <= d ) && ( d <= 0xdfff ) ) {
                   b += 6;
-                  (void)utf8_append_utf32( st.unescaped, ( ( ( c & 0x03ff ) << 10 ) | ( d & 0x03ff ) ) + 0x10000 );
+                  (void)utf8_append_utf32( s, ( ( ( c & 0x03ff ) << 10 ) | ( d & 0x03ff ) ) + 0x10000 );
                   continue;
                }
             }
-            if( !utf8_append_utf32( st.unescaped, c ) ) {
+            if( !utf8_append_utf32( s, c ) ) {
                throw parse_error( "invalid escaped unicode code point", in );
             }
          }

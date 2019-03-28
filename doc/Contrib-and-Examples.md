@@ -180,13 +180,9 @@ Shows one approach to implementing an indentation-aware language with a very ver
 
 Shows how to use the custom error messages defined in `json_errors.hpp` with the `<tao/pegtl/contrib/json.hpp>` grammar to parse command line arguments as JSON data.
 
-###### `src/example/pegtl/json_build_one.cpp`
+###### `src/example/pegtl/json_build.cpp`
 
-Extends on `json_parse.cpp` by parsing JSON files into generic JSON data structures using the "[switching style](Actions-and-States.md#changing-state)" of managing actions and states.
-
-###### `src/example/pegtl/json_build_two.cpp`
-
-Extends on `json_parse.cpp` by parsing JSON files into generic JSON data structures using a more monolithic approach to managing the states and actions.
+Extends on `json_parse.cpp` by parsing JSON files into generic JSON data structure.
 
 ###### `src/example/pegtl/json_count.cpp`
 

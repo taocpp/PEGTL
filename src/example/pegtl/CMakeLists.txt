@@ -10,8 +10,7 @@ set(example_sources
   dynamic_match.cpp
   hello_world.cpp
   indent_aware.cpp
-  json_build_one.cpp
-  json_build_two.cpp
+  json_build.cpp
   json_count.cpp
   json_parse.cpp
   lua53_parse.cpp

@@ -51,10 +51,10 @@ namespace example
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      unescape::state s;
+      std::string s;
       argv_input in( argv, i );
       parse< example::padded, example::action >( in, s );
-      std::cout << "argv[ " << i << " ] = " << s.unescaped << std::endl;
+      std::cout << "argv[ " << i << " ] = " << s << std::endl;
    }
    return 0;
 }

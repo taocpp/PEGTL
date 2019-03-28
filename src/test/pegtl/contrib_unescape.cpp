@@ -31,10 +31,10 @@ namespace TAO_PEGTL_NAMESPACE
    template< unsigned M, unsigned N >
    void verify_data( const char ( &m )[ M ], const char ( &n )[ N ] )  // NOLINT
    {
-      unescape::state st;
+      std::string s;
       memory_input in( m, M - 1, __FUNCTION__ );
-      parse< unstring, unaction >( in, st );
-      if( st.unescaped != std::string( n, N - 1 ) ) {
+      parse< unstring, unaction >( in, s );
+      if( s != std::string( n, N - 1 ) ) {
          throw std::runtime_error( "test failed!" );  // NOLINT
       }
    }
@@ -73,43 +73,43 @@ namespace TAO_PEGTL_NAMESPACE
 
       verify_data( "\\j0000\\u0000\x00", "\x00\x00\x00" );
 
-      unescape::state st;
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\\\\\", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\x", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\xx", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\xa", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\x1", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\x1h", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "a\\", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "a\\x", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "a\\xx", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "a\\xa", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "a\\x1", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "a\\x1h", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\a", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\_", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\z", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\1", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\a00", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\_1111", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\z22222222", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\13333333333333333", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\u", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\uu", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\uuuu", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\u123", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\u999", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\u444h", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\j", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\ju", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\juuu", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\j123", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\j999", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\j444h", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\U00110000", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\U80000000", st );
-      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\Uffffffff", st );
+      std::string s;
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\\\\\", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\x", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\xx", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\xa", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\x1", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\x1h", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "a\\", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "a\\x", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "a\\xx", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "a\\xa", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "a\\x1", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "a\\x1h", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\a", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\_", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\z", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\1", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\a00", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\_1111", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\z22222222", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\13333333333333333", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\u", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\uu", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\uuuu", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\u123", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\u999", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\u444h", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\j", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\ju", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\juuu", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\j123", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\j999", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\j444h", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\U00110000", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\U80000000", s );
+      verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\Uffffffff", s );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

@@ -4,14 +4,15 @@
 #ifndef TAO_PEGTL_CONTRIB_CHANGE_STATE_HPP
 #define TAO_PEGTL_CONTRIB_CHANGE_STATE_HPP
 
+#include "change_action_and_state.hpp"
+
 #include "../apply_mode.hpp"
 #include "../config.hpp"
-#include "../match.hpp"
 #include "../rewind_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename State >
+   template< typename... NewStates >
    struct change_state
    {
       template< typename Rule,
@@ -25,14 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         State s( static_cast< const Input& >( in ), st... );
-         if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, s ) ) {
-            if constexpr( A == apply_mode::action ) {
-               s.success( static_cast< const Input& >( in ), st... );
-            }
-            return true;
-         }
-         return false;
+         return change_action_and_state< Action, NewStates... >::template match< Rule, A, M, Action, Control >( in, st... );
       }
    };
 

@@ -294,8 +294,6 @@ The different styles can also be freely mixed within the same parser.
 
 The "no switching style" consists of having one (or more) state-arguments that are passed to a parsing run and that are the arguments to all actions' `apply()` and `apply0()` static member functions.
 
-For an example of how to build a generic JSON data structure with the "no switching style" see `src/example/pegtl/json_build_two.cpp`.
-
 ### Intrusive Switching
 
 The `state<>` and `action<>` [meta combinators](Rule-Reference.md#meta-rules) can be used to hard-code state and actions switches in the grammar.
@@ -306,7 +304,7 @@ In some cases a state object is required for the grammar itself, and in these ca
 
 "External switching" is when the states and/or actions are switched from outside of the grammar by using the action class.
 
-For an example of how to build a generic JSON data structure with the "external switching style" see `src/example/pegtl/json_build_one.cpp`.
+For an example of how to build a generic JSON data structure with the "external switching style" see `src/example/pegtl/json_build.cpp`.
 
 The actual switching actions are defined in `<tao/pegtl/contrib/change_*.hpp>` and can be used as template for custom switching.
 
