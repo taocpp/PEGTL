@@ -9,6 +9,9 @@
   * [`find_package`](#find_package)
   * [`add_subdirectory`](#add_subdirectory)
   * [Mixing `find_package` and `add_subdirectory`](#mixing-find_package-and-add_subdirectory)
+* [Conan](#conan)
+  * [Using a development version](#using-a-development-version)
+  * [Developing with conan editable](#developing-with-conan-editable)
 * [Manual Installation](#manual-installation)
 * [Embedding the PEGTL](#embedding-the-pegtl)
   * [Embedding in Binaries](#embedding-in-binaries)
@@ -132,6 +135,58 @@ PEGTL versions.
 
 For more options and ways to use CMake, please refer to the
 [CMake documentation].
+
+Conan
+---
+
+The [PEGTL conan package](https://bintray.com/taocpp/public-conan/pegtl%3Ataocpp) is automatically updated when a release is made, and it should always be up to date with the latest official release.
+
+Simply add
+
+```ini
+pegtl/<version>@taocpp/stable
+```
+
+as a dependency to your conan project where `<version>` is the version of PEGTL you want to use.
+
+### Using a development version
+
+If a not yet released PEGTL version is required, then PEGTL can be exported in its current state.
+
+```bash
+mkdir build
+conan install -if build
+conan export-pkg -if build -bf build . pegtl/<version>@taocpp/devel
+```
+
+Then proceed by adding
+
+```ini
+pegtl/<version>@taocpp/devel
+```
+
+as a dependency to your conan project.
+
+### Developing with conan editable
+
+If it is required to develop PEGTL alongside another library/application then the package can be put into editable mode with
+
+```bash
+conan editable add . pegtl/<version>@taocpp/devel
+```
+
+If the editable layout has `[builddirs]` set correctly and one is using the `cmake_paths` or `cmake`generator
+
+```cmake
+find_package(pegtl)
+```
+
+will work as expected. It will find the editable package and add it to the current CMake project. An editable package implies that it is under development so tests and examples will be automatically built unless `PEGTL_BUILD_TESTS` and `PEGTL_BUILD_EXAMPLES` are turned off.
+
+Caveats with the editable package:
+
+- Currently, if the package is included with `CONAN_PKG::pegtl` or used in a build system other than CMake then the tests and examples won't be built as the CMake config script is bypassed.
+- CMake will compulsively rebuild tests and examples if the build directory is reconfigured from another directory.
 
 ## Manual Installation
 
