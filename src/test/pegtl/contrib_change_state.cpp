@@ -35,7 +35,7 @@ namespace tao
          : change_states< int >
       {
          template< typename Input >
-         static void success( const Input&, int& i, std::string& s )
+         static void success( const Input& /*unused*/, int& i, std::string& s )
          {
             s += std::to_string( i );
          }
