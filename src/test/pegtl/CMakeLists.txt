@@ -19,6 +19,7 @@ set(test_sources
   ascii_three.cpp
   ascii_two.cpp
   contrib_alphabet.cpp
+  contrib_change_state.cpp
   contrib_integer.cpp
   contrib_if_then.cpp
   contrib_json.cpp
@@ -120,7 +121,7 @@ foreach(testsourcefile ${test_sources})
   if(ANDROID)
     add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../.. COMMAND ${CMAKE_COMMAND} -DANDROID_NDK=${ANDROID_NDK} "-DTEST_RESOURCES=src/test/pegtl/data;src/test/pegtl/file_data.txt;Makefile" -DTEST_RESOURCES_DIR=${CMAKE_CURRENT_SOURCE_DIR}/../../.. -DUNITTEST=${CMAKE_CURRENT_BINARY_DIR}/${exename} -DTEST_PARAMETER=-all -P ${CMAKE_CURRENT_SOURCE_DIR}/ExecuteOnAndroid.cmake)
   else()
-    add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../.. COMMAND ${CMAKE_CURRENT_BINARY_DIR}/${exename})
+    add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../.. COMMAND ${exename})
   endif()
 endforeach(testsourcefile)
 

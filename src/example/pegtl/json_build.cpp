@@ -6,7 +6,6 @@
 #include <vector>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/change_state.hpp>
 #include <tao/pegtl/contrib/json.hpp>
 
 #include "json_classes.hpp"
@@ -32,7 +31,7 @@ namespace examples
    // Action class
 
    template< typename Rule >
-   struct action : unescape_action< Rule >  // Inherit from json_unescape.hpp.
+   struct action
    {
    };
 
@@ -77,27 +76,15 @@ namespace examples
       }
    };
 
-   // To parse a string, we change the state to decouple string parsing/unescaping
-
-   struct string_state
-      : public unescape_state_base
-   {
-      template< typename Input, typename... States >
-      explicit string_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
-      {
-      }
-
-      template< typename Input >
-      void success( const Input& /*unused*/, json_state& state )
-      {
-         state.result = std::make_shared< string_json >( unescaped );
-      }
-   };
-
    template<>
    struct action< pegtl::json::string::content >
-      : pegtl::change_state< string_state >
+      : json_unescape
    {
+      template< typename Input >
+      static void success( const Input& /*unused*/, std::string& s, json_state& state )
+      {
+         state.result = std::make_shared< string_json >( std::move( s ) );
+      }
    };
 
    template<>
@@ -139,24 +126,15 @@ namespace examples
 
    // To parse a key, we change the state to decouple string parsing/unescaping
 
-   struct key_state : unescape_state_base
-   {
-      template< typename Input, typename... States >
-      explicit key_state( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
-      {
-      }
-
-      template< typename Input >
-      void success( const Input& /*unused*/, json_state& state )
-      {
-         state.keys.push_back( std::move( unescaped ) );
-      }
-   };
-
    template<>
    struct action< pegtl::json::key::content >
-      : pegtl::change_state< key_state >
+      : json_unescape
    {
+      template< typename Input >
+      static void success( const Input& /*unused*/, std::string& s, json_state& state )
+      {
+         state.keys.push_back( std::move( s ) );
+      }
    };
 
    template<>

@@ -6,41 +6,23 @@
 
 #include <string>
 
-#include <tao/pegtl.hpp>
+#include <tao/pegtl/contrib/change_action_and_states.hpp>
 #include <tao/pegtl/contrib/json.hpp>
 #include <tao/pegtl/contrib/unescape.hpp>
 
 namespace examples
 {
-   // State base class to store an unescaped string
-
-   struct unescape_state_base
-   {
-      unescape_state_base() = default;
-
-      unescape_state_base( const unescape_state_base& ) = delete;
-      unescape_state_base( unescape_state_base&& ) = delete;
-
-      ~unescape_state_base() = default;
-
-      void operator=( const unescape_state_base& ) = delete;
-      void operator=( unescape_state_base&& ) = delete;
-
-      std::string unescaped;
-   };
-
    // Action class for parsing literal strings, uses the PEGTL unescape utilities, cf. unescape.cpp.
 
-   template< typename Rule, template< typename... > class Base = tao::TAO_PEGTL_NAMESPACE::nothing >
-   struct unescape_action : Base< Rule >
-   {
-   };
-
    // clang-format off
-   template<> struct unescape_action< tao::TAO_PEGTL_NAMESPACE::json::unicode > : tao::TAO_PEGTL_NAMESPACE::unescape::unescape_j {};
-   template<> struct unescape_action< tao::TAO_PEGTL_NAMESPACE::json::escaped_char > : tao::TAO_PEGTL_NAMESPACE::unescape::unescape_c< tao::TAO_PEGTL_NAMESPACE::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
-   template<> struct unescape_action< tao::TAO_PEGTL_NAMESPACE::json::unescaped > : tao::TAO_PEGTL_NAMESPACE::unescape::append_all {};
+   template< typename Rule > struct json_unescape_action {};
+
+   template<> struct json_unescape_action< tao::TAO_PEGTL_NAMESPACE::json::unicode > : tao::TAO_PEGTL_NAMESPACE::unescape::unescape_j {};
+   template<> struct json_unescape_action< tao::TAO_PEGTL_NAMESPACE::json::escaped_char > : tao::TAO_PEGTL_NAMESPACE::unescape::unescape_c< tao::TAO_PEGTL_NAMESPACE::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
+   template<> struct json_unescape_action< tao::TAO_PEGTL_NAMESPACE::json::unescaped > : tao::TAO_PEGTL_NAMESPACE::unescape::append_all {};
    // clang-format on
+
+   using json_unescape = tao::pegtl::change_action_and_states< json_unescape_action, std::string >;
 
 }  // namespace examples
 
