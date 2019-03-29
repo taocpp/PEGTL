@@ -26,7 +26,7 @@ namespace tao
       {
          static void apply0( std::string& s )
          {
-            s += 'Y';
+            s += 'Z';
          }
       };
 
@@ -37,7 +37,9 @@ namespace tao
          template< typename Input >
          static void success( const Input& /*unused*/, int& i, std::string& s )
          {
-            s += std::to_string( i );
+            if( i == 42 ) {
+               s += 'Y';
+            }
          }
       };
 
@@ -56,7 +58,7 @@ namespace tao
          std::string s = "X";
          const auto result = parse< A, my_action >( in, s );
          TAO_PEGTL_TEST_ASSERT( result );
-         TAO_PEGTL_TEST_ASSERT( s == "X42Y" );
+         TAO_PEGTL_TEST_ASSERT( s == "XYZ" );
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE
