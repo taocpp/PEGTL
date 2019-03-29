@@ -35,9 +35,7 @@ namespace tao
          {
             auto t = std::tie( st... );
             if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, NewAction, Control >( in, std::get< Ns >( t )... ) ) {
-               if( A == apply_mode::action ) {
-                  Action< Rule >::success( static_cast< const Input& >( in ), st... );
-               }
+               Action< Rule >::success( static_cast< const Input& >( in ), st... );
                return true;
             }
             return false;

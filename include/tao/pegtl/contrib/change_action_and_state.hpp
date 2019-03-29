@@ -32,9 +32,7 @@ namespace tao
          {
             NewState s( static_cast< const Input& >( in ), st... );
             if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, NewAction, Control >( in, s ) ) {
-               if( A == apply_mode::action ) {
-                  Action< Rule >::success( static_cast< const Input& >( in ), s, st... );
-               }
+               Action< Rule >::success( static_cast< const Input& >( in ), s, st... );
                return true;
             }
             return false;
