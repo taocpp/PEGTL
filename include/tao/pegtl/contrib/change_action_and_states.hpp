@@ -5,6 +5,7 @@
 #define TAO_PEGTL_CONTRIB_CHANGE_ACTION_AND_STATES_HPP
 
 #include <tuple>
+#include <type_traits>
 
 #include "../internal/integer_sequence.hpp"
 
@@ -51,9 +52,26 @@ namespace tao
                    class Control,
                    typename Input,
                    typename... States >
-         static bool match( Input& in, States&&... st )
+         static auto match( Input& in, States&&... st )
+            -> typename std::enable_if< ( A == apply_mode::action ), bool >::type
          {
             return match< Rule, A, M, Action, Control >( TAO_PEGTL_NAMESPACE::internal::index_sequence_for< NewStates... >(), in, NewStates()..., st... );
+         }
+
+         template< typename Rule,
+                   apply_mode A,
+                   rewind_mode M,
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control,
+                   typename Input,
+                   typename... States,
+                   int = 1 >
+         static auto match( Input& in, States&&... /*unused*/ )
+            -> typename std::enable_if< ( A == apply_mode::nothing ), bool >::type
+         {
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, NewAction, Control >( in, NewStates()... );
          }
       };
 
