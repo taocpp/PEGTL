@@ -4,8 +4,6 @@
 #ifndef TAO_PEGTL_CONTRIB_ENABLE_ACTION_HPP
 #define TAO_PEGTL_CONTRIB_ENABLE_ACTION_HPP
 
-#include <type_traits>
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../match.hpp"
