@@ -90,6 +90,7 @@ build/amalgamated/pegtl.hpp: $(HEADERS)
 	@rm -rf build/include
 	@cp -a include build/
 	@rm -rf build/include/tao/pegtl/contrib/icu
+	@rm -rf build/include/tao/pegtl/contrib/changes.hpp
 	@sed -i -e 's%^#%//#%g' $$(find build/include -name '*.hpp')
 	@sed -i -e 's%^//#include "%#include "%g' $$(find build/include -name '*.hpp')
 	@for i in $$(find build/include -name '*.hpp'); do echo "#pragma once" >tmp.out; echo "#line 1" >>tmp.out; cat $$i >>tmp.out; mv tmp.out $$i; done

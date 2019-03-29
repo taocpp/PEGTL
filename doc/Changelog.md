@@ -13,11 +13,17 @@
   * Compatibility member functions with the old names are provided.
   * They will be removed in version 3.0.0.
 * Allowed the action class template to overwrite `match`.
-* Refactored contrib's `change_action`, `change_state`, and `change_action_and_state`.
 * Removed the need to derive action class templates from `nothing`.
 * Added `require_apply` and `require_apply0` to improve compiler error messages.
 * Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
-* Improved the [Parse Tree / AST interface](Parse-Tree.md) to hide its internal state except for `match()`.
+* Improved contrib section.
+  * Improved the [Parse Tree / AST interface](Parse-Tree.md) to hide its internal state except for `match()`.
+  * Added new action-based helpers `change_*.hpp`.
+    * The old control-based helpers `changes.hpp` are still available.
+    * They will be removed in version 3.0.0.
+    * You can only include either the old or the new headers, not both.
+  * Added new action-based helpers `disable_action.hpp` and `enable_action.hpp`.
+  * Added new action-based helpers `discard_input.hpp`, `discard_input_on_success.hpp`, and `discard_input_on_failure.hpp`.
 * Added the Clang Static Analyzer to the CI build.
 * Added new Makefile target `amalgamate` to generate a single-header version of the PEGTL.
 * Added support for Universal Windows Platform (UWP).
