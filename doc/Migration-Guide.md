@@ -10,6 +10,7 @@
 * The compatibility macros starting with `TAOCPP_PEGTL_` were removed, the corresponding `TAO_PEGTL_`-prefixed macros must be used.
 * The compatibility uppercase enumerators were removed, the corresponding lowercase enumerators must be used.
 * The compatibility `peek_byte()` member functions were removed, the `peek_uint8()` member functions must be used.
+* The compatibility header `changes.hpp` was removed, use the action-based `change_*.hpp` headers.
 
 ## Version 2.8.0
 
