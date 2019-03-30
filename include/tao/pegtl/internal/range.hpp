@@ -32,10 +32,11 @@ namespace tao
             };
 
             template< typename Input >
-            static bool match( Input& in )
+            static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
             {
-               if( !in.empty() ) {
-                  if( const auto t = Peek::peek( in ) ) {
+               const std::size_t s = in.size( Peek::max_input_size );
+               if( s >= Peek::min_input_size ) {
+                  if( const auto t = Peek::peek( in, s ) ) {
                      if( ( ( Lo <= t.data ) && ( t.data <= Hi ) ) == bool( R ) ) {
                         bump_impl< can_match_eol< Input::eol_t::ch >::value >::bump( in, t.size );
                         return true;

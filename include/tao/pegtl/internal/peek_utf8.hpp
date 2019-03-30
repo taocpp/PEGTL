@@ -19,16 +19,26 @@ namespace tao
             using data_t = char32_t;
             using pair_t = input_pair< char32_t >;
 
+            static constexpr std::size_t min_input_size = 1;
+            static constexpr std::size_t max_input_size = 4;
+
             template< typename Input >
-            static pair_t peek( Input& in ) noexcept( noexcept( in.size( 4 ) ) )
+            static pair_t peek( const Input& in, const std::size_t s ) noexcept
             {
                char32_t c0 = in.peek_uint8();
 
                if( ( c0 & 0x80 ) == 0 ) {
                   return { c0, 1 };
                }
+               return peek_impl( in, c0, s );
+            }
+
+         private:
+            template< typename Input >
+            static pair_t peek_impl( const Input& in, char32_t c0, const std::size_t s ) noexcept
+            {
                if( ( c0 & 0xE0 ) == 0xC0 ) {
-                  if( in.size( 2 ) >= 2 ) {
+                  if( s >= 2 ) {
                      const char32_t c1 = in.peek_uint8( 1 );
                      if( ( c1 & 0xC0 ) == 0x80 ) {
                         c0 &= 0x1F;
@@ -41,7 +51,7 @@ namespace tao
                   }
                }
                else if( ( c0 & 0xF0 ) == 0xE0 ) {
-                  if( in.size( 3 ) >= 3 ) {
+                  if( s >= 3 ) {
                      const char32_t c1 = in.peek_uint8( 1 );
                      const char32_t c2 = in.peek_uint8( 2 );
                      if( ( ( c1 & 0xC0 ) == 0x80 ) && ( ( c2 & 0xC0 ) == 0x80 ) ) {
@@ -57,7 +67,7 @@ namespace tao
                   }
                }
                else if( ( c0 & 0xF8 ) == 0xF0 ) {
-                  if( in.size( 4 ) >= 4 ) {
+                  if( s >= 4 ) {
                      const char32_t c1 = in.peek_uint8( 1 );
                      const char32_t c2 = in.peek_uint8( 2 );
                      const char32_t c3 = in.peek_uint8( 3 );

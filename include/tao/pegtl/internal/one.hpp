@@ -33,10 +33,11 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< typename Input >
-            static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
+            static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
             {
-               if( !in.empty() ) {
-                  if( const auto t = Peek::peek( in ) ) {
+               const std::size_t s = in.size( Peek::max_input_size );
+               if( s >= Peek::min_input_size ) {
+                  if( const auto t = Peek::peek( in, s ) ) {
                      if( contains( t.data, { Cs... } ) == bool( R ) ) {
                         bump_help< R, Input, typename Peek::data_t, Cs... >( in, t.size );
                         return true;
@@ -53,10 +54,11 @@ namespace tao
             using analyze_t = analysis::generic< analysis::rule_type::any >;
 
             template< typename Input >
-            static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
+            static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
             {
-               if( !in.empty() ) {
-                  if( const auto t = Peek::peek( in ) ) {
+               const std::size_t s = in.size( Peek::max_input_size );
+               if( s >= Peek::min_input_size ) {
+                  if( const auto t = Peek::peek( in, s ) ) {
                      if( ( t.data == C ) == bool( R ) ) {
                         bump_help< R, Input, typename Peek::data_t, C >( in, t.size );
                         return true;
