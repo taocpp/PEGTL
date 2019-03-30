@@ -30,9 +30,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Input >
       [[nodiscard]] static pair_t peek( const Input& in, const std::size_t s ) noexcept
       {
-         if( s < 2 ) {
-            return { 0, 0 };
-         }
          const char32_t t = R::read( in.current() );
          if( ( t < 0xd800 ) || ( t > 0xdfff ) ) {
             return { t, 2 };

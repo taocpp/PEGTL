@@ -24,13 +24,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static constexpr std::size_t max_input_size = sizeof( data_t );
 
       template< typename Input >
-      [[nodiscard]] static pair_t peek( const Input& in, const std::size_t s ) noexcept
+      [[nodiscard]] static pair_t peek( const Input& in, const std::size_t /*unused*/ ) noexcept
       {
-         if( s >= sizeof( data_t ) ) {
-            const data_t data = R::read( in.current() ) & M;
-            return { data, sizeof( data_t ) };
-         }
-         return { 0, 0 };
+         const data_t data = R::read( in.current() ) & M;
+         return { data, sizeof( data_t ) };
       }
    };
 

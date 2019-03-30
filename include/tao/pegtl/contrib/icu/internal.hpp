@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          template< typename Input >
          [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
          {
-            if( const std::size_t s = in.size( Peek::max_input_size ) ) {
+            if( const std::size_t s = in.size( Peek::max_input_size ); s >= Peek::min_input_size ) {
                if( const auto r = Peek::peek( in, s ) ) {
                   if( u_hasBinaryProperty( r.data, P ) == V ) {
                      in.bump( r.size );
@@ -43,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          template< typename Input >
          [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
          {
-            if( const std::size_t s = in.size( Peek::max_input_size ) ) {
+            if( const std::size_t s = in.size( Peek::max_input_size ); s >= Peek::min_input_size ) {
                if( const auto r = Peek::peek( in, s ) ) {
                   if( u_getIntPropertyValue( r.data, P ) == V ) {
                      in.bump( r.size );
