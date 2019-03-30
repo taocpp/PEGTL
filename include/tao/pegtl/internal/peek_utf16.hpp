@@ -24,10 +24,18 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static_assert( sizeof( short_t ) == 2 );
       static_assert( sizeof( char16_t ) == 2 );
 
+      static constexpr std::size_t min_input_size = 2;
+      static constexpr std::size_t max_input_size = 4;
+
       template< typename Input >
       [[nodiscard]] static pair_t peek( Input& in ) noexcept( noexcept( in.size( 4 ) ) )
       {
-         const std::size_t s = in.size( 4 );
+         return peek( in, in.size( 4 ) );
+      }
+
+      template< typename Input >
+      [[nodiscard]] static pair_t peek( const Input& in, const std::size_t s ) noexcept
+      {
          if( s < 2 ) {
             return { 0, 0 };
          }

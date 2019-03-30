@@ -40,8 +40,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
       {
-         if( !in.empty() ) {
-            if( const auto t = Peek::peek( in ) ) {
+         if( const std::size_t s = in.size( Peek::max_input_size ) ) {
+            if( const auto t = Peek::peek( in, s ) ) {
                in.bump( t.size );
                return true;
             }

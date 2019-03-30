@@ -31,8 +31,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
       {
-         if( !in.empty() ) {
-            if( const auto t = Peek::peek( in ) ) {
+         if( const std::size_t s = in.size( Peek::max_input_size ) ) {
+            if( const auto t = Peek::peek( in, s ) ) {
                if( contains( t.data, { Cs... } ) == bool( R ) ) {
                   bump_help< R, Input, typename Peek::data_t, Cs... >( in, t.size );
                   return true;
@@ -51,8 +51,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
       {
-         if( !in.empty() ) {
-            if( const auto t = Peek::peek( in ) ) {
+         if( const std::size_t s = in.size( Peek::max_input_size ) ) {
+            if( const auto t = Peek::peek( in, s ) ) {
                if( ( t.data == C ) == bool( R ) ) {
                   bump_help< R, Input, typename Peek::data_t, C >( in, t.size );
                   return true;

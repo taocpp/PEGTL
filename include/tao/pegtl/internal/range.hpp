@@ -26,8 +26,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Input >
       [[nodiscard]] static bool match( Input& in )
       {
-         if( !in.empty() ) {
-            if( const auto t = Peek::peek( in ) ) {
+         if( const std::size_t s = in.size( Peek::max_input_size ) ) {
+            if( const auto t = Peek::peek( in, s ) ) {
                if( ( ( Lo <= t.data ) && ( t.data <= Hi ) ) == bool( R ) ) {
                   if constexpr( can_match_eol< Input::eol_t::ch > ) {
                      in.bump( t.size );
