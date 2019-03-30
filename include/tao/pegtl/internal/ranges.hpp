@@ -60,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static constexpr bool can_match_eol = ranges_impl< Eol, typename Peek::data_t, Cs... >::can_match_eol;
 
       template< typename Input >
-      [[nodiscard]] static bool match( Input& in )
+      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
       {
          if( const std::size_t s = in.size( Peek::max_input_size ) ) {
             if( const auto t = Peek::peek( in, s ) ) {
