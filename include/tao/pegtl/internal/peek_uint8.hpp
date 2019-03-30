@@ -18,10 +18,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using data_t = std::uint8_t;
       using pair_t = input_pair< std::uint8_t >;
 
+      static constexpr std::size_t min_input_size = 1;
+      static constexpr std::size_t max_input_size = 1;
+
       template< typename Input >
-      [[nodiscard]] static pair_t peek( Input& in, const std::size_t o = 0 ) noexcept( noexcept( in.Input::peek_uint8( 0 ) ) )
+      [[nodiscard]] static pair_t peek( const Input& in, const std::size_t /*unused*/ = 1 ) noexcept
       {
-         return { in.peek_uint8( o ), 1 };
+         return { in.peek_uint8(), 1 };
       }
    };
 

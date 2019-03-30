@@ -38,10 +38,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using analyze_t = analysis::generic< analysis::rule_type::any >;
 
       template< typename Input >
-      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
+      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
       {
-         if( !in.empty() ) {
-            if( const auto t = Peek::peek( in ) ) {
+         if( const std::size_t s = in.size( Peek::max_input_size ); s >= Peek::min_input_size ) {
+            if( const auto t = Peek::peek( in, s ) ) {
                in.bump( t.size );
                return true;
             }
