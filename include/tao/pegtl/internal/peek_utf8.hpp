@@ -26,6 +26,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( ( c0 & 0x80 ) == 0 ) {
             return { c0, 1 };
          }
+         return peek_impl( in, c0, s );
+      }
+
+   private:
+      template< typename Input >
+      [[nodiscard]] static pair_t peek_impl( const Input& in, char32_t c0, const std::size_t s ) noexcept
+      {
          if( ( c0 & 0xE0 ) == 0xC0 ) {
             if( s >= 2 ) {
                const char32_t c1 = in.peek_uint8( 1 );
