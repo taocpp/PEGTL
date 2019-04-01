@@ -8,6 +8,7 @@
 
 #include "apply_mode.hpp"
 #include "config.hpp"
+#include "nothing.hpp"
 #include "require_apply.hpp"
 #include "require_apply0.hpp"
 #include "rewind_mode.hpp"
@@ -47,6 +48,10 @@ namespace TAO_PEGTL_NAMESPACE
 
       static_assert( !( has_apply && has_apply0 ), "both apply() and apply0() defined" );
 
+      constexpr bool is_nothing = std::is_base_of_v< nothing< Rule >, Action< Rule > >;
+      static_assert( !( has_apply && is_nothing ), "unexpected apply() defined" );
+      static_assert( !( has_apply0 && is_nothing ), "unexpected apply0() defined" );
+
       if constexpr( !has_apply && std::is_base_of_v< require_apply, Action< Rule > > ) {
          internal::missing_apply< Control< Rule >, Action >( in, st... );
       }
@@ -54,6 +59,10 @@ namespace TAO_PEGTL_NAMESPACE
       if constexpr( !has_apply0 && std::is_base_of_v< require_apply0, Action< Rule > > ) {
          internal::missing_apply0< Control< Rule >, Action >( in, st... );
       }
+
+      constexpr bool validate_nothing = std::is_base_of_v< maybe_nothing, Action< void > >;
+      constexpr bool is_maybe_nothing = std::is_base_of_v< maybe_nothing, Action< Rule > >;
+      static_assert( !validate_nothing || is_nothing || is_maybe_nothing || has_apply || has_apply0, "either apply() or apply0() must be defined" );
 
       constexpr auto mode = static_cast< internal::dusel_mode >( enable_control + has_apply_void + 2 * has_apply_bool + 3 * has_apply0_void + 4 * has_apply0_bool );
       return internal::duseltronik< Rule, A, M, Action, Control, mode >::match( in, st... );

@@ -7,11 +7,13 @@
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../match.hpp"
+#include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
    struct discard_input_on_success
+      : maybe_nothing
    {
       template< typename Rule,
                 apply_mode A,

@@ -8,12 +8,14 @@
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
    template< template< typename... > class NewAction >
    struct change_action
+      : maybe_nothing
    {
       template< typename Rule,
                 apply_mode A,
