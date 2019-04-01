@@ -7,6 +7,7 @@
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../match.hpp"
+#include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
 namespace tao
@@ -15,6 +16,7 @@ namespace tao
    {
       template< template< typename... > class NewControl >
       struct change_control
+         : maybe_nothing
       {
          template< typename Rule,
                    apply_mode A,

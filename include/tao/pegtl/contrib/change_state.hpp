@@ -8,6 +8,7 @@
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
 namespace tao
@@ -16,6 +17,7 @@ namespace tao
    {
       template< typename NewState >
       struct change_state
+         : maybe_nothing
       {
          template< typename Rule,
                    apply_mode A,
