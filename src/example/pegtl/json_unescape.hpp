@@ -6,6 +6,7 @@
 
 #include <string>
 
+#include <tao/pegtl/change_action_and_states.hpp>
 #include <tao/pegtl/contrib/json.hpp>
 #include <tao/pegtl/contrib/unescape.hpp>
 
