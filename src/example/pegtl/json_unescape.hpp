@@ -6,7 +6,6 @@
 
 #include <string>
 
-#include <tao/pegtl/contrib/change_action_and_states.hpp>
 #include <tao/pegtl/contrib/json.hpp>
 #include <tao/pegtl/contrib/unescape.hpp>
 
@@ -22,7 +21,7 @@ namespace examples
    template<> struct json_unescape_action< tao::TAO_PEGTL_NAMESPACE::json::unescaped > : tao::TAO_PEGTL_NAMESPACE::unescape::append_all {};
    // clang-format on
 
-   using json_unescape = tao::pegtl::change_action_and_states< json_unescape_action, std::string >;
+   using json_unescape = tao::TAO_PEGTL_NAMESPACE::change_action_and_states< json_unescape_action, std::string >;
 
 }  // namespace examples
 

@@ -1,20 +1,22 @@
 // Copyright (c) 2019 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_CONTRIB_DISCARD_INPUT_ON_SUCCESS_HPP
-#define TAO_PEGTL_CONTRIB_DISCARD_INPUT_ON_SUCCESS_HPP
+#ifndef TAO_PEGTL_CHANGE_ACTION_HPP
+#define TAO_PEGTL_CHANGE_ACTION_HPP
 
-#include "../apply_mode.hpp"
-#include "../config.hpp"
-#include "../match.hpp"
-#include "../nothing.hpp"
-#include "../rewind_mode.hpp"
+#include <type_traits>
+
+#include "apply_mode.hpp"
+#include "config.hpp"
+#include "nothing.hpp"
+#include "rewind_mode.hpp"
 
 namespace tao
 {
    namespace TAO_PEGTL_NAMESPACE
    {
-      struct discard_input_on_success
+      template< template< typename... > class NewAction >
+      struct change_action
          : maybe_nothing
       {
          template< typename Rule,
@@ -28,11 +30,8 @@ namespace tao
                    typename... States >
          static bool match( Input& in, States&&... st )
          {
-            const bool result = TAO_PEGTL_NAMESPACE::match< Rule, apply_mode::nothing, M, Action, Control >( in, st... );
-            if( result ) {
-               in.discard();
-            }
-            return result;
+            static_assert( !std::is_same< Action< void >, NewAction< void > >::value, "old and new action class templates are identical" );
+            return Control< Rule >::template match< A, M, NewAction, Control >( in, st... );
          }
       };
 

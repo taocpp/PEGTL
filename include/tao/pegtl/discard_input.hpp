@@ -1,21 +1,20 @@
 // Copyright (c) 2019 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_CONTRIB_CHANGE_CONTROL_HPP
-#define TAO_PEGTL_CONTRIB_CHANGE_CONTROL_HPP
+#ifndef TAO_PEGTL_DISCARD_INPUT_HPP
+#define TAO_PEGTL_DISCARD_INPUT_HPP
 
-#include "../apply_mode.hpp"
-#include "../config.hpp"
-#include "../match.hpp"
-#include "../nothing.hpp"
-#include "../rewind_mode.hpp"
+#include "apply_mode.hpp"
+#include "config.hpp"
+#include "match.hpp"
+#include "nothing.hpp"
+#include "rewind_mode.hpp"
 
 namespace tao
 {
    namespace TAO_PEGTL_NAMESPACE
    {
-      template< template< typename... > class NewControl >
-      struct change_control
+      struct discard_input
          : maybe_nothing
       {
          template< typename Rule,
@@ -29,7 +28,9 @@ namespace tao
                    typename... States >
          static bool match( Input& in, States&&... st )
          {
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, NewControl >( in, st... );
+            const bool result = TAO_PEGTL_NAMESPACE::match< Rule, apply_mode::nothing, M, Action, Control >( in, st... );
+            in.discard();
+            return result;
          }
       };
 

@@ -3,8 +3,6 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/contrib/change_action.hpp>
-
 namespace tao
 {
    namespace TAO_PEGTL_NAMESPACE

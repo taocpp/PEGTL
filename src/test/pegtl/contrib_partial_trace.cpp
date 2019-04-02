@@ -3,7 +3,6 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/contrib/change_control.hpp>
 #include <tao/pegtl/contrib/tracer.hpp>
 
 namespace tao
