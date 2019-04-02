@@ -131,9 +131,13 @@ Similarly, the control's `apply()` and `apply0()` can customise action invocatio
 
 ## Changing Control
 
-Just like the action class template, a custom control class template can be used by either
+Just like the action class template, a custom control class template can be used (or changed) by either
 
 1. supplying it as explicit template argument to the `parse()` functions, or
-2. setting it for a portion of the grammar with the `tao::pegtl::control` combinator.
+2. setting it as control class with the [`tao::pegtl::control`](Rule-Reference.md#control-c-r-) combinator, or
+3. setting it as control class with the `change_control` action.
+
+The latter requires the use of a [custom action](Actions-and-States.md).
+Deriving the specialisation of the custom action for `my_rule` from `tao::pegtl::change_control< my_control >` will switch the current control to `my_control` before attempting to match `my_rule`.
 
 Copyright (c) 2014-2019 Dr. Colin Hirsch and Daniel Frey

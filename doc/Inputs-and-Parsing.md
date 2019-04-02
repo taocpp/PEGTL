@@ -365,14 +365,27 @@ namespace tao::pegtl
 ```
 
 This tells the input that a rule wants to inspect and/or consume a certain `amount` of input bytes, and it will attempt to fill the buffer accordingly.
-The returned `size()`, and the distance from `begin()` to `end()`, can also be larger than the requested amount.
+The returned `size()`, and the distance from `begin()` to `end()`, can also be smaller or larger than the requested amount.
 
 For example, the rule `tao::pegtl::ascii::eol`, which (usually) checks for both `"\r\n"` and "`\n`", calls `size(2)` because it needs to inspect up to two bytes.
 Depending on whether the result of `size(2)` is `0`, `1` or `2`, it will choose which of these two sequences it can attempt to match.
 The number of actually consumed bytes can again be `0`, `1` or `2`, depending on whether they match a valid `eol`-sequence.
 
-To prevent the buffer from overflowing, the `discard()` member function of class `tao::pegtl::buffer_input` must be called, usually by using the `discard` parsing rule.
+To prevent the buffer from overflowing, the `discard()` member function of class `tao::pegtl::buffer_input` must be called.
 It discards all data in the buffer that precedes the current `begin()`-point, and any remaining data is moved to the beginning of the buffer.
+
+Calling `discard()` can be done manually from within a suitable `match()` function or one of the control hooks, or by using the `discard` parsing rule in appropriate places in the grammar.
+A less intrusive way is using the included `discard_input`, `discard_input_on_success` and `discard_input_on_failure` actions.
+In order to call `discard()` after (an attempt to) match a rule `R`, simply let the specialisation of your action class template derive from the appropriate action class.
+
+```c++
+template<>
+struct my_action< R >
+   : public tao::pegtl::discard_input
+{
+   // Safe to implement apply() here, it will be called before the discard().
+};
+```
 
 **A `discard` invalidates all pointers to the input's data and MUST NOT be used where backtracking to before the `discard` might occur AND/OR nested within a rule for which an action with input can be called.**
 
