@@ -18,13 +18,13 @@
 * Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
 * Improved the [Parse Tree / AST interface](Parse-Tree.md) to mostly hide its internal state.
 * Added new action-based helpers `change_*.hpp`.
-  * The old control-based helpers in `changes.hpp` are still included.
+  * The control-based helpers in `contrib/changes.hpp` are still included.
     * Will be removed in version 3.0.0.
 * Added new action-based helpers `disable_action.hpp` and `enable_action.hpp`.
 * Added new action-based helpers `discard_input.hpp`, `discard_input_on_success.hpp`, and `discard_input_on_failure.hpp`.
-* Added Clang Static Analyzer to the CI build.
+* Added [Clang Static Analyzer](https://clang-analyzer.llvm.org/) to the CI build.
 * Added new Makefile target `amalgamate` to generate a single-header version of the PEGTL.
-* Added support for Universal Windows Platform (UWP).
+* Added support for [Universal Windows Platform (UWP)](https://en.wikipedia.org/wiki/Universal_Windows_Platform).
 
 ## 2.7.1
 
