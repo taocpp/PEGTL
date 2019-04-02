@@ -18,11 +18,11 @@ namespace TAO_PEGTL_NAMESPACE::analysis
       template< typename Name >
       static std::string insert( grammar_info& g )
       {
-         const auto r = g.insert< Name >( Type );
-         if( r.second ) {
-            insert_rules< Rules... >::insert( g, r.first->second );
+         const auto [ it, success ] = g.insert< Name >( Type );
+         if( success ) {
+            insert_rules< Rules... >::insert( g, it->second );
          }
-         return r.first->first;
+         return it->first;
       }
    };
 
