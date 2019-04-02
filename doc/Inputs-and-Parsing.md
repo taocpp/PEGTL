@@ -374,16 +374,15 @@ The number of actually consumed bytes can again be `0`, `1` or `2`, depending on
 To prevent the buffer from overflowing, the `discard()` member function of class `tao::pegtl::buffer_input` must be called.
 It discards all data in the buffer that precedes the current `begin()`-point, and any remaining data is moved to the beginning of the buffer.
 
-Calling `discard()` can be done manually from within a suitable `match()` function or one of the control hooks, or by using the `discard` parsing rule in appropriate places in the grammar.
-A less intrusive way is using the included `discard_input`, `discard_input_on_success` and `discard_input_on_failure` actions.
-In order to call `discard()` after (an attempt to) match a rule `R`, simply let the specialisation of your action class template derive from the appropriate action class.
+Calling `discard()` can be done manually from within a suitable `match()` function or one of the control hooks, by using the `discard` parsing rule in appropriate places in the grammar, or, a less intrusive way, by using the included `discard_input`, `discard_input_on_success` and `discard_input_on_failure` actions as base class for a custom action specialisation.
 
 ```c++
 template<>
 struct my_action< R >
    : public tao::pegtl::discard_input
 {
-   // Safe to implement apply() here, it will be called before the discard().
+   // Safe to implement apply() here as discard() will be called
+   // by discard_input's match() only after calling apply().
 };
 ```
 
