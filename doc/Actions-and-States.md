@@ -163,7 +163,7 @@ They can also have weird effects on the semantics of a parsing run, for example 
 
 ### Signature Mismatch
 
-The presence of a *suitable* `apply()` or `apply0()` is auto-detected, however the code will compile without a call to `apply()` or `apply0()` when the signature of the implemented function is not correct (when not using `tao::pegtl::nothing` as explained above) or produce a frequently hard to decipher compiler error (when using `tao::pegtl::nothing)!
+The presence of a *suitable* `apply()` or `apply0()` is auto-detected, however the code will compile without a call to `apply()` or `apply0()` when the signature of the implemented function is not correct (when not using `tao::pegtl::nothing` as explained above) or produce a frequently hard to decipher compiler error (when using `tao::pegtl::nothing`)!
 In these cases a better error message can be provoked by deriving the action specialisation from either `require_apply` or `require_apply0`, respectively.
 
 ```c++
@@ -345,9 +345,9 @@ Then, whenever the parsing run attempts to match `my_rule`, a new instance of `m
 This new instance will be used as the sole state while continuing the parsing run with an attempt to match `my_rule`.
 
 When `my_rule` is matched successfully *and* actions are enabled, then `my_actions< my_rule >::success()` is called with the current input, the new instance of `my_state` and all of the previous state objects as arguments.
-By default, `change_state` implements `success()` in a way that is backwards-compatible with the `change_state<>` control class, it calls a `success()` member function on the new instance of `my_state` with the current input and all of the previous state objects as arguments.
+By default, `change_state` implements `success()` in a way that is compatible with the `state<>` combinator, it calls a `success()` member function on the new instance of `my_state` with the current input and all of the previous state objects as arguments.
 
-Of course an action deriving from `change_state<>` can override this default implementation of `success()`.
+Of course an action deriving from `change_state<>` can override this inherited default implementation of `success()`.
 
 The similarly named `change_states<>` behaves slightly differently, it also switches out the previous states, however it accepts multiple template parameters and replaces all of the previous states with all of the newly instatiated ones, one for each template parameter.
 Further the new instances are default-constructed, and there is no default implementation of `success()`.
