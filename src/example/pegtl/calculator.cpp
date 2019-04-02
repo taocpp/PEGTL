@@ -168,7 +168,7 @@ namespace calculator
       void insert( const std::string& name, const order p, const std::function< long( long, long ) >& f )
       {
          assert( !name.empty() );
-         m_ops.insert( { name, { p, f } } );
+         m_ops.emplace( name, op{ p, f } );
       }
 
       [[nodiscard]] const std::map< std::string, op >& ops() const noexcept
