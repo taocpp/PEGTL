@@ -5,8 +5,6 @@
 
 #include <string>
 
-#include <tao/pegtl/contrib/change_states.hpp>
-
 namespace TAO_PEGTL_NAMESPACE
 {
    // clang-format off

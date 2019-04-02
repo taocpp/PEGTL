@@ -23,27 +23,25 @@
 
 * Use the [**migration guide**](Migration-Guide.md#version-280) when updating.
 * Changed enumerators to lowercase.
-  * Compatibility enumerators with the old names are provided.
-  * They will be removed in version 3.0.0.
-* Renamed `tracking_mode::IMMEDIATE` to `tracking_mode::eager`.
+  * Renamed `tracking_mode::IMMEDIATE` to `tracking_mode::eager`.
+  * Compatibility enumerators with uppercase names are still included.
+    * Will be removed in version 3.0.0.
 * Renamed `peek_byte()` to `peek_uint8()`.
-  * Compatibility member functions with the old names are provided.
-  * They will be removed in version 3.0.0.
-* Allowed the action class template to overwrite `match`.
-* Removed the need to derive action class templates from `nothing`.
-* Added `require_apply` and `require_apply0` to improve compiler error messages.
+  * Compatibility member functions with previous names are still included.
+    * Will be removed in version 3.0.0.
+* Allowed actions to implement `match`.
+* Made deriving action class templates from `nothing` optional.
+* Added debug tools `require_apply` and `require_apply0`.
 * Added combinator class [`rematch`](Rule-Reference.md#rematch-r-s-).
-* Improved contrib section.
-  * Improved the [Parse Tree / AST interface](Parse-Tree.md) to hide its internal state except for `match()`.
-  * Added new action-based helpers `change_*.hpp`.
-    * The old control-based helpers `changes.hpp` are still available.
-    * They will be removed in version 3.0.0.
-    * You can only include either the old or the new headers, not both.
-  * Added new action-based helpers `disable_action.hpp` and `enable_action.hpp`.
-  * Added new action-based helpers `discard_input.hpp`, `discard_input_on_success.hpp`, and `discard_input_on_failure.hpp`.
-* Added the Clang Static Analyzer to the CI build.
+* Improved the [Parse Tree / AST interface](Parse-Tree.md) to mostly hide its internal state.
+* Added new action-based helpers `change_*.hpp`.
+  * The control-based helpers in `contrib/changes.hpp` are still included.
+    * Will be removed in version 3.0.0.
+* Added new action-based helpers `disable_action.hpp` and `enable_action.hpp`.
+* Added new action-based helpers `discard_input.hpp`, `discard_input_on_success.hpp`, and `discard_input_on_failure.hpp`.
+* Added [Clang Static Analyzer](https://clang-analyzer.llvm.org/) to the CI build.
 * Added new Makefile target `amalgamate` to generate a single-header version of the PEGTL.
-* Added support for Universal Windows Platform (UWP).
+* Added support for [Universal Windows Platform (UWP)](https://en.wikipedia.org/wiki/Universal_Windows_Platform).
 
 ## 2.7.1
 

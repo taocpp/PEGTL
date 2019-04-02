@@ -1,17 +1,17 @@
 // Copyright (c) 2019 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_CONTRIB_CHANGE_ACTION_AND_STATES_HPP
-#define TAO_PEGTL_CONTRIB_CHANGE_ACTION_AND_STATES_HPP
+#ifndef TAO_PEGTL_CHANGE_ACTION_AND_STATES_HPP
+#define TAO_PEGTL_CHANGE_ACTION_AND_STATES_HPP
 
 #include <tuple>
 #include <utility>
 
-#include "../apply_mode.hpp"
-#include "../config.hpp"
-#include "../match.hpp"
-#include "../nothing.hpp"
-#include "../rewind_mode.hpp"
+#include "apply_mode.hpp"
+#include "config.hpp"
+#include "match.hpp"
+#include "nothing.hpp"
+#include "rewind_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
