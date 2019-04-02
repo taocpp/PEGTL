@@ -6,16 +6,12 @@
 
 #include <cstddef>
 #include <iostream>
-#include <string>
-#include <utility>
-#include <vector>
 
 #include <tao/pegtl.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   std::size_t failed = 0;                                        // NOLINT
-   std::vector< std::pair< std::string, std::string > > applied;  // NOLINT
+   std::size_t failed = 0;  // NOLINT
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
@@ -89,16 +85,6 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.size() == Size );
 
          return seq< Rules... >::template match< A, M, Action, Control >( in, st... );
-      }
-   };
-
-   template< typename Rule >
-   struct test_action
-   {
-      template< typename Input >
-      static void apply( const Input& in )
-      {
-         applied.push_back( std::make_pair( internal::demangle< Rule >(), in.string() ) );
       }
    };
 

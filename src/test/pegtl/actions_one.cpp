@@ -3,8 +3,14 @@
 
 #include "test.hpp"
 
+#include <string>
+#include <utility>
+#include <vector>
+
 namespace TAO_PEGTL_NAMESPACE
 {
+   std::vector< std::pair< std::string, std::string > > applied;  // NOLINT
+
    namespace test1
    {
       struct fiz : if_must< at< one< 'a' > >, two< 'a' > >
@@ -47,6 +53,16 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
    }  // namespace test1
+
+   template< typename Rule >
+   struct test_action
+   {
+      template< typename Input >
+      static void apply( const Input& in )
+      {
+         applied.emplace_back( internal::demangle< Rule >(), in.string() );
+      }
+   };
 
    void unit_test()
    {
