@@ -36,15 +36,15 @@ namespace tao
       bool match( Input& in, States&&... st )
       {
          constexpr bool enable_control = !internal::skip_control< Rule >::value;
-         constexpr bool enable_apply = enable_control && ( A == apply_mode::action );
+         constexpr bool enable_action = enable_control && ( A == apply_mode::action );
 
          using iterator_t = typename Input::iterator_t;
-         constexpr bool has_apply_void = enable_apply && internal::has_apply< Control< Rule >, void, Action, const iterator_t&, const Input&, States... >::value;
-         constexpr bool has_apply_bool = enable_apply && internal::has_apply< Control< Rule >, bool, Action, const iterator_t&, const Input&, States... >::value;
+         constexpr bool has_apply_void = enable_action && internal::has_apply< Control< Rule >, void, Action, const iterator_t&, const Input&, States... >::value;
+         constexpr bool has_apply_bool = enable_action && internal::has_apply< Control< Rule >, bool, Action, const iterator_t&, const Input&, States... >::value;
          constexpr bool has_apply = has_apply_void || has_apply_bool;
 
-         constexpr bool has_apply0_void = enable_apply && internal::has_apply0< Control< Rule >, void, Action, const Input&, States... >::value;
-         constexpr bool has_apply0_bool = enable_apply && internal::has_apply0< Control< Rule >, bool, Action, const Input&, States... >::value;
+         constexpr bool has_apply0_void = enable_action && internal::has_apply0< Control< Rule >, void, Action, const Input&, States... >::value;
+         constexpr bool has_apply0_bool = enable_action && internal::has_apply0< Control< Rule >, bool, Action, const Input&, States... >::value;
          constexpr bool has_apply0 = has_apply0_void || has_apply0_bool;
 
          static_assert( !( has_apply && has_apply0 ), "both apply() and apply0() defined" );
@@ -58,7 +58,7 @@ namespace tao
 
          constexpr bool validate_nothing = std::is_base_of< maybe_nothing, Action< void > >::value;
          constexpr bool is_maybe_nothing = std::is_base_of< maybe_nothing, Action< Rule > >::value;
-         static_assert( !validate_nothing || is_nothing || is_maybe_nothing || has_apply || has_apply0, "either apply() or apply0() must be defined" );
+         static_assert( !enable_action || !validate_nothing || is_nothing || is_maybe_nothing || has_apply || has_apply0, "either apply() or apply0() must be defined" );
 
          constexpr auto mode = static_cast< internal::dusel_mode >( enable_control + has_apply_void + 2 * has_apply_bool + 3 * has_apply0_void + 4 * has_apply0_bool );
          return internal::duseltronik< Rule, A, M, Action, Control, mode >::match( in, st... );
