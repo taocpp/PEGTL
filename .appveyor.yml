@@ -7,6 +7,10 @@ configuration:
 - Release
 - Debug
 
+skip_commits:
+  files:
+    - doc/**/*
+
 environment:
   matrix:
     - GENERATOR: Visual Studio 14 2015
