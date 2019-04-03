@@ -4,6 +4,8 @@
 #ifndef TAO_PEGTL_CHANGE_ACTION_AND_STATE_HPP
 #define TAO_PEGTL_CHANGE_ACTION_AND_STATE_HPP
 
+#include <type_traits>
+
 #include "apply_mode.hpp"
 #include "config.hpp"
 #include "match.hpp"
