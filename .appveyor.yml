@@ -17,6 +17,12 @@ environment:
 
     - GENERATOR: Visual Studio 15 2017 Win64
 
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019 Preview
+      GENERATOR: Visual Studio 16 2019
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019 Preview
+      GENERATOR: Visual Studio 16 2019 Win64
+
     - GENERATOR: Visual Studio 15 2017
       CONAN_VISUAL_VERSIONS: 15
       PYTHON: "C:\\Python27"
