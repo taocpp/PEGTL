@@ -4,8 +4,6 @@
 #ifndef TAO_PEGTL_CHANGE_STATES_HPP
 #define TAO_PEGTL_CHANGE_STATES_HPP
 
-#include "change_action_and_states.hpp"
-
 #include "apply_mode.hpp"
 #include "config.hpp"
 #include "nothing.hpp"
@@ -24,11 +22,33 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
+                std::size_t... Ns,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( std::index_sequence< Ns... >, Input& in, States&&... st )
+      {
+         auto t = std::tie( st... );
+         if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, std::get< Ns >( t )... ) ) {
+            if constexpr( A == apply_mode::action ) {
+               Action< Rule >::success( static_cast< const Input& >( in ), st... );
+            }
+            return true;
+         }
+         return false;
+      }
+
+      template< typename Rule,
+                apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
                 typename Input,
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         return change_action_and_states< Action, NewStates... >::template match< Rule, A, M, Action, Control >( in, st... );
+         return match< Rule, A, M, Action, Control >( std::index_sequence_for< NewStates... >(), in, NewStates()..., st... );
       }
    };
 

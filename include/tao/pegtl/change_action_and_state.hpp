@@ -27,8 +27,9 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
+         static_assert( !std::is_same_v< Action< void >, NewAction< void > >, "old and new action class templates are identical" );
          NewState s( static_cast< const Input& >( in ), st... );
-         if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, NewAction, Control >( in, s ) ) {
+         if( Control< Rule >::template match< A, M, NewAction, Control >( in, s ) ) {
             if constexpr( A == apply_mode::action ) {
                Action< Rule >::success( static_cast< const Input& >( in ), s, st... );
             }

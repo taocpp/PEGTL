@@ -4,8 +4,6 @@
 #ifndef TAO_PEGTL_CHANGE_STATE_HPP
 #define TAO_PEGTL_CHANGE_STATE_HPP
 
-#include "change_action_and_state.hpp"
-
 #include "apply_mode.hpp"
 #include "config.hpp"
 #include "nothing.hpp"
@@ -28,7 +26,21 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         return change_action_and_state< Action, NewState >::template match< Rule, A, M, Action, Control >( in, st... );
+         NewState s( static_cast< const Input& >( in ), st... );
+         if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, s ) ) {
+            if constexpr( A == apply_mode::action ) {
+               Action< Rule >::success( static_cast< const Input& >( in ), s, st... );
+            }
+            return true;
+         }
+         return false;
+      }
+
+      template< typename Input,
+                typename... States >
+      static void success( const Input& in, NewState& s, States&&... st ) noexcept( noexcept( s.success( in, st... ) ) )
+      {
+         s.success( in, st... );
       }
    };
 
