@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return Rule::template match< A, M, Action, Control >( in, st... );
       }
 
-      template< typename Input, typename... States >
+      template< typename Input, typename... States, int = 1 >
       [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ )
          -> decltype( Rule::match( in ) )
       {
