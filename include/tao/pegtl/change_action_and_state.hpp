@@ -8,7 +8,6 @@
 
 #include "apply_mode.hpp"
 #include "config.hpp"
-#include "match.hpp"
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
 
@@ -32,8 +31,9 @@ namespace tao
          static auto match( Input& in, States&&... st )
             -> typename std::enable_if< ( A == apply_mode::action ), bool >::type
          {
+            static_assert( !std::is_same< Action< void >, NewAction< void > >::value, "old and new action class templates are identical" );
             NewState s( static_cast< const Input& >( in ), st... );
-            if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, NewAction, Control >( in, s ) ) {
+            if( Control< Rule >::template match< A, M, NewAction, Control >( in, s ) ) {
                Action< Rule >::success( static_cast< const Input& >( in ), s, st... );
                return true;
             }
@@ -53,8 +53,9 @@ namespace tao
          static auto match( Input& in, States&&... st )
             -> typename std::enable_if< ( A == apply_mode::nothing ), bool >::type
          {
+            static_assert( !std::is_same< Action< void >, NewAction< void > >::value, "old and new action class templates are identical" );
             NewState s( static_cast< const Input& >( in ), st... );
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, NewAction, Control >( in, s );
+            return Control< Rule >::template match< A, M, NewAction, Control >( in, s );
          }
 
          template< typename Input,

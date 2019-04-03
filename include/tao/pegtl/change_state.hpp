@@ -4,9 +4,11 @@
 #ifndef TAO_PEGTL_CHANGE_STATE_HPP
 #define TAO_PEGTL_CHANGE_STATE_HPP
 
+#include <type_traits>
+
 #include "apply_mode.hpp"
-#include "change_action_and_state.hpp"
 #include "config.hpp"
+#include "match.hpp"
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
 
@@ -27,9 +29,39 @@ namespace tao
                    class Control,
                    typename Input,
                    typename... States >
-         static bool match( Input& in, States&&... st )
+         static auto match( Input& in, States&&... st )
+            -> typename std::enable_if< ( A == apply_mode::action ), bool >::type
          {
-            return change_action_and_state< Action, NewState >::template match< Rule, A, M, Action, Control >( in, st... );
+            NewState s( static_cast< const Input& >( in ), st... );
+            if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, s ) ) {
+               Action< Rule >::success( static_cast< const Input& >( in ), s, st... );
+               return true;
+            }
+            return false;
+         }
+
+         template< typename Rule,
+                   apply_mode A,
+                   rewind_mode M,
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control,
+                   typename Input,
+                   typename... States,
+                   int = 1 >
+         static auto match( Input& in, States&&... st )
+            -> typename std::enable_if< ( A == apply_mode::nothing ), bool >::type
+         {
+            NewState s( static_cast< const Input& >( in ), st... );
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, s );
+         }
+
+         template< typename Input,
+                   typename... States >
+         static void success( const Input& in, NewState& s, States&&... st ) noexcept( noexcept( s.success( in, st... ) ) )
+         {
+            s.success( in, st... );
          }
       };
 

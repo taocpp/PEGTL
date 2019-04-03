@@ -4,11 +4,15 @@
 #ifndef TAO_PEGTL_CHANGE_STATES_HPP
 #define TAO_PEGTL_CHANGE_STATES_HPP
 
+#include <tuple>
+
 #include "apply_mode.hpp"
-#include "change_action_and_states.hpp"
 #include "config.hpp"
+#include "match.hpp"
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
+
+#include "internal/integer_sequence.hpp"
 
 namespace tao
 {
@@ -25,11 +29,48 @@ namespace tao
                    class Action,
                    template< typename... >
                    class Control,
+                   std::size_t... Ns,
                    typename Input,
                    typename... States >
-         static bool match( Input& in, States&&... st )
+         static bool match( TAO_PEGTL_NAMESPACE::internal::index_sequence< Ns... >, Input& in, States&&... st )
          {
-            return change_action_and_states< Action, NewStates... >::template match< Rule, A, M, Action, Control >( in, st... );
+            auto t = std::tie( st... );
+            if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, std::get< Ns >( t )... ) ) {
+               Action< Rule >::success( static_cast< const Input& >( in ), st... );
+               return true;
+            }
+            return false;
+         }
+
+         template< typename Rule,
+                   apply_mode A,
+                   rewind_mode M,
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control,
+                   typename Input,
+                   typename... States >
+         static auto match( Input& in, States&&... st )
+            -> typename std::enable_if< ( A == apply_mode::action ), bool >::type
+         {
+            return match< Rule, A, M, Action, Control >( TAO_PEGTL_NAMESPACE::internal::index_sequence_for< NewStates... >(), in, NewStates()..., st... );
+         }
+
+         template< typename Rule,
+                   apply_mode A,
+                   rewind_mode M,
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control,
+                   typename Input,
+                   typename... States,
+                   int = 1 >
+         static auto match( Input& in, States&&... /*unused*/ )
+            -> typename std::enable_if< ( A == apply_mode::nothing ), bool >::type
+         {
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, NewStates()... );
          }
       };
 
