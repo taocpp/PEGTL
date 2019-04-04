@@ -34,17 +34,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          State s( static_cast< const Input& >( in ), st... );
          if( duseltronik< seq< Rules... >, A, M, Action, Control >::match( in, s ) ) {
-            success( s, in, st... );
+            s.success( static_cast< const Input& >( in ), st... );
             return true;
          }
          return false;
-      }
-
-      template< typename Input,
-                typename... States >
-      static void success( State& s, const Input& in, States&&... st ) noexcept( noexcept( s.success( in, st... ) ) )
-      {
-         s.success( in, st... );
       }
    };
 
