@@ -29,39 +29,28 @@ namespace tao
          }
       };
 
-      struct S
+      template<>
+      struct my_action< B >
+         : change_states< int >
       {
-         int v = 0;
-
-         template< typename Input >
-         explicit S( const Input& /*unused*/, int& c )
+         static void apply0( int& v )
          {
-            if( c != 1 ) {
-               throw std::runtime_error( "fail2" );
+            if( v != 0 ) {
+               throw std::runtime_error( "fail6" );
             }
             v = 2;
          }
 
          template< typename Input >
-         void success( const Input& /*unused*/, int& c )
+         static void success( const Input& /*unused*/, int& v, int& c )
          {
-            if( v != 3 ) {
+            if( v != 2 ) {
                throw std::runtime_error( "fail3" );
             }
-            c = 4;
-         }
-      };
-
-      template<>
-      struct my_action< B >
-         : change_state< S >
-      {
-         static void apply0( S& s )
-         {
-            if( s.v != 2 ) {
-               throw std::runtime_error( "fail5" );
+            if( c != 1 ) {
+               throw std::runtime_error( "fail4" );
             }
-            s.v = 3;
+            c = 3;
          }
       };
 
@@ -72,7 +61,7 @@ namespace tao
             int c = 0;
             const auto result = parse< AB, my_action >( in, c );
             TAO_PEGTL_TEST_ASSERT( result );
-            TAO_PEGTL_TEST_ASSERT( c == 4 );
+            TAO_PEGTL_TEST_ASSERT( c == 3 );
          }
          {
             memory_input<> in( "a", "" );

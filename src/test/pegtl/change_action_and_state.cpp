@@ -14,11 +14,15 @@ namespace tao
       // clang-format on
 
       template< typename >
-      struct my_action
+      struct my_action_1
+      {};
+
+      template< typename >
+      struct my_action_2
       {};
 
       template<>
-      struct my_action< A >
+      struct my_action_1< A >
       {
          static void apply0( int& c )
          {
@@ -53,8 +57,21 @@ namespace tao
       };
 
       template<>
-      struct my_action< B >
-         : change_state< S >
+      struct my_action_1< B >
+         : change_action_and_state< my_action_2, S >
+      {};
+
+      template<>
+      struct my_action_2< A >
+      {
+         static void apply0( S& /*s*/ )
+         {
+            throw std::runtime_error( "fail4" );
+         }
+      };
+
+      template<>
+      struct my_action_2< B >
       {
          static void apply0( S& s )
          {
@@ -70,21 +87,21 @@ namespace tao
          {
             memory_input<> in( "ab", "" );
             int c = 0;
-            const auto result = parse< AB, my_action >( in, c );
+            const auto result = parse< AB, my_action_1 >( in, c );
             TAO_PEGTL_TEST_ASSERT( result );
             TAO_PEGTL_TEST_ASSERT( c == 4 );
          }
          {
             memory_input<> in( "a", "" );
             int c = 0;
-            const auto result = parse< AB, my_action >( in, c );
+            const auto result = parse< AB, my_action_1 >( in, c );
             TAO_PEGTL_TEST_ASSERT( !result );
             TAO_PEGTL_TEST_ASSERT( c == 1 );
          }
          {
             memory_input<> in( "b", "" );
             int c = 0;
-            const auto result = parse< AB, my_action >( in, c );
+            const auto result = parse< AB, my_action_1 >( in, c );
             TAO_PEGTL_TEST_ASSERT( !result );
             TAO_PEGTL_TEST_ASSERT( c == 0 );
          }
