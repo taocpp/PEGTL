@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.8.0 FATAL_ERROR)
 
 set(test_sources
+  action_enable.cpp
   action_match.cpp
   actions_one.cpp
   actions_three.cpp
@@ -18,7 +19,10 @@ set(test_sources
   ascii_string.cpp
   ascii_three.cpp
   ascii_two.cpp
+  change_action_and_state.cpp
+  change_action_and_states.cpp
   change_state.cpp
+  change_states.cpp
   contrib_alphabet.cpp
   contrib_integer.cpp
   contrib_if_then.cpp
