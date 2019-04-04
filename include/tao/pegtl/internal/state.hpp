@@ -29,29 +29,22 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 template< typename... >
                 class Control,
                 typename Input,
-                typename... States,
-                int = 0 >
-      static void success( State& s, const Input& in, States&&... st )
-      {
-         s.success( in, st... );
-      }
-
-      template< apply_mode A,
-                rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename Input,
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
          State s( static_cast< const Input& >( in ), st... );
          if( duseltronik< seq< Rules... >, A, M, Action, Control >::match( in, s ) ) {
-            success< A, M, Action, Control >( s, in, st... );
+            success( s, in, st... );
             return true;
          }
          return false;
+      }
+
+      template< typename Input,
+                typename... States >
+      static void success( State& s, const Input& in, States&&... st ) noexcept( noexcept( s.success( in, st... ) ) )
+      {
+         s.success( in, st... );
       }
    };
 
