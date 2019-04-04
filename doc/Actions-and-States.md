@@ -1,88 +1,151 @@
 # Actions and States
 
-Parsing, i.e. matching an input with a grammar rule, by itself only indicates whether (a portion of) the input is valid according to the grammar.
-In order to do something useful with the input, it is usually necessary to attach user-defined *actions* to one or more rules.
-An action is *applied* whenever the rule to which it is attached succeeds.
-Applying an action means that an `apply()` or `apply0()` static member function is called.
-The first argument to `apply()` is always an object that represents the portion of the input consumed by the successful match of the rule.
-An action's `apply()` or `apply0()` can both return either `void` or `bool`.
+In its most simple form, a parsing run only returns whether (a portion of) the input matches the grammar.
+To actually do something useful during a parsing run it is necessary to to attach (user-defined) *actions* to one or more grammar rules.
+
+Actions are essentially functions that are called during the parsing run whenever the rule they are attached to successfully matched.
+When an action is *applied*, the corresponding function receives the *states*, an arbitrary list of (user-defined) objects, as arguments.
 
 ## Contents
 
-* [Actions](#actions)
-  * [Apply](#apply)
-  * [Apply0](#apply0)
+* [Overview](#overview)
+* [Example](#example)
+* [States](#states)
+* [Apply](#apply)
+* [Apply0](#apply0)
+* [Inheriting](#inheriting)
+* [Specialising](#specialising)
+* [Changing Actions](#changing-actions)
+  * [Via Rules](#via-rules)
+  * [Via Actions](#via-actions)
+* [Changing States](#changing-states)
+  * [Via Rules](#via-rules-1)
+  * [Via Actions](#via-actions-1)
+* [Changing Actions and States](#changing-actions-and-states)
+* [Match](#match)
+* [Nothing](#nothing)
 * [Troubleshooting](#troubleshooting)
   * [Boolean Return](#boolean-return)
-  * [Signature Mismatch](#signature-mismatch)
-* [States](#states)
-* [Action Specialisation](#action-specialisation)
-* [Changing Actions](#changing-actions)
-* [Changing States](#changing-states)
-  * [No Switching](#no-switching)
-  * [Intrusive Switching](#intrusive-switching)
-  * [External Switching](#external-switching)
-* [Match](#match)
+  * [State Mismatch](#state-mismatch)
 * [Legacy Actions](#legacy-actions)
 
-## Actions
+## Overview
 
 Actions are implemented as static member functions called `apply()` or `apply0()` of specialisations of custom class templates (which is not quite as difficult as it sounds).
-First an action class template has to be defined.
+
+States are additional function arguments to `tao::pegtl::parse()` that are forwarded to all actions, i.e. the `apply()` and `apply0()` static member functions from above.
+
+To use actions during a parsing run they first need to be implemented.
+
+* Define a custom action class template.
+* Specialise the action class template for every rule for which a function is to be called and
+  * either implement an `apply()` or `apply0()` static member function,
+  * or derive from a class that implements the desired function.
+
+Then the parsing run needs to be set up with the actions and any required states.
+
+* Either pass the action class template as second template parameter to `tao::pegtl::parse()`,
+* and/or (advanced) introduce the actions to a parsing run with one of the "[changing](#changing-actions)" techniques.
+* Either pass the required state arguments as additional arguments to `tao::pegtl::parse()`,
+* and/or (advanced) introduce the states to a parsing run with one of the "[changin](#changing-states)" techniques.
+
+The very first step, defining a custom action class template, usually looks like this.
 
 ```c++
 template< typename Rule >
-struct my_actions
+struct actions
    : public tao::pegtl::nothing< Rule > {};
 ```
 
-This is the default action which has neither `apply()` nor `apply0()`, and in addition inherits `pegtl::nothing< Rule >`.
-This inheritance is now optional, but still recommended, as it more clearly informs the library that the specialisations obtained from the template do nothing and are indeed empty actions.
+Instantiations of the primary template for `actions< Rule >` inherit from `tao::pegtl::nothing< Rule >` to indicate that neither `actions< Rule >::apply()` nor `actions< Rule >::apply0()` are to be called when `Rule` is successfully matched during a parsing run, or, in short, that no action is to be applied to `Rule`.
 
-More precisely, when the library detects that `action< void >` publicly inherits `pegtl::nothing< void >`, then a compile-time error will be generated for all instantiations of the action class template for `Rule` that do not inherit `pegtl::nothing< Rule >` *and* do not implement exactly one suitable `apply()` or `apply0()`.
+In order to manage the complexity in larger parsers and/or compose multiple grammars that each bring their own actions which in turn expect certain states, it can be useful to [change the actions](#changing-actions) [and/or the states](#changing-states) within a parsing run.
 
-To attach an action to `Rule`, this class template has to be specialised for `Rule` (without the specialisation inheriting `pegtl::nothing< Rule >`) and an *appropriate* static member function, either called `apply()` or `apply0()`, has to be implemented.
+## Example
 
-The PEGTL will auto-detect whether an action, i.e. a specialisation of an action class template, contains an appropriate `apply()` or `apply0()`, and whether it returns `void` or `bool`.
-It will fail to compile when both `apply()` and `apply0()` are found.
+Here is a very short example that shows the basic way to put together a parsing run with actions.
 
-### Apply
+```c++
+// Define a simple grammar consisting of a single rule.
+struct grammar
+   : tao::pegtl::star< tao::pegtl::any > {};
 
-When an action's static member function is called `apply()`, it receives a const-reference to an instance of an input class as first argument.
+// Specialise the action class template from earlier.
+template<>
+struct actions< tao::pegtl::any >
+{
+   // Implement an apply() function that will be called by
+   // the PEGTL every time tao::pegtl::any matches during
+   // the parsing run.
+   template< typename Input >
+   static void apply( const Input& in, std::string& out )
+   {
+      // Get the portion of the original input that the
+      // rule matched this time as string and append it
+      // to the result string.
+      out += in.string();
+   }
+};
+
+template< typename Input >
+std::string as_string( Input& in )
+{
+   // Set up the states, here a single std::string as that is
+   // what our action requires as additional function argument.
+   std::string out;
+   // Start the parsing run with our grammar, actions and state.
+   tao::pegtl::parse< grammar, actions >( in, out );
+   // Do something with the result.
+   return out;
+}
+```
+
+All together the `as_string()` function is a convoluted way of turning an [input](Inputs-and-Parsing.md) into a `std::string` byte-by-byte.
+
+In the following we will take a more in-depth look at states and `apply()` and `apply0()` before diving into more advanced subjects.
+
+## States
+
+There is not much more to say about the states other than what has already been mentioned, namely that they are a list (colloquial list, not `std::list`) of objects that are
+
+* passed by the user as additional arguments to [`tao::pegtl::parse()`](Inputs-and-Parsing.md#parse-function), and then
+
+* passed by the PEGTL as additional arguments to all actions' `apply()` or `apply0()` static member functions.
+
+The additional arguments to `apply()` and `apply0()` can be chosen freely, however all actions must accept the same list of states since they are all called with the same arguments by default.
+
+States are not forwarded with "perfect forwarding" since r-value references don't make much sense when they will be used as action arguments many times.
+The `parse()` function still uses universal references to bind to the state arguments in order to allow temporary objects.
+
+## Apply
+
+As seen above, the actual functions that are called when an action is applied are static member functions of the specialisations of the action class template nameed `apply()`.
 
 ```c++
 template<>
-struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
+struct actions< my_rule >
 {
    template< typename Input >
    static void apply( const Input& in, /* all the states */ )
    {
-      // Called whenever a call to tao::pegtl::plus< tao::pegtl::digit >
-      // in the grammar succeeds. The argument named 'in' represents the
-      // matched part of the input.
-   }
-
-   // OR ALTERNATIVELY
-
-   template< typename Input >
-   static bool apply( const Input& in, /* all the states */ )
-   {
-      // Called whenever a call to tao::pegtl::plus< tao::pegtl::digit >
-      // in the grammar succeeds. The argument named 'in' represents the
-      // matched part of the input.
-      return // see description for apply0() above
+      // Called whenever matching my_rule during a parsing run
+      // succeeds (and actions are not disabled). The argument
+      // named 'in' represents the matched part of the input.
+      // Can also return bool instead of void.
    }
 }
 ```
 
-The exact type of the input class passed to `apply()` is not specified.
-It is currently best practice to "template over" the type of the input as shown above.
+The first argument is not the input used in the parsing run, but rather a separate object of distinct type that represents the portion of the input that the rule to which the action is attached just matched. The remaining arguments to `apply()` are the current state arguments.
 
-Actions can then assume that the input provides (at least) the following members.
-The `Input` template parameter is set to the class of the input used at the point in the parsing run where the action is applied.
+The exact type of the input class passed to `apply()` is not specified.
+It is best practice to "template over" the type of the input as shown above.
+
+Actions can then assume that the input provides (at least) the following interface.
+The `Input` template parameter is set to the class of the input used as input in the parsing run at the point where the action is applied.
 
 For illustrative purposes, we will assume that the input passed to `apply()` is of type `action_input`.
-Any resemblance to real classes is not a coincidence.
+Any resemblance to real classes is not a coincidence, see `include/tao/pegtl/internal/action_input.hpp`.
 
 ```c++
 template< typename Input >
@@ -92,187 +155,179 @@ public:
    using input_t = Input;
    using iterator_t = typename Input::iterator_t;
 
-   bool empty() const noexcept;
-   std::size_t size() const noexcept;
+   [[nodiscard]] bool empty() const noexcept;
+   [[nodiscard]] std::size_t size() const noexcept;
 
-   const char* begin() const noexcept;  // Non-owning pointer!
-   const char* end() const noexcept;  // Non-owning pointer!
+   [[nodiscard]] const char* begin() const noexcept;  // Non-owning pointer!
+   [[nodiscard]] const char* end() const noexcept;  // Non-owning pointer!
 
-   std::string string() const { return std::string( begin(), end() ); }
-   std::string_view string_view() const noexcept { return std::string_view( begin(), size() ); }
+   [[nodiscard]] std::string string() const
+   { return std::string( begin(), end() ); }
 
-   char peek_char( const std::size_t offset = 0 ) const noexcept;   // { return begin()[ offset ]; }
-   std::uint8_t peek_uint8( const std::size_t offset = 0 ) const noexcept;  // As above with cast.
+   [[nodiscard]] std::string_view string_view() const noexcept
+   { return std::string_view( begin(), size() ); }
 
-   pegtl::position position() const noexcept;  // Not efficient with lazy inputs.
+   [[nodiscard]] char peek_char( const std::size_t offset = 0 ) const noexcept;  // begin()[ offset ]
+   [[nodiscard]] std::uint8_t peek_uint8( const std::size_t offset = 0 ) const noexcept;  // similar
 
-   const Input& input() const noexcept;  // The input from the parsing run.
+   [[nodiscard]] pegtl::position position() const noexcept;  // Not efficient with lazy inputs.
 
-   const iterator_t& iterator() const noexcept;
+   [[nodiscard]] const Input& input() const noexcept;
+   [[nodiscard]] const iterator_t& iterator() const noexcept;
 };
 ```
 
-Note that the `action_input` does **not** own the data it points to, it belongs to the original input used in the parsing run. Therefore **the validity of the pointed-to data might not extend (much) beyond the call to `apply()`**!
+Note that `input()` returns the input from the parsing run which will be at the position after what has just been parsed, i.e. for an action input `ai` the assertion `ai.end() == ai.input().current()` will always hold true.
+Conversely `iterator()` returns a pointer or iterator to the beginning of the action input's data, i.e. where the successful match attempt to the rule the action called with the action input is attached to started.
+
+More importantly the `action_input` does **not** own the data it points to, it belongs to the original input used in the parsing run. Therefore **the validity of the pointed-to data might not extend (much) beyond the call to `apply()`**!
 
 When the original input has tracking mode `eager`, the `iterator_t` returned by `action_input::iterator()` will contain the `byte`, `line` and `byte_in_line` counters corresponding to the beginning of the matched input represented by the `action_input`.
 
-When the original input has tracking mode `lazy`, then `action_input::position()` is not efficient because it calculates the line number etc. by scanning the complete original input from the beginning.
+When the original input has tracking mode `lazy`, then `action_input::position()` is not efficient because it calculates the line number etc. by scanning the complete original input from the beginning
 
 Actions often need to store and/or reference portions of the input for after the parsing run, for example when an abstract syntax tree is generated.
 Some of the syntax tree nodes will contain portions of the input, for example for a variable name in a script language that needs to be stored in the syntax tree just as it occurs in the input data.
 
 The **default safe choice** is to copy the matched portions of the input data that are passed to an action by storing a deep copy of the data as `std::string`, as obtained by the input class' `string()` member function, in the data structures built while parsing.
 
-### Apply0
+When the return type of an action, i.e. its `apply()`, is `bool`, it can retro-actively let the library consider the attempt to match the rule to which the action is attached a (local) failure.
+For the overall parsing run, there is no difference between a rule returning `false` and an attached action returning `false`, however the action is only called when the rule returned `true`.
+When an action returns `false`, the library rewinds the input to where it was when the rule to which the action was attached started its successful match.
+This is unlike `match()` static member functions that have to rewind the input themselves.
 
-In cases where the matched part of the input is not required, an action can implement `apply0()`.
-This allows for some internal optimisations compared to when the action's static member function is called `apply()`.
+## Apply0
+
+In cases where the matched part of the input is not required, an action can implement a static member function called `apply0()` instead of `apply()`.
+What changes is that `apply0()` will be called without an input as first argument, i.e. only with all the states.
 
 ```c++
 template<>
-struct my_actions< tao::pegtl::plus< tao::pegtl::alpha > >
+struct actions< my_rule >
 {
    static void apply0( /* all the states */ )
    {
-      // Called whenever a call to tao::pegtl::plus< tao::pegtl::alpha >
-      // in the grammar succeeds.
-   }
-
-   // OR ALTERNATIVELY
-
-   static bool apply0( /* all the states */ )
-   {
-      // Called whenever a call to tao::pegtl::plus< tao::pegtl::alpha >
-      // in the grammar succeeds.
-      return // see below
+      // Called whenever matching my_rule during a parsing run
+      // succeeds (and actions are not disabled). Can also return
+      // bool instead of void.
    }
 }
 ```
 
-When the return type is `bool`, the action can determine whether matching the rule to which it was attached, and which already returned with success, should be retro-actively considered a (local) failure.
-For the overall parsing run, there is no difference between a rule or an attached action returning `false` (but of course the action is not called when the rule already returned `false`).
-When an action returns `false`, the PEGTL takes care of rewinding the input to where it was when the rule to which the action was attached started its (successful) match (which is unlike the rules' `match()` static member function that has to take care of rewinding themself).
+Using `apply0()` is never necessary, it is "only" an optimisation with minor benefits at compile time, and potentially more noteworthy benefits at run time.
+We recommend implementing `apply0()` over `apply()` whenever both are viable.
 
-## Troubleshooting
+Though an infrequently used feature, `apply0()` can also return `bool` instead of `void`, just like `apply()` and with the same implications.
 
-### Boolean Return
+## Inheriting
 
-Note that actions returning `bool` are an advanced use case that should be used with caution.
-They prevent some internal optimisations, in particular when used with `apply0()`.
-They can also have weird effects on the semantics of a parsing run, for example `at< rule >` can succeed for the same input for which `rule` fails when there is a `bool`-action attached to `rule` that returns `false` (remembering that actions are disabled within an `at<>` combinator).
+We will use an example to show how to use existing actions via inheritance.
+The grammar for this example consists of a couple of simple rules.
 
-### Signature Mismatch
+```c++
+struct plain
+   : tao::pegtl::utf8::range< 0x20, 0x10FFFF > {};
 
-The presence of a *suitable* `apply()` or `apply0()` is auto-detected, however the code will compile without a call to `apply()` or `apply0()` when the signature of the implemented function is not correct (when not using `tao::pegtl::nothing` as explained above) or produce a frequently hard to decipher compiler error (when using `tao::pegtl::nothing`)!
-In these cases a better error message can be provoked by deriving the action specialisation from either `require_apply` or `require_apply0`, respectively.
+struct escaped
+   : one< '\'', '"', '?', '\\', 'a', 'b', 'f', 'n', 'r', 't', 'v' > {};
+
+struct character
+   : tao::pegtl::if_must_else< one< '\\' >, escaped, plain > {};
+
+struct text
+   : tao::pegtl::must< tao::pegtl::star< character >, tao::pegtl::eof > {};
+```
+
+Our goal is for a parsing run with the `text` rule to produce a copy of the input where the backslash escape sequences are replaced by the character they represent.
+When the `plain` rule matches, the bytes of the matched UTF-8-encoded code-point can be appended to the result.
+When the `escaped` rule matches, the bytes corresponding to the character represented by the escape sequence must be appended to the result.
+This can be achieved with appropriate specialisations of `actions` using some classes from `tao/pegtl/[contrib](Contrib-and-Examples.md#contrib)/unescape.hpp`.
 
 ```c++
 template<>
-struct my_actions< my_rule >
-  : require_apply0
+struct actions< plain >
+   : tao::pegtl::append_all {};
+
+template<>
+struct actions< escaped >
+   : tao::pegtl::unescape_c< escaped_c, '\'', '"', '?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' > {};
+```
+
+For step three the [input for the parsing run](Inputs-and-Parsing.md) is set up as usual.
+In addition, the actions are passed as second template parameter, and a `std::string` as second argument to `parse()`.
+Here `unescaped` is the state that is required by the `append_all` and `unescape_c` actions; all additional arguments passed to `parse()` are forwarded to all actions.
+
+```c++
+std::string unescape( const std::string& escaped )
 {
-   static void apply0( double )
-   {
-      // ...
-   }
+   std::string unescaped;
+   tao::pegtl::string_input in( result, __FUNCTION__ );
+   tao::pegtl::parse< text, actions >( in, unescaped );
+   return unescaped;
 }
 ```
 
-The presence of one of these base classes will force a call to `apply()` or `apply0()`, respectively, and compilation will fail when such a call is not possible.
-The error message should make clear why the call was not possible, usually a type mismatch for one of the state parameters, the `double` in the example above.
+At the end of the parsing run, the complete unescaped string can be found in the aptly named variable.
 
-Note that deriving from `require_apply` or `require_apply0` is optional and usually only used for troubleshooting.
+A more complete example of how to unescape strings can be found in `src/examples/pegtl/unescape.cpp`.
 
-## States
+## Specialising
 
-In most applications, actions need some kind of data or user-defined (parser/action) *state* to operate on.
-Given that `apply()` and `apply0()` are static member functions, they are called without an instance of the class they belong to (which would usually fill this role).
-Therefore a PEGTL parsing run can be performed with arbitrary many *state* parameters that are
-
-* passed by the user as additional arguments to [`tao::pegtl::parse()`](Inputs-and-Parsing.md#parse-function) that starts a parsing run, and then
-
-* passed by the PEGTL as additional arguments to all actions' `apply()` or `apply0()` static member functions.
-
-In other words, the additional arguments to `apply()` and `apply0()` can be chosen freely, however all actions must accept the same argument list since they are all called with the same arguments by default.
-
-For example, in a practical grammar the example from above might use a second argument to store the matched sequence of digits.
-
-```c++
-template<> struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
-{
-   template< typename Input >
-   static void apply( const Input& in,
-                      std::vector< std::string >& digit_strings )
-   {
-      digit_strings.push_back( in.string() );
-   }
-}
-```
-
-Assuming that `my_grammar` contains `tao::pegtl::plus< tao::pegtl::digit >` as rule, it is possible to use
-
-```c++
-const std::string parsed_data = ...;
-std::vector< std::string > digit_strings;
-
-tao::pegtl::memory_input in( parsed_data, "data-source-name" );
-tao::pegtl::parse< my_grammar, my_actions >( in, digit_strings );
-```
-
-to collect all `digit_strings` that were detected by the grammar, i.e. the vector will contain one string for every time that the `tao::pegtl::plus< tao::pegtl::digit >` rule was matched against the input.
-
-Since the `parse()` functions are variadic function templates, an arbitrary sequence of state arguments can be used.
-
-## Action Specialisation
-
-The rule class for which the action class template is specialised *must* exactly match how the rule is defined and referenced in the grammar.
-For example given the rule
+The rule class for which an action class template is specialised *must* exactly match the definition of the rule in the grammar.
+For example consider the following rule.
 
 ```c++
 struct foo
-   : public tao::pegtl::plus< tao::pegtl::one< '*' > > {};
+   : public tao::pegtl::plus< tao::pegtl::alpha > {};
 ```
 
-an action class template can be specialised for `foo`, or for `tao::pegtl::one< '*' >`, but *not* for `tao::pegtl::plus< tao::pegtl::one< '*' > >`.
+Now an action class template can be specialised for `foo`, or for `tao::pegtl::alpha, but *not* for `tao::pegtl::plus< tao::pegtl::alpha >`.
 
-(The function is called on class `foo`, which happens to inherit `match()` from `tao::pegtl::plus< tao::pegtl::one< '*' > >`, however base classes are not taken into consideration by the C++ language when choosing a specialisation.)
+This because base classes are not taken into consideration by the C++ language when choosing a specialisation, which might be surprising when being used to pointer arguments to functions where conversions from pointer-to-derived to pointer-to-base are performed implicitly and silently.
 
-While it is possible to specialize for `tao::pegtl::one< '*' >` in the above rule, any such specialization would also match any other occurrence in the grammar. It is therefore best practice to *always* specialize for explicitly named top-level rules.
+So although the function called by the library to match `foo` is the inherited `tao::pegtl::plus< tao::pegtl::alpha >::match()`, the rule class is `foo` and the function known as `foo::match()`, wherefore an action needs to be specialised for `foo` instead of `tao::pegtl::plus< tao::pegtl::alpha >`.
 
-To then use these actions in a parsing run, simply pass them as additional template parameter to one of the parser functions defined in `<tao/pegtl/parse.hpp>`.
+While it is possible to specialise the action class template for `tao::pegtl::alpha`, it might not be a good idea since the action would be applied for *all* occurrences of `tao::pegtl::alpha` in the grammar.
+To circumvent this issue a new name can be given to the `tao::pegtl::alpha`, a name that will not be "randomly" used in other places of the grammar.
 
 ```c++
-tao::pegtl::parse< my_grammar, my_actions >( ... );
+struct bar
+   : public tao::pegtl::alpha {};
+
+struct foo
+   : public tao::pegtl::plus< bar > {};
 ```
+
+Now an action class template can be specialised for `foo` and `bar`, but again *not* for `tao::pegtl::plus< bar >` or `tao::pegtl::alpha`.
+
+More precisely, it could be specialised for the latter two rules, but wouldn't ever be called unless these rules were used elsewhere in the grammar, a different kettle of fish.
 
 ## Changing Actions
 
-Within a grammar, the action class template and the states can be changed, enabled or disabled, using either
+The action class template can be changed, and actions enabled or disabled, in ways beyond supplying, or not, an action to `tao::pegtl::parse()` at the start of a parsing run.
 
-* the `action<>`, `enable<>` and `disable<>` rules, or
-* the `change_action<>`, `change_action_and_state<>`, `change_action_and_states<>`, `enable_action` or `disable_action` actions,
+### Via Rules
 
-where the two actions that also mention states simultaneously change the state(s).
+The [`tao::pegtl::enable<>`](Rule-Reference.md#enable-r-) and [`tao::pegtl::disable<>`](Rule-Reference.md#disable-r-) rules behave just like [`seq<>`](Rule-Reference.md#seq-r-) but, without touching the current action, enable or disable calling of actions within their sub-rules, respectively.
 
-The following two lines effectively do the same thing, namely parse with `my_grammar` as top-level parsing rule without invoking actions (unless actions are enabled again somewhere within the grammar).
+The [`tao::pegtl::action<>`](Rule-Reference.md#action-a-r-) rule also behaves similarly to [`seq<>`](Rule-Reference.md#seq-r-) but takes an action class template as first template parameter and, without enabling or disabling actions, uses its first template parameter as action for the sub-rules.
+
+The following two lines effectively do the same thing, namely parse with `my_grammar` as top-level parsing rule without invoking actions (unless actions are enabled again somewhere else).
 
 ```c++
 tao::pegtl::parse< my_grammar >( ... );
 tao::pegtl::parse< tao::pegtl::disable< my_grammar >, my_actions >( ... );
 ```
 
-Similarly the following two lines both start parsing `my_grammar` with `my_actions` (again with the caveat that something might change somewhere in the grammar).
+Similarly the following two lines both start parsing `my_grammar` with `my_actions` (again only unless something changes somewhere else).
 
 ```c++
 tao::pegtl::parse< my_grammar, my_actions >( ... );
 tao::pegtl::parse< tao::pegtl::action< my_actions, my_grammar > >( ... );
 ```
 
-In other words, `enable<>` and `disable<>` behave just like `seq<>` but enable or disable the calling of actions, while `action<>` changes the active action class template to a new one, which must be supplied as first template parameter to `action<>`.
-
-Note that `action<>` does *not* implicitly enable actions when they were previously explicitly disabled!
-
-User-defined parsing rules can use `action<>`, `enable<>` and `disable<>` just like any other combinator rules, for example to disable actions in LISP-style comments:
+User-defined parsing rules can use `action<>`, `enable<>` and `disable<>` just like any other combinator rules.
+For example to disable actions in LISP-style comments the following rule could be used as per `src/example/pegtl/s_expression.cpp`.
 
 ```c++
 struct comment
@@ -281,8 +336,10 @@ struct comment
 
 This also allows using the same rules multiple times with different action class templates within a grammar.
 
-Attaching one of the actions to a rule is a non-intrusive way of achieving the same result.
-Assuming that `my_grammar` uses `my_rule` somewhere, the following will disable all actions in `my_rule` and all of its sub-rules.
+### Via Actions
+
+The action classes `tao::pegtl::disable_action` and `tao::pegtl::enable_action` can be used via inheritance to disable and enable actions, respectively, for any rule (and its sub-rules).
+For example actions can be disabled for `my_rule` in a parsing run using `my_actions` as follows.
 
 ```c++
 template< typename > struct my_actions;
@@ -294,76 +351,81 @@ struct my_actions< my_rule >
 tao::pegtl::parse< my_grammar, my_actions >( ... );
 ```
 
-The action `enable_action` can be used similarly, while `change_action<>` requires a new action class template as template parameter.
-The actions `change_action_and_state<>` and `change_action_and_states<>` combine `change_action` with one of the `change_state<>` or `change_states<>` actions, respectively.
-For `change_action_and_state<>` and `change_action_and_states<>` the new action class template is passed as first template parameter before the new states.
+Conversely `tao::pegtl::change_action<>` takes a new action class template as only template parameter and changes the current action in a parsing run to its template parameter.
+
+Note that parsing proceeds with the rule to which the action changing action is attached to "as if" the new action had been the current action all along.
+The new action can even perform an action change *on the same rule*, however care should be taken to not introduce infinite cycles of changes.
 
 ## Changing States
 
-Remember that implementing a parser with the PEGTL consists of two main parts.
+The states, too, can be changed in ways beyond supplying them, or not, to `tao::pegtl::parse()` at the start of a parsing run.
 
-1. The actual grammar that drives the parser.
-2. The states and actions that "do something".
+### Via Rules
 
-For the second part, there are three distinct styles of how to manage the states and actions in non-trivial parsers.
+The [`state<>`](Rule-Reference.md#state-s-r-) behaves similarly to [`seq`](Rule-Reference.md#seq-r-) but uses the first template parameter as type of a new object.
+This new object is used replaces the current state(s) for the remainder of the implicit [`seq`](Rule-Reference.md#seq-r-).
 
-The **main issue** addressed by the "switching" styles is the **growing complexity** encountered when a single state argument to a parsing run must perform multiple distinct tasks, including the management of nested data structures.
+The new object is constructed with a const-reference to the current input of the parsing run, and all previous states, if any, as arguments.
+If the implicit [`seq`](Rule-Reference.md#seq-r-) of the sub-rules succeeds, then, by default, a member function named `success()` is called on this "new" object, receiving the same arguments as the constructor.
+At this point the input will be advanced by whatever the sub-rules have consumed in the meantime.
 
-The way that this issue is addressed is by providing another tool for performing divide-and-conquer: A large state class with multiple tasks can be divided into
+Please consult `include/tao/pegtl/internal/state.hpp` to see how the default behaviour on success can be changed by overriding `tao::pegtl::state<>::success()` in a derived class when using that class instead.
 
-- multiple smaller state classes that each take care of a single issue,
-- one or more actions (or [controls)](Control-and-Debug.md) that switch between the states,
-- using the C++ call stack for nested structures (rather than manually managing a stack).
+Embedding a state change into the grammar with [`state<>`](Rule-Reference.md#state-s-r-) is only recommended when some state is used by custom parsing rules.
 
-The different styles can also be freely mixed within the same parser.
+### Via Actions
 
-### No Switching
+The actions `tao::pegtl::change_state<>` and `tao::pegtl::change_states<>` can be used to change from the current to a new set of states while parsing the rules they are attached to.
 
-The "no switching style" consists of having one (or more) state-arguments that are passed to a parsing run and that are the arguments to all actions' `apply()` and `apply0()` static member functions.
+The differences are summarised in this table; note that `change_state` is more similar to the legacy `change_state` control class as included with the 2.z versions of the PEGTL.
 
-### Intrusive Switching
+| Feature | `change_state` | `change_states` |
+| --- | --- | --- |
+| Number of new states | one | any |
+| Construction of new states | with input and old states | default |
+| Success function on action | if not on new state | required |
 
-The `state<>` and `action<>` [meta combinators](Rule-Reference.md#meta-rules) can be used to hard-code state and actions switches in the grammar.
+With `change_state` only a single new state type can be given as template parameter, and only a single new state will be created.
+The constructor of the new state receives the same arguments as per `tao::pegtl::state<>`, the current input from the parsing run and all previous states.
 
-In some cases a state object is required for the grammar itself, and in these cases embedding the state-switch into the grammar is recommended.
+A `success()` static member function is supplied that calls the `success()` member function on the new state, again with the current input from the parsing run and all previous states.
+The supplied `success()` can of course be overridden in a derived class.
 
-### External Switching
+With `change_states`, being a variadic template, any number of new state types can be given and an appriate set of new states will be created (nearly) simultaneously.
+All new states are default-constructed, if something else is required the reader is encouraged to copy and modify the implementation of `change_states` in his or her project.
 
-"External switching" is when the states and/or actions are switched from outside of the grammar by using the action (or control) class.
+The user *must* implement a custom `success()` static member function that takes the current input from the parsing run, the new states, and the old states as arguments.
 
-The two actions for switching states are `change_state<>` and `change_states<>` with the former behaving more similar to the legacy `change_state<>` control class from the 2.z versions of the PEGTL.
+Note that, *unlike* the `tao::pegtl::state<>` combinator, the success functions are *only called when actions are currently enabled*!
 
-We assume that `change_state<>` is used as base class for a specialisation of the action `my_actions` for `my_rule` and switches to `my_state`.
+Using the changing actions is again done via inheritance as shown in the following example for `change_states`.
 
 ```c++
 template<>
-struct my_actions< my_rule >
-   : public tao::pegtl::change_state< my_state > {};
+struct actions< rule >
+   : public tao::pegtl::change_states< news1, news2 >
+{
+   template< typename Input >
+   static void success( const Input&, news1&, news2&, /* the previous states*/ )
+   {
+      // Do whatever with both the new and the old states...
+   }
+};
 ```
 
-Then, whenever the parsing run attempts to match `my_rule`, a new instance of `my_state` will be created with the current input and all of the previous state objects as arguments to the constructor.
-This new instance will be used as the sole state while continuing the parsing run with an attempt to match `my_rule`.
+For a more complete example of how to build a generic JSON data structure with `change_state` and friends see `src/example/pegtl/json_build.cpp`.
 
-When `my_rule` is matched successfully *and* actions are enabled, then `my_actions< my_rule >::success()` is called with the current input, the new instance of `my_state` and all of the previous state objects as arguments.
-By default, `change_state` implements `success()` in a way that is compatible with the `state<>` combinator, it calls a `success()` member function on the new instance of `my_state` with the current input and all of the previous state objects as arguments.
-
-Of course an action deriving from `change_state<>` can override this inherited default implementation of `success()`.
-
-The similarly named `change_states<>` behaves slightly differently, it also switches out the previous states, however it accepts multiple template parameters and replaces all of the previous states with all of the newly instatiated ones, one for each template parameter.
-Further the new instances are default-constructed, and there is no default implementation of `success()`.
-An action deriving from `change_states<>` will have to implement its own `success()` static member function that accepts the current input, all new state objects and all previous state objects as arguments.
-
-For a more complete example of how to build a generic JSON data structure with the "external switching style" see `src/example/pegtl/json_build.cpp`.
+## Changing Actions and States
 
 The actions `change_action_and_state<>` and `change_action_and_states<>` combine `change_action` with one of the `change_state<>` or `change_states<>` actions, respectively.
-For `change_action_and_state<>` and `change_action_and_states<>` the new action class template is passed as first template parameter before the new states.
+For `change_action_and_state<>` and `change_action_and_states<>` the new action class template is passed as first template parameter as for `change_action`, followed by the new state(s) as given to `change_state<>` and `change_states<>`.
 
-The actual switching actions are defined in `<tao/pegtl/change_*.hpp>` and should be studied before being used, and before attempting to implement a custom action with `match()` as explained below.
+Note that `change_action_and_state<>` and `change_action_and_states<>` behave like `change_action<>` in that they proceed to match the rule to which the changing action is attached to "as if" the new action had been the current action all along.
 
 ## Match
 
 Besides `apply()` and `apply0()`, an action class specialization can also have a `match()` static member function.
-The default control class template `normal` will detect the presence of a suitable function and call this function instead of calling `tao::pegtl::match()`.
+The default control class template `normal` will detect the presence of a suitable `match()` function and call this function instead of `tao::pegtl::match()`.
 
 ```c++
 template<>
@@ -379,13 +441,47 @@ struct my_actions< tao::pegtl::plus< tao::pegtl::digit > >
    static bool match( Input& in, States&&... st )
    {
       // Call the function that would have been called otherwise,
-      // here without changing anything...
+      // in this case without changing anything...
       return tao::pegtl::match< Rule, A, M, Action, Control >( in, st... );
    }
 }
 ```
 
-Implementing a custom `match()` on an action is considered an advanced feature.
+Implementing a custom `match()` for an action is considered a rather advanced feature that is not used directly very often.
+All "changing" action classes mentioned in this document are implemented as actions with `match()`.
+Their implementations can be found in `<tao/pegtl/change_*.hpp>` and should be studied before implementing a custom action with `match()`.
+
+## Nothing
+
+TODO -- not mandatory, apply/0 auto-detection vs nothing, maybe_nothing, primary template with apply/0?
+
+## Troubleshooting
+
+### Boolean Return
+
+Actions returning `bool` are an advanced use case that should be used with caution.
+They prevent some internal optimisations, in particular when used with `apply0()`.
+They can also have weird effects on the semantics of a parsing run, for example `at< rule >` can succeed for the same input for which `rule` fails when there is a `bool`-action attached to `rule` that returns `false` (remember that actions are disabled within `at<>`).
+
+### State Mismatch
+
+When an action's `apply()` or `apply0()` expects different states than those present in the parsing run there will either be a possible not very helpful compiler error, or it will compile without a call to the action, depending on whether `tao::pegtl::nothing<>` is used as base class of the primary action class template.
+
+By deriving an action specialisation from either `require_apply` or `require_apply0`, as appropriate, a -- potentially more helpful -- compiler error can be provoked, so when the grammar contains `my_rule` and the action is `my_actions` then silently compiling without a call to `apply0()` is no longer possible.
+
+```c++
+template<>
+struct my_actions< my_rule >
+  : public require_apply0
+{
+   static void apply0( double )
+   {
+      // ...
+   }
+}
+```
+
+Note that deriving from `require_apply` or `require_apply0` is optional and usually only used for troubleshooting.
 
 ## Legacy Actions
 
