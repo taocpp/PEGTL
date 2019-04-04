@@ -36,17 +36,22 @@ namespace tao
          template< typename Input >
          explicit S( const Input& /*unused*/, int& c )
          {
-            if( c != 1 ) {
-               throw std::runtime_error( "fail2" );
+            if( c == 5 ) {
+               v = 6;
             }
-            v = 2;
+            else {
+               if( c != 1 ) {
+                  throw std::runtime_error( "fail2" );
+               }
+               v = 2;
+            }
          }
 
          template< typename Input >
          void success( const Input& /*unused*/, int& c )
          {
             if( v != 3 ) {
-               throw std::runtime_error( "fail3" );
+               throw std::runtime_error( "fail4" );
             }
             c = 4;
          }
@@ -87,6 +92,13 @@ namespace tao
             const auto result = parse< AB, my_action >( in, c );
             TAO_PEGTL_TEST_ASSERT( !result );
             TAO_PEGTL_TEST_ASSERT( c == 0 );
+         }
+         {
+            memory_input<> in( "ab", "" );
+            int c = 5;
+            const auto result = parse< disable< AB >, my_action >( in, c );
+            TAO_PEGTL_TEST_ASSERT( result );
+            TAO_PEGTL_TEST_ASSERT( c == 5 );
          }
       }
 
