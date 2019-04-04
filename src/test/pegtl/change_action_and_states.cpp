@@ -100,6 +100,13 @@ namespace tao
             TAO_PEGTL_TEST_ASSERT( !result );
             TAO_PEGTL_TEST_ASSERT( c == 0 );
          }
+         {
+            memory_input<> in( "ab", "" );
+            int c = 5;
+            const auto result = parse< disable< AB >, my_action_1 >( in, c );
+            TAO_PEGTL_TEST_ASSERT( result );
+            TAO_PEGTL_TEST_ASSERT( c == 5 );
+         }
       }
 
    }  // namespace TAO_PEGTL_NAMESPACE
