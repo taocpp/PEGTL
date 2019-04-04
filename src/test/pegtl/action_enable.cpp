@@ -51,7 +51,9 @@ namespace tao
       void unit_test()
       {
          memory_input<> in( "abcba", "" );
-         int a = 0, b = 0, c = 0;
+         int a = 0;
+         int b = 0;
+         int c = 0;
          const auto result = parse< ABCBA, my_action >( in, a, b, c );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( a == 2 );
