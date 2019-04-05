@@ -455,13 +455,11 @@ Their implementations can be found in `<tao/pegtl/change_*.hpp>` and should be s
 
 Letting the primary template of an action class template derive from `tao::pegtl::nothing` is recommended, but not necessary.
 
-When using `nothing`, some assertions are enabled in the PEGTL that are usually very helpful while developing a parser.
+When using `nothing`, some assertions are enabled that are usually very helpful while developing a parser.
 
-When not using `nothing`, simply by never using it as base class anywhere, the additional assertions are disabled, and it can happen that an `apply()` or `apply0()` implementation is silently ignored.
+When not using `nothing`, simply by never mentioning it (as base class), these assertions are disabled and it is possible for an action's `apply()` or `apply0()` implementation to be silently ignored.
 
-In the following let `a` be an action template class, i.e. the instantiation of an action class template `action` for some rule `r`.
-
-To *use* `nothing`, it is sufficient to make it an accessible base class of `action< void >`, more precisely `std::is_base_of_v< tao::pegtl::nothing< void >, action< void > >` must be `true` to enable the additional assertions.
+In the following let `a` be an action template class, i.e. the instantiation of an action class template `action` for some rule `r`, or `using a = action< r >` for short.
 
 We say that `apply()` is *callable* when it is the name of a static member function of `a` that returns either `void` or `bool` and can be called with an input and the current states.
 
@@ -470,16 +468,27 @@ We say that `apply0()` is *callable* when it is the name of a static member func
 The following assertions are always enabled.
 
 * There must be at most one callable `apply` or `apply0()` in `a`.
+* If `nothing< r >` is an accessible base class of `a` then `a` must not have a callable `apply()`.
+* If `nothing< r >` is an accessible base class of `a` then `a` must not have a callable `apply0()`.
 * If `require_apply` is an accessible base class of `a` then it must have a callable `apply()`.
 * If `require_apply0` is an accessible base class of `a` then it must have a callable `apply0()`.
 
-The following assertions are only enabled when using `nothing`.
+The classes `require_apply` and `require_apply0` are also explained in [the State Mismatch section](#state-mismatch).
 
-* At least one of `nothing` or `maybe_nothing` must be an accessible base class of `a` **or** `a` must have a callable `apply()` or `apply0()`
+The following assertion is only enabled when `std::is_base_of_v< tao::pegtl::nothing< void >, action< void > >` is `true`.
+
+* Either `nothing` must be an accessible base class of `a`, or
+* `maybe_nothing` must be an accessible base class of `a`, or
+* `a` must have a callable `apply()` or `apply0()`.
 
 The class `tao::pegtl::maybe_nothing` is an accessible base class of all the changing actions explained above.
 This make is possible, but not necessary, to implement `apply()` or `apply0()` for actions derived from them.
-They can also be combined with `require_apply` or `require_apply0` to enforce the presence of an action function.
+
+Note that `maybe_nothing` can be combined, through multiple inheritance, with one of `nothing< r >`, `require_apply` or `require_apply0`.
+
+For example when a class `b` is derived from `change_state`, it also gains that class' `maybe_nothing` as accessible base class.
+At this point `b` is allowed to either have or not have an `apply()` or `apply0()`.
+By letting `b` also derive from one of the three mentioned classes, the `maybe_nothing` will be ignored and `b` will be checked to have or not have the functions as dictated by the respective additional base class.
 
 ## Troubleshooting
 
@@ -493,7 +502,7 @@ They can also have weird effects on the semantics of a parsing run, for example 
 
 When an action's `apply()` or `apply0()` expects different states than those present in the parsing run there will either be a possible not very helpful compiler error, or it will compile without a call to the action, depending on whether `tao::pegtl::nothing<>` is used as base class of the primary action class template.
 
-By deriving an action specialisation from either `require_apply` or `require_apply0`, as appropriate, a -- potentially more helpful -- compiler error can be provoked, so when the grammar contains `my_rule` and the action is `my_actions` then silently compiling without a call to `apply0()` is no longer possible.
+By deriving an action specialisation from either `tao::pegtl::require_apply` or `tao::pegtl::require_apply0`, as appropriate, a -- potentially more helpful -- compiler error can be provoked, so when the grammar contains `my_rule` and the action is `my_actions` then silently compiling without a call to `apply0()` is no longer possible.
 
 ```c++
 template<>
