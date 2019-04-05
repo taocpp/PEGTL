@@ -39,11 +39,11 @@ namespace tao
       ++failed;                                     \
    } while( false )
 
-#define TAO_PEGTL_TEST_ASSERT( eXPReSSioN )        \
+#define TAO_PEGTL_TEST_ASSERT( ... )               \
    do {                                            \
-      if( !( eXPReSSioN ) ) {                      \
+      if( !( __VA_ARGS__ ) ) {                     \
          std::cerr << "pegtl: unit test assert [ " \
-                   << ( #eXPReSSioN )              \
+                   << ( #__VA_ARGS__ )             \
                    << " ] failed in line [ "       \
                    << __LINE__                     \
                    << " ] file [ "                 \
