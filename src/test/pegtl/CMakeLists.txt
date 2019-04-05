@@ -37,6 +37,7 @@ set(test_sources
   contrib_uri.cpp
   data_cstring.cpp
   demangle.cpp
+  discard_input.cpp
   file_cstream.cpp
   file_file.cpp
   file_istream.cpp
