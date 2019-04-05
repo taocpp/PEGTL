@@ -45,9 +45,9 @@ To use actions during a parsing run they first need to be implemented.
 Then the parsing run needs to be set up with the actions and any required states.
 
 * Either pass the action class template as second template parameter to `tao::pegtl::parse()`,
-* and/or (advanced) introduce the actions to a parsing run with one of the "[changing](#changing-actions)" techniques.
+* and/or (advanced) introduce the actions to a parsing run with the "[changing](#changing-actions)" facilities.
 * Either pass the required state arguments as additional arguments to `tao::pegtl::parse()`,
-* and/or (advanced) introduce the states to a parsing run with one of the "[changin](#changing-states)" techniques.
+* and/or (advanced) introduce the states to a parsing run with the "[changing](#changing-states)" facilities.
 
 The very first step, defining a custom action class template, usually looks like this.
 
@@ -453,7 +453,33 @@ Their implementations can be found in `<tao/pegtl/change_*.hpp>` and should be s
 
 ## Nothing
 
-TODO -- not mandatory, apply/0 auto-detection vs nothing, maybe_nothing, primary template with apply/0?
+Letting the primary template of an action class template derive from `tao::pegtl::nothing` is recommended, but not necessary.
+
+When using `nothing`, some assertions are enabled in the PEGTL that are usually very helpful while developing a parser.
+
+When not using `nothing`, simply by never using it as base class anywhere, the additional assertions are disabled, and it can happen that an `apply()` or `apply0()` implementation is silently ignored.
+
+In the following let `a` be an action template class, i.e. the instantiation of an action class template `action` for some rule `r`.
+
+To *use* `nothing`, it is sufficient to make it an accessible base class of `action< void >`, more precisely `std::is_base_of_v< tao::pegtl::nothing< void >, action< void > >` must be `true` to enable the additional assertions.
+
+We say that `apply()` is *callable* when it is the name of a static member function of `a` that returns either `void` or `bool` and can be called with an input and the current states.
+
+We say that `apply0()` is *callable* when it is the name of a static member function of `a` that returns either `void` or `bool` and can be called with the current states.
+
+The following assertions are always enabled.
+
+* There must be at most one callable `apply` or `apply0()` in `a`.
+* If `require_apply` is an accessible base class of `a` then it must have a callable `apply()`.
+* If `require_apply0` is an accessible base class of `a` then it must have a callable `apply0()`.
+
+The following assertions are only enabled when using `nothing`.
+
+* At least one of `nothing` or `maybe_nothing` must be an accessible base class of `a` **or** `a` must have a callable `apply()` or `apply0()`
+
+The class `tao::pegtl::maybe_nothing` is an accessible base class of all the changing actions explained above.
+This make is possible, but not necessary, to implement `apply()` or `apply0()` for actions derived from them.
+They can also be combined with `require_apply` or `require_apply0` to enforce the presence of an action function.
 
 ## Troubleshooting
 
