@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       template< typename I, typename Input >
       [[nodiscard]] I convert_positive( const Input& in, std::size_t index )
       {
-         static constexpr I limit = std::numeric_limits< I >::max();
+         static constexpr I limit = ( std::numeric_limits< I >::max )();
          return actual_convert< I, limit >( in, index );
       }
 
@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       [[nodiscard]] I convert_negative( const Input& in, std::size_t index )
       {
          using U = std::make_unsigned_t< I >;
-         static constexpr U limit = static_cast< U >( std::numeric_limits< I >::max() ) + 1;
+         static constexpr U limit = static_cast< U >( ( std::numeric_limits< I >::max )() ) + 1;
          return static_cast< I >( ~actual_convert< U, limit >( in, index ) ) + 1;
       }
 
