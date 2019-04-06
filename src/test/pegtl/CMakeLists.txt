@@ -19,6 +19,7 @@ set(test_sources
   ascii_string.cpp
   ascii_three.cpp
   ascii_two.cpp
+  buffer_input.cpp
   change_action_and_state.cpp
   change_action_and_states.cpp
   change_state.cpp
