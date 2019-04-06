@@ -31,7 +31,9 @@ When an action is *applied*, the corresponding function receives the *states*, a
 
 ## Overview
 
-Actions are implemented as static member functions called `apply()` or `apply0()` of specialisations of custom class templates (which is not quite as difficult as it sounds). States are additional function arguments to `tao::pegtl::parse()` that are forwarded to all actions.
+Actions are implemented as static member functions called `apply()` or `apply0()` of specialisations of custom class templates (which is not quite as difficult as it sounds).
+
+States are additional function arguments to `tao::pegtl::parse()` that are forwarded to all actions.
 
 To use actions during a parsing run they first need to be implemented.
 
@@ -416,11 +418,11 @@ Using the changing actions is again done via inheritance as shown in the followi
 
 ```c++
 template<>
-struct my_action< rule >
-   : tao::pegtl::change_states< news1, news2 >
+struct my_action< my_rule >
+   : tao::pegtl::change_states< new_state_1, new_state_2 >
 {
    template< typename Input >
-   static void success( const Input&, news1&, news2&, /* the previous states*/ )
+   static void success( const Input&, new_state_1&, new_state_2&, /* the previous states*/ )
    {
       // Do whatever with both the new and the old states...
    }
