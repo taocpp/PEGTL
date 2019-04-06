@@ -1,6 +1,8 @@
 // Copyright (c) 2019 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#include <string>
+
 #include "test.hpp"
 
 #include <tao/pegtl/internal/cstring_reader.hpp>
@@ -10,9 +12,9 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule,
              template< typename... > class Action = nothing,
              typename... States >
-   bool parse_cstring( const char* string, const char* source, const std::size_t maximum, States&&... st )
+   bool parse_cstring( const char* string, const unsigned line, const std::size_t maximum, States&&... st )
    {
-      buffer_input< internal::cstring_reader > in( source, maximum, string );
+      buffer_input< internal::cstring_reader, eol::lf_crlf, std::string, 1 > in( std::to_string( line ), maximum, string );
       return parse< Rule, Action >( in, st... );
    }
 
@@ -26,9 +28,9 @@ namespace TAO_PEGTL_NAMESPACE
    struct ab : seq< a, b > {};
    struct cx : seq< c, x > {};
    struct cd : seq< c, d > {};
-   struct grammar : seq< ab, dd, sor< ab, dd >, discard,
-                         sor< cx, cd >, dd, discard,
-                         sor< cd, cx >, eof > {};
+   struct my_grammar : seq< ab, dd, discard, sor< ab, dd >, discard,
+                            sor< cx, cd >, dd, discard,
+                            sor< cd, cx > > {};
 
    template< typename Rule > struct my_action {};
    template<> struct my_action< ab > : discard_input {};
@@ -38,9 +40,10 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      const char* test_data = "ab....cd..cx";
-      TAO_PEGTL_TEST_ASSERT( parse_cstring< grammar, my_action >( test_data, "test data", 2 ) );
-      TAO_PEGTL_TEST_ASSERT( !parse_cstring< grammar, my_action >( test_data, "test data", 1 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< my_grammar, my_action >( "ab....cd..cx", __LINE__, 1 ) );
+      // We need one extra byte in the buffer so that eof calling in.empty() calling in.require( 1 ) does not throw a "require beyond end of buffer" exception.
+      TAO_PEGTL_TEST_THROWS( parse_cstring< seq< my_grammar, eof >, my_action >( "ab....cd..cx", __LINE__, 1 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< seq< my_grammar, eof >, my_action >( "ab....cd..cx", __LINE__, 2 ) );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

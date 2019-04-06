@@ -9,23 +9,21 @@ namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Rule,
              template< typename... > class Action = nothing,
-             template< typename... > class Control = normal,
-             typename... States >
-   bool parse_cstring( const char* string, const char* source, const std::size_t maximum, States&&... st )
+             template< typename... > class Control = normal >
+   bool parse_cstring( const char* string, const char* source, const std::size_t maximum )
    {
       buffer_input< internal::cstring_reader > in( source, maximum, string );
-      return parse< Rule, Action, Control >( in, st... );
+      return parse< Rule, Action, Control >( in );
    }
 
-   struct test_grammar : seq< string< 'a', 'b' >, discard, string< 'c', 'd' >, discard, any, any, discard, eof >
+   struct test_grammar : seq< string< 'a', 'b', 'c', 'd', 'e', 'f' >, not_at< any >, eof >
    {
    };
 
    void unit_test()
    {
-      const char* test_data = "abcdef";
-      TAO_PEGTL_TEST_ASSERT( parse_cstring< test_grammar >( test_data, "test data", 2 ) );
-      TAO_PEGTL_TEST_ASSERT( !parse_cstring< test_grammar >( test_data, "test data", 1 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< test_grammar >( "abcdef", "test data", 10 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< test_grammar >( "abcdef\0g", "test data", 10 ) );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

@@ -4,10 +4,13 @@
 #ifndef TAO_PEGTL_BUFFER_INPUT_HPP
 #define TAO_PEGTL_BUFFER_INPUT_HPP
 
+#include <algorithm>
+#include <cassert>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
 #include <memory>
+#include <stdexcept>
 #include <string>
 
 #include "config.hpp"
@@ -23,11 +26,10 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename Reader, typename Eol = eol::lf_crlf, typename Source = std::string >
+   template< typename Reader, typename Eol = eol::lf_crlf, typename Source = std::string, std::size_t Chunk = 64 >
    class buffer_input
    {
    public:
-      static constexpr tracking_mode tracking_mode_v = tracking_mode::eager;
       using reader_t = Reader;
 
       using eol_t = Eol;
@@ -37,15 +39,20 @@ namespace TAO_PEGTL_NAMESPACE
 
       using action_t = internal::action_input< buffer_input >;
 
+      static constexpr std::size_t chunk_size = Chunk;
+      static constexpr tracking_mode tracking_mode_v = tracking_mode::eager;
+
       template< typename T, typename... As >
       buffer_input( T&& in_source, const std::size_t maximum, As&&... as )
          : m_reader( std::forward< As >( as )... ),
-           m_maximum( maximum ),
-           m_buffer( new char[ maximum ] ),
+           m_maximum( maximum + Chunk ),
+           m_buffer( new char[ maximum + Chunk ] ),
            m_current( m_buffer.get() ),
            m_end( m_buffer.get() ),
            m_source( std::forward< T >( in_source ) )
       {
+         static_assert( Chunk, "zero chunk size not implemented" );
+         assert( m_maximum > maximum );  // Catches overflow; change to >= when zero chunk size is implemented.
       }
 
       buffer_input( const buffer_input& ) = delete;
@@ -65,7 +72,7 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] std::size_t size( const std::size_t amount )
       {
          require( amount );
-         return std::size_t( m_end - m_current.data );
+         return buffer_occupied();
       }
 
       [[nodiscard]] const char* current() const noexcept
@@ -126,23 +133,24 @@ namespace TAO_PEGTL_NAMESPACE
 
       void discard() noexcept
       {
-         const auto s = m_end - m_current.data;
-         std::memmove( m_buffer.get(), m_current.data, s );
-         m_current.data = m_buffer.get();
-         m_end = m_buffer.get() + s;
+         if( m_current.data > m_buffer.get() + Chunk ) {
+            const auto s = m_end - m_current.data;
+            std::memmove( m_buffer.get(), m_current.data, s );
+            m_current.data = m_buffer.get();
+            m_end = m_buffer.get() + s;
+         }
       }
 
       void require( const std::size_t amount )
       {
-         if( m_current.data + amount > m_end ) {
-            if( m_current.data + amount <= m_buffer.get() + m_maximum ) {
-               if( const auto r = m_reader( m_end, amount - std::size_t( m_end - m_current.data ) ) ) {
-                  m_end += r;
-               }
-               else {
-                  m_maximum = 0;
-               }
-            }
+         if( m_current.data + amount <= m_end ) {
+            return;
+         }
+         if( m_current.data + amount > m_buffer.get() + m_maximum ) {
+            throw std::runtime_error( "require beyond end of buffer" );
+         }
+         if( const auto r = m_reader( m_end, std::min( buffer_free_after_end(), std::max( amount, Chunk ) ) ) ) {
+            m_end += r;
          }
       }
 
@@ -165,6 +173,29 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] const iterator_t& iterator() const noexcept
       {
          return m_current;
+      }
+
+      [[nodiscard]] std::size_t buffer_capacity() const noexcept
+      {
+         return m_maximum;
+      }
+
+      [[nodiscard]] std::size_t buffer_occupied() const noexcept
+      {
+         assert( m_end >= m_current.data );
+         return std::size_t( m_end - m_current.data );
+      }
+
+      [[nodiscard]] std::size_t buffer_free_before_current() const noexcept
+      {
+         assert( m_current.data >= m_buffer.get() );
+         return std::size_t( m_current.data - m_buffer.get() );
+      }
+
+      [[nodiscard]] std::size_t buffer_free_after_end() const noexcept
+      {
+         assert( m_buffer.get() + m_maximum >= m_end );
+         return std::size_t( m_buffer.get() + m_maximum - m_end );
       }
 
    private:
