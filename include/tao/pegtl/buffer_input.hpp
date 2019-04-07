@@ -147,7 +147,7 @@ namespace TAO_PEGTL_NAMESPACE
             return;
          }
          if( m_current.data + amount > m_buffer.get() + m_maximum ) {
-            throw std::runtime_error( "require beyond end of buffer" );
+            throw std::overflow_error( "require beyond end of buffer" );
          }
          if( const auto r = m_reader( m_end, ( std::min )( buffer_free_after_end(), ( std::max )( amount, Chunk ) ) ) ) {
             m_end += r;
