@@ -66,7 +66,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    [[nodiscard]] inline std::string to_string( const parse_error& e )
    {
-      std::stringstream o;
+      std::ostringstream o;
       o << e;
       return o.str();
    }
