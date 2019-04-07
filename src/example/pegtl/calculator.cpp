@@ -308,8 +308,7 @@ namespace calculator
       template< typename Input >
       static void apply( const Input& in, const operators& /*unused*/, stacks& s )
       {
-         std::stringstream ss;
-         ss.str( in.string() );
+         std::stringstream ss( in.string() );
          long v;
          ss >> v;
          s.push( v );

@@ -41,8 +41,7 @@ namespace sum
       static void apply( const Input& in, double& sum )
       {
          // assume all values will fit into a C++ double
-         std::stringstream ss;
-         ss << in.string();
+         std::stringstream ss( in.string() );
          double v;
          ss >> v;
          sum += v;

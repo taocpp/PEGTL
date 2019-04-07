@@ -55,8 +55,7 @@ namespace csv1
       static void apply( const Input& in, result_data& data )
       {
          assert( !data.empty() );
-         std::stringstream ss;
-         ss << in.string();
+         std::stringstream ss( in.string() );
          unsigned long v;
          ss >> v;
          data.back().push_back( v );

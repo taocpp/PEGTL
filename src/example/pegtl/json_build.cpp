@@ -68,8 +68,7 @@ namespace examples
       template< typename Input >
       static void apply( const Input& in, json_state& state )
       {
-         std::stringstream ss;
-         ss << in.string();
+         std::stringstream ss( in.string() );
          long double v;
          ss >> v;  // NOTE: not quite correct for JSON but we'll use it for this simple example.
          state.result = std::make_shared< number_json >( v );
