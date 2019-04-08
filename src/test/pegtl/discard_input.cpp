@@ -17,31 +17,38 @@ namespace TAO_PEGTL_NAMESPACE
    }
 
    // clang-format off
+   struct n : one< 'n' > {};
    struct a : one< 'a' > {};
-   struct b : one< 'b' > {};
-   struct c : one< 'c' > {};
-   struct d : one< 'd' > {};
-   struct x : one< 'x' > {};
-   struct dd : two< '.' > {};
-   struct ab : seq< a, b > {};
-   struct cx : seq< c, x > {};
-   struct cd : seq< c, d > {};
-   struct my_grammar : seq< ab, dd, discard, sor< ab, dd >, discard,
-                            sor< cx, cd >, dd, discard,
-                            sor< cd, cx > > {};
+   struct f : one< 'f' > {};
+   struct s : one< 's' > {};
 
    template< typename Rule > struct my_action {};
-   template<> struct my_action< ab > : discard_input {};
-   template<> struct my_action< c > : discard_input_on_failure {};
-   template<> struct my_action< d > : discard_input_on_success {};
+   template<> struct my_action< a > : discard_input {};
+   template<> struct my_action< f > : discard_input_on_failure {};
+   template<> struct my_action< s > : discard_input_on_success {};
    // clang-format on
 
    void unit_test()
    {
-      TAO_PEGTL_TEST_ASSERT( parse_cstring< my_grammar, my_action >( "ab....cd..cx", TAO_TEST_LINE, 1 ) );
-      // We need one extra byte in the buffer so that eof calling in.empty() calling in.require( 1 ) does not throw a "require beyond end of buffer" exception.
-      TAO_PEGTL_TEST_THROWS( parse_cstring< seq< my_grammar, eof >, my_action >( "ab....cd..cx", TAO_TEST_LINE, 1 ) );
-      TAO_PEGTL_TEST_ASSERT( parse_cstring< seq< my_grammar, eof >, my_action >( "ab....cd..cx", TAO_TEST_LINE, 2 ) );
+      TAO_PEGTL_TEST_THROWS( parse_cstring< rep< 4, sor< n, n > >, my_action >( "nnnn", TAO_TEST_LINE, 2 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< a, n > >, my_action >( "nnnn", TAO_TEST_LINE, 2 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< f, n > >, my_action >( "nnnn", TAO_TEST_LINE, 2 ) );
+      TAO_PEGTL_TEST_THROWS( parse_cstring< rep< 4, sor< s, n > >, my_action >( "nnnn", TAO_TEST_LINE, 2 ) );
+
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< n, a > >, my_action >( "aaaa", TAO_TEST_LINE, 2 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< a, a > >, my_action >( "aaaa", TAO_TEST_LINE, 2 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< f, a > >, my_action >( "aaaa", TAO_TEST_LINE, 2 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< s, a > >, my_action >( "aaaa", TAO_TEST_LINE, 2 ) );
+
+      TAO_PEGTL_TEST_THROWS( parse_cstring< rep< 4, sor< n, f > >, my_action >( "ffff", TAO_TEST_LINE, 2 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< a, f > >, my_action >( "ffff", TAO_TEST_LINE, 2 ) );
+      TAO_PEGTL_TEST_THROWS( parse_cstring< rep< 4, sor< f, f > >, my_action >( "ffff", TAO_TEST_LINE, 2 ) );
+      TAO_PEGTL_TEST_THROWS( parse_cstring< rep< 4, sor< s, f > >, my_action >( "ffff", TAO_TEST_LINE, 2 ) );
+
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< n, s > >, my_action >( "ssss", TAO_TEST_LINE, 2 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< a, s > >, my_action >( "ssss", TAO_TEST_LINE, 2 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< f, s > >, my_action >( "ssss", TAO_TEST_LINE, 2 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< s, s > >, my_action >( "ssss", TAO_TEST_LINE, 2 ) );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
