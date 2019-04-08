@@ -203,29 +203,15 @@ A small example which shows how to create a parse tree for a given grammar using
 
 The example shows how to choose which rules will produce a parse tree node, which rules will store the content, and how to add additional transformations to the parse tree to transform it into an AST-like structure or to simplify it.
 
-Running the example with a slightly longer expression:
+The output is in [DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) format and can be converted into a graph.
 
 ```sh
-$ build/src/example/pegtl/parse_tree "2 + a*b*4 - x / ( 2 - b + c - d )"
-ROOT
-  example::minus at :1:9(9)
-    example::plus at :1:1(1)
-      example::integer "2" at :1:0(0) to :1:1(1)
-      example::multiply at :1:7(7)
-        example::multiply at :1:5(5)
-          example::variable "a" at :1:4(4) to :1:5(5)
-          example::variable "b" at :1:6(6) to :1:7(7)
-        example::integer "4" at :1:8(8) to :1:9(9)
-    example::divide at :1:13(13)
-      example::variable "x" at :1:12(12) to :1:13(13)
-      example::minus at :1:27(27)
-        example::plus at :1:23(23)
-          example::minus at :1:19(19)
-            example::integer "2" at :1:18(18) to :1:19(19)
-            example::variable "b" at :1:22(22) to :1:23(23)
-          example::variable "c" at :1:26(26) to :1:27(27)
-        example::variable "d" at :1:30(30) to :1:31(31)
+$ build/src/example/pegtl/parse_tree "(2*a + 3*b) / (4*n)" | dot -Tpng -o parse_tree.png
 ```
+
+The above will generate a PNG with a graphical representation of the parse tree.
+
+![Parse Tree](Parse-Tree.png)
 
 ###### `src/example/pegtl/proto3.cpp`
 
