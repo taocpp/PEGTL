@@ -361,18 +361,18 @@ The buffer must be able to hold
 For example consider an excerpt from the JSON grammar from `include/tao/pegtl/contrib/json.hpp`.
 
 ```c++
-   struct xdigit : abnf::HEXDIG {};
-   struct unicode : list< seq< one< 'u' >, rep< 4, must< xdigit > > >, one< '\\' > > {};
-   struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
-   struct escaped : sor< escaped_char, unicode > {};
-   struct unescaped : utf8::range< 0x20, 0x10FFFF > {};
-   struct char_ : if_then_else< one< '\\' >, must< escaped >, unescaped > {};
+struct xdigit : abnf::HEXDIG {};
+struct unicode : list< seq< one< 'u' >, rep< 4, must< xdigit > > >, one< '\\' > > {};
+struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
+struct escaped : sor< escaped_char, unicode > {};
+struct unescaped : utf8::range< 0x20, 0x10FFFF > {};
+struct char_ : if_then_else< one< '\\' >, must< escaped >, unescaped > {};
 
-   struct string_content : until< at< one< '"' > >, must< char_ > > {};
-   struct string : seq< one< '"' >, must< string_content >, any >
-   {
-      using content = string_content;
-   };
+struct string_content : until< at< one< '"' > >, must< char_ > > {};
+struct string : seq< one< '"' >, must< string_content >, any >
+{
+   using content = string_content;
+};
 ```
 
 The rule `string_content` matches JSON strings as they occur in a JSON document.
@@ -406,7 +406,7 @@ Similarly "unconditional" above refers to only either success or local failure.
 ```c++
 template<>
 struct my_action< R >
-   : public tao::pegtl::discard_input
+   : tao::pegtl::discard_input
 {
    // It is safe to implement apply() here if appropriate:
    // discard() will be called by discard_input's match()
@@ -440,11 +440,11 @@ namespace tao::pegtl
 The `require( amount )` member function tells the input to make available at least `amount` unconsumed bytes of input data.
 It is not normally called directly unless there is good reason to prefetch some data.
 
-The `empty()`, `size( amount )` and `end( amount )` member functions call `require( amount )`, or, in the case of `empty()`, require( 1 )`.
+The `empty()`, `size( amount )` and `end( amount )` member functions call `require( amount )`, or, in the case of `empty()`, `require( 1 )`.
 The `amount` parameter should be understood as a parsing rule wishing to inspect and consume *up to* `amount` bytes of input.
 
 A custom rule must make sure to use appropriate values of `amount`.
-For examples of how the `amount` is set by parsing rules please `fgrep(1)` for `in.size` in `include/tao/pegtl/internal`.
+For examples of how the `amount` is set by parsing rules please search for `in.size` in `include/tao/pegtl/internal/`.
 
 ### Custom Readers
 
@@ -473,11 +473,11 @@ std::function< std::size_t( char* buffer, const std::size_t length ) >
 
 The arguments and return value are similar to other `read()`-style functions, a request to read `length` bytes into the memory pointed to by `buffer` that returns the number of bytes actually read.
 Reaching the end of the input MUST be the only reason for the reader to return zero.
-Unlike in older versions of the PEGTL, the reader might be called again after returning zero, with the expectation of returning zero again.
+The reader might be called again after returning zero, with the expectation of returning zero again.
 
 Note that `buffer_input` consumes the first two arguments to its constructor for the *source* and *maximum*, and uses perfect forwarding to pass everything else to the constructor of the embedded instance of `Reader`.
 
-For examples of how to implement readers please look at `istream_reader.hpp` and `cstream_reader.hpp` in `include/tao/pegtl/internal`.
+For examples of how to implement readers please look at `istream_reader.hpp` and `cstream_reader.hpp` in `include/tao/pegtl/internal/`.
 
 ### Buffer Details
 
