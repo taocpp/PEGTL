@@ -9,13 +9,11 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename Rule,
-             template< typename... > class Action = nothing,
-             typename... States >
-   bool parse_cstring( const char* string, const unsigned line, const std::size_t maximum, States&&... st )
+   template< typename Rule, template< typename... > class Action >
+   bool parse_cstring( const char* string, const char* source, const std::size_t maximum )
    {
-      buffer_input< internal::cstring_reader, eol::lf_crlf, std::string, 1 > in( std::to_string( line ), maximum, string );
-      return parse< Rule, Action >( in, st... );
+      buffer_input< internal::cstring_reader, eol::lf_crlf, const char*, 1 > in( source, maximum, string );
+      return parse< Rule, Action >( in );
    }
 
    // clang-format off
@@ -40,10 +38,10 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      TAO_PEGTL_TEST_ASSERT( parse_cstring< my_grammar, my_action >( "ab....cd..cx", __LINE__, 1 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< my_grammar, my_action >( "ab....cd..cx", TAO_TEST_LINE, 1 ) );
       // We need one extra byte in the buffer so that eof calling in.empty() calling in.require( 1 ) does not throw a "require beyond end of buffer" exception.
-      TAO_PEGTL_TEST_THROWS( parse_cstring< seq< my_grammar, eof >, my_action >( "ab....cd..cx", __LINE__, 1 ) );
-      TAO_PEGTL_TEST_ASSERT( parse_cstring< seq< my_grammar, eof >, my_action >( "ab....cd..cx", __LINE__, 2 ) );
+      TAO_PEGTL_TEST_THROWS( parse_cstring< seq< my_grammar, eof >, my_action >( "ab....cd..cx", TAO_TEST_LINE, 1 ) );
+      TAO_PEGTL_TEST_ASSERT( parse_cstring< seq< my_grammar, eof >, my_action >( "ab....cd..cx", TAO_TEST_LINE, 2 ) );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
