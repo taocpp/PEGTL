@@ -7,6 +7,7 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/parse_tree.hpp>
+#include <tao/pegtl/contrib/parse_tree_to_dot.hpp>
 
 using namespace TAO_PEGTL_NAMESPACE;  // NOLINT
 
@@ -32,7 +33,7 @@ namespace example
    struct product : list_must< value, sor< multiply, divide > > {};
    struct expression : list_must< product, sor< plus, minus > > {};
 
-   struct grammar : seq< expression, eof > {};
+   struct grammar : must< expression, eof > {};
    // clang-format on
 
    // after a node is stored successfully, you can add an optional transformer like this:
@@ -92,48 +93,30 @@ namespace example
          product,
          expression > >;
 
-   // debugging/show result:
-
-   void print_node( const parse_tree::node& n, const std::string& s = "" )
-   {
-      // detect the root node:
-      if( n.is_root() ) {
-         std::cout << "ROOT" << std::endl;
-      }
-      else {
-         if( n.has_content() ) {
-            std::cout << s << n.name() << " \"" << n.string_view() << "\" at " << n.begin() << " to " << n.end() << std::endl;
-         }
-         else {
-            std::cout << s << n.name() << " at " << n.begin() << std::endl;
-         }
-      }
-      // print all child nodes
-      if( !n.children.empty() ) {
-         const auto s2 = s + "  ";
-         for( auto& up : n.children ) {
-            print_node( *up, s2 );
-         }
-      }
-   }
-
 }  // namespace example
 
 int main( int argc, char** argv )
 {
-   for( int i = 1; i < argc; ++i ) {
-      try {
-         argv_input in( argv, i );
-         if( const auto root = parse_tree::parse< example::grammar, example::selector >( in ) ) {
-            example::print_node( *root );
-         }
-         else {
-            std::cout << "PARSE FAILED" << std::endl;
-         }
-      }
-      catch( const std::exception& e ) {
-         std::cout << "PARSE FAILED WITH EXCEPTION: " << e.what() << std::endl;
-      }
+   if( argc != 2 ) {
+      std::cerr << "Usage: " << argv[ 0 ] << " EXPR\n"
+                << "Generate a 'dot' file from expression.\n\n"
+                << "Example: " << argv[ 0 ] << " \"(2*a + 3*b) / (4*n)\" | dot -Tpng -o parse_tree.png\n";
+      return 1;
    }
-   return 0;
+   argv_input in( argv, 1 );
+   try {
+      const auto root = parse_tree::parse< example::grammar, example::selector >( in );
+      parse_tree::print_dot( std::cout, *root );
+      return 0;
+   }
+   catch( const parse_error& e ) {
+      const auto p = e.positions.front();
+      std::cerr << e.what() << std::endl
+                << in.line_at( p ) << std::endl
+                << std::string( p.byte_in_line, ' ' ) << '^' << std::endl;
+   }
+   catch( const std::exception& e ) {
+      std::cerr << e.what() << std::endl;
+   }
+   return 1;
 }
