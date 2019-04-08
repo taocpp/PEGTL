@@ -62,7 +62,7 @@ Eager tracking is recommended when the position is used frequently and/or in non
 All input classes allow the choice of which line endings should be recognised by the `eol` and `eolf` rules, and used for line counting.
 The supported line endings are `cr`, a single carriage-return/`"\r"`/`0x0d` character as used on classic Mac OS, `lf`, a single line-feed/`"\n"`/`0x0a` as used on Unix, Linux, Mac OS X and macOS, and `crlf`, a sequence of both as used on MS-DOS and Windows.
 
-The default template argument for all input classes is `eol::lf_crlf` which recognises both Unix and MS-DOS line endings.
+The default template parameter for all input classes is `eol::lf_crlf` which recognises both Unix and MS-DOS line endings.
 The supplied alternatives are `eol::cr`, `eol::lf`, `eol::crlf` and `eol::cr_crlf`.
 
 ## Source
@@ -349,14 +349,14 @@ Apart from having to use the [discard facilities](#discard-buffer), and some ext
 The [stream inputs](#stream-inputs), and all other inputs based on `tao::pegtl::buffer_input`, contain a buffer that is allocated in the constructor.
 The buffer capacity is the sum of a *maximum* value and a *chunk* size.
 
-The maximum value is passed to the constructor as function argument, the chunk size is a (rarely changed) template argument.
+The maximum value is passed to the constructor as function argument, the chunk size is a (rarely changed) template parameter.
 The required buffer capacity depends on the grammar, the actions, *and* the input data.
 
 The buffer must be able to hold
 
-* any and all data for look-ahead that is required by the grammar,
-* any and all data for back-tracking that is required by the grammar,
-* any and all data for actions' [`apply()`](Actions-and-States.md#apply) (not [`apply0()`](Actions-and-States.md#apply0).
+* any and all data for look-ahead performed by the grammar,
+* any and all data for back-tracking performed by the grammar,
+* any and all data for actions' [`apply()`](Actions-and-States.md#apply) (not [`apply0()`](Actions-and-States.md#apply0)).
 
 For example consider an excerpt from the JSON grammar from `include/tao/pegtl/contrib/json.hpp`.
 
@@ -378,11 +378,10 @@ For example consider an excerpt from the JSON grammar from `include/tao/pegtl/co
 The rule `string_content` matches JSON strings as they occur in a JSON document.
 If an action with `apply()` (rather than `apply0()`) is attached to the `string_content` rule, the buffer capacity is an upper bound on the length of the JSON strings that can be processed.
 
-If the actions are only attached to e.g. `unescaped`, `escaped_char` and `rep< 4, must< xdigit > >`, the latter because it, too, occurs in an (implicit in the `list`) unbounded loop, then the JSON strings are processed unescaped-character-by-unescaped-character and escape-sequence-by-escape-sequence.
-
+If the actions are only attached to say `unescaped`, `escaped_char` and `rep< 4, must< xdigit > >`, the latter because it, too, occurs in an (implicit in the `list`) unbounded loop, then the JSON strings are processed unescaped-character-by-unescaped-character and escape-sequence-by-escape-sequence.
 As long as the buffer is [discarded](#discard-buffer) frequently, like after every unescaped character and every single escape sequence, a buffer capacity as small as 8 or 12 should suffice for parsing arbitrarily long JSON strings.
 
-Note that the [`eof` rule ](Rule-Reference.md#eof) requires at least one byte of free buffer space when there is no unconsumed data in the buffer.
+Note that the [`eof`](Rule-Reference.md#eof) rule requires at least one byte of free buffer space when there is no unconsumed data in the buffer.
 
 ### Discard Buffer
 
@@ -392,16 +391,17 @@ To prevent the buffer from overflowing, the `discard()` member function of class
 
 #### Via Rules
 
-The [`discard` rule](Rule-Reference#discard) behaves just like the [`success` rule](Rule-Reference.md#success) but calls the discard function on the input before returning `true`.
+The [`discard`](Rule-Reference#discard) rule behaves just like the [`success`](Rule-Reference.md#success) rule but calls the discard function on the input before returning `true`.
 
 #### Via Actions
 
-The `tao::pegtl::discard_input`, `tao::pegtl::discard_input_on_success` and `tao::pegtl::discard_input_on_failure` [actions](Actions-and-States.md) can be used to discard input non-intrusively, i.e. without changing the grammar like with the [`discard` rule](Rule-Reference.md#discard).
+The `tao::pegtl::discard_input`, `tao::pegtl::discard_input_on_success` and `tao::pegtl::discard_input_on_failure` [actions](Actions-and-States.md) can be used to discard input non-intrusively, i.e. without changing the grammar like with the [`discard`](Rule-Reference.md#discard) rule.
 
-These actions are used in the usual way by deriving a custom action class template specialisation from them.
-In the case of `discard_input`, the input is discarded unconditionally buf only in the absence of exceptions after every match attempt of the rule that the action is attached to.
+These actions are used in the usual way, by deriving a custom action class template specialisation from them.
+In the case of `discard_input`, the input is discarded unconditionally after every match attempt of the rule that the action is attached to.
 
-The other two variants behave as would be expected by their names, where `discard_input_on_failure` should be understood as "discard input on local failure", nothing is discarded in the presence of exceptions, aka global failures in the context of a parsing run.
+The other two variants behave as implied by their respective names, keeping in mind that "failure" is to be understood as "local failure" (`false`), no discard is performed on global failure (exception).
+Similarly "unconditional" above refers to only either success or local failure.
 
 ```c++
 template<>
@@ -418,9 +418,8 @@ TODO: Example using the JSON grammar again.
 
 ### Custom Rules
 
-A custom rule that is compatible with incremental input needs to pay attention to some details of the incremental input's interface.
 All incremental inputs included with the library and documented here are based on `tao::pegtl::buffer_input`.
-
+A custom rule that is compatible with incremental inputs needs to pay attention to the `amount` argument in the input's interface.
 Unlike the inputs based on `tao::pegtl::memory_input`, the `size( amount )` and `end( amount )` member functions do not ignore the `amount` argument, and the `require( amount )` member function is not a complete dummy.
 
 ```c++
