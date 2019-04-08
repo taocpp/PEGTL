@@ -203,7 +203,7 @@ A small example which shows how to create a parse tree for a given grammar using
 
 The example shows how to choose which rules will produce a parse tree node, which rules will store the content, and how to add additional transformations to the parse tree to transform it into an AST-like structure or to simplify it.
 
-The output is in [dot](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) format and can be converted into a graph.
+The output is in [DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) format and can be converted into a graph.
 
 ```sh
 $ build/src/example/pegtl/parse_tree "(2*a + 3*b) / (4*n)" | dot -Tpng -o parse_tree.png
