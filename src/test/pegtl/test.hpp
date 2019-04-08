@@ -23,6 +23,11 @@ namespace tao
 
 }  // namespace tao
 
+#define TAO_TEST_STRINGIZE_INTERNAL( ... ) #__VA_ARGS__
+#define TAO_TEST_STRINGIZE( ... ) TAO_TEST_STRINGIZE_INTERNAL( __VA_ARGS__ )
+
+#define TAO_TEST_LINE TAO_TEST_STRINGIZE( __LINE__ )
+
 #define TAO_PEGTL_TEST_UNWRAP( ... ) __VA_ARGS__
 
 #define TAO_PEGTL_TEST_FAILED( MeSSaGe )            \
