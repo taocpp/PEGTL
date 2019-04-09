@@ -414,7 +414,7 @@ struct my_action< R >
 };
 ```
 
-In practice, since the "must"-rules like `tao::pegtl::must` and `tao::pegtl::if_must` inhibit backtracking, they can be good indicators of where to perform a discard.
+In practice, since the "must"-rules like `must<>` and `if_must<>` inhibit backtracking, they can be good indicators of where to perform a discard.
 For example consider again this rule from the JSON grammar from `include/tao/pegtl/contrib/json.hpp`.
 
 ```c++
@@ -425,15 +425,12 @@ The `xdigit` rule is within a `must`, wherefore we know that no backtracking is 
 However then we can't attach an action with [`apply()`](Actions-and-States.md#apply) to the `rep< 4, ... >` since we would be discarding after every single digit.
 This is not ideal, it would be more efficient to process all four xdigits in a single action invocation.
 
-Looking close we can see that backtracking to before the `rep` is actually impossible because once the `list` has successfully matched `seq< one< 'u' >, rep< 4, must< xdigit > > >` it will never go back.
-It will attempt to match another backslash, the list item separator, and if successful loop to the `seq`, but once the next character is a `'u'`, the `must` in the `rep` seals the deal, there is no wa
-y to not complete the next list entry.
+Looking close we can see that backtracking to before the `rep<>` is actually impossible because once the `list<>` has successfully matched `seq< one< 'u' >, rep< 4, must< xdigit > > >` it will never go back.
+It will attempt to match another backslash, the list item separator, and if successful loop to the `seq<>`, but once the next character is a `'u'`, the `must<>` in the `rep` seals the deal, there is no way to not complete the next list entry.
 
-Therefore we can safely attach an action to the `rep` that processes the four xdigits and then discards the input.
+Therefore we can safely attach an action to the `rep<>` that processes the four xdigits and then discards the input.
 
 ```c++
-using namespace tao::pegtl;
-
 template<>
 struct my_action< rep< 4, must< xdigit > >
    : tao::pegtl::discard_input
@@ -447,7 +444,7 @@ struct my_action< rep< 4, must< xdigit > >
 };
 ```
 
-Another good candidate for a rule to discard after is `tao::pegtl::json::value`...
+Another good candidate in the JSON grammar to discard after is the `tao::pegtl::json::value` rule...
 
 ### Custom Rules
 
@@ -456,18 +453,15 @@ A custom rule that is compatible with incremental inputs needs to pay attention 
 Unlike the inputs based on `memory_input<>`, the `size( amount )` and `end( amount )` member functions do not ignore the `amount` argument, and the `require( amount )` member function is not a complete dummy.
 
 ```c++
-namespace tao::pegtl
+template< ... >
+class buffer_input
 {
-   template< ... >
-   class buffer_input
-   {
-      bool empty();
-      std::size_t size( const std::size_t amount );
-      const char* end( const std::size_t amount );
-      void require( const std::size_t amount );
-      ...
-   };
-}
+   bool empty();
+   std::size_t size( const std::size_t amount );
+   const char* end( const std::size_t amount );
+   void require( const std::size_t amount );
+   ...
+};
 ```
 
 The `require( amount )` member function tells the input to make available at least `amount` unconsumed bytes of input data.
@@ -486,14 +480,11 @@ An incremental input consists of `buffer_input<>` together with a *reader*, a cl
 The buffer input is a class template with multiple template parameters.
 
 ```c++
-namespace tao::pegtl
-{
-   template< typename Reader,
-             typename Eol = eol::lf_crlf,
-             typename Source = std::string,
-             std::size_t Chunk = 64 >
-   class buffer_input;
-}
+template< typename Reader,
+          typename Eol = eol::lf_crlf,
+          typename Source = std::string,
+          std::size_t Chunk = 64 >
+class buffer_input;
 ```
 
 The `Eol` and `Source` parameters are like for the other [input classes](Inputs-and-Parsing.md#memory-input).
