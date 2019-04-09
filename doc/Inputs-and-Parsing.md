@@ -41,8 +41,11 @@ All classes and functions on this page are in namespace `tao::pegtl`.
 * [Parse Function](#parse-function)
 * [Nested Parsing](#nested-parsing)
 * [Incremental Input](#incremental-input)
-  * [Grammars and Buffering](#grammars-and-buffering)
-  * [Custom Data Sources](#custom-data-sources)
+  * [Buffer Size](#buffer-size)
+  * [Discard Input](#discard-input)
+  * [Custom Rules](#custom-rules)
+  * [Custom Readers](#custom-readers)
+  * [Buffer Details](#buffer-details)
 * [Error Reporting](#error-reporting)
 * [Deduction Guides](#deduction-guides)
 
@@ -59,7 +62,7 @@ Eager tracking is recommended when the position is used frequently and/or in non
 All input classes allow the choice of which line endings should be recognised by the `eol` and `eolf` rules, and used for line counting.
 The supported line endings are `cr`, a single carriage-return/`"\r"`/`0x0d` character as used on classic Mac OS, `lf`, a single line-feed/`"\n"`/`0x0a` as used on Unix, Linux, Mac OS X and macOS, and `crlf`, a sequence of both as used on MS-DOS and Windows.
 
-The default template argument for all input classes is `eol::lf_crlf` which recognises both Unix and MS-DOS line endings.
+The default template parameter for all input classes is `eol::lf_crlf` which recognises both Unix and MS-DOS line endings.
 The supplied alternatives are `eol::cr`, `eol::lf`, `eol::crlf` and `eol::cr_crlf`.
 
 ## Source
@@ -174,7 +177,7 @@ memory_input< tracking_mode::lazy, eol::crlf > in2( p.buffer().begin(), p.buffer
 ```
 
 Consider a UDP packet that was received and should be parsed.
-Construct a `memory_input` with lazy tracking mode, MS-DOS end-of-line mode (accepting only MS-DOS line endings), and default source storage.
+Construct a `memory_input<>` with lazy tracking mode, MS-DOS end-of-line mode (accepting only MS-DOS line endings), and default source storage.
 This example chooses the second overload from above.
 The data to parse is given as two `const char*` pointers (as the data is not null-terminated) and is, of course, not copied.
 Consider the source to be an identifier for the packet that was received, e.g. a string constructed from the timestamp, the source IP/port, the interface it was received on, a sequence number, or similar information.
@@ -216,7 +219,7 @@ std::string content(); // returns the content
 string_input<> in1( content(), "from_content" );
 ```
 
-Construct a `string_input` with default tracking mode, default end-of-line mode (accepting Unix and MS-DOS line endings), and default source storage.
+Construct a `string_input<>` with default tracking mode, default end-of-line mode (accepting Unix and MS-DOS line endings), and default source storage.
 The data returned from calling `content()` is copied into the input.
 The source is `from_content`.
 
@@ -233,7 +236,7 @@ Unlike the file inputs above, they internally use `buffer_input<>` and therefore
 They all have a single constructor that takes a stream, the maximum buffer size, and the name of the source.
 Note that these classes only keep a pointer/reference to the stream and do **not** take ownership; in particular `cstream_input<>` does **not** call `std::close()`.
 
-See [Incremental Input](#incremental-input) for details on the `maximum` argument, and how to prepare a grammar for incremental input support using the `discard`-rule.
+See [Incremental Input](#incremental-input) for details on the `maximum` argument, and how to use the mandatory [discard facilities](#discard-buffer).
 
 ```c++
 template< typename Eol = eol::lf_crlf >
@@ -332,89 +335,159 @@ bool parse_nested( const Outer& oi,
 
 ## Incremental Input
 
-The PEGTL is designed and optimised for parsing single contiguous blocks of memory, e.g. the contents of a file made available via `mmap(2)`, or the contents of a `std::string`.
+The PEGTL is designed and optimised for parsing single contiguous blocks of memory like a memory-mapped file or the contents of a `std::string`.
+In cases where the data does not fit into memory, or other reasons prevent parsing the data as single memory block, an *incremental* input can be used.
 
-In cases where the input does not fit into memory, or there are other reasons to not create a single memory block containing all input data, it is possible, with a little help from the grammar, to perform incremental parsing, where the data is incrementally made available, e.g. when reading from a stream.
+This allows parsing with only (small) portions of the input in a memory buffer at any single time.
+The buffer is filled automatically, however the [*discard* facilities](#discard-buffer) must be used to regularly flush the buffer and make space for a new portion of input data.
 
-### Grammars and Buffering
+The [stream inputs](#stream-inputs) are ready-to-use input classes for C++-style and C-style streams.
+Apart from having to use the [discard facilities](#discard-buffer), and some extra care when implementing [custom rules](#custom-rules), they can be used just like any other [input class](Inputs-and-Parsing.md).
 
-A buffer is used to keep a portion of the input data in a contiguous memory block.
-The buffer is allocated at the begin of the parsing run with a user-supplied maximum size.
+### Buffer Size
 
-The maximum buffer size usually depends on the grammar, the actions, and the input data.
-It must be chosen large enough to keep the data required for (a) any backtracking, and (b) all action invocations.
+The [stream inputs](#stream-inputs), and all other inputs based on `buffer_input<>`, contain a buffer that is allocated in the constructor.
+The buffer capacity is the sum of a *maximum* value and a *chunk* size.
 
-The buffer is automatically filled by the parsing rules that require input data, however **discarding data from the buffer is** (currently) **not automatic**:
-The grammar has to call [`discard`](Rule-Reference.md#discard) in appropriate places to free the buffer again.
+The maximum value is passed to the constructor as function argument, the chunk size is a (rarely changed) template parameter.
+The required buffer capacity depends on the grammar, the actions, *and* the input data.
 
-More precisely, each rule that uses one of the following functions on the input will implicitly make a call to `tao::pegtl::buffer_input<>::require( amount )`.
-(The `empty()` function uses a hard-coded `amount` of 1.)
+The buffer must be able to hold
+
+* any and all data for look-ahead performed by the grammar,
+* any and all data for back-tracking performed by the grammar,
+* any and all data for actions' [`apply()`](Actions-and-States.md#apply) (not [`apply0()`](Actions-and-States.md#apply0)).
+
+For example consider an excerpt from the JSON grammar from `include/tao/pegtl/contrib/json.hpp`.
 
 ```c++
-namespace tao
+struct xdigit : abnf::HEXDIG {};
+struct unicode : list< seq< one< 'u' >, rep< 4, must< xdigit > > >, one< '\\' > > {};
+struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
+struct escaped : sor< escaped_char, unicode > {};
+struct unescaped : utf8::range< 0x20, 0x10FFFF > {};
+struct char_ : if_then_else< one< '\\' >, must< escaped >, unescaped > {};
+
+struct string_content : until< at< one< '"' > >, must< char_ > > {};
+struct string : seq< one< '"' >, must< string_content >, any >
 {
-   namespace pegtl
+   using content = string_content;
+};
+```
+
+The rule `string_content` matches JSON strings as they occur in a JSON document.
+If an action with `apply()` (rather than `apply0()`) is attached to the `string_content` rule, the buffer capacity is an upper bound on the length of the JSON strings that can be processed.
+
+If the actions are only attached to say `unescaped`, `escaped_char` and `rep< 4, must< xdigit > >`, the latter because it, too, occurs in an (implicit in the `list`) unbounded loop, then the JSON strings are processed unescaped-character-by-unescaped-character and escape-sequence-by-escape-sequence.
+As long as the buffer is [discarded](#discard-buffer) frequently, like after every unescaped character and every single escape sequence, a buffer capacity as small as 8 or 12 should suffice for parsing arbitrarily long JSON strings.
+
+Note that the [`eof`](Rule-Reference.md#eof) rule requires at least one byte of free buffer space when there is no unconsumed data in the buffer.
+
+### Discard Buffer
+
+To prevent the buffer from overflowing, the `discard()` member function of class `buffer_input<>` must be called regularly.
+
+**Discarding invalidates all pointers to the input's data and MUST NOT be used where backtracking to before the discard might occur AND/OR nested within a rule for which an action with input can be called.**
+
+#### Via Rules
+
+The [`discard`](Rule-Reference#discard) rule behaves just like the [`success`](Rule-Reference.md#success) rule but calls the discard function on the input before returning `true`.
+
+#### Via Actions
+
+The `tao::pegtl::discard_input`, `tao::pegtl::discard_input_on_success` and `tao::pegtl::discard_input_on_failure` [actions](Actions-and-States.md) can be used to discard input non-intrusively, i.e. without changing the grammar like with the [`discard`](Rule-Reference.md#discard) rule.
+
+These actions are used in the usual way, by deriving a custom action class template specialisation from them.
+In the case of `discard_input`, the input is discarded unconditionally after every match attempt of the rule that the action is attached to.
+
+The other two variants behave as implied by their respective names, keeping in mind that "failure" is to be understood as "local failure" (`false`), no discard is performed on global failure (exception).
+Similarly "unconditional" above refers to only either success or local failure.
+
+```c++
+template<>
+struct my_action< R >
+   : tao::pegtl::discard_input
+{
+   // It is safe to implement apply() here if appropriate:
+   // discard() will be called by discard_input's match()
+   // only _after_ calling this action's apply().
+};
+```
+
+TODO: Example using the JSON grammar again.
+
+### Custom Rules
+
+All incremental inputs included with the library and documented here are based on `buffer_input<>`.
+A custom rule that is compatible with incremental inputs needs to pay attention to the `amount` argument in the input's interface.
+Unlike the inputs based on `memory_input<>`, the `size( amount )` and `end( amount )` member functions do not ignore the `amount` argument, and the `require( amount )` member function is not a complete dummy.
+
+```c++
+namespace tao::pegtl
+{
+   template< ... >
+   class buffer_input
    {
-      template< class Reader, typename Eol = eol::lf_crlf >
-      class buffer_input
-      {
-         empty();
-         size( const std::size_t amount );
-         end( const std::size_t amount );
-         ...
-      };
-   }
+      bool empty();
+      std::size_t size( const std::size_t amount );
+      const char* end( const std::size_t amount );
+      void require( const std::size_t amount );
+      ...
+   };
 }
 ```
 
-This tells the input that a rule wants to inspect and/or consume a certain `amount` of input bytes, and it will attempt to fill the buffer accordingly.
-The returned `size()`, and the distance from `begin()` to `end()`, can also be larger than the requested amount.
+The `require( amount )` member function tells the input to make available at least `amount` unconsumed bytes of input data.
+It is not normally called directly unless there is good reason to prefetch some data.
 
-For example, the rule `tao::pegtl::ascii::eol`, which (usually) checks for both `"\r\n"` and "`\n`", calls `size(2)` because it needs to inspect up to two bytes.
-Depending on whether the result of `size(2)` is `0`, `1` or `2`, it will choose which of these two sequences it can attempt to match.
-The number of actually consumed bytes can again be `0`, `1` or `2`, depending on whether they match a valid `eol`-sequence.
+The `empty()`, `size( amount )` and `end( amount )` member functions call `require( amount )`, or, in the case of `empty()`, `require( 1 )`.
+The `amount` parameter should be understood as a parsing rule wishing to inspect and consume *up to* `amount` bytes of input.
 
-To prevent the buffer from overflowing, the `discard()` member function of class `tao::pegtl::buffer_input` must be called, usually by using the `discard` parsing rule.
-It discards all data in the buffer that precedes the current `begin()`-point, and any remaining data is moved to the beginning of the buffer.
+A custom rule must make sure to use appropriate values of `amount`.
+For examples of how the `amount` is set by parsing rules please search for `in.size` in `include/tao/pegtl/internal/`.
 
-**A `discard` invalidates all pointers to the input's data and MUST NOT be used where backtracking to before the `discard` might occur AND/OR nested within a rule for which an action with input can be called.**
+### Custom Readers
 
+An incremental input consists of `buffer_input<>` together with a *reader*, a class or function that is used by the buffer input to fill the buffer.
+
+The buffer input is a class template with multiple template parameters.
+
+```c++
+namespace tao::pegtl
+{
+   template< typename Reader,
+             typename Eol = eol::lf_crlf,
+             typename Source = std::string,
+             std::size_t Chunk = 64 >
+   class buffer_input;
+}
 ```
-Buffer Memory Layout
 
-B                   begin of buffer space
-:
-B + X               begin of unconsumed buffered data as per begin()
-:
-B + X + size( 0 )   end of unconsumed buffered data as per end( 0 )
-:
-B + maximum         end of buffer space
-```
-
-A discard moves the data in the buffer such that `X` is zero, and updates `begin()` to point at the beginning of the buffer.
-
-### Custom Data Sources
-
-The PEGTL contains a set of stream parser input classes that take care of everything (except discarding data from the buffer, see above) for certain data sources.
-In order to support other data sources, it is necessary to create a custom input class, usually by creating a suitable *reader* class that can be supplied as template argument to class `tao::pegtl::buffer_input<>`.
-
-The reader class can be anything that can be called like the following standard function wrapper:
+The `Eol` and `Source` parameters are like for the other [input classes](Inputs-and-Parsing.md#memory-input).
+The `Chunk` parameter is explained below in detail.
+The `Reader` can be anything that can be called like the following wrapper.
 
 ```c++
 std::function< std::size_t( char* buffer, const std::size_t length ) >
 ```
 
-The arguments and return value are similar to other `read()`-style functions:
-Attempt to read up to `length` bytes into the memory pointed to by `buffer` and return the number of bytes actually read.
-Reaching the end of the input should be the only reason for the reader to return zero.
+The arguments and return value are similar to other `read()`-style functions, a request to read `length` bytes into the memory pointed to by `buffer` that returns the number of bytes actually read.
+Reaching the end of the input MUST be the only reason for the reader to return zero.
+The reader might be called again after returning zero, with the expectation of returning zero again.
 
-The steps required to use a custom reader for a parsing run are:
+Note that `buffer_input<>` consumes the first two arguments to its constructor for the *source* and *maximum*, and uses perfect forwarding to pass everything else to the constructor of the embedded instance of `Reader`.
 
-1. Create a suitable reader class `Reader` (or function).
-2. Create an instance of class `tao::pegtl::buffer_input< Reader >`, using the fact that the `buffer_input`'s constructor can pass arbitrary arguments to the embedded reader instance.
-3. Call `tao::pegtl::parse()` (or `tao::pegtl::parse_nested()`) with the previously created `buffer_input` instance as first argument.
+For examples of how to implement readers please look at `istream_reader.hpp` and `cstream_reader.hpp` in `include/tao/pegtl/internal/`.
 
-The included examples for C- and C++-style streams can also be used as reference on how to create and use suitable readers, simply `grep(1)` for `cstream_reader` and `istream_reader` (and `cstring_reader`) in the PEGTL source code.
+### Buffer Details
+
+The buffer input's `Chunk` template parameter is actually used in multiple places.
+
+1. The `maximum` buffer capacity passed by the user is incremented by `Chunk`.
+2. A discard does nothing when there are less than `Chunk` bytes of consumed buffered data.
+3. The buffer input requests at least `Chunk` bytes from the reader if there is enough space.
+
+Note that the first and second point go hand-in-hand, in order to optimise away some discards, the buffer must be extended in order to guarantee that at least `maximum` bytes can be buffered after a call to discard, even when it does nothing. The third point is simply an optimisation to call the reader less frequently.
 
 ## Error Reporting
 
