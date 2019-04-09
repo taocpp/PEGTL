@@ -2,7 +2,7 @@
 
 ## 2.8.0
 
-**Not yet released**
+Released 2019-04-09
 
 * Use the [**migration guide**](Migration-Guide.md#version-280) when updating.
 * Changed enumerators to lowercase.
