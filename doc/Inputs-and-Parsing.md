@@ -378,7 +378,7 @@ struct string : seq< one< '"' >, must< string_content >, any >
 The rule `string_content` matches JSON strings as they occur in a JSON document.
 If an action with `apply()` (rather than `apply0()`) is attached to the `string_content` rule, the buffer capacity is an upper bound on the length of the JSON strings that can be processed.
 
-If the actions are only attached to say `unescaped`, `escaped_char` and `rep< 4, must< xdigit > >`, the latter because it, too, occurs in an (implicit in the `list`) unbounded loop, then the JSON strings are processed unescaped-character-by-unescaped-character and escape-sequence-by-escape-sequence.
+If the actions are only attached to say `unescaped`, `escaped_char` and `rep< 4, must< xdigit > >`, the latter because it, too, occurs in an (implicit, inside of `list`) unbounded loop, then the JSON strings are processed unescaped-character-by-unescaped-character and escape-sequence-by-escape-sequence.
 As long as the buffer is [discarded](#discard-buffer) frequently, like after every unescaped character and every single escape sequence, a buffer capacity as small as 8 or 12 should suffice for parsing arbitrarily long JSON strings.
 
 Note that the [`eof`](Rule-Reference.md#eof) rule requires at least one byte of free buffer space when there is no unconsumed data in the buffer.
@@ -400,8 +400,8 @@ The `tao::pegtl::discard_input`, `tao::pegtl::discard_input_on_success` and `tao
 These actions are used in the usual way, by deriving a custom action class template specialisation from them.
 In the case of `discard_input`, the input is discarded unconditionally after every match attempt of the rule that the action is attached to.
 
-The other two variants behave as implied by their respective names, keeping in mind that "failure" is to be understood as "local failure" (`false`), no discard is performed on global failure (exception).
-Similarly "unconditional" above refers to only either success or local failure.
+The other two variants behave as implied by their respective names, keeping in mind that "failure" is to be understood as "local failure" (false), no discard is performed on global failure (exception).
+Similarly "unconditional" is wrt. success or local failure, not global failure.
 
 ```c++
 template<>
@@ -414,7 +414,37 @@ struct my_action< R >
 };
 ```
 
-TODO: Example using the JSON grammar again.
+In practice, since the "must"-rules like `must<>` and `if_must<>` inhibit backtracking, they can be good indicators of where to perform a discard.
+For example consider again this rule from the JSON grammar from `include/tao/pegtl/contrib/json.hpp`.
+
+```c++
+struct unicode : list< seq< one< 'u' >, rep< 4, must< xdigit > > >, one< '\\' > > {};
+```
+
+The `xdigit` rule is within a `must`, wherefore we know that no backtracking is possible, so we could discard after `xdigit` or `must< xdigit >`.
+However then we can't attach an action with [`apply()`](Actions-and-States.md#apply) to the `rep< 4, ... >` since we would be discarding after every single digit.
+This is not ideal, it would be more efficient to process all four xdigits in a single action invocation.
+
+Looking close we can see that backtracking to before the `rep<>` is actually impossible because once the `list<>` has successfully matched `seq< one< 'u' >, rep< 4, must< xdigit > > >` it will never go back.
+It will attempt to match another backslash, the list item separator, and if successful loop to the `seq<>`, but once the next character is a `'u'`, the `must<>` in the `rep` seals the deal, there is no way to not complete the next list entry.
+
+Therefore we can safely attach an action to the `rep<>` that processes the four xdigits and then discards the input.
+
+```c++
+template<>
+struct my_action< rep< 4, must< xdigit > >
+   : tao::pegtl::discard_input
+{
+   template< typename Input >
+   void apply( const Input& in, /* the states */ )
+   {
+      assert( in.size() == 4 );
+      // process the 4 xdigits
+   }
+};
+```
+
+Another good candidate in the JSON grammar to discard after is the `tao::pegtl::json::value` rule...
 
 ### Custom Rules
 
@@ -423,18 +453,15 @@ A custom rule that is compatible with incremental inputs needs to pay attention 
 Unlike the inputs based on `memory_input<>`, the `size( amount )` and `end( amount )` member functions do not ignore the `amount` argument, and the `require( amount )` member function is not a complete dummy.
 
 ```c++
-namespace tao::pegtl
+template< ... >
+class buffer_input
 {
-   template< ... >
-   class buffer_input
-   {
-      bool empty();
-      std::size_t size( const std::size_t amount );
-      const char* end( const std::size_t amount );
-      void require( const std::size_t amount );
-      ...
-   };
-}
+   bool empty();
+   std::size_t size( const std::size_t amount );
+   const char* end( const std::size_t amount );
+   void require( const std::size_t amount );
+   ...
+};
 ```
 
 The `require( amount )` member function tells the input to make available at least `amount` unconsumed bytes of input data.
@@ -453,14 +480,11 @@ An incremental input consists of `buffer_input<>` together with a *reader*, a cl
 The buffer input is a class template with multiple template parameters.
 
 ```c++
-namespace tao::pegtl
-{
-   template< typename Reader,
-             typename Eol = eol::lf_crlf,
-             typename Source = std::string,
-             std::size_t Chunk = 64 >
-   class buffer_input;
-}
+template< typename Reader,
+          typename Eol = eol::lf_crlf,
+          typename Source = std::string,
+          std::size_t Chunk = 64 >
+class buffer_input;
 ```
 
 The `Eol` and `Source` parameters are like for the other [input classes](Inputs-and-Parsing.md#memory-input).
