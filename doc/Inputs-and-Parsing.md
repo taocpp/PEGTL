@@ -346,7 +346,7 @@ Apart from having to use the [discard facilities](#discard-buffer), and some ext
 
 ### Buffer Size
 
-The [stream inputs](#stream-inputs), and all other inputs based on `tao::pegtl::buffer_input`, contain a buffer that is allocated in the constructor.
+The [stream inputs](#stream-inputs), and all other inputs based on `buffer_input<>`, contain a buffer that is allocated in the constructor.
 The buffer capacity is the sum of a *maximum* value and a *chunk* size.
 
 The maximum value is passed to the constructor as function argument, the chunk size is a (rarely changed) template parameter.
@@ -385,7 +385,7 @@ Note that the [`eof`](Rule-Reference.md#eof) rule requires at least one byte of 
 
 ### Discard Buffer
 
-To prevent the buffer from overflowing, the `discard()` member function of class `tao::pegtl::buffer_input` must be called regularly.
+To prevent the buffer from overflowing, the `discard()` member function of class `buffer_input<>` must be called regularly.
 
 **Discarding invalidates all pointers to the input's data and MUST NOT be used where backtracking to before the discard might occur AND/OR nested within a rule for which an action with input can be called.**
 
@@ -418,9 +418,9 @@ TODO: Example using the JSON grammar again.
 
 ### Custom Rules
 
-All incremental inputs included with the library and documented here are based on `tao::pegtl::buffer_input`.
+All incremental inputs included with the library and documented here are based on `buffer_input<>`.
 A custom rule that is compatible with incremental inputs needs to pay attention to the `amount` argument in the input's interface.
-Unlike the inputs based on `tao::pegtl::memory_input`, the `size( amount )` and `end( amount )` member functions do not ignore the `amount` argument, and the `require( amount )` member function is not a complete dummy.
+Unlike the inputs based on `memory_input<>`, the `size( amount )` and `end( amount )` member functions do not ignore the `amount` argument, and the `require( amount )` member function is not a complete dummy.
 
 ```c++
 namespace tao::pegtl
@@ -448,7 +448,7 @@ For examples of how the `amount` is set by parsing rules please search for `in.s
 
 ### Custom Readers
 
-An incremental input consists of `tao::pegtl::buffer_input` together with a *reader*, a class or function that is used by the buffer input to fill the buffer.
+An incremental input consists of `buffer_input<>` together with a *reader*, a class or function that is used by the buffer input to fill the buffer.
 
 The buffer input is a class template with multiple template parameters.
 
@@ -475,7 +475,7 @@ The arguments and return value are similar to other `read()`-style functions, a 
 Reaching the end of the input MUST be the only reason for the reader to return zero.
 The reader might be called again after returning zero, with the expectation of returning zero again.
 
-Note that `buffer_input` consumes the first two arguments to its constructor for the *source* and *maximum*, and uses perfect forwarding to pass everything else to the constructor of the embedded instance of `Reader`.
+Note that `buffer_input<>` consumes the first two arguments to its constructor for the *source* and *maximum*, and uses perfect forwarding to pass everything else to the constructor of the embedded instance of `Reader`.
 
 For examples of how to implement readers please look at `istream_reader.hpp` and `cstream_reader.hpp` in `include/tao/pegtl/internal/`.
 

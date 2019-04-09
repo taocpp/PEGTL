@@ -227,7 +227,7 @@ struct my_action< my_rule >
       // succeeds (and actions are not disabled). Can also return
       // bool instead of void.
    }
-}
+};
 ```
 
 Using `apply0()` is never necessary, it is "only" an optimisation with minor benefits at compile time, and potentially more noteworthy benefits at run time.
