@@ -17,6 +17,12 @@
 * Removed compatibility `peek_byte()` member functions.
 * Removed compatibility header `changes.hpp` from contrib.
 
+## 2.8.1
+
+**Not yet released**
+
+* Fixed missing `string_input<>` in amalgamated header.
+
 ## 2.8.0
 
 Released 2019-04-09
