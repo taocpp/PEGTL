@@ -36,6 +36,8 @@ on either
 It requires C++17, e.g. using the `--std=c++17` compiler switch.
 Using newer versions of the C++ standard is supported.
 
+Larger projects will frequently require the `/bigobj` option when compiling with Visual Studio on Windows.
+
 It should also work with other C++17 compilers on other Unix systems (or any sufficiently compatible platform).
 
 The PEGTL is written with an emphasis on clean code and is compatible with
