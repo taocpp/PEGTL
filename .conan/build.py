@@ -52,17 +52,17 @@ class BuilderSettings(object):
 
     @property
     def reference(self):
-        """ Read project version from CMake file to create Conan referece
+        """ Read project version from version.hpp file to create Conan referece
         """
-        pattern = re.compile(r"project\(pegtl VERSION (\d+\.\d+\.\d+) LANGUAGES CXX\)")
+        pattern = re.compile(r"#define TAO_PEGTL_VERSION \"(\d+\.\d+\.\d+)\"")
         version = None
-        with open('CMakeLists.txt') as file:
+        with open('include/tao/pegtl/version.hpp') as file:
             for line in file:
                 result = pattern.match(line)
                 if result:
                     version = result.group(1)
         if not version:
-            raise Exception("Could not find version in CMakeLists.txt")
+            raise Exception("Could not find version in version.hpp")
         return os.getenv("CONAN_REFERENCE", "pegtl/{}@taocpp/stable".format(version))
 
 if __name__ == "__main__":
