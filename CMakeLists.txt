@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.8.0 FATAL_ERROR)
 
-project(pegtl VERSION 3.0.0 LANGUAGES CXX)
+# Read version from version.hpp
+file(READ "${CMAKE_CURRENT_LIST_DIR}/include/tao/pegtl/version.hpp" version_hpp_data)
+string(REGEX MATCH "#define TAO_PEGTL_VERSION \"([^\"]+)\"" _ ${version_hpp_data})
+set(PEGTL_VERSION "${CMAKE_MATCH_1}")
+
+project(pegtl VERSION ${PEGTL_VERSION} LANGUAGES CXX)
 
 if(${PROJECT_NAME}_FOUND)
   # Multiple versions of PEGTL can't co-exist
