@@ -55,6 +55,9 @@ endif()
 # Make package findable
 configure_file(cmake/dummy-config.cmake.in pegtl-config.cmake @ONLY)
 
+# Ignore pointer width differences since this is a header-only library
+unset(CMAKE_SIZEOF_VOID_P)
+
 # Enable version checks in find_package
 include(CMakePackageConfigHelpers)
 write_basic_package_version_file(pegtl-config-version.cmake COMPATIBILITY SameMajorVersion)
