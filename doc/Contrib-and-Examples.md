@@ -206,12 +206,12 @@ The example shows how to choose which rules will produce a parse tree node, whic
 The output is in [DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) format and can be converted into a graph.
 
 ```sh
-$ build/src/example/pegtl/parse_tree "(2*a + 3*b) / (4*n)" | dot -Tpng -o parse_tree.png
+$ build/src/example/pegtl/parse_tree "(2*a + 3*b) / (4*n)" | dot -Tsvg -o parse_tree.svg
 ```
 
-The above will generate a PNG with a graphical representation of the parse tree.
+The above will generate an SVG file with a graphical representation of the parse tree.
 
-![Parse Tree](Parse-Tree.png)
+![Parse Tree](Parse-Tree.svg)
 
 ###### `src/example/pegtl/proto3.cpp`
 
