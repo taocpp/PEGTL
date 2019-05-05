@@ -9,8 +9,6 @@
 #include "../rules.hpp"
 #include "../utf8.hpp"
 
-#include "abnf.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::json_pointer
 {
    // JSON pointer grammar according to RFC 6901
@@ -26,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE::json_pointer
    // relative JSON pointer, see ...
 
    // clang-format off
-   struct non_negative_integer : sor< one< '0' >, plus< abnf::DIGIT > > {};
+   struct non_negative_integer : sor< one< '0' >, plus< digit > > {};
    struct relative_json_pointer : seq< non_negative_integer, sor< one< '#' >, json_pointer > > {};
    // clang-format on
 

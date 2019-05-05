@@ -9,8 +9,6 @@
 #include "../rules.hpp"
 #include "../utf8.hpp"
 
-#include "abnf.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::json
 {
    // JSON grammar according to RFC 8259
@@ -32,13 +30,13 @@ namespace TAO_PEGTL_NAMESPACE::json
    struct null : string< 'n', 'u', 'l', 'l' > {};
    struct true_ : string< 't', 'r', 'u', 'e' > {};
 
-   struct digits : plus< abnf::DIGIT > {};
+   struct digits : plus< digit > {};
    struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+'> >, must< digits > > {};
    struct frac : if_must< one< '.' >, digits > {};
    struct int_ : sor< one< '0' >, digits > {};
    struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
 
-   struct xdigit : abnf::HEXDIG {};
+   struct xdigit : pegtl::xdigit {};
    struct unicode : list< seq< one< 'u' >, rep< 4, must< xdigit > > >, one< '\\' > > {};
    struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
    struct escaped : sor< escaped_char, unicode > {};
