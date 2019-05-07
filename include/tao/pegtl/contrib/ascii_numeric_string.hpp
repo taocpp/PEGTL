@@ -41,13 +41,14 @@ namespace TAO_PEGTL_NAMESPACE
                in.bump_in_this_line( 1 );
                return true;
             }
-            const auto s = in.size( internal::digits( Maximum ) );
+            constexpr auto d = internal::digits( Maximum );
+            const auto s = ( std::min )( d, in.size( d ) );
             std::size_t p = 1;
             while( ( p < s ) && std::isdigit( in.peek_char( p ) ) ) {
                ++p;
             }
             if( p == s ) {
-               const std::string v( in.begin(), p );
+               const std::string v( in.current(), p );
                errno = 0;
                const auto r = std::strtoull( v.c_str(), nullptr, 10 );
                if( ( errno == ERANGE ) || !( r <= Maximum ) ) {
