@@ -52,7 +52,12 @@ namespace TAO_PEGTL_NAMESPACE
                errno = 0;
                const auto r = std::strtoull( v.c_str(), nullptr, 10 );
                if( ( errno == ERANGE ) || !( r <= Maximum ) ) {
-                  return false;
+                  if( p == 1 ) {
+                     return false;
+                  }
+                  else {
+                     --p;
+                  }
                }
             }
             in.bump_in_this_line( p );
