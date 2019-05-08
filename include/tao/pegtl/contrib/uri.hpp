@@ -10,6 +10,7 @@
 #include "../utf8.hpp"
 
 #include "abnf.hpp"
+#include "ascii_numeric_string.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::uri
 {
@@ -25,11 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::uri
    using colon = one< ':' >;
 
    // clang-format off
-   struct dec_octet : sor< one< '0' >,
-                           rep_min_max< 1, 2, abnf::DIGIT >,
-                           seq< one< '1' >, abnf::DIGIT, abnf::DIGIT >,
-                           seq< one< '2' >, range< '0', '4' >, abnf::DIGIT >,
-                           seq< string< '2', '5' >, range< '0', '5' > > > {};
+   struct dec_octet : numeric_string< 255 > {};
 
    struct IPv4address : seq< dec_octet, dot, dec_octet, dot, dec_octet, dot, dec_octet > {};
 
