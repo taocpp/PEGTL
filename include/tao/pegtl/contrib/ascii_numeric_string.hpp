@@ -4,7 +4,11 @@
 #ifndef TAO_PEGTL_CONTRIB_ASCII_NUMERIC_HPP
 #define TAO_PEGTL_CONTRIB_ASCII_NUMERIC_HPP
 
-#include <cstddef>
+#include <algorithm>
+#include <cctype>
+#include <cstdint>
+#include <cstdlib>
+#include <string>
 
 #include "../analysis/generic.hpp"
 #include "../config.hpp"
