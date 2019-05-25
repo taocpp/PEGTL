@@ -5,7 +5,6 @@
 #define TAO_PEGTL_CONTRIB_ASCII_NUMERIC_HPP
 
 #include <algorithm>
-#include <cctype>
 #include <cstdint>
 #include <cstdlib>
 #include <string>
@@ -17,6 +16,11 @@ namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
+      constexpr bool isdigit( const char c ) noexcept
+      {
+         return ( '0' <= c ) && ( c <= '9' );  // Make sure we are not affected by non-standard MS behaviour.
+      }
+
       constexpr std::size_t digits( const std::uint64_t N ) noexcept
       {
          return ( N < 10 ) ? 1 : ( 1 + digits( N / 10 ) );
@@ -38,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE
                return false;
             }
             const auto c = in.peek_char( 0 );
-            if( !std::isdigit( c ) ) {
+            if( !internal::isdigit( c ) ) {
                return false;
             }
             if( c == '0' ) {
@@ -48,7 +52,7 @@ namespace TAO_PEGTL_NAMESPACE
             constexpr auto d = internal::digits( Maximum );
             const auto s = ( std::min )( d, in.size( d ) );
             std::size_t p = 1;
-            while( ( p < s ) && std::isdigit( in.peek_char( p ) ) ) {
+            while( ( p < s ) && internal::isdigit( in.peek_char( p ) ) ) {
                ++p;
             }
             if( p == s ) {
