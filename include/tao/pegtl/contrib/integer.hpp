@@ -59,13 +59,18 @@ namespace TAO_PEGTL_NAMESPACE::integer
    {
       // Assumes that 'in' contains a non-empty sequence of ASCII digits.
 
-      template< typename Input, typename State >
-      static void apply( const Input& in, State& st )
+      template< typename Input, typename Unsigned >
+      static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_integral_v< Unsigned >, void >
       {
-         using T = std::decay_t< decltype( st.converted ) >;
-         static_assert( std::is_integral_v< T > );
-         static_assert( std::is_unsigned_v< T > );
-         st.converted = internal::convert_positive< T >( in, 0 );
+         static_assert( std::is_integral_v< Unsigned > );
+         static_assert( std::is_unsigned_v< Unsigned > );
+         st = internal::convert_positive< Unsigned >( in, 0 );
+      }
+
+      template< typename Input, typename State >
+      static auto apply( const Input& in, State& st ) -> std::enable_if_t< std::is_class_v< State >, void >
+      {
+         apply( in, st.converted );
       }
    };
 
@@ -79,19 +84,24 @@ namespace TAO_PEGTL_NAMESPACE::integer
       // Assumes that 'in' contains a non-empty sequence of ASCII digits,
       // with optional leading sign; with sign, in.size() must be >= 2.
 
-      template< typename Input, typename State >
-      static void apply( const Input& in, State& st )
+      template< typename Input, typename Signed >
+      static auto apply( const Input& in, Signed& st ) -> std::enable_if_t< std::is_integral_v< Signed >, void >
       {
-         using T = std::decay_t< decltype( st.converted ) >;
-         static_assert( std::is_integral_v< T > );
-         static_assert( std::is_signed_v< T > );
+         static_assert( std::is_integral_v< Signed > );
+         static_assert( std::is_signed_v< Signed > );
          const auto c = in.peek_char();
          if( c == '-' ) {
-            st.converted = internal::convert_negative< T >( in, 1 );
+            st = internal::convert_negative< Signed >( in, 1 );
          }
          else {
-            st.converted = internal::convert_positive< T >( in, std::size_t( c == '+' ) );
+            st = internal::convert_positive< Signed >( in, std::size_t( c == '+' ) );
          }
+      }
+
+      template< typename Input, typename State >
+      static auto apply( const Input& in, State& st ) -> std::enable_if_t< std::is_class_v< State >, void >
+      {
+         apply( in, st.converted );
       }
    };
 
