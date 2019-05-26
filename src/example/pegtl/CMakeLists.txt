@@ -22,6 +22,7 @@ set(example_sources
   s_expression.cpp
   sum.cpp
   symbol_table.cpp
+  temporary.cpp
   unescape.cpp
   uri.cpp
   uri_trace.cpp
