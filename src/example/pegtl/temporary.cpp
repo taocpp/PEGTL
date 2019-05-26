@@ -15,10 +15,7 @@ namespace tao::pegtl::integer
       template< typename I, I Limit >
       struct integer_converter
       {
-         integer_converter()
-            : out( 0 )
-         {
-         }
+         integer_converter() = default;
 
          explicit integer_converter( const I c )
             : out( c - '0' )
@@ -30,7 +27,7 @@ namespace tao::pegtl::integer
          static constexpr I cutoff = Limit / 10;
          static constexpr I cutlim = Limit % 10;
 
-         bool feed( const I c )
+         bool feed( const I c ) noexcept
          {
             c -= '0';
 
