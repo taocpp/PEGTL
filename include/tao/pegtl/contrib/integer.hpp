@@ -72,6 +72,14 @@ namespace TAO_PEGTL_NAMESPACE::integer
       {
          apply( in, st.converted );
       }
+
+      template< typename Input, typename Unsigned, typename... Ts >
+      static auto apply( const Input& in, std::vector< Unsigned, Ts... >& st ) -> std::enable_if_t< std::is_integral_v< Unsigned >, void >
+      {
+         Unsigned u;
+         apply( in, u );
+         st.emplace_back( u );
+      }
    };
 
    struct signed_rule
@@ -102,6 +110,14 @@ namespace TAO_PEGTL_NAMESPACE::integer
       static auto apply( const Input& in, State& st ) -> std::enable_if_t< std::is_class_v< State >, void >
       {
          apply( in, st.converted );
+      }
+
+      template< typename Input, typename Signed, typename... Ts >
+      static auto apply( const Input& in, std::vector< Signed, Ts... >& st ) -> std::enable_if_t< std::is_integral_v< Signed >, void >
+      {
+         Signed s;
+         apply( in, s );
+         st.emplace_back( s );
       }
    };
 
