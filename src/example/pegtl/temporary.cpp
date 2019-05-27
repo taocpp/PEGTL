@@ -11,6 +11,7 @@ namespace tao::pegtl::integer
       {
          // We don't use std::isdigit() because it might
          // return true for other values on MS platforms.
+
          return ( '0' <= c ) && ( c <= '9' );
       }
 
@@ -83,7 +84,7 @@ namespace tao::pegtl::integer
       }
 
       template< typename Signed >
-      [[nodiscard]] bool convert_signed( Signed& result, const std::string_view input ) noexcept
+      [[nodiscard]] constexpr bool convert_signed( Signed& result, const std::string_view input ) noexcept
       {
          // Assumes that input is an optional sign followed by a non-empty sequence of digits; returns false on overflow.
 
@@ -132,15 +133,14 @@ namespace tao::pegtl::integer
          if( !in.empty() ) {
             char c = in.peek_char();
             if( internal::is_digit( c ) ) {
+               st = c - '0';
                in.bump_in_this_line();
                if( c == '0' ) {
-                  st = 0;
                   return in.empty() || is_digit( in.peek_char() );  // Or throw exception?
                }
-               st = c - '0';
                while( !in.empty() && is_digit( c = in.peek_char() ) ) {
                   if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
-                     throw parse_error( "integer out of range", in );
+                     throw parse_error( "integer out of range", in );  // Should be fine for most applications.
                   }
                   in.bump_in_this_line();
                }
@@ -152,18 +152,20 @@ namespace tao::pegtl::integer
 
    }  // namespace internal
 
-   struct old_unsigned_rule
+   struct unsigned_rule_old
       : plus< digit >
    {
    };
 
-   struct new_unsigned_rule
+   struct unsigned_rule_new
       : if_then_else< one< '0' >, not_at< digit >, plus< digit > >
    {
    };
 
    struct unsigned_rule
    {
+      using analyze_t = unsigned_rule_new::analyze_t;
+
       template< apply_mode A,
                 rewind_mode M,
                 template< typename... >
@@ -174,7 +176,7 @@ namespace tao::pegtl::integer
                 typename... States >
       [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) ) -> std::enable_if_t< ( A == apply_mode::nothing ) || ( sizeof...( States ) == 0 ), bool >
       {
-         return internal::match_unsigned( in );
+         return internal::match_unsigned( in );  // Does not check for any overflow.
       }
 
       template< apply_mode A,
@@ -185,10 +187,9 @@ namespace tao::pegtl::integer
                 class Control,
                 typename Input,
                 typename Unsigned >
-      [[nodiscard]] static auto match( Input& in, Unsigned& st ) noexcept( noexcept( in.empty() ) ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_unsigned_v< Unsigned >, bool >
+      [[nodiscard]] static auto match( Input& in, Unsigned& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_unsigned_v< Unsigned >, bool >
       {
-         static constexpr Unsigned maximum = ( std::numeric_limits< Unsigned >::max )();
-         return internal::match_and_convert_unsigned_with_maximum< in, Unsigned, maximum >( in, st );
+         return internal::match_and_convert_unsigned_with_maximum( in, st );  // Throws on overflow.
       }
 
       // TODO: Overload for st.converted?
@@ -200,6 +201,8 @@ namespace tao::pegtl::integer
    {
       static_assert( std::is_unsigned_v< Unsigned > );
 
+      using analyze_t = unsigned_rule_new::analyze_t;
+
       template< apply_mode A,
                 rewind_mode M,
                 template< typename... >
@@ -208,10 +211,10 @@ namespace tao::pegtl::integer
                 class Control,
                 typename Input,
                 typename... States >
-      [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) ) -> std::enable_if_t< ( A == apply_mode::nothing ) || ( sizeof...( States ) == 0 ), bool >
+      [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ ) -> std::enable_if_t< ( A == apply_mode::nothing ) || ( sizeof...( States ) == 0 ), bool >
       {
          Unsigned st = 0;  // TODO: Remove initialisation if we can shut up all compilers.
-         return internal::match_and_convert_unsigned_with_maximum< in, Unsigned, Maximum >( in, st );
+         return internal::match_and_convert_unsigned_with_maximum< in, Unsigned, Maximum >( in, st );  // Throws on overflow.
       }
 
       template< apply_mode A,
@@ -222,9 +225,9 @@ namespace tao::pegtl::integer
                 class Control,
                 typename Input,
                 typename Unsigned2 >
-      [[nodiscard]] static auto match( Input& in, Unsigned& st ) noexcept( noexcept( in.empty() ) ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_same_v< Unsigned, Unsigned2 >, bool >
+      [[nodiscard]] static auto match( Input& in, Unsigned& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_same_v< Unsigned, Unsigned2 >, bool >
       {
-         return internal::match_and_convert_unsigned_with_maximum< in, Unsigned, Maximum >( in, st );
+         return internal::match_and_convert_unsigned_with_maximum< in, Unsigned, Maximum >( in, st );  // Throws on overflow.
       }
 
       // TODO: Overload for st.converted?
@@ -239,7 +242,7 @@ namespace tao::pegtl::integer
       static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_integral_v< Unsigned >, void >
       {
          if( !internal::convert_unsigned( st, in.string_view() ) ) {
-            throw parse_error( "unsigned overflow", in );
+            throw parse_error( "unsigned integer overflow", in );
          }
       }
 
@@ -258,17 +261,56 @@ namespace tao::pegtl::integer
       }
    };
 
-   struct old_signed_rule
-      : seq< opt< one< '+', '-' > >, plus< digit > >
+   template< typename Unsigned, Unsigned Maximum >
+   struct maximum_action
+   {
+      // Assumes that 'in' contains a non-empty sequence of ASCII digits.
+
+      template< typename Input >
+      static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_integral_v< Unsigned >, void >
+      {
+         if( !internal::convert_unsigned< Unsigned, Maximum >( st, in.string_view() ) ) {
+            throw parse_error( "unsigned integer overflow", in );
+         }
+      }
+
+      template< typename Input, typename State >
+      static auto apply( const Input& in, State& st ) -> std::enable_if_t< std::is_class_v< State >, void >
+      {
+         apply( in, st.converted );
+      }
+
+      template< typename Input, typename... Ts >
+      static auto apply( const Input& in, std::vector< Unsigned, Ts... >& st ) -> std::enable_if_t< std::is_integral_v< Unsigned >, void >
+      {
+         Unsigned u;
+         apply( in, u );
+         st.emplace_back( u );
+      }
+   };
+
+   struct signed_rule_old
+      : seq< opt< one< '-', '+' > >, plus< digit > >
    {
    };
 
-   struct new_signed_rule
-      : seq< opt< one< '+', '-' > >, if_then_else< one< '0' >, not_at< digit >, plus< digit > > >
+   struct signed_rule_new
+      : seq< opt< one< '-', '+' > >, if_then_else< one< '0' >, not_at< digit >, plus< digit > > >
+   {
+   };
+
+   struct signed_rule_bis
+      : seq< opt< one< '-' > >, if_then_else< one< '0' >, not_at< digit >, plus< digit > > >
+   {
+   };
+
+   struct signed_rule_ter
+      : seq< one< '-', '+' >, if_then_else< one< '0' >, not_at< digit >, plus< digit > > >
    {
    };
 
    struct signed_rule
+      : seq< opt< one< '-', '+' > >, if_then_else< one< '0' >, not_at< digit >, plus< digit > > >
    {
    };
 
@@ -281,7 +323,7 @@ namespace tao::pegtl::integer
       static auto apply( const Input& in, Signed& st ) -> std::enable_if_t< std::is_integral_v< Signed >, void >
       {
          if( !internal::convert_signed( st, in.string_view() ) ) {
-            throw parse_error( "signed overflow", in );
+            throw parse_error( "signed integer overflow", in );
          }
       }
 
