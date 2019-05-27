@@ -7,77 +7,105 @@ namespace tao::pegtl::integer
 {
    namespace internal
    {
-      constexpr bool isdigit( const char c ) noexcept
+      [[nodiscard]] constexpr bool is_digit( const char c ) noexcept
       {
-         return ( '0' <= c ) && ( c <= '9' );  // Make sure we are not affected by non-standard MS behaviour.
+         // We don't use std::isdigit() because it might
+         // return true for other values on MS platforms.
+         return ( '0' <= c ) && ( c <= '9' );
       }
 
-      template< typename I, I Limit >
-      struct integer_converter
+      template< typename Integer, Integer Maximum = ( std::numeric_limits< Integer >::max )() >
+      [[nodiscard]] constexpr bool accumulate_digit( Integer& result, const char digit ) noexcept
       {
-         integer_converter() = default;
+         // Assumes that digit is a digit as per is_digit(); returns false on overflow.
 
-         explicit integer_converter( const I c )
-            : out( c - '0' )
-         {
+         static_assert( std::is_integral_v< Integer > );
+
+         constexpr Integer cutoff = Maximum / 10;
+         constexpr Integer cutlim = Maximum % 10;
+
+         const Integer c = digit - '0';
+
+         if( ( result > cutoff ) || ( ( result == cutoff ) && ( c > cutlim ) ) ) {
+            return false;
          }
+         result *= 10;
+         result += c;
+         return true;
+      }
 
-         I out = 0;
+      template< typename Integer, Integer Maximum = ( std::numeric_limits< Integer >::max )() >
+      [[nodiscard]] constexpr bool accumulate_digits( Integer& result, const std::string_view input ) noexcept
+      {
+         // Assumes that input is a non-empty sequence of digits; returns false on overflow.
 
-         static constexpr I cutoff = Limit / 10;
-         static constexpr I cutlim = Limit % 10;
-
-         bool feed( const I c ) noexcept
-         {
-            c -= '0';
-
-            if( ( out > cutoff ) || ( ( out == cutoff ) && ( c > cutlim ) ) ) {
+         result = input[ 0 ] - '0';
+         for( std::size_t i = 1; i < input.size(); ++i ) {
+            if( !accumulate_digit< Integer, Maximum >( result, input[ i ] ) ) {
                return false;
             }
-            out *= 10;
-            out += c;
+         }
+         return true;
+      }
+
+      template< typename Integer, Integer Maximum = ( std::numeric_limits< Integer >::max )() >
+      [[nodiscard]] constexpr bool convert_positive( Integer& result, const std::string_view input ) noexcept
+      {
+         // Assumes that input is a non-empty sequence of digits; returns false on overflow.
+
+         static_assert( std::is_integral_v< Integer > );
+         return accumulate_digits< Integer, Maximum >( result, input );
+      }
+
+      template< typename Signed >
+      [[nodiscard]] constexpr bool convert_negative( Signed& result, const std::string_view input ) noexcept
+      {
+         // Assumes that input is a non-empty sequence of digits; returns false on overflow.
+
+         static_assert( std::is_signed_v< Signed > );
+         using Unsigned = std::make_unsigned_t< Signed >;
+         constexpr Unsigned maximum = static_cast< Unsigned >( ( std::numeric_limits< Signed >::max )() ) + 1;
+         Unsigned temporary;
+         if( accumulate_digits< Unsigned, maximum >( temporary, input ) ) {
+            result = static_cast< Signed >( ~temporary ) + 1;
             return true;
          }
-      };
+         return false;
+      }
 
-      template< typename I, I Limit, typename Input >
-      [[nodiscard]] I actual_convert( const Input& in, std::size_t index )
+      template< typename Unsigned, Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
+      [[nodiscard]] constexpr bool convert_unsigned( Unsigned& result, const std::string_view input ) noexcept
       {
-         integer_converter< I, Limit > conv( in.peek_char( index ) );
-         while( ++index < in.size() ) {
-            if( !conv.feed( in.peek_char( index ) ) ) {
-               throw parse_error( "integer out of range", in );
-            }
+         // Assumes that input is a non-empty sequence of digits; returns false on overflow.
+
+         static_assert( std::is_unsigned_v< Unsigned > );
+         return accumulate_digits< Unsigned, Maximum >( result, input );
+      }
+
+      template< typename Signed >
+      [[nodiscard]] bool convert_signed( Signed& result, const std::string_view input ) noexcept
+      {
+         // Assumes that input is an optional sign followed by a non-empty sequence of digits; returns false on overflow.
+
+         static_assert( std::is_signed_v< Signed > );
+         if( input[ 0 ] == '-' ) {
+            return convert_negative< Signed >( result, std::string_view( input.data() + 1, input.size() - 1 ) );
          }
-         return conv.out;
-      }
-
-      template< typename I, typename Input >
-      [[nodiscard]] I convert_positive( const Input& in, std::size_t index )
-      {
-         static constexpr I limit = ( std::numeric_limits< I >::max )();
-         return actual_convert< I, limit >( in, index );
-      }
-
-      template< typename I, typename Input >
-      [[nodiscard]] I convert_negative( const Input& in, std::size_t index )
-      {
-         using U = std::make_unsigned_t< I >;
-         static constexpr U limit = static_cast< U >( ( std::numeric_limits< I >::max )() ) + 1;
-         return static_cast< I >( ~actual_convert< U, limit >( in, index ) ) + 1;
+         const unsigned offset = unsigned( input[ 0 ] == '+' );
+         return convert_positive< Signed >( result, std::string_view( input.data() + offset, input.size() - offset ) );
       }
 
       template< typename Input >
       [[nodiscard]] bool match_unsigned( Input& in ) noexcept( noexcept( in.empty() ) )
       {
          if( !in.empty() ) {
-            char c = in.peek_char();
-            if( internal::isdigit( c ) ) {
+            const char c = in.peek_char();
+            if( internal::is_digit( c ) ) {
                in.bump_in_this_line();
                if( c == '0' ) {
-                  return in.empty() || internal::isdigit( in.peek_char() );  // Or throw exception?
+                  return in.empty() || is_digit( in.peek_char() );  // Or throw exception?
                }
-               while( !in.empty() && internal::isdigit( in.peek_char() ) ) {
+               while( !in.empty() && is_digit( in.peek_char() ) ) {
                   in.bump_in_this_line();
                }
                return true;
@@ -86,27 +114,36 @@ namespace tao::pegtl::integer
          return false;
       }
 
+      template< typename Input >
+      [[nodiscard]] bool match_signed( Input& in ) noexcept( noexcept( in.empty() ) )
+      {
+         if( !in.empty() ) {
+            // TODO!
+            return true;
+         }
+         return false;
+      }
+
       template< typename Input,
                 typename Unsigned,
-                Unsigned Maximum >
-      [[nodiscard]] bool match_and_convert_unsigned_with_maximum( Input& in, Unsigned& st ) noexcept( noexcept( in.empty() ) )
+                Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
+      [[nodiscard]] bool match_and_convert_unsigned_with_maximum( Input& in, Unsigned& st )
       {
          if( !in.empty() ) {
             char c = in.peek_char();
-            if( internal::isdigit( c ) ) {
+            if( internal::is_digit( c ) ) {
                in.bump_in_this_line();
                if( c == '0' ) {
                   st = 0;
-                  return in.empty() || internal::isdigit( in.peek_char() );  // Or throw exception?
+                  return in.empty() || is_digit( in.peek_char() );  // Or throw exception?
                }
-               internal::integer_converter< Unsigned, Maximum > conv( c );
-               while( !in.empty() && internal::isdigit( c = in.peek_char() ) ) {
-                  if( !conv.feed( c ) ) {
+               st = c - '0';
+               while( !in.empty() && is_digit( c = in.peek_char() ) ) {
+                  if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
                      throw parse_error( "integer out of range", in );
                   }
                   in.bump_in_this_line();
                }
-               st = conv.out;
                return true;
             }
          }
@@ -201,9 +238,9 @@ namespace tao::pegtl::integer
       template< typename Input, typename Unsigned >
       static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_integral_v< Unsigned >, void >
       {
-         static_assert( std::is_integral_v< Unsigned > );
-         static_assert( std::is_unsigned_v< Unsigned > );
-         st = internal::convert_positive< Unsigned >( in, 0 );
+         if( !internal::convert_unsigned( st, in.string_view() ) ) {
+            throw parse_error( "unsigned overflow", in );
+         }
       }
 
       template< typename Input, typename State >
@@ -221,8 +258,17 @@ namespace tao::pegtl::integer
       }
    };
 
-   struct signed_rule
+   struct old_signed_rule
       : seq< opt< one< '+', '-' > >, plus< digit > >
+   {
+   };
+
+   struct new_signed_rule
+      : seq< opt< one< '+', '-' > >, if_then_else< one< '0' >, not_at< digit >, plus< digit > > >
+   {
+   };
+
+   struct signed_rule
    {
    };
 
@@ -234,14 +280,8 @@ namespace tao::pegtl::integer
       template< typename Input, typename Signed >
       static auto apply( const Input& in, Signed& st ) -> std::enable_if_t< std::is_integral_v< Signed >, void >
       {
-         static_assert( std::is_integral_v< Signed > );
-         static_assert( std::is_signed_v< Signed > );
-         const auto c = in.peek_char();
-         if( c == '-' ) {
-            st = internal::convert_negative< Signed >( in, 1 );
-         }
-         else {
-            st = internal::convert_positive< Signed >( in, std::size_t( c == '+' ) );
+         if( !internal::convert_signed( st, in.string_view() ) ) {
+            throw parse_error( "signed overflow", in );
          }
       }
 
