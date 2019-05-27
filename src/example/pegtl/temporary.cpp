@@ -91,7 +91,7 @@ namespace tao::pegtl::integer
          if( input[ 0 ] == '-' ) {
             return convert_negative< Signed >( result, std::string_view( input.data() + 1, input.size() - 1 ) );
          }
-         const unsigned offset = unsigned( input[ 0 ] == '+' );
+         const auto offset = unsigned( input[ 0 ] == '+' );
          return convert_positive< Signed >( result, std::string_view( input.data() + offset, input.size() - offset ) );
       }
 
@@ -114,15 +114,15 @@ namespace tao::pegtl::integer
          return false;
       }
 
-      template< typename Input >
-      [[nodiscard]] bool match_signed( Input& in ) noexcept( noexcept( in.empty() ) )
-      {
-         if( !in.empty() ) {
-            // TODO!
-            return true;
-         }
-         return false;
-      }
+      // template< typename Input >
+      // [[nodiscard]] bool match_signed( Input& in ) noexcept( noexcept( in.empty() ) )
+      // {
+      //    if( !in.empty() ) {
+      //       // TODO!
+      //       return true;
+      //    }
+      //    return false;
+      // }
 
       template< typename Input,
                 typename Unsigned,
