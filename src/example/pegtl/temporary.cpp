@@ -196,7 +196,7 @@ namespace tao::pegtl::integer
       // TODO: Overload for std::vector< Unsigned >?
    };
 
-   template< typename Unsigned, Unsigned Maximum >
+   template< typename Unsigned, Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
    struct maximum_rule
    {
       static_assert( std::is_unsigned_v< Unsigned > );
@@ -265,6 +265,8 @@ namespace tao::pegtl::integer
    struct maximum_action
    {
       // Assumes that 'in' contains a non-empty sequence of ASCII digits.
+
+      static_assert( std::is_unsigned_v< Unsigned > );
 
       template< typename Input >
       static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_integral_v< Unsigned >, void >
