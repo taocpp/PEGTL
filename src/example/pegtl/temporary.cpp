@@ -103,7 +103,7 @@ namespace tao::pegtl::integer
             if( internal::is_digit( c ) ) {
                in.bump_in_this_line();
                if( c == '0' ) {
-                  return in.empty() || is_digit( in.peek_char() );  // Or throw exception?
+                  return in.empty() || !is_digit( in.peek_char() );  // Or throw exception?
                }
                while( !in.empty() && is_digit( in.peek_char() ) ) {
                   in.bump_in_this_line();
