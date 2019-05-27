@@ -314,7 +314,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... /*unused*/ )
       {
-         Unsigned st = 0;  // TODO: Remove initialisation if we can shut up all compilers.
+         Unsigned st = 0;
          return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
       }
    };
