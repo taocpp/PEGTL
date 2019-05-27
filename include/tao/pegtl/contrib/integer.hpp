@@ -207,7 +207,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       template< typename Input, typename Unsigned, typename... Ts >
       static auto apply( const Input& in, std::vector< Unsigned, Ts... >& st ) -> std::enable_if_t< std::is_integral_v< Unsigned >, void >
       {
-         Unsigned u;
+         Unsigned u = 0;
          apply( in, u );
          st.emplace_back( u );
       }
@@ -336,7 +336,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
                 typename... States >
       [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ ) -> std::enable_if_t< A == apply_mode::nothing, bool >
       {
-         Unsigned st = 0;  // TODO: Remove initialisation if we can shut up all compilers.
+         Unsigned st = 0;
          return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
       }
 
