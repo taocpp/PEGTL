@@ -10,6 +10,8 @@
 * The macro `TAO_PEGTL_NAMESPACE` now contains the fully qualified namespace, e.g. `tao::pegtl`.
 * Replaced `tao::pegtl::input_error` with `std::system_error`.
 * Changed message of `tao::pegtl::parse_error` to no longer contain the position redundantly.
+* Changed rules in `tao/pegtl/contrib/integer.hpp` to not accept redundant leading zeros.
+* Added rules to `tao/pegtl/contrib/integer.hpp` that test unsigned values against a maximum.
 * Removed option of [state](Rule-Reference.md#state-s-r-)'s `S::success()` to have an extended signature to get access to the current `apply_mode`, `rewind_mode`, *action*- and *control* class (template).
 * Added `[[nodiscard]]` to most non-void functions.
 * Removed compatibility macros starting with `TAOCPP_PEGTL_`.

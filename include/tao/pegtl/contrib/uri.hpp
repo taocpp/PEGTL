@@ -4,13 +4,15 @@
 #ifndef TAO_PEGTL_CONTRIB_URI_HPP
 #define TAO_PEGTL_CONTRIB_URI_HPP
 
+#include <cstdint>
+
 #include "../ascii.hpp"
 #include "../config.hpp"
 #include "../rules.hpp"
 #include "../utf8.hpp"
 
 #include "abnf.hpp"
-#include "ascii_numeric_string.hpp"
+#include "integer.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::uri
 {
@@ -26,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE::uri
    using colon = one< ':' >;
 
    // clang-format off
-   struct dec_octet : numeric_string< 255 > {};
+   struct dec_octet : integer::maximum_rule< std::uint8_t > {};
 
    struct IPv4address : seq< dec_octet, dot, dec_octet, dot, dec_octet, dot, dec_octet > {};
 
