@@ -14,8 +14,6 @@
 #include "../parse_error.hpp"
 #include "../rules.hpp"
 
-#include <iostream>
-
 namespace TAO_PEGTL_NAMESPACE::integer
 {
    namespace internal
