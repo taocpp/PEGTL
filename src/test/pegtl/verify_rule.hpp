@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
    void verify_rule( const std::size_t line, const char* file, const std::string& data, const result_type expected, int remain = -1 )
    {
       if( remain < 0 ) {
-         remain = ( expected == result_type::success ) ? 0 : data.size();
+         remain = ( expected == result_type::success ) ? 0 : int( data.size() );
       }
       {
          memory_input< tracking_mode::eager, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
