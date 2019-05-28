@@ -5,7 +5,6 @@
 #define TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_RULE_HPP
 
 #include <cstdlib>
-#include <optional>
 #include <string>
 
 #include <tao/pegtl/eol.hpp>
@@ -36,28 +35,28 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename Rule, typename Eol = eol::lf_crlf >
-   void verify_rule( const std::size_t line, const char* file, const std::string& data, const result_type expected, std::optional< std::size_t > remain = std::nullopt )
+   void verify_rule( const std::size_t line, const char* file, const std::string& data, const result_type expected, int remain = -1 )
    {
-      if( !remain ) {
+      if( remain < 0 ) {
          remain = ( expected == result_type::success ) ? 0 : data.size();
       }
       {
          memory_input< tracking_mode::eager, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
-         verify_impl_one< Rule, nothing >( line, file, data, in, expected, *remain );
+         verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
          memory_input< tracking_mode::lazy, Eol > i2( data.data(), data.data() + data.size(), file );
-         verify_impl_one< Rule, nothing >( line, file, data, i2, expected, *remain );
+         verify_impl_one< Rule, nothing >( line, file, data, i2, expected, remain );
       }
       {
          memory_input< tracking_mode::eager, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
-         verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, *remain );
+         verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
          memory_input< tracking_mode::lazy, Eol > i2( data.data(), data.data() + data.size(), file );
-         verify_impl_one< Rule, verify_action_impl >( line, file, data, i2, expected, *remain );
+         verify_impl_one< Rule, verify_action_impl >( line, file, data, i2, expected, remain );
       }
       {
          memory_input< tracking_mode::eager, Eol > in( data.data(), data.data() + data.size(), file, 0, line, 0 );
-         verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, *remain );
+         verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
          memory_input< tracking_mode::lazy, Eol > i2( data.data(), data.data() + data.size(), file );
-         verify_impl_one< Rule, verify_action_impl0 >( line, file, data, i2, expected, *remain );
+         verify_impl_one< Rule, verify_action_impl0 >( line, file, data, i2, expected, remain );
       }
    }
 
