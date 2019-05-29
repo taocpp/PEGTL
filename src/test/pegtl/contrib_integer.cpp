@@ -36,10 +36,24 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename S >
    void test_signed( const std::string& i, const S s )
    {
-      int_state< S > st;
-      memory_input in( i, __FUNCTION__ );
-      parse< must< integer::signed_rule, eof >, int_action >( in, st );
-      TAO_PEGTL_TEST_ASSERT( st.converted == s );
+      {
+         S st = -123;
+         memory_input in( i, __FUNCTION__ );
+         parse< must< integer::signed_rule, eof >, int_action >( in, st );
+         TAO_PEGTL_TEST_ASSERT( st == s );
+      }
+      {
+         int_state< S > st;
+         memory_input in( i, __FUNCTION__ );
+         parse< must< integer::signed_rule, eof >, int_action >( in, st );
+         TAO_PEGTL_TEST_ASSERT( st.converted == s );
+      }
+      {
+         S st = -123;
+         memory_input in( i, __FUNCTION__ );
+         parse< must< integer::signed_rule_with_action, eof > >( in, st );
+         TAO_PEGTL_TEST_ASSERT( st == s );
+      }
    }
 
    template< typename S >
@@ -71,16 +85,30 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename S >
    void test_unsigned( const std::string& i, const S s )
    {
-      int_state< S > st;
-      memory_input in( i, __FUNCTION__ );
-      parse< must< integer::unsigned_rule, eof >, int_action >( in, st );
-      TAO_PEGTL_TEST_ASSERT( st.converted == s );
+      {
+         S st = 123;
+         memory_input in( i, __FUNCTION__ );
+         parse< must< integer::unsigned_rule, eof >, int_action >( in, st );
+         TAO_PEGTL_TEST_ASSERT( st == s );
+      }
+      {
+         int_state< S > st;
+         memory_input in( i, __FUNCTION__ );
+         parse< must< integer::unsigned_rule, eof >, int_action >( in, st );
+         TAO_PEGTL_TEST_ASSERT( st.converted == s );
+      }
+      {
+         S st = 123;
+         memory_input in( i, __FUNCTION__ );
+         parse< must< integer::unsigned_rule_with_action, eof > >( in, st );
+         TAO_PEGTL_TEST_ASSERT( st == s );
+      }
    }
 
    template< typename S >
    void test_unsigned( const std::string& i )
    {
-      int_state< S > st;
+      S st = 123;
       memory_input in( i, __FUNCTION__ );
       TAO_PEGTL_TEST_THROWS( parse< must< integer::unsigned_rule, eof >, int_action >( in, st ) );
    }
@@ -88,11 +116,11 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename S >
    void test_unsigned( const S s )
    {
-      int_state< S > st;
+      S st = 123;
       const auto i = lexical_cast( s );
       memory_input in( i, __FUNCTION__ );
       parse< must< integer::unsigned_rule, eof >, int_action >( in, st );
-      TAO_PEGTL_TEST_ASSERT( st.converted == s );
+      TAO_PEGTL_TEST_ASSERT( st == s );
    }
 
    template< auto M > using max_seq_rule = seq< one< 'a' >, integer::maximum_rule< std::uint64_t, M >, one< 'b' >, eof >;

@@ -403,6 +403,22 @@ namespace TAO_PEGTL_NAMESPACE::integer
       }
    };
 
+   namespace internal
+   {
+      template< typename Rule >
+      struct signed_action_action
+         : nothing< Rule >
+      {
+      };
+
+      template<>
+      struct signed_action_action< signed_rule_new >
+         : signed_action
+      {
+      };
+
+   }  // namespace internal
+
    struct signed_rule_with_action
    {
       using analyze_t = internal::signed_rule_new::analyze_t;
@@ -430,7 +446,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
                 typename Signed >
       [[nodiscard]] static auto match( Input& in, Signed& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_signed_v< Signed >, bool >
       {
-         return TAO_PEGTL_NAMESPACE::parse< internal::signed_rule_new, signed_action >( in, st );  // Throws on overflow.
+         return TAO_PEGTL_NAMESPACE::parse< internal::signed_rule_new, internal::signed_action_action >( in, st );  // Throws on overflow.
       }
 
       // TODO: Overload for st.converted?
