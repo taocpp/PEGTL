@@ -167,7 +167,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
             if( is_digit( c ) ) {
                if( c == '0' ) {
                   in.bump_in_this_line();
-                  return in.empty() || ( !is_digit( in.peek_char() ) );  // Or throw exception?
+                  return in.empty() || ( !is_digit( in.peek_char() ) );  // Or throw exception on digit?
                }
                while( ( !in.empty() ) && is_digit( c = in.peek_char() ) ) {
                   if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
@@ -188,7 +188,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       // Assumes that 'in' contains a non-empty sequence of ASCII digits.
 
       template< typename Input, typename Unsigned >
-      static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_integral_v< Unsigned >, void >
+      static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
       {
          st = 0;
          if( !internal::convert_unsigned( st, in.string_view() ) ) {
@@ -203,7 +203,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       }
 
       template< typename Input, typename Unsigned, typename... Ts >
-      static auto apply( const Input& in, std::vector< Unsigned, Ts... >& st ) -> std::enable_if_t< std::is_integral_v< Unsigned >, void >
+      static auto apply( const Input& in, std::vector< Unsigned, Ts... >& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
       {
          Unsigned u = 0;
          apply( in, u );
@@ -272,7 +272,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       static_assert( std::is_unsigned_v< Unsigned > );
 
       template< typename Input >
-      static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_integral_v< Unsigned >, void >
+      static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
       {
          st = 0;
          if( !internal::convert_unsigned< Unsigned, Maximum >( st, in.string_view() ) ) {
@@ -287,7 +287,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       }
 
       template< typename Input, typename... Ts >
-      static auto apply( const Input& in, std::vector< Unsigned, Ts... >& st ) -> std::enable_if_t< std::is_integral_v< Unsigned >, void >
+      static auto apply( const Input& in, std::vector< Unsigned, Ts... >& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
       {
          Unsigned u = 0;
          apply( in, u );
@@ -362,7 +362,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       // with optional leading sign; with sign, in.size() must be >= 2.
 
       template< typename Input, typename Signed >
-      static auto apply( const Input& in, Signed& st ) -> std::enable_if_t< std::is_integral_v< Signed >, void >
+      static auto apply( const Input& in, Signed& st ) -> std::enable_if_t< std::is_signed_v< Signed >, void >
       {
          st = 0;
          if( !internal::convert_signed( st, in.string_view() ) ) {
@@ -377,7 +377,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       }
 
       template< typename Input, typename Signed, typename... Ts >
-      static auto apply( const Input& in, std::vector< Signed, Ts... >& st ) -> std::enable_if_t< std::is_integral_v< Signed >, void >
+      static auto apply( const Input& in, std::vector< Signed, Ts... >& st ) -> std::enable_if_t< std::is_signed_v< Signed >, void >
       {
          Signed s = 0;
          apply( in, s );
