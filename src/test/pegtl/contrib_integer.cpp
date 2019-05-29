@@ -20,6 +20,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Rule >
    struct int_action
+      : nothing< Rule >
    {};
 
    template<>
@@ -98,6 +99,11 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
+      test_signed< signed char >( "" );
+      test_signed< signed char >( "-" );
+      test_signed< signed char >( "+" );
+      test_signed< signed char >( "a" );
+
       test_signed< signed char >( "--0" );
       test_signed< signed char >( "++0" );
       test_signed< signed char >( "-+0" );
@@ -126,6 +132,11 @@ namespace TAO_PEGTL_NAMESPACE
       test_signed< signed char >( "00128" );
       test_signed< signed char >( "-0129" );
       test_signed< signed char >( "-00129" );
+
+      test_unsigned< unsigned char >( "" );
+      test_unsigned< unsigned char >( "-" );
+      test_unsigned< unsigned char >( "+" );
+      test_unsigned< unsigned char >( "a" );
 
       test_unsigned< unsigned char >( "-0" );
       test_unsigned< unsigned char >( "+1" );

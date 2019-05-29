@@ -169,12 +169,12 @@ namespace TAO_PEGTL_NAMESPACE::integer
                   in.bump_in_this_line();
                   return in.empty() || ( !is_digit( in.peek_char() ) );  // Or throw exception on digit?
                }
-               while( ( !in.empty() ) && is_digit( c = in.peek_char() ) ) {
+               do {
                   if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
                      throw parse_error( "integer overflow", in );  // Should be fine for most applications.
                   }
                   in.bump_in_this_line();
-               }
+               } while( ( !in.empty() ) && is_digit( c = in.peek_char() ) );
                return true;
             }
          }
