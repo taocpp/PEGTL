@@ -299,15 +299,8 @@ namespace TAO_PEGTL_NAMESPACE::integer
 
       using analyze_t = internal::unsigned_rule_new::analyze_t;
 
-      template< apply_mode A,
-                rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename Input,
-                typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... /*unused*/ )
+      template< typename Input >
+      [[nodiscard]] static bool match( Input& in )
       {
          Unsigned st = 0;
          return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
