@@ -284,7 +284,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       }
 
       template< typename Input, typename Unsigned2, typename... Ts >
-      static auto apply( const Input& in, std::vector< Unsigned, Ts... >& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
+      static auto apply( const Input& in, std::vector< Unsigned2, Ts... >& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
       {
          Unsigned u = 0;
          apply( in, u );
