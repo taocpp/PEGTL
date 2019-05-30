@@ -268,8 +268,8 @@ namespace TAO_PEGTL_NAMESPACE::integer
 
       static_assert( std::is_unsigned_v< Unsigned > );
 
-      template< typename Input >
-      static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
+      template< typename Input, typename Unsigned2 >
+      static auto apply( const Input& in, Unsigned2& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
       {
          st = 0;  // This function "only" offers basic exception safety.
          if( !internal::convert_unsigned< Unsigned, Maximum >( st, in.string_view() ) ) {
@@ -283,8 +283,8 @@ namespace TAO_PEGTL_NAMESPACE::integer
          apply( in, st.converted );  // Compatibility for pre-3.0 behaviour.
       }
 
-      template< typename Input, typename... Ts >
-      static auto apply( const Input& in, std::vector< Unsigned, Ts... >& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
+      template< typename Input, typename Unsigned2, typename... Ts >
+      static auto apply( const Input& in, std::vector< Unsigned, Ts... >& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
       {
          Unsigned u = 0;
          apply( in, u );
@@ -343,7 +343,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
                 class Control,
                 typename Input,
                 typename Unsigned2 >
-      [[nodiscard]] static auto match( Input& in, Unsigned& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_same_v< Unsigned, Unsigned2 >, bool >
+      [[nodiscard]] static auto match( Input& in, Unsigned2& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_same_v< Unsigned, Unsigned2 >, bool >
       {
          st = 0;  // This function "only" offers basic exception safety.
          return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
