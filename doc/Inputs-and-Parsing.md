@@ -42,7 +42,7 @@ All classes and functions on this page are in namespace `tao::pegtl`.
 * [Nested Parsing](#nested-parsing)
 * [Incremental Input](#incremental-input)
   * [Buffer Size](#buffer-size)
-  * [Discard Input](#discard-input)
+  * [Discard Buffer](#discard-buffer)
   * [Custom Rules](#custom-rules)
   * [Custom Readers](#custom-readers)
   * [Buffer Details](#buffer-details)

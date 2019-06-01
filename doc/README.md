@@ -76,7 +76,7 @@
   * [Nested Parsing](Inputs-and-Parsing.md#nested-parsing)
   * [Incremental Input](Inputs-and-Parsing.md#incremental-input)
     * [Buffer Size](Inputs-and-Parsing.md#buffer-size)
-    * [Discard Input](Inputs-and-Parsing.md#discard-input)
+    * [Discard Buffer](Inputs-and-Parsing.md#discard-buffer)
     * [Custom Rules](Inputs-and-Parsing.md#custom-rules)
     * [Custom Readers](Inputs-and-Parsing.md#custom-readers)
     * [Buffer Details](Inputs-and-Parsing.md#buffer-details)
