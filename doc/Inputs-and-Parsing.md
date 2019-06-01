@@ -436,7 +436,7 @@ struct my_action< rep< 4, must< xdigit > >
    : tao::pegtl::discard_input
 {
    template< typename Input >
-   void apply( const Input& in, /* the states */ )
+   static void apply( const Input& in, /* the states */ )
    {
       assert( in.size() == 4 );
       // process the 4 xdigits
