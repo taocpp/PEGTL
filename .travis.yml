@@ -66,6 +66,14 @@ matrix:
       env:
         - CXX=g++-8
 
+    - compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-9']
+      env:
+        - CXX=g++-9
+
     - dist: precise
       compiler: clang
       addons:
@@ -211,9 +219,9 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-8']
+          packages: ['g++-9']
       env:
-        - CXX=g++-8
+        - CXX=g++-9
         - CPPFLAGS="-fsanitize=undefined -fuse-ld=gold"
 
     - compiler: gcc
@@ -221,9 +229,9 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-8']
+          packages: ['g++-9']
       env:
-        - CXX=g++-8
+        - CXX=g++-9
         - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
 
     - compiler: clang
@@ -269,9 +277,9 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-8', 'valgrind']
+          packages: ['g++-9', 'valgrind']
       env:
-        - CXX=g++-8
+        - CXX=g++-9
         - SPECIAL=valgrind
       script:
         - make -kj3 valgrind
