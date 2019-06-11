@@ -389,6 +389,10 @@ To prevent the buffer from overflowing, the `discard()` member function of class
 
 **Discarding invalidates all pointers to the input's data and MUST NOT be used where backtracking to before the discard might occur AND/OR nested within a rule for which an action with input can be called.**
 
+Calling `discard()` on a non-buffered input is an empty method and will be optimised away completely.
+
+Usually you don't call `discard()` manually. Instead, one of the two following methods might be used.
+
 #### Via Rules
 
 The [`discard`](Rule-Reference#discard) rule behaves just like the [`success`](Rule-Reference.md#success) rule but calls the discard function on the input before returning `true`.
@@ -399,6 +403,7 @@ The `tao::pegtl::discard_input`, `tao::pegtl::discard_input_on_success` and `tao
 
 These actions are used in the usual way, by deriving a custom action class template specialisation from them.
 In the case of `discard_input`, the input is discarded unconditionally after every match attempt of the rule that the action is attached to.
+As `discard_input` is based on the `match()` method, it is unaffected by enabling or disabling actions (which only applies to the `apply`/`apply0`-methods).
 
 The other two variants behave as implied by their respective names, keeping in mind that "failure" is to be understood as "local failure" (false), no discard is performed on global failure (exception).
 Similarly "unconditional" is wrt. success or local failure, not global failure.
