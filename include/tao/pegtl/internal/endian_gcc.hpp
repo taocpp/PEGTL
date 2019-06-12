@@ -45,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       [[nodiscard]] static std::int16_t convert( const std::int16_t n ) noexcept
       {
-         return __builtin_bswap16( n );
+         return static_cast< std::int16_t >( __builtin_bswap16( static_cast< std::uint16_t >( n ) ) );
       }
 
       [[nodiscard]] static std::uint16_t convert( const std::uint16_t n ) noexcept
@@ -68,7 +68,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] static std::int32_t convert( const std::int32_t n ) noexcept
       {
-         return __builtin_bswap32( n );
+         return static_cast< std::int32_t >( __builtin_bswap32( static_cast< std::uint32_t >( n ) ) );
       }
 
       [[nodiscard]] static std::uint32_t convert( const std::uint32_t n ) noexcept
@@ -91,7 +91,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] static std::int64_t convert( const std::int64_t n ) noexcept
       {
-         return __builtin_bswap64( n );
+         return static_cast< std::int64_t >( __builtin_bswap64( static_cast< std::uint64_t >( n ) ) );
       }
 
       [[nodiscard]] static std::uint64_t convert( const std::uint64_t n ) noexcept
@@ -138,7 +138,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       [[nodiscard]] static std::int16_t convert( const std::int16_t n ) noexcept
       {
-         return __builtin_bswap16( n );
+         return static_cast< std::int16_t >( __builtin_bswap16( static_cast< std::uint16_t >( n ) ) );
       }
 
       [[nodiscard]] static std::uint16_t convert( const std::uint16_t n ) noexcept
@@ -161,7 +161,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] static std::int32_t convert( const std::int32_t n ) noexcept
       {
-         return __builtin_bswap32( n );
+         return static_cast< std::int32_t >( __builtin_bswap32( static_cast< std::uint32_t >( n ) ) );
       }
 
       [[nodiscard]] static std::uint32_t convert( const std::uint32_t n ) noexcept
@@ -182,12 +182,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return n;
       }
 
-      [[nodiscard]] static std::uint64_t convert( const std::uint64_t n ) noexcept
+      [[nodiscard]] static std::int64_t convert( const std::int64_t n ) noexcept
       {
-         return __builtin_bswap64( n );
+         return static_cast< std::int64_t >( __builtin_bswap64( static_cast< std::uint64_t >( n ) ) );
       }
 
-      [[nodiscard]] static std::int64_t convert( const std::int64_t n ) noexcept
+      [[nodiscard]] static std::uint64_t convert( const std::uint64_t n ) noexcept
       {
          return __builtin_bswap64( n );
       }
