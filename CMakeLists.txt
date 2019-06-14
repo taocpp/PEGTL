@@ -1,6 +1,11 @@
-cmake_minimum_required(VERSION 3.3.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.8.0 FATAL_ERROR)
 
-project(pegtl VERSION 2.8.0 LANGUAGES CXX)
+# Read version from version.hpp
+file(READ "${CMAKE_CURRENT_LIST_DIR}/include/tao/pegtl/version.hpp" version_hpp_data)
+string(REGEX MATCH "#define TAO_PEGTL_VERSION \"([^\"]+)\"" _ ${version_hpp_data})
+set(PEGTL_VERSION "${CMAKE_MATCH_1}")
+
+project(pegtl VERSION ${PEGTL_VERSION} LANGUAGES CXX)
 
 if(${PROJECT_NAME}_FOUND)
   # Multiple versions of PEGTL can't co-exist
@@ -36,33 +41,8 @@ target_include_directories(pegtl INTERFACE
   $<INSTALL_INTERFACE:${PEGTL_INSTALL_INCLUDE_DIR}>
 )
 
-# features required by the PEGTL
-target_compile_features(pegtl INTERFACE
-  cxx_alias_templates
-  cxx_auto_type
-  cxx_constexpr
-  cxx_decltype
-  cxx_default_function_template_args
-  cxx_defaulted_functions
-  cxx_delegating_constructors
-  cxx_deleted_functions
-  cxx_explicit_conversions
-  cxx_generalized_initializers
-  cxx_inheriting_constructors
-  cxx_inline_namespaces
-  cxx_noexcept
-  cxx_nonstatic_member_init
-  cxx_nullptr
-  cxx_range_for
-  cxx_rvalue_references
-  cxx_static_assert
-  cxx_strong_enums
-  cxx_template_template_parameters
-  cxx_trailing_return_types
-  cxx_uniform_initialization
-  cxx_variadic_macros
-  cxx_variadic_templates
-)
+# require C++11
+target_compile_features(pegtl INTERFACE cxx_std_11)
 
 # testing
 enable_testing()
@@ -77,6 +57,16 @@ if(PEGTL_BUILD_EXAMPLES)
   add_subdirectory(src/example/pegtl)
 endif()
 
+# Make package findable
+configure_file(cmake/dummy-config.cmake.in pegtl-config.cmake @ONLY)
+
+# Ignore pointer width differences since this is a header-only library
+unset(CMAKE_SIZEOF_VOID_P)
+
+# Enable version checks in find_package
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(pegtl-config-version.cmake COMPATIBILITY SameMajorVersion)
+
 # install and export target
 install(TARGETS pegtl EXPORT pegtl-targets)
 
@@ -86,5 +76,6 @@ install(EXPORT pegtl-targets
   DESTINATION ${PEGTL_INSTALL_CMAKE_DIR}
 )
 
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pegtl-config-version.cmake DESTINATION ${PEGTL_INSTALL_CMAKE_DIR})
 install(DIRECTORY include/ DESTINATION ${PEGTL_INSTALL_INCLUDE_DIR})
 install(FILES LICENSE DESTINATION ${PEGTL_INSTALL_DOC_DIR})

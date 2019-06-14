@@ -103,7 +103,6 @@ These are the classical PEG combinator rules defined in namespace `tao::pegtl`.
 * Succeeds if and only if `seq< R... >` would succeed.
 * Consumes nothing, i.e. rewinds after matching.
 * Disables all actions.
-* Allows local failure of `R...` even within `must<>` etc.
 
 ###### `not_at< R... >`
 
@@ -111,14 +110,12 @@ These are the classical PEG combinator rules defined in namespace `tao::pegtl`.
 * Succeeds if and only if `seq< R... >` would **not** succeed.
 * Consumes nothing, i.e. rewinds after matching.
 * Disables all actions.
-* Allows local failure of `R...` even within `must<>` etc.
 
 ###### `opt< R... >`
 
 * PEG **optional** *e*?
 * Optional `seq< R... >`, i.e. attempt to match `seq< R... >` and signal success regardless of the result.
 * Equivalent to `sor< seq< R... >, success >`.
-* Allows local failure of `R...` even within `must<>` etc.
 
 ###### `plus< R... >`
 
@@ -143,14 +140,12 @@ These are the classical PEG combinator rules defined in namespace `tao::pegtl`.
 * Matches the given rules `R...` in the given order.
 * Succeeds and stops matching when one of the given rules succeeds.
 * Consumes whatever the first rule that succeeded consumed.
-* Allows local failure of `R...` even within `must<>` etc.
 * Fails if `R` is an empty rule pack.
 
 ###### `star< R... >`
 
 * PEG **zero-or-more** *e**
 * Matches `seq< R... >` as often as possible and always succeeds.
-* Allows local failure of `R...` even within `must<>` etc.
 * `R` must be a non-empty rule pack.
 
 ## Convenience
