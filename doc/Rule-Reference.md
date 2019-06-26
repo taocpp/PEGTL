@@ -640,11 +640,11 @@ Because of the external dependency, the rules are in the contrib-section, and th
 
 The ICU-based rules are again available in multiple versions,
 
-* in namespace `tao::pegtl::icu::utf8` for UTF-8 encoded inputs,
-* in namespace `tao::pegtl::icu::utf16_be` for big-endian UTF-16 encoded inputs,
-* in namespace `tao::pegtl::icu::utf16_le` for little-endian UTF-16 encoded inputs,
-* in namespace `tao::pegtl::icu::utf32_be` for big-endian UTF-32 encoded inputs, and
-* in namespace `tao::pegtl::icu::utf32_le` for little-endian UTF-32 encoded inputs.
+* in namespace `tao::pegtl::utf8::icu` for UTF-8 encoded inputs,
+* in namespace `tao::pegtl::utf16_be::icu` for big-endian UTF-16 encoded inputs,
+* in namespace `tao::pegtl::utf16_le::icu` for little-endian UTF-16 encoded inputs,
+* in namespace `tao::pegtl::utf32_be::icu` for big-endian UTF-32 encoded inputs, and
+* in namespace `tao::pegtl::utf32_le::icu` for little-endian UTF-32 encoded inputs.
 
 To use these rules it is necessary to provide an include path to the ICU library, to link the application against `libicu`, and to manually include one or more of the following header files:
 
