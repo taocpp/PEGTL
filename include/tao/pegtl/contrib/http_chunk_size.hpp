@@ -193,12 +193,36 @@ namespace TAO_PEGTL_NAMESPACE::http
       }
    };
 
-   namespace internal
+   namespace internal::chunk_control
    {
       template< typename Rule, template< typename... > class Control >
-      struct chunk_control_base
+      struct base
          : public Control< Rule >
       {
+         template< typename Input, typename... States >
+         static void start( const Input& in, const std::size_t /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::start( in, st... ) ) )
+         {
+            Control< Rule >::start( in, st... );
+         }
+
+         template< typename Input, typename... States >
+         static void success( const Input& in, const std::size_t /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::success( in, st... ) ) )
+         {
+            Control< Rule >::success( in, st... );
+         }
+
+         template< typename Input, typename... States >
+         static void failure( const Input& in, const std::size_t /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
+         {
+            Control< Rule >::failure( in, st... );
+         }
+
+         template< typename Input, typename... States >
+         static void raise( const Input& in, const std::size_t /*unused*/, States&&... st )
+         {
+            Control< Rule >::raise( in, st... );
+         }
+
          template< template< typename... > class Action,
                    typename Iterator,
                    typename Input,
@@ -220,8 +244,8 @@ namespace TAO_PEGTL_NAMESPACE::http
       };
 
       template< typename Rule, template< typename... > class Control >
-      struct chunk_control_impl
-         : public chunk_control_base< Rule, Control >
+      struct impl
+         : public Control< Rule >
       {
          template< apply_mode A,
                    rewind_mode M,
@@ -238,25 +262,23 @@ namespace TAO_PEGTL_NAMESPACE::http
       };
 
       template< template< typename... > class Control >
-      struct chunk_control_impl< chunk_size, Control >
-         : public chunk_control_base< chunk_size, Control >
-      {
-      };
+      struct impl< chunk_size, Control >
+         : public base< chunk_size, Control >
+      {};
 
       template< template< typename... > class Control >
-      struct chunk_control_impl< chunk_data, Control >
-         : public chunk_control_base< chunk_data, Control >
-      {
-      };
+      struct impl< chunk_data, Control >
+         : public base< chunk_data, Control >
+      {};
 
       template< template< typename... > class Control >
-      struct chunk_control_bind
+      struct bind
       {
          template< typename Rule >
-         using type = chunk_control_impl< Rule, Control >;
+         using type = impl< Rule, Control >;
       };
 
-   }  // namespace internal
+   }  // namespace internal::chunk_control
 
    struct chunk
    {
@@ -274,7 +296,7 @@ namespace TAO_PEGTL_NAMESPACE::http
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
          std::size_t size = 0;  // TODO: Remove superfluous initialisation.
-         return impl::template match< A, M, Action, internal::chunk_control_bind< Control >::template type >( in, size, st... );
+         return impl::template match< A, M, Action, internal::chunk_control::bind< Control >::template type >( in, size, st... );
       }
    };
 
