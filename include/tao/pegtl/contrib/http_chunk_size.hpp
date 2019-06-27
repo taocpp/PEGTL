@@ -193,32 +193,32 @@ namespace TAO_PEGTL_NAMESPACE::http
       }
    };
 
-   namespace internal::chunk_control
+   namespace internal
    {
       template< typename Rule, template< typename... > class Control >
-      struct base
+      struct hide_first_state_after_match
          : public Control< Rule >
       {
-         template< typename Input, typename... States >
-         static void start( const Input& in, const std::size_t /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::start( in, st... ) ) )
+         template< typename Input, typename State, typename... States >
+         static void start( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::start( in, st... ) ) )
          {
             Control< Rule >::start( in, st... );
          }
 
-         template< typename Input, typename... States >
-         static void success( const Input& in, const std::size_t /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::success( in, st... ) ) )
+         template< typename Input, typename State, typename... States >
+         static void success( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::success( in, st... ) ) )
          {
             Control< Rule >::success( in, st... );
          }
 
-         template< typename Input, typename... States >
-         static void failure( const Input& in, const std::size_t /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
+         template< typename Input, typename State, typename... States >
+         static void failure( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
          {
             Control< Rule >::failure( in, st... );
          }
 
-         template< typename Input, typename... States >
-         static void raise( const Input& in, const std::size_t /*unused*/, States&&... st )
+         template< typename Input, typename State, typename... States >
+         static void raise( const Input& in, State&& /*unused*/, States&&... st )
          {
             Control< Rule >::raise( in, st... );
          }
@@ -226,8 +226,9 @@ namespace TAO_PEGTL_NAMESPACE::http
          template< template< typename... > class Action,
                    typename Iterator,
                    typename Input,
+                   typename State,
                    typename... States >
-         static auto apply( const Iterator& begin, const Input& in, const std::size_t /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
+         static auto apply( const Iterator& begin, const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
             -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
          {
             return Control< Rule >::template apply< Action >( begin, in, st... );
@@ -235,8 +236,9 @@ namespace TAO_PEGTL_NAMESPACE::http
 
          template< template< typename... > class Action,
                    typename Input,
+                   typename State,
                    typename... States >
-         static auto apply0( const Input& in, const std::size_t /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
+         static auto apply0( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
             -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
          {
             return Control< Rule >::template apply0< Action >( in, st... );
@@ -244,7 +246,7 @@ namespace TAO_PEGTL_NAMESPACE::http
       };
 
       template< typename Rule, template< typename... > class Control >
-      struct impl
+      struct remove_self_and_first_state
          : public Control< Rule >
       {
          template< apply_mode A,
@@ -254,31 +256,41 @@ namespace TAO_PEGTL_NAMESPACE::http
                    template< typename... >
                    class,
                    typename Input,
+                   typename State,
                    typename... States >
-         [[nodiscard]] static bool match( Input& in, const std::size_t /*unused*/, States&&... st )
+         [[nodiscard]] static bool match( Input& in, State&& /*unused*/, States&&... st )
          {
             return Control< Rule >::template match< A, M, Action, Control >( in, st... );
          }
       };
 
-      template< template< typename... > class Control >
-      struct impl< chunk_size, Control >
-         : public base< chunk_size, Control >
-      {};
-
-      template< template< typename... > class Control >
-      struct impl< chunk_data, Control >
-         : public base< chunk_data, Control >
-      {};
-
-      template< template< typename... > class Control >
-      struct bind
+      namespace chunk_helper
       {
-         template< typename Rule >
-         using type = impl< Rule, Control >;
-      };
+         template< typename Rule, template< typename... > class Control >
+         struct control
+            : public remove_self_and_first_state< Rule, Control >
+         {};
 
-   }  // namespace internal::chunk_control
+         template< template< typename... > class Control >
+         struct control< chunk_size, Control >
+            : public hide_first_state_after_match< chunk_size, Control >
+         {};
+
+         template< template< typename... > class Control >
+         struct control< chunk_data, Control >
+            : public hide_first_state_after_match< chunk_data, Control >
+         {};
+
+         template< template< typename... > class Control >
+         struct bind
+         {
+            template< typename Rule >
+            using type = control< Rule, Control >;
+         };
+
+      }  // namespace chunk_helper
+
+   }  // namespace internal
 
    struct chunk
    {
@@ -295,8 +307,8 @@ namespace TAO_PEGTL_NAMESPACE::http
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         std::size_t size = 0;  // TODO: Remove superfluous initialisation.
-         return impl::template match< A, M, Action, internal::chunk_control::bind< Control >::template type >( in, size, st... );
+         std::size_t size{};
+         return impl::template match< A, M, Action, internal::chunk_helper::bind< Control >::template type >( in, size, st... );
       }
    };
 
