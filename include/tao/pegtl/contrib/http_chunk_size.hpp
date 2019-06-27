@@ -133,7 +133,7 @@ namespace TAO_PEGTL_NAMESPACE::http
                 class Control,
                 typename Input,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, std::size_t& size, States... )
+      [[nodiscard]] static bool match( Input& in, std::size_t& size, States&&... /*unused*/ )
       {
          size = 0;
          std::size_t i = 0;
@@ -180,7 +180,7 @@ namespace TAO_PEGTL_NAMESPACE::http
                 class Control,
                 typename Input,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, const std::size_t size, States... )
+      [[nodiscard]] static bool match( Input& in, const std::size_t size, States&&... /*unused*/ )
       {
          if( in.size( size ) >= size ) {
             in.bump( size );
@@ -190,9 +190,94 @@ namespace TAO_PEGTL_NAMESPACE::http
       }
    };
 
-   struct chunk : seq< chunk_size, opt< chunk_ext >, abnf::CRLF, chunk_data, abnf::CRLF > {};
+   namespace internal
+   {
+      template< typename Rule, template< typename... > class Control >
+      struct chunk_control_base
+         : public Control< Rule >
+      {
+         template< template< typename... > class Action,
+                   typename Iterator,
+                   typename Input,
+                   typename... States >
+         static auto apply( const Iterator& begin, const Input& in, const std::size_t /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
+            -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
+         {
+            return Control< Rule >::template apply< Action >( begin, in, st... );
+         }
 
-   struct last_chunk : seq< plus< one< '0' > >, opt< chunk_ext >, abnf::CRLF > {};
+         template< template< typename... > class Action,
+                   typename Input,
+                   typename... States >
+         static auto apply0( const Input& in, const std::size_t /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
+            -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
+         {
+            return Control< Rule >::template apply0< Action >( in, st... );
+         }
+      };
+
+      template< typename Rule, template< typename... > class Control >
+      struct chunk_control_impl
+         : public Control< Rule >
+      {
+         template< apply_mode A,
+                   rewind_mode M,
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class,
+                   typename Input,
+                   typename... States >
+         [[nodiscard]] static bool match( Input& in, const std::size_t /*unused*/, States&&... st )
+         {
+            return Control< Rule >::template match< A, M, Action, Control >( in, st... );
+         }
+      };
+
+      template< template< typename... > class Control >
+      struct chunk_control_impl< chunk_size, Control >
+         : public chunk_control_base< chunk_size, Control >
+      {
+      };
+
+      template< template< typename... > class Control >
+      struct chunk_control_impl< chunk_data, Control >
+         : public chunk_control_base< chunk_data, Control >
+      {
+      };
+
+      template< template< typename... > class Control >
+      struct chunk_control_bind
+      {
+         template< typename Rule >
+         struct type
+            : public chunk_control_impl< Rule, Control >
+         {
+         };
+      };
+
+   }  // namespace internal
+
+   struct chunk
+   {
+      using analyze_t = seq< chunk_size, chunk_ext, abnf::CRLF, chunk_data, abnf::CRLF >::analyze_t;
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& in, States&&... st )
+      {
+         std::size_t size = 0;  // TODO: Remove superfluous initialisation.
+         return seq< chunk_size, chunk_ext, abnf::CRLF, chunk_data, abnf::CRLF >::template match< A, M, Action, internal::chunk_control_bind< Control >::template type >( in, size, st... );
+      }
+   };
+
+   struct last_chunk : seq< plus< one< '0' > >, not_at< digit >, chunk_ext, abnf::CRLF > {};
 
    struct trailer_part : star< header_field, abnf::CRLF > {};
 

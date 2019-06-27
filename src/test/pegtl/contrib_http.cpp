@@ -2,6 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include "test.hpp"
+#include "verify_analyze.hpp"
 
 #include <tao/pegtl/contrib/http_chunk_size.hpp>
 
@@ -12,14 +13,60 @@ namespace TAO_PEGTL_NAMESPACE
       // TODO.
    }
 
+   template< typename Rule >
+   struct chunked_action
+      : nothing< Rule >
+   {
+   };
+
+   template<>
+   struct chunked_action< http::chunk_ext >
+   {
+      static void apply0( std::string& s )
+      {
+         s += 'a';
+      }
+   };
+
+   template<>
+   struct chunked_action< http::chunk_data >
+   {
+      static void apply0( std::string& s )
+      {
+         s += 'b';
+      }
+   };
+
    void test_chunked()
    {
-      using GRAMMAR = http::chunked_body;
+      using GRAMMAR = must< http::chunked_body, eof >;
 
-      std::size_t size = 0;
-      string_input in( "0\r\n\r\n\r\n", __FUNCTION__ );
-      TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( in, size ) );
-      //      verify_rule< GRAMMAR >( __LINE__, __FILE__, "0\r\n\r\n\r\n", result_type::success );
+      verify_analyze< GRAMMAR >( __LINE__, __FILE__, true, false );
+      {
+         string_input in( "0\r\n\r\n", __FUNCTION__ );
+         TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( in ) );
+      } {
+         std::string dummy;
+         string_input in( "0\r\n\r\n", __FUNCTION__ );
+         TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( in, dummy ) );
+      } {
+         std::string state;
+         string_input in( "0\r\n\r\n", __FUNCTION__ );
+         TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR, chunked_action >( in, state ) );
+         TAO_PEGTL_TEST_ASSERT( state == "a" );
+      } {
+         string_input in( "01\r\nX\r\n1a\r\nabcdefghijklmnopqrstuvwxyz\r\n0\r\n\r\n", __FUNCTION__ );
+         TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( in ) );
+      } {
+         std::string dummy;
+         string_input in( "01\r\nX\r\n1a\r\nabcdefghijklmnopqrstuvwxyz\r\n0\r\n\r\n", __FUNCTION__ );
+         TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( in, dummy ) );
+      } {
+         std::string state;
+         string_input in( "01\r\nX\r\n1a\r\nabcdefghijklmnopqrstuvwxyz\r\n0\r\n\r\n", __FUNCTION__ );
+         TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR, chunked_action >( in, state ) );
+         TAO_PEGTL_TEST_ASSERT( state == "ababa" );
+      }
    }
 
    void unit_test()
