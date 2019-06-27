@@ -121,6 +121,7 @@ namespace TAO_PEGTL_NAMESPACE::http
 
    struct partial_URI : seq< uri::relative_part, uri::opt_query > {};
 
+   // clang-format on
    struct chunk_size
    {
       using analyze_t = plus< abnf::HEXDIG >::analyze_t;
@@ -151,7 +152,7 @@ namespace TAO_PEGTL_NAMESPACE::http
                ++i;
                continue;
             }
-            if ( ( 'A' <= c ) && ( c <= 'F' ) ) {
+            if( ( 'A' <= c ) && ( c <= 'F' ) ) {
                size <<= 4;
                size |= std::size_t( c - 'A' + 10 );
                ++i;
@@ -163,11 +164,13 @@ namespace TAO_PEGTL_NAMESPACE::http
          return i > 0;
       }
    };
+   // clang-format off
 
    struct chunk_ext_name : token {};
    struct chunk_ext_val : sor< quoted_string, token > {};
    struct chunk_ext : star_must< one< ';' >, chunk_ext_name, if_must< one< '=' >, chunk_ext_val > > {};
 
+   // clang-format on
    struct chunk_data
    {
       using analyze_t = star< abnf::OCTET >::analyze_t;
@@ -218,7 +221,7 @@ namespace TAO_PEGTL_NAMESPACE::http
 
       template< typename Rule, template< typename... > class Control >
       struct chunk_control_impl
-         : public Control< Rule >
+         : public chunk_control_base< Rule, Control >
       {
          template< apply_mode A,
                    rewind_mode M,
@@ -250,17 +253,15 @@ namespace TAO_PEGTL_NAMESPACE::http
       struct chunk_control_bind
       {
          template< typename Rule >
-         struct type
-            : public chunk_control_impl< Rule, Control >
-         {
-         };
+         using type = chunk_control_impl< Rule, Control >;
       };
 
    }  // namespace internal
 
    struct chunk
    {
-      using analyze_t = seq< chunk_size, chunk_ext, abnf::CRLF, chunk_data, abnf::CRLF >::analyze_t;
+      using impl = seq< chunk_size, chunk_ext, abnf::CRLF, chunk_data, abnf::CRLF >;
+      using analyze_t = impl::analyze_t;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -273,10 +274,11 @@ namespace TAO_PEGTL_NAMESPACE::http
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
          std::size_t size = 0;  // TODO: Remove superfluous initialisation.
-         return seq< chunk_size, chunk_ext, abnf::CRLF, chunk_data, abnf::CRLF >::template match< A, M, Action, internal::chunk_control_bind< Control >::template type >( in, size, st... );
+         return impl::template match< A, M, Action, internal::chunk_control_bind< Control >::template type >( in, size, st... );
       }
    };
 
+   // clang-format off
    struct last_chunk : seq< plus< one< '0' > >, not_at< digit >, chunk_ext, abnf::CRLF > {};
 
    struct trailer_part : star< header_field, abnf::CRLF > {};
