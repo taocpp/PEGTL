@@ -4,7 +4,7 @@
 #include "test.hpp"
 #include "verify_analyze.hpp"
 
-#include <tao/pegtl/contrib/http_chunk_size.hpp>
+#include <tao/pegtl/contrib/http.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
