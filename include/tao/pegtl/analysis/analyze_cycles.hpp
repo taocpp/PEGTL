@@ -20,7 +20,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::analysis
 {
-   class analyze_cycles_impl
+   struct analyze_cycles_impl
    {
    protected:
       explicit analyze_cycles_impl( const bool verbose ) noexcept
@@ -94,10 +94,9 @@ namespace TAO_PEGTL_NAMESPACE::analysis
    };
 
    template< typename Grammar >
-   class analyze_cycles
+   struct analyze_cycles
       : private analyze_cycles_impl
    {
-   public:
       explicit analyze_cycles( const bool verbose )
          : analyze_cycles_impl( verbose )
       {

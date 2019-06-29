@@ -198,17 +198,17 @@ namespace TAO_PEGTL_NAMESPACE::http
    {
       template< typename Rule, template< typename... > class Control >
       struct control
-         : public remove_self_and_first_state< Rule, Control >
+         : remove_self_and_first_state< Rule, Control >
       {};
 
       template< template< typename... > class Control >
       struct control< chunk_size, Control >
-         : public remove_first_state_after_match< chunk_size, Control >
+         : remove_first_state_after_match< chunk_size, Control >
       {};
 
       template< template< typename... > class Control >
       struct control< chunk_data, Control >
-         : public remove_first_state_after_match< chunk_data, Control >
+         : remove_first_state_after_match< chunk_data, Control >
       {};
 
       template< template< typename... > class Control >

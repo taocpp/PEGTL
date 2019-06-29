@@ -12,7 +12,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Rule, template< typename... > class Control >
    struct remove_first_state_after_match
-      : public Control< Rule >
+      : Control< Rule >
    {
       template< typename Input, typename State, typename... States >
       static void start( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::start( in, st... ) ) )
@@ -62,7 +62,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Rule, template< typename... > class Control >
    struct remove_self_and_first_state
-      : public Control< Rule >
+      : Control< Rule >
    {
       template< apply_mode A,
                 rewind_mode M,

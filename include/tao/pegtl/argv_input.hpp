@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
    struct argv_input
-      : public memory_input< P, Eol >
+      : memory_input< P, Eol >
    {
       template< typename T >
       argv_input( char** argv, const std::size_t argn, T&& in_source )  // NOLINT

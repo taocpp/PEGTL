@@ -17,7 +17,7 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    struct parse_error
-      : public std::runtime_error
+      : std::runtime_error
    {
       template< typename Msg >
       parse_error( Msg&& msg, const std::vector< position >& in_positions )
