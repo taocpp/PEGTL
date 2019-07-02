@@ -90,6 +90,9 @@ matrix:
         - CXX=g++-9
     - language: android
       jdk: openjdk8
+      env:
+        - ANDROID_ABI=armeabi-v7a
+        - ANDROID_PLATFORM=android-19
       android:
         components:
           - tools
@@ -130,6 +133,9 @@ matrix:
 
     - language: android
       jdk: openjdk8
+      env:
+        - ANDROID_ABI=armeabi-v7a
+        - ANDROID_PLATFORM=android-22
       android:
         components:
           - tools
@@ -169,6 +175,9 @@ matrix:
 
     - language: android
       jdk: openjdk8
+      env:
+        - ANDROID_ABI=armeabi-v7a
+        - ANDROID_PLATFORM=android-23
       android:
         components:
           - tools
@@ -207,6 +216,9 @@ matrix:
 
     - language: android
       jdk: openjdk8
+      env:
+        - ANDROID_ABI=armeabi-v7a
+        - ANDROID_PLATFORM=android-24
       android:
         components:
           - tools
