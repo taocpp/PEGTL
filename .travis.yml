@@ -127,7 +127,7 @@ matrix:
         - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
       script:
         # Using the ninja build command. Is much faster then make build command.
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -G'Android Gradle - Ninja' -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-19 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
+        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-19 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
@@ -171,7 +171,7 @@ matrix:
         - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
       script:
         # Using the ninja build command. Is much faster then make build command.
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -G'Android Gradle - Ninja' -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-22 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
+        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-22 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
@@ -213,7 +213,7 @@ matrix:
         - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
       script:
         # Using the ninja build command. Is much faster then make build command.
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -G'Android Gradle - Ninja' -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-23 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
+        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-23 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
@@ -256,7 +256,7 @@ matrix:
         - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
       script:
         # Using the ninja build command. Is much faster then make build command.
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -G'Android Gradle - Ninja' -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-24 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
+        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-24 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
