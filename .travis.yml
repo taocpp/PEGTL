@@ -114,6 +114,7 @@ matrix:
         - mkdir -p /usr/local/android-sdk/licenses
         - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
         - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
+        - echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" >> /usr/local/android-sdk/licenses/android-sdk-license
         # Install NDK and cmake via android sdkmanager.
         - /usr/local/android-sdk/tools/bin/sdkmanager --update
         - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.6.4111459"
@@ -157,6 +158,7 @@ matrix:
         - mkdir -p /usr/local/android-sdk/licenses
         - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
         - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
+        - echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" >> /usr/local/android-sdk/licenses/android-sdk-license
         # Install NDK and cmake via android sdkmanager.
         - /usr/local/android-sdk/tools/bin/sdkmanager --update
         - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.6.4111459"
@@ -198,6 +200,7 @@ matrix:
         - mkdir -p /usr/local/android-sdk/licenses
         - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
         - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
+        - echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" >> /usr/local/android-sdk/licenses/android-sdk-license
         # Install NDK and cmake via android sdkmanager.
         - /usr/local/android-sdk/tools/bin/sdkmanager --update
         - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.6.4111459" "system-images;android-23;google_apis;armeabi-v7a"
@@ -240,6 +243,7 @@ matrix:
         - mkdir -p /usr/local/android-sdk/licenses
         - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
         - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
+        - echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" >> /usr/local/android-sdk/licenses/android-sdk-license
         # Install NDK and cmake via android sdkmanager.
         - /usr/local/android-sdk/tools/bin/sdkmanager --update
         - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.6.4111459"
