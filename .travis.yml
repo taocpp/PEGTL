@@ -122,6 +122,7 @@ matrix:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
         - export ANDROID_SDK_ROOT=/usr/local/android-sdk
+        - ls -R /usr/local/android-sdk
         - echo no | /usr/local/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-19;default;armeabi-v7a"
         - /usr/local/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
         - android-wait-for-emulator || android-wait-for-emulator
