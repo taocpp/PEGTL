@@ -115,8 +115,8 @@ matrix:
         - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
         - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
         # Install NDK and cmake via android sdkmanager.
-        - /usr/local/android-sdk/tools/bin/sdkmanager --update > /dev/null
-        - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.6.4111459" > /dev/null
+        - /usr/local/android-sdk/tools/bin/sdkmanager --update
+        - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.6.4111459"
       before_script:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
@@ -158,8 +158,8 @@ matrix:
         - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
         - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
         # Install NDK and cmake via android sdkmanager.
-        - /usr/local/android-sdk/tools/bin/sdkmanager --update > /dev/null
-        - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.6.4111459" > /dev/null
+        - /usr/local/android-sdk/tools/bin/sdkmanager --update
+        - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.6.4111459"
       before_script:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
@@ -199,8 +199,8 @@ matrix:
         - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
         - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
         # Install NDK and cmake via android sdkmanager.
-        - /usr/local/android-sdk/tools/bin/sdkmanager --update > /dev/null
-        - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.6.4111459" "system-images;android-23;google_apis;armeabi-v7a" > /dev/null
+        - /usr/local/android-sdk/tools/bin/sdkmanager --update
+        - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.6.4111459" "system-images;android-23;google_apis;armeabi-v7a"
       before_script:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
@@ -241,8 +241,8 @@ matrix:
         - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
         - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
         # Install NDK and cmake via android sdkmanager.
-        - /usr/local/android-sdk/tools/bin/sdkmanager --update > /dev/null
-        - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.6.4111459" > /dev/null
+        - /usr/local/android-sdk/tools/bin/sdkmanager --update
+        - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.6.4111459"
       before_script:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
