@@ -101,6 +101,7 @@ matrix:
           - extra-android-support
           - extra-android-m2repository
           - android-19
+          - android-24
           - sys-img-armeabi-v7a-android-24
           # Unfortunately travis uses the old android sdk tool instead of the new sdkmanager.
           # In this deprecated android sdk tool there is no ndk-bundle or cmake package!
@@ -145,6 +146,7 @@ matrix:
           - extra-android-support
           - extra-android-m2repository
           - android-22
+          - android-24
           - sys-img-armeabi-v7a-android-24
           # Unfortunately travis uses the old android sdk tool instead of the new sdkmanager.
           # In this deprecated android sdk tool there is no ndk-bundle or cmake package!
