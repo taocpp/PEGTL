@@ -121,9 +121,9 @@ matrix:
       before_script:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
-        - export ANDROID_SDK_ROOT=/usr/local/android-sdk
-        - ls -R /usr/local/android-sdk
         - echo no | /usr/local/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-19;default;armeabi-v7a"
+        # Fixing broken system-image
+        - ln -s /usr/local/android-sdk/system-images/android-19/default/armeabi-v7a/kernel-qemu /usr/local/android-sdk/system-images/android-19/default/armeabi-v7a/kernel-ranchu
         - /usr/local/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
         - android-wait-for-emulator || android-wait-for-emulator
         - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
@@ -167,8 +167,9 @@ matrix:
       before_script:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
-        - export ANDROID_SDK_ROOT=/usr/local/android-sdk
         - echo no | /usr/local/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-22;default;armeabi-v7a"
+        # Fixing broken system-image
+        - ln -s /usr/local/android-sdk/system-images/android-19/default/armeabi-v7a/kernel-qemu /usr/local/android-sdk/system-images/android-19/default/armeabi-v7a/kernel-ranchu
         - /usr/local/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
         - android-wait-for-emulator || android-wait-for-emulator
         - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
