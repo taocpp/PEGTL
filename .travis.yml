@@ -89,7 +89,6 @@ matrix:
       env:
         - CXX=g++-9
     - language: android
-      jdk: openjdk8
       env:
         - ANDROID_ABI=armeabi-v7a
         - ANDROID_PLATFORM=android-19
@@ -134,7 +133,6 @@ matrix:
 
 
     - language: android
-      jdk: openjdk8
       env:
         - ANDROID_ABI=armeabi-v7a
         - ANDROID_PLATFORM=android-22
@@ -178,7 +176,6 @@ matrix:
         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
     - language: android
-      jdk: openjdk8
       env:
         - ANDROID_ABI=armeabi-v7a
         - ANDROID_PLATFORM=android-23
@@ -220,7 +217,6 @@ matrix:
         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
     - language: android
-      jdk: openjdk8
       env:
         - ANDROID_ABI=armeabi-v7a
         - ANDROID_PLATFORM=android-24
@@ -256,6 +252,8 @@ matrix:
         - /usr/local/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
         - android-wait-for-emulator || android-wait-for-emulator
         - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
+        - /usr/local/android-sdk/tools/bin/sdkmanager --list
+        - /usr/local/android-sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --version
       script:
         # Using the ninja build command. Is much faster then make build command.
         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-24 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
