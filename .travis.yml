@@ -2,356 +2,381 @@ language: generic
 os: linux
 dist: xenial
 
-matrix:
-  include:
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7']
-      env:
-        - CXX=g++-7
-
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-8']
-      env:
-        - CXX=g++-8
-
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-9']
-      env:
-        - CXX=g++-9
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-5']
-          packages: ['clang-5.0', 'g++-7']
-      env:
-        - CXX=clang++-5.0
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-6']
-          packages: ['clang-6.0', 'g++-7']
-      env:
-        - CXX=clang++-6.0
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
-          packages: ['clang-7', 'g++-7']
-      env:
-        - CXX=clang++-7
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'g++-8']
-      env:
-        - CXX=clang++-8
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'g++-8']
-      env:
-        - CXX=clang++-8
-        - CPPFLAGS=-fms-extensions
-
-    - os: osx
-      osx_image: xcode9.4
-      compiler: clang
-      env:
-        - CXX=clang++
-
-    - os: osx
-      osx_image: xcode10.2
-      compiler: clang
-      env:
-        - CXX=clang++
-
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-9']
-      env:
-        - CXX=g++-9
-    - language: android
-      env:
-        - ANDROID_ABI=armeabi-v7a
-        - ANDROID_PLATFORM=android-19
-      android:
-        components:
-          - tools
-          - platform-tools
-          - build-tools-23.0.3
-          - extra-android-support
-          - extra-android-m2repository
-          - android-19
-          - android-24
-          - sys-img-armeabi-v7a-android-24
-          # Unfortunately travis uses the old android sdk tool instead of the new sdkmanager.
-          # In this deprecated android sdk tool there is no ndk-bundle or cmake package!
-        licenses:
-          - '.+'
-      before_install:
-        # Install NDK and cmake via android sdkmanager. Unfortunately to acknowledge the licenses
-        # takes a while. Looks like the "echo y" solution is not working. Needs improvement!
-        - export TERM=dumb
-        - touch ~/.android/repositories.cfg
-        - mkdir -p /usr/local/android-sdk/licenses
-        - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
-        - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
-        - echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" >> /usr/local/android-sdk/licenses/android-sdk-license
-        # Install NDK and cmake via android sdkmanager.
-        - ls -R /usr/local/android-sdk
-        - /usr/local/android-sdk/tools/bin/sdkmanager --list
-        - /usr/local/android-sdk/tools/bin/sdkmanager --update > /dev/null
-        - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
-      before_script:
-        - export TERM=dumb
-        - export _NO_CHECK_SIGNATURE=true
-        - echo no | /usr/local/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
-        - /usr/local/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
-        - android-wait-for-emulator || android-wait-for-emulator
-        - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
-      script:
-        # Using the ninja build command. Is much faster then make build command.
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-19 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
-
-
-    - language: android
-      env:
-        - ANDROID_ABI=armeabi-v7a
-        - ANDROID_PLATFORM=android-22
-      android:
-        components:
-          - tools
-          - platform-tools
-          - build-tools-23.0.3
-          - extra-android-support
-          - extra-android-m2repository
-          - android-22
-          - android-24
-          - sys-img-armeabi-v7a-android-24
-          # Unfortunately travis uses the old android sdk tool instead of the new sdkmanager.
-          # In this deprecated android sdk tool there is no ndk-bundle or cmake package!
-        licenses:
-          - '.+'
-      before_install:
-        # Install NDK and cmake via android sdkmanager. Unfortunately to acknowledge the licenses
-        # takes a while. Looks like the "echo y" solution is not working. Needs improvement!
-        - export TERM=dumb
-        - touch ~/.android/repositories.cfg
-        - mkdir -p /usr/local/android-sdk/licenses
-        - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
-        - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
-        - echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" >> /usr/local/android-sdk/licenses/android-sdk-license
-        # Install NDK and cmake via android sdkmanager.
-        - /usr/local/android-sdk/tools/bin/sdkmanager --update > /dev/null
-        - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
-      before_script:
-        - export TERM=dumb
-        - export _NO_CHECK_SIGNATURE=true
-        - echo no | /usr/local/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
-        - /usr/local/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
-        - android-wait-for-emulator || android-wait-for-emulator
-        - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
-      script:
-        # Using the ninja build command. Is much faster then make build command.
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-22 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
-
-    - language: android
-      env:
-        - ANDROID_ABI=armeabi-v7a
-        - ANDROID_PLATFORM=android-23
-      android:
-        components:
-          - tools
-          - platform-tools
-          - build-tools-23.0.3
-          - extra-android-support
-          - extra-android-m2repository
-          - android-23
-          # Unfortunately travis uses the old android sdk tool instead of the new sdkmanager.
-          # In this deprecated android sdk tool there is no ndk-bundle or cmake package!
-        licenses:
-          - '.+'
-      before_install:
-        # Install NDK and cmake via android sdkmanager. Unfortunately to acknowledge the licenses
-        # takes a while. Looks like the "echo y" solution is not working. Needs improvement!
-        - export TERM=dumb
-        - touch ~/.android/repositories.cfg
-        - mkdir -p /usr/local/android-sdk/licenses
-        - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
-        - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
-        - echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" >> /usr/local/android-sdk/licenses/android-sdk-license
-        # Install NDK and cmake via android sdkmanager.
-        - /usr/local/android-sdk/tools/bin/sdkmanager --update > /dev/null
-        - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.10.2.4988404" "system-images;android-23;google_apis;armeabi-v7a" > /dev/null
-      before_script:
-        - export TERM=dumb
-        - export _NO_CHECK_SIGNATURE=true
-        - echo no | /usr/local/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-23;google_apis;armeabi-v7a"
-        - /usr/local/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
-        - android-wait-for-emulator || android-wait-for-emulator
-        - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
-      script:
-        # Using the ninja build command. Is much faster then make build command.
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-23 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
-
-    - language: android
-      env:
-        - ANDROID_ABI=armeabi-v7a
-        - ANDROID_PLATFORM=android-24
-      android:
-        components:
-          - tools
-          - platform-tools
-          - build-tools-23.0.3
-          - extra-android-support
-          - extra-android-m2repository
-          - android-24
-          - sys-img-armeabi-v7a-android-24
-          # Unfortunately travis uses the old android sdk tool instead of the new sdkmanager.
-          # In this deprecated android sdk tool there is no ndk-bundle or cmake package!
-        licenses:
-          - '.+'
-      before_install:
-        # Install NDK and cmake via android sdkmanager. Unfortunately to acknowledge the licenses
-        # takes a while. Looks like the "echo y" solution is not working. Needs improvement!
-        - export TERM=dumb
-        - touch ~/.android/repositories.cfg
-        - mkdir -p /usr/local/android-sdk/licenses
-        - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
-        - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
-        - echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" >> /usr/local/android-sdk/licenses/android-sdk-license
-        # Install NDK and cmake via android sdkmanager.
-        - /usr/local/android-sdk/tools/bin/sdkmanager --update > /dev/null
-        - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
-      before_script:
-        - export TERM=dumb
-        - export _NO_CHECK_SIGNATURE=true
-        - echo no | /usr/local/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
-        - /usr/local/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
-        - android-wait-for-emulator || android-wait-for-emulator
-        - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
-        - /usr/local/android-sdk/tools/bin/sdkmanager --list
-        - /usr/local/android-sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --version
-      script:
-        # Using the ninja build command. Is much faster then make build command.
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-24 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
-        - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
-
-        - CPPFLAGS="-fsanitize=undefined -fuse-ld=gold"
-
-    - compiler: gcc
-      sudo: true
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-9']
-      env:
-        - CXX=g++-9
-        - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'g++-8']
-      env:
-        - CXX=clang++-8
-        - CPPFLAGS=-fsanitize=undefined
-
-    - compiler: clang
-      sudo: true
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'g++-8']
-      env:
-        - CXX=clang++-8
-        - CPPFLAGS=-fsanitize=address
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'clang-tidy-8', 'g++-8']
-      env:
-        - CXX=clang++-8
-        - CLANG_TIDY=clang-tidy-8
-      script:
-        - "sed -i 's#namespace TAO_PEGTL_NAMESPACE#namespace tao::pegtl#g' $(find . -name '*.[hc]pp')"
-        - make -kj3 clang-tidy
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'clang-tools-8', 'g++-8']
-      script:
-        - scan-build-8 --use-c++=clang++-8 --status-bugs make -kj3
-
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-9', 'valgrind']
-      env:
-        - CXX=g++-9
-        - SPECIAL=valgrind
-      script:
-        - make -kj3 valgrind
-
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7']
-      env:
-        - CXX=g++-7
-        - CXXFLAGS="-O0 --coverage"
-      before_script:
-        - pip install --user cpp-coveralls
-      script:
-        - make -kj3 check
-        - coveralls --gcov gcov-7 --gcov-options '\-lp' --exclude src
-
-    - language: python
-      python:
-        - "3.6"
-      sudo: required
-      install:
-        - pip install conan conan-package-tools
-      env:
-        - CONAN_GCC_VERSIONS=7
-        - CONAN_DOCKER_IMAGE=lasote/conangcc7
-      script:
-        - python .conan/build.py
-
+addons:
+  apt: 
+    packages: 
+      - openjdk-8-jdk
+before_install: 
+  - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+  - wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip #https://dl.google.com/android/repository/android-ndk-r20-linux-x86_64.zip
+  - unzip -qq sdk-tools-linux-4333796.zip -d /opt/android-sdk
+  - rm sdk-tools-linux-4333796.zip
+  - /opt/android-sdk/tools/bin/sdkmanager --list
+  - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "system-images;android-24;default;armeabi-v7a" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
+before_script:
+  - export TERM=dumb
+  - export _NO_CHECK_SIGNATURE=true
+  - export ANDROID_SDK_ROOT=/opt/android-sdk
+  - echo no | /opt/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
+  - /opt/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
+  #- android-wait-for-emulator || android-wait-for-emulator
+  - /opt/android-sdk/platform-tools/adb shell input keyevent 82 &
 script:
-  - $CXX --version
-  - make -j3 build/src/test/pegtl/tester
-  - build/src/test/pegtl/tester
-  - make -kj3
+  # Using the ninja build command. Is much faster then make build command.
+  - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake -H. -Bcmake-build -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-19 -DCMAKE_MAKE_PROGRAM=/opt/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
+  - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake --build cmake-build --target all
+  - /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
+
+# matrix:
+#   include:
+#     - compiler: gcc
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test']
+#           packages: ['g++-7']
+#       env:
+#         - CXX=g++-7
+
+#     - compiler: gcc
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test']
+#           packages: ['g++-8']
+#       env:
+#         - CXX=g++-8
+
+#     - compiler: gcc
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test']
+#           packages: ['g++-9']
+#       env:
+#         - CXX=g++-9
+
+#     - compiler: clang
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-5']
+#           packages: ['clang-5.0', 'g++-7']
+#       env:
+#         - CXX=clang++-5.0
+
+#     - compiler: clang
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-6']
+#           packages: ['clang-6.0', 'g++-7']
+#       env:
+#         - CXX=clang++-6.0
+
+#     - compiler: clang
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
+#           packages: ['clang-7', 'g++-7']
+#       env:
+#         - CXX=clang++-7
+
+#     - compiler: clang
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+#           packages: ['clang-8', 'g++-8']
+#       env:
+#         - CXX=clang++-8
+
+#     - compiler: clang
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+#           packages: ['clang-8', 'g++-8']
+#       env:
+#         - CXX=clang++-8
+#         - CPPFLAGS=-fms-extensions
+
+#     - os: osx
+#       osx_image: xcode9.4
+#       compiler: clang
+#       env:
+#         - CXX=clang++
+
+#     - os: osx
+#       osx_image: xcode10.2
+#       compiler: clang
+#       env:
+#         - CXX=clang++
+
+#     - compiler: gcc
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test']
+#           packages: ['g++-9']
+#       env:
+#         - CXX=g++-9
+#     - language: android
+#       env:
+#         - ANDROID_ABI=armeabi-v7a
+#         - ANDROID_PLATFORM=android-19
+#       android:
+#         components:
+#           - tools
+#           - platform-tools
+#           - build-tools-23.0.3
+#           - extra-android-support
+#           - extra-android-m2repository
+#           - android-19
+#           - android-24
+#           - sys-img-armeabi-v7a-android-24
+#           # Unfortunately travis uses the old android sdk tool instead of the new sdkmanager.
+#           # In this deprecated android sdk tool there is no ndk-bundle or cmake package!
+#         licenses:
+#           - '.+'
+#       before_install:
+#         # Install NDK and cmake via android sdkmanager. Unfortunately to acknowledge the licenses
+#         # takes a while. Looks like the "echo y" solution is not working. Needs improvement!
+#         - export TERM=dumb
+#         - touch ~/.android/repositories.cfg
+#         - mkdir -p /usr/local/android-sdk/licenses
+#         - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
+#         - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
+#         - echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" >> /usr/local/android-sdk/licenses/android-sdk-license
+#         # Install NDK and cmake via android sdkmanager.
+#         - ls -R /usr/local/android-sdk
+#         - /usr/local/android-sdk/tools/bin/sdkmanager --list
+#         - /usr/local/android-sdk/tools/bin/sdkmanager --update > /dev/null
+#         - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
+#       before_script:
+#         - export TERM=dumb
+#         - export _NO_CHECK_SIGNATURE=true
+#         - echo no | /usr/local/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
+#         - /usr/local/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
+#         - android-wait-for-emulator || android-wait-for-emulator
+#         - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
+#       script:
+#         # Using the ninja build command. Is much faster then make build command.
+#         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-19 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
+#         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
+#         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
+
+
+#     - language: android
+#       env:
+#         - ANDROID_ABI=armeabi-v7a
+#         - ANDROID_PLATFORM=android-22
+#       android:
+#         components:
+#           - tools
+#           - platform-tools
+#           - build-tools-23.0.3
+#           - extra-android-support
+#           - extra-android-m2repository
+#           - android-22
+#           - android-24
+#           - sys-img-armeabi-v7a-android-24
+#           # Unfortunately travis uses the old android sdk tool instead of the new sdkmanager.
+#           # In this deprecated android sdk tool there is no ndk-bundle or cmake package!
+#         licenses:
+#           - '.+'
+#       before_install:
+#         # Install NDK and cmake via android sdkmanager. Unfortunately to acknowledge the licenses
+#         # takes a while. Looks like the "echo y" solution is not working. Needs improvement!
+#         - export TERM=dumb
+#         - touch ~/.android/repositories.cfg
+#         - mkdir -p /usr/local/android-sdk/licenses
+#         - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
+#         - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
+#         - echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" >> /usr/local/android-sdk/licenses/android-sdk-license
+#         # Install NDK and cmake via android sdkmanager.
+#         - /usr/local/android-sdk/tools/bin/sdkmanager --update > /dev/null
+#         - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
+#       before_script:
+#         - export TERM=dumb
+#         - export _NO_CHECK_SIGNATURE=true
+#         - echo no | /usr/local/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
+#         - /usr/local/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
+#         - android-wait-for-emulator || android-wait-for-emulator
+#         - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
+#       script:
+#         # Using the ninja build command. Is much faster then make build command.
+#         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-22 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
+#         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
+#         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
+
+#     - language: android
+#       env:
+#         - ANDROID_ABI=armeabi-v7a
+#         - ANDROID_PLATFORM=android-23
+#       android:
+#         components:
+#           - tools
+#           - platform-tools
+#           - build-tools-23.0.3
+#           - extra-android-support
+#           - extra-android-m2repository
+#           - android-23
+#           # Unfortunately travis uses the old android sdk tool instead of the new sdkmanager.
+#           # In this deprecated android sdk tool there is no ndk-bundle or cmake package!
+#         licenses:
+#           - '.+'
+#       before_install:
+#         # Install NDK and cmake via android sdkmanager. Unfortunately to acknowledge the licenses
+#         # takes a while. Looks like the "echo y" solution is not working. Needs improvement!
+#         - export TERM=dumb
+#         - touch ~/.android/repositories.cfg
+#         - mkdir -p /usr/local/android-sdk/licenses
+#         - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
+#         - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
+#         - echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" >> /usr/local/android-sdk/licenses/android-sdk-license
+#         # Install NDK and cmake via android sdkmanager.
+#         - /usr/local/android-sdk/tools/bin/sdkmanager --update > /dev/null
+#         - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.10.2.4988404" "system-images;android-23;google_apis;armeabi-v7a" > /dev/null
+#       before_script:
+#         - export TERM=dumb
+#         - export _NO_CHECK_SIGNATURE=true
+#         - echo no | /usr/local/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-23;google_apis;armeabi-v7a"
+#         - /usr/local/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
+#         - android-wait-for-emulator || android-wait-for-emulator
+#         - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
+#       script:
+#         # Using the ninja build command. Is much faster then make build command.
+#         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-23 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
+#         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
+#         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
+
+#     - language: android
+#       env:
+#         - ANDROID_ABI=armeabi-v7a
+#         - ANDROID_PLATFORM=android-24
+#       android:
+#         components:
+#           - tools
+#           - platform-tools
+#           - build-tools-23.0.3
+#           - extra-android-support
+#           - extra-android-m2repository
+#           - android-24
+#           - sys-img-armeabi-v7a-android-24
+#           # Unfortunately travis uses the old android sdk tool instead of the new sdkmanager.
+#           # In this deprecated android sdk tool there is no ndk-bundle or cmake package!
+#         licenses:
+#           - '.+'
+#       before_install:
+#         # Install NDK and cmake via android sdkmanager. Unfortunately to acknowledge the licenses
+#         # takes a while. Looks like the "echo y" solution is not working. Needs improvement!
+#         - export TERM=dumb
+#         - touch ~/.android/repositories.cfg
+#         - mkdir -p /usr/local/android-sdk/licenses
+#         - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > /usr/local/android-sdk/licenses/android-sdk-license
+#         - echo -e "\nd56f5187479451eabf01fb78af6dfcb131a6481e" >> /usr/local/android-sdk/licenses/android-sdk-license
+#         - echo -e "\n24333f8a63b6825ea9c5514f83c2829b004d1fee" >> /usr/local/android-sdk/licenses/android-sdk-license
+#         # Install NDK and cmake via android sdkmanager.
+#         - /usr/local/android-sdk/tools/bin/sdkmanager --update > /dev/null
+#         - echo "y" | /usr/local/android-sdk/tools/bin/sdkmanager "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
+#       before_script:
+#         - export TERM=dumb
+#         - export _NO_CHECK_SIGNATURE=true
+#         - echo no | /usr/local/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
+#         - /usr/local/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
+#         - android-wait-for-emulator || android-wait-for-emulator
+#         - /usr/local/android-sdk/platform-tools/adb shell input keyevent 82 &
+#         - /usr/local/android-sdk/tools/bin/sdkmanager --list
+#         - /usr/local/android-sdk/ndk-bundle/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --version
+#       script:
+#         # Using the ninja build command. Is much faster then make build command.
+#         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/usr/local/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-24 -DCMAKE_MAKE_PROGRAM=/usr/local/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
+#         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
+#         - /usr/local/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
+
+#         - CPPFLAGS="-fsanitize=undefined -fuse-ld=gold"
+
+#     - compiler: gcc
+#       sudo: true
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test']
+#           packages: ['g++-9']
+#       env:
+#         - CXX=g++-9
+#         - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
+
+#     - compiler: clang
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+#           packages: ['clang-8', 'g++-8']
+#       env:
+#         - CXX=clang++-8
+#         - CPPFLAGS=-fsanitize=undefined
+
+#     - compiler: clang
+#       sudo: true
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+#           packages: ['clang-8', 'g++-8']
+#       env:
+#         - CXX=clang++-8
+#         - CPPFLAGS=-fsanitize=address
+
+#     - compiler: clang
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+#           packages: ['clang-8', 'clang-tidy-8', 'g++-8']
+#       env:
+#         - CXX=clang++-8
+#         - CLANG_TIDY=clang-tidy-8
+#       script:
+#         - "sed -i 's#namespace TAO_PEGTL_NAMESPACE#namespace tao::pegtl#g' $(find . -name '*.[hc]pp')"
+#         - make -kj3 clang-tidy
+
+#     - compiler: clang
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+#           packages: ['clang-8', 'clang-tools-8', 'g++-8']
+#       script:
+#         - scan-build-8 --use-c++=clang++-8 --status-bugs make -kj3
+
+#     - compiler: gcc
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test']
+#           packages: ['g++-9', 'valgrind']
+#       env:
+#         - CXX=g++-9
+#         - SPECIAL=valgrind
+#       script:
+#         - make -kj3 valgrind
+
+#     - compiler: gcc
+#       addons:
+#         apt:
+#           sources: ['ubuntu-toolchain-r-test']
+#           packages: ['g++-7']
+#       env:
+#         - CXX=g++-7
+#         - CXXFLAGS="-O0 --coverage"
+#       before_script:
+#         - pip install --user cpp-coveralls
+#       script:
+#         - make -kj3 check
+#         - coveralls --gcov gcov-7 --gcov-options '\-lp' --exclude src
+
+#     - language: python
+#       python:
+#         - "3.6"
+#       sudo: required
+#       install:
+#         - pip install conan conan-package-tools
+#       env:
+#         - CONAN_GCC_VERSIONS=7
+#         - CONAN_DOCKER_IMAGE=lasote/conangcc7
+#       script:
+#         - python .conan/build.py
+
+# script:
+#   - $CXX --version
+#   - make -j3 build/src/test/pegtl/tester
+#   - build/src/test/pegtl/tester
+#   - make -kj3
