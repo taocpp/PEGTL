@@ -117,7 +117,7 @@ matrix:
         # Using the ninja build command. Is much faster then make build command.
         - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake -H. -Bcmake-build -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-19 -DCMAKE_MAKE_PROGRAM=/opt/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
         - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake --build cmake-build --target all
-        - /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
+        - cd cmake-build && /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
     # - compiler: clang
     #   env:
