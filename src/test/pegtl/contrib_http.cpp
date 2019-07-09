@@ -45,23 +45,28 @@ namespace TAO_PEGTL_NAMESPACE
       {
          string_input in( "0\r\n\r\n", __FUNCTION__ );
          TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( in ) );
-      } {
+      }
+      {
          std::string dummy;
          string_input in( "0\r\n\r\n", __FUNCTION__ );
          TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( in, dummy ) );
-      } {
+      }
+      {
          std::string state;
          string_input in( "0\r\n\r\n", __FUNCTION__ );
          TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR, chunked_action >( in, state ) );
          TAO_PEGTL_TEST_ASSERT( state == "a" );
-      } {
+      }
+      {
          string_input in( "01\r\nX\r\n1a\r\nabcdefghijklmnopqrstuvwxyz\r\n0\r\n\r\n", __FUNCTION__ );
          TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( in ) );
-      } {
+      }
+      {
          std::string dummy;
          string_input in( "01\r\nX\r\n1a\r\nabcdefghijklmnopqrstuvwxyz\r\n0\r\n\r\n", __FUNCTION__ );
          TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( in, dummy ) );
-      } {
+      }
+      {
          std::string state;
          string_input in( "01\r\nX\r\n1a\r\nabcdefghijklmnopqrstuvwxyz\r\n0\r\n\r\n", __FUNCTION__ );
          TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR, chunked_action >( in, state ) );
