@@ -90,7 +90,8 @@ matrix:
         - CXX=g++-9
         - CPPFLAGS="-fsanitize=undefined -fuse-ld=gold"
 
-    - env:
+    - compiler: clang
+      env:
        - ANDROID_ABI=armeabi-v7a
        - ANDROID_PLATFORM=android-19
       addons:
@@ -118,7 +119,8 @@ matrix:
         - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake --build cmake-build --target all
         - /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
-    - env:
+    - compiler: clang
+      env:
         - ANDROID_ABI=armeabi-v7a
         - ANDROID_PLATFORM=android-22
       addons:
@@ -146,7 +148,8 @@ matrix:
          - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
          - /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
-    - env:
+    - compiler: clang
+      env:
         - ANDROID_ABI=armeabi-v7a
         - ANDROID_PLATFORM=android-23
       addons:
@@ -174,7 +177,8 @@ matrix:
          - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake --build . --target all
          - /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
-    - env:
+    - compiler: clang
+      env:
         - ANDROID_ABI=armeabi-v7a
         - ANDROID_PLATFORM=android-24
       addons:
