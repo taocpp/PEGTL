@@ -103,7 +103,7 @@ matrix:
         - wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
         - unzip -qq sdk-tools-linux-4333796.zip -d /opt/android-sdk
         - rm sdk-tools-linux-4333796.zip
-        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "system-images;android-24;default;armeabi-v7a" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
+        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "platform-tools" "system-images;android-24;default;armeabi-v7a" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
       before_script:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
@@ -131,7 +131,7 @@ matrix:
         - wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
         - unzip -qq sdk-tools-linux-4333796.zip -d /opt/android-sdk
         - rm sdk-tools-linux-4333796.zip
-        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "system-images;android-24;default;armeabi-v7a" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
+        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "platform-tools" "system-images;android-24;default;armeabi-v7a" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
       before_script:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
@@ -159,7 +159,7 @@ matrix:
         - wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
         - unzip -qq sdk-tools-linux-4333796.zip -d /opt/android-sdk
         - rm sdk-tools-linux-4333796.zip
-        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "system-images;android-24;default;armeabi-v7a" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
+        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "platform-tools" "system-images;android-24;default;armeabi-v7a" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
       before_script:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
@@ -187,7 +187,7 @@ matrix:
         - wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
         - unzip -qq sdk-tools-linux-4333796.zip -d /opt/android-sdk
         - rm sdk-tools-linux-4333796.zip
-        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "system-images;android-24;default;armeabi-v7a" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
+        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "platform-tools" "system-images;android-24;default;armeabi-v7a" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
       before_script:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
