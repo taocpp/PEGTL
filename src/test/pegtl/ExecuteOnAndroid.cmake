@@ -16,14 +16,16 @@ if(LIBRARY_DIR)
 endif()
 message(STATUS "Push ${UNITTEST} to android ...")
 execute_process(COMMAND ${ANDROID_NDK}/../platform-tools/adb push ${UNITTEST} /data/local/tmp/ OUTPUT_QUIET)
-message(STATUS "Execute ${UNITTEST_FILENAME} ${TEST_PARAMETER} on android ...")
+message(STATUS "Execute ${UNITTEST_FILENAME} on android ...")
 execute_process(
-   COMMAND ${ANDROID_NDK}/../platform-tools/adb shell "cd /data/local/tmp;su root sh -c 'LD_LIBRARY_PATH=/data/local/tmp/lib TMPDIR=/data/local/tmp HOME=/data/local/tmp ./${UNITTEST_FILENAME} ${TEST_PARAMETER};echo exit code $?'"
+   COMMAND ${ANDROID_NDK}/../platform-tools/adb shell "cd /data/local/tmp;ls -R;su root sh -c 'LD_LIBRARY_PATH=/data/local/tmp/lib TMPDIR=/data/local/tmp HOME=/data/local/tmp ./${UNITTEST_FILENAME} ${TEST_PARAMETER};echo exit code $?'"
    RESULT_VARIABLE _RESULT
    OUTPUT_VARIABLE _OUT
    ERROR_VARIABLE _ERR
 )
-                
+
+message(STATUS "Result: ${_RESULT} \nOutput: ${_OUT}\nError: ${_ERR}")
+               
 if(_RESULT)
     message(FATAL_ERROR "Execution of ${UNITTEST_FILENAME} failed")
 else()
