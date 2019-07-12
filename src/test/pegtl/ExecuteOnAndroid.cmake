@@ -14,20 +14,23 @@ execute_process(COMMAND ${ANDROID_NDK}/../platform-tools/adb shell "rm -r /data/
 foreach(_TEST_DATA IN ITEMS ${TEST_RESOURCES})
     get_filename_component(_DIR ${_TEST_DATA} DIRECTORY)
     message(STATUS "Create /data/local/tmp/${_DIR} directory structure on android ...")
-    execute_process(COMMAND ${ANDROID_NDK}/../platform-tools/adb shell "mkdir -p /data/local/tmp/${_DIR}" OUTPUT_QUIET)    
-    message(STATUS "Push ${_TEST_DATA} to android ...")
+    execute_process(COMMAND ${ANDROID_NDK}/../platform-tools/adb shell "mkdir -p /data/local/tmp/${_DIR}" OUTPUT_QUIET)
+    message(STATUS "Push ${_TEST_DATA} from ${TEST_RESOURCES_DIR} to android ...")
     execute_process(COMMAND ${ANDROID_NDK}/../platform-tools/adb push ${_TEST_DATA} /data/local/tmp/${_DIR} OUTPUT_QUIET WORKING_DIRECTORY ${TEST_RESOURCES_DIR})
 endforeach()
 if(LIBRARY_DIR)
     message(STATUS "Push ${LIBRARY_DIR} to android ...")
-    execute_process(COMMAND ${ANDROID_NDK}/../platform-tools/adb push ${LIBRARY_DIR} /data/local/tmp/ OUTPUT_QUIET)                       
+    execute_process(COMMAND ${ANDROID_NDK}/../platform-tools/adb push ${LIBRARY_DIR} /data/local/tmp/ OUTPUT_QUIET)
 endif()
 message(STATUS "Push ${UNITTEST} to android ...")
+if(NOT EXISTS "${UNITTEST}")
+    message(FATAL_ERROR "${UNITTEST} is not found!")
+endif()
 execute_process(COMMAND ${ANDROID_NDK}/../platform-tools/adb push ${UNITTEST} /data/local/tmp/ OUTPUT_QUIET)
 message(STATUS "Execute ${UNITTEST_FILENAME} on android ...")
 
 execute_process(
-   COMMAND ${ANDROID_NDK}/../platform-tools/adb shell "cd /data/local/tmp;ls -R;su root sh -c 'LD_LIBRARY_PATH=/data/local/tmp/lib TMPDIR=/data/local/tmp HOME=/data/local/tmp ./${UNITTEST_FILENAME};echo exit code $?'"
+   COMMAND ${ANDROID_NDK}/../platform-tools/adb shell "cd /data/local/tmp;su root sh -c 'LD_LIBRARY_PATH=/data/local/tmp/lib TMPDIR=/data/local/tmp HOME=/data/local/tmp ./${UNITTEST_FILENAME};echo exit code $?'"
    RESULT_VARIABLE _RESULT
    OUTPUT_VARIABLE _OUT
    ERROR_VARIABLE _ERR
