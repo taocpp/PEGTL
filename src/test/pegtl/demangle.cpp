@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE
 #elif defined( _MSC_VER )
       test< int >( "int" );
       test< double >( "double" );
-      test< seq< bytes< 42 >, eof > >( "struct tao::pegtl::seq<struct tao::pegtl::bytes<42>,struct  tao::pegtl::eof>" );
+      test< seq< bytes< 42 >, eof > >( "struct tao::pegtl::seq<struct tao::pegtl::bytes<42>,struct tao::pegtl::eof>" );
 #else
       test< int >( "int" );
       test< double >( "double" );
