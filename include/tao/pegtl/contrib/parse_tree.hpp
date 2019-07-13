@@ -62,13 +62,13 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename U >
       [[nodiscard]] bool is_type() const noexcept
       {
-         return type == internal::demangle< U >();
+         return type == TAO_PEGTL_NAMESPACE::internal::demangle< U >();
       }
 
       template< typename U >
       void set_type() noexcept
       {
-         type = internal::demangle< U >();
+         type = TAO_PEGTL_NAMESPACE::internal::demangle< U >();
       }
 
       [[nodiscard]] position begin() const
