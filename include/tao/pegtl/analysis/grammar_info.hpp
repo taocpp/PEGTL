@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE::analysis
 {
    struct grammar_info
    {
-      using map_t = std::map< std::string, rule_info >;
+      using map_t = std::map< std::string_view, rule_info >;
       map_t map;
 
       template< typename Name >

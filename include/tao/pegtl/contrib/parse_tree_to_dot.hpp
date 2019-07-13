@@ -14,7 +14,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
 {
    namespace internal
    {
-      void print_dot_node( std::ostream& os, const parse_tree::node& n, const std::string& s )
+      void print_dot_node( std::ostream& os, const parse_tree::node& n, const std::string_view s )
       {
          if( n.has_content() ) {
             os << "  x" << &n << " [ label=\"" << s << "\\n\\\"" << n.string_view() << "\\\"\" ]\n";
@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
                os << "x" << up.get() << ( ( up == n.children.back() ) ? " }\n" : ", " );
             }
             for( auto& up : n.children ) {
-               print_dot_node( os, *up, up->name() );
+               print_dot_node( os, *up, up->type );
             }
          }
       }

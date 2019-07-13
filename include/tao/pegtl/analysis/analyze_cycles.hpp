@@ -9,6 +9,7 @@
 #include <map>
 #include <set>
 #include <stdexcept>
+#include <string_view>
 
 #include <iostream>
 #include <utility>
@@ -32,18 +33,18 @@ namespace TAO_PEGTL_NAMESPACE::analysis
       const bool m_verbose;
       unsigned m_problems;
       grammar_info m_info;
-      std::set< std::string > m_stack;
-      std::map< std::string, bool > m_cache;
-      std::map< std::string, bool > m_results;
+      std::set< std::string_view > m_stack;
+      std::map< std::string_view, bool > m_cache;
+      std::map< std::string_view, bool > m_results;
 
-      [[nodiscard]] std::map< std::string, rule_info >::const_iterator find( const std::string& name ) const noexcept
+      [[nodiscard]] std::map< std::string_view, rule_info >::const_iterator find( const std::string_view name ) const noexcept
       {
          const auto iter = m_info.map.find( name );
          assert( iter != m_info.map.end() );
          return iter;
       }
 
-      [[nodiscard]] bool work( const std::map< std::string, rule_info >::const_iterator& start, const bool accum )
+      [[nodiscard]] bool work( const std::map< std::string_view, rule_info >::const_iterator& start, const bool accum )
       {
          const auto j = m_cache.find( start->first );
 

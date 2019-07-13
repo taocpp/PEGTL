@@ -16,7 +16,7 @@ namespace TAO_PEGTL_NAMESPACE::analysis
    struct generic
    {
       template< typename Name >
-      static std::string insert( grammar_info& g )
+      static std::string_view insert( grammar_info& g )
       {
          const auto [ it, success ] = g.insert< Name >( Type );
          if( success ) {

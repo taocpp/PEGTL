@@ -4,6 +4,7 @@
 #ifndef TAO_PEGTL_NORMAL_HPP
 #define TAO_PEGTL_NORMAL_HPP
 
+#include <string>
 #include <type_traits>
 #include <utility>
 
@@ -39,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Input, typename... States >
       static void raise( const Input& in, States&&... /*unused*/ )
       {
-         throw parse_error( "parse error matching " + internal::demangle< Rule >(), in );
+         throw parse_error( "parse error matching " + std::string( internal::demangle< Rule >() ), in );
       }
 
       template< template< typename... > class Action,

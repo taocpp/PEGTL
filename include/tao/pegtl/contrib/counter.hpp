@@ -5,7 +5,7 @@
 #define TAO_PEGTL_CONTRIB_COUNTER_HPP
 
 #include <map>
-#include <string>
+#include <string_view>
 
 #include "../config.hpp"
 #include "../normal.hpp"
@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    struct counter_state
    {
-      std::map< std::string, counter_data > counts;
+      std::map< std::string_view, counter_data > counts;
    };
 
    template< typename Rule >

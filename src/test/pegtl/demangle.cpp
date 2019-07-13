@@ -3,31 +3,28 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/demangle_sanitise.hpp>
+#include <tao/pegtl/internal/demangle.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   void test_chars( std::string a, const std::string& b )
+   template< typename T >
+   void test( const std::string& s )
    {
-      internal::demangle_sanitise_chars( a );
-      TAO_PEGTL_TEST_ASSERT( a == b );
+      TAO_PEGTL_TEST_ASSERT( internal::demangle< T >() == s );
    }
 
    void unit_test()
    {
-      const std::string s = "something that can't be demangled";
-      const std::string a = internal::demangle( s.c_str() );
-      TAO_PEGTL_TEST_ASSERT( a == s );
-      const std::string b = internal::demangle< std::string >();
-      (void)b;  // Not standardised.
-
-      test_chars( "zzz(char)1xxx", "zzz1xxx" );
-      test_chars( "zzz(char)32xxx", "zzz' 'xxx" );
-      test_chars( "zzz(char)48xxx", "zzz'0'xxx" );
-      test_chars( "zzz(char)39xxx", "zzz'\\''xxx" );
-      test_chars( "zzz(char)92xxx", "zzz'\\\\'xxx" );
-      test_chars( "frobnicate<> (char)1 (char)32 (char)48 ***", "frobnicate<> 1 ' ' '0' ***" );
-      test_chars( "tao::pegtl::internal::until<tao::pegtl::at<tao::pegtl::ascii::one<(char)34> >", "tao::pegtl::internal::until<tao::pegtl::at<tao::pegtl::ascii::one<'\"'> >" );
+#if defined( __GNUC__ ) && ( __GNUC__ == 9 ) || ( __GNUC_MINOR__ == 1 )
+      // see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155
+      test< int >( "i" );
+      test< double >( "d" );
+      test< seq< bytes< 42 >, eof > >( "N3tao5pegtl3seqIJNS0_5bytesILj42EEENS0_3eofEEEE" );
+#else
+      test< int >( "int" );
+      test< double >( "double" );
+      test< seq< bytes< 42 >, eof > >( "tao::pegtl::seq<tao::pegtl::bytes<42>, tao::pegtl::eof>" );
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

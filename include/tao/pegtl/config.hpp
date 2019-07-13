@@ -8,8 +8,4 @@
 #define TAO_PEGTL_NAMESPACE tao::pegtl
 #endif
 
-// Enable some improvements to the readability of
-// demangled type names under some circumstances.
-// #define TAO_PEGTL_PRETTY_DEMANGLE
-
 #endif

@@ -4,8 +4,6 @@
 #include <iomanip>
 #include <iostream>
 
-#define TAO_PEGTL_PRETTY_DEMANGLE
-
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/counter.hpp>
 #include <tao/pegtl/contrib/json.hpp>
