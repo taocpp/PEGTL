@@ -24,42 +24,72 @@ namespace TAO_PEGTL_NAMESPACE::internal
       return nullptr;
    }
 
+#if defined( __clang__ )
+
    template< typename T >
    [[nodiscard]] constexpr std::string_view demangle() noexcept
    {
-#if defined( __clang__ )
-
+      constexpr const std::string_view sv = __PRETTY_FUNCTION__;
 #if defined( _LIBCPP_VERSION )
-
-      constexpr std::string_view sv = __PRETTY_FUNCTION__;
-      constexpr auto begin = sv.find( '=' );
+      constexpr const auto begin = sv.find( '=' );
       static_assert( begin != std::string_view::npos );
       return sv.substr( begin + 2, sv.size() - begin - 3 );
+#else
+      // When using libstdc++ with clang, std::string_view::find is not constexpr :(
+      constexpr const auto begin = find< '=' >( sv.data(), sv.size() );
+      static_assert( begin != nullptr );
+      return { begin + 2, sv.end() - begin - 3 };
+#endif
+   }
+
+#elif defined( __GNUC__ )
+
+#if( __GNUC__ == 7 )
+
+   // GCC 7 wrongly sometimes disallows __PRETTY_FUNCTION__ in constexpr functions,
+   // therefore we drop the 'constexpr' and hope for the best.
+   template< typename T >
+   [[nodiscard]] std::string_view demangle() noexcept
+   {
+      const std::string_view sv = __PRETTY_FUNCTION__;
+      const auto begin = sv.find( '=' );
+      const auto tmp = sv.substr( begin + 2 );
+      const auto end = tmp.rfind( ';' );
+      return tmp.substr( 0, end );
+   }
+
+#elif( __GNUC__ == 9 ) && ( __GNUC_MINOR__ == 1 )
+
+   // GCC 9.1 has a bug that leads to truncated __PRETTY_FUNCTION__ names,
+   // see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155
+   template< typename T >
+   [[nodiscard]] constexpr std::string_view demangle() noexcept
+   {
+      // fallback: requires RTTI, no demangling
+      return typeid( T ).name();
+   }
 
 #else
 
+   template< typename T >
+   [[nodiscard]] constexpr std::string_view demangle() noexcept
+   {
       constexpr std::string_view sv = __PRETTY_FUNCTION__;
-      // When using libstdc++ with clang, std::string_view::find is not constexpr :(
-      constexpr auto begin = find< '=' >( sv.data(), sv.size() );
-      static_assert( begin != nullptr );
-      return { begin + 2, sv.end() - begin - 3 };
+      constexpr const auto begin = sv.find( '=' );
+      static_assert( begin != std::string_view::npos );
+      constexpr const auto tmp = sv.substr( begin + 2 );
+      constexpr const auto end = tmp.rfind( ';' );
+      static_assert( end != std::string_view::npos );
+      return tmp.substr( 0, end );
+   }
 
 #endif
 
-#elif defined( __GNUC__ ) && !( ( __GNUC__ == 9 ) && ( __GNUC_MINOR__ == 1 ) )
-      // GCC 9.1 has a bug that leads to truncated __PRETTY_FUNCTION__ names,
-      // see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155
-
-      constexpr std::string_view sv = __PRETTY_FUNCTION__;
-      constexpr auto begin = sv.find( '=' );
-      static_assert( begin != std::string_view::npos );
-      constexpr auto tmp = sv.substr( begin + 2 );
-      constexpr auto end = tmp.rfind( ';' );
-      static_assert( end != std::string_view::npos );
-      return tmp.substr( 0, end );
-
 #elif defined( _MSC_VER )
 
+   template< typename T >
+   [[nodiscard]] constexpr std::string_view demangle() noexcept
+   {
       constexpr std::string_view sv = __FUNCSIG__;
       constexpr auto begin = sv.find( "demangle<" );
       static_assert( begin != std::string_view::npos );
@@ -67,14 +97,19 @@ namespace TAO_PEGTL_NAMESPACE::internal
       constexpr auto end = tmp.rfind( '>' );
       static_assert( end != std::string_view::npos );
       return tmp.substr( 0, end );
+   }
 
 #else
 
+   template< typename T >
+   [[nodiscard]] constexpr std::string_view demangle() noexcept
+   {
       // fallback: requires RTTI, no demangling
       return typeid( T ).name();
+   }
 
 #endif
-   }
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
