@@ -61,7 +61,6 @@ Each commit is automatically tested with multiple architectures, operating syste
 * Windows
 
   * Visual Studio 2017 (x86, x64)
-  * Visual Studio 2019 (x86, x64)
 
 * macOS (using libc++)
 
