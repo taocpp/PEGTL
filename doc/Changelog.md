@@ -31,6 +31,7 @@
 * Added fallback symbol demangling if RTTI is disabled.
 * Fixed missing `string_input<>` in amalgamated header.
 * Fixed `discard_input*` actions to properly forward the apply mode.
+* Fixed contrib HTTP grammar for chunked data.
 
 ## 2.8.0
 
