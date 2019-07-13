@@ -17,6 +17,10 @@ environment:
 
     - GENERATOR: Visual Studio 15 2017 Win64
 
+    - GENERATOR: Visual Studio 16 2019
+
+    - GENERATOR: Visual Studio 16 2019 Win64
+
     - GENERATOR: Visual Studio 15 2017
       CONAN_VISUAL_VERSIONS: 15
       PYTHON: "C:\\Python27"
