@@ -87,6 +87,20 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 #elif defined( _MSC_VER )
 
+#if( _MSC_VER < 1920 )
+
+   template< typename T >
+   [[nodiscard]] constexpr std::string_view demangle() noexcept
+   {
+      const std::string_view sv = __FUNCSIG__;
+      const auto begin = sv.find( "demangle<" );
+      const auto tmp = sv.substr( begin + 9 );
+      const auto end = tmp.rfind( '>' );
+      return tmp.substr( 0, end );
+   }
+
+#else
+
    template< typename T >
    [[nodiscard]] constexpr std::string_view demangle() noexcept
    {
@@ -98,6 +112,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static_assert( end != std::string_view::npos );
       return tmp.substr( 0, end );
    }
+
+#endif
 
 #else
 
