@@ -28,8 +28,9 @@
 
 **Not yet released**
 
-* Fixed missing `string_input<>` in amalgamated header.
 * Added fallback symbol demangling if RTTI is disabled.
+* Fixed missing `string_input<>` in amalgamated header.
+* Fixed `discard_input*` actions to properly forward the apply mode.
 
 ## 2.8.0
 
