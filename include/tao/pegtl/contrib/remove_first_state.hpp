@@ -12,32 +12,32 @@ namespace tao
    {
       // NOTE: The naming of the following classes might still change.
 
-      template< typename Rule, template< typename... > class Control >
+      template< typename Base >
       struct remove_first_state_after_match
-         : Control< Rule >
+         : Base
       {
          template< typename Input, typename State, typename... States >
-         static void start( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::start( in, st... ) ) )
+         static void start( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Base::start( in, st... ) ) )
          {
-            Control< Rule >::start( in, st... );
+            Base::start( in, st... );
          }
 
          template< typename Input, typename State, typename... States >
-         static void success( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::success( in, st... ) ) )
+         static void success( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Base::success( in, st... ) ) )
          {
-            Control< Rule >::success( in, st... );
+            Base::success( in, st... );
          }
 
          template< typename Input, typename State, typename... States >
-         static void failure( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
+         static void failure( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Base::failure( in, st... ) ) )
          {
-            Control< Rule >::failure( in, st... );
+            Base::failure( in, st... );
          }
 
          template< typename Input, typename State, typename... States >
          static void raise( const Input& in, State&& /*unused*/, States&&... st )
          {
-            Control< Rule >::raise( in, st... );
+            Base::raise( in, st... );
          }
 
          template< template< typename... > class Action,
@@ -45,20 +45,20 @@ namespace tao
                    typename Input,
                    typename State,
                    typename... States >
-         static auto apply( const Iterator& begin, const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
-            -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
+         static auto apply( const Iterator& begin, const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Base::template apply< Action >( begin, in, st... ) ) )
+            -> decltype( Base::template apply< Action >( begin, in, st... ) )
          {
-            return Control< Rule >::template apply< Action >( begin, in, st... );
+            return Base::template apply< Action >( begin, in, st... );
          }
 
          template< template< typename... > class Action,
                    typename Input,
                    typename State,
                    typename... States >
-         static auto apply0( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
-            -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
+         static auto apply0( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Base::template apply0< Action >( in, st... ) ) )
+            -> decltype( Base::template apply0< Action >( in, st... ) )
          {
-            return Control< Rule >::template apply0< Action >( in, st... );
+            return Base::template apply0< Action >( in, st... );
          }
       };
 

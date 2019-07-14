@@ -209,12 +209,12 @@ namespace tao
 
                template< template< typename... > class Control >
                struct control< chunk_size, Control >
-                  : remove_first_state_after_match< chunk_size, Control >
+                  : remove_first_state_after_match< Control< chunk_size > >
                {};
 
                template< template< typename... > class Control >
                struct control< chunk_data, Control >
-                  : remove_first_state_after_match< chunk_data, Control >
+                  : remove_first_state_after_match< Control< chunk_data > >
                {};
 
                template< template< typename... > class Control >
