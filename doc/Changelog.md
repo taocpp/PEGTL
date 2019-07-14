@@ -23,7 +23,7 @@
   * Removes the need for RTTI.
   * Some broken/unknown compilers will use RTTI as a fallback, without demangling.
 * Refactored parse tree type storage/handling.
-  * Removed the need for RTTI.
+  * Removes the need for RTTI.
 
 ## 2.8.1
 
