@@ -104,7 +104,6 @@
   * [Custom Rules](Grammar-Analysis.md#custom-rules)
 * [Changelog](Changelog.md)
 * [Migration Guide](Migration-Guide.md)
-* [Thank You](Thank-You.md)
 
 # Rule Reference Index
 
