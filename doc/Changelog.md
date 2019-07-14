@@ -10,7 +10,6 @@
 * The macro `TAO_PEGTL_NAMESPACE` now contains the fully qualified namespace, e.g. `tao::pegtl`.
 * Replaced `tao::pegtl::input_error` with `std::system_error`.
 * Changed message of `tao::pegtl::parse_error` to no longer contain the position redundantly.
-* Refactored parse tree type storage/handling.
 * Changed rules in `tao/pegtl/contrib/integer.hpp` to not accept redundant leading zeros.
 * Added rules to `tao/pegtl/contrib/integer.hpp` that test unsigned values against a maximum.
 * Removed option of [state](Rule-Reference.md#state-s-r-)'s `S::success()` to have an extended signature to get access to the current `apply_mode`, `rewind_mode`, *action*- and *control* class (template).
@@ -19,10 +18,12 @@
 * Removed compatibility uppercase enumerators.
 * Removed compatibility `peek_byte()` member functions.
 * Removed compatibility header `changes.hpp` from contrib.
-* Refactored demangling to no longer rely on RTTI.
+* Refactored demangling.
   * Improves generated code to be shorter and more efficient.
+  * Removes the need for RTTI.
   * Some broken/unknown compilers will use RTTI as a fallback, without demangling.
-* Removed the need for RTTI from the parse tree.
+* Refactored parse tree type storage/handling.
+  * Removed the need for RTTI.
 
 ## 2.8.1
 
