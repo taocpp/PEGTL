@@ -61,6 +61,7 @@ Each commit is automatically tested with multiple architectures, operating syste
 
   * Visual Studio 2015 (x86, x64)
   * Visual Studio 2017 (x86, x64)
+  * Visual Studio 2019 (x86, x64)
   * MinGW (i686), GCC 5.x
   * MinGW-w64 (i686), GCC 5.x, 6.x
   * MinGW-w64 (x86_64), GCC 6.x
