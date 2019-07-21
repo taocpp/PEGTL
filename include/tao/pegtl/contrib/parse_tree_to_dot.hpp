@@ -14,13 +14,35 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
 {
    namespace internal
    {
+      std::string escape( std::ostream& os, const std::string_view s )
+      {
+         std::string result;
+         for( auto c : s ) {
+            switch( c ) {
+               case '\\':
+               case '"':
+                  os << '\\';
+                  // fall-through
+               default:
+                  os << c;
+            }
+         }
+         return result;
+      }
+
       void print_dot_node( std::ostream& os, const parse_tree::node& n, const std::string_view s )
       {
          if( n.has_content() ) {
-            os << "  x" << &n << " [ label=\"" << s << "\\n\\\"" << n.string_view() << "\\\"\" ]\n";
+            os << "  x" << &n << " [ label=\"";
+            escape( os, s );
+            os << "\\n\\\"";
+            escape( os, n.string_view() );
+            os << "\\\"\" ]\n";
          }
          else {
-            os << "  x" << &n << " [ label=\"" << s << "\" ]\n";
+            os << "  x" << &n << " [ label=\"";
+            escape( os, s );
+            os << "\" ]\n";
          }
          if( !n.children.empty() ) {
             os << "  x" << &n << " -> { ";
