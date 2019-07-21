@@ -23,6 +23,9 @@ environment:
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       GENERATOR: Visual Studio 15 2017 Win64
 
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: Visual Studio 16 2019
+
     - GENERATOR: MinGW Makefiles
       BINDIR: C:\MinGW\bin
 
