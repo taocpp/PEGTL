@@ -71,7 +71,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       void print_dot_node( std::ostream& os, const parse_tree::node& n, const std::string_view s )
       {
          os << "  x" << &n << " [ label=\"";
-         escape( os, "one<\"\\\\\">" + std::string( s ) );
+         escape( os, s );
          if( n.has_content() ) {
             os << "\\n";
             escape( os, n.string_view() );
