@@ -72,14 +72,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return std::size_t( end() - begin() );
       }
 
-      [[nodiscard]] std::string string() const
+      [[nodiscard]] std::string string( const std::size_t offset = 0 ) const
       {
-         return std::string( begin(), end() );
+         return std::string( begin() + offset, size() - offset );
       }
 
-      [[nodiscard]] std::string_view string_view() const noexcept
+      [[nodiscard]] std::string_view string_view( const std::size_t offset = 0 ) const noexcept
       {
-         return std::string_view( begin(), size() );
+         return std::string_view( begin() + offset, size() - offset );
       }
 
       [[nodiscard]] char peek_char( const std::size_t offset = 0 ) const noexcept
