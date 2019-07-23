@@ -1,9 +1,10 @@
 // Copyright (c) 2019 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_CONTRIB_INTEGER_HPP
-#define TAO_PEGTL_CONTRIB_INTEGER_HPP
+#ifndef TAO_PEGTL_CONTRIB_INTEGERX_HPP
+#define TAO_PEGTL_CONTRIB_INTEGERX_HPP
 
+#include <cassert>
 #include <cstdint>
 #include <cstdlib>
 
@@ -14,79 +15,76 @@
 #include "../parse_error.hpp"
 #include "../rules.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::integer
+#include "integer.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::integerx
 {
    namespace internal
    {
-      struct unsigned_rule_old
-         : plus< digit >
-      {
-         // Pre-3.0 version of this rule.
-      };
-
       struct unsigned_rule_new
-         : if_then_else< one< '0' >, not_at< digit >, plus< digit > >
+         : if_then_else< one< '0' >, if_then_else< one< 'x' >, plus< xdigit >, not_at< digit > >, plus< digit > >
       {
-         // New version that does not allow leading zeros.
-      };
-
-      struct signed_rule_old
-         : seq< opt< one< '-', '+' > >, plus< digit > >
-      {
-         // Pre-3.0 version of this rule.
+         // Unsigned hex or dec integer, no leading zeros for dec.
       };
 
       struct signed_rule_new
-         : seq< opt< one< '-', '+' > >, if_then_else< one< '0' >, not_at< digit >, plus< digit > > >
+         : seq< opt< one< '-', '+' > >, if_then_else< one< '0' >, if_then_else< one< 'x' >, plus< xdigit >, not_at< digit > >, plus< digit > > >
       {
-         // New version that does not allow leading zeros.
+         // Signed hex or dec integer, no leading zeros for dec.
       };
 
-      struct signed_rule_bis
-         : seq< opt< one< '-' > >, if_then_else< one< '0' >, not_at< digit >, plus< digit > > >
+      [[nodiscard]] constexpr bool is_hex_digit( const char c ) noexcept
       {
-      };
+         // We don't use std::isxdigit() because it might
+         // return true for other values on MS platforms?
 
-      struct signed_rule_ter
-         : seq< one< '-', '+' >, if_then_else< one< '0' >, not_at< digit >, plus< digit > > >
+         return ( ( '0' <= c ) && ( c <= '9' ) ) || ( ( 'a' <= c ) && ( c <= 'f' ) ) || ( ( 'A' <= c ) && ( c <= 'F' ) );
+      }
+
+      template< typename Integer >
+      [[nodiscard]] constexpr Integer convert_hex_digit( const char c ) noexcept
       {
-      };
+         // Assumes that xdigit is an xdigit as per is_hex_digit().
 
-      [[nodiscard]] constexpr bool is_digit( const char c ) noexcept
-      {
-         // We don't use std::isdigit() because it might
-         // return true for other values on MS platforms.
-
-         return ( '0' <= c ) && ( c <= '9' );
+         if( ( '0' <= c ) && ( c <= '9' ) ) {
+            return Integer( c - '0' );
+         }
+         if( ( 'a' <= c ) && ( c <= 'f' ) ) {
+            return Integer( c - 'a' + 10 );
+         }
+         if( ( 'A' <= c ) && ( c <= 'F' ) ) {
+            return Integer( c - 'A' + 10 );
+         }
+         assert( false );  // Temporary.
       }
 
       template< typename Integer, Integer Maximum = ( std::numeric_limits< Integer >::max )() >
-      [[nodiscard]] constexpr bool accumulate_digit( Integer& result, const char digit ) noexcept
+      [[nodiscard]] constexpr bool accumulate_hex_digit( Integer& result, const char xdigit ) noexcept
       {
-         // Assumes that digit is a digit as per is_digit(); returns false on overflow.
+         // Assumes that xdigit is an xdigit as per is_hex_digit(); returns false on overflow.
 
          static_assert( std::is_integral_v< Integer > );
 
-         constexpr Integer cutoff = Maximum / 10;
-         constexpr Integer cutlim = Maximum % 10;
+         constexpr Integer cutoff = Maximum / 16;
+         constexpr Integer cutlim = Maximum % 16;
 
-         const Integer c = digit - '0';
+         const Integer c = convert_hex_digit< Integer >( xdigit );
 
          if( ( result > cutoff ) || ( ( result == cutoff ) && ( c > cutlim ) ) ) {
             return false;
          }
-         result *= 10;
+         result *= 16;
          result += c;
          return true;
       }
 
       template< typename Integer, Integer Maximum = ( std::numeric_limits< Integer >::max )() >
-      [[nodiscard]] constexpr bool accumulate_digits( Integer& result, const std::string_view input ) noexcept
+      [[nodiscard]] constexpr bool accumulate_hex_digits( Integer& result, const std::string_view input ) noexcept
       {
-         // Assumes input is a non-empty sequence of digits; returns false on overflow.
+         // Assumes input is a non-empty sequence of hex-digits; returns false on overflow.
 
          for( std::size_t i = 0; i < input.size(); ++i ) {
-            if( !accumulate_digit< Integer, Maximum >( result, input[ i ] ) ) {
+            if( !accumulate_hex_digit< Integer, Maximum >( result, input[ i ] ) ) {
                return false;
             }
          }
@@ -94,24 +92,24 @@ namespace TAO_PEGTL_NAMESPACE::integer
       }
 
       template< typename Integer, Integer Maximum = ( std::numeric_limits< Integer >::max )() >
-      [[nodiscard]] constexpr bool convert_positive( Integer& result, const std::string_view input ) noexcept
+      [[nodiscard]] constexpr bool convert_hex_positive( Integer& result, const std::string_view input ) noexcept
       {
-         // Assumes result == 0 and that input is a non-empty sequence of digits; returns false on overflow.
+         // Assumes result == 0 and that input is a non-empty sequence of hex-digits; returns false on overflow.
 
          static_assert( std::is_integral_v< Integer > );
-         return accumulate_digits< Integer, Maximum >( result, input );
+         return accumulate_hex_digits< Integer, Maximum >( result, input );
       }
 
       template< typename Signed >
-      [[nodiscard]] constexpr bool convert_negative( Signed& result, const std::string_view input ) noexcept
+      [[nodiscard]] constexpr bool convert_hex_negative( Signed& result, const std::string_view input ) noexcept
       {
-         // Assumes result == 0 and that input is a non-empty sequence of digits; returns false on overflow.
+         // Assumes result == 0 and that input is a non-empty sequence of hex-digits; returns false on overflow.
 
          static_assert( std::is_signed_v< Signed > );
          using Unsigned = std::make_unsigned_t< Signed >;
          constexpr Unsigned maximum = static_cast< Unsigned >( ( std::numeric_limits< Signed >::max )() ) + 1;
          Unsigned temporary = 0;
-         if( accumulate_digits< Unsigned, maximum >( temporary, input ) ) {
+         if( accumulate_hex_digits< Unsigned, maximum >( temporary, input ) ) {
             result = static_cast< Signed >( ~temporary ) + 1;
             return true;
          }
@@ -119,84 +117,41 @@ namespace TAO_PEGTL_NAMESPACE::integer
       }
 
       template< typename Unsigned, Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
-      [[nodiscard]] constexpr bool convert_unsigned( Unsigned& result, const std::string_view input ) noexcept
+      [[nodiscard]] constexpr bool convert_hex_unsigned( Unsigned& result, const std::string_view input ) noexcept
       {
-         // Assumes result == 0 and that input is a non-empty sequence of digits; returns false on overflow.
+         // Assumes result == 0 and that input is a non-empty sequence of hex-digits; returns false on overflow.
 
          static_assert( std::is_unsigned_v< Unsigned > );
-         return accumulate_digits< Unsigned, Maximum >( result, input );
+         return accumulate_hex_digits< Unsigned, Maximum >( result, input );
       }
 
       template< typename Signed >
-      [[nodiscard]] constexpr bool convert_signed( Signed& result, const std::string_view input ) noexcept
+      [[nodiscard]] constexpr bool convert_hex_signed( Signed& result, const std::string_view input ) noexcept
       {
-         // Assumes result == 0 and that input is an optional sign followed by a non-empty sequence of digits; returns false on overflow.
+         // Assumes result == 0 and that input is an optional sign followed by a "0x" and a non-empty sequence of hex-digits; returns false on overflow.
 
          static_assert( std::is_signed_v< Signed > );
          if( input[ 0 ] == '-' ) {
-            return convert_negative< Signed >( result, std::string_view( input.data() + 1, input.size() - 1 ) );
+            return convert_hex_negative< Signed >( result, std::string_view( input.data() + 3, input.size() - 3 ) );
          }
-         const auto offset = unsigned( input[ 0 ] == '+' );
-         return convert_positive< Signed >( result, std::string_view( input.data() + offset, input.size() - offset ) );
-      }
-
-      template< typename Input >
-      [[nodiscard]] bool match_unsigned( Input& in ) noexcept( noexcept( in.empty() ) )
-      {
-         if( !in.empty() ) {
-            const char c = in.peek_char();
-            if( is_digit( c ) ) {
-               in.bump_in_this_line();
-               if( c == '0' ) {
-                  return in.empty() || ( !is_digit( in.peek_char() ) );  // TODO: Throw exception on digit?
-               }
-               while( ( !in.empty() ) && is_digit( in.peek_char() ) ) {
-                  in.bump_in_this_line();
-               }
-               return true;
-            }
-         }
-         return false;
-      }
-
-      template< typename Input,
-                typename Unsigned,
-                Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
-      [[nodiscard]] bool match_and_convert_unsigned_with_maximum( Input& in, Unsigned& st )
-      {
-         // Assumes st == 0.
-
-         if( !in.empty() ) {
-            char c = in.peek_char();
-            if( is_digit( c ) ) {
-               if( c == '0' ) {
-                  in.bump_in_this_line();
-                  return in.empty() || ( !is_digit( in.peek_char() ) );  // TODO: Throw exception on digit?
-               }
-               do {
-                  if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
-                     throw parse_error( "integer overflow", in );  // Consistent with "as if" an action was doing the conversion.
-                  }
-                  in.bump_in_this_line();
-               } while( ( !in.empty() ) && is_digit( c = in.peek_char() ) );
-               return true;
-            }
-         }
-         return false;
+         const auto offset = unsigned( input[ 0 ] == '+' ) + 2;  // The "0x" prefix has length 2.
+         return convert_hex_positive< Signed >( result, std::string_view( input.data() + offset, input.size() - offset ) );
       }
 
    }  // namespace internal
 
-   struct unsigned_action
+   using unsigned_dec_action = integer::unsigned_action;
+
+   struct unsigned_hex_action
    {
-      // Assumes that 'in' contains a non-empty sequence of ASCII digits.
+      // Assumes that 'in' contains a non-empty sequence of ASCII hex-digits with "0x" prefix.
 
       template< typename Input, typename Unsigned >
       static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
       {
          st = 0;  // This function "only" offers basic exception safety.
-         if( !internal::convert_unsigned( st, in.string_view() ) ) {
-            throw parse_error( "unsigned integer overflow", in );
+         if( !internal::convert_hex_unsigned( st, in.string_view( 2 ) ) ) {
+            throw parse_error( "unsigned hex integer overflow", in );
          }
       }
 
@@ -222,9 +177,38 @@ namespace TAO_PEGTL_NAMESPACE::integer
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
       {
-         return internal::match_unsigned( in );  // Does not check for any overflow.
+         return TAO_PEGTL_NAMESPACE::parse< internal::unsigned_rule_new >( in );  // Does not check for any overflow.
       }
    };
+
+   namespace internal
+   {
+      template< typename Rule >
+      struct unsigned_action_action
+         : nothing< Rule >
+      {
+      };
+
+      template<>
+      struct unsigned_action_action< plus< digit > >
+         : unsigned_dec_action
+      {
+      };
+
+      template<>
+      struct unsigned_action_action< plus< xdigit > >
+      {
+         template< typename Input, typename Unsigned >
+         static void apply( const Input& in, Unsigned& st )
+         {
+            st = 0;  // This function "only" offers basic exception safety.
+            if( !internal::convert_hex_unsigned( st, in.string_view() ) ) {
+               throw parse_error( "unsigned hex integer overflow", in );
+            }
+         }
+      };
+
+   }  // namespace internal
 
    struct unsigned_rule_with_action
    {
@@ -240,7 +224,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
                 typename... States >
       [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) ) -> std::enable_if_t< A == apply_mode::nothing, bool >
       {
-         return internal::match_unsigned( in );  // Does not check for any overflow.
+         return TAO_PEGTL_NAMESPACE::parse< internal::unsigned_rule_new >( in );  // Does not check for any overflow.
       }
 
       template< apply_mode A,
@@ -254,7 +238,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       [[nodiscard]] static auto match( Input& in, Unsigned& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_unsigned_v< Unsigned >, bool >
       {
          st = 0;  // This function "only" offers basic exception safety.
-         return internal::match_and_convert_unsigned_with_maximum( in, st );  // Throws on overflow.
+         return TAO_PEGTL_NAMESPACE::parse< internal::unsigned_rule_new, internal::unsigned_action_action >( in, st );  // Throws on overflow.
       }
 
       // TODO: Overload for st.converted?
@@ -262,9 +246,12 @@ namespace TAO_PEGTL_NAMESPACE::integer
    };
 
    template< typename Unsigned, Unsigned Maximum >
-   struct maximum_action
+   using maximum_dec_action = integer::maximum_action< Unsigned, Maximum >;
+
+   template< typename Unsigned, Unsigned Maximum >
+   struct maximum_hex_action
    {
-      // Assumes that 'in' contains a non-empty sequence of ASCII digits.
+      // Assumes that 'in' contains a non-empty sequence of ASCII hex-digits.
 
       static_assert( std::is_unsigned_v< Unsigned > );
 
@@ -272,8 +259,8 @@ namespace TAO_PEGTL_NAMESPACE::integer
       static auto apply( const Input& in, Unsigned2& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
       {
          st = 0;  // This function "only" offers basic exception safety.
-         if( !internal::convert_unsigned< Unsigned, Maximum >( st, in.string_view() ) ) {
-            throw parse_error( "unsigned integer overflow", in );
+         if( !internal::convert_hex_unsigned< Unsigned, Maximum >( st, in.string_view( 2 ) ) ) {
+            throw parse_error( "unsigned hex integer overflow", in );
          }
       }
 
@@ -292,6 +279,44 @@ namespace TAO_PEGTL_NAMESPACE::integer
       }
    };
 
+   namespace internal
+   {
+      template< typename Rule, typename Unsigned, Unsigned Maximum >
+      struct maximum_action_action
+         : nothing< Rule >
+      {
+      };
+
+      template< typename Unsigned, Unsigned Maximum >
+      struct maximum_action_action< plus< digit >, Unsigned, Maximum >
+         : maximum_dec_action< Unsigned, Maximum >
+      {
+      };
+
+      template< typename Unsigned, Unsigned Maximum >
+      struct maximum_action_action< plus< xdigit >, Unsigned, Maximum >
+      {
+         template< typename Input, typename Unsigned2 >
+         static auto apply( const Input& in, Unsigned2& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
+         {
+            if( !internal::convert_hex_unsigned< Unsigned, Maximum >( st, in.string_view() ) ) {
+               throw parse_error( "unsigned hex integer overflow", in );
+            }
+         }
+      };
+
+      template< typename Unsigned, Unsigned Maximum >
+      struct maximum_action_helper
+      {
+         template< typename Rule >
+         struct type
+            : maximum_action_action< Rule, Unsigned, Maximum >
+         {
+         };
+      };
+
+   }  // namespace internal
+
    template< typename Unsigned, Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
    struct maximum_rule
    {
@@ -303,7 +328,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       [[nodiscard]] static bool match( Input& in )
       {
          Unsigned st = 0;
-         return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
+         return TAO_PEGTL_NAMESPACE::parse< internal::unsigned_rule_new, internal::maximum_action_helper< Unsigned, Maximum >::template type >( in, st );  // Throws on overflow.
       }
    };
 
@@ -325,7 +350,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ ) -> std::enable_if_t< A == apply_mode::nothing, bool >
       {
          Unsigned st = 0;
-         return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
+         return TAO_PEGTL_NAMESPACE::parse< internal::unsigned_rule_new, internal::maximum_action_helper< Unsigned, Maximum >::type >( in );  // Throws on overflow.
       }
 
       template< apply_mode A,
@@ -339,24 +364,27 @@ namespace TAO_PEGTL_NAMESPACE::integer
       [[nodiscard]] static auto match( Input& in, Unsigned2& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_same_v< Unsigned, Unsigned2 >, bool >
       {
          st = 0;  // This function "only" offers basic exception safety.
-         return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
+         return TAO_PEGTL_NAMESPACE::parse< internal::unsigned_rule_new, internal::maximum_action_helper< Unsigned, Maximum >::type >( in );  // Throws on overflow.
       }
 
       // TODO: Overload for st.converted?
       // TODO: Overload for std::vector< Unsigned >?
    };
 
-   struct signed_action
+   using signed_dec_action = integer::signed_action;
+
+   struct signed_hex_action
    {
-      // Assumes that 'in' contains a non-empty sequence of ASCII digits,
-      // with optional leading sign; with sign, in.size() must be >= 2.
+      // Assumes that 'in' contains a non-empty sequence of ASCII hex-digits,
+      // with optional leading sign before the "0x" prefix; when there is a
+      // sign, in.size() must be >= 4.
 
       template< typename Input, typename Signed >
       static auto apply( const Input& in, Signed& st ) -> std::enable_if_t< std::is_signed_v< Signed >, void >
       {
          st = 0;  // This function "only" offers basic exception safety.
-         if( !internal::convert_signed( st, in.string_view() ) ) {
-            throw parse_error( "signed integer overflow", in );
+         if( !internal::convert_hex_signed( st, in.string_view() ) ) {
+            throw parse_error( "signed hex integer overflow", in );
          }
       }
 
@@ -395,9 +423,37 @@ namespace TAO_PEGTL_NAMESPACE::integer
       };
 
       template<>
-      struct signed_action_action< signed_rule_new >
-         : signed_action
+      struct signed_action_action< one< '-', '+' > >
       {
+         template< typename Input, typename Signed >
+         static void apply( const Input& in, bool& negative, Signed& /*unused*/ )
+         {
+            negative = ( in.peek_char() == '-' );  // TODO: Optimise with custom rule to prevent building marker and action_input for single char?
+         }
+      };
+
+      template<>
+      struct signed_action_action< plus< digit > >
+      {
+         template< typename Input, typename Signed >
+         static void apply( const Input& in, const bool negative, Signed& st )
+         {
+            if( !( negative ? integer::internal::convert_negative< Signed >( st, in.string_view() ) : integer::internal::convert_positive< Signed >( st, in.string_view() ) ) ) {
+               throw parse_error( "signed dec integer overflow", in );
+            }
+         }
+      };
+
+      template<>
+      struct signed_action_action< plus< xdigit > >
+      {
+         template< typename Input, typename Signed >
+         static void apply( const Input& in, const bool negative, Signed& st )
+         {
+            if( !( negative ? internal::convert_hex_negative< Signed >( st, in.string_view() ) : internal::convert_hex_positive< Signed >( st, in.string_view() ) ) ) {
+               throw parse_error( "signed hex integer overflow", in );
+            }
+         }
       };
 
    }  // namespace internal
@@ -429,7 +485,9 @@ namespace TAO_PEGTL_NAMESPACE::integer
                 typename Signed >
       [[nodiscard]] static auto match( Input& in, Signed& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_signed_v< Signed >, bool >
       {
-         return TAO_PEGTL_NAMESPACE::parse< internal::signed_rule_new, internal::signed_action_action >( in, st );  // Throws on overflow.
+         st = 0;  // This function "only" offers basic exception safety.
+         bool negative = false; // Superfluous initialisation.
+         return TAO_PEGTL_NAMESPACE::parse< internal::signed_rule_new, internal::signed_action_action >( in, negative, st );  // Throws on overflow.
       }
 
       // TODO: Overload for st.converted?
