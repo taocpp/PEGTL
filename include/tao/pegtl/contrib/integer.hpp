@@ -384,15 +384,8 @@ namespace TAO_PEGTL_NAMESPACE::integer
    {
       using analyze_t = internal::signed_rule_new::analyze_t;
 
-      template< apply_mode A,
-                rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename Input,
-                typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) )
+      template< typename Input >
+      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
       {
          return TAO_PEGTL_NAMESPACE::parse< internal::signed_rule_new >( in );  // Does not check for any overflow.
       }
