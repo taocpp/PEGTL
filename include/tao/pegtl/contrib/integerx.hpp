@@ -146,7 +146,8 @@ namespace TAO_PEGTL_NAMESPACE::integerx
       template< typename Input, typename Unsigned >
       static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
       {
-         st = 0;  // This function "only" offers basic exception safety.
+         // This function "only" offers basic exception safety.
+         st = 0;
          if( !internal::convert_hex_unsigned( st, in.string_view( 2 ) ) ) {
             throw parse_error( "unsigned hex integer overflow", in );
          }
@@ -198,7 +199,8 @@ namespace TAO_PEGTL_NAMESPACE::integerx
          template< typename Input, typename Unsigned >
          static void apply( const Input& in, Unsigned& st )
          {
-            st = 0;  // This function "only" offers basic exception safety.
+            // This function "only" offers basic exception safety.
+            st = 0;
             if( !internal::convert_hex_unsigned( st, in.string_view() ) ) {
                throw parse_error( "unsigned hex integer overflow", in );
             }
@@ -234,7 +236,8 @@ namespace TAO_PEGTL_NAMESPACE::integerx
                 typename Unsigned >
       [[nodiscard]] static auto match( Input& in, Unsigned& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_unsigned_v< Unsigned >, bool >
       {
-         st = 0;  // This function "only" offers basic exception safety.
+         // This function "only" offers basic exception safety.
+         st = 0;
          return TAO_PEGTL_NAMESPACE::parse< internal::unsigned_rule_new, internal::unsigned_action_action >( in, st );  // Throws on overflow.
       }
 
@@ -255,7 +258,8 @@ namespace TAO_PEGTL_NAMESPACE::integerx
       template< typename Input, typename Unsigned2 >
       static auto apply( const Input& in, Unsigned2& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
       {
-         st = 0;  // This function "only" offers basic exception safety.
+         // This function "only" offers basic exception safety.
+         st = 0;
          if( !internal::convert_hex_unsigned< Unsigned, Maximum >( st, in.string_view( 2 ) ) ) {
             throw parse_error( "unsigned hex integer overflow", in );
          }
@@ -360,7 +364,8 @@ namespace TAO_PEGTL_NAMESPACE::integerx
                 typename Unsigned2 >
       [[nodiscard]] static auto match( Input& in, Unsigned2& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_same_v< Unsigned, Unsigned2 >, bool >
       {
-         st = 0;  // This function "only" offers basic exception safety.
+         // This function "only" offers basic exception safety.
+         st = 0;
          return TAO_PEGTL_NAMESPACE::parse< internal::unsigned_rule_new, internal::maximum_action_helper< Unsigned, Maximum >::type >( in );  // Throws on overflow.
       }
 
@@ -379,7 +384,8 @@ namespace TAO_PEGTL_NAMESPACE::integerx
       template< typename Input, typename Signed >
       static auto apply( const Input& in, Signed& st ) -> std::enable_if_t< std::is_signed_v< Signed >, void >
       {
-         st = 0;  // This function "only" offers basic exception safety.
+         // This function "only" offers basic exception safety.
+         st = 0;
          if( !internal::convert_hex_signed( st, in.string_view() ) ) {
             throw parse_error( "signed hex integer overflow", in );
          }
@@ -482,8 +488,9 @@ namespace TAO_PEGTL_NAMESPACE::integerx
                 typename Signed >
       [[nodiscard]] static auto match( Input& in, Signed& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_signed_v< Signed >, bool >
       {
-         st = 0;  // This function "only" offers basic exception safety.
-         bool negative = false; // Superfluous initialisation.
+         // This function "only" offers basic exception safety.
+         st = 0;
+         bool negative = false;                                                                                               // Superfluous initialisation.
          return TAO_PEGTL_NAMESPACE::parse< internal::signed_rule_new, internal::signed_action_action >( in, negative, st );  // Throws on overflow.
       }
 
@@ -491,6 +498,6 @@ namespace TAO_PEGTL_NAMESPACE::integerx
       // TODO: Overload for std::vector< Signed >?
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::integer
+}  // namespace TAO_PEGTL_NAMESPACE::integerx
 
 #endif
