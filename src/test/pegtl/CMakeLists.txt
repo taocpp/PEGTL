@@ -28,8 +28,6 @@ set(test_sources
   contrib_http.cpp
   contrib_if_then.cpp
   contrib_integer.cpp
-  contrib_integer_dec.cpp
-  contrib_integer_hex.cpp
   contrib_json.cpp
   contrib_parse_tree.cpp
   contrib_partial_trace.cpp

@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    struct position
    {
-      position() noexcept {}
+      position() = delete;
 
       position( position&& ) noexcept = default;
       position( const position& ) = default;
@@ -35,9 +35,9 @@ namespace TAO_PEGTL_NAMESPACE
       {
       }
 
-      std::size_t byte = 0;
-      std::size_t line = 0;
-      std::size_t byte_in_line = 0;
+      std::size_t byte;
+      std::size_t line;
+      std::size_t byte_in_line;
       std::string source;
    };
 
