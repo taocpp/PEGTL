@@ -18,6 +18,8 @@ namespace TAO_PEGTL_NAMESPACE
 {
    struct position
    {
+      position() noexcept {}
+
       template< typename T >
       position( const internal::iterator& in_iter, T&& in_source )
          : byte( in_iter.byte ),
