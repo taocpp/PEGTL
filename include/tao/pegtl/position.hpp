@@ -20,6 +20,12 @@ namespace TAO_PEGTL_NAMESPACE
    {
       position() noexcept {}
 
+      position( position&& ) noexcept = default;
+      position( const position& ) = default;
+
+      position& operator=( position&& ) noexcept = default;
+      position& operator=( const position& ) = default;
+
       template< typename T >
       position( const internal::iterator& in_iter, T&& in_source )
          : byte( in_iter.byte ),
