@@ -35,9 +35,9 @@ namespace TAO_PEGTL_NAMESPACE
       {
       }
 
-      std::size_t byte;
-      std::size_t line;
-      std::size_t byte_in_line;
+      std::size_t byte = 0;
+      std::size_t line = 0;
+      std::size_t byte_in_line = 0;
       std::string source;
    };
 
