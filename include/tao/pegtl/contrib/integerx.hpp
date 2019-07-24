@@ -52,10 +52,7 @@ namespace TAO_PEGTL_NAMESPACE::integerx
          if( ( 'a' <= c ) && ( c <= 'f' ) ) {
             return Integer( c - 'a' + 10 );
          }
-         if( ( 'A' <= c ) && ( c <= 'F' ) ) {
-            return Integer( c - 'A' + 10 );
-         }
-         assert( false );  // Temporary.
+         return Integer( c - 'A' + 10 );
       }
 
       template< typename Integer, Integer Maximum = ( std::numeric_limits< Integer >::max )() >
