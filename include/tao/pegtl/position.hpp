@@ -20,10 +20,25 @@ namespace TAO_PEGTL_NAMESPACE
    {
       position() = delete;
 
-      position( position&& ) noexcept = default;
+      position( position&& p ) noexcept
+         : byte( p.byte ),
+           line( p.line ),
+           byte_in_line( p.byte_in_line ),
+           source( std::move( p.source ) )
+      {
+      }
+
       position( const position& ) = default;
 
-      position& operator=( position&& ) noexcept = default;
+      position& operator=( position&& p ) noexcept
+      {
+         byte = p.byte;
+         line = p.line;
+         byte_in_line = p.byte_in_line;
+         source = std::move( p.source );
+         return *this;
+      }
+
       position& operator=( const position& ) = default;
 
       template< typename T >
