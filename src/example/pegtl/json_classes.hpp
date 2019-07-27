@@ -62,6 +62,7 @@ namespace examples
          : json_base( json_type::array )
       {
       }
+      virtual ~array_json() = default;
 
       std::vector< std::shared_ptr< json_base > > data;
 
@@ -87,6 +88,7 @@ namespace examples
            data( in_data )
       {
       }
+      virtual ~boolean_json() = default;
 
       bool data;
 
@@ -103,6 +105,7 @@ namespace examples
          : json_base( json_type::null )
       {
       }
+      virtual ~null_json() = default;
 
       void stream( std::ostream& o ) const override
       {
@@ -118,6 +121,7 @@ namespace examples
            data( in_data )
       {
       }
+      virtual ~number_json() = default;
 
       long double data;
 
@@ -183,6 +187,7 @@ namespace examples
            data( in_data )
       {
       }
+      virtual ~string_json() = default;
 
       std::string data;
 
@@ -199,6 +204,7 @@ namespace examples
          : json_base( json_type::object )
       {
       }
+      virtual ~object_json() = default;
 
       std::map< std::string, std::shared_ptr< json_base > > data;
 
