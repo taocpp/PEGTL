@@ -454,6 +454,12 @@ namespace tao
             template< typename >
             struct selector;
 
+            template<>
+            struct selector< std::tuple<> >
+            {
+               using type = std::false_type;
+            };
+
             template< typename T >
             struct selector< std::tuple< T > >
             {
@@ -464,7 +470,6 @@ namespace tao
             struct selector< std::tuple< Ts... > >
             {
                static_assert( sizeof...( Ts ) == 0, "multiple matches found" );
-               using type = std::false_type;
             };
 
             template< typename Rule, typename Collection >
