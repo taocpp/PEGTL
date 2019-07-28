@@ -14,17 +14,40 @@ skip_commits:
 environment:
   matrix:
     - GENERATOR: Visual Studio 14 2015
+      platform: x86
+
+    - GENERATOR: Visual Studio 14 2015
+      platform: x64
 
     - GENERATOR: Visual Studio 14 2015 Win64
+      platform: x86
+
+    - GENERATOR: Visual Studio 14 2015 Win64
+      platform: x64
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       GENERATOR: Visual Studio 15 2017
+      platform: x86
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      GENERATOR: Visual Studio 15 2017
+      platform: x64
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       GENERATOR: Visual Studio 15 2017 Win64
+      platform: x86
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+      GENERATOR: Visual Studio 15 2017 Win64
+      platform: x64
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: Visual Studio 16 2019
+      platform: x86
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: Visual Studio 16 2019
+      platform: x64
 
     - GENERATOR: MinGW Makefiles
       BINDIR: C:\MinGW\bin
