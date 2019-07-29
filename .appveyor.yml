@@ -3,14 +3,6 @@ version: '{branch}-{build}'
 os:
 - Visual Studio 2017
 
-platform:
-- x86
-- x64
-
-configuration:
-- Release
-- Debug
-
 skip_commits:
   files:
     - doc/**/*
@@ -18,24 +10,70 @@ skip_commits:
 environment:
   matrix:
     - GENERATOR: Visual Studio 15 2017
+      platform: x86
+      configuration: Debug
+
+    - GENERATOR: Visual Studio 15 2017
+      platform: x86
+      configuration: Release
+
+    - GENERATOR: Visual Studio 15 2017
+      platform: x64
+      configuration: Debug
+
+    - GENERATOR: Visual Studio 15 2017
+      platform: x64
+      configuration: Release
 
     - GENERATOR: Visual Studio 15 2017 Win64
+      platform: x86
+      configuration: Debug
+
+    - GENERATOR: Visual Studio 15 2017 Win64
+      platform: x86
+      configuration: Release
+
+    - GENERATOR: Visual Studio 15 2017 Win64
+      platform: x64
+      configuration: Debug
+
+    - GENERATOR: Visual Studio 15 2017 Win64
+      platform: x64
+      configuration: Release
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
       GENERATOR: Visual Studio 16 2019
+      platform: x86
+      configuration: Debug
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: Visual Studio 16 2019
+      platform: x86
+      configuration: Release
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: Visual Studio 16 2019
+      platform: x64
+      configuration: Debug
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: Visual Studio 16 2019
+      platform: x64
+      configuration: Release
 
     - GENERATOR: Visual Studio 15 2017
       CONAN_VISUAL_VERSIONS: 15
       PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7.8"
       PYTHON_ARCH: "32"
-      CONAN: TRUE
+      install:
+      - pip.exe install -U conan conan-package-tools
+      - conan profile new default --detect
+      after_test:
+      - cd ..
+      - python .conan/build.py
 
 init: []
-
-install:
-- if defined CONAN (pip.exe install -U conan conan-package-tools)
-- if defined CONAN (conan profile new default --detect)
 
 before_build:
 - if defined BINDIR (set "PATH=%BINDIR%;%PATH:C:\Program Files\Git\usr\bin;=%")
@@ -48,5 +86,3 @@ build_script:
 
 test_script:
 - ctest -C "%CONFIGURATION%" --output-on-failure
-- if defined CONAN (cd ..)
-- if defined CONAN (python .conan/build.py)
