@@ -118,6 +118,7 @@ environment:
 
     - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
       GENERATOR: Visual Studio 15 2017
+      configuration: Release
       CONAN_VISUAL_VERSIONS: 15
       PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7.8"
