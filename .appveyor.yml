@@ -1,7 +1,7 @@
 version: '{branch}-{build}'
 
 os:
-- Visual Studio 2017
+  - Visual Studio 2017
 
 skip_commits:
   files:
@@ -62,27 +62,28 @@ environment:
       configuration: Release
 
     - GENERATOR: Visual Studio 15 2017
+      configuration: Release
       CONAN_VISUAL_VERSIONS: 15
       PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7.8"
       PYTHON_ARCH: "32"
       install:
-        pip.exe install -U conan conan-package-tools
-        conan profile new default --detect
+        - pip.exe install -U conan conan-package-tools
+        - conan profile new default --detect
       after_test:
-        cd ..
-        python .conan/build.py
+        - cd ..
+        - python .conan/build.py
 
 init: []
 
 before_build:
-  if defined BINDIR (set "PATH=%BINDIR%;%PATH:C:\Program Files\Git\usr\bin;=%")
-  md build
-  cd build
-  cmake -Wno-dev --config "%CONFIGURATION%" -G "%GENERATOR%" ..
+  - if defined BINDIR (set "PATH=%BINDIR%;%PATH:C:\Program Files\Git\usr\bin;=%")
+  - md build
+  - cd build
+  - cmake -Wno-dev --config "%CONFIGURATION%" -G "%GENERATOR%" ..
 
 build_script:
-  cmake --build . --config "%CONFIGURATION%"
+  - cmake --build . --config "%CONFIGURATION%"
 
 test_script:
-  ctest -C "%CONFIGURATION%" --output-on-failure
+  - ctest -C "%CONFIGURATION%" --output-on-failure
