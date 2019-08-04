@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::analysis
       template< typename Name >
       auto insert( const rule_type type )
       {
-         return map.emplace( internal::demangle< Name >(), rule_info( type ) );
+         return map.try_emplace( internal::demangle< Name >(), rule_info( type ) );
       }
    };
 
