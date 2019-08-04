@@ -449,7 +449,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
          const auto op = n->children.at( 1 )->string();
          // when we insert a normal rule, we need to check for duplicates
          if( op == "=" ) {
-            if( !previous_rules.insert( { rname, n.get() } ).second ) {
+            if( !previous_rules.try_emplace( rname, n.get() ).second ) {
                throw parse_error( "rule '" + rname + "' is already defined", n->begin() );  // NOLINT
             }
          }
@@ -503,7 +503,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
       template< typename T >
       void add( const function_t& f )
       {
-         map_.insert( { internal::demangle< T >(), f } );
+         map_.try_emplace( internal::demangle< T >(), f );
       }
 
       std::string operator()( const node_ptr& n ) const
