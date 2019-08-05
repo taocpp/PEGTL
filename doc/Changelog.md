@@ -18,12 +18,21 @@
 * Removed compatibility uppercase enumerators.
 * Removed compatibility `peek_byte()` member functions.
 * Removed compatibility header `changes.hpp` from contrib.
+* Refactored demangling.
+  * Improves generated code to be shorter and more efficient.
+  * Removes the need for RTTI.
+  * Some broken/unknown compilers will use RTTI as a fallback, without demangling.
+* Refactored parse tree type storage/handling.
+  * Removes the need for RTTI.
 
 ## 2.8.1
 
 **Not yet released**
 
+* Added fallback symbol demangling if RTTI is disabled.
 * Fixed missing `string_input<>` in amalgamated header.
+* Fixed `discard_input*` actions to properly forward the apply mode.
+* Fixed contrib HTTP grammar for chunked data.
 
 ## 2.8.0
 

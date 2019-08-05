@@ -104,7 +104,7 @@ struct my_control
    static void raise( const Input& in, States&&... /*unused*/ )
    {
       std::cout << in.position() << ": Parse error matching " << internal::demangle< Rule >() << std::endl;
-      throw parse_error( "parse error matching " + internal::demangle< Rule >(), in );
+      throw parse_error( "parse error matching " + std::string( internal::demangle< Rule >() ), in );
    }
 };
 

@@ -68,7 +68,7 @@ namespace example
       template< typename Input >
       static void apply( const Input& in, state& st )
       {
-         if( !st.symbol_table.emplace( st.temporary, 0 ).second ) {
+         if( !st.symbol_table.try_emplace( st.temporary, 0 ).second ) {
             throw pegtl::parse_error( "duplicate symbol " + st.temporary, in );  // NOLINT
          }
       }

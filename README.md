@@ -61,6 +61,7 @@ Each commit is automatically tested with multiple architectures, operating syste
 * Windows
 
   * Visual Studio 2017 (x86, x64)
+  * Visual Studio 2019 (x86, x64)
 
 * macOS (using libc++)
 
@@ -92,6 +93,7 @@ In appreciation of all contributions here are the people that have [directly con
 [<img alt="irrequietus" src="https://avatars0.githubusercontent.com/u/231192?v=4&s=117" width="117">](https://github.com/irrequietus)
 [<img alt="jedelbo" src="https://avatars2.githubusercontent.com/u/572755?v=4&s=117" width="117">](https://github.com/jedelbo)
 [<img alt="joelfrederico" src="https://avatars0.githubusercontent.com/u/458871?v=4&s=117" width="117">](https://github.com/joelfrederico)
+[<img alt="johelegp" src="https://avatars3.githubusercontent.com/u/21071787?v=4&s=117" width="117">](https://github.com/johelegp)
 [<img alt="jovermann" src="https://avatars3.githubusercontent.com/u/6087443?v=4&s=117" width="117">](https://github.com/jovermann)
 [<img alt="kneth" src="https://avatars0.githubusercontent.com/u/1225363?v=4&s=117" width="117">](https://github.com/kneth)
 [<img alt="kuzmas" src="https://avatars1.githubusercontent.com/u/1858553?v=4&s=117" width="117">](https://github.com/kuzmas)
@@ -100,6 +102,7 @@ In appreciation of all contributions here are the people that have [directly con
 [<img alt="michael-brade" src="https://avatars0.githubusercontent.com/u/8768950?v=4&s=117" width="117">](https://github.com/michael-brade)
 [<img alt="mkrupcale" src="https://avatars1.githubusercontent.com/u/13936020?v=4&s=117" width="117">](https://github.com/mkrupcale)
 [<img alt="NewProggie" src="https://avatars3.githubusercontent.com/u/162319?s=460&v=4?v=4&s=117" width="117">](https://github.com/NewProggie)
+[<img alt="ohanar" src="https://avatars0.githubusercontent.com/u/1442822?v=4&s=117" width="117">](https://github.com/ohanar)
 [<img alt="pauloscustodio" src="https://avatars1.githubusercontent.com/u/70773?v=4&s=117" width="117">](https://github.com/pauloscustodio)
 [<img alt="pleroux0" src="https://avatars2.githubusercontent.com/u/39619854?v=4&s=117" width="117">](https://github.com/pleroux0)
 [<img alt="quadfault" src="https://avatars3.githubusercontent.com/u/30195320?v=4&s=117" width="117">](https://github.com/quadfault)

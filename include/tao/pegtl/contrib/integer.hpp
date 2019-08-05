@@ -194,7 +194,8 @@ namespace TAO_PEGTL_NAMESPACE::integer
       template< typename Input, typename Unsigned >
       static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
       {
-         st = 0;  // This function "only" offers basic exception safety.
+         // This function "only" offers basic exception safety.
+         st = 0;
          if( !internal::convert_unsigned( st, in.string_view() ) ) {
             throw parse_error( "unsigned integer overflow", in );
          }
@@ -253,7 +254,8 @@ namespace TAO_PEGTL_NAMESPACE::integer
                 typename Unsigned >
       [[nodiscard]] static auto match( Input& in, Unsigned& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_unsigned_v< Unsigned >, bool >
       {
-         st = 0;  // This function "only" offers basic exception safety.
+         // This function "only" offers basic exception safety.
+         st = 0;
          return internal::match_and_convert_unsigned_with_maximum( in, st );  // Throws on overflow.
       }
 
@@ -271,7 +273,8 @@ namespace TAO_PEGTL_NAMESPACE::integer
       template< typename Input, typename Unsigned2 >
       static auto apply( const Input& in, Unsigned2& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
       {
-         st = 0;  // This function "only" offers basic exception safety.
+         // This function "only" offers basic exception safety.
+         st = 0;
          if( !internal::convert_unsigned< Unsigned, Maximum >( st, in.string_view() ) ) {
             throw parse_error( "unsigned integer overflow", in );
          }
@@ -338,7 +341,8 @@ namespace TAO_PEGTL_NAMESPACE::integer
                 typename Unsigned2 >
       [[nodiscard]] static auto match( Input& in, Unsigned2& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_same_v< Unsigned, Unsigned2 >, bool >
       {
-         st = 0;  // This function "only" offers basic exception safety.
+         // This function "only" offers basic exception safety.
+         st = 0;
          return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
       }
 
@@ -354,7 +358,8 @@ namespace TAO_PEGTL_NAMESPACE::integer
       template< typename Input, typename Signed >
       static auto apply( const Input& in, Signed& st ) -> std::enable_if_t< std::is_signed_v< Signed >, void >
       {
-         st = 0;  // This function "only" offers basic exception safety.
+         // This function "only" offers basic exception safety.
+         st = 0;
          if( !internal::convert_signed( st, in.string_view() ) ) {
             throw parse_error( "signed integer overflow", in );
          }
@@ -379,15 +384,8 @@ namespace TAO_PEGTL_NAMESPACE::integer
    {
       using analyze_t = internal::signed_rule_new::analyze_t;
 
-      template< apply_mode A,
-                rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename Input,
-                typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) )
+      template< typename Input >
+      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
       {
          return TAO_PEGTL_NAMESPACE::parse< internal::signed_rule_new >( in );  // Does not check for any overflow.
       }

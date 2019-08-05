@@ -17,13 +17,13 @@ namespace TAO_PEGTL_NAMESPACE::analysis
 {
    struct grammar_info
    {
-      using map_t = std::map< std::string, rule_info >;
+      using map_t = std::map< std::string_view, rule_info >;
       map_t map;
 
       template< typename Name >
       auto insert( const rule_type type )
       {
-         return map.emplace( internal::demangle< Name >(), rule_info( type ) );
+         return map.try_emplace( internal::demangle< Name >(), rule_info( type ) );
       }
    };
 

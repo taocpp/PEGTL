@@ -1,8 +1,6 @@
 // Copyright (c) 2017-2019 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#define TAO_PEGTL_PRETTY_DEMANGLE 1
-
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
 

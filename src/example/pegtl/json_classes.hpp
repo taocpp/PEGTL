@@ -135,7 +135,7 @@ namespace examples
 
       static const char* h = "0123456789abcdef";
 
-      const auto* d = static_cast< const unsigned char* >( static_cast< const void* >( data.data() ) );
+      const auto* d = reinterpret_cast< const unsigned char* >( data.data() );  // NOLINT
 
       for( std::size_t i = 0; i < data.size(); ++i ) {
          switch( const auto c = d[ i ] ) {

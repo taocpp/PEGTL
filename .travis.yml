@@ -24,6 +24,15 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-8']
+      env:
+        - CXX=g++-8
+        - CPPFLAGS=-fno-rtti
+
+    - compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
           packages: ['g++-9']
       env:
         - CXX=g++-9
@@ -68,6 +77,15 @@ matrix:
       env:
         - CXX=clang++-8
         - CPPFLAGS=-fms-extensions
+
+    - compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-8', 'g++-8']
+      env:
+        - CXX=clang++-8
+        - CPPFLAGS=-fno-rtti
 
     - os: osx
       osx_image: xcode9.4
@@ -259,6 +277,15 @@ matrix:
         - CONAN_DOCKER_IMAGE=lasote/conangcc7
       script:
         - python .conan/build.py
+
+    - compiler: clang
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
+          packages: ['clang-format-8', 'g++-8']
+      script:
+        - clang-format-8 -i -style=file $(find . -name '[^.]*.[hc]pp')
+        - git diff --exit-code
 
 script:
   - $CXX --version

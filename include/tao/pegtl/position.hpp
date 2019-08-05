@@ -18,6 +18,29 @@ namespace TAO_PEGTL_NAMESPACE
 {
    struct position
    {
+      position() = delete;
+
+      position( position&& p ) noexcept
+         : byte( p.byte ),
+           line( p.line ),
+           byte_in_line( p.byte_in_line ),
+           source( std::move( p.source ) )
+      {
+      }
+
+      position( const position& ) = default;
+
+      position& operator=( position&& p ) noexcept
+      {
+         byte = p.byte;
+         line = p.line;
+         byte_in_line = p.byte_in_line;
+         source = std::move( p.source );
+         return *this;
+      }
+
+      position& operator=( const position& ) = default;
+
       template< typename T >
       position( const internal::iterator& in_iter, T&& in_source )
          : byte( in_iter.byte ),

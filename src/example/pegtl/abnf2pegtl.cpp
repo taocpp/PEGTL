@@ -345,15 +345,15 @@ namespace TAO_PEGTL_NAMESPACE::abnf
          const auto content = n->string_view();
          for( const auto c : content ) {
             if( std::isalpha( c ) != 0 ) {
-               n->id = typeid( istring_tag );
+               n->set_type< istring_tag >();
                return;
             }
          }
          if( content.size() == 1 ) {
-            n->id = typeid( one_tag );
+            n->set_type< one_tag >();
          }
          else {
-            n->id = typeid( string_tag );
+            n->set_type< string_tag >();
          }
       }
    };
@@ -366,10 +366,10 @@ namespace TAO_PEGTL_NAMESPACE::abnf
       {
          n = std::move( n->children.back() );
          if( n->string_view().size() == 1 ) {
-            n->id = typeid( one_tag );
+            n->set_type< one_tag >();
          }
          else {
-            n->id = typeid( string_tag );
+            n->set_type< string_tag >();
          }
       }
    };
@@ -379,7 +379,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
 
    std::string to_string_unwrap_seq( const node_ptr& n )
    {
-      if( n->is< grammar::group >() || n->is< grammar::concatenation >() ) {
+      if( n->is_type< grammar::group >() || n->is_type< grammar::concatenation >() ) {
          return to_string( n->children );
       }
       return to_string( n );
@@ -389,7 +389,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
    {
       std::string get_rulename( const node_ptr& n )
       {
-         assert( n->is< grammar::rulename >() );
+         assert( n->is_type< grammar::rulename >() );
          std::string v = n->string();
          std::replace( v.begin(), v.end(), '-', '_' );
          return v;
@@ -416,7 +416,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
       std::string gen_val( const node_ptr& n )
       {
          if( n->children.size() == 2 ) {
-            if( n->children.back()->is< T >() ) {
+            if( n->children.back()->is_type< T >() ) {
                return prefix + "range< " + to_string( n->children.front() ) + ", " + to_string( n->children.back()->children.front() ) + " >";
             }
          }
@@ -445,11 +445,11 @@ namespace TAO_PEGTL_NAMESPACE::abnf
       static void transform( node_ptr& n )
       {
          const auto rname = get_rulename( n->children.front() );
-         assert( n->children.at( 1 )->is< grammar::defined_as_op >() );
+         assert( n->children.at( 1 )->is_type< grammar::defined_as_op >() );
          const auto op = n->children.at( 1 )->string();
          // when we insert a normal rule, we need to check for duplicates
          if( op == "=" ) {
-            if( !previous_rules.insert( { rname, n.get() } ).second ) {
+            if( !previous_rules.try_emplace( rname, n.get() ).second ) {
                throw parse_error( "rule '" + rname + "' is already defined", n->begin() );  // NOLINT
             }
          }
@@ -462,9 +462,9 @@ namespace TAO_PEGTL_NAMESPACE::abnf
             auto& previous = p->second->children.back();
 
             // if the previous rule does not assign an alternation, create an intermediate alternation and move its assignee into it.
-            if( !previous->is< abnf::grammar::alternation >() ) {
+            if( !previous->is_type< abnf::grammar::alternation >() ) {
                auto s = std::make_unique< parse_tree::node >();
-               s->id = typeid( abnf::grammar::alternation );
+               s->set_type< abnf::grammar::alternation >();
                s->source = previous->source;
                s->m_begin = previous->m_begin;
                s->m_end = previous->m_end;
@@ -476,7 +476,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
             previous->m_end = n->children.back()->m_end;
 
             // if the new rule itself contains an alternation, append the individual entries...
-            if( n->children.back()->is< abnf::grammar::alternation >() ) {
+            if( n->children.back()->is_type< abnf::grammar::alternation >() ) {
                for( auto& e : n->children.back()->children ) {
                   previous->children.emplace_back( std::move( e ) );
                }
@@ -498,17 +498,17 @@ namespace TAO_PEGTL_NAMESPACE::abnf
       using function_t = std::string ( * )( const node_ptr& n );
       function_t default_ = nullptr;
 
-      std::map< std::type_index, function_t > map_;
+      std::map< std::string_view, function_t > map_;
 
       template< typename T >
       void add( const function_t& f )
       {
-         map_.insert( { typeid( T ), f } );
+         map_.try_emplace( internal::demangle< T >(), f );
       }
 
       std::string operator()( const node_ptr& n ) const
       {
-         const auto it = map_.find( n->id );
+         const auto it = map_.find( n->type );
          if( it != map_.end() ) {
             return it->second( n );
          }
@@ -520,7 +520,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
    {
       stringifier nrv;
       nrv.default_ = []( const node_ptr& n ) -> std::string {
-         throw parse_error( "missing to_string() for " + n->name(), n->begin() );  // NOLINT
+         throw parse_error( "missing to_string() for " + std::string( n->type ), n->begin() );  // NOLINT
       };
 
       nrv.add< grammar::rulename >( []( const node_ptr& n ) { return get_rulename( n, true ); } );

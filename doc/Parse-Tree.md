@@ -154,17 +154,18 @@ struct basic_node
    using children_t = std::vector< std::unique_ptr< node_t > >;
 
    children_t children;
-   std::type_index id;
+   std::string_view type;
    std::string source;
-
-   template< typename U >
-   bool is() const noexcept { return id == typeid( U ); }
 
    bool is_root() const noexcept;
 
-   // precondition from here on: !is_root()
+   template< typename U >
+   bool is_type() const noexcept;
 
-   std::string name() const;
+   template< typename U >
+   void set_type() noexcept;
+
+   // precondition from here on: !is_root()
 
    position begin() const;
    position end() const;

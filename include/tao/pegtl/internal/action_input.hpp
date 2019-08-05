@@ -74,7 +74,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] std::string string() const
       {
-         return std::string( begin(), end() );
+         return std::string( begin(), size() );
       }
 
       [[nodiscard]] std::string_view string_view() const noexcept

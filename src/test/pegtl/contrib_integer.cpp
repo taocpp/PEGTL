@@ -123,7 +123,8 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( st == s );
    }
 
-   template< auto M > using max_seq_rule = seq< one< 'a' >, integer::maximum_rule< std::uint64_t, M >, one< 'b' >, eof >;
+   template< auto M >
+   using max_seq_rule = seq< one< 'a' >, integer::maximum_rule< std::uint64_t, M >, one< 'b' >, eof >;
 
    void unit_test()
    {

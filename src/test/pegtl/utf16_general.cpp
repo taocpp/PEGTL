@@ -10,19 +10,19 @@ namespace TAO_PEGTL_NAMESPACE
    {
       std::string u16s( const char16_t u )
       {
-         return std::string( static_cast< const char* >( static_cast< const void* >( &u ) ), sizeof( u ) );
+         return std::string( reinterpret_cast< const char* >( &u ), sizeof( u ) );  // NOLINT
       }
 
       std::string u16s_be( const char16_t v )
       {
          const std::uint16_t u = internal::h_to_be( std::uint16_t( v ) );
-         return std::string( static_cast< const char* >( static_cast< const void* >( &u ) ), sizeof( u ) );
+         return std::string( reinterpret_cast< const char* >( &u ), sizeof( u ) );  // NOLINT
       }
 
       std::string u16s_le( const char16_t v )
       {
          const std::uint16_t u = internal::h_to_le( std::uint16_t( v ) );
-         return std::string( static_cast< const char* >( static_cast< const void* >( &u ) ), sizeof( u ) );
+         return std::string( reinterpret_cast< const char* >( &u ), sizeof( u ) );  // NOLINT
       }
 
    }  // namespace

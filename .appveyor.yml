@@ -1,11 +1,7 @@
 version: '{branch}-{build}'
 
 os:
-- Visual Studio 2017
-
-configuration:
-- Release
-- Debug
+  - Visual Studio 2017
 
 skip_commits:
   files:
@@ -14,10 +10,59 @@ skip_commits:
 environment:
   matrix:
     - GENERATOR: Visual Studio 15 2017
-
-    - GENERATOR: Visual Studio 15 2017 Win64
+      platform: x86
+      configuration: Debug
 
     - GENERATOR: Visual Studio 15 2017
+      platform: x86
+      configuration: Release
+
+    - GENERATOR: Visual Studio 15 2017
+      platform: x64
+      configuration: Debug
+
+    - GENERATOR: Visual Studio 15 2017
+      platform: x64
+      configuration: Release
+
+    - GENERATOR: Visual Studio 15 2017 Win64
+      platform: x86
+      configuration: Debug
+
+    - GENERATOR: Visual Studio 15 2017 Win64
+      platform: x86
+      configuration: Release
+
+    - GENERATOR: Visual Studio 15 2017 Win64
+      platform: x64
+      configuration: Debug
+
+    - GENERATOR: Visual Studio 15 2017 Win64
+      platform: x64
+      configuration: Release
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: Visual Studio 16 2019
+      platform: x86
+      configuration: Debug
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: Visual Studio 16 2019
+      platform: x86
+      configuration: Release
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: Visual Studio 16 2019
+      platform: x64
+      configuration: Debug
+
+    - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+      GENERATOR: Visual Studio 16 2019
+      platform: x64
+      configuration: Release
+
+    - GENERATOR: Visual Studio 15 2017
+      configuration: Release
       CONAN_VISUAL_VERSIONS: 15
       PYTHON: "C:\\Python27"
       PYTHON_VERSION: "2.7.8"
@@ -41,5 +86,7 @@ build_script:
 
 test_script:
 - ctest -C "%CONFIGURATION%" --output-on-failure
+
+after_test:
 - if defined CONAN (cd ..)
 - if defined CONAN (python .conan/build.py)
