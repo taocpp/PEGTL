@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             const action_t i2( in.iterator(), in );  // No data -- range is from begin to begin.
             return ( apply_single< Actions >::match( i2, st... ) && ... );
          }
-         else {  // NOLINT
+         else {
 #if defined( _MSC_VER )
             (void)in;
             (void)( (void)st, ... );

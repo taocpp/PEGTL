@@ -21,9 +21,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       std::FILE* file;
       if( ::fopen_s( &file, filename, "rb" ) == 0 )
 #elif defined( __MINGW32__ )
-      if( auto* file = std::fopen( filename, "rb" ) )  // NOLINT(cppcoreguidelines-owning-memory)
+      if( auto* file = std::fopen( filename, "rb" ) )
 #else
-      if( auto* file = std::fopen( filename, "rbe" ) )  // NOLINT(cppcoreguidelines-owning-memory)
+      if( auto* file = std::fopen( filename, "rbe" ) )
 #endif
       {
          return file;
@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       void operator()( FILE* f ) const noexcept
       {
-         std::fclose( f );  // NOLINT(cppcoreguidelines-owning-memory)
+         std::fclose( f );
       }
    };
 

@@ -39,7 +39,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       ~file_mapper() noexcept
       {
          // Legacy C interface requires pointer-to-mutable but does not write through the pointer.
-         ::munmap( const_cast< char* >( m_data ), m_size );  // NOLINT
+         ::munmap( const_cast< char* >( m_data ), m_size );
       }
 
       void operator=( const file_mapper& ) = delete;

@@ -1,7 +1,7 @@
 // Copyright (c) 2014-2019 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_SRC_EXAMPLES_PEGTL_JSON_ERRORS_HPP  // NOLINT
+#ifndef TAO_PEGTL_SRC_EXAMPLES_PEGTL_JSON_ERRORS_HPP
 #define TAO_PEGTL_SRC_EXAMPLES_PEGTL_JSON_ERRORS_HPP
 
 #include <tao/pegtl.hpp>
@@ -34,23 +34,23 @@ namespace examples
    // member are then used in the exception messages:
 
    // clang-format off
-   template<> inline const std::string errors< pegtl::json::text >::error_message = "no valid JSON";  // NOLINT
+   template<> inline const std::string errors< pegtl::json::text >::error_message = "no valid JSON";
 
-   template<> inline const std::string errors< pegtl::json::end_array >::error_message = "incomplete array, expected ']'";  // NOLINT
-   template<> inline const std::string errors< pegtl::json::end_object >::error_message = "incomplete object, expected '}'";  // NOLINT
-   template<> inline const std::string errors< pegtl::json::member >::error_message = "expected member";  // NOLINT
-   template<> inline const std::string errors< pegtl::json::name_separator >::error_message = "expected ':'";  // NOLINT
-   template<> inline const std::string errors< pegtl::json::array_element >::error_message = "expected value";  // NOLINT
-   template<> inline const std::string errors< pegtl::json::value >::error_message = "expected value";  // NOLINT
+   template<> inline const std::string errors< pegtl::json::end_array >::error_message = "incomplete array, expected ']'";
+   template<> inline const std::string errors< pegtl::json::end_object >::error_message = "incomplete object, expected '}'";
+   template<> inline const std::string errors< pegtl::json::member >::error_message = "expected member";
+   template<> inline const std::string errors< pegtl::json::name_separator >::error_message = "expected ':'";
+   template<> inline const std::string errors< pegtl::json::array_element >::error_message = "expected value";
+   template<> inline const std::string errors< pegtl::json::value >::error_message = "expected value";
 
-   template<> inline const std::string errors< pegtl::json::digits >::error_message = "expected at least one digit";  // NOLINT
-   template<> inline const std::string errors< pegtl::json::xdigit >::error_message = "incomplete universal character name";  // NOLINT
-   template<> inline const std::string errors< pegtl::json::escaped >::error_message = "unknown escape sequence";  // NOLINT
-   template<> inline const std::string errors< pegtl::json::char_ >::error_message = "invalid character in string";  // NOLINT
-   template<> inline const std::string errors< pegtl::json::string::content >::error_message = "unterminated string";  // NOLINT
-   template<> inline const std::string errors< pegtl::json::key::content >::error_message = "unterminated key";  // NOLINT
+   template<> inline const std::string errors< pegtl::json::digits >::error_message = "expected at least one digit";
+   template<> inline const std::string errors< pegtl::json::xdigit >::error_message = "incomplete universal character name";
+   template<> inline const std::string errors< pegtl::json::escaped >::error_message = "unknown escape sequence";
+   template<> inline const std::string errors< pegtl::json::char_ >::error_message = "invalid character in string";
+   template<> inline const std::string errors< pegtl::json::string::content >::error_message = "unterminated string";
+   template<> inline const std::string errors< pegtl::json::key::content >::error_message = "unterminated key";
 
-   template<> inline const std::string errors< pegtl::eof >::error_message = "unexpected character after JSON value";  // NOLINT
+   template<> inline const std::string errors< pegtl::eof >::error_message = "unexpected character after JSON value";
    // clang-format on
 
    // The raise()-function-template is instantiated exactly

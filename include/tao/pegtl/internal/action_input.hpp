@@ -52,7 +52,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if constexpr( std::is_same_v< iterator_t, const char* > ) {
             return iterator();
          }
-         else {  // NOLINT
+         else {
             return iterator().data;
          }
       }

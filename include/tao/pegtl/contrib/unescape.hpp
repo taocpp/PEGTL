@@ -22,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
          return true;
       }
       if( utf32 <= 0x7ff ) {
-         char tmp[] = { char( ( ( utf32 & 0x7c0 ) >> 6 ) | 0xc0 ),  // NOLINT
+         char tmp[] = { char( ( ( utf32 & 0x7c0 ) >> 6 ) | 0xc0 ),
                         char( ( ( utf32 & 0x03f ) ) | 0x80 ) };
          string.append( tmp, sizeof( tmp ) );
          return true;
@@ -32,14 +32,14 @@ namespace TAO_PEGTL_NAMESPACE::unescape
             // nope, this is a UTF-16 surrogate
             return false;
          }
-         char tmp[] = { char( ( ( utf32 & 0xf000 ) >> 12 ) | 0xe0 ),  // NOLINT
+         char tmp[] = { char( ( ( utf32 & 0xf000 ) >> 12 ) | 0xe0 ),
                         char( ( ( utf32 & 0x0fc0 ) >> 6 ) | 0x80 ),
                         char( ( ( utf32 & 0x003f ) ) | 0x80 ) };
          string.append( tmp, sizeof( tmp ) );
          return true;
       }
       if( utf32 <= 0x10ffff ) {
-         char tmp[] = { char( ( ( utf32 & 0x1c0000 ) >> 18 ) | 0xf0 ),  // NOLINT
+         char tmp[] = { char( ( ( utf32 & 0x1c0000 ) >> 18 ) | 0xf0 ),
                         char( ( ( utf32 & 0x03f000 ) >> 12 ) | 0x80 ),
                         char( ( ( utf32 & 0x000fc0 ) >> 6 ) | 0x80 ),
                         char( ( ( utf32 & 0x00003f ) ) | 0x80 ) };
@@ -80,7 +80,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
          case 'F':
             return I( c - 'A' + 10 );
          default:                                                      // LCOV_EXCL_LINE
-            throw std::runtime_error( "invalid character in unhex" );  // NOLINT, LCOV_EXCL_LINE
+            throw std::runtime_error( "invalid character in unhex" );  // LCOV_EXCL_LINE
       }
    }
 
@@ -133,7 +133,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
                return *( r.begin() + i );
             }
          }
-         throw parse_error( "invalid character in unescape", in );  // NOLINT, LCOV_EXCL_LINE
+         throw parse_error( "invalid character in unescape", in );  // LCOV_EXCL_LINE
       }
    };
 

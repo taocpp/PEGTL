@@ -9,7 +9,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   std::vector< std::pair< std::string, std::string > > applied;  // NOLINT
+   std::vector< std::pair< std::string, std::string > > applied;
 
    namespace test1
    {

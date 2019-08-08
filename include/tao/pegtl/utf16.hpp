@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace utf16_le
 
-   namespace utf16 = TAO_PEGTL_NATIVE_UTF16;  // NOLINT(misc-unused-alias-decls)
+   namespace utf16 = TAO_PEGTL_NATIVE_UTF16;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

@@ -34,9 +34,9 @@ namespace TAO_PEGTL_NAMESPACE::abnf
 
    namespace
    {
-      std::string prefix = "tao::pegtl::";  // NOLINT
+      std::string prefix = "tao::pegtl::";
 
-      std::set< std::string > keywords = {  // NOLINT
+      std::set< std::string > keywords = {
          "alignas",
          "alignof",
          "and",
@@ -124,8 +124,8 @@ namespace TAO_PEGTL_NAMESPACE::abnf
       };
 
       using rules_t = std::vector< std::string >;
-      rules_t rules_defined;  // NOLINT
-      rules_t rules;          // NOLINT
+      rules_t rules_defined;
+      rules_t rules;
 
       // clang-format off
       struct one_tag {};
@@ -278,26 +278,26 @@ namespace TAO_PEGTL_NAMESPACE::abnf
          }
       };
 
-      template<> const std::string error_control< comment_cont >::error_message = "unterminated comment";  // NOLINT
+      template<> const std::string error_control< comment_cont >::error_message = "unterminated comment";
 
-      template<> const std::string error_control< quoted_string_cont >::error_message = "unterminated string (missing '\"')";  // NOLINT
-      template<> const std::string error_control< prose_val_cont >::error_message = "unterminated prose description (missing '>')";  // NOLINT
+      template<> const std::string error_control< quoted_string_cont >::error_message = "unterminated string (missing '\"')";
+      template<> const std::string error_control< prose_val_cont >::error_message = "unterminated prose description (missing '>')";
 
-      template<> const std::string error_control< hex_val::value >::error_message = "expected hexadecimal value";  // NOLINT
-      template<> const std::string error_control< dec_val::value >::error_message = "expected decimal value";  // NOLINT
-      template<> const std::string error_control< bin_val::value >::error_message = "expected binary value";  // NOLINT
-      template<> const std::string error_control< num_val_choice >::error_message = "expected base specifier (one of 'bBdDxX')";  // NOLINT
+      template<> const std::string error_control< hex_val::value >::error_message = "expected hexadecimal value";
+      template<> const std::string error_control< dec_val::value >::error_message = "expected decimal value";
+      template<> const std::string error_control< bin_val::value >::error_message = "expected binary value";
+      template<> const std::string error_control< num_val_choice >::error_message = "expected base specifier (one of 'bBdDxX')";
 
-      template<> const std::string error_control< option_close >::error_message = "unterminated option (missing ']')";  // NOLINT
-      template<> const std::string error_control< group_close >::error_message = "unterminated group (missing ')')";  // NOLINT
+      template<> const std::string error_control< option_close >::error_message = "unterminated option (missing ']')";
+      template<> const std::string error_control< group_close >::error_message = "unterminated group (missing ')')";
 
-      template<> const std::string error_control< repetition >::error_message = "expected element";  // NOLINT
-      template<> const std::string error_control< concatenation >::error_message = "expected element";  // NOLINT
-      template<> const std::string error_control< alternation >::error_message = "expected element";  // NOLINT
+      template<> const std::string error_control< repetition >::error_message = "expected element";
+      template<> const std::string error_control< concatenation >::error_message = "expected element";
+      template<> const std::string error_control< alternation >::error_message = "expected element";
 
-      template<> const std::string error_control< defined_as >::error_message = "expected '=' or '=/'";  // NOLINT
-      template<> const std::string error_control< c_nl >::error_message = "unterminated rule";  // NOLINT
-      template<> const std::string error_control< rule >::error_message = "expected rule";  // NOLINT
+      template<> const std::string error_control< defined_as >::error_message = "expected '=' or '=/'";
+      template<> const std::string error_control< c_nl >::error_message = "unterminated rule";
+      template<> const std::string error_control< rule >::error_message = "expected rule";
       // clang-format on
 
    }  // namespace grammar
@@ -403,7 +403,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
             return *it;
          }
          if( keywords.count( v ) != 0 || v.find( "__" ) != std::string::npos ) {
-            throw parse_error( '\'' + n->string() + "' is a reserved rulename", n->begin() );  // NOLINT
+            throw parse_error( '\'' + n->string() + "' is a reserved rulename", n->begin() );
          }
          if( print_forward_declarations && find_rule( rules_defined, v ) != rules_defined.rend() ) {
             std::cout << "struct " << v << ";\n";
@@ -434,7 +434,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
          }
       };
 
-      std::map< std::string, parse_tree::node*, ccmp > previous_rules;  // NOLINT
+      std::map< std::string, parse_tree::node*, ccmp > previous_rules;
 
    }  // namespace
 
@@ -450,14 +450,14 @@ namespace TAO_PEGTL_NAMESPACE::abnf
          // when we insert a normal rule, we need to check for duplicates
          if( op == "=" ) {
             if( !previous_rules.try_emplace( rname, n.get() ).second ) {
-               throw parse_error( "rule '" + rname + "' is already defined", n->begin() );  // NOLINT
+               throw parse_error( "rule '" + rname + "' is already defined", n->begin() );
             }
          }
          // if it is an "incremental alternation", we need to consolidate the assigned alternations
          else if( op == "=/" ) {
             const auto p = previous_rules.find( rname );
             if( p == previous_rules.end() ) {
-               throw parse_error( "incremental alternation '" + rname + "' without previous rule definition", n->begin() );  // NOLINT
+               throw parse_error( "incremental alternation '" + rname + "' without previous rule definition", n->begin() );
             }
             auto& previous = p->second->children.back();
 
@@ -488,7 +488,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
             n.reset();
          }
          else {
-            throw parse_error( "invalid operator '" + op + "', this should not happen!", n->begin() );  // NOLINT
+            throw parse_error( "invalid operator '" + op + "', this should not happen!", n->begin() );
          }
       }
    };
@@ -520,7 +520,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
    {
       stringifier nrv;
       nrv.default_ = []( const node_ptr& n ) -> std::string {
-         throw parse_error( "missing to_string() for " + std::string( n->type ), n->begin() );  // NOLINT
+         throw parse_error( "missing to_string() for " + std::string( n->type ), n->begin() );
       };
 
       nrv.add< grammar::rulename >( []( const node_ptr& n ) { return get_rulename( n, true ); } );
@@ -604,14 +604,14 @@ namespace TAO_PEGTL_NAMESPACE::abnf
          if( star == std::string::npos ) {
             const auto v = remove_leading_zeroes( rep );
             if( v.empty() ) {
-               throw parse_error( "repetition of zero not allowed", n->begin() );  // NOLINT
+               throw parse_error( "repetition of zero not allowed", n->begin() );
             }
             return prefix + "rep< " + v + ", " + content + " >";
          }
          const auto min = remove_leading_zeroes( rep.substr( 0, star ) );
          const auto max = remove_leading_zeroes( rep.substr( star + 1 ) );
          if( ( star != rep.size() - 1 ) && max.empty() ) {
-            throw parse_error( "repetition maximum of zero not allowed", n->begin() );  // NOLINT
+            throw parse_error( "repetition maximum of zero not allowed", n->begin() );
          }
          if( min.empty() && max.empty() ) {
             return prefix + "star< " + content + " >";
@@ -639,7 +639,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
             s >> max_val;
          }
          if( min_val > max_val ) {
-            throw parse_error( "repetition minimum which is greater than the repetition maximum not allowed", n->begin() );  // NOLINT
+            throw parse_error( "repetition minimum which is greater than the repetition maximum not allowed", n->begin() );
          }
          if( ( min_val == 1 ) && ( max_val == 1 ) ) {
             // note: content can not be used here!
@@ -680,7 +680,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
 
 int main( int argc, char** argv )
 {
-   using namespace TAO_PEGTL_NAMESPACE;  // NOLINT
+   using namespace TAO_PEGTL_NAMESPACE;
 
    if( argc != 2 ) {
       std::cerr << "Usage: " << argv[ 0 ] << " SOURCE" << std::endl;

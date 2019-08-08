@@ -82,7 +82,7 @@ namespace TAO_PEGTL_NAMESPACE::analysis
                   return m_cache[ start->first ] = a;
                }
             }
-            throw std::logic_error( "code should be unreachable: invalid rule_type value" );  // NOLINT, LCOV_EXCL_LINE
+            throw std::logic_error( "code should be unreachable: invalid rule_type value" );  // LCOV_EXCL_LINE
          }
          if( !accum ) {
             ++m_problems;

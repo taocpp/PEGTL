@@ -30,7 +30,7 @@ namespace test
 
    // The strings currently have a maximum length of 512 characters.
 
-   using namespace TAO_PEGTL_NAMESPACE::alphabet;  // NOLINT
+   using namespace TAO_PEGTL_NAMESPACE::alphabet;
    static_assert( std::is_same_v< TAO_PEGTL_STRING( "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz" ),
                                   TAO_PEGTL_NAMESPACE::string< a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z > > );
 

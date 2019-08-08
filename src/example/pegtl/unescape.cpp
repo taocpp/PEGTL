@@ -7,7 +7,7 @@
 
 #include <tao/pegtl/contrib/unescape.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;  // NOLINT
+using namespace TAO_PEGTL_NAMESPACE;
 
 namespace example
 {

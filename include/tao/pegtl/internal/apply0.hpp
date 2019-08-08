@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if constexpr( A == apply_mode::action ) {
             return ( apply0_single< Actions >::match( st... ) && ... );
          }
-         else {  // NOLINT
+         else {
 #if defined( _MSC_VER )
             (void)( (void)st, ... );
 #endif

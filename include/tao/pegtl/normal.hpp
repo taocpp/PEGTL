@@ -76,7 +76,7 @@ namespace TAO_PEGTL_NAMESPACE
          if constexpr( internal::has_match_v< Rule, A, M, Action, Control, Input, States... > ) {
             return Action< Rule >::template match< Rule, A, M, Action, Control >( in, st... );
          }
-         else {  // NOLINT
+         else {
             return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
          }
       }

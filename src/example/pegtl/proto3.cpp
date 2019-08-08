@@ -124,7 +124,7 @@ namespace TAO_PEGTL_NAMESPACE::proto3
 
 int main( int argc, char** argv )
 {
-   using namespace TAO_PEGTL_NAMESPACE;  // NOLINT
+   using namespace TAO_PEGTL_NAMESPACE;
 
    if( analyze< proto3::proto >() != 0 ) {
       return 1;

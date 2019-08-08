@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       if constexpr( is_alpha< C > ) {
          return ( C | 0x20 ) == ( c | 0x20 );
       }
-      else {  // NOLINT
+      else {
          return c == C;
       }
    }

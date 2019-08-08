@@ -182,7 +182,7 @@ namespace calculator
 
    // Here the actual grammar starts.
 
-   using namespace pegtl;  // NOLINT
+   using namespace pegtl;
 
    // Comments are introduced by a '#' and proceed to the end-of-line/file.
 

@@ -9,7 +9,7 @@
 #include <tao/pegtl/contrib/json.hpp>
 #include <tao/pegtl/file_input.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;  // NOLINT
+using namespace TAO_PEGTL_NAMESPACE;
 using grammar = must< json::text, eof >;
 
 int main( int argc, char** argv )

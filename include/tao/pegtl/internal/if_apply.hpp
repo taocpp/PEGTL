@@ -39,7 +39,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             }
             return false;
          }
-         else {  // NOLINT
+         else {
             return Control< Rule >::template match< A, M, Action, Control >( in, st... );
          }
       }

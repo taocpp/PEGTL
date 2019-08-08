@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] std::size_t size() const
       {
-         struct stat st;  // NOLINT
+         struct stat st;
          errno = 0;
          if( ::fstat( m_fd, &st ) < 0 ) {
             const auto ec = errno;
@@ -53,7 +53,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] int open() const
       {
          errno = 0;
-         const int fd = ::open( m_source,  // NOLINT
+         const int fd = ::open( m_source,
                                 O_RDONLY
 #if defined( O_CLOEXEC )
                                    | O_CLOEXEC

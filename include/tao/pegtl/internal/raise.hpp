@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
          Control< T >::raise( static_cast< const Input& >( in ), st... );
-         throw std::logic_error( "code should be unreachable: Control< T >::raise() did not throw an exception" );  // NOLINT, LCOV_EXCL_LINE
+         throw std::logic_error( "code should be unreachable: Control< T >::raise() did not throw an exception" );  // LCOV_EXCL_LINE
 #if defined( _MSC_VER )
 #pragma warning( pop )
 #endif

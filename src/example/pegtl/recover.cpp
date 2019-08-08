@@ -16,7 +16,7 @@
 
 #include <tao/pegtl.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;  // NOLINT
+using namespace TAO_PEGTL_NAMESPACE;
 
 // clang-format off
 

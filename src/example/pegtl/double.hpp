@@ -1,7 +1,7 @@
 // Copyright (c) 2014-2019 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_SRC_EXAMPLES_PEGTL_DOUBLE_HPP  // NOLINT
+#ifndef TAO_PEGTL_SRC_EXAMPLES_PEGTL_DOUBLE_HPP
 #define TAO_PEGTL_SRC_EXAMPLES_PEGTL_DOUBLE_HPP
 
 #include <tao/pegtl.hpp>
@@ -11,7 +11,7 @@ namespace double_
    // A grammar for doubles suitable for std::stod without locale support.
    // See also: http://en.cppreference.com/w/cpp/string/basic_string/stof
 
-   using namespace TAO_PEGTL_NAMESPACE;  // NOLINT
+   using namespace TAO_PEGTL_NAMESPACE;
 
    // clang-format off
    struct plus_minus : opt< one< '+', '-' > > {};

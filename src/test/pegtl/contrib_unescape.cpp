@@ -29,13 +29,13 @@ namespace TAO_PEGTL_NAMESPACE
    // clang-format on
 
    template< unsigned M, unsigned N >
-   void verify_data( const char ( &m )[ M ], const char ( &n )[ N ] )  // NOLINT
+   void verify_data( const char ( &m )[ M ], const char ( &n )[ N ] )
    {
       std::string s;
       memory_input in( m, M - 1, __FUNCTION__ );
       parse< unstring, unaction >( in, s );
       if( s != std::string( n, N - 1 ) ) {
-         throw std::runtime_error( "test failed!" );  // NOLINT
+         throw std::runtime_error( "test failed!" );
       }
    }
 

@@ -21,13 +21,13 @@ namespace TAO_PEGTL_NAMESPACE
       const char* const filename = "src/test/pegtl/file_data.txt";
 #if defined( _MSC_VER )
       std::FILE* stream;
-      ::fopen_s( &stream, filename, "rb" );  // NOLINT
+      ::fopen_s( &stream, filename, "rb" );
 #else
-      std::FILE* stream = std::fopen( filename, "rb" );  // NOLINT
+      std::FILE* stream = std::fopen( filename, "rb" );
 #endif
       TAO_PEGTL_TEST_ASSERT( stream != nullptr );
       TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( cstream_input( stream, 16, filename ) ) );
-      std::fclose( stream );  // NOLINT(cppcoreguidelines-owning-memory)
+      std::fclose( stream );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
