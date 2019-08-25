@@ -25,14 +25,14 @@ namespace tao
                static constexpr I cutoff = Limit / 10;
                static constexpr I cutlim = Limit % 10;
 
-               I out = in.peek_char( index ) - '0';
+               I out = static_cast< I >( in.peek_char( index ) - '0' );
                while( ++index < in.size() ) {
-                  const I c = in.peek_char( index ) - '0';
+                  const I c = static_cast< I >( in.peek_char( index ) - '0' );
                   if( ( out > cutoff ) || ( ( out == cutoff ) && ( c > cutlim ) ) ) {
                      throw parse_error( "integer out of range", in );
                   }
-                  out *= 10;
-                  out += c;
+                  out = static_cast< I >( out * 10 );
+                  out = static_cast< I >( out + c );
                }
                return out;
             }
@@ -49,7 +49,7 @@ namespace tao
             {
                using U = typename std::make_unsigned< I >::type;
                static constexpr U limit = static_cast< U >( ( std::numeric_limits< I >::max )() ) + 1;
-               return static_cast< I >( ~actual_convert< U, limit >( in, index ) ) + 1;
+               return static_cast< I >( static_cast< I >( ~actual_convert< U, limit >( in, index ) ) + 1 );
             }
 
          }  // namespace internal

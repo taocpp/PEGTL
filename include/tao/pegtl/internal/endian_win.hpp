@@ -15,7 +15,7 @@ namespace tao
    {
       namespace internal
       {
-         template< unsigned S >
+         template< std::size_t S >
          struct to_and_from_le
          {
             template< typename T >
@@ -25,7 +25,7 @@ namespace tao
             }
          };
 
-         template< unsigned S >
+         template< std::size_t S >
          struct to_and_from_be;
 
          template<>
