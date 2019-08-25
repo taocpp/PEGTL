@@ -70,13 +70,13 @@ namespace TAO_PEGTL_NAMESPACE::integer
          constexpr Integer cutoff = Maximum / 10;
          constexpr Integer cutlim = Maximum % 10;
 
-         const Integer c = digit - '0';
+         const Integer c = static_cast< Integer >( digit - '0' );
 
          if( ( result > cutoff ) || ( ( result == cutoff ) && ( c > cutlim ) ) ) {
             return false;
          }
-         result *= 10;
-         result += c;
+         result = static_cast< Integer >( result * 10 );
+         result = static_cast< Integer >( result + c );
          return true;
       }
 
@@ -112,7 +112,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
          constexpr Unsigned maximum = static_cast< Unsigned >( ( std::numeric_limits< Signed >::max )() ) + 1;
          Unsigned temporary = 0;
          if( accumulate_digits< Unsigned, maximum >( temporary, input ) ) {
-            result = static_cast< Signed >( ~temporary ) + 1;
+            result = static_cast< Signed >( static_cast< Signed >( ~temporary ) + 1 );
             return true;
          }
          return false;

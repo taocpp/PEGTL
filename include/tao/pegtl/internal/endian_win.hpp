@@ -10,7 +10,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< unsigned S >
+   template< std::size_t S >
    struct to_and_from_le
    {
       template< typename T >
@@ -20,7 +20,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< unsigned S >
+   template< std::size_t S >
    struct to_and_from_be;
 
    template<>

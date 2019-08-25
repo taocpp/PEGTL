@@ -23,7 +23,7 @@ namespace csv2
    // aha """,yes, this works
 
    // clang-format off
-   template< int C > struct string_without : pegtl::star< pegtl::not_one< C, 10, 13 > > {};
+   template< char C > struct string_without : pegtl::star< pegtl::not_one< C, 10, 13 > > {};
    struct plain_value : string_without< ',' > {};
    struct quoted_value : pegtl::if_must< pegtl::one< '"' >, string_without< '"' >, pegtl::one< '"' > > {};
    struct value : pegtl::sor< quoted_value, plain_value > {};

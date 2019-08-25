@@ -13,7 +13,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 #error No byte order defined!
 #elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
 
-   template< unsigned S >
+   template< std::size_t S >
    struct to_and_from_be
    {
       template< typename T >
@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< unsigned S >
+   template< std::size_t S >
    struct to_and_from_le;
 
    template<>
@@ -106,7 +106,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 #elif __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 
-   template< unsigned S >
+   template< std::size_t S >
    struct to_and_from_le
    {
       template< typename T >
@@ -116,7 +116,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< unsigned S >
+   template< std::size_t S >
    struct to_and_from_be;
 
    template<>

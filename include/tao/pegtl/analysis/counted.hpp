@@ -6,11 +6,13 @@
 
 #include "../config.hpp"
 
+#include <cstddef>
+
 #include "generic.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::analysis
 {
-   template< rule_type Type, unsigned Count, typename... Rules >
+   template< rule_type Type, std::size_t Count, typename... Rules >
    struct counted
       : generic< ( Count != 0 ) ? Type : rule_type::opt, Rules... >
    {
