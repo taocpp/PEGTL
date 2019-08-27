@@ -205,7 +205,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       {
       };
 
-      template< analysis::rule_type Type, unsigned Count, template< typename... > class Selector >
+      template< analysis::rule_type Type, std::size_t Count, template< typename... > class Selector >
       struct is_leaf< 0, analysis::counted< Type, Count >, Selector >
          : std::true_type
       {
@@ -217,7 +217,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       {
       };
 
-      template< analysis::rule_type Type, unsigned Count, typename... Rules, template< typename... > class Selector >
+      template< analysis::rule_type Type, std::size_t Count, typename... Rules, template< typename... > class Selector >
       struct is_leaf< 0, analysis::counted< Type, Count, Rules... >, Selector >
          : std::false_type
       {
@@ -232,7 +232,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       {
       };
 
-      template< unsigned Level, analysis::rule_type Type, unsigned Count, typename... Rules, template< typename... > class Selector >
+      template< unsigned Level, analysis::rule_type Type, std::size_t Count, typename... Rules, template< typename... > class Selector >
       struct is_leaf< Level, analysis::counted< Type, Count, Rules... >, Selector >
          : std::bool_constant< ( is_unselected_leaf< Level - 1, Rules, Selector > && ... ) >
       {
