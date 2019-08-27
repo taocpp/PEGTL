@@ -100,9 +100,8 @@ namespace tao
 
          void print_dot( std::ostream& os, const parse_tree::node& n )
          {
-            assert( n.is_root() );
             os << "digraph parse_tree\n{\n";
-            internal::print_dot_node( os, n, "ROOT" );
+            internal::print_dot_node( os, n, n.is_root() ? "ROOT" : n.name() );
             os << "}\n";
          }
 
