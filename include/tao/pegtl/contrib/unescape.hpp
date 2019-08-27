@@ -93,8 +93,8 @@ namespace tao
          {
             I r = 0;
             while( begin != end ) {
-               r = static_cast< I >( r << 4 );
-               r = static_cast< I >( r + unhex_char< I >( *begin++ ) );
+               r <<= 4;
+               r += unhex_char< I >( *begin++ );
             }
             return r;
          }
