@@ -4,8 +4,7 @@
 #ifndef TAO_PEGTL_INTERNAL_ONE_HPP
 #define TAO_PEGTL_INTERNAL_ONE_HPP
 
-#include <algorithm>
-#include <utility>
+#include <cstddef>
 
 #include "../config.hpp"
 
@@ -17,12 +16,6 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Char >
-   [[nodiscard]] bool contains( const Char c, const std::initializer_list< Char >& l ) noexcept
-   {
-      return std::find( l.begin(), l.end(), c ) != l.end();
-   }
-
    template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
    struct one
    {
@@ -33,28 +26,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          if( const std::size_t s = in.size( Peek::max_input_size ); s >= Peek::min_input_size ) {
             if( const auto t = Peek::peek( in, s ) ) {
-               if( contains( t.data, { Cs... } ) == bool( R ) ) {
+               if( ( ( t.data == Cs ) || ... ) == bool( R ) ) {
                   bump_help< R, Input, typename Peek::data_t, Cs... >( in, t.size );
-                  return true;
-               }
-            }
-         }
-         return false;
-      }
-   };
-
-   template< result_on_found R, typename Peek, typename Peek::data_t C >
-   struct one< R, Peek, C >
-   {
-      using analyze_t = analysis::generic< analysis::rule_type::any >;
-
-      template< typename Input >
-      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
-      {
-         if( const std::size_t s = in.size( Peek::max_input_size ); s >= Peek::min_input_size ) {
-            if( const auto t = Peek::peek( in, s ) ) {
-               if( ( t.data == C ) == bool( R ) ) {
-                  bump_help< R, Input, typename Peek::data_t, C >( in, t.size );
                   return true;
                }
             }
