@@ -11,6 +11,22 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
+#if defined( __clang__ )
+
+#if defined( _LIBCPP_VERSION )
+
+   template< typename T >
+   [[nodiscard]] constexpr std::string_view demangle() noexcept
+   {
+      constexpr const std::string_view sv = __PRETTY_FUNCTION__;
+      constexpr const auto begin = sv.find( '=' );
+      static_assert( begin != std::string_view::npos );
+      return sv.substr( begin + 2, sv.size() - begin - 3 );
+   }
+
+#else
+
+   // When using libstdc++ with clang, std::string_view::find is not constexpr :(
    template< char C >
    constexpr const char* find( const char* p, std::size_t n ) noexcept
    {
@@ -24,23 +40,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
       return nullptr;
    }
 
-#if defined( __clang__ )
-
    template< typename T >
    [[nodiscard]] constexpr std::string_view demangle() noexcept
    {
       constexpr const std::string_view sv = __PRETTY_FUNCTION__;
-#if defined( _LIBCPP_VERSION )
-      constexpr const auto begin = sv.find( '=' );
-      static_assert( begin != std::string_view::npos );
-      return sv.substr( begin + 2, sv.size() - begin - 3 );
-#else
-      // When using libstdc++ with clang, std::string_view::find is not constexpr :(
       constexpr const auto begin = find< '=' >( sv.data(), sv.size() );
       static_assert( begin != nullptr );
       return { begin + 2, sv.end() - begin - 3 };
-#endif
    }
+
+#endif
 
 #elif defined( __GNUC__ )
 
@@ -58,9 +67,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       return tmp.substr( 0, end );
    }
 
-#elif( __GNUC__ == 9 ) && ( __GNUC_MINOR__ == 1 )
+#elif( __GNUC__ == 9 ) && ( __GNUC_MINOR__ < 3 )
 
-   // GCC 9.1 has a bug that leads to truncated __PRETTY_FUNCTION__ names,
+   // GCC 9.1 and 9.2 have a bug that leads to truncated __PRETTY_FUNCTION__ names,
    // see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155
    template< typename T >
    [[nodiscard]] constexpr std::string_view demangle() noexcept
