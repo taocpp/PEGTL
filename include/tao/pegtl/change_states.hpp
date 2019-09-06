@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
                 std::size_t... Ns,
                 typename Input,
                 typename... States >
-      [[nodiscard]] static bool match( std::index_sequence< Ns... >, Input& in, States&&... st )
+      [[nodiscard]] static bool match( std::index_sequence< Ns... > /*unused*/, Input& in, States&&... st )
       {
          auto t = std::tie( st... );
          if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, std::get< Ns >( t )... ) ) {

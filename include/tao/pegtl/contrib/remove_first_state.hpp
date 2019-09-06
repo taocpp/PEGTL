@@ -4,7 +4,9 @@
 #ifndef TAO_PEGTL_CONTRIB_REMOVE_FIRST_STATE_HPP
 #define TAO_PEGTL_CONTRIB_REMOVE_FIRST_STATE_HPP
 
+#include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../rewind_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

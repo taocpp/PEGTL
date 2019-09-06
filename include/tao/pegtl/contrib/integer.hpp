@@ -85,8 +85,8 @@ namespace TAO_PEGTL_NAMESPACE::integer
       {
          // Assumes input is a non-empty sequence of digits; returns false on overflow.
 
-         for( std::size_t i = 0; i < input.size(); ++i ) {
-            if( !accumulate_digit< Integer, Maximum >( result, input[ i ] ) ) {
+         for( char c : input ) {
+            if( !accumulate_digit< Integer, Maximum >( result, c ) ) {
                return false;
             }
          }

@@ -20,14 +20,7 @@ namespace TAO_PEGTL_NAMESPACE
       : std::runtime_error
    {
       template< typename Msg >
-      parse_error( Msg&& msg, const std::vector< position >& in_positions )
-         : std::runtime_error( std::forward< Msg >( msg ) ),
-           positions( in_positions )
-      {
-      }
-
-      template< typename Msg >
-      parse_error( Msg&& msg, std::vector< position >&& in_positions )
+      parse_error( Msg&& msg, std::vector< position > in_positions )
          : std::runtime_error( std::forward< Msg >( msg ) ),
            positions( std::move( in_positions ) )
       {
