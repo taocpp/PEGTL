@@ -160,7 +160,7 @@ namespace examples
 
 }  // namespace examples
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    if( argc != 2 ) {
       std::cerr << "usage: " << argv[ 0 ] << " <json>";

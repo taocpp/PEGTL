@@ -18,7 +18,7 @@ struct bar
 {
 };
 
-int main( int /*unused*/, char** /*unused*/ )
+int main()  // NOLINT(bugprone-exception-escape)
 {
    if( analyze< foo >() != 0 ) {
       std::cout << "there are problems" << std::endl;

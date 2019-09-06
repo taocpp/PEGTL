@@ -71,7 +71,7 @@ namespace sexpr
 
 }  // namespace sexpr
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    if( analyze< sexpr::main >() != 0 ) {
       return 1;

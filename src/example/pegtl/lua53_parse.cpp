@@ -333,7 +333,7 @@ namespace lua53
 
 }  // namespace lua53
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    if( TAO_PEGTL_NAMESPACE::analyze< lua53::grammar >() != 0 ) {
       return 1;

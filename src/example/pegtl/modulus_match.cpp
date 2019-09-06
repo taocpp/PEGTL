@@ -35,7 +35,7 @@ namespace modulus
 
 }  // namespace modulus
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    if( argc > 1 ) {
       argv_input in( argv, 1 );

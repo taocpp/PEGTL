@@ -8,7 +8,7 @@
 using namespace TAO_PEGTL_NAMESPACE;
 using grammar = must< json::text, eof >;
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    for( int i = 1; i < argc; ++i ) {
       argv_input in( argv, i );

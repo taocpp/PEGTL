@@ -122,7 +122,7 @@ namespace TAO_PEGTL_NAMESPACE::proto3
 
 }  // namespace TAO_PEGTL_NAMESPACE::proto3
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    using namespace TAO_PEGTL_NAMESPACE;
 

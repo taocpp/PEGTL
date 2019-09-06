@@ -678,7 +678,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf
 
 }  // namespace TAO_PEGTL_NAMESPACE::abnf
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    using namespace TAO_PEGTL_NAMESPACE;
 
