@@ -68,7 +68,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          os.write( l, p - l );
       }
 
-      void print_dot_node( std::ostream& os, const parse_tree::node& n, const std::string_view s )
+      inline void print_dot_node( std::ostream& os, const parse_tree::node& n, const std::string_view s )
       {
          os << "  x" << &n << " [ label=\"";
          escape( os, s );
@@ -90,7 +90,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
 
    }  // namespace internal
 
-   void print_dot( std::ostream& os, const parse_tree::node& n )
+   inline void print_dot( std::ostream& os, const parse_tree::node& n )
    {
       os << "digraph parse_tree\n{\n";
       internal::print_dot_node( os, n, n.is_root() ? "ROOT" : n.type );
