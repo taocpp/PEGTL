@@ -99,15 +99,6 @@ matrix:
       env:
         - CXX=clang++
 
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-9']
-      env:
-        - CXX=g++-9
-        - CPPFLAGS="-fsanitize=undefined -fuse-ld=gold"
-
     - compiler: clang
       env:
         - ANDROID_ABI=armeabi-v7a
@@ -193,6 +184,15 @@ matrix:
         # FIXME android emulator stuck sometimes- cd cmake-build && /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
     - compiler: gcc
+      addons:
+        apt:
+          sources: ['ubuntu-toolchain-r-test']
+          packages: ['g++-9']
+      env:
+        - CXX=g++-9
+        - CPPFLAGS="-fsanitize=undefined -fuse-ld=gold"
+
+    - compiler: gcc
       sudo: true
       addons:
         apt:
@@ -225,7 +225,7 @@ matrix:
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'clang-tidy-8']
+          packages: ['clang-8', 'clang-tidy-8', 'g++-8']
       env:
         - CLANG_TIDY=clang-tidy-8
       script:
