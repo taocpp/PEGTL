@@ -39,7 +39,7 @@ SOURCES := $(shell find src -name '*.cpp')
 DEPENDS := $(SOURCES:%.cpp=build/%.d)
 BINARIES := $(SOURCES:%.cpp=build/%)
 
-CLANG_TIDY_HEADERS := $(filter-out include/tao/pegtl/internal/endian_win.hpp include/tao/pegtl/internal/file_mapper_win32.hpp,$(HEADER)) $(filter-out src/test/pegtl/main.hpp,$(shell find src -name '*.hpp'))
+CLANG_TIDY_HEADERS := $(filter-out include/tao/pegtl/internal/endian_win.hpp include/tao/pegtl/internal/file_mapper_win32.hpp,$(HEADERS))
 
 UNIT_TESTS := $(filter build/src/test/%,$(BINARIES))
 
@@ -61,8 +61,8 @@ build/%.valgrind: build/%
 valgrind: $(UNIT_TESTS:%=%.valgrind)
 	@echo "All $(words $(UNIT_TESTS)) valgrind tests passed."
 
-build/%.clang-tidy: %
-	$(CLANG_TIDY) -extra-arg "-Iinclude" -extra-arg "-std=c++17" -checks=*,-fuchsia-*,-google-runtime-references,-google-runtime-int,-google-readability-todo,-cppcoreguidelines-pro-bounds-pointer-arithmetic,-cppcoreguidelines-pro-bounds-array-to-pointer-decay,-*-magic-numbers,-cppcoreguidelines-non-private-member-variables-in-classes,-cppcoreguidelines-macro-usage,-hicpp-no-array-decay,-hicpp-signed-bitwise,-modernize-raw-string-literal,-misc-sizeof-expression,-misc-non-private-member-variables-in-classes,-bugprone-sizeof-expression,-bugprone-exception-escape -warnings-as-errors=* $< 2>/dev/null
+build/%.clang-tidy: % .clang-tidy
+	$(CLANG_TIDY) -quiet $< -- $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) 2>/dev/null
 	@mkdir -p $(@D)
 	@touch $@
 
@@ -72,7 +72,7 @@ clang-tidy: $(CLANG_TIDY_HEADERS:%=build/%.clang-tidy) $(SOURCES:%=build/%.clang
 
 .PHONY: clean
 clean:
-	@rm -rf build/src
+	@rm -rf build/*
 	@find . -name '*~' -delete
 
 build/%.d: %.cpp Makefile

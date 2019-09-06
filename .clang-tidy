@@ -1,0 +1,15 @@
+Checks: >-
+  bugprone-*,
+  cppcoreguidelines-slicing,
+  llvm-*,
+  -llvm-namespace-comment,
+  modernize-*,
+  -modernize-avoid-c-arrays,
+  -modernize-concat-nested-namespaces,
+  -modernize-raw-string-literal,
+  performance-*,
+  readability-*,
+  -readability-avoid-const-params-in-decls,
+  -readability-magic-numbers,
+
+WarningsAsErrors: '*'
