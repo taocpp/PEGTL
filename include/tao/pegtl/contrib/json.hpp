@@ -26,14 +26,14 @@ namespace TAO_PEGTL_NAMESPACE::json
    struct name_separator : pad< one< ':' >, ws > {};
    struct value_separator : padr< one< ',' > > {};
 
-   struct false_ : string< 'f', 'a', 'l', 's', 'e' > {};
+   struct false_ : string< 'f', 'a', 'l', 's', 'e' > {};  // NOLINT(readability-identifier-naming)
    struct null : string< 'n', 'u', 'l', 'l' > {};
-   struct true_ : string< 't', 'r', 'u', 'e' > {};
+   struct true_ : string< 't', 'r', 'u', 'e' > {};  // NOLINT(readability-identifier-naming)
 
    struct digits : plus< digit > {};
    struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+'> >, must< digits > > {};
    struct frac : if_must< one< '.' >, digits > {};
-   struct int_ : sor< one< '0' >, digits > {};
+   struct int_ : sor< one< '0' >, digits > {};  // NOLINT(readability-identifier-naming)
    struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
 
    struct xdigit : pegtl::xdigit {};
@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE::json
    struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
    struct escaped : sor< escaped_char, unicode > {};
    struct unescaped : utf8::range< 0x20, 0x10FFFF > {};
-   struct char_ : if_then_else< one< '\\' >, must< escaped >, unescaped > {};
+   struct char_ : if_then_else< one< '\\' >, must< escaped >, unescaped > {};  // NOLINT(readability-identifier-naming)
 
    struct string_content : until< at< one< '"' > >, must< char_ > > {};
    struct string : seq< one< '"' >, must< string_content >, any >
