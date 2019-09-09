@@ -1,6 +1,12 @@
 Checks: >-
   bugprone-*,
   cppcoreguidelines-slicing,
+  cppcoreguidelines-special-member-functions,
+  google-build-explicit-make-pair,
+  google-build-namespaces,
+  google-default-arguments,
+  google-global-names-in-headers,
+  google-readability-casting,
   llvm-*,
   -llvm-namespace-comment,
   misc-*,
