@@ -50,6 +50,8 @@ namespace TAO_PEGTL_NAMESPACE
       {
       }
 
+      ~position() = default;
+
       std::size_t byte;
       std::size_t line;
       std::size_t byte_in_line;
