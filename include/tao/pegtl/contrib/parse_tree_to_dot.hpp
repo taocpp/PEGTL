@@ -76,7 +76,8 @@ namespace tao
                escape( os, s.data(), s.size() );
             }
 
-            void print_dot_node( std::ostream& os, const parse_tree::node& n, const std::string& s )
+            template< typename Node >
+            void print_dot_node( std::ostream& os, const Node& n, const std::string& s )
             {
                os << "  x" << &n << " [ label=\"";
                escape( os, s );
@@ -98,7 +99,8 @@ namespace tao
 
          }  // namespace internal
 
-         void print_dot( std::ostream& os, const parse_tree::node& n )
+         template< typename Node >
+         void print_dot( std::ostream& os, const Node& n )
          {
             os << "digraph parse_tree\n{\n";
             internal::print_dot_node( os, n, n.is_root() ? "ROOT" : n.name() );
