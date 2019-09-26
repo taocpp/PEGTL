@@ -27,7 +27,7 @@
 
 ## 2.8.1
 
-**Not yet released**
+Released 2019-08-06
 
 * Added fallback symbol demangling if RTTI is disabled.
 * Fixed missing `string_input<>` in amalgamated header.
