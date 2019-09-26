@@ -110,11 +110,13 @@ In appreciation of all contributions here are the people that have [directly con
 [<img alt="samhocevar" src="https://avatars2.githubusercontent.com/u/245089?v=4&s=117" width="117">](https://github.com/samhocevar)
 [<img alt="sanssecours" src="https://avatars2.githubusercontent.com/u/691989?v=4&s=117" width="117">](https://github.com/sanssecours)
 [<img alt="sgbeal" src="https://avatars1.githubusercontent.com/u/235303?v=4&s=117" width="117">](https://github.com/sgbeal)
+[<img alt="skyrich62" src="https://avatars3.githubusercontent.com/u/23705081?v=4&s=117" width="117">](https://github.com/skyrich62)
 [<img alt="studoot" src="https://avatars1.githubusercontent.com/u/799344?v=4&s=117" width="117">](https://github.com/studoot)
 [<img alt="SvenJo" src="https://avatars1.githubusercontent.com/u/1538181?s=460&v=4?v=4&s=117" width="117">](https://github.com/SvenJo)
 [<img alt="wickedmic" src="https://avatars1.githubusercontent.com/u/12001183?v=4&s=117" width="117">](https://github.com/wickedmic)
 [<img alt="wravery" src="https://avatars0.githubusercontent.com/u/6502881?v=4&s=117" width="117">](https://github.com/wravery)
 [<img alt="zhihaoy" src="https://avatars2.githubusercontent.com/u/43971430?v=4&s=117" width="117">](https://github.com/zhihaoy)
+
 
 ## The Art of C++
 
