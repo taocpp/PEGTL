@@ -185,9 +185,15 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       {
       }
 
-      // this one, if applicable, is more specialized than the above
-      template< typename Selector, typename Node, typename... States >
-      auto transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( Selector::transform( n, st... ) ) )
+      template< typename Selector, typename Input, typename Node, typename... States >
+      auto transform( const Input& in, std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( Selector::transform( in, n, st... ) ) )
+         -> decltype( Selector::transform( in, n, st... ), void() )
+      {
+         Selector::transform( in, n, st... );
+      }
+
+      template< typename Selector, typename Input, typename Node, typename... States >
+      auto transform( const Input& /*unused*/, std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( Selector::transform( n, st... ) ) )
          -> decltype( Selector::transform( n, st... ), void() )
       {
          Selector::transform( n, st... );
@@ -416,7 +422,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
             auto n = std::move( state.back() );
             state.pop_back();
             n->template success< Rule >( in, st... );
-            transform< Selector< Rule > >( n, st... );
+            transform< Selector< Rule > >( in, n, st... );
             if( n ) {
                state.back()->emplace_back( std::move( n ), st... );
             }
