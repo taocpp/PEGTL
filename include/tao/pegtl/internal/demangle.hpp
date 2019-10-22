@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       constexpr const std::string_view sv = __PRETTY_FUNCTION__;
       constexpr const auto begin = find< '=' >( sv.data(), sv.size() );
       static_assert( begin != nullptr );
-      return { begin + 2, sv.end() - begin - 3 };
+      return { begin + 2, sv.data() + sv.size() - begin - 3 };
    }
 
 #endif

@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-#if defined( __GNUC__ ) && ( __GNUC__ == 9 ) || ( __GNUC_MINOR__ == 1 )
+#if defined( __GNUC__ ) && ( __GNUC__ == 9 ) || ( __GNUC_MINOR__ <= 2 )
       // see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155
       test< int >( "i" );
       test< double >( "d" );
