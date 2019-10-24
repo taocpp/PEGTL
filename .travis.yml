@@ -94,7 +94,13 @@ matrix:
         - CXX=clang++
 
     - os: osx
-      osx_image: xcode10.2
+      osx_image: xcode10.3
+      compiler: clang
+      env:
+        - CXX=clang++
+
+    - os: osx
+      osx_image: xcode11.2
       compiler: clang
       env:
         - CXX=clang++
