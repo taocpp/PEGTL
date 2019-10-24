@@ -72,7 +72,7 @@ Each commit is automatically tested with multiple architectures, operating syste
 * Ubuntu 16.04 LTS (using libstdc++)
 
   * GCC 7.x, 8.x, 9.x
-  * Clang 5.x, 6.x, 7.x, 8.x
+  * Clang 5.x, 6.x, 7.x, 8.x, 9.x
 
 Additionally, each commit is checked with Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), GCC's and Clang's [sanitizers](https://github.com/google/sanitizers), [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/), and [`valgrind`](http://valgrind.org/).
 Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
