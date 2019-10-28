@@ -9,7 +9,7 @@
 
 #include "../config.hpp"
 
-#if defined( _WIN32 ) && !defined( __MINGW32__ )
+#if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( __CYGWIN__ )
 #include "endian_win.hpp"
 #else
 #include "endian_gcc.hpp"
