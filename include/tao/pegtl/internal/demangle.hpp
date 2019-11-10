@@ -18,8 +18,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename T >
    [[nodiscard]] constexpr std::string_view demangle() noexcept
    {
-      constexpr const std::string_view sv = __PRETTY_FUNCTION__;
-      constexpr const auto begin = sv.find( '=' );
+      constexpr std::string_view sv = __PRETTY_FUNCTION__;
+      constexpr auto begin = sv.find( '=' );
       static_assert( begin != std::string_view::npos );
       return sv.substr( begin + 2, sv.size() - begin - 3 );
    }
@@ -43,8 +43,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename T >
    [[nodiscard]] constexpr std::string_view demangle() noexcept
    {
-      constexpr const std::string_view sv = __PRETTY_FUNCTION__;
-      constexpr const auto begin = find< '=' >( sv.data(), sv.size() );
+      constexpr std::string_view sv = __PRETTY_FUNCTION__;
+      constexpr auto begin = find< '=' >( sv.data(), sv.size() );
       static_assert( begin != nullptr );
       return { begin + 2, sv.data() + sv.size() - begin - 3 };
    }
@@ -84,10 +84,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
    [[nodiscard]] constexpr std::string_view demangle() noexcept
    {
       constexpr std::string_view sv = __PRETTY_FUNCTION__;
-      constexpr const auto begin = sv.find( '=' );
+      constexpr auto begin = sv.find( '=' );
       static_assert( begin != std::string_view::npos );
-      constexpr const auto tmp = sv.substr( begin + 2 );
-      constexpr const auto end = tmp.rfind( ';' );
+      constexpr auto tmp = sv.substr( begin + 2 );
+      constexpr auto end = tmp.rfind( ';' );
       static_assert( end != std::string_view::npos );
       return tmp.substr( 0, end );
    }
