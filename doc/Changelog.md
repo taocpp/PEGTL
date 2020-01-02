@@ -563,4 +563,4 @@ Released 2008
 Development of the PEGTL started in November 2007 as an experiment in C++0x.
 It is based on ideas from the YARD library by Christopher Diggins.
 
-Copyright (c) 2007-2019 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2007-2020 Dr. Colin Hirsch and Daniel Frey
