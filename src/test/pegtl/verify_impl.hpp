@@ -37,14 +37,15 @@ namespace TAO_PEGTL_NAMESPACE
    }
 
    template< typename Rule, template< typename... > class Action, typename Input >
-   void verify_impl_one( const std::size_t line, const char* file, const std::string& data, Input& in, const result_type expected, const std::size_t remain )
+   bool verify_impl_one( const std::size_t line, const char* file, const std::string& data, Input& in, const result_type expected, const std::size_t remain )
    {
       const result_type received = verify_impl_two< Rule, Action >( in );
 
       if( ( received == expected ) && ( ( received == result_type::global_failure ) || ( in.size( 999999999 ) == remain ) ) ) {
-         return;
+         return true;
       }
       TAO_PEGTL_TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << in.size( 999999999 ) << " / " << remain << " ]" );
+      return false;
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
