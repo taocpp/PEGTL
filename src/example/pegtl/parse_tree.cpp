@@ -110,14 +110,13 @@ namespace example
          return ::operator new( sz );
       }
 
-      void operator delete( void* p, std::size_t sz )
+      void operator delete( void* p )
       {
-         assert( sz == sizeof( node ) );
          if( cache.size() < 20 ) {
             cache.emplace_back( p );
          }
          else {
-            ::operator delete( p, sz );
+            ::operator delete( p );
          }
       }
    };
