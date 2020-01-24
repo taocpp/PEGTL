@@ -55,8 +55,8 @@ namespace example
       // if only one child is left for LHS..., replace the PROD/EXPR with the child directly.
       // otherwise, perform the above transformation, then apply it recursively until LHS...
       // becomes a single child, which then replaces the parent node and the recursion ends.
-      template< typename... States >
-      static void transform( std::unique_ptr< parse_tree::node >& n, States&&... st )
+      template< typename Node, typename... States >
+      static void transform( std::unique_ptr< Node >& n, States&&... st )
       {
          if( n->children.size() == 1 ) {
             n = std::move( n->children.back() );
@@ -93,6 +93,37 @@ namespace example
          product,
          expression > >;
 
+   // this is not necessary for the example, but serves as a demonstration for an additional optimization.
+   struct node
+      : parse_tree::basic_node< node >
+   {
+      static std::vector< void* > cache;
+
+      void* operator new( std::size_t sz )
+      {
+         assert( sz == sizeof( node ) );
+         if( !cache.empty() ) {
+            auto p = cache.back();
+            cache.pop_back();
+            return p;
+         }
+         return ::operator new( sz );
+      }
+
+      void operator delete( void* p, std::size_t sz )
+      {
+         assert( sz == sizeof( node ) );
+         if( cache.size() < 20 ) {
+            cache.emplace_back( p );
+         }
+         else {
+            ::operator delete( p, sz );
+         }
+      }
+   };
+
+   std::vector< void* > node::cache;
+
 }  // namespace example
 
 int main( int argc, char** argv )
@@ -105,7 +136,7 @@ int main( int argc, char** argv )
    }
    argv_input in( argv, 1 );
    try {
-      const auto root = parse_tree::parse< example::grammar, example::selector >( in );
+      const auto root = parse_tree::parse< example::grammar, example::node, example::selector >( in );
       parse_tree::print_dot( std::cout, *root );
       return 0;
    }
@@ -118,5 +149,6 @@ int main( int argc, char** argv )
    catch( const std::exception& e ) {
       std::cerr << e.what() << std::endl;
    }
+
    return 1;
 }
