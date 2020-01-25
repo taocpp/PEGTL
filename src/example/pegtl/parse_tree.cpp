@@ -1,7 +1,7 @@
 // Copyright (c) 2017-2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <array>>
+#include <array>
 #include <iostream>
 #include <string>
 #include <type_traits>
