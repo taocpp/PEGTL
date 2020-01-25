@@ -93,35 +93,60 @@ namespace example
          product,
          expression > >;
 
+   namespace internal
+   {
+      // a non-thread-safe allocation cache, assuming that the size (sz) is always the same!
+      template< std::size_t N >
+      struct cache
+      {
+         std::size_t pos = 0;
+         std::array< void*, N > data;
+
+         ~cache()
+         {
+            while( pos != 0 ) {
+               ::operator delete( data[ --pos ] );
+            }
+         }
+
+         void* get( std::size_t sz )
+         {
+            if( pos != 0 ) {
+               return data[ --pos ];
+            }
+            return ::operator new( sz );
+         }
+
+         void put( void* p )
+         {
+            if( pos < N ) {
+               data[ pos++ ] = p;
+            }
+            else {
+               ::operator delete( p );
+            }
+         }
+      };
+
+      static cache< 32 > the_cache;
+
+   }  // namespace internal
+
    // this is not necessary for the example, but serves as a demonstration for an additional optimization.
    struct node
       : parse_tree::basic_node< node >
    {
-      static std::vector< void* > cache;
-
       void* operator new( std::size_t sz )
       {
          assert( sz == sizeof( node ) );
-         if( !cache.empty() ) {
-            auto p = cache.back();
-            cache.pop_back();
-            return p;
-         }
-         return ::operator new( sz );
+         return internal::the_cache.get( sz );
       }
 
       void operator delete( void* p )
       {
-         if( cache.size() < 20 ) {
-            cache.emplace_back( p );
-         }
-         else {
-            ::operator delete( p );
-         }
+         internal::the_cache.put( p );
       }
    };
-
-   std::vector< void* > node::cache;
 
 }  // namespace example
 
