@@ -103,12 +103,20 @@ namespace example
          std::size_t pos = 0;
          std::array< void*, N > data;
 
+         cache() = default;
+
+         cache( const cache& ) = delete;
+         cache( cache&& ) = delete;
+
          ~cache()
          {
             while( pos != 0 ) {
                ::operator delete( data[ --pos ] );
             }
          }
+
+         cache& operator=( const cache& ) = delete;
+         cache& operator=( cache&& ) = delete;
 
          void* get( std::size_t sz )
          {
