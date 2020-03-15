@@ -9,6 +9,7 @@
 * Updated required [CMake](https://cmake.org/) version to 3.8.
 * The macro `TAO_PEGTL_NAMESPACE` now contains the fully qualified namespace, e.g. `tao::pegtl`.
 * Replaced `tao::pegtl::input_error` with `std::system_error`.
+* Added `tao::pegtl::error_message< Rule >` as a non-intrusive way to define global parse errors.
 * Changed message of `tao::pegtl::parse_error` to no longer contain the position redundantly.
 * Changed rules in `tao/pegtl/contrib/integer.hpp` to not accept redundant leading zeros.
 * Added rules to `tao/pegtl/contrib/integer.hpp` that test unsigned values against a maximum.

@@ -31,6 +31,19 @@ It should be mentioned that `must< R >` is semantically equivalent to `sor< R, r
 
 In any case, the task of actually throwing an exception is delegated to the [control class'](Control-and-Debug.md) `raise()`.
 
+Note that rules and actions can throw exceptions directly, meaning those are not generated from the [control class'](Control-and-Debug.md) `raise()`.
+
+If a (pre-defined) grammar does not contain any `must<>` rule (or a related rule), one can still turn any local error into a global error by specializing `tao::pegtl::error_message`.
+
+```c++
+namespace tao::pegtl
+{
+   template<> constexpr const char* error_message< my_rule > = "my_rule failed!";
+}
+```
+
+If the parser tries to match `my_rule`, and it fails, a `parse_error` with the current position and the provided error message is thrown.
+
 ## Global to Local Failure
 
 To convert global failure to local failure, the grammar rules [`try_catch`](Rule-Reference.md#try_catch-r-) and [`try_catch_type`](Rule-Reference.md#try_catch_type-e-r-) can be used.
