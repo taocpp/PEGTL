@@ -40,6 +40,7 @@ set(test_sources
   data_cstring.cpp
   demangle.cpp
   discard_input.cpp
+  error_message.cpp
   file_cstream.cpp
   file_file.cpp
   file_istream.cpp

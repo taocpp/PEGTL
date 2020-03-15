@@ -20,6 +20,9 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Rule >
+   constexpr const char* error_message = nullptr;
+
+   template< typename Rule >
    struct normal
    {
       template< typename Input, typename... States >
@@ -33,8 +36,11 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< typename Input, typename... States >
-      static void failure( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      static void failure( const Input& in, States&&... /*unused*/ ) noexcept( error_message< Rule > == nullptr )
       {
+         if constexpr( error_message< Rule > != nullptr ) {
+            throw parse_error( error_message< Rule >, in );
+         }
       }
 
       template< typename Input, typename... States >
