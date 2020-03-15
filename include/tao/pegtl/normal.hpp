@@ -41,11 +41,11 @@ namespace TAO_PEGTL_NAMESPACE
          if constexpr( error_message< Rule > != nullptr ) {
             throw parse_error( error_message< Rule >, in );
          }
-         else {
 #if defined( _MSC_VER )
+         else {
             (void)in;
-#endif
          }
+#endif
       }
 
       template< typename Input, typename... States >
@@ -84,11 +84,12 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         if constexpr( internal::has_match_v< Rule, A, M, Action, Control, Input, States... > ) {
-            return Action< Rule >::template match< Rule, A, M, Action, Control >( in, st... );
+         constexpr rewind_mode m = ( error_message< Rule > == nullptr ) ? M : rewind_mode::dontcare;
+         if constexpr( internal::has_match_v< Rule, A, m, Action, Control, Input, States... > ) {
+            return Action< Rule >::template match< Rule, A, m, Action, Control >( in, st... );
          }
          else {
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, m, Action, Control >( in, st... );
          }
       }
    };
