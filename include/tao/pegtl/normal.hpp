@@ -41,6 +41,11 @@ namespace TAO_PEGTL_NAMESPACE
          if constexpr( error_message< Rule > != nullptr ) {
             throw parse_error( error_message< Rule >, in );
          }
+         else {
+#if defined( _MSC_VER )
+            (void)in;
+#endif
+         }
       }
 
       template< typename Input, typename... States >
