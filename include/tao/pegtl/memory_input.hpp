@@ -369,7 +369,7 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] std::string_view line_at( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
       {
          const char* b = begin_of_line( p );
-         return std::string_view( b, end_of_line( p ) - b );
+         return std::string_view( b, static_cast< std::size_t >( end_of_line( p ) - b ) );
       }
    };
 
