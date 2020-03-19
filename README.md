@@ -83,11 +83,12 @@ For details see the [changelog](doc/Changelog.md).
 
 ## Package Managers
 
-You can download and install taopq using the [Conan](https://github.com/conan-io/conan) package manager:
+You can download and install the PEGTL using the [Conan](https://github.com/conan-io/conan) package manager:
 
     conan install taocpp-pegtl/2.8.1@
 
-The taopq package in conan is kept up to date by Conan team members and community contributors. If the version is out-of-date, please [create an issue or pull request](https://github.com/conan-io/conan-center-index) on the Conan Center Index repository.
+The taocpp-pegtl package in conan is kept up to date by Conan team members and community contributors.
+If the version is out-of-date, please [create an issue or pull request](https://github.com/conan-io/conan-center-index) on the Conan Center Index repository.
 
 ## Thank You
 
@@ -125,7 +126,6 @@ In appreciation of all contributions here are the people that have [directly con
 [<img alt="wickedmic" src="https://avatars1.githubusercontent.com/u/12001183?v=4&s=117" width="117">](https://github.com/wickedmic)
 [<img alt="wravery" src="https://avatars0.githubusercontent.com/u/6502881?v=4&s=117" width="117">](https://github.com/wravery)
 [<img alt="zhihaoy" src="https://avatars2.githubusercontent.com/u/43971430?v=4&s=117" width="117">](https://github.com/zhihaoy)
-
 
 ## The Art of C++
 
