@@ -6,7 +6,6 @@
 
 #include "../config.hpp"
 
-#include "duseltronik.hpp"
 #include "seq.hpp"
 #include "skip_control.hpp"
 
@@ -33,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
          State s( static_cast< const Input& >( in ), st... );
-         if( duseltronik< seq< Rules... >, A, M, Action, Control >::match( in, s ) ) {
+         if( Control< seq< Rules... > >::template match< A, M, Action, Control >( in, s ) ) {
             s.success( static_cast< const Input& >( in ), st... );
             return true;
          }

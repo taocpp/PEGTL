@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
          if( Control< Cond >::template match< A, M, Action, Control >( in, st... ) ) {
-            (void)( Control< must< Rules > >::template match< A, M, Action, Control >( in, st... ) && ... );
+            (void)Control< must< Rules... > >::template match< A, M, Action, Control >( in, st... );
             return true;
          }
          return Default;

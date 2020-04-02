@@ -6,6 +6,7 @@
 
 #include "../config.hpp"
 
+#include "seq.hpp"
 #include "skip_control.hpp"
 #include "trivial.hpp"
 
@@ -41,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
          const auto m = in.template mark< rewind_mode::required >();
-         return ( Control< Rules >::template match< apply_mode::nothing, rewind_mode::active, Action, Control >( in, st... ) && ... );
+         return Control< seq< Rules... > >::template match< apply_mode::nothing, rewind_mode::active, Action, Control >( in, st... );
       }
    };
 

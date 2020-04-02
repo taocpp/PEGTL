@@ -149,7 +149,7 @@ namespace TAO_PEGTL_NAMESPACE
             using m_t = decltype( m );
 
             while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, marker_size, st... ) ) {
-               if( in.empty() || !( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) ) {
+               if( in.empty() || !Control< seq< Rules... > >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
                   return false;
                }
             }

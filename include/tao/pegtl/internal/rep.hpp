@@ -6,6 +6,7 @@
 
 #include "../config.hpp"
 
+#include "seq.hpp"
 #include "skip_control.hpp"
 #include "trivial.hpp"
 
@@ -50,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          using m_t = decltype( m );
 
          for( unsigned i = 0; i != Num; ++i ) {
-            if( !( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) ) {
+            if( !Control< seq< Rules... > >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
                return false;
             }
          }

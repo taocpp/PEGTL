@@ -24,6 +24,7 @@
 #include "../analysis/generic.hpp"
 #include "../internal/demangle.hpp"
 #include "../internal/iterator.hpp"
+#include "../internal/seq.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::parse_tree
 {
@@ -152,6 +153,16 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
 
    namespace internal
    {
+      template< typename >
+      struct is_seq
+         : std::false_type
+      {};
+
+      template< typename... Rules >
+      struct is_seq< TAO_PEGTL_NAMESPACE::internal::seq< Rules... > >
+         : std::true_type
+      {};
+
       template< typename Node >
       struct state
       {
@@ -434,6 +445,37 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
             Control< Rule >::failure( in, st... );
             state.back()->template failure< Rule >( in, st... );
             state.pop_back();
+         }
+
+         template< apply_mode A,
+                   rewind_mode M,
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control2,
+                   typename Input,
+                   typename... States >
+         [[nodiscard]] static bool match( Input& in, States&&... st )
+         {
+            if constexpr( is_seq< Rule >::value ) {
+               auto& state = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
+               state.emplace_back();
+               const bool result = Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
+               if( result ) {
+                  auto n = std::move( state.back() );
+                  state.pop_back();
+                  for( auto& c : n->children ) {
+                     state.back()->children.emplace_back( std::move( c ) );
+                  }
+               }
+               else {
+                  state.pop_back();
+               }
+               return result;
+            }
+            else {
+               return Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
+            }
          }
       };
 

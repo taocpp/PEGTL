@@ -8,7 +8,6 @@
 
 #include "../config.hpp"
 
-#include "duseltronik.hpp"
 #include "seq.hpp"
 #include "skip_control.hpp"
 #include "trivial.hpp"
@@ -44,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         (void)duseltronik< seq< Rules... >, A, rewind_mode::required, Action, Control >::match( in, st... );
+         (void)Control< seq< Rules... > >::template match< A, rewind_mode::required, Action, Control >( in, st... );
          return true;
       }
    };

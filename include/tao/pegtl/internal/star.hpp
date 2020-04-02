@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         while( seq< Rule, Rules... >::template match< A, rewind_mode::required, Action, Control >( in, st... ) ) {
+         while( Control< seq< Rule, Rules... > >::template match< A, rewind_mode::required, Action, Control >( in, st... ) ) {
          }
          return true;
       }

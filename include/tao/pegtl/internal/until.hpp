@@ -9,6 +9,7 @@
 #include "bytes.hpp"
 #include "eof.hpp"
 #include "not_at.hpp"
+#include "seq.hpp"
 #include "skip_control.hpp"
 #include "star.hpp"
 
@@ -68,7 +69,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          using m_t = decltype( m );
 
          while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, st... ) ) {
-            if( !( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) ) {
+            if( !Control< seq< Rules... > >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
                return false;
             }
          }
