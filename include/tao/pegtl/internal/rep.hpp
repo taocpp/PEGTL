@@ -18,24 +18,24 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< unsigned Num, typename... Rules >
-   struct rep;
+   struct rep
+      : rep< Num, seq< Rules... > >
+   {};
 
    template< unsigned Num >
    struct rep< Num >
       : trivial< true >
-   {
-   };
+   {};
 
-   template< typename Rule, typename... Rules >
-   struct rep< 0, Rule, Rules... >
+   template< typename Rule >
+   struct rep< 0, Rule >
       : trivial< true >
-   {
-   };
+   {};
 
-   template< unsigned Num, typename... Rules >
-   struct rep
+   template< unsigned Num, typename Rule >
+   struct rep< Num, Rule >
    {
-      using analyze_t = analysis::counted< analysis::rule_type::seq, Num, Rules... >;
+      using analyze_t = analysis::counted< analysis::rule_type::seq, Num, Rule >;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -51,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          using m_t = decltype( m );
 
          for( unsigned i = 0; i != Num; ++i ) {
-            if( !Control< seq< Rules... > >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
+            if( !Control< Rule >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
                return false;
             }
          }

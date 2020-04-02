@@ -101,7 +101,9 @@ namespace TAO_PEGTL_NAMESPACE
       inline constexpr bool skip_control< at_raw_string_close< Marker, Close > > = true;
 
       template< typename Cond, typename... Rules >
-      struct raw_string_until;
+      struct raw_string_until
+         : raw_string_until< Cond, seq< Rules... > >
+      {};
 
       template< typename Cond >
       struct raw_string_until< Cond >
@@ -130,10 +132,10 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
-      template< typename Cond, typename... Rules >
-      struct raw_string_until
+      template< typename Cond, typename Rule >
+      struct raw_string_until< Cond, Rule >
       {
-         using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, Rules... >, Cond >;
+         using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, Rule >, Cond >;
 
          template< apply_mode A,
                    rewind_mode M,
@@ -149,7 +151,7 @@ namespace TAO_PEGTL_NAMESPACE
             using m_t = decltype( m );
 
             while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, marker_size, st... ) ) {
-               if( in.empty() || !Control< seq< Rules... > >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
+               if( in.empty() || !Control< Rule >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
                   return false;
                }
             }

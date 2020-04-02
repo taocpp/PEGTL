@@ -20,18 +20,19 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Exception, typename... Rules >
-   struct try_catch_type;
+   struct try_catch_type
+      : try_catch_type< Exception, seq< Rules... > >
+   {};
 
    template< typename Exception >
    struct try_catch_type< Exception >
       : trivial< true >
-   {
-   };
+   {};
 
-   template< typename Exception, typename... Rules >
-   struct try_catch_type
+   template< typename Exception, typename Rule >
+   struct try_catch_type< Exception, Rule >
    {
-      using analyze_t = analysis::generic< analysis::rule_type::seq, Rules... >;
+      using analyze_t = analysis::generic< analysis::rule_type::seq, Rule >;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -47,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          using m_t = decltype( m );
 
          try {
-            return m( Control< seq< Rules... > >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );
+            return m( Control< Rule >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );
          }
          catch( const Exception& ) {
             return false;

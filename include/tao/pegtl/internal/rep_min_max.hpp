@@ -21,7 +21,9 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< unsigned Min, unsigned Max, typename... Rules >
-   struct rep_min_max;
+   struct rep_min_max
+      : rep_min_max< Min, Max, seq< Rules... > >
+   {};
 
    template< unsigned Min, unsigned Max >
    struct rep_min_max< Min, Max >
@@ -30,16 +32,15 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static_assert( Min <= Max );
    };
 
-   template< typename Rule, typename... Rules >
-   struct rep_min_max< 0, 0, Rule, Rules... >
-      : not_at< Rule, Rules... >
-   {
-   };
+   template< typename Rule >
+   struct rep_min_max< 0, 0, Rule >
+      : not_at< Rule >
+   {};
 
-   template< unsigned Min, unsigned Max, typename... Rules >
-   struct rep_min_max
+   template< unsigned Min, unsigned Max, typename Rule >
+   struct rep_min_max< Min, Max, Rule >
    {
-      using analyze_t = analysis::counted< analysis::rule_type::seq, Min, Rules... >;
+      using analyze_t = analysis::counted< analysis::rule_type::seq, Min, Rule >;
 
       static_assert( Min <= Max );
 
@@ -57,16 +58,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
          using m_t = decltype( m );
 
          for( unsigned i = 0; i != Min; ++i ) {
-            if( !Control< seq< Rules... > >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
+            if( !Control< Rule >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
                return false;
             }
          }
          for( unsigned i = Min; i != Max; ++i ) {
-            if( !Control< seq< Rules... > >::template match< A, rewind_mode::required, Action, Control >( in, st... ) ) {
+            if( !Control< Rule >::template match< A, rewind_mode::required, Action, Control >( in, st... ) ) {
                return m( true );
             }
          }
-         return m( Control< not_at< Rules... > >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );  // NOTE that not_at<> will always rewind.
+         return m( Control< not_at< Rule > >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );  // NOTE that not_at<> will always rewind.
       }
    };
 

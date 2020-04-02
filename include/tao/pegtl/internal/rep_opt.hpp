@@ -18,8 +18,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< unsigned Max, typename... Rules >
    struct rep_opt
+      : rep_opt< Max, seq< Rules... > >
+   {};
+
+   template< unsigned Max, typename Rule >
+   struct rep_opt< Max, Rule >
    {
-      using analyze_t = analysis::generic< analysis::rule_type::opt, Rules... >;
+      using analyze_t = analysis::generic< analysis::rule_type::opt, Rule >;
 
       template< apply_mode A,
                 rewind_mode,
@@ -31,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         for( unsigned i = 0; ( i != Max ) && Control< seq< Rules... > >::template match< A, rewind_mode::required, Action, Control >( in, st... ); ++i ) {
+         for( unsigned i = 0; ( i != Max ) && Control< Rule >::template match< A, rewind_mode::required, Action, Control >( in, st... ); ++i ) {
          }
          return true;
       }

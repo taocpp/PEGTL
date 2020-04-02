@@ -18,18 +18,19 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Rules >
-   struct not_at;
+   struct not_at
+      : not_at< seq< Rules... > >
+   {};
 
    template<>
    struct not_at<>
       : trivial< false >
-   {
-   };
+   {};
 
-   template< typename... Rules >
-   struct not_at
+   template< typename Rule >
+   struct not_at< Rule >
    {
-      using analyze_t = analysis::generic< analysis::rule_type::opt, Rules... >;
+      using analyze_t = analysis::generic< analysis::rule_type::opt, Rule >;
 
       template< apply_mode,
                 rewind_mode,
@@ -42,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
          const auto m = in.template mark< rewind_mode::required >();
-         return !Control< seq< Rules... > >::template match< apply_mode::nothing, rewind_mode::active, Action, Control >( in, st... );
+         return !Control< Rule >::template match< apply_mode::nothing, rewind_mode::active, Action, Control >( in, st... );
       }
    };
 

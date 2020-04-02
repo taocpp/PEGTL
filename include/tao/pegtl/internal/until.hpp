@@ -21,7 +21,9 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Cond, typename... Rules >
-   struct until;
+   struct until
+      : until< Cond, seq< Rules... > >
+   {};
 
    template< typename Cond >
    struct until< Cond >
@@ -50,10 +52,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename Cond, typename... Rules >
-   struct until
+   template< typename Cond, typename Rule >
+   struct until< Cond, Rule >
    {
-      using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, Rules... >, Cond >;
+      using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, Rule >, Cond >;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -69,7 +71,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          using m_t = decltype( m );
 
          while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, st... ) ) {
-            if( !Control< seq< Rules... > >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
+            if( !Control< Rule >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
                return false;
             }
          }

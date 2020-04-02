@@ -18,8 +18,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Rules >
    struct enable
+      : enable< seq< Rules... > >
+   {};
+
+   template< typename Rule >
+   struct enable< Rule >
    {
-      using analyze_t = analysis::generic< analysis::rule_type::seq, Rules... >;
+      using analyze_t = analysis::generic< analysis::rule_type::seq, Rule >;
 
       template< apply_mode,
                 rewind_mode M,
@@ -31,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         return Control< seq< Rules... > >::template match< apply_mode::action, M, Action, Control >( in, st... );
+         return Control< Rule >::template match< apply_mode::action, M, Action, Control >( in, st... );
       }
    };
 
