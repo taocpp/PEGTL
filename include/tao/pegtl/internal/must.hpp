@@ -7,6 +7,7 @@
 #include "../config.hpp"
 
 #include "raise.hpp"
+#include "seq.hpp"
 #include "skip_control.hpp"
 
 #include "../apply_mode.hpp"
