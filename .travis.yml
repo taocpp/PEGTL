@@ -72,20 +72,15 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'g++-8']
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+          packages:
+            - clang-9
+            - g++-9
       env:
-        - CXX=clang++-8
-        - CPPFLAGS=-fms-extensions
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'g++-8']
-      env:
-        - CXX=clang++-8
-        - CPPFLAGS=-fno-rtti
+        - CXX=clang++-9
 
     - compiler: clang
       addons:
@@ -99,6 +94,21 @@ matrix:
             - g++-9
       env:
         - CXX=clang++-9
+        - CPPFLAGS=-fms-extensions
+
+    - compiler: clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+          packages:
+            - clang-9
+            - g++-9
+      env:
+        - CXX=clang++-9
+        - CPPFLAGS=-fno-rtti
 
     - os: osx
       osx_image: xcode9.4
@@ -224,39 +234,60 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'g++-8']
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+          packages:
+            - clang-9
+            - g++-9
       env:
-        - CXX=clang++-8
+        - CXX=clang++-9
         - CPPFLAGS=-fsanitize=undefined
 
     - compiler: clang
-      sudo: true
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'g++-8']
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+          packages:
+            - clang-9
+            - g++-9
       env:
-        - CXX=clang++-8
+        - CXX=clang++-9
         - CPPFLAGS=-fsanitize=address
 
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'clang-tidy-8', 'g++-8']
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+          packages:
+            - clang-9
+            - clang-tidy-9
+            - g++-9
       env:
-        - CLANG_TIDY=clang-tidy-8
+        - CLANG_TIDY=clang-tidy-9
       script:
         - make -kj3 clang-tidy
 
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'clang-tools-8', 'g++-8']
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+          packages:
+            - clang-9
+            - clang-tools-9
+            - g++-9
       script:
-        - scan-build-8 --use-c++=clang++-8 --status-bugs make -kj3
+        - scan-build-9 --use-c++=clang++-9 --status-bugs make -kj3
 
     - compiler: gcc
       addons:
@@ -286,10 +317,15 @@ matrix:
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-format-8', 'g++-8']
+          sources:
+            - ubuntu-toolchain-r-test
+            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
+              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+          packages:
+            - clang-format-9
+            - g++-9
       script:
-        - clang-format-8 -i -style=file $(find . -name '[^.]*.[hc]pp')
+        - clang-format-9 -i -style=file $(find . -name '[^.]*.[hc]pp')
         - git diff --exit-code
 
 script:
