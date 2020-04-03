@@ -20,7 +20,7 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Rule >
-   constexpr const char* error_message = nullptr;
+   inline constexpr const char* error_message = nullptr;
 
    template< typename Rule >
    struct normal
