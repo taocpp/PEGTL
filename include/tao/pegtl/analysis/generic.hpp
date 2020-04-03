@@ -7,7 +7,6 @@
 #include "../config.hpp"
 
 #include "grammar_info.hpp"
-#include "insert_rules.hpp"
 #include "rule_type.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::analysis
@@ -20,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::analysis
       {
          const auto [ it, success ] = g.insert< Name >( Type );
          if( success ) {
-            insert_rules< Rules... >::insert( g, it->second );
+            ( it->second.rules.emplace_back( Rules::analyze_t::template insert< Rules >( g ) ), ... );
          }
          return it->first;
       }
