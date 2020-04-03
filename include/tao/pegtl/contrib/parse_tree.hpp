@@ -25,6 +25,7 @@
 #include "../internal/demangle.hpp"
 #include "../internal/iterator.hpp"
 #include "../internal/seq.hpp"
+#include "../internal/try_catch_type.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::parse_tree
 {
@@ -158,6 +159,16 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
 
       template< typename... Rules >
       struct is_seq< TAO_PEGTL_NAMESPACE::internal::seq< Rules... > >
+         : std::true_type
+      {};
+
+      template< typename >
+      struct is_try_catch_type
+         : std::false_type
+      {};
+
+      template< typename Exception, typename... Rules >
+      struct is_try_catch_type< TAO_PEGTL_NAMESPACE::internal::try_catch_type< Exception, Rules... > >
          : std::true_type
       {};
 
@@ -460,6 +471,20 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
                }
                else {
                   state.pop_back();
+               }
+               return result;
+            }
+            else if constexpr( is_try_catch_type< Rule >::value ) {
+               auto& state = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
+               internal::state< Node > tmp;
+               tmp.emplace_back();
+               std::swap( tmp, state );
+               const bool result = Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
+               std::swap( tmp, state );
+               if( result ) {
+                  for( auto& c : tmp.back()->children ) {
+                     state.back()->children.emplace_back( std::move( c ) );
+                  }
                }
                return result;
             }
