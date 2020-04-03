@@ -2,7 +2,7 @@ language: generic
 os: linux
 dist: xenial
 
-matrix:
+jobs:
   include:
     - compiler: gcc
       addons:
@@ -222,7 +222,6 @@ matrix:
         - CPPFLAGS="-fsanitize=undefined -fuse-ld=gold"
 
     - compiler: gcc
-      sudo: true
       addons:
         apt:
           sources: ['ubuntu-toolchain-r-test']
