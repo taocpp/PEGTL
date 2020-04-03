@@ -46,14 +46,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
       explicit file_reader( const char* filename )
          : m_source( filename ),
            m_file( file_open( m_source ) )
-      {
-      }
+      {}
 
       file_reader( FILE* file, const char* filename ) noexcept
          : m_source( filename ),
            m_file( file )
-      {
-      }
+      {}
 
       file_reader( const file_reader& ) = delete;
       file_reader( file_reader&& ) = delete;

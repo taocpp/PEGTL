@@ -16,8 +16,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule >
    struct chunked_action
       : nothing< Rule >
-   {
-   };
+   {};
 
    template<>
    struct chunked_action< http::chunk_ext >

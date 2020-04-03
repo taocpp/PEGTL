@@ -32,8 +32,7 @@ namespace examples
 
    template< typename Rule >
    struct action
-   {
-   };
+   {};
 
    template<>
    struct action< pegtl::json::null >

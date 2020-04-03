@@ -26,8 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       action_input( const iterator_t& in_begin, const Input& in_input ) noexcept
          : m_begin( in_begin ),
            m_input( in_input )
-      {
-      }
+      {}
 
       action_input( const action_input& ) = delete;
       action_input( action_input&& ) = delete;

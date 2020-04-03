@@ -16,16 +16,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       explicit iterator( const char* in_data ) noexcept
          : data( in_data )
-      {
-      }
+      {}
 
       iterator( const char* in_data, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept
          : data( in_data ),
            byte( in_byte ),
            line( in_line ),
            byte_in_line( in_byte_in_line )
-      {
-      }
+      {}
 
       iterator( const iterator& ) = default;
       iterator( iterator&& ) = default;

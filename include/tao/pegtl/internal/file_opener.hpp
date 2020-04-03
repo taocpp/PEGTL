@@ -21,8 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       explicit file_opener( const char* filename )
          : m_source( filename ),
            m_fd( open() )
-      {
-      }
+      {}
 
       file_opener( const file_opener& ) = delete;
       file_opener( file_opener&& ) = delete;

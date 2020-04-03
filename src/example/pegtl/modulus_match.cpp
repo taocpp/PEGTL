@@ -30,8 +30,7 @@ namespace modulus
 
    struct grammar
       : until< eolf, must< my_rule< 3 > > >
-   {
-   };
+   {};
 
 }  // namespace modulus
 

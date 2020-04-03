@@ -27,13 +27,11 @@ namespace TAO_PEGTL_NAMESPACE
    {
       template< typename Input, typename... States >
       static void start( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
-      {
-      }
+      {}
 
       template< typename Input, typename... States >
       static void success( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
-      {
-      }
+      {}
 
       template< typename Input, typename... States >
       static void failure( const Input& in, States&&... /*unused*/ ) noexcept( error_message< Rule > == nullptr )

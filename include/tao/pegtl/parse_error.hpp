@@ -23,15 +23,13 @@ namespace TAO_PEGTL_NAMESPACE
       parse_error( Msg&& msg, std::vector< position > in_positions )
          : std::runtime_error( std::forward< Msg >( msg ) ),
            positions( std::move( in_positions ) )
-      {
-      }
+      {}
 
       template< typename Msg >
       parse_error( Msg&& msg, const position& pos )
          : std::runtime_error( std::forward< Msg >( msg ) ),
            positions( 1, pos )
-      {
-      }
+      {}
 
       template< typename Msg >
       parse_error( Msg&& msg, position&& pos )
@@ -43,8 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Msg, typename Input >
       parse_error( Msg&& msg, const Input& in )
          : parse_error( std::forward< Msg >( msg ), in.position() )
-      {
-      }
+      {}
 
       std::vector< position > positions;
    };

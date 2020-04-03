@@ -51,9 +51,9 @@ namespace TAO_PEGTL_NAMESPACE
    inline namespace ascii
    {
       template< unsigned Min, unsigned Max, char C >
-      struct rep_one_min_max : internal::rep_one_min_max< Min, Max, C >
-      {
-      };
+      struct rep_one_min_max
+         : internal::rep_one_min_max< Min, Max, C >
+      {};
 
    }  // namespace ascii
 

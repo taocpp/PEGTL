@@ -24,8 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename T >
          explicit filename_holder( T&& in_filename )
             : filename( std::forward< T >( in_filename ) )
-         {
-         }
+         {}
 
          filename_holder( const filename_holder& ) = delete;
          filename_holder( filename_holder&& ) = delete;
@@ -47,15 +46,13 @@ namespace TAO_PEGTL_NAMESPACE
       explicit read_input( T&& in_filename )
          : internal::filename_holder( std::forward< T >( in_filename ) ),
            string_input< P, Eol, const char* >( internal::file_reader( filename.c_str() ).read(), filename.c_str() )
-      {
-      }
+      {}
 
       template< typename T >
       read_input( FILE* in_file, T&& in_filename )
          : internal::filename_holder( std::forward< T >( in_filename ) ),
            string_input< P, Eol, const char* >( internal::file_reader( in_file, filename.c_str() ).read(), filename.c_str() )
-      {
-      }
+      {}
 
       read_input( const read_input& ) = delete;
       read_input( read_input&& ) = delete;

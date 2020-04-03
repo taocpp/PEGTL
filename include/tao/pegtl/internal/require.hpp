@@ -19,8 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template<>
    struct require< 0 >
       : trivial< true >
-   {
-   };
+   {};
 
    template< unsigned Amount >
    struct require

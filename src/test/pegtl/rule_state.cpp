@@ -10,13 +10,11 @@ namespace TAO_PEGTL_NAMESPACE
    {
       template< typename Input >
       explicit test_state_state( const Input& /*unused*/ )
-      {
-      }
+      {}
 
       template< typename Input >
       void success( const Input& /*unused*/ ) const
-      {
-      }
+      {}
    };
 
    template< typename... Rules >

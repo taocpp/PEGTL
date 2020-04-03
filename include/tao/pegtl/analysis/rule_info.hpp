@@ -17,8 +17,7 @@ namespace TAO_PEGTL_NAMESPACE::analysis
    {
       explicit rule_info( const rule_type in_type ) noexcept
          : type( in_type )
-      {
-      }
+      {}
 
       rule_type type;
       std::vector< std::string > rules;

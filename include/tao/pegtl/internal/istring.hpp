@@ -43,8 +43,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template<>
    struct istring<>
       : trivial< true >
-   {
-   };
+   {};
 
    template< char... Cs >
    struct istring

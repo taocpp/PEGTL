@@ -36,8 +36,7 @@ namespace TAO_PEGTL_NAMESPACE
          explicit mmap_holder( T&& in_filename )
             : filename( std::forward< T >( in_filename ) ),
               data( filename.c_str() )
-         {
-         }
+         {}
 
          mmap_holder( const mmap_holder& ) = delete;
          mmap_holder( mmap_holder&& ) = delete;
@@ -59,8 +58,7 @@ namespace TAO_PEGTL_NAMESPACE
       explicit mmap_input( T&& in_filename )
          : internal::mmap_holder( std::forward< T >( in_filename ) ),
            memory_input< P, Eol, const char* >( data.begin(), data.end(), filename.c_str() )
-      {
-      }
+      {}
 
       mmap_input( const mmap_input& ) = delete;
       mmap_input( mmap_input&& ) = delete;

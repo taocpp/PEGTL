@@ -196,8 +196,7 @@ namespace TAO_PEGTL_NAMESPACE
       // when a raw string is not closed properly or has invalid content.
       struct content
          : internal::raw_string_until< internal::at_raw_string_close< Marker, Close >, Contents... >
-      {
-      };
+      {};
 
       using analyze_t = typename internal::seq< internal::bytes< 1 >, content, internal::bytes< 1 > >::analyze_t;
 

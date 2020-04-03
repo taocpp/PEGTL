@@ -25,8 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< std::size_t N, char... Ss, char... Cs >
       struct make_rep_string< N, string< Ss... >, Cs... >
          : make_rep_string< N - 1, string< Ss..., Cs... >, Cs... >
-      {
-      };
+      {};
 
    }  // namespace internal
 

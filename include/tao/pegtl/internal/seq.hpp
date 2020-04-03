@@ -22,8 +22,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template<>
    struct seq<>
       : trivial< true >
-   {
-   };
+   {};
 
    template< typename Rule >
    struct seq< Rule >

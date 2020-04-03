@@ -64,8 +64,7 @@ namespace csv1
    template< typename Rule >
    struct control
       : pegtl::normal< Rule >
-   {
-   };
+   {};
 
    template<>
    struct control< value_line >

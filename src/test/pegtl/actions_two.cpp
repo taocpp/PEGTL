@@ -24,10 +24,12 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
-      struct fobble : sor< state< state1, alpha >, digit >
+      struct fobble
+         : sor< state< state1, alpha >, digit >
       {};
 
-      struct fibble : until< eof, fobble >
+      struct fibble
+         : until< eof, fobble >
       {};
 
       template< typename Rule >

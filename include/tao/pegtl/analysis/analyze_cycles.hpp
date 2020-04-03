@@ -27,8 +27,7 @@ namespace TAO_PEGTL_NAMESPACE::analysis
       explicit analyze_cycles_impl( const bool verbose ) noexcept
          : m_verbose( verbose ),
            m_problems( 0 )
-      {
-      }
+      {}
 
       const bool m_verbose;
       unsigned m_problems;

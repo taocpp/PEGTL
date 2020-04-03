@@ -10,8 +10,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Rule >
    struct nothing
-   {
-   };
+   {};
 
    using maybe_nothing = nothing< void >;
 

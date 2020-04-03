@@ -13,8 +13,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... >
    struct always_false
       : std::false_type
-   {
-   };
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

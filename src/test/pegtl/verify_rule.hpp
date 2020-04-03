@@ -21,8 +21,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       template< typename Input, typename... States >
       static void apply( const Input& /*unused*/, States&&... /*unused*/ )
-      {
-      }
+      {}
    };
 
    template< typename Rule >
@@ -30,8 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       template< typename... States >
       static void apply0( States&&... /*unused*/ )
-      {
-      }
+      {}
    };
 
    template< typename Rule, typename Eol = eol::lf_crlf >

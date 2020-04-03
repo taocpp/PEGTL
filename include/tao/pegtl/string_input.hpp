@@ -23,8 +23,7 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename T >
          explicit string_holder( T&& in_data )
             : data( std::forward< T >( in_data ) )
-         {
-         }
+         {}
 
          string_holder( const string_holder& ) = delete;
          string_holder( string_holder&& ) = delete;
@@ -46,8 +45,7 @@ namespace TAO_PEGTL_NAMESPACE
       explicit string_input( V&& in_data, T&& in_source, Ts&&... ts )
          : internal::string_holder( std::forward< V >( in_data ) ),
            memory_input< P, Eol, Source >( data.data(), data.size(), std::forward< T >( in_source ), std::forward< Ts >( ts )... )
-      {
-      }
+      {}
 
       string_input( const string_input& ) = delete;
       string_input( string_input&& ) = delete;

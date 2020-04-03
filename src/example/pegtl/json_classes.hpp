@@ -27,8 +27,7 @@ namespace examples
    protected:
       explicit json_base( const json_type in_type )
          : type( in_type )
-      {
-      }
+      {}
 
       virtual ~json_base() = default;
 
@@ -60,8 +59,7 @@ namespace examples
    {
       array_json()
          : json_base( json_type::array )
-      {
-      }
+      {}
 
       std::vector< std::shared_ptr< json_base > > data;
 
@@ -85,8 +83,7 @@ namespace examples
       explicit boolean_json( const bool in_data )
          : json_base( json_type::boolean ),
            data( in_data )
-      {
-      }
+      {}
 
       bool data;
 
@@ -101,8 +98,7 @@ namespace examples
    {
       null_json()
          : json_base( json_type::null )
-      {
-      }
+      {}
 
       void stream( std::ostream& o ) const override
       {
@@ -116,8 +112,7 @@ namespace examples
       explicit number_json( const long double in_data )
          : json_base( json_type::number ),
            data( in_data )
-      {
-      }
+      {}
 
       long double data;
 
@@ -181,8 +176,7 @@ namespace examples
       explicit string_json( const std::string& in_data )
          : json_base( json_type::string ),
            data( in_data )
-      {
-      }
+      {}
 
       std::string data;
 
@@ -197,8 +191,7 @@ namespace examples
    {
       object_json()
          : json_base( json_type::object )
-      {
-      }
+      {}
 
       std::map< std::string, std::shared_ptr< json_base > > data;
 

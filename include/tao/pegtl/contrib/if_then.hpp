@@ -19,8 +19,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       template< typename Cond, typename Then >
       struct if_pair
-      {
-      };
+      {};
 
       template< typename... Pairs >
       struct if_then;
@@ -39,8 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
       template<>
       struct if_then<>
          : trivial< false >
-      {
-      };
+      {};
 
       template< typename... Pairs >
       inline constexpr bool skip_control< if_then< Pairs... > > = true;

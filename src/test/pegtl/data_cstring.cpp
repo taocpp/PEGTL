@@ -16,9 +16,9 @@ namespace TAO_PEGTL_NAMESPACE
       return parse< Rule, Action, Control >( in );
    }
 
-   struct test_grammar : seq< string< 'a', 'b', 'c', 'd', 'e', 'f' >, not_at< any >, eof >
-   {
-   };
+   struct test_grammar
+      : seq< string< 'a', 'b', 'c', 'd', 'e', 'f' >, not_at< any >, eof >
+   {};
 
    void unit_test()
    {

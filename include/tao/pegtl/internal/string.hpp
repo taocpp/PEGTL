@@ -29,8 +29,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template<>
    struct string<>
       : trivial< true >
-   {
-   };
+   {};
 
    template< char... Cs >
    struct string

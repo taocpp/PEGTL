@@ -15,8 +15,7 @@ namespace TAO_PEGTL_NAMESPACE::analysis
    template< rule_type Type, std::size_t Count, typename... Rules >
    struct counted
       : generic< ( Count != 0 ) ? Type : rule_type::opt, Rules... >
-   {
-   };
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE::analysis
 

@@ -10,13 +10,11 @@ struct bar;
 
 struct foo
    : sor< digit, bar >
-{
-};
+{};
 
 struct bar
    : plus< foo >
-{
-};
+{};
 
 int main()  // NOLINT(bugprone-exception-escape)
 {

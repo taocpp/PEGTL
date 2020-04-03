@@ -25,8 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
            line( p.line ),
            byte_in_line( p.byte_in_line ),
            source( std::move( p.source ) )
-      {
-      }
+      {}
 
       position( const position& ) = default;
 
@@ -47,8 +46,7 @@ namespace TAO_PEGTL_NAMESPACE
            line( in_iter.line ),
            byte_in_line( in_iter.byte_in_line ),
            source( std::forward< T >( in_source ) )
-      {
-      }
+      {}
 
       ~position() = default;
 

@@ -13,17 +13,17 @@ namespace TAO_PEGTL_NAMESPACE
 
    namespace test1
    {
-      struct fiz : if_must< at< one< 'a' > >, two< 'a' > >
-      {
-      };
+      struct fiz
+         : if_must< at< one< 'a' > >, two< 'a' > >
+      {};
 
-      struct foo : sor< fiz, one< 'b' > >
-      {
-      };
+      struct foo
+         : sor< fiz, one< 'b' > >
+      {};
 
-      struct bar : until< eof, foo >
-      {
-      };
+      struct bar
+         : until< eof, foo >
+      {};
 
       void test_result()
       {

@@ -17,8 +17,7 @@ namespace TAO_PEGTL_NAMESPACE::analysis
       insert_guard( C& container, const typename C::value_type& value )
          : m_i( container.insert( value ) ),
            m_c( container )
-      {
-      }
+      {}
 
       insert_guard( const insert_guard& ) = delete;
       insert_guard( insert_guard&& ) = delete;

@@ -37,8 +37,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       explicit win32_file_opener( const char* filename )
          : m_source( filename ),
            m_handle( open() )
-      {
-      }
+      {}
 
       win32_file_opener( const win32_file_opener& ) = delete;
       win32_file_opener( win32_file_opener&& ) = delete;
@@ -102,14 +101,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       explicit win32_file_mapper( const char* filename )
          : win32_file_mapper( win32_file_opener( filename ) )
-      {
-      }
+      {}
 
       explicit win32_file_mapper( const win32_file_opener& reader )
          : m_size( reader.size() ),
            m_handle( open( reader ) )
-      {
-      }
+      {}
 
       win32_file_mapper( const win32_file_mapper& ) = delete;
       win32_file_mapper( win32_file_mapper&& ) = delete;
@@ -153,8 +150,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    public:
       explicit file_mapper( const char* filename )
          : file_mapper( win32_file_mapper( filename ) )
-      {
-      }
+      {}
 
       explicit file_mapper( const win32_file_mapper& mapper )
          : m_size( mapper.m_size ),

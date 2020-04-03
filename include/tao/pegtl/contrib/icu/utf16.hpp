@@ -18,14 +18,12 @@ namespace TAO_PEGTL_NAMESPACE
       template< UProperty P, bool V = true >
       struct binary_property
          : internal::icu::binary_property< internal::peek_utf16_be, P, V >
-      {
-      };
+      {};
 
       template< UProperty P, int V >
       struct property_value
          : internal::icu::property_value< internal::peek_utf16_be, P, V >
-      {
-      };
+      {};
 
       // clang-format off
       struct alphabetic : binary_property< UCHAR_ALPHABETIC > {};
@@ -109,14 +107,12 @@ namespace TAO_PEGTL_NAMESPACE
       template< UProperty P, bool V = true >
       struct binary_property
          : internal::icu::binary_property< internal::peek_utf16_le, P, V >
-      {
-      };
+      {};
 
       template< UProperty P, int V >
       struct property_value
          : internal::icu::property_value< internal::peek_utf16_le, P, V >
-      {
-      };
+      {};
 
       // clang-format off
       struct alphabetic : binary_property< UCHAR_ALPHABETIC > {};

@@ -43,13 +43,11 @@ namespace TAO_PEGTL_NAMESPACE
 
    struct rgrammar
       : must< rstring, eof >
-   {
-   };
+   {};
 
    struct qgrammar
       : must< qstring, eof >
-   {
-   };
+   {};
 
    template< typename Rule, template< typename > class Action, unsigned M, unsigned N >
    void verify_data( const std::size_t line, const char* file, const char ( &m )[ M ], const char ( &n )[ N ] )

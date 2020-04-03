@@ -16,8 +16,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static constexpr rewind_mode next_rewind_mode = M;
 
       explicit marker( const Iterator& /*unused*/ ) noexcept
-      {
-      }
+      {}
 
       marker( const marker& ) = delete;
       marker( marker&& ) = delete;
@@ -42,8 +41,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       explicit marker( Iterator& i ) noexcept
          : m_saved( i ),
            m_input( &i )
-      {
-      }
+      {}
 
       marker( const marker& ) = delete;
       marker( marker&& ) = delete;

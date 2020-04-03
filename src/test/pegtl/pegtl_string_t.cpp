@@ -10,13 +10,13 @@ namespace test
 {
    // We only need to test that this compiles...
 
-   struct foo : TAO_PEGTL_STRING( "foo" )
-   {
-   };
+   struct foo
+      : TAO_PEGTL_STRING( "foo" )
+   {};
 
-   struct foobar : TAO_PEGTL_NAMESPACE::sor< TAO_PEGTL_STRING( "foo" ), TAO_PEGTL_STRING( "bar" ) >
-   {
-   };
+   struct foobar
+      : TAO_PEGTL_NAMESPACE::sor< TAO_PEGTL_STRING( "foo" ), TAO_PEGTL_STRING( "bar" ) >
+   {};
 
    static_assert( std::is_same_v< TAO_PEGTL_STRING( "Hello" ), TAO_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o' > > );
    static_assert( !std::is_same_v< TAO_PEGTL_ISTRING( "Hello" ), TAO_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o' > > );

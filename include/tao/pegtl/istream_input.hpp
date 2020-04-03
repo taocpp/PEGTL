@@ -21,8 +21,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename T >
       istream_input( std::istream& in_stream, const std::size_t in_maximum, T&& in_source )
          : buffer_input< internal::istream_reader, Eol, std::string, Chunk >( std::forward< T >( in_source ), in_maximum, in_stream )
-      {
-      }
+      {}
    };
 
    template< typename... Ts >

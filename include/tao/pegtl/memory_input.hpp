@@ -46,8 +46,7 @@ namespace TAO_PEGTL_NAMESPACE
               m_current( in_begin ),
               m_end( in_end ),
               m_source( std::forward< T >( in_source ) )
-         {
-         }
+         {}
 
          template< typename T >
          memory_input_base( const char* in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
@@ -55,8 +54,7 @@ namespace TAO_PEGTL_NAMESPACE
               m_current( in_begin ),
               m_end( in_end ),
               m_source( std::forward< T >( in_source ) )
-         {
-         }
+         {}
 
          memory_input_base( const memory_input_base& ) = delete;
          memory_input_base( memory_input_base&& ) = delete;
@@ -152,8 +150,7 @@ namespace TAO_PEGTL_NAMESPACE
               m_current( in_begin.data ),
               m_end( in_end ),
               m_source( std::forward< T >( in_source ) )
-         {
-         }
+         {}
 
          template< typename T >
          memory_input_base( const char* in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
@@ -161,8 +158,7 @@ namespace TAO_PEGTL_NAMESPACE
               m_current( in_begin ),
               m_end( in_end ),
               m_source( std::forward< T >( in_source ) )
-         {
-         }
+         {}
 
          memory_input_base( const memory_input_base& ) = delete;
          memory_input_base( memory_input_base&& ) = delete;
@@ -253,20 +249,17 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename T >
       memory_input( const char* in_begin, const std::size_t in_size, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
          : memory_input( in_begin, in_begin + in_size, std::forward< T >( in_source ) )
-      {
-      }
+      {}
 
       template< typename T >
       memory_input( const std::string& in_string, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
          : memory_input( in_string.data(), in_string.size(), std::forward< T >( in_source ) )
-      {
-      }
+      {}
 
       template< typename T >
       memory_input( const std::string_view in_string, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
          : memory_input( in_string.data(), in_string.size(), std::forward< T >( in_source ) )
-      {
-      }
+      {}
 
       template< typename T >
       memory_input( std::string&&, T&& ) = delete;
@@ -274,14 +267,12 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename T >
       memory_input( const char* in_begin, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
          : memory_input( in_begin, std::strlen( in_begin ), std::forward< T >( in_source ) )
-      {
-      }
+      {}
 
       template< typename T >
       memory_input( const char* in_begin, const char* in_end, T&& in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
          : memory_input( { in_begin, in_byte, in_line, in_byte_in_line }, in_end, std::forward< T >( in_source ) )
-      {
-      }
+      {}
 
       memory_input( const memory_input& ) = delete;
       memory_input( memory_input&& ) = delete;
@@ -333,13 +324,9 @@ namespace TAO_PEGTL_NAMESPACE
          return position( iterator() );
       }
 
-      void discard() const noexcept
-      {
-      }
+      void discard() const noexcept {}
 
-      void require( const std::size_t /*unused*/ ) const noexcept
-      {
-      }
+      void require( const std::size_t /*unused*/ ) const noexcept {}
 
       template< rewind_mode M >
       [[nodiscard]] internal::marker< iterator_t, M > mark() noexcept

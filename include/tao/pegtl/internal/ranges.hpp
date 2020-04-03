@@ -82,8 +82,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct ranges< Peek, Lo, Hi >
       : range< result_on_found::success, Peek, Lo, Hi >
-   {
-   };
+   {};
 
    template< typename Peek, typename Peek::data_t... Cs >
    inline constexpr bool skip_control< ranges< Peek, Cs... > > = true;

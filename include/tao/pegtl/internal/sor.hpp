@@ -24,14 +24,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template<>
    struct sor<>
       : trivial< false >
-   {
-   };
+   {};
 
    template< typename... Rules >
    struct sor
       : sor< std::index_sequence_for< Rules... >, Rules... >
-   {
-   };
+   {};
 
    template< std::size_t... Indices, typename... Rules >
    struct sor< std::index_sequence< Indices... >, Rules... >
