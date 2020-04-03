@@ -478,9 +478,9 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
                auto& state = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
                internal::state< Node > tmp;
                tmp.emplace_back();
-               std::swap( tmp, state );
+               tmp.stack.swap( state.stack );
                const bool result = Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
-               std::swap( tmp, state );
+               tmp.stack.swap( state.stack );
                if( result ) {
                   for( auto& c : tmp.back()->children ) {
                      state.back()->children.emplace_back( std::move( c ) );
