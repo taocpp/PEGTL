@@ -2,7 +2,7 @@
 
 ## 2.8.2
 
-Released 2020-04-04
+Released 2020-04-05
 
 * Fixed parse tree node generation to correctly remove intermediate nodes.
 
