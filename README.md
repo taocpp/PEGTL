@@ -72,7 +72,8 @@ Each commit is automatically tested with multiple architectures, operating syste
   * Mac OS X 10.11, Xcode 7.3
   * macOS 10.12, Xcode 8.3
   * macOS 10.13, Xcode 9.4
-  * macOS 10.14, Xcode 10.2
+  * macOS 10.14, Xcode 10.3
+  * macOS 10.14, Xcode 11.3
 
 * Ubuntu 12.04 LTS (using libstdc++)
 
@@ -81,7 +82,7 @@ Each commit is automatically tested with multiple architectures, operating syste
 * Ubuntu 16.04 LTS (using libstdc++)
 
   * GCC 4.8, 4.9, 5.x, 6.x, 7.x, 8.x, 9.x
-  * Clang 3.5, 3.6, 3.8, 3.9, 4.x, 5.x, 6.x, 7.x, 8.x
+  * Clang 3.5, 3.6, 3.8, 3.9, 4.x, 5.x, 6.x, 7.x, 8.x, 9.x
 
 Additionally, each commit is checked with Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), GCC's and Clang's [sanitizers](https://github.com/google/sanitizers), [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/), and [`valgrind`](http://valgrind.org/).
 Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
