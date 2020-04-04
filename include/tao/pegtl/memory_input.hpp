@@ -125,15 +125,6 @@ namespace tao
                m_current.byte_in_line = in_byte_in_line;
             }
 
-            template< rewind_mode M >
-            void restart( const internal::marker< iterator_t, M >& m )
-            {
-               m_current.data = m.iterator().data;
-               m_current.byte = m.iterator().byte;
-               m_current.line = m.iterator().line;
-               m_current.byte_in_line = m.iterator().byte_in_line;
-            }
-
          protected:
             const char* const m_begin;
             iterator_t m_current;
@@ -218,12 +209,6 @@ namespace tao
             void restart()
             {
                m_current = m_begin.data;
-            }
-
-            template< rewind_mode M >
-            void restart( const internal::marker< iterator_t, M >& m )
-            {
-               m_current = m.iterator();
             }
 
          protected:
@@ -325,6 +310,14 @@ namespace tao
          const iterator_t& iterator() const noexcept
          {
             return this->m_current;
+         }
+
+         using internal::memory_input_base< P, Eol, Source >::restart;
+
+         template< rewind_mode M >
+         void restart( const internal::marker< iterator_t, M >& m )
+         {
+            m_current = m.iterator();
          }
 
          using internal::memory_input_base< P, Eol, Source >::position;
