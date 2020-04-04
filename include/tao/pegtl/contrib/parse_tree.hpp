@@ -453,21 +453,19 @@ namespace tao
                      }
                      return result;
                   }
-                  else {
-                     state.emplace_back();
-                     const bool result = Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
-                     if( result ) {
-                        auto n = std::move( state.back() );
-                        state.pop_back();
-                        for( auto& c : n->children ) {
-                           state.back()->children.emplace_back( std::move( c ) );
-                        }
+                  state.emplace_back();
+                  const bool result = Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
+                  if( result ) {
+                     auto n = std::move( state.back() );
+                     state.pop_back();
+                     for( auto& c : n->children ) {
+                        state.back()->children.emplace_back( std::move( c ) );
                      }
-                     else {
-                        state.pop_back();
-                     }
-                     return result;
                   }
+                  else {
+                     state.pop_back();
+                  }
+                  return result;
                }
             };
 

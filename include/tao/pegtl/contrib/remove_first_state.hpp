@@ -6,6 +6,9 @@
 
 #include "../config.hpp"
 
+#include "../apply_mode.hpp"
+#include "../rewind_mode.hpp"
+
 namespace tao
 {
    namespace TAO_PEGTL_NAMESPACE
