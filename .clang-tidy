@@ -16,6 +16,7 @@ Checks: >-
   -modernize-avoid-c-arrays,
   -modernize-concat-nested-namespaces,
   -modernize-raw-string-literal,
+  -modernize-use-trailing-return-type,
   performance-*,
   readability-*,
   -readability-avoid-const-params-in-decls,

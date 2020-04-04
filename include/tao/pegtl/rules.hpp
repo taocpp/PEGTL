@@ -57,8 +57,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Cond, typename... Rules > struct star_must : internal::star_must< Cond, Rules... > {};
    template< typename State, typename... Rules > struct state : internal::state< State, Rules... > {};
    struct success : internal::trivial< true > {};
-   template< typename... Rules > struct try_catch : internal::try_catch_type< parse_error, Rules... > {};
-   template< typename Exception, typename... Rules > struct try_catch_type : internal::try_catch_type< Exception, Rules... > {};
+   template< typename... Rules > struct try_catch : internal::seq< internal::try_catch_type< parse_error, Rules... > > {};
+   template< typename Exception, typename... Rules > struct try_catch_type : internal::seq< internal::try_catch_type< Exception, Rules... > > {};
    template< typename Cond, typename... Rules > struct until : internal::until< Cond, Rules... > {};
    // clang-format on
 
