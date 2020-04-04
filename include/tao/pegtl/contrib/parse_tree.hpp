@@ -24,6 +24,8 @@
 #include "../internal/demangle.hpp"
 #include "../internal/integer_sequence.hpp"
 #include "../internal/iterator.hpp"
+#include "../internal/skip_control.hpp"
+#include "../internal/try_catch_type.hpp"
 
 namespace tao
 {
@@ -156,6 +158,18 @@ namespace tao
 
          namespace internal
          {
+            template< typename >
+            struct is_try_catch_type
+               : std::false_type
+            {
+            };
+
+            template< typename Exception, typename... Rules >
+            struct is_try_catch_type< TAO_PEGTL_NAMESPACE::internal::try_catch_type< Exception, Rules... > >
+               : std::true_type
+            {
+            };
+
             template< typename Node >
             struct state
             {
@@ -365,7 +379,7 @@ namespace tao
                struct state_handler;
 
                template< typename Rule >
-               using type = control< state_handler< Rule, Selector< Rule >::value, is_leaf< 8, typename Rule::analyze_t, Selector >::value > >;
+               using type = control< state_handler< Rule, !TAO_PEGTL_NAMESPACE::internal::skip_control< Rule >::value && Selector< Rule >::value, is_leaf< 8, typename Rule::analyze_t, Selector >::value > >;
             };
 
             template< typename Node, template< typename... > class Selector, template< typename... > class Control >
@@ -398,28 +412,62 @@ namespace tao
                : Control< Rule >
             {
                template< typename Input, typename... States >
-               static void start( const Input& in, state< Node >& state, States&&... st )
+               static void start( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::start( in, st... ) ) )
                {
                   Control< Rule >::start( in, st... );
-                  state.emplace_back();
                }
 
                template< typename Input, typename... States >
-               static void success( const Input& in, state< Node >& state, States&&... st )
+               static void success( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::success( in, st... ) ) )
                {
                   Control< Rule >::success( in, st... );
-                  auto n = std::move( state.back() );
-                  state.pop_back();
-                  for( auto& c : n->children ) {
-                     state.back()->children.emplace_back( std::move( c ) );
-                  }
                }
 
                template< typename Input, typename... States >
-               static void failure( const Input& in, state< Node >& state, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
+               static void failure( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
                {
                   Control< Rule >::failure( in, st... );
-                  state.pop_back();
+               }
+
+               template< apply_mode A,
+                         rewind_mode M,
+                         template< typename... >
+                         class Action,
+                         template< typename... >
+                         class Control2,
+                         typename Input,
+                         typename... States >
+               static bool match( Input& in, States&&... st )
+               {
+                  auto& state = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
+                  if( is_try_catch_type< Rule >::value ) {
+                     internal::state< Node > tmp;
+                     tmp.emplace_back();
+                     tmp.stack.swap( state.stack );
+                     const bool result = Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
+                     tmp.stack.swap( state.stack );
+                     if( result ) {
+                        for( auto& c : tmp.back()->children ) {
+                           state.back()->children.emplace_back( std::move( c ) );
+                        }
+                     }
+                     return result;
+                  }
+                  else {
+                     state.emplace_back();
+                     const bool result = Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
+                     if( result ) {
+                        auto n = std::move( state.back() );
+                        state.pop_back();
+                        for( auto& c : n->children ) {
+                           state.back()->children.emplace_back( std::move( c ) );
+                        }
+                     }
+                     else {
+                        state.pop_back();
+                     }
+                     return result;
+                  }
                }
             };
 

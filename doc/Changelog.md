@@ -1,5 +1,11 @@
 # Changelog
 
+## 2.8.2
+
+Released 2020-04-04
+
+* Fixed parse tree node generation to correctly remove intermediate nodes.
+
 ## 2.8.1
 
 Released 2019-08-06

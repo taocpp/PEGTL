@@ -6,7 +6,7 @@
 
 #include "../config.hpp"
 
-#include "rule_conjunction.hpp"
+#include "seq.hpp"
 #include "skip_control.hpp"
 #include "trivial.hpp"
 
@@ -22,7 +22,10 @@ namespace tao
       namespace internal
       {
          template< typename... Rules >
-         struct at;
+         struct at
+            : at< seq< Rules... > >
+         {
+         };
 
          template<>
          struct at<>
@@ -30,10 +33,10 @@ namespace tao
          {
          };
 
-         template< typename... Rules >
-         struct at
+         template< typename Rule >
+         struct at< Rule >
          {
-            using analyze_t = analysis::generic< analysis::rule_type::opt, Rules... >;
+            using analyze_t = analysis::generic< analysis::rule_type::opt, Rule >;
 
             template< apply_mode,
                       rewind_mode,
@@ -46,7 +49,7 @@ namespace tao
             static bool match( Input& in, States&&... st )
             {
                const auto m = in.template mark< rewind_mode::required >();
-               return rule_conjunction< Rules... >::template match< apply_mode::nothing, rewind_mode::active, Action, Control >( in, st... );
+               return Control< Rule >::template match< apply_mode::nothing, rewind_mode::active, Action, Control >( in, st... );
             }
          };
 

@@ -6,7 +6,6 @@
 
 #include "../config.hpp"
 
-#include "duseltronik.hpp"
 #include "seq.hpp"
 #include "skip_control.hpp"
 
@@ -23,8 +22,14 @@ namespace tao
       {
          template< unsigned Max, typename... Rules >
          struct rep_opt
+            : rep_opt< Max, seq< Rules... > >
          {
-            using analyze_t = analysis::generic< analysis::rule_type::opt, Rules... >;
+         };
+
+         template< unsigned Max, typename Rule >
+         struct rep_opt< Max, Rule >
+         {
+            using analyze_t = analysis::generic< analysis::rule_type::opt, Rule >;
 
             template< apply_mode A,
                       rewind_mode,
@@ -36,7 +41,7 @@ namespace tao
                       typename... States >
             static bool match( Input& in, States&&... st )
             {
-               for( unsigned i = 0; ( i != Max ) && duseltronik< seq< Rules... >, A, rewind_mode::required, Action, Control >::match( in, st... ); ++i ) {
+               for( unsigned i = 0; ( i != Max ) && Control< Rule >::template match< A, rewind_mode::required, Action, Control >( in, st... ); ++i ) {
                }
                return true;
             }
