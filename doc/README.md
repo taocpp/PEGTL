@@ -5,6 +5,7 @@
 * [Installing and Using](Installing-and-Using.md)
   * [Requirements](Installing-and-Using.md#requirements)
   * [Installation Packages](Installing-and-Using.md#installation-packages)
+  * [Using Conan](Installing-and-Using.md#using-conan)
   * [Using CMake](Installing-and-Using.md#using-cmake)
     * [CMake Installation](Installing-and-Using.md#cmake-installation)
     * [`find_package`](Installing-and-Using.md#find_package)

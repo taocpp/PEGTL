@@ -81,15 +81,6 @@ Code coverage is automatically measured and the unit tests cover 100% of the cor
 Incompatible API changes are *only* allowed to occur between major versions.
 For details see the [changelog](doc/Changelog.md).
 
-## Package Managers
-
-You can download and install the PEGTL using the [Conan](https://github.com/conan-io/conan) package manager:
-
-    conan install taocpp-pegtl/2.8.1@
-
-The taocpp-pegtl package in conan is kept up to date by Conan team members and community contributors.
-If the version is out-of-date, please [create an issue or pull request](https://github.com/conan-io/conan-center-index) on the Conan Center Index repository.
-
 ## Thank You
 
 In appreciation of all contributions here are the people that have [directly contributed](https://github.com/taocpp/PEGTL/graphs/contributors) to the PEGTL and/or its development.
