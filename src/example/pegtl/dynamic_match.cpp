@@ -86,7 +86,7 @@ namespace dynamic
 
 }  // namespace dynamic
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT
 {
    if( argc > 1 ) {
       std::string id;

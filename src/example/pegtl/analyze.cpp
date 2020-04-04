@@ -18,7 +18,7 @@ struct bar
 {
 };
 
-int main( int /*unused*/, char** /*unused*/ )
+int main()  // NOLINT
 {
    if( analyze< foo >() != 0 ) {
       std::cout << "there are problems" << std::endl;

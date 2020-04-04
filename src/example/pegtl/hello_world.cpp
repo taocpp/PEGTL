@@ -33,7 +33,7 @@ namespace hello
 
 }  // namespace hello
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT
 {
    if( argc > 1 ) {
       std::string name;

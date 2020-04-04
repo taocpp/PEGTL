@@ -686,7 +686,7 @@ namespace tao
 
 }  // namespace tao
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT
 {
    using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 

@@ -338,7 +338,7 @@ namespace calculator
 
 }  // namespace calculator
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT
 {
    // Check the grammar for some possible issues.
 

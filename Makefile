@@ -61,7 +61,7 @@ build/%.valgrind: build/%
 valgrind: $(UNIT_TESTS:%=%.valgrind)
 	@echo "All $(words $(UNIT_TESTS)) valgrind tests passed."
 
-build/%.clang-tidy: %
+build/%.clang-tidy: % .clang-tidy
 	$(CLANG_TIDY) -quiet $< -- $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) 2>/dev/null
 	@mkdir -p $(@D)
 	@touch $@

@@ -335,7 +335,7 @@ namespace lua53
 
 }  // namespace lua53
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT
 {
    tao::TAO_PEGTL_NAMESPACE::analyze< lua53::grammar >();
 

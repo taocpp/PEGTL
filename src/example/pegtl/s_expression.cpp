@@ -109,7 +109,7 @@ namespace sexpr
 
 }  // namespace sexpr
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT
 {
    analyze< sexpr::main >();
 

@@ -170,7 +170,7 @@ namespace csv2
 
 }  // namespace csv2
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT
 {
    for( int i = 1; i < argc; ++i ) {
       pegtl::file_input<> in( argv[ i ] );

@@ -102,9 +102,9 @@ namespace tao
          struct enum_value_option : seq< option_name, sps, equ, sps, constant > {};
          struct enum_field : seq< ident, sps, equ, sps, int_lit, sps, opt_must< one< '[' >, sps, list_must< enum_value_option, comma, sp >, sps, one< ']' >, sps >, semi > {};
          struct enum_body : if_must< one< '{' >, sps, star< sor< option, enum_field, semi >, sps >, one< '}' > > {};
-         struct enum_ : if_must< string< 'e', 'n', 'u', 'm' >, sps, enum_name, sps, enum_body > {};
+         struct enum_def : if_must< string< 'e', 'n', 'u', 'm' >, sps, enum_name, sps, enum_body > {};
 
-         struct message_thing : sor< field, enum_, message, option, oneof, map_field, reserved, semi > {};
+         struct message_thing : sor< field, enum_def, message, option, oneof, map_field, reserved, semi > {};
          struct message : if_must< string< 'm', 'e', 's', 's', 'a', 'g', 'e' >, sps, ident, sps, one< '{' >, sps, star< message_thing, sps >, one< '}' >, sps > {};
 
          struct package : if_must< string< 'p', 'a', 'c', 'k', 'a', 'g', 'e' >, sps, full_ident, sps, semi, sps > {};
@@ -119,7 +119,7 @@ namespace tao
          struct service_name : ident {};
          struct service : if_must< string< 's', 'e', 'r', 'v', 'i', 'c', 'e' >, sps, service_name, sps, one< '{' >, sps, list_must< sor< option, rpc, semi >, comma, sp >, sps, one< '}' > > {};
 
-         struct body : sor< import, package, option, message, enum_, service, semi > {};
+         struct body : sor< import, package, option, message, enum_def, service, semi > {};
 
          struct head : if_must< string< 's', 'y', 'n', 't', 'a', 'x' >, sps, equ, sps, string< '"', 'p', 'r', 'o', 't', 'o', '3', '"' >, sps, semi > {};
          struct proto : must< sps, head, sps, star< body, sps >, eof > {};
@@ -132,7 +132,7 @@ namespace tao
 
 }  // namespace tao
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT
 {
    using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 

@@ -11,7 +11,7 @@ namespace pegtl = tao::TAO_PEGTL_NAMESPACE;
 
 using grammar = pegtl::must< pegtl::uri::URI >;
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT
 {
    for( int i = 1; i < argc; ++i ) {
       std::cout << "Parsing " << argv[ i ] << std::endl;

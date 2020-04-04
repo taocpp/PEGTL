@@ -8,7 +8,7 @@
 using namespace tao::TAO_PEGTL_NAMESPACE;  // NOLINT
 using grammar = must< json::text, eof >;
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT
 {
    for( int i = 1; i < argc; ++i ) {
       argv_input<> in( argv, i );
