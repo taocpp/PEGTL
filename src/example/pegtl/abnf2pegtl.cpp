@@ -656,7 +656,7 @@ namespace tao
                   // note: content can not be used here!
                   return to_string( n->children.back() );
                }
-               const auto min_element = ( min_val == 1 ) ? content : ( prefix + "rep< " + min + ", " + content + " >" );
+               auto min_element = ( min_val == 1 ) ? content : ( prefix + "rep< " + min + ", " + content + " >" );
                if( min_val == max_val ) {
                   return min_element;
                }
