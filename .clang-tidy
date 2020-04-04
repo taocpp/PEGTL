@@ -8,6 +8,7 @@ Checks: >-
   google-global-names-in-headers,
   google-readability-casting,
   llvm-*,
+  -llvm-namespace-comment,
   misc-*,
   -misc-non-private-member-variables-in-classes,
   -misc-unused-alias-decls,
