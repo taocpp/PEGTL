@@ -40,7 +40,7 @@ DEPENDS := $(SOURCES:%.cpp=build/%.d)
 BINARIES := $(SOURCES:%.cpp=build/%)
 
 CLANG_TIDY_HEADERS := $(filter-out include/tao/pegtl/internal/endian_win.hpp include/tao/pegtl/internal/file_mapper_win32.hpp,$(HEADERS))
-CLANG_TIDY_SOURCES := $(filter-out src/example/pegtl/abnf2pegtl.cpp src/example/pegtl/lua53_parse.cpp $(SOURCES))
+CLANG_TIDY_SOURCES := $(filter-out src/example/pegtl/abnf2pegtl.cpp src/example/pegtl/lua53_parse.cpp,$(SOURCES))
 
 UNIT_TESTS := $(filter build/src/test/%,$(BINARIES))
 
