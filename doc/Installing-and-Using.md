@@ -4,14 +4,12 @@
 
 * [Requirements](#requirements)
 * [Installation Packages](#installation-packages)
+* [Using Conan](#using-conan)
 * [Using CMake](#using-cmake)
   * [CMake Installation](#cmake-installation)
   * [`find_package`](#find_package)
   * [`add_subdirectory`](#add_subdirectory)
   * [Mixing `find_package` and `add_subdirectory`](#mixing-find_package-and-add_subdirectory)
-* [Conan](#conan)
-  * [Using a development version](#using-a-development-version)
-  * [Developing with conan editable](#developing-with-conan-editable)
 * [Manual Installation](#manual-installation)
 * [Embedding the PEGTL](#embedding-the-pegtl)
   * [Embedding in Binaries](#embedding-in-binaries)
@@ -36,21 +34,35 @@ on either
 It requires C++11, e.g. using the `--std=c++11` compiler switch.
 Using newer versions of the C++ standard is supported.
 
-It should also work with other C++11 compilers on other Unix systems (or any sufficiently compatible platform).
+It should also work with other C++11 compilers on other Unix systems (or any
+sufficiently compatible platform).
 
 The PEGTL is written with an emphasis on clean code and is compatible with
 the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches.
 
 ## Installation Packages
 
-Installation packages are available from several package managers. Note that some of the listed packages are not updated regularly.
+Installation packages are available from several package managers.
+Note that some of the listed packages are not updated regularly.
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/pegtl.svg)](https://repology.org/metapackage/pegtl)
 
-### Other
+## Using Conan
 
-* [Conan]
-* [Spack]
+You can download and install the PEGTL using the [Conan] package manager:
+
+```bash
+conan install taocpp-pegtl/<version>@
+```
+
+where `<version>` is the version of the PEGTL you want to use.
+
+The `taocpp-pegtl` package in Conan is kept up to date by Conan team members
+and community contributors. If the version is out-of-date, please
+[create an issue or pull request](https://github.com/conan-io/conan-center-index)
+on the Conan Center Index repository.
+
+For more options and ways to use Conan, please refer to the [Conan documentation].
 
 ## Using CMake
 
@@ -115,8 +127,8 @@ are also defined.
 ### Mixing `find_package` and `add_subdirectory`
 
 With the advent of improved methods of managing dependencies (such as [Conan],
-[Spack], [CMake FetchContent]), multiple package inclusion methods needs to be
-able to co-exist.
+[CMake FetchContent]), multiple package inclusion methods needs to be able to
+co-exist.
 
 If PEGTL was first included with `find_package` then subsequent calls to
 `add_subdirectory(path/to/PEGTL)` will skip over the body of the
@@ -133,60 +145,7 @@ two different versions of PEGTL simultaneously and signalling a fatal error
 becomes the only practical way of handling the inclusion of multiple different
 PEGTL versions.
 
-For more options and ways to use CMake, please refer to the
-[CMake documentation].
-
-Conan
----
-
-The [PEGTL conan package](https://bintray.com/taocpp/public-conan/pegtl%3Ataocpp) is automatically updated when a release is made, and it should always be up to date with the latest official release.
-
-Simply add
-
-```ini
-pegtl/<version>@taocpp/stable
-```
-
-as a dependency to your conan project where `<version>` is the version of PEGTL you want to use.
-
-### Using a development version
-
-If a not yet released PEGTL version is required, then PEGTL can be exported in its current state.
-
-```bash
-mkdir build
-conan install -if build
-conan export-pkg -if build -bf build . pegtl/<version>@taocpp/devel
-```
-
-Then proceed by adding
-
-```ini
-pegtl/<version>@taocpp/devel
-```
-
-as a dependency to your conan project.
-
-### Developing with conan editable
-
-If it is required to develop PEGTL alongside another library/application then the package can be put into editable mode with
-
-```bash
-conan editable add . pegtl/<version>@taocpp/devel
-```
-
-If the editable layout has `[builddirs]` set correctly and one is using the `cmake_paths` or `cmake`generator
-
-```cmake
-find_package(pegtl)
-```
-
-will work as expected. It will find the editable package and add it to the current CMake project. An editable package implies that it is under development so tests and examples will be automatically built unless `PEGTL_BUILD_TESTS` and `PEGTL_BUILD_EXAMPLES` are turned off.
-
-Caveats with the editable package:
-
-- Currently, if the package is included with `CONAN_PKG::pegtl` or used in a build system other than CMake then the tests and examples won't be built as the CMake config script is bypassed.
-- CMake will compulsively rebuild tests and examples if the build directory is reconfigured from another directory.
+For more options and ways to use CMake, please refer to the [CMake documentation].
 
 ## Manual Installation
 
@@ -293,12 +252,15 @@ In a Unix-shell, the following command will achieve this:
 $ make amalgamate
 ```
 
-The above will generate a `build/amalgamated/pegtl.hpp` which will consist of the headers `tao/pegtl.hpp`, `tao/pegtl/analyze.hpp`, their dependencies, and all headers in `tao/pegtl/contrib/` except for the headers in `tao/pegtl/contrib/icu/`.
+The above will generate a `build/amalgamated/pegtl.hpp` which will consist of
+the headers `tao/pegtl.hpp`, `tao/pegtl/analyze.hpp`, their dependencies,
+and all headers in `tao/pegtl/contrib/` except for the headers in
+`tao/pegtl/contrib/icu/`.
 
 Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey
 
+[Conan]: https://conan.io/
+[Conan documentation]: https://docs.conan.io/
 [CMake]: https://cmake.org/
 [CMake documentation]: https://cmake.org/documentation/
 [CMake FetchContent]: https://cmake.org/cmake/help/latest/module/FetchContent.html
-[Conan]: https://bintray.com/taocpp/public-conan/pegtl%3Ataocpp
-[Spack]: http://spack.readthedocs.io/en/latest/package_list.html#pegtl
