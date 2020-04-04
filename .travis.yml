@@ -279,7 +279,7 @@ jobs:
             - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main'
               key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
           packages:
-            - clang-1
+            - clang-10
             - clang-tidy-10
             - g++-9
       env:
