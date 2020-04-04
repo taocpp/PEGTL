@@ -125,10 +125,7 @@ namespace TAO_PEGTL_NAMESPACE
          template< rewind_mode M >
          void restart( const internal::marker< iterator_t, M >& m )
          {
-            m_current.data = m.iterator().data;
-            m_current.byte = m.iterator().byte;
-            m_current.line = m.iterator().line;
-            m_current.byte_in_line = m.iterator().byte_in_line;
+            m_current = m.iterator();
          }
 
       protected:
