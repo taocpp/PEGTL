@@ -52,7 +52,7 @@ namespace TAO_PEGTL_NAMESPACE
             "case",
             "catch",
             "char",
-            "char_8t",
+            "char8_t",
             "char16_t",
             "char32_t",
             "class",
