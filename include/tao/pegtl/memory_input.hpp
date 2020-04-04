@@ -317,7 +317,7 @@ namespace tao
          template< rewind_mode M >
          void restart( const internal::marker< iterator_t, M >& m )
          {
-            m_current = m.iterator();
+            iterator() = m.iterator();
          }
 
          using internal::memory_input_base< P, Eol, Source >::position;
