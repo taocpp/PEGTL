@@ -9,7 +9,6 @@
 #include "apply_single.hpp"
 #include "skip_control.hpp"
 
-#include "../analysis/counted.hpp"
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
@@ -18,6 +17,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule, typename... Actions >
    struct if_apply
    {
+      using rule_t = if_apply;
       using analyze_t = typename Rule::analyze_t;
 
       template< apply_mode A,

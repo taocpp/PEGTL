@@ -218,6 +218,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
 
    struct unsigned_rule
    {
+      using rule_t = unsigned_rule;
       using analyze_t = internal::unsigned_rule_new::analyze_t;
 
       template< typename Input >
@@ -229,6 +230,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
 
    struct unsigned_rule_with_action
    {
+      using rule_t = unsigned_rule_with_action;
       using analyze_t = internal::unsigned_rule_new::analyze_t;
 
       template< apply_mode A,
@@ -298,9 +300,10 @@ namespace TAO_PEGTL_NAMESPACE::integer
    template< typename Unsigned, Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
    struct maximum_rule
    {
-      static_assert( std::is_unsigned_v< Unsigned > );
-
+      using rule_t = maximum_rule;
       using analyze_t = internal::unsigned_rule_new::analyze_t;
+
+      static_assert( std::is_unsigned_v< Unsigned > );
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in )
@@ -313,9 +316,10 @@ namespace TAO_PEGTL_NAMESPACE::integer
    template< typename Unsigned, Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
    struct maximum_rule_with_action
    {
-      static_assert( std::is_unsigned_v< Unsigned > );
-
+      using rule_t = maximum_rule_with_action;
       using analyze_t = internal::unsigned_rule_new::analyze_t;
+
+      static_assert( std::is_unsigned_v< Unsigned > );
 
       template< apply_mode A,
                 rewind_mode M,
@@ -382,6 +386,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
 
    struct signed_rule
    {
+      using rule_t = signed_rule;
       using analyze_t = internal::signed_rule_new::analyze_t;
 
       template< typename Input >
@@ -409,6 +414,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
 
    struct signed_rule_with_action
    {
+      using rule_t = signed_rule_with_action;
       using analyze_t = internal::signed_rule_new::analyze_t;
 
       template< apply_mode A,

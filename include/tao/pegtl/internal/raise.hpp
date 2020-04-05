@@ -12,7 +12,6 @@
 
 #include "skip_control.hpp"
 
-#include "../analysis/generic.hpp"
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
@@ -21,6 +20,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename T >
    struct raise
    {
+      using rule_t = raise;
       using analyze_t = analysis::generic< analysis::rule_type::any >;
 
 #if defined( _MSC_VER )

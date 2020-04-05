@@ -8,33 +8,38 @@
 
 #include "seq.hpp"
 #include "skip_control.hpp"
-#include "trivial.hpp"
+#include "success.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
-
-#include "../analysis/counted.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< unsigned Num, typename... Rules >
    struct rep
       : rep< Num, seq< Rules... > >
-   {};
+   {
+      using rule_t = rep;
+   };
 
    template< unsigned Num >
    struct rep< Num >
-      : trivial< true >
-   {};
+      : success
+   {
+      using rule_t = rep;
+   };
 
    template< typename Rule >
    struct rep< 0, Rule >
-      : trivial< true >
-   {};
+      : success
+   {
+      using rule_t = rep;
+   };
 
    template< unsigned Num, typename Rule >
    struct rep< Num, Rule >
    {
+      using rule_t = rep;
       using analyze_t = analysis::counted< analysis::rule_type::seq, Num, Rule >;
 
       template< apply_mode A,

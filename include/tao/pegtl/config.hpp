@@ -8,4 +8,7 @@
 #define TAO_PEGTL_NAMESPACE tao::pegtl
 #endif
 
+// TODO: REMOVE!
+#include "analysis/counted.hpp"
+
 #endif

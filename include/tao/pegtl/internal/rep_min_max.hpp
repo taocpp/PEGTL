@@ -8,38 +8,43 @@
 
 #include "../config.hpp"
 
+#include "failure.hpp"
 #include "not_at.hpp"
 #include "seq.hpp"
 #include "skip_control.hpp"
-#include "trivial.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
-
-#include "../analysis/counted.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< unsigned Min, unsigned Max, typename... Rules >
    struct rep_min_max
       : rep_min_max< Min, Max, seq< Rules... > >
-   {};
+   {
+      using rule_t = rep_min_max;
+   };
 
    template< unsigned Min, unsigned Max >
    struct rep_min_max< Min, Max >
-      : trivial< false >
+      : failure
    {
+      using rule_t = rep_min_max;
+
       static_assert( Min <= Max );
    };
 
    template< typename Rule >
    struct rep_min_max< 0, 0, Rule >
       : not_at< Rule >
-   {};
+   {
+      using rule_t = rep_min_max;
+   };
 
    template< unsigned Min, unsigned Max, typename Rule >
    struct rep_min_max< Min, Max, Rule >
    {
+      using rule_t = rep_min_max;
       using analyze_t = analysis::counted< analysis::rule_type::seq, Min, Rule >;
 
       static_assert( Min <= Max );

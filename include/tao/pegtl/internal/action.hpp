@@ -19,11 +19,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< template< typename... > class Action, typename... Rules >
    struct action
       : action< Action, seq< Rules... > >
-   {};
+   {
+      using rule_t = action;
+   };
 
    template< template< typename... > class Action, typename Rule >
    struct action< Action, Rule >
    {
+      using rule_t = action;
       using analyze_t = analysis::generic< analysis::rule_type::seq, Rule >;
 
       template< apply_mode A,

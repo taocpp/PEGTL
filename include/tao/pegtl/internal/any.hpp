@@ -19,6 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template<>
    struct any< peek_char >
    {
+      using rule_t = any;
       using analyze_t = analysis::generic< analysis::rule_type::any >;
 
       template< typename Input >
@@ -35,6 +36,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Peek >
    struct any
    {
+      using rule_t = any;
       using analyze_t = analysis::generic< analysis::rule_type::any >;
 
       template< typename Input >

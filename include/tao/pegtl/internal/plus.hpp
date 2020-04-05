@@ -16,8 +16,6 @@
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    // While plus<> could easily be implemented with
@@ -28,11 +26,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule, typename... Rules >
    struct plus
       : plus< seq< Rule, Rules... > >
-   {};
+   {
+      using rule_t = plus;
+   };
 
    template< typename Rule >
    struct plus< Rule >
    {
+      using rule_t = plus;
       using analyze_t = analysis::generic< analysis::rule_type::seq, Rule, opt< plus > >;
 
       template< apply_mode A,

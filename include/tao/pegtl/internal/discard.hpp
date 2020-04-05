@@ -8,12 +8,11 @@
 
 #include "skip_control.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    struct discard
    {
+      using rule_t = discard;
       using analyze_t = analysis::generic< analysis::rule_type::opt >;
 
       template< typename Input >

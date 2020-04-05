@@ -1,31 +1,29 @@
 // Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_INTERNAL_TRIVIAL_HPP
-#define TAO_PEGTL_INTERNAL_TRIVIAL_HPP
+#ifndef TAO_PEGTL_INTERNAL_SUCCESS_HPP
+#define TAO_PEGTL_INTERNAL_SUCCESS_HPP
 
 #include "../config.hpp"
 
 #include "skip_control.hpp"
 
-#include "../analysis/counted.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< bool Result >
-   struct trivial
+   struct success
    {
-      using analyze_t = analysis::counted< analysis::rule_type::any, unsigned( !Result ) >;
+      using rule_t = success;
+      using analyze_t = analysis::generic< analysis::rule_type::opt >;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& /*unused*/ ) noexcept
       {
-         return Result;
+         return true;
       }
    };
 
-   template< bool Result >
-   inline constexpr bool skip_control< trivial< Result > > = true;
+   template<>
+   inline constexpr bool skip_control< success > = true;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

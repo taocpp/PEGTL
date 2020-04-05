@@ -12,9 +12,7 @@
 #include "bump_help.hpp"
 #include "result_on_found.hpp"
 #include "skip_control.hpp"
-#include "trivial.hpp"
-
-#include "../analysis/counted.hpp"
+#include "success.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -28,12 +26,15 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template<>
    struct string<>
-      : trivial< true >
-   {};
+      : success
+   {
+      using rule_t = string;
+   };
 
    template< char... Cs >
    struct string
    {
+      using rule_t = string;
       using analyze_t = analysis::counted< analysis::rule_type::any, sizeof...( Cs ) >;
 
       template< typename Input >

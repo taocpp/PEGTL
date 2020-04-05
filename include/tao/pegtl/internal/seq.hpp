@@ -7,12 +7,10 @@
 #include "../config.hpp"
 
 #include "skip_control.hpp"
-#include "trivial.hpp"
+#include "success.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
-
-#include "../analysis/generic.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -21,12 +19,15 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template<>
    struct seq<>
-      : trivial< true >
-   {};
+      : success
+   {
+      using rule_t = seq;
+   };
 
    template< typename Rule >
    struct seq< Rule >
    {
+      using rule_t = seq;
       using analyze_t = typename Rule::analyze_t;
 
       template< apply_mode A,
@@ -46,6 +47,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... Rules >
    struct seq
    {
+      using rule_t = seq;
       using analyze_t = analysis::generic< analysis::rule_type::seq, Rules... >;
 
       template< apply_mode A,

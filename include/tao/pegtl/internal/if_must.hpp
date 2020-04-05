@@ -8,18 +8,16 @@
 
 #include "must.hpp"
 #include "skip_control.hpp"
-#include "trivial.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
-
-#include "../analysis/counted.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< bool Default, typename Cond, typename... Rules >
    struct if_must
    {
+      using rule_t = if_must;
       using analyze_t = analysis::counted< analysis::rule_type::seq, Default ? 0 : 1, Cond, must< Rules... > >;
 
       template< apply_mode A,

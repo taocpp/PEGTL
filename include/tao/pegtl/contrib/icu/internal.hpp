@@ -8,7 +8,6 @@
 
 #include "../../config.hpp"
 
-#include "../../analysis/generic.hpp"
 #include "../../internal/skip_control.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -18,6 +17,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Peek, UProperty P, bool V = true >
       struct binary_property
       {
+         using rule_t = binary_property;
          using analyze_t = analysis::generic< analysis::rule_type::any >;
 
          template< typename Input >
@@ -38,6 +38,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Peek, UProperty P, int V >
       struct property_value
       {
+         using rule_t = property_value;
          using analyze_t = analysis::generic< analysis::rule_type::any >;
 
          template< typename Input >

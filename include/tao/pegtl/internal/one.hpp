@@ -12,13 +12,12 @@
 #include "result_on_found.hpp"
 #include "skip_control.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
    struct one
    {
+      using rule_t = one;
       using analyze_t = analysis::generic< analysis::rule_type::any >;
 
       template< typename Input >

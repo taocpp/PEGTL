@@ -21,6 +21,7 @@
 #include "eof.hpp"
 #include "eol.hpp"
 #include "eolf.hpp"
+#include "failure.hpp"
 #include "identifier.hpp"
 #include "if_apply.hpp"
 #include "if_must.hpp"
@@ -54,7 +55,7 @@
 #include "star_must.hpp"
 #include "state.hpp"
 #include "string.hpp"
-#include "trivial.hpp"
+#include "success.hpp"
 #include "try_catch_type.hpp"
 #include "until.hpp"
 

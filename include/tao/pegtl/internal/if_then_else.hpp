@@ -14,13 +14,12 @@
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Cond, typename Then, typename Else >
    struct if_then_else
    {
+      using rule_t = if_then_else;
       using analyze_t = analysis::generic< analysis::rule_type::sor, seq< Cond, Then >, seq< not_at< Cond >, Else > >;
 
       template< apply_mode A,

@@ -10,28 +10,31 @@
 
 #include "seq.hpp"
 #include "skip_control.hpp"
-#include "trivial.hpp"
+#include "success.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
-
-#include "../analysis/generic.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Rules >
    struct opt
       : opt< seq< Rules... > >
-   {};
+   {
+      using rule_t = opt;
+   };
 
    template<>
    struct opt<>
-      : trivial< true >
-   {};
+      : success
+   {
+      using rule_t = opt;
+   };
 
    template< typename Rule >
    struct opt< Rule >
    {
+      using rule_t = opt;
       using analyze_t = analysis::generic< analysis::rule_type::opt, Rule >;
 
       template< apply_mode A,

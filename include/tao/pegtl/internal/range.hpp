@@ -9,16 +9,15 @@
 #include "result_on_found.hpp"
 #include "skip_control.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct range
    {
-      static_assert( Lo <= Hi, "invalid range detected" );
-
+      using rule_t = range;
       using analyze_t = analysis::generic< analysis::rule_type::any >;
+
+      static_assert( Lo <= Hi, "invalid range detected" );
 
       template< int Eol >
       static constexpr bool can_match_eol = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) == bool( R ) );

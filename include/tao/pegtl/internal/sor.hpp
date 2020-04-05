@@ -8,34 +8,38 @@
 
 #include "../config.hpp"
 
+#include "failure.hpp"
 #include "skip_control.hpp"
-#include "trivial.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
-
-#include "../analysis/generic.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Rules >
    struct sor;
 
+   template< typename... Rules >
+   struct sor_impl;
+
    template<>
    struct sor<>
-      : trivial< false >
-   {};
+      : failure
+   {
+      using rule_t = sor;
+   };
 
    template< typename... Rules >
    struct sor
-      : sor< std::index_sequence_for< Rules... >, Rules... >
-   {};
+      : sor_impl< std::index_sequence_for< Rules... >, Rules... >
+   {
+      using rule_t = sor;
+      using analyze_t = analysis::generic< analysis::rule_type::sor, Rules... >;
+   };
 
    template< std::size_t... Indices, typename... Rules >
-   struct sor< std::index_sequence< Indices... >, Rules... >
+   struct sor_impl< std::index_sequence< Indices... >, Rules... >
    {
-      using analyze_t = analysis::generic< analysis::rule_type::sor, Rules... >;
-
       template< apply_mode A,
                 rewind_mode M,
                 template< typename... >

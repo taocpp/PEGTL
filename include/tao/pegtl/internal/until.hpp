@@ -23,11 +23,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Cond, typename... Rules >
    struct until
       : until< Cond, seq< Rules... > >
-   {};
+   {
+      using rule_t = until;
+   };
 
    template< typename Cond >
    struct until< Cond >
    {
+      using rule_t = until;
       using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
 
       template< apply_mode A,
@@ -55,6 +58,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Cond, typename Rule >
    struct until< Cond, Rule >
    {
+      using rule_t = until;
       using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, Rule >, Cond >;
 
       template< apply_mode A,

@@ -8,13 +8,12 @@
 
 #include "skip_control.hpp"
 
-#include "../analysis/counted.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< unsigned Num >
    struct bytes
    {
+      using rule_t = bytes;
       using analyze_t = analysis::counted< analysis::rule_type::any, Num >;
 
       template< typename Input >

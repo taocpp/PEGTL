@@ -12,18 +12,19 @@
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename State, typename... Rules >
    struct state
       : state< State, seq< Rules... > >
-   {};
+   {
+      using rule_t = state;
+   };
 
    template< typename State, typename Rule >
    struct state< State, Rule >
    {
+      using rule_t = state;
       using analyze_t = analysis::generic< analysis::rule_type::seq, Rule >;
 
       template< apply_mode A,

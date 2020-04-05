@@ -6,30 +6,33 @@
 
 #include "../config.hpp"
 
+#include "failure.hpp"
 #include "seq.hpp"
 #include "skip_control.hpp"
-#include "trivial.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
-
-#include "../analysis/generic.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Rules >
    struct not_at
       : not_at< seq< Rules... > >
-   {};
+   {
+      using rule_t = not_at;
+   };
 
    template<>
    struct not_at<>
-      : trivial< false >
-   {};
+      : failure
+   {
+      using rule_t = not_at;
+   };
 
    template< typename Rule >
    struct not_at< Rule >
    {
+      using rule_t = not_at;
       using analyze_t = analysis::generic< analysis::rule_type::opt, Rule >;
 
       template< apply_mode,

@@ -8,12 +8,11 @@
 
 #include "skip_control.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    struct eolf
    {
+      using rule_t = eolf;
       using analyze_t = analysis::generic< analysis::rule_type::opt >;
 
       template< typename Input >

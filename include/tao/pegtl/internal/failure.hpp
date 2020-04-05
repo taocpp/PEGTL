@@ -1,8 +1,8 @@
-// Copyright (c) 2016-2020 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_INTERNAL_EOL_HPP
-#define TAO_PEGTL_INTERNAL_EOL_HPP
+#ifndef TAO_PEGTL_INTERNAL_FAILURE_HPP
+#define TAO_PEGTL_INTERNAL_FAILURE_HPP
 
 #include "../config.hpp"
 
@@ -10,20 +10,20 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   struct eol
+   struct failure
    {
-      using rule_t = eol;
+      using rule_t = failure;
       using analyze_t = analysis::generic< analysis::rule_type::any >;
 
       template< typename Input >
-      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( Input::eol_t::match( in ) ) )
+      [[nodiscard]] static bool match( Input& /*unused*/ ) noexcept
       {
-         return Input::eol_t::match( in ).first;
+         return false;
       }
    };
 
    template<>
-   inline constexpr bool skip_control< eol > = true;
+   inline constexpr bool skip_control< failure > = true;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

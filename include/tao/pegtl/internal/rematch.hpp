@@ -20,6 +20,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Head >
    struct rematch< Head >
    {
+      using rule_t = rematch;
       using analyze_t = typename Head::analyze_t;
 
       template< apply_mode A,
@@ -39,6 +40,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Head, typename Rule, typename... Rules >
    struct rematch< Head, Rule, Rules... >
    {
+      using rule_t = rematch;
       using analyze_t = typename Head::analyze_t;  // NOTE: Rule and Rules are ignored for analyze().
 
       template< apply_mode A,

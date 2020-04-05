@@ -20,8 +20,6 @@
 #include "../internal/skip_control.hpp"
 #include "../internal/star.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
@@ -29,6 +27,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< char Open, char Marker >
       struct raw_string_open
       {
+         using rule_t = raw_string_open;
          using analyze_t = analysis::generic< analysis::rule_type::any >;
 
          template< apply_mode A,
@@ -67,6 +66,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< char Marker, char Close >
       struct at_raw_string_close
       {
+         using rule_t = at_raw_string_close;
          using analyze_t = analysis::generic< analysis::rule_type::opt >;
 
          template< apply_mode A,
@@ -108,6 +108,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Cond >
       struct raw_string_until< Cond >
       {
+         using rule_t = raw_string_until;
          using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
 
          template< apply_mode A,
@@ -135,6 +136,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Cond, typename Rule >
       struct raw_string_until< Cond, Rule >
       {
+         using rule_t = raw_string_until;
          using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, Rule >, Cond >;
 
          template< apply_mode A,
@@ -192,6 +194,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< char Open, char Marker, char Close, typename... Contents >
    struct raw_string
    {
+      using rule_t = raw_string;
+
       // This is used for binding the apply()-method and for error-reporting
       // when a raw string is not closed properly or has invalid content.
       struct content

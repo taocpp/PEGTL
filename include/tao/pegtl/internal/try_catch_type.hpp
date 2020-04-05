@@ -10,7 +10,7 @@
 
 #include "seq.hpp"
 #include "skip_control.hpp"
-#include "trivial.hpp"
+#include "success.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
@@ -22,16 +22,21 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Exception, typename... Rules >
    struct try_catch_type
       : try_catch_type< Exception, seq< Rules... > >
-   {};
+   {
+      using rule_t = try_catch_type;
+   };
 
    template< typename Exception >
    struct try_catch_type< Exception >
-      : trivial< true >
-   {};
+      : success
+   {
+      using rule_t = try_catch_type;
+   };
 
    template< typename Exception, typename Rule >
    struct try_catch_type< Exception, Rule >
    {
+      using rule_t = try_catch_type;
       using analyze_t = analysis::generic< analysis::rule_type::seq, Rule >;
 
       template< apply_mode A,

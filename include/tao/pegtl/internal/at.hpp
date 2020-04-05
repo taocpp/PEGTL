@@ -8,7 +8,7 @@
 
 #include "seq.hpp"
 #include "skip_control.hpp"
-#include "trivial.hpp"
+#include "success.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
@@ -20,16 +20,21 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... Rules >
    struct at
       : at< seq< Rules... > >
-   {};
+   {
+      using rule_t = at;
+   };
 
    template<>
    struct at<>
-      : trivial< true >
-   {};
+      : success
+   {
+      using rule_t = at;
+   };
 
    template< typename Rule >
    struct at< Rule >
    {
+      using rule_t = at;
       using analyze_t = analysis::generic< analysis::rule_type::opt, Rule >;
 
       template< apply_mode,

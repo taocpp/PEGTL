@@ -13,8 +13,6 @@
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    // The general case applies must<> to each of the
@@ -23,7 +21,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... Rules >
    struct must
       : seq< must< Rules >... >
-   {};
+   {
+      using rule_t = must;
+   };
 
    // While in theory the implementation for a single rule could
    // be simplified to must< Rule > = sor< Rule, raise< Rule > >, this
@@ -32,6 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule >
    struct must< Rule >
    {
+      using rule_t = must;
       using analyze_t = typename Rule::analyze_t;
 
       template< apply_mode A,

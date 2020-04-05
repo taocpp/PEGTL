@@ -8,8 +8,6 @@
 
 #include "../config.hpp"
 
-#include "../analysis/counted.hpp"
-
 #include "../internal/bump_help.hpp"
 #include "../internal/skip_control.hpp"
 
@@ -20,6 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< unsigned Min, unsigned Max, char C >
       struct rep_one_min_max
       {
+         using rule_t = rep_one_min_max;
          using analyze_t = analysis::counted< analysis::rule_type::any, Min >;
 
          static_assert( Min <= Max );

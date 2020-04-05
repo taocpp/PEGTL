@@ -7,9 +7,7 @@
 #include "../config.hpp"
 
 #include "skip_control.hpp"
-#include "trivial.hpp"
-
-#include "../analysis/generic.hpp"
+#include "success.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -18,12 +16,15 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template<>
    struct require< 0 >
-      : trivial< true >
-   {};
+      : success
+   {
+      using rule_t = require;
+   };
 
    template< unsigned Amount >
    struct require
    {
+      using rule_t = require;
       using analyze_t = analysis::generic< analysis::rule_type::opt >;
 
       template< typename Input >
