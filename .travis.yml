@@ -39,7 +39,7 @@ jobs:
     - <<: *gcc-9
       env:
         - CXX=g++-9
-        - CPPFLAGS="-no-rtti"
+        - CPPFLAGS="-fno-rtti"
 
     - compiler: clang
       addons:
