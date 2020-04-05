@@ -36,11 +36,6 @@ jobs:
       env:
         - CXX=g++-9
 
-    - <<: *gcc-9
-      env:
-        - CXX=g++-9
-        - CPPFLAGS="-fno-rtti"
-
     - compiler: clang
       addons:
         apt:
