@@ -261,7 +261,7 @@ namespace tao
             {};
 
             template< unsigned Level, typename Rule, template< typename... > class Selector >
-            using is_unselected_leaf = std::integral_constant< bool, !Selector< Rule >::value && is_leaf< Level, typename Rule::analyze_t, Selector >::value >;
+            using is_unselected_leaf = std::integral_constant< bool, ( TAO_PEGTL_NAMESPACE::internal::skip_control< Rule >::value || !Selector< Rule >::value ) && is_leaf< Level, typename Rule::analyze_t, Selector >::value >;
 
             template< unsigned Level, analysis::rule_type Type, typename... Rules, template< typename... > class Selector >
             struct is_leaf< Level, analysis::generic< Type, Rules... >, Selector >
