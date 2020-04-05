@@ -4,284 +4,185 @@ dist: xenial
 
 jobs:
   include:
-    - compiler: gcc
+    - &gcc-7
+      compiler: gcc
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7']
+          sources: [ ubuntu-toolchain-r-test ]
+          packages: [ g++-7 ]
       env:
         - CXX=g++-7
 
-    - compiler: gcc
+    - &gcc-8
+      compiler: gcc
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-8']
+          sources: [ ubuntu-toolchain-r-test ]
+          packages: [ g++-8 ]
       env:
         - CXX=g++-8
 
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-8']
+    - <<: *gcc-8
       env:
         - CXX=g++-8
-        - CPPFLAGS=-fno-rtti
+        - CPPFLAGS="-fno-rtti"
 
-    - compiler: gcc
+    - &gcc-9
+      compiler: gcc
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-9']
+          sources: [ ubuntu-toolchain-r-test ]
+          packages: [ g++-9 ]
       env:
         - CXX=g++-9
+
+    - <<: *gcc-9
+      env:
+        - CXX=g++-9
+        - CPPFLAGS="-no-rtti"
 
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-5']
-          packages: ['clang-5.0', 'g++-7']
+          sources: [ ubuntu-toolchain-r-test, llvm-toolchain-xenial-5 ]
+          packages: [ clang-5.0, g++-7 ]
       env:
         - CXX=clang++-5.0
 
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-6']
-          packages: ['clang-6.0', 'g++-7']
+          sources: [ ubuntu-toolchain-r-test, llvm-toolchain-xenial-6 ]
+          packages: [ clang-6.0, g++-7 ]
       env:
         - CXX=clang++-6.0
 
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-7']
-          packages: ['clang-7', 'g++-7']
+          sources: [ ubuntu-toolchain-r-test, llvm-toolchain-xenial-7 ]
+          packages: [ clang-7, g++-7 ]
       env:
         - CXX=clang++-7
 
     - compiler: clang
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test', 'llvm-toolchain-xenial-8']
-          packages: ['clang-8', 'g++-8']
+          sources: [ ubuntu-toolchain-r-test, llvm-toolchain-xenial-8 ]
+          packages: [ clang-8, g++-8 ]
       env:
         - CXX=clang++-8
 
     - compiler: clang
       addons:
         apt:
-          sources:
+          sources: &clang-9-sources
             - ubuntu-toolchain-r-test
-            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
-              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-          packages:
-            - clang-9
-            - g++-9
+            - sourceline: deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main
+              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
+          packages: [ clang-9, g++-9 ]
       env:
         - CXX=clang++-9
 
-    - compiler: clang
+    - &clang-10
+      compiler: clang
       addons:
         apt:
-          sources:
+          sources: &clang-10-sources
             - ubuntu-toolchain-r-test
-            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main'
-              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-          packages:
-            - clang-10
-            - g++-9
+            - sourceline: deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main
+              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
+          packages: [ clang-10, g++-9 ]
       env:
         - CXX=clang++-10
 
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main'
-              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-          packages:
-            - clang-10
-            - g++-9
+    - <<: *clang-10
       env:
         - CXX=clang++-10
-        - CPPFLAGS=-fms-extensions
+        - CPPFLAGS="-fms-extensions"
 
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main'
-              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-          packages:
-            - clang-10
-            - g++-9
+    - <<: *clang-10
       env:
         - CXX=clang++-10
-        - CPPFLAGS=-fno-rtti
+        - CPPFLAGS="-fno-rtti"
 
-    - os: osx
+    - &osx
+      os: osx
       osx_image: xcode9.4
       compiler: clang
       env:
         - CXX=clang++
 
-    - os: osx
+    - <<: *osx
       osx_image: xcode10.3
-      compiler: clang
-      env:
-        - CXX=clang++
 
-    - os: osx
+    - <<: *osx
       osx_image: xcode11.3
-      compiler: clang
-      env:
-        - CXX=clang++
 
-    - compiler: clang
+    - &android
+      compiler: clang
+      addons:
+        apt:
+          packages:
+            - openjdk-8-jdk
+      before_install:
+        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+        - wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+        - unzip -qq sdk-tools-linux-4333796.zip -d /opt/android-sdk
+        - rm sdk-tools-linux-4333796.zip
+        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "platform-tools" "system-images;android-24;default;${ANDROID_ABI}" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
+      before_script:
+        - export TERM=dumb
+        - export _NO_CHECK_SIGNATURE=true
+        - export ANDROID_SDK_ROOT=/opt/android-sdk
+        - echo no | /opt/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-24;default;${ANDROID_ABI}"
+        - /opt/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
+        #- android-wait-for-emulator || android-wait-for-emulator
+        - /opt/android-sdk/platform-tools/adb shell input keyevent 82 &
+      script:
+        # Using the ninja build command. Is much faster then make build command.
+        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake -H. -Bcmake-build -GNinja -DANDROID_ABI=${ANDROID_ABI} -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=${ANDROID_PLATFORM} -DCMAKE_MAKE_PROGRAM=/opt/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
+        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake --build cmake-build --target all
+        # FIXME android emulator stuck sometimes - cd cmake-build && /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
       env:
         - ANDROID_ABI=armeabi-v7a
         - ANDROID_PLATFORM=android-22
-      addons:
-        apt:
-          packages:
-            - openjdk-8-jdk
-      before_install:
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        - wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-        - unzip -qq sdk-tools-linux-4333796.zip -d /opt/android-sdk
-        - rm sdk-tools-linux-4333796.zip
-        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "platform-tools" "system-images;android-24;default;armeabi-v7a" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
-      before_script:
-        - export TERM=dumb
-        - export _NO_CHECK_SIGNATURE=true
-        - export ANDROID_SDK_ROOT=/opt/android-sdk
-        - echo no | /opt/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
-        - /opt/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
-        #- android-wait-for-emulator || android-wait-for-emulator
-        - /opt/android-sdk/platform-tools/adb shell input keyevent 82 &
-      script:
-        # Using the ninja build command. Is much faster then make build command.
-        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake -H. -Bcmake-build -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-22 -DCMAKE_MAKE_PROGRAM=/opt/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
-        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake --build cmake-build --target all
-        # FIXME android emulator stuck sometimes - cd cmake-build && /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
-    - compiler: clang
+    - <<: *android
       env:
         - ANDROID_ABI=armeabi-v7a
         - ANDROID_PLATFORM=android-24
-      addons:
-        apt:
-          packages:
-            - openjdk-8-jdk
-      before_install:
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        - wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-        - unzip -qq sdk-tools-linux-4333796.zip -d /opt/android-sdk
-        - rm sdk-tools-linux-4333796.zip
-        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "platform-tools" "system-images;android-24;default;armeabi-v7a" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
-      before_script:
-        - export TERM=dumb
-        - export _NO_CHECK_SIGNATURE=true
-        - export ANDROID_SDK_ROOT=/opt/android-sdk
-        - echo no | /opt/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
-        - /opt/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
-        #- android-wait-for-emulator || android-wait-for-emulator
-        - /opt/android-sdk/platform-tools/adb shell input keyevent 82 &
-      script:
-        # Using the ninja build command. Is much faster then make build command.
-        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake -H. -Bcmake-build -GNinja -DANDROID_ABI=armeabi-v7a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-24 -DCMAKE_MAKE_PROGRAM=/opt/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
-        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake --build cmake-build --target all
-        # FIXME android emulator stuck sometimes - cd cmake-build && /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
-    - compiler: clang
+    - <<: *android
       env:
         - ANDROID_ABI=arm64-v8a
         - ANDROID_PLATFORM=android-24
-      addons:
-        apt:
-          packages:
-            - openjdk-8-jdk
-      before_install:
-        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        - wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-        - unzip -qq sdk-tools-linux-4333796.zip -d /opt/android-sdk
-        - rm sdk-tools-linux-4333796.zip
-        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "platform-tools" "system-images;android-24;default;arm64-v8a" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
-      before_script:
-        - export TERM=dumb
-        - export _NO_CHECK_SIGNATURE=true
-        - export ANDROID_SDK_ROOT=/opt/android-sdk
-        - echo no | /opt/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-24;default;arm64-v8a"
-        - /opt/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
-        #- android-wait-for-emulator || android-wait-for-emulator
-        - /opt/android-sdk/platform-tools/adb shell input keyevent 82 &
-      script:
-        # Using the ninja build command. Is much faster then make build command.
-        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake -H. -Bcmake-build -GNinja -DANDROID_ABI=arm64-v8a -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=android-24 -DCMAKE_MAKE_PROGRAM=/opt/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
-        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake --build cmake-build --target all
-        # FIXME android emulator stuck sometimes- cd cmake-build && /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
 
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-9']
+    - <<: *gcc-9
       env:
         - CXX=g++-9
         - CPPFLAGS="-fsanitize=undefined -fuse-ld=gold"
 
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-9']
+    - <<: *gcc-9
       env:
         - CXX=g++-9
         - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
 
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main'
-              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-          packages:
-            - clang-10
-            - g++-9
+    - <<: *clang-10
       env:
         - CXX=clang++-10
-        - CPPFLAGS=-fsanitize=undefined
+        - CPPFLAGS="-fsanitize=undefined"
+
+    - <<: *clang-10
+      env:
+        - CXX=clang++-10
+        - CPPFLAGS="-fsanitize=address"
 
     - compiler: clang
       addons:
         apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main'
-              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-          packages:
-            - clang-10
-            - g++-9
-      env:
-        - CXX=clang++-10
-        - CPPFLAGS=-fsanitize=address
-
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main'
-              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-          packages:
-            - clang-10
-            - clang-tidy-10
-            - g++-9
+          sources: *clang-10-sources
+          packages: [ clang-tidy-10, g++-9 ]
       env:
         - CLANG_TIDY=clang-tidy-10
       script:
@@ -290,33 +191,23 @@ jobs:
     - compiler: clang
       addons:
         apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main'
-              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-          packages:
-            - clang-10
-            - clang-tools-10
-            - g++-9
+          sources: *clang-10-sources
+          packages: [ clang-tools-10, g++-9 ]
       script:
         - scan-build-10 --use-c++=clang++-10 --status-bugs make -kj3
 
     - compiler: gcc
       addons:
         apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-9', 'valgrind']
+          sources: [ ubuntu-toolchain-r-test ]
+          packages: [ g++-9, valgrind ]
       env:
         - CXX=g++-9
         - SPECIAL=valgrind
       script:
         - make -kj3 valgrind
 
-    - compiler: gcc
-      addons:
-        apt:
-          sources: ['ubuntu-toolchain-r-test']
-          packages: ['g++-7']
+    - <<: *gcc-7
       env:
         - CXX=g++-7
         - CXXFLAGS="-O0 --coverage"
@@ -329,13 +220,8 @@ jobs:
     - compiler: clang
       addons:
         apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: 'deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main'
-              key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
-          packages:
-            - clang-format-9
-            - g++-9
+          sources: *clang-9-sources
+          packages: [ clang-format-9, g++-9 ]
       script:
         - clang-format-9 -i -style=file $(find . -name '[^.]*.[hc]pp')
         - git diff --exit-code
