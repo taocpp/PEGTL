@@ -19,6 +19,7 @@
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../parse.hpp"
+#include "../traits.hpp"
 
 #include "../internal/demangle.hpp"
 #include "../internal/iterator.hpp"
@@ -206,41 +207,26 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          Selector::transform( n, st... );
       }
 
-      template< unsigned Level, typename Analyse, template< typename... > class Selector >
+      template< unsigned Level, typename Subs, template< typename... > class Selector >
       struct is_leaf
          : std::false_type
       {};
 
-      template< analysis::rule_type Type, template< typename... > class Selector >
-      struct is_leaf< 0, analysis::generic< Type >, Selector >
+      template< template< typename... > class Selector >
+      struct is_leaf< 0, rule_list<>, Selector >
          : std::true_type
       {};
 
-      template< analysis::rule_type Type, std::size_t Count, template< typename... > class Selector >
-      struct is_leaf< 0, analysis::counted< Type, Count >, Selector >
-         : std::true_type
-      {};
-
-      template< analysis::rule_type Type, typename... Rules, template< typename... > class Selector >
-      struct is_leaf< 0, analysis::generic< Type, Rules... >, Selector >
-         : std::false_type
-      {};
-
-      template< analysis::rule_type Type, std::size_t Count, typename... Rules, template< typename... > class Selector >
-      struct is_leaf< 0, analysis::counted< Type, Count, Rules... >, Selector >
+      template< typename... Subs, template< typename... > class Selector >
+      struct is_leaf< 0, rule_list< Subs... >, Selector >
          : std::false_type
       {};
 
       template< unsigned Level, typename Rule, template< typename... > class Selector >
-      inline constexpr bool is_unselected_leaf = !Selector< Rule >::value && is_leaf< Level, typename Rule::analyze_t, Selector >::value;
+      inline constexpr bool is_unselected_leaf = !Selector< Rule >::value && is_leaf< Level, typename traits< typename Rule::rule_t >::subs, Selector >::value;
 
-      template< unsigned Level, analysis::rule_type Type, typename... Rules, template< typename... > class Selector >
-      struct is_leaf< Level, analysis::generic< Type, Rules... >, Selector >
-         : std::bool_constant< ( is_unselected_leaf< Level - 1, Rules, Selector > && ... ) >
-      {};
-
-      template< unsigned Level, analysis::rule_type Type, std::size_t Count, typename... Rules, template< typename... > class Selector >
-      struct is_leaf< Level, analysis::counted< Type, Count, Rules... >, Selector >
+      template< unsigned Level, typename... Rules, template< typename... > class Selector >
+      struct is_leaf< Level, rule_list< Rules... >, Selector >
          : std::bool_constant< ( is_unselected_leaf< Level - 1, Rules, Selector > && ... ) >
       {};
 
@@ -344,7 +330,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          struct state_handler;
 
          template< typename Rule >
-         using type = control< state_handler< Rule, !TAO_PEGTL_NAMESPACE::internal::skip_control< Rule > && Selector< Rule >::value, is_leaf< 8, typename Rule::analyze_t, Selector >::value > >;
+         using type = control< state_handler< Rule, !TAO_PEGTL_NAMESPACE::internal::skip_control< Rule > && Selector< Rule >::value, is_leaf< 8, typename traits< typename Rule::rule_t >::subs, Selector >::value > >;
       };
 
       template< typename Node, template< typename... > class Selector, template< typename... > class Control >
