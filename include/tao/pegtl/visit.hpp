@@ -27,11 +27,11 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename U > constexpr static bool value = std::is_same_v< Type, U > || contains< Types... >::template value< U >;
       };
 
-      template< template< typename... > class Func, typename Todo, typename Done >
+      template< template< typename... > class Traits, template< typename... > class Func, typename Todo, typename Done >
       struct visitor;
 
-      template< template< typename... > class Func, typename... Done >
-      struct visitor< Func, rule_list<>, rule_list< Done... > >
+      template< template< typename... > class Traits, template< typename... > class Func, typename... Done >
+      struct visitor< Traits, Func, rule_list<>, rule_list< Done... > >
       {
          template< typename... Args >
          static void visit( Args&&... /*unused*/ )
@@ -39,18 +39,18 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
-      template< template< typename... > class Func, typename Rule, typename... Todo, typename... Done >
-      struct visitor< Func, rule_list< Rule, Todo... >, rule_list< Done... > >
+      template< template< typename... > class Traits, template< typename... > class Func, typename Rule, typename... Todo, typename... Done >
+      struct visitor< Traits, Func, rule_list< Rule, Todo... >, rule_list< Done... > >
       {
          template< typename... Args >
          static void visit( Args&&... args )
          {
             if constexpr( !( contains< Done... >::template value< Rule > ) ) {
                Func< Rule >::call( args... );
-               visit_impl( typename traits< typename Rule::rule_t >::subs(), args... );
+               visit_impl( typename Traits< typename Rule::rule_t >::subs(), args... );
             }
             else {
-               visitor< Func, rule_list< Todo... >, rule_list< Done... > >::visit( args... );
+               visitor< Traits, Func, rule_list< Todo... >, rule_list< Done... > >::visit( args... );
             }
          }
 
@@ -58,15 +58,15 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename... Subs, typename... Args >
          static void visit_impl( rule_list< Subs... >&& /*unused*/, Args&&... args )
          {
-            visitor< Func, rule_list< Subs..., Todo... >, rule_list< Rule, Done... > >::visit( args... );
+            visitor< Traits, Func, rule_list< Subs..., Todo... >, rule_list< Rule, Done... > >::visit( args... );
          }
       };
 
-      template< template< typename... > class Func, typename Todo, typename Done >
+      template< template< typename... > class Traits, template< typename... > class Func, typename Todo, typename Done >
       struct visitor_with_subs;
 
-      template< template< typename... > class Func, typename... Done >
-      struct visitor_with_subs< Func, rule_list<>, rule_list< Done... > >
+      template< template< typename... > class Traits, template< typename... > class Func, typename... Done >
+      struct visitor_with_subs< Traits, Func, rule_list<>, rule_list< Done... > >
       {
          template< typename... Args >
          static void visit( Args&&... /*unused*/ )
@@ -74,13 +74,13 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
-      template< template< typename... > class Func, typename Rule, typename... Todo, typename... Done >
-      struct visitor_with_subs< Func, rule_list< Rule, Todo... >, rule_list< Done... > >
+      template< template< typename... > class Traits, template< typename... > class Func, typename Rule, typename... Todo, typename... Done >
+      struct visitor_with_subs< Traits, Func, rule_list< Rule, Todo... >, rule_list< Done... > >
       {
          template< typename... Args >
          static void visit( Args&&... args )
          {
-            visit_impl( typename traits< typename Rule::rule_t >::subs(), args... );
+            visit_impl( typename Traits< typename Rule::rule_t >::subs(), args... );
          }
 
       private:
@@ -89,26 +89,38 @@ namespace TAO_PEGTL_NAMESPACE
          {
             if constexpr( !( contains< Done... >::template value< Rule > ) ) {
                Func< Rule, Subs... >::call( args... );
-               visitor_with_subs< Func, rule_list< Subs..., Todo... >, rule_list< Rule, Done... > >::visit( args... );
+               visitor_with_subs< Traits, Func, rule_list< Subs..., Todo... >, rule_list< Rule, Done... > >::visit( args... );
             }
             else {
-               visitor_with_subs< Func, rule_list< Todo... >, rule_list< Done... > >::visit( args... );
+               visitor_with_subs< Traits, Func, rule_list< Todo... >, rule_list< Done... > >::visit( args... );
             }
          }
       };
 
    }  // namespace internal
 
+   template< template< typename... > class Traits, template< typename... > class Func, typename Rule, typename... Args >
+   void basic_visit( Args&&... args )
+   {
+      internal::visitor< Traits, Func, rule_list< Rule >, rule_list<> >::visit( args... );
+   }
+
    template< template< typename... > class Func, typename Rule, typename... Args >
    void visit( Args&&... args )
    {
-      internal::visitor< Func, rule_list< Rule >, rule_list<> >::visit( args... );
+      basic_visit< traits, Func, Rule >( args... );
+   }
+
+   template< template< typename... > class Traits, template< typename... > class Func, typename Rule, typename... Args >
+   void basic_visit_with_subs( Args&&... args )
+   {
+      internal::visitor_with_subs< Traits, Func, rule_list< Rule >, rule_list<> >::visit( args... );
    }
 
    template< template< typename... > class Func, typename Rule, typename... Args >
    void visit_with_subs( Args&&... args )
    {
-      internal::visitor_with_subs< Func, rule_list< Rule >, rule_list<> >::visit( args... );
+      basic_visit_with_subs< traits, Func, Rule >( args... );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
