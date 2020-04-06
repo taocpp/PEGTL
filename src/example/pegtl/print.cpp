@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE
    }  // namespace internal
 
    template< typename Rule >
-   void print()
+   void print_()
    {
       visit< internal::printer, Rule >();
    }
@@ -37,6 +37,6 @@ namespace TAO_PEGTL_NAMESPACE
 
 int main( int, char** )  // NOLINT(bugprone-exception-escape)
 {
-   tao::pegtl::print< tao::pegtl::json::text >();
+   tao::pegtl::print_< tao::pegtl::json::text >();
    return 0;
 }

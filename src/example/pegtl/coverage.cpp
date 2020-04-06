@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       struct coverage_info
       {
-         explicit coverage_info( std::string_view in_name )
+         explicit coverage_info( const std::string_view in_name )
             : name( in_name.data(), in_name.size() )
          {}
 
@@ -74,8 +74,8 @@ namespace TAO_PEGTL_NAMESPACE
       visit< internal::coverage_prepare, Rule >( state );
       const auto success = parse< Rule, nothing, internal::coverage_control >( in, state );
       std::cout << "PARSE " << file << ( success ? "success" : "failure" ) << std::endl;
-      for( const auto [ _, v ] : state.map ) {
-         std::cout << "RULE " << v.name << " HIT " << v.start << '/' << v.success << '/' << v.failure << std::endl;
+      for( const auto& p : state.map ) {
+         std::cout << "RULE " << p.second.name << " HIT " << p.second.start << '/' << p.second.success << '/' << p.second.failure << std::endl;
       }
    }
 
