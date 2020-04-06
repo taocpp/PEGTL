@@ -216,7 +216,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       {};
 
       template< unsigned Level, typename Rule, template< typename... > class Selector >
-      inline constexpr bool is_unselected_leaf = !Selector< Rule >::value && is_leaf< Level, typename traits< typename Rule::rule_t >::subs, Selector >::value;
+      inline constexpr bool is_unselected_leaf = ( TAO_PEGTL_NAMESPACE::internal::skip_control< Rule > || !Selector< Rule >::value ) && is_leaf< Level, typename traits< typename Rule::rule_t >::subs, Selector >::value;
 
       template< unsigned Level, typename... Rules, template< typename... > class Selector >
       struct is_leaf< Level, rule_list< Rules... >, Selector >
