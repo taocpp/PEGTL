@@ -45,9 +45,7 @@
 #include "pegtl/discard_input_on_failure.hpp"
 #include "pegtl/discard_input_on_success.hpp"
 
-// The following are not included by
-// default because they include <iostream>.
-
-// #include "pegtl/analyze.hpp"
+#include "pegtl/traits.hpp"
+#include "pegtl/visit.hpp"
 
 #endif

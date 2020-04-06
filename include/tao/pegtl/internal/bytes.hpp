@@ -10,25 +10,25 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< unsigned Num >
+   template< unsigned Cnt >
    struct bytes
    {
       using rule_t = bytes;
-      using analyze_t = analysis::counted< analysis::rule_type::any, Num >;
+      using analyze_t = analysis::counted< analysis::rule_type::any, Cnt >;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
       {
-         if( in.size( Num ) >= Num ) {
-            in.bump( Num );
+         if( in.size( Cnt ) >= Cnt ) {
+            in.bump( Cnt );
             return true;
          }
          return false;
       }
    };
 
-   template< unsigned Num >
-   inline constexpr bool skip_control< bytes< Num > > = true;
+   template< unsigned Cnt >
+   inline constexpr bool skip_control< bytes< Cnt > > = true;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -15,15 +15,15 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< unsigned Num, typename... Rules >
+   template< unsigned Cnt, typename... Rules >
    struct rep
-      : rep< Num, seq< Rules... > >
+      : rep< Cnt, seq< Rules... > >
    {
       using rule_t = rep;
    };
 
-   template< unsigned Num >
-   struct rep< Num >
+   template< unsigned Cnt >
+   struct rep< Cnt >
       : success
    {
       using rule_t = rep;
@@ -36,11 +36,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = rep;
    };
 
-   template< unsigned Num, typename Rule >
-   struct rep< Num, Rule >
+   template< unsigned Cnt, typename Rule >
+   struct rep< Cnt, Rule >
    {
       using rule_t = rep;
-      using analyze_t = analysis::counted< analysis::rule_type::seq, Num, Rule >;
+      using analyze_t = analysis::counted< analysis::rule_type::seq, Cnt, Rule >;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -55,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          auto m = in.template mark< M >();
          using m_t = decltype( m );
 
-         for( unsigned i = 0; i != Num; ++i ) {
+         for( unsigned i = 0; i != Cnt; ++i ) {
             if( !Control< Rule >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
                return false;
             }
@@ -64,8 +64,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< unsigned Num, typename... Rules >
-   inline constexpr bool skip_control< rep< Num, Rules... > > = true;
+   template< unsigned Cnt, typename... Rules >
+   inline constexpr bool skip_control< rep< Cnt, Rules... > > = true;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
