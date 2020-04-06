@@ -5,6 +5,7 @@ set(example_sources
   analyze.cpp
   calculator.cpp
   chomsky_hierarchy.cpp
+  coverage.cpp
   csv1.cpp
   csv2.cpp
   dynamic_match.cpp
@@ -17,6 +18,9 @@ set(example_sources
   modulus_match.cpp
   parse_tree.cpp
   parse_tree_user_state.cpp
+  print.cpp
+  print_rt.cpp
+  print_with_subs.cpp
   proto3.cpp
   recover.cpp
   s_expression.cpp
