@@ -27,7 +27,7 @@
 #include "pegtl/read_input.hpp"
 #include "pegtl/string_input.hpp"
 
-// this has to be included *after* the above inputs,
+// This has to be included *after* the above inputs,
 // otherwise the amalgamated header will not work!
 #include "pegtl/file_input.hpp"
 
