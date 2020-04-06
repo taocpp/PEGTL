@@ -208,18 +208,11 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       }
 
       template< unsigned Level, typename Subs, template< typename... > class Selector >
-      struct is_leaf
-         : std::false_type
-      {};
+      struct is_leaf;
 
-      template< template< typename... > class Selector >
-      struct is_leaf< 0, rule_list<>, Selector >
-         : std::true_type
-      {};
-
-      template< typename... Subs, template< typename... > class Selector >
-      struct is_leaf< 0, rule_list< Subs... >, Selector >
-         : std::false_type
+      template< typename... Rules, template< typename... > class Selector >
+      struct is_leaf< 0, rule_list< Rules... >, Selector >
+         : std::bool_constant< sizeof...( Rules ) == 0 >
       {};
 
       template< unsigned Level, typename Rule, template< typename... > class Selector >
