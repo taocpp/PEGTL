@@ -22,14 +22,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : star< seq< Rule, Rules... > >
    {
       using rule_t = star;
-      using subs_t = rule_list< Rules... >;
+      using subs_t = rule_list< Rule, Rules... >;
    };
 
    template< typename Rule >
    struct star< Rule >
    {
       using rule_t = star;
-      using subs_t = empty_list;
+      using subs_t = rule_list< Rule >;
 
       template< apply_mode A,
                 rewind_mode,

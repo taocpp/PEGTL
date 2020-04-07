@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : plus< seq< Rule, Rules... > >
    {
       using rule_t = plus;
-      using subs_t = rule_list< Rules... >;
+      using subs_t = rule_list< Rule, Rules... >;
    };
 
    template< typename Rule >
