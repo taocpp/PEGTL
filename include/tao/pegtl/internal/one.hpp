@@ -12,12 +12,15 @@
 #include "result_on_found.hpp"
 #include "skip_control.hpp"
 
+#include "../rule_list.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
    struct one
    {
       using rule_t = one;
+      using subs_t = empty_list;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )

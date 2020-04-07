@@ -13,6 +13,7 @@
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
+#include "../rule_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -27,6 +28,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : failure
    {
       using rule_t = sor;
+      using subs_t = empty_list;
    };
 
    template< typename... Rules >
@@ -34,6 +36,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : sor_impl< std::index_sequence_for< Rules... >, Rules... >
    {
       using rule_t = sor;
+      using subs_t = rule_list< Rules... >;
    };
 
    template< std::size_t... Indices, typename... Rules >

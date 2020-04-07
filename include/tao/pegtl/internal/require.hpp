@@ -9,6 +9,8 @@
 #include "skip_control.hpp"
 #include "success.hpp"
 
+#include "../rule_list.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< unsigned Amount >
@@ -19,12 +21,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : success
    {
       using rule_t = require;
+      using subs_t = empty_list;
    };
 
    template< unsigned Amount >
    struct require
    {
       using rule_t = require;
+      using subs_t = empty_list;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )

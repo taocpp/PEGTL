@@ -9,34 +9,25 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   namespace internal
+   template< typename Rule >
+   struct printer_cout
    {
-      template< typename Rule >
-      struct printer
+      static void call()
       {
-         static void call()
-         {
-            if constexpr( std::is_same_v< Rule, typename Rule::rule_t > ) {
-               std::cout << internal::demangle< Rule >() << std::endl;
-            }
-            else {
-               std::cout << internal::demangle< Rule >() << " = " << internal::demangle< typename Rule::rule_t >() << std::endl;
-            }
-         }
-      };
-
-   }  // namespace internal
+         std::cout << internal::demangle< Rule >() << std::endl;
+      }
+   };
 
    template< typename Rule >
-   void print_()
+   void print_cout()
    {
-      visit< internal::printer, Rule >();
+      visit< printer_cout, Rule >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
 int main( int, char** )  // NOLINT(bugprone-exception-escape)
 {
-   tao::pegtl::print_< tao::pegtl::json::text >();
+   tao::pegtl::print_cout< tao::pegtl::json::text >();
    return 0;
 }

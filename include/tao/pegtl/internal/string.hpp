@@ -14,6 +14,8 @@
 #include "skip_control.hpp"
 #include "success.hpp"
 
+#include "../rule_list.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    [[nodiscard]] inline bool unsafe_equals( const char* s, const std::initializer_list< char >& l ) noexcept
@@ -29,12 +31,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : success
    {
       using rule_t = string;
+      using subs_t = empty_list;
    };
 
    template< char... Cs >
    struct string
    {
       using rule_t = string;
+      using subs_t = empty_list;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )

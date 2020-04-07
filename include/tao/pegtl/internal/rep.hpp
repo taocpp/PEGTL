@@ -12,6 +12,7 @@
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
+#include "../rule_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -20,6 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : rep< Cnt, seq< Rules... > >
    {
       using rule_t = rep;
+      using subs_t = rule_list< Rules... >;
    };
 
    template< unsigned Cnt >
@@ -27,6 +29,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : success
    {
       using rule_t = rep;
+      using subs_t = empty_list;
    };
 
    template< typename Rule >
@@ -34,12 +37,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : success
    {
       using rule_t = rep;
+      using subs_t = empty_list;  // NOTE: This is a bit strange, but with Cnt == 0 the sub rules are never hit.
    };
 
    template< unsigned Cnt, typename Rule >
    struct rep< Cnt, Rule >
    {
       using rule_t = rep;
+      using subs_t = rule_list< Rule >;
 
       template< apply_mode A,
                 rewind_mode M,

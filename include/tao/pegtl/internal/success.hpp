@@ -8,11 +8,14 @@
 
 #include "skip_control.hpp"
 
+#include "../rule_list.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    struct success
    {
       using rule_t = success;
+      using subs_t = empty_list;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& /*unused*/ ) noexcept

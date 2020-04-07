@@ -45,7 +45,6 @@
 #include "pegtl/discard_input_on_failure.hpp"
 #include "pegtl/discard_input_on_success.hpp"
 
-#include "pegtl/traits.hpp"
 #include "pegtl/visit.hpp"
 
 #endif

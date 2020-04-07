@@ -9,12 +9,15 @@
 #include "result_on_found.hpp"
 #include "skip_control.hpp"
 
+#include "../rule_list.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct range
    {
       using rule_t = range;
+      using subs_t = empty_list;
 
       static_assert( Lo <= Hi, "invalid range detected" );
 

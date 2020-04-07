@@ -15,6 +15,7 @@
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
+#include "../rule_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -23,6 +24,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : rep_min_max< Min, Max, seq< Rules... > >
    {
       using rule_t = rep_min_max;
+      using subs_t = rule_list< Rules... >;
+
+      static_assert( Min <= Max );
    };
 
    template< unsigned Min, unsigned Max >
@@ -30,6 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : failure
    {
       using rule_t = rep_min_max;
+      using subs_t = empty_list;
 
       static_assert( Min <= Max );
    };
@@ -39,12 +44,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : not_at< Rule >
    {
       using rule_t = rep_min_max;
+      using subs_t = empty_list;
    };
 
    template< unsigned Min, unsigned Max, typename Rule >
    struct rep_min_max< Min, Max, Rule >
    {
       using rule_t = rep_min_max;
+      using subs_t = rule_list< Rule >;
 
       static_assert( Min <= Max );
 

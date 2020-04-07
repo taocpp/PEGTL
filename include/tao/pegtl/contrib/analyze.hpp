@@ -15,9 +15,6 @@
 #include <vector>
 
 #include "../config.hpp"
-#include "../traits.hpp"
-#include "../visit.hpp"
-#include "../visit_rt.hpp"
 
 #include "analyze_traits.hpp"
 
@@ -200,28 +197,28 @@ namespace TAO_PEGTL_NAMESPACE
          std::map< std::string_view, bool > m_results;
       };
 
-      template< template< typename... > class Traits, typename... Subs >
+      template< typename... Subs >
       void analyze_insert_impl( rule_list< Subs... >& /*unused*/, std::vector< std::string_view >& subs, std::map< std::string_view, analyze_entry >& info );
 
-      template< typename Name, template< typename... > class Traits >
+      template< typename Name >
       std::string_view analyze_insert( std::map< std::string_view, analyze_entry >& info )
       {
          using Rule = typename analyze_traits< Name, typename Name::rule_t >::reduced;
 
          const auto [ i, b ] = info.try_emplace( demangle< Name >(), analyze_type_value< Rule > );
          if( b ) {
-            analyze_insert_impl< Traits >( typename Traits< typename Rule::rule_t >::subs(), i->second.subs, info );
+            analyze_insert_impl( typename Rule::subs_t(), i->second.subs, info );
          }
          return i->first;
       }
 
-      template< template< typename... > class Traits, typename... Subs >
+      template< typename... Subs >
       void analyze_insert_impl( rule_list< Subs... >&& /*unused*/, std::vector< std::string_view >& subs, std::map< std::string_view, analyze_entry >& info )
       {
-         ( subs.emplace_back( analyze_insert< Subs, Traits >( info ) ), ... );
+         ( subs.emplace_back( analyze_insert< Subs >( info ) ), ... );
       }
 
-      template< typename Grammar, template< typename... > class Traits = traits >
+      template< typename Grammar >
       class analyze_cycles
          : public analyze_cycles_impl
       {
@@ -229,16 +226,16 @@ namespace TAO_PEGTL_NAMESPACE
          explicit analyze_cycles( const bool verbose )
             : analyze_cycles_impl( verbose )
          {
-            analyze_insert< Grammar, Traits >( m_info );
+            analyze_insert< Grammar >( m_info );
          }
       };
 
    }  // namespace internal
 
-   template< typename Grammar, template< typename... > class Traits = traits >
+   template< typename Grammar >
    [[nodiscard]] std::size_t analyze( const bool verbose = true )
    {
-      return internal::analyze_cycles< Grammar, Traits >( verbose ).problems();
+      return internal::analyze_cycles< Grammar >( verbose ).problems();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

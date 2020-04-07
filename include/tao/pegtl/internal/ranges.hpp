@@ -9,6 +9,8 @@
 #include "range.hpp"
 #include "skip_control.hpp"
 
+#include "../rule_list.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< int Eol, typename Char, Char... Cs >
@@ -53,6 +55,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct ranges
    {
       using rule_t = ranges;
+      using subs_t = empty_list;
 
       template< int Eol >
       static constexpr bool can_match_eol = ranges_impl< Eol, typename Peek::data_t, Cs... >::can_match_eol;
@@ -82,6 +85,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : range< result_on_found::success, Peek, Lo, Hi >
    {
       using rule_t = ranges;
+      using subs_t = empty_list;
    };
 
    template< typename Peek, typename Peek::data_t... Cs >

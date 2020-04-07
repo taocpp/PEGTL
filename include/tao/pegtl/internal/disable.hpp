@@ -11,6 +11,7 @@
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
+#include "../rule_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -19,12 +20,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : disable< seq< Rules... > >
    {
       using rule_t = disable;
+      using subs_t = rule_list< Rules... >;
    };
 
    template< typename Rule >
    struct disable< Rule >
    {
       using rule_t = disable;
+      using subs_t = rule_list< Rule >;
 
       template< apply_mode,
                 rewind_mode M,

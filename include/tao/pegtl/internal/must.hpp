@@ -12,6 +12,7 @@
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
+#include "../rule_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -23,6 +24,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : seq< must< Rules >... >
    {
       using rule_t = must;
+      using subs_t = rule_list< Rules... >;
    };
 
    // While in theory the implementation for a single rule could
@@ -33,6 +35,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct must< Rule >
    {
       using rule_t = must;
+      using subs_t = rule_list< Rule >;
 
       template< apply_mode A,
                 rewind_mode,

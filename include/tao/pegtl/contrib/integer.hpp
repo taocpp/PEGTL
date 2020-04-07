@@ -13,7 +13,6 @@
 #include "../parse.hpp"
 #include "../parse_error.hpp"
 #include "../rules.hpp"
-#include "../traits.hpp"
 
 #include "analyze_traits.hpp"
 
@@ -222,6 +221,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct unsigned_rule
    {
       using rule_t = unsigned_rule;
+      using subs_t = empty_list;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
@@ -230,21 +230,15 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   template<>
-   struct traits< unsigned_rule >
-   {
-      using subs = empty_list;
-   };
-
    template< typename Name >
    struct analyze_traits< Name, unsigned_rule >
-   {
-      using reduced = typename analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >::reduced;
-   };
+      : analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >
+   {};
 
    struct unsigned_rule_with_action
    {
       using rule_t = unsigned_rule_with_action;
+      using subs_t = empty_list;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -278,17 +272,10 @@ namespace TAO_PEGTL_NAMESPACE
       // TODO: Overload for std::vector< Unsigned >?
    };
 
-   template<>
-   struct traits< unsigned_rule_with_action >
-   {
-      using subs = empty_list;
-   };
-
    template< typename Name >
    struct analyze_traits< Name, unsigned_rule_with_action >
-   {
-      using reduced = typename analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >::reduced;
-   };
+      : analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >
+   {};
 
    template< typename Unsigned, Unsigned Maximum >
    struct maximum_action
@@ -326,6 +313,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct maximum_rule
    {
       using rule_t = maximum_rule;
+      using subs_t = empty_list;
 
       static_assert( std::is_unsigned_v< Unsigned > );
 
@@ -337,22 +325,16 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   template< typename Unsigned, Unsigned Maximum >
-   struct traits< maximum_rule< Unsigned, Maximum > >
-   {
-      using subs = empty_list;
-   };
-
    template< typename Name, typename Unsigned, Unsigned Maximum >
    struct analyze_traits< Name, maximum_rule< Unsigned, Maximum > >
-   {
-      using reduced = typename analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >::reduced;
-   };
+      : analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >
+   {};
 
    template< typename Unsigned, Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
    struct maximum_rule_with_action
    {
       using rule_t = maximum_rule_with_action;
+      using subs_t = empty_list;
 
       static_assert( std::is_unsigned_v< Unsigned > );
 
@@ -389,17 +371,10 @@ namespace TAO_PEGTL_NAMESPACE
       // TODO: Overload for std::vector< Unsigned >?
    };
 
-   template< typename Unsigned, Unsigned Maximum >
-   struct traits< maximum_rule_with_action< Unsigned, Maximum > >
-   {
-      using subs = empty_list;
-   };
-
    template< typename Name, typename Unsigned, Unsigned Maximum >
    struct analyze_traits< Name, maximum_rule_with_action< Unsigned, Maximum > >
-   {
-      using reduced = typename analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >::reduced;
-   };
+      : analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >
+   {};
 
    struct signed_action
    {
@@ -434,6 +409,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct signed_rule
    {
       using rule_t = signed_rule;
+      using subs_t = empty_list;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
@@ -442,17 +418,10 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   template<>
-   struct traits< signed_rule >
-   {
-      using subs = empty_list;
-   };
-
    template< typename Name >
    struct analyze_traits< Name, signed_rule >
-   {
-      using reduced = typename analyze_traits< Name, typename integer::signed_rule_new::rule_t >::reduced;
-   };
+      : analyze_traits< Name, typename integer::signed_rule_new::rule_t >
+   {};
 
    namespace integer
    {
@@ -473,6 +442,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct signed_rule_with_action
    {
       using rule_t = signed_rule_with_action;
+      using subs_t = empty_list;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -504,17 +474,10 @@ namespace TAO_PEGTL_NAMESPACE
       // TODO: Overload for std::vector< Signed >?
    };
 
-   template<>
-   struct traits< signed_rule_with_action >
-   {
-      using subs = empty_list;
-   };
-
    template< typename Name >
    struct analyze_traits< Name, signed_rule_with_action >
-   {
-      using reduced = typename analyze_traits< Name, typename integer::signed_rule_new::rule_t >::reduced;
-   };
+      : analyze_traits< Name, typename integer::signed_rule_new::rule_t >
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

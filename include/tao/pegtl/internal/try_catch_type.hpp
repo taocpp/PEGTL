@@ -14,6 +14,7 @@
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
+#include "../rule_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -22,6 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : try_catch_type< Exception, seq< Rules... > >
    {
       using rule_t = try_catch_type;
+      using subs_t = rule_list< Rules... >;
    };
 
    template< typename Exception >
@@ -29,12 +31,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : success
    {
       using rule_t = try_catch_type;
+      using subs_t = empty_list;
    };
 
    template< typename Exception, typename Rule >
    struct try_catch_type< Exception, Rule >
    {
       using rule_t = try_catch_type;
+      using subs_t = rule_list< Rule >;
 
       template< apply_mode A,
                 rewind_mode M,

@@ -14,6 +14,7 @@
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
+#include "../rule_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -21,6 +22,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct raise
    {
       using rule_t = raise;
+      using subs_t = empty_list;
 
 #if defined( _MSC_VER )
 #pragma warning( push )

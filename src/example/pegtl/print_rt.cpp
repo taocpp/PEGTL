@@ -4,14 +4,14 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/visit_rt.hpp>
 
 #include <tao/pegtl/contrib/json.hpp>
+#include <tao/pegtl/contrib/visit_rt.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Rule >
-   struct printer_rt
+   struct printer_cout_rt
    {
       static void call()
       {
@@ -20,15 +20,15 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename Rule >
-   void print_rt()
+   void print_cout_rt()
    {
-      visit_rt< printer_rt, Rule >();
+      visit_rt< printer_cout_rt, Rule >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
 int main( int, char** )  // NOLINT(bugprone-exception-escape)
 {
-   tao::pegtl::print_rt< tao::pegtl::json::text >();
+   tao::pegtl::print_cout_rt< tao::pegtl::json::text >();
    return 0;
 }

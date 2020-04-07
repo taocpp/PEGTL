@@ -1,16 +1,13 @@
 // Copyright (c) 2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_FORWARD_HPP
-#define TAO_PEGTL_FORWARD_HPP
+#ifndef TAO_PEGTL_RULE_LIST_HPP
+#define TAO_PEGTL_RULE_LIST_HPP
 
 #include "config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename T, typename = void >
-   struct traits;
-
    template< typename... Rules >
    struct rule_list
    {

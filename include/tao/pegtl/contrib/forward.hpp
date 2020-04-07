@@ -5,7 +5,6 @@
 #define TAO_PEGTL_CONTRIB_FORWARD_HPP
 
 #include "../config.hpp"
-#include "../forward.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

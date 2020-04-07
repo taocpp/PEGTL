@@ -11,6 +11,7 @@
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
+#include "../rule_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -18,6 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct if_must
    {
       using rule_t = if_must;
+      using subs_t = rule_list< Cond, Rules... >;
 
       template< apply_mode A,
                 rewind_mode M,

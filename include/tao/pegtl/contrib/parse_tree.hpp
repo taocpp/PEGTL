@@ -19,7 +19,6 @@
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../parse.hpp"
-#include "../traits.hpp"
 
 #include "../internal/demangle.hpp"
 #include "../internal/iterator.hpp"
@@ -216,7 +215,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       {};
 
       template< unsigned Level, typename Rule, template< typename... > class Selector >
-      inline constexpr bool is_unselected_leaf = ( TAO_PEGTL_NAMESPACE::internal::skip_control< Rule > || !Selector< Rule >::value ) && is_leaf< Level, typename traits< typename Rule::rule_t >::subs, Selector >::value;
+      inline constexpr bool is_unselected_leaf = ( TAO_PEGTL_NAMESPACE::internal::skip_control< Rule > || !Selector< Rule >::value ) && is_leaf< Level, typename Rule::subs_t, Selector >::value;
 
       template< unsigned Level, typename... Rules, template< typename... > class Selector >
       struct is_leaf< Level, rule_list< Rules... >, Selector >
@@ -323,7 +322,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          struct state_handler;
 
          template< typename Rule >
-         using type = control< state_handler< Rule, !TAO_PEGTL_NAMESPACE::internal::skip_control< Rule > && Selector< Rule >::value, is_leaf< 8, typename traits< typename Rule::rule_t >::subs, Selector >::value > >;
+         using type = control< state_handler< Rule, !TAO_PEGTL_NAMESPACE::internal::skip_control< Rule > && Selector< Rule >::value, is_leaf< 8, typename Rule::subs_t, Selector >::value > >;
       };
 
       template< typename Node, template< typename... > class Selector, template< typename... > class Control >

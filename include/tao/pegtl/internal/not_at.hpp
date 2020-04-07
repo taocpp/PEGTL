@@ -12,6 +12,7 @@
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
+#include "../rule_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -20,6 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : not_at< seq< Rules... > >
    {
       using rule_t = not_at;
+      using subs_t = rule_list< Rules... >;
    };
 
    template<>
@@ -27,12 +29,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : failure
    {
       using rule_t = not_at;
+      using subs_t = empty_list;
    };
 
    template< typename Rule >
    struct not_at< Rule >
    {
       using rule_t = not_at;
+      using subs_t = rule_list< Rule >;
 
       template< apply_mode,
                 rewind_mode,
