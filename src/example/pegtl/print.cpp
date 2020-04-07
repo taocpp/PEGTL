@@ -7,27 +7,31 @@
 
 #include <tao/pegtl/contrib/json.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace without_subs
 {
-   template< typename Rule >
-   struct printer_cout
+   namespace internal
    {
-      static void call()
+      template< typename Rule, typename... >
+      struct printer
       {
-         std::cout << internal::demangle< Rule >() << std::endl;
-      }
-   };
+         static void call()
+         {
+            std::cout << TAO_PEGTL_NAMESPACE::internal::demangle< Rule >() << std::endl;
+         }
+      };
+
+   }  // namespace internal
 
    template< typename Rule >
-   void print_cout()
+   void print()
    {
-      visit< printer_cout, Rule >();
+      TAO_PEGTL_NAMESPACE::visit< internal::printer, Rule >();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace without_subs
 
 int main( int, char** )  // NOLINT(bugprone-exception-escape)
 {
-   tao::pegtl::print_cout< tao::pegtl::json::text >();
+   without_subs::print< tao::pegtl::json::text >();
    return 0;
 }
