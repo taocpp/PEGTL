@@ -19,9 +19,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, template< typename... > class Action, typename... Rules >
    struct analyze_traits< Name, internal::action< Action, Rules... > >
-   {
-      using reduced = internal::seq< Rules... >;
-   };
+      : analyze_traits< Name, internal::seq< Rules... > >
+   {};
 
    template< typename Name, typename Peek >
    struct analyze_traits< Name, internal::any< Peek > >
@@ -43,9 +42,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::at< Rules... > >
-   {
-      using reduced = internal::opt< Rules... >;
-   };
+      : analyze_traits< Name, internal::opt< Rules... > >
+   {};
 
    template< typename Name >
    struct analyze_traits< Name, internal::bof >
@@ -67,15 +65,13 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, template< typename... > class Control, typename... Rules >
    struct analyze_traits< Name, internal::control< Control, Rules... > >
-   {
-      using reduced = internal::seq< Rules... >;
-   };
+      : analyze_traits< Name, internal::seq< Rules... > >
+   {};
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::disable< Rules... > >
-   {
-      using reduced = internal::seq< Rules... >;
-   };
+      : analyze_traits< Name, internal::seq< Rules... > >
+   {};
 
    template< typename Name >
    struct analyze_traits< Name, internal::discard >
@@ -85,9 +81,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::enable< Rules... > >
-   {
-      using reduced = internal::seq< Rules... >;
-   };
+      : analyze_traits< Name, internal::seq< Rules... > >
+   {};
 
    template< typename Name >
    struct analyze_traits< Name, internal::eof >
@@ -115,26 +110,23 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, typename Rule, typename... Actions >
    struct analyze_traits< Name, internal::if_apply< Rule, Actions... > >
-   {
-      using reduced = typename analyze_traits< Name, typename Rule::rule_t >::reduced;
-   };
+      : analyze_traits< Name, typename Rule::rule_t >
+   {};
 
    template< typename Name, typename Cond, typename... Rules >
    struct analyze_traits< Name, internal::if_must< true, Cond, Rules... > >
-   {
-      using reduced = internal::opt< Cond, Rules... >;
-   };
+      : analyze_traits< Name, internal::opt< Cond, Rules... > >
+   {};
 
    template< typename Name, typename Cond, typename... Rules >
    struct analyze_traits< Name, internal::if_must< false, Cond, Rules... > >
-   {
-      using reduced = internal::seq< Cond, Rules... >;
-   };
+      : analyze_traits< Name, internal::seq< Cond, Rules... > >
+   {};
 
    template< typename Name, typename Cond, typename Then, typename Else >
    struct analyze_traits< Name, internal::if_then_else< Cond, Then, Else > >
    {
-      using reduced = internal::sor< seq< Cond, Then >, Else >;
+      using reduced = internal::sor< internal::seq< Cond, Then >, Else >;
    };
 
    template< typename Name, char... Cs >
@@ -145,21 +137,24 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::must< Rules... > >
-   {
-      using reduced = internal::seq< Rules... >;
-   };
+      : analyze_traits< Name, internal::seq< Rules... > >
+   {};
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::not_at< Rules... > >
-   {
-      using reduced = internal::opt< Rules... >;
-   };
+      : analyze_traits< Name, internal::opt< Rules... > >
+   {};
 
    template< typename Name, internal::result_on_found R, typename Peek, typename Peek::data_t... Cs >
    struct analyze_traits< Name, internal::one< R, Peek, Cs... > >
    {
       using reduced = internal::bytes< 1 >;
    };
+
+   template< typename Name >
+   struct analyze_traits< Name, internal::opt<> >
+      : analyze_traits< Name, internal::success >
+   {};
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::opt< Rules... > >
@@ -199,21 +194,18 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, unsigned Cnt, typename... Rules >
    struct analyze_traits< Name, internal::rep< Cnt, Rules... > >
-   {
-      using reduced = std::conditional_t< bool( Cnt ), seq< Rules... >, opt< Rules... > >;
-   };
+      : analyze_traits< Name, std::conditional_t< bool( Cnt ), internal::seq< Rules... >, internal::opt< Rules... > > >
+   {};
 
    template< typename Name, unsigned Min, unsigned Max, typename... Rules >
    struct analyze_traits< Name, internal::rep_min_max< Min, Max, Rules... > >
-   {
-      using reduced = std::conditional_t< bool( Min ), seq< Rules... >, opt< Rules... > >;
-   };
+      : analyze_traits< Name, std::conditional_t< bool( Min ), internal::seq< Rules... >, internal::opt< Rules... > > >
+   {};
 
    template< typename Name, unsigned Max, typename... Rules >
    struct analyze_traits< Name, internal::rep_opt< Max, Rules... > >
-   {
-      using reduced = internal::opt< Rules... >;
-   };
+      : analyze_traits< Name, internal::opt< Rules... > >
+   {};
 
    template< typename Name, unsigned Amount >
    struct analyze_traits< Name, internal::require< Amount > >
@@ -221,11 +213,21 @@ namespace TAO_PEGTL_NAMESPACE
       using reduced = internal::opt<>;
    };
 
+   template< typename Name >
+   struct analyze_traits< Name, internal::seq<> >
+      : analyze_traits< Name, internal::success >
+   {};
+
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::seq< Rules... > >
    {
       using reduced = internal::seq< Rules... >;
    };
+
+   template< typename Name >
+   struct analyze_traits< Name, internal::sor<> >
+      : analyze_traits< Name, internal::failure >
+   {};
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::sor< Rules... > >
@@ -235,15 +237,13 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::star< Rules... > >
-   {
-      using reduced = internal::opt< Rules..., Name >;
-   };
+      : analyze_traits< Name, internal::opt< Rules..., Name > >
+   {};
 
    template< typename Name, typename State, typename... Rules >
    struct analyze_traits< Name, internal::state< State, Rules... > >
-   {
-      using reduced = internal::seq< Rules... >;
-   };
+      : analyze_traits< Name, internal::seq< Rules... > >
+   {};
 
    template< typename Name, char... Cs >
    struct analyze_traits< Name, internal::string< Cs... > >
@@ -259,21 +259,18 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, typename Exception, typename... Rules >
    struct analyze_traits< Name, internal::try_catch_type< Exception, Rules... > >
-   {
-      using reduced = internal::seq< Rules... >;  // TODO?
-   };
+      : analyze_traits< Name, internal::seq< Rules... > >
+   {};
 
    template< typename Name, typename Cond >
    struct analyze_traits< Name, internal::until< Cond > >
-   {
-      using reduced = typename analyze_traits< Name, typename Cond::rule_t >::reduced;
-   };
+      : analyze_traits< Name, typename Cond::rule_t >
+   {};
 
    template< typename Name, typename Cond, typename... Rules >
    struct analyze_traits< Name, internal::until< Cond, Rules... > >
-   {
-      using reduced = internal::seq< internal::star< Rules... >, Cond >;
-   };
+      : analyze_traits< Name, internal::seq< internal::star< Rules... >, Cond > >
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
