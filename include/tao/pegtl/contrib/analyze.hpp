@@ -118,11 +118,9 @@ namespace TAO_PEGTL_NAMESPACE
          }
 
          template< typename Rule >
-         [[nodiscard]] bool consumes() const noexcept
+         [[nodiscard]] bool consumes() const
          {
-            const auto i = m_results.find( demangle< Rule >() );
-            assert( i != m_results.end() );
-            return i->second;
+            return m_results.at( demangle< Rule >() );
          }
 
       protected:
