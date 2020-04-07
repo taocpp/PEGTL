@@ -36,7 +36,14 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< typename T >
-      inline constexpr analyze_type analyze_type_value;
+      struct fail
+      {
+         static_assert( sizeof( T ) == 0, "wrong base rule for analyze_type" );
+         static constexpr analyze_type dummy{};
+      };
+
+      template< typename T >
+      inline constexpr analyze_type analyze_type_value = fail< T >::dummy;
 
       template<>
       inline constexpr analyze_type analyze_type_value< bytes< 1 > > = analyze_type::any;
