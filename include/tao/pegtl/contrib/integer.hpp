@@ -13,10 +13,13 @@
 #include "../parse.hpp"
 #include "../parse_error.hpp"
 #include "../rules.hpp"
+#include "../traits.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::integer
+#include "analyze_traits.hpp"
+
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace internal
+   namespace integer
    {
       struct unsigned_rule_old
          : plus< digit >
@@ -185,7 +188,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
          return false;
       }
 
-   }  // namespace internal
+   }  // namespace integer
 
    struct unsigned_action
    {
@@ -196,7 +199,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       {
          // This function "only" offers basic exception safety.
          st = 0;
-         if( !internal::convert_unsigned( st, in.string_view() ) ) {
+         if( !integer::convert_unsigned( st, in.string_view() ) ) {
             throw parse_error( "unsigned integer overflow", in );
          }
       }
@@ -219,19 +222,29 @@ namespace TAO_PEGTL_NAMESPACE::integer
    struct unsigned_rule
    {
       using rule_t = unsigned_rule;
-      using analyze_t = internal::unsigned_rule_new::analyze_t;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
       {
-         return internal::match_unsigned( in );  // Does not check for any overflow.
+         return integer::match_unsigned( in );  // Does not check for any overflow.
       }
+   };
+
+   template<>
+   struct traits< unsigned_rule >
+   {
+      using subs = empty_list;
+   };
+
+   template< typename Name >
+   struct analyze_traits< Name, unsigned_rule >
+   {
+      using reduced = typename analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >::reduced;
    };
 
    struct unsigned_rule_with_action
    {
       using rule_t = unsigned_rule_with_action;
-      using analyze_t = internal::unsigned_rule_new::analyze_t;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -243,7 +256,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
                 typename... States >
       [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) ) -> std::enable_if_t< A == apply_mode::nothing, bool >
       {
-         return internal::match_unsigned( in );  // Does not check for any overflow.
+         return integer::match_unsigned( in );  // Does not check for any overflow.
       }
 
       template< apply_mode A,
@@ -258,11 +271,23 @@ namespace TAO_PEGTL_NAMESPACE::integer
       {
          // This function "only" offers basic exception safety.
          st = 0;
-         return internal::match_and_convert_unsigned_with_maximum( in, st );  // Throws on overflow.
+         return integer::match_and_convert_unsigned_with_maximum( in, st );  // Throws on overflow.
       }
 
       // TODO: Overload for st.converted?
       // TODO: Overload for std::vector< Unsigned >?
+   };
+
+   template<>
+   struct traits< unsigned_rule_with_action >
+   {
+      using subs = empty_list;
+   };
+
+   template< typename Name >
+   struct analyze_traits< Name, unsigned_rule_with_action >
+   {
+      using reduced = typename analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >::reduced;
    };
 
    template< typename Unsigned, Unsigned Maximum >
@@ -277,7 +302,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       {
          // This function "only" offers basic exception safety.
          st = 0;
-         if( !internal::convert_unsigned< Unsigned, Maximum >( st, in.string_view() ) ) {
+         if( !integer::convert_unsigned< Unsigned, Maximum >( st, in.string_view() ) ) {
             throw parse_error( "unsigned integer overflow", in );
          }
       }
@@ -301,7 +326,6 @@ namespace TAO_PEGTL_NAMESPACE::integer
    struct maximum_rule
    {
       using rule_t = maximum_rule;
-      using analyze_t = internal::unsigned_rule_new::analyze_t;
 
       static_assert( std::is_unsigned_v< Unsigned > );
 
@@ -309,15 +333,26 @@ namespace TAO_PEGTL_NAMESPACE::integer
       [[nodiscard]] static bool match( Input& in )
       {
          Unsigned st = 0;
-         return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
+         return integer::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
       }
+   };
+
+   template< typename Unsigned, Unsigned Maximum >
+   struct traits< maximum_rule< Unsigned, Maximum > >
+   {
+      using subs = empty_list;
+   };
+
+   template< typename Name, typename Unsigned, Unsigned Maximum >
+   struct analyze_traits< Name, maximum_rule< Unsigned, Maximum > >
+   {
+      using reduced = typename analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >::reduced;
    };
 
    template< typename Unsigned, Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
    struct maximum_rule_with_action
    {
       using rule_t = maximum_rule_with_action;
-      using analyze_t = internal::unsigned_rule_new::analyze_t;
 
       static_assert( std::is_unsigned_v< Unsigned > );
 
@@ -332,7 +367,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ ) -> std::enable_if_t< A == apply_mode::nothing, bool >
       {
          Unsigned st = 0;
-         return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
+         return integer::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
       }
 
       template< apply_mode A,
@@ -347,11 +382,23 @@ namespace TAO_PEGTL_NAMESPACE::integer
       {
          // This function "only" offers basic exception safety.
          st = 0;
-         return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
+         return integer::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
       }
 
       // TODO: Overload for st.converted?
       // TODO: Overload for std::vector< Unsigned >?
+   };
+
+   template< typename Unsigned, Unsigned Maximum >
+   struct traits< maximum_rule_with_action< Unsigned, Maximum > >
+   {
+      using subs = empty_list;
+   };
+
+   template< typename Name, typename Unsigned, Unsigned Maximum >
+   struct analyze_traits< Name, maximum_rule_with_action< Unsigned, Maximum > >
+   {
+      using reduced = typename analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >::reduced;
    };
 
    struct signed_action
@@ -364,7 +411,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
       {
          // This function "only" offers basic exception safety.
          st = 0;
-         if( !internal::convert_signed( st, in.string_view() ) ) {
+         if( !integer::convert_signed( st, in.string_view() ) ) {
             throw parse_error( "signed integer overflow", in );
          }
       }
@@ -387,16 +434,27 @@ namespace TAO_PEGTL_NAMESPACE::integer
    struct signed_rule
    {
       using rule_t = signed_rule;
-      using analyze_t = internal::signed_rule_new::analyze_t;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
       {
-         return TAO_PEGTL_NAMESPACE::parse< internal::signed_rule_new >( in );  // Does not check for any overflow.
+         return TAO_PEGTL_NAMESPACE::parse< integer::signed_rule_new >( in );  // Does not check for any overflow.
       }
    };
 
-   namespace internal
+   template<>
+   struct traits< signed_rule >
+   {
+      using subs = empty_list;
+   };
+
+   template< typename Name >
+   struct analyze_traits< Name, signed_rule >
+   {
+      using reduced = typename analyze_traits< Name, typename integer::signed_rule_new::rule_t >::reduced;
+   };
+
+   namespace integer
    {
       template< typename Rule >
       struct signed_action_action
@@ -410,12 +468,11 @@ namespace TAO_PEGTL_NAMESPACE::integer
       {
       };
 
-   }  // namespace internal
+   }  // namespace integer
 
    struct signed_rule_with_action
    {
       using rule_t = signed_rule_with_action;
-      using analyze_t = internal::signed_rule_new::analyze_t;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -427,7 +484,7 @@ namespace TAO_PEGTL_NAMESPACE::integer
                 typename... States >
       [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) ) -> std::enable_if_t< A == apply_mode::nothing, bool >
       {
-         return TAO_PEGTL_NAMESPACE::parse< internal::signed_rule_new >( in );  // Does not check for any overflow.
+         return TAO_PEGTL_NAMESPACE::parse< integer::signed_rule_new >( in );  // Does not check for any overflow.
       }
 
       template< apply_mode A,
@@ -440,13 +497,25 @@ namespace TAO_PEGTL_NAMESPACE::integer
                 typename Signed >
       [[nodiscard]] static auto match( Input& in, Signed& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_signed_v< Signed >, bool >
       {
-         return TAO_PEGTL_NAMESPACE::parse< internal::signed_rule_new, internal::signed_action_action >( in, st );  // Throws on overflow.
+         return TAO_PEGTL_NAMESPACE::parse< integer::signed_rule_new, integer::signed_action_action >( in, st );  // Throws on overflow.
       }
 
       // TODO: Overload for st.converted?
       // TODO: Overload for std::vector< Signed >?
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::integer
+   template<>
+   struct traits< signed_rule_with_action >
+   {
+      using subs = empty_list;
+   };
+
+   template< typename Name >
+   struct analyze_traits< Name, signed_rule_with_action >
+   {
+      using reduced = typename analyze_traits< Name, typename integer::signed_rule_new::rule_t >::reduced;
+   };
+
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

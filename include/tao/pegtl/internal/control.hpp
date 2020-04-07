@@ -25,7 +25,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct control< Control, Rule >
    {
       using rule_t = control;
-      using analyze_t = analysis::generic< analysis::rule_type::seq, Rule >;
 
       template< apply_mode A,
                 rewind_mode M,

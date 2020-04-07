@@ -27,7 +27,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct star< Rule >
    {
       using rule_t = star;
-      using analyze_t = analysis::generic< analysis::rule_type::opt, Rule, star >;
 
       template< apply_mode A,
                 rewind_mode,

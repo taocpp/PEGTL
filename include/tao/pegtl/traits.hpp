@@ -4,23 +4,15 @@
 #ifndef TAO_PEGTL_TRAITS_HPP
 #define TAO_PEGTL_TRAITS_HPP
 
+#include <cstddef>
+
 #include "config.hpp"
-#include "rules.hpp"
+#include "forward.hpp"
+
+#include "internal/rules.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename T, typename = void >
-   struct traits
-   {};
-
-   template< typename... Rules >
-   struct rule_list
-   {
-      static constexpr unsigned size = sizeof...( Rules );
-   };
-
-   using empty_list = rule_list<>;
-
    template< template< typename... > class Action, typename... Rules >
    struct traits< internal::action< Action, Rules... > >
    {

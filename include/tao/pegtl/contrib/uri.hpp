@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE::uri
    using colon = one< ':' >;
 
    // clang-format off
-   struct dec_octet : integer::maximum_rule< std::uint8_t > {};
+   struct dec_octet : maximum_rule< std::uint8_t > {};
 
    struct IPv4address : seq< dec_octet, dot, dec_octet, dot, dec_octet, dot, dec_octet > {};
 

@@ -53,7 +53,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct ranges
    {
       using rule_t = ranges;
-      using analyze_t = analysis::generic< analysis::rule_type::any >;
 
       template< int Eol >
       static constexpr bool can_match_eol = ranges_impl< Eol, typename Peek::data_t, Cs... >::can_match_eol;

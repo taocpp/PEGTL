@@ -40,7 +40,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct rep< Cnt, Rule >
    {
       using rule_t = rep;
-      using analyze_t = analysis::counted< analysis::rule_type::seq, Cnt, Rule >;
 
       template< apply_mode A,
                 rewind_mode M,

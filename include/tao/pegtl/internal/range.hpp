@@ -15,7 +15,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct range
    {
       using rule_t = range;
-      using analyze_t = analysis::generic< analysis::rule_type::any >;
 
       static_assert( Lo <= Hi, "invalid range detected" );
 

@@ -20,7 +20,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct if_then_else
    {
       using rule_t = if_then_else;
-      using analyze_t = analysis::generic< analysis::rule_type::sor, seq< Cond, Then >, seq< not_at< Cond >, Else > >;
 
       template< apply_mode A,
                 rewind_mode M,

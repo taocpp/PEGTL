@@ -25,7 +25,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct require
    {
       using rule_t = require;
-      using analyze_t = analysis::generic< analysis::rule_type::opt >;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )

@@ -28,7 +28,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct seq< Rule >
    {
       using rule_t = seq;
-      using analyze_t = typename Rule::analyze_t;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -48,7 +47,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct seq
    {
       using rule_t = seq;
-      using analyze_t = analysis::generic< analysis::rule_type::seq, Rules... >;
 
       template< apply_mode A,
                 rewind_mode M,

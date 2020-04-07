@@ -2,7 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/analyze.hpp>
+#include <tao/pegtl/contrib/analyze.hpp>
 
 namespace TAO_PEGTL_NAMESPACE::proto3
 {

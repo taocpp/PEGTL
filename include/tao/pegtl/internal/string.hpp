@@ -35,7 +35,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct string
    {
       using rule_t = string;
-      using analyze_t = analysis::counted< analysis::rule_type::any, sizeof...( Cs ) >;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )

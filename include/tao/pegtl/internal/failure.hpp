@@ -13,7 +13,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct failure
    {
       using rule_t = failure;
-      using analyze_t = analysis::generic< analysis::rule_type::any >;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& /*unused*/ ) noexcept

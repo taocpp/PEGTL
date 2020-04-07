@@ -12,8 +12,6 @@
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< template< typename... > class Action, typename... Rules >
@@ -27,7 +25,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct action< Action, Rule >
    {
       using rule_t = action;
-      using analyze_t = analysis::generic< analysis::rule_type::seq, Rule >;
 
       template< apply_mode A,
                 rewind_mode M,

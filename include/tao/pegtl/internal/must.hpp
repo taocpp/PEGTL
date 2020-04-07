@@ -33,7 +33,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct must< Rule >
    {
       using rule_t = must;
-      using analyze_t = typename Rule::analyze_t;
 
       template< apply_mode A,
                 rewind_mode,

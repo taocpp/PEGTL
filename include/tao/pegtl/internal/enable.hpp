@@ -25,7 +25,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct enable< Rule >
    {
       using rule_t = enable;
-      using analyze_t = analysis::generic< analysis::rule_type::seq, Rule >;
 
       template< apply_mode,
                 rewind_mode M,

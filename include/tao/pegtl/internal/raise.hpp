@@ -21,7 +21,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct raise
    {
       using rule_t = raise;
-      using analyze_t = analysis::generic< analysis::rule_type::any >;
 
 #if defined( _MSC_VER )
 #pragma warning( push )

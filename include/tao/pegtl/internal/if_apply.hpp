@@ -18,7 +18,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct if_apply
    {
       using rule_t = if_apply;
-      using analyze_t = typename Rule::analyze_t;
 
       template< apply_mode A,
                 rewind_mode M,

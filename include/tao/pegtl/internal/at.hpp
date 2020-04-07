@@ -13,8 +13,6 @@
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Rules >
@@ -35,7 +33,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct at< Rule >
    {
       using rule_t = at;
-      using analyze_t = analysis::generic< analysis::rule_type::opt, Rule >;
 
       template< apply_mode,
                 rewind_mode,

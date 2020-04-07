@@ -15,8 +15,6 @@
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Exception, typename... Rules >
@@ -37,7 +35,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct try_catch_type< Exception, Rule >
    {
       using rule_t = try_catch_type;
-      using analyze_t = analysis::generic< analysis::rule_type::seq, Rule >;
 
       template< apply_mode A,
                 rewind_mode M,

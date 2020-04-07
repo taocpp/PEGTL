@@ -6,7 +6,6 @@ set(test_sources
   actions_one.cpp
   actions_three.cpp
   actions_two.cpp
-  analyze_cycles.cpp
   argv_input.cpp
   ascii_classes.cpp
   ascii_eol.cpp
@@ -25,6 +24,7 @@ set(test_sources
   change_state.cpp
   change_states.cpp
   contrib_alphabet.cpp
+  contrib_analyze.cpp
   contrib_http.cpp
   contrib_if_then.cpp
   contrib_integer.cpp

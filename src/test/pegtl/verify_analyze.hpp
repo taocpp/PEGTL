@@ -4,7 +4,7 @@
 #ifndef TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_ANALYZE_HPP
 #define TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_ANALYZE_HPP
 
-#include <tao/pegtl/analyze.hpp>
+#include <tao/pegtl/contrib/analyze.hpp>
 
 #include "test.hpp"
 
@@ -13,7 +13,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule >
    void verify_analyze( const unsigned line, const char* file, const bool expect_consume, const bool expect_problems )
    {
-      analysis::analyze_cycles< Rule > a( false );
+      internal::analyze_cycles< Rule > a( false );
 
       const bool has_problems = ( a.problems() != 0 );
       const bool does_consume = a.template consumes< Rule >();

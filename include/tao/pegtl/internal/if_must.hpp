@@ -18,7 +18,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct if_must
    {
       using rule_t = if_must;
-      using analyze_t = analysis::counted< analysis::rule_type::seq, Default ? 0 : 1, Cond, must< Rules... > >;
 
       template< apply_mode A,
                 rewind_mode M,

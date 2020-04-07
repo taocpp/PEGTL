@@ -6,7 +6,6 @@
 #include "verify_fail.hpp"
 #include "verify_rule.hpp"
 
-#include <tao/pegtl/analyze.hpp>
 #include <tao/pegtl/contrib/json.hpp>
 
 namespace TAO_PEGTL_NAMESPACE

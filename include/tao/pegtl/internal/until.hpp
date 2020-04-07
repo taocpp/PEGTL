@@ -16,8 +16,6 @@
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Cond, typename... Rules >
@@ -31,7 +29,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct until< Cond >
    {
       using rule_t = until;
-      using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -59,7 +56,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct until< Cond, Rule >
    {
       using rule_t = until;
-      using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, Rule >, Cond >;
 
       template< apply_mode A,
                 rewind_mode M,

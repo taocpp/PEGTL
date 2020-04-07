@@ -11,6 +11,7 @@
 #include "../utf8.hpp"
 
 #include "abnf.hpp"
+#include "forward.hpp"
 #include "remove_first_state.hpp"
 #include "uri.hpp"
 
@@ -125,8 +126,7 @@ namespace TAO_PEGTL_NAMESPACE::http
    // clang-format on
    struct chunk_size
    {
-      using rule_t = chunk_size;
-      using analyze_t = plus< abnf::HEXDIG >::analyze_t;
+      using rule_t = plus< abnf::HEXDIG >::rule_t;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -175,8 +175,7 @@ namespace TAO_PEGTL_NAMESPACE::http
    // clang-format on
    struct chunk_data
    {
-      using rule_t = chunk_data;
-      using analyze_t = star< abnf::OCTET >::analyze_t;
+      using rule_t = star< abnf::OCTET >::rule_t;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -224,11 +223,9 @@ namespace TAO_PEGTL_NAMESPACE::http
 
    struct chunk
    {
-      using rule_t = chunk;
-
       using impl = seq< chunk_size, chunk_ext, abnf::CRLF, chunk_data, abnf::CRLF >;
 
-      using analyze_t = impl::analyze_t;
+      using rule_t = impl::rule_t;
 
       template< apply_mode A,
                 rewind_mode M,

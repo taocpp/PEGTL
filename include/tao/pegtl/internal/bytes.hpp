@@ -14,7 +14,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct bytes
    {
       using rule_t = bytes;
-      using analyze_t = analysis::counted< analysis::rule_type::any, Cnt >;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )

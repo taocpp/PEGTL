@@ -33,7 +33,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct not_at< Rule >
    {
       using rule_t = not_at;
-      using analyze_t = analysis::generic< analysis::rule_type::opt, Rule >;
 
       template< apply_mode,
                 rewind_mode,

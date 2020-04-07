@@ -13,7 +13,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct eof
    {
       using rule_t = eof;
-      using analyze_t = analysis::generic< analysis::rule_type::opt >;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )

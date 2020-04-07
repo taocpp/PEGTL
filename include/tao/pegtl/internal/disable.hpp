@@ -25,7 +25,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct disable< Rule >
    {
       using rule_t = disable;
-      using analyze_t = analysis::generic< analysis::rule_type::seq, Rule >;
 
       template< apply_mode,
                 rewind_mode M,

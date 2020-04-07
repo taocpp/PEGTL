@@ -6,13 +6,6 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename... Rules >
-   struct any_seq
-      : public seq< Rules... >
-   {
-      using analyze_t = analysis::generic< analysis::rule_type::any, Rules... >;
-   };
-
    void unit_test()
    {
       verify_analyze< eof >( __LINE__, __FILE__, false, false );
@@ -179,12 +172,6 @@ namespace TAO_PEGTL_NAMESPACE
          {
          };
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
-         struct tst : until< star< any >, star< any > >
-         {
-         };
-         verify_analyze< any_seq< tst > >( __LINE__, __FILE__, true, true );
       }
       {
          struct tst : until< any, any >

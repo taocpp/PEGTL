@@ -34,7 +34,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct plus< Rule >
    {
       using rule_t = plus;
-      using analyze_t = analysis::generic< analysis::rule_type::seq, Rule, opt< plus > >;
 
       template< apply_mode A,
                 rewind_mode M,

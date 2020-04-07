@@ -45,7 +45,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct rep_min_max< Min, Max, Rule >
    {
       using rule_t = rep_min_max;
-      using analyze_t = analysis::counted< analysis::rule_type::seq, Min, Rule >;
 
       static_assert( Min <= Max );
 

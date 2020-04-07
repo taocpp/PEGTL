@@ -13,7 +13,7 @@
 // Include the analyze function that checks
 // a grammar for possible infinite cycles.
 
-#include <tao/pegtl/analyze.hpp>
+#include <tao/pegtl/contrib/analyze.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
@@ -205,7 +205,7 @@ namespace calculator
 
    struct infix
    {
-      using analyze_t = analysis::generic< analysis::rule_type::any >;
+      using rule_t = ascii::any::rule_t;
 
       template< apply_mode,
                 rewind_mode,

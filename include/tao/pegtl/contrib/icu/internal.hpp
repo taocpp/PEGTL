@@ -18,7 +18,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       struct binary_property
       {
          using rule_t = binary_property;
-         using analyze_t = analysis::generic< analysis::rule_type::any >;
 
          template< typename Input >
          [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
@@ -39,7 +38,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       struct property_value
       {
          using rule_t = property_value;
-         using analyze_t = analysis::generic< analysis::rule_type::any >;
 
          template< typename Input >
          [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )

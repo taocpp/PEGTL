@@ -9,8 +9,6 @@
 #include "peek_char.hpp"
 #include "skip_control.hpp"
 
-#include "../analysis/generic.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek >
@@ -20,7 +18,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct any< peek_char >
    {
       using rule_t = any;
-      using analyze_t = analysis::generic< analysis::rule_type::any >;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
@@ -37,7 +34,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct any
    {
       using rule_t = any;
-      using analyze_t = analysis::generic< analysis::rule_type::any >;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )

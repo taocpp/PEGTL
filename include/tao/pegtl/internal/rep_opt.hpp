@@ -25,7 +25,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct rep_opt< Max, Rule >
    {
       using rule_t = rep_opt;
-      using analyze_t = analysis::generic< analysis::rule_type::opt, Rule >;
 
       template< apply_mode A,
                 rewind_mode,

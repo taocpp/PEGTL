@@ -5,11 +5,14 @@
 #define TAO_PEGTL_CONTRIB_REP_ONE_MIN_MAX_HPP
 
 #include <algorithm>
+#include <type_traits>
 
 #include "../config.hpp"
 
 #include "../internal/bump_help.hpp"
 #include "../internal/skip_control.hpp"
+
+#include "forward.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -19,7 +22,6 @@ namespace TAO_PEGTL_NAMESPACE
       struct rep_one_min_max
       {
          using rule_t = rep_one_min_max;
-         using analyze_t = analysis::counted< analysis::rule_type::any, Min >;
 
          static_assert( Min <= Max );
 
@@ -55,6 +57,18 @@ namespace TAO_PEGTL_NAMESPACE
       {};
 
    }  // namespace ascii
+
+   template< unsigned Min, unsigned Max, char C >
+   struct traits< internal::rep_one_min_max< Min, Max, C > >
+   {
+      using subs = empty_list;
+   };
+
+   template< typename Name, unsigned Min, unsigned Max, char C >
+   struct analyze_traits< Name, internal::rep_one_min_max< Min, Max, C > >
+   {
+      using reduced = std::conditional_t< bool( Min ), internal::bytes< 1 >, internal::opt<> >;
+   };
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

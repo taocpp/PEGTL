@@ -24,8 +24,8 @@
 #endif
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/analyze.hpp>
 #include <tao/pegtl/contrib/abnf.hpp>
+#include <tao/pegtl/contrib/analyze.hpp>
 #include <tao/pegtl/contrib/parse_tree.hpp>
 
 namespace TAO_PEGTL_NAMESPACE

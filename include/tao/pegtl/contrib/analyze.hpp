@@ -1,0 +1,254 @@
+// Copyright (c) 2020 Dr. Colin Hirsch and Daniel Frey
+// Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
+
+#ifndef TAO_PEGTL_CONTRIB_ANALYZE_HPP
+#define TAO_PEGTL_CONTRIB_ANALYZE_HPP
+
+#include <cassert>
+#include <cstddef>
+#include <iostream>
+#include <map>
+#include <set>
+#include <stdexcept>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "../config.hpp"
+#include "../traits.hpp"
+#include "../visit.hpp"
+#include "../visit_rt.hpp"
+
+#include "analyze_traits.hpp"
+
+#include "../internal/demangle.hpp"
+
+namespace TAO_PEGTL_NAMESPACE
+{
+   namespace internal
+   {
+      enum class analyze_type : std::uint8_t
+      {
+         any,  // Consumption-on-success is always true; assumes bounded repetition of conjunction of sub-rules.
+         opt,  // Consumption-on-success not necessarily true; assumes bounded repetition of conjunction of sub-rules.
+         seq,  // Consumption-on-success depends on consumption of (non-zero bounded repetition of) conjunction of sub-rules.
+         sor   // Consumption-on-success depends on consumption of (non-zero bounded repetition of) disjunction of sub-rules.
+      };
+
+      template< typename T >
+      struct analyze_type_traits;
+
+      template<>
+      struct analyze_type_traits< bytes< 1 > >
+      {
+         static constexpr analyze_type value = analyze_type::any;
+      };
+
+      template< typename... Rules >
+      struct analyze_type_traits< opt< Rules... > >
+      {
+         static constexpr analyze_type value = analyze_type::opt;
+      };
+
+      template< typename... Rules >
+      struct analyze_type_traits< seq< Rules... > >
+      {
+         static constexpr analyze_type value = analyze_type::seq;
+      };
+
+      template< typename... Rules >
+      struct analyze_type_traits< sor< Rules... > >
+      {
+         static constexpr analyze_type value = analyze_type::sor;
+      };
+
+      template< typename Rule > inline constexpr analyze_type analyze_type_v = analyze_type_traits< typename analyze_traits< Rule, typename Rule::rule_t >::reduced >::value;
+
+      struct analyze_entry
+      {
+         explicit analyze_entry( const analyze_type in_type ) noexcept
+            : type( in_type )
+         {}
+
+         analyze_type type;
+         std::vector< std::string_view > subs;
+      };
+
+      template< typename C >
+      class analyze_guard
+      {
+      public:
+         analyze_guard( C& container, const typename C::value_type& value )
+            : m_i( container.insert( value ) ),
+              m_c( container )
+         {}
+
+         analyze_guard( analyze_guard&& ) = delete;
+         analyze_guard( const analyze_guard& ) = delete;
+
+         void operator=( analyze_guard&& ) = delete;
+         void operator=( const analyze_guard& ) = delete;
+
+         ~analyze_guard()
+         {
+            if( m_i.second ) {
+               m_c.erase( m_i.first );
+            }
+         }
+
+         explicit operator bool() const noexcept
+         {
+            return m_i.second;
+         }
+
+      private:
+         const std::pair< typename C::iterator, bool > m_i;
+         C& m_c;
+      };
+
+      template< typename C >
+      analyze_guard( C&, const typename C::value_type& )->analyze_guard< C >;
+
+      class analyze_cycles_impl
+      {
+      public:
+         analyze_cycles_impl( analyze_cycles_impl&& ) = delete;
+         analyze_cycles_impl( const analyze_cycles_impl& ) = delete;
+
+         void operator=( analyze_cycles_impl&& ) = delete;
+         void operator=( const analyze_cycles_impl& ) = delete;
+
+         [[nodiscard]] std::size_t problems()
+         {
+            for( auto i = m_info.begin(); i != m_info.end(); ++i ) {
+               m_results[ i->first ] = work( i, false );
+               m_cache.clear();
+            }
+            return m_problems;
+         }
+
+         template< typename Rule >
+         [[nodiscard]] bool consumes() const noexcept
+         {
+            const auto i = m_results.find( demangle< Rule >() );
+            //            const auto i = m_results.find( demangle< typename analyze_traits< Rule, typename Rule::rule_t >::reduced >() );
+            assert( i != m_results.end() );
+            return i->second;
+         }
+
+      protected:
+         explicit analyze_cycles_impl( const bool verbose ) noexcept
+            : m_verbose( verbose ),
+              m_problems( 0 )
+         {}
+
+         [[nodiscard]] std::map< std::string_view, analyze_entry >::const_iterator find( const std::string_view name ) const noexcept
+         {
+            const auto iter = m_info.find( name );
+            assert( iter != m_info.end() );
+            return iter;
+         }
+
+         [[nodiscard]] bool work( const std::map< std::string_view, analyze_entry >::const_iterator& start, const bool accum )
+         {
+            const auto j = m_cache.find( start->first );
+
+            if( j != m_cache.end() ) {
+               return j->second;
+            }
+            if( const auto g = analyze_guard( m_stack, start->first ) ) {
+               switch( start->second.type ) {
+                  case analyze_type::any: {
+                     bool a = false;
+                     for( const auto& r : start->second.subs ) {
+                        a = a || work( find( r ), accum || a );
+                     }
+                     return m_cache[ start->first ] = true;
+                  }
+                  case analyze_type::opt: {
+                     bool a = false;
+                     for( const auto& r : start->second.subs ) {
+                        a = a || work( find( r ), accum || a );
+                     }
+                     return m_cache[ start->first ] = false;
+                  }
+                  case analyze_type::seq: {
+                     bool a = false;
+                     for( const auto& r : start->second.subs ) {
+                        a = a || work( find( r ), accum || a );
+                     }
+                     return m_cache[ start->first ] = a;
+                  }
+                  case analyze_type::sor: {
+                     bool a = true;
+                     for( const auto& r : start->second.subs ) {
+                        a = a && work( find( r ), accum );
+                     }
+                     return m_cache[ start->first ] = a;
+                  }
+               }
+               throw std::logic_error( "code should be unreachable: invalid rule_type value" );  // LCOV_EXCL_LINE
+            }
+            if( !accum ) {
+               ++m_problems;
+               if( m_verbose ) {
+                  std::cout << "problem: cycle without progress detected at rule class " << start->first << std::endl;  // LCOV_EXCL_LINE
+               }
+            }
+            return m_cache[ start->first ] = accum;
+         }
+
+         const bool m_verbose;
+
+         std::size_t m_problems;
+
+         std::map< std::string_view, analyze_entry > m_info;
+         std::set< std::string_view > m_stack;
+         std::map< std::string_view, bool > m_cache;
+         std::map< std::string_view, bool > m_results;
+      };
+
+      template< template< typename... > class Traits, typename... Subs >
+      void analyze_insert_impl( rule_list< Subs... >& /*unused*/, std::vector< std::string_view >& subs, std::map< std::string_view, analyze_entry >& info );
+
+      template< typename Name, template< typename... > class Traits >
+      std::string_view analyze_insert( std::map< std::string_view, analyze_entry >& info )
+      {
+         using Rule = typename analyze_traits< Name, typename Name::rule_t >::reduced;
+
+         const auto [ i, b ] = info.try_emplace( demangle< Name >(), analyze_type_v< Rule > );
+         if( b ) {
+            analyze_insert_impl< Traits >( typename Traits< typename Rule::rule_t >::subs(), i->second.subs, info );
+         }
+         return i->first;
+      }
+
+      template< template< typename... > class Traits, typename... Subs >
+      void analyze_insert_impl( rule_list< Subs... >&& /*unused*/, std::vector< std::string_view >& subs, std::map< std::string_view, analyze_entry >& info )
+      {
+         ( subs.emplace_back( analyze_insert< Subs, Traits >( info ) ), ... );
+      }
+
+      template< typename Grammar, template< typename... > class Traits = traits >
+      class analyze_cycles
+         : public analyze_cycles_impl
+      {
+      public:
+         explicit analyze_cycles( const bool verbose )
+            : analyze_cycles_impl( verbose )
+         {
+            analyze_insert< Grammar, Traits >( m_info );
+         }
+      };
+
+   }  // namespace internal
+
+   template< typename Grammar, template< typename... > class Traits = traits >
+   [[nodiscard]] std::size_t analyze( const bool verbose = true )
+   {
+      return internal::analyze_cycles< Grammar, Traits >( verbose ).problems();
+   }
+
+}  // namespace TAO_PEGTL_NAMESPACE
+
+#endif

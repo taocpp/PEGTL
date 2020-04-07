@@ -18,7 +18,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct apply0
    {
       using rule_t = apply0;
-      using analyze_t = analysis::counted< analysis::rule_type::any, 0 >;
 
       template< apply_mode A,
                 rewind_mode M,

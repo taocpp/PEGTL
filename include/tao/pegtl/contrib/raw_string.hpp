@@ -28,7 +28,6 @@ namespace TAO_PEGTL_NAMESPACE
       struct raw_string_open
       {
          using rule_t = raw_string_open;
-         using analyze_t = analysis::generic< analysis::rule_type::any >;
 
          template< apply_mode A,
                    rewind_mode,
@@ -67,7 +66,6 @@ namespace TAO_PEGTL_NAMESPACE
       struct at_raw_string_close
       {
          using rule_t = at_raw_string_close;
-         using analyze_t = analysis::generic< analysis::rule_type::opt >;
 
          template< apply_mode A,
                    rewind_mode,
@@ -109,7 +107,6 @@ namespace TAO_PEGTL_NAMESPACE
       struct raw_string_until< Cond >
       {
          using rule_t = raw_string_until;
-         using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, bytes< 1 > >, Cond >;
 
          template< apply_mode A,
                    rewind_mode M,
@@ -137,7 +134,6 @@ namespace TAO_PEGTL_NAMESPACE
       struct raw_string_until< Cond, Rule >
       {
          using rule_t = raw_string_until;
-         using analyze_t = analysis::generic< analysis::rule_type::seq, star< not_at< Cond >, not_at< eof >, Rule >, Cond >;
 
          template< apply_mode A,
                    rewind_mode M,
@@ -194,15 +190,13 @@ namespace TAO_PEGTL_NAMESPACE
    template< char Open, char Marker, char Close, typename... Contents >
    struct raw_string
    {
-      using rule_t = raw_string;
+      using rule_t = ascii::any::rule_t;  // TODO: Improve and implement traits.
 
       // This is used for binding the apply()-method and for error-reporting
       // when a raw string is not closed properly or has invalid content.
       struct content
          : internal::raw_string_until< internal::at_raw_string_close< Marker, Close >, Contents... >
       {};
-
-      using analyze_t = typename internal::seq< internal::bytes< 1 >, content, internal::bytes< 1 > >::analyze_t;
 
       template< apply_mode A,
                 rewind_mode M,

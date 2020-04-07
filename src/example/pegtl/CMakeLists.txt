@@ -5,7 +5,6 @@ set(example_sources
   analyze.cpp
   calculator.cpp
   chomsky_hierarchy.cpp
-  coverage.cpp
   csv1.cpp
   csv2.cpp
   dynamic_match.cpp
@@ -13,6 +12,7 @@ set(example_sources
   indent_aware.cpp
   json_build.cpp
   json_count.cpp
+  json_coverage.cpp
   json_parse.cpp
   lua53_parse.cpp
   modulus_match.cpp

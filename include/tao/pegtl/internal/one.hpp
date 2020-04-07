@@ -18,7 +18,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct one
    {
       using rule_t = one;
-      using analyze_t = analysis::generic< analysis::rule_type::any >;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )

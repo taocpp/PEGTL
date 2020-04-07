@@ -47,7 +47,7 @@ namespace example
 
    template<>
    struct action< value >
-      : public pegtl::integer::unsigned_action
+      : public pegtl::unsigned_action
    {
       // Sets st.converted to the integer value of the matched string.
    };

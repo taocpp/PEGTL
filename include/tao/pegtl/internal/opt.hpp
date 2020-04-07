@@ -35,7 +35,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct opt< Rule >
    {
       using rule_t = opt;
-      using analyze_t = analysis::generic< analysis::rule_type::opt, Rule >;
 
       template< apply_mode A,
                 rewind_mode,

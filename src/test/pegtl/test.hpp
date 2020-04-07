@@ -67,32 +67,4 @@ namespace TAO_PEGTL_NAMESPACE
       }                                             \
    } while( false )
 
-namespace TAO_PEGTL_NAMESPACE
-{
-   template< unsigned Size, apply_mode B, rewind_mode N, typename... Rules >
-   struct test_rule
-   {
-      using analyze_t = typename seq< Rules... >::analyze_t;
-
-      template< apply_mode A,
-                rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename Input,
-                typename... States >
-      static bool match( Input& in, States&&... st )
-      {
-         static_assert( A == B, "unexpected apply mode" );
-         static_assert( M == N, "unexpected rewind mode" );
-
-         TAO_PEGTL_TEST_ASSERT( in.size() == Size );
-
-         return seq< Rules... >::template match< A, M, Action, Control >( in, st... );
-      }
-   };
-
-}  // namespace TAO_PEGTL_NAMESPACE
-
 #endif
