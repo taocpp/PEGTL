@@ -248,7 +248,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Name, char... Cs >
    struct analyze_traits< Name, internal::string< Cs... > >
    {
-      using reduced = std::conditional_t< bool( sizeof...( Cs ) ), internal::bytes< 1 >, opt<> >;
+      using reduced = std::conditional_t< bool( sizeof...( Cs ) ), internal::bytes< 1 >, internal::opt<> >;
    };
 
    template< typename Name >

@@ -62,8 +62,6 @@ namespace TAO_PEGTL_NAMESPACE
          static constexpr analyze_type value = analyze_type::sor;
       };
 
-      template< typename Rule > inline constexpr analyze_type analyze_type_v = analyze_type_traits< typename analyze_traits< Rule, typename Rule::rule_t >::reduced >::value;
-
       struct analyze_entry
       {
          explicit analyze_entry( const analyze_type in_type ) noexcept
@@ -131,7 +129,6 @@ namespace TAO_PEGTL_NAMESPACE
          [[nodiscard]] bool consumes() const noexcept
          {
             const auto i = m_results.find( demangle< Rule >() );
-            //            const auto i = m_results.find( demangle< typename analyze_traits< Rule, typename Rule::rule_t >::reduced >() );
             assert( i != m_results.end() );
             return i->second;
          }
@@ -187,7 +184,7 @@ namespace TAO_PEGTL_NAMESPACE
                      return m_cache[ start->first ] = a;
                   }
                }
-               throw std::logic_error( "code should be unreachable: invalid rule_type value" );  // LCOV_EXCL_LINE
+               assert( false );  // LCOV_EXCL_LINE
             }
             if( !accum ) {
                ++m_problems;
@@ -216,7 +213,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          using Rule = typename analyze_traits< Name, typename Name::rule_t >::reduced;
 
-         const auto [ i, b ] = info.try_emplace( demangle< Name >(), analyze_type_v< Rule > );
+         const auto [ i, b ] = info.try_emplace( demangle< Name >(), analyze_type_traits< Rule >::value );
          if( b ) {
             analyze_insert_impl< Traits >( typename Traits< typename Rule::rule_t >::subs(), i->second.subs, info );
          }
