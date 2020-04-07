@@ -63,7 +63,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Name, unsigned Min, unsigned Max, char C >
    struct analyze_traits< Name, internal::rep_one_min_max< Min, Max, C > >
    {
-      using reduced = std::conditional_t< bool( Min ), internal::bytes< 1 >, internal::opt<> >;
+      using reduced = std::conditional_t< ( Min != 0 ), internal::bytes< 1 >, internal::opt<> >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

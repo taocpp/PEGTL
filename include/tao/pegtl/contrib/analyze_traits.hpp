@@ -60,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Name, unsigned Cnt >
    struct analyze_traits< Name, internal::bytes< Cnt > >
    {
-      using reduced = std::conditional_t< bool( Cnt ), internal::bytes< 1 >, internal::opt<> >;
+      using reduced = std::conditional_t< ( Cnt != 0 ), internal::bytes< 1 >, internal::opt<> >;
    };
 
    template< typename Name, template< typename... > class Control, typename... Rules >
@@ -132,7 +132,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Name, char... Cs >
    struct analyze_traits< Name, internal::istring< Cs... > >
    {
-      using reduced = std::conditional_t< bool( sizeof...( Cs ) ), internal::bytes< 1 >, internal::opt<> >;
+      using reduced = std::conditional_t< ( sizeof...( Cs ) != 0 ), internal::bytes< 1 >, internal::opt<> >;
    };
 
    template< typename Name, typename... Rules >
@@ -194,12 +194,12 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, unsigned Cnt, typename... Rules >
    struct analyze_traits< Name, internal::rep< Cnt, Rules... > >
-      : analyze_traits< Name, std::conditional_t< bool( Cnt ), internal::seq< Rules... >, internal::opt< Rules... > > >
+      : analyze_traits< Name, std::conditional_t< ( Cnt != 0 ), internal::seq< Rules... >, internal::opt< Rules... > > >  // TODO: Simplfy to internal:::opt<>?
    {};
 
    template< typename Name, unsigned Min, unsigned Max, typename... Rules >
    struct analyze_traits< Name, internal::rep_min_max< Min, Max, Rules... > >
-      : analyze_traits< Name, std::conditional_t< bool( Min ), internal::seq< Rules... >, internal::opt< Rules... > > >
+      : analyze_traits< Name, std::conditional_t< ( Min != 0 ), internal::seq< Rules... >, internal::opt< Rules... > > >
    {};
 
    template< typename Name, unsigned Max, typename... Rules >
@@ -248,7 +248,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Name, char... Cs >
    struct analyze_traits< Name, internal::string< Cs... > >
    {
-      using reduced = std::conditional_t< bool( sizeof...( Cs ) ), internal::bytes< 1 >, internal::opt<> >;
+      using reduced = std::conditional_t< ( sizeof...( Cs ) != 0 ), internal::bytes< 1 >, internal::opt<> >;
    };
 
    template< typename Name >
