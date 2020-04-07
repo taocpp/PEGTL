@@ -7,8 +7,8 @@
 #include "../config.hpp"
 
 #include "seq.hpp"
-#include "success.hpp"
 #include "skip_control.hpp"
+#include "success.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
