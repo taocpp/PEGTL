@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
 
 #else
 
-int main( int, char** )
+int main()
 {
    return 0;
 }
