@@ -52,7 +52,7 @@ namespace TAO_PEGTL_NAMESPACE
             "case",
             "catch",
             "char",
-            "char_8t",
+            "char8_t",
             "char16_t",
             "char32_t",
             "class",
@@ -649,7 +649,7 @@ namespace TAO_PEGTL_NAMESPACE
                // note: content can not be used here!
                return to_string( n->children.back() );
             }
-            const auto min_element = ( min_val == 1 ) ? content : ( prefix + "rep< " + min + ", " + content + " >" );
+            auto min_element = ( min_val == 1 ) ? content : ( prefix + "rep< " + min + ", " + content + " >" );
             if( min_val == max_val ) {
                return min_element;
             }

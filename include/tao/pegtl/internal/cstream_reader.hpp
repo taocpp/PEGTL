@@ -22,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          assert( m_cstream != nullptr );
       }
 
-      [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length )
+      [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length ) const
       {
          if( const auto r = std::fread( buffer, 1, length, m_cstream ) ) {
             return r;
