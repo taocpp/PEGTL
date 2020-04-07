@@ -10,9 +10,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    template< typename... Rules >
    struct rule_list
-   {
-      static constexpr std::size_t size = sizeof...( Rules );
-   };
+   {};
 
    using empty_list = rule_list<>;
 
