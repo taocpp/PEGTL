@@ -36,31 +36,19 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< typename T >
-      struct analyze_type_traits;
+      inline constexpr analyze_type analyze_type_value;
 
       template<>
-      struct analyze_type_traits< bytes< 1 > >
-      {
-         static constexpr analyze_type value = analyze_type::any;
-      };
+      inline constexpr analyze_type analyze_type_value< bytes< 1 > > = analyze_type::any;
 
       template< typename... Rules >
-      struct analyze_type_traits< opt< Rules... > >
-      {
-         static constexpr analyze_type value = analyze_type::opt;
-      };
+      inline constexpr analyze_type analyze_type_value< opt< Rules... > > = analyze_type::opt;
 
       template< typename... Rules >
-      struct analyze_type_traits< seq< Rules... > >
-      {
-         static constexpr analyze_type value = analyze_type::seq;
-      };
+      inline constexpr analyze_type analyze_type_value< seq< Rules... > > = analyze_type::seq;
 
       template< typename... Rules >
-      struct analyze_type_traits< sor< Rules... > >
-      {
-         static constexpr analyze_type value = analyze_type::sor;
-      };
+      inline constexpr analyze_type analyze_type_value< sor< Rules... > > = analyze_type::sor;
 
       struct analyze_entry
       {
@@ -213,7 +201,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          using Rule = typename analyze_traits< Name, typename Name::rule_t >::reduced;
 
-         const auto [ i, b ] = info.try_emplace( demangle< Name >(), analyze_type_traits< Rule >::value );
+         const auto [ i, b ] = info.try_emplace( demangle< Name >(), analyze_type_value< Rule > );
          if( b ) {
             analyze_insert_impl< Traits >( typename Traits< typename Rule::rule_t >::subs(), i->second.subs, info );
          }
