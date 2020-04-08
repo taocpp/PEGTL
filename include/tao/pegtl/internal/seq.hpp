@@ -27,27 +27,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using impl_t = success;
    };
 
-   template< typename Rule >
-   struct seq< Rule >
-   {
-      using rule_t = seq;
-      using subs_t = rule_list< Rule >;
-      using impl_t = seq;
-
-      template< apply_mode A,
-                rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename Input,
-                typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
-      {
-         return Control< Rule >::template match< A, M, Action, Control >( in, st... );
-      }
-   };
-
    template< typename... Rules >
    struct seq
    {
@@ -65,9 +44,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         auto m = in.template mark< M >();
-         using m_t = decltype( m );
-         return m( ( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) );
+         if constexpr( sizeof...( Rules ) == 1 ) {
+            return Control< Rules... >::template match< A, M, Action, Control >( in, st... );
+         }
+         else {
+            auto m = in.template mark< M >();
+            using m_t = decltype( m );
+            return m( ( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) );
+         }
       }
    };
 
