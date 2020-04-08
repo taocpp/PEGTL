@@ -5,7 +5,6 @@
 #define TAO_PEGTL_VISIT_HPP
 
 #include <type_traits>
-#include <utility>
 
 #include "config.hpp"
 #include "rule_list.hpp"
@@ -42,17 +41,17 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename... Args >
          static void visit( Args&&... args )
          {
-            visit_impl( typename Rule::subs_t(), std::forward< Args >( args )... );
+            visit_impl( typename Rule::subs_t(), args... );
          }
 
       private:
          template< typename... Subs, typename... Args >
          static void visit_impl( rule_list< Subs... > /*unused*/, Args&&... args )
          {
-            Func< Rule, Subs... >::visit( std::forward< Args >( args )... );
+            Func< Rule, Subs... >::visit( args... );
             using NextDone = rule_list< Rule, Done... >;
             using NextTodo = typename filter< rule_list< Subs... >, rule_list< Todo... >, NextDone >::type;
-            visitor< Func, NextTodo, NextDone >::visit( std::forward< Args >( args )... );
+            visitor< Func, NextTodo, NextDone >::visit( args... );
          }
       };
 
@@ -61,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< template< typename... > class Func, typename Rule, typename... Args >
    void visit( Args&&... args )
    {
-      internal::visitor< Func, rule_list< Rule >, rule_list<> >::visit( std::forward< Args >( args )... );
+      internal::visitor< Func, rule_list< Rule >, rule_list<> >::visit( args... );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
