@@ -8,10 +8,8 @@
 
 #include "../config.hpp"
 
-#include "opt.hpp"
 #include "seq.hpp"
 #include "skip_control.hpp"
-#include "star.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
