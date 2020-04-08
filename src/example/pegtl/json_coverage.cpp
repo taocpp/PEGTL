@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE
       coverage_state state;
       visit< coverage_insert, Rule >( state );
       const auto success = parse< Rule, nothing, coverage_control >( in, state );
-      std::cout << "PARSE " << file << ( success ? "success" : "failure" ) << std::endl;
+      std::cout << "PARSE " << file << ' ' << ( success ? "success" : "failure" ) << std::endl;
       for( const auto& [ k, v ] : state.map ) {
          std::cout << "RULE " << k << " HIT " << v.start << '/' << v.success << '/' << v.failure << std::endl;  // TODO: Format as JSON?
       }

@@ -19,7 +19,6 @@
 #include "internal/has_apply0.hpp"
 #include "internal/missing_apply.hpp"
 #include "internal/missing_apply0.hpp"
-#include "internal/skip_control.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -34,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE
              typename... States >
    [[nodiscard]] bool match( Input& in, States&&... st )
    {
-      constexpr bool enable_control = !internal::skip_control< Rule >;
+      constexpr bool enable_control = Control< Rule >::enable;
       constexpr bool enable_action = enable_control && ( A == apply_mode::action );
 
       using iterator_t = typename Input::iterator_t;

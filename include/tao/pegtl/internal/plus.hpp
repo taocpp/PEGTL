@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct plus< Rule >
    {
       using rule_t = plus;
-      using subs_t = rule_list< Rule >;
+      using subs_t = rule_list< Rule, star< Rule > >;  // TODO: Change implementation to not rely on star?
 
       template< apply_mode A,
                 rewind_mode M,

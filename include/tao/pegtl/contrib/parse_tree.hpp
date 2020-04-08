@@ -225,6 +225,8 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename T >
       struct control
       {
+         static constexpr bool enable = !TAO_PEGTL_NAMESPACE::internal::skip_control< T >;
+
          template< typename Input, typename Tuple, std::size_t... Is >
          static void start_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
          {

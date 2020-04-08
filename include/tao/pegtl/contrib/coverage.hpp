@@ -41,6 +41,8 @@ namespace TAO_PEGTL_NAMESPACE
    struct coverage_control
       : normal< Rule >
    {
+      static constexpr bool enable = true;
+
       template< typename Input >
       static void start( const Input& /*unused*/, coverage_state& state )
       {
