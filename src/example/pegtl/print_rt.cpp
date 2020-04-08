@@ -13,7 +13,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule, typename... >
    struct printer_cout_rt
    {
-      static void call()
+      static void visit()
       {
          std::cout << internal::demangle< Rule >() << std::endl;
       }

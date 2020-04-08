@@ -31,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule, typename... >
    struct coverage_insert
    {
-      static void call( coverage_state& state )
+      static void visit( coverage_state& state )
       {
          state.map.try_emplace( internal::demangle< Rule >() );
       }

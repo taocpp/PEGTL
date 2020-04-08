@@ -14,7 +14,7 @@ namespace without_subs
       template< typename Rule, typename... >
       struct printer
       {
-         static void call()
+         static void visit()
          {
             std::cout << TAO_PEGTL_NAMESPACE::internal::demangle< Rule >() << std::endl;
          }

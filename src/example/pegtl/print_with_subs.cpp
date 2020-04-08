@@ -14,7 +14,7 @@ namespace with_subs
       template< typename Rule, typename... Subs >
       struct printer
       {
-         static void call()
+         static void visit()
          {
             std::cout << TAO_PEGTL_NAMESPACE::internal::demangle< Rule >() << ' ' << sizeof...( Subs ) << std::endl;
          }

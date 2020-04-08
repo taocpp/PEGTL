@@ -54,7 +54,7 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename... Subs, typename... Args >
          static void visit_impl( rule_list< Subs... > /*unused*/, Args&&... args )
          {
-            Func< Rule, Subs... >::call( std::forward< Args >( args )... );
+            Func< Rule, Subs... >::visit( std::forward< Args >( args )... );
             using NextDone = rule_list< Rule, Done... >;
             using NextTodo = typename filter< rule_list<>, rule_list< Subs..., Todo... >, NextDone >::type;
             visitor< Func, NextTodo, NextDone >::visit( std::forward< Args >( args )... );

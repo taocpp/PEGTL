@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename... Subs, typename... Args >
          static void visit_impl( rule_list< Subs... >&& /*unused*/, Args&&... args )
          {
-            Func< Rule, Subs... >::call( args... );
+            Func< Rule, Subs... >::visit( args... );
          }
       };
 
