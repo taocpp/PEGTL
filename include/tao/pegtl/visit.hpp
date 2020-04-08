@@ -17,23 +17,15 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Type, typename... Types >
       inline constexpr bool contains = ( std::is_same_v< Type, Types > || ... );
 
-      template< typename Result, typename NewTodo, typename OldTodo, typename Done, typename = void >
-      struct filter;
-
-      template< typename... Result, typename... OldTodo, typename... Done >
-      struct filter< rule_list< Result... >, empty_list, rule_list< OldTodo... >, rule_list< Done... > >
+      template< typename Rules, typename Todo, typename Done >
+      struct filter
       {
-         using type = rule_list< Result..., OldTodo... >;
+         using type = Todo;
       };
 
-      template< typename... Result, typename Rule, typename... NewTodo, typename... OldTodo, typename... Done >
-      struct filter< rule_list< Result... >, rule_list< Rule, NewTodo... >, rule_list< OldTodo... >, rule_list< Done... >, std::enable_if_t< contains< Rule, OldTodo..., Done... > > >
-         : filter< rule_list< Result... >, rule_list< NewTodo... >, rule_list< OldTodo... >, rule_list< Done... > >
-      {};
-
-      template< typename... Result, typename Rule, typename... NewTodo, typename... OldTodo, typename... Done >
-      struct filter< rule_list< Result... >, rule_list< Rule, NewTodo... >, rule_list< OldTodo... >, rule_list< Done... >, std::enable_if_t< !contains< Rule, OldTodo..., Done... > > >
-         : filter< rule_list< Result..., Rule >, rule_list< NewTodo... >, rule_list< OldTodo... >, rule_list< Done..., Rule > >
+      template< typename Rule, typename... Rules, typename... Todo, typename... Done >
+      struct filter< rule_list< Rule, Rules... >, rule_list< Todo... >, rule_list< Done... > >
+         : filter< rule_list< Rules... >, std::conditional_t< contains< Rule, Todo..., Done... >, rule_list< Todo... >, rule_list< Rule, Todo... > >, rule_list< Done... > >
       {};
 
       template< template< typename... > class Func, typename Todo, typename Done >
@@ -59,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE
          {
             Func< Rule, Subs... >::visit( std::forward< Args >( args )... );
             using NextDone = rule_list< Rule, Done... >;
-            using NextTodo = typename filter< rule_list<>, rule_list< Subs... >, rule_list< Todo... >, NextDone >::type;
+            using NextTodo = typename filter< rule_list< Subs... >, rule_list< Todo... >, NextDone >::type;
             visitor< Func, NextTodo, NextDone >::visit( std::forward< Args >( args )... );
          }
       };
