@@ -22,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       static_assert( std::is_same_v< typename Name::rule_t, Rule > );
       static_assert( std::is_same_v< typename Name::subs_t, rule_list< Rules... > > );
-   };
+   }
 
    template< typename Rule >
    struct verify_action_impl
