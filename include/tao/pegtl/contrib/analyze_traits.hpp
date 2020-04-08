@@ -129,11 +129,36 @@ namespace TAO_PEGTL_NAMESPACE
       using reduced = internal::sor< internal::seq< Cond, Then >, Else >;
    };
 
+   template< typename Name, typename Rule >
+   struct analyze_impl_traits
+      : analyze_traits< Name, typename Rule::impl_t >
+   {};
+
+   template< typename Name, typename Cond, typename Then, typename Else >
+   struct analyze_traits< Name, internal::if_must_else< Cond, Then, Else > >
+      : analyze_impl_traits< Name, internal::if_must_else< Cond, Then, Else > >
+   {};
+
    template< typename Name, char... Cs >
    struct analyze_traits< Name, internal::istring< Cs... > >
    {
       using reduced = std::conditional_t< ( sizeof...( Cs ) != 0 ), internal::bytes< 1 >, internal::opt<> >;
    };
+
+   template< typename Name, typename Rule, typename Sep >
+   struct analyze_traits< Name, internal::list< Rule, Sep > >
+      : analyze_impl_traits< Name, internal::list< Rule, Sep > >
+   {};
+
+   template< typename Name, typename Rule, typename Sep >
+   struct analyze_traits< Name, internal::list_must< Rule, Sep > >
+      : analyze_impl_traits< Name, internal::list_must< Rule, Sep > >
+   {};
+
+   template< typename Name, typename Rule, typename Sep >
+   struct analyze_traits< Name, internal::list_tail< Rule, Sep > >
+      : analyze_impl_traits< Name, internal::list_tail< Rule, Sep > >
+   {};
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::must< Rules... > >

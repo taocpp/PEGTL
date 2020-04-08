@@ -16,8 +16,7 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct at_action< any >
    {
-      template< typename Input >
-      static void apply( const Input& /*unused*/ )
+      static void apply0()
       {
          ++at_counter;
       }
@@ -26,6 +25,10 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       TAO_PEGTL_TEST_ASSERT( at_counter == 0 );
+
+      verify_meta< at<>, internal::at<> >();
+      verify_meta< at< eof >, internal::at< eof >, eof >();
+      verify_meta< at< eof, any >, internal::at< eof, any >, eof, any >();
 
       verify_analyze< at< eof > >( __LINE__, __FILE__, false, false );
       verify_analyze< at< any > >( __LINE__, __FILE__, false, false );

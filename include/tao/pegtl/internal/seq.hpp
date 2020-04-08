@@ -24,6 +24,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       using rule_t = seq;
       using subs_t = empty_list;
+      using impl_t = success;
    };
 
    template< typename Rule >
@@ -31,6 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       using rule_t = seq;
       using subs_t = rule_list< Rule >;
+      using impl_t = seq;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -51,6 +53,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       using rule_t = seq;
       using subs_t = rule_list< Rules... >;
+      using impl_t = seq;
 
       template< apply_mode A,
                 rewind_mode M,

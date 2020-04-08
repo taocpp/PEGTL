@@ -9,10 +9,18 @@
 #include "seq.hpp"
 #include "star.hpp"
 
+#include "../rule_list.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Rule, typename Sep >
-   using list = seq< Rule, star< Sep, Rule > >;
+   struct list
+      : seq< Rule, star< Sep, Rule > >
+   {
+      using rule_t = list;
+      using subs_t = rule_list< Rule, Sep >;
+      using impl_t = seq< Rule, star< Sep, Rule > >;
+   };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

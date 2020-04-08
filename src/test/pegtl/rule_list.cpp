@@ -9,6 +9,8 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_meta< list< alpha, digit >, internal::list< alpha, digit >, alpha, digit >();
+
       verify_analyze< list< eof, eof > >( __LINE__, __FILE__, false, true );
       verify_analyze< list< eof, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< list< any, eof > >( __LINE__, __FILE__, true, false );

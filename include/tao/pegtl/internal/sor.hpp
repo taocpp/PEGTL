@@ -26,6 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       using rule_t = sor;
       using subs_t = empty_list;
+      using impl_t = failure;
    };
 
    template< typename... Rules >
@@ -33,6 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       using rule_t = sor;
       using subs_t = rule_list< Rules... >;
+      using impl_t = sor;
 
       template< apply_mode A,
                 rewind_mode M,

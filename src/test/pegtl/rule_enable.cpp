@@ -8,6 +8,10 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_meta< enable<>, internal::enable<> >();
+      verify_meta< enable< eof >, internal::enable< eof >, eof >();
+      verify_meta< enable< eof, any >, internal::enable< eof, any >, eof, any >();
+
       verify_seqs< enable >();
    }
 

@@ -9,6 +9,8 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_meta< bol, internal::bol >();
+
       verify_analyze< bol >( __LINE__, __FILE__, false, false );
 
       verify_only< bol >( __LINE__, __FILE__, "", result_type::success, 0 );

@@ -27,6 +27,10 @@ namespace TAO_PEGTL_NAMESPACE
    {
       TAO_PEGTL_TEST_ASSERT( at_counter == 0 );
 
+      verify_meta< not_at<>, internal::not_at<> >();
+      verify_meta< not_at< eof >, internal::not_at< eof >, eof >();
+      verify_meta< not_at< eof, any >, internal::not_at< eof, any >, eof, any >();
+
       verify_analyze< not_at< eof > >( __LINE__, __FILE__, false, false );
       verify_analyze< not_at< any > >( __LINE__, __FILE__, false, false );
 

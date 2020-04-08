@@ -74,6 +74,8 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( !result );
       TAO_PEGTL_TEST_ASSERT( state_b );
 
+      verify_meta< apply0< test1::action_a, test1::action_b >, internal::apply0< test1::action_a, test1::action_b > >();
+
       verify_analyze< apply0<> >( __LINE__, __FILE__, false, false );
 
       verify_rule< apply0<> >( __LINE__, __FILE__, "", result_type::success, 0 );

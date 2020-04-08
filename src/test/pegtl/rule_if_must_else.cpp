@@ -8,6 +8,8 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_meta< if_must_else< digit, alpha, print >, internal::if_must_else< digit, alpha, print >, digit, alpha, print >();
+
       verify_ifmt< if_must_else >( result_type::global_failure );
    }
 

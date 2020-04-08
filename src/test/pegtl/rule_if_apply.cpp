@@ -114,6 +114,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( !result );
          TAO_PEGTL_TEST_ASSERT( !state_b );
       }
+      verify_meta< if_apply< any >, internal::if_apply< any >, any >();
+      verify_meta< if_apply< any, test1::action_a >, internal::if_apply< any, test1::action_a >, any >();
 
       verify_seqs< if_apply_seq >();
       verify_seqs< if_apply_disable >();

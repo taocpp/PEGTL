@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct rematch< Head, Rule, Rules... >
    {
       using rule_t = rematch;
-      using subs_t = rule_list< Rule, Rules... >;
+      using subs_t = rule_list< Head, Rule, Rules... >;
 
       template< apply_mode A,
                 rewind_mode,
