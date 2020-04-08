@@ -11,9 +11,9 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      verify_meta< control< normal >, internal::control< normal > >();
+      verify_meta< control< normal >, internal::success >();
       verify_meta< control< normal, eof >, internal::control< normal, eof >, eof >();
-      verify_meta< control< normal, eof, any >, internal::control< normal, eof, any >, eof, any >();
+      verify_meta< control< normal, eof, any >, internal::control< normal, internal::seq< eof, any > >, internal::seq< eof, any > >();
 
       verify_seqs< test_control_rule >();
    }

@@ -8,6 +8,7 @@
 
 #include "seq.hpp"
 #include "skip_control.hpp"
+#include "success.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
@@ -18,7 +19,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< template< typename... > class Action, typename... Rules >
    struct action
       : action< Action, seq< Rules... > >
-   {}
+   {};
+
+   template< template< typename... > class Action >
+   struct action< Action >
+      : success
+   {};
 
    template< template< typename... > class Action, typename Rule >
    struct action< Action, Rule >

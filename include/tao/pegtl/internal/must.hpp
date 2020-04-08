@@ -9,6 +9,7 @@
 #include "raise.hpp"
 #include "seq.hpp"
 #include "skip_control.hpp"
+#include "success.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
@@ -22,6 +23,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... Rules >
    struct must
       : seq< must< Rules >... >
+   {};
+
+   template<>
+   struct must<>
+      : success
    {};
 
    // While in theory the implementation for a single rule could

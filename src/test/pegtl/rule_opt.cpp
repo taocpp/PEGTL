@@ -22,9 +22,9 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      verify_meta< opt<>, internal::opt<> >();
+      verify_meta< opt<>, internal::success >();
       verify_meta< opt< eof >, internal::opt< eof >, eof >();
-      verify_meta< opt< eof, any >, internal::opt< eof, any >, eof, any >();
+      verify_meta< opt< eof, any >, internal::opt< internal::seq< eof, any > >, internal::seq< eof, any > >();
 
       verify_analyze< opt< any > >( __LINE__, __FILE__, false, false );
       verify_analyze< opt< eof > >( __LINE__, __FILE__, false, false );

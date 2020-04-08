@@ -32,6 +32,7 @@
 #include "list_must.hpp"
 #include "list_tail.hpp"
 #include "list_tail_pad.hpp"
+#include "minus.hpp"
 #include "must.hpp"
 #include "not_at.hpp"
 #include "one.hpp"
