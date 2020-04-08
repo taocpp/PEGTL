@@ -10,7 +10,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename Rule >
+   template< typename Rule, typename... >
    struct printer_cout_rt
    {
       static void call()
