@@ -16,7 +16,10 @@ namespace without_subs
       {
          static void visit()
          {
-            std::cout << TAO_PEGTL_NAMESPACE::internal::demangle< Rule >() << std::endl;
+            std::cout << TAO_PEGTL_NAMESPACE::internal::demangle< Rule >()
+                      << " => "
+                      << TAO_PEGTL_NAMESPACE::internal::demangle< typename Rule::rule_t >()
+                      << std::endl;
          }
       };
 
