@@ -197,9 +197,6 @@ namespace TAO_PEGTL_NAMESPACE
          std::map< std::string_view, bool > m_results;
       };
 
-      template< typename... Subs >
-      void analyze_insert_impl( rule_list< Subs... >& /*unused*/, std::vector< std::string_view >& subs, std::map< std::string_view, analyze_entry >& info );
-
       template< typename Name >
       std::string_view analyze_insert( std::map< std::string_view, analyze_entry >& info )
       {
@@ -213,7 +210,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< typename... Subs >
-      void analyze_insert_impl( rule_list< Subs... >&& /*unused*/, std::vector< std::string_view >& subs, std::map< std::string_view, analyze_entry >& info )
+      void analyze_insert_impl( rule_list< Subs... > /*unused*/, std::vector< std::string_view >& subs, std::map< std::string_view, analyze_entry >& info )
       {
          ( subs.emplace_back( analyze_insert< Subs >( info ) ), ... );
       }
