@@ -8,6 +8,7 @@
 #include <string_view>
 
 #include "../config.hpp"
+#include "../rule_list.hpp"
 
 #include "../internal/demangle.hpp"
 

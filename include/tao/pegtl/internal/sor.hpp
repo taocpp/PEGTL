@@ -43,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 std::size_t... Indices,
                 typename Input,
                 typename... States >
-      [[nodiscard]] static bool match( std::index_sequence< Indices... >, Input& in, States&&... st )
+      [[nodiscard]] static bool match( std::index_sequence< Indices... > /*unused*/, Input& in, States&&... st )
       {
          return ( Control< Rules >::template match< A, ( ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::required ), Action, Control >( in, st... ) || ... );
       }

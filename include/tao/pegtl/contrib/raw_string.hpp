@@ -8,6 +8,7 @@
 #include <type_traits>
 
 #include "../apply_mode.hpp"
+#include "../ascii.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 

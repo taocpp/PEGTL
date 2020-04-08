@@ -105,6 +105,8 @@ namespace TAO_PEGTL_NAMESPACE
          analyze_cycles_impl( analyze_cycles_impl&& ) = delete;
          analyze_cycles_impl( const analyze_cycles_impl& ) = delete;
 
+         ~analyze_cycles_impl() = default;
+
          void operator=( analyze_cycles_impl&& ) = delete;
          void operator=( const analyze_cycles_impl& ) = delete;
 

@@ -11,6 +11,8 @@
 #include "../rule_list.hpp"
 
 #include "../internal/bump_help.hpp"
+#include "../internal/bytes.hpp"
+#include "../internal/opt.hpp"
 #include "../internal/skip_control.hpp"
 
 #include "forward.hpp"

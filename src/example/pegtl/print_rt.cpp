@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
-int main( int, char** )  // NOLINT(bugprone-exception-escape)
+int main()  // NOLINT(bugprone-exception-escape)
 {
    tao::pegtl::print_cout_rt< tao::pegtl::json::text >();
    return 0;

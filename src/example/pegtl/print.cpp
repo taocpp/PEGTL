@@ -30,7 +30,7 @@ namespace without_subs
 
 }  // namespace without_subs
 
-int main( int, char** )  // NOLINT(bugprone-exception-escape)
+int main()  // NOLINT(bugprone-exception-escape)
 {
    without_subs::print< tao::pegtl::json::text >();
    return 0;
