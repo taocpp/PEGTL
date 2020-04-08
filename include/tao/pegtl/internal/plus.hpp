@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct plus< Rule >
    {
       using rule_t = plus;
-      using subs_t = rule_list< Rule, star< Rule > >;  // TODO: Change implementation to not rely on star?
+      using subs_t = rule_list< Rule >;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -45,7 +45,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
-         return Control< Rule >::template match< A, M, Action, Control >( in, st... ) && Control< star< Rule > >::template match< A, M, Action, Control >( in, st... );
+         if( Control< Rule >::template match< A, M, Action, Control >( in, st... ) ) {
+            while( Control< Rule >::template match< A, rewind_mode::required, Action, Control >( in, st... ) ) {
+            }
+            return true;
+         }
+         return false;
       }
    };
 
