@@ -15,13 +15,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Rule, typename Sep >
-   struct list_tail
-      : seq< list< Rule, Sep >, opt< Sep > >
-   {
-      using rule_t = list_tail;
-      using subs_t = rule_list< Rule, Sep >;
-      using impl_t = seq< list< Rule, Sep >, opt< Sep > >;
-   };
+   using list_tail = seq< list< Rule, Sep >, opt< Sep > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -455,6 +455,11 @@ namespace TAO_PEGTL_NAMESPACE
       // TODO: Overload for std::vector< Signed >?
    };
 
+   template< typename Name, typename Rule >
+   struct analyze_impl_traits
+      : analyze_traits< Name, typename Rule::impl_t >
+   {};
+
    template< typename Name >
    struct analyze_traits< Name, unsigned_rule >
       : analyze_impl_traits< Name, unsigned_rule >

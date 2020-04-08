@@ -10,18 +10,10 @@
 #include "seq.hpp"
 #include "star.hpp"
 
-#include "../rule_list.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Rule, typename Sep >
-   struct list_must
-      : seq< Rule, star< Sep, must< Rule > > >
-   {
-      using rule_t = list_must;
-      using subs_t = rule_list< Rule, Sep >;
-      using impl_t = seq< Rule, star< Sep, must< Rule > > >;
-   };
+   using list_must = seq< Rule, star< Sep, must< Rule > > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

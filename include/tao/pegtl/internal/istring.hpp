@@ -43,10 +43,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template<>
    struct istring<>
       : success
-   {
-      using rule_t = istring;
-      using subs_t = empty_list;
-   };
+   {};
 
    template< char... Cs >
    struct istring

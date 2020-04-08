@@ -22,10 +22,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... Rules >
    struct must
       : seq< must< Rules >... >
-   {
-      using rule_t = must;
-      using subs_t = rule_list< Rules... >;
-   };
+   {};
 
    // While in theory the implementation for a single rule could
    // be simplified to must< Rule > = sor< Rule, raise< Rule > >, this

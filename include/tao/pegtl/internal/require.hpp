@@ -19,10 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template<>
    struct require< 0 >
       : success
-   {
-      using rule_t = require;
-      using subs_t = empty_list;
-   };
+   {};
 
    template< unsigned Amount >
    struct require

@@ -21,18 +21,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Exception, typename... Rules >
    struct try_catch_type
       : try_catch_type< Exception, seq< Rules... > >
-   {
-      using rule_t = try_catch_type;
-      using subs_t = rule_list< Rules... >;
-   };
+   {};
 
    template< typename Exception >
    struct try_catch_type< Exception >
       : success
-   {
-      using rule_t = try_catch_type;
-      using subs_t = empty_list;
-   };
+   {};
 
    template< typename Exception, typename Rule >
    struct try_catch_type< Exception, Rule >

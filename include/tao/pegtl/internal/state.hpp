@@ -18,10 +18,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename State, typename... Rules >
    struct state
       : state< State, seq< Rules... > >
-   {
-      using rule_t = state;
-      using subs_t = rule_list< Rules... >;
-   };
+   {};
 
    template< typename State, typename Rule >
    struct state< State, Rule >

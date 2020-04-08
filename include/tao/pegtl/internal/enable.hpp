@@ -18,10 +18,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... Rules >
    struct enable
       : enable< seq< Rules... > >
-   {
-      using rule_t = enable;
-      using subs_t = rule_list< Rules... >;
-   };
+   {};
 
    template< typename Rule >
    struct enable< Rule >

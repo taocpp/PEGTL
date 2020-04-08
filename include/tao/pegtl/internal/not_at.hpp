@@ -19,18 +19,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... Rules >
    struct not_at
       : not_at< seq< Rules... > >
-   {
-      using rule_t = not_at;
-      using subs_t = rule_list< Rules... >;
-   };
+   {};
 
    template<>
    struct not_at<>
       : failure
-   {
-      using rule_t = not_at;
-      using subs_t = empty_list;
-   };
+   {};
 
    template< typename Rule >
    struct not_at< Rule >

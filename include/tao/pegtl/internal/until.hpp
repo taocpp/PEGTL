@@ -22,10 +22,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Cond, typename... Rules >
    struct until
       : until< Cond, seq< Rules... > >
-   {
-      using rule_t = until;
-      using subs_t = rule_list< Cond, Rules... >;
-   };
+   {};
 
    template< typename Cond >
    struct until< Cond >

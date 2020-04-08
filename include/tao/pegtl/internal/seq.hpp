@@ -21,18 +21,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template<>
    struct seq<>
       : success
-   {
-      using rule_t = seq;
-      using subs_t = empty_list;
-      using impl_t = success;
-   };
+   {};
 
    template< typename... Rules >
    struct seq
    {
       using rule_t = seq;
       using subs_t = rule_list< Rules... >;
-      using impl_t = seq;
 
       template< apply_mode A,
                 rewind_mode M,

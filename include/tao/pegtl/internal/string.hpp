@@ -29,10 +29,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template<>
    struct string<>
       : success
-   {
-      using rule_t = string;
-      using subs_t = empty_list;
-   };
+   {};
 
    template< char... Cs >
    struct string

@@ -20,10 +20,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule, typename... Rules >
    struct star
       : star< seq< Rule, Rules... > >
-   {
-      using rule_t = star;
-      using subs_t = rule_list< Rule, Rules... >;
-   };
+   {};
 
    template< typename Rule >
    struct star< Rule >

@@ -19,26 +19,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< unsigned Cnt, typename... Rules >
    struct rep
       : rep< Cnt, seq< Rules... > >
-   {
-      using rule_t = rep;
-      using subs_t = rule_list< Rules... >;
-   };
+   {};
 
    template< unsigned Cnt >
    struct rep< Cnt >
       : success
-   {
-      using rule_t = rep;
-      using subs_t = empty_list;
-   };
+   {};
 
    template< typename Rule >
    struct rep< 0, Rule >
       : success
-   {
-      using rule_t = rep;
-      using subs_t = empty_list;  // NOTE: This is a bit strange, but with Cnt == 0 the sub rules are never hit.
-   };
+   {};
 
    template< unsigned Cnt, typename Rule >
    struct rep< Cnt, Rule >

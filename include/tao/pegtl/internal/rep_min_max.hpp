@@ -23,9 +23,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct rep_min_max
       : rep_min_max< Min, Max, seq< Rules... > >
    {
-      using rule_t = rep_min_max;
-      using subs_t = rule_list< Rules... >;
-
       static_assert( Min <= Max );
    };
 
@@ -33,19 +30,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct rep_min_max< Min, Max >
       : failure
    {
-      using rule_t = rep_min_max;
-      using subs_t = empty_list;
-
       static_assert( Min <= Max );
    };
 
    template< typename Rule >
    struct rep_min_max< 0, 0, Rule >
       : not_at< Rule >
-   {
-      using rule_t = rep_min_max;
-      using subs_t = empty_list;
-   };
+   {};
 
    template< unsigned Min, unsigned Max, typename Rule >
    struct rep_min_max< Min, Max, Rule >

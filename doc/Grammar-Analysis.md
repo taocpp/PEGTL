@@ -14,16 +14,16 @@ It does however catch most cases of left-recursion that are typical for grammars
 
 ## Rule Analysis
 
-In order to run an analysis on a grammar it is necessary to explicitly include `<tao/pegtl/analyze.hpp>`.
+In order to run an analysis on a grammar it is necessary to explicitly include `<tao/pegtl/contrib/analyze.hpp>`.
 Then call `tao::pegtl::analyze()` with the top-level grammar rule as template argument.
 
 ```c++
-#include <tao/pegtl/analyze.hpp>
+#include <tao/pegtl/contrib/analyze.hpp>
 
 const std::size_t issues_found = tao::pegtl::analyze< my_grammar >();
 ```
 
-`analyze()` returns the number of issues found and writes some information about them to `std::cout`.
+`analyze()` returns the number of issues found and, when invoked with `true` as argument, writes some information about them to `std::cout`.
 
 Analysing a grammar is usually only done while developing and debugging a grammar, or after changing it.
 
@@ -48,7 +48,12 @@ Due to the differences regarding back-tracking and non-deterministic behaviour, 
 ## Background
 
 In order to look for infinite loops in a grammar, `analyze()` needs some information about all rules in the grammar.
-This "information" consists of a classification of the rules according to the following enum, plus, for non-atomic rules, a list of the sub-rules.
+This "information" consists of a reduced version of the rule that captures just enough of the structure of the original rule as is required.
+
+TODO...
+
+
+
 
 ```c++
 // namespace tao::pegtl::analysis
@@ -75,7 +80,15 @@ At the beginning of an `analyze()` run the function `R::analyze_t::insert()` is 
 
 ## Custom Rules
 
-For custom rules it should usually be sufficient to follow the lead of the rules supplied with the PEGTL and define `analyze_t` to either `tao::pegtl::analysis::generic` or `tao::pegtl::analysis::counted`.
+For custom rules it is usually sufficient to implement `rule_t` and `subs_t`.
+
+TODO...
+
+
+
+
+
+follow the lead of the rules supplied with the PEGTL and define `analyze_t` to either `tao::pegtl::analysis::generic` or `tao::pegtl::analysis::counted`.
 In both cases, the `rule_type` and the list of sub-rules must be supplied as template parameters.
 Class `tao::pegtl::analysis::counted` additionally takes an integer argument `Count` with the assumption being that a count of zero indicates that everything the rule type is `opt` while a non-zero count uses the rule type given as template parameter.
 
