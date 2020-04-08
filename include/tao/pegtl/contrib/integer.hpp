@@ -222,6 +222,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       using rule_t = unsigned_rule;
       using subs_t = empty_list;
+      using impl_t = integer::unsigned_rule_new::rule_t;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
@@ -230,15 +231,11 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   template< typename Name >
-   struct analyze_traits< Name, unsigned_rule >
-      : analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >
-   {};
-
    struct unsigned_rule_with_action
    {
       using rule_t = unsigned_rule_with_action;
       using subs_t = empty_list;
+      using impl_t = integer::unsigned_rule_new::rule_t;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -271,11 +268,6 @@ namespace TAO_PEGTL_NAMESPACE
       // TODO: Overload for st.converted?
       // TODO: Overload for std::vector< Unsigned >?
    };
-
-   template< typename Name >
-   struct analyze_traits< Name, unsigned_rule_with_action >
-      : analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >
-   {};
 
    template< typename Unsigned, Unsigned Maximum >
    struct maximum_action
@@ -314,6 +306,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       using rule_t = maximum_rule;
       using subs_t = empty_list;
+      using impl_t = integer::unsigned_rule_new::rule_t;
 
       static_assert( std::is_unsigned_v< Unsigned > );
 
@@ -325,16 +318,12 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   template< typename Name, typename Unsigned, Unsigned Maximum >
-   struct analyze_traits< Name, maximum_rule< Unsigned, Maximum > >
-      : analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >
-   {};
-
    template< typename Unsigned, Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
    struct maximum_rule_with_action
    {
       using rule_t = maximum_rule_with_action;
       using subs_t = empty_list;
+      using impl_t = integer::unsigned_rule_new::rule_t;
 
       static_assert( std::is_unsigned_v< Unsigned > );
 
@@ -371,11 +360,6 @@ namespace TAO_PEGTL_NAMESPACE
       // TODO: Overload for std::vector< Unsigned >?
    };
 
-   template< typename Name, typename Unsigned, Unsigned Maximum >
-   struct analyze_traits< Name, maximum_rule_with_action< Unsigned, Maximum > >
-      : analyze_traits< Name, typename integer::unsigned_rule_new::rule_t >
-   {};
-
    struct signed_action
    {
       // Assumes that 'in' contains a non-empty sequence of ASCII digits,
@@ -410,6 +394,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       using rule_t = signed_rule;
       using subs_t = empty_list;
+      using impl_t = integer::signed_rule_new::rule_t;
 
       template< typename Input >
       [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
@@ -417,11 +402,6 @@ namespace TAO_PEGTL_NAMESPACE
          return TAO_PEGTL_NAMESPACE::parse< integer::signed_rule_new >( in );  // Does not check for any overflow.
       }
    };
-
-   template< typename Name >
-   struct analyze_traits< Name, signed_rule >
-      : analyze_traits< Name, typename integer::signed_rule_new::rule_t >
-   {};
 
    namespace integer
    {
@@ -443,6 +423,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       using rule_t = signed_rule_with_action;
       using subs_t = empty_list;
+      using impl_t = integer::signed_rule_new::rule_t;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -475,8 +456,33 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename Name >
+   struct analyze_traits< Name, unsigned_rule >
+      : analyze_impl_traits< Name, unsigned_rule >
+   {};
+
+   template< typename Name >
+   struct analyze_traits< Name, unsigned_rule_with_action >
+      : analyze_impl_traits< Name, unsigned_rule_with_action >
+   {};
+
+   template< typename Name, typename Integer, Integer Maximum >
+   struct analyze_traits< Name, maximum_rule< Integer, Maximum > >
+      : analyze_impl_traits< Name, maximum_rule< Integer, Maximum > >
+   {};
+
+   template< typename Name, typename Integer, Integer Maximum >
+   struct analyze_traits< Name, maximum_rule_with_action< Integer, Maximum > >
+      : analyze_impl_traits< Name, maximum_rule_with_action< Integer, Maximum > >
+   {};
+
+   template< typename Name >
+   struct analyze_traits< Name, signed_rule >
+      : analyze_impl_traits< Name, signed_rule >
+   {};
+
+   template< typename Name >
    struct analyze_traits< Name, signed_rule_with_action >
-      : analyze_traits< Name, typename integer::signed_rule_new::rule_t >
+      : analyze_impl_traits< Name, signed_rule_with_action >
    {};
 
 }  // namespace TAO_PEGTL_NAMESPACE

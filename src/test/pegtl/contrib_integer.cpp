@@ -6,6 +6,7 @@
 
 #include "test.hpp"
 
+#include "verify_analyze.hpp"
 #include "verify_rule.hpp"
 
 #include <tao/pegtl/contrib/integer.hpp>
@@ -256,6 +257,12 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< max_seq_rule< 18446744073709551615ULL > >( __LINE__, __FILE__, "a18446744073709551615b", result_type::success );
       verify_rule< max_seq_rule< 18446744073709551615ULL > >( __LINE__, __FILE__, "a18446744073709551616b", result_type::global_failure );
       verify_rule< max_seq_rule< 18446744073709551615ULL > >( __LINE__, __FILE__, "a98446744073709551614b", result_type::global_failure );
+
+      verify_analyze< unsigned_rule >( __LINE__, __FILE__, true, false );
+      verify_analyze< unsigned_rule_with_action >( __LINE__, __FILE__, true, false );
+
+      verify_analyze< signed_rule >( __LINE__, __FILE__, true, false );
+      verify_analyze< signed_rule_with_action >( __LINE__, __FILE__, true, false );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
