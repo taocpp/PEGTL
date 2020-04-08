@@ -52,7 +52,12 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Input, typename... States >
       static void raise( const Input& in, States&&... /*unused*/ )
       {
-         throw parse_error( "parse error matching " + std::string( internal::demangle< Rule >() ), in );
+         if constexpr( error_message< Rule > != nullptr ) {
+            throw parse_error( error_message< Rule >, in );
+         }
+         else {
+            throw parse_error( "parse error matching " + std::string( internal::demangle< Rule >() ), in );
+         }
       }
 
       template< template< typename... > class Action,
