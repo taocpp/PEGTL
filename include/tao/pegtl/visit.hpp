@@ -17,20 +17,23 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Type, typename... Types >
       inline constexpr bool contains = ( std::is_same_v< Type, Types > || ... );
 
-      template< typename Result, typename Todo, typename Done, typename = void >
-      struct filter
+      template< typename Result, typename NewTodo, typename OldTodo, typename Done, typename = void >
+      struct filter;
+
+      template< typename... Result, typename... OldTodo, typename... Done >
+      struct filter< rule_list< Result... >, empty_list, rule_list< OldTodo... >, rule_list< Done... > >
       {
-         using type = Result;
+         using type = rule_list< Result..., OldTodo... >;
       };
 
-      template< typename... Result, typename Rule, typename... Todo, typename... Done >
-      struct filter< rule_list< Result... >, rule_list< Rule, Todo... >, rule_list< Done... >, std::enable_if_t< contains< Rule, Done... > > >
-         : filter< rule_list< Result... >, rule_list< Todo... >, rule_list< Done... > >
+      template< typename... Result, typename Rule, typename... NewTodo, typename... OldTodo, typename... Done >
+      struct filter< rule_list< Result... >, rule_list< Rule, NewTodo... >, rule_list< OldTodo... >, rule_list< Done... >, std::enable_if_t< contains< Rule, OldTodo..., Done... > > >
+         : filter< rule_list< Result... >, rule_list< NewTodo... >, rule_list< OldTodo... >, rule_list< Done... > >
       {};
 
-      template< typename... Result, typename Rule, typename... Todo, typename... Done >
-      struct filter< rule_list< Result... >, rule_list< Rule, Todo... >, rule_list< Done... >, std::enable_if_t< !contains< Rule, Done... > > >
-         : filter< rule_list< Result..., Rule >, rule_list< Todo... >, rule_list< Done..., Rule > >
+      template< typename... Result, typename Rule, typename... NewTodo, typename... OldTodo, typename... Done >
+      struct filter< rule_list< Result... >, rule_list< Rule, NewTodo... >, rule_list< OldTodo... >, rule_list< Done... >, std::enable_if_t< !contains< Rule, OldTodo..., Done... > > >
+         : filter< rule_list< Result..., Rule >, rule_list< NewTodo... >, rule_list< OldTodo... >, rule_list< Done..., Rule > >
       {};
 
       template< template< typename... > class Func, typename Todo, typename Done >
@@ -56,7 +59,7 @@ namespace TAO_PEGTL_NAMESPACE
          {
             Func< Rule, Subs... >::visit( std::forward< Args >( args )... );
             using NextDone = rule_list< Rule, Done... >;
-            using NextTodo = typename filter< rule_list<>, rule_list< Subs..., Todo... >, NextDone >::type;
+            using NextTodo = typename filter< rule_list<>, rule_list< Subs... >, rule_list< Todo... >, NextDone >::type;
             visitor< Func, NextTodo, NextDone >::visit( std::forward< Args >( args )... );
          }
       };
