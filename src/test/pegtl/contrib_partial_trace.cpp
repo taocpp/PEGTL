@@ -3,7 +3,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/contrib/tracer.hpp>
+#include <tao/pegtl/contrib/trace.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -13,7 +13,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    // how to run a tracer on a *part* of the grammar:
    template< typename > struct partial_action {};
-   template<> struct partial_action< inner > : change_control< tracer > {};
+   template<> struct partial_action< inner > : change_control< trace_control > {};
    // clang-format on
 
    void unit_test()
