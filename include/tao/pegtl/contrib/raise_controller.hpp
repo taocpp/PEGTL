@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace internal
 
-   template< typename T, template< typename... > class Base = normal >
+   template< typename T, bool RequireMessage = true, template< typename... > class Base = normal >
    struct raise_controller
    {
       template< typename Rule >
@@ -46,6 +46,9 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename Input, typename... States >
          static void raise( const Input& in, States&&... st )
          {
+            if constexpr( RequireMessage ) {
+               static_assert( T::template message< Rule > != nullptr );
+            }
             if constexpr( T::template message< Rule > != nullptr ) {
                throw parse_error( T::template message< Rule >, in );
             }
