@@ -281,29 +281,29 @@ namespace TAO_PEGTL_NAMESPACE
       }  // namespace grammar
 
       // clang-format off
-      struct error { template< typename > static constexpr const char* message = nullptr; };
+      template< typename > inline constexpr const char* error_message = nullptr;
+      template<> inline constexpr const char* error_message< abnf::grammar::comment_cont > = "unterminated comment";
 
-      template<> constexpr const char* error::message< abnf::grammar::comment_cont > = "unterminated comment";
+      template<> inline constexpr const char* error_message< abnf::grammar::quoted_string_cont > = "unterminated string (missing '\"')";
+      template<> inline constexpr const char* error_message< abnf::grammar::prose_val_cont > = "unterminated prose description (missing '>')";
 
-      template<> constexpr const char* error::message< abnf::grammar::quoted_string_cont > = "unterminated string (missing '\"')";
-      template<> constexpr const char* error::message< abnf::grammar::prose_val_cont > = "unterminated prose description (missing '>')";
+      template<> inline constexpr const char* error_message< abnf::grammar::hex_val::value > = "expected hexadecimal value";
+      template<> inline constexpr const char* error_message< abnf::grammar::dec_val::value > = "expected decimal value";
+      template<> inline constexpr const char* error_message< abnf::grammar::bin_val::value > = "expected binary value";
+      template<> inline constexpr const char* error_message< abnf::grammar::num_val_choice > = "expected base specifier (one of 'bBdDxX')";
 
-      template<> constexpr const char* error::message< abnf::grammar::hex_val::value > = "expected hexadecimal value";
-      template<> constexpr const char* error::message< abnf::grammar::dec_val::value > = "expected decimal value";
-      template<> constexpr const char* error::message< abnf::grammar::bin_val::value > = "expected binary value";
-      template<> constexpr const char* error::message< abnf::grammar::num_val_choice > = "expected base specifier (one of 'bBdDxX')";
+      template<> inline constexpr const char* error_message< abnf::grammar::option_close > = "unterminated option (missing ']')";
+      template<> inline constexpr const char* error_message< abnf::grammar::group_close > = "unterminated group (missing ')')";
 
-      template<> constexpr const char* error::message< abnf::grammar::option_close > = "unterminated option (missing ']')";
-      template<> constexpr const char* error::message< abnf::grammar::group_close > = "unterminated group (missing ')')";
+      template<> inline constexpr const char* error_message< abnf::grammar::req_repetition > = "expected element";
+      template<> inline constexpr const char* error_message< abnf::grammar::concatenation > = "expected element";
+      template<> inline constexpr const char* error_message< abnf::grammar::alternation > = "expected element";
 
-      template<> constexpr const char* error::message< abnf::grammar::req_repetition > = "expected element";
-      template<> constexpr const char* error::message< abnf::grammar::concatenation > = "expected element";
-      template<> constexpr const char* error::message< abnf::grammar::alternation > = "expected element";
+      template<> inline constexpr const char* error_message< abnf::grammar::defined_as > = "expected '=' or '=/'";
+      template<> inline constexpr const char* error_message< abnf::grammar::req_c_nl > = "unterminated rule";
+      template<> inline constexpr const char* error_message< abnf::grammar::rule > = "expected rule";
 
-      template<> constexpr const char* error::message< abnf::grammar::defined_as > = "expected '=' or '=/'";
-      template<> constexpr const char* error::message< abnf::grammar::req_c_nl > = "unterminated rule";
-      template<> constexpr const char* error::message< abnf::grammar::rule > = "expected rule";
-
+      struct error { template< typename Rule > static constexpr const char* message = error_message< Rule >; };
       template< typename Rule > using my_control = raise_controller< error >::control< Rule >;
       // clang-format on
 

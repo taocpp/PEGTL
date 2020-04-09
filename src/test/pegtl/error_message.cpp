@@ -14,10 +14,11 @@ namespace test1
    struct b : one< 'b' > {};
    struct grammar : sor< a, b > {};
 
-   struct my_messages { template< typename > static constexpr const char* message = nullptr; };
-   template<> constexpr const char* my_messages::message< test1::a > = "test123";
+   template< typename > inline constexpr const char* error_message = nullptr;
+   template<> constexpr const char* error_message< test1::a > = "test123";
 
-   template< typename Rule > using my_control = raise_controller< my_messages >::control< Rule >;
+   struct error { template< typename Rule > static constexpr const char* message = error_message< Rule >; };
+   template< typename Rule > using my_control = raise_controller< error >::control< Rule >;
    // clang-format on
 
 }  // namespace test1
