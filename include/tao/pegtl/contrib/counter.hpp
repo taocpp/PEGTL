@@ -4,6 +4,7 @@
 #ifndef TAO_PEGTL_CONTRIB_COUNTER_HPP
 #define TAO_PEGTL_CONTRIB_COUNTER_HPP
 
+#include <cstddef>
 #include <map>
 #include <string_view>
 
@@ -16,9 +17,9 @@ namespace TAO_PEGTL_NAMESPACE
 {
    struct counter_data
    {
-      unsigned start = 0;
-      unsigned success = 0;
-      unsigned failure = 0;
+      std::size_t start = 0;
+      std::size_t success = 0;
+      std::size_t failure = 0;
    };
 
    struct counter_state
