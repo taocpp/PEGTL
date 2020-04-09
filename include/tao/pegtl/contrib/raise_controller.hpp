@@ -51,6 +51,9 @@ namespace TAO_PEGTL_NAMESPACE
             }
             if constexpr( T::template message< Rule > != nullptr ) {
                throw parse_error( T::template message< Rule >, in );
+#if defined( _MSC_VER )
+               (void)( (void)st, ... );
+#endif
             }
             else {
                Base< Rule >::raise( in, st... );
