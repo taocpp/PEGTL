@@ -8,10 +8,10 @@
 
 #include "../config.hpp"
 
+#include "../internal/enable_control.hpp"
 #include "../internal/failure.hpp"
 #include "../internal/if_then_else.hpp"
 #include "../internal/seq.hpp"
-#include "../internal/skip_control.hpp"
 #include "../internal/success.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE
       {};
 
       template< typename... Pairs >
-      inline constexpr bool skip_control< if_then< Pairs... > > = true;
+      inline constexpr bool enable_control< if_then< Pairs... > > = false;
 
    }  // namespace internal
 

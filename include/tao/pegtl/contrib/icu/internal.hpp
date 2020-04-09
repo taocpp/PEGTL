@@ -8,7 +8,7 @@
 
 #include "../../config.hpp"
 
-#include "../../internal/skip_control.hpp"
+#include "../../internal/enable_control.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -57,10 +57,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
    }  // namespace icu
 
    template< typename Peek, UProperty P, bool V >
-   inline constexpr bool skip_control< icu::binary_property< Peek, P, V > > = true;
+   inline constexpr bool enable_control< icu::binary_property< Peek, P, V > > = false;
 
    template< typename Peek, UProperty P, int V >
-   inline constexpr bool skip_control< icu::property_value< Peek, P, V > > = true;
+   inline constexpr bool enable_control< icu::property_value< Peek, P, V > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -12,8 +12,8 @@
 
 #include "../internal/bump_help.hpp"
 #include "../internal/bytes.hpp"
+#include "../internal/enable_control.hpp"
 #include "../internal/opt.hpp"
-#include "../internal/skip_control.hpp"
 
 #include "forward.hpp"
 
@@ -49,7 +49,7 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< unsigned Min, unsigned Max, char C >
-      inline constexpr bool skip_control< rep_one_min_max< Min, Max, C > > = true;
+      inline constexpr bool enable_control< rep_one_min_max< Min, Max, C > > = false;
 
    }  // namespace internal
 

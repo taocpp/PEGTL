@@ -146,7 +146,8 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   template< typename Rule > using trace_control = basic_trace_control< Rule, normal >;
+   template< typename Rule >
+   using trace_control = basic_trace_control< Rule, normal >;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

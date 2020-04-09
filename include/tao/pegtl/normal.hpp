@@ -15,15 +15,15 @@
 #include "rewind_mode.hpp"
 
 #include "internal/demangle.hpp"
+#include "internal/enable_control.hpp"
 #include "internal/has_match.hpp"
-#include "internal/skip_control.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Rule >
    struct normal
    {
-      static constexpr bool enable = !internal::skip_control< Rule >;
+      static constexpr bool enable = internal::enable_control< Rule >;
 
       template< typename Input, typename... States >
       static void start( const Input& /*unused*/, States&&... /*unused*/ ) noexcept

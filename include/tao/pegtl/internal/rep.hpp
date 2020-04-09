@@ -6,8 +6,8 @@
 
 #include "../config.hpp"
 
+#include "enable_control.hpp"
 #include "seq.hpp"
-#include "skip_control.hpp"
 #include "success.hpp"
 
 #include "../apply_mode.hpp"
@@ -60,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< unsigned Cnt, typename... Rules >
-   inline constexpr bool skip_control< rep< Cnt, Rules... > > = true;
+   inline constexpr bool enable_control< rep< Cnt, Rules... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

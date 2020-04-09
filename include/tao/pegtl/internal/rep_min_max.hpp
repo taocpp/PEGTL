@@ -8,10 +8,10 @@
 
 #include "../config.hpp"
 
+#include "enable_control.hpp"
 #include "failure.hpp"
 #include "not_at.hpp"
 #include "seq.hpp"
-#include "skip_control.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
@@ -74,7 +74,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< unsigned Min, unsigned Max, typename... Rules >
-   inline constexpr bool skip_control< rep_min_max< Min, Max, Rules... > > = true;
+   inline constexpr bool enable_control< rep_min_max< Min, Max, Rules... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

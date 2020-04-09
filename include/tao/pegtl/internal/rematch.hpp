@@ -6,7 +6,7 @@
 
 #include "../config.hpp"
 
-#include "skip_control.hpp"
+#include "enable_control.hpp"
 
 #include "../apply_mode.hpp"
 #include "../memory_input.hpp"
@@ -65,7 +65,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Head, typename... Rules >
-   inline constexpr bool skip_control< rematch< Head, Rules... > > = true;
+   inline constexpr bool enable_control< rematch< Head, Rules... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

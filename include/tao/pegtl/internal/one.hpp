@@ -9,8 +9,8 @@
 #include "../config.hpp"
 
 #include "bump_help.hpp"
+#include "enable_control.hpp"
 #include "result_on_found.hpp"
-#include "skip_control.hpp"
 
 #include "../rule_list.hpp"
 
@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
-   inline constexpr bool skip_control< one< R, Peek, Cs... > > = true;
+   inline constexpr bool enable_control< one< R, Peek, Cs... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

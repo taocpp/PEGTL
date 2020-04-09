@@ -10,8 +10,8 @@
 #include "../config.hpp"
 
 #include "bump_help.hpp"
+#include "enable_control.hpp"
 #include "result_on_found.hpp"
-#include "skip_control.hpp"
 #include "success.hpp"
 
 #include "../rule_list.hpp"
@@ -51,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< char... Cs >
-   inline constexpr bool skip_control< string< Cs... > > = true;
+   inline constexpr bool enable_control< string< Cs... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

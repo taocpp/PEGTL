@@ -6,7 +6,7 @@
 
 #include "../config.hpp"
 
-#include "skip_control.hpp"
+#include "enable_control.hpp"
 #include "success.hpp"
 
 #include "../rule_list.hpp"
@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< unsigned Amount >
-   inline constexpr bool skip_control< require< Amount > > = true;
+   inline constexpr bool enable_control< require< Amount > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

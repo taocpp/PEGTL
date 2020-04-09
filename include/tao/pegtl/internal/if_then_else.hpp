@@ -6,9 +6,9 @@
 
 #include "../config.hpp"
 
+#include "enable_control.hpp"
 #include "not_at.hpp"
 #include "seq.hpp"
-#include "skip_control.hpp"
 #include "sor.hpp"
 
 #include "../apply_mode.hpp"
@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Cond, typename Then, typename Else >
-   inline constexpr bool skip_control< if_then_else< Cond, Then, Else > > = true;
+   inline constexpr bool enable_control< if_then_else< Cond, Then, Else > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

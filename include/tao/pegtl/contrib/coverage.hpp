@@ -75,7 +75,8 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   template< typename Rule > using coverage_control = basic_coverage_control< Rule, normal >;
+   template< typename Rule >
+   using coverage_control = basic_coverage_control< Rule, normal >;
 
    template< typename Grammar, typename Input >
    bool coverage( Input&& in )

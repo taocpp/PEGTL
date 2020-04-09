@@ -7,7 +7,7 @@
 #include "../config.hpp"
 
 #include "apply0_single.hpp"
-#include "skip_control.hpp"
+#include "enable_control.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename... Actions >
-   inline constexpr bool skip_control< apply0< Actions... > > = true;
+   inline constexpr bool enable_control< apply0< Actions... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

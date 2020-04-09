@@ -6,8 +6,8 @@
 
 #include "../config.hpp"
 
+#include "enable_control.hpp"
 #include "peek_char.hpp"
-#include "skip_control.hpp"
 
 #include "../rule_list.hpp"
 
@@ -53,7 +53,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Peek >
-   inline constexpr bool skip_control< any< Peek > > = true;
+   inline constexpr bool enable_control< any< Peek > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

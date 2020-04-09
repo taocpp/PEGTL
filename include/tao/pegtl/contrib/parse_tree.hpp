@@ -21,8 +21,8 @@
 #include "../parse.hpp"
 
 #include "../internal/demangle.hpp"
+#include "../internal/enable_control.hpp"
 #include "../internal/iterator.hpp"
-#include "../internal/skip_control.hpp"
 #include "../internal/try_catch_type.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::parse_tree
@@ -215,7 +215,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       {};
 
       template< unsigned Level, typename Rule, template< typename... > class Selector >
-      inline constexpr bool is_unselected_leaf = ( TAO_PEGTL_NAMESPACE::internal::skip_control< Rule > || !Selector< Rule >::value ) && is_leaf< Level, typename Rule::subs_t, Selector >::value;
+      inline constexpr bool is_unselected_leaf = ( !TAO_PEGTL_NAMESPACE::internal::enable_control< Rule > || !Selector< Rule >::value ) && is_leaf< Level, typename Rule::subs_t, Selector >::value;
 
       template< unsigned Level, typename... Rules, template< typename... > class Selector >
       struct is_leaf< Level, rule_list< Rules... >, Selector >
@@ -225,7 +225,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename T >
       struct control
       {
-         static constexpr bool enable = !TAO_PEGTL_NAMESPACE::internal::skip_control< T >;
+         static constexpr bool enable = TAO_PEGTL_NAMESPACE::internal::enable_control< T >;
 
          template< typename Input, typename Tuple, std::size_t... Is >
          static void start_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
@@ -324,7 +324,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          struct state_handler;
 
          template< typename Rule >
-         using type = control< state_handler< Rule, !TAO_PEGTL_NAMESPACE::internal::skip_control< Rule > && Selector< Rule >::value, is_leaf< 8, typename Rule::subs_t, Selector >::value > >;
+         using type = control< state_handler< Rule, TAO_PEGTL_NAMESPACE::internal::enable_control< Rule > && Selector< Rule >::value, is_leaf< 8, typename Rule::subs_t, Selector >::value > >;
       };
 
       template< typename Node, template< typename... > class Selector, template< typename... > class Control >

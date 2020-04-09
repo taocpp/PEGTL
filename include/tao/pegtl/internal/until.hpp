@@ -7,10 +7,10 @@
 #include "../config.hpp"
 
 #include "bytes.hpp"
+#include "enable_control.hpp"
 #include "eof.hpp"
 #include "not_at.hpp"
 #include "seq.hpp"
-#include "skip_control.hpp"
 #include "star.hpp"
 
 #include "../apply_mode.hpp"
@@ -81,7 +81,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Cond, typename... Rules >
-   inline constexpr bool skip_control< until< Cond, Rules... > > = true;
+   inline constexpr bool enable_control< until< Cond, Rules... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

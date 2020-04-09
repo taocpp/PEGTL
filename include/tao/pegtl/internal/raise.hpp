@@ -10,7 +10,7 @@
 
 #include "../config.hpp"
 
-#include "skip_control.hpp"
+#include "enable_control.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
@@ -47,7 +47,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename T >
-   inline constexpr bool skip_control< raise< T > > = true;
+   inline constexpr bool enable_control< raise< T > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

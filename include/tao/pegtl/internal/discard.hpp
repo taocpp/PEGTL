@@ -6,7 +6,7 @@
 
 #include "../config.hpp"
 
-#include "skip_control.hpp"
+#include "enable_control.hpp"
 
 #include "../rule_list.hpp"
 
@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template<>
-   inline constexpr bool skip_control< discard > = true;
+   inline constexpr bool enable_control< discard > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

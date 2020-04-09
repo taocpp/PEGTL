@@ -8,8 +8,8 @@
 
 #include "../config.hpp"
 
+#include "enable_control.hpp"
 #include "seq.hpp"
-#include "skip_control.hpp"
 #include "success.hpp"
 
 #include "../apply_mode.hpp"
@@ -57,7 +57,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Exception, typename... Rules >
-   inline constexpr bool skip_control< try_catch_type< Exception, Rules... > > = true;
+   inline constexpr bool enable_control< try_catch_type< Exception, Rules... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

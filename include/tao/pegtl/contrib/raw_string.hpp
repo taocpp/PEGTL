@@ -13,12 +13,12 @@
 #include "../rewind_mode.hpp"
 
 #include "../internal/bytes.hpp"
+#include "../internal/enable_control.hpp"
 #include "../internal/eof.hpp"
 #include "../internal/eol.hpp"
 #include "../internal/must.hpp"
 #include "../internal/not_at.hpp"
 #include "../internal/seq.hpp"
-#include "../internal/skip_control.hpp"
 #include "../internal/star.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -61,7 +61,7 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< char Open, char Marker >
-      inline constexpr bool skip_control< raw_string_open< Open, Marker > > = true;
+      inline constexpr bool enable_control< raw_string_open< Open, Marker > > = false;
 
       template< char Marker, char Close >
       struct at_raw_string_close
@@ -97,7 +97,7 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< char Marker, char Close >
-      inline constexpr bool skip_control< at_raw_string_close< Marker, Close > > = true;
+      inline constexpr bool enable_control< at_raw_string_close< Marker, Close > > = false;
 
       template< typename Cond, typename... Rules >
       struct raw_string_until
@@ -159,7 +159,7 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< typename Cond, typename... Rules >
-      inline constexpr bool skip_control< raw_string_until< Cond, Rules... > > = true;
+      inline constexpr bool enable_control< raw_string_until< Cond, Rules... > > = false;
 
    }  // namespace internal
 
