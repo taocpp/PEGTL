@@ -3,28 +3,31 @@
 
 #include "test.hpp"
 
-#include <string>
+#include <tao/pegtl/contrib/raise_controller.hpp>
+
+namespace test1
+{
+   using namespace TAO_PEGTL_NAMESPACE;
+
+   // clang-format off
+   struct a : one< 'a' > {};
+   struct b : one< 'b' > {};
+   struct grammar : sor< a, b > {};
+
+   struct my_messages { template< typename > static constexpr const char* message = nullptr; };
+   template<> constexpr const char* my_messages::message< test1::a > = "test123";
+
+   template< typename Rule > using my_control = raise_controller< my_messages >::control< Rule >;
+   // clang-format on
+
+}  // namespace test1
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   namespace test1
-   {
-      // clang-format off
-      struct a : one< 'a' > {};
-      struct b : one< 'b' > {};
-      struct foo : sor< a, b > {};
-      // clang-format on
-
-   }  // namespace test1
-
-   // clang-format off
-   template<> constexpr const char* error_message< test1::a > = "test123";
-   // clang-format on
-
    void unit_test()
    {
       try {
-         parse< test1::foo >( memory_input( "b", __FUNCTION__ ) );
+         parse< test1::grammar, nothing, test1::my_control >( memory_input( "b", __FUNCTION__ ) );
          TAO_PEGTL_TEST_ASSERT( false );
       }
       catch( const parse_error& e ) {

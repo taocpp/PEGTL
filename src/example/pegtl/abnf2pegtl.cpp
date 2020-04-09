@@ -27,6 +27,7 @@
 #include <tao/pegtl/contrib/abnf.hpp>
 #include <tao/pegtl/contrib/analyze.hpp>
 #include <tao/pegtl/contrib/parse_tree.hpp>
+#include <tao/pegtl/contrib/raise_controller.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -279,33 +280,33 @@ namespace TAO_PEGTL_NAMESPACE
 
       }  // namespace grammar
 
-   }  // namespace abnf
+      // clang-format off
+      struct error { template< typename > static constexpr const char* message = nullptr; };
 
-   // clang-format off
-   template<> constexpr const char* error_message< abnf::grammar::comment_cont > = "unterminated comment";
+      template<> constexpr const char* error::message< abnf::grammar::comment_cont > = "unterminated comment";
 
-   template<> constexpr const char* error_message< abnf::grammar::quoted_string_cont > = "unterminated string (missing '\"')";
-   template<> constexpr const char* error_message< abnf::grammar::prose_val_cont > = "unterminated prose description (missing '>')";
+      template<> constexpr const char* error::message< abnf::grammar::quoted_string_cont > = "unterminated string (missing '\"')";
+      template<> constexpr const char* error::message< abnf::grammar::prose_val_cont > = "unterminated prose description (missing '>')";
 
-   template<> constexpr const char* error_message< abnf::grammar::hex_val::value > = "expected hexadecimal value";
-   template<> constexpr const char* error_message< abnf::grammar::dec_val::value > = "expected decimal value";
-   template<> constexpr const char* error_message< abnf::grammar::bin_val::value > = "expected binary value";
-   template<> constexpr const char* error_message< abnf::grammar::num_val_choice > = "expected base specifier (one of 'bBdDxX')";
+      template<> constexpr const char* error::message< abnf::grammar::hex_val::value > = "expected hexadecimal value";
+      template<> constexpr const char* error::message< abnf::grammar::dec_val::value > = "expected decimal value";
+      template<> constexpr const char* error::message< abnf::grammar::bin_val::value > = "expected binary value";
+      template<> constexpr const char* error::message< abnf::grammar::num_val_choice > = "expected base specifier (one of 'bBdDxX')";
 
-   template<> constexpr const char* error_message< abnf::grammar::option_close > = "unterminated option (missing ']')";
-   template<> constexpr const char* error_message< abnf::grammar::group_close > = "unterminated group (missing ')')";
+      template<> constexpr const char* error::message< abnf::grammar::option_close > = "unterminated option (missing ']')";
+      template<> constexpr const char* error::message< abnf::grammar::group_close > = "unterminated group (missing ')')";
 
-   template<> constexpr const char* error_message< abnf::grammar::req_repetition > = "expected element";
-   template<> constexpr const char* error_message< abnf::grammar::concatenation > = "expected element";
-   template<> constexpr const char* error_message< abnf::grammar::alternation > = "expected element";
+      template<> constexpr const char* error::message< abnf::grammar::req_repetition > = "expected element";
+      template<> constexpr const char* error::message< abnf::grammar::concatenation > = "expected element";
+      template<> constexpr const char* error::message< abnf::grammar::alternation > = "expected element";
 
-   template<> constexpr const char* error_message< abnf::grammar::defined_as > = "expected '=' or '=/'";
-   template<> constexpr const char* error_message< abnf::grammar::req_c_nl > = "unterminated rule";
-   template<> constexpr const char* error_message< abnf::grammar::rule > = "expected rule";
-   // clang-format on
+      template<> constexpr const char* error::message< abnf::grammar::defined_as > = "expected '=' or '=/'";
+      template<> constexpr const char* error::message< abnf::grammar::req_c_nl > = "unterminated rule";
+      template<> constexpr const char* error::message< abnf::grammar::rule > = "expected rule";
 
-   namespace abnf
-   {
+      template< typename Rule > using my_control = raise_controller< error >::control< Rule >;
+      // clang-format on
+
       template< typename Rule >
       struct selector
          : parse_tree::selector<
@@ -699,7 +700,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 
    file_input in( argv[ 1 ] );
    try {
-      const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::selector >( in );
+      const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::selector, nothing, abnf::my_control >( in );
 
       for( const auto& rule : root->children ) {
          abnf::rules_defined.push_back( abnf::get_rulename( rule->children.front() ) );
