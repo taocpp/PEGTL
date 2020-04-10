@@ -39,7 +39,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename T >
       struct fail
       {
-         static_assert( dependent_false< T >, "invalid analyze_type< T >::reduced -- see contrib/analyze.hpp for allowed types" );
+         static_assert( dependent_false< T >, "invalid analyze_traits< T >::reduced -- see contrib/analyze.hpp for allowed types" );
          static constexpr analyze_type dummy{};
       };
 
