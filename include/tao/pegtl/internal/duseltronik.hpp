@@ -10,11 +10,6 @@
 
 #include "dusel_mode.hpp"
 
-#ifdef _MSC_VER
-#pragma warning( push )
-#pragma warning( disable : 4702 )
-#endif
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Rule,
@@ -179,9 +174,5 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
-
-#ifdef _MSC_VER
-#pragma warning( pop )
-#endif
 
 #endif
