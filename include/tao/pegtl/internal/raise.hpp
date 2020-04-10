@@ -4,9 +4,7 @@
 #ifndef TAO_PEGTL_INTERNAL_RAISE_HPP
 #define TAO_PEGTL_INTERNAL_RAISE_HPP
 
-#include <cstdlib>
 #include <stdexcept>
-#include <type_traits>
 
 #include "../config.hpp"
 

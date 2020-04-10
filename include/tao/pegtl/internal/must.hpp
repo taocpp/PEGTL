@@ -7,7 +7,6 @@
 #include "../config.hpp"
 
 #include "enable_control.hpp"
-#include "raise.hpp"
 #include "seq.hpp"
 #include "success.hpp"
 
@@ -51,7 +50,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( Input& in, States&&... st )
       {
          if( !Control< Rule >::template match< A, rewind_mode::dontcare, Action, Control >( in, st... ) ) {
-            (void)raise< Rule >::template match< A, rewind_mode::dontcare, Action, Control >( in, st... );
+            Control< Rule >::raise( static_cast< const Input& >( in ), st... );
          }
          return true;
       }
