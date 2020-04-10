@@ -13,6 +13,7 @@
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../parse.hpp"
+#include "../visit.hpp"
 
 #include "../internal/demangle.hpp"
 
