@@ -46,6 +46,9 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename Input, typename... States >
          static void raise( const Input& in, States&&... st )
          {
+            if constexpr( RequireMessage ) {
+               static_assert( T::template message< Rule > != nullptr );
+            }
             if constexpr( T::template message< Rule > != nullptr ) {
                throw parse_error( T::template message< Rule >, in );
 #if defined( _MSC_VER )
