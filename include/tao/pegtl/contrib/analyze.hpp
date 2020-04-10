@@ -33,18 +33,13 @@ namespace TAO_PEGTL_NAMESPACE
          sor   // Consumption-on-success depends on consumption of (non-zero bounded repetition of) disjunction of sub-rules.
       };
 
-      template< typename T >
-      struct static_assert_false
-         : std::false_type
-      {};
-
-      template< typename T >
-      inline constexpr bool static_assert_false_v = static_assert_false< T >::value;
+      template< typename... >
+      inline constexpr bool dependent_false = false;
 
       template< typename T >
       struct fail
       {
-         static_assert( static_assert_false_v< T >, "invalid analyze_type< T >::reduced -- see contrib/analyze.hpp for allowed types" );
+         static_assert( dependent_false< T >, "invalid analyze_type< T >::reduced -- see contrib/analyze.hpp for allowed types" );
          static constexpr analyze_type dummy{};
       };
 
