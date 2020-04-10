@@ -19,26 +19,28 @@ namespace examples
    // specialization is missing.
 
    // clang-format off
-   template< typename > constexpr const char* error_message = nullptr;
-   template<> constexpr const char* error_message< pegtl::json::text > = "no valid JSON";
+   template< typename > inline constexpr const char* error_message = nullptr;
+   template<> inline constexpr const char* error_message< pegtl::json::text > = "no valid JSON";
 
-   template<> constexpr const char* error_message< pegtl::json::end_array > = "incomplete array, expected ']'";
-   template<> constexpr const char* error_message< pegtl::json::end_object > = "incomplete object, expected '}'";
-   template<> constexpr const char* error_message< pegtl::json::member > = "expected member";
-   template<> constexpr const char* error_message< pegtl::json::name_separator > = "expected ':'";
-   template<> constexpr const char* error_message< pegtl::json::array_element > = "expected value";
-   template<> constexpr const char* error_message< pegtl::json::value > = "expected value";
+   template<> inline constexpr const char* error_message< pegtl::json::end_array > = "incomplete array, expected ']'";
+   template<> inline constexpr const char* error_message< pegtl::json::end_object > = "incomplete object, expected '}'";
+   template<> inline constexpr const char* error_message< pegtl::json::member > = "expected member";
+   template<> inline constexpr const char* error_message< pegtl::json::name_separator > = "expected ':'";
+   template<> inline constexpr const char* error_message< pegtl::json::array_element > = "expected value";
+   template<> inline constexpr const char* error_message< pegtl::json::value > = "expected value";
 
-   template<> constexpr const char* error_message< pegtl::json::digits > = "expected at least one digit";
-   template<> constexpr const char* error_message< pegtl::json::xdigit > = "incomplete universal character name";
-   template<> constexpr const char* error_message< pegtl::json::escaped > = "unknown escape sequence";
-   template<> constexpr const char* error_message< pegtl::json::char_ > = "invalid character in string";
-   template<> constexpr const char* error_message< pegtl::json::string::content > = "unterminated string";
-   template<> constexpr const char* error_message< pegtl::json::key::content > = "unterminated key";
+   template<> inline constexpr const char* error_message< pegtl::json::digits > = "expected at least one digit";
+   template<> inline constexpr const char* error_message< pegtl::json::xdigit > = "incomplete universal character name";
+   template<> inline constexpr const char* error_message< pegtl::json::escaped > = "unknown escape sequence";
+   template<> inline constexpr const char* error_message< pegtl::json::char_ > = "invalid character in string";
+   template<> inline constexpr const char* error_message< pegtl::json::string::content > = "unterminated string";
+   template<> inline constexpr const char* error_message< pegtl::json::key::content > = "unterminated key";
 
-   template<> constexpr const char* error_message< pegtl::eof > = "unexpected character after JSON value";
+   template<> inline constexpr const char* error_message< pegtl::eof > = "unexpected character after JSON value";
 
+   // As raise_controller can not take error_message as a template parameter directly, we need to wrap it:
    struct error { template< typename Rule > static constexpr const char* message = error_message< Rule >; };
+
    template< typename Rule > using control = pegtl::raise_controller< error >::control< Rule >;
    // clang-format on
 
