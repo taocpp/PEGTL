@@ -12,7 +12,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    for( int i = 1; i < argc; ++i ) {
       argv_input in( argv, i );
-      parse< grammar, nothing, examples::errors >( in );
+      parse< grammar, nothing, examples::control >( in );
    }
    return 0;
 }

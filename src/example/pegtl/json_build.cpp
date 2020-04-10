@@ -167,7 +167,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    else {
       examples::json_state state;
       pegtl::file_input in( argv[ 1 ] );
-      pegtl::parse< examples::grammar, examples::action, examples::errors >( in, state );
+      pegtl::parse< examples::grammar, examples::action, examples::control >( in, state );
       assert( state.keys.empty() );
       assert( state.arrays.empty() );
       assert( state.objects.empty() );

@@ -18,7 +18,7 @@ namespace test1
    template<> inline constexpr const char* error_message< test1::a > = "test123";
 
    struct error { template< typename Rule > static constexpr const char* message = error_message< Rule >; };
-   template< typename Rule > using my_control = raise_controller< error >::control< Rule >;
+   template< typename Rule > using control = raise_controller< error >::control< Rule >;
    // clang-format on
 
 }  // namespace test1
@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       try {
-         parse< test1::grammar, nothing, test1::my_control >( memory_input( "b", __FUNCTION__ ) );
+         parse< test1::grammar, nothing, test1::control >( memory_input( "b", __FUNCTION__ ) );
          TAO_PEGTL_TEST_ASSERT( false );
       }
       catch( const parse_error& e ) {

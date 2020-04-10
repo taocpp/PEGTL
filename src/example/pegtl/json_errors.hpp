@@ -39,7 +39,7 @@ namespace examples
    template<> inline constexpr const char* error_message< pegtl::eof > = "unexpected character after JSON value";
 
    struct error { template< typename Rule > static constexpr const char* message = error_message< Rule >; };
-   template< typename Rule > using errors = pegtl::raise_controller< error >::control< Rule >;
+   template< typename Rule > using control = pegtl::raise_controller< error >::control< Rule >;
    // clang-format on
 
 }  // namespace examples
