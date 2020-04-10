@@ -11,6 +11,7 @@
 #include <set>
 #include <stdexcept>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -33,9 +34,17 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< typename T >
+      struct static_assert_false
+         : std::false_type
+      {};
+
+      template< typename T >
+      inline constexpr bool static_assert_false_v = static_assert_false< T >::value;
+
+      template< typename T >
       struct fail
       {
-         static_assert( sizeof( T ) == 0, "wrong base rule for analyze_type" );
+         static_assert( static_assert_false_v< T >, "invalid analyze_type< T >::reduced -- see contrib/analyze.hpp for allowed types" );
          static constexpr analyze_type dummy{};
       };
 
