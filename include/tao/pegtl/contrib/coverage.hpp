@@ -69,7 +69,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< typename Input >
-      static void raise( const Input& in, coverage_state& state )
+      [[noreturn]] static void raise( const Input& in, coverage_state& state )
       {
          ++state.map.at( internal::demangle< Rule >() ).raise;
          Control< Rule >::raise( in, state );

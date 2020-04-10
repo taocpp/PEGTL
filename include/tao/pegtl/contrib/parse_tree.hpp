@@ -264,13 +264,13 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          }
 
          template< typename Input, typename Tuple, std::size_t... Is >
-         static void raise_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::raise( in, std::get< Is >( t )... ) ) )
+         [[noreturn]] static void raise_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
          {
             T::raise( in, std::get< Is >( t )... );
          }
 
          template< typename Input, typename... States >
-         static void raise( const Input& in, States&&... st ) noexcept( noexcept( raise_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+         [[noreturn]] static void raise( const Input& in, States&&... st )
          {
             raise_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
          }

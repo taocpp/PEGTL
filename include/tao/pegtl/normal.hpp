@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
       {}
 
       template< typename Input, typename... States >
-      static void raise( const Input& in, States&&... /*unused*/ )
+      [[noreturn]] static void raise( const Input& in, States&&... /*unused*/ )
       {
          throw parse_error( "parse error matching " + std::string( internal::demangle< Rule >() ), in );
       }

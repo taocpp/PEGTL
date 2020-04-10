@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
 
          template< typename Input, typename... States >
-         static void raise( const Input& in, States&&... st )
+         [[noreturn]] static void raise( const Input& in, States&&... st )
          {
             if constexpr( RequireMessage ) {
                static_assert( T::template message< Rule > != nullptr );

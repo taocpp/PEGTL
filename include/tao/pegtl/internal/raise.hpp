@@ -22,10 +22,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = raise;
       using subs_t = empty_list;
 
-#if defined( _MSC_VER )
-#pragma warning( push )
-#pragma warning( disable : 4702 )
-#endif
       template< apply_mode,
                 rewind_mode,
                 template< typename... >
@@ -34,13 +30,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 class Control,
                 typename Input,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
+      [[noreturn]] static bool match( Input& in, States&&... st )
       {
          Control< T >::raise( static_cast< const Input& >( in ), st... );
-         throw std::logic_error( "code should be unreachable: Control< T >::raise() did not throw an exception" );  // LCOV_EXCL_LINE
-#if defined( _MSC_VER )
-#pragma warning( pop )
-#endif
       }
    };
 

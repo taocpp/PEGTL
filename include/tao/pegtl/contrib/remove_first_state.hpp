@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< typename Input, typename State, typename... States >
-      static void raise( const Input& in, State&& /*unused*/, States&&... st )
+      [[noreturn]] static void raise( const Input& in, State&& /*unused*/, States&&... st )
       {
          Control< Rule >::raise( in, st... );
       }
