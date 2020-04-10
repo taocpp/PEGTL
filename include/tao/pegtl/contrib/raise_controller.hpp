@@ -11,11 +11,11 @@ namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
-      template< typename Dummy, typename T, typename Rule, typename = void >
+      template< typename T, typename Rule, typename = void >
       inline constexpr bool raise_on_failure = ( T::template message< Rule > != nullptr );
 
-      template< typename Dummy, typename T, typename Rule >
-      inline constexpr bool raise_on_failure< Dummy, T, Rule, decltype( T::template raise_on_failure< Rule >, void() ) > = T::template raise_on_failure< Rule >;
+      template< typename T, typename Rule >
+      inline constexpr bool raise_on_failure< T, Rule, decltype( T::template raise_on_failure< Rule >, void() ) > = T::template raise_on_failure< Rule >;
 
    }  // namespace internal
 
@@ -27,9 +27,9 @@ namespace TAO_PEGTL_NAMESPACE
          : Base< Rule >
       {
          template< typename Input, typename... States >
-         static void failure( const Input& in, States&&... st ) noexcept( !internal::raise_on_failure< Input, T, Rule > && noexcept( Base< Rule >::failure( in, st... ) ) )
+         static void failure( const Input& in, States&&... st ) noexcept( !internal::raise_on_failure< T, Rule > && noexcept( Base< Rule >::failure( in, st... ) ) )
          {
-            if constexpr( internal::raise_on_failure< Input, T, Rule > ) {
+            if constexpr( internal::raise_on_failure< T, Rule > ) {
                raise( in, st... );
             }
             else {
