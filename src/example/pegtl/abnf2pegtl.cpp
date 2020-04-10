@@ -209,18 +209,17 @@ namespace TAO_PEGTL_NAMESPACE
          // ABNF from somewhere might lead to surprising results as the
          // alternations are now sequential, using the sor<> rule.
          //
-         // PEG also require two extensions: the and-predicate and the
+         // PEGs also require two extensions: The and-predicate and the
          // not-predicate. They are expressed by '&' and '!' respectively,
          // being allowed (optionally, only one of them) before the
          // repetition. You can use braces for more complex expressions.
          //
          // Finally, instead of the pre-defined CRLF sequence, we accept
-         // any type of line ending as a convenience extension:
+         // any type of line ending as a convenience extension.
 
          // clang-format off
          struct CRLF : sor< abnf::CRLF, CR, LF > {};
 
-         // The rest is according to the RFC(s):
          struct comment_cont : until< CRLF, sor< WSP, VCHAR > > {};
          struct comment : seq< one< ';' >, comment_cont > {};
          struct c_nl : sor< comment, CRLF > {};
@@ -282,28 +281,29 @@ namespace TAO_PEGTL_NAMESPACE
 
       // clang-format off
       template< typename > inline constexpr const char* error_message = nullptr;
-      template<> inline constexpr const char* error_message< abnf::grammar::comment_cont > = "unterminated comment";
 
-      template<> inline constexpr const char* error_message< abnf::grammar::quoted_string_cont > = "unterminated string (missing '\"')";
-      template<> inline constexpr const char* error_message< abnf::grammar::prose_val_cont > = "unterminated prose description (missing '>')";
+      template<> inline constexpr auto error_message< abnf::grammar::comment_cont > = "unterminated comment";
 
-      template<> inline constexpr const char* error_message< abnf::grammar::hex_val::value > = "expected hexadecimal value";
-      template<> inline constexpr const char* error_message< abnf::grammar::dec_val::value > = "expected decimal value";
-      template<> inline constexpr const char* error_message< abnf::grammar::bin_val::value > = "expected binary value";
-      template<> inline constexpr const char* error_message< abnf::grammar::num_val_choice > = "expected base specifier (one of 'bBdDxX')";
+      template<> inline constexpr auto error_message< abnf::grammar::quoted_string_cont > = "unterminated string (missing '\"')";
+      template<> inline constexpr auto error_message< abnf::grammar::prose_val_cont > = "unterminated prose description (missing '>')";
 
-      template<> inline constexpr const char* error_message< abnf::grammar::option_close > = "unterminated option (missing ']')";
-      template<> inline constexpr const char* error_message< abnf::grammar::group_close > = "unterminated group (missing ')')";
+      template<> inline constexpr auto error_message< abnf::grammar::hex_val::value > = "expected hexadecimal value";
+      template<> inline constexpr auto error_message< abnf::grammar::dec_val::value > = "expected decimal value";
+      template<> inline constexpr auto error_message< abnf::grammar::bin_val::value > = "expected binary value";
+      template<> inline constexpr auto error_message< abnf::grammar::num_val_choice > = "expected base specifier (one of 'bBdDxX')";
 
-      template<> inline constexpr const char* error_message< abnf::grammar::req_repetition > = "expected element";
-      template<> inline constexpr const char* error_message< abnf::grammar::concatenation > = "expected element";
-      template<> inline constexpr const char* error_message< abnf::grammar::alternation > = "expected element";
+      template<> inline constexpr auto error_message< abnf::grammar::option_close > = "unterminated option (missing ']')";
+      template<> inline constexpr auto error_message< abnf::grammar::group_close > = "unterminated group (missing ')')";
 
-      template<> inline constexpr const char* error_message< abnf::grammar::defined_as > = "expected '=' or '=/'";
-      template<> inline constexpr const char* error_message< abnf::grammar::req_c_nl > = "unterminated rule";
-      template<> inline constexpr const char* error_message< abnf::grammar::rule > = "expected rule";
+      template<> inline constexpr auto error_message< abnf::grammar::req_repetition > = "expected element";
+      template<> inline constexpr auto error_message< abnf::grammar::concatenation > = "expected element";
+      template<> inline constexpr auto error_message< abnf::grammar::alternation > = "expected element";
 
-      struct error { template< typename Rule > static constexpr const char* message = error_message< Rule >; };
+      template<> inline constexpr auto error_message< abnf::grammar::defined_as > = "expected '=' or '=/'";
+      template<> inline constexpr auto error_message< abnf::grammar::req_c_nl > = "unterminated rule";
+      template<> inline constexpr auto error_message< abnf::grammar::rule > = "expected rule";
+
+      struct error { template< typename Rule > static constexpr auto message = error_message< Rule >; };
       template< typename Rule > using my_control = raise_controller< error >::control< Rule >;
       // clang-format on
 
@@ -335,11 +335,11 @@ namespace TAO_PEGTL_NAMESPACE
                  grammar::group,
                  grammar::repetition,
                  grammar::concatenation > >
-      {
-      };
+      {};
 
       template<>
-      struct selector< grammar::quoted_string > : std::true_type
+      struct selector< grammar::quoted_string >
+         : std::true_type
       {
          template< typename... States >
          static void transform( node_ptr& n )
@@ -364,7 +364,8 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template<>
-      struct selector< grammar::case_sensitive_string > : std::true_type
+      struct selector< grammar::case_sensitive_string >
+         : std::true_type
       {
          template< typename... States >
          static void transform( node_ptr& n )
@@ -444,7 +445,8 @@ namespace TAO_PEGTL_NAMESPACE
       }  // namespace
 
       template<>
-      struct selector< grammar::rule > : std::true_type
+      struct selector< grammar::rule >
+         : std::true_type
       {
          template< typename... States >
          static void transform( node_ptr& n )

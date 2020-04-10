@@ -15,9 +15,9 @@ namespace test1
    struct grammar : sor< a, b > {};
 
    template< typename > inline constexpr const char* error_message = nullptr;
-   template<> inline constexpr const char* error_message< test1::a > = "test123";
+   template<> inline constexpr auto error_message< test1::a > = "test123";
 
-   struct error { template< typename Rule > static constexpr const char* message = error_message< Rule >; };
+   struct error { template< typename Rule > static constexpr auto message = error_message< Rule >; };
    template< typename Rule > using control = raise_controller< error >::control< Rule >;
    // clang-format on
 
