@@ -4,8 +4,6 @@
 #ifndef TAO_PEGTL_CONTRIB_RAISE_CONTROLLER_HPP
 #define TAO_PEGTL_CONTRIB_RAISE_CONTROLLER_HPP
 
-#include <type_traits>
-
 #include "../config.hpp"
 #include "../normal.hpp"
 
@@ -14,14 +12,10 @@ namespace TAO_PEGTL_NAMESPACE
    namespace internal
    {
       template< typename Dummy, typename T, typename Rule, typename = void >
-      struct raise_on_failure
-         : std::bool_constant< T::template message< Rule > != nullptr >
-      {};
+      inline constexpr bool raise_on_failure = ( T::template message< Rule > != nullptr );
 
       template< typename Dummy, typename T, typename Rule >
-      struct raise_on_failure< Dummy, T, Rule, decltype( T::template raise_on_failure< Rule >, void() ) >
-         : std::bool_constant< T::template raise_on_failure< Rule > >
-      {};
+      inline constexpr bool raise_on_failure< Dummy, T, Rule, decltype( T::template raise_on_failure< Rule >, void() ) > = T::template raise_on_failure< Rule >;
 
    }  // namespace internal
 
@@ -33,9 +27,9 @@ namespace TAO_PEGTL_NAMESPACE
          : Base< Rule >
       {
          template< typename Input, typename... States >
-         static void failure( const Input& in, States&&... st ) noexcept( !internal::raise_on_failure< Input, T, Rule >::value && noexcept( Base< Rule >::failure( in, st... ) ) )
+         static void failure( const Input& in, States&&... st ) noexcept( !internal::raise_on_failure< Input, T, Rule > && noexcept( Base< Rule >::failure( in, st... ) ) )
          {
-            if constexpr( internal::raise_on_failure< Input, T, Rule >::value ) {
+            if constexpr( internal::raise_on_failure< Input, T, Rule > ) {
                raise( in, st... );
             }
             else {
@@ -50,7 +44,8 @@ namespace TAO_PEGTL_NAMESPACE
                static_assert( T::template message< Rule > != nullptr );
             }
             if constexpr( T::template message< Rule > != nullptr ) {
-               throw parse_error( T::template message< Rule >, in );
+               constexpr const char* p = T::template message< Rule >;
+               throw parse_error( p, in );
 #if defined( _MSC_VER )
                (void)( (void)st, ... );
 #endif
