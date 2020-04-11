@@ -13,8 +13,6 @@
 #include "parse_error.hpp"
 #include "rewind_mode.hpp"
 
-#include "internal/action_input.hpp"
-
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Rule,
