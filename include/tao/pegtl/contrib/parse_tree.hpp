@@ -15,7 +15,7 @@
 #include <vector>
 
 #include "remove_first_state.hpp"
-#include "rotate_right.hpp"
+#include "rotate_states_right.hpp"
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
@@ -237,7 +237,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          struct state_handler;
 
          template< typename Rule >
-         using type = rotate_right< state_handler< Rule, is_selected_node< Rule, Selector >, is_leaf< 8, typename Rule::subs_t, Selector >::value > >;
+         using type = rotate_states_right< state_handler< Rule, is_selected_node< Rule, Selector >, is_leaf< 8, typename Rule::subs_t, Selector >::value > >;
       };
 
       template< typename Node, template< typename... > class Selector, template< typename... > class Control >

@@ -1,8 +1,8 @@
 // Copyright (c) 2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_CONTRIB_ROTATE_RIGHT_HPP
-#define TAO_PEGTL_CONTRIB_ROTATE_RIGHT_HPP
+#ifndef TAO_PEGTL_CONTRIB_ROTATE_STATES_RIGHT_HPP
+#define TAO_PEGTL_CONTRIB_ROTATE_STATES_RIGHT_HPP
 
 #include <tuple>
 #include <utility>
@@ -14,7 +14,7 @@ namespace TAO_PEGTL_NAMESPACE
    // Applies to start(), success(), failure(), raise(), apply(), and apply0():
    // The last state is rotated to the first position when the call is forwarded to Base.
    template< typename Base >
-   struct rotate_right
+   struct rotate_states_right
       : Base
    {
       template< typename Input, typename Tuple, std::size_t... Is >
