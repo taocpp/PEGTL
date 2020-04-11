@@ -280,8 +280,40 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename Node, template< typename... > class Selector, template< typename... > class Control >
       template< typename Rule >
       struct make_control< Node, Selector, Control >::state_handler< Rule, false, false >
-         : make_control< Node, Selector, Control >::state_handler< Rule, false, true >
+         : Control< Rule >
       {
+         template< typename Input, typename... States >
+         static void start( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::start( in, st... ) ) )
+         {
+            Control< Rule >::start( in, st... );
+         }
+
+         template< typename Input, typename... States >
+         static void success( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::success( in, st... ) ) )
+         {
+            Control< Rule >::success( in, st... );
+         }
+
+         template< typename Input, typename... States >
+         static void failure( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) )
+         {
+            Control< Rule >::failure( in, st... );
+         }
+
+         template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
+         static auto apply( const Iterator& begin, const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply< Action >( begin, in, st... ) ) )
+            -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
+         {
+            Control< Rule >::template apply< Action >( begin, in, st... );
+         }
+
+         template< template< typename... > class Action, typename Input, typename... States >
+         static auto apply0( const Input& in, state< Node >& /*unused*/, States&&... st ) noexcept( noexcept( Control< Rule >::template apply0< Action >( in, st... ) ) )
+            -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
+         {
+            Control< Rule >::template apply0< Action >( in, st... );
+         }
+
          template< apply_mode A,
                    rewind_mode M,
                    template< typename... >
