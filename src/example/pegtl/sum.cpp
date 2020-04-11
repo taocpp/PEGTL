@@ -33,8 +33,8 @@ namespace sum
    template<>
    struct action< double_::grammar >
    {
-      template< typename Input >
-      static void apply( const Input& in, double& sum )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, double& sum )
       {
          // assume all values will fit into a C++ double
          std::stringstream ss( in.string() );

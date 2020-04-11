@@ -22,13 +22,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = one;
       using subs_t = empty_list;
 
-      template< typename Input >
-      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
       {
          if( const std::size_t s = in.size( Peek::max_input_size ); s >= Peek::min_input_size ) {
             if( const auto t = Peek::peek( in, s ) ) {
                if( ( ( t.data == Cs ) || ... ) == bool( R ) ) {
-                  bump_help< R, Input, typename Peek::data_t, Cs... >( in, t.size );
+                  bump_help< R, ParseInput, typename Peek::data_t, Cs... >( in, t.size );
                   return true;
                }
             }

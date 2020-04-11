@@ -26,8 +26,8 @@ namespace TAO_PEGTL_NAMESPACE
       struct control
          : Base< Rule >
       {
-         template< typename Input, typename... States >
-         static void failure( const Input& in, States&&... st ) noexcept( !internal::raise_on_failure< T, Rule > && noexcept( Base< Rule >::failure( in, st... ) ) )
+         template< typename ParseInput, typename... States >
+         static void failure( const ParseInput& in, States&&... st ) noexcept( !internal::raise_on_failure< T, Rule > && noexcept( Base< Rule >::failure( in, st... ) ) )
          {
             if constexpr( internal::raise_on_failure< T, Rule > ) {
                raise( in, st... );
@@ -37,8 +37,8 @@ namespace TAO_PEGTL_NAMESPACE
             }
          }
 
-         template< typename Input, typename... States >
-         [[noreturn]] static void raise( const Input& in, States&&... st )
+         template< typename ParseInput, typename... States >
+         [[noreturn]] static void raise( const ParseInput& in, States&&... st )
          {
             if constexpr( RequireMessage ) {
                static_assert( T::template message< Rule > != nullptr );

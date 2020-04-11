@@ -38,9 +38,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 template< typename... >
                 class Control,
                 std::size_t... Indices,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( std::index_sequence< Indices... > /*unused*/, Input& in, States&&... st )
+      [[nodiscard]] static bool match( std::index_sequence< Indices... > /*unused*/, ParseInput& in, States&&... st )
       {
          return ( Control< Rules >::template match< A, ( ( Indices == ( sizeof...( Rules ) - 1 ) ) ? M : rewind_mode::required ), Action, Control >( in, st... ) || ... );
       }
@@ -51,9 +51,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          return match< A, M, Action, Control >( std::index_sequence_for< Rules... >(), in, st... );
       }

@@ -17,10 +17,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = eol;
       using subs_t = empty_list;
 
-      template< typename Input >
-      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( Input::eol_t::match( in ) ) )
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( ParseInput::eol_t::match( in ) ) )
       {
-         return Input::eol_t::match( in ).first;
+         return ParseInput::eol_t::match( in ).first;
       }
    };
 

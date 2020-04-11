@@ -8,12 +8,12 @@ namespace TAO_PEGTL_NAMESPACE
 {
    struct test_state_state
    {
-      template< typename Input >
-      explicit test_state_state( const Input& /*unused*/ )
+      template< typename ParseInput >
+      explicit test_state_state( const ParseInput& /*unused*/ )
       {}
 
-      template< typename Input >
-      void success( const Input& /*unused*/ ) const
+      template< typename ParseInput >
+      void success( const ParseInput& /*unused*/ ) const
       {}
    };
 

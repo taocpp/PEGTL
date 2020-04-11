@@ -50,8 +50,8 @@ namespace csv1
    template<>
    struct action< value >
    {
-      template< typename Input >
-      static void apply( const Input& in, result_data& data )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, result_data& data )
       {
          assert( !data.empty() );
          std::stringstream ss( in.string() );
@@ -70,14 +70,14 @@ namespace csv1
    struct control< value_line >
       : pegtl::normal< value_line >
    {
-      template< typename Input >
-      static void start( Input& /*unused*/, result_data& data )
+      template< typename ParseInput >
+      static void start( ParseInput& /*unused*/, result_data& data )
       {
          data.emplace_back();
       }
 
-      template< typename Input >
-      static void failure( Input& /*unused*/, result_data& data )
+      template< typename ParseInput >
+      static void failure( ParseInput& /*unused*/, result_data& data )
       {
          assert( !data.empty() );
          data.pop_back();

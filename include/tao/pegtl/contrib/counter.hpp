@@ -31,20 +31,20 @@ namespace TAO_PEGTL_NAMESPACE
    struct counter
       : normal< Rule >
    {
-      template< typename Input >
-      static void start( const Input& /*unused*/, counter_state& ts )
+      template< typename ParseInput >
+      static void start( const ParseInput& /*unused*/, counter_state& ts )
       {
          ++ts.counts[ internal::demangle< Rule >() ].start;
       }
 
-      template< typename Input >
-      static void success( const Input& /*unused*/, counter_state& ts )
+      template< typename ParseInput >
+      static void success( const ParseInput& /*unused*/, counter_state& ts )
       {
          ++ts.counts[ internal::demangle< Rule >() ].success;
       }
 
-      template< typename Input >
-      static void failure( const Input& /*unused*/, counter_state& ts )
+      template< typename ParseInput >
+      static void failure( const ParseInput& /*unused*/, counter_state& ts )
       {
          ++ts.counts[ internal::demangle< Rule >() ].failure;
       }

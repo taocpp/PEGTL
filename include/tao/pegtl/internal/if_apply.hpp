@@ -27,12 +27,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) != 0 ) ) {
-            using action_t = typename Input::action_t;
+            using action_t = typename ParseInput::action_t;
             auto m = in.template mark< rewind_mode::required >();
             if( Control< Rule >::template match< apply_mode::action, rewind_mode::active, Action, Control >( in, st... ) ) {
                const action_t i2( m.iterator(), in );

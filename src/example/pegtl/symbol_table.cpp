@@ -55,8 +55,8 @@ namespace example
    template<>
    struct action< name >
    {
-      template< typename Input >
-      static void apply( const Input& in, state& st )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, state& st )
       {
          st.temporary = in.string();
       }
@@ -65,8 +65,8 @@ namespace example
    template<>
    struct action< definition >
    {
-      template< typename Input >
-      static void apply( const Input& in, state& st )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, state& st )
       {
          if( !st.symbol_table.try_emplace( st.temporary, 0 ).second ) {
             throw pegtl::parse_error( "duplicate symbol " + st.temporary, in );
@@ -77,8 +77,8 @@ namespace example
    template<>
    struct action< assignment >
    {
-      template< typename Input >
-      static void apply( const Input& in, state& st )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, state& st )
       {
          const auto i = st.symbol_table.find( st.temporary );
          if( i == st.symbol_table.end() ) {

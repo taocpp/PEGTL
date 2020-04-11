@@ -18,8 +18,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = bytes;
       using subs_t = empty_list;
 
-      template< typename Input >
-      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 0 ) ) )
       {
          if( in.size( Cnt ) >= Cnt ) {
             in.bump( Cnt );

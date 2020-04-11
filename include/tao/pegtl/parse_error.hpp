@@ -38,8 +38,8 @@ namespace TAO_PEGTL_NAMESPACE
          positions.emplace_back( std::move( pos ) );
       }
 
-      template< typename Msg, typename Input >
-      parse_error( Msg&& msg, const Input& in )
+      template< typename Msg, typename ParseInput >
+      parse_error( Msg&& msg, const ParseInput& in )
          : parse_error( std::forward< Msg >( msg ), in.position() )
       {}
 

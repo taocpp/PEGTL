@@ -27,8 +27,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule >
    struct verify_action_impl
    {
-      template< typename Input, typename... States >
-      static void apply( const Input& /*unused*/, States&&... /*unused*/ )
+      template< typename ActionInput, typename... States >
+      static void apply( const ActionInput& /*unused*/, States&&... /*unused*/ )
       {}
    };
 

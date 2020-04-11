@@ -134,9 +134,9 @@ namespace TAO_PEGTL_NAMESPACE::http
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, std::size_t& size, States&&... /*unused*/ )
+      [[nodiscard]] static bool match( ParseInput& in, std::size_t& size, States&&... /*unused*/ )
       {
          size = 0;
          std::size_t i = 0;
@@ -183,9 +183,9 @@ namespace TAO_PEGTL_NAMESPACE::http
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, const std::size_t size, States&&... /*unused*/ )
+      [[nodiscard]] static bool match( ParseInput& in, const std::size_t size, States&&... /*unused*/ )
       {
          if( in.size( size ) >= size ) {
             in.bump( size );
@@ -210,10 +210,10 @@ namespace TAO_PEGTL_NAMESPACE::http
                    class Action,
                    template< typename... >
                    class,
-                   typename Input,
+                   typename ParseInput,
                    typename State,
                    typename... States >
-         [[nodiscard]] static bool match( Input& in, State&& /*unused*/, States&&... st )
+         [[nodiscard]] static bool match( ParseInput& in, State&& /*unused*/, States&&... st )
          {
             return Control< Rule >::template match< A, M, Action, Control >( in, st... );
          }
@@ -250,9 +250,9 @@ namespace TAO_PEGTL_NAMESPACE::http
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          std::size_t size{};
          return impl::template match< A, M, Action, internal::chunk_helper::bind< Control >::template type >( in, size, st... );

@@ -50,10 +50,10 @@ namespace TAO_PEGTL_NAMESPACE
       template<>
       struct keyword<>
       {
-         template< typename Input >
-         [[nodiscard]] static bool match( Input& /*unused*/ ) noexcept
+         template< typename ParseInput >
+         [[nodiscard]] static bool match( ParseInput& /*unused*/ ) noexcept
          {
-            static_assert( internal::always_false< Input >::value, "empty keywords not allowed" );
+            static_assert( internal::always_false< ParseInput >::value, "empty keywords not allowed" );
             return false;
          }
       };

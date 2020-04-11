@@ -13,8 +13,8 @@ namespace modulus
       static_assert( M > 1, "Modulus must be greater than 1" );
       static_assert( R < M, "Remainder must be less than modulus" );
 
-      template< typename Input >
-      static bool match( Input& in )
+      template< typename ParseInput >
+      static bool match( ParseInput& in )
       {
          if( !in.empty() ) {
             if( ( ( *in.current() ) % M ) == R ) {

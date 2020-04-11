@@ -13,8 +13,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       static constexpr int ch = '\r';
 
-      template< typename Input >
-      [[nodiscard]] static eol_pair match( Input& in ) noexcept( noexcept( in.size( 2 ) ) )
+      template< typename ParseInput >
+      [[nodiscard]] static eol_pair match( ParseInput& in ) noexcept( noexcept( in.size( 2 ) ) )
       {
          eol_pair p = { false, in.size( 2 ) };
          if( p.second ) {

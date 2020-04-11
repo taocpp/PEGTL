@@ -142,8 +142,8 @@ namespace TAO_PEGTL_NAMESPACE
          return convert_positive< Signed >( result, std::string_view( input.data() + offset, input.size() - offset ) );
       }
 
-      template< typename Input >
-      [[nodiscard]] bool match_unsigned( Input& in ) noexcept( noexcept( in.empty() ) )
+      template< typename ParseInput >
+      [[nodiscard]] bool match_unsigned( ParseInput& in ) noexcept( noexcept( in.empty() ) )
       {
          if( !in.empty() ) {
             const char c = in.peek_char();
@@ -161,10 +161,10 @@ namespace TAO_PEGTL_NAMESPACE
          return false;
       }
 
-      template< typename Input,
+      template< typename ParseInput,
                 typename Unsigned,
                 Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
-      [[nodiscard]] bool match_and_convert_unsigned_with_maximum( Input& in, Unsigned& st )
+      [[nodiscard]] bool match_and_convert_unsigned_with_maximum( ParseInput& in, Unsigned& st )
       {
          // Assumes st == 0.
 
@@ -193,8 +193,8 @@ namespace TAO_PEGTL_NAMESPACE
    {
       // Assumes that 'in' contains a non-empty sequence of ASCII digits.
 
-      template< typename Input, typename Unsigned >
-      static auto apply( const Input& in, Unsigned& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
+      template< typename ActionInput, typename Unsigned >
+      static auto apply( const ActionInput& in, Unsigned& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
       {
          // This function "only" offers basic exception safety.
          st = 0;
@@ -203,14 +203,14 @@ namespace TAO_PEGTL_NAMESPACE
          }
       }
 
-      template< typename Input, typename State >
-      static auto apply( const Input& in, State& st ) -> std::enable_if_t< std::is_class_v< State >, void >
+      template< typename ActionInput, typename State >
+      static auto apply( const ActionInput& in, State& st ) -> std::enable_if_t< std::is_class_v< State >, void >
       {
          apply( in, st.converted );  // Compatibility for pre-3.0 behaviour.
       }
 
-      template< typename Input, typename Unsigned, typename... Ts >
-      static auto apply( const Input& in, std::vector< Unsigned, Ts... >& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
+      template< typename ActionInput, typename Unsigned, typename... Ts >
+      static auto apply( const ActionInput& in, std::vector< Unsigned, Ts... >& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
       {
          Unsigned u = 0;
          apply( in, u );
@@ -223,8 +223,8 @@ namespace TAO_PEGTL_NAMESPACE
       using rule_t = unsigned_rule;
       using subs_t = empty_list;
 
-      template< typename Input >
-      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.empty() ) )
       {
          return internal::match_unsigned( in );  // Does not check for any overflow.
       }
@@ -241,9 +241,9 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) ) -> std::enable_if_t< A == apply_mode::nothing, bool >
+      [[nodiscard]] static auto match( ParseInput& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) ) -> std::enable_if_t< A == apply_mode::nothing, bool >
       {
          return internal::match_unsigned( in );  // Does not check for any overflow.
       }
@@ -254,9 +254,9 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename Unsigned >
-      [[nodiscard]] static auto match( Input& in, Unsigned& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_unsigned_v< Unsigned >, bool >
+      [[nodiscard]] static auto match( ParseInput& in, Unsigned& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_unsigned_v< Unsigned >, bool >
       {
          // This function "only" offers basic exception safety.
          st = 0;
@@ -274,8 +274,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       static_assert( std::is_unsigned_v< Unsigned > );
 
-      template< typename Input, typename Unsigned2 >
-      static auto apply( const Input& in, Unsigned2& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
+      template< typename ActionInput, typename Unsigned2 >
+      static auto apply( const ActionInput& in, Unsigned2& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
       {
          // This function "only" offers basic exception safety.
          st = 0;
@@ -284,14 +284,14 @@ namespace TAO_PEGTL_NAMESPACE
          }
       }
 
-      template< typename Input, typename State >
-      static auto apply( const Input& in, State& st ) -> std::enable_if_t< std::is_class_v< State >, void >
+      template< typename ActionInput, typename State >
+      static auto apply( const ActionInput& in, State& st ) -> std::enable_if_t< std::is_class_v< State >, void >
       {
          apply( in, st.converted );  // Compatibility for pre-3.0 behaviour.
       }
 
-      template< typename Input, typename Unsigned2, typename... Ts >
-      static auto apply( const Input& in, std::vector< Unsigned2, Ts... >& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
+      template< typename ActionInput, typename Unsigned2, typename... Ts >
+      static auto apply( const ActionInput& in, std::vector< Unsigned2, Ts... >& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
       {
          Unsigned u = 0;
          apply( in, u );
@@ -307,11 +307,11 @@ namespace TAO_PEGTL_NAMESPACE
 
       static_assert( std::is_unsigned_v< Unsigned > );
 
-      template< typename Input >
-      [[nodiscard]] static bool match( Input& in )
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in )
       {
          Unsigned st = 0;
-         return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
+         return internal::match_and_convert_unsigned_with_maximum< ParseInput, Unsigned, Maximum >( in, st );  // Throws on overflow.
       }
    };
 
@@ -329,12 +329,12 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ ) -> std::enable_if_t< A == apply_mode::nothing, bool >
+      [[nodiscard]] static auto match( ParseInput& in, States&&... /*unused*/ ) -> std::enable_if_t< A == apply_mode::nothing, bool >
       {
          Unsigned st = 0;
-         return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
+         return internal::match_and_convert_unsigned_with_maximum< ParseInput, Unsigned, Maximum >( in, st );  // Throws on overflow.
       }
 
       template< apply_mode A,
@@ -343,13 +343,13 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename Unsigned2 >
-      [[nodiscard]] static auto match( Input& in, Unsigned2& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_same_v< Unsigned, Unsigned2 >, bool >
+      [[nodiscard]] static auto match( ParseInput& in, Unsigned2& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_same_v< Unsigned, Unsigned2 >, bool >
       {
          // This function "only" offers basic exception safety.
          st = 0;
-         return internal::match_and_convert_unsigned_with_maximum< Input, Unsigned, Maximum >( in, st );  // Throws on overflow.
+         return internal::match_and_convert_unsigned_with_maximum< ParseInput, Unsigned, Maximum >( in, st );  // Throws on overflow.
       }
 
       // TODO: Overload for st.converted?
@@ -361,8 +361,8 @@ namespace TAO_PEGTL_NAMESPACE
       // Assumes that 'in' contains a non-empty sequence of ASCII digits,
       // with optional leading sign; with sign, in.size() must be >= 2.
 
-      template< typename Input, typename Signed >
-      static auto apply( const Input& in, Signed& st ) -> std::enable_if_t< std::is_signed_v< Signed >, void >
+      template< typename ActionInput, typename Signed >
+      static auto apply( const ActionInput& in, Signed& st ) -> std::enable_if_t< std::is_signed_v< Signed >, void >
       {
          // This function "only" offers basic exception safety.
          st = 0;
@@ -371,14 +371,14 @@ namespace TAO_PEGTL_NAMESPACE
          }
       }
 
-      template< typename Input, typename State >
-      static auto apply( const Input& in, State& st ) -> std::enable_if_t< std::is_class_v< State >, void >
+      template< typename ActionInput, typename State >
+      static auto apply( const ActionInput& in, State& st ) -> std::enable_if_t< std::is_class_v< State >, void >
       {
          apply( in, st.converted );  // Compatibility for pre-3.0 behaviour.
       }
 
-      template< typename Input, typename Signed, typename... Ts >
-      static auto apply( const Input& in, std::vector< Signed, Ts... >& st ) -> std::enable_if_t< std::is_signed_v< Signed >, void >
+      template< typename ActionInput, typename Signed, typename... Ts >
+      static auto apply( const ActionInput& in, std::vector< Signed, Ts... >& st ) -> std::enable_if_t< std::is_signed_v< Signed >, void >
       {
          Signed s = 0;
          apply( in, s );
@@ -391,8 +391,8 @@ namespace TAO_PEGTL_NAMESPACE
       using rule_t = signed_rule;
       using subs_t = empty_list;
 
-      template< typename Input >
-      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.empty() ) )
       {
          return TAO_PEGTL_NAMESPACE::parse< signed_rule_new >( in );  // Does not check for any overflow.
       }
@@ -425,9 +425,9 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static auto match( Input& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) ) -> std::enable_if_t< A == apply_mode::nothing, bool >
+      [[nodiscard]] static auto match( ParseInput& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) ) -> std::enable_if_t< A == apply_mode::nothing, bool >
       {
          return TAO_PEGTL_NAMESPACE::parse< signed_rule_new >( in );  // Does not check for any overflow.
       }
@@ -438,9 +438,9 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename Signed >
-      [[nodiscard]] static auto match( Input& in, Signed& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_signed_v< Signed >, bool >
+      [[nodiscard]] static auto match( ParseInput& in, Signed& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_signed_v< Signed >, bool >
       {
          return TAO_PEGTL_NAMESPACE::parse< signed_rule_new, internal::signed_action_action >( in, st );  // Throws on overflow.
       }

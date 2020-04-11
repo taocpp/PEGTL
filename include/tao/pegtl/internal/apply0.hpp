@@ -27,9 +27,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& /*unused*/, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& /*unused*/, States&&... st )
       {
          if constexpr( A == apply_mode::action ) {
             return ( apply0_single< Actions >::match( st... ) && ... );

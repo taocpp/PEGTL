@@ -35,9 +35,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          if constexpr( sizeof...( Rules ) == 1 ) {
             return Control< Rules... >::template match< A, M, Action, Control >( in, st... );

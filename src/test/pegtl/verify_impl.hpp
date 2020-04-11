@@ -18,8 +18,8 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename Rule, template< typename... > class Action, typename Input >
-   result_type verify_impl_two( Input& in )
+   template< typename Rule, template< typename... > class Action, typename ParseInput >
+   result_type verify_impl_two( ParseInput& in )
    {
       try {
          if( normal< Rule >::template match< apply_mode::action, rewind_mode::required, Action, normal >( in ) ) {
@@ -36,8 +36,8 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
-   template< typename Rule, template< typename... > class Action, typename Input >
-   void verify_impl_one( const std::size_t line, const char* file, const std::string& data, Input& in, const result_type expected, const std::size_t remain )
+   template< typename Rule, template< typename... > class Action, typename ParseInput >
+   void verify_impl_one( const std::size_t line, const char* file, const std::string& data, ParseInput& in, const result_type expected, const std::size_t remain )
    {
       const result_type received = verify_impl_two< Rule, Action >( in );
 

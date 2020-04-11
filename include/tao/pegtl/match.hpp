@@ -29,20 +29,20 @@ namespace TAO_PEGTL_NAMESPACE
              class Action,
              template< typename... >
              class Control,
-             typename Input,
+             typename ParseInput,
              typename... States >
-   [[nodiscard]] bool match( Input& in, States&&... st )
+   [[nodiscard]] bool match( ParseInput& in, States&&... st )
    {
       constexpr bool enable_control = Control< Rule >::enable;
       constexpr bool enable_action = enable_control && ( A == apply_mode::action );
 
-      using iterator_t = typename Input::iterator_t;
-      constexpr bool has_apply_void = enable_action && internal::has_apply< Control< Rule >, void, Action, const iterator_t&, const Input&, States... >::value;
-      constexpr bool has_apply_bool = enable_action && internal::has_apply< Control< Rule >, bool, Action, const iterator_t&, const Input&, States... >::value;
+      using iterator_t = typename ParseInput::iterator_t;
+      constexpr bool has_apply_void = enable_action && internal::has_apply< Control< Rule >, void, Action, const iterator_t&, const ParseInput&, States... >::value;
+      constexpr bool has_apply_bool = enable_action && internal::has_apply< Control< Rule >, bool, Action, const iterator_t&, const ParseInput&, States... >::value;
       constexpr bool has_apply = has_apply_void || has_apply_bool;
 
-      constexpr bool has_apply0_void = enable_action && internal::has_apply0< Control< Rule >, void, Action, const Input&, States... >::value;
-      constexpr bool has_apply0_bool = enable_action && internal::has_apply0< Control< Rule >, bool, Action, const Input&, States... >::value;
+      constexpr bool has_apply0_void = enable_action && internal::has_apply0< Control< Rule >, void, Action, const ParseInput&, States... >::value;
+      constexpr bool has_apply0_bool = enable_action && internal::has_apply0< Control< Rule >, bool, Action, const ParseInput&, States... >::value;
       constexpr bool has_apply0 = has_apply0_void || has_apply0_bool;
 
       static_assert( !( has_apply && has_apply0 ), "both apply() and apply0() defined" );

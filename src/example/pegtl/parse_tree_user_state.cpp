@@ -21,8 +21,8 @@ struct work
 template<>
 struct work< success >
 {
-   template< typename Input >
-   static void apply( const Input& /*unused*/, user_state& /*unused*/ )
+   template< typename ActionInput >
+   static void apply( const ActionInput& /*unused*/, user_state& /*unused*/ )
    {}
 };
 

@@ -40,8 +40,8 @@ namespace TAO_PEGTL_NAMESPACE
    struct file_control< eof >
       : normal< eof >
    {
-      template< typename Input >
-      static void success( const Input& /*unused*/, bool& flag )
+      template< typename ParseInput >
+      static void success( const ParseInput& /*unused*/, bool& flag )
       {
          flag = true;
       }

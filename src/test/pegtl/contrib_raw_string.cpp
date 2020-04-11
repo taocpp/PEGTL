@@ -20,8 +20,8 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct raction< rstring::content >
    {
-      template< typename Input, typename... States >
-      static void apply( const Input& in, const States&... /*unused*/ )
+      template< typename ActionInput, typename... States >
+      static void apply( const ActionInput& in, const States&... /*unused*/ )
       {
          content.assign( in.begin(), in.end() );
       }
@@ -34,8 +34,8 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct qaction< qstring::content >
    {
-      template< typename Input, typename... States >
-      static void apply( const Input& in, const States&... /*unused*/ )
+      template< typename ActionInput, typename... States >
+      static void apply( const ActionInput& in, const States&... /*unused*/ )
       {
          content.assign( in.begin(), in.end() );
       }

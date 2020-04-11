@@ -11,8 +11,8 @@ namespace TAO_PEGTL_NAMESPACE
    {
       struct action_a
       {
-         template< typename Input >
-         static void apply( const Input& /*unused*/, int& r, int& s )
+         template< typename ActionInput >
+         static void apply( const ActionInput& /*unused*/, int& r, int& s )
          {
             TAO_PEGTL_TEST_ASSERT( !r );
             TAO_PEGTL_TEST_ASSERT( !s );
@@ -22,8 +22,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       struct action_b
       {
-         template< typename Input >
-         static bool apply( const Input& /*unused*/, int& r, int& s )
+         template< typename ActionInput >
+         static bool apply( const ActionInput& /*unused*/, int& r, int& s )
          {
             TAO_PEGTL_TEST_ASSERT( !s );
             TAO_PEGTL_TEST_ASSERT( r == 1 );
@@ -34,8 +34,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       struct action2_a
       {
-         template< typename Input >
-         static void apply( const Input& /*unused*/, bool& state_b )
+         template< typename ActionInput >
+         static void apply( const ActionInput& /*unused*/, bool& state_b )
          {
             TAO_PEGTL_TEST_ASSERT( !state_b );
          }
@@ -43,8 +43,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       struct action2_b
       {
-         template< typename Input >
-         static bool apply( const Input& /*unused*/, bool& state_b )
+         template< typename ActionInput >
+         static bool apply( const ActionInput& /*unused*/, bool& state_b )
          {
             TAO_PEGTL_TEST_ASSERT( !state_b );
             state_b = true;
@@ -54,8 +54,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       struct action2_c
       {
-         template< typename Input >
-         static void apply( const Input& /*unused*/, bool& /*unused*/ )
+         template< typename ActionInput >
+         static void apply( const ActionInput& /*unused*/, bool& /*unused*/ )
          {
             TAO_PEGTL_TEST_ASSERT( false );
          }

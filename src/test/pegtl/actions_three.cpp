@@ -14,9 +14,9 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      static bool match( Input& in, States&&... st )
+      static bool match( ParseInput& in, States&&... st )
       {
          static_assert( A == B, "unexpected apply mode" );
          static_assert( M == N, "unexpected rewind mode" );
@@ -42,8 +42,8 @@ namespace TAO_PEGTL_NAMESPACE
       template<>
       struct apply_bool_action< grammar >
       {
-         template< typename Input >
-         static bool apply( const Input& /*unused*/ )
+         template< typename ActionInput >
+         static bool apply( const ActionInput& /*unused*/ )
          {
             return apply_result;
          }

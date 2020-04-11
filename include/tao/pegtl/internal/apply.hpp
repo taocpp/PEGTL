@@ -27,12 +27,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) > 0 ) ) {
-            using action_t = typename Input::action_t;
+            using action_t = typename ParseInput::action_t;
             const action_t i2( in.iterator(), in );  // No data -- range is from begin to begin.
             return ( apply_single< Actions >::match( i2, st... ) && ... );
          }

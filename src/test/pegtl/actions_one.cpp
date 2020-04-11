@@ -57,8 +57,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule >
    struct test_action
    {
-      template< typename Input >
-      static void apply( const Input& in )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in )
       {
          applied.emplace_back( internal::demangle< Rule >(), in.string() );
       }

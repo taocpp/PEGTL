@@ -15,36 +15,36 @@ namespace TAO_PEGTL_NAMESPACE
       {}
    };
 
-   template< typename Rule, typename Input = memory_input<> >
+   template< typename Rule, typename ParseInput = memory_input<> >
    void test_matches_lf()
    {
       static const std::string s1 = "\n";
 
-      Input i1( s1, __FUNCTION__ );
+      ParseInput i1( s1, __FUNCTION__ );
 
       TAO_PEGTL_TEST_ASSERT( parse< Rule >( i1 ) );
       TAO_PEGTL_TEST_ASSERT( i1.line() == 2 );
       TAO_PEGTL_TEST_ASSERT( i1.byte_in_line() == 0 );
    }
 
-   template< typename Rule, typename Input = memory_input<> >
+   template< typename Rule, typename ParseInput = memory_input<> >
    void test_matches_other( const std::string& s2 )
    {
       TAO_PEGTL_TEST_ASSERT( s2.size() == 1 );
 
-      Input i2( s2, __FUNCTION__ );
+      ParseInput i2( s2, __FUNCTION__ );
 
       TAO_PEGTL_TEST_ASSERT( parse< Rule >( i2 ) );
       TAO_PEGTL_TEST_ASSERT( i2.line() == 1 );
       TAO_PEGTL_TEST_ASSERT( i2.byte_in_line() == 1 );
    }
 
-   template< typename Rule, typename Input = memory_input<> >
+   template< typename Rule, typename ParseInput = memory_input<> >
    void test_mismatch( const std::string& s3 )
    {
       TAO_PEGTL_TEST_ASSERT( s3.size() == 1 );
 
-      Input i3( s3, __FUNCTION__ );
+      ParseInput i3( s3, __FUNCTION__ );
 
       TAO_PEGTL_TEST_ASSERT( !parse< Rule >( i3 ) );
       TAO_PEGTL_TEST_ASSERT( i3.line() == 1 );
@@ -66,8 +66,8 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct outer_action< two< 'b' > >
    {
-      template< typename Input >
-      static void apply( const Input& oi )
+      template< typename ActionInput >
+      static void apply( const ActionInput& oi )
       {
          const auto p = oi.position();
          TAO_PEGTL_TEST_ASSERT( p.source == "outer" );
@@ -79,7 +79,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   template< typename Input = memory_input<> >
+   template< typename ParseInput = memory_input<> >
    void test_nested()
    {
       try {

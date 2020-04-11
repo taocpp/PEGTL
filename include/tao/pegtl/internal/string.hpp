@@ -37,12 +37,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = string;
       using subs_t = empty_list;
 
-      template< typename Input >
-      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( 0 ) ) )
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 0 ) ) )
       {
          if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
             if( unsafe_equals( in.current(), { Cs... } ) ) {
-               bump_help< result_on_found::success, Input, char, Cs... >( in, sizeof...( Cs ) );
+               bump_help< result_on_found::success, ParseInput, char, Cs... >( in, sizeof...( Cs ) );
                return true;
             }
          }

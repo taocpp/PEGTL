@@ -117,8 +117,8 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       }
 
       // all non-root nodes are initialized by calling this method
-      template< typename Rule, typename Input, typename... States >
-      void start( const Input& in, States&&... /*unused*/ )
+      template< typename Rule, typename ParseInput, typename... States >
+      void start( const ParseInput& in, States&&... /*unused*/ )
       {
          set_type< Rule >();
          source = in.source();
@@ -126,15 +126,15 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       }
 
       // if parsing of the rule succeeded, this method is called
-      template< typename Rule, typename Input, typename... States >
-      void success( const Input& in, States&&... /*unused*/ ) noexcept
+      template< typename Rule, typename ParseInput, typename... States >
+      void success( const ParseInput& in, States&&... /*unused*/ ) noexcept
       {
          m_end = TAO_PEGTL_NAMESPACE::internal::iterator( in.iterator() );
       }
 
       // if parsing of the rule failed, this method is called
-      template< typename Rule, typename Input, typename... States >
-      void failure( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      template< typename Rule, typename ParseInput, typename... States >
+      void failure( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
       {}
 
       // if parsing succeeded and the (optional) transform call
@@ -197,15 +197,15 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       void transform( Parameters&&... /*unused*/ ) noexcept
       {}
 
-      template< typename Selector, typename Input, typename Node, typename... States >
-      auto transform( const Input& in, std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( Selector::transform( in, n, st... ) ) )
+      template< typename Selector, typename ParseInput, typename Node, typename... States >
+      auto transform( const ParseInput& in, std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( Selector::transform( in, n, st... ) ) )
          -> decltype( Selector::transform( in, n, st... ), void() )
       {
          Selector::transform( in, n, st... );
       }
 
-      template< typename Selector, typename Input, typename Node, typename... States >
-      auto transform( const Input& /*unused*/, std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( Selector::transform( n, st... ) ) )
+      template< typename Selector, typename ParseInput, typename Node, typename... States >
+      auto transform( const ParseInput& /*unused*/, std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( Selector::transform( n, st... ) ) )
          -> decltype( Selector::transform( n, st... ), void() )
       {
          Selector::transform( n, st... );
@@ -257,9 +257,9 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
                    class Action,
                    template< typename... >
                    class Control2,
-                   typename Input,
+                   typename ParseInput,
                    typename... States >
-         [[nodiscard]] static bool match( Input& in, States&&... st )
+         [[nodiscard]] static bool match( ParseInput& in, States&&... st )
          {
             auto& state = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
             if constexpr( is_try_catch_type< Rule >::value ) {
@@ -298,16 +298,16 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       struct make_control< Node, Selector, Control >::state_handler< Rule, true, B >
          : remove_first_state< Control< Rule > >
       {
-         template< typename Input, typename... States >
-         static void start( const Input& in, state< Node >& state, States&&... st )
+         template< typename ParseInput, typename... States >
+         static void start( const ParseInput& in, state< Node >& state, States&&... st )
          {
             Control< Rule >::start( in, st... );
             state.emplace_back();
             state.back()->template start< Rule >( in, st... );
          }
 
-         template< typename Input, typename... States >
-         static void success( const Input& in, state< Node >& state, States&&... st )
+         template< typename ParseInput, typename... States >
+         static void success( const ParseInput& in, state< Node >& state, States&&... st )
          {
             Control< Rule >::success( in, st... );
             auto n = std::move( state.back() );
@@ -319,8 +319,8 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
             }
          }
 
-         template< typename Input, typename... States >
-         static void failure( const Input& in, state< Node >& state, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) && noexcept( std::declval< Node& >().template failure< Rule >( in, st... ) ) )
+         template< typename ParseInput, typename... States >
+         static void failure( const ParseInput& in, state< Node >& state, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) && noexcept( std::declval< Node& >().template failure< Rule >( in, st... ) ) )
          {
             Control< Rule >::failure( in, st... );
             state.back()->template failure< Rule >( in, st... );
@@ -424,9 +424,9 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
              template< typename... > class Selector = internal::store_all,
              template< typename... > class Action = nothing,
              template< typename... > class Control = normal,
-             typename Input,
+             typename ParseInput,
              typename... States >
-   [[nodiscard]] std::unique_ptr< Node > parse( Input&& in, States&&... st )
+   [[nodiscard]] std::unique_ptr< Node > parse( ParseInput&& in, States&&... st )
    {
       internal::state< Node > state;
       if( !TAO_PEGTL_NAMESPACE::parse< Rule, Action, internal::make_control< Node, Selector, Control >::template type >( in, st..., state ) ) {
@@ -440,9 +440,9 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
              template< typename... > class Selector = internal::store_all,
              template< typename... > class Action = nothing,
              template< typename... > class Control = normal,
-             typename Input,
+             typename ParseInput,
              typename... States >
-   [[nodiscard]] std::unique_ptr< node > parse( Input&& in, States&&... st )
+   [[nodiscard]] std::unique_ptr< node > parse( ParseInput&& in, States&&... st )
    {
       return parse< Rule, node, Selector, Action, Control >( in, st... );
    }

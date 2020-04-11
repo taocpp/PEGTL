@@ -213,9 +213,9 @@ namespace calculator
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      static bool match( Input& in, const operators& b, stacks& s, States&&... /*unused*/ )
+      static bool match( ParseInput& in, const operators& b, stacks& s, States&&... /*unused*/ )
       {
          // Look for the longest match of the input against the operators in the operator map.
 
@@ -223,8 +223,8 @@ namespace calculator
       }
 
    private:
-      template< typename Input >
-      static bool match( Input& in, const operators& b, stacks& s, std::string t )
+      template< typename ParseInput >
+      static bool match( ParseInput& in, const operators& b, stacks& s, std::string t )
       {
          if( in.size( t.size() + 1 ) > t.size() ) {
             t += in.peek_char( t.size() );
@@ -299,8 +299,8 @@ namespace calculator
    template<>
    struct action< number >
    {
-      template< typename Input >
-      static void apply( const Input& in, const operators& /*unused*/, stacks& s )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, const operators& /*unused*/, stacks& s )
       {
          std::stringstream ss( in.string() );
          long v;

@@ -44,8 +44,8 @@ namespace sexpr
    template<>
    struct action< plus< not_one< '"' > > >
    {
-      template< typename Input >
-      static void apply( const Input& in, std::string& fn )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, std::string& fn )
       {
          fn = in.string();
       }
@@ -54,8 +54,8 @@ namespace sexpr
    template<>
    struct action< hash_include >
    {
-      template< typename Input >
-      static void apply( const Input& in, std::string& fn )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, std::string& fn )
       {
          std::string f2;
          // Here f2 is the state argument for the nested parsing

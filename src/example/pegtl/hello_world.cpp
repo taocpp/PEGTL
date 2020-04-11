@@ -23,8 +23,8 @@ namespace hello
    template<>
    struct action< name >
    {
-      template< typename Input >
-      static void apply( const Input& in, std::string& v )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, std::string& v )
       {
          v = in.string();
       }

@@ -11,9 +11,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Control,
              template< typename... >
              class Action,
-             typename Input,
+             typename ParseInput,
              typename... States >
-   void missing_apply0( Input& in, States&&... st )
+   void missing_apply0( ParseInput& in, States&&... st )
    {
       (void)Control::template apply0< Action >( in, st... );
    }

@@ -12,9 +12,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Control,
              template< typename... >
              class Action,
-             typename Input,
+             typename ParseInput,
              typename... States >
-   void missing_apply( Input& in, States&&... st )
+   void missing_apply( ParseInput& in, States&&... st )
    {
       auto m = in.template mark< rewind_mode::required >();
       (void)Control::template apply< Action >( m.iterator(), in, st... );

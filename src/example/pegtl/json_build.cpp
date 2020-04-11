@@ -64,8 +64,8 @@ namespace examples
    template<>
    struct action< pegtl::json::number >
    {
-      template< typename Input >
-      static void apply( const Input& in, json_state& state )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, json_state& state )
       {
          std::stringstream ss( in.string() );
          long double v;
@@ -78,8 +78,8 @@ namespace examples
    struct action< pegtl::json::string::content >
       : json_unescape
    {
-      template< typename Input >
-      static void success( const Input& /*unused*/, std::string& s, json_state& state )
+      template< typename ParseInput >
+      static void success( const ParseInput& /*unused*/, std::string& s, json_state& state )
       {
          state.result = std::make_shared< string_json >( std::move( s ) );
       }
@@ -128,8 +128,8 @@ namespace examples
    struct action< pegtl::json::key::content >
       : json_unescape
    {
-      template< typename Input >
-      static void success( const Input& /*unused*/, std::string& s, json_state& state )
+      template< typename ParseInput >
+      static void success( const ParseInput& /*unused*/, std::string& s, json_state& state )
       {
          state.keys.push_back( std::move( s ) );
       }

@@ -28,11 +28,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[noreturn]] static bool match( Input& in, States&&... st )
+      [[noreturn]] static bool match( ParseInput& in, States&&... st )
       {
-         Control< T >::raise( static_cast< const Input& >( in ), st... );
+         Control< T >::raise( static_cast< const ParseInput& >( in ), st... );
       }
    };
 

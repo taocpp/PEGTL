@@ -44,9 +44,9 @@ namespace example
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      static bool match( Input& in, std::size_t& count, States&&... /*unused*/ )
+      static bool match( ParseInput& in, std::size_t& count, States&&... /*unused*/ )
       {
          if( in.size( count ) >= count ) {
             for( std::size_t i = 0; i < count; ++i ) {
@@ -72,8 +72,8 @@ namespace example
    template<>
    struct action_2_with_state< pegtl::star< pegtl::one< 'a' > > >
    {
-      template< typename Input >
-      static void apply( const Input& in, std::size_t& count )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, std::size_t& count )
       {
          count = in.size();
       }

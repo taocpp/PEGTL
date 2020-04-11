@@ -19,8 +19,8 @@ namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
-      template< typename Input >
-      void print_current( const Input& in )
+      template< typename ParseInput >
+      void print_current( const ParseInput& in )
       {
          if( in.empty() ) {
             std::cerr << "<eof>";
@@ -62,8 +62,8 @@ namespace TAO_PEGTL_NAMESPACE
    struct basic_trace_control
       : Control< Rule >
    {
-      template< typename Input, typename... States >
-      static void start( const Input& in, States&&... st )
+      template< typename ParseInput, typename... States >
+      static void start( const ParseInput& in, States&&... st )
       {
          std::cerr << in.position() << "  start  " << internal::demangle< Rule >() << "; current ";
          print_current( in );
@@ -71,16 +71,16 @@ namespace TAO_PEGTL_NAMESPACE
          Control< Rule >::start( in, st... );
       }
 
-      template< typename Input, typename... States >
-      static void start( const Input& in, trace_state& ts, States&&... st )
+      template< typename ParseInput, typename... States >
+      static void start( const ParseInput& in, trace_state& ts, States&&... st )
       {
          std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ++ts.rule << " ";
          start( in, st... );
          ts.stack.push_back( ts.rule );
       }
 
-      template< typename Input, typename... States >
-      static void success( const Input& in, States&&... st )
+      template< typename ParseInput, typename... States >
+      static void success( const ParseInput& in, States&&... st )
       {
          std::cerr << in.position() << " success " << internal::demangle< Rule >() << "; next ";
          print_current( in );
@@ -88,8 +88,8 @@ namespace TAO_PEGTL_NAMESPACE
          Control< Rule >::success( in, st... );
       }
 
-      template< typename Input, typename... States >
-      static void success( const Input& in, trace_state& ts, States&&... st )
+      template< typename ParseInput, typename... States >
+      static void success( const ParseInput& in, trace_state& ts, States&&... st )
       {
          assert( !ts.stack.empty() );
          std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ts.stack.back() << " ";
@@ -97,15 +97,15 @@ namespace TAO_PEGTL_NAMESPACE
          ts.stack.pop_back();
       }
 
-      template< typename Input, typename... States >
-      static void failure( const Input& in, States&&... st )
+      template< typename ParseInput, typename... States >
+      static void failure( const ParseInput& in, States&&... st )
       {
          std::cerr << in.position() << " failure " << internal::demangle< Rule >() << std::endl;
          Control< Rule >::failure( in, st... );
       }
 
-      template< typename Input, typename... States >
-      static void failure( const Input& in, trace_state& ts, States&&... st )
+      template< typename ParseInput, typename... States >
+      static void failure( const ParseInput& in, trace_state& ts, States&&... st )
       {
          assert( !ts.stack.empty() );
          std::cerr << std::setw( 6 ) << ++ts.line << " " << std::setw( 6 ) << ts.stack.back() << " ";
@@ -113,32 +113,32 @@ namespace TAO_PEGTL_NAMESPACE
          ts.stack.pop_back();
       }
 
-      template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
-      static auto apply( const Iterator& begin, const Input& in, States&&... st )
+      template< template< typename... > class Action, typename Iterator, typename ParseInput, typename... States >
+      static auto apply( const Iterator& begin, const ParseInput& in, States&&... st )
          -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
       {
          std::cerr << in.position() << "  apply  " << internal::demangle< Rule >() << std::endl;
          return Control< Rule >::template apply< Action >( begin, in, st... );
       }
 
-      template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
-      static auto apply( const Iterator& begin, const Input& in, trace_state& ts, States&&... st )
+      template< template< typename... > class Action, typename Iterator, typename ParseInput, typename... States >
+      static auto apply( const Iterator& begin, const ParseInput& in, trace_state& ts, States&&... st )
          -> decltype( apply< Action >( begin, in, st... ) )
       {
          std::cerr << std::setw( 6 ) << ++ts.line << "        ";
          return apply< Action >( begin, in, st... );
       }
 
-      template< template< typename... > class Action, typename Input, typename... States >
-      static auto apply0( const Input& in, States&&... st )
+      template< template< typename... > class Action, typename ParseInput, typename... States >
+      static auto apply0( const ParseInput& in, States&&... st )
          -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
       {
          std::cerr << in.position() << "  apply0 " << internal::demangle< Rule >() << std::endl;
          return Control< Rule >::template apply0< Action >( in, st... );
       }
 
-      template< template< typename... > class Action, typename Input, typename... States >
-      static auto apply0( const Input& in, trace_state& ts, States&&... st )
+      template< template< typename... > class Action, typename ParseInput, typename... States >
+      static auto apply0( const ParseInput& in, trace_state& ts, States&&... st )
          -> decltype( apply0< Action >( in, st... ) )
       {
          std::cerr << std::setw( 6 ) << ++ts.line << "        ";

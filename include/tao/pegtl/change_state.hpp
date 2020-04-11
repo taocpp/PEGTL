@@ -23,23 +23,23 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         NewState s( static_cast< const Input& >( in ), st... );
+         NewState s( static_cast< const ParseInput& >( in ), st... );
          if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, s ) ) {
             if constexpr( A == apply_mode::action ) {
-               Action< Rule >::success( static_cast< const Input& >( in ), s, st... );
+               Action< Rule >::success( static_cast< const ParseInput& >( in ), s, st... );
             }
             return true;
          }
          return false;
       }
 
-      template< typename Input,
+      template< typename ParseInput,
                 typename... States >
-      static void success( const Input& in, NewState& s, States&&... st ) noexcept( noexcept( s.success( in, st... ) ) )
+      static void success( const ParseInput& in, NewState& s, States&&... st ) noexcept( noexcept( s.success( in, st... ) ) )
       {
          s.success( in, st... );
       }

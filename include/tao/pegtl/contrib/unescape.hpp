@@ -99,8 +99,8 @@ namespace TAO_PEGTL_NAMESPACE::unescape
 
    struct append_all
    {
-      template< typename Input >
-      static void apply( const Input& in, std::string& s )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, std::string& s )
       {
          s.append( in.begin(), in.size() );
       }
@@ -110,22 +110,22 @@ namespace TAO_PEGTL_NAMESPACE::unescape
    template< typename T, char... Rs >
    struct unescape_c
    {
-      template< typename Input >
-      static void apply( const Input& in, std::string& s )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, std::string& s )
       {
          assert( in.size() == 1 );
          s += apply_one( in, static_cast< const T* >( nullptr ) );
       }
 
-      template< typename Input, char... Qs >
-      [[nodiscard]] static char apply_one( const Input& in, const one< Qs... >* /*unused*/ )
+      template< typename ActionInput, char... Qs >
+      [[nodiscard]] static char apply_one( const ActionInput& in, const one< Qs... >* /*unused*/ )
       {
          static_assert( sizeof...( Qs ) == sizeof...( Rs ), "size mismatch between escaped characters and their mappings" );
          return apply_two( in, { Qs... }, { Rs... } );
       }
 
-      template< typename Input >
-      [[nodiscard]] static char apply_two( const Input& in, const std::initializer_list< char >& q, const std::initializer_list< char >& r )
+      template< typename ActionInput >
+      [[nodiscard]] static char apply_two( const ActionInput& in, const std::initializer_list< char >& q, const std::initializer_list< char >& r )
       {
          const char c = *in.begin();
          for( std::size_t i = 0; i < q.size(); ++i ) {
@@ -143,8 +143,8 @@ namespace TAO_PEGTL_NAMESPACE::unescape
 
    struct unescape_u
    {
-      template< typename Input >
-      static void apply( const Input& in, std::string& s )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, std::string& s )
       {
          assert( !in.empty() );  // First character MUST be present, usually 'u' or 'U'.
          if( !utf8_append_utf32( s, unhex_string< unsigned >( in.begin() + 1, in.end() ) ) ) {
@@ -155,8 +155,8 @@ namespace TAO_PEGTL_NAMESPACE::unescape
 
    struct unescape_x
    {
-      template< typename Input >
-      static void apply( const Input& in, std::string& s )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, std::string& s )
       {
          assert( !in.empty() );  // First character MUST be present, usually 'x'.
          s += unhex_string< char >( in.begin() + 1, in.end() );
@@ -173,8 +173,8 @@ namespace TAO_PEGTL_NAMESPACE::unescape
 
    struct unescape_j
    {
-      template< typename Input >
-      static void apply( const Input& in, std::string& s )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, std::string& s )
       {
          assert( ( ( in.size() + 1 ) % 6 ) == 0 );  // Expects multiple "\\u1234", starting with the first "u".
          for( const char* b = in.begin() + 1; b < in.end(); b += 6 ) {

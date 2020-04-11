@@ -16,14 +16,14 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Input >
+   template< typename ParseInput >
    class action_input
    {
    public:
-      using input_t = Input;
-      using iterator_t = typename Input::iterator_t;
+      using input_t = ParseInput;
+      using iterator_t = typename ParseInput::iterator_t;
 
-      action_input( const iterator_t& in_begin, const Input& in_input ) noexcept
+      action_input( const iterator_t& in_begin, const ParseInput& in_input ) noexcept
          : m_begin( in_begin ),
            m_input( in_input )
       {}
@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_begin;
       }
 
-      [[nodiscard]] const Input& input() const noexcept
+      [[nodiscard]] const ParseInput& input() const noexcept
       {
          return m_input;
       }
@@ -98,7 +98,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    protected:
       const iterator_t m_begin;
-      const Input& m_input;
+      const ParseInput& m_input;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

@@ -13,16 +13,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Action >
    struct apply_single
    {
-      template< typename Input, typename... States >
-      [[nodiscard]] static auto match( const Input& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
+      template< typename ParseInput, typename... States >
+      [[nodiscard]] static auto match( const ParseInput& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
          -> std::enable_if_t< std::is_same_v< decltype( Action::apply( in, st... ) ), void >, bool >
       {
          Action::apply( in, st... );
          return true;
       }
 
-      template< typename Input, typename... States >
-      [[nodiscard]] static auto match( const Input& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
+      template< typename ParseInput, typename... States >
+      [[nodiscard]] static auto match( const ParseInput& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )
          -> std::enable_if_t< std::is_same_v< decltype( Action::apply( in, st... ) ), bool >, bool >
       {
          return Action::apply( in, st... );

@@ -91,8 +91,8 @@ namespace csv2
    template<>
    struct action< plain_value >
    {
-      template< typename Input, unsigned N >
-      static void apply( const Input& in, result_data< N >& data )
+      template< typename ActionInput, unsigned N >
+      static void apply( const ActionInput& in, result_data< N >& data )
       {
          data.temp.push_back( in.string() );
       }
@@ -108,8 +108,8 @@ namespace csv2
    {
       using tuple_t = typename tuple_help< N, std::tuple<> >::tuple_t;
 
-      template< typename Input >
-      static void apply( const Input& in, result_data< N >& data )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, result_data< N >& data )
       {
          if( data.temp.size() != N ) {
             throw pegtl::parse_error( "column count mismatch", in );

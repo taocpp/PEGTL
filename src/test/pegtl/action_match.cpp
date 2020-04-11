@@ -14,9 +14,9 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... /*unused*/ )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... /*unused*/ )
       {
          return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in );
       }
@@ -67,15 +67,15 @@ namespace TAO_PEGTL_NAMESPACE
    struct action_one_b< grammar_inner >
    {
       // used inside of remove_state
-      template< typename Input >
-      static void apply( const Input& /*unused*/ )
+      template< typename ActionInput >
+      static void apply( const ActionInput& /*unused*/ )
       {
          ++global_state;
       }
 
       // used outside of remove_state
-      template< typename Input >
-      static void apply( const Input& in, state_one& state )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, state_one& state )
       {
          state.byte_in_line_b += in.input().byte();
       }
@@ -94,8 +94,8 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct action_one_a< grammar_inner >
    {
-      template< typename Input >
-      static void apply( const Input& in, state_one& state )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, state_one& state )
       {
          state.byte_in_line_a += in.input().byte();
       }

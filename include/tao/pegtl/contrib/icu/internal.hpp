@@ -19,8 +19,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          using rule_t = binary_property;
 
-         template< typename Input >
-         [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
+         template< typename ParseInput >
+         [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
          {
             if( const std::size_t s = in.size( Peek::max_input_size ); s >= Peek::min_input_size ) {
                if( const auto r = Peek::peek( in, s ) ) {
@@ -39,8 +39,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          using rule_t = property_value;
 
-         template< typename Input >
-         [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
+         template< typename ParseInput >
+         [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
          {
             if( const std::size_t s = in.size( Peek::max_input_size ); s >= Peek::min_input_size ) {
                if( const auto r = Peek::peek( in, s ) ) {

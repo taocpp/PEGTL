@@ -15,9 +15,9 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      static bool match( Input& /*unused*/, bool& v, States... /*unused*/ )
+      static bool match( ParseInput& /*unused*/, bool& v, States... /*unused*/ )
       {
          return v;
       }

@@ -38,13 +38,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         State s( static_cast< const Input& >( in ), st... );
+         State s( static_cast< const ParseInput& >( in ), st... );
          if( Control< Rule >::template match< A, M, Action, Control >( in, s ) ) {
-            s.success( static_cast< const Input& >( in ), st... );
+            s.success( static_cast< const ParseInput& >( in ), st... );
             return true;
          }
          return false;

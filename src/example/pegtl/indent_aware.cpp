@@ -132,8 +132,8 @@ namespace example
    template<>
    struct action< else_line >
    {
-      template< typename Input >
-      static void apply( const Input& in, state& s )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, state& s )
       {
          assert( !s.stack.empty() );
          if( ( s.stack.back().type != type::if_ ) || ( s.stack.back().indent != s.current_indent ) ) {
@@ -155,8 +155,8 @@ namespace example
    template<>
    struct action< nothing >
    {
-      template< typename Input >
-      static void apply( const Input& in, state& s )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, state& s )
       {
          if( s.minimum_indent > 0 ) {
             throw pegtl::parse_error( "expected indented block instead of empty line", in );
@@ -168,8 +168,8 @@ namespace example
    template<>
    struct action< indent >
    {
-      template< typename Input >
-      static void apply( const Input& in, state& s )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, state& s )
       {
          s.current_indent = in.size();
          if( s.current_indent != 0 ) {
@@ -192,8 +192,8 @@ namespace example
    template<>
    struct action< grammar >
    {
-      template< typename Input >
-      static void apply( const Input& in, state& s )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, state& s )
       {
          if( s.minimum_indent > 0 ) {
             throw pegtl::parse_error( "expected indented block instead of eof", in );

@@ -16,8 +16,7 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct at_action< alpha >
    {
-      template< typename Input >
-      static void apply( const Input& /*unused*/ )
+      static void apply0()
       {
          ++at_counter;
       }

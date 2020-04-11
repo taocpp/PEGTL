@@ -45,12 +45,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          if( !Control< Rule >::template match< A, rewind_mode::dontcare, Action, Control >( in, st... ) ) {
-            Control< Rule >::raise( static_cast< const Input& >( in ), st... );
+            Control< Rule >::raise( static_cast< const ParseInput& >( in ), st... );
          }
          return true;
       }

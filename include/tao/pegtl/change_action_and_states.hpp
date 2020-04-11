@@ -27,14 +27,14 @@ namespace TAO_PEGTL_NAMESPACE
                 template< typename... >
                 class Control,
                 std::size_t... Ns,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( std::index_sequence< Ns... > /*unused*/, Input& in, States&&... st )
+      [[nodiscard]] static bool match( std::index_sequence< Ns... > /*unused*/, ParseInput& in, States&&... st )
       {
          auto t = std::tie( st... );
          if( Control< Rule >::template match< A, M, NewAction, Control >( in, std::get< Ns >( t )... ) ) {
             if constexpr( A == apply_mode::action ) {
-               Action< Rule >::success( static_cast< const Input& >( in ), st... );
+               Action< Rule >::success( static_cast< const ParseInput& >( in ), st... );
             }
             return true;
          }
@@ -48,9 +48,9 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          static_assert( !std::is_same_v< Action< void >, NewAction< void > >, "old and new action class templates are identical" );
          return match< Rule, A, M, Action, Control >( std::index_sequence_for< NewStates... >(), in, NewStates()..., st... );

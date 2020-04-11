@@ -25,39 +25,39 @@ namespace TAO_PEGTL_NAMESPACE
    {
       static constexpr bool enable = internal::enable_control< Rule >;
 
-      template< typename Input, typename... States >
-      static void start( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      template< typename ParseInput, typename... States >
+      static void start( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
       {}
 
-      template< typename Input, typename... States >
-      static void success( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      template< typename ParseInput, typename... States >
+      static void success( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
       {}
 
-      template< typename Input, typename... States >
-      static void failure( const Input& /*unused*/, States&&... /*unused*/ ) noexcept
+      template< typename ParseInput, typename... States >
+      static void failure( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
       {}
 
-      template< typename Input, typename... States >
-      [[noreturn]] static void raise( const Input& in, States&&... /*unused*/ )
+      template< typename ParseInput, typename... States >
+      [[noreturn]] static void raise( const ParseInput& in, States&&... /*unused*/ )
       {
          throw parse_error( "parse error matching " + std::string( internal::demangle< Rule >() ), in );
       }
 
       template< template< typename... > class Action,
                 typename Iterator,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      static auto apply( const Iterator& begin, const Input& in, States&&... st ) noexcept( noexcept( Action< Rule >::apply( std::declval< const typename Input::action_t& >(), st... ) ) )
-         -> decltype( Action< Rule >::apply( std::declval< const typename Input::action_t& >(), st... ) )
+      static auto apply( const Iterator& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( Action< Rule >::apply( std::declval< const typename ParseInput::action_t& >(), st... ) ) )
+         -> decltype( Action< Rule >::apply( std::declval< const typename ParseInput::action_t& >(), st... ) )
       {
-         const typename Input::action_t action_input( begin, in );
+         const typename ParseInput::action_t action_input( begin, in );
          return Action< Rule >::apply( action_input, st... );
       }
 
       template< template< typename... > class Action,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      static auto apply0( const Input& /*unused*/, States&&... st ) noexcept( noexcept( Action< Rule >::apply0( st... ) ) )
+      static auto apply0( const ParseInput& /*unused*/, States&&... st ) noexcept( noexcept( Action< Rule >::apply0( st... ) ) )
          -> decltype( Action< Rule >::apply0( st... ) )
       {
          return Action< Rule >::apply0( st... );
@@ -69,11 +69,11 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         if constexpr( internal::has_match_v< Rule, A, M, Action, Control, Input, States... > ) {
+         if constexpr( internal::has_match_v< Rule, A, M, Action, Control, ParseInput, States... > ) {
             return Action< Rule >::template match< Rule, A, M, Action, Control >( in, st... );
          }
          else {

@@ -17,8 +17,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = eof;
       using subs_t = empty_list;
 
-      template< typename Input >
-      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.empty() ) )
       {
          return in.empty();
       }

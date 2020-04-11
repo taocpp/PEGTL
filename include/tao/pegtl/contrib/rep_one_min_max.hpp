@@ -29,8 +29,8 @@ namespace TAO_PEGTL_NAMESPACE
 
          static_assert( Min <= Max );
 
-         template< typename Input >
-         [[nodiscard]] static bool match( Input& in )
+         template< typename ParseInput >
+         [[nodiscard]] static bool match( ParseInput& in )
          {
             const auto size = in.size( Max + 1 );
             if( size < Min ) {
@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
                ++i;
             }
             if( ( Min <= i ) && ( i <= Max ) ) {
-               bump_help< result_on_found::success, Input, char, C >( in, i );
+               bump_help< result_on_found::success, ParseInput, char, C >( in, i );
                return true;
             }
             return false;

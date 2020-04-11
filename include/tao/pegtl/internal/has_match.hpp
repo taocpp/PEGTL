@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
              class Action,
              template< typename... >
              class Control,
-             typename Input,
+             typename ParseInput,
              typename... States >
    struct has_match
       : std::false_type
@@ -34,9 +34,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
              class Action,
              template< typename... >
              class Control,
-             typename Input,
+             typename ParseInput,
              typename... States >
-   struct has_match< decltype( (void)Action< Rule >::template match< Rule, A, M, Action, Control >( std::declval< Input& >(), std::declval< States&& >()... ), void() ), Rule, A, M, Action, Control, Input, States... >
+   struct has_match< decltype( (void)Action< Rule >::template match< Rule, A, M, Action, Control >( std::declval< ParseInput& >(), std::declval< States&& >()... ), void() ), Rule, A, M, Action, Control, ParseInput, States... >
       : std::true_type
    {};
 
@@ -47,9 +47,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
              class Action,
              template< typename... >
              class Control,
-             typename Input,
+             typename ParseInput,
              typename... States >
-   inline constexpr bool has_match_v = has_match< void, Rule, A, M, Action, Control, Input, States... >::value;
+   inline constexpr bool has_match_v = has_match< void, Rule, A, M, Action, Control, ParseInput, States... >::value;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

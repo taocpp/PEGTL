@@ -41,8 +41,8 @@ namespace TAO_PEGTL_NAMESPACE
          throw std::runtime_error( "fail2" );
       }
 
-      template< typename Input >
-      static void success( const Input& /*unused*/, int& v, int& c )
+      template< typename ParseInput >
+      static void success( const ParseInput& /*unused*/, int& v, int& c )
       {
          if( v != 2 ) {
             throw std::runtime_error( "fail3" );

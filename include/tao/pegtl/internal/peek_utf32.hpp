@@ -24,8 +24,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static constexpr std::size_t min_input_size = 4;
       static constexpr std::size_t max_input_size = 4;
 
-      template< typename Input >
-      [[nodiscard]] static pair_t peek( const Input& in, const std::size_t /*unused*/ ) noexcept
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( const ParseInput& in, const std::size_t /*unused*/ ) noexcept
       {
          const char32_t t = R::read( in.current() );
          if( ( t <= 0x10ffff ) && !( t >= 0xd800 && t <= 0xdfff ) ) {

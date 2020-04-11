@@ -22,8 +22,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = any;
       using subs_t = empty_list;
 
-      template< typename Input >
-      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.empty() ) )
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.empty() ) )
       {
          if( !in.empty() ) {
             in.bump();
@@ -39,8 +39,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = any;
       using subs_t = empty_list;
 
-      template< typename Input >
-      [[nodiscard]] static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
       {
          if( const std::size_t s = in.size( Peek::max_input_size ); s >= Peek::min_input_size ) {
             if( const auto t = Peek::peek( in, s ) ) {

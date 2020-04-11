@@ -36,9 +36,9 @@ namespace TAO_PEGTL_NAMESPACE
                    class Action,
                    template< typename... >
                    class Control,
-                   typename Input,
+                   typename ParseInput,
                    typename... States >
-         [[nodiscard]] static bool match( Input& in, std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 0 ) ) )
+         [[nodiscard]] static bool match( ParseInput& in, std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 0 ) ) )
          {
             if( in.empty() || ( in.peek_char( 0 ) != Open ) ) {
                return false;
@@ -74,9 +74,9 @@ namespace TAO_PEGTL_NAMESPACE
                    class Action,
                    template< typename... >
                    class Control,
-                   typename Input,
+                   typename ParseInput,
                    typename... States >
-         [[nodiscard]] static bool match( Input& in, const std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 0 ) ) )
+         [[nodiscard]] static bool match( ParseInput& in, const std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 0 ) ) )
          {
             if( in.size( marker_size ) < marker_size ) {
                return false;
@@ -115,9 +115,9 @@ namespace TAO_PEGTL_NAMESPACE
                    class Action,
                    template< typename... >
                    class Control,
-                   typename Input,
+                   typename ParseInput,
                    typename... States >
-         [[nodiscard]] static bool match( Input& in, const std::size_t& marker_size, States&&... st )
+         [[nodiscard]] static bool match( ParseInput& in, const std::size_t& marker_size, States&&... st )
          {
             auto m = in.template mark< M >();
 
@@ -142,9 +142,9 @@ namespace TAO_PEGTL_NAMESPACE
                    class Action,
                    template< typename... >
                    class Control,
-                   typename Input,
+                   typename ParseInput,
                    typename... States >
-         [[nodiscard]] static bool match( Input& in, const std::size_t& marker_size, States&&... st )
+         [[nodiscard]] static bool match( ParseInput& in, const std::size_t& marker_size, States&&... st )
          {
             auto m = in.template mark< M >();
             using m_t = decltype( m );
@@ -205,9 +205,9 @@ namespace TAO_PEGTL_NAMESPACE
                 class Action,
                 template< typename... >
                 class Control,
-                typename Input,
+                typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          std::size_t marker_size;
          if( internal::raw_string_open< Open, Marker >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
