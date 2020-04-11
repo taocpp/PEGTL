@@ -6,7 +6,7 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/json.hpp>
-#include <tao/pegtl/contrib/raise_controller.hpp>
+#include <tao/pegtl/contrib/must_if.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
@@ -39,10 +39,10 @@ namespace examples
 
    template<> inline constexpr auto error_message< pegtl::eof > = "unexpected character after JSON value";
 
-   // As raise_controller can not take error_message as a template parameter directly, we need to wrap it:
+   // As must_if can not take error_message as a template parameter directly, we need to wrap it:
    struct error { template< typename Rule > static constexpr auto message = error_message< Rule >; };
 
-   template< typename Rule > using control = pegtl::raise_controller< error >::control< Rule >;
+   template< typename Rule > using control = pegtl::must_if< error >::control< Rule >;
    // clang-format on
 
 }  // namespace examples

@@ -3,7 +3,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/contrib/raise_controller.hpp>
+#include <tao/pegtl/contrib/must_if.hpp>
 
 namespace test1
 {
@@ -18,7 +18,7 @@ namespace test1
    template<> inline constexpr auto error_message< test1::a > = "test123";
 
    struct error { template< typename Rule > static constexpr auto message = error_message< Rule >; };
-   template< typename Rule > using control = raise_controller< error >::control< Rule >;
+   template< typename Rule > using control = must_if< error >::control< Rule >;
    // clang-format on
 
 }  // namespace test1

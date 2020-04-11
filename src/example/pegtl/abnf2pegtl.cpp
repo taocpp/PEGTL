@@ -26,8 +26,8 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/abnf.hpp>
 #include <tao/pegtl/contrib/analyze.hpp>
+#include <tao/pegtl/contrib/must_if.hpp>
 #include <tao/pegtl/contrib/parse_tree.hpp>
-#include <tao/pegtl/contrib/raise_controller.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -304,7 +304,7 @@ namespace TAO_PEGTL_NAMESPACE
       template<> inline constexpr auto error_message< abnf::grammar::rule > = "expected rule";
 
       struct error { template< typename Rule > static constexpr auto message = error_message< Rule >; };
-      template< typename Rule > using my_control = raise_controller< error >::control< Rule >;
+      template< typename Rule > using my_control = must_if< error >::control< Rule >;
       // clang-format on
 
       template< typename Rule >

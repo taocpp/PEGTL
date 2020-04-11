@@ -1,8 +1,8 @@
 // Copyright (c) 2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_CONTRIB_RAISE_CONTROLLER_HPP
-#define TAO_PEGTL_CONTRIB_RAISE_CONTROLLER_HPP
+#ifndef TAO_PEGTL_CONTRIB_MUST_IF_HPP
+#define TAO_PEGTL_CONTRIB_MUST_IF_HPP
 
 #include "../config.hpp"
 #include "../normal.hpp"
@@ -20,7 +20,7 @@ namespace TAO_PEGTL_NAMESPACE
    }  // namespace internal
 
    template< typename T, bool RequireMessage = true, template< typename... > class Base = normal >
-   struct raise_controller
+   struct must_if
    {
       template< typename Rule >
       struct control
