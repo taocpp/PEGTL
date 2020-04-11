@@ -44,13 +44,11 @@ namespace TAO_PEGTL_NAMESPACE
 
    struct signed_rule_bis
       : seq< opt< one< '-' > >, if_then_else< one< '0' >, not_at< digit >, plus< digit > > >
-   {
-   };
+   {};
 
    struct signed_rule_ter
       : seq< one< '-', '+' >, if_then_else< one< '0' >, not_at< digit >, plus< digit > > >
-   {
-   };
+   {};
 
    namespace internal
    {
@@ -403,14 +401,12 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule >
       struct signed_action_action
          : nothing< Rule >
-      {
-      };
+      {};
 
       template<>
       struct signed_action_action< signed_rule_new >
          : signed_action
-      {
-      };
+      {};
 
    }  // namespace internal
 

@@ -41,8 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          template< typename... Args >
          static void visit( std::set< std::string_view >& /*unused*/, Args&&... /*unused*/ )
-         {
-         }
+         {}
       };
 
       template< template< typename... > class Func, typename... Rules >
