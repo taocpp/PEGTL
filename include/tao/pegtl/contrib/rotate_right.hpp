@@ -1,0 +1,113 @@
+// Copyright (c) 2017-2020 Dr. Colin Hirsch and Daniel Frey
+// Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
+
+#ifndef TAO_PEGTL_CONTRIB_ROTATE_RIGHT_HPP
+#define TAO_PEGTL_CONTRIB_ROTATE_RIGHT_HPP
+
+#include <tuple>
+#include <utility>
+
+#include "../apply_mode.hpp"
+#include "../config.hpp"
+#include "../rewind_mode.hpp"
+
+namespace TAO_PEGTL_NAMESPACE
+{
+   template< typename T >
+   struct rotate_right
+   {
+      static constexpr bool enable = T::enable;
+
+      template< typename Input, typename Tuple, std::size_t... Is >
+      static void start_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+      {
+         T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+      }
+
+      template< typename Input, typename... States >
+      static void start( const Input& in, States&&... st ) noexcept( noexcept( start_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+      {
+         start_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
+      }
+
+      template< typename Input, typename Tuple, std::size_t... Is >
+      static void success_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::success( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+      {
+         T::success( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+      }
+
+      template< typename Input, typename... States >
+      static void success( const Input& in, States&&... st ) noexcept( noexcept( success_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+      {
+         success_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
+      }
+
+      template< typename Input, typename Tuple, std::size_t... Is >
+      static void failure_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::failure( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+      {
+         T::failure( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+      }
+
+      template< typename Input, typename... States >
+      static void failure( const Input& in, States&&... st ) noexcept( noexcept( failure_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+      {
+         failure_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
+      }
+
+      template< typename Input, typename Tuple, std::size_t... Is >
+      [[noreturn]] static void raise_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
+      {
+         T::raise( in, std::get< Is >( t )... );
+      }
+
+      template< typename Input, typename... States >
+      [[noreturn]] static void raise( const Input& in, States&&... st )
+      {
+         raise_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
+      }
+
+      template< template< typename... > class Action, typename Iterator, typename Input, typename Tuple, std::size_t... Is >
+      static auto apply_impl( const Iterator& begin, const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::template apply< Action >( begin, in, std::get< Is >( t )... ) ) )
+         -> decltype( T::template apply< Action >( begin, in, std::get< Is >( t )... ) )
+      {
+         return T::template apply< Action >( begin, in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+      }
+
+      template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
+      static auto apply( const Iterator& begin, const Input& in, States&&... st ) noexcept( noexcept( apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+         -> decltype( apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) )
+      {
+         return apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
+      }
+
+      template< template< typename... > class Action, typename Input, typename Tuple, std::size_t... Is >
+      static auto apply0_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::template apply0< Action >( in, std::get< Is >( t )... ) ) )
+         -> decltype( T::template apply0< Action >( in, std::get< Is >( t )... ) )
+      {
+         return T::template apply0< Action >( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+      }
+
+      template< template< typename... > class Action, typename Input, typename... States >
+      static auto apply0( const Input& in, States&&... st ) noexcept( noexcept( apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) ) )
+         -> decltype( apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) )
+      {
+         return apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
+      }
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename Input,
+                typename... States >
+      [[nodiscard]] static bool match( Input& in, States&&... st )
+      {
+         return T::template match< A, M, Action, Control >( in, st... );
+      }
+   };
+
+}  // namespace TAO_PEGTL_NAMESPACE
+
+#endif
