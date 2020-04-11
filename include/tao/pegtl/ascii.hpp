@@ -7,7 +7,7 @@
 #include "config.hpp"
 #include "eol.hpp"
 
-#include "internal/always_false.hpp"
+#include "internal/dependent_false.hpp"
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
@@ -53,7 +53,7 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename ParseInput >
          [[nodiscard]] static bool match( ParseInput& /*unused*/ ) noexcept
          {
-            static_assert( internal::always_false< ParseInput >::value, "empty keywords not allowed" );
+            static_assert( internal::dependent_false< ParseInput >, "empty keywords not allowed" );
             return false;
          }
       };

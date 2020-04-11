@@ -19,6 +19,7 @@
 #include "analyze_traits.hpp"
 
 #include "../internal/demangle.hpp"
+#include "../internal/dependent_false.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -31,9 +32,6 @@ namespace TAO_PEGTL_NAMESPACE
          seq,  // Consumption-on-success depends on consumption of (non-zero bounded repetition of) conjunction of sub-rules.
          sor   // Consumption-on-success depends on consumption of (non-zero bounded repetition of) disjunction of sub-rules.
       };
-
-      template< typename... >
-      inline constexpr bool dependent_false = false;
 
       template< typename T >
       struct fail
