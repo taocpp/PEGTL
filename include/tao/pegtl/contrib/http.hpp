@@ -197,26 +197,43 @@ namespace TAO_PEGTL_NAMESPACE::http
 
    namespace internal::chunk_helper
    {
-      template< typename Rule, template< typename... > class Control >
-      struct control
-         : remove_self_and_first_state< Rule, Control >
+      template< typename Base >
+      struct control;
+
+      template< template< typename... > class Control, typename Rule >
+      struct control< Control< Rule > >
+         : Control< Rule >
+      {
+         template< apply_mode A,
+                   rewind_mode M,
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class,
+                   typename Input,
+                   typename State,
+                   typename... States >
+         [[nodiscard]] static bool match( Input& in, State&& /*unused*/, States&&... st )
+         {
+            return Control< Rule >::template match< A, M, Action, Control >( in, st... );
+         }
+      };
+
+      template< template< typename... > class Control >
+      struct control< Control< chunk_size > >
+         : remove_first_state< Control< chunk_size > >
       {};
 
       template< template< typename... > class Control >
-      struct control< chunk_size, Control >
-         : remove_first_state_after_match< chunk_size, Control >
-      {};
-
-      template< template< typename... > class Control >
-      struct control< chunk_data, Control >
-         : remove_first_state_after_match< chunk_data, Control >
+      struct control< Control< chunk_data > >
+         : remove_first_state< Control< chunk_data > >
       {};
 
       template< template< typename... > class Control >
       struct bind
       {
          template< typename Rule >
-         using type = control< Rule, Control >;
+         using type = control< Control< Rule > >;
       };
 
    }  // namespace internal::chunk_helper

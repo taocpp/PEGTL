@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2020 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #ifndef TAO_PEGTL_CONTRIB_ROTATE_RIGHT_HPP
@@ -7,21 +7,20 @@
 #include <tuple>
 #include <utility>
 
-#include "../apply_mode.hpp"
 #include "../config.hpp"
-#include "../rewind_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename T >
+   // Applies to start(), success(), failure(), raise(), apply(), and apply0():
+   // The last state is rotated to the first position when the call is forwarded to Base.
+   template< typename Base >
    struct rotate_right
+      : Base
    {
-      static constexpr bool enable = T::enable;
-
       template< typename Input, typename Tuple, std::size_t... Is >
-      static void start_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+      static void start_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
       {
-         T::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+         Base::start( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
       }
 
       template< typename Input, typename... States >
@@ -31,9 +30,9 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< typename Input, typename Tuple, std::size_t... Is >
-      static void success_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::success( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+      static void success_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::success( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
       {
-         T::success( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+         Base::success( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
       }
 
       template< typename Input, typename... States >
@@ -43,9 +42,9 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< typename Input, typename Tuple, std::size_t... Is >
-      static void failure_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::failure( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
+      static void failure_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::failure( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... ) ) )
       {
-         T::failure( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+         Base::failure( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
       }
 
       template< typename Input, typename... States >
@@ -57,7 +56,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Input, typename Tuple, std::size_t... Is >
       [[noreturn]] static void raise_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
       {
-         T::raise( in, std::get< Is >( t )... );
+         Base::raise( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
       }
 
       template< typename Input, typename... States >
@@ -67,10 +66,10 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< template< typename... > class Action, typename Iterator, typename Input, typename Tuple, std::size_t... Is >
-      static auto apply_impl( const Iterator& begin, const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::template apply< Action >( begin, in, std::get< Is >( t )... ) ) )
-         -> decltype( T::template apply< Action >( begin, in, std::get< Is >( t )... ) )
+      static auto apply_impl( const Iterator& begin, const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::template apply< Action >( begin, in, std::get< Is >( t )... ) ) )
+         -> decltype( Base::template apply< Action >( begin, in, std::get< Is >( t )... ) )
       {
-         return T::template apply< Action >( begin, in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+         return Base::template apply< Action >( begin, in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
       }
 
       template< template< typename... > class Action, typename Iterator, typename Input, typename... States >
@@ -81,10 +80,10 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< template< typename... > class Action, typename Input, typename Tuple, std::size_t... Is >
-      static auto apply0_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( T::template apply0< Action >( in, std::get< Is >( t )... ) ) )
-         -> decltype( T::template apply0< Action >( in, std::get< Is >( t )... ) )
+      static auto apply0_impl( const Input& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::template apply0< Action >( in, std::get< Is >( t )... ) ) )
+         -> decltype( Base::template apply0< Action >( in, std::get< Is >( t )... ) )
       {
-         return T::template apply0< Action >( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
+         return Base::template apply0< Action >( in, std::get< sizeof...( Is ) >( t ), std::get< Is >( t )... );
       }
 
       template< template< typename... > class Action, typename Input, typename... States >
@@ -92,19 +91,6 @@ namespace TAO_PEGTL_NAMESPACE
          -> decltype( apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() ) )
       {
          return apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - 1 >() );
-      }
-
-      template< apply_mode A,
-                rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename Input,
-                typename... States >
-      [[nodiscard]] static bool match( Input& in, States&&... st )
-      {
-         return T::template match< A, M, Action, Control >( in, st... );
       }
    };
 
