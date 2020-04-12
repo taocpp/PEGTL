@@ -15,7 +15,7 @@
 #include <vector>
 
 #include "remove_first_state.hpp"
-#include "rotate_states_right.hpp"
+#include "shuffle_states.hpp"
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
