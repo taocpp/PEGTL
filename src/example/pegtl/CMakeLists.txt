@@ -20,7 +20,6 @@ set(example_sources
   parse_tree_user_state.cpp
   print.cpp
   print_rt.cpp
-  print_with_subs.cpp
   proto3.cpp
   recover.cpp
   s_expression.cpp

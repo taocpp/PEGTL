@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
          static void visit_rule( rule_list< Subs... > /*unused*/, std::set< std::string_view >& done, Args&&... args )
          {
             if( done.emplace( demangle< Rule >() ).second ) {
-               Func< Rule, Subs... >::visit( args... );
+               Func< Rule >::visit( args... );
                visitor_rt< Func, Subs... >::visit( done, args... );
             }
          }

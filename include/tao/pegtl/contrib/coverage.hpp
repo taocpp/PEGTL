@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE
       std::map< std::string_view, coverage_info > map;
    };
 
-   template< typename Rule, typename... >
+   template< typename Rule >
    struct coverage_insert
    {
       static void visit( coverage_state& state )
