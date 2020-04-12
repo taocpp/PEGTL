@@ -16,7 +16,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
-      template< template< typename... > class Func, typename Rule >
+      template< template< typename... > class Func, typename RuleList >
       struct visitor_rt;
 
       template< template< typename... > class Func, typename... Rules >
@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       private:
          template< typename Rule, typename... Subs, typename... Args >
-         static void visit_rule( rule_list< Subs... >&& /*unused*/, std::set< std::string_view >& done, Args&&... args )
+         static void visit_rule( rule_list< Subs... > /*unused*/, std::set< std::string_view >& done, Args&&... args )
          {
             if( done.emplace( demangle< Rule >() ).second ) {
                Func< Rule, Subs... >::visit( args... );
