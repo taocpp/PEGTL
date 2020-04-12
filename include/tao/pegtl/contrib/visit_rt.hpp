@@ -16,11 +16,8 @@ namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
-      template< template< typename... > class Func, typename RuleList >
-      struct visitor_rt;
-
       template< template< typename... > class Func, typename... Rules >
-      struct visitor_rt< Func, rule_list< Rules... > >
+      struct visitor_rt
       {
          template< typename... Args >
          static void visit( std::set< std::string_view >& done, Args&&... args )
@@ -34,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
          {
             if( done.emplace( demangle< Rule >() ).second ) {
                Func< Rule, Subs... >::visit( args... );
-               visitor_rt< Func, rule_list< Subs... > >::visit( done, args... );
+               visitor_rt< Func, Subs... >::visit( done, args... );
             }
          }
       };
@@ -45,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE
    std::size_t visit_rt( Args&&... args )
    {
       std::set< std::string_view > done;
-      internal::visitor_rt< Func, rule_list< Rule > >::visit( done, args... );
+      internal::visitor_rt< Func, Rule >::visit( done, args... );
       return done.size();
    }
 
