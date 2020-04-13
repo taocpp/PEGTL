@@ -58,24 +58,24 @@ These rules are in namespace `tao::pegtl`.
 * Uses the given class template `A` for [actions](Actions-and-States.md).
 * Does not `enable` or `disable` actions while matching `R...`.
 * [Meta data] and implementation mapping:
-  - `action< A >::rule_t` = `internal::success`
-  - `action< A >::subs_t` = `rule_list<>`
-  - `action< A, R >::rule_t` = `internal::action< A, R >`
-  - `action< A, R >::subs_t` = `rule_list< R >`
-  - `action< A, R... >::rule_t` = `internal::action< A, internal::seq< R... > >`
-  - `action< A, R... >::subs_t` = `rule_list< internal::seq< R... > >`
+  - `action< A >::rule_t` is `internal::success`
+  - `action< A >::subs_t` is `rule_list<>`
+  - `action< A, R >::rule_t` is `internal::action< A, R >`
+  - `action< A, R >::subs_t` is `rule_list< R >`
+  - `action< A, R... >::rule_t` is `internal::action< A, internal::seq< R... > >`
+  - `action< A, R... >::subs_t` is `rule_list< internal::seq< R... > >`
 
 ###### `control< C, R... >`
 
 * Equivalent to `seq< R... >`, but:
 * Uses the given class template `C` as [control class](Control-and-Debug.md).
 * [Meta data] and implementation mapping:
-  - `control< C >::rule_t` = `internal::success`
-  - `control< C >::subs_t` = `rule_list<>`
-  - `control< C, R >::rule_t` = `internal::control< C, R >`
-  - `control< C, R >::subs_t` = `rule_list< R >`
-  - `control< C, R... >::rule_t` = `internal::control< C, internal::seq< R... > >`
-  - `control< C, R... >::subs_t` = `rule_list< internal::seq< R... > >`
+  - `control< C >::rule_t` is `internal::success`
+  - `control< C >::subs_t` is `rule_list<>`
+  - `control< C, R >::rule_t` is `internal::control< C, R >`
+  - `control< C, R >::subs_t` is `rule_list< R >`
+  - `control< C, R... >::rule_t` is `internal::control< C, internal::seq< R... > >`
+  - `control< C, R... >::subs_t` is `rule_list< internal::seq< R... > >`
 
 ###### `disable< R... >`
 
@@ -205,7 +205,9 @@ These rules are in namespace `tao::pegtl`.
 
 * Matches a non-empty list of `R` separated by `S`.
 * Equivalent to `seq< R, star< S, R > >`.
-* Implemented as `list< R, S >` public `internal::list< R, S >` using `internal::seq< R, internal::star< S, R > >`.
+* [Meta data] and implementation mapping:
+  - `list< R, S >::rule_t` is `internal::seq< R, internal::star< S, R > >`
+  - `list< R, S >::subs_t` is `rule_list< R, internal::star< S, R > >`
 
 ###### `list< R, S, P >`
 
@@ -249,12 +251,12 @@ These rules are in namespace `tao::pegtl`.
 * Equivalent to `seq< sor< R, raise< R > >... >`.
 * Implemented as `must< R... >` public `internal::must< R... >`.
 * [Meta data] and implementation mapping:
-  - `must<>::rule_t` = `internal::success`
-  - `must<>::subs_t` = `rule_list<>`
-  - `must< R >::rule_t` = `internal::must< R >`
-  - `must< R >::subs_t` = `rule_list< R >`
-  - `must< R... >::rule_t` = `internal::seq< internal::must< R >... >::rule_t`
-  - `must< R... >::subs_t` = `rule_list< internal::must< R... > >`
+  - `must<>::rule_t` is `internal::success`
+  - `must<>::subs_t` is `rule_list<>`
+  - `must< R >::rule_t` is `internal::must< R >`
+  - `must< R >::subs_t` is `rule_list< R >`
+  - `must< R... >::rule_t` is `internal::seq< internal::must< R >... >::rule_t`
+  - `must< R... >::subs_t` is `rule_list< internal::must< R... > >`
 
 Note that `must` is not like the other `seq`-equivalent rules `rule` which all use `rule< seq< R... > >` to handle more than one sub-rule, while `must` uses `seq< rule< R >... >`.
 
