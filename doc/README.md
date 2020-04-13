@@ -100,9 +100,10 @@
   * [Contrib](Contrib-and-Examples.md#contrib)
   * [Examples](Contrib-and-Examples.md#examples)
 * [Grammar Analysis](Grammar-Analysis.md)
-  * [Rule Analysis](Grammar-Analysis.md#rule-analysis)
-  * [Background](Grammar-Analysis.md#background)
-  * [Custom Rules](Grammar-Analysis.md#custom-rules)
+  * [Running](Grammar-Analysis.md#running)
+  * [Example](Grammar-Analysis.md#example)
+  * [Requirements](Grammar-Analysis.md#requirements)
+  * [Limitations](Grammar-Analysis.md#limitations)
 * [Changelog](Changelog.md)
 * [Migration Guide](Migration-Guide.md)
 
@@ -144,8 +145,8 @@
 * [`east_asian_width< V >`](Rule-Reference.md#east_asian_width-v-) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-enumerated-properties)</sup>
 * [`enable< R... >`](Rule-Reference.md#enable-r-) <sup>[(meta-rules)](Rule-Reference.md#meta-rules)</sup>
 * [`eof`](Rule-Reference.md#eof) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
-* [`eol`](Rule-Reference.md#eol) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
-* [`eolf`](Rule-Reference.md#eolf) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
+* [`eol`](Rule-Reference.md#eol) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
+* [`eolf`](Rule-Reference.md#eolf) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
 * [`extender`](Rule-Reference.md#extender) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`failure`](Rule-Reference.md#failure) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
 * [`forty_two< C... >`](Rule-Reference.md#forty_two-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>

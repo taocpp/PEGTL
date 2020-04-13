@@ -1,18 +1,15 @@
 # Grammar Analysis
 
-The PEGTL contains an `analyze()` function that checks a grammar for rules that can go into an infinite loop without consuming input.
-
-Unfortunately, given the expressive power of PEGs and the possibility of arbitrary custom combinator rules, it is impossible to detect *all* kinds of infinite loops.
-
-It does however catch most cases of left-recursion that are typical for grammars converted from CFGs or other formalisms that gracefully handle left-recursion.
+The PEGTL contains an `analyze()` function that checks a grammar for rules that can enter an infinite loop without consuming input.
 
 ## Content
 
-* [Rule Analysis](#rule-analysis)
-* [Background](#background)
-* [Custom Rules](#custom-rules)
+* [Running](#running)
+* [Example](#example)
+* [Requirements](#requirements)
+* [Limitations](#limitations)
 
-## Rule Analysis
+## Running
 
 In order to run an analysis on a grammar it is necessary to explicitly include `<tao/pegtl/contrib/analyze.hpp>`.
 Then call `tao::pegtl::analyze()` with the top-level grammar rule as template argument.
@@ -20,12 +17,15 @@ Then call `tao::pegtl::analyze()` with the top-level grammar rule as template ar
 ```c++
 #include <tao/pegtl/contrib/analyze.hpp>
 
-const std::size_t issues_found = tao::pegtl::analyze< my_grammar >();
+const std::size_t issues = tao::pegtl::analyze< my_grammar >();
 ```
 
-`analyze()` returns the number of issues found and, when invoked with `true` as argument, writes some information about them to `std::cout`.
+The `analyze()` function prints some information about the found issues to `std::cout` and returns the total number of issues found.
+The output can be suppressed by passing `false` as sole function argument.
 
 Analysing a grammar is usually only done while developing and debugging a grammar, or after changing it.
+
+## Example
 
 Regarding the kinds of issues that are detected, consider the following example grammar rules.
 
@@ -45,53 +45,35 @@ As shown by the example program `src/example/pegtl/analyze.cpp`, the grammar ana
 
 Due to the differences regarding back-tracking and non-deterministic behaviour, this kind of infinite loop is a frequent issue when translating a CFG into a PEG.
 
-## Background
+## Requirements
 
-In order to look for infinite loops in a grammar, `analyze()` needs some information about all rules in the grammar.
-This "information" consists of a reduced version of the rule that captures just enough of the structure of the original rule as is required for the cycle analysis.
+The `analyze()` function relies on the [meta data](Meta-Data-and-Visit.md) contained in the rules *and* additional type traits called `analyze_traits`.
 
-TODO...
+Every rule class `R` is first mapped to its implementation as per `R::rule_t` and then converted to a reduced form which is found as `analyze_traits< R, R::rule_t >::reduced`.
 
+The reduced form of a rule uses only the basic combinators `opt`, `seq` and `sor` and captures just enough of the structure of the original rule as is required for the cycle analysis.
 
+Everything else is transformed into either an equivalent form, e.g. `R = star< S >` is reduced to `R = opt< S, R >`, or a semantically reduced form, e.g. `at< S >` is reduced to `opt< S >`.
 
+Further, for every rule class `R`, the list of sub rules as per `analyze_traits< R, R::rule_t >::reduced::subs_t` is used to drive inspection of the complete grammar by allowing the recursive step from a rule to the sub rules of its reduced form.
 
-```c++
-// namespace tao::pegtl::analysis
+The reduced forms of the grammar rules are only allowed to use the following combinators and rules.
 
-enum class rule_type : char
-{
-   any,
-   opt,
-   seq,
-   sor
-};
-```
+* `internal::bytes< 1 >` is for rules where "success implies consumption" is true.
+* `internal::opt< ... >` is for rules where "success implies consumption" is false; assumes bounded repetition of conjunction of sub-rules.
+* `internal::seq< ... >` is for rules where consumption on success depends on non-zero bounded repetition of the conjunction of sub-rules.
+* `internal::sor< ... >` is for rules where consumption on success depends on non-zero bounded repetition of the disjunction of sub-rules.
 
-This enum value and rule list are provided to `analyze()` via an `analyze_t` type member that all rules that are part of a grammar that is to be analysed with `analyze()` need to define.
+See `include/tao/pegtl/contrib/analyze_traits.hpp` for many examples of how to correctly set up the analyze traits.
 
-The names of the enum values correspond to one of the PEGTL rule classes that has this rule type, however some rule types are used by many different classes.
+For any further reaching questions regarding how to set up the meta data and traits for custom rules please contact the authors at **taocpp(at)icemx.net**.
 
-* `any` is for rules where "success implies consumption" is true; assumes bounded repetition of conjunction of sub-rules.
-* `opt` is for rules where "success implies consumption" is false; assumes bounded repetition of conjunction of sub-rules.
-* `seq` is for rules where consumption on success depends on non-zero bounded repetition of the conjunction of sub-rules.
-* `sor` is for rules where consumption on success depends on non-zero bounded repetition of the disjunction of sub-rules.
+## Limitations
 
-At the beginning of an `analyze()` run the function `R::analyze_t::insert()` is called for all rules `R` in the grammar in order to insert the information about the rule `R` into a data structure.
+It has been conjectured, but, given the expressive power of PEGs, not proven, that *all* potential infinite loops are correctly detected.
 
-## Custom Rules
+In practice it appears to catch all cases of left-recursion that are typical for grammars converted from CFGs or other formalisms that gracefully handle left-recursion.
 
-For custom rules it is usually sufficient to implement `rule_t` and `subs_t`.
-
-TODO...
-
-
-
-
-
-follow the lead of the rules supplied with the PEGTL and define `analyze_t` to either `tao::pegtl::analysis::generic` or `tao::pegtl::analysis::counted`.
-In both cases, the `rule_type` and the list of sub-rules must be supplied as template parameters.
-Class `tao::pegtl::analysis::counted` additionally takes an integer argument `Count` with the assumption being that a count of zero indicates that everything the rule type is `opt` while a non-zero count uses the rule type given as template parameter.
-
-When a custom rule goes beyond what can be currently expressed and all other questions, please contact the authors at **taocpp(at)icemx.net**.
+False positives are a theoretical problem in that, while relatively easy to trigger, they are not usually encountered when dealing with real world grammars.
 
 Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey

@@ -424,7 +424,10 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 
 * Equivalent to `star< if_must< R, S... > >`.
 * [Meta data] and implementation mapping:
-  - TODO: Expand `internal::if_must` in `rule_t` and `subs_t`.
+  - `star_must< R >::rule_t` is `internal::star< internal::if_must< false, R > >`
+  - `star_must< R >::rule_t` is `rule_list< internal::if_must< false, R > >`
+  - `star_must< R, S... >::rule_t` is `internal::star< internal::if_must< false, R, S... > >`
+  - `star_must< R, S... >::rule_t` is `rule_list< internal::if_must< false, R, S... > >`
 
 ###### `try_catch< R... >`
 
@@ -486,6 +489,7 @@ These rules respect the current `apply_mode`, but do **not** use the control cla
 * Equivalent to `success` wrt. parsing.
 * [Meta data] and implementation mapping:
   - `apply< A... >::rule_t` is `internal::apply< A... >`
+  - `apply< A... >::subs_t` is `rule_list<>`
 
 ###### `apply0< A... >`
 
@@ -494,6 +498,7 @@ These rules respect the current `apply_mode`, but do **not** use the control cla
 * Equivalent to `success` wrt. parsing.
 * [Meta data] and implementation mapping:
   - `apply0< A... >::rule_t` is `internal::apply0< A... >`
+  - `apply0< A... >::subs_t` is `rule_list<>`
 
 ###### `if_apply< R, A... >`
 
@@ -541,6 +546,20 @@ Atomic rules do not rely on other rules.
 * [Meta data] and implementation mapping:
   - `eof::rule_t` is `internal::eof`
 
+###### `eol`
+
+* Depends on the `Eol` template parameter of the input, by default:
+* Matches and consumes a Unix or MS-DOS line ending, that is:
+* Equivalent to `sor< one< '\n' >, string< '\r', '\n' > >`.
+* Meta data and implementation mapping:
+  - `eol::rule_t` is `internal::eol`
+
+###### `eolf`
+
+* Equivalent to `sor< eof, eol >`.
+* Meta data and implementation mapping:
+  - `eolf::rule_t` is `internal::eolf`
+
 ###### `failure`
 
 * Dummy rule that never succeeds.
@@ -583,52 +602,48 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 * Matches and consumes a single ASCII alphabetic or numeric character.
 * Equivalent to `ranges< 'a', 'z', 'A', 'Z', '0', '9' >`.
 * Meta data and implementation mapping:
-  - `alnum::rule_t` is `internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9' >`
+  - `ascii::alnum::rule_t` is `internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9' >`
 
 ###### `alpha`
 
 * Matches and consumes a single ASCII alphabetic character.
 * Equivalent to `ranges< 'a', 'z', 'A', 'Z' >`.
 * Meta data and implementation mapping:
-  - `alpha::rule_t` is `internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z' >`
+  - `ascii::alpha::rule_t` is `internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z' >`
 
 ###### `any`
 
 * Matches and consumes any single byte, including all ASCII characters.
 * Equivalent to `bytes< 1 >`.
 * Meta data and implementation mapping:
-  - `any::rule_t` is `internal::any< internal::peek_char >`
+  - `ascii::any::rule_t` is `internal::any< internal::peek_char >`
 
 ###### `blank`
 
 * Matches and consumes a single ASCII horizontal space or horizontal tabulator character.
 * Equivalent to `one< ' ', '\t' >`.
+* Meta data and implementation mapping:
+  - `ascii::blank::rule_t` is `internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\t' >`
 
 ###### `digit`
 
 * Matches and consumes a single ASCII decimal digit character.
 * Equivalent to `range< '0', '9' >`.
+* Meta data and implementation mapping:
+  - `ascii::digit::rule_t` is `internal::one< internal::result_on_found::success, internal::peek_char, '0', '9' >`
 
 ###### `ellipsis`
 
 * Matches and consumes three dots.
 * Equivalent to `three< '.' >`.
 * Meta data and implementation mapping:
-  - `ellipsis::rule_t` is `internal::string< '.', '.', '.' >`
-
-###### `eol`
-
-* Depends on the `Eol` template parameter of the input, by default:
-* Matches and consumes a Unix or MS-DOS line ending, that is:
-* Equivalent to `sor< one< '\n' >, string< '\r', '\n' > >`.
-
-###### `eolf`
-
-* Equivalent to `sor< eof, eol >`.
+  - `ascii::ellipsis::rule_t` is `internal::string< '.', '.', '.' >`
 
 ###### `forty_two< C... >`
 
 * Equivalent to `rep< 42, one< C... > >`.
+* Meta data and implementation mapping:
+  - `ascii::forty_two< C >::rule_t` is `internal_rep< 42, internal::one< internal::result_on_found::success, internal::peek_char, C > >`
 
 ###### `identifier_first`
 
@@ -1319,8 +1334,8 @@ The term *input value* indicates a correspondingly sized integer value read from
 * [`east_asian_width< V >`](#east_asian_width-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`enable< R... >`](#enable-r-) <sup>[(meta-rules)](#meta-rules)</sup>
 * [`eof`](#eof) <sup>[(atomic rules)](#atomic-rules)</sup>
-* [`eol`](#eol) <sup>[(ascii rules)](#ascii-rules)</sup>
-* [`eolf`](#eolf) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`eol`](#eol) <sup>[(atomic rules)](#atomic-rules)</sup>
+* [`eolf`](#eolf) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`extender`](#extender) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`failure`](#failure) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`forty_two< C... >`](#forty_two-c-) <sup>[(ascii rules)](#ascii-rules)</sup>

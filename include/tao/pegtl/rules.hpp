@@ -24,6 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct discard : internal::discard {};
    template< typename... Rules > struct enable : internal::enable< Rules... > {};
    struct eof : internal::eof {};
+   struct eolf : internal::eolf {};
    struct failure : internal::failure {};
    template< typename Rule, typename... Actions > struct if_apply : internal::if_apply< Rule, Actions... > {};
    template< typename Cond, typename... Thens > struct if_must : internal::if_must< false, Cond, Thens... > {};

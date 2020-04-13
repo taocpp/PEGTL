@@ -9,6 +9,11 @@
 * Updated required [CMake](https://cmake.org/) version to 3.8.
 * The macro `TAO_PEGTL_NAMESPACE` now contains the fully qualified namespace, e.g. `tao::pegtl`.
 * Replaced `tao::pegtl::input_error` with `std::system_error`.
+* Moved the analysis function and header to contrib.
+* Replaced `analysis_t` with more general and complete `rule_t` and `subs_t`.
+* Added functions to visit all rules of a grammar.
+* Added infrastructure and functions to measure rule coverage of a parsing run.
+* Moved rule `eolf` from namespace `TAO_PEGTL_NAMESPACE::ascii` to `TAO_PEGTL_NAMESPACE`.
 * Added `tao::pegtl::error_message< Rule >` as a non-intrusive way to define global parse errors.
 * Changed message of `tao::pegtl::parse_error` to no longer contain the position redundantly.
 * Changed rules in `tao/pegtl/contrib/integer.hpp` to not accept redundant leading zeros.
