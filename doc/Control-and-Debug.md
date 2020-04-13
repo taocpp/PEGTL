@@ -28,42 +28,42 @@ The `normal` control class template included with the PEGTL is used by default a
 template< typename Rule >
 struct normal
 {
-   template< typename Input,
+   template< typename ParseInput,
              typename... States >
-   static void start( const Input&, States&&... );
+   static void start( const ParseInput&, States&&... );
 
-   template< typename Input,
+   template< typename ParseInput,
              typename... States >
-   static void success( const Input&, States&&... );
+   static void success( const ParseInput&, States&&... );
 
-   template< typename Input,
+   template< typename ParseInput,
              typename... States >
-   static void failure( const Input&, States&&... );
+   static void failure( const ParseInput&, States&&... );
 
-   template< typename Input,
+   template< typename ParseInput,
              typename... States >
-   static void raise( const Input& in, States&&... );
+   static void raise( const ParseInput& in, States&&... );
 
    template< template< typename... > class Action,
              typename Iterator,
-             typename Input,
+             typename ParseInput,
              typename... States >
-   static auto apply( const Iterator& begin, const Input& in, States&&... st )
+   static auto apply( const Iterator& begin, const ParseInput& in, States&&... st )
       -> decltype( ... );
 
    template< template< typename... > class Action,
-             typename Input,
+             typename ParseInput,
              typename... States >
-   static auto apply0( const Input&, States&&... st )
+   static auto apply0( const ParseInput&, States&&... st )
       -> decltype( ... );
 
    template< apply_mode A,
              rewind_mode M,
              template< typename... > class Action,
              template< typename... > class Control,
-             typename Input,
+             typename ParseInput,
              typename... States >
-   static bool match( Input& in, States&&... st );
+   static bool match( ParseInput& in, States&&... st );
 };
 ```
 

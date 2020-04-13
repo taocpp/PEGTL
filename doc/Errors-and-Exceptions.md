@@ -121,8 +121,8 @@ struct my_control
 {
    static const std::string error_message;
 
-   template< typename Input, typename... States >
-   static void raise( const Input& in, States&&... )
+   template< typename ParseInput, typename... States >
+   static void raise( const ParseInput& in, States&&... )
    {
       throw tao::pegtl::parse_error( error_message, in );
    }

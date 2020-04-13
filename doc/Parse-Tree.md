@@ -218,16 +218,16 @@ struct my_node
 
    // All non-root nodes receive a call to start() when
    // a match is attempted for Rule in a parsing run...
-   template< typename Rule, typename Input, typename... States >
-   void start( const Input& in, States&&... st );
+   template< typename Rule, typename ParseInput, typename... States >
+   void start( const ParseInput& in, States&&... st );
 
    // ...and later a call to success() when the match succeeded...
-   template< typename Rule, typename Input, typename... States >
-   void success( const Input& in, States&&... st );
+   template< typename Rule, typename ParseInput, typename... States >
+   void success( const ParseInput& in, States&&... st );
 
    // ...or to failure() when a (local) failure was encountered.
-   template< typename Rule, typename Input, typename... States >
-   void failure( const Input& in, States&&... st );
+   template< typename Rule, typename ParseInput, typename... States >
+   void failure( const ParseInput& in, States&&... st );
 
    // After a call to success(), and the (optional) call to the selector's
    // transform() did not discard a node, it is passed to its parent node

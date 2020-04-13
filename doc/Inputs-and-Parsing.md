@@ -303,9 +303,9 @@ template< typename Rule,
           template< typename... > class Control = normal,
           apply_mode A = apply_mode::action,
           rewind_mode M = rewind_mode::required,
-          typename Input,
+          typename ParseInput,
           typename... States >
-bool parse( Input& in,
+bool parse( ParseInput& in,
             States&&... st );
 ```
 
@@ -325,11 +325,11 @@ template< typename Rule,
           template< typename... > class Control = normal,
           apply_mode A = apply_mode::action,
           rewind_mode M = rewind_mode::required,
-          typename Outer,
-          typename Input,
+          typename OuterInput,
+          typename ParseInput,
           typename... States >
-bool parse_nested( const Outer& oi,
-                   Input& in,
+bool parse_nested( const OuterInput& oi,
+                   ParseInput& in,
                    States&&... st );
 ```
 
@@ -440,8 +440,8 @@ template<>
 struct my_action< rep< 4, must< xdigit > >
    : tao::pegtl::discard_input
 {
-   template< typename Input >
-   static void apply( const Input& in, /* the states */ )
+   template< typename ActionInput >
+   static void apply( const ActionInput& in, /* the states */ )
    {
       assert( in.size() == 4 );
       // process the 4 xdigits

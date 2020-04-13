@@ -48,7 +48,7 @@ Due to the differences regarding back-tracking and non-deterministic behaviour, 
 ## Background
 
 In order to look for infinite loops in a grammar, `analyze()` needs some information about all rules in the grammar.
-This "information" consists of a reduced version of the rule that captures just enough of the structure of the original rule as is required.
+This "information" consists of a reduced version of the rule that captures just enough of the structure of the original rule as is required for the cycle analysis.
 
 TODO...
 

@@ -59,8 +59,8 @@ An example for a simple action for a specific state might look like this.
 template<>
 struct my_action< my_rule >
 {
-   template< typename Input >
-   static void apply( const Input& in, my_state& s )
+   template< typename ActionInput >
+   static void apply( const ActionInput& in, my_state& s )
    {
       // ... implement
    }
@@ -93,8 +93,8 @@ struct my_action< tao::pegtl::any >
    // Implement an apply() function that will be called by
    // the PEGTL every time tao::pegtl::any matches during
    // the parsing run.
-   template< typename Input >
-   static void apply( const Input& in, std::string& out )
+   template< typename ActionInput >
+   static void apply( const ActionInput& in, std::string& out )
    {
       // Get the portion of the original input that the
       // rule matched this time as string and append it
@@ -103,8 +103,8 @@ struct my_action< tao::pegtl::any >
    }
 };
 
-template< typename Input >
-std::string as_string( Input& in )
+template< typename ParseInput >
+std::string as_string( ParseInput& in )
 {
    // Set up the states, here a single std::string as that is
    // what our action requires as additional function argument.
@@ -143,8 +143,8 @@ As seen above, the actual functions that are called when an action is applied ar
 template<>
 struct my_action< my_rule >
 {
-   template< typename Input >
-   static void apply( const Input& in, /* all the states */ )
+   template< typename ActionInput >
+   static void apply( const ActionInput& in, /* all the states */ )
    {
       // Called whenever matching my_rule during a parsing run
       // succeeds (and actions are not disabled). The argument
@@ -166,12 +166,12 @@ For illustrative purposes, we will assume that the input passed to `apply()` is 
 Any resemblance to real classes is not a coincidence, see `include/tao/pegtl/internal/action_input.hpp`.
 
 ```c++
-template< typename Input >
+template< typename ParseInput >
 class action_input
 {
 public:
-   using input_t = Input;
-   using iterator_t = typename Input::iterator_t;
+   using input_t = ParseInput;
+   using iterator_t = typename ParseInput::iterator_t;
 
    bool empty() const noexcept;
    std::size_t size() const noexcept;
@@ -187,7 +187,7 @@ public:
 
    pegtl::position position() const noexcept;  // Not efficient with tracking_mode::lazy.
 
-   const Input& input() const noexcept;
+   const ParseInput& input() const noexcept;
    const iterator_t& iterator() const noexcept;
 };
 ```
@@ -421,8 +421,8 @@ template<>
 struct my_action< my_rule >
    : tao::pegtl::change_states< new_state_1, new_state_2 >
 {
-   template< typename Input >
-   static void success( const Input&, new_state_1&, new_state_2&, /* the previous states*/ )
+   template< typename ParseInput >
+   static void success( const ParseInput&, new_state_1&, new_state_2&, /* the previous states*/ )
    {
       // Do whatever with both the new and the old states...
    }
@@ -452,9 +452,9 @@ struct my_action< my_rule >
              rewind_mode M,
              template< typename... > class Action,
              template< typename... > class Control,
-             typename Input,
+             typename ParseInput,
              typename... States >
-   static bool match( Input& in, States&&... st )
+   static bool match( ParseInput& in, States&&... st )
    {
       // Call the function that would have been called otherwise,
       // in this case without changing anything...
