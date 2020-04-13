@@ -16,20 +16,6 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Type, typename... Types >
       inline constexpr bool contains = ( std::is_same_v< Type, Types > || ... );
 
-      template< typename Rules, typename Todo, typename Done >
-      struct filter
-      {
-         using type = Todo;
-      };
-
-      template< typename Rule, typename... Rules, typename... Todo, typename... Done >
-      struct filter< rule_list< Rule, Rules... >, rule_list< Todo... >, rule_list< Done... > >
-         : filter< rule_list< Rules... >, std::conditional_t< contains< Rule, Todo..., Done... >, rule_list< Todo... >, rule_list< Rule, Todo... > >, rule_list< Done... > >
-      {};
-
-      template< typename Rules, typename Todo, typename Done >
-      using filter_t = typename filter< Rules, Todo, Done >::type;
-
       template< typename... >
       struct concat
       {
@@ -55,6 +41,20 @@ namespace TAO_PEGTL_NAMESPACE
       struct concat< rule_list< R0... >, rule_list< R1... >, T, Ts... >
          : concat< rule_list< R0..., R1... >, concat_t< T, Ts... > >
       {};
+
+      template< typename Rules, typename Todo, typename Done >
+      struct filter
+      {
+         using type = Todo;
+      };
+
+      template< typename Rule, typename... Rules, typename... Todo, typename... Done >
+      struct filter< rule_list< Rule, Rules... >, rule_list< Todo... >, rule_list< Done... > >
+         : filter< rule_list< Rules... >, std::conditional_t< contains< Rule, Todo..., Done... >, rule_list< Todo... >, rule_list< Rule, Todo... > >, rule_list< Done... > >
+      {};
+
+      template< typename Rules, typename Todo, typename Done >
+      using filter_t = typename filter< Rules, Todo, Done >::type;
 
       template< template< typename... > class Func, typename Done, typename... Rules >
       struct visitor
