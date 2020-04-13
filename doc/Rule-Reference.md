@@ -309,14 +309,14 @@ Note that the `false` template parameter to `internal::if_must` corresponds to t
 * Matches a non-empty list of `R` separated by `S` with optional trailing `S`.
 * Equivalent to `seq< list< R, S >, opt< S > >`.
 * [Meta data] and implementation mapping:
-  - TODO: Expand internal::list<> in `rule_t` and `subs_t`?
+  - TODO: Expand internal::list<> in `rule_t` and `subs_t`.
 
 ###### `list_tail< R, S, P >`
 
 * Matches a non-empty list of `R` separated by `S` with optional trailing `S` and padding `P` inside the list.
 * Equivalent to `seq< list< R, S, P >, opt< star< P >, S > >`.
 * [Meta data] and implementation mapping:
-  - TODO: Expand internal::list<> in `rule_t` and `subs_t`?
+  - TODO: Expand internal::list<> in `rule_t` and `subs_t`.
 
 ###### `minus< M, S >`
 
@@ -414,33 +414,62 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 
 * Matches `seq< R... >` for zero to `Num` times without check for further matches.
 * Equivalent to `rep< Num, opt< R... > >`.
+* [Meta data] and implementation mapping:
+  - `rep_opt< Num >::rule_t` is `internal::success`
+  - `rep_opt< 0, R... >::rule_t` is `internal::success`
+  - `rep_opt< Num, R >::rule_t` is `internal::rep_opt< Num, R >`
+  - `rep_opt< Num, R... >::rule_t` is `internal::rep_opt< Num, internal::seq< R... > >`
 
 ###### `star_must< R, S... >`
 
 * Equivalent to `star< if_must< R, S... > >`.
+* [Meta data] and implementation mapping:
+  - TODO: Expand `internal::if_must` in `rule_t` and `subs_t`.
 
 ###### `try_catch< R... >`
 
 * Equivalent to `seq< R... >`, but:
 * Converts global failure (exception) into local failure (return value `false`).
 * Catches exceptions of type `tao::pegtl::parse_error`.
+* [Meta data] and implementation mapping:
+  - `try_catch<>::rule_t` is `internal::success`
+  - `try_catch<>::subs_t` is `rule_list<>`
+  - `try_catch< R >::rule_t` is `internal::try_catch_type< parse_error, R >`
+  - `try_catch< R >::subs_t` is `rule_list< R >`
+  - `try_catch< R... >::rule_t` is `internal::try_catch_type< parse_error, internal::seq< R... > >`
+  - `try_catch< R... >::subs_t` is `rule_list< internal::seq< R... > >`
 
 ###### `try_catch_type< E, R... >`
 
 * Equivalent to `seq< R... >`, but:
 * Converts global failure (exception) into local failure (return value `false`).
 * Catches exceptions of type `E`.
+* [Meta data] and implementation mapping:
+  - `try_catch_type< E >::rule_t` is `internal::success`
+  - `try_catch_type< E >::subs_t` is `rule_list<>`
+  - `try_catch_type< E, R >::rule_t` is `internal::try_catch_type< E, R >`
+  - `try_catch_type< E, R >::subs_t` is `rule_list< R >`
+  - `try_catch_type< E, R... >::rule_t` is `internal::try_catch_type< E, internal::seq< R... > >`
+  - `try_catch_type< E, R... >::subs_t` is `rule_list< internal::seq< R... > >`
 
 ###### `until< R >`
 
 * Consumes all input until `R` matches.
 * Equivalent to `until< R, any >`.
+* [Meta data] and implementation mapping:
+  - `until< R >::rule_t` is `internal::until< R >`
+  - `until< R >::subs_t` is `rule_list< R >`
 
 ###### `until< R, S... >`
 
 * Matches `seq< S... >` as long as `at< R >` does not match and succeeds when `R` matches.
 * Equivalent to `seq< star< not_at< R >, not_at< eof >, S... >, R >`.
 * Does not apply if `S` is an empty rule pack, see the previous entry for the semantics of `until< R >`.
+* [Meta data] and implementation mapping:
+  - `until< R, S >::rule_t` is `internal::until< R, S >`
+  - `until< R, S >::subs_t` is `rule_list< R, S >`
+  - `until< R, S... >::rule_t` is `internal::until< R, internal::seq< S... > >`
+  - `until< R, S... >::subs_t` is `rule_list< R, internal::seq< S... > >`
 
 ## Action Rules
 
@@ -448,25 +477,32 @@ These rules are in namespace `tao::pegtl`.
 
 These rules replicate the intrusive way actions were called from within the grammar in the PEGTL 0.x with the `apply<>` and `if_apply<>` rules.
 The actions for these rules are classes (rather than class templates as required for `parse()` and the `action<>`-rule).
-These rules respect the current `apply_mode`, but don't use the control-class to invoke the actions.
+These rules respect the current `apply_mode`, but do **not** use the control class to invoke the actions.
 
 ###### `apply< A... >`
 
 * Calls `A::apply()` for all `A`, in order, with an empty input and all states as arguments.
 * If any `A::apply()` has a boolean return type and returns `false`, no further `A::apply()` calls are made and the result is equivalent to `failure`, otherwise:
 * Equivalent to `success` wrt. parsing.
+* [Meta data] and implementation mapping:
+  - `apply< A... >::rule_t` is `internal::apply< A... >`
 
 ###### `apply0< A... >`
 
 * Calls `A::apply0()` for all `A`, in order, with all states as arguments.
 * If any `A::apply0()` has a boolean return type and returns `false`, no further `A::apply0()` calls are made and the result is equivalent to `failure`, otherwise:
 * Equivalent to `success` wrt. parsing.
+* [Meta data] and implementation mapping:
+  - `apply0< A... >::rule_t` is `internal::apply0< A... >`
 
 ###### `if_apply< R, A... >`
 
 * Equivalent to `seq< R, apply< A... > >` wrt. parsing, but also:
 * If `R` matches, calls `A::apply()`, for all `A`, in order, with the input matched by `R` and all states as arguments.
 * If any `A::apply()` has a boolean return type and returns `false`, no further `A::apply()` calls are made.
+* [Meta data] and implementation mapping:
+  - `if_apply< R, A... >::rule_t` is `internal::if_apply< R, A... >`
+  - `if_apply< R, A... >::subs_t` is `rule_list< R >`
 
 ## Atomic Rules
 
@@ -479,27 +515,38 @@ Atomic rules do not rely on other rules.
 * Succeeds at "beginning-of-file", i.e. when the input's `byte()` member function returns zero.
 * Does not consume input.
 * Does **not** work with inputs that don't have a `byte()` member function.
+* [Meta data] and implementation mapping:
+  - `bof::rule_t` is `internal::bof`
 
 ###### `bol`
 
 * Succeeds at "beginning-of-line", i.e. when the input's `byte_in_line()` member function returns zero.
 * Does not consume input.
 * Does **not** work with inputs that don't have a `byte_in_line()` member function.
+* [Meta data] and implementation mapping:
+  - `bol::rule_t` is `internal::bol`
 
 ###### `bytes< Num >`
 
 * Succeeds when the input contains at least `Num` further bytes.
 * Consumes these `Num` bytes from the input.
+* [Meta data] and implementation mapping:
+  - `bytes< 0 >::rule_t` is `internal::success`
+  - `bytes< Num >::rule_t` is `internal::bytes< Num >`
 
 ###### `eof`
 
 * Succeeds at "end-of-file", i.e. when the input is empty or all input has been consumed.
 * Does not consume input.
+* [Meta data] and implementation mapping:
+  - `eof::rule_t` is `internal::eof`
 
 ###### `failure`
 
 * Dummy rule that never succeeds.
 * Does not consume input.
+* [Meta data] and implementation mapping:
+  - `failure::rule_t` is `internal::failure`
 
 ###### `raise< T >`
 
@@ -507,11 +554,15 @@ Atomic rules do not rely on other rules.
 * Calls the control-class' `Control< T >::raise()` static member function.
 * `T` *can* be a rule, but it does not have to be a rule.
 * Does not consume input.
+* [Meta data] and implementation mapping:
+  - `raise< T >::rule_t` is `internal::raise< T >`
 
 ###### `success`
 
 * Dummy rule that always succeeds.
 * Does not consume input.
+* [Meta data] and implementation mapping:
+  - `success::rule_t` is `internal::success`
 
 ## ASCII Rules
 
@@ -698,12 +749,16 @@ can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao
 * Succeeds when the input contains at least three bytes, and:
 * These three input bytes are all `C`.
 * Consumes three bytes when it succeeds.
+* [Meta data] and implementation mapping:
+  - `three< C >::rule_t` is `internal::string< C, C, C >`
 
 ###### `two< C >`
 
 * Succeeds when the input contains at least two bytes, and:
 * These two input bytes are both `C`.
 * Consumes two bytes when it succeeds.
+* [Meta data] and implementation mapping:
+  - `two< C >::rule_t` is `internal::string< C, C >`
 
 ###### `upper`
 
