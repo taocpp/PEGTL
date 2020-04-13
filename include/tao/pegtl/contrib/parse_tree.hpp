@@ -156,14 +156,10 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
    namespace internal
    {
       template< typename >
-      struct is_try_catch_type
-         : std::false_type
-      {};
+      inline constexpr bool is_try_catch_type = false;
 
       template< typename Exception, typename... Rules >
-      struct is_try_catch_type< TAO_PEGTL_NAMESPACE::internal::try_catch_type< Exception, Rules... > >
-         : std::true_type
-      {};
+      inline constexpr bool is_try_catch_type< TAO_PEGTL_NAMESPACE::internal::try_catch_type< Exception, Rules... > > = true;
 
       template< typename Node >
       struct state
@@ -262,7 +258,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          [[nodiscard]] static bool match( ParseInput& in, States&&... st )
          {
             auto& state = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
-            if constexpr( is_try_catch_type< Rule >::value ) {
+            if constexpr( is_try_catch_type< Rule > ) {
                internal::state< Node > tmp;
                tmp.emplace_back();
                tmp.stack.swap( state.stack );
