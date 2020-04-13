@@ -7,6 +7,7 @@
 #include "../config.hpp"
 
 #include "enable_control.hpp"
+#include "success.hpp"
 
 #include "../rule_list.hpp"
 
@@ -28,6 +29,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return false;
       }
    };
+
+   template<>
+   struct bytes< 0 >
+      : success
+   {};
 
    template< unsigned Cnt >
    inline constexpr bool enable_control< bytes< Cnt > > = false;
