@@ -33,22 +33,28 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename... >
       struct concat
       {
-         using type = rule_list<>;
+         using type = empty_list;
       };
 
-      template< typename RuleList >
-      struct concat< RuleList >
+      template< typename R >
+      struct concat< R >
       {
-         using type = RuleList;
+         using type = R;
       };
 
-      template< typename... R0, typename... R1, typename... Tail >
-      struct concat< rule_list< R0... >, rule_list< R1... >, Tail... >
-         : concat< rule_list< R0..., R1... >, Tail... >
-      {};
+      template< typename... R0, typename... R1 >
+      struct concat< rule_list< R0... >, rule_list< R1... > >
+      {
+         using type = rule_list< R0..., R1... >;
+      };
 
       template< typename... Ts >
       using concat_t = typename concat< Ts... >::type;
+
+      template< typename... R0, typename... R1, typename T, typename... Ts >
+      struct concat< rule_list< R0... >, rule_list< R1... >, T, Ts... >
+         : concat< rule_list< R0..., R1... >, concat_t< T, Ts... > >
+      {};
 
       template< template< typename... > class Func, typename Done, typename... Rules >
       struct visitor
@@ -59,7 +65,7 @@ namespace TAO_PEGTL_NAMESPACE
             ( Func< Rules >::visit( args... ), ... );
             using NextDone = concat_t< rule_list< Rules... >, Done >;
             using NextSubs = concat_t< typename Rules::subs_t... >;
-            using NextTodo = filter_t< NextSubs, rule_list<>, NextDone >;
+            using NextTodo = filter_t< NextSubs, empty_list, NextDone >;
             if constexpr( !std::is_same_v< NextTodo, empty_list > ) {
                visit_next< NextDone >( NextTodo(), args... );
             }
@@ -78,7 +84,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< template< typename... > class Func, typename Rule, typename... Args >
    void visit( Args&&... args )
    {
-      internal::visitor< Func, rule_list<>, Rule >::visit( args... );
+      internal::visitor< Func, empty_list, Rule >::visit( args... );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
