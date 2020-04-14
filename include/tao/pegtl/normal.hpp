@@ -73,7 +73,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         if constexpr( internal::has_match_v< Rule, A, M, Action, Control, ParseInput, States... > ) {
+         if constexpr( internal::has_match< bool, Rule, A, M, Action, Control, ParseInput, States... > ) {
             return Action< Rule >::template match< Rule, A, M, Action, Control >( in, st... );
          }
          else {

@@ -4,21 +4,17 @@
 #ifndef TAO_PEGTL_INTERNAL_HAS_APPLY_HPP
 #define TAO_PEGTL_INTERNAL_HAS_APPLY_HPP
 
-#include <type_traits>
+#include <utility>
 
 #include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename, typename, template< typename... > class, typename... >
-   struct has_apply
-      : std::false_type
-   {};
+   inline constexpr bool has_apply = false;
 
    template< typename C, template< typename... > class Action, typename... S >
-   struct has_apply< C, decltype( C::template apply< Action >( std::declval< S >()... ) ), Action, S... >
-      : std::true_type
-   {};
+   inline constexpr bool has_apply< C, decltype( C::template apply< Action >( std::declval< S >()... ) ), Action, S... > = true;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
