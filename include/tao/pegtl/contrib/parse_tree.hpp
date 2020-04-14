@@ -211,7 +211,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       inline constexpr bool is_selected_node = ( TAO_PEGTL_NAMESPACE::internal::enable_control< Rule > && Selector< Rule >::value );
 
       template< unsigned Level, typename Subs, template< typename... > class Selector >
-      inline constexpr bool is_leaf;
+      inline constexpr bool is_leaf{};
 
       template< typename... Rules, template< typename... > class Selector >
       inline constexpr bool is_leaf< 0, rule_list< Rules... >, Selector > = ( sizeof...( Rules ) == 0 );
