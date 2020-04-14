@@ -211,20 +211,16 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       inline constexpr bool is_selected_node = ( TAO_PEGTL_NAMESPACE::internal::enable_control< Rule > && Selector< Rule >::value );
 
       template< unsigned Level, typename Subs, template< typename... > class Selector >
-      struct is_leaf;
+      inline constexpr bool is_leaf;
 
       template< typename... Rules, template< typename... > class Selector >
-      struct is_leaf< 0, rule_list< Rules... >, Selector >
-         : std::bool_constant< sizeof...( Rules ) == 0 >
-      {};
+      inline constexpr bool is_leaf< 0, rule_list< Rules... >, Selector > = ( sizeof...( Rules ) == 0 );
 
       template< unsigned Level, typename Rule, template< typename... > class Selector >
-      inline constexpr bool is_unselected_branch = ( !is_selected_node< Rule, Selector > && is_leaf< Level, typename Rule::subs_t, Selector >::value );
+      inline constexpr bool is_unselected_branch = ( !is_selected_node< Rule, Selector > && is_leaf< Level, typename Rule::subs_t, Selector > );
 
       template< unsigned Level, typename... Rules, template< typename... > class Selector >
-      struct is_leaf< Level, rule_list< Rules... >, Selector >
-         : std::bool_constant< ( is_unselected_branch< Level - 1, Rules, Selector > && ... ) >
-      {};
+      inline constexpr bool is_leaf< Level, rule_list< Rules... >, Selector > = ( is_unselected_branch< Level - 1, Rules, Selector > && ... );
 
       template< typename Node, template< typename... > class Selector, template< typename... > class Control >
       struct make_control
@@ -233,7 +229,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          struct state_handler;
 
          template< typename Rule >
-         using type = rotate_states_right< state_handler< Rule, is_selected_node< Rule, Selector >, is_leaf< 8, typename Rule::subs_t, Selector >::value > >;
+         using type = rotate_states_right< state_handler< Rule, is_selected_node< Rule, Selector >, is_leaf< 8, typename Rule::subs_t, Selector > > >;
       };
 
       template< typename Node, template< typename... > class Selector, template< typename... > class Control >
