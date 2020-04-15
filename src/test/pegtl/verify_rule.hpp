@@ -9,7 +9,7 @@
 
 #include <tao/pegtl/eol.hpp>
 #include <tao/pegtl/memory_input.hpp>
-#include <tao/pegtl/rule_list.hpp>
+#include <tao/pegtl/type_list.hpp>
 #include <tao/pegtl/tracking_mode.hpp>
 
 #include "result_type.hpp"
@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE
    void verify_meta()
    {
       static_assert( std::is_same_v< typename Name::rule_t, Rule > );
-      static_assert( std::is_same_v< typename Name::subs_t, rule_list< Rules... > > );
+      static_assert( std::is_same_v< typename Name::subs_t, type_list< Rules... > > );
    }
 
    template< typename Rule >

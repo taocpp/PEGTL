@@ -12,7 +12,7 @@
 #include "enable_control.hpp"
 #include "result_on_found.hpp"
 
-#include "../rule_list.hpp"
+#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

@@ -14,7 +14,7 @@
 #include "result_on_found.hpp"
 #include "success.hpp"
 
-#include "../rule_list.hpp"
+#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

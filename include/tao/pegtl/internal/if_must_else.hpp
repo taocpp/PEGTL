@@ -9,7 +9,7 @@
 #include "if_then_else.hpp"
 #include "must.hpp"
 
-#include "../rule_list.hpp"
+#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

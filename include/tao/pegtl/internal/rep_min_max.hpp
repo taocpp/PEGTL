@@ -15,7 +15,7 @@
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
-#include "../rule_list.hpp"
+#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct rep_min_max< Min, Max, Rule >
    {
       using rule_t = rep_min_max;
-      using subs_t = rule_list< Rule >;
+      using subs_t = type_list< Rule >;
 
       static_assert( Min <= Max );
 

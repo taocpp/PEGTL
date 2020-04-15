@@ -11,7 +11,7 @@
 #include "../apply_mode.hpp"
 #include "../memory_input.hpp"
 #include "../rewind_mode.hpp"
-#include "../rule_list.hpp"
+#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -22,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct rematch< Head >
    {
       using rule_t = rematch;
-      using subs_t = rule_list< Head >;
+      using subs_t = type_list< Head >;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct rematch< Head, Rule, Rules... >
    {
       using rule_t = rematch;
-      using subs_t = rule_list< Head, Rule, Rules... >;
+      using subs_t = type_list< Head, Rule, Rules... >;
 
       template< apply_mode A,
                 rewind_mode,

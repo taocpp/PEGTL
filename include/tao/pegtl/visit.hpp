@@ -7,7 +7,7 @@
 #include <type_traits>
 
 #include "config.hpp"
-#include "rule_list.hpp"
+#include "type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -16,32 +16,6 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Type, typename... Types >
       inline constexpr bool contains = ( std::is_same_v< Type, Types > || ... );
 
-      template< typename... >
-      struct concat
-      {
-         using type = empty_list;
-      };
-
-      template< typename R >
-      struct concat< R >
-      {
-         using type = R;
-      };
-
-      template< typename... R0, typename... R1 >
-      struct concat< rule_list< R0... >, rule_list< R1... > >
-      {
-         using type = rule_list< R0..., R1... >;
-      };
-
-      template< typename... Ts >
-      using concat_t = typename concat< Ts... >::type;
-
-      template< typename... R0, typename... R1, typename T, typename... Ts >
-      struct concat< rule_list< R0... >, rule_list< R1... >, T, Ts... >
-         : concat< rule_list< R0..., R1... >, concat_t< T, Ts... > >
-      {};
-
       template< typename Rules, typename Todo, typename Done >
       struct filter
       {
@@ -49,8 +23,8 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< typename Rule, typename... Rules, typename... Todo, typename... Done >
-      struct filter< rule_list< Rule, Rules... >, rule_list< Todo... >, rule_list< Done... > >
-         : filter< rule_list< Rules... >, std::conditional_t< contains< Rule, Todo..., Done... >, rule_list< Todo... >, rule_list< Rule, Todo... > >, rule_list< Done... > >
+      struct filter< type_list< Rule, Rules... >, type_list< Todo... >, type_list< Done... > >
+         : filter< type_list< Rules... >, std::conditional_t< contains< Rule, Todo..., Done... >, type_list< Todo... >, type_list< Rule, Todo... > >, type_list< Done... > >
       {};
 
       template< typename Rules, typename Todo, typename Done >
@@ -63,8 +37,8 @@ namespace TAO_PEGTL_NAMESPACE
          static void visit( Args&&... args )
          {
             ( Func< Rules >::visit( args... ), ... );
-            using NextDone = concat_t< rule_list< Rules... >, Done >;
-            using NextSubs = concat_t< typename Rules::subs_t... >;
+            using NextDone = type_list_concat_t< type_list< Rules... >, Done >;
+            using NextSubs = type_list_concat_t< typename Rules::subs_t... >;
             using NextTodo = filter_t< NextSubs, empty_list, NextDone >;
             if constexpr( !std::is_same_v< NextTodo, empty_list > ) {
                visit_next< NextDone >( NextTodo(), args... );
@@ -73,7 +47,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       private:
          template< typename NextDone, typename... NextTodo, typename... Args >
-         static void visit_next( rule_list< NextTodo... > /*unused*/, Args&&... args )
+         static void visit_next( type_list< NextTodo... > /*unused*/, Args&&... args )
          {
             visitor< Func, NextDone, NextTodo... >::visit( args... );
          }

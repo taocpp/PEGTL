@@ -8,7 +8,7 @@
 #include <type_traits>
 
 #include "../config.hpp"
-#include "../rule_list.hpp"
+#include "../type_list.hpp"
 
 #include "../internal/bump_help.hpp"
 #include "../internal/bytes.hpp"

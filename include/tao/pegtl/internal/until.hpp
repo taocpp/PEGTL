@@ -15,7 +15,7 @@
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
-#include "../rule_list.hpp"
+#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct until< Cond >
    {
       using rule_t = until;
-      using subs_t = rule_list< Cond >;
+      using subs_t = type_list< Cond >;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -56,7 +56,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct until< Cond, Rule >
    {
       using rule_t = until;
-      using subs_t = rule_list< Cond, Rule >;
+      using subs_t = type_list< Cond, Rule >;
 
       template< apply_mode A,
                 rewind_mode M,

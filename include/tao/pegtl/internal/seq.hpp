@@ -11,7 +11,7 @@
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
-#include "../rule_list.hpp"
+#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct seq
    {
       using rule_t = seq;
-      using subs_t = rule_list< Rules... >;
+      using subs_t = type_list< Rules... >;
 
       template< apply_mode A,
                 rewind_mode M,

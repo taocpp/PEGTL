@@ -8,7 +8,7 @@
 
 #include "enable_control.hpp"
 
-#include "../rule_list.hpp"
+#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

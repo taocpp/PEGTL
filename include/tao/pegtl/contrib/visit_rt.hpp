@@ -8,7 +8,7 @@
 #include <string_view>
 
 #include "../config.hpp"
-#include "../rule_list.hpp"
+#include "../type_list.hpp"
 
 #include "../internal/demangle.hpp"
 
@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       private:
          template< typename Rule, typename... Subs, typename... Args >
-         static void visit_rule( rule_list< Subs... > /*unused*/, std::set< std::string_view >& done, Args&&... args )
+         static void visit_rule( type_list< Subs... > /*unused*/, std::set< std::string_view >& done, Args&&... args )
          {
             if( done.emplace( demangle< Rule >() ).second ) {
                Func< Rule >::visit( args... );

@@ -13,7 +13,7 @@
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
-#include "../rule_list.hpp"
+#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct sor
    {
       using rule_t = sor;
-      using subs_t = rule_list< Rules... >;
+      using subs_t = type_list< Rules... >;
 
       template< apply_mode A,
                 rewind_mode M,
