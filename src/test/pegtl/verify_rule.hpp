@@ -9,8 +9,8 @@
 
 #include <tao/pegtl/eol.hpp>
 #include <tao/pegtl/memory_input.hpp>
-#include <tao/pegtl/type_list.hpp>
 #include <tao/pegtl/tracking_mode.hpp>
+#include <tao/pegtl/type_list.hpp>
 
 #include "result_type.hpp"
 #include "verify_impl.hpp"
