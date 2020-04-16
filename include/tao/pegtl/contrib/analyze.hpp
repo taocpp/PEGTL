@@ -17,7 +17,6 @@
 #include "../config.hpp"
 
 #include "analyze_traits.hpp"
-#include "analyze_type.hpp"
 
 #include "../internal/demangle.hpp"
 #include "../internal/dependent_false.hpp"
@@ -112,9 +111,7 @@ namespace TAO_PEGTL_NAMESPACE
 
          [[nodiscard]] bool work( const std::map< std::string_view, analyze_entry >::const_iterator& start, const bool accum )
          {
-            const auto j = m_cache.find( start->first );
-
-            if( j != m_cache.end() ) {
+            if( const auto j = m_cache.find( start->first ); j != m_cache.end() ) {
                return j->second;
             }
             if( const auto g = analyze_guard( m_stack, start->first ) ) {

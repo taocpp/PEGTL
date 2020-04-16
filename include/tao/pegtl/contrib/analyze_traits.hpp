@@ -9,12 +9,52 @@
 #include "../ascii.hpp"
 #include "../config.hpp"
 #include "../rules.hpp"
+#include "../type_list.hpp"
 
-#include "analyze_type.hpp"
 #include "forward.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
+   namespace internal
+   {
+      enum class analyze_type
+      {
+         any,  // Consumption-on-success is always true; assumes bounded repetition of conjunction of sub-rules.
+         opt,  // Consumption-on-success not necessarily true; assumes bounded repetition of conjunction of sub-rules.
+         seq,  // Consumption-on-success depends on consumption of (non-zero bounded repetition of) conjunction of sub-rules.
+         sor   // Consumption-on-success depends on consumption of (non-zero bounded repetition of) disjunction of sub-rules.
+      };
+
+   }  // namespace internal
+
+   template< typename... Rules >
+   struct analyze_any_traits
+   {
+      static constexpr internal::analyze_type type_v = internal::analyze_type::any;
+      using subs_t = type_list< Rules... >;
+   };
+
+   template< typename... Rules >
+   struct analyze_opt_traits
+   {
+      static constexpr internal::analyze_type type_v = internal::analyze_type::opt;
+      using subs_t = type_list< Rules... >;
+   };
+
+   template< typename... Rules >
+   struct analyze_seq_traits
+   {
+      static constexpr internal::analyze_type type_v = internal::analyze_type::seq;
+      using subs_t = type_list< Rules... >;
+   };
+
+   template< typename... Rules >
+   struct analyze_sor_traits
+   {
+      static constexpr internal::analyze_type type_v = internal::analyze_type::sor;
+      using subs_t = type_list< Rules... >;
+   };
+
    template< typename Name, template< typename... > class Action, typename... Rules >
    struct analyze_traits< Name, internal::action< Action, Rules... > >
       : analyze_traits< Name, typename seq< Rules... >::rule_t >
