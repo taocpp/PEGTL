@@ -15,7 +15,7 @@
 #include "../internal/enable_control.hpp"
 #include "../internal/opt.hpp"
 
-#include "forward.hpp"
+#include "analyze_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
