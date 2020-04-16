@@ -10,103 +10,90 @@
 #include "../config.hpp"
 #include "../rules.hpp"
 
+#include "analyze_type.hpp"
 #include "forward.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   // The reduced rules do not need to be equivalent to the original rule, they only
-   // need to be "good enough" for the cycle analysis to find all the problems...
-
    template< typename Name, template< typename... > class Action, typename... Rules >
    struct analyze_traits< Name, internal::action< Action, Rules... > >
-      : analyze_traits< Name, internal::seq< Rules... > >
+      : analyze_traits< Name, typename internal::seq< Rules... >::rule_t >
    {};
 
    template< typename Name, typename Peek >
    struct analyze_traits< Name, internal::any< Peek > >
-   {
-      using reduced = internal::bytes< 1 >;
-   };
+      : analyze_any_traits<>
+   {};
 
    template< typename Name, typename... Actions >
    struct analyze_traits< Name, internal::apply< Actions... > >
-   {
-      using reduced = internal::opt<>;
-   };
+      : analyze_opt_traits<>
+   {};
 
    template< typename Name, typename... Actions >
    struct analyze_traits< Name, internal::apply0< Actions... > >
-   {
-      using reduced = internal::opt<>;
-   };
+      : analyze_opt_traits<>
+   {};
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::at< Rules... > >
-      : analyze_traits< Name, internal::opt< Rules... > >
+      : analyze_traits< Name, typename internal::opt< Rules... >::rule_t >
    {};
 
    template< typename Name >
    struct analyze_traits< Name, internal::bof >
-   {
-      using reduced = internal::opt<>;
-   };
+      : analyze_opt_traits<>
+   {};
 
    template< typename Name >
    struct analyze_traits< Name, internal::bol >
-   {
-      using reduced = internal::opt<>;
-   };
+      : analyze_opt_traits<>
+   {};
 
    template< typename Name, unsigned Cnt >
    struct analyze_traits< Name, internal::bytes< Cnt > >
-   {
-      using reduced = std::conditional_t< ( Cnt != 0 ), internal::bytes< 1 >, internal::opt<> >;
-   };
+      : std::conditional_t< ( Cnt != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
+   {};
 
    template< typename Name, template< typename... > class Control, typename... Rules >
    struct analyze_traits< Name, internal::control< Control, Rules... > >
-      : analyze_traits< Name, internal::seq< Rules... > >
+      : analyze_traits< Name, typename internal::seq< Rules... >::rule_t >
    {};
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::disable< Rules... > >
-      : analyze_traits< Name, internal::seq< Rules... > >
+      : analyze_traits< Name, typename internal::seq< Rules... >::rule_t >
    {};
 
    template< typename Name >
    struct analyze_traits< Name, internal::discard >
-   {
-      using reduced = internal::opt<>;
-   };
+      : analyze_opt_traits<>
+   {};
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::enable< Rules... > >
-      : analyze_traits< Name, internal::seq< Rules... > >
+      : analyze_traits< Name, typename internal::seq< Rules... >::rule_t >
    {};
 
    template< typename Name >
    struct analyze_traits< Name, internal::eof >
-   {
-      using reduced = internal::opt<>;
-   };
+      : analyze_opt_traits<>
+   {};
 
    template< typename Name >
    struct analyze_traits< Name, internal::eol >
-   {
-      using reduced = internal::bytes< 1 >;
-   };
+      : analyze_any_traits<>
+   {};
 
    template< typename Name >
    struct analyze_traits< Name, internal::eolf >
-   {
-      using reduced = internal::opt<>;
-   };
+      : analyze_opt_traits<>
+   {};
 
    template< typename Name >
    struct analyze_traits< Name, internal::failure >
-   {
-      using reduced = internal::bytes< 1 >;  // Can never succeed, wherefore "always consumes on success" is trivially true.
-   };
+      : analyze_any_traits<>
+   {};
 
    template< typename Name, typename Rule, typename... Actions >
    struct analyze_traits< Name, internal::if_apply< Rule, Actions... > >
@@ -115,151 +102,122 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, typename Cond, typename... Rules >
    struct analyze_traits< Name, internal::if_must< true, Cond, Rules... > >
-      : analyze_traits< Name, internal::opt< Cond, Rules... > >
+      : analyze_traits< Name, typename internal::opt< Cond, Rules... >::rule_t >
    {};
 
    template< typename Name, typename Cond, typename... Rules >
    struct analyze_traits< Name, internal::if_must< false, Cond, Rules... > >
-      : analyze_traits< Name, internal::seq< Cond, Rules... > >
+      : analyze_traits< Name, typename internal::seq< Cond, Rules... >::rule_t >
    {};
 
    template< typename Name, typename Cond, typename Then, typename Else >
    struct analyze_traits< Name, internal::if_then_else< Cond, Then, Else > >
-   {
-      using reduced = internal::sor< internal::seq< Cond, Then >, Else >;
-   };
+      : analyze_traits< Name, typename internal::sor< internal::seq< Cond, Then >, Else >::rule_t >
+   {};
 
    template< typename Name, char... Cs >
    struct analyze_traits< Name, internal::istring< Cs... > >
-   {
-      using reduced = std::conditional_t< ( sizeof...( Cs ) != 0 ), internal::bytes< 1 >, internal::opt<> >;
-   };
+      : std::conditional_t< ( sizeof...( Cs ) != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
+   {};
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::must< Rules... > >
-      : analyze_traits< Name, internal::seq< Rules... > >
+      : analyze_traits< Name, typename internal::seq< Rules... >::rule_t >
    {};
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::not_at< Rules... > >
-      : analyze_traits< Name, internal::opt< Rules... > >
+      : analyze_traits< Name, typename internal::opt< Rules... >::rule_t >
    {};
 
    template< typename Name, internal::result_on_found R, typename Peek, typename Peek::data_t... Cs >
    struct analyze_traits< Name, internal::one< R, Peek, Cs... > >
-   {
-      using reduced = internal::bytes< 1 >;
-   };
+      : analyze_any_traits<>
+   {};
 
-   template< typename Name >
-   struct analyze_traits< Name, internal::opt<> >
-      : analyze_traits< Name, internal::success >
+   template< typename Name, typename Rule, typename... Rules >
+   struct analyze_traits< Name, internal::opt< Rule, Rules... > >
+      : analyze_opt_traits< Rule, Rules... >
    {};
 
    template< typename Name, typename... Rules >
-   struct analyze_traits< Name, internal::opt< Rules... > >
-   {
-      using reduced = internal::opt< Rules... >;
-   };
-
-   template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::plus< Rules... > >
-   {
-      using reduced = internal::seq< Rules..., internal::opt< Name > >;
-   };
+      : analyze_traits< Name, typename internal::seq< Rules..., internal::opt< Name > >::rule_t >
+   {};
 
    template< typename Name, typename T >
    struct analyze_traits< Name, internal::raise< T > >
-   {
-      using reduced = internal::bytes< 1 >;  // Can never succeed, wherefore "always consumes on success" is trivially true.
-   };
+      : analyze_any_traits<>
+   {};
 
    template< typename Name, internal::result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct analyze_traits< Name, internal::range< R, Peek, Lo, Hi > >
-   {
-      using reduced = internal::bytes< 1 >;
-   };
+      : analyze_any_traits<>
+   {};
 
    template< typename Name, typename Peek, typename Peek::data_t... Cs >
    struct analyze_traits< Name, internal::ranges< Peek, Cs... > >
-   {
-      using reduced = internal::bytes< 1 >;
-   };
+      : analyze_any_traits<>
+   {};
 
    template< typename Name, typename Head, typename... Rules >
    struct analyze_traits< Name, internal::rematch< Head, Rules... > >
-   {
-      using reduced = typename analyze_traits< Name, typename Head::rule_t >::reduced;  // TODO: What with Rules?
-   };
+      : analyze_traits< Name, typename Head::rule_t >
+   {};  // TODO: What with Rules?
 
    template< typename Name, unsigned Cnt, typename... Rules >
    struct analyze_traits< Name, internal::rep< Cnt, Rules... > >
-      : analyze_traits< Name, std::conditional_t< ( Cnt != 0 ), internal::seq< Rules... >, internal::opt< Rules... > > >  // TODO: Simplfy to internal:::opt<>?
+      : analyze_traits< Name, std::conditional_t< ( Cnt != 0 ), typename internal::seq< Rules... >::rule_t, typename internal::opt< Rules... >::rule_t > >
    {};
 
    template< typename Name, unsigned Min, unsigned Max, typename... Rules >
    struct analyze_traits< Name, internal::rep_min_max< Min, Max, Rules... > >
-      : analyze_traits< Name, std::conditional_t< ( Min != 0 ), internal::seq< Rules... >, internal::opt< Rules... > > >
+      : analyze_traits< Name, std::conditional_t< ( Min != 0 ), typename internal::seq< Rules... >::rule_t, typename internal::opt< Rules... >::rule_t > >
    {};
 
    template< typename Name, unsigned Max, typename... Rules >
    struct analyze_traits< Name, internal::rep_opt< Max, Rules... > >
-      : analyze_traits< Name, internal::opt< Rules... > >
+      : analyze_traits< Name, typename internal::opt< Rules... >::rule_t >
    {};
 
    template< typename Name, unsigned Amount >
    struct analyze_traits< Name, internal::require< Amount > >
-   {
-      using reduced = internal::opt<>;
-   };
-
-   template< typename Name >
-   struct analyze_traits< Name, internal::seq<> >
-      : analyze_traits< Name, internal::success >
+      : analyze_opt_traits<>
    {};
 
-   template< typename Name, typename... Rules >
-   struct analyze_traits< Name, internal::seq< Rules... > >
-   {
-      using reduced = internal::seq< Rules... >;
-   };
-
-   template< typename Name >
-   struct analyze_traits< Name, internal::sor<> >
-      : analyze_traits< Name, internal::failure >
+   template< typename Name, typename Rule, typename... Rules >
+   struct analyze_traits< Name, internal::seq< Rule, Rules... > >
+      : analyze_seq_traits< Rule, Rules... >
    {};
 
-   template< typename Name, typename... Rules >
-   struct analyze_traits< Name, internal::sor< Rules... > >
-   {
-      using reduced = internal::sor< Rules... >;
-   };
+   template< typename Name, typename Rule, typename... Rules >
+   struct analyze_traits< Name, internal::sor< Rule, Rules... > >
+      : analyze_sor_traits< Rule, Rules... >
+   {};
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::star< Rules... > >
-      : analyze_traits< Name, internal::opt< Rules..., Name > >
+      : analyze_traits< Name, typename internal::opt< Rules..., Name >::rule_t >
    {};
 
    template< typename Name, typename State, typename... Rules >
    struct analyze_traits< Name, internal::state< State, Rules... > >
-      : analyze_traits< Name, internal::seq< Rules... > >
+      : analyze_traits< Name, typename internal::seq< Rules... >::rule_t >
    {};
 
    template< typename Name, char... Cs >
    struct analyze_traits< Name, internal::string< Cs... > >
-   {
-      using reduced = std::conditional_t< ( sizeof...( Cs ) != 0 ), internal::bytes< 1 >, internal::opt<> >;
-   };
+      : std::conditional_t< ( sizeof...( Cs ) != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
+   {};
 
    template< typename Name >
    struct analyze_traits< Name, internal::success >
-   {
-      using reduced = internal::opt<>;
-   };
+      : analyze_opt_traits<>
+   {};
 
    template< typename Name, typename Exception, typename... Rules >
    struct analyze_traits< Name, internal::try_catch_type< Exception, Rules... > >
-      : analyze_traits< Name, internal::seq< Rules... > >
+      : analyze_traits< Name, typename internal::seq< Rules... >::rule_t >
    {};
 
    template< typename Name, typename Cond >
@@ -269,7 +227,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, typename Cond, typename... Rules >
    struct analyze_traits< Name, internal::until< Cond, Rules... > >
-      : analyze_traits< Name, internal::seq< internal::star< Rules... >, Cond > >
+      : analyze_traits< Name, typename internal::seq< internal::star< Rules... >, Cond >::rule_t >
    {};
 
 }  // namespace TAO_PEGTL_NAMESPACE

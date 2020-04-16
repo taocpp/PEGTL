@@ -17,6 +17,7 @@
 #include "../config.hpp"
 
 #include "analyze_traits.hpp"
+#include "analyze_type.hpp"
 
 #include "../internal/demangle.hpp"
 #include "../internal/dependent_false.hpp"
@@ -25,43 +26,13 @@ namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
-      enum class analyze_type : std::uint8_t
-      {
-         any,  // Consumption-on-success is always true; assumes bounded repetition of conjunction of sub-rules.
-         opt,  // Consumption-on-success not necessarily true; assumes bounded repetition of conjunction of sub-rules.
-         seq,  // Consumption-on-success depends on consumption of (non-zero bounded repetition of) conjunction of sub-rules.
-         sor   // Consumption-on-success depends on consumption of (non-zero bounded repetition of) disjunction of sub-rules.
-      };
-
-      template< typename T >
-      struct fail
-      {
-         static_assert( dependent_false< T >, "invalid analyze_traits< T >::reduced -- see contrib/analyze.hpp for allowed types" );
-         static constexpr analyze_type dummy{};
-      };
-
-      template< typename T >
-      inline constexpr analyze_type analyze_type_value = fail< T >::dummy;
-
-      template<>
-      inline constexpr analyze_type analyze_type_value< bytes< 1 > > = analyze_type::any;
-
-      template< typename... Rules >
-      inline constexpr analyze_type analyze_type_value< opt< Rules... > > = analyze_type::opt;
-
-      template< typename... Rules >
-      inline constexpr analyze_type analyze_type_value< seq< Rules... > > = analyze_type::seq;
-
-      template< typename... Rules >
-      inline constexpr analyze_type analyze_type_value< sor< Rules... > > = analyze_type::sor;
-
       struct analyze_entry
       {
          explicit analyze_entry( const analyze_type in_type ) noexcept
             : type( in_type )
          {}
 
-         analyze_type type;
+         const analyze_type type;
          std::vector< std::string_view > subs;
       };
 
@@ -201,11 +172,11 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Name >
       std::string_view analyze_insert( std::map< std::string_view, analyze_entry >& info )
       {
-         using Rule = typename analyze_traits< Name, typename Name::rule_t >::reduced;
+         using Traits = analyze_traits< Name, typename Name::rule_t >;
 
-         const auto [ i, b ] = info.try_emplace( demangle< Name >(), analyze_type_value< Rule > );
+         const auto [ i, b ] = info.try_emplace( demangle< Name >(), Traits::type_v );
          if( b ) {
-            analyze_insert_impl( typename Rule::subs_t(), i->second.subs, info );
+            analyze_insert_impl( typename Traits::subs_t(), i->second.subs, info );
          }
          return i->first;
       }

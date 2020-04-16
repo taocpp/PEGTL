@@ -96,6 +96,7 @@
   * [Transformers](Parse-Tree.md#transformers)
   * [`tao::pegtl::parse_tree::node`](Parse-Tree.md#taopegtlparse_treenode)
   * [Custom Node Class](Parse-Tree.md#custom-node-class)
+* [Meta Data and Visit](Meta-Data-and-Visit.md)
 * [Contrib and Examples](Contrib-and-Examples.md)
   * [Contrib](Contrib-and-Examples.md#contrib)
   * [Examples](Contrib-and-Examples.md#examples)

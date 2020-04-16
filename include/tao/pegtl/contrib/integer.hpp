@@ -447,32 +447,32 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name >
    struct analyze_traits< Name, unsigned_rule >
-      : analyze_traits< Name, unsigned_rule_new::rule_t >
+      : analyze_any_traits<>
    {};
 
    template< typename Name >
    struct analyze_traits< Name, unsigned_rule_with_action >
-      : analyze_traits< Name, unsigned_rule_new::rule_t >
+      : analyze_any_traits<>
    {};
 
    template< typename Name, typename Integer, Integer Maximum >
    struct analyze_traits< Name, maximum_rule< Integer, Maximum > >
-      : analyze_traits< Name, unsigned_rule_new::rule_t >
+      : analyze_any_traits<>
    {};
 
    template< typename Name, typename Integer, Integer Maximum >
    struct analyze_traits< Name, maximum_rule_with_action< Integer, Maximum > >
-      : analyze_traits< Name, unsigned_rule_new::rule_t >
+      : analyze_any_traits<>
    {};
 
    template< typename Name >
    struct analyze_traits< Name, signed_rule >
-      : analyze_traits< Name, signed_rule_new::rule_t >
+      : analyze_any_traits<>
    {};
 
    template< typename Name >
    struct analyze_traits< Name, signed_rule_with_action >
-      : analyze_traits< Name, signed_rule_new::rule_t >
+      : analyze_any_traits<>
    {};
 
 }  // namespace TAO_PEGTL_NAMESPACE
