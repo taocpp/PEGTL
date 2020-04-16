@@ -162,8 +162,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, typename Head, typename... Rules >
    struct analyze_traits< Name, internal::rematch< Head, Rules... > >
-      : analyze_traits< Name, typename Head::rule_t >
-   {};  // TODO: What with Rules?
+      : analyze_traits< Name, typename sor< Head, seq< sor< opt< Rules >... >, any > >::rule_t >  // TODO: Correct (enough)?
+   {};
 
    template< typename Name, unsigned Cnt, typename... Rules >
    struct analyze_traits< Name, internal::rep< Cnt, Rules... > >
