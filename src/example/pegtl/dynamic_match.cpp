@@ -1,12 +1,15 @@
 // Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#include <cassert>
 #include <cstring>
 
 #include <iostream>
 #include <string>
 
 #include <tao/pegtl.hpp>
+
+#include <tao/pegtl/contrib/analyze.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
@@ -22,6 +25,8 @@ namespace dynamic
 
    struct long_literal_mark
    {
+      using rule_t = long_literal_mark;
+
       template< pegtl::apply_mode,
                 pegtl::rewind_mode,
                 template< typename... >
@@ -80,8 +85,20 @@ namespace dynamic
 
 }  // namespace dynamic
 
+namespace TAO_PEGTL_NAMESPACE
+{
+   template< typename Name >
+   struct analyze_traits< Name, dynamic::long_literal_mark >
+      : analyze_any_traits<>
+   {};
+
+}  // namespace TAO_PEGTL_NAMESPACE
+
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
+   const auto issues = pegtl::analyze< dynamic::grammar >();
+   assert( !issues );
+
    if( argc > 1 ) {
       std::string id;
       std::string body;

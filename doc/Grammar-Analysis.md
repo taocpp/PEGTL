@@ -27,7 +27,7 @@ Analysing a grammar is usually only done while developing and debugging a gramma
 
 ## Example
 
-Regarding the kinds of issues that are detected, consider the following example grammar rules.
+Regarding the kinds of issues that are detected, consider the following example rules.
 
 ```c++
 struct bar;
@@ -47,26 +47,74 @@ Due to the differences regarding back-tracking and non-deterministic behaviour, 
 
 ## Requirements
 
-The `analyze()` function relies on the [meta data](Meta-Data-and-Visit.md) contained in the rules *and* additional type traits called `analyze_traits`.
+The `analyze()` function operates on an abstract form of the grammar that is mostly equivalent to the original grammar regarding the possibility of infinite cycles without progress.
 
-Every rule class `R` is first mapped to its implementation as per `R::rule_t` and then converted to a reduced form which is found as `analyze_traits< R, R::rule_t >::reduced`.
+This abstract form is obtained via specialisations of the `analyze_traits<>` class template which each must have exactly one of `analyze_any_traits`, `analyze_opt_traits`, `analyze_seq_traits` and `analyze_sor_traits` as public (direct or indirect) base class.
 
-The reduced form of a rule uses only the basic combinators `opt`, `seq` and `sor` and captures just enough of the structure of the original rule as is required for the cycle analysis.
+Specialisations of the `analyze_traits<>` class template are appropriately implemented for all grammar rule classes included with the PEGTL.
+This support automatically extends to all custom rules built "the usual way" via public inheritance of (combinations and specialisations of) rules included with the PEGTL.
 
-Everything else is transformed into either an equivalent form, e.g. `R = star< S >` is reduced to `R = opt< S, R >`, or a semantically reduced form, e.g. `at< S >` is reduced to `opt< S >`.
+For true custom rules, i.e. rules that implement their own `match()` function, the following steps need to be taken for them to work with the grammar analysis.
 
-Further, for every rule class `R`, the list of sub rules as per `analyze_traits< R, R::rule_t >::reduced::subs_t` is used to drive inspection of the complete grammar by allowing the recursive step from a rule to the sub rules of its reduced form.
+1. The rule needs a `rule_t` that, usually for true custom rules, is a type alias for the grammar rule itself.
+2. There needs to be a specialisation of the `analyze_traits<>` for the custom rule, with an additional first template parameter:
 
-The reduced forms of the grammar rules are only allowed to use the following combinators and rules.
+Assuming a custom rule like the following
 
-* `internal::bytes< 1 >` is for rules where "success implies consumption" is true.
-* `internal::opt< ... >` is for rules where "success implies consumption" is false; assumes bounded repetition of conjunction of sub-rules.
-* `internal::seq< ... >` is for rules where consumption on success depends on non-zero bounded repetition of the conjunction of sub-rules.
-* `internal::sor< ... >` is for rules where consumption on success depends on non-zero bounded repetition of the disjunction of sub-rules.
+```c++
+struct my_rule
+{
+   using rule_t = my_rule;
 
-See `include/tao/pegtl/contrib/analyze_traits.hpp` for many examples of how to correctly set up the analyze traits.
+   template< typename Input >
+   bool match( Input& in )
+   {
+      return /* Something that always consumes on success... */ ;
+   }
+};
+```
 
-For any further reaching questions regarding how to set up the meta data and traits for custom rules please contact the authors at **taocpp(at)icemx.net**.
+the analyze traits need to be set up as
+
+```c++
+// In namespace TAO_PEGTL_NAMESPACE
+
+template< typename Name >
+struct analyze_traits< Name, my_rule >
+   : analyze_any_traits<>
+{};
+```
+
+where the base class is chosen as follows.
+
+1. `analyze_any_traits<>` is used for rules that always consume when they succeed.
+2. `analyze_opt_traits<>` is used for rules that (can also) succeed without consuming.
+3. `analyze_seq_traits<>` is used for rules that, regarding their match behaviour, are equivalent to `seq<>`.
+4. `analyze_sor_traits<>` is used for rules that, regarding their match behaviour, are equivalent to `sor<>`.
+
+If `my_rule` has rules, that it calls upon as sub-rules, as template parameters, these need to be passed as template parameters to the chosen base class.
+
+Note that the first template parameter `Name` is required by the analyse traits of some rules in order to facilitate their transcription in terms of the basic combinators `seq`, `sor` and `opt`.
+
+For example `R = plus< T >` is equivalent to `seq< T, opt< R > >`, and the corresponding specialisation of the analyse traits is as follows.
+
+```c++
+   template< typename Name, typename... Rules >
+   struct analyze_traits< Name, internal::plus< Rules... > >
+      : analyze_traits< Name, typename seq< Rules..., opt< Name > >::rule_t >
+   {};
+```
+
+Note how the specialisation is for `internal::plus` rather than `plus`.
+The convention is that only the classes that actually implement `match()` define `rule_t`.
+This greatly reduces both the number of classes that need to define `rule_t` as well as the number of required `analyze_traits` specialisations.
+
+Note further how `Name` is required to transform the implicitly iterative rule `plus` into an explicitly recursive form that only uses `seq` and `opt`.
+The analyse traits have the task of simplifying the grammar in order to keep the core analysis algorithm as simple as possible.
+
+Please consult `include/tao/pegtl/contrib/analyze_traits.hpp` for many examples of how to correctly set up analyse traits for more complex rules, in particular for rules that do not directly fall into one of the aforementioned four categories.
+
+For any further reaching questions regarding how to set up the traits for custom rules please contact the authors at **taocpp(at)icemx.net**.
 
 ## Limitations
 

@@ -49,9 +49,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Cond, typename... Thens >
    struct if_then
       : internal::if_then< internal::if_pair< Cond, internal::seq< Thens... > > >
-   {
-      using rule_t = if_then;
-   };
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
