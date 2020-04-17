@@ -46,6 +46,8 @@
   * [Legacy Actions](Actions-and-States.md#legacy-actions)
 * [Errors and Exceptions](Errors-and-Exceptions.md)
   * [Local to Global Failure](Errors-and-Exceptions.md#local-to-global-failure)
+    * [Intrusive Local to Global Failure](Errors-and-Exceptions.md#intrusive-local-to-global-failure)
+    * [Non-Intrusive Local to Global Failure](Errors-and-Exceptions.md#non-intrusive-local-to-global-failure)
   * [Global to Local Failure](Errors-and-Exceptions.md#global-to-local-failure)
   * [Examples for Must Rules](Errors-and-Exceptions.md#examples-for-must-rules)
   * [Custom Exception Messages](Errors-and-Exceptions.md#custom-exception-messages)

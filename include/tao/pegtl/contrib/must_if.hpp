@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace internal
 
-   template< typename T, bool RequireMessage = true, template< typename... > class Base = normal >
+   template< typename T, template< typename... > class Base = normal, bool RequireMessage = true >
    struct must_if
    {
       template< typename Rule >
