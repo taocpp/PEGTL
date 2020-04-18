@@ -7,9 +7,9 @@
 #include "internal.hpp"
 
 #include "../../config.hpp"
-#include "../../utf16.hpp"
+#include "../utf16.hpp"
 
-#include "../../internal/peek_utf16.hpp"
+#include "../internal/peek_utf16.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
