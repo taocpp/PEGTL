@@ -13,13 +13,15 @@
 * Replaced `analysis_t` with more general and complete `rule_t` and `subs_t`.
 * Added functions to visit all rules of a grammar.
 * Added infrastructure and functions to measure rule coverage of a parsing run.
-* Moved rule `eolf` from namespace `TAO_PEGTL_NAMESPACE::ascii` to `TAO_PEGTL_NAMESPACE`.
-* Added `tao::pegtl::error_message< Rule >` as a non-intrusive way to define global parse errors.
+* Added [`must_if<>`](Errors-and-Exceptions.md#custom-exception-messages)
+  * Allows to define custom error messages for global errors.
+  * As a non-intrusive way to define global parse errors for a grammar retroactively.
+* Moved rule `eolf` from inline namespace `tao::pegtl::ascii` to `tao::pegtl`.
 * Changed message of `tao::pegtl::parse_error` to no longer contain the position redundantly.
 * Changed rules in `tao/pegtl/contrib/integer.hpp` to not accept redundant leading zeros.
 * Added rules to `tao/pegtl/contrib/integer.hpp` that test unsigned values against a maximum.
 * Removed option of [state](Rule-Reference.md#state-s-r-)'s `S::success()` to have an extended signature to get access to the current `apply_mode`, `rewind_mode`, *action*- and *control* class (template).
-* Added `[[nodiscard]]` to most non-void functions.
+* Added `[[nodiscard]]` or `[[noreturn]]` to most non-void functions.
 * Removed compatibility macros starting with `TAOCPP_PEGTL_`.
 * Removed compatibility uppercase enumerators.
 * Removed compatibility `peek_byte()` member functions.
