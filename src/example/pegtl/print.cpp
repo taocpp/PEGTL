@@ -31,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
       visit< Rule, internal::printer_cout >();
    }
 
-}  // namespace without_subs
+}  // namespace TAO_PEGTL_NAMESPACE
 
 int main()  // NOLINT(bugprone-exception-escape)
 {
