@@ -806,6 +806,9 @@ The following limitations apply to the UTF-16 and UTF-32 rules:
 
 * Unaligned input leads to unaligned memory access.
 * The line and column numbers are not counted correctly.
+* They are not automatically included with `tao/pegtl.hpp`.
+
+The UTF-16 and UTF-32 rules need to be manually included from their corresponding headers in the `contrib` section.
 
 Unaligned memory is no problem on x86 compatible processors; on ARM and most other architectures an unaligned access will crash the application.
 
@@ -873,7 +876,7 @@ Unicode rules do not rely on other rules; `subs_t` is always `type_list<>`.
 ### ICU Support
 
 The following rules depend on the [International Components for Unicode (ICU)](http://icu-project.org/) that provide the means to match characters with specific Unicode character properties.
-Because of the external dependency, the rules are in the contrib-section, and the required header files are not automatically included in `tao/pegtl.hpp`.
+Because of the external dependency, the rules are in contrib, and the required header files are not automatically included in `tao/pegtl.hpp`.
 
 The ICU-based rules are again available in multiple versions,
 
@@ -882,6 +885,11 @@ The ICU-based rules are again available in multiple versions,
 * in namespace `tao::pegtl::utf16_le::icu` for little-endian UTF-16 encoded inputs,
 * in namespace `tao::pegtl::utf32_be::icu` for big-endian UTF-32 encoded inputs, and
 * in namespace `tao::pegtl::utf32_le::icu` for little-endian UTF-32 encoded inputs.
+
+And, for convenience, they again appear in multiple namespace aliases,
+
+* namespace alias `tao::pegtl::utf16` for native-endian UTF-16 encoded inputs,
+* namespace alias `tao::pegtl::utf32` for native-endian UTF-32 encoded inputs.
 
 To use these rules it is necessary to provide an include path to the ICU library, to link the application against `libicu`, and to manually include one or more of the following header files:
 
@@ -1217,6 +1225,8 @@ These rules are available in multiple versions,
 * in namespace `tao::pegtl::uint32_le` for little-endian 32-bit integer values,
 * in namespace `tao::pegtl::uint64_be` for big-endian 64-bit integer values, and
 * in namespace `tao::pegtl::uint64_le` for little-endian 64-bit integer values.
+
+The binary rules need to be manually included from their corresponding headers in the `contrib` section.
 
 These rules read one or more bytes from the input to form (and match) an 8, 16, 32 or 64-bit value, respectively, and corresponding template parameters are given as either `std::uint8_t`, `std::uint16_t`, `std::uint32_t` or `std::uin64_t`.
 

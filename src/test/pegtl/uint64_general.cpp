@@ -5,6 +5,8 @@
 #include "verify_char.hpp"
 #include "verify_rule.hpp"
 
+#include <tao/pegtl/contrib/uint64.hpp>
+
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()

@@ -1,14 +1,14 @@
 // Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_INTERNAL_PEEK_UTF32_HPP
-#define TAO_PEGTL_INTERNAL_PEEK_UTF32_HPP
+#ifndef TAO_PEGTL_CONTRIB_INTERNAL_PEEK_UTF32_HPP
+#define TAO_PEGTL_CONTRIB_INTERNAL_PEEK_UTF32_HPP
 
 #include <cstddef>
 
-#include "../config.hpp"
+#include "../../config.hpp"
+#include "../../internal/input_pair.hpp"
 
-#include "input_pair.hpp"
 #include "read_uint.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal

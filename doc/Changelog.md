@@ -24,6 +24,8 @@
 * Removed compatibility uppercase enumerators.
 * Removed compatibility `peek_byte()` member functions.
 * Removed compatibility header `changes.hpp` from contrib.
+* Demoted UTF-16 and UTF-32 support to contrib.
+* Demoted UINT-8, UINT-16, UINT-32 and UINT-64 support to contrib.
 * Folded `contrib/counter.hpp` into `json_count.cpp`, count is superceded by coverage.
 * Refactored demangling.
   * Improves generated code to be shorter and more efficient.

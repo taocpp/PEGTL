@@ -10,12 +10,6 @@
 
 #include "pegtl/ascii.hpp"
 #include "pegtl/rules.hpp"
-#include "pegtl/uint16.hpp"
-#include "pegtl/uint32.hpp"
-#include "pegtl/uint64.hpp"
-#include "pegtl/uint8.hpp"
-#include "pegtl/utf16.hpp"
-#include "pegtl/utf32.hpp"
 #include "pegtl/utf8.hpp"
 
 #include "pegtl/argv_input.hpp"

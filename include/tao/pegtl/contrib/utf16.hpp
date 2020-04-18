@@ -1,14 +1,14 @@
 // Copyright (c) 2015-2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_UTF16_HPP
-#define TAO_PEGTL_UTF16_HPP
+#ifndef TAO_PEGTL_CONTRIB_UTF16_HPP
+#define TAO_PEGTL_CONTRIB_UTF16_HPP
 
-#include "config.hpp"
+#include "../config.hpp"
+#include "../internal/result_on_found.hpp"
+#include "../internal/rules.hpp"
 
 #include "internal/peek_utf16.hpp"
-#include "internal/result_on_found.hpp"
-#include "internal/rules.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

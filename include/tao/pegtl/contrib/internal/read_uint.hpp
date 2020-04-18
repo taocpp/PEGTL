@@ -1,12 +1,12 @@
 // Copyright (c) 2018-2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_INTERNAL_READ_UINT_HPP
-#define TAO_PEGTL_INTERNAL_READ_UINT_HPP
+#ifndef TAO_PEGTL_CONTRIB_INTERNAL_READ_UINT_HPP
+#define TAO_PEGTL_CONTRIB_INTERNAL_READ_UINT_HPP
 
 #include <cstdint>
 
-#include "../config.hpp"
+#include "../../config.hpp"
 
 #include "endian.hpp"
 

@@ -4,6 +4,8 @@
 #include "test.hpp"
 #include "verify_rule.hpp"
 
+#include <tao/pegtl/contrib/utf32.hpp>
+
 namespace TAO_PEGTL_NAMESPACE
 {
    namespace

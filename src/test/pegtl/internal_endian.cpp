@@ -1,7 +1,7 @@
 // Copyright (c) 2018-2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <tao/pegtl/internal/endian.hpp>
+#include <tao/pegtl/contrib/internal/endian.hpp>
 
 #include "test.hpp"
 
