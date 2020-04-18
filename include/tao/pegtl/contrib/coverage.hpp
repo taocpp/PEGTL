@@ -47,29 +47,29 @@ namespace TAO_PEGTL_NAMESPACE
    {
       static constexpr bool enable = true;
 
-      template< typename Input >
-      static void start( const Input& in, coverage_state& state )
+      template< typename ParseInput >
+      static void start( const ParseInput& in, coverage_state& state )
       {
          ++state.map.at( internal::demangle< Rule >() ).start;
          Control< Rule >::start( in, state );
       }
 
-      template< typename Input >
-      static void success( const Input& in, coverage_state& state )
+      template< typename ParseInput >
+      static void success( const ParseInput& in, coverage_state& state )
       {
          ++state.map.at( internal::demangle< Rule >() ).success;
          Control< Rule >::success( in, state );
       }
 
-      template< typename Input >
-      static void failure( const Input& in, coverage_state& state )
+      template< typename ParseInput >
+      static void failure( const ParseInput& in, coverage_state& state )
       {
          ++state.map.at( internal::demangle< Rule >() ).failure;
          Control< Rule >::failure( in, state );
       }
 
-      template< typename Input >
-      [[noreturn]] static void raise( const Input& in, coverage_state& state )
+      template< typename ParseInput >
+      [[noreturn]] static void raise( const ParseInput& in, coverage_state& state )
       {
          ++state.map.at( internal::demangle< Rule >() ).raise;
          Control< Rule >::raise( in, state );
@@ -79,8 +79,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule >
    using coverage_control = basic_coverage_control< Rule, normal >;
 
-   template< typename Grammar, typename Input >
-   bool coverage( Input&& in )
+   template< typename Grammar, typename ParseInput >
+   bool coverage( ParseInput&& in )
    {
       coverage_state state;
       visit< Grammar, coverage_insert >( state );
