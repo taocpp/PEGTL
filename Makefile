@@ -39,7 +39,7 @@ SOURCES := $(shell find src -name '*.cpp')
 DEPENDS := $(SOURCES:%.cpp=build/%.d)
 BINARIES := $(SOURCES:%.cpp=build/%)
 
-CLANG_TIDY_HEADERS := $(filter-out include/tao/pegtl/internal/endian_win.hpp include/tao/pegtl/internal/file_mapper_win32.hpp,$(HEADERS))
+CLANG_TIDY_HEADERS := $(filter-out include/tao/pegtl/internal/file_mapper_win32.hpp include/tao/pegtl/contrib/internal/endian_win.hpp,$(HEADERS))
 
 UNIT_TESTS := $(filter build/src/test/%,$(BINARIES))
 
