@@ -21,7 +21,7 @@ For rules other than `must<>` that contain "must" in their name, rule equivalenc
 
 ## Implementation
 
-TODO
+The "meta data and implementation mapping" section of each rule's description shows both how the rule is implemented and what the [meta data](Meta-Data-and-Visit.md) looks like.
 
 ## Parameter Packs
 

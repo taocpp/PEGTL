@@ -28,6 +28,8 @@ The `normal` control class template included with the PEGTL is used by default a
 template< typename Rule >
 struct normal
 {
+   static constexpr bool enable;  // See Meta-Data-and-Visit.md
+
    template< typename ParseInput,
              typename... States >
    static void start( const ParseInput&, States&&... );
