@@ -278,6 +278,16 @@ namespace TAO_PEGTL_NAMESPACE
 
       }  // namespace grammar
 
+      // Using must_if<> we define a control class which is used for
+      // the parsing run instead of the default control class.
+      //
+      // This improves the errors reported to the user.
+      //
+      // The following turns local errors into global errors, i.e.
+      // if one of the rules for which a custom error message is
+      // defined fails, it throws a parse_error exception (aka global
+      // failure) instead of returning false (aka local failure).
+
       // clang-format off
       template< typename > inline constexpr const char* error_message = nullptr;
 
@@ -303,8 +313,15 @@ namespace TAO_PEGTL_NAMESPACE
       template<> inline constexpr auto error_message< abnf::grammar::rule > = "expected rule";
 
       struct error { template< typename Rule > static constexpr auto message = error_message< Rule >; };
-      template< typename Rule > using my_control = must_if< error >::control< Rule >;
+      template< typename Rule > using control = must_if< error >::control< Rule >;
       // clang-format on
+
+      // Since we are going to generate a parse tree, we define a
+      // selector that decides which rules will be included in our
+      // parse tree, which rules will be omitted from the parse tree,
+      // and which of the nodes will store the matched content.
+      // Additionally, some nodes will fold when they have exactly
+      // one child node. (see fold_one below)
 
       template< typename Rule >
       struct selector
@@ -335,6 +352,12 @@ namespace TAO_PEGTL_NAMESPACE
                  grammar::repetition,
                  grammar::concatenation > >
       {};
+
+      // Besides the above "simple" list of selected rules,
+      // we also provide special handling to some nodes.
+      // When they are inserted into the parse tree, the
+      // transform method allows additional tree transformations
+      // in order to improve the generated tree.
 
       template<>
       struct selector< grammar::quoted_string >
@@ -498,6 +521,9 @@ namespace TAO_PEGTL_NAMESPACE
             }
          }
       };
+
+      // Finally, the generated parse tree for each node is converted to
+      // a C++ source code string.
 
       struct stringifier
       {
@@ -701,7 +727,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 
    file_input in( argv[ 1 ] );
    try {
-      const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::selector, nothing, abnf::my_control >( in );
+      const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::selector, nothing, abnf::control >( in );
 
       for( const auto& rule : root->children ) {
          abnf::rules_defined.push_back( abnf::get_rulename( rule->children.front() ) );
