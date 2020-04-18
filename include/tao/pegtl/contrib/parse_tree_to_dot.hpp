@@ -26,40 +26,40 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
             if( c == '\\' ) {
                os.write( l, p - l );
                l = ++p;
-               os << "\\\\";
+               os << "\\\\\\\\";
             }
             else if( c == '"' ) {
                os.write( l, p - l );
                l = ++p;
-               os << "\\\"";
+               os << "\\\\\\\"";
             }
             else if( c < 32 ) {
                os.write( l, p - l );
                l = ++p;
                switch( c ) {
                   case '\b':
-                     os << "\\b";
+                     os << "\\\\b";
                      break;
                   case '\f':
-                     os << "\\f";
+                     os << "\\\\f";
                      break;
                   case '\n':
-                     os << "\\n";
+                     os << "\\\\n";
                      break;
                   case '\r':
-                     os << "\\r";
+                     os << "\\\\r";
                      break;
                   case '\t':
-                     os << "\\t";
+                     os << "\\\\t";
                      break;
                   default:
-                     os << "\\u00" << h[ ( c & 0xf0 ) >> 4 ] << h[ c & 0x0f ];
+                     os << "\\\\u00" << h[ ( c & 0xf0 ) >> 4 ] << h[ c & 0x0f ];
                }
             }
             else if( c == 127 ) {
                os.write( l, p - l );
                l = ++p;
-               os << "\\u007f";
+               os << "\\\\u007f";
             }
             else {
                ++p;
@@ -74,8 +74,9 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          os << "  x" << &n << " [ label=\"";
          escape( os, s );
          if( n.has_content() ) {
-            os << "\\n";
+            os << "\\n\\\"";
             escape( os, n.string_view() );
+            os << "\\\"";
          }
          os << "\" ]\n";
          if( !n.children.empty() ) {
