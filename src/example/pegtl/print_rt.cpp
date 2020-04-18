@@ -10,19 +10,23 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename Rule, typename... >
-   struct printer_cout_rt
+   namespace internal
    {
-      static void visit()
+      template< typename Rule, typename... >
+      struct printer_cout
       {
-         std::cout << internal::demangle< Rule >() << std::endl;
-      }
-   };
+         static void visit()
+         {
+            std::cout << demangle< Rule >() << std::endl;
+         }
+      };
+
+   }  // namespace internal
 
    template< typename Rule >
    void print_cout_rt()
    {
-      visit_rt< printer_cout_rt, Rule >();
+      visit_rt< internal::printer_cout, Rule >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
