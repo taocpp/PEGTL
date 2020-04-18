@@ -3,8 +3,6 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/contrib/must_if.hpp>
-
 namespace test1
 {
    using namespace TAO_PEGTL_NAMESPACE;

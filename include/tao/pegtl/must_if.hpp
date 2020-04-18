@@ -1,11 +1,11 @@
 // Copyright (c) 2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_CONTRIB_MUST_IF_HPP
-#define TAO_PEGTL_CONTRIB_MUST_IF_HPP
+#ifndef TAO_PEGTL_MUST_IF_HPP
+#define TAO_PEGTL_MUST_IF_HPP
 
-#include "../config.hpp"
-#include "../normal.hpp"
+#include "config.hpp"
+#include "normal.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

@@ -5,9 +5,8 @@
 #define TAO_PEGTL_HPP
 
 #include "pegtl/config.hpp"
-#include "pegtl/version.hpp"
-
 #include "pegtl/parse.hpp"
+#include "pegtl/version.hpp"
 
 #include "pegtl/ascii.hpp"
 #include "pegtl/rules.hpp"
@@ -45,6 +44,7 @@
 #include "pegtl/discard_input_on_failure.hpp"
 #include "pegtl/discard_input_on_success.hpp"
 
+#include "pegtl/must_if.hpp"
 #include "pegtl/visit.hpp"
 
 #endif
