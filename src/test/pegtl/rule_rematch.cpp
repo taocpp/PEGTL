@@ -17,6 +17,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       verify_analyze< rematch< alpha, digit > >( __LINE__, __FILE__, true, false );
       verify_analyze< rematch< opt< alpha >, digit > >( __LINE__, __FILE__, false, false );
+      verify_analyze< rematch< alnum, opt< alpha > > >( __LINE__, __FILE__, true, false );
       {
          struct foo
             : rematch< foo, alnum >
