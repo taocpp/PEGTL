@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule >
    void print_cout()
    {
-      visit< internal::printer_cout, Rule >();
+      visit< Rule, internal::printer_cout >();
    }
 
 }  // namespace without_subs

@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule >
    void print_cout_rt()
    {
-      visit_rt< internal::printer_cout, Rule >();
+      visit_rt< Rule, internal::printer_cout >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

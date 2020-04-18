@@ -55,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace internal
 
-   template< template< typename... > class Func, typename Rule, typename... Args >
+   template< typename Rule, template< typename... > class Func, typename... Args >
    void visit( Args&&... args )
    {
       internal::visitor< Func, empty_list, Rule >::visit( args... );
