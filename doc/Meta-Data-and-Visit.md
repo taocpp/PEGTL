@@ -4,12 +4,12 @@ Each rule has several type aliases that allow for automatic inspection of a gram
 Note that true custom rules, i.e. rules that implement custom `match()` functions, do **not** need to define these type aliases for parsing.
 They are only required to support functions based on `visit()` and the [grammar analysis](Grammar-Analysis.md).
 
-# [Internals](#internals)
-# [Rule Type](#rule-type)
-# [Sub Rules](#sub-rules)
-# [Grammar Visit](#grammar-visit)
-# [Grammar Print](#grammar-print)
-# [Rule Coverage](#rule-coverage)
+* [Internals](#internals)
+* [Rule Type](#rule-type)
+* [Sub Rules](#sub-rules)
+* [Grammar Visit](#grammar-visit)
+* [Grammar Print](#grammar-print)
+* [Rule Coverage](#rule-coverage)
 
 ## Internals
 
