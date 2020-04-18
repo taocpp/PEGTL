@@ -21,6 +21,8 @@
 #include "../internal/seq.hpp"
 #include "../internal/star.hpp"
 
+#include "analyze_traits.hpp"
+
 namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
@@ -29,6 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
       struct raw_string_open
       {
          using rule_t = raw_string_open;
+         using subs_t = empty_list;
 
          template< apply_mode A,
                    rewind_mode,
@@ -67,6 +70,7 @@ namespace TAO_PEGTL_NAMESPACE
       struct at_raw_string_close
       {
          using rule_t = at_raw_string_close;
+         using subs_t = empty_list;
 
          template< apply_mode A,
                    rewind_mode,
@@ -108,6 +112,7 @@ namespace TAO_PEGTL_NAMESPACE
       struct raw_string_until< Cond >
       {
          using rule_t = raw_string_until;
+         using subs_t = type_list< Cond >;
 
          template< apply_mode A,
                    rewind_mode M,
@@ -135,6 +140,7 @@ namespace TAO_PEGTL_NAMESPACE
       struct raw_string_until< Cond, Rule >
       {
          using rule_t = raw_string_until;
+         using subs_t = type_list< Cond, Rule >;
 
          template< apply_mode A,
                    rewind_mode M,
@@ -150,7 +156,7 @@ namespace TAO_PEGTL_NAMESPACE
             using m_t = decltype( m );
 
             while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, marker_size, st... ) ) {
-               if( in.empty() || !Control< Rule >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
+               if( !Control< Rule >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
                   return false;
                }
             }
@@ -191,13 +197,14 @@ namespace TAO_PEGTL_NAMESPACE
    template< char Open, char Marker, char Close, typename... Contents >
    struct raw_string
    {
-      using rule_t = ascii::any::rule_t;  // TODO: Improve and implement traits.
-
       // This is used for binding the apply()-method and for error-reporting
       // when a raw string is not closed properly or has invalid content.
       struct content
          : internal::raw_string_until< internal::at_raw_string_close< Marker, Close >, Contents... >
       {};
+
+      using rule_t = raw_string;
+      using subs_t = type_list< internal::raw_string_open< Open, Marker >, internal::must< content > >;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -210,15 +217,25 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          std::size_t marker_size;
-         if( internal::raw_string_open< Open, Marker >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
+         if( Control< internal::raw_string_open< Open, Marker > >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
             // TODO: Do not rely on must<>
-            (void)internal::must< content >::template match< A, M, Action, Control >( in, marker_size, st... );
+            (void)Control< internal::must< content > >::template match< A, M, Action, Control >( in, marker_size, st... );
             in.bump_in_this_line( marker_size );
             return true;
          }
          return false;
       }
    };
+
+   template< typename Name, char Open, char Marker, char Close >
+   struct analyze_traits< Name, raw_string< Open, Marker, Close > >
+      : analyze_any_traits<>
+   {};
+
+   template< typename Name, char Open, char Marker, char Close, typename... Contents >
+   struct analyze_traits< Name, raw_string< Open, Marker, Close, Contents... > >
+      : analyze_traits< Name, typename seq< any, star< Contents... >, any >::rule_t >
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

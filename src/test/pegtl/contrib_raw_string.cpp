@@ -2,6 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include "test.hpp"
+#include "verify_analyze.hpp"
 #include "verify_fail.hpp"
 
 #include <tao/pegtl/contrib/raw_string.hpp>
@@ -68,6 +69,11 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
+      verify_analyze< rstring >( __LINE__, __FILE__, true, false );
+      verify_analyze< qstring >( __LINE__, __FILE__, true, false );
+
+      verify_analyze< raw_string< 'a', 'b', 'c', star< star< any > > > >( __LINE__, __FILE__, true, true );
+
       verify_data< rgrammar, raction >( __LINE__, __FILE__, "[[]]", "" );
       verify_data< rgrammar, raction >( __LINE__, __FILE__, "[[foo]]", "foo" );
       verify_data< rgrammar, raction >( __LINE__, __FILE__, "[===[foo]===]", "foo" );
