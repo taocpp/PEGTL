@@ -24,6 +24,7 @@
 * Removed compatibility uppercase enumerators.
 * Removed compatibility `peek_byte()` member functions.
 * Removed compatibility header `changes.hpp` from contrib.
+* Folded `contrib/counter.hpp` into `json_count.cpp`, count is superceded by coverage.
 * Refactored demangling.
   * Improves generated code to be shorter and more efficient.
   * Removes the need for RTTI.
