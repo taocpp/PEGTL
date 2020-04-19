@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< typename... Ts >
-      static void visit_branches( std::map< std::string_view, std::size_t >& branches, type_list< Ts... > )
+      static void visit_branches( std::map< std::string_view, std::size_t >& branches, type_list< Ts... > /*unused*/ )
       {
          ( branches.try_emplace( internal::demangle< Ts >() ), ... );
       }
