@@ -13,6 +13,7 @@
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../parse.hpp"
+#include "../type_list.hpp"
 #include "../visit.hpp"
 
 #include "../internal/demangle.hpp"
@@ -25,19 +26,27 @@ namespace TAO_PEGTL_NAMESPACE
       std::size_t success = 0;
       std::size_t failure = 0;
       std::size_t raise = 0;
+      std::map< std::string_view, std::size_t > branches;
    };
 
    struct coverage_state
    {
+      std::vector< std::string_view > stack;
       std::map< std::string_view, coverage_info > map;
    };
 
-   template< typename Rule, typename... >
+   template< typename Rule >
    struct coverage_insert
    {
       static void visit( coverage_state& state )
       {
-         state.map.try_emplace( internal::demangle< Rule >() );
+         visit_branches( state.map.try_emplace( internal::demangle< Rule >() ).first->second.branches, typename Rule::subs_t() );
+      }
+
+      template< typename... Ts >
+      static void visit_branches( std::map< std::string_view, std::size_t >& branches, type_list< Ts... > )
+      {
+         ( branches.try_emplace( internal::demangle< Ts >() ), ... );
       }
    };
 
@@ -50,14 +59,21 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput >
       static void start( const ParseInput& in, coverage_state& state )
       {
-         ++state.map.at( internal::demangle< Rule >() ).start;
+         auto name = internal::demangle< Rule >();
+         state.stack.push_back( name );
+         ++state.map.at( name ).start;
          Control< Rule >::start( in, state );
       }
 
       template< typename ParseInput >
       static void success( const ParseInput& in, coverage_state& state )
       {
-         ++state.map.at( internal::demangle< Rule >() ).success;
+         auto name = internal::demangle< Rule >();
+         ++state.map.at( name ).success;
+         state.stack.pop_back();
+         if( !state.stack.empty() ) {
+            ++state.map.at( state.stack.back() ).branches.at( name );
+         }
          Control< Rule >::success( in, state );
       }
 
@@ -65,6 +81,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void failure( const ParseInput& in, coverage_state& state )
       {
          ++state.map.at( internal::demangle< Rule >() ).failure;
+         state.stack.pop_back();
          Control< Rule >::failure( in, state );
       }
 
@@ -72,6 +89,7 @@ namespace TAO_PEGTL_NAMESPACE
       [[noreturn]] static void raise( const ParseInput& in, coverage_state& state )
       {
          ++state.map.at( internal::demangle< Rule >() ).raise;
+         state.stack.pop_back();
          Control< Rule >::raise( in, state );
       }
    };
@@ -85,11 +103,45 @@ namespace TAO_PEGTL_NAMESPACE
       coverage_state state;
       visit< Grammar, coverage_insert >( state );
       const auto result = parse< Grammar, nothing, coverage_control >( in, state );
-      std::cout << "{ \"grammar\": \"" << internal::demangle< Grammar >() << "\", \"source\": \"" << in.source() << "\", \"result\": " << ( result ? "true" : "false" ) << ", \"coverage\": [" << std::endl;
+      std::cout << "{\n"
+                << "  \"grammar\": \"" << internal::demangle< Grammar >() << "\",\n"
+                << "  \"source\": \"" << in.source() << "\",\n"
+                << "  \"result\": " << ( result ? "true" : "false" ) << ",\n"
+                << "  \"coverage\":\n"
+                << "  [\n";
+      bool f = true;
       for( const auto& [ k, v ] : state.map ) {
-         std::cout << "   { \"rule\": \"" << k << "\", \"start\": " << v.start << ", \"success\": " << v.success << ", \"failure\": " << v.failure << ", \"raise\": " << v.raise << " }," << std::endl;
+         if( f ) {
+            f = false;
+         }
+         else {
+            std::cout << ",\n";
+         }
+         std::cout << "    {\n"
+                   << "      \"rule\": \"" << k << "\",\n"
+                   << "      \"start\": " << v.start << ", \"success\": " << v.success << ", \"failure\": " << v.failure << ", \"raise\": " << v.raise << ",\n";
+         if( v.branches.empty() ) {
+            std::cout << "      \"branches\": []\n";
+         }
+         else {
+            std::cout << "      \"branches\": [\n";
+            bool f2 = true;
+            for( const auto& [ k2, v2 ] : v.branches ) {
+               if( f2 ) {
+                  f2 = false;
+               }
+               else {
+                  std::cout << ",\n";
+               }
+               std::cout << "        { \"branch\": \"" << k2 << "\", \"taken\": " << v2 << " }";
+            }
+            std::cout << "\n      ]\n";
+         }
+         std::cout << "    }";
       }
-      std::cout << "] }" << std::endl;
+      std::cout << "\n"
+                << "  ]\n"
+                << "}" << std::endl;
       return result;
    }
 
