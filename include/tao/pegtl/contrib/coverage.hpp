@@ -26,13 +26,18 @@ namespace TAO_PEGTL_NAMESPACE
       std::size_t success = 0;
       std::size_t failure = 0;
       std::size_t raise = 0;
-      std::map< std::string_view, std::size_t > branches;
+   };
+
+   struct coverage_entry
+      : coverage_info
+   {
+      std::map< std::string_view, coverage_info > branches;
    };
 
    struct coverage_state
    {
       std::vector< std::string_view > stack;
-      std::map< std::string_view, coverage_info > map;
+      std::map< std::string_view, coverage_entry > map;
    };
 
    template< typename Rule >
@@ -44,7 +49,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< typename... Ts >
-      static void visit_branches( std::map< std::string_view, std::size_t >& branches, type_list< Ts... > /*unused*/ )
+      static void visit_branches( std::map< std::string_view, coverage_info >& branches, type_list< Ts... > /*unused*/ )
       {
          ( branches.try_emplace( internal::demangle< Ts >() ), ... );
       }
@@ -60,6 +65,9 @@ namespace TAO_PEGTL_NAMESPACE
       static void start( const ParseInput& in, coverage_state& state )
       {
          auto name = internal::demangle< Rule >();
+         if( !state.stack.empty() ) {
+            ++state.map.at( state.stack.back() ).branches.at( name ).start;
+         }
          state.stack.push_back( name );
          ++state.map.at( name ).start;
          Control< Rule >::start( in, state );
@@ -72,7 +80,7 @@ namespace TAO_PEGTL_NAMESPACE
          ++state.map.at( name ).success;
          state.stack.pop_back();
          if( !state.stack.empty() ) {
-            ++state.map.at( state.stack.back() ).branches.at( name );
+            ++state.map.at( state.stack.back() ).branches.at( name ).success;
          }
          Control< Rule >::success( in, state );
       }
@@ -80,16 +88,24 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput >
       static void failure( const ParseInput& in, coverage_state& state )
       {
-         ++state.map.at( internal::demangle< Rule >() ).failure;
+         auto name = internal::demangle< Rule >();
+         ++state.map.at( name ).failure;
          state.stack.pop_back();
+         if( !state.stack.empty() ) {
+            ++state.map.at( state.stack.back() ).branches.at( name ).failure;
+         }
          Control< Rule >::failure( in, state );
       }
 
       template< typename ParseInput >
       [[noreturn]] static void raise( const ParseInput& in, coverage_state& state )
       {
-         ++state.map.at( internal::demangle< Rule >() ).raise;
+         auto name = internal::demangle< Rule >();
+         ++state.map.at( name ).raise;
          state.stack.pop_back();
+         if( !state.stack.empty() ) {
+            ++state.map.at( state.stack.back() ).branches.at( name ).raise;
+         }
          Control< Rule >::raise( in, state );
       }
    };
@@ -133,7 +149,7 @@ namespace TAO_PEGTL_NAMESPACE
                else {
                   std::cout << ",\n";
                }
-               std::cout << "        { \"branch\": \"" << k2 << "\", \"taken\": " << v2 << " }";
+               std::cout << "        { \"branch\": \"" << k2 << "\" start\": " << v2.start << ", \"success\": " << v2.success << ", \"failure\": " << v2.failure << ", \"raise\": " << v2.raise << " }";
             }
             std::cout << "\n      ]\n";
          }
