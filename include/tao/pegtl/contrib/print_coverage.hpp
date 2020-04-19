@@ -11,7 +11,7 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    // output is JSON
-   void print_coverage( std::ostream& os, const coverage_state& state )
+   inline void print_coverage( std::ostream& os, const coverage_state& state )
    {
       os << "{\n"
          << "  \"grammar\": \"" << state.grammar << "\",\n"
