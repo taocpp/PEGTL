@@ -25,7 +25,8 @@ namespace TAO_PEGTL_NAMESPACE
    {
       std::size_t start = 0;
       std::size_t success = 0;
-      std::size_t failure = 0;
+      std::size_t local_failure = 0;
+      std::size_t global_failure = 0;
       std::size_t raise = 0;
    };
 
@@ -63,51 +64,53 @@ namespace TAO_PEGTL_NAMESPACE
       static constexpr bool enable = true;
 
       template< typename ParseInput >
-      static void start( const ParseInput& in, coverage_state& state )
-      {
-         auto name = internal::demangle< Rule >();
-         if( !state.stack.empty() ) {
-            ++state.map.at( state.stack.back() ).branches.at( name ).start;
-         }
-         state.stack.push_back( name );
-         ++state.map.at( name ).start;
-         Control< Rule >::start( in, state );
-      }
-
-      template< typename ParseInput >
-      static void success( const ParseInput& in, coverage_state& state )
-      {
-         auto name = internal::demangle< Rule >();
-         ++state.map.at( name ).success;
-         state.stack.pop_back();
-         if( !state.stack.empty() ) {
-            ++state.map.at( state.stack.back() ).branches.at( name ).success;
-         }
-         Control< Rule >::success( in, state );
-      }
-
-      template< typename ParseInput >
-      static void failure( const ParseInput& in, coverage_state& state )
-      {
-         auto name = internal::demangle< Rule >();
-         ++state.map.at( name ).failure;
-         state.stack.pop_back();
-         if( !state.stack.empty() ) {
-            ++state.map.at( state.stack.back() ).branches.at( name ).failure;
-         }
-         Control< Rule >::failure( in, state );
-      }
-
-      template< typename ParseInput >
       [[noreturn]] static void raise( const ParseInput& in, coverage_state& state )
       {
          auto name = internal::demangle< Rule >();
          ++state.map.at( name ).raise;
-         state.stack.pop_back();
-         if( !state.stack.empty() ) {
-            ++state.map.at( state.stack.back() ).branches.at( name ).raise;
+         if( state.stack.size() > 1 ) {
+            ++state.map.at( state.stack.at( state.stack.size() - 2 ) ).branches.at( name ).raise;
          }
          Control< Rule >::raise( in, state );
+      }
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control2,
+                typename ParseInput,
+                typename... States >
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
+      {
+         coverage_entry dummy;
+         auto& state = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
+         auto name = internal::demangle< Rule >();
+         auto& entry = state.map.at( name );
+         auto& previous = state.stack.empty() ? dummy : state.map.at( state.stack.back() ).branches.at( name );
+         ++entry.start;
+         ++previous.start;
+         state.stack.push_back( name );
+         try {
+            const bool result = Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
+            state.stack.pop_back();
+            if( result ) {
+               ++entry.success;
+               ++previous.success;
+            }
+            else {
+               ++entry.local_failure;
+               ++previous.local_failure;
+            }
+            return result;
+         }
+         catch( ... ) {
+            state.stack.pop_back();
+            ++entry.global_failure;
+            ++previous.global_failure;
+            throw;
+         }
       }
    };
 
@@ -136,7 +139,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
          std::cout << "    {\n"
                    << "      \"rule\": \"" << k << "\",\n"
-                   << "      \"start\": " << v.start << ", \"success\": " << v.success << ", \"failure\": " << v.failure << ", \"raise\": " << v.raise << ",\n";
+                   << "      \"start\": " << v.start << ", \"success\": " << v.success << ", \"local_failure\": " << v.local_failure << ", \"global_failure\": " << v.global_failure << ", \"raise\": " << v.raise << ",\n";
          if( v.branches.empty() ) {
             std::cout << "      \"branches\": []\n";
          }
@@ -150,7 +153,7 @@ namespace TAO_PEGTL_NAMESPACE
                else {
                   std::cout << ",\n";
                }
-               std::cout << "        { \"branch\": \"" << k2 << "\" start\": " << v2.start << ", \"success\": " << v2.success << ", \"failure\": " << v2.failure << ", \"raise\": " << v2.raise << " }";
+               std::cout << "        { \"branch\": \"" << k2 << "\", \"start\": " << v2.start << ", \"success\": " << v2.success << ", \"local_failure\": " << v2.local_failure << ", \"global_failure\": " << v2.global_failure << ", \"raise\": " << v2.raise << " }";
             }
             std::cout << "\n      ]\n";
          }
