@@ -8,6 +8,7 @@
 #include <iostream>
 #include <map>
 #include <string_view>
+#include <vector>
 
 #include "../config.hpp"
 #include "../normal.hpp"
