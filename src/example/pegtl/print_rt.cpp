@@ -6,6 +6,7 @@
 #include <tao/pegtl.hpp>
 
 #include <tao/pegtl/contrib/json.hpp>
+
 #include <tao/pegtl/contrib/visit_rt.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
