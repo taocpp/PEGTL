@@ -29,10 +29,10 @@ namespace TAO_PEGTL_NAMESPACE
       {
          static void visit( std::ostream& os )
          {
-            constexpr auto first = demangle< Name >();
+            const auto first = demangle< Name >();
             os << first << '\n';
 
-            constexpr auto second = demangle< typename Name::rule_t >();
+            const auto second = demangle< typename Name::rule_t >();
             if( first != second ) {
                os << " (aka) " << second << '\n';
             }
