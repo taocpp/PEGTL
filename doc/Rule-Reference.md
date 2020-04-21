@@ -57,36 +57,30 @@ These rules are in namespace `tao::pegtl`.
 * Uses the given class template `A` for [actions](Actions-and-States.md).
 * Does not `enable` or `disable` actions while matching `R...`.
 * [Meta data] and [implementation] mapping:
-  - `action< A >::rule_t` is `internal::success`
-  - `action< A >::subs_t` is `type_list<>`
+  - `action< A >` is `internal::success`
   - `action< A, R >::rule_t` is `internal::action< A, R >`
   - `action< A, R >::subs_t` is `type_list< R >`
-  - `action< A, R... >::rule_t` is `internal::action< A, internal::seq< R... > >`
-  - `action< A, R... >::subs_t` is `type_list< internal::seq< R... > >`
+  - `action< A, R... >` is `internal::action< A, internal::seq< R... > >`
 
 ###### `control< C, R... >`
 
 * [Equivalent] to `seq< R... >`, but:
 * Uses the given class template `C` as [control class](Control-and-Debug.md).
 * [Meta data] and [implementation] mapping:
-  - `control< C >::rule_t` is `internal::success`
-  - `control< C >::subs_t` is `type_list<>`
+  - `control< C >` is `internal::success`
   - `control< C, R >::rule_t` is `internal::control< C, R >`
   - `control< C, R >::subs_t` is `type_list< R >`
-  - `control< C, R... >::rule_t` is `internal::control< C, internal::seq< R... > >`
-  - `control< C, R... >::subs_t` is `type_list< internal::seq< R... > >`
+  - `control< C, R... >` is `internal::control< C, internal::seq< R... > >`
 
 ###### `disable< R... >`
 
 * [Equivalent] to `seq< R... >`, but:
 * Disables all actions.
 * [Meta data] and [implementation] mapping:
-  - `disable<>::rule_t` is `internal::success`
-  - `disable<>::subs_t` is `type_list<>`
+  - `disable<>` is `internal::success`
   - `disable< R >::rule_t` is `internal::disable<, R >`
   - `disable< R >::subs_t` is `type_list< R >`
-  - `disable< R... >::rule_t` is `internal::disable< internal::seq< R... > >`
-  - `disable< R... >::subs_t` is `type_list< internal::seq< R... > >`
+  - `disable< R... >` is `internal::disable< internal::seq< R... > >`
 
 ###### `discard`
 
