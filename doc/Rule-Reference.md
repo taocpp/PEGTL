@@ -380,7 +380,7 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 * Ignores all `S` for the [grammar analysis](Grammar-Analysis.md).
 * [Meta data] and [implementation] mapping:
   - `rematch< R, S... >::rule_t` is `internal::rematch< R, S... >`
-  - `rematch< R, S... >::subs_t` is `type_list< R, S... >
+  - `rematch< R, S... >::subs_t` is `type_list< R, S... >`
 
 ###### `rep< Num, R... >`
 
