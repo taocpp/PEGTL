@@ -22,6 +22,7 @@ For rules other than `must<>` that contain "must" in their name, rule equivalenc
 ## Implementation
 
 The "meta data and implementation mapping" section of each rule's description shows both how the rule is implemented and what the [meta data](Meta-Data-and-Visit.md) looks like.
+When the list of sub-rules is empty then the definition of `subs_t` is omitted from the description.
 
 ## Parameter Packs
 
@@ -90,7 +91,6 @@ These rules are in namespace `tao::pegtl`.
 * See [Incremental Input](Inputs-and-Parsing.md#incremental-input) for details.
 * [Meta data] and [implementation] mapping:
   - `discard::rule_t` is `internal::discard`
-  - `discard::subs_t` is `type_list<>`
 
 ###### `enable< R... >`
 
@@ -98,7 +98,6 @@ These rules are in namespace `tao::pegtl`.
 * Enables all actions (if any).
 * [Meta data] and [implementation] mapping:
   - `enable<>::rule_t` is `internal::success`
-  - `enable<>::subs_t` is `type_list<>`
   - `enable< R >::rule_t` is `internal::enable<, R >`
   - `enable< R >::subs_t` is `type_list< R >`
   - `enable< R... >::rule_t` is `internal::enable< internal::seq< R... > >`
@@ -110,9 +109,7 @@ These rules are in namespace `tao::pegtl`.
 * With [Incremental Input](Inputs-and-Parsing.md#incremental-input) reads the bytes into the buffer.
 * [Meta data] and [implementation] mapping:
   - `require< 0 >::rule_t` is `internal::success`
-  - `require< 0 >::subs_t` is `type_list<>`
   - `require< N >::rule_t` is `internal::require< N >`
-  - `require< N >::subs_t` is `type_list<>`
 
 ###### `state< S, R... >`
 
@@ -122,7 +119,6 @@ These rules are in namespace `tao::pegtl`.
 * If `seq< R... >` succeeds then `s.success()` is called with the input after the match and all previous states as arguments.
 * [Meta data] and [implementation] mapping:
   - `state< S >::rule_t` is `internal::success`
-  - `state< S >::subs_t` is `type_list<>`
   - `state< S, R >::rule_t` is `internal::state< S, R >`
   - `state< S, R >::subs_t` is `type_list< R >`
   - `state< S, R... >::rule_t` is `internal::state< S, internal::seq< R... > >`
@@ -142,7 +138,6 @@ These are the classical **PEG** combinator rules and are defined in namespace `t
 * Disables all actions.
 * [Meta data] and [implementation] mapping:
   - `at<>::rule_t` is `internal::success`
-  - `at<>::subs_t` is `type_list<>`
   - `at< R >::rule_t` is `internal::at< R >`
   - `at< R >::subs_t` is `type_list< R >`
   - `at< R... >::rule_t` is `internal::at< internal::seq< R... > >`
@@ -156,7 +151,6 @@ These are the classical **PEG** combinator rules and are defined in namespace `t
 * Disables all actions.
 * [Meta data] and [implementation] mapping:
   - `not_at<>::rule_t` is `internal::failure`
-  - `not_at<>::subs_t` is `type_list<>`
   - `not_at< R >::rule_t` is `internal::not_at< R >`
   - `not_at< R >::subs_t` is `type_list< R >`
   - `not_at< R... >::rule_t` is `internal::not_at< internal::seq< R... > >`
@@ -169,7 +163,6 @@ These are the classical **PEG** combinator rules and are defined in namespace `t
 * [Equivalent] to `sor< seq< R... >, success >`.
 * [Meta data] and [implementation] mapping:
   - `opt<>::rule_t` is `internal::success`
-  - `opt<>::subs_t` is `type_list<>`
   - `opt< R >::rule_t` is `internal::opt< R >`
   - `opt< R >::subs_t` is `type_list< R >`
   - `opt< R... >::rule_t` is `internal::opt< internal::seq< R... > >`
@@ -197,7 +190,6 @@ These are the classical **PEG** combinator rules and are defined in namespace `t
 * Succeeds if `R` is an empty rule pack.
 * [Meta data] and [implementation] mapping:
   - `seq<>::rule_t` is `internal::success`
-  - `seq<>::subs_t` is `type_list<>`
   - `seq< R >::rule_t` is `internal::seq< R >`
   - `seq< R >::subs_t` is `type_list< R >`
   - `seq< R... >::rule_t` is `internal::seq< R... >`
@@ -213,7 +205,6 @@ These are the classical **PEG** combinator rules and are defined in namespace `t
 * Fails if `R` is an empty rule pack.
 * [Meta data] and [implementation] mapping:
   - `sor<>::rule_t` is `internal::failure`
-  - `sor<>::subs_t` is `type_list<>`
   - `sor< R >::rule_t` is `internal::sor< R >`
   - `sor< R >::subs_t` is `type_list< R >`
   - `sor< R... >::rule_t` is `internal::sor< R... >`
@@ -332,7 +323,6 @@ Note that the `false` template parameter to `internal::if_must` corresponds to t
 * [Equivalent] to `seq< sor< R, raise< R > >... >`.
 * [Meta data] and [implementation] mapping:
   - `must<>::rule_t` is `internal::success`
-  - `must<>::subs_t` is `type_list<>`
   - `must< R >::rule_t` is `internal::must< R >`
   - `must< R >::subs_t` is `type_list< R >`
   - `must< R... >::rule_t` is `internal::seq< internal::must< R >... >::rule_t`
@@ -382,9 +372,7 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 * [Equivalent] to `seq< seq< R... >, ..., seq< R... > >` where `seq< R... >` is repeated `Num` times.
 * [Meta data] and [implementation] mapping:
   - `rep< 0, R... >::rule_t` is `internal::success`
-  - `rep< 0, R... >::subs_t` is `type_list<>`
   - `rep< N >::rule_t` is `internal::success`
-  - `rep< N >::subs_t` is `type_list<>`
   - `rep< N, R >::rule_t` is `internal::rep< N, R >`
   - `rep< N, R >::subs_t` is `type_list< R >`
   - `rep< N, R... >::rule_t` is `internal::rep< N, internal::seq< R... > >`
@@ -400,7 +388,6 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
   - `rep_max< 0, R... >::rule_t` is `internal::not_at< internal::seq< R... > >`
   - `rep_max< 0, R... >::subs_t` is `type_list< internal::seq< R... > >`
   - `rep_max< Max >::rule_t` is `internal::failure`
-  - `rep_max< Max >::subs_t` is `type_list<>`
   - `rep_max< Max, R >::rule_t` is `internal::rep_min_max< 0, Max, R >`
   - `rep_max< Max, R >::subs_t` is `type_list< R >`
   - `rep_max< Max, R... >::rule_t` is `internal::rep_min_max< 0, Max, internal::seq< R... > >`
@@ -425,7 +412,6 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
   - `rep_min_max< 0, 0, R... >::rule_t` is `internal::not_at< internal::seq< R... > >`
   - `rep_min_max< 0, 0, R... >::subs_t` is `type_list< internal::seq< R... > >`
   - `rep_min_max< Min, Max >::rule_t` is `internal::failure`
-  - `rep_min_max< Min, Max >::subs_t` is `type_list<>`
   - `rep_min_max< Min, Max, R >::rule_t` is `internal::rep_min_max< Min, Max, R >`
   - `rep_min_max< Min, Max, R >::subs_t` is `type_list< R >`
   - `rep_min_max< Min, Max, R... >::rule_t` is `internal::rep_min_max< Min, Max, internal::seq< R... > >`
@@ -437,9 +423,7 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 * [Equivalent] to `rep< Num, opt< R... > >`.
 * [Meta data] and [implementation] mapping:
   - `rep_opt< 0, R... >::rule_t` is `internal::success`
-  - `rep_opt< 0, R... >::subs_t` is `type_list<>`
   - `rep_opt< Num >::rule_t` is `internal::success`
-  - `rep_opt< Num >::subs_t` is `type_list<>`
   - `rep_opt< Num, R... >::rule_t` is `internal::seq< internal::rep< Num, R... >, internal::star< R... > >`
   - `rep_opt< Num, R... >::subs_t` is `type_list< internal::rep< Num, R... >, internal::star< R... > >`
 
@@ -459,7 +443,6 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 * Catches exceptions of type `tao::pegtl::parse_error`.
 * [Meta data] and [implementation] mapping:
   - `try_catch<>::rule_t` is `internal::success`
-  - `try_catch<>::subs_t` is `type_list<>`
   - `try_catch< R >::rule_t` is `internal::try_catch_type< parse_error, R >`
   - `try_catch< R >::subs_t` is `type_list< R >`
   - `try_catch< R... >::rule_t` is `internal::try_catch_type< parse_error, internal::seq< R... > >`
@@ -472,7 +455,6 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 * Catches exceptions of type `E`.
 * [Meta data] and [implementation] mapping:
   - `try_catch_type< E >::rule_t` is `internal::success`
-  - `try_catch_type< E >::subs_t` is `type_list<>`
   - `try_catch_type< E, R >::rule_t` is `internal::try_catch_type< E, R >`
   - `try_catch_type< E, R >::subs_t` is `type_list< R >`
   - `try_catch_type< E, R... >::rule_t` is `internal::try_catch_type< E, internal::seq< R... > >`
@@ -512,7 +494,6 @@ These rules respect the current `apply_mode`, but do **not** use the control cla
 * [Equivalent] to `success` wrt. parsing.
 * [Meta data] and [implementation] mapping:
   - `apply< A... >::rule_t` is `internal::apply< A... >`
-  - `apply< A... >::subs_t` is `type_list<>`
 
 ###### `apply0< A... >`
 
@@ -521,7 +502,6 @@ These rules respect the current `apply_mode`, but do **not** use the control cla
 * [Equivalent] to `success` wrt. parsing.
 * [Meta data] and [implementation] mapping:
   - `apply0< A... >::rule_t` is `internal::apply0< A... >`
-  - `apply0< A... >::subs_t` is `type_list<>`
 
 ###### `if_apply< R, A... >`
 
@@ -536,7 +516,7 @@ These rules respect the current `apply_mode`, but do **not** use the control cla
 
 These rules are in namespace `tao::pegtl`.
 
-Atomic rules do not rely on other rules; `subs_t` is always `type_list<>`.
+Atomic rules do not rely on other rules.
 
 ###### `bof`
 
@@ -620,7 +600,7 @@ and all possible byte values excluding `'a'`, respectively. However the characte
 for example the Euro sign code point `U+20AC`, which is encoded by the UTF-8 sequence `E2 82 AC`,
 can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao::pegtl::utf8::one< 0x20ac >`.)
 
-ASCII rules do not usually rely on other rules; `subs_t` is `type_list<>` unless given otherwise.
+ASCII rules do not usually rely on other rules.
 
 ###### `alnum`
 
@@ -888,7 +868,7 @@ The parameter N stands for the size of the encoding of the next Unicode code poi
 
 It is an error when a code unit in the range `0xd800` to `0xdfff` is encountered outside of a valid UTF-16 surrogate pair (this changed in version 2.6.0).
 
-Unicode rules do not rely on other rules; `subs_t` is always `type_list<>`.
+Unicode rules do not rely on other rules.
 
 ###### `any`
 
@@ -1300,7 +1280,7 @@ These rules read one or more bytes from the input to form (and match) an 8, 16, 
 In the following descriptions, the parameter N is the size of a single value in bytes, i.e. either 1, 2, 4 or 8.
 The term *input value* indicates a correspondingly sized integer value read from successive bytes of the input.
 
-Binary rules do not rely on other rules; `subs_t` is always `type_list<>`.
+Binary rules do not rely on other rules.
 
 ###### `any`
 
