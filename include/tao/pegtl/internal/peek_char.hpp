@@ -18,9 +18,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using pair_t = input_pair< char >;
 
       template< typename ParseInput >
-      [[nodiscard]] static pair_t peek( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
+      [[nodiscard]] static pair_t peek( ParseInput& in ) noexcept( noexcept( in.empty() ) )
       {
-         if( in.size( 1 ) < 1 ) {
+         if( in.empty() ) {
             return { 0, 0 };
          }
          return { in.peek_char(), 1 };

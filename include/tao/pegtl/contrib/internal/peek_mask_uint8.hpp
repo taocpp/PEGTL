@@ -19,9 +19,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using pair_t = input_pair< std::uint8_t >;
 
       template< typename ParseInput >
-      [[nodiscard]] static pair_t peek( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
+      [[nodiscard]] static pair_t peek( ParseInput& in ) noexcept( noexcept( in.empty() ) )
       {
-         if( in.size( 1 ) < 1 ) {
+         if( in.empty() ) {
             return { 0, 0 };
          }
          return { std::uint8_t( in.peek_uint8() & M ), 1 };
