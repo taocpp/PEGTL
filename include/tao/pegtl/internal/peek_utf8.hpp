@@ -15,26 +15,25 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using data_t = char32_t;
       using pair_t = input_pair< char32_t >;
 
-      static constexpr std::size_t min_input_size = 1;
-      static constexpr std::size_t max_input_size = 4;
-
       template< typename ParseInput >
-      [[nodiscard]] static pair_t peek( const ParseInput& in, const std::size_t s ) noexcept
+      [[nodiscard]] static pair_t peek( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
       {
-         char32_t c0 = in.peek_uint8();
-
+         if( in.size( 1 ) < 1 ) {
+            return { 0, 0 };
+         }
+         const char32_t c0 = in.peek_uint8();
          if( ( c0 & 0x80 ) == 0 ) {
             return { c0, 1 };
          }
-         return peek_impl( in, c0, s );
+         return peek_impl( in, c0 );
       }
 
    private:
       template< typename ParseInput >
-      [[nodiscard]] static pair_t peek_impl( const ParseInput& in, char32_t c0, const std::size_t s ) noexcept
+      [[nodiscard]] static pair_t peek_impl( ParseInput& in, char32_t c0 ) noexcept( noexcept( in.size( 4 ) ) )
       {
          if( ( c0 & 0xE0 ) == 0xC0 ) {
-            if( s >= 2 ) {
+            if( in.size( 2 ) >= 2 ) {
                const char32_t c1 = in.peek_uint8( 1 );
                if( ( c1 & 0xC0 ) == 0x80 ) {
                   c0 &= 0x1F;
@@ -47,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             }
          }
          else if( ( c0 & 0xF0 ) == 0xE0 ) {
-            if( s >= 3 ) {
+            if( in.size( 3 ) >= 3 ) {
                const char32_t c1 = in.peek_uint8( 1 );
                const char32_t c2 = in.peek_uint8( 2 );
                if( ( ( c1 & 0xC0 ) == 0x80 ) && ( ( c2 & 0xC0 ) == 0x80 ) ) {
@@ -63,7 +62,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             }
          }
          else if( ( c0 & 0xF8 ) == 0xF0 ) {
-            if( s >= 4 ) {
+            if( in.size( 4 ) >= 4 ) {
                const char32_t c1 = in.peek_uint8( 1 );
                const char32_t c2 = in.peek_uint8( 2 );
                const char32_t c3 = in.peek_uint8( 3 );

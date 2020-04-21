@@ -25,19 +25,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static constexpr bool can_match_eol = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) == bool( R ) );
 
       template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
       {
-         if( const std::size_t s = in.size( Peek::max_input_size ); s >= Peek::min_input_size ) {
-            if( const auto t = Peek::peek( in, s ) ) {
-               if( ( ( Lo <= t.data ) && ( t.data <= Hi ) ) == bool( R ) ) {
-                  if constexpr( can_match_eol< ParseInput::eol_t::ch > ) {
-                     in.bump( t.size );
-                  }
-                  else {
-                     in.bump_in_this_line( t.size );
-                  }
-                  return true;
+         if( const auto t = Peek::peek( in ) ) {
+            if( ( ( Lo <= t.data ) && ( t.data <= Hi ) ) == bool( R ) ) {
+               if constexpr( can_match_eol< ParseInput::eol_t::ch > ) {
+                  in.bump( t.size );
                }
+               else {
+                  in.bump_in_this_line( t.size );
+               }
+               return true;
             }
          }
          return false;

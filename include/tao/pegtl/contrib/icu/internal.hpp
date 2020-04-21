@@ -20,14 +20,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
          using rule_t = binary_property;
 
          template< typename ParseInput >
-         [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
+         [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
          {
-            if( const std::size_t s = in.size( Peek::max_input_size ); s >= Peek::min_input_size ) {
-               if( const auto r = Peek::peek( in, s ) ) {
-                  if( u_hasBinaryProperty( r.data, P ) == V ) {
-                     in.bump( r.size );
-                     return true;
-                  }
+            if( const auto r = Peek::peek( in ) ) {
+               if( u_hasBinaryProperty( r.data, P ) == V ) {
+                  in.bump( r.size );
+                  return true;
                }
             }
             return false;
@@ -40,14 +38,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
          using rule_t = property_value;
 
          template< typename ParseInput >
-         [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
+         [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
          {
-            if( const std::size_t s = in.size( Peek::max_input_size ); s >= Peek::min_input_size ) {
-               if( const auto r = Peek::peek( in, s ) ) {
-                  if( u_getIntPropertyValue( r.data, P ) == V ) {
-                     in.bump( r.size );
-                     return true;
-                  }
+            if( const auto r = Peek::peek( in ) ) {
+               if( u_getIntPropertyValue( r.data, P ) == V ) {
+                  in.bump( r.size );
+                  return true;
                }
             }
             return false;

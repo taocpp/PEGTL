@@ -17,12 +17,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using data_t = char;
       using pair_t = input_pair< char >;
 
-      static constexpr std::size_t min_input_size = 1;
-      static constexpr std::size_t max_input_size = 1;
-
       template< typename ParseInput >
-      [[nodiscard]] static pair_t peek( const ParseInput& in, const std::size_t /*unused*/ = 1 ) noexcept
+      [[nodiscard]] static pair_t peek( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
       {
+         if( in.size( 1 ) < 1 ) {
+            return { 0, 0 };
+         }
          return { in.peek_char(), 1 };
       }
    };

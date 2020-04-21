@@ -24,17 +24,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static_assert( sizeof( short_t ) == 2 );
       static_assert( sizeof( char16_t ) == 2 );
 
-      static constexpr std::size_t min_input_size = 2;
-      static constexpr std::size_t max_input_size = 4;
-
       template< typename ParseInput >
-      [[nodiscard]] static pair_t peek( const ParseInput& in, const std::size_t s ) noexcept
+      [[nodiscard]] static pair_t peek( ParseInput& in ) noexcept( noexcept( in.size( 4 ) ) )
       {
+         if( in.size( 2 ) < 2 ) {
+            return { 0, 0 };
+         }
          const char32_t t = R::read( in.current() );
          if( ( t < 0xd800 ) || ( t > 0xdfff ) ) {
             return { t, 2 };
          }
-         if( ( t >= 0xdc00 ) || ( s < 4 ) ) {
+         if( ( t >= 0xdc00 ) || ( in.size( 4 ) < 4 ) ) {
             return { 0, 0 };
          }
          const char32_t u = R::read( in.current() + 2 );
