@@ -14,8 +14,7 @@ Remember that there are two failure modes, only the first of which usually leads
 ## Equivalence
 
 Some rule classes are said to be *equivalent to* a combination of other rules.
-
-Here, *equivalence* is with respect to which inputs are matched, but not (necessarily) how the rule is implemented!
+Here, *equivalence* is with respect to which inputs are matched, but not (necessarily) how the rule is implemented.
 
 For rules other than `must<>` that contain "must" in their name, rule equivalence shows which rule will be used to call the control class' `raise()` function when certain sub-rules fail to match.
 
@@ -54,35 +53,37 @@ These rules are in namespace `tao::pegtl`.
 
 ###### `action< A, R... >`
 
-* [Equivalent] to `seq< R... >`.
+* [Equivalent] to `seq< R... >`, but:
 * Uses the given class template `A` for [actions](Actions-and-States.md).
 * Does not `enable` or `disable` actions while matching `R...`.
 * [Meta data] and [implementation] mapping:
-  - `action< A >` is equivalent to `success`
-  - `action< A, R >`
-    - `rule_t` is `internal::action< A, R >`
-    - `subs_t` is `type_list< R >`
-  - `action< A, R... >` is equivalent to `action< A, seq< R... > >`
+  - `action< A >::rule_t` is `internal::success`
+  - `action< A, R >::rule_t` is `internal::action< A, R >`
+  - `action< A, R >::subs_t` is `type_list< R >`
+  - `action< A, R... >::rule_t` is `internal::action< A, internal::seq< R... > >`
+  - `action< A, R... >::subs_t` is `type_list< internal::seq< R... > >`
 
 ###### `control< C, R... >`
 
 * [Equivalent] to `seq< R... >`, but:
 * Uses the given class template `C` as [control class](Control-and-Debug.md).
 * [Meta data] and [implementation] mapping:
-  - `control< C >` is `internal::success`
+  - `control< C >::rule_t` is `internal::success`
   - `control< C, R >::rule_t` is `internal::control< C, R >`
   - `control< C, R >::subs_t` is `type_list< R >`
-  - `control< C, R... >` is `internal::control< C, internal::seq< R... > >`
+  - `control< C, R... >:rule_t` is `internal::control< C, internal::seq< R... > >`
+  - `control< C, R... >:subs_t` is `type_list< internal::seq< R... > >`
 
 ###### `disable< R... >`
 
 * [Equivalent] to `seq< R... >`, but:
 * Disables all actions.
 * [Meta data] and [implementation] mapping:
-  - `disable<>` is `internal::success`
+  - `disable<>::rule_t` is `internal::success`
   - `disable< R >::rule_t` is `internal::disable<, R >`
   - `disable< R >::subs_t` is `type_list< R >`
-  - `disable< R... >` is `internal::disable< internal::seq< R... > >`
+  - `disable< R... >::rule_t` is `internal::disable< internal::seq< R... > >`
+  - `disable< R... >::subs_t` is `type_list< internal::seq< R... > >`
 
 ###### `discard`
 
