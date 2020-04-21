@@ -7,6 +7,8 @@
 #include "../config.hpp"
 
 #include "enable_control.hpp"
+#include "failure.hpp"
+#include "one.hpp"
 #include "range.hpp"
 
 #include "../type_list.hpp"
@@ -81,10 +83,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct ranges< Peek, Lo, Hi >
       : range< result_on_found::success, Peek, Lo, Hi >
-   {
-      using rule_t = ranges;
-      using subs_t = empty_list;
-   };
+   {};
+
+   template< typename Peek, typename Peek::data_t C >
+   struct ranges< Peek, C >
+      : one< result_on_found::success, Peek, C >
+   {};
+
+   template< typename Peek >
+   struct ranges< Peek >
+      : failure
+   {};
 
    template< typename Peek, typename Peek::data_t... Cs >
    inline constexpr bool enable_control< ranges< Peek, Cs... > > = false;

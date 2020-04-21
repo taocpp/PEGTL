@@ -8,8 +8,10 @@
 
 #include "../config.hpp"
 
+#include "any.hpp"
 #include "bump_help.hpp"
 #include "enable_control.hpp"
+#include "failure.hpp"
 #include "result_on_found.hpp"
 
 #include "../type_list.hpp"
@@ -34,6 +36,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return false;
       }
    };
+
+   template< typename Peek >
+   struct one< result_on_found::success, Peek >
+      : failure
+   {};
+
+   template< typename Peek >
+   struct one< result_on_found::failure, Peek >
+      : any< Peek >
+   {};
 
    template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
    inline constexpr bool enable_control< one< R, Peek, Cs... > > = false;
