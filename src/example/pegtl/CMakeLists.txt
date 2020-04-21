@@ -20,7 +20,6 @@ set(example_sources
   modulus_match.cpp
   parse_tree.cpp
   parse_tree_user_state.cpp
-  print_rt.cpp
   proto3.cpp
   recover.cpp
   s_expression.cpp
