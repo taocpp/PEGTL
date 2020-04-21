@@ -7,6 +7,7 @@
 #include <unicode/uchar.h>
 
 #include "../../config.hpp"
+#include "../../type_list.hpp"
 
 #include "../../internal/enable_control.hpp"
 
@@ -18,6 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       struct binary_property
       {
          using rule_t = binary_property;
+         using subs_t = empty_list;
 
          template< typename ParseInput >
          [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
@@ -36,6 +38,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       struct property_value
       {
          using rule_t = property_value;
+         using subs_t = empty_list;
 
          template< typename ParseInput >
          [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
