@@ -387,12 +387,10 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 * Matches `seq< R... >` for `Num` times without checking for further matches.
 * [Equivalent] to `seq< seq< R... >, ..., seq< R... > >` where `seq< R... >` is repeated `Num` times.
 * [Meta data] and [implementation] mapping:
-  - `rep< N >::rule_t` is `internal::success`
-  - `rep< N >::subs_t` is `type_list<>`
-  - `rep< 0, R >::rule_t` is `internal::success`
-  - `rep< 0, R >::subs_t` is `type_list<>`
   - `rep< 0, R... >::rule_t` is `internal::success`
   - `rep< 0, R... >::subs_t` is `type_list<>`
+  - `rep< N >::rule_t` is `internal::success`
+  - `rep< N >::subs_t` is `type_list<>`
   - `rep< N, R >::rule_t` is `internal::rep< N, R >`
   - `rep< N, R >::subs_t` is `type_list< R >`
   - `rep< N, R... >::rule_t` is `internal::rep< N, internal::seq< R... > >`
@@ -403,12 +401,12 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 * Matches `seq< R... >` for at most `Max` times and verifies that it doesn't match more often.
 * [Equivalent] to `rep_min_max< 0, Max, R... >`.
 * [Meta data] and [implementation] mapping:
-  - `rep_max< Max >::rule_t` is `internal::failure`
-  - `rep_max< Max >::subs_t` is `type_list<>`
   - `rep_max< 0, R >::rule_t` is `internal::not_at< R >`
   - `rep_max< 0, R >::subs_t` is `type_list< R >`
   - `rep_max< 0, R... >::rule_t` is `internal::not_at< internal::seq< R... > >`
   - `rep_max< 0, R... >::subs_t` is `type_list< internal::seq< R... > >`
+  - `rep_max< Max >::rule_t` is `internal::failure`
+  - `rep_max< Max >::subs_t` is `type_list<>`
   - `rep_max< Max, R >::rule_t` is `internal::rep_min_max< 0, Max, R >`
   - `rep_max< Max, R >::subs_t` is `type_list< R >`
   - `rep_max< Max, R... >::rule_t` is `internal::rep_min_max< 0, Max, internal::seq< R... > >`
@@ -428,12 +426,12 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 * Matches `seq< R... >` for `Min` to `Max` times and verifies that it doesn't match more often.
 * [Equivalent] to `seq< rep< Min, R... >, rep_opt< Max - Min, R... >, not_at< R... > >`.
 * [Meta data] and [implementation] mapping:
-  - `rep_min_max< Min, Max >::rule_t` is `internal::failure`
-  - `rep_min_max< Min, Max >::subs_t` is `type_list<>`
   - `rep_min_max< 0, 0, R >::rule_t` is `internal::not_at< R >`
   - `rep_min_max< 0, 0, R >::subs_t` is `type_list< R >`
   - `rep_min_max< 0, 0, R... >::rule_t` is `internal::not_at< internal::seq< R... > >`
   - `rep_min_max< 0, 0, R... >::subs_t` is `type_list< internal::seq< R... > >`
+  - `rep_min_max< Min, Max >::rule_t` is `internal::failure`
+  - `rep_min_max< Min, Max >::subs_t` is `type_list<>`
   - `rep_min_max< Min, Max, R >::rule_t` is `internal::rep_min_max< Min, Max, R >`
   - `rep_min_max< Min, Max, R >::subs_t` is `type_list< R >`
   - `rep_min_max< Min, Max, R... >::rule_t` is `internal::rep_min_max< Min, Max, internal::seq< R... > >`
@@ -444,10 +442,10 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 * Matches `seq< R... >` for zero to `Num` times without check for further matches.
 * [Equivalent] to `rep< Num, opt< R... > >`.
 * [Meta data] and [implementation] mapping:
-  - `rep_opt< Num >::rule_t` is `internal::success`
-  - `rep_opt< Num >::subs_t` is `type_list<>`
   - `rep_opt< 0, R... >::rule_t` is `internal::success`
   - `rep_opt< 0, R... >::subs_t` is `type_list<>`
+  - `rep_opt< Num >::rule_t` is `internal::success`
+  - `rep_opt< Num >::subs_t` is `type_list<>`
   - `rep_opt< Num, R... >::rule_t` is `internal::seq< internal::rep< Num, R... >, internal::star< R... > >`
   - `rep_opt< Num, R... >::subs_t` is `type_list< internal::rep< Num, R... >, internal::star< R... > >`
 
