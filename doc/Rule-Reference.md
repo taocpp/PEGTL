@@ -371,8 +371,8 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 * Matches an optional `R` that can be padded by arbitrary many `P` or just arbitrary many `P`.
 * [Equivalent] to `seq< star< P >, opt< R, star< P > > >`.
 * [Meta data] and [implementation] mapping:
-  - `pad_opt< R, S, T >::rule_t` is `internal::seq< internal::star< S >, internal::opt< R, internal::star< T > > >`
-  - `pad_opt< R, S, T >::subs_t` is `type_list< internal::star< S >, internal::opt< R, internal::star< T > > >`
+  - `pad_opt< R, P >::rule_t` is `internal::seq< internal::star< P >, internal::opt< R, internal::star< P > > >`
+  - `pad_opt< R, P >::subs_t` is `type_list< internal::star< P >, internal::opt< R, internal::star< P > > >`
 
 ###### `rematch< R, S... >`
 
