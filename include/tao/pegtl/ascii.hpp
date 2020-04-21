@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
       struct identifier_other : internal::identifier_other {};
       struct identifier : internal::identifier {};
       template< char... Cs > struct istring : internal::istring< Cs... > {};
-      template< char... Cs > struct keyword : internal::seq< internal::string< Cs... >, internal::not_at< internal::identifier_other > > {};
+      template< char... Cs > struct keyword : internal::seq< internal::string< Cs... >, internal::not_at< internal::identifier_other > > { static_assert( sizeof...( Cs ) > 0 ); };
       struct lower : internal::range< internal::result_on_found::success, internal::peek_char, 'a', 'z' > {};
       template< char... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_char, Cs... > {};
       template< char Lo, char Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_char, Lo, Hi > {};
@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< char Lo, char Hi > struct range : internal::range< internal::result_on_found::success, internal::peek_char, Lo, Hi > {};
       template< char... Cs > struct ranges : internal::ranges< internal::peek_char, Cs... > {};
       struct seven : internal::range< internal::result_on_found::success, internal::peek_char, char( 0 ), char( 127 ) > {};
-      struct shebang : internal::if_must< false, internal::string< '#', '!' >, internal::until< internal::eolf > > {};
+      struct shebang : internal::seq< internal::string< '#', '!' >, internal::until< internal::eolf > > {};
       struct space : internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\n', '\r', '\t', '\v', '\f' > {};
       template< char... Cs > struct string : internal::string< Cs... > {};
       template< char C > struct three : internal::string< C, C, C > {};
@@ -44,17 +44,6 @@ namespace TAO_PEGTL_NAMESPACE
       struct upper : internal::range< internal::result_on_found::success, internal::peek_char, 'A', 'Z' > {};
       struct xdigit : internal::ranges< internal::peek_char, '0', '9', 'a', 'f', 'A', 'F' > {};
       // clang-format on
-
-      template<>
-      struct keyword<>
-      {
-         template< typename ParseInput >
-         [[nodiscard]] static bool match( ParseInput& /*unused*/ ) noexcept
-         {
-            static_assert( internal::dependent_false< ParseInput >, "empty keywords not allowed" );
-            return false;
-         }
-      };
 
    }  // namespace ascii
 
