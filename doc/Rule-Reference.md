@@ -59,8 +59,9 @@ These rules are in namespace `tao::pegtl`.
 * Does not `enable` or `disable` actions while matching `R...`.
 * [Meta data] and [implementation] mapping:
   - `action< A >` is equivalent to `success`
-  - `action< A, R >::rule_t` is `internal::action< A, R >`
-  - `              ::subs_t` is `type_list< R >`
+  - `action< A, R >`
+    - `rule_t` is `internal::action< A, R >`
+    - `subs_t` is `type_list< R >`
   - `action< A, R... >` is equivalent to `action< A, seq< R... > >`
 
 ###### `control< C, R... >`
