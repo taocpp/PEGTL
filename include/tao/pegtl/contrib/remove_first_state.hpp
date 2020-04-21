@@ -6,17 +6,14 @@
 
 #include "../config.hpp"
 
-#include "../apply_mode.hpp"
-#include "../rewind_mode.hpp"
-
 namespace tao
 {
    namespace TAO_PEGTL_NAMESPACE
    {
-      // NOTE: The naming of the following classes might still change.
-
+      // Applies to start(), success(), failure(), raise(), apply(), and apply0():
+      // The first state is removed when the call is forwarded to Base.
       template< typename Base >
-      struct remove_first_state_after_match
+      struct remove_first_state
          : Base
       {
          template< typename Input, typename State, typename... States >
@@ -43,44 +40,18 @@ namespace tao
             Base::raise( in, st... );
          }
 
-         template< template< typename... > class Action,
-                   typename Iterator,
-                   typename Input,
-                   typename State,
-                   typename... States >
+         template< template< typename... > class Action, typename Iterator, typename Input, typename State, typename... States >
          static auto apply( const Iterator& begin, const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Base::template apply< Action >( begin, in, st... ) ) )
             -> decltype( Base::template apply< Action >( begin, in, st... ) )
          {
             return Base::template apply< Action >( begin, in, st... );
          }
 
-         template< template< typename... > class Action,
-                   typename Input,
-                   typename State,
-                   typename... States >
+         template< template< typename... > class Action, typename Input, typename State, typename... States >
          static auto apply0( const Input& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Base::template apply0< Action >( in, st... ) ) )
             -> decltype( Base::template apply0< Action >( in, st... ) )
          {
             return Base::template apply0< Action >( in, st... );
-         }
-      };
-
-      template< typename Rule, template< typename... > class Control >
-      struct remove_self_and_first_state
-         : Control< Rule >
-      {
-         template< apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class,
-                   typename Input,
-                   typename State,
-                   typename... States >
-         static bool match( Input& in, State&& /*unused*/, States&&... st )
-         {
-            return Control< Rule >::template match< A, M, Action, Control >( in, st... );
          }
       };
 
