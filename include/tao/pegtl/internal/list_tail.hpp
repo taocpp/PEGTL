@@ -6,16 +6,16 @@
 
 #include "../config.hpp"
 
-#include "list.hpp"
 #include "opt.hpp"
 #include "seq.hpp"
+#include "star.hpp"
 
 #include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Rule, typename Sep >
-   using list_tail = seq< list< Rule, Sep >, opt< Sep > >;
+   using list_tail = seq< Rule, star< Sep, Rule >, opt< Sep > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
