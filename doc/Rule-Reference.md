@@ -57,10 +57,10 @@ These rules are in namespace `tao::pegtl`.
 * Uses the given class template `A` for [actions](Actions-and-States.md).
 * Does not `enable` or `disable` actions while matching `R...`.
 * [Meta data] and [implementation] mapping:
-  - `action< A >` is `internal::success`
+  - `action< A >` is equivalent to `success`
   - `action< A, R >::rule_t` is `internal::action< A, R >`
-  - `action< A, R >::subs_t` is `type_list< R >`
-  - `action< A, R... >` is `internal::action< A, internal::seq< R... > >`
+  - `              ::subs_t` is `type_list< R >`
+  - `action< A, R... >` is equivalent to `action< A, seq< R... > >`
 
 ###### `control< C, R... >`
 
