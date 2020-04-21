@@ -24,12 +24,12 @@ namespace tao
             using data_t = typename R::type;
             using pair_t = input_pair< data_t >;
 
-            static constexpr std::size_t min_input_size = sizeof( data_t );
-            static constexpr std::size_t max_input_size = sizeof( data_t );
-
             template< typename Input >
-            static pair_t peek( const Input& in, const std::size_t /*unused*/ ) noexcept
+            static pair_t peek( Input& in ) noexcept( noexcept( in.size( sizeof( data_t ) ) ) )
             {
+               if( in.size( sizeof( data_t ) ) < sizeof( data_t ) ) {
+                  return { 0, 0 };
+               }
                const data_t data = R::read( in.current() ) & M;
                return { data, sizeof( data_t ) };
             }

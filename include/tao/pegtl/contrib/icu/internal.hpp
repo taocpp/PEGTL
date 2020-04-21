@@ -25,15 +25,12 @@ namespace tao
                using analyze_t = analysis::generic< analysis::rule_type::any >;
 
                template< typename Input >
-               static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
+               static bool match( Input& in ) noexcept( noexcept( Peek::peek( in ) ) )
                {
-                  const std::size_t s = in.size( Peek::max_input_size );
-                  if( s >= Peek::min_input_size ) {
-                     if( const auto r = Peek::peek( in, s ) ) {
-                        if( u_hasBinaryProperty( r.data, P ) == V ) {
-                           in.bump( r.size );
-                           return true;
-                        }
+                  if( const auto r = Peek::peek( in ) ) {
+                     if( u_hasBinaryProperty( r.data, P ) == V ) {
+                        in.bump( r.size );
+                        return true;
                      }
                   }
                   return false;
@@ -46,15 +43,12 @@ namespace tao
                using analyze_t = analysis::generic< analysis::rule_type::any >;
 
                template< typename Input >
-               static bool match( Input& in ) noexcept( noexcept( in.size( Peek::max_input_size ) ) )
+               static bool match( Input& in ) noexcept( noexcept( Peek::peek( in ) ) )
                {
-                  const std::size_t s = in.size( Peek::max_input_size );
-                  if( s >= Peek::min_input_size ) {
-                     if( const auto r = Peek::peek( in, s ) ) {
-                        if( u_getIntPropertyValue( r.data, P ) == V ) {
-                           in.bump( r.size );
-                           return true;
-                        }
+                  if( const auto r = Peek::peek( in ) ) {
+                     if( u_getIntPropertyValue( r.data, P ) == V ) {
+                        in.bump( r.size );
+                        return true;
                      }
                   }
                   return false;

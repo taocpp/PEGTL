@@ -1,5 +1,13 @@
 # Changelog
 
+## 2.8.3
+
+**Not yet released**
+
+* Enabled zero character look-ahead in buffered input streams.
+* Added state manipulators `remove_first_state`, `remove_last_states`, `rotate_states_right`, `rotate_states_left`, and `reverse_states` to contrib.
+* Reduced the number of intermediate parse tree nodes.
+
 ## 2.8.2
 
 Released 2020-04-05
