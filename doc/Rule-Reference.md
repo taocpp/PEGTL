@@ -89,7 +89,7 @@ These rules are in namespace `tao::pegtl`.
 * Must not be used where backtracking to before the `discard` might occur and/or nested within a rule for which an action with input can be called.
 * See [Incremental Input](Inputs-and-Parsing.md#incremental-input) for details.
 * [Meta data] and [implementation] mapping:
-  - `discard::rule_t` is `internal::success`
+  - `discard::rule_t` is `internal::discard`
   - `discard::subs_t` is `type_list<>`
 
 ###### `enable< R... >`
