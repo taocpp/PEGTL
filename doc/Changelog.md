@@ -2,9 +2,9 @@
 
 ## 2.8.3
 
-**Not yet released**
+Released 2020-04-22
 
-* Enabled zero character look-ahead in buffered input streams.
+* Fixed excessive read-ahead with incremental inputs.
 * Added state manipulators `remove_first_state`, `remove_last_states`, `rotate_states_right`, `rotate_states_left`, and `reverse_states` to contrib.
 * Reduced the number of intermediate parse tree nodes.
 
