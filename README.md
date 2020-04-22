@@ -101,6 +101,7 @@ In appreciation of all contributions here are the people that have [directly con
 [<img alt="cdiggins" src="https://avatars2.githubusercontent.com/u/1759994?s=460&v=4?v=4&s=117" width="117">](https://github.com/cdiggins)
 [<img alt="delpinux" src="https://avatars0.githubusercontent.com/u/35096584?v=4&s=117" width="117">](https://github.com/delpinux)
 [<img alt="dkopecek" src="https://avatars2.githubusercontent.com/u/1353140?v=4&s=117" width="117">](https://github.com/dkopecek)
+[<img alt="gene-hightower" src="https://avatars1.githubusercontent.com/u/3957811?v=4&s=117" width="117">](https://github.com/gene-hightower)
 [<img alt="irrequietus" src="https://avatars0.githubusercontent.com/u/231192?v=4&s=117" width="117">](https://github.com/irrequietus)
 [<img alt="jedelbo" src="https://avatars2.githubusercontent.com/u/572755?v=4&s=117" width="117">](https://github.com/jedelbo)
 [<img alt="joelfrederico" src="https://avatars0.githubusercontent.com/u/458871?v=4&s=117" width="117">](https://github.com/joelfrederico)
