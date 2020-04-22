@@ -157,7 +157,7 @@ namespace tao
             if( m_current.data + amount > m_buffer.get() + m_maximum ) {
                throw std::overflow_error( "require beyond end of buffer" );
             }
-            if( const auto r = m_reader( m_end, ( std::min )( buffer_free_after_end(), ( std::max )( amount, Chunk ) ) ) ) {
+            if( const auto r = m_reader( m_end, ( std::min )( buffer_free_after_end(), ( std::max )( amount - buffer_occupied(), Chunk ) ) ) ) {
                m_end += r;
             }
          }
