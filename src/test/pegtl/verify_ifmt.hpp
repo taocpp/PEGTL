@@ -6,7 +6,7 @@
 
 #include <tao/pegtl.hpp>
 
-#include "verify_analyze.hpp"
+#include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
 namespace TAO_PEGTL_NAMESPACE

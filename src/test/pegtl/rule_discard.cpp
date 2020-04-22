@@ -10,15 +10,15 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      verify_meta< success, internal::success >();
+      verify_meta< discard, internal::discard >();
 
-      verify_analyze< success >( __LINE__, __FILE__, false, false );
+      verify_analyze< discard >( __LINE__, __FILE__, false, false );
 
-      verify_rule< success >( __LINE__, __FILE__, "", result_type::success, 0 );
+      verify_rule< discard >( __LINE__, __FILE__, "", result_type::success, 0 );
 
       for( char i = 1; i < 127; ++i ) {
          char t[] = { i, 0 };
-         verify_rule< success >( __LINE__, __FILE__, std::string( t ), result_type::success, 1 );
+         verify_rule< discard >( __LINE__, __FILE__, std::string( t ), result_type::success, 1 );
       }
    }
 

@@ -2,13 +2,17 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include "test.hpp"
-#include "verify_analyze.hpp"
+
+#include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_meta< plus< alpha >, internal::plus< alpha >, alpha >();
+      verify_meta< plus< alpha, digit >, internal::plus< internal::seq< alpha, digit > >, internal::seq< alpha, digit > >();
+
       verify_analyze< plus< eof > >( __LINE__, __FILE__, false, true );
       verify_analyze< plus< any > >( __LINE__, __FILE__, true, false );
       verify_analyze< plus< eof, eof, eof > >( __LINE__, __FILE__, false, true );

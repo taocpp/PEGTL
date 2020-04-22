@@ -60,6 +60,7 @@ set(test_sources
   rule_bytes.cpp
   rule_control.cpp
   rule_disable.cpp
+  rule_discard.cpp
   rule_enable.cpp
   rule_eof.cpp
   rule_failure.cpp

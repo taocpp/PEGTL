@@ -6,7 +6,7 @@
 
 #include "test.hpp"
 
-#include "verify_analyze.hpp"
+#include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
 #include <tao/pegtl/contrib/integer.hpp>

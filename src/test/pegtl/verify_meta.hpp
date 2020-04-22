@@ -1,8 +1,12 @@
 // Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_ANALYZE_HPP
-#define TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_ANALYZE_HPP
+#ifndef TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_META_HPP
+#define TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_META_HPP
+
+#include <type_traits>
+
+#include <tao/pegtl/type_list.hpp>
 
 #include <tao/pegtl/contrib/analyze.hpp>
 
@@ -10,6 +14,13 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
+   template< typename Name, typename Rule, typename... Rules >
+   void verify_meta()
+   {
+      static_assert( std::is_same_v< typename Name::rule_t, Rule > );
+      static_assert( std::is_same_v< typename Name::subs_t, type_list< Rules... > > );
+   }
+
    template< typename Rule >
    void verify_analyze( const unsigned line, const char* file, const bool expect_consume, const bool expect_problems )
    {

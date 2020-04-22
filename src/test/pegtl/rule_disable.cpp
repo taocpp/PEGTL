@@ -2,6 +2,8 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include "test.hpp"
+
+#include "verify_meta.hpp"
 #include "verify_seqs.hpp"
 
 namespace TAO_PEGTL_NAMESPACE

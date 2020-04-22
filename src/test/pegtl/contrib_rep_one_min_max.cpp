@@ -2,7 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include "test.hpp"
-#include "verify_analyze.hpp"
+#include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
 #include <tao/pegtl/contrib/rep_one_min_max.hpp>

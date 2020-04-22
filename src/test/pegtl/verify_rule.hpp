@@ -17,13 +17,6 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename Name, typename Rule, typename... Rules >
-   void verify_meta()
-   {
-      static_assert( std::is_same_v< typename Name::rule_t, Rule > );
-      static_assert( std::is_same_v< typename Name::subs_t, type_list< Rules... > > );
-   }
-
    template< typename Rule >
    struct verify_action_impl
    {
