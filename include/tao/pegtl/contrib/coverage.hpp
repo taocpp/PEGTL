@@ -14,10 +14,12 @@
 #include "remove_first_state.hpp"
 #include "shuffle_states.hpp"
 
+#include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../parse.hpp"
+#include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 #include "../visit.hpp"
 
