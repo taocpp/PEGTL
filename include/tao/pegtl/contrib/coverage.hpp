@@ -74,7 +74,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
-      template< template< typename... > class Control = normal >
+      template< template< typename... > class Control >
       struct make_coverage_control
       {
          template< typename Rule >
@@ -150,7 +150,7 @@ namespace TAO_PEGTL_NAMESPACE
       state.result.source = in.source();
 
       visit< Rule, internal::coverage_insert >( state );  // Fill state.result.map with all sub-rules of the grammar.
-      state.result.result = parse< Rule, Action, internal::make_coverage_control<>::template type >( in, st..., state );
+      state.result.result = parse< Rule, Action, internal::make_coverage_control< Control >::template type >( in, st..., state );
       assert( state.stack.empty() );
 
       return std::move( state.result );

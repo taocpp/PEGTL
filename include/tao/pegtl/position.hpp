@@ -56,6 +56,16 @@ namespace TAO_PEGTL_NAMESPACE
       std::string source;
    };
 
+   inline bool operator==( const position& lhs, const position& rhs ) noexcept
+   {
+      return ( lhs.byte == rhs.byte ) && ( lhs.source == rhs.source );
+   }
+
+   inline bool operator!=( const position& lhs, const position& rhs ) noexcept
+   {
+      return !( lhs == rhs );
+   }
+
    inline std::ostream& operator<<( std::ostream& o, const position& p )
    {
       return o << p.source << ':' << p.line << ':' << p.byte_in_line << '(' << p.byte << ')';
