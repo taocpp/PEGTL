@@ -31,6 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
          std::size_t m_line = 0;
          TAO_PEGTL_NAMESPACE::position m_position;
          std::size_t m_indent = 8;
+         bool m_unwind = false;
 
          trace_state( std::ostream& os, const TAO_PEGTL_NAMESPACE::position& p ) noexcept
             : m_os( os ), m_position( p )
@@ -77,6 +78,7 @@ namespace TAO_PEGTL_NAMESPACE
                state.m_indent += 2;
                try {
                   const bool result = Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
+                  state.m_unwind = false;
                   state.m_indent -= 2;
                   state.m_os << std::setw( state.m_indent ) << ' ';
                   if( result ) {
@@ -95,11 +97,12 @@ namespace TAO_PEGTL_NAMESPACE
                catch( ... ) {
                   state.m_indent -= 2;
                   state.m_os << std::setw( state.m_indent ) << ' ';
-                  if( state.m_line != line ) {
+                  if( state.m_unwind ) {
                      state.m_os << "\033[31munwind\033[m #" << line << " \033[37m" << name << "\033[m\n";
                   }
                   else {
                      state.m_os << "\033[1;31mraise " << name << "\033[m\n";
+                     state.m_unwind = true;
                   }
                   throw;
                }
