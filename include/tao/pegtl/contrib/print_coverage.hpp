@@ -11,16 +11,16 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    // output is JSON
-   inline void print_coverage( std::ostream& os, const coverage_state& state )
+   inline void print_coverage( std::ostream& os, const coverage_result& result )
    {
       os << "{\n"
-         << "  \"grammar\": \"" << state.grammar << "\",\n"
-         << "  \"source\": \"" << state.source << "\",\n"
-         << "  \"result\": " << ( state.result ? "true" : "false" ) << ",\n"
+         << "  \"grammar\": \"" << result.grammar << "\",\n"
+         << "  \"source\": \"" << result.source << "\",\n"
+         << "  \"result\": " << ( result.result ? "true" : "false" ) << ",\n"
          << "  \"coverage\":\n"
          << "  [\n";
       bool f = true;
-      for( const auto& [ k, v ] : state.map ) {
+      for( const auto& [ k, v ] : result.map ) {
          if( f ) {
             f = false;
          }

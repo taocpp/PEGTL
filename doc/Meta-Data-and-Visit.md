@@ -83,10 +83,68 @@ Unlike `visit()`, `visit_rt()` returns the number of rules visited.
 
 ## Grammar Print
 
-TODO.
+The functions `print_rules()` and `print_sub_rules()` from `include/tao/pegtl/contrib/print.hpp` combine the `visit()` function with visitors that print some information about all (sub-)rules of the supplied grammar to the supplied `std::ostream`.
+
+See `src/example/pegtl/json_print_rules.cpp` and `src/example/pegtl/json_print_sub_rules.cpp` for how to use these functions, and what the output looks like.
+As expected, the `internal` sub-rules are printed, too.
 
 ## Rule Coverage
 
-TODO.
+The function `coverage()` from `include/tao/pegtl/contrib/coverage.hpp` is very similar to the `parse()` function.
+It is called like `parse()`, with the some of the same template parameters and all of the same function arguments, however it returns an object of type `coverage_result` instead of a `bool`.
+
+```c++
+template< typename Rule,
+          template< typename... > class Action = nothing,
+          template< typename... > class Control = normal,
+          typename ParseInput,
+          typename... States >
+coverage_result coverage( ParseInput& in,
+                         States&&... st );
+```
+
+After a parsing run, the `coverage_result` indicates whether the run was a success or a failure, and contains "rule coverage" and "branch coverage" information.
+
+The "rule coverage" shows how often each rule was attempted to match, and how many of these attempts were a success or a -- local or global -- failure.
+
+The "branch coverage" consists in the matching information also being recorded for each immediate sub-rule of every rule; in the case of an `sor<>` this shows how often each sub-rule was taken, hence the name.
+
+The coverage information in the `coverage_result` can either be inspected and processed or printed manually, or the `print_coverage()` function from `include/tao/pegtl/contrib/print_coverage.hpp` can be used.
+For automated post-processing, `print_coverage()` formats its output as JSON.
+
+```c++
+void print_coverage( std::ostream&, const coverage_result& );
+```
+
+The coverage information in the `coverage_result` is defined as follows.
+The `coverage_info` is used in two places, as part of the `coverage_entry` for each rule, and as value in the `branches` map for each immediate sub-rule.
+
+```c++
+struct coverage_info
+{
+   std::size_t start = 0;  // How often a rule was attempted to match.
+   std::size_t success = 0;  // How many attempts were a success.
+   std::size_t local_failure = 0;  // How many attempts were a local failure.
+   std::size_t global_failure = 0;  // How many attempts were aborted due to a global failure.
+   std::size_t raise = 0;  // How many attempts triggered a global failure at this rule.
+};
+
+struct coverage_entry
+   : coverage_info  // The coverage_info for each rule.
+{
+   std::map< std::string_view, coverage_info > branches;  // The coverage_info for each immediate sub-rule.
+};
+
+struct coverage_result
+{
+   std::string_view grammar;  // Name of the top-level grammar rule.
+   std::string source;  // From the input.
+
+   std::map< std::string_view, coverage_entry > map;  // The coverage_entry for each rule.
+   bool result;  // Whether the parsing run was a success.
+};
+```
+
+As usual, unless otherwise indicated, all functions and data structure are in the namespace `tao::pegtl`.
 
 Copyright (c) 2020 Dr. Colin Hirsch and Daniel Frey

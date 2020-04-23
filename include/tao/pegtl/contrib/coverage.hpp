@@ -40,25 +40,29 @@ namespace TAO_PEGTL_NAMESPACE
       std::map< std::string_view, coverage_info > branches;
    };
 
-   struct coverage_state
+   struct coverage_result
    {
       std::string_view grammar;
       std::string source;
 
       std::map< std::string_view, coverage_entry > map;
-      bool result;
-
-      std::vector< std::string_view > stack;
+      bool result = false;
    };
 
    namespace internal
    {
+      struct coverage_state
+      {
+         coverage_result result;
+         std::vector< std::string_view > stack;
+      };
+
       template< typename Rule >
       struct coverage_insert
       {
          static void visit( coverage_state& state )
          {
-            visit_branches( state.map.try_emplace( internal::demangle< Rule >() ).first->second.branches, typename Rule::subs_t() );
+            visit_branches( state.result.map.try_emplace( internal::demangle< Rule >() ).first->second.branches, typename Rule::subs_t() );
          }
 
          template< typename... Ts >
@@ -79,9 +83,9 @@ namespace TAO_PEGTL_NAMESPACE
             [[noreturn]] static void raise( const ParseInput& in, coverage_state& state, States&&... st )
             {
                const auto name = internal::demangle< Rule >();
-               ++state.map.at( name ).raise;
+               ++state.result.map.at( name ).raise;
                if( state.stack.size() > 1 ) {
-                  ++state.map.at( state.stack.at( state.stack.size() - 2 ) ).branches.at( name ).raise;
+                  ++state.result.map.at( state.stack.at( state.stack.size() - 2 ) ).branches.at( name ).raise;
                }
                Control< Rule >::raise( in, st... );
             }
@@ -99,8 +103,8 @@ namespace TAO_PEGTL_NAMESPACE
                coverage_entry dummy;
                auto& state = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
                const auto name = internal::demangle< Rule >();
-               auto& entry = state.map.at( name );
-               auto& previous = state.stack.empty() ? dummy : state.map.at( state.stack.back() ).branches.at( name );
+               auto& entry = state.result.map.at( name );
+               auto& previous = state.stack.empty() ? dummy : state.result.map.at( state.stack.back() ).branches.at( name );
                ++entry.start;
                ++previous.start;
                state.stack.push_back( name );
@@ -137,21 +141,17 @@ namespace TAO_PEGTL_NAMESPACE
              template< typename... > class Control = normal,
              typename ParseInput,
              typename... States >
-   coverage_state coverage( ParseInput&& in, States&&... st )
+   coverage_result coverage( ParseInput&& in, States&&... st )
    {
-      coverage_state state;
+      internal::coverage_state state;
+      state.result.grammar = internal::demangle< Rule >();
+      state.result.source = in.source();
 
-      state.grammar = internal::demangle< Rule >();
-      state.source = in.source();
-
-      // populate state
-      visit< Rule, internal::coverage_insert >( state );
-
-      // parse
-      state.result = parse< Rule, Action, internal::make_coverage_control<>::template type >( in, st..., state );
+      visit< Rule, internal::coverage_insert >( state );  // Fill state.result.map with all sub-rules of the grammar.
+      state.result.result = parse< Rule, Action, internal::make_coverage_control<>::template type >( in, st..., state );
       assert( state.stack.empty() );
 
-      return state;
+      return std::move( state.result );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
