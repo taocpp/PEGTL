@@ -100,7 +100,7 @@ template< typename Rule,
           typename ParseInput,
           typename... States >
 coverage_result coverage( ParseInput& in,
-                         States&&... st );
+                          States&&... st );
 ```
 
 After a parsing run, the `coverage_result` indicates whether the run was a success or a failure, and contains "rule coverage" and "branch coverage" information.
@@ -109,11 +109,11 @@ The "rule coverage" shows how often each rule was attempted to match, and how ma
 
 The "branch coverage" consists in the matching information also being recorded for each immediate sub-rule of every rule; in the case of an `sor<>` this shows how often each sub-rule was taken, hence the name.
 
-The coverage information in the `coverage_result` can either be inspected and processed or printed manually, or the `print_coverage()` function from `include/tao/pegtl/contrib/print_coverage.hpp` can be used.
-For automated post-processing, `print_coverage()` formats its output as JSON.
+The coverage information in the `coverage_result` can either be inspected and processed or printed manually, or the `ostream` output `operator<<` from `include/tao/pegtl/contrib/print_coverage.hpp` can be used.
+The operator formats the output as JSON.
 
 ```c++
-void print_coverage( std::ostream&, const coverage_result& );
+std::ostream operator<<( std::ostream&, const coverage_result& );
 ```
 
 The coverage information in the `coverage_result` is defined as follows.
@@ -123,10 +123,10 @@ The `coverage_info` is used in two places, as part of the `coverage_entry` for e
 struct coverage_info
 {
    std::size_t start = 0;  // How often a rule was attempted to match.
-   std::size_t success = 0;  // How many attempts were a success.
-   std::size_t local_failure = 0;  // How many attempts were a local failure.
-   std::size_t global_failure = 0;  // How many attempts were aborted due to a global failure.
-   std::size_t raise = 0;  // How many attempts triggered a global failure at this rule.
+   std::size_t success = 0;  // How many attempts were a success (true).
+   std::size_t failure = 0;  // How many attempts were a local failure (false).
+   std::size_t unwind = 0;  // How many attempts were aborted due to an exception (thrown here or elsewhere).
+   std::size_t raise = 0;  // How many attempts were a global failure (exception thrown at this rule).
 };
 
 struct coverage_entry

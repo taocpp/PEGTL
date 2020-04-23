@@ -10,8 +10,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   // output is JSON
-   inline void print_coverage( std::ostream& os, const coverage_result& result )
+   inline std::ostream& operator<<( std::ostream& os, const coverage_result& result )
    {
       os << "{\n"
          << "  \"grammar\": \"" << result.grammar << "\",\n"
@@ -29,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
          os << "    {\n"
             << "      \"rule\": \"" << k << "\",\n"
-            << "      \"start\": " << v.start << ", \"success\": " << v.success << ", \"local_failure\": " << v.local_failure << ", \"global_failure\": " << v.global_failure << ", \"raise\": " << v.raise << ",\n";
+            << "      \"start\": " << v.start << ", \"success\": " << v.success << ", \"failure\": " << v.failure << ", \"unwind\": " << v.unwind << ", \"raise\": " << v.raise << ",\n";
          if( v.branches.empty() ) {
             os << "      \"branches\": []\n";
          }
@@ -43,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE
                else {
                   os << ",\n";
                }
-               os << "        { \"branch\": \"" << k2 << "\", \"start\": " << v2.start << ", \"success\": " << v2.success << ", \"local_failure\": " << v2.local_failure << ", \"global_failure\": " << v2.global_failure << ", \"raise\": " << v2.raise << " }";
+               os << "        { \"branch\": \"" << k2 << "\", \"start\": " << v2.start << ", \"success\": " << v2.success << ", \"failure\": " << v2.failure << ", \"unwind\": " << v2.unwind << ", \"raise\": " << v2.raise << " }";
             }
             os << "\n      ]\n";
          }
@@ -52,6 +51,7 @@ namespace TAO_PEGTL_NAMESPACE
       os << "\n"
          << "  ]\n"
          << "}\n";
+      return os;
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

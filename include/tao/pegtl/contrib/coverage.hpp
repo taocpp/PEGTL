@@ -29,8 +29,8 @@ namespace TAO_PEGTL_NAMESPACE
    {
       std::size_t start = 0;
       std::size_t success = 0;
-      std::size_t local_failure = 0;
-      std::size_t global_failure = 0;
+      std::size_t failure = 0;
+      std::size_t unwind = 0;
       std::size_t raise = 0;
    };
 
@@ -116,15 +116,15 @@ namespace TAO_PEGTL_NAMESPACE
                      ++previous.success;
                   }
                   else {
-                     ++entry.local_failure;
-                     ++previous.local_failure;
+                     ++entry.failure;
+                     ++previous.failure;
                   }
                   return result;
                }
                catch( ... ) {
                   state.stack.pop_back();
-                  ++entry.global_failure;
-                  ++previous.global_failure;
+                  ++entry.unwind;
+                  ++previous.unwind;
                   throw;
                }
             }

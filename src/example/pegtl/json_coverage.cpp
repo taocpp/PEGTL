@@ -12,8 +12,7 @@
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    for( int i = 1; i < argc; ++i ) {
-      auto coverage = tao::pegtl::coverage< tao::pegtl::json::text >( tao::pegtl::file_input( argv[ i ] ) );
-      tao::pegtl::print_coverage( std::cout, coverage );
+      std::cout << tao::pegtl::coverage< tao::pegtl::json::text >( tao::pegtl::file_input( argv[ i ] ) );
    }
    return 0;
 }
