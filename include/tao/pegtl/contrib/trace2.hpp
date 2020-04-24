@@ -1,8 +1,8 @@
 // Copyright (c) 2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_CONTRIB_TRACER_HPP
-#define TAO_PEGTL_CONTRIB_TRACER_HPP
+#ifndef TAO_PEGTL_CONTRIB_TRACE2_HPP
+#define TAO_PEGTL_CONTRIB_TRACE2_HPP
 
 #include <cstddef>
 #include <iomanip>
