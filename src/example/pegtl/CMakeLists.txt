@@ -16,6 +16,7 @@ set(example_sources
   json_parse.cpp
   json_print_rules.cpp
   json_print_sub_rules.cpp
+  json_trace.cpp
   lua53_parse.cpp
   modulus_match.cpp
   parse_tree.cpp
