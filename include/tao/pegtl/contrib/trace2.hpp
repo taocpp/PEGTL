@@ -6,10 +6,11 @@
 
 #include <cstddef>
 #include <iomanip>
-#include <ostream>
+#include <iostream>
 #include <tuple>
 
-#include "remove_last_states.hpp"
+#include "remove_first_state.hpp"
+#include "shuffle_states.hpp"
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
@@ -52,8 +53,8 @@ namespace TAO_PEGTL_NAMESPACE
       struct make_trace_control
       {
          template< typename Rule >
-         struct type
-            : remove_last_state< Control< Rule > >
+         struct control
+            : remove_first_state< Control< Rule > >
          {
             template< apply_mode A,
                       rewind_mode M,
@@ -65,7 +66,7 @@ namespace TAO_PEGTL_NAMESPACE
                       typename... States >
             [[nodiscard]] static bool match( ParseInput& in, States&&... st )
             {
-               if constexpr( !type::enable ) {
+               if constexpr( !control::enable ) {
                   return Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
                }
 
@@ -105,10 +106,48 @@ namespace TAO_PEGTL_NAMESPACE
                   throw;
                }
             }
+
+            template< template< typename... > class Action, typename Iterator, typename ParseInput, typename... States >
+            static auto apply( const Iterator& begin, const ParseInput& in, const trace_state& state, States&&... st )
+               -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
+            {
+               state.m_os << std::setw( state.m_indent - 2 ) << ' ' << "\033[1;36mapply\033[m\n";
+               return Control< Rule >::template apply< Action >( begin, in, st... );
+            }
+
+            template< template< typename... > class Action, typename ParseInput, typename... States >
+            static auto apply0( const ParseInput& in, const trace_state& state, States&&... st )
+               -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
+            {
+               state.m_os << std::setw( state.m_indent - 2 ) << ' ' << "\033[1;36mapply0\033[m\n";
+               return Control< Rule >::template apply0< Action >( in, st... );
+            }
          };
+
+         template< typename Rule >
+         using type = rotate_states_right< control< Rule > >;
       };
 
    }  // namespace internal
+
+   struct enable_trace
+      : maybe_nothing
+   {
+      template< typename Rule,
+                apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename ParseInput,
+                typename... States >
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
+      {
+         internal::trace_state state( std::cerr, in.position() );
+         return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, internal::make_trace_control< Control >::template type >( in, st..., state );
+      }
+   };
 
    template< typename Rule,
              template< typename... > class Action = nothing,
@@ -119,6 +158,16 @@ namespace TAO_PEGTL_NAMESPACE
    {
       internal::trace_state state( os, in.position() );
       return parse< Rule, Action, internal::make_trace_control< Control >::template type >( in, st..., state );
+   }
+
+   template< typename Rule,
+             template< typename... > class Action = nothing,
+             template< typename... > class Control = normal,
+             typename ParseInput,
+             typename... States >
+   bool trace( ParseInput&& in, States&&... st )
+   {
+      return trace< Rule, Action, Control >( std::cerr, in, st... );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
