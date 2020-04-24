@@ -11,6 +11,8 @@
 * The compatibility uppercase enumerators were removed, the corresponding lowercase enumerators must be used.
 * The compatibility `peek_byte()` member functions were removed, the `peek_uint8()` member functions must be used.
 * The compatibility header `changes.hpp` was removed, use the action-based `change_*.hpp` headers.
+* The parse tree nodes provide `node->type` (a `std::string_view`) instead of `node->name()`.
+* The parse tree nodes provide `node->string_view()` and `node->string()` instead of `node->content()`.
 
 ## Version 2.8.0
 
