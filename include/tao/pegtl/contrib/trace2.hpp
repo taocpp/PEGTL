@@ -9,8 +9,7 @@
 #include <ostream>
 #include <tuple>
 
-#include "remove_first_state.hpp"
-#include "shuffle_states.hpp"
+#include "remove_last_states.hpp"
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
@@ -53,8 +52,8 @@ namespace TAO_PEGTL_NAMESPACE
       struct make_trace_control
       {
          template< typename Rule >
-         struct control
-            : remove_first_state< Control< Rule > >
+         struct type
+            : remove_last_state< Control< Rule > >
          {
             template< apply_mode A,
                       rewind_mode M,
@@ -66,7 +65,7 @@ namespace TAO_PEGTL_NAMESPACE
                       typename... States >
             [[nodiscard]] static bool match( ParseInput& in, States&&... st )
             {
-               if constexpr( !control::enable ) {
+               if constexpr( !type::enable ) {
                   return Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
                }
 
@@ -107,9 +106,6 @@ namespace TAO_PEGTL_NAMESPACE
                }
             }
          };
-
-         template< typename Rule >
-         using type = rotate_states_right< control< Rule > >;
       };
 
    }  // namespace internal
