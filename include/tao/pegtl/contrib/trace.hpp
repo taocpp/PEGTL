@@ -11,9 +11,8 @@
 #include <vector>
 
 #include "../config.hpp"
+#include "../demangle.hpp"
 #include "../normal.hpp"
-
-#include "../internal/demangle.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -65,7 +64,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput, typename... States >
       static void start( const ParseInput& in, States&&... st )
       {
-         std::cerr << in.position() << "  start  " << internal::demangle< Rule >() << "; current ";
+         std::cerr << in.position() << "  start  " << demangle< Rule >() << "; current ";
          print_current( in );
          std::cerr << std::endl;
          Control< Rule >::start( in, st... );
@@ -82,7 +81,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput, typename... States >
       static void success( const ParseInput& in, States&&... st )
       {
-         std::cerr << in.position() << " success " << internal::demangle< Rule >() << "; next ";
+         std::cerr << in.position() << " success " << demangle< Rule >() << "; next ";
          print_current( in );
          std::cerr << std::endl;
          Control< Rule >::success( in, st... );
@@ -100,7 +99,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput, typename... States >
       static void failure( const ParseInput& in, States&&... st )
       {
-         std::cerr << in.position() << " failure " << internal::demangle< Rule >() << std::endl;
+         std::cerr << in.position() << " failure " << demangle< Rule >() << std::endl;
          Control< Rule >::failure( in, st... );
       }
 
@@ -117,7 +116,7 @@ namespace TAO_PEGTL_NAMESPACE
       static auto apply( const Iterator& begin, const ParseInput& in, States&&... st )
          -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
       {
-         std::cerr << in.position() << "  apply  " << internal::demangle< Rule >() << std::endl;
+         std::cerr << in.position() << "  apply  " << demangle< Rule >() << std::endl;
          return Control< Rule >::template apply< Action >( begin, in, st... );
       }
 
@@ -133,7 +132,7 @@ namespace TAO_PEGTL_NAMESPACE
       static auto apply0( const ParseInput& in, States&&... st )
          -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
       {
-         std::cerr << in.position() << "  apply0 " << internal::demangle< Rule >() << std::endl;
+         std::cerr << in.position() << "  apply0 " << demangle< Rule >() << std::endl;
          return Control< Rule >::template apply0< Action >( in, st... );
       }
 

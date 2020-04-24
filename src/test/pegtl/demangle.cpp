@@ -3,14 +3,14 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/demangle.hpp>
+#include <tao/pegtl/demangle.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename T >
    void test( const std::string& s )
    {
-      TAO_PEGTL_TEST_ASSERT( internal::demangle< T >() == s );
+      TAO_PEGTL_TEST_ASSERT( demangle< T >() == s );
    }
 
    void unit_test()
@@ -23,6 +23,7 @@ namespace TAO_PEGTL_NAMESPACE
 #elif defined( _MSC_VER )
       test< int >( "int" );
       test< double >( "double" );
+      // in the Microsoft world, class and struct are not the same!
       test< seq< bytes< 42 >, eof > >( "struct tao::pegtl::seq<struct tao::pegtl::bytes<42>,struct tao::pegtl::eof>" );
 #else
       test< int >( "int" );

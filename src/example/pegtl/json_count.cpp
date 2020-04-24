@@ -32,19 +32,19 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Input >
       static void start( const Input& /*unused*/, counter_state& ts )
       {
-         ++ts.counts[ internal::demangle< Rule >() ].start;
+         ++ts.counts[ demangle< Rule >() ].start;
       }
 
       template< typename Input >
       static void success( const Input& /*unused*/, counter_state& ts )
       {
-         ++ts.counts[ internal::demangle< Rule >() ].success;
+         ++ts.counts[ demangle< Rule >() ].success;
       }
 
       template< typename Input >
       static void failure( const Input& /*unused*/, counter_state& ts )
       {
-         ++ts.counts[ internal::demangle< Rule >() ].failure;
+         ++ts.counts[ demangle< Rule >() ].failure;
       }
    };
 

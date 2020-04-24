@@ -10,11 +10,11 @@
 
 #include "apply_mode.hpp"
 #include "config.hpp"
+#include "demangle.hpp"
 #include "match.hpp"
 #include "parse_error.hpp"
 #include "rewind_mode.hpp"
 
-#include "internal/demangle.hpp"
 #include "internal/enable_control.hpp"
 #include "internal/has_match.hpp"
 
@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput, typename... States >
       [[noreturn]] static void raise( const ParseInput& in, States&&... /*unused*/ )
       {
-         throw parse_error( "parse error matching " + std::string( internal::demangle< Rule >() ), in );
+         throw parse_error( "parse error matching " + std::string( demangle< Rule >() ), in );
       }
 
       template< template< typename... > class Action,

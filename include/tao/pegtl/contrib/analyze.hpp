@@ -15,10 +15,10 @@
 #include <vector>
 
 #include "../config.hpp"
+#include "../demangle.hpp"
 
 #include "analyze_traits.hpp"
 
-#include "../internal/demangle.hpp"
 #include "../internal/dependent_false.hpp"
 
 namespace TAO_PEGTL_NAMESPACE

@@ -7,9 +7,8 @@
 #include <ostream>
 
 #include "../config.hpp"
+#include "../demangle.hpp"
 #include "../visit.hpp"
-
-#include "../internal/demangle.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

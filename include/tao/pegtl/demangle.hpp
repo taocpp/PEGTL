@@ -1,15 +1,13 @@
 // Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey
-// Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
+// Please see LICENSE for license or visit https://github.com/taocpp/PEGTL
 
-#ifndef TAO_PEGTL_INTERNAL_DEMANGLE_HPP
-#define TAO_PEGTL_INTERNAL_DEMANGLE_HPP
+#ifndef TAO_PEGTL_DEMANGLE_HPP
+#define TAO_PEGTL_DEMANGLE_HPP
 
 #include <ciso646>
 #include <string_view>
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao
 {
 #if defined( __clang__ )
 
@@ -135,6 +133,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao
 
 #endif

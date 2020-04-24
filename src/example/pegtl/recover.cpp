@@ -69,7 +69,7 @@ struct found
    static void apply( const ActionInput& in, bool& error )
    {
       if( !error ) {
-         std::cout << in.position() << ": Found " << internal::demangle< R >() << ": \"" << in.string() << "\"" << std::endl;
+         std::cout << in.position() << ": Found " << tao::demangle< R >() << ": \"" << in.string() << "\"" << std::endl;
       }
    }
 };
@@ -101,10 +101,10 @@ struct my_control
    : normal< Rule >
 {
    template< typename ParseInput, typename... States >
-   [[noreturn]] static void raise( const ParseInput& in, States&&... /*unused*/ )
+   [[noreturn]] static void raise( const ParseInput& in, States&&... st )
    {
-      std::cout << in.position() << ": Parse error matching " << internal::demangle< Rule >() << std::endl;
-      throw parse_error( "parse error matching " + std::string( internal::demangle< Rule >() ), in );
+      std::cout << in.position() << ": Parse error matching " << tao::demangle< Rule >() << std::endl;
+      normal< Rule >::raise( in, st... );
    }
 };
 

@@ -535,7 +535,7 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename T >
          void add( const function_t& f )
          {
-            map_.try_emplace( internal::demangle< T >(), f );
+            map_.try_emplace( demangle< T >(), f );
          }
 
          std::string operator()( const node_ptr& n ) const

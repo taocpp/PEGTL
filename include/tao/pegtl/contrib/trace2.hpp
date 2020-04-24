@@ -14,12 +14,11 @@
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../demangle.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../parse.hpp"
 #include "../rewind_mode.hpp"
-
-#include "../internal/demangle.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -72,7 +71,7 @@ namespace TAO_PEGTL_NAMESPACE
                }
 
                auto& state = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
-               const auto name = internal::demangle< Rule >();
+               const auto name = demangle< Rule >();
                const auto line = ++state.m_line;
                state.m_os << std::setw( state.m_indent ) << line << "\033[34m" << name << "\033[m\n";
                state.m_indent += 2;

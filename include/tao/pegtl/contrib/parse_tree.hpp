@@ -19,13 +19,13 @@
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../demangle.hpp"
 #include "../memory_input.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../parse.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../internal/demangle.hpp"
 #include "../internal/enable_control.hpp"
 #include "../internal/iterator.hpp"
 #include "../internal/try_catch_type.hpp"
@@ -67,13 +67,13 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename U >
       [[nodiscard]] bool is_type() const noexcept
       {
-         return type == TAO_PEGTL_NAMESPACE::internal::demangle< U >();
+         return type == demangle< U >();
       }
 
       template< typename U >
       void set_type() noexcept
       {
-         type = TAO_PEGTL_NAMESPACE::internal::demangle< U >();
+         type = demangle< U >();
       }
 
       [[nodiscard]] position begin() const

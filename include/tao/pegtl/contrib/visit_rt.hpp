@@ -8,9 +8,8 @@
 #include <string_view>
 
 #include "../config.hpp"
+#include "../demangle.hpp"
 #include "../type_list.hpp"
-
-#include "../internal/demangle.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

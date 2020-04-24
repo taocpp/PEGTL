@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
 #define TAO_PEGTL_TEST_FAILED( MeSSaGe )            \
    do {                                             \
       std::cerr << "pegtl: unit test failed for [ " \
-                << internal::demangle< Rule >()     \
+                << tao::demangle< Rule >()          \
                 << " ] "                            \
                 << TAO_PEGTL_TEST_UNWRAP( MeSSaGe ) \
                 << " in line [ "                    \
