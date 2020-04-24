@@ -10,8 +10,6 @@ It provides the basic infrastructure to build a parse tree that
   * but can also be used with a custom tree node class that adheres to certain rules;
 * and supports on-the-fly tree transformations; some of the more common ones are included.
 
-> The parse tree / AST part of the PEGTL is currently in active development and serves as a prove-of-concept, expect changes at any time. Try it out, experiment with it, and most importantly let us know what you think of it. We need **your** feedback!
-
 ## Content
 
 * [Full Parse Tree](#full-parse-tree)
@@ -34,7 +32,7 @@ auto root = tao::pegtl::parse_tree::parse< my_grammar >( in );
 The result is a `std::unique_ptr< tao::pegtl::parse_tree::node >`.
 The pointer is empty when the input did not match the grammar, otherwise it contains the root node of the resulting parse tree.
 
-The tree nodes have a `name()` member function that returns the name of the grammar rule of which it represents a successful match, `begin()` and `end()` member functions to access the position of the matched portion of the input, `string()` and `string_view()` to actually access said matched input, and a vector called `children` with unique pointers to the child nodes.
+The tree nodes have a `type` member that contains the name of the grammar rule of which it represents a successful match, `begin()` and `end()` member functions to access the position of the matched portion of the input, `string()` and `string_view()` to actually access said matched input, and a vector called `children` with unique pointers to the child nodes.
 
 Note that the included tree node class **points** to the matched data, rather than copying it into the node, wherefore the input **must** still be "alive" when accessing the matched data!
 
