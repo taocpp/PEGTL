@@ -5,36 +5,42 @@
 **Not yet released**
 
 * Use the [**migration guide**](Migration-Guide.md#version-300) when updating.
-* Updated required C++ standard to C++17.
-* Updated required [CMake](https://cmake.org/) version to 3.8.
-* The macro `TAO_PEGTL_NAMESPACE` now contains the fully qualified namespace, e.g. `tao::pegtl`.
-* Replaced `tao::pegtl::input_error` with `std::system_error`.
-* Moved the analysis function and header to contrib.
-* Replaced `analysis_t` with more general and complete `rule_t` and `subs_t`.
-* Added functions to visit all rules of a grammar.
-* Added infrastructure and functions to measure rule coverage of a parsing run.
-* Added [`must_if<>`](Errors-and-Exceptions.md#custom-exception-messages)
-  * Allows to define custom error messages for global errors.
-  * As a non-intrusive way to define global parse errors for a grammar retroactively.
-* Moved rule `eolf` from inline namespace `tao::pegtl::ascii` to `tao::pegtl`.
-* Changed message of `tao::pegtl::parse_error` to no longer contain the position redundantly.
-* Changed rules in `tao/pegtl/contrib/integer.hpp` to not accept redundant leading zeros.
-* Added rules to `tao/pegtl/contrib/integer.hpp` that test unsigned values against a maximum.
-* Removed option of [state](Rule-Reference.md#state-s-r-)'s `S::success()` to have an extended signature to get access to the current `apply_mode`, `rewind_mode`, *action*- and *control* class (template).
-* Added `[[nodiscard]]` or `[[noreturn]]` to most non-void functions.
-* Removed compatibility macros starting with `TAOCPP_PEGTL_`.
-* Removed compatibility uppercase enumerators.
-* Removed compatibility `peek_byte()` member functions.
-* Removed compatibility header `changes.hpp` from contrib.
-* Demoted UTF-16 and UTF-32 support to contrib.
-* Demoted UINT-8, UINT-16, UINT-32 and UINT-64 support to contrib.
-* Folded `contrib/counter.hpp` into `json_count.cpp`, count is superceded by coverage.
-* Refactored demangling.
-  * Improves generated code to be shorter and more efficient.
-  * Removes the need for RTTI.
-  * Some broken/unknown compilers will use RTTI as a fallback, without demangling.
-* Refactored parse tree type storage/handling.
-  * Removes the need for RTTI.
+* Infrastructure
+  * Updated required C++ standard to C++17.
+  * Updated required [CMake](https://cmake.org/) version to 3.8.
+  * The macro `TAO_PEGTL_NAMESPACE` now contains the fully qualified namespace, e.g. `tao::pegtl`.
+  * Added `[[nodiscard]]` or `[[noreturn]]` to most non-void functions.
+* Meta-Data Layer
+  * Replaced `analysis_t` with more general and complete `rule_t` and `subs_t`.
+  * Added functions to visit all rules of a grammar.
+  * Added functions to measure rule coverage of a parsing run.
+  * Moved the analysis function and header to contrib.
+* Error Handling
+  * Replaced `tao::pegtl::input_error` with `std::system_error`.
+  * Changed message of `tao::pegtl::parse_error` to no longer contain the position redundantly.
+  * Added [`must_if<>`](Errors-and-Exceptions.md#custom-exception-messages)
+    * Allows to define custom error messages for global errors.
+    * Adds a non-intrusive way to define global parse errors for a grammar retroactively.
+* Demangling
+  * Removed the need for RTTI.
+    * Some broken/unknown compilers will use RTTI as a fallback, without demangling.
+  * Moved `tao::pegtl::internal::demangle<T>()` to `tao::demangle<T>()`.
+  * Improved generated code to be shorter and more efficient.
+* Parse Tree
+  * Removed the need for RTTI.
+* Other
+  * Moved rule `eolf` from inline namespace `tao::pegtl::ascii` to `tao::pegtl`.
+  * Changed rules in `tao/pegtl/contrib/integer.hpp` to not accept redundant leading zeros.
+  * Added rules to `tao/pegtl/contrib/integer.hpp` that test unsigned values against a maximum.
+  * Demoted UTF-16 and UTF-32 support to contrib.
+  * Demoted UINT-8, UINT-16, UINT-32 and UINT-64 support to contrib.
+  * Folded `contrib/counter.hpp` into `json_count.cpp`, count is superceded by coverage.
+* Cleanup
+  * Removed option of [state](Rule-Reference.md#state-s-r-)'s `S::success()` to have an extended signature to get access to the current `apply_mode`, `rewind_mode`, *action*- and *control* class (template).
+  * Removed compatibility macros starting with `TAOCPP_PEGTL_`.
+  * Removed compatibility uppercase enumerators.
+  * Removed compatibility `peek_byte()` member functions.
+  * Removed compatibility header `changes.hpp` from contrib.
 
 ## 2.8.3
 
