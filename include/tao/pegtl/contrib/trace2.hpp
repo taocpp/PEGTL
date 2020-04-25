@@ -116,7 +116,7 @@ namespace TAO_PEGTL_NAMESPACE
          print_position();
       }
 
-      std::size_t indent() const
+      [[nodiscard]] std::size_t indent() const
       {
          return TracerTraits::initial_indent + TracerTraits::indent * m_stack.size();
       }
