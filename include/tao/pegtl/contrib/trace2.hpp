@@ -111,7 +111,7 @@ namespace TAO_PEGTL_NAMESPACE
             static auto apply( const Iterator& begin, const ParseInput& in, const trace_state& state, States&&... st )
                -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
             {
-               state.m_os << std::setw( state.m_indent - 2 ) << ' ' << "\033[1;36mapply\033[m\n";
+               state.m_os << std::setw( static_cast< int >( state.m_indent - 2 ) ) << ' ' << "\033[1;36mapply\033[m\n";
                return Control< Rule >::template apply< Action >( begin, in, st... );
             }
 
@@ -119,7 +119,7 @@ namespace TAO_PEGTL_NAMESPACE
             static auto apply0( const ParseInput& in, const trace_state& state, States&&... st )
                -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
             {
-               state.m_os << std::setw( state.m_indent - 2 ) << ' ' << "\033[1;36mapply0\033[m\n";
+               state.m_os << std::setw( static_cast< int >( state.m_indent - 2 ) ) << ' ' << "\033[1;36mapply0\033[m\n";
                return Control< Rule >::template apply0< Action >( in, st... );
             }
          };
