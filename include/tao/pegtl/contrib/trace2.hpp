@@ -144,8 +144,17 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         internal::trace_state state( std::cerr, in.position() );
-         return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, internal::make_trace_control< Control >::template type >( in, st..., state );
+         if constexpr( sizeof...( st ) == 0 ) {
+            internal::trace_state state( std::cerr, in.position() );
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, internal::make_trace_control< Control >::template type >( in, st..., state );
+         }
+         else if constexpr( !std::is_same_v< std::decay_t< std::tuple_element_t< sizeof...( st ) - 1, decltype( std::tie( st... ) ) > >, internal::trace_state > ) {
+            internal::trace_state state( std::cerr, in.position() );
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, internal::make_trace_control< Control >::template type >( in, st..., state );
+         }
+         else {
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
+         }
       }
    };
 
