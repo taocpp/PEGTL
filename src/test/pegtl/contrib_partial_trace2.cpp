@@ -13,7 +13,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    // how to run a tracer on a *part* of the grammar:
    template< typename > struct partial_action {};
-   template<> struct partial_action< inner > : enable_trace {};
+   template<> struct partial_action< inner > : trace_standard {};
    // clang-format on
 
    void unit_test()

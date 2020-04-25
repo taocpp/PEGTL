@@ -41,28 +41,32 @@ namespace TAO_PEGTL_NAMESPACE
    {
       {
          memory_input in( "ab", "trace test please ignore" );
-         const auto result = trace< GRAMMAR >( in );
+         standard_tracer tr( in );
+         const auto result = tr.parse< GRAMMAR >( in );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( a0 == 0 );
          TAO_PEGTL_TEST_ASSERT( a == 0 );
       }
       {
          memory_input in( "ab", "trace test please ignore" );
-         const auto result = trace< GRAMMAR, trace_action >( in );
+         standard_tracer tr( in );
+         const auto result = tr.parse< GRAMMAR, trace_action >( in );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( a0 == 1 );
          TAO_PEGTL_TEST_ASSERT( a == 1 );
       }
       {
          memory_input in( "a\r\n\t\0b", 6, "trace test please ignore" );
-         const auto result = trace< GRAMMAR2 >( in );
+         standard_tracer tr( in );
+         const auto result = tr.parse< GRAMMAR2 >( in );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( a0 == 1 );
          TAO_PEGTL_TEST_ASSERT( a == 1 );
       }
       {
          memory_input in( "a\r\n\t\0b", 6, "trace test please ignore" );
-         const auto result = trace< GRAMMAR2, trace_action >( in );
+         standard_tracer tr( in );
+         const auto result = tr.parse< GRAMMAR2, trace_action >( in );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( a0 == 2 );
          TAO_PEGTL_TEST_ASSERT( a == 1 );
