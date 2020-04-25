@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      memory_input in( "xaaby", "trace test please ignore" );
+      memory_input in( "xaacy", "trace test please ignore" );
       const auto result = parse< outer, partial_action >( in );
       TAO_PEGTL_TEST_ASSERT( result );
    }

@@ -8,7 +8,7 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    // clang-format off
-   struct inner : seq< one< 'a' >, sor< one< 'b' >, one< 'c' > > > {};
+   struct inner : seq< one< 'a' >, sor< one< 'b' >, one< 'c' >, inner > > {};
    struct outer : seq< one< 'x' >, inner, one< 'y' > > {};
 
    // how to run a tracer on a *part* of the grammar:
@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      memory_input in( "xacy", "trace test please ignore" );
+      memory_input in( "xaacy", "trace test please ignore" );
       const auto result = parse< outer, partial_action >( in );
       TAO_PEGTL_TEST_ASSERT( result );
    }
