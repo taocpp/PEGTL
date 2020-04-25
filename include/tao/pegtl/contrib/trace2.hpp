@@ -148,7 +148,7 @@ namespace TAO_PEGTL_NAMESPACE
             internal::trace_state state( std::cerr, in.position() );
             return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, internal::make_trace_control< Control >::template type >( in, st..., state );
          }
-         else if constexpr( !std::is_same_v< std::decay_t< std::tuple_element_t< sizeof...( st ) - 1, decltype( std::tie( st... ) ) > >, internal::trace_state > ) {
+         else if constexpr( !std::is_same_v< std::tuple_element_t< sizeof...( st ) - 1, decltype( std::tie( st... ) ) >, internal::trace_state& > ) {
             internal::trace_state state( std::cerr, in.position() );
             return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, internal::make_trace_control< Control >::template type >( in, st..., state );
          }
