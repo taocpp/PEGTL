@@ -7,7 +7,7 @@
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-using grammar = pegtl::must< pegtl::json::text >;
+using grammar = pegtl::must< pegtl::json::text, pegtl::eof >;
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
