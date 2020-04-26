@@ -4,7 +4,7 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/analyze.hpp>
 #include <tao/pegtl/contrib/json.hpp>
-#include <tao/pegtl/contrib/trace2.hpp>
+#include <tao/pegtl/contrib/trace.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
