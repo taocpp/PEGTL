@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/trace.hpp>
+#include <tao/pegtl/contrib/trace2.hpp>
 #include <tao/pegtl/contrib/uri.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
@@ -16,7 +16,8 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    for( int i = 1; i < argc; ++i ) {
       std::cout << "Parsing " << argv[ i ] << std::endl;
       pegtl::argv_input in( argv, i );
-      pegtl::parse< grammar, pegtl::nothing, pegtl::trace_control >( in );
+      pegtl::complete_tracer tr( in );
+      tr.parse< grammar >( in );
    }
    return 0;
 }
