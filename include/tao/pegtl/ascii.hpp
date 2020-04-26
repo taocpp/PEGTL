@@ -15,8 +15,8 @@ namespace TAO_PEGTL_NAMESPACE
    inline namespace ascii
    {
       // clang-format off
-      struct alnum : internal::alnum {};
-      struct alpha : internal::alpha {};
+      struct alnum : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9' > {};
+      struct alpha : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z' > {};
       struct any : internal::any< internal::peek_char > {};
       struct blank : internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\t' > {};
       struct digit : internal::range< internal::result_on_found::success, internal::peek_char, '0', '9' > {};
