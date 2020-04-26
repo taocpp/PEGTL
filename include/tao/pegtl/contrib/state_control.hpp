@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE
          static constexpr bool enable = true;
 
          template< typename ParseInput, typename State, typename... States >
-         static void start( const ParseInput& in, State& state, States&&... st )
+         static void start( [[maybe_unused]] const ParseInput& in, [[maybe_unused]] State& state, [[maybe_unused]] States&&... st )
          {
             if constexpr( State::template enable< Rule > ) {
                state.template start< Rule >( in, st... );
@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
 
          template< typename ParseInput, typename State, typename... States >
-         static void success( const ParseInput& in, State& state, States&&... st )
+         static void success( [[maybe_unused]] const ParseInput& in, [[maybe_unused]] State& state, [[maybe_unused]] States&&... st )
          {
             if constexpr( State::template enable< Rule > ) {
                state.template success< Rule >( in, st... );
@@ -45,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
 
          template< typename ParseInput, typename State, typename... States >
-         static void failure( const ParseInput& in, State& state, States&&... st )
+         static void failure( [[maybe_unused]] const ParseInput& in, [[maybe_unused]] State& state, [[maybe_unused]] States&&... st )
          {
             if constexpr( State::template enable< Rule > ) {
                state.template failure< Rule >( in, st... );
@@ -63,7 +63,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
 
          template< typename ParseInput, typename State, typename... States >
-         static auto unwind( const ParseInput& in, State& state, States&&... st )
+         static auto unwind( [[maybe_unused]] const ParseInput& in, [[maybe_unused]] State& state, [[maybe_unused]] States&&... st )
             -> std::enable_if_t< State::template enable< Rule > || ( Control< Rule >::enable && internal::has_unwind< Control< Rule >, void, ParseInput&, States... > ) >
          {
             if constexpr( State::template enable< Rule > ) {
@@ -75,7 +75,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
 
          template< template< typename... > class Action, typename Iterator, typename ParseInput, typename State, typename... States >
-         static auto apply( const Iterator& begin, const ParseInput& in, State& state, States&&... st )
+         static auto apply( const Iterator& begin, const ParseInput& in, [[maybe_unused]] State& state, States&&... st )
             -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
          {
             if constexpr( State::template enable< Rule > ) {
@@ -85,7 +85,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
 
          template< template< typename... > class Action, typename ParseInput, typename State, typename... States >
-         static auto apply0( const ParseInput& in, State& state, States&&... st )
+         static auto apply0( const ParseInput& in, [[maybe_unused]] State& state, States&&... st )
             -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
          {
             if constexpr( State::template enable< Rule > ) {

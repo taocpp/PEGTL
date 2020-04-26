@@ -11,7 +11,7 @@
 #include "dusel_mode.hpp"
 #include "has_unwind.hpp"
 
-#ifdef _MSC_VER
+#if defined( _MSC_VER )
 #pragma warning( push )
 #pragma warning( disable : 4702 )
 #endif
@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
              class Action,
              template< typename... >
              class Control,
-             dusel_mode = dusel_mode::nothing >
+             dusel_mode >
    struct duseltronik;
 
    template< typename Rule,
@@ -198,7 +198,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
-#ifdef _MSC_VER
+#if defined( _MSC_VER )
 #pragma warning( pop )
 #endif
 

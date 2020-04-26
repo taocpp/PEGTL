@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
 
          template< typename ParseInput, typename... States >
-         [[noreturn]] static void raise( const ParseInput& in, States&&... st )
+         [[noreturn]] static void raise( const ParseInput& in, [[maybe_unused]] States&&... st )
          {
             if constexpr( RequireMessage ) {
                static_assert( T::template message< Rule > != nullptr );
@@ -46,9 +46,6 @@ namespace TAO_PEGTL_NAMESPACE
             if constexpr( T::template message< Rule > != nullptr ) {
                constexpr const char* p = T::template message< Rule >;
                throw parse_error( p, in );
-#if defined( _MSC_VER )
-               (void)( (void)st, ... );
-#endif
             }
             else {
                Base< Rule >::raise( in, st... );

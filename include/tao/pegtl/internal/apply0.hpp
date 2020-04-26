@@ -29,15 +29,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 class Control,
                 typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( ParseInput& /*unused*/, States&&... st )
+      [[nodiscard]] static bool match( ParseInput& /*unused*/, [[maybe_unused]] States&&... st )
       {
          if constexpr( A == apply_mode::action ) {
             return ( apply0_single< Actions >::match( st... ) && ... );
          }
          else {
-#if defined( _MSC_VER )
-            (void)( (void)st, ... );
-#endif
             return true;
          }
       }
