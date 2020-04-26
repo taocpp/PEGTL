@@ -31,6 +31,9 @@ namespace TAO_PEGTL_NAMESPACE
             if constexpr( Control< Rule >::enable ) {
                Control< Rule >::start( in, st... );
             }
+#if defined( _MSC_VER )
+            ( (void)st, ... );
+#endif
          }
 
          template< typename ParseInput, typename State, typename... States >
@@ -42,6 +45,9 @@ namespace TAO_PEGTL_NAMESPACE
             if constexpr( Control< Rule >::enable ) {
                Control< Rule >::success( in, st... );
             }
+#if defined( _MSC_VER )
+            ( (void)st, ... );
+#endif
          }
 
          template< typename ParseInput, typename State, typename... States >
@@ -53,6 +59,9 @@ namespace TAO_PEGTL_NAMESPACE
             if constexpr( Control< Rule >::enable ) {
                Control< Rule >::failure( in, st... );
             }
+#if defined( _MSC_VER )
+            ( (void)st, ... );
+#endif
          }
 
          template< typename ParseInput, typename State, typename... States >
@@ -72,6 +81,9 @@ namespace TAO_PEGTL_NAMESPACE
             if constexpr( Control< Rule >::enable && internal::has_unwind< Control< Rule >, void, ParseInput&, States... > ) {
                Control< Rule >::unwind( in, st... );
             }
+#if defined( _MSC_VER )
+            ( (void)st, ... );
+#endif
          }
 
          template< template< typename... > class Action, typename Iterator, typename ParseInput, typename State, typename... States >

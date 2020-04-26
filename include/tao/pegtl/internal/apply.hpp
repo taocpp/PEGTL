@@ -37,6 +37,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return ( apply_single< Actions >::match( i2, st... ) && ... );
          }
          else {
+#if defined( _MSC_VER )
+            ( (void)st, ... );
+#endif
             return true;
          }
       }
