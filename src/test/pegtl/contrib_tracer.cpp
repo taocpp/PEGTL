@@ -3,7 +3,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/contrib/trace2.hpp>
+#include <tao/pegtl/contrib/trace.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

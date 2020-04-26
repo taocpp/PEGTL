@@ -31,12 +31,10 @@ set(test_sources
   contrib_json.cpp
   contrib_parse_tree.cpp
   contrib_partial_trace.cpp
-  contrib_partial_trace2.cpp
   contrib_raw_string.cpp
   contrib_rep_one_min_max.cpp
   contrib_to_string.cpp
   contrib_tracer.cpp
-  contrib_tracer2.cpp
   contrib_unescape.cpp
   contrib_uri.cpp
   data_cstring.cpp
