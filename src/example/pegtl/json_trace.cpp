@@ -20,6 +20,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    for( int i = 1; i < argc; ++i ) {
       std::cout << "Parsing " << argv[ i ] << std::endl;
       pegtl::argv_input in( argv, i );
+      // pegtl::standard_tracer tr( in );
       pegtl::complete_tracer tr( in );  // or standard_tracer to hide internal rules
       tr.parse< grammar >( in );
    }

@@ -22,14 +22,70 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< template< typename... > class Control >
-   class trace_control
+   template< template< typename... > class Control, typename Tracer >
+   struct trace_control
    {
-   private:
       template< typename Rule >
       struct control
-         : remove_first_state< Control< Rule > >
+         : Control< Rule >
       {
+         static constexpr bool enable = Tracer::template enable< Rule >;
+
+         template< typename ParseInput, typename... States >
+         static void start( const ParseInput& in, Tracer& tracer, States&&... st )
+         {
+            tracer.template start< Rule >( in );
+            if constexpr( Control< Rule >::enable ) {
+               Control< Rule >::start( in, st... );
+            }
+         }
+
+         template< typename ParseInput, typename... States >
+         static void success( const ParseInput& in, Tracer& tracer, States&&... st )
+         {
+            tracer.template success< Rule >( in );
+            if constexpr( Control< Rule >::enable ) {
+               Control< Rule >::success( in, st... );
+            }
+         }
+
+         template< typename ParseInput, typename... States >
+         static void failure( const ParseInput& in, Tracer& tracer, States&&... st )
+         {
+            tracer.template failure< Rule >( in );
+            if constexpr( Control< Rule >::enable ) {
+               Control< Rule >::failure( in, st... );
+            }
+         }
+
+         template< typename ParseInput, typename... States >
+         [[noreturn]] static void raise( const ParseInput& in, Tracer& tracer, States&&... st )
+         {
+            tracer.template raise< Rule >( in );
+            Control< Rule >::raise( in, st... );
+         }
+
+         template< template< typename... > class Action, typename Iterator, typename ParseInput, typename... States >
+         static auto apply( const Iterator& begin, const ParseInput& in, Tracer& tracer, States&&... st )
+            -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
+         {
+            if constexpr( Control< Rule >::enable ) {
+               tracer.template apply< Rule >( in );
+               return Control< Rule >::template apply< Action >( begin, in, st... );
+            }
+         }
+
+         template< template< typename... > class Action, typename ParseInput, typename... States >
+         static auto apply0( const ParseInput& in, Tracer& tracer, States&&... st )
+            -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
+         {
+            if constexpr( Control< Rule >::enable ) {
+               tracer.template apply0< Rule >( in );
+               return Control< Rule >::template apply0< Action >( in, st... );
+            }
+         }
+
+         // TODO: unwind should be a real callback...
          template< apply_mode A,
                    rewind_mode M,
                    template< typename... >
@@ -40,47 +96,22 @@ namespace TAO_PEGTL_NAMESPACE
                    typename... States >
          [[nodiscard]] static bool match( ParseInput& in, States&&... st )
          {
-            using Tracer = std::remove_reference_t< std::tuple_element_t< sizeof...( st ) - 1, std::tuple< States... > > >;
             if constexpr( !Tracer::template enable< Rule > ) {
                return Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
             }
-
-            auto& tracer = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
-            tracer.template start< Rule >( in );
-            try {
-               const bool result = Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
-               if( result ) {
-                  tracer.template success< Rule >( in );
+            else {
+               try {
+                  return Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
                }
-               else {
-                  tracer.template failure< Rule >( in );
+               catch( ... ) {
+                  auto& tracer = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
+                  tracer.template unwind< Rule >( in );
+                  throw;
                }
-               return result;
             }
-            catch( ... ) {
-               tracer.template exception< Rule >( in );
-               throw;
-            }
-         }
-
-         template< template< typename... > class Action, typename Iterator, typename ParseInput, typename Tracer, typename... States >
-         static auto apply( const Iterator& begin, const ParseInput& in, Tracer& tracer, States&&... st )
-            -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
-         {
-            tracer.template apply< Rule >( in );
-            return Control< Rule >::template apply< Action >( begin, in, st... );
-         }
-
-         template< template< typename... > class Action, typename ParseInput, typename Tracer, typename... States >
-         static auto apply0( const ParseInput& in, Tracer& tracer, States&&... st )
-            -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
-         {
-            tracer.template apply0< Rule >( in );
-            return Control< Rule >::template apply0< Action >( in, st... );
          }
       };
 
-   public:
       template< typename Rule >
       using type = rotate_states_right< control< Rule > >;
    };
@@ -105,7 +136,6 @@ namespace TAO_PEGTL_NAMESPACE
       std::size_t m_count = 0;
       std::vector< std::size_t > m_stack;
       position m_position;
-      bool m_unwind = false;
 
       template< typename ParseInput >
       explicit tracer( const ParseInput& in )
@@ -146,7 +176,6 @@ namespace TAO_PEGTL_NAMESPACE
       {
          const auto prev = m_stack.back();
          m_stack.pop_back();
-         m_unwind = false;
          std::cerr << std::setw( indent() ) << ' ' << "\033[32msuccess\033[m";
          if( m_count != prev ) {
             std::cerr << " #" << prev << ' ' << "\033[37m" << demangle< Rule >() << "\033[m";
@@ -160,7 +189,6 @@ namespace TAO_PEGTL_NAMESPACE
       {
          const auto prev = m_stack.back();
          m_stack.pop_back();
-         m_unwind = false;
          std::cerr << std::setw( indent() ) << ' ' << "\033[31mfailure\033[m";
          if( m_count != prev ) {
             std::cerr << " #" << prev << ' ' << "\033[37m" << demangle< Rule >() << "\033[m";
@@ -170,18 +198,22 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< typename Rule, typename ParseInput >
-      void exception( const ParseInput& in )
+      void raise( const ParseInput& /*unused*/ )
+      {
+         std::cerr << std::setw( indent() ) << ' ' << "\033[1;31mraise\033[m \033[36m" << demangle< Rule >() << "\033[m\n";
+      }
+
+      template< typename Rule, typename ParseInput >
+      void unwind( const ParseInput& in )
       {
          const auto prev = m_stack.back();
          m_stack.pop_back();
+         std::cerr << std::setw( indent() ) << ' ' << "\033[31munwind\033[m";
+         if( m_count != prev ) {
+            std::cerr << " #" << prev << ' ' << "\033[37m" << demangle< Rule >() << "\033[m";
+         }
+         std::cerr << '\n';
          update( in.position() );
-         if( m_unwind ) {
-            std::cerr << std::setw( indent() ) << ' ' << "\033[31munwind\033[m #" << prev << " \033[37m" << demangle< Rule >() << "\033[m\n";
-         }
-         else {
-            std::cerr << std::setw( indent() ) << ' ' << "\033[1;31mraise\033[m #" << prev << " \033[36m" << demangle< Rule >() << "\033[m\n";
-            m_unwind = true;
-         }
       }
 
       template< typename Rule, typename ParseInput >
@@ -203,7 +235,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       bool parse( ParseInput&& in, States&&... st )
       {
-         return TAO_PEGTL_NAMESPACE::parse< Rule, Action, trace_control< Control >::template type >( in, st..., *this );
+         return TAO_PEGTL_NAMESPACE::parse< Rule, Action, trace_control< Control, tracer >::template type >( in, st..., *this );
       }
    };
 
@@ -226,10 +258,10 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          if constexpr( sizeof...( st ) == 0 ) {
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, trace_control< Control >::template type >( in, st..., Tracer( in ) );
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, trace_control< Control, Tracer >::template type >( in, st..., Tracer( in ) );
          }
          else if constexpr( !std::is_same_v< std::tuple_element_t< sizeof...( st ) - 1, std::tuple< States... > >, Tracer& > ) {
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, trace_control< Control >::template type >( in, st..., Tracer( in ) );
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, trace_control< Control, Tracer >::template type >( in, st..., Tracer( in ) );
          }
          else {
             return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
