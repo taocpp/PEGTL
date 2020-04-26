@@ -9,7 +9,7 @@
 #include <iostream>
 #include <tuple>
 
-#include "shuffle_states.hpp"
+#include "state_control.hpp"
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
@@ -21,96 +21,6 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< template< typename... > class Control, typename State >
-   struct state_control
-   {
-      template< typename Rule >
-      struct control
-         : Control< Rule >
-      {
-         static constexpr bool enable = State::template enable< Rule >;
-
-         template< typename ParseInput, typename... States >
-         static void start( const ParseInput& in, State& state, States&&... st )
-         {
-            state.template start< Rule >( in );
-            if constexpr( Control< Rule >::enable ) {
-               Control< Rule >::start( in, st... );
-            }
-         }
-
-         template< typename ParseInput, typename... States >
-         static void success( const ParseInput& in, State& state, States&&... st )
-         {
-            state.template success< Rule >( in );
-            if constexpr( Control< Rule >::enable ) {
-               Control< Rule >::success( in, st... );
-            }
-         }
-
-         template< typename ParseInput, typename... States >
-         static void failure( const ParseInput& in, State& state, States&&... st )
-         {
-            state.template failure< Rule >( in );
-            if constexpr( Control< Rule >::enable ) {
-               Control< Rule >::failure( in, st... );
-            }
-         }
-
-         template< typename ParseInput, typename... States >
-         [[noreturn]] static void raise( const ParseInput& in, State& state, States&&... st )
-         {
-            state.template raise< Rule >( in );
-            Control< Rule >::raise( in, st... );
-         }
-
-         template< template< typename... > class Action, typename Iterator, typename ParseInput, typename... States >
-         static auto apply( const Iterator& begin, const ParseInput& in, State& state, States&&... st )
-            -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
-         {
-            state.template apply< Rule >( in );
-            return Control< Rule >::template apply< Action >( begin, in, st... );
-         }
-
-         template< template< typename... > class Action, typename ParseInput, typename... States >
-         static auto apply0( const ParseInput& in, State& state, States&&... st )
-            -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
-         {
-            state.template apply0< Rule >( in );
-            return Control< Rule >::template apply0< Action >( in, st... );
-         }
-
-         // TODO: unwind should be a real callback...
-         template< apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control2,
-                   typename ParseInput,
-                   typename... States >
-         [[nodiscard]] static bool match( ParseInput& in, States&&... st )
-         {
-            if constexpr( !State::template enable< Rule > ) {
-               return Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
-            }
-            else {
-               try {
-                  return Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
-               }
-               catch( ... ) {
-                  auto& state = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
-                  state.template unwind< Rule >( in );
-                  throw;
-               }
-            }
-         }
-      };
-
-      template< typename Rule >
-      using type = rotate_states_right< control< Rule > >;
-   };
-
    template< bool HideInternal = false, std::size_t Indent = 2, std::size_t InitialIndent = 8 >
    struct tracer_traits
    {
@@ -230,7 +140,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       bool parse( ParseInput&& in, States&&... st )
       {
-         return TAO_PEGTL_NAMESPACE::parse< Rule, Action, state_control< Control, tracer >::template type >( in, st..., *this );
+         return TAO_PEGTL_NAMESPACE::parse< Rule, Action, state_control< Control >::template type >( in, st..., *this );
       }
    };
 
@@ -253,10 +163,10 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          if constexpr( sizeof...( st ) == 0 ) {
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, state_control< Control, Tracer >::template type >( in, st..., Tracer( in ) );
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, state_control< Control >::template type >( in, st..., Tracer( in ) );
          }
          else if constexpr( !std::is_same_v< std::tuple_element_t< sizeof...( st ) - 1, std::tuple< States... > >, Tracer& > ) {
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, state_control< Control, Tracer >::template type >( in, st..., Tracer( in ) );
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, state_control< Control >::template type >( in, st..., Tracer( in ) );
          }
          else {
             return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
