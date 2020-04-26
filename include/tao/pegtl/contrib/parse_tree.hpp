@@ -28,7 +28,6 @@
 
 #include "../internal/enable_control.hpp"
 #include "../internal/iterator.hpp"
-#include "../internal/try_catch_type.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::parse_tree
 {
@@ -137,6 +136,11 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       void failure( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
       {}
 
+      // if parsing of the rule failed with an exception, this method is called
+      template< typename Rule, typename ParseInput, typename... States >
+      void unwind( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
+      {}
+
       // if parsing succeeded and the (optional) transform call
       // did not discard the node, it is appended to its parent.
       // note that "child" is the node whose Rule just succeeded
@@ -155,12 +159,6 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
 
    namespace internal
    {
-      template< typename >
-      inline constexpr bool is_try_catch_type = false;
-
-      template< typename Exception, typename... Rules >
-      inline constexpr bool is_try_catch_type< TAO_PEGTL_NAMESPACE::internal::try_catch_type< Exception, Rules... > > = true;
-
       template< typename Node >
       struct state
       {
@@ -243,45 +241,32 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       struct make_control< Node, Selector, Control >::state_handler< Rule, false, false >
          : remove_first_state< Control< Rule > >
       {
-         template< apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control2,
-                   typename ParseInput,
-                   typename... States >
-         [[nodiscard]] static bool match( ParseInput& in, States&&... st )
+         template< typename ParseInput, typename... States >
+         static void start( const ParseInput& /*unused*/, state< Node >& state, States&&... /*unused*/ )
          {
-            auto& state = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
-            if constexpr( is_try_catch_type< Rule > ) {
-               internal::state< Node > tmp;
-               tmp.emplace_back();
-               tmp.stack.swap( state.stack );
-               const bool result = Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
-               tmp.stack.swap( state.stack );
-               if( result ) {
-                  for( auto& c : tmp.back()->children ) {
-                     state.back()->children.emplace_back( std::move( c ) );
-                  }
-               }
-               return result;
+            state.emplace_back();
+         }
+
+         template< typename ParseInput, typename... States >
+         static void success( const ParseInput& /*unused*/, state< Node >& state, States&&... /*unused*/ )
+         {
+            auto n = std::move( state.back() );
+            state.pop_back();
+            for( auto& c : n->children ) {
+               state.back()->children.emplace_back( std::move( c ) );
             }
-            else {
-               state.emplace_back();
-               const bool result = Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
-               if( result ) {
-                  auto n = std::move( state.back() );
-                  state.pop_back();
-                  for( auto& c : n->children ) {
-                     state.back()->children.emplace_back( std::move( c ) );
-                  }
-               }
-               else {
-                  state.pop_back();
-               }
-               return result;
-            }
+         }
+
+         template< typename ParseInput, typename... States >
+         static void failure( const ParseInput& /*unused*/, state< Node >& state, States&&... /*unused*/ )
+         {
+            state.pop_back();
+         }
+
+         template< typename ParseInput, typename... States >
+         static void unwind( const ParseInput& /*unused*/, state< Node >& state, States&&... /*unused*/ )
+         {
+            state.pop_back();
          }
       };
 
@@ -312,10 +297,20 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          }
 
          template< typename ParseInput, typename... States >
-         static void failure( const ParseInput& in, state< Node >& state, States&&... st ) noexcept( noexcept( Control< Rule >::failure( in, st... ) ) && noexcept( std::declval< Node& >().template failure< Rule >( in, st... ) ) )
+         static void failure( const ParseInput& in, state< Node >& state, States&&... st )
          {
             Control< Rule >::failure( in, st... );
             state.back()->template failure< Rule >( in, st... );
+            state.pop_back();
+         }
+
+         template< typename ParseInput, typename... States >
+         static void unwind( const ParseInput& in, state< Node >& state, States&&... st )
+         {
+            if constexpr( TAO_PEGTL_NAMESPACE::internal::has_unwind< Control< Rule >, void, ParseInput&, States... > ) {
+               Control< Rule >::unwind( in, st... );
+            }
+            state.back()->template unwind< Rule >( in, st... );
             state.pop_back();
          }
       };
