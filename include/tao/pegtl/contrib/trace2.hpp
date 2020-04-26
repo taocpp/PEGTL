@@ -69,15 +69,15 @@ namespace TAO_PEGTL_NAMESPACE
          }
       }
 
-      template< typename Rule, typename ParseInput >
-      void start( const ParseInput& /*unused*/ )
+      template< typename Rule, typename ParseInput, typename... States >
+      void start( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
          std::cerr << '#' << std::setw( indent() - 1 ) << ++m_count << "\033[36m" << demangle< Rule >() << "\033[m\n";
          m_stack.push_back( m_count );
       }
 
-      template< typename Rule, typename ParseInput >
-      void success( const ParseInput& in )
+      template< typename Rule, typename ParseInput, typename... States >
+      void success( const ParseInput& in, States&&... /*unused*/ )
       {
          const auto prev = m_stack.back();
          m_stack.pop_back();
@@ -89,8 +89,8 @@ namespace TAO_PEGTL_NAMESPACE
          update( in.position() );
       }
 
-      template< typename Rule, typename ParseInput >
-      void failure( const ParseInput& in )
+      template< typename Rule, typename ParseInput, typename... States >
+      void failure( const ParseInput& in, States&&... /*unused*/ )
       {
          const auto prev = m_stack.back();
          m_stack.pop_back();
@@ -102,14 +102,14 @@ namespace TAO_PEGTL_NAMESPACE
          update( in.position() );
       }
 
-      template< typename Rule, typename ParseInput >
-      void raise( const ParseInput& /*unused*/ )
+      template< typename Rule, typename ParseInput, typename... States >
+      void raise( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
          std::cerr << std::setw( indent() ) << ' ' << "\033[1;31mraise\033[m \033[36m" << demangle< Rule >() << "\033[m\n";
       }
 
-      template< typename Rule, typename ParseInput >
-      void unwind( const ParseInput& in )
+      template< typename Rule, typename ParseInput, typename... States >
+      void unwind( const ParseInput& in, States&&... /*unused*/ )
       {
          const auto prev = m_stack.back();
          m_stack.pop_back();
@@ -121,14 +121,14 @@ namespace TAO_PEGTL_NAMESPACE
          update( in.position() );
       }
 
-      template< typename Rule, typename ParseInput >
-      void apply( const ParseInput& /*unused*/ )
+      template< typename Rule, typename ParseInput, typename... States >
+      void apply( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
          std::cerr << std::setw( static_cast< int >( indent() - 2 ) ) << ' ' << "\033[1;36mapply\033[m\n";
       }
 
-      template< typename Rule, typename ParseInput >
-      void apply0( const ParseInput& /*unused*/ )
+      template< typename Rule, typename ParseInput, typename... States >
+      void apply0( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
          std::cerr << std::setw( static_cast< int >( indent() - 2 ) ) << ' ' << "\033[1;36mapply0\033[m\n";
       }
