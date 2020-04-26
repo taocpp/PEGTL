@@ -11,8 +11,7 @@
 #include <string_view>
 #include <vector>
 
-#include "remove_first_state.hpp"
-#include "shuffle_states.hpp"
+#include "state_control.hpp"
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
@@ -52,18 +51,12 @@ namespace TAO_PEGTL_NAMESPACE
 
    namespace internal
    {
-      struct coverage_state
-      {
-         coverage_result result;
-         std::vector< std::string_view > stack;
-      };
-
       template< typename Rule >
       struct coverage_insert
       {
-         static void visit( coverage_state& state )
+         static void visit( std::map< std::string_view, coverage_entry >& map )
          {
-            visit_branches( state.result.map.try_emplace( demangle< Rule >() ).first->second.branches, typename Rule::subs_t() );
+            visit_branches( map.try_emplace( demangle< Rule >() ).first->second.branches, typename Rule::subs_t() );
          }
 
          template< typename... Ts >
@@ -73,66 +66,75 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
-      template< template< typename... > class Control >
-      struct make_coverage_control
+      struct coverage_state
       {
          template< typename Rule >
-         struct control
-            : remove_first_state< Control< Rule > >
+         static constexpr bool enable = true;
+
+         coverage_result result;
+         std::vector< std::string_view > stack;
+
+         template< typename Rule, typename ParseInput, typename... States >
+         void start( const ParseInput& /*unused*/, States&&... /*unused*/ )
          {
-            template< typename ParseInput, typename... States >
-            [[noreturn]] static void raise( const ParseInput& in, coverage_state& state, States&&... st )
-            {
-               const auto name = demangle< Rule >();
-               ++state.result.map.at( name ).raise;
-               if( state.stack.size() > 1 ) {
-                  ++state.result.map.at( state.stack.at( state.stack.size() - 2 ) ).branches.at( name ).raise;
-               }
-               Control< Rule >::raise( in, st... );
+            const auto name = demangle< Rule >();
+            ++result.map.at( name ).start;
+            if( !stack.empty() ) {
+               ++result.map.at( stack.back() ).branches.at( name ).start;
             }
+            stack.push_back( name );
+         }
 
-            template< apply_mode A,
-                      rewind_mode M,
-                      template< typename... >
-                      class Action,
-                      template< typename... >
-                      class Control2,
-                      typename ParseInput,
-                      typename... States >
-            [[nodiscard]] static bool match( ParseInput& in, States&&... st )
-            {
-               coverage_entry dummy;
-               auto& state = std::get< sizeof...( st ) - 1 >( std::tie( st... ) );
-               const auto name = demangle< Rule >();
-               auto& entry = state.result.map.at( name );
-               auto& previous = state.stack.empty() ? dummy : state.result.map.at( state.stack.back() ).branches.at( name );
-               ++entry.start;
-               ++previous.start;
-               state.stack.push_back( name );
-               try {
-                  const bool result = Control< Rule >::template match< A, M, Action, Control2 >( in, st... );
-                  state.stack.pop_back();
-                  if( result ) {
-                     ++entry.success;
-                     ++previous.success;
-                  }
-                  else {
-                     ++entry.failure;
-                     ++previous.failure;
-                  }
-                  return result;
-               }
-               catch( ... ) {
-                  state.stack.pop_back();
-                  ++entry.unwind;
-                  ++previous.unwind;
-                  throw;
-               }
+         template< typename Rule, typename ParseInput, typename... States >
+         void success( const ParseInput& /*unused*/, States&&... /*unused*/ )
+         {
+            stack.pop_back();
+            const auto name = demangle< Rule >();
+            ++result.map.at( name ).success;
+            if( !stack.empty() ) {
+               ++result.map.at( stack.back() ).branches.at( name ).success;
             }
-         };
+         }
 
-         template< typename Rule >
-         using type = rotate_states_right< control< Rule > >;
+         template< typename Rule, typename ParseInput, typename... States >
+         void failure( const ParseInput& /*unused*/, States&&... /*unused*/ )
+         {
+            stack.pop_back();
+            const auto name = demangle< Rule >();
+            ++result.map.at( name ).failure;
+            if( !stack.empty() ) {
+               ++result.map.at( stack.back() ).branches.at( name ).failure;
+            }
+         }
+
+         template< typename Rule, typename ParseInput, typename... States >
+         void raise( const ParseInput& /*unused*/, States&&... /*unused*/ )
+         {
+            const auto name = demangle< Rule >();
+            ++result.map.at( name ).raise;
+            if( !stack.empty() ) {
+               ++result.map.at( stack.back() ).branches.at( name ).raise;
+            }
+         }
+
+         template< typename Rule, typename ParseInput, typename... States >
+         void unwind( const ParseInput& /*unused*/, States&&... /*unused*/ )
+         {
+            stack.pop_back();
+            const auto name = demangle< Rule >();
+            ++result.map.at( name ).unwind;
+            if( !stack.empty() ) {
+               ++result.map.at( stack.back() ).branches.at( name ).unwind;
+            }
+         }
+
+         template< typename Rule, typename ParseInput, typename... States >
+         void apply( const ParseInput& /*unused*/, States&&... /*unused*/ )
+         {}
+
+         template< typename Rule, typename ParseInput, typename... States >
+         void apply0( const ParseInput& /*unused*/, States&&... /*unused*/ )
+         {}
       };
 
    }  // namespace internal
@@ -148,8 +150,8 @@ namespace TAO_PEGTL_NAMESPACE
       state.result.grammar = demangle< Rule >();
       state.result.source = in.source();
 
-      visit< Rule, internal::coverage_insert >( state );  // Fill state.result.map with all sub-rules of the grammar.
-      state.result.result = parse< Rule, Action, internal::make_coverage_control< Control >::template type >( in, st..., state );
+      visit< Rule, internal::coverage_insert >( state.result.map );  // Fill map with all sub-rules of the grammar.
+      state.result.result = parse< Rule, Action, state_control< Control >::template type >( in, st..., state );
       assert( state.stack.empty() );
 
       return std::move( state.result );
