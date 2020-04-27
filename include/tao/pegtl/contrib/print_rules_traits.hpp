@@ -43,21 +43,30 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   template<>
-   struct print_rules_traits< internal::any< internal::peek_utf8 > >
+   template< typename Rule >
+   struct print_rules_traits< internal::at< Rule > >
    {
       static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << pc.pegtl( "utf8" );
+         internal::print_rules_rules< Rule >( os, pc, "at" );
       }
    };
 
    template< typename... Rules >
-   struct print_rules_traits< internal::at< Rules... > >
+   struct print_rules_traits< internal::at< internal::seq< Rules... > > >
    {
       static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
          internal::print_rules_rules< Rules... >( os, pc, "at" );
+      }
+   };
+
+   template<>
+   struct print_rules_traits< internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\t' > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         os << pc.pegtl( "blank" );
       }
    };
 
@@ -234,8 +243,17 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
+   template< typename Rule >
+   struct print_rules_traits< internal::not_at< Rule > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         internal::print_rules_rules< Rule >( os, pc, "not_at" );
+      }
+   };
+
    template< typename... Rules >
-   struct print_rules_traits< internal::not_at< Rules... > >
+   struct print_rules_traits< internal::not_at< internal::seq< Rules... > > >
    {
       static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
@@ -415,8 +433,18 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
+   template< unsigned Cnt, typename Rule >
+   struct print_rules_traits< internal::rep< Cnt, Rule > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         os << pc.pegtl( "rep" ) << "( " << Cnt;
+         internal::print_rules_rules< Rule >( os, pc, nullptr, ", " );
+      }
+   };
+
    template< unsigned Cnt, typename... Rules >
-   struct print_rules_traits< internal::rep< Cnt, Rules... > >
+   struct print_rules_traits< internal::rep< Cnt, internal::seq< Rules... > > >
    {
       static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
@@ -425,8 +453,18 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
+   template< unsigned Min, unsigned Max, typename Rule >
+   struct print_rules_traits< internal::rep_min_max< Min, Max, Rule > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         os << pc.pegtl( "rep_min_max" ) << "( " << Min << ", " << Max;
+         internal::print_rules_rules< Rule >( os, pc, nullptr, ", " );
+      }
+   };
+
    template< unsigned Min, unsigned Max, typename... Rules >
-   struct print_rules_traits< internal::rep_min_max< Min, Max, Rules... > >
+   struct print_rules_traits< internal::rep_min_max< Min, Max, internal::seq< Rules... > > >
    {
       static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
@@ -435,8 +473,18 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
+   template< unsigned Cnt, typename Rule >
+   struct print_rules_traits< internal::rep_opt< Cnt, Rule > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         os << pc.pegtl( "rep_opt" ) << "( " << Cnt;
+         internal::print_rules_rules< Rule >( os, pc, nullptr, ", " );
+      }
+   };
+
    template< unsigned Cnt, typename... Rules >
-   struct print_rules_traits< internal::rep_opt< Cnt, Rules... > >
+   struct print_rules_traits< internal::rep_opt< Cnt, internal::seq< Rules... > > >
    {
       static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
@@ -520,8 +568,26 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
+   template< typename Cond >
+   struct print_rules_traits< internal::until< Cond > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         internal::print_rules_rules< Cond >( os, pc, "until" );
+      }
+   };
+
+   template< typename Cond, typename Rule >
+   struct print_rules_traits< internal::until< Cond, Rule > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         internal::print_rules_rules< Cond, Rule >( os, pc, "until" );
+      }
+   };
+
    template< typename Cond, typename... Rules >
-   struct print_rules_traits< internal::until< Cond, Rules... > >
+   struct print_rules_traits< internal::until< Cond, internal::seq< Rules... > > >
    {
       static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
@@ -535,6 +601,15 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
          os << pc.pegtl( "upper" );
+      }
+   };
+
+   template<>
+   struct print_rules_traits< internal::any< internal::peek_utf8 > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         os << pc.pegtl( "utf8" );
       }
    };
 

@@ -466,7 +466,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << pc.pegtl( "maximum" ) << "( " << Maximum << " )";
+         os << pc.pegtl( "maximum" ) << "( " << std::uint64_t( Maximum ) << " )";
       }
    };
 
