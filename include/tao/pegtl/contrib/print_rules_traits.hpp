@@ -8,7 +8,7 @@
 #include "../rules.hpp"
 
 #include "../internal/peek_char.hpp"
-#incldue "../internal/peek_utf8.hpp"
+#include "../internal/peek_utf8.hpp"
 
 #include "forward.hpp"
 
