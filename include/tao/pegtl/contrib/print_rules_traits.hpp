@@ -5,6 +5,7 @@
 #define TAO_PEGTL_CONTRIB_PRINT_RULES_TRAITS_HPP
 
 #include "../config.hpp"
+#include "../rules.hpp"
 
 #include "forward.hpp"
 

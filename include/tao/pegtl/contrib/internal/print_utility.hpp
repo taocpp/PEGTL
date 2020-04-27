@@ -10,6 +10,7 @@
 #include <string_view>
 
 #include "../../config.hpp"
+#include "../../demangle.hpp"
 
 #include "../forward.hpp"
 
@@ -53,13 +54,13 @@ namespace TAO_PEGTL_NAMESPACE
          }
          if( i < 0x10000 ) {
             char b[ 8 ];
-            const auto s = std::snprintf( b, sizeof( b ), "\\u%04x", i );
+            const auto s = std::snprintf( b, sizeof( b ), "\\u%04x", unsigned( i ) );
             os.write( b, s );
             return;
          }
          if ( i < 0x110000 ) {
             char b[ 10 ];
-            const auto s = std::snprintf( b, sizeof( b ), "\\U%06x", i );
+            const auto s = std::snprintf( b, sizeof( b ), "\\U%06x", unsigned( i ) );
             os.write( b, s );
             return;
          }
@@ -102,7 +103,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
          if ( i < 0x110000 ) {
             char b[ 10 ];
-            const auto s = std::snprintf( b, sizeof( b ), "U+%X", i );
+            const auto s = std::snprintf( b, sizeof( b ), "U+%X", unsigned( i ) );
             os.write( b, s );
             return;
          }
