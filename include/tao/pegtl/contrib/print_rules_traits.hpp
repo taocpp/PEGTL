@@ -180,12 +180,30 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
+   template< typename Rule, typename Sep, typename Pad >
+   struct print_rules_traits< internal::seq< Rule, internal::star< internal::seq< internal::star< Pad >, Sep, internal::star< Pad > >, Rule > > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         internal::print_rules_rules< Rule, Sep, Pad >( os, pc, "list" );
+      }
+   };
+
    template< typename Rule, typename Sep >
    struct print_rules_traits< internal::seq< Rule, internal::star< Sep, internal::must< Rule > > > >
    {
       static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
          internal::print_rules_rules< Rule, Sep >( os, pc, "list_must" );
+      }
+   };
+
+   template< typename Rule, typename Sep, typename Pad >
+   struct print_rules_traits< internal::seq< Rule, internal::star< internal::seq< internal::star< Pad >, Sep, internal::star< Pad > >, internal::must< Rule > > > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         internal::print_rules_rules< Rule, Sep, Pad >( os, pc, "list_must" );
       }
    };
 
@@ -260,8 +278,17 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
+   template< typename Rule >
+   struct print_rules_traits< internal::opt< Rule > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         internal::print_rules_rules< Rule >( os, pc, "opt" );
+      }
+   };
+
    template< typename... Rules >
-   struct print_rules_traits< internal::opt< Rules... > >
+   struct print_rules_traits< internal::opt< internal::seq< Rules... > > >
    {
       static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
@@ -278,8 +305,44 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
+   template< typename Rule, typename Pad >
+   struct print_rules_traits< internal::seq< internal::star< Pad >, Rule, internal::star< Pad > > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         internal::print_rules_rules< Rule, Pad >( os, pc, "pad" );
+      }
+   };
+
+   template< typename Rule, typename Pad1, typename Pad2 >
+   struct print_rules_traits< internal::seq< internal::star< Pad1 >, Rule, internal::star< Pad2 > > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         internal::print_rules_rules< Rule, Pad1, Pad2 >( os, pc, "pad" );
+      }
+   };
+
+   template< typename Rule, typename Pad >
+   struct print_rules_traits< internal::seq< internal::star< Pad >, internal::opt< Rule, internal::star< Pad > > > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         internal::print_rules_rules< Rule, Pad >( os, pc, "pad_opt" );
+      }
+   };
+
+   template< typename Rule >
+   struct print_rules_traits< internal::plus< Rule > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         internal::print_rules_rules< Rule >( os, pc, "plus" );
+      }
+   };
+
    template< typename... Rules >
-   struct print_rules_traits< internal::plus< Rules... > >
+   struct print_rules_traits< internal::plus< internal::seq< Rules... > > >
    {
       static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
@@ -362,6 +425,26 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
+   template< unsigned Min, unsigned Max, typename... Rules >
+   struct print_rules_traits< internal::rep_min_max< Min, Max, Rules... > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         os << pc.pegtl( "rep_min_max" ) << "( " << Min << ", " << Max;
+         internal::print_rules_rules< Rules... >( os, pc, nullptr, ", " );
+      }
+   };
+
+   template< unsigned Cnt, typename... Rules >
+   struct print_rules_traits< internal::rep_opt< Cnt, Rules... > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         os << pc.pegtl( "rep_opt" ) << "( " << Cnt;
+         internal::print_rules_rules< Rules... >( os, pc, nullptr, ", " );
+      }
+   };
+
    template< typename Rule >
    struct print_rules_traits< internal::seq< Rule > >
       : print_rules_traits< typename Rule::rule_t >
@@ -390,12 +473,30 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
+   template< typename Rule >
+   struct print_rules_traits< internal::star< Rule > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         internal::print_rules_rules< Rule >( os, pc, "star" );
+      }
+   };
+
    template< typename... Rules >
-   struct print_rules_traits< internal::star< Rules... > >
+   struct print_rules_traits< internal::star< internal::seq< Rules... > > >
    {
       static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
          internal::print_rules_rules< Rules... >( os, pc, "star" );
+      }
+   };
+
+   template< typename Cond, typename... Rules >
+   struct print_rules_traits< internal::star< internal::if_must< false, Cond, Rules... > > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         internal::print_rules_rules< Rules... >( os, pc, "star_must" );
       }
    };
 
