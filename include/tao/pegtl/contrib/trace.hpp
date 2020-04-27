@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE
       explicit tracer( const ParseInput& in )
          : m_position( in.position() )
       {
-         // TODO: Safe/restore state of std::cerr
+         // TODO: Save/restore state of std::cerr.
          std::cerr << std::left;
          print_position();
       }
