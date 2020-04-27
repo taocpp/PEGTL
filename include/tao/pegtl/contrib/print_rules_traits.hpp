@@ -19,153 +19,153 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct print_rules_traits< internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9' > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "alnum";
+         os << pc.pegtl( "alnum" );
       }
    };
 
    template<>
    struct print_rules_traits< internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z' > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "alpha";
+         os << pc.pegtl( "alpha" );
       }
    };
 
    template<>
    struct print_rules_traits< internal::any< internal::peek_char > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "any";
+         os << pc.pegtl( "any" );
       }
    };
 
    template<>
    struct print_rules_traits< internal::any< internal::peek_utf8 > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "utf8";
+         os << pc.pegtl( "utf8" );
       }
    };
 
    template< typename... Rules >
    struct print_rules_traits< internal::at< Rules... > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Rules... >( os, prefix, "at" );
+         internal::print_rules_rules< Rules... >( os, pc, "at" );
       }
    };
 
    template<>
    struct print_rules_traits< internal::bof >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "bof";
+         os << pc.pegtl( "bof" );
       }
    };
 
    template<>
    struct print_rules_traits< internal::bol >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "bol";
+         os << pc.pegtl( "bol" );
       }
    };
 
    template< unsigned Num >
    struct print_rules_traits< internal::bytes< Num > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "bytes( " << Num << " )";
+         os << pc.pegtl( "bytes" ) << "( " << Num << " )";
       }
    };
 
    template<>
    struct print_rules_traits< internal::range< internal::result_on_found::success, internal::peek_char, '0', '9' > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "digit";
+         os << pc.pegtl( "digit" );
       }
    };
 
    template<>
    struct print_rules_traits< internal::eof >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "eof";
+         os << pc.pegtl( "eof" );
       }
    };
 
    template<>
    struct print_rules_traits< internal::eol >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "eol";
+         os << pc.pegtl( "eol" );
       }
    };
 
    template<>
    struct print_rules_traits< internal::eolf >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "eolf";
+         os << pc.pegtl( "eolf" );
       }
    };
 
    template<>
    struct print_rules_traits< internal::failure >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "failure";
+         os << pc.pegtl( "failure" );
       }
    };
 
    template< typename Cond, typename... Rules >
    struct print_rules_traits< internal::if_must< false, Cond, Rules... > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Cond, Rules... >( os, prefix, "if_must" );
+         internal::print_rules_rules< Cond, Rules... >( os, pc, "if_must" );
       }
    };
 
    template< typename Cond, typename Then, typename Else >
    struct print_rules_traits< internal::if_then_else< Cond, Then, Else > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Cond, Then, Else >( os, prefix, "if_then_else" );
+         internal::print_rules_rules< Cond, Then, Else >( os, pc, "if_then_else" );
       }
    };
 
    template< typename Cond, typename Then, typename Else >
    struct print_rules_traits< internal::if_then_else< Cond, internal::must< Then >, internal::must< Else > > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Cond, Then, Else >( os, prefix, "if_must_else" );
+         internal::print_rules_rules< Cond, Then, Else >( os, pc, "if_must_else" );
       }
    };
 
    template< char... Cs >
    struct print_rules_traits< internal::istring< Cs... > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "istring( \"";
+         os << pc.pegtl( "istring" ) << "( \"";
          ( internal::print_escape( os, Cs ), ... );
          os << "\" )";
       }
@@ -174,63 +174,63 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule, typename Sep >
    struct print_rules_traits< internal::seq< Rule, internal::star< Sep, Rule > > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Rule, Sep >( os, prefix, "list" );
+         internal::print_rules_rules< Rule, Sep >( os, pc, "list" );
       }
    };
 
    template< typename Rule, typename Sep >
    struct print_rules_traits< internal::seq< Rule, internal::star< Sep, internal::must< Rule > > > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Rule, Sep >( os, prefix, "list_must" );
+         internal::print_rules_rules< Rule, Sep >( os, pc, "list_must" );
       }
    };
 
    template<>
    struct print_rules_traits< internal::range< internal::result_on_found::success, internal::peek_char, 'a', 'z' > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "lower";
+         os << pc.pegtl( "lower" );
       }
    };
 
    template< typename Head, typename Rule >
    struct print_rules_traits< internal::rematch< Head, internal::not_at< Rule, internal::eof > > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Head, Rule >( os, prefix, "minus" );
+         internal::print_rules_rules< Head, Rule >( os, pc, "minus" );
       }
    };
 
    template< typename... Rules >
    struct print_rules_traits< internal::must< Rules... > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Rules... >( os, prefix, "\033[38;5;202mmust\033[m" );
+         internal::print_rules_rules< Rules... >( os, pc, "must" );
       }
    };
 
    template< typename... Rules >
    struct print_rules_traits< internal::not_at< Rules... > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Rules... >( os, prefix, "not_at" );
+         internal::print_rules_rules< Rules... >( os, pc, "not_at" );
       }
    };
 
    template< typename Peek, typename Peek::data_t C, typename Peek::data_t... Cs >
    struct print_rules_traits< internal::one< internal::result_on_found::failure, Peek, C, Cs... > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "not_one( ";
+         os << pc.pegtl( "not_one" ) << "( ";
          ( internal::print_escape1( os, C ), ..., ( os << ", ", internal::print_escape1( os, Cs ) ) );
          os << " )";
       }
@@ -239,11 +239,11 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct print_rules_traits< internal::range< internal::result_on_found::failure, Peek, Lo, Hi > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "not_range( ";
+         os << pc.pegtl( "not_range" ) << "( ";
          internal::print_escape1( os, Lo );
-         os << ", ";
+         os << " - ";
          internal::print_escape1( os, Hi );
          os << " )";
       }
@@ -252,9 +252,9 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Peek, typename Peek::data_t C, typename Peek::data_t... Cs >
    struct print_rules_traits< internal::one< internal::result_on_found::success, Peek, C, Cs... > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "one( ";
+         os << pc.pegtl( "one" ) << "( ";
          ( internal::print_escape1( os, C ), ..., ( os << ", ", internal::print_escape1( os, Cs ) ) );
          os << " )";
       }
@@ -263,50 +263,82 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Rules >
    struct print_rules_traits< internal::opt< Rules... > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Rules... >( os, prefix, "opt" );
+         internal::print_rules_rules< Rules... >( os, pc, "opt" );
       }
    };
 
    template< typename Cond, typename... Rules >
    struct print_rules_traits< internal::if_must< true, Cond, Rules... > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Cond, Rules... >( os, prefix, "opt_must" );
+         internal::print_rules_rules< Cond, Rules... >( os, pc, "opt_must" );
       }
    };
 
    template< typename... Rules >
    struct print_rules_traits< internal::plus< Rules... > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Rules... >( os, prefix, "plus" );
+         internal::print_rules_rules< Rules... >( os, pc, "plus" );
       }
    };
 
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct print_rules_traits< internal::range< internal::result_on_found::success, Peek, Lo, Hi > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "range( ";
+         os << pc.pegtl( "range" ) << "( ";
          internal::print_escape1( os, Lo );
-         os << ", ";
+         os << " - ";
          internal::print_escape1( os, Hi );
          os << " )";
       }
    };
 
-   template< typename Peek, typename Peek::data_t C, typename Peek::data_t... Cs >
-   struct print_rules_traits< internal::ranges< Peek, C, Cs... > >
+   namespace internal
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      template< typename T, T... >
+      struct print_ranges_rules_traits;
+
+      template< typename T, T C >
+      struct print_ranges_rules_traits< T, C >
       {
-         os << "ranges( ";
-         ( internal::print_escape1( os, C ), ..., ( os << ", ", internal::print_escape1( os, Cs ) ) );
+         static void print( std::ostream& os )
+         {
+            os << ", ";
+            internal::print_escape1( os, C );
+         }
+      };
+
+      template< typename T, T Lo, T Hi, T... Ts >
+      struct print_ranges_rules_traits< T, Lo, Hi, Ts... >
+      {
+         static void print( std::ostream& os )
+         {
+            os << ", ";
+            internal::print_escape1( os, Lo );
+            os << " - ";
+            internal::print_escape1( os, Hi );
+         }
+      };
+
+   }  // internal
+
+   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi, typename Peek::data_t... Cs >
+   struct print_rules_traits< internal::ranges< Peek, Lo, Hi, Cs... > >
+   {
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      {
+         os << pc.pegtl( "ranges" ) << "( ";
+         internal::print_escape1( os, Lo );
+         os << " - ";
+         internal::print_escape1( os, Hi );
+         internal::print_ranges_rules_traits< typename Peek::data_t, Cs... >::print( os );
          os << " )";
       }
    };
@@ -314,19 +346,19 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Head, typename... Rules >
    struct print_rules_traits< internal::rematch< Head, Rules... > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Head, Rules... >( os, prefix, "rematch" );
+         internal::print_rules_rules< Head, Rules... >( os, pc, "rematch" );
       }
    };
 
    template< unsigned Cnt, typename... Rules >
    struct print_rules_traits< internal::rep< Cnt, Rules... > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "rep( " << Cnt;
-         internal::print_rules_rules< Rules... >( os, prefix, "", ", " );
+         os << pc.pegtl( "rep" ) << "( " << Cnt;
+         internal::print_rules_rules< Rules... >( os, pc, nullptr, ", " );
       }
    };
 
@@ -338,9 +370,9 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Rules >
    struct print_rules_traits< internal::seq< Rules... > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Rules... >( os, prefix, "\033[1;38;5;64mseq\033[m" );
+         internal::print_rules_rules< Rules... >( os, pc, "seq" );
       }
    };
 
@@ -352,27 +384,27 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Rules >
    struct print_rules_traits< internal::sor< Rules... > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Rules... >( os, prefix, "\033[1;38;5;27msor\033[m" );
+         internal::print_rules_rules< Rules... >( os, pc, "sor" );
       }
    };
 
    template< typename... Rules >
    struct print_rules_traits< internal::star< Rules... > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Rules... >( os, prefix, "star" );
+         internal::print_rules_rules< Rules... >( os, pc, "star" );
       }
    };
 
    template< char... Cs >
    struct print_rules_traits< internal::string< Cs... > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "string( \"";
+         os << pc.pegtl( "string" ) << "( \"";
          ( internal::print_escape( os, Cs ), ... );
          os << "\" )";
       }
@@ -381,27 +413,27 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct print_rules_traits< internal::success >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "success";
+         os << pc.pegtl( "success" );
       }
    };
 
    template< typename Cond, typename... Rules >
    struct print_rules_traits< internal::until< Cond, Rules... > >
    {
-      static void print( std::ostream& os, const std::string_view prefix )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         internal::print_rules_rules< Cond, Rules... >( os, prefix, "until" );
+         internal::print_rules_rules< Cond, Rules... >( os, pc, "until" );
       }
    };
 
    template<>
    struct print_rules_traits< internal::range< internal::result_on_found::success, internal::peek_char, 'A', 'Z' > >
    {
-      static void print( std::ostream& os, const std::string_view /*unused*/ )
+      static void print( std::ostream& os, const internal::print_rules_config& pc )
       {
-         os << "upper";
+         os << pc.pegtl( "upper" );
       }
    };
 

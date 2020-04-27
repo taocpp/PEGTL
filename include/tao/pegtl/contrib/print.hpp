@@ -4,11 +4,13 @@
 #ifndef TAO_PEGTL_CONTRIB_PRINT_HPP
 #define TAO_PEGTL_CONTRIB_PRINT_HPP
 
+#include <algorithm>
 #include <cassert>
 #include <iomanip>
 #include <ios>
 #include <ostream>
 #include <string_view>
+#include <vector>
 
 #include "../config.hpp"
 #include "../demangle.hpp"
@@ -66,12 +68,11 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule >
       struct print_rules
       {
-         static void visit( std::ostream& os, const std::string_view prefix, const int width )
+         static void visit( std::ostream& os, const print_rules_config& pc )
          {
-            const std::string_view rule = demangle< Rule >();
-            if( is_in_namespace( rule, prefix ) ) {
-               os << std::right << std::setw( width ) << rule.substr( prefix.size() ) << " = ";
-               print_rules_traits< typename Rule::rule_t >::print( os, prefix );
+            if( const auto rule = pc.template name< Rule >(); !rule.empty() ) {
+               os << std::string( std::string::size_type( std::max( pc.width - int( rule.size() ), 0 ) ), ' ' ) << pc.user( rule ) << " = ";
+               print_rules_traits< typename Rule::rule_t >::print( os, pc );
                os << '\n';
             }
          }
@@ -91,11 +92,11 @@ namespace TAO_PEGTL_NAMESPACE
       visit< Grammar, internal::print_debug >( os );
    }
 
-   template< typename Grammar >
-   void print_rules( std::ostream& os, const std::string_view prefix, const int width = 21 )
+   template< typename Grammar, typename... Args >
+   void print_rules( std::ostream& os, Args&&... args )
    {
-      assert( !prefix.empty() );  // TODO: Something more fitting.
-      visit< Grammar, internal::print_rules >( os, prefix, width );
+      const internal::print_rules_config pc( args... );
+      visit< Grammar, internal::print_rules >( os, pc );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
