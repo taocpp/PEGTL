@@ -29,6 +29,7 @@ set(example_sources
   symbol_table.cpp
   unescape.cpp
   uri.cpp
+  uri_print_rules.cpp
   uri_trace.cpp
 )
 

@@ -36,9 +36,9 @@ namespace TAO_PEGTL_NAMESPACE
       {
          static constexpr int width = 21;
 
-         static constexpr std::string_view pegtl_style = "\033[38;5;239m";  // "\033[90m";
+         static constexpr std::string_view pegtl_style = "\033[38;5;238m";  // "\033[90m";
          static constexpr std::string_view quote_style = "\033[1m";
-         static constexpr std::string_view user_style = "\033[38;5;19m";  // "\033[34m";
+         static constexpr std::string_view user_style = "\033[38;5;18m";  // "\033[34m";
 
          print_rules_config() = default;
 
