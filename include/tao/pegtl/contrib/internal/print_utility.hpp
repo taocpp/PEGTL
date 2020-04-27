@@ -133,7 +133,7 @@ namespace TAO_PEGTL_NAMESPACE
          os << a << b;
          ( print_rules_rule< Rule >( os, prefix ), ..., ( os << c, print_rules_rule< Rules >( os, prefix ) ) );
          os << d << e;
-      };
+      }
 
    }  // namespace internal
 
