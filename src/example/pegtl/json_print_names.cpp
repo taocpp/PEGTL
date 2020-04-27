@@ -8,6 +8,6 @@
 
 int main()  // NOLINT(bugprone-exception-escape)
 {
-   tao::pegtl::print_rules< tao::pegtl::json::text >( std::cout, "tao::pegtl::json::" );
+   tao::pegtl::print_names< tao::pegtl::json::text >( std::cout );
    return 0;
 }

@@ -4,18 +4,26 @@
 #ifndef TAO_PEGTL_CONTRIB_PRINT_HPP
 #define TAO_PEGTL_CONTRIB_PRINT_HPP
 
+#include <cassert>
+#include <iomanip>
+#include <ios>
 #include <ostream>
+#include <string_view>
 
 #include "../config.hpp"
 #include "../demangle.hpp"
 #include "../visit.hpp"
+
+#include "print_rules_traits.hpp"
+
+#include "internal/print_utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
       template< typename Name >
-      struct print_rules
+      struct print_names
       {
          static void visit( std::ostream& os )
          {
@@ -24,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< typename Name >
-      struct print_sub_rules
+      struct print_debug
       {
          static void visit( std::ostream& os )
          {
@@ -55,18 +63,39 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
+      template< typename Rule >
+      struct print_rules
+      {
+         static void visit( std::ostream& os, const std::string_view prefix, const unsigned width )
+         {
+            const std::string_view rule = demangle< Rule >();
+            if( is_in_namespace( rule, prefix ) ) {
+               os << std::right << std::setw( width ) << rule.substr( prefix.size() ) << " = ";
+               print_rules_traits< typename Rule::rule_t >::print( os, prefix );
+               os << '\n';
+            }
+         }
+      };
+
    }  // namespace internal
 
    template< typename Grammar >
-   void print_rules( std::ostream& os )
+   void print_names( std::ostream& os )
    {
-      visit< Grammar, internal::print_rules >( os );
+      visit< Grammar, internal::print_names >( os );
    }
 
    template< typename Grammar >
-   void print_sub_rules( std::ostream& os )
+   void print_debug( std::ostream& os )
    {
-      visit< Grammar, internal::print_sub_rules >( os );
+      visit< Grammar, internal::print_debug >( os );
+   }
+
+   template< typename Grammar >
+   void print_rules( std::ostream& os, const std::string_view prefix, const unsigned width = 21 )
+   {
+      assert( !prefix.empty() );  // TODO: Something more fitting.
+      visit< Grammar, internal::print_rules >( os, prefix, width );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

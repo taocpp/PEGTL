@@ -14,8 +14,9 @@ set(example_sources
   json_count.cpp
   json_coverage.cpp
   json_parse.cpp
+  json_print_debug.cpp
+  json_print_names.cpp
   json_print_rules.cpp
-  json_print_sub_rules.cpp
   json_trace.cpp
   lua53_parse.cpp
   modulus_match.cpp

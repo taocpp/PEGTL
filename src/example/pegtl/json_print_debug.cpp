@@ -8,6 +8,6 @@
 
 int main()  // NOLINT(bugprone-exception-escape)
 {
-   tao::pegtl::print_sub_rules< tao::pegtl::json::text >( std::cout );
+   tao::pegtl::print_debug< tao::pegtl::json::text >( std::cout );
    return 0;
 }
