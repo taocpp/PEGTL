@@ -14,6 +14,7 @@ set(example_sources
   json_count.cpp
   json_coverage.cpp
   json_parse.cpp
+  json_parse_tree.cpp
   json_print_debug.cpp
   json_print_names.cpp
   json_print_rules.cpp
