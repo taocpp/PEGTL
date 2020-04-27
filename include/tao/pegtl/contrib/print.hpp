@@ -66,7 +66,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule >
       struct print_rules
       {
-         static void visit( std::ostream& os, const std::string_view prefix, const unsigned width )
+         static void visit( std::ostream& os, const std::string_view prefix, const int width )
          {
             const std::string_view rule = demangle< Rule >();
             if( is_in_namespace( rule, prefix ) ) {
@@ -92,7 +92,7 @@ namespace TAO_PEGTL_NAMESPACE
    }
 
    template< typename Grammar >
-   void print_rules( std::ostream& os, const std::string_view prefix, const unsigned width = 21 )
+   void print_rules( std::ostream& os, const std::string_view prefix, const int width = 21 )
    {
       assert( !prefix.empty() );  // TODO: Something more fitting.
       visit< Grammar, internal::print_rules >( os, prefix, width );

@@ -7,6 +7,9 @@
 #include "../config.hpp"
 #include "../rules.hpp"
 
+#include "../internal/peek_char.hpp"
+#incldue "../internal/peek_utf8.hpp"
+
 #include "forward.hpp"
 
 #include "internal/print_utility.hpp"
