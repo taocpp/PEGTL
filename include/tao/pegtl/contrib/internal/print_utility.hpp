@@ -128,9 +128,8 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< typename Rule, typename... Rules >
-      void print_rules_rules( std::ostream& os, const std::string_view prefix, const char* a, const char* b = "( ", const char* c = ", ", const char* d = " )", const char* e = "" )
+      void print_rules_rules( std::ostream& os, const std::string_view prefix, const char* a, const char* b = "( ", [[maybe_unused]] const char* c = ", ", const char* d = " )", const char* e = "" )
       {
-         (void)c;
          os << a << b;
          ( print_rules_rule< Rule >( os, prefix ), ..., ( os << c, print_rules_rule< Rules >( os, prefix ) ) );
          os << d << e;
