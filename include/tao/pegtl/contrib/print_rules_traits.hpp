@@ -408,7 +408,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
-   }  // internal
+   }  // namespace internal
 
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi, typename Peek::data_t... Cs >
    struct print_rules_traits< internal::ranges< Peek, Lo, Hi, Cs... > >

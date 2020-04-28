@@ -70,7 +70,7 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename... Ts >
-   explicit mmap_input( Ts&&... )->mmap_input<>;
+   explicit mmap_input( Ts&&... ) -> mmap_input<>;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

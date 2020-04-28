@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename... Ts >
-   istream_input( Ts&&... )->istream_input<>;
+   istream_input( Ts&&... ) -> istream_input<>;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

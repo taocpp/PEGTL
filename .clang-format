@@ -3,7 +3,7 @@
 # clang-format -i -style=file $(find . -name '[^.]*.[hc]pp')
 
 Language: Cpp
-Standard: Cpp11
+Standard: Latest
 
 AccessModifierOffset: -3
 AlignAfterOpenBracket: Align

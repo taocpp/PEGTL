@@ -68,7 +68,7 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< typename C >
-      analyze_guard( C&, const typename C::value_type& )->analyze_guard< C >;
+      analyze_guard( C&, const typename C::value_type& ) -> analyze_guard< C >;
 
       class analyze_cycles_impl
       {

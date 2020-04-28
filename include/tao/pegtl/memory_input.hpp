@@ -354,7 +354,7 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename... Ts >
-   memory_input( Ts&&... )->memory_input<>;
+   memory_input( Ts&&... ) -> memory_input<>;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
