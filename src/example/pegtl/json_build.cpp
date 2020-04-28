@@ -14,7 +14,7 @@
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-namespace examples
+namespace example
 {
    // State class that stores the result of a JSON parsing run -- a single JSON object.
    // The other members are used temporarily, at the end of a (successful) parsing run.
@@ -157,7 +157,7 @@ namespace examples
 
    using grammar = pegtl::must< pegtl::json::text, pegtl::eof >;
 
-}  // namespace examples
+}  // namespace example
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
@@ -165,9 +165,9 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       std::cerr << "usage: " << argv[ 0 ] << " <json>";
    }
    else {
-      examples::json_state state;
+      example::json_state state;
       pegtl::file_input in( argv[ 1 ] );
-      pegtl::parse< examples::grammar, examples::action, examples::control >( in, state );
+      pegtl::parse< example::grammar, example::action, example::control >( in, state );
       assert( state.keys.empty() );
       assert( state.arrays.empty() );
       assert( state.objects.empty() );

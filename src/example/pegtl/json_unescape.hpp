@@ -10,7 +10,7 @@
 #include <tao/pegtl/contrib/json.hpp>
 #include <tao/pegtl/contrib/unescape.hpp>
 
-namespace examples
+namespace example
 {
    // Action class for parsing literal strings, uses the PEGTL unescape utilities, cf. unescape.cpp.
 
@@ -24,6 +24,6 @@ namespace examples
 
    using json_unescape = tao::pegtl::change_action_and_states< json_unescape_action, std::string >;
 
-}  // namespace examples
+}  // namespace example
 
 #endif

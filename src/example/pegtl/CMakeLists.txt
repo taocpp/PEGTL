@@ -10,11 +10,12 @@ set(example_sources
   dynamic_match.cpp
   hello_world.cpp
   indent_aware.cpp
+  json_analyze.cpp
+  json_ast.cpp
   json_build.cpp
   json_count.cpp
   json_coverage.cpp
   json_parse.cpp
-  json_parse_tree.cpp
   json_print_debug.cpp
   json_print_names.cpp
   json_print_rules.cpp
