@@ -29,8 +29,9 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 
    pegtl::file_input in( argv[ 1 ] );
    try {
-      const auto data = pegtl::coverage< example::grammar, pegtl::nothing, example::control >( in );
-      std::cout << data;
+      pegtl::coverage_result result;
+      pegtl::coverage< example::grammar, pegtl::nothing, example::control >( in, result );  // Ignore return value...?
+      std::cout << result;
    }
    catch( const pegtl::parse_error& e ) {
       const auto p = e.positions.front();

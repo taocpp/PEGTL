@@ -12,28 +12,23 @@ namespace TAO_PEGTL_NAMESPACE
 {
    inline std::ostream& operator<<( std::ostream& os, const coverage_result& result )
    {
-      os << "{\n"
-         << "  \"grammar\": \"" << result.grammar << "\",\n"
-         << "  \"source\": \"" << result.source << "\",\n"
-         << "  \"result\": " << ( result.result ? "true" : "false" ) << ",\n"
-         << "  \"coverage\":\n"
-         << "  [\n";
+      os << "[\n";
       bool f = true;
-      for( const auto& [ k, v ] : result.map ) {
+      for( const auto& [ k, v ] : result ) {
          if( f ) {
             f = false;
          }
          else {
             os << ",\n";
          }
-         os << "    {\n"
-            << "      \"rule\": \"" << k << "\",\n"
-            << "      \"start\": " << v.start << ", \"success\": " << v.success << ", \"failure\": " << v.failure << ", \"unwind\": " << v.unwind << ", \"raise\": " << v.raise << ",\n";
+         os << "  {\n"
+            << "    \"rule\": \"" << k << "\",\n"
+            << "    \"start\": " << v.start << ", \"success\": " << v.success << ", \"failure\": " << v.failure << ", \"unwind\": " << v.unwind << ", \"raise\": " << v.raise << ",\n";
          if( v.branches.empty() ) {
-            os << "      \"branches\": []\n";
+            os << "    \"branches\": []\n";
          }
          else {
-            os << "      \"branches\": [\n";
+            os << "    \"branches\": [\n";
             bool f2 = true;
             for( const auto& [ k2, v2 ] : v.branches ) {
                if( f2 ) {
@@ -42,15 +37,14 @@ namespace TAO_PEGTL_NAMESPACE
                else {
                   os << ",\n";
                }
-               os << "        { \"branch\": \"" << k2 << "\", \"start\": " << v2.start << ", \"success\": " << v2.success << ", \"failure\": " << v2.failure << ", \"unwind\": " << v2.unwind << ", \"raise\": " << v2.raise << " }";
+               os << "      { \"branch\": \"" << k2 << "\", \"start\": " << v2.start << ", \"success\": " << v2.success << ", \"failure\": " << v2.failure << ", \"unwind\": " << v2.unwind << ", \"raise\": " << v2.raise << " }";
             }
-            os << "\n      ]\n";
+            os << "\n    ]\n";
          }
-         os << "    }";
+         os << "  }";
       }
-      os << "\n"
-         << "  ]\n"
-         << "}\n";
+      os << "\n";
+      os << "]\n";
       return os;
    }
 
