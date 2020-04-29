@@ -69,7 +69,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< template< typename... > class Traits, typename Rule >
       void print_rule( std::ostream& os ) const
       {
-         if( const auto rule = Traits< void >::template name< Rule >(); !rule.empty() ) {
+         if( const auto rule = name< Rule >(); !rule.empty() ) {
             os << user( rule );
          }
          else {
