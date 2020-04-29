@@ -65,17 +65,32 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
-      template< typename Rule >
+      template< template< typename... > class Traits >
       struct print_rules
       {
-         static void visit( std::ostream& os, const print_rules_config& pc )
+         template< typename Rule >
+         struct max
          {
-            if( const auto rule = pc.template name< Rule >(); !rule.empty() ) {
-               os << std::string( std::string::size_type( std::max( pc.width - int( rule.size() ), 0 ) ), ' ' ) << pc.user( rule ) << " = ";
-               print_rules_traits< typename Rule::rule_t >::print( os, pc );
-               os << '\n';
+            template< typename Config >
+            static void visit( std::size_t& size, const Config& pc )
+            {
+               size = std::max( size, pc.template name< Rule >().size() );
             }
-         }
+         };
+
+         template< typename Rule >
+         struct impl
+         {
+            template< typename Config >
+            static void visit( std::ostream& os, const std::size_t width, const Config& pc )
+            {
+               if( const auto rule = pc.template name< Rule >(); !rule.empty() ) {
+                  os << std::string( width - rule.size(), ' ' ) << pc.user( rule ) << " = ";
+                  Traits< typename Rule::rule_t >::template print< Traits >( os, pc );
+                  os << '\n';
+               }
+            }
+         };
       };
 
    }  // namespace internal
@@ -92,11 +107,13 @@ namespace TAO_PEGTL_NAMESPACE
       visit< Grammar, internal::print_debug >( os );
    }
 
-   template< typename Grammar, typename... Args >
+   template< typename Grammar, template< typename... > class Traits = print_rules_traits, typename... Args >
    void print_rules( std::ostream& os, Args&&... args )
    {
-      const internal::print_rules_config pc( args... );
-      visit< Grammar, internal::print_rules >( os, pc );
+      std::size_t size = 1;
+      const Traits< void > pc( args... );
+      visit< Grammar, internal::print_rules< Traits >::template max >( size, pc );
+      visit< Grammar, internal::print_rules< Traits >::template impl >( os, size, pc );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

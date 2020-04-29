@@ -464,7 +464,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Integer, Integer Maximum >
    struct print_rules_traits< maximum_rule< Integer, Maximum > >
    {
-      static void print( std::ostream& os, const internal::print_rules_config& pc )
+      template< template< typename... > class Traits, typename Config >
+      static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "maximum" ) << "( " << std::uint64_t( Maximum ) << " )";
       }
