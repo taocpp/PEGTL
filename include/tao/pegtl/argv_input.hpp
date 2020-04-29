@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename... Ts >
-   argv_input( Ts&&... )->argv_input<>;
+   argv_input( Ts&&... ) -> argv_input<>;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

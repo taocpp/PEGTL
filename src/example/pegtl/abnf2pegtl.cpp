@@ -145,7 +145,7 @@ namespace TAO_PEGTL_NAMESPACE
 
          rules_t::reverse_iterator find_rule( rules_t& r, const std::string& v, const rules_t::reverse_iterator& rbegin )
          {
-            return std::find_if( rbegin, r.rend(), [&]( const rules_t::value_type& p ) { return TAO_PEGTL_STRCASECMP( p.c_str(), v.c_str() ) == 0; } );
+            return std::find_if( rbegin, r.rend(), [ & ]( const rules_t::value_type& p ) { return TAO_PEGTL_STRCASECMP( p.c_str(), v.c_str() ) == 0; } );
          }
 
          rules_t::reverse_iterator find_rule( rules_t& r, const std::string& v )

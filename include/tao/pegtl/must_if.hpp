@@ -4,6 +4,8 @@
 #ifndef TAO_PEGTL_MUST_IF_HPP
 #define TAO_PEGTL_MUST_IF_HPP
 
+#include <type_traits>
+
 #include "config.hpp"
 #include "normal.hpp"
 
@@ -15,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE
       inline constexpr bool raise_on_failure = ( T::template message< Rule > != nullptr );
 
       template< typename T, typename Rule >
-      inline constexpr bool raise_on_failure< T, Rule, decltype( T::template raise_on_failure< Rule >, void() ) > = T::template raise_on_failure< Rule >;
+      inline constexpr bool raise_on_failure< T, Rule, std::void_t< decltype( T::template raise_on_failure< Rule > ) > > = T::template raise_on_failure< Rule >;
 
    }  // namespace internal
 
@@ -27,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
          : Base< Rule >
       {
          template< typename ParseInput, typename... States >
-         static void failure( const ParseInput& in, States&&... st ) noexcept( !internal::raise_on_failure< T, Rule > && noexcept( Base< Rule >::failure( in, st... ) ) )
+         static void failure( const ParseInput& in, States&&... st ) noexcept( noexcept( Base< Rule >::failure( in, st... ) ) && !internal::raise_on_failure< T, Rule > )
          {
             if constexpr( internal::raise_on_failure< T, Rule > ) {
                raise( in, st... );

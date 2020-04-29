@@ -10,6 +10,8 @@ set(example_sources
   dynamic_match.cpp
   hello_world.cpp
   indent_aware.cpp
+  json_analyze.cpp
+  json_ast.cpp
   json_build.cpp
   json_count.cpp
   json_coverage.cpp

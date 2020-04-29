@@ -57,7 +57,7 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename... Ts >
-   explicit string_input( Ts&&... )->string_input<>;
+   explicit string_input( Ts&&... ) -> string_input<>;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

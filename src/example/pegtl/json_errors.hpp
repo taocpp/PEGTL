@@ -9,7 +9,7 @@
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-namespace examples
+namespace example
 {
    // This file shows how to throw exceptions with
    // custom error messages for parse errors.
@@ -38,7 +38,7 @@ namespace examples
 
    template<> inline constexpr auto error_message< pegtl::eof > = "unexpected character after JSON value";
 
-   // As must_if can not take error_message as a template parameter directly, we need to wrap it.
+   // As must_if<> can not take error_message as a template parameter directly, we need to wrap it.
    // Additionally, we make sure only must<>-rules trigger global error.
    struct error {
       template< typename Rule > static constexpr auto raise_on_failure = false;
@@ -48,6 +48,6 @@ namespace examples
    template< typename Rule > using control = pegtl::must_if< error >::control< Rule >;
    // clang-format on
 
-}  // namespace examples
+}  // namespace example
 
 #endif

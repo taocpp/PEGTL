@@ -10,7 +10,7 @@
 #include <string>
 #include <vector>
 
-namespace examples
+namespace example
 {
    enum class json_type
    {
@@ -209,6 +209,6 @@ namespace examples
       }
    };
 
-}  // namespace examples
+}  // namespace example
 
 #endif

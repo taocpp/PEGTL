@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
          const std::string_view string;
       };
 
-      std::ostream& operator<<( std::ostream& os, const styled ss )
+      inline std::ostream& operator<<( std::ostream& os, const styled ss )
       {
          os << ss.style << ss.string << reset_style;
          return os;
@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE
 
          print_rules_config() = default;
 
-         print_rules_config( const std::string_view in_include )
+         explicit print_rules_config( const std::string_view in_include )
             : include( in_include )
          {}
 
@@ -60,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE
          const std::string_view exclude = "tao::pegtl::";
 
          template< typename Rule >
-         std::string_view name() const noexcept
+         [[nodiscard]] std::string_view name() const noexcept
          {
             const std::string_view d = demangle< Rule >();
             if( ( !is_in_namespace( d, include ) ) && is_in_namespace( d, exclude ) ) {
@@ -72,7 +72,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
 
       private:
-         static bool is_in_namespace( const std::string_view rule_name, const std::string_view name_space ) noexcept
+         [[nodiscard]] static bool is_in_namespace( const std::string_view rule_name, const std::string_view name_space ) noexcept
          {
             // TODO: Check whether this needs tweaking for Windows and/or MSVC.
             return ( rule_name.size() > name_space.size() ) && ( rule_name.compare( 0, name_space.size(), name_space ) == 0 );
@@ -119,7 +119,7 @@ namespace TAO_PEGTL_NAMESPACE
             os.write( b, s );
             return;
          }
-         if ( i < 0x110000 ) {
+         if( i < 0x110000 ) {
             char b[ 10 ];
             const auto s = std::snprintf( b, sizeof( b ), "\\U%06x", unsigned( i ) );
             os.write( b, s );

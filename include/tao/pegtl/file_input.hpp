@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
 
    template< typename... Ts >
-   explicit file_input( Ts&&... )->file_input<>;
+   explicit file_input( Ts&&... ) -> file_input<>;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

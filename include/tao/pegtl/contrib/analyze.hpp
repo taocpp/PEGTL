@@ -68,7 +68,7 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< typename C >
-      analyze_guard( C&, const typename C::value_type& )->analyze_guard< C >;
+      analyze_guard( C&, const typename C::value_type& ) -> analyze_guard< C >;
 
       class analyze_cycles_impl
       {
@@ -150,7 +150,7 @@ namespace TAO_PEGTL_NAMESPACE
             if( !accum ) {
                ++m_problems;
                if( m_verbose ) {
-                  std::cout << "problem: cycle without progress detected at rule class " << start->first << std::endl;  // LCOV_EXCL_LINE
+                  std::cerr << "problem: cycle without progress detected at rule class " << start->first << std::endl;  // LCOV_EXCL_LINE
                }
             }
             return m_cache[ start->first ] = accum;
