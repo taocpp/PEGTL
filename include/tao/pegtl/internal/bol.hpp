@@ -5,10 +5,9 @@
 #define TAO_PEGTL_INTERNAL_BOL_HPP
 
 #include "../config.hpp"
+#include "../type_list.hpp"
 
 #include "enable_control.hpp"
-
-#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -20,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept
       {
-         return in.byte_in_line() == 0;
+         return in.byte_in_line() == 1;
       }
    };
 

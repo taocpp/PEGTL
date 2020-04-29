@@ -54,13 +54,13 @@ namespace TAO_PEGTL_NAMESPACE
    void verify_data( const std::size_t line, const char* file, const char ( &m )[ M ], const char ( &n )[ N ] )
    {
       content.clear();
-      memory_input in( m, m + M - 1, file, 0, line, 0 );
+      memory_input in( m, m + M - 1, file, 0, line, 1 );
       const auto r = parse< Rule, Action >( in );
       if( ( !r ) || ( content != std::string_view( n, N - 1 ) ) ) {
          TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r << " ]" );
       }
       content.clear();
-      memory_input< tracking_mode::lazy > in2( m, m + M - 1, file, 0, line, 0 );
+      memory_input< tracking_mode::lazy > in2( m, m + M - 1, file, 0, line, 1 );
       const auto r2 = parse< Rule, Action >( in2 );
       if( ( !r2 ) || ( content != std::string_view( n, N - 1 ) ) ) {
          TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] with tracking_mode::lazy expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r2 << " ]" );

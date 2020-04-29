@@ -52,7 +52,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       const auto p = e.positions.front();
       std::cerr << e.what() << std::endl
                 << in.line_at( p ) << std::endl
-                << std::setw( p.byte_in_line ) << ' ' << '^' << std::endl;
+                << std::setw( p.byte_in_line ) << '^' << std::endl;
       return 1;
    }
 

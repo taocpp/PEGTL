@@ -2,6 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <algorithm>
+#include <iomanip>
 #include <iostream>
 #include <iterator>
 #include <map>
@@ -741,7 +742,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       const auto p = e.positions.front();
       std::cerr << e.what() << std::endl
                 << in.line_at( p ) << std::endl
-                << std::string( p.byte_in_line, ' ' ) << '^' << std::endl;
+                << std::setw( p.byte_in_line ) << '^' << std::endl;
    }
 
    return 0;

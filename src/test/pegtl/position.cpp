@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       TAO_PEGTL_TEST_ASSERT( parse< Rule >( i1 ) );
       TAO_PEGTL_TEST_ASSERT( i1.line() == 2 );
-      TAO_PEGTL_TEST_ASSERT( i1.byte_in_line() == 0 );
+      TAO_PEGTL_TEST_ASSERT( i1.byte_in_line() == 1 );
    }
 
    template< typename Rule, typename ParseInput = memory_input<> >
@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       TAO_PEGTL_TEST_ASSERT( parse< Rule >( i2 ) );
       TAO_PEGTL_TEST_ASSERT( i2.line() == 1 );
-      TAO_PEGTL_TEST_ASSERT( i2.byte_in_line() == 1 );
+      TAO_PEGTL_TEST_ASSERT( i2.byte_in_line() == 2 );
    }
 
    template< typename Rule, typename ParseInput = memory_input<> >
@@ -48,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       TAO_PEGTL_TEST_ASSERT( !parse< Rule >( i3 ) );
       TAO_PEGTL_TEST_ASSERT( i3.line() == 1 );
-      TAO_PEGTL_TEST_ASSERT( i3.byte_in_line() == 0 );
+      TAO_PEGTL_TEST_ASSERT( i3.byte_in_line() == 1 );
    }
 
    struct outer_grammar
@@ -73,7 +73,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( p.source == "outer" );
          TAO_PEGTL_TEST_ASSERT( p.byte == 2 );
          TAO_PEGTL_TEST_ASSERT( p.line == 1 );
-         TAO_PEGTL_TEST_ASSERT( p.byte_in_line == 2 );
+         TAO_PEGTL_TEST_ASSERT( p.byte_in_line == 3 );
          memory_input in( "dFF", "inner" );
          parse_nested< inner_grammar >( oi, in );
       }
@@ -91,11 +91,11 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( e.positions[ 0 ].source == "inner" );
          TAO_PEGTL_TEST_ASSERT( e.positions[ 0 ].byte == 1 );
          TAO_PEGTL_TEST_ASSERT( e.positions[ 0 ].line == 1 );
-         TAO_PEGTL_TEST_ASSERT( e.positions[ 0 ].byte_in_line == 1 );
+         TAO_PEGTL_TEST_ASSERT( e.positions[ 0 ].byte_in_line == 2 );
          TAO_PEGTL_TEST_ASSERT( e.positions[ 1 ].source == "outer" );
          TAO_PEGTL_TEST_ASSERT( e.positions[ 1 ].byte == 2 );
          TAO_PEGTL_TEST_ASSERT( e.positions[ 1 ].line == 1 );
-         TAO_PEGTL_TEST_ASSERT( e.positions[ 1 ].byte_in_line == 2 );
+         TAO_PEGTL_TEST_ASSERT( e.positions[ 1 ].byte_in_line == 3 );
       }
    }
 

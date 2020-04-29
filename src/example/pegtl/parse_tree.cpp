@@ -2,6 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <array>
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <type_traits>
@@ -177,7 +178,7 @@ int main( int argc, char** argv )
       const auto p = e.positions.front();
       std::cerr << e.what() << std::endl
                 << in.line_at( p ) << std::endl
-                << std::string( p.byte_in_line, ' ' ) << '^' << std::endl;
+                << std::setw( p.byte_in_line ) << '^' << std::endl;
    }
    catch( const std::exception& e ) {
       std::cerr << e.what() << std::endl;

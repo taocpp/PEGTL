@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       for( std::size_t i = 0; i < count; ++i ) {
          if( iter.data[ i ] == ch ) {
             ++iter.line;
-            iter.byte_in_line = 0;
+            iter.byte_in_line = 1;
          }
          else {
             ++iter.byte_in_line;
@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       ++iter.line;
       iter.byte += count;
-      iter.byte_in_line = 0;
+      iter.byte_in_line = 1;
       iter.data += count;
    }
 

@@ -29,6 +29,7 @@
 * Parse Tree
   * Removed the need for RTTI.
 * Other
+  * Changed `byte_in_line` to 1-based counting.
   * Moved rule `eolf` from inline namespace `tao::pegtl::ascii` to `tao::pegtl`.
   * Changed rules in `tao/pegtl/contrib/integer.hpp` to not accept redundant leading zeros.
   * Added rules to `tao/pegtl/contrib/integer.hpp` that test unsigned values against a maximum.

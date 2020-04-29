@@ -4,6 +4,7 @@
 #ifndef TAO_PEGTL_MEMORY_INPUT_HPP
 #define TAO_PEGTL_MEMORY_INPUT_HPP
 
+#include <cassert>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
@@ -114,8 +115,11 @@ namespace TAO_PEGTL_NAMESPACE
             return TAO_PEGTL_NAMESPACE::position( it, m_source );
          }
 
-         void restart( const std::size_t in_byte = 0, const std::size_t in_line = 1, const std::size_t in_byte_in_line = 0 )
+         void restart( const std::size_t in_byte = 0, const std::size_t in_line = 1, const std::size_t in_byte_in_line = 1 )
          {
+            assert( in_line != 0 );
+            assert( in_byte_in_line != 0 );
+
             m_current.data = m_begin;
             m_current.byte = in_byte;
             m_current.line = in_line;
@@ -334,7 +338,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       [[nodiscard]] const char* begin_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
       {
-         return at( p ) - p.byte_in_line;
+         return at( p ) - ( p.byte_in_line - 1 );
       }
 
       [[nodiscard]] const char* end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
