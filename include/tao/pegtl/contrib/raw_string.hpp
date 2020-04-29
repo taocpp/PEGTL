@@ -22,6 +22,7 @@
 #include "../internal/star.hpp"
 
 #include "analyze_traits.hpp"
+#include "print_basic_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -204,7 +205,7 @@ namespace TAO_PEGTL_NAMESPACE
       {};
 
       using rule_t = raw_string;
-      using subs_t = type_list< internal::raw_string_open< Open, Marker >, internal::must< content > >;
+      using subs_t = empty_list;  // type_list< internal::raw_string_open< Open, Marker >, internal::must< content > >;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -236,6 +237,16 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_traits< Name, raw_string< Open, Marker, Close, Contents... > >
       : analyze_traits< Name, typename seq< any, star< Contents... >, any >::rule_t >
    {};
+
+   template< char Open, char Marker, char Close, typename... Contents >
+   struct print_basic_traits< raw_string< Open, Marker, Close, Contents... > >
+   {
+      template< template< typename... > class Traits, typename Config >
+      static void print( std::ostream& os, const Config& pc )
+      {
+         os << pc.pegtl( "raw_string" ) << "( ... )";
+      }
+   };
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

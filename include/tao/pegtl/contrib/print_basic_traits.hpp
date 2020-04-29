@@ -25,34 +25,40 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct print_basic_traits< void >
    {
-      static constexpr std::string_view literal_style = "\033[38;5;2m";
-      static constexpr std::string_view pegtl_style = "\033[38;5;238m";  // "\033[90m";
-      static constexpr std::string_view quote_style = "\033[1m";
-      static constexpr std::string_view user_style = "\033[38;5;18m";  // "\033[34m";
-
       print_basic_traits() = default;
 
       explicit print_basic_traits( const std::string_view in_include )
          : include( in_include )
       {}
 
-      static internal::styled literal( const std::string_view string ) noexcept
+      print_basic_traits( print_basic_traits&& ) = delete;
+      print_basic_traits( const print_basic_traits& ) = delete;
+
+      void operator=( print_basic_traits&& ) = delete;
+      void operator=( const print_basic_traits& ) = delete;
+
+      const std::string_view include;
+      const std::string_view exclude = "tao::pegtl::";
+
+      const std::string_view literal_style = "\033[38;5;2m";
+      const std::string_view pegtl_style = "\033[38;5;238m";  // "\033[90m";
+      const std::string_view quote_style = "\033[1m";
+      const std::string_view user_style = "\033[38;5;18m";  // "\033[34m";
+
+      internal::styled literal( const std::string_view string ) const noexcept
       {
          return { literal_style, string };
       }
 
-      static internal::styled pegtl( const std::string_view string ) noexcept
+      internal::styled pegtl( const std::string_view string ) const noexcept
       {
          return { pegtl_style, string };
       }
 
-      static internal::styled user( const std::string_view string ) noexcept
+      internal::styled user( const std::string_view string ) const noexcept
       {
          return { user_style, string };
       }
-
-      const std::string_view include;
-      const std::string_view exclude = "tao::pegtl::";
 
       template< typename Rule >
       [[nodiscard]] std::string_view name() const noexcept
@@ -63,7 +69,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
          const std::string_view::size_type b = d.find( '<' );
          const std::string_view::size_type c = d.rfind( ':', b );
-         return ( c == std::string_view::npos ) ? d : d.substr( c + 1 );
+         return ( c == std::string_view::npos ) ? d : d.substr( c + 1 );  // , b - c - 1 );
       }
 
       template< template< typename... > class Traits, typename Rule >
@@ -184,7 +190,17 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool is_in_namespace( const std::string_view rule_name, const std::string_view name_space ) noexcept
       {
          // TODO: Check whether this needs tweaking for Windows and/or MSVC.
-         return ( rule_name.size() > name_space.size() ) && ( rule_name.compare( 0, name_space.size(), name_space ) == 0 );
+         return ( !name_space.empty() ) && ( rule_name.size() > name_space.size() ) && ( rule_name.compare( 0, name_space.size(), name_space ) == 0 );
+      }
+   };
+
+   template< template< typename... > class Action, typename... Rules >
+   struct print_basic_traits< internal::action< Action, Rules... > >
+   {
+      template< template< typename... > class Traits, typename Config >
+      static void print( std::ostream& os, const Config& pc )
+      {
+         pc.template print_list< Traits, Rules... >( os, "action" );
       }
    };
 
@@ -195,6 +211,26 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "any" );
+      }
+   };
+
+   template< typename... Actions >
+   struct print_basic_traits< internal::apply< Actions... > >
+   {
+      template< template< typename... > class Traits, typename Config >
+      static void print( std::ostream& os, const Config& pc )
+      {
+         os << pc.pegtl( "apply" );
+      }
+   };
+
+   template< typename... Actions >
+   struct print_basic_traits< internal::apply0< Actions... > >
+   {
+      template< template< typename... > class Traits, typename Config >
+      static void print( std::ostream& os, const Config& pc )
+      {
+         os << pc.pegtl( "apply0" );
       }
    };
 
@@ -245,6 +281,46 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "bytes" ) << "( " << Num << " )";
+      }
+   };
+
+   template< template< typename... > class Control, typename... Rules >
+   struct print_basic_traits< internal::control< Control, Rules... > >
+   {
+      template< template< typename... > class Traits, typename Config >
+      static void print( std::ostream& os, const Config& pc )
+      {
+         pc.template print_list< Traits, Rules... >( os, "control" );
+      }
+   };
+
+   template<>
+   struct print_basic_traits< internal::discard >
+   {
+      template< template< typename... > class Traits, typename Config >
+      static void print( std::ostream& os, const Config& pc )
+      {
+         os << pc.pegtl( "discard" );
+      }
+   };
+
+   template< typename... Rules >
+   struct print_basic_traits< internal::disable< Rules... > >
+   {
+      template< template< typename... > class Traits, typename Config >
+      static void print( std::ostream& os, const Config& pc )
+      {
+         pc.template print_list< Traits, Rules... >( os, "disable" );
+      }
+   };
+
+   template< typename... Rules >
+   struct print_basic_traits< internal::enable< Rules... > >
+   {
+      template< template< typename... > class Traits, typename Config >
+      static void print( std::ostream& os, const Config& pc )
+      {
+         pc.template print_list< Traits, Rules... >( os, "enable" );
       }
    };
 
@@ -370,7 +446,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          os << pc.pegtl( "not_range" ) << "( ";
          pc.escape1( os, Lo );
-         os << " - ";
+         os << "-";
          pc.escape1( os, Hi );
          os << " )";
       }
@@ -426,7 +502,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          os << pc.pegtl( "range" ) << "( ";
          pc.escape1( os, Lo );
-         os << " - ";
+         os << "-";
          pc.escape1( os, Hi );
          os << " )";
       }
@@ -435,10 +511,18 @@ namespace TAO_PEGTL_NAMESPACE
    namespace internal
    {
       template< template< typename... > class Traits, typename T, T... >
-      struct print_ranges_rules_traits;
+      struct print_ranges_traits;
+
+      template< template< typename... > class Traits, typename T >
+      struct print_ranges_traits< Traits, T >
+      {
+         template< typename Config >
+         static void print( std::ostream& /*unused*/, const Config& /*unused*/ )
+         {}
+      };
 
       template< template< typename... > class Traits, typename T, T C >
-      struct print_ranges_rules_traits< Traits, T, C >
+      struct print_ranges_traits< Traits, T, C >
       {
          template< typename Config >
          static void print( std::ostream& os, const Config& pc )
@@ -449,15 +533,16 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< template< typename... > class Traits, typename T, T Lo, T Hi, T... Ts >
-      struct print_ranges_rules_traits< Traits, T, Lo, Hi, Ts... >
+      struct print_ranges_traits< Traits, T, Lo, Hi, Ts... >
       {
          template< typename Config >
          static void print( std::ostream& os, const Config& pc )
          {
             os << ", ";
             pc.escape1( os, Lo );
-            os << " - ";
+            os << "-";
             pc.escape1( os, Hi );
+            print_ranges_traits< Traits, T, Ts... >::print( os, pc );
          }
       };
 
@@ -471,9 +556,9 @@ namespace TAO_PEGTL_NAMESPACE
       {
          os << pc.pegtl( "ranges" ) << "( ";
          pc.escape1( os, Lo );
-         os << " - ";
+         os << "-";
          pc.escape1( os, Hi );
-         internal::print_ranges_rules_traits< Traits, typename Peek::data_t, Cs... >::print( os, pc );
+         internal::print_ranges_traits< Traits, typename Peek::data_t, Cs... >::print( os, pc );
          os << " )";
       }
    };
@@ -518,6 +603,16 @@ namespace TAO_PEGTL_NAMESPACE
       {
          os << pc.pegtl( "rep_opt" ) << "( " << Cnt;
          pc.template print_list< Traits, Rules... >( os, nullptr, ", " );
+      }
+   };
+
+   template< unsigned Amount >
+   struct print_basic_traits< internal::require< Amount > >
+   {
+      template< template< typename... > class Traits, typename Config >
+      static void print( std::ostream& os, Config& pc )
+      {
+         os << pc.pegtl( "require" ) << "( " << Amount << " )";
       }
    };
 
