@@ -66,7 +66,7 @@ namespace TAO_PEGTL_NAMESPACE
             : result( in_result )
          {}
 
-         coverage_result result;
+         coverage_result& result;
          std::vector< std::string_view > stack;
 
          template< typename Rule, typename ParseInput, typename... States >
