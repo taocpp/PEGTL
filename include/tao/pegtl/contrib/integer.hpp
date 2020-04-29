@@ -7,7 +7,11 @@
 #include <cstdint>
 #include <cstdlib>
 
+#include <limits>
+#include <ostream>
+#include <string_view>
 #include <type_traits>
+#include <vector>
 
 #include "../ascii.hpp"
 #include "../parse.hpp"
