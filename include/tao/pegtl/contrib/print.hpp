@@ -10,12 +10,14 @@
 #include <ios>
 #include <ostream>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 #include "../config.hpp"
 #include "../demangle.hpp"
 #include "../visit.hpp"
 
+#include "print_basic_traits.hpp"
 #include "print_rules_traits.hpp"
 
 #include "internal/print_utility.hpp"
@@ -107,13 +109,25 @@ namespace TAO_PEGTL_NAMESPACE
       visit< Grammar, internal::print_debug >( os );
    }
 
-   template< typename Grammar, template< typename... > class Traits = print_rules_traits, typename... Args >
-   void print_rules( std::ostream& os, Args&&... args )
+   template< typename Grammar, template< typename... > class Traits, typename... Args >
+   void basic_print( std::ostream& os, Args&&... args )
    {
       std::size_t size = 1;
-      const Traits< void > pc( args... );
+      const Traits< void > pc( std::forward< Args >( args )... );
       visit< Grammar, internal::print_rules< Traits >::template max >( size, pc );
       visit< Grammar, internal::print_rules< Traits >::template impl >( os, size, pc );
+   }
+
+   template< typename Grammar, typename... Args >
+   void print_basic( std::ostream& os, Args&&... args )
+   {
+      basic_print< Grammar, print_basic_traits >( os, std::forward< Args >( args )... );
+   }
+
+   template< typename Grammar, typename... Args >
+   void print_rules( std::ostream& os, Args&&... args )
+   {
+      basic_print< Grammar, print_rules_traits >( os, std::forward< Args >( args )... );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

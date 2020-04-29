@@ -15,7 +15,8 @@
 #include "../rules.hpp"
 
 #include "analyze_traits.hpp"
-#include "print_rules_traits.hpp"
+
+#include "print_basic_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -462,7 +463,7 @@ namespace TAO_PEGTL_NAMESPACE
    {};
 
    template< typename Integer, Integer Maximum >
-   struct print_rules_traits< maximum_rule< Integer, Maximum > >
+   struct print_basic_traits< maximum_rule< Integer, Maximum > >
    {
       template< template< typename... > class Traits, typename Config >
       static void print( std::ostream& os, const Config& pc )

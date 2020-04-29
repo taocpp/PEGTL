@@ -12,6 +12,9 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_traits;
 
    template< typename Rule, typename = void >
+   struct print_basic_traits;
+
+   template< typename Rule, typename = void >
    struct print_rules_traits;
 
 }  // namespace TAO_PEGTL_NAMESPACE

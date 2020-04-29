@@ -16,6 +16,7 @@ set(example_sources
   json_count.cpp
   json_coverage.cpp
   json_parse.cpp
+  json_print_basic.cpp
   json_print_debug.cpp
   json_print_names.cpp
   json_print_rules.cpp
@@ -31,6 +32,9 @@ set(example_sources
   symbol_table.cpp
   unescape.cpp
   uri.cpp
+  uri_print_basic.cpp
+  uri_print_debug.cpp
+  uri_print_names.cpp
   uri_print_rules.cpp
   uri_trace.cpp
 )
