@@ -71,7 +71,7 @@ namespace TAO_PEGTL_NAMESPACE
       struct print_rules
       {
          template< typename Rule >
-         struct max
+         struct size
          {
             template< typename Config >
             static void visit( std::size_t& size, const Config& pc )
@@ -87,7 +87,7 @@ namespace TAO_PEGTL_NAMESPACE
             static void visit( std::ostream& os, const std::size_t width, const Config& pc )
             {
                if( const auto rule = pc.template name< Rule >(); !rule.empty() ) {
-                  os << std::string( width - rule.size(), ' ' ) << pc.user( rule ) << " = ";
+                  os << std::string( 1 + width - rule.size(), ' ' ) << pc.user( rule ) << " = ";
                   Traits< typename Rule::rule_t >::template print< Traits >( os, pc );
                   os << '\n';
                }
@@ -114,7 +114,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       std::size_t size = 1;
       const Traits< void > pc( std::forward< Args >( args )... );
-      visit< Grammar, internal::print_rules< Traits >::template max >( size, pc );
+      visit< Grammar, internal::print_rules< Traits >::template size >( size, pc );
       visit< Grammar, internal::print_rules< Traits >::template impl >( os, size, pc );
    }
 
