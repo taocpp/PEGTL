@@ -124,11 +124,11 @@ namespace TAO_PEGTL_NAMESPACE
          }
 
          template< typename Rule, typename ParseInput, typename... States >
-         void apply( const ParseInput& /*unused*/, States&&... /*unused*/ )
+         void apply( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
          {}
 
          template< typename Rule, typename ParseInput, typename... States >
-         void apply0( const ParseInput& /*unused*/, States&&... /*unused*/ )
+         void apply0( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
          {}
       };
 
