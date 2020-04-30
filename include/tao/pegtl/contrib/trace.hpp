@@ -38,20 +38,26 @@ namespace TAO_PEGTL_NAMESPACE
    struct tracer
       : TracerTraits
    {
+      std::ios_base::fmtflags m_flags;
       std::size_t m_count = 0;
       std::vector< std::size_t > m_stack;
       position m_position;
 
       template< typename ParseInput >
       explicit tracer( const ParseInput& in )
-         : m_position( in.position() )
+         : m_flags( std::cerr.flags() ),
+           m_position( in.position() )
       {
-         // TODO: Save/restore state of std::cerr.
          std::cerr << std::left;
          print_position();
       }
 
-      [[nodiscard]] std::size_t indent() const
+      ~tracer()
+      {
+         std::cerr.flags( m_flags );
+      }
+
+      [[nodiscard]] std::size_t indent() const noexcept
       {
          return TracerTraits::initial_indent + TracerTraits::indent * m_stack.size();
       }
@@ -61,7 +67,7 @@ namespace TAO_PEGTL_NAMESPACE
          std::cerr << std::setw( indent() ) << ' ' << "\033[1;34mposition\033[m " << m_position << '\n';
       }
 
-      void update( const position& p )
+      void update_position( const position& p )
       {
          if( m_position != p ) {
             m_position = p;
@@ -86,7 +92,7 @@ namespace TAO_PEGTL_NAMESPACE
             std::cerr << " #" << prev << ' ' << "\033[37m" << demangle< Rule >() << "\033[m";
          }
          std::cerr << '\n';
-         update( in.position() );
+         update_position( in.position() );
       }
 
       template< typename Rule, typename ParseInput, typename... States >
@@ -99,7 +105,7 @@ namespace TAO_PEGTL_NAMESPACE
             std::cerr << " #" << prev << ' ' << "\033[37m" << demangle< Rule >() << "\033[m";
          }
          std::cerr << '\n';
-         update( in.position() );
+         update_position( in.position() );
       }
 
       template< typename Rule, typename ParseInput, typename... States >
@@ -118,7 +124,7 @@ namespace TAO_PEGTL_NAMESPACE
             std::cerr << " #" << prev << ' ' << "\033[37m" << demangle< Rule >() << "\033[m";
          }
          std::cerr << '\n';
-         update( in.position() );
+         update_position( in.position() );
       }
 
       template< typename Rule, typename ParseInput, typename... States >
