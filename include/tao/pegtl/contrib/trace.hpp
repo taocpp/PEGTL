@@ -22,14 +22,14 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< bool HideInternal = false, bool UseColor = true, std::size_t Indent = 2, std::size_t InitialIndent = 8 >
+   template< bool HideInternal = false, bool UseColor = true, std::size_t IndentIncrement = 2, std::size_t InitialIndent = 8 >
    struct tracer_traits
    {
       template< typename Rule >
       static constexpr bool enable = ( HideInternal ? normal< Rule >::enable : true );
 
       static constexpr std::size_t initial_indent = InitialIndent;
-      static constexpr std::size_t indent = Indent;
+      static constexpr std::size_t indent_increment = IndentIncrement;
 
       static constexpr std::string_view ansi_reset = UseColor ? "\033[m" : "";
       static constexpr std::string_view ansi_rule = UseColor ? "\033[36m" : "";
@@ -48,12 +48,14 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename TracerTraits >
    struct tracer
-      : TracerTraits
    {
       std::ios_base::fmtflags m_flags;
       std::size_t m_count = 0;
       std::vector< std::size_t > m_stack;
       position m_position;
+
+      template< typename Rule >
+      static constexpr bool enable = TracerTraits::template enable< Rule >;
 
       template< typename ParseInput >
       explicit tracer( const ParseInput& in )
@@ -71,7 +73,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       [[nodiscard]] std::size_t indent() const noexcept
       {
-         return TracerTraits::initial_indent + TracerTraits::indent * m_stack.size();
+         return TracerTraits::initial_indent + TracerTraits::indent_increment * m_stack.size();
       }
 
       void print_position() const
@@ -142,13 +144,13 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename ParseInput, typename... States >
       void apply( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
-         std::cerr << std::setw( static_cast< int >( indent() - TracerTraits::indent ) ) << ' ' << TracerTraits::ansi_apply << "apply" << TracerTraits::ansi_reset << '\n';
+         std::cerr << std::setw( static_cast< int >( indent() - TracerTraits::indent_increment ) ) << ' ' << TracerTraits::ansi_apply << "apply" << TracerTraits::ansi_reset << '\n';
       }
 
       template< typename Rule, typename ParseInput, typename... States >
       void apply0( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
-         std::cerr << std::setw( static_cast< int >( indent() - TracerTraits::indent ) ) << ' ' << TracerTraits::ansi_apply << "apply0" << TracerTraits::ansi_reset << '\n';
+         std::cerr << std::setw( static_cast< int >( indent() - TracerTraits::indent_increment ) ) << ' ' << TracerTraits::ansi_apply << "apply0" << TracerTraits::ansi_reset << '\n';
       }
 
       template< typename Rule,
