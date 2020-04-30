@@ -158,7 +158,7 @@ namespace TAO_PEGTL_NAMESPACE
    bool standard_trace( ParseInput&& in, States&&... st )
    {
       tracer< standard_tracer_traits > tr( in );
-      return tr.parse< Rule, Action, Control >( in );
+      return tr.parse< Rule, Action, Control >( in, st... );
    }
 
    template< typename Rule,
@@ -169,7 +169,7 @@ namespace TAO_PEGTL_NAMESPACE
    bool complete_trace( ParseInput&& in, States&&... st )
    {
       tracer< complete_tracer_traits > tr( in );
-      return tr.parse< Rule, Action, Control >( in );
+      return tr.parse< Rule, Action, Control >( in, st... );
    }
 
    template< typename Tracer >
