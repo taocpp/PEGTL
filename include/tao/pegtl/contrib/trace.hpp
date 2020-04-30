@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <iomanip>
 #include <iostream>
+#include <string_view>
 #include <tuple>
 
 #include "state_control.hpp"
@@ -21,7 +22,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< bool HideInternal = false, std::size_t Indent = 2, std::size_t InitialIndent = 8 >
+   template< bool HideInternal = false, bool UseColor = true, std::size_t Indent = 2, std::size_t InitialIndent = 8 >
    struct tracer_traits
    {
       template< typename Rule >
@@ -29,6 +30,17 @@ namespace TAO_PEGTL_NAMESPACE
 
       static constexpr std::size_t initial_indent = InitialIndent;
       static constexpr std::size_t indent = Indent;
+
+      static constexpr std::string_view ansi_reset = UseColor ? "\033[m" : "";
+      static constexpr std::string_view ansi_rule = UseColor ? "\033[36m" : "";
+      static constexpr std::string_view ansi_hide = UseColor ? "\033[37m" : "";
+
+      static constexpr std::string_view ansi_position = UseColor ? "\033[1;34m" : "";
+      static constexpr std::string_view ansi_success = UseColor ? "\033[32m" : "";
+      static constexpr std::string_view ansi_failure = UseColor ? "\033[31m" : "";
+      static constexpr std::string_view ansi_raise = UseColor ? "\033[1;31m" : "";
+      static constexpr std::string_view ansi_unwind = UseColor ? "\033[31m" : "";
+      static constexpr std::string_view ansi_apply = UseColor ? "\033[1;36m" : "";
    };
 
    using standard_tracer_traits = tracer_traits< true >;
@@ -64,7 +76,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       void print_position() const
       {
-         std::cerr << std::setw( indent() ) << ' ' << "\033[1;34mposition\033[m " << m_position << '\n';
+         std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_position << "position" << TracerTraits::ansi_reset << ' ' << m_position << '\n';
       }
 
       void update_position( const position& p )
@@ -78,7 +90,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename ParseInput, typename... States >
       void start( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
-         std::cerr << '#' << std::setw( indent() - 1 ) << ++m_count << "\033[36m" << demangle< Rule >() << "\033[m\n";
+         std::cerr << '#' << std::setw( indent() - 1 ) << ++m_count << TracerTraits::ansi_rule << demangle< Rule >() << TracerTraits::ansi_reset << '\n';
          m_stack.push_back( m_count );
       }
 
@@ -87,9 +99,9 @@ namespace TAO_PEGTL_NAMESPACE
       {
          const auto prev = m_stack.back();
          m_stack.pop_back();
-         std::cerr << std::setw( indent() ) << ' ' << "\033[32msuccess\033[m";
+         std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_success << "success" << TracerTraits::ansi_reset;
          if( m_count != prev ) {
-            std::cerr << " #" << prev << ' ' << "\033[37m" << demangle< Rule >() << "\033[m";
+            std::cerr << " #" << prev << ' ' << TracerTraits::ansi_hide << demangle< Rule >() << TracerTraits::ansi_reset;
          }
          std::cerr << '\n';
          update_position( in.position() );
@@ -100,9 +112,9 @@ namespace TAO_PEGTL_NAMESPACE
       {
          const auto prev = m_stack.back();
          m_stack.pop_back();
-         std::cerr << std::setw( indent() ) << ' ' << "\033[31mfailure\033[m";
+         std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_failure << "failure" << TracerTraits::ansi_reset;
          if( m_count != prev ) {
-            std::cerr << " #" << prev << ' ' << "\033[37m" << demangle< Rule >() << "\033[m";
+            std::cerr << " #" << prev << ' ' << TracerTraits::ansi_hide << demangle< Rule >() << TracerTraits::ansi_reset;
          }
          std::cerr << '\n';
          update_position( in.position() );
@@ -111,7 +123,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename ParseInput, typename... States >
       void raise( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
-         std::cerr << std::setw( indent() ) << ' ' << "\033[1;31mraise\033[m \033[36m" << demangle< Rule >() << "\033[m\n";
+         std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_raise << "raise" << TracerTraits::ansi_reset << ' ' << TracerTraits::ansi_rule << demangle< Rule >() << TracerTraits::ansi_reset << '\n';
       }
 
       template< typename Rule, typename ParseInput, typename... States >
@@ -119,9 +131,9 @@ namespace TAO_PEGTL_NAMESPACE
       {
          const auto prev = m_stack.back();
          m_stack.pop_back();
-         std::cerr << std::setw( indent() ) << ' ' << "\033[31munwind\033[m";
+         std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_unwind << "unwind" << TracerTraits::ansi_reset;
          if( m_count != prev ) {
-            std::cerr << " #" << prev << ' ' << "\033[37m" << demangle< Rule >() << "\033[m";
+            std::cerr << " #" << prev << ' ' << TracerTraits::ansi_hide << demangle< Rule >() << TracerTraits::ansi_reset;
          }
          std::cerr << '\n';
          update_position( in.position() );
@@ -130,13 +142,13 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename ParseInput, typename... States >
       void apply( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
-         std::cerr << std::setw( static_cast< int >( indent() - TracerTraits::indent ) ) << ' ' << "\033[1;36mapply\033[m\n";
+         std::cerr << std::setw( static_cast< int >( indent() - TracerTraits::indent ) ) << ' ' << TracerTraits::ansi_apply << "apply" << TracerTraits::ansi_reset << '\n';
       }
 
       template< typename Rule, typename ParseInput, typename... States >
       void apply0( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
-         std::cerr << std::setw( static_cast< int >( indent() - TracerTraits::indent ) ) << ' ' << "\033[1;36mapply0\033[m\n";
+         std::cerr << std::setw( static_cast< int >( indent() - TracerTraits::indent ) ) << ' ' << TracerTraits::ansi_apply << "apply0" << TracerTraits::ansi_reset << '\n';
       }
 
       template< typename Rule,
