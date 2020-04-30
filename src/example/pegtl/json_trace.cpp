@@ -29,8 +29,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 
    pegtl::argv_input in( argv, 1 );
    try {
-      pegtl::standard_tracer tr( in );
-      tr.parse< example::grammar, pegtl::nothing, example::control >( in );
+      pegtl::standard_trace< example::grammar, pegtl::nothing, example::control >( in );
    }
    catch( const pegtl::parse_error& e ) {
       const auto p = e.positions.front();

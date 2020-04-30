@@ -124,13 +124,13 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename ParseInput, typename... States >
       void apply( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
-         std::cerr << std::setw( static_cast< int >( indent() - 2 ) ) << ' ' << "\033[1;36mapply\033[m\n";
+         std::cerr << std::setw( static_cast< int >( indent() - TracerTraits::indent ) ) << ' ' << "\033[1;36mapply\033[m\n";
       }
 
       template< typename Rule, typename ParseInput, typename... States >
       void apply0( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
-         std::cerr << std::setw( static_cast< int >( indent() - 2 ) ) << ' ' << "\033[1;36mapply0\033[m\n";
+         std::cerr << std::setw( static_cast< int >( indent() - TracerTraits::indent ) ) << ' ' << "\033[1;36mapply0\033[m\n";
       }
 
       template< typename Rule,
@@ -144,8 +144,27 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   using standard_tracer = tracer< standard_tracer_traits >;
-   using complete_tracer = tracer< complete_tracer_traits >;
+   template< typename Rule,
+             template< typename... > class Action = nothing,
+             template< typename... > class Control = normal,
+             typename ParseInput,
+             typename... States >
+   bool standard_trace( ParseInput&& in, States&&... st )
+   {
+      tracer< standard_tracer_traits > tr( in );
+      return tr.parse< Rule, Action, Control >( in );
+   }
+
+   template< typename Rule,
+             template< typename... > class Action = nothing,
+             template< typename... > class Control = normal,
+             typename ParseInput,
+             typename... States >
+   bool complete_trace( ParseInput&& in, States&&... st )
+   {
+      tracer< complete_tracer_traits > tr( in );
+      return tr.parse< Rule, Action, Control >( in );
+   }
 
    template< typename Tracer >
    struct trace
@@ -174,8 +193,8 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   using trace_standard = trace< standard_tracer >;
-   using trace_complete = trace< complete_tracer >;
+   using trace_standard = trace< tracer< standard_tracer_traits > >;
+   using trace_complete = trace< tracer< complete_tracer_traits > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
