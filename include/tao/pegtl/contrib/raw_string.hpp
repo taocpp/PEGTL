@@ -242,7 +242,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct print_basic_traits< raw_string< Open, Marker, Close, Contents... > >
    {
       template< template< typename... > class Traits, typename Config >
-      static void print( std::ostream& os, const Config& pc )
+      static void print( std::ostream& os, Config& pc )
       {
          os << pc.pegtl( "raw_string" ) << "( ... )";
       }
