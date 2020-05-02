@@ -19,6 +19,8 @@
 
 #include "analyze_traits.hpp"
 
+#include "internal/set_stack_guard.hpp"
+
 #include "../internal/dependent_false.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -34,41 +36,6 @@ namespace TAO_PEGTL_NAMESPACE
          const analyze_type type;
          std::vector< std::string_view > subs;
       };
-
-      template< typename C >
-      class analyze_guard
-      {
-      public:
-         analyze_guard( C& container, const typename C::value_type& value )
-            : m_i( container.insert( value ) ),
-              m_c( container )
-         {}
-
-         analyze_guard( analyze_guard&& ) = delete;
-         analyze_guard( const analyze_guard& ) = delete;
-
-         void operator=( analyze_guard&& ) = delete;
-         void operator=( const analyze_guard& ) = delete;
-
-         ~analyze_guard()
-         {
-            if( m_i.second ) {
-               m_c.erase( m_i.first );
-            }
-         }
-
-         explicit operator bool() const noexcept
-         {
-            return m_i.second;
-         }
-
-      private:
-         const std::pair< typename C::iterator, bool > m_i;
-         C& m_c;
-      };
-
-      template< typename C >
-      analyze_guard( C&, const typename C::value_type& ) -> analyze_guard< C >;
 
       class analyze_cycles_impl
       {
@@ -114,7 +81,7 @@ namespace TAO_PEGTL_NAMESPACE
             if( const auto j = m_cache.find( start->first ); j != m_cache.end() ) {
                return j->second;
             }
-            if( const auto g = analyze_guard( m_stack, start->first ) ) {
+            if( const auto g = set_stack_guard( m_stack, start->first ) ) {
                switch( start->second.type ) {
                   case analyze_type::any: {
                      bool a = false;

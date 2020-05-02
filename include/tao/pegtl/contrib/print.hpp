@@ -76,7 +76,7 @@ namespace TAO_PEGTL_NAMESPACE
             template< typename Config >
             static void visit( std::size_t& size, const Config& pc )
             {
-               size = std::max( size, pc.template name< Rule >().size() );
+               size = std::max( size, pc.template name< Traits, Rule >().size() );
             }
          };
 
@@ -86,7 +86,7 @@ namespace TAO_PEGTL_NAMESPACE
             template< typename Config >
             static void visit( std::ostream& os, const std::size_t width, const Config& pc )
             {
-               if( const auto rule = pc.template name< Rule >(); !rule.empty() ) {
+               if( const auto rule = pc.template name< Traits, Rule >(); !rule.empty() ) {
                   os << std::string( 1 + width - rule.size(), ' ' ) << pc.user( rule ) << " = ";
                   Traits< typename Rule::rule_t >::template print< Traits >( os, pc );
                   os << '\n';

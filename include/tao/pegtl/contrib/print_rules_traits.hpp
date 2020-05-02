@@ -10,7 +10,6 @@
 #include "../rules.hpp"
 
 #include "../internal/peek_char.hpp"
-#include "../internal/peek_utf8.hpp"
 
 #include "forward.hpp"
 
@@ -408,7 +407,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "rep" ) << "( " << Cnt;
-         pc.template print_list< Traits, Rule >( os, nullptr, ", " );
+         pc.template print_list< Traits, Rule >( os, "", ", " );
       }
    };
 
@@ -419,7 +418,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "rep" ) << "( " << Cnt;
-         pc.template print_list< Traits, Rules... >( os, nullptr, ", " );
+         pc.template print_list< Traits, Rules... >( os, "", ", " );
       }
    };
 
@@ -430,7 +429,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "rep_max" ) << "( " << Max;
-         pc.template print_list< Traits, Rule >( os, nullptr, ", " );
+         pc.template print_list< Traits, Rule >( os, "", ", " );
       }
    };
 
@@ -441,7 +440,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "rep_max" ) << "( " << Max;
-         pc.template print_list< Traits, Rules... >( os, nullptr, ", " );
+         pc.template print_list< Traits, Rules... >( os, "", ", " );
       }
    };
 
@@ -452,7 +451,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "rep_min" ) << "( " << Min;
-         pc.template print_list< Traits, Rules... >( os, nullptr, ", " );
+         pc.template print_list< Traits, Rules... >( os, "", ", " );
       }
    };
 
@@ -463,7 +462,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "rep_min_max" ) << "( " << Min << ", " << Max;
-         pc.template print_list< Traits, Rule >( os, nullptr, ", " );
+         pc.template print_list< Traits, Rule >( os, "", ", " );
       }
    };
 
@@ -474,7 +473,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "rep_min_max" ) << "( " << Min << ", " << Max;
-         pc.template print_list< Traits, Rules... >( os, nullptr, ", " );
+         pc.template print_list< Traits, Rules... >( os, "", ", " );
       }
    };
 
@@ -485,7 +484,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "rep_opt" ) << "( " << Cnt;
-         pc.template print_list< Traits, Rule >( os, nullptr, ", " );
+         pc.template print_list< Traits, Rule >( os, "", ", " );
       }
    };
 
@@ -496,7 +495,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "rep_opt" ) << "( " << Cnt;
-         pc.template print_list< Traits, Rules... >( os, nullptr, ", " );
+         pc.template print_list< Traits, Rules... >( os, "", ", " );
       }
    };
 

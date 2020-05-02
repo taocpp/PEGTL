@@ -7,7 +7,9 @@
 #include <cassert>
 #include <cstdio>
 #include <ostream>
+#include <set>
 #include <string_view>
+#include <type_traits>
 
 #include "../config.hpp"
 #include "../demangle.hpp"
@@ -19,6 +21,7 @@
 #include "forward.hpp"
 
 #include "internal/print_utility.hpp"
+#include "internal/set_stack_guard.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -45,6 +48,11 @@ namespace TAO_PEGTL_NAMESPACE
       const std::string_view quote_style = "\033[1m";
       const std::string_view user_style = "\033[38;5;18m";  // "\033[34m";
 
+      // const std::string_view literal_style = "";
+      // const std::string_view pegtl_style = "";
+      // const std::string_view quote_style = "";
+      // const std::string_view user_style = "";
+
       internal::styled literal( const std::string_view string ) const noexcept
       {
          return { literal_style, string };
@@ -60,7 +68,7 @@ namespace TAO_PEGTL_NAMESPACE
          return { user_style, string };
       }
 
-      template< typename Rule >
+      template< template< typename... > class Traits, typename Rule >
       [[nodiscard]] std::string_view name() const noexcept
       {
          const std::string_view d = demangle< Rule >();
@@ -68,14 +76,20 @@ namespace TAO_PEGTL_NAMESPACE
             return std::string_view();
          }
          const std::string_view::size_type b = d.find( '<' );
-         const std::string_view::size_type c = d.rfind( ':', b );
-         return ( c == std::string_view::npos ) ? d : d.substr( c + 1 );  // , b - c - 1 );
+         const std::string_view::size_type c = ( d.rfind( ':', b ) == std::string_view::npos ) ? 0 : ( d.rfind( ':', b ) + 1 );
+         return d.substr( c );
+      }
+
+      template< template< typename... > class Traits, typename... Rules >
+      void print_args( std::ostream& os, type_list< Rules... > /*unused*/ ) const
+      {
+         print_list< Traits, Rules... >( os, "" );
       }
 
       template< template< typename... > class Traits, typename Rule >
       void print_rule( std::ostream& os ) const
       {
-         if( const auto rule = name< Rule >(); !rule.empty() ) {
+         if( const auto rule = name< Traits, Rule >(); !rule.empty() ) {
             os << user( rule );
          }
          else {
@@ -86,7 +100,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< template< typename... > class Traits, typename Rule, typename... Rules >
       void print_list( std::ostream& os, const char* a, const char* b = "( ", [[maybe_unused]] const char* c = ", ", const char* d = " )" ) const
       {
-         if( a ) {
+         if( a && *a ) {
             os << pegtl( a );
          }
          os << b;
@@ -580,7 +594,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "rep" ) << "( " << Cnt;
-         pc.template print_list< Traits, Rules... >( os, nullptr, ", " );
+         pc.template print_list< Traits, Rules... >( os, "", ", " );
       }
    };
 
@@ -591,7 +605,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "rep_min_max" ) << "( " << Min << ", " << Max;
-         pc.template print_list< Traits, Rules... >( os, nullptr, ", " );
+         pc.template print_list< Traits, Rules... >( os, "", ", " );
       }
    };
 
@@ -602,7 +616,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, const Config& pc )
       {
          os << pc.pegtl( "rep_opt" ) << "( " << Cnt;
-         pc.template print_list< Traits, Rules... >( os, nullptr, ", " );
+         pc.template print_list< Traits, Rules... >( os, "", ", " );
       }
    };
 
