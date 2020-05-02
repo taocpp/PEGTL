@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       std::set< Cs... >& m_s;
    };
 
-   template< typename...  Cs >
+   template< typename... Cs >
    set_stack_guard( std::set< Cs... >&, const typename std::set< Cs... >::value_type& ) -> set_stack_guard< Cs... >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
