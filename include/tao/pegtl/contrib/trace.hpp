@@ -49,7 +49,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename TracerTraits >
    struct tracer
    {
-      std::ios_base::fmtflags m_flags;
+      const std::ios_base::fmtflags m_flags;
       std::size_t m_count = 0;
       std::vector< std::size_t > m_stack;
       position m_position;
@@ -66,10 +66,16 @@ namespace TAO_PEGTL_NAMESPACE
          print_position();
       }
 
+      tracer( const tracer& ) = delete;
+      tracer( tracer&& ) = delete;
+
       ~tracer()
       {
          std::cerr.flags( m_flags );
       }
+
+      tracer& operator=( const tracer& ) = delete;
+      tracer& operator=( tracer&& ) = delete;
 
       [[nodiscard]] std::size_t indent() const noexcept
       {
