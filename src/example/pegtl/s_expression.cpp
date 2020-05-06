@@ -6,35 +6,33 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/analyze.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;
-
 namespace sexpr
 {
    // clang-format off
-   struct hash_comment : until< eolf > {};
+   struct hash_comment : tao::pegtl::until< tao::pegtl::eolf > {};
 
    struct list;
-   struct list_comment : if_must< at< one< '(' > >, disable< list > > {};
+   struct list_comment : tao::pegtl::if_must< tao::pegtl::at< tao::pegtl::one< '(' > >, tao::pegtl::disable< list > > {};
 
-   struct read_include : seq< one< ' ' >, one< '"' >, plus< not_one< '"' > >, one< '"' > > {};
-   struct hash_include : if_must< string< 'i', 'n', 'c', 'l', 'u', 'd', 'e' >, read_include > {};
+   struct read_include : tao::pegtl::seq< tao::pegtl::one< ' ' >, tao::pegtl::one< '"' >, tao::pegtl::plus< tao::pegtl::not_one< '"' > >, tao::pegtl::one< '"' > > {};
+   struct hash_include : tao::pegtl::if_must< tao::pegtl::string< 'i', 'n', 'c', 'l', 'u', 'd', 'e' >, read_include > {};
 
-   struct hashed : if_must< one< '#' >, sor< hash_include, list_comment, hash_comment > > {};
+   struct hashed : tao::pegtl::if_must< tao::pegtl::one< '#' >, tao::pegtl::sor< hash_include, list_comment, hash_comment > > {};
 
-   struct number : plus< digit > {};
-   struct symbol : identifier {};
+   struct number : tao::pegtl::plus< tao::pegtl::digit > {};
+   struct symbol : tao::pegtl::identifier {};
 
-   struct atom : sor< number, symbol > {};
+   struct atom : tao::pegtl::sor< number, symbol > {};
 
    struct anything;
 
-   struct list : if_must< one< '(' >, until< one< ')' >, anything > > {};
+   struct list : tao::pegtl::if_must< tao::pegtl::one< '(' >, tao::pegtl::until< tao::pegtl::one< ')' >, anything > > {};
 
-   struct normal : sor< atom, list > {};
+   struct normal : tao::pegtl::sor< atom, list > {};
 
-   struct anything : sor< space, hashed, normal > {};
+   struct anything : tao::pegtl::sor< tao::pegtl::space, hashed, normal > {};
 
-   struct main : until< eof, must< anything > > {};
+   struct main : tao::pegtl::until< tao::pegtl::eof, tao::pegtl::must< anything > > {};
    // clang-format on
 
    template< typename Rule >
@@ -42,7 +40,7 @@ namespace sexpr
    {};
 
    template<>
-   struct action< plus< not_one< '"' > > >
+   struct action< tao::pegtl::plus< tao::pegtl::not_one< '"' > > >
    {
       template< typename ActionInput >
       static void apply( const ActionInput& in, std::string& fn )
@@ -64,8 +62,8 @@ namespace sexpr
          // last string literal that we use as filename here, and
          // the input is passed on for chained error messages (as
          // in "error in line x file foo included from file bar...)
-         file_input i2( fn );
-         parse_nested< main, sexpr::action >( in, i2, f2 );
+         tao::pegtl::file_input i2( fn );
+         tao::pegtl::parse_nested< main, action >( in, i2, f2 );
       }
    };
 
@@ -73,14 +71,13 @@ namespace sexpr
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   if( analyze< sexpr::main >() != 0 ) {
+   if( tao::pegtl::analyze< sexpr::main >() != 0 ) {
       return 1;
    }
-
    for( int i = 1; i < argc; ++i ) {
       std::string fn;
-      argv_input in( argv, i );
-      parse< sexpr::main, sexpr::action >( in, fn );
+      tao::pegtl::argv_input in( argv, i );
+      tao::pegtl::parse< sexpr::main, sexpr::action >( in, fn );
    }
    return 0;
 }

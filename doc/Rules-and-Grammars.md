@@ -71,44 +71,45 @@ Numbers are non-empty sequences of ASCII digits.
 The rule named `file` is the intended top-level rule of the grammar, i.e. the rule that is supplied as template argument to [the `parse()` function](Inputs-and-Parsing.md#parse-function) in order to start a parsing run with this grammar.
 
 ```c++
-using namespace tao::pegtl;
-
-struct line_comment
-   : until< eolf > {};
+struct hash_comment
+   : tao::pegtl::until< tao::pegtl::eolf > {};
 
 struct list;
 
 struct list_comment
-   : if_must< at< one< '(' > >, disable< list > > {};
+   : tao::pegtl::if_must< tao::pegtl::at< tao::pegtl::one< '(' > >, tao::pegtl::disable< list > > {};
 
-struct comment
-   : if_must< one< '#' >, sor< list_comment, line_comment > > {};
+struct read_include
+   : tao::pegtl::seq< tao::pegtl::one< ' ' >, tao::pegtl::one< '"' >, tao::pegtl::plus< tao::pegtl::not_one< '"' > >, tao::pegtl::one< '"' > > {};
 
-struct nothing
-   : sor< space, comment > {};
+struct hash_include
+   : tao::pegtl::if_must< tao::pegtl::string< 'i', 'n', 'c', 'l', 'u', 'd', 'e' >, read_include > {};
+
+struct hashed
+   : tao::pegtl::if_must< tao::pegtl::one< '#' >, tao::pegtl::sor< hash_include, list_comment, hash_comment > > {};
 
 struct number
-   : plus< digit > {};
+   : tao::pegtl::plus< tao::pegtl::digit > {};
 
 struct symbol
-   : identifier {};
+   : tao::pegtl::identifier {};
 
 struct atom
-   : sor< number, symbol > {};
+   : tao::pegtl::sor< number, symbol > {};
 
 struct anything;
 
 struct list
-   : if_must< one< '(' >, until< one< ')' >, anything > > {};
+   : tao::pegtl::if_must< tao::pegtl::one< '(' >, tao::pegtl::until< tao::pegtl::one< ')' >, anything > > {};
 
-struct something
-   : sor< atom, list > {};
+struct normal
+   : tao::pegtl::sor< atom, list > {};
 
 struct anything
-   : sor< nothing, something > {};
+   : tao::pegtl::sor< tao::pegtl::space, hashed, normal > {};
 
-struct file
-   : until< eof, anything > {};
+struct main
+   : tao::pegtl::until< tao::pegtl::eof, tao::pegtl::must< anything > > {};
 ```
 
 In order to let a parsing run do more than verify whether an input conforms to the grammar, it is necessary to attach user-defined *actions* to some grammar rules, as explained in [Actions and States](Actions-and-States.md).
