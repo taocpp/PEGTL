@@ -39,12 +39,14 @@ namespace TAO_PEGTL_NAMESPACE
       void operator=( print_basic_traits&& ) = delete;
       void operator=( const print_basic_traits& ) = delete;
 
+      ~print_basic_traits() = default;
+
       std::string_view top;
 
       const std::string_view include;
       const std::string_view exclude = "tao::pegtl::";
 
-      const std::string_view literal_style = "\033[38;5;2m";
+      const std::string_view literal_style = "\033[38;5;28m";
       const std::string_view pegtl_style = "\033[38;5;238m";  // "\033[90m";
       const std::string_view quote_style = "\033[1m";
       const std::string_view user_style = "\033[38;5;18m";  // "\033[34m";
@@ -54,17 +56,17 @@ namespace TAO_PEGTL_NAMESPACE
       // const std::string_view quote_style = "";
       // const std::string_view user_style = "";
 
-      internal::styled literal( const std::string_view string ) const noexcept
+      [[nodiscard]] internal::styled literal( const std::string_view string ) const noexcept
       {
          return { literal_style, string };
       }
 
-      internal::styled pegtl( const std::string_view string ) const noexcept
+      [[nodiscard]] internal::styled pegtl( const std::string_view string ) const noexcept
       {
          return { pegtl_style, string };
       }
 
-      internal::styled user( const std::string_view string ) const noexcept
+      [[nodiscard]] internal::styled user( const std::string_view string ) const noexcept
       {
          return { user_style, string };
       }
@@ -96,14 +98,30 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< template< typename... > class Traits, typename Rule, typename... Rules >
-      void print_list( std::ostream& os, const char* a, const char* b = "( ", [[maybe_unused]] const char* c = ", ", const char* d = " )" ) const
+      void print_list( std::ostream& os, const char* a, const char* b = "( " ) const
       {
          if( a && *a ) {
             os << pegtl( a );
          }
          os << b;
-         ( print_rule< Traits, Rule >( os ), ..., ( os << c, print_rule< Traits, Rules >( os ) ) );
-         os << d;
+         ( print_rule< Traits, Rule >( os ), ..., ( os << ", ", print_rule< Traits, Rules >( os ) ) );
+         os << " )";
+      }
+
+      template< char32_t Lo, char32_t Hi >
+      void print_range( std::ostream& os ) const
+      {
+         escape1( os, Lo );
+         os << "-";
+         escape1( os, Hi );
+      }
+
+      template< char32_t... Cs >
+      void print_string( std::ostream& os ) const
+      {
+         os << '"' << literal_style;
+         ( escape( os, Cs ), ... );
+         os << internal::reset_style << '"';
       }
 
       void escape( std::ostream& os, const char32_t i ) const
@@ -157,42 +175,44 @@ namespace TAO_PEGTL_NAMESPACE
 
       void escape1( std::ostream& os, const char32_t i ) const
       {
+         os << literal_style;
          switch( i ) {
             case '\'':
-               os << "'\\''";
+               os << "'\\''" << internal::reset_style;
                return;
             case '\\':
-               os << "'\\\\'";
+               os << "'\\\\'" << internal::reset_style;
                return;
             case '\a':
-               os << "'\\a'";
+               os << "'\\a'" << internal::reset_style;
                return;
             case '\b':
-               os << "'\\b'";
+               os << "'\\b'" << internal::reset_style;
                return;
             case '\t':
-               os << "'\\t'";
+               os << "'\\t'" << internal::reset_style;
                return;
             case '\n':
-               os << "'\\n'";
+               os << "'\\n'" << internal::reset_style;
                return;
             case '\r':
-               os << "'\\r'";
+               os << "'\\r'" << internal::reset_style;
                return;
             case '\v':
-               os << "'\\v'";
+               os << "'\\v'" << internal::reset_style;
                return;
             default:
                break;
          }
          if( ( 32 <= i ) && ( i <= 126 ) ) {
-            os << '\'' << char( i ) << '\'';
+            os << '\'' << char( i ) << '\'' << internal::reset_style;
             return;
          }
          if( i < 0x110000 ) {
             char b[ 10 ];
             const auto s = std::snprintf( b, sizeof( b ), "U+%X", unsigned( i ) );
             os.write( b, s );
+            os << internal::reset_style;
             return;
          }
          assert( false );  // Or what?
@@ -412,9 +432,9 @@ namespace TAO_PEGTL_NAMESPACE
       template< template< typename... > class Traits, typename Config >
       static void print( std::ostream& os, Config& pc )
       {
-         os << pc.pegtl( "istring" ) << "( \"";
-         ( pc.escape( os, Cs ), ... );
-         os << "\" )";
+         os << pc.pegtl( "istring" ) << "( ";
+         pc.template print_string< Cs... >( os );
+         os << " )";
       }
    };
 
@@ -457,9 +477,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, Config& pc )
       {
          os << pc.pegtl( "not_range" ) << "( ";
-         pc.escape1( os, Lo );
-         os << "-";
-         pc.escape1( os, Hi );
+         pc.template print_range< Lo, Hi >( os );
          os << " )";
       }
    };
@@ -513,9 +531,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, Config& pc )
       {
          os << pc.pegtl( "range" ) << "( ";
-         pc.escape1( os, Lo );
-         os << "-";
-         pc.escape1( os, Hi );
+         pc.template print_range< Lo, Hi >( os );
          os << " )";
       }
    };
@@ -551,9 +567,7 @@ namespace TAO_PEGTL_NAMESPACE
          static void print( std::ostream& os, Config& pc )
          {
             os << ", ";
-            pc.escape1( os, Lo );
-            os << "-";
-            pc.escape1( os, Hi );
+            pc.template print_range< Lo, Hi >( os );
             print_ranges_traits< Traits, T, Ts... >::print( os, pc );
          }
       };
@@ -567,9 +581,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void print( std::ostream& os, Config& pc )
       {
          os << pc.pegtl( "ranges" ) << "( ";
-         pc.escape1( os, Lo );
-         os << "-";
-         pc.escape1( os, Hi );
+         pc.template print_range< Lo, Hi >( os );
          internal::print_ranges_traits< Traits, typename Peek::data_t, Cs... >::print( os, pc );
          os << " )";
       }
@@ -664,9 +676,9 @@ namespace TAO_PEGTL_NAMESPACE
       template< template< typename... > class Traits, typename Config >
       static void print( std::ostream& os, Config& pc )
       {
-         os << pc.pegtl( "string" ) << "( \"";
-         ( pc.escape( os, Cs ), ... );
-         os << "\" )";
+         os << pc.pegtl( "string" ) << "( ";
+         pc.template print_string< Cs... >( os );
+         os << " )";
       }
    };
 
