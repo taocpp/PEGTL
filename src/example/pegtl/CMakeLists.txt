@@ -16,17 +16,13 @@ set(example_sources
   json_count.cpp
   json_coverage.cpp
   json_parse.cpp
-  json_print_basic.cpp
   json_print_debug.cpp
   json_print_names.cpp
-  json_print_rules.cpp
   json_trace.cpp
   lua53_analyze.cpp
   lua53_parse.cpp
-  lua53_print_basic.cpp
   lua53_print_debug.cpp
   lua53_print_names.cpp
-  lua53_print_rules.cpp
   modulus_match.cpp
   parse_tree.cpp
   parse_tree_user_state.cpp
@@ -37,10 +33,8 @@ set(example_sources
   symbol_table.cpp
   unescape.cpp
   uri.cpp
-  uri_print_basic.cpp
   uri_print_debug.cpp
   uri_print_names.cpp
-  uri_print_rules.cpp
   uri_trace.cpp
 )
 

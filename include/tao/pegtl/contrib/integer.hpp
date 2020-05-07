@@ -20,8 +20,6 @@
 
 #include "analyze_traits.hpp"
 
-#include "print_basic_traits.hpp"
-
 namespace TAO_PEGTL_NAMESPACE
 {
    struct unsigned_rule_old
@@ -465,16 +463,6 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_traits< Name, maximum_rule< Integer, Maximum > >
       : analyze_any_traits<>
    {};
-
-   template< typename Integer, Integer Maximum >
-   struct print_basic_traits< maximum_rule< Integer, Maximum > >
-   {
-      template< template< typename... > class Traits, typename Config >
-      static void print( std::ostream& os, Config& pc )
-      {
-         os << pc.pegtl( "maximum" ) << "( " << std::uint64_t( Maximum ) << " )";
-      }
-   };
 
    template< typename Name, typename Integer, Integer Maximum >
    struct analyze_traits< Name, maximum_rule_with_action< Integer, Maximum > >

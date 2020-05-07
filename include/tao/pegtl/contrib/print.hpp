@@ -4,23 +4,12 @@
 #ifndef TAO_PEGTL_CONTRIB_PRINT_HPP
 #define TAO_PEGTL_CONTRIB_PRINT_HPP
 
-#include <algorithm>
-#include <cassert>
-#include <iomanip>
-#include <ios>
 #include <ostream>
-#include <string_view>
-#include <utility>
-#include <vector>
 
 #include "../config.hpp"
 #include "../demangle.hpp"
+#include "../type_list.hpp"
 #include "../visit.hpp"
-
-#include "print_basic_traits.hpp"
-#include "print_rules_traits.hpp"
-
-#include "internal/print_utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -67,35 +56,6 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
-      template< template< typename... > class Traits >
-      struct print_rules
-      {
-         template< typename Rule >
-         struct size
-         {
-            template< typename Config >
-            static void visit( std::size_t& size, Config& pc )
-            {
-               size = std::max( size, pc.template name< Traits, Rule >().size() );
-            }
-         };
-
-         template< typename Rule >
-         struct impl
-         {
-            template< typename Config >
-            static void visit( std::ostream& os, const std::size_t width, Config& pc )
-            {
-               if( const auto rule = pc.template name< Traits, Rule >(); !rule.empty() ) {
-                  pc.top = demangle< Rule >();
-                  os << std::string( 1 + width - rule.size(), ' ' ) << pc.user( rule ) << " = ";
-                  Traits< typename Rule::rule_t >::template print< Traits >( os, pc );
-                  os << '\n';
-               }
-            }
-         };
-      };
-
    }  // namespace internal
 
    template< typename Grammar >
@@ -108,27 +68,6 @@ namespace TAO_PEGTL_NAMESPACE
    void print_debug( std::ostream& os )
    {
       visit< Grammar, internal::print_debug >( os );
-   }
-
-   template< typename Grammar, template< typename... > class Traits, typename... Args >
-   void basic_print( std::ostream& os, Args&&... args )
-   {
-      std::size_t size = 1;
-      Traits< void > pc( std::forward< Args >( args )... );
-      visit< Grammar, internal::print_rules< Traits >::template size >( size, pc );
-      visit< Grammar, internal::print_rules< Traits >::template impl >( os, size, pc );
-   }
-
-   template< typename Grammar, typename... Args >
-   void print_basic( std::ostream& os, Args&&... args )
-   {
-      basic_print< Grammar, print_basic_traits >( os, std::forward< Args >( args )... );
-   }
-
-   template< typename Grammar, typename... Args >
-   void print_rules( std::ostream& os, Args&&... args )
-   {
-      basic_print< Grammar, print_rules_traits >( os, std::forward< Args >( args )... );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
