@@ -63,7 +63,7 @@ namespace sexpr
          // the input is passed on for chained error messages (as
          // in "error in line x file foo included from file bar...)
          tao::pegtl::file_input i2( fn );
-         tao::pegtl::parse_nested< main, action >( in, i2, f2 );
+         tao::pegtl::parse_nested< main, sexpr::action >( in, i2, f2 );
       }
    };
 
