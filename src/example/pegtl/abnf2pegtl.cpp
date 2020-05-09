@@ -26,7 +26,6 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/abnf.hpp>
-#include <tao/pegtl/contrib/analyze.hpp>
 #include <tao/pegtl/contrib/parse_tree.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
@@ -720,10 +719,6 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    if( argc != 2 ) {
       std::cerr << "Usage: " << argv[ 0 ] << " SOURCE" << std::endl;
       return 1;
-   }
-
-   if( analyze< abnf::grammar::rulelist >() != 0 ) {
-      return 2;
    }
 
    file_input in( argv[ 1 ] );
