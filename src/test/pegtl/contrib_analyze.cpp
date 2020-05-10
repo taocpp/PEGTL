@@ -6,8 +6,31 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
+   template< typename... Rules >
+   struct strange
+   {
+      using rule_t = strange;
+      using subs_t = type_list< Rules... >;
+
+      static_assert( sizeof...( Rules ) > 1 );
+
+      // Pretend to be a rule that consumes on success by itself _and_ has sub-rules,
+      // to test a supported combination even though it is not frequently encountered.
+   };
+
+   template< typename Name, typename... Rules >
+   struct analyze_traits< Name, strange< Rules... > >
+      : analyze_any_traits< Rules... >
+   {};
+
    void unit_test()
    {
+      verify_analyze< strange< alpha, digit > >( __LINE__, __FILE__, true, false );
+      verify_analyze< strange< opt< alpha >, opt< digit > > >( __LINE__, __FILE__, true, false );
+
+      verify_analyze< strange< star< star< alpha > >, digit > >( __LINE__, __FILE__, true, true );
+      verify_analyze< strange< digit, star< star< alpha > > > >( __LINE__, __FILE__, true, true );
+
       verify_analyze< eof >( __LINE__, __FILE__, false, false );
       verify_analyze< eolf >( __LINE__, __FILE__, false, false );
       verify_analyze< success >( __LINE__, __FILE__, false, false );
