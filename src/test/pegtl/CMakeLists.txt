@@ -37,9 +37,11 @@ set(test_sources
   contrib_tracer.cpp
   contrib_unescape.cpp
   contrib_uri.cpp
+  control_unwind.cpp
   data_cstring.cpp
   demangle.cpp
   discard_input.cpp
+  enable_control.cpp
   error_message.cpp
   file_cstream.cpp
   file_file.cpp

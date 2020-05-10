@@ -13,7 +13,7 @@ namespace test1
    struct grammar : sor< a, b > {};
 
    template< typename > inline constexpr const char* error_message = nullptr;
-   template<> inline constexpr auto error_message< test1::a > = "test123";
+   template<> inline constexpr auto error_message< test1::b > = "test123";
 
    struct error { template< typename Rule > static constexpr auto message = error_message< Rule >; };
    template< typename Rule > using control = must_if< error >::control< Rule >;
@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       try {
-         parse< test1::grammar, nothing, test1::control >( memory_input( "b", __FUNCTION__ ) );
+         parse< test1::grammar, nothing, test1::control >( memory_input( "c", __FUNCTION__ ) );
          TAO_PEGTL_TEST_ASSERT( false );
       }
       catch( const parse_error& e ) {
