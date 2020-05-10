@@ -8,7 +8,8 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    struct r
-      : seq< internal::seq< any > > {};
+      : seq< internal::seq< any > >
+   {};
 
    static_assert( !internal::enable_control< internal::seq< any > > );
    static_assert( internal::enable_control< seq< any > > );

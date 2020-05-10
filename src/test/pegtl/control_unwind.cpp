@@ -8,7 +8,8 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    struct r
-      : seq< alpha, digit > {};
+      : seq< alpha, digit >
+   {};
 
    template< typename R >
    struct a
