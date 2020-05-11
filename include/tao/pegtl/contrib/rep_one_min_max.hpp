@@ -48,6 +48,28 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
+      template< unsigned Max, char C >
+      struct rep_one_min_max< 0, Max, C >
+      {
+         using rule_t = rep_one_min_max;
+         using subs_t = empty_list;
+
+         template< typename ParseInput >
+         [[nodiscard]] static bool match( ParseInput& in )
+         {
+            const auto size = in.size( Max + 1 );
+            std::size_t i = 0;
+            while( ( i < size ) && ( in.peek_char( i ) == C ) ) {
+               ++i;
+            }
+            if( i <= Max ) {
+               bump_help< result_on_found::success, ParseInput, char, C >( in, i );
+               return true;
+            }
+            return false;
+         }
+      };
+
       template< unsigned Min, unsigned Max, char C >
       inline constexpr bool enable_control< rep_one_min_max< Min, Max, C > > = false;
 
