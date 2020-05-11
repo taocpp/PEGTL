@@ -25,11 +25,11 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename ParseInput, typename State, typename... States >
          static void start( [[maybe_unused]] const ParseInput& in, [[maybe_unused]] State& state, [[maybe_unused]] States&&... st )
          {
-            if constexpr( State::template enable< Rule > ) {
-               state.template start< Rule >( in, st... );
-            }
             if constexpr( Control< Rule >::enable ) {
                Control< Rule >::start( in, st... );
+            }
+            if constexpr( State::template enable< Rule > ) {
+               state.template start< Rule >( in, st... );
             }
 #if defined( _MSC_VER )
             ( (void)st, ... );
@@ -73,12 +73,12 @@ namespace TAO_PEGTL_NAMESPACE
 
          template< typename ParseInput, typename State, typename... States >
          static auto unwind( [[maybe_unused]] const ParseInput& in, [[maybe_unused]] State& state, [[maybe_unused]] States&&... st )
-            -> std::enable_if_t< State::template enable< Rule > || ( Control< Rule >::enable && internal::has_unwind< Control< Rule >, void, ParseInput&, States... > ) >
+            -> std::enable_if_t< State::template enable< Rule > || ( Control< Rule >::enable && internal::has_unwind< Control< Rule >, void, const ParseInput&, States... > ) >
          {
             if constexpr( State::template enable< Rule > ) {
                state.template unwind< Rule >( in, st... );
             }
-            if constexpr( Control< Rule >::enable && internal::has_unwind< Control< Rule >, void, ParseInput&, States... > ) {
+            if constexpr( Control< Rule >::enable && internal::has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
                Control< Rule >::unwind( in, st... );
             }
 #if defined( _MSC_VER )
@@ -91,7 +91,7 @@ namespace TAO_PEGTL_NAMESPACE
             -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
          {
             if constexpr( State::template enable< Rule > ) {
-               state.template apply< Rule >( in );
+               state.template apply< Rule >( in, st... );
             }
             return Control< Rule >::template apply< Action >( begin, in, st... );
          }
@@ -101,7 +101,7 @@ namespace TAO_PEGTL_NAMESPACE
             -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
          {
             if constexpr( State::template enable< Rule > ) {
-               state.template apply0< Rule >( in );
+               state.template apply0< Rule >( in, st... );
             }
             return Control< Rule >::template apply0< Action >( in, st... );
          }
