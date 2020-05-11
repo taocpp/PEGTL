@@ -287,7 +287,6 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          template< typename ParseInput, typename... States >
          static void success( const ParseInput& in, state< Node >& state, States&&... st )
          {
-            Control< Rule >::success( in, st... );
             auto n = std::move( state.back() );
             state.pop_back();
             n->template success< Rule >( in, st... );
@@ -295,24 +294,25 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
             if( n ) {
                state.back()->emplace_back( std::move( n ), st... );
             }
+            Control< Rule >::success( in, st... );
          }
 
          template< typename ParseInput, typename... States >
          static void failure( const ParseInput& in, state< Node >& state, States&&... st )
          {
-            Control< Rule >::failure( in, st... );
             state.back()->template failure< Rule >( in, st... );
             state.pop_back();
+            Control< Rule >::failure( in, st... );
          }
 
          template< typename ParseInput, typename... States >
          static void unwind( const ParseInput& in, state< Node >& state, States&&... st )
          {
+            state.back()->template unwind< Rule >( in, st... );
+            state.pop_back();
             if constexpr( TAO_PEGTL_NAMESPACE::internal::has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
                Control< Rule >::unwind( in, st... );
             }
-            state.back()->template unwind< Rule >( in, st... );
-            state.pop_back();
          }
       };
 
