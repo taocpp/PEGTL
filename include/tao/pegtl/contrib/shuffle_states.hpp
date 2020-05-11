@@ -5,9 +5,12 @@
 #define TAO_PEGTL_CONTRIB_SHUFFLE_STATES_HPP
 
 #include <tuple>
+#include <type_traits>
 #include <utility>
 
 #include "../config.hpp"
+
+#include "../internal/has_unwind.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -110,6 +113,27 @@ namespace TAO_PEGTL_NAMESPACE
       [[noreturn]] static void raise( const ParseInput& in, State&& st )
       {
          Base::raise( in, st );
+      }
+
+      template< typename ParseInput, typename Tuple, std::size_t... Is >
+      static auto unwind_impl( const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
+         -> std::enable_if_t< internal::has_unwind< Base, void, const ParseInput&, std::tuple_element_t< Shuffle::template value< Is, sizeof...( Is ) >, Tuple >... > >
+      {
+         Base::unwind( in, std::get< Shuffle::template value< Is, sizeof...( Is ) > >( t )... );
+      }
+
+      template< typename ParseInput, typename... States >
+      static auto unwind( const ParseInput& in, States&&... st )
+         -> decltype( unwind_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) >() ) )
+      {
+         unwind_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) >() );
+      }
+
+      template< typename ParseInput, typename State >
+      static auto unwind( const ParseInput& in, State&& st )
+         -> std::enable_if_t< internal::has_unwind< Base, void, const ParseInput&, State > >
+      {
+         Base::unwind( in, st );
       }
 
       template< template< typename... > class Action, typename Iterator, typename ParseInput, typename Tuple, std::size_t... Is >

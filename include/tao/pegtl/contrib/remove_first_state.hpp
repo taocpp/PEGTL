@@ -4,7 +4,11 @@
 #ifndef TAO_PEGTL_CONTRIB_REMOVE_FIRST_STATE_HPP
 #define TAO_PEGTL_CONTRIB_REMOVE_FIRST_STATE_HPP
 
+#include <type_traits>
+
 #include "../config.hpp"
+
+#include "../internal/has_unwind.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -36,6 +40,13 @@ namespace TAO_PEGTL_NAMESPACE
       [[noreturn]] static void raise( const ParseInput& in, State&& /*unused*/, States&&... st )
       {
          Base::raise( in, st... );
+      }
+
+      template< typename ParseInput, typename State, typename... States >
+      static auto unwind( const ParseInput& in, State&& /*unused*/, States&&... st )
+         -> std::enable_if_t< internal::has_unwind< Base, void, const ParseInput&, States... > >
+      {
+         Base::unwind( in, st... );
       }
 
       template< template< typename... > class Action, typename Iterator, typename ParseInput, typename State, typename... States >

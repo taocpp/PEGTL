@@ -9,6 +9,8 @@
 
 #include "../config.hpp"
 
+#include "../internal/has_unwind.hpp"
+
 namespace TAO_PEGTL_NAMESPACE
 {
    // Remove the last N states of start(), success(), failure(), raise(), apply(), and apply0()
@@ -62,6 +64,20 @@ namespace TAO_PEGTL_NAMESPACE
       [[noreturn]] static void raise( const ParseInput& in, States&&... st )
       {
          raise_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
+      }
+
+      template< typename ParseInput, typename Tuple, std::size_t... Is >
+      static auto unwind_impl( const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
+         -> std::enable_if_t< internal::has_unwind< Base, void, const ParseInput&, std::tuple_element_t< Is, Tuple >... > >
+      {
+         Base::unwind( in, std::get< Is >( t )... );
+      }
+
+      template< typename ParseInput, typename... States >
+      static auto unwind( const ParseInput& in, States&&... st )
+         -> decltype( unwind_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() ) )
+      {
+         unwind_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
       }
 
       template< template< typename... > class Action, typename Iterator, typename ParseInput, typename Tuple, std::size_t... Is >
