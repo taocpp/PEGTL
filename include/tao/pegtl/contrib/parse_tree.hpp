@@ -307,7 +307,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          template< typename ParseInput, typename... States >
          static void unwind( const ParseInput& in, state< Node >& state, States&&... st )
          {
-            if constexpr( TAO_PEGTL_NAMESPACE::internal::has_unwind< Control< Rule >, void, ParseInput&, States... > ) {
+            if constexpr( TAO_PEGTL_NAMESPACE::internal::has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
                Control< Rule >::unwind( in, st... );
             }
             state.back()->template unwind< Rule >( in, st... );
