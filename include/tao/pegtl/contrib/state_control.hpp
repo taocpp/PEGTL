@@ -67,7 +67,9 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename ParseInput, typename State, typename... States >
          [[noreturn]] static void raise( const ParseInput& in, State& state, States&&... st )
          {
-            state.template raise< Rule >( in, st... );
+            if constexpr( State::template enable< Rule > ) {
+               state.template raise< Rule >( in, st... );
+            }
             Control< Rule >::raise( in, st... );
          }
 
