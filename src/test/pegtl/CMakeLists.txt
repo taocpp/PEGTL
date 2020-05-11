@@ -33,6 +33,7 @@ set(test_sources
   contrib_partial_trace.cpp
   contrib_raw_string.cpp
   contrib_rep_one_min_max.cpp
+  contrib_state_control.cpp
   contrib_to_string.cpp
   contrib_tracer.cpp
   contrib_unescape.cpp
