@@ -7,8 +7,10 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   using GRAMMAR = sor< failure, one< 'a' > >;
+   using GRAMMAR1 = sor< failure, one< 'a' > >;
    using GRAMMAR2 = seq< one< 'a' >, any, any, any, any, one< 'b' >, eof >;
+   using GRAMMAR3 = sor< one< 'a' >, one< 'b' > >;
+   using GRAMMAR4 = try_catch< sor< one< 'a' >, must< one< 'b' > > > >;
 
    template< typename Rule >
    struct trace_action
@@ -28,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template<>
-   struct trace_action< GRAMMAR >
+   struct trace_action< GRAMMAR1 >
    {
       template< typename... Ts >
       static void apply( Ts&&... /*unused*/ )
@@ -41,14 +43,14 @@ namespace TAO_PEGTL_NAMESPACE
    {
       {
          memory_input in( "ab", "trace test please ignore" );
-         const auto result = standard_trace< GRAMMAR >( in );
+         const auto result = standard_trace< GRAMMAR1 >( in );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( a0 == 0 );
          TAO_PEGTL_TEST_ASSERT( a == 0 );
       }
       {
          memory_input in( "ab", "trace test please ignore" );
-         const auto result = standard_trace< GRAMMAR, trace_action >( in );
+         const auto result = standard_trace< GRAMMAR1, trace_action >( in );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( a0 == 1 );
          TAO_PEGTL_TEST_ASSERT( a == 1 );
@@ -66,6 +68,16 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( a0 == 2 );
          TAO_PEGTL_TEST_ASSERT( a == 1 );
+      }
+      {
+         memory_input in( "c", "trace test please ignore" );
+         const auto result = standard_trace< GRAMMAR3 >( in );
+         TAO_PEGTL_TEST_ASSERT( !result );
+      }
+      {
+         memory_input in( "c", "trace test please ignore" );
+         const auto result = standard_trace< GRAMMAR4 >( in );
+         TAO_PEGTL_TEST_ASSERT( !result );
       }
    }
 
