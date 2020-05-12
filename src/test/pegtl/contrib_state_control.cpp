@@ -28,7 +28,8 @@ namespace TAO_PEGTL_NAMESPACE
    {
       std::vector< test_entry > trace;
 
-      template< typename Rule > static constexpr bool enable = E;
+      template< typename Rule >
+      static constexpr bool enable = E;
 
       template< typename Rule, typename Input, typename... States >
       void start( const Input& /*unused*/, const int a, std::size_t& b )
@@ -80,7 +81,8 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   struct test_grammar : must< sor< one< 'a' >, try_catch< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > >, eof > {};
+   struct test_grammar : must< sor< one< 'a' >, try_catch< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > >, eof >
+   {};
 
    template< typename Rule >
    struct test_action
