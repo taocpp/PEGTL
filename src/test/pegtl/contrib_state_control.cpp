@@ -33,6 +33,10 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename Input, typename... States >
       void start( const Input& /*unused*/, const int a, std::size_t& b )
       {
+         std::cerr << "***" << std::endl;
+         std::cerr << __FUNCTION__ << std::endl;
+         std::cerr << demangle< Rule >() << std::endl;
+
          TAO_PEGTL_TEST_ASSERT( a == -1 );
          trace.push_back( { demangle< Rule >(), __FUNCTION__, ++b } );
       }
@@ -139,6 +143,13 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( b == st.trace.size() );
          b = 0;
          std::size_t i = 0;
+
+         std::cerr << "+++" << std::endl;
+         std::cerr << st.trace[ 0 ].func << std::endl;
+         std::cerr << st.trace[ 0 ].rule << std::endl;
+         std::cerr << st.trace[ 0 ].b << std::endl;
+
+
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< test_grammar >(), "start", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< internal::must< sor< one< 'a' >, try_catch< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > > > >(), "start", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< sor< one< 'a' >, try_catch< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > > >(), "start", ++b } );
