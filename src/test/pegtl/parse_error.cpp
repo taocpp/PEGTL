@@ -10,13 +10,15 @@ namespace TAO_PEGTL_NAMESPACE
    template< tracking_mode M >
    void unit_test()
    {
+      const std::string rulename{ demangle< digit >() };
+
       memory_input< M > in( "foo\nbar bla blubb\nbaz", "test_source" );
 
       try {
          parse< seq< identifier, eol, identifier, one< ' ' >, must< digit > > >( in );
       }
       catch( const parse_error& e ) {
-         TAO_PEGTL_TEST_ASSERT( e.what(), "parse error matching tao::pegtl::ascii::digit" );
+         TAO_PEGTL_TEST_ASSERT( e.what() == "parse error matching " + rulename );
 
          TAO_PEGTL_TEST_ASSERT( e.positions.size() == 1 );
          const auto& p = e.positions.front();
@@ -27,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( p.source == "test_source" );
          TAO_PEGTL_TEST_ASSERT( to_string( p ) == "test_source:2:5(8)" );
 
-         TAO_PEGTL_TEST_ASSERT( to_string( e ) == "test_source:2:5(8): parse error matching tao::pegtl::ascii::digit" );
+         TAO_PEGTL_TEST_ASSERT( to_string( e ) == "test_source:2:5(8): parse error matching " + rulename );
 
          TAO_PEGTL_TEST_ASSERT( in.line_at( p ) == "bar bla blubb" );
 
