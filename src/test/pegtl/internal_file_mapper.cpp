@@ -16,12 +16,21 @@ namespace TAO_PEGTL_NAMESPACE
          std::cerr << "pegtl: unit test failed for [ internal::file_mapper ]" << std::endl;
          ++failed;
       }
-      catch( const std::system_error& e ) {
+      catch( const std::system_error& ) {
       }
       catch( ... ) {
          std::cerr << "pegtl: unit test failed for [ internal::file_mapper ] with unexpected exception" << std::endl;
          ++failed;
       }
+
+      const std::string s = "dummy content\n";
+      const std::string dummy_content = s + s + s + s + s + s + s + s + s + s + s;
+
+      internal::file_mapper mapper( "src/test/pegtl/file_data.txt" );
+      TAO_PEGTL_TEST_ASSERT( !mapper.empty() );
+      TAO_PEGTL_TEST_ASSERT( mapper.size() == 154 );
+      TAO_PEGTL_TEST_ASSERT( std::string_view( mapper.data(), mapper.size() ) == dummy_content );
+      TAO_PEGTL_TEST_ASSERT( std::string_view( mapper.begin(), mapper.end() - mapper.begin() ) == dummy_content );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

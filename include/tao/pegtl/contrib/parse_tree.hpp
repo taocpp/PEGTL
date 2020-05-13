@@ -113,7 +113,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename... States >
       void remove_content( States&&... /*unused*/ ) noexcept
       {
-         m_end.reset();
+         m_end = TAO_PEGTL_NAMESPACE::internal::iterator();
       }
 
       // all non-root nodes are initialized by calling this method

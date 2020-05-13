@@ -15,7 +15,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
              typename... States >
    void missing_apply0( ParseInput& in, States&&... st )
    {
+      // This function only exists for better error messages, which means that it is only called when we know that it won't compile.
+      // LCOV_EXCL_START
       (void)Control::template apply0< Action >( in, st... );
+      // LCOV_EXCL_STOP
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
