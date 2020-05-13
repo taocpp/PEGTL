@@ -52,6 +52,7 @@ set(test_sources
   internal_endian.cpp
   internal_file_mapper.cpp
   internal_file_opener.cpp
+  parse_error.cpp
   pegtl_string_t.cpp
   position.cpp
   rule_action.cpp

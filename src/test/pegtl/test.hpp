@@ -67,4 +67,10 @@ namespace TAO_PEGTL_NAMESPACE
       }                                             \
    } while( false )
 
+#define TAO_PEGTL_TEST_UNREACHABLE                                                                                              \
+   do {                                                                                                                         \
+      std::cerr << "Code should be unreachable in " << __FUNCTION__ << " (" << __FILE__ << ':' << __LINE__ << ')' << std::endl; \
+      std::abort();                                                                                                             \
+   } while( false )
+
 #endif

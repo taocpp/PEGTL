@@ -31,8 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
          return result_type::global_failure;
       }
       catch( ... ) {
-         std::cerr << "Code should be unreachable in " << __FUNCTION__ << " (" << __FILE__ << ':' << __LINE__ << ')' << std::endl;
-         std::abort();
+         TAO_PEGTL_TEST_UNREACHABLE;
       }
    }
 
