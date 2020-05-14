@@ -50,22 +50,21 @@ namespace TAO_PEGTL_NAMESPACE
       }                                            \
    } while( false )
 
-#define TAO_PEGTL_TEST_THROWS( ... )             \
-   do {                                          \
-      try {                                      \
-         __VA_ARGS__;                            \
-      }                                          \
-      catch( ... ) {                             \
-         break;                                  \
-      }                                          \
-      std::cerr << "pegtl: unit test [ "         \
-                << ( #__VA_ARGS__ )              \
-                << " ] did not throw in line [ " \
-                << __LINE__                      \
-                << " ] file [ "                  \
-                << __FILE__ << " ]"              \
-                << std::endl;                    \
-      ++failed;                                  \
+#define TAO_PEGTL_TEST_THROWS( ... )                \
+   do {                                             \
+      try {                                         \
+         __VA_ARGS__;                               \
+         std::cerr << "pegtl: unit test [ "         \
+                   << ( #__VA_ARGS__ )              \
+                   << " ] did not throw in line [ " \
+                   << __LINE__                      \
+                   << " ] file [ "                  \
+                   << __FILE__ << " ]"              \
+                   << std::endl;                    \
+         ++failed;                                  \
+      }                                             \
+      catch( ... ) {                                \
+      }                                             \
    } while( false )
 
 #define TAO_PEGTL_TEST_UNREACHABLE                                                                                              \

@@ -5,6 +5,11 @@
 
 #include "verify_meta.hpp"
 
+#if defined( _MSC_VER )
+#pragma warning( push )
+#pragma warning( disable : 4702 )
+#endif
+
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
@@ -24,5 +29,9 @@ namespace TAO_PEGTL_NAMESPACE
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
+
+#if defined( _MSC_VER )
+#pragma warning( pop )
+#endif
 
 #include "main.hpp"
