@@ -25,6 +25,7 @@ set(test_sources
   change_states.cpp
   contrib_alphabet.cpp
   contrib_analyze.cpp
+  contrib_control_action.cpp
   contrib_http.cpp
   contrib_if_then.cpp
   contrib_integer.cpp
