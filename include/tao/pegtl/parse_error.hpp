@@ -31,17 +31,17 @@ namespace TAO_PEGTL_NAMESPACE
             : m_msg( msg )
          {}
 
-         const char* what() const noexcept
+         [[nodiscard]] const char* what() const noexcept
          {
             return m_msg.c_str();
          }
 
-         std::string_view message() const noexcept
+         [[nodiscard]] std::string_view message() const noexcept
          {
             return { m_msg.data() + m_prefix, m_msg.size() - m_prefix };
          }
 
-         const std::vector< position >& positions() const noexcept
+         [[nodiscard]] const std::vector< position >& positions() const noexcept
          {
             return m_positions;
          }
@@ -72,7 +72,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       parse_error( const std::string& msg, position p )
-         : parse_error( msg.c_str(), p )
+         : parse_error( msg.c_str(), std::move( p ) )
       {}
 
       template< typename ParseInput >
@@ -82,20 +82,20 @@ namespace TAO_PEGTL_NAMESPACE
 
       template< typename ParseInput >
       parse_error( const std::string& msg, const ParseInput& in )
-         : parse_error( msg.c_str(), in )
+         : parse_error( msg.c_str(), in.position() )
       {}
 
-      const char* what() const noexcept
+      [[nodiscard]] const char* what() const noexcept
       {
          return m_impl->what();
       }
 
-      std::string_view message() const noexcept
+      [[nodiscard]] std::string_view message() const noexcept
       {
          return m_impl->message();
       }
 
-      const std::vector< position >& positions() const noexcept
+      [[nodiscard]] const std::vector< position >& positions() const noexcept
       {
          return m_impl->positions();
       }
