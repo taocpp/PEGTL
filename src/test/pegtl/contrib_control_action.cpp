@@ -14,8 +14,13 @@ namespace TAO_PEGTL_NAMESPACE
       : nothing< Rule >
    {};
 
-   struct first_rule : sor< alpha, digit > {};
-   struct second_rule : must< alnum > {};
+   struct first_rule
+      : sor< alpha, digit >
+   {};
+
+   struct second_rule
+      : must< alnum >
+   {};
 
    std::string story;
 
