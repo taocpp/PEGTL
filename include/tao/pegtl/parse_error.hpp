@@ -85,7 +85,7 @@ namespace TAO_PEGTL_NAMESPACE
          : parse_error( msg.c_str(), in.position() )
       {}
 
-      [[nodiscard]] const char* what() const noexcept
+      [[nodiscard]] const char* what() const noexcept override
       {
          return m_impl->what();
       }
