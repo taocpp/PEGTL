@@ -248,10 +248,10 @@ Typically, the following pattern helps to print the exceptions properly:
       catch( const pegtl::parse_error& e ) {
 
          // This catch block needs access to the input
-         const auto p = e.positions.front();
+         const auto p = e.positions().front();
          std::cerr << e.what() << '\n'
                    << in.line_at( p ) << '\n'
-                   << std::setw( p.byte_in_line ) << ' ' << '^' << std::endl;
+                   << std::setw( p.byte_in_line ) << '^' << std::endl;
 
       }
    }

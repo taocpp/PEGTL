@@ -17,7 +17,6 @@
   * Moved the analysis function and header to contrib.
 * Error Handling
   * Replaced `tao::pegtl::input_error` with `std::system_error`.
-  * Changed message of `tao::pegtl::parse_error` to no longer contain the position redundantly.
   * Added [`must_if<>`](Errors-and-Exceptions.md#custom-exception-messages)
     * Allows to define custom error messages for global errors.
     * Adds a non-intrusive way to define global parse errors for a grammar retroactively.
