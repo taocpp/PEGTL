@@ -717,7 +717,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    using namespace TAO_PEGTL_NAMESPACE;
 
    if( argc != 2 ) {
-      std::cerr << "Usage: " << argv[ 0 ] << " SOURCE" << std::endl;
+      std::cerr << "Usage: " << argv[ 0 ] << " SOURCE\n";
       return 1;
    }
 
@@ -730,14 +730,14 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       }
 
       for( const auto& rule : root->children ) {
-         std::cout << abnf::to_string( rule ) << std::endl;
+         std::cout << abnf::to_string( rule ) << '\n';
       }
    }
    catch( const parse_error& e ) {
       const auto p = e.positions().front();
-      std::cerr << e.what() << std::endl
-                << in.line_at( p ) << std::endl
-                << std::setw( p.byte_in_line ) << '^' << std::endl;
+      std::cerr << e.what() << '\n'
+                << in.line_at( p ) << '\n'
+                << std::setw( p.byte_in_line ) << '^' << '\n';
    }
 
    return 0;
