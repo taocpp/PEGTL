@@ -66,9 +66,9 @@ namespace TAO_PEGTL_NAMESPACE
       return !( lhs == rhs );
    }
 
-   inline std::ostream& operator<<( std::ostream& o, const position& p )
+   inline std::ostream& operator<<( std::ostream& os, const position& p )
    {
-      return o << p.source << ':' << p.line << ':' << p.byte_in_line << '(' << p.byte << ')';
+      return os << p.source << ':' << p.line << ':' << p.byte_in_line;
    }
 
    [[nodiscard]] inline std::string to_string( const position& p )

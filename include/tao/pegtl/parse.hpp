@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
       catch( parse_error& e ) {
-         e.positions.push_back( oi.position() );
+         e.add_position( oi.position() );
          throw;
       }
    }

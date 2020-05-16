@@ -87,15 +87,15 @@ namespace TAO_PEGTL_NAMESPACE
          parse< outer_grammar, outer_action >( oi );
       }
       catch( const parse_error& e ) {
-         TAO_PEGTL_TEST_ASSERT( e.positions.size() == 2 );
-         TAO_PEGTL_TEST_ASSERT( e.positions[ 0 ].source == "inner" );
-         TAO_PEGTL_TEST_ASSERT( e.positions[ 0 ].byte == 1 );
-         TAO_PEGTL_TEST_ASSERT( e.positions[ 0 ].line == 1 );
-         TAO_PEGTL_TEST_ASSERT( e.positions[ 0 ].byte_in_line == 2 );
-         TAO_PEGTL_TEST_ASSERT( e.positions[ 1 ].source == "outer" );
-         TAO_PEGTL_TEST_ASSERT( e.positions[ 1 ].byte == 2 );
-         TAO_PEGTL_TEST_ASSERT( e.positions[ 1 ].line == 1 );
-         TAO_PEGTL_TEST_ASSERT( e.positions[ 1 ].byte_in_line == 3 );
+         TAO_PEGTL_TEST_ASSERT( e.positions().size() == 2 );
+         TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].source == "inner" );
+         TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].byte == 1 );
+         TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].line == 1 );
+         TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].byte_in_line == 2 );
+         TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].source == "outer" );
+         TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].byte == 2 );
+         TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].line == 1 );
+         TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].byte_in_line == 3 );
       }
    }
 

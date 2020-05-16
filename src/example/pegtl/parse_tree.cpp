@@ -175,7 +175,7 @@ int main( int argc, char** argv )
       return 0;
    }
    catch( const parse_error& e ) {
-      const auto p = e.positions.front();
+      const auto p = e.positions().front();
       std::cerr << e.what() << std::endl
                 << in.line_at( p ) << std::endl
                 << std::setw( p.byte_in_line ) << '^' << std::endl;

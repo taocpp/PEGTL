@@ -179,7 +179,7 @@ namespace TAO_PEGTL_NAMESPACE
                }
                do {
                   if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
-                     throw parse_error( "integer overflow", in );  // Consistent with "as if" an action was doing the conversion.
+                     throw TAO_PEGTL_NAMESPACE::parse_error( "integer overflow", in );  // Consistent with "as if" an action was doing the conversion.
                   }
                   in.bump_in_this_line();
                } while( ( !in.empty() ) && is_digit( c = in.peek_char() ) );

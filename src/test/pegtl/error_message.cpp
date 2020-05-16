@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( false );
       }
       catch( const parse_error& e ) {
-         if( e.what() != std::string( "test123" ) ) {
+         if( e.message() != "test123" ) {
             throw;
          }
       }

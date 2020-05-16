@@ -4,10 +4,11 @@
 #ifndef TAO_PEGTL_PARSE_ERROR_HPP
 #define TAO_PEGTL_PARSE_ERROR_HPP
 
-#include <ostream>
-#include <sstream>
+#include <cstddef>
+#include <memory>
 #include <stdexcept>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -16,50 +17,97 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   struct parse_error
-      : std::runtime_error
+   namespace internal
    {
-      template< typename Msg >
-      parse_error( Msg&& msg, std::vector< position > in_positions )
-         : std::runtime_error( std::forward< Msg >( msg ) ),
-           positions( std::move( in_positions ) )
-      {}
-
-      template< typename Msg >
-      parse_error( Msg&& msg, const position& pos )
-         : std::runtime_error( std::forward< Msg >( msg ) ),
-           positions( 1, pos )
-      {}
-
-      template< typename Msg >
-      parse_error( Msg&& msg, position&& pos )
-         : std::runtime_error( std::forward< Msg >( msg ) )
+      class parse_error
       {
-         positions.emplace_back( std::move( pos ) );
+      private:
+         std::string m_msg;
+         std::size_t m_prefix = 0;
+         std::vector< position > m_positions;
+
+      public:
+         explicit parse_error( const char* msg )
+            : m_msg( msg )
+         {}
+
+         const char* what() const noexcept
+         {
+            return m_msg.c_str();
+         }
+
+         std::string_view message() const noexcept
+         {
+            return { m_msg.data() + m_prefix, m_msg.size() - m_prefix };
+         }
+
+         const std::vector< position >& positions() const noexcept
+         {
+            return m_positions;
+         }
+
+         void add_position( position&& p )
+         {
+            const auto prefix = to_string( p );
+            m_msg = prefix + ": " + m_msg;
+            m_prefix += prefix.size() + 2;
+            m_positions.emplace_back( std::move( p ) );
+         }
+      };
+
+   }  // namespace internal
+
+   class parse_error
+      : public std::runtime_error
+   {
+   private:
+      std::shared_ptr< internal::parse_error > m_impl;
+
+   public:
+      parse_error( const char* msg, position p )
+         : std::runtime_error( msg ),
+           m_impl( std::make_shared< internal::parse_error >( msg ) )
+      {
+         m_impl->add_position( std::move( p ) );
       }
 
-      template< typename Msg, typename ParseInput >
-      parse_error( Msg&& msg, const ParseInput& in )
-         : parse_error( std::forward< Msg >( msg ), in.position() )
+      parse_error( const std::string& msg, position p )
+         : parse_error( msg.c_str(), p )
       {}
 
-      std::vector< position > positions;
-   };
+      template< typename ParseInput >
+      parse_error( const char* msg, const ParseInput& in )
+         : parse_error( msg, in.position() )
+      {}
 
-   inline std::ostream& operator<<( std::ostream& o, const parse_error& e )
-   {
-      for( auto it = e.positions.rbegin(); it != e.positions.rend(); ++it ) {
-         o << *it << ": ";
+      template< typename ParseInput >
+      parse_error( const std::string& msg, const ParseInput& in )
+         : parse_error( msg.c_str(), in )
+      {}
+
+      const char* what() const noexcept
+      {
+         return m_impl->what();
       }
-      return o << e.what();
-   }
 
-   [[nodiscard]] inline std::string to_string( const parse_error& e )
-   {
-      std::ostringstream o;
-      o << e;
-      return o.str();
-   }
+      std::string_view message() const noexcept
+      {
+         return m_impl->message();
+      }
+
+      const std::vector< position >& positions() const noexcept
+      {
+         return m_impl->positions();
+      }
+
+      void add_position( position&& p )
+      {
+         if( m_impl.use_count() > 1 ) {
+            m_impl = std::make_shared< internal::parse_error >( *m_impl );
+         }
+         m_impl->add_position( std::move( p ) );
+      }
+   };
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

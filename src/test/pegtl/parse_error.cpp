@@ -18,18 +18,17 @@ namespace TAO_PEGTL_NAMESPACE
          parse< seq< identifier, eol, identifier, one< ' ' >, must< digit > > >( in );
       }
       catch( const parse_error& e ) {
-         TAO_PEGTL_TEST_ASSERT( e.what() == "parse error matching " + rulename );
+         TAO_PEGTL_TEST_ASSERT( e.what() == "test_source:2:5: parse error matching " + rulename );
 
-         TAO_PEGTL_TEST_ASSERT( e.positions.size() == 1 );
-         const auto& p = e.positions.front();
+         TAO_PEGTL_TEST_ASSERT( e.message() == "parse error matching " + rulename );
+
+         TAO_PEGTL_TEST_ASSERT( e.positions().size() == 1 );
+         const auto& p = e.positions().front();
 
          TAO_PEGTL_TEST_ASSERT( p.byte == 8 );
          TAO_PEGTL_TEST_ASSERT( p.line == 2 );
          TAO_PEGTL_TEST_ASSERT( p.byte_in_line == 5 );
          TAO_PEGTL_TEST_ASSERT( p.source == "test_source" );
-         TAO_PEGTL_TEST_ASSERT( to_string( p ) == "test_source:2:5(8)" );
-
-         TAO_PEGTL_TEST_ASSERT( to_string( e ) == "test_source:2:5(8): parse error matching " + rulename );
 
          TAO_PEGTL_TEST_ASSERT( in.line_at( p ) == "bar bla blubb" );
 
