@@ -11,15 +11,7 @@
 #include "../ascii.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
-
-#include "../internal/bytes.hpp"
-#include "../internal/enable_control.hpp"
-#include "../internal/eof.hpp"
-#include "../internal/eol.hpp"
-#include "../internal/must.hpp"
-#include "../internal/not_at.hpp"
-#include "../internal/seq.hpp"
-#include "../internal/star.hpp"
+#include "../rules.hpp"
 
 #include "analyze_traits.hpp"
 

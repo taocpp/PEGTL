@@ -8,7 +8,6 @@
 #include <cstdlib>
 
 #include <limits>
-#include <ostream>
 #include <string_view>
 #include <type_traits>
 #include <vector>
