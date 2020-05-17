@@ -7,8 +7,8 @@
 #include <utility>
 
 #include "../config.hpp"
-#include "../normal.hpp"
 #include "../nothing.hpp"
+#include "../match.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
