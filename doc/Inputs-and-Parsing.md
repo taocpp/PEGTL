@@ -119,7 +119,7 @@ If you don't want to specify a source just use the empty string (`""`).
 The constructors that only takes a `const char* begin` for the data uses `std::strlen()` to determine the length.
 It will therefore *only* work correctly with data that is terminated with a 0-byte (and does not contain embedded 0-bytes, which are otherwise fine).
 
-The constructors that take additional `byte`, `line` and `byte_in_line` arguments initialise the internal counters with the supplied values, rather than the defaults of `0`, `1` and `0`.
+The constructors that take additional `byte`, `line` and `byte_in_line` arguments initialise the internal counters with the supplied values, rather than the defaults of `0`, `1` and `1`.
 
 ```c++
 template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf, typename Source = std::string >
