@@ -31,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
              class Control,
              typename ParseInput,
              typename... States >
-   [[nodiscard]] bool match( ParseInput& in, States&&... st )
+   [[nodiscard]] auto match( ParseInput& in, States&&... st )
    {
       constexpr bool enable_control = Control< Rule >::enable;
       constexpr bool enable_action = enable_control && ( A == apply_mode::action );

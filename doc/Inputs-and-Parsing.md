@@ -51,7 +51,7 @@ All classes and functions on this page are in namespace `tao::pegtl`.
 
 ## Tracking Mode
 
-Some input classes allow a choice of tracking mode, or whether the `byte`, `line` and `byte_in_line` counters are continuously updated during a parsing run with `tracking_mode::eager`, or only calculated on-demand in `position()` by scanning the complete input again with `tracking_mode::lazy`.
+Some input classes allow a choice of tracking mode, or whether the `byte`, `line` and `column` counters are continuously updated during a parsing run with `tracking_mode::eager`, or only calculated on-demand in `position()` by scanning the complete input again with `tracking_mode::lazy`.
 
 Lazy tracking is recommended when the position is used very infrequently, for example only in the case of throwing a `parse_error`.
 
@@ -119,7 +119,7 @@ If you don't want to specify a source just use the empty string (`""`).
 The constructors that only takes a `const char* begin` for the data uses `std::strlen()` to determine the length.
 It will therefore *only* work correctly with data that is terminated with a 0-byte (and does not contain embedded 0-bytes, which are otherwise fine).
 
-The constructors that take additional `byte`, `line` and `byte_in_line` arguments initialise the internal counters with the supplied values, rather than the defaults of `0`, `1` and `1`.
+The constructors that take additional `byte`, `line` and `column` arguments initialise the internal counters with the supplied values, rather than the defaults of `0`, `1` and `1`.
 
 ```c++
 template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf, typename Source = std::string >
@@ -142,7 +142,7 @@ class memory_input
 
    template< typename T >
    memory_input( const char* begin, const char* end, T&& source,
-                 const std::size_t byte, const std::size_t line, const std::size_t byte_in_line ) noexcept(...);
+                 const std::size_t byte, const std::size_t line, const std::size_t column ) noexcept(...);
 };
 ```
 
@@ -207,7 +207,7 @@ class string_input
 
    template< typename V, typename T >
    string_input( V&& data, T&& source,
-                 const std::size_t byte, const std::size_t line, const std::size_t byte_in_line ) noexcept(...);
+                 const std::size_t byte, const std::size_t line, const std::size_t column ) noexcept(...);
 };
 ```
 
@@ -535,7 +535,7 @@ catch( const parse_error& e ) {
    const auto p = e.positions().front();
    std::cerr << e.what() << std::endl
              << in.line_at( p ) << '\n'
-             << std::setw( p.byte_in_line ) << '^' << std::endl;
+             << std::setw( p.column ) << '^' << std::endl;
 }
 ```
 

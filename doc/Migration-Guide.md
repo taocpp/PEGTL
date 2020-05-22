@@ -4,6 +4,7 @@
 
 * The build system needs to be configured for C++17 or later.
 * The macro `TAO_PEGTL_NAMESPACE` now defines the fully qualified namespace and was changed from `pegtl` to `tao::pegtl`. When setting `TAO_PEGTL_NAMESPACE`, adapt as needed; in case of doubt, add `tao::` as prefix.
+* The 0-based `byte_in_line` was replaced with the 1-based `column`.
 * The control class template's `apply()` and `apply0()` must only be visible (e.g. via SFINAE) when an action class template function with the appropriate signature exists. See `tao::pegtl::normal` as example.
 * If you have a use-case for [state](Rule-Reference.md#state-s-r-)'s `S::success()` to have an extended signature to get access to the current `apply_mode`, `rewind_mode`, *action*- and *control* class (template), please let us know and we'll re-add this feature.
 * The compatibility macros starting with `TAOCPP_PEGTL_` were removed, the corresponding `TAO_PEGTL_`-prefixed macros must be used.

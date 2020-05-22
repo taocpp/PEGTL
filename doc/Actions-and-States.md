@@ -198,7 +198,7 @@ Conversely `iterator()` returns a pointer or iterator to the beginning of the ac
 More importantly the `action_input` does **not** own the data it points to, it belongs to the original input used in the parsing run.
 Therefore **the validity of the pointed-to data might not extend (much) beyond the call to `apply()`**!
 
-When the original input has tracking mode `eager`, the `iterator_t` returned by `action_input::iterator()` will contain the `byte`, `line` and `byte_in_line` counters corresponding to the beginning of the matched input represented by the `action_input`.
+When the original input has tracking mode `eager`, the `iterator_t` returned by `action_input::iterator()` will contain the `byte`, `line` and `column` counters corresponding to the beginning of the matched input represented by the `action_input`.
 
 When the original input has tracking mode `lazy`, then `action_input::position()` is not efficient because it calculates the line number etc. by scanning the complete original input from the beginning
 

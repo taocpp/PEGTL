@@ -96,9 +96,9 @@ namespace TAO_PEGTL_NAMESPACE
          return m_current.line;
       }
 
-      [[nodiscard]] std::size_t byte_in_line() const noexcept
+      [[nodiscard]] std::size_t column() const noexcept
       {
-         return m_current.byte_in_line;
+         return m_current.column;
       }
 
       [[nodiscard]] const Source& source() const noexcept

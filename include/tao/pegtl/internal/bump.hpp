@@ -15,10 +15,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       for( std::size_t i = 0; i < count; ++i ) {
          if( iter.data[ i ] == ch ) {
             ++iter.line;
-            iter.byte_in_line = 1;
+            iter.column = 1;
          }
          else {
-            ++iter.byte_in_line;
+            ++iter.column;
          }
       }
       iter.byte += count;
@@ -29,14 +29,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       iter.data += count;
       iter.byte += count;
-      iter.byte_in_line += count;
+      iter.column += count;
    }
 
    inline void bump_to_next_line( iterator& iter, const std::size_t count ) noexcept
    {
       ++iter.line;
       iter.byte += count;
-      iter.byte_in_line = 1;
+      iter.column = 1;
       iter.data += count;
    }
 

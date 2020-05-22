@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept
       {
-         return in.byte_in_line() == 1;
+         return in.column() == 1;
       }
    };
 

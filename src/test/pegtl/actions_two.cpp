@@ -91,7 +91,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       const std::size_t count_byte = 12345;
       const std::size_t count_line = 42;
-      const std::size_t count_byte_in_line = 12;
+      const std::size_t count_column = 12;
 
       const char* count_source = "count_source";
 
@@ -103,7 +103,7 @@ namespace TAO_PEGTL_NAMESPACE
          {
             TAO_PEGTL_TEST_ASSERT( in.iterator().byte == count_byte );
             TAO_PEGTL_TEST_ASSERT( in.iterator().line == count_line );
-            TAO_PEGTL_TEST_ASSERT( in.iterator().byte_in_line == count_byte_in_line );
+            TAO_PEGTL_TEST_ASSERT( in.iterator().column == count_column );
             TAO_PEGTL_TEST_ASSERT( in.input().source() == count_source );
             TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( in.begin() + 1 == in.end() );
@@ -115,7 +115,7 @@ namespace TAO_PEGTL_NAMESPACE
       void count_test()
       {
          const char* foo = "f";
-         memory_input in( foo, foo + 1, count_source, count_byte, count_line, count_byte_in_line );
+         memory_input in( foo, foo + 1, count_source, count_byte, count_line, count_column );
          const auto result = parse< must< alpha >, count_action >( in );
          TAO_PEGTL_TEST_ASSERT( result );
       }

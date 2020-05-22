@@ -530,9 +530,9 @@ Atomic rules do not rely on other rules.
 
 ###### `bol`
 
-* Succeeds at "beginning-of-line", i.e. when the input's `byte_in_line()` member function returns zero.
+* Succeeds at "beginning-of-line", i.e. when the input's `column()` member function returns one.
 * Does not consume input.
-* Does **not** work with inputs that don't have a `byte_in_line()` member function.
+* Does **not** work with inputs that don't have a `column()` member function.
 * [Meta data] and [implementation] mapping:
   - `bol::rule_t` is `internal::bol`
 

@@ -180,7 +180,7 @@ namespace TAO_PEGTL_NAMESPACE
          {
             it.data += delta;
             it.byte += delta;
-            it.byte_in_line += delta;
+            it.column += delta;
          }
 
       }  // namespace
@@ -737,7 +737,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       const auto p = e.positions().front();
       std::cerr << e.what() << '\n'
                 << in.line_at( p ) << '\n'
-                << std::setw( p.byte_in_line ) << '^' << '\n';
+                << std::setw( p.column ) << '^' << '\n';
    }
 
    return 0;

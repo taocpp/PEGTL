@@ -19,14 +19,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
          : data( in_data )
       {}
 
-      iterator( const char* in_data, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept
+      iterator( const char* in_data, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_column ) noexcept
          : data( in_data ),
            byte( in_byte ),
            line( in_line ),
-           byte_in_line( in_byte_in_line )
+           column( in_column )
       {
          assert( in_line != 0 );
-         assert( in_byte_in_line != 0 );
+         assert( in_column != 0 );
       }
 
       iterator( const iterator& ) = default;
@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       std::size_t byte = 0;
       std::size_t line = 1;
-      std::size_t byte_in_line = 1;
+      std::size_t column = 1;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

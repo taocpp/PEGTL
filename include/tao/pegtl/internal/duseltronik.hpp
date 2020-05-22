@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
              class Control,
              typename ParseInput,
              typename... States >
-   [[nodiscard]] bool match( ParseInput& in, States&&... st )
+   [[nodiscard]] auto match( ParseInput& in, States&&... st )
    {
       if constexpr( has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
          try {
@@ -87,15 +87,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control >
    {
       template< typename ParseInput, typename... States >
-      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
+      [[nodiscard]] static auto match( ParseInput& in, States&&... st )
       {
          Control< Rule >::start( static_cast< const ParseInput& >( in ), st... );
-         if( internal::match< Rule, A, M, Action, Control >( in, st... ) ) {
+         const auto result = internal::match< Rule, A, M, Action, Control >( in, st... );
+         if( result ) {
             Control< Rule >::success( static_cast< const ParseInput& >( in ), st... );
-            return true;
          }
-         Control< Rule >::failure( static_cast< const ParseInput& >( in ), st... );
-         return false;
+         else {
+            Control< Rule >::failure( static_cast< const ParseInput& >( in ), st... );
+         }
+         return result;
       }
    };
 
@@ -113,13 +115,18 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          auto m = in.template mark< rewind_mode::required >();
          Control< Rule >::start( static_cast< const ParseInput& >( in ), st... );
-         if( internal::match< Rule, A, rewind_mode::active, Action, Control >( in, st... ) ) {
+         const auto result = internal::match< Rule, A, rewind_mode::active, Action, Control >( in, st... );
+         if( result ) {
             Control< Rule >::template apply< Action >( m.iterator(), static_cast< const ParseInput& >( in ), st... );
-            Control< Rule >::success( static_cast< const ParseInput& >( in ), st... );
-            return m( true );
          }
-         Control< Rule >::failure( static_cast< const ParseInput& >( in ), st... );
-         return false;
+         if( result ) {
+            Control< Rule >::success( static_cast< const ParseInput& >( in ), st... );
+         }
+         else {
+            Control< Rule >::failure( static_cast< const ParseInput& >( in ), st... );
+         }
+         (void)m( result );
+         return result;
       }
    };
 
@@ -133,18 +140,22 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control_and_apply_bool >
    {
       template< typename ParseInput, typename... States >
-      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
+      [[nodiscard]] static auto match( ParseInput& in, States&&... st )
       {
          auto m = in.template mark< rewind_mode::required >();
          Control< Rule >::start( static_cast< const ParseInput& >( in ), st... );
-         if( internal::match< Rule, A, rewind_mode::active, Action, Control >( in, st... ) ) {
-            if( Control< Rule >::template apply< Action >( m.iterator(), static_cast< const ParseInput& >( in ), st... ) ) {
-               Control< Rule >::success( static_cast< const ParseInput& >( in ), st... );
-               return m( true );
-            }
+         auto result = internal::match< Rule, A, rewind_mode::active, Action, Control >( in, st... );
+         if( result ) {
+            result = Control< Rule >::template apply< Action >( m.iterator(), static_cast< const ParseInput& >( in ), st... );
          }
-         Control< Rule >::failure( static_cast< const ParseInput& >( in ), st... );
-         return false;
+         if( result ) {
+            Control< Rule >::success( static_cast< const ParseInput& >( in ), st... );
+         }
+         else {
+            Control< Rule >::failure( static_cast< const ParseInput& >( in ), st... );
+         }
+         (void)m( result );
+         return result;
       }
    };
 
@@ -158,16 +169,20 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control_and_apply0_void >
    {
       template< typename ParseInput, typename... States >
-      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
+      [[nodiscard]] static auto match( ParseInput& in, States&&... st )
       {
          Control< Rule >::start( static_cast< const ParseInput& >( in ), st... );
-         if( internal::match< Rule, A, M, Action, Control >( in, st... ) ) {
+         const auto result = internal::match< Rule, A, M, Action, Control >( in, st... );
+         if( result ) {
             Control< Rule >::template apply0< Action >( static_cast< const ParseInput& >( in ), st... );
-            Control< Rule >::success( static_cast< const ParseInput& >( in ), st... );
-            return true;
          }
-         Control< Rule >::failure( static_cast< const ParseInput& >( in ), st... );
-         return false;
+         if( result ) {
+            Control< Rule >::success( static_cast< const ParseInput& >( in ), st... );
+         }
+         else {
+            Control< Rule >::failure( static_cast< const ParseInput& >( in ), st... );
+         }
+         return result;
       }
    };
 
@@ -181,18 +196,22 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct duseltronik< Rule, A, M, Action, Control, dusel_mode::control_and_apply0_bool >
    {
       template< typename ParseInput, typename... States >
-      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
+      [[nodiscard]] static auto match( ParseInput& in, States&&... st )
       {
          auto m = in.template mark< rewind_mode::required >();
          Control< Rule >::start( static_cast< const ParseInput& >( in ), st... );
-         if( internal::match< Rule, A, rewind_mode::active, Action, Control >( in, st... ) ) {
-            if( Control< Rule >::template apply0< Action >( static_cast< const ParseInput& >( in ), st... ) ) {
-               Control< Rule >::success( static_cast< const ParseInput& >( in ), st... );
-               return m( true );
-            }
+         auto result = internal::match< Rule, A, rewind_mode::active, Action, Control >( in, st... );
+         if( result ) {
+            result = Control< Rule >::template apply0< Action >( static_cast< const ParseInput& >( in ), st... );
          }
-         Control< Rule >::failure( static_cast< const ParseInput& >( in ), st... );
-         return false;
+         if( result ) {
+            Control< Rule >::success( static_cast< const ParseInput& >( in ), st... );
+         }
+         else {
+            Control< Rule >::failure( static_cast< const ParseInput& >( in ), st... );
+         }
+         (void)m( result );
+         return result;
       }
    };
 

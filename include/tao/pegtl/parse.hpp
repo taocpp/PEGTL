@@ -22,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE
              rewind_mode M = rewind_mode::required,
              typename ParseInput,
              typename... States >
-   bool parse( ParseInput&& in, States&&... st )
+   auto parse( ParseInput&& in, States&&... st )
    {
       return Control< Rule >::template match< A, M, Action, Control >( in, st... );
    }
@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
              typename OuterInput,
              typename ParseInput,
              typename... States >
-   bool parse_nested( const OuterInput& oi, ParseInput&& in, States&&... st )
+   auto parse_nested( const OuterInput& oi, ParseInput&& in, States&&... st )
    {
       try {
          return parse< Rule, Action, Control, A, M >( in, st... );

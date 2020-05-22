@@ -90,9 +90,9 @@ namespace TAO_PEGTL_NAMESPACE
             return m_current.line;
          }
 
-         [[nodiscard]] std::size_t byte_in_line() const noexcept
+         [[nodiscard]] std::size_t column() const noexcept
          {
-            return m_current.byte_in_line;
+            return m_current.column;
          }
 
          void bump( const std::size_t in_count = 1 ) noexcept
@@ -115,15 +115,15 @@ namespace TAO_PEGTL_NAMESPACE
             return TAO_PEGTL_NAMESPACE::position( it, m_source );
          }
 
-         void restart( const std::size_t in_byte = 0, const std::size_t in_line = 1, const std::size_t in_byte_in_line = 1 )
+         void restart( const std::size_t in_byte = 0, const std::size_t in_line = 1, const std::size_t in_column = 1 )
          {
             assert( in_line != 0 );
-            assert( in_byte_in_line != 0 );
+            assert( in_column != 0 );
 
             m_current.data = m_begin;
             m_current.byte = in_byte;
             m_current.line = in_line;
-            m_current.byte_in_line = in_byte_in_line;
+            m_current.column = in_column;
          }
 
       protected:
@@ -259,8 +259,8 @@ namespace TAO_PEGTL_NAMESPACE
       {}
 
       template< typename T >
-      memory_input( const char* in_begin, const char* in_end, T&& in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_byte_in_line ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
-         : memory_input( { in_begin, in_byte, in_line, in_byte_in_line }, in_end, std::forward< T >( in_source ) )
+      memory_input( const char* in_begin, const char* in_end, T&& in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_column ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
+         : memory_input( { in_begin, in_byte, in_line, in_column }, in_end, std::forward< T >( in_source ) )
       {}
 
       memory_input( const memory_input& ) = delete;
@@ -338,7 +338,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       [[nodiscard]] const char* begin_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
       {
-         return at( p ) - ( p.byte_in_line - 1 );
+         return at( p ) - ( p.column - 1 );
       }
 
       [[nodiscard]] const char* end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept

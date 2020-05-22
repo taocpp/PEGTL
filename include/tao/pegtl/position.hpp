@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE
       position( position&& p ) noexcept
          : byte( p.byte ),
            line( p.line ),
-           byte_in_line( p.byte_in_line ),
+           column( p.column ),
            source( std::move( p.source ) )
       {}
 
@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          byte = p.byte;
          line = p.line;
-         byte_in_line = p.byte_in_line;
+         column = p.column;
          source = std::move( p.source );
          return *this;
       }
@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE
       position( const internal::iterator& in_iter, T&& in_source )
          : byte( in_iter.byte ),
            line( in_iter.line ),
-           byte_in_line( in_iter.byte_in_line ),
+           column( in_iter.column ),
            source( std::forward< T >( in_source ) )
       {}
 
@@ -52,7 +52,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       std::size_t byte;
       std::size_t line;
-      std::size_t byte_in_line;
+      std::size_t column;
       std::string source;
    };
 
@@ -68,7 +68,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    inline std::ostream& operator<<( std::ostream& os, const position& p )
    {
-      return os << p.source << ':' << p.line << ':' << p.byte_in_line;
+      return os << p.source << ':' << p.line << ':' << p.column;
    }
 
    [[nodiscard]] inline std::string to_string( const position& p )
