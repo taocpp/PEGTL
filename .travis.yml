@@ -13,8 +13,7 @@ jobs:
       env:
         - CXX=g++-7
 
-    - &gcc-8
-      compiler: gcc
+    - compiler: gcc
       addons:
         apt:
           sources: [ ubuntu-toolchain-r-test ]
@@ -22,19 +21,27 @@ jobs:
       env:
         - CXX=g++-8
 
-    - <<: *gcc-8
-      env:
-        - CXX=g++-8
-        - CPPFLAGS="-fno-rtti"
-
-    - &gcc-9
-      compiler: gcc
+    - compiler: gcc
       addons:
         apt:
           sources: [ ubuntu-toolchain-r-test ]
           packages: [ g++-9 ]
       env:
         - CXX=g++-9
+
+    - &gcc-10
+      compiler: gcc
+      addons:
+        apt:
+          sources: [ ubuntu-toolchain-r-test ]
+          packages: [ g++-10 ]
+      env:
+        - CXX=g++-10
+
+    - <<: *gcc-10
+      env:
+        - CXX=g++-10
+        - CPPFLAGS="-fno-rtti"
 
     - compiler: clang
       addons:
@@ -87,7 +94,7 @@ jobs:
             - ubuntu-toolchain-r-test
             - sourceline: deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-10 main
               key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
-          packages: [ clang-10, g++-9 ]
+          packages: [ clang-10, g++-10 ]
       env:
         - CXX=clang++-10
 
@@ -153,14 +160,14 @@ jobs:
         - ANDROID_ABI=arm64-v8a
         - ANDROID_PLATFORM=android-24
 
-    - <<: *gcc-9
+    - <<: *gcc-10
       env:
-        - CXX=g++-9
+        - CXX=g++-10
         - CPPFLAGS="-fsanitize=undefined -fuse-ld=gold"
 
-    - <<: *gcc-9
+    - <<: *gcc-10
       env:
-        - CXX=g++-9
+        - CXX=g++-10
         - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
 
     - <<: *clang-10
@@ -177,7 +184,7 @@ jobs:
       addons:
         apt:
           sources: *clang-10-sources
-          packages: [ clang-10, clang-tidy-10, g++-9 ]
+          packages: [ clang-10, clang-tidy-10, g++-10 ]
       env:
         - CXX=clang++-10
         - CLANG_TIDY=clang-tidy-10
@@ -188,7 +195,7 @@ jobs:
       addons:
         apt:
           sources: *clang-10-sources
-          packages: [ clang-tools-10, g++-9 ]
+          packages: [ clang-tools-10, g++-10 ]
       script:
         - scan-build-10 --use-c++=clang++-10 --status-bugs make -kj3
 
@@ -196,9 +203,9 @@ jobs:
       addons:
         apt:
           sources: [ ubuntu-toolchain-r-test ]
-          packages: [ g++-9, valgrind ]
+          packages: [ g++-10, valgrind ]
       env:
-        - CXX=g++-9
+        - CXX=g++-10
         - SPECIAL=valgrind
       script:
         - make -kj3 valgrind
@@ -217,7 +224,7 @@ jobs:
       addons:
         apt:
           sources: *clang-10-sources
-          packages: [ clang-format-10, g++-9 ]
+          packages: [ clang-format-10, g++-10 ]
       script:
         - clang-format-10 -i -style=file $(find . -name '[^.]*.[hc]pp')
         - git diff --exit-code
