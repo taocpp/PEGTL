@@ -20,6 +20,11 @@
 #include "internal/missing_apply.hpp"
 #include "internal/missing_apply0.hpp"
 
+#if defined( _MSC_VER )
+#pragma warning( push )
+#pragma warning( disable : 4702 )
+#endif
+
 namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
@@ -156,5 +161,9 @@ namespace TAO_PEGTL_NAMESPACE
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
+
+#if defined( _MSC_VER )
+#pragma warning( pop )
+#endif
 
 #endif
