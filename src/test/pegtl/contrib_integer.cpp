@@ -13,12 +13,6 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename I >
-   struct int_state
-   {
-      I converted = 55;
-   };
-
    template< typename Rule >
    struct int_action
       : nothing< Rule >
@@ -44,12 +38,6 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( st == s );
       }
       {
-         int_state< S > st;
-         memory_input in( i, __FUNCTION__ );
-         parse< must< signed_rule, eof >, int_action >( in, st );
-         TAO_PEGTL_TEST_ASSERT( st.converted == s );
-      }
-      {
          S st = -123;
          memory_input in( i, __FUNCTION__ );
          parse< must< signed_rule_with_action, eof > >( in, st );
@@ -60,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename S >
    void test_signed( const std::string& i )
    {
-      int_state< S > st;
+      S st;
       memory_input in( i, __FUNCTION__ );
       TAO_PEGTL_TEST_THROWS( parse< must< signed_rule, eof >, int_action >( in, st ) );
    }
@@ -76,11 +64,11 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename S >
    void test_signed( const S s )
    {
-      int_state< S > st;
+      S st;
       const auto i = lexical_cast( s );
       memory_input in( i, __FUNCTION__ );
       parse< must< signed_rule, eof >, int_action >( in, st );
-      TAO_PEGTL_TEST_ASSERT( st.converted == s );
+      TAO_PEGTL_TEST_ASSERT( st == s );
    }
 
    template< typename S >
@@ -91,12 +79,6 @@ namespace TAO_PEGTL_NAMESPACE
          memory_input in( i, __FUNCTION__ );
          parse< must< unsigned_rule, eof >, int_action >( in, st );
          TAO_PEGTL_TEST_ASSERT( st == s );
-      }
-      {
-         int_state< S > st;
-         memory_input in( i, __FUNCTION__ );
-         parse< must< unsigned_rule, eof >, int_action >( in, st );
-         TAO_PEGTL_TEST_ASSERT( st.converted == s );
       }
       {
          S st = 123;

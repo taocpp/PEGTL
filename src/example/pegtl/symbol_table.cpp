@@ -47,9 +47,12 @@ namespace example
 
    template<>
    struct action< value >
-      : public pegtl::unsigned_action
    {
-      // Sets st.converted to the integer value of the matched string.
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, state& st )
+      {
+         pegtl::unsigned_action::apply( in, st.converted );
+      }
    };
 
    template<>

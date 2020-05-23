@@ -10,7 +10,6 @@
 #include <limits>
 #include <string_view>
 #include <type_traits>
-#include <vector>
 
 #include "../ascii.hpp"
 #include "../parse.hpp"
@@ -151,7 +150,7 @@ namespace TAO_PEGTL_NAMESPACE
             if( is_digit( c ) ) {
                in.bump_in_this_line();
                if( c == '0' ) {
-                  return in.empty() || ( !is_digit( in.peek_char() ) );  // TODO: Throw exception on digit?
+                  return in.empty() || ( !is_digit( in.peek_char() ) );
                }
                while( ( !in.empty() ) && is_digit( in.peek_char() ) ) {
                   in.bump_in_this_line();
@@ -174,7 +173,7 @@ namespace TAO_PEGTL_NAMESPACE
             if( is_digit( c ) ) {
                if( c == '0' ) {
                   in.bump_in_this_line();
-                  return in.empty() || ( !is_digit( in.peek_char() ) );  // TODO: Throw exception on digit?
+                  return in.empty() || ( !is_digit( in.peek_char() ) );
                }
                do {
                   if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
@@ -195,27 +194,13 @@ namespace TAO_PEGTL_NAMESPACE
       // Assumes that 'in' contains a non-empty sequence of ASCII digits.
 
       template< typename ActionInput, typename Unsigned >
-      static auto apply( const ActionInput& in, Unsigned& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
+      static void apply( const ActionInput& in, Unsigned& st )
       {
          // This function "only" offers basic exception safety.
          st = 0;
          if( !internal::convert_unsigned( st, in.string_view() ) ) {
             throw parse_error( "unsigned integer overflow", in );
          }
-      }
-
-      template< typename ActionInput, typename State >
-      static auto apply( const ActionInput& in, State& st ) -> std::enable_if_t< std::is_class_v< State >, void >
-      {
-         apply( in, st.converted );  // Compatibility for pre-3.0 behaviour.
-      }
-
-      template< typename ActionInput, typename Unsigned, typename... Ts >
-      static auto apply( const ActionInput& in, std::vector< Unsigned, Ts... >& st ) -> std::enable_if_t< std::is_unsigned_v< Unsigned >, void >
-      {
-         Unsigned u = 0;
-         apply( in, u );
-         st.emplace_back( u );
       }
    };
 
@@ -263,9 +248,6 @@ namespace TAO_PEGTL_NAMESPACE
          st = 0;
          return internal::match_and_convert_unsigned_with_maximum( in, st );  // Throws on overflow.
       }
-
-      // TODO: Overload for st.converted?
-      // TODO: Overload for std::vector< Unsigned >?
    };
 
    template< typename Unsigned, Unsigned Maximum >
@@ -276,27 +258,13 @@ namespace TAO_PEGTL_NAMESPACE
       static_assert( std::is_unsigned_v< Unsigned > );
 
       template< typename ActionInput, typename Unsigned2 >
-      static auto apply( const ActionInput& in, Unsigned2& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
+      static void apply( const ActionInput& in, Unsigned2& st )
       {
          // This function "only" offers basic exception safety.
          st = 0;
          if( !internal::convert_unsigned< Unsigned, Maximum >( st, in.string_view() ) ) {
             throw parse_error( "unsigned integer overflow", in );
          }
-      }
-
-      template< typename ActionInput, typename State >
-      static auto apply( const ActionInput& in, State& st ) -> std::enable_if_t< std::is_class_v< State >, void >
-      {
-         apply( in, st.converted );  // Compatibility for pre-3.0 behaviour.
-      }
-
-      template< typename ActionInput, typename Unsigned2, typename... Ts >
-      static auto apply( const ActionInput& in, std::vector< Unsigned2, Ts... >& st ) -> std::enable_if_t< std::is_same_v< Unsigned, Unsigned2 >, void >
-      {
-         Unsigned u = 0;
-         apply( in, u );
-         st.emplace_back( u );
       }
    };
 
@@ -352,9 +320,6 @@ namespace TAO_PEGTL_NAMESPACE
          st = 0;
          return internal::match_and_convert_unsigned_with_maximum< ParseInput, Unsigned, Maximum >( in, st );  // Throws on overflow.
       }
-
-      // TODO: Overload for st.converted?
-      // TODO: Overload for std::vector< Unsigned >?
    };
 
    struct signed_action
@@ -363,27 +328,13 @@ namespace TAO_PEGTL_NAMESPACE
       // with optional leading sign; with sign, in.size() must be >= 2.
 
       template< typename ActionInput, typename Signed >
-      static auto apply( const ActionInput& in, Signed& st ) -> std::enable_if_t< std::is_signed_v< Signed >, void >
+      static void apply( const ActionInput& in, Signed& st )
       {
          // This function "only" offers basic exception safety.
          st = 0;
          if( !internal::convert_signed( st, in.string_view() ) ) {
             throw parse_error( "signed integer overflow", in );
          }
-      }
-
-      template< typename ActionInput, typename State >
-      static auto apply( const ActionInput& in, State& st ) -> std::enable_if_t< std::is_class_v< State >, void >
-      {
-         apply( in, st.converted );  // Compatibility for pre-3.0 behaviour.
-      }
-
-      template< typename ActionInput, typename Signed, typename... Ts >
-      static auto apply( const ActionInput& in, std::vector< Signed, Ts... >& st ) -> std::enable_if_t< std::is_signed_v< Signed >, void >
-      {
-         Signed s = 0;
-         apply( in, s );
-         st.emplace_back( s );
       }
    };
 
@@ -443,9 +394,6 @@ namespace TAO_PEGTL_NAMESPACE
       {
          return TAO_PEGTL_NAMESPACE::parse< signed_rule_new, internal::signed_action_action >( in, st );  // Throws on overflow.
       }
-
-      // TODO: Overload for st.converted?
-      // TODO: Overload for std::vector< Signed >?
    };
 
    template< typename Name >
