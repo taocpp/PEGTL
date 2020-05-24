@@ -246,9 +246,8 @@ $ make amalgamate
 ```
 
 The above will generate a `build/amalgamated/pegtl.hpp` which will consist of
-the headers `tao/pegtl.hpp`, `tao/pegtl/analyze.hpp`, their dependencies,
-and all headers in `tao/pegtl/contrib/` except for the headers in
-`tao/pegtl/contrib/icu/`.
+the headers `tao/pegtl.hpp`, their dependencies, and all headers in
+`tao/pegtl/contrib/` except for the headers in `tao/pegtl/contrib/icu/`.
 
 Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey
 

@@ -94,7 +94,6 @@ build/amalgamated/pegtl.hpp: $(HEADERS)
 	@sed -i -e 's%^//#include "%#include "%g' $$(find build/include -name '*.hpp')
 	@for i in $$(find build/include -name '*.hpp'); do echo "#pragma once" >tmp.out; echo "#line 1" >>tmp.out; cat $$i >>tmp.out; mv tmp.out $$i; done
 	@echo '#include "tao/pegtl.hpp"' >build/include/amalgamated.hpp
-	@echo '#include "tao/pegtl/analyze.hpp"' >>build/include/amalgamated.hpp
 	@( cd build/include ; for i in tao/pegtl/contrib/*.hpp; do echo "#include \"$$i\""; done ) >>build/include/amalgamated.hpp
 	@echo -e "/*\n\nWelcome to the Parsing Expression Grammar Template Library (PEGTL)." >$@
 	@echo -e "See https://github.com/taocpp/PEGTL/ for more information, documentation, etc.\n" >>$@
