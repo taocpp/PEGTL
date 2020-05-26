@@ -155,8 +155,7 @@ namespace TAO_PEGTL_NAMESPACE
          else {
             Control< Rule >::failure( static_cast< const ParseInput& >( in ), st... );
          }
-         (void)m( result );
-         return result;
+         return m( result );
       }
    }
 
