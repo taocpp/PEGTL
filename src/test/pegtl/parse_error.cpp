@@ -32,6 +32,17 @@ namespace TAO_PEGTL_NAMESPACE
 
          TAO_PEGTL_TEST_ASSERT( in.line_at( p ) == "bar bla blubb" );
 
+         position p2 = p;
+         p2.source = "foo";
+         p2.line = 42;
+         p2.column = 123;
+
+         parse_error e2 = e;
+         e2.add_position( std::move( p2 ) );
+
+         TAO_PEGTL_TEST_ASSERT( e2.what() == "foo:42:123: test_source:2:5: parse error matching " + rulename );
+         TAO_PEGTL_TEST_ASSERT( e.what() == "test_source:2:5: parse error matching " + rulename );
+
          return;
       }
       TAO_PEGTL_TEST_UNREACHABLE;
