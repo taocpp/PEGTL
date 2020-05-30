@@ -473,7 +473,7 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 ###### `until< R, S... >`
 
 * Matches `seq< S... >` as long as `at< R >` does not match and succeeds when `R` matches.
-* [Equivalent] to `seq< star< not_at< R >, not_at< eof >, S... >, R >`.
+* [Equivalent] to `seq< star< not_at< R >, S... >, R >`.
 * Does not apply if `S` is an empty rule pack, see the previous entry for the semantics of `until< R >`.
 * [Meta data] and [implementation] mapping:
   - `until< R, S >::rule_t` is `internal::until< R, S >`
