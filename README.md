@@ -53,6 +53,9 @@ The rules are expressed in C++ as template instantiations, and it is the compile
 
 ## Status
 
+[![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/pa5sbnw68tu650aq/branch/master?svg=true)](https://ci.appveyor.com/project/taocpp/PEGTL)
+
 Each commit is automatically tested with multiple architectures, operating systems, compilers, and versions thereof.
 
 * Windows
@@ -74,11 +77,24 @@ Each commit is automatically tested with multiple architectures, operating syste
   * GCC 10.x
   * Clang 10.x
 
-Additionally, each commit is checked with Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), GCC's and Clang's [sanitizers](https://github.com/google/sanitizers), [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/), and [`valgrind`](http://valgrind.org/).
+### Code Quality
+
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/taocpp/PEGTL.svg)](https://lgtm.com/projects/g/taocpp/PEGTL/context:cpp)
+
+Each commit is checked with Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), GCC's and Clang's [sanitizers](https://github.com/google/sanitizers), [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/), and [`valgrind`](http://valgrind.org/).
+Additionally, we use [LGTM](https://lgtm.com/) to scan for (security) issues.
+Note that [LGTM](https://lgtm.com/) sometimes generate false positives, hence the above badge may not show an accurate grade.
+
+### Code Coverage
+
+[![Coverage](https://coveralls.io/repos/github/taocpp/PEGTL/badge.svg?branch=master)](https://coveralls.io/github/taocpp/PEGTL)
 
 Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
-Note that the infrastructure is partially broken.
-Current status: [![Coverage](https://coveralls.io/repos/github/taocpp/PEGTL/badge.svg?branch=master)](https://coveralls.io/github/taocpp/PEGTL)
+Note that the infrastructure is partially broken, hence the above badge may not show 100%.
+
+### Versioning
+
+[![Release](https://img.shields.io/github/release/taocpp/PEGTL.svg)](https://github.com/taocpp/PEGTL/releases/latest)
 
 [Releases](https://github.com/taocpp/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
 Incompatible API changes are *only* allowed to occur between major versions.
