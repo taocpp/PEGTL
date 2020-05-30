@@ -62,7 +62,7 @@ valgrind: $(UNIT_TESTS:%=%.valgrind)
 	@echo "All $(words $(UNIT_TESTS)) valgrind tests passed."
 
 build/%.clang-tidy: % .clang-tidy
-	$(CLANG_TIDY) -quiet $< -- $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) 2>/dev/null
+	$(CLANG_TIDY) -quiet $< -- $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) 2>/dev/null
 	@mkdir -p $(@D)
 	@touch $@
 
@@ -80,7 +80,7 @@ build/%.d: %.cpp Makefile
 	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) -MM -MQ $@ $< -o $@
 
 build/%: %.cpp build/%.d
-	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) $< -o $@
 
 .PHONY: amalgamate
 amalgamate: build/amalgamated/pegtl.hpp
