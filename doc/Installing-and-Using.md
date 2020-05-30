@@ -57,6 +57,8 @@ Note that some of the listed packages are not updated regularly.
 
 ## Using Conan
 
+[![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
+
 You can download and install the PEGTL using the [Conan] package manager:
 
 ```bash
