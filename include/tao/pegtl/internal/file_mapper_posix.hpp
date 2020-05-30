@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    struct file_opener
    {
-      explicit file_opener( const std::filesystem::path& path )
+      explicit file_opener( const std::filesystem::path& path )  // NOLINT(modernize-pass-by-value)
          : m_path( path ),
            m_fd( open() )
       {}

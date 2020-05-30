@@ -50,11 +50,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
    public:
       explicit file_reader( const std::filesystem::path& path )
-         : m_path( path ),
-           m_file( file_open( path ) )
+         : file_reader( file_open( path ), path )
       {}
 
-      file_reader( FILE* file, const std::filesystem::path& path )
+      file_reader( FILE* file, const std::filesystem::path& path )  // NOLINT(modernize-pass-by-value)
          : m_path( path ),
            m_file( file )
       {}
