@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       file_opener( const file_opener& ) = delete;
       file_opener( file_opener&& ) = delete;
 
-      ~file_opener() noexcept
+      ~file_opener()
       {
          ::close( m_fd );
       }
@@ -87,7 +87,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       file_mapper( const file_mapper& ) = delete;
       file_mapper( file_mapper&& ) = delete;
 
-      ~file_mapper() noexcept
+      ~file_mapper()
       {
          // Legacy C interface requires pointer-to-mutable but does not write through the pointer.
          ::munmap( const_cast< char* >( m_data ), m_size );

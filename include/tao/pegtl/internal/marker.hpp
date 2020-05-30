@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       marker( const marker& ) = delete;
       marker( marker&& ) = delete;
 
-      ~marker() noexcept
+      ~marker()
       {
          if( m_input != nullptr ) {
             ( *m_input ) = m_saved;

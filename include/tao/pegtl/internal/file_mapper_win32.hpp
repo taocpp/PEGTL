@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       win32_file_opener( const win32_file_opener& ) = delete;
       win32_file_opener( win32_file_opener&& ) = delete;
 
-      ~win32_file_opener() noexcept
+      ~win32_file_opener()
       {
          ::CloseHandle( m_handle );
       }
@@ -109,7 +109,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       win32_file_mapper( const win32_file_mapper& ) = delete;
       win32_file_mapper( win32_file_mapper&& ) = delete;
 
-      ~win32_file_mapper() noexcept
+      ~win32_file_mapper()
       {
          ::CloseHandle( m_handle );
       }
@@ -167,7 +167,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       file_mapper( const file_mapper& ) = delete;
       file_mapper( file_mapper&& ) = delete;
 
-      ~file_mapper() noexcept
+      ~file_mapper()
       {
          ::UnmapViewOfFile( LPCVOID( m_data ) );
       }
