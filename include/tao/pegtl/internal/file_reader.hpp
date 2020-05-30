@@ -5,31 +5,37 @@
 #define TAO_PEGTL_INTERNAL_FILE_READER_HPP
 
 #include <cstdio>
+#include <filesystem>
 #include <memory>
 #include <string>
-#include <system_error>
 #include <utility>
 
 #include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   [[nodiscard]] inline std::FILE* file_open( const char* filename )
+   [[nodiscard]] inline std::FILE* file_open( const std::filesystem::path& path )
    {
       errno = 0;
 #if defined( _MSC_VER )
       std::FILE* file;
-      if( ::fopen_s( &file, filename, "rb" ) == 0 )
-#elif defined( __MINGW32__ )
-      if( auto* file = std::fopen( filename, "rb" ) )
+      if( ::fopen_s( &file, path.u8string().c_str(), "rb" ) == 0 ) {
+         return file;
+      }
+      const std::error_code ec( errno, std::system_category() );
+      throw std::filesystem::filesystem_error( "fopen_s() failed", path, ec );
 #else
-      if( auto* file = std::fopen( filename, "rbe" ) )
+#if defined( __MINGW32__ )
+      if( auto* file = std::fopen( path.u8string().c_str(), "rb" ) )
+#else
+      if( auto* file = std::fopen( path.u8string().c_str(), "rbe" ) )
 #endif
       {
          return file;
       }
-      const auto ec = errno;
-      throw std::system_error( ec, std::system_category(), filename );
+      const std::error_code ec( errno, std::system_category() );
+      throw std::filesystem::filesystem_error( "std::fopen() failed", path, ec );
+#endif
    }
 
    struct file_close
@@ -43,13 +49,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
    class file_reader
    {
    public:
-      explicit file_reader( const char* filename )
-         : m_source( filename ),
-           m_file( file_open( m_source ) )
+      explicit file_reader( const std::filesystem::path& path )
+         : m_path( path ),
+           m_file( file_open( path ) )
       {}
 
-      file_reader( FILE* file, const char* filename ) noexcept
-         : m_source( filename ),
+      file_reader( FILE* file, const std::filesystem::path& path )
+         : m_path( path ),
            m_file( file )
       {}
 
@@ -66,23 +72,23 @@ namespace TAO_PEGTL_NAMESPACE::internal
          errno = 0;
          if( std::fseek( m_file.get(), 0, SEEK_END ) != 0 ) {
             // LCOV_EXCL_START
-            const auto ec = errno;
-            throw std::system_error( ec, std::system_category(), m_source );
+            const std::error_code ec( errno, std::system_category() );
+            throw std::filesystem::filesystem_error( "std::fseek() failed [SEEK_END]", m_path, ec );
             // LCOV_EXCL_STOP
          }
          errno = 0;
          const auto s = std::ftell( m_file.get() );
          if( s < 0 ) {
             // LCOV_EXCL_START
-            const auto ec = errno;
-            throw std::system_error( ec, std::system_category(), m_source );
+            const std::error_code ec( errno, std::system_category() );
+            throw std::filesystem::filesystem_error( "std::ftell() failed", m_path, ec );
             // LCOV_EXCL_STOP
          }
          errno = 0;
          if( std::fseek( m_file.get(), 0, SEEK_SET ) != 0 ) {
             // LCOV_EXCL_START
-            const auto ec = errno;
-            throw std::system_error( ec, std::system_category(), m_source );
+            const std::error_code ec( errno, std::system_category() );
+            throw std::filesystem::filesystem_error( "std::fseek() failed [SEEK_SET]", m_path, ec );
             // LCOV_EXCL_STOP
          }
          return std::size_t( s );
@@ -95,15 +101,15 @@ namespace TAO_PEGTL_NAMESPACE::internal
          errno = 0;
          if( !nrv.empty() && ( std::fread( &nrv[ 0 ], nrv.size(), 1, m_file.get() ) != 1 ) ) {
             // LCOV_EXCL_START
-            const auto ec = errno;
-            throw std::system_error( ec, std::system_category(), m_source );
+            const std::error_code ec( errno, std::system_category() );
+            throw std::filesystem::filesystem_error( "std::fread() failed", m_path, ec );
             // LCOV_EXCL_STOP
          }
          return nrv;
       }
 
    private:
-      const char* const m_source;
+      const std::filesystem::path m_path;
       const std::unique_ptr< std::FILE, file_close > m_file;
    };
 

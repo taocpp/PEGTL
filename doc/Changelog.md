@@ -16,7 +16,7 @@
   * Added functions to measure rule coverage of a parsing run.
   * Moved the analysis function and header to contrib.
 * Error Handling
-  * Replaced `tao::pegtl::input_error` with `std::system_error`.
+  * Replaced `tao::pegtl::input_error` with `std::system_error` and `std::filesystem::filesystem_error`.
   * Added [`must_if<>`](Errors-and-Exceptions.md#custom-exception-messages)
     * Allows to define custom error messages for global errors.
     * Adds a non-intrusive way to define global parse errors for a grammar retroactively.
@@ -28,6 +28,7 @@
 * Parse Tree
   * Removed the need for RTTI.
 * Other
+  * Changed `std::string` to `std::filesystem::path` for filename parameters.
   * Renamed `byte_in_line` to `column` and use 1-based counting.
   * Moved rule `eolf` from inline namespace `tao::pegtl::ascii` to `tao::pegtl`.
   * Changed rules in `tao/pegtl/contrib/integer.hpp` to not accept redundant leading zeros.
