@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       errno = 0;
 #if defined( _MSC_VER )
       std::FILE* file;
-      if( ::fopen_s( &file, path.u8string().c_str(), "rb" ) == 0 ) {
+      if( ::_wfopen_s( &file, path.c_str(), L"rb" ) == 0 ) {
          return file;
       }
       const std::error_code ec( errno, std::system_category() );
