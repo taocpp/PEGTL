@@ -69,7 +69,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.source() == f );
       }
       {
-         const std::string f{ "src/test/pegtl/file_data.txt" };
+         const std::string f{ "src/test/pegtl/file_äöü𝄞_data.txt" };
          T in( f );
          bool flag = true;
          TAO_PEGTL_TEST_ASSERT( in.source() == f );
@@ -85,7 +85,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( flag == false );
       }
       {
-         const std::string f{ "src/test/pegtl/file_data.txt" };
+         const std::string f{ "src/test/pegtl/file_äöü𝄞_data.txt" };
          T in( f );
          bool flag = false;
          TAO_PEGTL_TEST_ASSERT( in.source() == f );
@@ -105,7 +105,7 @@ namespace TAO_PEGTL_NAMESPACE
       const char* foo = "foo";
       const memory_input m( foo, foo + 3, foo );
       {
-         const std::string f{ "src/test/pegtl/file_data.txt" };
+         const std::string f{ "src/test/pegtl/file_äöü𝄞_data.txt" };
          T in( f );
          TAO_PEGTL_TEST_ASSERT( in.source() == f );
          TAO_PEGTL_TEST_ASSERT( parse_nested< file_grammar >( m, in ) );
@@ -120,7 +120,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( flag == true );
       }
       {
-         const std::string f{ "src/test/pegtl/file_data.txt" };
+         const std::string f{ "src/test/pegtl/file_äöü𝄞_data.txt" };
          T in( f );
          bool flag = false;
          TAO_PEGTL_TEST_ASSERT( in.source() == f );
@@ -137,7 +137,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( flag == true );
       }
       {
-         const std::string f{ "src/test/pegtl/file_data.txt" };
+         const std::string f{ "src/test/pegtl/file_äöü𝄞_data.txt" };
          T in( f );
          bool flag = false;
          TAO_PEGTL_TEST_ASSERT( in.source() == f );
