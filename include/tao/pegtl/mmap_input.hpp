@@ -11,6 +11,8 @@
 #include "memory_input.hpp"
 #include "tracking_mode.hpp"
 
+#include "internal/path_to_string.hpp"
+
 #if defined( __unix__ ) || ( defined( __APPLE__ ) && defined( __MACH__ ) )
 #include <unistd.h>  // Required for _POSIX_MAPPED_FILES
 #endif
@@ -52,7 +54,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       explicit mmap_input( const std::filesystem::path& path )
          : internal::mmap_holder( path ),
-           memory_input< P, Eol >( data.begin(), data.end(), path.string() )
+           memory_input< P, Eol >( data.begin(), data.end(), internal::path_to_string( path ) )
       {}
 
       mmap_input( const mmap_input& ) = delete;

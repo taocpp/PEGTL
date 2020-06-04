@@ -12,6 +12,7 @@
 #include "tracking_mode.hpp"
 
 #include "internal/file_reader.hpp"
+#include "internal/path_to_string.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -20,11 +21,11 @@ namespace TAO_PEGTL_NAMESPACE
       : string_input< P, Eol >
    {
       explicit read_input( const std::filesystem::path& path )
-         : string_input< P, Eol >( internal::file_reader( path ).read(), path.string() )
+         : string_input< P, Eol >( internal::file_reader( path ).read(), internal::path_to_string( path ) )
       {}
 
       read_input( FILE* file, const std::filesystem::path& path )
-         : string_input< P, Eol >( internal::file_reader( file, path ).read(), path.string() )
+         : string_input< P, Eol >( internal::file_reader( file, path ).read(), internal::path_to_string( path ) )
       {}
 
       read_input( const read_input& ) = delete;
