@@ -5,8 +5,8 @@
 #define TAO_PEGTL_INTERNAL_PATH_TO_STRING_HPP
 
 #include <filesystem>
-#include <sstream>
 #include <string>
+#include <type_traits>
 
 #include "../config.hpp"
 
@@ -14,9 +14,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    [[nodiscard]] inline std::string path_to_string( const std::filesystem::path& path )
    {
-      std::ostringstream os;
-      os << path;
-      return os.str();
+      const auto s = path.u8string();
+      if constexpr( std::is_same_v< decltype( s ), std::string > ) {
+         return s;
+      }
+      else {
+         return { reinterpret_cast< const char* >( s.data() ), s.size() };
+      }
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
