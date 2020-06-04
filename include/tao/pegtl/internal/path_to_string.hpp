@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    [[nodiscard]] inline std::string path_to_string( const std::filesystem::path& path )
    {
       const auto s = path.u8string();
-      if constexpr( std::is_same_v< decltype( s ), std::string > ) {
+      if constexpr( std::is_same_v< decltype( s ), const std::string > ) {
          return s;
       }
       else {
