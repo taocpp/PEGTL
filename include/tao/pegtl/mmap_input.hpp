@@ -52,7 +52,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       explicit mmap_input( const std::filesystem::path& path )
          : internal::mmap_holder( path ),
-           memory_input< P, Eol >( data.begin(), data.end(), path.u8string() )
+           memory_input< P, Eol >( data.begin(), data.end(), path.string() )
       {}
 
       mmap_input( const mmap_input& ) = delete;

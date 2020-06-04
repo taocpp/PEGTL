@@ -34,6 +34,11 @@ jobs:
     - <<: *gcc-10
       env:
         - CXX=g++-10
+        - CXXSTD="-std=c++20"
+
+    - <<: *gcc-10
+      env:
+        - CXX=g++-10
         - CPPFLAGS="-fno-rtti"
 
     - compiler: clang
@@ -91,6 +96,11 @@ jobs:
           packages: [ clang-10, g++-10 ]
       env:
         - CXX=clang++-10
+
+    - <<: *clang-10
+      env:
+        - CXX=clang++-10
+        - CXXSTD="-std=c++20"
 
     - <<: *clang-10
       env:

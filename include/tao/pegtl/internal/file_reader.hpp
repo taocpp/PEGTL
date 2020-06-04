@@ -23,12 +23,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return file;
       }
       const std::error_code ec( errno, std::system_category() );
-      throw std::filesystem::filesystem_error( "fopen_s() failed", path, ec );
+      throw std::filesystem::filesystem_error( "_wfopen_s() failed", path, ec );
 #else
 #if defined( __MINGW32__ )
-      if( auto* file = std::fopen( path.u8string().c_str(), "rb" ) )
+      if( auto* file = std::fopen( path.c_str(), "rb" ) )
 #else
-      if( auto* file = std::fopen( path.u8string().c_str(), "rbe" ) )
+      if( auto* file = std::fopen( path.c_str(), "rbe" ) )
 #endif
       {
          return file;

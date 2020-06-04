@@ -20,11 +20,11 @@ namespace TAO_PEGTL_NAMESPACE
       : string_input< P, Eol >
    {
       explicit read_input( const std::filesystem::path& path )
-         : string_input< P, Eol >( internal::file_reader( path ).read(), path.u8string() )
+         : string_input< P, Eol >( internal::file_reader( path ).read(), path.string() )
       {}
 
       read_input( FILE* file, const std::filesystem::path& path )
-         : string_input< P, Eol >( internal::file_reader( file, path ).read(), path.u8string() )
+         : string_input< P, Eol >( internal::file_reader( file, path ).read(), path.string() )
       {}
 
       read_input( const read_input& ) = delete;
