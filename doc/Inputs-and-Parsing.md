@@ -78,7 +78,6 @@ The classes `file_input<>`, `read_input<>` and, on supported platforms, `mmap_in
 * `mmap_input<>` uses `mmap(2)` on POSIX compliant systems or `MapViewOfFile()` on Windows.
 * `file_input<>` is derived from `mmap_input<>` when available, and `read_input<>` otherwise, inheriting the respective constructors.
 
-Most file input classes take a single argument, the filename, which can be supplied as `std::string` or `const char*`.
 They immediately make available the complete contents of the file; `read_input<>` reads the entire file upon construction.
 
 The constructors that take a `FILE*` argument take ownership of the file pointer, i.e. they `fclose()` it in the destructor.
@@ -87,26 +86,23 @@ The constructors that take a `FILE*` argument take ownership of the file pointer
 template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
 struct read_input
 {
-   explicit read_input( const char* filename );
-   explicit read_input( const std::string& filename );
+   explicit read_input( const std::filesystem::path& path );
+   read_input( const std::filesystem::path& path, const std::string& source );
 
-   read_input( FILE* file, const char* filename );
-   read_input( FILE* file, const std::string& filename );
+   read_input( FILE* file, const std::filesystem::path& path );
+   read_input( FILE* file, const std::filesystem::path& path, const std::string& source );
 };
 
 template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
 struct mmap_input
 {
-   explicit mmap_input( const char* filename );
-   explicit mmap_input( const std::string& filename );
+   explicit mmap_input( const std::filesystem::path& path );
+   mmap_input( const std::filesystem::path& path, const std::string& source );
 };
 
 template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
 using file_input = mmap_input< P, Eol >;  // Or read_input when no mmap_input available.
 ```
-
-Note that the implementation of the constructors is different than shown.
-They should be used "as if" this was the actual signature.
 
 ## Memory Input
 
