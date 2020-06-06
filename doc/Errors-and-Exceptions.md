@@ -6,17 +6,64 @@ A parsing run, a call to one of the `parse()` functions as explained in [Inputs 
 * A return value of `false` is called a *local failure* (even when propagated to the top).
 * An exception indicating a *global failure* is thrown.
 
-The PEGTL parsing rules throw exceptions of type `tao::pegtl::parse_error`, some of the inputs throw exceptions of type `tao::pegtl::input_error`.
+The PEGTL parsing rules throw exceptions of type `tao::pegtl::parse_error`, some of the inputs throw additional exceptions like `std::system_error` or `std::filesystem_error`.
 Other exception classes can be used freely from actions and custom parsing rules.
 
 ## Contents
 
+* [Global Failure](#global-failure)
 * [Local to Global Failure](#local-to-global-failure)
   * [Intrusive Local to Global Failure](#intrusive-local-to-global-failure)
   * [Non-Intrusive Local to Global Failure](#non-intrusive-local-to-global-failure)
 * [Global to Local Failure](#global-to-local-failure)
 * [Examples for Must Rules](#examples-for-must-rules)
 * [Custom Exception Messages](#custom-exception-messages)
+
+## Global Failure
+
+By default, global failure means that an exception of type `tao::pegtl::parse_error` is thrown.
+
+Synposis:
+
+```c++
+namespace tao::pegtl
+{
+   class parse_error
+      : public std::runtime_error
+   {
+      parse_error( const char* msg, position p );
+
+      parse_error( const std::string& msg, position p )
+         : parse_error( msg.c_str(), std::move( p ) )
+      {}
+
+      template< typename ParseInput >
+      parse_error( const char* msg, const ParseInput& in )
+         : parse_error( msg, in.position() )
+      {}
+
+      template< typename ParseInput >
+      parse_error( const std::string& msg, const ParseInput& in )
+         : parse_error( msg, in.position() )
+      {}
+
+      const char* what() const noexcept override;
+
+      std::string_view message() const noexcept;
+      const std::vector< position >& positions() const noexcept;
+
+      void add_position( position&& p );
+   };
+}
+```
+
+The `what()` message will contain all positions as well as the original `msg`.
+This allows retrieval of all information if the exception is handled as a `std::runtime_error` in a generic way.
+
+The `message()` function will return the original `msg`, while `positions()` allows access to the stored positions.
+This is useful to decompose the exception and provide more helpful errors to the user.
+
+The constructors can be used by custom rules to signal global failure, while `add_position()` is often used when you are parsing nested data, so you can append the position in the original file which includes the nested file.
 
 ## Local to Global Failure
 
