@@ -191,14 +191,25 @@ struct error { template< typename Rule > static constexpr auto message = error_m
 template< typename Rule > using control = tao::pegtl::must_if< error >::control< Rule >;
 ```
 
+`must_if<>` expects a wrapper for the error message as its first template parameter.
+There is a second parameter for the base control class, which defaults to `tao::pegtl::normal`, and which can combine `must_if`'s control class with other control classes.
+
 Since `raise()` is only instantiated for those rules for which `must<>` could trigger an exception, it is sufficient to provide specialisations of the error message string for those rules.
 Furthermore, there will be a compile-time error (i.e. a `static_assert`) for all rules for which the specialisation was forgotten although `raise()` could be called.
 
-The [control class](Control-and-Debug.md) provided by `must_if<>` also turns local failures into global failure if an error message is provided, i.e. if the error message is not `nullptr`.
+The [control class](Control-and-Debug.md) provided by `must_if<>` also turns, by default, local failures into global failure if an error message is provided, i.e. if the error message is not `nullptr`.
 This means that one can provide additional points in the grammar where a global failure is triggered, even when the grammar contains no `must<>` error points.
 
-`must_if<>` expects a wrapper for the error message as its first template parameter.
-There is a second parameter for the base control class, which defaults to `tao::pegtl::normal`, and which can combine `must_if`'s control class with other control classes.
+The above feature also means that a rule which is used both with and without `must<>`, one would not only provide a custom error message for the location where the rule is failing within a `must<>`-context, but local errors in other contexts are implicitly turned into global error.
+If this behaviour is not intended, one can disable the "turn local to global failure" feature by setting `raise_on_failure` to `false` in the wrapper class:
+
+```c++
+struct error
+{
+   template< typename Rule > static constexpr bool raise_on_failure = false;
+   template< typename Rule > static constexpr auto message = error_message< Rule >;
+};
+```
 
 It is advisable to choose the error points in the grammar with prudence.
 This choice becoming particularly cumbersome and/or resulting in a large number of error points might be an indication of the grammar needing some kind of simplification or restructuring.
