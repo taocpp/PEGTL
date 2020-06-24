@@ -96,9 +96,6 @@ namespace TAO_PEGTL_NAMESPACE
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   const auto issues = pegtl::analyze< dynamic::grammar >();
-   assert( !issues );
-
    if( argc > 1 ) {
       std::string id;
       std::string body;
