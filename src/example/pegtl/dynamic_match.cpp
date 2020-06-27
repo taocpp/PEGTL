@@ -96,8 +96,10 @@ namespace TAO_PEGTL_NAMESPACE
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   const auto issues = pegtl::analyze< dynamic::grammar >();
-   assert( !issues );
+   if( pegtl::analyze< dynamic::grammar >() != 0 ) {
+      std::cerr << "cycles without progress detected!" << std::endl;
+      return 1;
+   }
 
    if( argc > 1 ) {
       std::string id;
