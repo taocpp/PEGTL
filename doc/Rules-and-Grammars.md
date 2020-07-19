@@ -145,9 +145,9 @@ struct simple_rule
 Here is an excerpt from the included example program `src/example/pegtl/modulus_match.cpp` that shows a simple custom rule.
 The - slightly artificial - rule `my_rule` uses three important `input` functions,
 
-1. first `size()` to check whether the input is not empty,
+1. first `empty()` to check whether the input is not empty,
 
-2. then `begin()` to access the data and check whether the remainder of the first remaining input character `C` happens to satisfy `C % M == R`,
+2. then `current()` to access the data and check whether the remainder of the first remaining input character `C` happens to satisfy `C % M == R`,
 
 3. and finally `bump()` to consume one `char` from the input if the two above conditions are satisfied.
 
@@ -155,6 +155,8 @@ Note how the return value reflects the result of the checks, and how input is on
 The remainder of the program checks that all characters of `argv[ 1 ]` are equal to 0 when divided by 3.
 
 ```c++
+using namespace TAO_PEGTL_NAMESPACE;
+
 namespace modulus
 {
    template< unsigned M, unsigned R = 0 >
@@ -166,8 +168,8 @@ namespace modulus
       template< typename ParseInput >
       static bool match( ParseInput& in )
       {
-         if( ! in.empty() ) {
-            if( ( ( *in.begin() ) % M ) == R ) {
+         if( !in.empty() ) {
+            if( ( ( *in.current() ) % M ) == R ) {
                in.bump( 1 );
                return true;
             }
@@ -177,15 +179,16 @@ namespace modulus
    };
 
    struct grammar
-      : tao::pegtl::until< tao::pegtl::eof, my_rule< 3 > > {};
+      : until< eolf, must< my_rule< 3 > > >
+   {};
 
 }  // namespace modulus
 
-int main( int argc, char* argv[] )
+int main( int argc, char** argv )
 {
    if( argc > 1 ) {
-      tao::pegtl::argv_input in( argv, 1 );
-      tao::pegtl::parse< modulus::grammar >( in );
+      argv_input in( argv, 1 );
+      parse< modulus::grammar >( in );
    }
    return 0;
 }
