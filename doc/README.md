@@ -45,7 +45,7 @@
     * [State Mismatch](Actions-and-States.md#state-mismatch)
   * [Legacy Actions](Actions-and-States.md#legacy-actions)
 * [Errors and Exceptions](Errors-and-Exceptions.md)
-  * [Global Failure]((Errors-and-Exceptions.md#global-failure)
+  * [Global Failure](Errors-and-Exceptions.md#global-failure)
   * [Local to Global Failure](Errors-and-Exceptions.md#local-to-global-failure)
     * [Intrusive Local to Global Failure](Errors-and-Exceptions.md#intrusive-local-to-global-failure)
     * [Non-Intrusive Local to Global Failure](Errors-and-Exceptions.md#non-intrusive-local-to-global-failure)
