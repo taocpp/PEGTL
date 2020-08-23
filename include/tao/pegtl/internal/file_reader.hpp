@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       throw std::filesystem::filesystem_error( "_wfopen_s() failed", path, ec );
 #else
 #if defined( __MINGW32__ )
-      if( auto* file = std::fopen( path.c_str(), "rb" ) )
+      if( auto* file = std::fopen( path.string().c_str(), "rb" ) )
 #else
       if( auto* file = std::fopen( path.c_str(), "rbe" ) )
 #endif
