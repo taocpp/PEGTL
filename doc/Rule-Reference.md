@@ -768,14 +768,14 @@ ASCII rules do not usually rely on other rules.
 ###### `shebang`
 
 * [Equivalent] to `if_must< string< '#', '!' >, until< eolf > >`.
+* [Meta data] and [implementation] mapping:
+  - `ascii::shebang::rule_t` is `internal::seq< false, internal::string< '#', '!' >, internal::until< internal::eolf > >`
+  - `ascii::shebang::subs_t` is `type_list< internal::string< '#', '!' >, internal::until< internal::eolf > >`
 
 ###### `space`
 
 * Matches and consumes a single space, line-feed, carriage-return, horizontal-tab, vertical-tab or form-feed.
 * [Equivalent] to `one< ' ', '\n', '\r', '\t', '\v', '\f' >`.
-* [Meta data] and [implementation] mapping:
-  - `ascii::shebang::rule_t` is `internal::seq< false, internal::string< '#', '!' >, internal::until< internal::eolf > >`
-  - `ascii::shebang::subs_t` is `type_list< internal::string< '#', '!' >, internal::until< internal::eolf > >`
 
 ###### `string< C... >`
 
