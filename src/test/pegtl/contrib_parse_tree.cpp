@@ -13,6 +13,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct C : one< 'c' > {};
 
    struct D : sor< seq< A, B >, seq< A, C > > {};
+   struct E : star< A, B > {};
 
    struct D2 : sor< try_catch< if_must< A, B > >, seq< A, C > > {};
    // clang-format on
@@ -48,6 +49,18 @@ namespace TAO_PEGTL_NAMESPACE
          memory_input in2( "x", "input" );
          const auto r2 = parse_tree::parse< D, selector >( in2 );
          TAO_PEGTL_TEST_ASSERT( !r2 );
+      }
+
+      {
+         memory_input in( "aba", "input" );
+         const auto r = parse_tree::parse< E, selector >( in );
+         TAO_PEGTL_TEST_ASSERT( r );
+         TAO_PEGTL_TEST_ASSERT( r->is_root() );
+         TAO_PEGTL_TEST_ASSERT( !r->has_content() );
+
+         TAO_PEGTL_TEST_ASSERT( r->children.size() == 2 );
+         TAO_PEGTL_TEST_ASSERT( r->children.front()->is_type< A >() );
+         TAO_PEGTL_TEST_ASSERT( r->children.back()->is_type< B >() );
       }
 
       {
