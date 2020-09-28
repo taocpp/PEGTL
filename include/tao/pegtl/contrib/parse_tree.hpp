@@ -242,6 +242,8 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       struct make_control< Node, Selector, Control >::state_handler< Rule, false, false >
          : remove_first_state< Control< Rule > >
       {
+         static constexpr bool enable = true;
+
          template< typename ParseInput, typename... States >
          static void start( const ParseInput& /*unused*/, state< Node >& state, States&&... /*unused*/ )
          {
