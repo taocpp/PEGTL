@@ -32,6 +32,7 @@ When at least one parameter is given, i.e. `seq< A >` or `seq< A, B, C >`, `R` i
 
 ## Contents
 
+* [Equivalence Tables](#equivalence-tables)
 * [Meta Rules](#meta-rules)
 * [Combinators](#combinators)
 * [Convenience](#convenience)
@@ -46,6 +47,49 @@ When at least one parameter is given, i.e. `seq< A >` or `seq< A, B, C >`, `R` i
   * [ICU Rules for Value Properties](#icu-rules-for-value-properties)
 * [Binary Rules](#binary-rules)
 * [Full Index](#full-index)
+
+## Equivalence Tables
+
+Atomic rules:
+* [`bof`](#bof) <sup>[(atomic rules)](#atomic-rules)</sup>, [`eof`](#eof) <sup>[(atomic rules)](#atomic-rules)</sup>
+* [`bytes< Num >`](#bytes-num-) <sup>[(atomic rules)](#atomic-rules)</sup>
+* [`raise< T >`](#raise-t-) <sup>[(atomic rules)](#atomic-rules)</sup>
+* [`disable< R... >`](#disable-r-) <sup>[(meta rules)](#meta-rules)</sup>
+
+| PEG                                                                           | tao::pegtl::                                                                                                                                                                      |
+| ---                                                                           | ---                                                                                                                                                                               |
+| &*e*                                                                          | [`at< R... >`](#at-r-) <sup>[(combinators)](#combinators)</sup>                                                                                                                   |
+| !*e*                                                                          | [`not_at< R... >`](#not_at-r-) <sup>[(combinators)](#combinators)</sup>                                                                                                           |
+| *e*?                                                                          | [`opt< R... >`](#opt-r-) <sup>[(combinators)](#combinators)</sup>                                                                                                                 |
+| *e*+                                                                          | [`plus< R... >`](#plus-r-) <sup>[(combinators)](#combinators)</sup>                                                                                                               |
+| *e*<sub>1</sub>*e*<sub>2</sub>                                                | [`seq< R... >`](#seq-r-) <sup>[(combinators)](#combinators)</sup>                                                                                                                 |
+| *e*<sub>1</sub> / *e*<sub>2</sub>                                             | [`sor< R... >`](#sor-r-) <sup>[(combinators)](#combinators)</sup>                                                                                                                 |
+| *e**                                                                          | [`star< R... >`](#star-r-) <sup>[(combinators)](#combinators)</sup>                                                                                                               |
+
+| Regex                                                                         | tao::pegtl::                                                                                                                                                                      |
+| ---                                                                           | ---                                                                                                                                                                               |
+| `[0-9]`                                                                       | [`ascii::digit`](#digit) <sup>[(ascii rules)](#ascii-rules)</sup>, [`ascii::range<'0', '9'>`](#range-c-d-) <sup>[(ascii rules)](#ascii-rules)</sup>                               |
+| `[^0-9]`                                                                      | [`ascii::not_range<'0', '9'>`](#not_range-c-d-) <sup>[(ascii rules)](#ascii-rules)</sup>                                                                                          |
+| `[a-zA-Z0-9]`                                                                 | [`ascii::alnum`](#alnum) <sup>[(ascii rules)](#ascii-rules)</sup>                                                                                                                 |
+| `[a-zA-Z]`                                                                    | [`ascii::alpha`](#alpha) <sup>[(ascii rules)](#ascii-rules)</sup>, [`ascii::ranges<'a', 'z', 'A', 'Z'>`](#mask_ranges-m-c1-d1-c2-d2--) <sup>[(binary rules)](#binary-rules)</sup> |
+| `[ \t]`                                                                       | [`ascii::blank`](#blank) <sup>[(ascii rules)](#ascii-rules)</sup>, [`one<' ', '\t'>`](#one-c-) <sup>[(ascii rules)](#ascii-rules)</sup>                                           |
+| `[^ \t]`                                                                      | [`ascii::not_one<' ', '\t'>`](#not_one-c-) <sup>[(ascii rules)](#ascii-rules)</sup>                                                                                               |
+| `[a-zA-Z_]`                                                                   | [`ascii::identifier_first`](#identifier_first) <sup>[(ascii rules)](#ascii-rules)</sup>                                                                                           |
+| `[a-zA-Z0-9_]`                                                                | [`ascii::identifier_other`](#identifier_other) <sup>[(ascii rules)](#ascii-rules)</sup>                                                                                           |
+| `[a-zA-Z_][a-zA-Z0-9_]*`                                                      | [`ascii::identifier`](#identifier) <sup>[(ascii rules)](#ascii-rules)</sup>                                                                                                       |
+| `[ \n\r\t\v\f]`                                                               | [`ascii::space`](#space) <sup>[(ascii rules)](#ascii-rules)</sup>                                                                                                                 |
+| `^`                                                                           | [`bol`](#bol) <sup>[(atomic rules)](#atomic-rules)</sup>                                                                                                                          |
+| `$`                                                                           | [`eol`](#eol) <sup>[(atomic rules)](#atomic-rules)</sup>                                                                                                                          |
+| `include`                                                                     | [`string< 'i', 'n', 'c', 'l', 'u', 'd', 'e' >`](#string-c-) <sup>[(ascii rules)](#ascii-rules)</sup>                                                                              |
+
+| tao::pegtl::                                                                  | tao::pegtl::                                                                                                                                                                      |
+| ---                                                                           | ---                                                                                                                                                                               |
+| [`ascii::any`](#any) <sup>[(ascii rules)](#ascii-rules)</sup>                 | `bytes< 1 >`                                                                                                                                                                      |
+| [`must< R... >`](#must-r-) <sup>[(convenience)](#convenience)</sup>           | `seq< sor< R, raise< R > >... >`                                                                                                                                                  |
+| [`if_must< R, S... >`](#if_must-r-s-) <sup>[(convenience)](#convenience)</sup>| `seq< R, must< S... > >`                                                                                                                                                          |
+| [`until< R, S... >`](#until-r-s-) <sup>[(convenience)](#convenience)</sup>    | `seq< star< not_at< R >, S... >, R >`                                                                                                                                             |
+| [`until< R >`](#until-r-) <sup>[(convenience)](#convenience)</sup>            | `until< R, any >`                                                                                                                                                                 |
+| [`eolf`](#eolf) <sup>[(atomic rules)](#atomic-rules)</sup>                    | `sor< eof, eol >`                                                                                                                                                                 |
 
 ## Meta Rules
 
