@@ -43,6 +43,27 @@ CLANG_TIDY_HEADERS := $(filter-out include/tao/pegtl/internal/file_mapper_win32.
 
 UNIT_TESTS := $(filter build/src/test/%,$(BINARIES))
 
+GENERATED_FILE_PATH := build/src
+
+generated_files: $(GENERATED_FILE_PATH)/generated_test_filename.hpp $(GENERATED_FILE_PATH)/file_äöü𝄞_data.txt
+
+$(GENERATED_FILE_PATH)/generated_test_filename.hpp: Makefile
+	@mkdir -p $(GENERATED_FILE_PATH)
+	@echo "#ifndef TAO_PEGTL_SRC_TEST_PEGTL_GENERATED_TEST_FILENAME_HPP" > $(GENERATED_FILE_PATH)/generated_test_filename.hpp
+	@echo "#define TAO_PEGTL_SRC_TEST_PEGTL_GENERATED_TEST_FILENAME_HPP" >> $(GENERATED_FILE_PATH)/generated_test_filename.hpp
+	@echo >> $(GENERATED_FILE_PATH)/generated_test_filename.hpp
+	@echo "#if defined( _MSC_VER )" >> $(GENERATED_FILE_PATH)/generated_test_filename.hpp
+	@echo "#define TAO_PEGTL_TEST_FILENAME u\"$(GENERATED_FILE_PATH)/file_äöü𝄞_data.txt\"" >> $(GENERATED_FILE_PATH)/generated_test_filename.hpp
+	@echo "#else" >> $(GENERATED_FILE_PATH)/generated_test_filename.hpp
+	@echo "#define TAO_PEGTL_TEST_FILENAME \"$(GENERATED_FILE_PATH)/file_äöü𝄞_data.txt\"" >> $(GENERATED_FILE_PATH)/generated_test_filename.hpp
+	@echo "#endif" >> $(GENERATED_FILE_PATH)/generated_test_filename.hpp
+	@echo >> $(GENERATED_FILE_PATH)/generated_test_filename.hpp
+	@echo "#endif" >> $(GENERATED_FILE_PATH)/generated_test_filename.hpp
+
+$(GENERATED_FILE_PATH)/file_äöü𝄞_data.txt: Makefile
+	@mkdir -p $(GENERATED_FILE_PATH)
+	@cp ./src/test/pegtl/file_data.txt $(GENERATED_FILE_PATH)/file_äöü𝄞_data.txt
+
 .PHONY: all
 all: compile check
 
@@ -62,7 +83,7 @@ valgrind: $(UNIT_TESTS:%=%.valgrind)
 	@echo "All $(words $(UNIT_TESTS)) valgrind tests passed."
 
 build/%.clang-tidy: % .clang-tidy
-	$(CLANG_TIDY) -quiet $< -- $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) 2>/dev/null
+	$(CLANG_TIDY) -quiet $< -- $(CXXSTD) -Iinclude -Ibuild/src $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) 2>/dev/null
 	@mkdir -p $(@D)
 	@touch $@
 
@@ -75,12 +96,12 @@ clean:
 	@rm -rf build/*
 	@find . -name '*~' -delete
 
-build/%.d: %.cpp Makefile
+build/%.d: %.cpp Makefile generated_files
 	@mkdir -p $(@D)
-	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) -MM -MQ $@ $< -o $@
+	$(CXX) $(CXXSTD) -Iinclude -Ibuild/src $(CPPFLAGS) -MM -MQ $@ $< -o $@
 
 build/%: %.cpp build/%.d
-	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) $< $(LDFLAGS) -o $@
+	$(CXX) $(CXXSTD) -Iinclude -Ibuild/src $(CPPFLAGS) $(CXXFLAGS) $< $(LDFLAGS) -o $@
 
 .PHONY: amalgamate
 amalgamate: build/amalgamated/pegtl.hpp

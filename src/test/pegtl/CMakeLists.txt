@@ -110,6 +110,33 @@ set(test_sources
   utf8_general.cpp
 )
 
+
+# Generate unicode filename.  Since the unicode filename is not
+# supported by all filesystem, generating this file allows to get
+# source worktree (with regard to git repository).
+
+set(GENERATED_FILE_PATH ${CMAKE_CURRENT_BINARY_DIR})
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/generated_test_filename.hpp.in"
+  "${GENERATED_FILE_PATH}/generated_test_filename.hpp"
+  @ONLY)
+
+include_directories(${GENERATED_FILE_PATH})
+
+file(WRITE "${GENERATED_FILE_PATH}/file_äöü𝄞_data.txt"
+  "dummy content
+dummy content
+dummy content
+dummy content
+dummy content
+dummy content
+dummy content
+dummy content
+dummy content
+dummy content
+dummy content
+")
+
 # file(GLOB ...) is used to validate the above list of test_sources
 file(GLOB glob_test_sources RELATIVE ${CMAKE_CURRENT_LIST_DIR} *.cpp)
 
