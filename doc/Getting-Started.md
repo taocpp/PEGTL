@@ -156,7 +156,7 @@ int main( int argc, char** argv )
    if( argc != 2 ) return 1;
 
    pegtl::argv_input in( argv, i );
-   pegtl::standard_tracer tr( in );
+   pegtl::standard_trace tr( in );
    tr.parse< grammar >( in );
 
    return 0;
