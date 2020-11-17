@@ -22,7 +22,8 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
-   using GRAMMAR = must< json::text, eof >;
+   using GRAMMAR = must< json::text, opt< star< json::ws > >, eof >;
+   using GRAMMAR2 = must< json::text >;
 
    void unit_test()
    {
@@ -54,6 +55,11 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\xC3\x84\"]", result_type::success, 0 );          // German a-umlaut
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\xF4\x8F\xBF\xBF\"]", result_type::success, 0 );  // largest allowed codepoint U+10FFFF
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\U0010FFFF\"]", result_type::success, 0 );        // largest allowed codepoint U+10FFFF
+
+      // should not consume tokens after the json
+      verify_rule< GRAMMAR2 >( __LINE__, __FILE__, "  []  ", result_type::success, 2 );
+      verify_rule< GRAMMAR2 >( __LINE__, __FILE__, "  {}  ", result_type::success, 2 );
+      verify_rule< GRAMMAR2 >( __LINE__, __FILE__, "  5  ", result_type::success, 2 );
 
       verify_fail< GRAMMAR >( __LINE__, __FILE__, "" );
       verify_fail< GRAMMAR >( __LINE__, __FILE__, " " );

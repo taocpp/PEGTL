@@ -58,8 +58,8 @@ namespace TAO_PEGTL_NAMESPACE::json
    struct value;
 
    struct array_element;
-   struct array_content : opt< list_must< array_element, value_separator > > {};
-   struct array : seq< begin_array, array_content, must< end_array > >
+   struct array_content : opt< list_must< array_element, value_separator, ws > > {};
+   struct array : seq< begin_array, pad< array_content, ws >, must< end_array > >
    {
       using begin = begin_array;
       using end = end_array;
@@ -67,9 +67,9 @@ namespace TAO_PEGTL_NAMESPACE::json
       using content = array_content;
    };
 
-   struct member : if_must< key, name_separator, value > {};
-   struct object_content : opt< list_must< member, value_separator > > {};
-   struct object : seq< begin_object, object_content, must< end_object > >
+   struct member : if_must< key, name_separator, pad< value, ws > > {};
+   struct object_content : opt< list_must< member, value_separator, ws > > {};
+   struct object : seq< begin_object, pad< object_content, ws>, must< end_object > >
    {
       using begin = begin_object;
       using end = end_object;
@@ -77,7 +77,7 @@ namespace TAO_PEGTL_NAMESPACE::json
       using content = object_content;
    };
 
-   struct value : padr< sor< string, number, object, array, false_, true_, null > > {};
+   struct value : sor< string, number, object, array, false_, true_, null > {};
    struct array_element : seq< value > {};
 
    struct text : seq< star< ws >, value > {};
