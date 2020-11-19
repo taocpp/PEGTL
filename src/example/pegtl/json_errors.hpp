@@ -27,7 +27,7 @@ namespace example
    template<> inline constexpr auto error_message< pegtl::json::member > = "expected member";
    template<> inline constexpr auto error_message< pegtl::json::name_separator > = "expected ':'";
    template<> inline constexpr auto error_message< pegtl::json::array_element > = "expected value";
-   template<> inline constexpr auto error_message< pegtl::json::value > = "expected value";
+   template<> inline constexpr auto error_message< pegtl::json::member_value > = "expected value";
 
    template<> inline constexpr auto error_message< pegtl::json::digits > = "expected at least one digit";
    template<> inline constexpr auto error_message< pegtl::json::xdigit > = "incomplete universal character name";

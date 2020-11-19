@@ -67,7 +67,8 @@ namespace TAO_PEGTL_NAMESPACE::json
       using content = array_content;
    };
 
-   struct member : if_must< key, name_separator, value > {};
+   struct member_value : padr< value > {};
+   struct member : if_must< key, name_separator, member_value > {};
    struct object_content : opt< list_must< member, value_separator > > {};
    struct object : seq< begin_object, object_content, must< end_object > >
    {
@@ -77,10 +78,10 @@ namespace TAO_PEGTL_NAMESPACE::json
       using content = object_content;
    };
 
-   struct value : padr< sor< string, number, object, array, false_, true_, null > > {};
-   struct array_element : seq< value > {};
+   struct value : sor< string, number, object, array, false_, true_, null > {};
+   struct array_element : padr< value > {};
 
-   struct text : seq< star< ws >, value > {};
+   struct text : pad< value, ws > {};
    // clang-format on
 
 }  // namespace TAO_PEGTL_NAMESPACE::json

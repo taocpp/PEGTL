@@ -36,6 +36,7 @@
   * Demoted UTF-16 and UTF-32 support to contrib.
   * Demoted UINT-8, UINT-16, UINT-32 and UINT-64 support to contrib.
   * Folded `contrib/counter.hpp` into `json_count.cpp`, count is superceded by coverage.
+  * Removed right padding from `contrib/json.hpp`'s `value`.
 * Cleanup
   * Removed option of [state](Rule-Reference.md#state-s-r-)'s `S::success()` to have an extended signature to get access to the current `apply_mode`, `rewind_mode`, *action*- and *control* class (template).
   * Removed compatibility macros starting with `TAOCPP_PEGTL_`.
