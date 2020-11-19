@@ -6,61 +6,77 @@
 
 #include <unicode/uchar.h>
 
+#include "../analyze_traits.hpp"
+
 #include "../../config.hpp"
 #include "../../type_list.hpp"
 
 #include "../../internal/enable_control.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace TAO_PEGTL_NAMESPACE
 {
-   namespace icu
+   namespace internal
    {
-      template< typename Peek, UProperty P, bool V = true >
-      struct binary_property
+      namespace icu
       {
-         using rule_t = binary_property;
-         using subs_t = empty_list;
-
-         template< typename ParseInput >
-         [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
+         template< typename Peek, UProperty P, bool V = true >
+         struct binary_property
          {
-            if( const auto r = Peek::peek( in ) ) {
-               if( u_hasBinaryProperty( r.data, P ) == V ) {
-                  in.bump( r.size );
-                  return true;
+            using rule_t = binary_property;
+            using subs_t = empty_list;
+
+            template< typename ParseInput >
+            [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
+            {
+               if( const auto r = Peek::peek( in ) ) {
+                  if( u_hasBinaryProperty( r.data, P ) == V ) {
+                     in.bump( r.size );
+                     return true;
+                  }
                }
+               return false;
             }
-            return false;
-         }
-      };
+         };
+
+         template< typename Peek, UProperty P, int V >
+         struct property_value
+         {
+            using rule_t = property_value;
+            using subs_t = empty_list;
+
+            template< typename ParseInput >
+            [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
+            {
+               if( const auto r = Peek::peek( in ) ) {
+                  if( u_getIntPropertyValue( r.data, P ) == V ) {
+                     in.bump( r.size );
+                     return true;
+                  }
+               }
+               return false;
+            }
+         };
+
+      }  // namespace icu
+
+      template< typename Peek, UProperty P, bool V >
+      inline constexpr bool enable_control< icu::binary_property< Peek, P, V > > = false;
 
       template< typename Peek, UProperty P, int V >
-      struct property_value
-      {
-         using rule_t = property_value;
-         using subs_t = empty_list;
+      inline constexpr bool enable_control< icu::property_value< Peek, P, V > > = false;
 
-         template< typename ParseInput >
-         [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
-         {
-            if( const auto r = Peek::peek( in ) ) {
-               if( u_getIntPropertyValue( r.data, P ) == V ) {
-                  in.bump( r.size );
-                  return true;
-               }
-            }
-            return false;
-         }
-      };
+   } // namespace internal
 
-   }  // namespace icu
+   template< typename Name, typename Peek, UProperty P, bool V >
+   struct analyze_traits< Name, internal::icu::binary_property< Peek, P, V > >
+      : analyze_any_traits<>
+   {};
 
-   template< typename Peek, UProperty P, bool V >
-   inline constexpr bool enable_control< icu::binary_property< Peek, P, V > > = false;
+   template< typename Name, typename Peek, UProperty P, int V >
+   struct analyze_traits< Name, internal::icu::property_value< Peek, P, V > >
+      : analyze_any_traits<>
+   {};
 
-   template< typename Peek, UProperty P, int V >
-   inline constexpr bool enable_control< icu::property_value< Peek, P, V > > = false;
-
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif
