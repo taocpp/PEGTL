@@ -129,7 +129,12 @@ jobs:
         - wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
         - unzip -qq sdk-tools-linux-4333796.zip -d /opt/android-sdk
         - rm sdk-tools-linux-4333796.zip
-        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "platform-tools" "system-images;android-24;default;${ANDROID_ABI}" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
+        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "platform-tools" "system-images;android-24;default;${ANDROID_ABI}" "platforms;android-24" "cmake;3.10.2.4988404" > /dev/null
+        - mkdir /opt/android-sdk/ndk
+        - cd /opt/android-sdk/ndk
+        - wget https://dl.google.com/android/repository/android-ndk-r22-beta1-linux-x86_64.zip
+        - unzip -qq android-ndk-r22-beta1-linux-x86_64.zip
+        - rm android-ndk-r22-beta1-linux-x86_64.zip
       before_script:
         - export TERM=dumb
         - export _NO_CHECK_SIGNATURE=true
@@ -140,7 +145,7 @@ jobs:
         - /opt/android-sdk/platform-tools/adb shell input keyevent 82 &
       script:
         # Using the ninja build command. Is much faster then make build command.
-        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake -H. -Bcmake-build -GNinja -DANDROID_ABI=${ANDROID_ABI} -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=${ANDROID_PLATFORM} -DCMAKE_MAKE_PROGRAM=/opt/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
+        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake -H. -Bcmake-build -GNinja -DANDROID_ABI=${ANDROID_ABI} -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/android-sdk/ndk/android-ndk-r22-beta1/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=${ANDROID_PLATFORM} -DCMAKE_MAKE_PROGRAM=/opt/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
         - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake --build cmake-build --target all
         # FIXME android emulator stuck sometimes - cd cmake-build && /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
       env:
