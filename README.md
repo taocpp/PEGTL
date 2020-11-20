@@ -100,6 +100,8 @@ For details see the [changelog](doc/Changelog.md).
 
 In appreciation of all contributions here are the people that have [directly contributed](https://github.com/taocpp/PEGTL/graphs/contributors) to the PEGTL and/or its development.
 
+
+[<img alt="amphaal" src="https://avatars.githubusercontent.com/u/13903151" width="120">](https://github.com/amphaal)
 [<img alt="andoma" src="https://avatars.githubusercontent.com/u/216384" width="120">](https://github.com/andoma)
 [<img alt="bjoe" src="https://avatars.githubusercontent.com/u/727911" width="120">](https://github.com/bjoe)
 [<img alt="bwagner" src="https://avatars.githubusercontent.com/u/447049" width="120">](https://github.com/bwagner)
@@ -112,6 +114,8 @@ In appreciation of all contributions here are the people that have [directly con
 [<img alt="joelfrederico" src="https://avatars.githubusercontent.com/u/458871" width="120">](https://github.com/joelfrederico)
 [<img alt="johelegp" src="https://avatars.githubusercontent.com/u/21071787" width="120">](https://github.com/johelegp)
 [<img alt="jovermann" src="https://avatars.githubusercontent.com/u/6087443" width="120">](https://github.com/jovermann)
+[<img alt="jubnzv" src="https://avatars.githubusercontent.com/u/12023585" width="120">](https://github.com/jubnzv)
+[<img alt="kelvinhammond" src="https://avatars.githubusercontent.com/u/1824682" width="120">](https://github.com/kelvinhammond)
 [<img alt="kneth" src="https://avatars.githubusercontent.com/u/1225363" width="120">](https://github.com/kneth)
 [<img alt="kuzmas" src="https://avatars.githubusercontent.com/u/1858553" width="120">](https://github.com/kuzmas)
 [<img alt="lambdafu" src="https://avatars.githubusercontent.com/u/1138455" width="120">](https://github.com/lambdafu)
