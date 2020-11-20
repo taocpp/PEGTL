@@ -65,7 +65,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Peek, UProperty P, int V >
       inline constexpr bool enable_control< icu::property_value< Peek, P, V > > = false;
 
-   } // namespace internal
+   }  // namespace internal
 
    template< typename Name, typename Peek, UProperty P, bool V >
    struct analyze_traits< Name, internal::icu::binary_property< Peek, P, V > >
