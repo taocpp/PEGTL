@@ -61,7 +61,7 @@ Each commit is automatically tested with multiple architectures, operating syste
 
 * macOS (using libc++)
 
-  * macOS 10.15, Xcode 11.5
+  * macOS 10.15, Xcode 11.6
   * macOS 10.15, Xcode 12.2
 
 * Ubuntu 16.04 LTS (using libstdc++)
