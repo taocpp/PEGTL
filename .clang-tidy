@@ -10,6 +10,7 @@ Checks: >-
   llvm-*,
   -llvm-namespace-comment,
   misc-*,
+  -misc-no-recursion,
   -misc-non-private-member-variables-in-classes,
   -misc-unused-alias-decls,
   modernize-*,
