@@ -20,7 +20,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       position() = delete;
 
-#if defined( __GNUC__ )
+#if defined( __GNUC__ ) && !defined( __clang__ )
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 #endif
@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
            column( p.column ),
            source( std::move( p.source ) )
       {}
-#if defined( __GNUC__ )
+#if defined( __GNUC__ ) && !defined( __clang__ )
 #pragma GCC diagnostic pop
 #endif
 
