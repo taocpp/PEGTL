@@ -2,9 +2,6 @@ language: generic
 os: linux
 dist: xenial
 
-services:
-  - docker
-
 jobs:
   include:
     - compiler: gcc
@@ -87,11 +84,12 @@ jobs:
       env:
         - CXX=clang++-9
 
-    - dist: bionic
+    - &clang-10
+      dist: bionic
       compiler: clang
       addons:
         apt:
-          sources:
+          sources: &clang-10-sources
             - ubuntu-toolchain-r-test
             - sourceline: deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main
               key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
@@ -99,47 +97,34 @@ jobs:
       env:
         - CXX=clang++-10
 
-    - &clang-11
-      dist: bionic
-      compiler: clang
-      addons:
-        apt:
-          sources: &clang-11-sources
-            - ubuntu-toolchain-r-test
-            - sourceline: deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main
-              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
-          packages: [ clang-11, g++-10 ]
+    - <<: *clang-10
       env:
-        - CXX=clang++-11
-
-    - <<: *clang-11
-      env:
-        - CXX=clang++-11
+        - CXX=clang++-10
         - CXXSTD="-std=c++20"
 
-    - <<: *clang-11
+    - <<: *clang-10
       env:
-        - CXX=clang++-11
+        - CXX=clang++-10
         - CPPFLAGS="-fms-extensions"
 
-    - <<: *clang-11
+    - <<: *clang-10
       env:
-        - CXX=clang++-11
+        - CXX=clang++-10
         - CPPFLAGS="-fno-rtti"
 
     - os: osx
-      osx_image: xcode11.6
+      osx_image: xcode11.4
       compiler: clang
       env:
         - CXX=clang++
 
-    - os: osx
-      osx_image: xcode12.2
-      compiler: clang
-      env:
-        - CXX=clang++
     - &android
       compiler: clang
+      env:
+        - ANDROID_ABI=armeabi-v7a
+        - ANDROID_PLATFORM=android-22
+
+    - <<: *android
       script: |
         docker run -it -v ${TRAVIS_BUILD_DIR}:/source bojoe/cpp-android-ndk-build-env-ubuntu /bin/bash -c '
         export PS4='\''+ \e[33;1m($0 @ line $LINENO) \$\e[0m '\'' # quotes must be escaped
@@ -152,17 +137,12 @@ jobs:
         # /opt/androidSdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
       env:
         - ANDROID_ABI=armeabi-v7a
-        - ANDROID_PLATFORM=android-26
-
-    - <<: *android
-      env:
-        - ANDROID_ABI=armeabi-v7a
-        - ANDROID_PLATFORM=android-26
+        - ANDROID_PLATFORM=android-24
 
     - <<: *android
       env:
         - ANDROID_ABI=arm64-v8a
-        - ANDROID_PLATFORM=android-26
+        - ANDROID_PLATFORM=android-24
 
     - <<: *gcc-10
       env:
@@ -174,25 +154,25 @@ jobs:
         - CXX=g++-10
         - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
 
-    - <<: *clang-11
+    - <<: *clang-10
       env:
-        - CXX=clang++-11
+        - CXX=clang++-10
         - CPPFLAGS="-fsanitize=undefined"
 
-    - <<: *clang-11
+    - <<: *clang-10
       env:
-        - CXX=clang++-11
+        - CXX=clang++-10
         - CPPFLAGS="-fsanitize=address"
 
     - dist: bionic
       compiler: clang
       addons:
         apt:
-          sources: *clang-11-sources
-          packages: [ clang-11, clang-tidy-11, g++-10 ]
+          sources: *clang-10-sources
+          packages: [ clang-10, clang-tidy-10, g++-10 ]
       env:
-        - CXX=clang++-11
-        - CLANG_TIDY=clang-tidy-11
+        - CXX=clang++-10
+        - CLANG_TIDY=clang-tidy-10
       script:
         - make -kj3 clang-tidy
 
@@ -200,10 +180,10 @@ jobs:
       compiler: clang
       addons:
         apt:
-          sources: *clang-11-sources
-          packages: [ clang-tools-11, g++-10 ]
+          sources: *clang-10-sources
+          packages: [ clang-tools-10, g++-10 ]
       script:
-        - scan-build-11 --use-c++=clang++-11 --status-bugs make -kj3
+        - scan-build-10 --use-c++=clang++-10 --status-bugs make -kj3
 
     - dist: bionic
       compiler: gcc
@@ -231,10 +211,10 @@ jobs:
       compiler: clang
       addons:
         apt:
-          sources: *clang-11-sources
-          packages: [ clang-format-11, g++-10 ]
+          sources: *clang-10-sources
+          packages: [ clang-format-10, g++-10 ]
       script:
-        - clang-format-11 -i -style=file $(find . -name '[^.]*.[hc]pp')
+        - clang-format-10 -i -style=file $(find . -name '[^.]*.[hc]pp')
         - git diff --exit-code
 
 script:
