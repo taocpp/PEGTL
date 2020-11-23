@@ -84,12 +84,11 @@ jobs:
       env:
         - CXX=clang++-9
 
-    - &clang-10
-      dist: bionic
+    - dist: bionic
       compiler: clang
       addons:
         apt:
-          sources: &clang-10-sources
+          sources:
             - ubuntu-toolchain-r-test
             - sourceline: deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main
               key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
@@ -97,52 +96,84 @@ jobs:
       env:
         - CXX=clang++-10
 
-    - <<: *clang-10
+    - &clang-11
+      dist: bionic
+      compiler: clang
+      addons:
+        apt:
+          sources: &clang-11-sources
+            - ubuntu-toolchain-r-test
+            - sourceline: deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main
+              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
+          packages: [ clang-11, g++-10 ]
       env:
-        - CXX=clang++-10
+        - CXX=clang++-11
+
+    - <<: *clang-11
+      env:
+        - CXX=clang++-11
         - CXXSTD="-std=c++20"
 
-    - <<: *clang-10
+    - <<: *clang-11
       env:
-        - CXX=clang++-10
+        - CXX=clang++-11
         - CPPFLAGS="-fms-extensions"
 
-    - <<: *clang-10
+    - <<: *clang-11
       env:
-        - CXX=clang++-10
+        - CXX=clang++-11
         - CPPFLAGS="-fno-rtti"
 
     - os: osx
-      osx_image: xcode11.4
+      osx_image: xcode11.6
       compiler: clang
       env:
         - CXX=clang++
 
-    - &android
+    - os: osx
+      osx_image: xcode12.2
       compiler: clang
       env:
-        - ANDROID_ABI=armeabi-v7a
-        - ANDROID_PLATFORM=android-22
+        - CXX=clang++
 
-    - <<: *android
-      script: |
-        docker run -it -v ${TRAVIS_BUILD_DIR}:/source bojoe/cpp-android-ndk-build-env-ubuntu /bin/bash -c '
-        export PS4='\''+ \e[33;1m($0 @ line $LINENO) \$\e[0m '\'' # quotes must be escaped
-        set -e # exit on failure
-        set -x # trace for debug
-        /opt/androidSdk/cmake/3.10.2.4988404/bin/cmake -H/source -B/home/developer/build -GNinja -DANDROID_ABI=${ANDROID_ABI} -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/androidSdk/android-ndk-r22-beta1/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=${ANDROID_PLATFORM} -DCMAKE_MAKE_PROGRAM=/opt/androidSdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
-        /opt/androidSdk/cmake/3.10.2.4988404/bin/cmake --build /home/developer/build --target all'
-        # /opt/androidSdk/emulator/emulator -avd android-26-test -no-audio -no-window -dns-server 8.8.8.8 &
-        # cd /home/developer/build
-        # /opt/androidSdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
-      env:
-        - ANDROID_ABI=armeabi-v7a
-        - ANDROID_PLATFORM=android-24
+#    - &android
+#      compiler: clang
+#      addons:
+#        apt:
+#          packages:
+#            - openjdk-8-jdk
+#      before_install:
+#        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+#        - wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
+#        - unzip -qq sdk-tools-linux-4333796.zip -d /opt/android-sdk
+#        - rm sdk-tools-linux-4333796.zip
+#        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "platform-tools" "system-images;android-24;default;${ANDROID_ABI}" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
+#      before_script:
+#        - export TERM=dumb
+#        - export _NO_CHECK_SIGNATURE=true
+#        - export ANDROID_SDK_ROOT=/opt/android-sdk
+#        - echo no | /opt/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-24;default;${ANDROID_ABI}"
+#        - /opt/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
+#        #- android-wait-for-emulator || android-wait-for-emulator
+#        - /opt/android-sdk/platform-tools/adb shell input keyevent 82 &
+#      script:
+#        # Using the ninja build command. Is much faster then make build command.
+#        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake -H. -Bcmake-build -GNinja -DANDROID_ABI=${ANDROID_ABI} -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=${ANDROID_PLATFORM} -DCMAKE_MAKE_PROGRAM=/opt/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
+#        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake --build cmake-build --target all
+#        # FIXME android emulator stuck sometimes - cd cmake-build && /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
+#      env:
+#        - ANDROID_ABI=armeabi-v7a
+#        - ANDROID_PLATFORM=android-22
 
-    - <<: *android
-      env:
-        - ANDROID_ABI=arm64-v8a
-        - ANDROID_PLATFORM=android-24
+#    - <<: *android
+#      env:
+#        - ANDROID_ABI=armeabi-v7a
+#        - ANDROID_PLATFORM=android-24
+
+#    - <<: *android
+#      env:
+#        - ANDROID_ABI=arm64-v8a
+#        - ANDROID_PLATFORM=android-24
 
     - <<: *gcc-10
       env:
@@ -154,25 +185,25 @@ jobs:
         - CXX=g++-10
         - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
 
-    - <<: *clang-10
+    - <<: *clang-11
       env:
-        - CXX=clang++-10
+        - CXX=clang++-11
         - CPPFLAGS="-fsanitize=undefined"
 
-    - <<: *clang-10
+    - <<: *clang-11
       env:
-        - CXX=clang++-10
+        - CXX=clang++-11
         - CPPFLAGS="-fsanitize=address"
 
     - dist: bionic
       compiler: clang
       addons:
         apt:
-          sources: *clang-10-sources
-          packages: [ clang-10, clang-tidy-10, g++-10 ]
+          sources: *clang-11-sources
+          packages: [ clang-11, clang-tidy-11, g++-10 ]
       env:
-        - CXX=clang++-10
-        - CLANG_TIDY=clang-tidy-10
+        - CXX=clang++-11
+        - CLANG_TIDY=clang-tidy-11
       script:
         - make -kj3 clang-tidy
 
@@ -180,10 +211,10 @@ jobs:
       compiler: clang
       addons:
         apt:
-          sources: *clang-10-sources
-          packages: [ clang-tools-10, g++-10 ]
+          sources: *clang-11-sources
+          packages: [ clang-tools-11, g++-10 ]
       script:
-        - scan-build-10 --use-c++=clang++-10 --status-bugs make -kj3
+        - scan-build-11 --use-c++=clang++-11 --status-bugs make -kj3
 
     - dist: bionic
       compiler: gcc
@@ -211,10 +242,10 @@ jobs:
       compiler: clang
       addons:
         apt:
-          sources: *clang-10-sources
-          packages: [ clang-format-10, g++-10 ]
+          sources: *clang-11-sources
+          packages: [ clang-format-11, g++-10 ]
       script:
-        - clang-format-10 -i -style=file $(find . -name '[^.]*.[hc]pp')
+        - clang-format-11 -i -style=file $(find . -name '[^.]*.[hc]pp')
         - git diff --exit-code
 
 script:
