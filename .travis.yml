@@ -124,7 +124,7 @@ jobs:
     - &android
       compiler: clang
       script: |
-        docker run -it -v -v ${TRAVIS_BUILD_DIR}:/source bojoe/cpp-android-ndk-build-env-ubuntu /bin/bash -c '
+        docker run -it -v ${TRAVIS_BUILD_DIR}:/source bojoe/cpp-android-ndk-build-env-ubuntu /bin/bash -c '
         export PS4='\''+ \e[33;1m($0 @ line $LINENO) \$\e[0m '\'' # quotes must be escaped
         set -e # exit on failure
         set -x # trace for debug
