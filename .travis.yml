@@ -87,12 +87,11 @@ jobs:
       env:
         - CXX=clang++-9
 
-    - &clang-10
-      dist: bionic
+    - dist: bionic
       compiler: clang
       addons:
         apt:
-          sources: &clang-10-sources
+          sources:
             - ubuntu-toolchain-r-test
             - sourceline: deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main
               key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
@@ -100,27 +99,45 @@ jobs:
       env:
         - CXX=clang++-10
 
-    - <<: *clang-10
+    - &clang-11
+      dist: bionic
+      compiler: clang
+      addons:
+        apt:
+          sources: &clang-11-sources
+            - ubuntu-toolchain-r-test
+            - sourceline: deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main
+              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
+          packages: [ clang-11, g++-10 ]
       env:
-        - CXX=clang++-10
+        - CXX=clang++-11
+
+    - <<: *clang-11
+      env:
+        - CXX=clang++-11
         - CXXSTD="-std=c++20"
 
-    - <<: *clang-10
+    - <<: *clang-11
       env:
-        - CXX=clang++-10
+        - CXX=clang++-11
         - CPPFLAGS="-fms-extensions"
 
-    - <<: *clang-10
+    - <<: *clang-11
       env:
-        - CXX=clang++-10
+        - CXX=clang++-11
         - CPPFLAGS="-fno-rtti"
 
     - os: osx
-      osx_image: xcode11.4
+      osx_image: xcode11.6
       compiler: clang
       env:
         - CXX=clang++
 
+    - os: osx
+      osx_image: xcode12.2
+      compiler: clang
+      env:
+        - CXX=clang++
     - &android
       compiler: clang
       script: |
@@ -157,25 +174,25 @@ jobs:
         - CXX=g++-10
         - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
 
-    - <<: *clang-10
+    - <<: *clang-11
       env:
-        - CXX=clang++-10
+        - CXX=clang++-11
         - CPPFLAGS="-fsanitize=undefined"
 
-    - <<: *clang-10
+    - <<: *clang-11
       env:
-        - CXX=clang++-10
+        - CXX=clang++-11
         - CPPFLAGS="-fsanitize=address"
 
     - dist: bionic
       compiler: clang
       addons:
         apt:
-          sources: *clang-10-sources
-          packages: [ clang-10, clang-tidy-10, g++-10 ]
+          sources: *clang-11-sources
+          packages: [ clang-11, clang-tidy-11, g++-10 ]
       env:
-        - CXX=clang++-10
-        - CLANG_TIDY=clang-tidy-10
+        - CXX=clang++-11
+        - CLANG_TIDY=clang-tidy-11
       script:
         - make -kj3 clang-tidy
 
@@ -183,10 +200,10 @@ jobs:
       compiler: clang
       addons:
         apt:
-          sources: *clang-10-sources
-          packages: [ clang-tools-10, g++-10 ]
+          sources: *clang-11-sources
+          packages: [ clang-tools-11, g++-10 ]
       script:
-        - scan-build-10 --use-c++=clang++-10 --status-bugs make -kj3
+        - scan-build-11 --use-c++=clang++-11 --status-bugs make -kj3
 
     - dist: bionic
       compiler: gcc
@@ -214,10 +231,10 @@ jobs:
       compiler: clang
       addons:
         apt:
-          sources: *clang-10-sources
-          packages: [ clang-format-10, g++-10 ]
+          sources: *clang-11-sources
+          packages: [ clang-format-11, g++-10 ]
       script:
-        - clang-format-10 -i -style=file $(find . -name '[^.]*.[hc]pp')
+        - clang-format-11 -i -style=file $(find . -name '[^.]*.[hc]pp')
         - git diff --exit-code
 
 script:
