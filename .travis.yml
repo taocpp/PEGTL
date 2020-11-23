@@ -2,6 +2,9 @@ language: generic
 os: linux
 dist: xenial
 
+services:
+  - docker
+
 jobs:
   include:
     - compiler: gcc
