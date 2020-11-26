@@ -142,12 +142,9 @@ jobs:
     - &android
       compiler: clang
       script: |
-        docker run -it -v ${TRAVIS_BUILD_DIR}:/source bojoe/cpp-android-ndk-build-env-ubuntu /bin/bash -c '
-        export PS4='\''+ \e[33;1m($0 @ line $LINENO) \$\e[0m '\'' # quotes must be escaped
-        set -e # exit on failure
-        set -x # trace for debug
-        /opt/androidSdk/cmake/3.10.2.4988404/bin/cmake -H/source -B/home/developer/build -GNinja -DANDROID_ABI=${ANDROID_ABI} -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/androidSdk/android-ndk-r22-beta1/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=${ANDROID_PLATFORM} -DCMAKE_MAKE_PROGRAM=/opt/androidSdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
-        /opt/androidSdk/cmake/3.10.2.4988404/bin/cmake --build /home/developer/build --target all'
+        docker run -it -v ${TRAVIS_BUILD_DIR}:/source bojoe/cpp-android-ndk-build-env-ubuntu:r22beta1 '
+        cmake -H/source -B/home/developer/build -GNinja -DANDROID_ABI=${ANDROID_ABI} -DANDROID_PLATFORM=${ANDROID_PLATFORM} -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/androidSdk/android-ndk-r22-beta1/build/cmake/android.toolchain.cmake -DPEGTL_BUILD_EXAMPLES=OFF
+        cmake --build /home/developer/build --target all'
         # /opt/androidSdk/emulator/emulator -avd android-26-test -no-audio -no-window -dns-server 8.8.8.8 &
         # cd /home/developer/build
         # /opt/androidSdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
