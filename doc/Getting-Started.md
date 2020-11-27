@@ -176,10 +176,7 @@ int main( int argc, char** argv )
 }
 ```
 
-In the above each command line parameter is parsed as a JSON string.
-As the output gets long quickly, we will not show it here, please have a look at the [Tracer](Tracer.md) documentation.
-
-TODO: Write `Tracer.md`.
+In the above each command line parameter is parsed as a JSON string and a trace is given to understand hwo the grammar matches the input.
 
 ## Parse Tree / AST
 
