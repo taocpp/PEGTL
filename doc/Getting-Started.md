@@ -106,6 +106,8 @@ The correct way of handling errors is shown at the last paragraph of this page.
 ## Parsing Expression Grammars
 
 The PEGTL creates parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
+The table below shows how the PEG combinators map to PEGTL [rule classes](Rule-Reference.md#combinators) (strictly speaking: class templates).
+Beyond these standard combinators the PEGTL contains a [large number of additional combinators](Rule-Reference.md) as well as the possibility of [creating custom rules](Rules-and-Grammars.md#creating-new-rules).
 
 | PEG                               | `tao::pegtl::`                                                                                            |
 | ---                               | ---                                                                                                       |
@@ -117,16 +119,16 @@ The PEGTL creates parsers according to a [Parsing Expression Grammar](http://en.
 | *e*<sub>1</sub> / *e*<sub>2</sub> | [`sor< R... >`](Rule-Reference.md#sor-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>       |
 | *e**                              | [`star< R... >`](Rule-Reference.md#star-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>     |
 
+The PEGTL also contains a [large number of atomic rules](Rule-Reference.md) for matching ASCII and Unicode characters, strings, ranges and similar, beginning-of-file or end-of-line and similar, and more...
+
 ## Grammar Analysis
 
-Every grammar must be free of cycles that make no progress, i.e. the cycle does not consume any input.
-This is a common problem in parsing called [left recursion](https://en.wikipedia.org/wiki/Left_recursion).
-Especially with the PEG formalism, it results in an infinite loop and, eventually, in a stack overflow.
+Every grammar must be free of cycles that make no progress, i.e. it must not contain unbounded recursive or iterative rules that do not consume any input, as such grammar might enter an infinite loop.
+One common pattern for these kinds of problematic grammars is the so-called [left recursion](https://en.wikipedia.org/wiki/Left_recursion) that, while not a problem for less deterministic formalisms like CFGs, must be avoided with PEGs in order to prevent aforementioned infinite loops.
 
-The PEGTL provides a [grammar analysis](Grammar-Analysis.md) with which a grammar can be verified.
-Note that this is done at runtime as a pure compile-time analysis would lead to insupportable compile-times.
-The analysis, however, is only based on the grammar itself and not on a specific input.
-Additionally, the analysis is typically written as a separate program to keep any overhead from your normal applications.
+The PEGTL provides a [grammar analysis](Grammar-Analysis.md) which analyses a grammar for cycles that make no progress.
+While it could be implemented with compile-time meta-programming, to prevent the compiler from exploding the analysis is done at run-time.
+It is best practice to create a separate dedicated program that does nothing else but run the grammar analysis, thus keeping this development and debug aid out of the main application.
 
 ```c++
 #include <tao/pegtl.hpp>
@@ -149,11 +151,12 @@ int main()
    return 0;
 }
 ```
+For more information see [Grammar Analysis](Grammar-Analysis.md).
 
 ## Tracer
 
-One of the most basic tools when developing a grammar is a tracer that prints every step of a parsing run.
-The PEGTL provides a tracer that will print to stderr, as well as allowing users to write their own tracers to output other formats.
+A fundamental tool used when developing a grammar is a tracer that prints every step of a parsing run, thereby showing exactly which rule was attempted to match where, and what the result was.
+The PEGTL provides a tracer that will print to `stderr`, and of course allows users to write their own tracers with custom output formats.
 
 ```c++
 #include <tao/pegtl.hpp>
@@ -177,16 +180,18 @@ int main( int argc, char** argv )
 }
 ```
 
-In the above each command line parameter is parsed as a JSON string and a trace is given to understand hwo the grammar matches the input.
+In the above each command line parameter is parsed as a JSON string and a trace is given to understand how the grammar matches the input.
+
+For more information see `tao/pegtl/contrib/trace.hpp`.
 
 ## Parse Tree / AST
 
-When developing grammars, a common goal is to generate a [parse tree](https://en.wikipedia.org/wiki/Parse_tree) or an [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
+When developing parsers, a common goal after creating the grammar is to generate a [parse tree](https://en.wikipedia.org/wiki/Parse_tree) or an [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree).
 
 The PEGTL provides a [Parse Tree](Parse-Tree.md) builder that can filter and/or transform tree nodes on-the-fly.
-Additionally, a helper is provided to print out the resulting data structure in the [DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) format, suitable for creating a graphical representation of the parse tree.
+Additionally, a helper is provided to print out the resulting data structure in [DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) format, suitable for creating a graphical representation of the parse tree.
 
-The following example uses a selector to filter the parse tree nodes, as otherwise the graphical representation may become confusing quite quickly.
+The following example uses a selector to choose which rules generate parse tree nodes, as the graphical representation will usually be too large and confusing when not using a filter and generating nodes for *all* rules.
 
 ```c++
 #include <tao/pegtl.hpp>
@@ -238,10 +243,12 @@ The above will generate an SVG file with a graphical representation of the parse
 
 ![JSON Parse Tree](Json-Parse-Tree.svg)
 
+For more information see [Parse Tree](Parse-Tree.md).
+
 ## Error Handling
 
-Although the PEGTL could be used without exceptions, most programs will use input classes or grammars that might throw exceptions.
-Typically, the following pattern helps to print the exceptions properly:
+Although the PEGTL could be used without exceptions, most programs will use input classes, grammars and/or actions that can throw exceptions.
+Typically, the following pattern helps to print the exceptions in a human friendly way:
 
 ```c++
    // The surrounding try/catch for normal exceptions.
