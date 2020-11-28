@@ -60,18 +60,19 @@ namespace hello
 
 int main( int argc, char* argv[] )
 {
-   if( argc > 1 ) {
-      // Start a parsing run of argv[1] with the string
-      // variable 'name' as additional argument to the
-      // action; then print what the action put there.
+   if( argc != 2 ) return 1;
 
-      std::string name;
+   // Start a parsing run of argv[1] with the string
+   // variable 'name' as additional argument to the
+   // action; then print what the action put there.
 
-      pegtl::argv_input in( argv, 1 );
-      pegtl::parse< hello::grammar, hello::action >( in, name );
+   std::string name;
 
-      std::cout << "Good bye, " << name << "!" << std::endl;
-   }
+   pegtl::argv_input in( argv, 1 );
+   pegtl::parse< hello::grammar, hello::action >( in, name );
+
+   std::cout << "Good bye, " << name << "!" << std::endl;
+   return 0;
 }
 ```
 
@@ -169,7 +170,7 @@ int main( int argc, char** argv )
 {
    if( argc != 2 ) return 1;
 
-   pegtl::argv_input in( argv, i );
+   pegtl::argv_input in( argv, 1 );
    pegtl::standard_trace< grammar >( in );
 
    return 0;
@@ -217,7 +218,7 @@ int main( int argc, char** argv )
 {
    if( argc != 2 ) return 1;
 
-   pegtl::argv_input in( argv, i );
+   pegtl::argv_input in( argv, 1 );
    const auto root = parse_tree::parse< grammar, selector >( in );
    if( root ) {
       parse_tree::print_dot( std::cout, *root );
