@@ -21,7 +21,7 @@ const std::size_t issues = tao::pegtl::analyze< my_grammar >();
 ```
 
 The `analyze()` function prints some information about the found issues to `std::cout` and returns the total number of issues found.
-The output can be suppressed by passing `false` as sole function argument.
+The output can be suppressed by passing `-1` as sole function argument, or be extended to give some information about the issues when called with `1`.
 
 Analysing a grammar is usually only done while developing and debugging a grammar, or after changing it.
 
