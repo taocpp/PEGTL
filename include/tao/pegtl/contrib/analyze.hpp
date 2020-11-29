@@ -120,9 +120,9 @@ namespace TAO_PEGTL_NAMESPACE
                ++m_problems;
                if( m_verbose >= 0 ) {
                   std::cerr << "problem: cycle without progress detected at rule " << start->first << std::endl;  // LCOV_EXCL_LINE
-                  if( m_verbose > 0 ) {  // LCOV_EXCL_LINE
-                     for( const auto& r : m_trace ) {  // LCOV_EXCL_LINE
-                        std::cerr << "   involved (transformed) rule: " << r << std::endl;  // LCOV_EXCL_LINE
+                  if( m_verbose > 0 ) {                                                                           // LCOV_EXCL_LINE
+                     for( const auto& r : m_trace ) {                                                             // LCOV_EXCL_LINE
+                        std::cerr << "   involved (transformed) rule: " << r << std::endl;                        // LCOV_EXCL_LINE
                      }
                   }
                }
