@@ -14,7 +14,7 @@ struct foo
 {};
 
 struct bar
-   : plus< foo >
+   : plus< foo >  // seq< foo, opt< bar > >
 {};
 
 int main()  // NOLINT(bugprone-exception-escape)
