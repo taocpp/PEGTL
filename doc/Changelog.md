@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.0.1
+
+Released: (not yet)
+
+* Optionally made `analyze()` more verbose to aid finding the rule cycles.
+
+
 ## 3.0.0
 
 Released 2020-11-28

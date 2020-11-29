@@ -20,6 +20,7 @@
 #include "analyze_traits.hpp"
 
 #include "internal/set_stack_guard.hpp"
+#include "internal/vector_stack_guard.hpp"
 
 #include "../internal/dependent_false.hpp"
 
@@ -64,7 +65,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
 
       protected:
-         explicit analyze_cycles_impl( const bool verbose ) noexcept
+         explicit analyze_cycles_impl( const int verbose ) noexcept
             : m_verbose( verbose ),
               m_problems( 0 )
          {}
@@ -82,6 +83,7 @@ namespace TAO_PEGTL_NAMESPACE
                return j->second;
             }
             if( const auto g = set_stack_guard( m_stack, start->first ) ) {
+               const auto v = vector_stack_guard( m_trace, start->first );
                switch( start->second.type ) {
                   case analyze_type::any: {
                      bool a = false;
@@ -116,19 +118,25 @@ namespace TAO_PEGTL_NAMESPACE
             }
             if( !accum ) {
                ++m_problems;
-               if( m_verbose ) {
-                  std::cerr << "problem: cycle without progress detected at rule class " << start->first << std::endl;  // LCOV_EXCL_LINE
+               if( m_verbose >= 0 ) {
+                  std::cerr << "problem: cycle without progress detected at rule " << start->first << std::endl;  // LCOV_EXCL_LINE
+                  if( m_verbose > 0 ) {  // LCOV_EXCL_LINE
+                     for( const auto& r : m_trace ) {  // LCOV_EXCL_LINE
+                        std::cerr << "   involved (transformed) rule: " << r << std::endl;  // LCOV_EXCL_LINE
+                     }
+                  }
                }
             }
             return m_cache[ start->first ] = accum;
          }
 
-         const bool m_verbose;
+         const int m_verbose;
 
          std::size_t m_problems;
 
          std::map< std::string_view, analyze_entry > m_info;
          std::set< std::string_view > m_stack;
+         std::vector< std::string_view > m_trace;
          std::map< std::string_view, bool > m_cache;
          std::map< std::string_view, bool > m_results;
       };
@@ -156,7 +164,7 @@ namespace TAO_PEGTL_NAMESPACE
          : public analyze_cycles_impl
       {
       public:
-         explicit analyze_cycles( const bool verbose )
+         explicit analyze_cycles( const int verbose )
             : analyze_cycles_impl( verbose )
          {
             analyze_insert< Grammar >( m_info );
@@ -166,7 +174,7 @@ namespace TAO_PEGTL_NAMESPACE
    }  // namespace internal
 
    template< typename Grammar >
-   [[nodiscard]] std::size_t analyze( const bool verbose = true )
+   [[nodiscard]] std::size_t analyze( const int verbose = 0 )
    {
       return internal::analyze_cycles< Grammar >( verbose ).problems();
    }
