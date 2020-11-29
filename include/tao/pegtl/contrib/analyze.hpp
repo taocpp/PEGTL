@@ -52,6 +52,8 @@ namespace TAO_PEGTL_NAMESPACE
          [[nodiscard]] std::size_t problems()
          {
             for( auto i = m_info.begin(); i != m_info.end(); ++i ) {
+               assert( m_trace.empty() );
+               assert( m_stack.empty() );
                m_results[ i->first ] = work( i, false );
                m_cache.clear();
             }
@@ -116,9 +118,11 @@ namespace TAO_PEGTL_NAMESPACE
                }
                assert( false );  // LCOV_EXCL_LINE
             }
+            assert( !m_trace.empty() );
+
             if( !accum ) {
                ++m_problems;
-               if( m_verbose >= 0 ) {
+               if( ( m_verbose >= 0 ) && ( m_trace.front() == start->first ) ) {
                   std::cerr << "problem: cycle without progress detected at rule " << start->first << std::endl;  // LCOV_EXCL_LINE
                   if( m_verbose > 0 ) {                                                                           // LCOV_EXCL_LINE
                      for( const auto& r : m_trace ) {                                                             // LCOV_EXCL_LINE
