@@ -180,7 +180,7 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename T, typename S >
-   token_parse_input( const std::vector< T >&, S&& ) -> token_parse_input< T >;
+   token_parse_input( const std::vector< T >&, S && ) -> token_parse_input< T >;
 
    namespace internal
    {
@@ -209,7 +209,12 @@ using namespace TAO_PEGTL_NAMESPACE;
 
 enum my_type
 {
-   a, b, c, d, e, f
+   a,
+   b,
+   c,
+   d,
+   e,
+   f
 };
 
 struct my_token
@@ -243,13 +248,16 @@ struct my_action< token_type< my_type::b > >
 };
 
 struct my_grammar
-   : seq< token_type< my_type::b >, eof >
+   : seq< plus< token_type< my_type::b > >, eof >
 {};
 
 int main()
 {
-   std::vector< my_token > v;
-   v.emplace_back( my_token{ my_type::b, "" } );
+   const std::vector< my_token > v{
+      { my_type::b, "" },
+      { my_type::b, "" }
+   };
+
    token_parse_input in( v, __FUNCTION__ );
    return parse< my_grammar, my_action >( in );
 }
