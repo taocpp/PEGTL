@@ -121,15 +121,22 @@ namespace TAO_PEGTL_NAMESPACE
             assert( !m_trace.empty() );
 
             if( !accum ) {
+               // LCOV_EXCL_START
                ++m_problems;
                if( ( m_verbose >= 0 ) && ( m_trace.front() == start->first ) ) {
-                  std::cerr << "problem: cycle without progress detected at rule " << start->first << std::endl;  // LCOV_EXCL_LINE
-                  if( m_verbose > 0 ) {                                                                           // LCOV_EXCL_LINE
-                     for( const auto& r : m_trace ) {                                                             // LCOV_EXCL_LINE
-                        std::cerr << "   involved (transformed) rule: " << r << std::endl;                        // LCOV_EXCL_LINE
+                  for( const auto& r : m_trace ) {
+                     if( r < start->first ) {
+                        return m_cache[ start->first ] = accum;
+                     }
+                  }
+                  std::cerr << "problem: cycle without progress detected at rule " << start->first << std::endl;
+                  if( m_verbose > 0 ) {
+                     for( const auto& r : m_trace ) {
+                        std::cerr << "   involved (transformed) rule: " << r << std::endl;
                      }
                   }
                }
+               // LCOV_EXCL_END
             }
             return m_cache[ start->first ] = accum;
          }
@@ -139,6 +146,7 @@ namespace TAO_PEGTL_NAMESPACE
          std::size_t m_problems;
 
          std::map< std::string_view, analyze_entry > m_info;
+
          std::set< std::string_view > m_stack;
          std::vector< std::string_view > m_trace;
          std::map< std::string_view, bool > m_cache;
