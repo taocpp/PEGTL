@@ -179,9 +179,6 @@ namespace TAO_PEGTL_NAMESPACE
       const Source m_source;
    };
 
-   template< typename T, typename S >
-   token_parse_input( const std::vector< T >&, S && ) -> token_parse_input< T >;
-
    namespace internal
    {
       template< typename Type, Type Value >
@@ -258,6 +255,10 @@ int main()
       { my_type::b, "" }
    };
 
-   token_parse_input in( v, __FUNCTION__ );
-   return parse< my_grammar, my_action >( in );
+   token_parse_input< my_token > in( v, __FUNCTION__ );
+   if( !parse< my_grammar, my_action >( in ) ) {
+      return 1;
+   }
+
+   return 0;
 }
