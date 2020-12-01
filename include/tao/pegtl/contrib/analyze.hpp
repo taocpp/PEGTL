@@ -54,8 +54,7 @@ namespace TAO_PEGTL_NAMESPACE
             for( auto i = m_info.begin(); i != m_info.end(); ++i ) {
                assert( m_trace.empty() );
                assert( m_stack.empty() );
-               m_results[ i->first ] = work( i, false );
-               m_cache.clear();
+               m_results[ i->first ] = work( *i, false );
             }
             return m_problems;
          }
@@ -72,48 +71,45 @@ namespace TAO_PEGTL_NAMESPACE
               m_problems( 0 )
          {}
 
-         [[nodiscard]] std::map< std::string_view, analyze_entry >::const_iterator find( const std::string_view name ) const noexcept
+         [[nodiscard]] const std::pair< const std::string_view, analyze_entry >& find( const std::string_view name ) const noexcept
          {
             const auto iter = m_info.find( name );
             assert( iter != m_info.end() );
-            return iter;
+            return *iter;
          }
 
-         [[nodiscard]] bool work( const std::map< std::string_view, analyze_entry >::const_iterator& start, const bool accum )
+         [[nodiscard]] bool work( const std::pair< const std::string_view, analyze_entry >& info, const bool accum )
          {
-            if( const auto j = m_cache.find( start->first ); j != m_cache.end() ) {
-               return j->second;
-            }
-            if( const auto g = set_stack_guard( m_stack, start->first ) ) {
-               const auto v = vector_stack_guard( m_trace, start->first );
-               switch( start->second.type ) {
+            if( const auto g = set_stack_guard( m_stack, info.first ) ) {
+               const auto v = vector_stack_guard( m_trace, info.first );
+               switch( info.second.type ) {
                   case analyze_type::any: {
                      bool a = false;
-                     for( const auto& r : start->second.subs ) {
+                     for( const auto& r : info.second.subs ) {
                         a = a || work( find( r ), accum || a );
                      }
-                     return m_cache[ start->first ] = true;
+                     return true;
                   }
                   case analyze_type::opt: {
                      bool a = false;
-                     for( const auto& r : start->second.subs ) {
+                     for( const auto& r : info.second.subs ) {
                         a = a || work( find( r ), accum || a );
                      }
-                     return m_cache[ start->first ] = false;
+                     return false;
                   }
                   case analyze_type::seq: {
                      bool a = false;
-                     for( const auto& r : start->second.subs ) {
+                     for( const auto& r : info.second.subs ) {
                         a = a || work( find( r ), accum || a );
                      }
-                     return m_cache[ start->first ] = a;
+                     return a;
                   }
                   case analyze_type::sor: {
                      bool a = true;
-                     for( const auto& r : start->second.subs ) {
+                     for( const auto& r : info.second.subs ) {
                         a = a && work( find( r ), accum );
                      }
-                     return m_cache[ start->first ] = a;
+                     return a;
                   }
                }
                assert( false );  // LCOV_EXCL_LINE
@@ -123,13 +119,13 @@ namespace TAO_PEGTL_NAMESPACE
             if( !accum ) {
                // LCOV_EXCL_START
                ++m_problems;
-               if( ( m_verbose >= 0 ) && ( m_trace.front() == start->first ) ) {
+               if( ( m_verbose >= 0 ) && ( m_trace.front() == info.first ) ) {
                   for( const auto& r : m_trace ) {
-                     if( r < start->first ) {
-                        return m_cache[ start->first ] = accum;
+                     if( r < info.first ) {
+                        return accum;
                      }
                   }
-                  std::cerr << "problem: cycle without progress detected at rule " << start->first << std::endl;
+                  std::cerr << "problem: cycle without progress detected at rule " << info.first << std::endl;
                   if( m_verbose > 0 ) {
                      for( const auto& r : m_trace ) {
                         std::cerr << "   involved (transformed) rule: " << r << std::endl;
@@ -138,7 +134,7 @@ namespace TAO_PEGTL_NAMESPACE
                }
                // LCOV_EXCL_END
             }
-            return m_cache[ start->first ] = accum;
+            return accum;
          }
 
          const int m_verbose;
@@ -149,7 +145,6 @@ namespace TAO_PEGTL_NAMESPACE
 
          std::set< std::string_view > m_stack;
          std::vector< std::string_view > m_trace;
-         std::map< std::string_view, bool > m_cache;
          std::map< std::string_view, bool > m_results;
       };
 
