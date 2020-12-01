@@ -7,6 +7,8 @@
 
 #include <tao/pegtl.hpp>
 
+#include <tao/pegtl/contrib/analyze_traits.hpp>
+
 // This file contains some experiments towards generalising inputs to
 // represent sequences of arbitrary objects; it's not very complete, but
 // it does get a minimal example up-and-running. One main limitation is
@@ -184,6 +186,9 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Type, Type Value >
       struct token_type
       {
+         using rule_t = token_type;
+         using subs_t = empty_list;
+
          template< typename ParseInput >
          static bool match( ParseInput& in )
          {
@@ -199,6 +204,11 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< auto Value >
    using token_type = internal::token_type< decltype( Value ), Value >;
+
+   template< typename Name, typename Type, Type Value >
+   struct analyze_traits< Name, internal::token_type< Type, Value > >
+      : analyze_any_traits<>
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
