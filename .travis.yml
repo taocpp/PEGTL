@@ -145,9 +145,6 @@ jobs:
         docker run -it -v ${TRAVIS_BUILD_DIR}:/source bojoe/cpp-android-ndk-build-env-ubuntu:r22beta1 '
         cmake -H/source -B/home/developer/build -GNinja -DCMAKE_TOOLCHAIN_FILE=/opt/androidSdk/ndk/android-ndk-r22-beta1/build/cmake/android.toolchain.cmake -DANDROID_ABI=${ANDROID_ABI} -DANDROID_PLATFORM=${ANDROID_PLATFORM} -DCMAKE_BUILD_TYPE=Release -DPEGTL_BUILD_EXAMPLES=OFF
         cmake --build /home/developer/build --target all'
-        # /opt/androidSdk/emulator/emulator -avd android-26-test -no-audio -no-window -dns-server 8.8.8.8 &
-        # cd /home/developer/build
-        # /opt/androidSdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
       env:
         - ANDROID_ABI=armeabi-v7a
         - ANDROID_PLATFORM=android-26
