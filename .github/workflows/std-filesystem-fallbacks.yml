@@ -1,0 +1,31 @@
+name: std-filesystem-fallbacks
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  job:
+    name: ${{ matrix.os }}-fallback
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-16.04
+          - macos-10.15
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: lukka/get-cmake@latest
+      - uses: lukka/run-vcpkg@latest
+        with:
+          vcpkgArguments:
+            - boost-filesystem
+      - uses: lukka/run-cmake@latest
+        with:
+          useVcpkgToolchainFile: true
