@@ -57,7 +57,7 @@ function(check_filesytem_impl FILESYSTEM_HEADER FILESYSTEM_NAMESPACE OPTIONAL_LI
       CXX_STANDARD 17)
     if(${TEST_RESULT})
       # Looks like the optional library was required, go ahead and add it to the link options.
-      target_link_libraries(pegtl INTERFACE ${OPTIONAL_LIBRARY})
+      target_link_libraries(pegtl PUBLIC ${OPTIONAL_LIBRARY})
     endif()
   endif()
 
