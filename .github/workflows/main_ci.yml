@@ -84,7 +84,6 @@ jobs:
       working-directory: build/
       run: ctest -C ${{matrix.build_type}} --output-on-failure
 
-  # TODO: ClangCL vs native VC++
   windows:
     strategy:
       fail-fast: false
@@ -102,7 +101,61 @@ jobs:
     - name: Configure
       shell: bash
       working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -G "Visual Studio 16 2019"
+
+    - name: Build
+      working-directory: build/
+      run: cmake --build . --config ${{matrix.build_type}}
+
+    - name: Test
+      working-directory: build/
+      run: ctest -C ${{matrix.build_type}} --output-on-failure
+
+  windows-clang:
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug, Release]
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      run: cmake -E make_directory build
+
+    - name: Configure
+      shell: bash
+      working-directory: build/
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -G "Visual Studio 16 2019" -T ClangCL
+
+    - name: Build
+      working-directory: build/
+      run: cmake --build . --config ${{matrix.build_type}}
+
+    - name: Test
+      working-directory: build/
+      run: ctest -C ${{matrix.build_type}} --output-on-failure
+
+  windows-2016:
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug, Release]
+
+    runs-on: windows-2016
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      run: cmake -E make_directory build
+
+    - name: Configure
+      shell: bash
+      working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -G "Visual Studio 15 2017"
 
     - name: Build
       working-directory: build/
