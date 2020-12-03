@@ -51,15 +51,14 @@ jobs:
       working-directory: build/
       run: ctest -C ${{matrix.build_type}} --output-on-failure
 
-  # TODO: Debug/Release?
   macos:
     strategy:
       fail-fast: false
       matrix:
         xcode:
-            - '10'
             - '11'
             - '12'
+        build_type: [Debug, Release]
 
     runs-on: macos-latest
 
@@ -75,15 +74,15 @@ jobs:
 
     - name: Configure
       working-directory: build/
-      run: cmake $GITHUB_WORKSPACE
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
 
     - name: Build
       working-directory: build/
-      run: cmake --build .
+      run: cmake --build . --config ${{matrix.build_type}}
 
     - name: Test
       working-directory: build/
-      run: ctest --output-on-failure
+      run: ctest -C ${{matrix.build_type}} --output-on-failure
 
   # TODO: ClangCL vs native VC++
   windows:
@@ -107,7 +106,7 @@ jobs:
     - name: Configure
       shell: bash
       working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -G "{{matrix.vs}}" -T ClangCL
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -G "${{matrix.vs}}" -T ClangCL
 
     - name: Build
       working-directory: build/
