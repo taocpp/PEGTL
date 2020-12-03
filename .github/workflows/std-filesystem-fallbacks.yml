@@ -37,22 +37,22 @@ jobs:
 
       - name: Cache Boost
         uses: actions/cache@v2.1.3
-        id: cache-boost
+        id: cache-boost-filesystem
         with:
           path: "~/boost"
-          key: libboost-dev
+          key: libboost-filesystem-dev
       
       - name: Install Boost
         shell: bash
         env:
-          CACHE_HIT: ${{steps.cache-boost.outputs.cache-hit}}
+          CACHE_HIT: ${{steps.cache-boost-filesystem.outputs.cache-hit}}
         run: |
           if [[ "$CACHE_HIT" == 'true' ]]; then
             sudo cp --force --recursive ~/boost/* /
           else
-            sudo apt-get update && sudo apt-get install -yq libboost-dev
+            sudo apt-get update && sudo apt-get install -yq libboost-filesystem-dev
             mkdir -p ~/boost
-            for dep in libboost-dev; do
+            for dep in libboost-filesystem-dev; do
               dpkg -L $dep | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory ~/boost/
             done
           fi
