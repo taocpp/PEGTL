@@ -4,7 +4,6 @@
 #ifndef TAO_PEGTL_MMAP_INPUT_HPP
 #define TAO_PEGTL_MMAP_INPUT_HPP
 
-#include <filesystem>
 #include <string>
 
 #include "config.hpp"
@@ -12,6 +11,7 @@
 #include "memory_input.hpp"
 #include "tracking_mode.hpp"
 
+#include "internal/filesystem.hpp"
 #include "internal/path_to_string.hpp"
 
 #if defined( __unix__ ) || ( defined( __APPLE__ ) && defined( __MACH__ ) )
@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          const file_mapper data;
 
-         explicit mmap_holder( const std::filesystem::path& path )
+         explicit mmap_holder( const internal::filesystem::path& path )
             : data( path )
          {}
 
@@ -53,12 +53,12 @@ namespace TAO_PEGTL_NAMESPACE
       : private internal::mmap_holder,
         public memory_input< P, Eol >
    {
-      mmap_input( const std::filesystem::path& path, const std::string& source )
+      mmap_input( const internal::filesystem::path& path, const std::string& source )
          : internal::mmap_holder( path ),
            memory_input< P, Eol >( data.begin(), data.end(), source )
       {}
 
-      explicit mmap_input( const std::filesystem::path& path )
+      explicit mmap_input( const internal::filesystem::path& path )
          : mmap_input( path, internal::path_to_string( path ) )
       {}
 

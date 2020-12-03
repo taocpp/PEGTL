@@ -44,6 +44,62 @@ target_include_directories(pegtl INTERFACE
 # require C++17
 target_compile_features(pegtl INTERFACE cxx_std_17)
 
+function(check_filesystem_impl FILESYSTEM_HEADER FILESYSTEM_NAMESPACE OPTIONAL_LIBS OUT_RESULT)
+  set(TEST_FILE "test_${OUT_RESULT}.cpp")
+  configure_file(cmake/test_filesystem.cpp.in ${TEST_FILE} @ONLY)
+
+  try_compile(TEST_RESULT
+    ${CMAKE_CURRENT_BINARY_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE}
+    CXX_STANDARD 17)
+
+  if(TEST_RESULT)
+    message(STATUS "No additional libraries needed to build with ${FILESYSTEM_NAMESPACE}.")
+  else()
+    # Retry with each of the optional libraries
+    foreach(OPTIONAL_LIB IN LISTS OPTIONAL_LIBS)
+      try_compile(TEST_RESULT
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE}
+        LINK_LIBRARIES ${OPTIONAL_LIB}
+        CXX_STANDARD 17)
+
+      if(TEST_RESULT)
+        # Looks like the optional library was required, go ahead and add it to the link options.
+        message(STATUS "Add ${OPTIONAL_LIB} to ${PROJECT_NAME} to build with ${FILESYSTEM_NAMESPACE}.")
+        target_link_libraries(${PROJECT_NAME} INTERFACE ${OPTIONAL_LIB})
+        break()
+      endif()
+    endforeach(OPTIONAL_LIB)
+  endif()
+
+  set(${OUT_RESULT} ${TEST_RESULT} PARENT_SCOPE)
+endfunction(check_filesystem_impl)
+
+# Try compiling a minimal program with each header/namespace, in order of preference:
+#   C++17: #include <filesystem> // std::filesystem
+#   Experimental C++17: #include <experimental/filesystem> // std::experimental::filesystem
+#   Boost.Filesystem: #include <boost/filesystem.hpp> // boost::filesystem
+check_filesystem_impl("filesystem" "std::filesystem" "stdc++fs;c++fs" STD_FILESYTEM)
+if(STD_FILESYTEM)
+  message(STATUS "Successfully compiled with std::filesystem. It looks like your compiler toolchain fully supports C++17 and should work with ${PROJECT_NAME}.")
+else()
+  check_filesystem_impl("experimental/filesystem" "std::experimental::filesystem" "stdc++fs;c++fs" STD_EXPERIMENTAL_FILESYTEM)
+  if(STD_EXPERIMENTAL_FILESYTEM)
+    target_compile_definitions(${PROJECT_NAME} INTERFACE TAO_PEGTL_STD_EXPERIMENTAL_FILESYSTEM)
+    message(WARNING "Using std::experimental::filesystem as a fallback because std::filesystem was not found. Your compiler toolchain only has partial support for C++17, not all features of ${PROJECT_NAME} may work poperly.")
+  else()
+    find_package(Boost COMPONENTS filesystem)
+    check_filesystem_impl("boost/filesystem.hpp" "boost::filesystem" Boost::filesystem BOOST_FILESYSTEM)
+    if(BOOST_FILESYSTEM)
+      target_compile_definitions(${PROJECT_NAME} INTERFACE TAO_PEGTL_BOOST_FILESYSTEM)
+      message(WARNING "Using Boost.Filesystem as a fallback because neither std::filesystem nor std::experimental::filesystem was found. Not all features of ${PROJECT_NAME} may work")
+    else()
+      message(FATAL_ERROR "${PROJECT_NAME} requires C++17, including an implementation of std::filesystem, which your compiler toolchain does not seem to support. You can try installing Boost.Filesystem as a temporary workaround, but there's no guarantee ${PROJECT_NAME} will keep working with your project. Consider upgrading your compiler toolchain or downgrading ${PROJECT_NAME} to the previous version.")
+    endif()
+  endif()
+endif()
+
 # testing
 enable_testing()
 option(PEGTL_BUILD_TESTS "Build test programs" ON)

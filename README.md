@@ -49,30 +49,10 @@ The rules are expressed in C++ as template instantiations, and it is the compile
 
 ## Status
 
+[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/Main%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
 [![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/pa5sbnw68tu650aq/branch/master?svg=true)](https://ci.appveyor.com/project/taocpp/PEGTL)
 
 Each commit is automatically tested with multiple architectures, operating systems, compilers, and versions thereof.
-
-* Windows
-
-  * Visual Studio 2017 (x86, x64)
-  * Visual Studio 2019 (x86, x64)
-
-* macOS (using libc++)
-
-  * macOS 10.15, Xcode 11.6
-  * macOS 10.15, Xcode 12.2
-
-* Ubuntu 16.04 LTS (using libstdc++)
-
-  * GCC 8.x, 9.x
-  * Clang 5.x, 6.x, 7.x, 8.x, 9.x
-
-* Ubuntu 18.04 LTS (using libstdc++)
-
-  * GCC 10.x
-  * Clang 10.x, 11.x
 
 ### Code Quality
 

@@ -7,23 +7,6 @@ services:
 
 jobs:
   include:
-    - compiler: gcc
-      addons:
-        apt:
-          sources: [ ubuntu-toolchain-r-test ]
-          packages: [ g++-8 ]
-      env:
-        - CXX=g++-8
-        - LDFLAGS="-lstdc++fs"
-
-    - compiler: gcc
-      addons:
-        apt:
-          sources: [ ubuntu-toolchain-r-test ]
-          packages: [ g++-9 ]
-      env:
-        - CXX=g++-9
-
     - &gcc-10
       dist: bionic
       compiler: gcc
@@ -33,71 +16,12 @@ jobs:
           packages: [ g++-10 ]
       env:
         - CXX=g++-10
-
-    - <<: *gcc-10
-      env:
-        - CXX=g++-10
         - CXXSTD="-std=c++20"
 
     - <<: *gcc-10
       env:
         - CXX=g++-10
         - CPPFLAGS="-fno-rtti"
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: [ ubuntu-toolchain-r-test, llvm-toolchain-xenial-5 ]
-          packages: [ clang-5.0, g++-9 ]
-      env:
-        - CXX=clang++-5.0
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: [ ubuntu-toolchain-r-test, llvm-toolchain-xenial-6 ]
-          packages: [ clang-6.0, g++-9 ]
-      env:
-        - CXX=clang++-6.0
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: [ ubuntu-toolchain-r-test, llvm-toolchain-xenial-7 ]
-          packages: [ clang-7, g++-9 ]
-      env:
-        - CXX=clang++-7
-
-    - compiler: clang
-      addons:
-        apt:
-          sources: [ ubuntu-toolchain-r-test, llvm-toolchain-xenial-8 ]
-          packages: [ clang-8, g++-9 ]
-      env:
-        - CXX=clang++-8
-
-    - compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: deb https://apt.llvm.org/xenial/ llvm-toolchain-xenial-9 main
-              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
-          packages: [ clang-9, g++-9 ]
-      env:
-        - CXX=clang++-9
-
-    - dist: bionic
-      compiler: clang
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-            - sourceline: deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main
-              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
-          packages: [ clang-10, g++-10 ]
-      env:
-        - CXX=clang++-10
 
     - &clang-11
       dist: bionic
@@ -111,10 +35,6 @@ jobs:
           packages: [ clang-11, g++-10 ]
       env:
         - CXX=clang++-11
-
-    - <<: *clang-11
-      env:
-        - CXX=clang++-11
         - CXXSTD="-std=c++20"
 
     - <<: *clang-11
@@ -126,18 +46,6 @@ jobs:
       env:
         - CXX=clang++-11
         - CPPFLAGS="-fno-rtti"
-
-    - os: osx
-      osx_image: xcode11.6
-      compiler: clang
-      env:
-        - CXX=clang++
-
-    - os: osx
-      osx_image: xcode12.2
-      compiler: clang
-      env:
-        - CXX=clang++
 
     - &android
       compiler: clang

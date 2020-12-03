@@ -1,0 +1,40 @@
+// Copyright (c) 2017-2020 Dr. Colin Hirsch and Daniel Frey
+// Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
+
+#ifndef TAO_PEGTL_INTERNAL_FILESYSTEM_HPP
+#define TAO_PEGTL_INTERNAL_FILESYSTEM_HPP
+
+#include "../config.hpp"
+
+#if defined( TAO_PEGTL_STD_EXPERIMENTAL_FILESYSTEM )
+
+#include <experimental/filesystem>
+
+namespace TAO_PEGTL_NAMESPACE::internal
+{
+    namespace filesystem = ::std::experimental::filesystem;
+}
+
+#elif defined( TAO_PEGTL_BOOST_FILESYSTEM )
+
+#define BOOST_FILESYSTEM_NO_DEPRECATED
+
+#include <boost/filesystem.hpp>
+
+namespace TAO_PEGTL_NAMESPACE::internal
+{
+    namespace filesystem = ::boost::filesystem;
+}
+
+#else
+
+#include <filesystem>
+
+namespace TAO_PEGTL_NAMESPACE::internal
+{
+    namespace filesystem = ::std::filesystem;
+}
+
+#endif
+
+#endif
