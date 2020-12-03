@@ -76,6 +76,8 @@ install(EXPORT pegtl-targets
   DESTINATION ${PEGTL_INSTALL_CMAKE_DIR}
 )
 
+# TODO: Detect std::filesystem workarounds
+
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pegtl-config-version.cmake DESTINATION ${PEGTL_INSTALL_CMAKE_DIR})
 install(DIRECTORY include/ DESTINATION ${PEGTL_INSTALL_INCLUDE_DIR})
 install(FILES LICENSE DESTINATION ${PEGTL_INSTALL_DOC_DIR})
