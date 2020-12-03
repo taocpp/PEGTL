@@ -24,6 +24,10 @@ jobs:
           # additional work in the CMake logic.
           - ubuntu-16.04
           - macos-10.15
+        include:
+          - os: ubuntu-16.04
+            cxx: g++-7
+            cc: gcc-7
 
     steps:
       - uses: actions/checkout@v2
@@ -41,22 +45,27 @@ jobs:
         run: cmake -E make_directory ${{runner.workspace}}/build
 
       - name: Configure CMake
-        # Use a bash shell so we can use the same syntax for environment variable
-        # access regardless of the host operating system
         shell: bash
         working-directory: ${{runner.workspace}}/build
         # Note the current convention is to use the -S and -B options here to specify source 
         # and build directories, but this is only available with CMake 3.13 and higher.  
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
         run: cmake $GITHUB_WORKSPACE
+        env:
+          CXX: ${{matrix.cxx}}
+          CC: ${{matrix.cc}}
 
       - name: Build the Project
+        shell: bash
+        working-directory: ${{runner.workspace}}/build
+        # Execute the build.  You can specify a specific target with "--target <NAME>"
+        run: cmake --build .
+
+      - name: Run the Tests
         # Use a bash shell so we can use the same syntax for environment variable
         # access regardless of the host operating system
         shell: bash
         working-directory: ${{runner.workspace}}/build
-        # Note the current convention is to use the -S and -B options here to specify source 
-        # and build directories, but this is only available with CMake 3.13 and higher.  
-        # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-        run: cmake --build .
-        
+        # Execute tests defined by the CMake configuration.  
+        # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
+        run: ctest
