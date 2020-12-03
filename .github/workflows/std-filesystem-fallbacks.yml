@@ -53,7 +53,7 @@ jobs:
             sudo apt-get update && sudo apt-get install -yq libboost-dev
             mkdir -p ~/boost
             for dep in libboost-dev; do
-              dpkg -L $dep | while IFS= read -r f; do if test -f $f; then echo $f; done | xargs cp --parents --target-directory ~/boost/
+              dpkg -L $dep | while IFS= read -r f; do if test -f $f; then echo $f; fi; done | xargs cp --parents --target-directory ~/boost/
             done
           fi
 
