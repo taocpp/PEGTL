@@ -8,5 +8,12 @@
 
 int main()
 {
-    return @FILESYSTEM_NAMESPACE@::temp_directory_path().is_absolute();
+    try
+    {
+        return !@FILESYSTEM_NAMESPACE@::temp_directory_path().is_absolute();
+    }
+    catch (const @FILESYSTEM_NAMESPACE@::filesystem_error& error)
+    {
+        return -1;
+    }
 }
