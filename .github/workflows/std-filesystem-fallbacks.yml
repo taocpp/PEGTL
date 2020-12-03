@@ -1,3 +1,7 @@
+# Even when building with C++17 support, std::filesystem was not initially implemented
+# in several common tool-chains, or it required additional build logic to enable it.
+# This GitHub Action is supposed to test whether or not the fallback/configuration logic
+# for that works in PEGTL.
 name: std-filesystem-fallbacks
 
 on:
@@ -13,9 +17,11 @@ jobs:
     name: ${{ matrix.os }}-fallback
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
+      fail-fast: false # Run all of them once we start
       matrix:
         os:
+          # These OSs have default tool-chains which don't support std::filesystem without
+          # additional work in the CMake logic.
           - ubuntu-16.04
           - macos-10.15
 
