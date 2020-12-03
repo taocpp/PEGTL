@@ -27,10 +27,28 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: lukka/get-cmake@latest
-      - uses: lukka/run-vcpkg@latest
+
+      - name: Build and cache boost-filesystem
+        uses: lukka/run-vcpkg@v6.0
         with:
           vcpkgArguments: boost-filesystem
-      - uses: lukka/run-cmake@latest
-        with:
-          useVcpkgToolchainFile: true
+
+      - name: Create Build Environment
+        # Some projects don't allow in-source building, so create a separate build directory
+        # We'll use this as our working directory for all subsequent commands
+        run: cmake -E make_directory ${{runner.workspace}}/build
+
+      - name: Configure CMake
+        working-directory: ${{runner.workspace}}/build
+        # Note the current convention is to use the -S and -B options here to specify source 
+        # and build directories, but this is only available with CMake 3.13 and higher.  
+        # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+        run: cmake ..
+
+      - name: Build the Project
+        working-directory: ${{runner.workspace}}/build
+        # Note the current convention is to use the -S and -B options here to specify source 
+        # and build directories, but this is only available with CMake 3.13 and higher.  
+        # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
+        run: cmake --build .
+        
