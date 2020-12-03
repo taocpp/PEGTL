@@ -33,10 +33,10 @@ jobs:
             cxx: g++-8
 
     steps:
-      - uses: actions/checkout@v2.1.3
+      - uses: actions/checkout@v2
 
       - name: Cache Boost
-        uses: actions/cache@
+        uses: actions/cache@v2.1.3
         id: cache-boost
         with:
           path: "~/boost"
