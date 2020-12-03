@@ -16,7 +16,6 @@ jobs:
   ubuntu-gcc:
     name: ${{ matrix.os }} with ${{ matrix.cc }}
     runs-on: ${{ matrix.os }}
-    needs: prepare-vcpkg
     strategy:
       # Run all of them once we start
       fail-fast: false
