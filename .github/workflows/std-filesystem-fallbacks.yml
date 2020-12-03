@@ -77,7 +77,7 @@ jobs:
         shell: bash
         working-directory: ${{runner.workspace}}/build
         # Execute the build.  You can specify a specific target with "--target <NAME>"
-        run: cmake --build . -j
+        run: cmake --build .
 
       - name: Run the Tests
         # Use a bash shell so we can use the same syntax for environment variable
