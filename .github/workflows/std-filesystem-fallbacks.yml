@@ -5,10 +5,10 @@
 name: std-filesystem-fallbacks
 
 on:
-  - push:
+  push:
     branches:
       - master
-  - pull_request:
+  pull_request:
     branches:
       - master
 
