@@ -13,31 +13,28 @@ on:
       - master
 
 jobs:
-  std-filesystem-fallback:
-    name: ${{ matrix.os }}-fallback
+  ubuntu-gcc:
+    name: ${{ matrix.os }} with ${{ matrix.cc }}
     runs-on: ${{ matrix.os }}
+    needs: prepare-vcpkg
     strategy:
-      fail-fast: false # Run all of them once we start
+      # Run all of them once we start
+      fail-fast: false
       matrix:
         os:
-          # These OSs have default tool-chains which don't support std::filesystem without
-          # additional work in the CMake logic.
           - ubuntu-16.04
-          - macos-10.15
+          - ubuntu-18.04
+        cc:
+          - gcc-7
+          - gcc-8
         include:
-          - os: ubuntu-16.04
+          - cc: gcc-7
             cxx: g++-7
-            cc: gcc-7
+          - cc: gcc-8
+            cxx: g++-8
 
     steps:
       - uses: actions/checkout@v2
-
-      - name: Build and cache boost-filesystem
-        uses: lukka/run-vcpkg@v6.0
-        with:
-          vcpkgGitCommitId: 0bf3923f9fab4001c00f0f429682a0853b5749e0
-          vcpkgDirectory: ${{runner.workspace}}/vcpkg
-          vcpkgArguments: boost-filesystem
 
       - name: Create Build Environment
         # Some projects don't allow in-source building, so create a separate build directory
@@ -50,10 +47,10 @@ jobs:
         # Note the current convention is to use the -S and -B options here to specify source 
         # and build directories, but this is only available with CMake 3.13 and higher.  
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-        run: cmake $GITHUB_WORKSPACE
+        run: cmake -DCMAKE_TOOLCHAIN_FILE="${{runner.workspace}}/vcpkg/scripts/buildsystems/vcpkg.cmake" "$GITHUB_WORKSPACE"
         env:
-          CXX: ${{matrix.cxx}}
           CC: ${{matrix.cc}}
+          CXX: ${{matrix.cxx}}
 
       - name: Build the Project
         shell: bash
