@@ -10,10 +10,13 @@ int main()
 {
     try
     {
-        return !@FILESYSTEM_NAMESPACE@::temp_directory_path().is_absolute();
+        throw @FILESYSTEM_NAMESPACE@::filesystem_error("instantiate one to make sure it links",
+            std::make_error_code(std::errc::function_not_supported));
     }
     catch (const @FILESYSTEM_NAMESPACE@::filesystem_error& error)
     {
         return -1;
     }
+
+    return !@FILESYSTEM_NAMESPACE@::temp_directory_path().is_absolute();
 }

@@ -40,7 +40,7 @@ jobs:
         id: cache-boost-filesystem
         with:
           path: "~/boost"
-          key: libboost-filesystem-dev
+          key: boost-filesystem-${{ matrix.os }}
       
       - name: Install Boost
         shell: bash
