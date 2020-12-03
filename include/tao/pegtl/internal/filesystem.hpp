@@ -10,15 +10,21 @@
 
 #include <experimental/filesystem>
 
-namespace TAO_PEGTL_NAMESPACE::internal::filesystem = ::std::experimental::filesystem;
+namespace TAO_PEGTL_NAMESPACE::internal
+{
+    namespace filesystem = ::std::experimental::filesystem;
+}
 
-#elseif defined( TAO_PEGTL_BOOST_FILESYSTEM )
+#elif defined( TAO_PEGTL_BOOST_FILESYSTEM )
 
 #define BOOST_FILESYSTEM_NO_DEPRECATED
 
 #include <boost/filesystem.hpp>
 
-namespace TAO_PEGTL_NAMESPACE::internal::filesystem = ::boost::filesystem;
+namespace TAO_PEGTL_NAMESPACE::internal
+{
+    namespace filesystem = ::boost::filesystem;
+}
 
 #else
 
