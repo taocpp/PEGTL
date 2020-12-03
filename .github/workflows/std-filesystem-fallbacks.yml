@@ -30,8 +30,7 @@ jobs:
       - uses: lukka/get-cmake@latest
       - uses: lukka/run-vcpkg@latest
         with:
-          vcpkgArguments:
-            - boost-filesystem
+          vcpkgArguments: boost-filesystem
       - uses: lukka/run-cmake@latest
         with:
           useVcpkgToolchainFile: true
