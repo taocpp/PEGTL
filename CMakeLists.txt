@@ -44,12 +44,14 @@ target_include_directories(pegtl INTERFACE
 function(check_filesytem_impl FILESYSTEM_HEADER FILESYSTEM_NAMESPACE OPTIONAL_LIBRARY OUT_RESULT)
   set(TEST_FILE "test_${OUT_RESULT}.cpp")
   configure_file(cmake/test_filesystem.cpp.in ${TEST_FILE} @ONLY)
+
   try_compile(TEST_RESULT
     ${CMAKE_CURRENT_BINARY_DIR}
     ${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE}
     CXX_STANDARD 17)
+
   if(NOT ${TEST_RESULT})
-    # Try again with the optional library
+    # Retry with the optional library
     try_compile(TEST_RESULT
       ${CMAKE_CURRENT_BINARY_DIR}
       ${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE}
@@ -57,6 +59,7 @@ function(check_filesytem_impl FILESYSTEM_HEADER FILESYSTEM_NAMESPACE OPTIONAL_LI
       CXX_STANDARD 17)
     if(${TEST_RESULT})
       # Looks like the optional library was required, go ahead and add it to the link options.
+      message(STATUS "Add -l${OPTIONAL_LIBRARY} to ${PROJECT_NAME} to build with ${FILESYSTEM_NAMESPACE}.")
       target_link_libraries(pegtl PUBLIC ${OPTIONAL_LIBRARY})
     endif()
   endif()
