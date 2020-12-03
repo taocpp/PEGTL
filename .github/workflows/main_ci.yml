@@ -51,6 +51,77 @@ jobs:
       working-directory: build/
       run: ctest -C ${{matrix.build_type}} --output-on-failure
 
+  linux-gcc-extra:
+    strategy:
+      fail-fast: false
+      matrix:
+        env:
+          - CXXSTD="-std=c++20"
+          - CPPFLAGS="-fno-rtti"
+          - CPPFLAGS="-fsanitize=undefined -fuse-ld=gold"
+          - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
+        build_type: [Debug, Release]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: conanio/gcc10
+      options: --user root
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      run: cmake -E make_directory build
+
+    - name: Configure
+      working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+
+    - name: Build
+      working-directory: build/
+      run: cmake --build . --config ${{matrix.build_type}}
+
+    - name: Test
+      working-directory: build/
+      run: ctest -C ${{matrix.build_type}} --output-on-failure
+
+  linux-clang-extra:
+    strategy:
+      fail-fast: false
+      matrix:
+        env:
+          - CXXSTD="-std=c++20"
+          - CPPFLAGS="-fms-extensions"
+          - CPPFLAGS="-fno-rtti"
+          - CPPFLAGS="-fsanitize=undefined"
+          - CPPFLAGS="-fsanitize=address"
+        build_type: [Debug, Release]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: conanio/clang11
+      options: --user root
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      run: cmake -E make_directory build
+
+    - name: Configure
+      working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}}
+
+    - name: Build
+      working-directory: build/
+      run: cmake --build . --config ${{matrix.build_type}}
+
+    - name: Test
+      working-directory: build/
+      run: ctest -C ${{matrix.build_type}} --output-on-failure
+
   macos:
     strategy:
       fail-fast: false
@@ -89,10 +160,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        vs:
-            - 'Visual Studio 15 2017'
-            - 'Visual Studio 15 2017 Win64'
-            - 'Visual Studio 16 2019'
         build_type: [Debug, Release]
 
     runs-on: windows-latest
@@ -106,7 +173,7 @@ jobs:
     - name: Configure
       shell: bash
       working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -G "${{matrix.vs}}" -T ClangCL
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -G "Visual Studio 16 2019" -T ClangCL
 
     - name: Build
       working-directory: build/
