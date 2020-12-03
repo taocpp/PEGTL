@@ -14,12 +14,12 @@ struct foo
 {};
 
 struct bar
-   : plus< foo >
+   : plus< foo >  // seq< foo, opt< bar > >
 {};
 
 int main()  // NOLINT(bugprone-exception-escape)
 {
-   if( analyze< foo >() != 0 ) {
+   if( analyze< foo >( 1 ) != 0 ) {
       std::cout << "there are problems" << std::endl;
       return 1;
    }

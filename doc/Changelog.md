@@ -1,8 +1,15 @@
 # Changelog
 
+## 3.0.1
+
+Released: (not yet)
+
+* Optionally made `analyze()` more verbose to aid finding the rule cycles.
+
+
 ## 3.0.0
 
-**Not yet released**
+Released 2020-11-28
 
 * Use the [**migration guide**](Migration-Guide.md#version-300) when updating.
 * Infrastructure

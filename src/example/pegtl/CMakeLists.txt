@@ -31,6 +31,7 @@ set(example_sources
   s_expression.cpp
   sum.cpp
   symbol_table.cpp
+  token_input.cpp
   unescape.cpp
   uri.cpp
   uri_print_debug.cpp

@@ -31,36 +31,6 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * Ready for production use.
 * Superceeded by `TAO_PEGTL_STRING()`.
 
-###### `<tao/pegtl/contrib/change_action.hpp>`
-
-* Changes the action class template.
-* Ready for production use.
-
-###### `<tao/pegtl/contrib/change_action_and_state.hpp>`
-
-* Changes the action class template and the state.
-* Ready for production use but might be changed in the future.
-
-###### `<tao/pegtl/contrib/change_control.hpp>`
-
-* Changes the control class template.
-* Ready for production use.
-
-###### `<tao/pegtl/contrib/change_state.hpp>`
-
-* Changes the state.
-* Ready for production use but might be changed in the future.
-
-###### `<tao/pegtl/contrib/disable_action.hpp>`
-
-* Disables actions.
-* Ready for production use.
-
-###### `<tao/pegtl/contrib/enable_action.hpp>`
-
-* Enables actions.
-* Ready for production use.
-
 ###### `<tao/pegtl/contrib/http.hpp>`
 
 * HTTP 1.1 grammar according to [RFC 7230](https://tools.ietf.org/html/rfc7230).
@@ -98,12 +68,9 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 
 Utility function `to_string<>()` that converts template classes with arbitrary sequences of characters as template arguments into a `std::string` that contains these characters.
 
-###### `<tao/pegtl/contrib/tracer.hpp>`
+###### `<tao/pegtl/contrib/trace.hpp>`
 
-* Control class that prints a line of information to `std::cerr`
-  1. when and where a rule is attempted to match,
-  2. when and where a rule succeeded to match,
-  3. when and where a rule failed to match.
+* See [Tracer](Getting-Started.md#tracer).
 
 ###### `<tao/pegtl/contrib/unescape.hpp>`
 
