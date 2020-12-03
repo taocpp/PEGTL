@@ -101,7 +101,7 @@ jobs:
     - name: Configure
       shell: bash
       working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -G "Visual Studio 16 2019"
+      run: cmake $GITHUB_WORKSPACE --config ${{matrix.build_type}} -G "Visual Studio 16 2019"
 
     - name: Build
       working-directory: build/
@@ -128,7 +128,7 @@ jobs:
     - name: Configure
       shell: bash
       working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -G "Visual Studio 16 2019" -T ClangCL
+      run: cmake $GITHUB_WORKSPACE --config ${{matrix.build_type}} -G "Visual Studio 16 2019" -T ClangCL
 
     - name: Build
       working-directory: build/
@@ -142,6 +142,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        vs:
+          - 'Visual Studio 15 2017'
+          - 'Visual Studio 15 2017 Win64'
         build_type: [Debug, Release]
 
     runs-on: windows-2016
@@ -155,7 +158,7 @@ jobs:
     - name: Configure
       shell: bash
       working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{matrix.build_type}} -G "Visual Studio 15 2017"
+      run: cmake $GITHUB_WORKSPACE --config ${{matrix.build_type}} -G "${{matrix.vs}}"
 
     - name: Build
       working-directory: build/
