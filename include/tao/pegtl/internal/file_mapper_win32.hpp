@@ -26,15 +26,15 @@
 #undef TAO_PEGTL_WIN32_LEAN_AND_MEAN_WAS_DEFINED
 #endif
 
-#include <filesystem>
-
 #include "../config.hpp"
+
+#include "filesystem.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    struct win32_file_opener
    {
-      explicit win32_file_opener( const std::filesystem::path& path )
+      explicit win32_file_opener( const internal::filesystem::path& path )
          : m_path( path ),
            m_handle( open() )
       {}
@@ -55,12 +55,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
          LARGE_INTEGER size;
          if( !::GetFileSizeEx( m_handle, &size ) ) {
             const std::error_code ec( ::GetLastError(), std::system_category() );
-            throw std::filesystem::filesystem_error( "GetFileSizeEx() failed", m_path, ec );
+            throw internal::filesystem::filesystem_error( "GetFileSizeEx() failed", m_path, ec );
          }
          return std::size_t( size.QuadPart );
       }
 
-      const std::filesystem::path m_path;
+      const internal::filesystem::path m_path;
       const HANDLE m_handle;
 
    private:
@@ -77,7 +77,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return handle;
          }
          const std::error_code ec( ::GetLastError(), std::system_category() );
-         throw std::filesystem::filesystem_error( "CreateFile2() failed", m_path, ec );
+         throw internal::filesystem::filesystem_error( "CreateFile2() failed", m_path, ec );
 #else
          const HANDLE handle = ::CreateFileW( m_path.c_str(),
                                               GENERIC_READ,
@@ -90,14 +90,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return handle;
          }
          const std::error_code ec( ::GetLastError(), std::system_category() );
-         throw std::filesystem::filesystem_error( "CreateFileW()", m_path, ec );
+         throw internal::filesystem::filesystem_error( "CreateFileW()", m_path, ec );
 #endif
       }
    };
 
    struct win32_file_mapper
    {
-      explicit win32_file_mapper( const std::filesystem::path& path )
+      explicit win32_file_mapper( const internal::filesystem::path& path )
          : win32_file_mapper( win32_file_opener( path ) )
       {}
 
@@ -139,14 +139,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return handle;
          }
          const std::error_code ec( ::GetLastError(), std::system_category() );
-         throw std::filesystem::filesystem_error( "CreateFileMappingW() failed", reader.m_path, ec );
+         throw internal::filesystem::filesystem_error( "CreateFileMappingW() failed", reader.m_path, ec );
       }
    };
 
    class file_mapper
    {
    public:
-      explicit file_mapper( const std::filesystem::path& path )
+      explicit file_mapper( const internal::filesystem::path& path )
          : file_mapper( win32_file_mapper( path ) )
       {}
 
@@ -160,7 +160,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          if( ( m_size != 0 ) && ( intptr_t( m_data ) == 0 ) ) {
             const std::error_code ec( ::GetLastError(), std::system_category() );
-            throw std::filesystem::filesystem_error( "MapViewOfFile() failed", ec );
+            throw internal::filesystem::filesystem_error( "MapViewOfFile() failed", ec );
          }
       }
 

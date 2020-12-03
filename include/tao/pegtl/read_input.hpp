@@ -4,7 +4,6 @@
 #ifndef TAO_PEGTL_READ_INPUT_HPP
 #define TAO_PEGTL_READ_INPUT_HPP
 
-#include <filesystem>
 #include <string>
 
 #include "config.hpp"
@@ -13,6 +12,7 @@
 #include "tracking_mode.hpp"
 
 #include "internal/file_reader.hpp"
+#include "internal/filesystem.hpp"
 #include "internal/path_to_string.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -21,19 +21,19 @@ namespace TAO_PEGTL_NAMESPACE
    struct read_input
       : string_input< P, Eol >
    {
-      read_input( const std::filesystem::path& path, const std::string& source )
+      read_input( const internal::filesystem::path& path, const std::string& source )
          : string_input< P, Eol >( internal::file_reader( path ).read(), source )
       {}
 
-      explicit read_input( const std::filesystem::path& path )
+      explicit read_input( const internal::filesystem::path& path )
          : read_input( path, internal::path_to_string( path ) )
       {}
 
-      read_input( FILE* file, const std::filesystem::path& path, const std::string& source )
+      read_input( FILE* file, const internal::filesystem::path& path, const std::string& source )
          : string_input< P, Eol >( internal::file_reader( file, path ).read(), source )
       {}
 
-      read_input( FILE* file, const std::filesystem::path& path )
+      read_input( FILE* file, const internal::filesystem::path& path )
          : read_input( file, path, internal::path_to_string( path ) )
       {}
 

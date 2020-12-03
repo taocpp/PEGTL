@@ -10,16 +10,17 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#include <filesystem>
 #include <utility>
 
 #include "../config.hpp"
+
+#include "filesystem.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    struct file_opener
    {
-      explicit file_opener( const std::filesystem::path& path )  // NOLINT(modernize-pass-by-value)
+      explicit file_opener( const internal::filesystem::path& path )  // NOLINT(modernize-pass-by-value)
          : m_path( path ),
            m_fd( open() )
       {}
@@ -41,12 +42,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
          errno = 0;
          if( ::fstat( m_fd, &st ) < 0 ) {
             const std::error_code ec( errno, std::system_category() );
-            throw std::filesystem::filesystem_error( "fstat() failed", m_path, ec );
+            throw internal::filesystem::filesystem_error( "fstat() failed", m_path, ec );
          }
          return std::size_t( st.st_size );
       }
 
-      const std::filesystem::path m_path;
+      const internal::filesystem::path m_path;
       const int m_fd;
 
    private:
@@ -63,14 +64,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return fd;
          }
          const std::error_code ec( errno, std::system_category() );
-         throw std::filesystem::filesystem_error( "open() failed", m_path, ec );
+         throw internal::filesystem::filesystem_error( "open() failed", m_path, ec );
       }
    };
 
    class file_mapper
    {
    public:
-      explicit file_mapper( const std::filesystem::path& path )
+      explicit file_mapper( const internal::filesystem::path& path )
          : file_mapper( file_opener( path ) )
       {}
 
@@ -80,7 +81,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          if( ( m_size != 0 ) && ( intptr_t( m_data ) == -1 ) ) {
             const std::error_code ec( errno, std::system_category() );
-            throw std::filesystem::filesystem_error( "mmap() failed", reader.m_path, ec );
+            throw internal::filesystem::filesystem_error( "mmap() failed", reader.m_path, ec );
          }
       }
 

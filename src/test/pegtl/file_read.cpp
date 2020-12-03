@@ -10,7 +10,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct open_input
       : public read_input< P, Eol >
    {
-      explicit open_input( const std::filesystem::path& path )
+      explicit open_input( const internal::filesystem::path& path )
          : read_input< P, Eol >( internal::file_open( path ), path )
       {}
    };
