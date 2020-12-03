@@ -5,16 +5,17 @@
 #define TAO_PEGTL_INTERNAL_FILE_READER_HPP
 
 #include <cstdio>
-#include <filesystem>
 #include <memory>
 #include <string>
 #include <utility>
 
 #include "../config.hpp"
 
+#include "filesystem.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   [[nodiscard]] inline std::FILE* file_open( const std::filesystem::path& path )
+   [[nodiscard]] inline std::FILE* file_open( const internal::filesystem::path& path )
    {
       errno = 0;
 #if defined( _MSC_VER )
@@ -23,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return file;
       }
       const std::error_code ec( errno, std::system_category() );
-      throw std::filesystem::filesystem_error( "_wfopen_s() failed", path, ec );
+      throw internal::filesystem::filesystem_error( "_wfopen_s() failed", path, ec );
 #else
 #if defined( __MINGW32__ )
       if( auto* file = std::fopen( path.string().c_str(), "rb" ) )
@@ -34,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return file;
       }
       const std::error_code ec( errno, std::system_category() );
-      throw std::filesystem::filesystem_error( "std::fopen() failed", path, ec );
+      throw internal::filesystem::filesystem_error( "std::fopen() failed", path, ec );
 #endif
    }
 
@@ -49,11 +50,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
    class file_reader
    {
    public:
-      explicit file_reader( const std::filesystem::path& path )
+      explicit file_reader( const internal::filesystem::path& path )
          : file_reader( file_open( path ), path )
       {}
 
-      file_reader( FILE* file, const std::filesystem::path& path )  // NOLINT(modernize-pass-by-value)
+      file_reader( FILE* file, const internal::filesystem::path& path )  // NOLINT(modernize-pass-by-value)
          : m_path( path ),
            m_file( file )
       {}
@@ -72,7 +73,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( std::fseek( m_file.get(), 0, SEEK_END ) != 0 ) {
             // LCOV_EXCL_START
             const std::error_code ec( errno, std::system_category() );
-            throw std::filesystem::filesystem_error( "std::fseek() failed [SEEK_END]", m_path, ec );
+            throw internal::filesystem::filesystem_error( "std::fseek() failed [SEEK_END]", m_path, ec );
             // LCOV_EXCL_STOP
          }
          errno = 0;
@@ -80,14 +81,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( s < 0 ) {
             // LCOV_EXCL_START
             const std::error_code ec( errno, std::system_category() );
-            throw std::filesystem::filesystem_error( "std::ftell() failed", m_path, ec );
+            throw internal::filesystem::filesystem_error( "std::ftell() failed", m_path, ec );
             // LCOV_EXCL_STOP
          }
          errno = 0;
          if( std::fseek( m_file.get(), 0, SEEK_SET ) != 0 ) {
             // LCOV_EXCL_START
             const std::error_code ec( errno, std::system_category() );
-            throw std::filesystem::filesystem_error( "std::fseek() failed [SEEK_SET]", m_path, ec );
+            throw internal::filesystem::filesystem_error( "std::fseek() failed [SEEK_SET]", m_path, ec );
             // LCOV_EXCL_STOP
          }
          return std::size_t( s );
@@ -101,14 +102,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( !nrv.empty() && ( std::fread( &nrv[ 0 ], nrv.size(), 1, m_file.get() ) != 1 ) ) {
             // LCOV_EXCL_START
             const std::error_code ec( errno, std::system_category() );
-            throw std::filesystem::filesystem_error( "std::fread() failed", m_path, ec );
+            throw internal::filesystem::filesystem_error( "std::fread() failed", m_path, ec );
             // LCOV_EXCL_STOP
          }
          return nrv;
       }
 
    private:
-      const std::filesystem::path m_path;
+      const internal::filesystem::path m_path;
       const std::unique_ptr< std::FILE, file_close > m_file;
    };
 
