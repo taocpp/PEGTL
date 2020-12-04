@@ -18,7 +18,6 @@ namespace TAO_PEGTL_NAMESPACE::utf8
    template< char32_t... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_utf8, Cs... > {};
    template< char32_t Lo, char32_t Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_utf8, Lo, Hi > {};
    template< char32_t... Cs > struct one : internal::one< internal::result_on_found::success, internal::peek_utf8, Cs... > {};
-   template< typename... P > struct predicates : internal::predicates< internal::peek_utf8, P... > {};
    template< char32_t Lo, char32_t Hi > struct range : internal::range< internal::result_on_found::success, internal::peek_utf8, Lo, Hi > {};
    template< char32_t... Cs > struct ranges : internal::ranges< internal::peek_utf8, Cs... > {};
    template< char32_t... Cs > struct string : internal::seq< internal::one< internal::result_on_found::success, internal::peek_utf8, Cs >... > {};

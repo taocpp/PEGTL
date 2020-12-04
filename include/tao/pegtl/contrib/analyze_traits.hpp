@@ -185,11 +185,6 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_traits< Name, typename seq< Rules..., opt< Name > >::rule_t >
    {};
 
-   template< typename Name, typename Peek, typename... Predicates >
-   struct analyze_traits< Name, internal::predicates< Peek, Predicates... > >
-      : analyze_any_traits<>
-   {};
-
    template< typename Name, typename T >
    struct analyze_traits< Name, internal::raise< T > >
       : analyze_any_traits<>

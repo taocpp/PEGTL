@@ -19,8 +19,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template<>
    struct any< peek_char >
    {
+      using peek_t = peek_char;
+      using data_t = char;
+
       using rule_t = any;
       using subs_t = empty_list;
+
+      [[nodiscard]] static bool test( const char /*unused*/ ) noexcept
+      {
+         return true;
+      }
 
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.empty() ) )
@@ -36,8 +44,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Peek >
    struct any
    {
+      using peek_t = Peek;
+      using data_t = typename Peek::data_t;
+
       using rule_t = any;
       using subs_t = empty_list;
+
+      [[nodiscard]] static bool test( const data_t /*unused*/ ) noexcept
+      {
+         return true;
+      }
 
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
