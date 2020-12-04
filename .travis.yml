@@ -146,16 +146,6 @@ jobs:
         - make -kj3 check
         - coveralls --gcov gcov-10 --gcov-options '\-lp' --exclude src
 
-    - dist: bionic
-      compiler: clang
-      addons:
-        apt:
-          sources: *clang-11-sources
-          packages: [ clang-format-11, g++-10 ]
-      script:
-        - clang-format-11 -i -style=file $(find . -name '[^.]*.[hc]pp')
-        - git diff --exit-code
-
 script:
   - $CXX --version
   - make -j3 build/src/test/pegtl/tester
