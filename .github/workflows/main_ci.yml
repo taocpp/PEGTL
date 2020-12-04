@@ -15,6 +15,7 @@ jobs:
       matrix:
         image:
           # List: https://github.com/conan-io/conan-docker-tools
+          - gcc7
           - gcc8
           - gcc9
           - gcc10
