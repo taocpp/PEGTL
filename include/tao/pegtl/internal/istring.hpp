@@ -22,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    inline constexpr bool is_alpha = ( ( 'a' <= C ) && ( C <= 'z' ) ) || ( ( 'A' <= C ) && ( C <= 'Z' ) );
 
    template< char C >
-   [[nodiscard]] bool ichar_equal( const char c ) noexcept
+   [[nodiscard]] constexpr bool ichar_equal( const char c ) noexcept
    {
       if constexpr( is_alpha< C > ) {
          return ( C | 0x20 ) == ( c | 0x20 );
@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    }
 
    template< char... Cs >
-   [[nodiscard]] bool istring_equal( const char* r ) noexcept
+   [[nodiscard]] constexpr bool istring_equal( const char* r ) noexcept
    {
       return ( ichar_equal< Cs >( *r++ ) && ... );
    }
@@ -45,6 +45,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct istring<>
       : success
    {};
+
+   // template< char C >
+   // struct istring< C >
+   //    : std::conditional_t< is_alpha< C >, one< result_on_found::success, peek_char, C | 0x20, C & ~0x20 >, one< result_on_found::success, peek_char, C > >
+   // {};
 
    template< char... Cs >
    struct istring
