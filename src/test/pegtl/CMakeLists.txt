@@ -50,12 +50,14 @@ set(test_sources
   file_istream.cpp
   file_mmap.cpp
   file_read.cpp
+  icu_general.cpp
   internal_endian.cpp
   internal_file_mapper.cpp
   internal_file_opener.cpp
   parse_error.cpp
   pegtl_string_t.cpp
   position.cpp
+  predicates.cpp
   rule_action.cpp
   rule_apply0.cpp
   rule_apply.cpp

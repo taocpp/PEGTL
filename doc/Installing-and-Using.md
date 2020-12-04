@@ -21,14 +21,9 @@
 
 The PEGTL requires a C++17-capable compiler, e.g. one of
 
-* GCC 8
+* GCC 7
 * Clang 5
 * Visual Studio 2017
-
-with (on Unix)
-
-* libstdc++ 8
-* libc++ 7
 
 on either
 
@@ -39,7 +34,8 @@ on either
 It requires C++17, e.g. using the `--std=c++17` compiler switch.
 Using newer versions of the C++ standard is supported.
 
-Note that using libstdc++ 8 requires linking with `-lstdc++fs`.
+As support for `std::filesystem` is not always given, some fallbacks are in place.
+You might see the PEGTL falling back to `std::experimental::filesystem` as necessary or linking with `-lstdc++fs`.
 
 Larger projects will frequently require the `/bigobj` option when compiling with Visual Studio on Windows.
 

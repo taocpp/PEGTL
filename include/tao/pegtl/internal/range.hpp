@@ -17,6 +17,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct range
    {
+      using peek_t = Peek;
+      using data_t = typename Peek::data_t;
+
       using rule_t = range;
       using subs_t = empty_list;
 
@@ -25,11 +28,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< int Eol >
       static constexpr bool can_match_eol = ( ( ( Lo <= Eol ) && ( Eol <= Hi ) ) == bool( R ) );
 
+      [[nodiscard]] static bool test( const data_t c ) noexcept
+      {
+         return ( ( Lo <= c ) && ( c <= Hi ) ) == bool( R );
+      }
+
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
       {
          if( const auto t = Peek::peek( in ) ) {
-            if( ( ( Lo <= t.data ) && ( t.data <= Hi ) ) == bool( R ) ) {
+            if( test( t.data ) ) {
                if constexpr( can_match_eol< ParseInput::eol_t::ch > ) {
                   in.bump( t.size );
                }

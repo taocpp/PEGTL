@@ -22,15 +22,23 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename Peek, UProperty P, bool V = true >
          struct binary_property
          {
+            using peek_t = Peek;
+            using data_t = typename Peek::data_t;
+
             using rule_t = binary_property;
             using subs_t = empty_list;
+
+            [[nodiscard]] static bool test( const data_t c ) noexcept
+            {
+               return u_hasBinaryProperty( t.data, P ) == V;
+            }
 
             template< typename ParseInput >
             [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
             {
-               if( const auto r = Peek::peek( in ) ) {
-                  if( u_hasBinaryProperty( r.data, P ) == V ) {
-                     in.bump( r.size );
+               if( const auto t = Peek::peek( in ) ) {
+                  if( test( t.data ) ) {
+                     in.bump( t.size );
                      return true;
                   }
                }
@@ -41,15 +49,23 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename Peek, UProperty P, int V >
          struct property_value
          {
+            using peek_t = Peek;
+            using data_t = typename Peek::data_t;
+
             using rule_t = property_value;
             using subs_t = empty_list;
+
+            [[nodiscard]] static bool test( const data_t c ) noexcept
+            {
+               return u_getIntPropertyValue( r.data, P ) == V;
+            }
 
             template< typename ParseInput >
             [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
             {
-               if( const auto r = Peek::peek( in ) ) {
-                  if( u_getIntPropertyValue( r.data, P ) == V ) {
-                     in.bump( r.size );
+               if( const auto t = Peek::peek( in ) ) {
+                  if( test( t.data ) ) {
+                     in.bump( t.size );
                      return true;
                   }
                }

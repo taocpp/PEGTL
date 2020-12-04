@@ -21,15 +21,23 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
    struct one
    {
+      using peek_t = Peek;
+      using data_t = typename Peek::data_t;
+
       using rule_t = one;
       using subs_t = empty_list;
+
+      [[nodiscard]] static bool test( const data_t c ) noexcept
+      {
+         return ( ( c == Cs ) || ... ) == bool( R );
+      }
 
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
       {
          if( const auto t = Peek::peek( in ) ) {
-            if( ( ( t.data == Cs ) || ... ) == bool( R ) ) {
-               bump_help< R, ParseInput, typename Peek::data_t, Cs... >( in, t.size );
+            if( test( t.data ) ) {
+               bump_help< R, ParseInput, data_t, Cs... >( in, t.size );
                return true;
             }
          }

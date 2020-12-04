@@ -53,6 +53,7 @@ The rules are expressed in C++ as template instantiations, and it is the compile
 [![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
 
 Each commit is automatically tested with multiple architectures, operating systems, compilers, and versions thereof.
+Note that the above badges track the master branch and might not reflect the status of a release version.
 
 ### Code Quality
 
