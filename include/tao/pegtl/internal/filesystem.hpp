@@ -12,7 +12,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-    namespace filesystem = ::std::experimental::filesystem;
+   namespace filesystem = ::std::experimental::filesystem;
 }
 
 #elif defined( TAO_PEGTL_BOOST_FILESYSTEM )
@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-    namespace filesystem = ::boost::filesystem;
+   namespace filesystem = ::boost::filesystem;
 }
 
 #else
@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-    namespace filesystem = ::std::filesystem;
+   namespace filesystem = ::std::filesystem;
 }
 
 #endif

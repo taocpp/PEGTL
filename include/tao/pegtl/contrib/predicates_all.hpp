@@ -68,7 +68,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    namespace utf8
    {
-      template< typename... P > struct predicates_all
+      template< typename... P >
+      struct predicates_all
          : internal::predicates_all< internal::peek_utf8, P... >
       {};
 
@@ -79,6 +80,6 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_any_traits<>
    {};
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif
