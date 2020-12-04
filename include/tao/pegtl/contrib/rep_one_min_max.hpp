@@ -29,6 +29,9 @@ namespace TAO_PEGTL_NAMESPACE
 
          static_assert( Min <= Max );
 
+         template< int Eol >
+         static constexpr bool can_match_eol = ( C == Eol );
+
          template< typename ParseInput >
          [[nodiscard]] static bool match( ParseInput& in )
          {
@@ -41,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE
                ++i;
             }
             if( ( Min <= i ) && ( i <= Max ) ) {
-               bump_help< result_on_found::success, ParseInput, char, C >( in, i );
+               bump_help< rep_one_min_max >( in, i );
                return true;
             }
             return false;
@@ -54,6 +57,9 @@ namespace TAO_PEGTL_NAMESPACE
          using rule_t = rep_one_min_max;
          using subs_t = empty_list;
 
+         template< int Eol >
+         static constexpr bool can_match_eol = ( C == Eol );
+
          template< typename ParseInput >
          [[nodiscard]] static bool match( ParseInput& in )
          {
@@ -63,7 +69,7 @@ namespace TAO_PEGTL_NAMESPACE
                ++i;
             }
             if( i <= Max ) {
-               bump_help< result_on_found::success, ParseInput, char, C >( in, i );
+               bump_help< rep_one_min_max >( in, i );
                return true;
             }
             return false;

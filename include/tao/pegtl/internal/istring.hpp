@@ -10,6 +10,7 @@
 
 #include "bump_help.hpp"
 #include "enable_control.hpp"
+#include "one.hpp"
 #include "result_on_found.hpp"
 #include "success.hpp"
 
@@ -51,12 +52,15 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = istring;
       using subs_t = empty_list;
 
+      template< int Eol >
+      static constexpr bool can_match_eol = one< result_on_found::success, peek_char, Cs... >::template can_match_eol< Eol >;
+
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 0 ) ) )
       {
          if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
             if( istring_equal< Cs... >( in.current() ) ) {
-               bump_help< result_on_found::success, ParseInput, char, Cs... >( in, sizeof...( Cs ) );
+               bump_help< istring >( in, sizeof...( Cs ) );
                return true;
             }
          }

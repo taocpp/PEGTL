@@ -50,6 +50,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = any;
       using subs_t = empty_list;
 
+      template< int Eol >
+      static constexpr bool can_match_eol = true;
+
       [[nodiscard]] static bool test( const data_t /*unused*/ ) noexcept
       {
          return true;

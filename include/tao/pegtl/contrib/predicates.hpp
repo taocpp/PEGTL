@@ -7,6 +7,7 @@
 #include "../config.hpp"
 #include "../type_list.hpp"
 
+#include "../internal/bump_help.hpp"
 #include "../internal/enable_control.hpp"
 #include "../internal/failure.hpp"
 
@@ -25,17 +26,20 @@ namespace TAO_PEGTL_NAMESPACE
          using rule_t = predicates;
          using subs_t = empty_list;
 
-         [[nodiscard]] static bool test( const data_t c ) noexcept
+         [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
          {
             return ( Predicates::test( c ) || ... );  // TODO: Static assert that Predicates::peek_t is the same as peek_t?!
          }
+
+         template< int Eol >
+         static constexpr bool can_match_eol = test( Eol );
 
          template< typename ParseInput >
          [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
          {
             if( const auto t = Peek::peek( in ) ) {
                if( test( t.data ) ) {
-                  in.bump( t.size );
+                  bump_help< predicates >( in, t.size );
                   return true;
                }
             }

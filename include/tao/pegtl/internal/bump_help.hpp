@@ -5,18 +5,15 @@
 #define TAO_PEGTL_INTERNAL_BUMP_HELP_HPP
 
 #include <cstddef>
-#include <type_traits>
 
 #include "../config.hpp"
 
-#include "result_on_found.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< result_on_found R, typename ParseInput, typename Char, Char... Cs >
-   void bump_help( ParseInput& in, const std::size_t count ) noexcept
+   template< typename Rule, typename ParseInput >
+   void bump_help( ParseInput& in, const std::size_t count )
    {
-      if constexpr( ( ( Cs != ParseInput::eol_t::ch ) && ... ) != bool( R ) ) {
+      if constexpr( Rule::template can_match_eol< ParseInput::eol_t::ch > ) {
          in.bump( count );
       }
       else {
