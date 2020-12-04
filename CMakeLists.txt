@@ -53,9 +53,7 @@ function(check_filesystem_impl FILESYSTEM_HEADER FILESYSTEM_NAMESPACE OPTIONAL_L
     ${CMAKE_CURRENT_BINARY_DIR}/${TEST_FILE}
     CXX_STANDARD 17)
 
-  if(TEST_RESULT)
-    message(STATUS "No additional libraries needed to build with ${FILESYSTEM_NAMESPACE}.")
-  else()
+  if(NOT TEST_RESULT)
     # Retry with each of the optional libraries
     foreach(OPTIONAL_LIB IN LISTS OPTIONAL_LIBS)
       try_compile(TEST_RESULT
@@ -66,7 +64,7 @@ function(check_filesystem_impl FILESYSTEM_HEADER FILESYSTEM_NAMESPACE OPTIONAL_L
 
       if(TEST_RESULT)
         # Looks like the optional library was required, go ahead and add it to the link options.
-        message(STATUS "Add ${OPTIONAL_LIB} to the PEGTL to build with ${FILESYSTEM_NAMESPACE}.")
+        message(STATUS "Adding ${OPTIONAL_LIB} to the PEGTL to build with ${FILESYSTEM_NAMESPACE}.")
         target_link_libraries(${PROJECT_NAME} INTERFACE ${OPTIONAL_LIB})
         break()
       endif()
@@ -80,12 +78,12 @@ endfunction(check_filesystem_impl)
 #   C++17: #include <filesystem> // std::filesystem
 #   Experimental C++17: #include <experimental/filesystem> // std::experimental::filesystem
 #   Boost.Filesystem: #include <boost/filesystem.hpp> // boost::filesystem
-check_filesystem_impl("filesystem" "std::filesystem" "stdc++fs;c++fs" STD_FILESYTEM)
-if(STD_FILESYTEM)
+check_filesystem_impl("filesystem" "std::filesystem" "stdc++fs;c++fs" STD_FILESYSTEM)
+if(STD_FILESYSTEM)
   message(STATUS "Using std::filesystem.")
 else()
-  check_filesystem_impl("experimental/filesystem" "std::experimental::filesystem" "stdc++fs;c++fs" STD_EXPERIMENTAL_FILESYTEM)
-  if(STD_EXPERIMENTAL_FILESYTEM)
+  check_filesystem_impl("experimental/filesystem" "std::experimental::filesystem" "stdc++fs;c++fs" STD_EXPERIMENTAL_FILESYSTEM)
+  if(STD_EXPERIMENTAL_FILESYSTEM)
     target_compile_definitions(${PROJECT_NAME} INTERFACE TAO_PEGTL_STD_EXPERIMENTAL_FILESYSTEM)
     message(WARNING "Using std::experimental::filesystem as a fallback.")
   else()
