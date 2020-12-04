@@ -50,6 +50,7 @@ set(test_sources
   file_istream.cpp
   file_mmap.cpp
   file_read.cpp
+  icu_general.cpp
   internal_endian.cpp
   internal_file_mapper.cpp
   internal_file_opener.cpp
