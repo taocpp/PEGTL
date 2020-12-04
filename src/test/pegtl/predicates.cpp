@@ -6,6 +6,7 @@
 #include "verify_rule.hpp"
 
 #include <tao/pegtl/contrib/predicates.hpp>
+#include <tao/pegtl/contrib/predicates_all.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
