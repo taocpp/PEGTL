@@ -51,17 +51,19 @@ namespace TAO_PEGTL_NAMESPACE
 
          [[nodiscard]] std::size_t problems()
          {
-            for( auto i = m_info.begin(); i != m_info.end(); ++i ) {
+            for( auto& i : m_entries ) {
                assert( m_trace.empty() );
                assert( m_stack.empty() );
-               m_results[ i->first ] = work( *i, false );
+               m_results[ i.first ] = work( i, false );
             }
+            // The number of problems returned is not very informative as some problems will be found multiple times.
             return m_problems;
          }
 
          template< typename Rule >
          [[nodiscard]] bool consumes() const
          {
+            // The name "consumes" is a shortcut for "the analyze cycles algorithm could prove that this rule always consumes when it succeeds".
             return m_results.at( demangle< Rule >() );
          }
 
@@ -73,40 +75,40 @@ namespace TAO_PEGTL_NAMESPACE
 
          [[nodiscard]] const std::pair< const std::string_view, analyze_entry >& find( const std::string_view name ) const noexcept
          {
-            const auto iter = m_info.find( name );
-            assert( iter != m_info.end() );
+            const auto iter = m_entries.find( name );
+            assert( iter != m_entries.end() );
             return *iter;
          }
 
-         [[nodiscard]] bool work( const std::pair< const std::string_view, analyze_entry >& info, const bool accum )
+         [[nodiscard]] bool work( const std::pair< const std::string_view, analyze_entry >& entry, const bool accum )
          {
-            if( const auto g = set_stack_guard( m_stack, info.first ) ) {
-               const auto v = vector_stack_guard( m_trace, info.first );
-               switch( info.second.type ) {
+            if( const auto g = set_stack_guard( m_stack, entry.first ) ) {
+               const auto v = vector_stack_guard( m_trace, entry.first );
+               switch( entry.second.type ) {
                   case analyze_type::any: {
                      bool a = false;
-                     for( const auto& r : info.second.subs ) {
+                     for( const auto& r : entry.second.subs ) {
                         a = a || work( find( r ), accum || a );
                      }
                      return true;
                   }
                   case analyze_type::opt: {
                      bool a = false;
-                     for( const auto& r : info.second.subs ) {
+                     for( const auto& r : entry.second.subs ) {
                         a = a || work( find( r ), accum || a );
                      }
                      return false;
                   }
                   case analyze_type::seq: {
                      bool a = false;
-                     for( const auto& r : info.second.subs ) {
+                     for( const auto& r : entry.second.subs ) {
                         a = a || work( find( r ), accum || a );
                      }
                      return a;
                   }
                   case analyze_type::sor: {
                      bool a = true;
-                     for( const auto& r : info.second.subs ) {
+                     for( const auto& r : entry.second.subs ) {
                         a = a && work( find( r ), accum );
                      }
                      return a;
@@ -117,18 +119,18 @@ namespace TAO_PEGTL_NAMESPACE
             assert( !m_trace.empty() );
 
             if( !accum ) {
-               // LCOV_EXCL_START
                ++m_problems;
-               if( ( m_verbose >= 0 ) && ( m_trace.front() == info.first ) ) {
+               // LCOV_EXCL_START
+               if( ( m_verbose >= 0 ) && ( m_trace.front() == entry.first ) ) {
                   for( const auto& r : m_trace ) {
-                     if( r < info.first ) {
+                     if( r < entry.first ) {
                         return accum;
                      }
                   }
-                  std::cerr << "problem: cycle without progress detected at rule " << info.first << std::endl;
+                  std::cerr << "WARNING: Possible cycle without progress at rule " << entry.first << std::endl;
                   if( m_verbose > 0 ) {
                      for( const auto& r : m_trace ) {
-                        std::cerr << "   involved (transformed) rule: " << r << std::endl;
+                        std::cerr << "- involved (transformed) rule: " << r << std::endl;
                      }
                   }
                }
@@ -141,40 +143,38 @@ namespace TAO_PEGTL_NAMESPACE
 
          std::size_t m_problems;
 
-         std::map< std::string_view, analyze_entry > m_info;
-
          std::set< std::string_view > m_stack;
          std::vector< std::string_view > m_trace;
          std::map< std::string_view, bool > m_results;
+         std::map< std::string_view, analyze_entry > m_entries;
       };
 
       template< typename Name >
-      std::string_view analyze_insert( std::map< std::string_view, analyze_entry >& info )
+      std::string_view analyze_insert( std::map< std::string_view, analyze_entry >& entry )
       {
          using Traits = analyze_traits< Name, typename Name::rule_t >;
 
-         const auto [ i, b ] = info.try_emplace( demangle< Name >(), Traits::type_v );
+         const auto [ i, b ] = entry.try_emplace( demangle< Name >(), Traits::type_v );
          if( b ) {
-            analyze_insert_impl( typename Traits::subs_t(), i->second.subs, info );
+            analyze_insert_impl( typename Traits::subs_t(), i->second.subs, entry );
          }
          return i->first;
       }
 
       template< typename... Subs >
-      void analyze_insert_impl( type_list< Subs... > /*unused*/, std::vector< std::string_view >& subs, std::map< std::string_view, analyze_entry >& info )
+      void analyze_insert_impl( type_list< Subs... > /*unused*/, std::vector< std::string_view >& subs, std::map< std::string_view, analyze_entry >& entry )
       {
-         ( subs.emplace_back( analyze_insert< Subs >( info ) ), ... );
+         ( subs.emplace_back( analyze_insert< Subs >( entry ) ), ... );
       }
 
       template< typename Grammar >
-      class analyze_cycles
-         : public analyze_cycles_impl
+      struct analyze_cycles
+         : analyze_cycles_impl
       {
-      public:
          explicit analyze_cycles( const int verbose )
             : analyze_cycles_impl( verbose )
          {
-            analyze_insert< Grammar >( m_info );
+            analyze_insert< Grammar >( m_entries );
          }
       };
 
