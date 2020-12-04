@@ -57,11 +57,10 @@ Note that the above badges track the master branch and might not reflect the sta
 
 ### Code Quality
 
-[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/taocpp/PEGTL.svg)](https://lgtm.com/projects/g/taocpp/PEGTL/context:cpp)
+[![CodeQL](https://github.com/taocpp/PEGTL/workflows/CodeQL/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ACodeQL)
 
 Each commit is checked with Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), GCC's and Clang's [sanitizers](https://github.com/google/sanitizers), [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/), and [`valgrind`](http://valgrind.org/).
-Additionally, we use [LGTM](https://lgtm.com/) to scan for (security) issues.
-Note that [LGTM](https://lgtm.com/) sometimes generate false positives, hence the above badge may not show an accurate grade.
+Additionally, we use [CodeQL](https://securitylab.github.com/tools/codeql) to scan for (security) issues.
 
 ### Code Coverage
 
