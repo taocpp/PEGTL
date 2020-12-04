@@ -39,6 +39,7 @@
 #include "pad.hpp"
 #include "pad_opt.hpp"
 #include "plus.hpp"
+#include "predicates.hpp"
 #include "raise.hpp"
 #include "range.hpp"
 #include "ranges.hpp"

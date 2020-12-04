@@ -1,35 +1,30 @@
-// Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_INTERNAL_ONE_HPP
-#define TAO_PEGTL_INTERNAL_ONE_HPP
-
-#include <cstddef>
+#ifndef TAO_PEGTL_INTERNAL_PREDICATES_HPP
+#define TAO_PEGTL_INTERNAL_PREDICATES_HPP
 
 #include "../config.hpp"
 
-#include "any.hpp"
-#include "bump_help.hpp"
 #include "enable_control.hpp"
 #include "failure.hpp"
-#include "result_on_found.hpp"
 
 #include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
-   struct one
+   template< typename Peek, typename... Predicates >
+   struct predicates
    {
       using peek_t = Peek;
       using data_t = typename Peek::data_t;
 
-      using rule_t = one;
+      using rule_t = predicates;
       using subs_t = empty_list;
 
       [[nodiscard]] static bool test( const data_t c ) noexcept
       {
-         return ( ( c == Cs ) || ... ) == bool( R );
+         return ( Predicates::test( c ) || ... );  // TODO: Static assert that predicates::peek_t is the same as peek_t?!
       }
 
       template< typename ParseInput >
@@ -37,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          if( const auto t = Peek::peek( in ) ) {
             if( test( t.data ) ) {
-               bump_help< R, ParseInput, data_t, Cs... >( in, t.size );
+               in.bump( t.size );
                return true;
             }
          }
@@ -46,17 +41,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Peek >
-   struct one< result_on_found::success, Peek >
+   struct predicates< Peek >
       : failure
    {};
 
-   template< typename Peek >
-   struct one< result_on_found::failure, Peek >
-      : any< Peek >
-   {};
-
-   template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
-   inline constexpr bool enable_control< one< R, Peek, Cs... > > = false;
+   template< typename Peek, typename... Predicates >
+   inline constexpr bool enable_control< predicates< Peek, Predicates... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

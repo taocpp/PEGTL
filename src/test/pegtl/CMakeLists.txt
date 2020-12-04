@@ -57,6 +57,7 @@ set(test_sources
   parse_error.cpp
   pegtl_string_t.cpp
   position.cpp
+  predicates.cpp
   rule_action.cpp
   rule_apply0.cpp
   rule_apply.cpp
