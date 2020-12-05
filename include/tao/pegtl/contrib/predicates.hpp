@@ -10,6 +10,8 @@
 #include "../internal/bump_help.hpp"
 #include "../internal/enable_control.hpp"
 #include "../internal/failure.hpp"
+#include "../internal/peek_char.hpp"
+#include "../internal/peek_utf8.hpp"
 
 #include "analyze_traits.hpp"
 
