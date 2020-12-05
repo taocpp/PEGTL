@@ -6,10 +6,6 @@ jobs:
   code_coverage:
     runs-on: ubuntu-latest
 
-    container:
-      image: conanio/gcc10
-      options: --user root
-
     steps:
     - uses: actions/checkout@v2
 
