@@ -120,16 +120,6 @@ jobs:
       script:
         - make -kj3 valgrind
 
-    - <<: *gcc-10
-      env:
-        - CXX=g++-10
-        - CXXFLAGS="-O0 --coverage"
-      before_script:
-        - pip install --user cpp-coveralls
-      script:
-        - make -kj3 check
-        - coveralls --gcov gcov-10 --gcov-options '\-lp' --exclude src
-
 script:
   - $CXX --version
   - make -j3 build/src/test/pegtl/tester
