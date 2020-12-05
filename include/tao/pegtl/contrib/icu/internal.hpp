@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
 
             [[nodiscard]] static bool test( const data_t c ) noexcept
             {
-               return u_hasBinaryProperty( t.data, P ) == V;
+               return u_hasBinaryProperty( c, P ) == V;
             }
 
             template< typename ParseInput >
@@ -57,7 +57,7 @@ namespace TAO_PEGTL_NAMESPACE
 
             [[nodiscard]] static bool test( const data_t c ) noexcept
             {
-               return u_getIntPropertyValue( r.data, P ) == V;
+               return u_getIntPropertyValue( c, P ) == V;
             }
 
             template< typename ParseInput >
