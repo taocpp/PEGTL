@@ -90,7 +90,7 @@ jobs:
       matrix:
         flags:
           - "-fno-rtti"
-          - "-fms-extension"
+          - "-fms-extensions"
           - "-fsanitize=address"
           - "-fsanitize=undefined"
 
