@@ -1,12 +1,6 @@
 name: Main CI
 
-on:
-  push:
-    branches:
-      - master
-  pull_request:
-    branches:
-      - master
+on: [push, pull_request]
 
 jobs:
   linux:
@@ -56,6 +50,73 @@ jobs:
     - name: Test
       working-directory: build/
       run: ctest -C ${{matrix.build_type}} --output-on-failure
+
+  linux-gcc-extra:
+    strategy:
+      fail-fast: false
+      matrix:
+        flags:
+          - "-fno-rtti"
+          - "-fsanitize=address"
+          - "-fsanitize=undefined"
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: conanio/gcc10
+      options: --user root
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      run: cmake -E make_directory build
+
+    - name: Configure
+      working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_CXX_FLAGS="${{matrix.flags}}"
+
+    - name: Build
+      working-directory: build/
+      run: cmake --build .
+
+    - name: Test
+      working-directory: build/
+      run: ctest --output-on-failure
+
+  linux-clang-extra:
+    strategy:
+      fail-fast: false
+      matrix:
+        flags:
+          - "-fno-rtti"
+          - "-fms-extension"
+          - "-fsanitize=address"
+          - "-fsanitize=undefined"
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: conanio/clang11
+      options: --user root
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      run: cmake -E make_directory build
+
+    - name: Configure
+      working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_CXX_FLAGS="${{matrix.flags}}"
+
+    - name: Build
+      working-directory: build/
+      run: cmake --build .
+
+    - name: Test
+      working-directory: build/
+      run: ctest --output-on-failure
 
   macos:
     strategy:
