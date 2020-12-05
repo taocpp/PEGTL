@@ -2,6 +2,9 @@ language: generic
 os: linux
 dist: xenial
 
+services:
+  - docker
+
 jobs:
   include:
     - &gcc-10
@@ -44,44 +47,25 @@ jobs:
         - CXX=clang++-11
         - CPPFLAGS="-fno-rtti"
 
-#    - &android
-#      compiler: clang
-#      addons:
-#        apt:
-#          packages:
-#            - openjdk-8-jdk
-#      before_install:
-#        - export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-#        - wget https://dl.google.com/android/repository/sdk-tools-linux-4333796.zip
-#        - unzip -qq sdk-tools-linux-4333796.zip -d /opt/android-sdk
-#        - rm sdk-tools-linux-4333796.zip
-#        - echo "y" | /opt/android-sdk/tools/bin/sdkmanager "platform-tools" "system-images;android-24;default;${ANDROID_ABI}" "platforms;android-24" "emulator" "ndk-bundle" "cmake;3.10.2.4988404" > /dev/null
-#      before_script:
-#        - export TERM=dumb
-#        - export _NO_CHECK_SIGNATURE=true
-#        - export ANDROID_SDK_ROOT=/opt/android-sdk
-#        - echo no | /opt/android-sdk/tools/bin/avdmanager create avd -n test -k "system-images;android-24;default;${ANDROID_ABI}"
-#        - /opt/android-sdk/emulator/emulator -avd test -no-audio -no-window -dns-server 8.8.8.8 &
-#        #- android-wait-for-emulator || android-wait-for-emulator
-#        - /opt/android-sdk/platform-tools/adb shell input keyevent 82 &
-#      script:
-#        # Using the ninja build command. Is much faster then make build command.
-#        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake -H. -Bcmake-build -GNinja -DANDROID_ABI=${ANDROID_ABI} -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/android-sdk/ndk-bundle/build/cmake/android.toolchain.cmake -DANDROID_PLATFORM=${ANDROID_PLATFORM} -DCMAKE_MAKE_PROGRAM=/opt/android-sdk/cmake/3.10.2.4988404/bin/ninja -DPEGTL_BUILD_EXAMPLES=OFF
-#        - /opt/android-sdk/cmake/3.10.2.4988404/bin/cmake --build cmake-build --target all
-#        # FIXME android emulator stuck sometimes - cd cmake-build && /opt/android-sdk/cmake/3.10.2.4988404/bin/ctest --output-on-failure
-#      env:
-#        - ANDROID_ABI=armeabi-v7a
-#        - ANDROID_PLATFORM=android-22
+    - &android
+      compiler: clang
+      script: |
+        docker run -it -v ${TRAVIS_BUILD_DIR}:/source bojoe/cpp-android-ndk-build-env-ubuntu:r22beta1 '
+        cmake -H/source -B/home/developer/build -GNinja -DCMAKE_TOOLCHAIN_FILE=/opt/androidSdk/ndk/android-ndk-r22-beta1/build/cmake/android.toolchain.cmake -DANDROID_ABI=${ANDROID_ABI} -DANDROID_PLATFORM=${ANDROID_PLATFORM} -DCMAKE_BUILD_TYPE=Release -DPEGTL_BUILD_EXAMPLES=OFF
+        cmake --build /home/developer/build --target all'
+      env:
+        - ANDROID_ABI=armeabi-v7a
+        - ANDROID_PLATFORM=android-26
 
-#    - <<: *android
-#      env:
-#        - ANDROID_ABI=armeabi-v7a
-#        - ANDROID_PLATFORM=android-24
+    - <<: *android
+      env:
+        - ANDROID_ABI=armeabi-v7a
+        - ANDROID_PLATFORM=android-26
 
-#    - <<: *android
-#      env:
-#        - ANDROID_ABI=arm64-v8a
-#        - ANDROID_PLATFORM=android-24
+    - <<: *android
+      env:
+        - ANDROID_ABI=arm64-v8a
+        - ANDROID_PLATFORM=android-26
 
     - <<: *gcc-10
       env:
