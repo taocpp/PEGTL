@@ -7,8 +7,7 @@ services:
 
 jobs:
   include:
-    - &gcc-10
-      dist: bionic
+    - dist: bionic
       compiler: gcc
       addons:
         apt:
@@ -17,11 +16,6 @@ jobs:
       env:
         - CXX=g++-10
         - CXXSTD="-std=c++20"
-
-    - <<: *gcc-10
-      env:
-        - CXX=g++-10
-        - CPPFLAGS="-fno-rtti"
 
     - &clang-11
       dist: bionic
@@ -36,16 +30,6 @@ jobs:
       env:
         - CXX=clang++-11
         - CXXSTD="-std=c++20"
-
-    - <<: *clang-11
-      env:
-        - CXX=clang++-11
-        - CPPFLAGS="-fms-extensions"
-
-    - <<: *clang-11
-      env:
-        - CXX=clang++-11
-        - CPPFLAGS="-fno-rtti"
 
     - &android
       compiler: clang
@@ -66,26 +50,6 @@ jobs:
       env:
         - ANDROID_ABI=arm64-v8a
         - ANDROID_PLATFORM=android-26
-
-    - <<: *gcc-10
-      env:
-        - CXX=g++-10
-        - CPPFLAGS="-fsanitize=undefined -fuse-ld=gold"
-
-    - <<: *gcc-10
-      env:
-        - CXX=g++-10
-        - CPPFLAGS="-fsanitize=address -fuse-ld=gold"
-
-    - <<: *clang-11
-      env:
-        - CXX=clang++-11
-        - CPPFLAGS="-fsanitize=undefined"
-
-    - <<: *clang-11
-      env:
-        - CXX=clang++-11
-        - CPPFLAGS="-fsanitize=address"
 
     - dist: bionic
       compiler: clang
