@@ -16,14 +16,19 @@ jobs:
         image:
           # List: https://github.com/conan-io/conan-docker-tools
           - gcc7
+          - gcc7-mingw
           - gcc8
           - gcc9
+          - gcc9-x86
           - gcc10
+          - gcc10-armv7
+          - gcc10-armv7hf
           - clang50
           - clang60
           - clang7
           - clang8
           - clang9
+          - clang9-x86
           - clang10
           - clang11
         build_type: [Debug, Release]
