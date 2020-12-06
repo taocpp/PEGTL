@@ -69,7 +69,7 @@ jobs:
         # Note the current convention is to use the -S and -B options here to specify source
         # and build directories, but this is only available with CMake 3.13 and higher.
         # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
-        run: cmake -DPEGTL_USE_BOOST_FILESYSTEM=ON -DCMAKE_BUILD_TYPE=${{ matrix.config }} -G Ninja "$GITHUB_WORKSPACE"
+        run: cmake -DPEGTL_USE_BOOST_FILESYSTEM=ON -DCMAKE_BUILD_TYPE=${{ matrix.config }} "$GITHUB_WORKSPACE"
         env:
           CC: ${{ matrix.cc }}
           CXX: ${{ matrix.cxx }}
