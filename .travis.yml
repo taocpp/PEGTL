@@ -86,6 +86,6 @@ jobs:
 
 script:
   - $CXX --version
-  - make -j3 build/src/test/pegtl/tester
-  - build/src/test/pegtl/tester
+  - make -j3 build/src/test/pegtl/test_setup
+  - build/src/test/pegtl/test_setup
   - make -kj3
