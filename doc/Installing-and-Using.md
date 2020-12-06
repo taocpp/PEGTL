@@ -275,7 +275,7 @@ the headers `tao/pegtl.hpp`, their dependencies, and all headers in
 Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey
 
 [Vcpkg]: https://github.com/Microsoft/vcpkg
-[Vcpkg documentation]: https://github.com/Microsoft/vcpkg/tree/master/docs
+[Vcpkg documentation]: https://github.com/Microsoft/vcpkg/tree/master/docs/index.md
 [Conan]: https://conan.io/
 [Conan documentation]: https://docs.conan.io/
 [CMake]: https://cmake.org/
