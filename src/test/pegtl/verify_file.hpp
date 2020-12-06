@@ -59,7 +59,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          try {
             T in( "src/test/pegtl/no_such_file.txt" );
-            TAO_PEGTL_TEST_ASSERT( false );  // LCOV_EXCL_LINE
+            TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
          }
          catch( const internal::filesystem::filesystem_error& ) {
          }
