@@ -18,10 +18,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    using error_code = ::boost::system::error_code;
 
-   const auto& system_category() noexcept
+   inline const auto& system_category() noexcept
    {
       return ::boost::system::system_category();
    }
+
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #elif defined( TAO_PEGTL_STD_EXPERIMENTAL_FILESYSTEM )
@@ -34,10 +35,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    using error_code = ::std::error_code;
 
-   const auto& system_category() noexcept
+   inline const auto& system_category() noexcept
    {
       return ::std::system_category();
    }
+
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #else
@@ -50,10 +52,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    using error_code = ::std::error_code;
 
-   const auto& system_category() noexcept
+   inline const auto& system_category() noexcept
    {
       return ::std::system_category();
    }
+
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif
