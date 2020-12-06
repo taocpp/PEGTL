@@ -1,0 +1,35 @@
+name: macOS CI
+
+on: [push, pull_request]
+
+jobs:
+  macos:
+    strategy:
+      fail-fast: false
+      matrix:
+        xcode: ['11', '12']
+        build_type: [Debug, Release]
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: ${{ matrix.xcode }}
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{ runner.workspace }}/build
+
+    - name: Configure
+      working-directory: ${{ runner.workspace }}/build/
+      run: cmake $GITHUB_WORKSPACE
+
+    - name: Build
+      working-directory: ${{ runner.workspace }}/build/
+      run: cmake --build . --config ${{ matrix.build_type }}
+
+    - name: Test
+      working-directory: ${{ runner.workspace }}/build/
+      run: ctest --config ${{ matrix.build_type }} --output-on-failure
