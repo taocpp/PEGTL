@@ -44,6 +44,9 @@ target_include_directories(pegtl INTERFACE
 # require C++17
 target_compile_features(pegtl INTERFACE cxx_std_17)
 
+option(PEGTL_USE_BOOST_FILESYSTEM "Override the auto-detection of std::filesystem and use Boost.Filesystem" OFF)
+
+# Try compiling a test program with std::filesystem or one of its alternatives
 function(check_filesystem_impl FILESYSTEM_HEADER FILESYSTEM_NAMESPACE OPTIONAL_LIBS OUT_RESULT)
   set(TEST_FILE "test_${OUT_RESULT}.cpp")
   configure_file(cmake/test_filesystem.cpp.in ${TEST_FILE} @ONLY)
@@ -74,26 +77,33 @@ function(check_filesystem_impl FILESYSTEM_HEADER FILESYSTEM_NAMESPACE OPTIONAL_L
   set(${OUT_RESULT} ${TEST_RESULT} PARENT_SCOPE)
 endfunction(check_filesystem_impl)
 
-# Try compiling a minimal program with each header/namespace, in order of preference:
-#   C++17: #include <filesystem> // std::filesystem
-#   Experimental C++17: #include <experimental/filesystem> // std::experimental::filesystem
-#   Boost.Filesystem: #include <boost/filesystem.hpp> // boost::filesystem
-check_filesystem_impl("filesystem" "std::filesystem" "stdc++fs;c++fs" STD_FILESYSTEM)
-if(STD_FILESYSTEM)
-  message(STATUS "Using std::filesystem.")
+if(PEGTL_USE_BOOST_FILESYSTEM)
+  # Force the use of Boost.Filesystem: #include <boost/filesystem.hpp> // boost::filesystem
+  find_package(Boost REQUIRED COMPONENTS filesystem)
+  target_link_libraries(${PROJECT_NAME} INTERFACE Boost::filesystem)
+  target_compile_definitions(${PROJECT_NAME} INTERFACE TAO_PEGTL_BOOST_FILESYSTEM)
 else()
-  check_filesystem_impl("experimental/filesystem" "std::experimental::filesystem" "stdc++fs;c++fs" STD_EXPERIMENTAL_FILESYSTEM)
-  if(STD_EXPERIMENTAL_FILESYSTEM)
-    target_compile_definitions(${PROJECT_NAME} INTERFACE TAO_PEGTL_STD_EXPERIMENTAL_FILESYSTEM)
-    message(WARNING "Using std::experimental::filesystem as a fallback.")
+  # Try compiling a minimal program with each header/namespace, in order of preference:
+  #   C++17: #include <filesystem> // std::filesystem
+  #   Experimental C++17: #include <experimental/filesystem> // std::experimental::filesystem
+  #   Boost.Filesystem: #include <boost/filesystem.hpp> // boost::filesystem
+  check_filesystem_impl("filesystem" "std::filesystem" "stdc++fs;c++fs" STD_FILESYSTEM)
+  if(STD_FILESYSTEM)
+    message(STATUS "Using std::filesystem")
   else()
-    find_package(Boost COMPONENTS filesystem)
-    check_filesystem_impl("boost/filesystem.hpp" "boost::filesystem" Boost::filesystem BOOST_FILESYSTEM)
-    if(BOOST_FILESYSTEM)
-      target_compile_definitions(${PROJECT_NAME} INTERFACE TAO_PEGTL_BOOST_FILESYSTEM)
-      message(WARNING "Using Boost.Filesystem as a fallback.")
+    check_filesystem_impl("experimental/filesystem" "std::experimental::filesystem" "stdc++fs;c++fs" STD_EXPERIMENTAL_FILESYSTEM)
+    if(STD_EXPERIMENTAL_FILESYSTEM)
+      target_compile_definitions(${PROJECT_NAME} INTERFACE TAO_PEGTL_STD_EXPERIMENTAL_FILESYSTEM)
+      message(WARNING "Using std::experimental::filesystem as a fallback")
     else()
-      message(FATAL_ERROR "PEGTL requires C++17, including an implementation of std::filesystem, which your compiler toolchain does not seem to support. You can try installing Boost.Filesystem as a temporary workaround, but there's no guarantee the PEGTL will keep working with your project. Consider upgrading your compiler toolchain or downgrading the PEGTL to the previous version.")
+      find_package(Boost COMPONENTS filesystem)
+      check_filesystem_impl("boost/filesystem.hpp" "boost::filesystem" Boost::filesystem BOOST_FILESYSTEM)
+      if(BOOST_FILESYSTEM)
+        target_compile_definitions(${PROJECT_NAME} INTERFACE TAO_PEGTL_BOOST_FILESYSTEM)
+        message(WARNING "Using Boost.Filesystem as a fallback")
+      else()
+        message(FATAL_ERROR "PEGTL requires C++17, including an implementation of std::filesystem, which your compiler toolchain does not seem to support. You can try installing Boost.Filesystem as a temporary workaround, but there's no guarantee the PEGTL will keep working with your project. Consider upgrading your compiler toolchain or downgrading the PEGTL to the previous version.")
+      endif()
     endif()
   endif()
 endif()

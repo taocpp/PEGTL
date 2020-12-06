@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       if( ::_wfopen_s( &file, path.c_str(), L"rb" ) == 0 ) {
          return file;
       }
-      const std::error_code ec( errno, std::system_category() );
+      internal::error_code ec( errno, internal::system_category() );
       throw internal::filesystem::filesystem_error( "_wfopen_s() failed", path, ec );
 #else
 #if defined( __MINGW32__ )
@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          return file;
       }
-      const std::error_code ec( errno, std::system_category() );
+      internal::error_code ec( errno, internal::system_category() );
       throw internal::filesystem::filesystem_error( "std::fopen() failed", path, ec );
 #endif
    }
@@ -72,7 +72,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          errno = 0;
          if( std::fseek( m_file.get(), 0, SEEK_END ) != 0 ) {
             // LCOV_EXCL_START
-            const std::error_code ec( errno, std::system_category() );
+            internal::error_code ec( errno, internal::system_category() );
             throw internal::filesystem::filesystem_error( "std::fseek() failed [SEEK_END]", m_path, ec );
             // LCOV_EXCL_STOP
          }
@@ -80,14 +80,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
          const auto s = std::ftell( m_file.get() );
          if( s < 0 ) {
             // LCOV_EXCL_START
-            const std::error_code ec( errno, std::system_category() );
+            internal::error_code ec( errno, internal::system_category() );
             throw internal::filesystem::filesystem_error( "std::ftell() failed", m_path, ec );
             // LCOV_EXCL_STOP
          }
          errno = 0;
          if( std::fseek( m_file.get(), 0, SEEK_SET ) != 0 ) {
             // LCOV_EXCL_START
-            const std::error_code ec( errno, std::system_category() );
+            internal::error_code ec( errno, internal::system_category() );
             throw internal::filesystem::filesystem_error( "std::fseek() failed [SEEK_SET]", m_path, ec );
             // LCOV_EXCL_STOP
          }
@@ -101,7 +101,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          errno = 0;
          if( !nrv.empty() && ( std::fread( &nrv[ 0 ], nrv.size(), 1, m_file.get() ) != 1 ) ) {
             // LCOV_EXCL_START
-            const std::error_code ec( errno, std::system_category() );
+            internal::error_code ec( errno, internal::system_category() );
             throw internal::filesystem::filesystem_error( "std::fread() failed", m_path, ec );
             // LCOV_EXCL_STOP
          }

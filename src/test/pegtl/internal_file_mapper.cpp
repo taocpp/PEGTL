@@ -16,7 +16,7 @@ namespace TAO_PEGTL_NAMESPACE
          std::cerr << "pegtl: unit test failed for [ internal::file_mapper ]" << std::endl;
          ++failed;
       }
-      catch( const std::system_error& ) {
+      catch( const internal::filesystem::filesystem_error& ) {
       }
       catch( ... ) {
          std::cerr << "pegtl: unit test failed for [ internal::file_mapper ] with unexpected exception" << std::endl;
