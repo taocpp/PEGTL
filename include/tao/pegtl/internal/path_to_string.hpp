@@ -13,12 +13,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    [[nodiscard]] inline std::string path_to_string( const internal::filesystem::path& path )
    {
-#if defined( __cpp_char8_t )
-      const auto s = path.u8string();
-      return { reinterpret_cast< const char* >( s.data() ), s.size() };
-#else
-      return path.u8string();
-#endif
+      return path.string();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

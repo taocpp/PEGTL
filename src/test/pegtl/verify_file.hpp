@@ -62,7 +62,7 @@ namespace TAO_PEGTL_NAMESPACE
             parse< file_grammar >( in );
             TAO_PEGTL_TEST_ASSERT( !"no error on opening non-existing file" );
          }
-         catch( const std::system_error& ) {
+         catch( const internal::filesystem::filesystem_error& ) {
          }
       }
       {

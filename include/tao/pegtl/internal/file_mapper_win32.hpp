@@ -54,7 +54,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          LARGE_INTEGER size;
          if( !::GetFileSizeEx( m_handle, &size ) ) {
-            const std::error_code ec( ::GetLastError(), std::system_category() );
+            internal::error_code ec( ::GetLastError(), internal::system_category() );
             throw internal::filesystem::filesystem_error( "GetFileSizeEx() failed", m_path, ec );
          }
          return std::size_t( size.QuadPart );
@@ -76,7 +76,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( handle != INVALID_HANDLE_VALUE ) {
             return handle;
          }
-         const std::error_code ec( ::GetLastError(), std::system_category() );
+         internal::error_code ec( ::GetLastError(), internal::system_category() );
          throw internal::filesystem::filesystem_error( "CreateFile2() failed", m_path, ec );
 #else
          const HANDLE handle = ::CreateFileW( m_path.c_str(),
@@ -89,7 +89,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( handle != INVALID_HANDLE_VALUE ) {
             return handle;
          }
-         const std::error_code ec( ::GetLastError(), std::system_category() );
+         internal::error_code ec( ::GetLastError(), internal::system_category() );
          throw internal::filesystem::filesystem_error( "CreateFileW()", m_path, ec );
 #endif
       }
@@ -138,7 +138,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( handle != NULL || file_size == 0 ) {
             return handle;
          }
-         const std::error_code ec( ::GetLastError(), std::system_category() );
+         internal::error_code ec( ::GetLastError(), internal::system_category() );
          throw internal::filesystem::filesystem_error( "CreateFileMappingW() failed", reader.m_path, ec );
       }
    };
@@ -159,7 +159,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                                                                 0 ) ) )
       {
          if( ( m_size != 0 ) && ( intptr_t( m_data ) == 0 ) ) {
-            const std::error_code ec( ::GetLastError(), std::system_category() );
+            internal::error_code ec( ::GetLastError(), internal::system_category() );
             throw internal::filesystem::filesystem_error( "MapViewOfFile() failed", ec );
          }
       }
