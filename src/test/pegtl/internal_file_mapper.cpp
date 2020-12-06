@@ -13,15 +13,19 @@ namespace TAO_PEGTL_NAMESPACE
    {
       try {
          internal::file_mapper dummy( "include" );
+         // LCOV_EXCL_START
          std::cerr << "pegtl: unit test failed for [ internal::file_mapper ]" << std::endl;
          ++failed;
+         // LCOV_EXCL_END
       }
       catch( const internal::filesystem::filesystem_error& ) {
       }
+      // LCOV_EXCL_START
       catch( ... ) {
          std::cerr << "pegtl: unit test failed for [ internal::file_mapper ] with unexpected exception" << std::endl;
          ++failed;
       }
+      // LCOV_EXCL_END
 
       const std::string s = "dummy content\n";
       const std::string dummy_content = s + s + s + s + s + s + s + s + s + s + s;

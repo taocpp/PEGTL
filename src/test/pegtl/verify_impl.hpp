@@ -30,9 +30,11 @@ namespace TAO_PEGTL_NAMESPACE
       catch( const std::exception& ) {
          return result_type::global_failure;
       }
+      // LCOV_EXCL_START
       catch( ... ) {
-         TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
+         TAO_PEGTL_TEST_UNREACHABLE;
       }
+      // LCOV_EXCL_END
    }
 
    template< typename Rule, template< typename... > class Action, typename ParseInput >

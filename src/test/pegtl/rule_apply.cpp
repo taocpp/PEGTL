@@ -54,11 +54,13 @@ namespace TAO_PEGTL_NAMESPACE
 
       struct action2_c
       {
+         // LCOV_EXCL_START
          template< typename ActionInput >
          static void apply( const ActionInput& /*unused*/, bool& /*unused*/ )
          {
-            TAO_PEGTL_TEST_ASSERT( false );  // LCOV_EXCL_LINE
+            TAO_PEGTL_TEST_ASSERT( false );
          }
+         // LCOV_EXCL_END
       };
 
    }  // namespace test1
