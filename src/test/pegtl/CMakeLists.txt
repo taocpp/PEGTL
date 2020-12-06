@@ -26,17 +26,21 @@ set(test_sources
   contrib_alphabet.cpp
   contrib_analyze.cpp
   contrib_control_action.cpp
+  contrib_coverage.cpp
   contrib_http.cpp
   contrib_if_then.cpp
   contrib_integer.cpp
   contrib_json.cpp
   contrib_parse_tree.cpp
   contrib_partial_trace.cpp
+  contrib_predicates.cpp
+  contrib_print.cpp
   contrib_raw_string.cpp
   contrib_rep_one_min_max.cpp
   contrib_state_control.cpp
   contrib_to_string.cpp
-  contrib_tracer.cpp
+  contrib_trace1.cpp
+  contrib_trace2.cpp
   contrib_unescape.cpp
   contrib_uri.cpp
   control_unwind.cpp
@@ -57,7 +61,7 @@ set(test_sources
   parse_error.cpp
   pegtl_string_t.cpp
   position.cpp
-  predicates.cpp
+  restart_input.cpp
   rule_action.cpp
   rule_apply0.cpp
   rule_apply.cpp
@@ -110,6 +114,7 @@ set(test_sources
   utf16_general.cpp
   utf32_general.cpp
   utf8_general.cpp
+  visit.cpp
 )
 
 # file(GLOB ...) is used to validate the above list of test_sources

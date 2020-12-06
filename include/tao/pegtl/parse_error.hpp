@@ -82,7 +82,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       template< typename ParseInput >
       parse_error( const std::string& msg, const ParseInput& in )
-         : parse_error( msg.c_str(), in.position() )
+         : parse_error( msg, in.position() )
       {}
 
       [[nodiscard]] const char* what() const noexcept override

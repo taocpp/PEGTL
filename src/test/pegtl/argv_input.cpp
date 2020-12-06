@@ -5,8 +5,6 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl.hpp>
-
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()

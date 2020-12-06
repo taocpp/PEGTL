@@ -26,7 +26,11 @@ namespace TAO_PEGTL_NAMESPACE
    {
       internal::analyze_cycles< Rule > a( -1 );
 
-      const bool has_problems = ( a.problems() != 0 );
+      const auto problems = a.problems();
+
+      TAO_PEGTL_TEST_ASSERT( problems == analyze< Rule >( -1 ) );
+
+      const bool has_problems = ( problems != 0 );
       const bool does_consume = a.template consumes< Rule >();
 
       if( has_problems != expect_problems ) {
