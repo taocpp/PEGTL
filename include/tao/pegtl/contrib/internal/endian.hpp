@@ -17,6 +17,21 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
+   enum class endian
+   {
+#if defined( _WIN32 )
+      little = 0,
+      big = 1,
+      native = little
+#elif defined( __BYTE_ORDER__ )
+      little = __ORDER_LITTLE_ENDIAN__,
+      big = __ORDER_BIG_ENDIAN__,
+      native = __BYTE_ORDER__
+#else
+#error Unknown endianness.
+#endif
+   };
+
    template< typename N >
    [[nodiscard]] N h_to_be( const N n ) noexcept
    {

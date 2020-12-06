@@ -42,7 +42,15 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace utf16_le
 
-   namespace utf16 = TAO_PEGTL_NATIVE_UTF16;
+#if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( __CYGWIN__ )
+   namespace utf16 = utf16_le;
+#elif __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
+   namespace utf16 = utf16_le;
+#elif __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+   namespace utf16 = utf16_be;
+#else
+#error Unknown endianness.
+#endif
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

@@ -100,10 +100,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-#define TAO_PEGTL_NATIVE_ORDER be
-#define TAO_PEGTL_NATIVE_UTF16 utf16_be
-#define TAO_PEGTL_NATIVE_UTF32 utf32_be
-
 #elif __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 
    template< std::size_t S >
@@ -192,10 +188,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return __builtin_bswap64( n );
       }
    };
-
-#define TAO_PEGTL_NATIVE_ORDER le
-#define TAO_PEGTL_NATIVE_UTF16 utf16_le
-#define TAO_PEGTL_NATIVE_UTF32 utf32_le
 
 #else
 #error Unknown host byte order!

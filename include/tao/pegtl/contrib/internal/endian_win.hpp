@@ -97,10 +97,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-#define TAO_PEGTL_NATIVE_ORDER le
-#define TAO_PEGTL_NATIVE_UTF16 utf16_le
-#define TAO_PEGTL_NATIVE_UTF32 utf32_le
-
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif
