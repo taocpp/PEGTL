@@ -48,7 +48,7 @@ jobs:
       run: cmake --build . --config ${{matrix.build_type}}
 
     - name: Test
-      if: ${{!contains(matrix.image, "arm7")}}
+      if: ${{!contains(matrix.image, 'arm7')}}
       working-directory: build/
       run: ctest -C ${{matrix.build_type}} --output-on-failure
 
