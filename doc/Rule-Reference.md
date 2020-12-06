@@ -857,9 +857,11 @@ The following limitations apply to the UTF-16 and UTF-32 rules:
 * The line and column numbers are not counted correctly.
 * They are not automatically included with `tao/pegtl.hpp`.
 
-The UTF-16 and UTF-32 rules need to be manually included from their corresponding headers in the `contrib` section.
+The UTF-8 rules are included with `include/tao/pegtl.hpp` while the UTF-16 and UTF-32 rules require manual inclusion of the following files.
+* `tao/pegtl/contrib/utf16.hpp`
+* `tao/pegtl/contrib/utf32.hpp`
 
-Unaligned memory is no problem on x86 compatible processors; on ARM and most other architectures an unaligned access will crash the application.
+While unaligned accesses are no problem on x86 compatible processors, on other architectures they might be very slow or even crash the application.
 
 In the following descriptions a Unicode code point is considered *valid* when it is in the range `0` to `0x10ffff`.
 The parameter N stands for the size of the encoding of the next Unicode code point in the input, i.e.
@@ -925,7 +927,7 @@ Unicode rules do not rely on other rules.
 ### ICU Support
 
 The following rules depend on the [International Components for Unicode (ICU)](http://icu-project.org/) that provide the means to match characters with specific Unicode character properties.
-Because of the external dependency, the rules are in contrib, and the required header files are not automatically included in `tao/pegtl.hpp`.
+Because of this external dependency the rules are not automatically included in `tao/pegtl.hpp`.
 
 The ICU-based rules are again available in multiple versions,
 
