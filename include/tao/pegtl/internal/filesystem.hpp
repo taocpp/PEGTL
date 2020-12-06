@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    using error_code = ::boost::system::error_code;
 
-   constexpr const auto& system_category() noexcept
+   const auto& system_category() noexcept
    {
       return ::boost::system::system_category();
    }
@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    using error_code = ::std::error_code;
 
-   constexpr const auto& system_category() noexcept
+   const auto& system_category() noexcept
    {
       return ::std::system_category();
    }
@@ -50,7 +50,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    using error_code = ::std::error_code;
 
-   constexpr const auto& system_category() noexcept
+   const auto& system_category() noexcept
    {
       return ::std::system_category();
    }
