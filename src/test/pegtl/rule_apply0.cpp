@@ -52,7 +52,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          static void apply0( bool& /*unused*/ )
          {
-            TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
+            TAO_PEGTL_TEST_ASSERT( false );  // LCOV_EXCL_LINE
          }
       };
 

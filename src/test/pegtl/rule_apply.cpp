@@ -57,7 +57,7 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename ActionInput >
          static void apply( const ActionInput& /*unused*/, bool& /*unused*/ )
          {
-            TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
+            TAO_PEGTL_TEST_ASSERT( false );  // LCOV_EXCL_LINE
          }
       };
 
