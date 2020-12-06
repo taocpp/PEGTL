@@ -31,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
          return result_type::global_failure;
       }
       catch( ... ) {
-         TAO_PEGTL_TEST_UNREACHABLE;
+         TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
       }
    }
 
@@ -43,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE
       if( ( received == expected ) && ( ( received == result_type::global_failure ) || ( in.size( 999999999 ) == remain ) ) ) {
          return;
       }
-      TAO_PEGTL_TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << in.size( 999999999 ) << " / " << remain << " ]" );
+      TAO_PEGTL_TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << in.size( 999999999 ) << " / " << remain << " ]" );  // LCOV_EXCL_LINE
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

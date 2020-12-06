@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE
       try {
          memory_input in( s, "expect exception" );
          parse< Rule, Action >( in, st... );
-         TAO_PEGTL_TEST_FAILED( "expected exception" );
+         TAO_PEGTL_TEST_FAILED( "expected exception" );  // LCOV_EXCL_LINE
       }
       catch( ... ) {
       }

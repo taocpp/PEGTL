@@ -16,7 +16,7 @@ namespace TAO_PEGTL_NAMESPACE
       file_input in( s );
       try {
          parse< Rule >( in );
-         TAO_PEGTL_TEST_FAILED( "expected exception" );
+         TAO_PEGTL_TEST_FAILED( "expected exception" );  // LCOV_EXCL_LINE
       }
       catch( ... ) {
       }

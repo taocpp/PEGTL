@@ -57,7 +57,7 @@ namespace TAO_PEGTL_NAMESPACE
       memory_input in( "a1", __FUNCTION__ );
       try {
          parse< r, a, c >( in );
-         TAO_PEGTL_TEST_ASSERT( false );
+         TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
       }
       catch( const int& e ) {
          TAO_PEGTL_TEST_ASSERT( e == 42 );

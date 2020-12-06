@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE
          try {
             std::ifstream stream( filename );
             parse< file_grammar >( istream_input( stream, 16, filename ) );
-            TAO_PEGTL_TEST_ASSERT( false );
+            TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
          }
          catch( const std::system_error& e ) {
             TAO_PEGTL_TEST_ASSERT( e.code().category() == std::system_category() );

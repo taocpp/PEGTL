@@ -12,7 +12,7 @@ int main( int /*unused*/, char** argv )
    TAO_PEGTL_NAMESPACE::unit_test();
 
    if( TAO_PEGTL_NAMESPACE::failed != 0 ) {
-      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << TAO_PEGTL_NAMESPACE::failed << std::endl;
+      std::cerr << "pegtl: unit test " << argv[ 0 ] << " failed " << TAO_PEGTL_NAMESPACE::failed << std::endl;  // LCOV_EXCL_LINE
    }
    return ( TAO_PEGTL_NAMESPACE::failed == 0 ) ? EXIT_SUCCESS : EXIT_FAILURE;
 }

@@ -57,13 +57,13 @@ namespace TAO_PEGTL_NAMESPACE
       memory_input in( m, m + M - 1, file, 0, line, 1 );
       const auto r = parse< Rule, Action >( in );
       if( ( !r ) || ( content != std::string_view( n, N - 1 ) ) ) {
-         TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r << " ]" );
+         TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r << " ]" );  // LCOV_EXCL_LINE
       }
       content.clear();
       memory_input< tracking_mode::lazy > in2( m, m + M - 1, file, 0, line, 1 );
       const auto r2 = parse< Rule, Action >( in2 );
       if( ( !r2 ) || ( content != std::string_view( n, N - 1 ) ) ) {
-         TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] with tracking_mode::lazy expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r2 << " ]" );
+         TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] with tracking_mode::lazy expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r2 << " ]" );  // LCOV_EXCL_LINE
       }
    }
 

@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
       memory_input in( m, M - 1, __FUNCTION__ );
       parse< unstring, unaction >( in, s );
       if( s != std::string( n, N - 1 ) ) {
-         throw std::runtime_error( "test failed!" );
+         throw std::runtime_error( "test failed!" );  // LCOV_EXCL_LINE
       }
    }
 

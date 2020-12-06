@@ -45,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE
 
          return;
       }
-      TAO_PEGTL_TEST_UNREACHABLE;
+      TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
    }
 
    void unit_test()
