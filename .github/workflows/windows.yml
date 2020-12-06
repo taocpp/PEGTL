@@ -3,7 +3,7 @@ name: Windows CI
 on: [push, pull_request]
 
 jobs:
-  windows:
+  vs2019:
     strategy:
       fail-fast: false
       matrix:
@@ -30,7 +30,7 @@ jobs:
       working-directory: build/
       run: ctest -C ${{ matrix.build_type }} --output-on-failure
 
-  windows-clang:
+  vs2019-clang:
     strategy:
       fail-fast: false
       matrix:
@@ -57,7 +57,7 @@ jobs:
       working-directory: build/
       run: ctest -C ${{ matrix.build_type }} --output-on-failure
 
-  windows-vs2017:
+  vs2017:
     strategy:
       fail-fast: false
       matrix:
