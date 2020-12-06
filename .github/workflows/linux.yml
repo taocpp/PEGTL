@@ -1,0 +1,165 @@
+name: Linux CI
+
+on: [push, pull_request]
+
+jobs:
+  linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          # List: https://github.com/conan-io/conan-docker-tools
+          - gcc7
+          - gcc7-mingw
+          - gcc8
+          - gcc9
+          - gcc9-x86
+          - gcc10
+          - clang50
+          - clang60
+          - clang7
+          - clang8
+          - clang9
+          - clang9-x86
+          - clang10
+          - clang11
+        build_type: [Debug, Release]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: conanio/${{ matrix.image }}
+      options: --user root
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{ runner.workspace }}/build
+
+    - name: Configure
+      working-directory: ${{ runner.workspace }}/build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+
+    - name: Build
+      working-directory: ${{ runner.workspace }}/build/
+      run: cmake --build .
+
+    - name: Test
+      working-directory: ${{ runner.workspace }}/build/
+      run: ctest --output-on-failure
+
+  linux-gcc-extra:
+    strategy:
+      fail-fast: false
+      matrix:
+        flags:
+          - "-fno-rtti"
+          - "-fsanitize=address"
+          - "-fsanitize=undefined"
+        build_type: [Debug, Release]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: conanio/gcc10
+      options: --user root
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{ runner.workspace }}/build
+
+    - name: Configure
+      working-directory: ${{ runner.workspace }}/build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}"
+
+    - name: Build
+      working-directory: ${{ runner.workspace }}/build/
+      run: cmake --build .
+
+    - name: Test
+      working-directory: ${{ runner.workspace }}/build/
+      run: ctest --output-on-failure
+
+  linux-clang-extra:
+    strategy:
+      fail-fast: false
+      matrix:
+        flags:
+          - "-fno-rtti"
+          - "-fms-extensions"
+          - "-fsanitize=address"
+          - "-fsanitize=undefined"
+        build_type: [Debug, Release]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: conanio/clang11
+      options: --user root
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{ runner.workspace }}/build
+
+    - name: Configure
+      working-directory: ${{ runner.workspace }}/build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}"
+
+    - name: Build
+      working-directory: ${{ runner.workspace }}/build/
+      run: cmake --build .
+
+    - name: Test
+      working-directory: ${{ runner.workspace }}/build/
+      run: ctest --output-on-failure
+
+  linux-boost:
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          # List: https://github.com/conan-io/conan-docker-tools
+          - gcc7
+          - gcc8
+          - gcc9
+          - gcc10
+          - clang50
+          - clang60
+          - clang7
+          - clang8
+          - clang9
+          - clang10
+          - clang11
+        build_type: [Debug, Release]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: conanio/${{ matrix.image }}
+      options: --user root
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install Boost
+        run: sudo apt-get update && sudo apt-get install -yq libboost-filesystem-dev
+
+      - name: Create Build Environment
+        run: cmake -E make_directory ${{ runner.workspace }}/build
+
+      - name: Configure CMake
+        working-directory: ${{ runner.workspace }}/build
+        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPEGTL_USE_BOOST_FILESYSTEM=ON
+
+      - name: Build the Project
+        working-directory: ${{ runner.workspace }}/build
+        run: cmake --build .
+
+      - name: Run the Tests
+        working-directory: ${{ runner.workspace }}/build
+        run: ctest --output-on-failure
