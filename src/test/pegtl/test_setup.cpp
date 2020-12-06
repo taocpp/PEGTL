@@ -58,4 +58,5 @@ int main()
 #ifdef __cpp_lib_integer_sequence
    std::cout << "__cpp_lib_integer_sequence: " << __cpp_lib_integer_sequence << std::endl;
 #endif
+   return 0;
 }

@@ -10,7 +10,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   enum class result_type
+   enum class result_type : int
    {
       success = 1,
       local_failure = 0,
@@ -23,11 +23,11 @@ namespace TAO_PEGTL_NAMESPACE
          case result_type::success:
             return o << "success";
          case result_type::local_failure:
-            return o << "local failure";
+            return o << "local_failure";
          case result_type::global_failure:
-            return o << "global failure";
+            return o << "global_failure";
       }
-      return o << int( t );
+      return o << static_cast< int >( t );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

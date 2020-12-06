@@ -106,7 +106,9 @@ set(test_sources
   rule_success.cpp
   rule_try_catch.cpp
   rule_until.cpp
-  tester.cpp
+  test_empty.cpp
+  test_result.cpp
+  test_setup.cpp
   uint16_general.cpp
   uint32_general.cpp
   uint64_general.cpp
