@@ -64,10 +64,9 @@ Additionally, we use [CodeQL](https://securitylab.github.com/tools/codeql) to sc
 
 ### Code Coverage
 
-[![Coverage](https://coveralls.io/repos/github/taocpp/PEGTL/badge.svg?branch=master)](https://coveralls.io/github/taocpp/PEGTL)
+[![codecov](https://codecov.io/gh/taocpp/PEGTL/branch/master/graph/badge.svg?token=ykWa8RRdyk)](https://codecov.io/gh/taocpp/PEGTL)
 
 Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
-Note that the infrastructure is partially broken, hence the above badge may not show 100%.
 
 ### Versioning
 
