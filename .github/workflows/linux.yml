@@ -29,6 +29,7 @@ jobs:
 
     container:
       image: conanio/${{ matrix.image }}
+      options: --user root
 
     steps:
     - uses: actions/checkout@v2
@@ -62,6 +63,7 @@ jobs:
 
     container:
       image: conanio/gcc10
+      options: --user root
 
     steps:
     - uses: actions/checkout@v2
@@ -96,6 +98,7 @@ jobs:
 
     container:
       image: conanio/clang11
+      options: --user root
 
     steps:
     - uses: actions/checkout@v2
@@ -138,6 +141,7 @@ jobs:
 
     container:
       image: conanio/${{ matrix.image }}
+      options: --user root
 
     steps:
       - uses: actions/checkout@v2
