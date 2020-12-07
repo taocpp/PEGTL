@@ -32,6 +32,7 @@ set(test_sources
   contrib_integer.cpp
   contrib_json.cpp
   contrib_parse_tree.cpp
+  contrib_parse_tree_to_dot.cpp
   contrib_partial_trace.cpp
   contrib_predicates.cpp
   contrib_print.cpp
