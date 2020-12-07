@@ -5,11 +5,12 @@
 Released: (not yet)
 
 * Optionally made `analyze()` more verbose to aid finding the rule cycles.
+* CMake
+  * Automatically link with `libstdc++fs` or `libc++fs` as needed.
+  * Added automatic fallback from `std::filesystem` to `std::experimental::filesystem` as needed. Allows using GCC 7 again.
+  * Added manual fallback from `std::filesystem` to `boost::filesystem` by setting `TAO_PEGTL_BOOST_FILESYSTEM`. Thank you [Beman](https://isocpp.org/blog/2020/12/remembering-beman-dawes)!
 * Infrastructure
   * Switched continuous integration to GitHub Actions.
-  * Added automatic fallback from `std::filesystem` to `std::experimental::filesystem` to CMake.
-  * Automatically link with `libstdc++fs` or `libc++fs` as needed to CMake.
-  * Added manual fallback from `std::filesystem` to `boost::filesystem` if `TAO_PEGTL_BOOST_FILESYSTEM` is set.
 
 ## 3.0.0
 
