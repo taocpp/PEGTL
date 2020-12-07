@@ -80,7 +80,6 @@ For details see the [changelog](doc/Changelog.md).
 
 In appreciation of all contributions here are the people that have [directly contributed](https://github.com/taocpp/PEGTL/graphs/contributors) to the PEGTL and/or its development.
 
-
 [<img alt="amphaal" src="https://avatars.githubusercontent.com/u/13903151" width="120">](https://github.com/amphaal)
 [<img alt="andoma" src="https://avatars.githubusercontent.com/u/216384" width="120">](https://github.com/andoma)
 [<img alt="bjoe" src="https://avatars.githubusercontent.com/u/727911" width="120">](https://github.com/bjoe)
@@ -108,6 +107,7 @@ In appreciation of all contributions here are the people that have [directly con
 [<img alt="pauloscustodio" src="https://avatars.githubusercontent.com/u/70773" width="120">](https://github.com/pauloscustodio)
 [<img alt="pleroux0" src="https://avatars.githubusercontent.com/u/39619854" width="120">](https://github.com/pleroux0)
 [<img alt="quadfault" src="https://avatars.githubusercontent.com/u/30195320" width="120">](https://github.com/quadfault)
+[<img alt="ras0219" src="https://avatars.githubusercontent.com/u/533828" width="120">](https://github.com/ras0219)
 [<img alt="robertcampion" src="https://avatars.githubusercontent.com/u/4220569" width="120">](https://github.com/robertcampion)
 [<img alt="samhocevar" src="https://avatars.githubusercontent.com/u/245089" width="120">](https://github.com/samhocevar)
 [<img alt="sanssecours" src="https://avatars.githubusercontent.com/u/691989" width="120">](https://github.com/sanssecours)
