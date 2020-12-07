@@ -6,7 +6,7 @@ Released: (not yet)
 
 * Optionally made `analyze()` more verbose to aid finding the rule cycles.
 * Infrastructure
-  * Improved CMake support for [`<filesystem>`](Installing-And-Using.md#filesystem) fallbacks and alternatives.
+  * Improved CMake support for [`<filesystem>`](Installing-and-Using.md#filesystem) fallbacks and alternatives.
     * Re-enabled support for GCC 7.
     * Automatically link with `libstdc++fs` or `libc++fs` as needed.
     * Added automatic fallback from `std::filesystem` to `std::experimental::filesystem` as needed.
