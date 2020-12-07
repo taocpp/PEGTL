@@ -4,6 +4,7 @@
 
 * [Requirements](#requirements)
 * [Installation Packages](#installation-packages)
+* [Using Vcpkg](#using-vcpkg)
 * [Using Conan](#using-conan)
 * [Using CMake](#using-cmake)
   * [CMake Installation](#cmake-installation)
@@ -50,6 +51,23 @@ Installation packages are available from several package managers.
 Note that some of the listed packages are not updated regularly.
 
 [![Packaging status](https://repology.org/badge/vertical-allrepos/pegtl.svg)](https://repology.org/metapackage/pegtl)
+
+## Using Vcpkg
+
+[![Vcpkg package](https://repology.org/badge/version-for-repo/vcpkg/pegtl.svg)](https://repology.org/project/pegtl/versions)
+
+You can download and install the PEGTL using the [Vcpkg] package manager:
+
+```bash
+vcpkg install pegtl:x64-linux pegtl:x64-osx pegtl:x64-windows
+```
+
+The `pegtl` package in Vcpkg is kept up to date by the Vcpkg team members
+and community contributors. If the version is out-of-date, please
+[create an issue or pull request](https://github.com/Microsoft/vcpkg)
+on the Vcpkg repository.
+
+For more options and ways to use Vcpkg, please refer to the [Vcpkg documentation].
 
 ## Using Conan
 
@@ -256,6 +274,8 @@ the headers `tao/pegtl.hpp`, their dependencies, and all headers in
 
 Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey
 
+[Vcpkg]: https://github.com/Microsoft/vcpkg
+[Vcpkg documentation]: https://github.com/Microsoft/vcpkg/tree/master/docs/index.md
 [Conan]: https://conan.io/
 [Conan documentation]: https://docs.conan.io/
 [CMake]: https://cmake.org/
