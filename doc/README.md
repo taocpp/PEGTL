@@ -4,6 +4,7 @@
 * [Getting Started](Getting-Started.md)
 * [Installing and Using](Installing-and-Using.md)
   * [Requirements](Installing-and-Using.md#requirements)
+  * [Filesystem](Installing-and-Using.md#filesystem)
   * [Installation Packages](Installing-and-Using.md#installation-packages)
   * [Using Vcpkg](Installing-and-Using.md#using-vcpkg)
   * [Using Conan](Installing-and-Using.md#using-conan)

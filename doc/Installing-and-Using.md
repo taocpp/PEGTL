@@ -55,9 +55,9 @@ Some Linux distributions have Clang packages without `libc++` and instead config
 In such cases it is necessary to use e.g. `libstdc++fs` and include `<experimental/filesystem>` when a Clang 8 it used on a system with GCC 7 default compiler.
 
 When building with CMake, the appropriate `std::filesystem` or `std::experimental::filesystem` and matching available C++ standard library are chosen automatically.
-Alternatively `-DPEGTL_BOOST_FILESYSTEM=ON` can be passed to CMake to use `boost::filesystem` and `libboost_filesystem` instead.
+Alternatively `-DPEGTL_BOOST_FILESYSTEM=ON` can be passed to CMake to use `boost::filesystem` and matching Boost library instead.
 
-When building with Make, appropriate flags to for `include/tao/pegtl/internal/filesystem.hpp` and the linker need to be set manually or by changing the included `Makefile`.
+When building with Make, appropriate flags for `include/tao/pegtl/internal/filesystem.hpp` and the linker need to be set manually or by changing the included `Makefile`.
 Using `-DTAO_PEGTL_BOOST_FILESYSTEM=1` and setting up the compiler and linker to find the Boost headers and libraries and link against `boost_filesystem` can also be set up manually with Make.
 
 ## Installation Packages
