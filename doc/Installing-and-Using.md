@@ -3,6 +3,7 @@
 ## Contents
 
 * [Requirements](#requirements)
+* [Filesystem](#filesystem)
 * [Installation Packages](#installation-packages)
 * [Using Vcpkg](#using-vcpkg)
 * [Using Conan](#using-conan)
@@ -35,15 +36,29 @@ on either
 It requires C++17, e.g. using the `--std=c++17` compiler switch.
 Using newer versions of the C++ standard is supported.
 
-As support for `std::filesystem` is not always given, some fallbacks are in place.
-You might see the PEGTL falling back to `std::experimental::filesystem` as necessary or linking with `-lstdc++fs`.
-
 Larger projects will frequently require the `/bigobj` option when compiling with Visual Studio on Windows.
 
 It should also work with other C++17 compilers on other Unix systems (or any sufficiently compatible platform).
 
 The PEGTL is written with an emphasis on clean code and is compatible with
 the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches.
+
+## Filesystem
+
+By default the PEGTL uses `std::filesystem` facilities for filenames, however when using older compilers, or preferring the Boost filesystem library, manual intervention might be required.
+
+GCC supports for `std::experimental::filesystem` in `libstdc++fs` since version 7, support for `std::filesystem` in `libstdc++fs` since version 8, and support for `std::filesystem` in regular `libstdc++` since version 9.
+
+Clang [supports](https://libcxx.llvm.org/docs/UsingLibcxx.html) `std::experimental::filesystem` in `libc++experimental` since version 5, `std::filesystem` in `libc++fs` since version 7, and `std::filesystem` in regular `libc++` since version 9.
+
+Some Linux distributions have Clang packages without `libc++` and instead configure Clang to use the `libstdc++` from the default GCC.
+In such cases it is necessary to use e.g. `libstdc++fs` and include `<experimental/filesystem>` when a Clang 8 it used on a system with GCC 7 default compiler.
+
+When building with CMake, the appropriate `std::filesystem` or `std::experimental::filesystem` and matching available C++ standard library are chosen automatically.
+Alternatively `-DPEGTL_BOOST_FILESYSTEM=ON` can be passed to CMake to use `boost::filesystem` and `libboost_filesystem` instead.
+
+When building with Make, appropriate flags to for `include/tao/pegtl/internal/filesystem.hpp` and the linker need to be set manually or by changing the included `Makefile`.
+Using `-DTAO_PEGTL_BOOST_FILESYSTEM=1` and setting up the compiler and linker to find the Boost headers and libraries and link against `boost_filesystem` can also be set up manually with Make.
 
 ## Installation Packages
 
