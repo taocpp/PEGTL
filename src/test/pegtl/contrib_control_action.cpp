@@ -40,11 +40,13 @@ namespace TAO_PEGTL_NAMESPACE
          story += 'b';
       }
 
+      // LCOV_EXCL_START
       template< typename ParseInput >
       static void failure( const ParseInput& /*unused*/, int /*unused*/ )
       {
-         story += 'c';
+         TAO_PEGTL_TEST_UNREACHABLE;
       }
+      // LCOV_EXCL_END
    };
 
    template<>
@@ -57,11 +59,14 @@ namespace TAO_PEGTL_NAMESPACE
          story += 'd';
       }
 
+      // LCOV_EXCL_START
       template< typename ParseInput >
       static void success( const ParseInput& /*unused*/, int /*unused*/ )
       {
-         story += 'e';
+         TAO_PEGTL_TEST_UNREACHABLE;
       }
+      // LCOV_EXCL_END
+
       template< typename ParseInput >
       static void failure( const ParseInput& /*unused*/, int /*unused*/ )
       {
@@ -84,11 +89,14 @@ namespace TAO_PEGTL_NAMESPACE
       {
          story += 'h';
       }
+
+      // LCOV_EXCL_START
       template< typename ParseInput >
       static void failure( const ParseInput& /*unused*/, int /*unused*/ )
       {
-         story += 'i';
+         TAO_PEGTL_TEST_UNREACHABLE;
       }
+      // LCOV_EXCL_END
    };
 
    template<>
@@ -101,16 +109,19 @@ namespace TAO_PEGTL_NAMESPACE
          story += 'j';
       }
 
+      // LCOV_EXCL_START
       template< typename ParseInput >
       static void success( const ParseInput& /*unused*/, int /*unused*/ )
       {
-         story += 'k';
+         TAO_PEGTL_TEST_UNREACHABLE;
       }
+
       template< typename ParseInput >
       static void failure( const ParseInput& /*unused*/, int /*unused*/ )
       {
-         story += 'l';
+         TAO_PEGTL_TEST_UNREACHABLE;
       }
+      // LCOV_EXCL_END
 
       template< typename ParseInput >
       static void unwind( const ParseInput& /*unused*/, int /*unused*/ )
