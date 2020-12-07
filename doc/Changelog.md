@@ -1,11 +1,15 @@
 # Changelog
 
-## 3.0.1
+## 3.1.0
 
 Released: (not yet)
 
 * Optionally made `analyze()` more verbose to aid finding the rule cycles.
-
+* Infrastructure
+  * Switched continuous integration to GitHub Actions.
+  * Added automatic fallback from `std::filesystem` to `std::experimental::filesystem` to CMake.
+  * Automatically link with `libstdc++fs` or `libc++fs` as needed to CMake.
+  * Added manual fallback from `std::filesystem` to `boost::filesystem` if `TAO_PEGTL_BOOST_FILESYSTEM` is set.
 
 ## 3.0.0
 
