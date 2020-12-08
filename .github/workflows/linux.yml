@@ -131,12 +131,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Install Boost
+      run: sudo apt-get update && sudo apt-get install -yq clang-tools
+
     - name: Create Build Environment
       run: cmake -E make_directory build
 
     - name: Configure
       working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Debug
+      run: scan-build cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Debug
 
     - name: Build
       working-directory: build/
@@ -163,22 +166,22 @@ jobs:
       options: --user root
 
     steps:
-      - uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-      - name: Install Boost
-        run: sudo apt-get update && sudo apt-get install -yq libboost-filesystem-dev
+    - name: Install Boost
+      run: sudo apt-get update && sudo apt-get install -yq libboost-filesystem-dev
 
-      - name: Create Build Environment
-        run: cmake -E make_directory build
+    - name: Create Build Environment
+      run: cmake -E make_directory build
 
-      - name: Configure CMake
-        working-directory: build
-        run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPEGTL_USE_BOOST_FILESYSTEM=ON
+    - name: Configure CMake
+      working-directory: build
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPEGTL_USE_BOOST_FILESYSTEM=ON
 
-      - name: Build the Project
-        working-directory: build
-        run: cmake --build .
+    - name: Build the Project
+      working-directory: build
+      run: cmake --build .
 
-      - name: Run the Tests
-        working-directory: build
-        run: ctest --output-on-failure
+    - name: Run the Tests
+      working-directory: build
+      run: ctest --output-on-failure
