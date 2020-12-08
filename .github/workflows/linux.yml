@@ -118,6 +118,30 @@ jobs:
       working-directory: build/
       run: ctest --output-on-failure
 
+  linux-clang-analyze:
+    strategy:
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: conanio/clang11
+      options: --user root
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      run: cmake -E make_directory build
+
+    - name: Configure
+      working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Debug
+
+    - name: Build
+      working-directory: build/
+      run: scan-build cmake --build .
+
   linux-boost:
     strategy:
       fail-fast: false
@@ -126,14 +150,9 @@ jobs:
           # List: https://github.com/conan-io/conan-docker-tools
           - gcc7
           - gcc8
-          - gcc9
           - gcc10
           - clang50
-          - clang60
           - clang7
-          - clang8
-          - clang9
-          - clang10
           - clang11
         build_type: [Debug, Release]
 
