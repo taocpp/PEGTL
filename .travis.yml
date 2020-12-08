@@ -7,16 +7,6 @@ services:
 
 jobs:
   include:
-    - dist: bionic
-      compiler: gcc
-      addons:
-        apt:
-          sources: [ ubuntu-toolchain-r-test ]
-          packages: [ g++-10 ]
-      env:
-        - CXX=g++-10
-        - CXXSTD="-std=c++20"
-
     - &clang-11
       dist: bionic
       compiler: clang
@@ -62,15 +52,6 @@ jobs:
         - CLANG_TIDY=clang-tidy-11
       script:
         - make -kj3 clang-tidy
-
-    - dist: bionic
-      compiler: clang
-      addons:
-        apt:
-          sources: *clang-11-sources
-          packages: [ clang-tools-11, g++-10 ]
-      script:
-        - scan-build-11 --use-c++=clang++-11 --status-bugs make -kj3
 
     - dist: bionic
       compiler: gcc
