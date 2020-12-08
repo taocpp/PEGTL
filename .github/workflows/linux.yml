@@ -124,18 +124,14 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    container:
-      image: conanio/clang11
-      options: --user root
-
     steps:
     - uses: actions/checkout@v2
 
-    - name: Install Boost
+    - name: Install clang-tools
       run: sudo apt-get update && sudo apt-get install -yq clang-tools
 
     - name: Create Build Environment
-      run: cmake -E make_directory build
+      run: scan-build cmake -E make_directory build
 
     - name: Configure
       working-directory: build/
