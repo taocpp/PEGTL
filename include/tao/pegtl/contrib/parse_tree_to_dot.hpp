@@ -37,6 +37,9 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
                os.write( l, p - l );
                l = ++p;
                switch( c ) {
+                  case '\a':
+                     os << "\\\\a";
+                     break;
                   case '\b':
                      os << "\\\\b";
                      break;
@@ -51,6 +54,9 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
                      break;
                   case '\t':
                      os << "\\\\t";
+                     break;
+                  case '\v':
+                     os << "\\\\v";
                      break;
                   default:
                      os << "\\\\u00" << h[ ( c & 0xf0 ) >> 4 ] << h[ c & 0x0f ];

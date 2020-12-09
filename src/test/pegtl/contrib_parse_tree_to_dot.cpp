@@ -12,18 +12,19 @@ namespace TAO_PEGTL_NAMESPACE
    struct A : one< 'a' > {};
    struct B : one< 'b' > {};
    struct C : one< 'c' > {};
+   struct S : if_must< one< '[' >, until< one< ']' > > > {};
 
-   struct D : sor< seq< A, B >, seq< A, C > > {};
+   struct D : sor< seq< A, B >, seq< A, C, S > > {};
    // clang-format on
 
    template< typename Rule >
    struct selector
-      : parse_tree::selector< Rule, parse_tree::store_content::on< A, B, C, D > >
+      : parse_tree::selector< Rule, parse_tree::store_content::on< A, B, C, D, S > >
    {};
 
    void unit_test()
    {
-      memory_input in( "ac", "input" );
+      memory_input in( "ac[\"\\\x01\x7f\b\n\r\f\t\a\v]", "input" );
       const auto root = parse_tree::parse< D, selector >( in );
       parse_tree::print_dot( std::cout, *root );
    }
