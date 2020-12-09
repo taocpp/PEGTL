@@ -12,13 +12,15 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename F, F U >
       struct function;
 
-      template< typename Input, typename... States, bool( *U )( Input&, States... ) >
-      struct function< bool( * )( Input&, States... ), U >
+      template< typename Input, typename... States, bool ( *U )( Input&, States... ) >
+      struct function< bool ( * )( Input&, States... ), U >
       {
          template< pegtl::apply_mode A,
                    pegtl::rewind_mode M,
-                   template< typename... > class Action,
-                   template< typename... > class Control >
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control >
          [[nodiscard]] static bool match( Input& in, States... st ) noexcept( noexcept( U( in, st... ) ) )
          {
             return U( in, st... );
@@ -30,7 +32,9 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace internal
 
-   template< auto F > struct function : internal::function< decltype( F ), F > {};
+   template< auto F >
+   struct function : internal::function< decltype( F ), F >
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
@@ -39,7 +43,8 @@ bool func1( TAO_PEGTL_NAMESPACE::argv_input<>& /*unused*/, int /*unused*/, char*
    return true;
 }
 
-struct rule1 : TAO_PEGTL_NAMESPACE::function< func1 > {};
+struct rule1 : TAO_PEGTL_NAMESPACE::function< func1 >
+{};
 
 int main( int argc, char** argv )
 {
