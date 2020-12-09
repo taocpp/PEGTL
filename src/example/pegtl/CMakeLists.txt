@@ -8,6 +8,7 @@ set(example_sources
   csv1.cpp
   csv2.cpp
   dynamic_match.cpp
+  function.cpp
   hello_world.cpp
   indent_aware.cpp
   json_analyze.cpp
