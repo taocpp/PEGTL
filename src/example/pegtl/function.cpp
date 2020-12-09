@@ -52,8 +52,7 @@ int main( int argc, char** argv )
    double d = 42.0;
 
    for( int i = 1; i < argc; ++i ) {
-      const bool r = TAO_PEGTL_NAMESPACE::parse< rule1 >( TAO_PEGTL_NAMESPACE::argv_input( argv, i ), i, &c, d );
-      assert( r );
+      TAO_PEGTL_NAMESPACE::parse< TAO_PEGTL_NAMESPACE::must< rule1 > >( TAO_PEGTL_NAMESPACE::argv_input( argv, i ), i, &c, d );
    }
    return 0;
 }
