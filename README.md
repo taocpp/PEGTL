@@ -1,8 +1,20 @@
 # Welcome to the PEGTL
 
+[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/Windows%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
+[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/macOS%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
+[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/Linux%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
+[![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
+
+[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/clang-analyze/badge.svg)](https://github.com/taocpp/PEGTL/actions)
+[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/clang-tidy/badge.svg)](https://github.com/taocpp/PEGTL/actions)
+[![CodeQL](https://github.com/taocpp/PEGTL/workflows/CodeQL/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ACodeQL)
+[![codecov](https://codecov.io/gh/taocpp/PEGTL/branch/master/graph/badge.svg?token=ykWa8RRdyk)](https://codecov.io/gh/taocpp/PEGTL)
+
 The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++ header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
 ## Documentation
+
+* [Changelog](doc/Changelog.md).
 
 * [Version 3.x](doc/README.md) (requires C++17)
 * [Version 2.x](https://github.com/taocpp/PEGTL/blob/2.x/doc/README.md) (requires C++11)
@@ -49,36 +61,15 @@ The rules are expressed in C++ as template instantiations, and it is the compile
 
 ## Status
 
-[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/Windows%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
-[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/macOS%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
-[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/Linux%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
-[![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
-
 Each commit is automatically tested with multiple architectures, operating systems, compilers, and versions thereof.
-Note that the above badges track the master branch and might not reflect the status of a release version.
 
-### Code Quality
-
-[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/clang-analyze/badge.svg)](https://github.com/taocpp/PEGTL/actions)
-[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/clang-tidy/badge.svg)](https://github.com/taocpp/PEGTL/actions)
-[![CodeQL](https://github.com/taocpp/PEGTL/workflows/CodeQL/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ACodeQL)
-
-Each commit is checked with Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), GCC's and Clang's [sanitizers](https://github.com/google/sanitizers), [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/), and [`valgrind`](http://valgrind.org/).
+Each commit is checked with Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), GCC's and Clang's [sanitizers](https://github.com/google/sanitizers), and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/).
 Additionally, we use [CodeQL](https://securitylab.github.com/tools/codeql) to scan for (security) issues.
-
-### Code Coverage
-
-[![codecov](https://codecov.io/gh/taocpp/PEGTL/branch/master/graph/badge.svg?token=ykWa8RRdyk)](https://codecov.io/gh/taocpp/PEGTL)
 
 Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
 
-### Versioning
-
-[![Release](https://img.shields.io/github/release/taocpp/PEGTL.svg)](https://github.com/taocpp/PEGTL/releases/latest)
-
 [Releases](https://github.com/taocpp/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
 Incompatible API changes are *only* allowed to occur between major versions.
-For details see the [changelog](doc/Changelog.md).
 
 ## Thank You
 
@@ -133,7 +124,7 @@ The PEGTL is part of [The Art of C++](https://taocpp.github.io/).
 
 ## Contact
 
-For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to open an issue or a PR on GitHub or contact the authors at `taocpp(at)icemx.net`.
+For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to open a [discussion](https://github.com/taocpp/PEGTL/discussions), an [issue](https://github.com/taocpp/PEGTL/issues) or a [pull request](https://github.com/taocpp/PEGTL/pulls) on GitHub or contact the authors at `taocpp(at)icemx.net`.
 
 ## License
 
