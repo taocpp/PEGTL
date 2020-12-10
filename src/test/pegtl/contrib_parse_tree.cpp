@@ -14,25 +14,23 @@ namespace TAO_PEGTL_NAMESPACE
 
    struct D : sor< seq< A, B >, seq< A, C > > {};
    struct E : star< A, B > {};
+   struct F : seq< E > {};
 
    struct D2 : sor< try_catch< if_must< A, B > >, seq< A, C > > {};
    // clang-format on
 
    template< typename Rule >
-   struct selector
-      : parse_tree::selector< Rule,
-                              parse_tree::store_content::on< A, B >,
-                              parse_tree::remove_content::on< C >,
-                              parse_tree::fold_one::on< D > >
-   {};
+   using selector = parse_tree::selector< Rule,
+                                          parse_tree::store_content::on< A, B >,
+                                          parse_tree::remove_content::on< C >,
+                                          parse_tree::fold_one::on< D > >;
 
    template< typename Rule >
-   struct selector2
-      : parse_tree::selector< Rule,
-                              parse_tree::store_content::on< A >,
-                              parse_tree::discard_empty::on< B >,
-                              parse_tree::fold_one::on< E > >
-   {};
+   using selector2 = parse_tree::selector< Rule,
+                                           parse_tree::store_content::on< A >,
+                                           parse_tree::discard_empty::on< B >,
+                                           parse_tree::discard_empty::on< F >,
+                                           parse_tree::fold_one::on< E > >;
 
    void unit_test()
    {
@@ -83,13 +81,19 @@ namespace TAO_PEGTL_NAMESPACE
 
       {
          memory_input in( "aba", "input" );
-         const auto r = parse_tree::parse< E, selector2 >( in );
+         const auto r = parse_tree::parse< F, selector2 >( in );
          TAO_PEGTL_TEST_ASSERT( r );
          TAO_PEGTL_TEST_ASSERT( r->is_root() );
          TAO_PEGTL_TEST_ASSERT( !r->has_content() );
          TAO_PEGTL_TEST_ASSERT( r->children.size() == 1 );
 
-         const auto& a = r->children.front();
+         const auto& f = r->children.front();
+         TAO_PEGTL_TEST_ASSERT( !f->is_root() );
+         TAO_PEGTL_TEST_ASSERT( f->is_type< F >() );
+         TAO_PEGTL_TEST_ASSERT( !f->has_content() );
+         TAO_PEGTL_TEST_ASSERT( f->children.size() == 1 );
+
+         const auto& a = f->children.front();
          TAO_PEGTL_TEST_ASSERT( !a->is_root() );
          TAO_PEGTL_TEST_ASSERT( a->is_type< A >() );
          TAO_PEGTL_TEST_ASSERT( a->has_content() );
