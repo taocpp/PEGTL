@@ -12,8 +12,11 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   // Applies to start(), success(), failure(), raise(), apply(), and apply0():
-   // The first state is removed when the call is forwarded to Base.
+   // The first state is removed for most of the control functions forwarded to Base,
+   // start(), success(), failure(), unwind(), raise(), apply(), and apply0(). The call
+   // to match() is unchanged because it can call other grammar rules that require all
+   // states when starting their match to keep an even playing field.
+
    template< typename Base >
    struct remove_first_state
       : Base
