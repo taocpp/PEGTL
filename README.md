@@ -4,7 +4,7 @@
 [![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/macOS%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
 [![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/Linux%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
 [![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
-
+<br>
 [![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/clang-analyze/badge.svg)](https://github.com/taocpp/PEGTL/actions)
 [![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/clang-tidy/badge.svg)](https://github.com/taocpp/PEGTL/actions)
 [![CodeQL](https://github.com/taocpp/PEGTL/workflows/CodeQL/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ACodeQL)
@@ -14,8 +14,7 @@ The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++
 
 ## Documentation
 
-* [Changelog](doc/Changelog.md).
-
+* [Changelog](doc/Changelog.md)
 * [Version 3.x](doc/README.md) (requires C++17)
 * [Version 2.x](https://github.com/taocpp/PEGTL/blob/2.x/doc/README.md) (requires C++11)
 * [Version 1.x](https://github.com/taocpp/PEGTL/blob/1.x/doc/README.md) (requires C++11)
