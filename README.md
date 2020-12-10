@@ -7,6 +7,7 @@
 <br>
 [![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/clang-analyze/badge.svg)](https://github.com/taocpp/PEGTL/actions)
 [![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/clang-tidy/badge.svg)](https://github.com/taocpp/PEGTL/actions)
+[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/Sanitizer/badge.svg)](https://github.com/taocpp/PEGTL/actions)
 [![CodeQL](https://github.com/taocpp/PEGTL/workflows/CodeQL/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ACodeQL)
 [![codecov](https://codecov.io/gh/taocpp/PEGTL/branch/master/graph/badge.svg?token=ykWa8RRdyk)](https://codecov.io/gh/taocpp/PEGTL)
 

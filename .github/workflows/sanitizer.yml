@@ -1,0 +1,35 @@
+name: Sanitizer
+
+on: [push, pull_request]
+
+jobs:
+  linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        image: [gcc10, clang11]
+        sanitizer: [address, undefined]
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: conanio/${{ matrix.image }}
+      options: --user root
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      run: cmake -E make_directory build
+
+    - name: Configure
+      working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_CXX_FLAGS="-fsanitize=${{ matrix.sanitizer }}"
+
+    - name: Build
+      working-directory: build/
+      run: cmake --build .
+
+    - name: Test
+      working-directory: build/
+      run: ctest --output-on-failure

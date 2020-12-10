@@ -55,8 +55,6 @@ jobs:
       matrix:
         flags:
           - "-fno-rtti"
-          - "-fsanitize=address"
-          - "-fsanitize=undefined"
         build_type: [Debug, Release]
 
     runs-on: ubuntu-latest
@@ -90,8 +88,6 @@ jobs:
         flags:
           - "-fno-rtti"
           - "-fms-extensions"
-          - "-fsanitize=address"
-          - "-fsanitize=undefined"
         build_type: [Debug, Release]
 
     runs-on: ubuntu-latest
