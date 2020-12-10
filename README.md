@@ -1,15 +1,15 @@
 # Welcome to the PEGTL
 
-[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/Windows%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
-[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/macOS%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
-[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/Linux%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
+[![Windows CI](https://github.com/taocpp/PEGTL/workflows/Windows/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3AWindows)
+[![macOS CI](https://github.com/taocpp/PEGTL/workflows/macOS/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3AmacOS)
+[![Linux CI](https://github.com/taocpp/PEGTL/workflows/Linux/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ALinux)
 [![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
 <br>
-[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/clang-analyze/badge.svg)](https://github.com/taocpp/PEGTL/actions)
-[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/clang-tidy/badge.svg)](https://github.com/taocpp/PEGTL/actions)
-[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/Sanitizer/badge.svg)](https://github.com/taocpp/PEGTL/actions)
+[![clang-analyze](https://github.com/taocpp/PEGTL/workflows/clang-analyze/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3Aclang-analyze)
+[![clang-tidy](https://github.com/taocpp/PEGTL/workflows/clang-tidy/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3Aclang-tidy)
+[![Sanitizer](https://github.com/taocpp/PEGTL/workflows/Sanitizer/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ASanitizer)
 [![CodeQL](https://github.com/taocpp/PEGTL/workflows/CodeQL/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ACodeQL)
-[![codecov](https://codecov.io/gh/taocpp/PEGTL/branch/master/graph/badge.svg?token=ykWa8RRdyk)](https://codecov.io/gh/taocpp/PEGTL)
+[![Code Coverage](https://codecov.io/gh/taocpp/PEGTL/branch/master/graph/badge.svg?token=ykWa8RRdyk)](https://codecov.io/gh/taocpp/PEGTL)
 
 The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++ header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
@@ -50,7 +50,8 @@ The included [grammar analysis](doc/Grammar-Analysis.md) finds several typical e
 The PEGTL is designed to be "lean and mean", the core library consists of approximately 6000 lines of code.
 Emphasis is on simplicity and efficiency, preferring a well-tuned simple approach over complicated optimisations.
 
-The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user of the library (the possibility of) full control over all other aspects of a parsing run. Whether/which actions are taken, and whether/which data structures are created during a parsing run, is entirely up to the user.
+The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user of the library (the possibility of) full control over all other aspects of a parsing run.
+Whether/which actions are taken, and whether/which data structures are created during a parsing run, is entirely up to the user.
 
 Included are some [examples](doc/Contrib-and-Examples.md#examples) for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
 
@@ -63,7 +64,7 @@ The rules are expressed in C++ as template instantiations, and it is the compile
 
 Each commit is automatically tested with multiple architectures, operating systems, compilers, and versions thereof.
 
-Each commit is checked with Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), GCC's and Clang's [sanitizers](https://github.com/google/sanitizers), and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/).
+Each commit is checked with GCC's and Clang's [sanitizers](https://github.com/google/sanitizers), Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/).
 Additionally, we use [CodeQL](https://securitylab.github.com/tools/codeql) to scan for (security) issues.
 
 Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
@@ -128,7 +129,9 @@ For questions and suggestions regarding the PEGTL, success or failure stories, a
 
 ## License
 
-The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.html) software. It may be used for any purpose, including commercial purposes, at absolutely no cost. It is distributed under the terms of the [MIT license](http://www.opensource.org/licenses/mit-license.html) reproduced here.
+The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.html) software.
+It may be used for any purpose, including commercial purposes, at absolutely no cost.
+It is distributed under the terms of the [MIT license](http://www.opensource.org/licenses/mit-license.html) reproduced here.
 
 > Copyright (c) 2007-2020 Dr. Colin Hirsch and Daniel Frey
 >

@@ -1,4 +1,4 @@
-name: Linux CI
+name: Linux
 
 on: [push, pull_request]
 

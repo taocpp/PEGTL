@@ -1,9 +1,9 @@
-name: macOS CI
+name: macOS
 
 on: [push, pull_request]
 
 jobs:
-  macos:
+  xcode:
     strategy:
       fail-fast: false
       matrix:
