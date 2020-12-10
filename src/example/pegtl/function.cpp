@@ -46,7 +46,7 @@ bool func1( TAO_PEGTL_NAMESPACE::argv_input<>& /*unused*/, int /*unused*/, char*
 struct rule1 : TAO_PEGTL_NAMESPACE::function< func1 >
 {};
 
-int main( int argc, char** argv )
+int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    char c = 'a';
    double d = 42.0;

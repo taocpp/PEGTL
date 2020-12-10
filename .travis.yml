@@ -7,20 +7,6 @@ services:
 
 jobs:
   include:
-    - &clang-11
-      dist: bionic
-      compiler: clang
-      addons:
-        apt:
-          sources: &clang-11-sources
-            - ubuntu-toolchain-r-test
-            - sourceline: deb https://apt.llvm.org/bionic/ llvm-toolchain-bionic-11 main
-              key_url: https://apt.llvm.org/llvm-snapshot.gpg.key
-          packages: [ clang-11, g++-10 ]
-      env:
-        - CXX=clang++-11
-        - CXXSTD="-std=c++20"
-
     - &android
       compiler: clang
       script: |
@@ -33,40 +19,5 @@ jobs:
 
     - <<: *android
       env:
-        - ANDROID_ABI=armeabi-v7a
-        - ANDROID_PLATFORM=android-26
-
-    - <<: *android
-      env:
         - ANDROID_ABI=arm64-v8a
         - ANDROID_PLATFORM=android-26
-
-    - dist: bionic
-      compiler: clang
-      addons:
-        apt:
-          sources: *clang-11-sources
-          packages: [ clang-11, clang-tidy-11, g++-10 ]
-      env:
-        - CXX=clang++-11
-        - CLANG_TIDY=clang-tidy-11
-      script:
-        - make -kj3 clang-tidy
-
-    - dist: bionic
-      compiler: gcc
-      addons:
-        apt:
-          sources: [ ubuntu-toolchain-r-test ]
-          packages: [ g++-10, valgrind ]
-      env:
-        - CXX=g++-10
-        - SPECIAL=valgrind
-      script:
-        - make -kj3 valgrind
-
-script:
-  - $CXX --version
-  - make -j3 build/src/test/pegtl/test_setup
-  - build/src/test/pegtl/test_setup
-  - make -kj3

@@ -1,0 +1,22 @@
+name: clang-tidy
+
+on: [push, pull_request]
+
+jobs:
+  clang-tidy:
+    strategy:
+      fail-fast: false
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Install clang-tidy-10
+      run: sudo apt-get update && sudo apt-get install -yq clang-tidy-10
+
+    - name: Check Headers
+      run: find include/ -name '*.hpp' | grep -vF file_mapper_win32.hpp | grep -vF endian_win.hpp | xargs -I '{}' clang-tidy-10 --quiet '{}' -- --std=c++17 -Iinclude
+
+    - name: Check Sources
+      run: find src/ -name '*.cpp' | xargs -I '{}' clang-tidy-10 --quiet '{}' -- --std=c++17 -Iinclude

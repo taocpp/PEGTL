@@ -118,29 +118,6 @@ jobs:
       working-directory: build/
       run: ctest --output-on-failure
 
-  linux-clang-analyze:
-    strategy:
-      fail-fast: false
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-
-    - name: Install clang-tools-10
-      run: sudo apt-get update && sudo apt-get install -yq clang-tools-10
-
-    - name: Create Build Environment
-      run: scan-build-10 cmake -E make_directory build
-
-    - name: Configure
-      working-directory: build/
-      run: scan-build-10 cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=Debug
-
-    - name: Build
-      working-directory: build/
-      run: scan-build-10 cmake --build .
-
   linux-boost:
     strategy:
       fail-fast: false
