@@ -16,8 +16,4 @@ jobs:
       run: sudo apt-get update && sudo apt-get install -yq clang-tidy-10
 
     - name: clang-tidy
-      run: |
-        for i in $( find include/ src/ -name '*.[hc]pp'); do
-          echo $i
-          clang-tidy-10 --quiet $i -- --std=c++17 -Iinclude
-        done
+      run: find include/ src/ -name '*.[hc]pp' | xargs -I '{}' clang-tidy-10 --quiet '{}' -- --std=c++17 -Iinclude 2>&1
