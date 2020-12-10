@@ -20,7 +20,18 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Rule >
    struct selector
-      : parse_tree::selector< Rule, parse_tree::store_content::on< A, B, C, D > >
+      : parse_tree::selector< Rule,
+                              parse_tree::store_content::on< A, B >,
+                              parse_tree::remove_content::on< C >,
+                              parse_tree::fold_one::on< D > >
+   {};
+
+   template< typename Rule >
+   struct selector2
+      : parse_tree::selector< Rule,
+                              parse_tree::store_content::on< A >,
+                              parse_tree::discard_empty::on< B >,
+                              parse_tree::fold_one::on< E > >
    {};
 
    void unit_test()
@@ -36,11 +47,7 @@ namespace TAO_PEGTL_NAMESPACE
          const auto& d = r->children.front();
          TAO_PEGTL_TEST_ASSERT( !d->is_root() );
          TAO_PEGTL_TEST_ASSERT( d->is_type< D >() );
-
-         TAO_PEGTL_TEST_ASSERT( d->has_content() );
-         TAO_PEGTL_TEST_ASSERT( d->begin().byte == 0 );
-         TAO_PEGTL_TEST_ASSERT( d->end().byte == 2 );
-         TAO_PEGTL_TEST_ASSERT( d->string_view() == "ac" );
+         TAO_PEGTL_TEST_ASSERT( !d->has_content() );
 
          TAO_PEGTL_TEST_ASSERT( d->children.size() == 2 );
          TAO_PEGTL_TEST_ASSERT( d->children.front()->is_type< A >() );
@@ -61,6 +68,32 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( r->children.size() == 2 );
          TAO_PEGTL_TEST_ASSERT( r->children.front()->is_type< A >() );
          TAO_PEGTL_TEST_ASSERT( r->children.back()->is_type< B >() );
+      }
+
+      {
+         memory_input in( "ab", "input" );
+         const auto r = parse_tree::parse< E, selector2 >( in );
+         TAO_PEGTL_TEST_ASSERT( r );
+         TAO_PEGTL_TEST_ASSERT( r->is_root() );
+         TAO_PEGTL_TEST_ASSERT( !r->has_content() );
+
+         TAO_PEGTL_TEST_ASSERT( r->children.size() == 1 );
+         TAO_PEGTL_TEST_ASSERT( r->children.front()->is_type< A >() );
+      }
+
+      {
+         memory_input in( "aba", "input" );
+         const auto r = parse_tree::parse< E, selector2 >( in );
+         TAO_PEGTL_TEST_ASSERT( r );
+         TAO_PEGTL_TEST_ASSERT( r->is_root() );
+         TAO_PEGTL_TEST_ASSERT( !r->has_content() );
+         TAO_PEGTL_TEST_ASSERT( r->children.size() == 1 );
+
+         const auto& a = r->children.front();
+         TAO_PEGTL_TEST_ASSERT( !a->is_root() );
+         TAO_PEGTL_TEST_ASSERT( a->is_type< A >() );
+         TAO_PEGTL_TEST_ASSERT( a->has_content() );
+         TAO_PEGTL_TEST_ASSERT( a->children.empty() );
       }
 
       {

@@ -398,7 +398,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       : apply< discard_empty >
    {
       template< typename Node, typename... States >
-      static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( n->children.empty(), n->Node::remove_content( st... ) ) )
+      static void transform( std::unique_ptr< Node >& n, States&&... st ) noexcept( noexcept( (void)n->children.empty(), n->Node::remove_content( st... ) ) )
       {
          if( n->children.empty() ) {
             n.reset();
