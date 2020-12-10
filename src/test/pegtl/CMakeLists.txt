@@ -37,7 +37,10 @@ set(test_sources
   contrib_predicates.cpp
   contrib_print.cpp
   contrib_raw_string.cpp
+  contrib_remove_first_state.cpp
+  contrib_remove_last_states.cpp
   contrib_rep_one_min_max.cpp
+  contrib_rep_string.cpp
   contrib_state_control.cpp
   contrib_to_string.cpp
   contrib_trace1.cpp
