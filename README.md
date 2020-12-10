@@ -1,10 +1,12 @@
 # Welcome to the PEGTL
 
+CI:
 [![Windows CI](https://github.com/taocpp/PEGTL/workflows/Windows/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3AWindows)
 [![macOS CI](https://github.com/taocpp/PEGTL/workflows/macOS/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3AmacOS)
 [![Linux CI](https://github.com/taocpp/PEGTL/workflows/Linux/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ALinux)
 [![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
 <br>
+QA:
 [![clang-analyze](https://github.com/taocpp/PEGTL/workflows/clang-analyze/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3Aclang-analyze)
 [![clang-tidy](https://github.com/taocpp/PEGTL/workflows/clang-tidy/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3Aclang-tidy)
 [![Sanitizer](https://github.com/taocpp/PEGTL/workflows/Sanitizer/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ASanitizer)
