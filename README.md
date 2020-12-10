@@ -49,7 +49,9 @@ The rules are expressed in C++ as template instantiations, and it is the compile
 
 ## Status
 
-[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/Main%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
+[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/Windows%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
+[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/macOS%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
+[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/Linux%20CI/badge.svg)](https://github.com/taocpp/PEGTL/actions)
 [![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
 
 Each commit is automatically tested with multiple architectures, operating systems, compilers, and versions thereof.
@@ -57,6 +59,8 @@ Note that the above badges track the master branch and might not reflect the sta
 
 ### Code Quality
 
+[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/clang-analyze/badge.svg)](https://github.com/taocpp/PEGTL/actions)
+[![GitHub Actions](https://github.com/taocpp/PEGTL/workflows/clang-tidy/badge.svg)](https://github.com/taocpp/PEGTL/actions)
 [![CodeQL](https://github.com/taocpp/PEGTL/workflows/CodeQL/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ACodeQL)
 
 Each commit is checked with Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), GCC's and Clang's [sanitizers](https://github.com/google/sanitizers), [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/), and [`valgrind`](http://valgrind.org/).
