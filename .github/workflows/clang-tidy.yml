@@ -19,4 +19,4 @@ jobs:
       run: find include/ -name '*.hpp' | grep -vF file_mapper_win32.hpp | grep -vF endian_win.hpp | xargs -I '{}' clang-tidy-10 --quiet '{}' -- --std=c++17 -Iinclude
 
     - name: Check Sources
-      run: find include/ -name '*.cpp' | xargs -I '{}' clang-tidy-10 --quiet '{}' -- --std=c++17 -Iinclude
+      run: find src/ -name '*.cpp' | xargs -I '{}' clang-tidy-10 --quiet '{}' -- --std=c++17 -Iinclude
