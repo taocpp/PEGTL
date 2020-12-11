@@ -1,8 +1,6 @@
 // Copyright (c) 2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <cassert>
-
 #include <tao/pegtl.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
@@ -33,12 +31,13 @@ namespace TAO_PEGTL_NAMESPACE
    }  // namespace internal
 
    template< auto F >
-   struct function : internal::function< decltype( F ), F >
+   struct function
+      : internal::function< decltype( F ), F >
    {};
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
-bool func1( TAO_PEGTL_NAMESPACE::argv_input<>& /*unused*/, int /*unused*/, char*& /*unused*/, const double& /*unused*/ )
+[[nodiscard]] bool func1( TAO_PEGTL_NAMESPACE::argv_input<>& /*unused*/, int /*unused*/, char*& /*unused*/, const double& /*unused*/ )
 {
    return true;
 }
@@ -52,7 +51,8 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    double d = 42.0;
 
    for( int i = 1; i < argc; ++i ) {
-      TAO_PEGTL_NAMESPACE::parse< TAO_PEGTL_NAMESPACE::must< rule1 > >( TAO_PEGTL_NAMESPACE::argv_input( argv, i ), i, &c, d );
+      TAO_PEGTL_NAMESPACE::argv_input in( argv, i );
+      TAO_PEGTL_NAMESPACE::parse< TAO_PEGTL_NAMESPACE::must< rule1 > >( in, i, &c, d );
    }
    return 0;
 }
