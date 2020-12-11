@@ -42,7 +42,7 @@ jobs:
 
     - name: Build
       working-directory: build/
-      run: cmake -j 2 --build .
+      run: cmake --build .
 
     - name: Test
       working-directory: build/
@@ -74,7 +74,7 @@ jobs:
 
     - name: Build
       working-directory: build/
-      run: cmake -j 2 --build .
+      run: cmake --build .
 
     - name: Test
       working-directory: build/
@@ -107,7 +107,7 @@ jobs:
 
     - name: Build
       working-directory: build/
-      run: cmake -j 2 --build .
+      run: cmake --build .
 
     - name: Test
       working-directory: build/
@@ -141,7 +141,7 @@ jobs:
 
     - name: Build the Project
       working-directory: build
-      run: cmake -j 2 --build .
+      run: cmake --build .
 
     - name: Run the Tests
       working-directory: build
