@@ -28,7 +28,7 @@ jobs:
 
     - name: Build
       working-directory: build/
-      run: cmake --build .
+      run: cmake -j 2 --build .
 
     - name: Test
       working-directory: build/

@@ -18,7 +18,7 @@ jobs:
 
     - name: Build
       working-directory: build/
-      run: cmake --build . --config Debug
+      run: cmake -j 2 --build . --config Debug
 
     - name: Test
       working-directory: build/

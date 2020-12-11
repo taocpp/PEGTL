@@ -28,7 +28,7 @@ jobs:
 
     - name: Build
       working-directory: build/
-      run: cmake --build . --config ${{ matrix.build_type }}
+      run: cmake -j 2 --build . --config ${{ matrix.build_type }}
 
     - name: Test
       working-directory: build/
