@@ -10,8 +10,8 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename F, F U >
       struct function;
 
-      template< typename Input, typename... States, bool ( *U )( Input&, States... ) >
-      struct function< bool ( * )( Input&, States... ), U >
+      template< typename ParseInput, typename... States, bool ( *U )( ParseInput&, States... ) >
+      struct function< bool ( * )( ParseInput&, States... ), U >
       {
          template< pegtl::apply_mode A,
                    pegtl::rewind_mode M,
@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE
                    class Action,
                    template< typename... >
                    class Control >
-         [[nodiscard]] static bool match( Input& in, States... st ) noexcept( noexcept( U( in, st... ) ) )
+         [[nodiscard]] static bool match( ParseInput& in, States... st ) noexcept( noexcept( U( in, st... ) ) )
          {
             return U( in, st... );
          }
