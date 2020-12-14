@@ -22,6 +22,7 @@ jobs:
       image: bojoe/cpp-android-ndk-build-env-ubuntu:${{ matrix.image }}
 
     steps:
+    - working-directory: /home/developer
     - uses: actions/checkout@v2
 
     - name: Configure
