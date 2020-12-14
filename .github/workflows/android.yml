@@ -23,7 +23,10 @@ jobs:
 
     steps:
     - name Test
-      run: id && ls -al /
+      run: id
+
+    - name: Test2
+      run: ls -al /
 
     - uses: actions/checkout@v2
 
