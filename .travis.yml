@@ -11,6 +11,7 @@ jobs:
       compiler: clang
       script: |
         docker run -it -v ${TRAVIS_BUILD_DIR}:/source bojoe/cpp-android-ndk-build-env-ubuntu:r22beta1 '
+        id
         cmake -H/source -B/home/developer/build -GNinja -DCMAKE_TOOLCHAIN_FILE=/opt/androidSdk/ndk/android-ndk-r22-beta1/build/cmake/android.toolchain.cmake -DANDROID_ABI=${ANDROID_ABI} -DANDROID_PLATFORM=${ANDROID_PLATFORM} -DCMAKE_BUILD_TYPE=Release -DPEGTL_BUILD_EXAMPLES=OFF
         cmake --build /home/developer/build --target all | cat -'
       env:
