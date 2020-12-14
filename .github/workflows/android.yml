@@ -1,0 +1,31 @@
+name: Android
+
+on: [push, pull_request]
+
+jobs:
+  linux:
+    strategy:
+      fail-fast: false
+      matrix:
+        image:
+          - r22beta1
+        build_type: [Debug, Release]
+        android_abi:
+          - armeabi-v7a
+          - arm64-v8a
+        android_platform:
+          - android-26
+
+    runs-on: ubuntu-latest
+
+    container:
+      image: bojoe/cpp-android-ndk-build-env-ubuntu:${{ matrix.image }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Configure
+      run: cmake -H$GITHUB_WORKSPACE -B/home/developer/build -GNinja -DCMAKE_TOOLCHAIN_FILE=/opt/androidSdk/ndk/android-ndk-r22-beta1/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ matrix.android_abi }} -DANDROID_PLATFORM=${{ matrix.android_platform }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPEGTL_BUILD_EXAMPLES=OFF
+
+    - name: Build
+      run: cmake --build /home/developer/build
