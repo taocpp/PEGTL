@@ -21,7 +21,7 @@ jobs:
 
     container:
       image: bojoe/cpp-android-ndk-build-env-ubuntu:${{ matrix.image }}
-      options: --user root -e USER_ID=$(id -u) -e GROUP_ID=$(id -g) --entrypoint /home/developer/docker-entrypoint.sh
+      options: --user root -e USER_ID=1001 --entrypoint /home/developer/docker-entrypoint.sh
 
     steps:
       - name: Test
