@@ -8,13 +8,14 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - r22beta1
+          - latest
         build_type: [Debug, Release]
         android_abi:
           - armeabi-v7a
           - arm64-v8a
         android_platform:
-          - android-26
+          - android-27
+          - android-29
 
     runs-on: ubuntu-latest
 
