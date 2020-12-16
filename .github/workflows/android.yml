@@ -8,7 +8,7 @@ jobs:
       fail-fast: false
       matrix:
         image:
-          - latest
+          - r22
         build_type: [Debug, Release]
         android_abi:
           - armeabi-v7a
