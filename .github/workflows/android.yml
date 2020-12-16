@@ -3,7 +3,7 @@ name: Android
 on: [push, pull_request]
 
 jobs:
-  linux:
+  build:
     strategy:
       fail-fast: false
       matrix:
