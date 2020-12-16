@@ -3,7 +3,7 @@
 [![Windows CI](https://github.com/taocpp/PEGTL/workflows/Windows/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3AWindows)
 [![macOS CI](https://github.com/taocpp/PEGTL/workflows/macOS/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3AmacOS)
 [![Linux CI](https://github.com/taocpp/PEGTL/workflows/Linux/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ALinux)
-[![TravisCI](https://travis-ci.org/taocpp/PEGTL.svg?branch=master)](https://travis-ci.org/taocpp/PEGTL)
+[![Android CI](https://github.com/taocpp/PEGTL/workflows/Android/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3AAndroid)
 <br>
 [![clang-analyze](https://github.com/taocpp/PEGTL/workflows/clang-analyze/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3Aclang-analyze)
 [![clang-tidy](https://github.com/taocpp/PEGTL/workflows/clang-tidy/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3Aclang-tidy)
