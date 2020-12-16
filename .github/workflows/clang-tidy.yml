@@ -3,7 +3,7 @@ name: clang-tidy
 on: [push, pull_request]
 
 jobs:
-  clang-tidy:
+  build:
     strategy:
       fail-fast: false
 

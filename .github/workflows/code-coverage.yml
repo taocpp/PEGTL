@@ -3,7 +3,7 @@ name: Code Coverage
 on: [push, pull_request]
 
 jobs:
-  code_coverage:
+  build:
     runs-on: ubuntu-latest
 
     steps:

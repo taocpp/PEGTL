@@ -3,7 +3,7 @@ name: clang-analyze
 on: [push, pull_request]
 
 jobs:
-  clang-analyze:
+  build:
     strategy:
       fail-fast: false
 
