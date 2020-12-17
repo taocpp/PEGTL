@@ -8,6 +8,7 @@
 #include "../type_list.hpp"
 
 #include "../internal/bump_help.hpp"
+#include "../internal/dependent_false.hpp"
 #include "../internal/enable_control.hpp"
 #include "../internal/failure.hpp"
 #include "../internal/peek_char.hpp"
@@ -19,8 +20,45 @@ namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
-      template< typename Peek, typename... Predicates >
+      template< typename Peek, typename... Ps >
+      struct predicates_and_test
+      {
+         using peek_t = Peek;
+         using data_t = typename Peek::data_t;
+
+         [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
+         {
+            return ( Ps::test( c ) && ... );  // TODO: Static assert that Ps::peek_t is the same as peek_t?!
+         }
+      };
+
+      template< typename Peek, typename P >
+      struct predicate_not_test
+      {
+         using peek_t = Peek;
+         using data_t = typename Peek::data_t;
+
+         [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
+         {
+            return !P::test( c );  // TODO: Static assert that P::peek_t is the same as peek_t?!
+         }
+      };
+
+      template< typename Peek, typename... Ps >
+      struct predicates_or_test
+      {
+         using peek_t = Peek;
+         using data_t = typename Peek::data_t;
+
+         [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
+         {
+            return ( Ps::test( c ) || ... );  // TODO: Static assert that Ps::peek_t is the same as peek_t?!
+         }
+      };
+
+      template< template< typename, typename... > class Test, typename Peek, typename... Ps >
       struct predicates
+         : private Test< Peek, Ps... >
       {
          using peek_t = Peek;
          using data_t = typename Peek::data_t;
@@ -28,10 +66,8 @@ namespace TAO_PEGTL_NAMESPACE
          using rule_t = predicates;
          using subs_t = empty_list;
 
-         [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
-         {
-            return ( Predicates::test( c ) || ... );  // TODO: Static assert that Predicates::peek_t is the same as peek_t?!
-         }
+         using base_t = Test< Peek, Ps... >;
+         using base_t::test;
 
          template< int Eol >
          static constexpr bool can_match_eol = test( Eol );
@@ -49,36 +85,39 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
-      template< typename Peek >
-      struct predicates< Peek >
-         : failure
-      {};
+      template< template< typename, typename... > class Test, typename Peek >
+      struct predicates< Test, Peek >
+      {
+         static_assert( dependent_false< Peek >, "Empty predicate list is not allowed!" );
+      };
 
-      template< typename Peek, typename... Predicates >
-      inline constexpr bool enable_control< predicates< Peek, Predicates... > > = false;
+      template< template< typename, typename... > class Test, typename Peek, typename... Ps >
+      inline constexpr bool enable_control< predicates< Test, Peek, Ps... > > = false;
 
    }  // namespace internal
 
    inline namespace ascii
    {
-      template< typename... P >
-      struct predicates
-         : internal::predicates< internal::peek_char, P... >
-      {};
+      // clang-format off
+      template< typename... Ps > struct predicates_and : internal::predicates< internal::predicates_and_test, internal::peek_char, Ps... > {};
+      template< typename P > struct predicate_not : internal::predicates< internal::predicate_not_test, internal::peek_char, P > {};
+      template< typename... Ps > struct predicates_or : internal::predicates< internal::predicates_or_test, internal::peek_char, Ps... > {};
+      // clang-format on
 
    }  // namespace ascii
 
    namespace utf8
    {
-      template< typename... P >
-      struct predicates
-         : internal::predicates< internal::peek_utf8, P... >
-      {};
+      // clang-format off
+      template< typename... Ps > struct predicates_and : internal::predicates< internal::predicates_and_test, internal::peek_utf8, Ps... > {};
+      template< typename P > struct predicate_not : internal::predicates< internal::predicate_not_test, internal::peek_utf8, P > {};
+      template< typename... Ps > struct predicates_or : internal::predicates< internal::predicates_or_test, internal::peek_utf8, Ps... > {};
+      // clang-format on
 
    }  // namespace utf8
 
-   template< typename Name, typename Peek, typename... Predicates >
-   struct analyze_traits< Name, internal::predicates< Peek, Predicates... > >
+   template< typename Name, template< typename, typename... > class Test, typename Peek, typename... Ps >
+   struct analyze_traits< Name, internal::predicates< Test, Peek, Ps... > >
       : analyze_any_traits<>
    {};
 
