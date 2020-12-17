@@ -6,7 +6,6 @@
 
 #include "config.hpp"
 
-#include "internal/dependent_false.hpp"
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
