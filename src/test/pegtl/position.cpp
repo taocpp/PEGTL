@@ -67,7 +67,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct outer_action< two< 'b' > >
    {
       template< typename ActionInput >
-      static void apply( const ActionInput& oi )
+      static void apply( const ActionInput& oi, const bool mode )
       {
          const auto p = oi.position();
          TAO_PEGTL_TEST_ASSERT( p.source == "outer" );
@@ -75,27 +75,44 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( p.line == 1 );
          TAO_PEGTL_TEST_ASSERT( p.column == 3 );
          memory_input in( "dFF", "inner" );
-         parse_nested< inner_grammar >( oi, in );
+         if( mode ) {
+            parse_nested< inner_grammar >( oi, in );
+         }
+         else {
+            parse_nested< inner_grammar >( oi.position(), in );
+         }
       }
    };
+
+   void test_nested_asserts( const parse_error& e )
+   {
+      TAO_PEGTL_TEST_ASSERT( e.positions().size() == 2 );
+      TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].source == "inner" );
+      TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].byte == 1 );
+      TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].line == 1 );
+      TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].column == 2 );
+      TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].source == "outer" );
+      TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].byte == 2 );
+      TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].line == 1 );
+      TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].column == 3 );
+   }
 
    template< typename ParseInput = memory_input<> >
    void test_nested()
    {
       try {
          memory_input oi( "aabbcc", "outer" );
-         parse< outer_grammar, outer_action >( oi );
+         parse< outer_grammar, outer_action >( oi, true );
       }
       catch( const parse_error& e ) {
-         TAO_PEGTL_TEST_ASSERT( e.positions().size() == 2 );
-         TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].source == "inner" );
-         TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].byte == 1 );
-         TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].line == 1 );
-         TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].column == 2 );
-         TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].source == "outer" );
-         TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].byte == 2 );
-         TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].line == 1 );
-         TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].column == 3 );
+         test_nested_asserts( e );
+      }
+      try {
+         memory_input oi( "aabbcc", "outer" );
+         parse< outer_grammar, outer_action >( oi, false );
+      }
+      catch( const parse_error& e ) {
+         test_nested_asserts( e );
       }
    }
 
