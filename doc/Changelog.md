@@ -2,9 +2,11 @@
 
 ## 3.1.0
 
-Released: (not yet)
+Released: 2020-12-17
 
-* Optionally made `analyze()` more verbose to aid finding the rule cycles.
+* Added some experimental and undocumented `contrib` features.
+* Added `test()` and `can_match_eol` members to pertinent rules.
+* Made `analyze()` more verbose by default to aid finding the rule cycles.
 * Improved CMake support for [`<filesystem>`](Installing-and-Using.md#filesystem) fallbacks and alternatives.
   * Re-enabled support for GCC 7.
   * Automatically link with `libstdc++fs` or `libc++fs` as needed.
