@@ -179,7 +179,7 @@ namespace TAO_PEGTL_NAMESPACE
    }  // namespace internal
 
    template< typename Grammar >
-   [[nodiscard]] std::size_t analyze( const int verbose = 0 )
+   [[nodiscard]] std::size_t analyze( const int verbose = 1 )
    {
       return internal::analyze_cycles< Grammar >( verbose ).problems();
    }
