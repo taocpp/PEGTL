@@ -27,6 +27,7 @@ set(test_sources
   contrib_analyze.cpp
   contrib_control_action.cpp
   contrib_coverage.cpp
+  contrib_function.cpp
   contrib_http.cpp
   contrib_if_then.cpp
   contrib_integer.cpp

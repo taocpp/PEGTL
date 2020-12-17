@@ -1,7 +1,16 @@
 // Copyright (c) 2020 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <tao/pegtl.hpp>
+#ifndef TAO_PEGTL_CONTRIB_FUNCTION_HPP
+#define TAO_PEGTL_CONTRIB_FUNCTION_HPP
+
+#include "../config.hpp"
+
+#include "../apply_mode.hpp"
+#include "../rewind_mode.hpp"
+#include "../type_list.hpp"
+
+#include "../internal/enable_control.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -13,8 +22,11 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput, typename... States, bool ( *U )( ParseInput&, States... ) >
       struct function< bool ( * )( ParseInput&, States... ), U >
       {
-         template< pegtl::apply_mode A,
-                   pegtl::rewind_mode M,
+         using rule_t = function;
+         using subs_t = empty_list;
+
+         template< apply_mode A,
+                   rewind_mode M,
                    template< typename... >
                    class Action,
                    template< typename... >
@@ -37,22 +49,4 @@ namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
-[[nodiscard]] bool func1( TAO_PEGTL_NAMESPACE::argv_input<>& /*unused*/, int /*unused*/, char*& /*unused*/, const double& /*unused*/ )
-{
-   return true;
-}
-
-struct rule1 : TAO_PEGTL_NAMESPACE::function< func1 >
-{};
-
-int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
-{
-   char c = 'a';
-   double d = 42.0;
-
-   for( int i = 1; i < argc; ++i ) {
-      TAO_PEGTL_NAMESPACE::argv_input in( argv, i );
-      TAO_PEGTL_NAMESPACE::parse< TAO_PEGTL_NAMESPACE::must< rule1 > >( in, i, &c, d );
-   }
-   return 0;
-}
+#endif
