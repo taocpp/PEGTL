@@ -4,13 +4,13 @@
 
 Released: 2020-12-17
 
-* Added some experimental and undocumented `contrib` features.
-* Added `test()` and `can_match_eol` members to pertinent rules.
 * Made `analyze()` more verbose by default to aid finding the rule cycles.
+* Added `parse_nested()` overload that accepts a `position` as first argument.
+* Added some experimental and undocumented `contrib` features and their infrastructure.
 * Improved CMake support for [`<filesystem>`](Installing-and-Using.md#filesystem) fallbacks and alternatives.
   * Re-enabled support for GCC 7.
   * Automatically link with `libstdc++fs` or `libc++fs` as needed.
-  * Added automatic fallback from `std::filesystem` to `std::experimental::filesystem` as needed.
+  * Added automatic fallback from `std::filesystem` to `std::experimental::filesystem`.
   * Added manual fallback from `std::filesystem` to `boost::filesystem`.
   * Thank you [Beman Dawes](https://isocpp.org/blog/2020/12/remembering-beman-dawes)!
 * Converted continuous integration infrastructure to GitHub Actions.

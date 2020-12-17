@@ -312,7 +312,7 @@ Nested parsing refers to an (inner) parsing run that is performed "in the middle
 The difference to the regular `tao::pegtl::parse()` function is that `tao::pegtl::parse_nested()` takes care of adding to the `std::vector` of `tao::pegtl::position` objects in the exception class `tao::pegtl::parse_error`.
 This allows generating error messages of the form "error in file F1 line L1 included from file F2 line L2...".
 
-Calling `parse_nested()` requires one additional argument compared to `parse()`, the input from the outer parsing run as first argument.
+Compared to `parse()`, calling `parse_nested()` requires either the input from the outer parsing run or the position as additional first argument.
 Everything else remains the same.
 
 ```c++
@@ -325,6 +325,18 @@ template< typename Rule,
           typename ParseInput,
           typename... States >
 bool parse_nested( const OuterInput& oi,
+                   ParseInput& in,
+                   States&&... st );
+
+template< typename Rule,
+          template< typename... > class Action = nothing,
+          template< typename... > class Control = normal,
+          apply_mode A = apply_mode::action,
+          rewind_mode M = rewind_mode::required,
+          typename OuterInput,
+          typename ParseInput,
+          typename... States >
+bool parse_nested( position op,
                    ParseInput& in,
                    States&&... st );
 ```
