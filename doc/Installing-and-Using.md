@@ -136,7 +136,7 @@ find_package(pegtl)
 ```
 
 This exports the `taocpp::pegtl` target which can be linked against any other
-target. Linking against `taocpp:pegtl` automatically sets the include
+target. Linking against `taocpp::pegtl` automatically sets the include
 directories and required flags for C++17 or later. For example:
 
 ```cmake
