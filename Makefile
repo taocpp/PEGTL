@@ -32,14 +32,10 @@ endif
 CPPFLAGS ?= -pedantic
 CXXFLAGS ?= -Wall -Wextra -Wshadow -Werror -O3 $(MINGW_CXXFLAGS)
 
-CLANG_TIDY ?= clang-tidy
-
 HEADERS := $(shell find include -name '*.hpp')
 SOURCES := $(shell find src -name '*.cpp')
 DEPENDS := $(SOURCES:%.cpp=build/%.d)
 BINARIES := $(SOURCES:%.cpp=build/%)
-
-CLANG_TIDY_HEADERS := $(filter-out include/tao/pegtl/internal/file_mapper_win32.hpp include/tao/pegtl/contrib/internal/endian_win.hpp,$(HEADERS))
 
 UNIT_TESTS := $(filter build/src/test/%,$(BINARIES))
 
@@ -52,23 +48,6 @@ compile: $(BINARIES)
 .PHONY: check
 check: $(UNIT_TESTS)
 	@set -e; for T in $(UNIT_TESTS); do echo $$T; $$T > /dev/null; done
-
-build/%.valgrind: build/%
-	valgrind --error-exitcode=1 --leak-check=full $<
-	@touch $@
-
-.PHONY: valgrind
-valgrind: $(UNIT_TESTS:%=%.valgrind)
-	@echo "All $(words $(UNIT_TESTS)) valgrind tests passed."
-
-build/%.clang-tidy: % .clang-tidy
-	$(CLANG_TIDY) -quiet $< -- $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) $(LDFLAGS) 2>/dev/null
-	@mkdir -p $(@D)
-	@touch $@
-
-.PHONY: clang-tidy
-clang-tidy: $(CLANG_TIDY_HEADERS:%=build/%.clang-tidy) $(SOURCES:%=build/%.clang-tidy)
-	@echo "All $(words $(CLANG_TIDY_HEADERS) $(SOURCES)) clang-tidy tests passed."
 
 .PHONY: clean
 clean:
