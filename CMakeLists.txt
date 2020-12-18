@@ -49,7 +49,7 @@ option(PEGTL_USE_BOOST_FILESYSTEM "Override the auto-detection of std::filesyste
 # Try compiling a test program with std::filesystem or one of its alternatives
 function(check_filesystem_impl FILESYSTEM_HEADER FILESYSTEM_NAMESPACE OPTIONAL_LIBS OUT_RESULT)
   set(TEST_FILE "test_${OUT_RESULT}.cpp")
-  configure_file(cmake/test_filesystem.cpp.in ${TEST_FILE} @ONLY)
+  configure_file(.cmake/test_filesystem.cpp.in ${TEST_FILE} @ONLY)
 
   try_compile(TEST_RESULT
     ${CMAKE_CURRENT_BINARY_DIR}
@@ -122,7 +122,7 @@ if(PEGTL_BUILD_EXAMPLES)
 endif()
 
 # Make package findable
-configure_file(cmake/dummy-config.cmake.in pegtl-config.cmake @ONLY)
+configure_file(.cmake/pegtl-config.cmake.in pegtl-config.cmake @ONLY)
 
 # Ignore pointer width differences since this is a header-only library
 unset(CMAKE_SIZEOF_VOID_P)
