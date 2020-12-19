@@ -39,6 +39,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       using children_t = std::vector< std::unique_ptr< node_t > >;
       children_t children;
 
+      size_t type_hash;
       std::string_view type;
       std::string source;
 
@@ -67,12 +68,13 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename U >
       [[nodiscard]] bool is_type() const noexcept
       {
-         return type == demangle< U >();
+         return type_hash == typeid( U ).hash_code() && type == demangle< U >();
       }
 
       template< typename U >
       void set_type() noexcept
       {
+         type_hash = typeid( U ).hash_code();
          type = demangle< U >();
       }
 
