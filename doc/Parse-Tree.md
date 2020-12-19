@@ -145,7 +145,7 @@ An example of using some of the transformers can be found in `src/example/pegtl/
 This is the interface of the node class used by `tao::pegtl::parse_tree::parse` when no custom node class is specified.
 
 ```c++
-template< typename T >
+template< typename T, typename Source = std::string_view >
 struct basic_node
 {
    using node_t = T;
@@ -153,7 +153,7 @@ struct basic_node
 
    children_t children;
    std::string_view type;
-   std::string source;
+   Source source;
 
    bool is_root() const noexcept;
 
