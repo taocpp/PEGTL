@@ -1,8 +1,14 @@
 # Changelog
 
+## 3.1.1
+
+**Not yet released**
+
+* Improved efficiency of parse tree nodes.
+
 ## 3.1.0
 
-Released: 2020-12-17
+Released 2020-12-17
 
 * Made `analyze()` more verbose by default to aid finding the rule cycles.
 * Added `parse_nested()` overload that accepts a `position` as first argument.
