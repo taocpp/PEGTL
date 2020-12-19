@@ -67,7 +67,8 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename U >
       [[nodiscard]] bool is_type() const noexcept
       {
-         return type == demangle< U >();
+         const auto u = demangle< U >();
+         return ( ( type.data() == u.data() ) && ( type.size() == u.size() ) ) || ( type == u );
       }
 
       template< typename U >
