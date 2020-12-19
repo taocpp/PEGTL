@@ -32,7 +32,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::parse_tree
 {
-   template< typename T >
+   template< typename T, typename Source = std::string_view >
    struct basic_node
    {
       using node_t = T;
@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       children_t children;
 
       std::string_view type;
-      std::string source;
+      Source source;
 
       TAO_PEGTL_NAMESPACE::internal::iterator m_begin;
       TAO_PEGTL_NAMESPACE::internal::iterator m_end;
