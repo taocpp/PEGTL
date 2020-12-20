@@ -20,6 +20,12 @@ The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++
 * [Version 2.x](https://github.com/taocpp/PEGTL/blob/2.x/doc/README.md) (requires C++11)
 * [Version 1.x](https://github.com/taocpp/PEGTL/blob/1.x/doc/README.md) (requires C++11)
 
+## Contact
+
+<a href="https://discord.gg/VQYkppcgqN"><img align="right" src="https://discordapp.com/api/guilds/790164930083028993/embed.png?style=banner2" alt="Join us on Discord"></a>
+
+For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to join our [Discord](https://discord.gg/VQYkppcgqN) server, open a [discussion](https://github.com/taocpp/PEGTL/discussions), an [issue](https://github.com/taocpp/PEGTL/issues) or a [pull request](https://github.com/taocpp/PEGTL/pulls) on GitHub or contact the authors at `taocpp(at)icemx.net`.
+
 ## Introduction
 
 Grammars are written as regular C++ code, created with template programming (not template meta programming), i.e. nested template instantiations that naturally correspond to the inductive definition of PEGs (and other parser-combinator approaches).
@@ -123,10 +129,6 @@ The PEGTL is part of [The Art of C++](https://taocpp.github.io/).
 [<img alt="colinh" src="https://avatars.githubusercontent.com/u/113184" width="120">](https://github.com/colinh)
 [<img alt="d-frey" src="https://avatars.githubusercontent.com/u/3956325" width="120">](https://github.com/d-frey)
 [<img alt="uilianries" src="https://avatars.githubusercontent.com/u/4870173" width="120">](https://github.com/uilianries)
-
-## Contact
-
-For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to open a [discussion](https://github.com/taocpp/PEGTL/discussions), an [issue](https://github.com/taocpp/PEGTL/issues) or a [pull request](https://github.com/taocpp/PEGTL/pulls) on GitHub or contact the authors at `taocpp(at)icemx.net`.
 
 ## License
 
