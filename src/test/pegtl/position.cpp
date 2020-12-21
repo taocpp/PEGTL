@@ -116,6 +116,22 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
+   void test_iterator()
+   {
+      const std::string s = "source";
+      const internal::iterator i( nullptr, 1, 2, 3 );
+      const position p( i, s );
+      TAO_PEGTL_TEST_ASSERT( p.byte == 1 );
+      TAO_PEGTL_TEST_ASSERT( p.line == 2 );
+      TAO_PEGTL_TEST_ASSERT( p.column == 3 );
+      TAO_PEGTL_TEST_ASSERT( p.source == s );
+      const position q( 1, 2, 3, s );
+      TAO_PEGTL_TEST_ASSERT( q.byte == 1 );
+      TAO_PEGTL_TEST_ASSERT( q.line == 2 );
+      TAO_PEGTL_TEST_ASSERT( q.column == 3 );
+      TAO_PEGTL_TEST_ASSERT( q.source == s );
+   }
+
    void unit_test()
    {
       test_matches_lf< any >();
@@ -183,6 +199,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       test_nested<>();
       test_nested< buffer_input_t >();
+
+      test_iterator();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

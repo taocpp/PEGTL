@@ -55,6 +55,14 @@ namespace TAO_PEGTL_NAMESPACE
            source( std::forward< T >( in_source ) )
       {}
 
+      template< typename T >
+      position( const std::size_t in_byte, const std::size_t in_line, const std::size_t in_column, T&& in_source )
+         : byte( in_byte ),
+           line( in_line ),
+           column( in_column ),
+           source( in_source )
+      {}
+
       ~position() = default;
 
       std::size_t byte;
