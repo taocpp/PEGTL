@@ -9,13 +9,13 @@ jobs:
       matrix:
         image:
           - r22
-        build_type: [Debug, Release]
-        android_abi:
-          - armeabi-v7a
-          - arm64-v8a
         android_platform:
           - android-27
           - android-29
+        android_abi:
+          - armeabi-v7a
+          - arm64-v8a
+        build_type: [Debug, Release]
 
     runs-on: ubuntu-latest
 
