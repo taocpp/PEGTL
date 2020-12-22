@@ -5,6 +5,7 @@
 **Not yet released**
 
 * Improved efficiency of parse tree nodes.
+* Fixed namespace issue with `demangle()`.
 
 ## 3.1.0
 

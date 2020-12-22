@@ -22,18 +22,18 @@ namespace TAO_PEGTL_NAMESPACE
 
 #define TAO_PEGTL_TEST_UNWRAP( ... ) __VA_ARGS__
 
-#define TAO_PEGTL_TEST_FAILED( MeSSaGe )            \
-   do {                                             \
-      std::cerr << "pegtl: unit test failed for [ " \
-                << tao::demangle< Rule >()          \
-                << " ] "                            \
-                << TAO_PEGTL_TEST_UNWRAP( MeSSaGe ) \
-                << " in line [ "                    \
-                << line                             \
-                << " ] file [ "                     \
-                << file << " ]"                     \
-                << std::endl;                       \
-      ++failed;                                     \
+#define TAO_PEGTL_TEST_FAILED( MeSSaGe )                   \
+   do {                                                    \
+      std::cerr << "pegtl: unit test failed for [ "        \
+                << TAO_PEGTL_NAMESPACE::demangle< Rule >() \
+                << " ] "                                   \
+                << TAO_PEGTL_TEST_UNWRAP( MeSSaGe )        \
+                << " in line [ "                           \
+                << line                                    \
+                << " ] file [ "                            \
+                << file << " ]"                            \
+                << std::endl;                              \
+      ++TAO_PEGTL_NAMESPACE::failed;                       \
    } while( false )
 
 #define TAO_PEGTL_TEST_ASSERT( ... )               \
@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE
                    << " ] file [ "                 \
                    << __FILE__ << " ]"             \
                    << std::endl;                   \
-         ++failed;                                 \
+         ++TAO_PEGTL_NAMESPACE::failed;            \
       }                                            \
    } while( false )
 
@@ -61,7 +61,7 @@ namespace TAO_PEGTL_NAMESPACE
                    << " ] file [ "                  \
                    << __FILE__ << " ]"              \
                    << std::endl;                    \
-         ++failed;                                  \
+         ++TAO_PEGTL_NAMESPACE::failed;             \
       }                                             \
       catch( ... ) {                                \
       }                                             \
