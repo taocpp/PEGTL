@@ -60,12 +60,12 @@ Alternatively `-DPEGTL_BOOST_FILESYSTEM=ON` can be passed to CMake to use `boost
 When building with Make, appropriate flags for `include/tao/pegtl/internal/filesystem.hpp` and the linker need to be set manually or by changing the included `Makefile`.
 Using `-DTAO_PEGTL_BOOST_FILESYSTEM=1` and setting up the compiler and linker to find the Boost headers and libraries and link against `boost_filesystem` can also be set up manually with Make.
 
+<a href="https://repology.org/metapackage/pegtl"><img align="right" src="https://repology.org/badge/vertical-allrepos/pegtl.svg" alt="Packaging status"></a>
+
 ## Installation Packages
 
 Installation packages are available from several package managers.
 Note that some of the listed packages are not updated regularly.
-
-[![Packaging status](https://repology.org/badge/vertical-allrepos/pegtl.svg)](https://repology.org/metapackage/pegtl)
 
 ## Using Vcpkg
 
