@@ -109,9 +109,9 @@ else()
 endif()
 
 # testing
-enable_testing()
 option(PEGTL_BUILD_TESTS "Build test programs" ON)
 if(PEGTL_BUILD_TESTS)
+  enable_testing()
   add_subdirectory(src/test/pegtl)
 endif()
 
