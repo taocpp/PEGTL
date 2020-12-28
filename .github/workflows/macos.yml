@@ -19,17 +19,13 @@ jobs:
       with:
         xcode-version: ${{ matrix.xcode }}
 
-    - name: Create Build Environment
-      run: cmake -E make_directory build
+    - run: cmake -E make_directory build
 
-    - name: Configure
-      working-directory: build/
+    - working-directory: build/
       run: cmake $GITHUB_WORKSPACE
 
-    - name: Build
-      working-directory: build/
+    - working-directory: build/
       run: cmake --build . --config ${{ matrix.build_type }}
 
-    - name: Test
-      working-directory: build/
+    - working-directory: build/
       run: ctest --config ${{ matrix.build_type }} --output-on-failure

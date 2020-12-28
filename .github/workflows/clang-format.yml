@@ -1,9 +1,9 @@
 name: clang-format
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
-  build:
+  clang-format:
     runs-on: ubuntu-latest
 
     steps:

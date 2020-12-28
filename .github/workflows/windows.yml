@@ -14,20 +14,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Create Build Environment
-      run: cmake -E make_directory build
+    - run: cmake -E make_directory build
 
-    - name: Configure
-      shell: bash
+    - shell: bash
       working-directory: build/
       run: cmake $GITHUB_WORKSPACE -G "Visual Studio 16 2019"
 
-    - name: Build
-      working-directory: build/
+    - working-directory: build/
       run: cmake --build . --config ${{ matrix.build_type }}
 
-    - name: Test
-      working-directory: build/
+    - working-directory: build/
       run: ctest -C ${{ matrix.build_type }} --output-on-failure
 
   vs2019-clang:
@@ -41,20 +37,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Create Build Environment
-      run: cmake -E make_directory build
+    - run: cmake -E make_directory build
 
-    - name: Configure
-      shell: bash
+    - shell: bash
       working-directory: build/
       run: cmake $GITHUB_WORKSPACE -G "Visual Studio 16 2019" -T ClangCL
 
-    - name: Build
-      working-directory: build/
+    - working-directory: build/
       run: cmake --build . --config ${{ matrix.build_type }}
 
-    - name: Test
-      working-directory: build/
+    - working-directory: build/
       run: ctest -C ${{ matrix.build_type }} --output-on-failure
 
   vs2017:
@@ -71,18 +63,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Create Build Environment
-      run: cmake -E make_directory build
+    - run: cmake -E make_directory build
 
-    - name: Configure
-      shell: bash
+    - shell: bash
       working-directory: build/
       run: cmake $GITHUB_WORKSPACE -G "${{ matrix.visual_studio }}"
 
-    - name: Build
-      working-directory: build/
+    - working-directory: build/
       run: cmake --build . --config ${{ matrix.build_type }}
 
-    - name: Test
-      working-directory: build/
+    - working-directory: build/
       run: ctest -C ${{ matrix.build_type }} --output-on-failure

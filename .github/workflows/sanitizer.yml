@@ -3,33 +3,28 @@ name: Sanitizer
 on: [push, pull_request]
 
 jobs:
-  build:
+  sanitizer:
     strategy:
       fail-fast: false
       matrix:
-        image: [gcc10, clang11]
+        cxx: [g++, clang++]
         sanitizer: [address, undefined]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
-    container:
-      image: conanio/${{ matrix.image }}
-      options: --user root
+    env:
+      CXX: ${{ matrix.cxx }}
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Create Build Environment
-      run: cmake -E make_directory build
+    - run: cmake -E make_directory build
 
-    - name: Configure
-      working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_CXX_FLAGS="-fsanitize=${{ matrix.sanitizer }}"
+    - working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -DTAOCPP_JSON_BUILD_EXAMPLES=OFF -DCMAKE_CXX_FLAGS="-fsanitize=${{ matrix.sanitizer }}"
 
-    - name: Build
-      working-directory: build/
+    - working-directory: build/
       run: cmake --build .
 
-    - name: Test
-      working-directory: build/
+    - working-directory: build/
       run: ctest --output-on-failure

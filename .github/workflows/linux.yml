@@ -7,142 +7,113 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image:
-          # List: https://github.com/conan-io/conan-docker-tools
-          - gcc7
-          - gcc8
-          - gcc9
-          # - gcc9-x86 // the container seems broken!?
-          - gcc10
-          - clang50
-          - clang60
-          - clang7
-          - clang8
-          - clang9
-          - clang9-x86
-          - clang10
-          - clang11
+        compiler:
+          - g++-7
+          - g++-8
+          - g++-9
+          - g++-10
+          - clang++-8
+          - clang++-9
+          - clang++-10
         build_type: [Debug, Release]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
-    container:
-      image: conanio/${{ matrix.image }}
-      options: --user root
+    env:
+      CXX: ${{ matrix.compiler }}
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Create Build Environment
-      run: cmake -E make_directory build
+    - run: cmake -E make_directory build
 
-    - name: Configure
-      working-directory: build/
+    - working-directory: build/
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
-    - name: Build
-      working-directory: build/
+    - working-directory: build/
       run: cmake --build .
 
-    - name: Test
-      working-directory: build/
+    - working-directory: build/
       run: ctest --output-on-failure
 
   linux-gcc-extra:
     strategy:
       fail-fast: false
       matrix:
-        flags:
-          - "-fno-rtti"
+        flags: ["-fno-rtti"]
         build_type: [Debug, Release]
 
-    runs-on: ubuntu-latest
-
-    container:
-      image: conanio/gcc10
-      options: --user root
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Create Build Environment
-      run: cmake -E make_directory build
+    - run: cmake -E make_directory build
 
-    - name: Configure
-      working-directory: build/
+    - working-directory: build/
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}"
 
-    - name: Build
-      working-directory: build/
+    - working-directory: build/
       run: cmake --build .
 
-    - name: Test
-      working-directory: build/
+    - working-directory: build/
       run: ctest --output-on-failure
 
   linux-clang-extra:
     strategy:
       fail-fast: false
       matrix:
-        flags:
-          - "-fno-rtti"
-          - "-fms-extensions"
+        flags: ["-fno-rtti", "-fms-extensions"]
         build_type: [Debug, Release]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
-    container:
-      image: conanio/clang11
-      options: --user root
+    env:
+      CXX: clang++
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Create Build Environment
-      run: cmake -E make_directory build
+    - run: cmake -E make_directory build
 
-    - name: Configure
-      working-directory: build/
+    - working-directory: build/
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}"
 
-    - name: Build
-      working-directory: build/
+    - working-directory: build/
       run: cmake --build .
 
-    - name: Test
-      working-directory: build/
+    - working-directory: build/
       run: ctest --output-on-failure
 
-  linux-boost:
+  clang-conanio:
     strategy:
       fail-fast: false
       matrix:
-        image: [gcc7, gcc10, clang50, clang11]
+        image:
+          # List: https://github.com/conan-io/conan-docker-tools
+          - clang50
+          - clang60
+          - clang7
+          - clang9-x86
+          - clang11
         build_type: [Debug, Release]
-
-    runs-on: ubuntu-latest
 
     container:
       image: conanio/${{ matrix.image }}
       options: --user root
 
+    runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v1
 
-    - name: Install Boost
-      run: sudo apt-get update && sudo apt-get install -yq libboost-filesystem-dev
+    - run: cmake -E make_directory build
 
-    - name: Create Build Environment
-      run: cmake -E make_directory build
+    - working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
-    - name: Configure CMake
-      working-directory: build
-      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPEGTL_USE_BOOST_FILESYSTEM=ON
-
-    - name: Build the Project
-      working-directory: build
+    - working-directory: build/
       run: cmake --build .
 
-    - name: Run the Tests
-      working-directory: build
+    - working-directory: build/
       run: ctest --output-on-failure
