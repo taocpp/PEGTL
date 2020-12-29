@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.8...3.19)
 
 set(test_sources
   action_enable.cpp
@@ -153,10 +153,10 @@ foreach(testsourcefile ${test_sources})
   else()
     add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_SOURCE_DIR} COMMAND ${exename})
   endif()
-endforeach(testsourcefile)
+endforeach()
 
 if(glob_test_sources)
   foreach(ignored_source_file ${glob_test_sources})
     message(SEND_ERROR "File ${ignored_source_file} in src/test/pegtl is ignored")
-  endforeach(ignored_source_file)
+  endforeach()
 endif()

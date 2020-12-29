@@ -78,11 +78,11 @@ function(check_filesystem_impl FILESYSTEM_HEADER FILESYSTEM_NAMESPACE OPTIONAL_L
         target_link_libraries(${PROJECT_NAME} INTERFACE ${OPTIONAL_LIB})
         break()
       endif()
-    endforeach(OPTIONAL_LIB)
+    endforeach()
   endif()
 
   set(${OUT_RESULT} ${TEST_RESULT} PARENT_SCOPE)
-endfunction(check_filesystem_impl)
+endfunction()
 
 if(PEGTL_USE_BOOST_FILESYSTEM)
   # Force the use of Boost.Filesystem: #include <boost/filesystem.hpp> // boost::filesystem

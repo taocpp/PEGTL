@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.8...3.19)
 
 set(example_sources
   abnf2pegtl.cpp
@@ -62,10 +62,10 @@ foreach(examplesourcefile ${example_sources})
   else()
     target_compile_options(${exename} PRIVATE -pedantic -Wall -Wextra -Wshadow -Werror)
   endif()
-endforeach(examplesourcefile)
+endforeach()
 
 if(glob_example_sources)
   foreach(ignored_source_file ${glob_example_sources})
     message(SEND_ERROR "File ${ignored_source_file} in src/example/pegtl is ignored")
-  endforeach(ignored_source_file)
+  endforeach()
 endif()
