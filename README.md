@@ -82,12 +82,14 @@ Incompatible API changes are *only* allowed to occur between major versions.
 
 In appreciation of all contributions here are the people that have [directly contributed](https://github.com/taocpp/PEGTL/graphs/contributors) to the PEGTL and/or its development.
 
+
 [<img alt="amphaal" src="https://avatars.githubusercontent.com/u/13903151" width="120">](https://github.com/amphaal)
 [<img alt="andoma" src="https://avatars.githubusercontent.com/u/216384" width="120">](https://github.com/andoma)
 [<img alt="barbieri" src="https://avatars.githubusercontent.com/u/1838" width="120">](https://github.com/barbieri)
 [<img alt="bjoe" src="https://avatars.githubusercontent.com/u/727911" width="120">](https://github.com/bjoe)
 [<img alt="bwagner" src="https://avatars.githubusercontent.com/u/447049" width="120">](https://github.com/bwagner)
 [<img alt="cdiggins" src="https://avatars.githubusercontent.com/u/1759994" width="120">](https://github.com/cdiggins)
+[<img alt="clausklein" src="https://avatars.githubusercontent.com/u/1833050" width="120">](https://github.com/clausklein)
 [<img alt="delpinux" src="https://avatars.githubusercontent.com/u/35096584" width="120">](https://github.com/delpinux)
 [<img alt="dkopecek" src="https://avatars.githubusercontent.com/u/1353140" width="120">](https://github.com/dkopecek)
 [<img alt="gene-hightower" src="https://avatars.githubusercontent.com/u/3957811" width="120">](https://github.com/gene-hightower)
