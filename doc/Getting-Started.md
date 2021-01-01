@@ -283,4 +283,4 @@ Typically, the following pattern helps to print the exceptions in a human friend
 
 For more information see [Errors and Exceptions](Errors-and-Exceptions.md).
 
-Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2021 Dr. Colin Hirsch and Daniel Frey

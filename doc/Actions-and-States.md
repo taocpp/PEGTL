@@ -538,4 +538,4 @@ Note that deriving from `require_apply` or `require_apply0` is optional and usua
 
 See the [section on legacy-style action rules](Rule-Reference.md#action-rules).
 
-Copyright (c) 2014-2020 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2021 Dr. Colin Hirsch and Daniel Frey
