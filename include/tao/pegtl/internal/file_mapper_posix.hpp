@@ -10,6 +10,11 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#if !defined( __cpp_exceptions )
+#include <cstdio>
+#include <cstdlib>
+#endif
+
 #include <utility>
 
 #include "../config.hpp"
@@ -41,8 +46,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
          struct stat st;
          errno = 0;
          if( ::fstat( m_fd, &st ) < 0 ) {
+#if defined( __cpp_exceptions )
             internal::error_code ec( errno, internal::system_category() );
             throw internal::filesystem::filesystem_error( "fstat() failed", m_path, ec );
+#else
+            std::perror( "fstat() failed" );
+            std::abort();
+#endif
          }
          return std::size_t( st.st_size );
       }
@@ -63,8 +73,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( fd >= 0 ) {
             return fd;
          }
+#if defined( __cpp_exceptions )
          internal::error_code ec( errno, internal::system_category() );
          throw internal::filesystem::filesystem_error( "open() failed", m_path, ec );
+#else
+         std::perror( "open() failed" );
+         std::abort();
+#endif
       }
    };
 
@@ -80,8 +95,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
            m_data( static_cast< const char* >( ::mmap( nullptr, m_size, PROT_READ, MAP_PRIVATE, reader.m_fd, 0 ) ) )
       {
          if( ( m_size != 0 ) && ( intptr_t( m_data ) == -1 ) ) {
+#if defined( __cpp_exceptions )
             internal::error_code ec( errno, internal::system_category() );
             throw internal::filesystem::filesystem_error( "mmap() failed", reader.m_path, ec );
+#else
+            std::perror( "mmap() failed" );
+            std::abort();
+#endif
          }
       }
 

@@ -38,6 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
              typename... States >
    auto parse_nested( position op, ParseInput&& in, States&&... st )
    {
+#ifdef __cpp_exceptions
       try {
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
@@ -45,6 +46,9 @@ namespace TAO_PEGTL_NAMESPACE
          e.add_position( std::move( op ) );
          throw;
       }
+#else
+      return parse< Rule, Action, Control, A, M >( in, st... );
+#endif
    }
 
    // NOTE: The oi.position() in the version below can be expensive for lazy
@@ -61,6 +65,7 @@ namespace TAO_PEGTL_NAMESPACE
              typename... States >
    auto parse_nested( const OuterInput& oi, ParseInput&& in, States&&... st )
    {
+#ifdef __cpp_exceptions
       try {
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
@@ -68,6 +73,9 @@ namespace TAO_PEGTL_NAMESPACE
          e.add_position( oi.position() );
          throw;
       }
+#else
+      return parse< Rule, Action, Control, A, M >( in, st... );
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

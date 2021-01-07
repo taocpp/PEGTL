@@ -9,6 +9,8 @@
 #include "config.hpp"
 #include "normal.hpp"
 
+#include "internal/dependent_false.hpp"
+
 namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
@@ -42,6 +44,7 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename ParseInput, typename... States >
          [[noreturn]] static void raise( const ParseInput& in, [[maybe_unused]] States&&... st )
          {
+#if defined( __cpp_exceptions )
             if constexpr( RequireMessage ) {
                static_assert( Errors::template message< Rule > != nullptr );
             }
@@ -55,6 +58,9 @@ namespace TAO_PEGTL_NAMESPACE
             else {
                Base< Rule >::raise( in, st... );
             }
+#else
+            static_assert( internal::dependent_false< Rule >, "exception support required for must_if<>" );
+#endif
          }
       };
    };

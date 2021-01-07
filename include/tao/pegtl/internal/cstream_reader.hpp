@@ -8,6 +8,10 @@
 #include <cstddef>
 #include <cstdio>
 
+#if !defined( __cpp_exceptions )
+#include <cstdlib>
+#endif
+
 #include <system_error>
 
 #include "../config.hpp"
@@ -35,9 +39,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
          // The example on cppreference.com doesn't work, at least not on macOS.
 
          // LCOV_EXCL_START
+#if defined( __cpp_exceptions )
          const auto ec = std::ferror( m_cstream );
          assert( ec != 0 );
-         throw std::system_error( ec, std::system_category(), "fread() failed" );
+         throw std::system_error( ec, std::system_category(), "std::fread() failed" );
+#else
+         std::fputs( "std::fread() failed\n", stderr );
+         std::abort();
+#endif
          // LCOV_EXCL_STOP
       }
 

@@ -28,6 +28,11 @@
 
 #include "../config.hpp"
 
+#if !defined( __cpp_exceptions )
+#include <cstdio>
+#include <cstdlib>
+#endif
+
 #include "filesystem.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -54,8 +59,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          LARGE_INTEGER size;
          if( !::GetFileSizeEx( m_handle, &size ) ) {
+#if defined( __cpp_exceptions )
             internal::error_code ec( ::GetLastError(), internal::system_category() );
             throw internal::filesystem::filesystem_error( "GetFileSizeEx() failed", m_path, ec );
+#else
+            std::perror( "GetFileSizeEx() failed" );
+            std::abort();
+#endif
          }
          return std::size_t( size.QuadPart );
       }
@@ -76,8 +86,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( handle != INVALID_HANDLE_VALUE ) {
             return handle;
          }
+#if defined( __cpp_exceptions )
          internal::error_code ec( ::GetLastError(), internal::system_category() );
          throw internal::filesystem::filesystem_error( "CreateFile2() failed", m_path, ec );
+#else
+         std::perror( "CreateFile2() failed" );
+         std::abort();
+#endif
 #else
          const HANDLE handle = ::CreateFileW( m_path.c_str(),
                                               GENERIC_READ,
@@ -89,8 +104,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( handle != INVALID_HANDLE_VALUE ) {
             return handle;
          }
+#if defined( __cpp_exceptions )
          internal::error_code ec( ::GetLastError(), internal::system_category() );
          throw internal::filesystem::filesystem_error( "CreateFileW()", m_path, ec );
+#else
+         std::perror( "CreateFileW() failed" );
+         std::abort();
+#endif
 #endif
       }
    };
@@ -138,8 +158,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( handle != NULL || file_size == 0 ) {
             return handle;
          }
+#if defined( __cpp_exceptions )
          internal::error_code ec( ::GetLastError(), internal::system_category() );
          throw internal::filesystem::filesystem_error( "CreateFileMappingW() failed", reader.m_path, ec );
+#else
+         std::perror( "CreateFileMappingW() failed" );
+         std::abort();
+#endif
       }
    };
 
@@ -159,8 +184,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
                                                                 0 ) ) )
       {
          if( ( m_size != 0 ) && ( intptr_t( m_data ) == 0 ) ) {
+#if defined( __cpp_exceptions )
             internal::error_code ec( ::GetLastError(), internal::system_category() );
             throw internal::filesystem::filesystem_error( "MapViewOfFile() failed", ec );
+#else
+            std::perror( "MapViewOfFile() failed" );
+            std::abort();
+#endif
          }
       }
 

@@ -44,6 +44,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
+#if defined( __cpp_exception )
          auto m = in.template mark< M >();
          using m_t = decltype( m );
 
@@ -53,6 +54,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
          catch( const Exception& ) {
             return false;
          }
+#else
+         return Control< Rule >::template match< A, M, Action, Control >( in, st... );
+#endif
       }
    };
 
