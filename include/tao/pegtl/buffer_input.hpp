@@ -16,7 +16,7 @@
 #include <stdexcept>
 #else
 #include <cstdio>
-#include <cstdlib>
+#include <exception>
 #endif
 
 #include "config.hpp"
@@ -157,7 +157,7 @@ namespace TAO_PEGTL_NAMESPACE
             throw std::overflow_error( "require() beyond end of buffer" );
 #else
             std::fputs( "overflow error: require() beyond end of buffer\n", stderr );
-            std::abort();
+            std::terminate();
 #endif
          }
          if( const auto r = m_reader( m_end, ( std::min )( buffer_free_after_end(), ( std::max )( amount - buffer_occupied(), Chunk ) ) ) ) {

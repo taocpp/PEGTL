@@ -9,7 +9,7 @@
 #include <cstdio>
 
 #if !defined( __cpp_exceptions )
-#include <cstdlib>
+#include <exception>
 #endif
 
 #include <system_error>
@@ -45,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          throw std::system_error( ec, std::system_category(), "std::fread() failed" );
 #else
          std::fputs( "std::fread() failed\n", stderr );
-         std::abort();
+         std::terminate();
 #endif
          // LCOV_EXCL_STOP
       }

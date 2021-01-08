@@ -12,7 +12,7 @@
 
 #if !defined( __cpp_exceptions )
 #include <cstdio>
-#include <cstdlib>
+#include <exception>
 #endif
 
 #include <utility>
@@ -51,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             throw internal::filesystem::filesystem_error( "fstat() failed", m_path, ec );
 #else
             std::perror( "fstat() failed" );
-            std::abort();
+            std::terminate();
 #endif
          }
          return std::size_t( st.st_size );
@@ -78,7 +78,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          throw internal::filesystem::filesystem_error( "open() failed", m_path, ec );
 #else
          std::perror( "open() failed" );
-         std::abort();
+         std::terminate();
 #endif
       }
    };
@@ -100,7 +100,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             throw internal::filesystem::filesystem_error( "mmap() failed", reader.m_path, ec );
 #else
             std::perror( "mmap() failed" );
-            std::abort();
+            std::terminate();
 #endif
          }
       }

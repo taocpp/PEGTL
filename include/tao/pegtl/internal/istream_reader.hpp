@@ -9,7 +9,7 @@
 
 #if !defined( __cpp_exceptions )
 #include <cstdio>
-#include <cstdlib>
+#include <exception>
 #endif
 
 #include "../config.hpp"
@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          throw std::system_error( ec, std::system_category(), "std::istream::read() failed" );
 #else
          std::fputs( "std::istream::read() failed\n", stderr );
-         std::abort();
+         std::terminate();
 #endif
       }
 

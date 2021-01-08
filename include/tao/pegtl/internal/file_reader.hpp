@@ -10,7 +10,7 @@
 #include <utility>
 
 #if !defined( __cpp_exceptions )
-#include <cstdlib>
+#include <exception>
 #endif
 
 #include "../config.hpp"
@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       throw internal::filesystem::filesystem_error( "_wfopen_s() failed", path, ec );
 #else
       std::perror( "_wfopen_s() failed" );
-      std::abort();
+      std::terminate();
 #endif
 #else
 #if defined( __MINGW32__ )
@@ -48,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       throw internal::filesystem::filesystem_error( "std::fopen() failed", path, ec );
 #else
       std::perror( "std::fopen() failed" );
-      std::abort();
+      std::terminate();
 #endif
 #endif
    }
@@ -91,7 +91,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             throw internal::filesystem::filesystem_error( "std::fseek() failed [SEEK_END]", m_path, ec );
 #else
             std::perror( "std::fseek() failed [SEEK_END]" );
-            std::abort();
+            std::terminate();
 #endif
             // LCOV_EXCL_STOP
          }
@@ -104,7 +104,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             throw internal::filesystem::filesystem_error( "std::ftell() failed", m_path, ec );
 #else
             std::perror( "std::ftell() failed" );
-            std::abort();
+            std::terminate();
 #endif
             // LCOV_EXCL_STOP
          }
@@ -116,7 +116,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             throw internal::filesystem::filesystem_error( "std::fseek() failed [SEEK_SET]", m_path, ec );
 #else
             std::perror( "std::fseek() failed [SEEK_SET]" );
-            std::abort();
+            std::terminate();
 #endif
             // LCOV_EXCL_STOP
          }
@@ -135,7 +135,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             throw internal::filesystem::filesystem_error( "std::fread() failed", m_path, ec );
 #else
             std::perror( "std::fread() failed" );
-            std::abort();
+            std::terminate();
 #endif
             // LCOV_EXCL_STOP
          }

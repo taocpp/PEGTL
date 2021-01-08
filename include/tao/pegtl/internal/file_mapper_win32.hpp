@@ -30,7 +30,7 @@
 
 #if !defined( __cpp_exceptions )
 #include <cstdio>
-#include <cstdlib>
+#include <exception>
 #endif
 
 #include "filesystem.hpp"
@@ -64,7 +64,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             throw internal::filesystem::filesystem_error( "GetFileSizeEx() failed", m_path, ec );
 #else
             std::perror( "GetFileSizeEx() failed" );
-            std::abort();
+            std::terminate();
 #endif
          }
          return std::size_t( size.QuadPart );
@@ -91,7 +91,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          throw internal::filesystem::filesystem_error( "CreateFile2() failed", m_path, ec );
 #else
          std::perror( "CreateFile2() failed" );
-         std::abort();
+         std::terminate();
 #endif
 #else
          const HANDLE handle = ::CreateFileW( m_path.c_str(),
@@ -109,7 +109,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          throw internal::filesystem::filesystem_error( "CreateFileW()", m_path, ec );
 #else
          std::perror( "CreateFileW() failed" );
-         std::abort();
+         std::terminate();
 #endif
 #endif
       }
@@ -163,7 +163,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          throw internal::filesystem::filesystem_error( "CreateFileMappingW() failed", reader.m_path, ec );
 #else
          std::perror( "CreateFileMappingW() failed" );
-         std::abort();
+         std::terminate();
 #endif
       }
    };
@@ -189,7 +189,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             throw internal::filesystem::filesystem_error( "MapViewOfFile() failed", ec );
 #else
             std::perror( "MapViewOfFile() failed" );
-            std::abort();
+            std::terminate();
 #endif
          }
       }
