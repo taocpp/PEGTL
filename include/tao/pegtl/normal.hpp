@@ -8,6 +8,10 @@
 #include <type_traits>
 #include <utility>
 
+#if !defined( __cxx_exceptions )
+#include <exception>
+#endif
+
 #include "apply_mode.hpp"
 #include "config.hpp"
 #include "demangle.hpp"
@@ -45,6 +49,8 @@ namespace TAO_PEGTL_NAMESPACE
          throw parse_error( "parse error matching " + std::string( demangle< Rule >() ), in );
 #else
          static_assert( internal::dependent_false< Rule >, "exception support required for normal< Rule >::raise()" );
+         (void)in;
+         std::terminate();
 #endif
       }
 

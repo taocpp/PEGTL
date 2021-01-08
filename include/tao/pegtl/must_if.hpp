@@ -6,6 +6,10 @@
 
 #include <type_traits>
 
+#if !defined( __cxx_exceptions )
+#include <exception>
+#endif
+
 #include "config.hpp"
 #include "normal.hpp"
 
@@ -60,6 +64,9 @@ namespace TAO_PEGTL_NAMESPACE
             }
 #else
             static_assert( internal::dependent_false< Rule >, "exception support required for must_if<>" );
+            (void)in;
+            ( (void)st, ... );
+            std::terminate();
 #endif
          }
       };
