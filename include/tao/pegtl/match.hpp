@@ -13,7 +13,6 @@
 #include "require_apply0.hpp"
 #include "rewind_mode.hpp"
 
-#include "internal/dependent_false.hpp"
 #include "internal/has_apply.hpp"
 #include "internal/has_apply0.hpp"
 #include "internal/has_unwind.hpp"
@@ -71,8 +70,8 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] auto match_control_unwind( ParseInput& in, States&&... st )
       {
-         if constexpr( has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
 #if defined( __cpp_exceptions )
+         if constexpr( has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
             try {
                return match_no_control< Rule, A, M, Action, Control >( in, st... );
             }
@@ -80,13 +79,13 @@ namespace TAO_PEGTL_NAMESPACE
                Control< Rule >::unwind( static_cast< const ParseInput& >( in ), st... );
                throw;
             }
-#else
-            static_assert( dependent_false< Rule >, "exception support required for Control< Rule >::unwind()" );
-#endif
          }
          else {
             return match_no_control< Rule, A, M, Action, Control >( in, st... );
          }
+#else
+         return match_no_control< Rule, A, M, Action, Control >( in, st... );
+#endif
       }
 
    }  // namespace internal
