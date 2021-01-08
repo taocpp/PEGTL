@@ -38,8 +38,8 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         if constexpr( internal::action_has_unwind< void, Rule, Action, ParseInput, States... > ) {
 #if defined( __cpp_exceptions )
+         if constexpr( internal::action_has_unwind< void, Rule, Action, ParseInput, States... > ) {
             try {
                return control_action::match_impl< Rule, A, M, Action, Control >( in, st... );
             }
@@ -47,13 +47,13 @@ namespace TAO_PEGTL_NAMESPACE
                Action< Rule >::unwind( const_cast< const ParseInput& >( in ), st... );
                throw;
             }
-#else
-            static_assert( dependent_false< Rule >, "exception support required for Action< Rule >::unwind()" );
-#endif
          }
          else {
             return control_action::match_impl< Rule, A, M, Action, Control >( in, st... );
          }
+#else
+         return control_action::match_impl< Rule, A, M, Action, Control >( in, st... );
+#endif
       }
 
    private:
