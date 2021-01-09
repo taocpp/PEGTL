@@ -72,17 +72,22 @@ namespace TAO_PEGTL_NAMESPACE
       : remove_last_states< control_impl< Rule >, 2 >
    {};
 
+#if defined( __cxx_exceptions )
    struct test_rule
       : seq< sor< try_catch< must< one< 'a' > > >, one< 'F' > >, eof >
    {};
+#else
+   struct test_rule
+      : seq< sor< one< 'a' >, one< 'F' > >, eof >
+   {};
+#endif
 
    void unit_test()
    {
       unsigned u = 0;
       const std::string d = "F";
       memory_input in( d, __FUNCTION__ );
-      parse< test_rule, test_action, test_control >( in, u, d, d );
-
+      TAO_PEGTL_TEST_ASSERT( parse< test_rule, test_action, test_control >( in, u, d, d ) );
       TAO_PEGTL_TEST_ASSERT( u == 127 );
    }
 

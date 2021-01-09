@@ -9,7 +9,11 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
+#if defined( __cxx_exceptions )
    using grammar = seq< sor< try_catch< must< one< 'a' > > >, one< 'F' > >, eof >;
+#else
+   using grammar = seq< sor< one< 'a' >, one< 'F' > >, eof >;
+#endif
 
    void unit_test()
    {

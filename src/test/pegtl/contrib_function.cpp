@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
       char c = 'a';
       double d = 42.0;
       memory_input in( "foo", __FUNCTION__ );
-      parse< must< rule1 > >( in, i, &c, d );
+      TAO_PEGTL_TEST_ASSERT( parse< rule1 >( in, i, &c, d ) );
       TAO_PEGTL_TEST_ASSERT( call1 );
    }
 
