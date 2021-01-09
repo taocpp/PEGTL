@@ -54,9 +54,11 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< until< one< 'a' > > >( __LINE__, __FILE__, "bbab", result_type::success, 1 );
       verify_rule< until< one< 'a' > > >( __LINE__, __FILE__, "bbbbbbbbbbbbbbbab", result_type::success, 1 );
 
+#if defined( __cxx_exceptions )
       verify_rule< must< until< one< 'a' > > > >( __LINE__, __FILE__, "bbb", result_type::global_failure, 0 );
 
       verify_rule< try_catch< must< until< one< 'a' > > > > >( __LINE__, __FILE__, "bbb", result_type::local_failure, 3 );
+#endif
 
       verify_rule< until< eof, any > >( __LINE__, __FILE__, "", result_type::success, 0 );
       verify_rule< until< any, any > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
@@ -101,11 +103,13 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< until< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "cbcbc", result_type::local_failure, 5 );
       verify_rule< until< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "bcbcbc", result_type::local_failure, 6 );
 
+#if defined( __cxx_exceptions )
       verify_rule< must< until< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "bbb", result_type::global_failure, 0 );
       verify_rule< must< until< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "bbbc", result_type::global_failure, 1 );
 
       verify_rule< try_catch< must< until< one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "bbb", result_type::local_failure, 3 );
       verify_rule< try_catch< must< until< one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "bbbc", result_type::local_failure, 4 );
+#endif
 
       bool success = false;
       const bool result = parse< until< my_rule, eof >, my_action >( memory_input<>( "", __FUNCTION__ ), success );
