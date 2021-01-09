@@ -93,27 +93,25 @@ namespace TAO_PEGTL_NAMESPACE
       std::string state_s;
       TAO_PEGTL_TEST_ASSERT( test1::flag == 0 );
       memory_input in1( "-", __FUNCTION__ );
-      parse< must< if_apply< one< '-' >, test1::action_a, test1::action_b > >, test1::action >( in1, state_r, state_s );
+      TAO_PEGTL_TEST_ASSERT( parse< if_apply< one< '-' >, test1::action_a, test1::action_b >, test1::action >( in1, state_r, state_s ) );
       TAO_PEGTL_TEST_ASSERT( test1::flag == 1 );
       TAO_PEGTL_TEST_ASSERT( state_r == "-" );
       TAO_PEGTL_TEST_ASSERT( state_s == "-*-" );
       memory_input in2( "-", __FUNCTION__ );
-      parse< must< disable< if_apply< one< '-' >, test1::action_a, test1::action_b > > >, test1::action >( in2, state_r, state_s );
+      TAO_PEGTL_TEST_ASSERT( parse< disable< if_apply< one< '-' >, test1::action_a, test1::action_b > >, test1::action >( in2, state_r, state_s ) );
       TAO_PEGTL_TEST_ASSERT( test1::flag == 1 );
       TAO_PEGTL_TEST_ASSERT( state_r == "-" );
       TAO_PEGTL_TEST_ASSERT( state_s == "-*-" );
 
       {
          bool state_b = false;
-         const bool result = parse< if_apply< plus< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input( "foo bar", __FUNCTION__ ), state_b );
-         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( !parse< if_apply< plus< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input( "foo bar", __FUNCTION__ ), state_b ) );
          TAO_PEGTL_TEST_ASSERT( state_b );
       }
 
       {
          bool state_b = false;
-         const bool result = parse< if_apply< plus< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input( "", __FUNCTION__ ), state_b );
-         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( !parse< if_apply< plus< alpha >, test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input( "", __FUNCTION__ ), state_b ) );
          TAO_PEGTL_TEST_ASSERT( !state_b );
       }
       verify_meta< if_apply< any >, internal::if_apply< any >, any >();

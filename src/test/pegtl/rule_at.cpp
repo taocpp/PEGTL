@@ -40,8 +40,12 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< at< any > >( __LINE__, __FILE__, "a", result_type::success, 1 );
       verify_rule< at< any > >( __LINE__, __FILE__, "aa", result_type::success, 2 );
       verify_rule< at< any > >( __LINE__, __FILE__, "aaaa", result_type::success, 4 );
+
+#if defined( __cxx_exceptions )
       verify_rule< must< at< alpha > > >( __LINE__, __FILE__, "1", result_type::global_failure, 1 );
       verify_rule< must< at< alpha, alpha > > >( __LINE__, __FILE__, "a1a", result_type::global_failure, 3 );
+#endif
+
       {
          memory_input in( "f", 1, __FILE__ );
          parse< any, at_action >( in );

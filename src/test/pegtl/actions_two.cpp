@@ -116,8 +116,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          const char* foo = "f";
          memory_input in( foo, foo + 1, count_source, count_byte, count_line, count_column );
-         const auto result = parse< alpha, count_action >( in );
-         TAO_PEGTL_TEST_ASSERT( result );
+         TAO_PEGTL_TEST_ASSERT( parse< alpha, count_action >( in ) );
       }
 
    }  // namespace test1
