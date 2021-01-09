@@ -61,8 +61,7 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
 
       bool success = false;
-      const bool result = parse< opt< eof >, my_action >( memory_input( "", __FUNCTION__ ), success );
-      TAO_PEGTL_TEST_ASSERT( result );
+      TAO_PEGTL_TEST_ASSERT( parse< opt< eof >, my_action >( memory_input( "", __FUNCTION__ ), success ) );
       TAO_PEGTL_TEST_ASSERT( success );
    }
 
