@@ -9,6 +9,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+#if defined( __cpp_exceptions )
       verify_analyze< star_must< eof > >( __LINE__, __FILE__, false, true );
       verify_analyze< star_must< any > >( __LINE__, __FILE__, false, false );
       verify_analyze< star_must< eof, eof, eof > >( __LINE__, __FILE__, false, true );
@@ -29,6 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< star_must< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "abab", result_type::success, 0 );
       verify_rule< star_must< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ababc", result_type::success, 1 );
       verify_rule< star_must< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ababab", result_type::success, 0 );
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

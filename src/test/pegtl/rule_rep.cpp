@@ -52,6 +52,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< rep< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ababa", result_type::success, 1 );
       verify_rule< rep< 2, one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ababab", result_type::success, 2 );
 
+#if defined( __cpp_exceptions )
       verify_rule< must< rep< 2, one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "", result_type::global_failure, 0 );
       verify_rule< must< rep< 2, one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "a", result_type::global_failure, 1 );
       verify_rule< must< rep< 2, one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "ab", result_type::global_failure, 0 );
@@ -67,6 +68,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< try_catch< must< rep< 2, one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "abab", result_type::success, 0 );
       verify_rule< try_catch< must< rep< 2, one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "ababa", result_type::success, 1 );
       verify_rule< try_catch< must< rep< 2, one< 'a' >, one< 'b' > > > > >( __LINE__, __FILE__, "ababab", result_type::success, 2 );
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

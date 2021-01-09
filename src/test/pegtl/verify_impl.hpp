@@ -21,6 +21,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule, template< typename... > class Action, typename ParseInput >
    result_type verify_impl_two( ParseInput& in )
    {
+#if defined( __cpp_exceptions )
+
       try {
          if( normal< Rule >::template match< apply_mode::action, rewind_mode::required, Action, normal >( in ) ) {
             return result_type::success;
@@ -35,6 +37,15 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_UNREACHABLE;
       }
       // LCOV_EXCL_END
+
+#else
+
+      if( normal< Rule >::template match< apply_mode::action, rewind_mode::required, Action, normal >( in ) ) {
+         return result_type::success;
+      }
+      return result_type::local_failure;
+
+#endif
    }
 
    template< typename Rule, template< typename... > class Action, typename ParseInput >

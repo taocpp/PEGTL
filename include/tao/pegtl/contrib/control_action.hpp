@@ -10,6 +10,8 @@
 #include "../match.hpp"
 #include "../nothing.hpp"
 
+#include "../internal/dependent_false.hpp"
+
 namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
@@ -36,6 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
+#if defined( __cpp_exceptions )
          if constexpr( internal::action_has_unwind< void, Rule, Action, ParseInput, States... > ) {
             try {
                return control_action::match_impl< Rule, A, M, Action, Control >( in, st... );
@@ -48,6 +51,9 @@ namespace TAO_PEGTL_NAMESPACE
          else {
             return control_action::match_impl< Rule, A, M, Action, Control >( in, st... );
          }
+#else
+         return control_action::match_impl< Rule, A, M, Action, Control >( in, st... );
+#endif
       }
 
    private:

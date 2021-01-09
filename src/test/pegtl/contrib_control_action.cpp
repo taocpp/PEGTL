@@ -18,9 +18,11 @@ namespace TAO_PEGTL_NAMESPACE
       : sor< alpha, digit >
    {};
 
+#if defined( __cpp_exceptions )
    struct second_rule
       : must< alnum >
    {};
+#endif
 
    std::string story;
 
@@ -99,6 +101,7 @@ namespace TAO_PEGTL_NAMESPACE
       // LCOV_EXCL_END
    };
 
+#if defined( __cpp_exceptions )
    template<>
    struct test_action< second_rule >
       : control_action
@@ -129,6 +132,7 @@ namespace TAO_PEGTL_NAMESPACE
          story += 'm';
       }
    };
+#endif
 
    void unit_test()
    {
@@ -138,12 +142,14 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( story == "adfghb" );
       }
+#if defined( __cpp_exceptions )
       story.clear();
       {
          memory_input in( "*", __FUNCTION__ );
          TAO_PEGTL_TEST_THROWS( parse< second_rule, test_action >( in, 42 ) );
          TAO_PEGTL_TEST_ASSERT( story == "jm" );
       }
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

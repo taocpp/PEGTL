@@ -44,6 +44,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< opt< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "bab", result_type::success, 3 );
       verify_rule< opt< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "cb", result_type::success, 2 );
 
+#if defined( __cpp_exceptions )
       verify_rule< must< opt< one< 'a' > > > >( __LINE__, __FILE__, "", result_type::success, 0 );
       verify_rule< must< opt< one< 'a' > > > >( __LINE__, __FILE__, "a", result_type::success, 0 );
       verify_rule< must< opt< one< 'a' > > > >( __LINE__, __FILE__, "aa", result_type::success, 1 );
@@ -57,10 +58,10 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< must< opt< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "abab", result_type::success, 2 );
       verify_rule< must< opt< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "bab", result_type::success, 3 );
       verify_rule< must< opt< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "cb", result_type::success, 2 );
+#endif
 
       bool success = false;
-      const bool result = parse< opt< eof >, my_action >( memory_input( "", __FUNCTION__ ), success );
-      TAO_PEGTL_TEST_ASSERT( result );
+      TAO_PEGTL_TEST_ASSERT( parse< opt< eof >, my_action >( memory_input( "", __FUNCTION__ ), success ) );
       TAO_PEGTL_TEST_ASSERT( success );
    }
 

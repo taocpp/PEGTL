@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE
       void operator=( const test_class& ) = delete;
    };
 
-   using test_grammar = must< sor< alpha, digit > >;
+   using test_grammar = sor< alpha, digit >;
 
    template< typename Rule >
    struct test_action
@@ -61,7 +61,7 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       memory_input in( "a", __FUNCTION__ );
-      parse< test_grammar, test_action >( in );
+      TAO_PEGTL_TEST_ASSERT( parse< test_grammar, test_action >( in ) );
 
       TAO_PEGTL_TEST_ASSERT( ctor == true );
       TAO_PEGTL_TEST_ASSERT( dtor == true );

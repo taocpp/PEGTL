@@ -20,9 +20,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       static void apply0( int& c )
       {
-         if( c != 0 ) {
-            throw std::runtime_error( "fail1" );  // LCOV_EXCL_LINE
-         }
+         TAO_PEGTL_TEST_ASSERT( c == 0 );
          c = 1;
       }
    };
@@ -38,9 +36,7 @@ namespace TAO_PEGTL_NAMESPACE
             v = 6;
          }
          else {
-            if( c != 1 ) {
-               throw std::runtime_error( "fail2" );  // LCOV_EXCL_LINE
-            }
+            TAO_PEGTL_TEST_ASSERT( c == 1 );
             v = 2;
          }
       }
@@ -48,9 +44,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput >
       void success( const ParseInput& /*unused*/, int& c )
       {
-         if( v != 3 ) {
-            throw std::runtime_error( "fail3" );  // LCOV_EXCL_LINE
-         }
+         TAO_PEGTL_TEST_ASSERT( v == 3 );
          c = 4;
       }
    };
@@ -61,9 +55,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       static void apply0( S& s )
       {
-         if( s.v != 2 ) {
-            throw std::runtime_error( "fail4" );  // LCOV_EXCL_LINE
-         }
+         TAO_PEGTL_TEST_ASSERT( s.v == 2 );
          s.v = 3;
       }
    };

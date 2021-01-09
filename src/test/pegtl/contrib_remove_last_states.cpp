@@ -53,6 +53,7 @@ namespace TAO_PEGTL_NAMESPACE
          u |= 16;
       }
 
+#if defined( __cpp_exceptions )
       template< typename ParseInput >
       [[noreturn]] static void raise( ParseInput& in, unsigned& u )
       {
@@ -65,6 +66,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          u |= 8;
       }
+#endif
    };
 
    template< typename Rule >
@@ -72,18 +74,27 @@ namespace TAO_PEGTL_NAMESPACE
       : remove_last_states< control_impl< Rule >, 2 >
    {};
 
+#if defined( __cpp_exceptions )
    struct test_rule
       : seq< sor< try_catch< must< one< 'a' > > >, one< 'F' > >, eof >
    {};
+#else
+   struct test_rule
+      : seq< sor< one< 'a' >, one< 'F' > >, eof >
+   {};
+#endif
 
    void unit_test()
    {
       unsigned u = 0;
       const std::string d = "F";
       memory_input in( d, __FUNCTION__ );
-      parse< test_rule, test_action, test_control >( in, u, d, d );
-
+      TAO_PEGTL_TEST_ASSERT( parse< test_rule, test_action, test_control >( in, u, d, d ) );
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_ASSERT( u == 127 );
+#else
+      TAO_PEGTL_TEST_ASSERT( u == 115 );
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

@@ -16,7 +16,11 @@ namespace TAO_PEGTL_NAMESPACE
    struct E : star< A, B > {};
    struct F : seq< E > {};
 
+#if defined( __cpp_exceptions )
    struct D2 : sor< try_catch< if_must< A, B > >, seq< A, C > > {};
+#else
+   struct D2 : D {};
+#endif
    // clang-format on
 
    template< typename Rule >

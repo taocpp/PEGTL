@@ -7,6 +7,11 @@
 #include <istream>
 #include <system_error>
 
+#if !defined( __cpp_exceptions )
+#include <cstdio>
+#include <exception>
+#endif
+
 #include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -27,8 +32,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( m_istream.eof() ) {
             return 0;
          }
+#if defined( __cpp_exceptions )
          const auto ec = errno;
          throw std::system_error( ec, std::system_category(), "std::istream::read() failed" );
+#else
+         std::fputs( "std::istream::read() failed\n", stderr );
+         std::terminate();
+#endif
       }
 
       std::istream& m_istream;

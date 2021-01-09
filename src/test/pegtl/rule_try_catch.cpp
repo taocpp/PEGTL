@@ -11,8 +11,10 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
+#if defined( __cpp_exceptions )
       verify_seqs< try_catch >();
       verify_seqs< test_try_catch_rule >();
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

@@ -69,16 +69,15 @@ namespace TAO_PEGTL_NAMESPACE
    {
       int state_r = 0;
       int state_s = 0;
-      parse< must< apply< test1::action_a, test1::action_b > > >( memory_input( "", __FUNCTION__ ), state_r, state_s );
+      TAO_PEGTL_TEST_ASSERT( parse< apply< test1::action_a, test1::action_b > >( memory_input( "", __FUNCTION__ ), state_r, state_s ) );
       TAO_PEGTL_TEST_ASSERT( state_r == 1 );
       TAO_PEGTL_TEST_ASSERT( state_s == 2 );
-      parse< must< disable< apply< test1::action_a, test1::action_b > > > >( memory_input( "", __FUNCTION__ ), state_r, state_s );
+      TAO_PEGTL_TEST_ASSERT( parse< disable< apply< test1::action_a, test1::action_b > > >( memory_input( "", __FUNCTION__ ), state_r, state_s ) );
       TAO_PEGTL_TEST_ASSERT( state_r == 1 );
       TAO_PEGTL_TEST_ASSERT( state_s == 2 );
 
       bool state_b = false;
-      const bool result = parse< apply< test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input( "", __FUNCTION__ ), state_b );
-      TAO_PEGTL_TEST_ASSERT( !result );
+      TAO_PEGTL_TEST_ASSERT( !parse< apply< test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input( "", __FUNCTION__ ), state_b ) );
       TAO_PEGTL_TEST_ASSERT( state_b );
 
       verify_meta< apply< test1::action_a, test1::action_b >, internal::apply< test1::action_a, test1::action_b > >();

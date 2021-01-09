@@ -36,27 +36,5 @@ int main()
    std::cout << "_MSC_VER: " << _MSC_VER << std::endl;
    std::cout << "_MSC_FULL_VER: " << _MSC_FULL_VER << std::endl;
 #endif
-
-#ifdef __cplusplus
-   std::cout << "__cplusplus: " << __cplusplus << std::endl;
-#endif
-#ifdef __cpp_constexpr
-   std::cout << "__cpp_constexpr: " << __cpp_constexpr << std::endl;
-#endif
-#ifdef __cpp_variadic_templates
-   std::cout << "__cpp_variadic_templates: " << __cpp_variadic_templates << std::endl;
-#endif
-#ifdef __cpp_variable_templates
-   std::cout << "__cpp_variable_templates: " << __cpp_variable_templates << std::endl;
-#endif
-#ifdef __cpp_fold_expressions
-   std::cout << "__cpp_fold_expressions: " << __cpp_fold_expressions << std::endl;
-#endif
-#ifdef __cpp_deduction_guides
-   std::cout << "__cpp_deduction_guides: " << __cpp_deduction_guides << std::endl;
-#endif
-#ifdef __cpp_lib_integer_sequence
-   std::cout << "__cpp_lib_integer_sequence: " << __cpp_lib_integer_sequence << std::endl;
-#endif
    return 0;
 }

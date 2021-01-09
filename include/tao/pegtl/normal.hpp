@@ -8,6 +8,10 @@
 #include <type_traits>
 #include <utility>
 
+#if !defined( __cpp_exceptions )
+#include <exception>
+#endif
+
 #include "apply_mode.hpp"
 #include "config.hpp"
 #include "demangle.hpp"
@@ -15,6 +19,7 @@
 #include "parse_error.hpp"
 #include "rewind_mode.hpp"
 
+#include "internal/dependent_false.hpp"
 #include "internal/enable_control.hpp"
 #include "internal/has_match.hpp"
 
@@ -40,7 +45,13 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput, typename... States >
       [[noreturn]] static void raise( const ParseInput& in, States&&... /*unused*/ )
       {
+#if defined( __cpp_exceptions )
          throw parse_error( "parse error matching " + std::string( demangle< Rule >() ), in );
+#else
+         static_assert( internal::dependent_false< Rule >, "exception support required for normal< Rule >::raise()" );
+         (void)in;
+         std::terminate();
+#endif
       }
 
       template< template< typename... > class Action,

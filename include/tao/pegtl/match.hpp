@@ -70,6 +70,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] auto match_control_unwind( ParseInput& in, States&&... st )
       {
+#if defined( __cpp_exceptions )
          if constexpr( has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
             try {
                return match_no_control< Rule, A, M, Action, Control >( in, st... );
@@ -82,6 +83,9 @@ namespace TAO_PEGTL_NAMESPACE
          else {
             return match_no_control< Rule, A, M, Action, Control >( in, st... );
          }
+#else
+         return match_no_control< Rule, A, M, Action, Control >( in, st... );
+#endif
       }
 
    }  // namespace internal

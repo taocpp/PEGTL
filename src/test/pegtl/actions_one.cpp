@@ -14,7 +14,7 @@ namespace TAO_PEGTL_NAMESPACE
    namespace test1
    {
       struct fiz
-         : if_must< at< one< 'a' > >, two< 'a' > >
+         : seq< at< one< 'a' > >, two< 'a' > >
       {};
 
       struct foo

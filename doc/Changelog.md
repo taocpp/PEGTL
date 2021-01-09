@@ -1,9 +1,10 @@
 # Changelog
 
-## 3.1.1
+## 3.2.0
 
 **Not yet released**
 
+* Added support for `-fno-exceptions`.
 * Improved efficiency of parse tree nodes.
 * Fixed namespace issue with `demangle()`.
 

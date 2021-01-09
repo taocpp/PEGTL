@@ -10,8 +10,14 @@
 #include <cstdint>
 #include <cstring>
 #include <memory>
-#include <stdexcept>
 #include <string>
+
+#if defined( __cpp_exceptions )
+#include <stdexcept>
+#else
+#include <cstdio>
+#include <exception>
+#endif
 
 #include "config.hpp"
 #include "eol.hpp"
@@ -147,7 +153,12 @@ namespace TAO_PEGTL_NAMESPACE
             return;
          }
          if( m_current.data + amount > m_buffer.get() + m_maximum ) {
-            throw std::overflow_error( "require beyond end of buffer" );
+#if defined( __cpp_exceptions )
+            throw std::overflow_error( "require() beyond end of buffer" );
+#else
+            std::fputs( "overflow error: require() beyond end of buffer\n", stderr );
+            std::terminate();
+#endif
          }
          if( const auto r = m_reader( m_end, ( std::min )( buffer_free_after_end(), ( std::max )( amount - buffer_occupied(), Chunk ) ) ) ) {
             m_end += r;

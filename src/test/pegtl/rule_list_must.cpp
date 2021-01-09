@@ -9,6 +9,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+#if defined( __cpp_exceptions )
       verify_analyze< list_must< eof, eof > >( __LINE__, __FILE__, false, true );
       verify_analyze< list_must< eof, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< list_must< any, eof > >( __LINE__, __FILE__, true, false );
@@ -49,6 +50,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< list_must< one< 'a' >, one< ',' >, blank > >( __LINE__, __FILE__, "a, a,", result_type::global_failure, 5 );
       verify_rule< list_must< one< 'a' >, one< ',' >, blank > >( __LINE__, __FILE__, "a, a ,", result_type::global_failure, 6 );
       verify_rule< list_must< one< 'a' >, one< ',' >, blank > >( __LINE__, __FILE__, " a , a ", result_type::local_failure, 7 );
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

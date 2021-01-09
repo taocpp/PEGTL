@@ -5,6 +5,7 @@
 #define TAO_PEGTL_SRC_TEST_PEGTL_TEST_HPP
 
 #include <cstddef>
+#include <exception>
 #include <iostream>
 
 #include <tao/pegtl.hpp>
@@ -70,7 +71,7 @@ namespace TAO_PEGTL_NAMESPACE
 #define TAO_PEGTL_TEST_UNREACHABLE                                                                                              \
    do {                                                                                                                         \
       std::cerr << "Code should be unreachable in " << __FUNCTION__ << " (" << __FILE__ << ':' << __LINE__ << ')' << std::endl; \
-      std::abort();                                                                                                             \
+      std::terminate();                                                                                                         \
    } while( false )
 
 #endif
