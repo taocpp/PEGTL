@@ -14,6 +14,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+#if defined( __cxx_exceptions )
       verify_meta< raise< int >, internal::raise< int > >();
       verify_meta< raise< any >, internal::raise< any > >();
 
@@ -26,6 +27,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( in.size( 4 ) == 3 );
       TAO_PEGTL_TEST_THROWS( parse< raise< any > >( in ) );
       TAO_PEGTL_TEST_ASSERT( in.size( 4 ) == 3 );
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

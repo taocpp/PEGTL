@@ -8,7 +8,9 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+#if defined( __cxx_exceptions )
       verify_ifmt< if_must_else >( result_type::global_failure );
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
