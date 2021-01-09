@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule, template< typename... > class Action, typename ParseInput >
    result_type verify_impl_two( ParseInput& in )
    {
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
 
       try {
          if( normal< Rule >::template match< apply_mode::action, rewind_mode::required, Action, normal >( in ) ) {

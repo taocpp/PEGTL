@@ -13,7 +13,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct B : one< 'b' > {};
    struct C : one< 'c' > {};
 
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
    struct S : if_must< one< '[' >, until< one< ']' > > > {};
 #else
    struct S : seq< one< '[' >, until< one< ']' > > > {};

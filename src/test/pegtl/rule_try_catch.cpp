@@ -11,7 +11,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
       verify_seqs< try_catch >();
       verify_seqs< test_try_catch_rule >();
 #endif

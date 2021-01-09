@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "ab", result_type::success, 0 );
       verify_rule< S< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "ac", failure, 2 );
 
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
       verify_rule< must< S< one< 'a' >, one< 'b' >, one< 'c' > > > >( __LINE__, __FILE__, "", result_type::global_failure, 0 );
       verify_rule< must< S< one< 'a' >, one< 'b' >, one< 'c' > > > >( __LINE__, __FILE__, "a", result_type::global_failure, 0 );
       verify_rule< must< S< one< 'a' >, one< 'b' >, one< 'c' > > > >( __LINE__, __FILE__, "ac", result_type::global_failure, 1 );

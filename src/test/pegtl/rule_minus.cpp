@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< minus< alnum, digit > >( __LINE__, __FILE__, "%", result_type::local_failure, 1 );
       verify_rule< minus< alnum, digit > >( __LINE__, __FILE__, "a%", result_type::success, 1 );
 
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
       verify_rule< must< minus< alnum, digit > > >( __LINE__, __FILE__, "%", result_type::global_failure, 1 );
       verify_rule< must< minus< alnum, digit > > >( __LINE__, __FILE__, "1", result_type::global_failure, 0 );
 #endif

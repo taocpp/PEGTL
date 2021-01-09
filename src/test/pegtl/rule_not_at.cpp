@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< not_at< any > >( __LINE__, __FILE__, "aa", result_type::local_failure, 2 );
       verify_rule< not_at< any > >( __LINE__, __FILE__, "aaaa", result_type::local_failure, 4 );
 
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
       verify_rule< must< not_at< alpha > > >( __LINE__, __FILE__, "a", result_type::global_failure, 1 );
       verify_rule< must< not_at< alpha, alpha > > >( __LINE__, __FILE__, "aa1", result_type::global_failure, 3 );
 #endif

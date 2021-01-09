@@ -8,7 +8,7 @@
 #include <type_traits>
 #include <utility>
 
-#if !defined( __cxx_exceptions )
+#if !defined( __cpp_exceptions )
 #include <exception>
 #endif
 

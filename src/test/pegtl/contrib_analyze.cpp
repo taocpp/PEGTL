@@ -191,7 +191,7 @@ namespace TAO_PEGTL_NAMESPACE
          struct tst : list< star< any >, opt< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
       }
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
       {
          struct tst : list_must< any, any > {};
          verify_analyze< tst >( __LINE__, __FILE__, true, false );

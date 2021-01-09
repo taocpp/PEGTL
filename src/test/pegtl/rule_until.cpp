@@ -54,7 +54,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< until< one< 'a' > > >( __LINE__, __FILE__, "bbab", result_type::success, 1 );
       verify_rule< until< one< 'a' > > >( __LINE__, __FILE__, "bbbbbbbbbbbbbbbab", result_type::success, 1 );
 
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
       verify_rule< must< until< one< 'a' > > > >( __LINE__, __FILE__, "bbb", result_type::global_failure, 0 );
 
       verify_rule< try_catch< must< until< one< 'a' > > > > >( __LINE__, __FILE__, "bbb", result_type::local_failure, 3 );
@@ -103,7 +103,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< until< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "cbcbc", result_type::local_failure, 5 );
       verify_rule< until< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "bcbcbc", result_type::local_failure, 6 );
 
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
       verify_rule< must< until< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "bbb", result_type::global_failure, 0 );
       verify_rule< must< until< one< 'a' >, one< 'b' > > > >( __LINE__, __FILE__, "bbbc", result_type::global_failure, 1 );
 

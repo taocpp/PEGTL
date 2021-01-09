@@ -8,7 +8,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
       verify_meta< must<>, internal::success >();
       verify_meta< must< alpha >, internal::must< alpha >, alpha >();
       verify_meta< must< alpha, digit >, internal::seq< internal::must< alpha >, internal::must< digit > >, internal::must< alpha >, internal::must< digit > >();

@@ -9,7 +9,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
       verify_analyze< opt_must< any, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< opt_must< eof, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< opt_must< opt< any >, any > >( __LINE__, __FILE__, false, false );

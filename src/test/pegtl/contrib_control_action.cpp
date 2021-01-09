@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
       : sor< alpha, digit >
    {};
 
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
    struct second_rule
       : must< alnum >
    {};
@@ -101,7 +101,7 @@ namespace TAO_PEGTL_NAMESPACE
       // LCOV_EXCL_END
    };
 
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
    template<>
    struct test_action< second_rule >
       : control_action
@@ -142,7 +142,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( story == "adfghb" );
       }
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
       story.clear();
       {
          memory_input in( "*", __FUNCTION__ );

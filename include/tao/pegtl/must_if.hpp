@@ -6,7 +6,7 @@
 
 #include <type_traits>
 
-#if !defined( __cxx_exceptions )
+#if !defined( __cpp_exceptions )
 #include <exception>
 #endif
 

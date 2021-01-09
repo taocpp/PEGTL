@@ -10,7 +10,7 @@ namespace TAO_PEGTL_NAMESPACE
    using GRAMMAR1 = sor< failure, one< 'a' > >;
    using GRAMMAR2 = seq< one< 'a' >, any, any, any, any, one< 'b' >, eof >;
    using GRAMMAR3 = sor< one< 'a' >, one< 'b' > >;
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
    using GRAMMAR4 = try_catch< sor< one< 'a' >, must< one< 'b' > > > >;
 #endif
 
@@ -76,7 +76,7 @@ namespace TAO_PEGTL_NAMESPACE
          const auto result = standard_trace< GRAMMAR3 >( in );
          TAO_PEGTL_TEST_ASSERT( !result );
       }
-#if defined( __cxx_exceptions )
+#if defined( __cpp_exceptions )
       {
          memory_input in( "c", "trace test please ignore" );
          const auto result = standard_trace< GRAMMAR4 >( in );
