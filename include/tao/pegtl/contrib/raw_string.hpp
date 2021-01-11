@@ -31,9 +31,8 @@ namespace TAO_PEGTL_NAMESPACE
                    class Action,
                    template< typename... >
                    class Control,
-                   typename ParseInput,
-                   typename... States >
-         [[nodiscard]] static bool match( ParseInput& in, std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 0 ) ) )
+                   typename ParseInput >
+         [[nodiscard]] static bool match( ParseInput& in, std::size_t& marker_size ) noexcept( noexcept( in.size( 0 ) ) )
          {
             if( in.empty() || ( in.peek_char( 0 ) != Open ) ) {
                return false;
@@ -70,9 +69,8 @@ namespace TAO_PEGTL_NAMESPACE
                    class Action,
                    template< typename... >
                    class Control,
-                   typename ParseInput,
-                   typename... States >
-         [[nodiscard]] static bool match( ParseInput& in, const std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 0 ) ) )
+                   typename ParseInput >
+         [[nodiscard]] static bool match( ParseInput& in, const std::size_t& marker_size ) noexcept( noexcept( in.size( 0 ) ) )
          {
             if( in.size( marker_size ) < marker_size ) {
                return false;
@@ -114,11 +112,11 @@ namespace TAO_PEGTL_NAMESPACE
                    class Control,
                    typename ParseInput,
                    typename... States >
-         [[nodiscard]] static bool match( ParseInput& in, const std::size_t& marker_size, States&&... st )
+         [[nodiscard]] static bool match( ParseInput& in, const std::size_t& marker_size, States&&... /*unused*/ )
          {
             auto m = in.template mark< M >();
 
-            while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, marker_size, st... ) ) {
+            while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, marker_size ) ) {
                if( in.empty() ) {
                   return false;
                }
@@ -147,7 +145,7 @@ namespace TAO_PEGTL_NAMESPACE
             auto m = in.template mark< M >();
             using m_t = decltype( m );
 
-            while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, marker_size, st... ) ) {
+            while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, marker_size ) ) {
                if( !Control< Rule >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
                   return false;
                }
@@ -196,7 +194,7 @@ namespace TAO_PEGTL_NAMESPACE
       {};
 
       using rule_t = raw_string;
-      using subs_t = empty_list;  // type_list< internal::raw_string_open< Open, Marker >, internal::must< content > >;
+      using subs_t = empty_list;  // type_list< internal::raw_string_open< Open, Marker >, content >;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -209,11 +207,11 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          std::size_t marker_size;
-         if( Control< internal::raw_string_open< Open, Marker > >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
-            // TODO: Do not rely on must<>
-            (void)Control< internal::must< content > >::template match< A, M, Action, Control >( in, marker_size, st... );
-            in.bump_in_this_line( marker_size );
-            return true;
+         if( Control< internal::raw_string_open< Open, Marker > >::template match< A, M, Action, Control >( in, marker_size ) ) {
+            if( Control< content >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
+               in.bump_in_this_line( marker_size );
+               return true;
+            }
          }
          return false;
       }
