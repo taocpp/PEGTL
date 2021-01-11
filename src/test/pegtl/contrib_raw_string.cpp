@@ -2,7 +2,6 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include "test.hpp"
-#include "verify_fail.hpp"
 #include "verify_meta.hpp"
 
 #include <tao/pegtl/contrib/raw_string.hpp>
@@ -43,11 +42,11 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    struct rgrammar
-      : must< rstring, eof >
+      : seq< rstring, eof >
    {};
 
    struct qgrammar
-      : must< qstring, eof >
+      : seq< qstring, eof >
    {};
 
    template< typename Rule, template< typename > class Action, unsigned M, unsigned N >
@@ -64,6 +63,15 @@ namespace TAO_PEGTL_NAMESPACE
       const auto r2 = parse< Rule, Action >( in2 );
       if( ( !r2 ) || ( content != std::string_view( n, N - 1 ) ) ) {
          TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] with tracking_mode::lazy expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r2 << " ]" );  // LCOV_EXCL_LINE
+      }
+   }
+
+   template< typename Rule >
+   void verify_fail( const std::size_t line, const char* file, const std::string& s )
+   {
+      memory_input in( s, "expect exception" );
+      if( parse< Rule >( in ) ) {
+         TAO_PEGTL_TEST_FAILED( "expected exception" );  // LCOV_EXCL_LINE
       }
    }
 
