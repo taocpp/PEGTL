@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        compiler: [g++, clang++]
+        compiler: [g++-10, clang++-10]
         build_type: [Debug, Release]
 
     runs-on: ubuntu-20.04
