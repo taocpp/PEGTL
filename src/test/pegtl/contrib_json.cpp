@@ -10,19 +10,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename Rule >
-   void verify_file_fail( const std::size_t line, const char* file, const std::string& s )
-   {
-      file_input in( s );
-      try {
-         parse< Rule >( in );
-         TAO_PEGTL_TEST_FAILED( "expected exception" );  // LCOV_EXCL_LINE
-      }
-      catch( ... ) {
-      }
-   }
-
-   using GRAMMAR = must< json::text, eof >;
+   using GRAMMAR = seq< json::text, eof >;
 
    void unit_test()
    {
@@ -55,34 +43,34 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\xF4\x8F\xBF\xBF\"]", result_type::success, 0 );  // largest allowed codepoint U+10FFFF
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\U0010FFFF\"]", result_type::success, 0 );        // largest allowed codepoint U+10FFFF
 
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, " " );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "   " );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, " [" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, " ]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[ " );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "] " );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, " [ " );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, " ] " );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\\a\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\\c\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\\d\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\\e\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\\v\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\\'\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\b\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\f\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\n\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\r\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\t\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\\\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\\\\\\\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\\u12\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\xFF\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\xF4\x90\x80\x80\"]" );
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "[\"\xF7\xBF\xBF\xBF\"]" );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( " ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "   ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( " [", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( " ]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[ ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "] ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( " [ ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( " ] ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\\a\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\\c\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\\d\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\\e\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\\v\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\\'\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\b\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\f\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\n\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\r\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\t\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\\\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\\\\\\\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\\u12\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\xFF\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\xF4\x90\x80\x80\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( memory_input( "[\"\xF7\xBF\xBF\xBF\"]", "" ) ) );
 
       TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( file_input( "src/test/pegtl/data/pass1.json" ) ) );
       TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( file_input( "src/test/pegtl/data/pass2.json" ) ) );
@@ -90,45 +78,45 @@ namespace TAO_PEGTL_NAMESPACE
 
       TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( file_input( "src/test/pegtl/data/blns.json" ) ) );
 
-      // verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail1.json" ); // disabled as it is valid now
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail2.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail3.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail4.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail5.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail6.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail7.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail8.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail9.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail10.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail11.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail12.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail13.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail14.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail15.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail16.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail17.json" );
-      // verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail18.json" ); // disabled as deep nesting is allowed
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail19.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail20.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail21.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail22.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail23.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail24.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail25.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail26.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail27.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail28.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail29.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail30.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail31.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail32.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail33.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail34.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail35.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail36.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail37.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail38.json" );
-      verify_file_fail< GRAMMAR >( __LINE__, __FILE__, "src/test/pegtl/data/fail39.json" );
+      // TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail1.json" ) )); // disabled as it is valid now
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail2.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail3.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail4.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail5.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail6.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail7.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail8.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail9.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail10.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail11.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail12.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail13.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail14.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail15.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail16.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail17.json" ) ) );
+      // TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail18.json" ) )); // disabled as deep nesting is allowed
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail19.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail20.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail21.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail22.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail23.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail24.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail25.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail26.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail27.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail28.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail29.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail30.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail31.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail32.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail33.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail34.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail35.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail36.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail37.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail38.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail39.json" ) ) );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

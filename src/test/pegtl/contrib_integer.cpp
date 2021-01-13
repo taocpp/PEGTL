@@ -13,6 +13,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
+#if defined( __cpp_exceptions )
    template< typename Rule >
    struct int_action
       : nothing< Rule >
@@ -246,6 +247,12 @@ namespace TAO_PEGTL_NAMESPACE
       verify_analyze< signed_rule >( __LINE__, __FILE__, true, false );
       verify_analyze< signed_rule_with_action >( __LINE__, __FILE__, true, false );
    }
+
+#else
+   void unit_test()
+   {}
+
+#endif
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

@@ -8,6 +8,8 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
+#if defined( __cpp_exceptions )
+
    void test_header()
    {
       // TODO.
@@ -88,6 +90,12 @@ namespace TAO_PEGTL_NAMESPACE
       test_header();
       test_chunked();
    }
+
+#else
+   void unit_test()
+   {}
+
+#endif
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
