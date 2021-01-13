@@ -8,6 +8,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
+#if defined( __cpp_exceptions )
    // clang-format off
    struct escaped_c : one< '"', '\\', 't' > {};
    struct escaped_u : seq< one< 'u' >, rep< 4, must< xdigit > > > {};
@@ -111,6 +112,12 @@ namespace TAO_PEGTL_NAMESPACE
       verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\U80000000", s );
       verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\Uffffffff", s );
    }
+
+#else
+   void unit_test()
+   {}
+
+#endif
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

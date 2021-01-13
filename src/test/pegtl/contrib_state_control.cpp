@@ -130,6 +130,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
+#if defined( __cpp_exceptions )
       {
          test_state< true > st;
          memory_input in( "bb", __FUNCTION__ );
@@ -183,6 +184,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( st.trace.empty() );
          TAO_PEGTL_TEST_ASSERT( b == 0 );
       }
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
