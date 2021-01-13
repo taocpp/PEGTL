@@ -12,7 +12,7 @@ jobs:
     - run: cmake -E make_directory build
 
     - working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -DTAOCPP_JSON_BUILD_EXAMPLES=OFF -DCMAKE_CXX_FLAGS="-coverage"
+      run: cmake $GITHUB_WORKSPACE -DPEGTL_BUILD_EXAMPLES=OFF -DCMAKE_CXX_FLAGS="-coverage"
 
     - working-directory: build/
       run: cmake --build .
