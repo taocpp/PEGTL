@@ -13,7 +13,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
 #if defined( __cpp_exceptions )
       const internal::file_opener fo( "Makefile" );
-      fo.internal::~file_opener();  // Provoke exception, nobody would normally do this.
+      fo.internal::file_opener::~file_opener();  // Provoke exception, nobody would normally do this.
       try {
          (void)fo.size();  // expected to throw
 
