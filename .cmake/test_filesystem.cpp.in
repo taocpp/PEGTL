@@ -6,16 +6,17 @@
 
 #include <@FILESYSTEM_HEADER@>
 
+// clang-format off
 int main()
 {
 #if defined( __cpp_exceptions )
    try {
-      throw @FILESYSTEM_NAMESPACE @ ::filesystem_error( "instantiate one to make sure it links", std::make_error_code( std::errc::function_not_supported ) );
+      throw @FILESYSTEM_NAMESPACE@::filesystem_error( "instantiate one to make sure it links", std::make_error_code( std::errc::function_not_supported ) );
    }
-   catch( const @FILESYSTEM_NAMESPACE @ ::filesystem_error& error ) {
+   catch( const @FILESYSTEM_NAMESPACE@::filesystem_error& error ) {
       return -1;
    }
 #endif
 
-   return !@FILESYSTEM_NAMESPACE @ ::temp_directory_path().is_absolute();
+   return !@FILESYSTEM_NAMESPACE@::temp_directory_path().is_absolute();
 }
