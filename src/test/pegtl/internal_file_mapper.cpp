@@ -3,7 +3,7 @@
 
 #include <tao/pegtl/file_input.hpp>
 
-#if defined( _POSIX_MAPPED_FILES ) || defined( _WIN32 )
+#if defined( _POSIX_MAPPED_FILES )
 
 #include "test.hpp"
 
