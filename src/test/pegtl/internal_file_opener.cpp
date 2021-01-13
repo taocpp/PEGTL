@@ -3,7 +3,7 @@
 
 #include <tao/pegtl/file_input.hpp>
 
-#if defined( _POSIX_MAPPED_FILES )
+#if defined( _POSIX_MAPPED_FILES ) || defined( _WIN32 )
 
 #include "test.hpp"
 
@@ -11,6 +11,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+#if defined( __cpp_exceptions )
       const internal::file_opener fo( "Makefile" );
       ::close( fo.m_fd );  // Provoke exception, nobody would normally do this.
       try {
@@ -23,6 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       catch( const std::exception& ) {
       }
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

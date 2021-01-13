@@ -74,6 +74,7 @@ namespace TAO_PEGTL_NAMESPACE
          throw;
       }
 #else
+      (void)oi;
       return parse< Rule, Action, Control, A, M >( in, st... );
 #endif
    }

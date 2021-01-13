@@ -3,7 +3,7 @@
 
 #include <tao/pegtl/file_input.hpp>
 
-#if defined( _POSIX_MAPPED_FILES )
+#if defined( _POSIX_MAPPED_FILES ) || defined( _WIN32 )
 
 #include "test.hpp"
 
@@ -11,6 +11,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+#if defined( __cpp_exceptions )
       try {
          internal::file_mapper dummy( "include" );
          // LCOV_EXCL_START
@@ -26,6 +27,7 @@ namespace TAO_PEGTL_NAMESPACE
          ++failed;
       }
       // LCOV_EXCL_END
+#endif
 
       const std::string s = "dummy content\n";
       const std::string dummy_content = s + s + s + s + s + s + s + s + s + s + s;

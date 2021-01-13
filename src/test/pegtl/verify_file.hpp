@@ -56,6 +56,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename T >
    void verify_file()
    {
+#if defined( __cpp_exceptions )
       {
          try {
             T in( "src/test/pegtl/no_such_file.txt" );
@@ -64,6 +65,8 @@ namespace TAO_PEGTL_NAMESPACE
          catch( const internal::filesystem::filesystem_error& ) {
          }
       }
+#endif
+
       {
          T in( "src/test/pegtl/file_data.txt" );
          TAO_PEGTL_TEST_ASSERT( in.source() == "src/test/pegtl/file_data.txt" );

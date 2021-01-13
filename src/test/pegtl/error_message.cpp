@@ -25,6 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+#if defined( __cpp_exceptions )
       try {
          parse< test1::grammar, nothing, test1::control >( memory_input( "c", __FUNCTION__ ) );
          TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
@@ -32,6 +33,7 @@ namespace TAO_PEGTL_NAMESPACE
       catch( const parse_error& e ) {
          TAO_PEGTL_TEST_ASSERT( e.message() == "test123" );
       }
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

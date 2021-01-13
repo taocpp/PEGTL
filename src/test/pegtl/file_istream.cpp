@@ -18,6 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
+#if defined( __cpp_exceptions )
       {
          const char* filename = "src/test/pegtl/no_such_file.txt";
          try {
@@ -30,6 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
             TAO_PEGTL_TEST_ASSERT( e.code().value() == ENOENT );
          }
       }
+#endif
 
       const char* filename = "src/test/pegtl/file_data.txt";
       std::ifstream stream( filename );

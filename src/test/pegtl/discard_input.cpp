@@ -30,20 +30,28 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( parse_cstring< rep< 4, sor< n, n > >, my_action >( "nnnn", TAO_TEST_LINE, 2 ) );
+#endif
       TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< a, n > >, my_action >( "nnnn", TAO_TEST_LINE, 2 ) );
       TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< f, n > >, my_action >( "nnnn", TAO_TEST_LINE, 2 ) );
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( parse_cstring< rep< 4, sor< s, n > >, my_action >( "nnnn", TAO_TEST_LINE, 2 ) );
+#endif
 
       TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< n, a > >, my_action >( "aaaa", TAO_TEST_LINE, 2 ) );
       TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< a, a > >, my_action >( "aaaa", TAO_TEST_LINE, 2 ) );
       TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< f, a > >, my_action >( "aaaa", TAO_TEST_LINE, 2 ) );
       TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< s, a > >, my_action >( "aaaa", TAO_TEST_LINE, 2 ) );
 
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( parse_cstring< rep< 4, sor< n, f > >, my_action >( "ffff", TAO_TEST_LINE, 2 ) );
+#endif
       TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< a, f > >, my_action >( "ffff", TAO_TEST_LINE, 2 ) );
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( parse_cstring< rep< 4, sor< f, f > >, my_action >( "ffff", TAO_TEST_LINE, 2 ) );
       TAO_PEGTL_TEST_THROWS( parse_cstring< rep< 4, sor< s, f > >, my_action >( "ffff", TAO_TEST_LINE, 2 ) );
+#endif
 
       TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< n, s > >, my_action >( "ssss", TAO_TEST_LINE, 2 ) );
       TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< a, s > >, my_action >( "ssss", TAO_TEST_LINE, 2 ) );

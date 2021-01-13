@@ -37,23 +37,23 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   struct win32_file_opener
+   struct file_opener
    {
-      explicit win32_file_opener( const internal::filesystem::path& path )
+      explicit file_opener( const internal::filesystem::path& path )
          : m_path( path ),
            m_handle( open() )
       {}
 
-      win32_file_opener( const win32_file_opener& ) = delete;
-      win32_file_opener( win32_file_opener&& ) = delete;
+      file_opener( const file_opener& ) = delete;
+      file_opener( file_opener&& ) = delete;
 
-      ~win32_file_opener()
+      ~file_opener()
       {
          ::CloseHandle( m_handle );
       }
 
-      void operator=( const win32_file_opener& ) = delete;
-      void operator=( win32_file_opener&& ) = delete;
+      void operator=( const file_opener& ) = delete;
+      void operator=( file_opener&& ) = delete;
 
       [[nodiscard]] std::size_t size() const
       {
@@ -115,33 +115,33 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   struct win32_file_mapper
+   struct file_mapper
    {
-      explicit win32_file_mapper( const internal::filesystem::path& path )
-         : win32_file_mapper( win32_file_opener( path ) )
+      explicit file_mapper( const internal::filesystem::path& path )
+         : file_mapper( file_opener( path ) )
       {}
 
-      explicit win32_file_mapper( const win32_file_opener& reader )
+      explicit file_mapper( const file_opener& reader )
          : m_size( reader.size() ),
            m_handle( open( reader ) )
       {}
 
-      win32_file_mapper( const win32_file_mapper& ) = delete;
-      win32_file_mapper( win32_file_mapper&& ) = delete;
+      file_mapper( const file_mapper& ) = delete;
+      file_mapper( file_mapper&& ) = delete;
 
-      ~win32_file_mapper()
+      ~file_mapper()
       {
          ::CloseHandle( m_handle );
       }
 
-      void operator=( const win32_file_mapper& ) = delete;
-      void operator=( win32_file_mapper&& ) = delete;
+      void operator=( const file_mapper& ) = delete;
+      void operator=( file_mapper&& ) = delete;
 
       const size_t m_size;
       const HANDLE m_handle;
 
    private:
-      [[nodiscard]] HANDLE open( const win32_file_opener& reader ) const
+      [[nodiscard]] HANDLE open( const file_opener& reader ) const
       {
          const uint64_t file_size = reader.size();
          SetLastError( 0 );
@@ -172,10 +172,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
    public:
       explicit file_mapper( const internal::filesystem::path& path )
-         : file_mapper( win32_file_mapper( path ) )
+         : file_mapper( file_mapper( path ) )
       {}
 
-      explicit file_mapper( const win32_file_mapper& mapper )
+      explicit file_mapper( const file_mapper& mapper )
          : m_size( mapper.m_size ),
            m_data( static_cast< const char* >( ::MapViewOfFile( mapper.m_handle,
                                                                 FILE_MAP_READ,
