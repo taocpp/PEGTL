@@ -7,6 +7,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
+#if defined( __cpp_exceptions )
    struct r
       : seq< alpha, digit >
    {};
@@ -64,6 +65,12 @@ namespace TAO_PEGTL_NAMESPACE
       }
       TAO_PEGTL_TEST_ASSERT( flags == 3 );
    }
+
+#else
+   void unit_test()
+   {}
+
+#endif
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
