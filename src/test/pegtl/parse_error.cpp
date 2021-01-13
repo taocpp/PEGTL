@@ -10,6 +10,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< tracking_mode M >
    void unit_test()
    {
+#if defined( __cpp_exceptions )
       const std::string rulename{ demangle< digit >() };
 
       memory_input< M > in( "foo\nbar bla blubb\nbaz", "test_source" );
@@ -46,6 +47,7 @@ namespace TAO_PEGTL_NAMESPACE
          return;
       }
       TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
+#endif
    }
 
    void unit_test()

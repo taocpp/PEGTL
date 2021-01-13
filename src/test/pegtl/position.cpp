@@ -7,6 +7,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
+#if defined( __cpp_exceptions )
    struct buffer_input_t
       : buffer_input< internal::cstring_reader >
    {
@@ -202,6 +203,12 @@ namespace TAO_PEGTL_NAMESPACE
 
       test_iterator();
    }
+
+#else
+   void unit_test()
+   {}
+
+#endif
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
