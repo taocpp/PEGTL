@@ -5,6 +5,7 @@
 #define TAO_PEGTL_CONTRIB_UNESCAPE_HPP
 
 #include <cassert>
+#include <exception>
 #include <string>
 
 #include "../ascii.hpp"
@@ -79,8 +80,8 @@ namespace TAO_PEGTL_NAMESPACE::unescape
          case 'E':
          case 'F':
             return I( c - 'A' + 10 );
-         default:                                                      // LCOV_EXCL_LINE
-            throw std::runtime_error( "invalid character in unhex" );  // LCOV_EXCL_LINE
+         default:              // LCOV_EXCL_LINE
+            std::terminate();  // LCOV_EXCL_LINE
       }
    }
 
@@ -133,7 +134,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
                return *( r.begin() + i );
             }
          }
-         throw parse_error( "invalid character in unescape", in );  // LCOV_EXCL_LINE
+         std::terminate();  // LCOV_EXCL_LINE
       }
    };
 
@@ -143,6 +144,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
 
    struct unescape_u
    {
+#if defined( __cpp_exceptions )
       template< typename ActionInput >
       static void apply( const ActionInput& in, std::string& s )
       {
@@ -151,6 +153,14 @@ namespace TAO_PEGTL_NAMESPACE::unescape
             throw parse_error( "invalid escaped unicode code point", in );
          }
       }
+#else
+      template< typename ActionInput >
+      static bool apply( const ActionInput& in, std::string& s )
+      {
+         assert( !in.empty() );  // First character MUST be present, usually 'u' or 'U'.
+         return utf8_append_utf32( s, unhex_string< unsigned >( in.begin() + 1, in.end() ) );
+      }
+#endif
    };
 
    struct unescape_x
@@ -174,7 +184,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
    struct unescape_j
    {
       template< typename ActionInput >
-      static void apply( const ActionInput& in, std::string& s )
+      static bool apply( const ActionInput& in, std::string& s )
       {
          assert( ( ( in.size() + 1 ) % 6 ) == 0 );  // Expects multiple "\\u1234", starting with the first "u".
          for( const char* b = in.begin() + 1; b < in.end(); b += 6 ) {
@@ -188,9 +198,14 @@ namespace TAO_PEGTL_NAMESPACE::unescape
                }
             }
             if( !utf8_append_utf32( s, c ) ) {
+#if defined( __cpp_exceptions )
                throw parse_error( "invalid escaped unicode code point", in );
+#else
+               return false;
+#endif
             }
          }
+         return true;
       }
    };
 

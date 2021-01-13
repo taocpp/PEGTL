@@ -155,19 +155,36 @@ namespace example
       }
    };
 
-   using grammar = pegtl::must< pegtl::json::text, pegtl::eof >;
+   using grammar = pegtl::seq< pegtl::json::text, pegtl::eof >;
 
 }  // namespace example
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    if( argc != 2 ) {
-      std::cerr << "usage: " << argv[ 0 ] << " <json>";
+      std::cerr << "usage: " << argv[ 0 ] << " <json>\n";
    }
    else {
       example::json_state state;
       pegtl::file_input in( argv[ 1 ] );
-      pegtl::parse< example::grammar, example::action, example::control >( in, state );
+#if defined( __cpp_exceptions )
+      try {
+         pegtl::parse< example::grammar, example::action, example::control >( in, state );
+      }
+      catch( const pegtl::parse_error& e ) {
+         const auto p = e.positions().front();
+         std::cerr << e.what() << '\n'
+                   << in.line_at( p ) << '\n'
+                   << std::setw( p.column ) << '^' << std::endl;
+         return 1;
+      }
+#else
+
+      if( !pegtl::parse< example::grammar, example::action, example::control >( in, state ) ) {
+         std::cerr << "error occurred" << std::endl;
+         return 1;
+      }
+#endif
       assert( state.keys.empty() );
       assert( state.arrays.empty() );
       assert( state.objects.empty() );

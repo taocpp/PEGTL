@@ -13,21 +13,20 @@ namespace example
 {
    // This file shows how to throw exceptions with
    // custom error messages for parse errors.
-   // As the grammar contains must<>-rules,
-   // the compiler will complain when a
-   // specialization is missing.
 
+#if defined( __cpp_exceptions )
    // clang-format off
    template< typename > inline constexpr const char* error_message = nullptr;
 
    template<> inline constexpr auto error_message< pegtl::json::text > = "no valid JSON";
 
+   template<> inline constexpr auto error_message< pegtl::json::next_array_element > = "expected value";
    template<> inline constexpr auto error_message< pegtl::json::end_array > = "incomplete array, expected ']'";
-   template<> inline constexpr auto error_message< pegtl::json::end_object > = "incomplete object, expected '}'";
-   template<> inline constexpr auto error_message< pegtl::json::member > = "expected member";
+
    template<> inline constexpr auto error_message< pegtl::json::name_separator > = "expected ':'";
-   template<> inline constexpr auto error_message< pegtl::json::array_element > = "expected value";
    template<> inline constexpr auto error_message< pegtl::json::member_value > = "expected value";
+   template<> inline constexpr auto error_message< pegtl::json::next_member > = "expected member";
+   template<> inline constexpr auto error_message< pegtl::json::end_object > = "incomplete object, expected '}'";
 
    template<> inline constexpr auto error_message< pegtl::json::digits > = "expected at least one digit";
    template<> inline constexpr auto error_message< pegtl::json::xdigit > = "incomplete universal character name";
@@ -39,14 +38,17 @@ namespace example
    template<> inline constexpr auto error_message< pegtl::eof > = "unexpected character after JSON value";
 
    // As must_if<> can not take error_message as a template parameter directly, we need to wrap it.
-   // Additionally, we make sure only must<>-rules trigger global error.
-   struct error {
-      template< typename Rule > static constexpr auto raise_on_failure = false;
+   struct error
+   {
       template< typename Rule > static constexpr auto message = error_message< Rule >;
    };
 
    template< typename Rule > using control = pegtl::must_if< error >::control< Rule >;
    // clang-format on
+#else
+   template< typename Rule >
+   using control = pegtl::normal< Rule >;
+#endif
 
 }  // namespace example
 

@@ -15,7 +15,7 @@ namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 namespace example
 {
-   using grammar = pegtl::must< pegtl::json::text, pegtl::eof >;
+   using grammar = pegtl::seq< pegtl::json::text, pegtl::eof >;
 
    template< typename Rule >
    using selector = pegtl::parse_tree::selector<
@@ -39,11 +39,12 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    if( argc != 2 ) {
       std::cerr << "Usage: " << argv[ 0 ] << " JSON\n"
                 << "Generate a 'dot' file from the JSON text.\n\n"
-                << "Example: " << argv[ 0 ] << " \"{\"foo\":[42,null]}\" | dot -Tpng -o parse_tree.png\n";
+                << "Example: " << argv[ 0 ] << " '{\"foo\":[42,null]}' | dot -Tpng -o parse_tree.png\n";
       return 1;
    }
 
    pegtl::argv_input in( argv, 1 );
+#if defined( __cpp_exceptions )
    try {
       const auto root = pegtl::parse_tree::parse< example::grammar, example::selector, pegtl::nothing, example::control >( in );
       pegtl::parse_tree::print_dot( std::cout, *root );
@@ -55,6 +56,15 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
                 << std::setw( p.column ) << '^' << std::endl;
       return 1;
    }
+#else
+   if( const auto root = pegtl::parse_tree::parse< example::grammar, example::selector, pegtl::nothing, example::control >( in ) ) {
+      pegtl::parse_tree::print_dot( std::cout, *root );
+   }
+   else {
+      std::cerr << "error occurred" << std::endl;
+      return 1;
+   }
+#endif
 
    return 0;
 }

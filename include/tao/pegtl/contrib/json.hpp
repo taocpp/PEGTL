@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE::json
    struct ws : one< ' ', '\t', '\n', '\r' > {};
 
    template< typename R, typename P = ws >
-   struct padr : internal::seq< R, internal::star< P > > {};
+   struct padr : seq< R, star< P > > {};
 
    struct begin_array : padr< one< '[' > > {};
    struct begin_object : padr< one< '{' > > {};
@@ -31,26 +31,26 @@ namespace TAO_PEGTL_NAMESPACE::json
    struct true_ : string< 't', 'r', 'u', 'e' > {};  // NOLINT(readability-identifier-naming)
 
    struct digits : plus< digit > {};
-   struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+'> >, must< digits > > {};
-   struct frac : if_must< one< '.' >, digits > {};
-   struct int_ : sor< one< '0' >, digits > {};  // NOLINT(readability-identifier-naming)
+   struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+'> >, digits > {};
+   struct frac : seq< one< '.' >, digits > {};
+   struct int_ : sor< one< '0' >, plus< digit > > {};  // NOLINT(readability-identifier-naming)
    struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
 
    struct xdigit : pegtl::xdigit {};
-   struct unicode : list< seq< one< 'u' >, rep< 4, must< xdigit > > >, one< '\\' > > {};
+   struct unicode : list< seq< one< 'u' >, rep< 4, xdigit > >, one< '\\' > > {};
    struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
    struct escaped : sor< escaped_char, unicode > {};
    struct unescaped : utf8::range< 0x20, 0x10FFFF > {};
-   struct char_ : if_then_else< one< '\\' >, must< escaped >, unescaped > {};  // NOLINT(readability-identifier-naming)
+   struct char_ : if_then_else< one< '\\' >, escaped, unescaped > {};  // NOLINT(readability-identifier-naming)
 
-   struct string_content : until< at< one< '"' > >, must< char_ > > {};
-   struct string : seq< one< '"' >, must< string_content >, any >
+   struct string_content : until< at< one< '"' > >, char_ > {};
+   struct string : seq< one< '"' >, string_content, any >
    {
       using content = string_content;
    };
 
-   struct key_content : until< at< one< '"' > >, must< char_ > > {};
-   struct key : seq< one< '"' >, must< key_content >, any >
+   struct key_content : until< at< one< '"' > >, char_ > {};
+   struct key : seq< one< '"' >, key_content, any >
    {
       using content = key_content;
    };
@@ -58,8 +58,9 @@ namespace TAO_PEGTL_NAMESPACE::json
    struct value;
 
    struct array_element;
-   struct array_content : opt< list_must< array_element, value_separator > > {};
-   struct array : seq< begin_array, array_content, must< end_array > >
+   struct next_array_element : seq< array_element > {};
+   struct array_content : opt< array_element, star< value_separator, next_array_element > > {};
+   struct array : seq< begin_array, array_content, end_array >
    {
       using begin = begin_array;
       using end = end_array;
@@ -68,9 +69,10 @@ namespace TAO_PEGTL_NAMESPACE::json
    };
 
    struct member_value : padr< value > {};
-   struct member : if_must< key, name_separator, member_value > {};
-   struct object_content : opt< list_must< member, value_separator > > {};
-   struct object : seq< begin_object, object_content, must< end_object > >
+   struct member : seq< key, name_separator, member_value > {};
+   struct next_member : seq< member > {};
+   struct object_content : opt< member, star< value_separator, next_member > > {};
+   struct object : seq< begin_object, object_content, end_object >
    {
       using begin = begin_object;
       using end = end_object;
