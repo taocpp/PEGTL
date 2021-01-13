@@ -3,7 +3,7 @@
 
 #include <tao/pegtl/file_input.hpp>
 
-#if defined( _POSIX_MAPPED_FILES ) || defined( _WIN32 )
+#if defined( _POSIX_MAPPED_FILES )
 
 #include "test.hpp"
 
@@ -13,7 +13,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
 #if defined( __cpp_exceptions )
       const internal::file_opener fo( "Makefile" );
-      fo.internal::file_opener::~file_opener();  // Provoke exception, nobody would normally do this.
+      ::close( fo.m_fd );  // Provoke exception, nobody would normally do this.
       try {
          (void)fo.size();  // expected to throw
 
