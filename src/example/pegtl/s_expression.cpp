@@ -5,6 +5,7 @@
 int main() {}
 #else
 
+#include <iomanip>
 #include <iostream>
 
 #include <tao/pegtl.hpp>
@@ -84,7 +85,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       try {
          tao::pegtl::parse< sexpr::main, sexpr::action >( in, fn );
       }
-      catch( const parse_error& e ) {
+      catch( const tao::pegtl::parse_error& e ) {
          const auto p = e.positions().front();
          std::cerr << e.what() << '\n'
                    << in.line_at( p ) << '\n'
