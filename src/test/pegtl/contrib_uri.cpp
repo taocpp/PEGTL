@@ -6,7 +6,6 @@ int main() {}
 #else
 
 #include "test.hpp"
-#include "verify_fail.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -38,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "crid://broadcaster.com/movies/BestActionMovieEver", result_type::success, 0 );
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "http://nobody:password@example.org:8080/cgi-bin/script.php?action=submit&pageid=86392001#section_2", result_type::success, 0 );
 
-      verify_fail< GRAMMAR >( __LINE__, __FILE__, "" );
+      TAO_PEGTL_TEST_THROWS( parse< GRAMMAR >( memory_input( "", "" ) ) );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
