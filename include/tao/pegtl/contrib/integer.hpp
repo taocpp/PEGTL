@@ -4,10 +4,13 @@
 #ifndef TAO_PEGTL_CONTRIB_INTEGER_HPP
 #define TAO_PEGTL_CONTRIB_INTEGER_HPP
 
+#if !defined( __cpp_exceptions )
+#error "Exception support required tao/pegtl/contrib/integer.hpp"
+#else
+
 #include <cstdint>
 #include <cstdlib>
 
-#include <exception>
 #include <limits>
 #include <string_view>
 #include <type_traits>
@@ -178,11 +181,7 @@ namespace TAO_PEGTL_NAMESPACE
                }
                do {
                   if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
-#if defined( __cpp_exceptions )
                      throw TAO_PEGTL_NAMESPACE::parse_error( "integer overflow", in );  // Consistent with "as if" an action was doing the conversion.
-#else
-                     std::terminate();
-#endif
                   }
                   in.bump_in_this_line();
                } while( ( !in.empty() ) && is_digit( c = in.peek_char() ) );
@@ -204,11 +203,7 @@ namespace TAO_PEGTL_NAMESPACE
          // This function "only" offers basic exception safety.
          st = 0;
          if( !internal::convert_unsigned( st, in.string_view() ) ) {
-#if defined( __cpp_exceptions )
             throw parse_error( "unsigned integer overflow", in );
-#else
-            std::terminate();
-#endif
          }
       }
    };
@@ -272,11 +267,7 @@ namespace TAO_PEGTL_NAMESPACE
          // This function "only" offers basic exception safety.
          st = 0;
          if( !internal::convert_unsigned< Unsigned, Maximum >( st, in.string_view() ) ) {
-#if defined( __cpp_exceptions )
             throw parse_error( "unsigned integer overflow", in );
-#else
-            std::terminate();
-#endif
          }
       }
    };
@@ -346,11 +337,7 @@ namespace TAO_PEGTL_NAMESPACE
          // This function "only" offers basic exception safety.
          st = 0;
          if( !internal::convert_signed( st, in.string_view() ) ) {
-#if defined( __cpp_exceptions )
             throw parse_error( "signed integer overflow", in );
-#else
-            std::terminate();
-#endif
          }
       }
    };
@@ -445,4 +432,5 @@ namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
+#endif
 #endif

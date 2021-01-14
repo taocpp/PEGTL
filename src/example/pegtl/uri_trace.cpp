@@ -1,6 +1,10 @@
 // Copyright (c) 2014-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#if !defined( __cpp_exceptions )
+int main() {}
+#else
+
 #include <iostream>
 
 #include <tao/pegtl.hpp>
@@ -20,3 +24,5 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    }
    return 0;
 }
+
+#endif

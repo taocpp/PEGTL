@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
              typename... States >
    auto parse_nested( position op, ParseInput&& in, States&&... st )
    {
-#ifdef __cpp_exceptions
+#if defined( __cpp_exceptions )
       try {
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
@@ -66,7 +66,7 @@ namespace TAO_PEGTL_NAMESPACE
              typename... States >
    auto parse_nested( const OuterInput& oi, ParseInput&& in, States&&... st )
    {
-#ifdef __cpp_exceptions
+#if defined( __cpp_exceptions )
       try {
          return parse< Rule, Action, Control, A, M >( in, st... );
       }

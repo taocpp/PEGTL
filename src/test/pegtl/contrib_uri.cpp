@@ -1,6 +1,10 @@
 // Copyright (c) 2014-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#if !defined( __cpp_exceptions )
+int main() {}
+#else
+
 #include "test.hpp"
 #include "verify_fail.hpp"
 #include "verify_meta.hpp"
@@ -10,8 +14,6 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-#if defined( __cpp_exceptions )
-
    using GRAMMAR = must< uri::URI, eof >;
 
    void unit_test()
@@ -39,12 +41,8 @@ namespace TAO_PEGTL_NAMESPACE
       verify_fail< GRAMMAR >( __LINE__, __FILE__, "" );
    }
 
-#else
-   void unit_test()
-   {}
-
-#endif
-
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"
+
+#endif

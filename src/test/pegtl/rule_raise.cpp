@@ -1,6 +1,10 @@
 // Copyright (c) 2020-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#if !defined( __cpp_exceptions )
+int main() {}
+#else
+
 #include "test.hpp"
 
 #include "verify_meta.hpp"
@@ -14,7 +18,6 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-#if defined( __cpp_exceptions )
       verify_meta< raise< int >, internal::raise< int > >();
       verify_meta< raise< any >, internal::raise< any > >();
 
@@ -27,7 +30,6 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( in.size( 4 ) == 3 );
       TAO_PEGTL_TEST_THROWS( parse< raise< any > >( in ) );
       TAO_PEGTL_TEST_ASSERT( in.size( 4 ) == 3 );
-#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
@@ -37,3 +39,5 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
 
 #include "main.hpp"
+
+#endif

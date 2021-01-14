@@ -1,9 +1,11 @@
 // Copyright (c) 2015-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <tao/pegtl/file_input.hpp>
+#if !defined( __cpp_exceptions ) || !defined( _POSIX_MAPPED_FILES )
+int main() {}
+#else
 
-#if defined( _POSIX_MAPPED_FILES )
+#include <tao/pegtl/file_input.hpp>
 
 #include "test.hpp"
 
@@ -11,7 +13,6 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-#if defined( __cpp_exceptions )
       try {
          internal::file_mapper dummy( "include" );
          // LCOV_EXCL_START
@@ -27,7 +28,6 @@ namespace TAO_PEGTL_NAMESPACE
          ++failed;
       }
       // LCOV_EXCL_END
-#endif
 
       const std::string s = "dummy content\n";
       const std::string dummy_content = s + s + s + s + s + s + s + s + s + s + s;
@@ -42,12 +42,5 @@ namespace TAO_PEGTL_NAMESPACE
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"
-
-#else
-
-int main()
-{
-   return 0;
-}
 
 #endif

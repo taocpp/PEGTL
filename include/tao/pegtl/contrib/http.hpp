@@ -4,6 +4,10 @@
 #ifndef TAO_PEGTL_CONTRIB_HTTP_HPP
 #define TAO_PEGTL_CONTRIB_HTTP_HPP
 
+#if !defined( __cpp_exceptions )
+#error "Exception support required tao/pegtl/contrib/http.hpp"
+#else
+
 #include "../ascii.hpp"
 #include "../config.hpp"
 #include "../nothing.hpp"
@@ -269,4 +273,5 @@ namespace TAO_PEGTL_NAMESPACE::http
 
 }  // namespace TAO_PEGTL_NAMESPACE::http
 
+#endif
 #endif

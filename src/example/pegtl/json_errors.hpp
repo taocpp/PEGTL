@@ -15,6 +15,7 @@ namespace example
    // custom error messages for parse errors.
 
 #if defined( __cpp_exceptions )
+
    // clang-format off
    template< typename > inline constexpr const char* error_message = nullptr;
 
@@ -45,9 +46,12 @@ namespace example
 
    template< typename Rule > using control = pegtl::must_if< error >::control< Rule >;
    // clang-format on
+
 #else
+
    template< typename Rule >
    using control = pegtl::normal< Rule >;
+
 #endif
 
 }  // namespace example

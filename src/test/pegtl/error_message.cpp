@@ -1,6 +1,10 @@
 // Copyright (c) 2020-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#if !defined( __cpp_exceptions )
+int main() {}
+#else
+
 #include "test.hpp"
 
 namespace test1
@@ -25,7 +29,6 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-#if defined( __cpp_exceptions )
       try {
          parse< test1::grammar, nothing, test1::control >( memory_input( "c", __FUNCTION__ ) );
          TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
@@ -33,9 +36,10 @@ namespace TAO_PEGTL_NAMESPACE
       catch( const parse_error& e ) {
          TAO_PEGTL_TEST_ASSERT( e.message() == "test123" );
       }
-#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"
+
+#endif

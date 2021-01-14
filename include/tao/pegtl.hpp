@@ -38,7 +38,10 @@
 #include "pegtl/discard_input_on_failure.hpp"
 #include "pegtl/discard_input_on_success.hpp"
 
-#include "pegtl/must_if.hpp"
 #include "pegtl/visit.hpp"
+
+#if defined( __cpp_exceptions )
+#include "pegtl/must_if.hpp"
+#endif
 
 #endif

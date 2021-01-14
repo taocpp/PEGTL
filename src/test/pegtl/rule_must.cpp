@@ -1,6 +1,10 @@
 // Copyright (c) 2014-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#if !defined( __cpp_exceptions )
+int main() {}
+#else
+
 #include "test.hpp"
 #include "verify_seqs.hpp"
 
@@ -8,15 +12,15 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-#if defined( __cpp_exceptions )
       verify_meta< must<>, internal::success >();
       verify_meta< must< alpha >, internal::must< alpha >, alpha >();
       verify_meta< must< alpha, digit >, internal::seq< internal::must< alpha >, internal::must< digit > >, internal::must< alpha >, internal::must< digit > >();
 
       verify_seqs< must >( result_type::global_failure );
-#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"
+
+#endif

@@ -4,6 +4,10 @@
 #ifndef TAO_PEGTL_INTERNAL_RAISE_HPP
 #define TAO_PEGTL_INTERNAL_RAISE_HPP
 
+#if !defined( __cpp_exceptions )
+#error "Exception support required for tao/pegtl/internal/raise.hpp"
+#else
+
 #include <stdexcept>
 
 #include "../config.hpp"
@@ -41,4 +45,5 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
+#endif
 #endif

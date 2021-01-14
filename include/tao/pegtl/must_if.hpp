@@ -4,11 +4,11 @@
 #ifndef TAO_PEGTL_MUST_IF_HPP
 #define TAO_PEGTL_MUST_IF_HPP
 
-#include <type_traits>
-
 #if !defined( __cpp_exceptions )
-#include <exception>
-#endif
+#error "Exception support required for tao/pegtl/internal/must.hpp"
+#else
+
+#include <type_traits>
 
 #include "config.hpp"
 #include "normal.hpp"
@@ -48,7 +48,6 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename ParseInput, typename... States >
          [[noreturn]] static void raise( const ParseInput& in, [[maybe_unused]] States&&... st )
          {
-#if defined( __cpp_exceptions )
             if constexpr( RequireMessage ) {
                static_assert( Errors::template message< Rule > != nullptr );
             }
@@ -62,16 +61,11 @@ namespace TAO_PEGTL_NAMESPACE
             else {
                Base< Rule >::raise( in, st... );
             }
-#else
-            static_assert( internal::dependent_false< Rule >, "exception support required for must_if<>" );
-            (void)in;
-            ( (void)st, ... );
-            std::terminate();
-#endif
          }
       };
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
+#endif
 #endif

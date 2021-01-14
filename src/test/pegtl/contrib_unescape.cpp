@@ -1,6 +1,10 @@
 // Copyright (c) 2015-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#if !defined( __cpp_exceptions )
+int main() {}
+#else
+
 #include "test.hpp"
 #include "verify_fail.hpp"
 
@@ -8,7 +12,6 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-#if defined( __cpp_exceptions )
    // clang-format off
    struct escaped_c : one< '"', '\\', 't' > {};
    struct escaped_u : seq< one< 'u' >, rep< 4, must< xdigit > > > {};
@@ -113,12 +116,8 @@ namespace TAO_PEGTL_NAMESPACE
       verify_fail< unstring, unaction >( __LINE__, __FILE__, "\\Uffffffff", s );
    }
 
-#else
-   void unit_test()
-   {}
-
-#endif
-
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"
+
+#endif

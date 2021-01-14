@@ -1,6 +1,10 @@
 // Copyright (c) 2017-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#if !defined( __cpp_exceptions )
+int main() {}
+#else
+
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/uri.hpp>
 
@@ -87,3 +91,5 @@ int main( int argc, char** argv )
    }
    return 0;
 }
+
+#endif

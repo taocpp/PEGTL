@@ -4,6 +4,10 @@
 #ifndef TAO_PEGTL_CONTRIB_URI_HPP
 #define TAO_PEGTL_CONTRIB_URI_HPP
 
+#if !defined( __cpp_exceptions )
+#error "Exception support required tao/pegtl/contrib/uri.hpp"
+#else
+
 #include <cstdint>
 
 #include "../ascii.hpp"
@@ -103,4 +107,5 @@ namespace TAO_PEGTL_NAMESPACE::uri
 
 }  // namespace TAO_PEGTL_NAMESPACE::uri
 
+#endif
 #endif

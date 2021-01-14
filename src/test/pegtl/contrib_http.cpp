@@ -1,6 +1,10 @@
 // Copyright (c) 2019-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#if !defined( __cpp_exceptions )
+int main() {}
+#else
+
 #include "test.hpp"
 #include "verify_meta.hpp"
 
@@ -8,8 +12,6 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-#if defined( __cpp_exceptions )
-
    void test_header()
    {
       // TODO.
@@ -91,12 +93,8 @@ namespace TAO_PEGTL_NAMESPACE
       test_chunked();
    }
 
-#else
-   void unit_test()
-   {}
-
-#endif
-
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"
+
+#endif

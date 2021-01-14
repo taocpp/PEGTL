@@ -4,6 +4,10 @@
 #ifndef TAO_PEGTL_INTERNAL_TRY_CATCH_TYPE_HPP
 #define TAO_PEGTL_INTERNAL_TRY_CATCH_TYPE_HPP
 
+#if !defined( __cpp_exceptions )
+#error "Exception support required for tao/pegtl/internal/try_catch_type.hpp"
+#else
+
 #include <type_traits>
 
 #include "../config.hpp"
@@ -44,7 +48,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-#if defined( __cpp_exceptions )
          auto m = in.template mark< M >();
          using m_t = decltype( m );
 
@@ -54,9 +57,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          catch( const Exception& ) {
             return false;
          }
-#else
-         return Control< Rule >::template match< A, M, Action, Control >( in, st... );
-#endif
       }
    };
 
@@ -65,4 +65,5 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
+#endif
 #endif

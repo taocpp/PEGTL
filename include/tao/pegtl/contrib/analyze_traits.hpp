@@ -140,16 +140,6 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_traits< Name, typename Rule::rule_t >
    {};
 
-   template< typename Name, typename Cond, typename... Rules >
-   struct analyze_traits< Name, internal::if_must< true, Cond, Rules... > >
-      : analyze_traits< Name, typename opt< Cond, Rules... >::rule_t >
-   {};
-
-   template< typename Name, typename Cond, typename... Rules >
-   struct analyze_traits< Name, internal::if_must< false, Cond, Rules... > >
-      : analyze_traits< Name, typename seq< Cond, Rules... >::rule_t >
-   {};
-
    template< typename Name, typename Cond, typename Then, typename Else >
    struct analyze_traits< Name, internal::if_then_else< Cond, Then, Else > >
       : analyze_traits< Name, typename sor< seq< Cond, Then >, Else >::rule_t >
@@ -158,11 +148,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Name, char... Cs >
    struct analyze_traits< Name, internal::istring< Cs... > >
       : std::conditional_t< ( sizeof...( Cs ) != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
-   {};
-
-   template< typename Name, typename... Rules >
-   struct analyze_traits< Name, internal::must< Rules... > >
-      : analyze_traits< Name, typename seq< Rules... >::rule_t >
    {};
 
    template< typename Name, typename... Rules >
@@ -183,11 +168,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::plus< Rules... > >
       : analyze_traits< Name, typename seq< Rules..., opt< Name > >::rule_t >
-   {};
-
-   template< typename Name, typename T >
-   struct analyze_traits< Name, internal::raise< T > >
-      : analyze_any_traits<>
    {};
 
    template< typename Name, internal::result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
@@ -255,11 +235,6 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits<>
    {};
 
-   template< typename Name, typename Exception, typename... Rules >
-   struct analyze_traits< Name, internal::try_catch_type< Exception, Rules... > >
-      : analyze_traits< Name, typename seq< Rules... >::rule_t >
-   {};
-
    template< typename Name, typename Cond >
    struct analyze_traits< Name, internal::until< Cond > >
       : analyze_traits< Name, typename Cond::rule_t >
@@ -269,6 +244,33 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_traits< Name, internal::until< Cond, Rules... > >
       : analyze_traits< Name, typename seq< star< Rules... >, Cond >::rule_t >
    {};
+
+#if defined( __cpp_exceptions )
+   template< typename Name, typename Cond, typename... Rules >
+   struct analyze_traits< Name, internal::if_must< true, Cond, Rules... > >
+      : analyze_traits< Name, typename opt< Cond, Rules... >::rule_t >
+   {};
+
+   template< typename Name, typename Cond, typename... Rules >
+   struct analyze_traits< Name, internal::if_must< false, Cond, Rules... > >
+      : analyze_traits< Name, typename seq< Cond, Rules... >::rule_t >
+   {};
+
+   template< typename Name, typename... Rules >
+   struct analyze_traits< Name, internal::must< Rules... > >
+      : analyze_traits< Name, typename seq< Rules... >::rule_t >
+   {};
+
+   template< typename Name, typename T >
+   struct analyze_traits< Name, internal::raise< T > >
+      : analyze_any_traits<>
+   {};
+
+   template< typename Name, typename Exception, typename... Rules >
+   struct analyze_traits< Name, internal::try_catch_type< Exception, Rules... > >
+      : analyze_traits< Name, typename seq< Rules... >::rule_t >
+   {};
+#endif
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

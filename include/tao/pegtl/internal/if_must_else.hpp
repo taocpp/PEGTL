@@ -4,6 +4,10 @@
 #ifndef TAO_PEGTL_INTERNAL_IF_MUST_ELSE_HPP
 #define TAO_PEGTL_INTERNAL_IF_MUST_ELSE_HPP
 
+#if !defined( __cpp_exceptions )
+#error "Exception support required for tao/pegtl/internal/if_must_else.hpp"
+#else
+
 #include "../config.hpp"
 
 #include "if_then_else.hpp"
@@ -18,4 +22,5 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
+#endif
 #endif

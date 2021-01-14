@@ -1,6 +1,10 @@
 // Copyright (c) 2018-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#if !defined( __cpp_exceptions )
+int main() {}
+#else
+
 #include <limits>
 #include <sstream>
 
@@ -13,7 +17,6 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-#if defined( __cpp_exceptions )
    template< typename Rule >
    struct int_action
       : nothing< Rule >
@@ -248,12 +251,8 @@ namespace TAO_PEGTL_NAMESPACE
       verify_analyze< signed_rule_with_action >( __LINE__, __FILE__, true, false );
    }
 
-#else
-   void unit_test()
-   {}
-
-#endif
-
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"
+
+#endif

@@ -1,6 +1,10 @@
 // Copyright (c) 2018-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#if !defined( __cpp_exceptions )
+int main() {}
+#else
+
 #include "test.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
@@ -9,7 +13,6 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-#if defined( __cpp_exceptions )
       verify_analyze< opt_must< any, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< opt_must< eof, any > >( __LINE__, __FILE__, false, false );
       verify_analyze< opt_must< opt< any >, any > >( __LINE__, __FILE__, false, false );
@@ -38,9 +41,10 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< opt_must< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "acc", result_type::global_failure, 3 );
       verify_rule< opt_must< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "acb", result_type::global_failure, 3 );
       verify_rule< opt_must< one< 'a' >, one< 'b' >, one< 'c' > > >( __LINE__, __FILE__, "abc", result_type::success, 0 );
-#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"
+
+#endif

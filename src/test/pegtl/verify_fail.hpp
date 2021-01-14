@@ -19,18 +19,12 @@ namespace TAO_PEGTL_NAMESPACE
    void verify_fail( const std::size_t line, const char* file, const std::string& s, States&&... st )
    {
       memory_input in( s, "expect exception" );
-#if defined( __cpp_exceptions )
       try {
          parse< Rule, Action >( in, st... );
          TAO_PEGTL_TEST_FAILED( "expected exception" );  // LCOV_EXCL_LINE
       }
       catch( ... ) {
       }
-#else
-      if( parse< Rule, Action >( in, st... ) ) {
-         TAO_PEGTL_TEST_FAILED( "expected local failure" );  // LCOV_EXCL_LINE
-      }
-#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
