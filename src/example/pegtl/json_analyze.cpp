@@ -11,7 +11,7 @@ namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 namespace example
 {
-   using grammar = pegtl::must< pegtl::json::text, pegtl::eof >;
+   using grammar = pegtl::seq< pegtl::json::text, pegtl::eof >;
 
 }  // namespace example
 

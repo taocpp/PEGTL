@@ -187,7 +187,7 @@ namespace calculator
    // Comments are introduced by a '#' and proceed to the end-of-line/file.
 
    struct comment
-      : if_must< one< '#' >, until< eolf > >
+      : seq< one< '#' >, until< eolf > >
    {};
 
    // The calculator ignores all spaces and comments; space is a pegtl rule
@@ -259,7 +259,7 @@ namespace calculator
    // proceed with an expression and a ')'.
 
    struct bracket
-      : if_must< one< '(' >, expression, one< ')' > >
+      : seq< one< '(' >, expression, one< ')' > >
    {};
 
    // An atomic expression, i.e. one without operators, is either a number or
@@ -280,7 +280,7 @@ namespace calculator
    // The top-level grammar allows one expression and then expects eof.
 
    struct grammar
-      : must< expression, eof >
+      : seq< expression, eof >
    {};
 
    // After the grammar we proceed with the additional actions that are
@@ -347,13 +347,14 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 
    for( int i = 1; i < argc; ++i ) {
       // Parse and process the command-line arguments as calculator expressions...
-
       pegtl::argv_input in( argv, i );
-      pegtl::parse< calculator::grammar, calculator::action >( in, b, s );
-
-      // ...and print the respective results to std::cout.
-
-      std::cout << s.finish() << std::endl;
+      if( pegtl::parse< calculator::grammar, calculator::action >( in, b, s ) ) {
+         // ...and print the respective results to std::cout.
+         std::cout << s.finish() << std::endl;
+      }
+      else {
+         std::cerr << "parse error for: " << argv[ i ] << std::endl;
+      }
    }
    return 0;
 }

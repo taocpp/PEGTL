@@ -4,6 +4,10 @@
 #ifndef TAO_PEGTL_SRC_EXAMPLES_PEGTL_LUA53_HPP
 #define TAO_PEGTL_SRC_EXAMPLES_PEGTL_LUA53_HPP
 
+#if !defined( __cpp_exceptions )
+#error "Exception support required lua53.hpp"
+#else
+
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/raw_string.hpp>
 
@@ -332,4 +336,5 @@ namespace lua53
 
 }  // namespace lua53
 
+#endif
 #endif

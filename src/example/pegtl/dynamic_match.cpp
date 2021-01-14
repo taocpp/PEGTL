@@ -56,7 +56,7 @@ namespace dynamic
    {};
 
    struct grammar
-      : pegtl::if_must< long_literal_open, pegtl::until< long_literal_close, long_literal_body >, pegtl::eof >
+      : pegtl::seq< long_literal_open, pegtl::until< long_literal_close, long_literal_body >, pegtl::eof >
    {};
 
    template< typename Rule >
@@ -106,10 +106,14 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       std::string body;
 
       pegtl::argv_input in( argv, 1 );
-      pegtl::parse< dynamic::grammar, dynamic::action >( in, id, body );
-
-      std::cout << "long literal id was: " << id << std::endl;
-      std::cout << "long literal body was: " << body << std::endl;
+      if( pegtl::parse< dynamic::grammar, dynamic::action >( in, id, body ) ) {
+         std::cout << "long literal id was: " << id << std::endl;
+         std::cout << "long literal body was: " << body << std::endl;
+      }
+      else {
+         std::cerr << "parse error for: " << argv[ 1 ] << std::endl;
+         return 1;
+      }
    }
    return 0;
 }

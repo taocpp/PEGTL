@@ -2,6 +2,7 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #include <algorithm>
+#include <exception>
 #include <iomanip>
 #include <iostream>
 #include <iterator>

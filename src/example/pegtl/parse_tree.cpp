@@ -30,12 +30,12 @@ namespace example
    struct close_bracket : seq< star< space >, one< ')' > > {};
 
    struct expression;
-   struct bracketed : if_must< open_bracket, expression, close_bracket > {};
+   struct bracketed : seq< open_bracket, expression, close_bracket > {};
    struct value : sor< integer, variable, bracketed >{};
-   struct product : list_must< value, sor< multiply, divide > > {};
-   struct expression : list_must< product, sor< plus, minus > > {};
+   struct product : list< value, sor< multiply, divide > > {};
+   struct expression : list< product, sor< plus, minus > > {};
 
-   struct grammar : must< expression, eof > {};
+   struct grammar : seq< expression, eof > {};
    // clang-format on
 
    // after a node is stored successfully, you can add an optional transformer like this:
@@ -169,20 +169,11 @@ int main( int argc, char** argv )
       return 1;
    }
    argv_input in( argv, 1 );
-   try {
-      const auto root = parse_tree::parse< example::grammar, example::node, example::selector >( in );
+   if( const auto root = parse_tree::parse< example::grammar, example::node, example::selector >( in ) ) {
       parse_tree::print_dot( std::cout, *root );
       return 0;
    }
-   catch( const parse_error& e ) {
-      const auto p = e.positions().front();
-      std::cerr << e.what() << std::endl
-                << in.line_at( p ) << std::endl
-                << std::setw( p.column ) << '^' << std::endl;
-   }
-   catch( const std::exception& e ) {
-      std::cerr << e.what() << std::endl;
-   }
 
+   std::cerr << "parse error" << std::endl;
    return 1;
 }

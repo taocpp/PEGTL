@@ -1,6 +1,10 @@
 // Copyright (c) 2015-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#if !defined( __cpp_exceptions )
+int main() {}
+#else
+
 #include <iostream>
 
 #include "lua53.hpp"
@@ -14,3 +18,5 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    }
    return 0;
 }
+
+#endif

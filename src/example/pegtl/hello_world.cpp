@@ -13,7 +13,7 @@ namespace hello
    // clang-format off
    struct prefix : pegtl::string< 'H', 'e', 'l', 'l', 'o', ',', ' ' > {};
    struct name : pegtl::plus< pegtl::alpha > {};
-   struct grammar : pegtl::must< prefix, name, pegtl::one< '!' >, pegtl::eof > {};
+   struct grammar : pegtl::seq< prefix, name, pegtl::one< '!' >, pegtl::eof > {};
    // clang-format on
 
    template< typename Rule >
@@ -38,8 +38,11 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       std::string name;
 
       pegtl::argv_input in( argv, 1 );
-      pegtl::parse< hello::grammar, hello::action >( in, name );
-
-      std::cout << "Good bye, " << name << "!" << std::endl;
+      if( pegtl::parse< hello::grammar, hello::action >( in, name ) ) {
+         std::cout << "Good bye, " << name << "!" << std::endl;
+      }
+      else {
+         std::cerr << "I don't understand." << std::endl;
+      }
    }
 }

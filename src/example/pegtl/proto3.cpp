@@ -1,6 +1,10 @@
 // Copyright (c) 2017-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#if !defined( __cpp_exceptions )
+int main() {}
+#else
+
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/analyze.hpp>
 
@@ -132,7 +136,17 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 
    for( int i = 1; i < argc; ++i ) {
       file_input in( argv[ i ] );
-      parse< proto3::proto >( in );
+      try {
+         parse< proto3::proto >( in );
+      }
+      catch( const parse_error& e ) {
+         const auto p = e.positions().front();
+         std::cerr << e.what() << '\n'
+                   << in.line_at( p ) << '\n'
+                   << std::setw( p.column ) << '^' << '\n';
+      }
    }
    return 0;
 }
+
+#endif

@@ -11,6 +11,10 @@
 //
 // Try: build/src/example/pegtl/recover '1+2*3;1+2*(3-)-4;-5;6/;7*(8+9)'
 
+#if !defined( __cpp_exceptions )
+int main() {}
+#else
+
 #include <iostream>
 #include <string>
 
@@ -117,3 +121,5 @@ int main( int argc, char** argv )
    }
    return 0;
 }
+
+#endif

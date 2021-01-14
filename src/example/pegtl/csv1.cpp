@@ -30,8 +30,8 @@ namespace csv1
    // clang-format off
    struct value : pegtl::plus< pegtl::digit > {};
    struct value_item : pegtl::pad< value, pegtl::blank > {};
-   struct value_list : pegtl::list_must< value_item, pegtl::one< ',' > > {};
-   struct value_line : pegtl::if_must< value_list, pegtl::eolf > {};
+   struct value_list : pegtl::list< value_item, pegtl::one< ',' > > {};
+   struct value_line : pegtl::seq< value_list, pegtl::eolf > {};
    struct comment_line : pegtl::seq< pegtl::one< '#' >, pegtl::until< pegtl::eolf > > {};
    struct line : pegtl::sor< comment_line, value_line > {};
    struct file : pegtl::until< pegtl::eof, line > {};
@@ -91,7 +91,10 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    for( int i = 1; i < argc; ++i ) {
       pegtl::file_input in( argv[ i ] );
       csv1::result_data data;
-      pegtl::parse< pegtl::must< csv1::file >, csv1::action, csv1::control >( in, data );
+      if( !pegtl::parse< pegtl::seq< csv1::file >, csv1::action, csv1::control >( in, data ) ) {
+         std::cerr << "parse error" << std::endl;
+         return 1;
+      }
       for( const auto& line : data ) {
          assert( !line.empty() );  // The grammar doesn't allow empty lines.
          std::cout << line.front();

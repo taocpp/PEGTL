@@ -27,7 +27,7 @@ namespace modulus
    };
 
    struct grammar
-      : until< eolf, must< my_rule< 3 > > >
+      : until< eolf, my_rule< 3 > >
    {};
 
 }  // namespace modulus
@@ -36,7 +36,9 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    if( argc > 1 ) {
       argv_input in( argv, 1 );
-      parse< modulus::grammar >( in );
+      if( !parse< modulus::grammar >( in ) ) {
+         return 1;
+      }
    }
    return 0;
 }

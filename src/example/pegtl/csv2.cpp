@@ -1,6 +1,7 @@
 // Copyright (c) 2016-2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#include <exception>
 #include <iostream>
 #include <utility>
 
@@ -25,7 +26,7 @@ namespace csv2
    // clang-format off
    template< char C > struct string_without : pegtl::star< pegtl::not_one< C, 10, 13 > > {};
    struct plain_value : string_without< ',' > {};
-   struct quoted_value : pegtl::if_must< pegtl::one< '"' >, string_without< '"' >, pegtl::one< '"' > > {};
+   struct quoted_value : pegtl::seq< pegtl::one< '"' >, string_without< '"' >, pegtl::one< '"' > > {};
    struct value : pegtl::sor< quoted_value, plain_value > {};
    template< unsigned N > struct line : pegtl::seq< value, pegtl::rep< N - 1, pegtl::one< ',' >, value >, pegtl::eol > {};
    template< unsigned N > struct file : pegtl::until< pegtl::eof, line< N > > { static_assert( N != 0 ); };
@@ -112,7 +113,8 @@ namespace csv2
       static void apply( const ActionInput& in, result_data< N >& data )
       {
          if( data.temp.size() != N ) {
-            throw pegtl::parse_error( "column count mismatch", in );
+            std::cerr << "column count mismatch " << in.position() << std::endl;
+            std::terminate();
          }
          tuple_t temp;
          tuple_init< N - 1 >::init( temp, data.temp );
@@ -174,9 +176,13 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       pegtl::file_input in( argv[ i ] );
       constexpr unsigned number_of_columns = 3;
       csv2::result_data< number_of_columns > data;
-      pegtl::parse< pegtl::must< csv2::file< number_of_columns > >, csv2::action >( in, data );
-      for( const auto& line : data.result ) {
-         csv2::print_tuple( line );
+      if( pegtl::parse< pegtl::seq< csv2::file< number_of_columns > >, csv2::action >( in, data ) ) {
+         for( const auto& line : data.result ) {
+            csv2::print_tuple( line );
+         }
+      }
+      else {
+         std::cerr << "parse error" << std::endl;
       }
    }
    return 0;
