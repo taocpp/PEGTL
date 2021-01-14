@@ -278,6 +278,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       }  // namespace grammar
 
+#if defined( __cpp_exceptions )
       // Using must_if<> we define a control class which is used for
       // the parsing run instead of the default control class.
       //
@@ -315,6 +316,10 @@ namespace TAO_PEGTL_NAMESPACE
       struct error { template< typename Rule > static constexpr auto message = error_message< Rule >; };
       template< typename Rule > using control = must_if< error >::control< Rule >;
       // clang-format on
+#else
+      template< typename Rule >
+      using control = normal< Rule >;
+#endif
 
       // Since we are going to generate a parse tree, we define a
       // selector that decides which rules will be included in our
@@ -431,7 +436,12 @@ namespace TAO_PEGTL_NAMESPACE
                return *it;
             }
             if( keywords.count( v ) != 0 || v.find( "__" ) != std::string::npos ) {
+#if defined( __cpp_exceptions )
                throw parse_error( '\'' + n->string() + "' is a reserved rulename", n->begin() );
+#else
+               std::cerr << '\'' + n->string() + "' is a reserved rulename" << std::endl;
+               std::terminate();
+#endif
             }
             if( print_forward_declarations && find_rule( rules_defined, v ) != rules_defined.rend() ) {
                std::cout << "struct " << v << ";\n";
@@ -479,14 +489,24 @@ namespace TAO_PEGTL_NAMESPACE
             // when we insert a normal rule, we need to check for duplicates
             if( op == "=" ) {
                if( !previous_rules.try_emplace( rname, n.get() ).second ) {
+#if defined( __cpp_exceptions )
                   throw parse_error( "rule '" + rname + "' is already defined", n->begin() );
+#else
+                  std::cerr << "rule '" + rname + "' is already defined" << std::endl;
+                  std::terminate();
+#endif
                }
             }
             // if it is an "incremental alternation", we need to consolidate the assigned alternations
             else if( op == "=/" ) {
                const auto p = previous_rules.find( rname );
                if( p == previous_rules.end() ) {
+#if defined( __cpp_exceptions )
                   throw parse_error( "incremental alternation '" + rname + "' without previous rule definition", n->begin() );
+#else
+                  std::cerr << "incremental alternation '" + rname + "' without previous rule definition" << std::endl;
+                  std::terminate();
+#endif
                }
                auto& previous = p->second->children.back();
 
@@ -517,7 +537,12 @@ namespace TAO_PEGTL_NAMESPACE
                n.reset();
             }
             else {
+#if defined( __cpp_exceptions )
                throw parse_error( "invalid operator '" + op + "', this should not happen!", n->begin() );
+#else
+               std::cerr << "invalid operator '" + op + "', this should not happen!" << std::endl;
+               std::terminate();
+#endif
             }
          }
       };
@@ -552,7 +577,12 @@ namespace TAO_PEGTL_NAMESPACE
       {
          stringifier nrv;
          nrv.default_ = []( const node_ptr& n ) -> std::string {
+#if defined( __cpp_exceptions )
             throw parse_error( "missing to_string() for " + std::string( n->type ), n->begin() );
+#else
+            std::cerr << "missing to_string() for " + std::string( n->type ) << std::endl;
+            std::terminate();
+#endif
          };
 
          nrv.add< grammar::rulename >( []( const node_ptr& n ) { return get_rulename( n, true ); } );
@@ -636,14 +666,24 @@ namespace TAO_PEGTL_NAMESPACE
             if( star == std::string::npos ) {
                const auto v = remove_leading_zeroes( rep );
                if( v.empty() ) {
+#if defined( __cpp_exceptions )
                   throw parse_error( "repetition of zero not allowed", n->begin() );
+#else
+                  std::cerr << "repetition of zero not allowed" << std::endl;
+                  std::terminate();
+#endif
                }
                return prefix + "rep< " + v + ", " + content + " >";
             }
             const auto min = remove_leading_zeroes( rep.substr( 0, star ) );
             const auto max = remove_leading_zeroes( rep.substr( star + 1 ) );
             if( ( star != rep.size() - 1 ) && max.empty() ) {
+#if defined( __cpp_exceptions )
                throw parse_error( "repetition maximum of zero not allowed", n->begin() );
+#else
+               std::cerr << "repetition maximum of zero not allowed" << std::endl;
+               std::terminate();
+#endif
             }
             if( min.empty() && max.empty() ) {
                return prefix + "star< " + content + " >";
@@ -671,7 +711,12 @@ namespace TAO_PEGTL_NAMESPACE
                s >> max_val;
             }
             if( min_val > max_val ) {
+#if defined( __cpp_exceptions )
                throw parse_error( "repetition minimum which is greater than the repetition maximum not allowed", n->begin() );
+#else
+               std::cerr << "repetition minimum which is greater than the repetition maximum not allowed" << std::endl;
+               std::terminate();
+#endif
             }
             if( ( min_val == 1 ) && ( max_val == 1 ) ) {
                // note: content can not be used here!
@@ -722,6 +767,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    }
 
    file_input in( argv[ 1 ] );
+#if defined( __cpp_exceptions )
    try {
       const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::selector, nothing, abnf::control >( in );
 
@@ -739,6 +785,21 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
                 << in.line_at( p ) << '\n'
                 << std::setw( p.column ) << '^' << '\n';
    }
+#else
+   if( const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::selector, nothing, abnf::control >( in ) ) {
+      for( const auto& rule : root->children ) {
+         abnf::rules_defined.push_back( abnf::get_rulename( rule->children.front() ) );
+      }
+
+      for( const auto& rule : root->children ) {
+         std::cout << abnf::to_string( rule ) << '\n';
+      }
+   }
+   else {
+      std::cerr << "error occurred" << std::endl;
+      return 1;
+   }
+#endif
 
    return 0;
 }
