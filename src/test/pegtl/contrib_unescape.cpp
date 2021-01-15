@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE
       std::string s;
       memory_input in( m, M - 1, __FUNCTION__ );
       if( !parse< unstring, unaction >( in, s ) ) {
-         return false;
+         return false;  // LCOV_EXCL_LINE
       }
       return s == std::string( n, N - 1 );
    }
