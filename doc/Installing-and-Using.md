@@ -62,8 +62,6 @@ Alternatively `-DPEGTL_BOOST_FILESYSTEM=ON` can be passed to CMake to use `boost
 When building with Make, appropriate flags for `include/tao/pegtl/internal/filesystem.hpp` and the linker need to be set manually or by changing the included `Makefile`.
 Using `-DTAO_PEGTL_BOOST_FILESYSTEM=1` and setting up the compiler and linker to find the Boost headers and libraries and link against `boost_filesystem` can also be set up manually with Make.
 
-<a href="https://repology.org/metapackage/pegtl"><img align="right" src="https://repology.org/badge/vertical-allrepos/pegtl.svg" alt="Packaging status"></a>
-
 ## Disabling Exceptions
 
 The PEGTL is compatible with `-fno-exceptions`, however:
@@ -90,6 +88,8 @@ The PEGTL is compatible with `-fno-exceptions`, however:
 The PEGTL is compatible with `-fno-rtti` on GCC, Clang, and MSVC.
 An exception are GCC 9.1 and GCC 9.2, see [bug #91155](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155).
 On unknown compilers, we use RTTI by default (for demangling), please report any such compiler and it might be possible to extend support for disabling RTTI for those compilers as well.
+
+<a href="https://repology.org/metapackage/pegtl"><img align="right" src="https://repology.org/badge/vertical-allrepos/pegtl.svg" alt="Packaging status"></a>
 
 ## Installation Packages
 
