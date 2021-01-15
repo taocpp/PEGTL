@@ -46,6 +46,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          struct stat st;
          errno = 0;
          if( ::fstat( m_fd, &st ) < 0 ) {
+            // LCOV_EXCL_START
 #if defined( __cpp_exceptions )
             internal::error_code ec( errno, internal::system_category() );
             throw internal::filesystem::filesystem_error( "fstat() failed", m_path, ec );
@@ -53,6 +54,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             std::perror( "fstat() failed" );
             std::terminate();
 #endif
+            // LCOV_EXCL_END
          }
          return std::size_t( st.st_size );
       }
@@ -95,6 +97,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
            m_data( static_cast< const char* >( ::mmap( nullptr, m_size, PROT_READ, MAP_PRIVATE, reader.m_fd, 0 ) ) )
       {
          if( ( m_size != 0 ) && ( intptr_t( m_data ) == -1 ) ) {
+            // LCOV_EXCL_START
 #if defined( __cpp_exceptions )
             internal::error_code ec( errno, internal::system_category() );
             throw internal::filesystem::filesystem_error( "mmap() failed", reader.m_path, ec );
@@ -102,6 +105,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             std::perror( "mmap() failed" );
             std::terminate();
 #endif
+            // LCOV_EXCL_END
          }
       }
 
