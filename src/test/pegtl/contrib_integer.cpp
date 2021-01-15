@@ -2,7 +2,11 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #if !defined( __cpp_exceptions )
-int main() {}
+#include <iostream>
+int main()
+{
+   std::cout << "Exception support disabled, skipping test..." << std::endl;
+}
 #else
 
 #include <limits>

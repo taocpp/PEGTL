@@ -2,7 +2,12 @@
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #if !defined( __cpp_exceptions )
-int main() {}
+#include <iostream>
+int main()
+{
+   std::cerr << "Exception support required, example unavailable." << std::endl;
+   return 1;
+}
 #else
 
 #include <iostream>

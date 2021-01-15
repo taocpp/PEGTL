@@ -12,7 +12,12 @@
 // Try: build/src/example/pegtl/recover '1+2*3;1+2*(3-)-4;-5;6/;7*(8+9)'
 
 #if !defined( __cpp_exceptions )
-int main() {}
+#include <iostream>
+int main()
+{
+   std::cerr << "Exception support required, example unavailable." << std::endl;
+   return 1;
+}
 #else
 
 #include <iostream>
