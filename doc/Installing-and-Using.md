@@ -64,7 +64,7 @@ Using `-DTAO_PEGTL_BOOST_FILESYSTEM=1` and setting up the compiler and linker to
 
 ## Disabling Exceptions
 
-The PEGTL is compatible with `-fno-exceptions`, however:
+The PEGTL is compatible with `-fno-exceptions`, however, when disabling exceptions:
 
 * The following rules are unavailable:
   * `raise<>`.
@@ -81,7 +81,7 @@ The PEGTL is compatible with `-fno-exceptions`, however:
   * `tao/pegtl/contrib/integer.hpp`.
   * `tao/pegtl/contrib/uri.hpp`.
 * The error control class template `must_if<>` is unavailable.
-* Some of our tests and examples are disabled (via `#if`).
+* Some of our tests and examples are disabled or limited (via `#if`).
 
 ## Disabling RTTI
 
