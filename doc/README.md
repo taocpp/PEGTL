@@ -5,6 +5,8 @@
 * [Installing and Using](Installing-and-Using.md)
   * [Requirements](Installing-and-Using.md#requirements)
   * [Filesystem](Installing-and-Using.md#filesystem)
+  * [Disabling Exceptions](Installing-and-Using.md#disabling-exceptions)
+  * [Disabling RTTI](Installing-and-Using.md#disabling-rtti)
   * [Installation Packages](Installing-and-Using.md#installation-packages)
   * [Using Vcpkg](Installing-and-Using.md#using-vcpkg)
   * [Using Conan](Installing-and-Using.md#using-conan)

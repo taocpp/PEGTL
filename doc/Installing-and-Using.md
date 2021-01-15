@@ -4,6 +4,8 @@
 
 * [Requirements](#requirements)
 * [Filesystem](#filesystem)
+* [Disabling Exceptions](#disabling-exceptions)
+* [Disabling RTTI](#disabling-rtti)
 * [Installation Packages](#installation-packages)
 * [Using Vcpkg](#using-vcpkg)
 * [Using Conan](#using-conan)
@@ -61,6 +63,33 @@ When building with Make, appropriate flags for `include/tao/pegtl/internal/files
 Using `-DTAO_PEGTL_BOOST_FILESYSTEM=1` and setting up the compiler and linker to find the Boost headers and libraries and link against `boost_filesystem` can also be set up manually with Make.
 
 <a href="https://repology.org/metapackage/pegtl"><img align="right" src="https://repology.org/badge/vertical-allrepos/pegtl.svg" alt="Packaging status"></a>
+
+## Disabling Exceptions
+
+The PEGTL is compatible with `-fno-exceptions`, however:
+
+* The following rules are unavailable:
+  * `raise<>`.
+  * `try_catch<>`.
+  * `try_catch_type<>`.
+  * `must<>`.
+  * `if_must<>`.
+  * `if_must_else<>`.
+  * `list_must<>`.
+  * `opt_must<>`.
+  * `star_must<>`.
+* The following headers are unavailable:
+  * `tao/pegtl/contrib/http.hpp`.
+  * `tao/pegtl/contrib/integer.hpp`.
+  * `tao/pegtl/contrib/uri.hpp`.
+* The error control class template `must_if<>` is unavailable.
+* Some of our tests and examples are disabled (via `#if`).
+
+## Disabling RTTI
+
+The PEGTL is compatible with `-fno-rtti` on GCC, Clang, and MSVC.
+An exception are GCC 9.1 and GCC 9.2, see [bug #91155](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155).
+On unknown compilers, we use RTTI by default (for demangling), please report any such compiler and it might be possible to extend support for disabling RTTI for those compilers as well.
 
 ## Installation Packages
 

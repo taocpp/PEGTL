@@ -4,9 +4,9 @@
 
 **Not yet released**
 
-* Added support for `-fno-exceptions`.
+* Added support for disabling exceptions with [`-fno-exceptions`](Installing-and-Using.md#disabling-exceptions).
 * Improved efficiency of parse tree nodes.
-* Fixed namespace issue with `demangle()`.
+* Fixed namespace issue with `tao::pegtl::demangle<T>()` (was: `tao::demangle<T>()`).
 
 ## 3.1.0
 
