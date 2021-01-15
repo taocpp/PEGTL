@@ -10,6 +10,8 @@ int main()
 }
 #else
 
+#include <iomanip>
+
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/analyze.hpp>
 
