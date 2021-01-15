@@ -2,7 +2,7 @@
 
 ## 3.2.0
 
-**Not yet released**
+Released 2021-01-15
 
 * Added support for disabling exceptions with [`-fno-exceptions`](Installing-and-Using.md#disabling-exceptions).
 * Improved efficiency of parse tree nodes.
