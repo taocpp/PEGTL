@@ -89,9 +89,9 @@ The PEGTL is compatible with `-fno-rtti` on GCC, Clang, and MSVC.
 An exception are GCC 9.1 and GCC 9.2, see [bug #91155](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155).
 On unknown compilers, we use RTTI by default (for demangling), please report any such compiler and it might be possible to extend support for disabling RTTI for those compilers as well.
 
-<a href="https://repology.org/metapackage/pegtl"><img align="right" src="https://repology.org/badge/vertical-allrepos/pegtl.svg" alt="Packaging status"></a>
-
 ## Installation Packages
+
+<a href="https://repology.org/metapackage/pegtl"><img align="right" hspace="20" src="https://repology.org/badge/vertical-allrepos/pegtl.svg" alt="Packaging status"></a>
 
 Installation packages are available from several package managers.
 Note that some of the listed packages are not updated regularly.
