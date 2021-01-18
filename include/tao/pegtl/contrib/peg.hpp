@@ -1,4 +1,5 @@
 // Copyright (c) 2021 Daniel Deptford
+// Copyright (c) 2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #ifndef TAO_PEGTL_CONTRIB_PEG_HPP
@@ -43,150 +44,82 @@ namespace TAO_PEGTL_NAMESPACE
          struct STAR;
          struct Suffix;
 
-         struct Grammar : tao::pegtl::seq<Spacing, tao::pegtl::plus<Definition>, EndOfFile> {};
-         struct Definition : tao::pegtl::seq<Identifier, LEFTARROW, Expression> {};
-         struct Expression : tao::pegtl::seq<
-           Sequence,
-           tao::pegtl::star<
-             tao::pegtl::seq<
-               SLASH,
-               Sequence
-             >
-           >
-         > {};
-         struct Sequence : tao::pegtl::star<Prefix> {};
-         struct Prefix : tao::pegtl::seq<
-           tao::pegtl::opt<
-             tao::pegtl::sor<
-               AND,
-               NOT
-             >
-           >,
-           Suffix
-         > {};
+         struct Grammar : seq< Spacing, plus< Definition >, EndOfFile > {};
 
-         struct Suffix : tao::pegtl::seq<
-           Primary,
-           tao::pegtl::opt<
-             tao::pegtl::sor<
-               QUESTION,
-               STAR,
-               PLUS
-             >
-           >
-         > {};
+         struct Definition : seq< Identifier, LEFTARROW, Expression > {};
+         struct Expression : list< Sequence, SLASH > {};
+         struct Sequence : star< Prefix > {};
 
-         struct Primary : tao::pegtl::sor<
-           tao::pegtl::seq<Identifier, tao::pegtl::not_at<LEFTARROW> >,
-           tao::pegtl::seq<OPEN, Expression, CLOSE>,
-           Literal,
-           Class,
-           DOT> {};
+         struct Prefix : seq< opt< sor< AND, NOT > >, Suffix > {};
+         struct Suffix : seq< Primary, opt< sor< QUESTION, STAR, PLUS > > > {};
 
-         struct Identifier : tao::pegtl::seq<IdentStart, tao::pegtl::star<IdentCont>, Spacing> {};
+         struct Primary : sor<
+            seq< Identifier, not_at< LEFTARROW > >,
+            seq< OPEN, Expression, CLOSE >,
+            Literal,
+            Class,
+            DOT
+            > {};
 
-         struct IdentStart : tao::pegtl::ranges< 'a', 'z', 'A', 'Z', '_' > {};
+         struct Identifier : seq< IdentStart, star< IdentCont >, Spacing > {};
 
-         struct IdentCont : tao::pegtl::sor<
-           IdentStart,
-           tao::pegtl::range<'0','9'>
-         > {};
+         struct IdentStart : identifier_first {};
 
-         struct Literal : tao::pegtl::sor<
-           tao::pegtl::seq<
-             tao::pegtl::one<'\''>,
-             tao::pegtl::star<
-                tao::pegtl::seq<
-                  tao::pegtl::not_at<
-                    tao::pegtl::one<'\''>
-                  >,
-                  Char
-                >
-             >,
-             tao::pegtl::one<'\''>,
-             Spacing
-           >,
-           tao::pegtl::seq<
-             tao::pegtl::one<'\"'>,
-             tao::pegtl::star<
-               tao::pegtl::seq<
-                  tao::pegtl::not_at<tao::pegtl::one<'\"'> >,
-                  Char
-                >
-             >,
-             tao::pegtl::one<'\"'>,
-             Spacing
-           >
-         > {};
+         struct IdentCont : identifier_other {};
 
-         struct Class : tao::pegtl::seq<
-           tao::pegtl::one<'['>,
-           tao::pegtl::star<
-             tao::pegtl::seq<
-               tao::pegtl::not_at<tao::pegtl::one<']'> >,
-               Range
-             >
-           >,
-           tao::pegtl::one<']'>,
-           Spacing
-         > {};
+         struct Literal : sor<
+            seq< one< '\'' >, until< one< '\'' >, Char >, Spacing >,
+            seq< one< '"' >, until< one< '"' >, Char >, Spacing >
+            > {};
 
-         struct Range : tao::pegtl::sor<
-           tao::pegtl::seq<
-             Char,
-             tao::pegtl::one<'-'>,
-             Char>,
-           Char
-         > {};
+         struct Class : seq< one< '[' >, until< one< ']' >, Range >, Spacing > {};
 
-         struct Char : tao::pegtl::sor<
-           tao::pegtl::seq<
-             tao::pegtl::one<'\\'>,
-             tao::pegtl::one<'n','r','t','\'','\"','[',']','\\'> >,
-           tao::pegtl::seq<
-             tao::pegtl::one<'\\'>,
-             tao::pegtl::range<'0','2'>,
-             tao::pegtl::range<'0','7'>,
-             tao::pegtl::range<'0','7'> >,
-           tao::pegtl::seq<
-             tao::pegtl::one<'\\'>,
-             tao::pegtl::range<'0','7'>,
-             tao::pegtl::opt<tao::pegtl::range<'0','7'> > >,
-           tao::pegtl::seq<
-             tao::pegtl::not_at<tao::pegtl::one<'\\'> >,
-             tao::pegtl::any>
-           > {};
+         struct Range : sor<
+            seq< Char, one< '-' >, Char >,
+            Char
+            > {};
 
-         struct LEFTARROW : tao::pegtl::seq<tao::pegtl::string<'<','-'>, Spacing> {};
-         struct SLASH : tao::pegtl::seq<tao::pegtl::one<'/'>, Spacing> {};
-         struct AND : tao::pegtl::seq<tao::pegtl::one<'&'>, Spacing> {};
-         struct NOT : tao::pegtl::seq<tao::pegtl::one<'!'>, Spacing> {};
-         struct QUESTION : tao::pegtl::seq<tao::pegtl::one<'?'>, Spacing> {};
-         struct STAR : tao::pegtl::seq<tao::pegtl::one<'*'>, Spacing> {};
-         struct PLUS : tao::pegtl::seq<tao::pegtl::one<'+'>, Spacing> {};
-         struct OPEN : tao::pegtl::seq<tao::pegtl::one<'('>, Spacing> {};
-         struct CLOSE : tao::pegtl::seq<tao::pegtl::one<')'>, Spacing> {};
-         struct DOT : tao::pegtl::seq<tao::pegtl::one<'.'>, Spacing> {};
+         struct Char : sor<
+            seq<
+               one< '\\' >,
+               one< 'n', 'r', 't', '\'', '"', '[', ']', '\\' > >,
+            seq<
+               one< '\\' >,
+               range< '0', '2' >,
+               range< '0', '7' >,
+               range< '0', '7' > >,
+            seq<
+               one< '\\' >,
+               range< '0','7' >,
+               opt< range< '0','7' > > >,
+            seq<
+               not_at< one< '\\' > >,
+               any >
+            > {};
 
-         struct Spacing : tao::pegtl::star<tao::pegtl::sor<Space, Comment> > {};
-         struct Comment :
-         tao::pegtl::seq<
-           tao::pegtl::one<'#'>,
-           tao::pegtl::star<
-             tao::pegtl::seq<
-               tao::pegtl::not_at<EndOfLine>,
-               tao::pegtl::any
-             >
-           >,
-           EndOfLine
-         > {};
+         struct LEFTARROW : seq< string< '<','-' >, Spacing > {};
+         struct SLASH : seq< one< '/' >, Spacing > {};
+         struct AND : seq< one< '&' >, Spacing > {};
+         struct NOT : seq< one< '!' >, Spacing > {};
+         struct QUESTION : seq< one< '?' >, Spacing > {};
+         struct STAR : seq< one< '*' >, Spacing > {};
+         struct PLUS : seq< one< '+' >, Spacing > {};
+         struct OPEN : seq< one< '(' >, Spacing > {};
+         struct CLOSE : seq< one< ')' >, Spacing > {};
+         struct DOT : seq< one< '.' >, Spacing > {};
 
-         struct Space : tao::pegtl::sor<tao::pegtl::one<' '>, tao::pegtl::one<'\t'>, EndOfLine> {};
-         struct EndOfLine : tao::pegtl::sor<tao::pegtl::string<'\r','\n'>, tao::pegtl::one<'\n'>, tao::pegtl::one<'\r'> > {};
-         struct EndOfFile : tao::pegtl::eof {};
+         struct Spacing : star< sor< Space, Comment > > {};
+         struct Comment : seq< one< '#' >, until< EndOfLine > > {};
+
+         struct Space : sor< one< ' ', '\t' >, EndOfLine > {};
+         struct EndOfLine : sor< string< '\r', '\n' >, one< '\n' >, one< '\r' > > {};
+         struct EndOfFile : eof {};
          // clang-format on
+
       }  // namespace grammar
-   }     // namespace peg
+
+   }  // namespace peg
+
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #endif  // TAO_PEGTL_CONTRIB_PEG_HPP
