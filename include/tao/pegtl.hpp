@@ -5,6 +5,7 @@
 #define TAO_PEGTL_HPP
 
 #include "pegtl/config.hpp"
+#include "pegtl/demangle.hpp"
 #include "pegtl/parse.hpp"
 #include "pegtl/version.hpp"
 
