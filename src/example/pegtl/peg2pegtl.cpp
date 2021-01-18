@@ -329,10 +329,10 @@ namespace TAO_PEGTL_NAMESPACE
             assert( n->children.back()->is_type< grammar::Expression >() );
             if( !previous_identifiers.try_emplace( idname, n.get() ).second ) {
 #if defined( __cpp_exceptions )
-                  throw parse_error( "identifier '" + idname + "' is already defined", n->begin() );
+               throw parse_error( "identifier '" + idname + "' is already defined", n->begin() );
 #else
-                  std::cerr << "identifier '" + idname + "' is already defined" << std::endl;
-                  std::terminate();
+               std::cerr << "identifier '" + idname + "' is already defined" << std::endl;
+               std::terminate();
 #endif
             }
          }
@@ -529,7 +529,8 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       for( const auto& rule : root->children ) {
          std::cout << peg::to_string( rule ) << '\n';
       }
-   } else {
+   }
+   else {
       std::cerr << "error occurred" << std::endl;
       return 1;
    }
