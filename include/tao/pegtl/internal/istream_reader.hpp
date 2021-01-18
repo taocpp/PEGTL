@@ -5,9 +5,10 @@
 #define TAO_PEGTL_INTERNAL_ISTREAM_READER_HPP
 
 #include <istream>
-#include <system_error>
 
-#if !defined( __cpp_exceptions )
+#if defined( __cpp_exceptions )
+#include <system_error>
+#else
 #include <cstdio>
 #include <exception>
 #endif

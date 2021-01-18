@@ -8,20 +8,21 @@
 #include <type_traits>
 #include <utility>
 
-#if !defined( __cpp_exceptions )
-#include <exception>
-#endif
-
 #include "apply_mode.hpp"
 #include "config.hpp"
-#include "demangle.hpp"
 #include "match.hpp"
 #include "parse_error.hpp"
 #include "rewind_mode.hpp"
 
-#include "internal/dependent_false.hpp"
 #include "internal/enable_control.hpp"
 #include "internal/has_match.hpp"
+
+#if defined( __cpp_exceptions )
+#include "demangle.hpp"
+#else
+#include "internal/dependent_false.hpp"
+#include <exception>
+#endif
 
 namespace TAO_PEGTL_NAMESPACE
 {

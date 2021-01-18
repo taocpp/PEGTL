@@ -4,7 +4,6 @@
 #ifndef TAO_PEGTL_PARSE_HPP
 #define TAO_PEGTL_PARSE_HPP
 
-#include <cassert>
 #include <utility>
 
 #include "apply_mode.hpp"

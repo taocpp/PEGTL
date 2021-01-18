@@ -10,8 +10,6 @@
 #include "../match.hpp"
 #include "../nothing.hpp"
 
-#include "../internal/dependent_false.hpp"
-
 namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal

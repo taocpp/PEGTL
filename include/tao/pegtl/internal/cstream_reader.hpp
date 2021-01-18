@@ -8,11 +8,11 @@
 #include <cstddef>
 #include <cstdio>
 
-#if !defined( __cpp_exceptions )
+#if defined( __cpp_exceptions )
+#include <system_error>
+#else
 #include <exception>
 #endif
-
-#include <system_error>
 
 #include "../config.hpp"
 

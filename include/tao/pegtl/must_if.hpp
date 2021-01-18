@@ -13,8 +13,6 @@
 #include "config.hpp"
 #include "normal.hpp"
 
-#include "internal/dependent_false.hpp"
-
 namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
