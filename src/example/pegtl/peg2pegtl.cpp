@@ -209,6 +209,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       }  // namespace
 
+#if defined( __cpp_exceptions )
       // Using must_if<> we define a control class which is used for
       // the parsing run instead of the default control class.
       //
@@ -230,6 +231,10 @@ namespace TAO_PEGTL_NAMESPACE
       struct error { template< typename Rule > static constexpr auto message = error_message< Rule >; };
       template< typename Rule > using control = must_if< error >::control< Rule >;
       // clang-format on
+#else
+      template< typename Rule >
+      using control = normal< Rule >;
+#endif
 
       // Since we are going to generate a parse tree, we define a
       // selector that decides which rules will be included in our
@@ -295,7 +300,12 @@ namespace TAO_PEGTL_NAMESPACE
                return *it;
             }
             if( keywords.count( v ) != 0 || v.find( "__" ) != std::string::npos ) {
-               throw parse_error( '\'' + n->string() + "' is a reserved rulename", n->begin() );
+#if defined( __cpp_exceptions )
+               throw parse_error( '\'' + n->string() + "' is a reserved identifier", n->begin() );
+#else
+               std::cerr << '\'' + n->string() + "' is a reserved identifier" << std::endl;
+               std::terminate();
+#endif
             }
             if( print_forward_declarations && find_identifier( identifiers_defined, v ) != identifiers_defined.rend() ) {
                std::cout << "struct " << v << ";\n";
@@ -318,7 +328,12 @@ namespace TAO_PEGTL_NAMESPACE
             const auto idname = get_identifier( n->children.front() );
             assert( n->children.back()->is_type< grammar::Expression >() );
             if( !previous_identifiers.try_emplace( idname, n.get() ).second ) {
-               throw parse_error( "identifier '" + idname + "' is already defined", n->begin() );
+#if defined( __cpp_exceptions )
+                  throw parse_error( "identifier '" + idname + "' is already defined", n->begin() );
+#else
+                  std::cerr << "identifier '" + idname + "' is already defined" << std::endl;
+                  std::terminate();
+#endif
             }
          }
       };
@@ -354,7 +369,12 @@ namespace TAO_PEGTL_NAMESPACE
       {
          stringifier nrv;
          nrv.default_ = []( const node_ptr& n ) -> std::string {
+#if defined( __cpp_exceptions )
             throw parse_error( "missing to_string() for " + std::string( n->type ), n->begin() );
+#else
+            std::cerr << "missing to_string() for " + std::string( n->type ) << std::endl;
+            std::terminate();
+#endif
          };
 
          nrv.add< grammar::Identifier >( []( const node_ptr& n ) { return get_identifier( n, true ); } );
@@ -410,7 +430,7 @@ namespace TAO_PEGTL_NAMESPACE
          } );
 
          nrv.add< grammar::Prefix >( []( const node_ptr& n ) {
-            const auto sub = to_string( n->children.back() );
+            auto sub = to_string( n->children.back() );
 
             if( n->children.front()->is_type< grammar::AND >() ) {
                return prefix + "at< " + sub + " >";
@@ -425,7 +445,7 @@ namespace TAO_PEGTL_NAMESPACE
          } );
 
          nrv.add< grammar::Suffix >( []( const node_ptr& n ) {
-            const auto sub = to_string( n->children.front() );
+            auto sub = to_string( n->children.front() );
 
             if( n->children.back()->is_type< grammar::QUESTION >() ) {
                return prefix + "opt< " + sub + " >";
@@ -443,7 +463,7 @@ namespace TAO_PEGTL_NAMESPACE
             return sub;
          } );
 
-         nrv.add< grammar::DOT >( []( const node_ptr& ) {
+         nrv.add< grammar::DOT >( []( const node_ptr& /*unused*/ ) {
             return prefix + "any";
          } );
 
@@ -482,6 +502,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    }
 
    file_input in( argv[ 1 ] );
+#if defined( __cpp_exceptions )
    try {
       const auto root = parse_tree::parse< peg::grammar::Grammar, peg::selector, nothing, peg::control >( in );
 
@@ -499,6 +520,19 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
                 << in.line_at( p ) << '\n'
                 << std::setw( p.column ) << '^' << '\n';
    }
+#else
+   if( const auto root = parse_tree::parse< peg::grammar::Grammar, peg::selector, nothing, peg::control >( in ) ) {
+      for( const auto& definition : root->children ) {
+         peg::identifiers_defined.push_back( peg::get_identifier( definition->children.front() ) );
+      }
 
+      for( const auto& rule : root->children ) {
+         std::cout << peg::to_string( rule ) << '\n';
+      }
+   } else {
+      std::cerr << "error occurred" << std::endl;
+      return 1;
+   }
+#endif
    return 0;
 }
