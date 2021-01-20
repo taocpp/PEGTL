@@ -150,6 +150,6 @@ install(DIRECTORY include/ DESTINATION ${PEGTL_INSTALL_INCLUDE_DIR})
 install(FILES LICENSE DESTINATION ${PEGTL_INSTALL_DOC_DIR})
 
 export(EXPORT pegtl-targets
-  FILE ${PEGTL_BINARY_DIR}/pegtl-targets.cmake
+  FILE ${pegtl_BINARY_DIR}/pegtl-targets.cmake
   NAMESPACE taocpp::
 )
