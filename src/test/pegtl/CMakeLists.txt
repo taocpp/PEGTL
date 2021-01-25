@@ -23,6 +23,7 @@ set(test_sources
   change_action_and_states.cpp
   change_state.cpp
   change_states.cpp
+  contains.cpp
   contrib_alphabet.cpp
   contrib_analyze.cpp
   contrib_control_action.cpp
