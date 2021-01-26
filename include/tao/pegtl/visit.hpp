@@ -56,7 +56,7 @@ namespace TAO_PEGTL_NAMESPACE
       {};
 
       template< template< typename... > class Func, typename... Args, typename... Rules >
-      void visit( type_list< Rules... >, Args&&... args )
+      void visit( type_list< Rules... > /*unused*/, Args&&... args )
       {
          ( Func< Rules >::visit( args... ), ... );
       }
