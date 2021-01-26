@@ -3,8 +3,6 @@
 
 #include <type_traits>
 
-#include <tao/pegtl/contrib/contains.hpp>
-
 #include "test.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -17,13 +15,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      bool result = false;
-
-      visit< grammar, contains< xdigit >::visitor >( result );
-      TAO_PEGTL_TEST_ASSERT( result == false );
-
-      visit< grammar, contains< digit >::visitor >( result );
-      TAO_PEGTL_TEST_ASSERT( result == true );
+      TAO_PEGTL_TEST_ASSERT( contains_v< grammar, digit > == true );
+      TAO_PEGTL_TEST_ASSERT( contains_v< grammar, xdigit > == false );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
