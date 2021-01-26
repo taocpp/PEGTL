@@ -15,8 +15,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      static_assert( contains_v< grammar, digit > == true );
-      static_assert( contains_v< grammar, xdigit > == false );
+      static_assert( contains_v< grammar, digit > );
+      static_assert( !contains_v< grammar, xdigit > );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
