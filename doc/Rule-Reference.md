@@ -100,7 +100,7 @@ These rules are in namespace `tao::pegtl`.
 * Enables all actions (if any).
 * [Meta data] and [implementation] mapping:
   - `enable<>::rule_t` is `internal::success`
-  - `enable< R >::rule_t` is `internal::enable<, R >`
+  - `enable< R >::rule_t` is `internal::enable< R >`
   - `enable< R >::subs_t` is `type_list< R >`
   - `enable< R... >::rule_t` is `internal::enable< internal::seq< R... > >`
   - `enable< R... >::subs_t` is `type_list< internal::seq< R... > >`
