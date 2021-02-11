@@ -21,6 +21,7 @@
 
 #include "config.hpp"
 #include "eol.hpp"
+#include "limit_depth.hpp"
 #include "memory_input.hpp"
 #include "position.hpp"
 #include "tracking_mode.hpp"
@@ -216,6 +217,10 @@ namespace TAO_PEGTL_NAMESPACE
       iterator_t m_current;
       char* m_end;
       const Source m_source;
+      std::size_t m_depth = 0;
+
+      template< std::size_t Max >
+      friend struct TAO_PEGTL_NAMESPACE::limit_depth;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

@@ -16,6 +16,15 @@ namespace example
 {
    using grammar = pegtl::seq< pegtl::json::text, pegtl::eof >;
 
+   template< typename >
+   struct action
+   {};
+
+   template<>
+   struct action< pegtl::json::value >
+      : pegtl::limit_depth< 42 >
+   {};
+
 }  // namespace example
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
@@ -30,7 +39,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    pegtl::argv_input in( argv, 1 );
 #if defined( __cpp_exceptions )
    try {
-      pegtl::parse< example::grammar, pegtl::nothing, example::control >( in );
+      pegtl::parse< example::grammar, example::action, example::control >( in );
    }
    catch( const pegtl::parse_error& e ) {
       const auto p = e.positions().front();
@@ -40,7 +49,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       return 1;
    }
 #else
-   if( !pegtl::parse< example::grammar, pegtl::nothing, example::control >( in ) ) {
+   if( !pegtl::parse< example::grammar, example::action, example::control >( in ) ) {
       std::cerr << "error occurred" << std::endl;
       return 1;
    }
