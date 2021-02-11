@@ -63,8 +63,8 @@ namespace TAO_PEGTL_NAMESPACE
 
          ~memory_input_base() = default;
 
-         memory_input_base operator=( const memory_input_base& ) = delete;
-         memory_input_base operator=( memory_input_base&& ) = delete;
+         memory_input_base& operator=( const memory_input_base& ) = delete;
+         memory_input_base& operator=( memory_input_base&& ) = delete;
 
          [[nodiscard]] const char* current() const noexcept
          {
@@ -166,8 +166,8 @@ namespace TAO_PEGTL_NAMESPACE
 
          ~memory_input_base() = default;
 
-         memory_input_base operator=( const memory_input_base& ) = delete;
-         memory_input_base operator=( memory_input_base&& ) = delete;
+         memory_input_base& operator=( const memory_input_base& ) = delete;
+         memory_input_base& operator=( memory_input_base&& ) = delete;
 
          [[nodiscard]] const char* current() const noexcept
          {
@@ -279,8 +279,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       ~memory_input() = default;
 
-      memory_input operator=( const memory_input& ) = delete;
-      memory_input operator=( memory_input&& ) = delete;
+      memory_input& operator=( const memory_input& ) = delete;
+      memory_input& operator=( memory_input&& ) = delete;
 
       [[nodiscard]] const Source& source() const noexcept
       {

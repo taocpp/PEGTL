@@ -67,8 +67,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       ~buffer_input() = default;
 
-      void operator=( const buffer_input& ) = delete;
-      void operator=( buffer_input&& ) = delete;
+      buffer_input& operator=( const buffer_input& ) = delete;
+      buffer_input& operator=( buffer_input&& ) = delete;
 
       [[nodiscard]] bool empty()
       {

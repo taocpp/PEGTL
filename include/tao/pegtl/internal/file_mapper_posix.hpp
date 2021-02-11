@@ -38,8 +38,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
          ::close( m_fd );
       }
 
-      void operator=( const file_opener& ) = delete;
-      void operator=( file_opener&& ) = delete;
+      file_opener& operator=( const file_opener& ) = delete;
+      file_opener& operator=( file_opener&& ) = delete;
 
       [[nodiscard]] std::size_t size() const
       {
@@ -118,8 +118,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
          ::munmap( const_cast< char* >( m_data ), m_size );
       }
 
-      void operator=( const file_mapper& ) = delete;
-      void operator=( file_mapper&& ) = delete;
+      file_mapper& operator=( const file_mapper& ) = delete;
+      file_mapper& operator=( file_mapper&& ) = delete;
 
       [[nodiscard]] bool empty() const noexcept
       {

@@ -23,8 +23,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       ~marker() = default;
 
-      void operator=( const marker& ) = delete;
-      void operator=( marker&& ) = delete;
+      marker& operator=( const marker& ) = delete;
+      marker& operator=( marker&& ) = delete;
 
       [[nodiscard]] bool operator()( const bool result ) const noexcept
       {
@@ -53,8 +53,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
       }
 
-      void operator=( const marker& ) = delete;
-      void operator=( marker&& ) = delete;
+      marker& operator=( const marker& ) = delete;
+      marker& operator=( marker&& ) = delete;
 
       [[nodiscard]] bool operator()( const bool result ) noexcept
       {

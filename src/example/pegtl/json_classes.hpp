@@ -35,8 +35,8 @@ namespace example
       json_base( const json_base& ) = delete;
       json_base( json_base&& ) = delete;
 
-      void operator=( const json_base& ) = delete;
-      void operator=( json_base&& ) = delete;
+      json_base& operator=( const json_base& ) = delete;
+      json_base& operator=( json_base&& ) = delete;
 
       virtual void stream( std::ostream& ) const = 0;
 

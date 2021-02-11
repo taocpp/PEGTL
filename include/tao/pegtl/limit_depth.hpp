@@ -31,10 +31,16 @@ namespace TAO_PEGTL_NAMESPACE
             ++m_depth;
          }
 
+         depth_guard( const depth_guard& ) = delete;
+         depth_guard( depth_guard&& ) = delete;
+
          ~depth_guard()
          {
             --m_depth;
          }
+
+         depth_guard& operator=( const depth_guard& ) = delete;
+         depth_guard& operator=( depth_guard&& ) = delete;
       };
 
    }  // namespace internal

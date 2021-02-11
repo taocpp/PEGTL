@@ -42,8 +42,8 @@ namespace TAO_PEGTL_NAMESPACE
 
          ~mmap_holder() = default;
 
-         void operator=( const mmap_holder& ) = delete;
-         void operator=( mmap_holder&& ) = delete;
+         mmap_holder& operator=( const mmap_holder& ) = delete;
+         mmap_holder& operator=( mmap_holder&& ) = delete;
       };
 
    }  // namespace internal
@@ -67,8 +67,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       ~mmap_input() = default;
 
-      void operator=( const mmap_input& ) = delete;
-      void operator=( mmap_input&& ) = delete;
+      mmap_input& operator=( const mmap_input& ) = delete;
+      mmap_input& operator=( mmap_input&& ) = delete;
    };
 
    template< typename... Ts >

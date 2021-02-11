@@ -52,8 +52,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
          ::CloseHandle( m_handle );
       }
 
-      void operator=( const file_opener& ) = delete;
-      void operator=( file_opener&& ) = delete;
+      file_opener& operator=( const file_opener& ) = delete;
+      file_opener& operator=( file_opener&& ) = delete;
 
       [[nodiscard]] std::size_t size() const
       {
@@ -134,8 +134,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
          ::CloseHandle( m_handle );
       }
 
-      void operator=( const win32_file_mapper& ) = delete;
-      void operator=( win32_file_mapper&& ) = delete;
+      win32_file_mapper& operator=( const win32_file_mapper& ) = delete;
+      win32_file_mapper& operator=( win32_file_mapper&& ) = delete;
 
       const size_t m_size;
       const HANDLE m_handle;
@@ -202,8 +202,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
          ::UnmapViewOfFile( LPCVOID( m_data ) );
       }
 
-      void operator=( const file_mapper& ) = delete;
-      void operator=( file_mapper&& ) = delete;
+      file_mapper& operator=( const file_mapper& ) = delete;
+      file_mapper& operator=( file_mapper&& ) = delete;
 
       [[nodiscard]] bool empty() const noexcept
       {

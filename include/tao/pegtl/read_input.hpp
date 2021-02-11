@@ -42,8 +42,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       ~read_input() = default;
 
-      void operator=( const read_input& ) = delete;
-      void operator=( read_input&& ) = delete;
+      read_input& operator=( const read_input& ) = delete;
+      read_input& operator=( read_input&& ) = delete;
    };
 
    template< typename... Ts >

@@ -24,8 +24,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       set_stack_guard( set_stack_guard&& ) = delete;
       set_stack_guard( const set_stack_guard& ) = delete;
 
-      void operator=( set_stack_guard&& ) = delete;
-      void operator=( const set_stack_guard& ) = delete;
+      set_stack_guard& operator=( set_stack_guard&& ) = delete;
+      set_stack_guard& operator=( const set_stack_guard& ) = delete;
 
       ~set_stack_guard()
       {

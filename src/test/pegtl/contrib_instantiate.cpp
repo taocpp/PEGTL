@@ -32,8 +32,8 @@ namespace TAO_PEGTL_NAMESPACE
          dtor = true;
       }
 
-      void operator=( test_class&& ) = delete;
-      void operator=( const test_class& ) = delete;
+      test_class& operator=( test_class&& ) = delete;
+      test_class& operator=( const test_class& ) = delete;
    };
 
    using test_grammar = sor< alpha, digit >;

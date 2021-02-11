@@ -78,8 +78,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       ~file_reader() = default;
 
-      void operator=( const file_reader& ) = delete;
-      void operator=( file_reader&& ) = delete;
+      file_reader& operator=( const file_reader& ) = delete;
+      file_reader& operator=( file_reader&& ) = delete;
 
       [[nodiscard]] std::size_t size() const
       {

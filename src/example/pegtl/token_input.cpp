@@ -35,8 +35,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       ~token_action_input() = default;
 
-      token_action_input operator=( const token_action_input& ) = delete;
-      token_action_input operator=( token_action_input&& ) = delete;
+      token_action_input& operator=( const token_action_input& ) = delete;
+      token_action_input& operator=( token_action_input&& ) = delete;
 
       [[nodiscard]] const iterator_t& iterator() const noexcept
       {
@@ -101,8 +101,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       ~token_parse_input() = default;
 
-      token_parse_input operator=( const token_parse_input& ) = delete;
-      token_parse_input operator=( token_parse_input&& ) = delete;
+      token_parse_input& operator=( const token_parse_input& ) = delete;
+      token_parse_input& operator=( token_parse_input&& ) = delete;
 
       void discard() const noexcept {}
 
