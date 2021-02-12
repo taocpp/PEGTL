@@ -59,16 +59,21 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         const internal::depth_guard dg( in.m_depth );
-         if( in.m_depth > Max ) {
+         if constexpr( Control< Rule >::enable ) {
+            const internal::depth_guard dg( in.m_depth );
+            if( in.m_depth > Max ) {
 #if defined( __cpp_exceptions )
-            throw TAO_PEGTL_NAMESPACE::parse_error( "maximum parser depth exceeded", in );
+               throw TAO_PEGTL_NAMESPACE::parse_error( "maximum parser depth exceeded", in );
 #else
-            std::fputs( "maximum parser depth exceeded\n", stderr );
-            std::terminate();
+               std::fputs( "maximum parser depth exceeded\n", stderr );
+               std::terminate();
 #endif
+            }
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
          }
-         return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
+         else {
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
+         }
       }
    };
 
