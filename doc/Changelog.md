@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.1
+
+**Not yet released**
+
+* Added an optional limiter to guard against infinite recursion.
+
 ## 3.2.0
 
 Released 2021-01-15
