@@ -15,6 +15,7 @@ jobs:
           - clang++-8
           - clang++-9
           - clang++-10
+          - clang++-11
         build_type: [Debug, Release]
 
     runs-on: ubuntu-20.04
