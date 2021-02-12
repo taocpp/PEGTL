@@ -29,7 +29,6 @@ set(example_sources
   peg2pegtl.cpp
   proto3.cpp
   recover.cpp
-  skipper.cpp
   s_expression.cpp
   sum.cpp
   symbol_table.cpp
