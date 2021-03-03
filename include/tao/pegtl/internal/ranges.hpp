@@ -16,38 +16,6 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Char, Char... Cs >
-   struct ranges_impl;
-
-   template< typename Char >
-   struct ranges_impl< Char >
-   {
-      [[nodiscard]] static constexpr bool test( const Char /*unused*/ ) noexcept
-      {
-         return false;
-      }
-   };
-
-   template< typename Char, Char Eq >
-   struct ranges_impl< Char, Eq >
-   {
-      [[nodiscard]] static constexpr bool test( const Char c ) noexcept
-      {
-         return c == Eq;
-      }
-   };
-
-   template< typename Char, Char Lo, Char Hi, Char... Cs >
-   struct ranges_impl< Char, Lo, Hi, Cs... >
-   {
-      static_assert( Lo <= Hi, "invalid range detected" );
-
-      [[nodiscard]] static constexpr bool test( const Char c ) noexcept
-      {
-         return ( ( Lo <= c ) && ( c <= Hi ) ) || ranges_impl< Char, Cs... >::test( c );
-      }
-   };
-
    template< typename Peek, typename Peek::data_t... Cs >
    struct ranges
    {
@@ -59,7 +27,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
       {
-         return ranges_impl< data_t, Cs... >::test( c );
+         constexpr data_t cs[] = { Cs... };
+         for( size_t i = 1; i < sizeof...( Cs ); i += 2 ) {
+            if( ( cs[ i - 1 ] <= c ) && ( c <= cs[ i ] ) ) {
+               return true;
+            }
+         }
+         if constexpr( sizeof...( Cs ) % 2 == 1 ) {
+            return c == cs[ sizeof...( Cs ) - 1 ];
+         }
+         return false;
       }
 
       template< int Eol >
@@ -76,6 +53,20 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
          return false;
       }
+
+   private:
+      [[nodiscard]] static constexpr bool check_ranges() noexcept
+      {
+         constexpr data_t cs[] = { Cs... };
+         for( size_t i = 1; i < sizeof...( Cs ); i += 2 ) {
+            if( cs[ i - 1 ] > cs[ i ] ) {
+               return false;
+            }
+         }
+         return true;
+      }
+
+      static_assert( check_ranges(), "invalid range detected" );
    };
 
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
