@@ -36,7 +36,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if constexpr( sizeof...( Cs ) % 2 == 1 ) {
             return c == cs[ sizeof...( Cs ) - 1 ];
          }
-         return false;
+         else {
+            return false;
+         }
       }
 
       template< int Eol >
