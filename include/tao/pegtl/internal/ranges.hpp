@@ -6,6 +6,8 @@
 
 #include "../config.hpp"
 
+#include <utility>
+
 #include "bump_help.hpp"
 #include "enable_control.hpp"
 #include "failure.hpp"
@@ -16,35 +18,28 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Char, Char... Cs >
+   template< typename Char, Char Lo, Char Hi >
+   constexpr bool validate_range( Char c ) noexcept
+   {
+      static_assert( Lo <= Hi, "invalid range" );
+      return ( Lo <= c ) && ( c <= Hi );
+   }
+
+   template< typename IS, typename Char, Char... Cs >
    struct ranges_impl;
 
-   template< typename Char >
-   struct ranges_impl< Char >
-   {
-      [[nodiscard]] static constexpr bool test( const Char /*unused*/ ) noexcept
-      {
-         return false;
-      }
-   };
-
-   template< typename Char, Char Eq >
-   struct ranges_impl< Char, Eq >
+   template< std::size_t... Is, typename Char, Char... Cs >
+   struct ranges_impl< std::index_sequence< Is... >, Char, Cs... >
    {
       [[nodiscard]] static constexpr bool test( const Char c ) noexcept
       {
-         return c == Eq;
-      }
-   };
-
-   template< typename Char, Char Lo, Char Hi, Char... Cs >
-   struct ranges_impl< Char, Lo, Hi, Cs... >
-   {
-      static_assert( Lo <= Hi, "invalid range detected" );
-
-      [[nodiscard]] static constexpr bool test( const Char c ) noexcept
-      {
-         return ( ( Lo <= c ) && ( c <= Hi ) ) || ranges_impl< Char, Cs... >::test( c );
+         constexpr const Char cs[] = { Cs... };
+         if constexpr( sizeof...( Cs ) % 2 == 0 ) {
+            return ( validate_range< Char, cs[ 2 * Is ], cs[ 2 * Is + 1 ] >( c ) || ... );
+         }
+         else {
+            return ( validate_range< Char, cs[ 2 * Is ], cs[ 2 * Is + 1 ] >( c ) || ... ) || ( c == cs[ sizeof...( Cs ) - 1 ] );
+         }
       }
    };
 
@@ -59,7 +54,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
       {
-         return ranges_impl< data_t, Cs... >::test( c );
+         return ranges_impl< std::make_index_sequence< sizeof...( Cs ) / 2 >, data_t, Cs... >::test( c );
       }
 
       template< int Eol >
