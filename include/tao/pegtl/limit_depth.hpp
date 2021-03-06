@@ -47,6 +47,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< std::size_t Max >
    struct limit_depth
+      : maybe_nothing
    {
       template< typename Rule,
                 apply_mode A,
@@ -63,9 +64,9 @@ namespace TAO_PEGTL_NAMESPACE
             const internal::depth_guard dg( in.m_depth );
             if( in.m_depth > Max ) {
 #if defined( __cpp_exceptions )
-               throw TAO_PEGTL_NAMESPACE::parse_error( "maximum parser depth exceeded", in );
+               throw TAO_PEGTL_NAMESPACE::parse_error( "maximum parser rule nesting depth exceeded", in );
 #else
-               std::fputs( "maximum parser depth exceeded\n", stderr );
+               std::fputs( "maximum parser rule nesting depth exceeded\n", stderr );
                std::terminate();
 #endif
             }
