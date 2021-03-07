@@ -25,24 +25,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       return ( Lo <= c ) && ( c <= Hi );
    }
 
-   template< typename IS, typename Char, Char... Cs >
-   struct ranges_impl;
-
-   template< std::size_t... Is, typename Char, Char... Cs >
-   struct ranges_impl< std::index_sequence< Is... >, Char, Cs... >
-   {
-      [[nodiscard]] static constexpr bool test( const Char c ) noexcept
-      {
-         constexpr const Char cs[] = { Cs... };
-         if constexpr( sizeof...( Cs ) % 2 == 0 ) {
-            return ( validate_range< Char, cs[ 2 * Is ], cs[ 2 * Is + 1 ] >( c ) || ... );
-         }
-         else {
-            return ( validate_range< Char, cs[ 2 * Is ], cs[ 2 * Is + 1 ] >( c ) || ... ) || ( c == cs[ sizeof...( Cs ) - 1 ] );
-         }
-      }
-   };
-
    template< typename Peek, typename Peek::data_t... Cs >
    struct ranges
    {
@@ -52,9 +34,21 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = ranges;
       using subs_t = empty_list;
 
+      template< std::size_t... Is >
+      [[nodiscard]] static constexpr bool test( std::index_sequence< Is... > /*unused*/, const data_t c ) noexcept
+      {
+         constexpr const data_t cs[] = { Cs... };
+         if constexpr( sizeof...( Cs ) % 2 == 0 ) {
+            return ( validate_range< data_t, cs[ 2 * Is ], cs[ 2 * Is + 1 ] >( c ) || ... );
+         }
+         else {
+            return ( validate_range< data_t, cs[ 2 * Is ], cs[ 2 * Is + 1 ] >( c ) || ... ) || ( c == cs[ sizeof...( Cs ) - 1 ] );
+         }
+      }
+
       [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
       {
-         return ranges_impl< std::make_index_sequence< sizeof...( Cs ) / 2 >, data_t, Cs... >::test( c );
+         return test( std::make_index_sequence< sizeof...( Cs ) / 2 >(), c );
       }
 
       template< int Eol >
