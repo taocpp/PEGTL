@@ -6,6 +6,7 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/json.hpp>
+#include <tao/pegtl/contrib/limit_depth.hpp>
 #include <tao/pegtl/contrib/trace.hpp>
 
 #include "json_errors.hpp"

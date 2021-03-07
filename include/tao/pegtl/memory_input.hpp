@@ -15,7 +15,6 @@
 
 #include "config.hpp"
 #include "eol.hpp"
-#include "limit_depth.hpp"
 #include "normal.hpp"
 #include "nothing.hpp"
 #include "position.hpp"
@@ -125,18 +124,17 @@ namespace TAO_PEGTL_NAMESPACE
             m_current.byte = in_byte;
             m_current.line = in_line;
             m_current.column = in_column;
-            m_depth = 0;
+            private_depth = 0;
          }
 
       protected:
          const char* const m_begin;
          iterator_t m_current;
-         const char* const m_end;
+         const char* m_end;
          const Source m_source;
-         std::size_t m_depth = 0;
 
-         template< std::size_t Max >
-         friend struct TAO_PEGTL_NAMESPACE::limit_depth;
+      public:
+         std::size_t private_depth = 0;
       };
 
       template< typename Eol, typename Source >
@@ -214,18 +212,17 @@ namespace TAO_PEGTL_NAMESPACE
          void restart()
          {
             m_current = m_begin.data;
-            m_depth = 0;
+            private_depth = 0;
          }
 
       protected:
          const internal::iterator m_begin;
          iterator_t m_current;
-         const char* const m_end;
+         const char* m_end;
          const Source m_source;
-         std::size_t m_depth = 0;
 
-         template< std::size_t Max >
-         friend struct TAO_PEGTL_NAMESPACE::limit_depth;
+      public:
+         std::size_t private_depth = 0;
       };
 
    }  // namespace internal
@@ -365,6 +362,11 @@ namespace TAO_PEGTL_NAMESPACE
       {
          const char* b = begin_of_line( p );
          return std::string_view( b, static_cast< std::size_t >( end_of_line( p ) - b ) );
+      }
+
+      void private_set_end( const char* new_end ) noexcept
+      {
+         this->m_end = new_end;
       }
    };
 

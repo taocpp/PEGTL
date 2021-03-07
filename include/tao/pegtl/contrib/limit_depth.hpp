@@ -1,17 +1,17 @@
 // Copyright (c) 2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_LIMIT_DEPTH_HPP
-#define TAO_PEGTL_LIMIT_DEPTH_HPP
+#ifndef TAO_PEGTL_CONTRIB_LIMIT_DEPTH_HPP
+#define TAO_PEGTL_CONTRIB_LIMIT_DEPTH_HPP
 
-#include "apply_mode.hpp"
-#include "config.hpp"
-#include "match.hpp"
-#include "nothing.hpp"
-#include "rewind_mode.hpp"
+#include "../apply_mode.hpp"
+#include "../config.hpp"
+#include "../match.hpp"
+#include "../nothing.hpp"
+#include "../rewind_mode.hpp"
 
 #if defined( __cpp_exceptions )
-#include "parse_error.hpp"
+#include "../parse_error.hpp"
 #else
 #include <cstdio>
 #include <exception>
@@ -31,21 +31,21 @@ namespace TAO_PEGTL_NAMESPACE
             ++m_depth;
          }
 
-         depth_guard( const depth_guard& ) = delete;
          depth_guard( depth_guard&& ) = delete;
+         depth_guard( const depth_guard& ) = delete;
 
          ~depth_guard()
          {
             --m_depth;
          }
 
-         depth_guard& operator=( const depth_guard& ) = delete;
          depth_guard& operator=( depth_guard&& ) = delete;
+         depth_guard& operator=( const depth_guard& ) = delete;
       };
 
    }  // namespace internal
 
-   template< std::size_t Max >
+   template< std::size_t Maximum >
    struct limit_depth
       : maybe_nothing
    {
@@ -61,8 +61,8 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          if constexpr( Control< Rule >::enable ) {
-            const internal::depth_guard dg( in.m_depth );
-            if( in.m_depth > Max ) {
+            const internal::depth_guard dg( in.private_depth );
+            if( in.private_depth > Maximum ) {
 #if defined( __cpp_exceptions )
                throw TAO_PEGTL_NAMESPACE::parse_error( "maximum parser rule nesting depth exceeded", in );
 #else

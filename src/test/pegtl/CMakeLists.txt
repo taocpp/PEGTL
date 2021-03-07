@@ -23,6 +23,7 @@ set(test_sources
   change_action_and_states.cpp
   change_state.cpp
   change_states.cpp
+  check_bytes.cpp
   contains.cpp
   contrib_alphabet.cpp
   contrib_analyze.cpp
@@ -65,6 +66,7 @@ set(test_sources
   internal_endian.cpp
   internal_file_mapper.cpp
   internal_file_opener.cpp
+  limit_bytes.cpp
   limit_depth.cpp
   parse_error.cpp
   pegtl_string_t.cpp

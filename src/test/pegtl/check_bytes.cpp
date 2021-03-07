@@ -1,18 +1,18 @@
 // Copyright (c) 2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#include <tao/pegtl/contrib/limit_depth.hpp>
+#include <tao/pegtl/contrib/check_bytes.hpp>
 
 #include "test.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   struct test_recursive
-      : seq< alpha, opt< test_recursive > >
+   struct test_rule
+      : star< alpha >
    {};
 
    struct test_grammar
-      : seq< test_recursive, eof >
+      : seq< test_rule, eof >
    {};
 
    template< typename Rule >
@@ -21,8 +21,8 @@ namespace TAO_PEGTL_NAMESPACE
    {};
 
    template<>
-   struct test_action< test_recursive >
-      : limit_depth< 5 >
+   struct test_action< test_rule >
+      : check_bytes< 5 >
    {};
 
    void unit_test()
