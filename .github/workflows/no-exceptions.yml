@@ -7,10 +7,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        compiler: [g++-10, clang++-10]
+        compiler: [g++, clang++]
         build_type: [Debug, Release]
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     env:
       CXX: ${{ matrix.compiler }}

@@ -10,7 +10,7 @@ jobs:
         cxx: [g++, clang++]
         sanitizer: [address, undefined]
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     env:
       CXX: ${{ matrix.cxx }}
