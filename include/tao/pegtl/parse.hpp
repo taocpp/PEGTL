@@ -4,8 +4,6 @@
 #ifndef TAO_PEGTL_PARSE_HPP
 #define TAO_PEGTL_PARSE_HPP
 
-#include <utility>
-
 #include "apply_mode.hpp"
 #include "config.hpp"
 #include "normal.hpp"
@@ -35,14 +33,14 @@ namespace TAO_PEGTL_NAMESPACE
              rewind_mode M = rewind_mode::required,
              typename ParseInput,
              typename... States >
-   auto parse_nested( position op, ParseInput&& in, States&&... st )
+   auto parse_nested( const position& op, ParseInput&& in, States&&... st )
    {
 #if defined( __cpp_exceptions )
       try {
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
       catch( parse_error& e ) {
-         e.add_position( std::move( op ) );
+         e.add_position( op );
          throw;
       }
 #else

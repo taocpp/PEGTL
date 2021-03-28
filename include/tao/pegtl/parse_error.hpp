@@ -107,6 +107,11 @@ namespace TAO_PEGTL_NAMESPACE
          }
          m_impl->add_position( std::move( p ) );
       }
+
+      void add_position( const position& p )
+      {
+         add_position( position( p ) );
+      }
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE
