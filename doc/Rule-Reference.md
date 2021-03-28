@@ -368,6 +368,8 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
   - `rematch< R, S... >::rule_t` is `internal::rematch< R, S... >`
   - `rematch< R, S... >::subs_t` is `type_list< R, S... >`
 
+Note that the `S` do *not* need to match *all* of the input matched by `R` (which is why `minus` uses `eof` in its implementation).
+
 ###### `rep< Num, R... >`
 
 * Matches `seq< R... >` for `Num` times without checking for further matches.
