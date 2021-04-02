@@ -24,6 +24,7 @@ When an action is *applied*, the corresponding function receives the *states*, a
 * [Changing Actions and States](#changing-actions-and-states)
 * [Match](#match)
 * [Nothing](#nothing)
+* [Backtracking](#backtracking)
 * [Troubleshooting](#troubleshooting)
   * [Boolean Return](#boolean-return)
   * [State Mismatch](#state-mismatch)
@@ -506,7 +507,71 @@ For example when a class `b` is derived from `change_state`, it also gains that 
 At this point `b` is allowed to either have or not have an `apply()` or `apply0()`.
 By letting `b` also derive from one of the three mentioned classes, the `maybe_nothing` will be ignored and `b` will be checked to have or not have the functions as dictated by the respective additional base class.
 
+## Backtracking
+
+Sometimes there can be *backtracking* during a parsing run which can lead to Actions being called in places where their effects are undesired.
+While it might be intuitively clear what backtracking is, for the purpose of the following discussion we give a slightly more formal definition.
+
+We speak of *backtracking* across a rule `S` when there is a rule `R` of which `S` is a (direct or indirect) sub-rule and during a parsing run
+1. `R` returns local failure after
+2. `S` succeeded and its success is a requirement for the success of `R` and
+3. it is "still possible" for the top-level grammar rule of the parsing run to succeed.
+
+In this case the input will have been rewound to the point at which `R` was attempted to match and all effects of `S` on the Input will have been undone, however, and this is the subject of this section, any action attached to `S` will have been already performed without there being an automatic "undo".
+
+#### The AAC-Problem
+
+In some cases it is easy to rewrite the grammar in a way that prevents backtracking.
+This simultaneously removes the issue of having to undo actions and improves parsing performance.
+
+The prototypical case for which such a rewrite can be done is `R = sor< seq< A, B >, seq< A, C > >` where `A`, `B` and `C` are arbitrary rules.
+
+If during a parsing run there are actions attached to `A` and `C`, and the input matches `seq< A, C >` but not `seq< A, B >`, then the action for `A` will be called *twice* before the action for `C`, which gives this problem its "AAC" name, given that what happens is:
+
+* Begin `sor< seq< A, B >, seq< A, C > >`
+* Begin `seq< A, B >`
+* Begin `A`
+* Success `A` with action called
+* Begin `B`
+* Failure `B`
+* Failure `seq< A, B >`
+* Begin `seq< A, C >`
+* Begin `A` at the same position as the begin `A` above
+* Success `A` with action called again on the same input
+* Begin `C`
+* Success `C`
+* Success `seq< A, C >`
+* Success `sor< seq< A, B >, seq< A, C > >`
+
+#### Rewriting
+
+In practice the structure of the rule might be more complicated than the pure AAC-problem which will make it harder to recognise the pattern.
+One solution is to rewrite `R` as `R' = seq< A, sor< B, C > >` where of course any action for `A` will be called at most once for every successful match of `R'`.
+
+#### Manual Undo 
+
+Another solution is to undo the effects of the Action attached to `A` in case the encompassing `seq< A, B >` (or `seq< A, C >`) fail.
+
+The advantage of this approach is that the implementation of the Action for `A` can pretend that is only called when really needed.
+The disadvantage is that there is no function on the Action that is called in the case of failure which requires the user to either write a custom `match()` function in the Action for `seq< A, B >` or to implement the `failure()` function in a custom [Control class](Control-and-Debug.md).
+
+#### Manual Commit
+
+A further solution is to let the Action for `A` perform its job "to the side", and only "commit" the effects to the target data structure in the Action for `seq< A, B >`.
+
+For example if the Action attached to `A` takes the matched portion of the Input as `std::string` and appends it to `std::vector< std::string >` one could change said Action for `A` to only fill some temporary string in one of the States, and create an Action for `seq< A, B >` that, after it is called on success of that rule, appends the aforementioned temporary string to the target vector.
+
+#### Looking Ahead
+
+When everything else fails and a quick-and-dirty solution to Actions being called too often in the presence of backtracking is required and/or performance is not of prime importance it is relatively easy to solve the problem by employing the infinite look-ahead capability of PEGs.
+
+When backtracking across `S` is a problem because an Action attached to `S` can be called when `S` succeeds even though there is a higher-up rule `R` that can still fail then simply replace `R` with `seq< at< R >, R >` in the grammar.
+
+Remembering that `at` disables all Actions explains how this solves the problem; we first verify without Actions that `R` will indeed match at this point and only then match `R` again with Actions enabled.
+
 ## Troubleshooting
+
+The following lists a couple of frequently encountered Action-related errors and how to fix them.
 
 ### Boolean Return
 
