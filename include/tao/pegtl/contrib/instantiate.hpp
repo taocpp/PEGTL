@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
                 class Control,
                 typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( ParseInput& in, States&... st )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          const T t( static_cast< const ParseInput& >( in ), st... );
          return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
