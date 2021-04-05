@@ -56,7 +56,7 @@ This support automatically extends to all custom rules built "the usual way" via
 
 For true custom rules, i.e. rules that implement their own `match()` function, the following steps need to be taken for them to work with the grammar analysis.
 
-1. The rule needs a `rule_t` that, usually for true custom rules, is a type alias for the grammar rule itself.
+1. The rule needs a [`rule_t`](Meta-Data-and-Visit.md#rule-type) that, usually for true custom rules, is a type alias for the grammar rule itself.
 2. There needs to be a specialisation of the `analyze_traits<>` for the custom rule, with an additional first template parameter:
 
 Assuming a custom rule like the following

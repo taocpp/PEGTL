@@ -18,6 +18,7 @@ It provides the basic infrastructure to build a parse tree that
 * [Transformers](#transformers)
 * [`tao::pegtl::parse_tree::node`](#taopegtlparse_treenode)
 * [Custom Node Class](#custom-node-class)
+* [Requirements](#requirements)
 
 ## Full Parse Tree
 
@@ -234,5 +235,9 @@ struct my_node
    void emplace_back( std::unique_ptr< node_t > child, States&&... st );
 };
 ```
+
+## Requirements
+
+The parse tree uses a rule's meta data supplied by [`subs_t`](Meta-Data-and-Visit.md#sub-rules) for internal optimizations.
 
 Copyright (c) 2018-2021 Dr. Colin Hirsch and Daniel Frey
