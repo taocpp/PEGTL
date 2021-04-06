@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
-      [[nodiscard]] auto get_position( const position& p ) noexcept( std::is_nothrow_copy_constructible_v< position > )
+      [[nodiscard]] inline auto get_position( const position& p ) noexcept( std::is_nothrow_copy_constructible_v< position > )
       {
          return p;
       }
