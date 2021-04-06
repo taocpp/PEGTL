@@ -4,6 +4,8 @@
 #ifndef TAO_PEGTL_PARSE_HPP
 #define TAO_PEGTL_PARSE_HPP
 
+#include <type_traits>
+
 #include "apply_mode.hpp"
 #include "config.hpp"
 #include "normal.hpp"
@@ -14,6 +16,21 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
+   namespace internal
+   {
+      [[nodiscard]] auto get_position( const position& p ) noexcept( std::is_nothrow_copy_constructible_v< position > )
+      {
+         return p;
+      }
+
+      template< typename ParseInput >
+      [[nodiscard]] position get_position( const ParseInput& in ) noexcept( noexcept( position( in.position() ) ) )
+      {
+         return in.position();
+      }
+
+   }  // namespace internal
+
    template< typename Rule,
              template< typename... > class Action = nothing,
              template< typename... > class Control = normal,
@@ -31,44 +48,17 @@ namespace TAO_PEGTL_NAMESPACE
              template< typename... > class Control = normal,
              apply_mode A = apply_mode::action,
              rewind_mode M = rewind_mode::required,
+             typename Outer,
              typename ParseInput,
              typename... States >
-   auto parse_nested( const position& op, ParseInput&& in, States&&... st )
+   auto parse_nested( const Outer& o, ParseInput&& in, States&&... st )
    {
 #if defined( __cpp_exceptions )
       try {
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
       catch( parse_error& e ) {
-         e.add_position( op );
-         throw;
-      }
-#else
-      (void)op;
-      return parse< Rule, Action, Control, A, M >( in, st... );
-#endif
-   }
-
-   // NOTE: The oi.position() in the version below can be expensive for lazy
-   // inputs, which is why the version below does not simply call the version
-   // above with said oi.position() as first parameter.
-
-   template< typename Rule,
-             template< typename... > class Action = nothing,
-             template< typename... > class Control = normal,
-             apply_mode A = apply_mode::action,
-             rewind_mode M = rewind_mode::required,
-             typename OuterInput,
-             typename ParseInput,
-             typename... States >
-   auto parse_nested( const OuterInput& oi, ParseInput&& in, States&&... st )
-   {
-#if defined( __cpp_exceptions )
-      try {
-         return parse< Rule, Action, Control, A, M >( in, st... );
-      }
-      catch( parse_error& e ) {
-         e.add_position( oi.position() );
+         e.add_position( internal::get_position( o ) );
          throw;
       }
 #else
