@@ -61,7 +61,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
          }
 
          template< std::size_t S >
-         small_string( const char( &d )[ S ] )
+         small_string( const char ( &d )[ S ] )
          {
             assign( d, S - 1 );
          }
@@ -137,8 +137,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
             m_size = s;
          }
 
-        template< std::size_t S >
-        void assign( const char( &d )[ S ] )
+         template< std::size_t S >
+         void assign( const char ( &d )[ S ] )
          {
             assign( d, S - 1 );
          }
@@ -250,7 +250,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          const std::size_t max = std::min( operator_name::capacity(), in.size( operator_name::capacity() ) );
          for( operator_name op( in.current(), max ); !op.empty(); op.unsafe_pop() ) {
-            if( const auto i = std::find_if( ops.begin(), ops.end(), [=]( const OperatorInfo& info ){ return info.name == op; } ); i != ops.end() ) {
+            if( const auto i = std::find_if( ops.begin(), ops.end(), [ = ]( const OperatorInfo& info ) { return info.name == op; } ); i != ops.end() ) {
                in.bump( op.size() );
                return &*i;
             }
@@ -263,7 +263,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
       {
          const std::size_t max = std::min( operator_name::capacity(), in.size( operator_name::capacity() ) );
          for( operator_name op( in.current(), max ); !op.empty(); op.unsafe_pop() ) {
-            if( const auto i = std::find_if( ops.begin(), ops.end(), [=]( const OperatorInfo& info ){ return info.name == op; } ); ( i != ops.end() ) && ( i->left_binding_power >= min ) ) {
+            if( const auto i = std::find_if( ops.begin(), ops.end(), [ = ]( const OperatorInfo& info ) { return info.name == op; } ); ( i != ops.end() ) && ( i->left_binding_power >= min ) ) {
                in.bump( op.size() );
                return &*i;
             }
@@ -327,8 +327,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
             // infix_postfix_info( ",", 9, 10 ),  // TODO: Enable, but forbid in function argument list.
             infix_postfix_info( "[", "]", 90 ),  // Special: Argument list.
             infix_postfix_info( "(", ")", 90 ),  // Special: Argument list.
-            infix_postfix_info( ".", 90 ),  // Special: Followed by identifier.
-            infix_postfix_info( "->", 90 ),  // Special: Followed by identifier.
+            infix_postfix_info( ".", 90 ),       // Special: Followed by identifier.
+            infix_postfix_info( "->", 90 ),      // Special: Followed by identifier.
             infix_postfix_info( "++", 90 ),
             infix_postfix_info( "--", 90 )
          };
@@ -338,13 +338,14 @@ namespace TAO_PEGTL_NAMESPACE::expression
       [[nodiscard]] std::vector< T > sorted_operator_vector( const std::initializer_list< T >& t )
       {
          std::vector< T > r{ t };
-         const auto less = []( const auto& l, const auto& r ){ return l.name < r.name; };
+         const auto less = []( const auto& l, const auto& r ) { return l.name < r.name; };
          std::sort( r.begin(), r.end(), less );
          return r;
       }
 
       struct operator_maps
       {
+         // clang-format off
          operator_maps()
             : prefix( sorted_operator_vector( {
                   prefix_info( "!", 80 ),
@@ -403,6 +404,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
             // These are C++20 operators with the correct associativity and relative precedence, however some are still missing:
             // TODO: Compound literal (C99), _Alignof (C11), Functional cast, sizeof, co_await, co_yield, throw, new, new[], delete, delete[], C-style casts.
          }
+         // clang-format on
 
          const std::vector< prefix_info > prefix;
          const std::vector< infix_postfix_info > infix_postfix;
@@ -734,7 +736,7 @@ namespace application
 
    inline std::ostream& operator<<( std::ostream& o, const variant_t& v )
    {
-      std::visit( [&]( const auto& t ){ o << t; }, v );
+      std::visit( [ & ]( const auto& t ) { o << t; }, v );
       return o;
    }
 
