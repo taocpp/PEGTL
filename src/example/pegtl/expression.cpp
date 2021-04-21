@@ -1,6 +1,15 @@
 // Copyright (c) 2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
+#if !defined( __cpp_exceptions )
+#include <iostream>
+int main()
+{
+   std::cerr << "Exception support required, example unavailable." << std::endl;
+   return 1;
+}
+#else
+
 #include <algorithm>
 #include <cassert>
 #include <cstdint>
@@ -745,3 +754,5 @@ int main( int argc, char** argv )
    }
    return 0;
 }
+
+#endif
