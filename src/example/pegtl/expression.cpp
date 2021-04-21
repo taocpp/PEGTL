@@ -273,67 +273,6 @@ namespace TAO_PEGTL_NAMESPACE::expression
 
       // TODO: constexpr-ify with C++20:
 
-      [[nodiscard]] inline std::vector< prefix_info > cpp_prefix_operators()
-      {
-         return std::vector< prefix_info >{
-            prefix_info( "!", 80 ),
-            prefix_info( "+", 80 ),
-            prefix_info( "-", 80 ),
-            prefix_info( "~", 80 ),
-            prefix_info( "*", 80 ),
-            prefix_info( "&", 80 ),
-            prefix_info( "++", 80 ),
-            prefix_info( "--", 80 )
-         };
-      }
-
-      [[nodiscard]] inline std::vector< infix_postfix_info > cpp_infix_postfix_operators()
-      {
-         return std::vector< infix_postfix_info >{
-            infix_postfix_info( "::", 99, 100 ),  // Special: Followed by identifier (or template-space-identifer, which we don't support yet).
-            infix_postfix_info( ".*", 37, 38 ),
-            infix_postfix_info( "->*", 37, 38 ),
-            infix_postfix_info( "*", 35, 36 ),
-            infix_postfix_info( "/", 35, 36 ),
-            infix_postfix_info( "%", 35, 36 ),
-            infix_postfix_info( "+", 33, 34 ),
-            infix_postfix_info( "-", 33, 34 ),
-            infix_postfix_info( "<<", 31, 32 ),
-            infix_postfix_info( ">>", 31, 32 ),
-            infix_postfix_info( "<=>", 29, 30 ),
-            infix_postfix_info( "<", 27, 28 ),
-            infix_postfix_info( "<=", 27, 28 ),
-            infix_postfix_info( ">", 27, 28 ),
-            infix_postfix_info( ">=", 27, 28 ),
-            infix_postfix_info( "==", 25, 26 ),
-            infix_postfix_info( "!=", 25, 26 ),
-            infix_postfix_info( "&", 23, 24 ),
-            infix_postfix_info( "^", 21, 22 ),
-            infix_postfix_info( "|", 19, 20 ),
-            infix_postfix_info( "&&", 17, 18 ),
-            infix_postfix_info( "||", 15, 16 ),
-            infix_postfix_info( "?", ":", 14, 13 ),  // Special: Ternary operator.
-            infix_postfix_info( "=", 12, 11 ),
-            infix_postfix_info( "+=", 12, 11 ),
-            infix_postfix_info( "-=", 12, 11 ),
-            infix_postfix_info( "*=", 12, 11 ),
-            infix_postfix_info( "/=", 12, 11 ),
-            infix_postfix_info( "%=", 12, 11 ),
-            infix_postfix_info( "<<=", 12, 11 ),
-            infix_postfix_info( ">>=", 12, 11 ),
-            infix_postfix_info( "&=", 12, 11 ),
-            infix_postfix_info( "^=", 12, 11 ),
-            infix_postfix_info( "|=", 12, 11 ),
-            // infix_postfix_info( ",", 9, 10 ),  // TODO: Enable, but forbid in function argument list.
-            infix_postfix_info( "[", "]", 90 ),  // Special: Argument list.
-            infix_postfix_info( "(", ")", 90 ),  // Special: Argument list.
-            infix_postfix_info( ".", 90 ),       // Special: Followed by identifier.
-            infix_postfix_info( "->", 90 ),      // Special: Followed by identifier.
-            infix_postfix_info( "++", 90 ),
-            infix_postfix_info( "--", 90 )
-         };
-      }
-
       template< typename T >
       [[nodiscard]] std::vector< T > sorted_operator_vector( const std::initializer_list< T >& t )
       {
