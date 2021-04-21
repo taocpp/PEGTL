@@ -41,157 +41,10 @@ namespace TAO_PEGTL_NAMESPACE::expression
    // TODO: Choose customisation points vs. copy-n-paste customisation.
    // TODO: Eliminate use of functions from cstring?
    // TODO: Remove small_string [premature] optimisation and use std::string instead?
-   // TODO: In general choose simplicity over performance in _all_ cases?
    // TODO: Constexpr-ify where possible with C++20.
 
    namespace internal
    {
-      template< std::uint8_t N >
-      struct small_string
-      {
-         static_assert( N > 0 );
-
-         small_string() noexcept = default;
-
-         explicit small_string( const char c )
-            : m_size( 1 )
-         {
-            m_data[ 0 ] = c;
-         }
-
-         explicit small_string( const std::string_view s )
-         {
-            assign( s );
-         }
-
-         small_string( const char* d, const std::size_t s )
-         {
-            assign( d, s );
-         }
-
-         template< std::size_t S >
-         small_string( const char ( &d )[ S ] )
-         {
-            assign( d, S - 1 );
-         }
-
-         small_string( small_string&& ) noexcept = default;
-         small_string( const small_string& ) noexcept = default;
-
-         small_string& operator=( small_string&& ) noexcept = default;
-         small_string& operator=( const small_string& ) noexcept = default;
-
-         ~small_string() = default;
-
-         [[nodiscard]] bool empty() const noexcept
-         {
-            return m_size == 0;
-         }
-
-         [[nodiscard]] std::size_t size() const noexcept
-         {
-            return m_size;
-         }
-
-         [[nodiscard]] std::size_t free() const noexcept
-         {
-            return N - m_size;
-         }
-
-         [[nodiscard]] static std::size_t capacity() noexcept
-         {
-            return N;
-         }
-
-         [[nodiscard]] static std::size_t max_size() noexcept
-         {
-            return N;
-         }
-
-         [[nodiscard]] const char* data() const noexcept
-         {
-            return m_data;  // This is NOT '\0'-terminated!
-         }
-
-         [[nodiscard]] std::string_view string_view() const noexcept
-         {
-            return std::string_view( data(), size() );
-         }
-
-         [[nodiscard]] bool equals( const char c ) const noexcept
-         {
-            return ( size() == 1 ) && ( m_data[ 0 ] == c );
-         }
-
-         [[nodiscard]] bool equals( const std::string_view sv ) const noexcept
-         {
-            return sv == string_view();
-         }
-
-         void assign( const char c ) noexcept
-         {
-            m_data[ 0 ] = c;
-            m_size = 1;
-         }
-
-         void assign( const std::string_view s )
-         {
-            assign( s.data(), s.size() );
-         }
-
-         void assign( const char* d, const std::size_t s )
-         {
-            check_size( s );
-            std::memcpy( m_data, d, s );
-            m_size = s;
-         }
-
-         template< std::size_t S >
-         void assign( const char ( &d )[ S ] )
-         {
-            assign( d, S - 1 );
-         }
-
-         void unsafe_pop() noexcept
-         {
-            assert( m_size > 0 );
-            --m_size;
-         }
-
-      private:
-         char m_data[ N ];
-         std::uint8_t m_size = 0;
-
-         static void check_size( const std::size_t s )
-         {
-            if( s > N ) {
-               throw std::logic_error( "small string overflow" );
-            }
-         }
-      };
-
-      template< std::uint8_t N, std::uint8_t M >
-      [[nodiscard]] bool operator<( const small_string< N > l, const small_string< M > r ) noexcept
-      {
-         return l.string_view() < r.string_view();
-      }
-
-      template< std::uint8_t N, std::uint8_t M >
-      [[nodiscard]] bool operator==( const small_string< N > l, const small_string< M > r ) noexcept
-      {
-         return l.string_view() == r.string_view();
-      }
-
-      template< std::uint8_t N, std::uint8_t M >
-      [[nodiscard]] bool operator!=( const small_string< N > l, const small_string< M > r ) noexcept
-      {
-         return l.string_view() != r.string_view();
-      }
-
-      // TODO: Spaceship with C++20.
-
-      using operator_name = small_string< 3 >;  // sizeof( operator_name ) == 4
-
       struct prefix_info
       {
          prefix_info( const std::string_view n, const std::uint8_t pbp ) noexcept
@@ -201,7 +54,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
             assert( pbp );
          }
 
-         operator_name name;
+         std::string name;
 
          std::uint8_t prefix_binding_power;
       };
@@ -235,8 +88,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
             return right_binding_power == 0;
          }
 
-         operator_name name;
-         operator_name other;  // Used for the ':' of the ternary operator etc.
+         std::string name;
+         std::string other;  // Used for the ':' of the ternary operator etc.
 
          std::uint8_t left_binding_power;
          std::uint8_t right_binding_power;
@@ -255,10 +108,10 @@ namespace TAO_PEGTL_NAMESPACE::expression
       }
 
       template< typename ParseInput, typename OperatorInfo >
-      [[nodiscard]] const OperatorInfo* match_prefix( ParseInput& in, const std::vector< OperatorInfo >& ops )
+      [[nodiscard]] const OperatorInfo* match_prefix( ParseInput& in, const std::size_t max_length, const std::vector< OperatorInfo >& ops )
       {
-         const std::size_t max = std::min( operator_name::capacity(), in.size( operator_name::capacity() ) );
-         for( operator_name op( in.current(), max ); !op.empty(); op.unsafe_pop() ) {
+         const std::size_t max = std::min( max_length, in.size( max_length ) );
+         for( std::string op( in.current(), max ); !op.empty(); op.pop_back() ) {
             if( const auto i = std::find_if( ops.begin(), ops.end(), [ = ]( const OperatorInfo& info ) { return info.name == op; } ); i != ops.end() ) {
                in.bump( op.size() );
                return &*i;
@@ -268,11 +121,11 @@ namespace TAO_PEGTL_NAMESPACE::expression
       }
 
       template< typename ParseInput, typename OperatorInfo >
-      [[nodiscard]] const OperatorInfo* match_infix_postfix( ParseInput& in, const std::vector< OperatorInfo >& ops, const std::uint8_t min )
+      [[nodiscard]] const OperatorInfo* match_infix_postfix( ParseInput& in, const std::size_t max_length, const std::vector< OperatorInfo >& ops, const std::uint8_t min_precedence )
       {
-         const std::size_t max = std::min( operator_name::capacity(), in.size( operator_name::capacity() ) );
-         for( operator_name op( in.current(), max ); !op.empty(); op.unsafe_pop() ) {
-            if( const auto i = std::find_if( ops.begin(), ops.end(), [ = ]( const OperatorInfo& info ) { return info.name == op; } ); ( i != ops.end() ) && ( i->left_binding_power >= min ) ) {
+         const std::size_t max = std::min( max_length, in.size( max_length ) );
+         for( std::string op( in.current(), max ); !op.empty(); op.pop_back() ) {
+            if( const auto i = std::find_if( ops.begin(), ops.end(), [ = ]( const OperatorInfo& info ) { return info.name == op; } ); ( i != ops.end() ) && ( i->left_binding_power >= min_precedence ) ) {
                in.bump( op.size() );
                return &*i;
             }
@@ -285,10 +138,10 @@ namespace TAO_PEGTL_NAMESPACE::expression
       template< typename T >
       [[nodiscard]] std::vector< T > sorted_operator_vector( const std::initializer_list< T >& t )
       {
-         std::vector< T > r{ t };
+         std::vector< T > v{ t };
          const auto less = []( const auto& l, const auto& r ) { return l.name < r.name; };
-         std::sort( r.begin(), r.end(), less );
-         return r;
+         std::sort( v.begin(), v.end(), less );
+         return v;
       }
 
       struct operator_maps
@@ -347,7 +200,9 @@ namespace TAO_PEGTL_NAMESPACE::expression
                   infix_postfix_info( "->", 90 ),  // Special: Followed by identifier.
                   infix_postfix_info( "++", 90 ),
                   infix_postfix_info( "--", 90 )
-               } ) )
+               } ) ),
+              max_prefix_length( std::max_element( prefix.begin(), prefix.end(), []( const auto& l, const auto& r ) { return l.name.size() < r.name.size(); } )->name.size() ),
+              max_infix_postfix_length( std::max_element( infix_postfix.begin(), infix_postfix.end(), []( const auto& l, const auto& r ) { return l.name.size() < r.name.size(); } )->name.size() )
          {
             // These are C++20 operators with the correct associativity and relative precedence, however some are still missing:
             // TODO: Compound literal (C99), _Alignof (C11), Functional cast, sizeof, co_await, co_yield, throw, new, new[], delete, delete[], C-style casts.
@@ -356,6 +211,9 @@ namespace TAO_PEGTL_NAMESPACE::expression
 
          const std::vector< prefix_info > prefix;
          const std::vector< infix_postfix_info > infix_postfix;
+
+         const std::size_t max_prefix_length;
+         const std::size_t max_infix_postfix_length;
       };
 
       struct string_view_rule
@@ -416,10 +274,10 @@ namespace TAO_PEGTL_NAMESPACE::expression
                    typename Config >
          [[nodiscard]] static bool match( ParseInput& in, Result& res, const Config& cfg, const std::uint8_t /*unused*/ )
          {
-            if( const auto* info = match_prefix( in, cfg.prefix ) ) {
+            if( const auto* info = match_prefix( in, cfg.max_prefix_length, cfg.prefix ) ) {
                (void)Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, info->prefix_binding_power );
                if constexpr( A == apply_mode::action ) {
-                  res.prefix( info->name.string_view() );
+                  res.prefix( info->name );
                }
                return true;
             }
@@ -441,42 +299,42 @@ namespace TAO_PEGTL_NAMESPACE::expression
                    typename Config >
          [[nodiscard]] static bool match( ParseInput& in, Result& res, const Config& cfg, const std::uint8_t min )
          {
-            if( const auto* info = match_infix_postfix( in, cfg.infix_postfix, min ) ) {
-               if( info->name.equals( '?' ) ) {
+            if( const auto* info = match_infix_postfix( in, cfg.max_infix_postfix_length, cfg.infix_postfix, min ) ) {
+               if( info->name == "?" ) {
                   (void)Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
-                  (void)Control< must< star< ignored >, string_view_rule > >::template match< A, M, Action, Control >( in, info->other.string_view() );
+                  (void)Control< must< star< ignored >, string_view_rule > >::template match< A, M, Action, Control >( in, info->other );
                   (void)Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, info->right_binding_power );
                   if constexpr( A == apply_mode::action ) {
-                     res.ternary( info->name.string_view(), info->other.string_view() );
+                     res.ternary( info->name, info->other );
                   }
                   return true;
                }
-               if( info->name.equals( '.' ) || info->name.equals( "::" ) || info->name.equals( "->" ) ) {
+               if( ( info->name == "." ) || ( info->name == "::" ) || ( info->name == "->" ) ) {
                   (void)Control< must< star< ignored >, Identifier > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
                   if constexpr( A == apply_mode::action ) {
-                     res.infix( info->name.string_view() );
+                     res.infix( info->name );
                   }
                   return true;
                }
-               if( info->name.equals( '(' ) || info->name.equals( '[' ) ) {
+               if( ( info->name == "(" ) || ( info->name == "[" ) ) {
                   const std::size_t size = res.term_stack.size();  // TODO: Determine number of arguments without relying on res!?
                   (void)Control< must< star< ignored >, list_must< expression< Literal, Identifier >, one< ',' >, ignored > > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
-                  (void)Control< must< star< ignored >, string_view_rule > >::template match< A, M, Action, Control >( in, info->other.string_view() );
+                  (void)Control< must< star< ignored >, string_view_rule > >::template match< A, M, Action, Control >( in, info->other );
                   if constexpr( A == apply_mode::action ) {
-                     res.call( info->name.string_view(), info->other.string_view(), res.term_stack.size() - size );
+                     res.call( info->name, info->other, res.term_stack.size() - size );
                   }
                   return true;
                }
                if( info->is_infix() ) {
                   (void)Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, info->right_binding_power );
                   if constexpr( A == apply_mode::action ) {
-                     res.infix( info->name.string_view() );
+                     res.infix( info->name );
                   }
                   return true;
                }
                if( info->is_postfix() ) {
                   if constexpr( A == apply_mode::action ) {
-                     res.postfix( info->name.string_view() );
+                     res.postfix( info->name );
                   }
                   return true;
                }
