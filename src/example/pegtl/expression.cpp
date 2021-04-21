@@ -318,7 +318,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
                }
                if( ( info->name == "(" ) || ( info->name == "[" ) ) {
                   const std::size_t size = res.term_stack.size();  // TODO: Determine number of arguments without relying on res!?
-                  (void)Control< must< star< ignored >, list_must< expression< Literal, Identifier >, one< ',' >, ignored > > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
+                  (void)Control< must< star< ignored >, opt< list_must< expression< Literal, Identifier >, one< ',' >, ignored > > > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
                   (void)Control< must< star< ignored >, string_view_rule > >::template match< A, M, Action, Control >( in, info->other );
                   if constexpr( A == apply_mode::action ) {
                      res.call( info->name, info->other, res.term_stack.size() - size );
