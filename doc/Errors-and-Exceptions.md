@@ -162,7 +162,7 @@ This is often insufficient and one would like to provide more meaningful error m
 
 A practical technique to provide customised error messages for all `must<>` error points uses the `must_if<>` helper.
 
-For an example of this method see `src/examples/pegtl/json_errors.hpp`, where all errors that might occur in the supplied JSON grammar are customised like this:
+For an example of this method see `src/example/pegtl/json_errors.hpp`, where all errors that might occur in the supplied JSON grammar are customised like this:
 
 ```c++
 template< typename > inline constexpr const char* error_message = nullptr;
