@@ -72,11 +72,11 @@ namespace TAO_PEGTL_NAMESPACE::expression
               left_binding_power( lbp ),
               right_binding_power( rbp )
          {
-            if( right_binding_power ) {
+            if( right_binding_power > 0 ) {
                assert( std::min( left_binding_power, right_binding_power ) & 1 );
                assert( 2 * std::min( left_binding_power, right_binding_power ) + 1 == left_binding_power + right_binding_power );
             }
-            assert( left_binding_power );
+            assert( left_binding_power > 0 );
          }
 
          [[nodiscard]] bool is_infix() const noexcept
@@ -502,7 +502,7 @@ namespace application
          {
             std::string tmp = *( string_stack.end() - args - 1 ) + std::string( op ) + " ";
             for( std::size_t i = 0; i < args; ++i ) {
-               if( i ) {
+               if( i > 0 ) {
                   tmp += ", ";
                }
                tmp += *( string_stack.end() - args + i );
