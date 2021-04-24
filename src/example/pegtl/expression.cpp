@@ -14,6 +14,7 @@ int main()
 #include <cassert>
 #include <cstdint>
 #include <cstring>
+#include <iomanip>
 #include <iostream>
 #include <stdexcept>
 #include <tuple>
