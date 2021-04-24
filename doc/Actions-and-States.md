@@ -286,7 +286,7 @@ std::string unescape( const std::string& escaped )
 
 At the end of the parsing run, the complete unescaped string can be found in the aptly named variable `unescaped`.
 
-A more complete example of how to unescape strings can be found in `src/examples/pegtl/unescape.cpp`.
+A more complete example of how to unescape strings can be found in `src/example/pegtl/unescape.cpp`.
 
 ## Specialising
 
