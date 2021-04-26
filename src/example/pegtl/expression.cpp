@@ -444,12 +444,12 @@ namespace application
 
       void prefix( const std::string_view op )
       {
-         assert( term_stack.size() >= 1 );
+         assert( term_stack.size() >= 1 );  // NOLINT(readability-container-size-empty)
          {
             variant_t tmp = tuple_t( "prefix" + op, { std::move( term_stack.at( term_stack.size() - 1 ) ) } );
             term_stack.back().variant = std::move( tmp );
          }
-         assert( string_stack.size() >= 1 );
+         assert( string_stack.size() >= 1 );  // NOLINT(readability-container-size-empty)
          {
             std::string tmp = std::string( op ) + "( " + string_stack.at( string_stack.size() - 1 ) + " )";
             string_stack.back() = std::move( tmp );
@@ -458,12 +458,12 @@ namespace application
 
       void postfix( const std::string_view op )
       {
-         assert( term_stack.size() >= 1 );
+         assert( term_stack.size() >= 1 );  // NOLINT(readability-container-size-empty)
          {
             variant_t tmp = tuple_t( "postfix" + op, { std::move( term_stack.at( term_stack.size() - 1 ) ) } );
             term_stack.back().variant = std::move( tmp );
          }
-         assert( string_stack.size() >= 1 );
+         assert( string_stack.size() >= 1 );  // NOLINT(readability-container-size-empty)
          {
             std::string tmp = "( " + string_stack.at( string_stack.size() - 1 ) + " )" + std::string( op );
             string_stack.back() = std::move( tmp );
