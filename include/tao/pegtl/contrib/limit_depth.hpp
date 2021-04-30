@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
-      struct depth_guard
+      struct [[nodiscard]] depth_guard
       {
          std::size_t& m_depth;
 

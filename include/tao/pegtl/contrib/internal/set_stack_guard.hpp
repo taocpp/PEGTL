@@ -12,7 +12,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Cs >
-   class set_stack_guard
+   class [[nodiscard]] set_stack_guard
    {
    public:
       template< typename... Ts >

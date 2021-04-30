@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
    namespace internal
    {
       template< std::size_t Maximum, typename MemoryInput >
-      struct bytes_guard
+      struct [[nodiscard]] bytes_guard
       {
          MemoryInput& m_in;
          const char* m_end;

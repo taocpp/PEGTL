@@ -10,7 +10,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Iterator, rewind_mode M >
-   class marker
+   class [[nodiscard]] marker
    {
    public:
       static constexpr rewind_mode next_rewind_mode = M;
@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Iterator >
-   class marker< Iterator, rewind_mode::required >
+   class [[nodiscard]] marker< Iterator, rewind_mode::required >
    {
    public:
       static constexpr rewind_mode next_rewind_mode = rewind_mode::active;
