@@ -40,8 +40,6 @@ namespace TAO_PEGTL_NAMESPACE::expression
    // TODO: Finalise the event-style interface or change to fake actions or actions with ops?
    // TODO: Decide on where to use config vs. where to use grammar template parameters.
    // TODO: Choose customisation points vs. copy-n-paste customisation.
-   // TODO: Eliminate use of functions from cstring?
-   // TODO: Remove small_string [premature] optimisation and use std::string instead?
    // TODO: Constexpr-ify where possible with C++20.
 
    namespace internal
@@ -133,8 +131,6 @@ namespace TAO_PEGTL_NAMESPACE::expression
          }
          return nullptr;
       }
-
-      // TODO: constexpr-ify with C++20:
 
       template< typename T >
       [[nodiscard]] std::vector< T > sorted_operator_vector( const std::initializer_list< T >& t )
