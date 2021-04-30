@@ -396,11 +396,11 @@ namespace application
    struct term_t;
 
    using tuple_t = std::tuple< std::string, std::vector< term_t > >;
-   using variant_t = std::variant< long, std::string, tuple_t >;
+   using variant_t = std::variant< std::int64_t, std::string, tuple_t >;
 
    struct term_t
    {
-      explicit term_t( const long l ) noexcept
+      explicit term_t( const std::int64_t l ) noexcept
          : variant( l )
       {}
 
@@ -509,7 +509,7 @@ namespace application
          }
       }
 
-      void number( const long l )
+      void number( const std::int64_t l )
       {
          term_stack.emplace_back( l );
          string_stack.emplace_back( std::to_string( l ) );
