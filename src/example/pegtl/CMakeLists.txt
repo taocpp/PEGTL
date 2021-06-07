@@ -22,8 +22,6 @@ set(example_sources
   json_trace.cpp
   lua53_analyze.cpp
   lua53_parse.cpp
-  lua53_print_debug.cpp
-  lua53_print_names.cpp
   modulus_match.cpp
   parse_tree.cpp
   parse_tree_user_state.cpp
