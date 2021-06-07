@@ -10,8 +10,7 @@ jobs:
         compiler:
           - g++-9
           - g++-10
-          - g++-11
-          - clang++-9
+          #- g++-11
           - clang++-10
           - clang++-11
           - clang++-12
@@ -46,6 +45,7 @@ jobs:
           - clang++-6.0
           - clang++-7
           - clang++-8
+          - clang++-9
         build_type: [Debug, Release]
 
     runs-on: ubuntu-latest
