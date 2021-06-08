@@ -17,8 +17,6 @@ int main()
 #include <iomanip>
 #include <iostream>
 #include <stdexcept>
-#include <tuple>
-#include <variant>
 #include <vector>
 
 #include <tao/pegtl.hpp>
@@ -314,11 +312,11 @@ namespace TAO_PEGTL_NAMESPACE::expression
                   return true;
                }
                if( ( info->name == "(" ) || ( info->name == "[" ) ) {
-                  const std::size_t size = res.term_stack.size();  // TODO: Determine number of arguments without relying on res!?
+                  const std::size_t size = res.string_stack.size();  // TODO: Determine number of arguments without relying on res!!!
                   (void)Control< must< star< ignored >, opt< list_must< expression< Literal, Identifier >, one< ',' >, ignored > > > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
                   (void)Control< must< star< ignored >, string_view_rule > >::template match< A, M, Action, Control >( in, info->other );
                   if constexpr( A == apply_mode::action ) {
-                     res.call( info->name, info->other, res.term_stack.size() - size );
+                     res.call( info->name, info->other, res.string_stack.size() - size );
                   }
                   return true;
                }
@@ -393,28 +391,6 @@ namespace application
 {
    namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-   struct term_t;
-
-   using tuple_t = std::tuple< std::string, std::vector< term_t > >;
-   using variant_t = std::variant< std::int64_t, std::string, tuple_t >;
-
-   struct term_t
-   {
-      explicit term_t( const std::int64_t l ) noexcept
-         : variant( l )
-      {}
-
-      explicit term_t( std::string&& s ) noexcept
-         : variant( std::move( s ) )
-      {}
-
-      explicit term_t( variant_t&& v ) noexcept
-         : variant( std::move( v ) )
-      {}
-
-      variant_t variant;
-   };
-
    [[nodiscard]] inline std::string operator+( const char* l, const std::string_view r )
    {
       return std::string( l ) + " '" + std::string( r ) + "'";
@@ -424,130 +400,67 @@ namespace application
    {
       void infix( const std::string_view op )
       {
-         assert( term_stack.size() >= 2 );
-         {
-            variant_t tmp = tuple_t( "infix" + op, { std::move( term_stack.at( term_stack.size() - 2 ) ), std::move( term_stack.at( term_stack.size() - 1 ) ) } );
-            term_stack.pop_back();
-            term_stack.back().variant = std::move( tmp );
-         }
          assert( string_stack.size() >= 2 );
-         {
-            std::string tmp = "( " + string_stack.at( string_stack.size() - 2 ) + " " + std::string( op ) + " " + string_stack.at( string_stack.size() - 1 ) + " )";
-            string_stack.pop_back();
-            string_stack.back() = std::move( tmp );
-         }
+
+         std::string tmp = "( " + string_stack.at( string_stack.size() - 2 ) + " " + std::string( op ) + " " + string_stack.at( string_stack.size() - 1 ) + " )";
+         string_stack.pop_back();
+         string_stack.back() = std::move( tmp );
       }
 
       void prefix( const std::string_view op )
       {
-         assert( term_stack.size() >= 1 );  // NOLINT(readability-container-size-empty)
-         {
-            variant_t tmp = tuple_t( "prefix" + op, { std::move( term_stack.at( term_stack.size() - 1 ) ) } );
-            term_stack.back().variant = std::move( tmp );
-         }
          assert( string_stack.size() >= 1 );  // NOLINT(readability-container-size-empty)
-         {
-            std::string tmp = std::string( op ) + "( " + string_stack.at( string_stack.size() - 1 ) + " )";
-            string_stack.back() = std::move( tmp );
-         }
+
+         std::string tmp = std::string( op ) + "( " + string_stack.at( string_stack.size() - 1 ) + " )";
+         string_stack.back() = std::move( tmp );
       }
 
       void postfix( const std::string_view op )
       {
-         assert( term_stack.size() >= 1 );  // NOLINT(readability-container-size-empty)
-         {
-            variant_t tmp = tuple_t( "postfix" + op, { std::move( term_stack.at( term_stack.size() - 1 ) ) } );
-            term_stack.back().variant = std::move( tmp );
-         }
          assert( string_stack.size() >= 1 );  // NOLINT(readability-container-size-empty)
-         {
-            std::string tmp = "( " + string_stack.at( string_stack.size() - 1 ) + " )" + std::string( op );
-            string_stack.back() = std::move( tmp );
-         }
+
+         std::string tmp = "( " + string_stack.at( string_stack.size() - 1 ) + " )" + std::string( op );
+         string_stack.back() = std::move( tmp );
       }
 
       void ternary( const std::string_view op, const std::string_view o2 )
       {
-         assert( term_stack.size() >= 2 );
-         {
-            variant_t tmp = tuple_t( "ternary", { std::move( term_stack.at( term_stack.size() - 3 ) ), std::move( term_stack.at( term_stack.size() - 2 ) ), std::move( term_stack.at( term_stack.size() - 1 ) ) } );
-            term_stack.pop_back();
-            term_stack.pop_back();
-            term_stack.back().variant = std::move( tmp );
-         }
          assert( string_stack.size() >= 2 );
-         {
-            std::string tmp = "( " + string_stack.at( string_stack.size() - 3 ) + " " + std::string( op ) + " " + string_stack.at( string_stack.size() - 2 ) + " " + std::string( o2 ) + " " + string_stack.at( string_stack.size() - 1 ) + " )";
-            string_stack.pop_back();
-            string_stack.pop_back();
-            string_stack.back() = std::move( tmp );
-         }
+
+         std::string tmp = "( " + string_stack.at( string_stack.size() - 3 ) + " " + std::string( op ) + " " + string_stack.at( string_stack.size() - 2 ) + " " + std::string( o2 ) + " " + string_stack.at( string_stack.size() - 1 ) + " )";
+         string_stack.pop_back();
+         string_stack.pop_back();
+         string_stack.back() = std::move( tmp );
       }
 
       void call( const std::string_view op, const std::string_view o2, const std::size_t args )
       {
-         assert( term_stack.size() > args );
-         {
-            variant_t tmp = tuple_t( "call '" + std::string( op ) + std::string( o2 ) + "'", std::vector< term_t >( term_stack.end() - args - 1, term_stack.end() ) );
-            for( std::size_t i = 0; i < args; ++i ) {
-               term_stack.pop_back();
-            }
-            term_stack.back().variant = ( std::move( tmp ) );
-         }
          assert( string_stack.size() > args );
-         {
-            std::string tmp = *( string_stack.end() - args - 1 ) + std::string( op ) + " ";
-            for( std::size_t i = 0; i < args; ++i ) {
-               if( i > 0 ) {
-                  tmp += ", ";
-               }
-               tmp += *( string_stack.end() - args + i );
+
+         std::string tmp = *( string_stack.end() - args - 1 ) + std::string( op ) + " ";
+         for( std::size_t i = 0; i < args; ++i ) {
+            if( i > 0 ) {
+               tmp += ", ";
             }
-            tmp += " " + std::string( o2 );
-            string_stack.resize( string_stack.size() - args );
-            string_stack.back() = std::move( tmp );
+            tmp += *( string_stack.end() - args + i );
          }
+         tmp += " " + std::string( o2 );
+         string_stack.resize( string_stack.size() - args );
+         string_stack.back() = std::move( tmp );
       }
 
       void number( const std::int64_t l )
       {
-         term_stack.emplace_back( l );
          string_stack.emplace_back( std::to_string( l ) );
       }
 
       void identifier( const std::string& id )
       {
-         term_stack.emplace_back( id );
          string_stack.emplace_back( id );
       }
 
-      std::vector< term_t > term_stack;
       std::vector< std::string > string_stack;
    };
-
-   inline std::ostream& operator<<( std::ostream& o, const term_t& t );
-
-   inline std::ostream& operator<<( std::ostream& o, const tuple_t& t )
-   {
-      o << "{ " << std::get< 0 >( t );
-      for( const auto& res : std::get< 1 >( t ) ) {
-         o << " " << res;
-      }
-      o << " }";
-      return o;
-   }
-
-   inline std::ostream& operator<<( std::ostream& o, const variant_t& v )
-   {
-      std::visit( [ & ]( const auto& t ) { o << t; }, v );
-      return o;
-   }
-
-   inline std::ostream& operator<<( std::ostream& o, const term_t& t )
-   {
-      o << t.variant;
-      return o;
-   }
 
    struct literal
       : pegtl::plus< pegtl::digit >
@@ -595,10 +508,9 @@ int main( int argc, char** argv )
          application::result res;
          TAO_PEGTL_NAMESPACE::parse< application::grammar, application::action >( in, res );
          std::cout << "Input: " << argv[ i ] << std::endl;
-         assert( res.term_stack.size() == 1 );
          assert( res.string_stack.size() == 1 );
          std::cout << "Result: " << res.string_stack.at( 0 ) << std::endl;
-         std::cout << "Result: " << res.term_stack.at( 0 ) << std::endl;
+
       }
       catch( const TAO_PEGTL_NAMESPACE::parse_error& e ) {
          const auto p = e.positions().front();
