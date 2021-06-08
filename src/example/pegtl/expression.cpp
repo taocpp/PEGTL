@@ -510,7 +510,6 @@ int main( int argc, char** argv )
          std::cout << "Input: " << argv[ i ] << std::endl;
          assert( res.string_stack.size() == 1 );
          std::cout << "Result: " << res.string_stack.at( 0 ) << std::endl;
-
       }
       catch( const TAO_PEGTL_NAMESPACE::parse_error& e ) {
          const auto p = e.positions().front();
