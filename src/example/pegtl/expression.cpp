@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
    {
       struct prefix_info
       {
-         prefix_info( const std::string_view n, const std::uint8_t pbp ) noexcept
+         prefix_info( const std::string_view n, const unsigned pbp ) noexcept
             : name( n ),
               prefix_binding_power( pbp )
          {
@@ -53,16 +53,16 @@ namespace TAO_PEGTL_NAMESPACE::expression
 
          std::string name;
 
-         std::uint8_t prefix_binding_power;
+         unsigned prefix_binding_power;
       };
 
       struct infix_postfix_info
       {
-         infix_postfix_info( const std::string_view n, const std::uint8_t lbp, const std::uint8_t rbp = 0 ) noexcept
+         infix_postfix_info( const std::string_view n, const unsigned lbp, const unsigned rbp = 0 ) noexcept
             : infix_postfix_info( n, std::string_view(), lbp, rbp )
          {}
 
-         infix_postfix_info( const std::string_view n, const std::string_view o, const std::uint8_t lbp, const std::uint8_t rbp = 0 ) noexcept
+         infix_postfix_info( const std::string_view n, const std::string_view o, const unsigned lbp, const unsigned rbp = 0 ) noexcept
             : name( n ),
               other( o ),
               left_binding_power( lbp ),
@@ -88,8 +88,8 @@ namespace TAO_PEGTL_NAMESPACE::expression
          std::string name;
          std::string other;  // Used for the ':' of the ternary operator etc.
 
-         std::uint8_t left_binding_power;
-         std::uint8_t right_binding_power;
+         unsigned left_binding_power;
+         unsigned right_binding_power;
       };
 
       template< typename ParseInput >
@@ -118,7 +118,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
       }
 
       template< typename ParseInput, typename OperatorInfo >
-      [[nodiscard]] const OperatorInfo* match_infix_postfix( ParseInput& in, const std::size_t max_length, const std::vector< OperatorInfo >& ops, const std::uint8_t min_precedence )
+      [[nodiscard]] const OperatorInfo* match_infix_postfix( ParseInput& in, const std::size_t max_length, const std::vector< OperatorInfo >& ops, const unsigned min_precedence )
       {
          const std::size_t max = std::min( max_length, in.size( max_length ) );
          for( std::string op( in.current(), max ); !op.empty(); op.pop_back() ) {
@@ -249,7 +249,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
                    typename ParseInput,
                    typename Result,
                    typename Config >
-         [[nodiscard]] static bool match( ParseInput& in, Result& res, const Config& cfg, const std::uint8_t /*unused*/ )
+         [[nodiscard]] static bool match( ParseInput& in, Result& res, const Config& cfg, const unsigned /*unused*/ )
          {
             return Control< if_must< one< '(' >, star< ignored >, expression< Literal, Identifier >, star< ignored >, one< ')' > > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
          }
@@ -267,7 +267,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
                    typename ParseInput,
                    typename Result,
                    typename Config >
-         [[nodiscard]] static bool match( ParseInput& in, Result& res, const Config& cfg, const std::uint8_t /*unused*/ )
+         [[nodiscard]] static bool match( ParseInput& in, Result& res, const Config& cfg, const unsigned /*unused*/ )
          {
             if( const auto* info = match_prefix( in, cfg.max_prefix_length, cfg.prefix ) ) {
                (void)Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, info->prefix_binding_power );
@@ -292,7 +292,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
                    typename ParseInput,
                    typename Result,
                    typename Config >
-         [[nodiscard]] static bool match( ParseInput& in, Result& res, const Config& cfg, const std::uint8_t min )
+         [[nodiscard]] static bool match( ParseInput& in, Result& res, const Config& cfg, const unsigned min )
          {
             if( const auto* info = match_infix_postfix( in, cfg.max_infix_postfix_length, cfg.infix_postfix, min ) ) {
                if( info->name == "?" ) {
