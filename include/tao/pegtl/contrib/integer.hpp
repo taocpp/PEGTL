@@ -66,7 +66,7 @@ namespace TAO_PEGTL_NAMESPACE
          return ( '0' <= c ) && ( c <= '9' );
       }
 
-      template< typename Integer, Integer Maximum = ( std::numeric_limits< Integer >::max )() >
+      template< typename Integer, Integer Maximum = (std::numeric_limits< Integer >::max)() >
       [[nodiscard]] constexpr bool accumulate_digit( Integer& result, const char digit ) noexcept
       {
          // Assumes that digit is a digit as per is_digit(); returns false on overflow.
@@ -86,7 +86,7 @@ namespace TAO_PEGTL_NAMESPACE
          return true;
       }
 
-      template< typename Integer, Integer Maximum = ( std::numeric_limits< Integer >::max )() >
+      template< typename Integer, Integer Maximum = (std::numeric_limits< Integer >::max)() >
       [[nodiscard]] constexpr bool accumulate_digits( Integer& result, const std::string_view input ) noexcept
       {
          // Assumes input is a non-empty sequence of digits; returns false on overflow.
@@ -99,7 +99,7 @@ namespace TAO_PEGTL_NAMESPACE
          return true;
       }
 
-      template< typename Integer, Integer Maximum = ( std::numeric_limits< Integer >::max )() >
+      template< typename Integer, Integer Maximum = (std::numeric_limits< Integer >::max)() >
       [[nodiscard]] constexpr bool convert_positive( Integer& result, const std::string_view input ) noexcept
       {
          // Assumes result == 0 and that input is a non-empty sequence of digits; returns false on overflow.
@@ -115,7 +115,7 @@ namespace TAO_PEGTL_NAMESPACE
 
          static_assert( std::is_signed_v< Signed > );
          using Unsigned = std::make_unsigned_t< Signed >;
-         constexpr Unsigned maximum = static_cast< Unsigned >( ( std::numeric_limits< Signed >::max )() ) + 1;
+         constexpr Unsigned maximum = static_cast< Unsigned >( (std::numeric_limits< Signed >::max)() ) + 1;
          Unsigned temporary = 0;
          if( accumulate_digits< Unsigned, maximum >( temporary, input ) ) {
             result = static_cast< Signed >( ~temporary ) + 1;
@@ -124,7 +124,7 @@ namespace TAO_PEGTL_NAMESPACE
          return false;
       }
 
-      template< typename Unsigned, Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
+      template< typename Unsigned, Unsigned Maximum = (std::numeric_limits< Unsigned >::max)() >
       [[nodiscard]] constexpr bool convert_unsigned( Unsigned& result, const std::string_view input ) noexcept
       {
          // Assumes result == 0 and that input is a non-empty sequence of digits; returns false on overflow.
@@ -167,7 +167,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       template< typename ParseInput,
                 typename Unsigned,
-                Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
+                Unsigned Maximum = (std::numeric_limits< Unsigned >::max)() >
       [[nodiscard]] bool match_and_convert_unsigned_with_maximum( ParseInput& in, Unsigned& st )
       {
          // Assumes st == 0.
@@ -272,7 +272,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   template< typename Unsigned, Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
+   template< typename Unsigned, Unsigned Maximum = (std::numeric_limits< Unsigned >::max)() >
    struct maximum_rule
    {
       using rule_t = maximum_rule;
@@ -288,7 +288,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   template< typename Unsigned, Unsigned Maximum = ( std::numeric_limits< Unsigned >::max )() >
+   template< typename Unsigned, Unsigned Maximum = (std::numeric_limits< Unsigned >::max)() >
    struct maximum_rule_with_action
    {
       using rule_t = maximum_rule_with_action;

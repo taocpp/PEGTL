@@ -172,11 +172,11 @@ namespace TAO_PEGTL_NAMESPACE
       test_unsigned< unsigned char >( "000256" );
 
       test_signed< signed long long >( "0", 0 );
-      test_signed< signed long long >( ( std::numeric_limits< signed long long >::max )() );
-      test_signed< signed long long >( ( std::numeric_limits< signed long long >::min )() );
+      test_signed< signed long long >( (std::numeric_limits< signed long long >::max)() );
+      test_signed< signed long long >( (std::numeric_limits< signed long long >::min)() );
 
       test_unsigned< unsigned long long >( "0", 0 );
-      test_unsigned< unsigned long long >( ( std::numeric_limits< unsigned long long >::max )() );
+      test_unsigned< unsigned long long >( (std::numeric_limits< unsigned long long >::max)() );
 
       verify_rule< max_seq_rule< 0 > >( __LINE__, __FILE__, "a0b", result_type::success );
       verify_rule< max_seq_rule< 0 > >( __LINE__, __FILE__, "ab", result_type::local_failure );
