@@ -94,7 +94,7 @@ template<> struct my_selector< my_rule_2 > : std::true_type
 };
 ```
 
-`transform` can modify `n` in any way you like, the [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/master/src/example/pegtl/parse_tree.cpp)-example shows two techniques for marking nodes as "content-less", and for transforming the parse tree into an AST.
+`transform` can modify `n` in any way you like, the [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/main/src/example/pegtl/parse_tree.cpp)-example shows two techniques for marking nodes as "content-less", and for transforming the parse tree into an AST.
 
 It is also possible to call `n.reset()`, or otherwise set `n` to an empty pointer, which effectively removes `n` (and all of its child nodes) from the parse tree.
 
@@ -185,7 +185,7 @@ struct node : basic_node< node > {};
 
 The name is the demangled name of the rule. By default, all nodes (except the root node) can provide the content that matched, i.e. the part of the input that the rule the node was created for matched. It is only necessary to check `has_content()` when `remove_content()` was used by a transform function (either directly or indirectly via one of the convenience helpers), otherwise all nodes except for the root will always "have content".
 
-See [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/master/src/example/pegtl/parse_tree.cpp) for more information on how to output (or otherwise use) the nodes.
+See [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/main/src/example/pegtl/parse_tree.cpp) for more information on how to output (or otherwise use) the nodes.
 
 ## Custom Node Class
 
