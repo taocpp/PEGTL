@@ -11,6 +11,7 @@ int main()
 
 #include <limits>
 #include <sstream>
+#include <utility>
 
 #include "test.hpp"
 
@@ -64,9 +65,9 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename S >
    std::string lexical_cast( const S s )
    {
-      std::ostringstream o;
-      o << s;
-      return o.str();
+      std::ostringstream oss;
+      oss << s;
+      return std::move( oss ).str();
    }
 
    template< typename S >

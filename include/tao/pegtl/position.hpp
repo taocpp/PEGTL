@@ -88,9 +88,9 @@ namespace TAO_PEGTL_NAMESPACE
 
    [[nodiscard]] inline std::string to_string( const position& p )
    {
-      std::ostringstream o;
-      o << p;
-      return o.str();
+      std::ostringstream oss;
+      oss << p;
+      return std::move( oss ).str();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

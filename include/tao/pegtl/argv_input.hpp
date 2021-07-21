@@ -20,9 +20,9 @@ namespace TAO_PEGTL_NAMESPACE
    {
       [[nodiscard]] inline std::string make_argv_source( const std::size_t argn )
       {
-         std::ostringstream os;
-         os << "argv[" << argn << ']';
-         return os.str();
+         std::ostringstream oss;
+         oss << "argv[" << argn << ']';
+         return std::move( oss ).str();
       }
 
    }  // namespace internal

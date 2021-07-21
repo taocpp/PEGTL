@@ -629,9 +629,9 @@ namespace TAO_PEGTL_NAMESPACE
                v <<= 1;
                v |= ( *p++ & 1 );
             } while( p != n->m_end.data );
-            std::ostringstream o;
-            o << v;
-            return o.str();
+            std::ostringstream oss;
+            oss << v;
+            return std::move( oss ).str();
          } );
 
          nrv.add< grammar::hex_val::type >( []( const node_ptr& n ) { return gen_val< grammar::hex_val::range >( n ); } );
@@ -727,9 +727,9 @@ namespace TAO_PEGTL_NAMESPACE
             if( min_val == max_val ) {
                return min_element;
             }
-            std::ostringstream os;
-            os << ( max_val - min_val );
-            const auto max_element = prefix + ( ( max_val - min_val == 1 ) ? "opt< " : ( "rep_opt< " + os.str() + ", " ) ) + content + " >";
+            std::ostringstream oss;
+            oss << ( max_val - min_val );
+            const auto max_element = prefix + ( ( max_val - min_val == 1 ) ? "opt< " : ( "rep_opt< " + std::move( oss ).str() + ", " ) ) + content + " >";
             return prefix + "seq< " + min_element + ", " + max_element + " >";
          } );
 
