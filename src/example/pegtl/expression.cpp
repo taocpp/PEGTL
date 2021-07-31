@@ -141,68 +141,64 @@ namespace TAO_PEGTL_NAMESPACE::expression
 
       struct operator_maps
       {
-         // clang-format off
          operator_maps()
-            : prefix( sorted_operator_vector( {
-                  prefix_info( "!", 80 ),
-                  prefix_info( "+", 80 ),
-                  prefix_info( "-", 80 ),
-                  prefix_info( "~", 80 ),
-                  prefix_info( "*", 80 ),
-                  prefix_info( "&", 80 ),
-                  prefix_info( "++", 80 ),
-                  prefix_info( "--", 80 )
-               } ) ),
-              infix_postfix( sorted_operator_vector( {
-                  infix_postfix_info( "::", 99, 100 ),  // Special: Followed by identifier (or template-space-identifer, which we don't support yet).
-                  infix_postfix_info( ".*", 37, 38 ),
-                  infix_postfix_info( "->*", 37, 38 ),
-                  infix_postfix_info( "*", 35, 36 ),
-                  infix_postfix_info( "/", 35, 36 ),
-                  infix_postfix_info( "%", 35, 36 ),
-                  infix_postfix_info( "+", 33, 34 ),
-                  infix_postfix_info( "-", 33, 34 ),
-                  infix_postfix_info( "<<", 31, 32 ),
-                  infix_postfix_info( ">>", 31, 32 ),
-                  infix_postfix_info( "<=>", 29, 30 ),
-                  infix_postfix_info( "<", 27, 28 ),
-                  infix_postfix_info( "<=", 27, 28 ),
-                  infix_postfix_info( ">", 27, 28 ),
-                  infix_postfix_info( ">=", 27, 28 ),
-                  infix_postfix_info( "==", 25, 26 ),
-                  infix_postfix_info( "!=", 25, 26 ),
-                  infix_postfix_info( "&", 23, 24 ),
-                  infix_postfix_info( "^", 21, 22 ),
-                  infix_postfix_info( "|", 19, 20 ),
-                  infix_postfix_info( "&&", 17, 18 ),
-                  infix_postfix_info( "||", 15, 16 ),
-                  infix_postfix_info( "?", ":", 14, 13 ),  // Special: Ternary operator.
-                  infix_postfix_info( "=", 12, 11 ),
-                  infix_postfix_info( "+=", 12, 11 ),
-                  infix_postfix_info( "-=", 12, 11 ),
-                  infix_postfix_info( "*=", 12, 11 ),
-                  infix_postfix_info( "/=", 12, 11 ),
-                  infix_postfix_info( "%=", 12, 11 ),
-                  infix_postfix_info( "<<=", 12, 11 ),
-                  infix_postfix_info( ">>=", 12, 11 ),
-                  infix_postfix_info( "&=", 12, 11 ),
-                  infix_postfix_info( "^=", 12, 11 ),
-                  infix_postfix_info( "|=", 12, 11 ),
-                  // infix_postfix_info( ",", 9, 10 ),  // TODO: Enable, but forbid in function argument list.
-                  infix_postfix_info( "[", "]", 90 ),  // Special: Argument list.
-                  infix_postfix_info( "(", ")", 90 ),  // Special: Argument list.
-                  infix_postfix_info( ".", 90 ),  // Special: Followed by identifier.
-                  infix_postfix_info( "->", 90 ),  // Special: Followed by identifier.
-                  infix_postfix_info( "++", 90 ),
-                  infix_postfix_info( "--", 90 )
-               } ) ),
+            : prefix( sorted_operator_vector(
+               { prefix_info( "!", 80 ),
+                 prefix_info( "+", 80 ),
+                 prefix_info( "-", 80 ),
+                 prefix_info( "~", 80 ),
+                 prefix_info( "*", 80 ),
+                 prefix_info( "&", 80 ),
+                 prefix_info( "++", 80 ),
+                 prefix_info( "--", 80 ) } ) ),
+              infix_postfix( sorted_operator_vector(
+                 { infix_postfix_info( "::", 99, 100 ),  // Special: Followed by identifier (or template-space-identifer, which we don't support yet).
+                   infix_postfix_info( ".*", 37, 38 ),
+                   infix_postfix_info( "->*", 37, 38 ),
+                   infix_postfix_info( "*", 35, 36 ),
+                   infix_postfix_info( "/", 35, 36 ),
+                   infix_postfix_info( "%", 35, 36 ),
+                   infix_postfix_info( "+", 33, 34 ),
+                   infix_postfix_info( "-", 33, 34 ),
+                   infix_postfix_info( "<<", 31, 32 ),
+                   infix_postfix_info( ">>", 31, 32 ),
+                   infix_postfix_info( "<=>", 29, 30 ),
+                   infix_postfix_info( "<", 27, 28 ),
+                   infix_postfix_info( "<=", 27, 28 ),
+                   infix_postfix_info( ">", 27, 28 ),
+                   infix_postfix_info( ">=", 27, 28 ),
+                   infix_postfix_info( "==", 25, 26 ),
+                   infix_postfix_info( "!=", 25, 26 ),
+                   infix_postfix_info( "&", 23, 24 ),
+                   infix_postfix_info( "^", 21, 22 ),
+                   infix_postfix_info( "|", 19, 20 ),
+                   infix_postfix_info( "&&", 17, 18 ),
+                   infix_postfix_info( "||", 15, 16 ),
+                   infix_postfix_info( "?", ":", 14, 13 ),  // Special: Ternary operator.
+                   infix_postfix_info( "=", 12, 11 ),
+                   infix_postfix_info( "+=", 12, 11 ),
+                   infix_postfix_info( "-=", 12, 11 ),
+                   infix_postfix_info( "*=", 12, 11 ),
+                   infix_postfix_info( "/=", 12, 11 ),
+                   infix_postfix_info( "%=", 12, 11 ),
+                   infix_postfix_info( "<<=", 12, 11 ),
+                   infix_postfix_info( ">>=", 12, 11 ),
+                   infix_postfix_info( "&=", 12, 11 ),
+                   infix_postfix_info( "^=", 12, 11 ),
+                   infix_postfix_info( "|=", 12, 11 ),
+                   // infix_postfix_info( ",", 9, 10 ),  // TODO: Enable, but forbid in function argument list.
+                   infix_postfix_info( "[", "]", 90 ),  // Special: Argument list.
+                   infix_postfix_info( "(", ")", 90 ),  // Special: Argument list.
+                   infix_postfix_info( ".", 90 ),       // Special: Followed by identifier.
+                   infix_postfix_info( "->", 90 ),      // Special: Followed by identifier.
+                   infix_postfix_info( "++", 90 ),
+                   infix_postfix_info( "--", 90 ) } ) ),
               max_prefix_length( std::max_element( prefix.begin(), prefix.end(), []( const auto& l, const auto& r ) { return l.name.size() < r.name.size(); } )->name.size() ),
               max_infix_postfix_length( std::max_element( infix_postfix.begin(), infix_postfix.end(), []( const auto& l, const auto& r ) { return l.name.size() < r.name.size(); } )->name.size() )
          {
             // These are C++20 operators with the correct associativity and relative precedence, however some are still missing:
             // TODO: Compound literal (C99), _Alignof (C11), Functional cast, sizeof, co_await, co_yield, throw, new, new[], delete, delete[], C-style casts.
          }
-         // clang-format on
 
          const std::vector< prefix_info > prefix;
          const std::vector< infix_postfix_info > infix_postfix;

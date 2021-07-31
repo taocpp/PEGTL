@@ -35,6 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_analyze< eolf >( __LINE__, __FILE__, false, false );
       verify_analyze< success >( __LINE__, __FILE__, false, false );
       verify_analyze< failure >( __LINE__, __FILE__, true, false );
+
       // clang-format off
       {
          struct tst : star< tst > {};

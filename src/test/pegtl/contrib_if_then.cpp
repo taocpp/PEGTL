@@ -15,12 +15,12 @@ namespace TAO_PEGTL_NAMESPACE
          if_then< one< 'a' >, one< 'b' >, one< 'c' > >::
          else_if_then< one< 'a' >, one< 'b' > >::
          else_then< one< 'c' > >;
+      // clang-format on
 
       verify_rule< grammar >( __LINE__, __FILE__, "abc", result_type::success, 0 );
       verify_rule< grammar >( __LINE__, __FILE__, "abcd", result_type::success, 1 );
       verify_rule< grammar >( __LINE__, __FILE__, "ab", result_type::local_failure, 2 );
       verify_rule< grammar >( __LINE__, __FILE__, "c", result_type::success, 0 );
-      // clang-format on
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

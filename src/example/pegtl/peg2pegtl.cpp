@@ -227,10 +227,16 @@ namespace TAO_PEGTL_NAMESPACE
       template<> inline constexpr auto error_message< peg::grammar::Expression > = "unterminated expression";
       template<> inline constexpr auto error_message< peg::grammar::Grammar > = "unterminated grammar";
       template<> inline constexpr auto error_message< peg::grammar::Range > = "unterminated range";
-
-      struct error { template< typename Rule > static constexpr auto message = error_message< Rule >; };
-      template< typename Rule > using control = must_if< error >::control< Rule >;
       // clang-format on
+
+      struct error
+      {
+         template< typename Rule >
+         static constexpr auto message = error_message< Rule >;
+      };
+
+      template< typename Rule >
+      using control = must_if< error >::control< Rule >;
 #else
       template< typename Rule >
       using control = normal< Rule >;

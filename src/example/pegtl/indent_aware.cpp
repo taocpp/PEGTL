@@ -42,7 +42,6 @@ def b():
 namespace example
 {
    // clang-format off
-
    struct eq : pegtl::one< '=' > {};
    struct co : pegtl::one< ':' > {};
    struct hs : pegtl::one< '#' > {};
@@ -77,7 +76,6 @@ namespace example
    struct line : pegtl::sor< nothing, something > {};
 
    struct grammar : pegtl::until< pegtl::eof, pegtl::must< line > > {};
-
    // clang-format on
 
    enum class type

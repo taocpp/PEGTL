@@ -37,15 +37,17 @@ namespace example
    template<> inline constexpr auto error_message< pegtl::json::key::content > = "unterminated key";
 
    template<> inline constexpr auto error_message< pegtl::eof > = "unexpected character after JSON value";
+   // clang-format on
 
    // As must_if<> can not take error_message as a template parameter directly, we need to wrap it.
    struct error
    {
-      template< typename Rule > static constexpr auto message = error_message< Rule >;
+      template< typename Rule >
+      static constexpr auto message = error_message< Rule >;
    };
 
-   template< typename Rule > using control = pegtl::must_if< error >::control< Rule >;
-   // clang-format on
+   template< typename Rule >
+   using control = pegtl::must_if< error >::control< Rule >;
 
 #else
 

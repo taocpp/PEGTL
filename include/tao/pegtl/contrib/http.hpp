@@ -126,8 +126,8 @@ namespace TAO_PEGTL_NAMESPACE::http
    struct https_URI : if_must< istring< 'h', 't', 't', 'p', 's', ':', '/', '/' >, uri::authority, uri::path_abempty, uri::opt_query, uri::opt_fragment > {};
 
    struct partial_URI : seq< uri::relative_part, uri::opt_query > {};
-
    // clang-format on
+
    struct chunk_size
    {
       using rule_t = plus< abnf::HEXDIG >::rule_t;
@@ -170,13 +170,13 @@ namespace TAO_PEGTL_NAMESPACE::http
          return i > 0;
       }
    };
-   // clang-format off
 
+   // clang-format off
    struct chunk_ext_name : token {};
    struct chunk_ext_val : sor< quoted_string, token > {};
    struct chunk_ext : star_must< one< ';' >, chunk_ext_name, if_must< one< '=' >, chunk_ext_val > > {};
-
    // clang-format on
+
    struct chunk_data
    {
       using rule_t = star< abnf::OCTET >::rule_t;

@@ -2,9 +2,11 @@
 
 ## 3.2.1
 
-**Not yet released**
+Released 2021-07-31
 
 * Added an optional limiter to guard against infinite recursion.
+* Fixed CMake export error.
+* Improved compile time efficiency.
 
 ## 3.2.0
 

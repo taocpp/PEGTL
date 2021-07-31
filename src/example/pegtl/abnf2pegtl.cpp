@@ -313,10 +313,16 @@ namespace TAO_PEGTL_NAMESPACE
       template<> inline constexpr auto error_message< abnf::grammar::defined_as > = "expected '=' or '=/'";
       template<> inline constexpr auto error_message< abnf::grammar::req_c_nl > = "unterminated rule";
       template<> inline constexpr auto error_message< abnf::grammar::rule > = "expected rule";
-
-      struct error { template< typename Rule > static constexpr auto message = error_message< Rule >; };
-      template< typename Rule > using control = must_if< error >::control< Rule >;
       // clang-format on
+
+      struct error
+      {
+         template< typename Rule >
+         static constexpr auto message = error_message< Rule >;
+      };
+
+      template< typename Rule >
+      using control = must_if< error >::control< Rule >;
 #else
       template< typename Rule >
       using control = normal< Rule >;

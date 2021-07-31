@@ -22,10 +22,16 @@ namespace test1
 
    template< typename > inline constexpr const char* error_message = nullptr;
    template<> inline constexpr auto error_message< test1::b > = "test123";
-
-   struct error { template< typename Rule > static constexpr auto message = error_message< Rule >; };
-   template< typename Rule > using control = must_if< error >::control< Rule >;
    // clang-format on
+
+   struct error
+   {
+      template< typename Rule >
+      static constexpr auto message = error_message< Rule >;
+   };
+
+   template< typename Rule >
+   using control = must_if< error >::control< Rule >;
 
 }  // namespace test1
 

@@ -18,7 +18,6 @@ int main()
 namespace TAO_PEGTL_NAMESPACE::proto3
 {
    // clang-format off
-
    struct comment : seq< two< '/' >, until< eolf > > {};
    struct sp : sor< space, comment > {};
    struct sps : star< sp > {};
@@ -128,7 +127,6 @@ namespace TAO_PEGTL_NAMESPACE::proto3
 
    struct head : if_must< string< 's', 'y', 'n', 't', 'a', 'x' >, sps, equ, sps, string< '"', 'p', 'r', 'o', 't', 'o', '3', '"' >, sps, semi > {};
    struct proto : must< sps, head, sps, star< body, sps >, eof > {};
-
    // clang-format on
 
 }  // namespace TAO_PEGTL_NAMESPACE::proto3
