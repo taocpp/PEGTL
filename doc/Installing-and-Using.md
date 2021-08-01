@@ -115,8 +115,6 @@ For more options and ways to use Vcpkg, please refer to the [Vcpkg documentation
 
 ## Using Conan
 
-[![Download](https://conan.io/center/taocpp-pegtl)
-
 You can download and install the PEGTL using the [Conan] package manager:
 
 ```bash
