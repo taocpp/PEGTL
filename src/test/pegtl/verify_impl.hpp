@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE
       catch( ... ) {
          TAO_PEGTL_TEST_UNREACHABLE;
       }
-      // LCOV_EXCL_END
+      // LCOV_EXCL_STOP
 
 #else
 

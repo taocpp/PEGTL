@@ -132,7 +132,7 @@ namespace TAO_PEGTL_NAMESPACE
                      }
                   }
                }
-               // LCOV_EXCL_END
+               // LCOV_EXCL_STOP
             }
             return accum;
          }

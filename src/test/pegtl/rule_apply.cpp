@@ -60,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE
          {
             TAO_PEGTL_TEST_ASSERT( false );
          }
-         // LCOV_EXCL_END
+         // LCOV_EXCL_STOP
       };
 
    }  // namespace test1

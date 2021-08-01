@@ -22,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE
          // LCOV_EXCL_START
          std::cerr << "pegtl: unit test failed for [ internal::file_mapper ]" << std::endl;
          ++failed;
-         // LCOV_EXCL_END
+         // LCOV_EXCL_STOP
       }
       catch( const internal::filesystem::filesystem_error& ) {
       }
@@ -31,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
          std::cerr << "pegtl: unit test failed for [ internal::file_mapper ] with unexpected exception" << std::endl;
          ++failed;
       }
-      // LCOV_EXCL_END
+      // LCOV_EXCL_STOP
 
       const std::string s = "dummy content\n";
       const std::string dummy_content = s + s + s + s + s + s + s + s + s + s + s;

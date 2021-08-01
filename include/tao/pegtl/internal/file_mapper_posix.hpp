@@ -54,7 +54,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             std::perror( "fstat() failed" );
             std::terminate();
 #endif
-            // LCOV_EXCL_END
+            // LCOV_EXCL_STOP
          }
          return std::size_t( st.st_size );
       }
@@ -105,7 +105,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             std::perror( "mmap() failed" );
             std::terminate();
 #endif
-            // LCOV_EXCL_END
+            // LCOV_EXCL_STOP
          }
       }
 

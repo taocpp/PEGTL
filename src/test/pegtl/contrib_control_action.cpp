@@ -48,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          TAO_PEGTL_TEST_UNREACHABLE;
       }
-      // LCOV_EXCL_END
+      // LCOV_EXCL_STOP
    };
 
    template<>
@@ -67,7 +67,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          TAO_PEGTL_TEST_UNREACHABLE;
       }
-      // LCOV_EXCL_END
+      // LCOV_EXCL_STOP
 
       template< typename ParseInput >
       static void failure( const ParseInput& /*unused*/, int /*unused*/ )
@@ -98,7 +98,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          TAO_PEGTL_TEST_UNREACHABLE;
       }
-      // LCOV_EXCL_END
+      // LCOV_EXCL_STOP
    };
 
 #if defined( __cpp_exceptions )
@@ -124,7 +124,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          TAO_PEGTL_TEST_UNREACHABLE;
       }
-      // LCOV_EXCL_END
+      // LCOV_EXCL_STOP
 
       template< typename ParseInput >
       static void unwind( const ParseInput& /*unused*/, int /*unused*/ )

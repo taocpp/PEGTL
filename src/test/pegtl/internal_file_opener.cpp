@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
          // LCOV_EXCL_START
          std::cerr << "pegtl: unit test failed for [ internal::file_opener ] " << std::endl;
          ++failed;
-         // LCOV_EXCL_END
+         // LCOV_EXCL_STOP
       }
       catch( const std::exception& ) {
       }
