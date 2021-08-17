@@ -38,7 +38,7 @@ jobs:
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
     - working-directory: build/
-      run: cmake --build .
+      run: cmake --build --parallel 1 .
 
     - working-directory: build/
       run: ctest --output-on-failure
@@ -74,7 +74,7 @@ jobs:
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
     - working-directory: build/
-      run: cmake --build .
+      run: cmake --build --parallel 1 .
 
     - working-directory: build/
       run: ctest --output-on-failure
@@ -97,7 +97,7 @@ jobs:
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}"
 
     - working-directory: build/
-      run: cmake --build .
+      run: cmake --build --parallel 1 .
 
     - working-directory: build/
       run: ctest --output-on-failure
@@ -123,7 +123,7 @@ jobs:
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DCMAKE_CXX_FLAGS="${{ matrix.flags }}"
 
     - working-directory: build/
-      run: cmake --build .
+      run: cmake --build --parallel 1 .
 
     - working-directory: build/
       run: ctest --output-on-failure
