@@ -64,9 +64,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - run: sudo apt-get update
+    - run: sudo apt-get update -yq
 
-    - run: sudo apt-get install -y ${{ matrix.compiler }}
+    - run: sudo apt-get install -yq ${{ matrix.compiler }}
 
     - run: cmake -E make_directory build
 

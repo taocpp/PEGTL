@@ -17,6 +17,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - run: sudo apt-get update -yq
+
     - run: sudo apt-get install -yq clang-tools
 
     - run: scan-build cmake -E make_directory build
