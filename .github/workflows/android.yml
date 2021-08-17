@@ -36,4 +36,4 @@ jobs:
 
       - run: cmake -H$GITHUB_WORKSPACE -B/home/developer/build -GNinja -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ matrix.abi }} -DANDROID_PLATFORM=${{ matrix.platform }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
-      - run: cmake --build --parallel 1 /home/developer/build
+      - run: cmake --build /home/developer/build
