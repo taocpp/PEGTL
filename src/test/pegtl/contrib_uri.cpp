@@ -40,6 +40,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "git://github.com/rails/rails.git", result_type::success, 0 );
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "crid://broadcaster.com/movies/BestActionMovieEver", result_type::success, 0 );
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "http://nobody:password@example.org:8080/cgi-bin/script.php?action=submit&pageid=86392001#section_2", result_type::success, 0 );
+      verify_rule< GRAMMAR >( __LINE__, __FILE__, "http://256test.com", result_type::success, 0 );
 
       TAO_PEGTL_TEST_THROWS( parse< GRAMMAR >( memory_input( "", "" ) ) );
    }
