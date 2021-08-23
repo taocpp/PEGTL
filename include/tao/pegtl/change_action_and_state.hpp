@@ -12,6 +12,8 @@
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
 
+#include "internal/dependent_false.hpp"
+
 namespace TAO_PEGTL_NAMESPACE
 {
    template< template< typename... > class NewAction, typename NewState >
@@ -30,14 +32,30 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          static_assert( !std::is_same_v< Action< void >, NewAction< void > >, "old and new action class templates are identical" );
-         NewState s( static_cast< const ParseInput& >( in ), st... );
-         if( Control< Rule >::template match< A, M, NewAction, Control >( in, s ) ) {
-            if constexpr( A == apply_mode::action ) {
-               Action< Rule >::success( static_cast< const ParseInput& >( in ), s, st... );
+
+         if constexpr( std::is_constructible_v< NewState, const ParseInput&, States... > ) {
+            NewState s( static_cast< const ParseInput& >( in ), st... );
+            if( Control< Rule >::template match< A, M, NewAction, Control >( in, s ) ) {
+               if constexpr( A == apply_mode::action ) {
+                  Action< Rule >::success( static_cast< const ParseInput& >( in ), s, st... );
+               }
+               return true;
             }
-            return true;
+            return false;
          }
-         return false;
+         else if constexpr( std::is_default_constructible_v< NewState > ) {
+            NewState s;
+            if( Control< Rule >::template match< A, M, NewAction, Control >( in, s ) ) {
+               if constexpr( A == apply_mode::action ) {
+                  Action< Rule >::success( static_cast< const ParseInput& >( in ), s, st... );
+               }
+               return true;
+            }
+            return false;
+         }
+         else {
+            static_assert( internal::dependent_false< NewState >, "unable to instantiate new state" );
+         }
       }
 
       template< typename ParseInput,
