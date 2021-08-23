@@ -168,7 +168,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput,
                 typename Unsigned,
                 Unsigned Maximum = (std::numeric_limits< Unsigned >::max)() >
-      [[nodiscard]] bool match_and_convert_unsigned_with_maximum( ParseInput& in, Unsigned& st )
+      [[nodiscard]] bool match_and_convert_unsigned_with_maximum_throws( ParseInput& in, Unsigned& st )
       {
          // Assumes st == 0.
 
@@ -181,10 +181,42 @@ namespace TAO_PEGTL_NAMESPACE
                }
                do {
                   if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
-                     throw TAO_PEGTL_NAMESPACE::parse_error( "integer overflow", in );  // Consistent with "as if" an action was doing the conversion.
+                     throw TAO_PEGTL_NAMESPACE::parse_error( "integer overflow", in );
                   }
                   in.bump_in_this_line();
                } while( ( !in.empty() ) && is_digit( c = in.peek_char() ) );
+               return true;
+            }
+         }
+         return false;
+      }
+
+      template< typename ParseInput,
+                typename Unsigned,
+                Unsigned Maximum = (std::numeric_limits< Unsigned >::max)() >
+      [[nodiscard]] bool match_and_convert_unsigned_with_maximum_nothrow( ParseInput& in, Unsigned& st )
+      {
+         // Assumes st == 0.
+
+         if( !in.empty() ) {
+            char c = in.peek_char();
+            if( c == '0' ) {
+               if( ( in.size( 2 ) < 2 ) || ( !is_digit( in.peek_char( 1 ) ) ) ) {
+                  in.bump_in_this_line();
+                  return true;
+               }
+               return false;
+            }
+            if( is_digit( c ) ) {
+               unsigned b = 0;
+
+               do {
+                  if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
+                     return false;
+                  }
+                  ++b;
+               } while( ( !in.empty() ) && is_digit( c = in.peek_char( b ) ) );
+               in.bump_in_this_line( b );
                return true;
             }
          }
@@ -250,7 +282,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          // This function "only" offers basic exception safety.
          st = 0;
-         return internal::match_and_convert_unsigned_with_maximum( in, st );  // Throws on overflow.
+         return internal::match_and_convert_unsigned_with_maximum_throws( in, st );  // Throws on overflow.
       }
    };
 
@@ -284,7 +316,7 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool match( ParseInput& in )
       {
          Unsigned st = 0;
-         return internal::match_and_convert_unsigned_with_maximum< ParseInput, Unsigned, Maximum >( in, st );  // Throws on overflow.
+         return internal::match_and_convert_unsigned_with_maximum_nothrow< ParseInput, Unsigned, Maximum >( in, st );
       }
    };
 
@@ -307,7 +339,7 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static auto match( ParseInput& in, States&&... /*unused*/ ) -> std::enable_if_t< A == apply_mode::nothing, bool >
       {
          Unsigned st = 0;
-         return internal::match_and_convert_unsigned_with_maximum< ParseInput, Unsigned, Maximum >( in, st );  // Throws on overflow.
+         return internal::match_and_convert_unsigned_with_maximum_throws< ParseInput, Unsigned, Maximum >( in, st );
       }
 
       template< apply_mode A,
@@ -322,7 +354,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          // This function "only" offers basic exception safety.
          st = 0;
-         return internal::match_and_convert_unsigned_with_maximum< ParseInput, Unsigned, Maximum >( in, st );  // Throws on overflow.
+         return internal::match_and_convert_unsigned_with_maximum_throws< ParseInput, Unsigned, Maximum >( in, st );
       }
    };
 
