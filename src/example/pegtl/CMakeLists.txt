@@ -11,6 +11,7 @@ set(example_sources
   expression.cpp
   hello_world.cpp
   indent_aware.cpp
+  iri.cpp
   json_analyze.cpp
   json_ast.cpp
   json_build.cpp

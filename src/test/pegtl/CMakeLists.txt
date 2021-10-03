@@ -34,6 +34,7 @@ set(test_sources
   contrib_if_then.cpp
   contrib_instantiate.cpp
   contrib_integer.cpp
+  contrib_iri.cpp
   contrib_json.cpp
   contrib_parse_tree.cpp
   contrib_parse_tree_to_dot.cpp
