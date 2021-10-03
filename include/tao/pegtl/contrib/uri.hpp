@@ -5,7 +5,7 @@
 #define TAO_PEGTL_CONTRIB_URI_HPP
 
 #if !defined( __cpp_exceptions )
-#error "Exception support required tao/pegtl/contrib/uri.hpp"
+#error "Exception support required for tao/pegtl/contrib/uri.hpp"
 #else
 
 #include <cstdint>
