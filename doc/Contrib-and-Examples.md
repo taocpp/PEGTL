@@ -70,10 +70,10 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * Contains optimised version of `rep_min_max< Min, Max, ascii::one< C > >`:
 * Rule `ascii::rep_one_min_max< Min, Max, C >`.
 
-###### `<tao/pegtl/contrib/separated.hpp>`
+###### `<tao/pegtl/contrib/sep.hpp>`
 
 * Allows to parse rules separated by a separator.
-* Rule `separated< S, A, B, C, D >` is equivalent to `seq< A, S, B, S, C, S, D >`.
+* Rule `sep< S >::seq< A, B, C, D >` is equivalent to `seq< A, S, B, S, C, S, D >`.
 
 ###### `<tao/pegtl/contrib/to_string.hpp>`
 

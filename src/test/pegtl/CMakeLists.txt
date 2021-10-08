@@ -46,7 +46,7 @@ set(test_sources
   contrib_remove_last_states.cpp
   contrib_rep_one_min_max.cpp
   contrib_rep_string.cpp
-  contrib_separated.cpp
+  contrib_sep.cpp
   contrib_state_control.cpp
   contrib_to_string.cpp
   contrib_trace1.cpp
