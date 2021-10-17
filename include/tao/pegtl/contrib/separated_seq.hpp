@@ -35,14 +35,10 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace internal
 
-   template< typename S >
-   struct sep
-   {
-      template< typename... Rules >
-      struct seq
-         : internal::sep< type_list<>, S, Rules... >::type
-      {};
-   };
+   template< typename S, typename... Rules >
+   struct separated_seq
+      : internal::sep< type_list<>, S, Rules... >::type
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
