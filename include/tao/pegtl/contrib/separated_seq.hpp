@@ -1,8 +1,8 @@
 // Copyright (c) 2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
-#ifndef TAO_PEGTL_CONTRIB_SEP_HPP
-#define TAO_PEGTL_CONTRIB_SEP_HPP
+#ifndef TAO_PEGTL_CONTRIB_SEPARATED_SEQ_HPP
+#define TAO_PEGTL_CONTRIB_SEPARATED_SEQ_HPP
 
 #include "../config.hpp"
 
