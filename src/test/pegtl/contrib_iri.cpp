@@ -1,4 +1,5 @@
-// Copyright (c) 2014-2021 Dr. Colin Hirsch, Daniel Frey, and Kelvin Hammond
+// Copyright (c) 2021 Kelvin Hammond
+// Copyright (c) 2021 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
 
 #if !defined( __cpp_exceptions )
