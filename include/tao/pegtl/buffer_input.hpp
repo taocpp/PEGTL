@@ -160,7 +160,7 @@ namespace TAO_PEGTL_NAMESPACE
             std::terminate();
 #endif
          }
-         if( const auto r = m_reader( m_end, (std::min)( buffer_free_after_end(), (std::max)( amount - buffer_occupied(), Chunk ) ) ) ) {
+         if( const auto r = m_reader( m_end, ( std::min )( buffer_free_after_end(), ( std::max )( amount - buffer_occupied(), Chunk ) ) ) ) {
             m_end += r;
          }
       }

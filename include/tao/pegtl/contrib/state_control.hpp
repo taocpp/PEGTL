@@ -32,7 +32,8 @@ namespace TAO_PEGTL_NAMESPACE
                state.template start< Rule >( in, st... );
             }
 #if defined( _MSC_VER )
-            ( (void)st, ... );
+            ( (void)st,
+              ... );
 #endif
          }
 
@@ -46,7 +47,8 @@ namespace TAO_PEGTL_NAMESPACE
                Control< Rule >::success( in, st... );
             }
 #if defined( _MSC_VER )
-            ( (void)st, ... );
+            ( (void)st,
+              ... );
 #endif
          }
 
@@ -60,7 +62,8 @@ namespace TAO_PEGTL_NAMESPACE
                Control< Rule >::failure( in, st... );
             }
 #if defined( _MSC_VER )
-            ( (void)st, ... );
+            ( (void)st,
+              ... );
 #endif
          }
 
@@ -84,7 +87,8 @@ namespace TAO_PEGTL_NAMESPACE
                Control< Rule >::unwind( in, st... );
             }
 #if defined( _MSC_VER )
-            ( (void)st, ... );
+            ( (void)st,
+              ... );
 #endif
          }
 
