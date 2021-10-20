@@ -17,9 +17,12 @@ int main()
 
 namespace TAO_PEGTL_NAMESPACE::proto3
 {
+   // protocol buffer v3
+   // https://developers.google.com/protocol-buffers/docs/reference/proto3-spec
+
    // clang-format off
    struct comment_sl : seq< two< '/' >, until< eolf > > {};
-   struct comment_ml : seq< one< '/' >, one< '*' >, until< seq< one< '*' >, one< '/' > > > > {};
+   struct comment_ml : if_must< string< '/', '*' >, until< string< '*', '/' > > > {};
    struct sp : sor< space, comment_sl, comment_ml > {};
    struct sps : star< sp > {};
 
@@ -32,18 +35,27 @@ namespace TAO_PEGTL_NAMESPACE::proto3
    struct message;
    struct extend;
 
-   struct odigit : range< '0', '7' > {};
-
    struct ident_first : ranges< 'a', 'z', 'A', 'Z' > {};  // NOTE: Yes, no '_'.
    struct ident_other : ranges< 'a', 'z', 'A', 'Z', '0', '9', '_' > {};
    struct ident : seq< ident_first, star< ident_other > > {};
    struct full_ident : list_must< ident, dot > {};
 
-   struct sign : one< '+', '-' > {};
-   struct oct_lit : seq< one< '0' >, plus< odigit > > {};
    struct hex_lit : seq< one< '0' >, one< 'x', 'X' >, plus< xdigit > > {};
-   struct dec_lit : sor< one< '0' >, seq< opt< sign >, range< '1', '9' >, star< digit > > >  {};
+   struct oct_lit : seq< one< '0' >, plus< odigit > > {};
+   struct dec_lit : seq< range< '1', '9' >, star< digit > >  {};
    struct int_lit : sor< hex_lit, oct_lit, dec_lit > {};
+
+   struct sign : one< '+', '-' > {};
+   struct exp : seq< one< 'E', 'e' >, opt< sign >, plus< digit > > {};
+   struct float_lit : sor<
+      seq< plus< digit >, dot, exp >,
+      seq< plus< digit >, dot, star< digit >, opt< exp > >,
+      seq< dot, plus< digit >, opt< exp > >,
+      keyword< 'i', 'n', 'f' >,
+      keyword< 'n', 'a', 'n' > > {};
+
+   struct bool_lit : sor< keyword< 't', 'r', 'u', 'e' >,
+                          keyword< 'f', 'a', 'l', 's', 'e' > > {};
 
    struct hex_escape : if_must< one< 'x', 'X' >, xdigit, xdigit > {};
    struct oct_escape : if_must< odigit, odigit, odigit > {};
@@ -54,15 +66,7 @@ namespace TAO_PEGTL_NAMESPACE::proto3
    struct str_impl : if_must< one< Q >, until< one< Q >, char_value > > {};
    struct str_lit : sor< str_impl< '\'' >, str_impl< '"' > > {};
 
-   struct bool_lit : sor< keyword< 't', 'r', 'u', 'e' >, keyword< 'f', 'a', 'l', 's', 'e' > > {};
-
-   struct exp : seq < one <'E', 'e'>, opt< sign >, plus< digit > > {};
-   struct float_lit_1 : seq< plus< digit >, dot, star< digit >, opt< exp > > {};
-   struct float_lit_2 : seq< dot, plus< digit >, opt< exp > > {};
-   struct float_lit_3 : seq< plus< digit >, exp > {};
-   struct float_lit : sor < seq< opt<sign>, sor< float_lit_1, float_lit_2, float_lit_3, keyword< 'i', 'n', 'f' > > >, keyword< 'n', 'a', 'n' > > {};
-
-   struct constant : sor< bool_lit, full_ident, float_lit, int_lit, str_lit > {};
+   struct constant : sor< bool_lit, full_ident, seq< sign, float_lit >, seq< sign, int_lit >, str_lit > {};
 
    struct option_name : seq< sor< ident, if_must< one< '(' >, full_ident, one< ')' > > >, star_must< dot, ident > > {};
    struct option : if_must< keyword< 'o', 'p', 't', 'i', 'o', 'n' >, sps, option_name, sps, equ, sps, constant, sps, semi > {};
@@ -94,7 +98,7 @@ namespace TAO_PEGTL_NAMESPACE::proto3
    struct field_options : if_must< one< '[' >, sps, list< field_option, comma, sp >, sps, one< ']' > > {};
    struct field_name : ident {};
    struct field_number : int_lit {};
-   struct field : seq< opt< sor < keyword< 'o', 'p', 't', 'i', 'o', 'n', 'a', 'l' >, keyword< 'r', 'e', 'p', 'e', 'a', 't', 'e', 'd' > >, sps >, type, sps, field_name, sps, equ, sps, field_number, sps, opt< field_options, sps >, semi > {};
+   struct field : seq< opt< sor< keyword< 'o', 'p', 't', 'i', 'o', 'n', 'a', 'l' >, keyword< 'r', 'e', 'p', 'e', 'a', 't', 'e', 'd' > >, sps >, type, sps, field_name, sps, equ, sps, field_number, sps, opt< field_options, sps >, semi > {};
 
    struct oneof_name : ident {};
    struct oneof_field : if_must< type, sps, field_name, sps, equ, sps, field_number, sps, opt< field_options, sps >, semi > {};
@@ -135,7 +139,8 @@ namespace TAO_PEGTL_NAMESPACE::proto3
 
    struct body : sor< import, package, option, message, enum_def, service, extend, semi > {};
 
-   struct head : if_must< keyword< 's', 'y', 'n', 't', 'a', 'x' >, sps, equ, sps, string< '"', 'p', 'r', 'o', 't', 'o', '3', '"' >, sps, semi > {};
+   struct quote : one< '\'', '"' > {};
+   struct head : if_must< keyword< 's', 'y', 'n', 't', 'a', 'x' >, sps, equ, sps, quote, string< 'p', 'r', 'o', 't', 'o', '3' >, quote, sps, semi > {};
    struct proto : must< sps, head, sps, star< body, sps >, eof > {};
    // clang-format on
 
