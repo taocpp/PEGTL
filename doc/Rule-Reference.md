@@ -723,6 +723,13 @@ ASCII rules do not usually rely on other rules.
 * [Equivalent] to `one< '\0' >`.
   - `ascii::nul::rule_t` is `internal::one< result_on_found::success, internal::peek_char, 0 >`
 
+###### `odigit`
+
+* Matches and consumes a single ASCII octal digit character.
+* [Equivalent] to `range< '0', '7' >`.
+* [Meta data] and [implementation] mapping:
+  - `ascii::digit::rule_t` is `internal::range< internal::result_on_found::success, internal::peek_char, '0', '7' >`
+
 ###### `one< C... >`
 
 * Succeeds when the input is not empty, and:

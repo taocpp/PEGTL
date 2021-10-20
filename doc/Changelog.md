@@ -4,9 +4,11 @@
 
 **Not yet released**
 
+* Added rule [`odigit`](Rule-Reference.md#odigit) for octal digits.
 * Changed rules in [`tao/pegtl/contrib/integer.hpp`](Contrib-and-Examples.md#taopegtlcontribintegerhpp) to not throw by default.
 * Added [`tao/pegtl/contrib/separated_seq.hpp`](Contrib-and-Examples.md#taopegtlcontribseparated_seqhpp).
 * Added `tao/pegtl/contrib/iri.hpp` grammar for IRIs.
+* Added `tao/pegtl/contrib/proto3.hpp` grammar for protocol buffer v3.
 
 ## 3.2.1
 

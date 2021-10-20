@@ -227,6 +227,7 @@
 * [`not_range< C, D >`](Rule-Reference.md#not_range-c-d--2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
 * [`nul`](Rule-Reference.md#nul) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`numeric_type< V >`](Rule-Reference.md#numeric_type-v-) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-enumerated-properties)</sup>
+* [`odigit`](Rule-Reference.md#odigit) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`one< C... >`](Rule-Reference.md#one-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`one< C... >`](Rule-Reference.md#one-c--1) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
 * [`one< C... >`](Rule-Reference.md#one-c--2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
