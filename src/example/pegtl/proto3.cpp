@@ -43,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE::proto3
    struct oct_lit : seq< one< '0' >, plus< odigit > > {};
    struct hex_lit : seq< one< '0' >, one< 'x', 'X' >, plus< xdigit > > {};
    struct dec_lit : sor< one< '0' >, seq< opt< sign >, range< '1', '9' >, star< digit > > >  {};
-   struct int_lit : sor< dec_lit, hex_lit, oct_lit > {};
+   struct int_lit : sor< hex_lit, oct_lit, dec_lit > {};
 
    struct hex_escape : if_must< one< 'x', 'X' >, xdigit, xdigit > {};
    struct oct_escape : if_must< odigit, odigit, odigit > {};
