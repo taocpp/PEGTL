@@ -5,7 +5,17 @@
 **Not yet released**
 
 * Switched to Boost Software License, Version 1.0.
-* Changed rules in `tao/pegtl/contrib/integer.hpp` to local errors.
+
+## 3.2.2
+
+Released 2021-10-22
+
+* Added rule [`odigit`](Rule-Reference.md#odigit) for octal digits.
+* Enabled default-constructed state in `state<>`, `change_state<>`, and `change_action_and_state<>`.
+* Changed rules in [`tao/pegtl/contrib/integer.hpp`](Contrib-and-Examples.md#taopegtlcontribintegerhpp) to not throw by default.
+* Added [`tao/pegtl/contrib/separated_seq.hpp`](Contrib-and-Examples.md#taopegtlcontribseparated_seqhpp).
+* Added `tao/pegtl/contrib/iri.hpp` grammar for IRIs.
+* Added `tao/pegtl/contrib/proto3.hpp` grammar for protocol buffer v3.
 
 ## 3.2.1
 

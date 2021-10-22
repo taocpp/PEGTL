@@ -7,6 +7,9 @@
 
 #include "../config.hpp"
 
+#include <type_traits>
+
+#include "dependent_false.hpp"
 #include "enable_control.hpp"
 #include "seq.hpp"
 #include "success.hpp"
@@ -17,18 +20,18 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename State, typename... Rules >
+   template< typename NewState, typename... Rules >
    struct state
-      : state< State, seq< Rules... > >
+      : state< NewState, seq< Rules... > >
    {};
 
-   template< typename State >
-   struct state< State >
+   template< typename NewState >
+   struct state< NewState >
       : success
    {};
 
-   template< typename State, typename Rule >
-   struct state< State, Rule >
+   template< typename NewState, typename Rule >
+   struct state< NewState, Rule >
    {
       using rule_t = state;
       using subs_t = type_list< Rule >;
@@ -43,17 +46,30 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         State s( static_cast< const ParseInput& >( in ), st... );
-         if( Control< Rule >::template match< A, M, Action, Control >( in, s ) ) {
-            s.success( static_cast< const ParseInput& >( in ), st... );
-            return true;
+         if constexpr( std::is_constructible_v< NewState, const ParseInput&, States... > ) {
+            NewState s( static_cast< const ParseInput& >( in ), st... );
+            if( Control< Rule >::template match< A, M, Action, Control >( in, s ) ) {
+               s.success( static_cast< const ParseInput& >( in ), st... );
+               return true;
+            }
+            return false;
          }
-         return false;
+         else if constexpr( std::is_default_constructible_v< NewState > ) {
+            NewState s;
+            if( Control< Rule >::template match< A, M, Action, Control >( in, s ) ) {
+               s.success( static_cast< const ParseInput& >( in ), st... );
+               return true;
+            }
+            return false;
+         }
+         else {
+            static_assert( internal::dependent_false< NewState >, "unable to instantiate new state" );
+         }
       }
    };
 
-   template< typename State, typename... Rules >
-   inline constexpr bool enable_control< state< State, Rules... > > = false;
+   template< typename NewState, typename... Rules >
+   inline constexpr bool enable_control< state< NewState, Rules... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

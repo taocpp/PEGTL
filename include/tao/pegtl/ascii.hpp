@@ -31,6 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< char... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_char, Cs... > {};
       template< char Lo, char Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_char, Lo, Hi > {};
       struct nul : internal::one< internal::result_on_found::success, internal::peek_char, char( 0 ) > {};
+      struct odigit : internal::range< internal::result_on_found::success, internal::peek_char, '0', '7' > {};
       template< char... Cs > struct one : internal::one< internal::result_on_found::success, internal::peek_char, Cs... > {};
       struct print : internal::range< internal::result_on_found::success, internal::peek_char, char( 32 ), char( 126 ) > {};
       template< char Lo, char Hi > struct range : internal::range< internal::result_on_found::success, internal::peek_char, Lo, Hi > {};

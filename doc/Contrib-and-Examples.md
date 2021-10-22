@@ -70,6 +70,11 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * Contains optimised version of `rep_min_max< Min, Max, ascii::one< C > >`:
 * Rule `ascii::rep_one_min_max< Min, Max, C >`.
 
+###### `<tao/pegtl/contrib/separated_seq.hpp>`
+
+* Allows to parse rules separated by a separator.
+* Rule `separated_seq< S, A, B, C, D >` is equivalent to `seq< A, S, B, S, C, S, D >`.
+
 ###### `<tao/pegtl/contrib/to_string.hpp>`
 
 Utility function `to_string<>()` that converts template classes with arbitrary sequences of characters as template arguments into a `std::string` that contains these characters.
