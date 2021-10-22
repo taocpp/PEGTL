@@ -1,5 +1,6 @@
 // Copyright (c) 2018-2021 Dr. Colin Hirsch and Daniel Frey
-// Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #if !defined( __cpp_exceptions )
 #include <iostream>
@@ -173,11 +174,11 @@ namespace TAO_PEGTL_NAMESPACE
       test_unsigned< unsigned char >( "000256" );
 
       test_signed< signed long long >( "0", 0 );
-      test_signed< signed long long >( (std::numeric_limits< signed long long >::max)() );
-      test_signed< signed long long >( (std::numeric_limits< signed long long >::min)() );
+      test_signed< signed long long >( ( std::numeric_limits< signed long long >::max )() );
+      test_signed< signed long long >( ( std::numeric_limits< signed long long >::min )() );
 
       test_unsigned< unsigned long long >( "0", 0 );
-      test_unsigned< unsigned long long >( (std::numeric_limits< unsigned long long >::max)() );
+      test_unsigned< unsigned long long >( ( std::numeric_limits< unsigned long long >::max )() );
 
       verify_rule< max_seq_rule< 0 > >( __LINE__, __FILE__, "a0b", result_type::success );
       verify_rule< max_seq_rule< 0 > >( __LINE__, __FILE__, "ab", result_type::local_failure );

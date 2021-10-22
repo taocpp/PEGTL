@@ -1,6 +1,7 @@
 // Copyright (c) 2021 Kelvin Hammond
 // Copyright (c) 2021 Dr. Colin Hirsch and Daniel Frey
-// Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef TAO_PEGTL_CONTRIB_IRI_HPP
 #define TAO_PEGTL_CONTRIB_IRI_HPP

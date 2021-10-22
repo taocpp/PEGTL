@@ -144,4 +144,10 @@ Just like the action class template, a custom control class template can be used
 The latter requires the use of a [custom action](Actions-and-States.md).
 Deriving the specialisation of the custom action for `my_rule` from `tao::pegtl::change_control< my_control >` will switch the current control to `my_control` before attempting to match `my_rule`.
 
+---
+
+This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
+
 Copyright (c) 2014-2021 Dr. Colin Hirsch and Daniel Frey
+Distributed under the Boost Software License, Version 1.0<br>
+See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt

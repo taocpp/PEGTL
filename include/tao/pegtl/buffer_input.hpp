@@ -1,5 +1,6 @@
 // Copyright (c) 2016-2021 Dr. Colin Hirsch and Daniel Frey
-// Please see LICENSE for license or visit https://github.com/taocpp/PEGTL/
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef TAO_PEGTL_BUFFER_INPUT_HPP
 #define TAO_PEGTL_BUFFER_INPUT_HPP
@@ -160,7 +161,7 @@ namespace TAO_PEGTL_NAMESPACE
             std::terminate();
 #endif
          }
-         if( const auto r = m_reader( m_end, (std::min)( buffer_free_after_end(), (std::max)( amount - buffer_occupied(), Chunk ) ) ) ) {
+         if( const auto r = m_reader( m_end, ( std::min )( buffer_free_after_end(), ( std::max )( amount - buffer_occupied(), Chunk ) ) ) ) {
             m_end += r;
          }
       }

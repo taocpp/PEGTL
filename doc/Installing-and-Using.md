@@ -98,8 +98,6 @@ Note that some of the listed packages are not updated regularly.
 
 ## Using Vcpkg
 
-[![Vcpkg package](https://repology.org/badge/version-for-repo/vcpkg/pegtl.svg)](https://repology.org/project/pegtl/versions)
-
 You can download and install the PEGTL using the [Vcpkg] package manager:
 
 ```bash
@@ -314,7 +312,13 @@ The above will generate a `build/amalgamated/pegtl.hpp` which will consist of
 the headers `tao/pegtl.hpp`, their dependencies, and all headers in
 `tao/pegtl/contrib/` except for the headers in `tao/pegtl/contrib/icu/`.
 
+---
+
+This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
+
 Copyright (c) 2014-2021 Dr. Colin Hirsch and Daniel Frey
+Distributed under the Boost Software License, Version 1.0<br>
+See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt
 
 [Vcpkg]: https://github.com/Microsoft/vcpkg
 [Vcpkg documentation]: https://github.com/Microsoft/vcpkg/tree/master/docs/index.md

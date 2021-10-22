@@ -56,4 +56,10 @@ Please contact the authors at `taocpp(at)icemx.net` for any further questions wh
 There were [many important changes](Changelog.md#100) leading up to version 1.0.0.
 Please contact the authors at `taocpp(at)icemx.net` for any further questions when updating the PEGTL.
 
+---
+
+This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
+
 Copyright (c) 2017-2021 Dr. Colin Hirsch and Daniel Frey
+Distributed under the Boost Software License, Version 1.0<br>
+See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt

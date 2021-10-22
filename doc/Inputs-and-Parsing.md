@@ -554,4 +554,10 @@ Trying to call any of those functions on `buffer_input<>`-based instances will l
 
 All input classes support [deduction guides](https://en.cppreference.com/w/cpp/language/class_template_argument_deduction), e.g. instead of `file_input<> in( "filename.txt" )` one can use `file_input in( "filename.txt" )`.
 
+---
+
+This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
+
 Copyright (c) 2014-2021 Dr. Colin Hirsch and Daniel Frey
+Distributed under the Boost Software License, Version 1.0<br>
+See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt

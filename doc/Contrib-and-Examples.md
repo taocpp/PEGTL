@@ -207,4 +207,10 @@ Uses the building blocks from `<tao/pegtl/contrib/unescape.hpp>` to show how to 
 Shows how to use the included [tracer control](#taopegtlcontribtracerhpp), here together with the URI grammar from `<tao/pegtl/contrib/uri.hpp>`.
 Invoked with one or more URIs as command line arguments will attempt to parse the URIs while printing trace information to `std::cerr`.
 
+---
+
+This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
+
 Copyright (c) 2014-2021 Dr. Colin Hirsch and Daniel Frey
+Distributed under the Boost Software License, Version 1.0<br>
+See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt

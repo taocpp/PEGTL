@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.3.0
+
+**Not yet released**
+
+* Switched to Boost Software License, Version 1.0.
+* Changed rules in `tao/pegtl/contrib/integer.hpp` to local errors.
+
 ## 3.2.1
 
 Released 2021-07-31
@@ -627,4 +634,10 @@ Released 2008
 Development of the PEGTL started in November 2007 as an experiment in C++0x.
 It is based on ideas from the YARD library by Christopher Diggins.
 
+---
+
+This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
+
 Copyright (c) 2007-2021 Dr. Colin Hirsch and Daniel Frey
+Distributed under the Boost Software License, Version 1.0<br>
+See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt

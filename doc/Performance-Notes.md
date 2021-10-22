@@ -42,4 +42,10 @@ However with `-O0`, the optimised `at_one< '"' >` was faster by 5-10% in a [JSON
 
 We still need to test whether the compiler manages to perform the same optimisation in more complex cases.
 
+---
+
+This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
+
 Copyright (c) 2017-2021 Dr. Colin Hirsch and Daniel Frey
+Distributed under the Boost Software License, Version 1.0<br>
+See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt
