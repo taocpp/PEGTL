@@ -383,6 +383,7 @@ The [`state` rule](Rule-Reference.md#state-s-r-) behaves similarly to [`seq`](Ru
 This new object is used replaces the current state(s) for the remainder of the implicit [`seq`](Rule-Reference.md#seq-r-).
 
 The new object is constructed with a const-reference to the current input of the parsing run, and all previous states, if any, as arguments.
+If no such constructor exists, the new object is default constructed.
 If the implicit [`seq`](Rule-Reference.md#seq-r-) of the sub-rules succeeds, then, by default, a member function named `success()` is called on this "new" object, receiving the same arguments as the constructor.
 At this point the input will be advanced by whatever the sub-rules have consumed in the meantime.
 
@@ -399,7 +400,7 @@ The differences are summarised in this table; note that `change_state` is more s
 | Feature | `change_state` | `change_states` |
 | --- | --- | --- |
 | Number of new states | one | any |
-| Construction of new states | with input and old states | default |
+| Construction of new states | optionally with input and old states | default |
 | Success function on action | if not on new state | required |
 
 With `change_state` only a single new state type can be given as template parameter, and only a single new state will be created.

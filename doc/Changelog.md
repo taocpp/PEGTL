@@ -5,6 +5,7 @@
 **Not yet released**
 
 * Added rule [`odigit`](Rule-Reference.md#odigit) for octal digits.
+* Enabled default-constructed state in `state<>`, `change_state<>`, and `change_action_and_state<>`.
 * Changed rules in [`tao/pegtl/contrib/integer.hpp`](Contrib-and-Examples.md#taopegtlcontribintegerhpp) to not throw by default.
 * Added [`tao/pegtl/contrib/separated_seq.hpp`](Contrib-and-Examples.md#taopegtlcontribseparated_seqhpp).
 * Added `tao/pegtl/contrib/iri.hpp` grammar for IRIs.
