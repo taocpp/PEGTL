@@ -2,7 +2,7 @@
 
 ## 3.2.2
 
-**Not yet released**
+Released 2021-10-22
 
 * Added rule [`odigit`](Rule-Reference.md#odigit) for octal digits.
 * Enabled default-constructed state in `state<>`, `change_state<>`, and `change_action_and_state<>`.
