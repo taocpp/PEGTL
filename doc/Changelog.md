@@ -5,6 +5,7 @@
 **Not yet released**
 
 * Switched to Boost Software License, Version 1.0.
+* Removed support for building an amalgamated header.
 
 ## 3.2.2
 

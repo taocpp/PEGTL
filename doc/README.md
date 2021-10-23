@@ -20,7 +20,6 @@
     * [Embedding in Binaries](Installing-and-Using.md#embedding-in-binaries)
     * [Embedding in Libraries](Installing-and-Using.md#embedding-in-libraries)
     * [Embedding in Library Interfaces](Installing-and-Using.md#embedding-in-library-interfaces)
-  * [Single Header Version](Installing-and-Using.md#single-header-version)
 * [Rules and Grammars](Rules-and-Grammars.md)
   * [Combining Existing Rules](Rules-and-Grammars.md#combining-existing-rules)
   * [Toy S-Expression Grammar](Rules-and-Grammars.md#toy-s-expression-grammar)

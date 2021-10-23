@@ -19,7 +19,6 @@
   * [Embedding in Binaries](#embedding-in-binaries)
   * [Embedding in Libraries](#embedding-in-libraries)
   * [Embedding in Library Interfaces](#embedding-in-library-interfaces)
-* [Single Header Version](#single-header-version)
 
 ## Requirements
 
@@ -298,19 +297,6 @@ above; alternatively `include/tao/pegtl/config.hpp` can be directly modified.
 
 A practical example of how the result looks like can be found in our own
 header-only JSON library [taoJSON](https://github.com/taocpp/json/).
-
-## Single Header Version
-
-You can generate a single-header-version of the PEGTL with the included `Makefile`.
-In a Unix-shell, the following command will achieve this:
-
-```sh
-$ make amalgamate
-```
-
-The above will generate a `build/amalgamated/pegtl.hpp` which will consist of
-the headers `tao/pegtl.hpp`, their dependencies, and all headers in
-`tao/pegtl/contrib/` except for the headers in `tao/pegtl/contrib/icu/`.
 
 ---
 
