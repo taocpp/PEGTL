@@ -64,31 +64,6 @@ build/%.d: %.cpp Makefile
 build/%: %.cpp build/%.d
 	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) $< $(LDFLAGS) -o $@
 
-.PHONY: amalgamate
-amalgamate: build/amalgamated/pegtl.hpp
-
-build/amalgamated/pegtl.hpp: $(HEADERS)
-	@mkdir -p $(@D)
-	@rm -rf build/include
-	@cp -a include build/
-	@rm -rf build/include/tao/pegtl/contrib/icu
-	@sed -i -e 's%^#%//#%g' $$(find build/include -name '*.hpp')
-	@sed -i -e 's%^//#include "%#include "%g' $$(find build/include -name '*.hpp')
-	@for i in $$(find build/include -name '*.hpp'); do echo "#pragma once" >tmp.out; echo "#line 1" >>tmp.out; cat $$i >>tmp.out; mv tmp.out $$i; done
-	@echo '#include "tao/pegtl.hpp"' >build/include/amalgamated.hpp
-	@( cd build/include ; for i in tao/pegtl/contrib/*.hpp; do echo "#include \"$$i\""; done ) >>build/include/amalgamated.hpp
-	@echo -e "/*\n\nWelcome to the Parsing Expression Grammar Template Library (PEGTL)." >$@
-	@echo -e "See https://github.com/taocpp/PEGTL/ for more information, documentation, etc.\n" >>$@
-	@echo -e "The library is licensed as follows:\n" >>$@
-	@cat LICENSE >>$@
-	@echo -e "\n*/\n" >>$@
-	@( cd build/include ; g++ -E -C -nostdinc amalgamated.hpp ) >>$@
-	@sed -i -e 's%^//#%#%g' $@
-	@sed -i -e 's%^# \([0-9]* "[^"]*"\).*%#line \1%g' $@
-	@sed -i -e 's%^// Copyright.*%%g' $@
-	@sed -i -e 's%^// Please.*%%g' $@
-	@echo "Generated/updated $@ successfully."
-
 ifeq ($(findstring $(MAKECMDGOALS),clean),)
 -include $(DEPENDS)
 endif
