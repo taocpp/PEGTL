@@ -6,6 +6,8 @@
 
 * Switched to Boost Software License, Version 1.0.
 * Removed support for building an amalgamated header.
+* Deprecated the `TAO_PEGTL_NAMESPACE` macro.
+  * Will be removed in version 4.0.0.
 
 ## 3.2.2
 

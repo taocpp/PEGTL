@@ -5,7 +5,9 @@
 #ifndef TAO_PEGTL_CONFIG_HPP
 #define TAO_PEGTL_CONFIG_HPP
 
-#if !defined( TAO_PEGTL_NAMESPACE )
+#if defined( TAO_PEGTL_NAMESPACE )
+#pragma message( "TAO_PEGTL_NAMESPACE is deprecated" )
+#else
 #define TAO_PEGTL_NAMESPACE tao::pegtl
 #endif
 
