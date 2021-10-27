@@ -5,10 +5,6 @@
 #ifndef TAO_PEGTL_HPP
 #define TAO_PEGTL_HPP
 
-#if __cplusplus < 201703L
-#error "The PEGTL requires C++17 or newer"
-#else
-
 #include "pegtl/config.hpp"
 #include "pegtl/demangle.hpp"
 #include "pegtl/parse.hpp"
@@ -50,5 +46,4 @@
 #include "pegtl/must_if.hpp"
 #endif
 
-#endif
 #endif
