@@ -21,31 +21,10 @@ namespace TAO_PEGTL_NAMESPACE
    {
       position() = delete;
 
-#if defined( __GNUC__ ) && !defined( __clang__ )
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
-#endif
-      position( position&& p ) noexcept
-         : byte( p.byte ),
-           line( p.line ),
-           column( p.column ),
-           source( std::move( p.source ) )
-      {}
-#if defined( __GNUC__ ) && !defined( __clang__ )
-#pragma GCC diagnostic pop
-#endif
-
+      position( position&& ) noexcept = default;
       position( const position& ) = default;
 
-      position& operator=( position&& p ) noexcept
-      {
-         byte = p.byte;
-         line = p.line;
-         column = p.column;
-         source = std::move( p.source );
-         return *this;
-      }
-
+      position& operator=( position&& p ) noexcept = default;
       position& operator=( const position& ) = default;
 
       template< typename T >
@@ -72,12 +51,12 @@ namespace TAO_PEGTL_NAMESPACE
       std::string source;
    };
 
-   [[nodiscard]] inline bool operator==( const position& lhs, const position& rhs ) noexcept
+   inline bool operator==( const position& lhs, const position& rhs ) noexcept
    {
       return ( lhs.byte == rhs.byte ) && ( lhs.source == rhs.source );
    }
 
-   [[nodiscard]] inline bool operator!=( const position& lhs, const position& rhs ) noexcept
+   inline bool operator!=( const position& lhs, const position& rhs ) noexcept
    {
       return !( lhs == rhs );
    }
