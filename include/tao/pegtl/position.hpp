@@ -61,7 +61,7 @@ namespace TAO_PEGTL_NAMESPACE
          : byte( in_byte ),
            line( in_line ),
            column( in_column ),
-           source( in_source )
+           source( std::forward< T >( in_source ) )
       {}
 
       ~position() = default;
@@ -72,12 +72,12 @@ namespace TAO_PEGTL_NAMESPACE
       std::string source;
    };
 
-   inline bool operator==( const position& lhs, const position& rhs ) noexcept
+   [[nodiscard]] inline bool operator==( const position& lhs, const position& rhs ) noexcept
    {
       return ( lhs.byte == rhs.byte ) && ( lhs.source == rhs.source );
    }
 
-   inline bool operator!=( const position& lhs, const position& rhs ) noexcept
+   [[nodiscard]] inline bool operator!=( const position& lhs, const position& rhs ) noexcept
    {
       return !( lhs == rhs );
    }
