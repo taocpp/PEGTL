@@ -55,6 +55,18 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
       }
 
+      template< typename ParseInput, typename... States >
+      static void start( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
+      {}
+
+      template< typename ParseInput, typename... States >
+      static void success( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
+      {}
+
+      template< typename ParseInput, typename... States >
+      static void failure( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
+      {}
+
    private:
       template< typename Rule,
                 apply_mode A,

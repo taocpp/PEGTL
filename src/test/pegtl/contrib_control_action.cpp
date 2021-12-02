@@ -15,6 +15,11 @@ namespace TAO_PEGTL_NAMESPACE
       : nothing< Rule >
    {};
 
+   template< typename Rule >
+   struct dummy_action
+      : control_action
+   {};
+
    struct first_rule
       : sor< alpha, digit >
    {};
@@ -137,6 +142,12 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
+      {
+         memory_input in( "0", __FUNCTION__ );
+         const auto b = parse< first_rule, dummy_action >( in, 42 );
+         TAO_PEGTL_TEST_ASSERT( b );
+         TAO_PEGTL_TEST_ASSERT( story.empty() );
+      }
       {
          memory_input in( "0", __FUNCTION__ );
          const auto b = parse< first_rule, test_action >( in, 42 );
