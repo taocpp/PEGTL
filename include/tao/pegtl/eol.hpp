@@ -19,8 +19,11 @@ namespace TAO_PEGTL_NAMESPACE
 {
    inline namespace ascii
    {
-      // this is both a rule and a pseudo-namespace for eol::cr, ...
-      struct eol : internal::eol
+      // Struct eol is both a rule and a pseudo-namespace for the
+      // member structs cr, etc. (which are not themselves rules).
+
+      struct eol
+         : internal::eol
       {
          // clang-format off
          struct cr : internal::cr_eol {};

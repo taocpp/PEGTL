@@ -19,9 +19,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using subs_t = empty_list;
 
       template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( ParseInput::eol_t::match( in ) ) )
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( ParseInput::eol_t::eol_match( in ) ) )
       {
-         const auto p = ParseInput::eol_t::match( in );
+         const auto p = ParseInput::eol_t::eol_match( in );
          return p.first || ( !p.second );
       }
    };

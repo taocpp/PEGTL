@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static constexpr int ch = '\n';
 
       template< typename ParseInput >
-      [[nodiscard]] static eol_pair match( ParseInput& in ) noexcept( noexcept( in.size( 2 ) ) )
+      [[nodiscard]] static eol_pair eol_match( ParseInput& in ) noexcept( noexcept( in.size( 2 ) ) )
       {
          eol_pair p = { false, in.size( 2 ) };
          if( p.second > 1 ) {
