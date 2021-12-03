@@ -6,7 +6,7 @@
 #define TAO_PEGTL_INTERNAL_CRLF_EOL_HPP
 
 #include "../config.hpp"
-#include "../eol_pair.hpp"
+#include "eol_pair.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
