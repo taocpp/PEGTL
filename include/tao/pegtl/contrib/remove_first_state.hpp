@@ -53,8 +53,8 @@ namespace TAO_PEGTL_NAMESPACE
          Base::unwind( in, st... );
       }
 
-      template< template< typename... > class Action, typename Iterator, typename ParseInput, typename State, typename... States >
-      static auto apply( const Iterator& begin, const ParseInput& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Base::template apply< Action >( begin, in, st... ) ) )
+      template< template< typename... > class Action, typename Frobnicator, typename ParseInput, typename State, typename... States >
+      static auto apply( const Frobnicator& begin, const ParseInput& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Base::template apply< Action >( begin, in, st... ) ) )
          -> decltype( Base::template apply< Action >( begin, in, st... ) )
       {
          return Base::template apply< Action >( begin, in, st... );

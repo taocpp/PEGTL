@@ -10,13 +10,13 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Iterator, rewind_mode M >
+   template< typename Frobnicator, rewind_mode M >
    class [[nodiscard]] marker
    {
    public:
       static constexpr rewind_mode next_rewind_mode = M;
 
-      explicit marker( const Iterator& /*unused*/ ) noexcept
+      explicit marker( const Frobnicator& /*unused*/ ) noexcept
       {}
 
       marker( const marker& ) = delete;
@@ -33,13 +33,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename Iterator >
-   class [[nodiscard]] marker< Iterator, rewind_mode::required >
+   template< typename Frobnicator >
+   class [[nodiscard]] marker< Frobnicator, rewind_mode::required >
    {
    public:
       static constexpr rewind_mode next_rewind_mode = rewind_mode::active;
 
-      explicit marker( Iterator& i ) noexcept
+      explicit marker( Frobnicator& i ) noexcept
          : m_saved( i ),
            m_input( &i )
       {}
@@ -66,14 +66,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return false;
       }
 
-      [[nodiscard]] const Iterator& iterator() const noexcept
+      [[nodiscard]] const Frobnicator& frobnicator() const noexcept
       {
          return m_saved;
       }
 
    private:
-      const Iterator m_saved;
-      Iterator* m_input;
+      const Frobnicator m_saved;
+      Frobnicator* m_input;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

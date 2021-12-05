@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
       }
 
-      explicit operator bool() const noexcept
+      [[nodiscard]] explicit operator bool() const noexcept
       {
          return m_i.second;
       }

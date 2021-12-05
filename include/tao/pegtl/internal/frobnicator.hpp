@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_ITERATOR_HPP
-#define TAO_PEGTL_INTERNAL_ITERATOR_HPP
+#ifndef TAO_PEGTL_INTERNAL_FROBNICATOR_HPP
+#define TAO_PEGTL_INTERNAL_FROBNICATOR_HPP
 
 #include <cassert>
 #include <cstdlib>
@@ -12,15 +12,15 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   struct iterator
+   struct frobnicator
    {
-      iterator() = default;
+      frobnicator() = default;
 
-      explicit iterator( const char* in_data ) noexcept
+      explicit frobnicator( const char* in_data ) noexcept
          : data( in_data )
       {}
 
-      iterator( const char* in_data, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_column ) noexcept
+      frobnicator( const char* in_data, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_column ) noexcept
          : data( in_data ),
            byte( in_byte ),
            line( in_line ),
@@ -30,13 +30,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
          assert( in_column != 0 );
       }
 
-      iterator( const iterator& ) = default;
-      iterator( iterator&& ) = default;
+      frobnicator( const frobnicator& ) = default;
+      frobnicator( frobnicator&& ) = default;
 
-      ~iterator() = default;
+      ~frobnicator() = default;
 
-      iterator& operator=( const iterator& ) = default;
-      iterator& operator=( iterator&& ) = default;
+      frobnicator& operator=( const frobnicator& ) = default;
+      frobnicator& operator=( frobnicator&& ) = default;
 
       const char* data = nullptr;
 

@@ -28,7 +28,7 @@
 
 #include "internal/action_input.hpp"
 #include "internal/bump.hpp"
-#include "internal/iterator.hpp"
+#include "internal/frobnicator.hpp"
 #include "internal/marker.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE
       using eol_t = Eol;
       using source_t = Source;
 
-      using iterator_t = internal::iterator;
+      using frobnicator_t = internal::frobnicator;
 
       using action_t = internal::action_input< buffer_input >;
 
@@ -167,12 +167,12 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< rewind_mode M >
-      [[nodiscard]] internal::marker< iterator_t, M > mark() noexcept
+      [[nodiscard]] internal::marker< frobnicator_t, M > mark() noexcept
       {
-         return internal::marker< iterator_t, M >( m_current );
+         return internal::marker< frobnicator_t, M >( m_current );
       }
 
-      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const iterator_t& it ) const
+      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const frobnicator_t& it ) const
       {
          return TAO_PEGTL_NAMESPACE::position( it, m_source );
       }
@@ -182,7 +182,7 @@ namespace TAO_PEGTL_NAMESPACE
          return position( m_current );
       }
 
-      [[nodiscard]] const iterator_t& iterator() const noexcept
+      [[nodiscard]] const frobnicator_t& frobnicator() const noexcept
       {
          return m_current;
       }
@@ -214,7 +214,7 @@ namespace TAO_PEGTL_NAMESPACE
       Reader m_reader;
       std::size_t m_maximum;
       std::unique_ptr< char[] > m_buffer;
-      iterator_t m_current;
+      frobnicator_t m_current;
       char* m_end;
       const Source m_source;
 

@@ -24,9 +24,9 @@ namespace TAO_PEGTL_NAMESPACE
    public:
       using input_t = ParseInput;
       using value_t = typename ParseInput::value_t;
-      using iterator_t = typename ParseInput::iterator_t;
+      using frobnicator_t = typename ParseInput::frobnicator_t;
 
-      token_action_input( const iterator_t& in_begin, const ParseInput& in_input ) noexcept
+      token_action_input( const frobnicator_t& in_begin, const ParseInput& in_input ) noexcept
          : m_begin( in_begin ),
            m_input( in_input )
       {}
@@ -39,7 +39,7 @@ namespace TAO_PEGTL_NAMESPACE
       token_action_input& operator=( const token_action_input& ) = delete;
       token_action_input& operator=( token_action_input&& ) = delete;
 
-      [[nodiscard]] const iterator_t& iterator() const noexcept
+      [[nodiscard]] const frobnicator_t& frobnicator() const noexcept
       {
          return m_begin;
       }
@@ -49,12 +49,12 @@ namespace TAO_PEGTL_NAMESPACE
          return m_input;
       }
 
-      [[nodiscard]] iterator_t begin() const noexcept
+      [[nodiscard]] frobnicator_t begin() const noexcept
       {
          return m_begin;
       }
 
-      [[nodiscard]] iterator_t end() const noexcept
+      [[nodiscard]] frobnicator_t end() const noexcept
       {
          return m_input.current();
       }
@@ -70,7 +70,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
    protected:
-      const iterator_t m_begin;
+      const frobnicator_t m_begin;
       const ParseInput& m_input;
    };
 
@@ -80,12 +80,12 @@ namespace TAO_PEGTL_NAMESPACE
    public:
       using value_t = T;
       using source_t = Source;
-      using iterator_t = const T*;
+      using frobnicator_t = const T*;
 
       using action_t = token_action_input< token_parse_input >;
 
       template< typename S >
-      token_parse_input( const iterator_t in_begin, const iterator_t in_end, S&& in_source )
+      token_parse_input( const frobnicator_t in_begin, const frobnicator_t in_end, S&& in_source )
          : m_begin( in_begin ),
            m_current( in_begin ),
            m_end( in_end ),
@@ -109,17 +109,17 @@ namespace TAO_PEGTL_NAMESPACE
 
       void require( const std::size_t /*unused*/ ) const noexcept {}
 
-      [[nodiscard]] iterator_t current() const noexcept
+      [[nodiscard]] frobnicator_t current() const noexcept
       {
          return m_current;
       }
 
-      [[nodiscard]] iterator_t begin() const noexcept
+      [[nodiscard]] frobnicator_t begin() const noexcept
       {
          return m_begin;
       }
 
-      [[nodiscard]] iterator_t end( const std::size_t /*unused*/ = 0 ) const noexcept
+      [[nodiscard]] frobnicator_t end( const std::size_t /*unused*/ = 0 ) const noexcept
       {
          return m_end;
       }
@@ -130,9 +130,9 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< rewind_mode M >
-      [[nodiscard]] internal::marker< iterator_t, M > mark() noexcept
+      [[nodiscard]] internal::marker< frobnicator_t, M > mark() noexcept
       {
-         return internal::marker< iterator_t, M >( iterator() );
+         return internal::marker< frobnicator_t, M >( frobnicator() );
       }
 
       void bump( const std::size_t in_count = 1 ) noexcept
@@ -165,20 +165,20 @@ namespace TAO_PEGTL_NAMESPACE
          return this->current()[ offset ];
       }
 
-      [[nodiscard]] iterator_t& iterator() noexcept
+      [[nodiscard]] frobnicator_t& frobnicator() noexcept
       {
          return this->m_current;
       }
 
-      [[nodiscard]] const iterator_t& iterator() const noexcept
+      [[nodiscard]] const frobnicator_t& frobnicator() const noexcept
       {
          return this->m_current;
       }
 
    private:
-      const iterator_t m_begin;
-      iterator_t m_current;
-      const iterator_t m_end;
+      const frobnicator_t m_begin;
+      frobnicator_t m_current;
+      const frobnicator_t m_end;
       const Source m_source;
    };
 

@@ -29,7 +29,7 @@
 
 #include "../internal/enable_control.hpp"
 #include "../internal/has_unwind.hpp"
-#include "../internal/iterator.hpp"
+#include "../internal/frobnicator.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::parse_tree
 {
@@ -43,8 +43,8 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       std::string_view type;
       Source source;
 
-      TAO_PEGTL_NAMESPACE::internal::iterator m_begin;
-      TAO_PEGTL_NAMESPACE::internal::iterator m_end;
+      TAO_PEGTL_NAMESPACE::internal::frobnicator m_begin;
+      TAO_PEGTL_NAMESPACE::internal::frobnicator m_end;
 
       // each node will be default constructed
       basic_node() = default;
@@ -115,7 +115,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename... States >
       void remove_content( States&&... /*unused*/ ) noexcept
       {
-         m_end = TAO_PEGTL_NAMESPACE::internal::iterator();
+         m_end = TAO_PEGTL_NAMESPACE::internal::frobnicator();
       }
 
       // all non-root nodes are initialized by calling this method
@@ -124,14 +124,14 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       {
          set_type< Rule >();
          source = in.source();
-         m_begin = TAO_PEGTL_NAMESPACE::internal::iterator( in.iterator() );
+         m_begin = TAO_PEGTL_NAMESPACE::internal::frobnicator( in.frobnicator() );
       }
 
       // if parsing of the rule succeeded, this method is called
       template< typename Rule, typename ParseInput, typename... States >
       void success( const ParseInput& in, States&&... /*unused*/ ) noexcept
       {
-         m_end = TAO_PEGTL_NAMESPACE::internal::iterator( in.iterator() );
+         m_end = TAO_PEGTL_NAMESPACE::internal::frobnicator( in.frobnicator() );
       }
 
       // if parsing of the rule failed, this method is called

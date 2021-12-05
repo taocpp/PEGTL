@@ -10,7 +10,7 @@
 #include <string>
 #include <string_view>
 
-#include "iterator.hpp"
+#include "frobnicator.hpp"
 
 #include "../config.hpp"
 #include "../position.hpp"
@@ -22,9 +22,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
    public:
       using input_t = ParseInput;
-      using iterator_t = typename ParseInput::iterator_t;
+      using frobnicator_t = typename ParseInput::frobnicator_t;
 
-      action_input( const iterator_t& in_begin, const ParseInput& in_input ) noexcept
+      action_input( const frobnicator_t& in_begin, const ParseInput& in_input ) noexcept
          : m_begin( in_begin ),
            m_input( in_input )
       {}
@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       action_input& operator=( const action_input& ) = delete;
       action_input& operator=( action_input&& ) = delete;
 
-      [[nodiscard]] const iterator_t& iterator() const noexcept
+      [[nodiscard]] const frobnicator_t& frobnicator() const noexcept
       {
          return m_begin;
       }
@@ -49,11 +49,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] const char* begin() const noexcept
       {
-         if constexpr( std::is_same_v< iterator_t, const char* > ) {
-            return iterator();
+         if constexpr( std::is_same_v< frobnicator_t, const char* > ) {
+            return frobnicator();
          }
          else {
-            return iterator().data;
+            return frobnicator().data;
          }
       }
 
@@ -94,11 +94,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
       {
-         return input().position( iterator() );  // NOTE: Not efficient with lazy inputs.
+         return input().position( frobnicator() );  // NOTE: Not efficient with lazy inputs.
       }
 
    protected:
-      const iterator_t m_begin;
+      const frobnicator_t m_begin;
       const ParseInput& m_input;
    };
 

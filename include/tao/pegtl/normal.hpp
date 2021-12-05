@@ -57,10 +57,10 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< template< typename... > class Action,
-                typename Iterator,
+                typename Frobnicator,
                 typename ParseInput,
                 typename... States >
-      static auto apply( const Iterator& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( Action< Rule >::apply( std::declval< const typename ParseInput::action_t& >(), st... ) ) )
+      static auto apply( const Frobnicator& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( Action< Rule >::apply( std::declval< const typename ParseInput::action_t& >(), st... ) ) )
          -> decltype( Action< Rule >::apply( std::declval< const typename ParseInput::action_t& >(), st... ) )
       {
          const typename ParseInput::action_t action_input( begin, in );

@@ -58,7 +58,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          auto m = in.template mark< rewind_mode::required >();
 
          if( Control< Head >::template match< A, rewind_mode::active, Action, Control >( in, st... ) ) {
-            memory_input< ParseInput::tracking_mode_v, typename ParseInput::eol_t, typename ParseInput::source_t > i2( m.iterator(), in.current(), in.source() );
+            memory_input< ParseInput::tracking_mode_v, typename ParseInput::eol_t, typename ParseInput::source_t > i2( m.frobnicator(), in.current(), in.source() );
             return m( ( Control< Rule >::template match< A, rewind_mode::active, Action, Control >( i2, st... ) && ... && ( i2.restart( m ), Control< Rules >::template match< A, rewind_mode::active, Action, Control >( i2, st... ) ) ) );
          }
          return false;

@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) > 0 ) ) {
             using action_t = typename ParseInput::action_t;
-            const action_t i2( in.iterator(), in );  // No data -- range is from begin to begin.
+            const action_t i2( in.frobnicator(), in );  // No data -- range is from begin to begin.
             return ( apply_single< Actions >::match( i2, st... ) && ... );
          }
          else {

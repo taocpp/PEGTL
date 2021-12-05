@@ -125,10 +125,10 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
-   void test_iterator()
+   void test_frobnicator()
    {
       const std::string s = "source";
-      const internal::iterator i( nullptr, 1, 2, 3 );
+      const internal::frobnicator i( nullptr, 1, 2, 3 );
       const position p( i, s );
       TAO_PEGTL_TEST_ASSERT( p.byte == 1 );
       TAO_PEGTL_TEST_ASSERT( p.line == 2 );
@@ -209,7 +209,7 @@ namespace TAO_PEGTL_NAMESPACE
       test_nested<>();
       test_nested< buffer_input_t >();
 
-      test_iterator();
+      test_frobnicator();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

@@ -20,7 +20,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       // This function only exists for better error messages, which means that it is only called when we know that it won't compile.
       // LCOV_EXCL_START
       auto m = in.template mark< rewind_mode::required >();
-      (void)Control::template apply< Action >( m.iterator(), in, st... );
+      (void)Control::template apply< Action >( m.frobnicator(), in, st... );
       // LCOV_EXCL_STOP
    }
 
