@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_MARKER_HPP
-#define TAO_PEGTL_INTERNAL_MARKER_HPP
+#ifndef TAO_PEGTL_INTERNAL_REWIND_GUARD_HPP
+#define TAO_PEGTL_INTERNAL_REWIND_GUARD_HPP
 
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
@@ -11,21 +11,21 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Frobnicator, rewind_mode M >
-   class [[nodiscard]] marker
+   class [[nodiscard]] rewind_guard
    {
    public:
       static constexpr rewind_mode next_rewind_mode = M;
 
-      explicit marker( const Frobnicator& /*unused*/ ) noexcept
+      explicit rewind_guard( const Frobnicator& /*unused*/ ) noexcept
       {}
 
-      marker( const marker& ) = delete;
-      marker( marker&& ) = delete;
+      rewind_guard( const rewind_guard& ) = delete;
+      rewind_guard( rewind_guard&& ) = delete;
 
-      ~marker() = default;
+      ~rewind_guard() = default;
 
-      marker& operator=( const marker& ) = delete;
-      marker& operator=( marker&& ) = delete;
+      rewind_guard& operator=( const rewind_guard& ) = delete;
+      rewind_guard& operator=( rewind_guard&& ) = delete;
 
       [[nodiscard]] bool operator()( const bool result ) const noexcept
       {
@@ -34,28 +34,28 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Frobnicator >
-   class [[nodiscard]] marker< Frobnicator, rewind_mode::required >
+   class [[nodiscard]] rewind_guard< Frobnicator, rewind_mode::required >
    {
    public:
       static constexpr rewind_mode next_rewind_mode = rewind_mode::active;
 
-      explicit marker( Frobnicator& i ) noexcept
+      explicit rewind_guard( Frobnicator& i ) noexcept
          : m_saved( i ),
            m_input( &i )
       {}
 
-      marker( const marker& ) = delete;
-      marker( marker&& ) = delete;
+      rewind_guard( const rewind_guard& ) = delete;
+      rewind_guard( rewind_guard&& ) = delete;
 
-      ~marker()
+      ~rewind_guard()
       {
          if( m_input != nullptr ) {
             ( *m_input ) = m_saved;
          }
       }
 
-      marker& operator=( const marker& ) = delete;
-      marker& operator=( marker&& ) = delete;
+      rewind_guard& operator=( const rewind_guard& ) = delete;
+      rewind_guard& operator=( rewind_guard&& ) = delete;
 
       [[nodiscard]] bool operator()( const bool result ) noexcept
       {

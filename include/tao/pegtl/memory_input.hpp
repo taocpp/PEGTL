@@ -26,7 +26,7 @@
 #include "internal/bump.hpp"
 #include "internal/eolf.hpp"
 #include "internal/frobnicator.hpp"
-#include "internal/marker.hpp"
+#include "internal/rewind_guard.hpp"
 #include "internal/until.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -318,7 +318,7 @@ namespace TAO_PEGTL_NAMESPACE
       using internal::memory_input_base< P, Eol, Source >::restart;
 
       template< rewind_mode M >
-      void restart( const internal::marker< frobnicator_t, M >& m ) noexcept
+      void restart( const internal::rewind_guard< frobnicator_t, M >& m ) noexcept
       {
          frobnicator() = m.frobnicator();
       }
@@ -335,9 +335,9 @@ namespace TAO_PEGTL_NAMESPACE
       void require( const std::size_t /*unused*/ ) const noexcept {}
 
       template< rewind_mode M >
-      [[nodiscard]] internal::marker< frobnicator_t, M > mark() noexcept
+      [[nodiscard]] internal::rewind_guard< frobnicator_t, M > auto_rewind() noexcept
       {
-         return internal::marker< frobnicator_t, M >( frobnicator() );
+         return internal::rewind_guard< frobnicator_t, M >( frobnicator() );
       }
 
       [[nodiscard]] const char* at( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept

@@ -130,9 +130,9 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< rewind_mode M >
-      [[nodiscard]] internal::marker< frobnicator_t, M > mark() noexcept
+      [[nodiscard]] internal::rewind_guard< frobnicator_t, M > auto_rewind() noexcept
       {
-         return internal::marker< frobnicator_t, M >( frobnicator() );
+         return internal::rewind_guard< frobnicator_t, M >( frobnicator() );
       }
 
       void bump( const std::size_t in_count = 1 ) noexcept

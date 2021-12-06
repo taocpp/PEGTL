@@ -17,7 +17,7 @@
 #include "internal/has_apply.hpp"
 #include "internal/has_apply0.hpp"
 #include "internal/has_unwind.hpp"
-#include "internal/marker.hpp"
+#include "internal/rewind_guard.hpp"
 #include "internal/missing_apply.hpp"
 #include "internal/missing_apply0.hpp"
 
@@ -135,11 +135,11 @@ namespace TAO_PEGTL_NAMESPACE
          constexpr bool is_maybe_nothing = std::is_base_of_v< maybe_nothing, Action< Rule > >;
          static_assert( !enable_action || !validate_nothing || is_nothing || is_maybe_nothing || has_apply || has_apply0, "either apply() or apply0() must be defined" );
 
-         constexpr bool use_marker = has_apply || has_apply0_bool;
+         constexpr bool use_guard = has_apply || has_apply0_bool;
 
-         auto m = in.template mark< ( use_marker ? rewind_mode::required : rewind_mode::dontcare ) >();
+         auto m = in.template auto_rewind< ( use_guard ? rewind_mode::required : rewind_mode::dontcare ) >();
          Control< Rule >::start( static_cast< const ParseInput& >( in ), st... );
-         auto result = internal::match_control_unwind< Rule, A, ( use_marker ? rewind_mode::active : M ), Action, Control >( in, st... );
+         auto result = internal::match_control_unwind< Rule, A, ( use_guard ? rewind_mode::active : M ), Action, Control >( in, st... );
          if( result ) {
             if constexpr( has_apply_void ) {
                Control< Rule >::template apply< Action >( m.frobnicator(), static_cast< const ParseInput& >( in ), st... );

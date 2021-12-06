@@ -29,7 +29,7 @@
 #include "internal/action_input.hpp"
 #include "internal/bump.hpp"
 #include "internal/frobnicator.hpp"
-#include "internal/marker.hpp"
+#include "internal/rewind_guard.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -167,9 +167,9 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< rewind_mode M >
-      [[nodiscard]] internal::marker< frobnicator_t, M > mark() noexcept
+      [[nodiscard]] internal::rewind_guard< frobnicator_t, M > auto_rewind() noexcept
       {
-         return internal::marker< frobnicator_t, M >( m_current );
+         return internal::rewind_guard< frobnicator_t, M >( m_current );
       }
 
       [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const frobnicator_t& it ) const

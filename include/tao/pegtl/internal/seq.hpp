@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return Control< Rules... >::template match< A, M, Action, Control >( in, st... );
          }
          else {
-            auto m = in.template mark< M >();
+            auto m = in.template auto_rewind< M >();
             using m_t = decltype( m );
             return m( ( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ... ) );
          }
