@@ -130,9 +130,19 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< rewind_mode M >
-      [[nodiscard]] internal::rewind_guard< frobnicator_t, M > auto_rewind() noexcept
+      [[nodiscard]] internal::rewind_guard< M, token_parse_input > auto_rewind() noexcept
       {
-         return internal::rewind_guard< frobnicator_t, M >( frobnicator() );
+         return internal::rewind_guard< M, token_parse_input >( this );
+      }
+
+      [[nodiscard]] const frobnicator_t& rewind_save() const noexcept
+      {
+         return m_current;
+      }
+
+      void rewind_restore( const frobnicator_t& data ) noexcept
+      {
+         m_current = data;
       }
 
       void bump( const std::size_t in_count = 1 ) noexcept

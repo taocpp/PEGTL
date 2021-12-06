@@ -317,10 +317,10 @@ namespace TAO_PEGTL_NAMESPACE
 
       using internal::memory_input_base< P, Eol, Source >::restart;
 
-      template< rewind_mode M >
-      void restart( const internal::rewind_guard< frobnicator_t, M >& m ) noexcept
+      template< rewind_mode M, typename ParseInput >
+      void restart( const internal::rewind_guard< M, ParseInput >& m ) noexcept
       {
-         frobnicator() = m.frobnicator();
+         this->m_current = m.frobnicator();
       }
 
       using internal::memory_input_base< P, Eol, Source >::position;
@@ -335,9 +335,19 @@ namespace TAO_PEGTL_NAMESPACE
       void require( const std::size_t /*unused*/ ) const noexcept {}
 
       template< rewind_mode M >
-      [[nodiscard]] internal::rewind_guard< frobnicator_t, M > auto_rewind() noexcept
+      [[nodiscard]] internal::rewind_guard< M, memory_input > auto_rewind() noexcept
       {
-         return internal::rewind_guard< frobnicator_t, M >( frobnicator() );
+         return internal::rewind_guard< M, memory_input >( this );
+      }
+
+      [[nodiscard]] const frobnicator_t& rewind_save() noexcept
+      {
+         return this->m_current;
+      }
+
+      void rewind_restore( const frobnicator_t& data ) noexcept
+      {
+         this->m_current = data;
       }
 
       [[nodiscard]] const char* at( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept

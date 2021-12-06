@@ -167,9 +167,19 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< rewind_mode M >
-      [[nodiscard]] internal::rewind_guard< frobnicator_t, M > auto_rewind() noexcept
+      [[nodiscard]] internal::rewind_guard< M, buffer_input > auto_rewind() noexcept
       {
-         return internal::rewind_guard< frobnicator_t, M >( m_current );
+         return internal::rewind_guard< M, buffer_input >( this );
+      }
+
+      [[nodiscard]] const frobnicator_t& rewind_save() noexcept
+      {
+         return m_current;
+      }
+
+      void rewind_restore( const frobnicator_t& data ) noexcept
+      {
+         m_current = data;
       }
 
       [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const frobnicator_t& it ) const

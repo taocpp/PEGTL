@@ -5,18 +5,21 @@
 #ifndef TAO_PEGTL_INTERNAL_REWIND_GUARD_HPP
 #define TAO_PEGTL_INTERNAL_REWIND_GUARD_HPP
 
+#include <type_traits>
+#include <utility>
+
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Frobnicator, rewind_mode M >
+   template< rewind_mode M, typename ParseInput >
    class [[nodiscard]] rewind_guard
    {
    public:
       static constexpr rewind_mode next_rewind_mode = M;
 
-      explicit rewind_guard( const Frobnicator& /*unused*/ ) noexcept
+      explicit rewind_guard( ParseInput* /*unused*/ ) noexcept
       {}
 
       rewind_guard( const rewind_guard& ) = delete;
@@ -33,15 +36,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename Frobnicator >
-   class [[nodiscard]] rewind_guard< Frobnicator, rewind_mode::required >
+   template< typename ParseInput >
+   class [[nodiscard]] rewind_guard< rewind_mode::required, ParseInput >
    {
    public:
       static constexpr rewind_mode next_rewind_mode = rewind_mode::active;
 
-      explicit rewind_guard( Frobnicator& i ) noexcept
-         : m_saved( i ),
-           m_input( &i )
+      using rewind_data = std::decay_t< decltype( std::declval< ParseInput >().rewind_save() ) >;
+
+      explicit rewind_guard( ParseInput* in ) noexcept
+         : m_input( in ),
+           m_saved( in->rewind_save() )
       {}
 
       rewind_guard( const rewind_guard& ) = delete;
@@ -50,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       ~rewind_guard()
       {
          if( m_input != nullptr ) {
-            ( *m_input ) = m_saved;
+            m_input->rewind_restore( std::move( m_saved ) );
          }
       }
 
@@ -66,14 +71,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return false;
       }
 
-      [[nodiscard]] const Frobnicator& frobnicator() const noexcept
+      [[nodiscard]] const rewind_data& frobnicator() const noexcept
       {
          return m_saved;
       }
 
    private:
-      const Frobnicator m_saved;
-      Frobnicator* m_input;
+      ParseInput* m_input;
+      rewind_data m_saved;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
