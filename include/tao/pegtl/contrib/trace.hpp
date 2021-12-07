@@ -97,9 +97,14 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< typename Rule, typename ParseInput, typename... States >
-      void start( const ParseInput& /*unused*/, States&&... /*unused*/ )
+      void start( const ParseInput& in, States&&... /*unused*/ )
       {
          std::cerr << '#' << std::setw( indent() - 1 ) << ++m_count << TracerTraits::ansi_rule << demangle< Rule >() << TracerTraits::ansi_reset << '\n';
+         const auto p = in.position();
+         std::cerr << std::right
+                   << in.line_at( p ) << '\n'
+                   << std::setw( p.column ) << '^' << std::left
+                   << std::endl;
          m_stack.push_back( m_count );
       }
 
