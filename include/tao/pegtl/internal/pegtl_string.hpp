@@ -10,8 +10,7 @@
 
 #include "../ascii.hpp"
 #include "../config.hpp"
-
-#include "raise_message.hpp"
+#include "../rules.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

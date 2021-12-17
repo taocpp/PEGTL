@@ -58,7 +58,6 @@
 #include "list_must.hpp"
 #include "must.hpp"
 #include "raise.hpp"
-#include "raise_message.hpp"
 #include "star_must.hpp"
 #include "try_catch_type.hpp"
 #endif
