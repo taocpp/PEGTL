@@ -8,14 +8,16 @@
 
 #include <tao/pegtl/contrib/trace.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
-{
+using namespace TAO_PEGTL_NAMESPACE;
+
 #if defined( __cpp_exceptions )
-   using grammar = seq< sor< try_catch< must< one< 'a' > > >, one< 'F' > >, eof >;
+using grammar = seq< sor< try_catch< must< one< 'a' > > >, one< 'F' > >, eof >;
 #else
-   using grammar = seq< sor< one< 'a' >, one< 'F' > >, eof >;
+using grammar = seq< sor< one< 'a' >, one< 'F' > >, eof >;
 #endif
 
+namespace TAO_PEGTL_NAMESPACE
+{
    void unit_test()
    {
       const std::string data = "F";

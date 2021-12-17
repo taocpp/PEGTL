@@ -6,42 +6,44 @@
 
 #include <tao/pegtl/contrib/trace.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
-{
-   using GRAMMAR1 = sor< failure, one< 'a' > >;
-   using GRAMMAR2 = seq< one< 'a' >, any, any, any, any, one< 'b' >, eof >;
-   using GRAMMAR3 = sor< one< 'a' >, one< 'b' > >;
+using namespace TAO_PEGTL_NAMESPACE;
+
+using GRAMMAR1 = sor< failure, one< 'a' > >;
+using GRAMMAR2 = seq< one< 'a' >, any, any, any, any, one< 'b' >, eof >;
+using GRAMMAR3 = sor< one< 'a' >, one< 'b' > >;
 #if defined( __cpp_exceptions )
-   using GRAMMAR4 = try_catch< sor< one< 'a' >, must< one< 'b' > > > >;
+using GRAMMAR4 = try_catch< sor< one< 'a' >, must< one< 'b' > > > >;
 #endif
 
-   template< typename Rule >
-   struct trace_action
-   {};
+template< typename Rule >
+struct trace_action
+{};
 
-   unsigned a0 = 0;
-   unsigned a = 0;
+unsigned a0 = 0;
+unsigned a = 0;
 
-   template<>
-   struct trace_action< one< 'a' > >
+template<>
+struct trace_action< one< 'a' > >
+{
+   template< typename... Ts >
+   static void apply0( Ts&&... /*unused*/ )
    {
-      template< typename... Ts >
-      static void apply0( Ts&&... /*unused*/ )
-      {
-         ++a0;
-      }
-   };
+      ++a0;
+   }
+};
 
-   template<>
-   struct trace_action< GRAMMAR1 >
+template<>
+struct trace_action< GRAMMAR1 >
+{
+   template< typename... Ts >
+   static void apply( Ts&&... /*unused*/ )
    {
-      template< typename... Ts >
-      static void apply( Ts&&... /*unused*/ )
-      {
-         ++a;
-      }
-   };
+      ++a;
+   }
+};
 
+namespace TAO_PEGTL_NAMESPACE
+{
    void unit_test()
    {
       {
