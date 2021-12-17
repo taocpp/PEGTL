@@ -247,6 +247,7 @@
 * [`quotation_mark`](Rule-Reference.md#quotation_mark) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`radical`](Rule-Reference.md#radical) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`raise< T >`](Rule-Reference.md#raise-t-) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
+* [`raise_message< C... >`](Rule-Reference.md#raise_message-c-) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
 * [`range< C, D >`](Rule-Reference.md#range-c-d-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`range< C, D >`](Rule-Reference.md#range-c-d--1) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
 * [`range< C, D >`](Rule-Reference.md#range-c-d--2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>
@@ -281,6 +282,7 @@
 * [`success`](Rule-Reference.md#success) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
 * [`TAO_PEGTL_ISTRING( "..." )`](Rule-Reference.md#tao_pegtl_istring--) <sup>[(ascii rules)](Rule-Reference.md#ascii_rules)</sup>
 * [`TAO_PEGTL_KEYWORD( "..." )`](Rule-Reference.md#tao_pegtl_keyword--) <sup>[(ascii rules)](Rule-Reference.md#ascii_rules)</sup>
+* [`TAO_PEGTL_RAISE_MESSAGE( "..." )`](Rule-Reference.md#tao_pegtl_raise_message--) <sup>[(atomic rules)](Rule-Reference.md#atomic_rules)</sup>
 * [`TAO_PEGTL_STRING( "..." )`](Rule-Reference.md#tao_pegtl_string--) <sup>[(ascii rules)](Rule-Reference.md#ascii_rules)</sup>
 * [`terminal_punctuation`](Rule-Reference.md#terminal_punctuation) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`three< C >`](Rule-Reference.md#three-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>

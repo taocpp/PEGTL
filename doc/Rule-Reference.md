@@ -583,12 +583,26 @@ Atomic rules do not rely on other rules.
 * [Meta data] and [implementation] mapping:
   - `raise< T >::rule_t` is `internal::raise< T >`
 
+###### `raise_message< C... >`
+
+* Generates a *global failure* with the message given by `C...`.
+* Calls the control-class' `Control< raise_message< C... > >::raise()` static member function.
+* Does not consume input.
+* [Meta data] and [implementation] mapping:
+  - `raise_message< C... >::rule_t` is `internal::raise< raise_message< C... > >`
+
 ###### `success`
 
 * Dummy rule that always succeeds.
 * Does not consume input.
 * [Meta data] and [implementation] mapping:
   - `success::rule_t` is `internal::success`
+
+###### `TAO_PEGTL_RAISE_MESSAGE( "..." )`
+
+* Macro where `TAO_PEGTL_RAISE_MESSAGE( "foo" )` yields `raise_message< 'f', 'o', 'o' >`.
+* The argument must be a string literal.
+* Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
 
 ## ASCII Rules
 
@@ -1496,6 +1510,7 @@ Binary rules do not rely on other rules.
 * [`quotation_mark`](#quotation_mark) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`radical`](#radical) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`raise< T >`](#raise-t-) <sup>[(atomic rules)](#atomic-rules)</sup>
+* [`raise_message< C... >`](#raise_message-c-) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`range< C, D >`](#range-c-d-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`range< C, D >`](#range-c-d--1) <sup>[(unicode rules)](#unicode-rules)</sup>
 * [`range< C, D >`](#range-c-d--2) <sup>[(binary rules)](#binary-rules)</sup>
@@ -1530,6 +1545,7 @@ Binary rules do not rely on other rules.
 * [`success`](#success) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`TAO_PEGTL_ISTRING( "..." )`](#tao_pegtl_istring--) <sup>[(ascii rules)](#ascii_rules)</sup>
 * [`TAO_PEGTL_KEYWORD( "..." )`](#tao_pegtl_keyword--) <sup>[(ascii rules)](#ascii_rules)</sup>
+* [`TAO_PEGTL_RAISE_MESSAGE( "..." )`](#tao_pegtl_raise_message--) <sup>[(atomic rules)](#atomic_rules)</sup>
 * [`TAO_PEGTL_STRING( "..." )`](#tao_pegtl_string--) <sup>[(ascii rules)](#ascii_rules)</sup>
 * [`terminal_punctuation`](#terminal_punctuation) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`three< C >`](#three-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
