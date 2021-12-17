@@ -61,6 +61,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Rules > struct must : internal::must< Rules... > {};
    template< typename Cond, typename... Rules > struct opt_must : internal::if_must< true, Cond, Rules... > {};
    template< typename Exception > struct raise : internal::raise< Exception > {};
+   template< char... Cs > struct raise_message : internal::raise_message< Cs... > {};
    template< typename Cond, typename... Rules > struct star_must : internal::star_must< Cond, Rules... > {};
    template< typename... Rules > struct try_catch : internal::try_catch_type< parse_error, Rules... > {};
    template< typename Exception, typename... Rules > struct try_catch_type : internal::seq< internal::try_catch_type< Exception, Rules... > > {};

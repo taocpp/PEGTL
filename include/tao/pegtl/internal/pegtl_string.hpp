@@ -11,6 +11,8 @@
 #include "../ascii.hpp"
 #include "../config.hpp"
 
+#include "raise_message.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    // Inspired by https://github.com/irrequietus/typestring
@@ -87,5 +89,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 #define TAO_PEGTL_KEYWORD( x ) \
    TAO_PEGTL_INTERNAL_STRING( TAO_PEGTL_NAMESPACE::ascii::keyword, x )
+
+#define TAO_PEGTL_RAISE_MESSAGE( x ) \
+   TAO_PEGTL_INTERNAL_STRING( TAO_PEGTL_NAMESPACE::raise_message, x )
 
 #endif

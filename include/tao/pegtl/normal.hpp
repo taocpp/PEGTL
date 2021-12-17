@@ -16,6 +16,7 @@
 #include "rewind_mode.hpp"
 
 #include "internal/enable_control.hpp"
+#include "internal/has_error_message.hpp"
 #include "internal/has_match.hpp"
 
 #if defined( __cpp_exceptions )
@@ -48,7 +49,12 @@ namespace TAO_PEGTL_NAMESPACE
       [[noreturn]] static void raise( const ParseInput& in, States&&... /*unused*/ )
       {
 #if defined( __cpp_exceptions )
-         throw parse_error( "parse error matching " + std::string( demangle< Rule >() ), in );
+         if constexpr( internal::has_error_message< Rule > ) {
+            throw parse_error( Rule::error_message, in );
+         }
+         else {
+            throw parse_error( "parse error matching " + std::string( demangle< Rule >() ), in );
+         }
 #else
          static_assert( internal::dependent_false< Rule >, "exception support required for normal< Rule >::raise()" );
          (void)in;
