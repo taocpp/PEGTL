@@ -104,10 +104,6 @@ namespace TAO_PEGTL_NAMESPACE
       {
          std::cerr << '#' << std::setw( indent() - 1 ) << ++m_count << TracerTraits::ansi_rule << demangle< Rule >() << TracerTraits::ansi_reset << '\n';
          const auto p = in.position();
-         std::cerr << std::right
-                   << in.line_at( p ) << '\n'
-                   << std::setw( p.column ) << '^' << std::left
-                   << std::endl;
          m_stack.push_back( m_count );
       }
 
