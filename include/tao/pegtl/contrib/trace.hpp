@@ -23,7 +23,10 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< bool HideInternal = false, bool UseColor = true, std::size_t IndentIncrement = 2, std::size_t InitialIndent = 8 >
+   template< bool HideInternal = false,
+             bool UseColor = true,
+             std::size_t IndentIncrement = 2,
+             std::size_t InitialIndent = 8 >
    struct tracer_traits
    {
       template< typename Rule >
