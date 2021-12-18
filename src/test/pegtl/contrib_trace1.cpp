@@ -8,14 +8,20 @@
 
 #include <tao/pegtl/contrib/trace.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace test
 {
+   using namespace TAO_PEGTL_NAMESPACE;
+
 #if defined( __cpp_exceptions )
    using grammar = seq< sor< try_catch< must< one< 'a' > > >, one< 'F' > >, eof >;
 #else
    using grammar = seq< sor< one< 'a' >, one< 'F' > >, eof >;
 #endif
 
+}  // namespace test
+
+namespace TAO_PEGTL_NAMESPACE
+{
    void unit_test()
    {
       const std::string data = "F";
@@ -23,9 +29,9 @@ namespace TAO_PEGTL_NAMESPACE
       // Just enough to see that it compiles and nothing explodes;
       // the output format probabaly changes between compilers and
       // versions making a proper test difficult.
-      standard_trace< grammar >( in );
+      standard_trace< test::grammar >( in );
       in.restart();
-      complete_trace< grammar >( in );
+      complete_trace< test::grammar >( in );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

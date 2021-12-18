@@ -59,6 +59,8 @@ set(test_sources
   discard_input.cpp
   enable_control.cpp
   error_message.cpp
+  error_message_2.cpp
+  error_message_3.cpp
   file_cstream.cpp
   file_file.cpp
   file_istream.cpp
