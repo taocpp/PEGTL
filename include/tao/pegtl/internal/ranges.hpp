@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using subs_t = empty_list;
 
       template< std::size_t... Is >
-      [[nodiscard]] static constexpr bool test( std::index_sequence< Is... > /*unused*/, const data_t c ) noexcept
+      [[nodiscard]] static constexpr bool test_impl( std::index_sequence< Is... > /*unused*/, const data_t c ) noexcept
       {
          constexpr const data_t cs[] = { Cs... };
          if constexpr( sizeof...( Cs ) % 2 == 0 ) {
@@ -47,19 +47,21 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
       }
 
-      [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
+      [[nodiscard]] static constexpr bool test_one( const data_t c ) noexcept
       {
-         return test( std::make_index_sequence< sizeof...( Cs ) / 2 >(), c );
+         return test_impl( std::make_index_sequence< sizeof...( Cs ) / 2 >(), c );
       }
 
-      template< int Eol >
-      static constexpr bool can_match_eol = test( Eol );
+      [[nodiscard]] static constexpr bool test_any( const data_t c ) noexcept
+      {
+         return test_impl( std::make_index_sequence< sizeof...( Cs ) / 2 >(), c );
+      }
 
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
       {
          if( const auto t = Peek::peek( in ) ) {
-            if( test( t.data ) ) {
+            if( test_one( t.data ) ) {
                bump_help< ranges >( in, t.size );
                return true;
             }

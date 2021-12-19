@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
             using rule_t = binary_property;
             using subs_t = empty_list;
 
-            [[nodiscard]] static bool test( const data_t c ) noexcept
+            [[nodiscard]] static bool test_one( const data_t c ) noexcept
             {
                return u_hasBinaryProperty( c, P ) == V;
             }
@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
             [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
             {
                if( const auto t = Peek::peek( in ) ) {
-                  if( test( t.data ) ) {
+                  if( test_one( t.data ) ) {
                      in.bump( t.size );
                      return true;
                   }
@@ -56,7 +56,7 @@ namespace TAO_PEGTL_NAMESPACE
             using rule_t = property_value;
             using subs_t = empty_list;
 
-            [[nodiscard]] static bool test( const data_t c ) noexcept
+            [[nodiscard]] static bool test_one( const data_t c ) noexcept
             {
                return u_getIntPropertyValue( c, P ) == V;
             }
@@ -65,7 +65,7 @@ namespace TAO_PEGTL_NAMESPACE
             [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
             {
                if( const auto t = Peek::peek( in ) ) {
-                  if( test( t.data ) ) {
+                  if( test_one( t.data ) ) {
                      in.bump( t.size );
                      return true;
                   }

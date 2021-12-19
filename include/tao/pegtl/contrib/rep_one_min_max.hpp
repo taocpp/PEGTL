@@ -30,8 +30,16 @@ namespace TAO_PEGTL_NAMESPACE
 
          static_assert( Min <= Max );
 
-         template< int Eol >
-         static constexpr bool can_match_eol = ( C == Eol );
+         [[nodiscard]] static constexpr bool test_one( const char c ) noexcept
+         {
+            static_assert( ( Min == 1 ) && ( Max == 1 ) );
+            return C == c;
+         }
+
+         [[nodiscard]] static constexpr bool test_any( const char c ) noexcept
+         {
+            return C == c;
+         }
 
          template< typename ParseInput >
          [[nodiscard]] static bool match( ParseInput& in )
@@ -58,8 +66,10 @@ namespace TAO_PEGTL_NAMESPACE
          using rule_t = rep_one_min_max;
          using subs_t = empty_list;
 
-         template< int Eol >
-         static constexpr bool can_match_eol = ( C == Eol );
+         [[nodiscard]] static constexpr bool test_any( const char c ) noexcept
+         {
+            return C == c;
+         }
 
          template< typename ParseInput >
          [[nodiscard]] static bool match( ParseInput& in )

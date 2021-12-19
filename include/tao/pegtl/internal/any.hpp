@@ -26,7 +26,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = any;
       using subs_t = empty_list;
 
-      [[nodiscard]] static bool test( const char /*unused*/ ) noexcept
+      [[nodiscard]] static bool test_one( const char /*unused*/ ) noexcept
+      {
+         return true;
+      }
+
+      [[nodiscard]] static bool test_any( const char /*unused*/ ) noexcept
       {
          return true;
       }
@@ -51,10 +56,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = any;
       using subs_t = empty_list;
 
-      template< int Eol >
-      static constexpr bool can_match_eol = true;
+      [[nodiscard]] static bool test_one( const data_t /*unused*/ ) noexcept
+      {
+         return true;
+      }
 
-      [[nodiscard]] static bool test( const data_t /*unused*/ ) noexcept
+      [[nodiscard]] static bool test_any( const data_t /*unused*/ ) noexcept
       {
          return true;
       }

@@ -14,7 +14,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule, typename ParseInput >
    void bump_help( ParseInput& in, const std::size_t count )
    {
-      if constexpr( Rule::template can_match_eol< ParseInput::eol_t::ch > ) {
+      if constexpr( Rule::test_any( ParseInput::eol_t::ch ) ) {
          in.bump( count );
       }
       else {

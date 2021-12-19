@@ -27,19 +27,21 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       static_assert( Lo < Hi, "invalid range" );
 
-      [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
+      [[nodiscard]] static constexpr bool test_one( const data_t c ) noexcept
       {
          return ( ( Lo <= c ) && ( c <= Hi ) ) == bool( R );
       }
 
-      template< int Eol >
-      static constexpr bool can_match_eol = test( Eol );
+      [[nodiscard]] static constexpr bool test_any( const data_t c ) noexcept
+      {
+         return test_one( c );
+      }
 
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
       {
          if( const auto t = Peek::peek( in ) ) {
-            if( test( t.data ) ) {
+            if( test_one( t.data ) ) {
                bump_help< range >( in, t.size );
                return true;
             }

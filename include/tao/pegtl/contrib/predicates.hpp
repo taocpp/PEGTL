@@ -27,9 +27,9 @@ namespace TAO_PEGTL_NAMESPACE
          using peek_t = Peek;
          using data_t = typename Peek::data_t;
 
-         [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
+         [[nodiscard]] static constexpr bool test_impl( const data_t c ) noexcept
          {
-            return ( Ps::test( c ) && ... );  // TODO: Static assert that Ps::peek_t is the same as peek_t?!
+            return ( Ps::test_one( c ) && ... );  // TODO: Static assert that Ps::peek_t is the same as peek_t?!
          }
       };
 
@@ -39,9 +39,9 @@ namespace TAO_PEGTL_NAMESPACE
          using peek_t = Peek;
          using data_t = typename Peek::data_t;
 
-         [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
+         [[nodiscard]] static constexpr bool test_impl( const data_t c ) noexcept
          {
-            return !P::test( c );  // TODO: Static assert that P::peek_t is the same as peek_t?!
+            return !P::test_one( c );  // TODO: Static assert that P::peek_t is the same as peek_t?!
          }
       };
 
@@ -51,9 +51,9 @@ namespace TAO_PEGTL_NAMESPACE
          using peek_t = Peek;
          using data_t = typename Peek::data_t;
 
-         [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
+         [[nodiscard]] static constexpr bool test_impl( const data_t c ) noexcept
          {
-            return ( Ps::test( c ) || ... );  // TODO: Static assert that Ps::peek_t is the same as peek_t?!
+            return ( Ps::test_one( c ) || ... );  // TODO: Static assert that Ps::peek_t is the same as peek_t?!
          }
       };
 
@@ -68,16 +68,22 @@ namespace TAO_PEGTL_NAMESPACE
          using subs_t = empty_list;
 
          using base_t = Test< Peek, Ps... >;
-         using base_t::test;
 
-         template< int Eol >
-         static constexpr bool can_match_eol = test( Eol );
+         [[nodiscard]] static constexpr bool test_one( const data_t c ) noexcept
+         {
+            return Test< Peek, Ps... >::test_impl( c );
+         }
+
+         [[nodiscard]] static constexpr bool test_any( const data_t c ) noexcept
+         {
+            return Test< Peek, Ps... >::test_impl( c );
+         }
 
          template< typename ParseInput >
          [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
          {
             if( const auto t = Peek::peek( in ) ) {
-               if( test( t.data ) ) {
+               if( test_one( t.data ) ) {
                   bump_help< predicates >( in, t.size );
                   return true;
                }
