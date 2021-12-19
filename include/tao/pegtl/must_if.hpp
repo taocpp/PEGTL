@@ -12,6 +12,7 @@
 #include <type_traits>
 
 #include "config.hpp"
+#include "internal/has_error_message.hpp"
 #include "normal.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -47,9 +48,6 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename ParseInput, typename... States >
          [[noreturn]] static void raise( const ParseInput& in, [[maybe_unused]] States&&... st )
          {
-            if constexpr( RequireMessage ) {
-               static_assert( Errors::template message< Rule > != nullptr );
-            }
             if constexpr( Errors::template message< Rule > != nullptr ) {
                constexpr const char* p = Errors::template message< Rule >;
                throw parse_error( p, in );
@@ -58,6 +56,9 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
             }
             else {
+               if constexpr( !internal::has_error_message< Rule > ) {
+                  static_assert( !RequireMessage, "explicit error message required for Rule" );
+               }
                Base< Rule >::raise( in, st... );
             }
          }
