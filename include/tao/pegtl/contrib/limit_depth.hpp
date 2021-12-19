@@ -50,6 +50,8 @@ namespace TAO_PEGTL_NAMESPACE
    struct limit_depth
       : maybe_nothing
    {
+      static constexpr const char* error_message = "maximum parser rule nesting depth exceeded";
+
       template< typename Rule,
                 apply_mode A,
                 rewind_mode M,
@@ -65,7 +67,7 @@ namespace TAO_PEGTL_NAMESPACE
             const internal::depth_guard dg( in.private_depth );
             if( in.private_depth > Maximum ) {
 #if defined( __cpp_exceptions )
-               throw TAO_PEGTL_NAMESPACE::parse_error( "maximum parser rule nesting depth exceeded", in );
+               Control< limit_depth >::raise( in );
 #else
                std::fputs( "maximum parser rule nesting depth exceeded\n", stderr );
                std::terminate();
