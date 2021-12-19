@@ -5,6 +5,8 @@
 **Not yet released**
 
 * Switched to Boost Software License, Version 1.0.
+* Added new customization point for error messages.
+* Added optional source line output for the tracer.
 * Removed support for building an amalgamated header.
 * Deprecated the `TAO_PEGTL_NAMESPACE` macro.
   * Will be removed in version 4.0.0.
