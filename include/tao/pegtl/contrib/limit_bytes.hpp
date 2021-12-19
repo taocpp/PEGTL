@@ -57,6 +57,8 @@ namespace TAO_PEGTL_NAMESPACE
    struct limit_bytes
       : maybe_nothing
    {
+      static constexpr const char* error_message = "maximum allowed rule consumption reached";
+
       template< typename Rule,
                 apply_mode A,
                 rewind_mode M,
@@ -72,7 +74,7 @@ namespace TAO_PEGTL_NAMESPACE
          if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... ) ) {
             if( in.empty() && ( bg.m_end != in.current() ) ) {
 #if defined( __cpp_exceptions )
-               throw TAO_PEGTL_NAMESPACE::parse_error( "maximum allowed rule consumption reached", in );
+               Control< limit_bytes >::raise( in );
 #else
                std::fputs( "maximum allowed rule consumption reached\n", stderr );
                std::terminate();
