@@ -23,8 +23,9 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< bool HideInternal = false,
+   template< bool HideInternal = true,
              bool UseColor = true,
+             bool PrintSourceLine = false,
              std::size_t IndentIncrement = 2,
              std::size_t InitialIndent = 8 >
    struct tracer_traits
@@ -34,6 +35,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       static constexpr std::size_t initial_indent = InitialIndent;
       static constexpr std::size_t indent_increment = IndentIncrement;
+
+      static constexpr bool print_source_line = PrintSourceLine;
 
       static constexpr std::string_view ansi_reset = UseColor ? "\033[m" : "";
       static constexpr std::string_view ansi_rule = UseColor ? "\033[36m" : "";
@@ -67,7 +70,7 @@ namespace TAO_PEGTL_NAMESPACE
            m_position( in.position() )
       {
          std::cerr << std::left;
-         print_position();
+         print_position( in );
       }
 
       tracer( const tracer& ) = delete;
@@ -86,16 +89,23 @@ namespace TAO_PEGTL_NAMESPACE
          return TracerTraits::initial_indent + TracerTraits::indent_increment * m_stack.size();
       }
 
-      void print_position() const
+      template< typename ParseInput >
+      void print_position( [[maybe_unused]] const ParseInput& in ) const
       {
          std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_position << "position" << TracerTraits::ansi_reset << ' ' << m_position << '\n';
+         if constexpr( TracerTraits::print_source_line ) {
+            std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_position << "source" << TracerTraits::ansi_reset << ' ' << in.line_at( m_position ) << '\n';
+            std::cerr << std::setw( indent() + 6 + m_position.column ) << ' ' << "^\n";
+         }
       }
 
-      void update_position( const position& p )
+      template< typename ParseInput >
+      void update_position( const ParseInput& in )
       {
+         const auto p = in.position();
          if( m_position != p ) {
             m_position = p;
-            print_position();
+            print_position( in );
          }
       }
 
@@ -116,7 +126,7 @@ namespace TAO_PEGTL_NAMESPACE
             std::cerr << " #" << prev << ' ' << TracerTraits::ansi_hide << demangle< Rule >() << TracerTraits::ansi_reset;
          }
          std::cerr << '\n';
-         update_position( in.position() );
+         update_position( in );
       }
 
       template< typename Rule, typename ParseInput, typename... States >
@@ -129,7 +139,7 @@ namespace TAO_PEGTL_NAMESPACE
             std::cerr << " #" << prev << ' ' << TracerTraits::ansi_hide << demangle< Rule >() << TracerTraits::ansi_reset;
          }
          std::cerr << '\n';
-         update_position( in.position() );
+         update_position( in );
       }
 
       template< typename Rule, typename ParseInput, typename... States >
@@ -148,7 +158,7 @@ namespace TAO_PEGTL_NAMESPACE
             std::cerr << " #" << prev << ' ' << TracerTraits::ansi_hide << demangle< Rule >() << TracerTraits::ansi_reset;
          }
          std::cerr << '\n';
-         update_position( in.position() );
+         update_position( in );
       }
 
       template< typename Rule, typename ParseInput, typename... States >
