@@ -25,8 +25,8 @@ namespace TAO_PEGTL_NAMESPACE
       : maybe_nothing
    {
       template< typename Rule,
-                pegtl::apply_mode A,
-                pegtl::rewind_mode M,
+                apply_mode A,
+                rewind_mode M,
                 template< typename... >
                 class Action,
                 template< typename... >
