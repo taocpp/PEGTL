@@ -4,6 +4,7 @@
 
 **Not yet released**
 
+* Added new atomic rule `everything`.
 * Removed the `TAO_PEGTL_NAMESPACE` macro.
 * Switched to Boost Software License, Version 1.0.
 * Added new customization point for error messages.

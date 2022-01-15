@@ -90,7 +90,7 @@ These rules are in namespace `tao::pegtl`.
 * [Equivalent] to `success`, but:
 * Calls the input's `discard()` member function.
 * Must not be used where backtracking to before the `discard` might occur and/or nested within a rule for which an action with input can be called.
-* See [Incremental Input](Inputs-and-Parsing.md#incremental-input) for details.
+* See [Incremental Input] for details.
 * [Meta data] and [implementation] mapping:
   - `discard::rule_t` is `internal::discard`
 
@@ -108,7 +108,7 @@ These rules are in namespace `tao::pegtl`.
 ###### `require< Num >`
 
 * Succeeds if at least `Num` further input bytes are available.
-* With [Incremental Input](Inputs-and-Parsing.md#incremental-input) reads the bytes into the buffer.
+* With [Incremental Input] reads the bytes into the buffer.
 * [Meta data] and [implementation] mapping:
   - `require< 0 >::rule_t` is `internal::success`
   - `require< N >::rule_t` is `internal::require< N >`
@@ -566,6 +566,14 @@ Atomic rules do not rely on other rules.
 * [Equivalent] to `sor< eof, eol >`.
 * [Meta data] and [implementation] mapping:
   - `eolf::rule_t` is `internal::eolf`
+
+###### `everything`
+
+* Matches and consumes the entire input in one go, but:
+* Limited by the buffer size when using an [Incremental Input].
+* [Equivalent] to `until< eof, any >`.
+* [Meta data] and [implementation] mapping:
+  - `everything::rule_t` is `internal::everything< std::size_t >`
 
 ###### `failure`
 
@@ -1426,6 +1434,7 @@ Binary rules do not rely on other rules.
 * [`eof`](#eof) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`eol`](#eol) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`eolf`](#eolf) <sup>[(atomic rules)](#atomic-rules)</sup>
+* [`everything](#everything) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`extender`](#extender) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`failure`](#failure) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`forty_two< C... >`](#forty_two-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
@@ -1575,4 +1584,5 @@ See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://w
 
 [Equivalent]: #equivalence
 [implementation]: #implementation
+[Incremental Input]: Inputs-and-Parsing.md#incremental-input
 [Meta data]: Meta-Data-and-Visit.md

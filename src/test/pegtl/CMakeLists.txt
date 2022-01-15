@@ -88,6 +88,7 @@ set(test_sources
   rule_discard.cpp
   rule_enable.cpp
   rule_eof.cpp
+  rule_everything.cpp
   rule_failure.cpp
   rule_if_apply.cpp
   rule_if_must.cpp

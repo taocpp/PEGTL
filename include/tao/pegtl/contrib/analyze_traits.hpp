@@ -130,6 +130,11 @@ namespace tao::pegtl
       : analyze_opt_traits<>
    {};
 
+   template< typename Name, typename Size >
+   struct analyze_traits< Name, internal::everything< Size > >
+      : analyze_opt_traits<>
+   {};
+
    template< typename Name >
    struct analyze_traits< Name, internal::failure >
       : analyze_any_traits<>

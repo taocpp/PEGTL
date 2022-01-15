@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_RULES_HPP
 #define TAO_PEGTL_RULES_HPP
 
+#include <cstddef>
+
 #include "parse_error.hpp"
 
 #include "internal/rules.hpp"
@@ -25,6 +27,7 @@ namespace tao::pegtl
    template< typename... Rules > struct enable : internal::enable< Rules... > {};
    struct eof : internal::eof {};
    struct eolf : internal::eolf {};
+   struct everything : internal::everything< std::size_t > {};
    struct failure : internal::failure {};
    template< typename Rule, typename... Actions > struct if_apply : internal::if_apply< Rule, Actions... > {};
    template< typename Cond, typename Then, typename Else > struct if_then_else : internal::if_then_else< Cond, Then, Else > {};

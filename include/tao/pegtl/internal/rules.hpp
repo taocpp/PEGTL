@@ -21,6 +21,7 @@
 #include "eof.hpp"
 #include "eol.hpp"
 #include "eolf.hpp"
+#include "everything.hpp"
 #include "failure.hpp"
 #include "identifier.hpp"
 #include "if_apply.hpp"
