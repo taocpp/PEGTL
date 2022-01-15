@@ -27,8 +27,8 @@
 #include "../rewind_mode.hpp"
 
 #include "../internal/enable_control.hpp"
-#include "../internal/has_unwind.hpp"
 #include "../internal/frobnicator.hpp"
+#include "../internal/has_unwind.hpp"
 
 namespace tao::pegtl::parse_tree
 {

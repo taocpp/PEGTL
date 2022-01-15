@@ -56,7 +56,6 @@ namespace tao::pegtl::internal
       using rule_t = istring;
       using subs_t = empty_list;
 
-
       [[nodiscard]] static constexpr bool test_one( const char c ) noexcept
       {
          static_assert( sizeof...( Cs ) == 1 );

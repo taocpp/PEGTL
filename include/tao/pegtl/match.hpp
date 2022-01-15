@@ -16,9 +16,9 @@
 #include "internal/has_apply.hpp"
 #include "internal/has_apply0.hpp"
 #include "internal/has_unwind.hpp"
-#include "internal/rewind_guard.hpp"
 #include "internal/missing_apply.hpp"
 #include "internal/missing_apply0.hpp"
+#include "internal/rewind_guard.hpp"
 
 #if defined( _MSC_VER )
 #pragma warning( push )

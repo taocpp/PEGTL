@@ -24,18 +24,18 @@ namespace tao::pegtl
 
 #define TAO_PEGTL_TEST_UNWRAP( ... ) __VA_ARGS__
 
-#define TAO_PEGTL_TEST_FAILED( MeSSaGe )                   \
-   do {                                                    \
-      std::cerr << "pegtl: unit test failed for [ "        \
-                << tao::pegtl::demangle< Rule >() \
-                << " ] "                                   \
-                << TAO_PEGTL_TEST_UNWRAP( MeSSaGe )        \
-                << " in line [ "                           \
-                << line                                    \
-                << " ] file [ "                            \
-                << file << " ]"                            \
-                << std::endl;                              \
-      ++tao::pegtl::failed;                       \
+#define TAO_PEGTL_TEST_FAILED( MeSSaGe )            \
+   do {                                             \
+      std::cerr << "pegtl: unit test failed for [ " \
+                << tao::pegtl::demangle< Rule >()   \
+                << " ] "                            \
+                << TAO_PEGTL_TEST_UNWRAP( MeSSaGe ) \
+                << " in line [ "                    \
+                << line                             \
+                << " ] file [ "                     \
+                << file << " ]"                     \
+                << std::endl;                       \
+      ++tao::pegtl::failed;                         \
    } while( false )
 
 #define TAO_PEGTL_TEST_ASSERT( ... )               \
@@ -48,7 +48,7 @@ namespace tao::pegtl
                    << " ] file [ "                 \
                    << __FILE__ << " ]"             \
                    << std::endl;                   \
-         ++tao::pegtl::failed;            \
+         ++tao::pegtl::failed;                     \
       }                                            \
    } while( false )
 
@@ -63,7 +63,7 @@ namespace tao::pegtl
                    << " ] file [ "                  \
                    << __FILE__ << " ]"              \
                    << std::endl;                    \
-         ++tao::pegtl::failed;             \
+         ++tao::pegtl::failed;                      \
       }                                             \
       catch( ... ) {                                \
       }                                             \
