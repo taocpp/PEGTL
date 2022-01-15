@@ -19,32 +19,6 @@
 
 namespace tao::pegtl
 {
-   namespace internal
-   {
-      struct [[nodiscard]] depth_guard
-      {
-         std::size_t& m_depth;
-
-         explicit depth_guard( std::size_t& depth ) noexcept
-            : m_depth( depth )
-         {
-            ++m_depth;
-         }
-
-         depth_guard( depth_guard&& ) = delete;
-         depth_guard( const depth_guard& ) = delete;
-
-         ~depth_guard()
-         {
-            --m_depth;
-         }
-
-         depth_guard& operator=( depth_guard&& ) = delete;
-         depth_guard& operator=( const depth_guard& ) = delete;
-      };
-
-   }  // namespace internal
-
    template< std::size_t Maximum >
    struct limit_depth
       : maybe_nothing
@@ -63,8 +37,8 @@ namespace tao::pegtl
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          if constexpr( Control< Rule >::enable ) {
-            const internal::depth_guard dg( in.private_depth );
-            if( in.private_depth > Maximum ) {
+            const auto dg( in.make_depth_guard() );
+            if( dg.current_depth() > Maximum ) {
 #if defined( __cpp_exceptions )
                Control< limit_depth >::raise( in );
 #else

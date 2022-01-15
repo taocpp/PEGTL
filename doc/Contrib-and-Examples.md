@@ -40,11 +40,12 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 
 * Grammars and actions for PEGTL-input-to-integer conversions.
 
+###### `<tao/pegtl/contrib/input_with_depth.hpp>`
 ###### `<tao/pegtl/contrib/limit_depth.hpp>`
 
-* Limits the nesting level of rules when parsing a grammar, prevents stack overflows.
-* Can be applied selectively at specific rules to improve efficiency.
-* See `src/test/pegtl/limit_depth.cpp`.
+* Limit the nesting depth of rules when parsing a grammar to prevent stack overflows.
+* Can be applied selectively at specific rules to reduce overhead.
+* See `src/test/pegtl/contrib_limit_depth.cpp`.
 
 ###### `<tao/pegtl/contrib/json.hpp>`
 

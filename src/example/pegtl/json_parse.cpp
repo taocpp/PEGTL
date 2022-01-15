@@ -6,6 +6,7 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
+#include <tao/pegtl/contrib/input_with_depth.hpp>
 #include <tao/pegtl/contrib/json.hpp>
 #include <tao/pegtl/contrib/limit_depth.hpp>
 #include <tao/pegtl/contrib/trace.hpp>
@@ -38,7 +39,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       return 1;
    }
 
-   pegtl::argv_input in( argv, 1 );
+   pegtl::input_with_depth< pegtl::argv_input<> > in( argv, 1 );
 #if defined( __cpp_exceptions )
    try {
       pegtl::parse< example::grammar, example::action, example::control >( in );

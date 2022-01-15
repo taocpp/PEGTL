@@ -10,6 +10,7 @@
 * Added optional source line output for the tracer.
 * Removed support for building an amalgamated header.
 * Changed default top-level `rewind_mode` to `dontcare`.
+* Moved depth counter to adapter class in contrib.
 
 ## 3.2.2
 
