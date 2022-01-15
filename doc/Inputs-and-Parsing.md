@@ -283,8 +283,8 @@ The parse functions accept the following template parameters and arguments:
 
 Additionally, two enumeration values can be used to control the behaviour:
 
-- The `apply_mode` which can also be set to `nothing` in order to disable action invocations, just like the `disable<>` rule does.
-- The `rewind_mode` which can also be set to `dontcare` in order to not require rewinding of the input on local failure, a micro optimisation.
+- The `apply_mode`, which can also be set to `nothing` in order to disable action invocations, just like the `disable<>` rule does.
+- The `rewind_mode`, which can also be set to `required` when rewinding the input to its start is required for top-level parse failures.
 
 The result of a parsing run, i.e. an invocation of `tao::pegtl::parse()`, can be either
 
@@ -298,7 +298,7 @@ template< typename Rule,
           template< typename... > class Action = nothing,
           template< typename... > class Control = normal,
           apply_mode A = apply_mode::action,
-          rewind_mode M = rewind_mode::required,
+          rewind_mode M = rewind_mode::dontcare,
           typename ParseInput,
           typename... States >
 bool parse( ParseInput& in,
@@ -320,7 +320,7 @@ template< typename Rule,
           template< typename... > class Action = nothing,
           template< typename... > class Control = normal,
           apply_mode A = apply_mode::action,
-          rewind_mode M = rewind_mode::required,
+          rewind_mode M = rewind_mode::dontcare,
           typename OuterInput,
           typename ParseInput,
           typename... States >
