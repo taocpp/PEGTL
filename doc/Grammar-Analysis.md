@@ -77,10 +77,8 @@ struct my_rule
 the analyze traits need to be set up as
 
 ```c++
-// In namespace TAO_PEGTL_NAMESPACE
-
 template< typename Name >
-struct analyze_traits< Name, my_rule >
+struct tao::pegtl::analyze_traits< Name, my_rule >
    : analyze_any_traits<>
 {};
 ```

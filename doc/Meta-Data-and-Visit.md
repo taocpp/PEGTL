@@ -13,7 +13,7 @@ They are only required to support functions based on `visit()` and the [grammar 
 
 ## Internals
 
-While accessible in the namespace `TAO_PEGTL_NAMESPACE`, which defaults to `tao::pegtl`, the [rules and combinators](Rule-Reference.md) included with the PEGTL all have their actual implementation in the sub-namespace `internal`.
+While accessible in the namespace `tao::pegtl`, the [rules and combinators](Rule-Reference.md) included with the PEGTL all have their actual implementation in the sub-namespace `internal`.
 For example the header `include/tao/pegtl/rules.hpp` shows how the user-facing rules are nothing more than forwarders to their `internal` implementation.
 
 The original motivation for this additional level of indirection was to prevent uninteded invocation of user-defined actions due to some PEGTL rules being built from exisiting rules instead of having a dedicated implementation.

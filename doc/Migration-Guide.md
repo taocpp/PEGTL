@@ -1,5 +1,9 @@
 # Migration Guide
 
+## Version 4.0.0
+
+* The macro `TAO_PEGTL_NAMESPACE` has been removed. Use `tao::pegtl::` instead.
+
 ## Version 3.0.0
 
 * The build system needs to be configured for C++17 or later.

@@ -155,7 +155,7 @@ Note how the return value reflects the result of the checks, and how input is on
 The remainder of the program checks that all characters of `argv[ 1 ]` are equal to 0 when divided by 3.
 
 ```c++
-using namespace TAO_PEGTL_NAMESPACE;
+using namespace tao::pegtl;
 
 namespace modulus
 {
