@@ -8,12 +8,11 @@
 #include <string>
 #include <utility>
 
-#include "config.hpp"
 #include "eol.hpp"
 #include "memory_input.hpp"
 #include "tracking_mode.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -60,6 +59,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Ts >
    explicit string_input( Ts&&... ) -> string_input<>;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

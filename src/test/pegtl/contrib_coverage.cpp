@@ -9,7 +9,7 @@
 #include <tao/pegtl/contrib/coverage.hpp>
 #include <tao/pegtl/contrib/print_coverage.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    [[nodiscard]] inline bool operator==( const coverage_info& l, const coverage_info& r ) noexcept
    {
@@ -62,6 +62,6 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( equals< sor< one< 'a' >, one< 'F' > > >( result, coverage_info{ 1, 1, 0, 0, 0 } ) );
    }
 #endif
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

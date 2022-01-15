@@ -15,7 +15,6 @@
 #include <utility>
 #include <vector>
 
-#include "../config.hpp"
 #include "../demangle.hpp"
 
 #include "analyze_traits.hpp"
@@ -23,7 +22,7 @@
 #include "internal/set_stack_guard.hpp"
 #include "internal/vector_stack_guard.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -185,6 +184,6 @@ namespace TAO_PEGTL_NAMESPACE
       return internal::analyze_cycles< Grammar >( verbose ).problems();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

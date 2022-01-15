@@ -16,7 +16,7 @@
 // that nothing that throws a parse_error can be used because positions
 // aren't supported by the token_parse_input.
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename ParseInput >
    class token_action_input
@@ -221,9 +221,9 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_any_traits<>
    {};
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
-using namespace TAO_PEGTL_NAMESPACE;
+using namespace tao::pegtl;
 
 enum my_type
 {

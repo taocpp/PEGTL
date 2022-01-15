@@ -5,7 +5,7 @@
 #include "test.hpp"
 #include "verify_meta.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename... Rules >
    struct strange
@@ -226,6 +226,6 @@ namespace TAO_PEGTL_NAMESPACE
       // clang-format on
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

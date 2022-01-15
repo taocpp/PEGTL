@@ -5,14 +5,13 @@
 #ifndef TAO_PEGTL_CONTRIB_UINT16_HPP
 #define TAO_PEGTL_CONTRIB_UINT16_HPP
 
-#include "../config.hpp"
 #include "../internal/result_on_found.hpp"
 #include "../internal/rules.hpp"
 
 #include "internal/peek_mask_uint.hpp"
 #include "internal/peek_uint.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace uint16_be
    {
@@ -58,6 +57,6 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace uint16_le
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

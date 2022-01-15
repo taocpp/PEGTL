@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_IF_THEN_ELSE_HPP
 #define TAO_PEGTL_INTERNAL_IF_THEN_ELSE_HPP
 
-#include "../config.hpp"
-
 #include "enable_control.hpp"
 #include "not_at.hpp"
 #include "seq.hpp"
@@ -16,7 +14,7 @@
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Cond, typename Then, typename Else >
    struct if_then_else
@@ -47,6 +45,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Cond, typename Then, typename Else >
    inline constexpr bool enable_control< if_then_else< Cond, Then, Else > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

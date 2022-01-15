@@ -7,9 +7,7 @@
 
 #include <cstddef>
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Rule, typename ParseInput >
    void bump_help( ParseInput& in, const std::size_t count )
@@ -22,6 +20,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

@@ -9,12 +9,11 @@
 #include <utility>
 
 #include "apply_mode.hpp"
-#include "config.hpp"
 #include "match.hpp"
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< template< typename... > class NewAction, typename... NewStates >
    struct change_action_and_states
@@ -58,6 +57,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

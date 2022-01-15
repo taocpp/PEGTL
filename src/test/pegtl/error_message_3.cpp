@@ -14,7 +14,7 @@ int main()
 
 namespace test3
 {
-   using namespace TAO_PEGTL_NAMESPACE;
+   using namespace tao::pegtl;
 
    // clang-format off
    struct a : one< 'a' > {};
@@ -28,7 +28,7 @@ namespace test3
 
 }  // namespace test3
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"
 

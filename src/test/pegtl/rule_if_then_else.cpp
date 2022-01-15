@@ -5,7 +5,7 @@
 #include "test.hpp"
 #include "verify_ifmt.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -14,6 +14,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_ifmt< if_then_else >();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

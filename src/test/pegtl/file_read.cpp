@@ -5,7 +5,7 @@
 #include "test.hpp"
 #include "verify_file.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
    struct open_input
@@ -22,6 +22,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_file< open_input<> >();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

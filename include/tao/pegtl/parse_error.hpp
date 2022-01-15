@@ -13,10 +13,9 @@
 #include <utility>
 #include <vector>
 
-#include "config.hpp"
 #include "position.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -115,6 +114,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

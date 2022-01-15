@@ -8,7 +8,7 @@
 
 namespace test
 {
-   using namespace TAO_PEGTL_NAMESPACE;
+   using namespace tao::pegtl;
 
    using GRAMMAR1 = sor< failure, one< 'a' > >;
    using GRAMMAR2 = seq< one< 'a' >, any, any, any, any, one< 'b' >, eof >;
@@ -46,7 +46,7 @@ namespace test
 
 }  // namespace test
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -92,6 +92,6 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

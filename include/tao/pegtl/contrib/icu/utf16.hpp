@@ -7,12 +7,11 @@
 
 #include "internal.hpp"
 
-#include "../../config.hpp"
 #include "../utf16.hpp"
 
 #include "../internal/peek_utf16.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace utf16_be::icu
    {
@@ -192,6 +191,6 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace utf16_le::icu
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

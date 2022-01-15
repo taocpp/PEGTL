@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_EOL_HPP
 #define TAO_PEGTL_EOL_HPP
 
-#include "config.hpp"
-
 #include "internal/eol.hpp"
 
 #include "internal/cr_crlf_eol.hpp"
@@ -15,7 +13,7 @@
 #include "internal/lf_crlf_eol.hpp"
 #include "internal/lf_eol.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    inline namespace ascii
    {
@@ -36,6 +34,6 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace ascii
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

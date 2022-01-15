@@ -5,15 +5,13 @@
 #ifndef TAO_PEGTL_CONTRIB_FUNCTION_HPP
 #define TAO_PEGTL_CONTRIB_FUNCTION_HPP
 
-#include "../config.hpp"
-
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
 #include "../internal/enable_control.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -48,6 +46,6 @@ namespace TAO_PEGTL_NAMESPACE
       : internal::function< decltype( F ), F >
    {};
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

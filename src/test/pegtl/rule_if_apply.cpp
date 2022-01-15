@@ -5,7 +5,7 @@
 #include "test.hpp"
 #include "verify_seqs.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace test1
    {
@@ -122,6 +122,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_seqs< if_apply_disable >();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

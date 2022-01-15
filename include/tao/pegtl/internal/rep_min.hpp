@@ -5,17 +5,15 @@
 #ifndef TAO_PEGTL_INTERNAL_REP_MIN_HPP
 #define TAO_PEGTL_INTERNAL_REP_MIN_HPP
 
-#include "../config.hpp"
-
 #include "rep.hpp"
 #include "seq.hpp"
 #include "star.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< unsigned Min, typename Rule, typename... Rules >
    using rep_min = seq< rep< Min, Rule, Rules... >, star< Rule, Rules... > >;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

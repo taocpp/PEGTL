@@ -5,12 +5,11 @@
 #ifndef TAO_PEGTL_RULES_HPP
 #define TAO_PEGTL_RULES_HPP
 
-#include "config.hpp"
 #include "parse_error.hpp"
 
 #include "internal/rules.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    // clang-format off
    template< template< typename... > class Action, typename... Rules > struct action : internal::action< Action, Rules... > {};
@@ -70,6 +69,6 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
    // clang-format on
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

@@ -18,11 +18,9 @@
 
 #include <utility>
 
-#include "../config.hpp"
-
 #include "filesystem.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    struct file_opener
    {
@@ -155,6 +153,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       const char* const m_data;
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

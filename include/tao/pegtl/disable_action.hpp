@@ -6,12 +6,11 @@
 #define TAO_PEGTL_DISABLE_ACTION_HPP
 
 #include "apply_mode.hpp"
-#include "config.hpp"
 #include "match.hpp"
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    struct disable_action
       : maybe_nothing
@@ -27,10 +26,10 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         return TAO_PEGTL_NAMESPACE::match< Rule, apply_mode::nothing, M, Action, Control >( in, st... );
+         return tao::pegtl::match< Rule, apply_mode::nothing, M, Action, Control >( in, st... );
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

@@ -5,14 +5,12 @@
 #ifndef TAO_PEGTL_INTERNAL_BYTES_HPP
 #define TAO_PEGTL_INTERNAL_BYTES_HPP
 
-#include "../config.hpp"
-
 #include "enable_control.hpp"
 #include "success.hpp"
 
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< unsigned Cnt >
    struct bytes
@@ -39,6 +37,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< unsigned Cnt >
    inline constexpr bool enable_control< bytes< Cnt > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

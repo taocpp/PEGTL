@@ -8,12 +8,11 @@
 #include <istream>
 
 #include "buffer_input.hpp"
-#include "config.hpp"
 #include "eol.hpp"
 
 #include "internal/istream_reader.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename Eol = eol::lf_crlf, std::size_t Chunk = 64 >
    struct istream_input
@@ -28,6 +27,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Ts >
    istream_input( Ts&&... ) -> istream_input<>;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

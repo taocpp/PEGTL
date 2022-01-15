@@ -5,9 +5,7 @@
 #ifndef TAO_PEGTL_TRACKING_MODE_HPP
 #define TAO_PEGTL_TRACKING_MODE_HPP
 
-#include "config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    enum class tracking_mode : bool
    {
@@ -15,6 +13,6 @@ namespace TAO_PEGTL_NAMESPACE
       lazy
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

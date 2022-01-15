@@ -6,11 +6,10 @@
 #define TAO_PEGTL_CONTRIB_JSON_POINTER_HPP
 
 #include "../ascii.hpp"
-#include "../config.hpp"
 #include "../rules.hpp"
 #include "../utf8.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::json_pointer
+namespace tao::pegtl::json_pointer
 {
    // JSON pointer grammar according to RFC 6901
 
@@ -29,6 +28,6 @@ namespace TAO_PEGTL_NAMESPACE::json_pointer
    struct relative_json_pointer : seq< non_negative_integer, sor< one< '#' >, json_pointer > > {};
    // clang-format on
 
-}  // namespace TAO_PEGTL_NAMESPACE::json_pointer
+}  // namespace tao::pegtl::json_pointer
 
 #endif

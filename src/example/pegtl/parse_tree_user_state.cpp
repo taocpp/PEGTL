@@ -7,7 +7,7 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/parse_tree.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;
+using namespace tao::pegtl;
 
 template< typename >
 using selector = std::true_type;

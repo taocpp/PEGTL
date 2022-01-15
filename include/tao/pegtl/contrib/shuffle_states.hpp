@@ -9,11 +9,9 @@
 #include <type_traits>
 #include <utility>
 
-#include "../config.hpp"
-
 #include "../internal/has_unwind.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -189,6 +187,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Base >
    using reverse_states = shuffle_states< Base, internal::reverse >;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

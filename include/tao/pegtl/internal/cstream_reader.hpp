@@ -15,9 +15,7 @@
 #include <exception>
 #endif
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    struct cstream_reader
    {
@@ -54,6 +52,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       std::FILE* m_cstream;
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

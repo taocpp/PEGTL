@@ -5,9 +5,7 @@
 #ifndef TAO_PEGTL_INTERNAL_RESULT_ON_FOUND_HPP
 #define TAO_PEGTL_INTERNAL_RESULT_ON_FOUND_HPP
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    enum class result_on_found : bool
    {
@@ -15,6 +13,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       failure = false
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

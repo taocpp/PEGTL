@@ -10,10 +10,9 @@
 #include <string>
 
 #include "../ascii.hpp"
-#include "../config.hpp"
 #include "../parse_error.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::unescape
+namespace tao::pegtl::unescape
 {
    // Utility functions for the unescape actions.
 
@@ -51,7 +50,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       return false;
    }
 
-   // This function MUST only be called for characters matching TAO_PEGTL_NAMESPACE::ascii::xdigit!
+   // This function MUST only be called for characters matching tao::pegtl::ascii::xdigit!
    template< typename I >
    [[nodiscard]] I unhex_char( const char c )
    {
@@ -108,7 +107,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       }
    };
 
-   // This action MUST be called for a character matching T which MUST be TAO_PEGTL_NAMESPACE::one< ... >.
+   // This action MUST be called for a character matching T which MUST be tao::pegtl::one< ... >.
    template< typename T, char... Rs >
    struct unescape_c
    {
@@ -210,6 +209,6 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::unescape
+}  // namespace tao::pegtl::unescape
 
 #endif

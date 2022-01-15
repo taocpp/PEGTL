@@ -5,9 +5,7 @@
 #ifndef TAO_PEGTL_REWIND_MODE_HPP
 #define TAO_PEGTL_REWIND_MODE_HPP
 
-#include "config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    enum class rewind_mode : char
    {
@@ -16,6 +14,6 @@ namespace TAO_PEGTL_NAMESPACE
       dontcare
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

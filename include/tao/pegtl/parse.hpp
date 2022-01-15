@@ -8,14 +8,13 @@
 #include <type_traits>
 
 #include "apply_mode.hpp"
-#include "config.hpp"
 #include "normal.hpp"
 #include "nothing.hpp"
 #include "parse_error.hpp"
 #include "position.hpp"
 #include "rewind_mode.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -68,6 +67,6 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

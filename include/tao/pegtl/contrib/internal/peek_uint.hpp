@@ -8,12 +8,11 @@
 #include <cstddef>
 #include <cstdint>
 
-#include "../../config.hpp"
 #include "../../internal/input_pair.hpp"
 
 #include "read_uint.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename R >
    struct peek_uint_impl
@@ -41,6 +40,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    using peek_uint64_be = peek_uint_impl< read_uint64_be >;
    using peek_uint64_le = peek_uint_impl< read_uint64_le >;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

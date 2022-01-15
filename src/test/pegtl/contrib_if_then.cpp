@@ -7,7 +7,7 @@
 
 #include <tao/pegtl/contrib/if_then.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -24,6 +24,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< grammar >( __LINE__, __FILE__, "c", result_type::success, 0 );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

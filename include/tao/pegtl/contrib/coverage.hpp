@@ -13,7 +13,6 @@
 #include "state_control.hpp"
 
 #include "../apply_mode.hpp"
-#include "../config.hpp"
 #include "../demangle.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
@@ -22,7 +21,7 @@
 #include "../type_list.hpp"
 #include "../visit.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    struct coverage_info
    {
@@ -147,6 +146,6 @@ namespace TAO_PEGTL_NAMESPACE
       return parse< Rule, Action, state_control< Control >::template type >( in, st..., state );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

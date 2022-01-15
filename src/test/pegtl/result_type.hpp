@@ -7,9 +7,7 @@
 
 #include <ostream>
 
-#include <tao/pegtl/config.hpp>
-
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    enum class result_type : int
    {
@@ -31,6 +29,6 @@ namespace TAO_PEGTL_NAMESPACE
       return o << static_cast< int >( t );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

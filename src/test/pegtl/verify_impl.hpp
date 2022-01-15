@@ -17,7 +17,7 @@
 #include "result_type.hpp"
 #include "test.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename Rule, template< typename... > class Action, typename ParseInput >
    result_type verify_impl_two( ParseInput& in )
@@ -60,6 +60,6 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << in.size( 999999999 ) << " / " << remain << " ]" );  // LCOV_EXCL_LINE
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

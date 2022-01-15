@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_STATE_HPP
 #define TAO_PEGTL_INTERNAL_STATE_HPP
 
-#include "../config.hpp"
-
 #include <type_traits>
 
 #include "dependent_false.hpp"
@@ -18,7 +16,7 @@
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename NewState, typename... Rules >
    struct state
@@ -71,6 +69,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename NewState, typename... Rules >
    inline constexpr bool enable_control< state< NewState, Rules... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

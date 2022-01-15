@@ -9,8 +9,6 @@
 #error "Exception support required for tao/pegtl/internal/if_must.hpp"
 #else
 
-#include "../config.hpp"
-
 #include "enable_control.hpp"
 #include "must.hpp"
 
@@ -18,7 +16,7 @@
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< bool Default, typename Cond, typename... Rules >
    struct if_must
@@ -47,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< bool Default, typename Cond, typename... Rules >
    inline constexpr bool enable_control< if_must< Default, Cond, Rules... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif
 #endif

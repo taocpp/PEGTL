@@ -15,7 +15,7 @@ int main()
 
 #include <tao/pegtl/contrib/http.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void test_header()
    {
@@ -98,7 +98,7 @@ namespace TAO_PEGTL_NAMESPACE
       test_chunked();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"
 

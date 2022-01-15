@@ -7,7 +7,6 @@
 
 #include <string>
 
-#include "config.hpp"
 #include "eol.hpp"
 #include "string_input.hpp"
 #include "tracking_mode.hpp"
@@ -16,7 +15,7 @@
 #include "internal/filesystem.hpp"
 #include "internal/path_to_string.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
    struct read_input
@@ -50,6 +49,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Ts >
    explicit read_input( Ts&&... ) -> read_input<>;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

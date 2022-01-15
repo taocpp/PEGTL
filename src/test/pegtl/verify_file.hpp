@@ -15,7 +15,7 @@
 #define TAO_PEGTL_TEST_FILENAME "src/test/pegtl/file_äöü𝄞_data.txt"
 #endif
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    struct file_content
       : seq< TAO_PEGTL_STRING( "dummy content" ), eol, discard >
@@ -134,6 +134,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

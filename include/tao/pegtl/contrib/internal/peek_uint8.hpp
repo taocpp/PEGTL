@@ -8,10 +8,9 @@
 #include <cstddef>
 #include <cstdint>
 
-#include "../../config.hpp"
 #include "../../internal/input_pair.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    struct peek_uint8
    {
@@ -28,6 +27,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

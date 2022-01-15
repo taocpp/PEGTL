@@ -8,10 +8,9 @@
 #include <type_traits>
 #include <utility>
 
-#include "../config.hpp"
 #include "../rewind_mode.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< rewind_mode M, typename ParseInput >
    class [[nodiscard]] rewind_guard
@@ -81,6 +80,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       rewind_data m_saved;
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

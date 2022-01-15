@@ -5,13 +5,12 @@
 #ifndef TAO_PEGTL_CONTRIB_UTF32_HPP
 #define TAO_PEGTL_CONTRIB_UTF32_HPP
 
-#include "../config.hpp"
 #include "../internal/result_on_found.hpp"
 #include "../internal/rules.hpp"
 
 #include "internal/peek_utf32.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace utf32_be
    {
@@ -53,6 +52,6 @@ namespace TAO_PEGTL_NAMESPACE
 #error Unknown endianness.
 #endif
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

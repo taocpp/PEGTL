@@ -7,10 +7,9 @@
 
 #include <string>
 
-#include "../config.hpp"
 #include "filesystem.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    [[nodiscard]] inline std::string path_to_string( const internal::filesystem::path& path )
    {
@@ -24,6 +23,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
 #endif
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

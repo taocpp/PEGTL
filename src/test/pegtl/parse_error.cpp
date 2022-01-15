@@ -14,7 +14,7 @@ int main()
 
 #include "verify_meta.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< tracking_mode M >
    void unit_test()
@@ -63,7 +63,7 @@ namespace TAO_PEGTL_NAMESPACE
       unit_test< tracking_mode::lazy >();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"
 

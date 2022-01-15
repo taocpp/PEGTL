@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    using grammar = seq< string< 'a', 'b', 'c' >, eof >;
 
@@ -36,6 +36,6 @@ namespace TAO_PEGTL_NAMESPACE
       test_eager();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

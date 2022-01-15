@@ -5,11 +5,9 @@
 #ifndef TAO_PEGTL_INTERNAL_APPLY_SINGLE_HPP
 #define TAO_PEGTL_INTERNAL_APPLY_SINGLE_HPP
 
-#include "../config.hpp"
-
 #include <type_traits>
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Action >
    struct apply_single
@@ -30,6 +28,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

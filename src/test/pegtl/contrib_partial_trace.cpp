@@ -6,7 +6,7 @@
 
 #include <tao/pegtl/contrib/trace.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    // clang-format off
    struct inner : seq< one< 'a' >, sor< one< 'b' >, one< 'c' >, inner > > {};
@@ -24,6 +24,6 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( result );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

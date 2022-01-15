@@ -7,7 +7,6 @@
 
 #include <string>
 
-#include "config.hpp"
 #include "eol.hpp"
 #include "memory_input.hpp"
 #include "tracking_mode.hpp"
@@ -26,7 +25,7 @@
 #else
 #endif
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -75,6 +74,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Ts >
    explicit mmap_input( Ts&&... ) -> mmap_input<>;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

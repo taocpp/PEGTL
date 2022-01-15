@@ -11,7 +11,7 @@
 
 #include "parse_tree.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::parse_tree
+namespace tao::pegtl::parse_tree
 {
    namespace internal
    {
@@ -107,6 +107,6 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       os << "}\n";
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE::parse_tree
+}  // namespace tao::pegtl::parse_tree
 
 #endif

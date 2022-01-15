@@ -5,13 +5,11 @@
 #ifndef TAO_PEGTL_INTERNAL_EOF_HPP
 #define TAO_PEGTL_INTERNAL_EOF_HPP
 
-#include "../config.hpp"
-
 #include "enable_control.hpp"
 
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    struct eof
    {
@@ -28,6 +26,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template<>
    inline constexpr bool enable_control< eof > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

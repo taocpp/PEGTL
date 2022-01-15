@@ -6,7 +6,7 @@
 
 #include <tao/pegtl/contrib/unescape.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    // clang-format off
    struct escaped_c : one< '"', '\\', 't' > {};
@@ -127,6 +127,6 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( verify_fail( "\\Uffffffff" ) );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

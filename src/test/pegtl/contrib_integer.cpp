@@ -21,7 +21,7 @@ int main()
 
 #include <tao/pegtl/contrib/integer.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename Rule >
    struct int_action
@@ -257,7 +257,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_analyze< signed_rule_with_action >( __LINE__, __FILE__, true, false );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"
 

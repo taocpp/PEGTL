@@ -8,15 +8,13 @@
 #include <cstdint>
 #include <cstring>
 
-#include "../../config.hpp"
-
 #if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( __CYGWIN__ )
 #include "endian_win.hpp"
 #else
 #include "endian_gcc.hpp"
 #endif
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    enum class endian
    {
@@ -73,6 +71,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       return internal::le_to_h( n );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

@@ -7,9 +7,7 @@
 
 #include <type_traits>
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    // This class is a simple tagging mechanism.
    // By default, enable_control< Rule > is  'true'.
@@ -21,6 +19,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule >
    inline constexpr bool enable_control = true;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

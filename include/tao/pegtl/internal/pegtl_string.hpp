@@ -9,10 +9,9 @@
 #include <type_traits>
 
 #include "../ascii.hpp"
-#include "../config.hpp"
 #include "../rules.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    // Inspired by https://github.com/irrequietus/typestring
    // Rewritten and reduced to what is needed for the PEGTL
@@ -46,17 +45,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using type = T;
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #define TAO_PEGTL_INTERNAL_EMPTY()
 #define TAO_PEGTL_INTERNAL_DEFER( X ) X TAO_PEGTL_INTERNAL_EMPTY()
 #define TAO_PEGTL_INTERNAL_EXPAND( ... ) __VA_ARGS__
 
 #define TAO_PEGTL_INTERNAL_STRING_AT( S, x, n ) \
-   TAO_PEGTL_NAMESPACE::internal::string_at< S, ( 0##n < ( sizeof( x ) / sizeof( char ) ) ) ? ( x )[ 0##n ] : 0, ( 0##n < ( sizeof( x ) / sizeof( char ) ) - 1 ) >::type
+   tao::pegtl::internal::string_at< S, ( 0##n < ( sizeof( x ) / sizeof( char ) ) ) ? ( x )[ 0##n ] : 0, ( 0##n < ( sizeof( x ) / sizeof( char ) ) - 1 ) >::type
 
 #define TAO_PEGTL_INTERNAL_JOIN_8( M, S, x, n )                                             \
-   TAO_PEGTL_NAMESPACE::internal::string_join< TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##0 ), \
+   tao::pegtl::internal::string_join< TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##0 ), \
                                                TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##1 ), \
                                                TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##2 ), \
                                                TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##3 ), \
@@ -78,18 +77,18 @@ namespace TAO_PEGTL_NAMESPACE::internal
    TAO_PEGTL_INTERNAL_EXPAND(             \
       TAO_PEGTL_INTERNAL_EXPAND(          \
          TAO_PEGTL_INTERNAL_EXPAND(       \
-            TAO_PEGTL_NAMESPACE::internal::string_max_length< TAO_PEGTL_INTERNAL_STRING_512( S, x, ), sizeof( x ) - 1 >::type ) ) )
+            tao::pegtl::internal::string_max_length< TAO_PEGTL_INTERNAL_STRING_512( S, x, ), sizeof( x ) - 1 >::type ) ) )
 
 #define TAO_PEGTL_STRING( x ) \
-   TAO_PEGTL_INTERNAL_STRING( TAO_PEGTL_NAMESPACE::ascii::string, x )
+   TAO_PEGTL_INTERNAL_STRING( tao::pegtl::ascii::string, x )
 
 #define TAO_PEGTL_ISTRING( x ) \
-   TAO_PEGTL_INTERNAL_STRING( TAO_PEGTL_NAMESPACE::ascii::istring, x )
+   TAO_PEGTL_INTERNAL_STRING( tao::pegtl::ascii::istring, x )
 
 #define TAO_PEGTL_KEYWORD( x ) \
-   TAO_PEGTL_INTERNAL_STRING( TAO_PEGTL_NAMESPACE::ascii::keyword, x )
+   TAO_PEGTL_INTERNAL_STRING( tao::pegtl::ascii::keyword, x )
 
 #define TAO_PEGTL_RAISE_MESSAGE( x ) \
-   TAO_PEGTL_INTERNAL_STRING( TAO_PEGTL_NAMESPACE::raise_message, x )
+   TAO_PEGTL_INTERNAL_STRING( tao::pegtl::raise_message, x )
 
 #endif

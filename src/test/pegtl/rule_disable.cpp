@@ -7,7 +7,7 @@
 #include "verify_meta.hpp"
 #include "verify_seqs.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -18,6 +18,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_seqs< disable >();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_REMATCH_HPP
 #define TAO_PEGTL_INTERNAL_REMATCH_HPP
 
-#include "../config.hpp"
-
 #include "enable_control.hpp"
 
 #include "../apply_mode.hpp"
@@ -14,7 +12,7 @@
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Head, typename... Rules >
    struct rematch;
@@ -68,6 +66,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Head, typename... Rules >
    inline constexpr bool enable_control< rematch< Head, Rules... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

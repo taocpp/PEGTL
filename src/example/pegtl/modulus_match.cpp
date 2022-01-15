@@ -4,7 +4,7 @@
 
 #include <tao/pegtl.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;
+using namespace tao::pegtl;
 
 namespace modulus
 {

@@ -13,14 +13,14 @@ int main()
 #include "test.hpp"
 #include "verify_ifmt.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
       verify_ifmt< if_must_else >( result_type::global_failure );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"
 

@@ -12,7 +12,7 @@
 
 #include <tao/pegtl/contrib/json.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    struct counter_data
    {
@@ -49,9 +49,9 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
-using namespace TAO_PEGTL_NAMESPACE;
+using namespace tao::pegtl;
 
 using grammar = seq< json::text, eof >;
 

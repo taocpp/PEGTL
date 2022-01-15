@@ -5,13 +5,11 @@
 #ifndef TAO_PEGTL_UTF8_HPP
 #define TAO_PEGTL_UTF8_HPP
 
-#include "config.hpp"
-
 #include "internal/peek_utf8.hpp"
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::utf8
+namespace tao::pegtl::utf8
 {
    // clang-format off
    struct any : internal::any< internal::peek_utf8 > {};
@@ -24,6 +22,6 @@ namespace TAO_PEGTL_NAMESPACE::utf8
    template< char32_t... Cs > struct string : internal::seq< internal::one< internal::result_on_found::success, internal::peek_utf8, Cs >... > {};
    // clang-format on
 
-}  // namespace TAO_PEGTL_NAMESPACE::utf8
+}  // namespace tao::pegtl::utf8
 
 #endif

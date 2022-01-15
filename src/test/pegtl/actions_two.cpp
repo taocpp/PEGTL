@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace test1
    {
@@ -129,6 +129,6 @@ namespace TAO_PEGTL_NAMESPACE
       test1::count_test();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

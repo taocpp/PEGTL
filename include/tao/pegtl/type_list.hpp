@@ -7,9 +7,7 @@
 
 #include <cstddef>
 
-#include "config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename... Ts >
    struct type_list
@@ -42,6 +40,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Ts >
    using type_list_concat_t = typename type_list_concat< Ts... >::type;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

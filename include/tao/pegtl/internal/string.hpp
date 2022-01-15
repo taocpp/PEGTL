@@ -8,8 +8,6 @@
 #include <cstring>
 #include <utility>
 
-#include "../config.hpp"
-
 #include "bump_help.hpp"
 #include "enable_control.hpp"
 #include "one.hpp"
@@ -18,7 +16,7 @@
 
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    [[nodiscard]] inline bool unsafe_equals( const char* s, const std::initializer_list< char >& l ) noexcept
    {
@@ -71,6 +69,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< char... Cs >
    inline constexpr bool enable_control< string< Cs... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

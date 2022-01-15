@@ -10,14 +10,13 @@
 #error "Exception support required for tao/pegtl/contrib/iri.hpp"
 #else
 
-#include "../config.hpp"
 #include "../rules.hpp"
 #include "../utf8.hpp"
 
 #include "abnf.hpp"
 #include "uri.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::iri
+namespace tao::pegtl::iri
 {
    // IRI grammar according to RFC 3987.
 
@@ -101,7 +100,7 @@ namespace TAO_PEGTL_NAMESPACE::iri
    struct absolute_IRI : seq< scheme, one< ':' >, ihier_part, opt_iquery > {};
    // clang-format off
 
-}  // namespace TAO_PEGTL_NAMESPACE::iri
+}  // namespace tao::pegtl::iri
 
 #endif
 #endif

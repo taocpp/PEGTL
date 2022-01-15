@@ -5,13 +5,11 @@
 #ifndef TAO_PEGTL_CONTRIB_FORWARD_HPP
 #define TAO_PEGTL_CONTRIB_FORWARD_HPP
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename Name, typename Rule, typename = void >
    struct analyze_traits;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

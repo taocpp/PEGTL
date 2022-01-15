@@ -9,17 +9,15 @@
 #error "Exception support required for tao/pegtl/internal/star_must.hpp"
 #else
 
-#include "../config.hpp"
-
 #include "if_must.hpp"
 #include "star.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Cond, typename... Rules >
    using star_must = star< if_must< false, Cond, Rules... > >;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif
 #endif

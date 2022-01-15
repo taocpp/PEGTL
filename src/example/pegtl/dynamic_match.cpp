@@ -12,7 +12,7 @@
 
 #include <tao/pegtl/contrib/analyze.hpp>
 
-namespace pegtl = TAO_PEGTL_NAMESPACE;
+namespace pegtl = tao::pegtl;
 
 namespace dynamic
 {
@@ -86,14 +86,14 @@ namespace dynamic
 
 }  // namespace dynamic
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename Name >
    struct analyze_traits< Name, dynamic::long_literal_mark >
       : analyze_any_traits<>
    {};
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {

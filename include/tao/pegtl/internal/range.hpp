@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_RANGE_HPP
 #define TAO_PEGTL_INTERNAL_RANGE_HPP
 
-#include "../config.hpp"
-
 #include "bump_help.hpp"
 #include "enable_control.hpp"
 #include "one.hpp"
@@ -14,7 +12,7 @@
 
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct range
@@ -58,6 +56,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    inline constexpr bool enable_control< range< R, Peek, Lo, Hi > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

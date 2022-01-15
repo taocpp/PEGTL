@@ -8,7 +8,7 @@
 #include <utility>
 #include <vector>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    std::vector< std::pair< std::string, std::string > > applied;
 
@@ -98,6 +98,6 @@ namespace TAO_PEGTL_NAMESPACE
       test1::test_result();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

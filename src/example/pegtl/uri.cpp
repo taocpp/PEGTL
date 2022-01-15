@@ -16,7 +16,7 @@ int main()
 
 #include <iostream>
 
-namespace pegtl = TAO_PEGTL_NAMESPACE;
+namespace pegtl = tao::pegtl;
 
 struct URI
 {

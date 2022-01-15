@@ -7,10 +7,9 @@
 
 #include <cstddef>
 
-#include "../config.hpp"
 #include "../internal/string.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -39,6 +38,6 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace ascii
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

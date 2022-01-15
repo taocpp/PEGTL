@@ -8,14 +8,13 @@
 #include <type_traits>
 
 #include "../apply_mode.hpp"
-#include "../config.hpp"
 #include "../match.hpp"
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
 #include "../internal/dependent_false.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename AddState >
    struct add_state
@@ -34,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          if constexpr( std::is_constructible_v< AddState, const ParseInput&, States... > ) {
             AddState s( static_cast< const ParseInput& >( in ), st... );
-            if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, s, st... ) ) {
+            if( tao::pegtl::match< Rule, A, M, Action, Control >( in, s, st... ) ) {
                if constexpr( A == apply_mode::action ) {
                   Action< Rule >::success( static_cast< const ParseInput& >( in ), s, st... );
                }
@@ -44,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
          else if constexpr( std::is_default_constructible_v< AddState > ) {
             AddState s;
-            if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, s, st... ) ) {
+            if( tao::pegtl::match< Rule, A, M, Action, Control >( in, s, st... ) ) {
                if constexpr( A == apply_mode::action ) {
                   Action< Rule >::success( static_cast< const ParseInput& >( in ), s, st... );
                }
@@ -65,6 +64,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    struct remove_state
    {
@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... /*unused*/ )
       {
-         return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in );
+         return tao::pegtl::match< Rule, A, M, Action, Control >( in );
       }
    };
 
@@ -112,6 +112,6 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( global_state == 1 );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

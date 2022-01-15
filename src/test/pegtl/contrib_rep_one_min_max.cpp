@@ -8,7 +8,7 @@
 
 #include <tao/pegtl/contrib/rep_one_min_max.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -33,6 +33,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< rep_one_min_max< 0, 2, '+' > >( __LINE__, __FILE__, "+++", result_type::local_failure, 3 );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

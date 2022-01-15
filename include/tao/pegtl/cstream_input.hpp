@@ -8,12 +8,11 @@
 #include <cstdio>
 
 #include "buffer_input.hpp"
-#include "config.hpp"
 #include "eol.hpp"
 
 #include "internal/cstream_reader.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename Eol = eol::lf_crlf, std::size_t Chunk = 64 >
    struct cstream_input
@@ -28,6 +27,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Ts >
    cstream_input( Ts&&... ) -> cstream_input<>;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

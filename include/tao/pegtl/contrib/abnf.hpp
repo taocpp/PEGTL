@@ -5,10 +5,9 @@
 #ifndef TAO_PEGTL_CONTRIB_ABNF_HPP
 #define TAO_PEGTL_CONTRIB_ABNF_HPP
 
-#include "../config.hpp"
 #include "../internal/rules.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::abnf
+namespace tao::pegtl::abnf
 {
    // Core ABNF rules according to RFC 5234, Appendix B
 
@@ -31,6 +30,6 @@ namespace TAO_PEGTL_NAMESPACE::abnf
    struct WSP : internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\t' > {};
    // clang-format on
 
-}  // namespace TAO_PEGTL_NAMESPACE::abnf
+}  // namespace tao::pegtl::abnf
 
 #endif

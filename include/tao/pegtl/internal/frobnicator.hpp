@@ -8,9 +8,7 @@
 #include <cassert>
 #include <cstdlib>
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    struct frobnicator
    {
@@ -45,6 +43,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       std::size_t column = 1;
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

@@ -5,7 +5,6 @@
 #ifndef TAO_PEGTL_CONTRIB_PREDICATES_HPP
 #define TAO_PEGTL_CONTRIB_PREDICATES_HPP
 
-#include "../config.hpp"
 #include "../type_list.hpp"
 
 #include "../internal/bump_help.hpp"
@@ -17,7 +16,7 @@
 
 #include "analyze_traits.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -128,6 +127,6 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_any_traits<>
    {};
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

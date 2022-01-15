@@ -7,8 +7,6 @@
 
 #include <utility>
 
-#include "../config.hpp"
-
 #include "enable_control.hpp"
 #include "failure.hpp"
 
@@ -16,7 +14,7 @@
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename... Rules >
    struct sor;
@@ -63,6 +61,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... Rules >
    inline constexpr bool enable_control< sor< Rules... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

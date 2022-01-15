@@ -8,12 +8,10 @@
 #include <cstddef>
 #include <utility>
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    using eol_pair = std::pair< bool, std::size_t >;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

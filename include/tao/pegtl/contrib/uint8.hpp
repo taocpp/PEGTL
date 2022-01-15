@@ -5,14 +5,13 @@
 #ifndef TAO_PEGTL_CONTRIB_UINT8_HPP
 #define TAO_PEGTL_CONTRIB_UINT8_HPP
 
-#include "../config.hpp"
 #include "../internal/result_on_found.hpp"
 #include "../internal/rules.hpp"
 
 #include "internal/peek_mask_uint8.hpp"
 #include "internal/peek_uint8.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::uint8
+namespace tao::pegtl::uint8
 {
    // clang-format off
    struct any : internal::any< internal::peek_uint8 > {};
@@ -32,6 +31,6 @@ namespace TAO_PEGTL_NAMESPACE::uint8
    template< std::uint8_t M, std::uint8_t... Cs > struct mask_string : internal::seq< internal::one< internal::result_on_found::success, internal::peek_mask_uint8< M >, Cs >... > {};
    // clang-format on
 
-}  // namespace TAO_PEGTL_NAMESPACE::uint8
+}  // namespace tao::pegtl::uint8
 
 #endif

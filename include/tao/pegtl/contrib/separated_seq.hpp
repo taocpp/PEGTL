@@ -5,12 +5,10 @@
 #ifndef TAO_PEGTL_CONTRIB_SEPARATED_SEQ_HPP
 #define TAO_PEGTL_CONTRIB_SEPARATED_SEQ_HPP
 
-#include "../config.hpp"
-
 #include "../internal/seq.hpp"
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -41,6 +39,6 @@ namespace TAO_PEGTL_NAMESPACE
       : internal::sep< type_list<>, S, Rules... >::type
    {};
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

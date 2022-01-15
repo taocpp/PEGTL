@@ -14,7 +14,6 @@
 #include <type_traits>
 #include <utility>
 
-#include "config.hpp"
 #include "eol.hpp"
 #include "normal.hpp"
 #include "nothing.hpp"
@@ -29,7 +28,7 @@
 #include "internal/rewind_guard.hpp"
 #include "internal/until.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -111,9 +110,9 @@ namespace TAO_PEGTL_NAMESPACE
             internal::bump_to_next_line( m_current, in_count );
          }
 
-         [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const frobnicator_t& it ) const
+         [[nodiscard]] tao::pegtl::position position( const frobnicator_t& it ) const
          {
-            return TAO_PEGTL_NAMESPACE::position( it, m_source );
+            return tao::pegtl::position( it, m_source );
          }
 
          void restart( const std::size_t in_byte = 0, const std::size_t in_line = 1, const std::size_t in_column = 1 )
@@ -203,11 +202,11 @@ namespace TAO_PEGTL_NAMESPACE
             m_current += in_count;
          }
 
-         [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const frobnicator_t it ) const
+         [[nodiscard]] tao::pegtl::position position( const frobnicator_t it ) const
          {
             internal::frobnicator c( m_begin );
             internal::bump( c, std::size_t( it - m_begin.data ), Eol::ch );
-            return TAO_PEGTL_NAMESPACE::position( c, m_source );
+            return tao::pegtl::position( c, m_source );
          }
 
          void restart()
@@ -325,7 +324,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       using internal::memory_input_base< P, Eol, Source >::position;
 
-      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
+      [[nodiscard]] tao::pegtl::position position() const
       {
          return position( frobnicator() );
       }
@@ -350,17 +349,17 @@ namespace TAO_PEGTL_NAMESPACE
          this->m_current = data;
       }
 
-      [[nodiscard]] const char* at( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
+      [[nodiscard]] const char* at( const tao::pegtl::position& p ) const noexcept
       {
          return this->begin() + p.byte;
       }
 
-      [[nodiscard]] const char* begin_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
+      [[nodiscard]] const char* begin_of_line( const tao::pegtl::position& p ) const noexcept
       {
          return at( p ) - ( p.column - 1 );
       }
 
-      [[nodiscard]] const char* end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
+      [[nodiscard]] const char* end_of_line( const tao::pegtl::position& p ) const noexcept
       {
          using input_t = memory_input< tracking_mode::lazy, Eol, const char* >;
          input_t in( at( p ), this->end(), "" );
@@ -369,7 +368,7 @@ namespace TAO_PEGTL_NAMESPACE
          return in.current();
       }
 
-      [[nodiscard]] std::string_view line_at( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
+      [[nodiscard]] std::string_view line_at( const tao::pegtl::position& p ) const noexcept
       {
          const char* b = begin_of_line( p );
          return std::string_view( b, static_cast< std::size_t >( end_of_line( p ) - b ) );
@@ -384,6 +383,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Ts >
    memory_input( Ts&&... ) -> memory_input<>;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

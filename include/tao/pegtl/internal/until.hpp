@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_UNTIL_HPP
 #define TAO_PEGTL_INTERNAL_UNTIL_HPP
 
-#include "../config.hpp"
-
 #include "bytes.hpp"
 #include "enable_control.hpp"
 #include "eof.hpp"
@@ -18,7 +16,7 @@
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Cond, typename... Rules >
    struct until
@@ -84,6 +82,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Cond, typename... Rules >
    inline constexpr bool enable_control< until< Cond, Rules... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

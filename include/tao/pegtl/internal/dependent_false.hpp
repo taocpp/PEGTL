@@ -5,13 +5,11 @@
 #ifndef TAO_PEGTL_INTERNAL_DEPENDENT_FALSE_HPP
 #define TAO_PEGTL_INTERNAL_DEPENDENT_FALSE_HPP
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename... >
    inline constexpr bool dependent_false = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

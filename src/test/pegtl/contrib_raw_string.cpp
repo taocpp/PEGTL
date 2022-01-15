@@ -7,7 +7,7 @@
 
 #include <tao/pegtl/contrib/raw_string.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    std::string content;
 
@@ -137,6 +137,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_fail< qgrammar >( __LINE__, __FILE__, "[=[a1aa]=]" );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

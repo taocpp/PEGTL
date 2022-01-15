@@ -12,10 +12,9 @@
 
 #include "frobnicator.hpp"
 
-#include "../config.hpp"
 #include "../position.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename ParseInput >
    class action_input
@@ -92,7 +91,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return static_cast< std::uint8_t >( peek_char( offset ) );
       }
 
-      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
+      [[nodiscard]] tao::pegtl::position position() const
       {
          return input().position( frobnicator() );  // NOTE: Not efficient with lazy inputs.
       }
@@ -102,6 +101,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       const ParseInput& m_input;
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

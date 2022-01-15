@@ -6,7 +6,7 @@
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -34,6 +34,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< forty_two< 'a', 'z' > >( __LINE__, __FILE__, "azzaazaazaaazzzaaaazzaaazzaazazzzaazzazaza", result_type::success );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

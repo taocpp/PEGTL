@@ -10,7 +10,7 @@
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< template< typename, typename, typename > class S >
    void verify_ifmt( const result_type failure = result_type::local_failure )
@@ -41,6 +41,6 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

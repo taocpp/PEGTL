@@ -7,10 +7,9 @@
 
 #include <type_traits>
 
-#include "config.hpp"
 #include "type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -76,6 +75,6 @@ namespace TAO_PEGTL_NAMESPACE
       internal::visit< Func >( rule_list_t< Rule >(), args... );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

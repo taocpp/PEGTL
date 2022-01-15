@@ -5,14 +5,12 @@
 #ifndef TAO_PEGTL_INTERNAL_ANY_HPP
 #define TAO_PEGTL_INTERNAL_ANY_HPP
 
-#include "../config.hpp"
-
 #include "enable_control.hpp"
 #include "peek_char.hpp"
 
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Peek >
    struct any;
@@ -80,6 +78,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Peek >
    inline constexpr bool enable_control< any< Peek > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

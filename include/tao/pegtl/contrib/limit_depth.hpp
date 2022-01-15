@@ -6,7 +6,6 @@
 #define TAO_PEGTL_CONTRIB_LIMIT_DEPTH_HPP
 
 #include "../apply_mode.hpp"
-#include "../config.hpp"
 #include "../match.hpp"
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
@@ -18,7 +17,7 @@
 #include <exception>
 #endif
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -73,14 +72,14 @@ namespace TAO_PEGTL_NAMESPACE
                std::terminate();
 #endif
             }
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
+            return tao::pegtl::match< Rule, A, M, Action, Control >( in, st... );
          }
          else {
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
+            return tao::pegtl::match< Rule, A, M, Action, Control >( in, st... );
          }
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

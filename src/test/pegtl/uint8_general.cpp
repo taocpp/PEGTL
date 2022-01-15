@@ -8,7 +8,7 @@
 
 #include <tao/pegtl/contrib/uint8.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -245,6 +245,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< uint8::string< 0x10, 0x20, 0x30 > >( __LINE__, __FILE__, "\x1f\x21\x31", result_type::local_failure );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

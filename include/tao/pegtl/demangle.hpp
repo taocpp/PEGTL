@@ -8,9 +8,7 @@
 #include <ciso646>
 #include <string_view>
 
-#include "config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
 #if defined( __clang__ )
 
@@ -136,6 +134,6 @@ namespace TAO_PEGTL_NAMESPACE
 
 #endif
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

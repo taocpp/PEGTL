@@ -6,7 +6,7 @@
 
 #include <tao/pegtl/contrib/function.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    bool call1 = false;
 
@@ -16,7 +16,7 @@ namespace TAO_PEGTL_NAMESPACE
       return true;
    }
 
-   struct rule1 : TAO_PEGTL_NAMESPACE::function< func1 >
+   struct rule1 : tao::pegtl::function< func1 >
    {};
 
    void unit_test()
@@ -29,6 +29,6 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( call1 );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

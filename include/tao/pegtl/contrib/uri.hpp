@@ -12,14 +12,13 @@
 #include <cstdint>
 
 #include "../ascii.hpp"
-#include "../config.hpp"
 #include "../rules.hpp"
 #include "../utf8.hpp"
 
 #include "abnf.hpp"
 #include "integer.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::uri
+namespace tao::pegtl::uri
 {
    // URI grammar according to RFC 3986.
 
@@ -106,7 +105,7 @@ namespace TAO_PEGTL_NAMESPACE::uri
    struct absolute_URI : seq< scheme, one< ':' >, hier_part, opt_query > {};
    // clang-format on
 
-}  // namespace TAO_PEGTL_NAMESPACE::uri
+}  // namespace tao::pegtl::uri
 
 #endif
 #endif

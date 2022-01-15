@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_AT_HPP
 #define TAO_PEGTL_INTERNAL_AT_HPP
 
-#include "../config.hpp"
-
 #include "enable_control.hpp"
 #include "seq.hpp"
 #include "success.hpp"
@@ -15,7 +13,7 @@
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename... Rules >
    struct at
@@ -51,6 +49,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... Rules >
    inline constexpr bool enable_control< at< Rules... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

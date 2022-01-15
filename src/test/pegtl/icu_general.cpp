@@ -8,7 +8,7 @@
 
 //#include <tao/pegtl/contrib/icu/utf8.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -18,6 +18,6 @@ namespace TAO_PEGTL_NAMESPACE
       //      verify_rule< utf8::icu::alphabetic >( __LINE__, __FILE__, "a", result_type::success );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

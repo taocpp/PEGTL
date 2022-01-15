@@ -6,7 +6,7 @@
 
 #include <tao/pegtl/contrib/instantiate.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    bool ctor = false;
    bool dtor = false;
@@ -68,6 +68,6 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( dtor == true );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

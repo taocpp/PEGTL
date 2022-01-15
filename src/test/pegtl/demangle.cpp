@@ -6,7 +6,7 @@
 
 #include <tao/pegtl/demangle.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename T >
    void test( const std::string& s )
@@ -33,6 +33,6 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

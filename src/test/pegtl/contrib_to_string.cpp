@@ -7,7 +7,7 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/to_string.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -29,6 +29,6 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( ( to_string< one< 'a', 'b', 'c' > >() == "abc" ) );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

@@ -9,8 +9,6 @@
 #error "Exception support required for tao/pegtl/internal/must.hpp"
 #else
 
-#include "../config.hpp"
-
 #include "enable_control.hpp"
 #include "seq.hpp"
 #include "success.hpp"
@@ -19,7 +17,7 @@
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    // The general case applies must<> to each of the
    // rules in the 'Rules' parameter pack individually.
@@ -64,7 +62,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... Rules >
    inline constexpr bool enable_control< must< Rules... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif
 #endif

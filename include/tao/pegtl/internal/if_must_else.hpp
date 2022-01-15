@@ -9,19 +9,17 @@
 #error "Exception support required for tao/pegtl/internal/if_must_else.hpp"
 #else
 
-#include "../config.hpp"
-
 #include "if_then_else.hpp"
 #include "must.hpp"
 
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Cond, typename Then, typename Else >
    using if_must_else = if_then_else< Cond, must< Then >, must< Else > >;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif
 #endif

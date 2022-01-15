@@ -5,10 +5,9 @@
 #ifndef TAO_PEGTL_INTERNAL_LF_CRLF_EOL_HPP
 #define TAO_PEGTL_INTERNAL_LF_CRLF_EOL_HPP
 
-#include "../config.hpp"
 #include "eol_pair.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    struct lf_crlf_eol
    {
@@ -33,6 +32,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

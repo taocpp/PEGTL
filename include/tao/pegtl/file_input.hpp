@@ -5,7 +5,6 @@
 #ifndef TAO_PEGTL_FILE_INPUT_HPP
 #define TAO_PEGTL_FILE_INPUT_HPP
 
-#include "config.hpp"
 #include "eol.hpp"
 #include "tracking_mode.hpp"
 
@@ -19,7 +18,7 @@
 #include "read_input.hpp"
 #endif
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
 #if defined( _POSIX_MAPPED_FILES ) || defined( _WIN32 )
    template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
@@ -40,6 +39,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Ts >
    explicit file_input( Ts&&... ) -> file_input<>;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

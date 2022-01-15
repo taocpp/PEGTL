@@ -8,11 +8,9 @@
 #include <tuple>
 #include <utility>
 
-#include "../config.hpp"
-
 #include "../internal/has_unwind.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    // The last N states are removed for most of the control functions forwarded to Base,
    // start(), success(), failure(), unwind(), raise(), apply(), and apply0(). The call
@@ -117,6 +115,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Base >
    using remove_last_state = remove_last_states< Base, 1 >;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

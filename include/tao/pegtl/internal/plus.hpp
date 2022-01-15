@@ -7,8 +7,6 @@
 
 #include <type_traits>
 
-#include "../config.hpp"
-
 #include "enable_control.hpp"
 #include "seq.hpp"
 
@@ -16,7 +14,7 @@
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    // While plus<> could easily be implemented with
    // seq< Rule, Rules ..., star< Rule, Rules ... > > we
@@ -56,6 +54,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule, typename... Rules >
    inline constexpr bool enable_control< plus< Rule, Rules... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

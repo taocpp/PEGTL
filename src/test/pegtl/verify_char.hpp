@@ -11,7 +11,7 @@
 #include "result_type.hpp"
 #include "verify_rule.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename Rule >
    void verify_char( const std::size_t line, const char* file, const char data, const result_type result )
@@ -25,6 +25,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_char< Rule >( line, file, data, result ? result_type::success : result_type::local_failure );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

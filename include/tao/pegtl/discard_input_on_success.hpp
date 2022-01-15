@@ -6,12 +6,11 @@
 #define TAO_PEGTL_DISCARD_INPUT_ON_SUCCESS_HPP
 
 #include "apply_mode.hpp"
-#include "config.hpp"
 #include "match.hpp"
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    struct discard_input_on_success
       : maybe_nothing
@@ -27,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         const bool result = TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
+         const bool result = tao::pegtl::match< Rule, A, M, Action, Control >( in, st... );
          if( result ) {
             in.discard();
          }
@@ -35,6 +34,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

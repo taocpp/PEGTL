@@ -7,9 +7,7 @@
 
 #include <utility>
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename, typename, template< typename... > class, typename... >
    inline constexpr bool has_apply = false;
@@ -17,6 +15,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename C, template< typename... > class Action, typename... S >
    inline constexpr bool has_apply< C, decltype( C::template apply< Action >( std::declval< S >()... ) ), Action, S... > = true;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

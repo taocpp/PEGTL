@@ -8,7 +8,7 @@
 
 #include "result_type.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -34,6 +34,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

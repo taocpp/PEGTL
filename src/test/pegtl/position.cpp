@@ -14,7 +14,7 @@ int main()
 
 #include <tao/pegtl/internal/cstring_reader.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    struct buffer_input_t
       : buffer_input< internal::cstring_reader >
@@ -212,7 +212,7 @@ namespace TAO_PEGTL_NAMESPACE
       test_frobnicator();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"
 

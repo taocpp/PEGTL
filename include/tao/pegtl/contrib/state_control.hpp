@@ -9,10 +9,9 @@
 
 #include "shuffle_states.hpp"
 
-#include "../config.hpp"
 #include "../internal/has_unwind.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< template< typename... > class Control >
    struct state_control
@@ -118,6 +117,6 @@ namespace TAO_PEGTL_NAMESPACE
       using type = rotate_states_right< control< Rule > >;
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

@@ -8,9 +8,7 @@
 #include <utility>
 #include <vector>
 
-#include "../../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename... Cs >
    class [[nodiscard]] vector_stack_guard
@@ -41,6 +39,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... Cs >
    vector_stack_guard( std::vector< Cs... >&, const typename std::vector< Cs... >::value_type& ) -> vector_stack_guard< Cs... >;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

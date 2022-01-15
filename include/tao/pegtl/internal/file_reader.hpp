@@ -14,11 +14,9 @@
 #include <exception>
 #endif
 
-#include "../config.hpp"
-
 #include "filesystem.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    [[nodiscard]] inline std::FILE* file_open( const internal::filesystem::path& path )
    {
@@ -148,6 +146,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       const std::unique_ptr< std::FILE, file_close > m_file;
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

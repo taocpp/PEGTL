@@ -9,7 +9,7 @@
 
 #include <tao/pegtl.hpp>
 
-namespace pegtl = TAO_PEGTL_NAMESPACE;
+namespace pegtl = tao::pegtl;
 
 namespace example
 {

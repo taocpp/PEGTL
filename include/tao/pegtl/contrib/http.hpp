@@ -10,7 +10,6 @@
 #else
 
 #include "../ascii.hpp"
-#include "../config.hpp"
 #include "../nothing.hpp"
 #include "../rules.hpp"
 #include "../utf8.hpp"
@@ -20,7 +19,7 @@
 #include "remove_first_state.hpp"
 #include "uri.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::http
+namespace tao::pegtl::http
 {
    // HTTP 1.1 grammar according to RFC 7230.
 
@@ -272,7 +271,7 @@ namespace TAO_PEGTL_NAMESPACE::http
    struct chunked_body : seq< until< last_chunk, chunk >, trailer_part, abnf::CRLF > {};
    // clang-format on
 
-}  // namespace TAO_PEGTL_NAMESPACE::http
+}  // namespace tao::pegtl::http
 
 #endif
 #endif

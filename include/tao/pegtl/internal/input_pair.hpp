@@ -7,9 +7,7 @@
 
 #include <cstdint>
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Data >
    struct input_pair
@@ -25,6 +23,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

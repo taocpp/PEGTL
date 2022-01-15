@@ -6,11 +6,10 @@
 #define TAO_PEGTL_CONTRIB_JSON_HPP
 
 #include "../ascii.hpp"
-#include "../config.hpp"
 #include "../rules.hpp"
 #include "../utf8.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::json
+namespace tao::pegtl::json
 {
    // JSON grammar according to RFC 8259
 
@@ -87,6 +86,6 @@ namespace TAO_PEGTL_NAMESPACE::json
    struct text : pad< value, ws > {};
    // clang-format on
 
-}  // namespace TAO_PEGTL_NAMESPACE::json
+}  // namespace tao::pegtl::json
 
 #endif

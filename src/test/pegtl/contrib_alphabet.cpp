@@ -6,7 +6,7 @@
 
 #include <tao/pegtl/contrib/alphabet.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -65,6 +65,6 @@ namespace TAO_PEGTL_NAMESPACE
       static_assert( alphabet::Z == 'Z' );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

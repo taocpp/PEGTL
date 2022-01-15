@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< unsigned Size, apply_mode B, rewind_mode N, typename... Rules >
    struct test_rule
@@ -113,6 +113,6 @@ namespace TAO_PEGTL_NAMESPACE
       test1::apply0_bool_false();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

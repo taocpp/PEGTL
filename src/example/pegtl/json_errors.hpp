@@ -8,7 +8,7 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/json.hpp>
 
-namespace pegtl = TAO_PEGTL_NAMESPACE;
+namespace pegtl = tao::pegtl;
 
 namespace example
 {

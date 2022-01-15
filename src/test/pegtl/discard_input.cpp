@@ -8,7 +8,7 @@
 
 #include <tao/pegtl/internal/cstring_reader.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename Rule, template< typename... > class Action >
    bool parse_cstring( const char* string, const char* source, const std::size_t maximum )
@@ -60,6 +60,6 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< s, s > >, my_action >( "ssss", TAO_TEST_LINE, 2 ) );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

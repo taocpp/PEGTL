@@ -8,7 +8,7 @@
 
 #include <tao/pegtl/contrib/json.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    using GRAMMAR = seq< json::text, eof >;
 
@@ -119,6 +119,6 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( file_input( "src/test/pegtl/data/fail39.json" ) ) );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

@@ -7,8 +7,6 @@
 
 #include <type_traits>
 
-#include "../config.hpp"
-
 #include "enable_control.hpp"
 #include "failure.hpp"
 #include "not_at.hpp"
@@ -18,7 +16,7 @@
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< unsigned Min, unsigned Max, typename... Rules >
    struct rep_min_max
@@ -77,6 +75,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< unsigned Min, unsigned Max, typename... Rules >
    inline constexpr bool enable_control< rep_min_max< Min, Max, Rules... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

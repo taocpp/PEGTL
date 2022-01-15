@@ -7,7 +7,7 @@
 #include "verify_meta.hpp"
 #include "verify_seqs.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    struct test_state_state
    {
@@ -32,6 +32,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_seqs< test_state_rule >();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

@@ -11,11 +11,9 @@
 #include <string>
 #include <utility>
 
-#include "config.hpp"
-
 #include "internal/frobnicator.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    struct position
    {
@@ -73,6 +71,6 @@ namespace TAO_PEGTL_NAMESPACE
       return std::move( oss ).str();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

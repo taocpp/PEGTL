@@ -9,12 +9,11 @@
 
 #include "../analyze_traits.hpp"
 
-#include "../../config.hpp"
 #include "../../type_list.hpp"
 
 #include "../../internal/enable_control.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -94,6 +93,6 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_any_traits<>
    {};
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

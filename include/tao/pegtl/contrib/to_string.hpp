@@ -7,9 +7,7 @@
 
 #include <string>
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -34,6 +32,6 @@ namespace TAO_PEGTL_NAMESPACE
       return internal::to_string< T >::get();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

@@ -8,9 +8,7 @@
 #include <cassert>
 #include <cstddef>
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    struct cstring_reader
    {
@@ -36,6 +34,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       const char* m_cstring;
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

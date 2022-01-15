@@ -7,11 +7,10 @@
 
 #include <utility>
 
-#include "../config.hpp"
 #include "../match.hpp"
 #include "../nothing.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -80,7 +79,7 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool match_impl( ParseInput& in, States&&... st )
       {
          Action< Rule >::start( const_cast< const ParseInput& >( in ), st... );
-         if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... ) ) {
+         if( tao::pegtl::match< Rule, A, M, Action, Control >( in, st... ) ) {
             Action< Rule >::success( const_cast< const ParseInput& >( in ), st... );
             return true;
          }
@@ -89,6 +88,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

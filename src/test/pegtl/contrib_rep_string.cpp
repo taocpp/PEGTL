@@ -9,7 +9,7 @@
 
 #include <tao/pegtl/contrib/rep_string.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -45,6 +45,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< rep_string< 2, 'a', 'b' > >( __LINE__, __FILE__, "ababab", result_type::success, 2 );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

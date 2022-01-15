@@ -5,9 +5,7 @@
 #ifndef TAO_PEGTL_CONTRIB_ALPHABET_HPP
 #define TAO_PEGTL_CONTRIB_ALPHABET_HPP
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::alphabet
+namespace tao::pegtl::alphabet
 {
    static const char a = 'a';
    static const char b = 'b';
@@ -63,6 +61,6 @@ namespace TAO_PEGTL_NAMESPACE::alphabet
    static const char Y = 'Y';  // NOLINT(readability-identifier-naming)
    static const char Z = 'Z';  // NOLINT(readability-identifier-naming)
 
-}  // namespace TAO_PEGTL_NAMESPACE::alphabet
+}  // namespace tao::pegtl::alphabet
 
 #endif

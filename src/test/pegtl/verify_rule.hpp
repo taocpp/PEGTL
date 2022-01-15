@@ -16,7 +16,7 @@
 #include "result_type.hpp"
 #include "verify_impl.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename Rule >
    struct verify_action_impl
@@ -77,6 +77,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

@@ -17,7 +17,7 @@ int main()
 
 #include <tao/pegtl/contrib/iri.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    using GRAMMAR = must< iri::IRI, eof >;
 
@@ -51,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_THROWS( parse< GRAMMAR >( memory_input( "", "" ) ) );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"
 

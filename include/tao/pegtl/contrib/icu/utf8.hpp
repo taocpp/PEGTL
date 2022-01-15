@@ -7,12 +7,11 @@
 
 #include "internal.hpp"
 
-#include "../../config.hpp"
 #include "../../utf8.hpp"
 
 #include "../../internal/peek_utf8.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::utf8::icu
+namespace tao::pegtl::utf8::icu
 {
    template< UProperty P, bool V = true >
    struct binary_property
@@ -99,6 +98,6 @@ namespace TAO_PEGTL_NAMESPACE::utf8::icu
    template< std::uint8_t V > struct trail_canonical_combining_class : property_value< UCHAR_TRAIL_CANONICAL_COMBINING_CLASS, V > {};
    // clang-format on
 
-}  // namespace TAO_PEGTL_NAMESPACE::utf8::icu
+}  // namespace tao::pegtl::utf8::icu
 
 #endif

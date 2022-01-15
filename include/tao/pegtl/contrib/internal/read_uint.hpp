@@ -7,11 +7,9 @@
 
 #include <cstdint>
 
-#include "../../config.hpp"
-
 #include "endian.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    struct read_uint16_be
    {
@@ -73,6 +71,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

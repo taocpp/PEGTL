@@ -7,7 +7,7 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/unescape.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;
+using namespace tao::pegtl;
 
 namespace example
 {

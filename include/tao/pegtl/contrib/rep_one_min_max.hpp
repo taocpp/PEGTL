@@ -8,7 +8,6 @@
 #include <algorithm>
 #include <type_traits>
 
-#include "../config.hpp"
 #include "../type_list.hpp"
 
 #include "../internal/bump_help.hpp"
@@ -18,7 +17,7 @@
 
 #include "analyze_traits.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -106,6 +105,6 @@ namespace TAO_PEGTL_NAMESPACE
       : std::conditional_t< ( Min != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
    {};
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

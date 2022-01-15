@@ -5,12 +5,10 @@
 #ifndef TAO_PEGTL_ASCII_HPP
 #define TAO_PEGTL_ASCII_HPP
 
-#include "config.hpp"
-
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    inline namespace ascii
    {
@@ -48,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace ascii
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "internal/pegtl_string.hpp"
 

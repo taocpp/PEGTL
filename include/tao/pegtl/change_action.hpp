@@ -8,11 +8,10 @@
 #include <type_traits>
 
 #include "apply_mode.hpp"
-#include "config.hpp"
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< template< typename... > class NewAction >
    struct change_action
@@ -34,6 +33,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

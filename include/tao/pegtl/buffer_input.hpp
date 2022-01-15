@@ -20,7 +20,6 @@
 #include <exception>
 #endif
 
-#include "config.hpp"
 #include "eol.hpp"
 #include "memory_input.hpp"
 #include "position.hpp"
@@ -31,7 +30,7 @@
 #include "internal/frobnicator.hpp"
 #include "internal/rewind_guard.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename Reader, typename Eol = eol::lf_crlf, typename Source = std::string, std::size_t Chunk = 64 >
    class buffer_input
@@ -182,12 +181,12 @@ namespace TAO_PEGTL_NAMESPACE
          m_current = data;
       }
 
-      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const frobnicator_t& it ) const
+      [[nodiscard]] tao::pegtl::position position( const frobnicator_t& it ) const
       {
-         return TAO_PEGTL_NAMESPACE::position( it, m_source );
+         return tao::pegtl::position( it, m_source );
       }
 
-      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
+      [[nodiscard]] tao::pegtl::position position() const
       {
          return position( m_current );
       }
@@ -232,6 +231,6 @@ namespace TAO_PEGTL_NAMESPACE
       std::size_t private_depth = 0;
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

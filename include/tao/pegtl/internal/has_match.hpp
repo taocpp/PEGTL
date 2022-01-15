@@ -8,10 +8,9 @@
 #include <utility>
 
 #include "../apply_mode.hpp"
-#include "../config.hpp"
 #include "../rewind_mode.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename,
              typename Rule,
@@ -36,6 +35,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
              typename... States >
    inline constexpr bool has_match< decltype( (void)Action< Rule >::template match< Rule, A, M, Action, Control >( std::declval< ParseInput& >(), std::declval< States&& >()... ), bool() ), Rule, A, M, Action, Control, ParseInput, States... > = true;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

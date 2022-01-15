@@ -11,11 +11,10 @@
 
 #include <type_traits>
 
-#include "config.hpp"
 #include "internal/has_error_message.hpp"
 #include "normal.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -65,7 +64,7 @@ namespace TAO_PEGTL_NAMESPACE
       };
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif
 #endif

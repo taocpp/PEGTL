@@ -5,12 +5,11 @@
 #ifndef TAO_PEGTL_INTERNAL_BOL_HPP
 #define TAO_PEGTL_INTERNAL_BOL_HPP
 
-#include "../config.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    struct bol
    {
@@ -27,6 +26,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template<>
    inline constexpr bool enable_control< bol > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

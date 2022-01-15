@@ -10,7 +10,7 @@
 
 namespace test
 {
-   using namespace TAO_PEGTL_NAMESPACE;
+   using namespace tao::pegtl;
 
 #if defined( __cpp_exceptions )
    using grammar = seq< sor< try_catch< must< one< 'a' > > >, one< 'F' > >, eof >;
@@ -20,7 +20,7 @@ namespace test
 
 }  // namespace test
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -34,6 +34,6 @@ namespace TAO_PEGTL_NAMESPACE
       complete_trace< test::grammar >( in );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

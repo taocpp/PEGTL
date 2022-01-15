@@ -5,16 +5,14 @@
 #ifndef TAO_PEGTL_INTERNAL_LIST_HPP
 #define TAO_PEGTL_INTERNAL_LIST_HPP
 
-#include "../config.hpp"
-
 #include "seq.hpp"
 #include "star.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Rule, typename Sep >
    using list = seq< Rule, star< Sep, Rule > >;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

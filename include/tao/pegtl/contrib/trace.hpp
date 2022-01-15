@@ -14,14 +14,13 @@
 #include "state_control.hpp"
 
 #include "../apply_mode.hpp"
-#include "../config.hpp"
 #include "../demangle.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../parse.hpp"
 #include "../rewind_mode.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< bool HideInternal = true,
              bool UseColor = true,
@@ -180,7 +179,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       bool parse( ParseInput&& in, States&&... st )
       {
-         return TAO_PEGTL_NAMESPACE::parse< Rule, Action, state_control< Control >::template type >( in, st..., *this );
+         return tao::pegtl::parse< Rule, Action, state_control< Control >::template type >( in, st..., *this );
       }
    };
 
@@ -222,13 +221,13 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          if constexpr( sizeof...( st ) == 0 ) {
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, state_control< Control >::template type >( in, st..., Tracer( in ) );
+            return tao::pegtl::match< Rule, A, M, Action, state_control< Control >::template type >( in, st..., Tracer( in ) );
          }
          else if constexpr( !std::is_same_v< std::tuple_element_t< sizeof...( st ) - 1, std::tuple< States... > >, Tracer& > ) {
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, state_control< Control >::template type >( in, st..., Tracer( in ) );
+            return tao::pegtl::match< Rule, A, M, Action, state_control< Control >::template type >( in, st..., Tracer( in ) );
          }
          else {
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
+            return tao::pegtl::match< Rule, A, M, Action, Control >( in, st... );
          }
       }
    };
@@ -236,6 +235,6 @@ namespace TAO_PEGTL_NAMESPACE
    using trace_standard = trace< tracer< standard_tracer_traits > >;
    using trace_complete = trace< tracer< complete_tracer_traits > >;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

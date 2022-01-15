@@ -7,12 +7,11 @@
 
 #include <type_traits>
 
-#include "../../config.hpp"
 #include "../../internal/input_pair.hpp"
 
 #include "read_uint.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename R >
    struct peek_utf16_impl
@@ -50,6 +49,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    using peek_utf16_be = peek_utf16_impl< read_uint16_be >;
    using peek_utf16_le = peek_utf16_impl< read_uint16_le >;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

@@ -19,7 +19,7 @@ int main()
 #pragma warning( disable : 4702 )
 #endif
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( in.size( 4 ) == 3 );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #if defined( _MSC_VER )
 #pragma warning( pop )

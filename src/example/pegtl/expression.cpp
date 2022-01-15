@@ -22,7 +22,7 @@ int main()
 
 #include <tao/pegtl.hpp>
 
-namespace TAO_PEGTL_NAMESPACE::expression
+namespace tao::pegtl::expression
 {
    // Expression parsing with prefix, postfix and infix operators, ternary
    // operator and a couple of other special cases supported.
@@ -382,11 +382,11 @@ namespace TAO_PEGTL_NAMESPACE::expression
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::expression
+}  // namespace tao::pegtl::expression
 
 namespace application
 {
-   namespace pegtl = TAO_PEGTL_NAMESPACE;
+   namespace pegtl = tao::pegtl;
 
    [[nodiscard]] inline std::string operator+( const char* l, const std::string_view r )
    {
@@ -496,19 +496,19 @@ namespace application
 
 int main( int argc, char** argv )
 {
-   // if( TAO_PEGTL_NAMESPACE::analyze< application::grammar >() != 0 ) {
+   // if( tao::pegtl::analyze< application::grammar >() != 0 ) {
    //    return 1;
    // }
    for( int i = 1; i < argc; ++i ) {
-      TAO_PEGTL_NAMESPACE::argv_input in( argv, i );
+      tao::pegtl::argv_input in( argv, i );
       try {
          application::result res;
-         TAO_PEGTL_NAMESPACE::parse< application::grammar, application::action >( in, res );
+         tao::pegtl::parse< application::grammar, application::action >( in, res );
          std::cout << "Input: " << argv[ i ] << std::endl;
          assert( res.string_stack.size() == 1 );
          std::cout << "Result: " << res.string_stack.at( 0 ) << std::endl;
       }
-      catch( const TAO_PEGTL_NAMESPACE::parse_error& e ) {
+      catch( const tao::pegtl::parse_error& e ) {
          const auto p = e.positions().front();
          std::cerr << e.what() << '\n'
                    << in.line_at( p ) << '\n'

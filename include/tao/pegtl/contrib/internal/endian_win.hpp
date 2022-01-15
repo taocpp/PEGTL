@@ -9,7 +9,7 @@
 #include <cstdlib>
 #include <cstring>
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< std::size_t S >
    struct to_and_from_le
@@ -98,6 +98,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

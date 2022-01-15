@@ -9,18 +9,16 @@
 #error "Exception support required for tao/pegtl/internal/list_must.hpp"
 #else
 
-#include "../config.hpp"
-
 #include "must.hpp"
 #include "seq.hpp"
 #include "star.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Rule, typename Sep >
    using list_must = seq< Rule, star< Sep, must< Rule > > >;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif
 #endif

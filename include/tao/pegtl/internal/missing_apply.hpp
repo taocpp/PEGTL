@@ -5,10 +5,9 @@
 #ifndef TAO_PEGTL_INTERNAL_MISSING_APPLY_HPP
 #define TAO_PEGTL_INTERNAL_MISSING_APPLY_HPP
 
-#include "../config.hpp"
 #include "../rewind_mode.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Control,
              template< typename... >
@@ -24,6 +23,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       // LCOV_EXCL_STOP
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

@@ -7,7 +7,7 @@
 #include <tao/pegtl/contrib/parse_tree.hpp>
 #include <tao/pegtl/contrib/parse_tree_to_dot.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    // clang-format off
    struct A : one< 'a' > {};
@@ -35,6 +35,6 @@ namespace TAO_PEGTL_NAMESPACE
       parse_tree::print_dot( std::cout, *root );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

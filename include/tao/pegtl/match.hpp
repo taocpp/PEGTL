@@ -8,7 +8,6 @@
 #include <type_traits>
 
 #include "apply_mode.hpp"
-#include "config.hpp"
 #include "nothing.hpp"
 #include "require_apply.hpp"
 #include "require_apply0.hpp"
@@ -26,7 +25,7 @@
 #pragma warning( disable : 4702 )
 #endif
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -165,7 +164,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #if defined( _MSC_VER )
 #pragma warning( pop )

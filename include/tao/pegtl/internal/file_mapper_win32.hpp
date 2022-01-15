@@ -27,8 +27,6 @@
 #undef TAO_PEGTL_WIN32_LEAN_AND_MEAN_WAS_DEFINED
 #endif
 
-#include "../config.hpp"
-
 #if !defined( __cpp_exceptions )
 #include <cstdio>
 #include <exception>
@@ -36,7 +34,7 @@
 
 #include "filesystem.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    struct file_opener
    {
@@ -239,6 +237,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       const char* const m_data;
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

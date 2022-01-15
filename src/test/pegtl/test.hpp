@@ -11,11 +11,11 @@
 
 #include <tao/pegtl.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    std::size_t failed = 0;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #define TAO_TEST_STRINGIZE_INTERNAL( ... ) #__VA_ARGS__
 #define TAO_TEST_STRINGIZE( ... ) TAO_TEST_STRINGIZE_INTERNAL( __VA_ARGS__ )
@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE
 #define TAO_PEGTL_TEST_FAILED( MeSSaGe )                   \
    do {                                                    \
       std::cerr << "pegtl: unit test failed for [ "        \
-                << TAO_PEGTL_NAMESPACE::demangle< Rule >() \
+                << tao::pegtl::demangle< Rule >() \
                 << " ] "                                   \
                 << TAO_PEGTL_TEST_UNWRAP( MeSSaGe )        \
                 << " in line [ "                           \
@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
                 << " ] file [ "                            \
                 << file << " ]"                            \
                 << std::endl;                              \
-      ++TAO_PEGTL_NAMESPACE::failed;                       \
+      ++tao::pegtl::failed;                       \
    } while( false )
 
 #define TAO_PEGTL_TEST_ASSERT( ... )               \
@@ -48,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE
                    << " ] file [ "                 \
                    << __FILE__ << " ]"             \
                    << std::endl;                   \
-         ++TAO_PEGTL_NAMESPACE::failed;            \
+         ++tao::pegtl::failed;            \
       }                                            \
    } while( false )
 
@@ -63,7 +63,7 @@ namespace TAO_PEGTL_NAMESPACE
                    << " ] file [ "                  \
                    << __FILE__ << " ]"              \
                    << std::endl;                    \
-         ++TAO_PEGTL_NAMESPACE::failed;             \
+         ++tao::pegtl::failed;             \
       }                                             \
       catch( ... ) {                                \
       }                                             \

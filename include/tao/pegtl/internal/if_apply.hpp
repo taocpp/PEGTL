@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_IF_APPLY_HPP
 #define TAO_PEGTL_INTERNAL_IF_APPLY_HPP
 
-#include "../config.hpp"
-
 #include "apply_single.hpp"
 #include "enable_control.hpp"
 
@@ -14,7 +12,7 @@
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Rule, typename... Actions >
    struct if_apply
@@ -50,6 +48,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule, typename... Actions >
    inline constexpr bool enable_control< if_apply< Rule, Actions... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

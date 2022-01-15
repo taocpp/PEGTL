@@ -6,7 +6,7 @@
 #include "verify_char.hpp"
 #include "verify_rule.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -259,6 +259,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< utf8::string< 0x20, 0xa2, 0x20ac, 0x10348 > >( __LINE__, __FILE__, "\x20\xc2\xa2\xe2\x82\xac\xf0\x90\x8d\x88\x20", result_type::success, 1 );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

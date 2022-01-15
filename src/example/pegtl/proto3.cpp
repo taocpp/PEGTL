@@ -19,7 +19,7 @@ int main()
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   using namespace TAO_PEGTL_NAMESPACE;
+   using namespace tao::pegtl;
 
    if( analyze< proto3::proto >() != 0 ) {
       return 1;

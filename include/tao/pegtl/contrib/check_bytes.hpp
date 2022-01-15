@@ -6,7 +6,6 @@
 #define TAO_PEGTL_CONTRIB_CHECK_BYTES_HPP
 
 #include "../apply_mode.hpp"
-#include "../config.hpp"
 #include "../match.hpp"
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
@@ -18,7 +17,7 @@
 #include <exception>
 #endif
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< std::size_t Maximum >
    struct check_bytes
@@ -36,10 +35,10 @@ namespace TAO_PEGTL_NAMESPACE
       static bool match( ParseInput& in, States&&... st )
       {
          const auto* start = in.current();
-         if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... ) ) {
+         if( tao::pegtl::match< Rule, A, M, Action, Control >( in, st... ) ) {
             if( std::size_t( in.current() - start ) > Maximum ) {
 #if defined( __cpp_exceptions )
-               throw TAO_PEGTL_NAMESPACE::parse_error( "maximum allowed rule consumption exceeded", in );
+               throw tao::pegtl::parse_error( "maximum allowed rule consumption exceeded", in );
 #else
                std::fputs( "maximum allowed rule consumption exceeded\n", stderr );
                std::terminate();
@@ -51,6 +50,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

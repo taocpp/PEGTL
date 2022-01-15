@@ -7,9 +7,7 @@
 
 #include <utility>
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename, typename... >
    inline constexpr bool has_unwind = false;
@@ -17,6 +15,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename C, typename... S >
    inline constexpr bool has_unwind< C, decltype( C::unwind( std::declval< S >()... ) ), S... > = true;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

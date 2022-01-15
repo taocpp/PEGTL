@@ -7,8 +7,6 @@
 
 #include <cstddef>
 
-#include "../config.hpp"
-
 #include "any.hpp"
 #include "bump_help.hpp"
 #include "enable_control.hpp"
@@ -17,7 +15,7 @@
 
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
    struct one
@@ -64,6 +62,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< result_on_found R, typename Peek, typename Peek::data_t... Cs >
    inline constexpr bool enable_control< one< R, Peek, Cs... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

@@ -6,7 +6,7 @@
 
 #include "test.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    // clang-format off
    struct A : plus< alpha, opt< A > > {};
@@ -20,6 +20,6 @@ namespace TAO_PEGTL_NAMESPACE
       static_assert( !contains_v< grammar, xdigit > );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

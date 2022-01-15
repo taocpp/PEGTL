@@ -6,7 +6,7 @@
 
 #include <tao/pegtl/contrib/parse_tree.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    // clang-format off
    struct A : one< 'a' > {};
@@ -149,6 +149,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

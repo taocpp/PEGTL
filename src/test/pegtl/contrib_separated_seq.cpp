@@ -15,7 +15,7 @@ struct D {};
 struct S {};
 // clang-format on
 
-using namespace TAO_PEGTL_NAMESPACE;
+using namespace tao::pegtl;
 static_assert( std::is_base_of_v< internal::seq<>, separated_seq< S > > );
 static_assert( std::is_base_of_v< internal::seq< A >, separated_seq< S, A > > );
 static_assert( std::is_base_of_v< internal::seq< A, S, B >, separated_seq< S, A, B > > );

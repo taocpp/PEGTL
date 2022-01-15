@@ -5,11 +5,9 @@
 #ifndef TAO_PEGTL_INTERNAL_BUMP_HPP
 #define TAO_PEGTL_INTERNAL_BUMP_HPP
 
-#include "../config.hpp"
-
 #include "frobnicator.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    inline void bump( frobnicator& iter, const std::size_t count, const int ch ) noexcept
    {
@@ -41,6 +39,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       iter.data += count;
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

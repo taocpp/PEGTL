@@ -23,7 +23,7 @@
 
 #include "analyze_traits.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    struct unsigned_rule_old
       : plus< digit >
@@ -182,7 +182,7 @@ namespace TAO_PEGTL_NAMESPACE
                }
                do {
                   if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
-                     throw TAO_PEGTL_NAMESPACE::parse_error( "integer overflow", in );
+                     throw tao::pegtl::parse_error( "integer overflow", in );
                   }
                   in.bump_in_this_line();
                } while( ( !in.empty() ) && is_digit( c = in.peek_char() ) );
@@ -383,7 +383,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.empty() ) )
       {
-         return TAO_PEGTL_NAMESPACE::parse< signed_rule_new >( in );  // Does not check for any overflow.
+         return tao::pegtl::parse< signed_rule_new >( in );  // Does not check for any overflow.
       }
    };
 
@@ -416,7 +416,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static auto match( ParseInput& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) ) -> std::enable_if_t< A == apply_mode::nothing, bool >
       {
-         return TAO_PEGTL_NAMESPACE::parse< signed_rule_new >( in );  // Does not check for any overflow.
+         return tao::pegtl::parse< signed_rule_new >( in );  // Does not check for any overflow.
       }
 
       template< apply_mode A,
@@ -429,7 +429,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename Signed >
       [[nodiscard]] static auto match( ParseInput& in, Signed& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_signed_v< Signed >, bool >
       {
-         return TAO_PEGTL_NAMESPACE::parse< signed_rule_new, internal::signed_action_action >( in, st );  // Throws on overflow.
+         return tao::pegtl::parse< signed_rule_new, internal::signed_action_action >( in, st );  // Throws on overflow.
       }
    };
 
@@ -463,7 +463,7 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_any_traits<>
    {};
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif
 #endif

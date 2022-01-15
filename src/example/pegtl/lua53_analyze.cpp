@@ -19,7 +19,7 @@ int main()
 
 int main()  // NOLINT(bugprone-exception-escape)
 {
-   if( const auto problems = TAO_PEGTL_NAMESPACE::analyze< lua53::grammar >() != 0 ) {
+   if( const auto problems = tao::pegtl::analyze< lua53::grammar >() != 0 ) {
       std::cout << "problems: " << problems << std::endl;
       return 1;
    }

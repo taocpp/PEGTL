@@ -7,7 +7,7 @@
 
 #include "test.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    struct file_content
       : seq< TAO_PEGTL_STRING( "dummy content" ), eol, discard >
@@ -31,6 +31,6 @@ namespace TAO_PEGTL_NAMESPACE
       std::fclose( stream );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

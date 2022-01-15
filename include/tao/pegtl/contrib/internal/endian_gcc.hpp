@@ -8,7 +8,7 @@
 #include <cstdint>
 #include <cstring>
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
 #if !defined( __BYTE_ORDER__ )
 #error No byte order defined!
@@ -194,6 +194,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
 #error Unknown host byte order!
 #endif
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

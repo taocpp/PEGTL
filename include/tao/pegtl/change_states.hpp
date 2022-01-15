@@ -9,12 +9,11 @@
 #include <utility>
 
 #include "apply_mode.hpp"
-#include "config.hpp"
 #include "match.hpp"
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename... NewStates >
    struct change_states
@@ -33,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool match( std::index_sequence< Ns... > /*unused*/, ParseInput& in, States&&... st )
       {
          auto t = std::tie( st... );
-         if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, std::get< Ns >( t )... ) ) {
+         if( tao::pegtl::match< Rule, A, M, Action, Control >( in, std::get< Ns >( t )... ) ) {
             if constexpr( A == apply_mode::action ) {
                Action< Rule >::success( static_cast< const ParseInput& >( in ), st... );
             }
@@ -57,6 +56,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

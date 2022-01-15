@@ -5,14 +5,12 @@
 #ifndef TAO_PEGTL_INTERNAL_REQUIRE_HPP
 #define TAO_PEGTL_INTERNAL_REQUIRE_HPP
 
-#include "../config.hpp"
-
 #include "enable_control.hpp"
 #include "success.hpp"
 
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< unsigned Amount >
    struct require;
@@ -38,6 +36,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< unsigned Amount >
    inline constexpr bool enable_control< require< Amount > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

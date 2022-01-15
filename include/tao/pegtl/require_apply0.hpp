@@ -5,13 +5,11 @@
 #ifndef TAO_PEGTL_REQUIRE_APPLY0_HPP
 #define TAO_PEGTL_REQUIRE_APPLY0_HPP
 
-#include "config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    struct require_apply0
    {};
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

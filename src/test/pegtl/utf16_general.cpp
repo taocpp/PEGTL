@@ -7,7 +7,7 @@
 
 #include <tao/pegtl/contrib/utf16.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace
    {
@@ -151,6 +151,6 @@ namespace TAO_PEGTL_NAMESPACE
       test_utf16_le();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

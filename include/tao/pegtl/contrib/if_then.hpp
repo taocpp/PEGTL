@@ -7,15 +7,13 @@
 
 #include <type_traits>
 
-#include "../config.hpp"
-
 #include "../internal/enable_control.hpp"
 #include "../internal/failure.hpp"
 #include "../internal/if_then_else.hpp"
 #include "../internal/seq.hpp"
 #include "../internal/success.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -52,6 +50,6 @@ namespace TAO_PEGTL_NAMESPACE
       : internal::if_then< internal::if_pair< Cond, internal::seq< Thens... > > >
    {};
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

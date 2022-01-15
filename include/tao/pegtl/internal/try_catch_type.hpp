@@ -11,8 +11,6 @@
 
 #include <type_traits>
 
-#include "../config.hpp"
-
 #include "enable_control.hpp"
 #include "seq.hpp"
 #include "success.hpp"
@@ -21,7 +19,7 @@
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Exception, typename... Rules >
    struct try_catch_type
@@ -64,7 +62,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Exception, typename... Rules >
    inline constexpr bool enable_control< try_catch_type< Exception, Rules... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif
 #endif

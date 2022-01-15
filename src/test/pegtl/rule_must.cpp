@@ -13,7 +13,7 @@ int main()
 #include "test.hpp"
 #include "verify_seqs.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_seqs< must >( result_type::global_failure );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"
 

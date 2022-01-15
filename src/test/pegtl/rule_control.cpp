@@ -7,7 +7,7 @@
 #include "verify_meta.hpp"
 #include "verify_seqs.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename... Rules >
    using test_control_rule = control< normal, Rules... >;
@@ -21,6 +21,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_seqs< test_control_rule >();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

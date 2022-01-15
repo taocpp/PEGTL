@@ -6,7 +6,7 @@
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -111,6 +111,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< rematch< plus< alnum >, seq< string< 'f', 'o', 'o' >, eof >, string< 'f', 'o', 'o' > > >( __LINE__, __FILE__, "foo5", result_type::local_failure, 4 );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

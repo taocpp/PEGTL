@@ -7,8 +7,6 @@
 
 #include <type_traits>
 
-#include "../config.hpp"
-
 #include "bump_help.hpp"
 #include "enable_control.hpp"
 #include "one.hpp"
@@ -17,7 +15,7 @@
 
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< char C >
    inline constexpr bool is_alpha = ( ( 'a' <= C ) && ( C <= 'z' ) ) || ( ( 'A' <= C ) && ( C <= 'Z' ) );
@@ -86,6 +84,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< char... Cs >
    inline constexpr bool enable_control< istring< Cs... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

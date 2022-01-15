@@ -6,10 +6,9 @@
 #define TAO_PEGTL_CONTRIB_PROTO3_HPP
 
 #include "../ascii.hpp"
-#include "../config.hpp"
 #include "../rules.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::proto3
+namespace tao::pegtl::proto3
 {
    // protocol buffer v3
    // https://developers.google.com/protocol-buffers/docs/reference/proto3-spec
@@ -138,6 +137,6 @@ namespace TAO_PEGTL_NAMESPACE::proto3
    struct proto : must< sps, head, sps, star< body, sps >, eof > {};
    // clang-format on
 
-}  // namespace TAO_PEGTL_NAMESPACE::proto3
+}  // namespace tao::pegtl::proto3
 
 #endif

@@ -10,13 +10,12 @@
 
 #include "../apply_mode.hpp"
 #include "../ascii.hpp"
-#include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../rules.hpp"
 
 #include "analyze_traits.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -228,6 +227,6 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_traits< Name, typename seq< any, star< Contents... >, any >::rule_t >
    {};
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

@@ -8,7 +8,7 @@
 
 #include <tao/pegtl/contrib/print.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    using grammar = seq< alpha, digit >;
 
@@ -21,6 +21,6 @@ namespace TAO_PEGTL_NAMESPACE
       print_debug< grammar >( std::cout );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"

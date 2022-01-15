@@ -7,11 +7,9 @@
 
 #include <type_traits>
 
-#include "../config.hpp"
-
 #include "../internal/has_unwind.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    // The first state is removed for most of the control functions forwarded to Base,
    // start(), success(), failure(), unwind(), raise(), apply(), and apply0(). The call
@@ -68,6 +66,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

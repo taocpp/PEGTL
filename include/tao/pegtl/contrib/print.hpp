@@ -7,12 +7,11 @@
 
 #include <ostream>
 
-#include "../config.hpp"
 #include "../demangle.hpp"
 #include "../type_list.hpp"
 #include "../visit.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace internal
    {
@@ -71,6 +70,6 @@ namespace TAO_PEGTL_NAMESPACE
       visit< Grammar, internal::print_debug >( os );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

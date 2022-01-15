@@ -14,7 +14,7 @@ int main()
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    void unit_test()
    {
@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< star_must< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ababab", result_type::success, 0 );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"
 

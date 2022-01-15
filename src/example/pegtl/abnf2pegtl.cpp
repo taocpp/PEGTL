@@ -30,7 +30,7 @@
 #include <tao/pegtl/contrib/abnf.hpp>
 #include <tao/pegtl/contrib/parse_tree.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    namespace abnf
    {
@@ -763,11 +763,11 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace abnf
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   using namespace TAO_PEGTL_NAMESPACE;
+   using namespace tao::pegtl;
 
    if( argc != 2 ) {
       std::cerr << "Usage: " << argv[ 0 ] << " SOURCE\n";

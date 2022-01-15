@@ -8,9 +8,7 @@
 #include <set>
 #include <utility>
 
-#include "../../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename... Cs >
    class [[nodiscard]] set_stack_guard
@@ -48,6 +46,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... Cs >
    set_stack_guard( std::set< Cs... >&, const typename std::set< Cs... >::value_type& ) -> set_stack_guard< Cs... >;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

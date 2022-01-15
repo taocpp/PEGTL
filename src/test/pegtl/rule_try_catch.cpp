@@ -13,7 +13,7 @@ int main()
 #include "test.hpp"
 #include "verify_seqs.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename... Rules >
    using test_try_catch_rule = try_catch< must< Rules... > >;
@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_seqs< test_try_catch_rule >();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"
 

@@ -7,11 +7,9 @@
 
 #include <cstddef>
 
-#include "../config.hpp"
-
 #include "input_pair.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    struct peek_char
    {
@@ -28,6 +26,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

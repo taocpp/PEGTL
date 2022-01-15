@@ -18,9 +18,9 @@ namespace example
    // clang-format off
    template< typename Rule > struct json_unescape_action {};
 
-   template<> struct json_unescape_action< TAO_PEGTL_NAMESPACE::json::unicode > : TAO_PEGTL_NAMESPACE::unescape::unescape_j {};
-   template<> struct json_unescape_action< TAO_PEGTL_NAMESPACE::json::escaped_char > : TAO_PEGTL_NAMESPACE::unescape::unescape_c< TAO_PEGTL_NAMESPACE::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
-   template<> struct json_unescape_action< TAO_PEGTL_NAMESPACE::json::unescaped > : TAO_PEGTL_NAMESPACE::unescape::append_all {};
+   template<> struct json_unescape_action< tao::pegtl::json::unicode > : tao::pegtl::unescape::unescape_j {};
+   template<> struct json_unescape_action< tao::pegtl::json::escaped_char > : tao::pegtl::unescape::unescape_c< tao::pegtl::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
+   template<> struct json_unescape_action< tao::pegtl::json::unescaped > : tao::pegtl::unescape::append_all {};
    // clang-format on
 
    using json_unescape = tao::pegtl::change_action_and_states< json_unescape_action, std::string >;

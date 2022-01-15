@@ -10,7 +10,6 @@
 #include <utility>
 
 #include "apply_mode.hpp"
-#include "config.hpp"
 #include "match.hpp"
 #include "parse_error.hpp"
 #include "rewind_mode.hpp"
@@ -26,7 +25,7 @@
 #include <exception>
 #endif
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename Rule >
    struct normal
@@ -96,11 +95,11 @@ namespace TAO_PEGTL_NAMESPACE
             return Action< Rule >::template match< Rule, A, M, Action, Control >( in, st... );
          }
          else {
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
+            return tao::pegtl::match< Rule, A, M, Action, Control >( in, st... );
          }
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

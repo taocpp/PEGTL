@@ -18,7 +18,7 @@ int main()
 
 #include <tao/pegtl/contrib/state_control.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    struct test_entry
    {
@@ -194,7 +194,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"
 

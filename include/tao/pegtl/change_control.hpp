@@ -6,12 +6,11 @@
 #define TAO_PEGTL_CHANGE_CONTROL_HPP
 
 #include "apply_mode.hpp"
-#include "config.hpp"
 #include "match.hpp"
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< template< typename... > class NewControl >
    struct change_control
@@ -28,10 +27,10 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, NewControl >( in, st... );
+         return tao::pegtl::match< Rule, A, M, Action, NewControl >( in, st... );
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

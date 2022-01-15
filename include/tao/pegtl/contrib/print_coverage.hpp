@@ -9,7 +9,7 @@
 
 #include "coverage.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    inline std::ostream& operator<<( std::ostream& os, const coverage_result& result )
    {
@@ -49,6 +49,6 @@ namespace TAO_PEGTL_NAMESPACE
       return os;
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #endif

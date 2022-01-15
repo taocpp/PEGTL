@@ -18,8 +18,8 @@ int main()
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    for( int i = 1; i < argc; ++i ) {
-      TAO_PEGTL_NAMESPACE::file_input in( argv[ i ] );
-      const auto r = TAO_PEGTL_NAMESPACE::parse< lua53::grammar >( in );
+      tao::pegtl::file_input in( argv[ i ] );
+      const auto r = tao::pegtl::parse< lua53::grammar >( in );
       std::cout << argv[ i ] << " " << r << std::endl;
    }
    return 0;

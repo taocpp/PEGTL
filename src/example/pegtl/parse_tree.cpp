@@ -12,7 +12,7 @@
 #include <tao/pegtl/contrib/parse_tree.hpp>
 #include <tao/pegtl/contrib/parse_tree_to_dot.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;
+using namespace tao::pegtl;
 
 namespace example
 {

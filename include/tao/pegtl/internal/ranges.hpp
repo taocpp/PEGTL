@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_RANGES_HPP
 #define TAO_PEGTL_INTERNAL_RANGES_HPP
 
-#include "../config.hpp"
-
 #include <utility>
 
 #include "bump_help.hpp"
@@ -17,7 +15,7 @@
 
 #include "../type_list.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace tao::pegtl::internal
 {
    template< typename Char, Char Lo, Char Hi >
    constexpr bool validate_range( Char c ) noexcept
@@ -88,6 +86,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Peek, typename Peek::data_t... Cs >
    inline constexpr bool enable_control< ranges< Peek, Cs... > > = false;
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace tao::pegtl::internal
 
 #endif

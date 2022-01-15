@@ -6,7 +6,7 @@
 
 #include <tao/pegtl/internal/cstring_reader.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace tao::pegtl
 {
    template< typename Rule,
              template< typename... > class Action = nothing,
@@ -27,6 +27,6 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( parse_cstring< test_grammar >( "abcdef\0g", "test data", 10 ) );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace tao::pegtl
 
 #include "main.hpp"
