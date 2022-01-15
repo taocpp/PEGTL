@@ -1,15 +1,14 @@
 # Changelog
 
-## 3.3.0
+## 4.0.0
 
 **Not yet released**
 
+* Removed the `TAO_PEGTL_NAMESPACE` macro.
 * Switched to Boost Software License, Version 1.0.
 * Added new customization point for error messages.
 * Added optional source line output for the tracer.
 * Removed support for building an amalgamated header.
-* Deprecated the `TAO_PEGTL_NAMESPACE` macro.
-  * Will be removed in version 4.0.0.
 
 ## 3.2.2
 
@@ -653,6 +652,6 @@ It is based on ideas from the YARD library by Christopher Diggins.
 
 This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
 
-Copyright (c) 2007-2021 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2007-2022 Dr. Colin Hirsch and Daniel Frey
 Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt
