@@ -8,14 +8,14 @@
 #include <cstddef>
 #include <cstdint>
 
-#include "../../internal/input_pair.hpp"
+#include "../../internal/data_and_size.hpp"
 
 namespace tao::pegtl::internal
 {
    struct peek_uint8
    {
       using data_t = std::uint8_t;
-      using pair_t = input_pair< std::uint8_t >;
+      using pair_t = data_and_size< std::uint8_t >;
 
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in ) noexcept( noexcept( in.empty() ) )

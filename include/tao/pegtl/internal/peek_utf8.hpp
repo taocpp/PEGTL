@@ -5,14 +5,14 @@
 #ifndef TAO_PEGTL_INTERNAL_PEEK_UTF8_HPP
 #define TAO_PEGTL_INTERNAL_PEEK_UTF8_HPP
 
-#include "input_pair.hpp"
+#include "data_and_size.hpp"
 
 namespace tao::pegtl::internal
 {
    struct peek_utf8
    {
       using data_t = char32_t;
-      using pair_t = input_pair< char32_t >;
+      using pair_t = data_and_size< char32_t >;
 
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in ) noexcept( noexcept( in.empty() ) )

@@ -7,7 +7,7 @@
 
 #include <cstddef>
 
-#include "../../internal/input_pair.hpp"
+#include "../../internal/data_and_size.hpp"
 
 #include "read_uint.hpp"
 
@@ -17,7 +17,7 @@ namespace tao::pegtl::internal
    struct peek_utf32_impl
    {
       using data_t = char32_t;
-      using pair_t = input_pair< char32_t >;
+      using pair_t = data_and_size< char32_t >;
 
       static_assert( sizeof( char32_t ) == 4 );
 

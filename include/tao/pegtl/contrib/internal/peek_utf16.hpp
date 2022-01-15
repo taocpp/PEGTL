@@ -7,7 +7,7 @@
 
 #include <type_traits>
 
-#include "../../internal/input_pair.hpp"
+#include "../../internal/data_and_size.hpp"
 
 #include "read_uint.hpp"
 
@@ -17,7 +17,7 @@ namespace tao::pegtl::internal
    struct peek_utf16_impl
    {
       using data_t = char32_t;
-      using pair_t = input_pair< char32_t >;
+      using pair_t = data_and_size< char32_t >;
 
       using short_t = std::make_unsigned< char16_t >::type;
 

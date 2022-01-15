@@ -20,7 +20,7 @@ namespace tao::pegtl::internal
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( ParseInput::eol_t::eol_match( in ) ) )
       {
          const auto p = ParseInput::eol_t::eol_match( in );
-         return p.first || ( !p.second );
+         return p.data || ( p.size == 0 );
       }
    };
 

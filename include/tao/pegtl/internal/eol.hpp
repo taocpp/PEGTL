@@ -19,7 +19,7 @@ namespace tao::pegtl::internal
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( ParseInput::eol_t::eol_match( in ) ) )
       {
-         return ParseInput::eol_t::eol_match( in ).first;
+         return ParseInput::eol_t::eol_match( in ).data;
       }
    };
 

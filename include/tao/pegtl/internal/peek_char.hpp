@@ -7,14 +7,14 @@
 
 #include <cstddef>
 
-#include "input_pair.hpp"
+#include "data_and_size.hpp"
 
 namespace tao::pegtl::internal
 {
    struct peek_char
    {
       using data_t = char;
-      using pair_t = input_pair< char >;
+      using pair_t = data_and_size< char >;
 
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in ) noexcept( noexcept( in.empty() ) )

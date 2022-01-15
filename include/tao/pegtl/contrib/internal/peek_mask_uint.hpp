@@ -8,7 +8,7 @@
 #include <cstddef>
 #include <cstdint>
 
-#include "../../internal/input_pair.hpp"
+#include "../../internal/data_and_size.hpp"
 
 #include "read_uint.hpp"
 
@@ -18,7 +18,7 @@ namespace tao::pegtl::internal
    struct peek_mask_uint_impl
    {
       using data_t = typename R::type;
-      using pair_t = input_pair< data_t >;
+      using pair_t = data_and_size< data_t >;
 
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in ) noexcept( noexcept( in.size( sizeof( data_t ) ) ) )

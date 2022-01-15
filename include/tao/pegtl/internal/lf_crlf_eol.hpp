@@ -5,7 +5,7 @@
 #ifndef TAO_PEGTL_INTERNAL_LF_CRLF_EOL_HPP
 #define TAO_PEGTL_INTERNAL_LF_CRLF_EOL_HPP
 
-#include "eol_pair.hpp"
+#include "data_and_size.hpp"
 
 namespace tao::pegtl::internal
 {
@@ -14,18 +14,18 @@ namespace tao::pegtl::internal
       static constexpr int ch = '\n';
 
       template< typename ParseInput >
-      [[nodiscard]] static eol_pair eol_match( ParseInput& in ) noexcept( noexcept( in.size( 2 ) ) )
+      [[nodiscard]] static bool_and_size eol_match( ParseInput& in ) noexcept( noexcept( in.size( 2 ) ) )
       {
-         eol_pair p = { false, in.size( 2 ) };
-         if( p.second ) {
+         bool_and_size p = { false, std::uint8_t( in.size( 2 ) ) };
+         if( p.size > 0 ) {
             const auto a = in.peek_char();
             if( a == '\n' ) {
                in.bump_to_next_line();
-               p.first = true;
+               p.data = true;
             }
-            else if( ( a == '\r' ) && ( p.second > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) {
+            else if( ( a == '\r' ) && ( p.size > 1 ) && ( in.peek_char( 1 ) == '\n' ) ) {
                in.bump_to_next_line( 2 );
-               p.first = true;
+               p.data = true;
             }
          }
          return p;
