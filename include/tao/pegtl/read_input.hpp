@@ -11,9 +11,9 @@
 #include "string_input.hpp"
 #include "tracking_mode.hpp"
 
-#include "internal/file_reader.hpp"
 #include "internal/filesystem.hpp"
 #include "internal/path_to_string.hpp"
+#include "internal/read_file_stdio.hpp"
 
 namespace tao::pegtl
 {
@@ -22,7 +22,7 @@ namespace tao::pegtl
       : string_input< P, Eol >
    {
       read_input( const internal::filesystem::path& path, const std::string& source )
-         : string_input< P, Eol >( internal::file_reader( path ).read(), source )
+         : string_input< P, Eol >( internal::read_file_stdio( path ).read_string(), source )
       {}
 
       explicit read_input( const internal::filesystem::path& path )
@@ -30,7 +30,7 @@ namespace tao::pegtl
       {}
 
       read_input( FILE* file, const internal::filesystem::path& path, const std::string& source )
-         : string_input< P, Eol >( internal::file_reader( file, path ).read(), source )
+         : string_input< P, Eol >( internal::read_file_stdio( file, path ).read_string(), source )
       {}
 
       read_input( FILE* file, const internal::filesystem::path& path )

@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_FILE_MAPPER_POSIX_HPP
-#define TAO_PEGTL_INTERNAL_FILE_MAPPER_POSIX_HPP
+#ifndef TAO_PEGTL_INTERNAL_MMAP_FILE_POSIX_HPP
+#define TAO_PEGTL_INTERNAL_MMAP_FILE_POSIX_HPP
 
 #include <fcntl.h>
 #include <sys/mman.h>
@@ -22,23 +22,23 @@
 
 namespace tao::pegtl::internal
 {
-   struct file_opener
+   struct mmap_file_open
    {
-      explicit file_opener( const internal::filesystem::path& path )  // NOLINT(modernize-pass-by-value)
+      explicit mmap_file_open( const internal::filesystem::path& path )  // NOLINT(modernize-pass-by-value)
          : m_path( path ),
            m_fd( open() )
       {}
 
-      file_opener( const file_opener& ) = delete;
-      file_opener( file_opener&& ) = delete;
+      mmap_file_open( const mmap_file_open& ) = delete;
+      mmap_file_open( mmap_file_open&& ) = delete;
 
-      ~file_opener()
+      ~mmap_file_open()
       {
          ::close( m_fd );
       }
 
-      file_opener& operator=( const file_opener& ) = delete;
-      file_opener& operator=( file_opener&& ) = delete;
+      mmap_file_open& operator=( const mmap_file_open& ) = delete;
+      mmap_file_open& operator=( mmap_file_open&& ) = delete;
 
       [[nodiscard]] std::size_t size() const
       {
@@ -84,14 +84,14 @@ namespace tao::pegtl::internal
       }
    };
 
-   class file_mapper
+   class mmap_file_posix
    {
    public:
-      explicit file_mapper( const internal::filesystem::path& path )
-         : file_mapper( file_opener( path ) )
+      explicit mmap_file_posix( const internal::filesystem::path& path )
+         : mmap_file_posix( mmap_file_open( path ) )
       {}
 
-      explicit file_mapper( const file_opener& reader )
+      explicit mmap_file_posix( const mmap_file_open& reader )
          : m_size( reader.size() ),
            m_data( static_cast< const char* >( ::mmap( nullptr, m_size, PROT_READ, MAP_PRIVATE, reader.m_fd, 0 ) ) )
       {
@@ -108,17 +108,17 @@ namespace tao::pegtl::internal
          }
       }
 
-      file_mapper( const file_mapper& ) = delete;
-      file_mapper( file_mapper&& ) = delete;
+      mmap_file_posix( const mmap_file_posix& ) = delete;
+      mmap_file_posix( mmap_file_posix&& ) = delete;
 
-      ~file_mapper()
+      ~mmap_file_posix()
       {
          // Legacy C interface requires pointer-to-mutable but does not write through the pointer.
          ::munmap( const_cast< char* >( m_data ), m_size );
       }
 
-      file_mapper& operator=( const file_mapper& ) = delete;
-      file_mapper& operator=( file_mapper&& ) = delete;
+      mmap_file_posix& operator=( const mmap_file_posix& ) = delete;
+      mmap_file_posix& operator=( mmap_file_posix&& ) = delete;
 
       [[nodiscard]] bool empty() const noexcept
       {
@@ -152,6 +152,8 @@ namespace tao::pegtl::internal
       const std::size_t m_size;
       const char* const m_data;
    };
+
+   using mmap_file_impl = mmap_file_posix;
 
 }  // namespace tao::pegtl::internal
 

@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_FILE_MAPPER_WIN32_HPP
-#define TAO_PEGTL_INTERNAL_FILE_MAPPER_WIN32_HPP
+#ifndef TAO_PEGTL_INTERNAL_MMAP_FILE_WIN32_HPP
+#define TAO_PEGTL_INTERNAL_MMAP_FILE_WIN32_HPP
 
 #if !defined( NOMINMAX )
 #define NOMINMAX
@@ -36,23 +36,23 @@
 
 namespace tao::pegtl::internal
 {
-   struct file_opener
+   struct mmap_file_open
    {
-      explicit file_opener( const internal::filesystem::path& path )
+      explicit mmap_file_open( const internal::filesystem::path& path )
          : m_path( path ),
            m_handle( open() )
       {}
 
-      file_opener( const file_opener& ) = delete;
-      file_opener( file_opener&& ) = delete;
+      mmap_file_open( const mmap_file_open& ) = delete;
+      mmap_file_open( mmap_file_open&& ) = delete;
 
-      ~file_opener()
+      ~mmap_file_open()
       {
          ::CloseHandle( m_handle );
       }
 
-      file_opener& operator=( const file_opener& ) = delete;
-      file_opener& operator=( file_opener&& ) = delete;
+      mmap_file_open& operator=( const mmap_file_open& ) = delete;
+      mmap_file_open& operator=( mmap_file_open&& ) = delete;
 
       [[nodiscard]] std::size_t size() const
       {
@@ -114,33 +114,33 @@ namespace tao::pegtl::internal
       }
    };
 
-   struct win32_file_mapper
+   struct mmap_file_mmap
    {
-      explicit win32_file_mapper( const internal::filesystem::path& path )
-         : win32_file_mapper( file_opener( path ) )
+      explicit mmap_file_mmap( const internal::filesystem::path& path )
+         : mmap_file_mmap( mmap_file_open( path ) )
       {}
 
-      explicit win32_file_mapper( const file_opener& reader )
+      explicit mmap_file_mmap( const mmap_file_open& reader )
          : m_size( reader.size() ),
            m_handle( open( reader ) )
       {}
 
-      win32_file_mapper( const win32_file_mapper& ) = delete;
-      win32_file_mapper( win32_file_mapper&& ) = delete;
+      mmap_file_mmap( const mmap_file_mmap& ) = delete;
+      mmap_file_mmap( mmap_file_mmap&& ) = delete;
 
-      ~win32_file_mapper()
+      ~mmap_file_mmap()
       {
          ::CloseHandle( m_handle );
       }
 
-      win32_file_mapper& operator=( const win32_file_mapper& ) = delete;
-      win32_file_mapper& operator=( win32_file_mapper&& ) = delete;
+      mmap_file_mmap& operator=( const mmap_file_mmap& ) = delete;
+      mmap_file_mmap& operator=( mmap_file_mmap&& ) = delete;
 
       const size_t m_size;
       const HANDLE m_handle;
 
    private:
-      [[nodiscard]] HANDLE open( const file_opener& reader ) const
+      [[nodiscard]] HANDLE open( const mmap_file_open& reader ) const
       {
          const uint64_t file_size = reader.size();
          SetLastError( 0 );
@@ -167,14 +167,14 @@ namespace tao::pegtl::internal
       }
    };
 
-   class file_mapper
+   class mmap_file_win32
    {
    public:
-      explicit file_mapper( const internal::filesystem::path& path )
-         : file_mapper( win32_file_mapper( path ) )
+      explicit mmap_file_win32( const internal::filesystem::path& path )
+         : mmap_file_win32( mmap_file_mmap( path ) )
       {}
 
-      explicit file_mapper( const win32_file_mapper& mapper )
+      explicit mmap_file_win32( const mmap_file_mmap& mapper )
          : m_size( mapper.m_size ),
            m_data( static_cast< const char* >( ::MapViewOfFile( mapper.m_handle,
                                                                 FILE_MAP_READ,
@@ -193,16 +193,16 @@ namespace tao::pegtl::internal
          }
       }
 
-      file_mapper( const file_mapper& ) = delete;
-      file_mapper( file_mapper&& ) = delete;
+      mmap_file_win32( const mmap_file_win32& ) = delete;
+      mmap_file_win32( mmap_file_win32&& ) = delete;
 
-      ~file_mapper()
+      ~mmap_file_win32()
       {
          ::UnmapViewOfFile( LPCVOID( m_data ) );
       }
 
-      file_mapper& operator=( const file_mapper& ) = delete;
-      file_mapper& operator=( file_mapper&& ) = delete;
+      mmap_file_win32& operator=( const mmap_file_win32& ) = delete;
+      mmap_file_win32& operator=( mmap_file_win32&& ) = delete;
 
       [[nodiscard]] bool empty() const noexcept
       {
@@ -236,6 +236,8 @@ namespace tao::pegtl::internal
       const std::size_t m_size;
       const char* const m_data;
    };
+
+   using mmap_file_impl = mmap_file_win32;
 
 }  // namespace tao::pegtl::internal
 

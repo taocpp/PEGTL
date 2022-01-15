@@ -12,7 +12,7 @@ namespace tao::pegtl
       : public read_input< P, Eol >
    {
       explicit open_input( const internal::filesystem::path& path )
-         : read_input< P, Eol >( internal::file_open( path ), path )
+         : read_input< P, Eol >( internal::read_file_open( path ), path )
       {}
    };
 

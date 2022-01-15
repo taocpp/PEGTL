@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_FILE_READER_HPP
-#define TAO_PEGTL_INTERNAL_FILE_READER_HPP
+#ifndef TAO_PEGTL_INTERNAL_READ_FILE_STDIO_HPP
+#define TAO_PEGTL_INTERNAL_READ_FILE_STDIO_HPP
 
 #include <cstdio>
 #include <memory>
@@ -15,10 +15,11 @@
 #endif
 
 #include "filesystem.hpp"
+#include "resize_uninitialized.hpp"
 
 namespace tao::pegtl::internal
 {
-   [[nodiscard]] inline std::FILE* file_open( const internal::filesystem::path& path )
+   [[nodiscard]] inline std::FILE* read_file_open( const internal::filesystem::path& path )
    {
       errno = 0;
 #if defined( _MSC_VER )
@@ -52,7 +53,7 @@ namespace tao::pegtl::internal
 #endif
    }
 
-   struct file_close
+   struct read_file_close
    {
       void operator()( FILE* f ) const noexcept
       {
@@ -60,25 +61,25 @@ namespace tao::pegtl::internal
       }
    };
 
-   class file_reader
+   class read_file_stdio
    {
    public:
-      explicit file_reader( const internal::filesystem::path& path )
-         : file_reader( file_open( path ), path )
+      explicit read_file_stdio( const internal::filesystem::path& path )
+         : read_file_stdio( read_file_open( path ), path )
       {}
 
-      file_reader( FILE* file, const internal::filesystem::path& path )  // NOLINT(modernize-pass-by-value)
+      read_file_stdio( FILE* file, const internal::filesystem::path& path )  // NOLINT(modernize-pass-by-value)
          : m_path( path ),
            m_file( file )
       {}
 
-      file_reader( const file_reader& ) = delete;
-      file_reader( file_reader&& ) = delete;
+      read_file_stdio( const read_file_stdio& ) = delete;
+      read_file_stdio( read_file_stdio&& ) = delete;
 
-      ~file_reader() = default;
+      ~read_file_stdio() = default;
 
-      file_reader& operator=( const file_reader& ) = delete;
-      file_reader& operator=( file_reader&& ) = delete;
+      read_file_stdio& operator=( const read_file_stdio& ) = delete;
+      read_file_stdio& operator=( read_file_stdio&& ) = delete;
 
       [[nodiscard]] std::size_t size() const
       {
@@ -122,12 +123,24 @@ namespace tao::pegtl::internal
          return std::size_t( s );
       }
 
-      [[nodiscard]] std::string read() const
+      [[nodiscard]] std::string read_string() const
       {
          std::string nrv;
-         nrv.resize( size() );
+         if( const std::size_t s = size(); s > 0 ) {
+            resize_uninitialized( nrv, s );
+            read_impl( nrv.data(), nrv.size() );
+         }
+         return nrv;
+      }
+
+   private:
+      const internal::filesystem::path m_path;
+      const std::unique_ptr< std::FILE, read_file_close > m_file;
+
+      void read_impl( void* buffer, const std::size_t length ) const
+      {
          errno = 0;
-         if( !nrv.empty() && ( std::fread( &nrv[ 0 ], nrv.size(), 1, m_file.get() ) != 1 ) ) {
+         if( std::fread( buffer, length, 1, m_file.get() ) != 1 ) {
             // LCOV_EXCL_START
 #if defined( __cpp_exceptions )
             internal::error_code ec( errno, internal::system_category() );
@@ -138,12 +151,7 @@ namespace tao::pegtl::internal
 #endif
             // LCOV_EXCL_STOP
          }
-         return nrv;
       }
-
-   private:
-      const internal::filesystem::path m_path;
-      const std::unique_ptr< std::FILE, file_close > m_file;
    };
 
 }  // namespace tao::pegtl::internal
