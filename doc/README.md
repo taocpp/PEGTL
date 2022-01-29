@@ -158,7 +158,7 @@
 * [`eof`](Rule-Reference.md#eof) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
 * [`eol`](Rule-Reference.md#eol) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
 * [`eolf`](Rule-Reference.md#eolf) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
-* [`everything](Rule-Reference.md#everything) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
+* [`everything`](Rule-Reference.md#everything) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
 * [`extender`](Rule-Reference.md#extender) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`failure`](Rule-Reference.md#failure) <sup>[(atomic rules)](Rule-Reference.md#atomic-rules)</sup>
 * [`forty_two< C... >`](Rule-Reference.md#forty_two-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
