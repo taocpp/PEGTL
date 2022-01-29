@@ -1434,7 +1434,7 @@ Binary rules do not rely on other rules.
 * [`eof`](#eof) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`eol`](#eol) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`eolf`](#eolf) <sup>[(atomic rules)](#atomic-rules)</sup>
-* [`everything](#everything) <sup>[(atomic rules)](#atomic-rules)</sup>
+* [`everything`](#everything) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`extender`](#extender) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`failure`](#failure) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`forty_two< C... >`](#forty_two-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
