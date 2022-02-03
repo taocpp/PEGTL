@@ -8,6 +8,8 @@
 #include <ciso646>
 #include <string_view>
 
+#include "internal/dependent_true.hpp"
+
 namespace tao::pegtl
 {
 #if defined( __clang__ )
@@ -19,7 +21,7 @@ namespace tao::pegtl
    {
       constexpr std::string_view sv = __PRETTY_FUNCTION__;
       constexpr auto begin = sv.find( '=' );
-      static_assert( begin != std::string_view::npos );
+      static_assert( internal::dependent_true< T > && ( begin != std::string_view::npos ) );
       return sv.substr( begin + 2, sv.size() - begin - 3 );
    }
 
@@ -44,7 +46,7 @@ namespace tao::pegtl
    {
       constexpr std::string_view sv = __PRETTY_FUNCTION__;
       constexpr auto begin = find< '=' >( sv.data(), sv.size() );
-      static_assert( begin != nullptr );
+      static_assert( internal::dependent_true< T > && ( begin != nullptr ) );
       return { begin + 2, sv.data() + sv.size() - begin - 3 };
    }
 
@@ -84,10 +86,10 @@ namespace tao::pegtl
    {
       constexpr std::string_view sv = __PRETTY_FUNCTION__;
       constexpr auto begin = sv.find( '=' );
-      static_assert( begin != std::string_view::npos );
+      static_assert( internal::dependent_true< T > && ( begin != std::string_view::npos ) );
       constexpr auto tmp = sv.substr( begin + 2 );
       constexpr auto end = tmp.rfind( ';' );
-      static_assert( end != std::string_view::npos );
+      static_assert( internal::dependent_true< T > && ( end != std::string_view::npos ) );
       return tmp.substr( 0, end );
    }
 
@@ -114,10 +116,10 @@ namespace tao::pegtl
    {
       constexpr std::string_view sv = __FUNCSIG__;
       constexpr auto begin = sv.find( "demangle<" );
-      static_assert( begin != std::string_view::npos );
+      static_assert( internal::dependent_true< T > && ( begin != std::string_view::npos ) );
       constexpr auto tmp = sv.substr( begin + 9 );
       constexpr auto end = tmp.rfind( '>' );
-      static_assert( end != std::string_view::npos );
+      static_assert( internal::dependent_true< T > && ( end != std::string_view::npos ) );
       return tmp.substr( 0, end );
    }
 
