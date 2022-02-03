@@ -13,9 +13,15 @@
 * Changed default top-level `rewind_mode` to `dontcare`.
 * Moved depth counter to adapter class in contrib.
 
+## 3.2.4
+
+Released 2022-02-03
+
+* Fixed `version.hpp`.
+
 ## 3.2.3
 
-Released: 2022-02-03
+Released 2022-02-03
 
 * Fixed `static_assert` in `demangle()` with recent MSVC.
 
