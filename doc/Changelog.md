@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.4
+
+Released: 2022-02-03
+
+* Fixed `version.hpp`.
+
 ## 3.2.3
 
 Released: 2022-02-03
