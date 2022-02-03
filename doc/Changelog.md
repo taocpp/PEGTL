@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.3
+
+Released: 2022-02-03
+
+* Fixed `static_assert` in `demangle()` with recent MSVC.
+
 ## 3.2.2
 
 Released 2021-10-22
@@ -638,4 +644,4 @@ Released 2008
 Development of the PEGTL started in November 2007 as an experiment in C++0x.
 It is based on ideas from the YARD library by Christopher Diggins.
 
-Copyright (c) 2007-2021 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2007-2022 Dr. Colin Hirsch and Daniel Frey

@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2021 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
 // Please see LICENSE for license or visit https://github.com/taocpp/PEGTL
 
 #ifndef TAO_PEGTL_DEMANGLE_HPP
@@ -8,6 +8,8 @@
 #include <string_view>
 
 #include "config.hpp"
+
+#include "internal/dependent_true.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -20,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       constexpr std::string_view sv = __PRETTY_FUNCTION__;
       constexpr auto begin = sv.find( '=' );
-      static_assert( begin != std::string_view::npos );
+      static_assert( internal::dependent_true< T > && ( begin != std::string_view::npos ) );
       return sv.substr( begin + 2, sv.size() - begin - 3 );
    }
 
@@ -45,7 +47,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       constexpr std::string_view sv = __PRETTY_FUNCTION__;
       constexpr auto begin = find< '=' >( sv.data(), sv.size() );
-      static_assert( begin != nullptr );
+      static_assert( internal::dependent_true< T > && ( begin != nullptr ) );
       return { begin + 2, sv.data() + sv.size() - begin - 3 };
    }
 
@@ -85,10 +87,10 @@ namespace TAO_PEGTL_NAMESPACE
    {
       constexpr std::string_view sv = __PRETTY_FUNCTION__;
       constexpr auto begin = sv.find( '=' );
-      static_assert( begin != std::string_view::npos );
+      static_assert( internal::dependent_true< T > && ( begin != std::string_view::npos ) );
       constexpr auto tmp = sv.substr( begin + 2 );
       constexpr auto end = tmp.rfind( ';' );
-      static_assert( end != std::string_view::npos );
+      static_assert( internal::dependen_true< T > && ( end != std::string_view::npos ) );
       return tmp.substr( 0, end );
    }
 
@@ -115,10 +117,10 @@ namespace TAO_PEGTL_NAMESPACE
    {
       constexpr std::string_view sv = __FUNCSIG__;
       constexpr auto begin = sv.find( "demangle<" );
-      static_assert( begin != std::string_view::npos );
+      static_assert( internal::dependen_true< T > && ( begin != std::string_view::npos ) );
       constexpr auto tmp = sv.substr( begin + 9 );
       constexpr auto end = tmp.rfind( '>' );
-      static_assert( end != std::string_view::npos );
+      static_assert( internal::dependent_true< T > && ( end != std::string_view::npos ) );
       return tmp.substr( 0, end );
    }
 
