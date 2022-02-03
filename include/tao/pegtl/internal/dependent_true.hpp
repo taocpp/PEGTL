@@ -4,8 +4,6 @@
 #ifndef TAO_PEGTL_INTERNAL_DEPENDENT_TRUE_HPP
 #define TAO_PEGTL_INTERNAL_DEPENDENT_TRUE_HPP
 
-#include "../config.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... >
