@@ -1,15 +1,15 @@
 # Welcome to the PEGTL
 
-[![Windows CI](https://github.com/taocpp/PEGTL/workflows/Windows/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3AWindows)
-[![macOS CI](https://github.com/taocpp/PEGTL/workflows/macOS/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3AmacOS)
-[![Linux CI](https://github.com/taocpp/PEGTL/workflows/Linux/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ALinux)
-[![Android CI](https://github.com/taocpp/PEGTL/workflows/Android/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3AAndroid)
+[![Windows](https://github.com/taocpp/PEGTL/actions/workflows/windows.yml/badge.svg)](https://github.com/taocpp/PEGTL/actions/workflows/windows.yml)
+[![macOS](https://github.com/taocpp/PEGTL/actions/workflows/macos.yml/badge.svg)](https://github.com/taocpp/PEGTL/actions/workflows/macos.yml)
+[![Linux](https://github.com/taocpp/PEGTL/actions/workflows/linux.yml/badge.svg)](https://github.com/taocpp/PEGTL/actions/workflows/linux.yml)
+[![Android](https://github.com/taocpp/PEGTL/actions/workflows/android.yml/badge.svg)](https://github.com/taocpp/PEGTL/actions/workflows/android.yml)
 <br>
-[![clang-analyze](https://github.com/taocpp/PEGTL/workflows/clang-analyze/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3Aclang-analyze)
-[![clang-tidy](https://github.com/taocpp/PEGTL/workflows/clang-tidy/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3Aclang-tidy)
-[![Sanitizer](https://github.com/taocpp/PEGTL/workflows/Sanitizer/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ASanitizer)
-[![CodeQL](https://github.com/taocpp/PEGTL/workflows/CodeQL/badge.svg)](https://github.com/taocpp/PEGTL/actions?query=workflow%3ACodeQL)
-[![Code Coverage](https://codecov.io/gh/taocpp/PEGTL/branch/main/graph/badge.svg?token=ykWa8RRdyk)](https://codecov.io/gh/taocpp/PEGTL)
+[![clang-analyze](https://github.com/taocpp/PEGTL/actions/workflows/clang-analyze.yml/badge.svg)](https://github.com/taocpp/PEGTL/actions/workflows/clang-analyze.yml)
+[![clang-tidy](https://github.com/taocpp/PEGTL/actions/workflows/clang-tidy.yml/badge.svg)](https://github.com/taocpp/PEGTL/actions/workflows/clang-tidy.yml)
+[![Sanitizer](https://github.com/taocpp/PEGTL/actions/workflows/sanitizer.yml/badge.svg)](https://github.com/taocpp/PEGTL/actions/workflows/sanitizer.yml)
+[![CodeQL](https://github.com/taocpp/PEGTL/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/taocpp/PEGTL/actions/workflows/codeql-analysis.yml)
+[![Codecov](https://codecov.io/gh/taocpp/PEGTL/branch/main/graph/badge.svg?token=ykWa8RRdyk)](https://codecov.io/gh/taocpp/PEGTL)
 
 The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++ header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 

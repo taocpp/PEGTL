@@ -4,14 +4,16 @@
 
 **Not yet released**
 
-* Added new atomic rule `everything`.
-* Removed the `TAO_PEGTL_NAMESPACE` macro.
 * Switched to Boost Software License, Version 1.0.
 * Added new customization point for error messages.
 * Added optional source line output for the tracer.
-* Removed support for building an amalgamated header.
-* Changed default top-level `rewind_mode` to `dontcare`.
+* Added new atomic rule `everything`.
 * Moved depth counter to adapter class in contrib.
+* Changed default top-level `rewind_mode` to `dontcare`.
+* Removed the `TAO_PEGTL_NAMESPACE` macro.
+* Removed support for building an amalgamated header.
+* Removed support for Visual Studio 2017.
+* Removed support for GCC 7.
 
 ## 3.2.5
 
