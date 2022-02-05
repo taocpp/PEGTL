@@ -62,21 +62,7 @@ template< typename T >
 
 #elif defined( __GNUC__ )
 
-#if( __GNUC__ == 7 )
-
-// GCC 7 wrongly sometimes disallows __PRETTY_FUNCTION__ in constexpr functions,
-// therefore we drop the 'constexpr' and hope for the best.
-template< typename T >
-[[nodiscard]] std::string_view tao::pegtl::demangle() noexcept
-{
-   const std::string_view sv = __PRETTY_FUNCTION__;
-   const auto begin = sv.find( '=' );
-   const auto tmp = sv.substr( begin + 2 );
-   const auto end = tmp.rfind( ';' );
-   return tmp.substr( 0, end );
-}
-
-#elif( __GNUC__ == 9 ) && ( __GNUC_MINOR__ < 3 )
+#if( __GNUC__ == 9 ) && ( __GNUC_MINOR__ < 3 )
 
 #if !defined( __cpp_rtti )
 #error "RTTI support required for GCC 9.1/9.2"
@@ -113,20 +99,6 @@ template< typename T >
 
 #elif defined( _MSC_VER )
 
-#if( _MSC_VER < 1920 )
-
-template< typename T >
-[[nodiscard]] constexpr std::string_view tao::pegtl::demangle() noexcept
-{
-   const std::string_view sv = __FUNCSIG__;
-   const auto begin = sv.find( "demangle<" );
-   const auto tmp = sv.substr( begin + 9 );
-   const auto end = tmp.rfind( '>' );
-   return tmp.substr( 0, end );
-}
-
-#else
-
 #include "internal/dependent_true.hpp"
 
 template< typename T >
@@ -140,8 +112,6 @@ template< typename T >
    static_assert( internal::dependent_true< T > && ( end != std::string_view::npos ) );
    return tmp.substr( 0, end );
 }
-
-#endif
 
 #else
 

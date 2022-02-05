@@ -13,6 +13,12 @@
 * Changed default top-level `rewind_mode` to `dontcare`.
 * Moved depth counter to adapter class in contrib.
 
+## 3.2.5
+
+Released 2022-02-05
+
+* Added missing include for fallback `demangle()` implementations.
+
 ## 3.2.4
 
 Released 2022-02-03
