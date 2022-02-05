@@ -1,14 +1,20 @@
 # Changelog
 
+## 3.2.5
+
+Released 2022-02-05
+
+* Added missing include for fallback `demangle()` implementations.
+
 ## 3.2.4
 
-Released: 2022-02-03
+Released 2022-02-03
 
 * Fixed `version.hpp`.
 
 ## 3.2.3
 
-Released: 2022-02-03
+Released 2022-02-03
 
 * Fixed `static_assert` in `demangle()` with recent MSVC.
 
