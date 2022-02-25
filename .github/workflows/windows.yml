@@ -11,13 +11,59 @@ on:
       - 'doc/**'
 
 jobs:
-  vs2019:
+  vs2022:
     strategy:
       fail-fast: false
       matrix:
         build_type: [Debug, Release]
 
     runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: cmake -E make_directory build
+
+    - shell: bash
+      working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -G "Visual Studio 17 2022"
+
+    - working-directory: build/
+      run: cmake --build . --config ${{ matrix.build_type }}
+
+    - working-directory: build/
+      run: ctest -C ${{ matrix.build_type }} --output-on-failure
+
+  vs2022-clang:
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug, Release]
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: cmake -E make_directory build
+
+    - shell: bash
+      working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -G "Visual Studio 17 2022" -T ClangCL
+
+    - working-directory: build/
+      run: cmake --build . --config ${{ matrix.build_type }}
+
+    - working-directory: build/
+      run: ctest -C ${{ matrix.build_type }} --output-on-failure
+
+  vs2019:
+    strategy:
+      fail-fast: false
+      matrix:
+        build_type: [Debug, Release]
+
+    runs-on: windows-2019
 
     steps:
     - uses: actions/checkout@v2
@@ -40,7 +86,7 @@ jobs:
       matrix:
         build_type: [Debug, Release]
 
-    runs-on: windows-latest
+    runs-on: windows-2019
 
     steps:
     - uses: actions/checkout@v2
@@ -50,6 +96,32 @@ jobs:
     - shell: bash
       working-directory: build/
       run: cmake $GITHUB_WORKSPACE -G "Visual Studio 16 2019" -T ClangCL
+
+    - working-directory: build/
+      run: cmake --build . --config ${{ matrix.build_type }}
+
+    - working-directory: build/
+      run: ctest -C ${{ matrix.build_type }} --output-on-failure
+
+  vs2017:
+    strategy:
+      fail-fast: false
+      matrix:
+        visual_studio:
+          - 'Visual Studio 15 2017'
+          - 'Visual Studio 15 2017 Win64'
+        build_type: [Debug, Release]
+
+    runs-on: windows-2016
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: cmake -E make_directory build
+
+    - shell: bash
+      working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -G "${{ matrix.visual_studio }}"
 
     - working-directory: build/
       run: cmake --build . --config ${{ matrix.build_type }}
