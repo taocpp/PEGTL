@@ -16,7 +16,7 @@ namespace tao::pegtl::internal
       template< typename ParseInput >
       [[nodiscard]] static bool_and_size eol_match( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
       {
-         bool_and_size p = { false, std::uint8_t( in.size( 1 ) ) };
+         bool_and_size p = { false, in.size( 1 ) };
          if( p.size > 0 ) {
             if( in.peek_char() == '\n' ) {
                in.bump_to_next_line();

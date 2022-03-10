@@ -13,7 +13,7 @@ namespace tao::pegtl::internal
    struct data_and_size
    {
       Data data;
-      std::uint8_t size;
+      std::size_t size;
 
       using data_t = Data;
 
