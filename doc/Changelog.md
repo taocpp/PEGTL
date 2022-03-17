@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.6
+
+**Not yet released**
+
+* Fixed `demangle()` for non-standard-compliant MSVC, again.
+
 ## 3.2.5
 
 Released 2022-02-05
