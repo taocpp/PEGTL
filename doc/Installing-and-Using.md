@@ -314,7 +314,7 @@ The above will generate a `build/amalgamated/pegtl.hpp` which will consist of
 the headers `tao/pegtl.hpp`, their dependencies, and all headers in
 `tao/pegtl/contrib/` except for the headers in `tao/pegtl/contrib/icu/`.
 
-Copyright (c) 2014-2021 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
 
 [Vcpkg]: https://github.com/Microsoft/vcpkg
 [Vcpkg documentation]: https://github.com/Microsoft/vcpkg/tree/master/docs/index.md

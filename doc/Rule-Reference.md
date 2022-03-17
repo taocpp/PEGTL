@@ -1549,7 +1549,7 @@ Binary rules do not rely on other rules.
 * [`xid_continue`](#xid_continue) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`xid_start`](#xid_start) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 
-Copyright (c) 2014-2021 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
 
 [Equivalent]: #equivalence
 [implementation]: #implementation

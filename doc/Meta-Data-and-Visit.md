@@ -147,4 +147,4 @@ struct coverage_result
 
 As usual, unless otherwise indicated, all functions and data structure are in the namespace `tao::pegtl`.
 
-Copyright (c) 2020-2021 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2020-2022 Dr. Colin Hirsch and Daniel Frey

@@ -124,4 +124,4 @@ In practice it appears to catch all cases of left-recursion that are typical for
 
 False positives are a theoretical problem in that, while relatively easy to trigger, they are not usually encountered when dealing with real world grammars.
 
-Copyright (c) 2014-2021 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
