@@ -4,7 +4,7 @@
 
 **Not yet released**
 
-* Fixed `demangle()` for non-standard-compliant MSVC, again.
+* Fixed `demangle()` for MSVC, again.
 
 ## 3.2.5
 
