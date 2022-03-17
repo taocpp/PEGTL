@@ -99,18 +99,18 @@ template< typename T >
 
 #elif defined( _MSC_VER )
 
-#include "internal/dependent_true.hpp"
-
 template< typename T >
 [[nodiscard]] constexpr std::string_view tao::pegtl::demangle() noexcept
 {
    constexpr std::string_view sv = __FUNCSIG__;
    constexpr auto begin = sv.find( "demangle<" );
-   static_assert( internal::dependent_true< T > && ( begin != std::string_view::npos ) );
-   constexpr auto tmp = sv.substr( begin + 9 );
-   constexpr auto end = tmp.rfind( '>' );
-   static_assert( internal::dependent_true< T > && ( end != std::string_view::npos ) );
-   return tmp.substr( 0, end );
+   // see issues #296, #301 and #308
+   if constexpr( begin != std::string_view::npos ) {
+      constexpr auto tmp = sv.substr( begin + 9 );
+      constexpr auto end = tmp.rfind( '>' );
+      static_assert( end != std::string_view::npos );
+      return tmp.substr( 0, end );
+   }
 }
 
 #else
