@@ -2,7 +2,7 @@
 
 ## 3.2.6
 
-**Not yet released**
+Released 2022-03-18
 
 * Fixed `demangle()` for MSVC, again.
 
