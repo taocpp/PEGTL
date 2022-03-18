@@ -232,6 +232,18 @@ namespace tao::pegtl::parse_tree
          using type = rotate_states_right< state_handler< Rule, is_selected_node< Rule, Selector >, is_leaf< 8, typename Rule::subs_t, Selector > > >;
       };
 
+      template< typename, typename, typename... >
+      inline constexpr bool node_has_unwind = false;
+
+      template< typename Node, typename Rule, typename... States >
+      inline constexpr bool node_has_unwind< Node,
+                                             Rule,
+                                             decltype( std::declval< Node >().template unwind< Rule >( std::declval< States >()... ) ),
+                                             States... > = true;
+
+      template< typename Control, typename... States >
+      inline constexpr bool control_has_unwind = tao::pegtl::internal::has_unwind< Control, void, States... >;
+
       template< typename Node, template< typename... > class Selector, template< typename... > class Control >
       template< typename Rule >
       struct make_control< Node, Selector, Control >::state_handler< Rule, false, true >
@@ -268,7 +280,8 @@ namespace tao::pegtl::parse_tree
          }
 
          template< typename ParseInput, typename... States >
-         static void unwind( const ParseInput& /*unused*/, state< Node >& state, States&&... /*unused*/ )
+         static auto unwind( const ParseInput& /*unused*/, state< Node >& state, States&&... /*unused*/ )
+            -> std::enable_if_t< node_has_unwind< Node, Rule, void, const ParseInput&, States... > || control_has_unwind< Control< Rule >, const ParseInput&, States... >, void >
          {
             state.pop_back();
          }
@@ -309,11 +322,14 @@ namespace tao::pegtl::parse_tree
          }
 
          template< typename ParseInput, typename... States >
-         static void unwind( const ParseInput& in, state< Node >& state, States&&... st )
+         static auto unwind( const ParseInput& in, state< Node >& state, States&&... st )
+            -> std::enable_if_t< node_has_unwind< Node, Rule, void, const ParseInput&, States... > || control_has_unwind< Control< Rule >, const ParseInput&, States... >, void >
          {
-            state.back()->template unwind< Rule >( in, st... );
+            if constexpr( node_has_unwind< Node, Rule, void, const ParseInput&, States... > ) {
+               state.back()->template unwind< Rule >( in, st... );
+            }
             state.pop_back();
-            if constexpr( tao::pegtl::internal::has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
+            if constexpr( control_has_unwind< Control< Rule >, const ParseInput&, States... > ) {
                Control< Rule >::unwind( in, st... );
             }
          }
