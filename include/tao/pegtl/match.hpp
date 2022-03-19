@@ -69,6 +69,11 @@ namespace tao::pegtl
          {
          }
 
+         unwind_guard( const unwind_guard& ) = delete;
+         unwind_guard( unwind_guard&& ) noexcept = delete;
+         unwind_guard& operator=( const unwind_guard& ) = delete;
+         unwind_guard& operator=( unwind_guard&& ) noexcept = delete;
+
          ~unwind_guard()
          {
             if( unwind_impl ) {
