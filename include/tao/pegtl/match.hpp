@@ -65,24 +65,24 @@ namespace tao::pegtl
       struct unwind_guard
       {
          explicit unwind_guard( Unwind&& impl )
-            : impl( std::move( impl ) )
+            : unwind_impl( std::move( impl ) )
          {
          }
 
          ~unwind_guard()
          {
-            if( impl ) {
-               ( *impl )();
+            if( unwind_impl ) {
+               ( *unwind_impl )();
             }
          }
 
          void clear()
          {
-            impl.reset();
+            unwind_impl.reset();
          }
 
       private:
-         std::optional< Unwind > impl;
+         std::optional< Unwind > unwind_impl;
       };
 
       template< typename Rule,
