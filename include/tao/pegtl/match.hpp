@@ -21,6 +21,7 @@
 #include "internal/missing_apply.hpp"
 #include "internal/missing_apply0.hpp"
 #include "internal/rewind_guard.hpp"
+#include "internal/unwind_guard.hpp"
 
 #if defined( _MSC_VER )
 #pragma warning( push )
@@ -61,35 +62,6 @@ namespace tao::pegtl
          return Rule::match( in );
       }
 
-      template< typename Unwind >
-      struct unwind_guard
-      {
-         explicit unwind_guard( Unwind&& impl )
-            : unwind_impl( std::move( impl ) )
-         {
-         }
-
-         unwind_guard( const unwind_guard& ) = delete;
-         unwind_guard( unwind_guard&& ) noexcept = delete;
-         unwind_guard& operator=( const unwind_guard& ) = delete;
-         unwind_guard& operator=( unwind_guard&& ) noexcept = delete;
-
-         ~unwind_guard()
-         {
-            if( unwind_impl ) {
-               ( *unwind_impl )();
-            }
-         }
-
-         void clear()
-         {
-            unwind_impl.reset();
-         }
-
-      private:
-         std::optional< Unwind > unwind_impl;
-      };
-
       template< typename Rule,
                 apply_mode A,
                 rewind_mode M,
@@ -107,7 +79,7 @@ namespace tao::pegtl
                Control< Rule >::unwind( static_cast< const ParseInput& >( in ), st... );
             } );
             auto result = match_no_control< Rule, A, M, Action, Control >( in, st... );
-            ug.clear();
+            ug.unwind.reset();
             return result;
          }
          else {
