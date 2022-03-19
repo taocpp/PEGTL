@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_MATCH_HPP
 #define TAO_PEGTL_MATCH_HPP
 
+#include <functional>
+#include <optional>
 #include <type_traits>
 
 #include "apply_mode.hpp"
@@ -59,6 +61,30 @@ namespace tao::pegtl
          return Rule::match( in );
       }
 
+      template< typename Unwind >
+      struct unwind_guard
+      {
+         explicit unwind_guard( Unwind&& impl )
+            : impl( std::move( impl ) )
+         {
+         }
+
+         ~unwind_guard()
+         {
+            if( impl ) {
+               ( *impl )();
+            }
+         }
+
+         void clear()
+         {
+            impl.reset();
+         }
+
+      private:
+         std::optional< Unwind > impl;
+      };
+
       template< typename Rule,
                 apply_mode A,
                 rewind_mode M,
@@ -72,13 +98,12 @@ namespace tao::pegtl
       {
 #if defined( __cpp_exceptions )
          if constexpr( has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
-            try {
-               return match_no_control< Rule, A, M, Action, Control >( in, st... );
-            }
-            catch( ... ) {
+            unwind_guard ug( [ &in, &st... ]() {
                Control< Rule >::unwind( static_cast< const ParseInput& >( in ), st... );
-               throw;
-            }
+            } );
+            auto result = match_no_control< Rule, A, M, Action, Control >( in, st... );
+            ug.clear();
+            return result;
          }
          else {
             return match_no_control< Rule, A, M, Action, Control >( in, st... );
