@@ -280,8 +280,7 @@ namespace tao::pegtl::parse_tree
          }
 
          template< typename ParseInput, typename... States >
-         static auto unwind( const ParseInput& /*unused*/, state< Node >& state, States&&... /*unused*/ )
-            -> std::enable_if_t< node_has_unwind< Node, Rule, void, const ParseInput&, States... > || control_has_unwind< Control< Rule >, const ParseInput&, States... >, void >
+         static void unwind( const ParseInput& /*unused*/, state< Node >& state, States&&... /*unused*/ )
          {
             state.pop_back();
          }
@@ -322,8 +321,7 @@ namespace tao::pegtl::parse_tree
          }
 
          template< typename ParseInput, typename... States >
-         static auto unwind( const ParseInput& in, state< Node >& state, States&&... st )
-            -> std::enable_if_t< node_has_unwind< Node, Rule, void, const ParseInput&, States... > || control_has_unwind< Control< Rule >, const ParseInput&, States... >, void >
+         static void unwind( const ParseInput& in, state< Node >& state, States&&... st )
          {
             if constexpr( node_has_unwind< Node, Rule, void, const ParseInput&, States... > ) {
                state.back()->template unwind< Rule >( in, st... );
