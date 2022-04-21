@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_MATCH_HPP
 #define TAO_PEGTL_MATCH_HPP
 
-#include <functional>
-#include <optional>
 #include <type_traits>
 
 #include "apply_mode.hpp"
@@ -21,7 +19,6 @@
 #include "internal/missing_apply.hpp"
 #include "internal/missing_apply0.hpp"
 #include "internal/rewind_guard.hpp"
-#include "internal/unwind_guard.hpp"
 
 #if defined( _MSC_VER )
 #pragma warning( push )
@@ -75,12 +72,13 @@ namespace tao::pegtl
       {
 #if defined( __cpp_exceptions )
          if constexpr( has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
-            unwind_guard ug( [ &in, &st... ]() {
+            try {
+               return match_no_control< Rule, A, M, Action, Control >( in, st... );
+            }
+            catch( ... ) {
                Control< Rule >::unwind( static_cast< const ParseInput& >( in ), st... );
-            } );
-            auto result = match_no_control< Rule, A, M, Action, Control >( in, st... );
-            ug.unwind.reset();
-            return result;
+               throw;
+            }
          }
          else {
             return match_no_control< Rule, A, M, Action, Control >( in, st... );
