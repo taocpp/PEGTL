@@ -75,7 +75,7 @@ namespace tao::pegtl
       {
 #if defined( __cpp_exceptions )
          if constexpr( has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
-            unwind_guard ug( [ &in, &st... ]() {
+            unwind_guard ug( [ & ]() {
                Control< Rule >::unwind( static_cast< const ParseInput& >( in ), st... );
             } );
             auto result = match_no_control< Rule, A, M, Action, Control >( in, st... );
