@@ -6,6 +6,7 @@
 #define TAO_PEGTL_INTERNAL_UNWIND_GUARD_HPP
 
 #include <optional>
+#include <utility>
 
 namespace tao::pegtl::internal
 {
