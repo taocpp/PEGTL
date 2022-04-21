@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_MATCH_HPP
 #define TAO_PEGTL_MATCH_HPP
 
-#include <functional>
-#include <optional>
 #include <type_traits>
 
 #include "apply_mode.hpp"

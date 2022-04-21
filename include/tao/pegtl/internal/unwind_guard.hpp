@@ -5,9 +5,7 @@
 #ifndef TAO_PEGTL_INTERNAL_UNWIND_GUARD_HPP
 #define TAO_PEGTL_INTERNAL_UNWIND_GUARD_HPP
 
-#include <functional>
 #include <optional>
-#include <type_traits>
 
 namespace tao::pegtl::internal
 {
