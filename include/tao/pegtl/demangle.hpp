@@ -83,16 +83,26 @@ template< typename T >
 
 #else
 
+namespace tao::pegtl::special
+{
+   template< typename T >
+   [[nodiscard]] constexpr std::string_view demangle() noexcept
+   {
+      constexpr std::string_view sv = __PRETTY_FUNCTION__;
+      constexpr auto begin = sv.find( '=' );
+      static_assert( begin != std::string_view::npos );
+      constexpr auto tmp = sv.substr( begin + 2 );
+      constexpr auto end = tmp.rfind( ';' );
+      static_assert( end != std::string_view::npos );
+      return tmp.substr( 0, end );
+   }
+
+}  // namespace tao::pegtl::special
+
 template< typename T >
 [[nodiscard]] constexpr std::string_view tao::pegtl::demangle() noexcept
 {
-   constexpr std::string_view sv = __PRETTY_FUNCTION__;
-   constexpr auto begin = sv.find( '=' );
-   static_assert( begin != std::string_view::npos );
-   constexpr auto tmp = sv.substr( begin + 2 );
-   constexpr auto end = tmp.rfind( ';' );
-   static_assert( end != std::string_view::npos );
-   return tmp.substr( 0, end );
+   return tao::pegtl::special::demangle< T >();
 }
 
 #endif
