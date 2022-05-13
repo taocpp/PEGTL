@@ -99,6 +99,8 @@ template< typename T >
 
 #elif defined( _MSC_VER )
 
+#if( _MSC_VER < 1932 )
+
 template< typename T >
 [[nodiscard]] constexpr std::string_view tao::pegtl::demangle() noexcept
 {
@@ -112,6 +114,27 @@ template< typename T >
       return tmp.substr( 0, end );
    }
 }
+
+#else
+
+#if !defined( __cpp_rtti )
+#error "RTTI support required for MSVC 19.32"
+#else
+
+#include <typeinfo>
+
+// MSVC 19.32 has a bug where __FUNCSIG__ does not include the function's template parameters,
+// see https://developercommunity.visualstudio.com/t/C-__FUNCSIG__-macro-does-not-include-t/10040930
+template< typename T >
+[[nodiscard]] constexpr std::string_view tao::pegtl::demangle() noexcept
+{
+   // fallback: requires RTTI, no demangling
+   return typeid( T ).name();
+}
+
+#endif
+
+#endif
 
 #else
 
