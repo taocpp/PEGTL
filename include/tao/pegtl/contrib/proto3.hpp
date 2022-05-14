@@ -38,6 +38,9 @@ namespace tao::pegtl::proto3
    struct dec_lit : seq< range< '1', '9' >, star< digit > >  {};
    struct int_lit : sor< hex_lit, oct_lit, dec_lit > {};
 
+   struct enum_dec : plus< digit > {};
+   struct enum_int : sor< hex_lit, oct_lit, enum_dec > {};
+
    struct sign : one< '+', '-' > {};
    struct exp : seq< one< 'E', 'e' >, opt< sign >, plus< digit > > {};
    struct float_lit : sor<
@@ -109,7 +112,7 @@ namespace tao::pegtl::proto3
 
    struct enum_name : ident {};
    struct enum_value_option : seq< option_name, sps, equ, sps, constant > {};
-   struct enum_field : seq< ident, sps, equ, sps, int_lit, sps, opt_must< one< '[' >, sps, list_must< enum_value_option, comma, sp >, sps, one< ']' >, sps >, semi > {};
+   struct enum_field : seq< ident, sps, equ, sps, enum_int, sps, opt_must< one< '[' >, sps, list_must< enum_value_option, comma, sp >, sps, one< ']' >, sps >, semi > {};
    struct enum_body : if_must< one< '{' >, sps, star< sor< option, enum_field, semi >, sps >, one< '}' > > {};
    struct enum_def : if_must< keyword< 'e', 'n', 'u', 'm' >, sps, enum_name, sps, enum_body > {};
 
