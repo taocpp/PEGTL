@@ -160,9 +160,7 @@ namespace tao::pegtl
             std::terminate();
 #endif
          }
-         if( const auto r = m_reader( m_end, ( std::min )( buffer_free_after_end(), ( std::max )( amount - buffer_occupied(), Chunk ) ) ) ) {
-            m_end += r;
-         }
+         m_end += m_reader( m_end, ( std::min )( buffer_free_after_end(), ( std::max )( amount - buffer_occupied(), Chunk ) ) );
       }
 
       template< rewind_mode M >
