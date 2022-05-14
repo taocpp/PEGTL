@@ -38,7 +38,7 @@ namespace tao::pegtl::proto3
    struct dec_lit : seq< range< '1', '9' >, star< digit > >  {};
    struct int_lit : sor< hex_lit, oct_lit, dec_lit > {};
 
-   struct enum_dec : plus< digit > {};
+   struct enum_dec : plus< digit > {};  // NOTE: As of time of writing the original grammar has a bug -- it uses int_lit for enum_int, which uses dec_lit instead of enum_dec, thereby not allowing a plain 0 as enum value.
    struct enum_int : sor< hex_lit, oct_lit, enum_dec > {};
 
    struct sign : one< '+', '-' > {};
