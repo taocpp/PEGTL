@@ -57,7 +57,7 @@ namespace TAO_PEGTL_NAMESPACE
            m_end( m_buffer.get() ),
            m_source( std::forward< T >( in_source ) )
       {
-         static_assert( Chunk, "zero chunk size not implemented" );
+         static_assert( Chunk != 0, "zero chunk size not implemented" );
          assert( m_maximum > maximum );  // Catches overflow; change to >= when zero chunk size is implemented.
       }
 
