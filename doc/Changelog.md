@@ -2,9 +2,10 @@
 
 ## 3.2.6
 
-Released 2022-03-18
+Released 2022-05-15
 
 * Fixed `demangle()` for MSVC, again.
+* Fixed `demangle()` for GCC 12.
 
 ## 3.2.5
 
