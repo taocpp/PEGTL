@@ -126,7 +126,7 @@ namespace TAO_PEGTL_NAMESPACE::special
 template< typename T >
 [[nodiscard]] constexpr std::string_view TAO_PEGTL_NAMESPACE::demangle() noexcept
 {
-   return tao::pegtl::special::demangle< T >();
+   return TAO_PEGTL_NAMESPACE::special::demangle< T >();
 }
 
 #endif
