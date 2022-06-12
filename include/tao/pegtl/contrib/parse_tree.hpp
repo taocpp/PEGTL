@@ -138,11 +138,6 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       void failure( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
       {}
 
-      // if parsing of the rule failed with an exception, this method is called
-      template< typename Rule, typename ParseInput, typename... States >
-      void unwind( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
-      {}
-
       // if parsing succeeded and the (optional) transform call
       // did not discard the node, it is appended to its parent.
       // note that "child" is the node whose Rule just succeeded
@@ -232,6 +227,18 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          using type = rotate_states_right< state_handler< Rule, is_selected_node< Rule, Selector >, is_leaf< 8, typename Rule::subs_t, Selector > > >;
       };
 
+      template< typename, typename, typename... >
+      inline constexpr bool node_has_unwind = false;
+
+      template< typename Node, typename Rule, typename... States >
+      inline constexpr bool node_has_unwind< Node,
+                                             Rule,
+                                             decltype( std::declval< Node >().template unwind< Rule >( std::declval< States >()... ) ),
+                                             States... > = true;
+
+      template< typename Control, typename... States >
+      inline constexpr bool control_has_unwind = TAO_PEGTL_NAMESPACE::internal::has_unwind< Control, void, States... >;
+
       template< typename Node, template< typename... > class Selector, template< typename... > class Control >
       template< typename Rule >
       struct make_control< Node, Selector, Control >::state_handler< Rule, false, true >
@@ -311,9 +318,11 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          template< typename ParseInput, typename... States >
          static void unwind( const ParseInput& in, state< Node >& state, States&&... st )
          {
-            state.back()->template unwind< Rule >( in, st... );
+            if constexpr( node_has_unwind< Node, Rule, void, const ParseInput&, States... > ) {
+               state.back()->template unwind< Rule >( in, st... );
+            }
             state.pop_back();
-            if constexpr( TAO_PEGTL_NAMESPACE::internal::has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
+            if constexpr( control_has_unwind< Control< Rule >, const ParseInput&, States... > ) {
                Control< Rule >::unwind( in, st... );
             }
          }

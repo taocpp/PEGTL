@@ -2,8 +2,9 @@
 
 ## 3.2.6
 
-Released 2022-05-15
+Released 2022-??-??
 
+* Made `unwind()` optional for parse tree nodes.
 * Fixed `demangle()` for MSVC, again.
 * Fixed `demangle()` for GCC 12.
 
