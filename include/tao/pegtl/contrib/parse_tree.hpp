@@ -138,11 +138,6 @@ namespace tao::pegtl::parse_tree
       void failure( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
       {}
 
-      // if parsing of the rule failed with an exception, this method is called
-      template< typename Rule, typename ParseInput, typename... States >
-      void unwind( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
-      {}
-
       // if parsing succeeded and the (optional) transform call
       // did not discard the node, it is appended to its parent.
       // note that "child" is the node whose Rule just succeeded
