@@ -33,6 +33,8 @@ on either
 It requires C++17, e.g. using the `--std=c++17` compiler switch.
 Using newer versions of the C++ standard is supported.
 
+Due to the design of the PEGTL with many small functions and the reliance on the compiler for performance it is recommended to *always* compile with at least some optimisations enabled, in particular those that inline functions.
+
 Larger projects will frequently require the `/bigobj` option when compiling with Visual Studio on Windows.
 
 It should also work with other C++17 compilers on other Unix systems (or any sufficiently compatible platform).
