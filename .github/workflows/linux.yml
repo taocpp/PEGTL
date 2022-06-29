@@ -18,13 +18,41 @@ jobs:
         compiler:
           - g++-9
           - g++-10
-          #- g++-11
           - clang++-10
           - clang++-11
           - clang++-12
         build_type: [Debug, Release]
 
     runs-on: ubuntu-latest
+
+    env:
+      CXX: ${{ matrix.compiler }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - run: cmake -E make_directory build
+
+    - working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+
+    - working-directory: build/
+      run: cmake --build .
+
+    - working-directory: build/
+      run: ctest --output-on-failure
+
+  linux-new:
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+          - g++-11
+          - clang++-13
+          - clang++-14
+        build_type: [Debug, Release]
+
+    runs-on: ubuntu-22.04
 
     env:
       CXX: ${{ matrix.compiler }}
