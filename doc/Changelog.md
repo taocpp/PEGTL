@@ -15,6 +15,14 @@
 * Removed support for Visual Studio 2017.
 * Removed support for GCC 7.
 
+## 3.2.6
+
+Released 2022-06-29
+
+* Made `unwind()` optional for parse tree nodes.
+* Fixed `demangle()` for MSVC, again.
+* Fixed `demangle()` for GCC 12.
+
 ## 3.2.5
 
 Released 2022-02-05
