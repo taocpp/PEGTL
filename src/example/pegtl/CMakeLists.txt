@@ -21,6 +21,7 @@ set(example_sources
   json_print_debug.cpp
   json_print_names.cpp
   json_trace.cpp
+  list_length.cpp
   lua53_analyze.cpp
   lua53_parse.cpp
   modulus_match.cpp
