@@ -37,6 +37,7 @@ set(test_sources
   contrib_iri.cpp
   contrib_json.cpp
   contrib_limit_depth.cpp
+  contrib_list_with_size.cpp
   contrib_parse_tree.cpp
   contrib_parse_tree_to_dot.cpp
   contrib_partial_trace.cpp
