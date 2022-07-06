@@ -1,5 +1,5 @@
+#include "tao/pegtl/contrib/list_length.hpp"
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/list_length.hpp>
 
 #include <iostream>
 
@@ -10,12 +10,12 @@ namespace list_length_example
    struct digits : pegtl::plus< pegtl::digit >
    {};
 
-   template< uint64_t len >
-   struct number_list_with_length : pegtl::list_length::list_length< len, digits, pegtl::one< ',' > >
+   template< int64_t len >
+   struct number_list_with_length_without_padding : pegtl::list< digits, pegtl::one< ',' >, pegtl::one< ' ' >, len >
    {};
 
-   template< uint64_t len >
-   struct grammar : pegtl::seq< number_list_with_length< len >, pegtl::eolf >
+   template< int64_t len >
+   struct grammar : pegtl::seq< number_list_with_length_without_padding< len >, pegtl::eolf >
    {};
 
    template< typename Rule >
@@ -52,7 +52,7 @@ static std::string generate_correct_input( uint64_t len )
    if( len == 1 ) {
       return "1";
    }
-   return std::to_string( len ) + "," + generate_correct_input( len - 1 );
+   return std::to_string( len ) + "," + std::string(     len / 31, ' ' ) + generate_correct_input( len - 1 );
 }
 
 static std::string generate_incorrect_input( uint64_t len )
