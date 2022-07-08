@@ -18,11 +18,17 @@ namespace tao::pegtl
       template< std::size_t Num, typename Rule, typename Sep >
       using list_with_size = seq< Rule, rep< Num - 1, Sep, Rule > >;
 
+      template< std::size_t Min, std::size_t Max, typename Rule, typename Sep >
+      using list_min_max = seq< Rule, rep_min_max< Min - 1, Max - 1, Sep, Rule > >;
+
    }  // namespace internal
 
    // clang-format off
    template< std::size_t Num, typename Rule, typename Sep, typename Pad = void > struct list_with_size : internal::list_with_size< Num, Rule, internal::pad< Sep, Pad > > { static_assert( Num > 1 ); };
    template< std::size_t Num, typename Rule, typename Sep > struct list_with_size< Num, Rule, Sep, void > : internal::list_with_size< Num, Rule, Sep > { static_assert( Num > 1 ); };
+
+   template< std::size_t Min, std::size_t Max, typename Rule, typename Sep, typename Pad = void > struct list_min_max : internal::list_min_max< Min, Max, Rule, internal::pad< Sep, Pad > > { static_assert( Min > 1 ); static_assert( Max > 1 ); };
+   template< std::size_t Min, std::size_t Max, typename Rule, typename Sep > struct list_min_max< Min, Max, Rule, Sep, void > : internal::list_min_max< Min, Max, Rule, Sep > { static_assert( Min > 1 ); static_assert( Max > 1 ); };
    // clang-format on
 
 }  // namespace tao::pegtl
