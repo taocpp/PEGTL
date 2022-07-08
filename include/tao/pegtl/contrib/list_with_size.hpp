@@ -9,6 +9,7 @@
 
 #include "../internal/pad.hpp"
 #include "../internal/rep.hpp"
+#include "../internal/rep_min_max.hpp"
 #include "../internal/seq.hpp"
 
 namespace tao::pegtl
