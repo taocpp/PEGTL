@@ -5,7 +5,6 @@
 #ifndef TAO_PEGTL_DEMANGLE_HPP
 #define TAO_PEGTL_DEMANGLE_HPP
 
-#include <ciso646>
 #include <string_view>
 
 namespace tao::pegtl
