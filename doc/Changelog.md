@@ -15,6 +15,12 @@
 * Removed support for Visual Studio 2017.
 * Removed support for GCC 7.
 
+## 3.2.7
+
+Released 2022-07-14
+
+* Removed superfluous deprecated include.
+
 ## 3.2.6
 
 Released 2022-06-29
