@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.7
+
+Released 2022-07-14
+
+* Removed superfluous deprecated include.
+
 ## 3.2.6
 
 Released 2022-06-29
