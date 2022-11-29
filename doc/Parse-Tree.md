@@ -57,8 +57,8 @@ template<> struct my_selector< my_rule_3 > : std::true_type {};
 auto root = tao::pegtl::parse_tree::parse< my_grammar, my_selector >( in );
 ```
 
-Note that the example uses a white-list style; the default is `std::false_type` and only rules listed with a specialisation deriving from `std::true_type` will generate nodes.
-The opposite, a black-list style, is of course possible, too.
+Note that the example uses an allow-list style; the default is `std::false_type` and only rules listed with a specialisation deriving from `std::true_type` will generate nodes.
+The opposite, a block-list style, is of course possible, too.
 
 The PEGTL includes a selector class and additional utility classes to allow for a less verbose specification of a selector.
 The following definition of `my_selector` will behave just like the one above.
