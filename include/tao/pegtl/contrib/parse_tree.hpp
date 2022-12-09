@@ -234,7 +234,8 @@ namespace tao::pegtl::parse_tree
       inline constexpr bool node_has_unwind< Node,
                                              Rule,
                                              decltype( std::declval< Node >().template unwind< Rule >( std::declval< States >()... ) ),
-                                             States... > = true;
+                                             States... >
+         = true;
 
       template< typename Control, typename... States >
       inline constexpr bool control_has_unwind = tao::pegtl::internal::has_unwind< Control, void, States... >;
