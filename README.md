@@ -25,9 +25,7 @@ The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++
 
 ## Contact
 
-<a href="https://discord.gg/VQYkppcgqN"><img align="right" src="https://discordapp.com/api/guilds/790164930083028993/embed.png?style=banner2" alt="Join us on Discord"></a>
-
-For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to join our [Discord](https://discord.gg/VQYkppcgqN) server, open a [discussion](https://github.com/taocpp/PEGTL/discussions), an [issue](https://github.com/taocpp/PEGTL/issues) or a [pull request](https://github.com/taocpp/PEGTL/pulls) on GitHub or contact the authors at `taocpp(at)icemx.net`.
+For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to open a [discussion](https://github.com/taocpp/PEGTL/discussions), an [issue](https://github.com/taocpp/PEGTL/issues) or a [pull request](https://github.com/taocpp/PEGTL/pulls) on GitHub or contact the authors at `taocpp(at)icemx.net`.
 
 ## Introduction
 
