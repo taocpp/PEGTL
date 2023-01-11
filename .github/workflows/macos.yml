@@ -15,10 +15,26 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        xcode: ['11', '12', '13']
-        build_type: [Debug, Release]
-
-    runs-on: macos-latest
+        include:
+          - xcode: 11
+            build_type: Debug
+            os: macos-11
+          - xcode: 11
+            build_type: Release
+            os: macos-11
+          - xcode: 12
+            build_type: Debug
+            os: macos-11
+          - xcode: 12
+            build_type: Release
+            os: macos-11
+          - xcode: 13
+            build_type: Debug
+            os: macos-12
+          - xcode: 13
+            build_type: Release
+            os: macos-12
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v3
