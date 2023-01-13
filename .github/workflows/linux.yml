@@ -23,7 +23,7 @@ jobs:
           - clang++-12
         build_type: [Debug, Release]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     env:
       CXX: ${{ matrix.compiler }}
