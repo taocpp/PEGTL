@@ -202,19 +202,19 @@ namespace tao::pegtl
       [[nodiscard]] std::size_t buffer_occupied() const noexcept
       {
          assert( m_end >= m_current.data );
-         return std::size_t( m_end - m_current.data );
+         return static_cast< std::size_t >( m_end - m_current.data );
       }
 
       [[nodiscard]] std::size_t buffer_free_before_current() const noexcept
       {
          assert( m_current.data >= m_buffer.get() );
-         return std::size_t( m_current.data - m_buffer.get() );
+         return static_cast< std::size_t >( m_current.data - m_buffer.get() );
       }
 
       [[nodiscard]] std::size_t buffer_free_after_end() const noexcept
       {
          assert( m_buffer.get() + m_maximum >= m_end );
-         return std::size_t( m_buffer.get() + m_maximum - m_end );
+         return static_cast< std::size_t >( m_buffer.get() + m_maximum - m_end );
       }
 
    private:

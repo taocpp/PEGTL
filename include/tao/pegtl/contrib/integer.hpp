@@ -143,7 +143,7 @@ namespace tao::pegtl
          if( input[ 0 ] == '-' ) {
             return convert_negative< Signed >( result, std::string_view( input.data() + 1, input.size() - 1 ) );
          }
-         const auto offset = unsigned( input[ 0 ] == '+' );
+         const auto offset = static_cast< unsigned >( input[ 0 ] == '+' );
          return convert_positive< Signed >( result, std::string_view( input.data() + offset, input.size() - offset ) );
       }
 

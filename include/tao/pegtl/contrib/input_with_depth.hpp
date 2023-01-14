@@ -51,7 +51,7 @@ namespace tao::pegtl
 
       [[nodiscard]] internal::depth_guard make_depth_guard() noexcept
       {
-         return internal::depth_guard( m_depth );
+         return { m_depth };
       }
 
       [[nodiscard]] std::size_t current_depth() const noexcept

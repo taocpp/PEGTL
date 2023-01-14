@@ -28,13 +28,13 @@ namespace tao::pegtl
       struct lower : internal::range< internal::result_on_found::success, internal::peek_char, 'a', 'z' > {};
       template< char... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_char, Cs... > {};
       template< char Lo, char Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_char, Lo, Hi > {};
-      struct nul : internal::one< internal::result_on_found::success, internal::peek_char, char( 0 ) > {};
+      struct nul : internal::one< internal::result_on_found::success, internal::peek_char, static_cast< char >( 0 ) > {};
       struct odigit : internal::range< internal::result_on_found::success, internal::peek_char, '0', '7' > {};
       template< char... Cs > struct one : internal::one< internal::result_on_found::success, internal::peek_char, Cs... > {};
-      struct print : internal::range< internal::result_on_found::success, internal::peek_char, char( 32 ), char( 126 ) > {};
+      struct print : internal::range< internal::result_on_found::success, internal::peek_char, static_cast< char >( 32 ), static_cast< char >( 126 ) > {};
       template< char Lo, char Hi > struct range : internal::range< internal::result_on_found::success, internal::peek_char, Lo, Hi > {};
       template< char... Cs > struct ranges : internal::ranges< internal::peek_char, Cs... > {};
-      struct seven : internal::range< internal::result_on_found::success, internal::peek_char, char( 0 ), char( 127 ) > {};
+      struct seven : internal::range< internal::result_on_found::success, internal::peek_char, static_cast< char >( 0 ), static_cast< char >( 127 ) > {};
       struct shebang : internal::seq< internal::string< '#', '!' >, internal::until< internal::eolf > > {};
       struct space : internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\n', '\r', '\t', '\v', '\f' > {};
       template< char... Cs > struct string : internal::string< Cs... > {};

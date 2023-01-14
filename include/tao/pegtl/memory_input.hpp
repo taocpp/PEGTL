@@ -205,7 +205,7 @@ namespace tao::pegtl
          [[nodiscard]] tao::pegtl::position position( const frobnicator_t it ) const
          {
             internal::frobnicator c( m_begin );
-            internal::bump( c, std::size_t( it - m_begin.data ), Eol::ch );
+            internal::bump( c, static_cast< std::size_t >( it - m_begin.data ), Eol::ch );
             return tao::pegtl::position( c, m_source );
          }
 
@@ -371,7 +371,7 @@ namespace tao::pegtl
       [[nodiscard]] std::string_view line_at( const tao::pegtl::position& p ) const noexcept
       {
          const char* b = begin_of_line( p );
-         return std::string_view( b, static_cast< std::size_t >( end_of_line( p ) - b ) );
+         return { b, static_cast< std::size_t >( end_of_line( p ) - b ) };
       }
 
       void private_set_end( const char* new_end ) noexcept

@@ -67,8 +67,7 @@ namespace tao::pegtl
 
       protected:
          explicit analyze_cycles_impl( const int verbose ) noexcept
-            : m_verbose( verbose ),
-              m_problems( 0 )
+            : m_verbose( verbose )
          {}
 
          [[nodiscard]] const std::pair< const std::string_view, analyze_entry >& find( const std::string_view name ) const noexcept
@@ -139,7 +138,7 @@ namespace tao::pegtl
 
          const int m_verbose;
 
-         std::size_t m_problems;
+         std::size_t m_problems = 0;
 
          std::set< std::string_view > m_stack;
          std::vector< std::string_view > m_trace;

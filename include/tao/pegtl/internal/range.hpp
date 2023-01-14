@@ -27,7 +27,7 @@ namespace tao::pegtl::internal
 
       [[nodiscard]] static constexpr bool test_one( const data_t c ) noexcept
       {
-         return ( ( Lo <= c ) && ( c <= Hi ) ) == bool( R );
+         return ( ( Lo <= c ) && ( c <= Hi ) ) == static_cast< bool >( R );
       }
 
       [[nodiscard]] static constexpr bool test_any( const data_t c ) noexcept

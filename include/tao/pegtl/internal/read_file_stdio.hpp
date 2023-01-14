@@ -120,7 +120,7 @@ namespace tao::pegtl::internal
 #endif
             // LCOV_EXCL_STOP
          }
-         return std::size_t( s );
+         return static_cast< std::size_t >( s );
       }
 
       [[nodiscard]] std::string read_string() const

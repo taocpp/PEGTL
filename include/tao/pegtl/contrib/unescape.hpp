@@ -19,12 +19,12 @@ namespace tao::pegtl::unescape
    [[nodiscard]] inline bool utf8_append_utf32( std::string& string, const unsigned utf32 )
    {
       if( utf32 <= 0x7f ) {
-         string += char( utf32 & 0xff );
+         string += static_cast< char >( utf32 & 0xff );
          return true;
       }
       if( utf32 <= 0x7ff ) {
-         char tmp[] = { char( ( ( utf32 & 0x7c0 ) >> 6 ) | 0xc0 ),
-                        char( ( ( utf32 & 0x03f ) ) | 0x80 ) };
+         char tmp[] = { static_cast< char >( ( ( utf32 & 0x7c0 ) >> 6 ) | 0xc0 ),
+                        static_cast< char >( ( ( utf32 & 0x03f ) ) | 0x80 ) };
          string.append( tmp, sizeof( tmp ) );
          return true;
       }
@@ -33,17 +33,17 @@ namespace tao::pegtl::unescape
             // nope, this is a UTF-16 surrogate
             return false;
          }
-         char tmp[] = { char( ( ( utf32 & 0xf000 ) >> 12 ) | 0xe0 ),
-                        char( ( ( utf32 & 0x0fc0 ) >> 6 ) | 0x80 ),
-                        char( ( ( utf32 & 0x003f ) ) | 0x80 ) };
+         char tmp[] = { static_cast< char >( ( ( utf32 & 0xf000 ) >> 12 ) | 0xe0 ),
+                        static_cast< char >( ( ( utf32 & 0x0fc0 ) >> 6 ) | 0x80 ),
+                        static_cast< char >( ( ( utf32 & 0x003f ) ) | 0x80 ) };
          string.append( tmp, sizeof( tmp ) );
          return true;
       }
       if( utf32 <= 0x10ffff ) {
-         char tmp[] = { char( ( ( utf32 & 0x1c0000 ) >> 18 ) | 0xf0 ),
-                        char( ( ( utf32 & 0x03f000 ) >> 12 ) | 0x80 ),
-                        char( ( ( utf32 & 0x000fc0 ) >> 6 ) | 0x80 ),
-                        char( ( ( utf32 & 0x00003f ) ) | 0x80 ) };
+         char tmp[] = { static_cast< char >( ( ( utf32 & 0x1c0000 ) >> 18 ) | 0xf0 ),
+                        static_cast< char >( ( ( utf32 & 0x03f000 ) >> 12 ) | 0x80 ),
+                        static_cast< char >( ( ( utf32 & 0x000fc0 ) >> 6 ) | 0x80 ),
+                        static_cast< char >( ( ( utf32 & 0x00003f ) ) | 0x80 ) };
          string.append( tmp, sizeof( tmp ) );
          return true;
       }

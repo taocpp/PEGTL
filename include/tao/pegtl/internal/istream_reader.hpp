@@ -24,10 +24,10 @@ namespace tao::pegtl::internal
 
       [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length )
       {
-         m_istream.read( buffer, std::streamsize( length ) );
+         m_istream.read( buffer, static_cast< std::streamsize >( length ) );
 
          if( const auto r = m_istream.gcount() ) {
-            return std::size_t( r );
+            return static_cast< std::size_t >( r );
          }
          if( m_istream.eof() ) {
             return 0;

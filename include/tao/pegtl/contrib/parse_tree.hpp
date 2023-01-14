@@ -95,13 +95,13 @@ namespace tao::pegtl::parse_tree
       [[nodiscard]] std::string_view string_view() const noexcept
       {
          assert( has_content() );
-         return std::string_view( m_begin.data, m_end.data - m_begin.data );
+         return { m_begin.data, m_end.data - m_begin.data };
       }
 
       [[nodiscard]] std::string string() const
       {
          assert( has_content() );
-         return std::string( m_begin.data, m_end.data );
+         return { m_begin.data, m_end.data };
       }
 
       template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >

@@ -7,6 +7,7 @@
 
 Checks: >-
   bugprone-*,
+  -bugprone-easily-swappable-parameters,
   cppcoreguidelines-slicing,
   cppcoreguidelines-special-member-functions,
   google-build-explicit-make-pair,
@@ -28,6 +29,7 @@ Checks: >-
   performance-*,
   readability-*,
   -readability-avoid-const-params-in-decls,
+  -readability-function-cognitive-complexity,
   -readability-identifier-length,
   -readability-magic-numbers,
   -readability-static-accessed-through-instance,
