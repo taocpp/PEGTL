@@ -95,7 +95,7 @@ namespace tao::pegtl::internal
          : m_size( reader.size() ),
            m_data( static_cast< const char* >( ::mmap( nullptr, m_size, PROT_READ, MAP_PRIVATE, reader.m_fd, 0 ) ) )
       {
-         if( ( m_size != 0 ) && ( static_cast< intptr_t >( m_data ) == -1 ) ) {
+         if( ( m_size != 0 ) && ( reinterpret_cast< intptr_t >( m_data ) == -1 ) ) {
             // LCOV_EXCL_START
 #if defined( __cpp_exceptions )
             internal::error_code ec( errno, internal::system_category() );

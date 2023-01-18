@@ -95,7 +95,7 @@ namespace tao::pegtl::parse_tree
       [[nodiscard]] std::string_view string_view() const noexcept
       {
          assert( has_content() );
-         return { m_begin.data, m_end.data - m_begin.data };
+         return { m_begin.data, static_cast< std::size_t >( m_end.data - m_begin.data ) };
       }
 
       [[nodiscard]] std::string string() const
