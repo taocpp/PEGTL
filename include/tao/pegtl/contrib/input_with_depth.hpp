@@ -49,9 +49,9 @@ namespace tao::pegtl
    public:
       using Input::Input;
 
-      [[nodiscard]] auto make_depth_guard() noexcept
+      [[nodiscard]] internal::depth_guard make_depth_guard() noexcept
       {
-         return internal::depth_guard( m_depth );
+         return internal::depth_guard( m_depth );  // NOLINT(google-readability-casting)
       }
 
       [[nodiscard]] std::size_t current_depth() const noexcept
