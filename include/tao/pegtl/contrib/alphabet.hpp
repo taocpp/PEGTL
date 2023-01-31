@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2015-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -42,7 +42,7 @@ namespace tao::pegtl::alphabet
    static const char F = 'F';  // NOLINT(readability-identifier-naming)
    static const char G = 'G';  // NOLINT(readability-identifier-naming)
    static const char H = 'H';  // NOLINT(readability-identifier-naming)
-   static const char I = 'I';  // NOLINT(readability-identifier-naming)
+   static const char I = 'I';  // NOLINT(readability-identifier-naming,misc-confusable-identifiers)
    static const char J = 'J';  // NOLINT(readability-identifier-naming)
    static const char K = 'K';  // NOLINT(readability-identifier-naming)
    static const char L = 'L';  // NOLINT(readability-identifier-naming)
