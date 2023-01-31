@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -47,7 +47,7 @@ namespace tao::pegtl::internal
          if( ::fstat( m_fd, &st ) < 0 ) {
             // LCOV_EXCL_START
 #if defined( __cpp_exceptions )
-            internal::error_code ec( errno, internal::system_category() );
+            const internal::error_code ec( errno, internal::system_category() );
             throw internal::filesystem::filesystem_error( "fstat() failed", m_path, ec );
 #else
             std::perror( "fstat() failed" );
@@ -75,7 +75,7 @@ namespace tao::pegtl::internal
             return fd;
          }
 #if defined( __cpp_exceptions )
-         internal::error_code ec( errno, internal::system_category() );
+         const internal::error_code ec( errno, internal::system_category() );
          throw internal::filesystem::filesystem_error( "open() failed", m_path, ec );
 #else
          std::perror( "open() failed" );
@@ -98,7 +98,7 @@ namespace tao::pegtl::internal
          if( ( m_size != 0 ) && ( reinterpret_cast< intptr_t >( m_data ) == -1 ) ) {
             // LCOV_EXCL_START
 #if defined( __cpp_exceptions )
-            internal::error_code ec( errno, internal::system_category() );
+            const internal::error_code ec( errno, internal::system_category() );
             throw internal::filesystem::filesystem_error( "mmap() failed", reader.m_path, ec );
 #else
             std::perror( "mmap() failed" );
