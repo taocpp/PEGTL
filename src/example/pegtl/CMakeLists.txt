@@ -27,6 +27,7 @@ set(example_sources
   parse_tree.cpp
   parse_tree_user_state.cpp
   proto3.cpp
+  random_order.cpp
   recover.cpp
   s_expression.cpp
   sum.cpp
