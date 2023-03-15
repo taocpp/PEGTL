@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -23,6 +23,7 @@ namespace tao::pegtl
       verify_rule< star< one< 'a' > > >( __LINE__, __FILE__, "a", result_type::success, 0 );
       verify_rule< star< one< 'a' > > >( __LINE__, __FILE__, "aa", result_type::success, 0 );
       verify_rule< star< one< 'a' > > >( __LINE__, __FILE__, "aaa", result_type::success, 0 );
+      verify_rule< star< one< 'a' > > >( __LINE__, __FILE__, "aaab", result_type::success, 1 );
       verify_rule< star< one< 'a' > > >( __LINE__, __FILE__, "ba", result_type::success, 2 );
       verify_rule< star< one< 'a' > > >( __LINE__, __FILE__, "b", result_type::success, 1 );
 
@@ -30,6 +31,7 @@ namespace tao::pegtl
       verify_rule< star< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "a", result_type::success, 1 );
       verify_rule< star< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ab", result_type::success, 0 );
       verify_rule< star< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "aba", result_type::success, 1 );
+      verify_rule< star< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "abac", result_type::success, 2 );
       verify_rule< star< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "abb", result_type::success, 1 );
       verify_rule< star< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "abab", result_type::success, 0 );
       verify_rule< star< one< 'a' >, one< 'b' > > >( __LINE__, __FILE__, "ababc", result_type::success, 1 );

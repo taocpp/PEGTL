@@ -10,8 +10,14 @@
 
 namespace tao::pegtl::internal
 {
+   template< typename Rule, typename Pad1 >
+   using lpad = seq< star< Pad1 >, Rule >;
+
    template< typename Rule, typename Pad1, typename Pad2 = Pad1 >
    using pad = seq< star< Pad1 >, Rule, star< Pad2 > >;
+
+   template< typename Rule, typename Pad2 >
+   using rpad = seq< Rule, star< Pad2 > >;
 
 }  // namespace tao::pegtl::internal
 

@@ -272,6 +272,7 @@
 * [`space`](Rule-Reference.md#space) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`star< R... >`](Rule-Reference.md#star-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>
 * [`star_must< R, S... >`](Rule-Reference.md#star_must-r-s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
+* [`star_partial< R... >`](Rule-Reference.md#star_partial-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`state< S, R... >`](Rule-Reference.md#state-s-r-) <sup>[(meta rules)](Rule-Reference.md#meta-rules)</sup>
 * [`string< C... >`](Rule-Reference.md#string-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`string< C... >`](Rule-Reference.md#string-c--1) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
@@ -303,6 +304,6 @@
 
 This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
 
-Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt

@@ -297,17 +297,19 @@ Note that the `false` template parameter to `internal::if_must` corresponds to t
 
 * Matches a non-empty list of `R` separated by `S` with optional trailing `S`.
 * [Equivalent] to `seq< list< R, S >, opt< S > >`.
+* [Equivalent] to `seq< R, star_partial< S, R > >`.
 * [Meta data] and [implementation] mapping:
-  - `list_tail< R, S >::rule_t` is `internal::seq< R, internal::star< S, R >, internal::opt< S > >`
-  - `list_tail< R, S >::subs_t` is `type_list< R, internal::star< S, R >, internal::opt< S > >`
+  - `list_tail< R, S >::rule_t` is `internal::seq< R, internal::star_partial< S, R > >`
+  - `list_tail< R, S >::subs_t` is `type_list< R, internal::star_partial< S, R > >`
 
 ###### `list_tail< R, S, P >`
 
 * Matches a non-empty list of `R` separated by `S` with optional trailing `S` and padding `P` inside the list.
 * [Equivalent] to `seq< list< R, S, P >, opt< star< P >, S > >`.
+* [Equivalent] to `seq< R, star_partial< padl< S, P >, padl< R, P > > >`.
 * [Meta data] and [implementation] mapping:
-  - `list_tail< R, S, P >::rule_t` is `internal::seq< R, internal::star< internal::pad< S, P >, R >, internal::opt< internal::star< P >, S > >`
-  - `list_tail< R, S, P >::subs_t` is `type_list< R, internal::star< internal::pad< S, P >, R > >, internal::opt< internal::star< P >, S > >`
+  - `list_tail< R, S, P >::rule_t` is `internal::seq< R, internal::star_partial< internal::padl< S, P >, internal::padl< R, P > > >`
+  - `list_tail< R, S, P >::subs_t` is `type_list< R, internal::star_partial< internal::padl< S, P >, internal::padl< R, P > > >`
 
 ###### `minus< M, S >`
 
@@ -439,6 +441,16 @@ Note that the `S` do *not* need to match *all* of the input matched by `R` (whic
   - `star_must< R >::subs_t` is `type_list< internal::if_must< false, R > >`
   - `star_must< R, S... >::rule_t` is `internal::star< internal::if_must< false, R, S... > >`
   - `star_must< R, S... >::subs_t` is `type_list< internal::if_must< false, R, S... > >`
+
+###### `star_partial< R... >`
+
+* Similar to `star< R... >` with one important difference:
+* The final iteration does *not* rewind the input after a partial match of `R...`.
+* `R` must be a non-empty rule pack.
+* [Equivalent] to `star< R >` when `R...` is a single rule.
+* [Meta data] and [implementation] mapping:
+  - `star_partial< R... >::rule_t` is `internal::star_partial< R... >`
+  - `star_partial< R... >::subs_t` is `type_list< R... >`
 
 ###### `try_catch< R... >`
 
@@ -1547,6 +1559,7 @@ Binary rules do not rely on other rules.
 * [`space`](#space) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`star< R... >`](#star-r-) <sup>[(combinators)](#combinators)</sup>
 * [`star_must< R, S... >`](#star_must-r-s-) <sup>[(convenience)](#convenience)</sup>
+* [`star_partial< R... >`](#star_partial-r-) <sup>[(convenience)](#convenience)</sup>
 * [`state< S, R... >`](#state-s-r-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`string< C... >`](#string-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`string< C... >`](#string-c--1) <sup>[(unicode rules)](#unicode-rules)</sup>
@@ -1578,7 +1591,7 @@ Binary rules do not rely on other rules.
 
 This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
 
-Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt
 

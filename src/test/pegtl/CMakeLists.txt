@@ -117,6 +117,7 @@ set(test_sources
   rule_sor.cpp
   rule_star.cpp
   rule_star_must.cpp
+  rule_star_partial.cpp
   rule_state.cpp
   rule_success.cpp
   rule_try_catch.cpp

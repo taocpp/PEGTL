@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -51,6 +51,7 @@ namespace tao::pegtl
    template< typename... Rules > struct seq : internal::seq< Rules... > {};
    template< typename... Rules > struct sor : internal::sor< Rules... > {};
    template< typename Rule, typename... Rules > struct star : internal::star< Rule, Rules... > {};
+   template< typename Rule, typename... Rules > struct star_partial : internal::star_partial< Rule, Rules... > {};
    template< typename State, typename... Rules > struct state : internal::state< State, Rules... > {};
    struct success : internal::success {};
    template< typename Cond, typename... Rules > struct until : internal::until< Cond, Rules... > {};
