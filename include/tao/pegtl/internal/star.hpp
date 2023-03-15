@@ -5,14 +5,7 @@
 #ifndef TAO_PEGTL_INTERNAL_STAR_HPP
 #define TAO_PEGTL_INTERNAL_STAR_HPP
 
-#include <type_traits>
-
-#include "enable_control.hpp"
-#include "seq.hpp"
-
-#include "../apply_mode.hpp"
-#include "../rewind_mode.hpp"
-#include "../type_list.hpp"
+#include "star_partial.hpp"
 
 namespace tao::pegtl::internal
 {
@@ -23,24 +16,9 @@ namespace tao::pegtl::internal
 
    template< typename Rule >
    struct star< Rule >
+      : star_partial< Rule >
    {
       using rule_t = star;
-      using subs_t = type_list< Rule >;
-
-      template< apply_mode A,
-                rewind_mode,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename ParseInput,
-                typename... States >
-      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
-      {
-         while( Control< Rule >::template match< A, rewind_mode::required, Action, Control >( in, st... ) ) {
-         }
-         return true;
-      }
    };
 
    template< typename Rule, typename... Rules >
