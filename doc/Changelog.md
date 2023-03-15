@@ -8,6 +8,8 @@
 * Added new customization point for error messages.
 * Added optional source line output for the tracer.
 * Added new atomic rule `everything`.
+* Added new convenience rule `partial`.
+* Added new convenience rule `star_partial`.
 * Moved depth counter to adapter class in contrib.
 * Changed default top-level `rewind_mode` to `dontcare`.
 * Removed the `TAO_PEGTL_NAMESPACE` macro.

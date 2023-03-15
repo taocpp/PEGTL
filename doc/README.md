@@ -231,6 +231,7 @@
 * [`opt_must< R, S...>`](Rule-Reference.md#opt_must-r-s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`pad< R, S, T = S >`](Rule-Reference.md#pad-r-s-t--s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`pad_opt< R, P >`](Rule-Reference.md#pad_opt-r-p-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
+* [`partial< R... >`](Rule-Reference.md#partial-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`pattern_syntax`](Rule-Reference.md#pattern_syntax) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`pattern_white_space`](Rule-Reference.md#pattern_white_space) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`plus< R... >`](Rule-Reference.md#plus-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>

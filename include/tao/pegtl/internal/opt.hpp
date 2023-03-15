@@ -6,12 +6,9 @@
 #define TAO_PEGTL_INTERNAL_OPT_HPP
 
 #include "enable_control.hpp"
+#include "partial.hpp"
 #include "seq.hpp"
 #include "success.hpp"
-
-#include "../apply_mode.hpp"
-#include "../rewind_mode.hpp"
-#include "../type_list.hpp"
 
 namespace tao::pegtl::internal
 {
@@ -27,23 +24,9 @@ namespace tao::pegtl::internal
 
    template< typename Rule >
    struct opt< Rule >
+      : partial< Rule >
    {
       using rule_t = opt;
-      using subs_t = type_list< Rule >;
-
-      template< apply_mode A,
-                rewind_mode,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename ParseInput,
-                typename... States >
-      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
-      {
-         (void)Control< Rule >::template match< A, rewind_mode::required, Action, Control >( in, st... );
-         return true;
-      }
    };
 
    template< typename... Rules >

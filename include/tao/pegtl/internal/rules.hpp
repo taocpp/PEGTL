@@ -36,6 +36,7 @@
 #include "opt.hpp"
 #include "pad.hpp"
 #include "pad_opt.hpp"
+#include "partial.hpp"
 #include "plus.hpp"
 #include "range.hpp"
 #include "ranges.hpp"

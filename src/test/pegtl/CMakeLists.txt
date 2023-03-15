@@ -104,6 +104,7 @@ set(test_sources
   rule_opt_must.cpp
   rule_pad.cpp
   rule_pad_opt.cpp
+  rule_partial.cpp
   rule_plus.cpp
   rule_raise.cpp
   rule_rematch.cpp

@@ -165,9 +165,14 @@ namespace tao::pegtl
       : analyze_any_traits<>
    {};
 
-   template< typename Name, typename Rule, typename... Rules >
-   struct analyze_traits< Name, internal::opt< Rule, Rules... > >
-      : analyze_opt_traits< Rule, Rules... >
+   template< typename Name, typename... Rules >
+   struct analyze_traits< Name, internal::opt< Rules... > >
+      : analyze_opt_traits< Rules... >
+   {};
+
+   template< typename Name, typename... Rules >
+   struct analyze_traits< Name, internal::partial< Rules... > >
+      : analyze_opt_traits< Rules... >
    {};
 
    template< typename Name, typename... Rules >

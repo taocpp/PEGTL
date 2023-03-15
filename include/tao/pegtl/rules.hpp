@@ -40,6 +40,7 @@ namespace tao::pegtl
    template< typename... Rules > struct opt : internal::opt< Rules... > {};
    template< typename Rule, typename Pad1, typename Pad2 = Pad1 > struct pad : internal::pad< Rule, Pad1, Pad2 > {};
    template< typename Rule, typename Pad > struct pad_opt : internal::pad_opt< Rule, Pad > {};
+   template< typename Rule, typename... Rules > struct partial : internal::partial< Rule, Rules... > {};
    template< typename Rule, typename... Rules > struct plus : internal::plus< Rule, Rules... > {};
    template< typename Head, typename... Rules > struct rematch : internal::rematch< Head, Rules... > {};
    template< unsigned Num, typename... Rules > struct rep : internal::rep< Num, Rules... > {};

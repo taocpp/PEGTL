@@ -362,6 +362,19 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
   - `pad_opt< R, P >::rule_t` is `internal::seq< internal::star< P >, internal::opt< R, internal::star< P > > >`
   - `pad_opt< R, P >::subs_t` is `type_list< internal::star< P >, internal::opt< R, internal::star< P > > >`
 
+###### `partial< R... >`
+
+* Similar to `opt< R... >` with one important difference:
+* Does *not* rewind the input after a partial match of `R...`.
+* Attempts to match the given rules `R...` in the given order.
+* Succeeds and stops matching when one of the given rules fails.
+* Consumes everything that the successful rules of `R...` consumed.
+* `R` must be a non-empty rule pack.
+* [Equivalent] to `opt< R >` when `R...` is a single rule.
+* [Meta data] and [implementation] mapping:
+  - `partial< R... >::rule_t` is `internal::partial< R... >`
+  - `partial< R... >::subs_t` is `type_list< R... >`
+
 ###### `rematch< R, S... >`
 
 * Succeeds if `R` matches, and each `S` matches the input that `R` matched.
@@ -1518,6 +1531,7 @@ Binary rules do not rely on other rules.
 * [`opt_must< R, S...>`](#opt_must-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`pad< R, S, T = S >`](#pad-r-s-t--s-) <sup>[(convenience)](#convenience)</sup>
 * [`pad_opt< R, P >`](#pad_opt-r-p-) <sup>[(convenience)](#convenience)</sup>
+* [`partial< R... >`](#partial-r-) <sup>[(convenience)](#convenience)</sup>
 * [`pattern_syntax`](#pattern_syntax) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`pattern_white_space`](#pattern_white_space) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`plus< R... >`](#plus-r-) <sup>[(combinators)](#combinators)</sup>
