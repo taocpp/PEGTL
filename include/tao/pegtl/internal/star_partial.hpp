@@ -5,10 +5,7 @@
 #ifndef TAO_PEGTL_INTERNAL_STAR_PARTIAL_HPP
 #define TAO_PEGTL_INTERNAL_STAR_PARTIAL_HPP
 
-#include <type_traits>
-
 #include "enable_control.hpp"
-#include "success.hpp"
 
 #include "../apply_mode.hpp"
 #include "../rewind_mode.hpp"
