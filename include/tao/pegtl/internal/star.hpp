@@ -6,6 +6,7 @@
 #define TAO_PEGTL_INTERNAL_STAR_HPP
 
 #include "enable_control.hpp"
+#include "seq.hpp"
 #include "star_partial.hpp"
 
 namespace tao::pegtl::internal
