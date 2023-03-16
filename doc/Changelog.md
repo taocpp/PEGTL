@@ -10,6 +10,8 @@
 * Added new atomic rule `everything`.
 * Added new convenience rule `partial`.
 * Added new convenience rule `star_partial`.
+* Added new convenience rule `strict`.
+* Added new convenience rule `star_strict`.
 * Moved depth counter to adapter class in contrib.
 * Changed default top-level `rewind_mode` to `dontcare`.
 * Removed the `TAO_PEGTL_NAMESPACE` macro.

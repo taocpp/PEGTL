@@ -67,6 +67,7 @@
     * [ICU Rules for Value Properties](Rule-Reference.md#icu-rules-for-value-properties)
   * [Binary Rules](Rule-Reference.md#binary-rules)
   * [Full Index](Rule-Reference.md#full-index)
+  * [Example Tables](Example-Tables.md)
 * [Inputs and Parsing](Inputs-and-Parsing.md)
   * [Tracking Mode](Inputs-and-Parsing.md#tracking-mode)
   * [Line Ending](Inputs-and-Parsing.md#line-ending)
@@ -274,7 +275,9 @@
 * [`star< R... >`](Rule-Reference.md#star-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>
 * [`star_must< R, S... >`](Rule-Reference.md#star_must-r-s-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`star_partial< R... >`](Rule-Reference.md#star_partial-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
+* [`star_strict< R... >`](Rule-Reference.md#star_strict-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`state< S, R... >`](Rule-Reference.md#state-s-r-) <sup>[(meta rules)](Rule-Reference.md#meta-rules)</sup>
+* [`strict< R... >`](Rule-Reference.md#strict-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`string< C... >`](Rule-Reference.md#string-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`string< C... >`](Rule-Reference.md#string-c--1) <sup>[(unicode rules)](Rule-Reference.md#unicode-rules)</sup>
 * [`string< C... >`](Rule-Reference.md#string-c--2) <sup>[(binary rules)](Rule-Reference.md#binary-rules)</sup>

@@ -53,7 +53,9 @@ namespace tao::pegtl
    template< typename... Rules > struct sor : internal::sor< Rules... > {};
    template< typename Rule, typename... Rules > struct star : internal::star< Rule, Rules... > {};
    template< typename Rule, typename... Rules > struct star_partial : internal::star_partial< Rule, Rules... > {};
+   template< typename Rule, typename... Rules > struct star_strict : internal::star_strict< Rule, Rules... > {};
    template< typename State, typename... Rules > struct state : internal::state< State, Rules... > {};
+   template< typename Rule, typename... Rules > struct strict : internal::strict< Rule, Rules... > {};
    struct success : internal::success {};
    template< typename Cond, typename... Rules > struct until : internal::until< Cond, Rules... > {};
 

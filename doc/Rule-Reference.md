@@ -460,10 +460,28 @@ Note that the `S` do *not* need to match *all* of the input matched by `R` (whic
 * Similar to `star< R... >` with one important difference:
 * The final iteration does *not* rewind the input after a partial match of `R...`.
 * `R` must be a non-empty rule pack.
-* [Equivalent] to `star< R >` when `R...` is a single rule.
 * [Meta data] and [implementation] mapping:
   - `star_partial< R... >::rule_t` is `internal::star_partial< R... >`
   - `star_partial< R... >::subs_t` is `type_list< R... >`
+
+###### `star_strict< R... >`
+
+* Similar to `star< R... >` with one important difference:
+* A partial match of `R...` lets `star_strict` fail locally.
+* `R` must be a non-empty rule pack.
+* [Meta data] and [implementation] mapping:
+  - `star_strict< R... >::rule_t` is `internal::star_strict< R... >`
+  - `star_strict< R... >::subs_t` is `type_list< R... >`
+
+###### `strict< R... >`
+
+* Similar to `opt< R... >` with one important difference:
+* A partial match of `R...` lets `strict` fail locally.
+* [Equivalent] to `sor< not_at< R1 >, seq< R... > >` if `R1` is the first rule of `R...`.
+* `R` must be a non-empty rule pack.
+* [Meta data] and [implementation] mapping:
+  - `strict< R... >::rule_t` is `internal::strict< R... >`
+  - `strict< R... >::subs_t` is `type_list< R... >`
 
 ###### `try_catch< R... >`
 
@@ -1574,7 +1592,9 @@ Binary rules do not rely on other rules.
 * [`star< R... >`](#star-r-) <sup>[(combinators)](#combinators)</sup>
 * [`star_must< R, S... >`](#star_must-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`star_partial< R... >`](#star_partial-r-) <sup>[(convenience)](#convenience)</sup>
+* [`star_strict< R... >`](#star_strict-r-) <sup>[(convenience)](#convenience)</sup>
 * [`state< S, R... >`](#state-s-r-) <sup>[(meta rules)](#meta-rules)</sup>
+* [`strict< R... >`](#strict-r-) <sup>[(convenience)](#convenience)</sup>
 * [`string< C... >`](#string-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`string< C... >`](#string-c--1) <sup>[(unicode rules)](#unicode-rules)</sup>
 * [`string< C... >`](#string-c--2) <sup>[(binary rules)](#binary-rules)</sup>
