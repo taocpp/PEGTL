@@ -300,7 +300,7 @@ struct foo
 
 Now an action class template can be specialised for `foo`, or for `tao::pegtl::alpha`, but *not* for `tao::pegtl::plus< tao::pegtl::alpha >`.
 
-This because base classes are not taken into consideration by the C++ language when choosing a specialisation, which might be surprising when being used to pointer arguments to functions where conversions from pointer-to-derived to pointer-to-base are performed implicitly and silently.
+This is because base classes are not taken into consideration by the C++ language when choosing a specialisation, which might be surprising when being used to pointer arguments to functions where conversions from pointer-to-derived to pointer-to-base are performed implicitly and silently.
 
 So although the function called by the library to match `foo` is the inherited `tao::pegtl::plus< tao::pegtl::alpha >::match()`, the rule class is `foo` and the function known as `foo::match()`, wherefore an action needs to be specialised for `foo` instead of `tao::pegtl::plus< tao::pegtl::alpha >`.
 
