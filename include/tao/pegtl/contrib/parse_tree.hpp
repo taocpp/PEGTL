@@ -292,7 +292,8 @@ namespace tao::pegtl::parse_tree
          {
             state.emplace_back();
             state.back()->template start< Rule >( in, st... );
-            Control< Rule >::start( in, state.back()->children.back(), st... );
+            auto &n = state.back()->children.back();
+            Control< Rule >::start( in, n, st... );
          }
 
          template< typename ParseInput, typename... States >
