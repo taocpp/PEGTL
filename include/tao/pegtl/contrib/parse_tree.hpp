@@ -308,8 +308,8 @@ namespace tao::pegtl::parse_tree
                Control< Rule >::success( in, state.back()->children.back(), st... );
             }
             else {
-                auto null_child = std::make_unique<Node>();
-                Control< Rule >::success( in, null_child, st... );
+               auto null_child = std::make_unique<Node>();
+               Control< Rule >::success( in, null_child, st... );
             }
          }
 
