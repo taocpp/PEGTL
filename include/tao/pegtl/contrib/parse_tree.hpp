@@ -292,7 +292,7 @@ namespace tao::pegtl::parse_tree
          {
             state.emplace_back();
             state.back()->template start< Rule >( in, st... );
-            auto &n = state.back()->children.back();
+            auto& n = state.back()->children.back();
             Control< Rule >::start( in, n, st... );
          }
 
@@ -306,7 +306,8 @@ namespace tao::pegtl::parse_tree
             if( n ) {
                state.back()->emplace_back( std::move( n ), st... );
                Control< Rule >::success( in, state.back()->children.back(), st... );
-            } else {
+            }
+            else {
                 auto null_child = std::make_unique<Node>();
                 Control< Rule >::success( in, null_child, st... );
             }
