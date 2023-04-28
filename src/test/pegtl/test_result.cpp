@@ -29,7 +29,7 @@ namespace tao::pegtl
       }
       {
          std::ostringstream oss;
-         oss << result_type( 1764 );
+         oss << static_cast< result_type >( 1764 );
          TAO_PEGTL_TEST_ASSERT( oss.str() == "1764" );
       }
    }

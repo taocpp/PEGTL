@@ -22,7 +22,7 @@ namespace tao::pegtl
    void test_eager()
    {
       const std::string data = "abc";
-      memory_input< tracking_mode::eager, eol::lf_crlf, std::string > in( std::string_view( data ), __FUNCTION__ );
+      memory_input< tracking_mode::eager, eol::lf_crlf, std::string > in( std::string_view{ data }, __FUNCTION__ );
       bool success = parse< grammar >( in );
       TAO_PEGTL_TEST_ASSERT( success );
       in.restart();

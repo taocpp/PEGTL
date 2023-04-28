@@ -13,19 +13,19 @@ namespace tao::pegtl
    {
       std::string u32s( const char32_t u )
       {
-         return std::string( reinterpret_cast< const char* >( &u ), sizeof( u ) );
+         return { reinterpret_cast< const char* >( &u ), sizeof( u ) };
       }
 
       std::string u32s_be( const char32_t v )
       {
-         const std::uint32_t u = internal::h_to_be( std::uint32_t( v ) );
-         return std::string( reinterpret_cast< const char* >( &u ), sizeof( u ) );
+         const std::uint32_t u = internal::h_to_be( static_cast< std::uint32_t >( v ) );
+         return { reinterpret_cast< const char* >( &u ), sizeof( u ) };
       }
 
       std::string u32s_le( const char32_t v )
       {
-         const std::uint32_t u = internal::h_to_le( std::uint32_t( v ) );
-         return std::string( reinterpret_cast< const char* >( &u ), sizeof( u ) );
+         const std::uint32_t u = internal::h_to_le( static_cast< std::uint32_t >( v ) );
+         return { reinterpret_cast< const char* >( &u ), sizeof( u ) };
       }
 
    }  // namespace
