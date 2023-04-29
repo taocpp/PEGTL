@@ -49,6 +49,7 @@ jobs:
       fail-fast: false
       matrix:
         compiler:
+          - g++-7
           - g++-8
           - clang++-6.0
           - clang++-7
@@ -66,9 +67,9 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - run: sudo apt-get update -yq
+    - run: sudo apt-get update -y
 
-    - run: sudo apt-get install -yq ${{ matrix.compiler }}
+    - run: sudo apt-get install -y ${{ matrix.compiler }}
 
     - run: cmake -E make_directory build
 
