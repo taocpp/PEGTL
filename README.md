@@ -137,7 +137,7 @@ The PEGTL is part of [The Art of C++](https://taocpp.github.io/).
 
 ## License
 
-<a href="https://opensource.org/licenses/BSL-1.0"><img align="right" src="https://opensource.org/files/OSIApproved.png" width="150" hspace="20" alt="Open Source Initiative"></a>
+<a href="https://opensource.org/licenses/BSL-1.0"><img align="right" src="https://opensource.org/wp-content/uploads/2009/06/OSIApproved.svg" width="150" hspace="20" alt="Open Source Initiative"></a>
 
 Copyright (c) 2007-2022 Daniel Frey and Dr. Colin Hirsch
 
