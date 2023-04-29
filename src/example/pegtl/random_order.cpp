@@ -43,7 +43,7 @@ namespace tao::pegtl
             auto m = in.template auto_rewind< M >();
             using m_t = decltype( m );
             for( std::size_t i = 0; i < rule_count; ++i ) {
-               if( !( ( ( b.test( Indices ) == false ) && Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) && ( b.set( Indices ), true ) ) || ... ) ) {
+               if( !( ( ( b.test( Indices ) == false ) && ( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) && ( b.set( Indices ), true ) ) || ... ) ) {
                   return m( Optional );
                }
             }
