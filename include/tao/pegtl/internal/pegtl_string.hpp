@@ -55,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 #define TAO_PEGTL_INTERNAL_STRING_AT( S, x, n ) \
    ::TAO_PEGTL_NAMESPACE::internal::string_at< S, ( 0##n < ( sizeof( x ) / sizeof( char ) ) ) ? ( x )[ 0##n ] : 0, ( 0##n < ( sizeof( x ) / sizeof( char ) ) - 1 ) >::type
 
-#define TAO_PEGTL_INTERNAL_JOIN_8( M, S, x, n )                                    \
+#define TAO_PEGTL_INTERNAL_JOIN_8( M, S, x, n )                                               \
    ::TAO_PEGTL_NAMESPACE::internal::string_join< TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##0 ), \
                                                  TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##1 ), \
                                                  TAO_PEGTL_INTERNAL_DEFER( M )( S, x, n##2 ), \
