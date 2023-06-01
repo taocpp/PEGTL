@@ -2,6 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
+#if defined( __clang__ ) || !defined( __GNUC__ ) || ( __GNUC__ > 8 )
+
 #include <bitset>
 #include <iostream>
 #include <utility>
@@ -107,3 +109,12 @@ int main( int argc, char** argv )
    }
    return 0;
 }
+
+#else  // GCC 8 gives a bogus warning on the fold expressions.
+
+int main( int /*unused*/, char** /*unused*/ )
+{
+   return 0;
+}
+
+#endif
