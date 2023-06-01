@@ -367,7 +367,8 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 * Similar to `opt< R... >` with one important difference:
 * Does *not* rewind the input after a partial match of `R...`.
 * Attempts to match the given rules `R...` in the given order.
-* Succeeds and stops matching when one of the given rules fails.
+* Succeeds and stops matching when one of the given rules fails;
+* succeds when all of the given rules succeed.
 * Consumes everything that the successful rules of `R...` consumed.
 * `R` must be a non-empty rule pack.
 * [Equivalent] to `opt< R >` when `R...` is a single rule.
