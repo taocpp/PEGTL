@@ -9,7 +9,9 @@
 #include "seq.hpp"
 #include "star_partial.hpp"
 
-namespace tao::pegtl::internal
+#include "../config.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Rule, typename... Rules >
    struct star
@@ -26,6 +28,6 @@ namespace tao::pegtl::internal
    template< typename Rule, typename... Rules >
    inline constexpr bool enable_control< star< Rule, Rules... > > = false;
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

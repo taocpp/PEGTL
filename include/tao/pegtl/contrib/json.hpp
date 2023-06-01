@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -6,10 +6,11 @@
 #define TAO_PEGTL_CONTRIB_JSON_HPP
 
 #include "../ascii.hpp"
+#include "../config.hpp"
 #include "../rules.hpp"
 #include "../utf8.hpp"
 
-namespace tao::pegtl::json
+namespace TAO_PEGTL_NAMESPACE::json
 {
    // JSON grammar according to RFC 8259
 
@@ -36,7 +37,7 @@ namespace tao::pegtl::json
    struct int_ : sor< one< '0' >, plus< digit > > {};  // NOLINT(readability-identifier-naming)
    struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
 
-   struct xdigit : tao::pegtl::xdigit {};
+   struct xdigit : TAO_PEGTL_NAMESPACE::xdigit {};
    struct unicode : list< seq< one< 'u' >, rep< 4, xdigit > >, one< '\\' > > {};
    struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
    struct escaped : sor< escaped_char, unicode > {};
@@ -86,6 +87,6 @@ namespace tao::pegtl::json
    struct text : pad< value, ws > {};
    // clang-format on
 
-}  // namespace tao::pegtl::json
+}  // namespace TAO_PEGTL_NAMESPACE::json
 
 #endif

@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2021-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -8,7 +8,9 @@
 #include <cstddef>
 #include <string>
 
-namespace tao::pegtl::internal
+#include "../config.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    // the below uses a hack to call private member functions of a class, described here:
    // https://github.com/facebook/folly/blob/master/folly/memory/UninitializedMemoryHacks.h
@@ -117,6 +119,6 @@ namespace tao::pegtl::internal
       }
    }
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

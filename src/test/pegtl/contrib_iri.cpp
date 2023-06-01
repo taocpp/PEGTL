@@ -1,5 +1,5 @@
-// Copyright (c) 2021-2022 Kelvin Hammond
-// Copyright (c) 2021-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2021-2023 Kelvin Hammond
+// Copyright (c) 2021-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -17,7 +17,7 @@ int main()
 
 #include <tao/pegtl/contrib/iri.hpp>
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    using GRAMMAR = must< iri::IRI, eof >;
 
@@ -51,7 +51,7 @@ namespace tao::pegtl
       TAO_PEGTL_TEST_THROWS( parse< GRAMMAR >( memory_input( "", "" ) ) );
    }
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"
 

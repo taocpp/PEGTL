@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2019-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -9,11 +9,12 @@
 #include <utility>
 
 #include "apply_mode.hpp"
+#include "config.hpp"
 #include "match.hpp"
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    template< typename... NewStates >
    struct change_states
@@ -32,7 +33,7 @@ namespace tao::pegtl
       [[nodiscard]] static bool match( std::index_sequence< Ns... > /*unused*/, ParseInput& in, States&&... st )
       {
          auto t = std::tie( st... );
-         if( tao::pegtl::match< Rule, A, M, Action, Control >( in, std::get< Ns >( t )... ) ) {
+         if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, std::get< Ns >( t )... ) ) {
             if constexpr( A == apply_mode::action ) {
                Action< Rule >::success( static_cast< const ParseInput& >( in ), st... );
             }
@@ -56,6 +57,6 @@ namespace tao::pegtl
       }
    };
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

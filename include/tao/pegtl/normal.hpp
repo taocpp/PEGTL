@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -10,6 +10,7 @@
 #include <utility>
 
 #include "apply_mode.hpp"
+#include "config.hpp"
 #include "match.hpp"
 #include "parse_error.hpp"
 #include "rewind_mode.hpp"
@@ -25,7 +26,7 @@
 #include <exception>
 #endif
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Rule >
    struct normal
@@ -95,11 +96,11 @@ namespace tao::pegtl
             return Action< Rule >::template match< Rule, A, M, Action, Control >( in, st... );
          }
          else {
-            return tao::pegtl::match< Rule, A, M, Action, Control >( in, st... );
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
          }
       }
    };
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

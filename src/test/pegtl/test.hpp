@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -11,11 +11,11 @@
 
 #include <tao/pegtl.hpp>
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    std::size_t failed = 0;
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #define TAO_TEST_STRINGIZE_INTERNAL( ... ) #__VA_ARGS__
 #define TAO_TEST_STRINGIZE( ... ) TAO_TEST_STRINGIZE_INTERNAL( __VA_ARGS__ )
@@ -27,7 +27,7 @@ namespace tao::pegtl
 #define TAO_PEGTL_TEST_FAILED( MeSSaGe )            \
    do {                                             \
       std::cerr << "pegtl: unit test failed for [ " \
-                << tao::pegtl::demangle< Rule >()   \
+                << TAO_PEGTL_NAMESPACE::demangle< Rule >()   \
                 << " ] "                            \
                 << TAO_PEGTL_TEST_UNWRAP( MeSSaGe ) \
                 << " in line [ "                    \
@@ -35,7 +35,7 @@ namespace tao::pegtl
                 << " ] file [ "                     \
                 << file << " ]"                     \
                 << std::endl;                       \
-      ++tao::pegtl::failed;                         \
+      ++TAO_PEGTL_NAMESPACE::failed;                         \
    } while( false )
 
 #define TAO_PEGTL_TEST_ASSERT( ... )               \
@@ -48,7 +48,7 @@ namespace tao::pegtl
                    << " ] file [ "                 \
                    << __FILE__ << " ]"             \
                    << std::endl;                   \
-         ++tao::pegtl::failed;                     \
+         ++TAO_PEGTL_NAMESPACE::failed;                     \
       }                                            \
    } while( false )
 
@@ -63,7 +63,7 @@ namespace tao::pegtl
                    << " ] file [ "                  \
                    << __FILE__ << " ]"              \
                    << std::endl;                    \
-         ++tao::pegtl::failed;                      \
+         ++TAO_PEGTL_NAMESPACE::failed;                      \
       }                                             \
       catch( ... ) {                                \
       }                                             \

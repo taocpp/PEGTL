@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -11,7 +11,7 @@
 #include "result_type.hpp"
 #include "verify_rule.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Rule >
    void verify_char( const std::size_t line, const char* file, const char data, const result_type result )
@@ -25,6 +25,6 @@ namespace tao::pegtl
       verify_char< Rule >( line, file, data, result ? result_type::success : result_type::local_failure );
    }
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

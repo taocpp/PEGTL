@@ -1,9 +1,11 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef TAO_PEGTL_INTERNAL_MMAP_FILE_WIN32_HPP
 #define TAO_PEGTL_INTERNAL_MMAP_FILE_WIN32_HPP
+
+#include "../config.hpp"
 
 #if !defined( NOMINMAX )
 #define NOMINMAX
@@ -34,7 +36,7 @@
 
 #include "filesystem.hpp"
 
-namespace tao::pegtl::internal
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    struct mmap_file_open
    {
@@ -239,6 +241,6 @@ namespace tao::pegtl::internal
 
    using mmap_file_impl = mmap_file_win32;
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -19,31 +19,33 @@ int main()
 
 namespace sexpr
 {
+   namespace pegtl = TAO_PEGTL_NAMESPACE;
+
    // clang-format off
-   struct hash_comment : tao::pegtl::until< tao::pegtl::eolf > {};
+   struct hash_comment : pegtl::until< pegtl::eolf > {};
 
    struct list;
-   struct list_comment : tao::pegtl::if_must< tao::pegtl::at< tao::pegtl::one< '(' > >, tao::pegtl::disable< list > > {};
+   struct list_comment : pegtl::if_must< pegtl::at< pegtl::one< '(' > >, pegtl::disable< list > > {};
 
-   struct read_include : tao::pegtl::seq< tao::pegtl::one< ' ' >, tao::pegtl::one< '"' >, tao::pegtl::plus< tao::pegtl::not_one< '"' > >, tao::pegtl::one< '"' > > {};
-   struct hash_include : tao::pegtl::if_must< tao::pegtl::string< 'i', 'n', 'c', 'l', 'u', 'd', 'e' >, read_include > {};
+   struct read_include : pegtl::seq< pegtl::one< ' ' >, pegtl::one< '"' >, pegtl::plus< pegtl::not_one< '"' > >, pegtl::one< '"' > > {};
+   struct hash_include : pegtl::if_must< pegtl::string< 'i', 'n', 'c', 'l', 'u', 'd', 'e' >, read_include > {};
 
-   struct hashed : tao::pegtl::if_must< tao::pegtl::one< '#' >, tao::pegtl::sor< hash_include, list_comment, hash_comment > > {};
+   struct hashed : pegtl::if_must< pegtl::one< '#' >, pegtl::sor< hash_include, list_comment, hash_comment > > {};
 
-   struct number : tao::pegtl::plus< tao::pegtl::digit > {};
-   struct symbol : tao::pegtl::identifier {};
+   struct number : pegtl::plus< pegtl::digit > {};
+   struct symbol : pegtl::identifier {};
 
-   struct atom : tao::pegtl::sor< number, symbol > {};
+   struct atom : pegtl::sor< number, symbol > {};
 
    struct anything;
 
-   struct list : tao::pegtl::if_must< tao::pegtl::one< '(' >, tao::pegtl::until< tao::pegtl::one< ')' >, anything > > {};
+   struct list : pegtl::if_must< pegtl::one< '(' >, pegtl::until< pegtl::one< ')' >, anything > > {};
 
-   struct normal : tao::pegtl::sor< atom, list > {};
+   struct normal : pegtl::sor< atom, list > {};
 
-   struct anything : tao::pegtl::sor< tao::pegtl::space, hashed, normal > {};
+   struct anything : pegtl::sor< pegtl::space, hashed, normal > {};
 
-   struct main : tao::pegtl::until< tao::pegtl::eof, tao::pegtl::must< anything > > {};
+   struct main : pegtl::until< pegtl::eof, pegtl::must< anything > > {};
    // clang-format on
 
    template< typename Rule >
@@ -51,7 +53,7 @@ namespace sexpr
    {};
 
    template<>
-   struct action< tao::pegtl::plus< tao::pegtl::not_one< '"' > > >
+   struct action< pegtl::plus< pegtl::not_one< '"' > > >
    {
       template< typename ActionInput >
       static void apply( const ActionInput& in, std::string& fn )
@@ -73,8 +75,8 @@ namespace sexpr
          // last string literal that we use as filename here, and
          // the input is passed on for chained error messages (as
          // in "error in line x file foo included from file bar...)
-         tao::pegtl::file_input i2( fn );
-         tao::pegtl::parse_nested< main, sexpr::action >( in, i2, f2 );
+         pegtl::file_input i2( fn );
+         pegtl::parse_nested< main, sexpr::action >( in, i2, f2 );
       }
    };
 
@@ -82,16 +84,16 @@ namespace sexpr
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   if( tao::pegtl::analyze< sexpr::main >() != 0 ) {
+   if( TAO_PEGTL_NAMESPACE::analyze< sexpr::main >() != 0 ) {
       return 1;
    }
    for( int i = 1; i < argc; ++i ) {
       std::string fn;
-      tao::pegtl::argv_input in( argv, i );
+      TAO_PEGTL_NAMESPACE::argv_input in( argv, i );
       try {
-         tao::pegtl::parse< sexpr::main, sexpr::action >( in, fn );
+         TAO_PEGTL_NAMESPACE::parse< sexpr::main, sexpr::action >( in, fn );
       }
-      catch( const tao::pegtl::parse_error& e ) {
+      catch( const TAO_PEGTL_NAMESPACE::parse_error& e ) {
          const auto p = e.positions().front();
          std::cerr << e.what() << '\n'
                    << in.line_at( p ) << '\n'

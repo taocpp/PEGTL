@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2018-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -7,13 +7,15 @@
 
 #include <type_traits>
 
+#include "../config.hpp"
+
 #include "../internal/enable_control.hpp"
 #include "../internal/failure.hpp"
 #include "../internal/if_then_else.hpp"
 #include "../internal/seq.hpp"
 #include "../internal/success.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -50,6 +52,6 @@ namespace tao::pegtl
       : internal::if_then< internal::if_pair< Cond, internal::seq< Thens... > > >
    {};
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

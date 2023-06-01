@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -13,9 +13,10 @@
 #include "one.hpp"
 #include "range.hpp"
 
+#include "../config.hpp"
 #include "../type_list.hpp"
 
-namespace tao::pegtl::internal
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Char, Char Lo, Char Hi >
    constexpr bool validate_range( Char c ) noexcept
@@ -86,6 +87,6 @@ namespace tao::pegtl::internal
    template< typename Peek, typename Peek::data_t... Cs >
    inline constexpr bool enable_control< ranges< Peek, Cs... > > = false;
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

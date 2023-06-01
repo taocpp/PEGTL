@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2019-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -8,9 +8,10 @@
 #include <utility>
 
 #include "../apply_mode.hpp"
+#include "../config.hpp"
 #include "../rewind_mode.hpp"
 
-namespace tao::pegtl::internal
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename,
              typename Rule,
@@ -35,6 +36,6 @@ namespace tao::pegtl::internal
              typename... States >
    inline constexpr bool has_match< decltype( (void)Action< Rule >::template match< Rule, A, M, Action, Control >( std::declval< ParseInput& >(), std::declval< States&& >()... ), bool() ), Rule, A, M, Action, Control, ParseInput, States... > = true;
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

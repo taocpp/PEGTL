@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -13,10 +13,11 @@
 #include "star.hpp"
 
 #include "../apply_mode.hpp"
+#include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace tao::pegtl::internal
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Cond, typename... Rules >
    struct until
@@ -82,6 +83,6 @@ namespace tao::pegtl::internal
    template< typename Cond, typename... Rules >
    inline constexpr bool enable_control< until< Cond, Rules... > > = false;
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

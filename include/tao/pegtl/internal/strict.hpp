@@ -9,10 +9,11 @@
 #include "seq.hpp"
 
 #include "../apply_mode.hpp"
+#include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace tao::pegtl::internal
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Rule, typename... Rules >
    struct strict
@@ -46,6 +47,6 @@ namespace tao::pegtl::internal
    template< typename... Rules >
    inline constexpr bool enable_control< strict< Rules... > > = false;
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

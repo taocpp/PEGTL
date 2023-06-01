@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2016-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -12,9 +12,10 @@
 
 #include "frobnicator.hpp"
 
+#include "../config.hpp"
 #include "../position.hpp"
 
-namespace tao::pegtl::internal
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename ParseInput >
    class action_input
@@ -91,7 +92,7 @@ namespace tao::pegtl::internal
          return static_cast< std::uint8_t >( peek_char( offset ) );
       }
 
-      [[nodiscard]] tao::pegtl::position position() const
+      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
       {
          return input().position( frobnicator() );  // NOTE: Not efficient with lazy inputs.
       }
@@ -101,6 +102,6 @@ namespace tao::pegtl::internal
       const ParseInput& m_input;
    };
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

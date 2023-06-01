@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2020-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -13,6 +13,7 @@
 #include "state_control.hpp"
 
 #include "../apply_mode.hpp"
+#include "../config.hpp"
 #include "../demangle.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
@@ -21,7 +22,7 @@
 #include "../type_list.hpp"
 #include "../visit.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    struct coverage_info
    {
@@ -146,6 +147,6 @@ namespace tao::pegtl
       return parse< Rule, Action, state_control< Control >::template type >( in, st..., state );
    }
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

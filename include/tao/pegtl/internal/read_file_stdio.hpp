@@ -17,7 +17,9 @@
 #include "filesystem.hpp"
 #include "resize_uninitialized.hpp"
 
-namespace tao::pegtl::internal
+#include "../config.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    [[nodiscard]] inline std::FILE* read_file_open( const internal::filesystem::path& path )
    {
@@ -154,6 +156,6 @@ namespace tao::pegtl::internal
       }
    };
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

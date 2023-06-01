@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -6,7 +6,7 @@
 
 #include <tao/pegtl/contrib/trace.hpp>
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    // clang-format off
    struct inner : seq< one< 'a' >, sor< one< 'b' >, one< 'c' >, inner > > {};
@@ -24,6 +24,6 @@ namespace tao::pegtl
       TAO_PEGTL_TEST_ASSERT( result );
    }
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"

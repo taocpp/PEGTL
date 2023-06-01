@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2019-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -6,10 +6,11 @@
 #define TAO_PEGTL_CONTRIB_JSON_POINTER_HPP
 
 #include "../ascii.hpp"
+#include "../config.hpp"
 #include "../rules.hpp"
 #include "../utf8.hpp"
 
-namespace tao::pegtl::json_pointer
+namespace TAO_PEGTL_NAMESPACE::json_pointer
 {
    // JSON pointer grammar according to RFC 6901
 
@@ -28,6 +29,6 @@ namespace tao::pegtl::json_pointer
    struct relative_json_pointer : seq< non_negative_integer, sor< one< '#' >, json_pointer > > {};
    // clang-format on
 
-}  // namespace tao::pegtl::json_pointer
+}  // namespace TAO_PEGTL_NAMESPACE::json_pointer
 
 #endif

@@ -7,7 +7,7 @@
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Rule >
    struct my_action
@@ -65,6 +65,6 @@ namespace tao::pegtl
       TAO_PEGTL_TEST_ASSERT( success );
    }
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"

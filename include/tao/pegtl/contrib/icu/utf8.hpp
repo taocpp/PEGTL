@@ -1,9 +1,11 @@
-// Copyright (c) 2018-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2018-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef TAO_PEGTL_CONTRIB_ICU_UTF8_HPP
 #define TAO_PEGTL_CONTRIB_ICU_UTF8_HPP
+
+#include "../../config.hpp"
 
 #include "internal.hpp"
 
@@ -11,7 +13,7 @@
 
 #include "../../internal/peek_utf8.hpp"
 
-namespace tao::pegtl::utf8::icu
+namespace TAO_PEGTL_NAMESPACE::utf8::icu
 {
    template< UProperty P, bool V = true >
    struct binary_property
@@ -98,6 +100,6 @@ namespace tao::pegtl::utf8::icu
    template< std::uint8_t V > struct trail_canonical_combining_class : property_value< UCHAR_TRAIL_CANONICAL_COMBINING_CLASS, V > {};
    // clang-format on
 
-}  // namespace tao::pegtl::utf8::icu
+}  // namespace TAO_PEGTL_NAMESPACE::utf8::icu
 
 #endif

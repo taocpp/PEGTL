@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -10,6 +10,7 @@
 #else
 
 #include "../ascii.hpp"
+#include "../config.hpp"
 #include "../nothing.hpp"
 #include "../rules.hpp"
 #include "../utf8.hpp"
@@ -19,7 +20,7 @@
 #include "remove_first_state.hpp"
 #include "uri.hpp"
 
-namespace tao::pegtl::http
+namespace TAO_PEGTL_NAMESPACE::http
 {
    // HTTP 1.1 grammar according to RFC 7230.
 
@@ -271,7 +272,7 @@ namespace tao::pegtl::http
    struct chunked_body : seq< until< last_chunk, chunk >, trailer_part, abnf::CRLF > {};
    // clang-format on
 
-}  // namespace tao::pegtl::http
+}  // namespace TAO_PEGTL_NAMESPACE::http
 
 #endif
 #endif

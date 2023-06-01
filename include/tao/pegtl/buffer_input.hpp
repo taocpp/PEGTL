@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2016-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -20,6 +20,7 @@
 #include <exception>
 #endif
 
+#include "config.hpp"
 #include "eol.hpp"
 #include "memory_input.hpp"
 #include "position.hpp"
@@ -30,7 +31,7 @@
 #include "internal/frobnicator.hpp"
 #include "internal/rewind_guard.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Reader, typename Eol = eol::lf_crlf, typename Source = std::string, std::size_t Chunk = 64 >
    class buffer_input
@@ -179,12 +180,12 @@ namespace tao::pegtl
          m_current = data;
       }
 
-      [[nodiscard]] tao::pegtl::position position( const frobnicator_t& it ) const
+      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const frobnicator_t& it ) const
       {
-         return tao::pegtl::position( it, m_source );
+         return TAO_PEGTL_NAMESPACE::position( it, m_source );
       }
 
-      [[nodiscard]] tao::pegtl::position position() const
+      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
       {
          return position( m_current );
       }
@@ -229,6 +230,6 @@ namespace tao::pegtl
       std::size_t private_depth = 0;
    };
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

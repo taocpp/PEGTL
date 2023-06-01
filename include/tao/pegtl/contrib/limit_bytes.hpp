@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2021-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -8,6 +8,7 @@
 #include <algorithm>
 
 #include "../apply_mode.hpp"
+#include "../config.hpp"
 #include "../match.hpp"
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
@@ -19,7 +20,7 @@
 #include <exception>
 #endif
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -70,7 +71,7 @@ namespace tao::pegtl
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          internal::bytes_guard< Maximum, ParseInput > bg( in );
-         if( tao::pegtl::match< Rule, A, M, Action, Control >( in, st... ) ) {
+         if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... ) ) {
             if( in.empty() && ( bg.m_end != in.current() ) ) {
 #if defined( __cpp_exceptions )
                Control< limit_bytes >::raise( in );
@@ -85,6 +86,6 @@ namespace tao::pegtl
       }
    };
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

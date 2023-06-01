@@ -1,10 +1,10 @@
-// Copyright (c) 2017-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2017-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    template< unsigned Size, apply_mode B, rewind_mode N, typename... Rules >
    struct test_rule
@@ -113,6 +113,6 @@ namespace tao::pegtl
       test1::apply0_bool_false();
    }
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"

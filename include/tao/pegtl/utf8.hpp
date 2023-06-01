@@ -1,15 +1,17 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef TAO_PEGTL_UTF8_HPP
 #define TAO_PEGTL_UTF8_HPP
 
+#include "config.hpp"
+
 #include "internal/peek_utf8.hpp"
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
-namespace tao::pegtl::utf8
+namespace TAO_PEGTL_NAMESPACE::utf8
 {
    // clang-format off
    struct any : internal::any< internal::peek_utf8 > {};
@@ -22,6 +24,6 @@ namespace tao::pegtl::utf8
    template< char32_t... Cs > struct string : internal::seq< internal::one< internal::result_on_found::success, internal::peek_utf8, Cs >... > {};
    // clang-format on
 
-}  // namespace tao::pegtl::utf8
+}  // namespace TAO_PEGTL_NAMESPACE::utf8
 
 #endif

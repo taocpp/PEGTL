@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2019-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -8,7 +8,7 @@
 
 #include <tao/pegtl/internal/cstring_reader.hpp>
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Rule, template< typename... > class Action >
    bool parse_cstring( const char* string, const char* source, const std::size_t maximum )
@@ -60,6 +60,6 @@ namespace tao::pegtl
       TAO_PEGTL_TEST_ASSERT( parse_cstring< rep< 4, sor< s, s > >, my_action >( "ssss", TAO_TEST_LINE, 2 ) );
    }
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"

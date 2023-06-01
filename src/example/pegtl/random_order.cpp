@@ -8,7 +8,7 @@
 
 #include <tao/pegtl.hpp>
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -84,11 +84,11 @@ namespace tao::pegtl
       : internal::rnd< true, Rules... >
    {};
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 int main( int argc, char** argv )
 {
-   using namespace tao::pegtl;
+   using namespace TAO_PEGTL_NAMESPACE;
 
    using grammar1 = seq< rnd< one< 'a' >, one< 'b' >, one< 'c' > >, eolf >;
    using grammar2 = seq< rnd_opt< one< 'a' >, one< 'b' >, one< 'c' > >, eolf >;

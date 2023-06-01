@@ -2,7 +2,7 @@
 
 ## Version 4.0.0
 
-* The macro `TAO_PEGTL_NAMESPACE` has been removed. Use `tao::pegtl::` instead.
+
 
 ## Version 3.0.0
 
@@ -64,6 +64,6 @@ Please contact the authors at `taocpp(at)icemx.net` for any further questions wh
 
 This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
 
-Copyright (c) 2017-2022 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2017-2023 Dr. Colin Hirsch and Daniel Frey
 Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt

@@ -1,9 +1,11 @@
-// Copyright (c) 2020-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2020-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef TAO_PEGTL_INTERNAL_FILESYSTEM_HPP
 #define TAO_PEGTL_INTERNAL_FILESYSTEM_HPP
+
+#include "../config.hpp"
 
 #if defined( TAO_PEGTL_BOOST_FILESYSTEM )
 
@@ -11,7 +13,7 @@
 
 #include <boost/filesystem.hpp>
 
-namespace tao::pegtl::internal
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    namespace filesystem = ::boost::filesystem;
 
@@ -22,13 +24,13 @@ namespace tao::pegtl::internal
       return ::boost::system::system_category();
    }
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #elif defined( TAO_PEGTL_STD_EXPERIMENTAL_FILESYSTEM )
 
 #include <experimental/filesystem>
 
-namespace tao::pegtl::internal
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    namespace filesystem = ::std::experimental::filesystem;
 
@@ -39,13 +41,13 @@ namespace tao::pegtl::internal
       return ::std::system_category();
    }
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #else
 
 #include <filesystem>
 
-namespace tao::pegtl::internal
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    namespace filesystem = ::std::filesystem;
 
@@ -56,7 +58,7 @@ namespace tao::pegtl::internal
       return ::std::system_category();
    }
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif
 

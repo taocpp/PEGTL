@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2019-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -6,11 +6,12 @@
 #define TAO_PEGTL_DISCARD_INPUT_ON_FAILURE_HPP
 
 #include "apply_mode.hpp"
+#include "config.hpp"
 #include "match.hpp"
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    struct discard_input_on_failure
       : maybe_nothing
@@ -26,7 +27,7 @@ namespace tao::pegtl
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         const bool result = tao::pegtl::match< Rule, A, M, Action, Control >( in, st... );
+         const bool result = TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
          if( !result ) {
             in.discard();
          }
@@ -34,6 +35,6 @@ namespace tao::pegtl
       }
    };
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

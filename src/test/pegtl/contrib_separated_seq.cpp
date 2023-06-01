@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2021-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -15,7 +15,7 @@ struct D {};
 struct S {};
 // clang-format on
 
-using namespace tao::pegtl;
+using namespace TAO_PEGTL_NAMESPACE;
 static_assert( std::is_base_of_v< internal::seq<>, separated_seq< S > > );
 static_assert( std::is_base_of_v< internal::seq< A >, separated_seq< S, A > > );
 static_assert( std::is_base_of_v< internal::seq< A, S, B >, separated_seq< S, A, B > > );

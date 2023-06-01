@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2017-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -8,7 +8,7 @@
 
 #include <tao/pegtl/contrib/rep_one_min_max.hpp>
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
@@ -33,6 +33,6 @@ namespace tao::pegtl
       verify_rule< rep_one_min_max< 0, 2, '+' > >( __LINE__, __FILE__, "+++", result_type::local_failure, 3 );
    }
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"

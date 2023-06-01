@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -10,9 +10,10 @@
 #include <string>
 
 #include "../ascii.hpp"
+#include "../config.hpp"
 #include "../parse_error.hpp"
 
-namespace tao::pegtl::unescape
+namespace TAO_PEGTL_NAMESPACE::unescape
 {
    // Utility functions for the unescape actions.
 
@@ -50,7 +51,7 @@ namespace tao::pegtl::unescape
       return false;
    }
 
-   // This function MUST only be called for characters matching tao::pegtl::ascii::xdigit!
+   // This function MUST only be called for characters matching TAO_PEGTL_NAMESPACE::ascii::xdigit!
    template< typename I >
    [[nodiscard]] I unhex_char( const char c )
    {
@@ -107,7 +108,7 @@ namespace tao::pegtl::unescape
       }
    };
 
-   // This action MUST be called for a character matching T which MUST be tao::pegtl::one< ... >.
+   // This action MUST be called for a character matching T which MUST be TAO_PEGTL_NAMESPACE::one< ... >.
    template< typename T, char... Rs >
    struct unescape_c
    {
@@ -209,6 +210,6 @@ namespace tao::pegtl::unescape
       }
    };
 
-}  // namespace tao::pegtl::unescape
+}  // namespace TAO_PEGTL_NAMESPACE::unescape
 
 #endif

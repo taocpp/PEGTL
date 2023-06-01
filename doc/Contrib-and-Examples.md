@@ -217,6 +217,6 @@ Invoked with one or more URIs as command line arguments will attempt to parse th
 
 This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
 
-Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt

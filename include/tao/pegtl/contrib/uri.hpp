@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -12,13 +12,14 @@
 #include <cstdint>
 
 #include "../ascii.hpp"
+#include "../config.hpp"
 #include "../rules.hpp"
 #include "../utf8.hpp"
 
 #include "abnf.hpp"
 #include "integer.hpp"
 
-namespace tao::pegtl::uri
+namespace TAO_PEGTL_NAMESPACE::uri
 {
    // URI grammar according to RFC 3986.
 
@@ -105,7 +106,7 @@ namespace tao::pegtl::uri
    struct absolute_URI : seq< scheme, one< ':' >, hier_part, opt_query > {};
    // clang-format on
 
-}  // namespace tao::pegtl::uri
+}  // namespace TAO_PEGTL_NAMESPACE::uri
 
 #endif
 #endif

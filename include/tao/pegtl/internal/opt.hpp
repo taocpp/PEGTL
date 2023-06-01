@@ -10,7 +10,9 @@
 #include "seq.hpp"
 #include "success.hpp"
 
-namespace tao::pegtl::internal
+#include "../config.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Rules >
    struct opt
@@ -32,6 +34,6 @@ namespace tao::pegtl::internal
    template< typename... Rules >
    inline constexpr bool enable_control< opt< Rules... > > = false;
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

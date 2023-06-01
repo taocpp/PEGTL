@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2017-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -19,7 +19,7 @@ int main()
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   using namespace tao::pegtl;
+   using namespace TAO_PEGTL_NAMESPACE;
 
    if( analyze< proto3::proto >() != 0 ) {
       return 1;

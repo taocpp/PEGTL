@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -7,20 +7,22 @@
 
 #include <string_view>
 
-namespace tao::pegtl
+#include "config.hpp"
+
+namespace TAO_PEGTL_NAMESPACE
 {
    // ensure a consistent interface
    template< typename T >
    [[nodiscard]] constexpr std::string_view demangle() noexcept;
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #if defined( __clang__ )
 
 #if defined( _LIBCPP_VERSION )
 
 template< typename T >
-[[nodiscard]] constexpr std::string_view tao::pegtl::demangle() noexcept
+[[nodiscard]] constexpr std::string_view TAO_PEGTL_NAMESPACE::demangle() noexcept
 {
    constexpr std::string_view sv = __PRETTY_FUNCTION__;
    constexpr auto begin = sv.find( '=' );
@@ -30,7 +32,7 @@ template< typename T >
 
 #else
 
-namespace tao::pegtl::internal
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    // When using libstdc++ with clang, std::string_view::find is not constexpr :(
    template< char C >
@@ -46,10 +48,10 @@ namespace tao::pegtl::internal
       return nullptr;
    }
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 template< typename T >
-[[nodiscard]] constexpr std::string_view tao::pegtl::demangle() noexcept
+[[nodiscard]] constexpr std::string_view TAO_PEGTL_NAMESPACE::demangle() noexcept
 {
    constexpr std::string_view sv = __PRETTY_FUNCTION__;
    constexpr auto begin = internal::string_view_find< '=' >( sv.data(), sv.size() );
@@ -72,7 +74,7 @@ template< typename T >
 // GCC 9.1 and 9.2 have a bug that leads to truncated __PRETTY_FUNCTION__ names,
 // see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155
 template< typename T >
-[[nodiscard]] constexpr std::string_view tao::pegtl::demangle() noexcept
+[[nodiscard]] constexpr std::string_view TAO_PEGTL_NAMESPACE::demangle() noexcept
 {
    // fallback: requires RTTI, no demangling
    return typeid( T ).name();
@@ -82,7 +84,7 @@ template< typename T >
 
 #else
 
-namespace tao::pegtl::special
+namespace TAO_PEGTL_NAMESPACE::special
 {
    template< typename T >
    [[nodiscard]] constexpr std::string_view demangle() noexcept
@@ -96,12 +98,12 @@ namespace tao::pegtl::special
       return tmp.substr( 0, end );
    }
 
-}  // namespace tao::pegtl::special
+}  // namespace TAO_PEGTL_NAMESPACE::special
 
 template< typename T >
-[[nodiscard]] constexpr std::string_view tao::pegtl::demangle() noexcept
+[[nodiscard]] constexpr std::string_view TAO_PEGTL_NAMESPACE::demangle() noexcept
 {
-   return tao::pegtl::special::demangle< T >();
+   return TAO_PEGTL_NAMESPACE::special::demangle< T >();
 }
 
 #endif
@@ -109,7 +111,7 @@ template< typename T >
 #elif defined( _MSC_VER )
 
 template< typename T >
-[[nodiscard]] constexpr std::string_view tao::pegtl::demangle() noexcept
+[[nodiscard]] constexpr std::string_view TAO_PEGTL_NAMESPACE::demangle() noexcept
 {
    // we can not add static_assert for additional safety,
    // see issues #296, #301 and #308
@@ -129,7 +131,7 @@ template< typename T >
 #include <typeinfo>
 
 template< typename T >
-[[nodiscard]] constexpr std::string_view tao::pegtl::demangle() noexcept
+[[nodiscard]] constexpr std::string_view TAO_PEGTL_NAMESPACE::demangle() noexcept
 {
    // fallback: requires RTTI, no demangling
    return typeid( T ).name();

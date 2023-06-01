@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2019-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -8,6 +8,7 @@
 #include <type_traits>
 
 #include "apply_mode.hpp"
+#include "config.hpp"
 #include "nothing.hpp"
 #include "require_apply.hpp"
 #include "require_apply0.hpp"
@@ -26,7 +27,7 @@
 #pragma warning( disable : 4702 )
 #endif
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -164,7 +165,7 @@ namespace tao::pegtl
       }
    }
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #if defined( _MSC_VER )
 #pragma warning( pop )

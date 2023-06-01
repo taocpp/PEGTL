@@ -8,11 +8,13 @@
 #include "seq.hpp"
 #include "star_partial.hpp"
 
-namespace tao::pegtl::internal
+#include "../config.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Rule, typename Sep >
    using list_tail = seq< Rule, star_partial< Sep, Rule > >;
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

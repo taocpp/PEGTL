@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2021-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -6,6 +6,7 @@
 #define TAO_PEGTL_CONTRIB_CHECK_BYTES_HPP
 
 #include "../apply_mode.hpp"
+#include "../config.hpp"
 #include "../match.hpp"
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
@@ -17,7 +18,7 @@
 #include <exception>
 #endif
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    template< std::size_t Maximum >
    struct check_bytes
@@ -35,10 +36,10 @@ namespace tao::pegtl
       static bool match( ParseInput& in, States&&... st )
       {
          const auto* start = in.current();
-         if( tao::pegtl::match< Rule, A, M, Action, Control >( in, st... ) ) {
+         if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... ) ) {
             if( std::size_t( in.current() - start ) > Maximum ) {
 #if defined( __cpp_exceptions )
-               throw tao::pegtl::parse_error( "maximum allowed rule consumption exceeded", in );
+               throw TAO_PEGTL_NAMESPACE::parse_error( "maximum allowed rule consumption exceeded", in );
 #else
                std::fputs( "maximum allowed rule consumption exceeded\n", stderr );
                std::terminate();
@@ -50,6 +51,6 @@ namespace tao::pegtl
       }
    };
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

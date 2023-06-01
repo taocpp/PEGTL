@@ -96,6 +96,9 @@ terminate called after throwing an instance of 'tao::pegtl::parse_error'
 Aborted (core dumped)
 ```
 
+Note that, by default, the PEGTL resides in `namespace tao::pegtl`, however this can be changed as explained in [Embedding in Library Interfaces](Installing-and-Using.md#embedding-in-library-interfaces).
+The entire PEGTL documentation assumes that the default namespace applies.
+
 The PEGTL provides multiple facilities that help to get started and develop your grammar.
 In the following paragraphs we will show several small programs to showcase the capabilities of the PEGTL.
 
@@ -287,6 +290,6 @@ For more information see [Errors and Exceptions](Errors-and-Exceptions.md).
 
 This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
 
-Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt

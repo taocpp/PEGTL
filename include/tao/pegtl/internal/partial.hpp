@@ -8,10 +8,11 @@
 #include "enable_control.hpp"
 
 #include "../apply_mode.hpp"
+#include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-namespace tao::pegtl::internal
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Rules >
    struct partial
@@ -37,6 +38,6 @@ namespace tao::pegtl::internal
    template< typename... Rules >
    inline constexpr bool enable_control< partial< Rules... > > = false;
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

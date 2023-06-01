@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -8,7 +8,7 @@
 
 namespace test
 {
-   using namespace tao::pegtl;
+   using namespace TAO_PEGTL_NAMESPACE;
 
    using GRAMMAR1 = sor< failure, one< 'a' > >;
    using GRAMMAR2 = seq< one< 'a' >, any, any, any, any, one< 'b' >, eof >;
@@ -46,7 +46,7 @@ namespace test
 
 }  // namespace test
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
@@ -92,6 +92,6 @@ namespace tao::pegtl
 #endif
    }
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"

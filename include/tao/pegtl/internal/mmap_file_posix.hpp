@@ -20,7 +20,9 @@
 
 #include "filesystem.hpp"
 
-namespace tao::pegtl::internal
+#include "../config.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    struct mmap_file_open
    {
@@ -155,6 +157,6 @@ namespace tao::pegtl::internal
 
    using mmap_file_impl = mmap_file_posix;
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

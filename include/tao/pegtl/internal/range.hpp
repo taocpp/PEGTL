@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -10,9 +10,10 @@
 #include "one.hpp"
 #include "result_on_found.hpp"
 
+#include "../config.hpp"
 #include "../type_list.hpp"
 
-namespace tao::pegtl::internal
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct range
@@ -56,6 +57,6 @@ namespace tao::pegtl::internal
    template< result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    inline constexpr bool enable_control< range< R, Peek, Lo, Hi > > = false;
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

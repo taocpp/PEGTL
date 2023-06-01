@@ -1,4 +1,4 @@
-// Copyright (c) 2021-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2021-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -22,7 +22,7 @@ int main()
 
 #include <tao/pegtl.hpp>
 
-namespace tao::pegtl::expression
+namespace TAO_PEGTL_NAMESPACE::expression
 {
    // Expression parsing with prefix, postfix and infix operators, ternary
    // operator and a couple of other special cases supported.
@@ -382,11 +382,11 @@ namespace tao::pegtl::expression
       }
    };
 
-}  // namespace tao::pegtl::expression
+}  // namespace TAO_PEGTL_NAMESPACE::expression
 
 namespace application
 {
-   namespace pegtl = tao::pegtl;
+   namespace pegtl = TAO_PEGTL_NAMESPACE;
 
    [[nodiscard]] inline std::string operator+( const char* l, const std::string_view r )
    {
@@ -496,19 +496,19 @@ namespace application
 
 int main( int argc, char** argv )
 {
-   // if( tao::pegtl::analyze< application::grammar >() != 0 ) {
+   // if( TAO_PEGTL_NAMESPACE::analyze< application::grammar >() != 0 ) {
    //    return 1;
    // }
    for( int i = 1; i < argc; ++i ) {
-      tao::pegtl::argv_input in( argv, i );
+      TAO_PEGTL_NAMESPACE::argv_input in( argv, i );
       try {
          application::result res;
-         tao::pegtl::parse< application::grammar, application::action >( in, res );
+         TAO_PEGTL_NAMESPACE::parse< application::grammar, application::action >( in, res );
          std::cout << "Input: " << argv[ i ] << std::endl;
          assert( res.string_stack.size() == 1 );
          std::cout << "Result: " << res.string_stack.at( 0 ) << std::endl;
       }
-      catch( const tao::pegtl::parse_error& e ) {
+      catch( const TAO_PEGTL_NAMESPACE::parse_error& e ) {
          const auto p = e.positions().front();
          std::cerr << e.what() << '\n'
                    << in.line_at( p ) << '\n'

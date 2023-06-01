@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -14,6 +14,7 @@
 #include <type_traits>
 #include <utility>
 
+#include "config.hpp"
 #include "eol.hpp"
 #include "normal.hpp"
 #include "nothing.hpp"
@@ -28,7 +29,7 @@
 #include "internal/rewind_guard.hpp"
 #include "internal/until.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -110,9 +111,9 @@ namespace tao::pegtl
             internal::bump_to_next_line( m_current, in_count );
          }
 
-         [[nodiscard]] tao::pegtl::position position( const frobnicator_t& it ) const
+         [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const frobnicator_t& it ) const
          {
-            return tao::pegtl::position( it, m_source );
+            return TAO_PEGTL_NAMESPACE::position( it, m_source );
          }
 
          void restart( const std::size_t in_byte = 0, const std::size_t in_line = 1, const std::size_t in_column = 1 )
@@ -202,11 +203,11 @@ namespace tao::pegtl
             m_current += in_count;
          }
 
-         [[nodiscard]] tao::pegtl::position position( const frobnicator_t it ) const
+         [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const frobnicator_t it ) const
          {
             internal::frobnicator c( m_begin );
             internal::bump( c, static_cast< std::size_t >( it - m_begin.data ), Eol::ch );
-            return tao::pegtl::position( c, m_source );
+            return TAO_PEGTL_NAMESPACE::position( c, m_source );
          }
 
          void restart()
@@ -324,7 +325,7 @@ namespace tao::pegtl
 
       using internal::memory_input_base< P, Eol, Source >::position;
 
-      [[nodiscard]] tao::pegtl::position position() const
+      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
       {
          return position( frobnicator() );
       }
@@ -349,17 +350,17 @@ namespace tao::pegtl
          this->m_current = data;
       }
 
-      [[nodiscard]] const char* at( const tao::pegtl::position& p ) const noexcept
+      [[nodiscard]] const char* at( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
       {
          return this->begin() + p.byte;
       }
 
-      [[nodiscard]] const char* begin_of_line( const tao::pegtl::position& p ) const noexcept
+      [[nodiscard]] const char* begin_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
       {
          return at( p ) - ( p.column - 1 );
       }
 
-      [[nodiscard]] const char* end_of_line( const tao::pegtl::position& p ) const noexcept
+      [[nodiscard]] const char* end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
       {
          using input_t = memory_input< tracking_mode::lazy, Eol, const char* >;
          input_t in( at( p ), this->end(), "" );
@@ -368,7 +369,7 @@ namespace tao::pegtl
          return in.current();
       }
 
-      [[nodiscard]] std::string_view line_at( const tao::pegtl::position& p ) const noexcept
+      [[nodiscard]] std::string_view line_at( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
       {
          const char* b = begin_of_line( p );
          return { b, static_cast< std::size_t >( end_of_line( p ) - b ) };
@@ -383,6 +384,6 @@ namespace tao::pegtl
    template< typename... Ts >
    memory_input( Ts&&... ) -> memory_input<>;
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

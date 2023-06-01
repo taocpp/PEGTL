@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2015-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -16,24 +16,24 @@ namespace test
    {};
 
    struct foobar
-      : tao::pegtl::sor< TAO_PEGTL_STRING( "foo" ), TAO_PEGTL_STRING( "bar" ) >
+      : TAO_PEGTL_NAMESPACE::sor< TAO_PEGTL_STRING( "foo" ), TAO_PEGTL_STRING( "bar" ) >
    {};
 
-   static_assert( std::is_same_v< TAO_PEGTL_STRING( "Hello" ), tao::pegtl::string< 'H', 'e', 'l', 'l', 'o' > > );
-   static_assert( !std::is_same_v< TAO_PEGTL_ISTRING( "Hello" ), tao::pegtl::string< 'H', 'e', 'l', 'l', 'o' > > );
-   static_assert( std::is_same_v< TAO_PEGTL_ISTRING( "Hello" ), tao::pegtl::istring< 'H', 'e', 'l', 'l', 'o' > > );
+   static_assert( std::is_same_v< TAO_PEGTL_STRING( "Hello" ), TAO_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o' > > );
+   static_assert( !std::is_same_v< TAO_PEGTL_ISTRING( "Hello" ), TAO_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o' > > );
+   static_assert( std::is_same_v< TAO_PEGTL_ISTRING( "Hello" ), TAO_PEGTL_NAMESPACE::istring< 'H', 'e', 'l', 'l', 'o' > > );
 
-   static_assert( std::is_same_v< TAO_PEGTL_KEYWORD( "private" ), tao::pegtl::keyword< 'p', 'r', 'i', 'v', 'a', 't', 'e' > > );
+   static_assert( std::is_same_v< TAO_PEGTL_KEYWORD( "private" ), TAO_PEGTL_NAMESPACE::keyword< 'p', 'r', 'i', 'v', 'a', 't', 'e' > > );
 
    // Strings may even contain embedded nulls
 
-   static_assert( std::is_same_v< TAO_PEGTL_STRING( "Hello, w\0rld!" ), tao::pegtl::string< 'H', 'e', 'l', 'l', 'o', ',', ' ', 'w', 0, 'r', 'l', 'd', '!' > > );
+   static_assert( std::is_same_v< TAO_PEGTL_STRING( "Hello, w\0rld!" ), TAO_PEGTL_NAMESPACE::string< 'H', 'e', 'l', 'l', 'o', ',', ' ', 'w', 0, 'r', 'l', 'd', '!' > > );
 
    // The strings currently have a maximum length of 512 characters.
 
-   using namespace tao::pegtl::alphabet;
+   using namespace TAO_PEGTL_NAMESPACE::alphabet;
    static_assert( std::is_same_v< TAO_PEGTL_STRING( "abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz" ),
-                                  tao::pegtl::string< a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z > > );
+                                  TAO_PEGTL_NAMESPACE::string< a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z > > );
 
 }  // namespace test
 

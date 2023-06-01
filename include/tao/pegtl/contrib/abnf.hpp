@@ -1,13 +1,15 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef TAO_PEGTL_CONTRIB_ABNF_HPP
 #define TAO_PEGTL_CONTRIB_ABNF_HPP
 
+#include "../config.hpp"
+
 #include "../internal/rules.hpp"
 
-namespace tao::pegtl::abnf
+namespace TAO_PEGTL_NAMESPACE::abnf
 {
    // Core ABNF rules according to RFC 5234, Appendix B
 
@@ -30,6 +32,6 @@ namespace tao::pegtl::abnf
    struct WSP : internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\t' > {};
    // clang-format on
 
-}  // namespace tao::pegtl::abnf
+}  // namespace TAO_PEGTL_NAMESPACE::abnf
 
 #endif

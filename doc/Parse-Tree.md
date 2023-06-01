@@ -244,6 +244,6 @@ The parse tree uses a rule's meta data supplied by [`subs_t`](Meta-Data-and-Visi
 
 This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
 
-Copyright (c) 2018-2022 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2018-2023 Dr. Colin Hirsch and Daniel Frey
 Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt

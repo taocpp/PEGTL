@@ -7,11 +7,12 @@
 
 #include <cstddef>
 
+#include "config.hpp"
 #include "parse_error.hpp"
 
 #include "internal/rules.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    // clang-format off
    template< template< typename... > class Action, typename... Rules > struct action : internal::action< Action, Rules... > {};
@@ -76,6 +77,6 @@ namespace tao::pegtl
 #endif
    // clang-format on
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

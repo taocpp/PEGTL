@@ -1,4 +1,4 @@
-// Copyright (c) 2019-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2019-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -17,13 +17,14 @@
 #include <type_traits>
 
 #include "../ascii.hpp"
+#include "../config.hpp"
 #include "../parse.hpp"
 #include "../parse_error.hpp"
 #include "../rules.hpp"
 
 #include "analyze_traits.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    struct unsigned_rule_old
       : plus< digit >
@@ -182,7 +183,7 @@ namespace tao::pegtl
                }
                do {
                   if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
-                     throw tao::pegtl::parse_error( "integer overflow", in );
+                     throw TAO_PEGTL_NAMESPACE::parse_error( "integer overflow", in );
                   }
                   in.bump_in_this_line();
                } while( ( !in.empty() ) && is_digit( c = in.peek_char() ) );
@@ -383,7 +384,7 @@ namespace tao::pegtl
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.empty() ) )
       {
-         return tao::pegtl::parse< signed_rule_new >( in );  // Does not check for any overflow.
+         return parse< signed_rule_new >( in );  // Does not check for any overflow.
       }
    };
 
@@ -416,7 +417,7 @@ namespace tao::pegtl
                 typename... States >
       [[nodiscard]] static auto match( ParseInput& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) ) -> std::enable_if_t< A == apply_mode::nothing, bool >
       {
-         return tao::pegtl::parse< signed_rule_new >( in );  // Does not check for any overflow.
+         return parse< signed_rule_new >( in );  // Does not check for any overflow.
       }
 
       template< apply_mode A,
@@ -429,7 +430,7 @@ namespace tao::pegtl
                 typename Signed >
       [[nodiscard]] static auto match( ParseInput& in, Signed& st ) -> std::enable_if_t< ( A == apply_mode::action ) && std::is_signed_v< Signed >, bool >
       {
-         return tao::pegtl::parse< signed_rule_new, internal::signed_action_action >( in, st );  // Throws on overflow.
+         return parse< signed_rule_new, internal::signed_action_action >( in, st );  // Throws on overflow.
       }
    };
 
@@ -463,7 +464,7 @@ namespace tao::pegtl
       : analyze_any_traits<>
    {};
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif
 #endif

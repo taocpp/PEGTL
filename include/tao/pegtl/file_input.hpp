@@ -1,10 +1,11 @@
-// Copyright (c) 2015-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2015-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef TAO_PEGTL_FILE_INPUT_HPP
 #define TAO_PEGTL_FILE_INPUT_HPP
 
+#include "config.hpp"
 #include "eol.hpp"
 #include "tracking_mode.hpp"
 
@@ -18,7 +19,7 @@
 #include "read_input.hpp"
 #endif
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
 #if defined( _POSIX_MAPPED_FILES ) || defined( _WIN32 )
    template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
@@ -39,6 +40,6 @@ namespace tao::pegtl
    template< typename... Ts >
    explicit file_input( Ts&&... ) -> file_input<>;
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

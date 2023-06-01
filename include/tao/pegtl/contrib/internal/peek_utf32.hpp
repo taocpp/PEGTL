@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -11,7 +11,7 @@
 
 #include "read_uint.hpp"
 
-namespace tao::pegtl::internal
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename R >
    struct peek_utf32_impl
@@ -38,6 +38,6 @@ namespace tao::pegtl::internal
    using peek_utf32_be = peek_utf32_impl< read_uint32_be >;
    using peek_utf32_le = peek_utf32_impl< read_uint32_le >;
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

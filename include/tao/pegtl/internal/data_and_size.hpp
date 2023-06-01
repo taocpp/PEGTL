@@ -7,7 +7,9 @@
 
 #include <cstddef>
 
-namespace tao::pegtl::internal
+#include "../config.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Data >
    struct data_and_size
@@ -25,6 +27,6 @@ namespace tao::pegtl::internal
 
    using bool_and_size = data_and_size< bool >;
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2020-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -8,9 +8,11 @@
 #include <tuple>
 #include <utility>
 
+#include "../config.hpp"
+
 #include "../internal/has_unwind.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    // The last N states are removed for most of the control functions forwarded to Base,
    // start(), success(), failure(), unwind(), raise(), apply(), and apply0(). The call
@@ -115,6 +117,6 @@ namespace tao::pegtl
    template< typename Base >
    using remove_last_state = remove_last_states< Base, 1 >;
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

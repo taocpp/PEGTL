@@ -1,4 +1,4 @@
-// Copyright (c) 2015-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2015-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -18,8 +18,8 @@ int main()
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    for( int i = 1; i < argc; ++i ) {
-      tao::pegtl::file_input in( argv[ i ] );
-      const auto r = tao::pegtl::parse< lua53::grammar >( in );
+      TAO_PEGTL_NAMESPACE::file_input in( argv[ i ] );
+      const auto r = TAO_PEGTL_NAMESPACE::parse< lua53::grammar >( in );
       std::cout << argv[ i ] << " " << r << std::endl;
    }
    return 0;

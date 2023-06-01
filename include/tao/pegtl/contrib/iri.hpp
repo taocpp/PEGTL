@@ -1,5 +1,5 @@
-// Copyright (c) 2021-2022 Kelvin Hammond
-// Copyright (c) 2021-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2021-2023 Kelvin Hammond
+// Copyright (c) 2021-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -10,13 +10,14 @@
 #error "Exception support required for tao/pegtl/contrib/iri.hpp"
 #else
 
+#include "../config.hpp"
 #include "../rules.hpp"
 #include "../utf8.hpp"
 
 #include "abnf.hpp"
 #include "uri.hpp"
 
-namespace tao::pegtl::iri
+namespace TAO_PEGTL_NAMESPACE::iri
 {
    // IRI grammar according to RFC 3987.
 
@@ -100,7 +101,7 @@ namespace tao::pegtl::iri
    struct absolute_IRI : seq< scheme, one< ':' >, ihier_part, opt_iquery > {};
    // clang-format off
 
-}  // namespace tao::pegtl::iri
+}  // namespace TAO_PEGTL_NAMESPACE::iri
 
 #endif
 #endif

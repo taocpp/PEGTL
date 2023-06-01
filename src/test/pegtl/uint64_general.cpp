@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2018-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -8,7 +8,7 @@
 
 #include <tao/pegtl/contrib/uint64.hpp>
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
@@ -181,6 +181,6 @@ namespace tao::pegtl
       verify_rule< uint64_le::string< 0x01233210deadcafe, 0x45677654baffb1ff > >( __LINE__, __FILE__, "\xfe\xca\xad\xde\x10\x32\x23\x01\xff\xb1\xff\xba\x54\x76\x67\x45", result_type::success );
    }
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"

@@ -1,9 +1,11 @@
-// Copyright (c) 2018-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2018-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef TAO_PEGTL_CONTRIB_UINT16_HPP
 #define TAO_PEGTL_CONTRIB_UINT16_HPP
+
+#include "../config.hpp"
 
 #include "../internal/result_on_found.hpp"
 #include "../internal/rules.hpp"
@@ -11,7 +13,7 @@
 #include "internal/peek_mask_uint.hpp"
 #include "internal/peek_uint.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    namespace uint16_be
    {
@@ -57,6 +59,6 @@ namespace tao::pegtl
 
    }  // namespace uint16_le
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

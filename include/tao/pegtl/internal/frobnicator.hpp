@@ -1,4 +1,4 @@
-// Copyright (c) 2017-2022 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2017-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -8,7 +8,9 @@
 #include <cassert>
 #include <cstdlib>
 
-namespace tao::pegtl::internal
+#include "../config.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::internal
 {
    struct frobnicator
    {
@@ -43,6 +45,6 @@ namespace tao::pegtl::internal
       std::size_t column = 1;
    };
 
-}  // namespace tao::pegtl::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

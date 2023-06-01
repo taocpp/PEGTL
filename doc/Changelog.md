@@ -14,7 +14,6 @@
 * Added new convenience rule `star_strict`.
 * Moved depth counter to adapter class in contrib.
 * Changed default top-level `rewind_mode` to `dontcare`.
-* Removed the `TAO_PEGTL_NAMESPACE` macro.
 * Removed support for building an amalgamated header.
 * Removed support for Visual Studio 2017.
 * Removed support for GCC 7.
@@ -693,6 +692,6 @@ It is based on ideas from the YARD library by Christopher Diggins.
 
 This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
 
-Copyright (c) 2007-2022 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2007-2023 Dr. Colin Hirsch and Daniel Frey
 Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt

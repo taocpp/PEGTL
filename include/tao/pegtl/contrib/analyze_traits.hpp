@@ -8,12 +8,13 @@
 #include <type_traits>
 
 #include "../ascii.hpp"
+#include "../config.hpp"
 #include "../rules.hpp"
 #include "../type_list.hpp"
 
 #include "forward.hpp"
 
-namespace tao::pegtl
+namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -287,6 +288,6 @@ namespace tao::pegtl
    {};
 #endif
 
-}  // namespace tao::pegtl
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif
