@@ -96,7 +96,7 @@ terminate called after throwing an instance of 'tao::pegtl::parse_error'
 Aborted (core dumped)
 ```
 
-Note that, by default, the PEGTL resides in `namespace tao::pegtl`, however this can be changed as explained in [Embedding in Library Interfaces](Installing-and-Using.md#embedding-in-library-interfaces).
+Note that, by default, the PEGTL resides in `namespace tao::pegtl`, however this can be changed as explained in [Embedding in Libraries](Installing-and-Using.md#embedding-in-libraries).
 The entire PEGTL documentation assumes that the default namespace applies.
 
 The PEGTL provides multiple facilities that help to get started and develop your grammar.
