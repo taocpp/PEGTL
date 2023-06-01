@@ -10,11 +10,10 @@ namespace TAO_PEGTL_NAMESPACE
    {
       struct state1
       {
-         char c;
+         char c = 0;
 
          template< typename ParseInput >
          state1( const ParseInput& /*unused*/, std::string& /*unused*/ )
-            : c()
          {}
 
          template< typename ParseInput >
