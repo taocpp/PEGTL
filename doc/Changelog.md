@@ -4,6 +4,7 @@
 
 **Not yet released**
 
+* Use the [**migration guide**](Migration-Guide.md#version-400) when updating.
 * Switched to Boost Software License, Version 1.0.
 * Added new customization point for error messages.
 * Added optional source line output for the tracer.
