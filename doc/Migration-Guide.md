@@ -2,7 +2,7 @@
 
 ## Version 4.0.0
 
-
+* Check whether the `rewind_mode` of the top-level `parse()` function, which is now `dontcare` by default, needs to be set to the previous value of `required` for your parsing runs.
 
 ## Version 3.0.0
 
