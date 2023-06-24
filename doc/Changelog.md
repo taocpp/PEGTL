@@ -15,6 +15,7 @@
 * Added new convenience rule `star_strict`.
 * Moved depth counter to adapter class in contrib.
 * Changed default top-level `rewind_mode` to `dontcare`.
+* Replaced `rewind_mode` values `dontcare` and `active` with new value `optional`.
 * Removed support for building an amalgamated header.
 * Removed support for Visual Studio 2017.
 * Removed support for GCC 7.

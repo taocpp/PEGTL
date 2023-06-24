@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) != 0 ) ) {
             using action_t = typename ParseInput::action_t;
             auto m = in.template auto_rewind< rewind_mode::required >();
-            if( Control< Rule >::template match< apply_mode::action, rewind_mode::active, Action, Control >( in, st... ) ) {
+            if( Control< Rule >::template match< apply_mode::action, rewind_mode::optional, Action, Control >( in, st... ) ) {
                const action_t i2( m.frobnicator(), in );
                return m( ( apply_single< Actions >::match( i2, st... ) && ... ) );
             }

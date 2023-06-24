@@ -365,7 +365,7 @@ namespace TAO_PEGTL_NAMESPACE
          using input_t = memory_input< tracking_mode::lazy, Eol, const char* >;
          input_t in( at( p ), this->end(), "" );
          using grammar = internal::until< internal::at< internal::eolf > >;
-         (void)normal< grammar >::match< apply_mode::nothing, rewind_mode::dontcare, nothing, normal >( in );
+         (void)normal< grammar >::match< apply_mode::nothing, rewind_mode::optional, nothing, normal >( in );
          return in.current();
       }
 

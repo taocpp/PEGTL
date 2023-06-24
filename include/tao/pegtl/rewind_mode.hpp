@@ -9,11 +9,10 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   enum class rewind_mode : char
+   enum class rewind_mode : bool
    {
-      active,
       required,
-      dontcare
+      optional
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

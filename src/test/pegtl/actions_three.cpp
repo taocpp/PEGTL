@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE
       bool apply_result;
 
       struct grammar
-         : test_rule< 2, apply_mode::action, rewind_mode::active, any >
+         : test_rule< 2, apply_mode::action, rewind_mode::optional, any >
       {};
 
       template< typename Rule >

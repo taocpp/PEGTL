@@ -43,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          const auto m = in.template auto_rewind< rewind_mode::required >();
-         return Control< Rule >::template match< apply_mode::nothing, rewind_mode::active, Action, Control >( in, st... );
+         return Control< Rule >::template match< apply_mode::nothing, rewind_mode::optional, Action, Control >( in, st... );
       }
    };
 

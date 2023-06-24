@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    class [[nodiscard]] rewind_guard< rewind_mode::required, ParseInput >
    {
    public:
-      static constexpr rewind_mode next_rewind_mode = rewind_mode::active;
+      static constexpr rewind_mode next_rewind_mode = rewind_mode::optional;
 
       using rewind_data = std::decay_t< decltype( std::declval< ParseInput >().rewind_save() ) >;
 

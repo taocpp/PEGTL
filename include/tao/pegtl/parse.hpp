@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE
              template< typename... > class Action = nothing,
              template< typename... > class Control = normal,
              apply_mode A = apply_mode::action,
-             rewind_mode M = rewind_mode::dontcare,
+             rewind_mode M = rewind_mode::optional,
              typename ParseInput,
              typename... States >
    auto parse( ParseInput&& in, States&&... st )
@@ -48,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE
              template< typename... > class Action = nothing,
              template< typename... > class Control = normal,
              apply_mode A = apply_mode::action,
-             rewind_mode M = rewind_mode::dontcare,
+             rewind_mode M = rewind_mode::optional,
              typename Outer,
              typename ParseInput,
              typename... States >
