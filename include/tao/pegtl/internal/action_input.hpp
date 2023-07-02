@@ -47,6 +47,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_input;
       }
 
+      [[nodiscard]] const char* current() const noexcept
+      {
+         return begin();
+      }
+
       [[nodiscard]] const char* begin() const noexcept
       {
          if constexpr( std::is_same_v< frobnicator_t, const char* > ) {
@@ -93,6 +98,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
 
       [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
+      {
+         return input().position( frobnicator() );  // NOTE: Not efficient with lazy inputs.
+      }
+
+      [[nodiscard]] TAO_PEGTL_NAMESPACE::position current_position() const
       {
          return input().position( frobnicator() );  // NOTE: Not efficient with lazy inputs.
       }

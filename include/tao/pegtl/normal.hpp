@@ -62,6 +62,23 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
       }
 
+      template< typename Ambient, typename... States >
+      [[noreturn]] static void raise_nested( const Ambient& am, States&&... /*unused*/ )
+      {
+#if defined( __cpp_exceptions )
+         if constexpr( internal::has_error_message< Rule > ) {
+            std::throw_with_nested( parse_error( Rule::error_message, am ) );
+         }
+         else {
+            std::throw_with_nested( parse_error( "parse error matching " + std::string( demangle< Rule >() ), am ) );
+         }
+#else
+         static_assert( internal::dependent_false< Rule >, "exception support required for normal< Rule >::raise_nested()" );
+         (void)am;
+         std::terminate();
+#endif
+      }
+
       template< template< typename... > class Action,
                 typename Frobnicator,
                 typename ParseInput,

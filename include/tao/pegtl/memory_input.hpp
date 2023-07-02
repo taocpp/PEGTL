@@ -330,6 +330,11 @@ namespace TAO_PEGTL_NAMESPACE
          return position( frobnicator() );
       }
 
+      [[nodiscard]] TAO_PEGTL_NAMESPACE::position current_position() const
+      {
+         return position( frobnicator() );
+      }
+
       void discard() const noexcept {}
 
       void require( const std::size_t /*unused*/ ) const noexcept {}

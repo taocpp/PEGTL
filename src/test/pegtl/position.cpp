@@ -12,6 +12,7 @@ int main()
 
 #include "test.hpp"
 
+#include <tao/pegtl/contrib/nested_exceptions.hpp>
 #include <tao/pegtl/internal/cstring_reader.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
@@ -93,17 +94,18 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   void test_nested_asserts( const parse_error& e )
+   void test_nested_asserts()
    {
-      TAO_PEGTL_TEST_ASSERT( e.positions().size() == 2 );
-      TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].source == "inner" );
-      TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].byte == 1 );
-      TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].line == 1 );
-      TAO_PEGTL_TEST_ASSERT( e.positions()[ 0 ].column == 2 );
-      TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].source == "outer" );
-      TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].byte == 2 );
-      TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].line == 1 );
-      TAO_PEGTL_TEST_ASSERT( e.positions()[ 1 ].column == 3 );
+      const std::vector< parse_error< position > > errors = nested::flatten();
+      TAO_PEGTL_TEST_ASSERT( errors.size() == 2 );
+      TAO_PEGTL_TEST_ASSERT( errors[ 0 ].position_object().source == "inner" );
+      TAO_PEGTL_TEST_ASSERT( errors[ 0 ].position_object().byte == 1 );
+      TAO_PEGTL_TEST_ASSERT( errors[ 0 ].position_object().line == 1 );
+      TAO_PEGTL_TEST_ASSERT( errors[ 0 ].position_object().column == 2 );
+      TAO_PEGTL_TEST_ASSERT( errors[ 1 ].position_object().source == "outer" );
+      TAO_PEGTL_TEST_ASSERT( errors[ 1 ].position_object().byte == 2 );
+      TAO_PEGTL_TEST_ASSERT( errors[ 1 ].position_object().line == 1 );
+      TAO_PEGTL_TEST_ASSERT( errors[ 1 ].position_object().column == 3 );
    }
 
    template< typename ParseInput = memory_input<> >
@@ -113,15 +115,15 @@ namespace TAO_PEGTL_NAMESPACE
          memory_input oi( "aabbcc", "outer" );
          parse< outer_grammar, outer_action >( oi, true );
       }
-      catch( const parse_error& e ) {
-         test_nested_asserts( e );
+      catch( ... ) {
+         test_nested_asserts();
       }
       try {
          memory_input oi( "aabbcc", "outer" );
          parse< outer_grammar, outer_action >( oi, false );
       }
-      catch( const parse_error& e ) {
-         test_nested_asserts( e );
+      catch( ... ) {
+         test_nested_asserts();
       }
    }
 

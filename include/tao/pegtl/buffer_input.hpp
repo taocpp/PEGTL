@@ -190,6 +190,11 @@ namespace TAO_PEGTL_NAMESPACE
          return position( m_current );
       }
 
+      [[nodiscard]] TAO_PEGTL_NAMESPACE::position current_position() const
+      {
+         return position( m_current );
+      }
+
       [[nodiscard]] const frobnicator_t& frobnicator() const noexcept
       {
          return m_current;

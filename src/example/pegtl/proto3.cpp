@@ -30,8 +30,8 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       try {
          parse< proto3::proto >( in );
       }
-      catch( const parse_error& e ) {
-         const auto p = e.positions().front();
+      catch( const parse_error< position >& e ) {
+         const auto& p = e.position_object();
          std::cerr << e.what() << '\n'
                    << in.line_at( p ) << '\n'
                    << std::setw( p.column ) << '^' << '\n';

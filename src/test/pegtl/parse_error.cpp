@@ -26,13 +26,12 @@ namespace TAO_PEGTL_NAMESPACE
       try {
          parse< seq< identifier, eol, identifier, one< ' ' >, must< digit > > >( in );
       }
-      catch( const parse_error& e ) {
+      catch( const parse_error< position >& e ) {
          TAO_PEGTL_TEST_ASSERT( e.what() == "test_source:2:5: parse error matching " + rulename );
 
          TAO_PEGTL_TEST_ASSERT( e.message() == "parse error matching " + rulename );
 
-         TAO_PEGTL_TEST_ASSERT( e.positions().size() == 1 );
-         const auto& p = e.positions().front();
+         const auto& p = e.position_object();
 
          TAO_PEGTL_TEST_ASSERT( p.byte == 8 );
          TAO_PEGTL_TEST_ASSERT( p.line == 2 );
@@ -45,13 +44,6 @@ namespace TAO_PEGTL_NAMESPACE
          p2.source = "foo";
          p2.line = 42;
          p2.column = 123;
-
-         parse_error e2 = e;
-         e2.add_position( std::move( p2 ) );
-
-         TAO_PEGTL_TEST_ASSERT( e2.what() == "foo:42:123: test_source:2:5: parse error matching " + rulename );
-         TAO_PEGTL_TEST_ASSERT( e.what() == "test_source:2:5: parse error matching " + rulename );
-
          return;
       }
       TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE

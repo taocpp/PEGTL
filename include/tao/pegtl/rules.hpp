@@ -9,6 +9,7 @@
 
 #include "config.hpp"
 #include "parse_error.hpp"
+#include "position.hpp"
 
 #include "internal/rules.hpp"
 
@@ -72,7 +73,7 @@ namespace TAO_PEGTL_NAMESPACE
       static constexpr const char error_message[] = { Cs..., 0 };
    };
    template< typename Cond, typename... Rules > struct star_must : internal::star_must< Cond, Rules... > {};
-   template< typename... Rules > struct try_catch : internal::try_catch_type< parse_error, Rules... > {};
+   template< typename... Rules > struct try_catch : internal::try_catch_type< parse_error< position >, Rules... > {};
    template< typename Exception, typename... Rules > struct try_catch_type : internal::seq< internal::try_catch_type< Exception, Rules... > > {};
 #endif
    // clang-format on

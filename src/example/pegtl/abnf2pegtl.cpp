@@ -507,7 +507,7 @@ namespace TAO_PEGTL_NAMESPACE
             }
             // if it is an "incremental alternation", we need to consolidate the assigned alternations
             else if( op == "=/" ) {
-               const auto p = previous_rules.find( rname );
+               const auto& p = previous_rules.find( rname );
                if( p == previous_rules.end() ) {
 #if defined( __cpp_exceptions )
                   throw parse_error( "incremental alternation '" + rname + "' without previous rule definition", n->begin() );
@@ -787,8 +787,8 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
          std::cout << abnf::to_string( rule ) << '\n';
       }
    }
-   catch( const parse_error& e ) {
-      const auto p = e.positions().front();
+   catch( const parse_error< position >& e ) {
+      const auto& p = e.position_object();
       std::cerr << e.what() << '\n'
                 << in.line_at( p ) << '\n'
                 << std::setw( p.column ) << '^' << '\n';

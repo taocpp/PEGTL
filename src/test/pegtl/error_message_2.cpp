@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE
          parse< test2::grammar >( memory_input( "c", __FUNCTION__ ) );
          TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
       }
-      catch( const parse_error& e ) {
+      catch( const parse_error< position >& e ) {
          TAO_PEGTL_TEST_ASSERT( e.message() == "test123" );
       }
    }

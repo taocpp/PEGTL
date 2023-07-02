@@ -49,18 +49,17 @@ namespace TAO_PEGTL_NAMESPACE
              template< typename... > class Control = normal,
              apply_mode A = apply_mode::action,
              rewind_mode M = rewind_mode::optional,
-             typename Outer,
+             typename Ambient,
              typename ParseInput,
              typename... States >
-   auto parse_nested( const Outer& o, ParseInput&& in, States&&... st )
+   auto parse_nested( const Ambient& am, ParseInput&& in, States&&... st )
    {
 #if defined( __cpp_exceptions )
       try {
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
-      catch( parse_error& e ) {
-         e.add_position( internal::get_position( o ) );
-         throw;
+      catch( std::exception& /*unused*/ ) {
+         Control< Rule >::raise_nested( am, st... );
       }
 #else
       (void)o;

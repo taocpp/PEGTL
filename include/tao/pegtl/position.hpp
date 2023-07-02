@@ -7,9 +7,7 @@
 
 #include <cstdlib>
 #include <ostream>
-#include <sstream>
 #include <string>
-#include <utility>
 
 #include "config.hpp"
 
@@ -64,13 +62,6 @@ namespace TAO_PEGTL_NAMESPACE
    inline std::ostream& operator<<( std::ostream& os, const position& p )
    {
       return os << p.source << ':' << p.line << ':' << p.column;
-   }
-
-   [[nodiscard]] inline std::string to_string( const position& p )
-   {
-      std::ostringstream oss;
-      oss << p;
-      return std::move( oss ).str();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

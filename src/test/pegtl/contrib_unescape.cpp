@@ -47,7 +47,7 @@ namespace TAO_PEGTL_NAMESPACE
       try {
          return !parse< unstring, unaction >( in, s );
       }
-      catch( const parse_error& ) {
+      catch( const parse_error< position >& ) {
       }
       return true;
 #else
