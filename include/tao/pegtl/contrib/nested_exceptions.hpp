@@ -6,6 +6,7 @@
 #define TAO_PEGTL_CONTRIB_NESTED_EXCEPTIONS_HH
 
 #include <exception>
+#include <vector>
 
 #include "../config.hpp"
 #include "../parse_error.hpp"
