@@ -13,7 +13,7 @@ namespace test
    using namespace TAO_PEGTL_NAMESPACE;
 
 #if defined( __cpp_exceptions )
-   using grammar = seq< sor< try_catch< must< one< 'a' > > >, one< 'F' > >, eof >;
+   using grammar = seq< sor< try_catch_return_false< must< one< 'a' > > >, one< 'F' > >, eof >;
 #else
    using grammar = seq< sor< one< 'a' >, one< 'F' > >, eof >;
 #endif

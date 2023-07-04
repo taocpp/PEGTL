@@ -77,7 +77,7 @@ namespace TAO_PEGTL_NAMESPACE
 
 #if defined( __cpp_exceptions )
    struct test_rule
-      : seq< sor< try_catch< must< one< 'a' > > >, one< 'F' > >, eof >
+      : seq< sor< try_catch_return_false< must< one< 'a' > > >, one< 'F' > >, eof >
    {};
 #else
    struct test_rule

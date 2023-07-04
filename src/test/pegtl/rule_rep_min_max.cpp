@@ -43,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE
 #if defined( __cpp_exceptions )
       verify_rule< must< rep_min_max< 3, 4, one< 'a' > > > >( __LINE__, __FILE__, "aa", result_type::global_failure, 0 );
 
-      verify_rule< try_catch< must< rep_min_max< 3, 4, one< 'a' > > > > >( __LINE__, __FILE__, "aa", result_type::local_failure, 2 );
+      verify_rule< try_catch_return_false< must< rep_min_max< 3, 4, one< 'a' > > > > >( __LINE__, __FILE__, "aa", result_type::local_failure, 2 );
 #endif
    }
 

@@ -283,7 +283,12 @@ namespace TAO_PEGTL_NAMESPACE
    {};
 
    template< typename Name, typename Exception, typename... Rules >
-   struct analyze_traits< Name, internal::try_catch_type< Exception, Rules... > >
+   struct analyze_traits< Name, internal::try_catch_raise_nested< Exception, Rules... > >
+      : analyze_traits< Name, typename seq< Rules... >::rule_t >
+   {};
+
+   template< typename Name, typename Exception, typename... Rules >
+   struct analyze_traits< Name, internal::try_catch_return_false< Exception, Rules... > >
       : analyze_traits< Name, typename seq< Rules... >::rule_t >
    {};
 #endif

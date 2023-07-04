@@ -34,7 +34,7 @@ template< typename T >
 struct skipping : until< T > {};
 
 template< typename R, typename T >
-struct recoverable : sor< try_catch< must< R >, T >, skipping< T > > {};
+struct recoverable : sor< try_catch_return_false< must< R >, T >, skipping< T > > {};
 
 struct expr_sum;
 struct expr_identifier : identifier {};

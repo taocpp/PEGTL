@@ -14,7 +14,7 @@ namespace test
    using GRAMMAR2 = seq< one< 'a' >, any, any, any, any, one< 'b' >, eof >;
    using GRAMMAR3 = sor< one< 'a' >, one< 'b' > >;
 #if defined( __cpp_exceptions )
-   using GRAMMAR4 = try_catch< sor< one< 'a' >, must< one< 'b' > > > >;
+   using GRAMMAR4 = try_catch_return_false< sor< one< 'a' >, must< one< 'b' > > > >;
 #endif
 
    template< typename Rule >

@@ -90,7 +90,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   struct test_grammar : must< sor< one< 'a' >, try_catch< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > >, eof >
+   struct test_grammar : must< sor< one< 'a' >, try_catch_return_false< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > >, eof >
    {};
 
    template< typename Rule >
@@ -151,11 +151,11 @@ namespace TAO_PEGTL_NAMESPACE
          b = 0;
          std::size_t i = 0;
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< test_grammar >(), "start", ++b } );
-         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< internal::must< sor< one< 'a' >, try_catch< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > > > >(), "start", ++b } );
-         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< sor< one< 'a' >, try_catch< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > > >(), "start", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< internal::must< sor< one< 'a' >, try_catch_return_false< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > > > >(), "start", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< sor< one< 'a' >, try_catch_return_false< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > > >(), "start", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< one< 'a' > >(), "start", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< one< 'a' > >(), "failure", ++b } );
-         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< try_catch< seq< one< 'b' >, must< one< 'c' > > > > >(), "start", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< try_catch_return_false< seq< one< 'b' >, must< one< 'c' > > > > >(), "start", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< seq< one< 'b' >, must< one< 'c' > > > >(), "start", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< one< 'b' > >(), "start", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< one< 'b' > >(), "apply0", ++b } );
@@ -166,12 +166,12 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< one< 'c' > >(), "raise", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< must< one< 'c' > > >(), "unwind", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< seq< one< 'b' >, must< one< 'c' > > > >(), "unwind", ++b } );
-         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< try_catch< seq< one< 'b' >, must< one< 'c' > > > > >(), "failure", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< try_catch_return_false< seq< one< 'b' >, must< one< 'c' > > > > >(), "failure", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< two< 'b' > >(), "start", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< two< 'b' > >(), "apply", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< two< 'b' > >(), "success", ++b } );
-         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< sor< one< 'a' >, try_catch< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > > >(), "success", ++b } );
-         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< internal::must< sor< one< 'a' >, try_catch< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > > > >(), "success", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< sor< one< 'a' >, try_catch_return_false< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > > >(), "success", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< internal::must< sor< one< 'a' >, try_catch_return_false< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > > > >(), "success", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< internal::must< eof > >(), "start", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< eof >(), "start", ++b } );
          TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< eof >(), "success", ++b } );

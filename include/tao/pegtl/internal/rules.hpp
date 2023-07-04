@@ -64,7 +64,8 @@
 #include "must.hpp"
 #include "raise.hpp"
 #include "star_must.hpp"
-#include "try_catch_type.hpp"
+#include "try_catch_raise_nested.hpp"
+#include "try_catch_return_false.hpp"
 #endif
 
 #endif
