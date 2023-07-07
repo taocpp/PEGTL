@@ -50,6 +50,7 @@ target_include_directories(pegtl INTERFACE
 target_compile_features(pegtl INTERFACE cxx_std_17)
 
 option(PEGTL_USE_BOOST_FILESYSTEM "Override the auto-detection of std::filesystem and use Boost.Filesystem" OFF)
+option(PEGTL_USE_FILESYSTEM "Use available implementation of std::filesystem (std::, std::experiemntal, or Boost)" ON)
 
 # Try compiling a test program with std::filesystem or one of its alternatives
 function(check_filesystem_impl FILESYSTEM_HEADER FILESYSTEM_NAMESPACE OPTIONAL_LIBS OUT_RESULT)
@@ -82,7 +83,10 @@ function(check_filesystem_impl FILESYSTEM_HEADER FILESYSTEM_NAMESPACE OPTIONAL_L
   set(${OUT_RESULT} ${TEST_RESULT} PARENT_SCOPE)
 endfunction()
 
-if(PEGTL_USE_BOOST_FILESYSTEM)
+if (NOT PEGTL_USE_FILESYSTEM)
+  target_compile_definitions(${PROJECT_NAME} INTERFACE TAO_PEGTL_NO_FILESYSTEM)
+  message(STATUS "Skipping std::filesystem (or variant) in PEGTL; File operations will not work or compile.")
+elseif (PEGTL_USE_BOOST_FILESYSTEM)
   # Force the use of Boost.Filesystem: #include <boost/filesystem.hpp> // boost::filesystem
   find_package(Boost REQUIRED COMPONENTS filesystem)
   target_link_libraries(${PROJECT_NAME} INTERFACE Boost::filesystem)
