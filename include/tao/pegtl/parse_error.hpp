@@ -19,7 +19,10 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   struct disambiguate_t {};  // TODO: Integrate extract_position into parse_error with SFINAE?
+   struct disambiguate_t
+   {
+      // TODO: Integrate extract_position into parse_error with SFINAE?
+   };
 
    template< typename Position >
    class parse_error_template

@@ -5,6 +5,7 @@
 #include <exception>
 #include <iostream>
 #include <utility>
+#include <vector>
 
 #include <tao/pegtl.hpp>
 
