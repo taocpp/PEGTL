@@ -149,6 +149,12 @@ namespace TAO_PEGTL_NAMESPACE
          std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_raise << "raise" << TracerTraits::ansi_reset << ' ' << TracerTraits::ansi_rule << demangle< Rule >() << TracerTraits::ansi_reset << '\n';
       }
 
+      template< typename Rule, typename Ambient, typename... States >
+      void raise_nested( const Ambient& /*unused*/, States&&... /*unused*/ )
+      {
+         std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_raise << "raise_nested" << TracerTraits::ansi_reset << ' ' << TracerTraits::ansi_rule << demangle< Rule >() << TracerTraits::ansi_reset << '\n';
+      }
+
       template< typename Rule, typename ParseInput, typename... States >
       void unwind( const ParseInput& in, States&&... /*unused*/ )
       {

@@ -14,9 +14,9 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    // The first state is removed for most of the control functions forwarded to Base,
-   // start(), success(), failure(), unwind(), raise(), apply(), and apply0(). The call
-   // to match() is unchanged because it can call other grammar rules that require all
-   // states when starting their match to keep an even playing field.
+   // start(), success(), failure(), unwind(), raise(), raise_nested(), apply(), and apply0().
+   // The call to match() is unchanged because it can call other grammar rules that require
+   // all states when starting their match to keep an even playing field.
 
    template< typename Base >
    struct remove_first_state
@@ -44,6 +44,12 @@ namespace TAO_PEGTL_NAMESPACE
       [[noreturn]] static void raise( const ParseInput& in, State&& /*unused*/, States&&... st )
       {
          Base::raise( in, st... );
+      }
+
+      template< typename Ambient, typename State, typename... States >
+      [[noreturn]] static void raise_nested( const Ambient& am, State&& /*unused*/, States&&... st )
+      {
+         Base::raise_nested( am, st... );
       }
 
       template< typename ParseInput, typename State, typename... States >

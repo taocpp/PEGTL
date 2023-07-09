@@ -27,7 +27,13 @@ namespace TAO_PEGTL_NAMESPACE
       std::size_t b;
    };
 
-   inline bool operator==( const test_entry& l, const test_entry& r ) noexcept
+   std::ostream& operator<<( std::ostream& os, const test_entry& te )
+   {
+      os << te.rule << " " << te.func << " " << te.b;
+      return os;
+   }
+
+   [[nodiscard]] inline bool operator==( const test_entry& l, const test_entry& r ) noexcept
    {
       return ( l.rule == r.rule ) && ( l.func == r.func ) && ( l.b == r.b );
    }
@@ -66,6 +72,13 @@ namespace TAO_PEGTL_NAMESPACE
       {
          TAO_PEGTL_TEST_ASSERT( a == -1 );
          trace.push_back( { demangle< Rule >(), "raise", ++b } );
+      }
+
+      template< typename Rule, typename Input, typename... States >
+      void raise_nested( const Input& /*unused*/, const int a, std::size_t& b )
+      {
+         TAO_PEGTL_TEST_ASSERT( a == -1 );
+         trace.push_back( { demangle< Rule >(), "raise_nested", ++b } );
       }
 
       template< typename Rule, typename Input, typename... States >
@@ -137,8 +150,12 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
+   struct test_nested : not_at< try_catch_return_false< try_catch_raise_nested< must< one< 'x' > > > > >
+   {};
+
    void unit_test()
    {
+      // must< sor< one< 'a' >, try_catch_return_false< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > >, eof >
       {
          test_state< true > st;
          memory_input in( "bb", __FUNCTION__ );
@@ -191,6 +208,29 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( !test_action_two );
          TAO_PEGTL_TEST_ASSERT( st.trace.empty() );
          TAO_PEGTL_TEST_ASSERT( b == 0 );
+      }
+      // not_at< try_catch_return_false< try_catch_raise_nested< must< one< 'x' > > > > >
+      {
+         test_state< true > st;
+         memory_input in( "a", __FUNCTION__ );
+         std::size_t b = 0;
+         const bool result = parse< test_nested, nothing, state_control< normal >::type >( in, -1, b, st );
+         TAO_PEGTL_TEST_ASSERT( result );
+         TAO_PEGTL_TEST_ASSERT( b == st.trace.size() );
+         b = 0;
+         std::size_t i = 0;
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< test_nested >(), "start", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< try_catch_return_false< try_catch_raise_nested< must< one< 'x' > > > > >(), "start", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< try_catch_raise_nested< must< one< 'x' > > > >(), "start", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< must< one< 'x' > > >(), "start", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< one< 'x' > >(), "start", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< one< 'x' > >(), "failure", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< one< 'x' > >(), "raise", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< must< one< 'x' > > >(), "unwind", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< must< one< 'x' > > >(), "raise_nested", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< try_catch_raise_nested< must< one< 'x' > > > >(), "unwind", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< try_catch_return_false< try_catch_raise_nested< must< one< 'x' > > > > >(), "failure", ++b } );
+         TAO_PEGTL_TEST_ASSERT( st.trace[ i++ ] == test_entry{ demangle< test_nested >(), "success", ++b } );
       }
    }
 

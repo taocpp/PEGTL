@@ -39,7 +39,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace internal
 
-   // Applies 'Shuffle' to the states of start(), success(), failure(), raise(), apply(), and apply0()
+   // Applies 'Shuffle' to the states of start(), success(), failure(), raise(), raise_nested(), apply(), and apply0()
    template< typename Base, typename Shuffle >
    struct shuffle_states
       : Base
@@ -114,6 +114,24 @@ namespace TAO_PEGTL_NAMESPACE
       [[noreturn]] static void raise( const ParseInput& in, State&& st )
       {
          Base::raise( in, st );
+      }
+
+      template< typename Ambient, typename Tuple, std::size_t... Is >
+      [[noreturn]] static void raise_nested_impl( const Ambient& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
+      {
+         Base::raise_nested( in, std::get< Shuffle::template value< Is, sizeof...( Is ) > >( t )... );
+      }
+
+      template< typename Ambient, typename... States >
+      [[noreturn]] static void raise_nested( const Ambient& in, States&&... st )
+      {
+         raise_nested_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) >() );
+      }
+
+      template< typename Ambient, typename State >
+      [[noreturn]] static void raise_nested( const Ambient& in, State&& st )
+      {
+         Base::raise_nested( in, st );
       }
 
       template< typename ParseInput, typename Tuple, std::size_t... Is >

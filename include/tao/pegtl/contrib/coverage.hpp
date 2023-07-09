@@ -31,6 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
       std::size_t failure = 0;
       std::size_t unwind = 0;
       std::size_t raise = 0;
+      std::size_t raise_nested = 0;
    };
 
    struct coverage_entry
@@ -110,6 +111,16 @@ namespace TAO_PEGTL_NAMESPACE
             ++result.at( name ).raise;
             if( !stack.empty() ) {
                ++result.at( stack.back() ).branches.at( name ).raise;
+            }
+         }
+
+         template< typename Rule, typename Ambient, typename... States >
+         void raise_nested( const Ambient& /*unused*/, States&&... /*unused*/ )
+         {
+            const auto name = demangle< Rule >();
+            ++result.at( name ).raise_nested;
+            if( !stack.empty() ) {
+               ++result.at( stack.back() ).branches.at( name ).raise_nested;
             }
          }
 

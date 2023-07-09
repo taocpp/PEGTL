@@ -15,9 +15,9 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    // The last N states are removed for most of the control functions forwarded to Base,
-   // start(), success(), failure(), unwind(), raise(), apply(), and apply0(). The call
-   // to match() is unchanged because it can call other grammar rules that require all
-   // states when starting their match to keep an even playing field.
+   // start(), success(), failure(), unwind(), raise(), raise_nested(),apply(), and apply0().
+   // The call to match() is unchanged because it can call other grammar rules that require
+   // all states when starting their match to keep an even playing field.
 
    template< typename Base, std::size_t N >
    struct remove_last_states
@@ -71,11 +71,23 @@ namespace TAO_PEGTL_NAMESPACE
          raise_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
       }
 
+      template< typename Ambient, typename Tuple, std::size_t... Is >
+      [[noreturn]] static void raise_nested_impl( const Ambient& am, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
+      {
+         Base::raise_nested( am, std::get< Is >( t )... );
+      }
+
+      template< typename Ambient, typename... States >
+      [[noreturn]] static void raise_nested( const Ambient& am, States&&... st )
+      {
+         raise_nested_impl( am, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
+      }
+
       template< typename ParseInput, typename Tuple, std::size_t... Is >
-      static auto unwind_impl( const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
+      static auto unwind_impl( const ParseInput& am, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
          -> std::enable_if_t< internal::has_unwind< Base, void, const ParseInput&, std::tuple_element_t< Is, Tuple >... > >
       {
-         Base::unwind( in, std::get< Is >( t )... );
+         Base::unwind( am, std::get< Is >( t )... );
       }
 
       template< typename ParseInput, typename... States >
