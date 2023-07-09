@@ -14,6 +14,7 @@ int main()
 #include <cassert>
 #include <cstddef>
 #include <iostream>
+#include <vector>
 
 #include <tao/pegtl.hpp>
 
