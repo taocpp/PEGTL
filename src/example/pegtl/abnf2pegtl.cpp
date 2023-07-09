@@ -787,7 +787,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
          std::cout << abnf::to_string( rule ) << '\n';
       }
    }
-   catch( const parse_error< position >& e ) {
+   catch( const parse_error& e ) {
       const auto& p = e.position_object();
       std::cerr << e.what() << '\n'
                 << in.line_at( p ) << '\n'

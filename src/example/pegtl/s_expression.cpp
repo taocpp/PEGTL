@@ -93,7 +93,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       try {
          TAO_PEGTL_NAMESPACE::parse< sexpr::main, sexpr::action >( in, fn );
       }
-      catch( const TAO_PEGTL_NAMESPACE::parse_error< TAO_PEGTL_NAMESPACE::position >& e ) {
+      catch( const TAO_PEGTL_NAMESPACE::parse_error& e ) {
          const auto& p = e.position_object();
          std::cerr << e.what() << '\n'
                    << in.line_at( p ) << '\n'

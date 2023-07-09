@@ -96,7 +96,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_nested_asserts()
    {
-      const std::vector< parse_error< position > > errors = nested::flatten();
+      const std::vector< parse_error > errors = nested::flatten();
       TAO_PEGTL_TEST_ASSERT( errors.size() == 2 );
       TAO_PEGTL_TEST_ASSERT( errors[ 0 ].position_object().source == "inner" );
       TAO_PEGTL_TEST_ASSERT( errors[ 0 ].position_object().byte == 1 );

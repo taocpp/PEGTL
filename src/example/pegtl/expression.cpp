@@ -508,7 +508,7 @@ int main( int argc, char** argv )
          assert( res.string_stack.size() == 1 );
          std::cout << "Result: " << res.string_stack.at( 0 ) << std::endl;
       }
-      catch( const TAO_PEGTL_NAMESPACE::parse_error< TAO_PEGTL_NAMESPACE::position >& e ) {
+      catch( const TAO_PEGTL_NAMESPACE::parse_error& e ) {
          const auto& p = e.position_object();
          std::cerr << e.what() << '\n'
                    << in.line_at( p ) << '\n'

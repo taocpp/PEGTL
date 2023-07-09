@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
       try {
          parse< seq< identifier, eol, identifier, one< ' ' >, must< digit > > >( in );
       }
-      catch( const parse_error< position >& e ) {
+      catch( const parse_error& e ) {
          TAO_PEGTL_TEST_ASSERT( e.what() == "test_source:2:5: parse error matching " + rulename );
 
          TAO_PEGTL_TEST_ASSERT( e.message() == "parse error matching " + rulename );
