@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        xcode: ['11', '12', '13']
+        xcode: ['13', '14']
         build_type: [Debug, Release]
 
     runs-on: macos-latest
