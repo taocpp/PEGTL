@@ -1,4 +1,4 @@
-name: macOS
+name: No-Filesystem
 
 on:
   push:
@@ -11,29 +11,28 @@ on:
       - 'doc/**'
 
 jobs:
-  xcode:
+  no-exceptions:
     strategy:
       fail-fast: false
       matrix:
-        xcode: ['13', '14']
-        build_type: [Debug, Release]
+        compiler: [g++]
+        build_type: [Release]
 
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
+
+    env:
+      CXX: ${{ matrix.compiler }}
 
     steps:
     - uses: actions/checkout@v2
 
-    - uses: maxim-lobanov/setup-xcode@v1
-      with:
-        xcode-version: ${{ matrix.xcode }}
-
     - run: cmake -E make_directory build
 
     - working-directory: build/
-      run: cmake $GITHUB_WORKSPACE
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} -DPEGTL_USE_FILESYSTEM=OFF -DPEGTL_USE_BOOST_FILESYSTEM=OFF
 
     - working-directory: build/
-      run: cmake --build . --config ${{ matrix.build_type }}
+      run: cmake --build .
 
     - working-directory: build/
-      run: ctest --config ${{ matrix.build_type }} --output-on-failure
+      run: ctest --output-on-failure
