@@ -23,7 +23,7 @@ jobs:
           - clang++-12
         build_type: [Debug, Release]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     env:
       CXX: ${{ matrix.compiler }}
@@ -84,7 +84,7 @@ jobs:
           - clang++-9
         build_type: [Debug, Release]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     env:
       CXX: ${{ matrix.compiler }}
@@ -137,7 +137,7 @@ jobs:
         flags: ["-fno-rtti", "-fms-extensions"]
         build_type: [Debug, Release]
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     env:
       CXX: clang++

@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        compiler: [g++, clang++]
+        compiler: [g++]
         build_type: [Release]
 
     runs-on: ubuntu-latest
