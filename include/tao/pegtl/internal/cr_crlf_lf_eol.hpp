@@ -38,8 +38,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
                   p.data = true;
                }
             }
-
-            return p;
+         }
+         return p;
       }
    };
 
