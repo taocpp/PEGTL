@@ -6,19 +6,17 @@
 #define TAO_PEGTL_INTERNAL_MMAP_FILE_POSIX_HPP
 
 #include <fcntl.h>
+#include <filesystem>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <utility>
 
 #if !defined( __cpp_exceptions )
 #include <cstdio>
 #include <exception>
 #endif
-
-#include <utility>
-
-#include "filesystem.hpp"
 
 #include "../config.hpp"
 
@@ -26,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    struct mmap_file_open
    {
-      explicit mmap_file_open( const internal::filesystem::path& path )  // NOLINT(modernize-pass-by-value)
+      explicit mmap_file_open( const std::filesystem::path& path )  // NOLINT(modernize-pass-by-value)
          : m_path( path ),
            m_fd( open() )
       {}
@@ -49,8 +47,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( ::fstat( m_fd, &st ) < 0 ) {
             // LCOV_EXCL_START
 #if defined( __cpp_exceptions )
-            const internal::error_code ec( errno, internal::system_category() );
-            throw internal::filesystem::filesystem_error( "fstat() failed", m_path, ec );
+            const std::error_code ec( errno, std::system_category() );
+            throw std::filesystem::filesystem_error( "fstat() failed", m_path, ec );
 #else
             std::perror( "fstat() failed" );
             std::terminate();
@@ -60,7 +58,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return static_cast< std::size_t >( st.st_size );
       }
 
-      const internal::filesystem::path m_path;
+      const std::filesystem::path m_path;
       const int m_fd;
 
    private:
@@ -77,8 +75,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return fd;
          }
 #if defined( __cpp_exceptions )
-         const internal::error_code ec( errno, internal::system_category() );
-         throw internal::filesystem::filesystem_error( "open() failed", m_path, ec );
+         const std::error_code ec( errno, std::system_category() );
+         throw std::filesystem::filesystem_error( "open() failed", m_path, ec );
 #else
          std::perror( "open() failed" );
          std::terminate();
@@ -89,7 +87,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    class mmap_file_posix
    {
    public:
-      explicit mmap_file_posix( const internal::filesystem::path& path )
+      explicit mmap_file_posix( const std::filesystem::path& path )
          : mmap_file_posix( mmap_file_open( path ) )
       {}
 
@@ -100,8 +98,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( ( m_size != 0 ) && ( reinterpret_cast< intptr_t >( m_data ) == -1 ) ) {
             // LCOV_EXCL_START
 #if defined( __cpp_exceptions )
-            const internal::error_code ec( errno, internal::system_category() );
-            throw internal::filesystem::filesystem_error( "mmap() failed", reader.m_path, ec );
+            const std::error_code ec( errno, std::system_category() );
+            throw std::filesystem::filesystem_error( "mmap() failed", reader.m_path, ec );
 #else
             std::perror( "mmap() failed" );
             std::terminate();

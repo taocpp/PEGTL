@@ -16,7 +16,7 @@
 #else
 #endif
 
-#include "filesystem.hpp"
+#include <filesystem>
 
 #include "../config.hpp"
 
@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       const mmap_file_impl data;
 
-      explicit mmap_file( const internal::filesystem::path& path )
+      explicit mmap_file( const std::filesystem::path& path )
          : data( path )
       {}
 
