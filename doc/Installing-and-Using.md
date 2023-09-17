@@ -23,8 +23,8 @@
 
 The PEGTL requires a C++17-capable compiler, e.g. one of
 
-* GCC 8
-* Clang 6
+* GCC 9
+* Clang 7
 * Visual Studio 2019
 
 on either

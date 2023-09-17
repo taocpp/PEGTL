@@ -71,7 +71,7 @@ The rules are expressed in C++ as template instantiations, and it is the compile
 
 Each commit is automatically tested with multiple architectures, operating systems, compilers, and versions thereof.
 
-Each commit is checked with GCC's and Clang's [sanitizers](https://github.com/google/sanitizers), Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/).
+Each commit is checked with the GCC and Clang [sanitizers](https://github.com/google/sanitizers), Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/).
 Additionally, we use [CodeQL](https://securitylab.github.com/tools/codeql) to scan for (security) issues.
 
 Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
