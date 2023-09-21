@@ -292,8 +292,14 @@
 * [`terminal_punctuation`](Rule-Reference.md#terminal_punctuation) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`three< C >`](Rule-Reference.md#three-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`trail_canonical_combining_class< V >`](Rule-Reference.md#trail_canonical_combining_class-v-) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-value-properties)</sup>
-* [`try_catch< R... >`](Rule-Reference.md#try_catch-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
-* [`try_catch_type< E, R... >`](Rule-Reference.md#try_catch_type-e-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
+* [`try_catch_any_raise_nested< R... >`](Rule-Reference.md#try_catch_any_raise_nested-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
+* [`try_catch_any_return_false< R... >`](Rule-Reference.md#try_catch_any_return_false-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
+* [`try_catch_raise_nested< R... >`](Rule-Reference.md#try_catch_raise_nested-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
+* [`try_catch_return_false< R... >`](Rule-Reference.md#try_catch_return_false-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
+* [`try_catch_std_raise_nested< R... >`](Rule-Reference.md#try_catch_std_raise_nested-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
+* [`try_catch_std_return_false< R... >`](Rule-Reference.md#try_catch_std_return_false-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
+* [`try_catch_type_raise_nested< E, R... >`](Rule-Reference.md#try_catch_type_raise_nested-e-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
+* [`try_catch_type_return_false< E, R... >`](Rule-Reference.md#try_catch_type_return_false-e-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>
 * [`two< C >`](Rule-Reference.md#two-c-) <sup>[(ascii rules)](Rule-Reference.md#ascii-rules)</sup>
 * [`unified_ideograph`](Rule-Reference.md#unified_ideograph) <sup>[(icu rules)](Rule-Reference.md#icu-rules-for-binary-properties)</sup>
 * [`until< R >`](Rule-Reference.md#until-r-) <sup>[(convenience)](Rule-Reference.md#convenience)</sup>

@@ -487,29 +487,109 @@ Note that the `S` do *not* need to match *all* of the input matched by `R` (whic
   - `strict< R... >::rule_t` is `internal::strict< R... >`
   - `strict< R... >::subs_t` is `type_list< R... >`
 
-###### `try_catch< R... >`
+###### `try_catch_any_raise_nested< R... >`
 
 * [Equivalent] to `seq< R... >`, but:
-* Converts global failure (exception) into local failure (return value `false`).
-* Catches exceptions of type `tao::pegtl::parse_error`.
+* Catches exceptions of any type via `catch( ... )` and:
+* Throws a new exception with the caught one as nested exception.
+* Throws via `Control< R >::raise_nested()` when `R...` is a single rule.
+* Throws via `Control< internal::seq< R... > >::raise_nested()` when `R...` is more than one rule.
 * [Meta data] and [implementation] mapping:
-  - `try_catch<>::rule_t` is `internal::success`
-  - `try_catch< R >::rule_t` is `internal::try_catch_type< parse_error, R >`
-  - `try_catch< R >::subs_t` is `type_list< R >`
-  - `try_catch< R... >::rule_t` is `internal::try_catch_type< parse_error, internal::seq< R... > >`
-  - `try_catch< R... >::subs_t` is `type_list< internal::seq< R... > >`
+  - `try_catch_any_raise_nested<>::rule_t` is `internal::success`
+  - `try_catch_any_raise_nested< R >::rule_t` is `internal::try_catch_raise_nested< void, R >`
+  - `try_catch_any_raise_nested< R >::subs_t` is `type_list< R >`
+  - `try_catch_any_raise_nested< R... >::rule_t` is `internal::try_catch_raise_nested< void, internal::seq< R... > >`
+  - `try_catch_any_raise_nested< R... >::subs_t` is `type_list< internal::seq< R... > >`
 
-###### `try_catch_type< E, R... >`
+###### `try_catch_any_return_false< E, R... >`
 
 * [Equivalent] to `seq< R... >`, but:
-* Converts global failure (exception) into local failure (return value `false`).
-* Catches exceptions of type `E`.
+* Catches exceptions of any type via `catch( ... )`, and:
+* Converts the global failure (exception) into a local failure (return value `false`).
 * [Meta data] and [implementation] mapping:
-  - `try_catch_type< E >::rule_t` is `internal::success`
-  - `try_catch_type< E, R >::rule_t` is `internal::try_catch_type< E, R >`
-  - `try_catch_type< E, R >::subs_t` is `type_list< R >`
-  - `try_catch_type< E, R... >::rule_t` is `internal::try_catch_type< E, internal::seq< R... > >`
-  - `try_catch_type< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
+  - `try_catch_any_return_false< E >::rule_t` is `internal::success`
+  - `try_catch_any_return_false< E, R >::rule_t` is `internal::try_catch_return_false< void, R >`
+  - `try_catch_any_return_false< E, R >::subs_t` is `type_list< R >`
+  - `try_catch_any_return_false< E, R... >::rule_t` is `internal::try_catch_return_false< void, internal::seq< R... > >`
+  - `try_catch_any_return_false< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `try_catch_raise_nested< R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of type `tao::pegtl::parse_error_base` (or derived), and:
+* Throws a new exception with the caught one as nested exception.
+* Throws via `Control< R >::raise_nested()` when `R...` is a single rule.
+* Throws via `Control< internal::seq< R... > >::raise_nested()` when `R...` is more than one rule.
+* [Meta data] and [implementation] mapping:
+  - `try_catch_raise_nested<>::rule_t` is `internal::success`
+  - `try_catch_raise_nested< R >::rule_t` is `internal::try_catch_raise_nested< parse_error_base, R >`
+  - `try_catch_raise_nested< R >::subs_t` is `type_list< R >`
+  - `try_catch_raise_nested< R... >::rule_t` is `internal::try_catch_raise_nested< parse_error_base, internal::seq< R... > >`
+  - `try_catch_raise_nested< R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `try_catch_return_false< R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of type `tao::pegtl::parse_error_base` (or derived), and:
+* Converts the global failure (exception) into a local failure (return value `false`).
+* [Meta data] and [implementation] mapping:
+  - `try_catch_return_false<>::rule_t` is `internal::success`
+  - `try_catch_return_false< R >::rule_t` is `internal::try_catch_return_false< parse_error_base, R >`
+  - `try_catch_return_false< R >::subs_t` is `type_list< R >`
+  - `try_catch_return_false< R... >::rule_t` is `internal::try_catch_return_false< parse_error_base, internal::seq< R... > >`
+  - `try_catch_return_false< R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `try_catch_std_raise_nested< R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of type `std::exception` (or derived), and:
+* Throws a new exception with the caught one as nested exception.
+* Throws via `Control< R >::raise_nested()` when `R...` is a single rule.
+* Throws via `Control< internal::seq< R... > >::raise_nested()` when `R...` is more than one rule.
+* [Meta data] and [implementation] mapping:
+  - `try_catch_std_raise_nested<>::rule_t` is `internal::success`
+  - `try_catch_std_raise_nested< R >::rule_t` is `internal::try_catch_raise_nested< std::exception, R >`
+  - `try_catch_std_raise_nested< R >::subs_t` is `type_list< R >`
+  - `try_catch_std_raise_nested< R... >::rule_t` is `internal::try_catch_raise_nested< std::exception, internal::seq< R... > >`
+  - `try_catch_std_raise_nested< R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `try_catch_std_return_false< E, R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of type `std::exception` (or derived), and:
+* Converts the global failure (exception) into a local failure (return value `false`).
+* [Meta data] and [implementation] mapping:
+  - `try_catch_std_return_false< E >::rule_t` is `internal::success`
+  - `try_catch_std_return_false< E, R >::rule_t` is `internal::try_catch_return_false< std::exception, R >`
+  - `try_catch_std_return_false< E, R >::subs_t` is `type_list< R >`
+  - `try_catch_std_return_false< E, R... >::rule_t` is `internal::try_catch_return_false< std::exception, internal::seq< R... > >`
+  - `try_catch_std_return_false< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `try_catch_type_raise_nested< E, R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of type `E` (or derived), and:
+* Throws a new exception with the caught one as nested exception.
+* Throws via `Control< R >::raise_nested()` when `R...` is a single rule.
+* Throws via `Control< internal::seq< R... > >::raise_nested()` when `R...` is more than one rule.
+* [Meta data] and [implementation] mapping:
+  - `try_catch_type_raise_nested< E >::rule_t` is `internal::success`
+  - `try_catch_type_raise_nested< E, R >::rule_t` is `internal::try_catch_raise_nested< E, R >`
+  - `try_catch_type_raise_nested< E, R >::subs_t` is `type_list< R >`
+  - `try_catch_type_raise_nested< E, R... >::rule_t` is `internal::try_catch_raise_nested< E, internal::seq< R... > >`
+  - `try_catch_type_raise_nested< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `try_catch_type_return_false< E, R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of type `E` (or derived), and:
+* Converts the global failure (exception) into a local failure (return value `false`).
+* [Meta data] and [implementation] mapping:
+  - `try_catch_type_return_false< E >::rule_t` is `internal::success`
+  - `try_catch_type_return_false< E, R >::rule_t` is `internal::try_catch_return_false< E, R >`
+  - `try_catch_type_return_false< E, R >::subs_t` is `type_list< R >`
+  - `try_catch_type_return_false< E, R... >::rule_t` is `internal::try_catch_return_false< E, internal::seq< R... > >`
+  - `try_catch_type_return_false< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
 
 ###### `until< R >`
 
@@ -1610,8 +1690,14 @@ Binary rules do not rely on other rules.
 * [`terminal_punctuation`](#terminal_punctuation) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`three< C >`](#three-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`trail_canonical_combining_class< V >`](#trail_canonical_combining_class-v-) <sup>[(icu rules)](#icu-rules-for-value-properties)</sup>
-* [`try_catch< R... >`](#try_catch-r-) <sup>[(convenience)](#convenience)</sup>
-* [`try_catch_type< E, R... >`](#try_catch_type-e-r-) <sup>[(convenience)](#convenience)</sup>
+* [`try_catch_any_raise_nested< R... >`](#try_catch_any_raise_nested-r-) <sup>[(convenience)](#convenience)</sup>
+* [`try_catch_any_return_false< R... >`](#try_catch_any_return_false-r-) <sup>[(convenience)](#convenience)</sup>
+* [`try_catch_raise_nested< R... >`](#try_catch_raise_nested-r-) <sup>[(convenience)](#convenience)</sup>
+* [`try_catch_return_false< R... >`](#try_catch_return_false-r-) <sup>[(convenience)](#convenience)</sup>
+* [`try_catch_std_raise_nested< R... >`](#try_catch_std_raise_nested-r-) <sup>[(convenience)](#convenience)</sup>
+* [`try_catch_std_return_false< R... >`](#try_catch_std_return_false-r-) <sup>[(convenience)](#convenience)</sup>
+* [`try_catch_type_raise_nested< E, R... >`](#try_catch_type_raise_nested-e-r-) <sup>[(convenience)](#convenience)</sup>
+* [`try_catch_type_return_false< E, R... >`](#try_catch_type_return_false-e-r-) <sup>[(convenience)](#convenience)</sup>
 * [`two< C >`](#two-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`unified_ideograph`](#unified_ideograph) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`until< R >`](#until-r-) <sup>[(convenience)](#convenience)</sup>
