@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
          ++failed;
          // LCOV_EXCL_STOP
       }
-      catch( const internal::filesystem::filesystem_error& ) {
+      catch( const std::filesystem::filesystem_error& ) {
       }
       // LCOV_EXCL_START
       catch( ... ) {

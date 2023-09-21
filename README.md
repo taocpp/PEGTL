@@ -25,14 +25,14 @@ During development of a new major version the main branch can go through incompa
 
 ## Contact
 
-For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to open a [discussion](https://github.com/taocpp/PEGTL/discussions), an [issue](https://github.com/taocpp/PEGTL/issues) or a [pull request](https://github.com/taocpp/PEGTL/pulls) on GitHub or contact the authors at `taocpp(at)icemx.net`.
+For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to open a [discussion](https://github.com/taocpp/PEGTL/discussions), an [issue](https://github.com/taocpp/PEGTL/issues) or a [pull request](https://github.com/taocpp/PEGTL/pulls), or contact the authors at `taocpp(at)icemx.net`.
 
 ## Introduction
 
 Grammars are written as regular C++ code, created with template programming (not template meta programming), i.e. nested template instantiations that naturally correspond to the inductive definition of PEGs (and other parser-combinator approaches).
 
 A comprehensive set of [parser rules](doc/Rule-Reference.md) that can be combined and extended by the user is included, as are mechanisms for debugging grammars, and for attaching user-defined [actions](doc/Actions-and-States.md) to grammar rules.
-Here is an example of how a PEG grammar rule is implemented as C++ class with the PEGTL.
+Here is an example of how a parsing expression grammar rule is implemented as C++ class with the PEGTL.
 
 ```c++
 // PEG rule for integers consisting of a non-empty
@@ -71,7 +71,7 @@ The rules are expressed in C++ as template instantiations, and it is the compile
 
 Each commit is automatically tested with multiple architectures, operating systems, compilers, and versions thereof.
 
-Each commit is checked with GCC's and Clang's [sanitizers](https://github.com/google/sanitizers), Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/).
+Each commit is checked with the GCC and Clang [sanitizers](https://github.com/google/sanitizers), Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/).
 Additionally, we use [CodeQL](https://securitylab.github.com/tools/codeql) to scan for (security) issues.
 
 Code coverage is automatically measured and the unit tests cover 100% of the core library code (for releases).
