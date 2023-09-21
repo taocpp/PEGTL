@@ -18,10 +18,16 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Rules >
    using test_try_catch_rule = try_catch_return_false< must< Rules... > >;
 
+   template< typename... Rules >
+   using test_try_catch_any_rule = try_catch_any_return_false< must< Rules... > >;
+
    void unit_test()
    {
       verify_seqs< test_try_catch_rule >();
       verify_seqs< try_catch_return_false >();
+
+      verify_seqs< test_try_catch_any_rule >();
+      verify_seqs< try_catch_any_return_false >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

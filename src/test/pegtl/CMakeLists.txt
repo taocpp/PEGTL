@@ -121,7 +121,8 @@ set(test_sources
   rule_star_partial.cpp
   rule_state.cpp
   rule_success.cpp
-  rule_try_catch.cpp
+  rule_try_catch_raise_nested.cpp
+  rule_try_catch_return_false.cpp
   rule_until.cpp
   test_empty.cpp
   test_result.cpp

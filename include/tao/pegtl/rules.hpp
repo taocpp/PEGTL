@@ -75,8 +75,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Cond, typename... Rules > struct star_must : internal::star_must< Cond, Rules... > {};
    template< typename... Rules > struct try_catch_raise_nested : internal::try_catch_raise_nested< parse_error_base, Rules... > {};
    template< typename... Rules > struct try_catch_return_false : internal::try_catch_return_false< parse_error_base, Rules... > {};
-   template< typename... Rules > struct try_catch_any_raise_nested : internal::try_catch_raise_nested< void, Rules... > {};  // catch( ... )
-   template< typename... Rules > struct try_catch_any_return_false : internal::try_catch_return_false< void, Rules... > {};  // catch( ... )
+   template< typename... Rules > struct try_catch_any_raise_nested : internal::try_catch_raise_nested< void, Rules... > {};
+   template< typename... Rules > struct try_catch_any_return_false : internal::try_catch_return_false< void, Rules... > {};
    template< typename... Rules > struct try_catch_std_raise_nested : internal::try_catch_raise_nested< std::exception, Rules... > {};
    template< typename... Rules > struct try_catch_std_return_false : internal::try_catch_return_false< std::exception, Rules... > {};
    template< typename Exception, typename... Rules > struct try_catch_type_raise_nested : internal::try_catch_raise_nested< Exception, Rules... > {};
