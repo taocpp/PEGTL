@@ -53,7 +53,7 @@ All classes and functions on this page are in namespace `tao::pegtl`.
 
 Some input classes allow a choice of tracking mode, or whether the `byte`, `line` and `column` counters are continuously updated during a parsing run with `tracking_mode::eager`, or only calculated on-demand in `position()` by scanning the complete input again with `tracking_mode::lazy`.
 
-Lazy tracking is recommended when the position is used very infrequently, for example only in the case of throwing a `parse_error`.
+Lazy tracking is recommended when the position is used very infrequently, for example at most once when a parsing run ends with an exception of type `parse_error`.
 
 Eager tracking is recommended when the position is used frequently and/or in non-exceptional cases, for example when annotating every AST node with the line number.
 
@@ -309,11 +309,13 @@ bool parse( ParseInput& in,
 
 Nested parsing refers to an (inner) parsing run that is performed "in the middle of" another (outer) parsing run, for example when one file "includes" another file.
 
-The difference to the regular `tao::pegtl::parse()` function is that `tao::pegtl::parse_nested()` takes care of adding to the `std::vector` of `tao::pegtl::position` objects in the exception class `tao::pegtl::parse_error`.
-This allows generating error messages of the form "error in file F1 line L1 included from file F2 line L2...".
+The difference to the regular `tao::pegtl::parse()` function is that when a global failure occurs within `tao::pegtl::parse_nested()` then a new exception is thrown via `Control< Rule >::raise_nested()`.
+The new exception contains the previous one as nested exception. The functions in the header `tao/pegtl/contrib/nested_exceptions.hpp` can be used to work with these nested exceptions.
+The inner-most exception that was thrown first will be the "most nested" exception, i.e. the final one in the linked list of nested exceptions.
 
-Compared to `parse()`, calling `parse_nested()` requires either the input from the outer parsing run or the position as additional first argument.
-Everything else remains the same.
+The position information contained in the nested exceptions allows for error messages like "error in file F1 line L1 included from file F2 line L2 etc."
+
+Calling `parse_nested()` requires the input from the outer parsing run, or the position whithin the outer parsing run, as additional first argument ("additional" as compared to `parse()`).
 
 ```c++
 template< typename Rule,
@@ -321,22 +323,10 @@ template< typename Rule,
           template< typename... > class Control = normal,
           apply_mode A = apply_mode::action,
           rewind_mode M = rewind_mode::dontcare,
-          typename OuterInput,
+          typename OuterInput,  // Can also be class position.
           typename ParseInput,
           typename... States >
 bool parse_nested( const OuterInput& oi,
-                   ParseInput& in,
-                   States&&... st );
-
-template< typename Rule,
-          template< typename... > class Action = nothing,
-          template< typename... > class Control = normal,
-          apply_mode A = apply_mode::action,
-          rewind_mode M = rewind_mode::required,
-          typename OuterInput,
-          typename ParseInput,
-          typename... States >
-bool parse_nested( position op,
                    ParseInput& in,
                    States&&... st );
 ```
@@ -540,7 +530,7 @@ try {
   // call parse on the input 'in' here...
 }
 catch( const parse_error& e ) {
-   const auto p = e.positions().front();
+   const auto& p = e.position_object();
    std::cerr << e.what() << std::endl
              << in.line_at( p ) << '\n'
              << std::setw( p.column ) << '^' << std::endl;

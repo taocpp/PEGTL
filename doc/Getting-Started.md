@@ -269,7 +269,7 @@ Typically, the following pattern helps to print the exceptions in a human friend
       catch( const pegtl::parse_error& e ) {
 
          // This catch block needs access to the input
-         const auto p = e.positions().front();
+         const auto& p = e.positions_object();
          std::cerr << e.what() << '\n'
                    << in.line_at( p ) << '\n'
                    << std::setw( p.column ) << '^' << std::endl;

@@ -44,9 +44,13 @@ struct normal
 
    template< typename ParseInput,
              typename... States >
-   static void raise( const ParseInput& in, States&&... );
+   static void raise( const ParseInput&, States&&... );
 
-   template< template< typename... > class Action,
+   template< typename Ambient,
+             typename... States >
+   static void raise_nested( const Ambient&, States&&... );
+
+template< template< typename... > class Action,
              typename Iterator,
              typename ParseInput,
              typename... States >
@@ -78,7 +82,8 @@ It is not included in the default control template `normal`, as the existence of
 This might potentially have an impact on the binary size and therefore, one should only add an `unwind()` method if necessary.
 Several other control classes utilize the `unwind()` method to track the execution even in the presence of global errors.
 
-The static member function `raise()` is used to create a global error, and any replacement should again throw an exception, or abort the application.
+The static member function `raise()` is used to create a global error, and any replacement **must** again throw an exception (or abort the application).
+The static member function `raise_nested()` is used to create a global error in cases where a previous error was caught and is to be included in the newly thrown exception as nested exception.
 
 The static member functions `apply()` and `apply0()` can customise how actions with, and without, receiving the matched input are called, respectively.
 Note that these functions should only exist or be visible when an appropriate `apply()` or `apply0` exists in the action class template.
@@ -118,12 +123,11 @@ The included `<tao/pegtl/contrib/trace.hpp>` gives a practical example that show
 
 ## Exception Throwing
 
-The control-hook, the `raise()` static member function, **must** throw an exception.
+The control-hooks for exceptions, the`raise()` and `raise_nested()` static member function, **must** both throw an exception.
 For most parts of the PEGTL the exception class is irrelevant and any user-defined data type can be thrown by a user-defined control hook.
 
-The `try_catch` rule only catches exceptions of type `tao::pegtl::parse_error`!
-
-When custom exception types are used then `try_catch_type` must be used with the custom exception class that they are supposed to catch as first template argument.
+The [`try_catch_raise_nested`](Rule-Reference.md#try_catch_raise_nested-r-) and [`try_catch_return_false`](Rule-Reference.md#try_catch_return_false-r-) rules only catches exceptions of type `tao::pegtl::parse_error_base` (or derived)!
+When other exception types need to be caught then other members of the `try_catch_*` family of rules need to be used.
 
 ## Advanced Control
 

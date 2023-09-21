@@ -6,8 +6,8 @@ A parsing run, a call to one of the `parse()` functions as explained in [Inputs 
 * A return value of `false` is called a *local failure* (even when propagated to the top).
 * An exception indicating a *global failure* is thrown.
 
-The PEGTL parsing rules throw exceptions of type `tao::pegtl::parse_error`, some of the inputs throw additional exceptions like `std::system_error` or `std::filesystem_error`.
-Other exception classes can be used freely from actions and custom parsing rules.
+The PEGTL parsing rules throw exceptions of type `tao::pegtl::parse_error`, some of the inputs can throw other exceptions like `std::system_error` or `std::filesystem_error`.
+And other exception classes can be used freely from actions and custom parsing rules.
 
 ## Contents
 
@@ -23,47 +23,48 @@ Other exception classes can be used freely from actions and custom parsing rules
 
 By default, global failure means that an exception of type `tao::pegtl::parse_error` is thrown.
 
+Note that starting with PEGTL version 4.0.0 `parse_error` is no longer a monolithic class derived from `std::runtime_error`.
+To allow for both different types of position information and a single type that can be used to catch all parse errors there is a base class with the non position-type dependent parts as well as the actually thrown class that is templated over the position type.
+
 Synposis:
 
 ```c++
 namespace tao::pegtl
 {
-   class parse_error
+   class parse_error_base
       : public std::runtime_error
    {
-      parse_error( const char* msg, position p );
-
-      parse_error( const std::string& msg, position p )
-         : parse_error( msg.c_str(), std::move( p ) )
-      {}
-
-      template< typename ParseInput >
-      parse_error( const char* msg, const ParseInput& in )
-         : parse_error( msg, in.position() )
-      {}
-
-      template< typename ParseInput >
-      parse_error( const std::string& msg, const ParseInput& in )
-         : parse_error( msg, in.position() )
-      {}
-
-      const char* what() const noexcept override;
-
-      std::string_view message() const noexcept;
-      const std::vector< position >& positions() const noexcept;
-
-      void add_position( position&& p );
+   public:
+      [[nodiscard]] std::string_view message() const noexcept;
+      [[nodiscard]] std::string_view position_string() const noexcept;
    };
+
+   template< typename Position >
+   class parse_error_template
+      : public parse_error_base
+   {
+   public:
+      using position_t = Position;
+
+      template< typename Object >
+      parse_error_template( const std::string& msg, const Object& obj );
+
+      [[nodiscard]] const position_t& position_object() const noexcept;
+   };
+
+   template< typename Object >
+   parse_error_template( const std::string&, const Object& ) -> parse_error_template< std::decay_t< decltype( internal::extract_position( std::declval< Object >() ) ) > >;
+
+   using parse_error = parse_error_template< position >;
 }
 ```
 
-The `what()` message will contain all positions as well as the original `msg`.
-This allows retrieval of all information if the exception is handled as a `std::runtime_error` in a generic way.
+The `message()` function returns the original `msg`, while  `position_string()` and `position_object()` provide a string representation of, or the actual position object, respectively.
 
-The `message()` function will return the original `msg`, while `positions()` allows access to the stored positions.
-This is useful to decompose the exception and provide more helpful errors to the user.
+The `Object` passed to the constructor can be either a PEGTL input class, in which case the current position will be extracted and stored in the exception, or it can be an actual position object that will be used "as is".
+The supplied user-defined deduction guide will make sure that the exception object uses the correct type as `position_t` in both of these cases.
 
-The constructors can be used by custom rules to signal global failure, while `add_position()` is often used when you are parsing nested data, so you can append the position in the original file which includes the nested file.
+The string returned by the `what()` function inherited from `std::runtime_error` is a concatenation of the position string and the message supplied to the constructor.
 
 ## Local to Global Failure
 
@@ -95,8 +96,14 @@ See [Custom Exception Messages](#custom-exception-messages) for more information
 
 ## Global to Local Failure
 
-To convert global failure to local failure, the grammar rules [`try_catch`](Rule-Reference.md#try_catch-r-) and [`try_catch_type`](Rule-Reference.md#try_catch_type-e-r-) can be used.
+To convert global failure to local failure, the grammar rule [`try_catch_return_false`](Rule-Reference.md#try_catch_return_false-r-), or one of its variants that give more control over which kinds of exceptions are caught, can be used.
 Since these rules are not very commonplace they are ignored in this document, in other words we assume that global failure always propagages to the top.
+
+## Global to Nested Failure
+
+To add more information to an in-flight exception in the form of another exception the grammar rule [`try_catch_raise_nested`](Rule-Reference.md#try_catch_rause_nested-r-), or one of its variants that give more control over which kinds of exceptions are caught, can be used.
+They throw a new exception that contains the previous one as nested exception.
+Many applications will not use nested exceptions, and those that do will usually only generate them in the case of [nested parsing](Inputs-and-Parsing.md#nested-parsing).
 
 ## Examples for Must Rules
 

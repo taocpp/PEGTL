@@ -13,13 +13,21 @@
 * Added new convenience rule `star_partial`.
 * Added new convenience rule `strict`.
 * Added new convenience rule `star_strict`.
+* Added rule `try_catch_any_return_false`.
+* Renamed rule `try_catch` to `try_catch_return_false`.
+* Added rule `try_catch_std_return_false`.
+* Renamed rule `try_catch_type` to `try_catch_type_return_false`.
+* Added rule `try_catch_any_raise_nested`.
+* Added rule `try_catch_raise_nested`.
+* Added rule `try_catch_std_raise_nested`.
+* Added rule `try_catch_type_raise_nested`.
 * Moved depth counter to adapter class in contrib.
 * Changed default top-level `rewind_mode` to `dontcare`.
 * Replaced `rewind_mode` values `dontcare` and `active` with new value `optional`.
 * Removed support for `boost::filesystem` and `std::experimental::filesystem`.
 * Removed support for building an amalgamated header.
 * Removed support for Visual Studio 2017.
-* Removed support for GCC 7.
+* Removed support for GCC 7 and GCC 8.
 
 ## 3.2.7
 
