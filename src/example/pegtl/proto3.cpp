@@ -15,7 +15,8 @@ int main()
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/analyze.hpp>
-#include <tao/pegtl/contrib/proto3.hpp>
+
+#include "proto3.hpp"
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
