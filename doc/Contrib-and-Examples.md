@@ -52,6 +52,10 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 * JSON grammar according to [RFC 7159](https://tools.ietf.org/html/rfc7159) (for UTF-8 encoded JSON only).
 * Ready for production use.
 
+###### `<tao/pegtl/contrib/nested_exceptions.hpp>`
+
+* Functions to handle exceptions that (might) contain nested exceptions.
+
 ###### `<tao/pegtl/contrib/parse_tree.hpp>`
 
 * See [Parse Tree](Parse-Tree.md).

@@ -6,21 +6,25 @@
 
 * Use the [**migration guide**](Migration-Guide.md#version-400) when updating.
 * Switched to Boost Software License, Version 1.0.
+* Added (control function)[Control-and-Debug.md] to throw nested exceptions.
+* Changed `parse_error` to contain only one `position`, and:
+* Changed to nested exceptions for nested (parsing errors)[Errors-and-Exceptions.md].
+* Added functions to visit and flatten [nested exceptions](Contrib-and-Examples.md#taopegtlcontribnested_exceptionshpp).
 * Added new customization point for error messages.
 * Added optional source line output for the tracer.
-* Added new atomic rule `everything`.
-* Added new convenience rule `partial`.
-* Added new convenience rule `star_partial`.
-* Added new convenience rule `strict`.
-* Added new convenience rule `star_strict`.
-* Added rule `try_catch_any_return_false`.
-* Renamed rule `try_catch` to `try_catch_return_false`.
-* Added rule `try_catch_std_return_false`.
-* Renamed rule `try_catch_type` to `try_catch_type_return_false`.
-* Added rule `try_catch_any_raise_nested`.
-* Added rule `try_catch_raise_nested`.
-* Added rule `try_catch_std_raise_nested`.
-* Added rule `try_catch_type_raise_nested`.
+* Added new atomic rule [`everything`](Rule-Reference.md#everything).
+* Added new convenience rule [`partial`](Rule-Reference.md#partial-r-).
+* Added new convenience rule [`star_partial`](Rule-Reference.md#star_partial-r-).
+* Added new convenience rule [`strict`](Rule-Reference.md#strict-r-).
+* Added new convenience rule [`star_strict`](Rule-Reference.md#star_strict-r-).
+* Added rule [`try_catch_any_return_false`](Rule-Reference.md#try_catch_any_return_false-r-).
+* Renamed rule `try_catch` to [`try_catch_return_false`](Rule-Reference.md#try_catch_return_false-r-).
+* Added rule [`try_catch_std_return_false`](Rule-Reference.md#try_catch_std_return_false-r-).
+* Renamed rule `try_catch_type` to [`try_catch_type_return_false`](Rule-Reference.md#try_catch_type_return-e-r-).
+* Added rule [`try_catch_any_raise_nested`](Rule-Reference.md#try_catch_any_raise_nested-r-).
+* Added rule [`try_catch_raise_nested`](Rule-Reference.md#try_catch_raise_nested-r-).
+* Added rule [`try_catch_std_raise_nested`](Rule-Reference.md#try_catch_std_raise_nested-r-).
+* Added rule [`try_catch_type_raise_nested`](Rule-Reference.md#try_catch_type_raise_nested-e-r-).
 * Moved depth counter to adapter class in contrib.
 * Changed default top-level `rewind_mode` to `dontcare`.
 * Replaced `rewind_mode` values `dontcare` and `active` with new value `optional`.

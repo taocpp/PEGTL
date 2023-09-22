@@ -123,8 +123,8 @@ The included `<tao/pegtl/contrib/trace.hpp>` gives a practical example that show
 
 ## Exception Throwing
 
-The control-hooks for exceptions, the`raise()` and `raise_nested()` static member function, **must** both throw an exception.
-For most parts of the PEGTL the exception class is irrelevant and any user-defined data type can be thrown by a user-defined control hook.
+The control hooks for exceptions, the`raise()` and `raise_nested()` static member functions, **must** both throw an exception.
+For most parts of the PEGTL the exception class is irrelevant and any user-defined data type can be thrown by a user-defined control.
 
 The [`try_catch_raise_nested`](Rule-Reference.md#try_catch_raise_nested-r-) and [`try_catch_return_false`](Rule-Reference.md#try_catch_return_false-r-) rules only catches exceptions of type `tao::pegtl::parse_error_base` (or derived)!
 When other exception types need to be caught then other members of the `try_catch_*` family of rules need to be used.
