@@ -5,6 +5,10 @@
 #ifndef TAO_PEGTL_CONTRIB_NESTED_EXCEPTIONS_HPP
 #define TAO_PEGTL_CONTRIB_NESTED_EXCEPTIONS_HPP
 
+#if !defined( __cpp_exceptions ) || !defined( __cpp_rtti )
+#error "Exception and RTTI support required for tao/pegtl/contrib/nested_exceptions.hpp"
+#endif
+
 #include <exception>
 #include <vector>
 
