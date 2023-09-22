@@ -97,15 +97,15 @@ namespace TAO_PEGTL_NAMESPACE
          unwind_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
       }
 
-      template< template< typename... > class Action, typename Frobnicator, typename ParseInput, typename Tuple, std::size_t... Is >
-      static auto apply_impl( const Frobnicator& begin, const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::template apply< Action >( begin, in, std::get< Is >( t )... ) ) )
+      template< template< typename... > class Action, typename Inputerator, typename ParseInput, typename Tuple, std::size_t... Is >
+      static auto apply_impl( const Inputerator& begin, const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::template apply< Action >( begin, in, std::get< Is >( t )... ) ) )
          -> decltype( Base::template apply< Action >( begin, in, std::get< Is >( t )... ) )
       {
          return Base::template apply< Action >( begin, in, std::get< Is >( t )... );
       }
 
-      template< template< typename... > class Action, typename Frobnicator, typename ParseInput, typename... States >
-      static auto apply( const Frobnicator& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() ) ) )
+      template< template< typename... > class Action, typename Inputerator, typename ParseInput, typename... States >
+      static auto apply( const Inputerator& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() ) ) )
          -> decltype( apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() ) )
       {
          return apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );

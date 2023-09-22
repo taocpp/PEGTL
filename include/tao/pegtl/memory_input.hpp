@@ -25,7 +25,7 @@
 #include "internal/at.hpp"
 #include "internal/bump.hpp"
 #include "internal/eolf.hpp"
-#include "internal/frobnicator.hpp"
+#include "internal/inputerator.hpp"
 #include "internal/rewind_guard.hpp"
 #include "internal/until.hpp"
 
@@ -40,10 +40,10 @@ namespace TAO_PEGTL_NAMESPACE
       class memory_input_base< tracking_mode::eager, Eol, Source >
       {
       public:
-         using frobnicator_t = internal::frobnicator;
+         using inputerator_t = internal::inputerator;
 
          template< typename T >
-         memory_input_base( const frobnicator_t& in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
+         memory_input_base( const inputerator_t& in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
             : m_begin( in_begin.data ),
               m_current( in_begin ),
               m_end( in_end ),
@@ -111,7 +111,7 @@ namespace TAO_PEGTL_NAMESPACE
             internal::bump_to_next_line( m_current, in_count );
          }
 
-         [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const frobnicator_t& it ) const
+         [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const inputerator_t& it ) const
          {
             return TAO_PEGTL_NAMESPACE::position( it, m_source );
          }
@@ -130,7 +130,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       protected:
          const char* const m_begin;
-         frobnicator_t m_current;
+         inputerator_t m_current;
          const char* m_end;
          const Source m_source;
 
@@ -142,10 +142,10 @@ namespace TAO_PEGTL_NAMESPACE
       class memory_input_base< tracking_mode::lazy, Eol, Source >
       {
       public:
-         using frobnicator_t = const char*;
+         using inputerator_t = const char*;
 
          template< typename T >
-         memory_input_base( const internal::frobnicator& in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
+         memory_input_base( const internal::inputerator& in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
             : m_begin( in_begin ),
               m_current( in_begin.data ),
               m_end( in_end ),
@@ -203,9 +203,9 @@ namespace TAO_PEGTL_NAMESPACE
             m_current += in_count;
          }
 
-         [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const frobnicator_t it ) const
+         [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const inputerator_t it ) const
          {
-            internal::frobnicator c( m_begin );
+            internal::inputerator c( m_begin );
             internal::bump( c, static_cast< std::size_t >( it - m_begin.data ), Eol::ch );
             return TAO_PEGTL_NAMESPACE::position( c, m_source );
          }
@@ -217,8 +217,8 @@ namespace TAO_PEGTL_NAMESPACE
          }
 
       protected:
-         const internal::frobnicator m_begin;
-         frobnicator_t m_current;
+         const internal::inputerator m_begin;
+         inputerator_t m_current;
          const char* m_end;
          const Source m_source;
 
@@ -238,7 +238,7 @@ namespace TAO_PEGTL_NAMESPACE
       using eol_t = Eol;
       using source_t = Source;
 
-      using typename internal::memory_input_base< P, Eol, Source >::frobnicator_t;
+      using typename internal::memory_input_base< P, Eol, Source >::inputerator_t;
 
       using action_t = internal::action_input< memory_input >;
 
@@ -305,12 +305,12 @@ namespace TAO_PEGTL_NAMESPACE
          return static_cast< std::uint8_t >( peek_char( offset ) );
       }
 
-      [[nodiscard]] frobnicator_t& frobnicator() noexcept
+      [[nodiscard]] inputerator_t& inputerator() noexcept
       {
          return this->m_current;
       }
 
-      [[nodiscard]] const frobnicator_t& frobnicator() const noexcept
+      [[nodiscard]] const inputerator_t& inputerator() const noexcept
       {
          return this->m_current;
       }
@@ -320,19 +320,19 @@ namespace TAO_PEGTL_NAMESPACE
       template< rewind_mode M, typename ParseInput >
       void restart( const internal::rewind_guard< M, ParseInput >& m ) noexcept
       {
-         this->m_current = m.frobnicator();
+         this->m_current = m.inputerator();
       }
 
       using internal::memory_input_base< P, Eol, Source >::position;
 
       [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
       {
-         return position( frobnicator() );
+         return position( inputerator() );
       }
 
       [[nodiscard]] TAO_PEGTL_NAMESPACE::position current_position() const
       {
-         return position( frobnicator() );
+         return position( inputerator() );
       }
 
       void discard() const noexcept {}
@@ -345,12 +345,12 @@ namespace TAO_PEGTL_NAMESPACE
          return internal::rewind_guard< M, memory_input >( this );
       }
 
-      [[nodiscard]] const frobnicator_t& rewind_save() noexcept
+      [[nodiscard]] const inputerator_t& rewind_save() noexcept
       {
          return this->m_current;
       }
 
-      void rewind_restore( const frobnicator_t& data ) noexcept
+      void rewind_restore( const inputerator_t& data ) noexcept
       {
          this->m_current = data;
       }

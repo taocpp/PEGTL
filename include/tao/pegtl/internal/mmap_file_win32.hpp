@@ -216,20 +216,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_size;
       }
 
-      using iterator = const char*;
-      using const_iterator = const char*;
-
-      [[nodiscard]] iterator data() const noexcept
+      [[nodiscard]] const char* data() const noexcept
       {
          return m_data;
       }
 
-      [[nodiscard]] iterator begin() const noexcept
+      [[nodiscard]] const char* begin() const noexcept
       {
          return m_data;
       }
 
-      [[nodiscard]] iterator end() const noexcept
+      [[nodiscard]] const char* end() const noexcept
       {
          return m_data + m_size;
       }

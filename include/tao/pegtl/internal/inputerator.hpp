@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_FROBNICATOR_HPP
-#define TAO_PEGTL_INTERNAL_FROBNICATOR_HPP
+#ifndef TAO_PEGTL_INTERNAL_INPUTERATOR_HPP
+#define TAO_PEGTL_INTERNAL_INPUTERATOR_HPP
 
 #include <cassert>
 #include <cstdlib>
@@ -12,15 +12,15 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   struct frobnicator
+   struct inputerator
    {
-      frobnicator() = default;
+      inputerator() noexcept = default;
 
-      explicit frobnicator( const char* in_data ) noexcept
+      explicit inputerator( const char* in_data ) noexcept
          : data( in_data )
       {}
 
-      frobnicator( const char* in_data, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_column ) noexcept
+      inputerator( const char* in_data, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_column ) noexcept
          : data( in_data ),
            byte( in_byte ),
            line( in_line ),
@@ -30,13 +30,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
          assert( in_column != 0 );
       }
 
-      frobnicator( const frobnicator& ) = default;
-      frobnicator( frobnicator&& ) = default;
+      inputerator( const inputerator& ) = default;
+      inputerator( inputerator&& ) = default;
 
-      ~frobnicator() = default;
+      ~inputerator() = default;
 
-      frobnicator& operator=( const frobnicator& ) = default;
-      frobnicator& operator=( frobnicator&& ) = default;
+      inputerator& operator=( const inputerator& ) = default;
+      inputerator& operator=( inputerator&& ) = default;
 
       const char* data = nullptr;
 

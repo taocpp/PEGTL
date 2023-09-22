@@ -10,7 +10,7 @@
 #include <string>
 #include <string_view>
 
-#include "frobnicator.hpp"
+#include "inputerator.hpp"
 
 #include "../config.hpp"
 #include "../position.hpp"
@@ -22,9 +22,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
    public:
       using input_t = ParseInput;
-      using frobnicator_t = typename ParseInput::frobnicator_t;
+      using inputerator_t = typename ParseInput::inputerator_t;
 
-      action_input( const frobnicator_t& in_begin, const ParseInput& in_input ) noexcept
+      action_input( const inputerator_t& in_begin, const ParseInput& in_input ) noexcept
          : m_begin( in_begin ),
            m_input( in_input )
       {}
@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       action_input& operator=( const action_input& ) = delete;
       action_input& operator=( action_input&& ) = delete;
 
-      [[nodiscard]] const frobnicator_t& frobnicator() const noexcept
+      [[nodiscard]] const inputerator_t& inputerator() const noexcept
       {
          return m_begin;
       }
@@ -54,11 +54,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] const char* begin() const noexcept
       {
-         if constexpr( std::is_same_v< frobnicator_t, const char* > ) {
-            return frobnicator();
+         if constexpr( std::is_same_v< inputerator_t, const char* > ) {
+            return inputerator();
          }
          else {
-            return frobnicator().data;
+            return inputerator().data;
          }
       }
 
@@ -99,16 +99,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
       {
-         return input().position( frobnicator() );  // NOTE: Not efficient with lazy inputs.
+         return input().position( inputerator() );  // NOTE: Not efficient with lazy inputs.
       }
 
       [[nodiscard]] TAO_PEGTL_NAMESPACE::position current_position() const
       {
-         return input().position( frobnicator() );  // NOTE: Not efficient with lazy inputs.
+         return input().position( inputerator() );  // NOTE: Not efficient with lazy inputs.
       }
 
    protected:
-      const frobnicator_t m_begin;
+      const inputerator_t m_begin;
       const ParseInput& m_input;
    };
 

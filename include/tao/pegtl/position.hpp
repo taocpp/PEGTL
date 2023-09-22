@@ -11,7 +11,7 @@
 
 #include "config.hpp"
 
-#include "internal/frobnicator.hpp"
+#include "internal/inputerator.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
       position& operator=( const position& ) = default;
 
       template< typename T >
-      position( const internal::frobnicator& in_iter, T&& in_source )
+      position( const internal::inputerator& in_iter, T&& in_source )
          : byte( in_iter.byte ),
            line( in_iter.line ),
            column( in_iter.column ),

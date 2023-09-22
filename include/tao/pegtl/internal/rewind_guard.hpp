@@ -71,7 +71,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return false;
       }
 
-      [[nodiscard]] const rewind_data& frobnicator() const noexcept
+      [[nodiscard]] const rewind_data& inputerator() const noexcept
       {
          return m_saved;
       }
