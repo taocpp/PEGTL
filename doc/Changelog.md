@@ -20,7 +20,7 @@
 * Added rule [`try_catch_any_return_false`](Rule-Reference.md#try_catch_any_return_false-r-).
 * Renamed rule `try_catch` to [`try_catch_return_false`](Rule-Reference.md#try_catch_return_false-r-).
 * Added rule [`try_catch_std_return_false`](Rule-Reference.md#try_catch_std_return_false-r-).
-* Renamed rule `try_catch_type` to [`try_catch_type_return_false`](Rule-Reference.md#try_catch_type_return-e-r-).
+* Renamed rule `try_catch_type` to [`try_catch_type_return_false`](Rule-Reference.md#try_catch_type_return_false-e-r-).
 * Added rule [`try_catch_any_raise_nested`](Rule-Reference.md#try_catch_any_raise_nested-r-).
 * Added rule [`try_catch_raise_nested`](Rule-Reference.md#try_catch_raise_nested-r-).
 * Added rule [`try_catch_std_raise_nested`](Rule-Reference.md#try_catch_std_raise_nested-r-).
