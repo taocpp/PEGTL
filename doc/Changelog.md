@@ -8,7 +8,7 @@
 * Switched to Boost Software License, Version 1.0.
 * Added [control function](Control-and-Debug.md) to throw nested exceptions.
 * Changed `parse_error` to contain only one `position`, and:
-* Changed to nested exceptions for nested (parsing errors)[Errors-and-Exceptions.md].
+* Changed to **nested exceptions** for nested [parsing errors](Errors-and-Exceptions.md).
 * Added functions to visit and flatten [nested exceptions](Contrib-and-Examples.md#taopegtlcontribnested_exceptionshpp).
 * Added new customization point for error messages.
 * Added optional source line output for the tracer.
