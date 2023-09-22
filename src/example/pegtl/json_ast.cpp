@@ -54,7 +54,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       const auto& p = e.position_object();
       std::cerr << e.what() << std::endl
                 << in.line_at( p ) << std::endl
-                << std::setw( p.column ) << '^' << std::endl;
+                << std::setw( int( p.column ) ) << '^' << std::endl;
       return 1;
    }
 #else

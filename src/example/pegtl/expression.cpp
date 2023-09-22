@@ -512,7 +512,7 @@ int main( int argc, char** argv )
          const auto& p = e.position_object();
          std::cerr << e.what() << '\n'
                    << in.line_at( p ) << '\n'
-                   << std::setw( p.column ) << '^' << '\n';
+                   << std::setw( int( p.column ) ) << '^' << '\n';
       }
    }
    return 0;

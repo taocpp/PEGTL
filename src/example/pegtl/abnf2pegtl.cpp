@@ -791,7 +791,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       const auto& p = e.position_object();
       std::cerr << e.what() << '\n'
                 << in.line_at( p ) << '\n'
-                << std::setw( p.column ) << '^' << '\n';
+                << std::setw( int( p.column ) ) << '^' << '\n';
    }
 #else
    if( const auto root = parse_tree::parse< abnf::grammar::rulelist, abnf::selector, nothing, abnf::control >( in ) ) {

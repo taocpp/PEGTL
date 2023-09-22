@@ -5,6 +5,8 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
+# Enable google-readability-casting again when it doesn't give false positives for C-style casts.
+
 Checks: >-
   bugprone-*,
   -bugprone-easily-swappable-parameters,
@@ -14,7 +16,7 @@ Checks: >-
   google-build-namespaces,
   google-default-arguments,
   google-global-names-in-headers,
-  google-readability-casting,
+  -google-readability-casting,
   llvm-*,
   -llvm-namespace-comment,
   misc-*,
