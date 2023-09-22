@@ -24,7 +24,7 @@ And other exception classes can be used freely from actions and custom parsing r
 By default, global failure means that an exception of type `tao::pegtl::parse_error` is thrown.
 
 Note that starting with PEGTL version 4.0.0 `parse_error` is no longer a monolithic class derived from `std::runtime_error`.
-To allow for both different types of position information and a single type that can be used to catch all parse errors there is a base class with the non position-type dependent parts as well as the actually thrown class that is templated over the position type.
+To simultaneously allow for different types of position information _and_ a single type that can be used to catch all parse errors there is a base class with the non position-type dependent parts as well as a derived class that is templated over the position type.
 
 Synposis:
 
