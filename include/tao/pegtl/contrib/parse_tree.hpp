@@ -28,8 +28,8 @@
 #include "../rewind_mode.hpp"
 
 #include "../internal/enable_control.hpp"
-#include "../internal/inputerator.hpp"
 #include "../internal/has_unwind.hpp"
+#include "../internal/inputerator.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::parse_tree
 {
