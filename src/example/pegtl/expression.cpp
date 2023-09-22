@@ -45,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
    {
       struct prefix_info
       {
-         prefix_info( const std::string_view n, const unsigned pbp ) noexcept
+         prefix_info( const std::string_view n, const unsigned pbp )
             : name( n ),
               prefix_binding_power( pbp )
          {
@@ -59,11 +59,11 @@ namespace TAO_PEGTL_NAMESPACE::expression
 
       struct infix_postfix_info
       {
-         infix_postfix_info( const std::string_view n, const unsigned lbp, const unsigned rbp = 0 ) noexcept
+         infix_postfix_info( const std::string_view n, const unsigned lbp, const unsigned rbp = 0 )
             : infix_postfix_info( n, std::string_view(), lbp, rbp )
          {}
 
-         infix_postfix_info( const std::string_view n, const std::string_view o, const unsigned lbp, const unsigned rbp = 0 ) noexcept
+         infix_postfix_info( const std::string_view n, const std::string_view o, const unsigned lbp, const unsigned rbp = 0 )
             : name( n ),
               other( o ),
               left_binding_power( lbp ),
@@ -434,12 +434,12 @@ namespace application
       {
          assert( string_stack.size() > args );
 
-         std::string tmp = *( string_stack.end() - args - 1 ) + std::string( op ) + " ";
+         std::string tmp = *( string_stack.end() - int( args ) - 1 ) + std::string( op ) + " ";
          for( std::size_t i = 0; i < args; ++i ) {
             if( i > 0 ) {
                tmp += ", ";
             }
-            tmp += *( string_stack.end() - args + i );
+            tmp += *( string_stack.end() - int( args ) + int( i ) );
          }
          tmp += " " + std::string( o2 );
          string_stack.resize( string_stack.size() - args );

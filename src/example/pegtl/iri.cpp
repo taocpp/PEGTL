@@ -12,10 +12,11 @@ int main()
 }
 #else
 
+#include <iostream>
+#include <stdexcept>
+
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/iri.hpp>
-
-#include <iostream>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
@@ -84,17 +85,23 @@ IRI::IRI( const std::string& iri )
 
 int main( int argc, char** argv )
 {
-   for( int i = 1; i < argc; ++i ) {
-      std::cout << "Parsing " << argv[ i ] << std::endl;
-      const IRI iri( argv[ i ] );
-      std::cout << "IRI.scheme: " << iri.scheme << std::endl;
-      std::cout << "IRI.authority: " << iri.authority << std::endl;
-      std::cout << "IRI.userinfo: " << iri.userinfo << std::endl;
-      std::cout << "IRI.host: " << iri.host << std::endl;
-      std::cout << "IRI.port: " << iri.port << std::endl;
-      std::cout << "IRI.path: " << iri.path << std::endl;
-      std::cout << "IRI.query: " << iri.query << std::endl;
-      std::cout << "IRI.fragment: " << iri.fragment << std::endl;
+   try {
+      for( int i = 1; i < argc; ++i ) {
+         std::cout << "Parsing " << argv[ i ] << std::endl;
+         const IRI iri( argv[ i ] );
+         std::cout << "IRI.scheme: " << iri.scheme << std::endl;
+         std::cout << "IRI.authority: " << iri.authority << std::endl;
+         std::cout << "IRI.userinfo: " << iri.userinfo << std::endl;
+         std::cout << "IRI.host: " << iri.host << std::endl;
+         std::cout << "IRI.port: " << iri.port << std::endl;
+         std::cout << "IRI.path: " << iri.path << std::endl;
+         std::cout << "IRI.query: " << iri.query << std::endl;
+         std::cout << "IRI.fragment: " << iri.fragment << std::endl;
+      }
+   }
+   catch( const std::exception& e ) {
+      std::cerr << "error: " << e.what() << std::endl;
+      return 1;
    }
    return 0;
 }

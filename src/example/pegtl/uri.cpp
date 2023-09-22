@@ -11,10 +11,11 @@ int main()
 }
 #else
 
+#include <iostream>
+#include <stdexcept>
+
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/uri.hpp>
-
-#include <iostream>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
@@ -83,17 +84,23 @@ URI::URI( const std::string& uri )
 
 int main( int argc, char** argv )
 {
-   for( int i = 1; i < argc; ++i ) {
-      std::cout << "Parsing " << argv[ i ] << std::endl;
-      const URI uri( argv[ i ] );
-      std::cout << "URI.scheme: " << uri.scheme << std::endl;
-      std::cout << "URI.authority: " << uri.authority << std::endl;
-      std::cout << "URI.userinfo: " << uri.userinfo << std::endl;
-      std::cout << "URI.host: " << uri.host << std::endl;
-      std::cout << "URI.port: " << uri.port << std::endl;
-      std::cout << "URI.path: " << uri.path << std::endl;
-      std::cout << "URI.query: " << uri.query << std::endl;
-      std::cout << "URI.fragment: " << uri.fragment << std::endl;
+   try {
+      for( int i = 1; i < argc; ++i ) {
+         std::cout << "Parsing " << argv[ i ] << std::endl;
+         const URI uri( argv[ i ] );
+         std::cout << "URI.scheme: " << uri.scheme << std::endl;
+         std::cout << "URI.authority: " << uri.authority << std::endl;
+         std::cout << "URI.userinfo: " << uri.userinfo << std::endl;
+         std::cout << "URI.host: " << uri.host << std::endl;
+         std::cout << "URI.port: " << uri.port << std::endl;
+         std::cout << "URI.path: " << uri.path << std::endl;
+         std::cout << "URI.query: " << uri.query << std::endl;
+         std::cout << "URI.fragment: " << uri.fragment << std::endl;
+      }
+   }
+   catch( const std::exception& e ) {
+      std::cerr << "error: " << e.what() << std::endl;
+      return 1;
    }
    return 0;
 }
