@@ -38,11 +38,51 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
+   [[nodiscard]] HANDLE file_open( const std::filesystem::path& path )
+   {
+      SetLastError( 0 );
+#if( _WIN32_WINNT >= 0x0602 )
+      const HANDLE h = ::CreateFile2( path.c_str(),
+                                      GENERIC_READ,
+                                      FILE_SHARE_READ,
+                                      OPEN_EXISTING,
+                                      nullptr );
+      if( h != INVALID_HANDLE_VALUE ) {
+         return h;
+      }
+#if defined( __cpp_exceptions )
+      std::error_code ec( ::GetLastError(), std::system_category() );
+      throw std::filesystem::filesystem_error( "CreateFile2() failed", path, ec );
+#else
+      std::perror( "CreateFile2() failed" );
+      std::terminate();
+#endif
+#else
+      const HANDLE h = ::CreateFileW( path.c_str(),
+                                      GENERIC_READ,
+                                      FILE_SHARE_READ,
+                                      nullptr,
+                                      OPEN_EXISTING,
+                                      FILE_ATTRIBUTE_NORMAL,
+                                      nullptr );
+      if( h != INVALID_HANDLE_VALUE ) {
+         return h;
+      }
+#if defined( __cpp_exceptions )
+      std::error_code ec( ::GetLastError(), std::system_category() );
+      throw std::filesystem::filesystem_error( "CreateFileW()", path, ec );
+#else
+      std::perror( "CreateFileW() failed" );
+      std::terminate();
+#endif
+#endif
+   }
+
    struct mmap_file_open
    {
       explicit mmap_file_open( const std::filesystem::path& path )
-         : handle( p_open( path ) ),
-           size( p_size( path ) )
+         : handle( file_open( path ) ),
+           size( file_size( path ) )
       {}
 
       mmap_file_open( const mmap_file_open& ) = delete;
@@ -50,7 +90,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       ~mmap_file_open()
       {
-         ::CloseHandle( m_handle );
+         ::CloseHandle( handle );
       }
 
       mmap_file_open& operator=( const mmap_file_open& ) = delete;
@@ -60,47 +100,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       const std::size_t size;
 
    private:
-      [[nodiscard]] HANDLE p_open() const
-      {
-         SetLastError( 0 );
-#if( _WIN32_WINNT >= 0x0602 )
-         const HANDLE h = ::CreateFile2( path.c_str(),
-                                         GENERIC_READ,
-                                         FILE_SHARE_READ,
-                                         OPEN_EXISTING,
-                                         nullptr );
-         if( h != INVALID_HANDLE_VALUE ) {
-            return h;
-         }
-#if defined( __cpp_exceptions )
-         std::error_code ec( ::GetLastError(), std::system_category() );
-         throw std::filesystem::filesystem_error( "CreateFile2() failed", path, ec );
-#else
-         std::perror( "CreateFile2() failed" );
-         std::terminate();
-#endif
-#else
-         const HANDLE h = ::CreateFileW( path.c_str(),
-                                         GENERIC_READ,
-                                         FILE_SHARE_READ,
-                                         nullptr,
-                                         OPEN_EXISTING,
-                                         FILE_ATTRIBUTE_NORMAL,
-                                         nullptr );
-         if( h != INVALID_HANDLE_VALUE ) {
-            return h;
-         }
-#if defined( __cpp_exceptions )
-         std::error_code ec( ::GetLastError(), std::system_category() );
-         throw std::filesystem::filesystem_error( "CreateFileW()", path, ec );
-#else
-         std::perror( "CreateFileW() failed" );
-         std::terminate();
-#endif
-#endif
-      }
-
-      [[nodiscard]] std::size_t p_size( const std::filesystem::path& path ) const
+      [[nodiscard]] std::size_t file_size( const std::filesystem::path& path ) const
       {
          LARGE_INTEGER s;
          if( !::GetFileSizeEx( handle, &s ) ) {
@@ -132,7 +132,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       ~mmap_file_mmap()
       {
-         ::CloseHandle( m_handle );
+         ::CloseHandle( handle );
       }
 
       mmap_file_mmap& operator=( const mmap_file_mmap& ) = delete;

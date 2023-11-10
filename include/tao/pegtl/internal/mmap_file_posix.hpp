@@ -22,11 +22,32 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
+   [[nodiscard]] int file_open( const std::filesystem::path& path )
+   {
+      errno = 0;
+      const int fh = ::open( path.c_str(),
+                             O_RDONLY
+#if defined( O_CLOEXEC )
+                                | O_CLOEXEC
+#endif
+      );
+      if( fh >= 0 ) {
+         return fh;
+      }
+#if defined( __cpp_exceptions )
+      const std::error_code ec( errno, std::system_category() );
+      throw std::filesystem::filesystem_error( "open() failed", path, ec );
+#else
+      std::perror( "open() failed" );
+      std::terminate();
+#endif
+   }
+
    struct mmap_file_open
    {
       explicit mmap_file_open( const std::filesystem::path& path )  // NOLINT(modernize-pass-by-value)
-         : fd( p_open( path ) ),
-           size( p_size( path ) )
+         : fd( file_open( path ) ),
+           size( file_size( path ) )
       {}
 
       mmap_file_open( const mmap_file_open& ) = delete;
@@ -44,28 +65,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       const std::size_t size;
 
    private:
-      [[nodiscard]] int p_open( const std::filesystem::path& path ) const
-      {
-         errno = 0;
-         const int fh = ::open( path.c_str(),
-                                O_RDONLY
-#if defined( O_CLOEXEC )
-                              | O_CLOEXEC
-#endif
-         );
-         if( fh >= 0 ) {
-            return fh;
-         }
-#if defined( __cpp_exceptions )
-         const std::error_code ec( errno, std::system_category() );
-         throw std::filesystem::filesystem_error( "open() failed", path, ec );
-#else
-         std::perror( "open() failed" );
-         std::terminate();
-#endif
-      }
-
-      [[nodiscard]] std::size_t p_size( const std::filesystem::path& path ) const
+      [[nodiscard]] std::size_t file_size( const std::filesystem::path& path ) const
       {
          struct stat st;
          errno = 0;
