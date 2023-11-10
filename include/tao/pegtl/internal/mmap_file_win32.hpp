@@ -41,8 +41,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct mmap_file_open
    {
       explicit mmap_file_open( const std::filesystem::path& path )
-         : m_path( path ),
-           m_handle( open() )
+         : handle( p_open( path ) ),
+           size( p_size( path ) )
       {}
 
       mmap_file_open( const mmap_file_open& ) = delete;
@@ -56,75 +56,75 @@ namespace TAO_PEGTL_NAMESPACE::internal
       mmap_file_open& operator=( const mmap_file_open& ) = delete;
       mmap_file_open& operator=( mmap_file_open&& ) = delete;
 
-      [[nodiscard]] std::size_t size() const
-      {
-         LARGE_INTEGER size;
-         if( !::GetFileSizeEx( m_handle, &size ) ) {
-#if defined( __cpp_exceptions )
-            std::error_code ec( ::GetLastError(), std::system_category() );
-            throw std::filesystem::filesystem_error( "GetFileSizeEx() failed", m_path, ec );
-#else
-            std::perror( "GetFileSizeEx() failed" );
-            std::terminate();
-#endif
-         }
-         return std::size_t( size.QuadPart );
-      }
-
-      const std::filesystem::path m_path;
-      const HANDLE m_handle;
+      const HANDLE handle;
+      const std::size_t size;
 
    private:
-      [[nodiscard]] HANDLE open() const
+      [[nodiscard]] HANDLE p_open() const
       {
          SetLastError( 0 );
 #if( _WIN32_WINNT >= 0x0602 )
-         const HANDLE handle = ::CreateFile2( m_path.c_str(),
-                                              GENERIC_READ,
-                                              FILE_SHARE_READ,
-                                              OPEN_EXISTING,
-                                              nullptr );
-         if( handle != INVALID_HANDLE_VALUE ) {
-            return handle;
+         const HANDLE h = ::CreateFile2( path.c_str(),
+                                         GENERIC_READ,
+                                         FILE_SHARE_READ,
+                                         OPEN_EXISTING,
+                                         nullptr );
+         if( h != INVALID_HANDLE_VALUE ) {
+            return h;
          }
 #if defined( __cpp_exceptions )
          std::error_code ec( ::GetLastError(), std::system_category() );
-         throw std::filesystem::filesystem_error( "CreateFile2() failed", m_path, ec );
+         throw std::filesystem::filesystem_error( "CreateFile2() failed", path, ec );
 #else
          std::perror( "CreateFile2() failed" );
          std::terminate();
 #endif
 #else
-         const HANDLE handle = ::CreateFileW( m_path.c_str(),
-                                              GENERIC_READ,
-                                              FILE_SHARE_READ,
-                                              nullptr,
-                                              OPEN_EXISTING,
-                                              FILE_ATTRIBUTE_NORMAL,
-                                              nullptr );
-         if( handle != INVALID_HANDLE_VALUE ) {
-            return handle;
+         const HANDLE h = ::CreateFileW( path.c_str(),
+                                         GENERIC_READ,
+                                         FILE_SHARE_READ,
+                                         nullptr,
+                                         OPEN_EXISTING,
+                                         FILE_ATTRIBUTE_NORMAL,
+                                         nullptr );
+         if( h != INVALID_HANDLE_VALUE ) {
+            return h;
          }
 #if defined( __cpp_exceptions )
          std::error_code ec( ::GetLastError(), std::system_category() );
-         throw std::filesystem::filesystem_error( "CreateFileW()", m_path, ec );
+         throw std::filesystem::filesystem_error( "CreateFileW()", path, ec );
 #else
          std::perror( "CreateFileW() failed" );
          std::terminate();
 #endif
 #endif
       }
+
+      [[nodiscard]] std::size_t p_size( const std::filesystem::path& path ) const
+      {
+         LARGE_INTEGER s;
+         if( !::GetFileSizeEx( handle, &s ) ) {
+#if defined( __cpp_exceptions )
+            std::error_code ec( ::GetLastError(), std::system_category() );
+            throw std::filesystem::filesystem_error( "GetFileSizeEx() failed", path, ec );
+#else
+            std::perror( "GetFileSizeEx() failed" );
+            std::terminate();
+#endif
+         }
+         return std::size_t( s.QuadPart );
+      }
    };
 
    struct mmap_file_mmap
    {
       explicit mmap_file_mmap( const std::filesystem::path& path )
-         : mmap_file_mmap( mmap_file_open( path ) )
+         : mmap_file_mmap( path, mmap_file_open( path ) )
       {}
 
-      explicit mmap_file_mmap( const mmap_file_open& reader )
-         : m_size( reader.size() ),
-           m_handle( open( reader ) )
+      mmap_file_mmap( cosnt std::filesystem::path& path, const mmap_file_open& file )
+         : size( file.size ),
+           handle( open( path, file ) )
       {}
 
       mmap_file_mmap( const mmap_file_mmap& ) = delete;
@@ -138,30 +138,29 @@ namespace TAO_PEGTL_NAMESPACE::internal
       mmap_file_mmap& operator=( const mmap_file_mmap& ) = delete;
       mmap_file_mmap& operator=( mmap_file_mmap&& ) = delete;
 
-      const size_t m_size;
-      const HANDLE m_handle;
+      const size_t size;
+      const HANDLE handle;
 
    private:
-      [[nodiscard]] HANDLE open( const mmap_file_open& reader ) const
+      [[nodiscard]] HANDLE open( const std::filesystem::path& path, const mmap_file_open& file ) const
       {
-         const uint64_t file_size = reader.size();
          SetLastError( 0 );
          // Use `CreateFileMappingW` because a) we're not specifying a
          // mapping name, so the character type is of no consequence, and
          // b) it's defined in `memoryapi.h`, unlike
          // `CreateFileMappingA`(?!)
-         const HANDLE handle = ::CreateFileMappingW( reader.m_handle,
-                                                     nullptr,
-                                                     PAGE_READONLY,
-                                                     DWORD( file_size >> 32 ),
-                                                     DWORD( file_size & 0xffffffff ),
-                                                     nullptr );
-         if( handle != NULL || file_size == 0 ) {
-            return handle;
+         const HANDLE h = ::CreateFileMappingW( file.handle,
+                                                nullptr,
+                                                PAGE_READONLY,
+                                                DWORD( file.size >> 32 ),
+                                                DWORD( file.size & 0xffffffff ),
+                                                nullptr );
+         if( ( h != NULL ) || ( file.size == 0 ) ) {
+            return h;
          }
 #if defined( __cpp_exceptions )
          std::error_code ec( ::GetLastError(), std::system_category() );
-         throw std::filesystem::filesystem_error( "CreateFileMappingW() failed", reader.m_path, ec );
+         throw std::filesystem::filesystem_error( "CreateFileMappingW() failed", path, ec );
 #else
          std::perror( "CreateFileMappingW() failed" );
          std::terminate();
@@ -176,9 +175,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
          : mmap_file_win32( mmap_file_mmap( path ) )
       {}
 
-      explicit mmap_file_win32( const mmap_file_mmap& mapper )
+      explicit mmap_file_win32( const mmap_file_mmap& file )
          : m_size( mapper.m_size ),
-           m_data( static_cast< const char* >( ::MapViewOfFile( mapper.m_handle,
+           m_data( static_cast< const char* >( ::MapViewOfFile( file.handle,
                                                                 FILE_MAP_READ,
                                                                 0,
                                                                 0,
