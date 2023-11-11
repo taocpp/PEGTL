@@ -38,7 +38,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   [[nodiscard]] HANDLE file_open( const std::filesystem::path& path )
+   [[nodiscard]] inline HANDLE file_open( const std::filesystem::path& path )
    {
       SetLastError( 0 );
 #if( _WIN32_WINNT >= 0x0602 )
@@ -108,6 +108,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             std::error_code ec( ::GetLastError(), std::system_category() );
             throw std::filesystem::filesystem_error( "GetFileSizeEx() failed", path, ec );
 #else
+            (void)path;
             std::perror( "GetFileSizeEx() failed" );
             std::terminate();
 #endif
@@ -122,7 +123,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          : mmap_file_mmap( path, mmap_file_open( path ) )
       {}
 
-      mmap_file_mmap( cosnt std::filesystem::path& path, const mmap_file_open& file )
+      mmap_file_mmap( const std::filesystem::path& path, const mmap_file_open& file )
          : size( file.size ),
            handle( open( path, file ) )
       {}
@@ -162,6 +163,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          std::error_code ec( ::GetLastError(), std::system_category() );
          throw std::filesystem::filesystem_error( "CreateFileMappingW() failed", path, ec );
 #else
+         (void)path;
          std::perror( "CreateFileMappingW() failed" );
          std::terminate();
 #endif

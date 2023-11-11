@@ -22,7 +22,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   [[nodiscard]] int file_open( const std::filesystem::path& path )
+   [[nodiscard]] inline int file_open( const std::filesystem::path& path )
    {
       errno = 0;
       const int fh = ::open( path.c_str(),
@@ -75,6 +75,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             const std::error_code ec( errno, std::system_category() );
             throw std::filesystem::filesystem_error( "fstat() failed", path, ec );
 #else
+            (void)path;
             std::perror( "fstat() failed" );
             std::terminate();
 #endif
@@ -101,6 +102,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             const std::error_code ec( errno, std::system_category() );
             throw std::filesystem::filesystem_error( "mmap() failed", path, ec );
 #else
+            (void)path;
             std::perror( "mmap() failed" );
             std::terminate();
 #endif
