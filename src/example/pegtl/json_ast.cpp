@@ -53,7 +53,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    catch( const pegtl::parse_error& e ) {
       const auto& p = e.position_object();
       std::cerr << e.what() << std::endl
-                << in.line_at( p ) << std::endl
+                << line_view_at( in, p ) << std::endl
                 << std::setw( int( p.column ) ) << '^' << std::endl;
       return 1;
    }

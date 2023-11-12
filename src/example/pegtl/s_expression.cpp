@@ -96,7 +96,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       catch( const TAO_PEGTL_NAMESPACE::parse_error& e ) {
          const auto& p = e.position_object();
          std::cerr << e.what() << '\n'
-                   << in.line_at( p ) << '\n'
+                   << line_view_at( in, p ) << '\n'
                    << std::setw( int( p.column ) ) << '^' << '\n';
       }
    }

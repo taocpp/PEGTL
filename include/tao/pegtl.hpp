@@ -18,14 +18,13 @@
 #include "pegtl/argv_input.hpp"
 #include "pegtl/buffer_input.hpp"
 #include "pegtl/cstream_input.hpp"
+#include "pegtl/file_input.hpp"
 #include "pegtl/istream_input.hpp"
 #include "pegtl/memory_input.hpp"
 #include "pegtl/read_input.hpp"
 #include "pegtl/string_input.hpp"
 
-// This has to be included *after* the above inputs,
-// otherwise the amalgamated header will not work!
-#include "pegtl/file_input.hpp"
+#include "pegtl/line_view_at.hpp"
 
 #include "pegtl/change_action.hpp"
 #include "pegtl/change_action_and_state.hpp"

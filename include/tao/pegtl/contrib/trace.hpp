@@ -95,7 +95,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_position << "position" << TracerTraits::ansi_reset << ' ' << m_position << '\n';
          if constexpr( TracerTraits::print_source_line ) {
-            std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_position << "source" << TracerTraits::ansi_reset << ' ' << in.line_at( m_position ) << '\n';
+            std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_position << "source" << TracerTraits::ansi_reset << ' ' << line_view_at( in, m_position ) << '\n';
             std::cerr << std::setw( indent() + 6 + m_position.column ) << ' ' << "^\n";
          }
       }

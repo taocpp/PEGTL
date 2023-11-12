@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( p.column == 5 );
          TAO_PEGTL_TEST_ASSERT( p.source == "test_source" );
 
-         TAO_PEGTL_TEST_ASSERT( in.line_at( p ) == "bar bla blubb" );
+         TAO_PEGTL_TEST_ASSERT( line_view_at( in, p ) == "bar bla blubb" );
 
          position p2 = p;
          p2.source = "foo";

@@ -360,26 +360,6 @@ namespace TAO_PEGTL_NAMESPACE
          return this->begin() + p.byte;
       }
 
-      [[nodiscard]] const char* begin_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
-      {
-         return at( p ) - ( p.column - 1 );
-      }
-
-      [[nodiscard]] const char* end_of_line( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
-      {
-         using input_t = memory_input< tracking_mode::lazy, Eol, const char* >;
-         input_t in( at( p ), this->end(), "" );
-         using grammar = internal::until< internal::at< internal::eolf > >;
-         (void)normal< grammar >::match< apply_mode::nothing, rewind_mode::optional, nothing, normal >( in );
-         return in.current();
-      }
-
-      [[nodiscard]] std::string_view line_at( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
-      {
-         const char* b = begin_of_line( p );
-         return { b, static_cast< std::size_t >( end_of_line( p ) - b ) };
-      }
-
       void private_set_end( const char* new_end ) noexcept
       {
          this->m_end = new_end;
