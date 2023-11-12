@@ -9,6 +9,7 @@
 
 #include "apply_mode.hpp"
 #include "config.hpp"
+#include "memory_input.hpp"
 #include "normal.hpp"
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
