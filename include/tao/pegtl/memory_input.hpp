@@ -340,7 +340,7 @@ namespace TAO_PEGTL_NAMESPACE
       void require( const std::size_t /*unused*/ ) const noexcept {}
 
       template< rewind_mode M >
-      [[nodiscard]] internal::rewind_guard< M, memory_input > auto_rewind() noexcept
+      [[nodiscard]] internal::rewind_guard< M, memory_input > make_rewind_guard() noexcept
       {
          return internal::rewind_guard< M, memory_input >( this );
       }

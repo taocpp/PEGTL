@@ -165,7 +165,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< rewind_mode M >
-      [[nodiscard]] internal::rewind_guard< M, buffer_input > auto_rewind() noexcept
+      [[nodiscard]] internal::rewind_guard< M, buffer_input > make_rewind_guard() noexcept
       {
          return internal::rewind_guard< M, buffer_input >( this );
       }

@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE
          [[nodiscard]] static bool match( std::index_sequence< Indices... > /*unused*/, ParseInput& in, States&&... st )
          {
             std::bitset< rule_count > b;
-            auto m = in.template auto_rewind< M >();
+            auto m = in.template make_rewind_guard< M >();
             using m_t = decltype( m );
             for( std::size_t i = 0; i < rule_count; ++i ) {
                if( !( ( ( b.test( Indices ) == false ) && ( Control< Rules >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) && ( b.set( Indices ), true ) ) || ... ) ) {

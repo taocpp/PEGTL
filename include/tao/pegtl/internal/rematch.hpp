@@ -54,7 +54,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         auto m = in.template auto_rewind< rewind_mode::required >();
+         auto m = in.template make_rewind_guard< rewind_mode::required >();
 
          if( Control< Head >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) ) {
             memory_input< ParseInput::tracking_mode_v, typename ParseInput::eol_t, typename ParseInput::source_t > i2( m.inputerator(), in.current(), in.source() );

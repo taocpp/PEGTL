@@ -115,7 +115,7 @@ namespace TAO_PEGTL_NAMESPACE
                    typename... States >
          [[nodiscard]] static bool match( ParseInput& in, const std::size_t& marker_size, States&&... /*unused*/ )
          {
-            auto m = in.template auto_rewind< M >();
+            auto m = in.template make_rewind_guard< M >();
 
             while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, marker_size ) ) {
                if( in.empty() ) {
@@ -143,7 +143,7 @@ namespace TAO_PEGTL_NAMESPACE
                    typename... States >
          [[nodiscard]] static bool match( ParseInput& in, const std::size_t& marker_size, States&&... st )
          {
-            auto m = in.template auto_rewind< M >();
+            auto m = in.template make_rewind_guard< M >();
             using m_t = decltype( m );
 
             while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, marker_size ) ) {
