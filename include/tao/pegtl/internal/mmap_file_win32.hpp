@@ -178,7 +178,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {}
 
       explicit mmap_file_win32( const mmap_file_mmap& file )
-         : m_size( mapper.m_size ),
+         : m_size( file.m_size ),
            m_data( static_cast< const char* >( ::MapViewOfFile( file.handle,
                                                                 FILE_MAP_READ,
                                                                 0,
