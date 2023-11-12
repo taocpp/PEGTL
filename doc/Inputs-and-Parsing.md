@@ -519,9 +519,12 @@ Note that the first and second point go hand-in-hand, in order to optimise away 
 ## Error Reporting
 
 When reporting an error, one often wants to print the complete line from the input where the error occurred and a marker at the position where the error is found within that line.
-To support this, the `memory_input<>` class has member functions `at( p )`, `begin_of_line( p )`, `end_of_line( p )` and `line_at( p )` which take a `tao::pegtl::position` as parameter.
-The first three functions return a `const char*` to position `p`, the begin-of-line before `p`, or the end-of-line after `p` (or the end of the input if the input is not terminated by an end-of-line), respectively.
-For convenience, `line_at( p )` returns a `std::string_view` with the complete line around `p`.
+To support this, the `memory_input<>` class has a member function `at( p )` that returns a `const char*` to the input byte corresponding to `p` of type `tao::pegtl::position`.
+This function is the basis for the following convenience functions thar are _not_ member functions of the input.
+
+The functions `begin_of_line( in, p )` and `end_of_line_or_file( in, p )` return a `const char*` to the begin-of-line before `p`, the end-of-line (or file) after `p`, respectively.
+The function `line_view_at( in, p )` combines the former two and returns a `std::string_view` to the line surrounding the position indicated by `p`.
+As usual these function reside in namespace `TAO_PEGTL_NAMESPACE` which defaults to `tao::pegtl`.
 Example usage:
 
 ```c++
@@ -532,7 +535,7 @@ try {
 catch( const parse_error& e ) {
    const auto& p = e.position_object();
    std::cerr << e.what() << std::endl
-             << in.line_at( p ) << '\n'
+             << line_view_at( in, p ) << '\n'
              << std::setw( p.column ) << '^' << std::endl;
 }
 ```

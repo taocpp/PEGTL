@@ -271,7 +271,7 @@ Typically, the following pattern helps to print the exceptions in a human friend
          // This catch block needs access to the input
          const auto& p = e.positions_object();
          std::cerr << e.what() << '\n'
-                   << in.line_at( p ) << '\n'
+                   << tao::pegtl::line_view_at( in, p ) << '\n'
                    << std::setw( p.column ) << '^' << std::endl;
 
       }
