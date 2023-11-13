@@ -13,22 +13,23 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< rewind_mode M, typename ParseInput >
-   class [[nodiscard]] rewind_guard
+   template< rewind_mode, typename ParseInput >
+   class rewind_guard;
+
+   template< typename ParseInput >
+   class rewind_guard< rewind_mode::optional, ParseInput >
    {
    public:
-      static constexpr rewind_mode next_rewind_mode = M;
-
       explicit rewind_guard( ParseInput* /*unused*/ ) noexcept
       {}
 
-      rewind_guard( const rewind_guard& ) = delete;
       rewind_guard( rewind_guard&& ) = delete;
+      rewind_guard( const rewind_guard& ) = delete;
 
       ~rewind_guard() = default;
 
-      rewind_guard& operator=( const rewind_guard& ) = delete;
-      rewind_guard& operator=( rewind_guard&& ) = delete;
+      void operator=( rewind_guard&& ) = delete;
+      void operator=( const rewind_guard& ) = delete;
 
       [[nodiscard]] bool operator()( const bool result ) const noexcept
       {
@@ -37,11 +38,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename ParseInput >
-   class [[nodiscard]] rewind_guard< rewind_mode::required, ParseInput >
+   class rewind_guard< rewind_mode::required, ParseInput >
    {
    public:
-      static constexpr rewind_mode next_rewind_mode = rewind_mode::optional;
-
       using rewind_data = std::decay_t< decltype( std::declval< ParseInput >().rewind_save() ) >;
 
       explicit rewind_guard( ParseInput* in ) noexcept
@@ -49,8 +48,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
            m_saved( in->rewind_save() )
       {}
 
-      rewind_guard( const rewind_guard& ) = delete;
       rewind_guard( rewind_guard&& ) = delete;
+      rewind_guard( const rewind_guard& ) = delete;
 
       ~rewind_guard()
       {
@@ -59,8 +58,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
       }
 
-      rewind_guard& operator=( const rewind_guard& ) = delete;
-      rewind_guard& operator=( rewind_guard&& ) = delete;
+      void operator=( rewind_guard&& ) = delete;
+      void operator=( const rewind_guard& ) = delete;
 
       [[nodiscard]] bool operator()( const bool result ) noexcept
       {

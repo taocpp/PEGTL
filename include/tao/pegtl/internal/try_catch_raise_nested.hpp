@@ -49,10 +49,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          auto m = in.template make_rewind_guard< rewind_mode::required >();
-         using m_t = decltype( m );
 
          try {
-            return m( Control< Rule >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );
+            return m( Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) );
          }
          catch( ... ) {
             Control< Rule >::raise_nested( in.position( m.inputerator() ), st... );
@@ -77,10 +76,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          auto m = in.template make_rewind_guard< rewind_mode::required >();
-         using m_t = decltype( m );
 
          try {
-            return m( Control< Rule >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );
+            return m( Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) );
          }
          catch( const Exception& ) {
             Control< Rule >::raise_nested( in.position( m.inputerator() ), st... );

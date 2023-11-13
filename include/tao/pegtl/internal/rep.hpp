@@ -48,10 +48,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          auto m = in.template make_rewind_guard< M >();
-         using m_t = decltype( m );
 
          for( unsigned i = 0; i != Cnt; ++i ) {
-            if( !Control< Rule >::template match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) ) {
+            if( !Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) ) {
                return false;
             }
          }
