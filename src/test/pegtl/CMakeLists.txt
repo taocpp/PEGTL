@@ -7,6 +7,7 @@ set(test_sources
   actions_three.cpp
   actions_two.cpp
   argv_input.cpp
+  ascii_chars.cpp
   ascii_classes.cpp
   ascii_eol.cpp
   ascii_eolf.cpp

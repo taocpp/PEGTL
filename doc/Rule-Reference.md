@@ -759,15 +759,11 @@ ASCII rules do not usually rely on other rules.
 
 * Matches and consumes a single ASCII alphabetic or numeric character.
 * [Equivalent] to `ranges< 'a', 'z', 'A', 'Z', '0', '9' >`.
-* [Meta data] and [implementation] mapping:
-  - `ascii::alnum::rule_t` is `internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9' >`
 
 ###### `alpha`
 
 * Matches and consumes a single ASCII alphabetic character.
 * [Equivalent] to `ranges< 'a', 'z', 'A', 'Z' >`.
-* [Meta data] and [implementation] mapping:
-  - `ascii::alpha::rule_t` is `internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z' >`
 
 ###### `any`
 
@@ -780,28 +776,45 @@ ASCII rules do not usually rely on other rules.
 
 * Matches and consumes a single ASCII horizontal space or horizontal tabulator character.
 * [Equivalent] to `one< ' ', '\t' >`.
-* [Meta data] and [implementation] mapping:
-  - `ascii::blank::rule_t` is `internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\t' >`
+
+###### `cntrl`
+* Matches and consumes a single ASCII control character.
+* [Equivalent] to `ranges< 0, 31, 127 >'.
+
+###### `cr`
+
+* Matches and consumes a single ASCII carriage return character of value `13` or `0x0d`.
+* [Equivalent] to `one< '\r' >`.
 
 ###### `digit`
 
 * Matches and consumes a single ASCII decimal digit character.
 * [Equivalent] to `range< '0', '9' >`.
-* [Meta data] and [implementation] mapping:
-  - `ascii::digit::rule_t` is `internal::range< internal::result_on_found::success, internal::peek_char, '0', '9' >`
 
 ###### `ellipsis`
 
 * Matches and consumes three dots.
 * [Equivalent] to `three< '.' >`.
-* [Meta data] and [implementation] mapping:
-  - `ascii::ellipsis::rule_t` is `internal::string< '.', '.', '.' >`
 
-###### `forty_two< C... >`
+###### `esc`
 
-* [Equivalent] to `rep< 42, one< C... > >`.
-* [Meta data] and [implementation] mapping:
-  - `ascii::forty_two< C >::rule_t` is `internal_rep< 42, internal::one< internal::result_on_found::success, internal::peek_char, C > >`
+* Matches and consumes a single ASCII escape character of value `27` or `0x1b`.
+* [Equivalent] to `one< '\e' >`.
+
+###### `ff`
+
+* Matches and consumes a single ASCII form feed (new page) character of value `12` or `0x0c`.
+* [Equivalent] to `one< '\f' >`.
+
+###### `graph`
+
+* Matches and consumes a single ASCII character traditionally defined as "printable but not space".
+* [Equivalent] to `range< '33', '126' >`.
+
+###### `ht`
+
+* Matches and consumes a single ASCII horizontal tab character of value `9`.
+* [Equivalent] to `one< '\t' >`.
 
 ###### `identifier_first`
 
@@ -841,12 +854,15 @@ ASCII rules do not usually rely on other rules.
 * [Meta data] and [implementation] mapping:
   - `ascii::keyword< C... >::rule_t` is `internal::seq< internal::string< C... >, internal::not_at< internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9', '_' > > >`
 
+###### `lf`
+
+* Matches and consumes a single ASCII line feed (new line) character of value `10` or `0x0a`.
+* [Equivalent] to `one< '\n' >`.
+
 ###### `lower`
 
 * Matches and consumes a single ASCII lower-case alphabetic character.
 * [Equivalent] to `range< 'a', 'z' >`.
-* [Meta data] and [implementation] mapping:
-  - `ascii::lower::rule_t` is `internal::range< internal::result_on_found::success, internal::peek_char, 'a', 'z' >`
 
 ###### `not_one< C... >`
 
@@ -868,16 +884,13 @@ ASCII rules do not usually rely on other rules.
 
 ###### `nul`
 
-* Matches and consumes an ASCII nul character.
+* Matches and consumes an ASCII nul character of value `0`.
 * [Equivalent] to `one< '\0' >`.
-  - `ascii::nul::rule_t` is `internal::one< result_on_found::success, internal::peek_char, 0 >`
 
 ###### `odigit`
 
 * Matches and consumes a single ASCII octal digit character.
 * [Equivalent] to `range< '0', '7' >`.
-* [Meta data] and [implementation] mapping:
-  - `ascii::digit::rule_t` is `internal::range< internal::result_on_found::success, internal::peek_char, '0', '7' >`
 
 ###### `one< C... >`
 
@@ -893,8 +906,6 @@ ASCII rules do not usually rely on other rules.
 
 * Matches and consumes any single ASCII character traditionally defined as printable.
 * [Equivalent] to `range< 32, 126 >`.
-* [Meta data] and [implementation] mapping:
-  - `ascii::print::rule_t` is `internal::range< internal::result_on_found::success, internal::peek_char, 32, 126 >`
 
 ###### `range< C, D >`
 
@@ -920,8 +931,6 @@ ASCII rules do not usually rely on other rules.
 
 * Matches and consumes any single true ASCII character that fits into 7 bits.
 * [Equivalent] to `range< 0, 127 >`.
-* [Meta data] and [implementation] mapping:
-  - `ascii::seven::rule_t` is `internal::range< internal::result_on_found::success, internal::peek_char, 0, 127 >`
 
 ###### `shebang`
 
@@ -930,9 +939,14 @@ ASCII rules do not usually rely on other rules.
   - `ascii::shebang::rule_t` is `internal::seq< false, internal::string< '#', '!' >, internal::until< internal::eolf > >`
   - `ascii::shebang::subs_t` is `type_list< internal::string< '#', '!' >, internal::until< internal::eolf > >`
 
+###### `sp`
+
+* Matches and consumes a single ASCII space character of value `32` or `0x20`.
+* [Equivalent] to `one< ' ' >`.
+
 ###### `space`
 
-* Matches and consumes a single space, line-feed, carriage-return, horizontal-tab, vertical-tab or form-feed.
+* Matches and consumes a single space, line feed, carriage return, horizontal tab, vertical tab or form feed.
 * [Equivalent] to `one< ' ', '\n', '\r', '\t', '\v', '\f' >`.
 
 ###### `string< C... >`
@@ -984,15 +998,16 @@ ASCII rules do not usually rely on other rules.
 
 * Matches and consumes a single ASCII upper-case alphabetic character.
 * [Equivalent] to `range< 'A', 'Z' >`.
-* [Meta data] and [implementation] mapping:
-  - `ascii::upper::rule_t` is `internal::range< internal::result_on_found::success, internal::peek_char, 'A', 'Z' >`
+
+###### `vt`
+
+* Matches and consumes a single ASCII vertical tab of value `11` or `0x0b`.
+* [Equivalent] to `one< '\v' >`.
 
 ###### `xdigit`
 
 * Matches and consumes a single ASCII hexadecimal digit character.
 * [Equivalent] to `ranges< '0', '9', 'a', 'f', 'A', 'F' >`.
-* [Meta data] and [implementation] mapping:
-  - `ascii::xdigit::rule_t` is `internal::ranges< internal::peek_char, '0', '9', 'a', 'f', 'A', 'F' >`
 
 ## Unicode Rules
 
@@ -1547,7 +1562,9 @@ Binary rules do not rely on other rules.
 * [`bytes< Num >`](#bytes-num-) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`canonical_combining_class< V >`](#canonical_combining_class-v-) <sup>[(icu rules)](#icu-rules-for-value-properties)</sup>
 * [`case_sensitive`](#case_sensitive) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
+* [`cntrl`](#cntrl) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`control< C, R... >`](#control-c-r-) <sup>[(meta rules)](#meta-rules)</sup>
+* [`cr`](#cr) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`dash`](#dash) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`decomposition_type< V >`](#decomposition_type-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`default_ignorable_code_point`](#default_ignorable_code_point) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
@@ -1561,18 +1578,21 @@ Binary rules do not rely on other rules.
 * [`eof`](#eof) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`eol`](#eol) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`eolf`](#eolf) <sup>[(atomic rules)](#atomic-rules)</sup>
+* [`esc`](#esc) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`everything`](#everything) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`extender`](#extender) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`failure`](#failure) <sup>[(atomic rules)](#atomic-rules)</sup>
-* [`forty_two< C... >`](#forty_two-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`ff`](#ff) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`full_composition_exclusion`](#full_composition_exclusion) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`general_category< V >`](#general_category-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
+* [`graph`](#graph) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`grapheme_base`](#grapheme_base) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`grapheme_cluster_break< V >`](#grapheme_cluster_break-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`grapheme_extend`](#grapheme_extend) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`grapheme_link`](#grapheme_link) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`hangul_syllable_type< V >`](#hangul_syllable_type-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`hex_digit`](#hex_digit) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
+* [`ht`](#ht) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`hyphen`](#hyphen) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`id_continue`](#id_continue) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`id_start`](#id_start) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
@@ -1592,6 +1612,7 @@ Binary rules do not rely on other rules.
 * [`joining_type< V >`](#joining_type-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`keyword< C... >`](#keyword-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`lead_canonical_combining_class< V >`](#lead_canonical_combining_class-v-) <sup>[(icu rules)](#icu-rules-for-value-properties)</sup>
+* [`lf`](#lf) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`line_break< V >`](#line_break-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`list< R, S >`](#list-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`list< R, S, P >`](#list-r-s-p-) <sup>[(convenience)](#convenience)</sup>
@@ -1672,6 +1693,7 @@ Binary rules do not rely on other rules.
 * [`shebang`](#shebang) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`soft_dotted`](#soft_dotted) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`sor< R... >`](#sor-r-) <sup>[(combinators)](#combinators)</sup>
+* [`sp`](#sp) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`space`](#space) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`star< R... >`](#star-r-) <sup>[(combinators)](#combinators)</sup>
 * [`star_must< R, S... >`](#star_must-r-s-) <sup>[(convenience)](#convenience)</sup>
@@ -1705,6 +1727,7 @@ Binary rules do not rely on other rules.
 * [`upper`](#upper) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`uppercase`](#uppercase) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`variation_selector`](#variation_selector) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
+* [`vt`](#vt) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`white_space`](#white_space) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`word_break< V >`](#word_break-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`xdigit`](#xdigit) <sup>[(ascii rules)](#ascii-rules)</sup>
