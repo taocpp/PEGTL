@@ -97,14 +97,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return static_cast< std::uint8_t >( peek_char( offset ) );
       }
 
-      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
-      {
-         return input().position( inputerator() );  // NOTE: Not efficient with lazy inputs.
-      }
-
       [[nodiscard]] TAO_PEGTL_NAMESPACE::position current_position() const
       {
-         return input().position( inputerator() );  // NOTE: Not efficient with lazy inputs.
+         return input().previous_position( inputerator() );  // NOTE: Not efficient with lazy inputs.
       }
 
    protected:

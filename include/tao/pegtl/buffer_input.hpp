@@ -170,24 +170,19 @@ namespace TAO_PEGTL_NAMESPACE
          return internal::rewind_guard< M, buffer_input >( this );
       }
 
-      [[nodiscard]] const inputerator_t& rewind_save() noexcept
+      [[nodiscard]] const inputerator_t& rewind_position() noexcept
       {
          return m_current;
       }
 
-      void rewind_restore( const inputerator_t& data ) noexcept
+      void rewind_position( const inputerator_t& data ) noexcept
       {
          m_current = data;
       }
 
-      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const inputerator_t& it ) const
+      [[nodiscard]] TAO_PEGTL_NAMESPACE::position previous_position( const inputerator_t& it ) const
       {
          return TAO_PEGTL_NAMESPACE::position( it, m_source );
-      }
-
-      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
-      {
-         return position( m_current );
       }
 
       [[nodiscard]] TAO_PEGTL_NAMESPACE::position current_position() const

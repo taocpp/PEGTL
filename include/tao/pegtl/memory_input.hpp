@@ -111,7 +111,7 @@ namespace TAO_PEGTL_NAMESPACE
             internal::bump_to_next_line( m_current, in_count );
          }
 
-         [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const inputerator_t& it ) const
+         [[nodiscard]] TAO_PEGTL_NAMESPACE::position previous_position( const inputerator_t& it ) const
          {
             return TAO_PEGTL_NAMESPACE::position( it, m_source );
          }
@@ -203,7 +203,7 @@ namespace TAO_PEGTL_NAMESPACE
             m_current += in_count;
          }
 
-         [[nodiscard]] TAO_PEGTL_NAMESPACE::position position( const inputerator_t it ) const
+         [[nodiscard]] TAO_PEGTL_NAMESPACE::position previous_position( const inputerator_t it ) const
          {
             internal::inputerator c( m_begin );
             internal::bump( c, static_cast< std::size_t >( it - m_begin.data ), Eol::ch );
@@ -323,16 +323,9 @@ namespace TAO_PEGTL_NAMESPACE
          this->m_current = m.inputerator();
       }
 
-      using internal::memory_input_base< P, Eol, Source >::position;
-
-      [[nodiscard]] TAO_PEGTL_NAMESPACE::position position() const
-      {
-         return position( inputerator() );
-      }
-
       [[nodiscard]] TAO_PEGTL_NAMESPACE::position current_position() const
       {
-         return position( inputerator() );
+         return this->previous_position( inputerator() );
       }
 
       void discard() const noexcept {}
@@ -345,12 +338,12 @@ namespace TAO_PEGTL_NAMESPACE
          return internal::rewind_guard< M, memory_input >( this );
       }
 
-      [[nodiscard]] const inputerator_t& rewind_save() noexcept
+      [[nodiscard]] const inputerator_t& rewind_position() noexcept
       {
          return this->m_current;
       }
 
-      void rewind_restore( const inputerator_t& data ) noexcept
+      void rewind_position( const inputerator_t& data ) noexcept
       {
          this->m_current = data;
       }
@@ -362,6 +355,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       void private_set_end( const char* new_end ) noexcept
       {
+         // assert( new_end <= this->m_end );
+         // assert( new_end >= this->m_current );
          this->m_end = new_end;
       }
    };

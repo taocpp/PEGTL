@@ -135,12 +135,12 @@ namespace TAO_PEGTL_NAMESPACE
          return internal::rewind_guard< M, token_parse_input >( this );
       }
 
-      [[nodiscard]] const inputerator_t& rewind_save() const noexcept
+      [[nodiscard]] const inputerator_t& rewind_position() const noexcept
       {
          return m_current;
       }
 
-      void rewind_restore( const inputerator_t& data ) noexcept
+      void rewind_position( const inputerator_t& data ) noexcept
       {
          m_current = data;
       }

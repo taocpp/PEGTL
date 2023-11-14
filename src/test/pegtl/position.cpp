@@ -79,7 +79,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ActionInput >
       static void apply( const ActionInput& oi, const bool mode )
       {
-         const auto p = oi.position();
+         const auto p = oi.current_position();
          TAO_PEGTL_TEST_ASSERT( p.source == "outer" );
          TAO_PEGTL_TEST_ASSERT( p.byte == 2 );
          TAO_PEGTL_TEST_ASSERT( p.line == 1 );
@@ -89,7 +89,7 @@ namespace TAO_PEGTL_NAMESPACE
             parse_nested< inner_grammar >( oi, in );
          }
          else {
-            parse_nested< inner_grammar >( oi.position(), in );
+            parse_nested< inner_grammar >( oi.current_position(), in );
          }
       }
    };

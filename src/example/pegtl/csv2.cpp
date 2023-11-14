@@ -115,7 +115,7 @@ namespace csv2
       static void apply( const ActionInput& in, result_data< N >& data )
       {
          if( data.temp.size() != N ) {
-            std::cerr << "column count mismatch " << in.position() << std::endl;
+            std::cerr << "column count mismatch " << in.current_position() << std::endl;
             std::terminate();
          }
          tuple_t temp;

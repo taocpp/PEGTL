@@ -41,11 +41,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
    class rewind_guard< rewind_mode::required, ParseInput >
    {
    public:
-      using rewind_data = std::decay_t< decltype( std::declval< ParseInput >().rewind_save() ) >;
+      using rewind_position_t = std::decay_t< decltype( std::declval< ParseInput >().rewind_position() ) >;
 
       explicit rewind_guard( ParseInput* in ) noexcept
          : m_input( in ),
-           m_saved( in->rewind_save() )
+           m_saved( in->rewind_position() )
       {}
 
       rewind_guard( rewind_guard&& ) = delete;
@@ -53,31 +53,56 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       ~rewind_guard()
       {
-         if( m_input != nullptr ) {
-            m_input->rewind_restore( std::move( m_saved ) );
+         if( charged() ) {
+            rewind_restore();
          }
       }
 
       void operator=( rewind_guard&& ) = delete;
       void operator=( const rewind_guard& ) = delete;
 
+      [[nodiscard]] bool charged() const noexcept
+      {
+         return m_input != nullptr;
+      }
+
       [[nodiscard]] bool operator()( const bool result ) noexcept
       {
          if( result ) {
-            m_input = nullptr;
+            rewind_cancel();
             return true;
          }
          return false;
       }
 
-      [[nodiscard]] const rewind_data& inputerator() const noexcept
+      void rewind_cancel() noexcept
+      {
+         m_input = nullptr;
+      }
+
+      void rewind_restore() noexcept( noexcept( m_input->rewind_position( std::declval< rewind_position_t&& >() ) ) )
+      {
+         m_input->rewind_position( std::move( m_saved ) );
+      }
+
+      void rewind_repeatable() const noexcept( noexcept( m_input->rewind_position( std::declval< const rewind_position_t& >() ) ) )
+      {
+         m_input->rewind_position( m_saved );
+      }
+
+      [[nodiscard]] const auto* current() const noexcept
+      {
+         return m_saved.data;
+      }
+
+      [[nodiscard]] const auto& inputerator() const noexcept
       {
          return m_saved;
       }
 
    private:
       ParseInput* m_input;
-      rewind_data m_saved;
+      rewind_position_t m_saved;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

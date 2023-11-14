@@ -68,7 +68,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput >
       explicit tracer( const ParseInput& in )
          : m_flags( std::cerr.flags() ),
-           m_position( in.position() )
+           m_position( in.current_position() )
       {
          std::cerr << std::left;
          print_position( in );
@@ -103,7 +103,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput >
       void update_position( const ParseInput& in )
       {
-         const auto p = in.position();
+         const auto p = in.current_position();
          if( m_position != p ) {
             m_position = p;
             print_position( in );
