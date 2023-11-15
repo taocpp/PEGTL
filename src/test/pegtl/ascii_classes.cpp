@@ -73,7 +73,7 @@ namespace TAO_PEGTL_NAMESPACE
 
          const bool is_blank = ( c == ' ' ) || ( c == '\t' );
          const bool is_digit = ( '0' <= c ) && ( c <= '9' );
-         const bool is_cntrl = ( ( 0 <= c  ) && ( c <= 31 ) ) || ( c == 127 );
+         const bool is_cntrl = ( ( 0 <= c ) && ( c <= 31 ) ) || ( c == 127 );
          const bool is_lower = ( 'a' <= c ) && ( c <= 'z' );
          const bool is_print = ( ( ' ' <= c ) && ( c <= 126 ) );
          const bool is_graph = ( ( ' ' < c ) && ( c <= 126 ) );
@@ -83,15 +83,15 @@ namespace TAO_PEGTL_NAMESPACE
          const bool is_xalpha = ( ( 'a' <= c ) && ( c <= 'f' ) ) || ( ( 'A' <= c ) && ( c <= 'F' ) );
          const bool is_xdigit = is_xalpha || is_digit;
 
-         TAO_PEGTL_TEST_ASSERT( is_blank == std::isblank( c ) );
-         TAO_PEGTL_TEST_ASSERT( is_digit == std::isdigit( c ) );
-         TAO_PEGTL_TEST_ASSERT( is_cntrl == std::iscntrl( c ) );
-         TAO_PEGTL_TEST_ASSERT( is_lower == std::islower( c ) );
-         TAO_PEGTL_TEST_ASSERT( is_print == std::isprint( c ) );
-         TAO_PEGTL_TEST_ASSERT( is_graph == std::isgraph( c ) );
-         TAO_PEGTL_TEST_ASSERT( is_space == std::isspace( c ) );
-         TAO_PEGTL_TEST_ASSERT( is_upper == std::isupper( c ) );
-         TAO_PEGTL_TEST_ASSERT( is_xdigit == std::isxdigit( c ) );
+         TAO_PEGTL_TEST_ASSERT( is_blank == bool( std::isblank( c ) ) );
+         TAO_PEGTL_TEST_ASSERT( is_digit == bool( std::isdigit( c ) ) );
+         TAO_PEGTL_TEST_ASSERT( is_cntrl == bool( std::iscntrl( c ) ) );
+         TAO_PEGTL_TEST_ASSERT( is_lower == bool( std::islower( c ) ) );
+         TAO_PEGTL_TEST_ASSERT( is_print == bool( std::isprint( c ) ) );
+         TAO_PEGTL_TEST_ASSERT( is_graph == bool( std::isgraph( c ) ) );
+         TAO_PEGTL_TEST_ASSERT( is_space == bool( std::isspace( c ) ) );
+         TAO_PEGTL_TEST_ASSERT( is_upper == bool( std::isupper( c ) ) );
+         TAO_PEGTL_TEST_ASSERT( is_xdigit == bool( std::isxdigit( c ) ) );
 
          const bool is_newline = ( c == '\n' );
 
