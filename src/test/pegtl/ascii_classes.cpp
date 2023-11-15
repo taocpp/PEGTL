@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include <cctype>
+#include <clocale>
 
 #include "test.hpp"
 #include "verify_char.hpp"
@@ -13,6 +14,8 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      std::setlocale( LC_ALL, "C" );
+
       verify_analyze< alnum >( __LINE__, __FILE__, true, false );
       verify_analyze< alpha >( __LINE__, __FILE__, true, false );
       verify_analyze< any >( __LINE__, __FILE__, true, false );
