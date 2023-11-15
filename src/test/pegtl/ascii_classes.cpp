@@ -73,6 +73,7 @@ namespace TAO_PEGTL_NAMESPACE
 
          const bool is_blank = ( c == ' ' ) || ( c == '\t' );
          const bool is_digit = ( '0' <= c ) && ( c <= '9' );
+         const bool is_odigit = ( '0' <= c ) && ( c <= '7' );
          const bool is_cntrl = ( ( 0 <= c ) && ( c <= 31 ) ) || ( c == 127 );
          const bool is_lower = ( 'a' <= c ) && ( c <= 'z' );
          const bool is_print = ( ( ' ' <= c ) && ( c <= 126 ) );
@@ -104,6 +105,7 @@ namespace TAO_PEGTL_NAMESPACE
          verify_char< blank >( __LINE__, __FILE__, c, is_blank );
          verify_char< cntrl >( __LINE__, __FILE__, c, is_cntrl );
          verify_char< digit >( __LINE__, __FILE__, c, is_digit );
+         verify_char< odigit >( __LINE__, __FILE__, c, is_odigit );
          verify_char< eol >( __LINE__, __FILE__, c, is_newline );
          verify_char< graph >( __LINE__, __FILE__, c, is_graph );
          verify_char< identifier_first >( __LINE__, __FILE__, c, is_ident_first );
@@ -140,6 +142,7 @@ namespace TAO_PEGTL_NAMESPACE
             verify_char< blank >( __LINE__, __FILE__, c, false );
             verify_char< cntrl >( __LINE__, __FILE__, c, false );
             verify_char< digit >( __LINE__, __FILE__, c, false );
+            verify_char< odigit >( __LINE__, __FILE__, c, false );
             verify_char< eol >( __LINE__, __FILE__, c, false );
             verify_char< graph >( __LINE__, __FILE__, c, false );
             verify_char< identifier_first >( __LINE__, __FILE__, c, false );
@@ -162,6 +165,7 @@ namespace TAO_PEGTL_NAMESPACE
             verify_char< blank >( __LINE__, __FILE__, c, false );
             verify_char< cntrl >( __LINE__, __FILE__, c, false );
             verify_char< digit >( __LINE__, __FILE__, c, false );
+            verify_char< odigit >( __LINE__, __FILE__, c, false );
             verify_char< eol >( __LINE__, __FILE__, c, false );
             verify_char< graph >( __LINE__, __FILE__, c, false );
             verify_char< identifier_first >( __LINE__, __FILE__, c, false );

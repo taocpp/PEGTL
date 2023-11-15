@@ -86,7 +86,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       // using data_t = std::decay_t< std::remove_pointer_t< decltype( std::declval< ParseInput >().end() ) > >;
       using rewind_position_t = std::decay_t< decltype( std::declval< ParseInput >().rewind_position() ) >;
 
-      void rewind_restore() noexcept( noexcept( m_input->rewind_position( std::declval< const rewind_position_t& >() ) ) )
+      void rewind_restore() const noexcept
       {
          m_input->rewind_position( m_saved );
       }

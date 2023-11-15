@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Input >
    [[nodiscard]] const char* end_of_line_or_file( const Input& in, const TAO_PEGTL_NAMESPACE::position& p ) noexcept
    {
-      using input_t = memory_input< tracking_mode::lazy, typename Input::eol_t, const char* >;
+      using input_t = memory_input< tracking_mode::lazy, typename Input::eol_rule, const char* >;
       input_t i2( in.at( p ), in.end(), "" );  // TODO: Start before in.at( p ) to correctly handle the middle of a multi-token EOL.
       using grammar = internal::until< internal::at< internal::eolf > >;
       (void)normal< grammar >::match< apply_mode::nothing, rewind_mode::optional, nothing, normal >( i2 );

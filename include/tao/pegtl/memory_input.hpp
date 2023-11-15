@@ -24,7 +24,6 @@
 #include "internal/action_input.hpp"
 #include "internal/at.hpp"
 #include "internal/bump.hpp"
-#include "internal/eolf.hpp"
 #include "internal/inputerator.hpp"
 #include "internal/rewind_guard.hpp"
 #include "internal/until.hpp"
@@ -43,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE
          using rewind_position_t = large_position;
 
          template< typename T >
-         memory_input_base( const internal::large_position& in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
+         memory_input_base( const large_position& in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
             : m_begin( in_begin.data ),
               m_current( in_begin ),
               m_end( in_end ),
@@ -98,7 +97,7 @@ namespace TAO_PEGTL_NAMESPACE
 
          void bump( const std::size_t in_count = 1 ) noexcept
          {
-            internal::bump( m_current, in_count, Eol::ch );
+            internal::bump( m_current, in_count, '\n' );
          }
 
          void bump_in_this_line( const std::size_t in_count = 1 ) noexcept
@@ -202,7 +201,7 @@ namespace TAO_PEGTL_NAMESPACE
          [[nodiscard]] position previous_position( const rewind_position_t& it ) const
          {
             internal::large_position c( m_begin );
-            internal::bump( c, static_cast< std::size_t >( it.data - m_begin.data ), Eol::ch );
+            internal::bump( c, static_cast< std::size_t >( it.data - m_begin.data ), '\n' );
             return position( c, m_source );
          }
 
@@ -212,7 +211,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
 
       protected:
-         const internal::large_position m_begin;
+         const large_position m_begin;
          small_position m_current;
          const char* m_end;
          const Source m_source;
@@ -220,19 +219,17 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace internal
 
-   template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf, typename Source = std::string >
+   template< tracking_mode P = tracking_mode::eager, typename Eol = ascii::lf_crlf, typename Source = std::string >
    class memory_input
       : public internal::memory_input_base< P, Eol, Source >
    {
    public:
       static constexpr tracking_mode tracking_mode_v = P;
 
-      using eol_t = Eol;
       using data_t = char;
       using source_t = Source;
-
+      using eol_rule = Eol;
       using typename internal::memory_input_base< P, Eol, Source >::rewind_position_t;
-
       using action_t = internal::action_input< memory_input >;
 
       using internal::memory_input_base< P, Eol, Source >::memory_input_base;
@@ -340,6 +337,23 @@ namespace TAO_PEGTL_NAMESPACE
          // assert( new_end <= this->m_end );
          // assert( new_end >= this->m_current );
          this->m_end = new_end;
+      }
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename ParseInput,
+                typename... States >
+      [[nodiscard]] static bool match_eol( ParseInput& in, States&&... st )
+      {
+         if( Control< typename Eol::rule_t >::template match< A, M, Action, Control >( in, st... ) ) {
+            // in.template consume< eol_consume_tag >( 0 );
+            return true;
+         }
+         return false;
       }
    };
 

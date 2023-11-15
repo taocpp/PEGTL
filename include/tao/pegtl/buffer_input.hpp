@@ -33,14 +33,14 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename Reader, typename Eol = eol::lf_crlf, typename Source = std::string, std::size_t Chunk = 64 >
+   template< typename Reader, typename Eol = ascii::lf_crlf, typename Source = std::string, std::size_t Chunk = 64 >
    class buffer_input
    {
    public:
       using data_t = char;
       using reader_t = Reader;
 
-      using eol_t = Eol;
+      using eol_rule = Eol;
       using source_t = Source;
 
       using rewind_position_t = internal::large_position;
@@ -126,7 +126,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       void bump( const std::size_t in_count = 1 ) noexcept
       {
-         internal::bump( m_current, in_count, Eol::ch );
+         internal::bump( m_current, in_count, '\n' );
       }
 
       void bump_in_this_line( const std::size_t in_count = 1 ) noexcept
@@ -214,6 +214,23 @@ namespace TAO_PEGTL_NAMESPACE
          return static_cast< std::size_t >( m_buffer.get() + m_maximum - m_end );
       }
 
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename ParseInput,
+                typename... States >
+      [[nodiscard]] static bool match_eol( ParseInput& in, States&&... st )
+      {
+         if( Control< typename Eol::rule_t >::template match< A, M, Action, Control >( in, st... ) ) {
+            // in.template consume< eol_consume_tag >( 0 );
+            return true;
+         }
+         return false;
+      }
+
    private:
       Reader m_reader;
       std::size_t m_maximum;
@@ -221,9 +238,6 @@ namespace TAO_PEGTL_NAMESPACE
       rewind_position_t m_current;
       char* m_end;
       const Source m_source;
-
-   public:
-      std::size_t private_depth = 0;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

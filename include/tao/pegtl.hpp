@@ -12,6 +12,7 @@
 #include "pegtl/version.hpp"
 
 #include "pegtl/ascii.hpp"
+#include "pegtl/eol.hpp"
 #include "pegtl/rules.hpp"
 #include "pegtl/utf8.hpp"
 

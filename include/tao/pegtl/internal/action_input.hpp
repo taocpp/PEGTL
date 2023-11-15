@@ -62,11 +62,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] std::string string() const
       {
+         static_assert( sizeof( data_t ) == 1 );
          return std::string( static_cast< const char* >( m_begin.data ), size() );
       }
 
       [[nodiscard]] std::string_view string_view() const noexcept
       {
+         static_assert( sizeof( data_t ) == 1 );
          return std::string_view( static_cast< const char* >( m_begin.data ), size() );
       }
 
@@ -75,19 +77,26 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_begin.data[ offset ];
       }
 
+      template< typename T >
+      [[nodiscard]] T peek_as( const std::size_t offset = 0 ) const noexcept
+      {
+         static_assert( sizeof( T ) == sizeof( data_t ) );
+         return static_cast< T >( peek( offset ) );
+      }
+
       [[nodiscard]] char peek_char( const std::size_t offset = 0 ) const noexcept
       {
-         return static_cast< char >( peek( offset ) );
+         return peek_as< char >( offset );
       }
 
       [[nodiscard]] std::byte peek_byte( const std::size_t offset = 0 ) const noexcept
       {
-         return static_cast< std::byte >( peek( offset ) );
+         return peek_as< std::byte >( offset );
       }
 
       [[nodiscard]] std::uint8_t peek_uint8( const std::size_t offset = 0 ) const noexcept
       {
-         return static_cast< std::uint8_t >( peek( offset ) );
+         return peek_as< std::uint8_t >( offset );
       }
 
       [[nodiscard]] const ParseInput& input() const noexcept
@@ -95,14 +104,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_input;
       }
 
-      [[nodiscard]] const rewind_position_t& rewind_position() const noexcept
-      {
-         return m_begin;
-      }
-
       [[nodiscard]] decltype( auto ) current_position() const
       {
          return m_input.previous_position( m_begin );  // NOTE: O(n) with lazy inputs -- n is return value!
+      }
+
+      [[nodiscard]] const rewind_position_t& rewind_position() const noexcept
+      {
+         return m_begin;
       }
 
    protected:

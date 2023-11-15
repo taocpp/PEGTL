@@ -121,19 +121,19 @@ namespace TAO_PEGTL_NAMESPACE
          static_assert( !( has_apply && has_apply0 ), "both apply() and apply0() defined" );
 
          constexpr bool is_nothing = std::is_base_of_v< nothing< Rule >, Action< Rule > >;
+
          static_assert( !( has_apply && is_nothing ), "unexpected apply() defined" );
          static_assert( !( has_apply0 && is_nothing ), "unexpected apply0() defined" );
 
          if constexpr( !has_apply && std::is_base_of_v< require_apply, Action< Rule > > ) {
             internal::missing_apply< Control< Rule >, Action >( in, st... );
          }
-
          if constexpr( !has_apply0 && std::is_base_of_v< require_apply0, Action< Rule > > ) {
             internal::missing_apply0< Control< Rule >, Action >( in, st... );
          }
-
          constexpr bool validate_nothing = std::is_base_of_v< maybe_nothing, Action< void > >;
          constexpr bool is_maybe_nothing = std::is_base_of_v< maybe_nothing, Action< Rule > >;
+
          static_assert( !enable_action || !validate_nothing || is_nothing || is_maybe_nothing || has_apply || has_apply0, "either apply() or apply0() must be defined" );
 
          constexpr bool use_guard = has_apply || has_apply0_bool;
@@ -141,6 +141,7 @@ namespace TAO_PEGTL_NAMESPACE
          auto m = in.template make_rewind_guard< ( use_guard ? rewind_mode::required : rewind_mode::optional ) >();
          Control< Rule >::start( static_cast< const ParseInput& >( in ), st... );
          auto result = internal::match_control_unwind< Rule, A, ( use_guard ? rewind_mode::optional : M ), Action, Control >( in, st... );
+
          if( result ) {
             if constexpr( has_apply_void ) {
                Control< Rule >::template apply< Action >( m.rewind_position(), static_cast< const ParseInput& >( in ), st... );
@@ -161,8 +162,7 @@ namespace TAO_PEGTL_NAMESPACE
          else {
             Control< Rule >::failure( static_cast< const ParseInput& >( in ), st... );
          }
-         (void)m( result );
-         return result;
+         return m( result );
       }
    }
 

@@ -786,6 +786,11 @@ ASCII rules do not usually rely on other rules.
 * Matches and consumes a single ASCII carriage return character of value `13` or `0x0d`.
 * [Equivalent] to `one< '\r' >`.
 
+###### `crlf`
+
+* Matches and consumes the common ASCII carriage return followed by a line feed.
+* [Equivalent] to `string< '\r', '\n' >`.
+
 ###### `digit`
 
 * Matches and consumes a single ASCII decimal digit character.
@@ -858,6 +863,11 @@ ASCII rules do not usually rely on other rules.
 
 * Matches and consumes a single ASCII line feed (new line) character of value `10` or `0x0a`.
 * [Equivalent] to `one< '\n' >`.
+
+###### `lfcr`
+
+* Matches and consumes an uncommon ASCII line feed followed by a carriage return.
+* [Equivalent] to `string< '\n', '\r' >`.
 
 ###### `lower`
 
@@ -955,6 +965,7 @@ ASCII rules do not usually rely on other rules.
 * [Equivalent] to `seq< one< C >... >`.
 * [Meta data] and [implementation] mapping:
   - `ascii::string<>::rule_t` is `internal::success`
+  - `ascii::string< C >:rule_t` is `internal::one< result_on_found::success, internal::peek_char, C >`
   - `ascii::string< C... >::rule_t` is `internal::string< C... >`
 
 ###### `TAO_PEGTL_ISTRING( "..." )`
@@ -1565,6 +1576,7 @@ Binary rules do not rely on other rules.
 * [`cntrl`](#cntrl) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`control< C, R... >`](#control-c-r-) <sup>[(meta rules)](#meta-rules)</sup>
 * [`cr`](#cr) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`crlf`](#crlf) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`dash`](#dash) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`decomposition_type< V >`](#decomposition_type-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`default_ignorable_code_point`](#default_ignorable_code_point) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
@@ -1613,6 +1625,7 @@ Binary rules do not rely on other rules.
 * [`keyword< C... >`](#keyword-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`lead_canonical_combining_class< V >`](#lead_canonical_combining_class-v-) <sup>[(icu rules)](#icu-rules-for-value-properties)</sup>
 * [`lf`](#lf) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`lfcr`](#lfcr) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`line_break< V >`](#line_break-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`list< R, S >`](#list-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`list< R, S, P >`](#list-r-s-p-) <sup>[(convenience)](#convenience)</sup>

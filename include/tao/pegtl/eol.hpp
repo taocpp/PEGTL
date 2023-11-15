@@ -1,4 +1,4 @@
-// Copyright (c) 2016-2023 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2014-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -7,32 +7,26 @@
 
 #include "config.hpp"
 
-#include "internal/eol.hpp"
-
-#include "internal/cr_crlf_eol.hpp"
-#include "internal/cr_eol.hpp"
-#include "internal/crlf_eol.hpp"
-#include "internal/lf_crlf_eol.hpp"
-#include "internal/lf_eol.hpp"
+#include "internal/one.hpp"
+#include "internal/peek_char.hpp"
+#include "internal/result_on_found.hpp"
+#include "internal/sor.hpp"
+#include "internal/string.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
    inline namespace ascii
    {
-      // Struct eol is both a rule and a pseudo-namespace for the
-      // member structs cr, etc. (which are not themselves rules).
-
-      struct eol
-         : internal::eol
-      {
-         // clang-format off
-         struct cr : internal::cr_eol {};
-         struct cr_crlf : internal::cr_crlf_eol {};
-         struct crlf : internal::crlf_eol {};
-         struct lf : internal::lf_eol {};
-         struct lf_crlf : internal::lf_crlf_eol {};
-         // clang-format on
-      };
+      // clang-format off
+      struct cr : internal::one< internal::result_on_found::success, internal::peek_char, '\r' > {};
+      struct crlf : internal::string< '\r', '\n' > {};
+      struct lf : internal::one< internal::result_on_found::success, internal::peek_char, '\n' > {};
+      struct lfcr : internal::string< '\n', '\r' > {};
+      struct cr_lf : internal::one< internal::result_on_found::success, internal::peek_char, '\r', '\n' > {};
+      struct cr_crlf : internal::sor< internal::string< '\r', '\n' >, internal::one< internal::result_on_found::success, internal::peek_char, '\r' > > {};
+      struct lf_crlf : internal::sor< internal::one< internal::result_on_found::success, internal::peek_char, '\n' >, internal::string< '\r', '\n' > > {};
+      struct cr_lf_crlf : internal::sor< internal::string< '\r', '\n' >, internal::one< internal::result_on_found::success, internal::peek_char, '\r', '\n' > > {};
+      // clang-format on
 
    }  // namespace ascii
 

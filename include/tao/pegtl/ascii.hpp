@@ -20,7 +20,6 @@ namespace TAO_PEGTL_NAMESPACE
       struct any : internal::any< internal::peek_char > {};
       struct blank : internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\t' > {};
       struct cntrl : internal::ranges< internal::peek_char, static_cast< char >( 0 ), static_cast< char >( 31 ), static_cast< char >( 127 ) > {};
-      struct cr : internal::one< internal::result_on_found::success, internal::peek_char, '\r' > {};
       struct digit : internal::range< internal::result_on_found::success, internal::peek_char, '0', '9' > {};
       struct esc : internal::one< internal::result_on_found::success, internal::peek_char, static_cast< char >( 27 ) > {};
       struct ellipsis : internal::string< '.', '.', '.' > {};
@@ -33,7 +32,6 @@ namespace TAO_PEGTL_NAMESPACE
       struct identifier : internal::identifier {};
       template< char... Cs > struct istring : internal::istring< Cs... > {};
       template< char... Cs > struct keyword : internal::seq< internal::string< Cs... >, internal::not_at< internal::identifier_other > > { static_assert( sizeof...( Cs ) > 0 ); };
-      struct lf : internal::one< internal::result_on_found::success, internal::peek_char, '\n' > {};
       struct lower : internal::range< internal::result_on_found::success, internal::peek_char, 'a', 'z' > {};
       template< char... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_char, Cs... > {};
       template< char Lo, char Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_char, Lo, Hi > {};

@@ -15,7 +15,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename Eol = eol::lf_crlf, std::size_t Chunk = 64 >
+   template< typename Eol = ascii::lf_crlf, std::size_t Chunk = 64 >
    struct istream_input
       : buffer_input< internal::istream_reader, Eol, std::string, Chunk >
    {

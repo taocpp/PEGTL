@@ -11,6 +11,7 @@
 #include "bump_help.hpp"
 #include "enable_control.hpp"
 #include "one.hpp"
+#include "peek_char.hpp"
 #include "result_on_found.hpp"
 #include "success.hpp"
 
@@ -32,10 +33,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : success
    {};
 
-   // template< char C >
-   // struct string
-   //    : one< C >
-   // {};
+   template< char C >
+   struct string< C >
+      : one< result_on_found::success, peek_char, C >
+   {};
 
    template< char... Cs >
    struct string

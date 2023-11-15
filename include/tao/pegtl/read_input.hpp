@@ -18,7 +18,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
+   template< tracking_mode P = tracking_mode::eager, typename Eol = ascii::lf_crlf >
    struct read_input
       : string_input< P, Eol >
    {

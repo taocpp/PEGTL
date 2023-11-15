@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace internal
 
-   template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf, typename Source = std::string >
+   template< tracking_mode P = tracking_mode::eager, typename Eol = ascii::lf_crlf, typename Source = std::string >
    struct string_input
       : private internal::string_holder,
         public memory_input< P, Eol, Source >

@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE
          using subs_t = empty_list;
 
          template< apply_mode A,
-                   rewind_mode,
+                   rewind_mode M,
                    template< typename... >
                    class Action,
                    template< typename... >
@@ -43,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE
                   case Open:
                      marker_size = i + 1;
                      in.bump_in_this_line( marker_size );
-                     (void)eol::match( in );
+                     (void)in.template match_eol< A, M, Action, Control >( in );
                      return true;
                   case Marker:
                      break;
