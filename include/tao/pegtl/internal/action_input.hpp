@@ -10,10 +10,7 @@
 #include <string>
 #include <string_view>
 
-#include "inputerator.hpp"
-
 #include "../config.hpp"
-#include "../position.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -21,50 +18,36 @@ namespace TAO_PEGTL_NAMESPACE::internal
    class action_input
    {
    public:
+      using data_t = typename ParseInput::data_t;
       using input_t = ParseInput;
-      using inputerator_t = typename ParseInput::inputerator_t;
+      using rewind_position_t = typename ParseInput::rewind_position_t;
 
-      action_input( const inputerator_t& in_begin, const ParseInput& in_input ) noexcept
+      action_input( const rewind_position_t& in_begin, const ParseInput& in_input ) noexcept
          : m_begin( in_begin ),
            m_input( in_input )
       {}
 
-      action_input( const action_input& ) = delete;
       action_input( action_input&& ) = delete;
+      action_input( const action_input& ) = delete;
 
       ~action_input() = default;
 
-      action_input& operator=( const action_input& ) = delete;
-      action_input& operator=( action_input&& ) = delete;
+      void operator=( action_input&& ) = delete;
+      void operator=( const action_input& ) = delete;
 
-      [[nodiscard]] const inputerator_t& inputerator() const noexcept
+      [[nodiscard]] const auto* begin() const noexcept
       {
-         return m_begin;
+         return m_begin.data;
       }
 
-      [[nodiscard]] const ParseInput& input() const noexcept
+      [[nodiscard]] const auto* current() const noexcept
       {
-         return m_input;
+         return m_begin.data;
       }
 
-      [[nodiscard]] const char* current() const noexcept
+      [[nodiscard]] const auto* end() const noexcept
       {
-         return begin();
-      }
-
-      [[nodiscard]] const char* begin() const noexcept
-      {
-         if constexpr( std::is_same_v< inputerator_t, const char* > ) {
-            return inputerator();
-         }
-         else {
-            return inputerator().data;
-         }
-      }
-
-      [[nodiscard]] const char* end() const noexcept
-      {
-         return input().current();
+         return m_input.current();
       }
 
       [[nodiscard]] bool empty() const noexcept
@@ -74,36 +57,56 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] std::size_t size() const noexcept
       {
-         return std::size_t( end() - begin() );
+         return std::size_t( end() - m_begin.data );
       }
 
       [[nodiscard]] std::string string() const
       {
-         return std::string( begin(), size() );
+         return std::string( static_cast< const char* >( m_begin.data ), size() );
       }
 
       [[nodiscard]] std::string_view string_view() const noexcept
       {
-         return std::string_view( begin(), size() );
+         return std::string_view( static_cast< const char* >( m_begin.data ), size() );
+      }
+
+      [[nodiscard]] data_t peek( const std::size_t offset = 0 ) const noexcept
+      {
+         return m_begin.data[ offset ];
       }
 
       [[nodiscard]] char peek_char( const std::size_t offset = 0 ) const noexcept
       {
-         return begin()[ offset ];
+         return static_cast< char >( peek( offset ) );
+      }
+
+      [[nodiscard]] std::byte peek_byte( const std::size_t offset = 0 ) const noexcept
+      {
+         return static_cast< std::byte >( peek( offset ) );
       }
 
       [[nodiscard]] std::uint8_t peek_uint8( const std::size_t offset = 0 ) const noexcept
       {
-         return static_cast< std::uint8_t >( peek_char( offset ) );
+         return static_cast< std::uint8_t >( peek( offset ) );
       }
 
-      [[nodiscard]] TAO_PEGTL_NAMESPACE::position current_position() const
+      [[nodiscard]] const ParseInput& input() const noexcept
       {
-         return input().previous_position( inputerator() );  // NOTE: Not efficient with lazy inputs.
+         return m_input;
+      }
+
+      [[nodiscard]] const rewind_position_t& rewind_position() const noexcept
+      {
+         return m_begin;
+      }
+
+      [[nodiscard]] decltype( auto ) current_position() const
+      {
+         return m_input.previous_position( m_begin );  // NOTE: O(n) with lazy inputs -- n is return value!
       }
 
    protected:
-      const inputerator_t m_begin;
+      const rewind_position_t m_begin;
       const ParseInput& m_input;
    };
 

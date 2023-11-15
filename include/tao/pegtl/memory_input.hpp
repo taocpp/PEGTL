@@ -40,10 +40,10 @@ namespace TAO_PEGTL_NAMESPACE
       class memory_input_base< tracking_mode::eager, Eol, Source >
       {
       public:
-         using inputerator_t = internal::inputerator;
+         using rewind_position_t = large_position;
 
          template< typename T >
-         memory_input_base( const inputerator_t& in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
+         memory_input_base( const internal::large_position& in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
             : m_begin( in_begin.data ),
               m_current( in_begin ),
               m_end( in_end ),
@@ -58,13 +58,13 @@ namespace TAO_PEGTL_NAMESPACE
               m_source( std::forward< T >( in_source ) )
          {}
 
-         memory_input_base( const memory_input_base& ) = delete;
          memory_input_base( memory_input_base&& ) = delete;
+         memory_input_base( const memory_input_base& ) = delete;
 
          ~memory_input_base() = default;
 
-         memory_input_base& operator=( const memory_input_base& ) = delete;
-         memory_input_base& operator=( memory_input_base&& ) = delete;
+         void operator=( memory_input_base&& ) = delete;
+         void operator=( const memory_input_base& ) = delete;
 
          [[nodiscard]] const char* current() const noexcept
          {
@@ -111,9 +111,9 @@ namespace TAO_PEGTL_NAMESPACE
             internal::bump_to_next_line( m_current, in_count );
          }
 
-         [[nodiscard]] TAO_PEGTL_NAMESPACE::position previous_position( const inputerator_t& it ) const
+         [[nodiscard]] position previous_position( const rewind_position_t& it ) const
          {
-            return TAO_PEGTL_NAMESPACE::position( it, m_source );
+            return position( it, m_source );
          }
 
          void restart( const std::size_t in_byte = 0, const std::size_t in_line = 1, const std::size_t in_column = 1 )
@@ -125,27 +125,23 @@ namespace TAO_PEGTL_NAMESPACE
             m_current.byte = in_byte;
             m_current.line = in_line;
             m_current.column = in_column;
-            private_depth = 0;
          }
 
       protected:
          const char* const m_begin;
-         inputerator_t m_current;
+         internal::large_position m_current;
          const char* m_end;
          const Source m_source;
-
-      public:
-         std::size_t private_depth = 0;
       };
 
       template< typename Eol, typename Source >
       class memory_input_base< tracking_mode::lazy, Eol, Source >
       {
       public:
-         using inputerator_t = const char*;
+         using rewind_position_t = small_position;
 
-         template< typename T >
-         memory_input_base( const internal::inputerator& in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
+         template< typename P, typename T >
+         memory_input_base( const P& in_begin, const char* in_end, T&& in_source ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
             : m_begin( in_begin ),
               m_current( in_begin.data ),
               m_end( in_end ),
@@ -160,17 +156,17 @@ namespace TAO_PEGTL_NAMESPACE
               m_source( std::forward< T >( in_source ) )
          {}
 
-         memory_input_base( const memory_input_base& ) = delete;
          memory_input_base( memory_input_base&& ) = delete;
+         memory_input_base( const memory_input_base& ) = delete;
 
          ~memory_input_base() = default;
 
-         memory_input_base& operator=( const memory_input_base& ) = delete;
-         memory_input_base& operator=( memory_input_base&& ) = delete;
+         void operator=( memory_input_base&& ) = delete;
+         void operator=( const memory_input_base& ) = delete;
 
          [[nodiscard]] const char* current() const noexcept
          {
-            return m_current;
+            return m_current.data;
          }
 
          [[nodiscard]] const char* begin() const noexcept
@@ -185,45 +181,41 @@ namespace TAO_PEGTL_NAMESPACE
 
          [[nodiscard]] std::size_t byte() const noexcept
          {
-            return std::size_t( current() - m_begin.data );
+            return std::size_t( m_current.data - m_begin.data );
          }
 
          void bump( const std::size_t in_count = 1 ) noexcept
          {
-            m_current += in_count;
+            m_current.data += in_count;
          }
 
          void bump_in_this_line( const std::size_t in_count = 1 ) noexcept
          {
-            m_current += in_count;
+            m_current.data += in_count;
          }
 
          void bump_to_next_line( const std::size_t in_count = 1 ) noexcept
          {
-            m_current += in_count;
+            m_current.data += in_count;
          }
 
-         [[nodiscard]] TAO_PEGTL_NAMESPACE::position previous_position( const inputerator_t it ) const
+         [[nodiscard]] position previous_position( const rewind_position_t& it ) const
          {
-            internal::inputerator c( m_begin );
-            internal::bump( c, static_cast< std::size_t >( it - m_begin.data ), Eol::ch );
-            return TAO_PEGTL_NAMESPACE::position( c, m_source );
+            internal::large_position c( m_begin );
+            internal::bump( c, static_cast< std::size_t >( it.data - m_begin.data ), Eol::ch );
+            return position( c, m_source );
          }
 
          void restart()
          {
-            m_current = m_begin.data;
-            private_depth = 0;
+            m_current.data = m_begin.data;
          }
 
       protected:
-         const internal::inputerator m_begin;
-         inputerator_t m_current;
+         const internal::large_position m_begin;
+         small_position m_current;
          const char* m_end;
          const Source m_source;
-
-      public:
-         std::size_t private_depth = 0;
       };
 
    }  // namespace internal
@@ -236,9 +228,10 @@ namespace TAO_PEGTL_NAMESPACE
       static constexpr tracking_mode tracking_mode_v = P;
 
       using eol_t = Eol;
+      using data_t = char;
       using source_t = Source;
 
-      using typename internal::memory_input_base< P, Eol, Source >::inputerator_t;
+      using typename internal::memory_input_base< P, Eol, Source >::rewind_position_t;
 
       using action_t = internal::action_input< memory_input >;
 
@@ -269,7 +262,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       template< typename T >
       memory_input( const char* in_begin, const char* in_end, T&& in_source, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_column ) noexcept( std::is_nothrow_constructible_v< Source, T&& > )
-         : memory_input( { in_begin, in_byte, in_line, in_column }, in_end, std::forward< T >( in_source ) )
+         : memory_input( internal::large_position( in_begin, in_byte, in_line, in_column ), in_end, std::forward< T >( in_source ) )
       {}
 
       memory_input( const memory_input& ) = delete;
@@ -305,27 +298,16 @@ namespace TAO_PEGTL_NAMESPACE
          return static_cast< std::uint8_t >( peek_char( offset ) );
       }
 
-      [[nodiscard]] inputerator_t& inputerator() noexcept
-      {
-         return this->m_current;
-      }
-
-      [[nodiscard]] const inputerator_t& inputerator() const noexcept
-      {
-         return this->m_current;
-      }
+      // [[nodiscard]] rewind_position_t& rewind_position() noexcept
+      // {
+      //    return this->m_current;
+      // }
 
       using internal::memory_input_base< P, Eol, Source >::restart;
 
-      template< rewind_mode M, typename ParseInput >
-      void restart( const internal::rewind_guard< M, ParseInput >& m ) noexcept
+      [[nodiscard]] position current_position() const
       {
-         this->m_current = m.inputerator();
-      }
-
-      [[nodiscard]] TAO_PEGTL_NAMESPACE::position current_position() const
-      {
-         return this->previous_position( inputerator() );
+         return this->previous_position( this->m_current );
       }
 
       void discard() const noexcept {}
@@ -338,17 +320,17 @@ namespace TAO_PEGTL_NAMESPACE
          return internal::rewind_guard< M, memory_input >( this );
       }
 
-      [[nodiscard]] const inputerator_t& rewind_position() noexcept
+      [[nodiscard]] const auto& rewind_position() const noexcept
       {
          return this->m_current;
       }
 
-      void rewind_position( const inputerator_t& data ) noexcept
+      void rewind_position( const rewind_position_t& data ) noexcept
       {
          this->m_current = data;
       }
 
-      [[nodiscard]] const char* at( const TAO_PEGTL_NAMESPACE::position& p ) const noexcept
+      [[nodiscard]] const char* at( const position& p ) const noexcept
       {
          return this->begin() + p.byte;
       }

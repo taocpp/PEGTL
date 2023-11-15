@@ -130,7 +130,7 @@ namespace TAO_PEGTL_NAMESPACE
    void test_inputerator()
    {
       const std::string s = "source";
-      const internal::inputerator i( nullptr, 1, 2, 3 );
+      const internal::large_position i( nullptr, 1, 2, 3 );
       const position p( i, s );
       TAO_PEGTL_TEST_ASSERT( p.byte == 1 );
       TAO_PEGTL_TEST_ASSERT( p.line == 2 );

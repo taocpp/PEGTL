@@ -155,22 +155,22 @@ namespace TAO_PEGTL_NAMESPACE
          Base::unwind( in, st );
       }
 
-      template< template< typename... > class Action, typename Inputerator, typename ParseInput, typename Tuple, std::size_t... Is >
-      static auto apply_impl( const Inputerator& begin, const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::template apply< Action >( begin, in, std::get< Shuffle::template value< Is, sizeof...( Is ) > >( t )... ) ) )
+      template< template< typename... > class Action, typename RewindPosition, typename ParseInput, typename Tuple, std::size_t... Is >
+      static auto apply_impl( const RewindPosition& begin, const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::template apply< Action >( begin, in, std::get< Shuffle::template value< Is, sizeof...( Is ) > >( t )... ) ) )
          -> decltype( Base::template apply< Action >( begin, in, std::get< Shuffle::template value< Is, sizeof...( Is ) > >( t )... ) )
       {
          return Base::template apply< Action >( begin, in, std::get< Shuffle::template value< Is, sizeof...( Is ) > >( t )... );
       }
 
-      template< template< typename... > class Action, typename Inputerator, typename ParseInput, typename... States >
-      static auto apply( const Inputerator& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) >() ) ) )
+      template< template< typename... > class Action, typename RewindPosition, typename ParseInput, typename... States >
+      static auto apply( const RewindPosition& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) >() ) ) )
          -> decltype( apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) >() ) )
       {
          return apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) >() );
       }
 
-      template< template< typename... > class Action, typename Inputerator, typename ParseInput, typename State >
-      static auto apply( const Inputerator& begin, const ParseInput& in, State&& st ) noexcept( noexcept( Base::template apply< Action >( begin, in, st ) ) )
+      template< template< typename... > class Action, typename RewindPosition, typename ParseInput, typename State >
+      static auto apply( const RewindPosition& begin, const ParseInput& in, State&& st ) noexcept( noexcept( Base::template apply< Action >( begin, in, st ) ) )
          -> decltype( Base::template apply< Action >( begin, in, st ) )
       {
          return Base::template apply< Action >( begin, in, st );

@@ -101,9 +101,9 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename ActionInput >
          static void apply( const ActionInput& in )
          {
-            TAO_PEGTL_TEST_ASSERT( in.inputerator().byte == count_byte );
-            TAO_PEGTL_TEST_ASSERT( in.inputerator().line == count_line );
-            TAO_PEGTL_TEST_ASSERT( in.inputerator().column == count_column );
+            TAO_PEGTL_TEST_ASSERT( in.rewind_position().byte == count_byte );
+            TAO_PEGTL_TEST_ASSERT( in.rewind_position().line == count_line );
+            TAO_PEGTL_TEST_ASSERT( in.rewind_position().column == count_column );
             TAO_PEGTL_TEST_ASSERT( in.input().source() == count_source );
             TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( in.begin() + 1 == in.end() );

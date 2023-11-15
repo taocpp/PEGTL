@@ -178,7 +178,7 @@ namespace TAO_PEGTL_NAMESPACE
             return v.substr( pos );
          }
 
-         void shift( internal::inputerator& it, int delta )
+         void shift( internal::large_position& it, int delta )
          {
             it.data += delta;
             it.byte += delta;

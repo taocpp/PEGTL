@@ -12,15 +12,41 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   struct inputerator
+   template< typename T >
+   struct basic_small_position
    {
-      inputerator() noexcept = default;
+      basic_small_position() noexcept = default;
 
-      explicit inputerator( const char* in_data ) noexcept
+      explicit basic_small_position( const T* in_data ) noexcept
          : data( in_data )
       {}
 
-      inputerator( const char* in_data, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_column ) noexcept
+      basic_small_position( basic_small_position&& ) = default;
+      basic_small_position( const basic_small_position& ) = default;
+
+      ~basic_small_position() = default;
+
+      basic_small_position& operator=( basic_small_position&& ) = default;
+      basic_small_position& operator=( const basic_small_position& ) = default;
+
+      const T* data = nullptr;
+   };
+
+   using small_position = basic_small_position< char >;
+
+   struct large_position
+   {
+      large_position() noexcept = default;
+
+      explicit large_position( const char* in_data ) noexcept
+         : data( in_data )
+      {}
+
+      explicit large_position( const small_position& in_small ) noexcept
+         : large_position( in_small.data )
+      {}
+
+      large_position( const char* in_data, const std::size_t in_byte, const std::size_t in_line, const std::size_t in_column ) noexcept
          : data( in_data ),
            byte( in_byte ),
            line( in_line ),
@@ -30,13 +56,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
          assert( in_column != 0 );
       }
 
-      inputerator( const inputerator& ) = default;
-      inputerator( inputerator&& ) = default;
+      large_position( large_position&& ) = default;
+      large_position( const large_position& ) = default;
 
-      ~inputerator() = default;
+      ~large_position() = default;
 
-      inputerator& operator=( const inputerator& ) = default;
-      inputerator& operator=( inputerator&& ) = default;
+      large_position& operator=( large_position&& ) = default;
+      large_position& operator=( const large_position& ) = default;
 
       const char* data = nullptr;
 

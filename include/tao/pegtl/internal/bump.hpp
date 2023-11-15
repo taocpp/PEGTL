@@ -11,7 +11,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   inline void bump( inputerator& iter, const std::size_t count, const int ch ) noexcept
+   inline void bump( large_position& iter, const std::size_t count, const int ch ) noexcept
    {
       for( std::size_t i = 0; i < count; ++i ) {
          if( iter.data[ i ] == ch ) {
@@ -26,14 +26,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       iter.data += count;
    }
 
-   inline void bump_in_this_line( inputerator& iter, const std::size_t count ) noexcept
+   inline void bump_in_this_line( large_position& iter, const std::size_t count ) noexcept
    {
       iter.data += count;
       iter.byte += count;
       iter.column += count;
    }
 
-   inline void bump_to_next_line( inputerator& iter, const std::size_t count ) noexcept
+   inline void bump_to_next_line( large_position& iter, const std::size_t count ) noexcept
    {
       ++iter.line;
       iter.byte += count;

@@ -24,9 +24,9 @@ namespace TAO_PEGTL_NAMESPACE
    public:
       using input_t = ParseInput;
       using value_t = typename ParseInput::value_t;
-      using inputerator_t = typename ParseInput::inputerator_t;
+      using rewind_position_t = typename ParseInput::rewind_position_t;
 
-      token_action_input( const inputerator_t& in_begin, const ParseInput& in_input ) noexcept
+      token_action_input( const rewind_position_t& in_begin, const ParseInput& in_input ) noexcept
          : m_begin( in_begin ),
            m_input( in_input )
       {}
@@ -39,7 +39,7 @@ namespace TAO_PEGTL_NAMESPACE
       token_action_input& operator=( const token_action_input& ) = delete;
       token_action_input& operator=( token_action_input&& ) = delete;
 
-      [[nodiscard]] const inputerator_t& inputerator() const noexcept
+      [[nodiscard]] const rewind_position_t& rewind_position() const noexcept
       {
          return m_begin;
       }
@@ -49,14 +49,14 @@ namespace TAO_PEGTL_NAMESPACE
          return m_input;
       }
 
-      [[nodiscard]] inputerator_t begin() const noexcept
+      [[nodiscard]] const auto& begin() const noexcept
       {
          return m_begin;
       }
 
-      [[nodiscard]] inputerator_t end() const noexcept
+      [[nodiscard]] decltype( auto ) end() const noexcept
       {
-         return m_input.current();
+         return m_input.rewind_position();
       }
 
       [[nodiscard]] bool empty() const noexcept
@@ -70,7 +70,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
    protected:
-      const inputerator_t m_begin;
+      const rewind_position_t m_begin;
       const ParseInput& m_input;
    };
 
@@ -80,12 +80,12 @@ namespace TAO_PEGTL_NAMESPACE
    public:
       using value_t = T;
       using source_t = Source;
-      using inputerator_t = const T*;
+      using rewind_position_t = internal::basic_small_position< T >;
 
       using action_t = token_action_input< token_parse_input >;
 
       template< typename S >
-      token_parse_input( const inputerator_t in_begin, const inputerator_t in_end, S&& in_source )
+      token_parse_input( const T* in_begin, const T* in_end, S&& in_source )
          : m_begin( in_begin ),
            m_current( in_begin ),
            m_end( in_end ),
@@ -109,17 +109,17 @@ namespace TAO_PEGTL_NAMESPACE
 
       void require( const std::size_t /*unused*/ ) const noexcept {}
 
-      [[nodiscard]] inputerator_t current() const noexcept
+      [[nodiscard]] const T* current() const noexcept
       {
          return m_current;
       }
 
-      [[nodiscard]] inputerator_t begin() const noexcept
+      [[nodiscard]] const T* begin() const noexcept
       {
          return m_begin;
       }
 
-      [[nodiscard]] inputerator_t end( const std::size_t /*unused*/ = 0 ) const noexcept
+      [[nodiscard]] const T* end( const std::size_t /*unused*/ = 0 ) const noexcept
       {
          return m_end;
       }
@@ -135,19 +135,19 @@ namespace TAO_PEGTL_NAMESPACE
          return internal::rewind_guard< M, token_parse_input >( this );
       }
 
-      [[nodiscard]] const inputerator_t& rewind_position() const noexcept
+      [[nodiscard]] rewind_position_t rewind_position() const noexcept
       {
-         return m_current;
+         return rewind_position_t( m_current );
       }
 
-      void rewind_position( const inputerator_t& data ) noexcept
+      void rewind_position( const rewind_position_t& data ) noexcept
       {
-         m_current = data;
+         m_current = data.data;
       }
 
       void bump( const std::size_t in_count = 1 ) noexcept
       {
-         std::advance( m_current, in_count );
+         m_current += in_count;
       }
 
       void restart()
@@ -162,33 +162,23 @@ namespace TAO_PEGTL_NAMESPACE
 
       [[nodiscard]] bool empty() const noexcept
       {
-         return this->current() == this->end();
+         return m_current == m_end;
       }
 
       [[nodiscard]] std::size_t size( const std::size_t /*unused*/ = 0 ) const noexcept
       {
-         return std::size_t( this->end() - this->current() );
+         return std::size_t( m_end - m_current );
       }
 
       [[nodiscard]] T peek_token( const std::size_t offset = 0 ) const noexcept
       {
-         return this->current()[ offset ];
-      }
-
-      [[nodiscard]] inputerator_t& inputerator() noexcept
-      {
-         return this->m_current;
-      }
-
-      [[nodiscard]] const inputerator_t& inputerator() const noexcept
-      {
-         return this->m_current;
+         return m_current[ offset ];
       }
 
    private:
-      const inputerator_t m_begin;
-      inputerator_t m_current;
-      const inputerator_t m_end;
+      const T* const m_begin;
+      const T* m_current;
+      const T* const m_end;
       const Source m_source;
    };
 

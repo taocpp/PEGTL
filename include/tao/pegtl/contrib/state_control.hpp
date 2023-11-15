@@ -103,8 +103,8 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
          }
 
-         template< template< typename... > class Action, typename Inputerator, typename ParseInput, typename State, typename... States >
-         static auto apply( const Inputerator& begin, const ParseInput& in, [[maybe_unused]] State& state, States&&... st )
+         template< template< typename... > class Action, typename RewindPosition, typename ParseInput, typename State, typename... States >
+         static auto apply( const RewindPosition& begin, const ParseInput& in, [[maybe_unused]] State& state, States&&... st )
             -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
          {
             if constexpr( State::template enable< Rule > ) {

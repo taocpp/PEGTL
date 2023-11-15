@@ -29,6 +29,9 @@
 * Moved depth counter to adapter class `input_with_depth` in [contrib](Contrib-and-Examples#contrib).
 * Changed default top-level `rewind_mode` to ~~`dontcare`~~ `optional`.
 * Replaced `rewind_mode` values `dontcare` and `active` with new value `optional`.
+* Moved `line_at()` from input member function to global function `line_view_at()`.
+* Moved `begin_of_line()` from input member function to global function of same name.
+* Moved `end_of_line()` from input member function to global function of same name.
 * Removed support for `boost::filesystem` and `std::experimental::filesystem`.
 * Removed support for building an amalgamated header.
 * Removed support for Visual Studio 2017.

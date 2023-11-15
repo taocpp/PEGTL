@@ -37,12 +37,13 @@ namespace TAO_PEGTL_NAMESPACE
    class buffer_input
    {
    public:
+      using data_t = char;
       using reader_t = Reader;
 
       using eol_t = Eol;
       using source_t = Source;
 
-      using inputerator_t = internal::inputerator;
+      using rewind_position_t = internal::large_position;
 
       using action_t = internal::action_input< buffer_input >;
 
@@ -170,27 +171,22 @@ namespace TAO_PEGTL_NAMESPACE
          return internal::rewind_guard< M, buffer_input >( this );
       }
 
-      [[nodiscard]] const inputerator_t& rewind_position() noexcept
-      {
-         return m_current;
-      }
-
-      void rewind_position( const inputerator_t& data ) noexcept
+      void rewind_position( const rewind_position_t& data ) noexcept
       {
          m_current = data;
       }
 
-      [[nodiscard]] TAO_PEGTL_NAMESPACE::position previous_position( const inputerator_t& it ) const
-      {
-         return TAO_PEGTL_NAMESPACE::position( it, m_source );
-      }
-
-      [[nodiscard]] TAO_PEGTL_NAMESPACE::position current_position() const
+      [[nodiscard]] position current_position() const
       {
          return position( m_current );
       }
 
-      [[nodiscard]] const inputerator_t& inputerator() const noexcept
+      [[nodiscard]] position previous_position( const rewind_position_t& it ) const
+      {
+         return position( it, m_source );
+      }
+
+      [[nodiscard]] const auto& rewind_position() const noexcept
       {
          return m_current;
       }
@@ -222,7 +218,7 @@ namespace TAO_PEGTL_NAMESPACE
       Reader m_reader;
       std::size_t m_maximum;
       std::unique_ptr< char[] > m_buffer;
-      inputerator_t m_current;
+      rewind_position_t m_current;
       char* m_end;
       const Source m_source;
 

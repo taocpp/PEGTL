@@ -80,10 +80,10 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< template< typename... > class Action,
-                typename Inputerator,
+                typename RewindPosition,
                 typename ParseInput,
                 typename... States >
-      static auto apply( const Inputerator& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( Action< Rule >::apply( std::declval< const typename ParseInput::action_t& >(), st... ) ) )
+      static auto apply( const RewindPosition& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( Action< Rule >::apply( std::declval< const typename ParseInput::action_t& >(), st... ) ) )
          -> decltype( Action< Rule >::apply( std::declval< const typename ParseInput::action_t& >(), st... ) )
       {
          const typename ParseInput::action_t action_input( begin, in );

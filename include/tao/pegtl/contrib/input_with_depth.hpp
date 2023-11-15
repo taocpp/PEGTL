@@ -56,6 +56,8 @@ namespace TAO_PEGTL_NAMESPACE
          return internal::depth_guard( m_depth );  // NOLINT(google-readability-casting)
       }
 
+      // TODO: Reset depth to 0 on restart() for restartable inputs including test!
+
       [[nodiscard]] std::size_t current_depth() const noexcept
       {
          return m_depth;

@@ -41,8 +41,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    class rewind_guard< rewind_mode::required, ParseInput >
    {
    public:
-      using rewind_position_t = std::decay_t< decltype( std::declval< ParseInput >().rewind_position() ) >;
-
       explicit rewind_guard( ParseInput* in ) noexcept
          : m_input( in ),
            m_saved( in->rewind_position() )
@@ -53,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       ~rewind_guard()
       {
-         if( charged() ) {
+         if( active() ) {
             rewind_restore();
          }
       }
@@ -61,9 +59,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       void operator=( rewind_guard&& ) = delete;
       void operator=( const rewind_guard& ) = delete;
 
-      [[nodiscard]] bool charged() const noexcept
+      [[nodiscard]] bool active() const noexcept
       {
          return m_input != nullptr;
+      }
+
+      [[nodiscard]] bool canceled() const noexcept
+      {
+         return m_input == nullptr;
       }
 
       [[nodiscard]] bool operator()( const bool result ) noexcept
@@ -80,12 +83,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
          m_input = nullptr;
       }
 
-      void rewind_restore() noexcept( noexcept( m_input->rewind_position( std::declval< rewind_position_t&& >() ) ) )
-      {
-         m_input->rewind_position( std::move( m_saved ) );
-      }
+      // using data_t = std::decay_t< std::remove_pointer_t< decltype( std::declval< ParseInput >().end() ) > >;
+      using rewind_position_t = std::decay_t< decltype( std::declval< ParseInput >().rewind_position() ) >;
 
-      void rewind_repeatable() const noexcept( noexcept( m_input->rewind_position( std::declval< const rewind_position_t& >() ) ) )
+      void rewind_restore() noexcept( noexcept( m_input->rewind_position( std::declval< const rewind_position_t& >() ) ) )
       {
          m_input->rewind_position( m_saved );
       }
@@ -95,9 +96,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_saved.data;
       }
 
-      [[nodiscard]] const auto& inputerator() const noexcept
+      [[nodiscard]] const auto& rewind_position() const noexcept
       {
          return m_saved;
+      }
+
+      [[nodiscard]] decltype( auto ) current_position() const
+      {
+         return m_input->previous_position( m_saved );
       }
 
    private:
