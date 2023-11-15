@@ -65,7 +65,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< ranges< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
       verify_rule< ranges< 'a', 'z', '4' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
 
-      for( int i = -100; i < 200; ++i ) {
+      for( int i = 0; i < 128; ++i ) {
          const auto c = char( i );
 
          const bool is_blank = ( c == ' ' ) || ( c == '\t' );
@@ -74,7 +74,7 @@ namespace TAO_PEGTL_NAMESPACE
          const bool is_lower = ( 'a' <= c ) && ( c <= 'z' );
          const bool is_print = ( ( ' ' <= c ) && ( c <= 126 ) );
          const bool is_graph = ( ( ' ' < c ) && ( c <= 126 ) );
-         const bool is_seven = ( ( i >= 0 ) && ( i <= 127 ) );
+         const bool is_seven = true;
          const bool is_space = is_blank || ( c == '\n' ) || ( c == '\r' ) || ( c == '\v' ) || ( c == '\f' );
          const bool is_upper = ( 'A' <= c ) && ( c <= 'Z' );
          const bool is_xalpha = ( ( 'a' <= c ) && ( c <= 'f' ) ) || ( ( 'A' <= c ) && ( c <= 'F' ) );
@@ -126,6 +126,50 @@ namespace TAO_PEGTL_NAMESPACE
          verify_char< ranges< 20, 120, 3 > >( __LINE__, __FILE__, c, is_ranges );
 
          verify_char< eolf >( __LINE__, __FILE__, c, is_newline );
+      }
+      if constexpr( std::is_unsigned_v< char > ) {
+         for( int i = 128; i < 256; ++i ) {
+            const auto c = char( i );
+
+            verify_char< alnum >( __LINE__, __FILE__, c, false );
+            verify_char< alpha >( __LINE__, __FILE__, c, false );
+            verify_char< any >( __LINE__, __FILE__, c, true );
+            verify_char< blank >( __LINE__, __FILE__, c, false );
+            verify_char< cntrl >( __LINE__, __FILE__, c, false );
+            verify_char< digit >( __LINE__, __FILE__, c, false );
+            verify_char< eol >( __LINE__, __FILE__, c, false );
+            verify_char< graph >( __LINE__, __FILE__, c, false );
+            verify_char< identifier_first >( __LINE__, __FILE__, c, false );
+            verify_char< identifier_other >( __LINE__, __FILE__, c, false );
+            verify_char< lower >( __LINE__, __FILE__, c, false );
+            verify_char< print >( __LINE__, __FILE__, c, false );
+            verify_char< seven >( __LINE__, __FILE__, c, false );
+            verify_char< space >( __LINE__, __FILE__, c, false );
+            verify_char< upper >( __LINE__, __FILE__, c, false );
+            verify_char< xdigit >( __LINE__, __FILE__, c, false );
+         }
+      }
+      else {  // std::is_signed_v< char >
+         for( int i = -128; i < 0; ++i ) {
+            const auto c = char( i );
+
+            verify_char< alnum >( __LINE__, __FILE__, c, false );
+            verify_char< alpha >( __LINE__, __FILE__, c, false );
+            verify_char< any >( __LINE__, __FILE__, c, true );
+            verify_char< blank >( __LINE__, __FILE__, c, false );
+            verify_char< cntrl >( __LINE__, __FILE__, c, false );
+            verify_char< digit >( __LINE__, __FILE__, c, false );
+            verify_char< eol >( __LINE__, __FILE__, c, false );
+            verify_char< graph >( __LINE__, __FILE__, c, false );
+            verify_char< identifier_first >( __LINE__, __FILE__, c, false );
+            verify_char< identifier_other >( __LINE__, __FILE__, c, false );
+            verify_char< lower >( __LINE__, __FILE__, c, false );
+            verify_char< print >( __LINE__, __FILE__, c, false );
+            verify_char< seven >( __LINE__, __FILE__, c, false );
+            verify_char< space >( __LINE__, __FILE__, c, false );
+            verify_char< upper >( __LINE__, __FILE__, c, false );
+            verify_char< xdigit >( __LINE__, __FILE__, c, false );
+         }
       }
    }
 
