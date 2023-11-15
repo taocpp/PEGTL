@@ -21,13 +21,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
          : data( in_data )
       {}
 
-      basic_small_position( basic_small_position&& ) = default;
-      basic_small_position( const basic_small_position& ) = default;
+      basic_small_position( basic_small_position&& ) noexcept = default;
+      basic_small_position( const basic_small_position& ) noexcept = default;
 
       ~basic_small_position() = default;
 
-      basic_small_position& operator=( basic_small_position&& ) = default;
-      basic_small_position& operator=( const basic_small_position& ) = default;
+      basic_small_position& operator=( basic_small_position&& ) noexcept = default;
+      basic_small_position& operator=( const basic_small_position& ) noexcept = default;
 
       const T* data = nullptr;
    };
@@ -56,13 +56,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
          assert( in_column != 0 );
       }
 
-      large_position( large_position&& ) = default;
-      large_position( const large_position& ) = default;
+      large_position( large_position&& ) noexcept = default;
+      large_position( const large_position& ) noexcept = default;
 
       ~large_position() = default;
 
-      large_position& operator=( large_position&& ) = default;
-      large_position& operator=( const large_position& ) = default;
+      large_position& operator=( large_position&& ) noexcept = default;
+      large_position& operator=( const large_position& ) noexcept = default;
 
       const char* data = nullptr;
 
