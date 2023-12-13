@@ -2,9 +2,11 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#include <type_traits>
-
 #include "test.hpp"
+
+#include <tao/pegtl/ascii.hpp>
+#include <tao/pegtl/rules.hpp>
+#include <tao/pegtl/visit.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

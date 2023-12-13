@@ -3,8 +3,11 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "test_inputs.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
+
+#include <tao/pegtl/parse.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -70,15 +73,15 @@ namespace TAO_PEGTL_NAMESPACE
    {
       int state_r = 0;
       int state_s = 0;
-      TAO_PEGTL_TEST_ASSERT( parse< apply< test1::action_a, test1::action_b > >( memory_input( "", __FUNCTION__ ), state_r, state_s ) );
+      TAO_PEGTL_TEST_ASSERT( parse< apply< test1::action_a, test1::action_b > >( test::text_input< ascii::lf >( "" ), state_r, state_s ) );
       TAO_PEGTL_TEST_ASSERT( state_r == 1 );
       TAO_PEGTL_TEST_ASSERT( state_s == 2 );
-      TAO_PEGTL_TEST_ASSERT( parse< disable< apply< test1::action_a, test1::action_b > > >( memory_input( "", __FUNCTION__ ), state_r, state_s ) );
+      TAO_PEGTL_TEST_ASSERT( parse< disable< apply< test1::action_a, test1::action_b > > >( test::text_input< ascii::lf >( "" ), state_r, state_s ) );
       TAO_PEGTL_TEST_ASSERT( state_r == 1 );
       TAO_PEGTL_TEST_ASSERT( state_s == 2 );
 
       bool state_b = false;
-      TAO_PEGTL_TEST_ASSERT( !parse< apply< test1::action2_a, test1::action2_b, test1::action2_c > >( memory_input( "", __FUNCTION__ ), state_b ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< apply< test1::action2_a, test1::action2_b, test1::action2_c > >( test::text_input< ascii::lf >( "" ), state_b ) );
       TAO_PEGTL_TEST_ASSERT( state_b );
 
       verify_meta< apply< test1::action_a, test1::action_b >, internal::apply< test1::action_a, test1::action_b > >();

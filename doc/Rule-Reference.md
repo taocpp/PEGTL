@@ -651,9 +651,10 @@ Atomic rules do not rely on other rules.
 
 ###### `bof`
 
-* Succeeds at "beginning-of-file", i.e. when the input's `byte()` member function returns zero.
+* Succeeds at "beginning-of-file", i.e. when the input is at its start.
 * Does not consume input.
-* Does **not** work with inputs that don't have a `byte()` member function.
+* Requires an input `in` with the `in.start()` member function, and/or
+* requires an input `in` where `in`direct_position()` has a `count` member.
 * [Meta data] and [implementation] mapping:
   - `bof::rule_t` is `internal::bof`
 
@@ -661,17 +662,10 @@ Atomic rules do not rely on other rules.
 
 * Succeeds at "beginning-of-line", i.e. when the input's `column()` member function returns one.
 * Does not consume input.
-* Does **not** work with inputs that don't have a `column()` member function.
+* Requires an input with eager text position tracking, more precisely:
+* Requires an input `in` where `in.direct_position().column` is available.
 * [Meta data] and [implementation] mapping:
   - `bol::rule_t` is `internal::bol`
-
-###### `bytes< Num >`
-
-* Succeeds when the input contains at least `Num` further bytes.
-* Consumes these `Num` bytes from the input.
-* [Meta data] and [implementation] mapping:
-  - `bytes< 0 >::rule_t` is `internal::success`
-  - `bytes< Num >::rule_t` is `internal::bytes< Num >`
 
 ###### `eof`
 
@@ -874,6 +868,15 @@ ASCII rules do not usually rely on other rules.
 * Matches and consumes a single ASCII lower-case alphabetic character.
 * [Equivalent] to `range< 'a', 'z' >`.
 
+###### `many< Num >`
+
+* Succeeds when the input contains at least `Num` further bytes.
+* Consumes these `Num` bytes from the input.
+* [Equivalent] to `rep< N, any >`.
+* [Meta data] and [implementation] mapping:
+  - `many< 0 >::rule_t` is `internal::success`
+  - `many< Num >::rule_t` is `internal::many< Num, internal::peek_char >`
+
 ###### `not_one< C... >`
 
 * Succeeds when the input is not empty, and:
@@ -1067,6 +1070,12 @@ Unicode rules do not rely on other rules.
 ###### `bom`
 
 * [Equivalent] to `one< 0xfeff >`.
+
+###### `many< Num >`
+
+* Succeeds when the input contains at least `Num` further code points.
+* Consumes these `Num` code points from the input.
+* [Equivalent] to `rep< N, any >`.
 
 ###### `not_one< C... >`
 
@@ -1475,6 +1484,12 @@ Binary rules do not rely on other rules.
 * Succeeds when the input contains at least N bytes.
 * Consumes N bytes when it succeeds.
 
+###### `many< Num >`
+
+* Succeeds when the input contains at least `Num` times N bytes.
+* Consumes these `Num` * N bytes from the input.
+* [Equivalent] to `rep< N, any >`.
+
 ###### `mask_not_one< M, C... >`
 
 * Succeeds when the input contains at least N bytes, and:
@@ -1570,7 +1585,6 @@ Binary rules do not rely on other rules.
 * [`bof`](#bof) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`bol`](#bol) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`bom`](#bom) <sup>[(unicode rules)](#unicode-rules)</sup>
-* [`bytes< Num >`](#bytes-num-) <sup>[(atomic rules)](#atomic-rules)</sup>
 * [`canonical_combining_class< V >`](#canonical_combining_class-v-) <sup>[(icu rules)](#icu-rules-for-value-properties)</sup>
 * [`case_sensitive`](#case_sensitive) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`cntrl`](#cntrl) <sup>[(ascii rules)](#ascii-rules)</sup>
@@ -1636,6 +1650,9 @@ Binary rules do not rely on other rules.
 * [`logical_order_exception`](#logical_order_exception) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`lower`](#lower) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`lowercase`](#lowercase) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
+* [`many< Num >`](#many-num-) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`many< Num >`](#many-num--1) <sup>[(unicode rules)](#unicode-rules)</sup>
+* [`many< Num >`](#many-num--2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`mask_not_one< M, C... >`](#mask_not_one-m-c-) <sup>[(binary rules)](#binary-rules)</sup>
 * [`mask_not_range< M, C, D >`](#mask_not_range-m-c-d-) <sup>[(binary rules)](#binary-rules)</sup>
 * [`mask_one< M, C... >`](#mask_one-m-c-) <sup>[(binary rules)](#binary-rules)</sup>

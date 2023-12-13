@@ -118,6 +118,8 @@ namespace TAO_PEGTL_NAMESPACE
          constexpr bool has_apply0_bool = enable_action && internal::has_apply0< Control< Rule >, bool, Action, const ParseInput&, States... >;
          constexpr bool has_apply0 = has_apply0_void || has_apply0_bool;
 
+         static_assert( !( has_apply_void && has_apply_bool ), "both void and bool apply() defined" );
+         static_assert( !( has_apply0_void && has_apply0_bool ), "both void and bool apply0() defined" );
          static_assert( !( has_apply && has_apply0 ), "both apply() and apply0() defined" );
 
          constexpr bool is_nothing = std::is_base_of_v< nothing< Rule >, Action< Rule > >;

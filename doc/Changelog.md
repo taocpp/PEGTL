@@ -9,6 +9,7 @@
 * Added [control function](Control-and-Debug.md) to throw nested exceptions.
 * Changed `parse_error` to contain only one `position`, and:
 * Changed to **nested exceptions** for nested [parsing errors](Errors-and-Exceptions.md).
+* Removed `action_t` type alias from all input classes in favour of using `internal::action_input`.
 * Added functions to visit and flatten [nested exceptions](Contrib-and-Examples.md#taopegtlcontribnested_exceptionshpp).
 * Added new customization point for error messages.
 * Added optional source line output for the tracer.
@@ -32,6 +33,9 @@
 * Moved `line_at()` from input member function to global function `line_view_at()`.
 * Moved `begin_of_line()` from input member function to global function of same name.
 * Moved `end_of_line()` from input member function to global function of same name.
+* Makefile generates binaries in `build/bin/` instead of `build/src/`.
+* Makefile generates dependencies in `build/dep/` instead of `build/src/`.
+* Removed rule `bytes` and replaced with `many` for different data types.
 * Removed support for `boost::filesystem` and `std::experimental::filesystem`.
 * Removed support for building an amalgamated header.
 * Removed support for Visual Studio 2017.

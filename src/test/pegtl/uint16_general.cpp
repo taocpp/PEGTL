@@ -6,7 +6,7 @@
 #include "verify_char.hpp"
 #include "verify_rule.hpp"
 
-#include <tao/pegtl/contrib/uint16.hpp>
+#include <tao/pegtl/uint16.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

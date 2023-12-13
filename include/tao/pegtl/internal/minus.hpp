@@ -8,7 +8,6 @@
 #include "eof.hpp"
 #include "not_at.hpp"
 #include "rematch.hpp"
-#include "seq.hpp"
 
 #include "../config.hpp"
 

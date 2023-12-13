@@ -22,7 +22,7 @@
 #include "../config.hpp"
 #include "../demangle.hpp"
 #include "../eol.hpp"
-#include "../memory_input.hpp"
+#include "../inputs.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../parse.hpp"
@@ -30,7 +30,6 @@
 
 #include "../internal/enable_control.hpp"
 #include "../internal/has_unwind.hpp"
-#include "../internal/inputerator.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::parse_tree
 {
@@ -44,8 +43,8 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       std::string_view type;
       Source source;
 
-      TAO_PEGTL_NAMESPACE::internal::large_position m_begin;
-      TAO_PEGTL_NAMESPACE::internal::large_position m_end;
+      TAO_PEGTL_NAMESPACE::internal::legacy_error_position m_begin;
+      TAO_PEGTL_NAMESPACE::internal::legacy_error_position m_end;
 
       // each node will be default constructed
       basic_node() = default;
@@ -116,8 +115,8 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename... States >
       void remove_content( States&&... /*unused*/ ) noexcept
       {
-         m_begin = TAO_PEGTL_NAMESPACE::internal::large_position();
-         m_end = TAO_PEGTL_NAMESPACE::internal::large_position();
+         m_begin = TAO_PEGTL_NAMESPACE::internal::legacy_error_position();
+         m_end = TAO_PEGTL_NAMESPACE::internal::legacy_error_position();
       }
 
       // all non-root nodes are initialized by calling this method
@@ -126,14 +125,14 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       {
          set_type< Rule >();
          source = in.source();
-         m_begin = TAO_PEGTL_NAMESPACE::internal::large_position( in.rewind_position() );
+         m_begin = TAO_PEGTL_NAMESPACE::internal::legacy_error_position( in.rewind_position() );
       }
 
       // if parsing of the rule succeeded, this method is called
       template< typename Rule, typename ParseInput, typename... States >
       void success( const ParseInput& in, States&&... /*unused*/ ) noexcept
       {
-         m_end = TAO_PEGTL_NAMESPACE::internal::large_position( in.rewind_position() );
+         m_end = TAO_PEGTL_NAMESPACE::internal::legacy_error_position( in.rewind_position() );
       }
 
       // if parsing of the rule failed, this method is called

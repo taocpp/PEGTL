@@ -3,6 +3,14 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "test_inputs.hpp"
+
+#include <tao/pegtl/ascii.hpp>
+#include <tao/pegtl/disable_action.hpp>
+#include <tao/pegtl/enable_action.hpp>
+#include <tao/pegtl/eol.hpp>
+#include <tao/pegtl/parse.hpp>
+#include <tao/pegtl/rules.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -49,7 +57,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      memory_input<> in( "abcba", "" );
+      test::text_input< ascii::lf > in( "abcba" );
       int a = 0;
       int b = 0;
       int c = 0;

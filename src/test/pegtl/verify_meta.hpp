@@ -7,11 +7,10 @@
 
 #include <type_traits>
 
-#include <tao/pegtl/type_list.hpp>
-
-#include <tao/pegtl/contrib/analyze.hpp>
-
 #include "test.hpp"
+
+#include <tao/pegtl/analyze.hpp>
+#include <tao/pegtl/type_list.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

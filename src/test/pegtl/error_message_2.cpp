@@ -11,6 +11,13 @@ int main()
 #else
 
 #include "test.hpp"
+#include "test_inputs.hpp"
+
+#include <tao/pegtl/ascii.hpp>
+#include <tao/pegtl/eol.hpp>
+#include <tao/pegtl/must_if.hpp>
+#include <tao/pegtl/parse.hpp>
+#include <tao/pegtl/rules.hpp>
 
 namespace test2
 {
@@ -29,10 +36,10 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       try {
-         parse< test2::grammar >( memory_input( "c", __FUNCTION__ ) );
+         parse< test2::grammar >( test::text_input< ascii::lf >( "c", __FUNCTION__ ) );
          TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
       }
-      catch( const parse_error& e ) {
+      catch( const parse_error_base& e ) {
          TAO_PEGTL_TEST_ASSERT( e.message() == "test123" );
       }
    }

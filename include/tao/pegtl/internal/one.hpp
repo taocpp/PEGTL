@@ -8,7 +8,6 @@
 #include <cstddef>
 
 #include "any.hpp"
-#include "bump_help.hpp"
 #include "enable_control.hpp"
 #include "failure.hpp"
 #include "result_on_found.hpp"
@@ -27,22 +26,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = one;
       using subs_t = empty_list;
 
-      [[nodiscard]] static constexpr bool test_one( const data_t c ) noexcept
+      [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
       {
          return ( ( c == Cs ) || ... ) == static_cast< bool >( R );
-      }
-
-      [[nodiscard]] static constexpr bool test_any( const data_t c ) noexcept
-      {
-         return test_one( c );
       }
 
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
       {
          if( const auto t = Peek::peek( in ) ) {
-            if( test_one( t.data ) ) {
-               bump_help< one >( in, t.size );
+            if( test( t.data() ) ) {
+               in.template consume< one >( t.size() );
                return true;
             }
          }

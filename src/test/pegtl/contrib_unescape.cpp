@@ -3,8 +3,11 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "test_inputs.hpp"
 
 #include <tao/pegtl/contrib/unescape.hpp>
+#include <tao/pegtl/parse.hpp>
+#include <tao/pegtl/utf8.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -29,25 +32,30 @@ namespace TAO_PEGTL_NAMESPACE
    // clang-format on
 
    template< unsigned M, unsigned N >
-   bool verify_data( const char ( &m )[ M ], const char ( &n )[ N ] )
+   [[nodiscard]] bool verify_data( const char ( &m )[ M ], const char ( &n )[ N ] )
    {
       std::string s;
-      memory_input in( m, M - 1, __FUNCTION__ );
+      test::text_input< ascii::lf > in( m );
+      std::cerr << __LINE__ << " : " << m << std::endl;
+      std::cerr << __LINE__ << " : " << in.string_view() << std::endl;
+      std::cerr << __LINE__ << " : " << n << std::endl;
       if( !parse< unstring, unaction >( in, s ) ) {
+         std::cerr << __LINE__ << " : " << s << std::endl;
          return false;  // LCOV_EXCL_LINE
       }
+      std::cerr << __LINE__ << " : " << s << std::endl;
       return s == std::string( n, N - 1 );
    }
 
-   bool verify_fail( const std::string& m )
+   [[nodiscard]] bool verify_fail( const std::string& m )
    {
       std::string s;
-      memory_input in( m, __FUNCTION__ );
+      test::text_input< ascii::lf > in( m );
 #if defined( __cpp_exceptions )
       try {
          return !parse< unstring, unaction >( in, s );
       }
-      catch( const parse_error& ) {
+      catch( const parse_error_base& ) {
       }
       return true;
 #else

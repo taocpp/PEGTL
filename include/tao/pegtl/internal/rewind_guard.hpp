@@ -88,12 +88,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       void rewind_restore() const noexcept
       {
-         m_input->rewind_position( m_saved );
+         m_input->rewind_to_position( m_saved );
       }
 
       [[nodiscard]] const auto* current() const noexcept
       {
-         return m_saved.data;
+         return m_input->previous( m_saved );
       }
 
       [[nodiscard]] const auto& rewind_position() const noexcept

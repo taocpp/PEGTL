@@ -5,68 +5,74 @@
 #ifndef TAO_PEGTL_INTERNAL_PEEK_UTF8_HPP
 #define TAO_PEGTL_INTERNAL_PEEK_UTF8_HPP
 
-#include "data_and_size.hpp"
+#include <cstddef>
 
 #include "../config.hpp"
+
+#include "data_and_size.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    struct peek_utf8
    {
       using data_t = char32_t;
-      using pair_t = data_and_size< char32_t >;
+      using pair_t = data_and_size< char32_t, std::uint8_t >;
+
+      static constexpr bool allow_bulk = false;
 
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in ) noexcept( noexcept( in.empty() ) )
       {
+         static_assert( sizeof( decltype( *in.current() ) ) == 1 );
+
          if( in.empty() ) {
-            return { 0, 0 };
+            return pair_t();
          }
-         const char32_t c0 = in.peek_uint8();
+         const char32_t c0 = std::uint8_t( *in.current() );
          if( ( c0 & 0x80 ) == 0 ) {
-            return { c0, 1 };
+            return pair_t( c0, 1 );
          }
          return peek_impl( in, c0 );
       }
 
    private:
       template< typename ParseInput >
-      [[nodiscard]] static pair_t peek_impl( ParseInput& in, char32_t c0 ) noexcept( noexcept( in.size( 4 ) ) )
+      [[nodiscard]] static pair_t peek_impl( ParseInput& in, char32_t c0 ) noexcept( noexcept( in.size( 42 ) ) )
       {
          if( ( c0 & 0xE0 ) == 0xC0 ) {
             if( in.size( 2 ) >= 2 ) {
-               const char32_t c1 = in.peek_uint8( 1 );
+               const char32_t c1 = std::uint8_t( *in.current( 1 ) );
                if( ( c1 & 0xC0 ) == 0x80 ) {
                   c0 &= 0x1F;
                   c0 <<= 6;
                   c0 |= ( c1 & 0x3F );
                   if( c0 >= 0x80 ) {
-                     return { c0, 2 };
+                     return pair_t( c0, 2 );
                   }
                }
             }
          }
          else if( ( c0 & 0xF0 ) == 0xE0 ) {
             if( in.size( 3 ) >= 3 ) {
-               const char32_t c1 = in.peek_uint8( 1 );
-               const char32_t c2 = in.peek_uint8( 2 );
+               const char32_t c1 = std::uint8_t( *in.current( 1 ) );
+               const char32_t c2 = std::uint8_t( *in.current( 2 ) );
                if( ( ( c1 & 0xC0 ) == 0x80 ) && ( ( c2 & 0xC0 ) == 0x80 ) ) {
                   c0 &= 0x0F;
                   c0 <<= 6;
                   c0 |= ( c1 & 0x3F );
                   c0 <<= 6;
                   c0 |= ( c2 & 0x3F );
-                  if( c0 >= 0x800 && !( c0 >= 0xD800 && c0 <= 0xDFFF ) ) {
-                     return { c0, 3 };
+                  if( c0 >= 0x800 && !( ( c0 >= 0xD800 ) && ( c0 <= 0xDFFF ) ) ) {
+                     return pair_t( c0, 3 );
                   }
                }
             }
          }
          else if( ( c0 & 0xF8 ) == 0xF0 ) {
             if( in.size( 4 ) >= 4 ) {
-               const char32_t c1 = in.peek_uint8( 1 );
-               const char32_t c2 = in.peek_uint8( 2 );
-               const char32_t c3 = in.peek_uint8( 3 );
+               const char32_t c1 = std::uint8_t( *in.current( 1 ) );
+               const char32_t c2 = std::uint8_t( *in.current( 2 ) );
+               const char32_t c3 = std::uint8_t( *in.current( 3 ) );
                if( ( ( c1 & 0xC0 ) == 0x80 ) && ( ( c2 & 0xC0 ) == 0x80 ) && ( ( c3 & 0xC0 ) == 0x80 ) ) {
                   c0 &= 0x07;
                   c0 <<= 6;
@@ -75,8 +81,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
                   c0 |= ( c2 & 0x3F );
                   c0 <<= 6;
                   c0 |= ( c3 & 0x3F );
-                  if( c0 >= 0x10000 && c0 <= 0x10FFFF ) {
-                     return { c0, 4 };
+                  if( ( c0 >= 0x10000 ) && ( c0 <= 0x10FFFF ) ) {
+                     return pair_t( c0, 4 );
                   }
                }
             }

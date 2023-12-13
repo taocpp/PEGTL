@@ -5,7 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_UNTIL_HPP
 #define TAO_PEGTL_INTERNAL_UNTIL_HPP
 
-#include "bytes.hpp"
 #include "enable_control.hpp"
 #include "eof.hpp"
 #include "not_at.hpp"
@@ -46,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             if( in.empty() ) {
                return false;
             }
-            in.bump();
+            in.template consume< until >( 1 );
          }
          return m( true );
       }

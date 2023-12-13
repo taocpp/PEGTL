@@ -3,9 +3,10 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "test_endian.hpp"
 #include "verify_rule.hpp"
 
-#include <tao/pegtl/contrib/utf32.hpp>
+#include <tao/pegtl/utf32.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -18,13 +19,13 @@ namespace TAO_PEGTL_NAMESPACE
 
       std::string u32s_be( const char32_t v )
       {
-         const std::uint32_t u = internal::h_to_be( static_cast< std::uint32_t >( v ) );
+         const std::uint32_t u = test::h_to_be( static_cast< std::uint32_t >( v ) );
          return { reinterpret_cast< const char* >( &u ), sizeof( u ) };
       }
 
       std::string u32s_le( const char32_t v )
       {
-         const std::uint32_t u = internal::h_to_le( static_cast< std::uint32_t >( v ) );
+         const std::uint32_t u = test::h_to_le( static_cast< std::uint32_t >( v ) );
          return { reinterpret_cast< const char* >( &u ), sizeof( u ) };
       }
 

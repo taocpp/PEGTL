@@ -8,15 +8,11 @@
 #include <algorithm>
 #include <type_traits>
 
+#include "../analyze_traits.hpp"
 #include "../config.hpp"
 #include "../type_list.hpp"
 
-#include "../internal/bump_help.hpp"
-#include "../internal/bytes.hpp"
 #include "../internal/enable_control.hpp"
-#include "../internal/opt.hpp"
-
-#include "analyze_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -30,13 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
 
          static_assert( Min <= Max );
 
-         [[nodiscard]] static constexpr bool test_one( const char c ) noexcept
-         {
-            static_assert( ( Min == 1 ) && ( Max == 1 ) );
-            return C == c;
-         }
-
-         [[nodiscard]] static constexpr bool test_any( const char c ) noexcept
+         [[nodiscard]] static constexpr bool test( const char c ) noexcept
          {
             return C == c;
          }
@@ -53,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE
                ++i;
             }
             if( ( Min <= i ) && ( i <= Max ) ) {
-               bump_help< rep_one_min_max >( in, i );
+               in.template consume< rep_one_min_max >( i );
                return true;
             }
             return false;
@@ -66,7 +56,7 @@ namespace TAO_PEGTL_NAMESPACE
          using rule_t = rep_one_min_max;
          using subs_t = empty_list;
 
-         [[nodiscard]] static constexpr bool test_any( const char c ) noexcept
+         [[nodiscard]] static constexpr bool test( const char c ) noexcept
          {
             return C == c;
          }
@@ -80,7 +70,7 @@ namespace TAO_PEGTL_NAMESPACE
                ++i;
             }
             if( i <= Max ) {
-               bump_help< rep_one_min_max >( in, i );
+               in.template consume< rep_one_min_max >( i );
                return true;
             }
             return false;

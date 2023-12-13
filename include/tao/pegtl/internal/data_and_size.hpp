@@ -6,26 +6,84 @@
 #define TAO_PEGTL_INTERNAL_DATA_AND_SIZE_HPP
 
 #include <cstddef>
+#include <type_traits>
 
 #include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Data >
-   struct data_and_size
+   template< typename Data, typename Size = std::uint8_t >
+   class data_and_size
    {
-      Data data;
-      std::size_t size;
+   public:
+      static_assert( !std::is_pointer_v< Data > );
+      static_assert( !std::is_reference_v< Data > );
+      static_assert( !std::is_member_pointer_v< Data > );
 
-      using data_t = Data;
+      data_and_size() noexcept = default;
+
+      data_and_size( const Data d, const Size s ) noexcept
+         : m_data( d ),
+           m_size( s )
+      {}
+
+      [[nodiscard]] Size size() const noexcept
+      {
+         return m_size;
+      }
+
+      [[nodiscard]] Data data() const noexcept
+      {
+         return m_data;
+      }
 
       [[nodiscard]] explicit operator bool() const noexcept
       {
-         return size > 0;
+         return m_size > 0;
       }
+
+      void mask_with( const Data mask ) noexcept
+      {
+         m_data &= mask;
+      }
+
+   private:
+      Data m_data;
+      Size m_size = 0;
    };
 
-   using bool_and_size = data_and_size< bool >;
+   template< typename Data >
+   class data_and_size< Data, void >
+   {
+   public:
+      static_assert( !std::is_pointer_v< Data > );
+      static_assert( !std::is_reference_v< Data > );
+      static_assert( !std::is_member_pointer_v< Data > );
+
+      data_and_size() noexcept = default;
+
+      explicit data_and_size( const Data* d ) noexcept
+         : m_data( d )
+      {}
+
+      [[nodiscard]] static std::size_t size() noexcept
+      {
+         return 1;
+      }
+
+      [[nodiscard]] const Data& data() const noexcept
+      {
+         return *m_data;
+      }
+
+      [[nodiscard]] explicit operator bool() const noexcept
+      {
+         return m_data != nullptr;
+      }
+
+   private:
+      const Data* m_data = nullptr;
+   };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

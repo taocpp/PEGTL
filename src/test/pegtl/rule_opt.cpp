@@ -7,6 +7,8 @@
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
+#include <tao/pegtl/parse.hpp>
+
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Rule >
@@ -62,7 +64,7 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
 
       bool success = false;
-      TAO_PEGTL_TEST_ASSERT( parse< opt< eof >, my_action >( memory_input( "", __FUNCTION__ ), success ) );
+      TAO_PEGTL_TEST_ASSERT( parse< opt< eof >, my_action >( test::text_input< ascii::lf >( "" ), success ) );
       TAO_PEGTL_TEST_ASSERT( success );
    }
 

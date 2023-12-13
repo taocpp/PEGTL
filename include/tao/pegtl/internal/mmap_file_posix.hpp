@@ -137,16 +137,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_data;
       }
 
-      [[nodiscard]] const char* begin() const noexcept
-      {
-         return m_data;
-      }
-
-      [[nodiscard]] const char* end() const noexcept
-      {
-         return m_data + m_size;
-      }
-
    private:
       const std::size_t m_size;
       const char* const m_data;

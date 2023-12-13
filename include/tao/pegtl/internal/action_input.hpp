@@ -12,37 +12,40 @@
 
 #include "../config.hpp"
 
+#include "input_with_peeks.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename ParseInput >
-   class action_input
+   class action_input_impl
    {
    public:
       using data_t = typename ParseInput::data_t;
       using input_t = ParseInput;
+      using error_position_t = typename ParseInput::error_position_t;
       using rewind_position_t = typename ParseInput::rewind_position_t;
 
-      action_input( const rewind_position_t& in_begin, const ParseInput& in_input ) noexcept
-         : m_begin( in_begin ),
-           m_input( in_input )
+      action_input_impl( const rewind_position_t& begin, const ParseInput& input ) noexcept
+         : m_saved( begin ),
+           m_input( input )
       {}
 
-      action_input( action_input&& ) = delete;
-      action_input( const action_input& ) = delete;
+      action_input_impl( action_input_impl&& ) = delete;
+      action_input_impl( const action_input_impl& ) = delete;
 
-      ~action_input() = default;
+      ~action_input_impl() = default;
 
-      void operator=( action_input&& ) = delete;
-      void operator=( const action_input& ) = delete;
+      void operator=( action_input_impl&& ) = delete;
+      void operator=( const action_input_impl& ) = delete;
 
       [[nodiscard]] const auto* begin() const noexcept
       {
-         return m_begin.data;
+         return m_input.previous( m_saved );
       }
 
-      [[nodiscard]] const auto* current() const noexcept
+      [[nodiscard]] const auto* current( const std::size_t offset = 0 ) const noexcept
       {
-         return m_begin.data;
+         return m_input.previous( m_saved ) + offset;
       }
 
       [[nodiscard]] const auto* end() const noexcept
@@ -57,46 +60,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] std::size_t size() const noexcept
       {
-         return std::size_t( end() - m_begin.data );
+         return std::size_t( end() - begin() );
       }
 
       [[nodiscard]] std::string string() const
       {
          static_assert( sizeof( data_t ) == 1 );
-         return std::string( static_cast< const char* >( m_begin.data ), size() );
-      }
-
-      [[nodiscard]] std::string_view string_view() const noexcept
-      {
-         static_assert( sizeof( data_t ) == 1 );
-         return std::string_view( static_cast< const char* >( m_begin.data ), size() );
-      }
-
-      [[nodiscard]] data_t peek( const std::size_t offset = 0 ) const noexcept
-      {
-         return m_begin.data[ offset ];
-      }
-
-      template< typename T >
-      [[nodiscard]] T peek_as( const std::size_t offset = 0 ) const noexcept
-      {
-         static_assert( sizeof( T ) == sizeof( data_t ) );
-         return static_cast< T >( peek( offset ) );
-      }
-
-      [[nodiscard]] char peek_char( const std::size_t offset = 0 ) const noexcept
-      {
-         return peek_as< char >( offset );
-      }
-
-      [[nodiscard]] std::byte peek_byte( const std::size_t offset = 0 ) const noexcept
-      {
-         return peek_as< std::byte >( offset );
-      }
-
-      [[nodiscard]] std::uint8_t peek_uint8( const std::size_t offset = 0 ) const noexcept
-      {
-         return peek_as< std::uint8_t >( offset );
+         return std::string( static_cast< const char* >( begin() ), size() );
       }
 
       [[nodiscard]] const ParseInput& input() const noexcept
@@ -106,18 +76,26 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] decltype( auto ) current_position() const
       {
-         return m_input.previous_position( m_begin );  // NOTE: O(n) with lazy inputs -- n is return value!
+         return m_input.previous_position( m_saved );  // NOTE: O(n) with lazy inputs!
       }
 
       [[nodiscard]] const rewind_position_t& rewind_position() const noexcept
       {
-         return m_begin;
+         return m_saved;
+      }
+
+      [[nodiscard]] decltype( auto ) direct_source() const noexcept
+      {
+         return m_input.direct_source();  // Not all inputs have this.
       }
 
    protected:
-      const rewind_position_t m_begin;
+      const rewind_position_t m_saved;
       const ParseInput& m_input;
    };
+
+   template< typename ParseInput >
+   using action_input = input_with_peeks< action_input_impl< ParseInput > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

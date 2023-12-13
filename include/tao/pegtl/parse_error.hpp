@@ -12,7 +12,6 @@
 
 #include "config.hpp"
 #include "parse_error_base.hpp"
-#include "position.hpp"
 
 #include "internal/extract_position.hpp"
 #include "internal/stream_to_string.hpp"
@@ -25,15 +24,15 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename Position >
-   class parse_error_template
+   class parse_error
       : public parse_error_base
    {
    public:
       using position_t = Position;
 
       template< typename Object >
-      parse_error_template( const std::string& msg, const Object& obj )
-         : parse_error_template( msg, internal::extract_position( obj ), disambiguate_t() )
+      parse_error( const std::string& msg, const Object& obj )
+         : parse_error( msg, internal::extract_position( obj ), disambiguate_t() )
       {}
 
       [[nodiscard]] const position_t& position_object() const noexcept
@@ -44,16 +43,14 @@ namespace TAO_PEGTL_NAMESPACE
    protected:
       const position_t m_position;
 
-      parse_error_template( const std::string& msg, const Position& pos, const disambiguate_t /*unused*/ )
+      parse_error( const std::string& msg, const Position& pos, const disambiguate_t /*unused*/ )
          : parse_error_base( msg, internal::stream_to_string( pos ) ),
            m_position( pos )
       {}
    };
 
    template< typename Object >
-   parse_error_template( const std::string&, const Object& ) -> parse_error_template< std::decay_t< decltype( internal::extract_position( std::declval< Object >() ) ) > >;
-
-   using parse_error = parse_error_template< position >;  // Temporary -- when the inputs are templated over the position class the parse_error_template will be renamed to parse_error.
+   parse_error( const std::string&, const Object& ) -> parse_error< std::decay_t< decltype( internal::extract_position( std::declval< Object >() ) ) > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

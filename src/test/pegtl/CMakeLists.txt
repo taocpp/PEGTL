@@ -83,7 +83,6 @@ set(test_sources
   rule_at.cpp
   rule_bof.cpp
   rule_bol.cpp
-  rule_bytes.cpp
   rule_control.cpp
   rule_disable.cpp
   rule_discard.cpp
@@ -98,6 +97,7 @@ set(test_sources
   rule_list.cpp
   rule_list_must.cpp
   rule_list_tail.cpp
+  rule_many.cpp
   rule_minus.cpp
   rule_must.cpp
   rule_not_at.cpp

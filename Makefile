@@ -37,10 +37,10 @@ CXXFLAGS ?= -Wall -Wextra -Wshadow -Werror -O3 $(MINGW_CXXFLAGS)
 
 HEADERS := $(shell find include -name '*.hpp')
 SOURCES := $(shell find src -name '*.cpp')
-DEPENDS := $(SOURCES:%.cpp=build/%.d)
-BINARIES := $(SOURCES:%.cpp=build/%)
+DEPENDS := $(SOURCES:src/%.cpp=build/dep/%.d)
+BINARIES := $(SOURCES:src/%.cpp=build/bin/%)
 
-UNIT_TESTS := $(filter build/src/test/%,$(BINARIES))
+UNIT_TESTS := $(filter build/bin/test/%,$(BINARIES))
 
 .PHONY: all
 all: compile check
@@ -57,11 +57,12 @@ clean:
 	@rm -rf build/*
 	@find . -name '*~' -delete
 
-build/%.d: %.cpp Makefile
+build/dep/%.d: src/%.cpp Makefile
 	@mkdir -p $(@D)
 	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) -MM -MQ $@ $< -o $@
 
-build/%: %.cpp build/%.d
+build/bin/%: src/%.cpp build/dep/%.d
+	@mkdir -p $(@D)
 	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) $< $(LDFLAGS) -o $@
 
 ifeq ($(findstring $(MAKECMDGOALS),clean),)

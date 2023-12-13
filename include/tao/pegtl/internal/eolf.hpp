@@ -9,6 +9,7 @@
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
+#include "eol.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -27,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         return in.empty() || in.template match_eol< A, M, Action, Control >( in, st... );
+         return in.empty() || eol::match< A, M, Action, Control >( in, st... );
       }
    };
 

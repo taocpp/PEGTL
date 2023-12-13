@@ -7,6 +7,11 @@
 
 #include "test.hpp"
 
+#include <tao/pegtl/ascii.hpp>
+#include <tao/pegtl/demangle.hpp>
+#include <tao/pegtl/rules.hpp>
+#include <tao/pegtl/visit.hpp>
+
 namespace TAO_PEGTL_NAMESPACE
 {
    using grammar = seq< plus< alpha >, star< sor< space, digit > > >;

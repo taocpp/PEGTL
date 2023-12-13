@@ -10,8 +10,13 @@ int main()
 }
 #else
 
+#include <vector>
+
 #include "test.hpp"
+#include "test_inputs.hpp"
 #include "verify_seqs.hpp"
+
+#include <tao/pegtl/parse.hpp>
 
 #include <tao/pegtl/contrib/nested_exceptions.hpp>
 
@@ -27,12 +32,12 @@ namespace TAO_PEGTL_NAMESPACE
    void verify_nested()
    {
       try {
-         memory_input in( "0", __FUNCTION__ );
+         test::text_input< ascii::lf > in( "0" );
          parse< Rule< alpha > >( in );
          TAO_PEGTL_TEST_UNREACHABLE;
       }
       catch( ... ) {
-         const std::vector< parse_error > e = nested::flatten();
+         const std::vector< parse_error_base > e = nested::flatten();
          TAO_PEGTL_TEST_ASSERT( e.size() == 2 );
       }
    }

@@ -2,9 +2,13 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#include <tao/pegtl.hpp>
-
 #include "test.hpp"
+#include "test_inputs.hpp"
+
+#include <tao/pegtl/ascii.hpp>
+#include <tao/pegtl/eol.hpp>
+#include <tao/pegtl/parse.hpp>
+#include <tao/pegtl/rules.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -60,7 +64,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      memory_input in( "a", __FUNCTION__ );
+      test::text_input< ascii::lf > in( "a" );
       const bool b = parse< r, a >( in );
       TAO_PEGTL_TEST_ASSERT( b );
       TAO_PEGTL_TEST_ASSERT( flags == 3 );

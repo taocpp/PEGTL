@@ -11,8 +11,11 @@ int main()
 #else
 
 #include "test.hpp"
+#include "test_inputs.hpp"
 
 #include "verify_meta.hpp"
+
+#include <tao/pegtl/parse.hpp>
 
 #if defined( _MSC_VER )
 #pragma warning( push )
@@ -29,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_analyze< raise< int > >( __LINE__, __FILE__, true, false );
       verify_analyze< raise< any > >( __LINE__, __FILE__, true, false );
 
-      memory_input in( "foo", __FUNCTION__ );
+      test::text_input< ascii::lf > in( "foo" );
 
       TAO_PEGTL_TEST_THROWS( parse< raise< int > >( in ) );
       TAO_PEGTL_TEST_ASSERT( in.size( 4 ) == 3 );

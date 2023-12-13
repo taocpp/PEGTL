@@ -15,6 +15,7 @@
 #include "parse_error.hpp"
 #include "rewind_mode.hpp"
 
+#include "internal/action_input.hpp"
 #include "internal/enable_control.hpp"
 #include "internal/has_error_message.hpp"
 #include "internal/has_match.hpp"
@@ -83,11 +84,11 @@ namespace TAO_PEGTL_NAMESPACE
                 typename RewindPosition,
                 typename ParseInput,
                 typename... States >
-      static auto apply( const RewindPosition& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( Action< Rule >::apply( std::declval< const typename ParseInput::action_t& >(), st... ) ) )
-         -> decltype( Action< Rule >::apply( std::declval< const typename ParseInput::action_t& >(), st... ) )
+      static auto apply( const RewindPosition& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( Action< Rule >::apply( std::declval< const internal::action_input< ParseInput >& >(), st... ) ) )
+         -> decltype( Action< Rule >::apply( std::declval< const internal::action_input< ParseInput >& >(), st... ) )
       {
-         const typename ParseInput::action_t action_input( begin, in );
-         return Action< Rule >::apply( action_input, st... );
+         const internal::action_input< ParseInput > ai( begin, in );
+         return Action< Rule >::apply( ai, st... );
       }
 
       template< template< typename... > class Action,

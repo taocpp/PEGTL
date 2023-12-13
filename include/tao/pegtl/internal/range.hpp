@@ -5,7 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_RANGE_HPP
 #define TAO_PEGTL_INTERNAL_RANGE_HPP
 
-#include "bump_help.hpp"
 #include "enable_control.hpp"
 #include "one.hpp"
 #include "result_on_found.hpp"
@@ -26,22 +25,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       static_assert( Lo < Hi, "invalid range" );
 
-      [[nodiscard]] static constexpr bool test_one( const data_t c ) noexcept
+      [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
       {
          return ( ( Lo <= c ) && ( c <= Hi ) ) == static_cast< bool >( R );
-      }
-
-      [[nodiscard]] static constexpr bool test_any( const data_t c ) noexcept
-      {
-         return test_one( c );
       }
 
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
       {
          if( const auto t = Peek::peek( in ) ) {
-            if( test_one( t.data ) ) {
-               bump_help< range >( in, t.size );
+            if( test( t.data() ) ) {
+               in.template consume< range >( t.size() );
                return true;
             }
          }

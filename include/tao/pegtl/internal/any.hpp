@@ -5,11 +5,11 @@
 #ifndef TAO_PEGTL_INTERNAL_ANY_HPP
 #define TAO_PEGTL_INTERNAL_ANY_HPP
 
-#include "enable_control.hpp"
-#include "peek_char.hpp"
-
 #include "../config.hpp"
 #include "../type_list.hpp"
+
+#include "enable_control.hpp"
+#include "peek_direct.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -25,12 +25,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = any;
       using subs_t = empty_list;
 
-      [[nodiscard]] static bool test_one( const char /*unused*/ ) noexcept
-      {
-         return true;
-      }
-
-      [[nodiscard]] static bool test_any( const char /*unused*/ ) noexcept
+      [[nodiscard]] static bool test( const char /*unused*/ ) noexcept
       {
          return true;
       }
@@ -38,8 +33,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.empty() ) )
       {
+         static_assert( sizeof( *in.current() ) == 1 );
+
          if( !in.empty() ) {
-            in.bump();
+            in.template consume< any >( 1 );
             return true;
          }
          return false;
@@ -55,12 +52,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = any;
       using subs_t = empty_list;
 
-      [[nodiscard]] static bool test_one( const data_t /*unused*/ ) noexcept
-      {
-         return true;
-      }
-
-      [[nodiscard]] static bool test_any( const data_t /*unused*/ ) noexcept
+      [[nodiscard]] static bool test( const data_t /*unused*/ ) noexcept
       {
          return true;
       }
@@ -69,7 +61,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
       {
          if( const auto t = Peek::peek( in ) ) {
-            in.bump( t.size );
+            in.template consume< any >( t.size() );
             return true;
          }
          return false;

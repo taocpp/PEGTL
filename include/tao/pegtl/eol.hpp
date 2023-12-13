@@ -8,7 +8,7 @@
 #include "config.hpp"
 
 #include "internal/one.hpp"
-#include "internal/peek_char.hpp"
+#include "internal/peek_direct.hpp"
 #include "internal/result_on_found.hpp"
 #include "internal/sor.hpp"
 #include "internal/string.hpp"

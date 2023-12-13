@@ -13,11 +13,11 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename T >
-   [[nodiscard]] std::string stream_to_string( const T& t )
+   template< typename... Ts >
+   [[nodiscard]] std::string stream_to_string( const Ts&... ts )
    {
       std::ostringstream oss;
-      oss << t;
+      (void)( oss << ... << ts );
       return std::move( oss ).str();
    }
 

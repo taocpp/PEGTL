@@ -8,8 +8,8 @@
 #include <cstddef>
 
 #include "config.hpp"
+#include "invert_traits.hpp"
 #include "parse_error.hpp"
-#include "position.hpp"
 
 #include "internal/rules.hpp"
 
@@ -22,10 +22,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Rules > struct at : internal::at< Rules... > {};
    struct bof : internal::bof {};
    struct bol : internal::bol {};
-   template< unsigned Num > struct bytes : internal::bytes< Num > {};
    template< template< typename... > class Control, typename... Rules > struct control : internal::control< Control, Rules... > {};
    template< typename... Rules > struct disable : internal::disable< Rules... > {};
-   struct discard : internal::discard {};
    template< typename... Rules > struct enable : internal::enable< Rules... > {};
    struct eof : internal::eof {};
    struct eol : internal::eol {};
@@ -34,6 +32,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct failure : internal::failure {};
    template< typename Rule, typename... Actions > struct if_apply : internal::if_apply< Rule, Actions... > {};
    template< typename Cond, typename Then, typename Else > struct if_then_else : internal::if_then_else< Cond, Then, Else > {};
+   template< typename Rule > struct invert : invert_traits< typename Rule::rule_t >::rule_t {};
    template< typename Rule, typename Sep, typename Pad = void > struct list : internal::list< Rule, internal::pad< Sep, Pad > > {};
    template< typename Rule, typename Sep > struct list< Rule, Sep, void > : internal::list< Rule, Sep > {};
    template< typename Rule, typename Sep, typename Pad = void > struct list_tail : internal::list_tail_pad< Rule, Sep, Pad > {};
@@ -51,7 +50,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< unsigned Min, typename Rule, typename... Rules > struct rep_min : internal::rep_min< Min, Rule, Rules... > {};
    template< unsigned Min, unsigned Max, typename... Rules > struct rep_min_max : internal::rep_min_max< Min, Max, Rules... > {};
    template< unsigned Max, typename... Rules > struct rep_opt : internal::rep_opt< Max, Rules... > {};
-   template< unsigned Amount > struct require : internal::require< Amount > {};
    template< typename... Rules > struct seq : internal::seq< Rules... > {};
    template< typename... Rules > struct sor : internal::sor< Rules... > {};
    template< typename Rule, typename... Rules > struct star : internal::star< Rule, Rules... > {};

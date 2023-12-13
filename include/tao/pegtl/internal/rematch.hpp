@@ -5,13 +5,13 @@
 #ifndef TAO_PEGTL_INTERNAL_REMATCH_HPP
 #define TAO_PEGTL_INTERNAL_REMATCH_HPP
 
-#include "enable_control.hpp"
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
-#include "../memory_input.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
+
+#include "enable_control.hpp"
+#include "rematch_input.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -57,8 +57,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
          auto m = in.template make_rewind_guard< rewind_mode::required >();
 
          if( Control< Head >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) ) {
-            memory_input< ParseInput::tracking_mode_v, typename ParseInput::eol_rule, typename ParseInput::source_t > i2( m.rewind_position(), in.current(), in.source() );
-            return m( ( Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( i2, st... ) && ... && ( i2.rewind_position( m.rewind_position() ), Control< Rules >::template match< A, rewind_mode::optional, Action, Control >( i2, st... ) ) ) );
+            rematch_input i2( m, in );
+            return m( ( Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( i2, st... ) && ... && ( i2.private_set_current( m.current() ), Control< Rules >::template match< A, rewind_mode::optional, Action, Control >( i2, st... ) ) ) );
          }
          return false;
       }

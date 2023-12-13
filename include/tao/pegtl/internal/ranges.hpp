@@ -7,7 +7,6 @@
 
 #include <utility>
 
-#include "bump_help.hpp"
 #include "enable_control.hpp"
 #include "failure.hpp"
 #include "one.hpp"
@@ -46,12 +45,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
       }
 
-      [[nodiscard]] static constexpr bool test_one( const data_t c ) noexcept
-      {
-         return test_impl( std::make_index_sequence< sizeof...( Cs ) / 2 >(), c );
-      }
-
-      [[nodiscard]] static constexpr bool test_any( const data_t c ) noexcept
+      [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
       {
          return test_impl( std::make_index_sequence< sizeof...( Cs ) / 2 >(), c );
       }
@@ -60,8 +54,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
       {
          if( const auto t = Peek::peek( in ) ) {
-            if( test_one( t.data ) ) {
-               bump_help< ranges >( in, t.size );
+            if( test( t.data() ) ) {
+               in.template consume< ranges >( t.size() );
                return true;
             }
          }

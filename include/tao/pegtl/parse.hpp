@@ -12,26 +12,10 @@
 #include "normal.hpp"
 #include "nothing.hpp"
 #include "parse_error.hpp"
-#include "position.hpp"
 #include "rewind_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   namespace internal
-   {
-      [[nodiscard]] inline auto get_position( const position& p ) noexcept( std::is_nothrow_copy_constructible_v< position > )
-      {
-         return p;
-      }
-
-      template< typename ParseInput >
-      [[nodiscard]] position get_position( const ParseInput& in ) noexcept( noexcept( position( in.position() ) ) )
-      {
-         return in.position();
-      }
-
-   }  // namespace internal
-
    template< typename Rule,
              template< typename... > class Action = nothing,
              template< typename... > class Control = normal,

@@ -5,12 +5,12 @@
 #ifndef TAO_PEGTL_INTERNAL_IDENTIFIER_HPP
 #define TAO_PEGTL_INTERNAL_IDENTIFIER_HPP
 
-#include "peek_char.hpp"
+#include "../config.hpp"
+
+#include "peek_direct.hpp"
 #include "ranges.hpp"
 #include "seq.hpp"
 #include "star.hpp"
-
-#include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

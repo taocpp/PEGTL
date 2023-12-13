@@ -7,6 +7,7 @@
 
 #include "config.hpp"
 
+#include "internal/peek_direct.hpp"
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
@@ -33,6 +34,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< char... Cs > struct istring : internal::istring< Cs... > {};
       template< char... Cs > struct keyword : internal::seq< internal::string< Cs... >, internal::not_at< internal::identifier_other > > { static_assert( sizeof...( Cs ) > 0 ); };
       struct lower : internal::range< internal::result_on_found::success, internal::peek_char, 'a', 'z' > {};
+      template< unsigned Count > struct many : internal::many< Count, internal::peek_char > {};
       template< char... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_char, Cs... > {};
       template< char Lo, char Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_char, Lo, Hi > {};
       struct nul : internal::one< internal::result_on_found::success, internal::peek_char, static_cast< char >( 0 ) > {};

@@ -1,0 +1,186 @@
+// Copyright (c) 2016-2023 Dr. Colin Hirsch and Daniel Frey
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
+
+#if !defined( __cpp_exceptions ) || !defined( __cpp_rtti )
+#include <iostream>
+int main()
+{
+   std::cout << "Exception and/or RTTI support disabled, skipping test..." << std::endl;
+}
+#else
+
+#include "test.hpp"
+
+#include <tao/pegtl/contrib/nested_exceptions.hpp>
+
+namespace TAO_PEGTL_NAMESPACE
+{
+   template< typename Rule, typename ParseInput = memory_input<> >
+   void test_matches_lf()
+   {
+      static const std::string s1 = "\n";
+
+      ParseInput i1( s1, __FUNCTION__ );
+
+      TAO_PEGTL_TEST_ASSERT( parse< Rule >( i1 ) );
+      TAO_PEGTL_TEST_ASSERT( i1.line() == 2 );
+      TAO_PEGTL_TEST_ASSERT( i1.column() == 1 );
+   }
+
+   template< typename Rule, typename ParseInput = memory_input<> >
+   void test_matches_other( const std::string& s2 )
+   {
+      TAO_PEGTL_TEST_ASSERT( s2.size() == 1 );
+
+      ParseInput i2( s2, __FUNCTION__ );
+
+      TAO_PEGTL_TEST_ASSERT( parse< Rule >( i2 ) );
+      TAO_PEGTL_TEST_ASSERT( i2.line() == 1 );
+      TAO_PEGTL_TEST_ASSERT( i2.column() == 2 );
+   }
+
+   template< typename Rule, typename ParseInput = memory_input<> >
+   void test_mismatch( const std::string& s3 )
+   {
+      TAO_PEGTL_TEST_ASSERT( s3.size() == 1 );
+
+      ParseInput i3( s3, __FUNCTION__ );
+
+      TAO_PEGTL_TEST_ASSERT( !parse< Rule >( i3 ) );
+      TAO_PEGTL_TEST_ASSERT( i3.line() == 1 );
+      TAO_PEGTL_TEST_ASSERT( i3.column() == 1 );
+   }
+
+   struct outer_grammar
+      : must< two< 'a' >, two< 'b' >, two< 'c' >, eof >
+   {};
+
+   struct inner_grammar
+      : must< one< 'd' >, two< 'e' >, eof >
+   {};
+
+   template< typename Rule >
+   struct outer_action
+   {};
+
+   template<>
+   struct outer_action< two< 'b' > >
+   {
+      template< typename ActionInput >
+      static void apply( const ActionInput& oi, const bool mode )
+      {
+         const auto p = oi.current_position();
+         TAO_PEGTL_TEST_ASSERT( p.source == "outer" );
+         TAO_PEGTL_TEST_ASSERT( p.byte == 2 );
+         TAO_PEGTL_TEST_ASSERT( p.line == 1 );
+         TAO_PEGTL_TEST_ASSERT( p.column == 3 );
+         memory_input in( "dFF", "inner" );
+         if( mode ) {
+            parse_nested< inner_grammar >( oi, in );
+         }
+         else {
+            parse_nested< inner_grammar >( oi.current_position(), in );
+         }
+      }
+   };
+
+   void test_nested_asserts()
+   {
+      const std::vector< parse_error > errors = nested::flatten();
+      TAO_PEGTL_TEST_ASSERT( errors.size() == 2 );
+      TAO_PEGTL_TEST_ASSERT( errors[ 0 ].position_object().source == "inner" );
+      TAO_PEGTL_TEST_ASSERT( errors[ 0 ].position_object().byte == 1 );
+      TAO_PEGTL_TEST_ASSERT( errors[ 0 ].position_object().line == 1 );
+      TAO_PEGTL_TEST_ASSERT( errors[ 0 ].position_object().column == 2 );
+      TAO_PEGTL_TEST_ASSERT( errors[ 1 ].position_object().source == "outer" );
+      TAO_PEGTL_TEST_ASSERT( errors[ 1 ].position_object().byte == 2 );
+      TAO_PEGTL_TEST_ASSERT( errors[ 1 ].position_object().line == 1 );
+      TAO_PEGTL_TEST_ASSERT( errors[ 1 ].position_object().column == 3 );
+   }
+
+   template< typename ParseInput = memory_input<> >
+   void test_nested()
+   {
+      try {
+         memory_input oi( "aabbcc", "outer" );
+         parse< outer_grammar, outer_action >( oi, true );
+      }
+      catch( ... ) {
+         test_nested_asserts();
+      }
+      try {
+         memory_input oi( "aabbcc", "outer" );
+         parse< outer_grammar, outer_action >( oi, false );
+      }
+      catch( ... ) {
+         test_nested_asserts();
+      }
+   }
+
+   void test_inputerator()
+   {
+      const std::string s = "source";
+      const internal::large_position i( nullptr, 1, 2, 3 );
+      const position p( i, s );
+      TAO_PEGTL_TEST_ASSERT( p.byte == 1 );
+      TAO_PEGTL_TEST_ASSERT( p.line == 2 );
+      TAO_PEGTL_TEST_ASSERT( p.column == 3 );
+      TAO_PEGTL_TEST_ASSERT( p.source == s );
+      const position q( 1, 2, 3, s );
+      TAO_PEGTL_TEST_ASSERT( q.byte == 1 );
+      TAO_PEGTL_TEST_ASSERT( q.line == 2 );
+      TAO_PEGTL_TEST_ASSERT( q.column == 3 );
+      TAO_PEGTL_TEST_ASSERT( q.source == s );
+   }
+
+   void unit_test()
+   {
+      test_matches_lf< any >();
+      test_matches_other< any >( " " );
+
+      test_matches_lf< one< '\n' > >();
+      test_mismatch< one< '\n' > >( " " );
+
+      test_matches_lf< one< ' ', '\n' > >();
+      test_matches_other< one< ' ', '\n' > >( " " );
+
+      test_matches_lf< one< ' ', '\n', 'b' > >();
+      test_matches_other< one< ' ', '\n', 'b' > >( " " );
+
+      test_matches_lf< string< '\n' > >();
+      test_mismatch< string< '\n' > >( " " );
+
+      test_matches_other< string< ' ' > >( " " );
+      test_mismatch< string< ' ' > >( "\n" );
+
+      test_matches_lf< range< 8, 33 > >();
+      test_matches_other< range< 8, 33 > >( " " );
+
+      test_mismatch< range< 11, 30 > >( "\n" );
+      test_mismatch< range< 11, 30 > >( " " );
+
+      test_matches_lf< not_range< 20, 30 > >();
+      test_matches_other< not_range< 20, 30 > >( " " );
+
+      test_mismatch< not_range< 5, 35 > >( "\n" );
+      test_mismatch< not_range< 5, 35 > >( " " );
+
+      test_matches_lf< ranges< 'a', 'z', 8, 33, 'A', 'Z' > >();
+      test_matches_other< ranges< 'a', 'z', 8, 33, 'A', 'Z' > >( "N" );
+      test_mismatch< ranges< 'a', 'z', 8, 33, 'A', 'Z' > >( "9" );
+
+      test_matches_lf< ranges< 'a', 'z', 'A', 'Z', '\n' > >();
+      test_matches_other< ranges< 'a', 'z', 'A', 'Z', '\n' > >( "P" );
+      test_mismatch< ranges< 'a', 'z', 'A', 'Z', '\n' > >( "8" );
+
+      test_nested<>();
+
+      test_inputerator();
+   }
+
+}  // namespace TAO_PEGTL_NAMESPACE
+
+#include "main.hpp"
+
+#endif

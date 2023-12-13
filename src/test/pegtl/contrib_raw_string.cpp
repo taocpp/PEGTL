@@ -3,9 +3,14 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "test_inputs.hpp"
 #include "verify_meta.hpp"
 
+#include <tao/pegtl/ascii.hpp>
+#include <tao/pegtl/eol.hpp>
 #include <tao/pegtl/contrib/raw_string.hpp>
+#include <tao/pegtl/parse.hpp>
+#include <tao/pegtl/rules.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -54,13 +59,13 @@ namespace TAO_PEGTL_NAMESPACE
    void verify_data( const std::size_t line, const char* file, const char ( &m )[ M ], const char ( &n )[ N ] )
    {
       content.clear();
-      memory_input in( m, m + M - 1, file, 0, line, 1 );
+       test::text_input< ascii::lf_crlf > in( m, m + M - 1 );
       const auto r = parse< Rule, Action >( in );
       if( ( !r ) || ( content != std::string_view( n, N - 1 ) ) ) {
          TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r << " ]" );  // LCOV_EXCL_LINE
       }
       content.clear();
-      memory_input< tracking_mode::lazy > in2( m, m + M - 1, file, 0, line, 1 );
+      test::lazy_input< ascii::lf_crlf > in2( m, m + M - 1 );
       const auto r2 = parse< Rule, Action >( in2 );
       if( ( !r2 ) || ( content != std::string_view( n, N - 1 ) ) ) {
          TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] with tracking_mode::lazy expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r2 << " ]" );  // LCOV_EXCL_LINE
@@ -70,7 +75,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule >
    void verify_fail( const std::size_t line, const char* file, const std::string& s )
    {
-      memory_input in( s, "expect exception" );
+      test::text_input< ascii::lf_crlf > in( s );
       if( parse< Rule >( in ) ) {
          TAO_PEGTL_TEST_FAILED( "expected exception" );  // LCOV_EXCL_LINE
       }

@@ -98,10 +98,10 @@ namespace TAO_PEGTL_NAMESPACE::nested
       internal::inspector< Exceptions... >::inspect( ptr, visitor );
    }
 
-   [[nodiscard]] inline std::vector< parse_error > flatten( const std::exception_ptr& ptr = std::current_exception() )
+   [[nodiscard]] inline std::vector< parse_error_base > flatten( const std::exception_ptr& ptr = std::current_exception() )
    {
-      std::vector< parse_error > result;
-      inspect< parse_error >( ptr, [ &result ]( const parse_error& e, const std::size_t /*unused*/ ) {
+      std::vector< parse_error_base > result;
+      inspect< parse_error_base >( ptr, [ &result ]( const parse_error_base& e, const std::size_t /*unused*/ ) {
          result.emplace_back( e );
       } );
       return result;

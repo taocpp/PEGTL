@@ -23,7 +23,6 @@ namespace TAO_PEGTL_NAMESPACE
    result_type verify_impl_two( ParseInput& in )
    {
 #if defined( __cpp_exceptions )
-
       try {
          if( normal< Rule >::template match< apply_mode::action, rewind_mode::required, Action, normal >( in ) ) {
             return result_type::success;
@@ -38,14 +37,11 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_UNREACHABLE;
       }
       // LCOV_EXCL_STOP
-
 #else
-
       if( normal< Rule >::template match< apply_mode::action, rewind_mode::required, Action, normal >( in ) ) {
          return result_type::success;
       }
       return result_type::local_failure;
-
 #endif
    }
 
@@ -54,10 +50,10 @@ namespace TAO_PEGTL_NAMESPACE
    {
       const result_type received = verify_impl_two< Rule, Action >( in );
 
-      if( ( received == expected ) && ( ( received == result_type::global_failure ) || ( in.size( 999999999 ) == remain ) ) ) {
+      if( ( received == expected ) && ( ( received == result_type::global_failure ) || ( in.size() == remain ) ) ) {
          return;
       }
-      TAO_PEGTL_TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << in.size( 999999999 ) << " / " << remain << " ]" );  // LCOV_EXCL_LINE
+      TAO_PEGTL_TEST_FAILED( "input data [ '" << data << "' ] result received/expected [ " << received << " / " << expected << " ] remain received/expected [ " << in.size() << " / " << remain << " ]" );  // LCOV_EXCL_LINE
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
