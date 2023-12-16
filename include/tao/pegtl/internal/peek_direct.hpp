@@ -35,11 +35,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   using peek_char = peek_direct< char >;
-   using peek_int8 = peek_direct< std::int8_t >;
-   using peek_uint8 = peek_direct< std::uint8_t >;
-   using peek_byte = peek_direct< std::byte >;
-
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

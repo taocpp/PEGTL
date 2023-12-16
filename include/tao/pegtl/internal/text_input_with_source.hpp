@@ -13,6 +13,7 @@
 #include "../text_position.hpp"
 
 #include "input_with_lines.hpp"
+#include "text_eol_bump.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

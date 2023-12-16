@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
          else if constexpr( sizeof( *in.current() ) == 1 ) {
             static_assert( Peek::fixed_size > 0 );
-            if( in.size( Count * Peek::fixed_size ) >= Count * Peek::fixed_size ) {
+            if( in.size( Count * Peek::fixed_size ) >= ( Count * Peek::fixed_size ) ) {
                in.template consume< many >( Count * Peek::fixed_size );
                return true;
             }

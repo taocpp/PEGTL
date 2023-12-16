@@ -16,7 +16,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    void text_eol_scan( Position& pos, const Data* data, const Data* dend )
    {
       scan_input< Data > in( data, dend );
-      scan_traits< typename Eol::rule_t >::scan( in, pos );
+      scan_traits< Eol >::scan( in, pos );
       pos.count += dend - data;
    }
 

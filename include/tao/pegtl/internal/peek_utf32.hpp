@@ -9,9 +9,10 @@
 
 #include "../config.hpp"
 
-#include "endian.hpp"
 #include "data_and_size.hpp"
-#include "peek_endian.hpp"
+#include "endian.hpp"
+#include "integer_size.hpp"
+#include "utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -21,18 +22,19 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using data_t = char32_t;
       using pair_t = data_and_size< char32_t >;
 
-      static constexpr bool allow_bulk = true;
+      static constexpr bool allow_bulk = false;
       static constexpr std::size_t fixed_size = 4;
 
-      static_assert( sizeof( char32_t ) == 4 );
-
       template< typename ParseInput >
-      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 42 ) ) )
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 4 ) ) )
       {
-         const pair_t r = peek_endian< char32_t, Endian >::peek( in, offset );
+         const std::size_t s = integer_size< char32_t >( in.current() );
 
-         if( ( r.data() <= 0x10ffff ) && !( ( r.data() >= 0xd800 ) && ( r.data() <= 0xdfff ) ) ) {
-            return r;
+         if( in.size( s + offset ) >= ( s + offset ) ) {
+            const char32_t t = Endian::template get< char32_t >( in.current( offset ) );
+            if( is_utf32_codepoint( t ) ) {
+               return pair_t( t, s );
+            }
          }
          return pair_t();
       }

@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_SRC_TEST_PEGTL_TEST_INPUTS_HPP
 #define TAO_PEGTL_SRC_TEST_PEGTL_TEST_INPUTS_HPP
 
+#include <cstddef>
+
 #include <tao/pegtl/eol.hpp>
 #include <tao/pegtl/internal/inputs.hpp>
 
@@ -18,6 +20,12 @@ namespace TAO_PEGTL_NAMESPACE::test
 
    template< typename Eol >
    using file_input = internal::input_with_peeks< internal::input_with_fakes< internal::text_file_input_with_source< Eol > > >;
+
+   template< typename T >
+   [[nodiscard]] bool equal( const T& position, const std::size_t count, const std::size_t line, const std::size_t column ) noexcept
+   {
+      return ( position.count == count ) && ( position.line == line ) && ( position.column == column );
+   }
 
 }  // namespace TAO_PEGTL_NAMESPACE::test
 

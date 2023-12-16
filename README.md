@@ -18,10 +18,11 @@ During development of a new major version the main branch can go through incompa
 ## Documentation
 
 * [Changelog](doc/Changelog.md)
-* [Development](doc/README.md) (requires C++17)
-* [Version 3.x](https://github.com/taocpp/PEGTL/blob/3.x/doc/README.md) (requires C++17)
-* [Version 2.x](https://github.com/taocpp/PEGTL/blob/2.x/doc/README.md) (requires C++11)
-* [Version 1.x](https://github.com/taocpp/PEGTL/blob/1.x/doc/README.md) (requires C++11)
+* [Development](doc/README.md) (C++20)
+* [Version 4.x](https://github.com/taocpp/PEGTL/blob/4.x/doc/README.md) (C++17)
+* [Version 3.x](https://github.com/taocpp/PEGTL/blob/3.x/doc/README.md) (C++17)
+* [Version 2.x](https://github.com/taocpp/PEGTL/blob/2.x/doc/README.md) (C++11)
+* [Version 1.x](https://github.com/taocpp/PEGTL/blob/1.x/doc/README.md) (C++11)
 
 ## Contact
 

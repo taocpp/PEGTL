@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_PEEK_ENDIAN_HPP
-#define TAO_PEGTL_INTERNAL_PEEK_ENDIAN_HPP
+#ifndef TAO_PEGTL_INTERNAL_PEEK_MASKED_HPP
+#define TAO_PEGTL_INTERNAL_PEEK_MASKED_HPP
 
 #include <cstddef>
 #include <cstdint>
@@ -16,8 +16,8 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Data, typename Endian >
-   struct peek_endian
+   template< typename Data, Data Mask, typename Endian = identity_endian >
+   struct peek_masked
    {
       using data_t = Data;
       using pair_t = data_and_size< data_t >;
@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
          if( in.size( s + offset ) >= ( s + offset ) ) {
             const data_t t = Endian::template get< data_t >( in.current( offset ) );
-            return pair_t( t, s );
+            return pair_t( Mask & t, s );
          }
          return pair_t();
       }

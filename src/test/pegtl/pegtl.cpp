@@ -9,7 +9,11 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
-   {}
+   {
+      static_assert( sizeof( char ) == 1 );
+      static_assert( sizeof( char16_t ) == 2 );
+      static_assert( sizeof( char32_t ) == 4 );
+   }
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

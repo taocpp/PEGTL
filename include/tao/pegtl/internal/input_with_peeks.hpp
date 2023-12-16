@@ -55,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return peek_as< std::uint8_t >( offset );
       }
 
-      // [[nodiscard]] std::span< data_t > span() const noexcept
+      // [[nodiscard]] std::span< data_t > span() const noexcept  // TODO: With C++20.
 
       [[nodiscard]] std::string string() const
       {

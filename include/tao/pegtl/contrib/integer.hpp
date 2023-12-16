@@ -23,6 +23,8 @@
 #include "../parse_error.hpp"
 #include "../rules.hpp"
 
+#include "../internal/text_eol_tags.hpp"
+
 namespace TAO_PEGTL_NAMESPACE
 {
    struct unsigned_rule_old
@@ -153,12 +155,12 @@ namespace TAO_PEGTL_NAMESPACE
          if( !in.empty() ) {
             const char c = in.peek_char();
             if( is_digit( c ) ) {
-               in.template consume< unsigned >( 1 );
+               in.template consume< eol_exclude_tag >( 1 );
                if( c == '0' ) {
                   return in.empty() || ( !is_digit( in.peek_char() ) );
                }
                while( ( !in.empty() ) && is_digit( in.peek_char() ) ) {
-                  in.template consume< unsigned >( 1 );
+                  in.template consume< eol_exclude_tag >( 1 );
                }
                return true;
             }
@@ -177,14 +179,14 @@ namespace TAO_PEGTL_NAMESPACE
             char c = in.peek_char();
             if( is_digit( c ) ) {
                if( c == '0' ) {
-                  in.template consume< unsigned >( 1 );
+                  in.template consume< eol_exclude_tag >( 1 );
                   return in.empty() || ( !is_digit( in.peek_char() ) );
                }
                do {
                   if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
                      throw TAO_PEGTL_NAMESPACE::parse_error( "integer overflow", in );
                   }
-                  in.template consume< unsigned >( 1 );
+                  in.template consume< eol_exclude_tag >( 1 );
                } while( ( !in.empty() ) && is_digit( c = in.peek_char() ) );
                return true;
             }
@@ -203,7 +205,7 @@ namespace TAO_PEGTL_NAMESPACE
             char c = in.peek_char();
             if( c == '0' ) {
                if( ( in.size( 2 ) < 2 ) || ( !is_digit( in.peek_char( 1 ) ) ) ) {
-                  in.template consume< unsigned >( 1 );
+                  in.template consume< eol_exclude_tag >( 1 );
                   return true;
                }
                return false;
@@ -217,7 +219,7 @@ namespace TAO_PEGTL_NAMESPACE
                   }
                   ++b;
                } while( ( !in.empty() ) && is_digit( c = in.peek_char( b ) ) );
-               in.template consume< unsigned >( b );
+               in.template consume< eol_exclude_tag >( b );
                return true;
             }
          }

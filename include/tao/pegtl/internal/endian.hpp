@@ -5,46 +5,48 @@
 #ifndef TAO_PEGTL_INTERNAL_ENDIAN_HPP
 #define TAO_PEGTL_INTERNAL_ENDIAN_HPP
 
-#include <cstring>
-
 #include "../config.hpp"
+
+#include "byteswap.hpp"
+#include "endian_system.hpp"
+#include "identity.hpp"
+#include "integer_adapt.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   struct big_endian
+   struct identity_endian
    {
       template< typename T >
-      [[nodiscard]] static T from( const T n ) noexcept;
-
-      template< typename T >
-      [[nodiscard]] static T from( const void* p ) noexcept
+      [[nodiscard]] static T get( const T data ) noexcept
       {
-         T n;
-         std::memcpy( &n, p, sizeof( n ) );
-         return from( n );
+         return identity( data );
+      }
+
+      template< typename T, typename Data >
+      [[nodiscard]] static T get( const Data* pointer ) noexcept
+      {
+         return identity( integer_adapt< T >( pointer ) );
       }
    };
 
-   struct little_endian
+   struct byteswap_endian
    {
       template< typename T >
-      [[nodiscard]] static T from( const T n ) noexcept;
-
-      template< typename T >
-      [[nodiscard]] static T from( const void* p ) noexcept
+      [[nodiscard]] static T get( const T data ) noexcept
       {
-         T n;
-         std::memcpy( &n, p, sizeof( n ) );
-         return from( n );
+         return byteswap( data );
+      }
+
+      template< typename T, typename Data >
+      [[nodiscard]] static T get( const Data* pointer ) noexcept
+      {
+         return byteswap( integer_adapt< T >( pointer ) );
       }
    };
+
+   using big_endian = TAO_PEGTL_BIG_ENDIAN_TYPE;
+   using little_endian = TAO_PEGTL_LITTLE_ENDIAN_TYPE;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
-
-#if defined( _WIN32 ) && !defined( __MINGW32__ ) && !defined( __CYGWIN__ )
-#include "endian_win.hpp"
-#else
-#include "endian_gcc.hpp"
-#endif
 
 #endif

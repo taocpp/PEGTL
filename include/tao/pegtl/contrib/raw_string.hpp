@@ -16,6 +16,8 @@
 #include "../rewind_mode.hpp"
 #include "../rules.hpp"
 
+#include "../internal/text_eol_tags.hpp"
+
 namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
@@ -42,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE
                switch( const auto c = in.peek_char( i ) ) {
                   case Open:
                      marker_size = i + 1;
-                     in.template consume< raw_string_open >( marker_size );
+                     in.template consume< eol_exclude_tag >( marker_size );
                      (void)Control< eol >::template match< A, M, Action, Control >( in );
                      return true;
                   case Marker:
@@ -121,7 +123,7 @@ namespace TAO_PEGTL_NAMESPACE
                if( in.empty() ) {
                   return false;
                }
-               in.template consume< raw_string_until >( 1 );
+               in.template consume< eol_unknown_tag >( 1 );
             }
             return m( true );
          }
@@ -209,7 +211,7 @@ namespace TAO_PEGTL_NAMESPACE
          std::size_t marker_size;
          if( Control< internal::raw_string_open< Open, Marker > >::template match< A, M, Action, Control >( in, marker_size ) ) {
             if( Control< content >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
-               in.template consume< raw_string >( marker_size );
+               in.template consume< internal::eol_exclude_tag >( marker_size );
                return true;
             }
          }

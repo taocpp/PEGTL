@@ -14,7 +14,9 @@
 * Added new customization point for error messages.
 * Added optional source line output for the tracer.
 * Added new ASCII rules [`cntrl`](Rule-Reference.md#cntrl), [`cr`](Rule-Reference.md#cr), [`crlf`](Rule-Reference.md#crlf), [`esc`](Rule-Reference.md#esc), [`ff`](Rule-Reference.md#ff), [`graph`](Rule-Reference.md#graph), [`ht`](Rule-Reference.md#ht), [`lf`](Rule-Reference.md#lf), [`lfcr`](Rule-Reference.md#lfcr), [`sp`](Rule-Reference.md#sp), [`vt`](Rule-Reference.md#vt).
+* Added new atomic rule [`consume`](Rule-Reference.md#consume-count-).
 * Added new atomic rule [`everything`](Rule-Reference.md#everything).
+* Added new rule [`invert`](Rule-Reference.md#invert-r-) to convert between `one` and `not_one` etc.
 * Added new convenience rule [`partial`](Rule-Reference.md#partial-r-).
 * Added new convenience rule [`star_partial`](Rule-Reference.md#star_partial-r-).
 * Added new convenience rule [`strict`](Rule-Reference.md#strict-r-).

@@ -7,9 +7,8 @@
 
 #include "config.hpp"
 
+#include "internal/peeks.hpp"
 #include "internal/result_on_found.hpp"
-#include "internal/peek_direct.hpp"
-#include "internal/peek_mask_uint8.hpp"
 #include "internal/rules.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::uint8

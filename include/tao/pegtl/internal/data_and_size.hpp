@@ -42,11 +42,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_size > 0;
       }
 
-      void mask_with( const Data mask ) noexcept
-      {
-         m_data &= mask;
-      }
-
    private:
       Data m_data;
       Size m_size = 0;
@@ -84,6 +79,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    private:
       const Data* m_data = nullptr;
    };
+
+   template< typename Data >
+   data_and_size( const Data* ) -> data_and_size< Data, void >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -8,10 +8,7 @@
 #include <cstddef>
 #include <utility>
 
-#include "../apply_mode.hpp"
 #include "../config.hpp"
-#include "../normal.hpp"
-#include "../nothing.hpp"
 #include "../pointer_position.hpp"
 #include "../rewind_mode.hpp"
 #include "../text_position.hpp"
@@ -27,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
    public:
       using base_t = input_with_lines< Eol, Input >;
-      using data_t = char;
+      using data_t = typename Input::data_t;
       using error_position_t = text_position;
       using rewind_position_t = text_position;
 

@@ -9,9 +9,10 @@
 
 #include "../config.hpp"
 
-#include "endian.hpp"
 #include "data_and_size.hpp"
-#include "peek_endian.hpp"
+#include "endian.hpp"
+#include "integer_size.hpp"
+#include "utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -21,22 +22,24 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using data_t = char32_t;
       using pair_t = data_and_size< char32_t >;
 
-      static constexpr std::size_t fixed_size = 0;
-
-      static_assert( sizeof( char16_t ) == 2 );
-      static_assert( sizeof( char32_t ) == 4 );
+      static constexpr std::size_t allow_bulk = false;
 
       template< typename ParseInput >
-      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 42 ) ) )
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 2 ) ) )
       {
-         if( const auto r = peek_endian< char16_t, Endian >::peek( in, offset ) ) {
-            if( ( r.data() < 0xd800 ) || ( r.data() > 0xdfff ) ) {
-               return pair_t( r.data(), r.size() );
+         const std::size_t s = integer_size< char16_t >( in.current() );
+         const std::size_t size = in.size( s + s + offset );
+
+         if( size >= ( s + offset ) ) {
+            const char16_t t = Endian::template get< char16_t >( in.current( offset ) );
+            if( !is_utf16_surrogate( t ) ) {
+               return pair_t( t, s );
             }
-            if( r.data() < 0xdc00 ) {
-               if( const auto s = peek_endian< char16_t, Endian >::peek( in, r.size() + offset ) ) {
-                  if( ( s.data() >= 0xdc00 ) && ( s.data() <= 0xdfff ) ) {
-                     return pair_t( ( ( char32_t( r.data() & 0x03ff ) << 10 ) | char32_t( s.data() & 0x03ff ) ) + 0x10000, std::uint8_t( r.size() + s.size() ) );
+            if( is_utf16_high_surrogate( t ) ) {
+               if( size >= ( s + s + offset ) ) {
+                  const char16_t u = Endian::template get< char16_t >( in.current( s + offset ) );
+                  if( is_utf16_low_surrogate( u ) ) {
+                     return pair_t( utf16_surrogate_compose( t, u ), s + s );
                   }
                }
             }

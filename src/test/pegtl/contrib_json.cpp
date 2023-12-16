@@ -16,10 +16,10 @@ namespace TAO_PEGTL_NAMESPACE
 
    [[nodiscard]] bool json_pass( const std::filesystem::path& path )
    {
-      test::file_input< ascii::lf_crlf > in( path );
+      test::file_input< ascii::lf > in( path );
       const auto s = in.string();
-      test::text_input< ascii::lf_crlf > ti( s );
-      test::lazy_input< ascii::lf_crlf > li( s );
+      test::text_input< ascii::lf > ti( s );
+      test::lazy_input< ascii::lf > li( s );
       const auto f = failed;
       TAO_PEGTL_TEST_ASSERT( in.size() == ti.size() );
       TAO_PEGTL_TEST_ASSERT( in.size() == li.size() );
@@ -36,10 +36,10 @@ namespace TAO_PEGTL_NAMESPACE
 
    [[nodiscard]] bool json_fail( const std::filesystem::path& path )
    {
-      test::file_input< ascii::lf_crlf > in( path );
+      test::file_input< ascii::lf > in( path );
       const auto s = in.string();
-      test::text_input< ascii::lf_crlf > ti( s );
-      test::lazy_input< ascii::lf_crlf > li( s );
+      test::text_input< ascii::lf > ti( s );
+      test::lazy_input< ascii::lf > li( s );
       const auto f = failed;
       TAO_PEGTL_TEST_ASSERT( in.size() == ti.size() );
       TAO_PEGTL_TEST_ASSERT( in.size() == li.size() );
@@ -85,40 +85,40 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\xF4\x8F\xBF\xBF\"]", result_type::success, 0 );  // largest allowed codepoint U+10FFFF
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\U0010FFFF\"]", result_type::success, 0 );        // largest allowed codepoint U+10FFFF
 
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( " ", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "   ", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( " [", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( " ]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[ ", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "] ", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( " [ ", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( " ] ", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\\a\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\\c\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\\d\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\\e\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\\v\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\\'\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\b\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\f\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\n\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\r\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\t\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\\\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\\\\\\\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\\u12\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\xFF\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\xF4\x90\x80\x80\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf_crlf >( "[\"\xF7\xBF\xBF\xBF\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( " ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "   ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( " [", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( " ]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[ ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "] ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( " [ ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( " ] ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\\a\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\\c\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\\d\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\\e\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\\v\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\\'\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\b\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\f\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\n\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\r\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\t\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\\\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\\\\\\\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\\u12\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\xFF\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\xF4\x90\x80\x80\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( test::text_input< ascii::lf >( "[\"\xF7\xBF\xBF\xBF\"]", "" ) ) );
 
       TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/pegtl/data/pass1.json" ) );
       TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/pegtl/data/pass2.json" ) );
       TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/pegtl/data/pass3.json" ) );
 
-      TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( test::file_input< ascii::lf_crlf >( "src/test/pegtl/data/blns.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( test::file_input< ascii::lf >( "src/test/pegtl/data/blns.json" ) ) );
 
       // TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail1.json" ) ); // disabled as it is valid now
       TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail2.json" ) );

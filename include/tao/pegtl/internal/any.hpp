@@ -9,7 +9,7 @@
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
-#include "peek_direct.hpp"
+#include "peeks.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

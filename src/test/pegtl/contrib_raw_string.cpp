@@ -56,20 +56,22 @@ namespace TAO_PEGTL_NAMESPACE
    {};
 
    template< typename Rule, template< typename > class Action, unsigned M, unsigned N >
-   void verify_data( const std::size_t line, const char* file, const char ( &m )[ M ], const char ( &n )[ N ] )
+   void verify_data( const std::size_t line, const char* file, const char ( &m )[ M ], const char ( &n )[ N ], const std::size_t count, const std::size_t dline, const std::size_t column )
    {
       content.clear();
-       test::text_input< ascii::lf_crlf > in( m, m + M - 1 );
+      test::text_input< ascii::lf_crlf > in( m, m + M - 1 );
       const auto r = parse< Rule, Action >( in );
       if( ( !r ) || ( content != std::string_view( n, N - 1 ) ) ) {
          TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r << " ]" );  // LCOV_EXCL_LINE
       }
+      TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), count, dline, column ) );
       content.clear();
       test::lazy_input< ascii::lf_crlf > in2( m, m + M - 1 );
       const auto r2 = parse< Rule, Action >( in2 );
       if( ( !r2 ) || ( content != std::string_view( n, N - 1 ) ) ) {
          TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] with tracking_mode::lazy expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r2 << " ]" );  // LCOV_EXCL_LINE
       }
+      TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), count, dline, column ) );
    }
 
    template< typename Rule >
@@ -88,19 +90,20 @@ namespace TAO_PEGTL_NAMESPACE
 
       verify_analyze< raw_string< 'a', 'b', 'c', star< star< any > > > >( __LINE__, __FILE__, true, true );
 
-      verify_data< rgrammar, raction >( __LINE__, __FILE__, "[[]]", "" );
-      verify_data< rgrammar, raction >( __LINE__, __FILE__, "[[foo]]", "foo" );
-      verify_data< rgrammar, raction >( __LINE__, __FILE__, "[===[foo]===]", "foo" );
-      verify_data< rgrammar, raction >( __LINE__, __FILE__, "[===[\nfoo]===]", "foo" );
-      verify_data< rgrammar, raction >( __LINE__, __FILE__, "[===[\r\nfoo]===]", "foo" );
-      verify_data< rgrammar, raction >( __LINE__, __FILE__, "[===[\0\0\0]===]", "\0\0\0" );
+      verify_data< rgrammar, raction >( __LINE__, __FILE__, "[[]]", "", 4, 1, 5 );
+      verify_data< rgrammar, raction >( __LINE__, __FILE__, "[[foo]]", "foo", 7, 1, 8 );
+      verify_data< rgrammar, raction >( __LINE__, __FILE__, "[===[foo]===]", "foo", 13, 1, 14 );
+      verify_data< rgrammar, raction >( __LINE__, __FILE__, "[===[\nfoo]===]", "foo", 14, 2, 9 );
+      verify_data< rgrammar, raction >( __LINE__, __FILE__, "[===[\r\nfoo]===]", "foo", 15, 2, 9 );
+      verify_data< rgrammar, raction >( __LINE__, __FILE__, "[===[\0\0\0]===]", "\0\0\0", 13, 1, 14 );
+      verify_data< rgrammar, raction >( __LINE__, __FILE__, "[=[\na\nb\nc\n]=]", "a\nb\nc\n", 13, 5, 4 );
 
-      verify_data< qgrammar, qaction >( __LINE__, __FILE__, "[[]]", "" );
-      verify_data< qgrammar, qaction >( __LINE__, __FILE__, "[[a1]]", "a1" );
-      verify_data< qgrammar, qaction >( __LINE__, __FILE__, "[===[a1]===]", "a1" );
-      verify_data< qgrammar, qaction >( __LINE__, __FILE__, "[===[\na1]===]", "a1" );
-      verify_data< qgrammar, qaction >( __LINE__, __FILE__, "[===[\r\na1]===]", "a1" );
-      verify_data< qgrammar, qaction >( __LINE__, __FILE__, "[===[a0a1a2a3]===]", "a0a1a2a3" );
+      verify_data< qgrammar, qaction >( __LINE__, __FILE__, "[[]]", "", 4, 1, 5 );
+      verify_data< qgrammar, qaction >( __LINE__, __FILE__, "[[a1]]", "a1", 6, 1, 7 );
+      verify_data< qgrammar, qaction >( __LINE__, __FILE__, "[===[a1]===]", "a1", 12, 1, 13 );
+      verify_data< qgrammar, qaction >( __LINE__, __FILE__, "[===[\na1]===]", "a1", 13, 2, 8 );
+      verify_data< qgrammar, qaction >( __LINE__, __FILE__, "[===[\r\na1]===]", "a1", 14, 2, 8 );
+      verify_data< qgrammar, qaction >( __LINE__, __FILE__, "[===[a0a1a2a3]===]", "a0a1a2a3", 18, 1, 19 );
 
       verify_fail< rgrammar >( __LINE__, __FILE__, "" );
       verify_fail< rgrammar >( __LINE__, __FILE__, "[" );

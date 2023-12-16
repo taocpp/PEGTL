@@ -22,6 +22,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Rules > struct at : internal::at< Rules... > {};
    struct bof : internal::bof {};
    struct bol : internal::bol {};
+   template< std::size_t Count > struct consume : internal::consume< Count > {};
    template< template< typename... > class Control, typename... Rules > struct control : internal::control< Control, Rules... > {};
    template< typename... Rules > struct disable : internal::disable< Rules... > {};
    template< typename... Rules > struct enable : internal::enable< Rules... > {};
@@ -30,6 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct eolf : internal::eolf {};
    struct everything : internal::everything< std::size_t > {};
    struct failure : internal::failure {};
+   template< auto Function, typename Peek = void > struct function : internal::function< decltype( Function ), Function, Peek > {};
    template< typename Rule, typename... Actions > struct if_apply : internal::if_apply< Rule, Actions... > {};
    template< typename Cond, typename Then, typename Else > struct if_then_else : internal::if_then_else< Cond, Then, Else > {};
    template< typename Rule > struct invert : invert_traits< typename Rule::rule_t >::rule_t {};

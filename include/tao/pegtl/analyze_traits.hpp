@@ -90,6 +90,11 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits<>
    {};
 
+   template< typename Name, std::size_t Count >
+   struct analyze_traits< Name, internal::consume< Count > >
+      : std::conditional_t< ( Count > 0 ), analyze_any_traits<>, analyze_opt_traits<> >
+   {};
+
    template< typename Name, template< typename... > class Control, typename... Rules >
    struct analyze_traits< Name, internal::control< Control, Rules... > >
       : analyze_traits< Name, typename seq< Rules... >::rule_t >
@@ -129,6 +134,8 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_traits< Name, internal::failure >
       : analyze_any_traits<>
    {};
+
+   // No general analyze_traits for internal::function<> for obvious reasons.
 
    template< typename Name, typename Rule, typename... Actions >
    struct analyze_traits< Name, internal::if_apply< Rule, Actions... > >

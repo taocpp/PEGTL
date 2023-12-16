@@ -7,8 +7,7 @@
 
 #include "config.hpp"
 
-#include "internal/peek_mask_uint.hpp"
-#include "internal/peek_endian.hpp"
+#include "internal/peeks.hpp"
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 

@@ -667,6 +667,10 @@ Atomic rules do not rely on other rules.
 * [Meta data] and [implementation] mapping:
   - `bol::rule_t` is `internal::bol`
 
+###### `consume< Count >`
+
+TODO
+
 ###### `eof`
 
 * Succeeds at "end-of-file", i.e. when the input is empty or all input has been consumed.

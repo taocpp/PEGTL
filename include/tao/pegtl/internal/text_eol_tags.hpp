@@ -10,13 +10,19 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    struct eol_exclude_tag
-   {};
+   {
+      using rule_t = eol_exclude_tag;
+   };
 
    struct eol_matched_tag
-   {};
+   {
+      using rule_t = eol_matched_tag;
+   };
 
    struct eol_unknown_tag
-   {};
+   {
+      using rule_t = eol_unknown_tag;
+   };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -15,7 +15,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Eol, typename Rule, typename Data, typename Position >
    void text_eol_bump( Position& pos, const Data* data, const std::size_t count )
    {
-      bump_traits< Eol, Rule >::bump( pos, data, count );
+      using eol_rule = typename Eol::rule_t;
+      using rule_rule = typename Rule::rule_t;
+      bump_traits< eol_rule, rule_rule >::bump( pos, data, count );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

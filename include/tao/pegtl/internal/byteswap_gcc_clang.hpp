@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_ENDIAN_WIN_HPP
-#define TAO_PEGTL_INTERNAL_ENDIAN_WIN_HPP
+#ifndef TAO_PEGTL_INTERNAL_BYTESWAP_GCC_CLANG_HPP
+#define TAO_PEGTL_INTERNAL_BYTESWAP_GCC_CLANG_HPP
 
 #include <cstdint>
 #include <type_traits>
@@ -14,19 +14,8 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   // Windows has never and will never do big endian?
-
-#define TAO_PEGTL_ENDIAN_SUFFIXED( iDeNTiFieR ) iDeNTiFieR ## le
-
    template< typename T >
-   T little_endian::from( const T n ) noexcept
-   {
-      static_assert( std::is_integral_v< T > || std::is_enum_v< T > );
-      return n;
-   }
-
-   template< typename T >
-   T big_endian::from( const T n ) noexcept
+   [[nodiscard]] T byteswap( const T n ) noexcept
    {
       static_assert( std::is_integral_v< T > || std::is_enum_v< T > );
 
@@ -34,21 +23,18 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return n;
       }
       else if constexpr( sizeof( T ) == 2 ) {
-         return static_cast< T >( _byteswap_ushort( static_cast< std::uint16_t >( n ) ) );
+         return static_cast< T >( __builtin_bswap16( static_cast< std::uint16_t >( n ) ) );
       }
       else if constexpr( sizeof( T ) == 4 ) {
-         return static_cast< T >( _byteswap_ulong( static_cast< std::uint32_t >( n ) ) );
+         return static_cast< T >( __builtin_bswap32( static_cast< std::uint32_t >( n ) ) );
       }
       else if constexpr( sizeof( T ) == 8 ) {
-         return static_cast< T >( _byteswap_uint64( static_cast< std::uint64_t >( n ) ) );
+         return static_cast< T >( __builtin_bswap64( static_cast< std::uint64_t >( n ) ) );
       }
       else {
          static_assert( dependent_false< T > );
       }
    }
-
-   using other_endian = big_endian;
-   using native_endian = little_endian;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

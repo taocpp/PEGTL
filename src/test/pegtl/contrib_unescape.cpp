@@ -36,14 +36,14 @@ namespace TAO_PEGTL_NAMESPACE
    {
       std::string s;
       test::text_input< ascii::lf > in( m );
-      std::cerr << __LINE__ << " : " << m << std::endl;
-      std::cerr << __LINE__ << " : " << in.string_view() << std::endl;
-      std::cerr << __LINE__ << " : " << n << std::endl;
+      // std::cerr << __LINE__ << " : " << m << std::endl;
+      // std::cerr << __LINE__ << " : " << in.string_view() << std::endl;
+      // std::cerr << __LINE__ << " : " << n << std::endl;
       if( !parse< unstring, unaction >( in, s ) ) {
-         std::cerr << __LINE__ << " : " << s << std::endl;
+         // std::cerr << __LINE__ << " : " << s << std::endl;
          return false;  // LCOV_EXCL_LINE
       }
-      std::cerr << __LINE__ << " : " << s << std::endl;
+      // std::cerr << __LINE__ << " : " << s << std::endl;
       return s == std::string( n, N - 1 );
    }
 

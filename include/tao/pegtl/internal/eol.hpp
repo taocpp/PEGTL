@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct eol
    {
       using rule_t = eol;
-      using subs_t = empty_list;  // Should be eol_rule, but we don't know that here yet...
+      using subs_t = empty_list;  // Not quite true, but good enough and we can't really do better.
 
       template< apply_mode A,
                 rewind_mode M,
@@ -31,11 +31,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          using eol_rule = typename ParseInput::eol_rule;
-         if( Control< typename eol_rule::rule_t >::template match< A, M, Action, Control >( in, st... ) ) {
-            // in.template consume< eol_matched_tag >( 0 );  // TODO: Can we optimise the above line to not perform position updates and do this instead?
-            return true;
-         }
-         return false;
+         using eol_impl = typename eol_rule::rule_t;
+         return Control< eol_impl >::template match< apply_mode::nothing, M, Action, Control >( in, st... );
       }
    };
 
