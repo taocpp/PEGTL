@@ -19,12 +19,11 @@
 #include "input_with_source.hpp"
 #include "input_with_start.hpp"
 
+#include "input_double_path.hpp"
+
 #include "argv_input_with_source.hpp"
 #include "file_input_with_source.hpp"
 #include "lazy_input_with_source.hpp"
 #include "text_input_with_source.hpp"
-
-#include "lazy_file_input_with_source.hpp"
-#include "text_file_input_with_source.hpp"
 
 #endif

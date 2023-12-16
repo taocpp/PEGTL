@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_IFMT_HPP
 #define TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_IFMT_HPP
 
-#include <tao/pegtl.hpp>
-
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 

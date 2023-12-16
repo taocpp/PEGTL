@@ -13,12 +13,6 @@ int main()
 #include "test.hpp"
 #include "test_inputs.hpp"
 
-#include <tao/pegtl/ascii.hpp>
-#include <tao/pegtl/eol.hpp>
-#include <tao/pegtl/must_if.hpp>
-#include <tao/pegtl/parse.hpp>
-#include <tao/pegtl/rules.hpp>
-
 namespace test3
 {
    using namespace TAO_PEGTL_NAMESPACE;

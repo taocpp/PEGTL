@@ -25,9 +25,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using data_t = std::decay_t< T >;
       using pair_t = data_and_size< data_t, void >;
 
-      static constexpr bool allow_bulk = true;
-      static constexpr std::size_t fixed_size = 1;
-
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 1 ) ) )
       {
@@ -35,16 +32,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   // For data members of type 'T*' or 'const T*'.
+   // For data members of type 'T*' or 'const T*' -- will this case ever be used?
 
    template< typename C, typename T, T* C::*P >
    struct peek_member_impl< T* C::*, P, std::enable_if_t< std::is_member_object_pointer_v< T* C::* > > >
    {
       using data_t = std::decay_t< T >;
       using pair_t = data_and_size< data_t, void >;
-
-      static constexpr bool allow_bulk = true;
-      static constexpr std::size_t fixed_size = 1;
 
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 1 ) ) )
@@ -53,16 +47,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   // For data members of type 'T* const' or 'const T* const'.
+   // For data members of type 'T* const' or 'const T* const' -- will this case ever be used?
 
    template< typename C, typename T, T* const C::* const P >
    struct peek_member_impl< T* const C::*, P, std::enable_if_t< std::is_member_object_pointer_v< T* const C::* > > >
    {
       using data_t = std::decay_t< T >;
       using pair_t = data_and_size< data_t, void >;
-
-      static constexpr bool allow_bulk = true;
-      static constexpr std::size_t fixed_size = 1;
 
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 1 ) ) )
@@ -110,7 +101,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< auto M >
    struct peek_member
       : peek_member_impl< decltype( M ), M >
-   {};
+   {
+      static constexpr bool allow_bulk = true;
+      static constexpr std::size_t fixed_size = 1;
+   };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

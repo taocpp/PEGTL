@@ -9,12 +9,8 @@
 #include <utility>
 
 #include "test.hpp"
-
-#include <tao/pegtl/eol.hpp>
 #include <tao/pegtl/internal/inputs.hpp>
-#include <tao/pegtl/parse.hpp>
 #include <tao/pegtl/internal/rewind_adapt.hpp>
-#include <tao/pegtl/rules.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

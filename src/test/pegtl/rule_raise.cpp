@@ -12,10 +12,7 @@ int main()
 
 #include "test.hpp"
 #include "test_inputs.hpp"
-
 #include "verify_meta.hpp"
-
-#include <tao/pegtl/parse.hpp>
 
 #if defined( _MSC_VER )
 #pragma warning( push )

@@ -7,7 +7,7 @@
 
 #include "config.hpp"
 
-#include "internal/peeks.hpp"
+#include "internal/peek_integer.hpp"
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 

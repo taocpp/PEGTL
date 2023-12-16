@@ -7,7 +7,7 @@
 
 #include "config.hpp"
 
-#include "internal/peeks.hpp"
+#include "internal/peek_integer.hpp"
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
@@ -16,6 +16,7 @@ namespace TAO_PEGTL_NAMESPACE::uint8
    // clang-format off
    struct any : internal::any< internal::peek_uint8 > {};
    template< unsigned Count > struct many : internal::many< Count, internal::peek_uint8 > {};
+
    template< std::uint8_t... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_uint8, Cs... > {};
    template< std::uint8_t Lo, std::uint8_t Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_uint8, Lo, Hi > {};
    template< std::uint8_t... Cs > struct one : internal::one< internal::result_on_found::success, internal::peek_uint8, Cs... > {};

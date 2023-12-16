@@ -4,10 +4,6 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/ascii.hpp>
-#include <tao/pegtl/rules.hpp>
-#include <tao/pegtl/visit.hpp>
-
 namespace TAO_PEGTL_NAMESPACE
 {
    // clang-format off

@@ -3,11 +3,6 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-
-#include <tao/pegtl/ascii.hpp>
-#include <tao/pegtl/parse.hpp>
-#include <tao/pegtl/rules.hpp>
-
 #include "test_inputs.hpp"
 
 namespace TAO_PEGTL_NAMESPACE

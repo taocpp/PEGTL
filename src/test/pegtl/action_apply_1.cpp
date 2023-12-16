@@ -9,11 +9,6 @@
 #include "test.hpp"
 #include "test_inputs.hpp"
 
-#include <tao/pegtl/ascii.hpp>
-#include <tao/pegtl/eol.hpp>
-#include <tao/pegtl/parse.hpp>
-#include <tao/pegtl/rules.hpp>
-
 namespace TAO_PEGTL_NAMESPACE
 {
    std::vector< std::pair< std::string, std::string > > applied;

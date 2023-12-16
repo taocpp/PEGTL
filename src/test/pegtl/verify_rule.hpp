@@ -8,8 +8,6 @@
 #include <cstdlib>
 #include <string>
 
-#include <tao/pegtl/eol.hpp>
-
 #include "result_type.hpp"
 #include "test_inputs.hpp"
 #include "verify_impl.hpp"

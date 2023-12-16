@@ -29,6 +29,7 @@
 * Added rule [`try_catch_raise_nested`](Rule-Reference.md#try_catch_raise_nested-r-).
 * Added rule [`try_catch_std_raise_nested`](Rule-Reference.md#try_catch_std_raise_nested-r-).
 * Added rule [`try_catch_type_raise_nested`](Rule-Reference.md#try_catch_type_raise_nested-e-r-).
+* Added rules for matching signed integers mirroring the existing ones for unsigned integers.
 * Moved depth counter to adapter class `input_with_depth` in [contrib](Contrib-and-Examples#contrib).
 * Changed default top-level `rewind_mode` to ~~`dontcare`~~ `optional`.
 * Replaced `rewind_mode` values `dontcare` and `active` with new value `optional`.

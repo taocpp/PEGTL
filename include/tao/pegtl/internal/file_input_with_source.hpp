@@ -11,39 +11,38 @@
 #include "../config.hpp"
 #include "../position_with_source.hpp"
 
-#include "file_input.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
+   template< typename Input >
    class file_input_with_source
-      : public file_input
+      : public Input
    {
    public:
-      using base_t = file_input;
-      using data_t = file_input::data_t;
-      using error_position_t = position_with_source< std::filesystem::path, file_input::error_position_t >;
-      using rewind_position_t = file_input::rewind_position_t;
+      using base_t = Input;
+      using data_t = typename Input::data_t;
+      using error_position_t = position_with_source< std::filesystem::path, typename Input::error_position_t >;
+      using rewind_position_t = typename Input::rewind_position_t;
 
       template< typename... Ts >
       explicit file_input_with_source( std::filesystem::path&& s, Ts&&... ts )
-         : file_input( static_cast< const std::filesystem::path& >( s ), std::forward< Ts >( ts )... ),
+         : Input( static_cast< const std::filesystem::path& >( s ), std::forward< Ts >( ts )... ),
            m_source( std::move( s ) )
       {}
 
       template< typename... Ts >
       explicit file_input_with_source( const std::filesystem::path& s, Ts&&... ts )
-         : file_input( s, std::forward< Ts >( ts )... ),
+         : Input( s, std::forward< Ts >( ts )... ),
            m_source( s )
       {}
 
       [[nodiscard]] auto current_position() const
       {
-         return error_position_t( m_source, file_input::current_position() );
+         return error_position_t( m_source, Input::current_position() );
       }
 
       [[nodiscard]] auto previous_position( const rewind_position_t& saved ) const
       {
-         return error_position_t( m_source, file_input::previous_position( saved ) );
+         return error_position_t( m_source, Input::previous_position( saved ) );
       }
 
       [[nodiscard]] const std::filesystem::path& direct_source() const noexcept

@@ -16,8 +16,6 @@ int main()
 #include "test_inputs.hpp"
 #include "verify_seqs.hpp"
 
-#include <tao/pegtl/parse.hpp>
-
 #include <tao/pegtl/contrib/nested_exceptions.hpp>
 
 namespace TAO_PEGTL_NAMESPACE

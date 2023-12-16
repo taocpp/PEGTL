@@ -7,8 +7,6 @@
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
-#include <tao/pegtl/parse.hpp>
-
 namespace TAO_PEGTL_NAMESPACE
 {
    int at_counter = 0;

@@ -12,12 +12,11 @@
 #include "../ascii.hpp"
 #include "../config.hpp"
 #include "../nothing.hpp"
+#include "../remove_first_state.hpp"
 #include "../rules.hpp"
 #include "../utf8.hpp"
 
 #include "abnf.hpp"
-#include "forward.hpp"
-#include "remove_first_state.hpp"
 #include "uri.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::http
@@ -167,7 +166,7 @@ namespace TAO_PEGTL_NAMESPACE::http
             }
             break;
          }
-         in.bump_in_this_line( i );
+         in.template consume< internal::eol_exclude_tag >( i );
          return i > 0;
       }
    };
@@ -193,7 +192,7 @@ namespace TAO_PEGTL_NAMESPACE::http
       [[nodiscard]] static bool match( ParseInput& in, const std::size_t size, States&&... /*unused*/ )
       {
          if( in.size( size ) >= size ) {
-            in.bump( size );
+            in.template consume< internal::eol_unknown_tag >( size );
             return true;
          }
          return false;

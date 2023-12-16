@@ -6,11 +6,7 @@
 #include "test_inputs.hpp"
 #include "verify_meta.hpp"
 
-#include <tao/pegtl/ascii.hpp>
-#include <tao/pegtl/eol.hpp>
 #include <tao/pegtl/contrib/raw_string.hpp>
-#include <tao/pegtl/parse.hpp>
-#include <tao/pegtl/rules.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

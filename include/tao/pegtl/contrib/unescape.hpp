@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
 {
    // Utility functions for the unescape actions.
 
-   [[nodiscard]] inline bool utf8_append_utf32( std::string& string, const unsigned utf32 )
+   [[nodiscard]] inline bool utf8_append_utf32( std::string& string, const char32_t utf32 )
    {
       if( utf32 <= 0x7f ) {
          string += static_cast< char >( utf32 & 0xff );
@@ -150,7 +150,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       static void apply( const ActionInput& in, std::string& s )
       {
          assert( !in.empty() );  // First character MUST be present, usually 'u' or 'U'.
-         if( !utf8_append_utf32( s, unhex_string< unsigned >( in.begin() + 1, in.end() ) ) ) {
+         if( !utf8_append_utf32( s, unhex_string< char32_t >( in.begin() + 1, in.end() ) ) ) {
             throw parse_error( "invalid escaped unicode code point", in );
          }
       }
@@ -159,7 +159,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       static bool apply( const ActionInput& in, std::string& s )
       {
          assert( !in.empty() );  // First character MUST be present, usually 'u' or 'U'.
-         return utf8_append_utf32( s, unhex_string< unsigned >( in.begin() + 1, in.end() ) );
+         return utf8_append_utf32( s, unhex_string< char32_t >( in.begin() + 1, in.end() ) );
       }
 #endif
    };
@@ -189,9 +189,9 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       {
          assert( ( ( in.size() + 1 ) % 6 ) == 0 );  // Expects multiple "\\u1234", starting with the first "u".
          for( const char* b = in.begin() + 1; b < in.end(); b += 6 ) {
-            const auto c = unhex_string< unsigned >( b, b + 4 );
+            const auto c = unhex_string< char32_t >( b, b + 4 );
             if( ( 0xd800 <= c ) && ( c <= 0xdbff ) && ( b + 6 < in.end() ) ) {
-               const auto d = unhex_string< unsigned >( b + 6, b + 10 );
+               const auto d = unhex_string< char32_t >( b + 6, b + 10 );
                if( ( 0xdc00 <= d ) && ( d <= 0xdfff ) ) {
                   b += 6;
                   (void)utf8_append_utf32( s, ( ( ( c & 0x03ff ) << 10 ) | ( d & 0x03ff ) ) + 0x10000 );

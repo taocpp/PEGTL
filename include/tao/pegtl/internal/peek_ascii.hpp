@@ -12,7 +12,7 @@
 
 #include "data_and_size.hpp"
 #include "endian.hpp"
-#include "type_traits.hpp"
+#include "integer_traits.hpp"
 #include "utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static constexpr bool allow_bulk = false;
 
       template< typename ParseInput >
-      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( sizeof( data_t ) ) ) )
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 1 ) ) )
       {
          using temp_t = typename integer_traits< sizeof( *in.current() ) >::unsigned_t;
 

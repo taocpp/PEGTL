@@ -9,9 +9,7 @@
 #include <exception>
 #include <iostream>
 
-#include <tao/pegtl/config.hpp>
-
-// #include <tao/pegtl.hpp>
+#include <tao/pegtl.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

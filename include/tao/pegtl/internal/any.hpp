@@ -5,45 +5,17 @@
 #ifndef TAO_PEGTL_INTERNAL_ANY_HPP
 #define TAO_PEGTL_INTERNAL_ANY_HPP
 
+#include <type_traits>
+
 #include "../config.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
-#include "peeks.hpp"
+#include "peek_integer.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Peek >
-   struct any;
-
-   template<>
-   struct any< peek_char >
-   {
-      using peek_t = peek_char;
-      using data_t = char;
-
-      using rule_t = any;
-      using subs_t = empty_list;
-
-      [[nodiscard]] static bool test( const char /*unused*/ ) noexcept
-      {
-         return true;
-      }
-
-      template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.empty() ) )
-      {
-         static_assert( sizeof( *in.current() ) == 1 );
-
-         if( !in.empty() ) {
-            in.template consume< any >( 1 );
-            return true;
-         }
-         return false;
-      }
-   };
-
-   template< typename Peek >
+   template< typename Peek, typename = void >
    struct any
    {
       using peek_t = Peek;
@@ -69,7 +41,32 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Peek >
-   inline constexpr bool enable_control< any< Peek > > = false;
+   struct any< Peek, std::enable_if_t< Peek::allow_bulk > >
+   {
+      using peek_t = Peek;
+      using data_t = typename Peek::data_t;
+
+      using rule_t = any;
+      using subs_t = empty_list;
+
+      [[nodiscard]] static bool test( const char /*unused*/ ) noexcept
+      {
+         return true;
+      }
+
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
+      {
+         if( in.size( Peek::fixed_size ) >= Peek::fixed_size ) {
+            in.template consume< any >( Peek::fixed_size );
+            return true;
+         }
+         return false;
+      }
+   };
+
+   template< typename Peek, typename Z >
+   inline constexpr bool enable_control< any< Peek, Z > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

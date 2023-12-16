@@ -7,8 +7,6 @@
 
 #include <type_traits>
 
-#include "test.hpp"
-
 #include <tao/pegtl/analyze.hpp>
 #include <tao/pegtl/type_list.hpp>
 

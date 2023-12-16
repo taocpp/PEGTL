@@ -1466,20 +1466,30 @@ Convenience wrappers for enumerated properties that return a value instead of an
 
 These rules are available in multiple versions,
 
-* in namespace `tao::pegtl::uint8` for 8-bit integer values,
+* in namespace `tao::pegtl::int8` for signed 8-bit integer values,
+* in namespace `tao::pegtl::uint8` for unsigned 8-bit integer values,
+* in namespace `tao::pegtl::int16_be` for big-endian 16-bit integer values,
+* in namespace `tao::pegtl::int16_le` for little-endian 16-bit integer values,
+* in namespace `tao::pegtl::int32_be` for big-endian 32-bit integer values,
+* in namespace `tao::pegtl::int32_le` for little-endian 32-bit integer values,
+* in namespace `tao::pegtl::int64_be` for big-endian 64-bit integer values, and
+* in namespace `tao::pegtl::int64_le` for little-endian 64-bit integer values.
 * in namespace `tao::pegtl::uint16_be` for big-endian 16-bit integer values,
 * in namespace `tao::pegtl::uint16_le` for little-endian 16-bit integer values,
 * in namespace `tao::pegtl::uint32_be` for big-endian 32-bit integer values,
 * in namespace `tao::pegtl::uint32_le` for little-endian 32-bit integer values,
 * in namespace `tao::pegtl::uint64_be` for big-endian 64-bit integer values, and
-* in namespace `tao::pegtl::uint64_le` for little-endian 64-bit integer values.
+* in namespace `tao::pegtl::uint64_le` for little-endian 64-bit integer values,
 
-The binary rules need to be manually included from their corresponding headers in the `contrib` section.
+however please not that the masked rules are available only for unsigned integers.
 
-These rules read one or more bytes from the input to form (and match) an 8, 16, 32 or 64-bit value, respectively, and corresponding template parameters are given as either `std::uint8_t`, `std::uint16_t`, `std::uint32_t` or `std::uin64_t`.
+The binary rules need to be manually included from their corresponding headers.
+
+These rules read one or more bytes from the input to form (and match) an 8, 16, 32 or 64-bit value, respectively, and corresponding template parameters are given as either `std::int8_t`, `std::uint8_t`, `std::int16_t`, `std::uint16_t`, `std::int32_t`, `std::uint32_t`, `std::int64_t` or `std::uin64_t`.
 
 In the following descriptions, the parameter N is the size of a single value in bytes, i.e. either 1, 2, 4 or 8.
-The term *input value* indicates a correspondingly sized integer value read from successive bytes of the input.
+The term *input value* indicates a correspondingly sized integer value read from the input.
+For inputs of values of size 1 like `char` or `std::byte` all integer rules can be used, for inputs of values of size greater than 1 like `int` or `long` only integer rules of matching size are possible.
 
 Binary rules do not rely on other rules.
 

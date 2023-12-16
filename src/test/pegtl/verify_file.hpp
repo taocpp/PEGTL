@@ -5,9 +5,7 @@
 #ifndef TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_FILE_HPP
 #define TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_FILE_HPP
 
-#include <tao/pegtl.hpp>
-
-#include "test.hpp"
+#include "test_inputs.hpp"
 
 #if defined( _MSC_VER )
 #define TAO_PEGTL_TEST_FILENAME u"src/test/pegtl/file_äöü𝄞_data.txt"
@@ -67,12 +65,11 @@ namespace TAO_PEGTL_NAMESPACE
          }
       }
 #endif
-
       {
          T in( "src/test/pegtl/file_data.txt" );
-         TAO_PEGTL_TEST_ASSERT( in.source() == "src/test/pegtl/file_data.txt" );
+         TAO_PEGTL_TEST_ASSERT( in.direct_source() == "src/test/pegtl/file_data.txt" );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
-         TAO_PEGTL_TEST_ASSERT( in.source() == "src/test/pegtl/file_data.txt" );
+         TAO_PEGTL_TEST_ASSERT( in.direct_source() == "src/test/pegtl/file_data.txt" );
       }
       {
          T in( TAO_PEGTL_TEST_FILENAME );
@@ -101,7 +98,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( flag == true );
       }
       const char* foo = "foo";
-      const memory_input m( foo, foo + 3, foo );
+      const text_copy_input_with_source< ascii::lf_crlf > m( foo, foo, foo + 3 );
       {
          T in( TAO_PEGTL_TEST_FILENAME );
          TAO_PEGTL_TEST_ASSERT( parse_nested< file_grammar >( m, in ) );

@@ -69,7 +69,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< ranges< 'a', 'z', '4' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
 
       for( int i = 0; i < 128; ++i ) {
-         const auto c = char( i );
+         const int c = char( i );
 
          const bool is_blank = ( c == ' ' ) || ( c == '\t' );
          const bool is_digit = ( '0' <= c ) && ( c <= '9' );

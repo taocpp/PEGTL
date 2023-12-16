@@ -7,7 +7,7 @@
 
 #include "config.hpp"
 
-#include "internal/peeks.hpp"
+#include "internal/peek_integer.hpp"
 #include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
@@ -18,6 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
       // clang-format off
       struct any : internal::any< internal::peek_uint16_be > {};
       template< unsigned Count > struct many : internal::many< Count, internal::peek_uint16_be > {};
+
       template< std::uint16_t... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_uint16_be, Cs... > {};
       template< std::uint16_t Lo, std::uint16_t Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_uint16_be, Lo, Hi > {};
       template< std::uint16_t... Cs > struct one : internal::one< internal::result_on_found::success, internal::peek_uint16_be, Cs... > {};
@@ -40,6 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
       // clang-format off
       struct any : internal::any< internal::peek_uint16_le > {};
       template< unsigned Count > struct many : internal::many< Count, internal::peek_uint16_le > {};
+
       template< std::uint16_t... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_uint16_le, Cs... > {};
       template< std::uint16_t Lo, std::uint16_t Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_uint16_le, Lo, Hi > {};
       template< std::uint16_t... Cs > struct one : internal::one< internal::result_on_found::success, internal::peek_uint16_le, Cs... > {};

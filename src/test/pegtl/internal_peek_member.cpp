@@ -6,11 +6,7 @@
 #include <vector>
 
 #include "test.hpp"
-
-#include <tao/pegtl/inputs.hpp>
 #include <tao/pegtl/internal/peek_member.hpp>
-#include <tao/pegtl/parse.hpp>
-#include <tao/pegtl/rules.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

@@ -20,8 +20,6 @@ int main()
 #include "verify_rule.hpp"
 
 #include <tao/pegtl/contrib/integer.hpp>
-#include <tao/pegtl/parse.hpp>
-#include <tao/pegtl/rules.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

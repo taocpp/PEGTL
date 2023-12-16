@@ -5,7 +5,6 @@
 #include <sstream>
 
 #include "test.hpp"
-
 #include "result_type.hpp"
 
 namespace TAO_PEGTL_NAMESPACE

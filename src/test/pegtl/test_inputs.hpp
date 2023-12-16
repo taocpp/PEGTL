@@ -8,7 +8,7 @@
 #include <cstddef>
 
 #include <tao/pegtl/eol.hpp>
-#include <tao/pegtl/internal/inputs.hpp>
+#include <tao/pegtl/inputs.hpp>
 
 namespace TAO_PEGTL_NAMESPACE::test
 {
@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::test
    using text_input = internal::input_with_peeks< internal::text_input< Eol, internal::input_with_fakes< internal::view_input< char > > > >;
 
    template< typename Eol >
-   using file_input = internal::input_with_peeks< internal::input_with_fakes< internal::text_file_input_with_source< Eol > > >;
+   using file_input = text_file_input_with_source< Eol >;
 
    template< typename T >
    [[nodiscard]] bool equal( const T& position, const std::size_t count, const std::size_t line, const std::size_t column ) noexcept

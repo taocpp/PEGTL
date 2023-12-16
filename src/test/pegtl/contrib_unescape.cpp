@@ -4,10 +4,7 @@
 
 #include "test.hpp"
 #include "test_inputs.hpp"
-
 #include <tao/pegtl/contrib/unescape.hpp>
-#include <tao/pegtl/parse.hpp>
-#include <tao/pegtl/utf8.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

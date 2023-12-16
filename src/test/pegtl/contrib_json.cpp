@@ -8,7 +8,6 @@
 #include "verify_rule.hpp"
 
 #include <tao/pegtl/contrib/json.hpp>
-#include <tao/pegtl/parse.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
