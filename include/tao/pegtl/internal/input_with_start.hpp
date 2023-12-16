@@ -60,6 +60,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       const data_t* m_start;
    };
 
-}  // TAO_PEGTL_NAMESPACE::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

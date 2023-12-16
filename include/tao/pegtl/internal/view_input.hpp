@@ -69,7 +69,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {}
 
       template< std::size_t N >
-      explicit view_input( const char( &in_literal )[ N ] ) noexcept
+      explicit view_input( const char ( &in_literal )[ N ] ) noexcept
          : view_input( in_literal, N - 1 )
       {
          static_assert( std::is_same_v< data_t, char > );  // TODO: Or reinterpret_cast for sizeof( data_t ) == 1 instead?

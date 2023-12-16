@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Func, Func Tion, typename Peek >
    struct function;
 
-   template< bool E, typename Input, typename... States, bool ( *Tion )( Input&, States... )  noexcept( E ) >
+   template< bool E, typename Input, typename... States, bool ( *Tion )( Input&, States... ) noexcept( E ) >
    struct function< bool ( * )( Input&, States... ) noexcept( E ), Tion, void >
    {
       using rule_t = function;

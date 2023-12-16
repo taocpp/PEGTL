@@ -16,6 +16,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Data >
    using scan_input = input_with_peeks< input_with_fakes< view_input< Data > > >;
 
-}  // namepace TAO_PEGTL_NAMESPACE::internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

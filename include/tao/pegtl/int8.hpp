@@ -25,6 +25,6 @@ namespace TAO_PEGTL_NAMESPACE::int8
    template< std::int8_t... Cs > struct string : internal::seq< internal::one< internal::result_on_found::success, internal::peek_int8, Cs >... > {};
    // clang-format on
 
-}  // namespace TAO_PEGTL_NAMESPACE::uint8
+}  // namespace TAO_PEGTL_NAMESPACE::int8
 
 #endif

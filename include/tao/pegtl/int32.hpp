@@ -43,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< std::int32_t... Cs > struct string : internal::seq< internal::one< internal::result_on_found::success, internal::peek_int32_le, Cs >... > {};
       // clang-format on
 
-   }  // namespace uint32_le
+   }  // namespace int32_le
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

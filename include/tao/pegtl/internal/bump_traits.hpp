@@ -12,9 +12,9 @@
 
 #include "any.hpp"
 #include "at.hpp"
+#include "consume.hpp"
 #include "eol.hpp"
 #include "eolf.hpp"
-#include "consume.hpp"
 #include "everything.hpp"
 #include "many.hpp"
 #include "text_eol_tags.hpp"

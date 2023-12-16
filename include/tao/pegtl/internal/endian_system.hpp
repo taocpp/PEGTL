@@ -22,7 +22,7 @@
 #define TAO_PEGTL_BIG_ENDIAN_TYPE byteswap_endian
 #define TAO_PEGTL_LITTLE_ENDIAN_TYPE identity_endian
 
-#define TAO_PEGTL_ENDIAN_SUFFIXED( iDeNTiFieR ) iDeNTiFieR ## le
+#define TAO_PEGTL_ENDIAN_SUFFIXED( iDeNTiFieR ) iDeNTiFieR##le
 
 // NOTE: I'm pretty sure that all Windows versions ever are little
 // endian, including on processors like Alpha, Mips and Itanium.
@@ -36,14 +36,14 @@
 #define TAO_PEGTL_BIG_ENDIAN_TYPE identity_endian
 #define TAO_PEGTL_LITTLE_ENDIAN_TYPE byteswap_endian
 
-#define TAO_PEGTL_ENDIAN_SUFFIXED( iDeNTiFieR ) iDeNTiFieR ## be
+#define TAO_PEGTL_ENDIAN_SUFFIXED( iDeNTiFieR ) iDeNTiFieR##be
 
 #elif __BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__
 
 #define TAO_PEGTL_BIG_ENDIAN_TYPE byteswap_endian
 #define TAO_PEGTL_LITTLE_ENDIAN_TYPE identity_endian
 
-#define TAO_PEGTL_ENDIAN_SUFFIXED( iDeNTiFieR ) iDeNTiFieR ## le
+#define TAO_PEGTL_ENDIAN_SUFFIXED( iDeNTiFieR ) iDeNTiFieR##le
 
 #else
 
@@ -51,6 +51,6 @@
 
 #endif
 
-#define TAO_PEGTL_PASTE_ENDIAN_SYMBOLS( FiRST, SeCoND ) FiRST ## SeCoND
+#define TAO_PEGTL_PASTE_ENDIAN_SYMBOLS( FiRST, SeCoND ) FiRST##SeCoND
 
 #endif

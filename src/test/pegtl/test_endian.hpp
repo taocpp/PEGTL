@@ -5,8 +5,8 @@
 #ifndef TAO_PEGTL_SRC_TEST_PEGTL_TEST_ENDIAN_HPP
 #define TAO_PEGTL_SRC_TEST_PEGTL_TEST_ENDIAN_HPP
 
-#include <cstdint>
 #include <cstddef>
+#include <cstdint>
 
 #include <tao/pegtl/config.hpp>
 

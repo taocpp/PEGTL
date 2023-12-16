@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    // For data members of type 'T*' or 'const T*' -- will this case ever be used?
 
    template< typename C, typename T, T* C::*P >
-   struct peek_member_impl< T* C::*, P, std::enable_if_t< std::is_member_object_pointer_v< T* C::* > > >
+   struct peek_member_impl< T * C::*, P, std::enable_if_t< std::is_member_object_pointer_v< T * C::* > > >
    {
       using data_t = std::decay_t< T >;
       using pair_t = data_and_size< data_t, void >;
@@ -49,7 +49,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    // For data members of type 'T* const' or 'const T* const' -- will this case ever be used?
 
-   template< typename C, typename T, T* const C::* const P >
+   template< typename C, typename T, T* const C::*const P >
    struct peek_member_impl< T* const C::*, P, std::enable_if_t< std::is_member_object_pointer_v< T* const C::* > > >
    {
       using data_t = std::decay_t< T >;
@@ -71,7 +71,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using pair_t = data_and_size< data_t, std::uint8_t >;
 
       template< typename ParseInput >
-      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( N && noexcept( in.size( 1 ) ) )
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( N&& noexcept( in.size( 1 ) ) )
       {
          if( in.size( offset + 1 ) >= ( offset + 1 ) ) {
             return pair_t( P( *in.current( offset ) ), 1 );
@@ -89,7 +89,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using pair_t = data_and_size< data_t, std::uint8_t >;
 
       template< typename ParseInput >
-      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( N && noexcept( in.size( 1 ) ) )
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( N&& noexcept( in.size( 1 ) ) )
       {
          if( in.size( offset + 1 ) >= ( offset + 1 ) ) {
             return pair_t( ( in.current( offset )->*P )(), 1 );

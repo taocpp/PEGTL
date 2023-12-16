@@ -16,8 +16,8 @@
 #include <string_view>
 #include <type_traits>
 
-#include "../ascii.hpp"
 #include "../analyze_traits.hpp"
+#include "../ascii.hpp"
 #include "../config.hpp"
 #include "../parse.hpp"
 #include "../parse_error.hpp"
