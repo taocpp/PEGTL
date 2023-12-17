@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
          static bool match( ParseInput& in )
          {
             if( ( !in.empty() ) && ( in.current()->type == Value ) ) {
-               in.template consume< internal::eol_exclude_tag >( 1 );
+               in.template consume< eol_exclude_tag >( 1 );
                return true;
             }
             return false;

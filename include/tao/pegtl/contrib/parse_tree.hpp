@@ -15,7 +15,6 @@
 #include <utility>
 #include <vector>
 
-#include "remove_first_state.hpp"
 #include "shuffle_states.hpp"
 
 #include "../apply_mode.hpp"
@@ -26,6 +25,7 @@
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../parse.hpp"
+#include "../remove_first_state.hpp"
 #include "../rewind_mode.hpp"
 
 #include "../internal/enable_control.hpp"
@@ -57,8 +57,8 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       ~basic_node() = default;
 
       // no assignment either
-      basic_node& operator=( const basic_node& ) = delete;
-      basic_node& operator=( basic_node&& ) = delete;
+      void operator=( const basic_node& ) = delete;
+      void operator=( basic_node&& ) = delete;
 
       [[nodiscard]] bool is_root() const noexcept
       {

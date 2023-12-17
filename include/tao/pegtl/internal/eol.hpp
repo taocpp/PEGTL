@@ -11,14 +11,35 @@
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
-#include "text_eol_tags.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
+   template< typename Eol >
    struct eol
    {
       using rule_t = eol;
-      using subs_t = empty_list;  // Not quite true, but good enough and we can't really do better.
+      using subs_t = empty_list;  // TODO?
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename ParseInput,
+                typename... States >
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
+      {
+         using eol_impl = typename Eol::rule_t;
+         return Control< eol_impl >::template match< apply_mode::nothing, M, Action, Control >( in, st... );
+      }
+   };
+
+   template<>
+   struct eol< void >
+   {
+      using rule_t = eol;
+      using subs_t = empty_list;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -36,8 +57,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template<>
-   inline constexpr bool enable_control< eol > = false;
+   template< typename Eol >
+   inline constexpr bool enable_control< eol< Eol > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

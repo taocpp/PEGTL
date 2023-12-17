@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< char Lo, char Hi > struct range : internal::range< internal::result_on_found::success, internal::peek_char, Lo, Hi > {};
       template< char... Cs > struct ranges : internal::ranges< internal::peek_char, Cs... > {};
       struct seven : internal::range< internal::result_on_found::success, internal::peek_char, static_cast< char >( 0 ), static_cast< char >( 127 ) > {};
-      struct shebang : internal::seq< internal::string< '#', '!' >, internal::until< internal::eolf > > {};
+      struct shebang : internal::seq< internal::string< '#', '!' >, internal::until< internal::eolf< void > > > {};
       struct sp : internal::one< internal::result_on_found::success, internal::peek_char, ' ' > {};
       struct space : internal::one< internal::result_on_found::success, internal::peek_char, ' ', '\n', '\r', '\t', '\v', '\f' > {};
       template< char... Cs > struct string : internal::string< Cs... > {};

@@ -39,6 +39,9 @@
 * Moved `end_of_line()` from input member function to global function of same name.
 * Makefile generates binaries in `build/bin/` instead of `build/src/`.
 * Makefile generates dependencies in `build/dep/` instead of `build/src/`.
+* Renamed contrib "limit_depth" functionality to "check_depth".
+* Renamed contrib "check_bytes" functionality to "check_count".
+* Renamed contrib "limit_bytes" functionality to "limit_count".
 * Removed rule `bytes` and replaced with `many` for different data types.
 * Removed support for `boost::filesystem` and `std::experimental::filesystem`.
 * Removed support for building an amalgamated header.

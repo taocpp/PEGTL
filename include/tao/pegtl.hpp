@@ -14,6 +14,7 @@
 #include "pegtl/parse.hpp"
 #include "pegtl/print.hpp"
 #include "pegtl/rules.hpp"
+#include "pegtl/tags.hpp"
 #include "pegtl/utf8.hpp"
 #include "pegtl/version.hpp"
 #include "pegtl/visit.hpp"
@@ -39,5 +40,11 @@
 #endif
 
 #include "pegtl/line_view_at.hpp"
+
+#include "pegtl/count_position.hpp"
+#include "pegtl/pointer_position.hpp"
+#include "pegtl/position_with_source.hpp"
+#include "pegtl/text_position.hpp"
+#include "pegtl/text_position_with_source.hpp"
 
 #endif

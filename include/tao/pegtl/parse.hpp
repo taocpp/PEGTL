@@ -25,6 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
              typename... States >
    auto parse( ParseInput&& in, States&&... st )
    {
+      static_assert( !std::is_const_v< ParseInput > );
       return Control< Rule >::template match< A, M, Action, Control >( in, st... );
    }
 
@@ -38,6 +39,7 @@ namespace TAO_PEGTL_NAMESPACE
              typename... States >
    auto parse_nested( const Ambient& am, ParseInput&& in, States&&... st )
    {
+      static_assert( !std::is_const_v< ParseInput > );
 #if defined( __cpp_exceptions )
       try {
          return parse< Rule, Action, Control, A, M >( in, st... );

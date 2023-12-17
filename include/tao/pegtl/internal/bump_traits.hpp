@@ -9,6 +9,7 @@
 #include <type_traits>
 
 #include "../config.hpp"
+#include "../tags.hpp"
 
 #include "any.hpp"
 #include "at.hpp"
@@ -17,7 +18,6 @@
 #include "eolf.hpp"
 #include "everything.hpp"
 #include "many.hpp"
-#include "text_eol_tags.hpp"
 #include "until.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -91,12 +91,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {};
 
    template< typename Eol >
-   struct bump_traits< Eol, until< eol > >
+   struct bump_traits< Eol, until< eol< void > > >
       : bump_traits< Eol, eol_exclude_tag >
    {};
 
    template< typename Eol >
-   struct bump_traits< Eol, until< eolf > >
+   struct bump_traits< Eol, until< eolf< void > > >
       : bump_traits< Eol, eol_exclude_tag >
    {};
 

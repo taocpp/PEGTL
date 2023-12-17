@@ -15,25 +15,32 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Data = char >
+   template< typename Input = view_input< char > >
    class input_with_start
-      : public view_input< Data >
+      : public Input
    {
    public:
-      using base_t = view_input< Data >;
-      using data_t = Data;
+      using base_t = Input;
+      using data_t = typename Input::data_t;
       using error_position_t = count_position;
       using rewind_position_t = pointer_position< data_t >;
 
       template< typename... As >
       explicit input_with_start( As&&... as ) noexcept
-         : view_input< Data >( std::forward< As >( as )... ),
+         : Input( std::forward< As >( as )... ),
            m_start( this->current() )
       {}
 
       [[nodiscard]] const data_t* start() const noexcept
       {
          return m_start;
+      }
+
+      using Input::previous;
+
+      [[nodiscard]] const data_t* previous( const error_position_t saved ) const noexcept
+      {
+         return m_start + saved.count;
       }
 
       void restart() noexcept
@@ -46,10 +53,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return previous_position( this->rewind_position() );
       }
 
-      // [[nodiscard]] auto previous_position( const error_position_t saved ) const noexcept
-      // {
-      //    return saved;
-      // }
+      [[nodiscard]] auto previous_position( const error_position_t saved ) const noexcept
+      {
+         return saved;
+      }
 
       [[nodiscard]] auto previous_position( const rewind_position_t saved ) const noexcept
       {

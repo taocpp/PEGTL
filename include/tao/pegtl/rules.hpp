@@ -27,8 +27,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Rules > struct disable : internal::disable< Rules... > {};
    template< typename... Rules > struct enable : internal::enable< Rules... > {};
    struct eof : internal::eof {};
-   struct eol : internal::eol {};
-   struct eolf : internal::eolf {};
+   struct eol : internal::eol< void > {};
+   struct eolf : internal::eolf< void > {};
    struct everything : internal::everything< std::size_t > {};
    struct failure : internal::failure {};
    template< auto Function, typename Peek = void > struct function : internal::function< decltype( Function ), Function, Peek > {};

@@ -22,8 +22,7 @@
 #include "../parse.hpp"
 #include "../parse_error.hpp"
 #include "../rules.hpp"
-
-#include "../internal/text_eol_tags.hpp"
+#include "../tags.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

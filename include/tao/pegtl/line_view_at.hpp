@@ -6,6 +6,7 @@
 #define TAO_PEGTL_LINE_VIEW_AT_HPP
 
 #include <string_view>
+#include <type_traits>
 
 #include "apply_mode.hpp"
 #include "config.hpp"
@@ -13,6 +14,7 @@
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
 
+#include "internal/argv_input.hpp"
 #include "internal/at.hpp"
 #include "internal/eolf.hpp"
 #include "internal/scan_input.hpp"
@@ -20,18 +22,32 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
+   // The assumption is that argv consists of strings without eols.
+
    template< typename Input, typename Position >
-   [[nodiscard]] const char* begin_of_line( const Input& in, const Position& p ) noexcept
+   [[nodiscard]] auto begin_of_line( const Input& in, const Position& /*unused*/ ) noexcept -> std::enable_if_t< std::is_base_of_v< internal::argv_input, Input >, const char* >
    {
-      return in.at( p ) - ( p.column - 1 );
+      return in.start();
    }
 
    template< typename Input, typename Position >
-   [[nodiscard]] const char* end_of_line_or_file( const Input& in, const Position& p ) noexcept
+   [[nodiscard]] auto end_of_line_or_file( const Input& in, const Position& /*unused*/ ) noexcept -> std::enable_if_t< std::is_base_of_v< internal::argv_input, Input >, const char* >
    {
-      using grammar = internal::until< internal::at< internal::eolf > >;
-      internal::scan_input< typename Input::data_t > i2( in.at( p ), in.end() );  // TODO: Start before in.at( p ) to correctly handle the middle of a multi-token EOL.
-      (void)normal< grammar >::match< apply_mode::nothing, rewind_mode::optional, nothing, normal >( i2 );
+      return in.end();
+   }
+
+   template< typename Input, typename Position >
+   [[nodiscard]] auto begin_of_line( const Input& in, const Position& p ) noexcept -> std::enable_if_t< !std::is_base_of_v< internal::argv_input, Input >, decltype( in.current() ) >
+   {
+      return in.previous( p ) - ( p.column - 1 );
+   }
+
+   template< typename Input, typename Position >
+   [[nodiscard]] auto end_of_line_or_file( const Input& in, const Position& p ) noexcept -> std::enable_if_t< !std::is_base_of_v< internal::argv_input, Input >, decltype( in.current() ) >
+   {
+      using grammar = internal::until< internal::at< internal::eolf< typename Input::eol_rule > > >;
+      internal::scan_input< typename Input::data_t > i2( in.previous( p ), in.end() );  // TODO: Start before in.at( p ) to correctly handle the middle of a multi-token EOL.
+      (void)normal< grammar >::template match< apply_mode::nothing, rewind_mode::optional, nothing, normal >( i2 );
       return i2.current();
    }
 

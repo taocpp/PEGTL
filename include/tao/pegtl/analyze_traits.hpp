@@ -115,13 +115,13 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits<>
    {};
 
-   template< typename Name >
-   struct analyze_traits< Name, internal::eol >
+   template< typename Name, typename Eol >
+   struct analyze_traits< Name, internal::eol< Eol > >
       : analyze_any_traits<>
    {};
 
-   template< typename Name >
-   struct analyze_traits< Name, internal::eolf >
+   template< typename Name, typename Eol >
+   struct analyze_traits< Name, internal::eolf< Eol > >
       : analyze_opt_traits<>
    {};
 

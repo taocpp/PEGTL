@@ -24,12 +24,12 @@ namespace TAO_PEGTL_NAMESPACE
       {}
    };
 
-   [[nodiscard]] inline bool operator==( const count_position& l, const count_position& r ) noexcept
+   [[nodiscard]] inline bool operator==( const count_position l, const count_position r ) noexcept
    {
       return l.count == r.count;
    }
 
-   [[nodiscard]] inline bool operator!=( const count_position& l, const count_position& r ) noexcept
+   [[nodiscard]] inline bool operator!=( const count_position l, const count_position r ) noexcept
    {
       return !( l == r );
    }

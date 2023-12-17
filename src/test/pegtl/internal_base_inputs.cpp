@@ -223,13 +223,13 @@ namespace TAO_PEGTL_NAMESPACE
    void test_01_start()
    {
       {
-         internal::input_with_start< char > in( data_01 );
+         internal::input_with_start< internal::view_input< char > > in( data_01 );
          test_01( in );
       } {
-         internal::input_with_start< char > in( data_01 );
+         internal::input_with_start< internal::view_input< char > > in( data_01 );
          test_01_view( in );
       } {
-         internal::input_with_start< char > in( data_01 );
+         internal::input_with_start< internal::view_input< char > > in( data_01 );
          test_01_copy( in );
       }
    }

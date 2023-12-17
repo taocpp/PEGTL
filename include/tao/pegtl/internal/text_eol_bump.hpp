@@ -8,7 +8,6 @@
 #include "../config.hpp"
 
 #include "bump_traits.hpp"
-#include "text_eol_tags.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

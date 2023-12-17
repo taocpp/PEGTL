@@ -12,13 +12,13 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Data >
-   [[nodiscard]] const Data* rewind_adapt( const Data* start, const count_position c ) noexcept
+   [[nodiscard]] const Data* rewind_adapt( const Data* start, const count_position& c ) noexcept
    {
       return start + c.count;
    }
 
    template< typename Data >
-   [[nodiscard]] const Data* rewind_adapt( const Data* /*unused*/, const pointer_position< Data > p ) noexcept
+   [[nodiscard]] const Data* rewind_adapt( const Data* /*unused*/, const pointer_position< Data >& p ) noexcept
    {
       return p.data;
    }

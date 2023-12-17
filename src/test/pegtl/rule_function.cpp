@@ -26,28 +26,28 @@ namespace TAO_PEGTL_NAMESPACE
    [[nodiscard]] bool func0( test::text_input< ascii::lf >& in )
    {
       called = true;
-      in.consume< internal::eol_exclude_tag >( 1 );
+      in.consume< eol_exclude_tag >( 1 );
       return true;
    }
 
    [[nodiscard]] bool func0n( test::text_input< ascii::lf >& in ) noexcept
    {
       called = true;
-      in.consume< internal::eol_exclude_tag >( 1 );
+      in.consume< eol_exclude_tag >( 1 );
       return true;
    }
 
    [[nodiscard]] bool func1( test::text_input< ascii::lf >& in, int /*unused*/, char*& /*unused*/, const double& /*unused*/ )
    {
       called = true;
-      in.consume< internal::eol_exclude_tag >( 1 );
+      in.consume< eol_exclude_tag >( 1 );
       return true;
    }
 
    [[nodiscard]] bool func1n( test::text_input< ascii::lf >& in, int /*unused*/, char*& /*unused*/, const double& /*unused*/ ) noexcept
    {
       called = true;
-      in.consume< internal::eol_exclude_tag >( 1 );
+      in.consume< eol_exclude_tag >( 1 );
       return true;
    }
 

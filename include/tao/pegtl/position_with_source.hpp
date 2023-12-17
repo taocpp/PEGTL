@@ -2,15 +2,15 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_POSITION_WITH_SOURCE_HPP
-#define TAO_PEGTL_INTERNAL_POSITION_WITH_SOURCE_HPP
+#ifndef TAO_PEGTL_POSITION_WITH_SOURCE_HPP
+#define TAO_PEGTL_POSITION_WITH_SOURCE_HPP
 
 #include <ostream>
 #include <utility>
 
 #include "config.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Source, typename Position >
    struct position_with_source
@@ -53,6 +53,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       return os << p.source << '@' << p.base();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

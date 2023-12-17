@@ -13,6 +13,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
+   template< typename Eol >
    struct eolf
    {
       using rule_t = eolf;
@@ -28,12 +29,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         return in.empty() || eol::match< A, M, Action, Control >( in, st... );
+         return in.empty() || eol< Eol >::template match< A, M, Action, Control >( in, st... );
       }
    };
 
-   template<>
-   inline constexpr bool enable_control< eolf > = false;
+   template< typename Eol >
+   inline constexpr bool enable_control< eolf< Eol > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -13,7 +13,7 @@
 namespace TAO_PEGTL_NAMESPACE::test
 {
    template< typename Eol >
-   using lazy_input = internal::input_with_peeks< internal::lazy_input< Eol, internal::input_with_fakes< internal::input_with_start< char > > > >;
+   using lazy_input = internal::input_with_peeks< internal::lazy_input< Eol, internal::input_with_fakes< internal::input_with_start< internal::view_input< char > > > > >;
 
    template< typename Eol >
    using text_input = internal::input_with_peeks< internal::text_input< Eol, internal::input_with_fakes< internal::view_input< char > > > >;

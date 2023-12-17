@@ -8,12 +8,13 @@
 #include <string>
 
 #include "config.hpp"
+#include "eol.hpp"
 
 #include "internal/inputs.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   using argv_input = internal::input_with_fakes< internal::input_with_peeks< internal::argv_input > >;  // TODO: Add input_with_start?
+   using argv_input = internal::input_with_fakes< internal::input_with_peeks< internal::input_with_start< internal::input_with_lines< ascii::lf, internal::argv_input > > > >;
    template< typename Container >
    using copy_input = internal::input_with_fakes< internal::input_with_peeks< internal::copy_input< Container > > >;
    using file_input = internal::input_with_fakes< internal::input_with_peeks< internal::file_input > >;
@@ -21,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Data >
    using view_input = internal::input_with_fakes< internal::input_with_peeks< internal::view_input< Data > > >;  // TODO: Add input_with_start?
 
-   using argv_input_with_source = internal::input_with_fakes< internal::input_with_peeks< internal::argv_input_with_source > >;  // TODO: Add input_with_start?
+   using argv_input_with_source = internal::input_with_fakes< internal::input_with_peeks< internal::input_with_start< internal::input_with_lines< ascii::lf, internal::argv_input_with_source > > > >;
    template< typename Container >
    using copy_input_with_source = internal::input_with_fakes< internal::input_with_peeks< internal::input_with_source< std::string, internal::copy_input< Container > > > >;
    using file_input_with_source = internal::input_with_fakes< internal::input_with_peeks< internal::file_input_with_source< file_input > > >;
