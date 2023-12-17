@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "test.hpp"
+#include "test_inputs.hpp"
 
 #include <tao/pegtl/contrib/trace.hpp>
 
@@ -25,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       const std::string data = "F";
-      memory_input in( data, __FILE__ );
+      test::text_input< ascii::lf > in( data );
       // Just enough to see that it compiles and nothing explodes;
       // the output format probabaly changes between compilers and
       // versions making a proper test difficult.

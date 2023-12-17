@@ -19,6 +19,19 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Func, Func Tion, typename Peek >
    struct function;
 
+   template< bool E, typename Input, bool ( *Tion )( Input& ) noexcept( E ) >
+   struct function< bool ( * )( Input& ) noexcept( E ), Tion, void >
+   {
+      using rule_t = function;
+      using subs_t = empty_list;
+
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( E )
+      {
+         return Tion( in );
+      }
+   };
+
    template< bool E, typename Input, typename... States, bool ( *Tion )( Input&, States... ) noexcept( E ) >
    struct function< bool ( * )( Input&, States... ) noexcept( E ), Tion, void >
    {

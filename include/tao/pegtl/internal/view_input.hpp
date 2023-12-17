@@ -114,7 +114,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< rewind_mode M >
       [[nodiscard]] auto make_rewind_guard() noexcept
       {
-         return rewind_guard< M, view_input >( this );  // TODO: With C++23 "deducing this" we don't need to re-implement this in derived classes that change the rewind position.
+         return rewind_guard< M, view_input >( this );
       }
 
       [[nodiscard]] auto rewind_position() const noexcept

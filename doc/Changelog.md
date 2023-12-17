@@ -17,6 +17,7 @@
 * Added new atomic rule [`consume`](Rule-Reference.md#consume-count-).
 * Added new atomic rule [`everything`](Rule-Reference.md#everything).
 * Added new rule [`invert`](Rule-Reference.md#invert-r-) to convert between `one` and `not_one` etc.
+* Added new rule [`is_buffer`](Rule-Reference.md#is_buffer) to allow grammars to change when using a buffer input.
 * Added new convenience rule [`partial`](Rule-Reference.md#partial-r-).
 * Added new convenience rule [`star_partial`](Rule-Reference.md#star_partial-r-).
 * Added new convenience rule [`strict`](Rule-Reference.md#strict-r-).

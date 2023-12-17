@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
+#include "test_inputs.hpp"
 
 #include <tao/pegtl/contrib/trace.hpp>
 
@@ -19,7 +20,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      memory_input in( "xaacy", "trace test please ignore" );
+      test::text_input< ascii::lf > in( "xaacy", "trace test please ignore" );
       const auto result = parse< outer, partial_action >( in );
       TAO_PEGTL_TEST_ASSERT( result );
    }

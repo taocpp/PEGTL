@@ -3,7 +3,6 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include <tao/pegtl.hpp>
 
 #include <tao/pegtl/add_guard.hpp>
 #include <tao/pegtl/add_state.hpp>
@@ -11,6 +10,7 @@
 #include <tao/pegtl/analyze_traits.hpp>
 #include <tao/pegtl/apply_mode.hpp>
 #include <tao/pegtl/ascii.hpp>
+#include <tao/pegtl/buffer.hpp>
 #include <tao/pegtl/change_action.hpp>
 #include <tao/pegtl/change_action_and_state.hpp>
 #include <tao/pegtl/change_action_and_states.hpp>

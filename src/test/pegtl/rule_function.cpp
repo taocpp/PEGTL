@@ -23,6 +23,20 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( called );
    }
 
+   [[nodiscard]] bool func0( test::text_input< ascii::lf >& in )
+   {
+      called = true;
+      in.consume< internal::eol_exclude_tag >( 1 );
+      return true;
+   }
+
+   [[nodiscard]] bool func0n( test::text_input< ascii::lf >& in ) noexcept
+   {
+      called = true;
+      in.consume< internal::eol_exclude_tag >( 1 );
+      return true;
+   }
+
    [[nodiscard]] bool func1( test::text_input< ascii::lf >& in, int /*unused*/, char*& /*unused*/, const double& /*unused*/ )
    {
       called = true;
@@ -63,6 +77,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
+      unit_test_1< func0 >();
       unit_test_1< func1 >();
       unit_test_1< func2, internal::peek_char >();
       unit_test_1< func2, internal::peek_ascii >();
@@ -70,6 +85,7 @@ namespace TAO_PEGTL_NAMESPACE
       unit_test_1< func3, internal::peek_char >();
       unit_test_1< func3, internal::peek_ascii >();
       unit_test_1< func3, internal::peek_current >();
+      unit_test_1< func0n >();
       unit_test_1< func1n >();
       unit_test_1< func2n, internal::peek_char >();
       unit_test_1< func2n, internal::peek_ascii >();

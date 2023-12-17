@@ -11,7 +11,8 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   // ensure a consistent interface
+   // Ensure a consistent interface.
+
    template< typename T >
    [[nodiscard]] constexpr std::string_view demangle() noexcept;
 
@@ -35,6 +36,7 @@ template< typename T >
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    // When using libstdc++ with clang, std::string_view::find is not constexpr :(
+
    template< char C >
    constexpr const char* string_view_find( const char* p, std::size_t n ) noexcept
    {
@@ -73,10 +75,11 @@ template< typename T >
 
 // GCC 9.1 and 9.2 have a bug that leads to truncated __PRETTY_FUNCTION__ names,
 // see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155
+
 template< typename T >
 [[nodiscard]] constexpr std::string_view TAO_PEGTL_NAMESPACE::demangle() noexcept
 {
-   // fallback: requires RTTI, no demangling
+   // Fallback: Requires RTTI, no demangling.
    return typeid( T ).name();
 }
 
@@ -113,8 +116,8 @@ template< typename T >
 template< typename T >
 [[nodiscard]] constexpr std::string_view TAO_PEGTL_NAMESPACE::demangle() noexcept
 {
-   // we can not add static_assert for additional safety,
-   // see issues #296, #301 and #308
+   // We can not add static_assert for additional safety,
+   // see issues #296, #301 and #308.
    constexpr std::string_view sv = __FUNCSIG__;
    constexpr auto begin = sv.find( "demangle<" );
    constexpr auto tmp = sv.substr( begin + 9 );
@@ -133,7 +136,7 @@ template< typename T >
 template< typename T >
 [[nodiscard]] constexpr std::string_view TAO_PEGTL_NAMESPACE::demangle() noexcept
 {
-   // fallback: requires RTTI, no demangling
+   // Fallback: Requires RTTI, no demangling.
    return typeid( T ).name();
 }
 
