@@ -5,12 +5,12 @@
 #ifndef TAO_PEGTL_INTERNAL_RANGE_HPP
 #define TAO_PEGTL_INTERNAL_RANGE_HPP
 
+#include "../config.hpp"
+#include "../type_list.hpp"
+
 #include "enable_control.hpp"
 #include "one.hpp"
 #include "result_on_found.hpp"
-
-#include "../config.hpp"
-#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

@@ -71,6 +71,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return *m_data;
       }
 
+      [[nodiscard]] const Data* pointer() const noexcept
+      {
+         return m_data;
+      }
+
       [[nodiscard]] explicit operator bool() const noexcept
       {
          return m_data != nullptr;

@@ -62,12 +62,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   // For global getter functions that return a T or const T&.
+   // For global getter functions that return a T.
 
    template< bool N, typename C, typename T, T ( *P )( const C& ) noexcept( N ) >
    struct peek_member_impl< T ( * )( const C& ) noexcept( N ), P >
    {
-      using data_t = std::decay_t< T >;
+      using data_t = T;
       using pair_t = data_and_size< data_t, std::uint8_t >;
 
       template< typename ParseInput >
@@ -80,12 +80,42 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   // For member getter functions that return a T or const T&.
+   // For global getter functions that return a const T&.
+
+   template< bool N, typename C, typename T, const T& ( *P )( const C& ) noexcept( N ) >
+   struct peek_member_impl< const T& ( * )( const C& ) noexcept( N ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, void >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( N&& noexcept( in.size( 1 ) ) )
+      {
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? &P( *in.current( offset ) ) : nullptr );
+      }
+   };
+
+   // For global getter functions that return a const T*.
+
+   template< bool N, typename C, typename T, const T* ( *P )( const C& ) noexcept( N ) >
+   struct peek_member_impl< const T* ( * )( const C& ) noexcept( N ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, void >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( N&& noexcept( in.size( 1 ) ) )
+      {
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? P( *in.current( offset ) ) : nullptr );
+      }
+   };
+
+   // For member getter functions that return a T.
 
    template< bool N, typename C, typename T, T ( C::*P )() const noexcept( N ) >
    struct peek_member_impl< T ( C::* )() const noexcept( N ), P >
    {
-      using data_t = std::decay_t< T >;
+      using data_t = T;
       using pair_t = data_and_size< data_t, std::uint8_t >;
 
       template< typename ParseInput >
@@ -95,6 +125,36 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return pair_t( ( in.current( offset )->*P )(), 1 );
          }
          return pair_t();
+      }
+   };
+
+   // For member getter functions that return a const T&.
+
+   template< bool N, typename C, typename T, const T& ( C::*P )() const noexcept( N ) >
+   struct peek_member_impl< const T& ( C::* )() const noexcept( N ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, void >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( N&& noexcept( in.size( 1 ) ) )
+      {
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? &( ( in.current( offset )->*P )() ) : nullptr );
+      }
+   };
+
+   // For member getter functions that return a const T*.
+
+   template< bool N, typename C, typename T, const T* ( C::*P )() const noexcept( N ) >
+   struct peek_member_impl< const T* ( C::* )() const noexcept( N ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, void >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( N&& noexcept( in.size( 1 ) ) )
+      {
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? ( in.current( offset )->*P )() : nullptr );
       }
    };
 

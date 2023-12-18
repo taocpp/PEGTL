@@ -18,6 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
    namespace member
    {
       // clang-format off
+      template< auto M, typename Rule > struct nested : internal::nested< Rule, internal::peek_member< M > > {};
       template< auto M, typename internal::peek_member< M >::data_t E, decltype( E )... Es > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_member< M >, E, Es... > {};
       template< auto M, typename internal::peek_member< M >::data_t Lo, decltype( Lo ) Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_member< M >, Lo, Hi > {};
       template< auto M, typename internal::peek_member< M >::data_t E, decltype( E )... Es > struct one : internal::one< internal::result_on_found::success, internal::peek_member< M >, E, Es... >  {};

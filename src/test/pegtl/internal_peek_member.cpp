@@ -40,17 +40,31 @@ namespace TAO_PEGTL_NAMESPACE
          return method2_int;
       }
 
-      int other = 900;
+      const int method3_int = 3333;
+
+      [[nodiscard]] const int* method3() const noexcept
+      {
+         return &method3_int;
+      }
+
+      int other1 = 901;
+      int other2 = 902;
+      int other3 = 903;
    };
 
    [[nodiscard]] int get_other1( const token& t ) noexcept
    {
-      return t.other;
+      return t.other1;
    }
 
    [[nodiscard]] const int& get_other2( const token& t ) noexcept
    {
-      return t.other;
+      return t.other2;
+   }
+
+   [[nodiscard]] const int* get_other3( const token& t ) noexcept
+   {
+      return &t.other3;
    }
 
    using tokens = std::vector< token >;
@@ -126,15 +140,27 @@ namespace TAO_PEGTL_NAMESPACE
       } {
          test_integer = -1;
          test_input in( ts );
+         const auto b = parse< function< func1, internal::peek_member< &token::method3 > > >( in );
+         TAO_PEGTL_TEST_ASSERT( b );
+         TAO_PEGTL_TEST_ASSERT( test_integer == 3333 );
+      } {
+         test_integer = -1;
+         test_input in( ts );
          const auto b = parse< function< func1, internal::peek_member< &get_other1 > > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
-         TAO_PEGTL_TEST_ASSERT( test_integer == 900 );
+         TAO_PEGTL_TEST_ASSERT( test_integer == 901 );
       } {
          test_integer = -1;
          test_input in( ts );
          const auto b = parse< function< func1, internal::peek_member< &get_other2 > > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
-         TAO_PEGTL_TEST_ASSERT( test_integer == 900 );
+         TAO_PEGTL_TEST_ASSERT( test_integer == 902 );
+      } {
+         test_integer = -1;
+         test_input in( ts );
+         const auto b = parse< function< func1, internal::peek_member< &get_other3 > > >( in );
+         TAO_PEGTL_TEST_ASSERT( b );
+         TAO_PEGTL_TEST_ASSERT( test_integer == 903 );
       }
    }
 

@@ -11,7 +11,6 @@
 #include "config.hpp"
 #include "normal.hpp"
 #include "nothing.hpp"
-#include "parse_error.hpp"
 #include "rewind_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE

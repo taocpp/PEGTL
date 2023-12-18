@@ -63,12 +63,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return std::size_t( end() - begin() );
       }
 
-      [[nodiscard]] std::string string() const
-      {
-         static_assert( sizeof( data_t ) == 1 );
-         return std::string( static_cast< const char* >( begin() ), size() );
-      }
-
       [[nodiscard]] const ParseInput& input() const noexcept
       {
          return m_input;

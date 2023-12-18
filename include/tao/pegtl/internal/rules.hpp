@@ -32,6 +32,7 @@
 #include "list_tail_pad.hpp"
 #include "many.hpp"
 #include "minus.hpp"
+#include "nested.hpp"
 #include "not_at.hpp"
 #include "one.hpp"
 #include "opt.hpp"
