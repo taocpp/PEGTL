@@ -90,37 +90,47 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( s0 == "00000000" );
       }
 
-      const std::size_t count_byte = 12345;
-      const std::size_t count_line = 42;
-      const std::size_t count_column = 12;
-
-      // const char* count_source = "count_source";
+      std::size_t count = 0;
+      text_position pos[] = { { 0, 1, 1 }, { 1, 1, 2 }, { 2, 2, 1 }, { 3, 2, 2 } };
 
       template< typename Rule >
       struct count_action
+         : nothing< Rule >
+      {};
+
+      template<>
+      struct count_action< any >
       {
          template< typename ActionInput >
          static void apply( const ActionInput& in )
          {
-            TAO_PEGTL_TEST_ASSERT( in.rewind_position().count == count_byte );
-            TAO_PEGTL_TEST_ASSERT( in.rewind_position().line == count_line );
-            TAO_PEGTL_TEST_ASSERT( in.rewind_position().column == count_column );
-            // TAO_PEGTL_TEST_ASSERT( in.input().current_position().source == count_source );
             TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( in.begin() + 1 == in.end() );
-            TAO_PEGTL_TEST_ASSERT( in.peek_char() == 'f' );
-            TAO_PEGTL_TEST_ASSERT( in.peek_uint8() == static_cast< unsigned char >( 'f' ) );
+
+            if( in.peek_char() == 'a' ) {
+               TAO_PEGTL_TEST_ASSERT( in.current_position() == pos[ 0 ] );
+               TAO_PEGTL_TEST_ASSERT( in.input().current_position() == pos[ 1 ] );
+            }
+            else if( in.peek_char() == '\n' ) {
+               TAO_PEGTL_TEST_ASSERT( in.current_position() == pos[ 1 ] );
+               TAO_PEGTL_TEST_ASSERT( in.input().current_position() == pos[ 2 ] );
+            }
+            else if( in.peek_char() == 'b' ) {
+               TAO_PEGTL_TEST_ASSERT( in.current_position() == pos[ 2 ] );
+               TAO_PEGTL_TEST_ASSERT( in.input().current_position() == pos[ 3 ] );
+            }
+            else {
+               TAO_PEGTL_TEST_UNREACHABLE;
+            }
+            ++count;
          }
       };
 
       void count_test()
       {
-         const char* foo = "f";
-         test::text_input< ascii::lf > in( foo, foo + 1 );
-         in.private_position().count = count_byte;
-         in.private_position().line = count_line;
-         in.private_position().column = count_column;
-         TAO_PEGTL_TEST_ASSERT( parse< alpha, count_action >( in ) );
+         test::text_input< ascii::lf > in( "a\nb" );
+         TAO_PEGTL_TEST_ASSERT( parse< plus< any >, count_action >( in ) );
+         TAO_PEGTL_TEST_ASSERT( count == 3 );
       }
 
    }  // namespace test1

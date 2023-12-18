@@ -2,41 +2,39 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#include "test.hpp"
-#include "verify_char.hpp"
-#include "verify_meta.hpp"
+#include <type_traits>
+
+#include <tao/pegtl/ascii.hpp>
+#include <tao/pegtl/rules.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      // verify_analyze< invert< one<> > >( __LINE__, __FILE__, true, false );
-      verify_analyze< invert< one< 'a' > > >( __LINE__, __FILE__, true, false );
-      verify_analyze< invert< one< 'a', 'c', 'z' > > >( __LINE__, __FILE__, true, false );
+      static_assert( std::is_same_v< invert< any >::rule_t, failure::rule_t > );
 
-      verify_analyze< invert< not_one<> > >( __LINE__, __FILE__, true, false );
-      verify_analyze< invert< not_one< 'a' > > >( __LINE__, __FILE__, true, false );
-      verify_analyze< invert< not_one< 'a', 'c', 'z' > > >( __LINE__, __FILE__, true, false );
+      static_assert( std::is_same_v< invert< one< 'a' > >::rule_t, not_one< 'a' >::rule_t > );
+      static_assert( std::is_same_v< invert< one< 'a', 'b', 'c' > >::rule_t, not_one< 'a', 'b', 'c' >::rule_t > );
 
-      verify_analyze< invert< range< 'a', 'f' > > >( __LINE__, __FILE__, true, false );
-      verify_analyze< invert< not_range< 'a', 'f' > > >( __LINE__, __FILE__, true, false );
+      static_assert( std::is_same_v< invert< not_one< 'a' > >::rule_t, one< 'a' >::rule_t > );
+      static_assert( std::is_same_v< invert< not_one< 'a', 'b', 'c' > >::rule_t, one< 'a', 'b', 'c' >::rule_t > );
 
-      for( int i = -100; i < 200; ++i ) {
-         const auto c = char( i );
+      static_assert( std::is_same_v< invert< invert< one< 'a' > > >::rule_t, one< 'a' >::rule_t > );
+      static_assert( std::is_same_v< invert< invert< one< 'a', 'b', 'c' > > >::rule_t, one< 'a', 'b', 'c' >::rule_t > );
 
-         // verify_char< invert< one<> > >( __LINE__, __FILE__, c, true );
-         verify_char< invert< one< 'a' > > >( __LINE__, __FILE__, c, c != 'a' );
-         verify_char< invert< one< 'a', 'c', 'z' > > >( __LINE__, __FILE__, c, ( c != 'a' ) && ( c != 'c' ) && ( c != 'z' ) );
+      static_assert( std::is_same_v< invert< invert< not_one< 'a' > > >::rule_t, not_one< 'a' >::rule_t > );
+      static_assert( std::is_same_v< invert< invert< not_one< 'a', 'b', 'c' > > >::rule_t, not_one< 'a', 'b', 'c' >::rule_t > );
 
-         verify_char< invert< not_one<> > >( __LINE__, __FILE__, c, false );
-         verify_char< invert< not_one< 'a' > > >( __LINE__, __FILE__, c, c == 'a' );
-         verify_char< invert< not_one< 'a', 'c', 'z' > > >( __LINE__, __FILE__, c, ( c == 'a' ) || ( c == 'c' ) || ( c == 'z' ) );
+      static_assert( std::is_same_v< invert< one< 'a' > >::rule_t, invert< invert< not_one< 'a' > > >::rule_t > );
+      static_assert( std::is_same_v< invert< one< 'a', 'b', 'c' > >::rule_t, invert< invert< not_one< 'a', 'b', 'c' > > >::rule_t > );
 
-         verify_char< invert< range< 'a', 'f' > > >( __LINE__, __FILE__, c, ( c < 'a' ) || ( 'f' < c ) );
-         verify_char< invert< not_range< 'a', 'f' > > >( __LINE__, __FILE__, c, ( 'a' <= c ) && ( c <= 'f' ) );
-      }
+      static_assert( std::is_same_v< invert< not_one< 'a' > >::rule_t, invert< invert< one< 'a' > > >::rule_t > );
+      static_assert( std::is_same_v< invert< not_one< 'a', 'b', 'c' > >::rule_t, invert< invert< one< 'a', 'b', 'c' > > >::rule_t > );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
-#include "main.hpp"
+int main()
+{
+   return 0;
+}

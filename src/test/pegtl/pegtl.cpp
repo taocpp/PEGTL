@@ -66,6 +66,11 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      static_assert( ' ' == 32 );
+      static_assert( 'a' == 97 );
+      static_assert( 'Z' == 90 );
+      static_assert( '~' == 126 );
+
       static_assert( sizeof( char ) == 1 );
       static_assert( sizeof( char16_t ) == 2 );
       static_assert( sizeof( char32_t ) == 4 );

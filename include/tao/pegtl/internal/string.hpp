@@ -10,7 +10,7 @@
 
 #include "enable_control.hpp"
 #include "one.hpp"
-#include "peek_direct.hpp"
+#include "peek_ascii.hpp"
 #include "result_on_found.hpp"
 #include "success.hpp"
 
@@ -19,7 +19,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   [[nodiscard]] inline bool unsafe_equals( const char* s, const std::initializer_list< char >& l ) noexcept
+   [[nodiscard]] inline bool unsafe_equals( const void* s, const std::initializer_list< char >& l ) noexcept
    {
       return std::memcmp( s, &*l.begin(), l.size() ) == 0;
    }
@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< char C >
    struct string< C >
-      : one< result_on_found::success, peek_char, C >
+      : one< result_on_found::success, peek_ascii8, C >
    {};
 
    template< char... Cs >
@@ -44,8 +44,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using subs_t = empty_list;
 
       template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 42 ) ) )
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
       {
+         static_assert( sizeof( *in.current() ) == 1 );
          if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
             if( unsafe_equals( in.current(), { Cs... } ) ) {
                in.template consume< string >( sizeof...( Cs ) );

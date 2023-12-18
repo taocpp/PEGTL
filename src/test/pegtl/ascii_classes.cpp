@@ -28,7 +28,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_analyze< identifier_other >( __LINE__, __FILE__, true, false );
       verify_analyze< lower >( __LINE__, __FILE__, true, false );
       verify_analyze< print >( __LINE__, __FILE__, true, false );
-      verify_analyze< seven >( __LINE__, __FILE__, true, false );
       verify_analyze< space >( __LINE__, __FILE__, true, false );
       verify_analyze< upper >( __LINE__, __FILE__, true, false );
       verify_analyze< xdigit >( __LINE__, __FILE__, true, false );
@@ -54,7 +53,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< identifier_other >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
       verify_rule< lower >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
       verify_rule< print >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
-      verify_rule< seven >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
       verify_rule< space >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
       verify_rule< upper >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
       verify_rule< xdigit >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
@@ -78,7 +76,6 @@ namespace TAO_PEGTL_NAMESPACE
          const bool is_lower = ( 'a' <= c ) && ( c <= 'z' );
          const bool is_print = ( ( ' ' <= c ) && ( c <= 126 ) );
          const bool is_graph = ( ( ' ' < c ) && ( c <= 126 ) );
-         const bool is_seven = true;
          const bool is_space = is_blank || ( c == '\n' ) || ( c == '\r' ) || ( c == '\v' ) || ( c == '\f' );
          const bool is_upper = ( 'A' <= c ) && ( c <= 'Z' );
          const bool is_xalpha = ( ( 'a' <= c ) && ( c <= 'f' ) ) || ( ( 'A' <= c ) && ( c <= 'F' ) );
@@ -112,7 +109,6 @@ namespace TAO_PEGTL_NAMESPACE
          verify_char< identifier_other >( __LINE__, __FILE__, c, is_ident_other );
          verify_char< lower >( __LINE__, __FILE__, c, is_lower );
          verify_char< print >( __LINE__, __FILE__, c, is_print );
-         verify_char< seven >( __LINE__, __FILE__, c, is_seven );
          verify_char< space >( __LINE__, __FILE__, c, is_space );
          verify_char< upper >( __LINE__, __FILE__, c, is_upper );
          verify_char< xdigit >( __LINE__, __FILE__, c, is_xdigit );
@@ -138,7 +134,7 @@ namespace TAO_PEGTL_NAMESPACE
 
             verify_char< alnum >( __LINE__, __FILE__, c, false );
             verify_char< alpha >( __LINE__, __FILE__, c, false );
-            verify_char< any >( __LINE__, __FILE__, c, true );
+            verify_char< any >( __LINE__, __FILE__, c, false );
             verify_char< blank >( __LINE__, __FILE__, c, false );
             verify_char< cntrl >( __LINE__, __FILE__, c, false );
             verify_char< digit >( __LINE__, __FILE__, c, false );
@@ -149,7 +145,6 @@ namespace TAO_PEGTL_NAMESPACE
             verify_char< identifier_other >( __LINE__, __FILE__, c, false );
             verify_char< lower >( __LINE__, __FILE__, c, false );
             verify_char< print >( __LINE__, __FILE__, c, false );
-            verify_char< seven >( __LINE__, __FILE__, c, false );
             verify_char< space >( __LINE__, __FILE__, c, false );
             verify_char< upper >( __LINE__, __FILE__, c, false );
             verify_char< xdigit >( __LINE__, __FILE__, c, false );
@@ -161,7 +156,7 @@ namespace TAO_PEGTL_NAMESPACE
 
             verify_char< alnum >( __LINE__, __FILE__, c, false );
             verify_char< alpha >( __LINE__, __FILE__, c, false );
-            verify_char< any >( __LINE__, __FILE__, c, true );
+            verify_char< any >( __LINE__, __FILE__, c, false );
             verify_char< blank >( __LINE__, __FILE__, c, false );
             verify_char< cntrl >( __LINE__, __FILE__, c, false );
             verify_char< digit >( __LINE__, __FILE__, c, false );
@@ -172,7 +167,6 @@ namespace TAO_PEGTL_NAMESPACE
             verify_char< identifier_other >( __LINE__, __FILE__, c, false );
             verify_char< lower >( __LINE__, __FILE__, c, false );
             verify_char< print >( __LINE__, __FILE__, c, false );
-            verify_char< seven >( __LINE__, __FILE__, c, false );
             verify_char< space >( __LINE__, __FILE__, c, false );
             verify_char< upper >( __LINE__, __FILE__, c, false );
             verify_char< xdigit >( __LINE__, __FILE__, c, false );

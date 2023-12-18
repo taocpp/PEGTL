@@ -29,6 +29,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : public Base
    {
    public:
+      using base_t = Base;
       using data_t = typename Base::data_t;
       using error_position_t = count_position;
       using rewind_position_t = pointer_position< data_t >;

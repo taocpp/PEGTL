@@ -103,11 +103,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_position.column;
       }
 
-      [[nodiscard]] auto& private_position() noexcept
-      {
-         return m_position;
-      }
-
       [[nodiscard]] const auto& direct_position() const noexcept
       {
          return m_position;

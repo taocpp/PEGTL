@@ -57,8 +57,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using subs_t = empty_list;
 
       template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 42 ) ) )
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
       {
+         static_assert( sizeof( *in.current() ) == 1 );
          if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
             if( istring_equal< Cs... >( in.current() ) ) {
                in.template consume< istring >( sizeof...( Cs ) );

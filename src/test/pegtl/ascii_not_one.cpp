@@ -17,9 +17,9 @@ namespace TAO_PEGTL_NAMESPACE
       for( int i = -100; i < 200; ++i ) {
          const auto c = char( i );
 
-         verify_char< not_one<> >( __LINE__, __FILE__, c, true );
-         verify_char< not_one< 'a' > >( __LINE__, __FILE__, c, c != 'a' );
-         verify_char< not_one< 'a', 'c', 'z' > >( __LINE__, __FILE__, c, ( c != 'a' ) && ( c != 'c' ) && ( c != 'z' ) );
+         verify_char< not_one<> >( __LINE__, __FILE__, c, ( ( c & 0x80 ) == 0 ) );
+         verify_char< not_one< 'a' > >( __LINE__, __FILE__, c, c != 'a' && ( ( c & 0x80 ) == 0 ) );
+         verify_char< not_one< 'a', 'c', 'z' > >( __LINE__, __FILE__, c, ( c != 'a' ) && ( c != 'c' ) && ( c != 'z' ) && ( ( c & 0x80 ) == 0 ) );
       }
    }
 

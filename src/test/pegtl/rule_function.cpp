@@ -80,18 +80,22 @@ namespace TAO_PEGTL_NAMESPACE
       unit_test_1< func0 >();
       unit_test_1< func1 >();
       unit_test_1< func2, internal::peek_char >();
-      unit_test_1< func2, internal::peek_ascii >();
+      unit_test_1< func2, internal::peek_ascii7 >();
+      unit_test_1< func2, internal::peek_ascii8 >();
       unit_test_1< func2, internal::peek_current >();
       unit_test_1< func3, internal::peek_char >();
-      unit_test_1< func3, internal::peek_ascii >();
+      unit_test_1< func3, internal::peek_ascii7 >();
+      unit_test_1< func3, internal::peek_ascii8 >();
       unit_test_1< func3, internal::peek_current >();
       unit_test_1< func0n >();
       unit_test_1< func1n >();
       unit_test_1< func2n, internal::peek_char >();
-      unit_test_1< func2n, internal::peek_ascii >();
+      unit_test_1< func2n, internal::peek_ascii7 >();
+      unit_test_1< func2n, internal::peek_ascii8 >();
       unit_test_1< func2n, internal::peek_current >();
       unit_test_1< func3n, internal::peek_char >();
-      unit_test_1< func3n, internal::peek_ascii >();
+      unit_test_1< func3n, internal::peek_ascii7 >();
+      unit_test_1< func3n, internal::peek_ascii8 >();
       unit_test_1< func3n, internal::peek_current >();
       // unit_test_1< decltype( TODO: An appropriate lambda as soon as we switch to C++20 ) ...
    }

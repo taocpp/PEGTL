@@ -7,15 +7,15 @@
 
 #include "../config.hpp"
 
-#include "peek_direct.hpp"
+#include "peek_ascii.hpp"
 #include "ranges.hpp"
 #include "seq.hpp"
 #include "star.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   using identifier_first = ranges< peek_char, 'a', 'z', 'A', 'Z', '_' >;
-   using identifier_other = ranges< peek_char, 'a', 'z', 'A', 'Z', '0', '9', '_' >;
+   using identifier_first = ranges< peek_ascii8, 'a', 'z', 'A', 'Z', '_' >;
+   using identifier_other = ranges< peek_ascii8, 'a', 'z', 'A', 'Z', '0', '9', '_' >;
    using identifier = seq< identifier_first, star< identifier_other > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
