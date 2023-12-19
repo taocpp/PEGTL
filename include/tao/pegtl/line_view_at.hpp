@@ -47,7 +47,7 @@ namespace TAO_PEGTL_NAMESPACE
    [[nodiscard]] auto end_of_line_or_file( const Input& in, const Position& p ) noexcept -> std::enable_if_t< !std::is_base_of_v< internal::argv_input, Input >, decltype( in.current() ) >
    {
       using grammar = internal::until< internal::at< internal::eolf< typename Input::eol_rule > > >;
-      internal::scan_input< typename Input::data_t > i2( in.previous( p ), in.end() );  // TODO: Start before in.at( p ) to correctly handle the middle of a multi-token EOL.
+      internal::scan_input< typename Input::data_t > i2( in.previous( p ), in.end() );  // TODO: Start before in.at( p ) to correctly handle the middle of a multi-token EOL?
       (void)normal< grammar >::template match< apply_mode::nothing, rewind_mode::optional, nothing, normal >( i2 );
       return i2.current();
    }

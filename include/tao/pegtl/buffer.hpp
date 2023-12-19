@@ -6,6 +6,7 @@
 #define TAO_PEGTL_BUFFER_HPP
 
 #include <cstddef>
+#include <cstdio>
 #include <istream>
 
 #include "config.hpp"

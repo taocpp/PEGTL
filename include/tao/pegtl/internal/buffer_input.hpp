@@ -35,14 +35,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rewind_position_t = pointer_position< data_t >;
 
       template< typename... As >
-      buffer_input( As&&... as )
+      explicit buffer_input( As&&... as )
          : Base( std::forward< As >( as )... ),
            m_current( this->mutable_begin() ),
            m_end( this->mutable_begin() )
-      {
-         // assert( buffer_chunk_size() > 0 );
-         // assert( buffer_chunk_size() < buffer_capacity() );
-      }
+      {}
 
       buffer_input( buffer_input&& ) = delete;
       buffer_input( const buffer_input& ) = delete;
