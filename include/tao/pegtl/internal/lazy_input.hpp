@@ -25,7 +25,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : public input_with_lines< Eol, Input >
    {
    public:
-      using base_t = input_with_lines< Eol, Input >;
       using data_t = typename Input::data_t;
       using error_position_t = text_position;
       using rewind_position_t = typename Input::rewind_position_t;

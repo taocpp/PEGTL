@@ -7,7 +7,7 @@
 #include <vector>
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -68,7 +68,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      const auto result = parse< disable< test1::bar >, test_action >( test::text_input< ascii::lf >( "baab" ) );
+      const auto result = parse< disable< test1::bar >, test_action >( text_view_input< ascii::lf >( "baab" ) );
       TAO_PEGTL_TEST_ASSERT( result );
       TAO_PEGTL_TEST_ASSERT( applied.size() == 1 );
 
@@ -77,25 +77,25 @@ namespace TAO_PEGTL_NAMESPACE
 
       applied.clear();
 
-      parse< at< action< test_action, test1::bar > > >( test::text_input< ascii::lf >( "baab" ) );
+      parse< at< action< test_action, test1::bar > > >( text_view_input< ascii::lf >( "baab" ) );
 
       TAO_PEGTL_TEST_ASSERT( applied.empty() );
 
       applied.clear();
 
-      parse< test1::bar, test_action >( test::text_input< ascii::lf >( "baab" ) );
+      parse< test1::bar, test_action >( text_view_input< ascii::lf >( "baab" ) );
 
       test1::test_result();
 
       applied.clear();
 
-      parse< action< test_action, test1::bar > >( test::text_input< ascii::lf >( "baab" ) );
+      parse< action< test_action, test1::bar > >( text_view_input< ascii::lf >( "baab" ) );
 
       test1::test_result();
 
       applied.clear();
 
-      parse< disable< enable< action< test_action, test1::bar > > > >( test::text_input< ascii::lf >( "baab" ) );
+      parse< disable< enable< action< test_action, test1::bar > > > >( text_view_input< ascii::lf >( "baab" ) );
 
       test1::test_result();
    }

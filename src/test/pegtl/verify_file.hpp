@@ -5,7 +5,7 @@
 #ifndef TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_FILE_HPP
 #define TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_FILE_HPP
 
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 
 #if defined( _MSC_VER )
 #define TAO_PEGTL_TEST_FILENAME u"src/test/pegtl/file_äöü𝄞_data.txt"

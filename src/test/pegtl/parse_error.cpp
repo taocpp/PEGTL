@@ -11,39 +11,35 @@ int main()
 #else
 
 #include "test.hpp"
-
 #include "verify_meta.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< tracking_mode M >
+   template< typename ParseInput >
    void unit_test()
    {
       const std::string rulename{ demangle< digit >() };
 
-      memory_input< M > in( "foo\nbar bla blubb\nbaz", "test_source" );
+      ParseInput in( "test_source", "foo\nbar bla blubb\nbaz" );
 
       try {
          parse< seq< identifier, eol, identifier, one< ' ' >, must< digit > > >( in );
       }
-      catch( const parse_error& e ) {
-         TAO_PEGTL_TEST_ASSERT( e.what() == "test_source:2:5: parse error matching " + rulename );
+      catch( const parse_error< text_position_with_source >& e ) {
+         TAO_PEGTL_TEST_ASSERT( e.what() == "test_source@2:5(8): parse error matching " + rulename );
 
          TAO_PEGTL_TEST_ASSERT( e.message() == "parse error matching " + rulename );
 
          const auto& p = e.position_object();
 
-         TAO_PEGTL_TEST_ASSERT( p.byte == 8 );
+         TAO_PEGTL_TEST_ASSERT( p.count == 8 );
          TAO_PEGTL_TEST_ASSERT( p.line == 2 );
          TAO_PEGTL_TEST_ASSERT( p.column == 5 );
          TAO_PEGTL_TEST_ASSERT( p.source == "test_source" );
 
-         TAO_PEGTL_TEST_ASSERT( line_view_at( in, p ) == "bar bla blubb" );
-
-         position p2 = p;
-         p2.source = "foo";
-         p2.line = 42;
-         p2.column = 123;
+         if constexpr( internal::input_traits< ParseInput >::is_text ) {
+            TAO_PEGTL_TEST_ASSERT( line_view_at( in, p ) == "bar bla blubb" );
+         }
          return;
       }
       TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
@@ -51,8 +47,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      unit_test< tracking_mode::eager >();
-      unit_test< tracking_mode::lazy >();
+      unit_test< lazy_view_input_with_source< ascii::lf > >();
+      unit_test< text_view_input_with_source< ascii::lf > >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

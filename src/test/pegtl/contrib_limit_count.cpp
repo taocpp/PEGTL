@@ -3,7 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 
 #include <tao/pegtl/contrib/limit_count.hpp>
 

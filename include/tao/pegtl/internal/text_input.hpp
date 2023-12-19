@@ -23,7 +23,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : public input_with_lines< Eol, Input >
    {
    public:
-      using base_t = input_with_lines< Eol, Input >;
       using data_t = typename Input::data_t;
       using error_position_t = text_position;
       using rewind_position_t = text_position;
@@ -34,19 +33,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       void restart() noexcept
       {
-         base_t::restart();
-
+         input_with_lines< Eol, Input >::restart();
          m_position.count = 0;
          m_position.line = 1;
          m_position.column = 1;
       };
-
-      void restart( const rewind_position_t& initial ) noexcept
-      {
-         base_t::restart();
-
-         m_position = initial;
-      }
 
       [[nodiscard]] const char* previous( const rewind_position_t& saved ) const noexcept
       {
@@ -73,8 +64,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       void rewind_to_position( const rewind_position_t& saved ) noexcept
       {
-         base_t::rewind_to_position( pointer_position< data_t >( previous( saved ) ) );
-
+         input_with_lines< Eol, Input >::rewind_to_position( pointer_position< data_t >( previous( saved ) ) );
          m_position = saved;
       }
 

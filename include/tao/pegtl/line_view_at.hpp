@@ -17,6 +17,7 @@
 #include "internal/argv_input.hpp"
 #include "internal/at.hpp"
 #include "internal/eolf.hpp"
+#include "internal/input_traits.hpp"
 #include "internal/scan_input.hpp"
 #include "internal/until.hpp"
 
@@ -31,15 +32,15 @@ namespace TAO_PEGTL_NAMESPACE
    }
 
    template< typename Input, typename Position >
-   [[nodiscard]] auto end_of_line_or_file( const Input& in, const Position& /*unused*/ ) noexcept -> std::enable_if_t< std::is_base_of_v< internal::argv_input, Input >, const char* >
-   {
-      return in.end();
-   }
-
-   template< typename Input, typename Position >
    [[nodiscard]] auto begin_of_line( const Input& in, const Position& p ) noexcept -> std::enable_if_t< !std::is_base_of_v< internal::argv_input, Input >, decltype( in.current() ) >
    {
       return in.previous( p ) - ( p.column - 1 );
+   }
+
+   template< typename Input, typename Position >
+   [[nodiscard]] auto end_of_line_or_file( const Input& in, const Position& /*unused*/ ) noexcept -> std::enable_if_t< std::is_base_of_v< internal::argv_input, Input >, const char* >
+   {
+      return in.end();
    }
 
    template< typename Input, typename Position >

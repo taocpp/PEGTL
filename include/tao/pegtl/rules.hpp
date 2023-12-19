@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct eof : internal::eof {};
    struct eol : internal::eol< void > {};
    struct eolf : internal::eolf< void > {};
-   struct everything : internal::everything< std::size_t > {};
+   struct everything : internal::everything {};
    struct failure : internal::failure {};
    template< auto Function, typename Peek = void > struct function : internal::function< decltype( Function ), Function, Peek > {};
    template< typename Rule, typename... Actions > struct if_apply : internal::if_apply< Rule, Actions... > {};

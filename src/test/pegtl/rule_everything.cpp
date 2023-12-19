@@ -10,7 +10,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      verify_meta< everything, internal::everything< std::size_t > >();
+      verify_meta< everything, internal::everything >();
 
       verify_analyze< everything >( __LINE__, __FILE__, false, false );
 

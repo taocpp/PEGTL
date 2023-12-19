@@ -28,15 +28,22 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = nested;
       using subs_t = empty_list;
 
-      template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in )  // noexcept( auto )
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename ParseInput,
+                typename... States >
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          const auto p = Peek::peek( in );
          if( const auto* d = p.pointer() ) {
             using parse_t = std::decay_t< decltype( *( d->data() ) ) >;
             using input_t = input_with_peeks< input_with_fakes< input_with_start< view_input< parse_t > > > >;
             input_t i2( d->data(), d->size() );
-            if( parse_nested< Rule >( in, i2 ) ) {
+            if( parse_nested< Rule, Action, Control, A, M >( in, i2, st... ) ) {
                in.template consume< nested >( 1 );
                return true;
             }

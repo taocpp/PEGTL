@@ -3,7 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -48,17 +48,17 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
 
       {
-         test::text_input< ascii::lf > in( "a" );
+         text_view_input< ascii::lf > in( "a" );
          parse< alpha, at_action >( in );
          TAO_PEGTL_TEST_ASSERT( at_counter == 1 );
       }
       {
-         test::text_input< ascii::lf > in( "1" );
+         text_view_input< ascii::lf > in( "1" );
          parse< not_at< alpha >, at_action >( in );
          TAO_PEGTL_TEST_ASSERT( at_counter == 1 );
       }
       {
-         test::text_input< ascii::lf > in( "a" );
+         text_view_input< ascii::lf > in( "a" );
          parse< not_at< alpha >, at_action >( in );
          TAO_PEGTL_TEST_ASSERT( at_counter == 1 );
       }

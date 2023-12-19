@@ -17,7 +17,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : public Input
    {
    public:
-      using base_t = Input;
       using data_t = typename Input::data_t;
       using error_position_t = position_with_source< Source, typename Input::error_position_t >;
       using rewind_position_t = typename Input::rewind_position_t;

@@ -13,7 +13,7 @@ int main()
 #include <vector>
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 #include "verify_seqs.hpp"
 
 #include <tao/pegtl/contrib/nested_exceptions.hpp>
@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
    void verify_nested()
    {
       try {
-         test::text_input< ascii::lf > in( "0" );
+         text_view_input< ascii::lf > in( "0" );
          parse< Rule< alpha > >( in );
          TAO_PEGTL_TEST_UNREACHABLE;
       }

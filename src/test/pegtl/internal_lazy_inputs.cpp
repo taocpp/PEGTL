@@ -3,13 +3,13 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
    void test_01_lazy()
    {
-      using input_1 = test::lazy_input< ascii::lf >;
+      using input_1 = lazy_view_input< ascii::lf >;
       {
          input_1 in( "" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 0, 1, 1 ) );
@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 2, 1 ) );
       }
-      using input_2 = test::lazy_input< ascii::cr_lf_crlf >;
+      using input_2 = lazy_view_input< ascii::cr_lf_crlf >;
       {
          input_2 in( "" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 0, 1, 1 ) );
@@ -69,7 +69,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( parse< blank >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 3, 2, 2 ) );
       }
-      using input_3 = test::lazy_input< ascii::lf >;
+      using input_3 = lazy_view_input< ascii::lf >;
       {
          input_3 in( " \n " );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 0, 1, 1 ) );

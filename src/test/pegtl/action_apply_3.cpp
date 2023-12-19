@@ -3,7 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -54,7 +54,7 @@ namespace TAO_PEGTL_NAMESPACE
       void apply_bool_true()
       {
          apply_result = true;
-         test::text_input< ascii::lf > in( "ab" );
+         text_view_input< ascii::lf > in( "ab" );
          const auto result = parse< grammar, apply_bool_action >( in );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
@@ -64,7 +64,7 @@ namespace TAO_PEGTL_NAMESPACE
       void apply_bool_false()
       {
          apply_result = false;
-         test::text_input< ascii::lf > in( "ab" );
+         text_view_input< ascii::lf > in( "ab" );
          const auto result = parse< grammar, apply_bool_action >( in );
          TAO_PEGTL_TEST_ASSERT( !result );
          TAO_PEGTL_TEST_ASSERT( in.size() == 2 );
@@ -87,7 +87,7 @@ namespace TAO_PEGTL_NAMESPACE
       void apply0_bool_true()
       {
          apply_result = true;
-         test::text_input< ascii::lf > in( "ab" );
+         text_view_input< ascii::lf > in( "ab" );
          const auto result = parse< grammar, apply0_bool_action >( in );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
@@ -97,7 +97,7 @@ namespace TAO_PEGTL_NAMESPACE
       void apply0_bool_false()
       {
          apply_result = false;
-         test::text_input< ascii::lf > in( "ab" );
+         text_view_input< ascii::lf > in( "ab" );
          const auto result = parse< grammar, apply0_bool_action >( in );
          TAO_PEGTL_TEST_ASSERT( !result );
          TAO_PEGTL_TEST_ASSERT( in.size() == 2 );

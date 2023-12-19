@@ -138,6 +138,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
          m_current = in_current;
       }
 
+      [[nodiscard]] auto&& direct_container() && noexcept
+      {
+         return std::move( m_container );
+      }
+
+      [[nodiscard]] const auto& direct_container() const& noexcept
+      {
+         return m_container;
+      }
+
    protected:
       Container m_container;
       const data_t* m_current;

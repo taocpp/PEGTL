@@ -698,7 +698,7 @@ TODO
 * Limited by the buffer size when using an [Incremental Input].
 * [Equivalent] to `until< eof, any >`.
 * [Meta data] and [implementation] mapping:
-  - `everything::rule_t` is `internal::everything< std::size_t >`
+  - `everything::rule_t` is `internal::everything`
 
 ###### `failure`
 

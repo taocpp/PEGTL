@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 
 #include <tao/pegtl/contrib/coverage.hpp>
 #include <tao/pegtl/contrib/print_coverage.hpp>
@@ -31,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       const std::string data = "F";
       coverage_result result;
-      test::text_input< ascii::lf > in( data );
+      text_view_input< ascii::lf > in( data );
       const bool success = coverage< grammar >( in, result );
       std::cout << result;  // To manually see that printing does the right thing, too.
       TAO_PEGTL_TEST_ASSERT( success );
@@ -51,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       const std::string data = "F";
       coverage_result result;
-      test::text_input< ascii::lf > in( data );
+      text_view_input< ascii::lf > in( data );
       const bool success = coverage< grammar >( in, result );
       std::cout << result;  // To manually see that printing does the right thing, too.
       TAO_PEGTL_TEST_ASSERT( success );

@@ -3,7 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -88,7 +88,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       unsigned u = 0;
       const std::string d = "F";
-      test::text_input< ascii::lf > in( d );
+      text_view_input< ascii::lf > in( d );
       TAO_PEGTL_TEST_ASSERT( parse< test_rule, test_action, test_control >( in, u, d, d ) );
 #if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_ASSERT( u == 127 );

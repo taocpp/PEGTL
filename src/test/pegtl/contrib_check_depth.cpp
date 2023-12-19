@@ -3,7 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 
 #include <tao/pegtl/contrib/check_depth.hpp>
 #include <tao/pegtl/contrib/input_with_depth.hpp>
@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      using memory_input_with_depth = input_with_depth< test::text_input< ascii::lf > >;
+      using memory_input_with_depth = input_with_depth< text_view_input< ascii::lf > >;
 
       memory_input_with_depth i1( "aaa" );
       const auto r1 = parse< test_grammar >( i1 );

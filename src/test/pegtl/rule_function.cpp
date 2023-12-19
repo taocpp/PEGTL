@@ -3,7 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 #include <tao/pegtl/internal/peek_ascii.hpp>
 #include <tao/pegtl/internal/peek_current.hpp>
 
@@ -18,33 +18,33 @@ namespace TAO_PEGTL_NAMESPACE
       char c = 'a';
       double d = 42.0;
       called = false;
-      test::text_input< ascii::lf > in( "f" );
+      text_view_input< ascii::lf > in( "f" );
       TAO_PEGTL_TEST_ASSERT( parse< seq< function< F, P >, eof > >( in, i, &c, d ) );
       TAO_PEGTL_TEST_ASSERT( called );
    }
 
-   [[nodiscard]] bool func0( test::text_input< ascii::lf >& in )
+   [[nodiscard]] bool func0( text_view_input< ascii::lf >& in )
    {
       called = true;
       in.consume< eol_exclude_tag >( 1 );
       return true;
    }
 
-   [[nodiscard]] bool func0n( test::text_input< ascii::lf >& in ) noexcept
+   [[nodiscard]] bool func0n( text_view_input< ascii::lf >& in ) noexcept
    {
       called = true;
       in.consume< eol_exclude_tag >( 1 );
       return true;
    }
 
-   [[nodiscard]] bool func1( test::text_input< ascii::lf >& in, int /*unused*/, char*& /*unused*/, const double& /*unused*/ )
+   [[nodiscard]] bool func1( text_view_input< ascii::lf >& in, int /*unused*/, char*& /*unused*/, const double& /*unused*/ )
    {
       called = true;
       in.consume< eol_exclude_tag >( 1 );
       return true;
    }
 
-   [[nodiscard]] bool func1n( test::text_input< ascii::lf >& in, int /*unused*/, char*& /*unused*/, const double& /*unused*/ ) noexcept
+   [[nodiscard]] bool func1n( text_view_input< ascii::lf >& in, int /*unused*/, char*& /*unused*/, const double& /*unused*/ ) noexcept
    {
       called = true;
       in.consume< eol_exclude_tag >( 1 );

@@ -20,7 +20,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename... Ts >
       explicit input_double_path( std::filesystem::path&& s, Ts&&... ts )
          : Input( std::move( s ), static_cast< const std::filesystem::path& >( s ), std::forward< Ts >( ts )... )
-      {}
+      {
+         // We can use std::move( s ) as first argument to input_with_source because we know that input_with_source will initialize its m_source member from the first argument last.
+      }
 
       template< typename... Ts >
       explicit input_double_path( const std::filesystem::path& s, Ts&&... ts )

@@ -9,6 +9,7 @@
 #include "copy_input.hpp"
 #include "file_input.hpp"
 #include "lazy_input.hpp"
+// mmap_input.hpp via file_input.hpp
 #include "read_input.hpp"
 #include "text_input.hpp"
 #include "view_input.hpp"
@@ -22,8 +23,6 @@
 #include "input_double_path.hpp"
 
 #include "argv_input_with_source.hpp"
-#include "file_input_with_source.hpp"
-#include "lazy_input_with_source.hpp"
 #include "text_input_with_source.hpp"
 
 #endif

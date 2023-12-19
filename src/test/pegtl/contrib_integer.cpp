@@ -15,7 +15,7 @@ int main()
 #include <utility>
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -43,13 +43,13 @@ namespace TAO_PEGTL_NAMESPACE
    {
       {
          S st = -123;
-         test::text_input< ascii::lf > in( i );
+         text_view_input< ascii::lf > in( i );
          parse< must< signed_rule, eof >, int_action >( in, st );
          TAO_PEGTL_TEST_ASSERT( st == s );
       }
       {
          S st = -123;
-         test::text_input< ascii::lf > in( i );
+         text_view_input< ascii::lf > in( i );
          parse< must< signed_rule_with_action, eof > >( in, st );
          TAO_PEGTL_TEST_ASSERT( st == s );
       }
@@ -59,7 +59,7 @@ namespace TAO_PEGTL_NAMESPACE
    void test_signed( const std::string& i )
    {
       S st;
-      test::text_input< ascii::lf > in( i );
+      text_view_input< ascii::lf > in( i );
       TAO_PEGTL_TEST_THROWS( parse< must< signed_rule, eof >, int_action >( in, st ) );
    }
 
@@ -76,7 +76,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       S st;
       const auto i = lexical_cast( s );
-      test::text_input< ascii::lf > in( i );
+      text_view_input< ascii::lf > in( i );
       parse< must< signed_rule, eof >, int_action >( in, st );
       TAO_PEGTL_TEST_ASSERT( st == s );
    }
@@ -86,13 +86,13 @@ namespace TAO_PEGTL_NAMESPACE
    {
       {
          S st = 123;
-         test::text_input< ascii::lf > in( i );
+         text_view_input< ascii::lf > in( i );
          parse< must< unsigned_rule, eof >, int_action >( in, st );
          TAO_PEGTL_TEST_ASSERT( st == s );
       }
       {
          S st = 123;
-         test::text_input< ascii::lf > in( i );
+         text_view_input< ascii::lf > in( i );
          parse< must< unsigned_rule_with_action, eof > >( in, st );
          TAO_PEGTL_TEST_ASSERT( st == s );
       }
@@ -102,7 +102,7 @@ namespace TAO_PEGTL_NAMESPACE
    void test_unsigned( const std::string& i )
    {
       S st = 123;
-      test::text_input< ascii::lf > in( i );
+      text_view_input< ascii::lf > in( i );
       TAO_PEGTL_TEST_THROWS( parse< must< unsigned_rule, eof >, int_action >( in, st ) );
    }
 
@@ -111,7 +111,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       S st = 123;
       const auto i = lexical_cast( s );
-      test::text_input< ascii::lf > in( i );
+      text_view_input< ascii::lf > in( i );
       parse< must< unsigned_rule, eof >, int_action >( in, st );
       TAO_PEGTL_TEST_ASSERT( st == s );
    }

@@ -11,7 +11,7 @@ int main()
 #else
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 #include "verify_meta.hpp"
 
 #if defined( _MSC_VER )
@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_analyze< raise< int > >( __LINE__, __FILE__, true, false );
       verify_analyze< raise< any > >( __LINE__, __FILE__, true, false );
 
-      test::text_input< ascii::lf > in( "foo" );
+      text_view_input< ascii::lf > in( "foo" );
 
       TAO_PEGTL_TEST_THROWS( parse< raise< int > >( in ) );
       TAO_PEGTL_TEST_ASSERT( in.size( 4 ) == 3 );

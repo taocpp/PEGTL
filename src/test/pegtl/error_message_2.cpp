@@ -11,7 +11,7 @@ int main()
 #else
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 
 namespace test2
 {
@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       try {
-         parse< test2::grammar >( test::text_input< ascii::lf >( "c" ) );
+         parse< test2::grammar >( text_view_input< ascii::lf >( "c" ) );
          TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
       }
       catch( const parse_error_base& e ) {

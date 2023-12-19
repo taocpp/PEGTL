@@ -12,7 +12,7 @@ int main()
 #else
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
@@ -49,7 +49,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "quake://480fps.com:26000/", result_type::success );
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "ftp://300.300.300.300/foo", result_type::success );  // 300.300.300.300 is a valid hostname!
 
-      TAO_PEGTL_TEST_THROWS( parse< GRAMMAR >( test::text_input< ascii::lf >( "" ) ) );
+      TAO_PEGTL_TEST_THROWS( parse< GRAMMAR >( text_view_input< ascii::lf >( "" ) ) );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

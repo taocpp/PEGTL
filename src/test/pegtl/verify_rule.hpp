@@ -9,7 +9,7 @@
 #include <string>
 
 #include "result_type.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 #include "verify_impl.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -37,21 +37,21 @@ namespace TAO_PEGTL_NAMESPACE
          remain = ( expected == result_type::success ) ? 0 : int( data.size() );
       }
       {
-         test::text_input< Eol > in( data.data(), data.data() + data.size() );
+         text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
-         test::lazy_input< Eol > i2( data.data(), data.data() + data.size() );
+         lazy_view_input< Eol > i2( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, nothing >( line, file, data, i2, expected, remain );
       }
       {
-         test::text_input< Eol > in( data.data(), data.data() + data.size() );
+         text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
-         test::lazy_input< Eol > i2( data.data(), data.data() + data.size() );
+         lazy_view_input< Eol > i2( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl >( line, file, data, i2, expected, remain );
       }
       {
-         test::text_input< Eol > in( data.data(), data.data() + data.size() );
+         text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
-         test::lazy_input< Eol > i2( data.data(), data.data() + data.size() );
+         lazy_view_input< Eol > i2( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl0 >( line, file, data, i2, expected, remain );
       }
    }
@@ -60,15 +60,15 @@ namespace TAO_PEGTL_NAMESPACE
    void verify_only( const std::size_t line, const char* file, const std::string& data, const result_type expected, const std::size_t remain )
    {
       {
-         test::text_input< Eol > in( data.data(), data.data() + data.size() );
+         text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
       }
       {
-         test::text_input< Eol > in( data.data(), data.data() + data.size() );
+         text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
       }
       {
-         test::text_input< Eol > in( data.data(), data.data() + data.size() );
+         text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
       }
    }

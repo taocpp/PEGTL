@@ -3,7 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -50,7 +50,7 @@ namespace TAO_PEGTL_NAMESPACE
       void state_test()
       {
          std::string result;
-         test::text_input< ascii::lf > in( "dk41sk41xk3" );
+         text_view_input< ascii::lf > in( "dk41sk41xk3" );
          parse< fibble, action1 >( in, result );
          TAO_PEGTL_TEST_ASSERT( result == "dkskxk" );
       }
@@ -81,11 +81,11 @@ namespace TAO_PEGTL_NAMESPACE
 
       void apply0_test()
       {
-         test::text_input< ascii::lf > ina( "abcdefgh" );
+         text_view_input< ascii::lf > ina( "abcdefgh" );
          parse< star< alpha >, action0 >( ina );
          TAO_PEGTL_TEST_ASSERT( i0 == 8 );
          std::string s0;
-         test::text_input< ascii::lf > ind( "12345678" );
+         text_view_input< ascii::lf > ind( "12345678" );
          parse< star< digit >, action0 >( ind, s0 );
          TAO_PEGTL_TEST_ASSERT( s0 == "00000000" );
       }
@@ -128,7 +128,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       void count_test()
       {
-         test::text_input< ascii::lf > in( "a\nb" );
+         text_view_input< ascii::lf > in( "a\nb" );
          TAO_PEGTL_TEST_ASSERT( parse< plus< any >, count_action >( in ) );
          TAO_PEGTL_TEST_ASSERT( count == 3 );
       }

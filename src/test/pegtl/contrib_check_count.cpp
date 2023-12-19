@@ -3,7 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 
 #include <tao/pegtl/contrib/check_count.hpp>
 
@@ -29,20 +29,20 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      test::text_input< ascii::lf > i1( "aaa" );
+      text_view_input< ascii::lf > i1( "aaa" );
       const auto r1 = parse< test_grammar >( i1 );
       TAO_PEGTL_TEST_ASSERT( r1 );
 
-      test::text_input< ascii::lf > i2( "aaaaaaaaaaa" );
+      text_view_input< ascii::lf > i2( "aaaaaaaaaaa" );
       const auto r2 = parse< test_grammar >( i2 );
       TAO_PEGTL_TEST_ASSERT( r2 );
 
-      test::text_input< ascii::lf > i3( "aaa" );
+      text_view_input< ascii::lf > i3( "aaa" );
       const auto r3 = parse< test_grammar, test_action >( i3 );
       TAO_PEGTL_TEST_ASSERT( r3 );
 
 #if defined( __cpp_exceptions )
-      test::text_input< ascii::lf > i4( "aaaaaaaaaaa" );
+      text_view_input< ascii::lf > i4( "aaaaaaaaaaa" );
       TAO_PEGTL_TEST_THROWS( parse< test_grammar, test_action >( i4 ) );
 #endif
    }

@@ -3,7 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include "test_inputs.hpp"
+#include "test_utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -59,7 +59,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      test::text_input< ascii::lf > in( "a" );
+      text_view_input< ascii::lf > in( "a" );
       const bool b = parse< r, a >( in );
       TAO_PEGTL_TEST_ASSERT( b );
       TAO_PEGTL_TEST_ASSERT( flags == 3 );
