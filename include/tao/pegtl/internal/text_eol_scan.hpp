@@ -7,17 +7,16 @@
 
 #include "../config.hpp"
 
-#include "scan_input.hpp"
-#include "scan_traits.hpp"
+#include "text_scan_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Eol, typename Data, typename Position >
-   void text_eol_scan( Position& pos, const Data* data, const Data* dend )
+   template< typename Eol, typename Rule, typename Data, typename Position >
+   void text_eol_scan( Position& pos, const Data* data, const std::size_t count )
    {
-      scan_input< Data > in( data, dend );
-      scan_traits< Eol >::scan( in, pos );
-      pos.count += dend - data;
+      using eol_rule = typename Eol::rule_t;
+      using rule_rule = typename Rule::rule_t;
+      text_scan_traits< eol_rule, rule_rule >::scan( pos, data, count );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

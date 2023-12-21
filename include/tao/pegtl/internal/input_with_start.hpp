@@ -20,7 +20,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : public Input
    {
    public:
-      using base_t = Input;
       using data_t = typename Input::data_t;
       using error_position_t = count_position;
       using rewind_position_t = pointer_position< data_t >;
@@ -36,11 +35,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_start;
       }
 
-      using Input::previous;
-
       [[nodiscard]] const data_t* previous( const error_position_t saved ) const noexcept
       {
          return m_start + saved.count;
+      }
+
+      [[nodiscard]] const data_t* previous( const rewind_position_t saved ) const noexcept
+      {
+         return saved.data;
       }
 
       void restart() noexcept

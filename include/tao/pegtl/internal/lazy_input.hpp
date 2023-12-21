@@ -15,8 +15,7 @@
 #include "../text_position.hpp"
 
 #include "input_with_lines.hpp"
-#include "rewind_adapt.hpp"
-#include "text_eol_scan.hpp"
+#include "lazy_eol_scan.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -33,6 +32,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       using input_with_lines< Eol, Input >::input_with_lines;
 
+      [[nodiscard]] const data_t* previous( const error_position_t saved ) const noexcept
+      {
+         return this->start() + saved.count;
+      }
+
+      [[nodiscard]] const data_t* previous( const rewind_position_t saved ) const noexcept
+      {
+         return saved.data;
+      }
+
       [[nodiscard]] auto current_position() const
       {
          return previous_position( this->rewind_position() );
@@ -41,8 +50,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] auto previous_position( const rewind_position_t saved ) const
       {
          error_position_t pos;
-         text_eol_scan< Eol >( pos, this->start(), rewind_adapt( this->start(), saved ) );
-         pos.count = rewind_adapt( this->start(), saved ) - this->start();
+         const data_t* prev = this->previous( saved );
+         lazy_eol_scan< Eol >( pos, this->start(), prev );
+         pos.count = prev - this->start();
          return pos;
       }
    };

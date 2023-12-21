@@ -24,6 +24,11 @@ namespace TAO_PEGTL_NAMESPACE
       {}
    };
 
+   inline std::ostream& operator<<( std::ostream& os, const count_position p )
+   {
+      return os << p.count;
+   }
+
    [[nodiscard]] inline bool operator==( const count_position l, const count_position r ) noexcept
    {
       return l.count == r.count;
@@ -34,9 +39,15 @@ namespace TAO_PEGTL_NAMESPACE
       return !( l == r );
    }
 
-   inline std::ostream& operator<<( std::ostream& os, const count_position p )
+   inline count_position& operator+= ( count_position& l, const count_position r ) noexcept
    {
-      return os << p.count;
+      l.count += r.count;
+      return l;
+   }
+
+   [[nodiscard]] inline count_position operator+( const count_position l, const count_position r ) noexcept
+   {
+      return count_position( l.count + r.count );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

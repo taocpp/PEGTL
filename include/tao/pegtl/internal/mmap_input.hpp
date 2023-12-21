@@ -20,7 +20,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
         public view_input< Data >
    {
    public:
-      using base_t = view_input< Data >;
       using data_t = Data;
       using error_position_t = count_position;
       using rewind_position_t = pointer_position< data_t >;
@@ -33,6 +32,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] const data_t* start() const noexcept
       {
          return data.data();
+      }
+
+      [[nodiscard]] const data_t* previous( const error_position_t saved ) const noexcept
+      {
+         return start() + saved.count;
+      }
+
+      [[nodiscard]] const data_t* previous( const rewind_position_t saved ) const noexcept
+      {
+         return saved.data;
       }
 
       void restart() noexcept

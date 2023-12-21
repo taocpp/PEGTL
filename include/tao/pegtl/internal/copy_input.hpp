@@ -123,10 +123,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return previous_position( rewind_position() );
       }
 
-      // [[nodiscard]] auto previous_position( const error_position_t saved ) const noexcept
-      // {
-      //    return saved;
-      // }
+      [[nodiscard]] auto previous_position( const error_position_t saved ) const noexcept
+      {
+         return saved;
+      }
 
       [[nodiscard]] auto previous_position( const rewind_position_t saved ) const noexcept
       {

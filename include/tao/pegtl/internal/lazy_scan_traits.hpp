@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_SCAN_TRAITS_HPP
-#define TAO_PEGTL_INTERNAL_SCAN_TRAITS_HPP
+#ifndef TAO_PEGTL_INTERNAL_LAZY_SCAN_TRAITS_HPP
+#define TAO_PEGTL_INTERNAL_LAZY_SCAN_TRAITS_HPP
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
@@ -14,7 +14,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Eol, typename = void >
-   struct scan_traits
+   struct lazy_scan_traits
    {
       template< typename Input, typename Position >
       static void scan( Input& in, Position& pos )

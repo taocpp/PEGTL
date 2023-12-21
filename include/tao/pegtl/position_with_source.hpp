@@ -36,6 +36,12 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename Source, typename Position >
+   std::ostream& operator<<( std::ostream& os, const position_with_source< Source, Position >& p )
+   {
+      return os << p.source << '@' << p.base();
+   }
+
+   template< typename Source, typename Position >
    [[nodiscard]] bool operator==( const position_with_source< Source, Position >& l, const position_with_source< Source, Position >& r ) noexcept
    {
       return ( l.source == r.source ) && ( l.base() == r.base() );
@@ -45,12 +51,6 @@ namespace TAO_PEGTL_NAMESPACE
    [[nodiscard]] bool operator!=( const position_with_source< Source, Position >& l, const position_with_source< Source, Position >& r ) noexcept
    {
       return !( l == r );
-   }
-
-   template< typename Source, typename Position >
-   std::ostream& operator<<( std::ostream& os, const position_with_source< Source, Position >& p )
-   {
-      return os << p.source << '@' << p.base();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

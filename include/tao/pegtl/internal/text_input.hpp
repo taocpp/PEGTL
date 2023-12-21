@@ -14,7 +14,7 @@
 #include "../text_position.hpp"
 
 #include "input_with_lines.hpp"
-#include "text_eol_bump.hpp"
+#include "text_eol_scan.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -31,15 +31,20 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       using input_with_lines< Eol, Input >::input_with_lines;
 
+      [[nodiscard]] const data_t* start() const noexcept
+      {
+         return this->m_current - m_position.count;
+      }
+
       void restart() noexcept
       {
-         input_with_lines< Eol, Input >::restart();
+         this->m_current -= m_position.count;
          m_position.count = 0;
          m_position.line = 1;
          m_position.column = 1;
       };
 
-      [[nodiscard]] const char* previous( const rewind_position_t& saved ) const noexcept
+      [[nodiscard]] const data_t* previous( const rewind_position_t& saved ) const noexcept
       {
          return this->current() - m_position.count + saved.count;
       }
@@ -47,8 +52,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Rule >
       void consume( const std::size_t count ) noexcept
       {
-         text_eol_bump< Eol, Rule >( m_position, this->current(), count );
-         Input::template consume< Rule >( count );
+         text_eol_scan< Eol, Rule >( m_position, this->current(), count );
+         this->m_current += count;
       }
 
       template< rewind_mode M >

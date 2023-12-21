@@ -23,7 +23,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    class rematch_view_input
    {
    public:
-      using base_t = input_with_peeks< input_with_fakes< input_with_start< view_input< typename Input::data_t > > > >;
       using data_t = typename Input::data_t;
       using error_position_t = typename Input::error_position_t;
       using rewind_position_t = pointer_position< data_t >;

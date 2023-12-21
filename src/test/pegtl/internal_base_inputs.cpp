@@ -9,8 +9,9 @@
 #include <utility>
 
 #include "test.hpp"
+#include "test_utility.hpp"
+
 #include <tao/pegtl/internal/inputs.hpp>
-#include <tao/pegtl/internal/rewind_adapt.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -37,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( *in.current() == 't' );
       TAO_PEGTL_TEST_ASSERT( *in.current( 5 ) == 'k' );
       TAO_PEGTL_TEST_ASSERT( in.current() == start + 5 );
-      TAO_PEGTL_TEST_ASSERT( internal::rewind_adapt( start, in.current_position() ) == in.current() );
+      TAO_PEGTL_TEST_ASSERT( in.previous( in.current_position() ) == in.current() );
       in.private_set_current( start );  // "duseltronik"
       TAO_PEGTL_TEST_ASSERT( !in.empty() );
       TAO_PEGTL_TEST_ASSERT( in.size() == 11 );
@@ -46,7 +47,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( in.end() == in.current() + 11 );
       TAO_PEGTL_TEST_ASSERT( *in.current() == 'd' );
       TAO_PEGTL_TEST_ASSERT( *in.current( 10 ) == 'k' );
-      TAO_PEGTL_TEST_ASSERT( internal::rewind_adapt( start, in.current_position() ) == in.current() );
+      TAO_PEGTL_TEST_ASSERT( in.previous( in.current_position() ) == in.current() );
       {
          auto m = in.template make_rewind_guard< rewind_mode::required >();
          in.template consume< void >( 1 );
@@ -97,10 +98,10 @@ namespace TAO_PEGTL_NAMESPACE
       in.private_set_current( start + 1 );  // "useltronik"
       {
          const auto p = in.rewind_position();
-         const auto r = internal::rewind_adapt( start, p );
-         TAO_PEGTL_TEST_ASSERT( internal::rewind_adapt( start, p ) == in.current() );
+         const auto r = test::rewind_adapt( start, p );
+         TAO_PEGTL_TEST_ASSERT( test::rewind_adapt( start, p ) == in.current() );
          in.template consume< void >( 4 );
-         TAO_PEGTL_TEST_ASSERT( internal::rewind_adapt( start, p ) == r );
+         TAO_PEGTL_TEST_ASSERT( test::rewind_adapt( start, p ) == r );
          TAO_PEGTL_TEST_ASSERT( in.current() != r );
       }
    }

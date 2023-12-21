@@ -10,7 +10,6 @@
 
 #include "test.hpp"
 #include <tao/pegtl/internal/inputs.hpp>
-#include <tao/pegtl/internal/rewind_adapt.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

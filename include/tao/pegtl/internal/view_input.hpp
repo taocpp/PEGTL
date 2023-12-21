@@ -95,7 +95,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_current + offset;
       }
 
-      // [[nodiscard]] const data_t* previosu( const error_position_t saved ) const noexcept
+      // [[nodiscard]] const data_t* previous( const error_position_t saved ) const noexcept
 
       [[nodiscard]] const data_t* previous( const rewind_position_t saved ) const noexcept
       {

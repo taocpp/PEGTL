@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_SCAN_INPUT_HPP
-#define TAO_PEGTL_INTERNAL_SCAN_INPUT_HPP
+#ifndef TAO_PEGTL_INTERNAL_LAZY_SCAN_INPUT_HPP
+#define TAO_PEGTL_INTERNAL_LAZY_SCAN_INPUT_HPP
 
 #include "../config.hpp"
 
@@ -14,7 +14,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Data >
-   using scan_input = input_with_peeks< input_with_fakes< view_input< Data > > >;
+   using lazy_scan_input = input_with_peeks< input_with_fakes< view_input< Data > > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

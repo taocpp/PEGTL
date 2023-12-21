@@ -28,6 +28,11 @@ namespace TAO_PEGTL_NAMESPACE
       {}
    };
 
+   inline std::ostream& operator<<( std::ostream& os, const text_position p )
+   {
+      return os << p.line << ':' << p.column << '(' << p.count << ')';
+   }
+
    [[nodiscard]] inline bool operator==( const text_position l, const text_position r ) noexcept
    {
       return ( l.count == r.count ) && ( l.line == r.line ) && ( l.column == r.column );
@@ -36,11 +41,6 @@ namespace TAO_PEGTL_NAMESPACE
    [[nodiscard]] inline bool operator!=( const text_position l, const text_position r ) noexcept
    {
       return !( l == r );
-   }
-
-   inline std::ostream& operator<<( std::ostream& os, const text_position p )
-   {
-      return os << p.line << ':' << p.column << '(' << p.count << ')';
    }
 
    inline text_position& operator+=( text_position& l, const text_position& r ) noexcept
@@ -58,12 +58,9 @@ namespace TAO_PEGTL_NAMESPACE
 
    [[nodiscard]] inline text_position operator+( const text_position& l, const text_position& r ) noexcept
    {
-      if( r.line == 1 ) {
-         return text_position( l.count + r.count, l.line, l.column + r.column - 1 );
-      }
-      else {
-         return text_position( l.count + r.count, l.line + r.line - 1, r.column );
-      }
+      text_position t( l );
+      t += r;
+      return t;
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
