@@ -19,6 +19,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using Input::Input;
    };
 
+   template< typename Input >
+   class input_with_lines< void, Input >
+      : public Input
+   {
+   public:
+      using Input::Input;
+   };
+
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

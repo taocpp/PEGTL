@@ -10,16 +10,19 @@
 #include "../config.hpp"
 #include "../position_with_source.hpp"
 
+#include "dependent_false.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Source, typename Input >
+   template< typename InputSource, typename ErrorSource, typename Input >
    class input_with_source
       : public Input
    {
    public:
       using data_t = typename Input::data_t;
-      using source_t = Source;
-      using error_position_t = position_with_source< Source, typename Input::error_position_t >;
+      using input_source_t = InputSource;
+      using error_source_t = ErrorSource;
+      using error_position_t = position_with_source< ErrorSource, typename Input::error_position_t >;
       using rewind_position_t = typename Input::rewind_position_t;
 
       template< typename S, typename... Ts >
@@ -38,13 +41,33 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return error_position_t( m_source, Input::previous_position( saved ) );
       }
 
-      [[nodiscard]] const Source& direct_source() const noexcept
+      [[nodiscard]] const InputSource& direct_source() const noexcept
       {
          return m_source;
       }
 
    protected:
-      Source m_source;
+      InputSource m_source;
+   };
+
+   template< typename InputSource, typename Input >
+   class input_with_source< InputSource, void, Input >
+   {
+      static_assert( dependent_false< InputSource, Input > );
+   };
+
+   template< typename ErrorSource, typename Input >
+   class input_with_source< void, ErrorSource, Input >
+   {
+      static_assert( dependent_false< ErrorSource, Input > );
+   };
+
+   template< typename Input >
+   class input_with_source< void, void, Input >
+      : public Input
+   {
+   public:
+      using Input::Input;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

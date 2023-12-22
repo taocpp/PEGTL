@@ -20,7 +20,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Eol, typename Input >
    class text_input
-      : public input_with_lines< Eol, Input >
+      : public Input
    {
    public:
       using data_t = typename Input::data_t;
@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       using eol_rule = Eol;
 
-      using input_with_lines< Eol, Input >::input_with_lines;
+      using Input::Input;
 
       [[nodiscard]] const data_t* start() const noexcept
       {
@@ -69,7 +69,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       void rewind_to_position( const rewind_position_t& saved ) noexcept
       {
-         input_with_lines< Eol, Input >::rewind_to_position( pointer_position< data_t >( previous( saved ) ) );
+         Input::rewind_to_position( pointer_position< data_t >( previous( saved ) ) );
          m_position = saved;
       }
 
@@ -78,7 +78,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_position;
       }
 
-      [[nodiscard]] const auto& previous_position( const rewind_position_t& saved ) const noexcept
+      [[nodiscard]] auto previous_position( const rewind_position_t& saved ) const noexcept
       {
          return saved;
       }

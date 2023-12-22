@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Eol, typename Input >
    class lazy_input
-      : public input_with_lines< Eol, Input >
+      : public Input
    {
    public:
       using data_t = typename Input::data_t;
@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       using eol_rule = Eol;
 
-      using input_with_lines< Eol, Input >::input_with_lines;
+      using Input::Input;
 
       [[nodiscard]] const data_t* previous( const error_position_t saved ) const noexcept
       {

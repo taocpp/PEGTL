@@ -14,30 +14,32 @@
 
 #include "input_with_lines.hpp"
 #include "text_eol_scan.hpp"
+#include "text_input.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Eol, typename Source, typename Input >
+   template< typename Eol, typename InputSource, typename ErrorSource, typename Input >
    class text_input_with_source
-      : public input_with_lines< Eol, Input >
+      : public Input
    {
    public:
       using data_t = typename Input::data_t;
-      using source_t = Source;
-      using error_position_t = position_with_source< Source, text_position >;
+      using input_source_t = InputSource;
+      using error_source_t = ErrorSource;
+      using error_position_t = position_with_source< ErrorSource, text_position >;
       using rewind_position_t = text_position;
 
       using eol_rule = Eol;
 
       template< typename S, typename... Ts >
       text_input_with_source( S&& s, Ts&&... ts )
-         : input_with_lines< Eol, Input >( std::forward< Ts >( ts )... ),
+         : Input( std::forward< Ts >( ts )... ),
            m_position( std::forward< S >( s ) )
       {}
 
       void restart() noexcept
       {
-         input_with_lines< Eol, Input >::restart();
+         Input::restart();
          m_position.count = 0;
          m_position.line = 1;
          m_position.column = 1;
@@ -68,7 +70,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       void rewind_to_position( const rewind_position_t& saved ) noexcept
       {
-         input_with_lines< Eol, Input >::rewind_to_position( pointer_position< data_t >( previous( saved ) ) );
+         Input::rewind_to_position( pointer_position< data_t >( previous( saved ) ) );
 
          m_position.base() = saved;
       }
@@ -98,7 +100,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_position.column;
       }
 
-      [[nodiscard]] const Source& direct_source() const noexcept  // TODO: Keep?
+      [[nodiscard]] const InputSource& direct_source() const noexcept  // TODO: Keep?
       {
          return m_position.source;
       }
@@ -110,6 +112,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    protected:
       error_position_t m_position;
+   };
+
+   template< typename Eol, typename Input >
+   class text_input_with_source< Eol, void, void, Input >
+      : public text_input< Eol, Input >
+   {
+   public:
+      using text_input< Eol, Input >::text_input;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

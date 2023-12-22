@@ -16,6 +16,7 @@
 
 #include "input_with_fakes.hpp"
 #include "input_with_lines.hpp"
+#include "input_with_offset.hpp"
 #include "input_with_peeks.hpp"
 #include "input_with_source.hpp"
 #include "input_with_start.hpp"
