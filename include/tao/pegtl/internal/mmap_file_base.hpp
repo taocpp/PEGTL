@@ -21,18 +21,24 @@
 
 #if defined( TAO_PEGTL_MMAP_AVAILABLE )
 
+#if !defined( __cpp_exceptions )
+#include <cstdio>
+#include <exception>
+#else
+#include <stdexcept>
+#endif
+
 #include <filesystem>
 
 #include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   struct mmap_file_base
+   class mmap_file_base
    {
-      const mmap_file_impl data;
-
+   public:
       explicit mmap_file_base( const std::filesystem::path& path )
-         : data( path )
+         : m_mmap_data( path )
       {}
 
       mmap_file_base( mmap_file_base&& ) = delete;
@@ -42,6 +48,31 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       void operator=( mmap_file_base&& ) = delete;
       void operator=( const mmap_file_base& ) = delete;
+
+      // TODO: Use std::span with C++20.
+
+      template< typename Data >
+      [[nodiscard]] std::size_t mmap_file_size() const
+      {
+         if( ( sizeof( Data ) == 1 ) || ( m_mmap_data.size() % sizeof( Data ) == 0 ) ) {
+            return m_mmap_data.size() / sizeof( Data );
+         }
+#if defined( __cpp_exceptions )
+         throw std::runtime_error( "mmap() file size is not multiple of data size" );
+#else
+         std::perror( "mmap() file size is not multiple of data size" );
+         std::terminate();
+#endif
+      }
+
+      template< typename Data >
+      [[nodiscard]] const Data* mmap_file_data() const noexcept
+      {
+         return reinterpret_cast< const Data* >( m_mmap_data.data() );
+      }
+
+   protected:
+      const mmap_file_impl m_mmap_data;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

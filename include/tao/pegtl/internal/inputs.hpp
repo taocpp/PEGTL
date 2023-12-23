@@ -26,4 +26,13 @@
 #include "argv_input_with_source.hpp"
 #include "text_input_with_source.hpp"
 
+#include "../config.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::internal
+{
+   template< typename Input >
+   using input_with_funcs = input_with_fakes< input_with_peeks< Input > >;
+
+}  // namespace TAO_PEGTL_NAMESPACE::internal
+
 #endif

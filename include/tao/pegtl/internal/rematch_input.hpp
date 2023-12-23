@@ -20,14 +20,14 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Guard, typename Input >
-   class rematch_view_input
+   class rematch_input_impl
    {
    public:
       using data_t = typename Input::data_t;
       using error_position_t = typename Input::error_position_t;
       using rewind_position_t = pointer_position< data_t >;
 
-      rematch_view_input( Guard& m, Input& in )
+      rematch_input_impl( Guard& m, Input& in )
          : m_guard( m ),
            m_input( in ),
            m_current( m.current() )
@@ -63,6 +63,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_input.current();
       }
 
+      void restart() noexcept
+      {
+         m_current = m_guard.current();
+      }
+
       template< typename Rule >
       void consume( const std::size_t count ) noexcept
       {
@@ -72,7 +77,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< rewind_mode M >
       [[nodiscard]] auto make_rewind_guard() noexcept
       {
-         return rewind_guard< M, rematch_view_input >( this );
+         return rewind_guard< M, rematch_input_impl >( this );
       }
 
       [[nodiscard]] auto rewind_position() const noexcept
@@ -112,9 +117,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< typename Guard, typename Input >
    struct rematch_input< Guard, Input, false >
-      : input_with_peeks< input_with_fakes< rematch_view_input< Guard, Input > > >
+      : input_with_fakes< input_with_peeks< rematch_input_impl< Guard, Input > > >
    {
-      using input_with_peeks< input_with_fakes< rematch_view_input< Guard, Input > > >::input_with_peeks;
+      using input_with_fakes< input_with_peeks< rematch_input_impl< Guard, Input > > >::input_with_fakes;
    };
 
    template< typename Guard, typename Input >

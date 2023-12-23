@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    [[nodiscard]] bool json_pass( const std::filesystem::path& path )
    {
-      text_file_input_with_source< ascii::lf > in( path );
+      text_file_input< ascii::lf > in( path );
       const auto s = in.string();
       text_view_input< ascii::lf > ti( s );
       lazy_view_input< ascii::lf > li( s );
@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    [[nodiscard]] bool json_fail( const std::filesystem::path& path )
    {
-      text_file_input_with_source< ascii::lf > in( path );
+      text_file_input< ascii::lf > in( path );
       const auto s = in.string();
       text_view_input< ascii::lf > ti( s );
       lazy_view_input< ascii::lf > li( s );
@@ -117,7 +117,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/pegtl/data/pass2.json" ) );
       TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/pegtl/data/pass3.json" ) );
 
-      TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( text_file_input_with_source< ascii::lf >( "src/test/pegtl/data/blns.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( text_file_input< ascii::lf >( "src/test/pegtl/data/blns.json" ) ) );
 
       // TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail1.json" ) ); // disabled as it is valid now
       TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail2.json" ) );

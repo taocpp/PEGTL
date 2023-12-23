@@ -47,8 +47,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      unit_test< lazy_view_input_with_source< ascii::lf > >();
-      unit_test< text_view_input_with_source< ascii::lf > >();
+      unit_test< lazy_view_input< ascii::lf, char, std::string > >();
+      unit_test< text_view_input< ascii::lf, char, std::string > >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

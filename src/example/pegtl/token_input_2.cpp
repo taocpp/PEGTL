@@ -33,7 +33,7 @@ struct token_type_rule
    : member::one< &my_token::type, T >
 {};
 
-using token_input = copy_input< std::vector< my_token > >;
+using token_input = copy_input< void, std::vector< my_token > >;
 
 template< typename Rule >
 struct my_action

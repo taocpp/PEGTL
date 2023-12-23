@@ -26,12 +26,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       explicit mmap_input( const std::filesystem::path& path )
          : mmap_file_base( path ),
-           view_input< Data >( data.data(), data.size() )
+           view_input< Data >( mmap_file_data< Data >(), mmap_file_size< Data >() )
       {}
 
       [[nodiscard]] const data_t* start() const noexcept
       {
-         return data.data();
+         return mmap_file_data< Data >();
       }
 
       [[nodiscard]] const data_t* previous( const error_position_t saved ) const noexcept
@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       void restart() noexcept
       {
-         this->m_current = data.data();
+         this->m_current = start();
       }
 
       [[nodiscard]] auto current_position() const noexcept
@@ -61,7 +61,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] auto previous_position( const rewind_position_t previous ) const noexcept
       {
-         return count_position( previous.data - data.data() );
+         return count_position( previous.data - start() );
       }
    };
 

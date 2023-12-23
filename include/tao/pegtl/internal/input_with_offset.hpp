@@ -9,6 +9,8 @@
 
 #include "../config.hpp"
 
+#include "apply_offset.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename OffsetPosition, typename Input >
@@ -35,14 +37,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] auto current_position() const
       {
          auto pos = Input::current_position();
-         pos += m_offset;
+         apply_offset( pos, m_offset );
          return pos;
       }
 
       [[nodiscard]] auto previous_position( const rewind_position_t& saved ) const
       {
          auto pos = Input::previous_position( saved );
-         pos += m_offset;
+         apply_offset( pos, m_offset );
          return pos;
       }
 
@@ -53,6 +55,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    protected:
       OffsetPosition m_offset;
+   };
+
+   template< typename Input >
+   class input_with_offset< void, Input >
+      : public Input
+   {
+      using Input::Input;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

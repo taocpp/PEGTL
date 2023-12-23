@@ -16,7 +16,7 @@ int main()
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename Rule, typename ParseInput = text_view_input_with_source< ascii::lf_crlf > >
+   template< typename Rule, typename ParseInput = text_view_input< ascii::lf_crlf, char, std::string > >
    void test_matches_lf()
    {
       static const std::string s1 = "\n";
@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( i1.direct_column() == 1 );
    }
 
-   template< typename Rule, typename ParseInput = text_view_input_with_source< ascii::lf_crlf > >
+   template< typename Rule, typename ParseInput = text_view_input< ascii::lf_crlf, char, std::string > >
    void test_matches_other( const std::string& s2 )
    {
       TAO_PEGTL_TEST_ASSERT( s2.size() == 1 );
@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( i2.direct_column() == 2 );
    }
 
-   template< typename Rule, typename ParseInput = text_view_input_with_source< ascii::lf_crlf > >
+   template< typename Rule, typename ParseInput = text_view_input< ascii::lf_crlf, char, std::string > >
    void test_mismatch( const std::string& s3 )
    {
       TAO_PEGTL_TEST_ASSERT( s3.size() == 1 );
@@ -75,7 +75,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( p.count == 2 );
          TAO_PEGTL_TEST_ASSERT( p.line == 1 );
          TAO_PEGTL_TEST_ASSERT( p.column == 3 );
-         text_view_input_with_source< ascii::lf_crlf > in( "inner", "dFF" );
+         text_view_input< ascii::lf_crlf, char, std::string > in( "inner", "dFF" );
          if( mode ) {
             parse_nested< inner_grammar >( oi, in );
          }
@@ -152,8 +152,8 @@ namespace TAO_PEGTL_NAMESPACE
       test_matches_other< ranges< 'a', 'z', 'A', 'Z', '\n' > >( "P" );
       test_mismatch< ranges< 'a', 'z', 'A', 'Z', '\n' > >( "8" );
 
-      test_nested< lazy_view_input_with_source< ascii::lf_crlf > >();
-      test_nested< text_view_input_with_source< ascii::lf_crlf > >();
+      test_nested< lazy_view_input< ascii::lf_crlf, char, std::string > >();
+      test_nested< text_view_input< ascii::lf_crlf, char, std::string > >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

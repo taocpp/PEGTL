@@ -37,7 +37,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    if( argc > 1 ) {
       std::string name;
-      pegtl::argv_input in( argv, 1 );
+      pegtl::argv_input< void > in( argv, 1 );
       if( pegtl::parse< hello::grammar, hello::action >( in, name ) ) {
          std::cout << "Good bye, " << name << "!" << std::endl;
       }

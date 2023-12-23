@@ -50,18 +50,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       InputSource m_source;
    };
 
-   template< typename InputSource, typename Input >
-   class input_with_source< InputSource, void, Input >
-   {
-      static_assert( dependent_false< InputSource, Input > );
-   };
-
-   template< typename ErrorSource, typename Input >
-   class input_with_source< void, ErrorSource, Input >
-   {
-      static_assert( dependent_false< ErrorSource, Input > );
-   };
-
    template< typename Input >
    class input_with_source< void, void, Input >
       : public Input

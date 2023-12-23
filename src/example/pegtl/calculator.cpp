@@ -347,7 +347,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 
    for( int i = 1; i < argc; ++i ) {
       // Parse and process the command-line arguments as calculator expressions...
-      pegtl::argv_input in( argv, i );
+      pegtl::argv_input< pegtl::ascii::lf > in( argv, i );
       if( pegtl::parse< calculator::grammar, calculator::action >( in, b, s ) ) {
          // ...and print the respective results to std::cout.
          std::cout << s.finish() << std::endl;

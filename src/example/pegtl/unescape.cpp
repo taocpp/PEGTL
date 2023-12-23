@@ -52,7 +52,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    for( int i = 1; i < argc; ++i ) {
       std::string s;
-      argv_input_with_source in( argv, i );
+      argv_input< void > in( argv, i );
       if( parse< example::padded, example::action >( in, s ) ) {
          std::cout << "argv[ " << i << " ] = " << s << std::endl;
       }

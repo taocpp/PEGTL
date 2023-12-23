@@ -51,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       return ( ( char32_t( high & 0x03ff ) << 10 ) | char32_t( low & 0x03ff ) ) + 0x10000;
    }
 
-   [[nodiscard]] bool is_utf32_codepoint( const char32_t t ) noexcept
+   [[nodiscard]] constexpr bool is_utf32_codepoint( const char32_t t ) noexcept
    {
       return ( t <= 0x10ffff ) && ( !is_utf16_surrogate( t ) );
    }

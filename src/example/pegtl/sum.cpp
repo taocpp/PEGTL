@@ -60,7 +60,7 @@ int main()
          break;
       }
       double d = 0.0;
-      view_input_with_source< char > in( "std::cin", str );
+      view_input< void, char, std::string > in( "std::cin", str );
       if( parse< sum::grammar, sum::action >( in, d ) ) {
          std::cout << "parsing OK; sum = " << d << std::endl;
       }

@@ -14,7 +14,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Data >
-   using lazy_scan_input = input_with_peeks< input_with_fakes< view_input< Data > > >;
+   using lazy_scan_input = input_with_fakes< input_with_peeks< view_input< Data > > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

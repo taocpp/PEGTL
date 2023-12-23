@@ -58,7 +58,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
          if( Control< Head >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) ) {
             rematch_input i2( m, in );
-            return m( ( Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( i2, st... ) && ... && ( i2.private_set_current( m.current() ), Control< Rules >::template match< A, rewind_mode::optional, Action, Control >( i2, st... ) ) ) );
+            return m( ( Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( i2, st... ) && ... && ( i2.restart(), Control< Rules >::template match< A, rewind_mode::optional, Action, Control >( i2, st... ) ) ) );
          }
          return false;
       }

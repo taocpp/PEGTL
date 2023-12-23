@@ -57,7 +57,7 @@ namespace TAO_PEGTL_NAMESPACE
    {};
 
    template< typename Token >
-   using token_input = copy_input< std::vector< Token > >;
+   using token_input = copy_input< void, std::vector< Token > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

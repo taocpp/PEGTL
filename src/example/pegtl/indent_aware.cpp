@@ -215,7 +215,7 @@ namespace example
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    for( int i = 1; i < argc; ++i ) {
-      pegtl::text_file_input_with_source< pegtl::ascii::lf_crlf > in( argv[ i ] );
+      pegtl::text_file_input< pegtl::ascii::lf_crlf > in( argv[ i ] );
       example::state is;
       pegtl::parse< example::grammar, example::action >( in, is );
    }

@@ -98,7 +98,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( flag == true );
       }
       const char* foo = "foo";
-      const text_copy_input_with_source< ascii::lf_crlf > m( foo, foo, foo + 3 );
+      const text_copy_input< ascii::lf_crlf, std::string, std::string > m( foo, foo, foo + 3 );
       {
          T in( TAO_PEGTL_TEST_FILENAME );
          TAO_PEGTL_TEST_ASSERT( parse_nested< file_grammar >( m, in ) );

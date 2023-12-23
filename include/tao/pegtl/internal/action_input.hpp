@@ -38,17 +38,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
       void operator=( action_input_impl&& ) = delete;
       void operator=( const action_input_impl& ) = delete;
 
-      [[nodiscard]] const auto* begin() const noexcept
+      [[nodiscard]] const data_t* begin() const noexcept
       {
          return m_input.previous( m_saved );
       }
 
-      [[nodiscard]] const auto* current( const std::size_t offset = 0 ) const noexcept
+      [[nodiscard]] const data_t* current( const std::size_t offset = 0 ) const noexcept
       {
          return m_input.previous( m_saved ) + offset;
       }
 
-      [[nodiscard]] const auto* end() const noexcept
+      [[nodiscard]] const data_t* end() const noexcept
       {
          return m_input.current();
       }
@@ -81,6 +81,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] decltype( auto ) direct_source() const noexcept
       {
          return m_input.direct_source();  // Not all inputs have this.
+      }
+
+      [[nodiscard]] decltype( auto ) direct_position() const noexcept
+      {
+         return m_input.direct_position();  // Not all inputs have this.
       }
 
    protected:
