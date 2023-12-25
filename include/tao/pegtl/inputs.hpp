@@ -15,44 +15,44 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Eol, typename Data = char >
-   using mini_input = internal::input_with_funcs< internal::input_with_lines< Eol, internal::view_input< Data > > >;
+   using base_input = internal::base_combination< Eol, internal::view_input< Data > >;
    template< typename Eol = void, typename Source = std::string >
-   using argv_input = internal::input_with_funcs< internal::input_with_lines< Eol, internal::input_with_start< internal::argv_input_with_source< Source > > > >;
+   using argv_input = internal::base_combination< Eol, internal::argv_input_with_source< Source > >;
    template< typename Eol, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
-   using view_input = internal::input_with_funcs< internal::input_with_lines< Eol, internal::input_with_source< InputSource, ErrorSource, internal::input_with_start< internal::view_input< Data > > > > >;
+   using view_input = internal::base_combination< Eol, internal::input_with_source< InputSource, ErrorSource, internal::input_with_start< internal::view_input< Data > > > >;
    template< typename Eol, typename Container = std::string, typename InputSource = void, typename ErrorSource = InputSource >
-   using copy_input = internal::input_with_funcs< internal::input_with_lines< Eol, internal::input_with_source< InputSource, ErrorSource, internal::copy_input< Container > > > >;
+   using copy_input = internal::base_combination< Eol, internal::input_with_source< InputSource, ErrorSource, internal::copy_input< Container > > >;
    template< typename Eol >
-   using file_input = internal::input_with_funcs< internal::input_with_lines< Eol, internal::input_double_path< internal::input_with_source< std::filesystem::path, std::filesystem::path, internal::file_input > > > >;
+   using file_input = internal::base_combination< Eol, internal::path_combination< internal::file_input > >;
    template< typename Eol >
-   using read_input = internal::input_with_funcs< internal::input_with_lines< Eol, internal::input_double_path< internal::input_with_source< std::filesystem::path, std::filesystem::path, internal::read_input > > > >;
+   using read_input = internal::base_combination< Eol, internal::path_combination< internal::read_input > >;
 #if defined( TAO_PEGTL_MMAP_AVAILABLE )
    template< typename Eol, typename Data = char >
-   using mmap_input = internal::input_with_funcs< internal::input_with_lines< Eol, internal::input_double_path< internal::input_with_source< std::filesystem::path, std::filesystem::path, internal::mmap_input< Data > > > > >;
+   using mmap_input = internal::base_combination< Eol, internal::path_combination< internal::mmap_input< Data > > >;
 #endif
    template< typename Eol, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
    using text_view_input = internal::input_with_funcs< internal::text_input_with_source< Eol, InputSource, ErrorSource, internal::input_with_start< internal::view_input< Data > > > >;
    template< typename Eol, typename Container = std::string, typename InputSource = void, typename ErrorSource = InputSource >
    using text_copy_input = internal::input_with_funcs< internal::text_input_with_source< Eol, InputSource, ErrorSource, internal::copy_input< Container > > >;
    template< typename Eol >
-   using text_file_input = internal::input_with_funcs< internal::input_double_path< internal::text_input_with_source< Eol, std::filesystem::path, std::filesystem::path, internal::file_input > > >;
+   using text_file_input = internal::input_with_funcs< internal::text_combination< Eol, internal::file_input > >;
    template< typename Eol >
-   using text_read_input = internal::input_with_funcs< internal::input_double_path< internal::text_input_with_source< Eol, std::filesystem::path, std::filesystem::path, internal::read_input > > >;
+   using text_read_input = internal::input_with_funcs< internal::text_combination< Eol, internal::read_input > >;
 #if defined( TAO_PEGTL_MMAP_AVAILABLE )
    template< typename Eol, typename Data = char >
-   using text_mmap_input = internal::input_with_funcs< internal::input_double_path< internal::text_input_with_source< Eol, std::filesystem::path, std::filesystem::path, internal::mmap_input< Data > > > >;
+   using text_mmap_input = internal::input_with_funcs< internal::text_combination< Eol, internal::mmap_input< Data > > >;
 #endif
    template< typename Eol, typename Container = std::string, typename InputSource = void, typename ErrorSource = InputSource >
    using lazy_copy_input = internal::input_with_funcs< internal::input_with_source< InputSource, ErrorSource, internal::lazy_input< Eol, internal::copy_input< Container > > > >;
    template< typename Eol, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
    using lazy_view_input = internal::input_with_funcs< internal::input_with_source< InputSource, ErrorSource, internal::lazy_input< Eol, internal::input_with_start< internal::view_input< Data > > > > >;
    template< typename Eol >
-   using lazy_file_input = internal::input_with_funcs< internal::input_double_path< internal::input_with_source< std::filesystem::path, std::filesystem::path, internal::lazy_input< Eol, internal::file_input > > > >;
+   using lazy_file_input = internal::input_with_funcs< internal::path_combination< internal::lazy_input< Eol, internal::file_input > > >;
    template< typename Eol >
-   using lazy_read_input = internal::input_with_funcs< internal::input_double_path< internal::input_with_source< std::filesystem::path, std::filesystem::path, internal::lazy_input< Eol, internal::read_input > > > >;
+   using lazy_read_input = internal::input_with_funcs< internal::path_combination< internal::lazy_input< Eol, internal::read_input > > >;
 #if defined( TAO_PEGTL_MMAP_AVAILABLE )
    template< typename Eol, typename Data = char >
-   using lazy_mmap_input = internal::input_with_funcs< internal::input_double_path< internal::input_with_source< std::filesystem::path, std::filesystem::path, internal::lazy_input< Eol, internal::mmap_input< Data > > > > >;
+   using lazy_mmap_input = internal::input_with_funcs< internal::path_combination< internal::lazy_input< Eol, internal::mmap_input< Data > > > >;
 #endif
 
 }  // namespace TAO_PEGTL_NAMESPACE

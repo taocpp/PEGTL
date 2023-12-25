@@ -83,9 +83,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          m_input = nullptr;
       }
 
-      // using data_t = std::decay_t< std::remove_pointer_t< decltype( std::declval< ParseInput >().end() ) > >;
-      using rewind_position_t = std::decay_t< decltype( std::declval< ParseInput >().rewind_position() ) >;
-
       void rewind_restore() const noexcept
       {
          m_input->rewind_to_position( m_saved );
@@ -108,7 +105,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    private:
       ParseInput* m_input;
-      rewind_position_t m_saved;
+      using saved_position_t = std::decay_t< decltype( std::declval< ParseInput >().rewind_position() ) >;
+      saved_position_t m_saved;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

@@ -28,16 +28,16 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       return 1;
    }
 
-   pegtl::argv_input in( argv, 1 );
+   pegtl::argv_input<> in( argv, 1 );
 #if defined( __cpp_exceptions )
    try {
       pegtl::standard_trace< example::grammar, pegtl::nothing, example::control >( in );
    }
-   catch( const pegtl::parse_error& e ) {
+   catch( const pegtl::parse_error< pegtl::count_position >& e ) {
       const auto& p = e.position_object();
       std::cerr << e.what() << '\n'
                 << line_view_at( in, p ) << '\n'
-                << std::setw( int( p.column ) ) << '^' << std::endl;
+                << std::setw( int( p.count ) ) << '^' << std::endl;
       return 1;
    }
 #else

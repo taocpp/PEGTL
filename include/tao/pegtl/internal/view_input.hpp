@@ -19,12 +19,13 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Data = char >
+   template< typename Data >
    class view_input
    {
    public:
       using data_t = Data;
       using error_position_t = pointer_position< data_t >;
+      using offset_position_t = void;
       using rewind_position_t = pointer_position< data_t >;
 
       view_input( const data_t* in_begin, const data_t* in_end ) noexcept

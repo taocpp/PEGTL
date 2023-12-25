@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_count()
    {
-      copy_input< ascii::lf > in( data );
+      internal::input_with_offset< false, copy_input< ascii::lf > > in( data );
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 0 );
       TAO_PEGTL_TEST_ASSERT( in.current_position() == in.previous_position( in.rewind_position() ) );
       const auto a = parse< rule1 >( in );
@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_count_offset()
    {
-      internal::input_with_offset< count_position, copy_input< ascii::lf > > in( count_position( 42 ), data );
+      internal::input_with_offset< true, copy_input< ascii::lf > > in( count_position( 42 ), data );
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 42 );
       TAO_PEGTL_TEST_ASSERT( in.current_position() == in.previous_position( in.rewind_position() ) );
       const auto a = parse< rule1 >( in );
@@ -48,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_count_offset_source()
    {
-      internal::input_with_offset< count_position, copy_input< ascii::lf, std::string, const char*, std::string > > in( count_position( 42 ), __FUNCTION__, data );
+      internal::input_with_offset< true, copy_input< ascii::lf, std::string, const char*, std::string > > in( count_position( 42 ), __FUNCTION__, data );
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 42 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().source == __FUNCTION__ );
       TAO_PEGTL_TEST_ASSERT( in.current_position() == in.previous_position( in.rewind_position() ) );
@@ -67,7 +67,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_text()
    {
-      text_copy_input< ascii::lf > in( data );
+      internal::input_with_offset< false, text_copy_input< ascii::lf > > in( data );
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 0 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().line == 1 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().column == 1 );
@@ -90,7 +90,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_text_offset()
    {
-      internal::input_with_offset< text_position, text_copy_input< ascii::lf > > in( text_position( 100, 200, 300 ), data );
+      internal::input_with_offset< true, text_copy_input< ascii::lf > > in( text_position( 100, 200, 300 ), data );
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 100 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().line == 200 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().column == 300 );
@@ -113,7 +113,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_text_offset_source()
    {
-      internal::input_with_offset< text_position, text_copy_input< ascii::lf, std::string, const char*, std::string > > in( text_position( 100, 200, 300 ), __FUNCTION__, data );
+      internal::input_with_offset< true, text_copy_input< ascii::lf, std::string, const char*, std::string > > in( text_position( 100, 200, 300 ), __FUNCTION__, data );
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 100 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().line == 200 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().column == 300 );
@@ -140,7 +140,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_lazy()
    {
-      lazy_copy_input< ascii::lf > in( data );
+      internal::input_with_offset< false, lazy_copy_input< ascii::lf > > in( data );
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 0 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().line == 1 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().column == 1 );
@@ -163,7 +163,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_lazy_offset()
    {
-      internal::input_with_offset< text_position, lazy_copy_input< ascii::lf > > in( text_position( 100, 200, 300 ), data );
+      internal::input_with_offset< true, lazy_copy_input< ascii::lf > > in( text_position( 100, 200, 300 ), data );
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 100 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().line == 200 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().column == 300 );
@@ -186,7 +186,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_lazy_offset_source()
    {
-      internal::input_with_offset< text_position, lazy_copy_input< ascii::lf, std::string, const char*, std::string > > in( text_position( 100, 200, 300 ), __FUNCTION__, data );
+      internal::input_with_offset< true, lazy_copy_input< ascii::lf, std::string, const char*, std::string > > in( text_position( 100, 200, 300 ), __FUNCTION__, data );
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 100 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().line == 200 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().column == 300 );

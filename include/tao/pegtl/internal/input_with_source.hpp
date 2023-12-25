@@ -23,6 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using input_source_t = InputSource;
       using error_source_t = ErrorSource;
       using error_position_t = position_with_source< ErrorSource, typename Input::error_position_t >;
+      using offset_position_t = typename Input::offset_position_t;
       using rewind_position_t = typename Input::rewind_position_t;
 
       template< typename S, typename... Ts >

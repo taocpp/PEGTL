@@ -25,6 +25,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    public:
       using data_t = typename Input::data_t;
       using error_position_t = typename Input::error_position_t;
+      // offset_position_t
       using rewind_position_t = pointer_position< data_t >;
 
       rematch_input_impl( Guard& m, Input& in )

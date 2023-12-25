@@ -15,6 +15,7 @@
 #include "view_input.hpp"
 
 #include "input_with_fakes.hpp"
+#include "input_with_funcs.hpp"
 #include "input_with_lines.hpp"
 #include "input_with_offset.hpp"
 #include "input_with_peeks.hpp"
@@ -26,13 +27,8 @@
 #include "argv_input_with_source.hpp"
 #include "text_input_with_source.hpp"
 
-#include "../config.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
-{
-   template< typename Input >
-   using input_with_funcs = input_with_fakes< input_with_peeks< Input > >;
-
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+#include "base_combination.hpp"
+#include "path_combination.hpp"
+#include "text_combination.hpp"
 
 #endif

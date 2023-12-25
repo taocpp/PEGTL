@@ -19,12 +19,13 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Container = std::string >
+   template< typename Container >
    class copy_input
    {
    public:
       using data_t = typename Container::value_type;
       using error_position_t = count_position;
+      using offset_position_t = count_position;
       using rewind_position_t = pointer_position< data_t >;
 
       copy_input( const data_t* in_begin, const data_t* in_end )

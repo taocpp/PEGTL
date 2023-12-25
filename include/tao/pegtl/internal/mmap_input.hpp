@@ -14,7 +14,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Data = char >
+   template< typename Data >
    class mmap_input
       : private mmap_file_base,
         public view_input< Data >
@@ -22,6 +22,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    public:
       using data_t = Data;
       using error_position_t = count_position;
+      using offset_position_t = count_position;
       using rewind_position_t = pointer_position< data_t >;
 
       explicit mmap_input( const std::filesystem::path& path )

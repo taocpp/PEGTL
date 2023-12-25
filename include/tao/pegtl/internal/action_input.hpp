@@ -23,6 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using data_t = typename ParseInput::data_t;
       using input_t = ParseInput;
       using error_position_t = typename ParseInput::error_position_t;
+      // offset_position_t
       using rewind_position_t = typename ParseInput::rewind_position_t;
 
       action_input_impl( const rewind_position_t& begin, const ParseInput& input ) noexcept

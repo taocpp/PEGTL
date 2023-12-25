@@ -9,16 +9,17 @@
 
 #include "../config.hpp"
 
+#include "input_with_start.hpp"
 #include "view_input.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    class argv_input
-      : public view_input< char >
+      : public input_with_start< view_input< char > >
    {
    public:
       argv_input( char** argv, const int argn )
-         : view_input< char >( argv[ argn ], std::strlen( argv[ argn ] ) )
+         : input_with_start< view_input< char > >( argv[ argn ], std::strlen( argv[ argn ] ) )
       {}
    };
 

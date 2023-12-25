@@ -27,6 +27,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using input_source_t = InputSource;
       using error_source_t = ErrorSource;
       using error_position_t = position_with_source< ErrorSource, text_position >;
+      using offset_position_t = text_position;
       using rewind_position_t = text_position;
 
       using eol_rule = Eol;

@@ -15,13 +15,14 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Input = view_input< char > >
+   template< typename Input >
    class input_with_start
       : public Input
    {
    public:
       using data_t = typename Input::data_t;
       using error_position_t = count_position;
+      using offset_position_t = count_position;
       using rewind_position_t = pointer_position< data_t >;
 
       template< typename... As >

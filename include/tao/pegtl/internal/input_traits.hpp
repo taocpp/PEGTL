@@ -16,7 +16,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Input, typename = void >
    struct input_traits;
 
-   // TODO: Find a better structure.
+   // TODO: Find a better structure than a kitchen sink full of bools?
 
    template< typename Data >
    struct input_traits< view_input< Data > >
@@ -29,7 +29,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static constexpr bool is_read = false;
       static constexpr bool is_text = false;
       static constexpr bool is_view = true;
+
+      static constexpr bool has_fakes = false;
+      static constexpr bool has_peeks = false;
+      static constexpr bool has_lines = false;
       static constexpr bool has_start = false;
+      static constexpr bool has_source = false;
+      static constexpr bool has_offset = false;
    };
 
    template< typename Container >
@@ -43,7 +49,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static constexpr bool is_read = false;
       static constexpr bool is_text = false;
       static constexpr bool is_view = false;
+
+      static constexpr bool has_fakes = false;
+      static constexpr bool has_peeks = false;
+      static constexpr bool has_lines = false;
       static constexpr bool has_start = true;
+      static constexpr bool has_source = false;
+      static constexpr bool has_offset = false;
    };
 
    template<>
@@ -90,8 +102,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct input_traits< lazy_input< Eol, Input > >
       : input_traits< Input >
    {
-      using eol_rule = Eol;
-
       static constexpr bool is_lazy = true;
       static constexpr bool has_lines = true;
    };
@@ -100,8 +110,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct input_traits< text_input< Eol, Input > >
       : input_traits< Input >
    {
-      using eol_rule = Eol;
-
       static constexpr bool is_text = true;
       static constexpr bool has_lines = true;
    };
@@ -113,12 +121,22 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static constexpr bool has_fakes = true;
    };
 
+   template< typename Input >
+   struct input_traits< input_with_peeks< Input > >
+      : input_traits< Input >
+   {
+      static constexpr bool has_peeks = true;
+   };
+
+   template< typename Input >
+   struct input_traits< input_with_funcs< Input > >
+      : input_traits< input_with_fakes< input_with_peeks< Input > > >
+   {};
+
    template< typename Eol, typename Input >
    struct input_traits< input_with_lines< Eol, Input > >
       : input_traits< Input >
    {
-      using eol_rule = Eol;
-
       static constexpr bool has_lines = true;
    };
 
@@ -127,20 +145,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : input_traits< Input >
    {};
 
-   template< typename Input >
-   struct input_traits< input_with_peeks< Input > >
-      : input_traits< Input >
-   {
-      static constexpr bool has_peeks = true;
-   };
-
    template< typename InputSource, typename ErrorSource, typename Input >
    struct input_traits< input_with_source< InputSource, ErrorSource, Input > >
       : input_traits< Input >
    {
-      using input_source_t = InputSource;
-      using error_source_t = ErrorSource;
-
       static constexpr bool has_source = true;
    };
 
@@ -155,6 +163,18 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       static constexpr bool has_start = true;
    };
+
+   template< typename Input >
+   struct input_traits< input_with_offset< true, Input > >
+      : input_traits< Input >
+   {
+      static constexpr bool has_offset = true;
+   };
+
+   template< typename Input >
+   struct input_traits< input_with_offset< false, Input > >
+      : input_traits< Input >
+   {};
 
    template< typename Input >
    struct input_traits< input_double_path< Input > >
@@ -175,11 +195,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct input_traits< text_input_with_source< Eol, InputSource, ErrorSource, Input > >
       : input_traits< Input >
    {
-      using eol_rule = Eol;
-
-      using input_source_t = InputSource;
-      using error_source_t = ErrorSource;
-
       static constexpr bool has_lines = true;
       static constexpr bool has_source = true;
    };
@@ -188,11 +203,24 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct input_traits< text_input_with_source< Eol, void, void, Input > >
       : input_traits< Input >
    {
-      using eol_rule = Eol;
-
       static constexpr bool is_text = true;
       static constexpr bool has_lines = true;
    };
+
+   template< typename Eol, typename Input >
+   struct input_traits< base_combination< Eol, Input > >
+      : input_traits< input_with_fakes< input_with_peeks< input_with_lines< Eol, Input > > > >
+   {};
+
+   template< typename Input >
+   struct input_traits< path_combination< Input > >
+      : input_traits< input_double_path< input_with_source< std::filesystem::path, std::filesystem::path, Input > > >
+   {};
+
+   template< typename Eol, typename Input >
+   struct input_traits< text_combination< Eol, Input > >
+      : input_traits< input_double_path< text_input_with_source< Eol, std::filesystem::path, std::filesystem::path, Input > > >
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
