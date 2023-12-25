@@ -123,7 +123,7 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< typename Rule >
-      using type = rotate_states_right< control< Rule > >;
+      using type = control< Rule >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE
