@@ -75,8 +75,8 @@ namespace TAO_PEGTL_NAMESPACE
          trace.push_back( { demangle< Rule >(), "raise", ++b } );
       }
 
-      template< typename Rule, typename Input, typename... States >
-      void raise_nested( const Input& /*unused*/, const int a, std::size_t& b )
+      template< typename Rule, typename Ambient, typename Input, typename... States >
+      void raise_nested( const Ambient& /*unused*/, const Input& /*unused*/, const int a, std::size_t& b )
       {
          TAO_PEGTL_TEST_ASSERT( a == -1 );
          trace.push_back( { demangle< Rule >(), "raise_nested", ++b } );

@@ -54,7 +54,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return m( Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) );
          }
          catch( ... ) {
-            Control< Rule >::raise_nested( m.current_position(), st... );
+            Control< Rule >::raise_nested( m.current_position(), in, st... );
          }
       }
    };
@@ -81,7 +81,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return m( Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) );
          }
          catch( const Exception& ) {
-            Control< Rule >::raise_nested( m.current_position(), st... );
+            Control< Rule >::raise_nested( m.current_position(), in, st... );
          }
       }
    };

@@ -46,10 +46,10 @@ namespace TAO_PEGTL_NAMESPACE
          Base::raise( in, st... );
       }
 
-      template< typename Ambient, typename State, typename... States >
-      [[noreturn]] static void raise_nested( const Ambient& am, State&& /*unused*/, States&&... st )
+      template< typename Ambient, typename ParseInput, typename State, typename... States >
+      [[noreturn]] static void raise_nested( const Ambient& am, const ParseInput& in, State&& /*unused*/, States&&... st )
       {
-         Base::raise_nested( am, st... );
+         Base::raise_nested( am, in, st... );
       }
 
       template< typename ParseInput, typename State, typename... States >

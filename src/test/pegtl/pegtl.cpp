@@ -2,8 +2,6 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#include "test.hpp"
-
 #include <tao/pegtl/add_guard.hpp>
 #include <tao/pegtl/add_state.hpp>
 #include <tao/pegtl/analyze.hpp>
@@ -22,6 +20,9 @@
 #include <tao/pegtl/count_position.hpp>
 #include <tao/pegtl/demangle.hpp>
 #include <tao/pegtl/disable_action.hpp>
+#include <tao/pegtl/discard_input.hpp>
+#include <tao/pegtl/discard_input_on_failure.hpp>
+#include <tao/pegtl/discard_input_on_success.hpp>
 #include <tao/pegtl/enable_action.hpp>
 #include <tao/pegtl/enums.hpp>
 #include <tao/pegtl/eol.hpp>
@@ -50,7 +51,9 @@
 #include <tao/pegtl/require_apply0.hpp>
 #include <tao/pegtl/rewind_mode.hpp>
 #include <tao/pegtl/rules.hpp>
+#include <tao/pegtl/tags.hpp>
 #include <tao/pegtl/text_position.hpp>
+#include <tao/pegtl/text_position_with_source.hpp>
 #include <tao/pegtl/type_list.hpp>
 #include <tao/pegtl/uint16.hpp>
 #include <tao/pegtl/uint32.hpp>
@@ -62,20 +65,17 @@
 #include <tao/pegtl/version.hpp>
 #include <tao/pegtl/visit.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+int main()
 {
-   void unit_test()
-   {
-      static_assert( ' ' == 32 );
-      static_assert( 'a' == 97 );
-      static_assert( 'Z' == 90 );
-      static_assert( '~' == 126 );
+   static_assert( ' ' == 32 );
+   static_assert( 'a' == 97 );
+   static_assert( 'Z' == 90 );
+   static_assert( '~' == 126 );
 
-      static_assert( sizeof( char ) == 1 );
-      static_assert( sizeof( char16_t ) == 2 );
-      static_assert( sizeof( char32_t ) == 4 );
-   }
+   static_assert( sizeof( char ) == 1 );
+   static_assert( sizeof( char16_t ) == 2 );
+   static_assert( sizeof( char32_t ) == 4 );
 
-}  // namespace TAO_PEGTL_NAMESPACE
+   return 0;
+}
 
-#include "main.hpp"

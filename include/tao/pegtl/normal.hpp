@@ -63,8 +63,8 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
       }
 
-      template< typename Ambient, typename... States >
-      [[noreturn]] static void raise_nested( const Ambient& am, States&&... /*unused*/ )
+      template< typename Ambient, typename ParseInput, typename... States >
+      [[noreturn]] static void raise_nested( const Ambient& am, const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
 #if defined( __cpp_exceptions )
          if constexpr( internal::has_error_message< Rule > ) {

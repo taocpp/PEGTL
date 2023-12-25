@@ -71,16 +71,16 @@ namespace TAO_PEGTL_NAMESPACE
          raise_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
       }
 
-      template< typename Ambient, typename Tuple, std::size_t... Is >
-      [[noreturn]] static void raise_nested_impl( const Ambient& am, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
+      template< typename Ambient, typename ParseInput, typename Tuple, std::size_t... Is >
+      [[noreturn]] static void raise_nested_impl( const Ambient& am, const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
       {
-         Base::raise_nested( am, std::get< Is >( t )... );
+         Base::raise_nested( am, in, std::get< Is >( t )... );
       }
 
-      template< typename Ambient, typename... States >
-      [[noreturn]] static void raise_nested( const Ambient& am, States&&... st )
+      template< typename Ambient, typename ParseInput, typename... States >
+      [[noreturn]] static void raise_nested( const Ambient& am, const ParseInput& in, States&&... st )
       {
-         raise_nested_impl( am, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
+         raise_nested_impl( am, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
       }
 
       template< typename ParseInput, typename Tuple, std::size_t... Is >

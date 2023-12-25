@@ -114,8 +114,8 @@ namespace TAO_PEGTL_NAMESPACE
             }
          }
 
-         template< typename Rule, typename Ambient, typename... States >
-         void raise_nested( const Ambient& /*unused*/, States&&... /*unused*/ )
+         template< typename Rule, typename Ambient, typename ParseInput, typename... States >
+         void raise_nested( const Ambient& /*unused*/, const ParseInput& /*unused*/, States&&... /*unused*/ )
          {
             const auto name = demangle< Rule >();
             ++result.at( name ).raise_nested;

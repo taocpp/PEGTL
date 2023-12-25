@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE
          return parse< Rule, Action, Control, A, M >( in, st... );
       }
       catch( std::exception& /*unused*/ ) {
-         Control< Rule >::raise_nested( am, st... );
+         Control< Rule >::raise_nested( am, in, st... );
       }
 #else
       (void)am;

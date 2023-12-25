@@ -78,13 +78,13 @@ namespace TAO_PEGTL_NAMESPACE
             Control< Rule >::raise( in, st... );
          }
 
-         template< typename Ambient, typename State, typename... States >
-         [[noreturn]] static void raise_nested( const Ambient& am, [[maybe_unused]] State& state, States&&... st )
+         template< typename Ambient, typename ParseInput, typename State, typename... States >
+         [[noreturn]] static void raise_nested( const Ambient& am, const ParseInput& in, [[maybe_unused]] State& state, States&&... st )
          {
             if constexpr( State::template enable< Rule > ) {
-               state.template raise_nested< Rule >( am, st... );
+               state.template raise_nested< Rule >( am, in, st... );
             }
-            Control< Rule >::raise_nested( am, st... );
+            Control< Rule >::raise_nested( am, in, st... );
          }
 
          template< typename ParseInput, typename State, typename... States >
