@@ -6,6 +6,7 @@
 #define TAO_PEGTL_SRC_TEST_PEGTL_TEST_UTILITY_HPP
 
 #include <cstddef>
+#include <string>
 
 #include <tao/pegtl/eol.hpp>
 #include <tao/pegtl/inputs.hpp>
@@ -31,6 +32,16 @@ namespace TAO_PEGTL_NAMESPACE::test
    [[nodiscard]] bool equal( const T& position, const std::size_t count, const std::size_t line, const std::size_t column ) noexcept
    {
       return ( position.count == count ) && ( position.line == line ) && ( position.column == column );
+   }
+
+   [[nodiscard]] std::string endless( const std::string& data, const std::size_t offset, const std::size_t count )
+   {
+      std::string t;
+
+      while( t.size() < ( offset + count ) ) {
+         t += data;
+      }
+      return t.substr( offset, count );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::test

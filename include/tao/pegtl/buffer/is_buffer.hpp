@@ -8,7 +8,7 @@
 #include "../config.hpp"
 #include "../type_list.hpp"
 
-#include "has_buffer_size.hpp"
+#include "has_direct_reader.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -20,7 +20,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& /*unused*/ ) noexcept
       {
-         return internal::has_buffer_size< ParseInput >;
+         return internal::has_direct_reader< ParseInput >;
       }
    };
 

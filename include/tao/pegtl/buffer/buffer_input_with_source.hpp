@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_BUFFER_BUFFER_INPUT_WITH_SOURCE_HPP
 #define TAO_PEGTL_BUFFER_BUFFER_INPUT_WITH_SOURCE_HPP
 
+#include <cstddef>
 #include <type_traits>
 #include <utility>
 

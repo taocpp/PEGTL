@@ -37,6 +37,26 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< require< 9 > >( __LINE__, __FILE__, "12345678", result_type::local_failure, 8 );
       verify_rule< require< 9 > >( __LINE__, __FILE__, "123456789", result_type::success, 9 );
       verify_rule< require< 9 > >( __LINE__, __FILE__, "123456789123456789", result_type::success, 18 );
+
+      dynamic_endless_input< void > dei( 100, 20, "abcdefghijklmnopqrstuvwxyz" );
+
+      TAO_PEGTL_TEST_ASSERT( dei.buffer_used_size() == 0 );
+      TAO_PEGTL_TEST_ASSERT( parse< require< 10 > >( dei ) );
+      TAO_PEGTL_TEST_ASSERT( dei.buffer_used_size() == 20 );
+      TAO_PEGTL_TEST_ASSERT( dei.current() == dei.buffer_start() );
+      TAO_PEGTL_TEST_ASSERT( parse< require< 30 > >( dei ) );
+      TAO_PEGTL_TEST_ASSERT( dei.buffer_used_size() == 40 );
+      TAO_PEGTL_TEST_ASSERT( dei.current() == dei.buffer_start() );
+      TAO_PEGTL_TEST_ASSERT( parse< require< 30 > >( dei ) );
+      TAO_PEGTL_TEST_ASSERT( dei.buffer_used_size() == 40 );
+      TAO_PEGTL_TEST_ASSERT( dei.current() == dei.buffer_start() );
+      TAO_PEGTL_TEST_ASSERT( parse< consume< 30 > >( dei ) );
+      TAO_PEGTL_TEST_ASSERT( dei.buffer_used_size() == 10 );
+      TAO_PEGTL_TEST_ASSERT( dei.current() == dei.buffer_start() + 30 );
+      TAO_PEGTL_TEST_ASSERT( parse< discard >( dei ) );
+      TAO_PEGTL_TEST_ASSERT( dei.buffer_used_size() == 10 );
+      TAO_PEGTL_TEST_ASSERT( dei.current() == dei.buffer_start() );
+      TAO_PEGTL_TEST_ASSERT( parse< one< 'e' > >( dei ) );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

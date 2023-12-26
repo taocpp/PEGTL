@@ -55,6 +55,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return Chunk;
       }
 
+      [[nodiscard]] const Reader& direct_reader() const noexcept
+      {
+         return m_reader;
+      }
+
    protected:
       std::array< Data, Size > m_buffer;
 

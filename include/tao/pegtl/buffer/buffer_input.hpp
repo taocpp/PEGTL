@@ -5,9 +5,7 @@
 #ifndef TAO_PEGTL_BUFFER_BUFFER_INPUT_HPP
 #define TAO_PEGTL_BUFFER_BUFFER_INPUT_HPP
 
-#include <algorithm>
-#include <cstring>
-#include <utility>
+#include <cstddef>
 
 #include "../config.hpp"
 #include "../count_position.hpp"

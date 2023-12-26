@@ -5,9 +5,7 @@
 #ifndef TAO_PEGTL_BUFFER_TEXT_BUFFER_INPUT_HPP
 #define TAO_PEGTL_BUFFER_TEXT_BUFFER_INPUT_HPP
 
-#include <algorithm>
-#include <cstring>
-#include <utility>
+#include <cstddef>
 
 #include "../config.hpp"
 #include "../text_position.hpp"
@@ -19,7 +17,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Eol, typename Buffer >
+   template< typename Buffer, typename Eol >
    class text_buffer_input
       : public buffer_common< Buffer >
    {

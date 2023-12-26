@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_BUFFER_HAS_BUFFER_SIZE_HPP
-#define TAO_PEGTL_BUFFER_HAS_BUFFER_SIZE_HPP
+#ifndef TAO_PEGTL_BUFFER_HAS_DIRECT_READER_HPP
+#define TAO_PEGTL_BUFFER_HAS_DIRECT_READER_HPP
 
 #include <utility>
 
@@ -12,12 +12,12 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename, typename = void >
-   inline constexpr bool has_buffer_size = false;
+   inline constexpr bool has_direct_reader = false;
 
    template< typename C >
-   inline constexpr bool has_buffer_size< C, decltype( (void)std::declval< C >().buffer_size(), void() ) > = true;
+   inline constexpr bool has_direct_reader< C, decltype( (void)std::declval< C >().direct_reader(), void() ) > = true;
 
-   // The (void) is to shut up a warning from GCC 9 and 10 about the return value of the nodiscard-function buffer_size() being ignored.
+   // The (void) is to shut up a warning from GCC 9 and 10 about the return value of the nodiscard-function direct_reader() being ignored.
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

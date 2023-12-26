@@ -59,6 +59,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_chunk;
       }
 
+      [[nodiscard]] const Reader& direct_reader() const noexcept
+      {
+         return m_reader;
+      }
+
    protected:
       const std::size_t m_size;
       const std::size_t m_chunk;

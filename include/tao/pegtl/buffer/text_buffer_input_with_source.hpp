@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_BUFFER_TEXT_BUFFER_INPUT_WITH_SOURCE_HPP
 #define TAO_PEGTL_BUFFER_TEXT_BUFFER_INPUT_WITH_SOURCE_HPP
 
+#include <cstddef>
 #include <type_traits>
 #include <utility>
 
@@ -16,10 +17,11 @@
 #include "../internal/text_eol_scan.hpp"
 
 #include "buffer_common.hpp"
+#include "text_buffer_input.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Eol, typename Buffer, typename InputSource, typename ErrorSource >
+   template< typename Buffer, typename Eol, typename InputSource, typename ErrorSource >
    class text_buffer_input_with_source
       : public buffer_common< Buffer >
    {
@@ -116,6 +118,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    protected:
       error_position_t m_position;
+   };
+
+   template< typename Buffer, typename Eol >
+   class text_buffer_input_with_source< Buffer, Eol, void, void >
+      : public text_buffer_input< Buffer, Eol >
+   {
+   public:
+      using text_buffer_input< Buffer, Eol >::text_buffer_input;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

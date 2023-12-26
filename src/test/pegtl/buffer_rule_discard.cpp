@@ -22,6 +22,15 @@ namespace TAO_PEGTL_NAMESPACE
          char t[] = { i, 0 };
          verify_rule< discard >( __LINE__, __FILE__, std::string( t ), result_type::success, 1 );
       }
+      dynamic_endless_input< void > dei( 100, 20, "abcdefghijklmnopqrstuvwxyz" );
+
+      TAO_PEGTL_TEST_ASSERT( dei.buffer_used_size() == 0 );
+      TAO_PEGTL_TEST_ASSERT( parse< ascii::string< 'a', 'b', 'c' > >( dei ) );
+      TAO_PEGTL_TEST_ASSERT( dei.buffer_used_size() == 17 );
+      TAO_PEGTL_TEST_ASSERT( dei.current() == dei.buffer_start() + 3 );
+      TAO_PEGTL_TEST_ASSERT( parse< discard >( dei ) );
+      TAO_PEGTL_TEST_ASSERT( dei.buffer_used_size() == 17 );
+      TAO_PEGTL_TEST_ASSERT( dei.current() == dei.buffer_start() );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

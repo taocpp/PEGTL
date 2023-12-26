@@ -6,6 +6,7 @@
 #define TAO_PEGTL_BUFFER_BUFFER_COMMON_HPP
 
 #include <algorithm>
+#include <cstddef>
 #include <cstring>
 #include <utility>
 
@@ -42,14 +43,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] std::size_t size( const std::size_t amount )
       {
          require( amount );
-         return this->buffer_used_size();
+         return buffer_used_size();
       }
 
       [[nodiscard]] std::size_t size( const std::size_t minimum, const std::size_t maximum )
       {
          require( maximum );
          buffer_check_size( minimum );
-         return this->buffer_used_size();
+         return buffer_used_size();
       }
 
       [[nodiscard]] const data_t* current( const std::size_t offset = 0 ) const noexcept
@@ -70,20 +71,36 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_end;
       }
 
+      void consume( const std::size_t count ) noexcept
+      {
+         // assert( count <= buffer_used_size() );
+         m_current += count;
+      }
+
+      void compact() noexcept
+      {
+         compact( buffer_used_size() );
+      }
+
+      void compact( const std::size_t used ) noexcept
+      {
+         std::memmove( this->mutable_start(), m_current, used );
+      }
+
       void discard() noexcept
       {
-         const std::size_t s = m_end - m_current;
+         const std::size_t used = buffer_used_size();
 
-         if( ( s > 0 ) && ( m_current > this->buffer_start() + this->buffer_chunk_size() ) ) {
-            std::memmove( this->mutable_start(), m_current, s );
+         if( ( used > 0 ) && ( m_current > ( this->buffer_start() + this->buffer_chunk_size() ) ) ) {
+            compact( used );
          }
          m_current = this->mutable_start();
-         m_end = m_current + s;
+         m_end = m_current + used;
       }
 
       void require( const std::size_t amount )
       {
-         if( m_current + amount <= m_end ) {
+         if( ( m_current + amount ) <= m_end ) {
             return;
          }
          if( ( m_current + amount ) > ( this->buffer_start() + this->buffer_capacity() ) ) {
@@ -99,7 +116,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       void buffer_check_size( const std::size_t amount )
       {
-         if( this->buffer_used_size() < amount ) {
+         if( buffer_used_size() < amount ) {
 #if defined( __cpp_exceptions )
             throw std::overflow_error( "require() beyond end of reader" );
 #else
