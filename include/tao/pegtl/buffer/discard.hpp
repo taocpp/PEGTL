@@ -2,15 +2,13 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_DISCARD_HPP
-#define TAO_PEGTL_INTERNAL_DISCARD_HPP
+#ifndef TAO_PEGTL_BUFFER_DISCARD_HPP
+#define TAO_PEGTL_BUFFER_DISCARD_HPP
 
 #include "../config.hpp"
 #include "../type_list.hpp"
 
-#include "enable_control.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace TAO_PEGTL_NAMESPACE
 {
    struct discard
    {
@@ -24,9 +22,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return true;
       }
    };
-
-   template<>
-   inline constexpr bool enable_control< discard > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

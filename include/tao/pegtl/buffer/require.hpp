@@ -2,23 +2,22 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_REQUIRE_HPP
-#define TAO_PEGTL_INTERNAL_REQUIRE_HPP
+#ifndef TAO_PEGTL_BUFFER_REQUIRE_HPP
+#define TAO_PEGTL_BUFFER_REQUIRE_HPP
 
 #include "../config.hpp"
 #include "../type_list.hpp"
 
-#include "enable_control.hpp"
-#include "success.hpp"
+#include "../internal/success.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace TAO_PEGTL_NAMESPACE
 {
    template< unsigned Amount >
    struct require;
 
    template<>
    struct require< 0 >
-      : success
+      : internal::success
    {};
 
    template< unsigned Amount >
@@ -33,9 +32,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return in.size( Amount ) >= Amount;
       }
    };
-
-   template< unsigned Amount >
-   inline constexpr bool enable_control< require< Amount > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -2,18 +2,19 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_DISCARD_INPUT_ON_SUCCESS_HPP
-#define TAO_PEGTL_DISCARD_INPUT_ON_SUCCESS_HPP
+#ifndef TAO_PEGTL_BUFFER_DISCARD_INPUT_ON_BOOL_HPP
+#define TAO_PEGTL_BUFFER_DISCARD_INPUT_ON_BOOL_HPP
 
-#include "apply_mode.hpp"
-#include "config.hpp"
-#include "match.hpp"
-#include "nothing.hpp"
-#include "rewind_mode.hpp"
+#include "../apply_mode.hpp"
+#include "../config.hpp"
+#include "../match.hpp"
+#include "../nothing.hpp"
+#include "../rewind_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   struct discard_input_on_success
+   template< bool B >
+   struct discard_input_on_bool
       : maybe_nothing
    {
       template< typename Rule,
@@ -28,12 +29,15 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          const bool result = TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
-         if( result ) {
+         if( result == B ) {
             in.discard();
          }
          return result;
       }
    };
+
+   using discard_input_on_success = discard_input_on_bool< true >;
+   using discard_input_on_failure = discard_input_on_bool< false >;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

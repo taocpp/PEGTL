@@ -20,6 +20,8 @@
 #include "many.hpp"
 #include "until.hpp"
 
+#include "lazy_eol_scan.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Eol, typename Rule, typename = void >

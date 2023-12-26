@@ -13,7 +13,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule, template< typename... > class Action >
    bool parse_cstring( const char* string, const std::size_t size, const std::size_t chunk )
    {
-      dynamic_input in( size, chunk, string );
+      dynamic_cstring_input< void > in( size, chunk, string );
       return parse< Rule, Action >( in );
    }
 

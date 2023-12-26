@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_CSTRING_READER_HPP
-#define TAO_PEGTL_INTERNAL_CSTRING_READER_HPP
+#ifndef TAO_PEGTL_BUFFER_CSTRING_READER_HPP
+#define TAO_PEGTL_BUFFER_CSTRING_READER_HPP
 
 #include <cassert>
 #include <cstddef>
@@ -33,6 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return i;
       }
 
+   protected:
       const char* m_cstring;
    };
 

@@ -1,11 +1,10 @@
-// Copyright (c) 2021-2023 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2022-2023 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_TEXT_INPUT_WITH_SOURCE_HPP
-#define TAO_PEGTL_INTERNAL_TEXT_INPUT_WITH_SOURCE_HPP
+#ifndef TAO_PEGTL_BUFFER_TEXT_BUFFER_INPUT_WITH_SOURCE_HPP
+#define TAO_PEGTL_BUFFER_TEXT_BUFFER_INPUT_WITH_SOURCE_HPP
 
-#include <cstddef>
 #include <type_traits>
 #include <utility>
 
@@ -13,17 +12,19 @@
 #include "../position_with_source.hpp"
 #include "../text_position.hpp"
 
-#include "text_eol_scan.hpp"
-#include "text_input.hpp"
+#include "../internal/rewind_guard.hpp"
+#include "../internal/text_eol_scan.hpp"
+
+#include "buffer_common.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Eol, typename InputSource, typename ErrorSource, typename Input >
-   class text_input_with_source
-      : public Input
+   template< typename Eol, typename Buffer, typename InputSource, typename ErrorSource >
+   class text_buffer_input_with_source
+      : public buffer_common< Buffer >
    {
    public:
-      using data_t = typename Input::data_t;
+      using data_t = typename Buffer::data_t;
       using input_source_t = InputSource;
       using error_source_t = ErrorSource;
       using error_position_t = position_with_source< ErrorSource, text_position >;
@@ -35,32 +36,28 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static_assert( std::is_same_v< InputSource, ErrorSource >, "TODO?" );
 
       template< typename S, typename... Ts >
-      text_input_with_source( S&& s, Ts&&... ts )
-         : Input( std::forward< Ts >( ts )... ),
+      text_buffer_input_with_source( S&& s, Ts&&... ts )
+         : buffer_common< Buffer >( std::forward< Ts >( ts )... ),
            m_position( std::forward< S >( s ) )
       {}
 
-      [[nodiscard]] const data_t* start() const noexcept
-      {
-         return this->m_current - m_position.count;
-      }
+      text_buffer_input_with_source( text_buffer_input_with_source&& ) = delete;
+      text_buffer_input_with_source( const text_buffer_input_with_source& ) = delete;
 
-      void restart() noexcept
-      {
-         this->m_current -= m_position.count;
-         m_position.count = 0;
-         m_position.line = 1;
-         m_position.column = 1;
-      };
+      ~text_buffer_input_with_source() = default;
 
-      [[nodiscard]] const data_t* previous( const rewind_position_t& saved ) const noexcept
+      void operator=( text_buffer_input_with_source&& ) = delete;
+      void operator=( const text_buffer_input_with_source& ) = delete;
+
+      [[nodiscard]] const data_t* previous( const rewind_position_t saved ) const noexcept
       {
-         return this->current() - m_position.count + saved.count;
+         return this->m_current - m_position.count + saved.count;
       }
 
       template< typename Rule >
       void consume( const std::size_t count ) noexcept
       {
+         // assert( count <= buffer_used_size() );
          text_eol_scan< Eol, Rule >( m_position, this->current(), count );
          this->m_current += count;
       }
@@ -68,12 +65,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< rewind_mode M >
       [[nodiscard]] auto make_rewind_guard() noexcept
       {
-         return rewind_guard< M, text_input_with_source >( this );
+         return rewind_guard< M, text_buffer_input_with_source >( this );
       }
 
-      [[nodiscard]] auto rewind_position() const noexcept
+      [[nodiscard]] const auto& rewind_position() const noexcept
       {
-         return rewind_position_t( m_position );
+         return static_cast< const rewind_position_t& >( m_position );
       }
 
       void rewind_to_position( const rewind_position_t& saved ) noexcept
@@ -82,12 +79,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
          m_position.base() = saved;
       }
 
-      [[nodiscard]] const auto& current_position() const noexcept
+      [[nodiscard]] const error_position_t& current_position() const noexcept
       {
          return m_position;
       }
 
-      [[nodiscard]] auto previous_position( const rewind_position_t& saved ) const
+      [[nodiscard]] error_position_t previous_position( const rewind_position_t saved ) const noexcept
       {
          return error_position_t( m_position.source, saved );
       }
@@ -107,26 +104,18 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_position.column;
       }
 
-      [[nodiscard]] const InputSource& direct_source() const noexcept
+      [[nodiscard]] const error_source_t& direct_source() const noexcept
       {
          return m_position.source;
       }
 
-      [[nodiscard]] const auto& direct_position() const noexcept
+      [[nodiscard]] const error_position_t& direct_position() const noexcept
       {
          return m_position;
       }
 
    protected:
       error_position_t m_position;
-   };
-
-   template< typename Eol, typename Input >
-   class text_input_with_source< Eol, void, void, Input >
-      : public text_input< Eol, Input >
-   {
-   public:
-      using text_input< Eol, Input >::text_input;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

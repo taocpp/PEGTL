@@ -80,16 +80,4 @@ namespace TAO_PEGTL_NAMESPACE::internal
          TAO_PEGTL_INTERNAL_EXPAND(       \
             ::TAO_PEGTL_NAMESPACE::internal::string_max_length< TAO_PEGTL_INTERNAL_STRING_512( S, x, ), sizeof( x ) - 1 >::type ) ) )
 
-#define TAO_PEGTL_STRING( x ) \
-   TAO_PEGTL_INTERNAL_STRING( ::TAO_PEGTL_NAMESPACE::ascii::string, x )
-
-#define TAO_PEGTL_ISTRING( x ) \
-   TAO_PEGTL_INTERNAL_STRING( ::TAO_PEGTL_NAMESPACE::ascii::istring, x )
-
-#define TAO_PEGTL_KEYWORD( x ) \
-   TAO_PEGTL_INTERNAL_STRING( ::TAO_PEGTL_NAMESPACE::ascii::keyword, x )
-
-#define TAO_PEGTL_RAISE_MESSAGE( x ) \
-   TAO_PEGTL_INTERNAL_STRING( ::TAO_PEGTL_NAMESPACE::raise_message, x )
-
 #endif

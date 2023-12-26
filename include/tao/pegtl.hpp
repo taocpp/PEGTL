@@ -47,4 +47,6 @@
 #include "pegtl/text_position.hpp"
 #include "pegtl/text_position_with_source.hpp"
 
+#include "pegtl/pegtl_string.hpp"
+
 #endif

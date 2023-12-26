@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
          const char* filename = "src/test/pegtl/no_such_file.txt";
          try {
             std::ifstream stream( filename );
-            static_input in( stream );
+            static_istream_input< void > in( stream );
             parse< file_grammar >( in );
             TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
          }
@@ -39,12 +39,12 @@ namespace TAO_PEGTL_NAMESPACE
       const char* filename = "src/test/pegtl/file_data.txt";
       {
          std::ifstream stream( filename );
-         static_input in( stream );
+         static_istream_input< void > in( stream );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
       } {
          std::ifstream stream( filename );
-         dynamic_input in( 100, 90, stream );
+         dynamic_istream_input< void > in( 100, 90, stream );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
       }

@@ -13,7 +13,6 @@
 #include "../rewind_mode.hpp"
 #include "../text_position.hpp"
 
-#include "input_with_lines.hpp"
 #include "text_eol_scan.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -84,17 +83,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return saved;
       }
 
-      [[nodiscard]] std::size_t direct_count() const noexcept  // TODO: Keep?
+      [[nodiscard]] std::size_t direct_count() const noexcept
       {
          return m_position.count;
       }
 
-      [[nodiscard]] std::size_t direct_line() const noexcept  // TODO: Keep?
+      [[nodiscard]] std::size_t direct_line() const noexcept
       {
          return m_position.line;
       }
 
-      [[nodiscard]] std::size_t direct_column() const noexcept  // TODO: Keep?
+      [[nodiscard]] std::size_t direct_column() const noexcept
       {
          return m_position.column;
       }

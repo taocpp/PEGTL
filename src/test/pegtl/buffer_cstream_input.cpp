@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
          std::FILE* stream = std::fopen( filename, "rb" );
 #endif
          TAO_PEGTL_TEST_ASSERT( stream != nullptr );
-         static_input in( stream );
+         static_cstream_input< void > in( stream );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          std::fclose( stream );
@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE
          std::FILE* stream = std::fopen( filename, "rb" );
 #endif
          TAO_PEGTL_TEST_ASSERT( stream != nullptr );
-         dynamic_input in( 500, 10, stream );
+         dynamic_cstream_input< void > in( 500, 10, stream );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          std::fclose( stream );

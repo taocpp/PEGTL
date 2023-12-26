@@ -20,9 +20,6 @@
 #include <tao/pegtl/count_position.hpp>
 #include <tao/pegtl/demangle.hpp>
 #include <tao/pegtl/disable_action.hpp>
-#include <tao/pegtl/discard_input.hpp>
-#include <tao/pegtl/discard_input_on_failure.hpp>
-#include <tao/pegtl/discard_input_on_success.hpp>
 #include <tao/pegtl/enable_action.hpp>
 #include <tao/pegtl/enums.hpp>
 #include <tao/pegtl/eol.hpp>
@@ -42,6 +39,7 @@
 #include <tao/pegtl/parse.hpp>
 #include <tao/pegtl/parse_error.hpp>
 #include <tao/pegtl/parse_error_base.hpp>
+#include <tao/pegtl/pegtl_string.hpp>
 #include <tao/pegtl/pointer_position.hpp>
 #include <tao/pegtl/position_with_source.hpp>
 #include <tao/pegtl/print.hpp>

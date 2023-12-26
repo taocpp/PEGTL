@@ -2,14 +2,14 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_DISCARD_INPUT_HPP
-#define TAO_PEGTL_DISCARD_INPUT_HPP
+#ifndef TAO_PEGTL_BUFFER_DISCARD_INPUT_HPP
+#define TAO_PEGTL_BUFFER_DISCARD_INPUT_HPP
 
-#include "apply_mode.hpp"
-#include "config.hpp"
-#include "match.hpp"
-#include "nothing.hpp"
-#include "rewind_mode.hpp"
+#include "../apply_mode.hpp"
+#include "../config.hpp"
+#include "../match.hpp"
+#include "../nothing.hpp"
+#include "../rewind_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

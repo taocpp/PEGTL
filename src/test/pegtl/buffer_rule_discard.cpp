@@ -12,7 +12,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      verify_meta< discard, internal::discard >();
+      verify_meta< discard, discard >();
 
       verify_analyze< discard >( __LINE__, __FILE__, false, false );
 

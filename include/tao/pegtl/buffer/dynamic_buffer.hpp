@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_DYNAMIC_BUFFER_HPP
-#define TAO_PEGTL_INTERNAL_DYNAMIC_BUFFER_HPP
+#ifndef TAO_PEGTL_BUFFER_DYNAMIC_BUFFER_HPP
+#define TAO_PEGTL_BUFFER_DYNAMIC_BUFFER_HPP
 
 #include <cassert>
 #include <cstddef>
@@ -39,12 +39,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
       void operator=( dynamic_buffer&& ) = delete;
       void operator=( const dynamic_buffer& ) = delete;
 
-      [[nodiscard]] Data* mutable_begin() noexcept
+      [[nodiscard]] Data* mutable_start() noexcept
       {
          return m_buffer.get();
       }
 
-      [[nodiscard]] const Data* buffer_begin() const noexcept
+      [[nodiscard]] const Data* buffer_start() const noexcept
       {
          return m_buffer.get();
       }

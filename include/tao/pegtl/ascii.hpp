@@ -59,6 +59,4 @@ namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
-#include "internal/pegtl_string.hpp"
-
 #endif
