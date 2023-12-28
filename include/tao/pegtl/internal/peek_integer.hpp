@@ -5,7 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_PEEKS_HPP
 #define TAO_PEGTL_INTERNAL_PEEKS_HPP
 
-#include <cstddef>
 #include <cstdint>
 
 #include "../config.hpp"

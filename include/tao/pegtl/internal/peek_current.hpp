@@ -6,7 +6,6 @@
 #define TAO_PEGTL_INTERNAL_PEEK_CURRENT_HPP
 
 #include <cstddef>
-#include <cstdint>
 
 #include "data_and_size.hpp"
 
@@ -17,8 +16,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
       // using data_t = Depends on ParseInput.
       // using pair_t = Depends on ParseInput.
 
-      static constexpr bool allow_bulk = true;
-      static constexpr std::size_t fixed_size = 1;
+      template< typename ParseInput >
+      [[nodiscard]] static constexpr bool bulk() noexcept
+      {
+         return true;
+      }
+
+      template< typename ParseInput >
+      [[nodiscard]] static constexpr std::size_t size() noexcept
+      {
+         return 1;
+      }
 
       template< typename ParseInput >
       [[nodiscard]] static auto peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 42 ) ) )

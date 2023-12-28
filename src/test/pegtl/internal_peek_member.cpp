@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "test.hpp"
+
 #include <tao/pegtl/internal/peek_member.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
@@ -88,77 +89,113 @@ namespace TAO_PEGTL_NAMESPACE
       {
          test_integer = -1;
          test_input in( ts );
-         const auto b = parse< function< func1, internal::peek_member< &token::local1 > > >( in );
+         using peek_type = internal::peek_member< &token::local1 >;
+         static_assert( peek_type::bulk< test_input >() );
+         static_assert( peek_type::size< test_input >() == 1 );
+         const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 12 );
       } {
          test_integer = -1;
          test_input in( ts );
-         const auto b = parse< function< func1, internal::peek_member< &token::local2 > > >( in );
+         using peek_type = internal::peek_member< &token::local2 >;
+         static_assert( peek_type::bulk< test_input >() );
+         static_assert( peek_type::size< test_input >() == 1 );
+         const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 23 );
       } {
          the_integer = 42;
          test_integer = -1;
          test_input in( ts );
-         const auto b = parse< function< func1, internal::peek_member< &token::global1 > > >( in );
+         using peek_type = internal::peek_member< &token::global1 >;
+         static_assert( peek_type::bulk< test_input >() );
+         static_assert( peek_type::size< test_input >() == 1 );
+         const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 42 );
       } {
          the_integer = -120;
          test_integer = -1;
          test_input in( ts );
-         const auto b = parse< function< func1, internal::peek_member< &token::global2 > > >( in );
+         using peek_type = internal::peek_member< &token::global2 >;
+         static_assert( peek_type::bulk< test_input >() );
+         static_assert( peek_type::size< test_input >() == 1 );
+         const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == -120 );
       } {
          the_integer = 0;
          test_integer = -1;
          test_input in( ts );
-         const auto b = parse< function< func1, internal::peek_member< &token::global3 > > >( in );
+         using peek_type = internal::peek_member< &token::global3 >;
+         static_assert( peek_type::bulk< test_input >() );
+         static_assert( peek_type::size< test_input >() == 1 );
+         const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 0 );
       } {
          the_integer = 65536;
          test_integer = -1;
          test_input in( ts );
-         const auto b = parse< function< func1, internal::peek_member< &token::global4 > > >( in );
+         using peek_type = internal::peek_member< &token::global4 >;
+         static_assert( peek_type::bulk< test_input >() );
+         static_assert( peek_type::size< test_input >() == 1 );
+         const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 65536 );
       } {
          test_integer = -1;
          test_input in( ts );
-         const auto b = parse< function< func1, internal::peek_member< &token::method1 > > >( in );
+         using peek_type = internal::peek_member< &token::method1 >;
+         static_assert( peek_type::bulk< test_input >() );
+         static_assert( peek_type::size< test_input >() == 1 );
+         const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 503 );
       } {
          test_integer = -1;
          test_input in( ts );
-         const auto b = parse< function< func1, internal::peek_member< &token::method2 > > >( in );
+         using peek_type = internal::peek_member< &token::method2 >;
+         static_assert( peek_type::bulk< test_input >() );
+         static_assert( peek_type::size< test_input >() == 1 );
+         const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 102 );
       } {
          test_integer = -1;
          test_input in( ts );
-         const auto b = parse< function< func1, internal::peek_member< &token::method3 > > >( in );
+         using peek_type = internal::peek_member< &token::method3 >;
+         static_assert( peek_type::bulk< test_input >() );
+         static_assert( peek_type::size< test_input >() == 1 );
+         const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 3333 );
       } {
          test_integer = -1;
          test_input in( ts );
-         const auto b = parse< function< func1, internal::peek_member< &get_other1 > > >( in );
+         using peek_type = internal::peek_member< &get_other1 >;
+         static_assert( peek_type::bulk< test_input >() );
+         static_assert( peek_type::size< test_input >() == 1 );
+         const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 901 );
       } {
          test_integer = -1;
          test_input in( ts );
-         const auto b = parse< function< func1, internal::peek_member< &get_other2 > > >( in );
+         using peek_type = internal::peek_member< &get_other2 >;
+         static_assert( peek_type::bulk< test_input >() );
+         static_assert( peek_type::size< test_input >() == 1 );
+         const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 902 );
       } {
          test_integer = -1;
          test_input in( ts );
-         const auto b = parse< function< func1, internal::peek_member< &get_other3 > > >( in );
+         using peek_type = internal::peek_member< &get_other3 >;
+         static_assert( peek_type::bulk< test_input >() );
+         static_assert( peek_type::size< test_input >() == 1 );
+         const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 903 );
       }

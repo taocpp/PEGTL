@@ -61,9 +61,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
          : m_data( d )
       {}
 
-      [[nodiscard]] static std::size_t size() noexcept
+      [[nodiscard]] std::size_t size() const noexcept
       {
-         return 1;
+         return ( m_data != nullptr ) ? 1 : 0;
       }
 
       [[nodiscard]] const Data& data() const noexcept

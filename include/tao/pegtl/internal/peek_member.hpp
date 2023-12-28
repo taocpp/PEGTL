@@ -162,8 +162,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct peek_member
       : peek_member_impl< decltype( M ), M >
    {
-      static constexpr bool allow_bulk = true;
-      static constexpr std::size_t fixed_size = 1;
+      template< typename ParseInput >
+      [[nodiscard]] static constexpr bool bulk() noexcept
+      {
+         return true;
+      }
+
+      template< typename ParseInput >
+      [[nodiscard]] static constexpr std::size_t size() noexcept
+      {
+         return 1;
+      }
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

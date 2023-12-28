@@ -19,7 +19,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using data_t = char32_t;
       using pair_t = data_and_size< char32_t >;
 
-      static constexpr bool allow_bulk = false;
+      template< typename ParseInput >
+      [[nodiscard]] static constexpr bool bulk() noexcept
+      {
+         return false;
+      }
 
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.empty() ) )

@@ -18,8 +18,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using data_t = Data;
       using pair_t = data_and_size< Data, std::uint8_t >;
 
-      static constexpr bool allow_bulk = true;
-      static constexpr std::size_t fixed_size = sizeof( data_t );
+      template< typename ParseInput >
+      [[nodiscard]] static constexpr bool bulk() noexcept
+      {
+         return true;
+      }
+
+      template< typename ParseInput >
+      [[nodiscard]] static constexpr std::size_t size() noexcept
+      {
+         return 1;
+      }
 
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 42 ) ) )
@@ -28,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
          static_assert( sizeof( peek_t ) == sizeof( data_t ) );
 
-         if( in.size( offset + 1 ) > offset ) {
+         if( in.size( offset + 1 ) >= ( offset + 1 ) ) {
             return pair_t( Data( *in.current( offset ) ), 1 );
          }
          return pair_t();
