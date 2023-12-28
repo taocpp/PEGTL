@@ -7,70 +7,55 @@
 
 #include <utility>
 
+#include "../config.hpp"
+
 #include "enable_control.hpp"
 #include "failure.hpp"
 #include "one.hpp"
 #include "range.hpp"
-
-#include "../config.hpp"
-#include "../type_list.hpp"
+#include "single.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Char, Char Lo, Char Hi >
-   constexpr bool validate_range( Char c ) noexcept
-   {
-      static_assert( Lo <= Hi, "invalid range" );
-      return ( Lo <= c ) && ( c <= Hi );
-   }
-
    template< typename Peek, typename Peek::data_t... Cs >
    struct ranges
+      : single< Peek, ranges< Peek, Cs... > >
    {
-      using peek_t = Peek;
-      using data_t = typename Peek::data_t;
-
-      using rule_t = ranges;
-      using subs_t = empty_list;
-
-      template< std::size_t... Is >
-      [[nodiscard]] static constexpr bool test_impl( std::index_sequence< Is... > /*unused*/, const data_t c ) noexcept
+      template< typename Data, Data Lo, Data Hi >
+      [[nodiscard]] static constexpr bool test_two( const Data c ) noexcept
       {
-         constexpr const data_t cs[] = { Cs... };
+         static_assert( Lo <= Hi );
+         return ( Lo <= c ) && ( c <= Hi );
+      }
+
+      template< typename Data, std::size_t... Is >
+      [[nodiscard]] static constexpr bool test_one( std::index_sequence< Is... > /*unused*/, const Data c ) noexcept
+      {
+         constexpr Data cs[] = { Cs... };
+
          if constexpr( sizeof...( Cs ) % 2 == 0 ) {
-            return ( validate_range< data_t, cs[ 2 * Is ], cs[ 2 * Is + 1 ] >( c ) || ... );
+            return ( test_two< Data, cs[ 2 * Is ], cs[ 2 * Is + 1 ] >( c ) || ... );
          }
          else {
-            return ( validate_range< data_t, cs[ 2 * Is ], cs[ 2 * Is + 1 ] >( c ) || ... ) || ( c == cs[ sizeof...( Cs ) - 1 ] );
+            return ( test_two< Data, cs[ 2 * Is ], cs[ 2 * Is + 1 ] >( c ) || ... ) || ( c == cs[ sizeof...( Cs ) - 1 ] );
          }
       }
 
-      [[nodiscard]] static constexpr bool test( const data_t c ) noexcept
+      template< typename Data >
+      [[nodiscard]] static constexpr bool test( const Data c ) noexcept
       {
-         return test_impl( std::make_index_sequence< sizeof...( Cs ) / 2 >(), c );
-      }
-
-      template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
-      {
-         if( const auto t = Peek::peek( in ) ) {
-            if( test( t.data() ) ) {
-               in.template consume< ranges >( t.size() );
-               return true;
-            }
-         }
-         return false;
+         return test_one( std::make_index_sequence< sizeof...( Cs ) / 2 >(), c );
       }
    };
 
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct ranges< Peek, Lo, Hi >
-      : range< result_on_found::success, Peek, Lo, Hi >
+      : range< Peek, Lo, Hi >
    {};
 
    template< typename Peek, typename Peek::data_t C >
    struct ranges< Peek, C >
-      : one< result_on_found::success, Peek, C >
+      : one< Peek, C >
    {};
 
    template< typename Peek >

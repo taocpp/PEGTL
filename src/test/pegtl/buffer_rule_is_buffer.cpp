@@ -4,7 +4,6 @@
 
 #include "test.hpp"
 #include "verify_meta.hpp"
-#include "verify_rule.hpp"
 
 #include <tao/pegtl/buffer.hpp>
 
@@ -20,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( parse< is_buffer >( dei ) );
       static_endless_input< void > sei( "abcdefghijklmnopqrstuvwxyz" );
       TAO_PEGTL_TEST_ASSERT( parse< is_buffer >( sei ) );
-      base_input< void > bi( "hallo" );
+      base_input< void > bi( "abcdefghijklmnopqrstuvwxyz" );
       TAO_PEGTL_TEST_ASSERT( !parse< is_buffer >( bi ) );
    }
 

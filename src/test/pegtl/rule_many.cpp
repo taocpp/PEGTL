@@ -12,8 +12,8 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       verify_meta< many< 0 >, internal::success >();
-      verify_meta< many< 1 >, internal::many< 1, internal::peek_ascii7 > >();
-      verify_meta< many< 42 >, internal::many< 42, internal::peek_ascii7 > >();
+      verify_meta< many< 1 >, internal::any< internal::peek_char > >();
+      verify_meta< many< 42 >, internal::many< 42, internal::peek_char > >();
 
       verify_analyze< many< 0 > >( __LINE__, __FILE__, false, false );
 

@@ -10,7 +10,6 @@
 #include "config.hpp"
 
 #include "internal/peek_member.hpp"
-#include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -20,12 +19,12 @@ namespace TAO_PEGTL_NAMESPACE
       // clang-format off
       template< auto M, auto Function > struct function : internal::function< decltype( Function ), Function, internal::peek_member< M > > {};
       template< auto M, typename Rule > struct nested : internal::nested< Rule, internal::peek_member< M > > {};
-      template< auto M, typename internal::peek_member< M >::data_t E, decltype( E )... Es > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_member< M >, E, Es... > {};
-      template< auto M, typename internal::peek_member< M >::data_t Lo, decltype( Lo ) Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_member< M >, Lo, Hi > {};
-      template< auto M, typename internal::peek_member< M >::data_t E, decltype( E )... Es > struct one : internal::one< internal::result_on_found::success, internal::peek_member< M >, E, Es... >  {};
-      template< auto M, typename internal::peek_member< M >::data_t Lo, decltype( Lo ) Hi > struct range : internal::range< internal::result_on_found::success, internal::peek_member< M >, Lo, Hi > {};
+      template< auto M, typename internal::peek_member< M >::data_t E, decltype( E )... Es > struct not_one : internal::not_one< internal::peek_member< M >, E, Es... > {};
+      template< auto M, typename internal::peek_member< M >::data_t Lo, decltype( Lo ) Hi > struct not_range : internal::not_range< internal::peek_member< M >, Lo, Hi > {};
+      template< auto M, typename internal::peek_member< M >::data_t E, decltype( E )... Es > struct one : internal::one< internal::peek_member< M >, E, Es... >  {};
+      template< auto M, typename internal::peek_member< M >::data_t Lo, decltype( Lo ) Hi > struct range : internal::range< internal::peek_member< M >, Lo, Hi > {};
       template< auto M, typename internal::peek_member< M >::data_t E, decltype( E )... Es > struct ranges : internal::ranges< internal::peek_member< M >, E, Es... > {};
-      template< auto M, typename internal::peek_member< M >::data_t E, decltype( E )... Es > struct string : internal::seq< internal::one< internal::result_on_found::success, internal::peek_member< M >, E >, internal::one< internal::result_on_found::success, internal::peek_member< M >, Es >... > {};
+      template< auto M, typename internal::peek_member< M >::data_t E, decltype( E )... Es > struct string : internal::seq_one< internal::peek_member< M >, E, Es... > {};
       // clang-format on
 
    }  // namespace member

@@ -5,17 +5,18 @@
 #ifndef TAO_PEGTL_INTERNAL_ANY_HPP
 #define TAO_PEGTL_INTERNAL_ANY_HPP
 
-#include <type_traits>
+#include <cstddef>
 
 #include "../config.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
+#include "integer_size.hpp"
 #include "peek_integer.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Peek, typename = void >
+   template< typename Peek >
    struct any
    {
       using peek_t = Peek;
@@ -24,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = any;
       using subs_t = empty_list;
 
-      [[nodiscard]] static bool test( const data_t /*unused*/ ) noexcept
+      [[nodiscard]] static constexpr bool test( const data_t /*unused*/ ) noexcept
       {
          return true;
       }
@@ -32,41 +33,27 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
       {
-         if( const auto t = Peek::peek( in ) ) {
-            in.template consume< any >( t.size() );
-            return true;
+         if constexpr( Peek::allow_bulk ) {
+            static_assert( Peek::fixed_size > 0 );
+            constexpr std::size_t s = integer_input_size< data_t, ParseInput >();
+            if( in.size( s ) >= s ) {
+               in.template consume< any >( s );
+               return true;
+            }
+            return false;
          }
-         return false;
+         else {
+            if( const auto t = Peek::peek( in ) ) {
+               in.template consume< any >( t.size() );
+               return true;
+            }
+            return false;
+         }
       }
    };
 
    template< typename Peek >
-   struct any< Peek, std::enable_if_t< Peek::allow_bulk > >
-   {
-      using peek_t = Peek;
-      using data_t = typename Peek::data_t;
-
-      using rule_t = any;
-      using subs_t = empty_list;
-
-      [[nodiscard]] static bool test( const char /*unused*/ ) noexcept
-      {
-         return true;
-      }
-
-      template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
-      {
-         if( in.size( Peek::fixed_size ) >= Peek::fixed_size ) {
-            in.template consume< any >( Peek::fixed_size );
-            return true;
-         }
-         return false;
-      }
-   };
-
-   template< typename Peek, typename Z >
-   inline constexpr bool enable_control< any< Peek, Z > > = false;
+   inline constexpr bool enable_control< any< Peek > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -8,7 +8,6 @@
 #include "config.hpp"
 
 #include "internal/peek_integer.hpp"
-#include "internal/result_on_found.hpp"
 #include "internal/rules.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -19,12 +18,12 @@ namespace TAO_PEGTL_NAMESPACE
       struct any : internal::any< internal::peek_int16_be > {};
       template< unsigned Count > struct many : internal::many< Count, internal::peek_int16_be > {};
 
-      template< std::int16_t... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_int16_be, Cs... > {};
-      template< std::int16_t Lo, std::int16_t Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_int16_be, Lo, Hi > {};
-      template< std::int16_t... Cs > struct one : internal::one< internal::result_on_found::success, internal::peek_int16_be, Cs... > {};
-      template< std::int16_t Lo, std::int16_t Hi > struct range : internal::range< internal::result_on_found::success, internal::peek_int16_be, Lo, Hi > {};
+      template< std::int16_t... Cs > struct not_one : internal::not_one< internal::peek_int16_be, Cs... > {};
+      template< std::int16_t Lo, std::int16_t Hi > struct not_range : internal::not_range< internal::peek_int16_be, Lo, Hi > {};
+      template< std::int16_t... Cs > struct one : internal::one< internal::peek_int16_be, Cs... > {};
+      template< std::int16_t Lo, std::int16_t Hi > struct range : internal::range< internal::peek_int16_be, Lo, Hi > {};
       template< std::int16_t... Cs > struct ranges : internal::ranges< internal::peek_int16_be, Cs... > {};
-      template< std::int16_t... Cs > struct string : internal::seq< internal::one< internal::result_on_found::success, internal::peek_int16_be, Cs >... > {};
+      template< std::int16_t... Cs > struct string : internal::seq_one< internal::peek_int16_be, Cs... > {};
       // clang-format on
 
    }  // namespace int16_be
@@ -35,12 +34,12 @@ namespace TAO_PEGTL_NAMESPACE
       struct any : internal::any< internal::peek_int16_le > {};
       template< unsigned Count > struct many : internal::many< Count, internal::peek_int16_le > {};
 
-      template< std::int16_t... Cs > struct not_one : internal::one< internal::result_on_found::failure, internal::peek_int16_le, Cs... > {};
-      template< std::int16_t Lo, std::int16_t Hi > struct not_range : internal::range< internal::result_on_found::failure, internal::peek_int16_le, Lo, Hi > {};
-      template< std::int16_t... Cs > struct one : internal::one< internal::result_on_found::success, internal::peek_int16_le, Cs... > {};
-      template< std::int16_t Lo, std::int16_t Hi > struct range : internal::range< internal::result_on_found::success, internal::peek_int16_le, Lo, Hi > {};
+      template< std::int16_t... Cs > struct not_one : internal::not_one< internal::peek_int16_le, Cs... > {};
+      template< std::int16_t Lo, std::int16_t Hi > struct not_range : internal::not_range< internal::peek_int16_le, Lo, Hi > {};
+      template< std::int16_t... Cs > struct one : internal::one< internal::peek_int16_le, Cs... > {};
+      template< std::int16_t Lo, std::int16_t Hi > struct range : internal::range< internal::peek_int16_le, Lo, Hi > {};
       template< std::int16_t... Cs > struct ranges : internal::ranges< internal::peek_int16_le, Cs... > {};
-      template< std::int16_t... Cs > struct string : internal::seq< internal::one< internal::result_on_found::success, internal::peek_int16_le, Cs >... > {};
+      template< std::int16_t... Cs > struct string : internal::seq_one< internal::peek_int16_le, Cs... > {};
       // clang-format on
 
    }  // namespace int16_le

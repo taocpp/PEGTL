@@ -14,17 +14,17 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename T, typename Data >
-   [[nodiscard]] T integer_adapt( const Data* pointer ) noexcept
+   template< typename Type, typename Data >
+   [[nodiscard]] Type integer_adapt( const Data* pointer ) noexcept
    {
-      static_assert( std::is_integral_v< T > || std::is_enum_v< T > );
+      static_assert( std::is_integral_v< Type > || std::is_enum_v< Type > );
       static_assert( std::is_integral_v< Data > || std::is_enum_v< Data > );
 
-      if constexpr( sizeof( T ) == sizeof( Data ) ) {
-         return static_cast< T >( *pointer );
+      if constexpr( sizeof( Type ) == sizeof( Data ) ) {
+         return static_cast< Type >( *pointer );
       }
       else if constexpr( sizeof( Data ) == 1 ) {
-         T result;
+         Type result;
          std::memcpy( &result, pointer, sizeof( result ) );
          return result;
       }

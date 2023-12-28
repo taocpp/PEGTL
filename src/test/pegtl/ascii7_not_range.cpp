@@ -10,12 +10,12 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      verify_analyze< not_range< 'a', 'f' > >( __LINE__, __FILE__, true, false );
+      verify_analyze< ascii7::not_range< 'a', 'f' > >( __LINE__, __FILE__, true, false );
 
       for( int i = -100; i < 200; ++i ) {
          const auto c = char( i );
 
-         verify_char< not_range< 'a', 'f' > >( __LINE__, __FILE__, c, ( ( c < 'a' ) || ( 'f' < c ) ) && ( ( c & 0x80 ) == 0 ) );
+         verify_char< ascii7::not_range< 'a', 'f' > >( __LINE__, __FILE__, c, ( ( c < 'a' ) || ( 'f' < c ) ) && ( ( c & 0x80 ) == 0 ) );
       }
    }
 

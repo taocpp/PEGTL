@@ -10,22 +10,11 @@
 
 #include "../config.hpp"
 
-#include "peek_direct.hpp"
 #include "peek_endian.hpp"
 #include "peek_masked.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   using peek_char = peek_direct< char >;
-   using peek_byte = peek_direct< std::byte >;
-
-   // using peek_char8 = peek_direct< char8_t >;  // C++20
-   using peek_char16 = peek_direct< char16_t >;
-   using peek_char32 = peek_direct< char32_t >;
-
-   using peek_int8 = peek_direct< std::int8_t >;
-   using peek_uint8 = peek_direct< std::uint8_t >;
-
    template< std::uint8_t Mask >
    using peek_mask_uint8 = peek_masked< std::uint8_t, Mask >;
 

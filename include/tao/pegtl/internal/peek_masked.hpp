@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( sizeof( data_t ) ) ) )
       {
-         const std::size_t s = integer_size< data_t >( in.current() );
+         constexpr std::size_t s = integer_input_size< data_t, ParseInput >();
 
          if( in.size( s + offset ) >= ( s + offset ) ) {
             const data_t t = Endian::template get< data_t >( in.current( offset ) );

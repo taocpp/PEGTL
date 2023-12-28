@@ -9,61 +9,73 @@
 #include "forward.hpp"
 
 #include "internal/any.hpp"
-#include "internal/enum_invert_bool.hpp"
 #include "internal/failure.hpp"
+#include "internal/not_one.hpp"
+#include "internal/not_range.hpp"
 #include "internal/one.hpp"
 #include "internal/peek_ascii.hpp"
 #include "internal/range.hpp"
-#include "internal/result_on_found.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template<>
-   struct invert_traits< internal::failure >
-   {
-      // Unfortunately at this point we don't know what Peek was so we can't invert.
-   };
-
    template< typename Peek >
    struct invert_traits< internal::any< Peek > >
    {
       using rule_t = internal::failure;
    };
 
-   template< char... Cs >
-   struct invert_traits< internal::one< internal::result_on_found::failure, internal::peek_ascii7, Cs... > >
+   template<>
+   struct invert_traits< internal::failure >
    {
-      using rule_t = internal::one< internal::result_on_found::success, internal::peek_ascii8, Cs... >;
+      // Unfortunately at this point we don't know what Peek was.
+   };
+
+   template< typename Peek, typename Peek::data_t... Cs >
+   struct invert_traits< internal::single< Peek, internal::one< Peek, Cs... > > >
+   {
+      using rule_t = internal::single< Peek, internal::not_one< Peek, Cs... > >;
+   };
+
+   template< typename Peek, typename Peek::data_t... Cs >
+   struct invert_traits< internal::single< Peek, internal::not_one< Peek, Cs... > > >
+   {
+      using rule_t = internal::single< Peek, internal::one< Peek, Cs... > >;
+   };
+
+   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   struct invert_traits< internal::single< Peek, internal::range< Peek, Lo, Hi > > >
+   {
+      using rule_t = internal::single< Peek, internal::not_range< Peek, Lo, Hi > >;
+   };
+
+   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   struct invert_traits< internal::single< Peek, internal::not_range< Peek, Lo, Hi > > >
+   {
+      using rule_t = internal::single< Peek, internal::range< Peek, Lo, Hi > >;
    };
 
    template< char... Cs >
-   struct invert_traits< internal::one< internal::result_on_found::success, internal::peek_ascii8, Cs... > >
+   struct invert_traits< internal::single< internal::peek_ascii8, internal::one< internal::peek_ascii8, Cs... > > >
    {
-      using rule_t = internal::one< internal::result_on_found::failure, internal::peek_ascii7, Cs... >;
+      using rule_t = internal::single< internal::peek_ascii7, internal::not_one< internal::peek_ascii7, Cs... > >;
    };
 
-   template< internal::result_on_found R, typename Peek, typename Peek::data_t... Cs >
-   struct invert_traits< internal::one< R, Peek, Cs... > >
+   template< char... Cs >
+   struct invert_traits< internal::single< internal::peek_ascii7, internal::not_one< internal::peek_ascii7, Cs... > > >
    {
-      using rule_t = internal::one< internal::enum_invert_bool( R ), Peek, Cs... >;
-   };
-
-   template< char Lo, char Hi >
-   struct invert_traits< internal::range< internal::result_on_found::failure, internal::peek_ascii7, Lo, Hi > >
-   {
-      using rule_t = internal::range< internal::result_on_found::success, internal::peek_ascii8, Lo, Hi >;
+      using rule_t = internal::single< internal::peek_ascii8, internal::one< internal::peek_ascii8, Cs... > >;
    };
 
    template< char Lo, char Hi >
-   struct invert_traits< internal::range< internal::result_on_found::success, internal::peek_ascii8, Lo, Hi > >
+   struct invert_traits< internal::single< internal::peek_ascii8, internal::range< internal::peek_ascii8, Lo, Hi > > >
    {
-      using rule_t = internal::range< internal::result_on_found::failure, internal::peek_ascii7, Lo, Hi >;
+      using rule_t = internal::single< internal::peek_ascii7, internal::not_range< internal::peek_ascii7, Lo, Hi > >;
    };
 
-   template< internal::result_on_found R, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
-   struct invert_traits< internal::range< R, Peek, Lo, Hi > >
+   template< char Lo, char Hi >
+   struct invert_traits< internal::single< internal::peek_ascii7, internal::not_range< internal::peek_ascii7, Lo, Hi > > >
    {
-      using rule_t = internal::range< internal::enum_invert_bool( R ), Peek, Lo, Hi >;
+      using rule_t = internal::single< internal::peek_ascii8, internal::range< internal::peek_ascii8, Lo, Hi > >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

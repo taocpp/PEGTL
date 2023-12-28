@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 2 ) ) )
       {
-         const std::size_t s = integer_size< char16_t >( in.current() );
+         constexpr std::size_t s = integer_input_size< char16_t, ParseInput >();
          const std::size_t size = in.size( s + s + offset );
 
          if( size >= ( s + offset ) ) {

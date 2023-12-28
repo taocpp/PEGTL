@@ -8,6 +8,8 @@
 #include <tao/pegtl/analyze_traits.hpp>
 #include <tao/pegtl/apply_mode.hpp>
 #include <tao/pegtl/ascii.hpp>
+#include <tao/pegtl/ascii7.hpp>
+#include <tao/pegtl/ascii8.hpp>
 #include <tao/pegtl/buffer.hpp>
 #include <tao/pegtl/change_action.hpp>
 #include <tao/pegtl/change_action_and_state.hpp>

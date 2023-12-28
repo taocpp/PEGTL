@@ -7,49 +7,17 @@
 
 #include <type_traits>
 
-#include "enable_control.hpp"
-#include "one.hpp"
-#include "result_on_found.hpp"
-#include "success.hpp"
-
 #include "../config.hpp"
 #include "../type_list.hpp"
 
+#include "ascii_utility.hpp"
+#include "enable_control.hpp"
+#include "ione.hpp"
+#include "peek_direct.hpp"
+#include "success.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< char C >
-   inline constexpr bool is_alpha = ( ( 'a' <= C ) && ( C <= 'z' ) ) || ( ( 'A' <= C ) && ( C <= 'Z' ) );
-
-   template< char C >
-   [[nodiscard]] constexpr bool ichar_equal( const char c ) noexcept
-   {
-      if constexpr( is_alpha< C > ) {
-         return ( C | 0x20 ) == ( c | 0x20 );
-      }
-      else {
-         return c == C;
-      }
-   }
-
-   template< char... Cs >
-   [[nodiscard]] constexpr bool istring_equal( const char* r ) noexcept
-   {
-      return ( ichar_equal< Cs >( *r++ ) && ... );
-   }
-
-   template< char... Cs >
-   struct istring;
-
-   template<>
-   struct istring<>
-      : success
-   {};
-
-   // template< char C >
-   // struct istring< C >
-   //    : std::conditional_t< is_alpha< C >, one< result_on_found::success, peek_char, C | 0x20, C & ~0x20 >, one< result_on_found::success, peek_char, C > >
-   // {};
-
    template< char... Cs >
    struct istring
    {
@@ -63,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          static_assert( sizeof( data_t ) == 1 );
          static_assert( std::is_integral_v< data_t > || std::is_enum_v< data_t > );
          if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
-            if( istring_equal< Cs... >( in.current() ) ) {
+            if( ascii_istring_equal< Cs... >( in.current() ) ) {
                in.template consume< istring >( sizeof...( Cs ) );
                return true;
             }
@@ -71,6 +39,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return false;
       }
    };
+
+   template< char C >
+   struct istring< C >
+      : ione< peek_char, C >
+   {};
+
+   template<>
+   struct istring<>
+      : success
+   {};
 
    template< char... Cs >
    inline constexpr bool enable_control< istring< Cs... > > = false;

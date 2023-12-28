@@ -2,35 +2,36 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_ONE_HPP
-#define TAO_PEGTL_INTERNAL_ONE_HPP
+#ifndef TAO_PEGTL_INTERNAL_NOT_IONE_HPP
+#define TAO_PEGTL_INTERNAL_NOT_IONE_HPP
 
 #include "../config.hpp"
 
+#include "any.hpp"
+#include "ascii_utility.hpp"
 #include "enable_control.hpp"
-#include "failure.hpp"
 #include "single.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, typename Peek::data_t... Cs >
-   struct one
-      : single< Peek, one< Peek, Cs... > >
+   struct not_ione
+      : single< Peek, not_ione< Peek, Cs... > >
    {
       template< typename Data >
       [[nodiscard]] static constexpr bool test( const Data c ) noexcept
       {
-         return ( ( c == Cs ) || ... ) == true;
+         return ( ascii_ichar_equal< Cs >( c ) || ... ) == false;
       }
    };
 
    template< typename Peek >
-   struct one< Peek >
-      : failure
+   struct not_ione< Peek >
+      : any< Peek >
    {};
 
    template< typename Peek, typename Peek::data_t... Cs >
-   inline constexpr bool enable_control< one< Peek, Cs... > > = false;
+   inline constexpr bool enable_control< not_ione< Peek, Cs... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

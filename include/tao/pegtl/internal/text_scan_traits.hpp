@@ -124,7 +124,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    // eol_exclude_tag eol_matched_tag eol_unknown_tag -- are obvious.
    // any consume everything many -- can match anything.
-   // binary_property istring one property_value range ranges rep_one_min_max string -- it depends.
+   // binary_property istring one property_value range ranges single rep_one_min_max string -- it depends.
    // until -- slightly tricky.
    // nested void -- can be ignored here.
 

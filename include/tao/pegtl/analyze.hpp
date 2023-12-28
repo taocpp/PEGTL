@@ -29,11 +29,11 @@ namespace TAO_PEGTL_NAMESPACE
    {
       struct analyze_entry
       {
-         explicit analyze_entry( const analyze_type in_type ) noexcept
-            : type( in_type )
+         explicit analyze_entry( const analyze_group g ) noexcept
+            : group( g )
          {}
 
-         const analyze_type type;
+         const analyze_group group;
          std::vector< std::string_view > subs;
       };
 
@@ -82,29 +82,29 @@ namespace TAO_PEGTL_NAMESPACE
          {
             if( const auto g = set_stack_guard( m_stack, entry.first ) ) {
                const auto v = vector_stack_guard( m_trace, entry.first );
-               switch( entry.second.type ) {
-                  case analyze_type::any: {
+               switch( entry.second.group ) {
+                  case analyze_group::any: {
                      bool a = false;
                      for( const auto& r : entry.second.subs ) {
                         a = a || work( find( r ), accum || a );
                      }
                      return true;
                   }
-                  case analyze_type::opt: {
+                  case analyze_group::opt: {
                      bool a = false;
                      for( const auto& r : entry.second.subs ) {
                         a = a || work( find( r ), accum || a );
                      }
                      return false;
                   }
-                  case analyze_type::seq: {
+                  case analyze_group::seq: {
                      bool a = false;
                      for( const auto& r : entry.second.subs ) {
                         a = a || work( find( r ), accum || a );
                      }
                      return a;
                   }
-                  case analyze_type::sor: {
+                  case analyze_group::sor: {
                      bool a = true;
                      for( const auto& r : entry.second.subs ) {
                         a = a && work( find( r ), accum );

@@ -14,21 +14,29 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename T, typename Data >
-   [[nodiscard]] std::size_t integer_size( const Data* /*unused*/ ) noexcept
+   template< typename Type, typename Data >
+   [[nodiscard]] constexpr std::size_t integer_size() noexcept
    {
-      static_assert( std::is_integral_v< T > || std::is_enum_v< T > );
+      static_assert( std::is_integral_v< Type > || std::is_enum_v< Type > );
       static_assert( std::is_integral_v< Data > || std::is_enum_v< Data > );
 
-      if constexpr( sizeof( T ) == sizeof( Data ) ) {
+      if constexpr( sizeof( Type ) == sizeof( Data ) ) {
          return 1;
       }
       else if constexpr( sizeof( Data ) == 1 ) {
-         return sizeof( T );
+         return sizeof( Type );
       }
       else {
          static_assert( dependent_false< Data > );
       }
+   }
+
+   template< typename Type, typename Input>
+   [[nodiscard]] constexpr std::size_t integer_input_size() noexcept
+   {
+      static_assert( std::is_same_v< typename Input::data_t, std::decay_t< decltype( *( std::declval< const Input& >().current() ) ) > > );
+
+      return integer_size< Type, typename Input::data_t >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
