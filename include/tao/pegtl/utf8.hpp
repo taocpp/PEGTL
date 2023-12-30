@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::utf8
    template< char32_t... Cs > struct one : internal::one< internal::peek_utf8, Cs... > {};
    template< char32_t Lo, char32_t Hi > struct range : internal::range< internal::peek_utf8, Lo, Hi > {};
    template< char32_t... Cs > struct ranges : internal::ranges< internal::peek_utf8, Cs... > {};
-   template< char32_t... Cs > struct string : internal::seq_one< internal::peek_utf8, Cs... > {};
+   template< char32_t... Cs > struct string : internal::utf8_string< Cs... > {};
    // clang-format on
 
 }  // namespace TAO_PEGTL_NAMESPACE::utf8

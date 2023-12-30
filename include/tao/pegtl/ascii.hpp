@@ -38,6 +38,8 @@ namespace TAO_PEGTL_NAMESPACE
       struct lower : internal::range< internal::peek_ascii8, 'a', 'z' > {};
       template< unsigned Count > struct many7 : internal::many< Count, internal::peek_ascii7 > {};
       template< unsigned Count > struct many8 : internal::many< Count, internal::peek_ascii8 > {};
+      template< char... Cs > struct not_ione7 : internal::not_ione< internal::peek_ascii7, Cs... > {};
+      template< char... Cs > struct not_ione8 : internal::not_ione< internal::peek_ascii8, Cs... > {};
       template< char... Cs > struct not_one7 : internal::not_one< internal::peek_ascii7, Cs... > {};
       template< char... Cs > struct not_one8 : internal::not_one< internal::peek_ascii8, Cs... > {};
       template< char Lo, char Hi > struct not_range7 : internal::not_range< internal::peek_ascii7, Lo, Hi > {};

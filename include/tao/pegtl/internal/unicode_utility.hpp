@@ -6,7 +6,6 @@
 #define TAO_PEGTL_INTERNAL_UNICODE_UTILITY_HPP
 
 #include <cstddef>
-#include <type_traits>
 
 #include "../config.hpp"
 
