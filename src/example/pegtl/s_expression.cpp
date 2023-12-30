@@ -27,7 +27,7 @@ namespace sexpr
    struct list;
    struct list_comment : pegtl::if_must< pegtl::at< pegtl::one< '(' > >, pegtl::disable< list > > {};
 
-   struct read_include : pegtl::seq< pegtl::one< ' ' >, pegtl::one< '"' >, pegtl::plus< pegtl::not_one< '"' > >, pegtl::one< '"' > > {};
+   struct read_include : pegtl::seq< pegtl::one< ' ' >, pegtl::one< '"' >, pegtl::plus< pegtl::not_one7< '"' > >, pegtl::one< '"' > > {};
    struct hash_include : pegtl::if_must< pegtl::string< 'i', 'n', 'c', 'l', 'u', 'd', 'e' >, read_include > {};
 
    struct hashed : pegtl::if_must< pegtl::one< '#' >, pegtl::sor< hash_include, list_comment, hash_comment > > {};
@@ -53,7 +53,7 @@ namespace sexpr
    {};
 
    template<>
-   struct action< pegtl::plus< pegtl::not_one< '"' > > >
+   struct action< pegtl::plus< pegtl::not_one7< '"' > > >
    {
       template< typename ActionInput >
       static void apply( const ActionInput& in, std::string& fn )

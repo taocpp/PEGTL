@@ -10,8 +10,6 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/member.hpp>
 
-#include <tao/pegtl/analyze_traits.hpp>
-
 enum my_type
 {
    alpha,

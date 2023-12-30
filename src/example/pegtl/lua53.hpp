@@ -174,7 +174,7 @@ namespace lua53
    struct decbyte : pegtl::if_must< pegtl::digit, pegtl::rep_opt< 2, pegtl::digit > > {};
    struct unichar : pegtl::if_must< pegtl::one< 'u' >, pegtl::one< '{' >, pegtl::plus< pegtl::xdigit >, pegtl::one< '}' > > {};
    struct escaped : pegtl::if_must< pegtl::one< '\\' >, pegtl::sor< hexbyte, decbyte, unichar, single, spaces > > {};
-   struct regular : pegtl::not_one< '\r', '\n' > {};
+   struct regular : pegtl::not_one8< '\r', '\n' > {};
    struct character : pegtl::sor< escaped, regular > {};
 
    template< char Q >
@@ -211,9 +211,9 @@ namespace lua53
    struct statement_list : pegtl::seq< seps, pegtl::until< pegtl::sor< E, pegtl::if_must< key_return, statement_return, E > >, statement, seps > > {};
 
    template< char O, char... N >
-   struct op_one : pegtl::seq< pegtl::one< O >, pegtl::at< pegtl::not_one< N... > > > {};
+   struct op_one : pegtl::seq< pegtl::one< O >, pegtl::at< pegtl::not_one8< N... > > > {};
    template< char O, char P, char... N >
-   struct op_two : pegtl::seq< pegtl::string< O, P >, pegtl::at< pegtl::not_one< N... > > > {};
+   struct op_two : pegtl::seq< pegtl::string< O, P >, pegtl::at< pegtl::not_one8< N... > > > {};
 
    struct table_field_one : pegtl::if_must< pegtl::one< '[' >, seps, expression, seps, pegtl::one< ']' >, seps, pegtl::one< '=' >, seps, expression > {};
    struct table_field_two : pegtl::if_must< pegtl::seq< name, seps, op_one< '=', '=' > >, seps, expression > {};

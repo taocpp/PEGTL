@@ -29,6 +29,16 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits<>
    {};
 
+   template< typename Name, typename Endian, char... Cs >
+   struct analyze_traits< Name, internal::ascii_istring< Endian, Cs... > >
+      : std::conditional_t< ( sizeof...( Cs ) != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
+   {};
+
+   template< typename Name, typename Endian, char... Cs >
+   struct analyze_traits< Name, internal::ascii_string< Endian, Cs... > >
+      : std::conditional_t< ( sizeof...( Cs ) != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
+   {};
+
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::at< Rules... > >
       : analyze_traits< Name, typename internal::opt< Rules... >::rule_t >
@@ -101,11 +111,6 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_traits< Name, typename internal::sor< internal::seq< Cond, Then >, Else >::rule_t >
    {};
 
-   template< typename Name, char... Cs >
-   struct analyze_traits< Name, internal::istring< Cs... > >
-      : std::conditional_t< ( sizeof...( Cs ) != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
-   {};
-
    template< typename Name, unsigned Count, typename Peek >
    struct analyze_traits< Name, internal::many< Count, Peek > >
       : std::conditional_t< ( Count != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
@@ -156,8 +161,8 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_seq_traits< Rule, Rules... >
    {};
 
-   template< typename Name, typename Peek, typename Test >
-   struct analyze_traits< Name, internal::single< Peek, Test > >
+   template< typename Name, typename Rule >
+   struct analyze_traits< Name, internal::single< Rule > >
       : analyze_any_traits<>
    {};
 
@@ -179,11 +184,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Name, typename State, typename... Rules >
    struct analyze_traits< Name, internal::state< State, Rules... > >
       : analyze_traits< Name, typename internal::seq< Rules... >::rule_t >
-   {};
-
-   template< typename Name, char... Cs >
-   struct analyze_traits< Name, internal::string< Cs... > >
-      : std::conditional_t< ( sizeof...( Cs ) != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
    {};
 
    template< typename Name >

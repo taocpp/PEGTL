@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, typename Peek::data_t... Cs >
    struct ranges
-      : single< Peek, ranges< Peek, Cs... > >
+      : single< ranges< Peek, Cs... > >
    {
       template< typename Data, Data Lo, Data Hi >
       [[nodiscard]] static constexpr bool test_two( const Data c ) noexcept

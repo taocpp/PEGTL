@@ -51,6 +51,4 @@
 
 #endif
 
-#define TAO_PEGTL_PASTE_ENDIAN_SYMBOLS( FiRST, SeCoND ) FiRST##SeCoND
-
 #endif

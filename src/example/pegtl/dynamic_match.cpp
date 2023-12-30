@@ -17,7 +17,7 @@ namespace pegtl = TAO_PEGTL_NAMESPACE;
 namespace dynamic
 {
    struct long_literal_id
-      : pegtl::plus< pegtl::not_one< '[' > >
+      : pegtl::plus< pegtl::not_one7< '[' > >
    {};
 
    struct long_literal_open
@@ -53,7 +53,7 @@ namespace dynamic
    {};
 
    struct long_literal_body
-      : pegtl::any
+      : pegtl::any7
    {};
 
    struct grammar

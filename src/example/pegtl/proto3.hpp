@@ -58,7 +58,7 @@ namespace proto3
    struct oct_escape : if_must< odigit, odigit, odigit > {};
    struct char_escape : one< 'a', 'b', 'f', 'n', 'r', 't', 'v', '\\', '\'', '"' > {};
    struct escape : if_must< one< '\\' >, hex_escape, oct_escape, char_escape > {};
-   struct char_value : sor< escape, not_one< '\n', '\0' > > {};  // NOTE: No need to exclude '\' from not_one<>, see escape rule.
+   struct char_value : sor< escape, not_one8< '\n', '\0' > > {};  // NOTE: No need to exclude '\' from not_one<>, see escape rule.
    template< char Q >
    struct str_impl : if_must< one< Q >, until< one< Q >, char_value > > {};
    struct str_lit : sor< str_impl< '\'' >, str_impl< '"' > > {};

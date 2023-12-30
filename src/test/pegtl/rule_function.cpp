@@ -4,8 +4,11 @@
 
 #include "test.hpp"
 #include "test_utility.hpp"
-#include <tao/pegtl/internal/peek_ascii.hpp>
+
+#include <tao/pegtl/internal/peek_ascii7.hpp>
+#include <tao/pegtl/internal/peek_ascii8.hpp>
 #include <tao/pegtl/internal/peek_current.hpp>
+#include <tao/pegtl/internal/peek_direct.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

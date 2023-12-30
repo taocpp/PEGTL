@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_SEQS_HPP
 #define TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_SEQS_HPP
 
+#include "test_ascii.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 

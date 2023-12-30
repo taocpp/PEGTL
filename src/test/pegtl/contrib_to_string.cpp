@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       // to_string does *not* care about the outer class template
       TAO_PEGTL_TEST_ASSERT( ( to_string< one< 'a', 'b', 'c' > >() == "abc" ) );
-      TAO_PEGTL_TEST_ASSERT( ( to_string< not_one< 'a', 'b', 'c' > >() == "abc" ) );
+      TAO_PEGTL_TEST_ASSERT( ( to_string< not_one7< 'a', 'b', 'c' > >() == "abc" ) );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

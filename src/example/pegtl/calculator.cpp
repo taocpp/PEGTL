@@ -205,7 +205,7 @@ namespace calculator
 
    struct infix
    {
-      using rule_t = ascii::any::rule_t;
+      using rule_t = ascii::any8::rule_t;
 
       template< apply_mode,
                 rewind_mode,

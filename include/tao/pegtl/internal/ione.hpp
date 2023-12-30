@@ -16,7 +16,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, typename Peek::data_t... Cs >
    struct ione
-      : single< Peek, ione< Peek, Cs... > >
+      : single< ione< Peek, Cs... > >
    {
       template< typename Data >
       [[nodiscard]] static constexpr bool test( const Data c ) noexcept

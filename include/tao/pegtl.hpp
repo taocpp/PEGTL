@@ -6,8 +6,6 @@
 #define TAO_PEGTL_HPP
 
 #include "pegtl/ascii.hpp"
-#include "pegtl/ascii7.hpp"
-#include "pegtl/ascii8.hpp"
 #include "pegtl/config.hpp"
 #include "pegtl/demangle.hpp"
 #include "pegtl/eol.hpp"

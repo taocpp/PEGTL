@@ -12,7 +12,7 @@
 #include "data_and_size.hpp"
 #include "endian.hpp"
 #include "integer_size.hpp"
-#include "utility.hpp"
+#include "unicode_utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

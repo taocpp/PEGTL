@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct range
-      : single< Peek, range< Peek, Lo, Hi > >
+      : single< range< Peek, Lo, Hi > >
    {
       static_assert( Lo < Hi );
 

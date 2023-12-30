@@ -12,11 +12,12 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Peek, typename Test >
-   struct single
-   {
-      using test_t = Test;
+   template< typename >
+   struct single;
 
+   template< template< typename Peek, typename Peek::data_t... Cs > class Rule, typename Peek, typename Peek::data_t... Cs >
+   struct single< Rule< Peek, Cs... > >
+   {
       using peek_t = Peek;
       using data_t = typename Peek::data_t;
 
@@ -27,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
       {
          if( const auto t = Peek::peek( in ) ) {
-            if( Test::test( t.data() ) ) {
+            if( Rule< Peek, Cs... >::test( t.data() ) ) {
                in.template consume< single >( t.size() );
                return true;
             }
@@ -36,8 +37,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename Peek, typename Test >
-   inline constexpr bool enable_control< single< Peek, Test > > = false;
+   template< typename Rule >
+   inline constexpr bool enable_control< single< Rule > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

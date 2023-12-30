@@ -50,7 +50,7 @@ namespace example
    struct ba : pegtl::one< '(' > {};
    struct bz : pegtl::one< ')' > {};
 
-   struct sa : pegtl::star< pegtl::any > {};
+   struct sa : pegtl::star< pegtl::any7 > {};
    struct s0 : pegtl::star< pegtl::one< ' ' > > {};
    struct s1 : pegtl::plus< pegtl::one< ' ' > > {};
 
