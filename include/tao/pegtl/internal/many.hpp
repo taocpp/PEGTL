@@ -8,6 +8,7 @@
 #include <cstddef>
 
 #include "../config.hpp"
+#include "../tags.hpp"
 #include "../type_list.hpp"
 
 #include "any.hpp"
@@ -33,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             constexpr std::size_t s = Peek::template size< ParseInput >();
             static_assert( s > 0 );
             if( in.size( Count * s ) >= ( Count * s ) ) {
-               in.template consume< many >( Count * s );
+               in.template consume< eol_unknown_tag >( Count * s );
                return true;
             }
             return false;
@@ -47,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                }
                return false;
             }
-            in.template consume< many >( total );
+            in.template consume< eol_unknown_tag >( total );
             return true;
          }
       }

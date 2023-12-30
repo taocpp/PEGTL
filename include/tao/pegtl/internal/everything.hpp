@@ -10,6 +10,7 @@
 #include "enable_control.hpp"
 
 #include "../config.hpp"
+#include "../tags.hpp"
 #include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -22,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
       {
-         in.template consume< everything >( in.size( std::size_t( -1 ) ) );
+         in.template consume< eol_unknown_tag >( in.size( std::size_t( -1 ) ) );
          return true;
       }
    };

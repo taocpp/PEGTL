@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_BUFFER_REQUIRE_HPP
 #define TAO_PEGTL_BUFFER_REQUIRE_HPP
 
+#include <cstddef>
+
 #include "../config.hpp"
 #include "../type_list.hpp"
 
@@ -12,7 +14,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< unsigned Amount >
+   template< std::size_t Amount >
    struct require;
 
    template<>
@@ -20,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE
       : internal::success
    {};
 
-   template< unsigned Amount >
+   template< std::size_t Amount >
    struct require
    {
       using rule_t = require;

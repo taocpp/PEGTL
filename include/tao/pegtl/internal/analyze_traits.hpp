@@ -29,14 +29,9 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits<>
    {};
 
-   template< typename Name, typename Endian, char... Cs >
-   struct analyze_traits< Name, internal::ascii_istring< Endian, Cs... > >
-      : std::conditional_t< ( sizeof...( Cs ) != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
-   {};
-
-   template< typename Name, typename Endian, char... Cs >
-   struct analyze_traits< Name, internal::ascii_string< Endian, Cs... > >
-      : std::conditional_t< ( sizeof...( Cs ) != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
+   template< typename Name, typename String >
+   struct analyze_traits< Name, internal::ascii_multiple< String > >
+      : analyze_any_traits<>
    {};
 
    template< typename Name, typename... Rules >

@@ -10,11 +10,8 @@
 #include "../config.hpp"
 #include "../type_list.hpp"
 
-#include "ascii_utility.hpp"
 #include "enable_control.hpp"
-#include "one.hpp"
-#include "peek_ascii8.hpp"
-#include "success.hpp"
+#include "integer_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -24,7 +21,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< template< typename Endian, char... Cs > class String, typename Endian, char... Cs >
    struct ascii_multiple< String< Endian, Cs... > >
    {
-      using string_t = String< Endian, Cs... >;
+      using rule_t = ascii_multiple;
+      using subs_t = empty_list;
+
+      static_assert( sizeof...( Cs ) > 0 );
 
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
@@ -34,15 +34,15 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
             std::size_t index = 0;
             if constexpr( sizeof( data_t ) == 1 ) {
-               if( ( string_t::template test< Cs >( static_cast< char >( *in.current( index++ ) ) ) && ... ) ) {
-                  in.template consume< string_t >( sizeof...( Cs ) );
+               if( ( String< Endian, Cs... >::template test< Cs >( static_cast< char >( *in.current( index++ ) ) ) && ... ) ) {
+                  in.template consume< ascii_multiple >( sizeof...( Cs ) );
                   return true;
                }
             }
             else {
                using temp_t = typename integer_traits< sizeof( *in.current() ) >::unsigned_t;
-               if( ( string_t::template test< Cs >( Endian::template get< temp_t >( in.current( index++ ) ) ) && ... ) ) {
-                  in.template consume< string_t >( sizeof...( Cs ) );
+               if( ( String< Endian, Cs... >::template test< Cs >( Endian::template get< temp_t >( in.current( index++ ) ) ) && ... ) ) {
+                  in.template consume< ascii_multiple >( sizeof...( Cs ) );
                   return true;
                }
             }
@@ -50,6 +50,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return false;
       }
    };
+
+   template< typename String >
+   inline constexpr bool enable_control< ascii_multiple< String > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

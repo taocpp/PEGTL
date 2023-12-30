@@ -5,10 +5,7 @@
 #ifndef TAO_PEGTL_INTERNAL_ASCII_STRING_HPP
 #define TAO_PEGTL_INTERNAL_ASCII_STRING_HPP
 
-#include <type_traits>
-
 #include "../config.hpp"
-#include "../type_list.hpp"
 
 #include "ascii_multiple.hpp"
 #include "enable_control.hpp"
@@ -22,9 +19,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct ascii_string
       : ascii_multiple< ascii_string< Endian, Cs... > >
    {
-      using rule_t = ascii_string;
-      using subs_t = empty_list;
-
       template< char C, typename D >
       [[nodiscard]] static constexpr bool test( const D d ) noexcept
       {

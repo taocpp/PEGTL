@@ -8,6 +8,7 @@
 #include <cstddef>
 
 #include "../config.hpp"
+#include "../tags.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
@@ -28,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          static_assert( is_integer_fraction( sizeof( Reference ), sizeof( *in.current() ) ) );
 
          if( in.size( Count ) >= Count ) {
-            in.template consume< consume >( Count );
+            in.template consume< eol_unknown_tag >( Count );
             return true;
          }
          return false;
@@ -50,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in ) noexcept
       {
          if( in.size( Count ) >= Count ) {
-            in.template consume< consume >( Count );
+            in.template consume< eol_unknown_tag >( Count );
             return true;
          }
          return false;
