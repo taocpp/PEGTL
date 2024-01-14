@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       try {
-         parse< test3::grammar >( text_view_input< ascii::lf >( "c" ) );
+         parse< test3::grammar >( text_view_input< eols::scan::lf >( "c" ) );
          TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
       }
       catch( const parse_error_base& e ) {

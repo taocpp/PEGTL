@@ -60,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      text_view_input< ascii::lf > in( "a" );
+      text_view_input< eols::scan::lf > in( "a" );
       TAO_PEGTL_TEST_ASSERT( parse< test_grammar, test_action >( in ) );
 
       TAO_PEGTL_TEST_ASSERT( ctor == true );

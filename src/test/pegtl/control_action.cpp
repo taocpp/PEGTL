@@ -142,13 +142,13 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       {
-         text_view_input< ascii::lf > in( "0" );
+         text_view_input< eols::scan::lf > in( "0" );
          const auto b = parse< first_rule, dummy_action >( in, 42 );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( story.empty() );
       }
       {
-         text_view_input< ascii::lf > in( "0" );
+         text_view_input< eols::scan::lf > in( "0" );
          const auto b = parse< first_rule, test_action >( in, 42 );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( story == "adfghb" );
@@ -156,7 +156,7 @@ namespace TAO_PEGTL_NAMESPACE
 #if defined( __cpp_exceptions )
       story.clear();
       {
-         text_view_input< ascii::lf > in( "*" );
+         text_view_input< eols::scan::lf > in( "*" );
          TAO_PEGTL_TEST_THROWS( parse< second_rule, test_action >( in, 42 ) );
          TAO_PEGTL_TEST_ASSERT( story == "jm" );
       }

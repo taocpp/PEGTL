@@ -30,6 +30,21 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return 1;
       }
 
+      template< Data D, typename ParseInput >
+      [[nodiscard]] static bool test( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 42 ) ) )
+      {
+         using peek_t = typename ParseInput::data_t;
+
+         static_assert( sizeof( peek_t ) == sizeof( data_t ) );
+
+         if( in.size( offset + 1 ) >= ( offset + 1 ) ) {
+            if( Data( *in.current( offset ) ) == D ) {
+               return true;
+            }
+         }
+         return false;
+      }
+
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 42 ) ) )
       {

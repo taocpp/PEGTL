@@ -11,12 +11,10 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Eol, typename Rule, typename Data, typename Position >
+   template< typename Eol, typename Rule, typename Position, typename Data >
    void text_eol_scan( Position& pos, const Data* data, const std::size_t count )
    {
-      using eol_rule = typename Eol::rule_t;
-      using rule_rule = typename Rule::rule_t;
-      text_scan_traits< eol_rule, rule_rule >::scan( pos, data, count );
+      text_scan_traits< Eol, Rule >::scan( pos, data, count );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

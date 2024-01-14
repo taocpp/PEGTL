@@ -8,6 +8,7 @@
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
+#include "../tags.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
@@ -53,7 +54,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          using eol_rule = typename ParseInput::eol_rule;
          using eol_impl = typename eol_rule::rule_t;
-         return Control< eol_impl >::template match< apply_mode::nothing, M, Action, Control >( in, st... );
+         if( Control< eol_impl >::template match< apply_mode::nothing, M, Action, Control >( in, st... ) ) {
+            in.template consume< eol_matched_tag >( 0 );
+            return true;
+         }
+         return false;
       }
    };
 

@@ -13,7 +13,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< char32_t... Cs >
-   using utf8_string = typename unicode_to_utf8_string< direct_string<>, unicode_list< Cs... > >::type;
+   using utf8_string = typename unicode_to_utf8_string< direct_string, Cs... >::type;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

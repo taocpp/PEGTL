@@ -21,33 +21,33 @@ namespace TAO_PEGTL_NAMESPACE
       char c = 'a';
       double d = 42.0;
       called = false;
-      text_view_input< ascii::lf > in( "f" );
+      text_view_input< eols::scan::lf > in( "f" );
       TAO_PEGTL_TEST_ASSERT( parse< seq< function< F, P >, eof > >( in, i, &c, d ) );
       TAO_PEGTL_TEST_ASSERT( called );
    }
 
-   [[nodiscard]] bool func0( text_view_input< ascii::lf >& in )
+   [[nodiscard]] bool func0( text_view_input< eols::scan::lf >& in )
    {
       called = true;
       in.consume< eol_exclude_tag >( 1 );
       return true;
    }
 
-   [[nodiscard]] bool func0n( text_view_input< ascii::lf >& in ) noexcept
+   [[nodiscard]] bool func0n( text_view_input< eols::scan::lf >& in ) noexcept
    {
       called = true;
       in.consume< eol_exclude_tag >( 1 );
       return true;
    }
 
-   [[nodiscard]] bool func1( text_view_input< ascii::lf >& in, int /*unused*/, char*& /*unused*/, const double& /*unused*/ )
+   [[nodiscard]] bool func1( text_view_input< eols::scan::lf >& in, int /*unused*/, char*& /*unused*/, const double& /*unused*/ )
    {
       called = true;
       in.consume< eol_exclude_tag >( 1 );
       return true;
    }
 
-   [[nodiscard]] bool func1n( text_view_input< ascii::lf >& in, int /*unused*/, char*& /*unused*/, const double& /*unused*/ ) noexcept
+   [[nodiscard]] bool func1n( text_view_input< eols::scan::lf >& in, int /*unused*/, char*& /*unused*/, const double& /*unused*/ ) noexcept
    {
       called = true;
       in.consume< eol_exclude_tag >( 1 );

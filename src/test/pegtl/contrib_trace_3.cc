@@ -20,7 +20,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      test::text_input< ascii::lf > in( "xaacy", "trace test please ignore" );
+      test::text_input< eols::scan::lf > in( "xaacy", "trace test please ignore" );
       const auto result = parse< outer, partial_action >( in );
       TAO_PEGTL_TEST_ASSERT( result );
    }

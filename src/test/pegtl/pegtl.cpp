@@ -22,7 +22,7 @@
 #include <tao/pegtl/disable_action.hpp>
 #include <tao/pegtl/enable_action.hpp>
 #include <tao/pegtl/enums.hpp>
-#include <tao/pegtl/eol.hpp>
+#include <tao/pegtl/eols.hpp>
 #include <tao/pegtl/forward.hpp>
 #include <tao/pegtl/inputs.hpp>
 #include <tao/pegtl/int16.hpp>

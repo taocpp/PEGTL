@@ -4,12 +4,14 @@
 
 #include "test.hpp"
 
+#include <tao/pegtl/internal/input_traits.hpp>
+
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      static_assert( internal::input_traits< base_input< ascii::lf > >::is_lazy == false );
-      static_assert( internal::input_traits< base_input< ascii::lf > >::is_text == false );
+      static_assert( internal::input_traits< base_input< eols::scan::lf > >::is_lazy == false );
+      static_assert( internal::input_traits< base_input< eols::scan::lf > >::is_text == false );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

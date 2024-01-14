@@ -52,42 +52,42 @@ namespace TAO_PEGTL_NAMESPACE
 
       verify_analyze< GRAMMAR >( __LINE__, __FILE__, true, false );
       {
-         text_view_input< ascii::crlf > in( "0\r\n\r\n" );
+         text_view_input< eols::rule::crlf > in( "0\r\n\r\n" );
          TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( in ) );
       }
       {
          std::string dummy;
-         text_view_input< ascii::crlf > in( "0\r\n\r\n" );
+         text_view_input< eols::rule::crlf > in( "0\r\n\r\n" );
          TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( in, dummy ) );
       }
       {
          std::string state;
-         text_view_input< ascii::crlf > in( "0\r\n\r\n" );
+         text_view_input< eols::rule::crlf > in( "0\r\n\r\n" );
          TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR, chunked_action >( in, state ) );
          TAO_PEGTL_TEST_ASSERT( state == "a" );
       }
       {
          std::string state;
-         text_view_input< ascii::crlf > in( "\r\n\r\n" );
+         text_view_input< eols::rule::crlf > in( "\r\n\r\n" );
          TAO_PEGTL_TEST_THROWS( parse< GRAMMAR, chunked_action >( in, state ) );
       }
       {
          std::string state;
-         text_view_input< ascii::crlf > in( "1\r\n" );
+         text_view_input< eols::rule::crlf > in( "1\r\n" );
          TAO_PEGTL_TEST_THROWS( parse< GRAMMAR, chunked_action >( in, state ) );
       }
       {
-         text_view_input< ascii::crlf > in( "01\r\nX\r\n1a\r\nabcdefghijklmnopqrstuvwxyz\r\n0\r\n\r\n" );
+         text_view_input< eols::rule::crlf > in( "01\r\nX\r\n1a\r\nabcdefghijklmnopqrstuvwxyz\r\n0\r\n\r\n" );
          TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( in ) );
       }
       {
          std::string dummy;
-         text_view_input< ascii::crlf > in( "01\r\nX\r\n1a\r\nabcdefghijklmnopqrstuvwxyz\r\n0\r\n\r\n" );
+         text_view_input< eols::rule::crlf > in( "01\r\nX\r\n1a\r\nabcdefghijklmnopqrstuvwxyz\r\n0\r\n\r\n" );
          TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( in, dummy ) );
       }
       {
          std::string state;
-         text_view_input< ascii::crlf > in( "01\r\nX\r\n1A\r\nabcdefghijklmnopqrstuvwxyz\r\n0\r\n\r\n" );
+         text_view_input< eols::rule::crlf > in( "01\r\nX\r\n1A\r\nabcdefghijklmnopqrstuvwxyz\r\n0\r\n\r\n" );
          TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR, chunked_action >( in, state ) );
          TAO_PEGTL_TEST_ASSERT( state == "ababa" );
       }

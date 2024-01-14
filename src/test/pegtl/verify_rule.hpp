@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
       {}
    };
 
-   template< typename Rule, typename Eol = ascii::lf_crlf >
+   template< typename Rule, typename Eol = eols::scan::lf_crlf >
    void verify_rule( const std::size_t line, const char* file, const std::string& data, const result_type expected, int remain = -1 )
    {
       if( remain < 0 ) {
@@ -56,7 +56,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
-   template< typename Rule, typename Eol = ascii::lf_crlf >
+   template< typename Rule, typename Eol = eols::scan::lf_crlf >
    void verify_only( const std::size_t line, const char* file, const std::string& data, const result_type expected, const std::size_t remain )
    {
       {

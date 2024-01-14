@@ -60,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      text_view_input< ascii::lf > in( "a" );
+      text_view_input< eols::scan::lf > in( "a" );
       const bool b = parse< r, a >( in );
       TAO_PEGTL_TEST_ASSERT( b );
       TAO_PEGTL_TEST_ASSERT( flags == 3 );

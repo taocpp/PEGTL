@@ -30,7 +30,7 @@ struct URI
    std::string query;
    std::string fragment;
 
-   explicit URI( pegtl::argv_input< pegtl::ascii::lf >& );
+   explicit URI( pegtl::argv_input< pegtl::eols::rule::lf >& );
 };
 
 namespace uri
@@ -75,7 +75,7 @@ namespace uri
 
 }  // namespace uri
 
-URI::URI( pegtl::argv_input< pegtl::ascii::lf >& in )
+URI::URI( pegtl::argv_input< pegtl::eols::rule::lf >& in )
 {
    using grammar = pegtl::must< pegtl::uri::URI >;
    pegtl::parse< grammar, uri::action >( in, *this );
@@ -86,7 +86,7 @@ int main( int argc, char** argv )
    try {
       for( int i = 1; i < argc; ++i ) {
          std::cout << "Parsing " << argv[ i ] << std::endl;
-         pegtl::argv_input< pegtl::ascii::lf > in( argv, i );
+         pegtl::argv_input< pegtl::eols::rule::lf > in( argv, i );
          const URI uri( in );
          std::cout << "URI.scheme: " << uri.scheme << std::endl;
          std::cout << "URI.authority: " << uri.authority << std::endl;

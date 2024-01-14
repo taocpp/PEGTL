@@ -12,7 +12,6 @@
 #include "../apply_mode.hpp"
 #include "../ascii.hpp"
 #include "../config.hpp"
-#include "../eol.hpp"
 #include "../rewind_mode.hpp"
 #include "../rules.hpp"
 #include "../tags.hpp"

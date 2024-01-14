@@ -12,8 +12,6 @@
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
-#include "integer_size.hpp"
-#include "peek_integer.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

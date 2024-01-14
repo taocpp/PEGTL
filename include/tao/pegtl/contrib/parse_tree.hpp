@@ -20,7 +20,7 @@
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../demangle.hpp"
-#include "../eol.hpp"
+#include "../eols.hpp"
 #include "../inputs.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
@@ -105,7 +105,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          return { m_begin.data, m_end.data };
       }
 
-      template< tracking_mode P = tracking_mode::eager, typename Eol = ascii::lf_crlf >
+      template< tracking_mode P = tracking_mode::eager, typename Eol = eols::scan::lf_crlf >
       [[nodiscard]] memory_input< P, Eol > as_memory_input() const
       {
          assert( has_content() );

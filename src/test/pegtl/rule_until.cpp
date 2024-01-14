@@ -115,7 +115,7 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
 
       bool success = false;
-      const bool result = parse< until< my_rule, eof >, my_action >( text_view_input< ascii::lf >( "" ), success );
+      const bool result = parse< until< my_rule, eof >, my_action >( text_view_input< eols::scan::lf >( "" ), success );
       TAO_PEGTL_TEST_ASSERT( result );
       TAO_PEGTL_TEST_ASSERT( success );
    }

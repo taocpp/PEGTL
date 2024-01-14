@@ -6,13 +6,15 @@
 #define TAO_PEGTL_SRC_TEST_PEGTL_TEST_UTILITY_HPP
 
 #include <cstddef>
+#include <iostream>
 #include <string>
 
-#include <tao/pegtl/eol.hpp>
+#include <tao/pegtl/eols.hpp>
 #include <tao/pegtl/inputs.hpp>
 
 #include <tao/pegtl/count_position.hpp>
 #include <tao/pegtl/pointer_position.hpp>
+#include <tao/pegtl/text_position.hpp>
 
 namespace TAO_PEGTL_NAMESPACE::test
 {
@@ -29,9 +31,14 @@ namespace TAO_PEGTL_NAMESPACE::test
    }
 
    template< typename T >
-   [[nodiscard]] bool equal( const T& position, const std::size_t count, const std::size_t line, const std::size_t column ) noexcept
+   [[nodiscard]] bool equal( const T& position, const std::size_t line, const std::size_t column, const std::size_t count ) noexcept
    {
-      return ( position.count == count ) && ( position.line == line ) && ( position.column == column );
+      if( ( position.count == count ) && ( position.line == line ) && ( position.column == column ) ) {
+         return true;
+      }
+      const text_position reference( count, line, column );
+      std::cerr << "Not equal position " << position << " reference " << reference << std::endl;
+      return false;
    }
 
    [[nodiscard]] std::string endless( const std::string& data, const std::size_t offset, const std::size_t count )

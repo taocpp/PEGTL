@@ -7,17 +7,15 @@
 
 #include "../config.hpp"
 
-#include "lazy_scan_input.hpp"
 #include "lazy_scan_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Eol, typename Data, typename Position >
+   template< typename Eol, typename Position, typename Data >
    void lazy_eol_scan( Position& pos, const Data* data, const Data* dend )
    {
-      lazy_scan_input< Data > in( data, dend );
-      lazy_scan_traits< Eol >::scan( in, pos );
-      pos.count += dend - data;
+      using eol_rule = typename Eol::rule_t;
+      lazy_scan_traits< eol_rule >::scan( pos, data, dend );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

@@ -14,7 +14,7 @@
 #include "../text_position.hpp"
 
 #include "../internal/rewind_guard.hpp"
-#include "../internal/text_eol_scan.hpp"
+#include "../internal/text_eol_auto.hpp"
 
 #include "buffer_common.hpp"
 #include "text_buffer_input.hpp"
@@ -60,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       void consume( const std::size_t count ) noexcept
       {
          // assert( count <= buffer_used_size() );
-         text_eol_scan< Eol, Rule >( m_position, this->current(), count );
+         text_eol_auto< Eol, Rule >( m_position, this->current(), count );
          this->m_current += count;
       }
 

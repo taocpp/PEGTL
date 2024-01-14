@@ -31,7 +31,7 @@ struct IRI
    std::string query;
    std::string fragment;
 
-   explicit IRI( pegtl::argv_input< pegtl::ascii::lf >& );
+   explicit IRI( pegtl::argv_input< pegtl::eols::rule::lf >& );
 };
 
 namespace iri
@@ -76,7 +76,7 @@ namespace iri
 
 }  // namespace iri
 
-IRI::IRI( pegtl::argv_input< pegtl::ascii::lf >& in )
+IRI::IRI( pegtl::argv_input< pegtl::eols::rule::lf >& in )
 {
    using grammar = pegtl::must< pegtl::iri::IRI >;
    pegtl::parse< grammar, iri::action >( in, *this );
@@ -87,7 +87,7 @@ int main( int argc, char** argv )
    try {
       for( int i = 1; i < argc; ++i ) {
          std::cout << "Parsing " << argv[ i ] << std::endl;
-         pegtl::argv_input< pegtl::ascii::lf > in( argv, i );
+         pegtl::argv_input< pegtl::eols::rule::lf > in( argv, i );
          const IRI iri( in );
          std::cout << "IRI.scheme: " << iri.scheme << std::endl;
          std::cout << "IRI.authority: " << iri.authority << std::endl;

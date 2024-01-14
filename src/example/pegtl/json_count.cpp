@@ -60,7 +60,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    counter_state cs;
 
    for( int i = 1; i < argc; ++i ) {
-      text_file_input< ascii::lf > in( argv[ i ] );
+      text_file_input< eols::rule::lf > in( argv[ i ] );
       parse< grammar, nothing, counter >( in, cs );
    }
    std::cout << std::right << std::setw( 72 ) << "RULE NAME" << std::left << "      START  SUCCESS  FAILURE" << std::endl;

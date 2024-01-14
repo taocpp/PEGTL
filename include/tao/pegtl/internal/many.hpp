@@ -13,7 +13,6 @@
 
 #include "any.hpp"
 #include "enable_control.hpp"
-#include "integer_size.hpp"
 #include "success.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal

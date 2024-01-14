@@ -9,8 +9,8 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      using lazy_input = lazy_read_input< ascii::lf_crlf >;
-      using text_input = text_read_input< ascii::lf_crlf >;
+      using lazy_input = lazy_read_input< eols::scan::lf_crlf >;
+      using text_input = text_read_input< eols::scan::lf_crlf >;
 
       verify_file< lazy_input >();
       verify_file< text_input >();

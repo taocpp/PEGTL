@@ -31,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
    void verify_nested()
    {
       try {
-         text_view_input< ascii::lf > in( "0" );
+         text_view_input< eols::scan::lf > in( "0" );
          parse< Rule< alpha > >( in );
          TAO_PEGTL_TEST_UNREACHABLE;
       }

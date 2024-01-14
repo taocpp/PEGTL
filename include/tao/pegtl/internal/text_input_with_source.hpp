@@ -13,7 +13,7 @@
 #include "../position_with_source.hpp"
 #include "../text_position.hpp"
 
-#include "text_eol_scan.hpp"
+#include "text_eol_auto.hpp"
 #include "text_input.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -61,7 +61,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Rule >
       void consume( const std::size_t count ) noexcept
       {
-         text_eol_scan< Eol, Rule >( m_position, this->current(), count );
+         text_eol_auto< Eol, Rule >( m_position, this->current(), count );
          this->m_current += count;
       }
 
