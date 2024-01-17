@@ -14,19 +14,6 @@ namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
-      template< typename Type, typename... Types >
-      inline constexpr bool contains_v = ( std::is_same_v< Type, Types > || ... );
-
-      template< typename Type, typename... Types >
-      struct contains
-         : std::bool_constant< contains_v< Type, Types... > >
-      {};
-
-      template< typename Type, typename... Types >
-      struct contains< Type, type_list< Types... > >
-         : contains< Type, Types... >
-      {};
-
       template< typename Rules, typename Todo, typename Done >
       struct filter
       {
@@ -35,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       template< typename Rule, typename... Rules, typename... Todo, typename... Done >
       struct filter< type_list< Rule, Rules... >, type_list< Todo... >, type_list< Done... > >
-         : filter< type_list< Rules... >, std::conditional_t< contains_v< Rule, Todo..., Done... >, type_list< Todo... >, type_list< Rule, Todo... > >, type_list< Done... > >
+         : filter< type_list< Rules... >, std::conditional_t< type_list_contains_v< Rule, Todo..., Done... >, type_list< Todo... >, type_list< Rule, Todo... > >, type_list< Done... > >
       {};
 
       template< typename Rules, typename Todo, typename Done >
@@ -68,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE
    using rule_list_t = typename internal::visit_list< empty_list, Grammar >::type;
 
    template< typename Grammar, typename Rule >
-   inline constexpr bool contains_v = internal::contains< Rule, rule_list_t< Grammar > >::value;
+   inline constexpr bool contains_v = type_list_contains< Rule, rule_list_t< Grammar > >::value;
 
    template< typename Rule, template< typename... > class Func, typename... Args >
    void visit( Args&&... args )

@@ -12,6 +12,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... >
    inline constexpr bool dependent_false = false;
 
+   template< char... >
+   inline constexpr bool char_dependent_false = false;
+
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

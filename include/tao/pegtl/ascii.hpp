@@ -23,6 +23,8 @@ namespace TAO_PEGTL_NAMESPACE
       struct any8 : internal::any< internal::peek_ascii8 > {};
       struct blank : internal::one< internal::peek_ascii8, ' ', '\t' > {};
       struct cntrl : internal::ranges< internal::peek_ascii8, static_cast< char >( 0 ), static_cast< char >( 31 ), static_cast< char >( 127 ) > {};
+      struct cr : internal::one< internal::peek_ascii8, '\r' > {};
+      struct crlf : internal::ascii_string< internal::identity_endian, '\r', '\n' > {};
       struct digit : internal::range< internal::peek_ascii8, '0', '9' > {};
       struct esc : internal::one< internal::peek_ascii8, static_cast< char >( 27 ) > {};
       struct ellipsis : internal::ascii_string< internal::identity_endian, '.', '.', '.' > {};
@@ -35,6 +37,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< char... Cs > struct ione : internal::ione< internal::peek_ascii8, Cs... > {};
       template< char... Cs > struct istring : internal::ascii_istring< internal::identity_endian, Cs... > {};
       template< char... Cs > struct keyword : internal::seq< internal::ascii_string< internal::identity_endian, Cs... >, internal::not_at< internal::identifier_other< internal::peek_ascii8 > > > { static_assert( sizeof...( Cs ) > 0 ); };
+      struct lf : internal::one< internal::peek_ascii8, '\n' > {};
       struct lower : internal::range< internal::peek_ascii8, 'a', 'z' > {};
       template< unsigned Count > struct many7 : internal::many< Count, internal::peek_ascii7 > {};
       template< unsigned Count > struct many8 : internal::many< Count, internal::peek_ascii8 > {};

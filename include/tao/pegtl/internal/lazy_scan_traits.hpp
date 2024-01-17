@@ -5,15 +5,17 @@
 #ifndef TAO_PEGTL_INTERNAL_LAZY_SCAN_TRAITS_HPP
 #define TAO_PEGTL_INTERNAL_LAZY_SCAN_TRAITS_HPP
 
+#include <cstddef>
+
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
-#include "char_eol_scan.hpp"
 #include "lazy_scan_input.hpp"
 #include "one.hpp"
+#include "scan_utility.hpp"
 #include "single.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -22,9 +24,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct lazy_scan_traits
    {
       template< typename Position, typename Data >
-      static void scan( Position& pos, const Data* data, const Data* dend )
+      static void scan( Position& pos, const Data* data, const std::size_t count )
       {
-         lazy_scan_input< Data > in( data, dend );
+         lazy_scan_input< Data > in( data, count );
 
          while( !in.empty() ) {
             if( normal< Eol >::template match< apply_mode::nothing, rewind_mode::required, nothing, normal >( in ) ) {
@@ -36,19 +38,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
                in.template consume< void >( 1 );
             }
          }
-         pos.count += dend - data;
+         pos.count += count;
       }
    };
 
    template< char Eol, typename Peek >
    struct lazy_scan_traits< single< one< Peek, Eol > > >
-   {
-      template< typename Position, typename Data >
-      static void scan( Position& pos, const Data* data, const Data* dend )
-      {
-         char_eol_scan< Eol >( pos, data, dend );
-      }
-   };
+      : scan_char_impl< Eol >
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

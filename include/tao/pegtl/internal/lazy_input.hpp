@@ -51,9 +51,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] auto previous_position( const rewind_position_t saved ) const
       {
          error_position_t pos;
-         const data_t* prev = this->previous( saved );
-         lazy_eol_scan< Eol >( pos, this->start(), prev );
-         pos.count = prev - this->start();
+         const std::size_t count = this->previous( saved ) - this->start();
+         lazy_eol_scan< Eol >( pos, this->start(), count );
+         pos.count = count;
          return pos;
       }
    };

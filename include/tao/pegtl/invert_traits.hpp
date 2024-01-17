@@ -16,6 +16,7 @@
 #include "internal/peek_ascii7.hpp"
 #include "internal/peek_ascii8.hpp"
 #include "internal/range.hpp"
+#include "internal/single.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

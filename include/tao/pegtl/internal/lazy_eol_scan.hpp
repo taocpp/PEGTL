@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_INTERNAL_LAZY_EOL_SCAN_HPP
 #define TAO_PEGTL_INTERNAL_LAZY_EOL_SCAN_HPP
 
+#include <cstddef>
+
 #include "../config.hpp"
 
 #include "lazy_scan_traits.hpp"
@@ -12,10 +14,9 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Eol, typename Position, typename Data >
-   void lazy_eol_scan( Position& pos, const Data* data, const Data* dend )
+   void lazy_eol_scan( Position& pos, const Data* data, const std::size_t count )
    {
-      using eol_rule = typename Eol::rule_t;
-      lazy_scan_traits< eol_rule >::scan( pos, data, dend );
+      lazy_scan_traits< typename Eol::rule_t >::scan( pos, data, count );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

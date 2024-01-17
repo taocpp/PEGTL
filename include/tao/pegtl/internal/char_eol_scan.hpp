@@ -5,17 +5,17 @@
 #ifndef TAO_PEGTL_INTERNAL_CHAR_EOL_SCAN_HPP
 #define TAO_PEGTL_INTERNAL_CHAR_EOL_SCAN_HPP
 
+#include <cstddef>
+
 #include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< char Eol, typename Position, typename Data >
-   void char_eol_scan( Position& pos, const Data* data, const Data* dend ) noexcept
+   void char_eol_scan( Position& pos, const Data* data, const std::size_t count ) noexcept
    {
-      pos.count += dend - data;
-
-      while( data < dend ) {
-         if( *data++ == Eol ) {
+      for( std::size_t i = 0; i < count; ++i ) {
+         if( data[ i ] == Eol ) {
             ++pos.line;
             pos.column = 1;
          }
@@ -23,6 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             ++pos.column;
          }
       }
+      pos.count += count;
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

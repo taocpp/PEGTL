@@ -16,7 +16,7 @@ namespace TAO_PEGTL_NAMESPACE
    void char_test( const std::string& str, const std::size_t line, const std::size_t column, const std::size_t count )
    {
       text_position pos;
-      internal::char_eol_scan< '\n' >( pos, str.data(), str.data() + str.size() );
+      internal::char_eol_scan< '\n' >( pos, str.data(), str.size() );
       TAO_PEGTL_TEST_ASSERT( test::equal( pos, line, column, count ) );
    }
 
@@ -24,6 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       char_test( "", 1, 1, 0 );
       char_test( " ", 1, 2, 1 );
+      char_test( "\r", 1, 2, 1 );
       char_test( "     ", 1, 6, 5 );
       char_test( "\n", 2, 1, 1 );
       char_test( " \n", 2, 1, 2 );

@@ -9,22 +9,73 @@
 #include "test_utility.hpp"
 
 #include <tao/pegtl/text_position.hpp>
+#include <tao/pegtl/internal/data_and_size.hpp>
+#include <tao/pegtl/internal/dependent_false.hpp>
 #include <tao/pegtl/internal/lazy_eol_scan.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
+   struct dummy_peek
+   {
+      using data_t = char;
+      using pair_t = internal::data_and_size< char, std::uint8_t >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static constexpr bool bulk() noexcept
+      {
+         static_assert( internal::dependent_false< ParseInput > );
+         return false;
+      }
+
+      template< typename ParseInput >
+      [[nodiscard]] static constexpr std::size_t size() noexcept
+      {
+         static_assert( internal::dependent_false< ParseInput > );
+         return 0;
+      }
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& /*unused*/, const std::size_t /*unused*/ = 0 ) noexcept
+      {
+         static_assert( internal::dependent_false< ParseInput > );
+         return pair_t( 0, 0 );
+      }
+   };
+
    template< typename Eol >
    void lazy_test( const std::string& str, const std::size_t line, const std::size_t column, const std::size_t count )
    {
       text_position pos;
-      internal::lazy_eol_scan< Eol >( pos, str.data(), str.data() + str.size() );
+      internal::lazy_eol_scan< Eol >( pos, str.data(), str.size() );
       TAO_PEGTL_TEST_ASSERT( test::equal( pos, line, column, count ) );
    }
 
    void unit_test()
    {
+      struct dummy_cr
+         : internal::single< internal::one< dummy_peek, '\r' > >
+      {};
+
+      lazy_test< dummy_cr >( "", 1, 1, 0 );
+      lazy_test< dummy_cr >( " ", 1, 2, 1 );
+      lazy_test< dummy_cr >( "\n", 1, 2, 1 );
+      lazy_test< dummy_cr >( "     ", 1, 6, 5 );
+      lazy_test< dummy_cr >( "\r", 2, 1, 1 );
+      lazy_test< dummy_cr >( " \r", 2, 1, 2 );
+      lazy_test< dummy_cr >( "   \r", 2, 1, 4 );
+      lazy_test< dummy_cr >( "\r ", 2, 2, 2 );
+      lazy_test< dummy_cr >( "   \r ", 2, 2, 5 );
+      lazy_test< dummy_cr >( "   \r   ", 2, 4, 7 );
+      lazy_test< dummy_cr >( "\r\r", 3, 1, 2 );
+      lazy_test< dummy_cr >( "\r \r", 3, 1, 3 );
+      lazy_test< dummy_cr >( " \r \r", 3, 1, 4 );
+      lazy_test< dummy_cr >( " \r \r ", 3, 2, 5 );
+      lazy_test< dummy_cr >( "   \r\r\r   \r\r\r", 7, 1, 12 );
+      lazy_test< dummy_cr >( "   \r\r\r   \r\r\r   ", 7, 4, 15 );
+
       lazy_test< eols::rule::lf >( "", 1, 1, 0 );
       lazy_test< eols::rule::lf >( " ", 1, 2, 1 );
+      lazy_test< eols::rule::lf >( "\r", 1, 2, 1 );
       lazy_test< eols::rule::lf >( "     ", 1, 6, 5 );
       lazy_test< eols::rule::lf >( "\n", 2, 1, 1 );
       lazy_test< eols::rule::lf >( " \n", 2, 1, 2 );

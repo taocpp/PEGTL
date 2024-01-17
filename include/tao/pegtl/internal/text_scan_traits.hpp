@@ -15,117 +15,79 @@
 #include "dependent_false.hpp"
 #include "eol.hpp"
 #include "eolf.hpp"
+#include "scan_utility.hpp"
 #include "single.hpp"
 #include "until.hpp"
 
-#include "char_eol_scan.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Eol, typename Rule, typename = void >
+   template< char Eol, typename Rule, typename = void >
    struct text_scan_traits;
 
-   template< typename Eol >
+   template< char Eol >
    struct text_scan_traits< Eol, void >
    {
-      static_assert( dependent_false< Eol > );
+      static_assert( char_dependent_false< Eol > );
    };
 
-   template< typename Eol >
+   template< char Eol >
    struct text_scan_traits< Eol, eol_exclude_tag >
-   {
-      template< typename Data, typename Position >
-      static void scan( Position& pos, const Data* /*unused*/, const std::size_t count ) noexcept
-      {
-         pos.column += count;
-         pos.count += count;
-      }
-   };
+      : scan_columns_impl
+   {};
 
-   // template< typename Eol >
-   // struct text_scan_traits< Eol, eol_matched_tag >
-   // {
-   //    template< typename Data, typename Position >
-   //    static void scan( Position& pos, const Data* /*unused*/, const std::size_t count ) noexcept
-   //    {
-   //       pos.line++;
-   //       pos.column = 1;
-   //       pos.count += count;
-   //    }
-   // };
-
-   template< typename Eol >
+   template< char Eol >
    struct text_scan_traits< Eol, eol_matched_tag >
-      : text_scan_traits< Eol, eol_unknown_tag >
+      : scan_nop_impl
    {};
 
-   template< typename Eol >
+   template< char Eol >
    struct text_scan_traits< Eol, eol_unknown_tag >
-   {
-      static_assert( Eol::eol_char > 0 );
-
-      template< typename Data, typename Position >
-      static void scan( Position& pos, const Data* data, const std::size_t count )
-      {
-         char_eol_scan< Eol::eol_char >( pos, data, data + count );
-      }
-   };
-
-   template< typename Eol, typename Rule >
-   struct text_scan_traits< Eol, single< Rule >, std::enable_if_t< Rule::test( typename Rule::data_t( Eol::eol_char ) ) > >
-      : text_scan_traits< Eol, eol_unknown_tag >
-   {
-      static_assert( Eol::eol_char > 0 );
-   };
-
-   template< typename Eol, typename Rule >
-   struct text_scan_traits< Eol, single< Rule >, std::enable_if_t< !Rule::test( typename Rule::data_t( Eol::eol_char ) ) > >
-      : text_scan_traits< Eol, eol_exclude_tag >
-   {
-      static_assert( Eol::eol_char > 0 );
-   };
-
-   template< typename Eol, typename Cond >
-   struct text_scan_traits< Eol, until< Cond > >
-      : text_scan_traits< Eol, eol_unknown_tag >
+      : scan_char_impl< Eol >
    {};
 
-   template< typename Eol >
+   template< char Eol, typename Peek >
+   struct text_scan_traits< Eol, single< one< Peek, Eol > > >
+      : scan_line_impl
+   {};
+
+   template< char Eol, typename Rule >
+   struct text_scan_traits< Eol, single< Rule >, std::enable_if_t< !Rule::test( typename Rule::data_t( Eol ) ) > >
+      : scan_columns_impl
+   {};
+
+   // TODO: direct_string...
+
+   template< char Eol, typename Cond >
+   struct text_scan_traits< Eol, until< Cond >, std::enable_if_t< !std::is_same_v< Cond, typename Cond::rule_t > > >
+      : text_scan_traits< Eol, until< typename Cond::rule_t > >
+   {};
+
+   template< char Eol >
    struct text_scan_traits< Eol, until< eol< void > > >
-      : text_scan_traits< Eol, eol_exclude_tag >
+      : scan_columns_impl
    {};
 
-   template< typename Eol >
+   template< char Eol >
    struct text_scan_traits< Eol, until< eolf< void > > >
-      : text_scan_traits< Eol, eol_exclude_tag >
+      : scan_columns_impl
    {};
 
-   template< typename Eol, typename Cond >
-   struct text_scan_traits< Eol, until< Cond >, std::enable_if_t< std::is_same_v< typename Eol::rule_t, typename Cond::rule_t > > >
-      : text_scan_traits< Eol, eol_exclude_tag >
-   {};
-
-   template< typename Eol, typename Rule >
-   struct text_scan_traits< Eol, until< single< Rule > >, std::enable_if_t< !Rule::test( typename Rule::data_t( Eol::eol_char ) ) > >
-      : text_scan_traits< Eol, eol_exclude_tag >
-   {
-      static_assert( Eol::eol_char > 0 );
-   };
-
-   template< typename Eol, typename Cond >
+   template< char Eol, typename Cond >
    struct text_scan_traits< Eol, until< at< Cond > > >
       : text_scan_traits< Eol, until< typename Cond::rule_t > >
    {};
 
-   template< typename Eol, typename Rule >
-   struct text_scan_traits< Eol, Rule, std::enable_if< !std::is_same_v< Rule, typename Rule::rule_t > > >
-      : text_scan_traits< Eol, typename Rule::rule_t >
+   template< char Eol, typename Peek >
+   struct text_scan_traits< Eol, until< single< one< Peek, Eol > > > >
+      : scan_columns_impl
    {};
 
-   template< typename Eol, typename Rule, typename >
+   template< char Eol, typename Rule, typename >
    struct text_scan_traits
-      : text_scan_traits< Eol, eol_unknown_tag >
-   {};
+      : scan_char_impl< Eol >
+   {
+      static_assert( std::is_same_v< Rule, typename Rule::rule_t > );
+   };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

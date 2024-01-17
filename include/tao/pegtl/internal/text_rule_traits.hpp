@@ -12,6 +12,7 @@
 #include "../tags.hpp"
 
 #include "dependent_false.hpp"
+#include "scan_utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -26,35 +27,22 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< typename Eol >
    struct text_rule_traits< Eol, eol_exclude_tag >
-   {
-      template< typename Data, typename Position >
-      static void scan( Position& pos, const Data* /*unused*/, const std::size_t count ) noexcept
-      {
-         pos.column += count;
-         pos.count += count;
-      }
-   };
+      : scan_columns_impl
+   {};
 
    template< typename Eol >
    struct text_rule_traits< Eol, eol_matched_tag >
-   {
-      template< typename Data, typename Position >
-      static void scan( Position& pos, const Data* /*unused*/, const std::size_t count ) noexcept
-      {
-         ++pos.line;
-         pos.column = 1;
-         pos.count += count;
-      }
-   };
+      : scan_line_impl
+   {};
 
    template< typename Eol >
    struct text_rule_traits< Eol, eol_unknown_tag >
-      : text_rule_traits< Eol, eol_exclude_tag >
+      : scan_columns_impl
    {};
 
    template< typename Eol, typename Rule, typename >
    struct text_rule_traits
-      : text_rule_traits< Eol, eol_exclude_tag >
+      : scan_columns_impl
    {};
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

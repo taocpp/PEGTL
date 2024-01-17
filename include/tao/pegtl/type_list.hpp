@@ -6,6 +6,7 @@
 #define TAO_PEGTL_TYPE_LIST_HPP
 
 #include <cstddef>
+#include <type_traits>
 
 #include "config.hpp"
 
@@ -41,6 +42,19 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename... Ts >
    using type_list_concat_t = typename type_list_concat< Ts... >::type;
+
+   template< typename Type, typename... Types >
+   inline constexpr bool type_list_contains_v = ( std::is_same_v< Type, Types > || ... );
+
+   template< typename Type, typename... Types >
+   struct type_list_contains
+      : std::bool_constant< type_list_contains_v< Type, Types... > >
+   {};
+
+   template< typename Type, typename... Types >
+   struct type_list_contains< Type, type_list< Types... > >
+      : type_list_contains< Type, Types... >
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
