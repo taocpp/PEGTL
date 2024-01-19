@@ -7,13 +7,13 @@
 
 #include "../config.hpp"
 
-#include "direct_string.hpp"
+#include "char_string.hpp"
 #include "unicode_to_utf8_string.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< char32_t... Cs >
-   using utf8_string = typename unicode_to_utf8_string< direct_string, Cs... >::type;
+   using utf8_string = typename unicode_to_utf8_string< char_string, Cs... >::type;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

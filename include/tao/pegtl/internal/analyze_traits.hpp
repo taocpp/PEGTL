@@ -49,8 +49,15 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits<>
    {};
 
-   template< typename Name, std::size_t Count >
-   struct analyze_traits< Name, internal::consume< Count > >
+   template< typename Name, char... Cs >
+   struct analyze_traits< Name, internal::char_string< Cs... > >
+      : analyze_any_traits<>
+   {
+      static_assert( sizeof...( Cs ) > 0 );
+   };
+
+   template< typename Name, std::size_t Count, typename Reference >
+   struct analyze_traits< Name, internal::consume< Count, Reference > >
       : std::conditional_t< ( Count > 0 ), analyze_any_traits<>, analyze_opt_traits<> >
    {};
 
@@ -94,7 +101,7 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_any_traits<>
    {};
 
-   // No general analyze_traits for internal::function<> for obvious reasons.
+   // No analyze_traits for internal::function<> for obvious reasons.
 
    template< typename Name, typename Rule, typename... Actions >
    struct analyze_traits< Name, internal::if_apply< Rule, Actions... > >
@@ -133,7 +140,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, typename Head, typename... Rules >
    struct analyze_traits< Name, internal::rematch< Head, Rules... > >
-      : analyze_traits< Name, typename internal::sor< Head, internal::sor< internal::seq< Rules, internal::consume< 1 > >... > >::rule_t >  // TODO: Correct (enough)?
+      : analyze_traits< Name, typename internal::sor< Head, internal::sor< internal::seq< Rules, internal::consume< 1, void > >... > >::rule_t >  // TODO: Correct (enough)?
    {};
 
    template< typename Name, unsigned Cnt, typename... Rules >
@@ -185,6 +192,13 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_traits< Name, internal::success >
       : analyze_opt_traits<>
    {};
+
+   template< typename Name, char32_t... Cs >
+   struct analyze_traits< Name, internal::unicode_string< Cs... > >
+      : analyze_any_traits<>
+   {
+      static_assert( sizeof...( Cs ) > 0 );
+   };
 
    template< typename Name, typename Cond >
    struct analyze_traits< Name, internal::until< Cond > >

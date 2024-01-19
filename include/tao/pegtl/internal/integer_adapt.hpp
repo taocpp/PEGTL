@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return result;
       }
       else {
-         static_assert( dependent_false< Data > );
+         static_assert( dependent_false< Type, Data > );
       }
    }
 

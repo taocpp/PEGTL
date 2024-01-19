@@ -8,10 +8,6 @@
 #include "../config.hpp"
 
 #include "has_eol_char.hpp"
-#include "has_eol_list.hpp"
-#include "has_eol_meta.hpp"
-#include "text_eol_list.hpp"
-#include "text_eol_meta.hpp"
 #include "text_eol_rule.hpp"
 #include "text_eol_scan.hpp"
 
@@ -22,12 +18,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       if constexpr( has_eol_char< Eol > ) {
          text_eol_scan< Eol, Rule >( pos, data, count );
-      }
-      else if constexpr( has_eol_list< Eol > ) {
-         text_eol_list< Eol, Rule >( pos, data, count );
-      }
-      else if constexpr( has_eol_meta< Eol > ) {
-         text_eol_meta< Eol, Rule >( pos, data, count );
       }
       else {
          text_eol_rule< Eol, Rule >( pos, data, count );

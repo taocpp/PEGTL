@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
 
       template< typename ParseInput >
-      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.empty() ) )
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 42 ) ) )
       {
          if( in.size( offset + 1 ) >= ( offset + 1 ) ) {
             const char32_t c0 = integer_adapt< std::uint8_t >( in.current( offset ) );

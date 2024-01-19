@@ -18,14 +18,6 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Rules >
-   struct sor;
-
-   template<>
-   struct sor<>
-      : failure
-   {};
-
-   template< typename... Rules >
    struct sor
    {
       using rule_t = sor;
@@ -58,6 +50,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return match< A, M, Action, Control >( std::index_sequence_for< Rules... >(), in, st... );
       }
    };
+
+   template<>
+   struct sor<>
+      : failure
+   {};
 
    template< typename... Rules >
    inline constexpr bool enable_control< sor< Rules... > > = false;

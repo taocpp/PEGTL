@@ -15,6 +15,7 @@
 #include <tao/pegtl/change_control.hpp>
 #include <tao/pegtl/change_state.hpp>
 #include <tao/pegtl/change_states.hpp>
+#include <tao/pegtl/combine_traits.hpp>
 #include <tao/pegtl/config.hpp>
 #include <tao/pegtl/control_action.hpp>
 #include <tao/pegtl/count_position.hpp>
@@ -57,6 +58,7 @@
 #include <tao/pegtl/uint32.hpp>
 #include <tao/pegtl/uint64.hpp>
 #include <tao/pegtl/uint8.hpp>
+#include <tao/pegtl/unicode.hpp>
 #include <tao/pegtl/utf16.hpp>
 #include <tao/pegtl/utf32.hpp>
 #include <tao/pegtl/utf8.hpp>

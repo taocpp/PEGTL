@@ -6,7 +6,7 @@
 #define TAO_PEGTL_INTERNAL_IF_APPLY_HPP
 
 #include "action_input.hpp"
-#include "apply_single.hpp"
+#include "apply_impl.hpp"
 #include "enable_control.hpp"
 
 #include "../apply_mode.hpp"
@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             auto m = in.template make_rewind_guard< rewind_mode::required >();
             if( Control< Rule >::template match< apply_mode::action, rewind_mode::optional, Action, Control >( in, st... ) ) {
                const action_input< ParseInput > i2( m.rewind_position(), in );
-               return m( ( apply_single< Actions >::match( i2, st... ) && ... ) );
+               return m( ( apply_impl< Actions >::match( i2, st... ) && ... ) );
             }
             return false;
          }

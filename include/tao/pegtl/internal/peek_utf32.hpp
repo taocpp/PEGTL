@@ -52,6 +52,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
    using peek_utf32_be = peek_utf32_impl< big_endian >;
    using peek_utf32_le = peek_utf32_impl< little_endian >;
 
+   using peek_utf32 = TAO_PEGTL_ENDIAN_SUFFIXED( peek_utf32_ );
+
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

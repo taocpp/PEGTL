@@ -16,14 +16,6 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Rules >
-   struct seq;
-
-   template<>
-   struct seq<>
-      : success
-   {};
-
-   template< typename... Rules >
    struct seq
    {
       using rule_t = seq;
@@ -48,6 +40,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
       }
    };
+
+   template<>
+   struct seq<>
+      : success
+   {};
 
    template< typename... Rules >
    inline constexpr bool enable_control< seq< Rules... > > = false;

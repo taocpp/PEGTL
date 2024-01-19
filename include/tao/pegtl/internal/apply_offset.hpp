@@ -21,7 +21,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename T >
    void apply_offset( type_identity_t< T >& position, const T& offset ) noexcept
    {
-      position = offset + position;  // This operator+ is NOT always commutative!
+      // For positions, operator+ is NOT always commutative!
+      // We need offset + position instead of the reverse due
+      // to the offset being considered the starting position
+      // of a parsing run (should it be named differently?)
+      position = offset + position;
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

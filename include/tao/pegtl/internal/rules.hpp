@@ -16,7 +16,7 @@
 #include "bol.hpp"
 #include "consume.hpp"
 #include "control.hpp"
-#include "direct_string.hpp"
+#include "char_string.hpp"
 #include "disable.hpp"
 #include "enable.hpp"
 #include "eof.hpp"
@@ -61,6 +61,7 @@
 #include "state.hpp"
 #include "strict.hpp"
 #include "success.hpp"
+#include "unicode_string.hpp"
 #include "until.hpp"
 #include "utf8_string.hpp"
 

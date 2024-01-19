@@ -6,7 +6,7 @@
 #define TAO_PEGTL_INTERNAL_APPLY_HPP
 
 #include "action_input.hpp"
-#include "apply_single.hpp"
+#include "apply_impl.hpp"
 #include "enable_control.hpp"
 
 #include "../apply_mode.hpp"
@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) > 0 ) ) {
             const action_input< ParseInput > i2( in.rewind_position(), in );  // No data -- range is from begin to begin.
-            return ( apply_single< Actions >::match( i2, st... ) && ... );
+            return ( apply_impl< Actions >::match( i2, st... ) && ... );
          }
          else {
 #if defined( _MSC_VER )

@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Data >
    [[nodiscard]] bool operator==( const pointer_position< Data > l, const pointer_position< Data > r ) noexcept
    {
-      return l.current == r.current;
+      return l.data == r.data;
    }
 
    template< typename Data >

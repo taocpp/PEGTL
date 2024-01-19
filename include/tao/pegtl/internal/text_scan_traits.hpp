@@ -11,8 +11,10 @@
 #include "../config.hpp"
 #include "../tags.hpp"
 
+#include "ascii_multiple.hpp"
 #include "at.hpp"
 #include "dependent_false.hpp"
+#include "char_string.hpp"
 #include "eol.hpp"
 #include "eolf.hpp"
 #include "scan_utility.hpp"
@@ -55,7 +57,15 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : scan_columns_impl
    {};
 
-   // TODO: direct_string...
+   template< char Eol, char... Cs >
+   struct text_scan_traits< Eol, char_string< Cs... >, std::enable_if_t< ( ( Eol != Cs ) && ... ) > >
+      : scan_columns_impl
+   {};
+
+   template< char Eol, template< typename Endian, char... Cs > class String, typename Endian, char... Cs >
+   struct text_scan_traits< Eol, ascii_multiple< String< Endian, Cs... > >, std::enable_if_t< ( ( Eol != Cs ) && ... ) > >
+      : scan_columns_impl
+   {};
 
    template< char Eol, typename Cond >
    struct text_scan_traits< Eol, until< Cond >, std::enable_if_t< !std::is_same_v< Cond, typename Cond::rule_t > > >

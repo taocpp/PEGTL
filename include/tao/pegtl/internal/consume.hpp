@@ -6,18 +6,19 @@
 #define TAO_PEGTL_INTERNAL_CONSUME_HPP
 
 #include <cstddef>
+#include <type_traits>
 
 #include "../config.hpp"
 #include "../tags.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
+#include "math_utility.hpp"
 #include "success.hpp"
-#include "utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< std::size_t Count, typename Reference = void >
+   template< std::size_t Count, typename Reference, typename = void >
    struct consume
    {
       using rule_t = consume;
@@ -37,12 +38,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Reference >
-   struct consume< 0, Reference >
+   struct consume< 0, Reference, void >
       : success
    {};
 
    template< std::size_t Count >
-   struct consume< Count, void >
+   struct consume< Count, void, std::enable_if_t< ( Count > 0 ) > >
    {
       using rule_t = consume;
       using subs_t = empty_list;

@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_APPLY_SINGLE_HPP
-#define TAO_PEGTL_INTERNAL_APPLY_SINGLE_HPP
+#ifndef TAO_PEGTL_INTERNAL_APPLY_IMPL_HPP
+#define TAO_PEGTL_INTERNAL_APPLY_IMPL_HPP
 
 #include <type_traits>
 
@@ -12,7 +12,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Action >
-   struct apply_single
+   struct apply_impl
    {
       template< typename ActionInput, typename... States >
       [[nodiscard]] static auto match( const ActionInput& in, States&&... st ) noexcept( noexcept( Action::apply( in, st... ) ) )

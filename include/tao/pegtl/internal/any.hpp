@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] static constexpr bool test( const data_t /*unused*/ ) noexcept
       {
-         return true;
+         return true;  // TODO: Is it a problem that this is only true for values that Peek can return?
       }
 
       template< typename ParseInput >

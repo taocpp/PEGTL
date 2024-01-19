@@ -8,6 +8,7 @@
 #include "../config.hpp"
 
 #include "ascii_multiple.hpp"
+#include "ascii_utility.hpp"
 #include "enable_control.hpp"
 #include "one.hpp"
 #include "peek_ascii8.hpp"

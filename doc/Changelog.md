@@ -6,6 +6,7 @@
 
 * Use the [**migration guide**](Migration-Guide.md#version-400) when updating.
 * Switched to Boost Software License, Version 1.0.
+* Moar templates, moar meta-programming, moar compile time (oops).
 * Added [control function](Control-and-Debug.md) to throw nested exceptions.
 * Changed `parse_error` to contain only one `position`, and:
 * Changed to **nested exceptions** for nested [parsing errors](Errors-and-Exceptions.md).
@@ -42,6 +43,7 @@
 * Renamed contrib "limit_depth" functionality to "check_depth".
 * Renamed contrib "check_bytes" functionality to "check_count".
 * Renamed contrib "limit_bytes" functionality to "limit_count".
+* Removed rule `forty_two`, we apologize for any inconvenience.
 * Removed rule `bytes` and replaced with `many` for different data types.
 * Removed support for `boost::filesystem` and `std::experimental::filesystem`.
 * Removed support for building an amalgamated header.

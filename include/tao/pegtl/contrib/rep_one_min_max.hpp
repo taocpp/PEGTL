@@ -56,6 +56,8 @@ namespace TAO_PEGTL_NAMESPACE
          using rule_t = rep_one_min_max;
          using subs_t = empty_list;
 
+         static_assert( 0 < Max );
+
          [[nodiscard]] static constexpr bool test( const char c ) noexcept
          {
             return C == c;

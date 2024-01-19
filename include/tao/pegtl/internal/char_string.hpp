@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_DIRECT_STRING_HPP
-#define TAO_PEGTL_INTERNAL_DIRECT_STRING_HPP
+#ifndef TAO_PEGTL_INTERNAL_CHAR_STRING_HPP
+#define TAO_PEGTL_INTERNAL_CHAR_STRING_HPP
 
 #include <cstring>
 #include <type_traits>
@@ -18,16 +18,18 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   [[nodiscard]] inline bool direct_string_equal( const void* s, const std::initializer_list< char >& l ) noexcept
+   [[nodiscard]] inline bool char_string_equal( const void* s, const std::initializer_list< char >& l ) noexcept
    {
       return std::memcmp( s, l.begin(), l.size() ) == 0;
    }
 
    template< char... Cs >
-   struct direct_string
+   struct char_string
    {
-      using rule_t = direct_string;
+      using rule_t = char_string;
       using subs_t = empty_list;
+
+      static_assert( sizeof...( Cs ) > 0 );
 
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
@@ -36,8 +38,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
          static_assert( sizeof( data_t ) == 1 );
          static_assert( std::is_integral_v< data_t > || std::is_enum_v< data_t > );
          if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
-            if( direct_string_equal( in.current(), { Cs... } ) ) {
-               in.template consume< direct_string >( sizeof...( Cs ) );
+            if( char_string_equal( in.current(), { Cs... } ) ) {
+               in.template consume< char_string >( sizeof...( Cs ) );
                return true;
             }
          }
@@ -46,17 +48,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< char C >
-   struct direct_string< C >
+   struct char_string< C >
       : one< peek_char, C >
    {};
 
    template<>
-   struct direct_string<>
+   struct char_string<>
       : success
    {};
 
    template< char... Cs >
-   inline constexpr bool enable_control< direct_string< Cs... > > = false;
+   inline constexpr bool enable_control< char_string< Cs... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
