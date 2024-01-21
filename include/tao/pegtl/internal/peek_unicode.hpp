@@ -30,9 +30,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return false;
       }
 
-      // template< typename ParseInput >
-      // [[nodiscard]] static constexpr std::size_t size() noexcept
-
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 4 ) ) )
       {

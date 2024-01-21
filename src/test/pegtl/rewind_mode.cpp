@@ -5,7 +5,7 @@
 #include <type_traits>
 
 #include "test.hpp"
-#include <tao/pegtl/internal/enum_invert_bool.hpp>
+
 #include <tao/pegtl/rewind_mode.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
@@ -15,9 +15,6 @@ namespace TAO_PEGTL_NAMESPACE
       static_assert( std::is_same_v< std::underlying_type_t< rewind_mode >, bool > );
 
       static_assert( rewind_mode::optional != rewind_mode::required );
-
-      static_assert( internal::enum_invert_bool( rewind_mode::optional ) == rewind_mode::required );
-      static_assert( internal::enum_invert_bool( rewind_mode::required ) == rewind_mode::optional );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
