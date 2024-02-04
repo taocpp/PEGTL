@@ -5,50 +5,88 @@
 **Not yet released**
 
 * Use the [**migration guide**](Migration-Guide.md#version-400) when updating.
-* Switched to Boost Software License, Version 1.0.
-* Moar templates, moar meta-programming, moar compile time (oops).
-* Added [control function](Control-and-Debug.md) to throw nested exceptions.
-* Changed `parse_error` to contain only one `position`, and:
-* Changed to **nested exceptions** for nested [parsing errors](Errors-and-Exceptions.md).
-* Removed `action_t` type alias from all input classes in favour of using `internal::action_input`.
-* Added functions to visit and flatten [nested exceptions](Contrib-and-Examples.md#taopegtlcontribnested_exceptionshpp).
-* Added new customization point for error messages.
-* Added optional source line output for the tracer.
-* Added new ASCII rules [`cntrl`](Rule-Reference.md#cntrl), [`cr`](Rule-Reference.md#cr), [`crlf`](Rule-Reference.md#crlf), [`esc`](Rule-Reference.md#esc), [`ff`](Rule-Reference.md#ff), [`graph`](Rule-Reference.md#graph), [`ht`](Rule-Reference.md#ht), [`lf`](Rule-Reference.md#lf), [`lfcr`](Rule-Reference.md#lfcr), [`sp`](Rule-Reference.md#sp), [`vt`](Rule-Reference.md#vt).
-* Added new atomic rule [`consume`](Rule-Reference.md#consume-count-).
-* Added new atomic rule [`everything`](Rule-Reference.md#everything).
-* Added new rule [`invert`](Rule-Reference.md#invert-r-) to convert between `one` and `not_one` etc.
-* Added new rule [`is_buffer`](Rule-Reference.md#is_buffer) to allow grammars to change when using a buffer input.
-* Added new convenience rule [`partial`](Rule-Reference.md#partial-r-).
-* Added new convenience rule [`star_partial`](Rule-Reference.md#star_partial-r-).
-* Added new convenience rule [`strict`](Rule-Reference.md#strict-r-).
-* Added new convenience rule [`star_strict`](Rule-Reference.md#star_strict-r-).
-* Added rule [`try_catch_any_return_false`](Rule-Reference.md#try_catch_any_return_false-r-).
-* Renamed rule `try_catch` to [`try_catch_return_false`](Rule-Reference.md#try_catch_return_false-r-).
-* Added rule [`try_catch_std_return_false`](Rule-Reference.md#try_catch_std_return_false-r-).
-* Renamed rule `try_catch_type` to [`try_catch_type_return_false`](Rule-Reference.md#try_catch_type_return_false-e-r-).
-* Added rule [`try_catch_any_raise_nested`](Rule-Reference.md#try_catch_any_raise_nested-r-).
-* Added rule [`try_catch_raise_nested`](Rule-Reference.md#try_catch_raise_nested-r-).
-* Added rule [`try_catch_std_raise_nested`](Rule-Reference.md#try_catch_std_raise_nested-r-).
-* Added rule [`try_catch_type_raise_nested`](Rule-Reference.md#try_catch_type_raise_nested-e-r-).
-* Added rules for matching signed integers mirroring the existing ones for unsigned integers.
-* Moved depth counter to adapter class `input_with_depth` in [contrib](Contrib-and-Examples#contrib).
-* Changed default top-level `rewind_mode` to ~~`dontcare`~~ `optional`.
-* Replaced `rewind_mode` values `dontcare` and `active` with new value `optional`.
-* Moved `line_at()` from input member function to global function `line_view_at()`.
-* Moved `begin_of_line()` from input member function to global function of same name.
-* Moved `end_of_line()` from input member function to global function of same name.
-* Makefile generates binaries in `build/bin/` instead of `build/src/`.
-* Makefile generates dependencies in `build/dep/` instead of `build/src/`.
-* Renamed contrib "limit_depth" functionality to "check_depth".
-* Renamed contrib "check_bytes" functionality to "check_count".
-* Renamed contrib "limit_bytes" functionality to "limit_count".
-* Removed rule `forty_two`, we apologize for any inconvenience.
-* Removed rule `bytes` and replaced with `many` for different data types.
-* Removed support for `boost::filesystem` and `std::experimental::filesystem`.
-* Removed support for building an amalgamated header.
-* Removed support for Visual Studio 2017.
-* Removed support for GCC 7 and GCC 8.
+* Infrastructure
+  * Switched to Boost Software License, Version 1.0.
+  * Makefile generates binaries in `build/bin/` instead of `build/src/`.
+  * Makefile generates dependencies in `build/dep/` instead of `build/src/`.
+  * Several headers were moved from `contrib/` to the main PEGTL include folder.
+  * The ICU rules were moved from `contrib/icu/` to the main PEGTL include folder.
+  * Not all headers in `include/tao/pegtl/` are included by `<tao/pegtl.hpp>`.
+* Exceptions
+  * Changed `parse_error` to contain only one `position`.
+  * Changed `parse_error` to be templated over the position type.
+  * Added `parse_error_base` as non-templated base class of `parse_error`.
+  * Changed to **nested exceptions** for nested [parsing errors](Errors-and-Exceptions.md).
+  * Added [control function](Control-and-Debug.md) to throw nested exceptions.
+  * Changed `parse_nested()` to throw a nested exception instead of adding a position to the current one.
+  * Added functions to visit and flatten [nested exceptions](Contrib-and-Examples.md#taopegtlcontribnested_exceptionshpp).
+* Inputs
+  * The input classes have been heavily refactored.
+  * Most input classes can use any data type instead of just `char`.
+  * The end-of-line handling has been heavily refactored.
+  * Choice of statically or dynamically allocated buffer inputs.
+  * Everything related to buffered inputs is now in `include/tao/buffer/`.
+  * Nothing related to buffered inputs is now included in `<tao/pegtl.hpp>`.
+  * Removed `action_t` type alias from all input classes in favour of using `internal::action_input`.
+* Rule Changes
+  * Added Unicode rules that adapt to the input's data size.
+  * Changed the ASCII rules to adapt to the input's data size.
+  * Changed the integer rules to adapt to the input's data size.
+  * Added special end-of-line rules in `tao::pegtl::eols`.
+  * Added new ASCII rule [`cntrl`](Rule-Reference.md#cntrl).
+  * Added new ASCII rule [`cr`](Rule-Reference.md#cr).
+  * Added new ASCII rule [`crlf`](Rule-Reference.md#crlf).
+  * Added new ASCII rule [`esc`](Rule-Reference.md#esc).
+  * Added new ASCII rule [`ff`](Rule-Reference.md#ff).
+  * Added new ASCII rule [`graph`](Rule-Reference.md#graph).
+  * Added new ASCII rule [`ht`](Rule-Reference.md#ht).
+  * Added new ASCII rule [`ione`](Rule-Reference.md#ht).
+  * Added new ASCII rule [`lf`](Rule-Reference.md#lf).
+  * Added new ASCII rule [`lfcr`](Rule-Reference.md#lfcr).
+  * Added new ASCII rule [`not_ione`](Rule-Reference.md#ht).
+  * Added new ASCII rule [`sp`](Rule-Reference.md#sp).
+  * Added new ASCII rule [`vt`](Rule-Reference.md#vt).
+  * Added new ASCII rules that only match in the range 0 to 127.
+  * Added new atomic rule [`consume`](Rule-Reference.md#consume-count-).
+  * Added new atomic rule [`everything`](Rule-Reference.md#everything).
+  * Added new generic rule [`combine`](Rule-Reference.md#combine-r-l-).
+  * Added new generic rule [`invert`](Rule-Reference.md#invert-r-).
+  * Added new generic rule [`function`](Rule-Reference.md#function).
+  * Added new buffer rule [`is_buffer`](Rule-Reference.md#is_buffer).
+  * Added new convenience rule [`partial`](Rule-Reference.md#partial-r-).
+  * Added new convenience rule [`star_partial`](Rule-Reference.md#star_partial-r-).
+  * Added new convenience rule [`strict`](Rule-Reference.md#strict-r-).
+  * Added new convenience rule [`star_strict`](Rule-Reference.md#star_strict-r-).
+  * Added rule [`try_catch_any_return_false`](Rule-Reference.md#try_catch_any_return_false-r-).
+  * Renamed rule `try_catch` to [`try_catch_return_false`](Rule-Reference.md#try_catch_return_false-r-).
+  * Added rule [`try_catch_std_return_false`](Rule-Reference.md#try_catch_std_return_false-r-).
+  * Renamed rule `try_catch_type` to [`try_catch_type_return_false`](Rule-Reference.md#try_catch_type_return_false-e-r-).
+  * Added rule [`try_catch_any_raise_nested`](Rule-Reference.md#try_catch_any_raise_nested-r-).
+  * Added rule [`try_catch_raise_nested`](Rule-Reference.md#try_catch_raise_nested-r-).
+  * Added rule [`try_catch_std_raise_nested`](Rule-Reference.md#try_catch_std_raise_nested-r-).
+  * Added rule [`try_catch_type_raise_nested`](Rule-Reference.md#try_catch_type_raise_nested-e-r-).
+  * Added rules for matching signed integers mirroring the existing ones for unsigned integers.
+  * Optimised `utf8::string` by expanding code points to UTF-8 sequences at compile time.
+  * Refactored the implementation of `one`, `range`, `ranges`, `not_one` and `not_range`.
+* Added new customization point for error messages.  -- TODO!
+* Added optional source line output for the tracer.  -- TODO?
+* Other
+  * Renamed contrib "limit_depth" functionality to "check_depth".
+  * Renamed contrib "check_bytes" functionality to "check_count".
+  * Renamed contrib "limit_bytes" functionality to "limit_count".
+  * Moved depth counter to adapter class `input_with_depth` in [contrib](Contrib-and-Examples#contrib).
+  * Changed default top-level `rewind_mode` to ~~`dontcare`~~ `optional`.
+  * Merged `rewind_mode` values `dontcare` and `active` into new value `optional`.
+  * Moved `line_at()` from input member function to global function `line_view_at()`.
+  * Moved `begin_of_line()` from input member function to global function of same name.
+  * Moved `end_of_line()` from input member function to global function of same name.
+* Cleanup
+  * Removed rule `forty_two`, we apologize for any inconvenience.
+  * Removed rule `bytes` and replaced with `many` for different data types.
+  * Removed support for `boost::filesystem` and `std::experimental::filesystem`.
+  * Removed support for building an amalgamated header.
+  * Removed support for Visual Studio 2017.
+  * Removed support for GCC 7 and GCC 8.
 
 ## 3.2.7
 

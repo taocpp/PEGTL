@@ -15,7 +15,6 @@
 #include <tao/pegtl/change_control.hpp>
 #include <tao/pegtl/change_state.hpp>
 #include <tao/pegtl/change_states.hpp>
-#include <tao/pegtl/combine_traits.hpp>
 #include <tao/pegtl/config.hpp>
 #include <tao/pegtl/control_action.hpp>
 #include <tao/pegtl/count_position.hpp>
@@ -30,7 +29,6 @@
 #include <tao/pegtl/int32.hpp>
 #include <tao/pegtl/int64.hpp>
 #include <tao/pegtl/int8.hpp>
-#include <tao/pegtl/invert_traits.hpp>
 #include <tao/pegtl/line_view_at.hpp>
 #include <tao/pegtl/match.hpp>
 #include <tao/pegtl/member.hpp>

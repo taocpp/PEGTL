@@ -7,11 +7,11 @@
 
 #include <cstddef>
 
-#include "combine_traits.hpp"
 #include "config.hpp"
-#include "invert_traits.hpp"
 #include "parse_error.hpp"
 
+#include "internal/combine_traits.hpp"
+#include "internal/invert_traits.hpp"
 #include "internal/rules.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Rules > struct at : internal::at< Rules... > {};
    struct bof : internal::bof {};
    struct bol : internal::bol {};
-   template< typename Left, typename Right > struct combine : combine_traits< typename Left::rule_t, typename Right::rule_t >::rule_t {};
+   template< typename Left, typename Right > struct combine : internal::combine_traits< typename Left::rule_t, typename Right::rule_t >::rule_t {};
    template< std::size_t Count > struct consume : internal::consume< Count, void > {};
    template< template< typename... > class Control, typename... Rules > struct control : internal::control< Control, Rules... > {};
    template< typename... Rules > struct disable : internal::disable< Rules... > {};
@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< auto Function, typename Peek = void > struct function : internal::function< decltype( Function ), Function, Peek > {};
    template< typename Rule, typename... Actions > struct if_apply : internal::if_apply< Rule, Actions... > {};
    template< typename Cond, typename Then, typename Else > struct if_then_else : internal::if_then_else< Cond, Then, Else > {};
-   template< typename Rule > struct invert : invert_traits< typename Rule::rule_t >::rule_t {};
+   template< typename Rule > struct invert : internal::invert_traits< typename Rule::rule_t >::rule_t {};
    template< typename Rule, typename Sep, typename Pad = void > struct list : internal::list< Rule, internal::pad< Sep, Pad > > {};
    template< typename Rule, typename Sep > struct list< Rule, Sep, void > : internal::list< Rule, Sep > {};
    template< typename Rule, typename Sep, typename Pad = void > struct list_tail : internal::list_tail_pad< Rule, Sep, Pad > {};

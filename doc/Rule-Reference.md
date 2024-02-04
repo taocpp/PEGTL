@@ -2,17 +2,19 @@
 
 This page contains brief descriptions of all PEGTL rule and combinator classes.
 
+## Failure Modes
+
 The information about how much input is consumed by the rules only applies when the rules succeed.
 Otherwise there are two failure modes with different requirements.
 
 - *Local failure* is when a rule returns `false` and the rule **must** generally rewind the input to where its match attempt started.
-- *Global failure* is when a rule throws an exception (usually of type `tao::parse_error`)(usually via the control-class' `raise()` function).
+- *Global failure* is when a rule throws an exception (usually of type `tao::pegtl::parse_error`)(usually via the control-class' `raise()` function).
 
 Since an exception, by default, aborts a parsing run -- hence the term "global failure" -- there are no assumptions or requirements for the throwing rule to rewind the input.
 
 On the other hand a local failure will frequently lead to back-tracking, i.e. the attempt to match a different rule at the same position in the input, wherefore rules that were previously attempted at the same position must rewind back to where they started in preparation of the next attempt.
 
-Note that in some cases it is not necessary to actually rewind on local failure, see the description of the [rewind_mode](Rules-and-Grammars.md#modes) in the section on [how to implement custom rules](Rules-and-Grammars.md#creating-new-rules).
+Note that in some cases it is not necessary to actually rewind on local failure, see the description of the [rewind_mode](Rules-and-Grammars.md#modes) in the section on [how to implement custom rules](Rules-and-Grammars.md#creating-new-rules), and that the PEGTL attempts to minimise superfluous rewinding by statically detecting most of these cases.
 
 ## Equivalence
 
@@ -47,7 +49,10 @@ When at least one parameter is given, i.e. `seq< A >` or `seq< A, B, C >`, `R` i
   * [ICU Rules for Binary Properties](#icu-rules-for-binary-properties)
   * [ICU Rules for Enumerated Properties](#icu-rules-for-enumerated-properties)
   * [ICU Rules for Value Properties](#icu-rules-for-value-properties)
+* [Buffer Rules](#buffer-rules)
 * [Binary Rules](#binary-rules)
+* [Advanced Rules](#advanced-rules)
+* [Exception Rules](#exception-rules)
 * [Full Index](#full-index)
 
 ## Meta Rules
@@ -88,15 +93,6 @@ These rules are in namespace `tao::pegtl`.
   - `disable< R... >::rule_t` is `internal::disable< internal::seq< R... > >`
   - `disable< R... >::subs_t` is `type_list< internal::seq< R... > >`
 
-###### `discard`
-
-* [Equivalent] to `success`, but:
-* Calls the input's `discard()` member function.
-* Must not be used where backtracking to before the `discard` might occur and/or nested within a rule for which an action with input can be called.
-* See [Incremental Input] for details.
-* [Meta data] and [implementation] mapping:
-  - `discard::rule_t` is `internal::discard`
-
 ###### `enable< R... >`
 
 * [Equivalent] to `seq< R... >`, but:
@@ -107,14 +103,6 @@ These rules are in namespace `tao::pegtl`.
   - `enable< R >::subs_t` is `type_list< R >`
   - `enable< R... >::rule_t` is `internal::enable< internal::seq< R... > >`
   - `enable< R... >::subs_t` is `type_list< internal::seq< R... > >`
-
-###### `require< Num >`
-
-* Succeeds if at least `Num` further input bytes are available.
-* With [Incremental Input] reads the bytes into the buffer.
-* [Meta data] and [implementation] mapping:
-  - `require< 0 >::rule_t` is `internal::success`
-  - `require< N >::rule_t` is `internal::require< N >`
 
 ###### `state< S, R... >`
 
@@ -234,27 +222,6 @@ equivalent implementation with classical PEG combinators.
 
 These rules are in namespace `tao::pegtl`.
 
-###### `if_must< R, S... >`
-
-* Attempts to match `R` and depending on the result proceeds with either `must< S... >` or `failure`.
-* [Equivalent] to `seq< R, must< S... > >`.
-* [Equivalent] to `if_then_else< R, must< S... >, failure >`.
-* [Meta data] and [implementation] mapping:
-  - `if_must< R >::rule_t` is `internal::if_must< false, R >`
-  - `if_must< R >::subs_t` is `type_list< R >`
-  - `if_must< R, S... >::rule_t` is `internal::if_must< false, R, S... >`
-  - `if_must< R, S... >::subs_t` is `type_list< R, internal::must< S... > >`
-
-Note that the `false` template parameter to `internal::if_must` corresponds to the `failure` in the equivalent description using `if_then_else`.
-
-###### `if_must_else< R, S, T >`
-
-* Attempts to match `R` and depending on the result proceeds with either `must< S >` or `must< T >`.
-* [Equivalent] to `if_then_else< R, must< S >, must< T > >`.
-* [Meta data] and [implementation] mapping:
-  - `if_must_else< R, S, T >::rule_t` is `internal::if_then_else< R, internal::must< S >, internal::must< T > >`
-  - `if_must_else< R, S, T >::subs_t` is `type_list< R, internal::must< S >, internal::must< T > >`
-
 ###### `if_then_else< R, S, T >`
 
 * [Equivalent] to `sor< seq< R, S >, seq< not_at< R >, T > >`.
@@ -277,24 +244,6 @@ Note that the `false` template parameter to `internal::if_must` corresponds to t
 * [Meta data] and [implementation] mapping:
   - `list< R, S, P >::rule_t` is `internal::seq< R, internal::star< internal::pad< S, P >, R > >`
   - `list< R, S, P >::subs_t` is `type_list< R, internal::star< internal::pad< S, P >, R > >`
-
-###### `list_must< R, S >`
-
-* Matches a non-empty list of `R` separated by `S`.
-* Similar to `list< R, S >`, but if there is an `S` it **must** be followed by an `R`.
-* [Equivalent] to `seq< R, star< if_must< S, R > > >`.
-* [Meta data] and [implementation] mapping:
-  - `list_must< R, S >::rule_t` is `internal::seq< R, internal::star< S, internal::must< R > > >`
-  - `list_must< R, S >::subs_t` is `type_list< R, internal::star< S, internal::must< R > > >`
-
-###### `list_must< R, S, P >`
-
-* Matches a non-empty list of `R` separated by `S` where each `S` can be padded by `P`.
-* Similar to `list< R, S, P >`, but if there is an `S` it **must** be followed by an `R`.
-* [Equivalent] to `seq< R, star< if_must< pad< S, P >, R > > >`.
-* [Meta data] and [implementation] mapping:
-  - `list_must< R, S, P >::rule_t` is `internal::seq< R, internal::star< internal::pad< S, P >, internal::must< R > > >`
-  - `list_must< R, S, P >::subs_t` is `type_list< R, internal::star< internal::pad< S, P >, internal::must< R > > >`
 
 ###### `list_tail< R, S >`
 
@@ -322,32 +271,7 @@ Note that the `false` template parameter to `internal::if_must` corresponds to t
   - `minus< M, S >::rule_t` is `internal::rematch< M, internal::not_at< S, internal::eof > >`
   - `minus< M, S >::subs_t` is `type_list< M, internal::not_at< S, internal::eof > >`
 
-###### `must< R... >`
-
-* [Equivalent] to `seq< R... >`, but:
-* Converts local failure of `R...` into global failure.
-* Calls `raise< R >` for the `R` that failed.
-* [Equivalent] to `seq< sor< R, raise< R > >... >`.
-* [Meta data] and [implementation] mapping:
-  - `must<>::rule_t` is `internal::success`
-  - `must< R >::rule_t` is `internal::must< R >`
-  - `must< R >::subs_t` is `type_list< R >`
-  - `must< R... >::rule_t` is `internal::seq< internal::must< R >... >::rule_t`
-  - `must< R... >::subs_t` is `type_list< internal::must< R... > >`
-
-Note that `must` uses a different pattern to handle multiple sub-rules compared to the other `seq`-equivalent rules (which use `rule< seq< R... > >` rather than `seq< rule< R >... >`).
-
-###### `opt_must< R, S... >`
-
-* [Equivalent] to `opt< if_must< R, S... > >`.
-* [Equivalent] to `if_then_else< R, must< S... >, success >`.
-* [Meta data] and [implementation] mapping:
-  - `opt_must< R >::rule_t` is `internal::if_must< true, R >`
-  - `opt_must< R >::subs_t` is `type_list< R >`
-  - `opt_must< R, S... >::rule_t` is `internal::if_must< true, R, S... >`
-  - `opt_must< R, S... >::subs_t` is `type_list< R, internal::must< S... > >`
-
-Note that the `true` template parameter to `internal::if_must` corresponds to the `success` in the equivalent description using `if_then_else`.
+Note that `S` is ignored in the grammar analysis.
 
 ###### `pad< R, S, T = S >`
 
@@ -388,6 +312,8 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
   - `rematch< R, S... >::subs_t` is `type_list< R, S... >`
 
 Note that the `S` do *not* need to match *all* of the input matched by `R` (which is why `minus` uses `eof` in its implementation).
+
+Note that the `S...` are ignored in the grammar analysis.
 
 ###### `rep< Num, R... >`
 
@@ -450,15 +376,6 @@ Note that the `S` do *not* need to match *all* of the input matched by `R` (whic
   - `rep_opt< Num, R... >::rule_t` is `internal::seq< internal::rep< Num, R... >, internal::star< R... > >`
   - `rep_opt< Num, R... >::subs_t` is `type_list< internal::rep< Num, R... >, internal::star< R... > >`
 
-###### `star_must< R, S... >`
-
-* [Equivalent] to `star< if_must< R, S... > >`.
-* [Meta data] and [implementation] mapping:
-  - `star_must< R >::rule_t` is `internal::star< internal::if_must< false, R > >`
-  - `star_must< R >::subs_t` is `type_list< internal::if_must< false, R > >`
-  - `star_must< R, S... >::rule_t` is `internal::star< internal::if_must< false, R, S... > >`
-  - `star_must< R, S... >::subs_t` is `type_list< internal::if_must< false, R, S... > >`
-
 ###### `star_partial< R... >`
 
 * Similar to `star< R... >` with one important difference:
@@ -487,110 +404,6 @@ Note that the `S` do *not* need to match *all* of the input matched by `R` (whic
   - `strict< R... >::rule_t` is `internal::strict< R... >`
   - `strict< R... >::subs_t` is `type_list< R... >`
 
-###### `try_catch_any_raise_nested< R... >`
-
-* [Equivalent] to `seq< R... >`, but:
-* Catches exceptions of any type via `catch( ... )` and:
-* Throws a new exception with the caught one as nested exception.
-* Throws via `Control< R >::raise_nested()` when `R...` is a single rule.
-* Throws via `Control< internal::seq< R... > >::raise_nested()` when `R...` is more than one rule.
-* [Meta data] and [implementation] mapping:
-  - `try_catch_any_raise_nested<>::rule_t` is `internal::success`
-  - `try_catch_any_raise_nested< R >::rule_t` is `internal::try_catch_raise_nested< void, R >`
-  - `try_catch_any_raise_nested< R >::subs_t` is `type_list< R >`
-  - `try_catch_any_raise_nested< R... >::rule_t` is `internal::try_catch_raise_nested< void, internal::seq< R... > >`
-  - `try_catch_any_raise_nested< R... >::subs_t` is `type_list< internal::seq< R... > >`
-
-###### `try_catch_any_return_false< E, R... >`
-
-* [Equivalent] to `seq< R... >`, but:
-* Catches exceptions of any type via `catch( ... )`, and:
-* Converts the global failure (exception) into a local failure (return value `false`).
-* [Meta data] and [implementation] mapping:
-  - `try_catch_any_return_false< E >::rule_t` is `internal::success`
-  - `try_catch_any_return_false< E, R >::rule_t` is `internal::try_catch_return_false< void, R >`
-  - `try_catch_any_return_false< E, R >::subs_t` is `type_list< R >`
-  - `try_catch_any_return_false< E, R... >::rule_t` is `internal::try_catch_return_false< void, internal::seq< R... > >`
-  - `try_catch_any_return_false< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
-
-###### `try_catch_raise_nested< R... >`
-
-* [Equivalent] to `seq< R... >`, but:
-* Catches exceptions of type `tao::pegtl::parse_error_base` (or derived), and:
-* Throws a new exception with the caught one as nested exception.
-* Throws via `Control< R >::raise_nested()` when `R...` is a single rule.
-* Throws via `Control< internal::seq< R... > >::raise_nested()` when `R...` is more than one rule.
-* [Meta data] and [implementation] mapping:
-  - `try_catch_raise_nested<>::rule_t` is `internal::success`
-  - `try_catch_raise_nested< R >::rule_t` is `internal::try_catch_raise_nested< parse_error_base, R >`
-  - `try_catch_raise_nested< R >::subs_t` is `type_list< R >`
-  - `try_catch_raise_nested< R... >::rule_t` is `internal::try_catch_raise_nested< parse_error_base, internal::seq< R... > >`
-  - `try_catch_raise_nested< R... >::subs_t` is `type_list< internal::seq< R... > >`
-
-###### `try_catch_return_false< R... >`
-
-* [Equivalent] to `seq< R... >`, but:
-* Catches exceptions of type `tao::pegtl::parse_error_base` (or derived), and:
-* Converts the global failure (exception) into a local failure (return value `false`).
-* [Meta data] and [implementation] mapping:
-  - `try_catch_return_false<>::rule_t` is `internal::success`
-  - `try_catch_return_false< R >::rule_t` is `internal::try_catch_return_false< parse_error_base, R >`
-  - `try_catch_return_false< R >::subs_t` is `type_list< R >`
-  - `try_catch_return_false< R... >::rule_t` is `internal::try_catch_return_false< parse_error_base, internal::seq< R... > >`
-  - `try_catch_return_false< R... >::subs_t` is `type_list< internal::seq< R... > >`
-
-###### `try_catch_std_raise_nested< R... >`
-
-* [Equivalent] to `seq< R... >`, but:
-* Catches exceptions of type `std::exception` (or derived), and:
-* Throws a new exception with the caught one as nested exception.
-* Throws via `Control< R >::raise_nested()` when `R...` is a single rule.
-* Throws via `Control< internal::seq< R... > >::raise_nested()` when `R...` is more than one rule.
-* [Meta data] and [implementation] mapping:
-  - `try_catch_std_raise_nested<>::rule_t` is `internal::success`
-  - `try_catch_std_raise_nested< R >::rule_t` is `internal::try_catch_raise_nested< std::exception, R >`
-  - `try_catch_std_raise_nested< R >::subs_t` is `type_list< R >`
-  - `try_catch_std_raise_nested< R... >::rule_t` is `internal::try_catch_raise_nested< std::exception, internal::seq< R... > >`
-  - `try_catch_std_raise_nested< R... >::subs_t` is `type_list< internal::seq< R... > >`
-
-###### `try_catch_std_return_false< E, R... >`
-
-* [Equivalent] to `seq< R... >`, but:
-* Catches exceptions of type `std::exception` (or derived), and:
-* Converts the global failure (exception) into a local failure (return value `false`).
-* [Meta data] and [implementation] mapping:
-  - `try_catch_std_return_false< E >::rule_t` is `internal::success`
-  - `try_catch_std_return_false< E, R >::rule_t` is `internal::try_catch_return_false< std::exception, R >`
-  - `try_catch_std_return_false< E, R >::subs_t` is `type_list< R >`
-  - `try_catch_std_return_false< E, R... >::rule_t` is `internal::try_catch_return_false< std::exception, internal::seq< R... > >`
-  - `try_catch_std_return_false< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
-
-###### `try_catch_type_raise_nested< E, R... >`
-
-* [Equivalent] to `seq< R... >`, but:
-* Catches exceptions of type `E` (or derived), and:
-* Throws a new exception with the caught one as nested exception.
-* Throws via `Control< R >::raise_nested()` when `R...` is a single rule.
-* Throws via `Control< internal::seq< R... > >::raise_nested()` when `R...` is more than one rule.
-* [Meta data] and [implementation] mapping:
-  - `try_catch_type_raise_nested< E >::rule_t` is `internal::success`
-  - `try_catch_type_raise_nested< E, R >::rule_t` is `internal::try_catch_raise_nested< E, R >`
-  - `try_catch_type_raise_nested< E, R >::subs_t` is `type_list< R >`
-  - `try_catch_type_raise_nested< E, R... >::rule_t` is `internal::try_catch_raise_nested< E, internal::seq< R... > >`
-  - `try_catch_type_raise_nested< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
-
-###### `try_catch_type_return_false< E, R... >`
-
-* [Equivalent] to `seq< R... >`, but:
-* Catches exceptions of type `E` (or derived), and:
-* Converts the global failure (exception) into a local failure (return value `false`).
-* [Meta data] and [implementation] mapping:
-  - `try_catch_type_return_false< E >::rule_t` is `internal::success`
-  - `try_catch_type_return_false< E, R >::rule_t` is `internal::try_catch_return_false< E, R >`
-  - `try_catch_type_return_false< E, R >::subs_t` is `type_list< R >`
-  - `try_catch_type_return_false< E, R... >::rule_t` is `internal::try_catch_return_false< E, internal::seq< R... > >`
-  - `try_catch_type_return_false< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
-
 ###### `until< R >`
 
 * Consumes all input until `R` matches.
@@ -615,8 +428,8 @@ Note that the `S` do *not* need to match *all* of the input matched by `R` (whic
 These rules are in namespace `tao::pegtl`.
 
 These rules replicate the intrusive way actions were called from within the grammar in the PEGTL 0.x with the `apply<>` and `if_apply<>` rules.
-The actions for these rules are classes (rather than class templates as required for `parse()` and the `action<>`-rule).
-These rules respect the current `apply_mode`, but do **not** use the control class to invoke the actions.
+The actions for these rules are classes, rather than class templates as required for `parse()` and the `action<>`-rule.
+These rules *do* respect the current `apply_mode`, but do **not** use the Control class to invoke the actions.
 
 ###### `apply< A... >`
 
@@ -707,35 +520,12 @@ TODO
 * [Meta data] and [implementation] mapping:
   - `failure::rule_t` is `internal::failure`
 
-###### `raise< T >`
-
-* Generates a *global failure*.
-* Calls the control-class' `Control< T >::raise()` static member function.
-* `T` *can* be a rule, but it does not have to be a rule.
-* Does not consume input.
-* [Meta data] and [implementation] mapping:
-  - `raise< T >::rule_t` is `internal::raise< T >`
-
-###### `raise_message< C... >`
-
-* Generates a *global failure* with the message given by `C...`.
-* Calls the control-class' `Control< raise_message< C... > >::raise()` static member function.
-* Does not consume input.
-* [Meta data] and [implementation] mapping:
-  - `raise_message< C... >::rule_t` is `internal::raise< raise_message< C... > >`
-
 ###### `success`
 
 * Dummy rule that always succeeds.
 * Does not consume input.
 * [Meta data] and [implementation] mapping:
   - `success::rule_t` is `internal::success`
-
-###### `TAO_PEGTL_RAISE_MESSAGE( "..." )`
-
-* Macro where `TAO_PEGTL_RAISE_MESSAGE( "foo" )` yields `raise_message< 'f', 'o', 'o' >`.
-* The argument must be a string literal.
-* Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
 
 ## ASCII Rules
 
@@ -747,9 +537,11 @@ Rules like `ascii::any` or `ascii::not_one< 'a' >` will match all possible byte 
 and all possible byte values excluding `'a'`, respectively. However the character class rules like
 `ascii::alpha` only match the corresponding ASCII characters.
 
-(It is possible to match UTF-8 multi-byte characters with the ASCII rules,
+It is possible to match UTF-8 multi-byte characters with the ASCII rules,
 for example the Euro sign code point `U+20AC`, which is encoded by the UTF-8 sequence `E2 82 AC`,
-can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao::pegtl::utf8::one< 0x20ac >`.)
+can be matched by either `tao::pegtl::ascii::string< 0xe2, 0x82, 0xac >` or `tao::pegtl::utf8::one< 0x20ac >`.
+
+The ASCII rules are input-adaptive and work with inputs whose `data_t` is a 16bit or 32bit integer or enum type.
 
 ASCII rules do not usually rely on other rules.
 
@@ -1035,22 +827,23 @@ These rules are available in multiple versions,
 * in namespace `tao::pegtl::utf16_be` for big-endian UTF-16 encoded inputs,
 * in namespace `tao::pegtl::utf16_le` for little-endian UTF-16 encoded inputs,
 * in namespace `tao::pegtl::utf32_be` for big-endian UTF-32 encoded inputs,
-* in namespace `tao::pegtl::utf32_le` for little-endian UTF-32 encoded inputs.
+* in namespace `tao::pegtl::utf32_le` for little-endian UTF-32 encoded inputs,
+* in namespace `tao::pegtl::unicode` for native-endian input-adaptive rules.
 
 For convenience, they also appear in multiple namespace aliases,
 
 * namespace alias `tao::pegtl::utf16` for native-endian UTF-16 encoded inputs,
 * namespace alias `tao::pegtl::utf32` for native-endian UTF-32 encoded inputs.
 
-The following limitations apply to the UTF-16 and UTF-32 rules:
+The following limitations apply to the UTF-16, UTF-32 and Unicode rules:
 
-* Unaligned input leads to unaligned memory access.
 * The line and column numbers are not counted correctly.
 * They are not automatically included with `tao/pegtl.hpp`.
 
 The UTF-8 rules are included with `include/tao/pegtl.hpp` while the UTF-16 and UTF-32 rules require manual inclusion of the following files.
-* `tao/pegtl/contrib/utf16.hpp`
-* `tao/pegtl/contrib/utf32.hpp`
+* `tao/pegtl/utf16.hpp`
+* `tao/pegtl/utf32.hpp`
+* `tao/pegtl/unicode.hpp`
 
 While unaligned accesses are no problem on x86 compatible processors, on other architectures they might be very slow or even crash the application.
 
@@ -1060,6 +853,12 @@ The parameter N stands for the size of the encoding of the next Unicode code poi
 * for UTF-8 the rules are multi-byte-sequence-aware and N is either 1, 2, 3 or 4,
 * for UTF-16 the rules are surrogate-pair-aware and N is either 2 or 4, and
 * for UTF-32 everything is simple and N is always 4.
+
+The UTF-16 rules also work with inputs whose `data_t` is a 16bit integer or enum type.
+
+The UTF-16 rules also work with inputs whose `data_t` is a 32bit integer or enum type.
+
+The input-adaptive rules use UTF-8 on inputs whose `data_t` is an 8bit integer or enum type, native-endian UTF-16 on 16bit inputs, and native-endian UTF-32 on 32bit inputs.
 
 It is an error when a code unit in the range `0xd800` to `0xdfff` is encountered outside of a valid UTF-16 surrogate pair (this changed in version 2.6.0).
 
@@ -1120,6 +919,10 @@ Unicode rules do not rely on other rules.
 ###### `string< C... >`
 
 * [Equivalent] to `seq< one< C >... >`.
+* [Meta data] and [implementation] mapping for UTF-8 only:
+  * `string<>::rule_t` is `internal::success`.
+  * `string< C >::rule_t` is `internal::single< internal::one< internal::peek_utf8, C > >`.
+  * `string< C... >::rule_t` is `internal::char_string< U... >` where `U...` is the UTF-8 encoding of the codepoints `C...`.
 
 ### ICU Support
 
@@ -1131,8 +934,9 @@ The ICU-based rules are again available in multiple versions,
 * in namespace `tao::pegtl::utf8::icu` for UTF-8 encoded inputs,
 * in namespace `tao::pegtl::utf16_be::icu` for big-endian UTF-16 encoded inputs,
 * in namespace `tao::pegtl::utf16_le::icu` for little-endian UTF-16 encoded inputs,
-* in namespace `tao::pegtl::utf32_be::icu` for big-endian UTF-32 encoded inputs, and
-* in namespace `tao::pegtl::utf32_le::icu` for little-endian UTF-32 encoded inputs.
+* in namespace `tao::pegtl::utf32_be::icu` for big-endian UTF-32 encoded inputs,
+* in namespace `tao::pegtl::utf32_le::icu` for little-endian UTF-32 encoded inputs,
+* in namespace `tao::pegtl::unicode::icu` for native-endian input-adaptive rules.
 
 And, for convenience, they again appear in multiple namespace aliases,
 
@@ -1144,6 +948,7 @@ To use these rules it is necessary to provide an include path to the ICU library
 * `tao/pegtl/contrib/icu/utf8.hpp`
 * `tao/pegtl/contrib/icu/utf16.hpp`
 * `tao/pegtl/contrib/icu/utf32.hpp`
+* `tao/pegtl/contrib/icu/unicode.hpp`
 
 The convenience ICU rules are supplied for all properties found in ICU version 3.4.
 Users of later versions can use the basic rules manually or create their own convenience rules derived from the basic rules for additional enumeration values found in those later versions of the ICU library.
@@ -1462,6 +1267,37 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * `V` is of type `std::uint8_t`.
 * [Equivalent] to `property_value< UCHAR_TRAIL_CANONICAL_COMBINING_CLASS, V >`.
 
+## Buffer Rules
+
+These rules are used in conjunction with buffer inputs.
+
+Unlike most other rules their implementation resides directly in namespace `tao::pegtl` instead of in `tao::pegtl::internal` with disabled control.
+
+They are in the directory `include/tao/pegtl/buffer` and are **not** included with `<tao/pegtl.hpp>`.
+
+###### `discard`
+
+* [Equivalent] to `success`, but:
+* Calls the input's `discard()` member function.
+* Must not be used where backtracking to before the `discard` might occur and/or nested within a rule for which an action with input can be called.
+* See [Incremental Input] for details.
+* [Meta data] and [implementation] mapping:
+  - `discard::rule_t` is `discard`
+
+###### `is_buffer`
+
+* Succeeds if the input of the current parsing run is a buffer input.
+* [Meta data] and [implementation] mapping:
+  - `is_buffer::rule_t` is `is_buffer`
+
+###### `require< Num >`
+
+* Succeeds if at least `Num` further input bytes are available.
+* With [Incremental Input] reads the bytes into the buffer.
+* [Meta data] and [implementation] mapping:
+  - `require< 0 >::rule_t` is `internal::success`
+  - `require< N >::rule_t` is `require< N >`
+
 ## Binary Rules
 
 These rules are available in multiple versions,
@@ -1479,11 +1315,11 @@ These rules are available in multiple versions,
 * in namespace `tao::pegtl::uint32_be` for big-endian 32-bit integer values,
 * in namespace `tao::pegtl::uint32_le` for little-endian 32-bit integer values,
 * in namespace `tao::pegtl::uint64_be` for big-endian 64-bit integer values, and
-* in namespace `tao::pegtl::uint64_le` for little-endian 64-bit integer values,
+* in namespace `tao::pegtl::uint64_le` for little-endian 64-bit integer values
 
-however please not that the masked rules are available only for unsigned integers.
+Please not that the masked rules are available *only* for unsigned integers.
 
-The binary rules need to be manually included from their corresponding headers.
+The binary rules need to be manually included, i.e. they are not part of `<tao/pegtl.hpp>.
 
 These rules read one or more bytes from the input to form (and match) an 8, 16, 32 or 64-bit value, respectively, and corresponding template parameters are given as either `std::int8_t`, `std::uint8_t`, `std::int16_t`, `std::uint16_t`, `std::int32_t`, `std::uint32_t`, `std::int64_t` or `std::uin64_t`.
 
@@ -1576,6 +1412,218 @@ Binary rules do not rely on other rules.
 
 * [Equivalent] to `seq< one< C >... >`.
 
+## Advanced Rules
+
+###### `function< F >`
+
+-- TODO!
+
+###### `nested< R >`
+
+## Exception Rules
+
+###### `if_must< R, S... >`
+
+* Attempts to match `R` and depending on the result proceeds with either `must< S... >` or `failure`.
+* [Equivalent] to `seq< R, must< S... > >`.
+* [Equivalent] to `if_then_else< R, must< S... >, failure >`.
+* [Meta data] and [implementation] mapping:
+  - `if_must< R >::rule_t` is `internal::if_must< false, R >`
+  - `if_must< R >::subs_t` is `type_list< R >`
+  - `if_must< R, S... >::rule_t` is `internal::if_must< false, R, S... >`
+  - `if_must< R, S... >::subs_t` is `type_list< R, internal::must< S... > >`
+
+Note that the `false` template parameter to `internal::if_must` corresponds to the `failure` in the equivalent description using `if_then_else`.
+
+###### `if_must_else< R, S, T >`
+
+* Attempts to match `R` and depending on the result proceeds with either `must< S >` or `must< T >`.
+* [Equivalent] to `if_then_else< R, must< S >, must< T > >`.
+* [Meta data] and [implementation] mapping:
+  - `if_must_else< R, S, T >::rule_t` is `internal::if_then_else< R, internal::must< S >, internal::must< T > >`
+  - `if_must_else< R, S, T >::subs_t` is `type_list< R, internal::must< S >, internal::must< T > >`
+
+###### `list_must< R, S >`
+
+* Matches a non-empty list of `R` separated by `S`.
+* Similar to `list< R, S >`, but if there is an `S` it **must** be followed by an `R`.
+* [Equivalent] to `seq< R, star< if_must< S, R > > >`.
+* [Meta data] and [implementation] mapping:
+  - `list_must< R, S >::rule_t` is `internal::seq< R, internal::star< S, internal::must< R > > >`
+  - `list_must< R, S >::subs_t` is `type_list< R, internal::star< S, internal::must< R > > >`
+
+###### `list_must< R, S, P >`
+
+* Matches a non-empty list of `R` separated by `S` where each `S` can be padded by `P`.
+* Similar to `list< R, S, P >`, but if there is an `S` it **must** be followed by an `R`.
+* [Equivalent] to `seq< R, star< if_must< pad< S, P >, R > > >`.
+* [Meta data] and [implementation] mapping:
+  - `list_must< R, S, P >::rule_t` is `internal::seq< R, internal::star< internal::pad< S, P >, internal::must< R > > >`
+  - `list_must< R, S, P >::subs_t` is `type_list< R, internal::star< internal::pad< S, P >, internal::must< R > > >`
+
+###### `must< R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Converts local failure of `R...` into global failure.
+* Calls `raise< R >` for the `R` that failed.
+* [Equivalent] to `seq< sor< R, raise< R > >... >`.
+* [Meta data] and [implementation] mapping:
+  - `must<>::rule_t` is `internal::success`
+  - `must< R >::rule_t` is `internal::must< R >`
+  - `must< R >::subs_t` is `type_list< R >`
+  - `must< R... >::rule_t` is `internal::seq< internal::must< R >... >::rule_t`
+  - `must< R... >::subs_t` is `type_list< internal::must< R... > >`
+
+Note that `must` uses a different pattern to handle multiple sub-rules compared to the other `seq`-equivalent rules (which use `rule< seq< R... > >` rather than `seq< rule< R >... >`).
+
+###### `opt_must< R, S... >`
+
+* [Equivalent] to `opt< if_must< R, S... > >`.
+* [Equivalent] to `if_then_else< R, must< S... >, success >`.
+* [Meta data] and [implementation] mapping:
+  - `opt_must< R >::rule_t` is `internal::if_must< true, R >`
+  - `opt_must< R >::subs_t` is `type_list< R >`
+  - `opt_must< R, S... >::rule_t` is `internal::if_must< true, R, S... >`
+  - `opt_must< R, S... >::subs_t` is `type_list< R, internal::must< S... > >`
+
+Note that the `true` template parameter to `internal::if_must` corresponds to the `success` in the equivalent description using `if_then_else`.
+
+###### `raise< T >`
+
+* Generates a *global failure*.
+* Calls the control-class' `Control< T >::raise()` static member function.
+* `T` *can* be a rule, but it does not have to be a rule.
+* Does not consume input.
+* [Meta data] and [implementation] mapping:
+  - `raise< T >::rule_t` is `internal::raise< T >`
+
+###### `raise_message< C... >`
+
+* Generates a *global failure* with the message given by `C...`.
+* Calls the control-class' `Control< raise_message< C... > >::raise()` static member function.
+* Does not consume input.
+* [Meta data] and [implementation] mapping:
+  - `raise_message< C... >::rule_t` is `internal::raise< raise_message< C... > >`
+
+###### `star_must< R, S... >`
+
+* [Equivalent] to `star< if_must< R, S... > >`.
+* [Meta data] and [implementation] mapping:
+  - `star_must< R >::rule_t` is `internal::star< internal::if_must< false, R > >`
+  - `star_must< R >::subs_t` is `type_list< internal::if_must< false, R > >`
+  - `star_must< R, S... >::rule_t` is `internal::star< internal::if_must< false, R, S... > >`
+  - `star_must< R, S... >::subs_t` is `type_list< internal::if_must< false, R, S... > >`
+
+###### `try_catch_any_raise_nested< R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of any type via `catch( ... )` and:
+* Throws a new exception with the caught one as nested exception.
+* Throws via `Control< R >::raise_nested()` when `R...` is a single rule.
+* Throws via `Control< internal::seq< R... > >::raise_nested()` when `R...` is more than one rule.
+* [Meta data] and [implementation] mapping:
+  - `try_catch_any_raise_nested<>::rule_t` is `internal::success`
+  - `try_catch_any_raise_nested< R >::rule_t` is `internal::try_catch_raise_nested< void, R >`
+  - `try_catch_any_raise_nested< R >::subs_t` is `type_list< R >`
+  - `try_catch_any_raise_nested< R... >::rule_t` is `internal::try_catch_raise_nested< void, internal::seq< R... > >`
+  - `try_catch_any_raise_nested< R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `try_catch_any_return_false< E, R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of any type via `catch( ... )`, and:
+* Converts the global failure (exception) into a local failure (return value `false`).
+* [Meta data] and [implementation] mapping:
+  - `try_catch_any_return_false< E >::rule_t` is `internal::success`
+  - `try_catch_any_return_false< E, R >::rule_t` is `internal::try_catch_return_false< void, R >`
+  - `try_catch_any_return_false< E, R >::subs_t` is `type_list< R >`
+  - `try_catch_any_return_false< E, R... >::rule_t` is `internal::try_catch_return_false< void, internal::seq< R... > >`
+  - `try_catch_any_return_false< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `try_catch_raise_nested< R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of type `tao::pegtl::parse_error_base` (or derived), and:
+* Throws a new exception with the caught one as nested exception.
+* Throws via `Control< R >::raise_nested()` when `R...` is a single rule.
+* Throws via `Control< internal::seq< R... > >::raise_nested()` when `R...` is more than one rule.
+* [Meta data] and [implementation] mapping:
+  - `try_catch_raise_nested<>::rule_t` is `internal::success`
+  - `try_catch_raise_nested< R >::rule_t` is `internal::try_catch_raise_nested< parse_error_base, R >`
+  - `try_catch_raise_nested< R >::subs_t` is `type_list< R >`
+  - `try_catch_raise_nested< R... >::rule_t` is `internal::try_catch_raise_nested< parse_error_base, internal::seq< R... > >`
+  - `try_catch_raise_nested< R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `try_catch_return_false< R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of type `tao::pegtl::parse_error_base` (or derived), and:
+* Converts the global failure (exception) into a local failure (return value `false`).
+* [Meta data] and [implementation] mapping:
+  - `try_catch_return_false<>::rule_t` is `internal::success`
+  - `try_catch_return_false< R >::rule_t` is `internal::try_catch_return_false< parse_error_base, R >`
+  - `try_catch_return_false< R >::subs_t` is `type_list< R >`
+  - `try_catch_return_false< R... >::rule_t` is `internal::try_catch_return_false< parse_error_base, internal::seq< R... > >`
+  - `try_catch_return_false< R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `try_catch_std_raise_nested< R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of type `std::exception` (or derived), and:
+* Throws a new exception with the caught one as nested exception.
+* Throws via `Control< R >::raise_nested()` when `R...` is a single rule.
+* Throws via `Control< internal::seq< R... > >::raise_nested()` when `R...` is more than one rule.
+* [Meta data] and [implementation] mapping:
+  - `try_catch_std_raise_nested<>::rule_t` is `internal::success`
+  - `try_catch_std_raise_nested< R >::rule_t` is `internal::try_catch_raise_nested< std::exception, R >`
+  - `try_catch_std_raise_nested< R >::subs_t` is `type_list< R >`
+  - `try_catch_std_raise_nested< R... >::rule_t` is `internal::try_catch_raise_nested< std::exception, internal::seq< R... > >`
+  - `try_catch_std_raise_nested< R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `try_catch_std_return_false< E, R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of type `std::exception` (or derived), and:
+* Converts the global failure (exception) into a local failure (return value `false`).
+* [Meta data] and [implementation] mapping:
+  - `try_catch_std_return_false< E >::rule_t` is `internal::success`
+  - `try_catch_std_return_false< E, R >::rule_t` is `internal::try_catch_return_false< std::exception, R >`
+  - `try_catch_std_return_false< E, R >::subs_t` is `type_list< R >`
+  - `try_catch_std_return_false< E, R... >::rule_t` is `internal::try_catch_return_false< std::exception, internal::seq< R... > >`
+  - `try_catch_std_return_false< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `try_catch_type_raise_nested< E, R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of type `E` (or derived), and:
+* Throws a new exception with the caught one as nested exception.
+* Throws via `Control< R >::raise_nested()` when `R...` is a single rule.
+* Throws via `Control< internal::seq< R... > >::raise_nested()` when `R...` is more than one rule.
+* [Meta data] and [implementation] mapping:
+  - `try_catch_type_raise_nested< E >::rule_t` is `internal::success`
+  - `try_catch_type_raise_nested< E, R >::rule_t` is `internal::try_catch_raise_nested< E, R >`
+  - `try_catch_type_raise_nested< E, R >::subs_t` is `type_list< R >`
+  - `try_catch_type_raise_nested< E, R... >::rule_t` is `internal::try_catch_raise_nested< E, internal::seq< R... > >`
+  - `try_catch_type_raise_nested< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `try_catch_type_return_false< E, R... >`
+
+* [Equivalent] to `seq< R... >`, but:
+* Catches exceptions of type `E` (or derived), and:
+* Converts the global failure (exception) into a local failure (return value `false`).
+* [Meta data] and [implementation] mapping:
+  - `try_catch_type_return_false< E >::rule_t` is `internal::success`
+  - `try_catch_type_return_false< E, R >::rule_t` is `internal::try_catch_return_false< E, R >`
+  - `try_catch_type_return_false< E, R >::subs_t` is `type_list< R >`
+  - `try_catch_type_return_false< E, R... >::rule_t` is `internal::try_catch_return_false< E, internal::seq< R... > >`
+  - `try_catch_type_return_false< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
+
+###### `TAO_PEGTL_RAISE_MESSAGE( "..." )`
+
+* Macro where `TAO_PEGTL_RAISE_MESSAGE( "foo" )` yields `raise_message< 'f', 'o', 'o' >`.
+* The argument must be a string literal.
+* Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
+
 ## Full Index
 
 * [`action< A, R... >`](#action-a-r-) <sup>[(meta rules)](#meta-rules)</sup>
@@ -1612,7 +1660,7 @@ Binary rules do not rely on other rules.
 * [`diacritic`](#diacritic) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`digit`](#digit) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`disable< R... >`](#disable-r-) <sup>[(meta rules)](#meta-rules)</sup>
-* [`discard`](#discard) <sup>[(meta rules)](#meta-rules)</sup>
+* [`discard`](#discard) <sup>[(buffer rules)](#buffer-rules)</sup>
 * [`east_asian_width< V >`](#east_asian_width-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`enable< R... >`](#enable-r-) <sup>[(meta-rules)](#meta-rules)</sup>
 * [`eof`](#eof) <sup>[(atomic rules)](#atomic-rules)</sup>
@@ -1643,9 +1691,10 @@ Binary rules do not rely on other rules.
 * [`ids_binary_operator`](#ids_binary_operator) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`ids_trinary_operator`](#ids_trinary_operator) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`if_apply< R, A... >`](#if_apply-r-a-) <sup>[(action rules)](#action-rules)</sup>
-* [`if_must< R, S... >`](#if_must-r-s-) <sup>[(convenience)](#convenience)</sup>
-* [`if_must_else< R, S, T >`](#if_must_else-r-s-t-) <sup>[(convenience)](#convenience)</sup>
+* [`if_must< R, S... >`](#if_must-r-s-) <sup>[(exception rules)](#exception-rules)</sup>
+* [`if_must_else< R, S, T >`](#if_must_else-r-s-t-) <sup>[(exception rules)](#exception-rules)</sup>
 * [`if_then_else< R, S, T >`](#if_then_else-r-s-t-) <sup>[(convenience)](#convenience)</sup>
+* [`is_buffer`](#is_buffer) <sup>[(buffer rules)](#buffer-rules)</sup>
 * [`istring< C... >`](#istring-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`join_control`](#join_control) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`joining_group< V >`](#joining_group-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
@@ -1657,8 +1706,8 @@ Binary rules do not rely on other rules.
 * [`line_break< V >`](#line_break-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`list< R, S >`](#list-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`list< R, S, P >`](#list-r-s-p-) <sup>[(convenience)](#convenience)</sup>
-* [`list_must< R, S >`](#list_must-r-s-) <sup>[(convenience)](#convenience)</sup>
-* [`list_must< R, S, P >`](#list_must-r-s-p-) <sup>[(convenience)](#convenience)</sup>
+* [`list_must< R, S >`](#list_must-r-s-) <sup>[(exception rules)](#exception-rules)</sup>
+* [`list_must< R, S, P >`](#list_must-r-s-p-) <sup>[(exception rules)](#exception-rules)</sup>
 * [`list_tail< R, S >`](#list_tail-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`list_tail< R, S, P >`](#list_tail-r-s-p-) <sup>[(convenience)](#convenience)</sup>
 * [`logical_order_exception`](#logical_order_exception) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
@@ -1676,7 +1725,7 @@ Binary rules do not rely on other rules.
 * [`mask_string< M, C... >`](#mask_string-m-c-) <sup>[(binary rules)](#binary-rules)</sup>
 * [`math`](#math) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`minus< M, S >`](#minus-m-s-) <sup>[(convenience)](#convenience)</sup>
-* [`must< R... >`](#must-r-) <sup>[(convenience)](#convenience)</sup>
+* [`must< R... >`](#must-r-) <sup>[(exception rules)](#exception-rules)</sup>
 * [`nfc_inert`](#nfc_inert) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`nfd_inert`](#nfd_inert) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`nfkc_inert`](#nfkc_inert) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
@@ -1695,7 +1744,7 @@ Binary rules do not rely on other rules.
 * [`one< C... >`](#one-c--1) <sup>[(unicode rules)](#unicode-rules)</sup>
 * [`one< C... >`](#one-c--2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`opt< R... >`](#opt-r-) <sup>[(combinators)](#combinators)</sup>
-* [`opt_must< R, S...>`](#opt_must-r-s-) <sup>[(convenience)](#convenience)</sup>
+* [`opt_must< R, S...>`](#opt_must-r-s-) <sup>[(exception rules)](#exception-rules)</sup>
 * [`pad< R, S, T = S >`](#pad-r-s-t--s-) <sup>[(convenience)](#convenience)</sup>
 * [`pad_opt< R, P >`](#pad_opt-r-p-) <sup>[(convenience)](#convenience)</sup>
 * [`partial< R... >`](#partial-r-) <sup>[(convenience)](#convenience)</sup>
@@ -1711,8 +1760,8 @@ Binary rules do not rely on other rules.
 * [`property_value< P, V >`](#property_value-p-v-) <sup>[(icu rules)](#basic-icu-rules)</sup>
 * [`quotation_mark`](#quotation_mark) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`radical`](#radical) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
-* [`raise< T >`](#raise-t-) <sup>[(atomic rules)](#atomic-rules)</sup>
-* [`raise_message< C... >`](#raise_message-c-) <sup>[(atomic rules)](#atomic-rules)</sup>
+* [`raise< T >`](#raise-t-) <sup>[(exception rules)](#exception-rules)</sup>
+* [`raise_message< C... >`](#raise_message-c-) <sup>[(exception rules)](#exception-rules)</sup>
 * [`range< C, D >`](#range-c-d-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`range< C, D >`](#range-c-d--1) <sup>[(unicode rules)](#unicode-rules)</sup>
 * [`range< C, D >`](#range-c-d--2) <sup>[(binary rules)](#binary-rules)</sup>
@@ -1728,7 +1777,7 @@ Binary rules do not rely on other rules.
 * [`rep_min< Min, R... >`](#rep_min-min-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_min_max< Min, Max, R... >`](#rep_min_max-min-max-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_opt< Num, R... >`](#rep_opt-num-r-) <sup>[(convenience)](#convenience)</sup>
-* [`require< Num >`](#require-num-) <sup>[(meta-rules)](#meta-rules)</sup>
+* [`require< Num >`](#require-num-) <sup>[(buffer-rules)](#buffer-rules)</sup>
 * [`s_term`](#s_term) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`segment_starter`](#segment_starter) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`sentence_break< V >`](#sentence_break-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
@@ -1740,7 +1789,7 @@ Binary rules do not rely on other rules.
 * [`sp`](#sp) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`space`](#space) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`star< R... >`](#star-r-) <sup>[(combinators)](#combinators)</sup>
-* [`star_must< R, S... >`](#star_must-r-s-) <sup>[(convenience)](#convenience)</sup>
+* [`star_must< R, S... >`](#star_must-r-s-) <sup>[(exception rules)](#exception-rules)</sup>
 * [`star_partial< R... >`](#star_partial-r-) <sup>[(convenience)](#convenience)</sup>
 * [`star_strict< R... >`](#star_strict-r-) <sup>[(convenience)](#convenience)</sup>
 * [`state< S, R... >`](#state-s-r-) <sup>[(meta rules)](#meta-rules)</sup>
@@ -1749,21 +1798,21 @@ Binary rules do not rely on other rules.
 * [`string< C... >`](#string-c--1) <sup>[(unicode rules)](#unicode-rules)</sup>
 * [`string< C... >`](#string-c--2) <sup>[(binary rules)](#binary-rules)</sup>
 * [`success`](#success) <sup>[(atomic rules)](#atomic-rules)</sup>
-* [`TAO_PEGTL_ISTRING( "..." )`](#tao_pegtl_istring--) <sup>[(ascii rules)](#ascii_rules)</sup>
-* [`TAO_PEGTL_KEYWORD( "..." )`](#tao_pegtl_keyword--) <sup>[(ascii rules)](#ascii_rules)</sup>
-* [`TAO_PEGTL_RAISE_MESSAGE( "..." )`](#tao_pegtl_raise_message--) <sup>[(atomic rules)](#atomic_rules)</sup>
-* [`TAO_PEGTL_STRING( "..." )`](#tao_pegtl_string--) <sup>[(ascii rules)](#ascii_rules)</sup>
+* [`TAO_PEGTL_ISTRING( "..." )`](#tao_pegtl_istring--) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`TAO_PEGTL_KEYWORD( "..." )`](#tao_pegtl_keyword--) <sup>[(ascii rules)](#ascii-rules)</sup>
+* [`TAO_PEGTL_RAISE_MESSAGE( "..." )`](#tao_pegtl_raise_message--) <sup>[(exception rules)](#exception-rules)</sup>
+* [`TAO_PEGTL_STRING( "..." )`](#tao_pegtl_string--) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`terminal_punctuation`](#terminal_punctuation) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`three< C >`](#three-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`trail_canonical_combining_class< V >`](#trail_canonical_combining_class-v-) <sup>[(icu rules)](#icu-rules-for-value-properties)</sup>
-* [`try_catch_any_raise_nested< R... >`](#try_catch_any_raise_nested-r-) <sup>[(convenience)](#convenience)</sup>
-* [`try_catch_any_return_false< R... >`](#try_catch_any_return_false-r-) <sup>[(convenience)](#convenience)</sup>
-* [`try_catch_raise_nested< R... >`](#try_catch_raise_nested-r-) <sup>[(convenience)](#convenience)</sup>
-* [`try_catch_return_false< R... >`](#try_catch_return_false-r-) <sup>[(convenience)](#convenience)</sup>
-* [`try_catch_std_raise_nested< R... >`](#try_catch_std_raise_nested-r-) <sup>[(convenience)](#convenience)</sup>
-* [`try_catch_std_return_false< R... >`](#try_catch_std_return_false-r-) <sup>[(convenience)](#convenience)</sup>
-* [`try_catch_type_raise_nested< E, R... >`](#try_catch_type_raise_nested-e-r-) <sup>[(convenience)](#convenience)</sup>
-* [`try_catch_type_return_false< E, R... >`](#try_catch_type_return_false-e-r-) <sup>[(convenience)](#convenience)</sup>
+* [`try_catch_any_raise_nested< R... >`](#try_catch_any_raise_nested-r-) <sup>[(exception rules)](#exception-rules)</sup>
+* [`try_catch_any_return_false< R... >`](#try_catch_any_return_false-r-) <sup>[(exception rules)](#exception-rules)</sup>
+* [`try_catch_raise_nested< R... >`](#try_catch_raise_nested-r-) <sup>[(exception rules)](#exception-rules)</sup>
+* [`try_catch_return_false< R... >`](#try_catch_return_false-r-) <sup>[(exception rules)](#exception-rules)</sup>
+* [`try_catch_std_raise_nested< R... >`](#try_catch_std_raise_nested-r-) <sup>[(exception rules)](#exception-rules)</sup>
+* [`try_catch_std_return_false< R... >`](#try_catch_std_return_false-r-) <sup>[(exception rules)](#exception-rules)</sup>
+* [`try_catch_type_raise_nested< E, R... >`](#try_catch_type_raise_nested-e-r-) <sup>[(exception rules)](#exception-rules)</sup>
+* [`try_catch_type_return_false< E, R... >`](#try_catch_type_return_false-e-r-) <sup>[(exception rules)](#exception-rules)</sup>
 * [`two< C >`](#two-c-) <sup>[(ascii rules)](#ascii-rules)</sup>
 * [`unified_ideograph`](#unified_ideograph) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`until< R >`](#until-r-) <sup>[(convenience)](#convenience)</sup>

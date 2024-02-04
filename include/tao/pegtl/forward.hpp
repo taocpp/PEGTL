@@ -12,12 +12,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Name, typename Rule, typename = void >
    struct analyze_traits;
 
-   template< typename Left, typename Right, typename = void >
-   struct combine_traits;
-
-   template< typename Rule, typename = void >
-   struct invert_traits;
-
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

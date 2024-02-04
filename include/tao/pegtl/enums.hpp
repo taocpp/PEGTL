@@ -39,6 +39,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace enums_le
 
+   namespace enums = TAO_PEGTL_ENDIAN_SUFFIXED( enums_ );
+
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

@@ -29,8 +29,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       unwind_guard( const unwind_guard& ) = delete;
       unwind_guard( unwind_guard&& ) noexcept = delete;
 
-      unwind_guard& operator=( const unwind_guard& ) = delete;
-      unwind_guard& operator=( unwind_guard&& ) noexcept = delete;
+      void operator=( const unwind_guard& ) = delete;
+      void operator=( unwind_guard&& ) noexcept = delete;
 
       std::optional< Unwind > unwind;
    };
