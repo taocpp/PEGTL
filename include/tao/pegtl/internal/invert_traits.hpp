@@ -15,7 +15,7 @@
 #include "peek_ascii7.hpp"
 #include "peek_ascii8.hpp"
 #include "range.hpp"
-#include "single.hpp"
+#include "tester.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -35,51 +35,51 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Peek, typename Peek::data_t... Cs >
-   struct invert_traits< single< one< Peek, Cs... > > >
+   struct invert_traits< tester< one< Peek, Cs... > > >
    {
-      using rule_t = single< not_one< Peek, Cs... > >;
+      using rule_t = tester< not_one< Peek, Cs... > >;
    };
 
    template< typename Peek, typename Peek::data_t... Cs >
-   struct invert_traits< single< not_one< Peek, Cs... > > >
+   struct invert_traits< tester< not_one< Peek, Cs... > > >
    {
-      using rule_t = single< one< Peek, Cs... > >;
+      using rule_t = tester< one< Peek, Cs... > >;
    };
 
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
-   struct invert_traits< single< range< Peek, Lo, Hi > > >
+   struct invert_traits< tester< range< Peek, Lo, Hi > > >
    {
-      using rule_t = single< not_range< Peek, Lo, Hi > >;
+      using rule_t = tester< not_range< Peek, Lo, Hi > >;
    };
 
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
-   struct invert_traits< single< not_range< Peek, Lo, Hi > > >
+   struct invert_traits< tester< not_range< Peek, Lo, Hi > > >
    {
-      using rule_t = single< range< Peek, Lo, Hi > >;
+      using rule_t = tester< range< Peek, Lo, Hi > >;
    };
 
    template< char... Cs >
-   struct invert_traits< single< one< peek_ascii8, Cs... > > >
+   struct invert_traits< tester< one< peek_ascii8, Cs... > > >
    {
-      using rule_t = single< not_one< peek_ascii7, Cs... > >;
+      using rule_t = tester< not_one< peek_ascii7, Cs... > >;
    };
 
    template< char... Cs >
-   struct invert_traits< single< not_one< peek_ascii7, Cs... > > >
+   struct invert_traits< tester< not_one< peek_ascii7, Cs... > > >
    {
-      using rule_t = single< one< peek_ascii8, Cs... > >;
+      using rule_t = tester< one< peek_ascii8, Cs... > >;
    };
 
    template< char Lo, char Hi >
-   struct invert_traits< single< range< peek_ascii8, Lo, Hi > > >
+   struct invert_traits< tester< range< peek_ascii8, Lo, Hi > > >
    {
-      using rule_t = single< not_range< peek_ascii7, Lo, Hi > >;
+      using rule_t = tester< not_range< peek_ascii7, Lo, Hi > >;
    };
 
    template< char Lo, char Hi >
-   struct invert_traits< single< not_range< peek_ascii7, Lo, Hi > > >
+   struct invert_traits< tester< not_range< peek_ascii7, Lo, Hi > > >
    {
-      using rule_t = single< range< peek_ascii8, Lo, Hi > >;
+      using rule_t = tester< range< peek_ascii8, Lo, Hi > >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

@@ -10,9 +10,9 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      static_assert( std::is_same_v< utf8::string< 1 >::rule_t, internal::single< internal::one< internal::peek_char, 1 > > > );
+      static_assert( std::is_same_v< utf8::string< 1 >::rule_t, internal::tester< internal::one< internal::peek_char, 1 > > > );
       static_assert( std::is_same_v< utf8::string< 1, 2, 3 >::rule_t, internal::char_string< 1, 2, 3 > > );
-      static_assert( std::is_same_v< utf8::string< 127 >::rule_t, internal::single< internal::one< internal::peek_char, 127 > > > );
+      static_assert( std::is_same_v< utf8::string< 127 >::rule_t, internal::tester< internal::one< internal::peek_char, 127 > > > );
       static_assert( std::is_same_v< utf8::string< 0xa3 >::rule_t, internal::char_string< char( 0xc2 ), char( 0xa3 ) > > );
       static_assert( std::is_same_v< utf8::string< 0x418 >::rule_t, internal::char_string< char( 0xd0 ), char( 0x98 ) > > );
       static_assert( std::is_same_v< utf8::string< 0x939 >::rule_t, internal::char_string< char( 0xe0 ), char( 0xa4 ), char( 0xb9 ) > > );

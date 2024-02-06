@@ -9,13 +9,13 @@
 
 #include "enable_control.hpp"
 #include "failure.hpp"
-#include "single.hpp"
+#include "tester.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, typename Peek::data_t... Cs >
    struct one
-      : single< one< Peek, Cs... > >
+      : tester< one< Peek, Cs... > >
    {
       template< typename Data >
       [[nodiscard]] static constexpr bool test( const Data c ) noexcept

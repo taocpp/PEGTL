@@ -16,7 +16,7 @@
 #include "lazy_scan_input.hpp"
 #include "one.hpp"
 #include "scan_utility.hpp"
-#include "single.hpp"
+#include "tester.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -43,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< char Eol, typename Peek >
-   struct lazy_scan_traits< single< one< Peek, Eol > > >
+   struct lazy_scan_traits< tester< one< Peek, Eol > > >
       : scan_char_impl< Eol >
    {};
 

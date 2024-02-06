@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_SINGLE_HPP
-#define TAO_PEGTL_INTERNAL_SINGLE_HPP
+#ifndef TAO_PEGTL_INTERNAL_TESTER_HPP
+#define TAO_PEGTL_INTERNAL_TESTER_HPP
 
 #include "../config.hpp"
 #include "../type_list.hpp"
@@ -13,15 +13,15 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename >
-   struct single;
+   struct tester;
 
    template< template< typename Peek, typename Peek::data_t... Cs > class Rule, typename Peek, typename Peek::data_t... Cs >
-   struct single< Rule< Peek, Cs... > >
+   struct tester< Rule< Peek, Cs... > >
    {
       using peek_t = Peek;
       using data_t = typename Peek::data_t;
 
-      using rule_t = single;
+      using rule_t = tester;
       using subs_t = empty_list;
 
       using test_t = Rule< Peek, Cs... >;
@@ -31,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          if( const auto t = Peek::peek( in ) ) {
             if( Rule< Peek, Cs... >::test( t.data() ) ) {
-               in.template consume< single >( t.size() );
+               in.template consume< tester >( t.size() );
                return true;
             }
          }
@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Rule >
-   inline constexpr bool enable_control< single< Rule > > = false;
+   inline constexpr bool enable_control< tester< Rule > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

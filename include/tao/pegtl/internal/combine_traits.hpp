@@ -14,7 +14,7 @@
 #include "one.hpp"
 #include "range.hpp"
 #include "ranges.hpp"
-#include "single.hpp"
+#include "tester.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -22,19 +22,19 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct combine_traits;
 
    template< typename Peek, typename Peek::data_t... Ls, typename Peek::data_t... Rs >
-   struct combine_traits< single< one< Peek, Ls... > >, single< one< Peek, Rs... > > >
+   struct combine_traits< tester< one< Peek, Ls... > >, tester< one< Peek, Rs... > > >
    {
-      using rule_t = single< one< Peek, Ls..., Rs... > >;
+      using rule_t = tester< one< Peek, Ls..., Rs... > >;
    };
 
    template< typename Peek, typename Peek::data_t LL, typename Peek::data_t LH, typename Peek::data_t RL, typename Peek::data_t RH >
-   struct combine_traits< single< range< Peek, LL, LH > >, single< range< Peek, RL, RH > >, std::enable_if_t< ranges_overlap( LL, LH, RL, RH ) > >
+   struct combine_traits< tester< range< Peek, LL, LH > >, tester< range< Peek, RL, RH > >, std::enable_if_t< ranges_overlap( LL, LH, RL, RH ) > >
    {
       using rule_t = range< Peek, ( std::min )( LL, RL ), ( std::max )( LH, RH ) >;
    };
 
    template< typename Peek, typename Peek::data_t LL, typename Peek::data_t LH, typename Peek::data_t RL, typename Peek::data_t RH >
-   struct combine_traits< single< range< Peek, LL, LH > >, single< range< Peek, RL, RH > >, std::enable_if_t< ranges_disjoint( LL, LH, RL, RH ) > >
+   struct combine_traits< tester< range< Peek, LL, LH > >, tester< range< Peek, RL, RH > >, std::enable_if_t< ranges_disjoint( LL, LH, RL, RH ) > >
    {
       using rule_t = ranges< Peek, LL, LH, RL, RH >;
    };

@@ -18,7 +18,7 @@
 #include "eol.hpp"
 #include "eolf.hpp"
 #include "scan_utility.hpp"
-#include "single.hpp"
+#include "tester.hpp"
 #include "until.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -48,12 +48,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {};
 
    template< char Eol, typename Peek >
-   struct text_scan_traits< Eol, single< one< Peek, Eol > > >
+   struct text_scan_traits< Eol, tester< one< Peek, Eol > > >
       : scan_line_impl
    {};
 
    template< char Eol, typename Rule >
-   struct text_scan_traits< Eol, single< Rule >, std::enable_if_t< !Rule::test( typename Rule::data_t( Eol ) ) > >
+   struct text_scan_traits< Eol, tester< Rule >, std::enable_if_t< !Rule::test( typename Rule::data_t( Eol ) ) > >
       : scan_columns_impl
    {};
 
@@ -88,7 +88,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {};
 
    template< char Eol, typename Peek >
-   struct text_scan_traits< Eol, until< single< one< Peek, Eol > > > >
+   struct text_scan_traits< Eol, until< tester< one< Peek, Eol > > > >
       : scan_columns_impl
    {};
 

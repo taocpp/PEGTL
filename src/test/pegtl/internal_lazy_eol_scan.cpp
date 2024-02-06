@@ -53,7 +53,7 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       struct dummy_cr
-         : internal::single< internal::one< dummy_peek, '\r' > >
+         : internal::tester< internal::one< dummy_peek, '\r' > >
       {};
 
       lazy_test< dummy_cr >( "", 1, 1, 0 );

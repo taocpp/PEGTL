@@ -12,7 +12,7 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       verify_meta< unicode::string<>, internal::success >();
-      verify_meta< unicode::string< 1 >, internal::single< internal::one< internal::peek_unicode, 1 > > >();
+      verify_meta< unicode::string< 1 >, internal::tester< internal::one< internal::peek_unicode, 1 > > >();
       verify_meta< unicode::string< 1, 2, 3 >, internal::unicode_string< 1, 2, 3 > >();
 
       verify_analyze< unicode::string< 1, 2, 3 > >( __LINE__, __FILE__, true, false );

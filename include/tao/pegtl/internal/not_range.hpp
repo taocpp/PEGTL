@@ -9,13 +9,13 @@
 
 #include "enable_control.hpp"
 #include "not_one.hpp"
-#include "single.hpp"
+#include "tester.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct not_range
-      : single< not_range< Peek, Lo, Hi > >
+      : tester< not_range< Peek, Lo, Hi > >
    {
       static_assert( Lo < Hi );
 
