@@ -13,7 +13,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   struct scan_nop_impl
+   struct scan_nop_base
    {
       template< typename Data, typename Position >
       static void scan( Position& /*unused*/, const Data* /*unused*/, const std::size_t /*unused*/ ) noexcept
@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< char Eol >
-   struct scan_char_impl
+   struct scan_eol_base
    {
       template< typename Data, typename Position >
       static void scan( Position& pos, const Data* data, const std::size_t count )
@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   struct scan_line_impl
+   struct scan_line_base
    {
       template< typename Data, typename Position >
       static void scan( Position& pos, const Data* /*unused*/, const std::size_t count ) noexcept
@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   struct scan_columns_impl
+   struct scan_skip_base
    {
       template< typename Data, typename Position >
       static void scan( Position& pos, const Data* /*unused*/, const std::size_t count ) noexcept

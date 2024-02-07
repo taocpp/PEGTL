@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< char Eol, typename Peek >
    struct lazy_scan_traits< tester< one< Peek, Eol > > >
-      : scan_char_impl< Eol >
+      : scan_eol_base< Eol >
    {};
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

@@ -13,10 +13,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< template< char... > class String, char32_t... Cs >
-   struct unicode_to_utf8_string
-   {
-      using type = value_list_concat_t< typename unicode_to_utf8_char< String, Cs >::type... >;
-   };
+   using unicode_to_utf8_string_t = value_list_concat_t< unicode_to_utf8_char_t< String, Cs >... >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

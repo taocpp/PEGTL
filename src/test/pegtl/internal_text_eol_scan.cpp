@@ -108,8 +108,11 @@ namespace TAO_PEGTL_NAMESPACE
       scan_test< eols::scan::lf, until< at< ascii::digit > > >( "\r\n", 2, 1, 2 );
 
       scan_test< eols::scan::lf, ascii::string< 'a', 'b', 'c' > >( "\n\n\n", 1, 4, 3 );
+      scan_test< eols::scan::lf, ascii::string< '\n', '\n', '\n' > >( "\n\n\n", 4, 1, 3 );
       scan_test< eols::scan::lf, ascii::istring< 'a', 'b', 'c' > >( "\n\n\n", 1, 4, 3 );
-      scan_test< eols::scan::lf, internal::char_string< 'a', 'b', 'c' > >( "\n\n\n", 1, 4, 3 );
+      scan_test< eols::scan::lf, ascii::istring< '\n', '\n', '\n' > >( "\n\n\n", 4, 1, 3 );
+      scan_test< eols::scan::lf, internal::ascii_string< 'a', 'b', 'c' > >( "\n\n\n", 1, 4, 3 );
+      scan_test< eols::scan::lf, internal::ascii_string< '\n', '\n', '\n' > >( "\n\n\n", 4, 1, 3 );
 
       scan_test< eols::scan::lf_crlf, eol_exclude_tag >( "", 1, 1, 0 );
       scan_test< eols::scan::lf_crlf, eol_exclude_tag >( " ", 1, 2, 1 );
@@ -205,10 +208,13 @@ namespace TAO_PEGTL_NAMESPACE
       scan_test< eols::scan::lf_crlf, until< at< ascii::digit > > >( "\n", 2, 1, 1 );
       scan_test< eols::scan::lf_crlf, until< at< ascii::digit > > >( "\n\n", 3, 1, 2 );
       scan_test< eols::scan::lf_crlf, until< at< ascii::digit > > >( "\r\n", 2, 1, 2 );
-
+      std::cerr << __LINE__ << std::endl;
       scan_test< eols::scan::lf_crlf, ascii::string< 'a', 'b', 'c' > >( "\n\n\n", 1, 4, 3 );
+      std::cerr << __LINE__ << std::endl;
       scan_test< eols::scan::lf_crlf, ascii::istring< 'a', 'b', 'c' > >( "\n\n\n", 1, 4, 3 );
-      scan_test< eols::scan::lf_crlf, internal::char_string< 'a', 'b', 'c' > >( "\n\n\n", 1, 4, 3 );
+      std::cerr << __LINE__ << std::endl;
+      scan_test< eols::scan::lf_crlf, internal::ascii_string< 'a', 'b', 'c' > >( "\n\n\n", 1, 4, 3 );
+      std::cerr << __LINE__ << std::endl;
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

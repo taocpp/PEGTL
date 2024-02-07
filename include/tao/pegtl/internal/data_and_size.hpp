@@ -88,6 +88,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Data >
    data_and_size( const Data* ) -> data_and_size< Data, void >;
 
+   using char_and_size = data_and_size< char, std::uint8_t >;
+   using char32_and_size = data_and_size< char32_t, std::uint8_t >;
+
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

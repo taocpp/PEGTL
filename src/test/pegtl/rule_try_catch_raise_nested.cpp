@@ -13,7 +13,6 @@ int main()
 #include <vector>
 
 #include "test.hpp"
-#include "test_ascii.hpp"
 #include "test_utility.hpp"
 #include "verify_seqs.hpp"
 

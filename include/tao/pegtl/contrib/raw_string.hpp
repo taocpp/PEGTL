@@ -224,7 +224,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, char Open, char Marker, char Close, typename... Contents >
    struct analyze_traits< Name, raw_string< Open, Marker, Close, Contents... > >
-      : analyze_traits< Name, typename seq< any8, star< Contents... >, any8 >::rule_t >
+      : analyze_traits< Name, typename seq< any, star< Contents... >, any >::rule_t >
    {};
 
 }  // namespace TAO_PEGTL_NAMESPACE

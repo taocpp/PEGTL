@@ -12,8 +12,8 @@
 #include "not_one.hpp"
 #include "not_range.hpp"
 #include "one.hpp"
-#include "peek_ascii7.hpp"
-#include "peek_ascii8.hpp"
+#include "peek_direct.hpp"
+#include "peek_seven.hpp"
 #include "range.hpp"
 #include "tester.hpp"
 
@@ -59,27 +59,27 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< char... Cs >
-   struct invert_traits< tester< one< peek_ascii8, Cs... > > >
+   struct invert_traits< tester< one< peek_char, Cs... > > >
    {
-      using rule_t = tester< not_one< peek_ascii7, Cs... > >;
+      using rule_t = tester< not_one< peek_seven, Cs... > >;
    };
 
    template< char... Cs >
-   struct invert_traits< tester< not_one< peek_ascii7, Cs... > > >
+   struct invert_traits< tester< not_one< peek_seven, Cs... > > >
    {
-      using rule_t = tester< one< peek_ascii8, Cs... > >;
+      using rule_t = tester< one< peek_char, Cs... > >;
    };
 
    template< char Lo, char Hi >
-   struct invert_traits< tester< range< peek_ascii8, Lo, Hi > > >
+   struct invert_traits< tester< range< peek_char, Lo, Hi > > >
    {
-      using rule_t = tester< not_range< peek_ascii7, Lo, Hi > >;
+      using rule_t = tester< not_range< peek_seven, Lo, Hi > >;
    };
 
    template< char Lo, char Hi >
-   struct invert_traits< tester< not_range< peek_ascii7, Lo, Hi > > >
+   struct invert_traits< tester< not_range< peek_seven, Lo, Hi > > >
    {
-      using rule_t = tester< range< peek_ascii8, Lo, Hi > >;
+      using rule_t = tester< range< peek_char, Lo, Hi > >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

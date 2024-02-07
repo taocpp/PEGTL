@@ -7,6 +7,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <type_traits>
 
 #include "data_and_size.hpp"
 
@@ -30,30 +31,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return 1;
       }
 
-      template< Data D, typename ParseInput >
-      [[nodiscard]] static bool test( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 42 ) ) )
-      {
-         using peek_t = typename ParseInput::data_t;
-
-         static_assert( sizeof( peek_t ) == sizeof( data_t ) );
-
-         if( in.size( offset + 1 ) >= ( offset + 1 ) ) {
-            if( Data( *in.current( offset ) ) == D ) {
-               return true;
-            }
-         }
-         return false;
-      }
-
       template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 42 ) ) )
       {
-         using peek_t = typename ParseInput::data_t;
+         using raw_t = typename ParseInput::data_t;
 
-         static_assert( sizeof( peek_t ) == sizeof( data_t ) );
+         static_assert( sizeof( data_t ) == sizeof( raw_t ) );
+         static_assert( std::is_integral_v< raw_t > || std::is_enum_v< raw_t > );
 
          if( in.size( offset + 1 ) >= ( offset + 1 ) ) {
-            return pair_t( Data( *in.current( offset ) ), 1 );
+            const data_t c = static_cast< data_t >( *in.current( offset ) );
+            return pair_t( c, 1 );
          }
          return pair_t();
       }

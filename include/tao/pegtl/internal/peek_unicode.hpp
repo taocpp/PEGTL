@@ -19,10 +19,10 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Endian >
-   struct peek_unicode_impl
+   struct peek_unicode_template
    {
       using data_t = char32_t;
-      using pair_t = data_and_size< char32_t >;
+      using pair_t = char32_and_size;
 
       template< typename ParseInput >
       [[nodiscard]] static constexpr bool bulk() noexcept
@@ -39,10 +39,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return peek_utf8::peek( in, offset );
          }
          else if constexpr( size == 2 ) {
-            return peek_utf16_impl< Endian >::peek( in, offset );
+            return peek_utf16_template< Endian >::peek( in, offset );
          }
          else if constexpr( size == 4 ) {
-            return peek_utf32_impl< Endian >::peek( in, offset );
+            return peek_utf32_template< Endian >::peek( in, offset );
          }
          else {
             static_assert( dependent_false< ParseInput > );
@@ -50,8 +50,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   using peek_unicode_be = peek_unicode_impl< big_endian >;
-   using peek_unicode_le = peek_unicode_impl< little_endian >;
+   using peek_unicode_be = peek_unicode_template< big_endian >;
+   using peek_unicode_le = peek_unicode_template< little_endian >;
 
    using peek_unicode = TAO_PEGTL_ENDIAN_SUFFIXED( peek_unicode_ );
 

@@ -12,7 +12,7 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       static_assert( std::is_same_v< invert< any7 >::rule_t, failure::rule_t > );
-      static_assert( std::is_same_v< invert< any8 >::rule_t, failure::rule_t > );
+      static_assert( std::is_same_v< invert< any >::rule_t, failure::rule_t > );
 
       static_assert( std::is_same_v< invert< one< 'a' > >::rule_t, not_one7< 'a' >::rule_t > );
       static_assert( std::is_same_v< invert< one< 'a', 'b', 'c' > >::rule_t, not_one7< 'a', 'b', 'c' >::rule_t > );

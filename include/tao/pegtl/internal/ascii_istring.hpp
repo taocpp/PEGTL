@@ -5,40 +5,55 @@
 #ifndef TAO_PEGTL_INTERNAL_ASCII_ISTRING_HPP
 #define TAO_PEGTL_INTERNAL_ASCII_ISTRING_HPP
 
-#include "../config.hpp"
+#include <type_traits>
 
-#include "ascii_multiple.hpp"
+#include "../config.hpp"
+#include "../type_list.hpp"
+
 #include "ascii_utility.hpp"
 #include "enable_control.hpp"
 #include "ione.hpp"
-#include "peek_ascii8.hpp"
+#include "peek_direct.hpp"
 #include "success.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Endian, char... Cs >
+   template< char... Cs >
    struct ascii_istring
-      : ascii_multiple< ascii_istring< Endian, Cs... > >
    {
-      template< char C, typename D >
-      [[nodiscard]] static constexpr bool test( const D d ) noexcept
+      using rule_t = ascii_istring;
+      using subs_t = empty_list;
+
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 0 ) ) )
       {
-         return ascii_ichar_equal< C >( d );
+         using raw_t = std::decay_t< decltype( *in.current() ) >;
+
+         static_assert( sizeof( raw_t ) == 1 );
+         static_assert( std::is_integral_v< raw_t > || std::is_enum_v< raw_t > );
+
+         if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
+            if( ascii_istring_equal< Cs... >( in.current() ) ) {
+               in.template consume< ascii_istring >( sizeof...( Cs ) );
+               return true;
+            }
+         }
+         return false;
       }
    };
 
-   template< typename Endian, char C >
-   struct ascii_istring< Endian, C >
-      : ione< peek_ascii8_impl< Endian >, C >
+   template< char C >
+   struct ascii_istring< C >
+      : ione< peek_char, C >
    {};
 
-   template< typename Endian >
-   struct ascii_istring< Endian >
+   template<>
+   struct ascii_istring<>
       : success
    {};
 
-   template< typename Endian, char... Cs >
-   inline constexpr bool enable_control< ascii_istring< Endian, Cs... > > = false;
+   template< char... Cs >
+   inline constexpr bool enable_control< ascii_istring< Cs... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -10,7 +10,6 @@
 #include "../config.hpp"
 
 #include "../internal/ascii_string.hpp"
-#include "../internal/endian.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -19,15 +18,15 @@ namespace TAO_PEGTL_NAMESPACE
       template< std::size_t, typename, char... >
       struct make_rep_string;
 
-      template< typename Endian, char... Ss, char... Cs >
-      struct make_rep_string< 0, ascii_string< Endian, Ss... >, Cs... >
+      template< char... Ss, char... Cs >
+      struct make_rep_string< 0, ascii_string< Ss... >, Cs... >
       {
          using type = string< Ss... >;
       };
 
-      template< std::size_t N, typename Endian, char... Ss, char... Cs >
-      struct make_rep_string< N, ascii_string< Endian, Ss... >, Cs... >
-         : make_rep_string< N - 1, ascii_string< Endian, Ss..., Cs... >, Cs... >
+      template< std::size_t N, char... Ss, char... Cs >
+      struct make_rep_string< N, ascii_string< Ss... >, Cs... >
+         : make_rep_string< N - 1, ascii_string< Ss..., Cs... >, Cs... >
       {};
 
    }  // namespace internal
@@ -36,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       template< std::size_t N, char... Cs >
       struct rep_string
-         : internal::make_rep_string< N, internal::ascii_string< internal::identity_endian >, Cs... >::type
+         : internal::make_rep_string< N, internal::ascii_string<>, Cs... >::type
       {};
 
    }  // namespace ascii

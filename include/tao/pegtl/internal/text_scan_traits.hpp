@@ -11,10 +11,9 @@
 #include "../config.hpp"
 #include "../tags.hpp"
 
-#include "ascii_multiple.hpp"
+#include "ascii_string.hpp"
 #include "at.hpp"
 #include "dependent_false.hpp"
-#include "char_string.hpp"
 #include "eol.hpp"
 #include "eolf.hpp"
 #include "scan_utility.hpp"
@@ -34,37 +33,37 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< char Eol >
    struct text_scan_traits< Eol, eol_exclude_tag >
-      : scan_columns_impl
+      : scan_skip_base
    {};
 
    template< char Eol >
    struct text_scan_traits< Eol, eol_matched_tag >
-      : scan_nop_impl
+      : scan_nop_base
    {};
 
    template< char Eol >
    struct text_scan_traits< Eol, eol_unknown_tag >
-      : scan_char_impl< Eol >
+      : scan_eol_base< Eol >
    {};
 
    template< char Eol, typename Peek >
    struct text_scan_traits< Eol, tester< one< Peek, Eol > > >
-      : scan_line_impl
+      : scan_line_base
    {};
 
    template< char Eol, typename Rule >
    struct text_scan_traits< Eol, tester< Rule >, std::enable_if_t< !Rule::test( typename Rule::data_t( Eol ) ) > >
-      : scan_columns_impl
+      : scan_skip_base
    {};
 
    template< char Eol, char... Cs >
-   struct text_scan_traits< Eol, char_string< Cs... >, std::enable_if_t< ( ( Eol != Cs ) && ... ) > >
-      : scan_columns_impl
+   struct text_scan_traits< Eol, ascii_string< Cs... >, std::enable_if_t< ( ( Eol != Cs ) && ... ) > >
+      : scan_skip_base
    {};
 
-   template< char Eol, template< typename Endian, char... Cs > class String, typename Endian, char... Cs >
-   struct text_scan_traits< Eol, ascii_multiple< String< Endian, Cs... > >, std::enable_if_t< ( ( Eol != Cs ) && ... ) > >
-      : scan_columns_impl
+   template< char Eol, char... Cs >
+   struct text_scan_traits< Eol, ascii_istring< Cs... >, std::enable_if_t< ( ( Eol != Cs ) && ... ) > >
+      : scan_skip_base
    {};
 
    template< char Eol, typename Cond >
@@ -74,12 +73,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< char Eol >
    struct text_scan_traits< Eol, until< eol< void > > >
-      : scan_columns_impl
+      : scan_skip_base
    {};
 
    template< char Eol >
    struct text_scan_traits< Eol, until< eolf< void > > >
-      : scan_columns_impl
+      : scan_skip_base
    {};
 
    template< char Eol, typename Cond >
@@ -89,12 +88,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< char Eol, typename Peek >
    struct text_scan_traits< Eol, until< tester< one< Peek, Eol > > > >
-      : scan_columns_impl
+      : scan_skip_base
    {};
 
    template< char Eol, typename Rule, typename >
    struct text_scan_traits
-      : scan_char_impl< Eol >
+      : scan_eol_base< Eol >
    {
       static_assert( std::is_same_v< Rule, typename Rule::rule_t > );
    };

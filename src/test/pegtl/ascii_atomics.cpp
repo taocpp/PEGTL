@@ -15,13 +15,13 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       verify_analyze< ascii::any7 >( __LINE__, __FILE__, true, false );
-      verify_analyze< ascii::any8 >( __LINE__, __FILE__, true, false );
+      verify_analyze< ascii::any >( __LINE__, __FILE__, true, false );
       verify_analyze< ascii::not_one7< 'a' > >( __LINE__, __FILE__, true, false );
       verify_analyze< ascii::not_one7< 'a', 'z' > >( __LINE__, __FILE__, true, false );
-      verify_analyze< ascii::not_one8< 'a' > >( __LINE__, __FILE__, true, false );
-      verify_analyze< ascii::not_one8< 'a', 'z' > >( __LINE__, __FILE__, true, false );
+      verify_analyze< ascii::not_one< 'a' > >( __LINE__, __FILE__, true, false );
+      verify_analyze< ascii::not_one< 'a', 'z' > >( __LINE__, __FILE__, true, false );
       verify_analyze< ascii::not_range7< 'a', 'z' > >( __LINE__, __FILE__, true, false );
-      verify_analyze< ascii::not_range8< 'a', 'z' > >( __LINE__, __FILE__, true, false );
+      verify_analyze< ascii::not_range< 'a', 'z' > >( __LINE__, __FILE__, true, false );
       verify_analyze< ascii::one< 'a' > >( __LINE__, __FILE__, true, false );
       verify_analyze< ascii::one< 'a', 'z' > >( __LINE__, __FILE__, true, false );
       verify_analyze< ascii::range< 'a', 'z' > >( __LINE__, __FILE__, true, false );
@@ -29,13 +29,13 @@ namespace TAO_PEGTL_NAMESPACE
       verify_analyze< ascii::ranges< 'a', 'z', '4' > >( __LINE__, __FILE__, true, false );
 
       verify_rule< ascii::any7 >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
-      verify_rule< ascii::any8 >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+      verify_rule< ascii::any >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
       verify_rule< ascii::not_one7< 'a' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
       verify_rule< ascii::not_one7< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
-      verify_rule< ascii::not_one8< 'a' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
-      verify_rule< ascii::not_one8< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+      verify_rule< ascii::not_one< 'a' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+      verify_rule< ascii::not_one< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
       verify_rule< ascii::not_range7< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
-      verify_rule< ascii::not_range8< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+      verify_rule< ascii::not_range< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
       verify_rule< ascii::one< 'a' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
       verify_rule< ascii::one< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
       verify_rule< ascii::range< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
@@ -50,13 +50,13 @@ namespace TAO_PEGTL_NAMESPACE
          const bool is_ranges = is_range || ( c == 3 );
 
          verify_char< ascii::any7 >( __LINE__, __FILE__, c, true );
-         verify_char< ascii::any8 >( __LINE__, __FILE__, c, true );
+         verify_char< ascii::any >( __LINE__, __FILE__, c, true );
          verify_char< ascii::not_one7< 'P' > >( __LINE__, __FILE__, c, c != 'P' );
          verify_char< ascii::not_one7< 'a', '#', ' ' > >( __LINE__, __FILE__, c, !is_one );
-         verify_char< ascii::not_one8< 'P' > >( __LINE__, __FILE__, c, c != 'P' );
-         verify_char< ascii::not_one8< 'a', '#', ' ' > >( __LINE__, __FILE__, c, !is_one );
+         verify_char< ascii::not_one< 'P' > >( __LINE__, __FILE__, c, c != 'P' );
+         verify_char< ascii::not_one< 'a', '#', ' ' > >( __LINE__, __FILE__, c, !is_one );
          verify_char< ascii::not_range7< 20, 120 > >( __LINE__, __FILE__, c, !is_range );
-         verify_char< ascii::not_range8< 20, 120 > >( __LINE__, __FILE__, c, !is_range );
+         verify_char< ascii::not_range< 20, 120 > >( __LINE__, __FILE__, c, !is_range );
          verify_char< ascii::one< 'T' > >( __LINE__, __FILE__, c, c == 'T' );
          verify_char< ascii::one< 'a', '#', ' ' > >( __LINE__, __FILE__, c, is_one );
          verify_char< ascii::range< 20, 120 > >( __LINE__, __FILE__, c, is_range );
@@ -68,13 +68,13 @@ namespace TAO_PEGTL_NAMESPACE
             const auto c = char( i );
 
             verify_char< ascii::any7 >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::any8 >( __LINE__, __FILE__, c, true );
+            verify_char< ascii::any >( __LINE__, __FILE__, c, true );
             verify_char< ascii::not_one7< 'P' > >( __LINE__, __FILE__, c, false );
             verify_char< ascii::not_one7< 'a', '#', ' ' > >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::not_one8< 'P' > >( __LINE__, __FILE__, c, true );
-            verify_char< ascii::not_one8< 'a', '#', ' ' > >( __LINE__, __FILE__, c, true );
+            verify_char< ascii::not_one< 'P' > >( __LINE__, __FILE__, c, true );
+            verify_char< ascii::not_one< 'a', '#', ' ' > >( __LINE__, __FILE__, c, true );
             verify_char< ascii::not_range7< 20, 120 > >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::not_range8< 20, 120 > >( __LINE__, __FILE__, c, true );
+            verify_char< ascii::not_range< 20, 120 > >( __LINE__, __FILE__, c, true );
             verify_char< ascii::one< 'T' > >( __LINE__, __FILE__, c, false );
             verify_char< ascii::one< 'a', '#', ' ' > >( __LINE__, __FILE__, c, false );
             verify_char< ascii::range< 20, 120 > >( __LINE__, __FILE__, c, false );
@@ -87,13 +87,13 @@ namespace TAO_PEGTL_NAMESPACE
             const auto c = char( i );
 
             verify_char< ascii::any7 >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::any8 >( __LINE__, __FILE__, c, true );
+            verify_char< ascii::any >( __LINE__, __FILE__, c, true );
             verify_char< ascii::not_one7< 'P' > >( __LINE__, __FILE__, c, false );
             verify_char< ascii::not_one7< 'a', '#', ' ' > >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::not_one8< 'P' > >( __LINE__, __FILE__, c, true );
-            verify_char< ascii::not_one8< 'a', '#', ' ' > >( __LINE__, __FILE__, c, true );
+            verify_char< ascii::not_one< 'P' > >( __LINE__, __FILE__, c, true );
+            verify_char< ascii::not_one< 'a', '#', ' ' > >( __LINE__, __FILE__, c, true );
             verify_char< ascii::not_range7< 20, 120 > >( __LINE__, __FILE__, c, false );
-            verify_char< ascii::not_range8< 20, 120 > >( __LINE__, __FILE__, c, true );
+            verify_char< ascii::not_range< 20, 120 > >( __LINE__, __FILE__, c, true );
             verify_char< ascii::one< 'T' > >( __LINE__, __FILE__, c, false );
             verify_char< ascii::one< 'a', '#', ' ' > >( __LINE__, __FILE__, c, false );
             verify_char< ascii::range< 20, 120 > >( __LINE__, __FILE__, c, false );

@@ -11,23 +11,23 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      using any7 = internal::any< internal::peek_ascii7 >;
-      using any8 = internal::any< internal::peek_ascii8 >;
+      using any7 = internal::any< internal::peek_seven >;
+      using any = internal::any< internal::peek_char >;
       using any32 = internal::any< internal::peek_uint32_be >;
 
-      verify_meta< any7, internal::any< internal::peek_ascii7 > >();
-      verify_meta< any8, internal::any< internal::peek_ascii8 > >();
+      verify_meta< any7, internal::any< internal::peek_seven > >();
+      verify_meta< any, internal::any< internal::peek_char > >();
       verify_meta< any32, internal::any< internal::peek_uint32_be > >();
 
       verify_analyze< any7 >( __LINE__, __FILE__, true, false );
-      verify_analyze< any8 >( __LINE__, __FILE__, true, false );
+      verify_analyze< any >( __LINE__, __FILE__, true, false );
       verify_analyze< any32 >( __LINE__, __FILE__, true, false );
       {
          char c = char( 200 );
          view_input< eols::scan::lf > in( &c, 1 );
          TAO_PEGTL_TEST_ASSERT( !parse< any7 >( in ) );
          TAO_PEGTL_TEST_ASSERT( !parse< any32 >( in ) );
-         TAO_PEGTL_TEST_ASSERT( parse< any8 >( in ) );
+         TAO_PEGTL_TEST_ASSERT( parse< any >( in ) );
       } {
          view_input< eols::scan::lf > in( "fg" );
          TAO_PEGTL_TEST_ASSERT( parse< any7 >( in ) );
@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( *in.current() == 'g' );
       } {
          view_input< eols::scan::lf > in( "fg" );
-         TAO_PEGTL_TEST_ASSERT( parse< any8 >( in ) );
+         TAO_PEGTL_TEST_ASSERT( parse< any >( in ) );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
          TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
          TAO_PEGTL_TEST_ASSERT( *in.current() == 'g' );

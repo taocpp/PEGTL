@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE
          input_0 in( "\n" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-         TAO_PEGTL_TEST_ASSERT( parse< ascii::any8 >( in ) );
+         TAO_PEGTL_TEST_ASSERT( parse< ascii::any >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 2, 1, 1 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
@@ -63,7 +63,7 @@ namespace TAO_PEGTL_NAMESPACE
          const char* start = in.current();
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-         TAO_PEGTL_TEST_ASSERT( parse< ascii::many8< 3 > >( in ) );
+         TAO_PEGTL_TEST_ASSERT( parse< ascii::many< 3 > >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 3 );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 2, 3 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
@@ -72,10 +72,10 @@ namespace TAO_PEGTL_NAMESPACE
          const char* start = in.current();
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-         TAO_PEGTL_TEST_ASSERT( parse< ascii::many8< 2 > >( in ) );
+         TAO_PEGTL_TEST_ASSERT( parse< ascii::many< 2 > >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 2 );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 1, 2 ) );
-         TAO_PEGTL_TEST_ASSERT( parse< ascii::many8< 1 > >( in ) );
+         TAO_PEGTL_TEST_ASSERT( parse< ascii::many< 1 > >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 3 );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 2, 3 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
@@ -84,7 +84,7 @@ namespace TAO_PEGTL_NAMESPACE
          const char* start = in.current();
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-         TAO_PEGTL_TEST_ASSERT( parse< ascii::many8< 2 > >( in ) );
+         TAO_PEGTL_TEST_ASSERT( parse< ascii::many< 2 > >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 2 );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 2, 2 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
@@ -93,10 +93,10 @@ namespace TAO_PEGTL_NAMESPACE
          const char* start = in.current();
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-         TAO_PEGTL_TEST_ASSERT( parse< ascii::many8< 1 > >( in ) );
+         TAO_PEGTL_TEST_ASSERT( parse< ascii::many< 1 > >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 1 );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 2, 1 ) );
-         TAO_PEGTL_TEST_ASSERT( parse< ascii::many8< 2 > >( in ) );
+         TAO_PEGTL_TEST_ASSERT( parse< ascii::many< 2 > >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 3 );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 2, 3 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );

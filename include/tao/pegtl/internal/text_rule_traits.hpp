@@ -27,22 +27,22 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< typename Eol >
    struct text_rule_traits< Eol, eol_exclude_tag >
-      : scan_columns_impl
+      : scan_skip_base
    {};
 
    template< typename Eol >
    struct text_rule_traits< Eol, eol_matched_tag >
-      : scan_line_impl
+      : scan_line_base
    {};
 
    template< typename Eol >
    struct text_rule_traits< Eol, eol_unknown_tag >
-      : scan_columns_impl
+      : scan_skip_base
    {};
 
    template< typename Eol, typename Rule, typename >
    struct text_rule_traits
-      : scan_columns_impl
+      : scan_skip_base
    {};
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

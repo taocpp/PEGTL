@@ -16,7 +16,6 @@
 #include "bol.hpp"
 #include "consume.hpp"
 #include "control.hpp"
-#include "char_string.hpp"
 #include "disable.hpp"
 #include "enable.hpp"
 #include "eof.hpp"

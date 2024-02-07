@@ -11,7 +11,6 @@ int main()
 #else
 
 #include "test.hpp"
-#include "test_ascii.hpp"
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 

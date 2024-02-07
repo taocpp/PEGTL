@@ -31,13 +31,13 @@ namespace TAO_PEGTL_NAMESPACE
       rule_test< eols::rule::lf, eolf >( " ", 1, 2, 1 );
       rule_test< eols::rule::lf, eolf >( "\n", 1, 2, 1 );
 
-      rule_test< eols::rule::lf, ascii::any8 >( "", 1, 1, 0 );
-      rule_test< eols::rule::lf, ascii::any8 >( " ", 1, 2, 1 );
-      rule_test< eols::rule::lf, ascii::any8 >( "\n", 1, 2, 1 );
+      rule_test< eols::rule::lf, ascii::any >( "", 1, 1, 0 );
+      rule_test< eols::rule::lf, ascii::any >( " ", 1, 2, 1 );
+      rule_test< eols::rule::lf, ascii::any >( "\n", 1, 2, 1 );
 
-      rule_test< eols::rule::lf, ascii::many8< 3 > >( "xyz", 1, 4, 3 );
-      rule_test< eols::rule::lf, ascii::many8< 30 > >( "xyz", 1, 4, 3 );
-      rule_test< eols::rule::lf, ascii::many8< 3 > >( "\n\n\n", 1, 4, 3 );
+      rule_test< eols::rule::lf, ascii::many< 3 > >( "xyz", 1, 4, 3 );
+      rule_test< eols::rule::lf, ascii::many< 30 > >( "xyz", 1, 4, 3 );
+      rule_test< eols::rule::lf, ascii::many< 3 > >( "\n\n\n", 1, 4, 3 );
 
       rule_test< eols::rule::lf, eol_exclude_tag >( "", 1, 1, 0 );
       rule_test< eols::rule::lf, eol_exclude_tag >( " ", 1, 2, 1 );

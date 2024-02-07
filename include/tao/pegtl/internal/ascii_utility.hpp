@@ -5,14 +5,21 @@
 #ifndef TAO_PEGTL_INTERNAL_ASCII_UTILITY_HPP
 #define TAO_PEGTL_INTERNAL_ASCII_UTILITY_HPP
 
+#include <cstring>
+#include <initializer_list>
 #include <type_traits>
 
 #include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
+   [[nodiscard]] inline bool char_string_equal( const void* s, const std::initializer_list< char >& l ) noexcept
+   {
+      return std::memcmp( s, l.begin(), l.size() ) == 0;
+   }
+
    template< typename T >
-   [[nodiscard]] constexpr bool is_ascii_value( const T t ) noexcept
+   [[nodiscard]] constexpr bool is_seven_value( const T t ) noexcept
    {
       if constexpr( std::is_unsigned_v< T > ) {
          return t <= 127;
@@ -35,9 +42,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
    }
 
    template< char... Cs >
-   [[nodiscard]] constexpr bool ascii_string_equal( const char* r ) noexcept
+   [[nodiscard]] constexpr bool ascii_string_equal( const void* r ) noexcept
    {
-      return ( ascii_char_equal< Cs >( *r++ ) && ... );
+      const char* t = static_cast< const char* >( r );
+      return ( ascii_char_equal< Cs >( *t++ ) && ... );
    }
 
    // [[nodiscard]] inline bool ascii_string_equal( const void* s, const std::initializer_list< char >& l ) noexcept
@@ -57,9 +65,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
    }
 
    template< char... Cs >
-   [[nodiscard]] constexpr bool ascii_istring_equal( const char* r ) noexcept
+   [[nodiscard]] constexpr bool ascii_istring_equal( const void* r ) noexcept
    {
-      return ( ascii_ichar_equal< Cs >( *r++ ) && ... );
+      const char* t = static_cast< const char* >( r );
+      return ( ascii_ichar_equal< Cs >( *t++ ) && ... );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

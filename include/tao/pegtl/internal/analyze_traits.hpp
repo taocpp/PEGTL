@@ -29,10 +29,19 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits<>
    {};
 
-   template< typename Name, typename String >
-   struct analyze_traits< Name, internal::ascii_multiple< String > >
+   template< typename Name, char... Cs >
+   struct analyze_traits< Name, internal::ascii_istring< Cs... > >
       : analyze_any_traits<>
-   {};
+   {
+      static_assert( sizeof...( Cs ) > 0 );
+   };
+
+   template< typename Name, char... Cs >
+   struct analyze_traits< Name, internal::ascii_string< Cs... > >
+      : analyze_any_traits<>
+   {
+      static_assert( sizeof...( Cs ) > 0 );
+   };
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::at< Rules... > >
@@ -48,13 +57,6 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_traits< Name, internal::bol >
       : analyze_opt_traits<>
    {};
-
-   template< typename Name, char... Cs >
-   struct analyze_traits< Name, internal::char_string< Cs... > >
-      : analyze_any_traits<>
-   {
-      static_assert( sizeof...( Cs ) > 0 );
-   };
 
    template< typename Name, std::size_t Count, typename Reference >
    struct analyze_traits< Name, internal::consume< Count, Reference > >
