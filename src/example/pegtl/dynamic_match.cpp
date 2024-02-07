@@ -106,7 +106,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       std::string id;
       std::string body;
 
-      pegtl::argv_input< pegtl::eols::rule::lf > in( argv, 1 );
+      pegtl::argv_input< pegtl::eols::scan::lf_crlf > in( argv, 1 );
       if( pegtl::parse< dynamic::grammar, dynamic::action >( in, id, body ) ) {
          std::cout << "long literal id was: " << id << std::endl;
          std::cout << "long literal body was: " << body << std::endl;

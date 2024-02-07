@@ -500,7 +500,7 @@ int main( int argc, char** argv )
    //    return 1;
    // }
    for( int i = 1; i < argc; ++i ) {
-      TAO_PEGTL_NAMESPACE::argv_input< TAO_PEGTL_NAMESPACE::eols::rule::lf > in( argv, i );
+      TAO_PEGTL_NAMESPACE::argv_input< TAO_PEGTL_NAMESPACE::eols::scan::lf_crlf > in( argv, i );
       try {
          application::result res;
          TAO_PEGTL_NAMESPACE::parse< application::grammar, application::action >( in, res );

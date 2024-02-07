@@ -33,30 +33,6 @@ namespace TAO_PEGTL_NAMESPACE::eols
 
    }  // namespace impl
 
-   namespace rule
-   {
-      // clang-format off
-      struct cr : impl::cr {};
-      struct lf : impl::lf {};
-
-      struct ls : impl::ls {};
-      struct nel : impl::nel {};
-      struct ps : impl::ps {};
-
-      struct crlf : impl::crlf {};
-      struct lfcr : impl::lfcr {};
-
-      struct cr_lf : impl::cr_lf {};
-
-      struct cr_crlf : internal::sor< impl::crlf, impl::cr > {};
-      struct lf_crlf : internal::sor< impl::lf, impl::crlf > {};
-
-      struct cr_lf_crlf : internal::sor< impl::crlf, impl::cr_lf > {};
-
-      struct unicode : internal::sor< impl::crlf, impl::unicode1 > {};
-      // clang-format on
-   }  // namespace rule
-
    namespace scan
    {
       // clang-format off

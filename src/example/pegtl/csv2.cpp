@@ -175,7 +175,7 @@ namespace csv2
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    for( int i = 1; i < argc; ++i ) {
-      pegtl::lazy_file_input< pegtl::eols::rule::lf_crlf > in( argv[ i ] );
+      pegtl::lazy_file_input< pegtl::eols::scan::lf_crlf > in( argv[ i ] );
       constexpr unsigned number_of_columns = 3;
       csv2::result_data< number_of_columns > data;
       if( pegtl::parse< pegtl::seq< csv2::file< number_of_columns > >, csv2::action >( in, data ) ) {

@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 1, 1 ) );
       }
-      using input_2 = lazy_view_input< eols::rule::cr_lf_crlf >;
+      using input_2 = lazy_view_input< ascii::cr_lf_crlf >;
       {
          input_2 in( "" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );

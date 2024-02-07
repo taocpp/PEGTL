@@ -75,7 +75,7 @@ namespace sexpr
          // last string literal that we use as filename here, and
          // the input is passed on for chained error messages (as
          // in "error in line x file foo included from file bar...)
-         pegtl::text_file_input< pegtl::eols::rule::lf_crlf > i2( fn );
+         pegtl::text_file_input< pegtl::eols::scan::lf_crlf > i2( fn );
          pegtl::parse_nested< main, sexpr::action >( in, i2, f2 );
       }
    };
@@ -89,7 +89,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    }
    for( int i = 1; i < argc; ++i ) {
       std::string fn;
-      TAO_PEGTL_NAMESPACE::argv_input< TAO_PEGTL_NAMESPACE::eols::rule::lf_crlf > in( argv, i );
+      TAO_PEGTL_NAMESPACE::argv_input< TAO_PEGTL_NAMESPACE::eols::scan::lf_crlf > in( argv, i );
       try {
          TAO_PEGTL_NAMESPACE::parse< sexpr::main, sexpr::action >( in, fn );
       }

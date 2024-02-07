@@ -169,7 +169,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    }
    else {
       example::json_state state;
-      pegtl::text_file_input< pegtl::eols::rule::lf > in( argv[ 1 ] );
+      pegtl::text_file_input< pegtl::eols::scan::lf_crlf > in( argv[ 1 ] );
 #if defined( __cpp_exceptions )
       try {
          pegtl::parse< example::grammar, example::action, example::control >( in, state );

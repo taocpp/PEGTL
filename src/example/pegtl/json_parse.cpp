@@ -37,7 +37,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
                 << "Example: " << argv[ 0 ] << " '{\"foo\":[42,null]}'" << std::endl;
       return 1;
    }
-   pegtl::input_with_depth< pegtl::argv_input< pegtl::eols::rule::lf > > in( argv, 1 );
+   pegtl::input_with_depth< pegtl::argv_input< pegtl::eols::scan::lf_crlf > > in( argv, 1 );
 #if defined( __cpp_exceptions )
    try {
       pegtl::parse< example::grammar, example::action, example::control >( in );

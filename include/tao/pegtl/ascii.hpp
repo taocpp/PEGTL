@@ -21,6 +21,7 @@ namespace TAO_PEGTL_NAMESPACE
       struct blank : internal::one< internal::peek_char, ' ', '\t' > {};
       struct cntrl : internal::ranges< internal::peek_char, static_cast< char >( 0 ), static_cast< char >( 31 ), static_cast< char >( 127 ) > {};
       struct cr : internal::one< internal::peek_char, '\r' > {};
+      struct cr_lf : internal::one< internal::peek_char, '\r', '\n' > {};
       struct crlf : internal::ascii_string< '\r', '\n' > {};
       struct digit : internal::range< internal::peek_char, '0', '9' > {};
       struct esc : internal::one< internal::peek_char, static_cast< char >( 27 ) > {};
@@ -38,6 +39,10 @@ namespace TAO_PEGTL_NAMESPACE
       struct upper : internal::range< internal::peek_char, 'A', 'Z' > {};
       struct vt : internal::one< internal::peek_char, '\v' > {};
       struct xdigit : internal::ranges< internal::peek_char, '0', '9', 'a', 'f', 'A', 'F' > {};
+
+      struct cr_crlf : internal::sor< crlf::rule_t, cr::rule_t > {};
+      struct cr_lf_crlf : internal::sor< crlf::rule_t, cr_lf::rule_t > {};
+      struct lf_crlf : internal::sor< lf::rule_t, crlf::rule_t > {};
 
       struct identifier_first : internal::identifier_first< internal::peek_char > {};
       struct identifier_other : internal::identifier_other< internal::peek_char > {};

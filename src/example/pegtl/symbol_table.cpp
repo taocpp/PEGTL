@@ -106,7 +106,7 @@ namespace example
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    for( int i = 1; i < argc; ++i ) {
-      pegtl::text_file_input< pegtl::eols::rule::lf_crlf > in( argv[ i ] );
+      pegtl::text_file_input< pegtl::eols::scan::lf_crlf > in( argv[ i ] );
       example::state st;
       pegtl::parse< example::grammar, example::action >( in, st );
       for( const auto& j : st.symbol_table ) {

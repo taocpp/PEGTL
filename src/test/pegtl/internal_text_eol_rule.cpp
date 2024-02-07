@@ -23,34 +23,34 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      rule_test< eols::rule::lf, eol >( "", 1, 1, 0 );
-      rule_test< eols::rule::lf, eol >( " ", 1, 2, 1 );
-      rule_test< eols::rule::lf, eol >( "\n", 1, 2, 1 );
+      rule_test< ascii::lf, eol >( "", 1, 1, 0 );
+      rule_test< ascii::lf, eol >( " ", 1, 2, 1 );
+      rule_test< ascii::lf, eol >( "\n", 1, 2, 1 );
 
-      rule_test< eols::rule::lf, eolf >( "", 1, 1, 0 );
-      rule_test< eols::rule::lf, eolf >( " ", 1, 2, 1 );
-      rule_test< eols::rule::lf, eolf >( "\n", 1, 2, 1 );
+      rule_test< ascii::lf, eolf >( "", 1, 1, 0 );
+      rule_test< ascii::lf, eolf >( " ", 1, 2, 1 );
+      rule_test< ascii::lf, eolf >( "\n", 1, 2, 1 );
 
-      rule_test< eols::rule::lf, ascii::any >( "", 1, 1, 0 );
-      rule_test< eols::rule::lf, ascii::any >( " ", 1, 2, 1 );
-      rule_test< eols::rule::lf, ascii::any >( "\n", 1, 2, 1 );
+      rule_test< ascii::lf, ascii::any >( "", 1, 1, 0 );
+      rule_test< ascii::lf, ascii::any >( " ", 1, 2, 1 );
+      rule_test< ascii::lf, ascii::any >( "\n", 1, 2, 1 );
 
-      rule_test< eols::rule::lf, ascii::many< 3 > >( "xyz", 1, 4, 3 );
-      rule_test< eols::rule::lf, ascii::many< 30 > >( "xyz", 1, 4, 3 );
-      rule_test< eols::rule::lf, ascii::many< 3 > >( "\n\n\n", 1, 4, 3 );
+      rule_test< ascii::lf, ascii::many< 3 > >( "xyz", 1, 4, 3 );
+      rule_test< ascii::lf, ascii::many< 30 > >( "xyz", 1, 4, 3 );
+      rule_test< ascii::lf, ascii::many< 3 > >( "\n\n\n", 1, 4, 3 );
 
-      rule_test< eols::rule::lf, eol_exclude_tag >( "", 1, 1, 0 );
-      rule_test< eols::rule::lf, eol_exclude_tag >( " ", 1, 2, 1 );
-      rule_test< eols::rule::lf, eol_exclude_tag >( "\n", 1, 2, 1 );
+      rule_test< ascii::lf, eol_exclude_tag >( "", 1, 1, 0 );
+      rule_test< ascii::lf, eol_exclude_tag >( " ", 1, 2, 1 );
+      rule_test< ascii::lf, eol_exclude_tag >( "\n", 1, 2, 1 );
 
-      rule_test< eols::rule::lf, eol_unknown_tag >( "", 1, 1, 0 );
-      rule_test< eols::rule::lf, eol_unknown_tag >( " ", 1, 2, 1 );
-      rule_test< eols::rule::lf, eol_unknown_tag >( "\n", 1, 2, 1 );
+      rule_test< ascii::lf, eol_unknown_tag >( "", 1, 1, 0 );
+      rule_test< ascii::lf, eol_unknown_tag >( " ", 1, 2, 1 );
+      rule_test< ascii::lf, eol_unknown_tag >( "\n", 1, 2, 1 );
 
-      rule_test< eols::rule::lf, eol_matched_tag >( "", 2, 1, 0 );
-      rule_test< eols::rule::lf, eol_matched_tag >( " ", 2, 1, 1 );
-      rule_test< eols::rule::lf, eol_matched_tag >( "\n", 2, 1, 1 );
-      rule_test< eols::rule::lf, eol_matched_tag >( "\r\n", 2, 1, 2 );
+      rule_test< ascii::lf, eol_matched_tag >( "", 2, 1, 0 );
+      rule_test< ascii::lf, eol_matched_tag >( " ", 2, 1, 1 );
+      rule_test< ascii::lf, eol_matched_tag >( "\n", 2, 1, 1 );
+      rule_test< ascii::lf, eol_matched_tag >( "\r\n", 2, 1, 2 );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

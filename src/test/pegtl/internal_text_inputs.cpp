@@ -129,7 +129,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 2, 3 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
       }
-      using input_1 = text_view_input< eols::rule::lf >;
+      using input_1 = text_view_input< ascii::lf >;
       {
          input_1 in( "" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
@@ -150,12 +150,12 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
          TAO_PEGTL_TEST_ASSERT( parse< eol >( in ) );
-         TAO_PEGTL_TEST_ASSERT( std::is_same_v< eols::rule::lf::rule_t, input_1::eol_rule::rule_t > );
+         TAO_PEGTL_TEST_ASSERT( std::is_same_v< ascii::lf::rule_t, input_1::eol_rule::rule_t > );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 2, 1, 1 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
       }
-      using input_2 = text_view_input< eols::rule::cr_lf_crlf >;
+      using input_2 = text_view_input< ascii::cr_lf_crlf >;
       {
          input_2 in( "" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
