@@ -15,7 +15,7 @@
 #include "../text_position.hpp"
 
 #include "input_with_lines.hpp"
-#include "lazy_eol_scan.hpp"
+#include "lazy_scan_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -52,8 +52,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          error_position_t pos;
          const std::size_t count = this->previous( saved ) - this->start();
-         lazy_eol_scan< Eol >( pos, this->start(), count );
-         pos.count = count;
+         lazy_scan_traits< typename Eol::rule_t >::scan( pos, this->start(), count );
          return pos;
       }
    };

@@ -9,7 +9,7 @@
 #include "test_utility.hpp"
 
 #include <tao/pegtl/text_position.hpp>
-#include <tao/pegtl/internal/text_eol_scan.hpp>
+#include <tao/pegtl/internal/text_scan_traits.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE
    void scan_test( const std::string& str, const std::size_t line, const std::size_t column, const std::size_t count )
    {
       text_position pos;
-      internal::text_eol_scan< Eol, Rule >( pos, str.data(), str.size() );
+      internal::text_scan_traits< Eol::eol_char, typename Rule::rule_t >::scan( pos, str.data(), str.size() );
       TAO_PEGTL_TEST_ASSERT( test::equal( pos, line, column, count ) );
    }
 

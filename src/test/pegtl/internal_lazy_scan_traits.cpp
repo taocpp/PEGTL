@@ -11,7 +11,7 @@
 #include <tao/pegtl/text_position.hpp>
 #include <tao/pegtl/internal/data_and_size.hpp>
 #include <tao/pegtl/internal/dependent_false.hpp>
-#include <tao/pegtl/internal/lazy_eol_scan.hpp>
+#include <tao/pegtl/internal/lazy_scan_traits.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE
    void lazy_test( const std::string& str, const std::size_t line, const std::size_t column, const std::size_t count )
    {
       text_position pos;
-      internal::lazy_eol_scan< Eol >( pos, str.data(), str.size() );
+      internal::lazy_scan_traits< typename Eol::rule_t >::scan( pos, str.data(), str.size() );
       TAO_PEGTL_TEST_ASSERT( test::equal( pos, line, column, count ) );
    }
 
