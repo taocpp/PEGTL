@@ -17,6 +17,7 @@
 #include "eol.hpp"
 #include "eolf.hpp"
 #include "get_eol_rule_char.hpp"
+#include "lazy_scan_input.hpp"
 #include "scan_base_classes.hpp"
 #include "tester.hpp"
 #include "until.hpp"
@@ -49,17 +50,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Eol, typename Rule >
    struct text_scan_traits< Eol, tester< Rule > >
    {
-      template< typename Data, typename Position >
-      static void scan( Position& pos, const Data* data, const std::size_t count ) noexcept
+      template< typename Position, typename Data >
+      static void scan( Position& pos, lazy_scan_input< Data >& in )
       {
          if constexpr( std::is_same_v< typename Eol::eol_char_rule::rule_t, tester< Rule > > ) {
-            inc_line_scan::scan( pos, data, count );
+            inc_line_scan::scan( pos, in );
          }
          else if constexpr( Rule::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) ) {
-            char_scan_traits< typename Eol::eol_char_rule >::scan( pos, data, count );
+            char_scan_traits< typename Eol::eol_char_rule >::scan( pos, in );
          }
          else {
-            add_column_scan::scan( pos, data, count );
+            add_column_scan::scan( pos, in );
          }
       }
    };

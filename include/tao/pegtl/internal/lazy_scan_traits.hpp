@@ -21,9 +21,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct lazy_scan_traits
    {
       template< typename Position, typename Data >
-      static void scan( Position& pos, const Data* data, const std::size_t count )
+      static void scan( Position& pos, lazy_scan_input< Data >& in )
       {
-         lazy_scan_input< Data > in( data, count );
+         pos.count += in.size();
 
          while( !in.empty() ) {
             if( normal< Eol >::template match< apply_mode::nothing, rewind_mode::required, nothing, normal >( in ) ) {
@@ -38,7 +38,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
             }
             break;
          }
-         pos.count += count;
       }
    };
 

@@ -17,7 +17,8 @@ namespace TAO_PEGTL_NAMESPACE
    void rule_test( const std::string& str, const std::size_t line, const std::size_t column, const std::size_t count )
    {
       text_position pos;
-      internal::text_rule_traits< Eol, Rule >::scan( pos, str.data(), str.size() );
+      internal::lazy_scan_input< char > in( str.data(), str.size() );
+      internal::text_rule_traits< Eol, Rule >::scan( pos, in );
       TAO_PEGTL_TEST_ASSERT( test::equal( pos, line, column, count ) );
    }
 

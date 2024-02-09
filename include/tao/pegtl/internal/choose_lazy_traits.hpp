@@ -9,33 +9,35 @@
 
 #include "../config.hpp"
 
+#include "char_scan_traits.hpp"
 #include "dependent_false.hpp"
 #include "get_eol_rule_char.hpp"
 #include "has_eol_lazy_peek.hpp"
 #include "has_eol_char_rule.hpp"
 #include "lazy_scan_traits.hpp"
-#include "char_scan_traits.hpp"
+#include "lazy_scan_input.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Eol, typename Position, typename Data >
-   void choose_lazy_traits( Position& pos, const Data* data, const std::size_t count )
+   void choose_lazy_traits( Position& pos, lazy_scan_input< Data >& in )
    {
       static_assert( !std::is_same_v< Eol, void > );
       static_assert( !std::is_same_v< Eol, typename Eol::rule_t > );
 
       if constexpr( get_eol_rule_char_v< Eol > ) {
-         char_scan_traits< Eol >::scan( pos, data, count );
+         char_scan_traits< Eol >::scan( pos, in );
       }
       else if constexpr( has_eol_char_rule< Eol > ) {
-         char_scan_traits< typename Eol::eol_char_rule >::scan( pos, data, count );
+         char_scan_traits< typename Eol::eol_char_rule >::scan( pos, in );
       }
       else if constexpr( has_eol_lazy_peek< Eol > ) {
-         lazy_scan_traits< typename Eol::rule_t, typename Eol::eol_lazy_peek >::scan( pos, data, count );
+         lazy_scan_traits< typename Eol::rule_t, typename Eol::eol_lazy_peek >::scan( pos, in );
       }
       else {
          static_assert( dependent_false< Eol, Position, Data > );
       }
+      // TODO: Throw or crash on !in.empty()?
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

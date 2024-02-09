@@ -20,16 +20,12 @@ namespace TAO_PEGTL_NAMESPACE
       struct alpha : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z' > {};
       struct blank : internal::one< internal::peek_char, ' ', '\t' > {};
       struct cntrl : internal::ranges< internal::peek_char, static_cast< char >( 0 ), static_cast< char >( 31 ), static_cast< char >( 127 ) > {};
-      struct cr : internal::one< internal::peek_char, '\r' > {};
-      struct cr_lf : internal::one< internal::peek_char, '\r', '\n' > { using eol_lazy_peek = internal::peek_char; };
-      struct crlf : internal::ascii_string< '\r', '\n' > { using eol_lazy_peek = internal::peek_char; };
       struct digit : internal::range< internal::peek_char, '0', '9' > {};
       struct esc : internal::one< internal::peek_char, static_cast< char >( 27 ) > {};
       struct ellipsis : internal::ascii_string< '.', '.', '.' > {};
       struct ff : internal::one< internal::peek_char, '\f' > {};
       struct graph : internal::range< internal::peek_char, static_cast< char >( 33 ), static_cast< char >( 126 ) > {};
       struct ht : internal::one< internal::peek_char, '\t' > {};
-      struct lf : internal::one< internal::peek_char, '\n' > {};
       struct lower : internal::range< internal::peek_char, 'a', 'z' > {};
       struct nul : internal::one< internal::peek_char, static_cast< char >( 0 ) > {};
       struct odigit : internal::range< internal::peek_char, '0', '7' > {};
@@ -40,6 +36,11 @@ namespace TAO_PEGTL_NAMESPACE
       struct vt : internal::one< internal::peek_char, '\v' > {};
       struct xdigit : internal::ranges< internal::peek_char, '0', '9', 'a', 'f', 'A', 'F' > {};
 
+      struct cr : internal::one< internal::peek_char, '\r' > {};
+      struct lf : internal::one< internal::peek_char, '\n' > {};
+
+      struct cr_lf : internal::one< internal::peek_char, '\r', '\n' > { using eol_lazy_peek = internal::peek_char; };
+      struct crlf : internal::ascii_string< '\r', '\n' > { using eol_lazy_peek = internal::peek_char; };
       struct cr_crlf : internal::sor< crlf::rule_t, cr::rule_t > { using eol_lazy_peek = internal::peek_char; };
       struct cr_lf_crlf : internal::sor< crlf::rule_t, cr_lf::rule_t > { using eol_lazy_peek = internal::peek_char; };
       struct lf_crlf : internal::sor< lf::rule_t, crlf::rule_t > { using eol_lazy_peek = internal::peek_char; };
@@ -49,12 +50,6 @@ namespace TAO_PEGTL_NAMESPACE
       struct identifier : internal::identifier< internal::peek_char > {};
       template< char... Cs > struct keyword : internal::seq< internal::ascii_string< Cs... >, internal::not_at< internal::identifier_other< internal::peek_char > > > { static_assert( sizeof...( Cs ) > 0 ); };
       struct shebang : internal::seq< internal::ascii_string< '#', '!' >, internal::until< internal::eolf< void > > > {};
-
-      struct any7 : internal::any< internal::peek_seven > {};
-      template< unsigned Count > struct many7 : internal::many< Count, internal::peek_seven > {};
-      template< char... Cs > struct not_ione7 : internal::not_ione< internal::peek_seven, Cs... > {};
-      template< char... Cs > struct not_one7 : internal::not_one< internal::peek_seven, Cs... > {};
-      template< char Lo, char Hi > struct not_range7 : internal::not_range< internal::peek_seven, Lo, Hi > {};
 
       struct any : internal::any< internal::peek_char > {};
       template< char... Cs > struct ione : internal::ione< internal::peek_char, Cs... > {};
@@ -69,6 +64,12 @@ namespace TAO_PEGTL_NAMESPACE
       template< char... Cs > struct string : internal::ascii_string< Cs... > {};
       template< char C > struct three : internal::ascii_string< C, C, C > {};
       template< char C > struct two : internal::ascii_string< C, C > {};
+
+      struct any7 : internal::any< internal::peek_seven > {};
+      template< unsigned Count > struct many7 : internal::many< Count, internal::peek_seven > {};
+      template< char... Cs > struct not_ione7 : internal::not_ione< internal::peek_seven, Cs... > {};
+      template< char... Cs > struct not_one7 : internal::not_one< internal::peek_seven, Cs... > {};
+      template< char Lo, char Hi > struct not_range7 : internal::not_range< internal::peek_seven, Lo, Hi > {};
       // clang-format on
 
    }  // namespace ascii

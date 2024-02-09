@@ -23,14 +23,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< auto Eol, typename Peek >
    struct char_scan_traits< tester< one< Peek, Eol > > >
    {
-      template< typename Data, typename Position >
-      static void scan( Position& pos, const Data* data, const std::size_t count )
+      template< typename Position, typename Data >
+      static void scan( Position& pos, lazy_scan_input< Data >& in )
       {
          using Char = decltype( Eol );
 
          static_assert( is_simple_type_v< Data > );
 
-         lazy_scan_input< Data > in( data, count );
+         pos.count += in.size();
 
          // if constexpr( std::is_same_v< Peek, peek_char > ) {
          if constexpr( ( sizeof( Char ) == 1 ) && ( sizeof( Data ) == 1 ) ) {
@@ -61,7 +61,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
                break;  // TODO: Leave input argument non-empty!
             }
          }
-         pos.count += count;
       }
    };
 

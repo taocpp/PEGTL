@@ -60,7 +60,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       void consume( const std::size_t count ) noexcept
       {
          // assert( count <= buffer_used_size() );
-         choose_text_traits< Eol, Rule >( m_position, this->current(), count );
+         lazy_scan_input< data_t > in( this->current(), count );
+         choose_text_traits< Eol, Rule >( m_position, in );
          this->m_current += count;
       }
 

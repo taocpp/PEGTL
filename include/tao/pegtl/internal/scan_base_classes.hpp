@@ -6,39 +6,38 @@
 #define TAO_PEGTL_INTERNAL_SCAN_BASE_CLASSES_HPP
 
 #include <cstddef>
-#include <type_traits>
 
 #include "../config.hpp"
 
-#include "type_traits.hpp"
+#include "lazy_scan_input.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    struct nop_scan
    {
-      template< typename Data, typename Position >
-      static void scan( Position& /*unused*/, const Data* /*unused*/, const std::size_t /*unused*/ ) noexcept
+      template< typename... As >
+      static void scan( As&&... /*unused*/ )
       {}
    };
 
    struct inc_line_scan
    {
-      template< typename Data, typename Position >
-      static void scan( Position& pos, const Data* /*unused*/, const std::size_t count ) noexcept
+      template< typename Position, typename Data >
+      static void scan( Position& pos, const lazy_scan_input< Data >& in ) noexcept
       {
          ++pos.line;
          pos.column = 1;
-         pos.count += count;
+         pos.count += in.size();
       }
    };
 
    struct add_column_scan
    {
-      template< typename Data, typename Position >
-      static void scan( Position& pos, const Data* /*unused*/, const std::size_t count ) noexcept
+      template< typename Position, typename Data >
+      static void scan( Position& pos, const lazy_scan_input< Data >& in ) noexcept
       {
-         pos.column += count;
-         pos.count += count;
+         pos.column += in.size();
+         pos.count += in.size();
       }
    };
 

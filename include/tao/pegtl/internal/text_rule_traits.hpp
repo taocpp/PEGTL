@@ -15,8 +15,10 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Eol, typename Rule, typename = void >
-   struct text_rule_traits;
+   template< typename Eol, typename Rule >
+   struct text_rule_traits
+      : add_column_scan
+   {};
 
    template< typename Eol >
    struct text_rule_traits< Eol, eol_exclude_tag >
@@ -30,11 +32,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< typename Eol >
    struct text_rule_traits< Eol, eol_unknown_tag >
-      : add_column_scan
-   {};
-
-   template< typename Eol, typename Rule, typename >
-   struct text_rule_traits
       : add_column_scan
    {};
 
