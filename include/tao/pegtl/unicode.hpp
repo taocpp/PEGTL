@@ -20,14 +20,14 @@ namespace TAO_PEGTL_NAMESPACE::unicode
    struct nel : internal::one< internal::peek_unicode, char32_t( 0x85 ) > {};
    struct ps : internal::one< internal::peek_unicode, char32_t( 0x2029 ) > {};
 
-   struct cr_lf : internal::one< internal::peek_unicode, '\r', '\n' > {};
-   struct crlf : internal::seq_one< internal::peek_unicode, '\r', '\n' > {};
-   struct cr_crlf : internal::sor< crlf::rule_t, cr::rule_t > {};
-   struct cr_lf_crlf : internal::sor< crlf::rule_t, cr_lf::rule_t > {};
-   struct lf_crlf : internal::sor< lf::rule_t, crlf::rule_t > {};
+   struct cr_lf : internal::one< internal::peek_unicode, '\r', '\n' > { using eol_lazy_peek = internal::peek_unicode; };
+   struct crlf : internal::seq_one< internal::peek_unicode, '\r', '\n' > { using eol_lazy_peek = internal::peek_unicode; };
+   struct cr_crlf : internal::sor< crlf::rule_t, cr::rule_t > { using eol_lazy_peek = internal::peek_unicode; };
+   struct cr_lf_crlf : internal::sor< crlf::rule_t, cr_lf::rule_t > { using eol_lazy_peek = internal::peek_unicode; };
+   struct lf_crlf : internal::sor< lf::rule_t, crlf::rule_t > { using eol_lazy_peek = internal::peek_unicode; };
 
-   struct eol1 : internal::one< internal::peek_unicode, char32_t( '\r' ), char32_t( '\n' ), char32_t( '\v' ), char32_t( '\f' ), char32_t( 0x85 ), char32_t( 0x2028 ), char32_t( 0x2029 ) > {};
-   struct eolu : internal::sor< crlf::rule_t, eol1::rule_t > {};
+   struct eol1 : internal::one< internal::peek_unicode, char32_t( '\r' ), char32_t( '\n' ), char32_t( '\v' ), char32_t( '\f' ), char32_t( 0x85 ), char32_t( 0x2028 ), char32_t( 0x2029 ) > { using eol_lazy_peek = internal::peek_unicode; };
+   struct eolu : internal::sor< crlf::rule_t, eol1::rule_t > { using eol_lazy_peek = internal::peek_unicode; };
 
    struct any : internal::any< internal::peek_unicode > {};
    struct bom : internal::one< internal::peek_unicode, 0xfeff > {};

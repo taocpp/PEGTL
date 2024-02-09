@@ -26,6 +26,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
 
       template< typename ParseInput >
+      [[nodiscard]] static constexpr std::size_t size() noexcept
+      {
+         return 0;
+      }
+
+      template< typename ParseInput >
       [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 42 ) ) )
       {
          return utf8_decode_any( in, offset );

@@ -14,8 +14,8 @@
 #include "../rewind_mode.hpp"
 #include "../text_position.hpp"
 
+#include "choose_lazy_traits.hpp"
 #include "input_with_lines.hpp"
-#include "lazy_scan_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -32,6 +32,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using eol_rule = Eol;
 
       using Input::Input;
+
+      static_assert( !std::is_same_v< Eol, void > );
+      static_assert( !std::is_same_v< Eol, typename Eol::rule_t > );
 
       [[nodiscard]] const data_t* previous( const error_position_t saved ) const noexcept
       {
@@ -52,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          error_position_t pos;
          const std::size_t count = this->previous( saved ) - this->start();
-         lazy_scan_traits< typename Eol::rule_t >::scan( pos, this->start(), count );
+         internal::choose_lazy_traits< Eol >( pos, this->start(), count );
          return pos;
       }
    };

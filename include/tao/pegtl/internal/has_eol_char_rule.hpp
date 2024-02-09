@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_HAS_EOL_RULE_HPP
-#define TAO_PEGTL_INTERNAL_HAS_EOL_RULE_HPP
+#ifndef TAO_PEGTL_INTERNAL_HAS_EOL_CHAR_RULE_HPP
+#define TAO_PEGTL_INTERNAL_HAS_EOL_CHAR_RULE_HPP
 
 #include <type_traits>
 
@@ -12,13 +12,13 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename T >
-   using has_eol_rule_impl = typename T::eol_rule;
+   using has_eol_char_rule_impl = typename T::eol_char_rule;
 
    template< typename, typename = void >
-   inline constexpr bool has_eol_rule = false;
+   inline constexpr bool has_eol_char_rule = false;
 
    template< typename T >
-   inline constexpr bool has_eol_rule< T, std::void_t< has_eol_rule_impl< T > > > = true;
+   inline constexpr bool has_eol_char_rule< T, std::void_t< has_eol_char_rule_impl< T > > > = true;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

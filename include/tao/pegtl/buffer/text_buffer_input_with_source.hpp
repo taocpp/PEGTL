@@ -13,7 +13,7 @@
 #include "../position_with_source.hpp"
 #include "../text_position.hpp"
 
-#include "../internal/choose_eol_traits.hpp"
+#include "../internal/choose_text_traits.hpp"
 #include "../internal/rewind_guard.hpp"
 
 #include "buffer_common.hpp"
@@ -60,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       void consume( const std::size_t count ) noexcept
       {
          // assert( count <= buffer_used_size() );
-         choose_eol_traits< Eol, Rule >( m_position, this->current(), count );
+         choose_text_traits< Eol, Rule >( m_position, this->current(), count );
          this->m_current += count;
       }
 

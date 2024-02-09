@@ -15,6 +15,7 @@
 #include "one.hpp"
 #include "peek_direct.hpp"
 #include "success.hpp"
+#include "type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -32,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          using raw_t = std::decay_t< decltype( *in.current() ) >;
 
          static_assert( sizeof( raw_t ) == 1 );
-         static_assert( std::is_integral_v< raw_t > || std::is_enum_v< raw_t > );
+         static_assert( is_simple_type_v< raw_t > );
 
          if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
             if( char_string_equal( in.current(), { Cs... } ) ) {

@@ -22,14 +22,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       constexpr std::size_t s = integer_input_size< char16_t, ParseInput >();
       const std::size_t size = in.size( s + s + offset );
 
-      if( size >= ( s + offset ) ) {
+      if( size >= ( offset + s ) ) {
          const char16_t t = Endian::template get< char16_t >( in.current( offset ) );
          if( !is_utf16_surrogate( t ) ) {
             return char32_and_size( t, s );
          }
          if( is_utf16_high_surrogate( t ) ) {
-            if( size >= ( s + s + offset ) ) {
-               const char16_t u = Endian::template get< char16_t >( in.current( s + offset ) );
+            if( size >= ( offset + s + s ) ) {
+               const char16_t u = Endian::template get< char16_t >( in.current( offset + s ) );
                if( is_utf16_low_surrogate( u ) ) {
                   return char32_and_size( utf16_surrogate_compose( t, u ), s + s );
                }

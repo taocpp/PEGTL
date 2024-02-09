@@ -44,7 +44,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Data >
       [[nodiscard]] static constexpr bool test( const Data c ) noexcept
       {
-         return test_one( std::make_index_sequence< sizeof...( Cs ) / 2 >(), c );
+         using data_t = typename Peek::data_t;
+         static_assert( sizeof( Data ) <= sizeof( data_t ) );
+         return test_one( std::make_index_sequence< sizeof...( Cs ) / 2 >(), data_t( c ) );
       }
    };
 

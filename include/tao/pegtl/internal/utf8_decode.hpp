@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_INTERNAL_UTF8_DECODE_HPP
 #define TAO_PEGTL_INTERNAL_UTF8_DECODE_HPP
 
+#include <algorithm>
 #include <cstddef>
 
 #include "../config.hpp"

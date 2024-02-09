@@ -11,8 +11,7 @@
 #include "../config.hpp"
 #include "../tags.hpp"
 
-#include "dependent_false.hpp"
-#include "scan_utility.hpp"
+#include "scan_base_classes.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -20,29 +19,23 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct text_rule_traits;
 
    template< typename Eol >
-   struct text_rule_traits< Eol, void >
-   {
-      static_assert( dependent_false< Eol > );
-   };
-
-   template< typename Eol >
    struct text_rule_traits< Eol, eol_exclude_tag >
-      : scan_skip_base
+      : add_column_scan
    {};
 
    template< typename Eol >
    struct text_rule_traits< Eol, eol_matched_tag >
-      : scan_line_base
+      : inc_line_scan
    {};
 
    template< typename Eol >
    struct text_rule_traits< Eol, eol_unknown_tag >
-      : scan_skip_base
+      : add_column_scan
    {};
 
    template< typename Eol, typename Rule, typename >
    struct text_rule_traits
-      : scan_skip_base
+      : add_column_scan
    {};
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

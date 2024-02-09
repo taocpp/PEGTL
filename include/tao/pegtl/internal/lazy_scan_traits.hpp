@@ -14,13 +14,10 @@
 #include "../rewind_mode.hpp"
 
 #include "lazy_scan_input.hpp"
-#include "one.hpp"
-#include "scan_utility.hpp"
-#include "tester.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Eol >
+   template< typename Eol, typename Peek >
    struct lazy_scan_traits
    {
       template< typename Position, typename Data >
@@ -32,20 +29,18 @@ namespace TAO_PEGTL_NAMESPACE::internal
             if( normal< Eol >::template match< apply_mode::nothing, rewind_mode::required, nothing, normal >( in ) ) {
                pos.line++;
                pos.column = 1;
+               continue;
             }
-            else {
-               pos.column++;
-               in.template consume< void >( 1 );
+            else if( const auto pair = Peek::peek( in ) ) {
+               pos.column += pair.size();
+               in.template consume< void >( pair.size() );
+               continue;
             }
+            break;
          }
          pos.count += count;
       }
    };
-
-   template< char Eol, typename Peek >
-   struct lazy_scan_traits< tester< one< Peek, Eol > > >
-      : scan_eol_base< Eol >
-   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

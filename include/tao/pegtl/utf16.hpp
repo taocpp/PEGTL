@@ -22,14 +22,14 @@ namespace TAO_PEGTL_NAMESPACE
       struct nel : internal::one< internal::peek_utf16_be, char32_t( 0x85 ) > {};
       struct ps : internal::one< internal::peek_utf16_be, char32_t( 0x2029 ) > {};
 
-      struct cr_lf : internal::one< internal::peek_utf16_be, '\r', '\n' > {};
-      struct crlf : internal::seq_one< internal::peek_utf16_be, '\r', '\n' > {};
-      struct cr_crlf : internal::sor< crlf::rule_t, cr::rule_t > {};
-      struct cr_lf_crlf : internal::sor< crlf::rule_t, cr_lf::rule_t > {};
-      struct lf_crlf : internal::sor< lf::rule_t, crlf::rule_t > {};
+      struct cr_lf : internal::one< internal::peek_utf16_be, '\r', '\n' > { using eol_lazy_peek = internal::peek_utf16_be; };
+      struct crlf : internal::seq_one< internal::peek_utf16_be, '\r', '\n' > { using eol_lazy_peek = internal::peek_utf16_be; };
+      struct cr_crlf : internal::sor< crlf::rule_t, cr::rule_t > { using eol_lazy_peek = internal::peek_utf16_be; };
+      struct cr_lf_crlf : internal::sor< crlf::rule_t, cr_lf::rule_t > { using eol_lazy_peek = internal::peek_utf16_be; };
+      struct lf_crlf : internal::sor< lf::rule_t, crlf::rule_t > { using eol_lazy_peek = internal::peek_utf16_be; };
 
-      struct eol1 : internal::one< internal::peek_utf16_be, char32_t( '\r' ), char32_t( '\n' ), char32_t( '\v' ), char32_t( '\f' ), char32_t( 0x85 ), char32_t( 0x2028 ), char32_t( 0x2029 ) > {};
-      struct eolu : internal::sor< crlf::rule_t, eol1::rule_t > {};
+      struct eol1 : internal::one< internal::peek_utf16_be, char32_t( '\r' ), char32_t( '\n' ), char32_t( '\v' ), char32_t( '\f' ), char32_t( 0x85 ), char32_t( 0x2028 ), char32_t( 0x2029 ) > { using eol_lazy_peek = internal::peek_utf16_be; };
+      struct eolu : internal::sor< crlf::rule_t, eol1::rule_t > { using eol_lazy_peek = internal::peek_utf16_be; };
 
       struct any : internal::any< internal::peek_utf16_be > {};
       struct bom : internal::one< internal::peek_utf16_be, 0xfeff > {};
@@ -54,14 +54,14 @@ namespace TAO_PEGTL_NAMESPACE
       struct nel : internal::one< internal::peek_utf16_le, char32_t( 0x85 ) > {};
       struct ps : internal::one< internal::peek_utf16_le, char32_t( 0x2029 ) > {};
 
-      struct cr_lf : internal::one< internal::peek_utf16_le, '\r', '\n' > {};
-      struct crlf : internal::seq_one< internal::peek_utf16_le, '\r', '\n' > {};
-      struct cr_crlf : internal::sor< crlf::rule_t, cr::rule_t > {};
-      struct cr_lf_crlf : internal::sor< crlf::rule_t, cr_lf::rule_t > {};
-      struct lf_crlf : internal::sor< lf::rule_t, crlf::rule_t > {};
+      struct cr_lf : internal::one< internal::peek_utf16_le, '\r', '\n' > { using eol_lazy_peek = internal::peek_utf16_le; };
+      struct crlf : internal::seq_one< internal::peek_utf16_le, '\r', '\n' > { using eol_lazy_peek = internal::peek_utf16_le; };
+      struct cr_crlf : internal::sor< crlf::rule_t, cr::rule_t > { using eol_lazy_peek = internal::peek_utf16_le; };
+      struct cr_lf_crlf : internal::sor< crlf::rule_t, cr_lf::rule_t > { using eol_lazy_peek = internal::peek_utf16_le; };
+      struct lf_crlf : internal::sor< lf::rule_t, crlf::rule_t > { using eol_lazy_peek = internal::peek_utf16_le; };
 
-      struct eol1 : internal::one< internal::peek_utf16_le, char32_t( '\r' ), char32_t( '\n' ), char32_t( '\v' ), char32_t( '\f' ), char32_t( 0x85 ), char32_t( 0x2028 ), char32_t( 0x2029 ) > {};
-      struct eolu : internal::sor< crlf::rule_t, eol1::rule_t > {};
+      struct eol1 : internal::one< internal::peek_utf16_le, char32_t( '\r' ), char32_t( '\n' ), char32_t( '\v' ), char32_t( '\f' ), char32_t( 0x85 ), char32_t( 0x2028 ), char32_t( 0x2029 ) > { using eol_lazy_peek = internal::peek_utf16_le; };
+      struct eolu : internal::sor< crlf::rule_t, eol1::rule_t > { using eol_lazy_peek = internal::peek_utf16_le; };
 
       struct any : internal::any< internal::peek_utf16_le > {};
       struct bom : internal::one< internal::peek_utf16_le, 0xfeff > {};

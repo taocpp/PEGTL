@@ -11,13 +11,14 @@
 #include "../config.hpp"
 
 #include "dependent_false.hpp"
+#include "type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename T >
    [[nodiscard]] T byteswap( const T n ) noexcept
    {
-      static_assert( std::is_integral_v< T > || std::is_enum_v< T > );
+      static_assert( is_simple_type_v< T > );
 
       if constexpr( sizeof( T ) == 1 ) {
          return n;

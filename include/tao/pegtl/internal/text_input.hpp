@@ -13,7 +13,7 @@
 #include "../rewind_mode.hpp"
 #include "../text_position.hpp"
 
-#include "choose_eol_traits.hpp"
+#include "choose_text_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -30,6 +30,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using eol_rule = Eol;
 
       using Input::Input;
+
+      static_assert( !std::is_same_v< Eol, void > );
+      static_assert( !std::is_same_v< Eol, typename Eol::rule_t > );
 
       [[nodiscard]] const data_t* start() const noexcept
       {
@@ -52,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Rule >
       void consume( const std::size_t count ) noexcept
       {
-         choose_eol_traits< Eol, Rule >( m_position, this->current(), count );
+         choose_text_traits< Eol, Rule >( m_position, this->current(), count );
          this->m_current += count;
       }
 

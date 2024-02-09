@@ -12,6 +12,7 @@
 
 #include "enable_control.hpp"
 #include "integer_traits.hpp"
+#include "type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -30,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
       {
          using data_t = std::decay_t< decltype( *in.current() ) >;
-         static_assert( std::is_integral_v< data_t > || std::is_enum_v< data_t > );
+         static_assert( is_simple_type_v< data_t > );
          if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
             std::size_t index = 0;
             if constexpr( sizeof( data_t ) == 1 ) {

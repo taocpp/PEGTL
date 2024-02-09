@@ -11,14 +11,15 @@
 #include "../config.hpp"
 
 #include "dependent_false.hpp"
+#include "type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Type, typename Data >
    [[nodiscard]] constexpr std::size_t integer_size() noexcept
    {
-      static_assert( std::is_integral_v< Type > || std::is_enum_v< Type > );
-      static_assert( std::is_integral_v< Data > || std::is_enum_v< Data > );
+      static_assert( is_simple_type_v< Type > );
+      static_assert( is_simple_type_v< Data > );
 
       if constexpr( sizeof( Type ) == sizeof( Data ) ) {
          return 1;

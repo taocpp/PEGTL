@@ -13,6 +13,7 @@
 #include "ascii_utility.hpp"
 #include "data_and_size.hpp"
 #include "integer_traits.hpp"
+#include "type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -39,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          using raw_t = typename ParseInput::data_t;
 
          static_assert( sizeof( data_t ) == sizeof( raw_t ) );
-         static_assert( std::is_integral_v< raw_t > || std::is_enum_v< raw_t > );
+         static_assert( is_simple_type_v< raw_t > );
 
          if( in.size( 1 + offset ) >= ( 1 + offset ) ) {
             const data_t c = static_cast< data_t >( *in.current( offset ) );
