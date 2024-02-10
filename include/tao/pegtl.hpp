@@ -8,7 +8,6 @@
 #include "pegtl/ascii.hpp"
 #include "pegtl/config.hpp"
 #include "pegtl/demangle.hpp"
-#include "pegtl/eols.hpp"
 #include "pegtl/forward.hpp"
 #include "pegtl/inputs.hpp"
 #include "pegtl/parse.hpp"

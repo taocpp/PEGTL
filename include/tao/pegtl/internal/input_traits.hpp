@@ -128,11 +128,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static constexpr bool has_peeks = true;
    };
 
-   template< typename Input >
-   struct input_traits< input_with_funcs< Input > >
-      : input_traits< input_with_fakes< input_with_peeks< Input > > >
-   {};
-
    template< typename Eol, typename Input >
    struct input_traits< input_with_lines< Eol, Input > >
       : input_traits< Input >
@@ -206,21 +201,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static constexpr bool is_text = true;
       static constexpr bool has_lines = true;
    };
-
-   template< typename Eol, typename Input >
-   struct input_traits< base_combination< Eol, Input > >
-      : input_traits< input_with_fakes< input_with_peeks< input_with_lines< Eol, Input > > > >
-   {};
-
-   template< typename Input >
-   struct input_traits< path_combination< Input > >
-      : input_traits< input_double_path< input_with_source< std::filesystem::path, std::filesystem::path, Input > > >
-   {};
-
-   template< typename Eol, typename Input >
-   struct input_traits< text_combination< Eol, Input > >
-      : input_traits< input_double_path< text_input_with_source< Eol, std::filesystem::path, std::filesystem::path, Input > > >
-   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

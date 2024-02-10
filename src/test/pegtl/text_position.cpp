@@ -152,7 +152,7 @@ namespace TAO_PEGTL_NAMESPACE
       test_matches_other< ranges< 'a', 'z', 'A', 'Z', '\n' > >( "P" );
       test_mismatch< ranges< 'a', 'z', 'A', 'Z', '\n' > >( "8" );
 
-      test_nested< lazy_view_input< eols::scan::lf_crlf, char, std::string > >();
+      test_nested< text_view_input< eols::lazy::lf_crlf, char, std::string > >();
       test_nested< text_view_input< eols::scan::lf_crlf, char, std::string > >();
    }
 

@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
       text_file_input< eols::scan::lf > in( path );
       const auto s = in.string();
       text_view_input< eols::scan::lf > ti( s );
-      lazy_view_input< eols::scan::lf > li( s );
+      text_view_input< eols::lazy::lf > li( s );
       const auto f = failed;
       TAO_PEGTL_TEST_ASSERT( in.size() == ti.size() );
       TAO_PEGTL_TEST_ASSERT( in.size() == li.size() );
@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
       text_file_input< eols::scan::lf > in( path );
       const auto s = in.string();
       text_view_input< eols::scan::lf > ti( s );
-      lazy_view_input< eols::scan::lf > li( s );
+      text_view_input< eols::lazy::lf > li( s );
       const auto f = failed;
       TAO_PEGTL_TEST_ASSERT( in.size() == ti.size() );
       TAO_PEGTL_TEST_ASSERT( in.size() == li.size() );

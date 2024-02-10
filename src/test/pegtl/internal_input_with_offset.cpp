@@ -140,7 +140,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_lazy()
    {
-      internal::input_with_offset< false, lazy_copy_input< eols::scan::lf > > in( data );
+      internal::input_with_offset< false, text_copy_input< eols::lazy::lf > > in( data );
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 0 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().line == 1 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().column == 1 );
@@ -163,7 +163,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_lazy_offset()
    {
-      internal::input_with_offset< true, lazy_copy_input< eols::scan::lf > > in( text_position( 100, 200, 300 ), data );
+      internal::input_with_offset< true, text_copy_input< eols::lazy::lf > > in( text_position( 100, 200, 300 ), data );
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 100 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().line == 200 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().column == 300 );
@@ -186,7 +186,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_lazy_offset_source()
    {
-      internal::input_with_offset< true, lazy_copy_input< eols::scan::lf, std::string, const char*, std::string > > in( text_position( 100, 200, 300 ), __FUNCTION__, data );
+      internal::input_with_offset< true, text_copy_input< eols::lazy::lf, std::string, const char*, std::string > > in( text_position( 100, 200, 300 ), __FUNCTION__, data );
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 100 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().line == 200 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().column == 300 );

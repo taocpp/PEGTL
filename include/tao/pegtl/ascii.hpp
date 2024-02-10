@@ -13,6 +13,8 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
+   // TODO: C++20 namespace TAO_PEGTL_NAMESPACE::inline ascii
+
    inline namespace ascii
    {
       // clang-format off
@@ -38,12 +40,11 @@ namespace TAO_PEGTL_NAMESPACE
 
       struct cr : internal::one< internal::peek_char, '\r' > {};
       struct lf : internal::one< internal::peek_char, '\n' > {};
-
-      struct cr_lf : internal::one< internal::peek_char, '\r', '\n' > { using eol_lazy_peek = internal::peek_char; };
-      struct crlf : internal::ascii_string< '\r', '\n' > { using eol_lazy_peek = internal::peek_char; };
-      struct cr_crlf : internal::sor< crlf::rule_t, cr::rule_t > { using eol_lazy_peek = internal::peek_char; };
-      struct cr_lf_crlf : internal::sor< crlf::rule_t, cr_lf::rule_t > { using eol_lazy_peek = internal::peek_char; };
-      struct lf_crlf : internal::sor< lf::rule_t, crlf::rule_t > { using eol_lazy_peek = internal::peek_char; };
+      struct crlf : internal::ascii_string< '\r', '\n' > {};
+      struct cr_lf : internal::one< internal::peek_char, '\r', '\n' > {};
+      struct cr_crlf : internal::sor< crlf::rule_t, cr::rule_t > {};
+      struct lf_crlf : internal::sor< lf::rule_t, crlf::rule_t > {};
+      struct cr_lf_crlf : internal::sor< crlf::rule_t, cr_lf::rule_t > {};
 
       struct identifier_first : internal::identifier_first< internal::peek_char > {};
       struct identifier_other : internal::identifier_other< internal::peek_char > {};
@@ -71,6 +72,46 @@ namespace TAO_PEGTL_NAMESPACE
       template< char... Cs > struct not_one7 : internal::not_one< internal::peek_seven, Cs... > {};
       template< char Lo, char Hi > struct not_range7 : internal::not_range< internal::peek_seven, Lo, Hi > {};
       // clang-format on
+
+      namespace eols
+      {
+         namespace scan
+         {
+            // clang-format off
+            struct cr : ascii::cr { using eol_char_rule = ascii::cr; };
+            struct lf : ascii::lf { using eol_char_rule = ascii::lf; };
+            struct cr_crlf : ascii::cr_crlf { using eol_char_rule = ascii::cr; };
+            struct lf_crlf : ascii::lf_crlf { using eol_char_rule = ascii::lf; };
+            // clang-format on
+         }  // namespace scan
+
+         namespace lazy
+         {
+            // clang-format off
+            struct cr : ascii::cr { using eol_lazy_peek = internal::peek_char; };
+            struct lf : ascii::lf { using eol_lazy_peek = internal::peek_char; };
+            struct crlf : ascii::crlf { using eol_lazy_peek = internal::peek_char; };
+            struct cr_lf : ascii::cr_lf { using eol_lazy_peek = internal::peek_char; };
+            struct cr_crlf : ascii::cr_crlf { using eol_lazy_peek = internal::peek_char; };
+            struct lf_crlf : ascii::lf_crlf { using eol_lazy_peek = internal::peek_char; };
+            struct cr_lf_crlf : ascii::cr_lf_crlf { using eol_lazy_peek = internal::peek_char; };
+            // clang-format on
+         }  // namespace rule
+
+         namespace rule
+         {
+            // clang-format off
+            struct cr : ascii::cr {};
+            struct lf : ascii::lf {};
+            struct crlf : ascii::crlf {};
+            struct cr_lf : ascii::cr_lf {};
+            struct cr_crlf : ascii::cr_crlf {};
+            struct lf_crlf : ascii::lf_crlf {};
+            struct cr_lf_crlf : ascii::cr_lf_crlf {};
+            // clang-format on
+         }  // namespace rule
+
+      }  // namespace eols
 
    }  // namespace ascii
 

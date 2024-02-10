@@ -62,7 +62,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), dline, column, count ) );
       content.clear();
-      lazy_view_input< eols::scan::lf_crlf > in2( m, m + M - 1 );
+      text_view_input< eols::lazy::lf_crlf > in2( m, m + M - 1 );
       const auto r2 = parse< Rule, Action >( in2 );
       if( ( !r2 ) || ( content != std::string_view( n, N - 1 ) ) ) {
          TAO_PEGTL_TEST_FAILED( "input data [ '" << m << "' ] with tracking_mode::lazy expected success with [ '" << n << "' ] but got [ '" << content << "' ] result [ " << r2 << " ]" );  // LCOV_EXCL_LINE
