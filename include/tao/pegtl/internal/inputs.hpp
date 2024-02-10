@@ -26,6 +26,8 @@
 #include "argv_input_with_source.hpp"
 #include "text_input_with_source.hpp"
 
+#include "has_eol_lazy_peek.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Input >

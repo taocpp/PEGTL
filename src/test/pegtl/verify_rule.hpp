@@ -8,6 +8,8 @@
 #include <cstdlib>
 #include <string>
 
+#include <tao/pegtl/internal/scan_to_lazy.hpp>
+
 #include "result_type.hpp"
 #include "test_utility.hpp"
 #include "verify_impl.hpp"
@@ -30,7 +32,18 @@ namespace TAO_PEGTL_NAMESPACE
       {}
    };
 
-   template< typename Rule, typename Eol = eols::scan::lf_crlf >
+   namespace test
+   {
+      template< typename Eol, typename Peek >
+      struct eol_to_lazy
+         : Eol::rule_t
+      {
+         using eol_lazy_peek = Peek;
+      };
+
+   }  // namespace test
+
+   template< typename Rule, typename Eol = eols::scan::lf_crlf, typename Peek = internal::peek_char >
    void verify_rule( const std::size_t line, const char* file, const std::string& data, const result_type expected, int remain = -1 )
    {
       if( remain < 0 ) {
@@ -38,18 +51,18 @@ namespace TAO_PEGTL_NAMESPACE
       } {
          text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
-         //lazy_view_input< Eol > i2( data.data(), data.data() + data.size() );
-         //verify_impl_one< Rule, nothing >( line, file, data, i2, expected, remain );
+         text_view_input< test::eol_to_lazy< Eol, Peek > > i2( data.data(), data.data() + data.size() );
+         verify_impl_one< Rule, nothing >( line, file, data, i2, expected, remain );
       } {
          text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
-         //lazy_view_input< Eol > i2( data.data(), data.data() + data.size() );
-         //verify_impl_one< Rule, verify_action_impl >( line, file, data, i2, expected, remain );
+         text_view_input< test::eol_to_lazy< Eol, Peek > > i2( data.data(), data.data() + data.size() );
+         verify_impl_one< Rule, verify_action_impl >( line, file, data, i2, expected, remain );
       } {
          text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
-         //lazy_view_input< Eol > i2( data.data(), data.data() + data.size() );
-         //verify_impl_one< Rule, verify_action_impl0 >( line, file, data, i2, expected, remain );
+         text_view_input< test::eol_to_lazy< Eol, Peek > > i2( data.data(), data.data() + data.size() );
+         verify_impl_one< Rule, verify_action_impl0 >( line, file, data, i2, expected, remain );
       }
    }
 
