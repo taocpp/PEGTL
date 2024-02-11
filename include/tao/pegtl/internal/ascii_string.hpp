@@ -25,8 +25,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = ascii_string;
       using subs_t = empty_list;
 
-      static_assert( sizeof...( Cs ) > 0 );
-
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
       {

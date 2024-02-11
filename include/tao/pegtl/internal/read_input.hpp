@@ -16,10 +16,9 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   class read_input
-      : public copy_input< std::string >
+   struct read_input
+      : copy_input< std::string >
    {
-   public:
       explicit read_input( const std::filesystem::path& path )
          : copy_input< std::string >( read_file_stdio( path ).read_string() )
       {}

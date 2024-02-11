@@ -13,10 +13,9 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Input >
-   class input_with_fakes
-      : public Input
+   struct input_with_fakes
+      : Input
    {
-   public:
       using Input::Input;
 
       [[nodiscard]] decltype( auto ) end( const std::size_t /*unused*/ = 0 ) const noexcept( noexcept( std::declval< Input >().size() ) )

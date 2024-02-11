@@ -15,6 +15,6 @@
 #include "buffer/analyze_traits.hpp"
 
 #include "buffer/discard_input.hpp"
-#include "buffer/discard_input_on_bool.hpp"
+#include "buffer/discard_input_on.hpp"
 
 #endif

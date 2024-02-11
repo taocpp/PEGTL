@@ -7,7 +7,6 @@
 
 #include <cstddef>
 #include <ostream>
-#include <type_traits>
 
 #include "config.hpp"
 

@@ -14,6 +14,10 @@
 #include "internal/invert_traits.hpp"
 #include "internal/rules.hpp"
 
+#if defined( __cpp_exceptions )
+#include <exception>
+#endif
+
 namespace TAO_PEGTL_NAMESPACE
 {
    // clang-format off
@@ -29,8 +33,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Rules > struct disable : internal::disable< Rules... > {};
    template< typename... Rules > struct enable : internal::enable< Rules... > {};
    struct eof : internal::eof {};
-   struct eol : internal::eol< void > {};
-   struct eolf : internal::eolf< void > {};
+   struct eol : internal::eol {};
+   struct eolf : internal::eolf {};
    struct everything : internal::everything {};
    struct failure : internal::failure {};
    template< auto Function, typename Peek = void > struct function : internal::function< decltype( Function ), Function, Peek > {};

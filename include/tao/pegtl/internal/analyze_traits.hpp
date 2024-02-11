@@ -5,6 +5,9 @@
 #ifndef TAO_PEGTL_INTERNAL_ANALYZE_TRAITS_HPP
 #define TAO_PEGTL_INTERNAL_ANALYZE_TRAITS_HPP
 
+#include <cstddef>
+#include <type_traits>
+
 #include "rules.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -83,13 +86,13 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits<>
    {};
 
-   template< typename Name, typename Eol >
-   struct analyze_traits< Name, internal::eol< Eol > >
+   template< typename Name >
+   struct analyze_traits< Name, internal::eol >
       : analyze_any_traits<>
    {};
 
-   template< typename Name, typename Eol >
-   struct analyze_traits< Name, internal::eolf< Eol > >
+   template< typename Name >
+   struct analyze_traits< Name, internal::eolf >
       : analyze_opt_traits<>
    {};
 

@@ -13,7 +13,7 @@
 
 The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++ header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
-During development of a new major version the main branch can go through incompatible changes. For a stable experience please download [the latest release](https://github.com/taocpp/PEGTL/releases) rather than using the main branch.
+During development of a new major version the main branch can go through incompatible changes. For a stable experience please download [the latest release](https://github.com/taocpp/PEGTL/releases).
 
 ## Documentation
 
@@ -51,7 +51,7 @@ struct integer : seq< opt< sign >, plus< digit > > {};
 ```
 
 PEGs are superficially similar to Context-Free Grammars (CFGs), however the more deterministic nature of PEGs gives rise to some very important differences.
-The included [grammar analysis](doc/Grammar-Analysis.md) finds several typical errors in PEGs, including left recursion.
+The included [grammar analysis](doc/Grammar-Analysis.md) finds several typical errors in PEGs, including [left recursion](https://en.wikipedia.org/wiki/Left_recursion).
 
 ## Design
 
@@ -66,7 +66,7 @@ Included are some [examples](doc/Contrib-and-Examples.md#examples) for typical s
 Through the use of template programming and template specialisations it is possible to write a grammar once, and use it in multiple ways with different (semantic) actions in different (or the same) parsing runs.
 
 With the PEG formalism, the separation into lexer and parser stages is usually dropped -- everything is done in a single grammar.
-The rules are expressed in C++ as template instantiations, and it is the compiler's task to optimise PEGTL grammars.
+The rules are expressed in C++ as template instantiations, and it is mostly the compiler's task to optimise PEGTL grammars.
 
 ## Status
 

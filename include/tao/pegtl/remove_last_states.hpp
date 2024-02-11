@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_REMOVE_LAST_STATES_HPP
 #define TAO_PEGTL_REMOVE_LAST_STATES_HPP
 
+#include <cstddef>
 #include <tuple>
 #include <utility>
 

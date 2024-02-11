@@ -7,6 +7,10 @@
 
 #include "../analyze_traits.hpp"
 
+#include "discard.hpp"
+#include "is_buffer.hpp"
+#include "require.hpp"
+
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Name >

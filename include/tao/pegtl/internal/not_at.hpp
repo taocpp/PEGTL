@@ -5,25 +5,20 @@
 #ifndef TAO_PEGTL_INTERNAL_NOT_AT_HPP
 #define TAO_PEGTL_INTERNAL_NOT_AT_HPP
 
-#include "enable_control.hpp"
-#include "failure.hpp"
-#include "seq.hpp"
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
+
+#include "enable_control.hpp"
+#include "failure.hpp"
+#include "seq.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Rules >
    struct not_at
       : not_at< seq< Rules... > >
-   {};
-
-   template<>
-   struct not_at<>
-      : failure
    {};
 
    template< typename Rule >
@@ -46,6 +41,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return !Control< Rule >::template match< apply_mode::nothing, rewind_mode::optional, Action, Control >( in, st... );
       }
    };
+
+   template<>
+   struct not_at<>
+      : failure
+   {};
 
    template< typename... Rules >
    inline constexpr bool enable_control< not_at< Rules... > > = false;

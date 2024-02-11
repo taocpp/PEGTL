@@ -6,7 +6,6 @@
 #define TAO_PEGTL_INTERNAL_INTEGER_TRAITS_HPP
 
 #include <cstdint>
-#include <type_traits>
 
 #include "../config.hpp"
 

@@ -12,6 +12,7 @@
 
 #include "enable_control.hpp"
 #include "rematch_input.hpp"
+#include "seq.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -20,23 +21,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< typename Head >
    struct rematch< Head >
-   {
-      using rule_t = rematch;
-      using subs_t = type_list< Head >;
-
-      template< apply_mode A,
-                rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename ParseInput,
-                typename... States >
-      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
-      {
-         return Control< Head >::template match< A, M, Action, Control >( in, st... );
-      }
-   };
+      : seq< Head >
+   {};
 
    template< typename Head, typename Rule, typename... Rules >
    struct rematch< Head, Rule, Rules... >

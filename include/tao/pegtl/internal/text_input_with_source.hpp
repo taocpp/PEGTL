@@ -63,7 +63,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Rule >
       void consume( const std::size_t count ) noexcept
       {
-         lazy_scan_input< data_t > in( this->current(), count );
+         scan_input< data_t > in( this->current(), count );
          choose_text_traits< Eol, Rule >( m_position, in );
          this->m_current += count;
       }

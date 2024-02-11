@@ -9,7 +9,7 @@
 #include "forward.hpp"
 #include "type_list.hpp"
 
-#include "internal/analyze_group.hpp"
+#include "internal/analyze_class.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_any_traits
    {
       // Consumption-on-success is always true; assumes bounded repetition of conjunction of sub-rules.
-      static constexpr internal::analyze_group type_v = internal::analyze_group::any;
+      static constexpr internal::analyze_class type_v = internal::analyze_class::any;
       using subs_t = type_list< Rules... >;
    };
 
@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_opt_traits
    {
       // Consumption-on-success not necessarily true; assumes bounded repetition of conjunction of sub-rules.
-      static constexpr internal::analyze_group type_v = internal::analyze_group::opt;
+      static constexpr internal::analyze_class type_v = internal::analyze_class::opt;
       using subs_t = type_list< Rules... >;
    };
 
@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_seq_traits
    {
       // Consumption-on-success depends on consumption of (non-zero bounded repetition of) conjunction of sub-rules.
-      static constexpr internal::analyze_group type_v = internal::analyze_group::seq;
+      static constexpr internal::analyze_class type_v = internal::analyze_class::seq;
       using subs_t = type_list< Rules... >;
    };
 
@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_sor_traits
    {
       // Consumption-on-success depends on consumption of (non-zero bounded repetition of) disjunction of sub-rules.
-      static constexpr internal::analyze_group type_v = internal::analyze_group::sor;
+      static constexpr internal::analyze_class type_v = internal::analyze_class::sor;
       using subs_t = type_list< Rules... >;
    };
 

@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_MEMBER_HPP
 #define TAO_PEGTL_MEMBER_HPP
 
-#include <type_traits>
-
 #include "config.hpp"
 
 #include "internal/peek_member.hpp"
@@ -24,7 +22,6 @@ namespace TAO_PEGTL_NAMESPACE::member
    template< auto M, typename internal::peek_member< M >::data_t E, decltype( E )... Es > struct ranges : internal::ranges< internal::peek_member< M >, E, Es... > {};
    template< auto M, typename internal::peek_member< M >::data_t E, decltype( E )... Es > struct string : internal::seq_one< internal::peek_member< M >, E, Es... > {};
    // clang-format on
-
 }  // namespace TAO_PEGTL_NAMESPACE::member
 
 #endif

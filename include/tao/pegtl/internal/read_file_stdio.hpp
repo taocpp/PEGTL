@@ -15,9 +15,9 @@
 #include <exception>
 #endif
 
-#include "resize_uninitialized.hpp"
-
 #include "../config.hpp"
+
+#include "resize_uninitialized.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

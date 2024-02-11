@@ -16,23 +16,21 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Source >
-   class argv_input_with_source;
+   struct argv_input_with_source;
 
    template<>
-   class argv_input_with_source< std::string >
-      : public input_with_source< std::string, std::string, argv_input >
+   struct argv_input_with_source< std::string >
+      : input_with_source< std::string, std::string, argv_input >
    {
-   public:
       argv_input_with_source( char** argv, const int argn )
          : input_with_source< std::string, std::string, argv_input >( stream_to_string( "argv[", argn, ']' ), argv, argn )
       {}
    };
 
    template<>
-   class argv_input_with_source< void >
-      : public argv_input
+   struct argv_input_with_source< void >
+      : argv_input
    {
-   public:
       using argv_input::argv_input;
    };
 

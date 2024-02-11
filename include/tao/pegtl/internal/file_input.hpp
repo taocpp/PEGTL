@@ -15,10 +15,9 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   class file_input
-      : public mmap_input< char >
+   struct file_input
+      : mmap_input< char >
    {
-   public:
       using mmap_input< char >::mmap_input;
    };
 
@@ -30,10 +29,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   class file_input
-      : public read_input
+   struct file_input
+      : read_input
    {
-   public:
       using read_input::read_input;
    };
 

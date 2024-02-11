@@ -5,20 +5,20 @@
 #ifndef TAO_PEGTL_INTERNAL_PLUS_HPP
 #define TAO_PEGTL_INTERNAL_PLUS_HPP
 
-#include "enable_control.hpp"
-#include "seq.hpp"
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
+
+#include "enable_control.hpp"
+#include "seq.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    // While plus<> could easily be implemented with
    // seq< Rule, Rules ..., star< Rule, Rules ... > > we
    // provide an explicit implementation to optimise away
-   // the otherwise created input mark.
+   // the otherwise redundantly created rewind guard.
 
    template< typename Rule, typename... Rules >
    struct plus

@@ -12,7 +12,6 @@
 #include "data_and_size.hpp"
 #include "integer_size.hpp"
 #include "utf32_details.hpp"
-#include "unicode_constants.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

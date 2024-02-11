@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_UNICODE_CONSTANTS_HPP
 #define TAO_PEGTL_INTERNAL_UNICODE_CONSTANTS_HPP
 
-#include <cstddef>
-
 #include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal

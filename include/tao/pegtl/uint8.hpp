@@ -31,7 +31,6 @@ namespace TAO_PEGTL_NAMESPACE::uint8
    template< std::uint8_t M, std::uint8_t... Cs > struct mask_ranges : internal::ranges< internal::peek_mask_uint8< M >, Cs... > {};
    template< std::uint8_t M, std::uint8_t... Cs > struct mask_string : internal::seq_one< internal::peek_mask_uint8< M >, Cs... > {};
    // clang-format on
-
 }  // namespace TAO_PEGTL_NAMESPACE::uint8
 
 #endif

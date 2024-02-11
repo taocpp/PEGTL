@@ -5,11 +5,9 @@
 #ifndef TAO_PEGTL_INTERNAL_SCAN_BASE_CLASSES_HPP
 #define TAO_PEGTL_INTERNAL_SCAN_BASE_CLASSES_HPP
 
-#include <cstddef>
-
 #include "../config.hpp"
 
-#include "lazy_scan_input.hpp"
+#include "scan_input.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -23,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct inc_line_scan
    {
       template< typename Position, typename Data >
-      static void scan( Position& pos, const lazy_scan_input< Data >& in ) noexcept
+      static void scan( Position& pos, const scan_input< Data >& in ) noexcept
       {
          ++pos.line;
          pos.column = 1;
@@ -34,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct add_column_scan
    {
       template< typename Position, typename Data >
-      static void scan( Position& pos, const lazy_scan_input< Data >& in ) noexcept
+      static void scan( Position& pos, const scan_input< Data >& in ) noexcept
       {
          pos.column += in.size();
          pos.count += in.size();

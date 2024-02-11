@@ -15,10 +15,9 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Input >
-   class input_with_peeks
-      : public Input
+   struct input_with_peeks
+      : Input
    {
-   public:
       using Input::Input;
 
       using data_t = typename Input::data_t;

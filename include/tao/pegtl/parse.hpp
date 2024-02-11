@@ -13,6 +13,10 @@
 #include "nothing.hpp"
 #include "rewind_mode.hpp"
 
+#if defined( __cpp_exceptions )
+#include <exception>
+#endif
+
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Rule,

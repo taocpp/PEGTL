@@ -43,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE
                   case Open:
                      marker_size = i + 1;
                      in.template consume< eol_exclude_tag >( marker_size );
-                     (void)Control< eol< void > >::template match< A, M, Action, Control >( in );
+                     (void)Control< eol >::template match< A, M, Action, Control >( in );
                      return true;
                   case Marker:
                      break;

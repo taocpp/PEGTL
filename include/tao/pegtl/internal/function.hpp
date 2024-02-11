@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_FUNCTION_HPP
 #define TAO_PEGTL_INTERNAL_FUNCTION_HPP
 
-#include <utility>
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"

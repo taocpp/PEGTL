@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< char C, typename D >
    [[nodiscard]] constexpr bool ascii_char_equal( const D d ) noexcept
    {
-      return d == static_cast< D >( C );
+      return d == static_cast< D >( C );  // TODO: C++20 cmp_equal( d, C ).
    }
 
    template< char... Cs >
@@ -57,10 +57,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
    [[nodiscard]] constexpr bool ascii_ichar_equal( const D d ) noexcept
    {
       if constexpr( is_ascii_alpha< C > ) {
-         return ( C | 0x20 ) == ( d | 0x20 );
+         return ( C | 0x20 ) == ( d | 0x20 );  // ...
       }
       else {
-         return d == static_cast< D >( C );
+         return d == static_cast< D >( C );  // TODO: C++20 cmp_equal( d, C ).
       }
    }
 

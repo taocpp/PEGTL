@@ -25,7 +25,6 @@ namespace TAO_PEGTL_NAMESPACE
       template< std::int32_t... Cs > struct ranges : internal::ranges< internal::peek_int32_be, Cs... > {};
       template< std::int32_t... Cs > struct string : internal::seq_one< internal::peek_int32_be, Cs... > {};
       // clang-format on
-
    }  // namespace int32_be
 
    namespace int32_le
@@ -41,7 +40,6 @@ namespace TAO_PEGTL_NAMESPACE
       template< std::int32_t... Cs > struct ranges : internal::ranges< internal::peek_int32_le, Cs... > {};
       template< std::int32_t... Cs > struct string : internal::seq_one< internal::peek_int32_le, Cs... > {};
       // clang-format on
-
    }  // namespace int32_le
 
 }  // namespace TAO_PEGTL_NAMESPACE

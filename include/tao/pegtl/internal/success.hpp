@@ -5,10 +5,10 @@
 #ifndef TAO_PEGTL_INTERNAL_SUCCESS_HPP
 #define TAO_PEGTL_INTERNAL_SUCCESS_HPP
 
-#include "enable_control.hpp"
-
 #include "../config.hpp"
 #include "../type_list.hpp"
+
+#include "enable_control.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

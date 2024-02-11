@@ -9,14 +9,14 @@
 #error "Exception support required for tao/pegtl/internal/must.hpp"
 #else
 
-#include "enable_control.hpp"
-#include "seq.hpp"
-#include "success.hpp"
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
+
+#include "enable_control.hpp"
+#include "seq.hpp"
+#include "success.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -26,11 +26,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... Rules >
    struct must
       : seq< must< Rules >... >
-   {};
-
-   template<>
-   struct must<>
-      : success
    {};
 
    // While in theory the implementation for a single rule could
@@ -59,6 +54,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return true;
       }
    };
+
+   template<>
+   struct must<>
+      : success
+   {};
 
    template< typename... Rules >
    inline constexpr bool enable_control< must< Rules... > > = false;

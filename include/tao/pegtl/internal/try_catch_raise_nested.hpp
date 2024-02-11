@@ -9,27 +9,20 @@
 #error "Exception support required for tao/pegtl/internal/try_catch_raise_nested.hpp"
 #else
 
-#include <type_traits>
-
-#include "enable_control.hpp"
-#include "seq.hpp"
-#include "success.hpp"
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
+
+#include "enable_control.hpp"
+#include "seq.hpp"
+#include "success.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Exception, typename... Rules >
    struct try_catch_raise_nested
       : try_catch_raise_nested< Exception, seq< Rules... > >
-   {};
-
-   template< typename Exception >
-   struct try_catch_raise_nested< Exception >
-      : success
    {};
 
    template< typename Rule >
@@ -85,6 +78,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
       }
    };
+
+   template< typename Exception >
+   struct try_catch_raise_nested< Exception >
+      : success
+   {};
 
    template< typename Exception, typename... Rules >
    inline constexpr bool enable_control< try_catch_raise_nested< Exception, Rules... > > = false;

@@ -5,15 +5,13 @@
 #ifndef TAO_PEGTL_INTERNAL_LAZY_SCAN_TRAITS_HPP
 #define TAO_PEGTL_INTERNAL_LAZY_SCAN_TRAITS_HPP
 
-#include <cstddef>
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
-#include "lazy_scan_input.hpp"
+#include "scan_input.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -21,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct lazy_scan_traits
    {
       template< typename Position, typename Data >
-      static void scan( Position& pos, lazy_scan_input< Data >& in )
+      static void scan( Position& pos, scan_input< Data >& in )
       {
          pos.count += in.size();
 

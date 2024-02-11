@@ -20,18 +20,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
    class rewind_guard< rewind_mode::optional, ParseInput >
    {
    public:
-      explicit rewind_guard( ParseInput* /*unused*/ ) noexcept
+      explicit constexpr rewind_guard( ParseInput* /*unused*/ ) noexcept
       {}
 
       rewind_guard( rewind_guard&& ) = delete;
       rewind_guard( const rewind_guard& ) = delete;
 
-      ~rewind_guard() = default;
-
       void operator=( rewind_guard&& ) = delete;
       void operator=( const rewind_guard& ) = delete;
 
-      [[nodiscard]] bool operator()( const bool result ) const noexcept
+      [[nodiscard]] constexpr bool operator()( const bool result ) const noexcept
       {
          return result;
       }

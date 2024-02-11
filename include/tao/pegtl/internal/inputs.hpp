@@ -5,6 +5,9 @@
 #ifndef TAO_PEGTL_INTERNAL_INPUTS_HPP
 #define TAO_PEGTL_INTERNAL_INPUTS_HPP
 
+#include <filesystem>
+#include <type_traits>
+
 #include "argv_input.hpp"
 #include "copy_input.hpp"
 #include "file_input.hpp"

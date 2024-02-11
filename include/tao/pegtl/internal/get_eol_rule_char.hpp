@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {};
 
    template< typename T >
-   constexpr inline auto get_eol_rule_char_v = get_eol_rule_char< T >::value;
+   inline constexpr auto get_eol_rule_char_v = get_eol_rule_char< T >::value;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

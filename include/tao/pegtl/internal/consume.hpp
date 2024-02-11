@@ -37,11 +37,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename Reference >
-   struct consume< 0, Reference, void >
-      : success
-   {};
-
    template< std::size_t Count >
    struct consume< Count, void, std::enable_if_t< ( Count > 0 ) > >
    {
@@ -58,6 +53,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return false;
       }
    };
+
+   template< typename Reference >
+   struct consume< 0, Reference, void >
+      : success
+   {};
 
    template< unsigned Count, typename Reference >
    inline constexpr bool enable_control< consume< Count, Reference > > = false;

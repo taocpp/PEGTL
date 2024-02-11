@@ -5,25 +5,20 @@
 #ifndef TAO_PEGTL_INTERNAL_DISABLE_HPP
 #define TAO_PEGTL_INTERNAL_DISABLE_HPP
 
-#include "enable_control.hpp"
-#include "seq.hpp"
-#include "success.hpp"
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
+
+#include "enable_control.hpp"
+#include "seq.hpp"
+#include "success.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename... Rules >
    struct disable
       : disable< seq< Rules... > >
-   {};
-
-   template<>
-   struct disable<>
-      : success
    {};
 
    template< typename Rule >
@@ -45,6 +40,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return Control< Rule >::template match< apply_mode::nothing, M, Action, Control >( in, st... );
       }
    };
+
+   template<>
+   struct disable<>
+      : success
+   {};
 
    template< typename... Rules >
    inline constexpr bool enable_control< disable< Rules... > > = false;

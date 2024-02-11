@@ -5,11 +5,11 @@
 #ifndef TAO_PEGTL_INTERNAL_PAD_OPT_HPP
 #define TAO_PEGTL_INTERNAL_PAD_OPT_HPP
 
+#include "../config.hpp"
+
 #include "opt.hpp"
 #include "seq.hpp"
 #include "star.hpp"
-
-#include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

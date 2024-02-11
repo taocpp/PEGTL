@@ -7,24 +7,19 @@
 
 #include <cstddef>
 
-#include "../apply_mode.hpp"
 #include "../config.hpp"
-#include "../normal.hpp"
-#include "../nothing.hpp"
-#include "../rewind_mode.hpp"
 #include "../text_position.hpp"
 
 #include "choose_lazy_traits.hpp"
 #include "input_with_lines.hpp"
-#include "lazy_scan_input.hpp"
+#include "scan_input.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Eol, typename Input >
-   class lazy_input
-      : public Input
+   struct lazy_input
+      : Input
    {
-   public:
       using data_t = typename Input::data_t;
       using error_position_t = text_position;
       using offset_position_t = text_position;
@@ -55,7 +50,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          error_position_t pos;
          const std::size_t count = this->previous( saved ) - this->start();
-         lazy_scan_input< data_t > in( this->start(), count );
+         scan_input< data_t > in( this->start(), count );
          internal::choose_lazy_traits< Eol >( pos, in );
          return pos;
       }

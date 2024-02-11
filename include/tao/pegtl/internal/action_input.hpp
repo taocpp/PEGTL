@@ -6,9 +6,6 @@
 #define TAO_PEGTL_INTERNAL_ACTION_INPUT_HPP
 
 #include <cstddef>
-#include <cstdint>
-#include <string>
-#include <string_view>
 
 #include "../config.hpp"
 
@@ -23,7 +20,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using data_t = typename ParseInput::data_t;
       using input_t = ParseInput;
       using error_position_t = typename ParseInput::error_position_t;
-      // offset_position_t
       using rewind_position_t = typename ParseInput::rewind_position_t;
 
       action_input_impl( const rewind_position_t& begin, const ParseInput& input ) noexcept
@@ -33,8 +29,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       action_input_impl( action_input_impl&& ) = delete;
       action_input_impl( const action_input_impl& ) = delete;
-
-      ~action_input_impl() = default;
 
       void operator=( action_input_impl&& ) = delete;
       void operator=( const action_input_impl& ) = delete;

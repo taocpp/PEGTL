@@ -5,11 +5,11 @@
 #ifndef TAO_PEGTL_INTERNAL_MINUS_HPP
 #define TAO_PEGTL_INTERNAL_MINUS_HPP
 
+
+#include "../config.hpp"
 #include "eof.hpp"
 #include "not_at.hpp"
 #include "rematch.hpp"
-
-#include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

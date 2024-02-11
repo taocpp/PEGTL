@@ -5,7 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_INPUT_WITH_OFFSET_HPP
 #define TAO_PEGTL_INTERNAL_INPUT_WITH_OFFSET_HPP
 
-#include <type_traits>
 #include <utility>
 
 #include "../config.hpp"

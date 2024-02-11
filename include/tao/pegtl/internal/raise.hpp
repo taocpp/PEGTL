@@ -9,14 +9,12 @@
 #error "Exception support required for tao/pegtl/internal/raise.hpp"
 #else
 
-#include <stdexcept>
-
-#include "enable_control.hpp"
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
+
+#include "enable_control.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

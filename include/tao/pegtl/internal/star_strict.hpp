@@ -5,13 +5,13 @@
 #ifndef TAO_PEGTL_INTERNAL_STAR_STRICT_HPP
 #define TAO_PEGTL_INTERNAL_STAR_STRICT_HPP
 
-#include "enable_control.hpp"
-#include "seq.hpp"
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
+
+#include "enable_control.hpp"
+#include "seq.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

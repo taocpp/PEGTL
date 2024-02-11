@@ -5,10 +5,9 @@
 #ifndef TAO_PEGTL_PARSE_ERROR_HPP
 #define TAO_PEGTL_PARSE_ERROR_HPP
 
-#include <cstddef>
 #include <string>
-#include <string_view>
 #include <type_traits>
+#include <utility>
 
 #include "config.hpp"
 #include "parse_error_base.hpp"

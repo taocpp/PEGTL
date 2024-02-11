@@ -5,7 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_TEXT_SCAN_TRAITS_HPP
 #define TAO_PEGTL_INTERNAL_TEXT_SCAN_TRAITS_HPP
 
-#include <cstddef>
 #include <type_traits>
 
 #include "../config.hpp"
@@ -17,7 +16,7 @@
 #include "eol.hpp"
 #include "eolf.hpp"
 #include "get_eol_rule_char.hpp"
-#include "lazy_scan_input.hpp"
+#include "scan_input.hpp"
 #include "scan_base_classes.hpp"
 #include "tester.hpp"
 #include "until.hpp"
@@ -51,7 +50,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct text_scan_traits< Eol, tester< Rule > >
    {
       template< typename Position, typename Data >
-      static void scan( Position& pos, lazy_scan_input< Data >& in )
+      static void scan( Position& pos, scan_input< Data >& in )
       {
          if constexpr( std::is_same_v< typename Eol::eol_char_rule::rule_t, tester< Rule > > ) {
             inc_line_scan::scan( pos, in );
@@ -81,12 +80,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {};
 
    template< typename Eol >
-   struct text_scan_traits< Eol, until< eol< void > > >
+   struct text_scan_traits< Eol, until< eol > >
       : add_column_scan
    {};
 
    template< typename Eol >
-   struct text_scan_traits< Eol, until< eolf< void > > >
+   struct text_scan_traits< Eol, until< eolf > >
       : add_column_scan
    {};
 

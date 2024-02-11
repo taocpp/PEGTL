@@ -9,10 +9,10 @@
 #error "Exception support required for tao/pegtl/internal/star_must.hpp"
 #else
 
+#include "../config.hpp"
+
 #include "if_must.hpp"
 #include "star.hpp"
-
-#include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

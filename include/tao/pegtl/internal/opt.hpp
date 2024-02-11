@@ -5,12 +5,12 @@
 #ifndef TAO_PEGTL_INTERNAL_OPT_HPP
 #define TAO_PEGTL_INTERNAL_OPT_HPP
 
+#include "../config.hpp"
+
 #include "enable_control.hpp"
 #include "partial.hpp"
 #include "seq.hpp"
 #include "success.hpp"
-
-#include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -19,17 +19,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : opt< seq< Rules... > >
    {};
 
-   template<>
-   struct opt<>
-      : success
-   {};
-
    template< typename Rule >
    struct opt< Rule >
       : partial< Rule >
    {
       using rule_t = opt;
    };
+
+   template<>
+   struct opt<>
+      : success
+   {};
 
    template< typename... Rules >
    inline constexpr bool enable_control< opt< Rules... > > = false;

@@ -5,7 +5,6 @@
 #ifndef TAO_PEGTL_INPUTS_HPP
 #define TAO_PEGTL_INPUTS_HPP
 
-#include <filesystem>
 #include <string>
 
 #include "config.hpp"

@@ -9,10 +9,10 @@
 #error "Exception support required for tao/pegtl/internal/if_must_else.hpp"
 #else
 
+#include "../config.hpp"
+
 #include "if_then_else.hpp"
 #include "must.hpp"
-
-#include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

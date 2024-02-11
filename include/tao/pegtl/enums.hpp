@@ -23,7 +23,6 @@ namespace TAO_PEGTL_NAMESPACE
       template< auto E, decltype( E )... Es > struct ranges : internal::ranges< internal::peek_endian< decltype( E ), internal::big_endian >, E, Es... > {};
       template< auto E, decltype( E )... Es > struct string : internal::seq_one< internal::peek_endian< decltype( E ), internal::big_endian >, E, Es... > {};
       // clang-format on
-
    }  // namespace enums_be
 
    namespace enums_le
@@ -36,7 +35,6 @@ namespace TAO_PEGTL_NAMESPACE
       template< auto E, decltype( E )... Es > struct ranges : internal::ranges< internal::peek_endian< decltype( E ), internal::little_endian >, E, Es... > {};
       template< auto E, decltype( E )... Es > struct string : internal::seq_one< internal::peek_endian< decltype( E ), internal::little_endian >, E, Es... > {};
       // clang-format on
-
    }  // namespace enums_le
 
    namespace enums = TAO_PEGTL_ENDIAN_SUFFIXED( enums_ );

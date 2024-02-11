@@ -5,7 +5,9 @@
 #ifndef TAO_PEGTL_INTERNAL_EOLF_HPP
 #define TAO_PEGTL_INTERNAL_EOLF_HPP
 
+#include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
@@ -13,7 +15,6 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Eol >
    struct eolf
    {
       using rule_t = eolf;
@@ -29,12 +30,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         return in.empty() || eol< Eol >::template match< A, M, Action, Control >( in, st... );
+         return in.empty() || eol::template match< A, M, Action, Control >( in, st... );
       }
    };
 
-   template< typename Eol >
-   inline constexpr bool enable_control< eolf< Eol > > = false;
+   template<>
+   inline constexpr bool enable_control< eolf > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

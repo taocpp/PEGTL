@@ -21,6 +21,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Data >
       [[nodiscard]] static constexpr bool test( const Data c ) noexcept
       {
+         using data_t = typename Peek::data_t;
+         static_assert( sizeof( Data ) <= sizeof( data_t ) );
          return ( ascii_ichar_equal< Cs >( c ) || ... ) == false;
       }
    };

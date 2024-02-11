@@ -7,11 +7,11 @@
 
 #include <cstddef>
 
-#include "enable_control.hpp"
-
 #include "../config.hpp"
 #include "../tags.hpp"
 #include "../type_list.hpp"
+
+#include "enable_control.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

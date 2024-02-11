@@ -6,11 +6,6 @@
 #define TAO_PEGTL_INTERNAL_PEGTL_STRING_HPP
 
 #include <cstddef>
-#include <type_traits>
-
-#include "../ascii.hpp"
-#include "../config.hpp"
-#include "../rules.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

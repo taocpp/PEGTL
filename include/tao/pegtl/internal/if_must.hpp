@@ -9,13 +9,13 @@
 #error "Exception support required for tao/pegtl/internal/if_must.hpp"
 #else
 
-#include "enable_control.hpp"
-#include "must.hpp"
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
+
+#include "enable_control.hpp"
+#include "must.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

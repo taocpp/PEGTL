@@ -5,13 +5,10 @@
 #ifndef TAO_PEGTL_INTERNAL_INPUT_WITH_START_HPP
 #define TAO_PEGTL_INTERNAL_INPUT_WITH_START_HPP
 
-#include <cstddef>
 #include <utility>
 
 #include "../config.hpp"
 #include "../count_position.hpp"
-
-#include "view_input.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

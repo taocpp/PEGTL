@@ -10,20 +10,18 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Eol, typename Input >
-   class input_with_lines
-      : public Input
+   struct input_with_lines
+      :  Input
    {
-   public:
       using eol_rule = Eol;
 
       using Input::Input;
    };
 
    template< typename Input >
-   class input_with_lines< void, Input >
-      : public Input
+   struct input_with_lines< void, Input >
+      : Input
    {
-   public:
       using Input::Input;
    };
 

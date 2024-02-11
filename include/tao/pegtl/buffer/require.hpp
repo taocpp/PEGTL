@@ -15,14 +15,6 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    template< std::size_t Amount >
-   struct require;
-
-   template<>
-   struct require< 0 >
-      : internal::success
-   {};
-
-   template< std::size_t Amount >
    struct require
    {
       using rule_t = require;
@@ -34,6 +26,11 @@ namespace TAO_PEGTL_NAMESPACE
          return in.size( Amount ) >= Amount;
       }
    };
+
+   template<>
+   struct require< 0 >
+      : internal::success
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -32,7 +32,6 @@ namespace TAO_PEGTL_NAMESPACE
       template< std::uint32_t M, std::uint32_t... Cs > struct mask_ranges : internal::ranges< internal::peek_mask_uint32_be< M >, Cs... > {};
       template< std::uint32_t M, std::uint32_t... Cs > struct mask_string : internal::seq_one< internal::peek_mask_uint32_be< M >, Cs... > {};
       // clang-format on
-
    }  // namespace uint32_be
 
    namespace uint32_le
@@ -55,7 +54,6 @@ namespace TAO_PEGTL_NAMESPACE
       template< std::uint32_t M, std::uint32_t... Cs > struct mask_ranges : internal::ranges< internal::peek_mask_uint32_le< M >, Cs... > {};
       template< std::uint32_t M, std::uint32_t... Cs > struct mask_string : internal::seq_one< internal::peek_mask_uint32_le< M >, Cs... > {};
       // clang-format on
-
    }  // namespace uint32_le
 
 }  // namespace TAO_PEGTL_NAMESPACE

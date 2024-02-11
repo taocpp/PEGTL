@@ -5,20 +5,19 @@
 #ifndef TAO_PEGTL_INTERNAL_CHOOSE_TEXT_TRAITS_HPP
 #define TAO_PEGTL_INTERNAL_CHOOSE_TEXT_TRAITS_HPP
 
-#include <cstddef>
 #include <type_traits>
 
 #include "../config.hpp"
 
 #include "has_eol_char_rule.hpp"
-#include "lazy_scan_input.hpp"
+#include "scan_input.hpp"
 #include "text_rule_traits.hpp"
 #include "text_scan_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Eol, typename Rule, typename Position, typename Data >
-   void choose_text_traits( Position& pos, lazy_scan_input< Data >& in )
+   void choose_text_traits( Position& pos, scan_input< Data >& in )
    {
       static_assert( !std::is_same_v< Eol, void > );
 

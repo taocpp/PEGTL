@@ -50,7 +50,7 @@ namespace TAO_PEGTL_NAMESPACE
       struct identifier_other : internal::identifier_other< internal::peek_char > {};
       struct identifier : internal::identifier< internal::peek_char > {};
       template< char... Cs > struct keyword : internal::seq< internal::ascii_string< Cs... >, internal::not_at< internal::identifier_other< internal::peek_char > > > { static_assert( sizeof...( Cs ) > 0 ); };
-      struct shebang : internal::seq< internal::ascii_string< '#', '!' >, internal::until< internal::eolf< void > > > {};
+      struct shebang : internal::seq< internal::ascii_string< '#', '!' >, internal::until< internal::eolf > > {};
 
       struct any : internal::any< internal::peek_char > {};
       template< char... Cs > struct ione : internal::ione< internal::peek_char, Cs... > {};

@@ -5,16 +5,16 @@
 #ifndef TAO_PEGTL_INTERNAL_UNTIL_HPP
 #define TAO_PEGTL_INTERNAL_UNTIL_HPP
 
+#include "../apply_mode.hpp"
+#include "../config.hpp"
+#include "../rewind_mode.hpp"
+#include "../type_list.hpp"
+
 #include "enable_control.hpp"
 #include "eof.hpp"
 #include "not_at.hpp"
 #include "seq.hpp"
 #include "star.hpp"
-
-#include "../apply_mode.hpp"
-#include "../config.hpp"
-#include "../rewind_mode.hpp"
-#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_DEMANGLE_HPP
 #define TAO_PEGTL_DEMANGLE_HPP
 
+#include <cstddef>
 #include <string_view>
 
 #include "config.hpp"

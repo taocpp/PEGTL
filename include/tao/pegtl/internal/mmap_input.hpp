@@ -15,11 +15,10 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Data >
-   class mmap_input
+   struct mmap_input
       : private mmap_file_base,
         public view_input< Data >
    {
-   public:
       using data_t = Data;
       using error_position_t = count_position;
       using offset_position_t = count_position;

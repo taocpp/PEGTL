@@ -14,10 +14,9 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   class argv_input
-      : public input_with_start< view_input< char > >
+   struct argv_input
+      : input_with_start< view_input< char > >
    {
-   public:
       argv_input( char** argv, const int argn )
          : input_with_start< view_input< char > >( argv[ argn ], std::strlen( argv[ argn ] ) )
       {}

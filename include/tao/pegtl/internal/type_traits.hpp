@@ -12,7 +12,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename T >
-   constexpr inline bool is_simple_type_v = std::is_integral_v< T > || std::is_enum_v< T >;
+   inline constexpr bool is_simple_type_v = std::is_integral_v< T > || std::is_enum_v< T >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

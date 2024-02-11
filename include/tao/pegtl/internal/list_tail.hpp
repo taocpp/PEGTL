@@ -5,10 +5,10 @@
 #ifndef TAO_PEGTL_INTERNAL_LIST_TAIL_HPP
 #define TAO_PEGTL_INTERNAL_LIST_TAIL_HPP
 
+#include "../config.hpp"
+
 #include "seq.hpp"
 #include "star_partial.hpp"
-
-#include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

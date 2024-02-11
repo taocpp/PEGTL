@@ -5,17 +5,15 @@
 #ifndef TAO_PEGTL_INTERNAL_REP_MIN_MAX_HPP
 #define TAO_PEGTL_INTERNAL_REP_MIN_MAX_HPP
 
-#include <type_traits>
+#include "../apply_mode.hpp"
+#include "../config.hpp"
+#include "../rewind_mode.hpp"
+#include "../type_list.hpp"
 
 #include "enable_control.hpp"
 #include "failure.hpp"
 #include "not_at.hpp"
 #include "seq.hpp"
-
-#include "../apply_mode.hpp"
-#include "../config.hpp"
-#include "../rewind_mode.hpp"
-#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

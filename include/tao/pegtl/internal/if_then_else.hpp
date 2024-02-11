@@ -5,15 +5,15 @@
 #ifndef TAO_PEGTL_INTERNAL_IF_THEN_ELSE_HPP
 #define TAO_PEGTL_INTERNAL_IF_THEN_ELSE_HPP
 
-#include "enable_control.hpp"
-#include "not_at.hpp"
-#include "seq.hpp"
-#include "sor.hpp"
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
+
+#include "enable_control.hpp"
+#include "not_at.hpp"
+#include "seq.hpp"
+#include "sor.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

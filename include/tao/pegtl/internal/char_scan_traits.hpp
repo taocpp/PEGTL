@@ -10,7 +10,7 @@
 
 #include "../config.hpp"
 
-#include "lazy_scan_input.hpp"
+#include "scan_input.hpp"
 #include "one.hpp"
 #include "tester.hpp"
 #include "type_traits.hpp"
@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct char_scan_traits< tester< one< Peek, Eol > > >
    {
       template< typename Position, typename Data >
-      static void scan( Position& pos, lazy_scan_input< Data >& in )
+      static void scan( Position& pos, scan_input< Data >& in )
       {
          using Char = decltype( Eol );
 
@@ -58,7 +58,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                   in.template consume< void >( pair.size() );
                   continue;
                }
-               break;  // TODO: Leave input argument non-empty!
+               break;
             }
          }
       }
