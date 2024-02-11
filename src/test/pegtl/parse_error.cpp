@@ -15,7 +15,7 @@ int main()
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename ParseInput >
+   template< typename ParseInput, bool TestLineView >
    void unit_test()
    {
       const std::string rulename{ demangle< digit >() };
@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( p.column == 5 );
          TAO_PEGTL_TEST_ASSERT( p.source == "test_source" );
 
-         if constexpr( internal::input_traits< ParseInput >::is_text ) {
+         if constexpr( TestLineView ) {
             TAO_PEGTL_TEST_ASSERT( line_view_at( in, p ) == "bar bla blubb" );
          }
          return;
@@ -47,8 +47,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      unit_test< text_view_input< eols::lazy::lf, char, std::string > >();
-      unit_test< text_view_input< eols::scan::lf, char, std::string > >();
+      unit_test< text_view_input< eols::lazy::lf, char, std::string >, false >();
+      unit_test< text_view_input< eols::scan::lf, char, std::string >, true >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
