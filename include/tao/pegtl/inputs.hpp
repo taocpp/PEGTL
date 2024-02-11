@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
    using file_input = internal::file_alias< Eol >;
 
    template< typename Eol = void >
-      using read_input = internal::read_alias< Eol >;
+   using read_input = internal::read_alias< Eol >;
 
 #if defined( TAO_PEGTL_MMAP_AVAILABLE )
    template< typename Eol = void, typename Data = char >

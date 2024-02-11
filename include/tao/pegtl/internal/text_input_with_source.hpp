@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using eol_rule = Eol;
 
       static_assert( !std::is_same_v< Eol, void > );
-      static_assert( !std::is_same_v< Eol, typename Eol::rule_t > );
+
       static_assert( std::is_same_v< InputSource, ErrorSource >, "TODO?" );
 
       template< typename S, typename... Ts >

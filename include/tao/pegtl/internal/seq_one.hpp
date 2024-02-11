@@ -7,7 +7,6 @@
 
 #include "../config.hpp"
 
-#include "ione.hpp"
 #include "one.hpp"
 #include "seq.hpp"
 
@@ -15,9 +14,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, typename Peek::data_t... Cs >
    using seq_one = seq< one< Peek, Cs >... >;
-
-   template< typename Peek, typename Peek::data_t... Cs >
-   using seq_ione = seq< ione< Peek, Cs >... >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -9,7 +9,6 @@
 #include <iostream>
 #include <string>
 
-#include <tao/pegtl/eols.hpp>
 #include <tao/pegtl/inputs.hpp>
 
 #include <tao/pegtl/count_position.hpp>
@@ -18,6 +17,13 @@
 
 namespace TAO_PEGTL_NAMESPACE::test
 {
+   template< typename Eol, typename Peek >
+   struct eol_to_lazy_eol
+      : Eol::rule_t
+   {
+      using eol_lazy_peek = Peek;
+   };
+
    template< typename Data >
    [[nodiscard]] const Data* rewind_adapt( const Data* start, const count_position c ) noexcept
    {

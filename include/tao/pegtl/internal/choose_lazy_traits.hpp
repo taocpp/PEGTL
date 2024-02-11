@@ -23,7 +23,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    void choose_lazy_traits( Position& pos, lazy_scan_input< Data >& in )
    {
       static_assert( !std::is_same_v< Eol, void > );
-      static_assert( !std::is_same_v< Eol, typename Eol::rule_t > );
 
       if constexpr( get_eol_rule_char_v< Eol > ) {
          char_scan_traits< Eol >::scan( pos, in );

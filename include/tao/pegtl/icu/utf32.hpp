@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
          : internal::icu::property_value< internal::peek_utf32_be, P, V >
       {};
 
-#include "rules.ipp"
+#include "icu_rules.ipp"
 
    }  // namespace utf32_be::icu
 
@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE
          : internal::icu::property_value< internal::peek_utf32_le, P, V >
       {};
 
-#include "rules.ipp"
+#include "icu_rules.ipp"
 
    }  // namespace utf32_le::icu
 

@@ -24,8 +24,8 @@
 
 #define TAO_PEGTL_ENDIAN_SUFFIXED( iDeNTiFieR ) iDeNTiFieR##le
 
-// NOTE: I'm pretty sure that all Windows versions ever are little
-// endian, including on processors like Alpha, Mips and Itanium.
+// NOTE: I'm pretty sure that all Windows versions ever released
+// are little endian, including on Alpha, Mips and Itanium...
 
 #elif !defined( __BYTE_ORDER__ )
 
@@ -47,7 +47,7 @@
 
 #else
 
-#error Byte order is neither big nor little endian and we do NOT support the PDP-11!
+#error Byte order is neither big nor little endian -- are you using a PDP-11?
 
 #endif
 

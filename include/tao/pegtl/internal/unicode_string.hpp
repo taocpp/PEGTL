@@ -10,15 +10,15 @@
 #include "../config.hpp"
 #include "../type_list.hpp"
 
+#include "ascii_string.hpp"
 #include "dependent_false.hpp"
 #include "enable_control.hpp"
 #include "one.hpp"
 #include "peek_unicode.hpp"
 #include "peek_utf16.hpp"
 #include "peek_utf32.hpp"
-#include "seq_one.hpp"
 #include "success.hpp"
-#include "utf8_string.hpp"
+#include "unicode_to_utf8_string.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -43,13 +43,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
          static constexpr std::size_t size = sizeof( typename ParseInput::data_t );
 
          if constexpr( size == 1 ) {
-            return utf8_string< Cs... >::match( in );
+            return unicode_to_utf8_string_t< ascii_string, Cs... >::match( in );
          }
          else if constexpr( size == 2 ) {
-            return seq_one< peek_utf16, Cs... >::template match< A, M, Action, Control >( in );
+            return seq< one< peek_utf16, Cs >... >::template match< A, M, Action, Control >( in );
          }
          else if constexpr( size == 4 ) {
-            return seq_one< peek_utf32, Cs... >::template match< A, M, Action, Control >( in );
+            return seq< one< peek_utf32, Cs >... >::template match< A, M, Action, Control >( in );
          }
          else {
             static_assert( dependent_false< ParseInput > );

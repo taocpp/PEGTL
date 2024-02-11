@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE::unicode::icu
       : internal::icu::property_value< internal::peek_unicode, P, V >
    {};
 
-#include "rules.ipp"
+#include "icu_rules.ipp"
 
 }  // namespace TAO_PEGTL_NAMESPACE::unicode::icu
 

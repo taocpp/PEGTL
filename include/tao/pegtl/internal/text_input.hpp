@@ -32,7 +32,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using Input::Input;
 
       static_assert( !std::is_same_v< Eol, void > );
-      static_assert( !std::is_same_v< Eol, typename Eol::rule_t > );
 
       [[nodiscard]] const data_t* start() const noexcept
       {
