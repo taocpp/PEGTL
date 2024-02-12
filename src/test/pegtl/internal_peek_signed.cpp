@@ -8,7 +8,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/peek_integer.hpp>
+#include <tao/pegtl/internal/peek_endian.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

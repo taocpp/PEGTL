@@ -6,6 +6,7 @@
 #define TAO_PEGTL_INTERNAL_PEEK_ENDIAN_HPP
 
 #include <cstddef>
+#include <cstdint>
 
 #include "../config.hpp"
 
@@ -45,6 +46,22 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return pair_t();
       }
    };
+
+   using peek_int16_be = peek_endian< std::int16_t, big_endian >;
+   using peek_int32_be = peek_endian< std::int32_t, big_endian >;
+   using peek_int64_be = peek_endian< std::int64_t, big_endian >;
+
+   using peek_int16_le = peek_endian< std::int16_t, little_endian >;
+   using peek_int32_le = peek_endian< std::int32_t, little_endian >;
+   using peek_int64_le = peek_endian< std::int64_t, little_endian >;
+
+   using peek_uint16_be = peek_endian< std::uint16_t, big_endian >;
+   using peek_uint32_be = peek_endian< std::uint32_t, big_endian >;
+   using peek_uint64_be = peek_endian< std::uint64_t, big_endian >;
+
+   using peek_uint16_le = peek_endian< std::uint16_t, little_endian >;
+   using peek_uint32_le = peek_endian< std::uint32_t, little_endian >;
+   using peek_uint64_le = peek_endian< std::uint64_t, little_endian >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

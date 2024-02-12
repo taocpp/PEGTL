@@ -5,7 +5,7 @@
 #include "test.hpp"
 #include "verify_meta.hpp"
 
-#include <tao/pegtl/internal/peek_integer.hpp>
+#include <tao/pegtl/internal/peek_endian.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

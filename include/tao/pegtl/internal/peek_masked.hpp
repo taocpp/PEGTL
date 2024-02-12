@@ -47,6 +47,40 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
+   template< std::int8_t Mask >
+   using peek_mask_int8 = peek_masked< std::int8_t, Mask >;
+
+   template< std::uint8_t Mask >
+   using peek_mask_uint8 = peek_masked< std::uint8_t, Mask >;
+
+   template< std::int16_t Mask >
+   using peek_mask_int16_be = peek_masked< std::int16_t, Mask, big_endian >;
+   template< std::int32_t Mask >
+   using peek_mask_int32_be = peek_masked< std::int32_t, Mask, big_endian >;
+   template< std::int64_t Mask >
+   using peek_mask_int64_be = peek_masked< std::int64_t, Mask, big_endian >;
+
+   template< std::int16_t Mask >
+   using peek_mask_int16_le = peek_masked< std::int16_t, Mask, little_endian >;
+   template< std::int32_t Mask >
+   using peek_mask_int32_le = peek_masked< std::int32_t, Mask, little_endian >;
+   template< std::int64_t Mask >
+   using peek_mask_int64_le = peek_masked< std::int64_t, Mask, little_endian >;
+
+   template< std::uint16_t Mask >
+   using peek_mask_uint16_be = peek_masked< std::uint16_t, Mask, big_endian >;
+   template< std::uint32_t Mask >
+   using peek_mask_uint32_be = peek_masked< std::uint32_t, Mask, big_endian >;
+   template< std::uint64_t Mask >
+   using peek_mask_uint64_be = peek_masked< std::uint64_t, Mask, big_endian >;
+
+   template< std::uint16_t Mask >
+   using peek_mask_uint16_le = peek_masked< std::uint16_t, Mask, little_endian >;
+   template< std::uint32_t Mask >
+   using peek_mask_uint32_le = peek_masked< std::uint32_t, Mask, little_endian >;
+   template< std::uint64_t Mask >
+   using peek_mask_uint64_le = peek_masked< std::uint64_t, Mask, little_endian >;
+
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

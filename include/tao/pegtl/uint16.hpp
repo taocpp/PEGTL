@@ -7,54 +7,21 @@
 
 #include "config.hpp"
 
-#include "internal/peek_integer.hpp"
+#include "internal/peek_endian.hpp"
+#include "internal/peek_masked.hpp"
 #include "internal/rules.hpp"
+
+#define TAO_PEGTL_INT_NAME uint16_be
+#define TAO_PEGTL_INT_TYPE std::uint16_t
+#include "internal/int_rules.ipp"
+
+#define TAO_PEGTL_INT_NAME uint16_le
+#define TAO_PEGTL_INT_TYPE std::uint16_t
+#include "internal/int_rules.ipp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   namespace uint16_be
-   {
-      // clang-format off
-      struct any : internal::any< internal::peek_uint16_be > {};
-      template< unsigned Count > struct many : internal::many< Count, internal::peek_uint16_be > {};
-
-      template< std::uint16_t... Cs > struct not_one : internal::not_one< internal::peek_uint16_be, Cs... > {};
-      template< std::uint16_t Lo, std::uint16_t Hi > struct not_range : internal::not_range< internal::peek_uint16_be, Lo, Hi > {};
-      template< std::uint16_t... Cs > struct one : internal::one< internal::peek_uint16_be, Cs... > {};
-      template< std::uint16_t Lo, std::uint16_t Hi > struct range : internal::range< internal::peek_uint16_be, Lo, Hi > {};
-      template< std::uint16_t... Cs > struct ranges : internal::ranges< internal::peek_uint16_be, Cs... > {};
-      template< std::uint16_t... Cs > struct string : internal::seq_one< internal::peek_uint16_be, Cs... > {};
-
-      template< std::uint16_t M, std::uint16_t... Cs > struct mask_not_one : internal::not_one< internal::peek_mask_uint16_be< M >, Cs... > {};
-      template< std::uint16_t M, std::uint16_t Lo, std::uint16_t Hi > struct mask_not_range : internal::not_range< internal::peek_mask_uint16_be< M >, Lo, Hi > {};
-      template< std::uint16_t M, std::uint16_t... Cs > struct mask_one : internal::one< internal::peek_mask_uint16_be< M >, Cs... > {};
-      template< std::uint16_t M, std::uint16_t Lo, std::uint16_t Hi > struct mask_range : internal::range< internal::peek_mask_uint16_be< M >, Lo, Hi > {};
-      template< std::uint16_t M, std::uint16_t... Cs > struct mask_ranges : internal::ranges< internal::peek_mask_uint16_be< M >, Cs... > {};
-      template< std::uint16_t M, std::uint16_t... Cs > struct mask_string : internal::seq_one< internal::peek_mask_uint16_be< M >, Cs... > {};
-      // clang-format on
-   }  // namespace uint16_be
-
-   namespace uint16_le
-   {
-      // clang-format off
-      struct any : internal::any< internal::peek_uint16_le > {};
-      template< unsigned Count > struct many : internal::many< Count, internal::peek_uint16_le > {};
-
-      template< std::uint16_t... Cs > struct not_one : internal::not_one< internal::peek_uint16_le, Cs... > {};
-      template< std::uint16_t Lo, std::uint16_t Hi > struct not_range : internal::not_range< internal::peek_uint16_le, Lo, Hi > {};
-      template< std::uint16_t... Cs > struct one : internal::one< internal::peek_uint16_le, Cs... > {};
-      template< std::uint16_t Lo, std::uint16_t Hi > struct range : internal::range< internal::peek_uint16_le, Lo, Hi > {};
-      template< std::uint16_t... Cs > struct ranges : internal::ranges< internal::peek_uint16_le, Cs... > {};
-      template< std::uint16_t... Cs > struct string : internal::seq_one< internal::peek_uint16_le, Cs... > {};
-
-      template< std::uint16_t M, std::uint16_t... Cs > struct mask_not_one : internal::not_one< internal::peek_mask_uint16_le< M >, Cs... > {};
-      template< std::uint16_t M, std::uint16_t Lo, std::uint16_t Hi > struct mask_not_range : internal::not_range< internal::peek_mask_uint16_le< M >, Lo, Hi > {};
-      template< std::uint16_t M, std::uint16_t... Cs > struct mask_one : internal::one< internal::peek_mask_uint16_le< M >, Cs... > {};
-      template< std::uint16_t M, std::uint16_t Lo, std::uint16_t Hi > struct mask_range : internal::range< internal::peek_mask_uint16_le< M >, Lo, Hi > {};
-      template< std::uint16_t M, std::uint16_t... Cs > struct mask_ranges : internal::ranges< internal::peek_mask_uint16_le< M >, Cs... > {};
-      template< std::uint16_t M, std::uint16_t... Cs > struct mask_string : internal::seq_one< internal::peek_mask_uint16_le< M >, Cs... > {};
-      // clang-format on
-   }  // namespace uint16_le
+   namespace uint16 = TAO_PEGTL_ENDIAN_SUFFIXED( uint16_ );
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

@@ -7,40 +7,21 @@
 
 #include "config.hpp"
 
-#include "internal/peek_integer.hpp"
+#include "internal/peek_endian.hpp"
+#include "internal/peek_masked.hpp"
 #include "internal/rules.hpp"
+
+#define TAO_PEGTL_INT_NAME int64_be
+#define TAO_PEGTL_INT_TYPE std::int64_t
+#include "internal/int_rules.ipp"
+
+#define TAO_PEGTL_INT_NAME int64_le
+#define TAO_PEGTL_INT_TYPE std::int64_t
+#include "internal/int_rules.ipp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   namespace int64_be
-   {
-      // clang-format off
-      struct any : internal::any< internal::peek_int64_be > {};
-      template< unsigned Count > struct many : internal::many< Count, internal::peek_int64_be > {};
-
-      template< std::int64_t... Cs > struct not_one : internal::not_one< internal::peek_int64_be, Cs... > {};
-      template< std::int64_t Lo, std::int64_t Hi > struct not_range : internal::not_range< internal::peek_int64_be, Lo, Hi > {};
-      template< std::int64_t... Cs > struct one : internal::one< internal::peek_int64_be, Cs... > {};
-      template< std::int64_t Lo, std::int64_t Hi > struct range : internal::range< internal::peek_int64_be, Lo, Hi > {};
-      template< std::int64_t... Cs > struct ranges : internal::ranges< internal::peek_int64_be, Cs... > {};
-      template< std::int64_t... Cs > struct string : internal::seq_one< internal::peek_int64_be, Cs... > {};
-      // clang-format on
-   }  // namespace int64_be
-
-   namespace int64_le
-   {
-      // clang-format off
-      struct any : internal::any< internal::peek_int64_le > {};
-      template< unsigned Count > struct many : internal::many< Count, internal::peek_int64_le > {};
-
-      template< std::int64_t... Cs > struct not_one : internal::not_one< internal::peek_int64_le, Cs... > {};
-      template< std::int64_t Lo, std::int64_t Hi > struct not_range : internal::not_range< internal::peek_int64_le, Lo, Hi > {};
-      template< std::int64_t... Cs > struct one : internal::one< internal::peek_int64_le, Cs... > {};
-      template< std::int64_t Lo, std::int64_t Hi > struct range : internal::range< internal::peek_int64_le, Lo, Hi > {};
-      template< std::int64_t... Cs > struct ranges : internal::ranges< internal::peek_int64_le, Cs... > {};
-      template< std::int64_t... Cs > struct string : internal::seq_one< internal::peek_int64_le, Cs... > {};
-      // clang-format on
-   }  // namespace int64_le
+   namespace int64 = TAO_PEGTL_ENDIAN_SUFFIXED( int64_ );
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

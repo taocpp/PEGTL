@@ -2,10 +2,6 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-// Some preprocessor games. Neither do I want to maintain six copies
-// of the rules below, nor do I want to stick it all into a struct and
-// template over the peek. What we need here are namespace templates.
-
 #if !defined( TAO_PEGTL_UTF_NAME )
 #error Missing name!
 #endif
@@ -18,6 +14,8 @@
 #define TAO_PEGTL_UTF_HELP( NaMe ) TAO_PEGTL_UTF_IMPL( NaMe )
 
 #define TAO_PEGTL_UTF_PEEK TAO_PEGTL_UTF_HELP( TAO_PEGTL_UTF_NAME )
+
+// When will we get namespace templates?
 
 namespace TAO_PEGTL_NAMESPACE::TAO_PEGTL_UTF_NAME
 {
