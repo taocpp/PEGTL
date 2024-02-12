@@ -13,9 +13,7 @@
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
-#if defined( __cpp_exceptions )
-#include "../parse_error.hpp"
-#else
+#if !defined( __cpp_exceptions )
 #include <cstdio>
 #include <exception>
 #endif

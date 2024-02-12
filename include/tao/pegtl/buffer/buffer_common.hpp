@@ -11,10 +11,10 @@
 #include <utility>
 
 #if defined( __cpp_exceptions )
-#include <exception>
 #include <stdexcept>
 #else
 #include <cstdio>
+#include <exception>
 #endif
 
 #include "../config.hpp"

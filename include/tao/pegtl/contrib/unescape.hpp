@@ -11,7 +11,10 @@
 
 #include "../ascii.hpp"
 #include "../config.hpp"
+
+#if defined( __cpp_exceptions )
 #include "../parse_error.hpp"
+#endif
 
 namespace TAO_PEGTL_NAMESPACE::unescape
 {

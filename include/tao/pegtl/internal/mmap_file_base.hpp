@@ -21,11 +21,11 @@
 
 #if defined( TAO_PEGTL_MMAP_AVAILABLE )
 
-#if !defined( __cpp_exceptions )
+#if defined( __cpp_exceptions )
+#include <stdexcept>
+#else
 #include <cstdio>
 #include <exception>
-#else
-#include <stdexcept>
 #endif
 
 #include <filesystem>

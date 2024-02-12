@@ -12,7 +12,6 @@
 #include "apply_mode.hpp"
 #include "config.hpp"
 #include "match.hpp"
-#include "parse_error.hpp"
 #include "rewind_mode.hpp"
 
 #include "internal/action_input.hpp"
@@ -22,9 +21,11 @@
 
 #if defined( __cpp_exceptions )
 #include "demangle.hpp"
+#include "parse_error.hpp"
 #else
-#include "internal/dependent_false.hpp"
 #include <exception>
+
+#include "internal/dependent_false.hpp"
 #endif
 
 namespace TAO_PEGTL_NAMESPACE
