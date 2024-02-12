@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct peek_direct
    {
       using data_t = Data;
-      using pair_t = data_and_size< Data, std::uint8_t >;
+      using pair_t = data_and_size< Data, void >;
 
       template< typename ParseInput >
       [[nodiscard]] static constexpr bool bulk() noexcept
@@ -36,16 +36,39 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          using raw_t = typename ParseInput::data_t;
 
-         static_assert( sizeof( data_t ) == sizeof( raw_t ) );
          static_assert( is_simple_type_v< raw_t > );
+         static_assert( sizeof( data_t ) == sizeof( raw_t ) );
 
-         if( in.size( offset + 1 ) >= ( offset + 1 ) ) {
-            const data_t c = static_cast< data_t >( *in.current( offset ) );
-            return pair_t( c, 1 );
-         }
-         return pair_t();
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? reinterpret_cast< const data_t* >( in.current( offset ) ) : nullptr );
       }
    };
+
+   template<>
+   struct peek_direct< void >
+   {
+      // using data_t = Depends on ParseInput.
+      // using pair_t = Depends on ParseInput.
+
+      template< typename ParseInput >
+      [[nodiscard]] static constexpr bool bulk() noexcept
+      {
+         return true;
+      }
+
+      template< typename ParseInput >
+      [[nodiscard]] static constexpr std::size_t size() noexcept
+      {
+         return 1;
+      }
+
+      template< typename ParseInput >
+      [[nodiscard]] static auto peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 42 ) ) )
+      {
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? in.current( offset ) : nullptr );
+      }
+   };
+
+   using peek_data = peek_direct< void >;
 
    using peek_char = peek_direct< char >;
    using peek_byte = peek_direct< std::byte >;

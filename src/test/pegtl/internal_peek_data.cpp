@@ -8,13 +8,13 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/peek_current.hpp>
+#include <tao/pegtl/internal/peek_direct.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      using peek_type = internal::peek_current;
+      using peek_type = internal::peek_data;
       using pair_type = internal::data_and_size< int, void >;
       using input_type = base_input< void, int >;
 

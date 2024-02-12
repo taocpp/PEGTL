@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
       using input_type = base_input< void, int >;
 
       static_assert( std::is_same_v< peek_type::data_t, int > );
-      static_assert( std::is_same_v< peek_type::pair_t, internal::data_and_size< int, std::uint8_t > > );
+      static_assert( std::is_same_v< peek_type::pair_t, internal::data_and_size< int, void > > );
       static_assert( peek_type::bulk< input_type >() );
       static_assert( peek_type::size< input_type >() == 1 );
       const std::vector< int > v = { 1000, 2000, 3000 };
