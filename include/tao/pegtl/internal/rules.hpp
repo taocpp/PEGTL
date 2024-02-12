@@ -62,6 +62,7 @@
 #include "tester.hpp"
 #include "unicode_string.hpp"
 #include "until.hpp"
+#include "utf_one.hpp"
 #include "utf_string.hpp"
 
 #if defined( __cpp_exceptions )

@@ -20,25 +20,25 @@
 namespace TAO_PEGTL_NAMESPACE::TAO_PEGTL_UTF_NAME
 {
    // clang-format off
-   struct cr : internal::one< TAO_PEGTL_UTF_PEEK, '\r' > {};
-   struct lf : internal::one< TAO_PEGTL_UTF_PEEK, '\n' > {};
+   struct cr : internal::utf_one_t< TAO_PEGTL_UTF_PEEK, '\r' > {};
+   struct lf : internal::utf_one_t< TAO_PEGTL_UTF_PEEK, '\n' > {};
    struct crlf : internal::utf_string_t< TAO_PEGTL_UTF_PEEK, '\r', '\n' > {};
-   struct cr_lf : internal::one< TAO_PEGTL_UTF_PEEK, '\r', '\n' > {};
+   struct cr_lf : internal::utf_one_t< TAO_PEGTL_UTF_PEEK, '\r', '\n' > {};
    struct cr_crlf : internal::sor< crlf::rule_t, cr::rule_t > {};
    struct lf_crlf : internal::sor< lf::rule_t, crlf::rule_t > {};
    struct cr_lf_crlf : internal::sor< crlf::rule_t, cr_lf::rule_t > {};
-   struct ls : internal::one< TAO_PEGTL_UTF_PEEK, char32_t( 0x2028 ) > {};
-   struct nel : internal::one< TAO_PEGTL_UTF_PEEK, char32_t( 0x85 ) > {};
-   struct ps : internal::one< TAO_PEGTL_UTF_PEEK, char32_t( 0x2029 ) > {};
-   struct eol1 : internal::one< TAO_PEGTL_UTF_PEEK, char32_t( '\r' ), char32_t( '\n' ), char32_t( '\v' ), char32_t( '\f' ), char32_t( 0x85 ), char32_t( 0x2028 ), char32_t( 0x2029 ) > {};
+   struct ls : internal::utf_one_t< TAO_PEGTL_UTF_PEEK, char32_t( 0x2028 ) > {};
+   struct nel : internal::utf_one_t< TAO_PEGTL_UTF_PEEK, char32_t( 0x85 ) > {};
+   struct ps : internal::utf_one_t< TAO_PEGTL_UTF_PEEK, char32_t( 0x2029 ) > {};
+   struct eol1 : internal::utf_one_t< TAO_PEGTL_UTF_PEEK, char32_t( '\r' ), char32_t( '\n' ), char32_t( '\v' ), char32_t( '\f' ), char32_t( 0x85 ), char32_t( 0x2028 ), char32_t( 0x2029 ) > {};
    struct eolu : internal::sor< crlf::rule_t, eol1::rule_t > {};
 
    struct any : internal::any< TAO_PEGTL_UTF_PEEK > {};
-   struct bom : internal::one< TAO_PEGTL_UTF_PEEK, 0xfeff > {};
+   struct bom : internal::utf_one_t< TAO_PEGTL_UTF_PEEK, 0xfeff > {};
    template< unsigned Count > struct many : internal::many< Count, TAO_PEGTL_UTF_PEEK > {};
    template< char32_t... Cs > struct not_one : internal::not_one< TAO_PEGTL_UTF_PEEK, Cs... > {};
    template< char32_t Lo, char32_t Hi > struct not_range : internal::not_range< TAO_PEGTL_UTF_PEEK, Lo, Hi > {};
-   template< char32_t... Cs > struct one : internal::one< TAO_PEGTL_UTF_PEEK, Cs... > {};
+   template< char32_t... Cs > struct one : internal::utf_one_t< TAO_PEGTL_UTF_PEEK, Cs... > {};
    template< char32_t Lo, char32_t Hi > struct range : internal::range< TAO_PEGTL_UTF_PEEK, Lo, Hi > {};
    template< char32_t... Cs > struct ranges : internal::ranges< TAO_PEGTL_UTF_PEEK, Cs... > {};
    template< char32_t... Cs > struct string : internal::utf_string_t< TAO_PEGTL_UTF_PEEK, Cs... > {};
