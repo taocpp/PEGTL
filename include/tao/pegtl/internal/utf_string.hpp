@@ -19,7 +19,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, char32_t... Cs >
    struct utf_string
-      : seq< one< Peek, Cs >... >
    {
       using type = seq< one< Peek, Cs >... >;
    };
