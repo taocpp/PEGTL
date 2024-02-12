@@ -154,7 +154,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       {
          assert( !in.empty() );  // First character MUST be present, usually 'u' or 'U'.
          if( !utf8_append_utf32( s, unhex_string< char32_t >( in.begin() + 1, in.end() ) ) ) {
-            throw parse_error( "invalid escaped unicode code point", in );
+            throw_parse_error( "invalid escaped unicode code point", in );
          }
       }
 #else
@@ -203,7 +203,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
             }
             if( !utf8_append_utf32( s, c ) ) {
 #if defined( __cpp_exceptions )
-               throw parse_error( "invalid escaped unicode code point", in );
+               throw_parse_error( "invalid escaped unicode code point", in );
 #else
                return false;
 #endif

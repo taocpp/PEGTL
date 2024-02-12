@@ -82,7 +82,7 @@ namespace example
       static void apply( const ActionInput& in, state& st )
       {
          if( !st.symbol_table.try_emplace( st.temporary, 0 ).second ) {
-            throw pegtl::parse_error( "duplicate symbol " + st.temporary, in );
+            pegtl::throw_parse_error( "duplicate symbol " + st.temporary, in );
          }
       }
    };
@@ -95,7 +95,7 @@ namespace example
       {
          const auto i = st.symbol_table.find( st.temporary );
          if( i == st.symbol_table.end() ) {
-            throw pegtl::parse_error( "unknown symbol " + st.temporary, in );
+            pegtl::throw_parse_error( "unknown symbol " + st.temporary, in );
          }
          i->second = st.converted;
       }

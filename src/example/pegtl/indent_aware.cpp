@@ -146,7 +146,7 @@ namespace example
       {
          assert( !s.stack.empty() );
          if( ( s.stack.back().type != type::if_ ) || ( s.stack.back().indent != s.current_indent ) ) {
-            throw pegtl::parse_error( "expected previous 'if' on same indent as current 'else'", in );
+            pegtl::throw_parse_error( "expected previous 'if' on same indent as current 'else'", in );
          }
          s.stack.back().type = type::else_;
       }
@@ -168,7 +168,7 @@ namespace example
       static void apply( const ActionInput& in, state& s )
       {
          if( s.minimum_indent > 0 ) {
-            throw pegtl::parse_error( "expected indented block instead of empty line", in );
+            pegtl::throw_parse_error( "expected indented block instead of empty line", in );
          }
          s.stack.clear();
       }
@@ -188,12 +188,12 @@ namespace example
          }
          if( s.minimum_indent > 0 ) {
             if( s.current_indent < s.minimum_indent ) {
-               throw pegtl::parse_error( "expected indented block with more indent", in );
+               pegtl::throw_parse_error( "expected indented block with more indent", in );
             }
             s.minimum_indent = 0;
          }
          else if( ( !s.stack.empty() ) && ( s.current_indent != s.stack.back().indent ) ) {
-            throw pegtl::parse_error( "indentation mismatch", in );
+            pegtl::throw_parse_error( "indentation mismatch", in );
          }
       }
    };
@@ -205,7 +205,7 @@ namespace example
       static void apply( const ActionInput& in, state& s )
       {
          if( s.minimum_indent > 0 ) {
-            throw pegtl::parse_error( "expected indented block instead of eof", in );
+            pegtl::throw_parse_error( "expected indented block instead of eof", in );
          }
       }
    };

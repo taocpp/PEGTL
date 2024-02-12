@@ -51,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE
          {
             if constexpr( Errors::template message< Rule > != nullptr ) {
                constexpr const char* p = Errors::template message< Rule >;
-               throw parse_error( p, in );
+               throw_parse_error( p, in );
 #if defined( _MSC_VER )
                ( (void)st, ... );
 #endif

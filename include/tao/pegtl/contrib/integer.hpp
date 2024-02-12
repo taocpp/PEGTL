@@ -183,7 +183,7 @@ namespace TAO_PEGTL_NAMESPACE
                }
                do {
                   if( !accumulate_digit< Unsigned, Maximum >( st, c ) ) {
-                     throw TAO_PEGTL_NAMESPACE::parse_error( "integer overflow", in );
+                     throw_parse_error( "integer overflow", in );
                   }
                   in.template consume< eol_exclude_tag >( 1 );
                } while( ( !in.empty() ) && is_digit( c = in.peek_char() ) );
@@ -237,7 +237,7 @@ namespace TAO_PEGTL_NAMESPACE
          // This function "only" offers basic exception safety.
          st = 0;
          if( !internal::convert_unsigned( st, in.string_view() ) ) {
-            throw parse_error( "unsigned integer overflow", in );
+            throw_parse_error( "unsigned integer overflow", in );
          }
       }
    };
@@ -301,7 +301,7 @@ namespace TAO_PEGTL_NAMESPACE
          // This function "only" offers basic exception safety.
          st = 0;
          if( !internal::convert_unsigned< Unsigned, Maximum >( st, in.string_view() ) ) {
-            throw parse_error( "unsigned integer overflow", in );
+            throw_parse_error( "unsigned integer overflow", in );
          }
       }
    };
@@ -371,7 +371,7 @@ namespace TAO_PEGTL_NAMESPACE
          // This function "only" offers basic exception safety.
          st = 0;
          if( !internal::convert_signed( st, in.string_view() ) ) {
-            throw parse_error( "signed integer overflow", in );
+            throw_parse_error( "signed integer overflow", in );
          }
       }
    };

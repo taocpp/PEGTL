@@ -58,7 +58,7 @@ namespace TAO_PEGTL_NAMESPACE
       [[noreturn]] static void raise( ParseInput& in, unsigned& u )
       {
          u |= 4;
-         throw parse_error( "raise", in );
+         throw_parse_error( "raise", in );
       }
 
       template< typename ParseInput >

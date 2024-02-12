@@ -445,7 +445,7 @@ namespace TAO_PEGTL_NAMESPACE
             }
             if( keywords.count( v ) != 0 || v.find( "__" ) != std::string::npos ) {
 #if defined( __cpp_exceptions )
-               throw parse_error( '\'' + n->string() + "' is a reserved rulename", n->begin() );
+               throw_parse_error( '\'' + n->string() + "' is a reserved rulename", n->begin() );
 #else
                std::cerr << '\'' + n->string() + "' is a reserved rulename" << std::endl;
                std::terminate();
@@ -498,7 +498,7 @@ namespace TAO_PEGTL_NAMESPACE
             if( op == "=" ) {
                if( !previous_rules.try_emplace( rname, n.get() ).second ) {
 #if defined( __cpp_exceptions )
-                  throw parse_error( "rule '" + rname + "' is already defined", n->begin() );
+                  throw_parse_error( "rule '" + rname + "' is already defined", n->begin() );
 #else
                   std::cerr << "rule '" + rname + "' is already defined" << std::endl;
                   std::terminate();
@@ -510,7 +510,7 @@ namespace TAO_PEGTL_NAMESPACE
                const auto& p = previous_rules.find( rname );
                if( p == previous_rules.end() ) {
 #if defined( __cpp_exceptions )
-                  throw parse_error( "incremental alternation '" + rname + "' without previous rule definition", n->begin() );
+                  throw_parse_error( "incremental alternation '" + rname + "' without previous rule definition", n->begin() );
 #else
                   std::cerr << "incremental alternation '" + rname + "' without previous rule definition" << std::endl;
                   std::terminate();
@@ -546,7 +546,7 @@ namespace TAO_PEGTL_NAMESPACE
             }
             else {
 #if defined( __cpp_exceptions )
-               throw parse_error( "invalid operator '" + op + "', this should not happen!", n->begin() );
+               throw_parse_error( "invalid operator '" + op + "', this should not happen!", n->begin() );
 #else
                std::cerr << "invalid operator '" + op + "', this should not happen!" << std::endl;
                std::terminate();
@@ -586,7 +586,7 @@ namespace TAO_PEGTL_NAMESPACE
          stringifier nrv;
          nrv.default_ = []( const node_ptr& n ) -> std::string {
 #if defined( __cpp_exceptions )
-            throw parse_error( "missing to_string() for " + std::string( n->type ), n->begin() );
+            throw_parse_error( "missing to_string() for " + std::string( n->type ), n->begin() );
 #else
             std::cerr << "missing to_string() for " + std::string( n->type ) << std::endl;
             std::terminate();
@@ -675,7 +675,7 @@ namespace TAO_PEGTL_NAMESPACE
                const auto v = remove_leading_zeroes( rep );
                if( v.empty() ) {
 #if defined( __cpp_exceptions )
-                  throw parse_error( "repetition of zero not allowed", n->begin() );
+                  throw_parse_error( "repetition of zero not allowed", n->begin() );
 #else
                   std::cerr << "repetition of zero not allowed" << std::endl;
                   std::terminate();
@@ -687,7 +687,7 @@ namespace TAO_PEGTL_NAMESPACE
             const auto max = remove_leading_zeroes( rep.substr( star + 1 ) );
             if( ( star != rep.size() - 1 ) && max.empty() ) {
 #if defined( __cpp_exceptions )
-               throw parse_error( "repetition maximum of zero not allowed", n->begin() );
+               throw_parse_error( "repetition maximum of zero not allowed", n->begin() );
 #else
                std::cerr << "repetition maximum of zero not allowed" << std::endl;
                std::terminate();
@@ -720,7 +720,7 @@ namespace TAO_PEGTL_NAMESPACE
             }
             if( min_val > max_val ) {
 #if defined( __cpp_exceptions )
-               throw parse_error( "repetition minimum which is greater than the repetition maximum not allowed", n->begin() );
+               throw_parse_error( "repetition minimum which is greater than the repetition maximum not allowed", n->begin() );
 #else
                std::cerr << "repetition minimum which is greater than the repetition maximum not allowed" << std::endl;
                std::terminate();

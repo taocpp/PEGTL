@@ -39,7 +39,7 @@ namespace TAO_PEGTL_NAMESPACE
          if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... ) ) {
             if( std::size_t( in.current() - start ) > Maximum ) {
 #if defined( __cpp_exceptions )
-               throw TAO_PEGTL_NAMESPACE::parse_error( "maximum allowed rule consumption exceeded", in );
+               throw_parse_error( "maximum allowed rule consumption exceeded", in );
 #else
                std::fputs( "maximum allowed rule consumption exceeded\n", stderr );
                std::terminate();
