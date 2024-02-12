@@ -46,56 +46,35 @@ namespace TAO_PEGTL_NAMESPACE::TAO_PEGTL_UTF_NAME
    template< char32_t... Cs > struct string : internal::utf_string_t< TAO_PEGTL_UTF_PEEK, Cs... > {};
    // clang-format on
 
-   namespace eols
+   namespace scan
    {
-      namespace scan
-      {
-         // clang-format off
-         struct cr : TAO_PEGTL_UTF_NAME::cr { using eol_char_rule = TAO_PEGTL_UTF_NAME::cr; };
-         struct lf : TAO_PEGTL_UTF_NAME::lf { using eol_char_rule = TAO_PEGTL_UTF_NAME::lf; };
-         struct cr_crlf : TAO_PEGTL_UTF_NAME::cr_crlf { using eol_char_rule = TAO_PEGTL_UTF_NAME::cr; };
-         struct lf_crlf : TAO_PEGTL_UTF_NAME::lf_crlf { using eol_char_rule = TAO_PEGTL_UTF_NAME::lf; };
-         struct ls : TAO_PEGTL_UTF_NAME::ls { using eol_char_rule = TAO_PEGTL_UTF_NAME::ls; };
-         struct nel : TAO_PEGTL_UTF_NAME::nel { using eol_char_rule = TAO_PEGTL_UTF_NAME::nel; };
-         struct ps : TAO_PEGTL_UTF_NAME::ps { using eol_char_rule = TAO_PEGTL_UTF_NAME::ps; };
-         // clang-format on
-      }  // namespace scan
+      // clang-format off
+      struct cr : TAO_PEGTL_UTF_NAME::cr { using eol_char_rule = TAO_PEGTL_UTF_NAME::cr; };
+      struct lf : TAO_PEGTL_UTF_NAME::lf { using eol_char_rule = TAO_PEGTL_UTF_NAME::lf; };
+      struct cr_crlf : TAO_PEGTL_UTF_NAME::cr_crlf { using eol_char_rule = TAO_PEGTL_UTF_NAME::cr; };
+      struct lf_crlf : TAO_PEGTL_UTF_NAME::lf_crlf { using eol_char_rule = TAO_PEGTL_UTF_NAME::lf; };
+      struct ls : TAO_PEGTL_UTF_NAME::ls { using eol_char_rule = TAO_PEGTL_UTF_NAME::ls; };
+      struct nel : TAO_PEGTL_UTF_NAME::nel { using eol_char_rule = TAO_PEGTL_UTF_NAME::nel; };
+      struct ps : TAO_PEGTL_UTF_NAME::ps { using eol_char_rule = TAO_PEGTL_UTF_NAME::ps; };
+      // clang-format on
+   }  // namespace scan
 
-      namespace lazy
-      {
-         // clang-format off
-         struct cr : TAO_PEGTL_UTF_NAME::cr { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
-         struct lf : TAO_PEGTL_UTF_NAME::lf { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
-         struct crlf : TAO_PEGTL_UTF_NAME::crlf { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
-         struct cr_lf : TAO_PEGTL_UTF_NAME::cr_lf { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
-         struct cr_crlf : TAO_PEGTL_UTF_NAME::cr_crlf { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
-         struct lf_crlf : TAO_PEGTL_UTF_NAME::lf_crlf { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
-         struct cr_lf_crlf : TAO_PEGTL_UTF_NAME::cr_lf_crlf { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
-         struct ls : TAO_PEGTL_UTF_NAME::ls { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
-         struct nel : TAO_PEGTL_UTF_NAME::nel { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
-         struct ps : TAO_PEGTL_UTF_NAME::ps { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
-         struct eolu : TAO_PEGTL_UTF_NAME::eolu { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
-         // clang-format on
-      }  // namespace rule
-
-      namespace rule
-      {
-         // clang-format off
-         struct cr : TAO_PEGTL_UTF_NAME::cr {};
-         struct lf : TAO_PEGTL_UTF_NAME::lf {};
-         struct crlf : TAO_PEGTL_UTF_NAME::crlf {};
-         struct cr_lf : TAO_PEGTL_UTF_NAME::cr_lf {};
-         struct cr_crlf : TAO_PEGTL_UTF_NAME::cr_crlf {};
-         struct lf_crlf : TAO_PEGTL_UTF_NAME::lf_crlf {};
-         struct cr_lf_crlf : TAO_PEGTL_UTF_NAME::cr_lf_crlf {};
-         struct ls : TAO_PEGTL_UTF_NAME::ls {};
-         struct nel : TAO_PEGTL_UTF_NAME::nel {};
-         struct ps : TAO_PEGTL_UTF_NAME::ps {};
-         struct eolu : TAO_PEGTL_UTF_NAME::eolu {};
-         // clang-format on
-      }  // namespace rule
-
-   }  // namespace eols
+   namespace lazy
+   {
+      // clang-format off
+      struct cr : TAO_PEGTL_UTF_NAME::cr { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
+      struct lf : TAO_PEGTL_UTF_NAME::lf { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
+      struct crlf : TAO_PEGTL_UTF_NAME::crlf { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
+      struct cr_lf : TAO_PEGTL_UTF_NAME::cr_lf { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
+      struct cr_crlf : TAO_PEGTL_UTF_NAME::cr_crlf { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
+      struct lf_crlf : TAO_PEGTL_UTF_NAME::lf_crlf { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
+      struct cr_lf_crlf : TAO_PEGTL_UTF_NAME::cr_lf_crlf { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
+      struct ls : TAO_PEGTL_UTF_NAME::ls { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
+      struct nel : TAO_PEGTL_UTF_NAME::nel { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
+      struct ps : TAO_PEGTL_UTF_NAME::ps { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
+      struct eolu : TAO_PEGTL_UTF_NAME::eolu { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
+      // clang-format on
+   }  // namespace rule
 
 }  // namespace TAO_PEGTL_NAMESPACE::TAO_PEGTL_UTF_NAME
 

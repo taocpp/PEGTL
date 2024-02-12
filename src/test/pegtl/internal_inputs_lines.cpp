@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void test_01_lines()
    {
-      using input_t = internal::input_with_lines< eols::scan::lf, internal::input_with_fakes< internal::view_input< char > > >;
+      using input_t = internal::input_with_lines< scan::lf, internal::input_with_fakes< internal::view_input< char > > >;
       {
          input_t in( "" );
          const auto* start = in.current();
@@ -105,7 +105,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_02_lines()
    {
-      using input_t = internal::input_with_lines< eols::scan::lf_crlf, internal::input_with_fakes< internal::view_input< char > > >;
+      using input_t = internal::input_with_lines< scan::lf_crlf, internal::input_with_fakes< internal::view_input< char > > >;
       {
          input_t in( "" );
          const auto* start = in.current();

@@ -36,7 +36,7 @@ namespace modulus
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    if( argc > 1 ) {
-      argv_input< eols::scan::lf_crlf > in( argv, 1 );
+      argv_input< scan::lf_crlf > in( argv, 1 );
       if( !parse< modulus::grammar >( in ) ) {
          return 1;
       }

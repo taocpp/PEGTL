@@ -28,7 +28,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       return 1;
    }
 
-   pegtl::text_file_input< pegtl::eols::scan::lf > in( argv[ 1 ] );
+   pegtl::text_file_input< pegtl::scan::lf > in( argv[ 1 ] );
    pegtl::coverage_result result;
 #if defined( __cpp_exceptions )
    try {

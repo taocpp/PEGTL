@@ -62,7 +62,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      text_view_input< eols::scan::lf > in( "a1" );
+      text_view_input< scan::lf > in( "a1" );
       try {
          parse< r, a, c >( in );
          TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE

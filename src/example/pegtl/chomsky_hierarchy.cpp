@@ -109,7 +109,7 @@ namespace example
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      pegtl::argv_input< pegtl::eols::scan::lf_crlf > in( argv, i );
+      pegtl::argv_input< pegtl::scan::lf_crlf > in( argv, i );
       const auto r3 = pegtl::parse< pegtl::seq< example::type_3, pegtl::eof > >( in );
       in.restart();
       const auto r2r = pegtl::parse< pegtl::seq< example::type_2_recursive, pegtl::eof > >( in );

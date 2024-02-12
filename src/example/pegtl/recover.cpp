@@ -121,7 +121,7 @@ struct my_control
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      argv_input< eols::scan::lf_crlf > in( argv, i );
+      argv_input< scan::lf_crlf > in( argv, i );
       bool error = false;
       parse< my_grammar, my_action, my_control >( in, error );
    }

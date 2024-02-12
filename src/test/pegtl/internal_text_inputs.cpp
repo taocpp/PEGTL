@@ -9,7 +9,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void test_01_text()
    {
-      using input_0 = text_view_input< eols::scan::lf >;
+      using input_0 = text_view_input< scan::lf >;
       {
          input_0 in( "" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );

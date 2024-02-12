@@ -121,7 +121,7 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       state_one state;
-      text_view_input< eols::lazy::lf >in( "aaa" );
+      text_view_input< lazy::lf >in( "aaa" );
       global_start = in.current();
       const bool parse_result = parse< grammar_one_a, action_one_a >( in, state );
       TAO_PEGTL_TEST_ASSERT( parse_result );

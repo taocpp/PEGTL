@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE
    [[nodiscard]] bool verify_data( const char ( &m )[ M ], const char ( &n )[ N ] )
    {
       std::string s;
-      text_view_input< eols::scan::lf > in( m );
+      text_view_input< scan::lf > in( m );
       // std::cerr << __LINE__ << " : " << m << std::endl;
       // std::cerr << __LINE__ << " : " << in.string_view() << std::endl;
       // std::cerr << __LINE__ << " : " << n << std::endl;
@@ -47,7 +47,7 @@ namespace TAO_PEGTL_NAMESPACE
    [[nodiscard]] bool verify_fail( const std::string& m )
    {
       std::string s;
-      text_view_input< eols::scan::lf > in( m );
+      text_view_input< scan::lf > in( m );
 #if defined( __cpp_exceptions )
       try {
          return !parse< unstring, unaction >( in, s );

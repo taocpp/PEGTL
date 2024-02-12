@@ -88,7 +88,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       unsigned u = 0;
       const std::string d = "F";
-      text_view_input< eols::scan::lf > in( d );
+      text_view_input< scan::lf > in( d );
       TAO_PEGTL_TEST_ASSERT( parse< test_rule, test_action, test_control >( in, d, u ) );
 #if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_ASSERT( u == 127 );

@@ -159,7 +159,7 @@ namespace TAO_PEGTL_NAMESPACE
       // must< sor< one< 'a' >, try_catch_return_false< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > >, eof >
       {
          test_state< true > st;
-         text_view_input< eols::scan::lf > in( "bb" );
+         text_view_input< scan::lf > in( "bb" );
          std::size_t b = 0;
          const bool result = parse< test_grammar, test_action, state_control< normal >::type >( in, -1, b, st );
          TAO_PEGTL_TEST_ASSERT( result );
@@ -201,7 +201,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       {
          test_state< false > st;
-         text_view_input< eols::scan::lf > in( "bb" );
+         text_view_input< scan::lf > in( "bb" );
          std::size_t b = 0;
          const bool result = parse< test_grammar, test_action, state_control< normal >::type >( in, -1, b, st );
          TAO_PEGTL_TEST_ASSERT( result );
@@ -213,7 +213,7 @@ namespace TAO_PEGTL_NAMESPACE
       // not_at< try_catch_return_false< try_catch_raise_nested< must< one< 'x' > > > > >
       {
          test_state< true > st;
-         text_view_input< eols::scan::lf > in( "a" );
+         text_view_input< scan::lf > in( "a" );
          std::size_t b = 0;
          const bool result = parse< test_nested, nothing, state_control< normal >::type >( in, -1, b, st );
          TAO_PEGTL_TEST_ASSERT( result );

@@ -61,7 +61,7 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
 
       bool success = false;
-      TAO_PEGTL_TEST_ASSERT( parse< opt< eof >, my_action >( text_view_input< eols::scan::lf >( "" ), success ) );
+      TAO_PEGTL_TEST_ASSERT( parse< opt< eof >, my_action >( text_view_input< scan::lf >( "" ), success ) );
       TAO_PEGTL_TEST_ASSERT( success );
    }
 

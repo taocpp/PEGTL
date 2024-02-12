@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      using memory_input_with_depth = input_with_depth< text_view_input< eols::scan::lf > >;
+      using memory_input_with_depth = input_with_depth< text_view_input< scan::lf > >;
 
       memory_input_with_depth i1( "aaa" );
       const auto r1 = parse< test_grammar >( i1 );

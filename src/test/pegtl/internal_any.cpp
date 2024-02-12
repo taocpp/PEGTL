@@ -24,18 +24,18 @@ namespace TAO_PEGTL_NAMESPACE
       verify_analyze< any32 >( __LINE__, __FILE__, true, false );
       {
          char c = char( 200 );
-         view_input< eols::scan::lf > in( &c, 1 );
+         view_input< scan::lf > in( &c, 1 );
          TAO_PEGTL_TEST_ASSERT( !parse< any7 >( in ) );
          TAO_PEGTL_TEST_ASSERT( !parse< any32 >( in ) );
          TAO_PEGTL_TEST_ASSERT( parse< any >( in ) );
       } {
-         view_input< eols::scan::lf > in( "fg" );
+         view_input< scan::lf > in( "fg" );
          TAO_PEGTL_TEST_ASSERT( parse< any7 >( in ) );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
          TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
          TAO_PEGTL_TEST_ASSERT( *in.current() == 'g' );
       } {
-         view_input< eols::scan::lf > in( "fg" );
+         view_input< scan::lf > in( "fg" );
          TAO_PEGTL_TEST_ASSERT( parse< any >( in ) );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
          TAO_PEGTL_TEST_ASSERT( in.size() == 1 );

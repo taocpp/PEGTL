@@ -10,8 +10,8 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      static_assert( internal::has_eol_char_rule< eols::scan::lf > );
-      static_assert( internal::has_eol_char_rule< eols::scan::cr_crlf > );
+      static_assert( internal::has_eol_char_rule< scan::lf > );
+      static_assert( internal::has_eol_char_rule< scan::cr_crlf > );
       static_assert( !internal::has_eol_char_rule< ascii::lf > );
       static_assert( !internal::has_eol_char_rule< utf8::crlf > );
    }

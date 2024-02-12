@@ -27,7 +27,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    }
 
    for( int i = 1; i < argc; ++i ) {
-      text_file_input< eols::scan::lf_crlf > in( argv[ i ] );
+      text_file_input< scan::lf_crlf > in( argv[ i ] );
       try {
          parse< proto3::proto >( in );
       }

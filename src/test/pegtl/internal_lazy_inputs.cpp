@@ -9,7 +9,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void test_01_lazy()
    {
-      using input_1 = text_view_input< ascii::eols::lazy::lf >;
+      using input_1 = text_view_input< ascii::lazy::lf >;
       {
          input_1 in( "" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 1, 1 ) );
       }
-      using input_2 = text_view_input< ascii::eols::lazy::cr_lf_crlf >;
+      using input_2 = text_view_input< ascii::lazy::cr_lf_crlf >;
       {
          input_2 in( "" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
@@ -69,7 +69,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( parse< blank >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 2, 3 ) );
       }
-      using input_3 = text_view_input< ascii::eols::lazy::lf >;
+      using input_3 = text_view_input< ascii::lazy::lf >;
       {
          input_3 in( " \n " );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );

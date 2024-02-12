@@ -13,8 +13,8 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      using lazy_input = text_mmap_input< eols::lazy::lf_crlf >;
-      using text_input = text_mmap_input< eols::scan::lf_crlf >;
+      using lazy_input = text_mmap_input< lazy::lf_crlf >;
+      using text_input = text_mmap_input< scan::lf_crlf >;
 
       static_assert( std::is_base_of_v< internal::mmap_input< char >, lazy_input > );
       static_assert( std::is_base_of_v< internal::mmap_input< char >, text_input > );

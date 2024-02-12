@@ -48,11 +48,11 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
 
       {
-         text_view_input< eols::scan::lf > in( "f" );
+         text_view_input< scan::lf > in( "f" );
          parse< any, at_action >( in );
          TAO_PEGTL_TEST_ASSERT( at_counter == 1 );
       } {
-         text_view_input< eols::scan::lf > in( "f" );
+         text_view_input< scan::lf > in( "f" );
          parse< at< any >, at_action >( in );
          TAO_PEGTL_TEST_ASSERT( at_counter == 1 );
       }

@@ -13,7 +13,7 @@ namespace TAO_PEGTL_NAMESPACE
       char data[ 12 ];
       std::memcpy( data, "foo\0bar\0baz", 12 );
       char* argv[] = { data, data + 4, data + 8 };
-      argv_input< eols::scan::lf > in( argv, 1 );
+      argv_input< scan::lf > in( argv, 1 );
       TAO_PEGTL_TEST_ASSERT( in.direct_source() == "argv[1]" );
       const bool r1 = parse< string< 'b', 'a', 'r' > >( in );
       TAO_PEGTL_TEST_ASSERT( r1 );

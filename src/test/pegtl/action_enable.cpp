@@ -50,7 +50,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      text_view_input< eols::scan::lf > in( "abcba" );
+      text_view_input< scan::lf > in( "abcba" );
       int a = 0;
       int b = 0;
       int c = 0;

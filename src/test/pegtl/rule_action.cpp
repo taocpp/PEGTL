@@ -56,7 +56,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       verify_seqs< test_action_rule >();
       {
-         view_input< eols::scan::lf > in( "ab1" );
+         view_input< scan::lf > in( "ab1" );
          TAO_PEGTL_TEST_ASSERT( parse< seq< ascii::alpha, action< action2, ascii::alpha, ascii::digit > >, action1 >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( b1 && b2 );

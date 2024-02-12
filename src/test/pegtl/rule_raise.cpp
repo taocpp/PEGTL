@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_analyze< raise< int > >( __LINE__, __FILE__, true, false );
       verify_analyze< raise< any > >( __LINE__, __FILE__, true, false );
 
-      text_view_input< eols::scan::lf > in( "foo" );
+      text_view_input< scan::lf > in( "foo" );
 
       TAO_PEGTL_TEST_THROWS( parse< raise< int > >( in ) );
       TAO_PEGTL_TEST_ASSERT( in.size( 4 ) == 3 );

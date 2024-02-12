@@ -47,8 +47,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      unit_test< text_view_input< eols::lazy::lf, char, std::string >, false >();
-      unit_test< text_view_input< eols::scan::lf, char, std::string >, true >();
+      unit_test< text_view_input< lazy::lf, char, std::string >, false >();
+      unit_test< text_view_input< scan::lf, char, std::string >, true >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

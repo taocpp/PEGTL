@@ -73,15 +73,15 @@ namespace TAO_PEGTL_NAMESPACE
    {
       int state_r = 0;
       int state_s = 0;
-      TAO_PEGTL_TEST_ASSERT( parse< apply< test1::action_a, test1::action_b > >( text_view_input< eols::scan::lf >( "" ), state_r, state_s ) );
+      TAO_PEGTL_TEST_ASSERT( parse< apply< test1::action_a, test1::action_b > >( text_view_input< scan::lf >( "" ), state_r, state_s ) );
       TAO_PEGTL_TEST_ASSERT( state_r == 1 );
       TAO_PEGTL_TEST_ASSERT( state_s == 2 );
-      TAO_PEGTL_TEST_ASSERT( parse< disable< apply< test1::action_a, test1::action_b > > >( text_view_input< eols::scan::lf >( "" ), state_r, state_s ) );
+      TAO_PEGTL_TEST_ASSERT( parse< disable< apply< test1::action_a, test1::action_b > > >( text_view_input< scan::lf >( "" ), state_r, state_s ) );
       TAO_PEGTL_TEST_ASSERT( state_r == 1 );
       TAO_PEGTL_TEST_ASSERT( state_s == 2 );
 
       bool state_b = false;
-      TAO_PEGTL_TEST_ASSERT( !parse< apply< test1::action2_a, test1::action2_b, test1::action2_c > >( text_view_input< eols::scan::lf >( "" ), state_b ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< apply< test1::action2_a, test1::action2_b, test1::action2_c > >( text_view_input< scan::lf >( "" ), state_b ) );
       TAO_PEGTL_TEST_ASSERT( state_b );
 
       verify_meta< apply< test1::action_a, test1::action_b >, internal::apply< test1::action_a, test1::action_b > >();

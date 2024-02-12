@@ -15,10 +15,10 @@ namespace TAO_PEGTL_NAMESPACE
 
    [[nodiscard]] bool json_pass( const std::filesystem::path& path )
    {
-      text_file_input< eols::scan::lf > in( path );
+      text_file_input< scan::lf > in( path );
       const auto s = in.string();
-      text_view_input< eols::scan::lf > ti( s );
-      text_view_input< eols::lazy::lf > li( s );
+      text_view_input< scan::lf > ti( s );
+      text_view_input< lazy::lf > li( s );
       const auto f = failed;
       TAO_PEGTL_TEST_ASSERT( in.size() == ti.size() );
       TAO_PEGTL_TEST_ASSERT( in.size() == li.size() );
@@ -35,10 +35,10 @@ namespace TAO_PEGTL_NAMESPACE
 
    [[nodiscard]] bool json_fail( const std::filesystem::path& path )
    {
-      text_file_input< eols::scan::lf > in( path );
+      text_file_input< scan::lf > in( path );
       const auto s = in.string();
-      text_view_input< eols::scan::lf > ti( s );
-      text_view_input< eols::lazy::lf > li( s );
+      text_view_input< scan::lf > ti( s );
+      text_view_input< lazy::lf > li( s );
       const auto f = failed;
       TAO_PEGTL_TEST_ASSERT( in.size() == ti.size() );
       TAO_PEGTL_TEST_ASSERT( in.size() == li.size() );
@@ -84,40 +84,40 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\xF4\x8F\xBF\xBF\"]", result_type::success, 0 );  // largest allowed codepoint U+10FFFF
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "[\"\U0010FFFF\"]", result_type::success, 0 );        // largest allowed codepoint U+10FFFF
 
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( " ", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "   ", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( " [", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( " ]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[ ", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "] ", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( " [ ", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( " ] ", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\\a\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\\c\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\\d\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\\e\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\\v\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\\'\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\b\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\f\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\n\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\r\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\t\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\\\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\\\\\\\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\\u12\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\xFF\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\xF4\x90\x80\x80\"]", "" ) ) );
-      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< eols::scan::lf >( "[\"\xF7\xBF\xBF\xBF\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( " ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "   ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( " [", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( " ]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[ ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "] ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( " [ ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( " ] ", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\\a\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\\c\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\\d\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\\e\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\\v\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\\'\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\b\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\f\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\n\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\r\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\t\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\\\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\\\\\\\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\\u12\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\xFF\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\xF4\x90\x80\x80\"]", "" ) ) );
+      TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\xF7\xBF\xBF\xBF\"]", "" ) ) );
 
       TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/pegtl/data/pass1.json" ) );
       TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/pegtl/data/pass2.json" ) );
       TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/pegtl/data/pass3.json" ) );
 
-      TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( text_file_input< eols::scan::lf >( "src/test/pegtl/data/blns.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( text_file_input< scan::lf >( "src/test/pegtl/data/blns.json" ) ) );
 
       // TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail1.json" ) ); // disabled as it is valid now
       TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail2.json" ) );

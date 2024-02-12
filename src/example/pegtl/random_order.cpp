@@ -95,11 +95,11 @@ int main( int argc, char** argv )
 
    for( int i = 1; i < argc; ++i ) {
       {
-         argv_input< eols::scan::lf_crlf > in( argv, i );
+         argv_input< scan::lf_crlf > in( argv, i );
          const bool b = parse< grammar1 >( in );
          std::cout << "input: " << argv[ i ] << " rnd: " << b << std::endl;
       } {
-         argv_input< eols::scan::lf_crlf > in( argv, i );
+         argv_input< scan::lf_crlf > in( argv, i );
          const bool b = parse< grammar2 >( in );
          std::cout << "input: " << argv[ i ] << " rnd_opt: " << b << std::endl;
       }
