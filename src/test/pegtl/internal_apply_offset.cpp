@@ -5,6 +5,10 @@
 #include "test.hpp"
 #include "test_utility.hpp"
 
+#include <tao/pegtl/count_position.hpp>
+#include <tao/pegtl/text_position.hpp>
+#include <tao/pegtl/text_position_with_source.hpp>
+
 #include <tao/pegtl/internal/apply_offset.hpp>
 
 namespace TAO_PEGTL_NAMESPACE

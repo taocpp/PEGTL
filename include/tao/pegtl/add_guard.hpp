@@ -13,7 +13,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename AddGuard >
+   template< typename Guard >
    struct add_guard
       : maybe_nothing
    {
@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         const AddGuard guard( static_cast< const ParseInput& >( in ), st... );
+         const Guard guard( static_cast< const ParseInput& >( in ), st... );
          return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
       }
    };
