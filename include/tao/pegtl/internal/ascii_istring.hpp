@@ -28,10 +28,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 0 ) ) )
       {
-         using raw_t = std::decay_t< decltype( *in.current() ) >;
+         using raw_t = typename ParseInput::data_t;
 
-         static_assert( sizeof( raw_t ) == 1 );
          static_assert( is_simple_type_v< raw_t > );
+         static_assert( sizeof( raw_t ) == 1 );
 
          if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
             if( ascii_istring_equal< Cs... >( in.current() ) ) {
