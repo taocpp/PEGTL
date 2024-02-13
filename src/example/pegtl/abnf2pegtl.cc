@@ -208,7 +208,7 @@ namespace TAO_PEGTL_NAMESPACE
          //
          // Remember we are defining a PEG, not a CFG. Simply copying some
          // ABNF from somewhere might lead to surprising results as the
-         // alternations are now sequential, using the sor<> rule.
+         // alternatives are ordered and determinstic, using the sor<> rule.
          //
          // PEGs also require two extensions: The and-predicate and the
          // not-predicate. They are expressed by '&' and '!' respectively,
@@ -254,11 +254,11 @@ namespace TAO_PEGTL_NAMESPACE
          struct num_val_choice : sor< bin_val::type, dec_val::type, hex_val::type > {};
          struct num_val : seq< one< '%' >, num_val_choice > {};
 
-         struct alternation;
+         struct alternative;
          struct option_close : one< ']' > {};
-         struct option : seq< one< '[' >, pad< alternation, c_wsp >, option_close > {};
+         struct option : seq< one< '[' >, pad< alternative, c_wsp >, option_close > {};
          struct group_close : one< ')' > {};
-         struct group : seq< one< '(' >, pad< alternation, c_wsp >, group_close > {};
+         struct group : seq< one< '(' >, pad< alternative, c_wsp >, group_close > {};
          struct element : sor< rulename, group, option, char_val, num_val, prose_val > {};
 
          struct repeat : sor< seq< star< DIGIT >, one< '*' >, star< DIGIT > >, plus< DIGIT > > {};
@@ -270,11 +270,11 @@ namespace TAO_PEGTL_NAMESPACE
          struct predicate : sor< and_predicate, not_predicate, repetition > {};
 
          struct concatenation : list< predicate, plus< c_wsp > > {};
-         struct alternation : list< concatenation, pad< one< '/' >, c_wsp > > {};
+         struct alternative : list< concatenation, pad< one< '/' >, c_wsp > > {};
 
          struct defined_as_op : sor< string< '=', '/' >, one< '=' > > {};
          struct defined_as : pad< defined_as_op, c_wsp > {};
-         struct rule : seq< seq< rulename, defined_as, alternation >, star< c_wsp >, req_c_nl > {};
+         struct rule : seq< seq< rulename, defined_as, alternative >, star< c_wsp >, req_c_nl > {};
          struct rulelist : until< eof, sor< seq< star< c_wsp >, c_nl >, rule > > {};
          // clang-format on
 
@@ -309,7 +309,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       template<> inline constexpr auto error_message< abnf::grammar::req_repetition > = "expected element";
       template<> inline constexpr auto error_message< abnf::grammar::concatenation > = "expected element";
-      template<> inline constexpr auto error_message< abnf::grammar::alternation > = "expected element";
+      template<> inline constexpr auto error_message< abnf::grammar::alternative > = "expected element";
 
       template<> inline constexpr auto error_message< abnf::grammar::defined_as > = "expected '=' or '=/'";
       template<> inline constexpr auto error_message< abnf::grammar::req_c_nl > = "unterminated rule";
@@ -360,7 +360,7 @@ namespace TAO_PEGTL_NAMESPACE
                  grammar::not_predicate,
                  grammar::rule >,
               parse_tree::fold_one::on<
-                 grammar::alternation,
+                 grammar::alternative,
                  grammar::group,
                  grammar::repetition,
                  grammar::concatenation > >
@@ -505,23 +505,23 @@ namespace TAO_PEGTL_NAMESPACE
 #endif
                }
             }
-            // if it is an "incremental alternation", we need to consolidate the assigned alternations
+            // if it is an "incremental alternative", we need to consolidate the assigned alternatives
             else if( op == "=/" ) {
                const auto& p = previous_rules.find( rname );
                if( p == previous_rules.end() ) {
 #if defined( __cpp_exceptions )
-                  throw_parse_error( "incremental alternation '" + rname + "' without previous rule definition", n->begin() );
+                  throw_parse_error( "incremental alternative '" + rname + "' without previous rule definition", n->begin() );
 #else
-                  std::cerr << "incremental alternation '" + rname + "' without previous rule definition" << std::endl;
+                  std::cerr << "incremental alternative '" + rname + "' without previous rule definition" << std::endl;
                   std::terminate();
 #endif
                }
                auto& previous = p->second->children.back();
 
-               // if the previous rule does not assign an alternation, create an intermediate alternation and move its assignee into it.
-               if( !previous->is_type< abnf::grammar::alternation >() ) {
+               // if the previous rule does not assign an alternative, create an intermediate alternative and move its assignee into it.
+               if( !previous->is_type< abnf::grammar::alternative >() ) {
                   auto s = std::make_unique< parse_tree::node >();
-                  s->set_type< abnf::grammar::alternation >();
+                  s->set_type< abnf::grammar::alternative >();
                   s->source = previous->source;
                   s->m_begin = previous->m_begin;
                   s->m_end = previous->m_end;
@@ -529,11 +529,11 @@ namespace TAO_PEGTL_NAMESPACE
                   previous = std::move( s );
                }
 
-               // append all new options to the previous rule's assignee (which always is an alternation now)
+               // append all new options to the previous rule's assignee (which always is an alternative now)
                previous->m_end = n->children.back()->m_end;
 
-               // if the new rule itself contains an alternation, append the individual entries...
-               if( n->children.back()->is_type< abnf::grammar::alternation >() ) {
+               // if the new rule itself contains an alternative, append the individual entries...
+               if( n->children.back()->is_type< abnf::grammar::alternative >() ) {
                   for( auto& e : n->children.back()->children ) {
                      previous->children.emplace_back( std::move( e ) );
                   }
@@ -645,7 +645,7 @@ namespace TAO_PEGTL_NAMESPACE
          nrv.add< grammar::dec_val::type >( []( const node_ptr& n ) { return gen_val< grammar::dec_val::range >( n ); } );
          nrv.add< grammar::bin_val::type >( []( const node_ptr& n ) { return gen_val< grammar::bin_val::range >( n ); } );
 
-         nrv.add< grammar::alternation >( []( const node_ptr& n ) { return prefix + "sor< " + to_string( n->children ) + " >"; } );
+         nrv.add< grammar::alternative >( []( const node_ptr& n ) { return prefix + "sor< " + to_string( n->children ) + " >"; } );
          nrv.add< grammar::option >( []( const node_ptr& n ) { return prefix + "opt< " + to_string( n->children ) + " >"; } );
          nrv.add< grammar::group >( []( const node_ptr& n ) { return prefix + "seq< " + to_string( n->children ) + " >"; } );
 
