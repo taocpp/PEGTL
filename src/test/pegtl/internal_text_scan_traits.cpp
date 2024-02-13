@@ -209,13 +209,9 @@ namespace TAO_PEGTL_NAMESPACE
       scan_test< scan::lf_crlf, until< at< ascii::digit > > >( "\n", 2, 1, 1 );
       scan_test< scan::lf_crlf, until< at< ascii::digit > > >( "\n\n", 3, 1, 2 );
       scan_test< scan::lf_crlf, until< at< ascii::digit > > >( "\r\n", 2, 1, 2 );
-      std::cerr << __LINE__ << std::endl;
       scan_test< scan::lf_crlf, ascii::string< 'a', 'b', 'c' > >( "\n\n\n", 1, 4, 3 );
-      std::cerr << __LINE__ << std::endl;
       scan_test< scan::lf_crlf, ascii::istring< 'a', 'b', 'c' > >( "\n\n\n", 1, 4, 3 );
-      std::cerr << __LINE__ << std::endl;
       scan_test< scan::lf_crlf, internal::ascii_string< 'a', 'b', 'c' > >( "\n\n\n", 1, 4, 3 );
-      std::cerr << __LINE__ << std::endl;
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

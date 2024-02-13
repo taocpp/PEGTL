@@ -109,7 +109,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       [[nodiscard]] memory_input< P, Eol > as_memory_input() const
       {
          assert( has_content() );
-         return { m_begin.data, m_end.data, source, m_begin.byte, m_begin.line, m_begin.column };
+         return { m_begin.data, m_end.data, source, m_begin.line, m_begin.column, m_begin.byte };
       }
 
       template< typename... States >

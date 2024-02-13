@@ -11,11 +11,11 @@
 
 #include <tao/pegtl.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace TAO_PEGTL_NAMESPACE::test
 {
    std::size_t failed = 0;
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace TAO_PEGTL_NAMESPACE::test
 
 #define TAO_TEST_STRINGIZE_INTERNAL( ... ) #__VA_ARGS__
 #define TAO_TEST_STRINGIZE( ... ) TAO_TEST_STRINGIZE_INTERNAL( __VA_ARGS__ )
@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
                 << " ] file [ "                            \
                 << file << " ]"                            \
                 << std::endl;                              \
-      ++TAO_PEGTL_NAMESPACE::failed;                       \
+      ++TAO_PEGTL_NAMESPACE::test::failed;                 \
    } while( false )
 
 #define TAO_PEGTL_TEST_ASSERT( ... )               \
@@ -48,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE
                    << " ] file [ "                 \
                    << __FILE__ << " ]"             \
                    << std::endl;                   \
-         ++TAO_PEGTL_NAMESPACE::failed;            \
+         ++TAO_PEGTL_NAMESPACE::test::failed;      \
       }                                            \
    } while( false )
 
@@ -63,7 +63,7 @@ namespace TAO_PEGTL_NAMESPACE
                    << " ] file [ "                  \
                    << __FILE__ << " ]"              \
                    << std::endl;                    \
-         ++TAO_PEGTL_NAMESPACE::failed;             \
+         ++TAO_PEGTL_NAMESPACE::test::failed;       \
       }                                             \
       catch( ... ) {                                \
       }                                             \

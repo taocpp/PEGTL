@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE::test
       if( ( position.count == count ) && ( position.line == line ) && ( position.column == column ) ) {
          return true;
       }
-      const text_position reference( count, line, column );
+      const text_position reference( line, column, count );
       std::cerr << "Not equal position " << position << " reference " << reference << std::endl;
       return false;
    }

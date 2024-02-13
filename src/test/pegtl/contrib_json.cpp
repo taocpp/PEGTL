@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE
       const auto s = in.string();
       text_view_input< scan::lf > ti( s );
       text_view_input< lazy::lf > li( s );
-      const auto f = failed;
+      const auto f = test::failed;
       TAO_PEGTL_TEST_ASSERT( in.size() == ti.size() );
       TAO_PEGTL_TEST_ASSERT( in.size() == li.size() );
       TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( ti ) );
@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( ti.direct_position() == ti.current_position() );
       TAO_PEGTL_TEST_ASSERT( ti.direct_position() == li.current_position() );
       TAO_PEGTL_TEST_ASSERT( ti.direct_position() == in.current_position().base() );
-      return failed == f;
+      return test::failed == f;
    }
 
    [[nodiscard]] bool json_fail( const std::filesystem::path& path )
@@ -39,7 +39,7 @@ namespace TAO_PEGTL_NAMESPACE
       const auto s = in.string();
       text_view_input< scan::lf > ti( s );
       text_view_input< lazy::lf > li( s );
-      const auto f = failed;
+      const auto f = test::failed;
       TAO_PEGTL_TEST_ASSERT( in.size() == ti.size() );
       TAO_PEGTL_TEST_ASSERT( in.size() == li.size() );
       TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( ti ) );
@@ -50,7 +50,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( ti.direct_position() == ti.current_position() );
       TAO_PEGTL_TEST_ASSERT( ti.direct_position() == li.current_position() );
       TAO_PEGTL_TEST_ASSERT( ti.direct_position() == in.current_position().base() );
-      return failed == f;
+      return test::failed == f;
    }
 
    void unit_test()

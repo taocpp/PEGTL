@@ -64,6 +64,7 @@
 int main()
 {
    static_assert( ' ' == 32 );
+   static_assert( '0' == 48 );
    static_assert( 'a' == 97 );
    static_assert( 'Z' == 90 );
    static_assert( '~' == 126 );

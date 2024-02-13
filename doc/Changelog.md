@@ -21,6 +21,7 @@
   * Changed `parse_nested()` to throw a nested exception instead of adding a position to the current one.
   * Added functions to visit and flatten [nested exceptions](Contrib-and-Examples.md#taopegtlcontribnested_exceptionshpp).
 * Inputs
+  * Standardised on line - column - count order.
   * The input classes have been heavily refactored.
   * Most input classes can use any data type instead of just `char`.
   * The end-of-line handling has been heavily refactored.

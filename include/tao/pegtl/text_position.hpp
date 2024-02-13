@@ -14,16 +14,16 @@ namespace TAO_PEGTL_NAMESPACE
 {
    struct text_position
    {
-      std::size_t count = 0;
       std::size_t line = 1;
       std::size_t column = 1;
+      std::size_t count = 0;
 
       text_position() = default;
 
-      text_position( const std::size_t in_count, const std::size_t in_line, const std::size_t in_column ) noexcept
-         : count( in_count ),
-           line( in_line ),
-           column( in_column )
+      text_position( const std::size_t in_line, const std::size_t in_column, const std::size_t in_count ) noexcept
+         : line( in_line ),
+           column( in_column ),
+           count( in_count )
       {}
    };
 

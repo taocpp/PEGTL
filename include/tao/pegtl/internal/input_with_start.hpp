@@ -9,6 +9,7 @@
 
 #include "../config.hpp"
 #include "../count_position.hpp"
+#include "../pointer_position.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

@@ -10,6 +10,7 @@
 #include "../config.hpp"
 #include "../tags.hpp"
 
+#include "ascii_istring.hpp"
 #include "ascii_string.hpp"
 #include "at.hpp"
 #include "char_scan_traits.hpp"

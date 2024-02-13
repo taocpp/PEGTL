@@ -91,7 +91,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       std::size_t count = 0;
-      text_position pos[] = { { 0, 1, 1 }, { 1, 1, 2 }, { 2, 2, 1 }, { 3, 2, 2 } };
+      text_position pos[] = { { 1, 1, 0 }, { 1, 2, 1 }, { 2, 1, 2 }, { 2, 2, 3 } };
 
       template< typename Rule >
       struct count_action
