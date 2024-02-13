@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      using test_input = internal::input_with_fakes< internal::input_with_peeks< internal::input_with_start< internal::view_input< char > > > >;
+      using test_input = internal::input_with_fakes< internal::input_with_funcs< internal::input_with_start< internal::view_input< char > > > >;
 
       test_input i1( "aaa" );
       const auto r1 = parse< test_grammar >( i1 );

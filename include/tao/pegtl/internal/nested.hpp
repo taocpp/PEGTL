@@ -13,7 +13,7 @@
 
 #include "enable_control.hpp"
 #include "input_with_fakes.hpp"
-#include "input_with_peeks.hpp"
+#include "input_with_funcs.hpp"
 #include "input_with_start.hpp"
 #include "view_input.hpp"
 
@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          const auto p = Peek::peek( in );
          if( const auto* d = p.pointer() ) {
             using parse_t = std::decay_t< decltype( *( d->data() ) ) >;
-            using input_t = input_with_fakes< input_with_peeks< input_with_start< view_input< parse_t > > > >;
+            using input_t = input_with_fakes< input_with_funcs< input_with_start< view_input< parse_t > > > >;
             input_t i2( d->data(), d->size() );
             if( parse_nested< Rule, Action, Control, A, M >( in, i2, st... ) ) {
                in.template consume< nested >( 1 );

@@ -18,9 +18,9 @@
 #include "view_input.hpp"
 
 #include "input_with_fakes.hpp"
+#include "input_with_funcs.hpp"
 #include "input_with_lines.hpp"
 #include "input_with_offset.hpp"
-#include "input_with_peeks.hpp"
 #include "input_with_source.hpp"
 #include "input_with_start.hpp"
 
@@ -34,10 +34,10 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Input >
-   using func_short = input_with_fakes< input_with_peeks< Input > >;
+   using func_short = input_with_fakes< input_with_funcs< Input > >;
 
    template< typename Eol, typename Input >
-   using base_short = input_with_fakes< input_with_peeks< input_with_lines< Eol, Input > > >;
+   using base_short = input_with_fakes< input_with_funcs< input_with_lines< Eol, Input > > >;
 
    template< typename Eol, typename Input >
    using text_short = input_double_path< text_input_with_source< Eol, std::filesystem::path, std::filesystem::path, Input > >;

@@ -27,16 +27,16 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
                 << "Example: " << argv[ 0 ] << " '{\"foo\":[42,null]}'" << std::endl;
       return 1;
    }
-
-   pegtl::argv_input<> in( argv, 1 );
+   using input_t = pegtl::argv_input<>;
+   input_t in( argv, 1 );
 #if defined( __cpp_exceptions )
    try {
       pegtl::standard_trace< example::grammar, pegtl::nothing, example::control >( in );
    }
-   catch( const pegtl::parse_error< pegtl::count_position >& e ) {
+   catch( const pegtl::parse_error< input_t::error_position_t >& e ) {
       const auto& p = e.position_object();
       std::cerr << e.what() << '\n'
-                << line_view_at( in, p ) << '\n'
+                << in.line_view_at( p ) << '\n'
                 << std::setw( int( p.count ) ) << '^' << std::endl;
       return 1;
    }
@@ -46,6 +46,5 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       return 1;
    }
 #endif
-
    return 0;
 }

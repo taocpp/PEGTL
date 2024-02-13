@@ -249,10 +249,10 @@ namespace TAO_PEGTL_NAMESPACE
    void test_01_peeks()
    {
       {
-         internal::input_with_peeks< internal::view_input< char > > in( data_01 );
+         internal::input_with_funcs< internal::view_input< char > > in( data_01 );
          test_01( in );
       } {
-         internal::input_with_peeks< internal::view_input< char > > in( data_01 );
+         internal::input_with_funcs< internal::view_input< char > > in( data_01 );
          test_01_peeks( in );
       }
    }

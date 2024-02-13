@@ -169,15 +169,16 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    }
    else {
       example::json_state state;
-      pegtl::text_file_input< pegtl::scan::lf_crlf > in( argv[ 1 ] );
+      using input_t = pegtl::text_file_input< pegtl::scan::lf_crlf >;
+      input_t in( argv[ 1 ] );
 #if defined( __cpp_exceptions )
       try {
          pegtl::parse< example::grammar, example::action, example::control >( in, state );
       }
-      catch( const pegtl::parse_error< pegtl::text_position >& e ) {
+      catch( const pegtl::parse_error< input_t::error_position_t >& e ) {
          const auto& p = e.position_object();
          std::cerr << e.what() << '\n'
-                   << line_view_at( in, p ) << '\n'
+                   << in.line_view_at( p ) << '\n'
                    << std::setw( int( p.column ) ) << '^' << std::endl;
          return 1;
       }

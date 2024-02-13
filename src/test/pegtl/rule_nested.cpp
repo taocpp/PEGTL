@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE
       std::string value;
    };
 
-   using inner_input = internal::input_with_peeks< internal::input_with_fakes< internal::input_with_start< internal::view_input< char > > > >;
+   using inner_input = internal::input_with_funcs< internal::input_with_fakes< internal::input_with_start< internal::view_input< char > > > >;
    using outer_input = internal::input_with_fakes< internal::copy_input< std::vector< token > > >;
 
    using inner_grammar = seq< string< 'f', 'o', 'o' >, eof >;

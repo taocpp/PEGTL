@@ -10,7 +10,7 @@
   * Makefile generates binaries in `build/bin/` instead of `build/src/`.
   * Makefile generates dependencies in `build/dep/` instead of `build/src/`.
   * Several headers were moved from `contrib/` to the main PEGTL include folder.
-  * The ICU rules were moved from `contrib/icu/` to the main PEGTL include folder.
+  * The ICU rules were moved from `tao/pegtl/contrib/icu/` to `tao/pegtl/icu`.
   * Not all headers in `include/tao/pegtl/` are included by `<tao/pegtl.hpp>`.
 * Exceptions
   * Changed `parse_error` to contain only one `position`.
@@ -77,9 +77,7 @@
   * Moved depth counter to adapter class `input_with_depth` in [contrib](Contrib-and-Examples#contrib).
   * Changed default top-level `rewind_mode` to ~~`dontcare`~~ `optional`.
   * Merged `rewind_mode` values `dontcare` and `active` into new value `optional`.
-  * Moved `line_at()` from input member function to global function `line_view_at()`.
-  * Moved `begin_of_line()` from input member function to global function of same name.
-  * Moved `end_of_line()` from input member function to global function of same name.
+  * Renamed `end_of_line()` input member function to `end_of_line_or_file()`.
 * Cleanup
   * Removed rule `forty_two`, we apologize for any inconvenience.
   * Removed rule `bytes` and replaced with `many` for different data types.

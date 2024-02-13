@@ -38,8 +38,6 @@
 #include "pegtl/parse_error_base.hpp"
 #endif
 
-#include "pegtl/line_view_at.hpp"
-
 #include "pegtl/count_position.hpp"
 #include "pegtl/pointer_position.hpp"
 #include "pegtl/position_with_source.hpp"

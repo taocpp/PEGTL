@@ -15,13 +15,13 @@
 #include "text_buffer_input.hpp"
 #include "text_buffer_input_with_source.hpp"
 
+#include "../internal/input_with_funcs.hpp"
 #include "../internal/input_with_lines.hpp"
-#include "../internal/input_with_peeks.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Buffer, typename Eol, typename InputSource = void, typename ErrorSource = InputSource >
-   using buffer_input = internal::input_with_peeks< internal::input_with_lines< Eol, internal::buffer_input_with_source< Buffer, InputSource, ErrorSource > > >;
+   using buffer_input = internal::input_with_funcs< internal::input_with_lines< Eol, internal::buffer_input_with_source< Buffer, InputSource, ErrorSource > > >;
 
    template< typename Eol, typename InputSource = void, typename ErrorSource = InputSource >
    using dynamic_cstream_input = buffer_input< dynamic_cstream_buffer, Eol, InputSource, ErrorSource >;
@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE
    using static_istream_input = buffer_input< static_istream_buffer< BufferSize, ChunkSize >, Eol, InputSource, ErrorSource >;
 
    template< typename Buffer, typename Eol, typename InputSource = void, typename ErrorSource = InputSource >
-   using text_buffer_input = internal::input_with_peeks< internal::text_buffer_input_with_source< Buffer, Eol, InputSource, ErrorSource > >;
+   using text_buffer_input = internal::input_with_funcs< internal::text_buffer_input_with_source< Buffer, Eol, InputSource, ErrorSource > >;
 
    template< typename Eol, typename InputSource = void, typename ErrorSource = InputSource >
    using dynamic_text_cstream_input = text_buffer_input< dynamic_cstream_buffer, Eol, InputSource, ErrorSource >;

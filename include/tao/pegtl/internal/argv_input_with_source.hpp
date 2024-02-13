@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_INTERNAL_ARGV_INPUT_WITH_SOURCE_HPP
 #define TAO_PEGTL_INTERNAL_ARGV_INPUT_WITH_SOURCE_HPP
 
+#include <cstddef>
 #include <string>
 
 #include "../config.hpp"
@@ -25,6 +26,20 @@ namespace TAO_PEGTL_NAMESPACE::internal
       argv_input_with_source( char** argv, const int argn )
          : input_with_source< std::string, std::string, argv_input >( stream_to_string( "argv[", argn, ']' ), argv, argn )
       {}
+
+      using error_position_t = typename input_with_source< std::string, std::string, argv_input >::error_position_t;
+
+      [[nodiscard]] const char* begin_of_line( const error_position_t& pos, const std::size_t max = 135 ) const noexcept
+      {
+         const data_t* p = previous( pos );
+         return ( std::size_t( p - this->start() ) > max ) ? ( p - max ) : this->start();
+      }
+
+      [[nodiscard]] const char* end_of_line_or_file( const error_position_t& pos, const std::size_t max = 135 ) const noexcept
+      {
+         const data_t* p = previous( pos );
+         return ( std::size_t( this->end() - p ) > max ) ? ( p + max ) : this->end();
+      }
    };
 
    template<>

@@ -12,7 +12,7 @@
 
 #include "has_eol_rule.hpp"
 #include "input_with_fakes.hpp"
-#include "input_with_peeks.hpp"
+#include "input_with_funcs.hpp"
 #include "input_with_start.hpp"
 #include "rewind_guard.hpp"
 #include "view_input.hpp"
@@ -118,9 +118,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< typename Guard, typename Input >
    struct rematch_input< Guard, Input, false >
-      : input_with_fakes< input_with_peeks< rematch_input_impl< Guard, Input > > >
+      : input_with_fakes< input_with_funcs< rematch_input_impl< Guard, Input > > >
    {
-      using input_with_fakes< input_with_peeks< rematch_input_impl< Guard, Input > > >::input_with_fakes;
+      using input_with_fakes< input_with_funcs< rematch_input_impl< Guard, Input > > >::input_with_fakes;
    };
 
    template< typename Guard, typename Input >

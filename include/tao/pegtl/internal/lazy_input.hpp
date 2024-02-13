@@ -5,14 +5,24 @@
 #ifndef TAO_PEGTL_INTERNAL_LAZY_INPUT_HPP
 #define TAO_PEGTL_INTERNAL_LAZY_INPUT_HPP
 
+#include <algorithm>
 #include <cstddef>
 
+#include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../normal.hpp"
+#include "../nothing.hpp"
+#include "../rewind_mode.hpp"
 #include "../text_position.hpp"
 
+#include "any.hpp"
+#include "at.hpp"
 #include "choose_lazy_traits.hpp"
+#include "eof.hpp"
 #include "input_with_lines.hpp"
 #include "scan_input.hpp"
+#include "sor.hpp"
+#include "until.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -51,8 +61,26 @@ namespace TAO_PEGTL_NAMESPACE::internal
          error_position_t pos;
          const std::size_t count = this->previous( saved ) - this->start();
          scan_input< data_t > in( this->start(), count );
-         internal::choose_lazy_traits< Eol >( pos, in );
+         choose_lazy_traits< Eol >( pos, in );
          return pos;
+      }
+
+      [[nodiscard]] const data_t* begin_of_line( const error_position_t& pos, const std::size_t max = 135 ) const noexcept
+      {
+         // assert( pos.column > 0 );
+         return previous( pos ) - ( std::min )( max, pos.column - 1 );
+      }
+
+      [[nodiscard]] const data_t* end_of_line_or_file( const error_position_t& pos, const std::size_t max = 135 ) const noexcept
+      {
+         using grammar = until< at< sor< eof, eol_rule > >, any< typename eol_rule::eol_lazy_peek > >;
+         const data_t* p = previous( pos );  // TODO: Start earlier?
+         const std::size_t s = ( std::min )( max, std::size_t( this->end() - p ) );
+         scan_input< data_t > in( p, s );
+         if( normal< grammar >::template match< apply_mode::nothing, rewind_mode::optional, nothing, normal >( in ) ) {
+            return in.current();
+         }
+         return in.current() + max;
       }
    };
 

@@ -87,19 +87,15 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    if( TAO_PEGTL_NAMESPACE::analyze< sexpr::main >() != 0 ) {
       return 1;
    }
+   using input_t = TAO_PEGTL_NAMESPACE::argv_input< TAO_PEGTL_NAMESPACE::scan::lf_crlf >;
    for( int i = 1; i < argc; ++i ) {
       std::string fn;
-      TAO_PEGTL_NAMESPACE::argv_input< TAO_PEGTL_NAMESPACE::scan::lf_crlf > in( argv, i );
+      input_t in( argv, i );
       try {
          TAO_PEGTL_NAMESPACE::parse< sexpr::main, sexpr::action >( in, fn );
       }
-      catch( const TAO_PEGTL_NAMESPACE::parse_error< TAO_PEGTL_NAMESPACE::count_position >& e ) {
-         const auto& p = e.position_object();
-         std::cerr << e.what() << " @ " << p << std::endl;
-      }
-      catch( const TAO_PEGTL_NAMESPACE::parse_error< TAO_PEGTL_NAMESPACE::text_position_with_path >& e ) {
-         const auto& p = e.position_object();
-         std::cerr << e.what() << " @ " << p << std::endl;
+      catch( const TAO_PEGTL_NAMESPACE::parse_error_base& e ) {
+         std::cerr << e.what() << std::endl;
       }
    }
    return 0;

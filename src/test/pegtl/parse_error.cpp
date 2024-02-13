@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( p.source == "test_source" );
 
          if constexpr( TestLineView ) {
-            TAO_PEGTL_TEST_ASSERT( line_view_at( in, p ) == "bar bla blubb" );
+            TAO_PEGTL_TEST_ASSERT( in.line_view_at( p ) == "bar bla blubb" );
          }
          return;
       }

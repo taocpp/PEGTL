@@ -25,16 +25,16 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    if( analyze< proto3::proto >() != 0 ) {
       return 1;
    }
-
+   using input_t = text_file_input< scan::lf_crlf >;
    for( int i = 1; i < argc; ++i ) {
-      text_file_input< scan::lf_crlf > in( argv[ i ] );
+      input_t in( argv[ i ] );
       try {
          parse< proto3::proto >( in );
       }
-      catch( const parse_error< text_position >& e ) {
+      catch( const parse_error< input_t::error_position_t >& e ) {
          const auto& p = e.position_object();
          std::cerr << e.what() << '\n'
-                   << line_view_at( in, p ) << '\n'
+                   << in.line_view_at( p ) << '\n'
                    << std::setw( int( p.column ) ) << '^' << '\n';
       }
    }

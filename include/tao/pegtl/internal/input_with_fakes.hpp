@@ -33,10 +33,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       //    return Input::size();
       // }
 
-      void require( const std::size_t /*unused*/ ) noexcept
+      void require( const std::size_t /*unused*/ ) const noexcept
       {}
 
-      void discard() noexcept
+      void discard() const noexcept
       {}
 
       // The buffer_foo() member functions are only for actual buffer inputs.

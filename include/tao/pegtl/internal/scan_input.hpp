@@ -8,13 +8,13 @@
 #include "../config.hpp"
 
 #include "input_with_fakes.hpp"
-#include "input_with_peeks.hpp"
+#include "input_with_funcs.hpp"
 #include "view_input.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Data >
-   using scan_input = input_with_fakes< input_with_peeks< view_input< Data > > >;
+   using scan_input = input_with_fakes< input_with_funcs< view_input< Data > > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_INPUT_WITH_PEEKS_HPP
-#define TAO_PEGTL_INTERNAL_INPUT_WITH_PEEKS_HPP
+#ifndef TAO_PEGTL_INTERNAL_INPUT_WITH_FUNCS_HPP
+#define TAO_PEGTL_INTERNAL_INPUT_WITH_FUNCS_HPP
 
 #include <cstddef>
 #include <string>
@@ -15,7 +15,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Input >
-   struct input_with_peeks
+   struct input_with_funcs
       : Input
    {
       using Input::Input;
@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename T >
       [[nodiscard]] T peek_as( const std::size_t offset = 0 ) const noexcept
       {
-         static_assert( sizeof( T ) == sizeof( data_t ) );
+         static_assert( sizeof( data_t ) == sizeof( T ) );
          return static_cast< T >( *this->current( offset ) );
       }
 
@@ -58,13 +58,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] std::string string() const
       {
-         static_assert( sizeof( char ) == sizeof( data_t ) );
+         static_assert( sizeof( data_t ) == 1 );
          return std::string( static_cast< const char* >( this->current() ), this->size() );
       }
 
       [[nodiscard]] std::string_view string_view() const noexcept
       {
-         static_assert( sizeof( char ) == sizeof( data_t ) );
+         static_assert( sizeof( data_t ) == 1 );
          return std::string_view( static_cast< const char* >( this->current() ), this->size() );
       }
 
@@ -72,6 +72,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          return std::vector< data_t >( this->current(), this->current() + this->size() );
       }
+
+      template< typename Position >
+      [[nodiscard]] std::string_view line_view_at( const Position& pos ) noexcept
+      {
+         static_assert( sizeof( data_t ) == 1 );
+         const char* b = static_cast< const char* >( this->begin_of_line( pos ) );
+         const char* e = static_cast< const char* >( this->end_of_line_or_file( pos ) );
+         return { b, std::size_t( e - b ) };
+      }
+
+      // TODO: Implement string(), string_view(), line_view_at() with std::u32string, std::u16string_view...?
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

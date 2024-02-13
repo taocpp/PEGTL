@@ -499,8 +499,9 @@ int main( int argc, char** argv )
    // if( TAO_PEGTL_NAMESPACE::analyze< application::grammar >() != 0 ) {
    //    return 1;
    // }
+   using input_t = TAO_PEGTL_NAMESPACE::argv_input< TAO_PEGTL_NAMESPACE::ascii::lf_crlf >;
    for( int i = 1; i < argc; ++i ) {
-      TAO_PEGTL_NAMESPACE::argv_input< TAO_PEGTL_NAMESPACE::scan::lf_crlf > in( argv, i );
+      input_t in( argv, i );
       try {
          application::result res;
          TAO_PEGTL_NAMESPACE::parse< application::grammar, application::action >( in, res );
@@ -508,7 +509,7 @@ int main( int argc, char** argv )
          assert( res.string_stack.size() == 1 );
          std::cout << "Result: " << res.string_stack.at( 0 ) << std::endl;
       }
-      catch( const TAO_PEGTL_NAMESPACE::parse_error< TAO_PEGTL_NAMESPACE::count_position >& e ) {
+      catch( const TAO_PEGTL_NAMESPACE::parse_error< input_t::error_position_t >& e ) {
          const auto& p = e.position_object();
          std::cerr << e.what() << '\n'
                    << argv[ i ] << '\n'

@@ -9,7 +9,7 @@
 
 #include "../config.hpp"
 
-#include "input_with_peeks.hpp"
+#include "input_with_funcs.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -89,7 +89,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename ParseInput >
-   using action_input = input_with_peeks< action_input_impl< ParseInput > >;
+   using action_input = input_with_funcs< action_input_impl< ParseInput > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
