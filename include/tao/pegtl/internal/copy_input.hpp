@@ -139,12 +139,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
          m_current = in_current;
       }
 
-      [[nodiscard]] auto&& direct_container() && noexcept
+      [[nodiscard]] Container&& direct_container() && noexcept
       {
          return std::move( m_container );
       }
 
-      [[nodiscard]] const auto& direct_container() const& noexcept
+      [[nodiscard]] const Container& direct_container() const& noexcept
       {
          return m_container;
       }
