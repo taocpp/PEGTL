@@ -26,16 +26,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       return ( minimum_low_surrogate <= t ) && ( t <= maximum_low_surrogate );
    }
 
-   [[nodiscard]] constexpr bool utf16_needs_1_code_unit( const char32_t t ) noexcept
-   {
-      return t <= 0xffff;  // TODO: Exclude surrogates here?
-   }
-
-   [[nodiscard]] constexpr bool utf16_needs_2_code_units( const char32_t t ) noexcept
-   {
-      return ( 0x10000 <= t ) && ( t <= maximum_codepoint );
-   }
-
    [[nodiscard]] constexpr char32_t utf16_surrogate_compose( const char16_t high, const char16_t low ) noexcept
    {
       return ( ( char32_t( high & 0x03ff ) << 10 ) | char32_t( low & 0x03ff ) ) + 0x10000;

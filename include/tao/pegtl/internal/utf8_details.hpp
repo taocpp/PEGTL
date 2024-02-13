@@ -58,23 +58,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       return ( 0x10000 <= t ) && ( t <= 0x10ffff );
    }
 
-   [[nodiscard]] constexpr std::size_t utf8_needed_code_units( const char32_t t ) noexcept
-   {
-      if( utf8_needs_1_code_unit( t ) ) {
-         return 1;
-      }
-      if( utf8_needs_2_code_units( t ) ) {
-         return 2;
-      }
-      if( utf8_needs_3_code_units( t ) ) {
-         return 3;
-      }
-      if( utf8_needs_4_code_units( t ) ) {
-         return 4;
-      }
-      return 0;  // TODO?
-   }
-
    [[nodiscard]] constexpr char32_t utf8_sequence_compose( const char32_t c0, const char32_t c1 ) noexcept
    {
       return ( ( c0 & 0x1f ) << 6 ) | ( c1 & 0x3f );
