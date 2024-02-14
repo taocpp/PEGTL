@@ -32,11 +32,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) != 0 ) ) {
+         if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) > 0 ) ) {
             auto m = in.template make_rewind_guard< rewind_mode::required >();
             if( Control< Rule >::template match< apply_mode::action, rewind_mode::optional, Action, Control >( in, st... ) ) {
                const action_input< ParseInput > i2( m.rewind_position(), in );
-               return m( ( apply_impl< Actions >::match( i2, st... ) && ... ) );
+               return m( ( apply_impl< Actions >::apply( i2, st... ) && ... ) );
             }
             return false;
          }

@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct apply0_impl
    {
       template< typename... States >
-      [[nodiscard]] static auto match( States&&... st ) noexcept( noexcept( Action::apply0( st... ) ) )
+      [[nodiscard]] static auto apply0( States&&... st ) noexcept( noexcept( Action::apply0( st... ) ) )
          -> std::enable_if_t< std::is_same_v< decltype( Action::apply0( st... ) ), void >, bool >
       {
          Action::apply0( st... );
@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
 
       template< typename... States >
-      [[nodiscard]] static auto match( States&&... st ) noexcept( noexcept( Action::apply0( st... ) ) )
+      [[nodiscard]] static auto apply0( States&&... st ) noexcept( noexcept( Action::apply0( st... ) ) )
          -> std::enable_if_t< std::is_same_v< decltype( Action::apply0( st... ) ), bool >, bool >
       {
          return Action::apply0( st... );

@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& /*unused*/, [[maybe_unused]] States&&... st )
       {
          if constexpr( A == apply_mode::action ) {
-            return ( apply0_impl< Actions >::match( st... ) && ... );
+            return ( apply0_impl< Actions >::apply0( st... ) && ... );
          }
          else {
 #if defined( _MSC_VER )

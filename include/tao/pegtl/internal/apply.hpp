@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) > 0 ) ) {
             const action_input< ParseInput > i2( in.rewind_position(), in );  // No data -- range is from begin to begin.
-            return ( apply_impl< Actions >::match( i2, st... ) && ... );
+            return ( apply_impl< Actions >::apply( i2, st... ) && ... );
          }
          else {
 #if defined( _MSC_VER )

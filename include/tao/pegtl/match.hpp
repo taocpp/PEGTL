@@ -16,11 +16,9 @@
 
 #include "internal/has_apply.hpp"
 #include "internal/has_apply0.hpp"
-#include "internal/has_unwind.hpp"
+#include "internal/match_impl.hpp"
 #include "internal/missing_apply.hpp"
 #include "internal/missing_apply0.hpp"
-#include "internal/rewind_guard.hpp"
-#include "internal/unwind_guard.hpp"
 
 #if defined( _MSC_VER )
 #pragma warning( push )
@@ -29,68 +27,6 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   namespace internal
-   {
-      template< typename Rule,
-                apply_mode A,
-                rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename ParseInput,
-                typename... States >
-      [[nodiscard]] static auto match_no_control( ParseInput& in, States&&... st )
-         -> decltype( Rule::template match< A, M, Action, Control >( in, st... ) )
-      {
-         return Rule::template match< A, M, Action, Control >( in, st... );
-      }
-
-      template< typename Rule,
-                apply_mode A,
-                rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename ParseInput,
-                typename... States >
-      [[nodiscard]] static auto match_no_control( ParseInput& in, States&&... /*unused*/ )
-         -> decltype( Rule::match( in ) )
-      {
-         return Rule::match( in );
-      }
-
-      template< typename Rule,
-                apply_mode A,
-                rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename ParseInput,
-                typename... States >
-      [[nodiscard]] auto match_control_unwind( ParseInput& in, States&&... st )
-      {
-#if defined( __cpp_exceptions )
-         if constexpr( has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
-            unwind_guard ug( [ & ] {
-               Control< Rule >::unwind( static_cast< const ParseInput& >( in ), st... );
-            } );
-            const auto result = match_no_control< Rule, A, M, Action, Control >( in, st... );
-            ug.unwind.reset();
-            return result;
-         }
-         else {
-            return match_no_control< Rule, A, M, Action, Control >( in, st... );
-         }
-#else
-         return match_no_control< Rule, A, M, Action, Control >( in, st... );
-#endif
-      }
-
-   }  // namespace internal
-
    template< typename Rule,
              apply_mode A,
              rewind_mode M,
