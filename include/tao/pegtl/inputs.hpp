@@ -7,17 +7,19 @@
 
 #include <string>
 
+#include "ascii.hpp"
 #include "config.hpp"
+#include "system.hpp"
 
 #include "internal/inputs.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename Eol = void, typename Data = char >
-   using base_input = internal::base_alias< Eol, Data >;
-
    template< typename Eol = void, typename Source = std::string >
    using argv_input = internal::argv_alias< Eol, Source >;
+
+   template< typename Eol = void, typename Data = char >
+   using base_input = internal::base_alias< Eol, Data >;
 
    template< typename Eol = void, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
    using view_input = internal::view_alias< Eol, Data, InputSource, ErrorSource >;
@@ -36,20 +38,22 @@ namespace TAO_PEGTL_NAMESPACE
    using mmap_input = internal::mmap_alias< Eol, Data >;
 #endif
 
-   template< typename Eol, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
+   using tao_private_eol = TAO_PEGTL_DEFAULT_EOL;
+
+   template< typename Eol = tao_private_eol, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
    using text_view_input = internal::choose_alias< Eol, internal::lazy_view_alias< Eol, Data, InputSource, ErrorSource >, internal::text_view_alias< Eol, Data, InputSource, ErrorSource > >;
 
-   template< typename Eol, typename Container = std::string, typename InputSource = void, typename ErrorSource = InputSource >
+   template< typename Eol = tao_private_eol, typename Container = std::string, typename InputSource = void, typename ErrorSource = InputSource >
    using text_copy_input = internal::choose_alias< Eol, internal::lazy_copy_alias< Eol, Container, InputSource, ErrorSource >, internal::text_copy_alias< Eol, Container, InputSource, ErrorSource > >;
 
-   template< typename Eol >
+   template< typename Eol = tao_private_eol >
    using text_file_input = internal::choose_alias< Eol, internal::lazy_file_alias< Eol >, internal::text_file_alias< Eol > >;
 
-   template< typename Eol >
+   template< typename Eol = tao_private_eol >
    using text_read_input = internal::choose_alias< Eol, internal::lazy_read_alias< Eol >, internal::text_read_alias< Eol > >;
 
 #if defined( TAO_PEGTL_MMAP_AVAILABLE )
-   template< typename Eol, typename Data = char >
+   template< typename Eol = tao_private_eol, typename Data = char >
    using text_mmap_input = internal::choose_alias< Eol, internal::lazy_mmap_alias< Eol, Data >, internal::text_mmap_alias< Eol, Data > >;
 #endif
 

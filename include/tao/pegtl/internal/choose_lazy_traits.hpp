@@ -36,7 +36,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       else {
          static_assert( dependent_false< Eol, Position, Data > );
       }
-      // TODO: Throw or crash on !in.empty()?
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

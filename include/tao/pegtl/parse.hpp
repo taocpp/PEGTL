@@ -15,6 +15,7 @@
 
 #if defined( __cpp_exceptions )
 #include <exception>
+#include <stdexcept>
 #endif
 
 namespace TAO_PEGTL_NAMESPACE

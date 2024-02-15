@@ -13,7 +13,8 @@
 #include "../normal.hpp"
 #include "../nothing.hpp"
 
-#include "state_control.hpp"
+#include "../control/state_control.hpp"
+
 #include "trace_state.hpp"
 #include "trace_traits.hpp"
 

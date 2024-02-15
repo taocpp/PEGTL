@@ -45,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          assert( ec != 0 );
          throw std::system_error( ec, std::system_category(), "std::fread() failed" );
 #else
-         std::fputs( "std::fread() failed\n", stderr );
+         std::fputs( "system error: std::fread() failed\n", stderr );
          std::terminate();
 #endif
          // LCOV_EXCL_STOP

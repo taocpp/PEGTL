@@ -17,6 +17,8 @@ namespace TAO_PEGTL_NAMESPACE::test
 
 }  // namespace TAO_PEGTL_NAMESPACE::test
 
+// TODO: Use std::source_location everywhere with C++20.
+
 #define TAO_TEST_STRINGIZE_INTERNAL( ... ) #__VA_ARGS__
 #define TAO_TEST_STRINGIZE( ... ) TAO_TEST_STRINGIZE_INTERNAL( __VA_ARGS__ )
 

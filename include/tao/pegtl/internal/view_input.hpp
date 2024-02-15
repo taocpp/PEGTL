@@ -16,6 +16,7 @@
 #include "../pointer_position.hpp"
 
 #include "rewind_guard.hpp"
+#include "type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -28,13 +29,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using offset_position_t = void;
       using rewind_position_t = pointer_position< data_t >;
 
-      view_input( const data_t* in_begin, const data_t* in_end ) noexcept
-         : m_current( in_begin ),
-           m_end( in_end )
+      view_input( const data_t* b, const data_t* e ) noexcept
+         : m_current( b ),
+           m_end( e )
       {}
 
-      view_input( const data_t* in_begin, const std::size_t in_size ) noexcept
-         : view_input( in_begin, in_begin + in_size )
+      view_input( const data_t* b, const std::size_t s ) noexcept
+         : view_input( b, b + s )
       {}
 
       view_input( std::string&& ) = delete;
@@ -43,19 +44,22 @@ namespace TAO_PEGTL_NAMESPACE::internal
       explicit view_input( std::string& data ) noexcept
          : view_input( const_cast< const std::string& >( data ) )
       {
-         static_assert( std::is_same_v< data_t, char > );  // TODO: Or reinterpret_cast for sizeof( data_t ) == 1 instead?
+         static_assert( sizeof( data_t ) == 1 );
+         static_assert( is_simple_type_v< data_t > );
       }
 
       explicit view_input( const std::string& data ) noexcept
-         : view_input( data.data(), data.size() )
+         : view_input( reinterpret_cast< const data_t* >( data.data() ), data.size() )
       {
-         static_assert( std::is_same_v< data_t, char > );  // TODO: Or reinterpret_cast for sizeof( data_t ) == 1 instead?
+         static_assert( sizeof( data_t ) == 1 );
+         static_assert( is_simple_type_v< data_t > );
       }
 
       explicit view_input( const std::string_view data ) noexcept
-         : view_input( data.data(), data.size() )
+         : view_input( reinterpret_cast< const data_t* >( data.data() ), data.size() )
       {
-         static_assert( std::is_same_v< data_t, char > );  // TODO: Or reinterpret_cast for sizeof( data_t ) == 1 instead?
+         static_assert( sizeof( data_t ) == 1 );
+         static_assert( is_simple_type_v< data_t > );
       }
 
       view_input( std::vector< data_t >&& ) = delete;
@@ -70,15 +74,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {}
 
       template< std::size_t N >
-      explicit view_input( const char ( &in_literal )[ N ] ) noexcept
-         : view_input( in_literal, N - 1 )
+      explicit view_input( const char ( &l )[ N ] ) noexcept
+         : view_input( reinterpret_cast< const data_t* >( l ), N - 1 )
       {
-         static_assert( std::is_same_v< data_t, char > );  // TODO: Or reinterpret_cast for sizeof( data_t ) == 1 instead?
+         static_assert( sizeof( data_t ) == 1 );
+         static_assert( is_simple_type_v< data_t > );
       }
 
       template< std::size_t Size >
-      explicit view_input( const std::array< data_t, Size >& in_array ) noexcept
-         : view_input( in_array.data(), in_array.size() )
+      explicit view_input( const std::array< data_t, Size >& a ) noexcept
+         : view_input( a.data(), a.size() )
       {}
 
       [[nodiscard]] bool empty() const noexcept
@@ -145,9 +150,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
          m_current = in_current;
       }
 
-      void private_set_end( const data_t* in_end ) noexcept
+      void private_set_end( const data_t* e ) noexcept
       {
-         m_end = in_end;
+         m_end = e;
       }
 
    protected:

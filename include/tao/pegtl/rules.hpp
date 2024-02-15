@@ -7,16 +7,16 @@
 
 #include <cstddef>
 
+#if defined( __cpp_exceptions )
+#include <exception>
+#endif
+
 #include "config.hpp"
 #include "parse_error.hpp"
 
 #include "internal/combine_traits.hpp"
 #include "internal/invert_traits.hpp"
 #include "internal/rules.hpp"
-
-#if defined( __cpp_exceptions )
-#include <exception>
-#endif
 
 namespace TAO_PEGTL_NAMESPACE
 {

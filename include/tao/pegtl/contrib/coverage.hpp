@@ -10,8 +10,6 @@
 #include <string_view>
 #include <vector>
 
-#include "state_control.hpp"
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../demangle.hpp"
@@ -21,6 +19,8 @@
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 #include "../visit.hpp"
+
+#include "../control/state_control.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

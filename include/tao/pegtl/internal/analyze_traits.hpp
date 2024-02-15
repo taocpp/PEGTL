@@ -8,6 +8,9 @@
 #include <cstddef>
 #include <type_traits>
 
+#include "../config.hpp"
+#include "../forward.hpp"
+
 #include "rules.hpp"
 
 namespace TAO_PEGTL_NAMESPACE

@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
 #if defined( __cpp_exceptions )
                throw_parse_error( "maximum allowed rule consumption exceeded", in );
 #else
-               std::fputs( "maximum allowed rule consumption exceeded\n", stderr );
+               std::fputs( "parse error: maximum allowed rule consumption exceeded\n", stderr );
                std::terminate();
 #endif
             }

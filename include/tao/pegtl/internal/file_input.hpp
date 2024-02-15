@@ -6,8 +6,7 @@
 #define TAO_PEGTL_INTERNAL_FILE_INPUT_HPP
 
 #include "../config.hpp"
-
-#include "mmap_file_base.hpp"
+#include "../system.hpp"
 
 #if defined( TAO_PEGTL_MMAP_AVAILABLE )
 
@@ -15,11 +14,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   struct file_input
-      : mmap_input< char >
-   {
-      using mmap_input< char >::mmap_input;
-   };
+   using file_input = mmap_input< char >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
@@ -29,11 +24,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   struct file_input
-      : read_input
-   {
-      using read_input::read_input;
-   };
+   using file_input = read_input;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -12,10 +12,11 @@
 #include "../ascii.hpp"
 #include "../config.hpp"
 #include "../nothing.hpp"
-#include "../remove_first_state.hpp"
 #include "../rules.hpp"
 #include "../tags.hpp"
 #include "../utf8.hpp"
+
+#include "../control/remove_first_state.hpp"
 
 #include "abnf.hpp"
 #include "uri.hpp"

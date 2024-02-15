@@ -13,6 +13,8 @@ int main()
 #include "test.hpp"
 #include "test_utility.hpp"
 
+#include <tao/pegtl/control/must_if.hpp>
+
 namespace test1
 {
    using namespace TAO_PEGTL_NAMESPACE;

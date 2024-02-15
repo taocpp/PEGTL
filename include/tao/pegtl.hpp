@@ -5,7 +5,6 @@
 #ifndef TAO_PEGTL_HPP
 #define TAO_PEGTL_HPP
 
-#include "pegtl/actions.hpp"
 #include "pegtl/ascii.hpp"
 #include "pegtl/demangle.hpp"
 #include "pegtl/inputs.hpp"
@@ -17,7 +16,6 @@
 #include "pegtl/visit.hpp"
 
 #if defined( __cpp_exceptions )
-#include "pegtl/must_if.hpp"
 #include "pegtl/parse_error.hpp"
 #include "pegtl/parse_error_base.hpp"
 #endif

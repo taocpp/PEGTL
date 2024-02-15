@@ -65,6 +65,8 @@
 #include "utf_one.hpp"
 #include "utf_string.hpp"
 
+#include "../config.hpp"
+
 #if defined( __cpp_exceptions )
 #include "if_must.hpp"
 #include "if_must_else.hpp"

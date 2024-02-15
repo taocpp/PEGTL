@@ -43,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE
 #if defined( __cpp_exceptions )
                Control< check_depth >::raise( in );
 #else
-               std::fputs( "maximum parser rule nesting depth exceeded\n", stderr );
+               std::fputs( "parse error: maximum parser rule nesting depth exceeded\n", stderr );
                std::terminate();
 #endif
             }

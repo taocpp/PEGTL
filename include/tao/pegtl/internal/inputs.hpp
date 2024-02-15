@@ -8,11 +8,14 @@
 #include <filesystem>
 #include <type_traits>
 
+#include "../config.hpp"
+#include "../system.hpp"
+
 #include "argv_input.hpp"
 #include "copy_input.hpp"
 #include "file_input.hpp"
 #include "lazy_input.hpp"
-// mmap_input.hpp via file_input.hpp if possible
+// mmap_input.hpp via file_input.hpp
 #include "read_input.hpp"
 #include "text_input.hpp"
 #include "view_input.hpp"
@@ -20,7 +23,6 @@
 #include "input_with_fakes.hpp"
 #include "input_with_funcs.hpp"
 #include "input_with_lines.hpp"
-#include "input_with_offset.hpp"
 #include "input_with_source.hpp"
 #include "input_with_start.hpp"
 

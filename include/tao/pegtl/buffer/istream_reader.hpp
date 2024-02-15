@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          const auto ec = errno;
          throw std::system_error( ec, std::system_category(), "std::istream::read() failed" );
 #else
-         std::fputs( "std::istream::read() failed\n", stderr );
+         std::fputs( "system error: std::istream::read() failed\n", stderr );
          std::terminate();
 #endif
       }

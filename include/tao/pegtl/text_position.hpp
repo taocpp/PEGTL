@@ -25,6 +25,20 @@ namespace TAO_PEGTL_NAMESPACE
            column( in_column ),
            count( in_count )
       {}
+
+      void apply_offset( const text_position& offset ) noexcept
+      {
+         // assert( ... )
+
+         if( line == 1 ) {
+            line = offset.line;
+            column += offset.column - 1;
+         }
+         else {
+            line += offset.line - 1;
+         }
+         count += offset.count;
+      }
    };
 
    inline std::ostream& operator<<( std::ostream& os, const text_position p )
@@ -40,26 +54,6 @@ namespace TAO_PEGTL_NAMESPACE
    [[nodiscard]] inline bool operator!=( const text_position l, const text_position r ) noexcept
    {
       return !( l == r );
-   }
-
-   inline text_position& operator+=( text_position& l, const text_position& r ) noexcept
-   {
-      if( r.line == 1 ) {
-         l.column += r.column - 1;
-      }
-      else {
-         l.line += r.line - 1;
-         l.column = r.column;
-      }
-      l.count += r.count;
-      return l;
-   }
-
-   [[nodiscard]] inline text_position operator+( const text_position& l, const text_position& r ) noexcept
-   {
-      text_position t( l );
-      t += r;
-      return t;
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

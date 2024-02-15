@@ -27,7 +27,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       else {
          text_rule_traits< Eol, typename Rule::rule_t >::scan( pos, in );
       }
-      // TODO: Throw or crash on !in.empty()?
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

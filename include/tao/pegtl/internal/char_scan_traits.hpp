@@ -12,6 +12,7 @@
 
 #include "scan_input.hpp"
 #include "one.hpp"
+#include "test_after_scan.hpp"
 #include "tester.hpp"
 #include "type_traits.hpp"
 
@@ -61,6 +62,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                break;
             }
          }
+         test_after_scan( in );
       }
    };
 

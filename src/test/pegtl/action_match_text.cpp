@@ -5,6 +5,8 @@
 #include "test.hpp"
 #include "test_utility.hpp"
 
+#include <tao/pegtl/action/change_action.hpp>
+
 namespace TAO_PEGTL_NAMESPACE
 {
    struct remove_state

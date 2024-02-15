@@ -6,8 +6,11 @@
 #define TAO_PEGTL_CONTRIB_INPUT_WITH_DEPTH_HPP
 
 #include <cstddef>
+#include <type_traits>
 
 #include "../config.hpp"
+
+#include "../internal/has_restart.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -51,12 +54,18 @@ namespace TAO_PEGTL_NAMESPACE
    public:
       using Input::Input;
 
+      void restart() noexcept
+      {
+         if constexpr( internal::has_restart< Input > ) {
+            Input::restart();
+         }
+         m_depth = 0;
+      }
+
       [[nodiscard]] internal::depth_guard make_depth_guard() noexcept
       {
          return internal::depth_guard( m_depth );  // NOLINT(google-readability-casting)
       }
-
-      // TODO: Reset depth to 0 on restart() for restartable inputs including test!
 
       [[nodiscard]] std::size_t current_depth() const noexcept
       {

@@ -21,6 +21,11 @@ namespace TAO_PEGTL_NAMESPACE
       explicit count_position( const std::size_t in_count ) noexcept
          : count( in_count )
       {}
+
+      void apply_offset( const count_position offset ) noexcept
+      {
+         count += offset.count;
+      }
    };
 
    inline std::ostream& operator<<( std::ostream& os, const count_position p )
@@ -36,17 +41,6 @@ namespace TAO_PEGTL_NAMESPACE
    [[nodiscard]] inline bool operator!=( const count_position l, const count_position r ) noexcept
    {
       return !( l == r );
-   }
-
-   inline count_position& operator+= ( count_position& l, const count_position r ) noexcept
-   {
-      l.count += r.count;
-      return l;
-   }
-
-   [[nodiscard]] inline count_position operator+( const count_position l, const count_position r ) noexcept
-   {
-      return count_position( l.count + r.count );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

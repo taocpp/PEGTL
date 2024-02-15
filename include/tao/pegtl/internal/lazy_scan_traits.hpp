@@ -12,6 +12,7 @@
 #include "../rewind_mode.hpp"
 
 #include "scan_input.hpp"
+#include "test_after_scan.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -36,6 +37,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             }
             break;
          }
+         test_after_scan( in );
       }
    };
 

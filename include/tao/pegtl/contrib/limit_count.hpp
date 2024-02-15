@@ -74,7 +74,7 @@ namespace TAO_PEGTL_NAMESPACE
 #if defined( __cpp_exceptions )
                Control< limit_count >::raise( in );
 #else
-               std::fputs( "maximum allowed rule consumption reached\n", stderr );
+               std::fputs( "parse error: maximum allowed rule consumption reached\n", stderr );
                std::terminate();
 #endif
             }
