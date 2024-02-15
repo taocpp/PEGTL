@@ -81,6 +81,7 @@
 #include <tao/pegtl/buffer/text_buffer_input.hpp>
 #include <tao/pegtl/buffer/text_buffer_input_with_source.hpp>
 
+#include <tao/pegtl/control/input_control.hpp>
 #include <tao/pegtl/control/must_if.hpp>
 #include <tao/pegtl/control/remove_first_state.hpp>
 #include <tao/pegtl/control/remove_last_states.hpp>

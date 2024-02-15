@@ -31,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< template< char... > class String, char32_t Char >
    struct unicode_to_utf8_char< String, Char, std::enable_if_t< utf8_needs_3_code_units( Char ) > >
    {
-      using type = String< char( ( ( Char >> 12 ) & 0x0f ) | 0xe0 ), char( ( ( Char >> 6 ) & 0x3f ) | 0x80 ) , char( ( Char & 0x3f ) | 0x80 ) >;
+      using type = String< char( ( ( Char >> 12 ) & 0x0f ) | 0xe0 ), char( ( ( Char >> 6 ) & 0x3f ) | 0x80 ), char( ( Char & 0x3f ) | 0x80 ) >;
    };
    template< template< char... > class String, char32_t Char >
    struct unicode_to_utf8_char< String, Char, std::enable_if_t< utf8_needs_4_code_units( Char ) > >
