@@ -55,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       template< char... Qs >
       [[nodiscard]] static char apply_one( const char c, const internal::one< internal::peek_char, Qs... > /*unused*/ ) noexcept
       {
-         static_assert( sizeof...( Qs ) == sizeof...( Rs ), "size mismatch between escaped characters and their mappings" );
+         static_assert( sizeof...( Qs ) == sizeof...( Rs ), "Size mismatch between escaped characters and their mappings!" );
          return apply_two( c, { Qs... }, { Rs... } );
       }
 

@@ -350,7 +350,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename... Ts >
       struct selector< std::tuple< Ts... > >
       {
-         static_assert( sizeof...( Ts ) == 0, "multiple matches found" );
+         static_assert( sizeof...( Ts ) == 0, "Multiple matches found!" );
          using type = std::false_type;
       };
 

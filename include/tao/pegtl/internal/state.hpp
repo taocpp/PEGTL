@@ -57,7 +57,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return false;
          }
          else {
-            static_assert( internal::dependent_false< NewState >, "Unable to instantiate new state." );
+            static_assert( internal::dependent_false< NewState >, "Unable to instantiate new state!" );
          }
       }
    };

@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         static_assert( !std::is_same_v< Action< void >, NewAction< void > >, "old and new action class templates are identical" );
+         static_assert( !std::is_same_v< Action< void >, NewAction< void > >, "Old and new action class templates coincide!" );
          return Control< Rule >::template match< A, M, NewAction, Control >( in, st... );
       }
    };

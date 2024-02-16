@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename... Clauses >
       struct tuple_to_action< Rule, std::tuple< Clauses... > >
       {
-         static_assert( dependent_false< Rule, Clauses... >, "more than one action clause applies" );  // TODO: Should we error out or apply all?
+         static_assert( dependent_false< Rule, Clauses... >, "More than one action clause applies!" );  // TODO: Should we error out or apply all?
       };
 
       template< typename Rule, typename Clause >

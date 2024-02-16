@@ -58,7 +58,7 @@ namespace TAO_PEGTL_NAMESPACE
             throw_parse_error( "parse error matching " + std::string( demangle< Rule >() ), in );
          }
 #else
-         static_assert( internal::dependent_false< Rule >, "Exception support required for normal< Rule >::raise()" );
+         static_assert( internal::dependent_false< Rule >, "Exception support required for normal< Rule >::raise()!" );
          (void)in;
          std::terminate();
 #endif
@@ -75,7 +75,7 @@ namespace TAO_PEGTL_NAMESPACE
             throw_with_nested_parse_error( "parse error matching " + std::string( demangle< Rule >() ), am );
          }
 #else
-         static_assert( internal::dependent_false< Rule >, "Exception support required for normal< Rule >::raise_nested()" );
+         static_assert( internal::dependent_false< Rule >, "Exception support required for normal< Rule >::raise_nested()!" );
          (void)am;
          std::terminate();
 #endif

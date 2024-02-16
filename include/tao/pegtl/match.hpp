@@ -54,14 +54,14 @@ namespace TAO_PEGTL_NAMESPACE
          constexpr bool has_apply0_bool = enable_action && internal::has_apply0< Control< Rule >, bool, Action, const ParseInput&, States... >;
          constexpr bool has_apply0 = has_apply0_void || has_apply0_bool;
 
-         static_assert( !( has_apply_void && has_apply_bool ), "both void and bool apply() defined" );
-         static_assert( !( has_apply0_void && has_apply0_bool ), "both void and bool apply0() defined" );
-         static_assert( !( has_apply && has_apply0 ), "both apply() and apply0() defined" );
+         static_assert( !( has_apply_void && has_apply_bool ), "Both void and bool apply() detected!" );
+         static_assert( !( has_apply0_void && has_apply0_bool ), "Both void and bool apply0() detected!" );
+         static_assert( !( has_apply && has_apply0 ), "Both apply() and apply0() detected!" );
 
          constexpr bool is_nothing = std::is_base_of_v< nothing< Rule >, Action< Rule > >;
 
-         static_assert( !( has_apply && is_nothing ), "unexpected apply() defined" );
-         static_assert( !( has_apply0 && is_nothing ), "unexpected apply0() defined" );
+         static_assert( !( has_apply && is_nothing ), "Unexpected apply() detected!" );
+         static_assert( !( has_apply0 && is_nothing ), "Unexpected apply0() detected!" );
 
          if constexpr( !has_apply && std::is_base_of_v< require_apply, Action< Rule > > ) {
             internal::missing_apply< Control< Rule >, Action >( in, st... );
@@ -72,7 +72,7 @@ namespace TAO_PEGTL_NAMESPACE
          constexpr bool validate_nothing = std::is_base_of_v< maybe_nothing, Action< void > >;
          constexpr bool is_maybe_nothing = std::is_base_of_v< maybe_nothing, Action< Rule > >;
 
-         static_assert( !enable_action || !validate_nothing || is_nothing || is_maybe_nothing || has_apply || has_apply0, "either apply() or apply0() must be defined" );
+         static_assert( !enable_action || !validate_nothing || is_nothing || is_maybe_nothing || has_apply || has_apply0, "Either apply() or apply0() must be defined!" );
 
          constexpr bool use_guard = has_apply || has_apply0_bool;
 

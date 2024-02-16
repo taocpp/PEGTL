@@ -58,7 +58,7 @@ namespace TAO_PEGTL_NAMESPACE
             }
             else {
                if constexpr( !internal::has_error_message< Rule > ) {
-                  static_assert( !RequireMessage, "explicit error message required for Rule" );
+                  static_assert( !RequireMessage, "Explicit error message required for rule!" );
                }
                Base< Rule >::raise( in, st... );
             }

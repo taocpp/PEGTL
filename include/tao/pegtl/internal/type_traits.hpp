@@ -68,12 +68,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule >
    inline constexpr bool has_error_message< Rule, std::decay_t< decltype( Rule::error_message ) > > = true;
 
-   template< typename C, typename... S >
-   inline constexpr bool has_operator = false;
-
-   template< typename C, typename... S >
-   inline constexpr bool has_operator< C, decltype( std::declval< C >().operator()( std::declval< S >()... ) ), S... > = true;
-
    template< typename Input, typename = void >
    inline constexpr bool has_restart = false;
 
@@ -85,6 +79,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< typename Input >
    inline constexpr bool has_start< Input, decltype( (void)std::declval< Input >().start() ) > = true;
+
+   template< typename... >
+   inline constexpr bool has_success = false;
+
+   template< typename State, typename... Ts >
+   inline constexpr bool has_success< State, decltype( std::declval< State >().success( std::declval< Ts >()... ) ), Ts... > = true;
 
    template< typename, typename... >
    inline constexpr bool has_unwind = false;

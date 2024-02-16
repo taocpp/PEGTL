@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         static_assert( !std::is_same_v< Action< void >, NewAction< void > >, "old and new action class templates are identical" );
+         static_assert( !std::is_same_v< Action< void >, NewAction< void > >, "Old and new action class templates coincide!" );
 
          if constexpr( std::is_constructible_v< NewState, const ParseInput&, States... > ) {
             NewState s( static_cast< const ParseInput& >( in ), st... );
@@ -55,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE
             return false;
          }
          else {
-            static_assert( internal::dependent_false< NewState >, "unable to instantiate new state" );
+            static_assert( internal::dependent_false< NewState >, "Unable to instantiate new state!" );
          }
       }
 
