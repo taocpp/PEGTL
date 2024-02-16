@@ -12,7 +12,6 @@
 #include "data_and_size.hpp"
 #include "integer_size.hpp"
 #include "utf16_details.hpp"
-#include "unicode_constants.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -31,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             if( size >= ( offset + s + s ) ) {
                const char16_t u = Endian::template get< char16_t >( in.current( offset + s ) );
                if( is_utf16_low_surrogate( u ) ) {
-                  return char32_and_size( utf16_surrogate_compose( t, u ), s + s );
+                  return char32_and_size( utf16_compose( t, u ), s + s );
                }
             }
          }

@@ -7,10 +7,9 @@
 
 #include "../config.hpp"
 
-#include "ascii_string.hpp"
 #include "one.hpp"
 #include "peek_utf8.hpp"
-#include "unicode_to_utf8_char.hpp"
+#include "utf32_to_utf8.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -23,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< char32_t C >
    struct utf_one< peek_utf8, C >
    {
-      using type = unicode_to_utf8_char_t< ascii_string, C >;
+      using type = utf32_to_utf8_t< C >;
    };
 
    template< typename Peek, char32_t... Cs >

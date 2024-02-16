@@ -10,7 +10,6 @@
 #include "../config.hpp"
 #include "../type_list.hpp"
 
-#include "ascii_string.hpp"
 #include "dependent_false.hpp"
 #include "enable_control.hpp"
 #include "one.hpp"
@@ -18,7 +17,7 @@
 #include "peek_utf16.hpp"
 #include "peek_utf32.hpp"
 #include "success.hpp"
-#include "unicode_to_utf8_string.hpp"
+#include "utf32_to_utf8.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -43,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          static constexpr std::size_t size = sizeof( typename ParseInput::data_t );
 
          if constexpr( size == 1 ) {
-            return unicode_to_utf8_string_t< ascii_string, Cs... >::match( in );
+            return utf32_to_utf8_t< Cs... >::match( in );
          }
          else if constexpr( size == 2 ) {
             return seq< one< peek_utf16, Cs >... >::template match< A, M, Action, Control >( in );

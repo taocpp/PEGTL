@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       if( in.size( s + offset ) >= ( s + offset ) ) {
          const char32_t t = Endian::template get< char32_t >( in.current( offset ) );
 
-         if( is_utf32_codepoint( t ) ) {
+         if( is_utf32( t ) ) {
             return char32_and_size( t, s );
          }
       }

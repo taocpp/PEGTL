@@ -7,13 +7,12 @@
 
 #include "../config.hpp"
 
-#include "ascii_string.hpp"
 #include "one.hpp"
 #include "peek_unicode.hpp"
 #include "peek_utf8.hpp"
 #include "seq.hpp"
 #include "unicode_string.hpp"
-#include "unicode_to_utf8_string.hpp"
+#include "utf32_to_utf8.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -26,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< char32_t... Cs >
    struct utf_string< peek_utf8, Cs... >
    {
-      using type = unicode_to_utf8_string_t< ascii_string, Cs... >;
+      using type = utf32_to_utf8_t< Cs... >;
    };
 
    template< char32_t... Cs >

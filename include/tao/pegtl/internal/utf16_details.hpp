@@ -7,26 +7,26 @@
 
 #include "../config.hpp"
 
-#include "unicode_constants.hpp"
+#include "utf16_constants.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    [[nodiscard]] constexpr bool is_utf16_surrogate( const char32_t t ) noexcept
    {
-      return ( minimum_surrogate <= t ) && ( t <= maximum_surrogate );
+      return ( utf16_min_surrogate <= t ) && ( t <= utf16_max_surrogate );
    }
 
    [[nodiscard]] constexpr bool is_utf16_high_surrogate( const char32_t t ) noexcept
    {
-      return ( minimum_high_surrogate <= t ) && ( t <= maximum_high_surrogate );
+      return ( utf16_min_high_surrogate <= t ) && ( t <= utf16_max_high_surrogate );
    }
 
    [[nodiscard]] constexpr bool is_utf16_low_surrogate( const char32_t t ) noexcept
    {
-      return ( minimum_low_surrogate <= t ) && ( t <= maximum_low_surrogate );
+      return ( utf16_min_low_surrogate <= t ) && ( t <= utf16_max_low_surrogate );
    }
 
-   [[nodiscard]] constexpr char32_t utf16_surrogate_compose( const char16_t high, const char16_t low ) noexcept
+   [[nodiscard]] constexpr char32_t utf16_compose( const char16_t high, const char16_t low ) noexcept
    {
       return ( ( char32_t( high & 0x03ff ) << 10 ) | char32_t( low & 0x03ff ) ) + 0x10000;
    }

@@ -42,6 +42,8 @@ namespace TAO_PEGTL_NAMESPACE::unescape
    {
       using one_t = typename One::test_t;
 
+      static_assert( sizeof...( Rs ) > 0 );
+
       template< typename ActionInput >
       static void apply( const ActionInput& in, std::string& s )
       {

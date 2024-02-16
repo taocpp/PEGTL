@@ -11,6 +11,8 @@
 #include "../config.hpp"
 
 #include "utf16_details.hpp"
+#include "utf8_constants.hpp"
+#include "utf8_details.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -22,8 +24,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
    inline void utf8_append_2_impl( std::string& s, const char32_t u ) noexcept
    {
       const char t[] = {
-         char( ( ( u >> 6 ) & 0x1f ) | 0xc0 ),
-         char( ( u & 0x3f ) | 0x80 )
+         utf8_char_1_of_2( u ),
+         utf8_char_2_of_2( u )
       };
       s.append( t, sizeof( t ) );
    }
@@ -31,9 +33,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    inline void utf8_append_3_impl( std::string& s, const char32_t u ) noexcept
    {
       const char t[] = {
-         char( ( ( u >> 12 ) & 0x0f ) | 0xe0 ),
-         char( ( ( u >> 6 ) & 0x3f ) | 0x80 ),
-         char( ( u & 0x3f ) | 0x80 )
+         utf8_char_1_of_3( u ),
+         utf8_char_2_of_3( u ),
+         utf8_char_3_of_3( u )
       };
       s.append( t, sizeof( t ) );
    }
@@ -41,21 +43,21 @@ namespace TAO_PEGTL_NAMESPACE::internal
    inline void utf8_append_4_impl( std::string& s, const char32_t u ) noexcept
    {
       const char t[] = {
-         char( ( ( u >> 18 ) & 0x07 ) | 0xf0 ),
-         char( ( ( u >> 12 ) & 0x3f ) | 0x80 ),
-         char( ( ( u >> 6 ) & 0x3f ) | 0x80 ),
-         char( ( u & 0x3f ) | 0x80 )
+         utf8_char_1_of_4( u ),
+         utf8_char_2_of_4( u ),
+         utf8_char_3_of_4( u ),
+         utf8_char_4_of_4( u )
       };
       s.append( t, sizeof( t ) );
    }
 
    [[nodiscard]] inline bool utf8_append_utf16( std::string& s, const char16_t u ) noexcept
    {
-      if( u <= 0x7f ) {
+      if( u <= utf8_max_length_1 ) {
          utf8_append_1_impl( s, u );
          return true;
       }
-      if( u <= 0x7ff ) {
+      if( u <= utf8_max_length_2 ) {
          utf8_append_2_impl( s, u );
          return true;
       }
@@ -70,30 +72,30 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       // assert( is_utf16_high_surrogate( v ) );
       // assert( is_utf16_low_surrogate( w ) );
-      const char32_t u = utf16_surrogate_compose( v, w );
+      const char32_t u = utf16_compose( v, w );
       utf8_append_4_impl( s, u );
    }
 
    [[nodiscard]] inline bool utf8_append_utf32( std::string& s, const char32_t u )
    {
-      // assert( is_utf32_codepoint( u ) );
+      // assert( is_utf32( u ) );
 
-      if( u <= 0x7f ) {
+      if( u <= utf8_max_length_1 ) {
          utf8_append_1_impl( s, u );
          return true;
       }
-      if( u <= 0x7ff ) {
+      if( u <= utf8_max_length_2 ) {
          utf8_append_2_impl( s, u );
          return true;
       }
-      if( u <= 0xffff ) {
+      if( u <= utf8_max_length_3 ) {
          if( !is_utf16_surrogate( u ) ) {
             utf8_append_3_impl( s, u );
             return true;
          }
          return false;
       }
-      if( u <= 0x10ffff ) {
+      if( u <= utf8_max_length_4 ) {
          utf8_append_4_impl( s, u );
          return true;
       }
