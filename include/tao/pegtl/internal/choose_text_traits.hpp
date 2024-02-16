@@ -9,10 +9,10 @@
 
 #include "../config.hpp"
 
-#include "has_eol_char_rule.hpp"
 #include "scan_input.hpp"
 #include "text_rule_traits.hpp"
 #include "text_scan_traits.hpp"
+#include "type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

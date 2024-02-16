@@ -16,12 +16,12 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   inline void utf8_append_1_impl( std::string& s, const char32_t u ) noexcept
+   inline void utf8_append_1_impl( std::string& s, const char32_t u )
    {
       s += char( u );
    }
 
-   inline void utf8_append_2_impl( std::string& s, const char32_t u ) noexcept
+   inline void utf8_append_2_impl( std::string& s, const char32_t u )
    {
       const char t[] = {
          utf8_char_1_of_2( u ),
@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       s.append( t, sizeof( t ) );
    }
 
-   inline void utf8_append_3_impl( std::string& s, const char32_t u ) noexcept
+   inline void utf8_append_3_impl( std::string& s, const char32_t u )
    {
       const char t[] = {
          utf8_char_1_of_3( u ),
@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       s.append( t, sizeof( t ) );
    }
 
-   inline void utf8_append_4_impl( std::string& s, const char32_t u ) noexcept
+   inline void utf8_append_4_impl( std::string& s, const char32_t u )
    {
       const char t[] = {
          utf8_char_1_of_4( u ),
@@ -51,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       s.append( t, sizeof( t ) );
    }
 
-   [[nodiscard]] inline bool utf8_append_utf16( std::string& s, const char16_t u ) noexcept
+   [[nodiscard]] inline bool utf8_append_utf16( std::string& s, const char16_t u )
    {
       if( u <= utf8_max_length_1 ) {
          utf8_append_1_impl( s, u );
@@ -68,7 +68,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       return false;
    }
 
-   inline void utf8_append_utf16( std::string& s, const char16_t v, const char16_t w ) noexcept
+   inline void utf8_append_utf16( std::string& s, const char16_t v, const char16_t w )
    {
       // assert( is_utf16_high_surrogate( v ) );
       // assert( is_utf16_low_surrogate( w ) );

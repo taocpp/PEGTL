@@ -10,8 +10,8 @@
 
 #include "../config.hpp"
 
-#include "scan_input.hpp"
 #include "one.hpp"
+#include "scan_input.hpp"
 #include "test_after_scan.hpp"
 #include "tester.hpp"
 #include "type_traits.hpp"
@@ -27,14 +27,17 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Position, typename Data >
       static void scan( Position& pos, scan_input< Data >& in )
       {
+         pos.count += in.size();
+
          using Char = decltype( Eol );
 
          static_assert( is_simple_type_v< Data > );
 
-         pos.count += in.size();
+         constexpr bool same = sizeof( Char ) == sizeof( Data );
+         constexpr bool bulk = Peek::template bulk< scan_input< Data > >();
+         constexpr bool size = Peek::template size< scan_input< Data > >() == 1;
 
-         // if constexpr( std::is_same_v< Peek, peek_char > ) {
-         if constexpr( ( sizeof( Char ) == 1 ) && ( sizeof( Data ) == 1 ) ) {
+         if constexpr( same && bulk && size ) {
             while( !in.empty() ) {
                if( in.template peek_as< Char >() == Eol ) {
                   pos.line++;

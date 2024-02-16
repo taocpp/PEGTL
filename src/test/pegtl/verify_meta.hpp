@@ -17,6 +17,11 @@ namespace TAO_PEGTL_NAMESPACE
    {
       static_assert( std::is_same_v< typename Name::rule_t, Rule > );
       static_assert( std::is_same_v< typename Name::subs_t, type_list< Rules... > > );
+
+      if constexpr( !std::is_same_v< Name, Rule > ) {
+         TAO_PEGTL_TEST_ASSERT( internal::enable_control< Name > );
+         TAO_PEGTL_TEST_ASSERT( !internal::enable_control< Rule > );
+      }
    }
 
    template< typename Rule >

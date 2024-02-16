@@ -29,7 +29,7 @@
 #include "../rewind_mode.hpp"
 
 #include "../internal/enable_control.hpp"
-#include "../internal/has_unwind.hpp"
+#include "../internal/type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::parse_tree
 {

@@ -10,11 +10,11 @@
 #include "../config.hpp"
 #include "../pointer_position.hpp"
 
-#include "has_eol_rule.hpp"
 #include "input_with_fakes.hpp"
 #include "input_with_funcs.hpp"
 #include "input_with_start.hpp"
 #include "rewind_guard.hpp"
+#include "type_traits.hpp"
 #include "view_input.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal

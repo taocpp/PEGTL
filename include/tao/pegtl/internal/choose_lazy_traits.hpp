@@ -12,10 +12,9 @@
 #include "char_scan_traits.hpp"
 #include "dependent_false.hpp"
 #include "get_eol_rule_char.hpp"
-#include "has_eol_char_rule.hpp"
-#include "has_eol_lazy_peek.hpp"
 #include "scan_input.hpp"
 #include "lazy_scan_traits.hpp"
+#include "type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

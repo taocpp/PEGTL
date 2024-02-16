@@ -9,7 +9,7 @@
 
 #include "../config.hpp"
 
-#include "../internal/has_unwind.hpp"
+#include "../internal/type_traits.hpp"
 
 #include "shuffle_states.hpp"
 

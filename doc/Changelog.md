@@ -79,6 +79,8 @@
   * Changed default top-level `rewind_mode` to ~~`dontcare`~~ `optional`.
   * Merged `rewind_mode` values `dontcare` and `active` into new value `optional`.
   * Renamed `end_of_line()` input member function to `end_of_line_or_file()`.
+  * Renamed contrib "to_string" functionality to "type_to_string".
+  * Added `type_to_string_view` function that mirrors `type_to_string`.
 * Cleanup
   * Removed rule `forty_two`, we apologize for any inconvenience.
   * Removed rule `bytes` and replaced with `many` for different data types.

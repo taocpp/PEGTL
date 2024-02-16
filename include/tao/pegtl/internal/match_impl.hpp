@@ -9,7 +9,7 @@
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 
-#include "has_unwind.hpp"
+#include "type_traits.hpp"
 #include "unwind_guard.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal

@@ -10,6 +10,7 @@
 #include "internal/peek_direct.hpp"
 #include "internal/peek_masked.hpp"
 #include "internal/rules.hpp"
+#include "internal/using.hpp"
 
 #define TAO_PEGTL_INT_NAME uint8
 #define TAO_PEGTL_INT_TYPE std::uint8_t

@@ -31,7 +31,7 @@
 #include "argv_input_with_source.hpp"
 #include "text_input_with_source.hpp"
 
-#include "has_eol_lazy_peek.hpp"
+#include "type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

@@ -9,7 +9,7 @@
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
-#include "has_start.hpp"
+#include "type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

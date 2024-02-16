@@ -10,6 +10,7 @@
 #include "internal/peek_endian.hpp"
 #include "internal/peek_masked.hpp"
 #include "internal/rules.hpp"
+#include "internal/using.hpp"
 
 #define TAO_PEGTL_INT_NAME int64_be
 #define TAO_PEGTL_INT_TYPE std::int64_t

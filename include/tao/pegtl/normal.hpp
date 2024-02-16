@@ -16,8 +16,8 @@
 
 #include "internal/action_input.hpp"
 #include "internal/enable_control.hpp"
-#include "internal/has_error_message.hpp"
 #include "internal/has_match.hpp"
+#include "internal/type_traits.hpp"
 
 #if defined( __cpp_exceptions )
 #include "demangle.hpp"

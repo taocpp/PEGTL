@@ -15,11 +15,10 @@
 #include "action/require_apply.hpp"
 #include "action/require_apply0.hpp"
 
-#include "internal/has_apply.hpp"
-#include "internal/has_apply0.hpp"
 #include "internal/match_impl.hpp"
 #include "internal/missing_apply.hpp"
 #include "internal/missing_apply0.hpp"
+#include "internal/type_traits.hpp"
 
 #if defined( _MSC_VER )
 #pragma warning( push )
