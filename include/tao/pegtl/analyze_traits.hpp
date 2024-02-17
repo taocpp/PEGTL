@@ -47,6 +47,4 @@ namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
-#include "internal/analyze_traits.hpp"
-
 #endif

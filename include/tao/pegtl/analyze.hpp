@@ -20,6 +20,7 @@
 
 #include "analyze_traits.hpp"
 
+#include "internal/analyze_traits.hpp"
 #include "internal/set_stack_guard.hpp"
 #include "internal/vector_stack_guard.hpp"
 
