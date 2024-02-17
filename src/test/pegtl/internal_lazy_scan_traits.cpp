@@ -9,6 +9,7 @@
 #include "test_utility.hpp"
 
 #include <tao/pegtl/text_position.hpp>
+
 #include <tao/pegtl/internal/data_and_size.hpp>
 #include <tao/pegtl/internal/dependent_false.hpp>
 #include <tao/pegtl/internal/lazy_scan_traits.hpp>

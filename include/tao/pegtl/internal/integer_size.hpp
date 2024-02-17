@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    }
 
-   template< typename Type, typename Input>
+   template< typename Type, typename Input >
    [[nodiscard]] constexpr std::size_t integer_input_size() noexcept
    {
       using Data = typename Input::data_t;

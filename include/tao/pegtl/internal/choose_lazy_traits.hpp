@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       static_assert( !std::is_same_v< Eol, void > );
 
-      if constexpr( get_eol_rule_char_v< Eol > ) {
+      if constexpr( int( get_eol_rule_char_v< Eol > ) != 0 ) {
          char_scan_traits< Eol >::scan( pos, in );
       }
       else if constexpr( has_eol_char_rule< Eol > ) {

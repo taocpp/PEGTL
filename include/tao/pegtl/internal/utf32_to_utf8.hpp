@@ -65,7 +65,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using type = String<>;
    };
 
-   template< char32_t...  Cs >
+   template< char32_t... Cs >
    using utf32_to_utf8_t = typename utf32_to_utf8_list< ascii_string, Cs... >::type;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

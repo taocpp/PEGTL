@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, typename... Actions >
    struct analyze_traits< Name, internal::apply< Actions... > >
-      : analyze_opt_traits<> 
+      : analyze_opt_traits<>
    {};
 
    template< typename Name, typename... Actions >

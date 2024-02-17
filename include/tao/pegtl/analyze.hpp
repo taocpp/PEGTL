@@ -152,7 +152,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          using Traits = analyze_traits< Name, typename Name::rule_t >;
 
-         const auto [ i, b ] = entry.try_emplace( demangle< Name >(), Traits::type_v );
+         const auto [ i, b ] = entry.try_emplace( demangle< Name >(), Traits::enum_v );
          if( b ) {
             analyze_insert_impl( typename Traits::subs_t(), i->second.subs, entry );
          }

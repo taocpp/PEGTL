@@ -32,6 +32,6 @@ namespace TAO_PEGTL_NAMESPACE
       : internal::success
    {};
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

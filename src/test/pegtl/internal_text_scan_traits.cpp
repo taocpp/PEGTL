@@ -9,6 +9,7 @@
 #include "test_utility.hpp"
 
 #include <tao/pegtl/text_position.hpp>
+
 #include <tao/pegtl/internal/text_scan_traits.hpp>
 
 namespace TAO_PEGTL_NAMESPACE

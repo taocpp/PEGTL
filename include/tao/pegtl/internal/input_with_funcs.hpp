@@ -6,6 +6,7 @@
 #define TAO_PEGTL_INTERNAL_INPUT_WITH_FUNCS_HPP
 
 #include <cstddef>
+#include <cstdint>
 #include <string>
 #include <string_view>
 #include <vector>

@@ -16,6 +16,17 @@ namespace TAO_PEGTL_NAMESPACE::test
    // the one in tao/pegtl/include/endian.hpp etc. for the tests to be useful...
    // TODO: When can we finally switch to the C++20 and C++23 endian facilities?
 
+   [[nodiscard]] inline bool is_be() noexcept
+   {
+      union {
+         std::uint8_t a[ 2 ];
+         std::uint16_t i;
+      } u;
+      static_assert( sizeof( u ) == 2 );
+      u.i = 0x1af3;
+      return u.a[ 0 ] == 0x1a;
+   }
+
    [[nodiscard]] inline std::uint16_t b_swap( const std::uint16_t value ) noexcept
    {
       return ( ( value & 0x00ff ) << 8 ) | ( ( value & 0xff00 ) >> 8 );
@@ -28,7 +39,7 @@ namespace TAO_PEGTL_NAMESPACE::test
 
    [[nodiscard]] inline std::uint16_t h_to_be( const std::uint16_t value ) noexcept
    {
-      if( htons( value ) == value ) {
+      if( is_be() ) {
          return value;
       }
       return b_swap( value );
@@ -36,7 +47,7 @@ namespace TAO_PEGTL_NAMESPACE::test
 
    [[nodiscard]] inline std::uint16_t h_to_le( const std::uint16_t value ) noexcept
    {
-      if( htons( value ) == value ) {
+      if( is_be() ) {
          return b_swap( value );
       }
       return value;
@@ -44,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE::test
 
    [[nodiscard]] inline std::uint32_t h_to_be( const std::uint32_t value ) noexcept
    {
-      if( htonl( value ) == value ) {
+      if( is_be() ) {
          return value;
       }
       return b_swap( value );
@@ -52,7 +63,7 @@ namespace TAO_PEGTL_NAMESPACE::test
 
    [[nodiscard]] inline std::uint32_t h_to_le( const std::uint32_t value ) noexcept
    {
-      if( htonl( value ) == value ) {
+      if( is_be() ) {
          return b_swap( value );
       }
       return value;

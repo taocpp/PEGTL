@@ -94,7 +94,7 @@ namespace TAO_PEGTL_NAMESPACE
          struct lf_crlf : ascii::lf_crlf { using eol_lazy_peek = internal::peek_char; };
          struct cr_lf_crlf : ascii::cr_lf_crlf { using eol_lazy_peek = internal::peek_char; };
          // clang-format on
-      }  // namespace rule
+      }  // namespace lazy
 
    }  // namespace ascii
 

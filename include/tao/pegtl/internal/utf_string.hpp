@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Peek, char32_t... Cs >
-   using utf_string_t = typename utf_string< Peek, Cs...>::type;
+   using utf_string_t = typename utf_string< Peek, Cs... >::type;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

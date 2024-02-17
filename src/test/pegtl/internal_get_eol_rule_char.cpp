@@ -5,8 +5,8 @@
 #include <type_traits>
 
 #include <tao/pegtl/ascii.hpp>
-#include <tao/pegtl/utf8.hpp>
 #include <tao/pegtl/utf32.hpp>
+#include <tao/pegtl/utf8.hpp>
 
 #include <tao/pegtl/internal/get_eol_rule_char.hpp>
 

@@ -43,18 +43,19 @@ namespace TAO_PEGTL_NAMESPACE
       const position_t m_position;
    };
 
+   template< typename Position >
+   parse_error( const std::string&, Position ) -> parse_error< std::decay_t< Position > >;
+
    template< typename Object >
    [[noreturn]] void throw_parse_error( const std::string& msg, const Object& obj )
    {
-      auto pos = internal::extract_position( obj );
-      throw parse_error< std::decay_t< decltype( pos ) > >( msg, std::move( pos ) );
+      throw parse_error( msg, internal::extract_position( obj ) );
    }
 
    template< typename Object >
    [[noreturn]] void throw_with_nested_parse_error( const std::string& msg, const Object& obj )
    {
-      auto pos = internal::extract_position( obj );
-      std::throw_with_nested( parse_error< std::decay_t< decltype( pos ) > >( msg, std::move( pos ) ) );
+      std::throw_with_nested( parse_error( msg, internal::extract_position( obj ) ) );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

@@ -72,7 +72,7 @@ namespace TAO_PEGTL_NAMESPACE::TAO_PEGTL_UTF_NAME
       struct ps : TAO_PEGTL_UTF_NAME::ps { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
       struct eolu : TAO_PEGTL_UTF_NAME::eolu { using eol_lazy_peek = TAO_PEGTL_UTF_PEEK; };
       // clang-format on
-   }  // namespace rule
+   }  // namespace lazy
 
 }  // namespace TAO_PEGTL_NAMESPACE::TAO_PEGTL_UTF_NAME
 

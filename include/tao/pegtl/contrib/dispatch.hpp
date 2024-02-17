@@ -11,9 +11,9 @@
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../match.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
-#include "../match.hpp"
 #include "../rewind_mode.hpp"
 
 #include "../internal/dependent_false.hpp"

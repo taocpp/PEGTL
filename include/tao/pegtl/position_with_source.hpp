@@ -18,6 +18,12 @@ namespace TAO_PEGTL_NAMESPACE
    {
       Source source;
 
+      position_with_source( position_with_source&& ) = default;
+      position_with_source( const position_with_source& ) = default;
+
+      position_with_source& operator=( position_with_source&& ) = default;
+      position_with_source& operator=( const position_with_source& ) = default;
+
       template< typename S, typename... Ps >
       explicit position_with_source( S&& s, Ps&&... ps )
          : Position( std::forward< Ps >( ps )... ),

@@ -9,9 +9,9 @@
 #include <type_traits>
 
 #include "../config.hpp"
-#include "../parse.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
+#include "../parse.hpp"
 
 #include "../control/state_control.hpp"
 

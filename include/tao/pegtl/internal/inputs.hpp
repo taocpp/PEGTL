@@ -41,11 +41,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Eol, typename Input >
    using base_short = input_with_fakes< input_with_funcs< input_with_lines< Eol, Input > > >;
 
-   template< typename Eol, typename Input >
-   using text_short = input_double_path< text_input_with_source< Eol, std::filesystem::path, std::filesystem::path, Input > >;
-
    template< typename Input >
    using path_short = input_double_path< input_with_source< std::filesystem::path, std::filesystem::path, Input > >;
+
+   template< typename Eol, typename Input >
+   using text_short = input_double_path< text_input_with_source< Eol, std::filesystem::path, std::filesystem::path, Input > >;
 
    template< typename Eol, typename Data >
    using base_alias = base_short< Eol, view_input< Data > >;
