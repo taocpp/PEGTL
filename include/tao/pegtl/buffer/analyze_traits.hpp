@@ -5,7 +5,10 @@
 #ifndef TAO_PEGTL_BUFFER_ANALYZE_TRAITS_HPP
 #define TAO_PEGTL_BUFFER_ANALYZE_TRAITS_HPP
 
+#include <cstddef>
+
 #include "../analyze_traits.hpp"
+#include "../config.hpp"
 
 #include "discard.hpp"
 #include "is_buffer.hpp"
@@ -23,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits<>
    {};
 
-   template< typename Name, unsigned Amount >
+   template< typename Name, std::size_t Amount >
    struct analyze_traits< Name, require< Amount > >
       : analyze_opt_traits<>
    {};

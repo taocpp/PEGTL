@@ -14,11 +14,11 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Func, Func Tion, typename Peek >
+   template< typename Peek, typename Func, Func Tion >
    struct function;
 
    template< bool E, typename Input, bool ( *Tion )( Input& ) noexcept( E ) >
-   struct function< bool ( * )( Input& ) noexcept( E ), Tion, void >
+   struct function< void, bool ( * )( Input& ) noexcept( E ), Tion >
    {
       using rule_t = function;
       using subs_t = empty_list;
@@ -31,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< bool E, typename Input, typename... States, bool ( *Tion )( Input&, States... ) noexcept( E ) >
-   struct function< bool ( * )( Input&, States... ) noexcept( E ), Tion, void >
+   struct function< void, bool ( * )( Input&, States... ) noexcept( E ), Tion >
    {
       using rule_t = function;
       using subs_t = empty_list;
@@ -49,8 +49,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< bool E, typename Data, bool ( *Tion )( Data ) noexcept( E ), typename Peek >
-   struct function< bool ( * )( Data ) noexcept( E ), Tion, Peek >
+   template< typename Peek, bool E, typename Data, bool ( *Tion )( Data ) noexcept( E ) >
+   struct function< Peek, bool ( * )( Data ) noexcept( E ), Tion >
    {
       using peek_t = Peek;
       // using data_t = typename Peek::data_t;
@@ -71,8 +71,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< bool E, typename Data, typename... States, bool ( *Tion )( Data, States... ) noexcept( E ), typename Peek >
-   struct function< bool ( * )( Data, States... ) noexcept( E ), Tion, Peek >
+   template< typename Peek, bool E, typename Data, typename... States, bool ( *Tion )( Data, States... ) noexcept( E ) >
+   struct function< Peek, bool ( * )( Data, States... ) noexcept( E ), Tion >
    {
       using peek_t = Peek;
       // using data_t = typename Peek::data_t;
@@ -99,8 +99,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename Func, Func Tion, typename Peek >
-   inline constexpr bool enable_control< function< Func, Tion, Peek > > = false;
+   template< typename Peek, typename Func, Func Tion >
+   inline constexpr bool enable_control< function< Peek, Func, Tion > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

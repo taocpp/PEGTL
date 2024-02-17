@@ -7,8 +7,10 @@
 
 #include <type_traits>
 
+#include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../parse.hpp"
+#include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
@@ -19,7 +21,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Rule, typename Peek >
+   template< typename Peek, typename Rule >
    struct nested
    {
       using peek_t = Peek;
@@ -27,6 +29,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       using rule_t = nested;
       using subs_t = empty_list;
+
+      using value_t = typename data_t::value_type;
+      using input_t = input_with_fakes< input_with_funcs< input_with_start< view_input< value_t > > > >;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -38,12 +43,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         const auto p = Peek::peek( in );
-         if( const auto* d = p.pointer() ) {
-            using parse_t = std::decay_t< decltype( *( d->data() ) ) >;
-            using input_t = input_with_fakes< input_with_funcs< input_with_start< view_input< parse_t > > > >;
-            input_t i2( d->data(), d->size() );
-            if( parse_nested< Rule, Action, Control, A, M >( in, i2, st... ) ) {
+         if( const auto p = Peek::peek( in ) ) {
+            input_t i2( p.data().data(), p.data().size() );
+            if( parse_nested< Rule, Action, Control, A, rewind_mode::optional >( in, i2, st... ) ) {
                in.template consume< nested >( 1 );
                return true;
             }

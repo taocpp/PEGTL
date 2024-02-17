@@ -18,17 +18,34 @@ namespace TAO_PEGTL_NAMESPACE
    {
       Source source;
 
-      position_with_source( position_with_source&& ) = default;
-      position_with_source( const position_with_source& ) = default;
+      // position_with_source() noexcept = default;
 
-      position_with_source& operator=( position_with_source&& ) = default;
-      position_with_source& operator=( const position_with_source& ) = default;
+      // position_with_source( position_with_source&& ) noexcept = default;
+      // position_with_source( const position_with_source& ) = default;
 
-      template< typename S, typename... Ps >
-      explicit position_with_source( S&& s, Ps&&... ps )
-         : Position( std::forward< Ps >( ps )... ),
+      // position_with_source& operator=( position_with_source&& ) noexcept = default;
+      // position_with_source& operator=( const position_with_source& ) = default;
+
+      explicit position_with_source( Source&& s )
+         : source( std::move( s ) )
+      {}
+
+      explicit position_with_source( const Source& s )
+         : source( s )
+      {}
+
+      template< typename S, typename P >
+      position_with_source( S&& s, P&& p )
+         : Position( std::forward< P >( p ) ),
            source( std::forward< S >( s ) )
       {}
+
+      // TODO: Why does GCC choose this templated c'tor over the copy c'tor?
+      // template< typename S, typename... Ps >
+      // explicit position_with_source( S&& s, Ps&&... ps )
+      //    : Position( std::forward< Ps >( ps )... ),
+      //      source( std::forward< S >( s ) )
+      // {}
 
       [[nodiscard]] Position& base() noexcept
       {

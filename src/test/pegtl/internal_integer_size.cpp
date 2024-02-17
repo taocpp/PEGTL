@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include <cstddef>
+#include <cstdint>
 
 #include <tao/pegtl/internal/integer_size.hpp>
 #include <tao/pegtl/internal/view_input.hpp>

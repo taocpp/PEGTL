@@ -27,6 +27,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
            m_size( s )
       {}
 
+      [[nodiscard]] bool empty() const noexcept
+      {
+         return m_size == 0;
+      }
+
       [[nodiscard]] Size size() const noexcept
       {
          return m_size;
@@ -39,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] explicit operator bool() const noexcept
       {
-         return m_size > 0;
+         return !empty();
       }
 
    private:
@@ -61,9 +66,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
          : m_data( d )
       {}
 
+      [[nodiscard]] bool empty() const noexcept
+      {
+         return m_data == nullptr;
+      }
+
       [[nodiscard]] std::size_t size() const noexcept
       {
-         return ( m_data != nullptr ) ? 1 : 0;
+         return empty() ? 0 : 1;
       }
 
       [[nodiscard]] const Data& data() const noexcept
@@ -78,7 +88,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] explicit operator bool() const noexcept
       {
-         return m_data != nullptr;
+         return !empty();
       }
 
    private:
