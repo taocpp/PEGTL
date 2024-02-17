@@ -21,6 +21,6 @@ jobs:
 
     - run: sudo apt-get install -yq clang-tidy
 
-    - run: find include/ -name '*.hpp' | grep -vF mmap_file_win32.hpp | grep -vF endian_win.hpp | xargs -I '{}' clang-tidy --quiet '{}' -- --std=c++17 -Iinclude
+    - run: find include/ -name '*.hpp' | grep -vF mmap_file_win32.hpp | grep -vF byteswap_win32.hpp | xargs -I '{}' clang-tidy --quiet '{}' -- --std=c++17 -Iinclude
 
     - run: find src/ -name '*.cpp' | xargs -I '{}' clang-tidy --quiet '{}' -- --std=c++17 -Iinclude

@@ -28,16 +28,18 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return sizeof( Type );
       }
       else {
-         static_assert( dependent_false< Data > );
+         static_assert( dependent_false< Type, Data > );
       }
    }
 
    template< typename Type, typename Input>
    [[nodiscard]] constexpr std::size_t integer_input_size() noexcept
    {
-      static_assert( std::is_same_v< typename Input::data_t, std::decay_t< decltype( *( std::declval< const Input& >().current() ) ) > > );
+      using Data = typename Input::data_t;
 
-      return integer_size< Type, typename Input::data_t >();
+      static_assert( std::is_same_v< Data, std::decay_t< decltype( *( std::declval< const Input& >().current() ) ) > > );
+
+      return integer_size< Type, Data >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

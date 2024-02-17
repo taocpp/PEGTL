@@ -40,6 +40,18 @@ jobs:
           - xcode: 14
             build_type: Release
             os: macos-12
+          - xcode: 15
+            build_type: Debug
+            os: macos-13
+          - xcode: 15
+            build_type: Release
+            os: macos-13
+          - xcode: 15
+            build_type: Debug
+            os: macos-14
+          - xcode: 15
+            build_type: Release
+            os: macos-14
     runs-on: ${{ matrix.os }}
 
     steps:

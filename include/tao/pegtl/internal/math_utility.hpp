@@ -11,25 +11,27 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
+   [[nodiscard]] constexpr bool is_divisible( const std::size_t n, const std::size_t d ) noexcept
+   {
+      return ( n / d ) * d == n;
+   }
+
+   // Here "range" is like for the range rules, i.e. including both boundaries.
+
    template< typename Data >
    [[nodiscard]] constexpr bool ranges_disjoint( const Data ll, const Data lh, const Data rl, const Data rh ) noexcept
    {
-      // assert( ll < lh );
-      // assert( rl < rh );
+      // assert( ll <= lh );
+      // assert( rl <= rh );
       return ( lh < rl ) || ( rh < ll );
    }
 
    template< typename Data >
    [[nodiscard]] constexpr bool ranges_overlap( const Data ll, const Data lh, const Data rl, const Data rh ) noexcept
    {
-      // assert( ll < lh );
-      // assert( rl < rh );
+      // assert( ll <= lh );
+      // assert( rl <= rh );
       return ( lh >= rl ) && ( rh >= ll );
-   }
-
-   [[nodiscard]] constexpr bool is_integer_fraction( const std::size_t n, const std::size_t d ) noexcept
-   {
-      return ( n / d ) * d == n;
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

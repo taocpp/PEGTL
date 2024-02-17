@@ -21,7 +21,6 @@ jobs:
           - android-27
           - android-29
         abi:
-          - armeabi-v7a
           - arm64-v8a
         build_type: [Debug, Release]
 

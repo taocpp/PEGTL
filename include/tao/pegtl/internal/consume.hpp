@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in ) noexcept
       {
-         static_assert( is_integer_fraction( sizeof( Reference ), sizeof( *in.current() ) ) );
+         static_assert( is_divisible( sizeof( Reference ), sizeof( *in.current() ) ) );
 
          if( in.size( Count ) >= Count ) {
             in.template consume< eol_unknown_tag >( Count );
