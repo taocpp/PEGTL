@@ -134,9 +134,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return error_position_t( saved.data - m_container.data() );
       }
 
-      void private_set_current( const data_t* in_current ) noexcept
+      void private_set_current( const data_t* c ) noexcept
       {
-         m_current = in_current;
+         // assert( ( m_container.data() <= c ) && ( c <= m_container.data() + m_container.size() ) );
+         m_current = c;
       }
 
       [[nodiscard]] Container&& direct_container() && noexcept

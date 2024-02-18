@@ -15,6 +15,7 @@ namespace TAO_PEGTL_NAMESPACE
          internal::view_input< char > in( "" );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( in.current() != data );
+         TAO_PEGTL_TEST_ASSERT( in.current() == in.end() );
          in.private_set_current( data );
          TAO_PEGTL_TEST_ASSERT( in.current() == data );
          TAO_PEGTL_TEST_ASSERT( in.end() != data );

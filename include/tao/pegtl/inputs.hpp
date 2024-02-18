@@ -22,35 +22,37 @@ namespace TAO_PEGTL_NAMESPACE
       using internal::argv_alias< Eol, Source >::argv_alias;
    };
 
-   template< typename Eol = void, typename Data = char >
+   using tao_default_eol = TAO_PEGTL_DEFAULT_EOL;  // Details might change.
+
+   template< typename Eol = tao_default_eol, typename Data = char >
    struct base_input
       : internal::base_alias< Eol, Data >
    {
       using internal::base_alias< Eol, Data >::base_alias;
    };
 
-   template< typename Eol = void, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
+   template< typename Eol = tao_default_eol, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
    struct view_input
       : internal::view_alias< Eol, Data, InputSource, ErrorSource >
    {
       using internal::view_alias< Eol, Data, InputSource, ErrorSource >::view_alias;
    };
 
-   template< typename Eol = void, typename Container = std::string, typename InputSource = void, typename ErrorSource = InputSource >
+   template< typename Eol = tao_default_eol, typename Container = std::string, typename InputSource = void, typename ErrorSource = InputSource >
    struct copy_input
       : internal::copy_alias< Eol, Container, InputSource, ErrorSource >
    {
       using internal::copy_alias< Eol, Container, InputSource, ErrorSource >::copy_alias;
    };
 
-   template< typename Eol = void >
+   template< typename Eol = tao_default_eol >
    struct file_input
       : internal::file_alias< Eol >
    {
       using internal::file_alias< Eol >::file_alias;
    };
 
-   template< typename Eol = void >
+   template< typename Eol = tao_default_eol >
    struct read_input
       : internal::read_alias< Eol >
    {
@@ -58,15 +60,13 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
 #if defined( TAO_PEGTL_MMAP_AVAILABLE )
-   template< typename Eol = void, typename Data = char >
+   template< typename Eol = tao_default_eol, typename Data = char >
    struct mmap_input
       : internal::mmap_alias< Eol, Data >
    {
       using internal::mmap_alias< Eol, Data >::mmap_alias;
    };
 #endif
-
-   using tao_default_eol = TAO_PEGTL_DEFAULT_EOL;
 
    template< typename Eol = tao_default_eol, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
    struct text_view_input
