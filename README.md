@@ -13,7 +13,8 @@
 
 The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++ header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
-During development of a new major version the main branch can go through incompatible changes. For a stable experience please download [the latest release](https://github.com/taocpp/PEGTL/releases).
+During development of a new major version the main branch can go through incompatible changes.
+For a stable experience please download [the latest release](https://github.com/taocpp/PEGTL/releases).
 
 ## Documentation
 
@@ -56,17 +57,17 @@ The included [grammar analysis](doc/Grammar-Analysis.md) finds several typical e
 ## Design
 
 The PEGTL is designed to be "lean and mean", the core library consists of approximately 10K lines of code.
-Emphasis is on simplicity and efficiency, putting a well-tuned simple approach above overly complex optimisations.
+Emphasis is on simplicity and efficiency, putting a well-tuned *relatively* simple approach above overly complex optimisations.
 
 The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user of the library (the possibility of) full control over all other aspects of a parsing run.
 Whether/which actions are taken, and whether/which data structures are created during a parsing run, is entirely up to the user.
 
-Included are some [examples](doc/Contrib-and-Examples.md#examples) for typical situation like unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
+Included are some [examples](doc/Contrib-and-Examples.md#examples) for typical situation like parsing to integers, unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
 
 Through the use of template programming and template specialisations it is possible to write a grammar once, and use it in multiple ways with different (semantic) actions in different (or the same) parsing runs.
 
 With the PEG formalism, the separation into lexer and parser stages is usually dropped -- everything is done in a single grammar.
-The rules are expressed in C++ as template instantiations, and it is mostly the compiler's task to optimise PEGTL grammars.
+The rules are expressed in C++ as template instantiations, and it is *mostly* the compiler's task to optimise PEGTL grammars.
 
 ## Status
 

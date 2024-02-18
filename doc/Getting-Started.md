@@ -21,6 +21,7 @@ namespace hello
 
    // Parsing rule that matches a non-empty sequence of
    // alphabetic ascii-characters with greedy-matching.
+   // As extended Posix regex this would be '[a-zA-Z]+'.
 
    struct name
       : pegtl::plus< pegtl::alpha >
@@ -63,15 +64,18 @@ int main( int argc, char* argv[] )
    if( argc != 2 ) return 1;
 
    // Start a parsing run of argv[1] with the string
-   // variable 'name' as additional argument to the
-   // action; then print what the action put there.
+   // variable 'name' as additional argument that will
+   // be passed to all called actions, including the
+   // one we attached to the 'name' rule above.
 
    std::string name;
-
    pegtl::argv_input in( argv, 1 );
-   pegtl::parse< hello::grammar, hello::action >( in, name );
-
-   std::cout << "Good bye, " << name << "!" << std::endl;
+   if( pegtl::parse< hello::grammar, hello::action >( in, name ) ) {
+      std::cout << "Good bye, " << name << "!" << std::endl;
+   }
+   else {
+      std::cout << "I don't understand." << std::endl;
+   }
    return 0;
 }
 ```
@@ -100,11 +104,11 @@ Note that, by default, the PEGTL resides in `namespace tao::pegtl`, however this
 The entire PEGTL documentation assumes that the default namespace applies.
 
 The PEGTL provides multiple facilities that help to get started and develop your grammar.
-In the following paragraphs we will show several small programs to showcase the capabilities of the PEGTL.
+In the following paragraphs we will present several small programs to showcase the capabilities of the PEGTL.
 
 Note, however, that all examples shown in this document will lack proper error handling.
-Frequently an application will include `try-catch` blocks to handle the exceptions.
-The correct way of handling errors is shown at the last paragraph of this page.
+Frequently an application will include `try-catch` blocks to handle `parse_error` and other exceptions.
+The correct way of handling errors is shown in the last paragraph of this page.
 
 ## Parsing Expression Grammars
 
@@ -135,7 +139,7 @@ It is best practice to create a separate dedicated program that does nothing els
 
 ```c++
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/analyze.hpp>
+#include <tao/pegtl/analyze.hpp>
 
 // This example uses the included JSON grammar
 #include <tao/pegtl/contrib/json.hpp>
@@ -147,13 +151,14 @@ using grammar = pegtl::must< pegtl::json::text, pegtl::eof >;
 int main()
 {
    if( pegtl::analyze< grammar >() != 0 ) {
-      std::cerr << "cycles without progress detected!\n";
+      std::cerr << "Cycles without progress detected!\n";
       return 1;
    }
 
    return 0;
 }
 ```
+The full example can be found in `src/example/pegtl/json_analyze.cpp`.
 For more information see [Grammar Analysis](Grammar-Analysis.md).
 
 ## Tracer
@@ -185,6 +190,7 @@ int main( int argc, char** argv )
 
 In the above each command line parameter is parsed as a JSON string and a trace is given to understand how the grammar matches the input.
 
+The full example can be found in `src/example/pegtl/json_trace.cpp`.
 For more information see `tao/pegtl/contrib/trace.hpp`.
 
 ## Parse Tree / AST
@@ -290,6 +296,6 @@ For more information see [Errors and Exceptions](Errors-and-Exceptions.md).
 
 This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
 
-Copyright (c) 2014-2024 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2014-2024 Dr. Colin Hirsch and Daniel Frey<br>
 Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt

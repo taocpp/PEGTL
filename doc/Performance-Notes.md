@@ -47,6 +47,6 @@ We still need to test whether the compiler manages to perform the same optimisat
 
 This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
 
-Copyright (c) 2017-2024 Dr. Colin Hirsch and Daniel Frey
+Copyright (c) 2017-2024 Dr. Colin Hirsch and Daniel Frey<br>
 Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt
