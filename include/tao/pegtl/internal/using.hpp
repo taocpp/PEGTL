@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_INTERNAL_USING_HPP
 #define TAO_PEGTL_INTERNAL_USING_HPP
 
+#include <cstddef>
+
 #include "../config.hpp"
 
 #include "eof.hpp"
@@ -43,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule, typename Pad >
    using pad_opt = seq< star< Pad >, opt< Rule, star< Pad > > >;
 
-   template< unsigned Min, typename Rule, typename... Rules >
+   template< std::size_t Min, typename Rule, typename... Rules >
    using rep_min = seq< rep< Min, Rule, Rules... >, star< Rule, Rules... > >;
 
    template< typename Peek, typename Peek::data_t... Cs >

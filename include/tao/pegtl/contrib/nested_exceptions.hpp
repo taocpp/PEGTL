@@ -18,7 +18,7 @@
 // Various utility functions and classes to handle nested exceptions given that parse_nested() now uses them.
 // At this point it's not clear yet how many, and which, of these will become and stay part of the PEGTL.
 
-namespace TAO_PEGTL_NAMESPACE::nested
+namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
@@ -107,6 +107,6 @@ namespace TAO_PEGTL_NAMESPACE::nested
       return result;
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE::nested
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

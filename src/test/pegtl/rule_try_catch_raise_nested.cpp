@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_UNREACHABLE;
       }
       catch( ... ) {
-         const std::vector< parse_error_base > e = nested::flatten();
+         const std::vector< parse_error_base > e = flatten();
          TAO_PEGTL_TEST_ASSERT( e.size() == 2 );
       }
    }

@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_INTERNAL_REP_MIN_MAX_HPP
 #define TAO_PEGTL_INTERNAL_REP_MIN_MAX_HPP
 
+#include <cstddef>
+
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
@@ -17,14 +19,14 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< unsigned Min, unsigned Max, typename... Rules >
+   template< std::size_t Min, std::size_t Max, typename... Rules >
    struct rep_min_max
       : rep_min_max< Min, Max, seq< Rules... > >
    {
       static_assert( Min <= Max );
    };
 
-   template< unsigned Min, unsigned Max >
+   template< std::size_t Min, std::size_t Max >
    struct rep_min_max< Min, Max >
       : failure
    {
@@ -36,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : not_at< Rule >
    {};
 
-   template< unsigned Min, unsigned Max, typename Rule >
+   template< std::size_t Min, std::size_t Max, typename Rule >
    struct rep_min_max< Min, Max, Rule >
    {
       using rule_t = rep_min_max;
@@ -56,12 +58,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          auto m = in.template make_rewind_guard< M >();
 
-         for( unsigned i = 0; i != Min; ++i ) {
+         for( std::size_t i = 0; i != Min; ++i ) {
             if( !Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) ) {
                return false;
             }
          }
-         for( unsigned i = Min; i != Max; ++i ) {
+         for( std::size_t i = Min; i != Max; ++i ) {
             if( !Control< Rule >::template match< A, rewind_mode::required, Action, Control >( in, st... ) ) {
                return m( true );
             }
@@ -70,7 +72,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< unsigned Min, unsigned Max, typename... Rules >
+   template< std::size_t Min, std::size_t Max, typename... Rules >
    inline constexpr bool enable_control< rep_min_max< Min, Max, Rules... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

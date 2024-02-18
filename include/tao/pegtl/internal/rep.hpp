@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_INTERNAL_REP_HPP
 #define TAO_PEGTL_INTERNAL_REP_HPP
 
+#include <cstddef>
+
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
@@ -16,12 +18,12 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< unsigned Cnt, typename... Rules >
+   template< std::size_t Cnt, typename... Rules >
    struct rep
       : rep< Cnt, seq< Rules... > >
    {};
 
-   template< unsigned Cnt >
+   template< std::size_t Cnt >
    struct rep< Cnt >
       : success
    {};
@@ -31,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : success
    {};
 
-   template< unsigned Cnt, typename Rule >
+   template< std::size_t Cnt, typename Rule >
    struct rep< Cnt, Rule >
    {
       using rule_t = rep;
@@ -49,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          auto m = in.template make_rewind_guard< M >();
 
-         for( unsigned i = 0; i != Cnt; ++i ) {
+         for( std::size_t i = 0; i != Cnt; ++i ) {
             if( !Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) ) {
                return false;
             }
@@ -58,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< unsigned Cnt, typename... Rules >
+   template< std::size_t Cnt, typename... Rules >
    inline constexpr bool enable_control< rep< Cnt, Rules... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

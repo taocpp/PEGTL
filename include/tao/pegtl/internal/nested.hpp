@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_NESTED_HPP
 #define TAO_PEGTL_INTERNAL_NESTED_HPP
 
-#include <type_traits>
-
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../parse.hpp"

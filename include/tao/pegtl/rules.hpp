@@ -47,6 +47,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule, typename Sep, typename Pad = void > struct list_tail : internal::list_tail_pad< Rule, Sep, Pad > {};
    template< typename Rule, typename Sep > struct list_tail< Rule, Sep, void > : internal::list_tail< Rule, Sep > {};
    template< typename M, typename S > struct minus : internal::minus< M, S > {};
+   template< typename Rule, typename Peek > struct nested : internal::nested< Peek, Rule > {};
    template< typename... Rules > struct not_at : internal::not_at< Rules... > {};
    template< typename... Rules > struct opt : internal::opt< Rules... > {};
    template< typename Rule, typename Pad1, typename Pad2 = Pad1 > struct pad : internal::pad< Rule, Pad1, Pad2 > {};
@@ -54,11 +55,11 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule, typename... Rules > struct partial : internal::partial< Rule, Rules... > {};
    template< typename Rule, typename... Rules > struct plus : internal::plus< Rule, Rules... > {};
    template< typename Head, typename... Rules > struct rematch : internal::rematch< Head, Rules... > {};
-   template< unsigned Num, typename... Rules > struct rep : internal::rep< Num, Rules... > {};
-   template< unsigned Max, typename... Rules > struct rep_max : internal::rep_min_max< 0, Max, Rules... > {};
-   template< unsigned Min, typename Rule, typename... Rules > struct rep_min : internal::rep_min< Min, Rule, Rules... > {};
-   template< unsigned Min, unsigned Max, typename... Rules > struct rep_min_max : internal::rep_min_max< Min, Max, Rules... > {};
-   template< unsigned Max, typename... Rules > struct rep_opt : internal::rep_opt< Max, Rules... > {};
+   template< std::size_t Num, typename... Rules > struct rep : internal::rep< Num, Rules... > {};
+   template< std::size_t Max, typename... Rules > struct rep_max : internal::rep_min_max< 0, Max, Rules... > {};
+   template< std::size_t Min, typename Rule, typename... Rules > struct rep_min : internal::rep_min< Min, Rule, Rules... > {};
+   template< std::size_t Min, std::size_t Max, typename... Rules > struct rep_min_max : internal::rep_min_max< Min, Max, Rules... > {};
+   template< std::size_t Max, typename... Rules > struct rep_opt : internal::rep_opt< Max, Rules... > {};
    template< typename... Rules > struct seq : internal::seq< Rules... > {};
    template< typename... Rules > struct sor : internal::sor< Rules... > {};
    template< typename Rule, typename... Rules > struct star : internal::star< Rule, Rules... > {};

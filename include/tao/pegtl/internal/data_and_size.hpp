@@ -6,6 +6,7 @@
 #define TAO_PEGTL_INTERNAL_DATA_AND_SIZE_HPP
 
 #include <cstddef>
+#include <cstdint>
 #include <type_traits>
 
 #include "../config.hpp"

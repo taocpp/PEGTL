@@ -41,76 +41,60 @@ namespace TAO_PEGTL_NAMESPACE
       {
          struct tst : star< tst > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : plus< tst > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : seq< eof, at< digit >, tst > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );  // This is a false positive.
-      }
-      {
+      } {
          struct tst : sor< digit, seq< at< digit >, tst > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );  // This is a false positive.
-      }
-      {
+      } {
          struct tst : sor< digit, seq< opt< digit >, tst > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : sor< digit, tst > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : at< any > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, false );
-      }
-      {
+      } {
          struct tst : at< tst > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : at< any, tst > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, false );
-      }
-      {
+      } {
          struct tst : not_at< any > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, false );
-      }
-      {
+      } {
          struct tst : opt< tst > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : opt< any, tst > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, false );
-      }
-      {
+      } {
          struct rec : sor< seq< rec, alpha >, alpha > {};
          verify_analyze< rec >( __LINE__, __FILE__, true, true );
-      }
-      {
+      } {
          struct bar;
          struct foo : seq< digit, bar > {};
          struct bar : plus< foo > {};
          verify_analyze< seq< any, bar > >( __LINE__, __FILE__, true, false );
-      }
-      {
+      } {
          struct bar;
          struct foo : seq< bar, digit > {};
          struct bar : plus< foo > {};
          verify_analyze< seq< bar, any > >( __LINE__, __FILE__, true, true );
-      }
-      {
+      } {
          struct bar;
          struct foo : sor< digit, bar > {};
          struct bar : plus< foo > {};
          verify_analyze< bar >( __LINE__, __FILE__, false, true );
          verify_analyze< foo >( __LINE__, __FILE__, false, true );
          verify_analyze< sor< any, bar > >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          // Excerpt from the Lua 5.3 grammar:
          //  prefixexp ::= var | functioncall | ‘(’ exp ‘)’
          //  functioncall ::=  prefixexp args | prefixexp ‘:’ Name args
@@ -124,72 +108,55 @@ namespace TAO_PEGTL_NAMESPACE
          verify_analyze< exp >( __LINE__, __FILE__, true, true );
          verify_analyze< fun >( __LINE__, __FILE__, true, true );
          verify_analyze< var >( __LINE__, __FILE__, true, true );
-      }
-      {
+      } {
          struct exp : sor< exp, seq< any, exp > > {};
          verify_analyze< exp >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : until< any > {};
          verify_analyze< tst >( __LINE__, __FILE__, true, false );
-      }
-      {
+      } {
          struct tst : until< star< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, false );
-      }
-      {
+      } {
          struct tst : until< any, star< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, true, true );
-      }
-      {
+      } {
          struct tst : until< star< any >, star< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : until< any, any > {};
          verify_analyze< tst >( __LINE__, __FILE__, true, false );
-      }
-      {
+      } {
          struct tst : until< star< any >, any > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, false );
-      }
-      {
+      } {
          struct tst : plus< plus< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, true, false );
-      }
-      {
+      } {
          struct tst : star< star< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : plus< star< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : plus< opt< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : star< opt< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : star< plus< opt< any > > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : list< any, any > {};
          verify_analyze< tst >( __LINE__, __FILE__, true, false );
-      }
-      {
+      } {
          struct tst : list< star< any >, any > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, false );
-      }
-      {
+      } {
          struct tst : list< any, opt< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, true, false );
-      }
-      {
+      } {
          struct tst : list< star< any >, opt< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
       }
@@ -197,16 +164,13 @@ namespace TAO_PEGTL_NAMESPACE
       {
          struct tst : list_must< any, any > {};
          verify_analyze< tst >( __LINE__, __FILE__, true, false );
-      }
-      {
+      } {
          struct tst : list_must< star< any >, any > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, false );
-      }
-      {
+      } {
          struct tst : list_must< any, opt< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, true, false );
-      }
-      {
+      } {
          struct tst : list_must< star< any >, opt< any > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
       }
@@ -214,12 +178,10 @@ namespace TAO_PEGTL_NAMESPACE
       {
          struct tst : plus< pad_opt< alpha, digit > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
-      }
-      {
+      } {
          struct tst : rep< 42, opt< alpha > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, false );
-      }
-      {
+      } {
          struct tst : rep_min< 42, opt< alpha > > {};
          verify_analyze< tst >( __LINE__, __FILE__, false, true );
       }

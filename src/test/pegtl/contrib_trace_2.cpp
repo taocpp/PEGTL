@@ -3,11 +3,10 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include "test_inputs.hpp"
 
 #include <tao/pegtl/contrib/trace.hpp>
 
-namespace test
+namespace testcase
 {
    using namespace TAO_PEGTL_NAMESPACE;
 
@@ -45,49 +44,45 @@ namespace test
       }
    };
 
-}  // namespace test
+}  // namespace testcase
 
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
       {
-         test::text_input< scan::lf > in( "ab" );
-         const auto result = standard_trace< test::GRAMMAR1 >( in );
+         text_view_input< scan::lf > in( "ab" );
+         const auto result = standard_trace< testcase::GRAMMAR1 >( in );
          TAO_PEGTL_TEST_ASSERT( result );
-         TAO_PEGTL_TEST_ASSERT( test::a0 == 0 );
-         TAO_PEGTL_TEST_ASSERT( test::a == 0 );
-      }
-      {
-         test::lazy_input< scan::lf > in( "ab" );
-         const auto result = standard_trace< test::GRAMMAR1, test::trace_action >( in );
+         TAO_PEGTL_TEST_ASSERT( testcase::a0 == 0 );
+         TAO_PEGTL_TEST_ASSERT( testcase::a == 0 );
+      } {
+         text_view_input< lazy::lf > in( "ab" );
+         const auto result = standard_trace< testcase::GRAMMAR1, testcase::trace_action >( in );
          TAO_PEGTL_TEST_ASSERT( result );
-         TAO_PEGTL_TEST_ASSERT( test::a0 == 1 );
-         TAO_PEGTL_TEST_ASSERT( test::a == 1 );
-      }
-      {
-         test::text_input< scan::lf > in( "a\r\n\t\0b", 6 );
-         const auto result = standard_trace< test::GRAMMAR2 >( in );
+         TAO_PEGTL_TEST_ASSERT( testcase::a0 == 1 );
+         TAO_PEGTL_TEST_ASSERT( testcase::a == 1 );
+      } {
+         text_view_input< scan::lf > in( "a\r\n\t\0b", 6 );
+         const auto result = standard_trace< testcase::GRAMMAR2 >( in );
          TAO_PEGTL_TEST_ASSERT( result );
-         TAO_PEGTL_TEST_ASSERT( test::a0 == 1 );
-         TAO_PEGTL_TEST_ASSERT( test::a == 1 );
-      }
-      {
-         test::text_input< scan::lf > in( "a\r\n\t\0b", 6 );
-         const auto result = standard_trace< test::GRAMMAR2, test::trace_action >( in );
+         TAO_PEGTL_TEST_ASSERT( testcase::a0 == 1 );
+         TAO_PEGTL_TEST_ASSERT( testcase::a == 1 );
+      } {
+         text_view_input< scan::lf > in( "a\r\n\t\0b", 6 );
+         const auto result = standard_trace< testcase::GRAMMAR2, testcase::trace_action >( in );
          TAO_PEGTL_TEST_ASSERT( result );
-         TAO_PEGTL_TEST_ASSERT( test::a0 == 2 );
-         TAO_PEGTL_TEST_ASSERT( test::a == 1 );
-      }
-      {
-         test::text_input< scan::lf > in( "c" );
-         const auto result = standard_trace< test::GRAMMAR3 >( in );
+         TAO_PEGTL_TEST_ASSERT( testcase::a0 == 2 );
+         TAO_PEGTL_TEST_ASSERT( testcase::a == 1 );
+      } {
+         text_view_input< scan::lf > in( "c" );
+         const auto result = standard_trace< testcase::GRAMMAR3 >( in );
          TAO_PEGTL_TEST_ASSERT( !result );
       }
 #if defined( __cpp_exceptions )
       {
-         test::text_input< scan::lf > in( "c" );
-         const auto result = standard_trace< test::GRAMMAR4 >( in );
+         text_view_input< scan::lf > in( "c" );
+         const auto result = standard_trace< testcase::GRAMMAR4 >( in );
          TAO_PEGTL_TEST_ASSERT( !result );
       }
 #endif

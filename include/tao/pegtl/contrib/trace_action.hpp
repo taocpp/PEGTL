@@ -14,6 +14,9 @@
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
+#include "../control/state_control.hpp"
+
+#include "trace_state.hpp"
 #include "trace_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
