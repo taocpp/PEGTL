@@ -20,6 +20,7 @@ namespace TAO_PEGTL_NAMESPACE
       // clang-format off
       struct alnum : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z', '0', '9' > {};
       struct alpha : internal::ranges< internal::peek_char, 'a', 'z', 'A', 'Z' > {};
+      struct bdigit : internal::one< internal::peek_char, '0', '1' > {};
       struct blank : internal::one< internal::peek_char, ' ', '\t' > {};
       struct cntrl : internal::ranges< internal::peek_char, static_cast< char >( 0 ), static_cast< char >( 31 ), static_cast< char >( 127 ) > {};
       struct digit : internal::range< internal::peek_char, '0', '9' > {};

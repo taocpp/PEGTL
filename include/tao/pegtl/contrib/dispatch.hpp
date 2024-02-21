@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename... Clauses >
       struct tuple_to_action< Rule, std::tuple< Clauses... > >
       {
-         static_assert( dependent_false< Rule, Clauses... >, "More than one action clause applies!" );  // TODO: Should we error out or apply all?
+         static_assert( dependent_false< Rule, Clauses... >, "More than one action clause applies!" );  // TODO: Should we error out or apply the first or apply all? User choice?
       };
 
       template< typename Rule, typename Clause >
@@ -72,6 +72,20 @@ namespace TAO_PEGTL_NAMESPACE
    {
       template< typename Rule >
       static constexpr bool enable = ( std::is_same_v< Rule, Rules > || ... );
+   };
+
+   template< typename Action, typename... Clauses >
+   struct default1
+   {
+      template< typename Rule >
+      static constexpr bool enable = ( ( !Clauses::template enable< Rule > ) && ... );
+   };
+
+   template< template< typename... > class Action, typename... Clauses >
+   struct default2
+   {
+      template< typename Rule >
+      static constexpr bool enable = ( ( !Clauses::template enable< Rule > ) && ... );
    };
 
    template< typename... Clauses >

@@ -38,9 +38,9 @@ namespace TAO_PEGTL_NAMESPACE
 
       namespace
       {
-         std::string prefix = "TAO_PEGTL_NAMESPACE::";
+         const std::string prefix = "TAO_PEGTL_NAMESPACE::";
 
-         std::set< std::string > keywords = {
+         const std::set< std::string > keywords = {
             "alignas",
             "alignof",
             "and",

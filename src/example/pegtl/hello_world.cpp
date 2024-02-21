@@ -45,4 +45,5 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
          std::cerr << "I don't understand." << std::endl;
       }
    }
+   return 0;
 }
