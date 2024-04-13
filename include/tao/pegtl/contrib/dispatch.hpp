@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule >
       struct tuple_to_action< Rule, std::tuple<> >
       {
-         using type = nothing< Rule >;
+         using type = nothing< Rule >;  // TODO: Give direct access to this default?
       };
 
       template< typename Rule, template< typename, typename... > class Clause, typename Action, typename... Rules >

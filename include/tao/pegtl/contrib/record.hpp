@@ -75,6 +75,7 @@ namespace TAO_PEGTL_NAMESPACE
             }
             if( rv.size() > size ) {
                std::cerr << demangle< Rule >() << " on fail grow " << size << " -> " << rv.size() << std::endl;
+               rv.erase( rv.begin() + size, rv.end() );
             }
             return false;
          }
@@ -99,10 +100,9 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static auto parse( ParseInput&& in )
       {
          record_vector< std::decay_t< ParseInput > > samples;
-         if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, actions, Control >( in, samples ) ) {
-            return samples;
+         if( !TAO_PEGTL_NAMESPACE::match< Rule, A, M, actions, Control >( in, samples ) ) {
+            samples.clear();
          }
-         samples.clear();
          return samples;
       }
    };
@@ -125,10 +125,9 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static auto parse( ParseInput&& in )
       {
          record_vector< std::decay_t< ParseInput > > samples;
-         if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, actions, Control >( in, samples ) ) {
-            return samples;
+         if( !TAO_PEGTL_NAMESPACE::match< Rule, A, M, actions, Control >( in, samples ) ) {
+            samples.clear();
          }
-         samples.clear();
          return samples;
       }
    };
