@@ -13,7 +13,6 @@
 #include "input_with_fakes.hpp"
 #include "input_with_funcs.hpp"
 #include "input_with_start.hpp"
-#include "rewind_guard.hpp"
 #include "type_traits.hpp"
 #include "view_input.hpp"
 
@@ -73,12 +72,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       void consume( const std::size_t count ) noexcept
       {
          m_current += count;
-      }
-
-      template< rewind_mode M >
-      [[nodiscard]] auto make_rewind_guard() noexcept
-      {
-         return rewind_guard< M, rematch_input_impl >( this );
       }
 
       [[nodiscard]] auto rewind_position() const noexcept

@@ -49,11 +49,11 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( *in.current( 10 ) == 'k' );
       TAO_PEGTL_TEST_ASSERT( in.previous( in.current_position() ) == in.current() );
       {
-         auto m = in.template make_rewind_guard< rewind_mode::required >();
+         const auto p = in.rewind_position();
          in.template consume< void >( 1 );
          TAO_PEGTL_TEST_ASSERT( in.size() == 10 );
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 1 );
-         std::ignore = m( false );
+         in.rewind_to_position( p );
       }
       TAO_PEGTL_TEST_ASSERT( !in.empty() );
       TAO_PEGTL_TEST_ASSERT( in.size() == 11 );
@@ -63,34 +63,34 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( *in.current() == 'd' );
       TAO_PEGTL_TEST_ASSERT( *in.current( 10 ) == 'k' );
       {
-         auto m = in.template make_rewind_guard< rewind_mode::required >();
+         const auto p = in.rewind_position();
          in.template consume< void >( 5 );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
          TAO_PEGTL_TEST_ASSERT( in.size() == 6 );
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 5 );
-         std::ignore = m( true );
+         (void)p;
       }
       TAO_PEGTL_TEST_ASSERT( !in.empty() );
       TAO_PEGTL_TEST_ASSERT( in.size() == 6 );
       TAO_PEGTL_TEST_ASSERT( in.current() == start + 5 );
       {
-         auto m = in.template make_rewind_guard< rewind_mode::optional >();
+         const auto p = in.rewind_position();
          in.template consume< void >( 1 );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
          TAO_PEGTL_TEST_ASSERT( in.size() == 5 );
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 6 );
-         std::ignore = m( false );
+         (void)p;
       }
       TAO_PEGTL_TEST_ASSERT( !in.empty() );
       TAO_PEGTL_TEST_ASSERT( in.size() == 5 );
       TAO_PEGTL_TEST_ASSERT( in.current() == start + 6 );
       {
-         auto m = in.template make_rewind_guard< rewind_mode::optional >();
+         const auto p = in.rewind_position();
          in.template consume< void >( 1 );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
          TAO_PEGTL_TEST_ASSERT( in.size() == 4 );
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 7 );
-         std::ignore = m( true );
+         (void)p;
       }
       TAO_PEGTL_TEST_ASSERT( !in.empty() );
       TAO_PEGTL_TEST_ASSERT( in.size() == 4 );

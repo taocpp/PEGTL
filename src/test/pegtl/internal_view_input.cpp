@@ -74,19 +74,19 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.current() == data + 2 );
          TAO_PEGTL_TEST_ASSERT( in.size() == 3 );
          {
-            const auto m = in.make_rewind_guard< rewind_mode::optional >();
+            const auto p = in.rewind_position();
+            (void)p;
             TAO_PEGTL_TEST_ASSERT( in.current() == data + 2 );
             in.consume< std::string >( 1 );
             TAO_PEGTL_TEST_ASSERT( in.current() == data + 3 );
-            (void)m( false );
          }
          TAO_PEGTL_TEST_ASSERT( in.current() == data + 3 );
          {
-            auto m = in.make_rewind_guard< rewind_mode::required >();
+            const auto p = in.rewind_position();
             TAO_PEGTL_TEST_ASSERT( in.current() == data + 3 );
             in.consume< std::string >( 1 );
             TAO_PEGTL_TEST_ASSERT( in.current() == data + 4 );
-            (void)m( false );
+            in.rewind_to_position( p );
          }
          TAO_PEGTL_TEST_ASSERT( in.current() == data + 3 );
       }

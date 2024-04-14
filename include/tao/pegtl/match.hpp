@@ -76,7 +76,7 @@ namespace TAO_PEGTL_NAMESPACE
 
          constexpr bool use_guard = has_apply || has_apply0_bool;
 
-         auto m = in.template make_rewind_guard< ( use_guard ? rewind_mode::required : rewind_mode::optional ) >();
+         auto m = Control< Rule >::template guard< A, use_guard ? rewind_mode::required : rewind_mode::optional, Action, Control >( in, st... );
          Control< Rule >::start( static_cast< const ParseInput& >( in ), st... );
          auto result = internal::match_control_unwind< Rule, A, ( use_guard ? rewind_mode::optional : M ), Action, Control >( in, st... );
 

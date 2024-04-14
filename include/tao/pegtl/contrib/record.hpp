@@ -45,40 +45,80 @@ namespace TAO_PEGTL_NAMESPACE
 
    namespace internal
    {
+      template< typename ParseInput >
+      struct record_state
+      {
+         record_vector< ParseInput > samples;
+      };
+
       template< typename Rule >
-      struct add_sample
+      struct record_action
       {
          template< typename ActionInput, typename ParseInput >
-         static void apply( const ActionInput& in, record_vector< ParseInput >& rv )
+         static void apply( const ActionInput& in, record_state< ParseInput >& rs )
          {
-            rv.emplace_back( in.current_position(), in.current(), in.size(), demangle< Rule >() );
+            rs.samples.emplace_back( in.current_position(), in.current(), in.size(), demangle< Rule >() );
          }
       };
 
-      struct verify_fail
-         : maybe_nothing
+      template< typename RewindGuard, typename RecordValue >
+      class record_guard
+         : public RewindGuard
       {
-         template< typename Rule,
-                   apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename ParseInput,
-                   typename... States >
-         [[nodiscard]] static bool match( ParseInput& in, record_vector< ParseInput >& rv )
+      public:
+         record_guard( RewindGuard&& rg, std::vector< RecordValue >& rs )
+            : RewindGuard( std::move( rg ) ),
+              m_samples( rs ),
+              m_size( rs.size() )
+         {}
+
+         record_guard( record_guard&& ) = delete;
+         record_guard( const record_guard& ) = delete;
+
+         void operator=( record_guard&& ) = delete;
+         void operator=( const record_guard& ) = delete;
+
+         ~record_guard()
          {
-            const std::size_t size = rv.size();
-            if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, rv ) ) {
-               return true;
+            if( RewindGuard::active() ) {
+               // assert( m_state.samples.size() >= m_size );
+               m_samples.erase( m_samples.begin() + m_size, m_samples.end() );
             }
-            if( rv.size() > size ) {
-               std::cerr << demangle< Rule >() << " on fail grow " << size << " -> " << rv.size() << std::endl;
-               rv.erase( rv.begin() + size, rv.end() );
-            }
-            return false;
          }
+
+      private:
+         std::vector< RecordValue >& m_samples;
+         const std::size_t m_size;
+      };
+
+      template< typename RewindGuard, typename RecordValue >
+      record_guard( RewindGuard&&, std::vector< RecordValue >& ) -> record_guard< RewindGuard, RecordValue >;
+
+      template< template< typename... > class Base >
+      struct record_control
+      {
+         template< typename Rule >
+         struct type
+            : Base< Rule >
+         {
+            template< apply_mode A,
+                      rewind_mode M,
+                      template< typename... >
+                      class Action,
+                      template< typename... >
+                      class Control,
+                      typename ParseInput,
+                      typename... States >
+            static auto guard( ParseInput& in, record_state< ParseInput >& st )
+            {
+               if constexpr( M == rewind_mode::optional ) {
+                  return Base< Rule >::template guard< A, M, Action, Control >( in, st );
+               }
+               else {
+                  return record_guard( Base< Rule >::template guard< A, M, Action, Control >( in, st ), st.samples );
+               }
+            }
+         };
       };
 
    }  // namespace internal
@@ -86,49 +126,22 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename... Rules >
    struct record
    {
-      using clause = clause2< internal::add_sample, Rules... >;
+      using clause = clause2< internal::record_action, Rules... >;
 
       template< typename Rule >
       using actions = internal::clauses_to_action_t< Rule, clause >;
 
       template< typename Rule,
-                apply_mode A = apply_mode::action,
-                rewind_mode M = rewind_mode::optional,
                 template< typename... >
                 class Control = normal,
                 typename ParseInput >
       [[nodiscard]] static auto parse( ParseInput&& in )
       {
-         record_vector< std::decay_t< ParseInput > > samples;
-         if( !TAO_PEGTL_NAMESPACE::match< Rule, A, M, actions, Control >( in, samples ) ) {
-            samples.clear();
+         internal::record_state< std::decay_t< ParseInput > > state;
+         if( !TAO_PEGTL_NAMESPACE::match< Rule, apply_mode::action, rewind_mode::optional, actions, internal::record_control< Control >::template type >( in, state ) ) {
+            state.samples.clear();
          }
-         return samples;
-      }
-   };
-
-   template< typename... Rules >
-   struct record2
-   {
-      using clause = clause2< internal::add_sample, Rules... >;
-      using defaults = default1< internal::verify_fail, clause >;
-
-      template< typename Rule >
-      using actions = internal::clauses_to_action_t< Rule, clause, defaults >;
-
-      template< typename Rule,
-                apply_mode A = apply_mode::action,
-                rewind_mode M = rewind_mode::optional,
-                template< typename... >
-                class Control = normal,
-                typename ParseInput >
-      [[nodiscard]] static auto parse( ParseInput&& in )
-      {
-         record_vector< std::decay_t< ParseInput > > samples;
-         if( !TAO_PEGTL_NAMESPACE::match< Rule, A, M, actions, Control >( in, samples ) ) {
-            samples.clear();
-         }
-         return samples;
+         return std::move( state.samples );
       }
    };
 

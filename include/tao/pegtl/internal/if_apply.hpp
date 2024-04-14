@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) > 0 ) ) {
-            auto m = in.template make_rewind_guard< rewind_mode::required >();
+            auto m = Control< if_apply >::template guard< A, rewind_mode::required, Action, Control >( in, st... );
             if( Control< Rule >::template match< apply_mode::action, rewind_mode::optional, Action, Control >( in, st... ) ) {
                const action_input< ParseInput > i2( m.rewind_position(), in );
                return m( ( apply_impl< Actions >::apply( i2, st... ) && ... ) );

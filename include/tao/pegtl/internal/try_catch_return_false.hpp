@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         auto m = in.template make_rewind_guard< M >();
+         auto m = Control< try_catch_return_false >::template guard< A, rewind_mode::required, Action, Control >( in, st... );
 
          try {
             return m( Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) );
@@ -68,7 +68,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         auto m = in.template make_rewind_guard< M >();
+         auto m = Control< try_catch_return_false >::template guard< A, rewind_mode::required, Action, Control >( in, st... );
 
          try {
             return m( Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) );

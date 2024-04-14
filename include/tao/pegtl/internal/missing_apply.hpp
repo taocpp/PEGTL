@@ -6,7 +6,6 @@
 #define TAO_PEGTL_INTERNAL_MISSING_APPLY_HPP
 
 #include "../config.hpp"
-#include "../rewind_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -19,8 +18,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       // This function only exists for better error messages, which means that it is only called when we know that it won't compile.
       // LCOV_EXCL_START
-      auto m = in.template make_rewind_guard< rewind_mode::required >();
-      (void)Control::template apply< Action >( m.rewind_position(), in, st... );
+      (void)Control::template apply< Action >( in.rewind_position(), in, st... );
       // LCOV_EXCL_STOP
    }
 

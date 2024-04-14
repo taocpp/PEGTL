@@ -15,8 +15,10 @@
 #include "rewind_mode.hpp"
 
 #include "internal/action_input.hpp"
+#include "internal/dummy_guard.hpp"
 #include "internal/enable_control.hpp"
 #include "internal/has_match.hpp"
+#include "internal/rewind_guard.hpp"
 #include "internal/type_traits.hpp"
 
 #if defined( __cpp_exceptions )
@@ -46,6 +48,24 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename ParseInput, typename... States >
       static void failure( const ParseInput& /*unused*/, States&&... /*unused*/ ) noexcept
       {}
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
+                typename ParseInput,
+                typename... States >
+      static auto guard( [[maybe_unused]] ParseInput& in, States&&... /*unused*/ ) noexcept
+      {
+         if constexpr( M == rewind_mode::optional ) {
+            return internal::dummy_guard();
+         }
+         else {
+            return internal::rewind_guard< ParseInput >( in );
+         }
+      }
 
       template< typename ParseInput, typename... States >
       [[noreturn]] static void raise( const ParseInput& in, States&&... /*unused*/ )

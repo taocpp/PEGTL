@@ -24,18 +24,16 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    using input_t = pegtl::text_file_input<>;
    input_t in( argv[ 1 ] );
    try {
-      const auto v = pegtl::record2< pegtl::abnf2::num_val,
-                                     pegtl::abnf2::char_val,
-                                     pegtl::abnf2::prose_val,
-                                     pegtl::abnf2::group,
-                                     pegtl::abnf2::option,
-                                     pegtl::abnf2::rulename,
-                                     pegtl::abnf2::repetition,
-                                     pegtl::ascii::digit
-                                     >::parse< pegtl::abnf2::rulelist,
-                                               pegtl::apply_mode::action,
-                                               pegtl::rewind_mode::optional,
-                                               pegtl::abnf2::control >( in );
+      const auto v = pegtl::record< pegtl::abnf2::num_val,
+                                    pegtl::abnf2::char_val,
+                                    pegtl::abnf2::prose_val,
+                                    pegtl::abnf2::group,
+                                    pegtl::abnf2::option,
+                                    pegtl::abnf2::rulename,
+                                    pegtl::abnf2::repetition,
+                                    pegtl::ascii::digit
+                                    >::parse< pegtl::abnf2::rulelist,
+                                              pegtl::abnf2::control >( in );
       std::cout << v;
    }
    catch( const pegtl::parse_error< input_t::error_position_t >& e ) {

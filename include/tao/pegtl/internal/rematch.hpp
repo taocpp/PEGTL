@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         auto m = in.template make_rewind_guard< rewind_mode::required >();
+         auto m = Control< rematch >::template guard< A, rewind_mode::required, Action, Control >( in, st... );
 
          if( Control< Head >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) ) {
             rematch_input i2( m, in );

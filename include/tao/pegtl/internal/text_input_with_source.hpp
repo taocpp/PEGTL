@@ -76,12 +76,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          this->m_current += count;
       }
 
-      template< rewind_mode M >
-      [[nodiscard]] auto make_rewind_guard() noexcept
-      {
-         return rewind_guard< M, text_input_with_source >( this );
-      }
-
       [[nodiscard]] auto rewind_position() const noexcept
       {
          return rewind_position_t( m_position );

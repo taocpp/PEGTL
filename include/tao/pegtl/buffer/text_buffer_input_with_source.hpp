@@ -14,7 +14,6 @@
 #include "../text_position.hpp"
 
 #include "../internal/choose_text_traits.hpp"
-#include "../internal/rewind_guard.hpp"
 
 #include "buffer_common.hpp"
 #include "text_buffer_input.hpp"
@@ -63,12 +62,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          scan_input< data_t > in( this->current(), count );
          choose_text_traits< Eol, Rule >( m_position, in );
          this->m_current += count;
-      }
-
-      template< rewind_mode M >
-      [[nodiscard]] auto make_rewind_guard() noexcept
-      {
-         return rewind_guard< M, text_buffer_input_with_source >( this );
       }
 
       [[nodiscard]] const auto& rewind_position() const noexcept

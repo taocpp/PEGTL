@@ -15,7 +15,6 @@
 #include "../count_position.hpp"
 #include "../pointer_position.hpp"
 
-#include "rewind_guard.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -101,12 +100,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       void consume( const std::size_t count ) noexcept
       {
          m_current += count;
-      }
-
-      template< rewind_mode M >
-      [[nodiscard]] auto make_rewind_guard() noexcept
-      {
-         return rewind_guard< M, copy_input >( this );
       }
 
       [[nodiscard]] auto rewind_position() const noexcept
