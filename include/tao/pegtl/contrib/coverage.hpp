@@ -32,6 +32,11 @@ namespace TAO_PEGTL_NAMESPACE
       std::size_t unwind = 0;
       std::size_t raise = 0;
       std::size_t raise_nested = 0;
+
+      [[nodiscard]] explicit operator bool() const noexcept
+      {
+         return start || success || failure || unwind || raise || raise_nested;
+      }
    };
 
    struct rewind_coverage_info
