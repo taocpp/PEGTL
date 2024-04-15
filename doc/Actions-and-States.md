@@ -368,7 +368,7 @@ struct my_action< my_rule >
 tao::pegtl::parse< my_grammar, my_action >( ... );
 ```
 
-Conversely `tao::pegtl::change_action<>` takes a new action class template as only template parameter and changes the current action in a parsing run to its template parameter.
+Conversely `tao::pegtl::change_action<>` takes a new action class template as its only template parameter and changes the current action in a parsing run to it.
 
 Note that parsing proceeds with the rule to which the action changing action is attached to "as if" the new action had been the current action all along.
 The new action can even perform an action change *on the same rule*, however care should be taken to not introduce infinite cycles of changes.
