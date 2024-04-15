@@ -9,7 +9,9 @@
 #include <tuple>
 #include <utility>
 
+#include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../rewind_mode.hpp"
 
 #include "../internal/type_traits.hpp"
 
@@ -58,6 +60,18 @@ namespace TAO_PEGTL_NAMESPACE
       static void failure( const ParseInput& in, States&&... st ) noexcept( noexcept( failure_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() ) ) )
       {
          failure_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
+      }
+
+      template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename ParseInput, typename Tuple, std::size_t... Is >
+      static auto guard_impl( ParseInput&& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
+      {
+         return Base::template guard< A, M, Action, Control >( in, std::get< Is >( t )... );
+      }
+
+      template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename ParseInput, typename... States >
+      static auto guard( ParseInput&& in, States&&... st )
+      {
+         return guard_impl< A, M, Action, Control >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
       }
 
       template< typename ParseInput, typename Tuple, std::size_t... Is >

@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct input_control
    {
       template< typename Rule >
-      struct control
+      struct impl
          : Control< Rule >
       {
          static constexpr bool enable = true;
@@ -117,9 +117,6 @@ namespace TAO_PEGTL_NAMESPACE
             return Control< Rule >::template apply0< Action >( in, st... );
          }
       };
-
-      template< typename Rule >
-      using type = control< Rule >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

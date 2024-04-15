@@ -62,25 +62,25 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< typename RewindGuard, typename RecordValue >
-      class record_guard
+      class record_control_guard
          : public RewindGuard
       {
       public:
-         record_guard( RewindGuard&& rg, std::vector< RecordValue >& rs )
+         record_control_guard( RewindGuard&& rg, std::vector< RecordValue >& rs )
             : RewindGuard( std::move( rg ) ),
               m_samples( rs ),
               m_size( rs.size() )
          {}
 
-         record_guard( record_guard&& ) = delete;
-         record_guard( const record_guard& ) = delete;
+         record_control_guard( record_control_guard&& ) = delete;
+         record_control_guard( const record_control_guard& ) = delete;
 
-         void operator=( record_guard&& ) = delete;
-         void operator=( const record_guard& ) = delete;
+         void operator=( record_control_guard&& ) = delete;
+         void operator=( const record_control_guard& ) = delete;
 
-         ~record_guard()
+         ~record_control_guard()
          {
-            if( RewindGuard::active() ) {
+            if( this->active() ) {
                // assert( m_state.samples.size() >= m_size );
                m_samples.erase( m_samples.begin() + m_size, m_samples.end() );
             }
@@ -92,7 +92,7 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< typename RewindGuard, typename RecordValue >
-      record_guard( RewindGuard&&, std::vector< RecordValue >& ) -> record_guard< RewindGuard, RecordValue >;
+      record_control_guard( RewindGuard&&, std::vector< RecordValue >& ) -> record_control_guard< RewindGuard, RecordValue >;
 
       template< template< typename... > class Base >
       struct record_control
@@ -115,7 +115,7 @@ namespace TAO_PEGTL_NAMESPACE
                   return Base< Rule >::template guard< A, M, Action, Control >( in, st );
                }
                else {
-                  return record_guard( Base< Rule >::template guard< A, M, Action, Control >( in, st ), st.samples );
+                  return record_control_guard( Base< Rule >::template guard< A, M, Action, Control >( in, st ), st.samples );
                }
             }
          };

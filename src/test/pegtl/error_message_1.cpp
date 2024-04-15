@@ -35,7 +35,7 @@ namespace test1
    };
 
    template< typename Rule >
-   using control = must_if< error >::control< Rule >;
+   using control = must_if< error >::type< Rule >;
 
 }  // namespace test1
 

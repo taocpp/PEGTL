@@ -20,7 +20,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule >
    [[nodiscard]] bool equals( const coverage_result& result, const coverage_info& i )
    {
-      const coverage_entry m = result.at( demangle< Rule >() );  // Slice
+      const coverage_entry m = result.coverage.at( demangle< Rule >() );  // Slice
       return i == m;
    }
 
@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
       const bool success = coverage< grammar >( in, result );
       std::cout << result;  // To manually see that printing does the right thing, too.
       TAO_PEGTL_TEST_ASSERT( success );
-      TAO_PEGTL_TEST_ASSERT( result.size() == 7 );
+      TAO_PEGTL_TEST_ASSERT( result.coverage.size() == 7 );
       TAO_PEGTL_TEST_ASSERT( equals< grammar >( result, coverage_info{ 1, 1, 0, 0, 0 } ) );
       TAO_PEGTL_TEST_ASSERT( equals< one< 'a' > >( result, coverage_info{ 1, 0, 1, 0, 1 } ) );  // TODO: Should this really be counted as both failure and raise?
       TAO_PEGTL_TEST_ASSERT( equals< one< 'F' > >( result, coverage_info{ 1, 1, 0, 0, 0 } ) );
@@ -55,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE
       const bool success = coverage< grammar >( in, result );
       std::cout << result;  // To manually see that printing does the right thing, too.
       TAO_PEGTL_TEST_ASSERT( success );
-      TAO_PEGTL_TEST_ASSERT( result.size() == 5 );
+      TAO_PEGTL_TEST_ASSERT( result.coverage.size() == 5 );
       TAO_PEGTL_TEST_ASSERT( equals< grammar >( result, coverage_info{ 1, 1, 0, 0, 0 } ) );
       TAO_PEGTL_TEST_ASSERT( equals< one< 'a' > >( result, coverage_info{ 1, 0, 1, 0, 0 } ) );  // TODO: Should this really be counted as both failure and raise?
       TAO_PEGTL_TEST_ASSERT( equals< one< 'F' > >( result, coverage_info{ 1, 1, 0, 0, 0 } ) );

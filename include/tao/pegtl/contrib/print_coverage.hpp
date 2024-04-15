@@ -6,6 +6,7 @@
 #define TAO_PEGTL_CONTRIB_PRINT_COVERAGE_HPP
 
 #include <ostream>
+#include <string_view>
 
 #include "../config.hpp"
 
@@ -13,11 +14,11 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   inline std::ostream& operator<<( std::ostream& os, const coverage_result& result )
+   inline std::ostream& operator<<( std::ostream& os, const std::map< std::string_view, coverage_entry >& r )
    {
       os << "[\n";
       bool f = true;
-      for( const auto& [ k, v ] : result ) {
+      for( const auto& [ k, v ] : r ) {
          if( f ) {
             f = false;
          }
@@ -26,12 +27,12 @@ namespace TAO_PEGTL_NAMESPACE
          }
          os << "  {\n"
             << "    \"rule\": \"" << k << "\",\n"
-            << "    \"start\": " << v.start << ", \"success\": " << v.success << ", \"failure\": " << v.failure << ", \"unwind\": " << v.unwind << ", \"raise\": " << v.raise << ",\n";
+            << "    \"start\": " << v.start << ", \"success\": " << v.success << ", \"failure\": " << v.failure << ", \"unwind\": " << v.unwind << ", \"raise\": " << v.raise << ", \"raise_nested\": " << v.raise_nested << ",\n";
          if( v.branches.empty() ) {
-            os << "    \"branches\": []\n";
+            os << "\n";
          }
          else {
-            os << "    \"branches\": [\n";
+            os << ",\n    \"branches\": [\n";
             bool f2 = true;
             for( const auto& [ k2, v2 ] : v.branches ) {
                if( f2 ) {
@@ -40,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
                else {
                   os << ",\n";
                }
-               os << "      { \"branch\": \"" << k2 << "\", \"start\": " << v2.start << ", \"success\": " << v2.success << ", \"failure\": " << v2.failure << ", \"unwind\": " << v2.unwind << ", \"raise\": " << v2.raise << " }";
+               os << "      { \"branch\": \"" << k2 << "\", \"start\": " << v2.start << ", \"success\": " << v2.success << ", \"failure\": " << v2.failure << ", \"unwind\": " << v2.unwind << ", \"raise\": " << v2.raise << ", \"raise_nested\": " << v2.raise_nested << " }";
             }
             os << "\n    ]\n";
          }
@@ -48,6 +49,33 @@ namespace TAO_PEGTL_NAMESPACE
       }
       os << "\n";
       os << "]\n";
+      return os;
+   }
+
+   inline std::ostream& operator<<( std::ostream& os, const std::map< std::string_view, rewind_coverage_info >& r )
+   {
+      os << "[ {\n";
+      bool f = true;
+      for( const auto& [ k, v ] : r ) {
+         if( f ) {
+            f = false;
+         }
+         else {
+            os << "}, {\n";
+         }
+         os << "  \"rule\": \"" << k << "\",\n"
+            << "  \"prep_rewind\": " << v.prep_rewind << ", \"will_rewind\": " << v.will_rewind << ", \"wont_rewind\": " << v.wont_rewind << "\n";
+      }
+      os << "} ]\n";
+      return os;
+   }
+
+   inline std::ostream& operator<<( std::ostream& os, const coverage_result& r )
+   {
+      os << "RULE COVERAGE\n";
+      os << r.coverage;
+      os << "REWIND COVERAGE\n";
+      os << r.rewind;
       return os;
    }
 

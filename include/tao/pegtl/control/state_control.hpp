@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct state_control
    {
       template< typename Rule >
-      struct control
+      struct impl
          : Control< Rule >
       {
          static constexpr bool enable = true;
@@ -68,6 +68,8 @@ namespace TAO_PEGTL_NAMESPACE
               ... );
 #endif
          }
+
+         // TODO: static auto guard() ... ?
 
          template< typename ParseInput, typename State, typename... States >
          [[noreturn]] static void raise( const ParseInput& in, [[maybe_unused]] State& state, States&&... st )
@@ -125,7 +127,7 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< typename Rule >
-      using type = rotate_states_right< control< Rule > >;
+      using type = rotate_states_right< impl< Rule > >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

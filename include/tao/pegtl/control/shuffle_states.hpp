@@ -10,7 +10,9 @@
 #include <type_traits>
 #include <utility>
 
+#include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../rewind_mode.hpp"
 
 #include "../internal/type_traits.hpp"
 
@@ -40,7 +42,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace internal
 
-   // Applies 'Shuffle' to the states of start(), success(), failure(), raise(), raise_nested(), apply(), and apply0()
+   // Applies 'Shuffle' to the states of start(), success(), failure(), guard(), raise(), raise_nested(), apply(), and apply0()
+
    template< typename Base, typename Shuffle >
    struct shuffle_states
       : Base
@@ -97,6 +100,24 @@ namespace TAO_PEGTL_NAMESPACE
       static void failure( const ParseInput& in, State&& st ) noexcept( noexcept( Base::failure( in, st ) ) )
       {
          Base::failure( in, st );
+      }
+
+      template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename ParseInput, typename Tuple, std::size_t... Is >
+      static auto guard_impl( ParseInput&& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
+      {
+         return Base::template guard< A, M, Action, Control >( in, std::get< Shuffle::template value< Is, sizeof...( Is ) > >( t )... );
+      }
+
+      template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename ParseInput, typename... States >
+      static auto guard( ParseInput&& in, States&&... st )
+      {
+         return guard_impl< A, M, Action, Control >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) >() );
+      }
+
+      template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename ParseInput, typename State >
+      static auto guard( ParseInput&& in, State&& st )
+      {
+         return Base::template guard< A, M, Action, Control >( in, st );
       }
 
       template< typename ParseInput, typename Tuple, std::size_t... Is >

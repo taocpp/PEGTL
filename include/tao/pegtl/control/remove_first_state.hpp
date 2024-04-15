@@ -7,14 +7,15 @@
 
 #include <type_traits>
 
+#include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../rewind_mode.hpp"
 
 #include "../internal/type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   // The first state is removed for most of the control functions forwarded to Base,
-   // start(), success(), failure(), unwind(), raise(), raise_nested(), apply(), and apply0().
+   // The first state is removed for most of the control functions forwarded to Base.
    // The call to match() is unchanged because it can call other grammar rules that require
    // all states when starting their match to keep an even playing field.
 
@@ -38,6 +39,12 @@ namespace TAO_PEGTL_NAMESPACE
       static void failure( const ParseInput& in, State&& /*unused*/, States&&... st ) noexcept( noexcept( Base::failure( in, st... ) ) )
       {
          Base::failure( in, st... );
+      }
+
+      template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename ParseInput, typename State, typename... States >
+      static auto guard( ParseInput&& in, State&& /*unused*/, States&&... st )
+      {
+         return Base::template guard< A, M, Action, Control >( in, st... );
       }
 
       template< typename ParseInput, typename State, typename... States >

@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct must_if
    {
       template< typename Rule >
-      struct control
+      struct type
          : Base< Rule >
       {
          template< typename ParseInput, typename... States >

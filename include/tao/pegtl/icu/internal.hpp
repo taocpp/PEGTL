@@ -28,6 +28,8 @@ namespace TAO_PEGTL_NAMESPACE
             using rule_t = binary_property;
             using subs_t = empty_list;
 
+            static constexpr bool implicit_rewind = true;
+
             [[nodiscard]] static bool test( const data_t c ) noexcept
             {
                return u_hasBinaryProperty( c, P ) == V;
@@ -54,6 +56,8 @@ namespace TAO_PEGTL_NAMESPACE
 
             using rule_t = property_value;
             using subs_t = empty_list;
+
+            static constexpr bool implicit_rewind = true;
 
             [[nodiscard]] static bool test( const data_t c ) noexcept
             {

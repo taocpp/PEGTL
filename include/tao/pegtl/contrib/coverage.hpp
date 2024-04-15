@@ -20,7 +20,7 @@
 #include "../type_list.hpp"
 #include "../visit.hpp"
 
-#include "../control/state_control.hpp"
+#include "../control/rewind_state_control.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -34,13 +34,24 @@ namespace TAO_PEGTL_NAMESPACE
       std::size_t raise_nested = 0;
    };
 
+   struct rewind_coverage_info
+   {
+      std::size_t prep_rewind = 0;
+      std::size_t will_rewind = 0;
+      std::size_t wont_rewind = 0;
+   };
+
    struct coverage_entry
       : coverage_info
    {
       std::map< std::string_view, coverage_info > branches;
    };
 
-   using coverage_result = std::map< std::string_view, coverage_entry >;
+   struct coverage_result
+   {
+      std::map< std::string_view, coverage_entry > coverage;
+      std::map< std::string_view, rewind_coverage_info > rewind;
+   };
 
    namespace internal
    {
@@ -75,9 +86,9 @@ namespace TAO_PEGTL_NAMESPACE
          void start( const ParseInput& /*unused*/, States&&... /*unused*/ )
          {
             const auto name = demangle< Rule >();
-            ++result.at( name ).start;
+            ++result.coverage.at( name ).start;
             if( !stack.empty() ) {
-               ++result.at( stack.back() ).branches.at( name ).start;
+               ++result.coverage.at( stack.back() ).branches.at( name ).start;
             }
             stack.push_back( name );
          }
@@ -87,9 +98,9 @@ namespace TAO_PEGTL_NAMESPACE
          {
             stack.pop_back();
             const auto name = demangle< Rule >();
-            ++result.at( name ).success;
+            ++result.coverage.at( name ).success;
             if( !stack.empty() ) {
-               ++result.at( stack.back() ).branches.at( name ).success;
+               ++result.coverage.at( stack.back() ).branches.at( name ).success;
             }
          }
 
@@ -98,19 +109,40 @@ namespace TAO_PEGTL_NAMESPACE
          {
             stack.pop_back();
             const auto name = demangle< Rule >();
-            ++result.at( name ).failure;
+            ++result.coverage.at( name ).failure;
             if( !stack.empty() ) {
-               ++result.at( stack.back() ).branches.at( name ).failure;
+               ++result.coverage.at( stack.back() ).branches.at( name ).failure;
             }
+         }
+
+         template< typename Rule, typename ParseInput, typename... States >
+         void prep_rewind( const ParseInput& /*unused*/, States&&... /*unused*/ )
+         {
+            const auto name = demangle< Rule >();
+            ++result.rewind[ name ].prep_rewind;
+         }
+
+         template< typename Rule, typename ParseInput, typename... States >
+         void will_rewind( const ParseInput& /*unused*/, States&&... /*unused*/ )
+         {
+            const auto name = demangle< Rule >();
+            ++result.rewind[ name ].will_rewind;
+         }
+
+         template< typename Rule, typename ParseInput, typename... States >
+         void wont_rewind( const ParseInput& /*unused*/, States&&... /*unused*/ )
+         {
+            const auto name = demangle< Rule >();
+            ++result.rewind[ name ].wont_rewind;
          }
 
          template< typename Rule, typename ParseInput, typename... States >
          void raise( const ParseInput& /*unused*/, States&&... /*unused*/ )
          {
             const auto name = demangle< Rule >();
-            ++result.at( name ).raise;
+            ++result.coverage.at( name ).raise;
             if( !stack.empty() ) {
-               ++result.at( stack.back() ).branches.at( name ).raise;
+               ++result.coverage.at( stack.back() ).branches.at( name ).raise;
             }
          }
 
@@ -118,9 +150,9 @@ namespace TAO_PEGTL_NAMESPACE
          void raise_nested( const Ambient& /*unused*/, const ParseInput& /*unused*/, States&&... /*unused*/ )
          {
             const auto name = demangle< Rule >();
-            ++result.at( name ).raise_nested;
+            ++result.coverage.at( name ).raise_nested;
             if( !stack.empty() ) {
-               ++result.at( stack.back() ).branches.at( name ).raise_nested;
+               ++result.coverage.at( stack.back() ).branches.at( name ).raise_nested;
             }
          }
 
@@ -129,9 +161,9 @@ namespace TAO_PEGTL_NAMESPACE
          {
             stack.pop_back();
             const auto name = demangle< Rule >();
-            ++result.at( name ).unwind;
+            ++result.coverage.at( name ).unwind;
             if( !stack.empty() ) {
-               ++result.at( stack.back() ).branches.at( name ).unwind;
+               ++result.coverage.at( stack.back() ).branches.at( name ).unwind;
             }
          }
 
@@ -154,8 +186,8 @@ namespace TAO_PEGTL_NAMESPACE
    bool coverage( ParseInput&& in, coverage_result& result, States&&... st )
    {
       internal::coverage_state state( result );
-      visit< Rule, internal::coverage_insert >( state.result );  // Fill map with all sub-rules of the grammar.
-      return parse< Rule, Action, state_control< Control >::template type >( in, st..., state );
+      visit< Rule, internal::coverage_insert >( state.result.coverage );  // Fill coverage map with all sub-rules of the grammar.
+      return parse< Rule, Action, rewind_state_control< Control >::template type >( in, st..., state );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
