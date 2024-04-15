@@ -44,6 +44,24 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< typename Rule, typename... States >
+      void prep_rewind( const ParseInput& in, States&&... /*unused*/ )
+      {
+         state.template prep_rewind< Rule >( in.rewind_position() );
+      }
+
+      template< typename Rule, typename... States >
+      void will_rewind( const ParseInput& in, States&&... /*unused*/ )
+      {
+         state.template will_rewind< Rule >( in.rewind_position() );
+      }
+
+      template< typename Rule, typename... States >
+      void wont_rewind( const ParseInput& in, States&&... /*unused*/ )
+      {
+         state.template wont_rewind< Rule >( in.rewind_position() );
+      }
+
+      template< typename Rule, typename... States >
       void raise( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
          state.template raise< Rule >();

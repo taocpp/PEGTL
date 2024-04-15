@@ -14,7 +14,7 @@
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../control/state_control.hpp"
+#include "../control/rewind_state_control.hpp"
 
 #include "trace_state.hpp"
 #include "trace_traits.hpp"
@@ -40,11 +40,11 @@ namespace TAO_PEGTL_NAMESPACE
 
          if constexpr( sizeof...( st ) == 0 ) {
             trace_state_t tr( std::cerr, in );
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, state_control< Control >::template type >( in, st..., tr );
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, rewind_state_control< Control >::template type >( in, st..., tr );
          }
          else if constexpr( !std::is_same_v< std::tuple_element_t< sizeof...( st ) - 1, std::tuple< States... > >, trace_state_t& > ) {
             trace_state_t tr( std::cerr, in );
-            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, state_control< Control >::template type >( in, st..., tr );
+            return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, rewind_state_control< Control >::template type >( in, st..., tr );
          }
          else {
             return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );

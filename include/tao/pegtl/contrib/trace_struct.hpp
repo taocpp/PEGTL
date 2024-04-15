@@ -97,6 +97,24 @@ namespace TAO_PEGTL_NAMESPACE
          update_position( pos );
       }
 
+      template< typename Rule, typename RewindPosition >
+      void prep_rewind( const RewindPosition& pos )
+      {
+         stream << std::setw( indent() ) << ' ' << "prep rewind " << pos << '\n';
+      }
+
+      template< typename Rule, typename RewindPosition >
+      void will_rewind( const RewindPosition& pos )
+      {
+         stream << std::setw( indent() ) << ' ' << "will rewind " << pos << '\n';
+      }
+
+      template< typename Rule, typename RewindPosition >
+      void wont_rewind( const RewindPosition& pos )
+      {
+         stream << std::setw( indent() ) << ' ' << "wont rewind " << pos << '\n';
+      }
+
       template< typename Rule >
       void raise()
       {
