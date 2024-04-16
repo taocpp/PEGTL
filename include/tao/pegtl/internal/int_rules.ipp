@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::TAO_PEGTL_INT_NAME
 {
    // clang-format off
    struct any : internal::any< TAO_PEGTL_INT_PEEK > {};
-   template< unsigned Count > struct many : internal::many< Count, TAO_PEGTL_INT_PEEK > {};
+   template< std::size_t Count > struct many : internal::many< Count, TAO_PEGTL_INT_PEEK > {};
 
    template< TAO_PEGTL_INT_TYPE... Cs > struct not_one : internal::not_one< TAO_PEGTL_INT_PEEK, Cs... > {};
    template< TAO_PEGTL_INT_TYPE Lo, TAO_PEGTL_INT_TYPE Hi > struct not_range : internal::not_range< TAO_PEGTL_INT_PEEK, Lo, Hi > {};

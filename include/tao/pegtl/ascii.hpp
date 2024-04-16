@@ -56,7 +56,7 @@ namespace TAO_PEGTL_NAMESPACE
       struct any : internal::any< internal::peek_char > {};
       template< char... Cs > struct ione : internal::ione< internal::peek_char, Cs... > {};
       template< char... Cs > struct istring : internal::ascii_istring< Cs... > {};
-      template< unsigned Count > struct many : internal::many< Count, internal::peek_char > {};
+      template< std::size_t Count > struct many : internal::many< Count, internal::peek_char > {};
       template< char... Cs > struct not_ione : internal::not_ione< internal::peek_char, Cs... > {};
       template< char... Cs > struct not_one : internal::not_one< internal::peek_char, Cs... > {};
       template< char Lo, char Hi > struct not_range : internal::not_range< internal::peek_char, Lo, Hi > {};
@@ -68,7 +68,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< char C > struct two : internal::ascii_string< C, C > {};
 
       struct any7 : internal::any< internal::peek_seven > {};
-      template< unsigned Count > struct many7 : internal::many< Count, internal::peek_seven > {};
+      template< std::size_t Count > struct many7 : internal::many< Count, internal::peek_seven > {};
       template< char... Cs > struct not_ione7 : internal::not_ione< internal::peek_seven, Cs... > {};
       template< char... Cs > struct not_one7 : internal::not_one< internal::peek_seven, Cs... > {};
       template< char Lo, char Hi > struct not_range7 : internal::not_range< internal::peek_seven, Lo, Hi > {};

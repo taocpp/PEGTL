@@ -17,7 +17,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< unsigned Count, typename Peek >
+   template< std::size_t Count, typename Peek >
    struct many
    {
       using peek_t = Peek;
@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
          else {
             std::size_t total = 0;
-            for( unsigned i = 0; i < Count; ++i ) {
+            for( std::size_t i = 0; i < Count; ++i ) {
                if( const auto t = Peek::peek( in, total ) ) {
                   total += t.size();
                   continue;
@@ -63,7 +63,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : success
    {};
 
-   template< unsigned Count, typename Peek >
+   template< std::size_t Count, typename Peek >
    inline constexpr bool enable_control< many< Count, Peek > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

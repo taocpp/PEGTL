@@ -123,7 +123,7 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_traits< Name, typename internal::sor< internal::seq< Cond, Then >, Else >::rule_t >
    {};
 
-   template< typename Name, unsigned Count, typename Peek >
+   template< typename Name, std::size_t Count, typename Peek >
    struct analyze_traits< Name, internal::many< Count, Peek > >
       : std::conditional_t< ( Count != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
    {};
@@ -153,17 +153,17 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_traits< Name, typename internal::sor< Head, internal::sor< internal::seq< Rules, internal::consume< 1, void > >... > >::rule_t >  // TODO: Correct (enough)?
    {};
 
-   template< typename Name, unsigned Cnt, typename... Rules >
+   template< typename Name, std::size_t Cnt, typename... Rules >
    struct analyze_traits< Name, internal::rep< Cnt, Rules... > >
       : std::conditional_t< ( Cnt != 0 ), analyze_seq_traits< Rules... >, analyze_opt_traits< Rules... > >
    {};
 
-   template< typename Name, unsigned Min, unsigned Max, typename... Rules >
+   template< typename Name, std::size_t Min, std::size_t Max, typename... Rules >
    struct analyze_traits< Name, internal::rep_min_max< Min, Max, Rules... > >
       : std::conditional_t< ( Min != 0 ), analyze_seq_traits< Rules... >, analyze_opt_traits< Rules... > >
    {};
 
-   template< typename Name, unsigned Max, typename... Rules >
+   template< typename Name, std::size_t Max, typename... Rules >
    struct analyze_traits< Name, internal::rep_opt< Max, Rules... > >
       : analyze_opt_traits< Rules... >
    {};

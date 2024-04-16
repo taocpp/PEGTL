@@ -59,7 +59,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : success
    {};
 
-   template< unsigned Count, typename Reference >
+   template< std::size_t Count, typename Reference >
    inline constexpr bool enable_control< consume< Count, Reference > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

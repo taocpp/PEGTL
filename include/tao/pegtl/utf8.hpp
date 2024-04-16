@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_UTF8_HPP
 #define TAO_PEGTL_UTF8_HPP
 
+#include <cstddef>
+
 #include "config.hpp"
 
 #include "internal/peek_utf8.hpp"
