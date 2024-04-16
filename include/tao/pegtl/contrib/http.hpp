@@ -133,6 +133,7 @@ namespace TAO_PEGTL_NAMESPACE::http
    struct chunk_size
    {
       using rule_t = plus< abnf::HEXDIG >::rule_t;
+      using subs_t = plus< abnf::HEXDIG >::subs_t;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -182,6 +183,7 @@ namespace TAO_PEGTL_NAMESPACE::http
    struct chunk_data
    {
       using rule_t = star< abnf::OCTET >::rule_t;
+      using subs_t = star< abnf::OCTET >::subs_t;
 
       template< apply_mode A,
                 rewind_mode M,
@@ -249,6 +251,7 @@ namespace TAO_PEGTL_NAMESPACE::http
       using impl = seq< chunk_size, chunk_ext, abnf::CRLF, chunk_data, abnf::CRLF >;
 
       using rule_t = impl::rule_t;
+      using subs_t = impl::subs_t;
 
       template< apply_mode A,
                 rewind_mode M,

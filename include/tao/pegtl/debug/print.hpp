@@ -2,14 +2,15 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_PRINT_HPP
-#define TAO_PEGTL_PRINT_HPP
+#ifndef TAO_PEGTL_DEBUG_PRINT_HPP
+#define TAO_PEGTL_DEBUG_PRINT_HPP
 
 #include <ostream>
 
-#include "config.hpp"
-#include "demangle.hpp"
-#include "type_list.hpp"
+#include "../config.hpp"
+#include "../demangle.hpp"
+#include "../type_list.hpp"
+
 #include "visit.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -62,13 +63,13 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Grammar >
    void print_names( std::ostream& os )
    {
-      visit< Grammar, internal::print_names >( os );
+      TAO_PEGTL_NAMESPACE::visit< Grammar, internal::print_names >( os );
    }
 
    template< typename Grammar >
    void print_debug( std::ostream& os )
    {
-      visit< Grammar, internal::print_debug >( os );
+      TAO_PEGTL_NAMESPACE::visit< Grammar, internal::print_debug >( os );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

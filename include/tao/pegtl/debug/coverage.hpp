@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_CONTRIB_COVERAGE_HPP
-#define TAO_PEGTL_CONTRIB_COVERAGE_HPP
+#ifndef TAO_PEGTL_DEBUG_COVERAGE_HPP
+#define TAO_PEGTL_DEBUG_COVERAGE_HPP
 
 #include <cstddef>
 #include <map>
@@ -18,9 +18,10 @@
 #include "../parse.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
-#include "../visit.hpp"
 
 #include "../control/rewind_state_control.hpp"
+
+#include "visit.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

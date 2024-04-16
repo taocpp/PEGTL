@@ -9,7 +9,7 @@
 
 #include <tao/pegtl.hpp>
 
-#include <tao/pegtl/analyze_traits.hpp>
+#include <tao/pegtl/debug/analyze_traits.hpp>
 
 enum my_type
 {

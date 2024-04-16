@@ -2,13 +2,13 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_VISIT_HPP
-#define TAO_PEGTL_VISIT_HPP
+#ifndef TAO_PEGTL_DEBUG_VISIT_HPP
+#define TAO_PEGTL_DEBUG_VISIT_HPP
 
 #include <type_traits>
 
-#include "config.hpp"
-#include "type_list.hpp"
+#include "../config.hpp"
+#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

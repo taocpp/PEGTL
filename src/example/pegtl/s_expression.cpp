@@ -15,7 +15,7 @@ int main()
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/analyze.hpp>
+#include <tao/pegtl/debug/analyze.hpp>
 
 namespace sexpr
 {

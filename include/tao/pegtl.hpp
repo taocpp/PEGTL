@@ -9,11 +9,9 @@
 #include "pegtl/demangle.hpp"
 #include "pegtl/inputs.hpp"
 #include "pegtl/parse.hpp"
-#include "pegtl/print.hpp"
 #include "pegtl/rules.hpp"
 #include "pegtl/utf8.hpp"
 #include "pegtl/version.hpp"
-#include "pegtl/visit.hpp"
 
 #if defined( __cpp_exceptions )
 #include "pegtl/parse_error.hpp"

@@ -7,6 +7,8 @@
 
 #include "test.hpp"
 
+#include <tao/pegtl/debug/visit.hpp>
+
 namespace TAO_PEGTL_NAMESPACE
 {
    using grammar = seq< plus< alpha >, star< sor< space, digit > > >;

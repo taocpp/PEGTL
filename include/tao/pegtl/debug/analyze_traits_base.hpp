@@ -2,14 +2,13 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_ANALYZE_TRAITS_HPP
-#define TAO_PEGTL_ANALYZE_TRAITS_HPP
+#ifndef TAO_PEGTL_DEBUG_ANALYZE_TRAITS_BASE_HPP
+#define TAO_PEGTL_DEBUG_ANALYZE_TRAITS_BASE_HPP
 
-#include "config.hpp"
-#include "forward.hpp"
-#include "type_list.hpp"
+#include "../config.hpp"
+#include "../type_list.hpp"
 
-#include "internal/analyze_enum.hpp"
+#include "analyze_traits_enum.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -17,7 +16,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_any_traits
    {
       // Consumption-on-success is always true; assumes bounded repetition of conjunction of sub-rules.
-      static constexpr internal::analyze_enum enum_v = internal::analyze_enum::any;
+      static constexpr analyze_traits_enum enum_v = analyze_traits_enum::any;
       using subs_t = type_list< Rules... >;
    };
 
@@ -25,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_opt_traits
    {
       // Consumption-on-success not necessarily true; assumes bounded repetition of conjunction of sub-rules.
-      static constexpr internal::analyze_enum enum_v = internal::analyze_enum::opt;
+      static constexpr analyze_traits_enum enum_v = analyze_traits_enum::opt;
       using subs_t = type_list< Rules... >;
    };
 
@@ -33,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_seq_traits
    {
       // Consumption-on-success depends on consumption of (non-zero bounded repetition of) conjunction of sub-rules.
-      static constexpr internal::analyze_enum enum_v = internal::analyze_enum::seq;
+      static constexpr analyze_traits_enum enum_v = analyze_traits_enum::seq;
       using subs_t = type_list< Rules... >;
    };
 
@@ -41,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_sor_traits
    {
       // Consumption-on-success depends on consumption of (non-zero bounded repetition of) disjunction of sub-rules.
-      static constexpr internal::analyze_enum enum_v = internal::analyze_enum::sor;
+      static constexpr analyze_traits_enum enum_v = analyze_traits_enum::sor;
       using subs_t = type_list< Rules... >;
    };
 

@@ -2,11 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#include <tao/pegtl/analyze.hpp>
-#include <tao/pegtl/analyze_traits.hpp>
 #include <tao/pegtl/apply_mode.hpp>
 #include <tao/pegtl/ascii.hpp>
-#include <tao/pegtl/buffer.hpp>
 #include <tao/pegtl/config.hpp>
 #include <tao/pegtl/count_position.hpp>
 #include <tao/pegtl/demangle.hpp>
@@ -27,7 +24,6 @@
 #include <tao/pegtl/pegtl_string.hpp>
 #include <tao/pegtl/pointer_position.hpp>
 #include <tao/pegtl/position_with_source.hpp>
-#include <tao/pegtl/print.hpp>
 #include <tao/pegtl/rewind_mode.hpp>
 #include <tao/pegtl/rules.hpp>
 #include <tao/pegtl/system.hpp>
@@ -44,7 +40,6 @@
 #include <tao/pegtl/utf32.hpp>
 #include <tao/pegtl/utf8.hpp>
 #include <tao/pegtl/version.hpp>
-#include <tao/pegtl/visit.hpp>
 
 #include <tao/pegtl/action/add_guard.hpp>
 #include <tao/pegtl/action/add_state.hpp>
@@ -89,6 +84,21 @@
 #include <tao/pegtl/control/rewind_state_control.hpp>
 #include <tao/pegtl/control/shuffle_states.hpp>
 #include <tao/pegtl/control/state_control.hpp>
+
+#include <tao/pegtl/debug/analyze.hpp>
+#include <tao/pegtl/debug/analyze_traits.hpp>
+#include <tao/pegtl/debug/analyze_traits_base.hpp>
+#include <tao/pegtl/debug/analyze_traits_enum.hpp>
+#include <tao/pegtl/debug/analyze_traits_impl.hpp>
+#include <tao/pegtl/debug/coverage.hpp>
+#include <tao/pegtl/debug/print.hpp>
+#include <tao/pegtl/debug/print_coverage.hpp>
+#include <tao/pegtl/debug/trace.hpp>
+#include <tao/pegtl/debug/trace_action.hpp>
+#include <tao/pegtl/debug/trace_state.hpp>
+#include <tao/pegtl/debug/trace_struct.hpp>
+#include <tao/pegtl/debug/trace_traits.hpp>
+#include <tao/pegtl/debug/visit.hpp>
 
 int main()
 {

@@ -4,6 +4,8 @@
 
 #include "test.hpp"
 
+#include <tao/pegtl/debug/visit.hpp>
+
 namespace TAO_PEGTL_NAMESPACE
 {
    // clang-format off

@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/contrib/trace_action.hpp>
+#include <tao/pegtl/debug/trace_action.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

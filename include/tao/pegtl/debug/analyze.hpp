@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_ANALYZE_HPP
-#define TAO_PEGTL_ANALYZE_HPP
+#ifndef TAO_PEGTL_DEBUG_ANALYZE_HPP
+#define TAO_PEGTL_DEBUG_ANALYZE_HPP
 
 #include <cassert>
 #include <cstddef>
@@ -15,12 +15,11 @@
 #include <utility>
 #include <vector>
 
-#include "config.hpp"
-#include "demangle.hpp"
+#include "../config.hpp"
+#include "../demangle.hpp"
 
 #include "analyze_traits.hpp"
 
-#include "internal/analyze_traits.hpp"
 #include "internal/set_stack_guard.hpp"
 #include "internal/vector_stack_guard.hpp"
 
@@ -30,11 +29,11 @@ namespace TAO_PEGTL_NAMESPACE
    {
       struct analyze_entry
       {
-         explicit analyze_entry( const analyze_enum g ) noexcept
+         explicit analyze_entry( const analyze_traits_enum g ) noexcept
             : group( g )
          {}
 
-         const analyze_enum group;
+         const analyze_traits_enum group;
          std::vector< std::string_view > subs;
       };
 
@@ -84,28 +83,28 @@ namespace TAO_PEGTL_NAMESPACE
             if( const auto g = set_stack_guard( m_stack, entry.first ) ) {
                const auto v = vector_stack_guard( m_trace, entry.first );
                switch( entry.second.group ) {
-                  case analyze_enum::any: {
+                  case analyze_traits_enum::any: {
                      bool a = false;
                      for( const auto& r : entry.second.subs ) {
                         a = a || work( find( r ), accum || a );
                      }
                      return true;
                   }
-                  case analyze_enum::opt: {
+                  case analyze_traits_enum::opt: {
                      bool a = false;
                      for( const auto& r : entry.second.subs ) {
                         a = a || work( find( r ), accum || a );
                      }
                      return false;
                   }
-                  case analyze_enum::seq: {
+                  case analyze_traits_enum::seq: {
                      bool a = false;
                      for( const auto& r : entry.second.subs ) {
                         a = a || work( find( r ), accum || a );
                      }
                      return a;
                   }
-                  case analyze_enum::sor: {
+                  case analyze_traits_enum::sor: {
                      bool a = true;
                      for( const auto& r : entry.second.subs ) {
                         a = a && work( find( r ), accum );

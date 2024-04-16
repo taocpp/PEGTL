@@ -6,9 +6,9 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/coverage.hpp>
 #include <tao/pegtl/contrib/json.hpp>
-#include <tao/pegtl/contrib/print_coverage.hpp>
+#include <tao/pegtl/debug/coverage.hpp>
+#include <tao/pegtl/debug/print_coverage.hpp>
 
 #include "json_errors.hpp"
 

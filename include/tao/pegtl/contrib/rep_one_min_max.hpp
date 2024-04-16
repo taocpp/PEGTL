@@ -8,10 +8,10 @@
 #include <algorithm>
 #include <type_traits>
 
-#include "../analyze_traits.hpp"
 #include "../config.hpp"
 #include "../type_list.hpp"
 
+#include "../debug/analyze_traits.hpp"
 #include "../internal/enable_control.hpp"
 
 namespace TAO_PEGTL_NAMESPACE

@@ -7,12 +7,13 @@
 
 #include <cstddef>
 
-#include "../analyze_traits.hpp"
 #include "../config.hpp"
 
 #include "discard.hpp"
 #include "is_buffer.hpp"
 #include "require.hpp"
+
+#include "../debug/analyze_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

@@ -8,13 +8,14 @@
 #include <cstddef>
 #include <type_traits>
 
-#include "../analyze_traits.hpp"
 #include "../apply_mode.hpp"
 #include "../ascii.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../rules.hpp"
 #include "../tags.hpp"
+
+#include "../debug/analyze_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

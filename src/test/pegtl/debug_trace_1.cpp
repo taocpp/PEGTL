@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/contrib/trace.hpp>
+#include <tao/pegtl/debug/trace.hpp>
 
 namespace testcase
 {

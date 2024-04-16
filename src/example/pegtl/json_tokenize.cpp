@@ -7,7 +7,7 @@
 #include <vector>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/analyze.hpp>
+#include <tao/pegtl/debug/analyze.hpp>
 #include <tao/pegtl/contrib/json.hpp>
 
 namespace TAO_PEGTL_NAMESPACE::json

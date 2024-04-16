@@ -7,7 +7,7 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/json.hpp>
-#include <tao/pegtl/contrib/trace.hpp>
+#include <tao/pegtl/debug/trace.hpp>
 
 #include "json_errors.hpp"
 
@@ -22,13 +22,12 @@ namespace example
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    if( argc != 2 ) {
-      std::cerr << "Usage: " << argv[ 0 ] << " JSON\n"
-                << "Trace parsing a JSON text.\n\n"
-                << "Example: " << argv[ 0 ] << " '{\"foo\":[42,null]}'" << std::endl;
+      std::cerr << "Usage: " << argv[ 0 ] << " FILE\n"
+                << "Print trace of parsing FILE as JSON." << std::endl;
       return 1;
    }
-   using input_t = pegtl::argv_input<>;
-   input_t in( argv, 1 );
+   using input_t = pegtl::text_file_input< pegtl::scan::lf >;
+   input_t in( argv[ 1 ] );
 #if defined( __cpp_exceptions )
    try {
       pegtl::standard_trace< example::grammar, pegtl::nothing, example::control >( in );

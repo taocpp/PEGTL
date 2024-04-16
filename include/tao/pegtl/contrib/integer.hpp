@@ -16,13 +16,14 @@
 #include <string_view>
 #include <type_traits>
 
-#include "../analyze_traits.hpp"
 #include "../ascii.hpp"
 #include "../config.hpp"
 #include "../parse.hpp"
 #include "../parse_error.hpp"
 #include "../rules.hpp"
 #include "../tags.hpp"
+
+#include "../debug/analyze_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

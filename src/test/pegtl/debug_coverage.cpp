@@ -7,8 +7,8 @@
 #include "test.hpp"
 #include "test_utility.hpp"
 
-#include <tao/pegtl/contrib/coverage.hpp>
-#include <tao/pegtl/contrib/print_coverage.hpp>
+#include <tao/pegtl/debug/coverage.hpp>
+#include <tao/pegtl/debug/print_coverage.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
