@@ -66,7 +66,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : success
    {};
 
-   template< char... Cs >
+   template< char32_t... Cs >
    inline constexpr bool enable_control< unicode_string< Cs... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
