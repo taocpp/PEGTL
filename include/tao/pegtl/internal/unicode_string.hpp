@@ -7,7 +7,9 @@
 
 #include <cstddef>
 
+#include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
 #include "dependent_false.hpp"
@@ -16,6 +18,7 @@
 #include "peek_unicode.hpp"
 #include "peek_utf16.hpp"
 #include "peek_utf32.hpp"
+#include "seq.hpp"
 #include "success.hpp"
 #include "utf32_to_utf8.hpp"
 

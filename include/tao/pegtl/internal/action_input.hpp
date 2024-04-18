@@ -30,6 +30,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       action_input_impl( action_input_impl&& ) = delete;
       action_input_impl( const action_input_impl& ) = delete;
 
+      ~action_input_impl() = default;
+
       void operator=( action_input_impl&& ) = delete;
       void operator=( const action_input_impl& ) = delete;
 

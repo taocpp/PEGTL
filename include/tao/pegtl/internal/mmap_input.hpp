@@ -8,6 +8,8 @@
 #include <filesystem>
 
 #include "../config.hpp"
+#include "../count_position.hpp"
+#include "../pointer_position.hpp"
 
 #include "mmap_file_base.hpp"
 #include "view_input.hpp"

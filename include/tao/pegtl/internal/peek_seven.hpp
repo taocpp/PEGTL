@@ -41,12 +41,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
          static_assert( sizeof( data_t ) == sizeof( raw_t ) );
 
          if( in.size( 1 + offset ) >= ( 1 + offset ) ) {
-            const data_t c = static_cast< data_t >( *in.current( offset ) );
+            const auto c = static_cast< data_t >( *in.current( offset ) );
             if( is_seven_value( c ) ) {
-               return pair_t( c, 1 );
+               return { c, 1 };
             }
          }
-         return pair_t();
+         return {};
       }
    };
 

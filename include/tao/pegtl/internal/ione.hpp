@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Data >
       [[nodiscard]] static constexpr bool test( const Data c ) noexcept
       {
-         return ( ascii_ichar_equal< Cs >( c ) || ... ) == true;
+         return ( ascii_ichar_equal< Cs >( c ) || ... );
       }
    };
 

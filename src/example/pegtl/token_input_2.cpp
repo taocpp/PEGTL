@@ -10,7 +10,7 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/member.hpp>
 
-enum my_type
+enum class my_type
 {
    alpha,
    beta,

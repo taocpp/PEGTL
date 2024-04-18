@@ -11,7 +11,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Guard, typename Input, typename Data >
-   [[nodiscard]] auto rematch_position( Guard&, Input& in, const pointer_position< Data > saved )
+   [[nodiscard]] auto rematch_position( Guard& /*unused*/, Input& in, const pointer_position< Data > saved )
    {
       return in.previous_position( saved );
    }

@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       [[nodiscard]] explicit operator bool() const noexcept
       {
-         return start || success || failure || unwind || raise || raise_nested;
+         return ( start != 0 ) || ( success != 0 ) || ( failure != 0 ) || ( unwind != 0 ) || ( raise != 0 ) || ( raise_nested != 0 );
       }
    };
 

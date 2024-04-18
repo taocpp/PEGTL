@@ -17,6 +17,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       dummy_guard( dummy_guard&& ) = delete;
       dummy_guard( const dummy_guard& ) = delete;
 
+      ~dummy_guard() = default;
+
       void operator=( dummy_guard&& ) = delete;
       void operator=( const dummy_guard& ) = delete;
 

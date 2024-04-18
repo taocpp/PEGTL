@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       if( size >= ( offset + 1 ) ) {
          const char32_t c0 = integer_adapt< std::uint8_t >( in.current( offset ) );
          if( is_utf8_byte_1_of_1( c0 ) ) {
-            return char32_and_size( c0, 1 );
+            return { c0, 1 };
          }
          if( is_utf8_byte_1_of_2( c0 ) ) {
             if( size >= ( offset + 2 ) ) {
@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                if( is_utf8_continuation( c1 ) ) {
                   const char32_t c = utf8_compose( c0, c1 );
                   if( c >= 0x80 ) {
-                     return char32_and_size( c, 2 );
+                     return { c, 2 };
                   }
                }
             }
@@ -45,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                if( is_utf8_continuation( c1 ) && is_utf8_continuation( c2 ) ) {
                   const char32_t c = utf8_compose( c0, c1, c2 );
                   if( ( c >= 0x800 ) && ( !is_utf16_surrogate( c ) ) ) {
-                     return char32_and_size( c, 3 );
+                     return { c, 3 };
                   }
                }
             }
@@ -58,13 +58,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
                if( is_utf8_continuation( c1 ) && is_utf8_continuation( c2 ) && is_utf8_continuation( c3 ) ) {
                   const char32_t c = utf8_compose( c0, c1, c2, c3 );
                   if( ( c >= 0x10000 ) && ( c <= 0x10ffff ) ) {
-                     return char32_and_size( c, 4 );
+                     return { c, 4 };
                   }
                }
             }
          }
       }
-      return char32_and_size();
+      return {};
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

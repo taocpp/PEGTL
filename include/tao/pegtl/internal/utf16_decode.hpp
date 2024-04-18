@@ -22,20 +22,20 @@ namespace TAO_PEGTL_NAMESPACE::internal
       const std::size_t size = in.size( s + s + offset );
 
       if( size >= ( offset + s ) ) {
-         const char16_t t = Endian::template get< char16_t >( in.current( offset ) );
+         const auto t = Endian::template get< char16_t >( in.current( offset ) );
          if( !is_utf16_surrogate( t ) ) {
-            return char32_and_size( t, s );
+            return { t, s };
          }
          if( is_utf16_high_surrogate( t ) ) {
             if( size >= ( offset + s + s ) ) {
-               const char16_t u = Endian::template get< char16_t >( in.current( offset + s ) );
+               const auto u = Endian::template get< char16_t >( in.current( offset + s ) );
                if( is_utf16_low_surrogate( u ) ) {
-                  return char32_and_size( utf16_compose( t, u ), s + s );
+                  return { utf16_compose( t, u ), s + s };
                }
             }
          }
       }
-      return char32_and_size();
+      return {};
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

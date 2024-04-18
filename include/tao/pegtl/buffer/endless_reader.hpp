@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_BUFFER_ENDLESS_READER_HPP
 #define TAO_PEGTL_BUFFER_ENDLESS_READER_HPP
 
+#include <cassert>
 #include <cstddef>
 #include <cstring>
 #include <string>

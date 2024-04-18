@@ -11,7 +11,7 @@
 
 #include <tao/pegtl/debug/analyze_traits.hpp>
 
-enum my_type
+enum class my_type
 {
    alpha,
    beta,

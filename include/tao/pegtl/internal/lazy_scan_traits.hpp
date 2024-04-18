@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                pos.column = 1;
                continue;
             }
-            else if( const auto pair = Peek::peek( in ) ) {
+            if( const auto pair = Peek::peek( in ) ) {
                pos.column += pair.size();
                in.template consume< void >( pair.size() );
                continue;

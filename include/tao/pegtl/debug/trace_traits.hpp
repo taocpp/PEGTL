@@ -8,6 +8,8 @@
 #include <cstddef>
 #include <string_view>
 
+#include "../normal.hpp"
+
 namespace TAO_PEGTL_NAMESPACE
 {
    template< bool HideInternal = true,

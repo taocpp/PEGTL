@@ -24,10 +24,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
          const char32_t t = Endian::template get< char32_t >( in.current( offset ) );
 
          if( is_utf32( t ) ) {
-            return char32_and_size( t, s );
+            return { t, s };
          }
       }
-      return char32_and_size();
+      return {};
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

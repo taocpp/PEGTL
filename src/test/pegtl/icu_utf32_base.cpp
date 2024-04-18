@@ -6,7 +6,7 @@
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
-#include <tao/pegtl/icu/utf32.hpp>
+// #include <tao/pegtl/icu/utf32.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

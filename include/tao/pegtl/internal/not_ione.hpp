@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          using data_t = typename Peek::data_t;
          static_assert( sizeof( Data ) <= sizeof( data_t ) );
-         return ( ascii_ichar_equal< Cs >( c ) || ... ) == false;
+         return !( ascii_ichar_equal< Cs >( c ) || ... );
       }
    };
 

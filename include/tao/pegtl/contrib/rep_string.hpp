@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< char... Ss, char... Cs >
       struct make_rep_string< 0, ascii_string< Ss... >, Cs... >
       {
-         using type = string< Ss... >;
+         using type = ascii_string< Ss... >;
       };
 
       template< std::size_t N, char... Ss, char... Cs >
