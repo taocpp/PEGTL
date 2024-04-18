@@ -5,7 +5,6 @@ set(example_sources
   analyze.cpp
   calculator.cpp
   chomsky_hierarchy.cpp
-  cst.cpp
   csv1.cpp
   csv2.cpp
   dispatch.cpp
