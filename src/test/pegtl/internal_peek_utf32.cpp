@@ -46,7 +46,8 @@ namespace TAO_PEGTL_NAMESPACE
          input4 in( v );
          TAO_PEGTL_TEST_ASSERT( !p32::peek( in ) );
          TAO_PEGTL_TEST_ASSERT( !pub::peek( in ) || !pul::peek( in ) );
-      } {
+      }
+      {
          std::vector< std::uint8_t > w;
          for( const std::uint32_t u : v ) {
             w.push_back( ( u >> 24 ) & 0xff );
@@ -56,7 +57,8 @@ namespace TAO_PEGTL_NAMESPACE
          }
          input1 in( w );
          TAO_PEGTL_TEST_ASSERT( !p32b::peek( in ) );
-      } {
+      }
+      {
          std::vector< std::uint8_t > w;
          for( const std::uint32_t u : v ) {
             w.push_back( u & 0xff );
@@ -80,7 +82,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( pair.data() == d );
          TAO_PEGTL_TEST_ASSERT( ( pub::peek( in ).data() == d ) ^ ( pul::peek( in ).data() == d ) );
          TAO_PEGTL_TEST_ASSERT( ( p32b::peek( in ).data() == d ) ^ ( p32l::peek( in ).data() == d ) );
-      } {
+      }
+      {
          std::vector< std::uint8_t > w;
          for( const std::uint32_t u : v ) {
             w.push_back( ( u >> 24 ) & 0xff );
@@ -93,7 +96,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == in.size() );
          TAO_PEGTL_TEST_ASSERT( pair.data() == d );
-      } {
+      }
+      {
          std::vector< std::uint8_t > w;
          for( const std::uint32_t u : v ) {
             w.push_back( u & 0xff );

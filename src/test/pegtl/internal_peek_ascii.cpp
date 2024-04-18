@@ -35,25 +35,30 @@ namespace TAO_PEGTL_NAMESPACE
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0 );
-         } {
+         }
+         {
             const auto pair = peek7::peek( in, 1 );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 1 );
-         } {
+         }
+         {
             const auto pair = peek7::peek( in, 2 );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 127 );
-         } {
+         }
+         {
             const auto pair = peek7::peek( in, 3 );
             TAO_PEGTL_TEST_ASSERT( !pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 0 );
-         } {
+         }
+         {
             const auto pair = peek7::peek( in, 4 );
             TAO_PEGTL_TEST_ASSERT( !pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 0 );
-         } {
+         }
+         {
             const auto pair = peek7::peek( in, 5 );
             TAO_PEGTL_TEST_ASSERT( !pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 0 );

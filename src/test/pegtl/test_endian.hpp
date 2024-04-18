@@ -18,7 +18,8 @@ namespace TAO_PEGTL_NAMESPACE::test
 
    [[nodiscard]] inline bool is_be() noexcept
    {
-      union {
+      union
+      {
          std::uint8_t a[ 2 ];
          std::uint16_t i;
       } u;

@@ -17,7 +17,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( parse< eof >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_0 in( " " );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
@@ -25,7 +26,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 2, 1 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_0 in( "\n" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
@@ -33,7 +35,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 2, 1, 1 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_0 in( "\n" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
@@ -41,7 +44,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 2, 1, 1 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_0 in( "\n" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
@@ -49,7 +53,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 2, 1, 1 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_0 in( "\n " );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
@@ -58,7 +63,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( parse< blank >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 2, 2 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_0 in( " \n " );
          const char* start = in.current();
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
@@ -67,7 +73,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 3 );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 2, 3 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_0 in( " \n " );
          const char* start = in.current();
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
@@ -79,7 +86,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 3 );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 2, 3 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_0 in( "\n " );
          const char* start = in.current();
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
@@ -88,7 +96,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 2 );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 2, 2 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_0 in( " \n " );
          const char* start = in.current();
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
@@ -100,7 +109,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.current() == start + 3 );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 2, 3 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_0 in( " \n " );
          const char* start = in.current();
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
@@ -114,7 +124,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( parse< blank >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 2, 3 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_0 in( " \n " );
          const char* start = in.current();
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
@@ -137,7 +148,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( parse< eof >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_1 in( " " );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
@@ -145,7 +157,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 2, 1 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_1 in( "\n" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
@@ -163,14 +176,16 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( parse< eof >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_2 in( " " );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
          TAO_PEGTL_TEST_ASSERT( parse< blank >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 2, 1 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_2 in( "\n" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
@@ -178,21 +193,24 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 2, 1, 1 ) );
-      } {
+      }
+      {
          input_2 in( "\r" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
          TAO_PEGTL_TEST_ASSERT( parse< eol >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 2, 1, 1 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_2 in( "\r\n" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
          TAO_PEGTL_TEST_ASSERT( parse< eol >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.direct_position(), 2, 1, 2 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_2 in( "\n\r" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
@@ -202,7 +220,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( parse< eol >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 3, 1, 2 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
-      } {
+      }
+      {
          input_2 in( " \n " );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );

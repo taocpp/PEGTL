@@ -16,13 +16,15 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( parse< eof >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
-      } {
+      }
+      {
          input_1 in( " " );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( parse< blank >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 2, 1 ) );
-      } {
+      }
+      {
          input_1 in( "\n" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( parse< eol >( in ) );
@@ -35,33 +37,39 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( parse< eof >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
-      } {
+      }
+      {
          input_2 in( " " );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( parse< blank >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 2, 1 ) );
-      } {
+      }
+      {
          input_2 in( "\n" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( parse< eol >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 1, 1 ) );
-      } {
+      }
+      {
          input_2 in( "\r" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( parse< eol >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 1, 1 ) );
-      } {
+      }
+      {
          input_2 in( "\r\n" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( parse< eol >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 1, 2 ) );
-      } {
+      }
+      {
          input_2 in( "\n\r" );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( parse< eol >( in ) );
          TAO_PEGTL_TEST_ASSERT( parse< eol >( in ) );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 3, 1, 2 ) );
-      } {
+      }
+      {
          input_2 in( " \n " );
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 1, 1, 0 ) );
          TAO_PEGTL_TEST_ASSERT( parse< blank >( in ) );

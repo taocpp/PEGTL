@@ -78,65 +78,79 @@ namespace TAO_PEGTL_NAMESPACE
          {
             const auto pair = pm16b::peek( in, 7 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-         } {
+         }
+         {
             const auto pair = pm32b::peek( in, 5 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-         } {
+         }
+         {
             const auto pair = pm64b::peek( in, 1 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-         } {
+         }
+         {
             const auto pair = pm16l::peek( in, 7 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-         } {
+         }
+         {
             const auto pair = pm32l::peek( in, 5 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-         } {
+         }
+         {
             const auto pair = pm64l::peek( in, 1 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-         } {
+         }
+         {
             const auto pair = pm8::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0x0f );
-         } {
+         }
+         {
             const auto pair = pm16b::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 2 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0x0ff7 );
-         } {
+         }
+         {
             const auto pair = pm32b::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 4 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0xffff0ff7 );
-         } {
+         }
+         {
             const auto pair = pm64b::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 8 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0x0077ff00ffff0ff7 );
-         } {
+         }
+         {
             const auto pair = pm16l::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 2 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0x0ff7 );
-         } {
+         }
+         {
             const auto pair = pm32l::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 4 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0xffff0ff7 );
-         } {
+         }
+         {
             const auto pair = pm64l::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 8 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0x0077ff00ffff0ff7 );
          }
-      } {
+      }
+      {
          std::vector< std::uint8_t > v = { 0x33 };
          input1 in( v );
          const auto pair = pm8::peek( in );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
          TAO_PEGTL_TEST_ASSERT( pair.data() == 0x03 );
-      } {
+      }
+      {
          std::vector< std::uint16_t > v = { 0xffff };
          input2 in( v );
          {
@@ -144,13 +158,15 @@ namespace TAO_PEGTL_NAMESPACE
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0x0ff7 );
-         } {
+         }
+         {
             const auto pair = pm16l::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0x0ff7 );
          }
-      } {
+      }
+      {
          std::vector< std::uint16_t > v = { 0xcccc };
          input2 in( v );
          {
@@ -158,13 +174,15 @@ namespace TAO_PEGTL_NAMESPACE
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0x0cc4 );
-         } {
+         }
+         {
             const auto pair = pm16l::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0x0cc4 );
          }
-      } {
+      }
+      {
          std::vector< std::uint32_t > v = { 0xffffffff };
          input4 in( v );
          {
@@ -172,13 +190,15 @@ namespace TAO_PEGTL_NAMESPACE
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( 0xffff0ff7 );
-         } {
+         }
+         {
             const auto pair = pm32l::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( 0xffff0ff7 );
          }
-      } {
+      }
+      {
          std::vector< std::uint64_t > v = { 0xffffffffffffffff };
          input8 in( v );
          {
@@ -186,7 +206,8 @@ namespace TAO_PEGTL_NAMESPACE
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0x0077ff00ffff0ff7 );
-         } {
+         }
+         {
             const auto pair = pm64l::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );

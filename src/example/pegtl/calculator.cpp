@@ -25,7 +25,8 @@ namespace calculator
    // number indicates a lower priority.
 
    enum class order : int
-   {};
+   {
+   };
 
    // For each binary operator known to the calculator we need an
    // instance of the following data structure with the priority,

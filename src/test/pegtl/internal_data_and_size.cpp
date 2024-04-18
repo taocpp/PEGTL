@@ -23,7 +23,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( !das );
          TAO_PEGTL_TEST_ASSERT( das.empty() );
          TAO_PEGTL_TEST_ASSERT( das.size() == 0 );
-      } {
+      }
+      {
          internal::data_and_size< std::int32_t, void > das;
          static_assert( std::is_same_v< decltype( das.size() ), std::size_t > );
          static_assert( std::is_same_v< decltype( das.data() ), const std::int32_t& > );
@@ -31,7 +32,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( das.empty() );
          TAO_PEGTL_TEST_ASSERT( das.size() == 0 );
          TAO_PEGTL_TEST_ASSERT( das.pointer() == nullptr );
-      } {
+      }
+      {
          internal::data_and_size< std::int32_t, std::uint16_t > das( 10000, 100 );
          static_assert( std::is_same_v< decltype( das.size() ), std::uint16_t > );
          static_assert( std::is_same_v< decltype( das.data() ), std::int32_t > );
@@ -39,7 +41,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( !das.empty() );
          TAO_PEGTL_TEST_ASSERT( das.size() == 100 );
          TAO_PEGTL_TEST_ASSERT( das.data() == 10000 );
-      } {
+      }
+      {
          const std::int32_t value = 42;
          internal::data_and_size das( &value );
          static_assert( std::is_same_v< decltype( das.size() ), std::size_t > );

@@ -89,19 +89,22 @@ namespace TAO_PEGTL_NAMESPACE
          const auto result = parse< AB, my_action_1 >( in, c );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( c == 4 );
-      } {
+      }
+      {
          text_view_input< scan::lf > in( "a" );
          int c = 0;
          const auto result = parse< AB, my_action_1 >( in, c );
          TAO_PEGTL_TEST_ASSERT( !result );
          TAO_PEGTL_TEST_ASSERT( c == 1 );
-      } {
+      }
+      {
          text_view_input< scan::lf > in( "b" );
          int c = 0;
          const auto result = parse< AB, my_action_1 >( in, c );
          TAO_PEGTL_TEST_ASSERT( !result );
          TAO_PEGTL_TEST_ASSERT( c == 0 );
-      } {
+      }
+      {
          text_view_input< scan::lf > in( "ab" );
          int c = 5;
          const auto result = parse< disable< AB >, my_action_1 >( in, c );

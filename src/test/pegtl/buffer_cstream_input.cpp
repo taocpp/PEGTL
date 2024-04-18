@@ -34,7 +34,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          std::fclose( stream );
-      } {
+      }
+      {
 #if defined( _MSC_VER )
          std::FILE* stream;
          ::fopen_s( &stream, filename, "rb" );

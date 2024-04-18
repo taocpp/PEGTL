@@ -75,53 +75,65 @@ namespace TAO_PEGTL_NAMESPACE
          {
             const auto pair = pu16b::peek( in, 7 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-         } {
+         }
+         {
             const auto pair = pu32b::peek( in, 5 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-         } {
+         }
+         {
             const auto pair = pu64b::peek( in, 1 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-         } {
+         }
+         {
             const auto pair = pu16l::peek( in, 7 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-         } {
+         }
+         {
             const auto pair = pu32l::peek( in, 5 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-         } {
+         }
+         {
             const auto pair = pu64l::peek( in, 1 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-         } {
+         }
+         {
             const auto pair = pu16b::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 2 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == std::uint16_t( 0x0102 ) );
-         } {
+         }
+         {
             const auto pair = pu32b::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 4 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == std::uint32_t( 0x01020304 ) );
-         } {
+         }
+         {
             const auto pair = pu64b::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 8 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == std::uint64_t( 0x0102030405060708 ) );
-         } {
+         }
+         {
             const auto pair = pu16l::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 2 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == std::uint16_t( 0x0201 ) );
-         } {
+         }
+         {
             const auto pair = pu32l::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 4 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == std::uint32_t( 0x04030201 ) );
-         } {
+         }
+         {
             const auto pair = pu64l::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 8 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == std::uint64_t( 0x0807060504030201 ) );
          }
-      } {
+      }
+      {
          std::vector< std::uint16_t > v = { 0x0102 };
          input2 in( v );
          {
@@ -129,13 +141,15 @@ namespace TAO_PEGTL_NAMESPACE
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( ( pair.data() == 0x0102 ) || ( pair.data() == 0x0201 ) );
-         } {
+         }
+         {
             const auto pair = pu16l::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( ( pair.data() == 0x0102 ) || ( pair.data() == 0x0201 ) );
          }
-      } {
+      }
+      {
          std::vector< std::uint32_t > v = { 0x01020304 };
          input4 in( v );
          {
@@ -143,13 +157,15 @@ namespace TAO_PEGTL_NAMESPACE
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( ( pair.data() == 0x01020304 ) || ( pair.data() == 0x04030201 ) );
-         } {
+         }
+         {
             const auto pair = pu32l::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( ( pair.data() == 0x01020304 ) || ( pair.data() == 0x04030201 ) );
          }
-      } {
+      }
+      {
          std::vector< std::uint64_t > v = { 0x0102030404030201 };
          input8 in( v );
          {
@@ -157,7 +173,8 @@ namespace TAO_PEGTL_NAMESPACE
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
             TAO_PEGTL_TEST_ASSERT( pair.data() == 0x0102030404030201 );
-         } {
+         }
+         {
             const auto pair = pu64l::peek( in );
             TAO_PEGTL_TEST_ASSERT( pair );
             TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );

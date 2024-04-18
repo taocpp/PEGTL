@@ -7,14 +7,16 @@
 #include <vector>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/debug/analyze.hpp>
 #include <tao/pegtl/contrib/json.hpp>
+#include <tao/pegtl/debug/analyze.hpp>
 
 namespace TAO_PEGTL_NAMESPACE::json
 {
-   struct token_rule : padr< sor< one< '[' >, one< ']' >, one< '{' >, one< '}' >, one< ':' >, one< ',' >, string, number, false_, true_, null > > {};
+   struct token_rule : padr< sor< one< '[' >, one< ']' >, one< '{' >, one< '}' >, one< ':' >, one< ',' >, string, number, false_, true_, null > >
+   {};
 
-   struct token_file : until< eof, token_rule > {};
+   struct token_file : until< eof, token_rule >
+   {};
 
    enum class token_type
    {

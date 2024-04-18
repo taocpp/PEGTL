@@ -51,7 +51,8 @@ namespace TAO_PEGTL_NAMESPACE
          text_view_input< scan::lf > in( "f" );
          parse< any, at_action >( in );
          TAO_PEGTL_TEST_ASSERT( at_counter == 1 );
-      } {
+      }
+      {
          text_view_input< scan::lf > in( "f" );
          parse< at< any >, at_action >( in );
          TAO_PEGTL_TEST_ASSERT( at_counter == 1 );

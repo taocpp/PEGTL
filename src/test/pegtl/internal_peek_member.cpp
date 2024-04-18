@@ -95,7 +95,8 @@ namespace TAO_PEGTL_NAMESPACE
          const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 12 );
-      } {
+      }
+      {
          test_integer = -1;
          test_input in( ts );
          using peek_type = internal::peek_member< &token::local2 >;
@@ -104,7 +105,8 @@ namespace TAO_PEGTL_NAMESPACE
          const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 23 );
-      } {
+      }
+      {
          the_integer = 42;
          test_integer = -1;
          test_input in( ts );
@@ -114,7 +116,8 @@ namespace TAO_PEGTL_NAMESPACE
          const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 42 );
-      } {
+      }
+      {
          the_integer = -120;
          test_integer = -1;
          test_input in( ts );
@@ -124,7 +127,8 @@ namespace TAO_PEGTL_NAMESPACE
          const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == -120 );
-      } {
+      }
+      {
          the_integer = 0;
          test_integer = -1;
          test_input in( ts );
@@ -134,7 +138,8 @@ namespace TAO_PEGTL_NAMESPACE
          const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 0 );
-      } {
+      }
+      {
          the_integer = 65536;
          test_integer = -1;
          test_input in( ts );
@@ -144,7 +149,8 @@ namespace TAO_PEGTL_NAMESPACE
          const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 65536 );
-      } {
+      }
+      {
          test_integer = -1;
          test_input in( ts );
          using peek_type = internal::peek_member< &token::method1 >;
@@ -153,7 +159,8 @@ namespace TAO_PEGTL_NAMESPACE
          const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 503 );
-      } {
+      }
+      {
          test_integer = -1;
          test_input in( ts );
          using peek_type = internal::peek_member< &token::method2 >;
@@ -162,7 +169,8 @@ namespace TAO_PEGTL_NAMESPACE
          const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 102 );
-      } {
+      }
+      {
          test_integer = -1;
          test_input in( ts );
          using peek_type = internal::peek_member< &token::method3 >;
@@ -171,7 +179,8 @@ namespace TAO_PEGTL_NAMESPACE
          const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 3333 );
-      } {
+      }
+      {
          test_integer = -1;
          test_input in( ts );
          using peek_type = internal::peek_member< &get_other1 >;
@@ -180,7 +189,8 @@ namespace TAO_PEGTL_NAMESPACE
          const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 901 );
-      } {
+      }
+      {
          test_integer = -1;
          test_input in( ts );
          using peek_type = internal::peek_member< &get_other2 >;
@@ -189,7 +199,8 @@ namespace TAO_PEGTL_NAMESPACE
          const auto b = parse< function< func1, peek_type > >( in );
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( test_integer == 902 );
-      } {
+      }
+      {
          test_integer = -1;
          test_input in( ts );
          using peek_type = internal::peek_member< &get_other3 >;

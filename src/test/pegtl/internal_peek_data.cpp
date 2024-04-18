@@ -28,13 +28,15 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
          TAO_PEGTL_TEST_ASSERT( pair.data() == 1000 );
-      } {
+      }
+      {
          const auto pair = peek_type::peek( in, 2 );
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
          TAO_PEGTL_TEST_ASSERT( pair.data() == 3000 );
-      } {
+      }
+      {
          const auto pair = peek_type::peek( in, 3 );
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( !pair );

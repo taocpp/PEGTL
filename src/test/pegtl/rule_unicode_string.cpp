@@ -24,12 +24,14 @@ namespace TAO_PEGTL_NAMESPACE
          view_input< scan::lf > in( v );
          TAO_PEGTL_TEST_ASSERT( parse< unicode::string< 1, 0xa3, 2, 0x418, 3, 0x939, 4, 0x20ac, 5, 0xd55c, 6, 0x10348, 7 > >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
-      } {
+      }
+      {
          std::vector< std::uint16_t > v = { 0x20, 0x20ac, 0xd801, 0xdc37 };
          view_input< scan::lf, std::uint16_t > in( v );
          TAO_PEGTL_TEST_ASSERT( parse< unicode::string< 0x20, 0x20ac, 0x10437 > >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
-      } {
+      }
+      {
          std::vector< char32_t > v = { 0x20, 0x20ac, 0x10437 };
          view_input< scan::lf, char32_t > in( v );
          TAO_PEGTL_TEST_ASSERT( parse< unicode::string< 0x20, 0x20ac, 0x10437 > >( in ) );

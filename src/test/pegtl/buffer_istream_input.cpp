@@ -42,7 +42,8 @@ namespace TAO_PEGTL_NAMESPACE
          static_istream_input< void > in( stream );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
-      } {
+      }
+      {
          std::ifstream stream( filename );
          dynamic_istream_input< void > in( 100, 90, stream );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );

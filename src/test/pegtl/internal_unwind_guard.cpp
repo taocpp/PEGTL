@@ -10,14 +10,14 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void test1()
    {
-      internal::unwind_guard ug( [](){ throw 42; } );
+      internal::unwind_guard ug( []() { throw 42; } );
       ug.unwind.reset();
    }
 
    void test2()
    {
       int i = 1;
-      internal::unwind_guard( [ & ](){ i = 2; } );  // Anonymous object.
+      internal::unwind_guard( [ & ]() { i = 2; } );  // Anonymous object.
       TAO_PEGTL_TEST_ASSERT( i == 2 );
    }
 
@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       int i = 1;
       try {
-         internal::unwind_guard ug( [ & ](){ i = 2; } );
+         internal::unwind_guard ug( [ & ]() { i = 2; } );
          TAO_PEGTL_TEST_ASSERT( i == 1 );
          throw 42;
       }

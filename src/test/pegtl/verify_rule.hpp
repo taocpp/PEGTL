@@ -35,17 +35,20 @@ namespace TAO_PEGTL_NAMESPACE
    {
       if( remain < 0 ) {
          remain = ( expected == result_type::success ) ? 0 : int( data.size() );
-      } {
+      }
+      {
          text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
          text_view_input< test::eol_to_lazy_eol< Eol, Peek > > i2( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, nothing >( line, file, data, i2, expected, remain );
-      } {
+      }
+      {
          text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
          text_view_input< test::eol_to_lazy_eol< Eol, Peek > > i2( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl >( line, file, data, i2, expected, remain );
-      } {
+      }
+      {
          text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
          text_view_input< test::eol_to_lazy_eol< Eol, Peek > > i2( data.data(), data.data() + data.size() );
@@ -58,13 +61,16 @@ namespace TAO_PEGTL_NAMESPACE
    {
       if( remain < 0 ) {
          remain = ( expected == result_type::success ) ? 0 : int( data.size() );
-      } {
+      }
+      {
          view_input< void > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
-      } {
+      }
+      {
          view_input< void > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
-      } {
+      }
+      {
          view_input< void > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
       }
@@ -76,10 +82,12 @@ namespace TAO_PEGTL_NAMESPACE
       {
          text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, nothing >( line, file, data, in, expected, remain );
-      } {
+      }
+      {
          text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl >( line, file, data, in, expected, remain );
-      } {
+      }
+      {
          text_view_input< Eol > in( data.data(), data.data() + data.size() );
          verify_impl_one< Rule, verify_action_impl0 >( line, file, data, in, expected, remain );
       }

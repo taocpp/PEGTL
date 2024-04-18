@@ -18,7 +18,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.current() == in.end() );
          in.private_set_current( data );
          TAO_PEGTL_TEST_ASSERT( in.current() == data );
-      } {
+      }
+      {
          const std::string s = "hallo";
          internal::copy_input< std::string > in( s );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
@@ -27,7 +28,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.end() == in.start() + s.size() );
          TAO_PEGTL_TEST_ASSERT( in.size() == s.size() );
          TAO_PEGTL_TEST_ASSERT( std::memcmp( in.current(), s.data(), s.size() ) == 0 );
-      } {
+      }
+      {
          const std::string_view sv = "hallo";
          internal::copy_input< std::string > in( sv.data(), sv.size() );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
@@ -36,7 +38,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.end() == in.start() + sv.size() );
          TAO_PEGTL_TEST_ASSERT( in.size() == sv.size() );
          TAO_PEGTL_TEST_ASSERT( std::memcmp( in.current(), sv.data(), sv.size() ) == 0 );
-      } {
+      }
+      {
          const std::array< char, 5 > a = { 'h', 'a', 'l', 'l', 'o' };
          internal::copy_input< std::string > in( a );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
@@ -45,7 +48,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.end() == in.start() + a.size() );
          TAO_PEGTL_TEST_ASSERT( in.size() == a.size() );
          TAO_PEGTL_TEST_ASSERT( std::memcmp( in.current(), a.data(), a.size() ) == 0 );
-      } {
+      }
+      {
          internal::copy_input< std::string > in( data, std::strlen( data ) );
          in.consume< int >( 2 );
          TAO_PEGTL_TEST_ASSERT( in.current() == in.start() + 2 );

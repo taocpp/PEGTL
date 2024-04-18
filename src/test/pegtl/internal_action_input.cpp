@@ -23,7 +23,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( ai.current_position() == in.previous_position( p ) );
          TAO_PEGTL_TEST_ASSERT( ai.rewind_position() == p );
          TAO_PEGTL_TEST_ASSERT( ai.begin() + 3 == in.current() );
-      } {
+      }
+      {
          const auto p = in.rewind_position();
          internal::action_input_impl< view_input< scan::lf > > ai( p, in );
          TAO_PEGTL_TEST_ASSERT( ai.empty() );

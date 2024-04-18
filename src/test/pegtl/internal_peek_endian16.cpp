@@ -37,13 +37,15 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
          TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 12 ) );
-      } {
+      }
+      {
          const auto pair = peek_type::peek( in, 2 * s );
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
          TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 200 * 256 + 100 ) );
-      } {
+      }
+      {
          const auto pair = peek_type::peek( in, 3 * s );
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( !pair );
@@ -73,14 +75,16 @@ namespace TAO_PEGTL_NAMESPACE
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
-         TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 12 * 256) );
-      } {
+         TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 12 * 256 ) );
+      }
+      {
          const auto pair = peek_type::peek( in, 2 * s );
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
          TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 100 * 256 + 200 ) );
-      } {
+      }
+      {
          const auto pair = peek_type::peek( in, 3 * s );
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( !pair );
@@ -111,13 +115,15 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
          TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 64767 ) );
-      } {
+      }
+      {
          const auto pair = peek_type::peek( in, 2 * s );
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
          TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 16540 ) );
-      } {
+      }
+      {
          const auto pair = peek_type::peek( in, 3 * s );
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( !pair );
@@ -148,13 +154,15 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
          TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 65532 ) );
-      } {
+      }
+      {
          const auto pair = peek_type::peek( in, 2 * s );
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
          TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 40000 ) );
-      } {
+      }
+      {
          const auto pair = peek_type::peek( in, 3 * s );
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( !pair );

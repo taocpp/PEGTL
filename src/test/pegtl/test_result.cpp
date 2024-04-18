@@ -16,15 +16,18 @@ namespace TAO_PEGTL_NAMESPACE
          std::ostringstream oss;
          oss << result_type::success;
          TAO_PEGTL_TEST_ASSERT( oss.str() == "success" );
-      } {
+      }
+      {
          std::ostringstream oss;
          oss << result_type::local_failure;
          TAO_PEGTL_TEST_ASSERT( oss.str() == "local_failure" );
-      } {
+      }
+      {
          std::ostringstream oss;
          oss << result_type::global_failure;
          TAO_PEGTL_TEST_ASSERT( oss.str() == "global_failure" );
-      } {
+      }
+      {
          std::ostringstream oss;
          oss << static_cast< result_type >( 1764 );
          TAO_PEGTL_TEST_ASSERT( oss.str() == "1764" );

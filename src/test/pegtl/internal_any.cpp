@@ -28,23 +28,27 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( !parse< any7 >( in ) );
          TAO_PEGTL_TEST_ASSERT( !parse< any32 >( in ) );
          TAO_PEGTL_TEST_ASSERT( parse< any >( in ) );
-      } {
+      }
+      {
          view_input< scan::lf > in( "fg" );
          TAO_PEGTL_TEST_ASSERT( parse< any7 >( in ) );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
          TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
          TAO_PEGTL_TEST_ASSERT( *in.current() == 'g' );
-      } {
+      }
+      {
          view_input< scan::lf > in( "fg" );
          TAO_PEGTL_TEST_ASSERT( parse< any >( in ) );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
          TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
          TAO_PEGTL_TEST_ASSERT( *in.current() == 'g' );
-      } {
+      }
+      {
          view_input< void > in( "abcd" );
          TAO_PEGTL_TEST_ASSERT( parse< any32 >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
-      } {
+      }
+      {
          std::uint32_t t = 91283821;
          view_input< void, std::uint32_t > in( &t, 1 );
          TAO_PEGTL_TEST_ASSERT( parse< any32 >( in ) );

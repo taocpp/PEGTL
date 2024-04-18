@@ -21,7 +21,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.end() != data );
          in.private_set_end( data );
          TAO_PEGTL_TEST_ASSERT( in.end() == data );
-      } {
+      }
+      {
          const std::string s = "hallo";
          internal::view_input< char > in( s );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
@@ -30,7 +31,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.end() == s.data() + s.size() );
          TAO_PEGTL_TEST_ASSERT( in.size() == s.size() );
          TAO_PEGTL_TEST_ASSERT( std::memcmp( in.current(), s.data(), s.size() ) == 0 );
-      } {
+      }
+      {
          const std::string_view sv = "hallo";
          internal::view_input< char > in( sv );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
@@ -39,7 +41,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.end() == sv.data() + sv.size() );
          TAO_PEGTL_TEST_ASSERT( in.size() == sv.size() );
          TAO_PEGTL_TEST_ASSERT( std::memcmp( in.current(), sv.data(), sv.size() ) == 0 );
-      } {
+      }
+      {
          const std::vector< char > v = { 'h', 'a', 'l', 'l', 'o' };
          internal::view_input< char > in( v );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
@@ -48,7 +51,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.end() == v.data() + v.size() );
          TAO_PEGTL_TEST_ASSERT( in.size() == v.size() );
          TAO_PEGTL_TEST_ASSERT( std::memcmp( in.current(), v.data(), v.size() ) == 0 );
-      } {
+      }
+      {
          const std::array< char, 5 > a = { 'h', 'a', 'l', 'l', 'o' };
          internal::view_input< char > in( a );
          TAO_PEGTL_TEST_ASSERT( !in.empty() );
@@ -57,7 +61,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.end() == a.data() + a.size() );
          TAO_PEGTL_TEST_ASSERT( in.size() == a.size() );
          TAO_PEGTL_TEST_ASSERT( std::memcmp( in.current(), a.data(), a.size() ) == 0 );
-      } {
+      }
+      {
          internal::view_input< char > in( data, std::strlen( data ) );
          in.consume< int >( 2 );
          TAO_PEGTL_TEST_ASSERT( in.current() == data + 2 );

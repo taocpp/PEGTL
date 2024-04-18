@@ -56,25 +56,29 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( testcase::a0 == 0 );
          TAO_PEGTL_TEST_ASSERT( testcase::a == 0 );
-      } {
+      }
+      {
          text_view_input< lazy::lf > in( "ab" );
          const auto result = standard_trace< testcase::GRAMMAR1, testcase::trace_action >( in );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( testcase::a0 == 1 );
          TAO_PEGTL_TEST_ASSERT( testcase::a == 1 );
-      } {
+      }
+      {
          text_view_input< scan::lf > in( "a\r\n\t\0b", 6 );
          const auto result = standard_trace< testcase::GRAMMAR2 >( in );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( testcase::a0 == 1 );
          TAO_PEGTL_TEST_ASSERT( testcase::a == 1 );
-      } {
+      }
+      {
          text_view_input< scan::lf > in( "a\r\n\t\0b", 6 );
          const auto result = standard_trace< testcase::GRAMMAR2, testcase::trace_action >( in );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( testcase::a0 == 2 );
          TAO_PEGTL_TEST_ASSERT( testcase::a == 1 );
-      } {
+      }
+      {
          text_view_input< scan::lf > in( "c" );
          const auto result = standard_trace< testcase::GRAMMAR3 >( in );
          TAO_PEGTL_TEST_ASSERT( !result );

@@ -98,19 +98,23 @@ namespace TAO_PEGTL_NAMESPACE
          test_type_1 t1;
          auto e1 = internal::extract_position( t1 );
          static_assert( std::is_same_v< decltype( e1 ), test_type_1 > );
-      } {
+      }
+      {
          test_type_2 t2;
          decltype( auto ) e2 = internal::extract_position( t2 );
          static_assert( std::is_same_v< decltype( e2 ), test_type_1 > );
-      } {
+      }
+      {
          test_type_3 t3;
          decltype( auto ) e3 = internal::extract_position( t3 );
          static_assert( std::is_same_v< decltype( e3 ), const test_type_1& > );
-      } {
+      }
+      {
          test_type_5 t5;
          decltype( auto ) e5 = internal::extract_position( t5 );
          static_assert( std::is_same_v< decltype( e5 ), test_type_1 > );
-      } {
+      }
+      {
          test_type_7 t7;
          decltype( auto ) e7 = internal::extract_position( t7 );
          static_assert( std::is_same_v< decltype( e7 ), const test_type_1& > );

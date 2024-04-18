@@ -62,21 +62,24 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( pos.line == 3 );
          TAO_PEGTL_TEST_ASSERT( pos.column == 5 );
          TAO_PEGTL_TEST_ASSERT( pos.count == 12 );
-      } {
+      }
+      {
          text_position pos;
          internal::scan_input< char > in( s );
          internal::char_scan_traits< ascii::scan::lf >::scan( pos, in );
          TAO_PEGTL_TEST_ASSERT( pos.line == 3 );
          TAO_PEGTL_TEST_ASSERT( pos.column == 5 );
          TAO_PEGTL_TEST_ASSERT( pos.count == 12 );
-      } {
+      }
+      {
          text_position pos;
          internal::scan_input< char > in( s );
          internal::char_scan_traits< ascii::lazy::lf >::scan( pos, in );
          TAO_PEGTL_TEST_ASSERT( pos.line == 3 );
          TAO_PEGTL_TEST_ASSERT( pos.column == 5 );
          TAO_PEGTL_TEST_ASSERT( pos.count == 12 );
-      } {
+      }
+      {
          text_position pos;
          internal::scan_input< char > in( s );
          internal::char_scan_traits< fake_lf >::scan( pos, in );
@@ -92,7 +95,8 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( pos.line == 2 );
          TAO_PEGTL_TEST_ASSERT( pos.column == 3 );
          TAO_PEGTL_TEST_ASSERT( pos.count == 6 );
-      } {
+      }
+      {
          text_position pos;
          internal::scan_input< std::uint16_t > in( v );
          internal::char_scan_traits< utf16_lf >::scan( pos, in );

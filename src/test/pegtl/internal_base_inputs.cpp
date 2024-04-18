@@ -124,23 +124,29 @@ namespace TAO_PEGTL_NAMESPACE
       {
          internal::view_input< char > in( data_01 );
          test_01( in );
-      } {
+      }
+      {
          internal::view_input< char > in( data_01 );
          test_01_view( in );
-      } {
+      }
+      {
          const std::string_view sv( data_01 );
          internal::view_input< char > in( sv );
          test_01( in );
-      } {
+      }
+      {
          internal::view_input< char > in( data_01.data(), data_01.size() );
          test_01( in );
-      } {
+      }
+      {
          internal::view_input< char > in( data_01.data(), data_01.data() + data_01.size() );
          test_01( in );
-      } {
+      }
+      {
          internal::view_input< char > in( "duseltronik" );
          test_01( in );
-      } {
+      }
+      {
          std::array< char, 11 > a = { 'd', 'u', 's', 'e', 'l', 't', 'r', 'o', 'n', 'i', 'k' };
          internal::view_input< char > in( a );
          test_01( in );
@@ -164,24 +170,30 @@ namespace TAO_PEGTL_NAMESPACE
       {
          internal::copy_input< std::string > in( data_01 );
          test_01( in );
-      } {
+      }
+      {
          internal::copy_input< std::string > in( data_01 );
          test_01_copy( in );
-      } {
+      }
+      {
          std::string s( data_01 );
          internal::copy_input< std::string > in( std::move( s ) );
          test_01( in );
-      } {
+      }
+      {
          internal::copy_input< std::string > in( data_01.data(), data_01.size() );
          test_01( in );
-      } {
+      }
+      {
          internal::copy_input< std::string > in( data_01.data(), data_01.data() + data_01.size() );
          test_01( in );
-      } {
+      }
+      {
          std::array< char, 11 > a = { 'd', 'u', 's', 'e', 'l', 't', 'r', 'o', 'n', 'i', 'k' };
          internal::copy_input< std::string > in( a );
          test_01( in );
-      } {
+      }
+      {
          internal::copy_input< std::string > in( { 'd', 'u', 's', 'e', 'l', 't', 'r', 'o', 'n', 'i', 'k' } );
          test_01( in );
       }
@@ -204,7 +216,8 @@ namespace TAO_PEGTL_NAMESPACE
       {
          internal::read_input in( filename );
          test_01( in );
-      } {
+      }
+      {
          internal::read_input in( filename );
          test_01_copy( in );
       }
@@ -215,7 +228,8 @@ namespace TAO_PEGTL_NAMESPACE
       {
          internal::file_input in( filename );
          test_01( in );
-      } {
+      }
+      {
          internal::file_input in( filename );
          test_01_copy( in );
       }
@@ -226,10 +240,12 @@ namespace TAO_PEGTL_NAMESPACE
       {
          internal::input_with_start< internal::view_input< char > > in( data_01 );
          test_01( in );
-      } {
+      }
+      {
          internal::input_with_start< internal::view_input< char > > in( data_01 );
          test_01_view( in );
-      } {
+      }
+      {
          internal::input_with_start< internal::view_input< char > > in( data_01 );
          test_01_copy( in );
       }
@@ -251,7 +267,8 @@ namespace TAO_PEGTL_NAMESPACE
       {
          internal::input_with_funcs< internal::view_input< char > > in( data_01 );
          test_01( in );
-      } {
+      }
+      {
          internal::input_with_funcs< internal::view_input< char > > in( data_01 );
          test_01_peeks( in );
       }

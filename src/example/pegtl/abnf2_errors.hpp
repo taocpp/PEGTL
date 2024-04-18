@@ -57,4 +57,3 @@ namespace TAO_PEGTL_NAMESPACE::abnf2
 }  // namespace TAO_PEGTL_NAMESPACE::abnf2
 
 #endif
-

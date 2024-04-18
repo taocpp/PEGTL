@@ -11,7 +11,8 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    enum class test_enum
-   {};
+   {
+   };
 
    void unit_test()
    {

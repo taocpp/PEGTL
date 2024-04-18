@@ -31,9 +31,8 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
                                     pegtl::abnf2::option,
                                     pegtl::abnf2::rulename,
                                     pegtl::abnf2::repetition,
-                                    pegtl::ascii::digit
-                                    >::parse< pegtl::abnf2::rulelist,
-                                              pegtl::abnf2::control >( in );
+                                    pegtl::ascii::digit >::parse< pegtl::abnf2::rulelist,
+                                                                  pegtl::abnf2::control >( in );
       std::cout << v;
    }
    catch( const pegtl::parse_error< input_t::error_position_t >& e ) {

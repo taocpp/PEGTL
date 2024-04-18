@@ -14,8 +14,8 @@ int main()
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/debug/trace.hpp>
 #include <tao/pegtl/contrib/uri.hpp>
+#include <tao/pegtl/debug/trace.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 

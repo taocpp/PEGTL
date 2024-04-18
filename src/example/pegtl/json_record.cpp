@@ -33,8 +33,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
                                     pegtl::json::string_content,
                                     pegtl::json::true_,
                                     pegtl::json::false_,
-                                    pegtl::json::null
-                                    >::parse< example::grammar >( in );
+                                    pegtl::json::null >::parse< example::grammar >( in );
       std::cout << v;
    }
    catch( const pegtl::parse_error< input_t::error_position_t >& e ) {
