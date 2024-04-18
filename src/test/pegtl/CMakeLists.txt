@@ -13,7 +13,6 @@ set(test_sources
   action_enable_disable.cpp
   action_match_lazy.cpp
   action_match_text.cpp
-  analyze.cpp
   apply_mode.cpp
   argv_input.cpp
   ascii_atomics.cpp
@@ -42,11 +41,9 @@ set(test_sources
   buffer_rule_is_buffer.cpp
   buffer_rule_require.cpp
   buffer_static_buffer.cpp
-  contains.cpp
   contrib_alphabet.cpp
   contrib_check_count.cpp
   contrib_check_depth.cpp
-  contrib_coverage.cpp
   contrib_http.cpp
   contrib_if_then.cpp
   contrib_input_with_offset.cpp
@@ -54,7 +51,9 @@ set(test_sources
   contrib_iri.cpp
   contrib_json.cpp
   contrib_limit_count.cpp
+  contrib_nested_exceptions.cpp
   contrib_raw_string.cpp
+  contrib_record.cpp
   contrib_rep_one_min_max.cpp
   contrib_rep_string.cpp
   contrib_separated_seq.cpp
@@ -63,8 +62,19 @@ set(test_sources
   contrib_uri.cpp
   control_remove_first_state.cpp
   control_remove_last_states.cpp
+  control_rewind_control.cpp
+  control_rewind_state_control.cpp
   control_state_control.cpp
   control_unwind.cpp
+  debug_analyze.cpp
+  debug_analyze_traits_enum.cpp
+  debug_contains.cpp
+  debug_coverage.cpp
+  debug_print.cpp
+  debug_trace_1.cpp
+  debug_trace_2.cpp
+  debug_trace_3.cpp
+  debug_visit.cpp
   demangle.cpp
   enable_control.cpp
   error_message_1.cpp
@@ -76,12 +86,13 @@ set(test_sources
   icu_utf8_base.cpp
   include.cpp
   internal_action_input.cpp
-  internal_analyze_enum.cpp
   internal_any.cpp
   internal_ascii_utility.cpp
   internal_base_inputs.cpp
   internal_byteswap.cpp
   internal_char_scan_traits.cpp
+  internal_copy_input.cpp
+  internal_data_and_size.cpp
   internal_endian.cpp
   internal_extract_position.cpp
   internal_file_input.cpp
@@ -109,6 +120,7 @@ set(test_sources
   internal_read_file_stdio.cpp
   internal_read_input.cpp
   internal_set_stack_guard.cpp
+  internal_stream_to_string.cpp
   internal_text_inputs.cpp
   internal_text_rule_traits.cpp
   internal_text_scan_traits.cpp
@@ -123,7 +135,6 @@ set(test_sources
   mmap_input.cpp
   parse_error.cpp
   pegtl_string_t.cpp
-  print.cpp
   read_input.cpp
   rewind_mode.cpp
   rule_action.cpp
@@ -191,7 +202,6 @@ set(test_sources
   utf16_general.cpp
   utf32_general.cpp
   utf8_general.cpp
-  visit.cpp
 )
 
 # file(GLOB ...) is used to validate the above list of test_sources

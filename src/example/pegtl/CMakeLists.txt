@@ -1,9 +1,11 @@
 cmake_minimum_required(VERSION 3.8...3.19)
 
 set(example_sources
+  abnf2_record.cpp
   analyze.cpp
   calculator.cpp
   chomsky_hierarchy.cpp
+  cst.cpp
   csv1.cpp
   csv2.cpp
   dispatch.cpp
@@ -19,6 +21,7 @@ set(example_sources
   json_parse.cpp
   json_print_debug.cpp
   json_print_names.cpp
+  json_record.cpp
   json_tokenize.cpp
   json_trace.cpp
   lua53_analyze.cpp
