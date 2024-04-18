@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       const std::string ns = TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE );
 #if !defined( __clang__ ) && defined( __GNUC__ ) && ( __GNUC__ == 9 ) && ( __GNUC_MINOR__ <= 2 )
-      // see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155
+      // See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155
       test1< int >( "i" );
       test1< double >( "d" );
       if( ns == "tao::pegtl" ) {
@@ -33,12 +33,13 @@ namespace TAO_PEGTL_NAMESPACE
 #elif defined( _MSC_VER ) && !defined( __clang__ )
       test1< int >( "int" );
       test1< double >( "double" );
-      // in the Microsoft world, class and struct are not the same!
+      // In the Microsoft world, class and struct are not the same!
       test1< seq< many7< 42 >, eof > >( "struct " + ns + "::seq<struct " + ns + "::many7<42>,struct " + ns + "::eof>" );
 #else
       test1< int >( "int" );
       test1< double >( "double" );
-      test1< seq< many7< 42 >, eof > >( ns + "::seq<" + ns + "::many7<42>, " + ns + "::eof>" );
+      test1< seq< consume< 42 >, eof > >( ns + "::seq<" + ns + "::consume<42>, " + ns + "::eof>" );
+      // Some compilers include inline namespace ascii: test1< seq< many7< 42 >, eof > >( ns + "::seq<" + ns + "::many7<42>, " + ns + "::eof>" );
 #endif
    }
 
