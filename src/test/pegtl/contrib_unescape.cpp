@@ -58,26 +58,18 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      std::cerr << __LINE__ << std::endl;
       TAO_PEGTL_TEST_ASSERT( verify_data( "\\t", "\t" ) );
-      std::cerr << __LINE__ << std::endl;
       TAO_PEGTL_TEST_ASSERT( verify_data( "\\\\", "\\" ) );
-      std::cerr << __LINE__ << std::endl;
       TAO_PEGTL_TEST_ASSERT( verify_data( "abc", "abc" ) );
       TAO_PEGTL_TEST_ASSERT( verify_data( "\\\"foo\\\"", "\"foo\"" ) );
-      std::cerr << __LINE__ << std::endl;
       TAO_PEGTL_TEST_ASSERT( verify_data( "\\x20", " " ) );
       TAO_PEGTL_TEST_ASSERT( verify_data( "\\x30", "0" ) );
-      std::cerr << __LINE__ << std::endl;
       TAO_PEGTL_TEST_ASSERT( verify_data( "\\x2000", " 00" ) );
       TAO_PEGTL_TEST_ASSERT( verify_data( "\\u0020", " " ) );
-      std::cerr << __LINE__ << std::endl;
       TAO_PEGTL_TEST_ASSERT( verify_data( "\\u0020\\u0020", "  " ) );
       TAO_PEGTL_TEST_ASSERT( verify_data( "\\u00e4", "\xc3\xa4" ) );
-      std::cerr << __LINE__ << std::endl;
       TAO_PEGTL_TEST_ASSERT( verify_data( "\\u00E4", "\xC3\xA4" ) );
       TAO_PEGTL_TEST_ASSERT( verify_data( "\\u20ac", "\xe2\x82\xac" ) );
-      std::cerr << __LINE__ << std::endl;
 
       TAO_PEGTL_TEST_ASSERT( verify_fail( "\\ud800" ) );
       TAO_PEGTL_TEST_ASSERT( verify_fail( "\\ud800X" ) );
