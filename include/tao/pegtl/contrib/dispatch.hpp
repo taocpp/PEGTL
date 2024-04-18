@@ -99,8 +99,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule,
                 apply_mode A = apply_mode::action,
                 rewind_mode M = rewind_mode::optional,
-                template< typename... >
-                class Control = normal,
+                template< typename... > class Control = normal,
                 typename ParseInput,
                 typename... States >
       static bool parse( ParseInput&& in, States&&... st )

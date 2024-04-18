@@ -11,7 +11,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Eol, typename Input >
    struct input_with_lines
-      :  Input
+      : Input
    {
       using eol_rule = Eol;
 

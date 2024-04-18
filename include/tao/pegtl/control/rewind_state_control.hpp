@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
             : RewindGuard( std::move( rg ) ),
               m_tuple( st )
          {
-            std::apply( []( State& s, auto&... as ){ s.template prep_rewind< Rule >( as... ); }, m_tuple );
+            std::apply( []( State& s, auto&... as ) { s.template prep_rewind< Rule >( as... ); }, m_tuple );
          }
 
          rewind_state_control_guard( rewind_state_control_guard&& ) = delete;
@@ -50,10 +50,10 @@ namespace TAO_PEGTL_NAMESPACE
          ~rewind_state_control_guard()
          {
             if( this->active() ) {
-               std::apply( []( State& s, auto&... as ){ s.template will_rewind< Rule >( as... ); }, m_tuple );
+               std::apply( []( State& s, auto&... as ) { s.template will_rewind< Rule >( as... ); }, m_tuple );
             }
             else {
-               std::apply( []( State& s, auto&... as ){ s.template wont_rewind< Rule >( as... ); }, m_tuple );
+               std::apply( []( State& s, auto&... as ) { s.template wont_rewind< Rule >( as... ); }, m_tuple );
             }
          }
 

@@ -132,8 +132,7 @@ namespace TAO_PEGTL_NAMESPACE
       using actions = internal::clauses_to_action_t< Rule, clause >;
 
       template< typename Rule,
-                template< typename... >
-                class Control = normal,
+                template< typename... > class Control = normal,
                 typename ParseInput >
       [[nodiscard]] static auto parse( ParseInput&& in )
       {
@@ -146,13 +145,13 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename ParseInput >
-   std::ostream& operator<< ( std::ostream& o, const record_value< ParseInput >& r )
+   std::ostream& operator<<( std::ostream& o, const record_value< ParseInput >& r )
    {
       return o << r.rule << '@' << r.input.direct_offset() << " '" << r.input.string_view() << "'" << std::endl;
    }
 
    template< typename ParseInput >
-   std::ostream& operator<< ( std::ostream& o, const record_vector< ParseInput >& v )
+   std::ostream& operator<<( std::ostream& o, const record_vector< ParseInput >& v )
    {
       for( const auto& r : v ) {
          o << r;

@@ -17,8 +17,8 @@
 #include "eol.hpp"
 #include "eolf.hpp"
 #include "get_eol_rule_char.hpp"
-#include "scan_input.hpp"
 #include "scan_base_classes.hpp"
+#include "scan_input.hpp"
 #include "tester.hpp"
 #include "until.hpp"
 

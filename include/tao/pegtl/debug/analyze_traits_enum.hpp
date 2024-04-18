@@ -11,7 +11,10 @@ namespace TAO_PEGTL_NAMESPACE
 {
    enum class analyze_traits_enum
    {
-      any, opt, seq, sor
+      any,
+      opt,
+      seq,
+      sor
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

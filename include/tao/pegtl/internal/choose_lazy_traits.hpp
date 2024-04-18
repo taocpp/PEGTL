@@ -12,8 +12,8 @@
 #include "char_scan_traits.hpp"
 #include "dependent_false.hpp"
 #include "get_eol_rule_char.hpp"
-#include "scan_input.hpp"
 #include "lazy_scan_traits.hpp"
+#include "scan_input.hpp"
 #include "type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
