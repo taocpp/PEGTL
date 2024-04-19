@@ -10,7 +10,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      TAO_PEGTL_TEST_ASSERT( internal::stream_to_string() == "" );
+      TAO_PEGTL_TEST_ASSERT( internal::stream_to_string().empty() );
       TAO_PEGTL_TEST_ASSERT( internal::stream_to_string( "foo" ) == "foo" );
       TAO_PEGTL_TEST_ASSERT( internal::stream_to_string( "foo", 42, "bar" ) == "foo42bar" );
    }

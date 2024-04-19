@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
       int* const global3 = &the_integer;
       const int* const global4 = &the_integer;
 
-      [[nodiscard]] int method1() const noexcept
+      [[nodiscard]] int method1() const noexcept  // NOLINT(readability-convert-member-functions-to-static)
       {
          return 503;
       }

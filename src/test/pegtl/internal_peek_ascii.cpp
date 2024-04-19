@@ -51,17 +51,17 @@ namespace TAO_PEGTL_NAMESPACE
          {
             const auto pair = peek7::peek( in, 3 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-            TAO_PEGTL_TEST_ASSERT( pair.size() == 0 );
+            TAO_PEGTL_TEST_ASSERT( pair.empty() );
          }
          {
             const auto pair = peek7::peek( in, 4 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-            TAO_PEGTL_TEST_ASSERT( pair.size() == 0 );
+            TAO_PEGTL_TEST_ASSERT( pair.empty() );
          }
          {
             const auto pair = peek7::peek( in, 5 );
             TAO_PEGTL_TEST_ASSERT( !pair );
-            TAO_PEGTL_TEST_ASSERT( pair.size() == 0 );
+            TAO_PEGTL_TEST_ASSERT( pair.empty() );
          }
       }
    }

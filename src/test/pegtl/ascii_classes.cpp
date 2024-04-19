@@ -45,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< ascii::xdigit >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
 
       for( int i = 0; i < 128; ++i ) {
-         const int c = char( i );
+         const auto c = char( i );  // NOLINT(bugprone-signed-char-misuse)
 
          const bool is_blank = ( c == ' ' ) || ( c == '\t' );
          const bool is_digit = ( '0' <= c ) && ( c <= '9' );

@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
    void test2()
    {
       int i = 1;
-      internal::unwind_guard( [ & ]() { i = 2; } );  // Anonymous object.
+      internal::unwind_guard( [ & ]() { i = 2; } );  // NOLINT(bugprone-unused-raii)
       TAO_PEGTL_TEST_ASSERT( i == 2 );
    }
 

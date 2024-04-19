@@ -43,7 +43,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< ascii::ranges< 'a', 'z', '4' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
 
       for( int i = 0; i < 128; ++i ) {
-         const int c = char( i );
+         const auto c = char( i );
 
          const bool is_one = ( c == '#' ) || ( c == 'a' ) || ( c == ' ' );
          const bool is_range = ( 20 <= c ) && ( c <= 120 );

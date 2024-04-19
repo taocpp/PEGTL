@@ -30,7 +30,7 @@ struct URI
    std::string query;
    std::string fragment;
 
-   explicit URI( pegtl::argv_input< pegtl::scan::lf_crlf >& );
+   explicit URI( pegtl::argv_input< pegtl::scan::lf_crlf >& in );
 };
 
 namespace uri

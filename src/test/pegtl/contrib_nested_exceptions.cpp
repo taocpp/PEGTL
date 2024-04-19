@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE
    void test1()
    {
       try {
-         throw s1;
+         throw std::string( s1 );
       }
       catch( ... ) {
          visitor v;
@@ -60,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE
    void test2()
    {
       try {
-         throw s1;
+         throw std::string( s1 );
       }
       catch( const std::string& s ) {
          visitor v;
@@ -75,7 +75,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       try {
          try {
-            throw s1;
+            throw std::string( s1 );
          }
          catch( ... ) {
             std::throw_with_nested( std::runtime_error( s2 ) );

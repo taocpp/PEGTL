@@ -13,7 +13,7 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Buffer, typename... As >
-   void test_common( As&&... as )
+   void test_common( As&&... as )  // NOLINT(readability-function-size)
    {
       const std::string st = "abcdefghijklmnopqrstuvwxyz";
 

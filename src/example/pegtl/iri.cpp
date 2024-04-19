@@ -31,7 +31,7 @@ struct IRI
    std::string query;
    std::string fragment;
 
-   explicit IRI( pegtl::argv_input< pegtl::scan::lf_crlf >& );
+   explicit IRI( pegtl::argv_input< pegtl::scan::lf_crlf >& in );
 };
 
 namespace iri

@@ -140,6 +140,10 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( test::equal( in.current_position(), 2, 2, 3 ) );
          TAO_PEGTL_TEST_ASSERT( in.direct_position() == in.current_position() );
       }
+   }
+
+   void test_02_text()
+   {
       using input_1 = text_view_input< ascii::lf >;
       {
          input_1 in( "" );
@@ -238,6 +242,7 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       test_01_text();
+      test_02_text();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
