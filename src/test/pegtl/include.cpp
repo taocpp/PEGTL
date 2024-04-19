@@ -19,8 +19,10 @@
 #include <tao/pegtl/normal.hpp>
 #include <tao/pegtl/nothing.hpp>
 #include <tao/pegtl/parse.hpp>
+#if defined( __cpp_exceptions )
 #include <tao/pegtl/parse_error.hpp>
 #include <tao/pegtl/parse_error_base.hpp>
+#endif
 #include <tao/pegtl/pegtl_string.hpp>
 #include <tao/pegtl/pointer_position.hpp>
 #include <tao/pegtl/position_with_source.hpp>
@@ -77,7 +79,9 @@
 #include <tao/pegtl/buffer/text_buffer_input_with_source.hpp>
 
 #include <tao/pegtl/control/input_control.hpp>
+#if defined( __cpp_exceptions )
 #include <tao/pegtl/control/must_if.hpp>
+#endif
 #include <tao/pegtl/control/remove_first_state.hpp>
 #include <tao/pegtl/control/remove_last_states.hpp>
 #include <tao/pegtl/control/rewind_control.hpp>

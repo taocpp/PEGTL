@@ -9,10 +9,11 @@
 
 #if defined( __cpp_exceptions )
 #include <exception>
+
+#include "parse_error_base.hpp"
 #endif
 
 #include "config.hpp"
-#include "parse_error.hpp"
 
 #include "internal/combine_traits.hpp"
 #include "internal/invert_traits.hpp"

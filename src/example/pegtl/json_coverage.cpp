@@ -43,7 +43,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    }
 #else
    if( !pegtl::coverage< example::grammar, pegtl::nothing, example::control >( in, result ) ) {
-      std::cerr << "error occurred" << std::endl;
+      std::cerr << "Error occurred -- exceptions disabled" << std::endl;
       return 1;
    }
 #endif

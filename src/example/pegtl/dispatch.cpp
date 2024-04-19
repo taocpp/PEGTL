@@ -35,7 +35,8 @@ namespace example
       pegtl::file_input<> in( path );
       using clause1 = pegtl::clause1< action1, pegtl::json::string_content, pegtl::json::key_content >;
       using clause2 = pegtl::clause2< action2, pegtl::json::begin_array, pegtl::json::end_array, pegtl::json::begin_object, pegtl::json::end_object >;
-      pegtl::dispatch< clause1, clause2 >::parse< pegtl::must< pegtl::json::text, pegtl::eof > >( in );
+      const auto b = pegtl::dispatch< clause1, clause2 >::parse< pegtl::seq< pegtl::json::text, pegtl::eof > >( in );
+      std::cerr << "SUCCESS " << b << std::endl;
    }
 
 }  // namespace example

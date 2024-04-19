@@ -2,6 +2,14 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
+#if !defined( __cpp_exceptions )
+#include <iostream>
+int main()
+{
+   std::cout << "Exception support disabled, example is dummy..." << std::endl;
+}
+#else
+
 #include <iomanip>
 #include <iostream>
 
@@ -44,3 +52,5 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    }
    return 0;
 }
+
+#endif

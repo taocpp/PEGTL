@@ -7,7 +7,10 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/json.hpp>
+
+#if defined( __cpp_exceptions )
 #include <tao/pegtl/control/must_if.hpp>
+#endif
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 

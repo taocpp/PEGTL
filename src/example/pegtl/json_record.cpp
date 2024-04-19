@@ -27,6 +27,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    }
    using input_t = pegtl::text_file_input<>;
    input_t in( argv[ 1 ] );
+#if defined( __cpp_exceptions )
    try {
       const auto v = pegtl::record< pegtl::json::number,
                                     pegtl::json::key_content,
@@ -43,5 +44,14 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
                 << std::setw( int( p.count ) ) << '^' << std::endl;
       return 1;
    }
+#else
+   const auto v = pegtl::record< pegtl::json::number,
+                                 pegtl::json::key_content,
+                                 pegtl::json::string_content,
+                                 pegtl::json::true_,
+                                 pegtl::json::false_,
+                                 pegtl::json::null >::parse< example::grammar >( in );
+   std::cout << v;
+#endif
    return 0;
 }

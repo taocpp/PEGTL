@@ -66,8 +66,10 @@ namespace TAO_PEGTL_NAMESPACE
 
       bc.require( 10 );
 
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( bc.require( 101 ) );
       TAO_PEGTL_TEST_THROWS( (void)bc.end( 100, 101 ) );
+#endif
 
       TAO_PEGTL_TEST_ASSERT( !bc.empty() );
       TAO_PEGTL_TEST_ASSERT( bc.size( 1 ) == 20 );
@@ -84,8 +86,10 @@ namespace TAO_PEGTL_NAMESPACE
 
       bc.require( 90 );
 
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( bc.require( 101 ) );
       TAO_PEGTL_TEST_THROWS( (void)bc.end( 100, 101 ) );
+#endif
 
       TAO_PEGTL_TEST_ASSERT( !bc.empty() );
       TAO_PEGTL_TEST_ASSERT( bc.size( 1 ) == 90 );
@@ -102,8 +106,10 @@ namespace TAO_PEGTL_NAMESPACE
 
       bc.require( 100 );
 
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( bc.require( 101 ) );
       TAO_PEGTL_TEST_THROWS( (void)bc.end( 100, 101 ) );
+#endif
 
       TAO_PEGTL_TEST_ASSERT( !bc.empty() );
       TAO_PEGTL_TEST_ASSERT( bc.size( 1 ) == 100 );
@@ -122,8 +128,10 @@ namespace TAO_PEGTL_NAMESPACE
 
       bc.discard();
 
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( bc.require( 101 ) );
       TAO_PEGTL_TEST_THROWS( (void)bc.end( 100, 101 ) );
+#endif
 
       TAO_PEGTL_TEST_ASSERT( !bc.empty() );
       TAO_PEGTL_TEST_ASSERT( bc.size( 1 ) == 100 );
@@ -140,8 +148,10 @@ namespace TAO_PEGTL_NAMESPACE
 
       bc.consume( 60 );
 
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( bc.require( 101 ) );
       TAO_PEGTL_TEST_THROWS( (void)bc.end( 100, 101 ) );
+#endif
 
       TAO_PEGTL_TEST_ASSERT( !bc.empty() );
       TAO_PEGTL_TEST_ASSERT( bc.size( 1 ) == 40 );
@@ -160,8 +170,10 @@ namespace TAO_PEGTL_NAMESPACE
 
       bc.discard();
 
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( bc.require( 101 ) );
       TAO_PEGTL_TEST_THROWS( (void)bc.end( 100, 101 ) );
+#endif
 
       TAO_PEGTL_TEST_ASSERT( !bc.empty() );
       TAO_PEGTL_TEST_ASSERT( bc.size( 1 ) == 40 );
@@ -178,8 +190,10 @@ namespace TAO_PEGTL_NAMESPACE
 
       bc.consume( 30 );
 
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( bc.require( 101 ) );
       TAO_PEGTL_TEST_THROWS( (void)bc.end( 100, 101 ) );
+#endif
 
       TAO_PEGTL_TEST_ASSERT( !bc.empty() );
       TAO_PEGTL_TEST_ASSERT( bc.size( 1 ) == 10 );
@@ -197,8 +211,10 @@ namespace TAO_PEGTL_NAMESPACE
 
       bc.require( 50 );
 
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( bc.require( 101 ) );
       TAO_PEGTL_TEST_THROWS( (void)bc.end( 100, 101 ) );
+#endif
 
       TAO_PEGTL_TEST_ASSERT( !bc.empty() );
       TAO_PEGTL_TEST_ASSERT( bc.size( 1 ) == 50 );
@@ -213,7 +229,10 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( bc.current() == bc.buffer_start() + 30 );
 
       bc.buffer_check_size( 50 );
+
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( bc.buffer_check_size( 51 ) );
+#endif
    }
 
    void unit_test()
