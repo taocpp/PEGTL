@@ -51,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             }
          }
          else if( is_utf8_byte_1_of_4( c0 ) ) {
-            if( size >= ( offset + 3 ) ) {
+            if( size >= ( offset + 4 ) ) {
                const char32_t c1 = integer_adapt< std::uint8_t >( in.current( offset + 1 ) );
                const char32_t c2 = integer_adapt< std::uint8_t >( in.current( offset + 2 ) );
                const char32_t c3 = integer_adapt< std::uint8_t >( in.current( offset + 3 ) );
