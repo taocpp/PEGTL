@@ -13,10 +13,10 @@
 #include "internal/rules.hpp"
 
 #define TAO_PEGTL_UTF_NAME utf32_be
-#include "internal/utf_rules.ipp"
+#include "internal/utf_rules.ipp"  // NOLINT(readability-duplicate-include))
 
 #define TAO_PEGTL_UTF_NAME utf32_le
-#include "internal/utf_rules.ipp"
+#include "internal/utf_rules.ipp"  // NOLINT(readability-duplicate-include))
 
 namespace TAO_PEGTL_NAMESPACE
 {
