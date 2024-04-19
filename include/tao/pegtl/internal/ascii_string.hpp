@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          static_assert( sizeof( raw_t ) == 1 );
 
          if( in.size( sizeof...( Cs ) ) >= sizeof...( Cs ) ) {
-            if( char_string_equal( in.current(), { Cs... } ) ) {
+            if( ascii_string_equal< Cs... >( in.current() ) ) {
                in.template consume< ascii_string >( sizeof...( Cs ) );
                return true;
             }

@@ -13,11 +13,6 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   [[nodiscard]] inline bool char_string_equal( const void* s, const std::initializer_list< char >& l ) noexcept
-   {
-      return std::memcmp( s, l.begin(), l.size() ) == 0;
-   }
-
    template< typename T >
    [[nodiscard]] constexpr bool is_seven_value( const T t ) noexcept
    {
@@ -47,11 +42,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       const char* t = static_cast< const char* >( r );
       return ( ascii_char_equal< Cs >( *t++ ) && ... );
    }
-
-   // [[nodiscard]] inline bool ascii_string_equal( const void* s, const std::initializer_list< char >& l ) noexcept
-   // {
-   //    return std::memcmp( s, &*l.begin(), l.size() ) == 0;
-   // }
 
    template< char C, typename D >
    [[nodiscard]] constexpr bool ascii_ichar_equal( const D d ) noexcept
