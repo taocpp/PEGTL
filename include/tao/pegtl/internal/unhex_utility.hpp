@@ -46,10 +46,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename I >
    [[nodiscard]] constexpr I unhex_string_impl( const char* begin, const char* end )
    {
-      if( begin == end ) {
-         return 0;
-      }
-      I result = unhex_char_impl< I >( *begin++ );
+      I result = 0;
       while( begin != end ) {
          result <<= 4;
          result += unhex_char_impl< I >( *begin++ );
