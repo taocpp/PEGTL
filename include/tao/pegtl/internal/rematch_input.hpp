@@ -12,7 +12,7 @@
 
 #include "input_with_fakes.hpp"
 #include "input_with_funcs.hpp"
-#include "input_with_start.hpp"
+#include "rematch_position.hpp"
 #include "type_traits.hpp"
 #include "view_input.hpp"
 
@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       // offset_position_t
       using rewind_position_t = pointer_position< data_t >;
 
-      rematch_input_impl( Guard& m, Input& in )
+      rematch_input_impl( Guard& m, Input& in ) noexcept
          : m_guard( m ),
            m_input( in ),
            m_current( m.current() )
