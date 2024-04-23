@@ -199,6 +199,7 @@ set(test_sources
   uint32_general.cpp
   uint64_general.cpp
   uint8_general.cpp
+  unaligned_access.cpp
   utf16_general.cpp
   utf32_general.cpp
   utf8_general.cpp
