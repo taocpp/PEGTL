@@ -2,7 +2,7 @@
 
 These tables show how groups of related combinators differ by giving examples of their matching behaviour.
 
-We assume that the rule `x` is defined as `one< 'x' >` for all reasonable choices of `x`.
+We assume that the rule `x` is defined as [`one< 'x' >`](Rule-Reference.md#one-c-) for all reasonable choices of `x`.
 We also assume that we are in namespace `tao::pegtl`.
 
 In these tables a quoted string indicates that the rule matched on the input and shows which part of the input was consumed.
@@ -12,42 +12,42 @@ The letter 'f' stands for a "local failure" where the rule returns `false` while
 
 |  | "" | "a" | "ab" | "z" | "az" |
 |--|--|--|--|--|--|
-| `seq< a, b >` | f | f | "ab" | f | f |
-| `opt< a, b >` | "" | "" | "ab" | "" | "" |
-| `strict< a, b >` | "" | f | "ab" | "" | f |
-| `partial< a, b >` | "" | "a" | "ab" | "" | "a" |
-| `if_must< a, b >` | f | E | "ab" | f | E |
-
-## Repeating Combinators
-
-|  | "" | "a" | "aa" | "aaa" | "aaaa" |
-|--|--|--|--|--|--|
-| `rep< 2, a >` | f | f | "aa" | "aa" | "aa" |
-| `rep_opt< 2, a >` | "" | "a" | "aa" | "aa" | "aa" |
-| `rep_min< 2, a >` | f | f | "aa" | "aaa" | "aaaa" |
-| `rep_max< 2, a >` | "" | "a" | "aa" | f | f |
-| `rep_min_max< 2, 3, a >` | f | f | "aa" | "aaa" | f |
+| [`seq< a, b >`](Rule-Reference.md#seq-r-) | f | f | "ab" | f | f |
+| [`opt< a, b >`](Rule-Reference.md#opt-r-) | "" | "" | "ab" | "" | "" |
+| [`strict< a, b >`](Rule-Reference.md#strict-r-) | "" | f | "ab" | "" | f |
+| [`partial< a, b >`](Rule-Reference.md#partial-r-) | "" | "a" | "ab" | "" | "a" |
+| [`if_must< a, b >`](Rule-Reference.md#if_must-r-s-) | f | E | "ab" | f | E |
 
 ## Iterating Combinators
 
 |  | "" | "a" | "ab" | "aba" | "abab" | "z" | "az" | "abz" | "abaz" |
 |--|--|--|--|--|--|--|--|--|--|
-| `plus< a, b >` | f | f | "ab" | "ab" | "abab" | f | f | "ab" | "ab" |
-| `star< a, b >` | "" | "" | "ab" | "ab" | "abab" | "" | "" | "ab" | "ab" |
-| `star_strict< a, b >` | "" | f | "ab" | f | "abab" | "" | f | "ab" | f |
-| `star_partial< a, b >` | "" | "a" | "ab" | "aba" | "abab" | "" | "a" | "ab" | "aba" |
-| `star_must< a, b >` | "" | E | "ab" | E | "abab" | "" | E | "ab" | E |
+| [`plus< a, b >`](Rule-Reference.md#plus-r-) | f | f | "ab" | "ab" | "abab" | f | f | "ab" | "ab" |
+| [`star< a, b >`](Rule-Reference.md#star-r-) | "" | "" | "ab" | "ab" | "abab" | "" | "" | "ab" | "ab" |
+| [`star_strict< a, b >`](Rule-Reference.md#star_strict-r-) | "" | f | "ab" | f | "abab" | "" | f | "ab" | f |
+| [`star_partial< a, b >`](Rule-Reference.md#star_partial-r-) | "" | "a" | "ab" | "aba" | "abab" | "" | "a" | "ab" | "aba" |
+| [`star_must< a, b >`](Rule-Reference.md#star_must-r-s-) | "" | E | "ab" | E | "abab" | "" | E | "ab" | E |
 
-## Rule List Combinators
+## Repeating Combinators
 
-|  | "a" | "aa" | "ab" | "aba" | "abaa" | "abab" | "ac" | "acb" | "acba" | "acbca" |
+|  | "" | "a" | "aa" | "aaa" | "aaaa" |
+|--|--|--|--|--|--|
+| [`rep< 2, a >`](Rule-Reference.md#rep-num-r-) | f | f | "aa" | "aa" | "aa" |
+| [`rep_opt< 2, a >`](Rule-Reference.md#rep_opt-num-r-) | "" | "a" | "aa" | "aa" | "aa" |
+| [`rep_min< 2, a >`](Rule-Reference.md#rep_min-min-r-) | f | f | "aa" | "aaa" | "aaaa" |
+| [`rep_max< 2, a >`](Rule-Reference.md#rep_max-max-r-) | "" | "a" | "aa" | f | f |
+| [`rep_min_max< 2, 3, a >`](Rule-Reference.md#rep_min_max-min-max-r-) | f | f | "aa" | "aaa" | f |
+
+## List Combinators
+
+|  | "a" | "aa" | "ab" | "aba" | "abab" | "abc" | "ac" | "acb" | "acba" | "acbca" |
 |--|--|--|--|--|--|--|--|--|--|--|
-| `list< a, b >` | "a" | "a" | "a" | "aba" | "aba" | "aba" | "a" | "a" | "a" | "a" |
-| `list_tail< a, b >` | "a" | "a" | "ab" | "aba" | "aba" | "abab" | "a" | "a" | "a" | "a" |
-| `list_must< a, b >` | "a" | "a" | E | "aba" | "aba" | E | "a" | "a" | "a" | "a" |
-| `list< a, b, c >` | "a" | "a" | "a" | "aba" | "aba" | "aba" | "a" | "a" | "acba" | "acbca" |
-| `list_tail< a, b, c >` | "a" | "a" | "ab" | "aba" | "aba" | "abab" | "a" | "acb" | "acba" | "acbca" |
-| `list_must< a, b, c >` | "a" | "a" | E | "aba" | "aba" | E | "a" | E | "acba" | "acbca" |
+| [`list< a, b >`](Rule-Reference.md#list-r-s-) | "a" | "a" | "a" | "aba" | "aba" | "a" | "a" | "a" | "a" | "a" |
+| [`list_tail< a, b >`](Rule-Reference.md#list_tail-r-s-) | "a" | "a" | "ab" | "aba" | "abab" | "ab" | "a" | "a" | "a" | "a" |
+| [`list_must< a, b >`](Rule-Reference.md#list_must-r-s-) | "a" | "a" | E | "aba" | E | E | "a" | "a" | "a" | "a" |
+| [`list< a, b, c >`](Rule-Reference.md#list-r-s-p-) | "a" | "a" | "a" | "aba" | "aba" | "a" | "a" | "a" | "acba" | "acbca" |
+| [`list_tail< a, b, c >`](Rule-Reference.md#list_tail-r-s-p-) | "a" | "a" | "ab" | "aba" | "abab" | "ab" | "a" | "acb" | "acba" | "acbca" |
+| [`list_must< a, b, c >`](Rule-Reference.md#list_must-r-s-p-) | "a" | "a" | E | "aba" | E | E | "a" | E | "acba" | "acbca" |
 
 The list rules all fail (locally) when they can not match at least one list element.
 
