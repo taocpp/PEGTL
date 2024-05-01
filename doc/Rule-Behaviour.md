@@ -10,31 +10,48 @@ The letter 'f' stands for a "local failure" where the rule returns `false` while
 
 ## Simple Combinators
 
-|  | "" | "a" | "ab" | "abc" | "d" | "ad" | "abd" |
-|--|--|--|--|--|--|--|--|
-| `seq< a, b, c >` | f | f | f | "abc" | f | f | f |
-| `opt< a, b, c >` | "" | "" | "" | "abc" | "" | "" | "" |
-| `strict< a, b, c >` | "" | f | f | "abc" | "" | f | f |
-| `partial< a, b, c >` | "" | "a" | "ab" | "abc" | "" | "a" | "ab" |
-| `if_must< a, b, c >` | f | E | E | "abc" | f | E | E |
+|  | "" | "a" | "ab" | "z" | "az" |
+|--|--|--|--|--|--|
+| `seq< a, b >` | f | f | "ab" | f | f |
+| `opt< a, b >` | "" | "" | "ab" | "" | "" |
+| `strict< a, b >` | "" | f | "ab" | "" | f |
+| `partial< a, b >` | "" | "a" | "ab" | "" | "a" |
+| `if_must< a, b >` | f | E | "ab" | f | E |
+
+## Repeating Combinators
+
+|  | "" | "a" | "aa" | "aaa" | "aaaa" |
+|--|--|--|--|--|--|
+| `rep< 2, a >` | f | f | "aa" | "aa" | "aa" |
+| `rep_opt< 2, a >` | "" | "a" | "aa" | "aa" | "aa" |
+| `rep_min< 2, a >` | f | f | "aa" | "aaa" | "aaaa" |
+| `rep_max< 2, a >` | "" | "a" | "aa" | f | f |
+| `rep_min_max< 2, 3, a >` | f | f | "aa" | "aaa" | f |
 
 ## Iterating Combinators
 
-|  | "" | "a" | "ab" | "abc" | "d" | "ad" | "abd" |
-|--|--|--|--|--|--|--|--|
-| `plus< a, b, c >` | f | f | f | "abc" | f | f | f |
-| `star< a, b, c >` | "" | "" | "" | "abc" | "" | "" | "" |
-| `star_strict< a, b, c >` | "" | f | f | "abc" | "" | f | f |
-| `star_partial< a, b, c >` | "" | "a" | "ab" | "abc" | "" | "a" | "ab" |
-| `star_must< a, b, c >` | "" | E | E | "abc" | "" | E | E |
+|  | "" | "a" | "ab" | "aba" | "abab" | "z" | "az" | "abz" | "abaz" |
+|--|--|--|--|--|--|--|--|--|--|
+| `plus< a, b >` | f | f | "ab" | "ab" | "abab" | f | f | "ab" | "ab" |
+| `star< a, b >` | "" | "" | "ab" | "ab" | "abab" | "" | "" | "ab" | "ab" |
+| `star_strict< a, b >` | "" | f | "ab" | f | "abab" | "" | f | "ab" | f |
+| `star_partial< a, b >` | "" | "a" | "ab" | "aba" | "abab" | "" | "a" | "ab" | "aba" |
+| `star_must< a, b >` | "" | E | "ab" | E | "abab" | "" | E | "ab" | E |
 
-|  | "abca" | "abcd" | "abcabc" | "abcabca" | "abcabcb" |
-|--|--|--|--|--|--|
-| `plus< a, b, c >` | "abc" | "abc" | "abcabc" | "abcabc" | "abcabc" |
-| `star< a, b, c >` | "abc" | "abc" | "abcabc" | "abcabc" | "abcabc" |
-| `star_strict< a, b, c >` | f | "abc" | "abcabc" | f | "abcabc" |
-| `star_partial< a, b, c >` | "abca" | "abc" | "abcabc" | "abcabca" | "abcabc" |
-| `star_must< a, b, c >` | E | "abc" | "abcabc" | E | "abcabc" |
+## Rule List Combinators
+
+|  | "a" | "aa" | "ab" | "aba" | "abaa" | "abab" | "ac" | "acb" | "acba" | "acbca" |
+|--|--|--|--|--|--|--|--|--|--|--|
+| `list< a, b >` | "a" | "a" | "a" | "aba" | "aba" | "aba" | "a" | "a" | "a" | "a" |
+| `list_tail< a, b >` | "a" | "a" | "ab" | "aba" | "aba" | "abab" | "a" | "a" | "a" | "a" |
+| `list_must< a, b >` | "a" | "a" | E | "aba" | "aba" | E | "a" | "a" | "a" | "a" |
+| `list< a, b, c >` | "a" | "a" | "a" | "aba" | "aba" | "aba" | "a" | "a" | "acba" | "acbca" |
+| `list_tail< a, b, c >` | "a" | "a" | "ab" | "aba" | "aba" | "abab" | "a" | "acb" | "acba" | "acbca" |
+| `list_must< a, b, c >` | "a" | "a" | E | "aba" | "aba" | E | "a" | E | "acba" | "acbca" |
+
+The list rules all fail (locally) when they can not match at least one list element.
+
+---
 
 This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
 
