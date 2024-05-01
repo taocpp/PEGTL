@@ -15,9 +15,17 @@ namespace TAO_PEGTL_NAMESPACE
    static_assert( internal::unhex_char_impl< int >( 'A' ) == 10 );
    static_assert( internal::unhex_char_impl< int >( 'F' ) == 15 );
 
+   static_assert( internal::unhex_char_impl< unsigned >( '0' ) == 0 );
+   static_assert( internal::unhex_char_impl< unsigned >( '9' ) == 9 );
+   static_assert( internal::unhex_char_impl< unsigned >( 'a' ) == 10 );
+   static_assert( internal::unhex_char_impl< unsigned >( 'f' ) == 15 );
+   static_assert( internal::unhex_char_impl< unsigned >( 'A' ) == 10 );
+   static_assert( internal::unhex_char_impl< unsigned >( 'F' ) == 15 );
+
    void test_unhex( const std::string& s, const int r )
    {
       TAO_PEGTL_TEST_ASSERT( internal::unhex_string_impl< int >( s.data(), s.data() + s.size() ) == r );
+      TAO_PEGTL_TEST_ASSERT( internal::unhex_string_impl< unsigned >( s.data(), s.data() + s.size() ) == unsigned( r ) );
    }
 
    void unit_test()

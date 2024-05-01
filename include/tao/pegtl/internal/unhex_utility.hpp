@@ -48,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       I result = 0;
       while( begin != end ) {
-         result <<= 4;
+         result <<= 4;  // NOLINT
          result += unhex_char_impl< I >( *begin++ );
       }
       return result;
