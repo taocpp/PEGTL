@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.8...3.19)
 set(example_sources
   abnf2_record.cpp
   analyze.cpp
+  behaviour.cpp
   calculator.cpp
   chomsky_hierarchy.cpp
   csv1.cpp
