@@ -95,9 +95,7 @@ Good bye, world!
 $ ./hello_world 'Hello, Colin!'
 Good bye, Colin!
 $ ./hello_world 'Howdy, Paula!'
-terminate called after throwing an instance of 'tao::pegtl::parse_error'
-  what():  argv[1]:1:0(0): parse error matching hello::prefix
-Aborted (core dumped)
+I don't understand.
 ```
 
 Note that, by default, the PEGTL resides in `namespace tao::pegtl`, however this can be changed as explained in [Embedding in Libraries](Installing-and-Using.md#embedding-in-libraries).
@@ -126,15 +124,17 @@ Beyond these standard combinators the PEGTL contains a [large number of addition
 | *e*<sub>1</sub> / *e*<sub>2</sub> | [`sor< R... >`](Rule-Reference.md#sor-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>       |
 | *e**                              | [`star< R... >`](Rule-Reference.md#star-r-) <sup>[(combinators)](Rule-Reference.md#combinators)</sup>     |
 
-The PEGTL also contains a [large number of atomic rules](Rule-Reference.md) for matching ASCII and Unicode characters, strings, ranges and similar, beginning-of-file or end-of-line and similar, and more...
+The PEGTL also contains a [large number of atomic rules](Rule-Reference.md) for matching ASCII and Unicode characters, strings, ranges of characters, integers, beginning-of-file or end-of-line, ...
+
+Many of these rules can directly be applied to objects in the input, frequently of type `char`, but also to data members or the return values of global or member functions in cases where the input is a sequence of non-trivial objects.
 
 ## Grammar Analysis
 
 Every grammar must be free of cycles that make no progress, i.e. it must not contain unbounded recursive or iterative rules that do not consume any input, as such grammar might enter an infinite loop.
-One common pattern for these kinds of problematic grammars is the so-called [left recursion](https://en.wikipedia.org/wiki/Left_recursion) that, while not a problem for less deterministic formalisms like CFGs, must be avoided with PEGs in order to prevent aforementioned infinite loops.
+One common pattern for these kinds of problematic grammars is the "dreaded" [left recursion](https://en.wikipedia.org/wiki/Left_recursion) that, while not a problem for less deterministic formalisms like CFGs, must be avoided with PEGs in order to prevent aforementioned infinite loops.
 
-The PEGTL provides a [grammar analysis](Grammar-Analysis.md) which analyses a grammar for cycles that make no progress.
-While it could be implemented with compile-time meta-programming, to prevent the compiler from exploding the analysis is done at run-time.
+The PEGTL provides a [grammar analysis](Grammar-Analysis.md) that searches the rules of a grammar for cycles that make no progress.
+While this could probably be implemented with compile-time meta-programming the implementation in the PEGTL avoids excessive compile times by doing everything at run-time.
 It is best practice to create a separate dedicated program that does nothing else but run the grammar analysis, thus keeping this development and debug aid out of the main application.
 
 ```c++
@@ -163,8 +163,9 @@ For more information see [Grammar Analysis](Grammar-Analysis.md).
 
 ## Tracer
 
-A fundamental tool used when developing a grammar is a tracer that prints every step of a parsing run, thereby showing exactly which rule was attempted to match where, and what the result was.
-The PEGTL provides a tracer that will print to `stderr`, and of course allows users to write their own tracers with custom output formats.
+A fundamental tool for grammar development is a *tracer* that prints every step of a parsing run.
+It shows exactly which rule was attempted to match where, and what the result was.
+The PEGTL provides a tracer that serves both as practical debug tool and as example of the modular nature of the core library that allows for such facilities to be added.
 
 ```c++
 #include <tao/pegtl.hpp>
@@ -188,7 +189,7 @@ int main( int argc, char** argv )
 }
 ```
 
-In the above each command line parameter is parsed as a JSON string and a trace is given to understand how the grammar matches the input.
+In the example above, each command line parameter is parsed as a JSON string and a trace is printed to `stderr`.
 
 The full example can be found in `src/example/pegtl/json_trace.cpp`.
 For more information see `tao/pegtl/contrib/trace.hpp`.

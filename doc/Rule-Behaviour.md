@@ -16,6 +16,7 @@ The letter 'f' stands for a "local failure" where the rule returns `false` while
 | [`opt< a, b >`](Rule-Reference.md#opt-r-) | "" | "" | "ab" | "" | "" |
 | [`strict< a, b >`](Rule-Reference.md#strict-r-) | "" | f | "ab" | "" | f |
 | [`partial< a, b >`](Rule-Reference.md#partial-r-) | "" | "a" | "ab" | "" | "a" |
+| [`must< a, b >`](Rule-Reference.md#must-r-) | E | E | "ab" | E | E |
 | [`if_must< a, b >`](Rule-Reference.md#if_must-r-s-) | f | E | "ab" | f | E |
 
 ## Iterating Combinators

@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/debug/internal/set_stack_guard.hpp>
+#include <tao/pegtl/debug/internal.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

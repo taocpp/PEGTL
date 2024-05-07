@@ -34,8 +34,9 @@ Version 5.x of the PEGTL will make the jump to C++20 or even C++23.
 
 ### Other Things
 
- * Build a compile-time facility to convert Unicode code points to UTF8 sequences!
- * Investigate whether we are crazy enough to attempt parsing linked lists or trees.
+ * ~~Build a compile-time facility to convert Unicode code points to UTF8 sequences!~~
+   * Done in version 4.0.
+ * Investigate whether we are crazy enough to attempt parsing linked lists or trees?
 
 ### Buffer Inputs
 

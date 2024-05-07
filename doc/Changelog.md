@@ -4,6 +4,7 @@
 
 **Not yet released**
 
+* *Moar templates*, more templates in more places!
 * Use the [**migration guide**](Migration-Guide.md#version-400) when updating.
 * Infrastructure
   * Switched to Boost Software License, Version 1.0.
@@ -22,20 +23,23 @@
   * Added functions to visit and flatten [nested exceptions](Contrib-and-Examples.md#taopegtlcontribnested_exceptionshpp).
 * Inputs
   * Standardised on line - column - count order.
-  * The input classes have been heavily refactored.
-  * Most input classes can use any data type instead of just `char`.
-  * The end-of-line handling has been heavily refactored.
+  * The input classes have been *heavily* refactored.
+  * Most input classes can use any data type instead of being hardwired to `char`.
+  * The end-of-line handling has been *heavily* refactored and extended.
   * Choice of statically or dynamically allocated buffer inputs.
   * Everything related to buffered inputs is now in `include/tao/buffer/`.
-  * Nothing related to buffered inputs is now included in `<tao/pegtl.hpp>`.
+  * Nothing related to buffered inputs is not included in `<tao/pegtl.hpp>`.
   * Removed `action_t` type alias from all input classes in favour of using `internal::action_input`.
+  * Never use unaligned memory accesses (unless the compiler generates them).
 * Rule Changes
   * Added Unicode rules that adapt to the input's data size.
-  * Changed the ASCII rules to adapt to the input's data size.
-  * Changed the integer rules to adapt to the input's data size.
-  * Added special end-of-line rules in `tao::pegtl::eols`.
+  * Added special end-of-line rules in multiple places.
+  * Added new atomic rule [`function`](Rule-Reference.md#function-f-).
   * Added new ASCII rule [`cntrl`](Rule-Reference.md#cntrl).
   * Added new ASCII rule [`cr`](Rule-Reference.md#cr).
+  * Added new ASCII rule [`cr_lf`](Rule-Reference.md#cr_lf).
+  * Added new ASCII rule [`cr_crlf`](Rule-Reference.md#cr_crlf).
+  * Added new ASCII rule [`cr_lf_crlf`](Rule-Reference.md#cr_lf_crlf).
   * Added new ASCII rule [`crlf`](Rule-Reference.md#crlf).
   * Added new ASCII rule [`esc`](Rule-Reference.md#esc).
   * Added new ASCII rule [`ff`](Rule-Reference.md#ff).
@@ -43,11 +47,25 @@
   * Added new ASCII rule [`ht`](Rule-Reference.md#ht).
   * Added new ASCII rule [`ione`](Rule-Reference.md#ht).
   * Added new ASCII rule [`lf`](Rule-Reference.md#lf).
-  * Added new ASCII rule [`lfcr`](Rule-Reference.md#lfcr).
+  * Added new ASCII rule [`lf_crlf`](Rule-Reference.md#lf_crlf).
   * Added new ASCII rule [`not_ione`](Rule-Reference.md#ht).
   * Added new ASCII rule [`sp`](Rule-Reference.md#sp).
   * Added new ASCII rule [`vt`](Rule-Reference.md#vt).
   * Added new ASCII rules that only match in the range 0 to 127.
+  * Added new Unicode rule [`cr`](Rule-Reference.md#cr-1).
+  * Added new Unicode rule [`cr_lf`](Rule-Reference.md#cr_lf-1).
+  * Added new Unicode rule [`cr_crlf`](Rule-Reference.md#cr_crlf-1).
+  * Added new Unicode rule [`cr_lf_crlf`](Rule-Reference.md#cr_lf_crlf-1).
+  * Added new Unicode rule [`crlf`](Rule-Reference.md#crlf-1).
+  * Added new Unicode rule [`lf`](Rule-Reference.md#lf-1).
+  * Added new Unicode rule [`lf_crlf`](Rule-Reference.md#lf_crlf-1).
+  * Added new Unicode rule [`ls`](Rule-Reference.md#ls).
+  * Added new Unicode rule [`nel`](Rule-Reference.md#nel).
+  * Added new Unicode rule [`ps`](Rule-Reference.md#ps).
+  * Added new Unicode rule [`eol1`](Rule-Reference.md#eol1).
+  * Added new Unicode rule [`eolu`](Rule-Reference.md#eolu).
+  * Added dedicated end-of-line rules for end-of-line scanning.
+  * Added dedicated end-of-line rules for lazy end-of-line mode.
   * Added new atomic rule [`consume`](Rule-Reference.md#consume-count-).
   * Added new atomic rule [`everything`](Rule-Reference.md#everything).
   * Added new generic rule [`combine`](Rule-Reference.md#combine-r-l-).
@@ -67,8 +85,10 @@
   * Added rule [`try_catch_std_raise_nested`](Rule-Reference.md#try_catch_std_raise_nested-r-).
   * Added rule [`try_catch_type_raise_nested`](Rule-Reference.md#try_catch_type_raise_nested-e-r-).
   * Added rules for matching signed integers mirroring the existing ones for unsigned integers.
-  * Optimised `utf8::string` by expanding code points to UTF-8 sequences at compile time.
+  * Optimised `utf8::string` by expanding `char32_t` code points to UTF-8 sequences at compile time.
   * Refactored the implementation of `one`, `range`, `ranges`, `not_one` and `not_range`.
+  * Added new rules for enum types to the [binary rules](Rule-Reference.md#binary)
+  * Added new rules that operate on [members](Rule-Reference.md#member) instead of directly on values.
 * Added new customization point for error messages.  -- TODO!
 * Added optional source line output for the tracer.  -- TODO?
 * Other

@@ -42,29 +42,35 @@ Larger projects will frequently require the `/bigobj` option when compiling with
 
 It should also work with other C++17 compilers on other Unix systems (or any sufficiently compatible platform).
 
-The PEGTL is written with an emphasis on clean code and is compatible with
-the `-pedantic`, `-Wall`, `-Wextra` and `-Werror` compiler switches.
+The PEGTL is written with an emphasis on clean code and is compiles with `-pedantic`, `-Wall`, `-Wextra` and `-Werror`.
 
 ## Disabling Exceptions
 
-The PEGTL is compatible with `-fno-exceptions`, however, when disabling exceptions:
+The PEGTL is compatible with `-fno-exceptions`, however, when disabling exceptions all facilities that directly use exceptions are not available:
 
-* The following rules are unavailable:
-  * `raise<>`.
-  * `try_catch<>`.
-  * `try_catch_type<>`.
-  * `must<>`.
+* Rules that require exceptions:
   * `if_must<>`.
   * `if_must_else<>`.
   * `list_must<>`.
+  * `must<>`.
   * `opt_must<>`.
+  * `raise<>`.
+  * `raise_message<>`.
   * `star_must<>`.
-* The following headers are unavailable:
+  * `try_catch_any_raise_nested<>`.
+  * `try_catch_any_return_false<>`.
+  * `try_catch_raise_nested<>`.
+  * `try_catch_return_false<>`.
+  * `try_catch_std_raise_nested<>`.
+  * `try_catch_std_return_false<>`.
+  * `try_catch_type_raise_nested<>`.
+  * `try_catch_type_return_false<>`.
+* Headers that require exceptions:
   * `tao/pegtl/contrib/http.hpp`.
   * `tao/pegtl/contrib/integer.hpp`.
   * `tao/pegtl/contrib/uri.hpp`.
 * The error control class template `must_if<>` is unavailable.
-* Some of our tests and examples are disabled or limited (via `#if`).
+* Some included tests and examples are disabled or limited (via `#if`).
 
 ## Disabling RTTI
 

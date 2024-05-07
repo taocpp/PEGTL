@@ -42,7 +42,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace internal
 
-   // Applies 'Shuffle' to the states of start(), success(), failure(), guard(), raise(), raise_nested(), apply(), and apply0()
+   // Applies the shuffle to most control functions forwarded to Base.
+   // The call to match() is unchanged to keep an even playing field when calling other rules.
 
    template< typename Base, typename Shuffle >
    struct shuffle_states

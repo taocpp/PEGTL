@@ -24,11 +24,16 @@ struct R = seq< A, sor< B, C > > {};  // R = A(B/C)
 Not backtracking over `A` has the additional advantage of not triggering any action attached to `A` twice.
 
 In practice, opportunities to remove superfluous backtracking might not be as obvious as with such a simple rule.
-For a more complex example please look at the comment to the Lua 5.3 grammar in `src/example/pegtl/lua53_parse.cpp`.
+For a more complex example please read the comments ate the beginning of the Lua 5.3 grammar in `src/example/pegtl/lua53.hpp`.
 It shows how to eliminate both left-recursion and superfluous backtracking with multiple rules and recursions.
 
 ###### Whitespace etc.
 
+Similarly grammars should be designed to minimise redundant multiple parsing of the same whitespace, comments or other padding.
+
+One good way to achieve this is to choose a strategy for whitespace handling and then consistently stick to it.
+For example the JSON grammar in `include/tao/pegtl/contrib/json.hpp` consistently has every rule for a "token" consume any following whitespace via the `ws` rule, too.
+That way every rule can assume to start matching some "real" input since any whitespace would have already been consumed by the previous one.
 
 ###### Regarding `at` and `one`
 
@@ -38,8 +43,9 @@ Instead of `one< ... >` advancing the input, and `at< one< ... > >` rewinding, t
 
 Put to the test, the optimised `at_one< '"' >` rule did not show any performance advantage over `at< one< '"' > >`, at least with `-O3`.
 Presumably the compiler was smart enough to perform the optimisation by itself.
+
 However with `-O0`, the optimised `at_one< '"' >` was faster by 5-10% in a [JSON library](https://github.com/taocpp/json) micro-benchmark.
-As the PEGTL should only be used with optimizations enabled, we removed the `at_one<>` rule, as we try to reduce the number of rules that won't provide a clear benefit.
+As the PEGTL should only be used with optimizations enabled, we removed the `at_one<>` rule, as we try to reduce the number of rules that don't provide a clear benefit.
 
 We still need to test whether the compiler manages to perform the same optimisation in more complex cases.
 

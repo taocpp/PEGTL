@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    // For data members of type 'T*' or 'const T*' -- will this case ever be used?
 
    template< typename C, typename T, T* C::*P >
-   struct peek_member_impl< T * C::*, P, std::enable_if_t< std::is_member_object_pointer_v< T * C::* > > >
+   struct peek_member_impl< T* C::*, P, std::enable_if_t< std::is_member_object_pointer_v< T* C::* > > >
    {
       using data_t = std::decay_t< T >;
       using pair_t = data_and_size< data_t, void >;

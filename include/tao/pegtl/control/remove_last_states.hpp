@@ -17,10 +17,8 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   // The last N states are removed for most of the control functions forwarded to Base,
-   // start(), success(), failure(), unwind(), raise(), raise_nested(),apply(), and apply0().
-   // The call to match() is unchanged because it can call other grammar rules that require
-   // all states when starting their match to keep an even playing field.
+   // The last N states are removed for most of the control functions forwarded to Base.
+   // The call to match() is unchanged to keep an even playing field when calling other rules.
 
    template< typename Base, std::size_t N >
    struct remove_last_states
