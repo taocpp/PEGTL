@@ -6,6 +6,7 @@
 #define TAO_PEGTL_TYPE_LIST_HPP
 
 #include <cstddef>
+#include <type_traits>
 
 #include "config.hpp"
 
