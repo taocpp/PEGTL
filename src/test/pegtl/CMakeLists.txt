@@ -52,6 +52,7 @@ set(test_sources
   contrib_to_string.cpp
   contrib_trace1.cpp
   contrib_trace2.cpp
+  contrib_trace3.cpp
   contrib_unescape.cpp
   contrib_uri.cpp
   control_unwind.cpp

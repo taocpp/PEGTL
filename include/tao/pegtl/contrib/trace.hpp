@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2023 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2020-2024 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -21,6 +21,7 @@
 #include "../nothing.hpp"
 #include "../parse.hpp"
 #include "../rewind_mode.hpp"
+#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -53,6 +54,26 @@ namespace TAO_PEGTL_NAMESPACE
 
    using standard_tracer_traits = tracer_traits< true >;
    using complete_tracer_traits = tracer_traits< false >;
+
+   template< typename RuleList >
+   struct include_tracer_traits
+      : tracer_traits<>
+   {
+      static_assert( is_type_list_v< RuleList > );
+
+      template< typename Rule >
+      static constexpr bool enable = type_list_contains< Rule, RuleList >::value;
+   };
+
+   template< typename RuleList, bool HideInternal = true >
+   struct exclude_tracer_traits
+      : tracer_traits< HideInternal >
+   {
+      static_assert( is_type_list_v< RuleList > );
+
+      template< typename Rule >
+      static constexpr bool enable = ( !type_list_contains< Rule, RuleList >::value ) && ( tracer_traits< HideInternal >::template enable< Rule > );
+   };
 
    template< typename TracerTraits >
    struct tracer
@@ -191,6 +212,14 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
+   using standard_tracer = tracer< standard_tracer_traits >;
+   using complete_tracer = tracer< complete_tracer_traits >;
+
+   template< typename RuleList >
+   using include_tracer = tracer< include_tracer_traits< RuleList > >;
+   template< typename RuleList >
+   using exclude_tracer = tracer< exclude_tracer_traits< RuleList > >;
+
    template< typename Rule,
              template< typename... > class Action = nothing,
              template< typename... > class Control = normal,
@@ -198,7 +227,7 @@ namespace TAO_PEGTL_NAMESPACE
              typename... States >
    bool standard_trace( ParseInput&& in, States&&... st )
    {
-      tracer< standard_tracer_traits > tr( in );
+      standard_tracer tr( in );
       return tr.parse< Rule, Action, Control >( in, st... );
    }
 
@@ -209,8 +238,32 @@ namespace TAO_PEGTL_NAMESPACE
              typename... States >
    bool complete_trace( ParseInput&& in, States&&... st )
    {
-      tracer< complete_tracer_traits > tr( in );
+      complete_tracer tr( in );
       return tr.parse< Rule, Action, Control >( in, st... );
+   }
+
+   template< typename RuleList,
+             typename Rule,
+             template< typename... > class Action = nothing,
+             template< typename... > class Control = normal,
+             typename ParseInput,
+             typename... States >
+   bool include_trace( ParseInput&& in, States&&... st )
+   {
+      include_tracer< RuleList > tr( in );
+      return tr.template parse< Rule, Action, Control >( in, st... );
+   }
+
+   template< typename RuleList,
+             typename Rule,
+             template< typename... > class Action = nothing,
+             template< typename... > class Control = normal,
+             typename ParseInput,
+             typename... States >
+   bool exclude_trace( ParseInput&& in, States&&... st )
+   {
+      exclude_tracer< RuleList > tr( in );
+      return tr.template parse< Rule, Action, Control >( in, st... );
    }
 
    template< typename Tracer >
@@ -240,8 +293,13 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   using trace_standard = trace< tracer< standard_tracer_traits > >;
-   using trace_complete = trace< tracer< complete_tracer_traits > >;
+   using trace_standard = trace< standard_tracer >;
+   using trace_complete = trace< complete_tracer >;
+
+   template< typename RuleList >
+   using trace_include = trace< include_tracer< RuleList > >;
+   template< typename RuleList >
+   using trace_exclude = trace< exclude_tracer< RuleList > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

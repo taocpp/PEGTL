@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2024 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2024 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -10,11 +10,7 @@ namespace test
 {
    using namespace TAO_PEGTL_NAMESPACE;
 
-#if defined( __cpp_exceptions )
-   using grammar = seq< sor< try_catch_return_false< must< one< 'a' > > >, one< 'F' > >, eof >;
-#else
    using grammar = seq< sor< one< 'a' >, one< 'F' > >, eof >;
-#endif
 
 }  // namespace test
 
@@ -24,12 +20,10 @@ namespace TAO_PEGTL_NAMESPACE
    {
       const std::string data = "F";
       memory_input in( data, "trace test -- please ignore" );
-      // Just enough to see that it compiles and nothing explodes;
-      // the output format probabaly changes between compilers and
-      // versions making a proper test difficult.
-      standard_trace< test::grammar >( in );
+      // Just enough to see that it compiles and nothing explodes.
+      include_trace< type_list< one< 'a' >, one< 'F' > >, test::grammar >( in );
       in.restart();
-      complete_trace< test::grammar >( in );
+      exclude_trace< type_list< one< 'a' > >, test::grammar >( in );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
