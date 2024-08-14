@@ -37,10 +37,7 @@ jobs:
     - run: cmake -E make_directory build
 
     - working-directory: build/
-      run: |
-        which clang
-        which llvm
-        cmake $GITHUB_WORKSPACE -GNinja -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+      run: cmake $GITHUB_WORKSPACE -GNinja -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
     - working-directory: build/
       run: cmake --build .
