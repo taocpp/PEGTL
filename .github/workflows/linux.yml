@@ -11,7 +11,7 @@ on:
       - 'doc/**'
 
 jobs:
-  linux-ubuntu-24.04:
+  linux-ubuntu-24_04:
     strategy:
       fail-fast: false
       matrix:
@@ -43,7 +43,7 @@ jobs:
     - working-directory: build/
       run: ctest --output-on-failure
 
-  linux-ubuntu-22.04:
+  linux-ubuntu-22_04:
     strategy:
       fail-fast: false
       matrix:
