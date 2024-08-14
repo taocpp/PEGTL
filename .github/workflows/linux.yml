@@ -30,7 +30,7 @@ jobs:
       CXX: ${{ matrix.compiler }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - run: cmake -E make_directory build
 
@@ -59,7 +59,7 @@ jobs:
       CXX: ${{ matrix.compiler }}
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - run: cmake -E make_directory build
 
@@ -82,7 +82,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - run: cmake -E make_directory build
 
@@ -108,7 +108,7 @@ jobs:
       CXX: clang++
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - run: cmake -E make_directory build
 
