@@ -19,34 +19,24 @@ jobs:
         platform:
           - os: ubuntu-24.04
             compiler: g++-12
-            linker: -fuse-ld=gold
           - os: ubuntu-24.04
             compiler: g++-13
-            linker: -fuse-ld=gold
           - os: ubuntu-24.04
             compiler: g++-14
-            linker: -fuse-ld=gold
           - os: ubuntu-24.04
             compiler: clang++-16
-            linker: -fuse-ld=lld
           - os: ubuntu-24.04
             compiler: clang++-17
-            linker: -fuse-ld=lld
           - os: ubuntu-24.04
             compiler: clang++-18
-            linker: -fuse-ld=lld
           - os: ubuntu-22.04
             compiler: g++-11
-            linker: -fuse-ld=gold
           - os: ubuntu-22.04
             compiler: clang++-13
-            linker: -fuse-ld=lld
           - os: ubuntu-22.04
             compiler: clang++-14
-            linker: -fuse-ld=lld
           - os: ubuntu-22.04
             compiler: clang++-15
-            linker: -fuse-ld=lld
         build_type: [Release, Debug]
     runs-on: ${{ matrix.platform.os }}
 
@@ -63,8 +53,7 @@ jobs:
           cmake -S $GITHUB_WORKSPACE -B build \
           -GNinja \
           -DCMAKE_CXX_COMPILER=${{ matrix.platform.compiler }} \
-          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-          -DCMAKE_EXE_LINKER_FLAGS=${{ matrix.platform.linker }}
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
       - name: Build project
         run: cmake --build build/

@@ -44,8 +44,6 @@ jobs:
         cmake -S $GITHUB_WORKSPACE -B build \
           -GNinja \
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
-          -DCMAKE_VERBOSE_MAKEFILE=ON \
-          -DCMAKE_C_COMPILER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang \
           -DCMAKE_CXX_COMPILER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang++ \
           -DCMAKE_LINKER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/ld.lld
 
