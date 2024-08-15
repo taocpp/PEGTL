@@ -32,4 +32,4 @@ jobs:
           -DCMAKE_BUILD_TYPE=Release
 
       - name: Build project
-        run: cmake --build /home/developer/build
+        run: cmake --build build/
