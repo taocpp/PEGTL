@@ -32,15 +32,25 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: seanmiddleditch/gha-setup-ninja@v5
 
-    - run: cmake -E make_directory build
+    - name: Install Dependencies
+      run: |
+        brew update
+        brew install llvm@${{ matrix.llvm }}
+        brew install ninja
 
-    - working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -GNinja -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+    - name: Configure CMake
+      run: |
+        brew --prefix llvm@${{ matrix.llvm }}
+        cmake -S $GITHUB_WORKSPACE -B build \
+          -GNinja \
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+          -DCMAKE_C_COMPILER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang-${{ matrix.llvm }} \
+          -DCMAKE_CXX_COMPILER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang-${{ matrix.llvm }}
 
-    - working-directory: build/
-      run: cmake --build .
+    - name: Build project
+      run: cmake --build build/
 
-    - working-directory: build/
+    - name: Run tests
+      working-directory: build/
       run: ctest -C ${{ matrix.build_type }} --output-on-failure
