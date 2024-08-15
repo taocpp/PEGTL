@@ -57,7 +57,7 @@ jobs:
       uses: seanmiddleditch/gha-setup-ninja@v4
 
     - name: Configure CMake
-      run: cmake -S ${{ github.workspace }} -B build -G "Ninja" -T ClangCL
+      run: cmake -S ${{ github.workspace }} -B build -G "Ninja" -DCMAKE_C_COMPILER=clang-cl.exe -DCMAKE_CXX_COMPILER=clang-cl.exe
 
     - name: Build project
       run: cmake --build ${{ github.workspace }}\build --config ${{ matrix.build_type }}
