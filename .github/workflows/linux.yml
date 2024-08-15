@@ -41,8 +41,12 @@ jobs:
     runs-on: ${{ matrix.platform.os }}
 
     steps:
+      - name: Install Dependencies
+        run: |
+          sudo apt -qq update
+          sudo apt -qq install -y ninja-build --no-install-recommends --no-install-suggests
+
       - uses: actions/checkout@v4
-      - uses: seanmiddleditch/gha-setup-ninja@v5
 
       - name: Configure CMake
         run: |

@@ -47,7 +47,7 @@ jobs:
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
           -DCMAKE_VERBOSE_MAKEFILE=ON \
           -DCMAKE_C_COMPILER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang-${{ matrix.llvm }} \
-          -DCMAKE_CXX_COMPILER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang-${{ matrix.llvm }}
+          -DCMAKE_CXX_COMPILER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang++-${{ matrix.llvm }}
 
     - name: Build project
       run: cmake --build build/ --config ${{ matrix.build_type }}
