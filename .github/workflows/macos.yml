@@ -42,6 +42,7 @@ jobs:
     - name: Configure CMake
       run: |
         brew --prefix llvm@${{ matrix.llvm }}
+        ls $(brew --prefix llvm@${{ matrix.llvm }})/bin
         cmake -S $GITHUB_WORKSPACE -B build \
           -GNinja \
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
