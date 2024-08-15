@@ -41,14 +41,13 @@ jobs:
     - uses: actions/checkout@v4
     - name: Configure CMake
       run: |
-        brew --prefix llvm@${{ matrix.llvm }}
-        ls $(brew --prefix llvm@${{ matrix.llvm }})/bin
         cmake -S $GITHUB_WORKSPACE -B build \
           -GNinja \
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
           -DCMAKE_VERBOSE_MAKEFILE=ON \
-          -DCMAKE_C_COMPILER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang-${{ matrix.llvm }} \
-          -DCMAKE_CXX_COMPILER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang++-${{ matrix.llvm }}
+          -DCMAKE_C_COMPILER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang \
+          -DCMAKE_CXX_COMPILER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang++ \
+          -DCMAKE_LINKER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/ld.lld
 
     - name: Build project
       run: cmake --build build/ --config ${{ matrix.build_type }}
