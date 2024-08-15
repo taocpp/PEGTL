@@ -16,28 +16,37 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build_type: [Debug, Release]
         include:
           - compiler: g++-12
             os: ubuntu-24.04
+            build_type: [Debug, Release]
           - compiler: g++-13
             os: ubuntu-24.04
+            build_type: [Debug, Release]
           - compiler: g++-14
             os: ubuntu-24.04
+            build_type: [Debug, Release]
           - compiler: clang++-16
             os: ubuntu-24.04
+            build_type: [Debug, Release]
           - compiler: clang++-17
             os: ubuntu-24.04
+            build_type: [Debug, Release]
           - compiler: clang++-18
             os: ubuntu-24.04
+            build_type: [Debug, Release]
           - compiler: g++-11
             os: ubuntu-22.04
+            build_type: [Debug, Release]
           - compiler: clang++-13
             os: ubuntu-22.04
+            build_type: [Debug, Release]
           - compiler: clang++-14
             os: ubuntu-22.04
+            build_type: [Debug, Release]
           - compiler: clang++-15
             os: ubuntu-22.04
+            build_type: [Debug, Release]
     runs-on: ${{ matrix.os }}
 
     steps:
