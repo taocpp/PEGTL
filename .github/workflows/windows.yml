@@ -12,7 +12,7 @@ on:
       - 'doc/**'
 
 jobs:
-  vs2022:
+  windows-2022-msvc:
     strategy:
       fail-fast: false
       matrix:
@@ -30,16 +30,16 @@ jobs:
       uses: seanmiddleditch/gha-setup-ninja@v4
 
     - name: Configure CMake
-      run: cmake $GITHUB_WORKSPACE -G "Ninja" -B build
+      run: cmake ${{ github.workspace }} -G "Ninja" -B build
 
     - name: Build project
-      run: cmake --build build --config ${{ matrix.build_type }}
+      run: cmake --build ${{ github.workspace }}\build --config ${{ matrix.build_type }}
 
     - name: Run tests
-      working-directory: build/
+      working-directory: ${{ github.workspace }}\build
       run: ctest -C ${{ matrix.build_type }} --output-on-failure
 
-  vs2022-clang:
+  windows-2022-clang:
     strategy:
       fail-fast: false
       matrix:
@@ -48,21 +48,24 @@ jobs:
     runs-on: windows-2022
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    - run: cmake -E make_directory build
+    - name: Configure Visual Studio Environment
+      uses: ilammy/msvc-dev-cmd@v1.13.0
 
-    - shell: bash
-      working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -G "Visual Studio 17 2022" -T ClangCL
+    - name: Install Ninja
+      uses: seanmiddleditch/gha-setup-ninja@v4
 
-    - working-directory: build/
-      run: cmake --build . --config ${{ matrix.build_type }}
+    - name: Configure CMake
+      run: cmake -S ${{ github.workspace }} -B build -G "Ninja" -T ClangCL
 
-    - working-directory: build/
+    - name: Build project
+      run: cmake --build ${{ github.workspace }}\build --config ${{ matrix.build_type }}
+
+    - working-directory: ${{ github.workspace }}\build
       run: ctest -C ${{ matrix.build_type }} --output-on-failure
 
-  vs2019:
+  windows-2019-msvc:
     strategy:
       fail-fast: false
       matrix:
@@ -71,7 +74,7 @@ jobs:
     runs-on: windows-2019
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - run: cmake -E make_directory build
 
@@ -85,7 +88,7 @@ jobs:
     - working-directory: build/
       run: ctest -C ${{ matrix.build_type }} --output-on-failure
 
-  vs2019-clang:
+  windows-2019-clang:
     strategy:
       fail-fast: false
       matrix:
@@ -94,7 +97,7 @@ jobs:
     runs-on: windows-2019
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - run: cmake -E make_directory build
 
