@@ -17,29 +17,28 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - llvm: 15
+          - llvm: 18
             build_type: Debug
             os: macos-14
-          - llvm: 15
+          - llvm: 18
             build_type: Release
             os: macos-14
-          - llvm: 14
+          - llvm: 16
             build_type: Debug
             os: macos-13
-          - llvm: 14
+          - llvm: 16
             build_type: Release
             os: macos-13
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v4
-
     - name: Install Dependencies
       run: |
         brew update
         brew install llvm@${{ matrix.llvm }}
         brew install ninja
 
+    - uses: actions/checkout@v4
     - name: Configure CMake
       run: |
         brew --prefix llvm@${{ matrix.llvm }}
@@ -51,7 +50,7 @@ jobs:
           -DCMAKE_CXX_COMPILER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang-${{ matrix.llvm }}
 
     - name: Build project
-      run: cmake --build build/
+      run: cmake --build build/ --config ${{ matrix.build_type }}
 
     - name: Run tests
       working-directory: build/
