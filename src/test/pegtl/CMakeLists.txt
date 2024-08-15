@@ -137,11 +137,6 @@ set(test_sources
   visit.cpp
 )
 
-message(WARNING "CMAKE_SYSTEM_VERSION: ${CMAKE_SYSTEM_VERSION}")
-message(WARNING "CMAKE_CXX_COMPILER_ID: ${CMAKE_CXX_COMPILER_ID}")
-message(WARNING "WIN32: ${WIN32}")
-message(WARNING "MSVC: ${MSVC}")
-
 # file(GLOB ...) is used to validate the above list of test_sources
 file(GLOB glob_test_sources RELATIVE ${CMAKE_CURRENT_LIST_DIR} *.cpp)
 
@@ -169,10 +164,9 @@ foreach(testsourcefile ${test_sources})
     add_test(NAME ${exename} WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR} COMMAND ${CMAKE_COMMAND} "-DANDROID_NDK=${ANDROID_NDK}" "-DTEST_RESOURCES_DIR=${CMAKE_SOURCE_DIR}" "-DTEST_RESOURCES=src/test/pegtl/data;src/test/pegtl/file_data.txt;Makefile" "-DUNITTEST=${exename}" -P ${CMAKE_CURRENT_SOURCE_DIR}/ExecuteOnAndroid.cmake)
   else()
     # FIXME: Windows 2022 Clang results in segfault when running for some tests
-    message(STATUS "EXEC NAME: ${exename}")
     if(CMAKE_SYSTEM_VERSION VERSION_EQUAL "10.0.20348" AND CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-      if("${exename}" MATCHES "pegtl-test-position" OR "${testsourcefile}" MATCHES "pegtl-test-rule_try_catch_raise_nested")
-        message(WARNING "FIXME: Skipping test ${testsourcefile} on Windows Clang due to segfault.")
+      if("${exename}" MATCHES "pegtl-test-position" OR "${exename}" MATCHES "pegtl-test-rule_try_catch_raise_nested")
+        message(WARNING "FIXME: Skipping test ${exename} on Windows Clang due to segfault.")
         continue()
       endif()
     endif()
