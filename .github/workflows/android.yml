@@ -1,7 +1,10 @@
 name: Android
 
 on:
-  workflow_dispatch:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
   pull_request:
     paths-ignore:
       - 'README.md'
