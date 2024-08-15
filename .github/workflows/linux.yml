@@ -19,34 +19,64 @@ jobs:
         include:
           - compiler: g++-12
             os: ubuntu-24.04
-            build_type: [Debug, Release]
+            build_type: Release
+          - compiler: g++-12
+            os: ubuntu-24.04
+            build_type: Debug
           - compiler: g++-13
             os: ubuntu-24.04
-            build_type: [Debug, Release]
+            build_type: Release
+          - compiler: g++-13
+            os: ubuntu-24.04
+            build_type: Debug
           - compiler: g++-14
             os: ubuntu-24.04
-            build_type: [Debug, Release]
+            build_type: Release
+          - compiler: g++-14
+            os: ubuntu-24.04
+            build_type: Debug
           - compiler: clang++-16
             os: ubuntu-24.04
-            build_type: [Debug, Release]
+            build_type: Release
+          - compiler: clang++-16
+            os: ubuntu-24.04
+            build_type: Debug
           - compiler: clang++-17
             os: ubuntu-24.04
-            build_type: [Debug, Release]
+            build_type: Release
+          - compiler: clang++-17
+            os: ubuntu-24.04
+            build_type: Debug
           - compiler: clang++-18
             os: ubuntu-24.04
-            build_type: [Debug, Release]
+            build_type: Release
+          - compiler: clang++-18
+            os: ubuntu-24.04
+            build_type: Debug
           - compiler: g++-11
             os: ubuntu-22.04
-            build_type: [Debug, Release]
+            build_type: Release
+          - compiler: g++-11
+            os: ubuntu-22.04
+            build_type: Debug
           - compiler: clang++-13
             os: ubuntu-22.04
-            build_type: [Debug, Release]
+            build_type: Release
+          - compiler: clang++-13
+            os: ubuntu-22.04
+            build_type: Debug
           - compiler: clang++-14
             os: ubuntu-22.04
-            build_type: [Debug, Release]
+            build_type: Release
+          - compiler: clang++-14
+            os: ubuntu-22.04
+            build_type: Debug
           - compiler: clang++-15
             os: ubuntu-22.04
-            build_type: [Debug, Release]
+            build_type: Release
+          - compiler: clang++-15
+            os: ubuntu-22.04
+            build_type: Debug
     runs-on: ${{ matrix.os }}
 
     steps:
