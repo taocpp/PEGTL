@@ -38,25 +38,25 @@ jobs:
             os: ubuntu-22.04
           - compiler: clang++-15
             os: ubuntu-22.04
-
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: seanmiddleditch/gha-setup-ninja@v5
+      - uses: actions/checkout@v4
+      - uses: seanmiddleditch/gha-setup-ninja@v5
 
-    - name: Configure CMake
-      run: cmake -S $GITHUB_WORKSPACE -B build \
-        -GNinja \
-        -DCMAKE_CXX_COMPILER=${{ matrix.compiler }} \
-        -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+      - name: Configure CMake
+        run: |
+          cmake -S $GITHUB_WORKSPACE -B build \
+          -GNinja \
+          -DCMAKE_CXX_COMPILER=${{ matrix.compiler }} \
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
-    - name: Build project
-      run: cmake --build build/
+      - name: Build project
+        run: cmake --build build/
 
-    - name: Run tests
-      working-directory: build/
-      run: ctest -C ${{ matrix.build_type }} --output-on-failure
+      - name: Run tests
+        working-directory: build/
+        run: ctest -C ${{ matrix.build_type }} --output-on-failure
 
   linux-gcc-extra:
     strategy:
