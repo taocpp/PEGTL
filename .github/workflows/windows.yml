@@ -12,13 +12,14 @@ on:
       - 'doc/**'
 
 jobs:
-  windows-2022-msvc:
+  windows-msvc:
     strategy:
       fail-fast: false
       matrix:
         build_type: [Debug, Release]
+        os: [windows-2022, windows-2019]
 
-    runs-on: windows-2022
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v4
@@ -39,13 +40,14 @@ jobs:
       working-directory: ${{ github.workspace }}\build
       run: ctest -C ${{ matrix.build_type }} --output-on-failure
 
-  windows-2022-clang:
+  windows-clang:
     strategy:
       fail-fast: false
       matrix:
         build_type: [Debug, Release]
+        os: [windows-2022, windows-2019]
 
-    runs-on: windows-2022
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v4
@@ -63,50 +65,4 @@ jobs:
       run: cmake --build ${{ github.workspace }}\build --config ${{ matrix.build_type }}
 
     - working-directory: ${{ github.workspace }}\build
-      run: ctest -C ${{ matrix.build_type }} --output-on-failure
-
-  windows-2019-msvc:
-    strategy:
-      fail-fast: false
-      matrix:
-        build_type: [Debug, Release]
-
-    runs-on: windows-2019
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - run: cmake -E make_directory build
-
-    - shell: bash
-      working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -G "Visual Studio 16 2019"
-
-    - working-directory: build/
-      run: cmake --build . --config ${{ matrix.build_type }}
-
-    - working-directory: build/
-      run: ctest -C ${{ matrix.build_type }} --output-on-failure
-
-  windows-2019-clang:
-    strategy:
-      fail-fast: false
-      matrix:
-        build_type: [Debug, Release]
-
-    runs-on: windows-2019
-
-    steps:
-    - uses: actions/checkout@v4
-
-    - run: cmake -E make_directory build
-
-    - shell: bash
-      working-directory: build/
-      run: cmake $GITHUB_WORKSPACE -G "Visual Studio 16 2019" -T ClangCL
-
-    - working-directory: build/
-      run: cmake --build . --config ${{ matrix.build_type }}
-
-    - working-directory: build/
       run: ctest -C ${{ matrix.build_type }} --output-on-failure
