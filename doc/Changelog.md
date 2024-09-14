@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.8
+
+Released 2024-09-14
+
+* Fixed build with `-Wshorten-64-to-32`.
+
 ## 3.2.7
 
 Released 2022-07-14

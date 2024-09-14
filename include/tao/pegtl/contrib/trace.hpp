@@ -84,7 +84,7 @@ namespace TAO_PEGTL_NAMESPACE
 
       void print_position() const
       {
-         std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_position << "position" << TracerTraits::ansi_reset << ' ' << m_position << '\n';
+         std::cerr << std::setw( static_cast< int >( indent() ) ) << ' ' << TracerTraits::ansi_position << "position" << TracerTraits::ansi_reset << ' ' << m_position << '\n';
       }
 
       void update_position( const position& p )
@@ -98,7 +98,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename ParseInput, typename... States >
       void start( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
-         std::cerr << '#' << std::setw( indent() - 1 ) << ++m_count << TracerTraits::ansi_rule << demangle< Rule >() << TracerTraits::ansi_reset << '\n';
+         std::cerr << '#' << std::setw( static_cast< int >( indent() - 1 ) ) << ++m_count << TracerTraits::ansi_rule << demangle< Rule >() << TracerTraits::ansi_reset << '\n';
          m_stack.push_back( m_count );
       }
 
@@ -107,7 +107,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          const auto prev = m_stack.back();
          m_stack.pop_back();
-         std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_success << "success" << TracerTraits::ansi_reset;
+         std::cerr << std::setw( static_cast< int >( indent() ) ) << ' ' << TracerTraits::ansi_success << "success" << TracerTraits::ansi_reset;
          if( m_count != prev ) {
             std::cerr << " #" << prev << ' ' << TracerTraits::ansi_hide << demangle< Rule >() << TracerTraits::ansi_reset;
          }
@@ -120,7 +120,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          const auto prev = m_stack.back();
          m_stack.pop_back();
-         std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_failure << "failure" << TracerTraits::ansi_reset;
+         std::cerr << std::setw( static_cast< int >( indent() ) ) << ' ' << TracerTraits::ansi_failure << "failure" << TracerTraits::ansi_reset;
          if( m_count != prev ) {
             std::cerr << " #" << prev << ' ' << TracerTraits::ansi_hide << demangle< Rule >() << TracerTraits::ansi_reset;
          }
@@ -131,7 +131,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename ParseInput, typename... States >
       void raise( const ParseInput& /*unused*/, States&&... /*unused*/ )
       {
-         std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_raise << "raise" << TracerTraits::ansi_reset << ' ' << TracerTraits::ansi_rule << demangle< Rule >() << TracerTraits::ansi_reset << '\n';
+         std::cerr << std::setw( static_cast< int >( indent() ) ) << ' ' << TracerTraits::ansi_raise << "raise" << TracerTraits::ansi_reset << ' ' << TracerTraits::ansi_rule << demangle< Rule >() << TracerTraits::ansi_reset << '\n';
       }
 
       template< typename Rule, typename ParseInput, typename... States >
@@ -139,7 +139,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          const auto prev = m_stack.back();
          m_stack.pop_back();
-         std::cerr << std::setw( indent() ) << ' ' << TracerTraits::ansi_unwind << "unwind" << TracerTraits::ansi_reset;
+         std::cerr << std::setw( static_cast< int >( indent() ) ) << ' ' << TracerTraits::ansi_unwind << "unwind" << TracerTraits::ansi_reset;
          if( m_count != prev ) {
             std::cerr << " #" << prev << ' ' << TracerTraits::ansi_hide << demangle< Rule >() << TracerTraits::ansi_reset;
          }
