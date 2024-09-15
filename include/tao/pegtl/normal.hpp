@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_NORMAL_HPP
 #define TAO_PEGTL_NORMAL_HPP
 
+#include <exception>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -23,7 +24,6 @@
 #include "demangle.hpp"
 #else
 #include "internal/dependent_false.hpp"
-#include <exception>
 #endif
 
 namespace TAO_PEGTL_NAMESPACE
