@@ -16,46 +16,39 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - xcode: 11
+          - llvm: 18
             build_type: Debug
-            os: macos-11
-          - xcode: 11
+            os: macos-14
+          - llvm: 18
             build_type: Release
-            os: macos-11
-          - xcode: 12
+            os: macos-14
+          - llvm: 16
             build_type: Debug
-            os: macos-11
-          - xcode: 12
+            os: macos-13
+          - llvm: 16
             build_type: Release
-            os: macos-11
-          - xcode: 13
-            build_type: Debug
-            os: macos-12
-          - xcode: 13
-            build_type: Release
-            os: macos-12
-          - xcode: 14
-            build_type: Debug
-            os: macos-12
-          - xcode: 14
-            build_type: Release
-            os: macos-12
+            os: macos-13
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v3
+    - name: Install Dependencies
+      run: |
+        brew update
+        brew install llvm@${{ matrix.llvm }}
+        brew install ninja
 
-    - uses: maxim-lobanov/setup-xcode@v1
-      with:
-        xcode-version: ${{ matrix.xcode }}
+    - uses: actions/checkout@v4
+    - name: Configure CMake
+      run: |
+        cmake -S $GITHUB_WORKSPACE -B build \
+          -GNinja \
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+          -DCMAKE_CXX_COMPILER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/clang++ \
+          -DCMAKE_LINKER=$(brew --prefix llvm@${{ matrix.llvm }})/bin/ld.lld
 
-    - run: cmake -E make_directory build
+    - name: Build project
+      run: cmake --build build/ --config ${{ matrix.build_type }}
 
-    - working-directory: build/
-      run: cmake $GITHUB_WORKSPACE
-
-    - working-directory: build/
-      run: cmake --build . --config ${{ matrix.build_type }}
-
-    - working-directory: build/
-      run: ctest --config ${{ matrix.build_type }} --output-on-failure
+    - name: Run tests
+      working-directory: build/
+      run: ctest -C ${{ matrix.build_type }} --output-on-failure

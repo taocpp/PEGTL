@@ -15,8 +15,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        image:
-          - r22
         platform:
           - android-27
           - android-29
@@ -24,16 +22,23 @@ jobs:
           - armeabi-v7a
           - arm64-v8a
         build_type: [Debug, Release]
-
-    runs-on: ubuntu-latest
-
-    container:
-      image: bojoe/cpp-android-ndk-build-env-ubuntu:${{ matrix.image }}
-      options: --user root
-
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v3
+      - name: Install Dependencies
+        run: |
+          sudo apt -qq update
+          sudo apt -qq install -y ninja-build --no-install-recommends --no-install-suggests
 
-      - run: cmake -H$GITHUB_WORKSPACE -B/home/developer/build -GNinja -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ matrix.abi }} -DANDROID_PLATFORM=${{ matrix.platform }} -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+      - uses: actions/checkout@v4
 
-      - run: cmake --build /home/developer/build
+      - name: Configure CMake
+        run: |
+          cmake -S $GITHUB_WORKSPACE -B build \
+          -GNinja \
+          -DCMAKE_TOOLCHAIN_FILE=$ANDROID_NDK_HOME/build/cmake/android.toolchain.cmake \
+          -DANDROID_ABI=${{ matrix.abi }} \
+          -DANDROID_PLATFORM=${{ matrix.platform }} \
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+
+      - name: Build project
+        run: cmake --build build/
