@@ -37,6 +37,7 @@ mark_as_advanced(${PROJECT_NAME}_DIR)
 set(PEGTL_INSTALL_INCLUDE_DIR "include" CACHE STRING "The installation include directory")
 set(PEGTL_INSTALL_DOC_DIR "share/doc/tao/pegtl" CACHE STRING "The installation doc directory")
 set(PEGTL_INSTALL_CMAKE_DIR "share/pegtl/cmake" CACHE STRING "The installation cmake directory")
+set(PEGTL_INSTALL_PKGCONFIG_DIR "share/pkgconfig" CACHE STRING "The installation pkgconfig directory")
 
 # define a header-only library
 add_library(pegtl INTERFACE)
@@ -62,8 +63,11 @@ if(PEGTL_BUILD_EXAMPLES)
   add_subdirectory(src/example/pegtl)
 endif()
 
-# Make package findable
+# Make package findable by CMake
 configure_file(.cmake/pegtl-config.cmake.in pegtl-config.cmake @ONLY)
+
+# Make package findable by pkg-config
+configure_file(.pkg-config/pegtl.pc.in pegtl.pc @ONLY)
 
 # Ignore pointer width differences since this is a header-only library
 unset(CMAKE_SIZEOF_VOID_P)
@@ -82,6 +86,7 @@ install(EXPORT pegtl-targets
 )
 
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pegtl-config-version.cmake DESTINATION ${PEGTL_INSTALL_CMAKE_DIR})
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/pegtl.pc DESTINATION ${PEGTL_INSTALL_PKGCONFIG_DIR})
 install(DIRECTORY include/ DESTINATION ${PEGTL_INSTALL_INCLUDE_DIR})
 install(FILES LICENSE_1_0.txt DESTINATION ${PEGTL_INSTALL_DOC_DIR})
 
