@@ -5,7 +5,7 @@ file(READ "${CMAKE_CURRENT_LIST_DIR}/include/tao/pegtl/version.hpp" version_hpp_
 string(REGEX MATCH "#define TAO_PEGTL_VERSION \"([^\"]+)\"" _ ${version_hpp_data})
 set(PEGTL_VERSION "${CMAKE_MATCH_1}")
 
-project(pegtl VERSION ${PEGTL_VERSION} LANGUAGES CXX)
+project(pegtl VERSION ${PEGTL_VERSION} DESCRIPTION "The Parsing Expression Grammar Template Library" HOMEPAGE_URL https://github.com/taocpp/PEGTL LANGUAGES CXX)
 
 set(PEGTL_IS_MAIN_PROJECT OFF)
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
