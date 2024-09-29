@@ -291,9 +291,10 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          template< typename ParseInput, typename... States >
          static void start( const ParseInput& in, state< Node >& state, States&&... st )
          {
-            Control< Rule >::start( in, st... );
             state.emplace_back();
             state.back()->template start< Rule >( in, st... );
+            auto& n = state.back()->children.back();
+            Control< Rule >::start( in, n, st... );
          }
 
          template< typename ParseInput, typename... States >
@@ -305,16 +306,20 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
             transform< Selector< Rule > >( in, n, st... );
             if( n ) {
                state.back()->emplace_back( std::move( n ), st... );
+               Control< Rule >::success( in, state.back()->children.back(), st... );
             }
-            Control< Rule >::success( in, st... );
+            else {
+               auto null_child = std::make_unique<Node>();
+               Control< Rule >::success( in, null_child, st... );
+            }
          }
 
          template< typename ParseInput, typename... States >
          static void failure( const ParseInput& in, state< Node >& state, States&&... st )
          {
             state.back()->template failure< Rule >( in, st... );
+            Control< Rule >::failure( in, state.back()->children.back(), st... );
             state.pop_back();
-            Control< Rule >::failure( in, st... );
          }
 
          template< typename ParseInput, typename... States >
