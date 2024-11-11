@@ -16,9 +16,9 @@ namespace TAO_PEGTL_NAMESPACE
    struct position_with_source
       : Position
    {
-      Source source;
+      Source source = Source();
 
-      // position_with_source() noexcept = default;
+      position_with_source() noexcept = default;
 
       // position_with_source( position_with_source&& ) noexcept = default;
       // position_with_source( const position_with_source& ) = default;

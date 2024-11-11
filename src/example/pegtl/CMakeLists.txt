@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.8...3.19)
 
 set(example_sources
   abnf2_record.cpp
+  abnf2pegtl.cpp
   analyze.cpp
   behaviour.cpp
   calculator.cpp
@@ -15,6 +16,7 @@ set(example_sources
   indent_aware.cpp
   iri.cpp
   json_analyze.cpp
+  json_ast.cpp
   json_build.cpp
   json_count.cpp
   json_coverage.cpp
@@ -27,6 +29,8 @@ set(example_sources
   lua53_analyze.cpp
   lua53_parse.cpp
   modulus_match.cpp
+  parse_tree.cpp
+  parse_tree_user_state.cpp
   proto3.cpp
   random_order.cpp
   recover.cpp

@@ -52,6 +52,8 @@ set(test_sources
   contrib_json.cpp
   contrib_limit_count.cpp
   contrib_nested_exceptions.cpp
+  contrib_parse_tree.cpp
+  contrib_parse_tree_to_dot.cpp
   contrib_raw_string.cpp
   contrib_record.cpp
   contrib_rep_one_min_max.cpp
