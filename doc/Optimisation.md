@@ -1,6 +1,6 @@
-# Performance Notes
+# Optimisation
 
-Notes on performance characteristics and optimisation possibilities when writing parsers with the PEGTL.
+Notes on performance characteristics and optimisation possibilities.
 
 ###### Backtracking
 
@@ -29,7 +29,7 @@ It shows how to eliminate both left-recursion and superfluous backtracking with 
 
 ###### Whitespace etc.
 
-Similarly grammars should be designed to minimise redundant multiple parsing of the same whitespace, comments or other padding.
+Grammars should be designed to minimise redundant multiple parsing of the same whitespace, comments or other padding.
 
 One good way to achieve this is to choose a strategy for whitespace handling and then consistently stick to it.
 For example the JSON grammar in `include/tao/pegtl/contrib/json.hpp` consistently has every rule for a "token" consume any following whitespace via the `ws` rule, too.

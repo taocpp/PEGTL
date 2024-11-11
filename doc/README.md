@@ -1,6 +1,11 @@
 # PEGTL Documentation
 
 * [Project](https://github.com/taocpp/PEGTL)
+
+## Pages
+
+## Contents
+
 * [Getting Started](Getting-Started.md)
 * [Installing and Using](Installing-and-Using.md)
   * [Requirements](Installing-and-Using.md#requirements)
@@ -73,6 +78,8 @@
     * [ICU Rules for Enumerated Properties](Rule-Reference.md#icu-rules-for-enumerated-properties)
     * [ICU Rules for Value Properties](Rule-Reference.md#icu-rules-for-value-properties)
   * [Index](Rule-Reference.md#index)
+* [Input Reference](Input-Reference.md)
+
 * [Action Reference](Action-Reference.md)
   * [Nothing](Action-Reference.md#nothing)
   * [Maybe Nothing](Action-Reference.md#maybe-nothing)
@@ -128,14 +135,6 @@
   * [Exception Throwing](Control-and-Debug.md#exception-throwing)
   * [Advanced Control](Control-and-Debug.md#advanced-control)
   * [Changing Control](Control-and-Debug.md#changing-control)
-* [Parse Tree](Parse-Tree.md)
-  * [Full Parse Tree](Parse-Tree.md#full-parse-tree)
-  * [Partial Parse Tree](Parse-Tree.md#partial-parse-tree)
-  * [Transforming Nodes](Parse-Tree.md#transforming-nodes)
-  * [Transformer](Parse-Tree.md#transformer)
-  * [`tao::pegtl::parse_tree::node`](Parse-Tree.md#taopegtlparse_treenode)
-  * [Custom Node Class](Parse-Tree.md#custom-node-class)
-  * [Requirements](Parse-Tree.md#requirements)
 * [Meta Data and Visit](Meta-Data-and-Visit.md)
   * [Internals](Meta-Data-and-Visit.md#internals)
   * [Rule Type](Meta-Data-and-Visit.md#rule-type)
@@ -151,9 +150,16 @@
   * [Example](Grammar-Analysis.md#example)
   * [Requirements](Grammar-Analysis.md#requirements)
   * [Limitations](Grammar-Analysis.md#limitations)
-* [Changelog](Changelog.md)
-* [Migration Guide](Migration-Guide.md)
+* [Optimisation](Optimisation.md)
 * [Development](Development.md)
+* [Migration Guide](Migration-Guide.md)
+  * [Version 4.0.0](Migration-Guide.md#version-400)
+  * [Version 3.0.0](Migration-Guide.md#version-300)
+  * [Version 2.8.0](Migration-Guide.md#version-280)
+  * [Version 2.4.0](Migration-Guide.md#version-240)
+  * [Version 2.0.0](Migration-Guide.md#version-200)
+  * [Version 1.0.0](Migration-Guide.md#version-100)
+* [Changelog](Changelog.md)
 
 ---
 

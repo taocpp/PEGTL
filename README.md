@@ -56,7 +56,7 @@ The included [grammar analysis](doc/Grammar-Analysis.md) finds several typical e
 
 ## Design
 
-The PEGTL is designed to be "lean and mean", the core library consists of approximately 10K lines of code.
+The PEGTL is designed to be "lean and mean", the core library consists of around 10K lines of code.
 Emphasis is on simplicity and efficiency, putting a well-tuned *relatively* simple approach above overly complex optimisations.
 
 The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user of the library (the possibility of) full control over all other aspects of a parsing run.
@@ -67,7 +67,7 @@ Included are some [examples](doc/Contrib-and-Examples.md#examples) for typical s
 Through the use of template programming and template specialisations it is possible to write a grammar once, and use it in multiple ways with different (semantic) actions in different (or the same) parsing runs.
 
 With the PEG formalism, the separation into lexer and parser stages is usually dropped -- everything is done in a single grammar.
-The rules are expressed in C++ as template instantiations, and it is *mostly* the compiler's task to optimise PEGTL grammars.
+The parsing rules of grammars are expressed in C++ as template instantiations, and it is *mostly* the compiler's task to optimise PEGTL grammars.
 
 ## Status
 
