@@ -32,7 +32,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    try {
       pegtl::standard_trace< example::grammar, pegtl::nothing, example::control >( in );
    }
-   catch( const pegtl::parse_error< input_t::error_position_t >& e ) {
+   catch( const decltype( in )::parse_error_t& e ) {
       const auto& p = e.position_object();
       std::cerr << e.what() << '\n'
                 << in.line_view_at( p ) << '\n'

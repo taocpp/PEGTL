@@ -509,7 +509,7 @@ int main( int argc, char** argv )
          assert( res.string_stack.size() == 1 );
          std::cout << "Result: " << res.string_stack.at( 0 ) << std::endl;
       }
-      catch( const TAO_PEGTL_NAMESPACE::parse_error< input_t::error_position_t >& e ) {
+      catch( const decltype( in )::parse_error_t& e ) {
          const auto& p = e.position_object();
          std::cerr << e.what() << '\n'
                    << argv[ i ] << '\n'

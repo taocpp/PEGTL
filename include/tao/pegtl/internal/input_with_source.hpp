@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "../config.hpp"
+#include "../parse_error.hpp"
 #include "../position_with_source.hpp"
 
 #include "dependent_false.hpp"
@@ -25,6 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using error_position_t = position_with_source< ErrorSource, typename Input::error_position_t >;
       using offset_position_t = typename Input::offset_position_t;
       using rewind_position_t = typename Input::rewind_position_t;
+      using parse_error_t = parse_error< error_position_t >;
 
       template< typename S, typename... Ts >
       explicit input_with_source( S&& s, Ts&&... ts )

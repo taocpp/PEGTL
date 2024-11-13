@@ -50,7 +50,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       const auto root = pegtl::parse_tree::parse< example::grammar, example::selector, pegtl::nothing, example::control >( in );
       pegtl::parse_tree::print_dot( std::cout, *root );
    }
-   catch( const pegtl::parse_error< typename pegtl::argv_input<>::error_position_t >& e ) {
+   catch( const decltype( in )::parse_error_t& e ) {
       const auto& p = e.position_object();
       std::cerr << e.what() << std::endl
                 << in.line_view_at( p ) << std::endl

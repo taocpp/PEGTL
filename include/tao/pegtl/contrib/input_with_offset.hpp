@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "../config.hpp"
+#include "../parse_error.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -20,6 +21,7 @@ namespace TAO_PEGTL_NAMESPACE
       using error_position_t = typename Input::error_position_t;
       using offset_position_t = typename Input::offset_position_t;
       using rewind_position_t = typename Input::rewind_position_t;
+      using parse_error_t = parse_error< error_position_t >;
 
       template< typename... Ts >
       explicit input_with_offset( offset_position_t&& s, Ts&&... ts )

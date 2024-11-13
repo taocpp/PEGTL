@@ -789,7 +789,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
          std::cout << abnf::to_string( rule ) << '\n';
       }
    }
-   catch( const parse_error< text_file_input<>::error_position_t >& e ) {
+   catch( const decltype( in )::parse_error_t& e ) {
       const auto& p = e.position_object();
       std::cerr << e.what() << '\n'
                 << in.line_view_at( p ) << '\n'

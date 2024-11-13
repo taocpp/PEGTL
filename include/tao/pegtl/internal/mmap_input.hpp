@@ -9,6 +9,7 @@
 
 #include "../config.hpp"
 #include "../count_position.hpp"
+#include "../parse_error.hpp"
 #include "../pointer_position.hpp"
 
 #include "mmap_file_base.hpp"
@@ -25,6 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using error_position_t = count_position;
       using offset_position_t = count_position;
       using rewind_position_t = pointer_position< data_t >;
+      using parse_error_t = parse_error< error_position_t >;
 
       explicit mmap_input( const std::filesystem::path& path )
          : mmap_file_base( path ),

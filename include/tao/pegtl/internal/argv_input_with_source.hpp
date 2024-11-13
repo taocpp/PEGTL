@@ -9,6 +9,7 @@
 #include <string>
 
 #include "../config.hpp"
+#include "../parse_error.hpp"
 
 #include "argv_input.hpp"
 #include "input_with_source.hpp"
@@ -28,6 +29,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {}
 
       using error_position_t = typename input_with_source< std::string, std::string, argv_input >::error_position_t;
+      using parse_error_t = parse_error< error_position_t >;
 
       [[nodiscard]] const char* begin_of_line( const error_position_t& pos, const std::size_t max = 135 ) const noexcept
       {

@@ -14,6 +14,7 @@
 #include "../config.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
+#include "../parse_error.hpp"
 #include "../position_with_source.hpp"
 #include "../rewind_mode.hpp"
 #include "../text_position.hpp"
@@ -38,6 +39,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using error_position_t = position_with_source< ErrorSource, text_position >;
       using offset_position_t = text_position;
       using rewind_position_t = text_position;
+      using parse_error_t = parse_error< error_position_t >;
 
       using eol_rule = Eol;
 

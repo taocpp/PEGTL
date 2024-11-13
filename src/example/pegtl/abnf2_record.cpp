@@ -43,7 +43,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
                                                                   pegtl::abnf2::control >( in );
       std::cout << v;
    }
-   catch( const pegtl::parse_error< input_t::error_position_t >& e ) {
+   catch( const decltype( in )::parse_error_t& e ) {
       const auto& p = e.position_object();
       std::cerr << e.what() << '\n'
                 << in.line_view_at( p ) << '\n'

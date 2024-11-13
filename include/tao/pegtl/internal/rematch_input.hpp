@@ -8,6 +8,7 @@
 #include <cstddef>
 
 #include "../config.hpp"
+#include "../parse_error.hpp"
 #include "../pointer_position.hpp"
 
 #include "input_with_fakes.hpp"
@@ -26,6 +27,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using error_position_t = typename Input::error_position_t;
       // offset_position_t
       using rewind_position_t = pointer_position< data_t >;
+      using parse_error_t = parse_error< error_position_t >;
 
       rematch_input_impl( Guard& m, Input& in ) noexcept
          : m_guard( m ),

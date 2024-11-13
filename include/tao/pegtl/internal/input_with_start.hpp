@@ -9,6 +9,7 @@
 
 #include "../config.hpp"
 #include "../count_position.hpp"
+#include "../parse_error.hpp"
 #include "../pointer_position.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -22,6 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using error_position_t = count_position;
       using offset_position_t = count_position;
       using rewind_position_t = pointer_position< data_t >;
+      using parse_error_t = parse_error< error_position_t >;
 
       template< typename... As >
       explicit input_with_start( As&&... as ) noexcept

@@ -8,6 +8,7 @@
 #include <cstddef>
 
 #include "../config.hpp"
+#include "../parse_error.hpp"
 #include "../text_position.hpp"
 
 #include "../internal/choose_text_traits.hpp"
@@ -25,6 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using error_position_t = text_position;
       using offset_position_t = text_position;
       using rewind_position_t = text_position;
+      using parse_error_t = parse_error< error_position_t >;
 
       using eol_rule = Eol;
 
