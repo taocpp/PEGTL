@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    [[nodiscard]] inline std::FILE* read_file_open( const std::filesystem::path& path )
    {
       errno = 0;
-#if defined( _MSC_VER )
+#if defined( _MSC_VER ) || defined( __MINGW32__ )
       std::FILE* file;
       if( ::_wfopen_s( &file, path.c_str(), L"rb" ) == 0 ) {
          return file;
@@ -37,12 +37,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       std::terminate();
 #endif
 #else
-#if defined( __MINGW32__ )
-      if( auto* file = std::fopen( path.string().c_str(), "rb" ) )
-#else
-      if( auto* file = std::fopen( path.c_str(), "rbe" ) )
-#endif
-      {
+      if( auto* file = std::fopen( path.c_str(), "rbe" ) ) {
          return file;
       }
 #if defined( __cpp_exceptions )

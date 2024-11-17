@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_NORMAL_HPP
 #define TAO_PEGTL_NORMAL_HPP
 
+#include <exception>
 #include <string>
 #include <type_traits>
 #include <utility>

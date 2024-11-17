@@ -1,0 +1,56 @@
+name: msys2
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+  pull_request:
+    paths-ignore:
+      - 'README.md'
+      - 'doc/**'
+
+jobs:
+  msys2:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: 
+          - 'UCRT64'
+          - 'CLANG64'
+        build_type: [Debug, Release]
+
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{matrix.platform}}
+        install: >-
+          bison
+          dos2unix
+          git
+        pacboy: >-
+          cc:p
+          cmake:p
+          ninja:p
+          pkgconf:p
+        update: true
+
+    - run: cmake -E make_directory build
+      shell: msys2 {0}
+      
+    - working-directory: build/
+      run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+
+    - working-directory: build/
+      run: cmake --build .
+
+    - working-directory: build/
+      run: ctest --output-on-failure
