@@ -66,10 +66,10 @@ namespace TAO_PEGTL_NAMESPACE
       }
 #endif
       {
-         T in( "src/test/pegtl/file_data.txt" );
-         TAO_PEGTL_TEST_ASSERT( in.direct_source() == "src/test/pegtl/file_data.txt" );
+         T in( "src/test/pegtl/data/test_data.txt" );
+         TAO_PEGTL_TEST_ASSERT( in.direct_source() == "src/test/pegtl/data/test_data.txt" );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
-         TAO_PEGTL_TEST_ASSERT( in.direct_source() == "src/test/pegtl/file_data.txt" );
+         TAO_PEGTL_TEST_ASSERT( in.direct_source() == "src/test/pegtl/data/test_data.txt" );
       }
       {
          T in( TAO_PEGTL_TEST_FILENAME );

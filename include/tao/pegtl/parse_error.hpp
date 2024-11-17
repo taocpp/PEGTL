@@ -9,6 +9,10 @@
 #include <type_traits>
 #include <utility>
 
+#if !defined( __cpp_exceptions )
+#error "Exception support required for tao/pegtl/parse_error.hpp"
+#endif
+
 #include "config.hpp"
 #include "parse_error_base.hpp"
 

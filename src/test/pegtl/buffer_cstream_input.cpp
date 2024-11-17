@@ -22,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      const char* const filename = "src/test/pegtl/file_data.txt";
+      const char* const filename = "src/test/pegtl/data/test_data.txt";
       {
          std::FILE* stream = internal::read_file_open( filename );
          TAO_PEGTL_TEST_ASSERT( stream != nullptr );

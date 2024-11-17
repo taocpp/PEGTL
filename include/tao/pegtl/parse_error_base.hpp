@@ -10,6 +10,10 @@
 #include <string>
 #include <string_view>
 
+#if !defined( __cpp_exceptions )
+#error "Exception support required for tao/pegtl/parse_error_base.hpp"
+#endif
+
 #include "config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE

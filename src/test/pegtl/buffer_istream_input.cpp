@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
       }
 #endif
-      const char* filename = "src/test/pegtl/file_data.txt";
+      const char* filename = "src/test/pegtl/data/test_data.txt";
       {
          std::ifstream stream( filename );
          static_istream_input< void > in( stream );

@@ -30,7 +30,9 @@
 
 #include <tao/pegtl/contrib/abnf.hpp>
 #include <tao/pegtl/contrib/parse_tree.hpp>
+#if defined( __cpp_exceptions )
 #include <tao/pegtl/control/must_if.hpp>
+#endif
 
 namespace TAO_PEGTL_NAMESPACE
 {
