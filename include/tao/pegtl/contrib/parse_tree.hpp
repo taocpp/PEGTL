@@ -22,6 +22,7 @@
 #include "../nothing.hpp"
 #include "../parse.hpp"
 #include "../rewind_mode.hpp"
+#include "../type_list.hpp"
 
 #include "../control/remove_first_state.hpp"
 #include "../control/shuffle_states.hpp"

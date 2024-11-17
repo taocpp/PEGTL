@@ -12,7 +12,9 @@
 #include "../config.hpp"
 #include "../normal.hpp"
 #include "../nothing.hpp"
+#if defined( __cpp_exceptions )
 #include "../parse_error.hpp"
+#endif
 #include "../rewind_mode.hpp"
 #include "../text_position.hpp"
 
@@ -35,7 +37,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using error_position_t = text_position;
       using offset_position_t = text_position;
       using rewind_position_t = typename Input::rewind_position_t;
+#if defined( __cpp_exceptions )
       using parse_error_t = parse_error< error_position_t >;
+#endif
 
       using eol_rule = Eol;
 

@@ -8,6 +8,7 @@
 #include "test.hpp"
 
 #include <tao/pegtl/buffer.hpp>
+#include <tao/pegtl/internal/read_file_stdio.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -23,12 +24,13 @@ namespace TAO_PEGTL_NAMESPACE
    {
       const char* const filename = "src/test/pegtl/file_data.txt";
       {
-#if defined( _MSC_VER )
-         std::FILE* stream;
-         ::fopen_s( &stream, filename, "rb" );
-#else
-         std::FILE* stream = std::fopen( filename, "rb" );
-#endif
+         std::FILE* stream = internal::read_file_open( filename );
+         TAO_PEGTL_TEST_ASSERT( stream != nullptr );
+         const std::string content = internal::read_file_stdio( stream, filename ).read_string();  // Closes stream unless c'tor throws while copying filename -- not a problem here.
+         TAO_PEGTL_TEST_ASSERT( content.size() == 154 );
+      }
+      {
+         std::FILE* stream = internal::read_file_open( filename );
          TAO_PEGTL_TEST_ASSERT( stream != nullptr );
          static_cstream_input< void > in( stream );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
@@ -36,12 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
          std::fclose( stream );
       }
       {
-#if defined( _MSC_VER )
-         std::FILE* stream;
-         ::fopen_s( &stream, filename, "rb" );
-#else
-         std::FILE* stream = std::fopen( filename, "rb" );
-#endif
+         std::FILE* stream = internal::read_file_open( filename );
          TAO_PEGTL_TEST_ASSERT( stream != nullptr );
          dynamic_cstream_input< void > in( 500, 10, stream );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );

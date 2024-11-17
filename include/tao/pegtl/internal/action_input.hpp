@@ -8,8 +8,9 @@
 #include <cstddef>
 
 #include "../config.hpp"
+#if defined( __cpp_exceptions )
 #include "../parse_error.hpp"
-
+#endif
 #include "input_with_funcs.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -22,7 +23,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using input_t = ParseInput;
       using error_position_t = typename ParseInput::error_position_t;
       using rewind_position_t = typename ParseInput::rewind_position_t;
+#if defined( __cpp_exceptions )
       using parse_error_t = parse_error< error_position_t >;
+#endif
 
       action_input_impl( const rewind_position_t& begin, const ParseInput& input ) noexcept
          : m_saved( begin ),

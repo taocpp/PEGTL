@@ -9,7 +9,9 @@
 #include <cstring>
 
 #include "../config.hpp"
+#if defined( __cpp_exceptions )
 #include "../parse_error.hpp"
+#endif
 
 #include "input_with_start.hpp"
 #include "view_input.hpp"
@@ -24,7 +26,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {}
 
       using error_position_t = typename input_with_start< view_input< char > >::error_position_t;
+#if defined( __cpp_exceptions )
       using parse_error_t = parse_error< error_position_t >;
+#endif
 
       [[nodiscard]] const char* begin_of_line( const error_position_t& pos, const std::size_t max = 135 ) const noexcept
       {

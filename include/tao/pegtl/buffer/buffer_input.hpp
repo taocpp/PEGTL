@@ -9,7 +9,9 @@
 
 #include "../config.hpp"
 #include "../count_position.hpp"
+#if defined( __cpp_exceptions )
 #include "../parse_error.hpp"
+#endif
 #include "../pointer_position.hpp"
 
 #include "buffer_common.hpp"
@@ -25,7 +27,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using error_position_t = count_position;
       using offset_position_t = count_position;
       using rewind_position_t = pointer_position< data_t >;
+#if defined( __cpp_exceptions )
       using parse_error_t = parse_error< error_position_t >;
+#endif
 
       using buffer_common< Buffer >::buffer_common;
 

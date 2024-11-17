@@ -13,7 +13,9 @@
 #include <vector>
 
 #include "../config.hpp"
+#if defined( __cpp_exceptions )
 #include "../parse_error.hpp"
+#endif
 #include "../pointer_position.hpp"
 
 #include "type_traits.hpp"
@@ -28,7 +30,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using error_position_t = pointer_position< data_t >;
       using offset_position_t = void;
       using rewind_position_t = pointer_position< data_t >;
+#if defined( __cpp_exceptions )
       using parse_error_t = parse_error< error_position_t >;
+#endif
 
       view_input( const data_t* b, const data_t* e ) noexcept
          : m_current( b ),
