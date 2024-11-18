@@ -14,12 +14,12 @@
 #  if !defined( __ORDER_LITTLE_ENDIAN__ )
 #    define __ORDER_LITTLE_ENDIAN__ 1234
 #  endif
-#  if !defined( __BYTE__ORDER__ )
+#  if !defined( __BYTE_ORDER__ )
 #    define __BYTE_ORDER__ __ORDER_LITTLE_ENDIAN__
 #  endif
 
 // I'm pretty sure that all Windows versions ever released
-// are little endian, including on Alpha, Mips and Itanium...
+// are little endian, including on Alpha, Mips and Itanium.
 
 #  define TAO_PEGTL_BIG_ENDIAN_TYPE byteswap_endian
 #  define TAO_PEGTL_LITTLE_ENDIAN_TYPE identity_endian

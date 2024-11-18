@@ -636,9 +636,9 @@ namespace TAO_PEGTL_NAMESPACE
          nrv.add< grammar::bin_val::value >( []( const node_ptr& n ) {
             unsigned long long v = 0;
             // TODO: Detect overflow
-            for( std::size_t i = 0; i < n->data.size(); ++i ) {
+            for( const char t : n->data ) {
                v <<= 1;
-               v |= ( n->data[ i ] & 1 );
+               v |= ( t & 1 );
             }
             std::ostringstream oss;
             oss << v;
