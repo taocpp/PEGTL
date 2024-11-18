@@ -4,6 +4,7 @@
 
 #include <clocale>
 #include <cstdio>
+#include <iostream>
 
 #include "test.hpp"
 
@@ -27,6 +28,10 @@ namespace TAO_PEGTL_NAMESPACE
          std::FILE* stream = internal::read_file_open( filename );
          TAO_PEGTL_TEST_ASSERT( stream != nullptr );
          const std::string content = internal::read_file_stdio( stream, filename ).read_string();  // Closes stream unless c'tor throws while copying filename -- not a problem here.
+         std::cerr << content.size()
+                   << "<<< BEGIN <<<" << std::endl
+                   << content
+                   << ">>> END >>>" << std::endl;
          TAO_PEGTL_TEST_ASSERT( content.size() == 154 );
       }
       {
