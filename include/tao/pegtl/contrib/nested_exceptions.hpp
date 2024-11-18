@@ -82,7 +82,7 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename Exception, typename Visitor >
          static void inspect( const Exception& exception, Visitor&& visitor )
          {
-            Processor::template process( exception, visitor, 0 );
+            Processor::process( exception, visitor, 0 );
          }
       };
 
