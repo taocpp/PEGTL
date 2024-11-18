@@ -6,6 +6,7 @@
 #define TAO_PEGTL_INTERNAL_ENDIAN_SYSTEM_HPP
 
 #include "../config.hpp"
+#include "../system.hpp"
 
 #if defined( TAO_PEGTL_SYSTEM_WINDOWS )
 #  if !defined( __ORDER_BIG_ENDIAN__ )
