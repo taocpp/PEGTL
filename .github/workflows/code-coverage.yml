@@ -28,5 +28,7 @@ jobs:
     - working-directory: build/
       run: ctest --output-on-failure
 
-    - working-directory: build/
-      run: bash <(curl -s https://codecov.io/bash)
+    - name: Upload coverage reports to Codecov with GitHub Action
+      uses: codecov/codecov-action@v4.2.0
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
