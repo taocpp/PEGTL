@@ -36,6 +36,7 @@ set(test_sources
   buffer_cstring_input.cpp
   buffer_discard_input.cpp
   buffer_dynamic_buffer.cpp
+  buffer_endless_input.cpp
   buffer_istream_input.cpp
   buffer_rule_discard.cpp
   buffer_rule_is_buffer.cpp
