@@ -4,6 +4,7 @@
 
 #include <cerrno>
 #include <fstream>
+#include <string>
 
 #include "test.hpp"
 
@@ -46,6 +47,18 @@ namespace TAO_PEGTL_NAMESPACE
       {
          std::ifstream stream( filename );
          dynamic_istream_input< void > in( 100, 90, stream );
+         TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
+         TAO_PEGTL_TEST_ASSERT( in.empty() );
+      }
+      {
+         std::ifstream stream( filename );
+         static_istream_input< void, std::string, std::string > in( "filename", stream );
+         TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
+         TAO_PEGTL_TEST_ASSERT( in.empty() );
+      }
+      {
+         std::ifstream stream( filename );
+         dynamic_istream_input< void, const char*, const char* > in( "filename", 100, 90, stream );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
       }

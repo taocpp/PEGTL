@@ -2,11 +2,13 @@ cmake_minimum_required(VERSION 3.8...3.19)
 
 set(test_sources
   action_add_guard.cpp
+  action_add_state.cpp
   action_apply_1.cpp
   action_apply_2.cpp
   action_apply_3.cpp
   action_change_action_and_state.cpp
   action_change_action_and_states.cpp
+  action_change_control.cpp
   action_change_state.cpp
   action_change_states.cpp
   action_control_action.cpp

@@ -9,8 +9,12 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   bool ctor = false;
-   bool dtor = false;
+   namespace
+   {
+      bool ctor = false;
+      bool dtor = false;
+
+   }  // namespace
 
    struct test_class1
    {
@@ -64,12 +68,22 @@ namespace TAO_PEGTL_NAMESPACE
    {
       ctor = false;
       dtor = false;
+      {
+         text_view_input< scan::lf > in( "a" );
+         TAO_PEGTL_TEST_ASSERT( parse< test_grammar, test_action1 >( in ) );
 
-      text_view_input< scan::lf > in( "a" );
-      TAO_PEGTL_TEST_ASSERT( parse< test_grammar, test_action1 >( in ) );
+         TAO_PEGTL_TEST_ASSERT( ctor == true );
+         TAO_PEGTL_TEST_ASSERT( dtor == true );
+      }
+      ctor = false;
+      dtor = false;
+      {
+         text_view_input< scan::lf > in( "0" );
+         TAO_PEGTL_TEST_ASSERT( parse< test_grammar, test_action1 >( in ) );
 
-      TAO_PEGTL_TEST_ASSERT( ctor == true );
-      TAO_PEGTL_TEST_ASSERT( dtor == true );
+         TAO_PEGTL_TEST_ASSERT( ctor == true );
+         TAO_PEGTL_TEST_ASSERT( dtor == true );
+      }
    }
 
    struct test_class2
