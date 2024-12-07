@@ -23,8 +23,10 @@ set(test_sources
   ascii_eol.cpp
   ascii_eolf.cpp
   ascii_identifier.cpp
+  ascii_ione.cpp
   ascii_istring.cpp
   ascii_keyword.cpp
+  ascii_not_ione.cpp
   ascii_not_one.cpp
   ascii_not_range.cpp
   ascii_one.cpp

@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2024 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2024 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -6,161 +6,160 @@
 #include "test_utility.hpp"
 
 #include <tao/pegtl/action/add_guard.hpp>
+#include <tao/pegtl/contrib/alphabet_rules.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   namespace
-   {
-      bool ctor = false;
-      bool dtor = false;
+   bool ctor = false;
+   bool dtor = false;
 
-   }  // namespace
-
-   struct test_class1
+   struct guard1
    {
-      template< typename ParseInput >
-      test_class1( const ParseInput& /*unused*/ )
+      guard1()
       {
-         TAO_PEGTL_TEST_ASSERT( ctor == false );
-         TAO_PEGTL_TEST_ASSERT( dtor == false );
-
+         TAO_PEGTL_TEST_ASSERT( !ctor );
+         TAO_PEGTL_TEST_ASSERT( !dtor );
          ctor = true;
       }
 
-      test_class1( test_class1&& ) = delete;
-      test_class1( const test_class1& ) = delete;
-
-      ~test_class1()
+      ~guard1()
       {
-         TAO_PEGTL_TEST_ASSERT( ctor == true );
-         TAO_PEGTL_TEST_ASSERT( dtor == false );
-
+         TAO_PEGTL_TEST_ASSERT( ctor );
+         TAO_PEGTL_TEST_ASSERT( !dtor );
          dtor = true;
       }
 
-      void operator=( test_class1&& ) = delete;
-      void operator=( const test_class1& ) = delete;
+      template< typename ParseInput >
+      void success( const ParseInput& in, std::size_t& st )
+      {
+         TAO_PEGTL_TEST_ASSERT( ctor );
+         TAO_PEGTL_TEST_ASSERT( !dtor );
+         st = in.current_position().count;
+      }
+
+      guard1( guard1&& ) = delete;
+      guard1( const guard1& ) = delete;
+
+      void operator=( guard1&& ) = delete;
+      void operator=( const guard1&& ) = delete;
    };
 
-   using test_grammar = sor< alpha, digit >;
+   struct guard2
+   {
+      template< typename ParseInput >
+      guard2( const ParseInput& in, const int )
+      {
+         TAO_PEGTL_TEST_ASSERT( !ctor );
+         TAO_PEGTL_TEST_ASSERT( !dtor );
+         TAO_PEGTL_TEST_ASSERT( in.current_position().count == 1 );
+         ctor = true;
+      }
+
+      ~guard2()
+      {
+         TAO_PEGTL_TEST_ASSERT( ctor );
+         TAO_PEGTL_TEST_ASSERT( !dtor );
+         dtor = true;
+      }
+
+      guard2( guard2&& ) = delete;
+      guard2( const guard2& ) = delete;
+
+      void operator=( guard2&& ) = delete;
+      void operator=( const guard2&& ) = delete;
+   };
+
+   using namespace alphabet::rules;
+
+   struct grammar
+      : seq< a, sor< b, c >, d, eof >
+   {};
 
    template< typename Rule >
-   struct test_action1
+   struct action1
       : nothing< Rule >
    {};
 
    template<>
-   struct test_action1< alpha >
-   {
-      static void apply0()
-      {
-         TAO_PEGTL_TEST_ASSERT( ctor == true );
-         TAO_PEGTL_TEST_ASSERT( dtor == false );
-      }
-   };
-
-   template<>
-   struct test_action1< sor< alpha, digit > >
-      : add_guard< test_class1 >
+   struct action1< sor< b, c > >
+      : add_guard< guard1 >
    {};
 
-   void unit_test_one()
+   template<>
+   struct action1< b >
    {
-      ctor = false;
-      dtor = false;
-      {
-         text_view_input< scan::lf > in( "a" );
-         TAO_PEGTL_TEST_ASSERT( parse< test_grammar, test_action1 >( in ) );
-
-         TAO_PEGTL_TEST_ASSERT( ctor == true );
-         TAO_PEGTL_TEST_ASSERT( dtor == true );
-      }
-      ctor = false;
-      dtor = false;
-      {
-         text_view_input< scan::lf > in( "0" );
-         TAO_PEGTL_TEST_ASSERT( parse< test_grammar, test_action1 >( in ) );
-
-         TAO_PEGTL_TEST_ASSERT( ctor == true );
-         TAO_PEGTL_TEST_ASSERT( dtor == true );
-      }
-   }
-
-   struct test_class2
-   {
-      template< typename ParseInput >
-      test_class2( const ParseInput& /*unused*/, std::string& c, std::string& /*unused*/ )
-      {
-         TAO_PEGTL_TEST_ASSERT( ctor == false );
-         TAO_PEGTL_TEST_ASSERT( dtor == false );
-
-         ctor = true;
-         c = "c";
-      }
-
-      test_class2( test_class2&& ) = delete;
-      test_class2( const test_class2& ) = delete;
-
-      ~test_class2()
-      {
-         TAO_PEGTL_TEST_ASSERT( ctor == true );
-         TAO_PEGTL_TEST_ASSERT( dtor == false );
-
-         dtor = true;
-      }
-
-      void operator=( test_class2&& ) = delete;
-      void operator=( const test_class2& ) = delete;
-
-      template< typename ParseInput >
-      void success( const ParseInput& /*unused*/, std::string& /*unused*/, std::string& o )
-      {
-         o = "o";
-      }
+      static void apply0( std::size_t& /*unused*/ ) noexcept
+      {}
    };
 
    template< typename Rule >
-   struct test_action2
+   struct action2
       : nothing< Rule >
    {};
 
    template<>
-   struct test_action2< alpha >
-   {
-      static void apply0( std::string& /*unused*/, std::string& /*unused*/ )
-      {
-         TAO_PEGTL_TEST_ASSERT( ctor == true );
-         TAO_PEGTL_TEST_ASSERT( dtor == false );
-      }
-   };
-
-   template<>
-   struct test_action2< sor< alpha, digit > >
-      : add_guard< test_class2 >
+   struct action2< sor< b, c > >
+      : add_guard< guard2 >
    {};
 
-   void unit_test_two()
+   template<>
+   struct action2< c >
    {
-      ctor = false;
-      dtor = false;
-
-      std::string c;
-      std::string o;
-
-      text_view_input< scan::lf > in( "a" );
-      TAO_PEGTL_TEST_ASSERT( parse< test_grammar, test_action2 >( in, c, o ) );
-
-      TAO_PEGTL_TEST_ASSERT( ctor == true );
-      TAO_PEGTL_TEST_ASSERT( dtor == true );
-
-      TAO_PEGTL_TEST_ASSERT( c == "c" );
-      TAO_PEGTL_TEST_ASSERT( o == "o" );
-   }
+      template< typename ActionInput >
+      static void apply( const ActionInput& /*unused*/, const int& /*unused*/ ) noexcept
+      {}
+   };
 
    void unit_test()
    {
-      unit_test_one();
-      unit_test_two();
+      // guard1 parse success
+      {
+         ctor = false;
+         dtor = false;
+         std::size_t st = 0;
+         view_input<> in( "abd" );
+         const bool b = parse< grammar, action1 >( in, st );
+         TAO_PEGTL_TEST_ASSERT( b );
+         TAO_PEGTL_TEST_ASSERT( ctor );
+         TAO_PEGTL_TEST_ASSERT( dtor );
+         TAO_PEGTL_TEST_ASSERT( st == 2 );
+      }
+      // guard1 parse failure
+      {
+         ctor = false;
+         dtor = false;
+         std::size_t st = 0;
+         view_input<> in( "ad" );
+         const bool b = parse< grammar, action1 >( in, st );
+         TAO_PEGTL_TEST_ASSERT( !b );
+         TAO_PEGTL_TEST_ASSERT( ctor );
+         TAO_PEGTL_TEST_ASSERT( dtor );
+         TAO_PEGTL_TEST_ASSERT( st == 0 );
+      }
+      // guard2 parse success
+      {
+         ctor = false;
+         dtor = false;
+         const int i = 42;
+         view_input<> in( "abd" );
+         const bool b = parse< grammar, action2 >( in, i );
+         TAO_PEGTL_TEST_ASSERT( b );
+         TAO_PEGTL_TEST_ASSERT( ctor );
+         TAO_PEGTL_TEST_ASSERT( dtor );
+         TAO_PEGTL_TEST_ASSERT( i == 42 );
+      }
+      // guard2 parse failure
+      {
+         ctor = false;
+         dtor = false;
+         const int i = 42;
+         view_input<> in( "ad" );
+         const bool b = parse< grammar, action2 >( in, i );
+         TAO_PEGTL_TEST_ASSERT( !b );
+         TAO_PEGTL_TEST_ASSERT( ctor );
+         TAO_PEGTL_TEST_ASSERT( dtor );
+         TAO_PEGTL_TEST_ASSERT( i == 42 );
+      }
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

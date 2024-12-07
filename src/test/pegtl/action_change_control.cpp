@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE
    {};
 
    struct grammar
-      : must< test_control< normal >, seq< one< 'a' >, test_control< normal2 > >, eof >
+      : seq< test_control< normal >, seq< one< 'a' >, test_control< normal2 > >, eof >
    {};
 
    void unit_test()

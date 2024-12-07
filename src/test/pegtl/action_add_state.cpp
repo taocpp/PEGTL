@@ -85,6 +85,13 @@ namespace TAO_PEGTL_NAMESPACE
       : add_state< state1 >
    {};
 
+   template<>
+   struct action1< b >
+   {
+      static void apply0( state1& /*unused*/, std::size_t& /*unused*/ ) noexcept
+      {}
+   };
+
    template< typename Rule >
    struct action2
       : nothing< Rule >
@@ -94,6 +101,14 @@ namespace TAO_PEGTL_NAMESPACE
    struct action2< sor< b, c > >
       : add_state< state2 >
    {};
+
+   template<>
+   struct action2< c >
+   {
+      template< typename ActionInput >
+      static void apply( const ActionInput& /*unused*/, state2& /*unused*/, const int& /*unused*/ ) noexcept
+      {}
+   };
 
    void unit_test()
    {
