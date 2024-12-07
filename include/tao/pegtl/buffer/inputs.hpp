@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_BUFFER_INPUTS_HPP
 #define TAO_PEGTL_BUFFER_INPUTS_HPP
 
+#include "../ascii.hpp"
 #include "../config.hpp"
 #include "../system.hpp"
 
