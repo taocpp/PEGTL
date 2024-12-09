@@ -28,4 +28,5 @@ namespace TAO_PEGTL_NAMESPACE::utf8::icu
 
 }  // namespace TAO_PEGTL_NAMESPACE::utf8::icu
 
-#endif  // FCOV_EXCL_FILE
+// FCOV_EXCL_FILE
+#endif

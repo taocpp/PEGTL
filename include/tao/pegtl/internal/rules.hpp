@@ -68,4 +68,5 @@
 #include "try_catch_return_false.hpp"
 #endif
 
-#endif  // FCOV_EXCL_FILE
+// FCOV_EXCL_FILE
+#endif

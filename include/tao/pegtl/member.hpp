@@ -25,4 +25,5 @@ namespace TAO_PEGTL_NAMESPACE::member
    // clang-format on
 }  // namespace TAO_PEGTL_NAMESPACE::member
 
-#endif  // FCOV_EXCL_FILE
+// FCOV_EXCL_FILE
+#endif

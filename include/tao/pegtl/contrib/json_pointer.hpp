@@ -31,4 +31,5 @@ namespace TAO_PEGTL_NAMESPACE::json_pointer
 
 }  // namespace TAO_PEGTL_NAMESPACE::json_pointer
 
-#endif  // FCOV_EXCL_FILE
+// FCOV_EXCL_FILE
+#endif

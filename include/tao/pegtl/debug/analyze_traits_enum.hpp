@@ -19,4 +19,5 @@ namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
-#endif  // FCOV_EXCL_FILE
+// FCOV_EXCL_FILE
+#endif

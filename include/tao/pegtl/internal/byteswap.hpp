@@ -11,4 +11,5 @@
 #include "byteswap_gcc_clang.hpp"
 #endif
 
-#endif  // FCOV_EXCL_FILE
+// FCOV_EXCL_FILE
+#endif

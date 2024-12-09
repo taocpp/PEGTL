@@ -242,8 +242,8 @@ namespace coverage
                report( pair.first, pair.second );
             }
          }
-         const double coverage = double( m_total_lines - m_problem_lines ) / double( m_total_lines );
-         std::cout << "Summary for lines -- total " << m_total_lines << " problems " << m_problem_lines << " coverage " << coverage << std::endl;
+         const double fraction = double( m_total_lines - m_problem_lines ) / double( m_total_lines );
+         std::cout << "Summary for lines -- total " << m_total_lines << " problems " << m_problem_lines << " coverage " << fraction << std::endl;
          std::cout << "Summary for files -- total " << m_total_files << " problems " << m_problem_files << std::endl;
       }
 

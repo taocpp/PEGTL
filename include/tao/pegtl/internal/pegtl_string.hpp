@@ -75,4 +75,5 @@ namespace TAO_PEGTL_NAMESPACE::internal
          TAO_PEGTL_INTERNAL_EXPAND(       \
             ::TAO_PEGTL_NAMESPACE::internal::string_max_length< TAO_PEGTL_INTERNAL_STRING_512( S, x, ), sizeof( x ) - 1 >::type ) ) )
 
-#endif  // FCOV_EXCL_FILE
+// FCOV_EXCL_FILE
+#endif

@@ -89,4 +89,5 @@ namespace TAO_PEGTL_NAMESPACE::json
 
 }  // namespace TAO_PEGTL_NAMESPACE::json
 
-#endif  // FCOV_EXCL_FILE
+// FCOV_EXCL_FILE
+#endif

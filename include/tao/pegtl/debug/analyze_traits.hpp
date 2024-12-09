@@ -12,4 +12,5 @@
 #include "analyze_traits_enum.hpp"
 #include "analyze_traits_impl.hpp"
 
-#endif  // FCOV_EXCL_FILE
+// FCOV_EXCL_FILE
+#endif
