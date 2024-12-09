@@ -7,6 +7,7 @@ set(example_sources
   behaviour.cpp
   calculator.cpp
   chomsky_hierarchy.cpp
+  coverage.cpp
   csv1.cpp
   csv2.cpp
   dispatch.cpp
