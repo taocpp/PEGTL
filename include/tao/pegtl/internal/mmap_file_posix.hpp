@@ -122,11 +122,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       mmap_file_posix& operator=( const mmap_file_posix& ) = delete;
       mmap_file_posix& operator=( mmap_file_posix&& ) = delete;
 
-      [[nodiscard]] bool empty() const noexcept
-      {
-         return m_size == 0;
-      }
-
       [[nodiscard]] std::size_t size() const noexcept
       {
          return m_size;

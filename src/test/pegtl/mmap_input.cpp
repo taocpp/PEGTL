@@ -2,11 +2,12 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#if defined( _POSIX_MAPPED_FILES ) || defined( _WIN32 )
-
 #include <type_traits>
 
 #include "test.hpp"
+
+#if defined( _POSIX_MAPPED_FILES ) || defined( _WIN32 )
+
 #include "verify_file.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -25,13 +26,17 @@ namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
-#include "main.hpp"
-
 #else
 
-int main()
+namespace TAO_PEGTL_NAMESPACE
 {
-   return 0;
-}
+   void unit_test()
+   {
+      std::cerr << "Skipping mmap test..." << std::endl;
+   }
+
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif
+
+#include "main.hpp"

@@ -207,11 +207,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       mmap_file_win32& operator=( const mmap_file_win32& ) = delete;
       mmap_file_win32& operator=( mmap_file_win32&& ) = delete;
 
-      [[nodiscard]] bool empty() const noexcept
-      {
-         return m_size == 0;
-      }
-
       [[nodiscard]] std::size_t size() const noexcept
       {
          return m_size;

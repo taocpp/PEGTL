@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       text_position pos;
       internal::scan_input< char > in( str.data(), str.size() );
-      internal::lazy_scan_traits< typename Eol::rule_t, internal::peek_char >::scan( pos, in );
+      internal::lazy_scan_traits< typename Eol::rule_t, internal::peek_seven >::scan( pos, in );
       TAO_PEGTL_TEST_ASSERT( test::equal( pos, line, column, count ) );
    }
 
@@ -77,6 +77,11 @@ namespace TAO_PEGTL_NAMESPACE
       lazy_test< ascii::lf_crlf >( "\n\r", 2, 2, 2 );
       lazy_test< ascii::lf_crlf >( "\r\n", 2, 1, 2 );
       lazy_test< ascii::lf_crlf >( "  \r\n  ", 2, 3, 6 );
+
+#if defined( __cpp_exceptions )
+      const auto c = char( 0x80 );
+      TAO_PEGTL_TEST_THROWS( lazy_test< ascii::lf_crlf >( std::string( c, 1 ), 0, 0, 0 ) );
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
