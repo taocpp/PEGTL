@@ -12,7 +12,6 @@ namespace TAO_PEGTL_NAMESPACE
    {
       std::string s1;
       TAO_PEGTL_TEST_ASSERT( s1.size() == 0 );
-      TAO_PEGTL_TEST_ASSERT( s1.capacity() >= 0 );
       internal::resize_uninitialized( s1, 100 );
       TAO_PEGTL_TEST_ASSERT( s1.size() == 100 );
       TAO_PEGTL_TEST_ASSERT( s1.capacity() >= 100 );

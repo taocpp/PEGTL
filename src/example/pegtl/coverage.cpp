@@ -141,6 +141,7 @@ namespace coverage
          assert( !in.empty() );
          std::size_t t = 0;
          const bool b = pegtl::internal::convert_unsigned( t, in.string_view() );
+         (void)b;
          assert( b );
          assert( t > 0 );
          st.number = t - 1;
@@ -157,6 +158,7 @@ namespace coverage
          if( !in.empty() ) {
             std::size_t t = 0;
             const bool b = pegtl::internal::convert_unsigned( t, in.string_view() );
+            (void)b;
             assert( b );
             st.count = t;
             st.non_zero_count += std::size_t( t > 0 );

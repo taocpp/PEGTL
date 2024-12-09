@@ -65,7 +65,7 @@ struct my_grammar
 int main()
 {
    const std::vector< my_token > v{
-      { my_type::beta,  "first" },
+      { my_type::beta, "first" },
       { my_type::beta, "second" }
    };
    token_input in( v );
