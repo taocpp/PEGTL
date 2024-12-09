@@ -98,6 +98,7 @@ set(test_sources
   include.cpp
   internal_action_input.cpp
   internal_any.cpp
+  internal_argv_input.cpp
   internal_ascii_utility.cpp
   internal_base_inputs.cpp
   internal_byteswap.cpp
@@ -110,7 +111,7 @@ set(test_sources
   internal_file_mapper.cpp
   internal_file_opener.cpp
   internal_get_eol_rule_char.cpp
-  internal_input_lines.cpp
+  internal_inputs_lines.cpp
   internal_integer_size.cpp
   internal_lazy_inputs.cpp
   internal_lazy_scan_traits.cpp
