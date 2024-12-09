@@ -17,8 +17,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( data == "duseltronik" );
       }
       {
-         const std::unique_ptr< std::FILE, internal::read_file_close > file( internal::read_file_open( path ) );
-         const internal::read_input in( file.get(), path );
+         const internal::read_input in( internal::read_file_open( path ), path );
          const std::string data( in.start(), in.end() );
          TAO_PEGTL_TEST_ASSERT( data == "duseltronik" );
       }
