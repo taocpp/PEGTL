@@ -22,4 +22,4 @@
 #  error "Unknown operating system!"
 #endif
 
-#endif
+#endif  // FCOV_EXCL_FILE

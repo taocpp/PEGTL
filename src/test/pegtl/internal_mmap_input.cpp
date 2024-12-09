@@ -11,6 +11,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      TAO_PEGTL_TEST_THROWS( internal::mmap_input< std::size_t > in( "src/test/pegtl/data/duseltronik.txt" ) );
       const internal::mmap_input< char > in( "src/test/pegtl/data/duseltronik.txt" );
       const std::string data( in.start(), in.end() );
       TAO_PEGTL_TEST_ASSERT( data == "duseltronik" );

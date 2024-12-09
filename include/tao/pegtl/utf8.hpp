@@ -15,4 +15,4 @@
 #define TAO_PEGTL_UTF_NAME utf8
 #include "internal/utf_rules.ipp"
 
-#endif
+#endif  // FCOV_EXCL_FILE

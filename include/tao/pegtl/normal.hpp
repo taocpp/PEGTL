@@ -90,10 +90,10 @@ namespace TAO_PEGTL_NAMESPACE
       {
 #if defined( __cpp_exceptions )
          if constexpr( internal::has_error_message< Rule > ) {
-            throw_with_nested_parse_error( Rule::error_message, am );
+            throw_parse_error_with_nested( Rule::error_message, am );
          }
          else {
-            throw_with_nested_parse_error( "parse error matching " + std::string( demangle< Rule >() ), am );
+            throw_parse_error_with_nested( "parse error matching " + std::string( demangle< Rule >() ), am );
          }
 #else
          static_assert( internal::dependent_false< Rule >, "Exception support required for normal< Rule >::raise_nested()!" );

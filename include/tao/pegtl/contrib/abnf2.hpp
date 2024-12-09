@@ -102,4 +102,4 @@ namespace TAO_PEGTL_NAMESPACE::abnf2
 
 }  // namespace TAO_PEGTL_NAMESPACE::abnf2
 
-#endif
+#endif  // FCOV_EXCL_FILE

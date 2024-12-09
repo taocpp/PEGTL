@@ -47,7 +47,7 @@ namespace TAO_PEGTL_NAMESPACE
          void operator=( const bytes_guard& ) = delete;
       };
 
-      // C++17 does not allow for partial deduction guides.
+      // C++17 does not allow partial deduction guides.
 
    }  // namespace internal
 

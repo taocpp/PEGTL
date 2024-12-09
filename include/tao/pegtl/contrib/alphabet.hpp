@@ -65,4 +65,4 @@ namespace TAO_PEGTL_NAMESPACE::alphabet
 
 }  // namespace TAO_PEGTL_NAMESPACE::alphabet
 
-#endif
+#endif  // FCOV_EXCL_FILE

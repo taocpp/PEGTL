@@ -109,4 +109,4 @@ namespace TAO_PEGTL_NAMESPACE::uri
 }  // namespace TAO_PEGTL_NAMESPACE::uri
 
 #endif
-#endif
+#endif  // FCOV_EXCL_FILE

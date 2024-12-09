@@ -11,4 +11,4 @@
 #define TAO_PEGTL_VERSION_MINOR 0
 #define TAO_PEGTL_VERSION_PATCH 0
 
-#endif
+#endif  // FCOV_EXCL_FILE

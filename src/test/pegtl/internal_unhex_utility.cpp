@@ -11,8 +11,16 @@ namespace TAO_PEGTL_NAMESPACE
    static_assert( internal::unhex_char_impl< int >( '0' ) == 0 );
    static_assert( internal::unhex_char_impl< int >( '9' ) == 9 );
    static_assert( internal::unhex_char_impl< int >( 'a' ) == 10 );
+   static_assert( internal::unhex_char_impl< int >( 'b' ) == 11 );
+   static_assert( internal::unhex_char_impl< int >( 'c' ) == 12 );
+   static_assert( internal::unhex_char_impl< int >( 'd' ) == 13 );
+   static_assert( internal::unhex_char_impl< int >( 'e' ) == 14 );
    static_assert( internal::unhex_char_impl< int >( 'f' ) == 15 );
    static_assert( internal::unhex_char_impl< int >( 'A' ) == 10 );
+   static_assert( internal::unhex_char_impl< int >( 'B' ) == 11 );
+   static_assert( internal::unhex_char_impl< int >( 'C' ) == 12 );
+   static_assert( internal::unhex_char_impl< int >( 'D' ) == 13 );
+   static_assert( internal::unhex_char_impl< int >( 'E' ) == 14 );
    static_assert( internal::unhex_char_impl< int >( 'F' ) == 15 );
 
    static_assert( internal::unhex_char_impl< unsigned >( '0' ) == 0 );
@@ -35,6 +43,8 @@ namespace TAO_PEGTL_NAMESPACE
       test_unhex( "a0", 0xa0 );
       test_unhex( "1Fb93", 0x1fb93 );
       test_unhex( "ffffff", 0xffffff );
+      test_unhex( "abcdef", 0xabcdef );
+      test_unhex( "ABCDEF", 0xabcdef );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

@@ -10,7 +10,7 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    struct test_rule
-      : star< alpha >
+      : plus< alpha >
    {};
 
    struct test_grammar
@@ -45,6 +45,10 @@ namespace TAO_PEGTL_NAMESPACE
       text_view_input< scan::lf > i4( "aaaaaaaaaaa" );
       TAO_PEGTL_TEST_THROWS( parse< test_grammar, test_action >( i4 ) );
 #endif
+
+      text_view_input< scan::lf > i5( "99999999999" );
+      const auto r5 = parse< test_grammar, test_action >( i5 );
+      TAO_PEGTL_TEST_ASSERT( !r5 );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

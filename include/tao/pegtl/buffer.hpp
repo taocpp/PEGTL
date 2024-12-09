@@ -17,4 +17,4 @@
 #include "buffer/discard_input.hpp"
 #include "buffer/discard_input_on.hpp"
 
-#endif
+#endif  // FCOV_EXCL_FILE

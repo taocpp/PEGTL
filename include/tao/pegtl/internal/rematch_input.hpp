@@ -61,7 +61,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] const data_t* previous( const rewind_position_t saved ) const noexcept
       {
-         return m_current + saved.count;
+         return saved.data;
       }
 
       [[nodiscard]] const data_t* end() const noexcept

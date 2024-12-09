@@ -75,6 +75,19 @@ namespace TAO_PEGTL_NAMESPACE
       return true;
    }
 
+   template< auto F >
+   void unit_test_2()
+   {
+      int i = 42;
+      char c = 'a';
+      double d = 42.0;
+      called = false;
+      const char data[] = { char( 0x80 ), 0x00 };
+      text_view_input< scan::lf > in( data, 1 );
+      TAO_PEGTL_TEST_ASSERT( !parse< seq< function< F, internal::peek_seven >, eof > >( in, i, &c, d ) );
+      TAO_PEGTL_TEST_ASSERT( !called );
+   }
+
    void unit_test()
    {
       unit_test_1< func0 >();
@@ -90,6 +103,8 @@ namespace TAO_PEGTL_NAMESPACE
       unit_test_1< func3n, internal::peek_char >();
       unit_test_1< func3n, internal::peek_data >();
       // unit_test_1< decltype( TODO: An appropriate lambda as soon as we switch to C++20 ) ...
+      unit_test_2< func2 >();
+      unit_test_2< func3n >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

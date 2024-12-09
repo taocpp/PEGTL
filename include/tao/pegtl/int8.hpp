@@ -16,4 +16,4 @@
 #define TAO_PEGTL_INT_TYPE std::int8_t
 #include "internal/int_rules.ipp"
 
-#endif
+#endif  // FCOV_EXCL_FILE

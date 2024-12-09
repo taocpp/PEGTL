@@ -63,9 +63,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       [[nodiscard]] constexpr bool is_digit( const char c ) noexcept
       {
-         // We don't use std::isdigit() because it might
-         // return true for other values on MS platforms.
-
+         // std::isdigit() can be platform and locale dependent.
          return ( '0' <= c ) && ( c <= '9' );
       }
 

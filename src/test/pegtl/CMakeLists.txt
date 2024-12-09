@@ -49,10 +49,13 @@ set(test_sources
   contrib_alphabet.cpp
   contrib_check_count.cpp
   contrib_check_depth.cpp
+  contrib_dispatch.cpp
   contrib_http.cpp
   contrib_if_then.cpp
   contrib_input_with_offset.cpp
   contrib_integer.cpp
+  contrib_integer_convert.cpp
+  contrib_integer_match.cpp
   contrib_iri.cpp
   contrib_json.cpp
   contrib_limit_count.cpp
@@ -126,6 +129,7 @@ set(test_sources
   internal_peek_utf8.cpp
   internal_read_file_stdio.cpp
   internal_read_input.cpp
+  internal_rematch_input.cpp
   internal_set_stack_guard.cpp
   internal_stream_to_string.cpp
   internal_text_inputs.cpp
@@ -190,6 +194,7 @@ set(test_sources
   rule_star.cpp
   rule_star_must.cpp
   rule_star_partial.cpp
+  rule_star_strict.cpp
   rule_state.cpp
   rule_strict.cpp
   rule_success.cpp

@@ -32,10 +32,18 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( v.size() == 2 );
    }
 
+   void test3()
+   {
+      text_view_input<> in( "ad" );
+      const auto v = record< one_a, one_b, one_c, seq_ab >::parse< grammar >( in );
+      TAO_PEGTL_TEST_ASSERT( v.empty() );
+   }
+
    void unit_test()
    {
       test1();
       test2();
+      test3();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

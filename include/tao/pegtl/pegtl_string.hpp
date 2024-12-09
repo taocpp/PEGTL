@@ -23,4 +23,4 @@
 #define TAO_PEGTL_RAISE_MESSAGE( x ) \
    TAO_PEGTL_INTERNAL_STRING( ::TAO_PEGTL_NAMESPACE::raise_message, x )
 
-#endif
+#endif  // FCOV_EXCL_FILE

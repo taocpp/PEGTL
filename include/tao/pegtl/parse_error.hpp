@@ -57,7 +57,7 @@ namespace TAO_PEGTL_NAMESPACE
    }
 
    template< typename Object >
-   [[noreturn]] void throw_with_nested_parse_error( const std::string& msg, const Object& obj )
+   [[noreturn]] void throw_parse_error_with_nested( const std::string& msg, const Object& obj )
    {
       std::throw_with_nested( parse_error( msg, internal::extract_position( obj ) ) );
    }

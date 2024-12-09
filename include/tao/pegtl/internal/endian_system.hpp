@@ -44,4 +44,4 @@
 #  error "Byte order is neither big nor little endian -- are you using a PDP-11?"
 #endif
 
-#endif
+#endif  // FCOV_EXCL_FILE

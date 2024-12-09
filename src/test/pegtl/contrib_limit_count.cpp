@@ -10,7 +10,7 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    struct test_rule
-      : star< alpha >
+      : plus< alpha >
    {};
 
    struct test_grammar
@@ -43,9 +43,17 @@ namespace TAO_PEGTL_NAMESPACE
       const auto r3 = parse< test_grammar, test_action >( i3 );
       TAO_PEGTL_TEST_ASSERT( r3 );
 
+      test_input i4( "000" );
+      const auto r4 = parse< test_grammar, test_action >( i4 );
+      TAO_PEGTL_TEST_ASSERT( !r4 );
+
+      test_input i5( "0aaaaaaaaaaa" );
+      const auto r5 = parse< test_grammar, test_action >( i5 );
+      TAO_PEGTL_TEST_ASSERT( !r5 );
+
 #if defined( __cpp_exceptions )
-      test_input i4( "aaaaaaaaaaa" );
-      TAO_PEGTL_TEST_THROWS( parse< test_grammar, test_action >( i4 ) );
+      test_input i6( "aaaaaaaaaaa" );
+      TAO_PEGTL_TEST_THROWS( parse< test_grammar, test_action >( i6 ) );
 #endif
    }
 

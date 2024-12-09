@@ -104,4 +104,4 @@ namespace TAO_PEGTL_NAMESPACE::iri
 }  // namespace TAO_PEGTL_NAMESPACE::iri
 
 #endif
-#endif
+#endif  // FCOV_EXCL_FILE
