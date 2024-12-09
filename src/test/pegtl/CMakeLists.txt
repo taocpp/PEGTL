@@ -76,6 +76,7 @@ set(test_sources
   control_rewind_state_control.cpp
   control_state_control.cpp
   control_unwind.cpp
+  count_position.cpp
   debug_analyze.cpp
   debug_analyze_traits_enum.cpp
   debug_contains.cpp
@@ -109,7 +110,7 @@ set(test_sources
   internal_file_mapper.cpp
   internal_file_opener.cpp
   internal_get_eol_rule_char.cpp
-  internal_inputs_lines.cpp
+  internal_input_lines.cpp
   internal_integer_size.cpp
   internal_lazy_inputs.cpp
   internal_lazy_scan_traits.cpp
@@ -130,6 +131,7 @@ set(test_sources
   internal_read_file_stdio.cpp
   internal_read_input.cpp
   internal_rematch_input.cpp
+  internal_resize_uninitialized.cpp
   internal_set_stack_guard.cpp
   internal_stream_to_string.cpp
   internal_text_inputs.cpp
