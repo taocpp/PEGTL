@@ -110,7 +110,6 @@ set(test_sources
   internal_extract_position.cpp
   internal_file_input.cpp
   internal_file_mapper.cpp
-  internal_file_opener.cpp
   internal_get_eol_rule_char.cpp
   internal_inputs_lines.cpp
   internal_integer_size.cpp
