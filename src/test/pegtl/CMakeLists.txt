@@ -142,6 +142,7 @@ set(test_sources
   internal_unhex_utility.cpp
   internal_unwind_guard.cpp
   internal_utf32_to_utf8.cpp
+  internal_utf8_append.cpp
   internal_utf_one.cpp
   internal_value_list_concat.cpp
   internal_vector_stack_guard.cpp

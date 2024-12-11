@@ -80,7 +80,7 @@ namespace TAO_PEGTL_NAMESPACE
 
 #if defined( __cpp_exceptions )
       const auto c = char( 0x80 );
-      TAO_PEGTL_TEST_THROWS( lazy_test< ascii::lf_crlf >( std::string( c, 1 ), 0, 0, 0 ) );
+      TAO_PEGTL_TEST_THROWS( lazy_test< ascii::lf_crlf >( std::string( 1, c ), 0, 0, 0 ) );
 #endif
    }
 
