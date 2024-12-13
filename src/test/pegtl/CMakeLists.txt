@@ -53,6 +53,7 @@ set(test_sources
   contrib_dispatch.cpp
   contrib_http.cpp
   contrib_if_then.cpp
+  contrib_input_with_depth.cpp
   contrib_input_with_offset.cpp
   contrib_integer.cpp
   contrib_integer_convert.cpp
