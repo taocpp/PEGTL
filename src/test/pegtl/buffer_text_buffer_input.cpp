@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( in.direct_column() == in.current_position().column );
       in.template consume< alpha >( 5 );
       const auto n = in.rewind_position();
-      in.consume< eol >( 1 );
+      in.template consume< eol >( 1 );
       TAO_PEGTL_TEST_ASSERT( in.direct_count() == 6 );
       TAO_PEGTL_TEST_ASSERT( in.direct_line() == 2 );
       TAO_PEGTL_TEST_ASSERT( in.direct_column() == 1 );
