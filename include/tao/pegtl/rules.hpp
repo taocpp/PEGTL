@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct bof : internal::bof {};
    struct bol : internal::bol {};
    template< typename Left, typename Right > struct combine : internal::combine_traits< typename Left::rule_t, typename Right::rule_t >::rule_t {};
-   template< std::size_t Count > struct consume : internal::consume< Count, void > {};
+   template< std::size_t Count > struct consume : internal::consume< Count > {};
    template< template< typename... > class Control, typename... Rules > struct control : internal::control< Control, Rules... > {};
    template< typename... Rules > struct disable : internal::disable< Rules... > {};
    template< typename... Rules > struct enable : internal::enable< Rules... > {};

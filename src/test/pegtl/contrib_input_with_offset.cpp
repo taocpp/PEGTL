@@ -29,6 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( b );
       TAO_PEGTL_TEST_ASSERT( in.previous_position( r ).count == 46 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 49 );
+      TAO_PEGTL_TEST_ASSERT( in.direct_offset() == count_position( 42 ) );
    }
 
    void test_count_offset_source()
@@ -71,6 +72,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( in.current_position().count == 107 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().line == 201 );
       TAO_PEGTL_TEST_ASSERT( in.current_position().column == 4 );
+      TAO_PEGTL_TEST_ASSERT( in.direct_offset() == text_position( 200, 300, 100 ) );
    }
 
    void test_text_offset_source()

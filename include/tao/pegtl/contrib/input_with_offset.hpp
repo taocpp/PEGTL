@@ -58,7 +58,7 @@ namespace TAO_PEGTL_NAMESPACE
          return m_offset;
       }
 
-      void direct_position() = delete;
+      void direct_position() const = delete;
 
    protected:
       offset_position_t m_offset;

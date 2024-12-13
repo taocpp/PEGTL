@@ -23,6 +23,7 @@ namespace TAO_PEGTL_NAMESPACE
       text_view_input<> in( "ac" );
       const auto v = record< one_a, one_b, one_c >::parse< grammar >( in );
       TAO_PEGTL_TEST_ASSERT( v.size() == 2 );
+      std::cout << v << std::endl;
    }
 
    void test2()
@@ -30,6 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
       text_view_input<> in( "ac" );
       const auto v = record< one_a, one_b, one_c, seq_ab >::parse< grammar >( in );
       TAO_PEGTL_TEST_ASSERT( v.size() == 2 );
+      std::cout << v << std::endl;
    }
 
    void test3()
@@ -37,6 +39,7 @@ namespace TAO_PEGTL_NAMESPACE
       text_view_input<> in( "ad" );
       const auto v = record< one_a, one_b, one_c, seq_ab >::parse< grammar >( in );
       TAO_PEGTL_TEST_ASSERT( v.empty() );
+      std::cout << v << std::endl;
    }
 
    void unit_test()

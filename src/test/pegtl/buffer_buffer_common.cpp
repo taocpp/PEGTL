@@ -69,6 +69,7 @@ namespace TAO_PEGTL_NAMESPACE
 #if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( bc.require( 101 ) );
       TAO_PEGTL_TEST_THROWS( (void)bc.end( 100, 101 ) );
+      TAO_PEGTL_TEST_THROWS( (void)bc.size( 100, 101 ) );
 #endif
 
       TAO_PEGTL_TEST_ASSERT( !bc.empty() );

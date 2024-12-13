@@ -242,9 +242,9 @@ namespace coverage
                report( pair.first, pair.second );
             }
          }
-         const double fraction = double( m_total_lines - m_problem_lines ) / double( m_total_lines );
-         std::cout << "Summary for lines -- total " << m_total_lines << " problems " << m_problem_lines << " coverage " << fraction << std::endl;
-         std::cout << "Summary for files -- total " << m_total_files << " problems " << m_problem_files << std::endl;
+         const double fraction = 100.0 * double( m_total_lines - m_problem_lines ) / double( m_total_lines );
+         std::cout << "Summary for lines -- total " << m_total_lines << " uncovered " << m_problem_lines << " coverage " << fraction << '%' << std::endl;
+         std::cout << "Summary for files -- total " << m_total_files << " problematic " << m_problem_files << std::endl;
       }
 
       void report( const std::string& name, const per_file_data& data )

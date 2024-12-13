@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] T peek_as( const std::size_t offset = 0 ) const noexcept
       {
          static_assert( sizeof( data_t ) == sizeof( T ) );
-         return static_cast< T >( *this->current( offset ) );
+         return static_cast< T >( peek( offset ) );
       }
 
       [[nodiscard]] char peek_char( const std::size_t offset = 0 ) const noexcept

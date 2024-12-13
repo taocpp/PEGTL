@@ -33,8 +33,8 @@ namespace TAO_PEGTL_NAMESPACE
             --m_depth;
          }
 
-         depth_guard& operator=( depth_guard&& ) = delete;
-         depth_guard& operator=( const depth_guard& ) = delete;
+         void operator=( depth_guard&& ) = delete;
+         void operator=( const depth_guard& ) = delete;
 
          [[nodiscard]] std::size_t current_depth() const noexcept
          {
@@ -53,14 +53,6 @@ namespace TAO_PEGTL_NAMESPACE
    {
    public:
       using Input::Input;
-
-      void restart() noexcept
-      {
-         if constexpr( internal::has_restart< Input > ) {
-            Input::restart();
-         }
-         m_depth = 0;
-      }
 
       [[nodiscard]] internal::depth_guard make_depth_guard() noexcept
       {

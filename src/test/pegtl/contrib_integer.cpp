@@ -53,6 +53,22 @@ namespace TAO_PEGTL_NAMESPACE
          parse< must< signed_rule_with_action, eof > >( in, st );
          TAO_PEGTL_TEST_ASSERT( st == s );
       }
+      {
+         text_view_input< scan::lf > in( i );
+         parse< must< disable< signed_rule_with_action >, eof > >( in );
+      }
+      {
+         S st = -123;
+         text_view_input< scan::lf > in( i );
+         parse< must< disable< signed_rule_with_action >, eof > >( in, st );
+         TAO_PEGTL_TEST_ASSERT( st == -123 );
+      }
+      {
+         S st = -123;
+         text_view_input< scan::lf > in( i );
+         parse< must< disable< signed_rule_with_action >, eof > >( in, st, in );
+         TAO_PEGTL_TEST_ASSERT( st == -123 );
+      }
    }
 
    template< typename S >
@@ -64,7 +80,7 @@ namespace TAO_PEGTL_NAMESPACE
    }
 
    template< typename S >
-   std::string lexical_cast( const S s )
+   [[nodiscard]] std::string lexical_cast( const S s )
    {
       std::ostringstream oss;
       oss << s;
@@ -91,6 +107,22 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( st == s );
       }
       {
+         text_view_input< scan::lf > in( i );
+         parse< must< unsigned_rule_with_action, eof >, nothing, normal, apply_mode::nothing >( in );
+      }
+      {
+         S st = 123;
+         text_view_input< scan::lf > in( i );
+         parse< must< unsigned_rule_with_action, eof >, nothing, normal, apply_mode::nothing >( in, st );
+         TAO_PEGTL_TEST_ASSERT( st == 123 );
+      }
+      {
+         S st = 123;
+         text_view_input< scan::lf > in( i );
+         parse< must< unsigned_rule_with_action, eof >, nothing, normal, apply_mode::nothing >( in, st, in );
+         TAO_PEGTL_TEST_ASSERT( st == 123 );
+      }
+      {
          S st = 123;
          text_view_input< scan::lf > in( i );
          parse< must< unsigned_rule_with_action, eof > >( in, st );
@@ -115,9 +147,6 @@ namespace TAO_PEGTL_NAMESPACE
       parse< must< unsigned_rule, eof >, int_action >( in, st );
       TAO_PEGTL_TEST_ASSERT( st == s );
    }
-
-   template< auto M >
-   using max_seq_rule = seq< one< 'a' >, maximum_rule< std::uint64_t, M >, one< 'b' >, eof >;
 
    void unit_test()
    {
@@ -179,76 +208,6 @@ namespace TAO_PEGTL_NAMESPACE
 
       test_unsigned< unsigned long long >( "0", 0 );
       test_unsigned< unsigned long long >( ( std::numeric_limits< unsigned long long >::max )() );
-
-      verify_rule< max_seq_rule< 0 > >( __LINE__, __FILE__, "a0b", result_type::success );
-      verify_rule< max_seq_rule< 0 > >( __LINE__, __FILE__, "ab", result_type::local_failure );
-      verify_rule< max_seq_rule< 0 > >( __LINE__, __FILE__, "a1b", result_type::local_failure );
-      verify_rule< max_seq_rule< 0 > >( __LINE__, __FILE__, "a9b", result_type::local_failure );
-      verify_rule< max_seq_rule< 0 > >( __LINE__, __FILE__, "a11b", result_type::local_failure );
-
-      verify_rule< max_seq_rule< 1 > >( __LINE__, __FILE__, "a0b", result_type::success );
-      verify_rule< max_seq_rule< 1 > >( __LINE__, __FILE__, "a1b", result_type::success );
-      verify_rule< max_seq_rule< 1 > >( __LINE__, __FILE__, "ab", result_type::local_failure );
-      verify_rule< max_seq_rule< 1 > >( __LINE__, __FILE__, "a2b", result_type::local_failure );
-      verify_rule< max_seq_rule< 1 > >( __LINE__, __FILE__, "a9b", result_type::local_failure );
-      verify_rule< max_seq_rule< 1 > >( __LINE__, __FILE__, "a11b", result_type::local_failure );
-
-      verify_rule< max_seq_rule< 2 > >( __LINE__, __FILE__, "a0b", result_type::success );
-      verify_rule< max_seq_rule< 2 > >( __LINE__, __FILE__, "a1b", result_type::success );
-      verify_rule< max_seq_rule< 2 > >( __LINE__, __FILE__, "a2b", result_type::success );
-      verify_rule< max_seq_rule< 2 > >( __LINE__, __FILE__, "ab", result_type::local_failure );
-      verify_rule< max_seq_rule< 2 > >( __LINE__, __FILE__, "a3b", result_type::local_failure );
-      verify_rule< max_seq_rule< 2 > >( __LINE__, __FILE__, "a9b", result_type::local_failure );
-      verify_rule< max_seq_rule< 2 > >( __LINE__, __FILE__, "a11b", result_type::local_failure );
-
-      verify_rule< max_seq_rule< 3 > >( __LINE__, __FILE__, "a0b", result_type::success );
-      verify_rule< max_seq_rule< 3 > >( __LINE__, __FILE__, "a3b", result_type::success );
-      verify_rule< max_seq_rule< 3 > >( __LINE__, __FILE__, "ab", result_type::local_failure );
-      verify_rule< max_seq_rule< 3 > >( __LINE__, __FILE__, "a4b", result_type::local_failure );
-      verify_rule< max_seq_rule< 3 > >( __LINE__, __FILE__, "a11b", result_type::local_failure );
-
-      verify_rule< max_seq_rule< 4 > >( __LINE__, __FILE__, "a5b", result_type::local_failure );
-      verify_rule< max_seq_rule< 4 > >( __LINE__, __FILE__, "a11b", result_type::local_failure );
-
-      verify_rule< max_seq_rule< 9 > >( __LINE__, __FILE__, "a0b", result_type::success );
-      verify_rule< max_seq_rule< 9 > >( __LINE__, __FILE__, "a9b", result_type::success );
-      verify_rule< max_seq_rule< 9 > >( __LINE__, __FILE__, "ab", result_type::local_failure );
-      verify_rule< max_seq_rule< 9 > >( __LINE__, __FILE__, "a10b", result_type::local_failure );
-      verify_rule< max_seq_rule< 9 > >( __LINE__, __FILE__, "a11b", result_type::local_failure );
-
-      verify_rule< max_seq_rule< 10 > >( __LINE__, __FILE__, "a0b", result_type::success );
-      verify_rule< max_seq_rule< 10 > >( __LINE__, __FILE__, "a9b", result_type::success );
-      verify_rule< max_seq_rule< 10 > >( __LINE__, __FILE__, "a10b", result_type::success );
-      verify_rule< max_seq_rule< 10 > >( __LINE__, __FILE__, "ab", result_type::local_failure );
-      verify_rule< max_seq_rule< 10 > >( __LINE__, __FILE__, "a11b", result_type::local_failure );
-      verify_rule< max_seq_rule< 10 > >( __LINE__, __FILE__, "a19b", result_type::local_failure );
-
-      verify_rule< max_seq_rule< 11 > >( __LINE__, __FILE__, "a0b", result_type::success );
-      verify_rule< max_seq_rule< 11 > >( __LINE__, __FILE__, "a9b", result_type::success );
-      verify_rule< max_seq_rule< 11 > >( __LINE__, __FILE__, "a10b", result_type::success );
-      verify_rule< max_seq_rule< 11 > >( __LINE__, __FILE__, "a11b", result_type::success );
-      verify_rule< max_seq_rule< 11 > >( __LINE__, __FILE__, "ab", result_type::local_failure );
-      verify_rule< max_seq_rule< 11 > >( __LINE__, __FILE__, "a12b", result_type::local_failure );
-      verify_rule< max_seq_rule< 11 > >( __LINE__, __FILE__, "a13b", result_type::local_failure );
-      verify_rule< max_seq_rule< 11 > >( __LINE__, __FILE__, "a111b", result_type::local_failure );
-
-      verify_rule< max_seq_rule< 12 > >( __LINE__, __FILE__, "a0b", result_type::success );
-      verify_rule< max_seq_rule< 12 > >( __LINE__, __FILE__, "a1b", result_type::success );
-      verify_rule< max_seq_rule< 12 > >( __LINE__, __FILE__, "a9b", result_type::success );
-      verify_rule< max_seq_rule< 12 > >( __LINE__, __FILE__, "a10b", result_type::success );
-      verify_rule< max_seq_rule< 12 > >( __LINE__, __FILE__, "a11b", result_type::success );
-      verify_rule< max_seq_rule< 12 > >( __LINE__, __FILE__, "a12b", result_type::success );
-      verify_rule< max_seq_rule< 12 > >( __LINE__, __FILE__, "ab", result_type::local_failure );
-      verify_rule< max_seq_rule< 12 > >( __LINE__, __FILE__, "a13b", result_type::local_failure );
-      verify_rule< max_seq_rule< 12 > >( __LINE__, __FILE__, "a19b", result_type::local_failure );
-      verify_rule< max_seq_rule< 12 > >( __LINE__, __FILE__, "a111b", result_type::local_failure );
-
-      verify_rule< max_seq_rule< 18446744073709551614ULL > >( __LINE__, __FILE__, "a18446744073709551614b", result_type::success );
-      verify_rule< max_seq_rule< 18446744073709551614ULL > >( __LINE__, __FILE__, "a18446744073709551615b", result_type::local_failure );
-
-      verify_rule< max_seq_rule< 18446744073709551615ULL > >( __LINE__, __FILE__, "a18446744073709551615b", result_type::success );
-      verify_rule< max_seq_rule< 18446744073709551615ULL > >( __LINE__, __FILE__, "a18446744073709551616b", result_type::local_failure );
-      verify_rule< max_seq_rule< 18446744073709551615ULL > >( __LINE__, __FILE__, "a98446744073709551614b", result_type::local_failure );
 
       verify_analyze< unsigned_rule >( __LINE__, __FILE__, true, false );
       verify_analyze< unsigned_rule_with_action >( __LINE__, __FILE__, true, false );

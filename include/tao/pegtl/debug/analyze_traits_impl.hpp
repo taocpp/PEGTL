@@ -66,8 +66,8 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits<>
    {};
 
-   template< typename Name, std::size_t Count, typename Reference >
-   struct analyze_traits< Name, internal::consume< Count, Reference > >
+   template< typename Name, std::size_t Count >
+   struct analyze_traits< Name, internal::consume< Count > >
       : std::conditional_t< ( Count > 0 ), analyze_any_traits<>, analyze_opt_traits<> >
    {};
 
@@ -150,7 +150,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Name, typename Head, typename... Rules >
    struct analyze_traits< Name, internal::rematch< Head, Rules... > >
-      : analyze_traits< Name, typename internal::sor< Head, internal::sor< internal::seq< Rules, internal::consume< 1, void > >... > >::rule_t >  // TODO: Correct (enough)?
+      : analyze_traits< Name, typename internal::sor< Head, internal::sor< internal::seq< Rules, internal::consume< 1 > >... > >::rule_t >  // TODO: Correct (enough)?
    {};
 
    template< typename Name, std::size_t Cnt, typename... Rules >

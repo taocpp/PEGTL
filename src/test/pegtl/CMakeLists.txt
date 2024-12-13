@@ -46,6 +46,7 @@ set(test_sources
   buffer_rule_is_buffer.cpp
   buffer_rule_require.cpp
   buffer_static_buffer.cpp
+  buffer_text_buffer_input.cpp
   contrib_alphabet.cpp
   contrib_check_count.cpp
   contrib_check_depth.cpp
@@ -56,6 +57,7 @@ set(test_sources
   contrib_integer.cpp
   contrib_integer_convert.cpp
   contrib_integer_match.cpp
+  contrib_integer_maximum.cpp
   contrib_iri.cpp
   contrib_json.cpp
   contrib_limit_count.cpp
