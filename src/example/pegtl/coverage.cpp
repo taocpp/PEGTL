@@ -61,6 +61,7 @@ namespace coverage
 
    namespace rules
    {
+      // clang-format off
       struct ws : pegtl::star< pegtl::blank > {};
       struct sep : pegtl::one< '|' > {};
       struct number : pegtl::plus< pegtl::digit > {};
@@ -78,6 +79,7 @@ namespace coverage
       struct file : pegtl::seq< head, body, pegtl::eol > {};
       struct main : pegtl::star< file > {};
       struct wrap : pegtl::sor< pegtl::eof, pegtl::one< ' ' >, pegtl::digit, pegtl::must< main, pegtl::eof > > {};
+      // clang-format on
 
    }  // namespace rules
 

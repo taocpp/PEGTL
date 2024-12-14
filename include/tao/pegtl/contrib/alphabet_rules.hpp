@@ -10,6 +10,7 @@
 
 namespace TAO_PEGTL_NAMESPACE::alphabet::rules
 {
+   // clang-format off
    struct a : ascii::one< 'a' > {};
    struct b : ascii::one< 'b' > {};
    struct c : ascii::one< 'c' > {};
@@ -63,6 +64,7 @@ namespace TAO_PEGTL_NAMESPACE::alphabet::rules
    struct X : ascii::one< 'X' > {};  // NOLINT(readability-identifier-naming)
    struct Y : ascii::one< 'Y' > {};  // NOLINT(readability-identifier-naming)
    struct Z : ascii::one< 'Z' > {};  // NOLINT(readability-identifier-naming)
+   // clang-format on
 
 }  // namespace TAO_PEGTL_NAMESPACE::alphabet::rules
 

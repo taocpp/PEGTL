@@ -405,7 +405,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       return std::move( state.back() );
    }
 
-   template< typename ParseInput>
+   template< typename ParseInput >
    struct node_t
       : basic_node< node_t< ParseInput >, typename ParseInput::error_position_t >
    {};

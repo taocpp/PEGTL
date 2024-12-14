@@ -16,8 +16,10 @@ namespace TAO_PEGTL_NAMESPACE
    {
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... > class Action,
-                template< typename... > class Control,
+                template< typename... >
+                class Action,
+                template< typename... >
+                class Control,
                 typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& /*unused*/ ) noexcept
       {

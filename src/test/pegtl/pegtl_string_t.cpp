@@ -5,7 +5,7 @@
 #include <type_traits>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/alphabet.hpp>
+#include <tao/pegtl/contrib/alphabet_constants.hpp>
 
 namespace test
 {

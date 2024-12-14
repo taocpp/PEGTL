@@ -11,15 +11,15 @@
 #include <tao/pegtl/utf16.hpp>
 #include <tao/pegtl/utf32.hpp>
 
-#include <tao/pegtl/int8.hpp>
 #include <tao/pegtl/int16.hpp>
 #include <tao/pegtl/int32.hpp>
 #include <tao/pegtl/int64.hpp>
+#include <tao/pegtl/int8.hpp>
 
-#include <tao/pegtl/uint8.hpp>
 #include <tao/pegtl/uint16.hpp>
 #include <tao/pegtl/uint32.hpp>
 #include <tao/pegtl/uint64.hpp>
+#include <tao/pegtl/uint8.hpp>
 
 #include <tao/pegtl/enums.hpp>
 #include <tao/pegtl/member.hpp>

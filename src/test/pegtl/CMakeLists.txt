@@ -47,7 +47,8 @@ set(test_sources
   buffer_rule_require.cpp
   buffer_static_buffer.cpp
   buffer_text_buffer_input.cpp
-  contrib_alphabet.cpp
+  contrib_alphabet_constants.cpp
+  contrib_alphabet_rules.cpp
   contrib_check_count.cpp
   contrib_check_depth.cpp
   contrib_dispatch.cpp
