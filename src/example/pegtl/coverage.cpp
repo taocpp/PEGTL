@@ -2,7 +2,7 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#if defined( __cpp_exception )
+#if defined( __cpp_exceptions )
 
 #include <cassert>
 #include <charconv>
@@ -161,9 +161,9 @@ namespace coverage
       {
          if( !in.empty() ) {
             std::size_t t = 0;
-            const bool b = pegtl::internal::convert_unsigned( t, in.string_view() );
-            (void)b;
-            assert( b );
+            const auto p = std::from_chars( in.begin(), in.end(), t );
+            (void)p;
+            assert( p.ptr == in.end() );
             st.count = t;
             st.non_zero_count += std::size_t( t > 0 );
          }
