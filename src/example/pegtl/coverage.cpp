@@ -2,7 +2,10 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
+#if defined( __cpp_exception )
+
 #include <cassert>
+#include <charconv>
 #include <cstdlib>
 #include <filesystem>
 #include <iomanip>
@@ -14,7 +17,6 @@
 #include <vector>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/integer.hpp>
 
 namespace coverage
 {
@@ -140,9 +142,9 @@ namespace coverage
       {
          assert( !in.empty() );
          std::size_t t = 0;
-         const bool b = pegtl::internal::convert_unsigned( t, in.string_view() );
-         (void)b;
-         assert( b );
+         const auto p = std::from_chars( in.begin(), in.end(), t );
+         (void)p;
+         assert( p.ptr == in.end() );
          assert( t > 0 );
          st.number = t - 1;
          st.count = std::nullopt;
@@ -319,3 +321,12 @@ int main( int argc, char** argv )
    coverage::coverage( std::vector< std::string >( argv + 1, argv + argc ) ).report();
    return 0;
 }
+
+#else
+
+int main( int /*unused*/, char** /*unused*/ )
+{
+   return 0;
+}
+
+#endif

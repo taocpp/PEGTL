@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-#if defined( _POSIX_MAPPED_FILES ) || defined( _WIN32 )
+#if defined( __cpp_exceptions ) && ( defined( _POSIX_MAPPED_FILES ) || defined( _WIN32 ) )
 
 #include "verify_file.hpp"
 

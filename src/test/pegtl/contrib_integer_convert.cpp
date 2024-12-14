@@ -6,11 +6,12 @@
 
 #include "test.hpp"
 
+#if defined( __cpp_exceptions )
+
 #include <tao/pegtl/contrib/integer.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
-
    void unit_test()
    {
       for( char c = 2; c < 122; ++c ) {
@@ -155,5 +156,18 @@ namespace TAO_PEGTL_NAMESPACE
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
+
+#else
+
+namespace TAO_PEGTL_NAMESPACE
+{
+   void unit_test()
+   {
+      std::cerr << "Skipping convert test..." << std::endl;
+   }
+
+}  // namespace TAO_PEGTL_NAMESPACE
+
+#endif
 
 #include "main.hpp"
