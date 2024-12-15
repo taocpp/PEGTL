@@ -11,6 +11,8 @@ int main()
 }
 #else
 
+#include <cstdint>
+#include <iomanip>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -19,11 +21,21 @@ int main()
 
 namespace TAO_PEGTL_NAMESPACE::example
 {
+   void print( const std::string& s )
+   {
+      if( ( s.size() == 1 ) && ( s[ 0 ] & char( 0x80 ) ) ) {
+         std::cout << " \"\\xA4\" |";
+      }
+      else {
+         std::cout << " \"" << s << "\" |";
+      }
+   }
+
    void header( const std::vector< std::string >& v )
    {
       std::cout << "|  |";
       for( const auto& s : v ) {
-         std::cout << " \"" << s << "\" |";
+         print( s );
       }
       std::cout << "\n|--|";
       for( const auto& s : v ) {
@@ -43,31 +55,31 @@ namespace TAO_PEGTL_NAMESPACE::example
          try {
             if( parse< Rule >( in ) ) {
                const std::string t( a, in.current() - a );
-               std::cout << " \"" << t << "\" |";
+               print( t );
             }
             else {
                std::cout << " f |";
             }
          }
-         catch( ... ) {
+         catch( const parse_error_base& /*unused*/ ) {
             std::cout << " E |";
          }
       }
       std::cout << "\n";
    }
 
-   using a = one< 'a' >;
-   using b = one< 'b' >;
-   using c = one< 'c' >;
-
    void table1()
    {
+      using a = one< 'a' >;
+      using b = one< 'b' >;
+
       std::cout << "## Simple Combinators\n\n";
       {
          const std::vector< std::string > v = { "", "a", "ab", "z", "az" };
          header( v );
          row< seq< a, b > >( "seq< a, b >", v );
          row< opt< a, b > >( "opt< a, b >", v );
+         row< opt_must< a, b > >( "opt_must< a, b >", v );
          row< strict< a, b > >( "strict< a, b >", v );
          row< partial< a, b > >( "partial< a, b >", v );
          row< must< a, b > >( "must< a, b >", v );
@@ -78,6 +90,9 @@ namespace TAO_PEGTL_NAMESPACE::example
 
    void table2()
    {
+      using a = one< 'a' >;
+      using b = one< 'b' >;
+
       std::cout << "## Iterating Combinators\n\n";
       {
          const std::vector< std::string > v = { "", "a", "ab", "aba", "abab", "z", "az", "abz", "abaz" };
@@ -93,6 +108,8 @@ namespace TAO_PEGTL_NAMESPACE::example
 
    void table3()
    {
+      using a = one< 'a' >;
+
       std::cout << "## Repeating Combinators\n\n";
       {
          const std::vector< std::string > v = { "", "a", "aa", "aaa", "aaaa" };
@@ -108,6 +125,10 @@ namespace TAO_PEGTL_NAMESPACE::example
 
    void table4()
    {
+      using a = one< 'a' >;
+      using b = one< 'b' >;
+      using c = one< 'c' >;
+
       std::cout << "## Rule List Combinators\n\n";
       {
          const std::vector< std::string > v = { "a", "aa", "ab", "aba", "abab", "abc", "ac", "acb", "acba", "acbca" };
@@ -122,12 +143,37 @@ namespace TAO_PEGTL_NAMESPACE::example
       std::cout << std::endl;
    }
 
+   void table5()
+   {
+      static constexpr char c = 'c';
+      static constexpr char g = 'g';
+
+      std::cout << "## ASCII Matching Rules\n\n";
+      {
+         const std::vector< std::string > v = { "a", "c", "e", "G", "Z", "\xa4" };
+         header( v );
+         row< any >( "any", v );
+         row< one< c, g > >( "one< c, g >", v );
+         row< ione< c, g > >( "ione< c, g >", v );
+         row< range< c, g > >( "range< c, g >", v );
+         row< not_one< c, g > >( "not_one< c, g >", v );
+         row< not_ione< c, g > >( "not_ione< c, g >", v );
+         row< not_range< c, g > >( "not_range< c, g >", v );
+         row< any7 >( "any7", v );
+         row< not_one7< c, g > >( "not_one7< c, g >", v );
+         row< not_ione7< c, g > >( "not_ione7< c, g >", v );
+         row< not_range7< c, g > >( "not_range7< c, g >", v );
+      }
+      std::cout << std::endl;
+   }
+
    void behaviour()
    {
       table1();
       table2();
       table3();
       table4();
+      table5();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::example

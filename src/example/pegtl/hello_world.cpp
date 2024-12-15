@@ -35,15 +35,16 @@ namespace hello
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   if( argc > 1 ) {
-      std::string name;
-      pegtl::argv_input< void > in( argv, 1 );
-      if( pegtl::parse< hello::grammar, hello::action >( in, name ) ) {
-         std::cout << "Good bye, " << name << "!" << std::endl;
-      }
-      else {
-         std::cerr << "I don't understand." << std::endl;
-      }
+   if( argc < 2 ) {
+      return 1;
    }
+   std::string name;
+   pegtl::argv_input< void > in( argv, 1 );
+
+   if( !pegtl::parse< hello::grammar, hello::action >( in, name ) ) {
+      std::cerr << "I can't parse you!" << std::endl;
+      return 1;
+   }
+   std::cout << "Good bye, " << name << "!" << std::endl;
    return 0;
 }

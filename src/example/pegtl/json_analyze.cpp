@@ -10,15 +10,11 @@
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-namespace example
-{
-   using grammar = pegtl::seq< pegtl::json::text, pegtl::eof >;
-
-}  // namespace example
+using grammar = pegtl::seq< pegtl::json::text, pegtl::eof >;
 
 int main()  // NOLINT(bugprone-exception-escape)
 {
-   if( pegtl::analyze< example::grammar >() != 0 ) {
+   if( pegtl::analyze< grammar >() != 0 ) {
       std::cerr << "cycles without progress detected!" << std::endl;
       return 1;
    }
