@@ -126,6 +126,6 @@ False positives are a theoretical problem in that, while relatively easy to trig
 
 This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
 
-Copyright (c) 2014-2024 Dr. Colin Hirsch and Daniel Frey<br>
+Copyright (c) 2014-2025 Dr. Colin Hirsch and Daniel Frey<br>
 Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt

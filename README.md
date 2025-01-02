@@ -142,7 +142,7 @@ The PEGTL is part of [The Art of C++](https://taocpp.github.io/).
 
 <a href="https://opensource.org/licenses/BSL-1.0"><img align="right" src="https://opensource.org/wp-content/uploads/2009/06/OSIApproved.svg" width="150" hspace="20" alt="Open Source Initiative"></a>
 
-Copyright (c) 2007-2024 Daniel Frey and Dr. Colin Hirsch
+Copyright (c) 2007-2025 Dr. Colin Hirsch and Daniel Frey
 
 The PEGTL is certified [Open Source](http://www.opensource.org/docs/definition.html) software.
 It is [licensed](https://pdimov.github.io/blog/2020/09/06/why-use-the-boost-license/) under the terms of the [Boost Software License, Version 1.0](https://www.boost.org/LICENSE_1_0.txt) reproduced here.
