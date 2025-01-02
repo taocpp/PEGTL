@@ -1,12 +1,16 @@
 # Inputs and Parsing
 
-Assuming that the [grammar rules](Rules-and-Grammars.md) are ready, and the [actions and states](Actions-and-States.md) prepared, performing a parsing run consists of two steps:
+Assuming that the [grammar rules](Rules-and-Grammars.md) are ready, and the [actions and states](Actions-and-States.md) prepared, performing a parsing run consists of two steps.
 
 1. Constructing an *input* class that represents the to-be-parsed data.
 2. Calling a PEGTL *parse* function with the input (and any states).
 
+More advanced use cases might also pass a special Control class to the parsing run, either custom or one included with the PEGTL, which we will not show in the following outline.
+
 ```c++
 using namespace tao::pegtl;
+
+// Implementation of required grammar rules...
 
 struct my_grammar : ...;
 
@@ -15,12 +19,343 @@ struct my_actions {};
 
 // Specialisations of my_actions as required...
 
-bool my_parse( const std::string& filename, my_state& state )
+bool my_parse( const std::filesystem::path& file, my_state& state )
 {
-   file_input in( filename );
+   file_input in( file );
    return parse< my_grammar, my_actions >( in, state );
 }
 ```
+
+## Anatomy of an Input
+
+All input classes adhere to an informally defined interface of which some parts are optional.
+
+### Type Definitions
+
+#### `data_t`
+
+* The type of objects that the input encapsulates a sequence of.
+
+```c++
+ using data_t = char;  // Usually char; can be something else.
+```
+
+#### `eol_rule`
+
+* The parsing rule that is used to define line endings.
+* TODO: Link to chapter on EOLs etc!
+
+```c++
+ using eol_rule = /* default or user supplied or not defined */
+```
+
+* Only defined on inputs that accept an `Eol` template parameter and when `Eol` is not `void`.
+
+#### `error_position_t`
+
+* Type that stores all position information for error messages.
+
+```c++
+ using error_position_t = /* input dependent */
+```
+
+* Frequently `tao::pegtl::count_position`, `tao::pegtl::text_position` or `tao::pegtl::text_position_with_path`.
+
+#### `offset_position_t`
+
+```c++
+ using offset_position_t = /* input dependent */
+```
+
+#### `rewind_position_t`
+
+* Type that stores all information to rewind the input to a previous position.
+
+```c++
+ using rewind_position_t = /* input dependent */
+```
+
+* Frequently `tao::pegtl::pointer_position< data_t >` or `tao::pegtl::text_position`.
+
+#### `parse_error_t`
+
+* The instantiation of `tao::pegtl::parse_error` thrown by parsing runs with this input.
+
+```c++
+ using parse_error_t = tao::pegtl::parse_error< error_position_t >`.
+```
+
+* Only defined when compiling with exceptions enabled.
+
+#### `input_source_t`
+
+* The data type the input stores the source information as.
+
+```c++
+using input_source_t = /* input dependent */
+```
+
+* Only defined for inputs with source.
+
+#### `error_source_t`
+
+* The data type `parse_error_t` stores the source information as.
+
+```c++
+using error_source_t = /* input dependent */
+```
+
+* Only defined for inputs with source.
+
+### Basic Functions
+
+#### `empty`
+
+* Return whether the input is at end-of-file.
+
+```c++
+ [[nodiscard]] bool empty() const noexcept;
+```
+
+#### `size`
+
+* Return the available (remaining) number of objects in the input.
+
+```c++
+ [[nodiscard]] std::size_t size() const noexcept;
+```
+
+#### `current`
+
+* Return a pointer to the `offset` + 1st input object.
+* Does **not** check whether `offset` is out-of-bounds!
+
+```c++
+ [[nodiscard]] const data_t* current( const std::size_t offset = 0 ) const noexcept
+```
+
+#### `previous`
+
+* Return a pointer to the input object at a previous position.
+* Does **not** check whether the `saved` position is out-of-bounds!
+
+```c++
+ [[nodiscard]] const data_t* previous( const rewind_position_t saved ) const noexcept;
+ [[nodiscard]] const data_t* previous( const error_position_t saved ) const noexcept;
+```
+
+* Only one function when `rewind_position_t` and `error_position_t` are the same type.
+
+#### `end`
+
+* Return a pointer to the past-the-end object of the input.
+
+```c++
+ [[nodiscard]] const data_t* end() const noexcept;
+```
+
+#### `start`
+
+* Return a pointer to the first input object from when the input was created.
+
+```c++
+ [[nodiscard]] const data_t* start() const noexcept;
+```
+
+* Only available on restartable inputs.
+
+#### `restart`
+
+* Rewind the input to the start position from when the input was created.
+
+```c++
+ void restart() noexcept;
+```
+
+* Only available on restartable inputs.
+
+#### `consume`
+
+* Advance the input by `count` objects assuming they were consumed by `Rule`.
+
+```c++
+ template< typename Rule >
+ void consume( const std::size_t count ) noexcept;
+```
+
+#### `rewind_position`
+
+* Return an object of type `rewind_position_t` with the current position.
+
+```c++
+ [[nodiscard]] auto rewind_position() const noexcept;
+```
+
+#### `rewind_to_position`
+
+* Rewind the input to a previous result of `rewind_position()`.
+
+```c++
+ void rewind_to_position( const rewind_position_t saved ) noexcept;
+```
+
+#### `current_position`
+
+* Return an object of type `error_position_t` with the current position.
+
+```c++
+[[nodiscard]] auto current_position() const noexcept;
+```
+
+#### `previous_position`
+
+* Return an object of type `error_position_t` for a previous `rewind_position_t`.
+
+```c++
+ [[nodiscard]] auto previous_position( const rewind_position_t saved ) const noexcept;
+```
+
+#### `direct_source`
+
+* Return a reference to the `input_source_t` stored in the input.
+
+```c++
+ [[nodiscard]] const auto& direct_source() const noexcept;
+```
+
+* Only available on inputs with source.
+
+### Convenience Functions
+
+These convenience functions are available on all included inputs, including `action_input`.
+
+#### `peek`
+
+* Returns a const-reference to the `offset` + 1st input object.
+* Does **not** check whether `offset` is out-of-bounds!
+
+```c++
+ [[nodiscard]] const data_t& peek( const std::size_t offset = 0 ) const noexcept;
+```
+
+#### `peek_as`
+
+* Shortcut for `static_cast< T >( peek( offset ) )`.
+* Also static-asserts that `T` is the same size as `data_t`.
+
+```c++
+ template< typename T >
+ [[nodiscard]] T peek_as( const std::size_t offset = 0 ) const noexcept;
+```
+
+#### `peek_char`
+
+* Shortcut for `peek_as< char >( offset )`.
+
+```c++
+ [[nodiscard]] char peek_char( const std::size_t offset = 0 ) const noexcept;
+```
+
+#### `peek_byte`
+
+* Shortcut for `peek_as< std::byte >( offset )`.
+
+```c++
+ [[nodiscard]] std::byte peek_byte( const std::size_t offset = 0 ) const noexcept;
+```
+
+#### `peek_int8`
+
+* Shortcut for `peek_as< std::int8_t >( offset )`.
+
+```c++
+ [[nodiscard]] std::int8_t peek_int8( const std::size_t offset = 0 ) const noexcept;
+```
+
+#### `peek_uint8`
+
+* Shortcut for `peek_as< std::uint8_t >( offset )`.
+
+```c++
+ [[nodiscard]] std::uint8_t peek_uint8( const std::size_t offset = 0 ) const noexcept;
+```
+
+#### `string`
+
+* Returns a fresh `std::string` of the entire remaining input.
+* Also static-asserts that `data_t` has size 1.
+
+```c++
+ [[nodiscard]] std::string string() const;
+```
+
+#### `string_view`
+
+* Returns a `std::string_view` of the entire remaining input.
+* Also static-asserts that `data_t` has size 1.
+
+```c++
+ [[nodiscard]] std::string_view string_view() const noexcept;
+```
+
+#### `vector`
+
+* Returns a fresh `std::vector` of the entire remaining input.
+
+```c++
+ [[nodiscard]] std::vector< data_t > vector() const;
+```
+
+#### `line_view_at`
+
+* Returns a `std::string_view` of the line of input in which `pos` is.
+* Requires a line-based input, and in particular:
+* Requires `begin_of_line( pos )` to be valid on the input.
+* Requires `end_of_line_or_file( pos )` to be valid on the input.
+
+```c++
+ template< typename Position >
+ [[nodiscard]] std::string_view line_view_at( const Position& pos ) noexcept;
+```
+
+### Compatibility Functions
+
+All non-buffer inputs implement these functions to make them more compatible with the [buffer inputs](TODO-LINK).
+
+#### `end`
+
+* Same as `end()` without argument.
+
+```c++
+ [[nodiscard]] decltype( auto ) end( const std::size_t /*unused*/ = 0 ) const noexcept( auto );
+```
+
+#### `size`
+
+* Same as `size()` without argument.
+
+```c++
+ [[nodiscard]] std::size_t size( const std::size_t /*unused*/ = 0 ) const noexcept( auto );
+```
+
+#### `require`
+
+* Do nothing.
+
+```c++
+ void require( const std::size_t /*unused*/ ) const noexcept;
+```
+
+#### `discard`
+
+* Do nothing.
+
+```c++
+ void discard() const noexcept;
+```
+
+
+
 
 In the context of PEGTL input classes and positions there is usually an additional (i.e. beyond indicating or supplying the to-be-parsed data) string parameter `source` that identifies where the to-be-parsed data comes from.
 For example when parsing a file with one of the appropriate included input classes, the filename is automatically used as `source` so that it will appear in exceptions and error messages.

@@ -1,7 +1,6 @@
 # Getting Started
 
-Since the PEGTL is a parser library, here is an "inverse hello world" example that parses,
-rather than prints, the string `Hello, foo!` for any sequence of alphabetic ASCII characters `foo`.
+Since the PEGTL is a parser library, here is an "inverse hello world" example that parses, rather than prints, the string `Hello, foo!` for any sequence of alphabetic ASCII characters `foo`.
 
 ```c++
 #include <string>
@@ -50,8 +49,8 @@ namespace hello
    template<>
    struct action< name >
    {
-      template< typename ParseInput >
-      static void apply( const ParseInput& in, std::string& v )
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, std::string& v )
       {
          v = in.string();
       }
@@ -61,8 +60,9 @@ namespace hello
 
 int main( int argc, char* argv[] )
 {
-   if( argc != 2 ) return 1;
-
+   if( argc < 2 ) {
+      return 1;
+   }
    // Start a parsing run of argv[1] with the string
    // variable 'name' as additional argument that will
    // be passed to all called actions, including the
@@ -70,12 +70,12 @@ int main( int argc, char* argv[] )
 
    std::string name;
    pegtl::argv_input in( argv, 1 );
-   if( pegtl::parse< hello::grammar, hello::action >( in, name ) ) {
-      std::cout << "Good bye, " << name << "!" << std::endl;
+
+   if( !pegtl::parse< hello::grammar, hello::action >( in, name ) ) {
+      std::cout << "I can't parse you!" << std::endl;
+      return 1;
    }
-   else {
-      std::cout << "I don't understand." << std::endl;
-   }
+   std::cout << "Good bye, " << name << "!" << std::endl;
    return 0;
 }
 ```
@@ -126,7 +126,7 @@ Beyond these standard combinators the PEGTL contains a [large number of addition
 
 The PEGTL also contains a [large number of atomic rules](Rule-Reference.md) for matching ASCII and Unicode characters, strings, ranges of characters, integers, beginning-of-file or end-of-line, ...
 
-Many of these rules can directly be applied to objects in the input, frequently of type `char`, but also to data members or the return values of global or member functions in cases where the input is a sequence of non-trivial objects.
+Many of these rules can directly be applied to objects in the input, frequently of type `char`, but also to data members or the return values of global or member functions in cases where the input is a sequence of other types.
 
 ## Grammar Analysis
 
@@ -141,7 +141,8 @@ It is best practice to create a separate dedicated program that does nothing els
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/analyze.hpp>
 
-// This example uses the included JSON grammar
+// For this example we use the included JSON grammar.
+
 #include <tao/pegtl/contrib/json.hpp>
 
 namespace pegtl = tao::pegtl;
@@ -151,10 +152,9 @@ using grammar = pegtl::must< pegtl::json::text, pegtl::eof >;
 int main()
 {
    if( pegtl::analyze< grammar >() != 0 ) {
-      std::cerr << "Cycles without progress detected!\n";
+      std::cerr << "Cycles without progress detected!" << std::endl;
       return 1;
    }
-
    return 0;
 }
 ```

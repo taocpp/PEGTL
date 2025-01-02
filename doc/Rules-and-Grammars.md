@@ -4,23 +4,24 @@ Writing a PEGTL grammar means implementing custom parsing rules.
 
 Implementing custom parsing rules can be done either by
 
-* combining existing rules and combinators into new rules through inheritance, or
+* combining existing rules into new rules, or
 
-* implementing a rule from scratch, i.e. writing a class with certain properties.
+* implementing a new rule from scratch.
 
 ## Contents
 
 * [Combining Existing Rules](#combining-existing-rules)
-* [Toy S-Expression Grammar](#toy-s-expression-grammar)
-* [Creating New Rules](#creating-new-rules)
+  * [Recursive Rules](#recursive-rules)
+  * [S-Expression Grammar](#s-expression-grammar)
+* [Implementing New Rules](#implementing-new-rules)
   * [Simple Rules](#simple-rules)
   * [Complex Rules](#complex-rules)
 
 ## Combining Existing Rules
 
-Combining existing rules is by far the more frequent way of creating new rules.
+Combining existing rules is, by far, the more common way of creating new rules.
 
-Here is an example that shows how existing rules are combined into a new rule through inheritance:
+Here is an example that shows how existing rules are combined into a new rule.
 
 ```c++
 using namespace tao::pegtl;
@@ -33,9 +34,26 @@ struct integer
 ```
 
 It defines a new rule named `integer` that is a sequence of two parts, an optional character that can be one of `+` or `-`, followed by a non-empty repetition of a digit.
-Using inheritance in this way incurs no run-time penalty.
+
+While it is possible to use a type alias, new rules are usually defined by creating a new type, a `struct` that *inherits*` from a combination of existing rules.
+Using a new type and inheritance rather than a type alias has several advantages.
+
+* Some PEGTL debug facilities will ouput the (shorter) type name rather than the (longer) expansion.
+* Using new types makes it possible to attach different actions to different "names" of the same rule.
+
+And, fortunately, using inheritance for rule definitions incurs no run-time penalty.
 
 See the [Rule Reference](Rule-Reference.md) for a complete list of all rules and combinators included with the PEGTL.
+Some included "unofficial" rules can be found on the [Contrib and Examples](Contrib-and-Examples.md) page.
+
+A *grammar* is nothing else than a collection of related rules.
+In theory, as long as a grammar does not contain cycles, complete grammars could be implemented as a single, large rule.
+In practice, this is not advisable as it greatly reduces the readability and testability of the grammar, in addition to being quite unmaintainable.
+
+When defining a large set of grammar rules it can be advisable to include a `using namespace tao::pegtl;`-definition at the beginning in order to prevent the frequent repetition of the `tao::pegtl::` namespace qualifier.
+This `using`-definition is often combined with the practice of confining a PEGTL grammar to a single translation unit, in which case there is no `namespace`-pollution, and the compile time is kept low by including the PEGTL only in the translation unit with the grammar.
+
+### Recursive Rules
 
 Recursion, or cycles in the grammar, can be implemented after a forward-declaration of one or more rules.
 
@@ -55,14 +73,7 @@ struct addition
    : tao::pegtl::list< atomic, tao::pegtl::one< '+' > > {};
 ```
 
-When defining a large set of grammar rules in this way it can be advisable to include a `using namespace tao::pegtl;`-definition at the beginning in order to prevent the frequent repetition of the `tao::pegtl::` namespace qualifier.
-This `using`-definition is often combined with the practice of confining a PEGTL grammar to a single translation unit, in which case there is no `namespace`-pollution, and the compile time is kept low by including the PEGTL only in the translation unit with the grammar.
-
-A grammar is nothing else than a collection of rules.
-In theory, as long as a grammar does not contain cycles, complete grammars could be implemented as a single, large rule.
-In practice, this is not advisable as it greatly reduces the readability and testability of the grammar, in addition to being quite unmaintainable.
-
-## Toy S-Expression Grammar
+### S-Expression Grammar
 
 To give another example of what a small real-world grammar might look like, below is the grammar for a toy-version of S-expressions.
 It only supports proper lists, symbols, comments and numbers.
@@ -114,14 +125,14 @@ struct main
 
 In order to let a parsing run do more than verify whether an input conforms to the grammar, it is necessary to attach user-defined *actions* to some grammar rules, as explained in [Actions and States](Actions-and-States.md).
 
-## Creating New Rules
+## Implementing New Rules
 
 Sometimes a grammar requires a parsing rule that can not be readily created as combination of the existing rules.
 In these cases a custom grammar rule, i.e. a class with a static member function called `match()` that has to adhere to one of two possible interfaces or prototypes, can be implemented from scratch.
 
 When implementing a custom rule class, it is important to remember that the input passed to `match()` represents the *remainder* of the complete input.
 At the beginning of a parsing run, the input represents the complete data-to-be-parsed.
-During the parsing run, many rules *consume* the data that matched from the input.
+During the parsing run, some rules will *consume* the data they matched from the input.
 Consuming data from an input advances the pointer to the data that the input's `begin()` member function returns, and decrements the size by the same amount.
 
 The PEGTL makes one **important** assumption about all parsing rules.
@@ -152,7 +163,7 @@ The - slightly artificial - rule `my_rule` uses three important `input` function
 3. and finally `bump()` to consume one `char` from the input if the two above conditions are satisfied.
 
 Note how the return value reflects the result of the checks, and how input is only consumed when the return value is `true`.
-The remainder of the program checks that all characters of `argv[ 1 ]` are equal to 0 when divided by 3.
+The remainder of the program checks that all characters of `argv[ 1 ]` have a value equal to 0 when divided by 3.
 
 ```c++
 using namespace tao::pegtl;
@@ -223,16 +234,16 @@ struct complex_rule
 The `apply_mode` can take the value `apply_mode::action` or `apply_mode::nothing`, depending on whether actions are currently enabled or disabled.
 Most custom parsing rules will either ignore, or pass on the `apply_mode` unchanged; usually only the control interprets the `apply_mode`.
 
-The `rewind_mode` can take the value `rewind_mode::active`, `rewind_mode::required` or `rewind_mode::dontcare`.
+The `rewind_mode` can take the value `rewind_mode::required` or `rewind_mode::optional`.
 When `M` is `rewind_mode::required`, the custom rule's `match()`-implementation **must**, on local failure, rewind the input to where it (the input) was when `match()` was called.
 
-When `M` is **not** `rewind_mode::required`, it is not necessary to perform rewinding as either some other rule further up the call stack is already taking care of it (`rewind_mode::active`), or rewinding is not necessary (`rewind_mode::dontcare`).
-For example within a `must<>`-rule (which converts local failure, a return value of `false` from `match()`, to global failure, an exception) the `rewind_mode` is `dontcare`.
+When `M` is `rewind_mode::optional` it is not necessary to perform rewinding; either some other rule further up the call stack is already taking care of it or rewinding is not necessary for other reasons.
+For example within a `must<>`-rule (which converts local failure, a return value of `false` from `match()`, to global failure, an exception) the `rewind_mode` is `optional`.
 
-The following implementation of the `seq`-rule's `match()` shows how to correctly handle the `rewind_mode`.
-The input's `mark()` member function uses the `rewind_mode` to choose which input marker to return, either one that takes care of rewinding when required, or a dummy object that does nothing.
-In the first case, `next_rewind_mode` is set to `active`, otherwise it is equal to `M`, just as required for the next rules called by the current one.
-The return value of `match()` is then passed through the input marker `m` so that, if the return value is `false` and the marker is not the dummy, it can rewind the input `in`.
+The following partial implementation of the `seq`-rule's `match()` function shows how to correctly handle the `rewind_mode`.
+The control's `guard()` function uses the `rewind_mode` to choose whether to return an object that performs rewinding or just an empty dummy object.
+In either case the calls to the sub-rules' `match()` functions in the return-statement can be performend with the `rewind_mode` being `optional`.
+The return value of `match()` is passed through the guard object `m` so that it can rewind the input when necessary, i.e. when `m` is not a dummy and the return value is `false`.
 
 ```c++
 template< typename... Rules >
@@ -246,10 +257,8 @@ struct seq
               typename... States >
     static bool match( ParseInput& in, States&&... st )
     {
-       auto m = in.template mark< M >();
-       using m_t = decltype( m );
-       return m( rule_conjunction< Rules... >::template
-                 match< A, m_t::next_rewind_mode, Action, Control >( in, st... ) );
+       auto m = Control< seq >::template guard< A, M, Action, Control >( in, st... );
+       return m( ( Control< Rules >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) && ... ) );
     }
 };
 ```
@@ -315,7 +324,7 @@ The custom rule itself
 
 2. then checks whether the input bytes match the stored string, and
 
-3. finally calls `bump()` to consume the correct number of bytes from the input when both checks succeed.
+3. finally calls `consume()` on the input when both checks succeed.
 
 ```c++
    struct long_literal_mark
@@ -331,7 +340,7 @@ The custom rule itself
       {
          if( in.size( id.size() ) >= id.size() ) {
             if( std::memcmp( in.begin(), id.data(), id.size() ) == 0 ) {
-               in.bump( id.size() );
+               in.consume< long_literal_mark >( id.size() );
                return true;
             }
          }

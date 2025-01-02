@@ -70,7 +70,7 @@ These rules are in namespace `tao::pegtl`.
 
 * Succeeds at "beginning-of-file", i.e. when the input is at its start.
 * Does not consume input.
-* Requires an input `in` with the `in.start()` member function, and/or
+* Requires an input `in` with an `in.start()` member function, and/or
 * requires an input `in` where `in.direct_position().count` is available.
 * [Meta data] and [implementation] mapping:
   - `bof::rule_t` is `internal::bof`
@@ -89,9 +89,9 @@ These rules are in namespace `tao::pegtl`.
 * Succeeds if the input contains at least `Num` further objects, and
 * unconditionally consumes `Num` objects from the input.
 * Limited to the buffer size when using an [Incremental Input].
-* [Meta data] and [imnplementation] mapping:
+* [Meta data] and [implementation] mapping:
   - `consume< 0 >::rule_t` is `internal::success`
-  - `consume< N >::rule_t` is `internal::consume< N, void >`
+  - `consume< N >::rule_t` is `internal::consume< N >`
 
 ###### `eof`
 
@@ -105,7 +105,7 @@ These rules are in namespace `tao::pegtl`.
 * Matches a single end-of-line as defined by the input.
 * The default definition of what constitutes a lines ending is system dependent.
   - On Unix-like systems a Unix line ending is matched, a single 'LF'.
-  - On Windows systems an MS-DOS line ending 'CR LF' and Unix line endings work.
+  - On Windows the MS-DOS line ending 'CR LF' is also accepted.
 * Requires an input with an `eol_rule` type definition.
 * [Meta data] and [implementation] mapping:
   - `eol::rule_t` is `internal::eol`
@@ -137,7 +137,8 @@ Note that the default behaviour can be changed either by defining `TAO_PEGTL_DEF
 
 ###### `function< F >`
 
-* Calls a user-defined function.
+* Delegates matching to the function `F`.
+* For details see `tao/pegtl/rules.hpp` and `tao/pegtl/internal/function.hpp`.
 
 ###### `success`
 
@@ -149,17 +150,15 @@ Note that the default behaviour can be changed either by defining `TAO_PEGTL_DEF
 
 ## ASCII
 
-The ASCII rules operate on bytes.
+The ASCII rules operate on any input of integral or enum type of size 1.
 
 Unless noted otherwise they do *not* restrict the range of matched values to 7-bit ASCII values.
 For example rules like `ascii::any` or `ascii::not_one< 'a' >` will match *all* possible byte values, and *all* possible byte values excluding `'a'`, respectively.
+The additional rules [`any7`](#any7), [`many7`](#many7), [`not_one7`](#not_one7-c-), [`not_ione7`](#not_ione7-c-) and [`not_range7`](#not_range7-c-d-) are similar to their counterparts without the trailing `7` but only match bytes with a high bit of zero.
 
-It is therefore possible to match UTF-8 multi-byte characters with the ASCII rules.
-For example the Euro sign code point `U+20AC`, which is encoded by the UTF-8 sequence `E2 82 AC`, is matched by `ascii::string< 0xe2, 0x82, 0xac >` and `utf8::one< 0x20ac >`.
-
-(On closer inspection one would indeed find that both of these rules are derived from `internal::ascii_string< 0xe2, 0x82, 0xac >`.)
-
-The ASCII rules operate on any input of integral or enum type of size 1.
+It is possible to match UTF-8 multi-byte characters with the non-seven ASCII rules.
+For example the Euro sign code point `U+20AC`, which is encoded by the UTF-8 sequence `E2 82 AC`, is matched by both `ascii::string< 0xe2, 0x82, 0xac >` and `utf8::one< 0x20ac >`.
+On closer inspection one would find that both rules are implemented via `internal::ascii_string< 0xe2, 0x82, 0xac >`.
 
 These rules are in the *inline* namespace `tao::pegtl::ascii`.
 
@@ -196,7 +195,7 @@ For all ASCII rules the template parameters representing characters are of type 
 
 ###### `cntrl`
 * Matches and consumes a single ASCII control character.
-* [Equivalent] to `(ascii::)ranges< 0, 31, 127 >'.
+* [Equivalent] to `(ascii::)ranges< 0, 31, 127 >`.
 
 ###### `cr`
 
@@ -208,7 +207,7 @@ For all ASCII rules the template parameters representing characters are of type 
 ###### `cr_crlf`
 
 * Matches and consumes an carriage return optionally followed by a line feed.
-* [Equivalent] to `seq< (ascii::)cr, opt< (ascii::)cr > >`.
+* [Equivalent] to `seq< (ascii::)cr, opt< (ascii::)lf > >`.
 * [Equivalent] to `sor< (ascii::)crlf, (ascii::)cr >`.
 * Also available in the `scan` sub-namespace.
 * Also available in the `lazy` sub-namespace.
@@ -279,14 +278,20 @@ For all ASCII rules the template parameters representing characters are of type 
 
 * Matches and consumes an ASCII identifier as defined for the C programming language.
 * [Equivalent] to `seq< (ascii::)identifier_first, star< (ascii::)identifier_other > >`.
+* [Meta data] and [implementation] mapping is subject to change.
+
+###### `ione< C... >`
+
+* Similar to `(ascii::)one< C... >` but:
+* For ASCII letters the match is case insensitive.
 * [Meta data] and [implementation] mapping:
-  - `ascii::identifier::rule_t` is `internal::seq< identifier_first, internal::star< identifier_other > >`.
+  - `ascii::ione<>::rule_t` is `internal::failure`
+  - `ascii::ione< C... >::rule_t` is `internal::tester< internal::ione< internal::peek_char, C... > >`.
 
 ###### `istring< C... >`
 
-* Matches and consumes the given ASCII string `C...` with case insensitive matching.
 * Similar to `(ascii::)string< C... >`, but:
-* For ASCII letters a-z and A-Z the match is case insensitive.
+* For ASCII letters the match is case insensitive.
 * [Meta data] and [implementation] mapping:
   - `ascii::istring<>::rule_t` is `internal::success`
   - `ascii::istring< C... >::rule_t` is `internal::ascii_istring< C... >`
@@ -335,6 +340,14 @@ For all ASCII rules the template parameters representing characters are of type 
   - `ascii::many7< 0 >::rule_t` is `internal::success`
   - `ascii::many7< Num >::rule_t` is `internal::many< Num, internal::peek_seven >`
 
+###### `not_ione< C... >`
+
+* Similar to `(ascii::)not_one< C... >` but:
+* For ASCII letters the match is case insensitive.
+* [Meta data] and [implementation] mapping:
+  - `ascii::not_ione<>::rule_t` is `internal::any< internal::peek_char >`
+  - `ascii::not_ione< C... >::rule_t` is `internal::tester< internal::not_ione< internal::peek_char, Cs... > >`.
+
 ###### `not_one< C... >`
 
 * Succeeds when the input is not empty, and:
@@ -369,7 +382,7 @@ For all ASCII rules the template parameters representing characters are of type 
 
 ###### `nul`
 
-* Matches and consumes an ASCII nul character.
+* Matches and consumes an ASCII *nul* character of value `0`.
 * [Equivalent] to `(ascii::)one< '\0' >`.
 
 ###### `odigit`
@@ -389,7 +402,7 @@ For all ASCII rules the template parameters representing characters are of type 
 
 ###### `print`
 
-* Matches and consumes any single ASCII character traditionally defined as printable.
+* Matches and consumes any single ASCII character traditionally defined as *printable*.
 * [Equivalent] to `(ascii::)range< 32, 126 >`.
 
 ###### `range< C, D >`
@@ -815,8 +828,7 @@ The member rules apply their matching condition to a value derived from the next
 
 The first template parameter to the member rules must be a member pointer, a member function pointer to a "getter" function, or a function pointer to a global "getter".
 
-More precisely, for inputs representing sequences of objects of type `T` the permissible types of the first template parameter `M` are as follows.
-Here `U` is assumed to be a value type (neither a pointer nor a reference).
+More precisely, for inputs representing sequences of objects of type `T`, the permissible types of the first template parameter `M` are as follows; the functions can be `noexcept( true )` or `noexcept( false )`.
 
 * `U T::*` -- pointer to data member of type `U`.
 * `const U T::*` -- pointer to data member of type `const U`.
@@ -831,6 +843,7 @@ Here `U` is assumed to be a value type (neither a pointer nor a reference).
 * `const U& (*)( const T& )` -- pointer to function that takes a `const T&` and returns a `const U&`.
 * `const U* (*)( const T& )` -- pointer to function that takes a `const T&` and returns a `const U*`.
 
+Here `U` is assumed to be neither a pointer nor a reference type.
 Subsequent non-type template parameters, if any, must be of type `U` as that is the type of the object **extracted** from the next input object of type `T` on which the match condition is tested.
 
 The member rules are **not** automatically included with `<tao/pegtl.hpp>`.
@@ -841,11 +854,14 @@ These rules are in namespace `tao::pegtl::member`.
 ###### `function< M, F >`
 
 * Apply the function `F` to the extracted object of type `U`.
-* The function `F` can also be called with all State objects.
+* The function `F` must take a `U` or `const U&` as first argument, and
+* if possible the function `F` is called with all State objects as additional arguments.
+* The function `F` must return a `bool` with the result of the match attempt.
+* The function `F` can be `noexcept( true )` or `noexcept( false )`.
 
 ###### `nested< M, R >`
 
-* Performs a nested parsing run with top-level rule `R` on the extracted object.
+* Performs a nested parsing run with rule `R` on the extracted object.
 * The extracted object must be suited to construct a `view_input`.
 
 ###### `not_one< M, U... >`
@@ -1041,7 +1057,7 @@ These rules are in namespace `tao::pegtl`.
   - `minus< M, S >::rule_t` is `internal::rematch< M, internal::not_at< S, internal::eof > >`
   - `minus< M, S >::subs_t` is `type_list< M, internal::not_at< S, internal::eof > >`
 
-Note that `S` is ignored in the grammar analysis.
+Note that `S` is ignored by the [grammar analysis](Grammar-Analysis.md).
 
 ###### `pad< R, S, T = S >`
 
@@ -1966,6 +1982,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`if_must< R, S... >`](#if_must-r-s-) <sup>[(exceptional)](#exceptional)</sup>
 * [`if_must_else< R, S, T >`](#if_must_else-r-s-t-) <sup>[(exceptional)](#exceptional)</sup>
 * [`if_then_else< R, S, T >`](#if_then_else-r-s-t-) <sup>[(convenience)](#convenience)</sup>
+* [`ione< C... >`](#ione-c-) <sup>[(ascii)](#ascii)</sup>
 * [`is_buffer`](#is_buffer) <sup>[(buffer rules)](#buffer-rules)</sup>
 * [`istring< C... >`](#istring-c-) <sup>[(ascii)](#ascii)</sup>
 * [`join_control`](#join_control) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
@@ -2010,6 +2027,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`nfkd_inert`](#nfkd_inert) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`noncharacter_code_point`](#noncharacter_code_point) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`not_at< R... >`](#not_at-r-) <sup>[(combinators)](#combinators)</sup>
+* [`not_ione< C... >`](#not_ione-c-) <sup>[(ascii)](#ascii)</sup>
 * [`not_one< C... >`](#not_one-c-) <sup>[(ascii)](#ascii)</sup>
 * [`not_one< C... >`](#not_one-c--1) <sup>[(unicode)](#unicode)</sup>
 * [`not_one< C... >`](#not_one-c--2) <sup>[(binary)](#binary)</sup>

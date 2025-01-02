@@ -1,6 +1,7 @@
 # Development
 
-Notes on future development and public parts of the development roadmap.
+Notes on past, present and future development.
+Public parts of the development roadmap.
 
 
 ## C++ Standard
@@ -15,7 +16,7 @@ Version 3.x of the PEGTL requires at least C++17.
 
 Version 4.x of the PEGTL requires at least C++17.
 
-Version 5.x of the PEGTL will make the jump to C++20 or newer.
+Version 5.x of the PEGTL will jump to C++20 or C++23.
 
 
 ## C++ Features
@@ -30,6 +31,7 @@ Version 5.x of the PEGTL will make the jump to C++20 or newer.
  * Keep an open eye for opportunities to use C++20 `[[likely]]` and `[[unlikely]]`.
  * Keep an open eye for opportunities to use C++20 `constinit` and `consteval`, and
  * keep an open eye for opportunities to use the extended `constexpr` facilities.
+ * For example make the bulk() and size() functions in the peek classes consteval!
  * Keep an open eye for opportunities to use the extended CTAD facilities from C++20.
  * Keep an open eye for opportunities to use class types as non-type template parameters.
  * Replace the hand-crafted endian facilities with C++20 `std::endian` and C++23 `std::byteswap`.
@@ -55,6 +57,17 @@ A couple of things that *could* be done in the area of buffer inputs.
  * Debug input and related facilities that detect when data in the input buffer is accessed after being discarded or moved (by a discard).
  * Investigate the use of ("stackful") coroutines for parsing from a network socket, and
  * investigate whether this can also be used for incremental parsing that keeps everything.
+
+
+## Development Tools
+
+We use the code coverage facilities of the GCC and Clang compilers to meet our goal of 100% code coverage with unit tests.
+Unfortunately the coverage reports are not 100% reliable.
+
+We also try to use `clang-format` to ensure consistent formatting of our source code.
+Unfortunately it, too, can get confused and result in incorrectly formatted code.
+
+For example under some circumstances `clang-format` does not understand whether a `&&` is the logical operator or an r-value reference declarator, or whether a `<` is a comparison operator or introduces a template argument list.
 
 ---
 

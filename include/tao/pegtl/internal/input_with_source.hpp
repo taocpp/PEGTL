@@ -48,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return error_position_t( m_source, Input::previous_position( saved ) );
       }
 
-      [[nodiscard]] const InputSource& direct_source() const noexcept
+      [[nodiscard]] const auto& direct_source() const noexcept
       {
          return m_source;
       }

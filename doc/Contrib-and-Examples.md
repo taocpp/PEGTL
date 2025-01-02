@@ -26,10 +26,16 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 
 ###### `<tao/pegtl/contrib/alphabet.hpp>`
 
-* Constants for ASCII letters.
-* Shortens `string<'f','o','o'>` to `string<f,o,o>`.
-* Ready for production use.
-* Superceeded by `TAO_PEGTL_STRING()`.
+* Character constants for ASCII letters.
+* In sub-namespace `alphabet`.
+* Shorten e.g. `string<'f','o','o'>` to `string<f,o,o>`.
+* Probably better to use `TAO_PEGTL_STRING()`.
+
+###### `<tao/pegtl/contrib/alphabet_rules.hpp>`
+
+* Rules for single ASCII letters.
+* In sub-namespace `alphabet::rules`.
+* Shorten e.g. `one<'a'>` to `a`.
 
 ###### `<tao/pegtl/contrib/http.hpp>`
 

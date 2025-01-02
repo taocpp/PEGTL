@@ -4,7 +4,7 @@
 
 **Not yet released**
 
-* *Moar templates*, more templates in more places!
+* Even more templates, in even more places, templates everywhere!
 * Use the [**migration guide**](Migration-Guide.md#version-400) when updating.
 * Infrastructure
   * Switched to Boost Software License, Version 1.0.
@@ -92,6 +92,7 @@
 * Added new customization point for error messages.  -- TODO!
 * Added optional source line output for the tracer.  -- TODO?
 * Other
+  * Routed rewind-guard creation through the Control class.
   * Renamed contrib "limit_depth" functionality to "check_depth".
   * Renamed contrib "check_bytes" functionality to "check_count".
   * Renamed contrib "limit_bytes" functionality to "limit_count".
@@ -101,6 +102,7 @@
   * Renamed `end_of_line()` input member function to `end_of_line_or_file()`.
   * Renamed contrib "to_string" functionality to "type_to_string".
   * Added `type_to_string_view` function that mirrors `type_to_string`.
+  * Renamed `alphabet.hpp` to `alphabet_constants.hpp`.
 * Cleanup
   * Removed rule `forty_two`, we apologize for any inconvenience.
   * Removed rule `bytes` and replaced with `many` for different data types.
