@@ -1,0 +1,6 @@
+cc_library(
+    name = "pegtl",
+    hdrs = glob(["include/**/*.hpp"]),
+    strip_include_prefix = "include",
+    visibility = ["//visibility:public"],
+)
