@@ -26,6 +26,7 @@ set(example_sources
   modulus_match.cpp
   parse_tree.cpp
   parse_tree_user_state.cpp
+  peg2pegtl.cpp
   proto3.cpp
   random_order.cpp
   recover.cpp
