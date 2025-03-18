@@ -155,20 +155,6 @@ namespace TAO_PEGTL_NAMESPACE
             return find_rule( r, v, r.rbegin() );
          }
 
-         bool append_char( std::string& s, const char c )
-         {
-            if( !s.empty() ) {
-               s += ", ";
-            }
-            s += '\'';
-            if( c == '\'' || c == '\\' ) {
-               s += '\\';
-            }
-            s += c;
-            s += '\'';
-            return std::isalpha( c ) != 0;
-         }
-
       }  // namespace
 
 #if defined( __cpp_exceptions )
@@ -360,12 +346,17 @@ namespace TAO_PEGTL_NAMESPACE
          } );
 
          nrv.add< Char >( []( const node_ptr& n ) {
-            const auto content = n->string_view();
-            std::string s;
-            for( const auto c : content ) {
-               append_char( s, c );
+            if (n->string_view() == "\\[") {
+               return std::string("'['");
+            } else if (n->string_view() == "\\]") {
+               return std::string("']'");
+            } else if (n->string_view() == "\\") {
+               return std::string("'\\'");
+            } else if (n->string_view() == "'") {
+               return "\'\\" + n->string() + '\'';
             }
-            return s;
+
+            return '\'' + n->string() + '\'';
          } );
 
          nrv.add< Sequence >( []( const node_ptr& n ) {
