@@ -346,13 +346,16 @@ namespace TAO_PEGTL_NAMESPACE
          } );
 
          nrv.add< Char >( []( const node_ptr& n ) {
-            if (n->string_view() == "\\[") {
-               return std::string("'['");
-            } else if (n->string_view() == "\\]") {
-               return std::string("']'");
-            } else if (n->string_view() == "\\") {
-               return std::string("'\\'");
-            } else if (n->string_view() == "'") {
+            if( n->string_view() == "\\[" ) {
+               return std::string( "'['" );
+            }
+            else if( n->string_view() == "\\]" ) {
+               return std::string( "']'" );
+            }
+            else if( n->string_view() == "\\" ) {
+               return std::string( "'\\'" );
+            }
+            else if( n->string_view() == "'" ) {
                return "\'\\" + n->string() + '\'';
             }
 
