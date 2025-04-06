@@ -246,8 +246,8 @@ namespace TAO_PEGTL_NAMESPACE
       using rule_t = unsigned_rule;
       using subs_t = empty_list;
 
-      template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.empty() ) )
+      template< typename ParseInput, typename... States >
+      [[nodiscard]] static bool match( ParseInput& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) )
       {
          return internal::match_unsigned( in );  // Does not check for any overflow.
       }
@@ -313,8 +313,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       static_assert( std::is_unsigned_v< Unsigned > );
 
-      template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in )
+      template< typename ParseInput, typename... States >
+      [[nodiscard]] static bool match( ParseInput& in, States&&... /*unused*/ )
       {
          Unsigned st = 0;
          return internal::match_and_convert_unsigned_with_maximum_nothrow< ParseInput, Unsigned, Maximum >( in, st );
@@ -380,8 +380,8 @@ namespace TAO_PEGTL_NAMESPACE
       using rule_t = signed_rule;
       using subs_t = empty_list;
 
-      template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.empty() ) )
+      template< typename ParseInput, typename... States >
+      [[nodiscard]] static bool match( ParseInput& in, States&&... /*unused*/ ) noexcept( noexcept( in.empty() ) )
       {
          return parse< signed_rule_new >( in );  // Does not check for any overflow.
       }
