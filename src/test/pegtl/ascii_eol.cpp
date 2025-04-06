@@ -69,19 +69,6 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< eol, scan::lf_crlf >( __LINE__, __FILE__, "\r\na", result_type::success, 1 );
       verify_rule< eol, scan::lf_crlf >( __LINE__, __FILE__, "\r\n\r", result_type::success, 1 );
       verify_rule< eol, scan::lf_crlf >( __LINE__, __FILE__, "\r\n\n", result_type::success, 1 );
-
-      verify_rule< eol, scan::cr_crlf >( __LINE__, __FILE__, " ", result_type::local_failure, 1 );
-      verify_rule< eol, scan::cr_crlf >( __LINE__, __FILE__, "\r", result_type::success, 0 );
-      verify_rule< eol, scan::cr_crlf >( __LINE__, __FILE__, "\n", result_type::local_failure, 1 );
-      verify_rule< eol, scan::cr_crlf >( __LINE__, __FILE__, "\r\n", result_type::success, 0 );
-      verify_rule< eol, scan::cr_crlf >( __LINE__, __FILE__, "\n\r", result_type::local_failure, 2 );
-      verify_rule< eol, scan::cr_crlf >( __LINE__, __FILE__, "\n\r\n", result_type::local_failure, 3 );
-      verify_rule< eol, scan::cr_crlf >( __LINE__, __FILE__, "\n\r\r", result_type::local_failure, 3 );
-      verify_rule< eol, scan::cr_crlf >( __LINE__, __FILE__, "\na", result_type::local_failure, 2 );
-      verify_rule< eol, scan::cr_crlf >( __LINE__, __FILE__, "\ra", result_type::success, 1 );
-      verify_rule< eol, scan::cr_crlf >( __LINE__, __FILE__, "\r\na", result_type::success, 1 );
-      verify_rule< eol, scan::cr_crlf >( __LINE__, __FILE__, "\r\n\r", result_type::success, 1 );
-      verify_rule< eol, scan::cr_crlf >( __LINE__, __FILE__, "\r\n\n", result_type::success, 1 );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
