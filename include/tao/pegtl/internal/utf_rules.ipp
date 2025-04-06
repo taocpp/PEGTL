@@ -49,7 +49,6 @@ namespace TAO_PEGTL_NAMESPACE::TAO_PEGTL_UTF_NAME
       // clang-format off
       struct cr : TAO_PEGTL_UTF_NAME::cr { using eol_char_rule = TAO_PEGTL_UTF_NAME::cr; };
       struct lf : TAO_PEGTL_UTF_NAME::lf { using eol_char_rule = TAO_PEGTL_UTF_NAME::lf; };
-      struct cr_crlf : TAO_PEGTL_UTF_NAME::cr_crlf { using eol_char_rule = TAO_PEGTL_UTF_NAME::cr; };
       struct lf_crlf : TAO_PEGTL_UTF_NAME::lf_crlf { using eol_char_rule = TAO_PEGTL_UTF_NAME::lf; };
       struct ls : TAO_PEGTL_UTF_NAME::ls { using eol_char_rule = TAO_PEGTL_UTF_NAME::ls; };
       struct nel : TAO_PEGTL_UTF_NAME::nel { using eol_char_rule = TAO_PEGTL_UTF_NAME::nel; };

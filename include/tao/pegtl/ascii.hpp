@@ -79,7 +79,6 @@ namespace TAO_PEGTL_NAMESPACE
          // clang-format off
          struct cr : ascii::cr { using eol_char_rule = ascii::cr; };
          struct lf : ascii::lf { using eol_char_rule = ascii::lf; };
-         struct cr_crlf : ascii::cr_crlf { using eol_char_rule = ascii::cr; };
          struct lf_crlf : ascii::lf_crlf { using eol_char_rule = ascii::lf; };
          // clang-format on
       }  // namespace scan
