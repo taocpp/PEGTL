@@ -35,6 +35,7 @@ Checks: >-
   -readability-identifier-length,
   -readability-magic-numbers,
   -readability-static-accessed-through-instance,
+  -llvm-header-guard,
 
 CheckOptions:
   - { key: readability-identifier-naming.ClassCase,     value: lower_case }
