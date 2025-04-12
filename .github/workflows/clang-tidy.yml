@@ -15,12 +15,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
-    - run: sudo apt-get update -yq
+    - name: Install Dependencies
+      run: |
+        sudo apt-get -qq update -yq
+        sudo apt-get -qq install -y clang-tidy --no-install-recommends --no-install-suggests
 
-    - run: sudo apt-get install -yq clang-tidy
+    - name: Generate Compilation Database
+      run: cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
-    - run: find include/ -name '*.hpp' | grep -vF mmap_file_win32.hpp | grep -vF endian_win.hpp | xargs -I '{}' clang-tidy --quiet '{}' -- --std=c++17 -Iinclude
+    - name: Run clang-tidy on Header Files
+      run: find include/ -type f \( -name "*.hpp" -a ! -name "endian_win.hpp" -a ! -name "mmap_file_win32.hpp" \) -exec clang-tidy {} -quiet -p=build -- -std=c++17 -I include \;
 
-    - run: find src/ -name '*.cpp' | xargs -I '{}' clang-tidy --quiet '{}' -- --std=c++17 -Iinclude
+    - name: Run clang-tidy on Source Files
+      run: find include/ -type f -name "*.cpp" -exec clang-tidy {} -quiet -p=build -- -std=c++17 -I include \;
