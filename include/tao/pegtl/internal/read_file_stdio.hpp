@@ -124,7 +124,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          std::string nrv;
          if( const std::size_t s = size(); s > 0 ) {
-            TAO_PEGTL_NAMESPACE::internal::resize_uninitialized( nrv, s ); // NOLINT(clang-diagnostic-error)
+            resize_uninitialized( nrv, s );
             read_impl( nrv.data(), nrv.size() );
          }
          return nrv;
