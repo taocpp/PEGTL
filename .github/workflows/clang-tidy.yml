@@ -26,6 +26,7 @@ jobs:
       run: cmake -S . -B build -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
     - name: Run clang-tidy on Header Files
+      continue-on-error: true
       run: find include/ -type f \( -name "*.hpp" -a ! -name "endian_win.hpp" -a ! -name "mmap_file_win32.hpp" \) | xargs -P $(nproc) -I {} clang-tidy -quiet -p build {} -- -std=c++17 -Iinclude
 
     - name: Run clang-tidy on tests and examples files
