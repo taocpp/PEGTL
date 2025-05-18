@@ -114,10 +114,10 @@ namespace TAO_PEGTL_NAMESPACE::peg
                Char
                >
             >,
-      tao::pegtl::one< '\"' >,
-      Spacing
-      >
-                    > {};
+         tao::pegtl::one< '\"' >,
+         Spacing
+         >
+      > {};
 
    struct Class : tao::pegtl::seq<
       tao::pegtl::one< '[' >,
