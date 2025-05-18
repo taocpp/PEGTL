@@ -28,7 +28,8 @@
 
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/contrib/parse_tree.hpp>
-#include <tao/pegtl/contrib/peg.hpp>
+
+#include "peg.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
