@@ -38,9 +38,9 @@ namespace TAO_PEGTL_NAMESPACE
 
       namespace
       {
-         std::string prefix = "TAO_PEGTL_NAMESPACE::";
+         const std::string prefix = "TAO_PEGTL_NAMESPACE::";
 
-         std::set< std::string > keywords = {
+         const std::set< std::string > keywords = {
             "alignas",
             "alignof",
             "and",
@@ -235,12 +235,12 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
-      std::string to_string( const node_ptr& n );
-      std::string to_string( const std::vector< node_ptr >& v );
+      [[nodiscard]] std::string to_string( const node_ptr& n );
+      [[nodiscard]] std::string to_string( const std::vector< node_ptr >& v );
 
       namespace
       {
-         std::string get_rulename( const node_ptr& n )
+         [[nodiscard]] std::string get_rulename( const node_ptr& n )
          {
             assert( n->is_type< Identifier >() );
             std::string v = n->string();
@@ -248,9 +248,9 @@ namespace TAO_PEGTL_NAMESPACE
             return v;
          }
 
-         std::string get_rulename( const node_ptr& n, const bool print_forward_declarations )
+         [[nodiscard]] std::string get_rulename( const node_ptr& n, const bool print_forward_declarations )
          {
-            std::string v = get_rulename( n );
+            const std::string v = get_rulename( n );
             const auto it = find_rule( rules, v );
             if( it != rules.rend() ) {
                return *it;
@@ -272,7 +272,7 @@ namespace TAO_PEGTL_NAMESPACE
 
          struct ccmp
          {
-            bool operator()( const std::string& lhs, const std::string& rhs ) const noexcept
+            [[nodiscard]] bool operator()( const std::string& lhs, const std::string& rhs ) const noexcept
             {
                return TAO_PEGTL_STRCASECMP( lhs.c_str(), rhs.c_str() ) < 0;
             }
@@ -305,40 +305,48 @@ namespace TAO_PEGTL_NAMESPACE
       // Finally, the generated parse tree for each node is converted to
       // a C++ source code string.
 
-      struct stringifier
+      class stringifier
       {
+      private:
          using function_t = std::string ( * )( const node_ptr& n );
-         function_t default_ = nullptr;
 
-         std::map< std::string_view, function_t > map_;
+         function_t m_default = nullptr;
 
+         std::map< std::string_view, function_t > m_map;
+
+      public:
          template< typename T >
-         void add( const function_t& f )
+         void add( const function_t f )
          {
-            map_.try_emplace( demangle< T >(), f );
+            m_map.try_emplace( demangle< T >(), f );
          }
 
-         std::string operator()( const node_ptr& n ) const
+         void set_default( const function_t f ) noexcept
          {
-            const auto it = map_.find( n->type );
-            if( it != map_.end() ) {
+            m_default = f;
+         }
+
+         [[nodiscard]] std::string operator()( const node_ptr& n ) const
+         {
+            const auto it = m_map.find( n->type );
+            if( it != m_map.end() ) {
                return it->second( n );
             }
-            return default_( n );
+            return m_default( n );
          }
       };
 
-      stringifier make_stringifier()
+      [[nodiscard]] stringifier make_stringifier()
       {
          stringifier nrv;
-         nrv.default_ = []( const node_ptr& n ) -> std::string {
+         nrv.set_default( []( const node_ptr& n ) -> std::string {
 #if defined( __cpp_exceptions )
             throw parse_error( "missing to_string() for " + std::string( n->type ), n->begin() );
 #else
             std::cerr << "missing to_string() for " + std::string( n->type ) << std::endl;
             std::terminate();
 #endif
-         };
+         } );
          nrv.add< Identifier >( []( const node_ptr& n ) { return get_rulename( n, true ); } );
 
          nrv.add< Definition >( []( const node_ptr& n ) {
@@ -358,7 +366,6 @@ namespace TAO_PEGTL_NAMESPACE
             else if( n->string_view() == "'" ) {
                return "\'\\" + n->string() + '\'';
             }
-
             return '\'' + n->string() + '\'';
          } );
 
@@ -366,7 +373,6 @@ namespace TAO_PEGTL_NAMESPACE
             if( n->children.size() == 1 ) {
                return to_string( n->children.front() );
             }
-
             return prefix + "seq< " + to_string( n->children ) + " >";
          } );
 
@@ -374,7 +380,6 @@ namespace TAO_PEGTL_NAMESPACE
             if( n->children.size() == 1 ) {
                return to_string( n->children.front() );
             }
-
             return prefix + "sor< " + to_string( n->children ) + " >";
          } );
 
@@ -382,7 +387,6 @@ namespace TAO_PEGTL_NAMESPACE
             if( n->children.size() == 1 ) {
                return prefix + "one< " + to_string( n->children.front() ) + " >";
             }
-
             return prefix + "range< " + to_string( n->children.front() ) + ", " + to_string( n->children.back() ) + " >";
          } );
 
@@ -390,7 +394,6 @@ namespace TAO_PEGTL_NAMESPACE
             if( n->children.size() == 1 ) {
                return to_string( n->children.front() );
             }
-
             return prefix + "sor < " + to_string( n->children ) + " >";
          } );
 
@@ -398,7 +401,6 @@ namespace TAO_PEGTL_NAMESPACE
             if( n->children.size() == 1 ) {
                return prefix + "one< " + to_string( n->children.front() ) + " >";
             }
-
             return prefix + "string< " + to_string( n->children ) + " >";
          } );
 
@@ -408,11 +410,9 @@ namespace TAO_PEGTL_NAMESPACE
             if( n->children.front()->is_type< AND >() ) {
                return prefix + "at< " + sub + " >";
             }
-
             if( n->children.front()->is_type< NOT >() ) {
                return prefix + "not_at< " + sub + " >";
             }
-
             assert( n->children.size() == 1 );
             return sub;
          } );
@@ -423,15 +423,12 @@ namespace TAO_PEGTL_NAMESPACE
             if( n->children.back()->is_type< QUESTION >() ) {
                return prefix + "opt< " + sub + " >";
             }
-
             if( n->children.back()->is_type< STAR >() ) {
                return prefix + "star< " + sub + " >";
             }
-
             if( n->children.back()->is_type< PLUS >() ) {
                return prefix + "plus< " + sub + " >";
             }
-
             assert( n->children.size() == 1 );
             return sub;
          } );
@@ -470,12 +467,11 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    using namespace TAO_PEGTL_NAMESPACE;
 
    if( argc != 2 ) {
-      std::cerr << "Usage: " << argv[ 0 ] << " SOURCE\n";
+      std::cerr << "Usage: " << argv[ 0 ] << " <input.peg>\n";
       return 1;
    }
-
    if( !std::filesystem::exists( argv[ 1 ] ) ) {
-      std::cerr << "Missing source grammar file " << argv[ 1 ] << '\n';
+      std::cerr << "Missing input grammar file " << argv[ 1 ] << '\n';
       return 1;
    }
 
@@ -487,7 +483,6 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       for( const auto& rule : root->children ) {
          peg::rules_defined.push_back( peg::get_rulename( rule->children.front() ) );
       }
-
       for( const auto& rule : root->children ) {
          std::cout << peg::to_string( rule ) << '\n';
       }
@@ -503,7 +498,6 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       for( const auto& rule : root->children ) {
          peg::rules_defined.push_back( peg::get_rulename( rule->children.front() ) );
       }
-
       for( const auto& rule : root->children ) {
          std::cout << peg::to_string( rule ) << '\n';
       }
