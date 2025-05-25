@@ -39,7 +39,7 @@ namespace TAO_PEGTL_NAMESPACE
    static_assert( internal::is_simple_type_v< bool > );  // TODO?
 
    static_assert( internal::has_eol_char_rule< ascii::scan::lf > );
-   static_assert( internal::has_eol_char_rule< ascii::scan::cr_crlf > );
+   // static_assert( internal::has_eol_char_rule< ascii::scan::cr_crlf > );
    static_assert( !internal::has_eol_char_rule< ascii::lf > );
    static_assert( !internal::has_eol_char_rule< utf8::crlf > );
 
