@@ -75,7 +75,7 @@ namespace TAO_PEGTL_NAMESPACE::example
 
       std::cout << "## Simple Combinators\n\n";
       {
-         const std::vector< std::string > v = { "", "a", "ab", "z", "az" };
+         const std::vector< std::string > v = { "", "a", "ab", "z", "az", "abc" };
          header( v );
          row< seq< a, b > >( "seq< a, b >", v );
          row< opt< a, b > >( "opt< a, b >", v );
