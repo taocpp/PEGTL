@@ -153,16 +153,16 @@ namespace TAO_PEGTL_NAMESPACE::example
          const std::vector< std::string > v = { "a", "c", "e", "G", "Z", "\xa4" };
          header( v );
          row< any >( "any", v );
-         row< one< c, g > >( "one< c, g >", v );
-         row< ione< c, g > >( "ione< c, g >", v );
-         row< range< c, g > >( "range< c, g >", v );
-         row< not_one< c, g > >( "not_one< c, g >", v );
-         row< not_ione< c, g > >( "not_ione< c, g >", v );
-         row< not_range< c, g > >( "not_range< c, g >", v );
+         row< one< c, g > >( "one< 'c', 'g' >", v );
+         row< ione< c, g > >( "ione< 'c', 'g' >", v );
+         row< range< c, g > >( "range< 'c', 'g' >", v );
+         row< not_one< c, g > >( "not_one< 'c', 'g' >", v );
+         row< not_ione< c, g > >( "not_ione< 'c', 'g' >", v );
+         row< not_range< c, g > >( "not_range< 'c', 'g' >", v );
          row< any7 >( "any7", v );
-         row< not_one7< c, g > >( "not_one7< c, g >", v );
-         row< not_ione7< c, g > >( "not_ione7< c, g >", v );
-         row< not_range7< c, g > >( "not_range7< c, g >", v );
+         row< not_one7< c, g > >( "not_one7< 'c', 'g' >", v );
+         row< not_ione7< c, g > >( "not_ione7< 'c', 'g' >", v );
+         row< not_range7< c, g > >( "not_range7< 'c', 'g' >", v );
       }
       std::cout << std::endl;
    }

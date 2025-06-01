@@ -18,7 +18,7 @@ namespace modulus
       static bool match( ParseInput& in )
       {
          if( !in.empty() ) {
-            if( ( ( *in.current() ) % M ) == R ) {
+            if( ( unsigned( *in.current() ) % M ) == R ) {
                in.template consume< eol_exclude_tag >( 1 );
                return true;
             }
