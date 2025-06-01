@@ -6,9 +6,7 @@ In these tables a quoted string indicates that the rule matched on the input, an
 The unquoted letter '**f**' stands for a "local failure" where the rule returns `false`.
 The unquoted letter '**E**' stands for a "global failure" where the rule throws a `parse_error_base`-derived exception.
 
-In order to keep the rules in the tables short we assume that we are in namespace `tao::pegtl`.
-And that the rules `x` are defined as [`one< 'x' >`](Rule-Reference.md#one-c-) for all reasonable choices of `x`.
-We also assume a byte-based input.
+In the following tables we assume that we are in namespace `tao::pegtl` and that the following additional rules are defined.
 
 ```c++
 using namespace tao::pegtl;
@@ -20,15 +18,15 @@ struct c : one< 'c' > {};
 
 ## Simple Combinators
 
-|  | "" | "a" | "ab" | "z" | "az" |
-|--|--|--|--|--|--|
-| [`seq< a, b >`](Rule-Reference.md#seq-r-) | **f** | **f** | "ab" | **f** | **f** |
-| [`opt< a, b >`](Rule-Reference.md#opt-r-) | "" | "" | "ab" | "" | "" |
-| [`opt_must< a, b >`](Rule-Reference.md#opt_must-r-) | "" | **E** | "ab" | "" | **E** |
-| [`strict< a, b >`](Rule-Reference.md#strict-r-) | "" | **f** | "ab" | "" | **f** |
-| [`partial< a, b >`](Rule-Reference.md#partial-r-) | "" | "a" | "ab" | "" | "a" |
-| [`must< a, b >`](Rule-Reference.md#must-r-) | **E** | E | "ab" | **E** | E |
-| [`if_must< a, b >`](Rule-Reference.md#if_must-r-s-) | **f** | **E** | "ab" | **f** | **E** |
+|  | "" | "a" | "ab" | "z" | "az" | "aba" |
+|--|--|--|--|--|--|--|
+| [`seq< a, b >`](Rule-Reference.md#seq-r-) | **f** | **f** | "ab" | **f** | **f** | "ab" |
+| [`opt< a, b >`](Rule-Reference.md#opt-r-) | "" | "" | "ab" | "" | "" | "ab" |
+| [`opt_must< a, b >`](Rule-Reference.md#opt_must-r-) | "" | **E** | "ab" | "" | **E** | "ab" |
+| [`strict< a, b >`](Rule-Reference.md#strict-r-) | "" | **f** | "ab" | "" | **f** | "ab" |
+| [`partial< a, b >`](Rule-Reference.md#partial-r-) | "" | "a" | "ab" | "" | "a" | "ab" |
+| [`must< a, b >`](Rule-Reference.md#must-r-) | **E** | E | "ab" | **E** | E | "ab" |
+| [`if_must< a, b >`](Rule-Reference.md#if_must-r-s-) | **f** | **E** | "ab" | **f** | **E** | "ab" |
 
 ## Iterating Combinators
 
@@ -61,23 +59,23 @@ struct c : one< 'c' > {};
 | [`list_tail< a, b, c >`](Rule-Reference.md#list_tail-r-s-p-) | "a" | "a" | "ab" | "aba" | "abab" | "ab" | "a" | "acb" | "acba" | "acbca" |
 | [`list_must< a, b, c >`](Rule-Reference.md#list_must-r-s-p-) | "a" | "a" | **E** | "aba" | **E** | E | "a" | **E** | "acba" | "acbca" |
 
-The list rules are for non-empty lists, i.e. they fail (locally) when they can not match at least one list element.
+All list rules match non-empty lists, i.e. they fail (locally) when they can not match at least one list element.
 
 ## ASCII Matching Rules
 
 |  | "a" | "c" | "e" | "G" | "Z" | "\xA4" |
 |--|--|--|--|--|--|--|
 | [`any`](Rule-Reference.md#any) | "a" | "c" | "e" | "G" | "Z" | "\xA4" |
-| [`one< c, g >`](Rule-Reference.md#one-c-) | **f** | "c" | **f** | **f** | **f** | **f** |
-| [`ione< c, g >`](Rule-Reference.md#ione-c-) | **f** | "c" | **f** | "G" | **f** | **f** |
-| [`range< c, g >`](Rule-Reference.md#rance-c-d-) | **f** | "c" | "e" | **f** | **f** | **f** |
-| [`not_one< c, g >`](Rule-Reference.md#not_one-c-) | "a" | **f** | "e" | "G" | "Z" | "\xA4" |
-| [`not_ione< c, g >`](Rule-Reference.md#not_ione-c-) | "a" | **f** | "e" | **f** | "Z" | "\xA4" |
-| [`not_range< c, g >`](Rule-Reference.md#not_range-c-d-) | "a" | **f** | **f** | "G" | "Z" | "\xA4" |
+| [`one< 'c', 'g' >`](Rule-Reference.md#one-c-) | **f** | "c" | **f** | **f** | **f** | **f** |
+| [`ione< 'c', 'g' >`](Rule-Reference.md#ione-c-) | **f** | "c" | **f** | "G" | **f** | **f** |
+| [`range< 'c', 'g' >`](Rule-Reference.md#rance-c-d-) | **f** | "c" | "e" | **f** | **f** | **f** |
+| [`not_one< 'c', 'g' >`](Rule-Reference.md#not_one-c-) | "a" | **f** | "e" | "G" | "Z" | "\xA4" |
+| [`not_ione< 'c', 'g' >`](Rule-Reference.md#not_ione-c-) | "a" | **f** | "e" | **f** | "Z" | "\xA4" |
+| [`not_range< 'c', 'g' >`](Rule-Reference.md#not_range-c-d-) | "a" | **f** | **f** | "G" | "Z" | "\xA4" |
 | [`any7`](Rule-Reference.md#any7) | "a" | "c" | "e" | "G" | "Z" | **f** |
-| [`not_one7< c, g >`](Rule-Reference.md#not_one7-c-) | "a" | **f** | "e" | "G" | "Z" | **f** |
-| [`not_ione7< c, g >`](Rule-Reference.md#not_ione7-c-) | "a" | **f** | "e" | **f** | "Z" | **f** |
-| [`not_range7< c, g >`](Rule-Reference.md#not_range7-c-d-) | "a" | **f** | **f** | "G" | "Z" | **f** |
+| [`not_one7< 'c', 'g' >`](Rule-Reference.md#not_one7-c-) | "a" | **f** | "e" | "G" | "Z" | **f** |
+| [`not_ione7< 'c', 'g' >`](Rule-Reference.md#not_ione7-c-) | "a" | **f** | "e" | **f** | "Z" | **f** |
+| [`not_range7< 'c', 'g' >`](Rule-Reference.md#not_range7-c-d-) | "a" | **f** | **f** | "G" | "Z" | **f** |
 
 ---
 

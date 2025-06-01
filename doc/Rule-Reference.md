@@ -50,7 +50,6 @@ The different end-of-line modes that can be chosen for an input are documented i
 * [Convenience](#convenience)
 * [Exceptional](#exceptional)
 * [Controlling](#controlling)
-* [Incremental](#incremental)
 * [Compatibility](#compatibility)
 * [ICU Support](#icu-support)
   * [Basic ICU Rules](#basic-icu-rules)
@@ -88,7 +87,7 @@ These rules are in namespace `tao::pegtl`.
 
 * Succeeds if the input contains at least `Num` further objects, and
 * unconditionally consumes `Num` objects from the input.
-* Limited to the buffer size when using an [Incremental Input].
+* Limited to the buffer size when using a [buffer input].
 * [Meta data] and [implementation] mapping:
   - `consume< 0 >::rule_t` is `internal::success`
   - `consume< N >::rule_t` is `internal::consume< N >`
@@ -123,7 +122,7 @@ Note that the default behaviour can be changed either by defining `TAO_PEGTL_DEF
 ###### `everything`
 
 * Matches and consumes the entire input.
-* Limited by the buffer size when using an [Incremental Input].
+* Limited by the buffer size when using a [buffer input].
 * [Equivalent] to `until< eof, any >`.
 * [Meta data] and [implementation] mapping:
   - `everything::rule_t` is `internal::everything`
@@ -209,7 +208,6 @@ For all ASCII rules the template parameters representing characters are of type 
 * Matches and consumes an carriage return optionally followed by a line feed.
 * [Equivalent] to `seq< (ascii::)cr, opt< (ascii::)lf > >`.
 * [Equivalent] to `sor< (ascii::)crlf, (ascii::)cr >`.
-* Also available in the `scan` sub-namespace.
 * Also available in the `lazy` sub-namespace.
 
 ###### `cr_lf`
@@ -563,7 +561,6 @@ For all Unicode rules the template parameters representing code points are of ty
 ###### `cr_crlf`
 
 * Matches and consumes an carriage return optionally followed by a line feed.
-* Also available in the `scan` sub-namespace.
 * Also available in the `lazy` sub-namespace.
 
 ###### `cr_lf`
@@ -1085,7 +1082,7 @@ The PEGTL [grammar analysis](Grammar-Analysis.md) catches this mistake.
 * Does *not* rewind the input after a partial match of `R...`.
 * Attempts to match the given rules `R...` in the given order.
 * Succeeds and stops matching when one of the given rules fails;
-* succeds when all of the given rules succeed.
+* also succeds when all of the given rules succeed.
 * Consumes everything that the successful rules of `R...` consumed.
 * `R` must be a non-empty rule pack.
 * [Equivalent] to `opt< R >` when `R...` is a single rule.
@@ -1102,7 +1099,7 @@ The PEGTL [grammar analysis](Grammar-Analysis.md) catches this mistake.
   - `rematch< R, S... >::subs_t` is `type_list< R, S... >`
 
 Note that the rules in `S...` do *not* need to match *all* of the input matched by `R`.
-(Which is why [`minus`](#minus-m-s-) uses `eof` in its implementation).
+(Which is why [`minus`](#minus-m-s-) uses `eof` in its implementation to match to the end of what `R` matched).
 
 Note that the `S...` are ignored in the grammar analysis.
 
@@ -1247,7 +1244,8 @@ These rules are in namespace `tao::pegtl`.
 ###### `disable< R... >`
 
 * [Equivalent] to `seq< R... >`, but:
-* Disables all actions while parsing `R...`.
+* Disables actions while parsing `R...`, i.e.
+* calls `R...` with `apply_mode::nothing`.
 * [Meta data] and [implementation] mapping:
   - `disable<>::rule_t` is `internal::success`
   - `disable< R >::rule_t` is `internal::disable<, R >`
@@ -1258,7 +1256,8 @@ These rules are in namespace `tao::pegtl`.
 ###### `enable< R... >`
 
 * [Equivalent] to `seq< R... >`, but:
-* Enables all actions (if any) while parsing `R...`.
+* Enables actions while parsing `R...`, i.e.
+* calls `R...` with `apply_mode::action`.
 * [Meta data] and [implementation] mapping:
   - `enable<>::rule_t` is `internal::success`
   - `enable< R >::rule_t` is `internal::enable< R >`
@@ -1488,37 +1487,6 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 * Macro where `TAO_PEGTL_RAISE_MESSAGE( "foo" )` yields `raise_message< 'f', 'o', 'o' >`.
 * The argument must be a string literal.
 * Works for strings up to 512 bytes of length (excluding trailing `'\0'`).
-
-
-## Incremental
-
-These rules are used in conjunction with [Incremental Input].
-
-Like the other incremental input facilities these rules are **not** automatically included with `<tao/pegtl.hpp>`.
-To make them available either include `<tao/pegtl/buffer.hpp>` or the individual include files from the `buffer` subdirectory.
-
-###### `discard`
-
-* [Equivalent] to `success`, but:
-* Calls the input's `discard()` member function.
-* Must not be used where backtracking to before the `discard` might occur and/or nested within a rule for which an action with input can be called.
-* See [Incremental Input] for details.
-* [Meta data] and [implementation] mapping:
-  - `discard::rule_t` is `discard`
-
-###### `is_buffer`
-
-* Succeeds if the current parsing run uses a buffer input for incremental parsing.
-* [Meta data] and [implementation] mapping:
-  - `is_buffer::rule_t` is `is_buffer`
-
-###### `require< Num >`
-
-* Succeeds if at least `Num` further input bytes are available,
-* will attempt to read enough bytes into the buffer when [Incremental Input] is used.
-* [Meta data] and [implementation] mapping:
-  - `require< 0 >::rule_t` is `internal::success`
-  - `require< N >::rule_t` is `require< N >`
 
 
 ## Compatibility
@@ -1944,7 +1912,6 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`diacritic`](#diacritic) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`digit`](#digit) <sup>[(ascii)](#ascii)</sup>
 * [`disable< R... >`](#disable-r-) <sup>[(controlling)](#controlling)</sup>
-* [`discard`](#discard) <sup>[(buffer rules)](#buffer-rules)</sup>
 * [`east_asian_width< V >`](#east_asian_width-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`enable< R... >`](#enable-r-) <sup>[(controlling)](#controlling)</sup>
 * [`eof`](#eof) <sup>[(atomic)](#atomic)</sup>
@@ -1983,7 +1950,6 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`if_must_else< R, S, T >`](#if_must_else-r-s-t-) <sup>[(exceptional)](#exceptional)</sup>
 * [`if_then_else< R, S, T >`](#if_then_else-r-s-t-) <sup>[(convenience)](#convenience)</sup>
 * [`ione< C... >`](#ione-c-) <sup>[(ascii)](#ascii)</sup>
-* [`is_buffer`](#is_buffer) <sup>[(buffer rules)](#buffer-rules)</sup>
 * [`istring< C... >`](#istring-c-) <sup>[(ascii)](#ascii)</sup>
 * [`join_control`](#join_control) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`joining_group< V >`](#joining_group-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
@@ -2082,7 +2048,6 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`rep_min< Min, R... >`](#rep_min-min-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_min_max< Min, Max, R... >`](#rep_min_max-min-max-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_opt< Num, R... >`](#rep_opt-num-r-) <sup>[(convenience)](#convenience)</sup>
-* [`require< Num >`](#require-num-) <sup>[(buffer-rules)](#buffer-rules)</sup>
 * [`s_term`](#s_term) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`segment_starter`](#segment_starter) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`sentence_break< V >`](#sentence_break-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
@@ -2142,8 +2107,8 @@ Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt
 
 [ASCII rules]: #ascii
+[buffer input]: TODO!!!
 [Equivalent]: #equivalence
 [implementation]: #implementation
-[Incremental Input]: Inputs-and-Parsing.md#incremental-input
 [Meta data]: Meta-Data-and-Visit.md
 [PEG]: https://en.wikipedia.org/wiki/Parsing_expression_grammar
