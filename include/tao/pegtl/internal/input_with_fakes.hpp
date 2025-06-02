@@ -18,6 +18,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       using Input::Input;
 
+      // Compatibility with the corresponding buffer input functions.
+
       [[nodiscard]] decltype( auto ) end( const std::size_t /*unused*/ = 0 ) const noexcept( noexcept( std::declval< Input >().size() ) )
       {
          return Input::end();

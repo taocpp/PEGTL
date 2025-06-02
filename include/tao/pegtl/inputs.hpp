@@ -86,6 +86,33 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Data, std::size_t Size >
    view_input( const std::array< Data, Size >& ) -> view_input< tao_default_eol, Data, void, void >;
 
+   template< typename String, typename Data >
+   view_input( String&&, const Data*, const Data* ) -> view_input< tao_default_eol, Data, std::string, std::string >;
+
+   template< typename String, typename Data >
+   view_input( String&&, const Data*, const std::size_t ) -> view_input< tao_default_eol, Data, std::string, std::string >;
+
+   template< typename String >
+   view_input( String&&, std::string& ) -> view_input< tao_default_eol, char, std::string, std::string >;
+
+   template< typename String >
+   view_input( String&&, const std::string& ) -> view_input< tao_default_eol, char, std::string, std::string >;
+
+   template< typename String >
+   view_input( String&&, const std::string_view ) -> view_input< tao_default_eol, char, std::string, std::string >;
+
+   template< typename String, typename Data, typename... Params >
+   view_input( String&&, std::vector< Data, Params... >& ) -> view_input< tao_default_eol, Data, std::string, std::string >;
+
+   template< typename String, typename Data, typename... Params >
+   view_input( String&&, const std::vector< Data, Params... >& ) -> view_input< tao_default_eol, Data, std::string, std::string >;
+
+   template< typename String, std::size_t Size >
+   view_input( String&&, const char ( & )[ Size ] ) -> view_input< tao_default_eol, char, std::string, std::string >;
+
+   template< typename String, typename Data, std::size_t Size >
+   view_input( String&&, const std::array< Data, Size >& ) -> view_input< tao_default_eol, Data, std::string, std::string >;
+
    template< typename Eol = tao_default_eol, typename Container = std::string, typename InputSource = void, typename ErrorSource = InputSource >
    struct copy_input
       : internal::copy_alias< Eol, Container, InputSource, ErrorSource >
@@ -111,6 +138,24 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Data >
    copy_input( const std::initializer_list< Data >& ) -> copy_input< tao_default_eol, internal::choose_container_t< Data >, void, void >;
 
+   template< typename String, typename Data >
+   copy_input( String&&, const Data*, const Data* ) -> copy_input< tao_default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+
+   template< typename String, typename Data >
+   copy_input( String&&, const Data*, const std::size_t ) -> copy_input< tao_default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+
+   template< typename String, typename Container >
+   copy_input( String&&, Container&& ) -> copy_input< tao_default_eol, std::decay_t< Container >, std::string, std::string >;
+
+   template< typename String, typename Container >
+   copy_input( String&&, const Container& ) -> copy_input< tao_default_eol, std::decay_t< Container >, std::string, std::string >;
+
+   template< typename String, typename Data, std::size_t Size >
+   copy_input( String&&, const std::array< Data, Size >& ) -> copy_input< tao_default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+
+   template< typename String, typename Data >
+   copy_input( String&&, const std::initializer_list< Data >& ) -> copy_input< tao_default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+
    template< typename Eol = tao_default_eol >
    struct file_input
       : internal::file_alias< Eol >
@@ -118,8 +163,8 @@ namespace TAO_PEGTL_NAMESPACE
       using internal::file_alias< Eol >::file_alias;
    };
 
-   template< typename Args >
-   file_input( Args&& ) -> file_input< tao_default_eol >;
+   template< typename... Args >
+   file_input( Args&&... ) -> file_input< tao_default_eol >;
 
    template< typename Eol = tao_default_eol >
    struct read_input
@@ -128,8 +173,8 @@ namespace TAO_PEGTL_NAMESPACE
       using internal::read_alias< Eol >::read_alias;
    };
 
-   template< typename Args >
-   read_input( Args&& ) -> read_input< tao_default_eol >;
+   template< typename... Args >
+   read_input( Args&&... ) -> read_input< tao_default_eol >;
 
 #if defined( TAO_PEGTL_MMAP_AVAILABLE )
    template< typename Eol = tao_default_eol, typename Data = char >
@@ -139,8 +184,8 @@ namespace TAO_PEGTL_NAMESPACE
       using internal::mmap_alias< Eol, Data >::mmap_alias;
    };
 
-   template< typename Args >
-   mmap_input( Args&& ) -> mmap_input< tao_default_eol, char >;
+   template< typename... Args >
+   mmap_input( Args&&... ) -> mmap_input< tao_default_eol, char >;
 #endif
 
    template< typename Eol = tao_default_eol, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
@@ -204,8 +249,8 @@ namespace TAO_PEGTL_NAMESPACE
       using internal::choose_alias< Eol, internal::lazy_file_alias< Eol >, internal::text_file_alias< Eol > >::choose_alias;
    };
 
-   template< typename Args >
-   text_file_input( Args&& ) -> text_file_input< tao_default_eol >;
+   template< typename... Args >
+   text_file_input( Args&&... ) -> text_file_input< tao_default_eol >;
 
    template< typename Eol = tao_default_eol >
    struct text_read_input
@@ -214,8 +259,8 @@ namespace TAO_PEGTL_NAMESPACE
       using internal::choose_alias< Eol, internal::lazy_read_alias< Eol >, internal::text_read_alias< Eol > >::choose_alias;
    };
 
-   template< typename Args >
-   text_read_input( Args&& ) -> text_read_input< tao_default_eol >;
+   template< typename... Args >
+   text_read_input( Args&&... ) -> text_read_input< tao_default_eol >;
 
 #if defined( TAO_PEGTL_MMAP_AVAILABLE )
    template< typename Eol = tao_default_eol, typename Data = char >
@@ -225,8 +270,8 @@ namespace TAO_PEGTL_NAMESPACE
       using internal::choose_alias< Eol, internal::lazy_mmap_alias< Eol, Data >, internal::text_mmap_alias< Eol, Data > >::choose_alias;
    };
 
-   template< typename Args >
-   text_mmap_input( Args&& ) -> text_mmap_input< tao_default_eol >;
+   template< typename... Args >
+   text_mmap_input( Args&&... ) -> text_mmap_input< tao_default_eol >;
 #endif
 
 }  // namespace TAO_PEGTL_NAMESPACE
