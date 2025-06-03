@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using subs_t = empty_list;
 
       template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.size( 1 ) ) )
+      [[nodiscard]] static bool match( ParseInput& in )
       {
          in.template consume< eol_unknown_tag >( in.size( std::size_t( -1 ) ) );
          return true;

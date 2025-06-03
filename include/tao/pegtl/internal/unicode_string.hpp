@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 class Control,
                 typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( ParseInput& in, States&&... /*unused*/ ) noexcept( noexcept( in.size( 1 ) ) )
+      [[nodiscard]] static bool match( ParseInput& in, States&&... /*unused*/ )
       {
          static constexpr std::size_t size = sizeof( typename ParseInput::data_t );
 

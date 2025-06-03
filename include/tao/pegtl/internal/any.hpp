@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
 
       template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
+      [[nodiscard]] static bool match( ParseInput& in )
       {
          if constexpr( Peek::template bulk< ParseInput >() ) {
             constexpr std::size_t s = Peek::template size< ParseInput >();

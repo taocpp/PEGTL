@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using subs_t = empty_list;
 
       template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in ) noexcept
+      [[nodiscard]] static bool match( ParseInput& in )
       {
          if( in.size( Count ) >= Count ) {
             in.template consume< eol_unknown_tag >( Count );

@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using test_t = Rule< Peek, Cs... >;
 
       template< typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( Peek::peek( in ) ) )
+      [[nodiscard]] static bool match( ParseInput& in )
       {
          if( const auto t = Peek::peek( in ) ) {
             if( Rule< Peek, Cs... >::test( t.data() ) ) {
