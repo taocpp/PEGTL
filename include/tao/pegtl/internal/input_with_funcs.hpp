@@ -75,11 +75,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
 
       template< typename Position >
-      [[nodiscard]] std::string_view line_view_at( const Position& pos ) noexcept
+      [[nodiscard]] std::string_view line_view_at( const Position& pos )
       {
          static_assert( sizeof( data_t ) == 1 );
-         const char* b = static_cast< const char* >( this->begin_of_line( pos ) );
-         const char* e = static_cast< const char* >( this->end_of_line_or_file( pos ) );
+         const char* const b = static_cast< const char* >( this->begin_of_line( pos ) );
+         const char* const e = static_cast< const char* >( this->end_of_line_or_file( pos ) );
          return { b, std::size_t( e - b ) };
       }
 

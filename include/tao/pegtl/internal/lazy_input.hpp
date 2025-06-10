@@ -77,7 +77,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return previous( pos ) - ( std::min )( max, pos.column - 1 );
       }
 
-      [[nodiscard]] const data_t* end_of_line_or_file( const error_position_t& pos, const std::size_t max = 135 ) const noexcept
+      [[nodiscard]] const data_t* end_of_line_or_file( const error_position_t& pos, const std::size_t max = 135 ) const
       {
          using grammar = until< at< sor< eof, eol_rule > >, any< typename eol_rule::eol_lazy_peek > >;
          const data_t* p = previous( pos );  // TODO: Start earlier?

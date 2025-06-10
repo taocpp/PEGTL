@@ -120,7 +120,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return previous( pos ) - ( std::min )( max, pos.column - 1 );
       }
 
-      [[nodiscard]] const data_t* end_of_line_or_file( const error_position_t& pos, const std::size_t max = 135 ) const noexcept
+      [[nodiscard]] const data_t* end_of_line_or_file( const error_position_t& pos, const std::size_t max = 135 ) const
       {
          static_assert( sizeof( data_t ) == 1 );  // Generalising beyond 1 requires the until to use eol_lazy_peek like in lazy_input.
          using grammar = until< at< sor< eof, eol_rule > > >;
