@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
 #if defined( __cpp_exceptions )
       {
-         const char* filename = "src/test/pegtl/no_such_file.txt";
+         const char* filename = "src/test/no_such_file.txt";
          try {
             std::ifstream stream( filename );
             static_istream_input< void > in( stream );
@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
       }
 #endif
-      const char* filename = "src/test/pegtl/data/test_data.txt";
+      const char* filename = "src/test/data/test_data.txt";
       {
          std::ifstream stream( filename );
          static_istream_input< void > in( stream );

@@ -3,14 +3,14 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-
-#include <tao/pegtl/internal/read_file_stdio.hpp>
+#include "verify_file.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      const auto data = internal::read_file_stdio( "src/test/pegtl/data/duseltronik.txt" ).read_string();
+      const internal::file_input in( "src/test/data/duseltronik.txt" );
+      const std::string data( in.start(), in.end() );
       TAO_PEGTL_TEST_ASSERT( data == "duseltronik" );
    }
 

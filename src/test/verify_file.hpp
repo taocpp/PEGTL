@@ -8,9 +8,9 @@
 #include "test_utility.hpp"
 
 #if defined( _MSC_VER ) || defined( __MINGW32__ )
-#define TAO_PEGTL_TEST_FILENAME u"src/test/pegtl/file_äöü𝄞_data.txt"
+#define TAO_PEGTL_TEST_FILENAME u"src/test/file_äöü𝄞_data.txt"
 #else
-#define TAO_PEGTL_TEST_FILENAME "src/test/pegtl/file_äöü𝄞_data.txt"
+#define TAO_PEGTL_TEST_FILENAME "src/test/file_äöü𝄞_data.txt"
 #endif
 
 namespace TAO_PEGTL_NAMESPACE
@@ -58,7 +58,7 @@ namespace TAO_PEGTL_NAMESPACE
 #if defined( __cpp_exceptions )
       {
          try {
-            T in( "src/test/pegtl/no_such_file.txt" );
+            T in( "src/test/no_such_file.txt" );
             TAO_PEGTL_TEST_UNREACHABLE;  // LCOV_EXCL_LINE
          }
          catch( const std::filesystem::filesystem_error& ) {
@@ -66,10 +66,10 @@ namespace TAO_PEGTL_NAMESPACE
       }
 #endif
       {
-         T in( "src/test/pegtl/data/test_data.txt" );
-         TAO_PEGTL_TEST_ASSERT( in.direct_source() == "src/test/pegtl/data/test_data.txt" );
+         T in( "src/test/data/test_data.txt" );
+         TAO_PEGTL_TEST_ASSERT( in.direct_source() == "src/test/data/test_data.txt" );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
-         TAO_PEGTL_TEST_ASSERT( in.direct_source() == "src/test/pegtl/data/test_data.txt" );
+         TAO_PEGTL_TEST_ASSERT( in.direct_source() == "src/test/data/test_data.txt" );
       }
       {
          T in( TAO_PEGTL_TEST_FILENAME );

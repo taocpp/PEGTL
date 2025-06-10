@@ -113,51 +113,51 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\xF4\x90\x80\x80\"]", "" ) ) );
       TAO_PEGTL_TEST_ASSERT( !parse< GRAMMAR >( text_view_input< scan::lf >( "[\"\xF7\xBF\xBF\xBF\"]", "" ) ) );
 
-      TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/pegtl/data/pass1.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/pegtl/data/pass2.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/pegtl/data/pass3.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/data/pass1.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/data/pass2.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_pass( "src/test/data/pass3.json" ) );
 
-      TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( text_file_input< scan::lf >( "src/test/pegtl/data/blns.json" ) ) );
+      TAO_PEGTL_TEST_ASSERT( parse< GRAMMAR >( text_file_input< scan::lf >( "src/test/data/blns.json" ) ) );
 
-      // TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail1.json" ) ); // disabled as it is valid now
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail2.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail3.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail4.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail5.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail6.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail7.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail8.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail9.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail10.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail11.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail12.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail13.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail14.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail15.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail16.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail17.json" ) );
-      // TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail18.json" ) ); // disabled as deep nesting is allowed
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail19.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail20.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail21.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail22.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail23.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail24.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail25.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail26.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail27.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail28.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail29.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail30.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail31.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail32.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail33.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail34.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail35.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail36.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail37.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail38.json" ) );
-      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/pegtl/data/fail39.json" ) );
+      // TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail1.json" ) ); // disabled as it is valid now
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail2.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail3.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail4.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail5.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail6.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail7.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail8.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail9.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail10.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail11.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail12.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail13.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail14.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail15.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail16.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail17.json" ) );
+      // TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail18.json" ) ); // disabled as deep nesting is allowed
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail19.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail20.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail21.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail22.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail23.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail24.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail25.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail26.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail27.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail28.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail29.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail30.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail31.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail32.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail33.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail34.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail35.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail36.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail37.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail38.json" ) );
+      TAO_PEGTL_TEST_ASSERT( json_fail( "src/test/data/fail39.json" ) );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

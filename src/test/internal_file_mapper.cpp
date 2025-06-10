@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE
       const std::string s = "dummy content\n";
       const std::string dummy_content = s + s + s + s + s + s + s + s + s + s + s;
 
-      internal::mmap_file_impl mapper( "src/test/pegtl/data/test_data.txt" );
+      internal::mmap_file_impl mapper( "src/test/data/test_data.txt" );
       TAO_PEGTL_TEST_ASSERT( mapper.size() == 154 );
       TAO_PEGTL_TEST_ASSERT( std::string_view( mapper.data(), mapper.size() ) == dummy_content );
    }

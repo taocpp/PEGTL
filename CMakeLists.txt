@@ -54,13 +54,13 @@ target_compile_features(pegtl INTERFACE cxx_std_17)
 option(PEGTL_BUILD_TESTS "Build test programs" ${PEGTL_IS_MAIN_PROJECT})
 if(PEGTL_BUILD_TESTS)
   enable_testing()
-  add_subdirectory(src/test/pegtl)
+  add_subdirectory(src/test)
 endif()
 
 # examples
 option(PEGTL_BUILD_EXAMPLES "Build example programs" ${PEGTL_IS_MAIN_PROJECT})
 if(PEGTL_BUILD_EXAMPLES)
-  add_subdirectory(src/example/pegtl)
+  add_subdirectory(src/example)
 endif()
 
 # Make package findable by CMake

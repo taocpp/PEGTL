@@ -209,7 +209,7 @@ namespace TAO_PEGTL_NAMESPACE
       test_01( in );
    }
 
-   const std::filesystem::path filename( "src/test/pegtl/data/duseltronik.txt" );
+   const std::filesystem::path filename( "src/test/data/duseltronik.txt" );
 
    void test_01_read()
    {

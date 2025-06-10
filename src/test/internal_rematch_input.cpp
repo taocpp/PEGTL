@@ -9,7 +9,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      internal::read_input in( "src/test/pegtl/data/duseltronik.txt" );
+      internal::read_input in( "src/test/data/duseltronik.txt" );
       in.consume< any >( 1 );
       internal::rewind_guard< internal::read_input > rg( in );
       in.consume< any >( 4 );

@@ -10,7 +10,7 @@
 // When an expression fails to parse, it skips to the next expression
 // by looking for the terminator.
 //
-// Try: build/src/example/pegtl/recover '1+2*3;1+2*(3-)-4;-5;6/;7*(8+9)'
+// Try: build/bin/example/recover '1+2*3;1+2*(3-)-4;-5;6/;7*(8+9)'
 
 #if !defined( __cpp_exceptions )
 #include <iostream>

@@ -70,7 +70,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       }
    };
 
-   // See src/example/pegtl/unescape.cpp for why the following two actions skip the
+   // See src/example/unescape.cpp for why the following two actions skip the
    // first input character. They also MUST be called with non-empty matched inputs!
 
    struct unescape_u
