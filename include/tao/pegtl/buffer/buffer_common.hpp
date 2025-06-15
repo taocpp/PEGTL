@@ -75,26 +75,21 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          // assert( count <= buffer_used_size() );
          m_current += count;
-      }
-
-      void compact() noexcept
-      {
-         compact( buffer_used_size() );
-      }
-
-      void compact( const std::size_t used ) noexcept
-      {
-         std::memmove( this->mutable_start(), m_current, used );
+         // TODO: Auto-discard when buffer_used_size() == count?
       }
 
       void discard() noexcept
       {
-         const std::size_t used = buffer_used_size();
+         discard( buffer_used_size() );
+      }
 
-         if( ( used > 0 ) && ( m_current > ( this->buffer_start() + this->buffer_chunk_size() ) ) ) {
-            compact( used );
+      void discard( const std::size_t used ) noexcept
+      {
+         if( used > 0 ) {
+            // assert( used <= buffer_used_size() );
+            std::memmove( this->mutable_start(), m_current, used );
          }
-         m_current = this->mutable_start();
+         m_current = this->buffer_start();
          m_end = m_current + used;
       }
 
@@ -140,7 +135,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] std::size_t buffer_free_after_end() const noexcept
       {
-         // assert( this->buffer_start() + m_size >= m_end );
+         // assert( this->buffer_start() + this->buffer_capacity() >= m_end );
          return std::size_t( this->buffer_start() + this->buffer_capacity() - m_end );
       }
 

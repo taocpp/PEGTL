@@ -2,6 +2,7 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
+#include <array>
 #include <cerrno>
 #include <fstream>
 #include <string>
@@ -51,6 +52,13 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.empty() );
       }
       {
+         std::array< char, 100 > buffer;
+         std::ifstream stream( filename );
+         external_istream_input< void > in( buffer.data(), 100, 90, stream );
+         TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
+         TAO_PEGTL_TEST_ASSERT( in.empty() );
+      }
+      {
          std::ifstream stream( filename );
          static_istream_input< void, std::string, std::string > in( "filename", stream );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
@@ -59,6 +67,13 @@ namespace TAO_PEGTL_NAMESPACE
       {
          std::ifstream stream( filename );
          dynamic_istream_input< void, const char*, const char* > in( "filename", 100, 90, stream );
+         TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
+         TAO_PEGTL_TEST_ASSERT( in.empty() );
+      }
+      {
+         std::array< char, 100 > buffer;
+         std::ifstream stream( filename );
+         external_istream_input< void, const char*, const char* > in( "filename", buffer.data(), 100, 90, stream );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
       }

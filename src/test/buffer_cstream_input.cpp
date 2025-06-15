@@ -2,6 +2,7 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
+#include <array>
 #include <clocale>
 #include <cstdio>
 #include <iostream>
@@ -49,6 +50,15 @@ namespace TAO_PEGTL_NAMESPACE
          std::fclose( stream );
       }
       {
+         std::array< char, 500 > buffer;
+         std::FILE* stream = internal::read_file_open( filename );
+         TAO_PEGTL_TEST_ASSERT( stream != nullptr );
+         external_cstream_input<> in( buffer.data(), 500, 10, stream );
+         TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
+         TAO_PEGTL_TEST_ASSERT( in.empty() );
+         std::fclose( stream );
+      }
+      {
          std::FILE* stream = internal::read_file_open( filename );
          TAO_PEGTL_TEST_ASSERT( stream != nullptr );
          static_cstream_input< tao_buffer_eol, std::string, std::string > in( "filename", stream );
@@ -60,6 +70,15 @@ namespace TAO_PEGTL_NAMESPACE
          std::FILE* stream = internal::read_file_open( filename );
          TAO_PEGTL_TEST_ASSERT( stream != nullptr );
          dynamic_cstream_input< tao_buffer_eol, const char*, const char* > in( "filename", 500, 10, stream );
+         TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
+         TAO_PEGTL_TEST_ASSERT( in.empty() );
+         std::fclose( stream );
+      }
+      {
+         std::array< char, 500 > buffer;
+         std::FILE* stream = internal::read_file_open( filename );
+         TAO_PEGTL_TEST_ASSERT( stream != nullptr );
+         external_cstream_input< tao_buffer_eol, const char*, const char* > in( "filename", buffer.data(), 500, 10, stream );
          TAO_PEGTL_TEST_ASSERT( parse< file_grammar >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.empty() );
          std::fclose( stream );

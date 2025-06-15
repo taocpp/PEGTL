@@ -1,9 +1,9 @@
-// Copyright (c) 2022-2025 Dr. Colin Hirsch and Daniel Frey
+// Copyright (c) 2025 Dr. Colin Hirsch and Daniel Frey
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_BUFFER_DYNAMIC_BUFFER_HPP
-#define TAO_PEGTL_BUFFER_DYNAMIC_BUFFER_HPP
+#ifndef TAO_PEGTL_BUFFER_EXTERNAL_BUFFER_HPP
+#define TAO_PEGTL_BUFFER_EXTERNAL_BUFFER_HPP
 
 #include <cassert>
 #include <cstddef>
@@ -15,38 +15,38 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Data, typename Reader >
-   class dynamic_buffer
+   class external_buffer
    {
    public:
       using data_t = Data;
 
       template< typename... As >
-      dynamic_buffer( const std::size_t size, const std::size_t chunk, As&&... as )
-         : m_size( size ),
+      external_buffer( Data* data, const std::size_t size, const std::size_t chunk, As&&... as )
+         : m_data( data ),
+           m_size( size ),
            m_chunk( chunk ),
-           m_buffer( new Data[ size ] ),
            m_reader( std::forward< As >( as )... )
       {
          assert( chunk > 0 );
          assert( chunk < size );
       }
 
-      dynamic_buffer( dynamic_buffer&& ) = delete;
-      dynamic_buffer( const dynamic_buffer& ) = delete;
+      external_buffer( external_buffer&& ) = delete;
+      external_buffer( const external_buffer& ) = delete;
 
-      ~dynamic_buffer() = default;
+      ~external_buffer() = default;
 
-      void operator=( dynamic_buffer&& ) = delete;
-      void operator=( const dynamic_buffer& ) = delete;
+      void operator=( external_buffer&& ) = delete;
+      void operator=( const external_buffer& ) = delete;
 
       [[nodiscard]] Data* mutable_start() noexcept
       {
-         return m_buffer.get();
+         return m_data;
       }
 
       [[nodiscard]] const Data* buffer_start() const noexcept
       {
-         return m_buffer.get();
+         return m_data;
       }
 
       [[nodiscard]] std::size_t buffer_capacity() const noexcept
@@ -65,9 +65,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
 
    protected:
+      Data* m_data;
+
       const std::size_t m_size;
       const std::size_t m_chunk;
-      const std::unique_ptr< Data[] > m_buffer;
 
       Reader m_reader;
    };
