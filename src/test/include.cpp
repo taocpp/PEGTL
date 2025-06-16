@@ -57,26 +57,27 @@
 #include <tao/pegtl/action/require_apply.hpp>
 #include <tao/pegtl/action/require_apply0.hpp>
 
-#include <tao/pegtl/buffer/analyze_traits.hpp>
-#include <tao/pegtl/buffer/buffer_common.hpp>
-#include <tao/pegtl/buffer/buffer_input.hpp>
-#include <tao/pegtl/buffer/buffer_input_with_source.hpp>
-#include <tao/pegtl/buffer/buffers.hpp>
-#include <tao/pegtl/buffer/cstream_reader.hpp>
-#include <tao/pegtl/buffer/cstring_reader.hpp>
-#include <tao/pegtl/buffer/discard.hpp>
-#include <tao/pegtl/buffer/discard_input.hpp>
-#include <tao/pegtl/buffer/discard_input_on.hpp>
-#include <tao/pegtl/buffer/dynamic_buffer.hpp>
-#include <tao/pegtl/buffer/endless_reader.hpp>
-#include <tao/pegtl/buffer/has_direct_reader.hpp>
-#include <tao/pegtl/buffer/inputs.hpp>
-#include <tao/pegtl/buffer/is_buffer.hpp>
-#include <tao/pegtl/buffer/istream_reader.hpp>
-#include <tao/pegtl/buffer/require.hpp>
-#include <tao/pegtl/buffer/static_buffer.hpp>
-#include <tao/pegtl/buffer/text_buffer_input.hpp>
-#include <tao/pegtl/buffer/text_buffer_input_with_source.hpp>
+#include <tao/pegtl/stream/analyze_traits.hpp>
+#include <tao/pegtl/stream/alloc_buffer.hpp>
+#include <tao/pegtl/stream/array_buffer.hpp>
+#include <tao/pegtl/stream/buffers.hpp>
+#include <tao/pegtl/stream/cstream_reader.hpp>
+#include <tao/pegtl/stream/cstring_reader.hpp>
+#include <tao/pegtl/stream/discard.hpp>
+#include <tao/pegtl/stream/discard_input.hpp>
+#include <tao/pegtl/stream/discard_input_on.hpp>
+#include <tao/pegtl/stream/endless_reader.hpp>
+#include <tao/pegtl/stream/has_direct_reader.hpp>
+#include <tao/pegtl/stream/inputs.hpp>
+#include <tao/pegtl/stream/is_stream.hpp>
+#include <tao/pegtl/stream/istream_reader.hpp>
+#include <tao/pegtl/stream/other_buffer.hpp>
+#include <tao/pegtl/stream/require.hpp>
+#include <tao/pegtl/stream/stream_input_base.hpp>
+#include <tao/pegtl/stream/stream_input.hpp>
+#include <tao/pegtl/stream/stream_input_with_source.hpp>
+#include <tao/pegtl/stream/text_stream_input.hpp>
+#include <tao/pegtl/stream/text_stream_input_with_source.hpp>
 
 #include <tao/pegtl/control/input_control.hpp>
 #if defined( __cpp_exceptions )

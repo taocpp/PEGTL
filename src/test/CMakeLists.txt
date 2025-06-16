@@ -35,18 +35,6 @@ set(test_sources
   ascii_string.cpp
   ascii_three.cpp
   ascii_two.cpp
-  buffer_buffer_common.cpp
-  buffer_cstream_input.cpp
-  buffer_cstring_input.cpp
-  buffer_discard_input.cpp
-  buffer_dynamic_buffer.cpp
-  buffer_endless_input.cpp
-  buffer_istream_input.cpp
-  buffer_rule_discard.cpp
-  buffer_rule_is_buffer.cpp
-  buffer_rule_require.cpp
-  buffer_static_buffer.cpp
-  buffer_text_buffer_input.cpp
   contrib_alphabet_constants.cpp
   contrib_alphabet_rules.cpp
   contrib_check_count.cpp
@@ -211,6 +199,18 @@ set(test_sources
   rule_unicode_string.cpp
   rule_until.cpp
   rule_utf8_string.cpp
+  stream_alloc_buffer.cpp
+  stream_array_buffer.cpp
+  stream_cstream_input.cpp
+  stream_cstring_input.cpp
+  stream_discard_input.cpp
+  stream_endless_input.cpp
+  stream_istream_input.cpp
+  stream_rule_discard.cpp
+  stream_rule_is_stream.cpp
+  stream_rule_require.cpp
+  stream_stream_input_base.cpp
+  stream_text_stream_input.cpp
   test_empty.cpp
   test_result.cpp
   test_setup.cpp

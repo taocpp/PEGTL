@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {
       using Input::Input;
 
-      // Compatibility with the corresponding buffer input functions.
+      // Compatibility with the corresponding stream input functions.
 
       [[nodiscard]] decltype( auto ) end( const std::size_t /*unused*/ = 0 ) const noexcept( noexcept( std::declval< Input >().size() ) )
       {
@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       void discard() const noexcept
       {}
 
-      // The buffer_foo() member functions are only for actual buffer inputs.
+      // The stream_foo() member functions are only for actual stream inputs.
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
