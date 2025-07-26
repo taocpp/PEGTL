@@ -64,7 +64,7 @@ namespace TAO_PEGTL_NAMESPACE
             return internal::dummy_guard();
          }
          else {
-            return internal::rewind_guard< ParseInput >( in );
+            return internal::rewind_guard( in );
          }
       }
 

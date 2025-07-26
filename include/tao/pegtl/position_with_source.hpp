@@ -6,6 +6,7 @@
 #define TAO_PEGTL_POSITION_WITH_SOURCE_HPP
 
 #include <ostream>
+#include <type_traits>
 #include <utility>
 
 #include "config.hpp"
@@ -17,6 +18,8 @@ namespace TAO_PEGTL_NAMESPACE
       : Position
    {
       Source source = Source();
+
+      static_assert( std::is_same_v< Source, std::decay_t< Source > > );
 
       position_with_source() noexcept = default;
 

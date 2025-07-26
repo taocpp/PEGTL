@@ -19,7 +19,6 @@
 
 #include "cstream_reader.hpp"
 #include "cstring_reader.hpp"
-#include "endless_reader.hpp"
 #include "istream_reader.hpp"
 
 #include "alloc_buffer.hpp"
@@ -33,7 +32,6 @@ namespace TAO_PEGTL_NAMESPACE
 
    using alloc_cstream_buffer = internal::alloc_buffer< char, internal::cstream_reader >;
    using alloc_cstring_buffer = internal::alloc_buffer< char, internal::cstring_reader >;
-   using alloc_endless_buffer = internal::alloc_buffer< char, internal::endless_reader >;
    using alloc_istream_buffer = internal::alloc_buffer< char, internal::istream_reader >;
 
    template< std::size_t BufferSize = default_buffer_size, std::size_t ChunkSize = default_chunk_size >
@@ -41,13 +39,10 @@ namespace TAO_PEGTL_NAMESPACE
    template< std::size_t BufferSize = default_buffer_size, std::size_t ChunkSize = default_chunk_size >
    using array_cstring_buffer = internal::array_buffer< char, internal::cstring_reader, BufferSize, ChunkSize >;
    template< std::size_t BufferSize = default_buffer_size, std::size_t ChunkSize = default_chunk_size >
-   using array_endless_buffer = internal::array_buffer< char, internal::endless_reader, BufferSize, ChunkSize >;
-   template< std::size_t BufferSize = default_buffer_size, std::size_t ChunkSize = default_chunk_size >
    using array_istream_buffer = internal::array_buffer< char, internal::istream_reader, BufferSize, ChunkSize >;
 
    using other_cstream_buffer = internal::other_buffer< char, internal::cstream_reader >;
    using other_cstring_buffer = internal::other_buffer< char, internal::cstring_reader >;
-   using other_endless_buffer = internal::other_buffer< char, internal::endless_reader >;
    using other_istream_buffer = internal::other_buffer< char, internal::istream_reader >;
 
 }  // namespace TAO_PEGTL_NAMESPACE

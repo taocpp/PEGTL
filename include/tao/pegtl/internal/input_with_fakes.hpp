@@ -41,6 +41,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
       void discard() const noexcept
       {}
 
+      void inc_rewind_guards() const noexcept
+      {}
+
+      void dec_rewind_guards() const noexcept
+      {}
+
       // The stream_foo() member functions are only for actual stream inputs.
    };
 

@@ -8,7 +8,7 @@
 #include "test.hpp"
 #include "test_utility.hpp"
 
-#include <tao/pegtl/stream.hpp>
+#include "endless_stream.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

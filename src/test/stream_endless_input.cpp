@@ -2,39 +2,92 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
+#include <cassert>
+#include <cstddef>
+#include <cstring>
 #include <string>
+#include <utility>
 
 #include "test.hpp"
 
-#include <tao/pegtl/stream.hpp>
+#include "endless_stream.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
+   template< typename Rule >
+   struct nop_action
+   {
+      template< typename ActionInput >
+      static void apply( const ActionInput& /*unused*/ ) noexcept
+      {}
+   };
+
    void test_single()
    {
       array_endless_input< void > in( 'a' );
+      TAO_PEGTL_TEST_ASSERT( in.buffer_capacity() < 10000 );
 
       for( std::size_t i = 0; i < 42; ++i ) {
          TAO_PEGTL_TEST_ASSERT( parse< rep< 3000, one< 'a' > > >( in ) );
          TAO_PEGTL_TEST_ASSERT( parse< discard >( in ) );
       }
+      TAO_PEGTL_TEST_THROWS( parse< rep< 12000, one< 'a' > > >( in ) );
+   }
+
+   void test_single_auto()
+   {
+      array_endless_auto_input< void > in( 'a' );
+      TAO_PEGTL_TEST_ASSERT( in.buffer_capacity() < 10000 );
+
+      for( std::size_t i = 0; i < 42; ++i ) {
+         TAO_PEGTL_TEST_ASSERT( parse< rep< 3000, one< 'a' > > >( in ) );
+      }
+      for( std::size_t i = 0; i < 42; ++i ) {
+         TAO_PEGTL_TEST_ASSERT( parse< rep< 3000, one< 'a' > >, nothing, normal, apply_mode::action, rewind_mode::required >( in ) );
+      }
+      TAO_PEGTL_TEST_THROWS( parse< rep< 12000, one< 'a' > >, nothing, normal, apply_mode::action, rewind_mode::required >( in ) );
+      TAO_PEGTL_TEST_ASSERT( parse< rep< 12000, one< 'a' > > >( in ) );
+      TAO_PEGTL_TEST_THROWS( parse< at< rep< 12000, one< 'a' > > > >( in ) );
+      TAO_PEGTL_TEST_THROWS( parse< rep< 12000, one< 'a' > >, nop_action >( in ) );
    }
 
    void test_multiple()
    {
       array_endless_input< void > in( "abc" );
       TAO_PEGTL_TEST_ASSERT( parse< not_at< eof > >( in ) );
+      TAO_PEGTL_TEST_ASSERT( in.buffer_capacity() < 10000 );
 
       for( std::size_t i = 0; i < 42; ++i ) {
          TAO_PEGTL_TEST_ASSERT( parse< rep< 1000, string< 'a', 'b', 'c' > > >( in ) );
          TAO_PEGTL_TEST_ASSERT( parse< discard >( in ) );
       }
+      TAO_PEGTL_TEST_THROWS( parse< rep< 4000, string< 'a', 'b', 'c' > > >( in ) );
+   }
+
+   void test_multiple_auto()
+   {
+      array_endless_auto_input< void > in( "abc" );
+      TAO_PEGTL_TEST_ASSERT( parse< not_at< eof > >( in ) );
+      TAO_PEGTL_TEST_ASSERT( in.buffer_capacity() < 10000 );
+
+      for( std::size_t i = 0; i < 42; ++i ) {
+         TAO_PEGTL_TEST_ASSERT( parse< rep< 1000, string< 'a', 'b', 'c' > > >( in ) );
+      }
+      for( std::size_t i = 0; i < 42; ++i ) {
+         TAO_PEGTL_TEST_ASSERT( parse< rep< 1000, string< 'a', 'b', 'c' > >, nothing, normal, apply_mode::action, rewind_mode::required >( in ) );
+      }
+      TAO_PEGTL_TEST_THROWS( parse< rep< 4000, string< 'a', 'b', 'c' > >, nothing, normal, apply_mode::action, rewind_mode::required >( in ) );
+      TAO_PEGTL_TEST_ASSERT( parse< rep< 4000, string< 'a', 'b', 'c' > > >( in ) );
+      TAO_PEGTL_TEST_THROWS( parse< at< rep< 4000, string< 'a', 'b', 'c' > > > >( in ) );
+      TAO_PEGTL_TEST_THROWS( parse< rep< 4000, string< 'a', 'b', 'c' > >, nop_action >( in ) );
    }
 
    void unit_test()
    {
       test_single();
+      test_single_auto();
       test_multiple();
+      test_multiple_auto();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

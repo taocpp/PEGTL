@@ -9,9 +9,9 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      internal::read_input in( "src/test/data/duseltronik.txt" );
+      internal::input_with_fakes< internal::read_input > in( "src/test/data/duseltronik.txt" );
       in.consume< any >( 1 );
-      internal::rewind_guard< internal::read_input > rg( in );
+      internal::rewind_guard rg( in );
       in.consume< any >( 4 );
       internal::rematch_input ri( rg, in );
       TAO_PEGTL_TEST_ASSERT( !ri.empty() );

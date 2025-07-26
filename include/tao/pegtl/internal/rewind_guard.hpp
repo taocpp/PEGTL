@@ -19,7 +19,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       explicit rewind_guard( ParseInput& in ) noexcept
          : m_input( &in ),
            m_saved( in.rewind_position() )
-      {}
+      {
+         in.inc_rewind_guards();
+      }
 
       rewind_guard( rewind_guard&& rg ) noexcept
          : m_input( rg.m_input ),
@@ -33,7 +35,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       ~rewind_guard()
       {
          if( active() ) {
-            rewind_restore();
+            m_input->rewind_to_position( m_saved );
+            m_input->dec_rewind_guards();
          }
       }
 
@@ -45,15 +48,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return m_input != nullptr;
       }
 
-      [[nodiscard]] bool canceled() const noexcept
-      {
-         return m_input == nullptr;
-      }
-
       [[nodiscard]] bool operator()( const bool result ) noexcept
       {
          if( result ) {
-            rewind_cancel();
+            m_input->dec_rewind_guards();
+            m_input = nullptr;
             return true;
          }
          return false;
@@ -78,17 +77,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       ParseInput* m_input;
       using saved_position_t = std::decay_t< decltype( std::declval< ParseInput >().rewind_position() ) >;
       saved_position_t m_saved;
-
-      void rewind_cancel() noexcept
-      {
-         m_input = nullptr;
-      }
-
-      void rewind_restore() const noexcept
-      {
-         m_input->rewind_to_position( m_saved );
-      }
    };
+
+   template< typename ParseInput >
+   rewind_guard( ParseInput& ) -> rewind_guard< ParseInput >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
