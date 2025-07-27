@@ -5,12 +5,7 @@
 #ifndef TAO_PEGTL_STREAM_ITERATOR_READER_HPP
 #define TAO_PEGTL_STREAM_ITERATOR_READER_HPP
 
-#if defined( __cpp_exceptions )
-#include <system_error>
-#else
-#include <cstdio>
-#include <exception>
-#endif
+#include <cstddef>
 
 #include "../config.hpp"
 

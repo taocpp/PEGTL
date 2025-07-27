@@ -206,6 +206,7 @@ set(test_sources
   stream_discard_input.cpp
   stream_endless_input.cpp
   stream_istream_input.cpp
+  stream_iterator_input.cpp
   stream_rule_discard.cpp
   stream_rule_is_stream.cpp
   stream_rule_require.cpp
