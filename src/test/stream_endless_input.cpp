@@ -31,7 +31,9 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( parse< rep< 3000, one< 'a' > > >( in ) );
          TAO_PEGTL_TEST_ASSERT( parse< discard >( in ) );
       }
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( parse< rep< 12000, one< 'a' > > >( in ) );
+#endif
    }
 
    void test_single_auto()
@@ -49,13 +51,19 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
       }
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( parse< rep< 12000, one< 'a' > >, nothing, normal, apply_mode::action, rewind_mode::required >( in ) );
+#endif
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
       TAO_PEGTL_TEST_ASSERT( parse< rep< 12000, one< 'a' > > >( in ) );
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( parse< at< rep< 12000, one< 'a' > > > >( in ) );
+#endif
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( parse< rep< 12000, one< 'a' > >, nop_action >( in ) );
+#endif
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
    }
 
@@ -69,7 +77,9 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( parse< rep< 1000, string< 'a', 'b', 'c' > > >( in ) );
          TAO_PEGTL_TEST_ASSERT( parse< discard >( in ) );
       }
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( parse< rep< 4000, string< 'a', 'b', 'c' > > >( in ) );
+#endif
    }
 
    void test_multiple_auto()
@@ -88,13 +98,19 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
       }
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( parse< rep< 4000, string< 'a', 'b', 'c' > >, nothing, normal, apply_mode::action, rewind_mode::required >( in ) );
+#endif
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
       TAO_PEGTL_TEST_ASSERT( parse< rep< 4000, string< 'a', 'b', 'c' > > >( in ) );
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( parse< at< rep< 4000, string< 'a', 'b', 'c' > > > >( in ) );
+#endif
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
+#if defined( __cpp_exceptions )
       TAO_PEGTL_TEST_THROWS( parse< rep< 4000, string< 'a', 'b', 'c' > >, nop_action >( in ) );
+#endif
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
    }
 

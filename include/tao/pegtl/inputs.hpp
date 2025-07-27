@@ -5,8 +5,12 @@
 #ifndef TAO_PEGTL_INPUTS_HPP
 #define TAO_PEGTL_INPUTS_HPP
 
+#include <array>
+#include <cstddef>
 #include <string>
+#include <string_view>
 #include <type_traits>
+#include <vector>
 
 #include "ascii.hpp"
 #include "config.hpp"
