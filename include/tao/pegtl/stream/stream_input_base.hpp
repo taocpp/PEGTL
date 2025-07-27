@@ -139,12 +139,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return std::size_t( this->buffer_start() + this->buffer_capacity() - m_end );
       }
 
-      void inc_rewind_guards() const noexcept
-      {}
-
-      void dec_rewind_guards() const noexcept
-      {}
-
    protected:
       const data_t* m_current;
       const data_t* m_end;

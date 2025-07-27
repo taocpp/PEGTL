@@ -37,6 +37,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
          auto_discard();
       }
 
+      [[nodiscard]] std::size_t get_rewind_guards() const noexcept
+      {
+         return m_rewind_guards;
+      }
+
    private:
       std::size_t m_rewind_guards = 0;
 

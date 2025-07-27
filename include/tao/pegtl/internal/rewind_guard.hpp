@@ -12,6 +12,12 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
+   template< typename Input, typename = void >
+   inline constexpr bool has_auto_discard = false;
+
+   template< typename Input >
+   inline constexpr bool has_auto_discard< Input, decltype( (void)std::declval< Input >().inc_rewind_guards() ) > = true;
+
    template< typename ParseInput >
    class rewind_guard
    {
@@ -20,7 +26,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
          : m_input( &in ),
            m_saved( in.rewind_position() )
       {
-         in.inc_rewind_guards();
+         if constexpr( has_auto_discard< ParseInput > ) {
+            in.inc_rewind_guards();
+         }
       }
 
       rewind_guard( rewind_guard&& rg ) noexcept
@@ -36,7 +44,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          if( active() ) {
             m_input->rewind_to_position( m_saved );
-            m_input->dec_rewind_guards();
+            if constexpr( has_auto_discard< ParseInput > ) {
+               m_input->dec_rewind_guards();
+            }
          }
       }
 
@@ -51,7 +61,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] bool operator()( const bool result ) noexcept
       {
          if( result ) {
-            m_input->dec_rewind_guards();
+            if constexpr( has_auto_discard< ParseInput > ) {
+               m_input->dec_rewind_guards();
+            }
             m_input = nullptr;
             return true;
          }
