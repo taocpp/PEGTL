@@ -188,7 +188,7 @@ The stream inputs only support streams of `char`, are only implemented as type a
 
 ###### Plain Inputs
 
-The following inputs use `count_position` for position tracking.
+The plain inputs use `count_position` or `position_with_source< Source, count_position >` for position tracking.
 
 ```c++
 template< typename Eol = tao_stream_eol,
@@ -342,7 +342,7 @@ using other_iterator_auto_input = /* unspecified */
 
 ###### Text Inputs
 
-The text inputs keep track of line and column numbers with the same limitations as the regular inputs and use either `text_position` or `text_position_with_source`.
+The text inputs use `text_position` or `position_with_source< Source, text_position >` with the same limitations as the regular inputs regarding the line and column numbers.
 
 ```c++
 template< typename Eol = tao_stream_eol,
