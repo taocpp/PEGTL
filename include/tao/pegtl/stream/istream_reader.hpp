@@ -18,13 +18,14 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   struct istream_reader
+   class istream_reader
    {
+   public:
       explicit istream_reader( std::istream& s ) noexcept
          : m_istream( s )
       {}
 
-      [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length )
+      [[nodiscard]] std::size_t read( char* buffer, const std::size_t length )
       {
          m_istream.read( buffer, static_cast< std::streamsize >( length ) );
 

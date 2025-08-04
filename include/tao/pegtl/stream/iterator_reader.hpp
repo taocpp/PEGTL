@@ -12,14 +12,15 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename InputIterator >
-   struct iterator_reader
+   class iterator_reader
    {
+   public:
       iterator_reader( const InputIterator& begin, const InputIterator& end )
          : m_run( begin ),
            m_end( end )
       {}
 
-      [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length )
+      [[nodiscard]] std::size_t read( char* buffer, const std::size_t length )
       {
          std::size_t done = 0;
 

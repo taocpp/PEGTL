@@ -12,15 +12,16 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   struct cstring_reader
+   class cstring_reader
    {
+   public:
       explicit cstring_reader( const char* zero_terminated ) noexcept
          : m_cstring( zero_terminated )
       {
          assert( m_cstring != nullptr );
       }
 
-      [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length ) noexcept
+      [[nodiscard]] std::size_t read( char* buffer, const std::size_t length ) noexcept
       {
          std::size_t i = 0;
          char c;

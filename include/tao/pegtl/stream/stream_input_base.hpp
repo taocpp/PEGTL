@@ -106,7 +106,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             std::terminate();
 #endif
          }
-         m_end += this->m_reader( const_cast< data_t* >( m_end ), ( std::min )( buffer_free_after_end(), ( std::max )( amount - buffer_used_size(), this->buffer_chunk_size() ) ) );
+         m_end += this->m_reader.read( const_cast< data_t* >( m_end ), ( std::min )( buffer_free_after_end(), ( std::max )( amount - buffer_used_size(), this->buffer_chunk_size() ) ) );
       }
 
       void buffer_check_size( const std::size_t amount )

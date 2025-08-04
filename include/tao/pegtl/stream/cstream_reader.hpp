@@ -19,15 +19,16 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   struct cstream_reader
+   class cstream_reader
    {
+   public:
       explicit cstream_reader( std::FILE* s ) noexcept
          : m_cstream( s )
       {
          assert( m_cstream != nullptr );
       }
 
-      [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length ) const
+      [[nodiscard]] std::size_t read( char* buffer, const std::size_t length ) const
       {
          if( const auto r = std::fread( buffer, 1, length, m_cstream ) ) {
             return r;

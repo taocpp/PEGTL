@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          assert( !m_endless.empty() );
       }
 
-      [[nodiscard]] std::size_t operator()( char* buffer, const std::size_t length ) noexcept
+      [[nodiscard]] std::size_t read( char* buffer, const std::size_t length ) noexcept
       {
          if( m_endless.size() == 1 ) {
             std::memset( buffer, m_endless[ 0 ], length );

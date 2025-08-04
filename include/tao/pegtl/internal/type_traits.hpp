@@ -15,18 +15,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename T >
    inline constexpr bool is_simple_type_v = std::is_integral_v< T > || std::is_enum_v< T >;
 
-   template< typename, typename, template< typename... > class, typename... >
-   inline constexpr bool has_apply = false;
-
-   template< typename C, template< typename... > class Action, typename... S >
-   inline constexpr bool has_apply< C, decltype( C::template apply< Action >( std::declval< S >()... ) ), Action, S... > = true;
-
-   template< typename, typename, template< typename... > class, typename... >
-   inline constexpr bool has_apply0 = false;
-
-   template< typename C, template< typename... > class Action, typename... S >
-   inline constexpr bool has_apply0< C, decltype( C::template apply0< Action >( std::declval< S >()... ) ), Action, S... > = true;
-
    template< typename T >
    using has_eol_char_rule_impl = typename T::eol_char_rule;
 
