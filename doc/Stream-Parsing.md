@@ -5,6 +5,7 @@ It also supports *stream parsing* where only a small portion of a large input is
 
 The stream parsing facilities can be included via `<tao/pegtl/stream.hpp>` -- or via the individual include files in `tao/pegtl/stream`.
 
+
 ## Contents
 
  * [Overview](#overview)
@@ -13,6 +14,7 @@ The stream parsing facilities can be included via `<tao/pegtl/stream.hpp>` -- or
  * [Inputs](#inputs)
  * [Rules](#rules)
  * [Actions](#actions)
+
 
 ## Overview
 
@@ -50,6 +52,7 @@ In other words, a discard is only possible when there are no active rewind guard
 
 All stream parsing related classes and class templates reside in namespace `tao::pegtl`.
 This default can be changed via the macro `TAO_PEGTL_NAMESPACE` in `tao/pegtl/config.hpp`.
+
 
 ## Buffers
 
@@ -98,6 +101,7 @@ public:
    // Does NOT take ownership of the pointer.
 };
 ```
+
 
 ## Readers
 
@@ -172,6 +176,7 @@ class iterator_reader
 public:
    iterator_reader( const InputIterator& begin, const InputIterator& end );
 };
+```
 
 
 ## Inputs
@@ -181,85 +186,314 @@ For example the `alloc_istream_input` has the arguments `const std::size_t buffe
 
 The stream inputs only support streams of `char`, are only implemented as type aliases, and do not come with deduction guides.
 
+###### Plain Inputs
+
 The following inputs use `count_position` for position tracking.
 
 ```c++
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using alloc_cstream_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using alloc_cstring_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using alloc_istream_input = /* unspecified */
 
-template< typename InputIterator, typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename InputIterator,
+          typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using alloc_iterator_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource, std::size_t BufferSize = default_buffer_size, std::size_t ChunkSize = default_chunk_size >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
 using array_cstream_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource, std::size_t BufferSize = default_buffer_size, std::size_t ChunkSize = default_chunk_size >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
 using array_cstring_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource, std::size_t BufferSize = default_buffer_size, std::size_t ChunkSize = default_chunk_size >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
 using array_istream_input = /* unspecified */
 
-template< typename InputIterator, typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource, std::size_t BufferSize = default_buffer_size, std::size_t ChunkSize = default_chunk_size >
+template< typename InputIterator,
+          typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
 using array_iterator_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using other_cstream_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using other_cstring_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using other_istream_input = /* unspecified */
 
-template< typename InputIterator, typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename InputIterator,
+          typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using other_iterator_input = /* unspecified */
 ```
+
+###### Plain Auto Inputs
+
+The inputs with `auto` in their name perform auto discard.
+
+```c++
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using alloc_cstream_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using alloc_cstring_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using alloc_istream_auto_input = /* unspecified */
+
+template< typename InputIterator,
+          typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using alloc_iterator_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
+using array_cstream_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
+using array_cstring_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
+using array_istream_auto_input = /* unspecified */
+
+template< typename InputIterator,
+          typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
+using array_iterator_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using other_cstream_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using other_cstring_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using other_istream_auto_input = /* unspecified */
+
+template< typename InputIterator,
+          typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using other_iterator_auto_input = /* unspecified */
+```
+
+###### Text Inputs
 
 The text inputs keep track of line and column numbers with the same limitations as the regular inputs and use either `text_position` or `text_position_with_source`.
 
 ```c++
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using alloc_text_cstream_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using alloc_text_cstring_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using alloc_text_istream_input = /* unspecified */
 
-template< typename InputIterator, typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename InputIterator,
+          typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using alloc_text_iterator_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource, std::size_t BufferSize = default_buffer_size, std::size_t ChunkSize = default_chunk_size >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
 using array_text_cstream_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource, std::size_t BufferSize = default_buffer_size, std::size_t ChunkSize = default_chunk_size >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
 using array_text_cstring_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource, std::size_t BufferSize = default_buffer_size, std::size_t ChunkSize = default_chunk_size >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
 using array_text_istream_input = /* unspecified */
 
-template< typename InputIterator, typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource, std::size_t BufferSize = default_buffer_size, std::size_t ChunkSize = default_chunk_size >
+template< typename InputIterator,
+          typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
 using array_text_iterator_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using other_text_cstream_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using other_text_cstring_input = /* unspecified */
 
-template< typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using other_text_istream_input = /* unspecified */
 
-template< typename InputIterator, typename Eol = tao_stream_eol, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename InputIterator,
+          typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
 using other_text_iterator_input = /* unspecified */
 ```
+
+###### Text Auto Inputs
+
+The inputs with `auto` in their name perform auto discard.
+
+```c++
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using alloc_text_cstream_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using alloc_text_cstring_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using alloc_text_istream_auto_input = /* unspecified */
+
+template< typename InputIterator,
+          typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using alloc_text_iterator_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
+using array_text_cstream_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
+using array_text_cstring_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
+using array_text_istream_auto_input = /* unspecified */
+
+template< typename InputIterator,
+          typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource,
+          std::size_t BufferSize = default_buffer_size,
+          std::size_t ChunkSize = default_chunk_size >
+using array_text_iterator_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using other_text_cstream_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using other_text_cstring_auto_input = /* unspecified */
+
+template< typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using other_text_istream_auto_input = /* unspecified */
+
+template< typename InputIterator,
+          typename Eol = tao_stream_eol,
+          typename InputSource = void,
+          typename ErrorSource = InputSource >
+using other_text_iterator_auto_input = /* unspecified */
+```
+
 
 ## Rules
 
