@@ -374,15 +374,15 @@ For all ASCII rules the template parameters representing characters are of type 
 * The next input byte is **not** in the closed range `C ... D`.
 * Consumes one byte on success.
 * [Meta data] and [implementation] mapping:
-  - `ascii::not_range< C, C >::rule_t` is `internal::tester< internal::one< internal::peek_char, C > >`.
-  - `ascii::not_range< C, D >::rule_t` is `internal::tester< internal::range< internal::peek_char, C, D > >`.
+  - `ascii::not_range< C, C >::rule_t` is `internal::tester< internal::not_one< internal::peek_char, C > >`.
+  - `ascii::not_range< C, D >::rule_t` is `internal::tester< internal::not_range< internal::peek_char, C, D > >`.
 
 ###### `not_range7< C, D >`
 
 * True ASCII version of `not_range` only matches input bytes between 0 and 127.
 * [Meta data] and [implementation] mapping:
-  - `ascii::not_range< C, C >::rule_t` is `internal::tester< internal::one< internal::peek_seven, C > >`.
-  - `ascii::not_range< C, D >::rule_t` is `internal::tester< internal::range< internal::peek_seven, C, D > >`.
+  - `ascii::not_range7< C, C >::rule_t` is `internal::tester< internal::not_one< internal::peek_seven, C > >`.
+  - `ascii::not_range7< C, D >::rule_t` is `internal::tester< internal::not_range< internal::peek_seven, C, D > >`.
 
 ###### `nul`
 
@@ -401,8 +401,8 @@ For all ASCII rules the template parameters representing characters are of type 
 * Consumes one byte on success.
 * Fails if `C` is an empty character pack.
 * [Meta data] and [implementation] mapping:
-  - `ascii::not_one<>::rule_t` is `internal::failure`
-  - `ascii::not_one< C... >::rule_t` is `internal::tester< internal::one< internal::peek_char, C... > >`.
+  - `ascii::one<>::rule_t` is `internal::failure`
+  - `ascii::one< C... >::rule_t` is `internal::tester< internal::one< internal::peek_char, C... > >`.
 
 ###### `print`
 
