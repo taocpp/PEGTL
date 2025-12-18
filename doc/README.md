@@ -16,7 +16,7 @@
 
 * [Rule Reference](Rule-Reference.md)
 * [Input Reference](Input-Reference.md)
-* [Action Reference[Action-Reference.md)
+* [Action Reference](Action-Reference.md)
 * [Control Reference](Control-Reference.md)
 
 * [Stream Parsing](Stream-Parsing.md)

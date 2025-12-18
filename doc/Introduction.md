@@ -149,8 +149,8 @@ The table below shows how the classical PEG combinators, or composite parsing ex
 
 And the next table shows how some of the more common atomic PEG expressions are expressed with PEGTL [rule classes](Rules-and-Grammars.md).
 
-| PEG
-| ---
+| PEG                               | `tao::pegtl::`                                                                         |
+| ---                               | ---                                                                                    |
 | *E*                               | [`eof`](Rule-Reference.md#eof) <sup>[(atomic)](Rule-Reference.md#atomic)</sup>         |
 | ε                                 | [`success`](Rule-Reference.md#success) <sup>[(atomic)](Rule-Reference.md#atomic)</sup> |
 | ⊥                                 | [`failure`](Rule-Reference.md#failure) <sup>[(atomic)](Rule-Reference.md#atomic)</sup> |
