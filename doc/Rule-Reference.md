@@ -1251,7 +1251,7 @@ These rules are in namespace `tao::pegtl`.
 
 * [Equivalent] to `seq< R... >`, but:
 * Disables actions while parsing `R...`, i.e.
-* calls `R...` with `apply_mode::nothing`.
+* calls `R...` with `apply_mode::disabled`.
 * [Meta data] and [implementation] mapping:
   - `disable<>::rule_t` is `internal::success`
   - `disable< R >::rule_t` is `internal::disable<, R >`
@@ -1263,7 +1263,7 @@ These rules are in namespace `tao::pegtl`.
 
 * [Equivalent] to `seq< R... >`, but:
 * Enables actions while parsing `R...`, i.e.
-* calls `R...` with `apply_mode::action`.
+* calls `R...` with `apply_mode::enabled`.
 * [Meta data] and [implementation] mapping:
   - `enable<>::rule_t` is `internal::success`
   - `enable< R >::rule_t` is `internal::enable< R >`

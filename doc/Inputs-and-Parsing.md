@@ -373,7 +373,7 @@ The result of a parsing run, i.e. an invocation of `tao::pegtl::parse()`, can be
 template< typename Rule,
           template< typename... > class Action = nothing,
           template< typename... > class Control = normal,
-          apply_mode A = apply_mode::action,
+          apply_mode A = apply_mode::enabled,
           rewind_mode M = rewind_mode::dontcare,
           typename ParseInput,
           typename... States >
@@ -397,7 +397,7 @@ Calling `parse_nested()` requires the input from the outer parsing run, or the p
 template< typename Rule,
           template< typename... > class Action = nothing,
           template< typename... > class Control = normal,
-          apply_mode A = apply_mode::action,
+          apply_mode A = apply_mode::enabled,
           rewind_mode M = rewind_mode::dontcare,
           typename OuterInput,  // Can also be class position.
           typename ParseInput,
