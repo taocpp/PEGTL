@@ -1,4 +1,7 @@
-# Installing and Using
+# Install Guide
+
+How to install the PEGTL and the system requirements.
+
 
 ## Contents
 
@@ -13,70 +16,88 @@
   * [`find_package`](#find_package)
   * [`add_subdirectory`](#add_subdirectory)
   * [Mixing `find_package` and `add_subdirectory`](#mixing-find_package-and-add_subdirectory)
+* [Distributions](#distributions)
 * [Manual Installation](#manual-installation)
 * [Embedding the PEGTL](#embedding-the-pegtl)
   * [Embedding in Binaries](#embedding-in-binaries)
   * [Embedding in Libraries](#embedding-in-libraries)
   * [Embedding in Library Interfaces](#embedding-in-library-interfaces)
 
+
 ## Requirements
 
-The PEGTL requires a C++17-capable compiler, e.g. one of
+The PEGTL requires a C++17 enabled compiler like
 
-* GCC 9
-* Clang 7
-* Visual Studio 2019
+* GCC 9 with `--std=c++17`
+* Clang 7 with `--std=c++17`
+* Visual Studio 2019 with `/std:c++17`
 
-on either
+on the mainstream operating systems
 
 * Linux
 * macOS
 * Windows
+* Android
 
-It requires C++17, e.g. using the `--std=c++17` compiler switch.
-Using newer versions of the C++ standard is supported.
+The PEGTL is written with an emphasis on clean code and compiles with `-pedantic`, `-Wall`, `-Wextra` and `-Werror`.
+Newer compilers and newer versions of the C++ standard are fully supported.
 
-Due to the design of the PEGTL with many small functions and the reliance on the compiler for performance it is recommended to *always* compile with at least some optimisations enabled, in particular those that inline functions.
+The PEGTL is built with many small functions and relies greatly on the compiler for performance optimizations.
+It is recommended to *always* compile with *some* optimizations enabled, especially function inlining.
 
 Larger projects will frequently require the `/bigobj` option when compiling with Visual Studio on Windows.
 
-It should also work with other C++17 compilers on other Unix systems (or any sufficiently compatible platform).
+The PEGTL should also be compatible with other C++17 capable compilers and on other Unix or sufficiently Unix-like operating systems.
 
-The PEGTL is written with an emphasis on clean code and is compiles with `-pedantic`, `-Wall`, `-Wextra` and `-Werror`.
 
 ## Disabling Exceptions
 
-The PEGTL is compatible with `-fno-exceptions`, however, when disabling exceptions all facilities that directly use exceptions are not available:
+The PEGTL *is* compatible with `-fno-exceptions`, however not all features are available when exceptions are disabled while others slightly change their behavior.
 
-* Rules that require exceptions:
-  * `if_must<>`.
-  * `if_must_else<>`.
-  * `list_must<>`.
-  * `must<>`.
-  * `opt_must<>`.
-  * `raise<>`.
-  * `raise_message<>`.
-  * `star_must<>`.
-  * `try_catch_any_raise_nested<>`.
-  * `try_catch_any_return_false<>`.
-  * `try_catch_raise_nested<>`.
-  * `try_catch_return_false<>`.
-  * `try_catch_std_raise_nested<>`.
-  * `try_catch_std_return_false<>`.
-  * `try_catch_type_raise_nested<>`.
-  * `try_catch_type_return_false<>`.
-* Headers that require exceptions:
-  * `tao/pegtl/contrib/http.hpp`.
-  * `tao/pegtl/contrib/integer.hpp`.
-  * `tao/pegtl/contrib/uri.hpp`.
-* The error control class template `must_if<>` is unavailable.
-* Some included tests and examples are disabled or limited (via `#if`).
+Parsing rules that throw or catch exceptions and therefore require exception support:
+
+ * `if_must<>`
+ * `if_must_else<>`
+ * `list_must<>`
+ * `must<>`
+ * `opt_must<>`
+ * `raise<>`
+ * `raise_message<>`
+ * `star_must<>`
+ * `try_catch_any_raise_nested<>`
+ * `try_catch_any_return_false<>`
+ * `try_catch_raise_nested<>`
+ * `try_catch_return_false<>`
+ * `try_catch_std_raise_nested<>`
+ * `try_catch_std_return_false<>`
+ * `try_catch_type_raise_nested<>`
+ * `try_catch_type_return_false<>`
+
+Grammars and other classes that indirectly rely on exception support or are intrinsically linked to exceptions:
+
+ * `tao/pegtl/parse_error.hpp`
+ * `tao/pegtl/parse_error_base.hpp`
+ * `tao/pegtl/control/must_if.hpp`
+ * `tao/pegtl/contrib/http.hpp`.
+ * `tao/pegtl/contrib/integer.hpp`.
+ * `tao/pegtl/contrib/uri.hpp`.
+
+Facilities that use `std::perror()` and `std::terminate()` instead of `throw` when exceptions are disabled:
+
+ * All I/O errors during file mapping and reading.
+ * Some [contrib](Contrib-and-Examples.md#contrib) actions.
+
+Some tests and examples are (partially) disabled when compiling without exception support.
+
 
 ## Disabling RTTI
 
 The PEGTL is compatible with `-fno-rtti` on GCC, Clang, and MSVC.
-An exception are GCC 9.1 and GCC 9.2, see [bug #91155](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155).
-On unknown compilers, we use RTTI by default (for demangling), please report any such compiler and it might be possible to extend support for disabling RTTI for those compilers as well.
+The only exceptions are GCC versions 9.1 and 9.2 due to an unfortunate compiler bug, see [bug #91155](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155).
+
+On other compilers RTTI is required by default (for demangling, see `include/tao/pegtl/demangle.hpp`).
+Let us know if you use such a compiler since an RTTI-free compiler-specific demangling function might be possible.
+
 
 ## Installation Packages
 
@@ -84,6 +105,7 @@ On unknown compilers, we use RTTI by default (for demangling), please report any
 
 Installation packages are available from several package managers.
 Note that some of the listed packages are not updated regularly.
+
 
 ## Using Vcpkg
 
@@ -99,6 +121,7 @@ and community contributors. If the version is out-of-date, please
 on the Vcpkg repository.
 
 For more options and ways to use Vcpkg, please refer to the [Vcpkg documentation].
+
 
 ## Using Conan
 
@@ -116,6 +139,7 @@ and community contributors. If the version is out-of-date, please
 on the Conan Center Index repository.
 
 For more options and ways to use Conan, please refer to the [Conan documentation].
+
 
 ## Using CMake
 
@@ -200,15 +224,24 @@ PEGTL versions.
 
 For more options and ways to use CMake, please refer to the [CMake documentation].
 
+
+## Distributions
+
+Some [Linux distributions](https://distrowatch.org/), and related projects like [Homebrew](https://brew.sh/) and [MacPorts](https://macports.org/), have PEGTL packages that can be installed with their respective native package manager.
+Please check on the project homepage or with the package manager whether a PEGTL package is available.
+
+We greatly appreciate the work of the people providing and maintaining these packages.
+
+
 ## Manual Installation
 
 Since the PEGTL is a header-only library, _it doesn't itself need to be compiled_.
 In terms of installation for use in other projects, the following steps are required.
 
-- The `include/` directory and the `LICENSE` file should be copied somewhere, e.g.
+- The `include/` directory and the `LICENSE_1_0.txt` file should be copied somewhere, e.g.
 
   - to `/usr/local/include/` in order to use it system-wide, or
-  - to some appropriate directory within your project,
+  - to some appropriate directory within your project.
 
 - A compatible compiler with appropriate compiler switches must be used.
 - The compiler search-path for include files must include (no pun intended)
@@ -216,13 +249,14 @@ In terms of installation for use in other projects, the following steps are requ
 
 The `Makefile` and `.cpp`-files included in the PEGTL distribution archive serve
 as practical examples on how to develop grammars and applications with the PEGTL.
-Invoking `make` in the main PEGTL directory builds all included example programs
+Invoking `make` in the main PEGTL directory builds all included example programs,
 and builds and runs all unit tests.
 
 The `Makefile` is as simple as possible, but should manage to build the examples
 and unit tests on Linux with GCC and on macOS with Clang (as supplied by Apple).
 When running into problems using other combinations, please consult the `Makefile`
 for customising the build process.
+
 
 ## Embedding the PEGTL
 
@@ -243,9 +277,9 @@ that are built with these libraries, and that themselves use the PEGTL, do not
 violate the One Definition Rule (ODR) as would be the case when application
 and libraries contain different versions of the PEGTL.
 
-Since the PEGTL does *not* guarantee ABI compatibility, not even across minor
-or patch releases, libraries *have* to ensure that the symbols for the PEGTL
-they include differ from those of the applications that use them.
+Since the PEGTL does **not** guarantee ABI compatibility, not even across minor
+or patch releases, libraries **have** to ensure that symbols for their embedded
+PEGTL differ from those of the applications that also use their own PEGTL.
 
 This can be achieved by changing the macro `TAO_PEGTL_NAMESPACE` which, by
 default, is set to `tao::pegtl`. To change the namespace, simply define
@@ -285,6 +319,7 @@ The above command needs to run from the top-level directory of the embedded
 PEGTL. Additionally, `MYLIB_PEGTL_NAMESPACE` needs to be set as explained
 above; alternatively, since the PEGTL source is already being mnodified,
 `include/tao/pegtl/config.hpp` can be changed to use the desired namespace.
+
 
 ---
 

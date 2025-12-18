@@ -1,11 +1,12 @@
 # Input Reference
 
 The reference documention for all input classes.
-The buffer inputs are documented elsewhere (TODO).
+The stream inputs are documented elsewhere (TODO).
+
 
 ## Contents
 
-* [Common](#common)
+* [Preamble](#preamble)
 * [Argv Input](#argv-input)
 * [Base Input](#base-input)
 * [View Input](#view-input)
@@ -20,7 +21,7 @@ The buffer inputs are documented elsewhere (TODO).
 * [Text Mmap Input](#text-mmap-input)
 
 
-## Common
+## Preamble
 
 All inputs documented on this page are defined in `tao/pegtl/inputs.hpp` which is included from `tao/pegtl.hpp`.
 
@@ -956,6 +957,7 @@ struct text_mmap_input
 template< typename... Args >
 text_mmap_input( Args...&& ) -> text_mmap_input< tao_default_eol, char >;
 ```
+
 
 ---
 

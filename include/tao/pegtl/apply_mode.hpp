@@ -11,8 +11,8 @@ namespace TAO_PEGTL_NAMESPACE
 {
    enum class apply_mode : bool
    {
-      action = true,
-      nothing = false
+      enabled = true,
+      disabled = false
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

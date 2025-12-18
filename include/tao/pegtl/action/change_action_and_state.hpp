@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE
          if constexpr( std::is_constructible_v< NewState, const ParseInput&, States... > ) {
             NewState s( static_cast< const ParseInput& >( in ), st... );
             if( Control< Rule >::template match< A, M, NewAction, Control >( in, s ) ) {
-               if constexpr( A == apply_mode::action ) {
+               if constexpr( A == apply_mode::enabled ) {
                   Action< Rule >::success( static_cast< const ParseInput& >( in ), s, st... );
                }
                return true;
@@ -47,7 +47,7 @@ namespace TAO_PEGTL_NAMESPACE
          else if constexpr( std::is_default_constructible_v< NewState > ) {
             NewState s;
             if( Control< Rule >::template match< A, M, NewAction, Control >( in, s ) ) {
-               if constexpr( A == apply_mode::action ) {
+               if constexpr( A == apply_mode::enabled ) {
                   Action< Rule >::success( static_cast< const ParseInput& >( in ), s, st... );
                }
                return true;

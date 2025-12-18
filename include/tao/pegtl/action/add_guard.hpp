@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE
          if constexpr( std::is_default_constructible_v< AddGuard > ) {
             AddGuard g;
             if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... ) ) {
-               if constexpr( A == apply_mode::action ) {
+               if constexpr( A == apply_mode::enabled ) {
                   Action< Rule >::success( static_cast< const ParseInput& >( in ), g, st... );
                }
                return true;
@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE
          else if constexpr( std::is_constructible_v< AddGuard, const ParseInput&, States... > ) {
             AddGuard g( static_cast< const ParseInput& >( in ), st... );
             if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... ) ) {
-               if constexpr( A == apply_mode::action ) {
+               if constexpr( A == apply_mode::enabled ) {
                   Action< Rule >::success( static_cast< const ParseInput& >( in ), g, st... );
                }
                return true;

@@ -14,7 +14,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       static_assert( std::is_same_v< std::underlying_type_t< apply_mode >, bool > );
 
-      static_assert( apply_mode::action != apply_mode::nothing );
+      static_assert( apply_mode::enabled != apply_mode::disabled );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

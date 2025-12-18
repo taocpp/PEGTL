@@ -1,8 +1,33 @@
 # Rule Reference
 
 The reference documentation for all rules and combinators.
+The rules related to stream inputs are documented elsewhere (TODO).
 
-For how to implement your own rules and combinators see ... TODO.
+
+## Contents
+
+* [Preamble](#preamble)
+* [Atomic](#atomic)
+* [ASCII](#ascii)
+* [Unicode](#unicode)
+* [Binary](#binary)
+* [Member](#member)
+* [Combinators](#combinators)
+* [Convenience](#convenience)
+* [Exceptional](#exceptional)
+* [Controlling](#controlling)
+* [Compatibility](#compatibility)
+* [ICU Support](#icu-support)
+  * [Basic ICU Rules](#basic-icu-rules)
+  * [ICU Rules for Binary Properties](#icu-rules-for-binary-properties)
+  * [ICU Rules for Enumerated Properties](#icu-rules-for-enumerated-properties)
+  * [ICU Rules for Value Properties](#icu-rules-for-value-properties)
+* [Index](#index)
+
+
+## Preamble
+
+For how rule and combinators are implemented see [Rule Implementation](Rule-Implementation.md).
 
 For additional and experimental rules and combinators see ... TODO.
 
@@ -10,6 +35,7 @@ For additional and experimental rules and combinators see ... TODO.
 
 All rules reside in namespace `tao::pegtl` or a sub-namespace of `tao::pegtl`.
 This default can be changed via the macro `TAO_PEGTL_NAMESPACE` in `tao/pegtl/config.hpp`.
+The namespace `tao::pegtl` is generally omitted on this page.
 
 TODO: Consistent namespace usage in equivalent rules.
 
@@ -37,26 +63,6 @@ In the zero case, i.e. `seq<>`, we also say `R` is "empty", otherwise `R` is "no
 
 Rules that can be used for end-of-line scanning mode and/or lazy end-of-line tracking are documented as being "also available in the `scan` and/or `lazy` sub-namespace".
 The different end-of-line modes that can be chosen for an input are documented in [TODO].
-
-
-## Contents
-
-* [Atomic](#atomic)
-* [ASCII](#ascii)
-* [Unicode](#unicode)
-* [Binary](#binary)
-* [Member](#member)
-* [Combinators](#combinators)
-* [Convenience](#convenience)
-* [Exceptional](#exceptional)
-* [Controlling](#controlling)
-* [Compatibility](#compatibility)
-* [ICU Support](#icu-support)
-  * [Basic ICU Rules](#basic-icu-rules)
-  * [ICU Rules for Binary Properties](#icu-rules-for-binary-properties)
-  * [ICU Rules for Enumerated Properties](#icu-rules-for-enumerated-properties)
-  * [ICU Rules for Value Properties](#icu-rules-for-value-properties)
-* [Index](#index)
 
 
 ## Atomic
@@ -87,7 +93,7 @@ These rules are in namespace `tao::pegtl`.
 
 * Succeeds if the input contains at least `Num` further objects, and
 * unconditionally consumes `Num` objects from the input.
-* Limited to the buffer size when using a [buffer input].
+* Limited to the buffer size when using a [stream input].
 * [Meta data] and [implementation] mapping:
   - `consume< 0 >::rule_t` is `internal::success`
   - `consume< N >::rule_t` is `internal::consume< N >`
@@ -122,7 +128,7 @@ Note that the default behaviour can be changed either by defining `TAO_PEGTL_DEF
 ###### `everything`
 
 * Matches and consumes the entire input.
-* Limited by the buffer size when using a [buffer input].
+* Limited by the buffer size when using a [stream input].
 * [Equivalent] to `until< eof, any >`.
 * [Meta data] and [implementation] mapping:
   - `everything::rule_t` is `internal::everything`
@@ -2098,6 +2104,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`xid_continue`](#xid_continue) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`xid_start`](#xid_start) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 
+
 ---
 
 This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
@@ -2107,7 +2114,7 @@ Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt
 
 [ASCII rules]: #ascii
-[buffer input]: TODO!!!
+[stream input]: Stream-Parsing.md
 [Equivalent]: #equivalence
 [implementation]: #implementation
 [Meta data]: Meta-Data-and-Visit.md

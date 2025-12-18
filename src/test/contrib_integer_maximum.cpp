@@ -42,17 +42,17 @@ namespace TAO_PEGTL_NAMESPACE
       }
       {
          text_view_input< scan::lf > in( i );
-         TAO_PEGTL_TEST_THROWS( parse< must< maximum_rule_with_action< unsigned, 42 >, eof >, nothing, normal, apply_mode::nothing >( in ) );
+         TAO_PEGTL_TEST_THROWS( parse< must< maximum_rule_with_action< unsigned, 42 >, eof >, nothing, normal, apply_mode::disabled >( in ) );
       }
       {
          unsigned st = 123;
          text_view_input< scan::lf > in( i );
-         TAO_PEGTL_TEST_THROWS( parse< must< maximum_rule_with_action< unsigned, 42 >, eof >, nothing, normal, apply_mode::nothing >( in, st ) );
+         TAO_PEGTL_TEST_THROWS( parse< must< maximum_rule_with_action< unsigned, 42 >, eof >, nothing, normal, apply_mode::disabled >( in, st ) );
       }
       {
          unsigned st = 123;
          text_view_input< scan::lf > in( i );
-         TAO_PEGTL_TEST_THROWS( parse< must< maximum_rule_with_action< unsigned, 42 >, eof >, nothing, normal, apply_mode::nothing >( in, st, in ) );
+         TAO_PEGTL_TEST_THROWS( parse< must< maximum_rule_with_action< unsigned, 42 >, eof >, nothing, normal, apply_mode::disabled >( in, st, in ) );
       }
       {
          unsigned st = 123;
@@ -71,18 +71,18 @@ namespace TAO_PEGTL_NAMESPACE
       }
       {
          text_view_input< scan::lf > in( i );
-         parse< must< maximum_rule_with_action< unsigned, 42 >, eof >, nothing, normal, apply_mode::nothing >( in );
+         parse< must< maximum_rule_with_action< unsigned, 42 >, eof >, nothing, normal, apply_mode::disabled >( in );
       }
       {
          unsigned st = 123;
          text_view_input< scan::lf > in( i );
-         parse< must< maximum_rule_with_action< unsigned, 42 >, eof >, nothing, normal, apply_mode::nothing >( in, st );
+         parse< must< maximum_rule_with_action< unsigned, 42 >, eof >, nothing, normal, apply_mode::disabled >( in, st );
          TAO_PEGTL_TEST_ASSERT( st == 123 );
       }
       {
          unsigned st = 123;
          text_view_input< scan::lf > in( i );
-         parse< must< maximum_rule_with_action< unsigned, 42 >, eof >, nothing, normal, apply_mode::nothing >( in, st, in );
+         parse< must< maximum_rule_with_action< unsigned, 42 >, eof >, nothing, normal, apply_mode::disabled >( in, st, in );
          TAO_PEGTL_TEST_ASSERT( st == 123 );
       }
       {

@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule,
              template< typename... > class Action = nothing,
              template< typename... > class Control = normal,
-             apply_mode A = apply_mode::action,
+             apply_mode A = apply_mode::enabled,
              rewind_mode M = rewind_mode::optional,
              typename ParseInput,
              typename... States >
@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Rule,
              template< typename... > class Action = nothing,
              template< typename... > class Control = normal,
-             apply_mode A = apply_mode::action,
+             apply_mode A = apply_mode::enabled,
              rewind_mode M = rewind_mode::optional,
              typename Ambient,
              typename ParseInput,

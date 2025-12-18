@@ -8,12 +8,30 @@ The stream parsing facilities can be included via `<tao/pegtl/stream.hpp>` -- or
 
 ## Contents
 
- * [Overview](#overview)
- * [Buffers](#buffers)
- * [Readers](#readers)
- * [Inputs](#inputs)
- * [Rules](#rules)
- * [Actions](#actions)
+* [Overview](#overview)
+* [Buffers](#buffers)
+  * [Alloc Buffer](#alloc-buffer)
+  * [Array Buffer](#array-buffer)
+  * [Other Buffer](#other-buffer)
+* [Readers](#readers)
+  * [CStream Reader](#cstream-reader)
+  * [CString Reader](#cstring-reader)
+  * [IStream Reader](#istream-reader)
+  * [Iterator Reader](#iterator-reader)
+* [Inputs](#inputs)
+  * [Plain Inputs](#plain-inputs)
+  * [Plain Auto Inputs](#plain-auto-inputs)
+  * [Text Inputs](#text-inputs)
+  * [Text Auto Inputs](#text-auto-inputs)
+* [Rules](#rules)
+  * [`discard`](#discard)
+  * [`is_stream`](#is_stream)
+  * [`require< Num >`](#require-num-)
+* [Actions](#actions)
+  * [`discard_input`](#discard_input)
+  * [`discard_input_on< Bool >`](#discard_input_on-bool-)
+  * [`discard_input_on_failure`](#discard_input_on_failure)
+  * [`discard_input_on_success`](#discard_input_on_success)
 
 
 ## Overview
@@ -122,7 +140,7 @@ This is an informal interface that all readers implement -- possibly declared `n
 
 There is no direct interaction with reader objects, however the arguments to a reader constructor need to be supplied to any input using that reader (same for template parameters).
 
-###### CString
+###### CString Reader
 
 The cstring reader takes a pointer to a C string.
 It does not need to be told how long the string is, nor does it use `std::strlen()` or similar to compute the length.
@@ -138,7 +156,7 @@ public:
 };
 ```
 
-###### CStream
+###### CStream Reader
 
 The cstream reader takes a `std::FILE*` to an open C file stream.
 
@@ -152,7 +170,7 @@ public:
 };
 ```
 
-###### IStream
+###### IStream Reader
 
 The istream reader takes a reference to a C++ stream to which it keeps a reference.
 
@@ -164,7 +182,7 @@ public:
 };
 ```
 
-###### Iterator
+###### Iterator Reader
 
 The iterator reader takes a range of input iterators.
 It copies the iterators, but not (initially) the range of bytes they represent.
@@ -342,7 +360,7 @@ using other_iterator_auto_input = /* unspecified */
 
 ###### Text Inputs
 
-The text inputs use `text_position` or `position_with_source< Source, text_position >` with the same limitations as the regular inputs regarding the line and column numbers.
+The text inputs use `text_position` or `position_with_source< Source, text_position >` with the [same limitations](TODO!) as the regular inputs regarding the line and column numbers.
 
 ```c++
 template< typename Eol = tao_stream_eol,
@@ -419,7 +437,7 @@ using other_text_iterator_input = /* unspecified */
 
 ###### Text Auto Inputs
 
-The inputs with `auto` in their name perform auto discard.
+The inputs with `text` and `auto` in their name combine the name-giving features from the [text inputs](#text-inputs) and the [auto inputs](#auto-inputs).
 
 ```c++
 template< typename Eol = tao_stream_eol,
@@ -497,7 +515,7 @@ using other_text_iterator_auto_input = /* unspecified */
 
 ## Rules
 
-The `discard` and `require` rules do nothing on non-incremental inputs.
+The `discard` and `require` rules do nothing on non-stream inputs.
 
 All rules are included with `<tao/pegtl/buffer.hpp>` or can be included individually.
 
@@ -538,7 +556,7 @@ The analyze traits for these rules are in `<tao/pegtl/buffer/analyze_traits.hpp>
 * Calls `discard()` on the input if the rule it is attached to returns.
 * Publicly derives from [`maybe_nothing`](Action-Reference.md#maybe-nothing).
 
-###### `discard_input_on`
+###### `discard_input_on< Bool >`
 
 * Action with (only) a `match()` function.
 * Takes a `bool B` as template parameter.
@@ -552,6 +570,7 @@ The analyze traits for these rules are in `<tao/pegtl/buffer/analyze_traits.hpp>
 ###### `discard_input_on_success`
 
 * Type alias for `discard_input_on< true >`.
+
 
 ---
 

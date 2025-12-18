@@ -32,7 +32,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static bool match( [[maybe_unused]] ParseInput& in, [[maybe_unused]] States&&... st )
       {
-         if constexpr( ( A == apply_mode::action ) && ( sizeof...( Actions ) > 0 ) ) {
+         if constexpr( ( A == apply_mode::enabled ) && ( sizeof...( Actions ) > 0 ) ) {
             const action_input< ParseInput > i2( in.rewind_position(), in );  // No data -- range is from begin to begin.
             return ( apply_impl< Actions >::apply( i2, st... ) && ... );
          }

@@ -137,7 +137,7 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static auto parse( ParseInput&& in )
       {
          internal::record_state< std::decay_t< ParseInput > > state;
-         if( !TAO_PEGTL_NAMESPACE::match< Rule, apply_mode::action, rewind_mode::optional, actions, internal::record_control< Control >::template type >( in, state ) ) {
+         if( !TAO_PEGTL_NAMESPACE::match< Rule, apply_mode::enabled, rewind_mode::optional, actions, internal::record_control< Control >::template type >( in, state ) ) {
             state.samples.clear();
          }
          return std::move( state.samples );

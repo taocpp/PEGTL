@@ -108,18 +108,18 @@ namespace TAO_PEGTL_NAMESPACE
       }
       {
          text_view_input< scan::lf > in( i );
-         parse< must< unsigned_rule_with_action, eof >, nothing, normal, apply_mode::nothing >( in );
+         parse< must< unsigned_rule_with_action, eof >, nothing, normal, apply_mode::disabled >( in );
       }
       {
          S st = 123;
          text_view_input< scan::lf > in( i );
-         parse< must< unsigned_rule_with_action, eof >, nothing, normal, apply_mode::nothing >( in, st );
+         parse< must< unsigned_rule_with_action, eof >, nothing, normal, apply_mode::disabled >( in, st );
          TAO_PEGTL_TEST_ASSERT( st == 123 );
       }
       {
          S st = 123;
          text_view_input< scan::lf > in( i );
-         parse< must< unsigned_rule_with_action, eof >, nothing, normal, apply_mode::nothing >( in, st, in );
+         parse< must< unsigned_rule_with_action, eof >, nothing, normal, apply_mode::disabled >( in, st, in );
          TAO_PEGTL_TEST_ASSERT( st == 123 );
       }
       {

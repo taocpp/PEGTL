@@ -97,7 +97,7 @@ namespace TAO_PEGTL_NAMESPACE
       {};
 
       template< typename Rule,
-                apply_mode A = apply_mode::action,
+                apply_mode A = apply_mode::enabled,
                 rewind_mode M = rewind_mode::optional,
                 template< typename... > class Control = normal,
                 typename ParseInput,

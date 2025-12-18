@@ -22,10 +22,11 @@ The control class adapters that modify the states before forwarding the control 
 ### Namespaces
 
 All control class templates reside in namespace `tao::pegtl`.
-This default can be changed via the macro `TAO_PEGTL_NAMESPACE` in `tao/pegtl/config.hpp`.
+This default can be changed via the macro `TAO_PEGTL_NAMESPACE` or in `tao/pegtl/config.hpp`.
 
 
 ## Contents
+
 
 * [Normal](#normal)
 * [Input Control](#input-control)
@@ -120,6 +121,7 @@ struct shuffle
 ### State Control
 
 TODO
+
 
 ---
 

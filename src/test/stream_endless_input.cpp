@@ -47,12 +47,12 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
       }
       for( std::size_t i = 0; i < 42; ++i ) {
-         TAO_PEGTL_TEST_ASSERT( parse< rep< 3000, one< 'a' > >, nothing, normal, apply_mode::action, rewind_mode::required >( in ) );
+         TAO_PEGTL_TEST_ASSERT( parse< rep< 3000, one< 'a' > >, nothing, normal, apply_mode::enabled, rewind_mode::required >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
       }
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
 #if defined( __cpp_exceptions )
-      TAO_PEGTL_TEST_THROWS( parse< rep< 12000, one< 'a' > >, nothing, normal, apply_mode::action, rewind_mode::required >( in ) );
+      TAO_PEGTL_TEST_THROWS( parse< rep< 12000, one< 'a' > >, nothing, normal, apply_mode::enabled, rewind_mode::required >( in ) );
 #endif
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
       TAO_PEGTL_TEST_ASSERT( parse< rep< 12000, one< 'a' > > >( in ) );
@@ -94,12 +94,12 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
       }
       for( std::size_t i = 0; i < 42; ++i ) {
-         TAO_PEGTL_TEST_ASSERT( parse< rep< 1000, string< 'a', 'b', 'c' > >, nothing, normal, apply_mode::action, rewind_mode::required >( in ) );
+         TAO_PEGTL_TEST_ASSERT( parse< rep< 1000, string< 'a', 'b', 'c' > >, nothing, normal, apply_mode::enabled, rewind_mode::required >( in ) );
          TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
       }
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
 #if defined( __cpp_exceptions )
-      TAO_PEGTL_TEST_THROWS( parse< rep< 4000, string< 'a', 'b', 'c' > >, nothing, normal, apply_mode::action, rewind_mode::required >( in ) );
+      TAO_PEGTL_TEST_THROWS( parse< rep< 4000, string< 'a', 'b', 'c' > >, nothing, normal, apply_mode::enabled, rewind_mode::required >( in ) );
 #endif
       TAO_PEGTL_TEST_ASSERT( in.get_rewind_guards() == 0 );
       TAO_PEGTL_TEST_ASSERT( parse< rep< 4000, string< 'a', 'b', 'c' > > >( in ) );

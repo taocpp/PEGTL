@@ -268,7 +268,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
          {
             if( const auto* info = match_prefix( in, cfg.max_prefix_length, cfg.prefix ) ) {
                (void)Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, info->prefix_binding_power );
-               if constexpr( A == apply_mode::action ) {
+               if constexpr( A == apply_mode::enabled ) {
                   res.prefix( info->name );
                }
                return true;
@@ -296,14 +296,14 @@ namespace TAO_PEGTL_NAMESPACE::expression
                   (void)Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
                   (void)Control< must< star< ignored >, string_view_rule > >::template match< A, M, Action, Control >( in, info->other );
                   (void)Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, info->right_binding_power );
-                  if constexpr( A == apply_mode::action ) {
+                  if constexpr( A == apply_mode::enabled ) {
                      res.ternary( info->name, info->other );
                   }
                   return true;
                }
                if( ( info->name == "." ) || ( info->name == "::" ) || ( info->name == "->" ) ) {
                   (void)Control< must< star< ignored >, Identifier > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
-                  if constexpr( A == apply_mode::action ) {
+                  if constexpr( A == apply_mode::enabled ) {
                      res.infix( info->name );
                   }
                   return true;
@@ -312,20 +312,20 @@ namespace TAO_PEGTL_NAMESPACE::expression
                   const std::size_t size = res.string_stack.size();  // TODO: Determine number of arguments without relying on res!!!
                   (void)Control< must< star< ignored >, opt< list_must< expression< Literal, Identifier >, one< ',' >, ignored > > > >::template match< A, M, Action, Control >( in, res, cfg, 0 );
                   (void)Control< must< star< ignored >, string_view_rule > >::template match< A, M, Action, Control >( in, info->other );
-                  if constexpr( A == apply_mode::action ) {
+                  if constexpr( A == apply_mode::enabled ) {
                      res.call( info->name, info->other, res.string_stack.size() - size );
                   }
                   return true;
                }
                if( info->is_infix() ) {
                   (void)Control< must< star< ignored >, expression< Literal, Identifier > > >::template match< A, M, Action, Control >( in, res, cfg, info->right_binding_power );
-                  if constexpr( A == apply_mode::action ) {
+                  if constexpr( A == apply_mode::enabled ) {
                      res.infix( info->name );
                   }
                   return true;
                }
                if( info->is_postfix() ) {
-                  if constexpr( A == apply_mode::action ) {
+                  if constexpr( A == apply_mode::enabled ) {
                      res.postfix( info->name );
                   }
                   return true;

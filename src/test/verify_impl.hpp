@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
 #if defined( __cpp_exceptions )
       try {
-         if( normal< Rule >::template match< apply_mode::action, rewind_mode::required, Action, normal >( in ) ) {
+         if( normal< Rule >::template match< apply_mode::enabled, rewind_mode::required, Action, normal >( in ) ) {
             return result_type::success;
          }
          return result_type::local_failure;
@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       // LCOV_EXCL_STOP
 #else
-      if( normal< Rule >::template match< apply_mode::action, rewind_mode::required, Action, normal >( in ) ) {
+      if( normal< Rule >::template match< apply_mode::enabled, rewind_mode::required, Action, normal >( in ) ) {
          return result_type::success;
       }
       return result_type::local_failure;

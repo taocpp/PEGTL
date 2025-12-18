@@ -13,21 +13,13 @@
 
 The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++ header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
-During development of a new major version the main branch can go through incompatible changes.
-For a stable experience please download [the latest release](https://github.com/taocpp/PEGTL/releases).
-
 ## Documentation
 
 * [Changelog](doc/Changelog.md)
-* [Development](doc/README.md) (C++20)
 * [Version 4.x](https://github.com/taocpp/PEGTL/blob/4.x/doc/README.md) (C++17)
 * [Version 3.x](https://github.com/taocpp/PEGTL/blob/3.x/doc/README.md) (C++17)
 * [Version 2.x](https://github.com/taocpp/PEGTL/blob/2.x/doc/README.md) (C++11)
 * [Version 1.x](https://github.com/taocpp/PEGTL/blob/1.x/doc/README.md) (C++11)
-
-## Contact
-
-For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to open a [discussion](https://github.com/taocpp/PEGTL/discussions), an [issue](https://github.com/taocpp/PEGTL/issues) or a [pull request](https://github.com/taocpp/PEGTL/pulls), or contact the authors at `taocpp(at)icemx.net`.
 
 ## Introduction
 
@@ -81,6 +73,12 @@ Code coverage is automatically measured and the unit tests cover 100% of the cor
 
 [Releases](https://github.com/taocpp/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
 Incompatible API changes are *only* allowed to occur between major versions.
+
+For a stable experience please download [the latest release](https://github.com/taocpp/PEGTL/releases).
+
+## Contact
+
+For questions and suggestions regarding the PEGTL, success or failure stories, and any other kind of feedback, please feel free to open a [discussion](https://github.com/taocpp/PEGTL/discussions), an [issue](https://github.com/taocpp/PEGTL/issues) or a [pull request](https://github.com/taocpp/PEGTL/pulls), or contact the authors at `taocpp(at)icemx.net`.
 
 ## Thank You
 

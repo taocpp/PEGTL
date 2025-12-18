@@ -25,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          pos.count += in.size();
 
          while( !in.empty() ) {
-            if( normal< Eol >::template match< apply_mode::nothing, rewind_mode::required, nothing, normal >( in ) ) {
+            if( normal< Eol >::template match< apply_mode::disabled, rewind_mode::required, nothing, normal >( in ) ) {
                pos.line++;
                pos.column = 1;
                continue;

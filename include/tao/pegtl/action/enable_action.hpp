@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         return TAO_PEGTL_NAMESPACE::match< Rule, apply_mode::action, M, Action, Control >( in, st... );
+         return TAO_PEGTL_NAMESPACE::match< Rule, apply_mode::enabled, M, Action, Control >( in, st... );
       }
    };
 

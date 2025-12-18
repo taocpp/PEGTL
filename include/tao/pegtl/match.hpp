@@ -45,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE
       else {
          using rewind_position_t = typename ParseInput::rewind_position_t;
 
-         constexpr bool enable_action = ( A == apply_mode::action );
+         constexpr bool enable_action = ( A == apply_mode::enabled );
 
          constexpr bool has_apply_void = enable_action && internal::has_apply< Control< Rule >, void, Action, const rewind_position_t&, const ParseInput&, States... >;
          constexpr bool has_apply_bool = enable_action && internal::has_apply< Control< Rule >, bool, Action, const rewind_position_t&, const ParseInput&, States... >;

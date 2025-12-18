@@ -1,33 +1,97 @@
 # Action Reference
 
-The reference documention for all action classes and class templates.
+The reference documention for all included actions
+The actions related to stream inputs are documented elsewhere (TODO).
 
-### Included
+
+## Contents
+
+* [Preamble](#preamble)
+* [Actions](#actions)
+* [Index](#index)
+
+
+## Preamble
+
+#### Included
 
 Only `tao/pegtl/nothing.hpp` which defines `nothing` and `maybe_nothing` is automatically included with `tao/pegtl.hpp`.
 For all other actions the appropriate header in `tao/pegtl/action/` needs to be included manually.
 
-### Functions
+#### Functions
 
 
 
-### Namespaces
+#### Namespaces
 
 All action classes and class templates reside in namespace `tao::pegtl`.
 This default can be changed via the macro `TAO_PEGTL_NAMESPACE` in `tao/pegtl/config.hpp`.
 
 
-## Contents
+## Actions
 
-* [Default](#default)
-* [Tag Classes](#tag-classes)
-* [Index](#index)
+###### `add_guard`
 
-## Default
+Publicly derives from [`maybe_nothing`](#maybe-nothing).
+Included via `tao/pegtl/action/add_guard.hpp`.
+
+###### `add_state`
+
+Publicly derives from [`maybe_nothing`](#maybe-nothing).
+Included via `tao/pegtl/action/add_state.hpp`.
+
+###### `change_action`
+
+An action class template with a `match()` function that parses the rule to which it is attached with its template parameter as action class template.
+In other words, an action version of the [`action`](Rule-Reference.md#action) rule.
+
+Publicly derives from [`maybe_nothing`](#maybe-nothing).
+Included via `tao/pegtl/action/change_action.hpp`.
+
+###### `change_action_and_state`
+
+###### `change_action_and_states`
+
+###### `change_control`
+
+An action class template with a `match()` function that parses the rule to which it is attached with its template parameter as control class template.
+In other words, an action version of the [`control`](Rule-Reference.md#control) rule.
+
+Publicly derives from [`maybe_nothing`](#maybe-nothing).
+Included via `tao/pegtl/action/change_control.hpp`.
+
+###### `change_state`
+
+###### `change_states`
+
+###### `control_action`
+
+###### `disable_action`
+
+An action class with a `match()` function that parses the rule to which it is attached with actions disabled.
+In other words, an action version of the [`disable`](Rule-Reference.md#disable) rule.
+
+Publicly derives from [`maybe_nothing`](#maybe-nothing).
+Included via `tao/pegtl/action/disable_action.hpp`.
+
+###### `enable_action`
+
+An action class with a `match()` function that parses the rule to which it is attached with actions enabled.
+In other words, an action version of the [`enable`](Rule-Reference.md#enable) rule.
+
+Publicly derives from [`maybe_nothing`](#maybe-nothing).
+Included via `tao/pegtl/action/enable_action.hpp`.
+
+####### `maybe_nothing`
+
+An action class alias defined as `nothing< void >`.
+An action class for `Rule` that is not derived from `nothing< Rule >` but intentionally has no `apply()` or `apply0()` must derive from `maybe_nothing` to signal that the absence of these functions is not an error.
+
+This is usually the case for actions that define a `match()` function, and which might, but often don't, have an `apply()` or `apply0()` added later down the inheritance chain.
 
 ###### `nothing< R >`
 
-An action class template that does nothing, simply a *nop* action.
+An class template that implements nothing.
 
 Serves as default `Action` template parameter to `parse()` and `parse_nested()`.
 
@@ -47,18 +111,7 @@ struct my_action
 // that define static apply() or apply0() functions.
 ```
 
-When `my_action< Rule >` is publicly derived from `tao::pegtl::nothing< Rule >` it indicates to the PEGTL that no `apply()` or `apply0()` should be expected in `my_action< Rule >`.
-
-## Tag Classes
-
-Other tag classes beyond `nothing< Rule >` to inform the PEGTL of what is intended for or expected of an action.
-
-####### `maybe_nothing`
-
-An action class alias defined as `nothing< void >`.
-An action class for `Rule` that is not derived from `nothing< Rule >` but intentionally has no `apply()` or `apply0()` must derive from `maybe_nothing` to signal that the absence of these functions is not an error.
-
-This is usually the case for actions that define a `match()` function, and which might or might not also have an `apply()` or `apply0()` added later down the inheritance chain.
+When `my_action< Rule >` is publicly derived from `tao::pegtl::nothing< Rule >` it lets the PEGTL know that no `apply()` or `apply0()` should be expected in `my_action< Rule >`.
 
 ###### `require_apply`
 
@@ -77,82 +130,24 @@ Wins against [`maybe_nothing`](#maybe-nothing) whan a class has both as public b
 Included via `tao/pegtl/action/require_apply0.hpp`.
 
 
-### Add Guard
-add_guard
-
-Publicly derives from [`maybe_nothing`](#maybe-nothing).
-Included via `tao/pegtl/action/add_guard.hpp`.
-
-### Add State
-add_state
-
-Publicly derives from [`maybe_nothing`](#maybe-nothing).
-Included via `tao/pegtl/action/add_state.hpp`.
-
-### Change Action
-
-An action class template with a `match()` function that parses the rule to which it is attached with its template parameter as action class template.
-In other words, an action version of the [`action`](Rule-Reference.md#action) rule.
-
-Publicly derives from [`maybe_nothing`](#maybe-nothing).
-Included via `tao/pegtl/action/change_action.hpp`.
-
-### Change Action and State
-change_action_and_state
-
-### Change Action and States
-change_action_and_states
-
-### Change Control
-
-An action class template with a `match()` function that parses the rule to which it is attached with its template parameter as control class template.
-In other words, an action version of the [`control`](Rule-Reference.md#control) rule.
-
-Publicly derives from [`maybe_nothing`](#maybe-nothing).
-Included via `tao/pegtl/action/change_control.hpp`.
-
-### Change State
-change_state
-
-### Change States
-change_states
-
-### Control Action
-control_action
-
-### Disable Action
-
-An action class with a `match()` function that parses the rule to which it is attached with actions disabled.
-In other words, an action version of the [`disable`](Rule-Reference.md#disable) rule.
-
-Publicly derives from [`maybe_nothing`](#maybe-nothing).
-Included via `tao/pegtl/action/disable_action.hpp`.
-
-### Enable Action
-
-An action class with a `match()` function that parses the rule to which it is attached with actions enabled.
-In other words, an action version of the [`enable`](Rule-Reference.md#enable) rule.
-
-Publicly derives from [`maybe_nothing`](#maybe-nothing).
-Included via `tao/pegtl/action/enable_action.hpp`.
-
 ## Index
 
-* [`nothing`](#nothing) <sup>[(default)](#default)</sup>
-* [`maybe_nothing`](#maybe-nothing) <sup>[(tag classes)](#tag-classes)</sup>
-* [`require_apply`](#require-apply) <sup>[(tag classes)](#tag-classes)</sup>
-* [`require_apply0`](#require-apply0) <sup>[(tag classes)](#tag-classes)</sup>
-* [Add Guard](#add-guard)
-* [Add State](#add-state)
-* [Change Action](#change-action)
-* [Change Action and State](#change-action-and-state)
-* [Change Action and States](#change-action-and-states)
-* [Change Control](#change-control)
-* [Change State](#change-state)
-* [Change States](#change-states)
-* [Control Action](#control-action)
-* [Disable Action](#disable-action)
-* [Enable Action](#enable-action)
+* [`add_guard`](#add_guard) <sup>[(actions)](#actions)</sup>
+* [`add_state`](#add_state) <sup>[(actions)](#actions)</sup>
+* [`change_action`](#change_action) <sup>[(actions)](#actions)</sup>
+* [`change_action_and_state`](#change_action_and_state) <sup>[(actions)](#actions)</sup>
+* [`change_action_and_states`](#change_action_and_states) <sup>[(actions)](#actions)</sup>
+* [`change_control`](#change_control) <sup>[(actions)](#actions)</sup>
+* [`change_state`](#change_state) <sup>[(actions)](#actions)</sup>
+* [`change_states`](#change_states) <sup>[(actions)](#actions)</sup>
+* [`control_action`](#control_action) <sup>[(actions)](#actions)</sup>
+* [`disable_action`](#disable_action) <sup>[(actions)](#actions)</sup>
+* [`enable_action`](#enable_action) <sup>[(actions)](#actions)</sup>
+* [`nothing`](#nothing) <sup>[(actions)](#actions)</sup>
+* [`maybe_nothing`](#maybe-nothing) <sup>[(actions)](#actions)</sup>
+* [`require_apply`](#require-apply) <sup>[(actions)](#actions)</sup>
+* [`require_apply0`](#require-apply0) <sup>[(actions)](#actions)</sup>
+
 
 ---
 

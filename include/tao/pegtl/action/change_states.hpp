@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          auto t = std::tie( st... );
          if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, std::get< Ns >( t )... ) ) {
-            if constexpr( A == apply_mode::action ) {
+            if constexpr( A == apply_mode::enabled ) {
                Action< Rule >::success( static_cast< const ParseInput& >( in ), st... );
             }
             return true;

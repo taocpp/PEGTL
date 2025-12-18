@@ -12,6 +12,7 @@ More precisely, the control class has static member functions to
 3. customise how an action's `apply()` or `apply0()` is called,
 4. customise how a rule's `match()` is called.
 
+
 ## Contents
 
 * [Normal Control](#normal-control)
@@ -19,6 +20,7 @@ More precisely, the control class has static member functions to
 * [Exception Throwing](#exception-throwing)
 * [Advanced Control](#advanced-control)
 * [Changing Control](#changing-control)
+
 
 ## Normal Control
 
@@ -91,6 +93,7 @@ This can be achieved via SFINAE, e.g. with a trailing return type as shown above
 
 The static member function `match()` by default checks if there exists a suitable `match()` in the action class template for the current rule. If so, it is called, otherwise it calls the main `tao::pegtl::match()` function.
 
+
 ## Control Functions
 
 For debugging a grammar and tracing exactly what happens during a parsing run, the control class' `start()`, `success()` and `failure()` can be used.
@@ -121,6 +124,7 @@ In all cases where an action is called, the success or failure hooks are invoked
 
 The included `<tao/pegtl/contrib/trace.hpp>` gives a practical example that shows how the control class can be used to debug grammars.
 
+
 ## Exception Throwing
 
 The control hooks for exceptions, the`raise()` and `raise_nested()` static member functions, **must** both throw an exception.
@@ -137,6 +141,7 @@ For advanced use cases, it is possible to create a custom control class with a c
 
 Similarly, the control's `apply()` and `apply0()` can customise action invocation; in particular `apply()` can change how the matched portion of the input is passed to the action.
 
+
 ## Changing Control
 
 Just like the action class template, a custom control class template can be used (or changed) by either
@@ -147,6 +152,7 @@ Just like the action class template, a custom control class template can be used
 
 The latter requires the use of a [custom action](Actions-and-States.md).
 Deriving the specialisation of the custom action for `my_rule` from `tao::pegtl::change_control< my_control >` will switch the current control to `my_control` before attempting to match `my_rule`.
+
 
 ---
 

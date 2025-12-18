@@ -10,7 +10,7 @@ All input classes adhere to an informally defined interface of which some parts 
 * [Inputs with Lines](#inputs-with-lines)
 * [Inputs with Source](#inputs-with-source)
 * [Input Convenience](#input-convenience)
-* [Buffer Compatibility](#buffer-compatibility)
+* [Stream Compatibility](#stream-compatibility)
 
 
 ## Input Interface
@@ -27,8 +27,6 @@ All input classes adhere to an informally defined interface of which some parts 
 #if defined( __cpp_exceptions )
    using parse_error_t = parse_error< error_position_t >;
 #endif
-
-   // Input size:
 
    [[nodiscard]] bool empty() const noexcept;  // return size() == 0;
    [[nodiscard]] std::size_t size() const noexcept;  // Number of unconsumed input objects.
@@ -52,7 +50,7 @@ All input classes adhere to an informally defined interface of which some parts 
 ## Inputs with Start
 
 An *input with start* is an input that remembers the initial return value of `current()` and can be restarted from that position.
-Most inputs are inputs with start except for [`base_input`](Input-Reference.md#base-input) -- and of course the [buffer inputs](TODO).
+Most inputs are inputs with start except for [`base_input`](Input-Reference.md#base-input) -- and of course the [stream inputs](TODO).
 
 ```c++
    [[nodiscard]] const data_t* start() const noexcept;
@@ -169,11 +167,11 @@ The `line_view_at` function returns a `std::string_view` of the line of the inpu
 It requires an input where `begin_of_line( pos )` and `end_of_line_or_file( pos )` are valid.
 
 
-## Buffer Compatibility
+## Stream Compatibility
 
-The PEGTL is designed to minimize the impact of the existence of the [buffer inputs](TODO) on the core library.
+The PEGTL is designed to minimize the impact of the existence of the [stream inputs](TODO) on the core library.
 This goal was mostly achieved with the exception of some input functions and how the rules use them.
-All non-buffer input classes implement the following functions for compatibility with the buffer inputs.
+All non-stream input classes implement the following functions for compatibility with the stream inputs.
 
 ```c++
    [[nodiscard]] decltype( auto ) end( const std::size_t /*unused*/ ) const noexcept( auto )
@@ -193,12 +191,13 @@ All non-buffer input classes implement the following functions for compatibility
    {}
 ```
 
-All rules that need to be compatible with [buffer inputs](TODO) need to use the `end()` and `size()` variants *with* argument.
-The argument tells the buffer input how much data it needs to -- at least -- prefetch and buffer for the rule to make a match.
+All rules that need to be compatible with [stream inputs](TODO) need to use the `end()` and `size()` variants *with* argument.
+The argument tells the stream input how much data it needs to -- at least -- prefetch and stream for the rule to make a match.
 
 That is why, for example, the implementation of [`consume< Num >`](Rule-Reference.md#consume-num-) uses `if( in.size( Num ) >= Num )` instead of `if( in.size() >= Num )` to test whether the Input `in` contains at least `Num` further objects.
 
 Similarly the `require()` and `discard()` functions are implemented for compatibility so that a grammar with [`require`](TODO) and [`discard`](TODO) rules can be used on *all* kinds of input.
+
 
 ---
 

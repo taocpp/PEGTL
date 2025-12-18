@@ -141,7 +141,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          const data_t* p = previous( pos );  // TODO: Start earlier?
          const std::size_t s = ( std::min )( max, std::size_t( this->end() - p ) );
          scan_input< data_t > in( p, s );
-         (void)normal< grammar >::template match< apply_mode::nothing, rewind_mode::optional, nothing, normal >( in );
+         (void)normal< grammar >::template match< apply_mode::disabled, rewind_mode::optional, nothing, normal >( in );
          return in.current();
       }
 
