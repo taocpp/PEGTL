@@ -1507,7 +1507,7 @@ These rules are in namespace `tao::pegtl`.
 ###### `apply< A... >`
 
 * Calls `A::apply()` for all `A`, in order, with an empty input and all states as arguments.
-* If any `A::apply()` has a boolean return type and returns `false`, no further `A::apply()` calls are made and the result is equivalent to `failure`, otherwise:
+* If any `A::apply()` has a boolean return type and returns `false`, no further `A::apply()` calls are made and the `apply< A... >` rule returns `false`, otherwise:
 * [Equivalent] to `success` wrt. parsing.
 * [Meta data] and [implementation] mapping:
   - `apply< A... >::rule_t` is `internal::apply< A... >`
@@ -1515,7 +1515,7 @@ These rules are in namespace `tao::pegtl`.
 ###### `apply0< A... >`
 
 * Calls `A::apply0()` for all `A`, in order, with all states as arguments.
-* If any `A::apply0()` has a boolean return type and returns `false`, no further `A::apply0()` calls are made and the result is equivalent to `failure`, otherwise:
+* If any `A::apply0()` has a boolean return type and returns `false`, no further `A::apply0()` calls are made and the `apply0< A... >` rule returns `false`, otherwise:
 * [Equivalent] to `success` wrt. parsing.
 * [Meta data] and [implementation] mapping:
   - `apply0< A... >::rule_t` is `internal::apply0< A... >`
@@ -1524,7 +1524,7 @@ These rules are in namespace `tao::pegtl`.
 
 * [Equivalent] to `seq< R, apply< A... > >` wrt. parsing, but also:
 * If `R` matches, calls `A::apply()`, for all `A`, in order, with the input matched by `R` and all states as arguments.
-* If any `A::apply()` has a boolean return type and returns `false`, no further `A::apply()` calls are made.
+* If any `A::apply()` has a boolean return type and returns `false`, no further `A::apply()` calls are made, the `if_apply< R, A... >` returns `false, and if the `rewind_mode` is `required` the input is rewound.
 * [Meta data] and [implementation] mapping:
   - `if_apply< R, A... >::rule_t` is `internal::if_apply< R, A... >`
   - `if_apply< R, A... >::subs_t` is `type_list< R >`
