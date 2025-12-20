@@ -33,7 +33,7 @@ An **input** is a class (template) that adheres to an informal interface, the in
 Performing a parsing run requires (at least) the following steps.
 
 1. The [rules of the grammar](Rules-and-Grammars.md) have to be implemented.
-2. An input that represents the to-be-parsed data needs to be constructed.
+2. An [input](#input-classes) that represents the to-be-parsed data needs to be constructed.
 3. The [parse function](#parse-function) has to be called with the grammar and the input.
 
 The following steps are also frequently included to do something useful while parsing.
@@ -530,7 +530,7 @@ Similarly the `require()` and `discard()` functions are implemented for compatib
 
 ---
 
-This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
+This page is part of the [PEGTL](https://github.com/taocpp/PEGTL) and its [documentation](README.md).
 
 Copyright (c) 2014-2025 Dr. Colin Hirsch and Daniel Frey<br>
 Distributed under the Boost Software License, Version 1.0<br>

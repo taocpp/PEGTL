@@ -239,7 +239,7 @@ This choice becoming particularly cumbersome and/or resulting in a large number 
 
 ---
 
-This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
+This page is part of the [PEGTL](https://github.com/taocpp/PEGTL) and its [documentation](README.md).
 
 Copyright (c) 2014-2025 Dr. Colin Hirsch and Daniel Frey<br>
 Distributed under the Boost Software License, Version 1.0<br>

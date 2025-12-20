@@ -961,7 +961,7 @@ text_mmap_input( Args...&& ) -> text_mmap_input< tao_default_eol, char >;
 
 ---
 
-This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
+This page is part of the [PEGTL](https://github.com/taocpp/PEGTL) and its [documentation](README.md).
 
 Copyright (c) 2024-2025 Dr. Colin Hirsch and Daniel Frey<br>
 Distributed under the Boost Software License, Version 1.0<br>

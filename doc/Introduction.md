@@ -1,6 +1,6 @@
 # Introduction
 
-The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++ header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
+The [Parsing Expression Grammar Template Library](https://github.com/taocpp/PEGTL) (PEGTL) is a zero-dependency C++ header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
 
 ## Contents
@@ -13,7 +13,7 @@ The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency C++
 
 ## Hello, World!
 
-Since the PEGTL is a parser library our "Hello, world!" example parses, rather than prints, the string `Hello, foo!`, allowing for any sequence of alphabetic ASCII characters in place of `foo`.
+Since the PEGTL is a parser library our "Hello, world!" example first parses, rather than prints, the string `Hello, foo!`, allowing for any sequence of alphabetic ASCII characters in place of `foo`.
 
 ```c++
 #include <string>
@@ -162,29 +162,29 @@ The PEGTL comes with [very many rules](Rule-Reference.md#index) that go far beyo
 
 ## Essential Terminology
 
-A (parsing) **rule** is a class (or a class template) with a (suitable) static `match()` function (and some type aliases).
+A (parsing) [**rule**](Rules-and-Grammars.md) is a class (or a class template) with a (suitable) static `match()` function (and some type aliases).
 
-A **grammar** is a set of one or more related parsing rules, with one (or more) designated top-level rules as entry-point(s).
+A [**grammar**](Rules-and-Grammars.md) is a set of one or more related parsing rules, with one (or more) designated top-level rules as entry-point(s).
 
 **Input data** is a (usually contiguous) sequence of bytes (or other objects) that are intended to be parsed.
 
-An **input** is a class (template) that adheres to an informal interface, the instances of which represent input data.
+An [**input**](Inputs-and-Parsing.md) is a class (template) that adheres to an informal interface, the instances of which represent input data.
 
-A (semantic) **action** is a class template with a (suitable) static `apply()` or `apply0()` function -- and/or, for advanced use cases, a (suitable) static `match()` function.
+A (semantic) [**action**](Actions-and-States.md) is a class template with a (suitable) static `apply()` or `apply0()` function -- and/or, for advanced use cases, a (suitable) static `match()` function.
 
 A **control** is a class template with a set of (suitable) static functions that can change and observe most details of a parsing run.
 
-The **states** are (optional) user-defined objects that are passed to all rules, actions and control functions.
+The [**states**](Actions-and-States.md) are (optional) user-defined objects that are passed to all rules, actions and control functions.
 
-A **parsing run** is everything that happens during a call to `tao::pegtl::parse()` with a grammar and, optionally, an action, a control and states.
+A [**parsing run**](Inputs-and-Parsing.md) is everything that happens during a call to `tao::pegtl::parse()` with a grammar and, optionally, an action, a control and states.
 
-A **nested parsing** run similarly refers to a call to `tao::pegtl::parse_nested()` during a parsing run (usually from an action).
+A [**nested parsing**](Inputs-and-Parsing.md) run similarly refers to a call to `tao::pegtl::parse_nested()` during a parsing run (usually from an action).
 
 A **position** is an instance of a class that indicates an object in the input data, possibly with auxiliary information like filename and line number.
 
 Input is **consumed** when the reference to what is considered the current object in the input data is advanced by a count of one or more.
 
-**Stream parsing** refers to parsing with an input that only provides a small contiguous buffer as window into some larger or unbounded input data.
+[**Stream parsing**](Stream-Parsing.md) refers to parsing with an input that only provides a small contiguous buffer as window into some larger or unbounded input data.
 
 When calling an action **attached** to a rule then the action in question is a specialization of an action class template for said rule.
 
@@ -205,7 +205,7 @@ The **matched input** is the portion of the input data consumed by a parsing rul
 
 ---
 
-This document is part of the [PEGTL](https://github.com/taocpp/PEGTL).
+This page is part of the [PEGTL](https://github.com/taocpp/PEGTL) and its [documentation](README.md).
 
 Copyright (c) 2014-2025 Dr. Colin Hirsch and Daniel Frey<br>
 Distributed under the Boost Software License, Version 1.0<br>
