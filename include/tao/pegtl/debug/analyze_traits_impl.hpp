@@ -11,6 +11,7 @@
 #include "../config.hpp"
 #include "../forward.hpp"
 
+#include "../internal/dependent_false.hpp"
 #include "../internal/rules.hpp"
 
 #include "analyze_traits_base.hpp"
@@ -167,6 +168,12 @@ namespace TAO_PEGTL_NAMESPACE
    struct analyze_traits< Name, internal::rep_opt< Max, Rules... > >
       : analyze_opt_traits< Rules... >
    {};
+
+   template< typename Name >
+   struct analyze_traits< Name, internal::restart >
+   {
+      static_assert( internal::dependent_false< Name >, "We cannot analyze restart?" );
+   };
 
    template< typename Name, typename Rule, typename... Rules >
    struct analyze_traits< Name, internal::seq< Rule, Rules... > >

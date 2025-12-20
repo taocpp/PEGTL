@@ -41,22 +41,26 @@ namespace tao::pegtl
    };
 
    template< typename Position >
-   class parse_error_template
+   class parse_error
       : public parse_error_base
    {
    public:
       using position_t = Position;
 
       template< typename Object >
-      parse_error_template( const std::string& msg, const Object& obj );
+      parse_error( const std::string& msg, const Object& obj );
 
       [[nodiscard]] const position_t& position_object() const noexcept;
    };
 
-   template< typename Object >
-   parse_error_template( const std::string&, const Object& ) -> parse_error_template< std::decay_t< decltype( internal::extract_position( std::declval< Object >() ) ) > >;
+   template< typename Position >
+   parse_error( const std::string&, Position ) -> parse_error< std::decay_t< Position > >;
 
-   using parse_error = parse_error_template< position >;
+   template< typename Object >
+   [[noreturn]] void throw_parse_error( const std::string& msg, const Object& obj );
+
+   template< typename Object >
+   [[noreturn]] void throw_parse_error_with_nested( const std::string& msg, const Object& obj );
 }
 ```
 

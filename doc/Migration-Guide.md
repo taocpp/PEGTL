@@ -10,7 +10,8 @@ Notes on incompatible changes that need to be taken into account when updating t
 * The PEGTL generated `parse_error` exceptions now contain a single `position` object (previously a `std::vector< position >`). Nested exceptions are now used to convey multiple positions during nested parsing. The header `tao/pegtl/contrib/nested_exceptions.hpp` contains some functions to work with nested exceptions.
 * The counter used to limit the nesting depth of certain rules at runtime is no longer part of all input classes. When required it needs to be added back to the input by including `tao/pegtl/contrib/input_with_depth.hpp` and using objects of type `tao::pegtl::input_with_depth< Input >` where previously inputs of type `Input` were used.
 
-TODO
+TODO scan tracking
+TODO ...
 
 ## Version 3.0.0
 
@@ -42,7 +43,7 @@ Compatibility macros are provided, they will be removed in version 3.0.0.
 
 ## Version 2.0.0
 
-Some of the [changes](Changelog.md#200) for version 2.0.0 require modifications to any source using the PEGTL.
+Some of the [changes](Changelog.md#version-200) for version 2.0.0 require modifications to any source using the PEGTL.
 The good news is that the semantics of all parsing rules and grammars is the same as for versions 1.x.
 Existing grammars will continue to work as before once the following list of mostly naming and namespace related changes is taken into account.
 
@@ -65,7 +66,7 @@ Please contact the authors at `taocpp(at)icemx.net` for any further questions wh
 
 ## Version 1.0.0
 
-There were [many important changes](Changelog.md#100) leading up to version 1.0.0.
+There were [many important changes](Changelog.md#version-100) leading up to version 1.0.0.
 Please contact the authors at `taocpp(at)icemx.net` for any further questions when updating the PEGTL.
 
 ---

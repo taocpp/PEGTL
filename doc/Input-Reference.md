@@ -1,12 +1,12 @@
 # Input Reference
 
-The reference documention for all input classes.
-The stream inputs are documented elsewhere (TODO).
+The reference documention for all (contiguous memory) inputs.
+The stream inputs are documented [here](Stream-Parsing.md#inputs).
 
 
 ## Contents
 
-* [Preamble](#preamble)
+* [Introduction](#introduction)
 * [Argv Input](#argv-input)
 * [Base Input](#base-input)
 * [View Input](#view-input)
@@ -21,7 +21,7 @@ The stream inputs are documented elsewhere (TODO).
 * [Text Mmap Input](#text-mmap-input)
 
 
-## Preamble
+## Introduction
 
 All inputs documented on this page are defined in `tao/pegtl/inputs.hpp` which is included from `tao/pegtl.hpp`.
 

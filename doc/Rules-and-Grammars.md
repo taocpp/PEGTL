@@ -37,8 +37,10 @@ The top-level rule is *also* sometimes called a grammar.
 Some grammars have more than one top-level rule; in theory any rule can be used as top-level rule -- the rule that drives a parsing run -- which can be useful to individually test the rules of a grammar.
 
 The rules provided with the PEGTL are either classes with fixed parsing behaviour or paremeterizable class templates.
-Most rules that are parameterizable class templates either take values or parsing rules as parameters.
 Rules that take other rules as parameters are also called (parsing) combinator rules, or *combinators*.
+These rules correspond to non-terminals in [formal grammars](https://en.wikipedia.org/Formal_grammar).
+Rules without template parameters, or only with template parameters that are not also rules, are also called *atomic* rules.
+In [formal grammars](https://en.wikipedia.org/Formal_grammar) these are the terminals.
 
 The rule [`tao::pegtl::eof`](Rule-Reference.md#eof) is declared as `struct eof`, a rule class without parameters.
 
@@ -612,11 +614,13 @@ second line
 
 ## Rule Comparisons
 
-The following tables show how groups of related combinators differ by giving examples of their respective matching behaviours.
+The following tables compare groups of related combinators by showing their matching behaviours on some sample inputs.
 
 A quoted string indicates that the rule matched on the input, and shows which part of the input was consumed.
 The unquoted letter '**f**' stands for a "local failure" where the rule returns `false`.
 The unquoted letter '**E**' stands for a "global failure" where the rule throws a `parse_error_base`-derived exception.
+
+### Implied Preamble
 
 ```c++
 using namespace tao::pegtl;
@@ -660,16 +664,14 @@ struct c : one< 'c' > {};
 
 ### List Combinators
 
-|  | "a" | "aa" | "ab" | "aba" | "abab" | "abc" | "ac" | "acb" | "acba" | "acbca" |
-|--|--|--|--|--|--|--|--|--|--|--|
-| [`list< a, b >`](Rule-Reference.md#list-r-s-) | "a" | "a" | "a" | "aba" | "aba" | "a" | "a" | "a" | "a" | "a" |
-| [`list_tail< a, b >`](Rule-Reference.md#list_tail-r-s-) | "a" | "a" | "ab" | "aba" | "abab" | "ab" | "a" | "a" | "a" | "a" |
-| [`list_must< a, b >`](Rule-Reference.md#list_must-r-s-) | "a" | "a" | **E** | "aba" | **E** | **E** | "a" | "a" | "a" | "a" |
-| [`list< a, b, c >`](Rule-Reference.md#list-r-s-p-) | "a" | "a" | "a" | "aba" | "aba" | "a" | "a" | "a" | "acba" | "acbca" |
-| [`list_tail< a, b, c >`](Rule-Reference.md#list_tail-r-s-p-) | "a" | "a" | "ab" | "aba" | "abab" | "ab" | "a" | "acb" | "acba" | "acbca" |
-| [`list_must< a, b, c >`](Rule-Reference.md#list_must-r-s-p-) | "a" | "a" | **E** | "aba" | **E** | **E** | "a" | **E** | "acba" | "acbca" |
-
-All list rules only match non-empty lists, i.e. they fail (locally) when they can not match at least one list element.
+|  | "" | "a" | "aa" | "ab" | "aba" | "abab" | "abc" | "ac" | "acb" | "acba" | "acbca" |
+|--|--|--|--|--|--|--|--|--|--|--|--|
+| `list< a, b >` | f | "a" | "a" | "a" | "aba" | "aba" | "a" | "a" | "a" | "a" | "a" |
+| `list_tail< a, b >` | f | "a" | "a" | "ab" | "aba" | "abab" | "ab" | "a" | "a" | "a" | "a" |
+| `list_must< a, b >` | f | "a" | "a" | E | "aba" | E | E | "a" | "a" | "a" | "a" |
+| `list< a, b, c >` | f | "a" | "a" | "a" | "aba" | "aba" | "a" | "a" | "a" | "acba" | "acbca" |
+| `list_tail< a, b, c >` | f | "a" | "a" | "ab" | "aba" | "abab" | "ab" | "a" | "acb" | "acba" | "acbca" |
+| `list_must< a, b, c >` | f | "a" | "a" | E | "aba" | E | E | "a" | E | "acba" | "acbca" |
 
 ### ASCII Matching Rules
 

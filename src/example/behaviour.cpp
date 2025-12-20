@@ -129,9 +129,9 @@ namespace TAO_PEGTL_NAMESPACE::example
       using b = one< 'b' >;
       using c = one< 'c' >;
 
-      std::cout << "## Rule List Combinators\n\n";
+      std::cout << "## List Combinators\n\n";
       {
-         const std::vector< std::string > v = { "a", "aa", "ab", "aba", "abab", "abc", "ac", "acb", "acba", "acbca" };
+         const std::vector< std::string > v = { "", "a", "aa", "ab", "aba", "abab", "abc", "ac", "acb", "acba", "acbca" };
          header( v );
          row< list< a, b > >( "list< a, b >", v );
          row< list_tail< a, b > >( "list_tail< a, b >", v );

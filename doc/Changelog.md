@@ -37,6 +37,7 @@ All noteworthy changes since the first public release.
   * Added Unicode rules that adapt to the input's data size.
   * Added special end-of-line rules in multiple places.
   * Added new atomic rule [`function`](Rule-Reference.md#function-f-).
+  * Added new atomic rule [`restart`](Rule-Reference.md#restart).
   * Added new ASCII rule [`cntrl`](Rule-Reference.md#cntrl).
   * Added new ASCII rule [`cr`](Rule-Reference.md#cr).
   * Added new ASCII rule [`cr_lf`](Rule-Reference.md#cr_lf).

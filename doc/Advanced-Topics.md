@@ -5,6 +5,8 @@ Advanced topics regarding use and development of the PEGTL.
 
 ## Contents
 
+TODO: Parsing tokens or other objects?
+
 * [Grammar Analysis](#grammar-analysis)
   * [How To](#how-to)
   * [Example](#example)

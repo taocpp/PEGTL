@@ -3,7 +3,7 @@
 The PEGTL is primarily designed and optimised for parsing contiguous blocks of memory like a memory-mapped file or the contents of a `std::string`.
 It also supports *stream parsing* where only a small portion of a large input is kept in a memory buffer at any time.
 
-The stream parsing facilities can be included via `<tao/pegtl/stream.hpp>` -- or via the individual include files in `tao/pegtl/stream`.
+The stream parsing facilities can be included via `<tao/pegtl/stream.hpp>` -- or via the individual include files in `include/tao/pegtl/stream`.
 
 
 ## Contents
@@ -76,8 +76,8 @@ This default can be changed via the macro `TAO_PEGTL_NAMESPACE` in `tao/pegtl/co
 
 There is no direct interaction with buffer objects, however the arguments to a buffer constructor need to be supplied to any input using that buffer (same for template parameters).
 
-Note that the expositions of the buffer classes are not accurate, they only serve to document their specific constructor arguments and template parameters.
-To see how the buffer classes are actually implemented we refer the reader to their implementation in the corresponding header files.
+Note that the expositions of the buffer classes only serve to document their specific constructor arguments and template parameters.
+To see how the buffer classes are actually implemented we refer the reader to the appropriate header files.
 
 ###### Alloc Buffer
 
@@ -521,7 +521,7 @@ All rules are included with `<tao/pegtl/buffer.hpp>` or can be included individu
 
 Unlike [most other rules](Rule-Reference.md) they have no separate implementation in namespace `tao::pegtl::internal`.
 
-The analyze traits for these rules are in `<tao/pegtl/buffer/analyze_traits.hpp>` which is *not* included automatically.
+The analyze traits for these rules are in `<tao/pegtl/buffer/analyze_traits.hpp>` which is **not** included automatically with `<tao/pegtl/buffer.hpp>`.
 
 ###### `discard`
 

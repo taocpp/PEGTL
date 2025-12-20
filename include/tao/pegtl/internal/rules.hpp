@@ -41,6 +41,7 @@
 #include "range.hpp"
 #include "ranges.hpp"
 #include "rematch.hpp"
+#include "restart.hpp"
 #include "rep.hpp"
 #include "rep_min_max.hpp"
 #include "rep_opt.hpp"

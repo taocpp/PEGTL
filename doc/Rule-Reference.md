@@ -1,7 +1,8 @@
 # Rule Reference
 
 The reference documentation for all rules and combinators.
-The rules related to stream inputs are documented elsewhere (TODO).
+The rules related to [stream parsing](Stream-Parsing.nd) are [documented here](Stream-Parsing.md#rules).
+The rules not considered part of the core library are [documented here](TODO).
 
 
 ## Contents
@@ -145,6 +146,14 @@ Note that the default behaviour can be changed either by defining `TAO_PEGTL_DEF
 * Delegates matching to the function `F`.
 * For details see `tao/pegtl/rules.hpp` and `tao/pegtl/internal/function.hpp`.
 
+###### `restart`
+
+* Rule that always succeeds.
+* Rewinds the input to where it started.
+* Requires an [input with start](Inputs-and-Parsing.md#inputs-with-start).
+* [Meta data] and [implementation] mapping:
+  - `restart::rule_t` is `internal::restart`
+
 ###### `success`
 
 * Rule that always succeeds.
@@ -206,33 +215,33 @@ For all ASCII rules the template parameters representing characters are of type 
 
 * Matches and consumes a single *carriage return* of value `13` or `0x0d`.
 * [Equivalent] to `(ascii::)one< '\r' >`.
-* Also available in the `scan` sub-namespace.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `scan` sub-namespace].
+* Also available in [the `lazy` sub-namespace].
 
 ###### `cr_crlf`
 
 * Matches and consumes an carriage return optionally followed by a line feed.
 * [Equivalent] to `seq< (ascii::)cr, opt< (ascii::)lf > >`.
 * [Equivalent] to `sor< (ascii::)crlf, (ascii::)cr >`.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `lazy` sub-namespace].
 
 ###### `cr_lf`
 
 * Matches and consumes an carriage return **or** line feed.
 * [Equivalent] to `(ascii::)one< '\r', '\n' >`.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `lazy` sub-namespace].
 
 ###### `cr_lf_crlf`
 
 * Matches and consumes an carriage return **and/or** line feed.
 * [Equivalent] to `sor< (ascii::)crlf, (ascii::)cr_lf >`.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `lazy` sub-namespace].
 
 ###### `crlf`
 
 * Matches and consumes an carriage return followed by a line feed.
 * [Equivalent] to `(ascii::)string< '\r', '\n' >`.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `lazy` sub-namespace].
 
 ###### `digit`
 
@@ -312,15 +321,15 @@ For all ASCII rules the template parameters representing characters are of type 
 
 * Matches and consumes a single *line feed* of value `10` or `0x0a`.
 * [Equivalent] to `(ascii::)one< '\n' >`.
-* Also available in the `scan` sub-namespace.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `scan` sub-namespace].
+* Also available in [the `lazy` sub-namespace].
 
 ###### `lf_crlf`
 
 * Matches and consumes a line feed optionally preceded by a carriage return.
 * [Equivalent] to `sor< (ascii::)lf, (ascii::)crlf >`.
-* Also available in the `scan` sub-namespace.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `scan` sub-namespace].
+* Also available in [the `lazy` sub-namespace].
 
 ###### `lower`
 
@@ -561,28 +570,28 @@ For all Unicode rules the template parameters representing code points are of ty
 ###### `cr`
 
 * Matches and consumes a single *carriage return* of value `13` or `U+000D`.
-* Also available in the `scan` sub-namespace.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `scan` sub-namespace].
+* Also available in [the `lazy` sub-namespace].
 
 ###### `cr_crlf`
 
 * Matches and consumes an carriage return optionally followed by a line feed.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `lazy` sub-namespace].
 
 ###### `cr_lf`
 
 * Matches and consumes an carriage return **or** line feed.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `lazy` sub-namespace].
 
 ###### `cr_lf_crlf`
 
 * Matches and consumes an carriage return **and/or** line feed.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `lazy` sub-namespace].
 
 ###### `crlf`
 
 * Matches and consumes an carriage return followed by a line feed.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `lazy` sub-namespace].
 
 ###### `eol1`
 
@@ -592,25 +601,25 @@ For all Unicode rules the template parameters representing code points are of ty
 ###### `eolu`
 
 * Match any Unicode end-of-line sequence, i.e. `crlf` or `eol1`.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `lazy` sub-namespace].
 
 ###### `lf`
 
 * Matches and consumes a single *line feed* of value `10` or `U+000A`.
-* Also available in the `scan` sub-namespace.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `scan` sub-namespace].
+* Also available in [the `lazy` sub-namespace].
 
 ###### `lf_crlf`
 
 * Matches and consumes a line feed optionally preceded by a carriage return.
-* Also available in the `scan` sub-namespace.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `scan` sub-namespace].
+* Also available in [the `lazy` sub-namespace].
 
 ###### `ls`
 
 * Matches and consumes a single Unicode *line separator* of value `U+2028`.
-* Also available in the `scan` sub-namespace.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `scan` sub-namespace].
+* Also available in [the `lazy` sub-namespace].
 
 ###### `many< Num >`
 
@@ -642,14 +651,14 @@ For all Unicode rules the template parameters representing code points are of ty
 ###### `nel`
 
 * Matches and consumes a single Unicode *next line* of value `U+0085`.
-* Also available in the `scan` sub-namespace.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `scan` sub-namespace].
+* Also available in [the `lazy` sub-namespace].
 
 ###### `ps`
 
 * Matches and consumes a single Unicode *paragraph separator* of value `U+2029`.
-* Also available in the `scan` sub-namespace.
-* Also available in the `lazy` sub-namespace.
+* Also available in [the `scan` sub-namespace].
+* Also available in [the `lazy` sub-namespace].
 
 ###### `range< C, D >`
 
@@ -2054,6 +2063,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`rep_min< Min, R... >`](#rep_min-min-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_min_max< Min, Max, R... >`](#rep_min_max-min-max-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_opt< Num, R... >`](#rep_opt-num-r-) <sup>[(convenience)](#convenience)</sup>
+* [`restart`](#restart) <sup>[(atomic)](#atomic)</sup>
 * [`s_term`](#s_term) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`segment_starter`](#segment_starter) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`sentence_break< V >`](#sentence_break-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
@@ -2119,3 +2129,6 @@ See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://w
 [implementation]: #implementation
 [Meta data]: Meta-Data-and-Visit.md
 [PEG]: https://en.wikipedia.org/wiki/Parsing_expression_grammar
+
+[the `scan` sub-namespace]: Inputs-and-Parsing.md#scan-tracking
+[the `lazy` sub-namespace]: Inputs-and-Parsing.md#lazy-tracking

@@ -7,11 +7,11 @@
 
 * [Introduction](Introduction.md)
 * [Install Guide](Install-Guide.md)
-
 * [Rules and Grammars](Rules-and-Grammars.md)
-* [Inputs and Parsing](Inputs-and-Parsing.md) -- big TODO!
+* [Inputs and Parsing](Inputs-and-Parsing.md)
 * [Actions and States](Actions-and-States.md)
 * [Control and Debug](Control-and-Debug.md)
+
 * [Errors and Exceptions](Errors-and-Exceptions.md) -- big TODO!
 
 * [Rule Reference](Rule-Reference.md)
@@ -50,6 +50,27 @@
     * [Embedding in Binaries](Install-Guide.md#embedding-in-binaries)
     * [Embedding in Libraries](Install-Guide.md#embedding-in-libraries)
     * [Embedding in Library Interfaces](Install-Guide.md#embedding-in-library-interfaces)
+* [Rules and Grammars](Rules-and-Grammars.md)
+  * [Introduction](Rules-and-Grammars.md#introduction)
+  * [Creating Rules](Rules-and-Grammars.md#creating-rules)
+  * [Recursive Rules](Rules-and-Grammars.md#recursive-rules)
+  * [S-Expression Grammar](Rules-and-Grammars.md#s-expression-grammar)
+  * [Implementing Rules](Rules-and-Grammars.md#implementing-rules)
+    * [Match Function](Rules-and-Grammars.md#match-function)
+    * [Simple Match](Rules-and-Grammars.md#simple-match)
+    * [Simple Example](Rules-and-Grammars.md#simple-example)
+    * [Complex Match](Rules-and-Grammars.md#complex-match)
+    * [Rewind Guard](Rules-and-Grammars.md#rewind-guard)
+    * [Complex Example](Rules-and-Grammars.md#complex-example)
+    * [Type Aliases](Rules-and-Grammars.md#type-aliases)
+    * [Exceptions](Rules-and-Grammars.md#exceptions)
+    * [Complete Example](Rules-and-Grammars.md#complete-example)
+  * [Rule Comparisons](Rules-and-Grammars.md#rule-comparisons)
+    * [Simple Combinators](Rules-and-Grammars.md#simple-combinators)
+    * [Iterating Combinators](Rules-and-Grammars.md#iterating-combinators)
+    * [Repeating Combinators](Rules-and-Grammars.md#repeating-combinators)
+    * [List Combinators](Rules-and-Grammars.md#list-combinators)
+    * [ASCII Matching Rules](Rules-and-Grammars.md#ascii-matching-rules)
 
 * [Stream Parsing](Stream-Parsing.md)
   * [Overview](Stream-Parsing.md#overview)

@@ -1,25 +1,71 @@
 # Inputs and Parsing
 
-An **input** is a class (template) that adheres to an informal interface, the instances of which encapsulate data for parsing.
+**Input data** is a (usually contiguous) sequence of bytes (or other objects) that are intended to be parsed.
+An **input** is a class (template) that adheres to an informal interface, the instances of which encapsulate some input data.
 
-Assuming that the [grammar rules](Rules-and-Grammars.md) are ready, and the [actions and states](Actions-and-States.md) prepared, performing a parsing run consists of two steps.
 
-1. Constructing an *input* class that represents the to-be-parsed data.
-2. Calling a PEGTL *parse* function with the input (and any states).
+## Contents
 
-More advanced use cases might also pass a special Control class to the parsing run, either custom or one included with the PEGTL, which we will not show in the following outline.
+* [Introduction](#introduction)
+* [Input Classes](#input-classes)
+  * [Classification](#classification)
+  * [Parameters](#parameters)
+* [Ends of Lines](#ends-of-lines)
+  * [Rule Tracking](#rule-tracking)
+  * [Scan Tracking](#scan-tracking)
+  * [Lazy Tracking](#lazy-tracking)
+* [Parse Function](#parse-function)
+* [Nested Parsing](#nested-parsing)
+* [Position Classes](#position-classes)
+* [Error Reporting](#error-reporting)
+* [Input Interface](#input-interface)
+  * [Basic Interface](#basic-interface)
+  * [Inputs with Start](#inputs-with-start)
+  * [Inputs with Lines](#inputs-with-lines)
+  * [Inputs with Source](#inputs-with-source)
+  * [Input Convenience](#input-convenience)
+  * [Stream Compatibility](#stream-compatibility)
+
+
+## Introduction
+
+Performing a parsing run requires (at least) the following steps.
+
+1. The [rules of the grammar](Rules-and-Grammars.md) have to be implemented.
+2. An input that represents the to-be-parsed data needs to be constructed.
+3. The [parse function](#parse-function) has to be called with the grammar and the input.
+
+The following steps are also frequently included to do something useful while parsing.
+
+4. An [action class template](Actions-and-States.md) has to be implemented and also passed to the parse function.
+5. One or more [state objects](Actions-and-States.md) are instantiated and also passed to the parse function.
+
+More advanced use cases might also pass a control class to the parsing run, or use other functions to start it (the parsing run).
 
 ```c++
 using namespace tao::pegtl;
 
-// Implementation of required grammar rules...
+class my_state;
 
-struct my_grammar : ...;
+// Implementation of required grammar rules:
+
+struct some_rule : ... {};
+
+struct my_grammar : ... {};
 
 template< typename Rule >
-struct my_actions {};
+struct my_actions
+   : tao::pegtl::nothing< Rule >{};
 
-// Specialisations of my_actions as required...
+// Specializations of my_actions as required, including:
+
+template<>
+struct my_actions< some_rule >
+{
+   template< class ActionInput >
+   static void apply( const ActionInput& in, my_state& state )
+   { ... }
+};
 
 bool my_parse( const std::filesystem::path& file, my_state& state )
 {
@@ -28,346 +74,170 @@ bool my_parse( const std::filesystem::path& file, my_state& state )
 }
 ```
 
-## Position Tracking
 
-The `count` reported by all positions is the offset from the beginning of the input and does **not** take into account that some characters might consist of more than one input object.
+## Input Classes
 
-The `column` reported by text positions is the offset from the beginning of the line and does **not** take into account that some characters might consist of more than one input object.
+The PEGTL includes several [input classes](Input-Reference.md) for parsing memory, standard library containers, and files.
+Additionally there are dedicated [stream inputs](Stream-Parsing.md#inputs) for [stream parsing](Stream-Parsing.md).
 
-#### No text position and no eols
+On closer inspection one will not be suprised to find the inputs to actually be class templates that can be further customized in various ways.
+We will first classify the inputs according to the components of their names, explaining what e.g. a `text_mmap_input` is, and then explain their template parameters.
 
-Non-text-inputs where the `Eol` template parameter is `void`.
+### Classification
 
-The `eol` and `eolf` rules can not be used.
+The inputs for data in memory are either
 
-The position reported by these inputs is a pointer or a count.
+- `view` inputs that keep a reference (pointer and size) without taking ownership, or
+- `copy` inputs that make a copy of the data in a private container like `std::string`.
 
-#### No text position but with eols
+The `argv` and `base` inputs are also `view` inputs according to this classification.
 
-Non-text-inputs where the `Eol` template parameter is a parsing rule.
+The `copy` inputs do not copy anything when they can move from the source during construction.
 
-The `eol` and `eolf` rules can be used.
+For all inputs the data **must** reside in a contiguous piece of memory, e.g. a `std::vector` works, a `std::list` does **not**.
 
-The position reported by these inputs is a pointer or a count.
+The inputs for data in the filesystem are either
 
-#### Text positions and lazy eols
+- `read` inputs that use `std::fread()` to read the file into memory upon construction, or
+- `mmap` inputs that use `::mmap(2)` (or similar) to map the file into the address space, or
+- `file` inputs that inherits an `mmap` input when available with a `read` input as fallback.
 
-Text-inputs where the `Eol` template parameter is a rule from a `lazy` sub-namespace.
+All of the above inputs are also either
 
-(Technically, what switches to lazy end-of-line tracking is the presence of an `eol_lazy_peek` type alias in the end-of-line rule.)
+- plain inputs whose position information is "simple", most often a count from the start of the input data, or
+- `text` inputs whose position information includes a line and column number based on the `Eol` parameter explained below.
 
-The `eol` and `eolf` rules can be used.
+### Parameters
 
-The position reported by these inputs is a text position with line, column and count.
+The `typename Eol` template parameter determines which (sequence of) object(s) constitute an end-of-line.
 
-The position information is updated lazily, i.e. the position information is computed by scanning all previously consumed input on demand.
+When this parameter is set to `void` the [`eol`](Rule-Reference.md#eol) and [`eolf`](Rule-Reference.md#eolf) rules can not be used, and neither can the `begin_of_line()`, `end_of_file_or_line()` and `line_view_at()` input member functions.
 
-This is the most efficient position tracking as long as the input is not, or "very rarely", actually asked for the position information.
+All input classes except for `argv_input` use the default end-of-line rule as default for the `Eol` template parameter.
 
-Oversimplified, "very rarely" can be understood as "a fixed number of times", which usually means just "once in case of a parsing-run aborting error".
+On Windows the default end-of-line rule is [`tao::pegtl::(ascii::)scan::lf_crlf`](Rule-Reference.md#lf_crlf) which matches both Unix and MS-DOS line endings.
 
-The lazy end-of-line scanning is optimized for the case of `one< X >` for any single value `X` but can also be used with more complicated end-of-line rules.
+On Unix and Linux, including macOS and Android, the default end-of-line rule is [`tao::pegtl::(ascii::)scan::lf`](Rule-Reference.md#lf) which matches Unix line endings.
 
-#### Text positions and scan eols
+For an explanation of the three tracking modes and tables of the included end-of-line rules see the [ends of lines](#ends-of-lines) section below.
 
-Text-inputs where the `Eol` template parameter is a rule from a `scan` sub-namespace.
+The `typename Data` template parameter determines the type of objects in the [input data](Introduction.md#essential-terminology).
+For inputs that have this template parameter it defaults to `char` and can be changed, for all others it is hard-wired to `char`.
 
-(Technically, what switches to scanning end-of-line tracking is the presence of an `eol_char_rule` type alias in the end-of-line rule.)
+The `typename Source` template parameter determines the data type of an optional fixed part of the position information.
+The name "source" comes from the most frequent use case, the source filename.
+For inputs that have this template parameter it defaults to `void`, no source information is stored.
+For all filesystem inputs this is hard-wired to `std::filesystem::path` because error messages like "parse error in line 10" *without* the filename have made me want to throw my computer out the window on too many occasions.
 
-The `eol` and `eolf` rules can be used.
+Many inputs have two source types, `InputSource` and `ErrorSource`.
+In this case the source is stored as type `InputSource` in the input, but as type `ErrorSource` in thrown `parse_error_base`-derived exceptions.
+A common use case for the separation is to use `std::string_view` as `InputSource` and `std::string` as `ErrorSource`; cheap view in the input, more expensive copy in the exception to make it self-contained.
 
-The position reported by these inputs is a text position with line, column and count.
+The `typename Container` template parameter determines the container in which `copy` inputs keep the input data.
+It defaults to `std::string` but can be changed to match an already existing object to enable moving.
 
-The position information is updated eagerly, i.e. the position information is updated every time a parsing rule consumes some input.
 
-The scanning end-of-line tracking is limited to cases where it can scan the consumed input for a single input object value to know when a new line has started.
+## Ends of Lines
 
-#### Text positions and other eols
+There are three ways `text` inputs can use the `Eol` rule to track or calculate the line and column numbers during a parsing run.
+Rule and scan tracking are both eager while lazy tracking is lazy.
 
-Text-inputs where the `Eol` template parameter is a rule not from a `scan` or `lazy` sub-namespace.
+### Rule Tracking
 
-The `eol` and `eolf` rules can be used.
+Rule tracking continuously updates the line and column numbers during a parsing run.
 
-The position reported by these inputs is a text position with line, column and count.
+The column number is updated with every successful rule match.
+The line number is **only** updated when the [`eol`](Rule-Reference.md#eol) or [`eolf`](Rule-Reference.md#eolf) rules match.
 
-The position information is updated eagerly, however **only** the `eol` and `eolf` rules are recognised as line endings!
+- Low overhead while parsing, but
+- care has to be taken to not accidentally match the character(s) (or object(s)) constituting an end-of-line with a rule that is **not** `eol` or `eolf`.
+- There are no limitations or requirements for the `Eol` rule.
 
-This eager tracking is very efficient and gives the greatest flexibility regarding the end-of-line rule, at the cost of all end-of-lines that were matched by other rules like `any` being ignored.
+Rules that enable rule tracking are just any normal rules in the ASCII and Unicode namespaces (`tao::pegtl::ascii`, `tao::pegtl::utf8` etc.)
 
+| Class | ASCII | Unicode |
+| ----- | ----- | ------- |
+| `...::cr` | [rule](Rule-Reference.md#cr) | [rule](Rule-Reference.md#cr-1) |
+| `...:lf` | [rule](Rule-Reference.md#lf) | [rule](Rule-Reference.md#lf-1) |
+| `...::crlf` | [rule](Rule-Reference.md#crlf) | [rule](Rule-Reference.md#crlf-1) |
+| `...::cr_lf` | [rule](Rule-Reference.md#cr_lf) | [rule](Rule-Reference.md#cr_lf-1) |
+| `...::cr_crlf` | [rule](Rule-Reference.md#cr_crlf) | [rule](Rule-Reference.md#cr_crlf-1) |
+| `...::lf_crlf` | [rule](Rule-Reference.md#lf_crlf) | [rule](Rule-Reference.md#lf_crlf-1) |
+| `...::cr_lf_crlf` | [rule](Rule-Reference.md#cr_lf_crlf) | [rule](Rule-Reference.md#cr_lf_crlf-1) |
+| `...::ls` | - | [Unicode](Rule-Reference.md#ls) |
+| `...::nel` | - | [Unicode](Rule-Reference.md#nel) |
+| `...::ps` | - | [Unicode](Rule-Reference.md#ps) |
+| `...::eol1` | - | [Unicode](Rule-Reference.md#eol1) |
+| `...::eolu` | - | [Unicode](Rule-Reference.md#eolu) |
 
+The table shows the most commonly used end-of-line rules, however anything (outside of the `scan` and `lazy` sub-namespaces) can be used.
 
+This tracking mode was introduced in PEGTL 4.0.
 
+### Scan Tracking
 
-In the context of PEGTL input classes and positions there is usually an additional (i.e. beyond indicating or supplying the to-be-parsed data) string parameter `source` that identifies where the to-be-parsed data comes from.
-For example when parsing a file with one of the appropriate included input classes, the filename is automatically used as `source` so that it will appear in exceptions and error messages.
-In other cases the `source` parameter needs to be explicitly passed to the input's constructor.
+Scan tracking also continuously updates the line and column numbers during a parsing run.
 
-All classes and functions on this page are in namespace `tao::pegtl`.
+After every successful rule match the matched portion of the input is scanned for any occurrences of an end-of-line.
 
-## Contents
+- Some overhead while parsing, and
+- only works for end-of-line rules with a designated code point that signifies end-of-line, but
+- not a problem if a rule distinct from [`eol`](Rule-Reference.md#eol) and [`eolf`](Rule-Reference.md#eolf) matches an end-of-line.
 
-* [Tracking Mode](#tracking-mode)
-* [Line Ending](#line-ending)
-* [Source](#source)
-* [File Input](#file-input)
-* [Memory Input](#memory-input)
-* [String Input](#string-input)
-* [Stream Inputs](#stream-inputs)
-* [Argument Input](#argument-input)
-* [Parse Function](#parse-function)
-* [Nested Parsing](#nested-parsing)
-* [Incremental Input](#incremental-input)
-  * [Buffer Size](#buffer-size)
-  * [Discard Buffer](#discard-buffer)
-  * [Custom Rules](#custom-rules)
-  * [Custom Readers](#custom-readers)
-  * [Buffer Details](#buffer-details)
-* [Error Reporting](#error-reporting)
-* [Deduction Guides](#deduction-guides)
+Rules that enable scan tracking can be found in the `scan` sub-namespace of the ASCII and Unicode namespaces (`tao::pegtl::ascii`, `tao::pegtl::utf8` etc.)
 
-## Tracking Mode
+| Class | ASCII | Unicode |
+| ----- | ----- | ------- |
+| `...::scan::cr` | [rule](Rule-Reference.md#cr) | [rule](Rule-Reference.md#cr-1) |
+| `...::scan::lf` | [rule](Rule-Reference.md#lf) | [rule](Rule-Reference.md#lf-1) |
+| `...::scan::lf_crlf` | [rule](Rule-Reference.md#lf_crlf) | [rule](Rule-Reference.md#lf_crlf-1) |
+| `...::scan::ls` | - | [Unicode](Rule-Reference.md#ls) |
+| `...::scan::nel` | - | [Unicode](Rule-Reference.md#nel) |
+| `...::scan::ps` | - | [Unicode](Rule-Reference.md#ps) |
 
-Some input classes allow a choice of tracking mode, or whether the `byte`, `line` and `column` counters are continuously updated during a parsing run with `tracking_mode::eager`, or only calculated on-demand in `position()` by scanning the complete input again with `tracking_mode::lazy`.
+This tracking mode corresponds to the eager tracking in PEGTL versions prior to 4.0.
 
-Lazy tracking is recommended when the position is used very infrequently, for example at most once when a parsing run ends with an exception of type `parse_error`.
+Note that the scan is skipped if it can be statically proven that the matched input does not contain an end-of-line, for example in the case of a `tao::pegtl::(ascii::)string` where all characters in the string are **not** the designated end-of-line character.
 
-Eager tracking is recommended when the position is used frequently and/or in non-exceptional cases, for example when annotating every AST node with the line number.
+### Lazy Tracking
 
-## Line Ending
+Lazy tracking does not continuously update the line and column numbers during a parsing run.
 
-All input classes allow the choice of which line endings should be recognised by the `eol` and `eolf` rules, and used for line counting.
-The supported line endings are `cr`, a single carriage-return/`"\r"`/`0x0d` character as used on classic Mac OS, `lf`, a single line-feed/`"\n"`/`0x0a` as used on Unix, Linux, Mac OS X and macOS, and `crlf`, a sequence of both as used on MS-DOS and Windows.
+The position information is calculated on demand, i.e. when `current_position()` or `previous_position()` are called on the input.
+In that case an eol scan is performed on the input data from the start to the point for which position information was requested.
 
-The default template parameter for all input classes is `eol::lf_crlf` which recognises both Unix and MS-DOS line endings.
-The supplied alternatives are `eol::cr`, `eol::lf`, `eol::crlf` and `eol::cr_crlf`.
+- Zero overhead while parsing, but
+- linear complexity in size of input data to calculate line and column number on demand.
+- Not a problem if a rule distinct from [`eol`](Rule-Reference.md#eol) and [`eolf`](Rule-Reference.md#eolf) matches an end-of-line.
+- There are no limitations or requirements for the `Eol` rule, except:
+- it needs to define an appropriate`eol_lazy_peek` type alias.
 
-## Source
+This type alias is used by the eol scan to skip to the next place in the input data at which to attempt an `Eol` match.
 
-Some input classes allow a choice of how to store the source parameter, with the default being a `std::string`.
-When creating many instances of an input class, it can be changed to a non-owning `const char*` to optimise away the memory allocation performed by `std::string`.
+Rules that enable lazy tracking can be found in the `lazy` sub-namespace of the ASCII and Unicode namespaces (`tao::pegtl::ascii`, `tao::pegtl::utf8` etc.)
 
-## File Input
+| Class | ASCII | Unicode |
+| ----- | ----- | ------- |
+| `...::lazy::cr` | [rule](Rule-Reference.md#cr) | [rule](Rule-Reference.md#cr-1) |
+| `...::lazy::lf` | [rule](Rule-Reference.md#lf) | [rule](Rule-Reference.md#lf-1) |
+| `...::lazy::crlf` | [rule](Rule-Reference.md#crlf) | [rule](Rule-Reference.md#crlf-1) |
+| `...::lazy::cr_lf` | [rule](Rule-Reference.md#cr_lf) | [rule](Rule-Reference.md#cr_lf-1) |
+| `...::lazy::cr_crlf` | [rule](Rule-Reference.md#cr_crlf) | [rule](Rule-Reference.md#cr_crlf-1) |
+| `...::lazy::lf_crlf` | [rule](Rule-Reference.md#lf_crlf) | [rule](Rule-Reference.md#lf_crlf-1) |
+| `...::lazy::cr_lf_crlf` | [rule](Rule-Reference.md#cr_lf_crlf) | [rule](Rule-Reference.md#cr_lf_crlf-1) |
+| `...::lazy::ls` | - | [Unicode](Rule-Reference.md#ls) |
+| `...::lazy::nel` | - | [Unicode](Rule-Reference.md#nel) |
+| `...::lazy::ps` | - | [Unicode](Rule-Reference.md#ps) |
+| `...::lazy::eolu` | - | [Unicode](Rule-Reference.md#eolu) |
 
-The classes `file_input<>`, `read_input<>` and, on supported platforms, `mmap_input<>`, can be used to parse the contents of a file.
+This tracking mode was extended in PEGTL 4.0 -- previously lazy tracking had the same restrictions as scan tracking.
 
-* `read_input<>` uses C "stdio" facilities to read the file.
-* `mmap_input<>` uses `mmap(2)` on POSIX compliant systems or `MapViewOfFile()` on Windows.
-* `file_input<>` is derived from `mmap_input<>` when available, and `read_input<>` otherwise, inheriting the respective constructors.
+Note that the case of simple end-of-line rules, i.e. `tao::pegtl::(ascii::)one< N >` for a single `N` uses a slightly more optimized scan.
 
-They immediately make available the complete contents of the file; `read_input<>` reads the entire file upon construction.
-
-The constructors that take a `FILE*` argument take ownership of the file pointer, i.e. they `fclose()` it in the destructor.
-
-```c++
-template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
-struct read_input
-{
-   explicit read_input( const std::filesystem::path& path );
-   read_input( const std::filesystem::path& path, const std::string& source );
-
-   read_input( FILE* file, const std::filesystem::path& path );
-   read_input( FILE* file, const std::filesystem::path& path, const std::string& source );
-};
-
-template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
-struct mmap_input
-{
-   explicit mmap_input( const std::filesystem::path& path );
-   mmap_input( const std::filesystem::path& path, const std::string& source );
-};
-
-template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
-using file_input = mmap_input< P, Eol >;  // Or read_input when no mmap_input available.
-```
-
-## Memory Input
-
-The class `memory_input<>` can be used to parse existing contiguous blocks of memory like the contents of a `std::string`.
-The input **neither copies the data nor takes ownership, it only keeps pointers**.
-The various constructors accept the to-be-parsed data in different formats.
-The `source` parameter is required for all constructors to disambiguate the different overloads.
-If you don't want to specify a source just use the empty string (`""`).
-
-The constructors that only takes a `const char* begin` for the data uses `std::strlen()` to determine the length.
-It will therefore *only* work correctly with data that is terminated with a 0-byte (and does not contain embedded 0-bytes, which are otherwise fine).
-
-The constructors that take additional `byte`, `line` and `column` arguments initialise the internal counters with the supplied values, rather than the defaults of `0`, `1` and `1`.
-
-```c++
-template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf, typename Source = std::string >
-class memory_input
-{
-   template< typename T >
-   memory_input( const internal::iterator& iter, const char* end, T&& source ) noexcept(...);
-
-   template< typename T >
-   memory_input( const char* begin, const char* end, T&& source ) noexcept(...);
-
-   template< typename T >
-   memory_input( const char* begin, const std::size_t size, T&& source ) noexcept(...);
-
-   template< typename T >
-   memory_input( const std::string& string, T&& source ) noexcept(...);
-
-   template< typename T >
-   memory_input( const char* begin, T&& source ) noexcept(...);
-
-   template< typename T >
-   memory_input( const char* begin, const char* end, T&& source,
-                 const std::size_t byte, const std::size_t line, const std::size_t column ) noexcept(...);
-};
-```
-
-### Examples
-
-###### Example 1
-
-```c++
-memory_input in1( "this is the input to parse", "" );
-```
-
-Construct a `memory_input` with default tracking mode, default end-of-line mode (accepting Unix and MS-DOS line endings), and default source storage.
-As there are only two parameters, the 5th overload from above is choosen.
-The data to parse is given directly as a string literal which is not copied.
-As no pointer to the end or the size of the input is given, the length of the data to be parsed will be determined by calling `strlen` on the pointer passed as the first parameter.
-The source is the empty string.
-
-###### Example 2
-
-```c++
-struct packet
-{
-   // ...
-   const std::array< char >& buffer() const noexcept;
-   std::string identifier() const;
-   // ...
-};
-
-packet p = ...; // some UDP packet class
-
-memory_input< tracking_mode::lazy, eol::crlf > in2( p.buffer().begin(), p.buffer().end(), p.identifier() );
-```
-
-Consider a UDP packet that was received and should be parsed.
-Construct a `memory_input` with lazy tracking mode, MS-DOS end-of-line mode (accepting only MS-DOS line endings), and default source storage.
-This example chooses the second overload from above.
-The data to parse is given as two `const char*` pointers (as the data is not null-terminated) and is, of course, not copied.
-Consider the source to be an identifier for the packet that was received, e.g. a string constructed from the timestamp, the source IP/port, the interface it was received on, a sequence number, or similar information.
-Note that this example shows why the source parameter is necessary to disambiguate the overloads.
-If the source would be optional (defaulted), the signature of this overload would also match the first example and therefore be ambiguous.
-
-### Additional Remarks
-
-Note that `noexcept(...)` is a conditional noexcept-specification, depending on whether the construction of the source stored in the class can throw given the perfectly-forwarded parameter `source`. Technically, it is implemented as `noexcept( std::is_nothrow_constructible< Source, T&& >::value )`.
-
-With the default `Source` type of `std::string`, the `source` parameter to the constructors is usually a `const char*` or (any reference to) a `std::string`, but anything that can be used to construct a `std::string` will work. When `Source` is set to `const char*` then only a `const char *` (or something that can implicitly be converted to one) will work.
-
-The implementation of the constructors is different than shown.
-They should be used "as if" this was the actual signature.
-
-## String Input
-
-The class `string_input<>` can also be used to parse a `std::string`.
-Unlike class `memory_input<>`, this class stores a copied (or moved) version of the data for which it takes ownership.
-
-```c++
-template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf, typename Source = std::string >
-class string_input
-{
-   template< typename V, typename T >
-   string_input( V&& data, T&& source ) noexcept(...);
-
-   template< typename V, typename T >
-   string_input( V&& data, T&& source,
-                 const std::size_t byte, const std::size_t line, const std::size_t column ) noexcept(...);
-};
-```
-
-### Example
-
-```c++
-std::string content(); // returns the content
-
-string_input in1( content(), "from_content" );
-```
-
-Construct a `string_input` with default tracking mode, default end-of-line mode (accepting Unix and MS-DOS line endings), and default source storage.
-The data returned from calling `content()` is copied into the input.
-The source is `from_content`.
-
-### Additional Remarks
-
-Note that the implementation of the constructors is different than shown.
-They should be used "as if" this was the actual signature.
-
-## Stream Inputs
-
-The classes `cstream_input<>` and `istream_input<>` can be used to parse data from C-streams (`std::FILE*`) and C++-streams (`std::istream`), respectively.
-Unlike the file inputs above, they internally use `buffer_input<>` and therefore do *not* read the complete stream upon construction.
-
-They all have a single constructor that takes a stream, the maximum buffer size, and the name of the source.
-Note that these classes only keep a pointer/reference to the stream and do **not** take ownership; in particular `cstream_input<>` does **not** call `std::close()`.
-
-See [Incremental Input](#incremental-input) for details on the `maximum` argument, and how to use the mandatory [discard facilities](#discard-buffer).
-
-```c++
-template< typename Eol = eol::lf_crlf >
-struct cstream_input
-{
-   cstream_input( std::FILE* stream, const std::size_t maximum, const char* source );
-   cstream_input( std::FILE* stream, const std::size_t maximum, const std::string& source );
-};
-
-template< typename Eol = eol::lf_crlf >
-struct istream_input
-{
-   istream_input( std::istream& stream, const std::size_t maximum, const char* source );
-   istream_input( std::istream& stream, const std::size_t maximum, const std::string& source );
-};
-```
-
-Note that the implementation of the constructors is different than shown.
-They should be used "as if" this was the actual signature.
-
-## Argument Input
-
-The class `argv_input<>` can be used to parse a string passed from the command line.
-
-```c++
-template< tracking_mode P = tracking_mode::eager, typename Eol = eol::lf_crlf >
-class argv_input
-{
-   argv_input( char** argv, const std::size_t n );
-   argv_input( char** argv, const std::size_t n, const char* source );
-   argv_input( char** argv, const std::size_t n, const std::string& source );
-};
-```
-
-If no `source` is given, the source is set to `"argv[N]"` where N is the string representation of `n`.
-
-Note that the implementation of the constructors is different than shown.
-They should be used "as if" this was the actual signature.
 
 ## Parse Function
 
-The parse functions accept the following template parameters and arguments:
-
-- The [`Rule` class](Rules-and-Grammars.md) represents the top-level parsing rule of the grammar and is mandatory.
-- The [`Action<>` class template](Actions-and-States.md) is required to actually do something during a parsing run.
-- The [`Control<>` class template](Control-and-Debug.md) is only required for grammar debugging or some advanced uses.
-- The [`States`](Actions-and-States.md#changing-states) are the types of the objects that are passed to all actions and control hooks.
-
-Additionally, two enumeration values can be used to control the behaviour:
-
-- The `apply_mode`, which can also be set to `nothing` in order to disable action invocations, just like the `disable<>` rule does.
-- The `rewind_mode`, which can also be set to `required` when rewinding the input to its start is required for top-level parse failures.
-
-The result of a parsing run, i.e. an invocation of `tao::pegtl::parse()`, can be either
-
-- *success*, a return value of `true`,
-- *local failure*, a return value of `false`,
-- *global failure*, an exception of type `tao::pegtl::parse_error`, or
-- any other exception thrown by the input class or an action function.
+The `parse()` function is the single most important user-facing function, it starts a [parsing run](Introduction.md#essential-terminology).
 
 ```c++
 template< typename Rule,
@@ -381,12 +251,30 @@ bool parse( ParseInput& in,
             States&&... st );
 ```
 
+- The [`Rule` class](Rules-and-Grammars.md) represents the top-level parsing rule of the grammar and is mandatory.
+- The [`Action<>` class template](Actions-and-States.md) defaults to an action that does nothing. It is required to pass a user-defined action for a parsing run to do more, e.g. build some data structure, than validate an input against the grammar.
+- The [`Control<>` class template](Control-and-Debug.md) defaults to the normal control class that implements the expected and documented behaviour. It can be changed for debugging, e.g. printing all rule match attempts and their outcomes, and for some other advanced use cases, e.g. gathering rule invocation statistics.
+- The [`States`](Actions-and-States.md#changing-states) are the types of the additional state objects `st` that are passed to all rules' `match()` functions, all actions' `apply()` and `apply0()` functions, and all control functions. What is needed here depends on what the actions (and control functions) expect.
+- The `apply_mode` defaults to `apply_mode::enabled` which enables actions. Can be changed to `rewind_mode::disabled` or in the grammar with the [`enable`](Rule-Reference.md#enable-r-) and [`disable`](Rule-Reference.md#disable-r-) rules.
+- The `rewind_mode` defaults to `rewind_mode::dontcare` in which case the input might not be rewound to its start when `parse()` returns `false`. Rewinding can be enabled by passing `rewind_mode::required`.
+
+A parsing run can have the [same three outcomes](Rules-and-Grammars.md#match-function) as the match function of a rule.
+Note that the terminology "local" and "global" does not make too much sense at top-level, however for consistency sake we keep these terms here, too.
+
+- *success*, a return value of `true`,
+- *local failure*, a return value of `false`,
+- *global failure*, an exception of type `tao::pegtl::parse_error`, or also
+- any other exception thrown during a parsing run.
+
+
 ## Nested Parsing
 
-Nested parsing refers to an (inner) parsing run that is performed "in the middle of" another (outer) parsing run, for example when one file "includes" another file.
+Nested parsing refers to an (inner) parsing run that is performed during another (outer) parsing run, for example when a file being parsed includes another file.
 
-The difference to the regular `tao::pegtl::parse()` function is that when a global failure occurs within `tao::pegtl::parse_nested()` then a new exception is thrown via `Control< Rule >::raise_nested()`.
-The new exception contains the previous one as nested exception. The functions in the header `tao/pegtl/contrib/nested_exceptions.hpp` can be used to work with these nested exceptions.
+When an exception is thrown within a nested parsing run it will be caught by `tao::pegtl::parse_nested()` and a new exception thrown via `Control< Rule >::raise_nested()`.
+The new exception contains a position from the argument of type `OuterInput` and the previous exception as nested exception.
+
+The functions in the header `tao/pegtl/contrib/nested_exceptions.hpp` can be used to work with these nested exceptions.
 The inner-most exception that was thrown first will be the "most nested" exception, i.e. the final one in the linked list of nested exceptions.
 
 The position information contained in the nested exceptions allows for error messages like "error in file F1 line L1 included from file F2 line L2 etc."
@@ -399,7 +287,7 @@ template< typename Rule,
           template< typename... > class Control = normal,
           apply_mode A = apply_mode::enabled,
           rewind_mode M = rewind_mode::dontcare,
-          typename OuterInput,  // Can also be class position.
+          typename OuterInput,
           typename ParseInput,
           typename... States >
 bool parse_nested( const OuterInput& oi,
@@ -407,221 +295,237 @@ bool parse_nested( const OuterInput& oi,
                    States&&... st );
 ```
 
-## Incremental Input
+The `OuterInput` will usually be the input from the outer parsing run; it can also be the position obtained from that input.
+More precisely, if `oi.current_position()` is **not** callable then `oi` is assumed to be a position itself, otherwise it is called to obtain a position.
 
-The PEGTL is designed and optimised for parsing single contiguous blocks of memory like a memory-mapped file or the contents of a `std::string`.
-In cases where the data does not fit into memory, or other reasons prevent parsing the data as single memory block, an *incremental* input can be used.
 
-This allows parsing with only (small) portions of the input in a memory buffer at any single time.
-The buffer is filled automatically, however the [*discard* facilities](#discard-buffer) must be used to regularly flush the buffer and make space for a new portion of input data.
+## Position Classes
 
-The [stream inputs](#stream-inputs) are ready-to-use input classes for C++-style and C-style streams.
-Apart from having to use the [discard facilities](#discard-buffer), and some extra care when implementing [custom rules](#custom-rules), they can be used just like any other [input class](Inputs-and-Parsing.md).
+Positions occur as return type of the input functions `current_position()` and `previous_position()`, and as template parameter, and therefore position object, in their parse errors which are instances of `tao::pegtl::parse_error<>`.
 
-### Buffer Size
+All `text` inputs use `tao::pegtl::text_position` for their position reporting; when the source parameters are not `void` the type is `tao::pegtl::position_with_source< SourceType, tao::pegtl::text_position >`.
+For all filesystem inputs the `SourceType` is `std::filesystem::path`, for all other inputs it defaults to `void`.
 
-The [stream inputs](#stream-inputs), and all other inputs based on `buffer_input<>`, contain a buffer that is allocated in the constructor.
-The buffer capacity is the sum of a *maximum* value and a *chunk* size.
+Most non-`text` inputs use `tao::pegtl::count_position` for their position reporting; when the source parameters are not `void` the type is `tao::pegtl::position_with_source< SourceType, tao::pegtl::count_position >`.
+The exception are the `base` inputs which are so basic that they neither keep track nor can compute the number of objects from the start of the input data, they use `tao::pegtl::pointer_position` instead.
+For all filesystem inputs the `SourceType` is `std::filesystem::path`, for all other inputs it defaults to `void` except for the `argv` input which defaults to `std::string`.
 
-The maximum value is passed to the constructor as function argument, the chunk size is a (rarely changed) template parameter.
-The required buffer capacity depends on the grammar, the actions, *and* the input data.
-
-The buffer must be able to hold
-
-* any and all data for look-ahead performed by the grammar,
-* any and all data for back-tracking performed by the grammar,
-* any and all data for actions' [`apply()`](Actions-and-States.md#apply) (not [`apply0()`](Actions-and-States.md#apply0)).
-
-For example consider an excerpt from the JSON grammar from `include/tao/pegtl/contrib/json.hpp`.
-
-```c++
-struct xdigit : abnf::HEXDIG {};
-struct unicode : list< seq< one< 'u' >, rep< 4, must< xdigit > > >, one< '\\' > > {};
-struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
-struct escaped : sor< escaped_char, unicode > {};
-struct unescaped : utf8::range< 0x20, 0x10FFFF > {};
-struct char_ : if_then_else< one< '\\' >, must< escaped >, unescaped > {};
-
-struct string_content : until< at< one< '"' > >, must< char_ > > {};
-struct string : seq< one< '"' >, must< string_content >, any >
-{
-   using content = string_content;
-};
-```
-
-The rule `string_content` matches JSON strings as they occur in a JSON document.
-If an action with `apply()` (rather than `apply0()`) is attached to the `string_content` rule, the buffer capacity is an upper bound on the length of the JSON strings that can be processed.
-
-If the actions are only attached to say `unescaped`, `escaped_char` and `rep< 4, must< xdigit > >`, the latter because it, too, occurs in an (implicit, inside of `list`) unbounded loop, then the JSON strings are processed unescaped-character-by-unescaped-character and escape-sequence-by-escape-sequence.
-As long as the buffer is [discarded](#discard-buffer) frequently, like after every unescaped character and every single escape sequence, a buffer capacity as small as 8 or 12 should suffice for parsing arbitrarily long JSON strings.
-
-Note that the [`eof`](Rule-Reference.md#eof) rule requires at least one byte of free buffer space when there is no unconsumed data in the buffer.
-
-### Discard Buffer
-
-To prevent the buffer from overflowing, the `discard()` member function of class `buffer_input<>` must be called regularly.
-
-**Discarding invalidates all pointers to the input's data and MUST NOT be used where backtracking to before the discard might occur AND/OR nested within a rule for which an action with input can be called.**
-
-Calling `discard()` on a non-buffered input is an empty method and will be optimised away completely.
-
-Usually you don't call `discard()` manually. Instead, one of the two following methods might be used.
-
-#### Via Rules
-
-The [`discard`](Rule-Reference#discard) rule behaves just like the [`success`](Rule-Reference.md#success) rule but calls the discard function on the input before returning `true`.
-
-#### Via Actions
-
-The `tao::pegtl::discard_input`, `tao::pegtl::discard_input_on_success` and `tao::pegtl::discard_input_on_failure` [actions](Actions-and-States.md) can be used to discard input non-intrusively, i.e. without changing the grammar like with the [`discard`](Rule-Reference.md#discard) rule.
-
-These actions are used in the usual way, by deriving a custom action class template specialisation from them.
-In the case of `discard_input`, the input is discarded unconditionally after every match attempt of the rule that the action is attached to.
-As `discard_input` is based on the `match()` method, it is unaffected by enabling or disabling actions (which only applies to the `apply`/`apply0`-methods).
-
-The other two variants behave as implied by their respective names, keeping in mind that "failure" is to be understood as "local failure" (false), no discard is performed on global failure (exception).
-Similarly "unconditional" is wrt. success or local failure, not global failure.
-
-```c++
-template<>
-struct my_action< R >
-   : tao::pegtl::discard_input
-{
-   // It is safe to implement apply() here if appropriate:
-   // discard() will be called by discard_input's match()
-   // only _after_ calling this action's apply().
-};
-```
-
-In practice, since the "must"-rules like `must<>` and `if_must<>` inhibit backtracking, they can be good indicators of where to perform a discard.
-For example consider again this rule from the JSON grammar from `include/tao/pegtl/contrib/json.hpp`.
-
-```c++
-struct unicode : list< seq< one< 'u' >, rep< 4, must< xdigit > > >, one< '\\' > > {};
-```
-
-The `xdigit` rule is within a `must`, wherefore we know that no backtracking is possible, so we could discard after `xdigit` or `must< xdigit >`.
-However then we can't attach an action with [`apply()`](Actions-and-States.md#apply) to the `rep< 4, ... >` since we would be discarding after every single digit.
-This is not ideal, it would be more efficient to process all four xdigits in a single action invocation.
-
-Looking close we can see that backtracking to before the `rep<>` is actually impossible because once the `list<>` has successfully matched `seq< one< 'u' >, rep< 4, must< xdigit > > >` it will never go back.
-It will attempt to match another backslash, the list item separator, and if successful loop to the `seq<>`, but once the next character is a `'u'`, the `must<>` in the `rep` seals the deal, there is no way to not complete the next list entry.
-
-Therefore we can safely attach an action to the `rep<>` that processes the four xdigits and then discards the input.
-
-```c++
-template<>
-struct my_action< rep< 4, must< xdigit > >
-   : tao::pegtl::discard_input
-{
-   template< typename ActionInput >
-   static void apply( const ActionInput& in, /* the states */ )
-   {
-      assert( in.size() == 4 );
-      // process the 4 xdigits
-   }
-};
-```
-
-Another good candidate in the JSON grammar to discard after is the `tao::pegtl::json::value` rule...
-
-### Custom Rules
-
-All incremental inputs included with the library and documented here are based on `buffer_input<>`.
-A custom rule that is compatible with incremental inputs needs to pay attention to the `amount` argument in the input's interface.
-Unlike the inputs based on `memory_input<>`, the `size( amount )` and `end( amount )` member functions do not ignore the `amount` argument, and the `require( amount )` member function is not a complete dummy.
-
-```c++
-template< ... >
-class buffer_input
-{
-   bool empty();
-   std::size_t size( const std::size_t amount );
-   const char* end( const std::size_t amount );
-   void require( const std::size_t amount );
-   ...
-};
-```
-
-The `require( amount )` member function tells the input to make available at least `amount` unconsumed bytes of input data.
-It is not normally called directly unless there is good reason to prefetch some data.
-
-The `empty()`, `size( amount )` and `end( amount )` member functions call `require( amount )`, or, in the case of `empty()`, `require( 1 )`.
-The `amount` parameter should be understood as a parsing rule wishing to inspect and consume *up to* `amount` bytes of input.
-
-A custom rule must make sure to use appropriate values of `amount`.
-For examples of how the `amount` is set by parsing rules please search for `in.size` in `include/tao/pegtl/internal/`.
-
-### Custom Readers
-
-An incremental input consists of `buffer_input<>` together with a *reader*, a class or function that is used by the buffer input to fill the buffer.
-
-The buffer input is a class template with multiple template parameters.
-
-```c++
-template< typename Reader,
-          typename Eol = eol::lf_crlf,
-          typename Source = std::string,
-          std::size_t Chunk = 64 >
-class buffer_input;
-```
-
-The `Eol` and `Source` parameters are like for the other [input classes](Inputs-and-Parsing.md#memory-input).
-The `Chunk` parameter is explained below in detail.
-The `Reader` can be anything that can be called like the following wrapper.
-
-```c++
-std::function< std::size_t( char* buffer, const std::size_t length ) >
-```
-
-The arguments and return value are similar to other `read()`-style functions, a request to read `length` bytes into the memory pointed to by `buffer` that returns the number of bytes actually read.
-Reaching the end of the input MUST be the only reason for the reader to return zero.
-The reader might be called again after returning zero, with the expectation of returning zero again.
-
-Note that `buffer_input<>` consumes the first two arguments to its constructor for the *source* and *maximum*, and uses perfect forwarding to pass everything else to the constructor of the embedded instance of `Reader`.
-
-For examples of how to implement readers please look at `istream_reader.hpp` and `cstream_reader.hpp` in `include/tao/pegtl/internal/`.
-
-### Buffer Details
-
-The buffer input's `Chunk` template parameter is actually used in multiple places.
-
-1. The `maximum` buffer capacity passed by the user is incremented by `Chunk`.
-2. A discard does nothing when there are less than `Chunk` bytes of consumed buffered data.
-3. The buffer input requests at least `Chunk` bytes from the reader if there is enough space.
-
-Note that the first and second point go hand-in-hand, in order to optimise away some discards, the buffer must be extended in order to guarantee that at least `maximum` bytes can be buffered after a call to discard, even when it does nothing. The third point is simply an optimisation to call the reader less frequently.
 
 ## Error Reporting
 
 When reporting an error, one often wants to print the complete line from the input where the error occurred and a marker at the position where the error is found within that line.
-To support this, the `memory_input<>` class has a member function `at( p )` that returns a `const char*` to the input byte corresponding to `p` of type `tao::pegtl::position`.
-This function is the basis for the following convenience functions thar are _not_ member functions of the input.
-
-The functions `begin_of_line( in, p )` and `end_of_line_or_file( in, p )` return a `const char*` to the begin-of-line before `p`, the end-of-line (or file) after `p`, respectively.
-The function `line_view_at( in, p )` combines the former two and returns a `std::string_view` to the line surrounding the position indicated by `p`.
-As usual these function reside in namespace `TAO_PEGTL_NAMESPACE` which defaults to `tao::pegtl`.
-Example usage:
+To support this, all [inputs with lines](#inputs-with-lines) make available a [convenience](#input-convenience) function `line_view_at()` that returns a `std::string_view` for the line containing the position passed to it.
 
 ```c++
-// create input 'in' here...
+some_input in( ... );
 try {
-  // call parse on the input 'in' here...
+   tao::pegtl::parse< ... >( in, ... );
 }
-catch( const parse_error& e ) {
+catch( const decltype( in )::parse_error_t& e ) {
    const auto& p = e.position_object();
-   std::cerr << e.what() << std::endl
-             << line_view_at( in, p ) << '\n'
+   std::cerr << e.what() << '\n'
+             << in.line_view_at( in, p ) << '\n'
              << std::setw( p.column ) << '^' << std::endl;
+}
+catch( const parse_error_base& e ) {
+   std::cerr << e.what() << std::endl;
 }
 ```
 
-All input classes based on `memory_input<>` support the above, while all classes based on `buffer_input<>` are unable to supply the same functionality as previous input might have been discarded already.
-Trying to call any of those functions on `buffer_input<>`-based instances will lead to a compile error.
+Please note that the character indicated by the caret will only be correct if the input data is restricted to graphical ASCII characters plus the end-of-line character(s).
 
-## Deduction Guides
 
-All input classes support [deduction guides](https://en.cppreference.com/w/cpp/language/class_template_argument_deduction), e.g. instead of `file_input<> in( "filename.txt" )` one can use `file_input in( "filename.txt" )`.
+## Input Interface
+
+All input classes adhere to an informally defined interface of which some parts are optional.
+Some rules or other facilities will not function when the optional interface parts they rely on are not present.
+
+### Basic Interface
+
+The basic interface implemented by all inputs.
+
+```c++
+   using namespace tao::pegtl;
+
+   // Type aliases:
+
+   using data_t = char ... or something else;
+   using error_position_t = ...one of the position classes;
+   using offset_position_t = void;
+   using rewind_position_t = ...one of the position classes;
+#if defined( __cpp_exceptions )
+   using parse_error_t = parse_error< error_position_t >;
+#endif
+
+   [[nodiscard]] bool empty() const noexcept;
+   [[nodiscard]] std::size_t size() const noexcept;  // Number of unconsumed input objects.
+
+   [[nodiscard]] const data_t* current( const std::size_t offset = 0 ) const noexcept
+   [[nodiscard]] const data_t* end() const noexcept;
+
+   [[nodiscard]] const data_t* previous( const rewind_position_t saved ) const noexcept;
+   [[nodiscard]] const data_t* previous( const error_position_t saved ) const noexcept;
+
+   template< typename Rule >
+   void consume( const std::size_t count ) noexcept;
+
+   [[nodiscard]] rewind_position_t rewind_position() const noexcept;
+   void rewind_to_position( const rewind_position_t saved ) noexcept;
+
+   [[nodiscard]] error_position_t current_position() const noexcept;
+   [[nodiscard]] error_position_t previous_position( const rewind_position_t saved ) const noexcept;
+```
+
+### Inputs with Start
+
+An *input with start* is an input that remembers the initial return value of `current()` and can be restarted from that position.
+Most inputs are inputs with start except for [`base_input`](Input-Reference.md#base-input) -- and [all stream inputs](Stream-Parsing.md#inputs).
+
+```c++
+   [[nodiscard]] const data_t* start() const noexcept;
+
+   void restart() noexcept;
+```
+
+### Inputs with Lines
+
+An *input with lines* defines an `eol_rule` type alias which enables use of the [`eol`](Rule-Reference.md#eol) and [`eolf`](Rule-Reference.md#eolf) rules.
+
+Note that an input with lines does not necessarily include line and column numbers in its position tracking, that is only provided by [`text` inputs](#classification).
+
+Note that when one of the user-facing input classes is given `void` as `Eol` template parameter it disables the `eol_rule` type alias and is **not** considered an *input with lines*.
+
+For an in-depth explanation of the choices regarding the `Eol` template parameter please see the [ends of lines](#ends-of-lines) section above.
+
+```c++
+   using eol_rule = Eol;  // template parameter, usually defaults to tao_default_eol
+```
+
+Inputs with lines also implement the following functions that rely on the presence of `eol_rule`.
+
+```c++
+   [[nodiscard]] const data_t* begin_of_line( const error_position_t&, const std::size_t max = 135 ) const noexcept;
+   [[nodiscard]] const data_t* end_of_line_or_file( const error_position_t&, const std::size_t max = 135 ) const;
+```
+
+### Inputs with Source
+
+An *input with source* keeps an object that is part of the [position](TODO) but does not change over the parsing run.
+For inputs that read from a file the source is the filename in a `std::filesystem::path`.
+
+There are two source type aliases, `input_source_t` is the type of the source object embedded in the input, and `error_source_t` is the type of the source object embedded in the `error_position_t` which will be some `position_with_source<>` that is also used in the `parse_error<>` exceptions.
+
+> [!Note]
+> If either of `input_source_t` or `error_source_t` is `void` then both must be `void`.
+
+> [!Note]
+> It must be possible to construct an `error_source_t` from a `const input_source_t&`.
+
+```c++
+   using input_source_t = ...std::string or user chosen;
+   using error_source_t = ...std::string or user chosen;
+
+   [[nodiscard]] const input_source_t& direct_source() const noexcept;
+```
+
+### Input Convenience
+
+All inputs, including `action_input`, implement a set of convenience functions.
+
+```c++
+   [[nodiscard]] const data_t& peek( const std::size_t offset = 0 ) const noexcept
+   {
+      return *current( offset );
+   }
+
+   template< typename T >
+   [[nodiscard]] T peek_as( const std::size_t offset = 0 ) const noexcept
+   {
+      static_assert( sizeof( T ) == sizeof( data_t ) );
+      return static_cast< T >( peek( offset ) );
+   }
+
+   [[nodiscard]] char peek_char( const std::size_t offset = 0 ) const noexcept
+   {
+      return peek_as< char >( offset );
+   }
+
+   [[nodiscard]] std::byte peek_byte( const std::size_t offset = 0 ) const noexcept
+   {
+      return peek_as< std::byte >( offset );
+   }
+
+   [[nodiscard]] std::int8_t peek_int8( const std::size_t offset = 0 ) const noexcept
+   {
+      return peek_as< std::int8_t >( offset );
+   }
+
+   [[nodiscard]] std::uint8_t peek_uint8( const std::size_t offset = 0 ) const noexcept
+   {
+      return peek_as< std::uint8_t >( offset );
+   }
+
+   [[nodiscard]] std::string string() const
+   {
+      static_assert( sizeof( data_t ) == 1 );
+      return std::string( static_cast< const char* >( this->current() ), this->size() );
+   }
+
+   [[nodiscard]] std::string_view string_view() const noexcept
+   {
+      static_assert( sizeof( data_t ) == 1 );
+      return std::string_view( static_cast< const char* >( this->current() ), this->size() );
+   }
+
+   [[nodiscard]] std::vector< data_t > vector() const
+   {
+      return std::vector< data_t >( this->current(), this->current() + this->size() );
+   }
+
+   template< typename Position >
+   [[nodiscard]] std::string_view line_view_at( const Position& pos )
+   {
+      static_assert( sizeof( data_t ) == 1 );
+      const char* const b = static_cast< const char* >( this->begin_of_line( pos ) );
+      const char* const e = static_cast< const char* >( this->end_of_line_or_file( pos ) );
+      return { b, std::size_t( e - b ) };
+   }
+```
+
+The `line_view_at` function returns a `std::string_view` of the line of the input containing `pos`.
+It requires an input `in` where `in.begin_of_line( pos )` and `in.end_of_line_or_file( pos )` are valid function calls.
+
+### Stream Compatibility
+
+The PEGTL is designed to minimize the impact of the existence of the [stream inputs](TODO) on the core library.
+This goal was mostly achieved with the exception of some input functions and how the rules use them.
+All non-stream input classes implement the following functions for compatibility with the stream inputs.
+
+```c++
+   [[nodiscard]] decltype( auto ) end( const std::size_t /*unused*/ ) const noexcept( auto )
+   {
+      return end();
+   }
+
+   [[nodiscard]] std::size_t size( const std::size_t /*unused*/ ) const noexcept( auto )
+   {
+      return size();
+   }
+
+   void require( const std::size_t /*unused*/ ) const noexcept
+   {}
+
+   void discard() const noexcept
+   {}
+```
+
+All rules that need to be compatible with [stream inputs](TODO) need to use the `end()` and `size()` variants *with* argument.
+The argument tells the stream input how much data it needs to -- at least -- prefetch and stream for the rule to make a match.
+
+That is why, for example, the implementation of [`consume< Num >`](Rule-Reference.md#consume-num-) uses `if( in.size( Num ) >= Num )` instead of `if( in.size() >= Num )` to test whether the Input `in` contains at least `Num` further objects.
+
+Similarly the `require()` and `discard()` functions are implemented for compatibility so that a grammar with [`require`](Stream-Parsing.md#require) and [`discard`](Stream-Parsing.md#discard) can be used on *all* inputs.
+
 
 ---
 

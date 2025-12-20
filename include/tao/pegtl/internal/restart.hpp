@@ -1,0 +1,33 @@
+// Copyright (c) 2017-2025 Dr. Colin Hirsch and Daniel Frey
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
+
+#ifndef TAO_PEGTL_INTERNAL_RESTART_HPP
+#define TAO_PEGTL_INTERNAL_RESTART_HPP
+
+#include "../config.hpp"
+#include "../type_list.hpp"
+
+#include "enable_control.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::internal
+{
+   struct restart
+   {
+      using rule_t = restart;
+      using subs_t = empty_list;
+
+      template< typename ParseInput >
+      [[nodiscard]] static bool match( ParseInput& in ) noexcept( noexcept( in.restart() ) )
+      {
+         in.restart();
+         return true;
+      }
+   };
+
+   template<>
+   inline constexpr bool enable_control< restart > = false;
+
+}  // namespace TAO_PEGTL_NAMESPACE::internal
+
+#endif
