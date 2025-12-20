@@ -6,7 +6,7 @@ The stream inputs are documented [here](Stream-Parsing.md#inputs).
 
 ## Contents
 
-* [Introduction](#introduction)
+* [Preamble](#preamble)
 * [Argv Input](#argv-input)
 * [Base Input](#base-input)
 * [View Input](#view-input)
@@ -21,7 +21,7 @@ The stream inputs are documented [here](Stream-Parsing.md#inputs).
 * [Text Mmap Input](#text-mmap-input)
 
 
-## Introduction
+## Preamble
 
 All inputs documented on this page are defined in `tao/pegtl/inputs.hpp` which is included from `tao/pegtl.hpp`.
 

@@ -1,7 +1,8 @@
 # Action Reference
 
 The reference documention for all included actions
-The actions related to stream inputs are documented elsewhere (TODO).
+The actions related to [stream parsing](Stream-Parsing.nd) are [documented here](Stream-Parsing.md#actions).
+The actions not considered part of the core library are [documented here](TODO).
 
 
 ## Contents

@@ -1,6 +1,6 @@
 # Advanced Topics
 
-Advanced topics regarding use and development of the PEGTL.
+Advanced topics regarding use (and development) of this library.
 
 
 ## Contents
@@ -232,7 +232,8 @@ Version 5.x of the PEGTL will jump to C++20 or C++23.
 
 ### Other Things
 
- * Investigate whether we are crazy enough to implement parsing linked lists or trees?
+ * Investigate whether we are crazy enough to implement parsing non-contiguous memory like linked lists?
+ * Investigate whether we are crazy enough to implement parsing non-linear data structures like trees?
 
 ### Stream Parsing
 

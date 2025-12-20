@@ -1,7 +1,8 @@
 # Inputs and Parsing
 
-**Input data** is a (usually contiguous) sequence of bytes (or other objects) that are intended to be parsed.
-An **input** is a class (template) that adheres to an informal interface, the instances of which encapsulate some input data.
+**Input data** is a (contiguous) sequence of bytes (or other objects) that are intended to be parsed.
+
+An **input** is a class (template) that adheres to an informal interface, the instances of which represent input data.
 
 
 ## Contents
@@ -164,11 +165,11 @@ Rules that enable rule tracking are just any normal rules in the ASCII and Unico
 | `...::cr_crlf` | [rule](Rule-Reference.md#cr_crlf) | [rule](Rule-Reference.md#cr_crlf-1) |
 | `...::lf_crlf` | [rule](Rule-Reference.md#lf_crlf) | [rule](Rule-Reference.md#lf_crlf-1) |
 | `...::cr_lf_crlf` | [rule](Rule-Reference.md#cr_lf_crlf) | [rule](Rule-Reference.md#cr_lf_crlf-1) |
-| `...::ls` | - | [Unicode](Rule-Reference.md#ls) |
-| `...::nel` | - | [Unicode](Rule-Reference.md#nel) |
-| `...::ps` | - | [Unicode](Rule-Reference.md#ps) |
-| `...::eol1` | - | [Unicode](Rule-Reference.md#eol1) |
-| `...::eolu` | - | [Unicode](Rule-Reference.md#eolu) |
+| `...::ls` | - | [rule](Rule-Reference.md#ls) |
+| `...::nel` | - | [rule](Rule-Reference.md#nel) |
+| `...::ps` | - | [rule](Rule-Reference.md#ps) |
+| `...::eol1` | - | [rule](Rule-Reference.md#eol1) |
+| `...::eolu` | - | [rule](Rule-Reference.md#eolu) |
 
 The table shows the most commonly used end-of-line rules, however anything (outside of the `scan` and `lazy` sub-namespaces) can be used.
 
@@ -191,9 +192,9 @@ Rules that enable scan tracking can be found in the `scan` sub-namespace of the 
 | `...::scan::cr` | [rule](Rule-Reference.md#cr) | [rule](Rule-Reference.md#cr-1) |
 | `...::scan::lf` | [rule](Rule-Reference.md#lf) | [rule](Rule-Reference.md#lf-1) |
 | `...::scan::lf_crlf` | [rule](Rule-Reference.md#lf_crlf) | [rule](Rule-Reference.md#lf_crlf-1) |
-| `...::scan::ls` | - | [Unicode](Rule-Reference.md#ls) |
-| `...::scan::nel` | - | [Unicode](Rule-Reference.md#nel) |
-| `...::scan::ps` | - | [Unicode](Rule-Reference.md#ps) |
+| `...::scan::ls` | - | [rule](Rule-Reference.md#ls) |
+| `...::scan::nel` | - | [rule](Rule-Reference.md#nel) |
+| `...::scan::ps` | - | [rule](Rule-Reference.md#ps) |
 
 This tracking mode corresponds to the eager tracking in PEGTL versions prior to 4.0.
 
@@ -225,10 +226,10 @@ Rules that enable lazy tracking can be found in the `lazy` sub-namespace of the 
 | `...::lazy::cr_crlf` | [rule](Rule-Reference.md#cr_crlf) | [rule](Rule-Reference.md#cr_crlf-1) |
 | `...::lazy::lf_crlf` | [rule](Rule-Reference.md#lf_crlf) | [rule](Rule-Reference.md#lf_crlf-1) |
 | `...::lazy::cr_lf_crlf` | [rule](Rule-Reference.md#cr_lf_crlf) | [rule](Rule-Reference.md#cr_lf_crlf-1) |
-| `...::lazy::ls` | - | [Unicode](Rule-Reference.md#ls) |
-| `...::lazy::nel` | - | [Unicode](Rule-Reference.md#nel) |
-| `...::lazy::ps` | - | [Unicode](Rule-Reference.md#ps) |
-| `...::lazy::eolu` | - | [Unicode](Rule-Reference.md#eolu) |
+| `...::lazy::ls` | - | [rule](Rule-Reference.md#ls) |
+| `...::lazy::nel` | - | [rule](Rule-Reference.md#nel) |
+| `...::lazy::ps` | - | [rule](Rule-Reference.md#ps) |
+| `...::lazy::eolu` | - | [rule](Rule-Reference.md#eolu) |
 
 This tracking mode was extended in PEGTL 4.0 -- previously lazy tracking had the same restrictions as scan tracking.
 
@@ -430,7 +431,7 @@ There are two source type aliases, `input_source_t` is the type of the source ob
 
 ### Input Convenience
 
-All inputs, including `action_input`, implement a set of convenience functions.
+All inputs, including `action_input`, implement the following set of convenience functions.
 
 ```c++
    [[nodiscard]] const data_t& peek( const std::size_t offset = 0 ) const noexcept
@@ -520,11 +521,11 @@ All non-stream input classes implement the following functions for compatibility
 ```
 
 All rules that need to be compatible with [stream inputs](TODO) need to use the `end()` and `size()` variants *with* argument.
-The argument tells the stream input how much data it needs to -- at least -- prefetch and stream for the rule to make a match.
+The argument tells the stream input how much data it needs to prefetch or the rule to attempt its match.
 
 That is why, for example, the implementation of [`consume< Num >`](Rule-Reference.md#consume-num-) uses `if( in.size( Num ) >= Num )` instead of `if( in.size() >= Num )` to test whether the Input `in` contains at least `Num` further objects.
 
-Similarly the `require()` and `discard()` functions are implemented for compatibility so that a grammar with [`require`](Stream-Parsing.md#require) and [`discard`](Stream-Parsing.md#discard) can be used on *all* inputs.
+Similarly the `require()` and `discard()` functions are implemented for compatibility so that grammars with [`require`](Stream-Parsing.md#require) and [`discard`](Stream-Parsing.md#discard) can be used on *all* inputs.
 
 
 ---

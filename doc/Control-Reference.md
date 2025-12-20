@@ -2,12 +2,22 @@
 
 The reference documention for all control class templates.
 
-### Included
+
+## Contents
+
+* [Preamble](#preamble)
+* [Controls](#controls)
+* [Index](#index)
+
+
+## Preamble
+
+#### Included
 
 Only `tao/pegtl/normal.hpp` which defines `normal` is automatically included with `tao/pegtl.hpp`.
 For all other controls the appropriate header in `tao/pegtl/control/` needs to be included manually.
 
-### Templates
+#### Templates
 
 Template parameters to control adapters that are documented as `Base` need to be control classes.
 
@@ -15,31 +25,17 @@ Template parameters to control adapters that are documented as `Control` need to
 
 TODO: Examples? Explanations?
 
-### Forwarding
+#### Forwarding
 
 The control class adapters that modify the states before forwarding the control functions to a different control will modify the states for all control functions **except** `match()` -- otherwise the modification would be applied multiple times for nested rule invocations.
 
-### Namespaces
+#### Namespaces
 
 All control class templates reside in namespace `tao::pegtl`.
 This default can be changed via the macro `TAO_PEGTL_NAMESPACE` or in `tao/pegtl/config.hpp`.
 
 
-## Contents
-
-
-* [Normal](#normal)
-* [Input Control](#input-control)
-* [Must-If](#must-if)
-* [Remove First State](#remove-first-state)
-* [Remove Last States](#remove-last-states)
-* [Reverse States](#reverse-states)
-* [Rewind Control](#rewind-control)
-* [Rewind State Control](#rewind-state-control)
-* [Rotate States Left](#rotate-states-left)
-* [Rotate States Right](#rotate-states-right)
-* [Shuffle States](#shuffle-states)
-* [State Control](#state-control)
+## Controls
 
 ### Normal
 
@@ -121,6 +117,22 @@ struct shuffle
 ### State Control
 
 TODO
+
+
+## Index
+
+* [Normal](#normal) <sup>[(controls)](#controls)</sup>
+* [Input Control](#input-control) <sup>[(controls)](#controls)</sup>
+* [Must-If](#must-if) <sup>[(controls)](#controls)</sup>
+* [Remove First State](#remove-first-state) <sup>[(controls)](#controls)</sup>
+* [Remove Last States](#remove-last-states) <sup>[(controls)](#controls)</sup>
+* [Reverse States](#reverse-states) <sup>[(controls)](#controls)</sup>
+* [Rewind Control](#rewind-control) <sup>[(controls)](#controls)</sup>
+* [Rewind State Control](#rewind-state-control) <sup>[(controls)](#controls)</sup>
+* [Rotate States Left](#rotate-states-left) <sup>[(controls)](#controls)</sup>
+* [Rotate States Right](#rotate-states-right) <sup>[(controls)](#controls)</sup>
+* [Shuffle States](#shuffle-states) <sup>[(controls)](#controls)</sup>
+* [State Control](#state-control) <sup>[(controls)](#controls)</sup>
 
 
 ---

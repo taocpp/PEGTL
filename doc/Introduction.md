@@ -170,7 +170,7 @@ A **grammar** is a set of one or more related parsing rules, with one (or more) 
 
 **Input data** is a (usually contiguous) sequence of bytes (or other objects) that are intended to be parsed.
 
-An **input** is a class (template) that adheres to an informal interface, the instances of which encapsulate some input data.
+An **input** is a class (template) that adheres to an informal interface, the instances of which represent input data.
 
 A (semantic) **action** is a class template with a (suitable) static `apply()` or `apply0()` function -- and/or, for advanced use cases, a (suitable) static `match()` function.
 
