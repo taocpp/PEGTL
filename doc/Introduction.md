@@ -121,15 +121,13 @@ I can't parse you!
 
 ## Default Namespace
 
-By default, the PEGTL resides in `namespace tao::pegtl`, however this can be changed as explained in [Embedding in Libraries](Installing-and-Using.md#embedding-in-libraries).
+By default, the PEGTL resides in namespace `tao::pegtl`, however this can be changed as explained in [Embedding in Libraries](Installing-and-Using.md#embedding-in-libraries).
 **The entire PEGTL documentation assumes the default namespace.**
 
-The PEGTL provides multiple facilities that help to get started and develop your grammar.
-In the following paragraphs we will present several small programs to showcase the capabilities of the PEGTL.
+Some parts of the library use sub-namespaces, for example the parsing rules specific to UTF-8 encoded text are in namespace `tao::pegtl::utf8`.
+Similarly the parsing rules for ASCII text are in namespace `tao::pegtl::ascii`, which is an [inline namespace](https://en.cppreference.com/w/cpp/language/namespace.html), making them (also) accessible "as if" they were in namespace `tao::pegtl`.
 
-Note, however, that most examples shown in this documentation will lack proper error handling.
-Frequently an application will include `try-catch` blocks to handle `parse_error` and other exceptions.
-The correct way of handling errors is shown in the last paragraph of this page.
+For this reason we frequently put the `ascii` in brackets and write `tao::pegtl::(ascii::)` to designate the ASCII namespace throughout this documentation.
 
 
 ## Parsing Expression Grammars
