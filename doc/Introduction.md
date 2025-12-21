@@ -166,9 +166,9 @@ A (parsing) [**rule**](Rules-and-Grammars.md) is a class (or a class template) w
 
 A [**grammar**](Rules-and-Grammars.md) is a set of one or more related parsing rules, with one (or more) designated top-level rules as entry-point(s).
 
-**Input data** is a (usually contiguous) sequence of bytes (or other objects) that are intended to be parsed.
+**Input data** is a sequence of bytes (or other objects) that are intended to be parsed.
 
-An [**input**](Inputs-and-Parsing.md) is a class (template) that adheres to an informal interface, the instances of which represent input data.
+An [**input**](Inputs-and-Parsing.md) is a class that adheres to an informal interface and represents some input data.
 
 A (semantic) [**action**](Actions-and-States.md) is a class template with a (suitable) static `apply()` or `apply0()` function -- and/or, for advanced use cases, a (suitable) static `match()` function.
 
@@ -182,7 +182,7 @@ A [**nested parsing**](Inputs-and-Parsing.md) run similarly refers to a call to 
 
 A **position** is an instance of a class that indicates an object in the input data, possibly with auxiliary information like filename and line number.
 
-Input is **consumed** when the reference to what is considered the current object in the input data is advanced by a count of one or more.
+Input is **consumed** when the reference to what is considered the current object in the input data is advanced.
 
 [**Stream parsing**](Stream-Parsing.md) refers to parsing with an input that only provides a small contiguous buffer as window into some larger or unbounded input data.
 
@@ -192,11 +192,11 @@ An action is **applied** when its `apply()` or `apply0()` function is called aft
 
 (Strictly speaking the function is called on the specialization of the action class template for the rule in question; we'll often use the shorter form.)
 
-**Success** is when a rule's (or action's) `match()` function returns `true` after being called on some input.
+**Success** is when a [`match()` function](Rules-and-Grammars.md#match-function) returns `true`.
 
-**Local failure** is when a rule's (or action's) `match()` function returns `false` which can lead to backtracking.
+**Local failure** is when a [`match()` function](Rules-and-Grammars.md#match-function) returns `false` (which can lead to backtracking).
 
-**Global failure** is when a rule's (or action's) match()` function throws an exception which (usually) aborts the parsing run.
+**Global failure** is when a [`match()` function](Rules-and-Grammars.md#match-function) throws an exception (which usually aborts the parsing run).
 
 The **matched input** is the portion of the input data consumed by a parsing rule during a successful call to its `match()` function.
 

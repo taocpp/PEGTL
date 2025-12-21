@@ -1,8 +1,8 @@
 # Inputs and Parsing
 
-**Input data** is a (contiguous) sequence of bytes (or other objects) that are intended to be parsed.
+**Input data** is a sequence of bytes (or other objects) that are intended to be parsed.
 
-An **input** is a class (template) that adheres to an informal interface, the instances of which represent input data.
+An **input** is a class that adheres to an informal interface and represents some input data.
 
 
 ## Contents
@@ -32,14 +32,14 @@ An **input** is a class (template) that adheres to an informal interface, the in
 
 Performing a parsing run requires (at least) the following steps.
 
-1. The [rules of the grammar](Rules-and-Grammars.md) have to be implemented.
-2. An [input](#input-classes) that represents the to-be-parsed data needs to be constructed.
+1. The [grammar](Rules-and-Grammars.md) has to be defined.
+2. An [input](#input-classes) has to be constructed.
 3. The [parse function](#parse-function) has to be called with the grammar and the input.
 
 The following steps are also frequently included to do something useful while parsing.
 
-4. An [action class template](Actions-and-States.md) has to be implemented and also passed to the parse function.
-5. One or more [state objects](Actions-and-States.md) are instantiated and also passed to the parse function.
+4. [Actions](Actions-and-States.md) have to be implemented and also passed to the parse function.
+5. [States](Actions-and-States.md) have to be instantiated and also passed to the parse function.
 
 More advanced use cases might also pass a control class to the parsing run, or use other functions to start it (the parsing run).
 
@@ -253,14 +253,16 @@ bool parse( ParseInput& in,
 ```
 
 - The [`Rule` class](Rules-and-Grammars.md) represents the top-level parsing rule of the grammar and is mandatory.
-- The [`Action<>` class template](Actions-and-States.md) defaults to an action that does nothing. It is required to pass a user-defined action for a parsing run to do more, e.g. build some data structure, than validate an input against the grammar.
-- The [`Control<>` class template](Control-and-Debug.md) defaults to the normal control class that implements the expected and documented behaviour. It can be changed for debugging, e.g. printing all rule match attempts and their outcomes, and for some other advanced use cases, e.g. gathering rule invocation statistics.
+- The [`Action`](Actions-and-States.md) defaults to an action that does nothing. It is required to pass a user-defined action for a parsing run to do more, e.g. build some data structure, than validate an input against the grammar.
+- The [`Control`](Control-and-Debug.md) defaults to the normal control class that implements the expected and documented behaviour. It can be changed for debugging, e.g. printing all rule match attempts and their outcomes, and for some other advanced use cases, e.g. gathering rule invocation statistics.
 - The [`States`](Actions-and-States.md#changing-states) are the types of the additional state objects `st` that are passed to all rules' `match()` functions, all actions' `apply()` and `apply0()` functions, and all control functions. What is needed here depends on what the actions (and control functions) expect.
 - The `apply_mode` defaults to `apply_mode::enabled` which enables actions. Can be changed to `rewind_mode::disabled` or in the grammar with the [`enable`](Rule-Reference.md#enable-r-) and [`disable`](Rule-Reference.md#disable-r-) rules.
 - The `rewind_mode` defaults to `rewind_mode::dontcare` in which case the input might not be rewound to its start when `parse()` returns `false`. Rewinding can be enabled by passing `rewind_mode::required`.
 
 A parsing run can have the [same three outcomes](Rules-and-Grammars.md#match-function) as the match function of a rule.
 Note that the terminology "local" and "global" does not make too much sense at top-level, however for consistency sake we keep these terms here, too.
+
+TODO
 
 - *success*, a return value of `true`,
 - *local failure*, a return value of `false`,
