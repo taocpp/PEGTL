@@ -24,6 +24,8 @@
 #include <tao/pegtl/enums.hpp>
 #include <tao/pegtl/member.hpp>
 
+#include "peek_data.hpp"
+
 namespace TAO_PEGTL_NAMESPACE
 {
    struct foo
@@ -58,8 +60,8 @@ namespace TAO_PEGTL_NAMESPACE
       using in64 = internal::view_input< std::uint64_t >;
       using ins = internal::view_input< std::string >;
 
-      static_assert( internal::peek_data::bulk< ins >() == true );
-      static_assert( internal::peek_data::size< ins >() == 1 );
+      static_assert( test::peek_data::bulk< ins >() == true );
+      static_assert( test::peek_data::size< ins >() == 1 );
 
       static_assert( internal::peek_char::bulk< in8 >() == true );
       static_assert( internal::peek_char::size< in8 >() == 1 );
@@ -196,8 +198,8 @@ namespace TAO_PEGTL_NAMESPACE
       static_assert( internal::has_utf8_length_4( 0x10ffff ) == true );
       static_assert( internal::has_utf8_length_4( 0x110000 ) == false );
 
-      constexpr_to_runtime_hack( internal::peek_data::bulk< ins >, true );
-      constexpr_to_runtime_hack( internal::peek_data::size< ins >, 1 );
+      constexpr_to_runtime_hack( test::peek_data::bulk< ins >, true );
+      constexpr_to_runtime_hack( test::peek_data::size< ins >, 1 );
 
       constexpr_to_runtime_hack( internal::peek_char::bulk< in8 >, true );
       constexpr_to_runtime_hack( internal::peek_char::size< in8 >, 1 );
