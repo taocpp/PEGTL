@@ -14,7 +14,7 @@
 #include "../config.hpp"
 #include "../normal.hpp"
 
-#include "../internal/type_traits.hpp"
+#include "../internal/has_error_message.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

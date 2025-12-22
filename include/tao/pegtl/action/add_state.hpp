@@ -14,7 +14,7 @@
 #include "../rewind_mode.hpp"
 
 #include "../internal/dependent_false.hpp"
-#include "../internal/type_traits.hpp"
+#include "../internal/has_success.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

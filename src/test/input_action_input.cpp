@@ -13,7 +13,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          const auto p = in.rewind_position();
          in.consume< eol_exclude_tag >( 3 );
-         internal::action_input_impl< view_input< scan::lf > > ai( p, in );
+         action_input< view_input< scan::lf > > ai( p, in );
          TAO_PEGTL_TEST_ASSERT( ai.begin() == ai.current() );
          TAO_PEGTL_TEST_ASSERT( ai.begin() + 2 == ai.current( 2 ) );
          TAO_PEGTL_TEST_ASSERT( ai.begin() + 3 == ai.end() );
@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       {
          const auto p = in.rewind_position();
-         internal::action_input_impl< view_input< scan::lf > > ai( p, in );
+         action_input< view_input< scan::lf > > ai( p, in );
          TAO_PEGTL_TEST_ASSERT( ai.empty() );
          TAO_PEGTL_TEST_ASSERT( ai.size() == 0 );
       }

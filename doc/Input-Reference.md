@@ -33,7 +33,7 @@ All inputs documented on this page implement the common input functions consisti
 
 #### Namespaces
 
-All inputs and the type alias `tao_default_eol` reside in namespace `tao::pegtl`.
+All inputs and the type alias `default_eol` reside in namespace `tao::pegtl`.
 This default can be changed via the macro `TAO_PEGTL_NAMESPACE` in `tao/pegtl/config.hpp`.
 The namespace `tao::pegtl` is generally omitted on this page.
 
@@ -105,7 +105,7 @@ It only keeps two pointers, the one returned by `current()` and the one returned
 #### Exposition
 
 ```c++
-template< typename Eol = tao_default_eol, typename Data = char >
+template< typename Eol = default_eol, typename Data = char >
 struct base_input
 {
    using data_t = Data;
@@ -153,26 +153,26 @@ struct base_input
 
 ```c++
 template< typename Data >
-base_input( const Data*, const Data* ) -> base_input< tao_default_eol, Data >;
+base_input( const Data*, const Data* ) -> base_input< default_eol, Data >;
 
 template< typename Data >
-base_input( const Data*, const std::size_t ) -> base_input< tao_default_eol, Data >;
+base_input( const Data*, const std::size_t ) -> base_input< default_eol, Data >;
 
-base_input( std::string& ) -> base_input< tao_default_eol, char >;
-base_input( const std::string& ) -> base_input< tao_default_eol, char >;
-base_input( const std::string_view ) -> base_input< tao_default_eol, char >;
-
-template< typename Data, typename... Params >
-base_input( std::vector< Data, Params... >& ) -> base_input< tao_default_eol, Data >;
+base_input( std::string& ) -> base_input< default_eol, char >;
+base_input( const std::string& ) -> base_input< default_eol, char >;
+base_input( const std::string_view ) -> base_input< default_eol, char >;
 
 template< typename Data, typename... Params >
-base_input( const std::vector< Data, Params... >& ) -> base_input< tao_default_eol, Data >;
+base_input( std::vector< Data, Params... >& ) -> base_input< default_eol, Data >;
+
+template< typename Data, typename... Params >
+base_input( const std::vector< Data, Params... >& ) -> base_input< default_eol, Data >;
 
 template< std::size_t Size >
-base_input( const char ( & )[ Size ] ) -> base_input< tao_default_eol, char >;
+base_input( const char ( & )[ Size ] ) -> base_input< default_eol, char >;
 
 template< typename Data, std::size_t Size >
-base_input( const std::array< Data, Size >& ) -> base_input< tao_default_eol, Data >;
+base_input( const std::array< Data, Size >& ) -> base_input< default_eol, Data >;
 ```
 
 
@@ -188,7 +188,7 @@ base_input( const std::array< Data, Size >& ) -> base_input< tao_default_eol, Da
 #### Exposition
 
 ```c++
-template< typename Eol = tao_default_eol, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = default_eol, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
 struct view_input
 {
    using data_t = Data;
@@ -238,26 +238,26 @@ Guides that leave `InputSource` and `ErrorSource` as `void`.
 
 ```c++
 template< typename Data >
-view_input( const Data*, const Data* ) -> view_input< tao_default_eol, Data, void, void >;
+view_input( const Data*, const Data* ) -> view_input< default_eol, Data, void, void >;
 
 template< typename Data >
-view_input( const Data*, const std::size_t ) -> view_input< tao_default_eol, Data, void, void >;
+view_input( const Data*, const std::size_t ) -> view_input< default_eol, Data, void, void >;
 
-view_input( std::string& ) -> view_input< tao_default_eol, char, void, void >;
-view_input( const std::string& ) -> view_input< tao_default_eol, char, void, void >;
-view_input( const std::string_view ) -> view_input< tao_default_eol, char, void, void >;
-
-template< typename Data, typename... Params >
-view_input( std::vector< Data, Params... >& ) -> view_input< tao_default_eol, Data, void, void >;
+view_input( std::string& ) -> view_input< default_eol, char, void, void >;
+view_input( const std::string& ) -> view_input< default_eol, char, void, void >;
+view_input( const std::string_view ) -> view_input< default_eol, char, void, void >;
 
 template< typename Data, typename... Params >
-view_input( const std::vector< Data, Params... >& ) -> view_input< tao_default_eol, Data, void, void >;
+view_input( std::vector< Data, Params... >& ) -> view_input< default_eol, Data, void, void >;
+
+template< typename Data, typename... Params >
+view_input( const std::vector< Data, Params... >& ) -> view_input< default_eol, Data, void, void >;
 
 template< std::size_t Size >
-view_input( const char ( & )[ Size ] ) -> view_input< tao_default_eol, char, void, void >;
+view_input( const char ( & )[ Size ] ) -> view_input< default_eol, char, void, void >;
 
 template< typename Data, std::size_t Size >
-view_input( const std::array< Data, Size >& ) -> view_input< tao_default_eol, Data, void, void >;
+view_input( const std::array< Data, Size >& ) -> view_input< default_eol, Data, void, void >;
 ```
 
 #### Construction
@@ -311,31 +311,31 @@ With `source` argument set `InputSource` and `ErrorSource` to `std::string`.
 
 ```c++
 template< typename String, typename Data >
-view_input( String&&, const Data*, const Data* ) -> view_input< tao_default_eol, Data, std::string, std::string >;
+view_input( String&&, const Data*, const Data* ) -> view_input< default_eol, Data, std::string, std::string >;
 
 template< typename String, typename Data >
-view_input( String&&, const Data*, const std::size_t ) -> view_input< tao_default_eol, Data, std::string, std::string >;
+view_input( String&&, const Data*, const std::size_t ) -> view_input< default_eol, Data, std::string, std::string >;
 
 template< typename String >
-view_input( String&&, std::string& ) -> view_input< tao_default_eol, char, std::string, std::string >;
+view_input( String&&, std::string& ) -> view_input< default_eol, char, std::string, std::string >;
 
 template< typename String >
-view_input( String&&, const std::string& ) -> view_input< tao_default_eol, char, std::string, std::string >;
+view_input( String&&, const std::string& ) -> view_input< default_eol, char, std::string, std::string >;
 
 template< typename String >
-view_input( String&&, const std::string_view ) -> view_input< tao_default_eol, char, std::string, std::string >;
+view_input( String&&, const std::string_view ) -> view_input< default_eol, char, std::string, std::string >;
 
 template< typename String, typename Data, typename... Params >
-view_input( String&&, std::vector< Data, Params... >& ) -> view_input< tao_default_eol, Data, std::string, std::string >;
+view_input( String&&, std::vector< Data, Params... >& ) -> view_input< default_eol, Data, std::string, std::string >;
 
 template< typename String, typename Data, typename... Params >
-view_input( String&&, const std::vector< Data, Params... >& ) -> view_input< tao_default_eol, Data, std::string, std::string >;
+view_input( String&&, const std::vector< Data, Params... >& ) -> view_input< default_eol, Data, std::string, std::string >;
 
 template< typename String, std::size_t Size >
-view_input( String&&, const char ( & )[ Size ] ) -> view_input< tao_default_eol, char, std::string, std::string >;
+view_input( String&&, const char ( & )[ Size ] ) -> view_input< default_eol, char, std::string, std::string >;
 
 template< typename String, typename Data, std::size_t Size >
-view_input( String&&, const std::array< Data, Size >& ) -> view_input< tao_default_eol, Data, std::string, std::string >;
+view_input( String&&, const std::array< Data, Size >& ) -> view_input< default_eol, Data, std::string, std::string >;
 ```
 
 
@@ -350,7 +350,7 @@ view_input( String&&, const std::array< Data, Size >& ) -> view_input< tao_defau
 #### Exposition
 
 ```c++
-template< typename Eol = tao_default_eol, typename Container = std::string, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = default_eol, typename Container = std::string, typename InputSource = void, typename ErrorSource = InputSource >
 struct copy_input
 {
    using data_t = typename Container::value_type;
@@ -391,22 +391,22 @@ Guides that leave `InputSource` and `ErrorSource` as `void`.
 
 ```c++
 template< typename data_t >
-copy_input( const data_t*, const data_t* ) -> copy_input< tao_default_eol, internal::choose_container_t< data_t >, void, void >;
+copy_input( const data_t*, const data_t* ) -> copy_input< default_eol, internal::choose_container_t< data_t >, void, void >;
 
 template< typename data_t >
-copy_input( const data_t*, const std::size_t ) -> copy_input< tao_default_eol, internal::choose_container_t< data_t >, void, void >;
+copy_input( const data_t*, const std::size_t ) -> copy_input< default_eol, internal::choose_container_t< data_t >, void, void >;
 
 template< typename Container >
-copy_input( Container&& ) -> copy_input< tao_default_eol, std::decay_t< Container >, void, void >;
+copy_input( Container&& ) -> copy_input< default_eol, std::decay_t< Container >, void, void >;
 
 template< typename Container >
-copy_input( const Container& ) -> copy_input< tao_default_eol, std::decay_t< Container >, void, void >;
+copy_input( const Container& ) -> copy_input< default_eol, std::decay_t< Container >, void, void >;
 
 template< typename data_t, std::size_t Size >
-copy_input( const std::array< data_t, Size >& ) -> copy_input< tao_default_eol, internal::choose_container_t< data_t >, void, void >;
+copy_input( const std::array< data_t, Size >& ) -> copy_input< default_eol, internal::choose_container_t< data_t >, void, void >;
 
 template< typename data_t >
-copy_input( const std::initializer_list< data_t >& ) -> copy_input< tao_default_eol, internal::choose_container_t< data_t >, void, void >;
+copy_input( const std::initializer_list< data_t >& ) -> copy_input< default_eol, internal::choose_container_t< data_t >, void, void >;
 ```
 
 #### Construction
@@ -441,22 +441,22 @@ With `source` argument set `InputSource` and `ErrorSource` to `std::string`.
 
 ```c++
 template< typename String, typename data_t >
-copy_input( String&&, const data_t*, const data_t* ) -> copy_input< tao_default_eol, internal::choose_container_t< data_t >, std::string, std::string >;
+copy_input( String&&, const data_t*, const data_t* ) -> copy_input< default_eol, internal::choose_container_t< data_t >, std::string, std::string >;
 
 template< typename String, typename data_t >
-copy_input( String&&, const data_t*, const std::size_t ) -> copy_input< tao_default_eol, internal::choose_container_t< data_t >, std::string, std::string >;
+copy_input( String&&, const data_t*, const std::size_t ) -> copy_input< default_eol, internal::choose_container_t< data_t >, std::string, std::string >;
 
 template< typename String, typename Container >
-copy_input( String&&, Container&& ) -> copy_input< tao_default_eol, std::decay_t< Container >, std::string, std::string >;
+copy_input( String&&, Container&& ) -> copy_input< default_eol, std::decay_t< Container >, std::string, std::string >;
 
 template< typename String, typename Container >
-copy_input( String&&, const Container& ) -> copy_input< tao_default_eol, std::decay_t< Container >, std::string, std::string >;
+copy_input( String&&, const Container& ) -> copy_input< default_eol, std::decay_t< Container >, std::string, std::string >;
 
 template< typename String, typename data_t, std::size_t Size >
-copy_input( String&&, const std::array< data_t, Size >& ) -> copy_input< tao_default_eol, internal::choose_container_t< data_t >, std::string, std::string >;
+copy_input( String&&, const std::array< data_t, Size >& ) -> copy_input< default_eol, internal::choose_container_t< data_t >, std::string, std::string >;
 
 template< typename String, typename data_t >
-copy_input( String&&, const std::initializer_list< data_t >& ) -> copy_input< tao_default_eol, internal::choose_container_t< data_t >, std::string, std::string >;
+copy_input( String&&, const std::initializer_list< data_t >& ) -> copy_input< default_eol, internal::choose_container_t< data_t >, std::string, std::string >;
 ```
 
 
@@ -471,14 +471,14 @@ copy_input( String&&, const std::initializer_list< data_t >& ) -> copy_input< ta
 #### Exposition
 
 ```c++
-template< typename Eol = tao_default_eol >
+template< typename Eol = default_eol >
 struct file_input
 {
    // Inherits everything from either mmap_input< Eol, char > or read_input< Eol >.
 };
 
 template< typename... Args >
-file_input( Args...&& ) -> file_input< tao_default_eol >;
+file_input( Args...&& ) -> file_input< default_eol >;
 ```
 
 
@@ -494,7 +494,7 @@ file_input( Args...&& ) -> file_input< tao_default_eol >;
 #### Exposition
 
 ```c++
-template< typename Eol = tao_default_eol >
+template< typename Eol = default_eol >
 struct read_input
 {
    using data_t = char;
@@ -522,7 +522,7 @@ struct read_input
 
 ```c++
 template< typename... Args >
-read_input( Args...&& ) -> read_input< tao_default_eol >;
+read_input( Args...&& ) -> read_input< default_eol >;
 ```
 
 
@@ -538,7 +538,7 @@ read_input( Args...&& ) -> read_input< tao_default_eol >;
 #### Exposition
 
 ```c++
-template< typename Eol = tao_default_eol, typename Data = char >
+template< typename Eol = default_eol, typename Data = char >
 struct mmap_input
 {
    using data_t = Data;
@@ -565,7 +565,7 @@ struct mmap_input
 
 ```c++
 template< typename... Args >
-mmap_input( Args...&& ) -> mmap_input< tao_default_eol, char >;
+mmap_input( Args...&& ) -> mmap_input< default_eol, char >;
 ```
 
 
@@ -580,7 +580,7 @@ mmap_input( Args...&& ) -> mmap_input< tao_default_eol, char >;
 #### Exposition
 
 ```c++
-template< typename Eol = tao_default_eol, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = default_eol, typename Data = char, typename InputSource = void, typename ErrorSource = InputSource >
 struct text_view_input
 {
    using data_t = Data;
@@ -628,26 +628,26 @@ Guides that leave `InputSource` and `ErrorSource` as `void`.
 
 ```c++
 template< typename Data >
-text_view_input( const Data*, const Data* ) -> text_view_input< tao_default_eol, Data, void, void >;
+text_view_input( const Data*, const Data* ) -> text_view_input< default_eol, Data, void, void >;
 
 template< typename Data >
-text_view_input( const Data*, const std::size_t ) -> text_view_input< tao_default_eol, Data, void, void >;
+text_view_input( const Data*, const std::size_t ) -> text_view_input< default_eol, Data, void, void >;
 
-text_view_input( std::string& ) -> text_view_input< tao_default_eol, char, void, void >;
-text_view_input( const std::string& ) -> text_view_input< tao_default_eol, char, void, void >;
-text_view_input( const std::string_view ) -> text_view_input< tao_default_eol, char, void, void >;
-
-template< typename Data, typename... Params >
-text_view_input( std::vector< Data, Params... >& ) -> text_view_input< tao_default_eol, Data, void, void >;
+text_view_input( std::string& ) -> text_view_input< default_eol, char, void, void >;
+text_view_input( const std::string& ) -> text_view_input< default_eol, char, void, void >;
+text_view_input( const std::string_view ) -> text_view_input< default_eol, char, void, void >;
 
 template< typename Data, typename... Params >
-text_view_input( const std::vector< Data, Params... >& ) -> text_view_input< tao_default_eol, Data, void, void >;
+text_view_input( std::vector< Data, Params... >& ) -> text_view_input< default_eol, Data, void, void >;
+
+template< typename Data, typename... Params >
+text_view_input( const std::vector< Data, Params... >& ) -> text_view_input< default_eol, Data, void, void >;
 
 template< std::size_t Size >
-text_view_input( const char ( & )[ Size ] ) -> text_view_input< tao_default_eol, char, void, void >;
+text_view_input( const char ( & )[ Size ] ) -> text_view_input< default_eol, char, void, void >;
 
 template< typename Data, std::size_t Size >
-text_view_input( const std::array< Data, Size >& ) -> text_view_input< tao_default_eol, Data, void, void >;
+text_view_input( const std::array< Data, Size >& ) -> text_view_input< default_eol, Data, void, void >;
 ```
 
 #### Construction
@@ -699,31 +699,31 @@ With `source` argument set `InputSource` and `ErrorSource` to `std::string`.
 
 ```c++
 template< typename String, typename Data >
-text_view_input( String&&, const Data*, const Data* ) -> text_view_input< tao_default_eol, Data, std::string, std::string >;
+text_view_input( String&&, const Data*, const Data* ) -> text_view_input< default_eol, Data, std::string, std::string >;
 
 template< typename String, typename Data >
-text_view_input( String&&, const Data*, const std::size_t ) -> text_view_input< tao_default_eol, Data, std::string, std::string >;
+text_view_input( String&&, const Data*, const std::size_t ) -> text_view_input< default_eol, Data, std::string, std::string >;
 
 template< typename String >
-text_view_input( String&&, std::string& ) -> text_view_input< tao_default_eol, char, std::string, std::string >;
+text_view_input( String&&, std::string& ) -> text_view_input< default_eol, char, std::string, std::string >;
 
 template< typename String >
-text_view_input( String&&, const std::string& ) -> text_view_input< tao_default_eol, char, std::string, std::string >;
+text_view_input( String&&, const std::string& ) -> text_view_input< default_eol, char, std::string, std::string >;
 
 template< typename String >
-text_view_input( String&&, const std::string_view ) -> text_view_input< tao_default_eol, char, std::string, std::string >;
+text_view_input( String&&, const std::string_view ) -> text_view_input< default_eol, char, std::string, std::string >;
 
 template< typename String, typename Data, typename... Params >
-text_view_input( String&&, std::vector< Data, Params... >& ) -> text_view_input< tao_default_eol, Data, std::string, std::string >;
+text_view_input( String&&, std::vector< Data, Params... >& ) -> text_view_input< default_eol, Data, std::string, std::string >;
 
 template< typename String, typename Data, typename... Params >
-text_view_input( String&&, const std::vector< Data, Params... >& ) -> text_view_input< tao_default_eol, Data, std::string, std::string >;
+text_view_input( String&&, const std::vector< Data, Params... >& ) -> text_view_input< default_eol, Data, std::string, std::string >;
 
 template< typename String, std::size_t Size >
-text_view_input( String&&, const char ( & )[ Size ] ) -> text_view_input< tao_default_eol, char, std::string, std::string >;
+text_view_input( String&&, const char ( & )[ Size ] ) -> text_view_input< default_eol, char, std::string, std::string >;
 
 template< typename String, typename Data, std::size_t Size >
-text_view_input( String&&, const std::array< Data, Size >& ) -> text_view_input< tao_default_eol, Data, std::string, std::string >;
+text_view_input( String&&, const std::array< Data, Size >& ) -> text_view_input< default_eol, Data, std::string, std::string >;
 ```
 
 
@@ -738,7 +738,7 @@ text_view_input( String&&, const std::array< Data, Size >& ) -> text_view_input<
 #### Exposition
 
 ```c++
-template< typename Eol = tao_default_eol, typename Container = std::string, typename InputSource = void, typename ErrorSource = InputSource >
+template< typename Eol = default_eol, typename Container = std::string, typename InputSource = void, typename ErrorSource = InputSource >
 struct text_copy_input
 {
    using data_t = typename Container::value_type;
@@ -781,22 +781,22 @@ Guides that leave `InputSource` and `ErrorSource` as `void`.
 
 ```c++
 template< typename Data >
-text_copy_input( const Data*, const Data* ) -> text_copy_input< tao_default_eol, internal::choose_container_t< Data >, void, void >;
+text_copy_input( const Data*, const Data* ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, void, void >;
 
 template< typename Data >
-text_copy_input( const Data*, const std::size_t ) -> text_copy_input< tao_default_eol, internal::choose_container_t< Data >, void, void >;
+text_copy_input( const Data*, const std::size_t ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, void, void >;
 
 template< typename Container >
-text_copy_input( Container&& ) -> text_copy_input< tao_default_eol, std::decay_t< Container >, void, void >;
+text_copy_input( Container&& ) -> text_copy_input< default_eol, std::decay_t< Container >, void, void >;
 
 template< typename Container >
-text_copy_input( const Container& ) -> text_copy_input< tao_default_eol, std::decay_t< Container >, void, void >;
+text_copy_input( const Container& ) -> text_copy_input< default_eol, std::decay_t< Container >, void, void >;
 
 template< typename Data, std::size_t Size >
-text_copy_input( const std::array< Data, Size >& ) -> text_copy_input< tao_default_eol, internal::choose_container_t< Data >, void, void >;
+text_copy_input( const std::array< Data, Size >& ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, void, void >;
 
 template< typename Data >
-text_copy_input( const std::initializer_list< Data >& ) -> text_copy_input< tao_default_eol, internal::choose_container_t< Data >, void, void >;
+text_copy_input( const std::initializer_list< Data >& ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, void, void >;
 ```
 
 #### Construction
@@ -831,22 +831,22 @@ With `source` argument set `InputSource` and `ErrorSource` to `std::string`.
 
 ```c++
 template< typename String, typename Data >
-text_copy_input( String&&, const Data*, const Data* ) -> text_copy_input< tao_default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+text_copy_input( String&&, const Data*, const Data* ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, std::string, std::string >;
 
 template< typename String, typename Data >
-text_copy_input( String&&, const Data*, const std::size_t ) -> text_copy_input< tao_default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+text_copy_input( String&&, const Data*, const std::size_t ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, std::string, std::string >;
 
 template< typename String, typename Container >
-text_copy_input( String&&, Container&& ) -> text_copy_input< tao_default_eol, std::decay_t< Container >, std::string, std::string >;
+text_copy_input( String&&, Container&& ) -> text_copy_input< default_eol, std::decay_t< Container >, std::string, std::string >;
 
 template< typename String, typename Container >
-text_copy_input( String&&, const Container& ) -> text_copy_input< tao_default_eol, std::decay_t< Container >, std::string, std::string >;
+text_copy_input( String&&, const Container& ) -> text_copy_input< default_eol, std::decay_t< Container >, std::string, std::string >;
 
 template< typename String, typename Data, std::size_t Size >
-text_copy_input( String&&, const std::array< Data, Size >& ) -> text_copy_input< tao_default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+text_copy_input( String&&, const std::array< Data, Size >& ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, std::string, std::string >;
 
 template< typename String, typename Data >
-text_copy_input( String&&, const std::initializer_list< Data >& ) -> text_copy_input< tao_default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+text_copy_input( String&&, const std::initializer_list< Data >& ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, std::string, std::string >;
 ```
 
 
@@ -859,7 +859,7 @@ text_copy_input( String&&, const std::initializer_list< Data >& ) -> text_copy_i
 * Like [`file_input`](#file-input) but with lines and columns in the position.
 
 ```c++
-template< typename Eol = tao_default_eol >
+template< typename Eol = default_eol >
 struct text_file_input
 {
    // Same construction as either text_mmap_input< Eol, char > or text_read_input< Eol >.
@@ -868,7 +868,7 @@ struct text_file_input
 // Deduction guide.
 
 template< typename... Args >
-text_file_input( Args...&& ) -> text_file_input< tao_default_eol >;
+text_file_input( Args...&& ) -> text_file_input< default_eol >;
 ```
 
 
@@ -884,7 +884,7 @@ text_file_input( Args...&& ) -> text_file_input< tao_default_eol >;
 #### Exposition
 
 ```c++
-template< typename Eol = tao_default_eol >
+template< typename Eol = default_eol >
 struct text_read_input
 {
    using data_t = Data;
@@ -912,7 +912,7 @@ struct text_read_input
 
 ```c++
 template< typename... Args >
-text_read_input( Args...&& ) -> text_read_input< tao_default_eol >;
+text_read_input( Args...&& ) -> text_read_input< default_eol >;
 ```
 
 
@@ -928,7 +928,7 @@ text_read_input( Args...&& ) -> text_read_input< tao_default_eol >;
 #### Exposition
 
 ```c++
-template< typename Eol = tao_default_eol, typename Data = char >
+template< typename Eol = default_eol, typename Data = char >
 struct text_mmap_input
 {
    using data_t = char;
@@ -955,7 +955,7 @@ struct text_mmap_input
 
 ```c++
 template< typename... Args >
-text_mmap_input( Args...&& ) -> text_mmap_input< tao_default_eol, char >;
+text_mmap_input( Args...&& ) -> text_mmap_input< default_eol, char >;
 ```
 
 

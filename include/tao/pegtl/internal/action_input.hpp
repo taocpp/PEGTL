@@ -11,12 +11,13 @@
 #if defined( __cpp_exceptions )
 #include "../parse_error.hpp"
 #endif
+
 #include "input_with_funcs.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename ParseInput >
-   class action_input_impl
+   class action_input
    {
    public:
       using data_t = typename ParseInput::data_t;
@@ -27,18 +28,18 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using parse_error_t = parse_error< error_position_t >;
 #endif
 
-      action_input_impl( const rewind_position_t& begin, const ParseInput& input ) noexcept
+      action_input( const rewind_position_t& begin, const ParseInput& input ) noexcept
          : m_saved( begin ),
            m_input( input )
       {}
 
-      action_input_impl( action_input_impl&& ) = delete;
-      action_input_impl( const action_input_impl& ) = delete;
+      action_input( action_input&& ) = delete;
+      action_input( const action_input& ) = delete;
 
-      ~action_input_impl() = default;
+      ~action_input() = default;
 
-      void operator=( action_input_impl&& ) = delete;
-      void operator=( const action_input_impl& ) = delete;
+      void operator=( action_input&& ) = delete;
+      void operator=( const action_input& ) = delete;
 
       [[nodiscard]] const data_t* begin() const noexcept
       {
@@ -94,9 +95,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       const rewind_position_t m_saved;
       const ParseInput& m_input;
    };
-
-   template< typename ParseInput >
-   using action_input = input_with_funcs< action_input_impl< ParseInput > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

@@ -11,9 +11,10 @@
 #include "../apply_mode.hpp"
 #include "../ascii.hpp"
 #include "../config.hpp"
+#include "../eol_exclude_tag.hpp"
+#include "../eol_unknown_tag.hpp"
 #include "../rewind_mode.hpp"
 #include "../rules.hpp"
-#include "../tags.hpp"
 
 #include "../debug/analyze_traits.hpp"
 

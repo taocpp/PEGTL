@@ -7,10 +7,10 @@
 
 #include "config.hpp"
 
+#include "internal/rule_aliases.hpp"
 #include "internal/endian.hpp"
 #include "internal/peek_endian.hpp"
 #include "internal/rules.hpp"
-#include "internal/using.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

@@ -7,8 +7,8 @@
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
+#include "../eol_matched_tag.hpp"
 #include "../rewind_mode.hpp"
-#include "../tags.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"

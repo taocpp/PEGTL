@@ -30,9 +30,10 @@ All noteworthy changes since the first public release.
   * The end-of-line handling has been **heavily** refactored and extended.
   * Choice of statically, dynamically or user allocated buffer inputs.
   * Everything related to buffer inputs is now in `include/tao/buffer/`.
-  * Nothing related to buffer inputs is not included in `<tao/pegtl.hpp>`.
-  * Removed `action_t` type alias from all input classes in favour of using `internal::action_input`.
-  * Never use unaligned memory accesses (unless the compiler generates them)!
+  * Nothing related to buffer inputs is included with `<tao/pegtl.hpp>`.
+  * Moved `action_input` from `internal` to the main PEGTL namespace.
+  * Removed `action_t` type alias from all input classes in favour of using `action_input`.
+  * Never use unaligned memory access (unless compiler generated).
 * Rule Changes
   * Added Unicode rules that adapt to the input's data size.
   * Added special end-of-line rules in multiple places.

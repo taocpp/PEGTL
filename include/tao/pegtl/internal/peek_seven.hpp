@@ -11,7 +11,7 @@
 
 #include "ascii_utility.hpp"
 #include "data_and_size.hpp"
-#include "type_traits.hpp"
+#include "is_simple_type.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

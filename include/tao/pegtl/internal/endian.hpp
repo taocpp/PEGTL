@@ -9,8 +9,8 @@
 
 #include "byteswap.hpp"
 #include "endian_system.hpp"
-#include "identity.hpp"
 #include "integer_adapt.hpp"
+#include "integer_identity.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -19,13 +19,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename T >
       [[nodiscard]] static T get( const T data ) noexcept
       {
-         return identity( data );
+         return integer_identity( data );
       }
 
       template< typename T, typename Data >
       [[nodiscard]] static T get( const Data* pointer ) noexcept
       {
-         return identity( integer_adapt< T >( pointer ) );
+         return integer_identity( integer_adapt< T >( pointer ) );
       }
    };
 

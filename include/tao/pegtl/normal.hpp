@@ -10,17 +10,17 @@
 #include <type_traits>
 #include <utility>
 
+#include "action_input.hpp"
 #include "apply_mode.hpp"
 #include "config.hpp"
 #include "match.hpp"
 #include "rewind_mode.hpp"
 
-#include "internal/action_input.hpp"
 #include "internal/dummy_guard.hpp"
 #include "internal/enable_control.hpp"
+#include "internal/has_error_message.hpp"
 #include "internal/has_match.hpp"
 #include "internal/rewind_guard.hpp"
-#include "internal/type_traits.hpp"
 
 #if defined( __cpp_exceptions )
 #include "demangle.hpp"
@@ -106,10 +106,10 @@ namespace TAO_PEGTL_NAMESPACE
                 typename RewindPosition,
                 typename ParseInput,
                 typename... States >
-      static auto apply( const RewindPosition& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( Action< Rule >::apply( std::declval< const internal::action_input< ParseInput >& >(), st... ) ) )
-         -> decltype( Action< Rule >::apply( std::declval< const internal::action_input< ParseInput >& >(), st... ) )
+      static auto apply( const RewindPosition& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( Action< Rule >::apply( std::declval< const action_input< ParseInput >& >(), st... ) ) )
+         -> decltype( Action< Rule >::apply( std::declval< const action_input< ParseInput >& >(), st... ) )
       {
-         const internal::action_input< ParseInput > ai( begin, in );
+         const action_input< ParseInput > ai( begin, in );
          return Action< Rule >::apply( ai, st... );
       }
 

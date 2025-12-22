@@ -11,7 +11,7 @@
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../internal/type_traits.hpp"
+#include "../internal/has_unwind.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

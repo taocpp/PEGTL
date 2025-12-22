@@ -2,20 +2,19 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_IDENTITY_HPP
-#define TAO_PEGTL_INTERNAL_IDENTITY_HPP
+#ifndef TAO_PEGTL_INTERNAL_INTEGER_IDENTITY_HPP
+#define TAO_PEGTL_INTERNAL_INTEGER_IDENTITY_HPP
 
 #include "../config.hpp"
 
-#include "type_traits.hpp"
+#include "is_simple_type.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename T >
-   [[nodiscard]] T identity( const T n ) noexcept
+   [[nodiscard]] T integer_identity( const T n ) noexcept
    {
       static_assert( is_simple_type_v< T > );
-      // ...or will anybody ever parse sequences of floats or doubles?
       return n;
    }
 

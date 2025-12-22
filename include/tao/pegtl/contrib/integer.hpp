@@ -18,10 +18,10 @@
 
 #include "../ascii.hpp"
 #include "../config.hpp"
+#include "../eol_exclude_tag.hpp"
 #include "../parse.hpp"
 #include "../parse_error.hpp"
 #include "../rules.hpp"
-#include "../tags.hpp"
 
 #include "../debug/analyze_traits.hpp"
 

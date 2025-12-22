@@ -5,12 +5,12 @@
 #ifndef TAO_PEGTL_INTERNAL_IF_APPLY_HPP
 #define TAO_PEGTL_INTERNAL_IF_APPLY_HPP
 
+#include "../action_input.hpp"
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-#include "action_input.hpp"
 #include "apply_impl.hpp"
 #include "enable_control.hpp"
 
@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          if constexpr( ( A == apply_mode::enabled ) && ( sizeof...( Actions ) > 0 ) ) {
             auto m = Control< if_apply >::template guard< A, rewind_mode::required, Action, Control >( in, st... );
             if( Control< Rule >::template match< apply_mode::enabled, rewind_mode::optional, Action, Control >( in, st... ) ) {
-               const action_input< ParseInput > i2( m.rewind_position(), in );
+               const TAO_PEGTL_NAMESPACE::action_input< ParseInput > i2( m.rewind_position(), in );
                return m( ( apply_impl< Actions >::apply( i2, st... ) && ... ) );
             }
             return false;

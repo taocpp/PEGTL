@@ -7,10 +7,10 @@
 
 #include "config.hpp"
 
+#include "internal/rule_aliases.hpp"
 #include "internal/peek_endian.hpp"
 #include "internal/peek_masked.hpp"
 #include "internal/rules.hpp"
-#include "internal/using.hpp"
 
 #define TAO_PEGTL_INT_NAME uint16_be
 #define TAO_PEGTL_INT_TYPE std::uint16_t

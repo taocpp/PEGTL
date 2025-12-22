@@ -16,7 +16,6 @@
 #include <cstdio>
 #include <exception>
 #endif
-
 #include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal

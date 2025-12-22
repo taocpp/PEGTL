@@ -2,12 +2,21 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
+#include <tao/pegtl/action_input.hpp>
 #include <tao/pegtl/apply_mode.hpp>
+#include <tao/pegtl/argv_input.hpp>
 #include <tao/pegtl/ascii.hpp>
+#include <tao/pegtl/base_input.hpp>
 #include <tao/pegtl/config.hpp>
+#include <tao/pegtl/copy_input.hpp>
 #include <tao/pegtl/count_position.hpp>
+#include <tao/pegtl/default_eol.hpp>
 #include <tao/pegtl/demangle.hpp>
 #include <tao/pegtl/enums.hpp>
+#include <tao/pegtl/eol_exclude_tag.hpp>
+#include <tao/pegtl/eol_matched_tag.hpp>
+#include <tao/pegtl/eol_unknown_tag.hpp>
+#include <tao/pegtl/file_input.hpp>
 #include <tao/pegtl/forward.hpp>
 #include <tao/pegtl/inputs.hpp>
 #include <tao/pegtl/int16.hpp>
@@ -16,6 +25,7 @@
 #include <tao/pegtl/int8.hpp>
 #include <tao/pegtl/match.hpp>
 #include <tao/pegtl/member.hpp>
+#include <tao/pegtl/mmap_input.hpp>
 #include <tao/pegtl/normal.hpp>
 #include <tao/pegtl/nothing.hpp>
 #include <tao/pegtl/parse.hpp>
@@ -26,12 +36,18 @@
 #include <tao/pegtl/pegtl_string.hpp>
 #include <tao/pegtl/pointer_position.hpp>
 #include <tao/pegtl/position_with_source.hpp>
+#include <tao/pegtl/read_input.hpp>
 #include <tao/pegtl/rewind_mode.hpp>
 #include <tao/pegtl/rules.hpp>
 #include <tao/pegtl/system.hpp>
-#include <tao/pegtl/tags.hpp>
+#include <tao/pegtl/text_copy_input.hpp>
+#include <tao/pegtl/text_file_input.hpp>
+#include <tao/pegtl/text_mmap_input.hpp>
 #include <tao/pegtl/text_position.hpp>
 #include <tao/pegtl/text_position_with_source.hpp>
+#include <tao/pegtl/text_read_input.hpp>
+#include <tao/pegtl/text_view_input.hpp>
+#include <tao/pegtl/view_input.hpp>
 #include <tao/pegtl/type_list.hpp>
 #include <tao/pegtl/uint16.hpp>
 #include <tao/pegtl/uint32.hpp>

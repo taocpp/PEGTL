@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+#include "../config.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    // This uses a hack to call private member functions of a class, described here:

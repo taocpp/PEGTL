@@ -11,9 +11,10 @@
 
 #include "../ascii.hpp"
 #include "../config.hpp"
+#include "../eol_exclude_tag.hpp"
+#include "../eol_unknown_tag.hpp"
 #include "../nothing.hpp"
 #include "../rules.hpp"
-#include "../tags.hpp"
 #include "../utf8.hpp"
 
 #include "../control/remove_first_state.hpp"

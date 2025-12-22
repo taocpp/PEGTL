@@ -9,6 +9,9 @@
 #include "../config.hpp"
 #include "../system.hpp"
 
+#include "../internal/input_with_funcs.hpp"
+#include "../internal/input_with_lines.hpp"
+
 #include "buffers.hpp"
 
 #include "stream_input.hpp"
@@ -18,9 +21,6 @@
 #include "text_stream_input_with_source.hpp"
 
 #include "stream_input_with_auto_discard.hpp"
-
-#include "../internal/input_with_funcs.hpp"
-#include "../internal/input_with_lines.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

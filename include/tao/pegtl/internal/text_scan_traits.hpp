@@ -8,7 +8,9 @@
 #include <type_traits>
 
 #include "../config.hpp"
-#include "../tags.hpp"
+#include "../eol_exclude_tag.hpp"
+#include "../eol_matched_tag.hpp"
+#include "../eol_unknown_tag.hpp"
 
 #include "ascii_istring.hpp"
 #include "ascii_string.hpp"

@@ -6,8 +6,6 @@
 
 #include <tao/pegtl/utf16.hpp>
 
-#include <tao/pegtl/internal/char_scan_traits.hpp>
-
 namespace TAO_PEGTL_NAMESPACE
 {
    struct fake_char_peek

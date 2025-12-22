@@ -10,11 +10,11 @@
 
 #include "../config.hpp"
 
+#include "is_simple_type.hpp"
 #include "one.hpp"
 #include "scan_input.hpp"
 #include "test_after_scan.hpp"
 #include "tester.hpp"
-#include "type_traits.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

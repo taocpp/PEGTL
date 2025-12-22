@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_SYSTEM_HPP
 #define TAO_PEGTL_SYSTEM_HPP
 
+// clang-format off
 #if defined( _WIN32 )
 #  define TAO_PEGTL_SYSTEM_WINDOWS
 #  define TAO_PEGTL_DEFAULT_EOL ascii::scan::lf_crlf
@@ -21,6 +22,7 @@
 #else
 #  error "Unknown operating system!"
 #endif
+// clang-format on
 
 // FCOV_EXCL_FILE
 #endif

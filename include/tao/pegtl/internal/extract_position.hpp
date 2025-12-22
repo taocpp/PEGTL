@@ -7,7 +7,7 @@
 
 #include "../config.hpp"
 
-#include "type_traits.hpp"
+#include "has_current_position.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

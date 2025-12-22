@@ -15,10 +15,10 @@
 
 #include "config.hpp"
 
+#include "internal/rule_aliases.hpp"
 #include "internal/combine_traits.hpp"
 #include "internal/invert_traits.hpp"
 #include "internal/rules.hpp"
-#include "internal/using.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

@@ -9,7 +9,9 @@
 #include <type_traits>
 
 #include "../config.hpp"
-#include "../tags.hpp"
+#include "../eol_exclude_tag.hpp"
+#include "../eol_matched_tag.hpp"
+#include "../eol_unknown_tag.hpp"
 
 #include "scan_base_classes.hpp"
 

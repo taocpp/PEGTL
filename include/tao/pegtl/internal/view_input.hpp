@@ -18,7 +18,7 @@
 #endif
 #include "../pointer_position.hpp"
 
-#include "type_traits.hpp"
+#include "is_simple_type.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

@@ -19,7 +19,6 @@
 #endif
 
 #include "pegtl/pegtl_string.hpp"
-#include "pegtl/text_position_with_source.hpp"
 
 // FCOV_EXCL_FILE
 #endif

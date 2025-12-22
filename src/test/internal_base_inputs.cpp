@@ -11,8 +11,6 @@
 #include "test.hpp"
 #include "test_utility.hpp"
 
-#include <tao/pegtl/internal/inputs.hpp>
-
 namespace TAO_PEGTL_NAMESPACE
 {
    const std::string data_01 = "duseltronik";

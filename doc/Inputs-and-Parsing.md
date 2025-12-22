@@ -401,7 +401,7 @@ Note that when one of the user-facing input classes is given `void` as `Eol` tem
 For an in-depth explanation of the choices regarding the `Eol` template parameter please see the [ends of lines](#ends-of-lines) section above.
 
 ```c++
-   using eol_rule = Eol;  // template parameter, usually defaults to tao_default_eol
+   using eol_rule = Eol;  // template parameter, usually defaults to default_eol
 ```
 
 Inputs with lines also implement the following functions that rely on the presence of `eol_rule`.

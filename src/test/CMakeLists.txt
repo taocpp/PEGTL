@@ -16,7 +16,6 @@ set(test_sources
   action_match_lazy.cpp
   action_match_text.cpp
   apply_mode.cpp
-  argv_input.cpp
   ascii_atomics.cpp
   ascii_chars.cpp
   ascii_classes.cpp
@@ -83,12 +82,15 @@ set(test_sources
   error_message_1.cpp
   error_message_2.cpp
   error_message_3.cpp
-  file_input.cpp
   icu_utf16_base.cpp
   icu_utf32_base.cpp
   icu_utf8_base.cpp
   include.cpp
-  internal_action_input.cpp
+  input_action_input.cpp
+  input_argv_input.cpp
+  input_file_input.cpp
+  input_mmap_input.cpp
+  input_read_input.cpp
   internal_any.cpp
   internal_argv_input.cpp
   internal_ascii_utility.cpp
@@ -139,10 +141,8 @@ set(test_sources
   internal_value_list_concat.cpp
   internal_vector_stack_guard.cpp
   internal_view_input.cpp
-  mmap_input.cpp
   parse_error.cpp
   pegtl_string_t.cpp
-  read_input.cpp
   rewind_mode.cpp
   rule_action.cpp
   rule_apply.cpp

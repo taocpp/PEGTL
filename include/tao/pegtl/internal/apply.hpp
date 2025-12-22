@@ -5,12 +5,12 @@
 #ifndef TAO_PEGTL_INTERNAL_APPLY_HPP
 #define TAO_PEGTL_INTERNAL_APPLY_HPP
 
+#include "../action_input.hpp"
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 #include "../type_list.hpp"
 
-#include "action_input.hpp"
 #include "apply_impl.hpp"
 #include "enable_control.hpp"
 
@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( [[maybe_unused]] ParseInput& in, [[maybe_unused]] States&&... st )
       {
          if constexpr( ( A == apply_mode::enabled ) && ( sizeof...( Actions ) > 0 ) ) {
-            const action_input< ParseInput > i2( in.rewind_position(), in );  // No data -- range is from begin to begin.
+            const TAO_PEGTL_NAMESPACE::action_input< ParseInput > i2( in.rewind_position(), in );  // No data -- range is from begin to begin.
             return ( apply_impl< Actions >::apply( i2, st... ) && ... );
          }
          else {

@@ -13,8 +13,6 @@
 #endif
 #include "../position_with_source.hpp"
 
-#include "dependent_false.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename InputSource, typename ErrorSource, typename Input >

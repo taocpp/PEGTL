@@ -9,7 +9,6 @@
 #include <string>
 
 #include "config.hpp"
-
 #include "position_with_source.hpp"
 #include "text_position.hpp"
 

@@ -9,7 +9,6 @@
 #include <utility>
 
 #include "test.hpp"
-#include <tao/pegtl/internal/inputs.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

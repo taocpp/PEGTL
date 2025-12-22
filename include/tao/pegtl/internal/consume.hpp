@@ -9,7 +9,7 @@
 #include <type_traits>
 
 #include "../config.hpp"
-#include "../tags.hpp"
+#include "../eol_unknown_tag.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"

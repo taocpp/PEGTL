@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_INPUTS_HPP
-#define TAO_PEGTL_INTERNAL_INPUTS_HPP
+#ifndef TAO_PEGTL_INTERNAL_INPUT_ALIASES_HPP
+#define TAO_PEGTL_INTERNAL_INPUT_ALIASES_HPP
 
 #include <filesystem>
 #include <type_traits>
@@ -31,7 +31,7 @@
 #include "argv_input_with_source.hpp"
 #include "text_input_with_source.hpp"
 
-#include "type_traits.hpp"
+#include "has_eol_lazy_peek.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

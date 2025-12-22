@@ -11,10 +11,6 @@
 
 #include <tao/pegtl/inputs.hpp>
 
-#include <tao/pegtl/count_position.hpp>
-#include <tao/pegtl/pointer_position.hpp>
-#include <tao/pegtl/text_position.hpp>
-
 namespace TAO_PEGTL_NAMESPACE::test
 {
    template< typename Eol, typename Peek >

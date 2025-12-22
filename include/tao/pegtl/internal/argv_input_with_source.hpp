@@ -35,13 +35,15 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using parse_error_t = parse_error< error_position_t >;
 #endif
 
-      [[nodiscard]] const char* begin_of_line( const error_position_t& pos, const std::size_t max = 135 ) const noexcept
+      static constexpr std::size_t line_size_limit = 135;
+
+      [[nodiscard]] const char* begin_of_line( const error_position_t& pos, const std::size_t max = line_size_limit ) const noexcept
       {
          const data_t* p = previous( pos );
          return ( std::size_t( p - this->start() ) > max ) ? ( p - max ) : this->start();
       }
 
-      [[nodiscard]] const char* end_of_line_or_file( const error_position_t& pos, const std::size_t max = 135 ) const noexcept
+      [[nodiscard]] const char* end_of_line_or_file( const error_position_t& pos, const std::size_t max = line_size_limit ) const noexcept
       {
          const data_t* p = previous( pos );
          return ( std::size_t( this->end() - p ) > max ) ? ( p + max ) : this->end();

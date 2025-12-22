@@ -13,8 +13,6 @@
 #include "../config.hpp"
 #include "../rewind_mode.hpp"
 
-#include "../internal/type_traits.hpp"
-
 #include "shuffle_states.hpp"
 #include "state_control.hpp"
 

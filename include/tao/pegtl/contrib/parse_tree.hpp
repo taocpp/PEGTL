@@ -28,7 +28,7 @@
 #include "../control/shuffle_states.hpp"
 
 #include "../internal/enable_control.hpp"
-#include "../internal/type_traits.hpp"
+#include "../internal/has_unwind.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::parse_tree
 {
