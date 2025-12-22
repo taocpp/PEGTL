@@ -11,7 +11,6 @@
 #include "../config.hpp"
 
 #include "data_and_size.hpp"
-#include "integer_adapt.hpp"
 #include "utf16_details.hpp"
 #include "utf8_details.hpp"
 
@@ -23,13 +22,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
       const std::size_t size = in.size( offset + 4 );
 
       if( size >= ( offset + 1 ) ) {
-         const char32_t c0 = integer_adapt< std::uint8_t >( in.current( offset ) );
+         const char32_t c0 = in.peek_uint8( offset );
          if( is_utf8_byte_1_of_1( c0 ) ) {
             return { c0, 1 };
          }
          if( is_utf8_byte_1_of_2( c0 ) ) {
             if( size >= ( offset + 2 ) ) {
-               const char32_t c1 = integer_adapt< std::uint8_t >( in.current( offset + 1 ) );
+               const char32_t c1 = in.peek_uint8( offset + 1 );
                if( is_utf8_continuation( c1 ) ) {
                   const char32_t c = utf8_compose( c0, c1 );
                   if( c >= 0x80 ) {
@@ -40,8 +39,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
          else if( is_utf8_byte_1_of_3( c0 ) ) {
             if( size >= ( offset + 3 ) ) {
-               const char32_t c1 = integer_adapt< std::uint8_t >( in.current( offset + 1 ) );
-               const char32_t c2 = integer_adapt< std::uint8_t >( in.current( offset + 2 ) );
+               const char32_t c1 = in.peek_uint8( offset + 1 );
+               const char32_t c2 = in.peek_uint8( offset + 2 );
                if( is_utf8_continuation( c1 ) && is_utf8_continuation( c2 ) ) {
                   const char32_t c = utf8_compose( c0, c1, c2 );
                   if( ( c >= 0x800 ) && ( !is_utf16_surrogate( c ) ) ) {
@@ -52,9 +51,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
          else if( is_utf8_byte_1_of_4( c0 ) ) {
             if( size >= ( offset + 4 ) ) {
-               const char32_t c1 = integer_adapt< std::uint8_t >( in.current( offset + 1 ) );
-               const char32_t c2 = integer_adapt< std::uint8_t >( in.current( offset + 2 ) );
-               const char32_t c3 = integer_adapt< std::uint8_t >( in.current( offset + 3 ) );
+               const char32_t c1 = in.peek_uint8( offset + 1 );
+               const char32_t c2 = in.peek_uint8( offset + 2 );
+               const char32_t c3 = in.peek_uint8( offset + 3 );
                if( is_utf8_continuation( c1 ) && is_utf8_continuation( c2 ) && is_utf8_continuation( c3 ) ) {
                   const char32_t c = utf8_compose( c0, c1, c2, c3 );
                   if( ( c >= 0x10000 ) && ( c <= 0x10ffff ) ) {
