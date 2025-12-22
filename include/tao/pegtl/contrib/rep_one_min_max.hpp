@@ -5,7 +5,7 @@
 #ifndef TAO_PEGTL_CONTRIB_REP_ONE_MIN_MAX_HPP
 #define TAO_PEGTL_CONTRIB_REP_ONE_MIN_MAX_HPP
 
-#include <algorithm>
+#include <cstddef>
 #include <type_traits>
 
 #include "../config.hpp"
