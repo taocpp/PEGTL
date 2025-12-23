@@ -19,9 +19,10 @@
 
 #include "../internal/one.hpp"
 #include "../internal/peek_direct.hpp"
-#include "../internal/unhex_utility.hpp"
 #include "../internal/utf16_details.hpp"
 #include "../internal/utf8_append.hpp"
+
+#include "internal/unhex_utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::unescape
 {
@@ -80,7 +81,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       static void apply( const ActionInput& in, std::string& s )
       {
          // assert( !in.empty() );  // First character MUST be present, usually 'u' or 'U'.
-         if( !internal::utf8_append_utf32( s, internal::unhex_string_impl< char32_t >( in.begin() + 1, in.end() ) ) ) {
+         if( !internal::utf8_append_utf32( s, internal::unhex_string_to_integer< char32_t >( in.begin() + 1, in.end() ) ) ) {
             throw_parse_error( "invalid escaped unicode code point", in );
          }
       }
@@ -89,7 +90,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       static bool apply( const ActionInput& in, std::string& s )
       {
          // assert( !in.empty() );  // First character MUST be present, usually 'u' or 'U'.
-         return internal::utf8_append_utf32( s, internal::unhex_string_impl< char32_t >( in.begin() + 1, in.end() ) );
+         return internal::utf8_append_utf32( s, internal::unhex_string_to_integer< char32_t >( in.begin() + 1, in.end() ) );
       }
 #endif
    };
@@ -100,7 +101,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       static void apply( const ActionInput& in, std::string& s )
       {
          // assert( !in.empty() );  // First character MUST be present, usually 'x'.
-         s += internal::unhex_string_impl< char >( in.begin() + 1, in.end() );
+         s += internal::unhex_string_to_integer< char >( in.begin() + 1, in.end() );
       }
    };
 
@@ -120,9 +121,9 @@ namespace TAO_PEGTL_NAMESPACE::unescape
          // Expects multiple "\\u1234", starting with the first "u".
          // assert( ( ( in.size() + 1 ) % 6 ) == 0 );
          for( const char* b = in.begin() + 1; b < in.end(); b += 6 ) {
-            const auto c = internal::unhex_string_impl< char16_t >( b, b + 4 );
+            const auto c = internal::unhex_string_to_integer< char16_t >( b, b + 4 );
             if( internal::is_utf16_high_surrogate( c ) && ( b + 6 < in.end() ) ) {
-               const auto d = internal::unhex_string_impl< char16_t >( b + 6, b + 10 );
+               const auto d = internal::unhex_string_to_integer< char16_t >( b + 6, b + 10 );
                if( internal::is_utf16_low_surrogate( d ) ) {
                   b += 6;
                   internal::utf8_append_utf16( s, c, d );

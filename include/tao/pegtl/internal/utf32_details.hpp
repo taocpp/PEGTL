@@ -13,7 +13,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 {
    inline constexpr char32_t utf32_max_codepoint = 0x10ffff;
 
-   [[nodiscard]] constexpr bool is_utf32( const char32_t t ) noexcept
+   [[nodiscard]] constexpr bool is_utf32_codepoint( const char32_t t ) noexcept
    {
       return ( t <= utf32_max_codepoint ) && ( !is_utf16_surrogate( t ) );
    }

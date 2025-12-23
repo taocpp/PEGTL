@@ -4,36 +4,36 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/unhex_utility.hpp>
+#include <tao/pegtl/contrib/internal/unhex_utility.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   static_assert( internal::unhex_char_impl< int >( '0' ) == 0 );
-   static_assert( internal::unhex_char_impl< int >( '9' ) == 9 );
-   static_assert( internal::unhex_char_impl< int >( 'a' ) == 10 );
-   static_assert( internal::unhex_char_impl< int >( 'b' ) == 11 );
-   static_assert( internal::unhex_char_impl< int >( 'c' ) == 12 );
-   static_assert( internal::unhex_char_impl< int >( 'd' ) == 13 );
-   static_assert( internal::unhex_char_impl< int >( 'e' ) == 14 );
-   static_assert( internal::unhex_char_impl< int >( 'f' ) == 15 );
-   static_assert( internal::unhex_char_impl< int >( 'A' ) == 10 );
-   static_assert( internal::unhex_char_impl< int >( 'B' ) == 11 );
-   static_assert( internal::unhex_char_impl< int >( 'C' ) == 12 );
-   static_assert( internal::unhex_char_impl< int >( 'D' ) == 13 );
-   static_assert( internal::unhex_char_impl< int >( 'E' ) == 14 );
-   static_assert( internal::unhex_char_impl< int >( 'F' ) == 15 );
+   static_assert( internal::unhex_char_to_integer< int >( '0' ) == 0 );
+   static_assert( internal::unhex_char_to_integer< int >( '9' ) == 9 );
+   static_assert( internal::unhex_char_to_integer< int >( 'a' ) == 10 );
+   static_assert( internal::unhex_char_to_integer< int >( 'b' ) == 11 );
+   static_assert( internal::unhex_char_to_integer< int >( 'c' ) == 12 );
+   static_assert( internal::unhex_char_to_integer< int >( 'd' ) == 13 );
+   static_assert( internal::unhex_char_to_integer< int >( 'e' ) == 14 );
+   static_assert( internal::unhex_char_to_integer< int >( 'f' ) == 15 );
+   static_assert( internal::unhex_char_to_integer< int >( 'A' ) == 10 );
+   static_assert( internal::unhex_char_to_integer< int >( 'B' ) == 11 );
+   static_assert( internal::unhex_char_to_integer< int >( 'C' ) == 12 );
+   static_assert( internal::unhex_char_to_integer< int >( 'D' ) == 13 );
+   static_assert( internal::unhex_char_to_integer< int >( 'E' ) == 14 );
+   static_assert( internal::unhex_char_to_integer< int >( 'F' ) == 15 );
 
-   static_assert( internal::unhex_char_impl< unsigned >( '0' ) == 0 );
-   static_assert( internal::unhex_char_impl< unsigned >( '9' ) == 9 );
-   static_assert( internal::unhex_char_impl< unsigned >( 'a' ) == 10 );
-   static_assert( internal::unhex_char_impl< unsigned >( 'f' ) == 15 );
-   static_assert( internal::unhex_char_impl< unsigned >( 'A' ) == 10 );
-   static_assert( internal::unhex_char_impl< unsigned >( 'F' ) == 15 );
+   static_assert( internal::unhex_char_to_integer< unsigned >( '0' ) == 0 );
+   static_assert( internal::unhex_char_to_integer< unsigned >( '9' ) == 9 );
+   static_assert( internal::unhex_char_to_integer< unsigned >( 'a' ) == 10 );
+   static_assert( internal::unhex_char_to_integer< unsigned >( 'f' ) == 15 );
+   static_assert( internal::unhex_char_to_integer< unsigned >( 'A' ) == 10 );
+   static_assert( internal::unhex_char_to_integer< unsigned >( 'F' ) == 15 );
 
    void test_unhex( const std::string& s, const int r )
    {
-      TAO_PEGTL_TEST_ASSERT( internal::unhex_string_impl< int >( s.data(), s.data() + s.size() ) == r );
-      TAO_PEGTL_TEST_ASSERT( internal::unhex_string_impl< unsigned >( s.data(), s.data() + s.size() ) == unsigned( r ) );
+      TAO_PEGTL_TEST_ASSERT( internal::unhex_string_to_integer< int >( s.data(), s.data() + s.size() ) == r );
+      TAO_PEGTL_TEST_ASSERT( internal::unhex_string_to_integer< unsigned >( s.data(), s.data() + s.size() ) == unsigned( r ) );
    }
 
    void unit_test()

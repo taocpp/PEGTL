@@ -527,15 +527,13 @@ These rules are available in multiple versions,
 * in namespace `tao::pegtl::utf16_be` for big-endian UTF-16 inputs,
 * in namespace `tao::pegtl::utf16_le` for little-endian UTF-16 inputs,
 * in namespace `tao::pegtl::utf32_be` for big-endian UTF-32 inputs,
-* in namespace `tao::pegtl::utf32_le` for little-endian UTF-32 inputs,
-* in namespace `tao::pegtl::unicode` for native-endian input-adaptive rules.
+* in namespace `tao::pegtl::utf32_le` for little-endian UTF-32 inputs.
 
 Only the UTF-8 rules are included with the default header `<tao/pegtl.hpp>`.
 For the other rules the following header files need to be included as required.
 
 * `tao/pegtl/utf16.hpp`
 * `tao/pegtl/utf32.hpp`
-* `tao/pegtl/unicode.hpp`
 
 Remember that the `column` field of the input positions counts the *number of input objects* since the last line ending, not the actual column!
 
@@ -550,8 +548,6 @@ In the following descriptions the parameter N stands for the size of the encodin
 * For UTF-8 the rules are multi-byte-sequence-aware and N is either 1, 2, 3 or 4.
 * For UTF-16 the rules are surrogate-pair-aware and N is either 2 or 4 for 8-bit inputs, and either 1 or 2 for 16-bit inputs.
 * For UTF-32 N is always 4 for 8-bit inputs, and always 1 for 32-bit inputs.
-
-The input-adaptive rules use UTF-8 on 8-bit inputs, native-endian UTF-16 on 16-bit inputs, and native-endian UTF-32 on 32bit inputs.
 
 Note that the Unicode rules only match UTF-16 surrogates as part of a valid UTF-16 surrogate pair.
 
@@ -1556,15 +1552,13 @@ Just as the other Unicode rules, the ICU-based rules are available in multiple v
 * in namespace `tao::pegtl::utf16_be::icu` for big-endian UTF-16 encoded inputs,
 * in namespace `tao::pegtl::utf16_le::icu` for little-endian UTF-16 encoded inputs,
 * in namespace `tao::pegtl::utf32_be::icu` for big-endian UTF-32 encoded inputs,
-* in namespace `tao::pegtl::utf32_le::icu` for little-endian UTF-32 encoded inputs,
-* in namespace `tao::pegtl::unicode::icu` for native-endian input-adaptive rules.
+* in namespace `tao::pegtl::utf32_le::icu` for little-endian UTF-32 encoded inputs.
 
 To use these rules it is necessary to provide an include path to the ICU library, to link the application against `libicu`, and to manually include one or more of the following header files:
 
 * `tao/pegtl/icu/utf8.hpp`
 * `tao/pegtl/icu/utf16.hpp`
 * `tao/pegtl/icu/utf32.hpp`
-* `tao/pegtl/icu/unicode.hpp`
 
 ### Basic ICU Rules
 

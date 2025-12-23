@@ -2,15 +2,15 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_UNHEX_UTILITY_HPP
-#define TAO_PEGTL_INTERNAL_UNHEX_UTILITY_HPP
+#ifndef TAO_PEGTL_CONTRIB_INTERNAL_UNHEX_UTILITY_HPP
+#define TAO_PEGTL_CONTRIB_INTERNAL_UNHEX_UTILITY_HPP
 
-#include "../config.hpp"
+#include "../../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename I >
-   [[nodiscard]] constexpr I unhex_char_impl( const char c ) noexcept
+   [[nodiscard]] constexpr I unhex_char_to_integer( const char c ) noexcept
    {
       switch( c ) {
          case '0':
@@ -44,12 +44,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    }
 
    template< typename I >
-   [[nodiscard]] constexpr I unhex_string_impl( const char* begin, const char* end )
+   [[nodiscard]] constexpr I unhex_string_to_integer( const char* begin, const char* end )
    {
       I result = 0;
       while( begin != end ) {
          result <<= 4;  // NOLINT
-         result += unhex_char_impl< I >( *begin++ );
+         result += unhex_char_to_integer< I >( *begin++ );
       }
       return result;
    }

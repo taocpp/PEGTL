@@ -78,7 +78,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    [[nodiscard]] inline bool utf8_append_utf32( std::string& s, const char32_t u )
    {
-      // assert( is_utf32( u ) );
+      // assert( is_utf32_codepoint( u ) );
 
       if( u <= utf8_max_length_1 ) {
          utf8_append_1_impl( s, u );
