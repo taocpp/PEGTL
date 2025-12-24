@@ -13,8 +13,10 @@ All noteworthy changes since the first public release.
   * Makefile generates binaries in `build/bin/` instead of `build/src/`.
   * Makefile generates dependencies in `build/dep/` instead of `build/src/`.
   * Several headers were moved from `contrib/` to the main PEGTL include folder.
-  * The ICU rules were moved from `tao/pegtl/contrib/icu/` to `tao/pegtl/icu`.
   * Not all headers in `include/tao/pegtl/` are included by `<tao/pegtl.hpp>`.
+  * Most importantly the UTF-8 rules are no longer included by `<tao/pegtl.hpp>`.
+  * All Unicode (incl. ICU) rules were moved to `include/tao/pegtl/unicode/`.
+  * All binary rules (incl. enums) were moved to `include/tao/pegtl/binary/`.
 * Exceptions
   * Changed `parse_error` to contain only one `position`.
   * Changed `parse_error` to be templated over the position type.

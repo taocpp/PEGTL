@@ -15,7 +15,7 @@
 #include "../eol_unknown_tag.hpp"
 #include "../nothing.hpp"
 #include "../rules.hpp"
-#include "../utf8.hpp"
+#include "../unicode/utf8.hpp"
 
 #include "../control/remove_first_state.hpp"
 

@@ -12,17 +12,12 @@
 #include <tao/pegtl/count_position.hpp>
 #include <tao/pegtl/default_eol.hpp>
 #include <tao/pegtl/demangle.hpp>
-#include <tao/pegtl/enums.hpp>
 #include <tao/pegtl/eol_exclude_tag.hpp>
 #include <tao/pegtl/eol_matched_tag.hpp>
 #include <tao/pegtl/eol_unknown_tag.hpp>
 #include <tao/pegtl/file_input.hpp>
 #include <tao/pegtl/forward.hpp>
 #include <tao/pegtl/inputs.hpp>
-#include <tao/pegtl/int16.hpp>
-#include <tao/pegtl/int32.hpp>
-#include <tao/pegtl/int64.hpp>
-#include <tao/pegtl/int8.hpp>
 #include <tao/pegtl/match.hpp>
 #include <tao/pegtl/member.hpp>
 #include <tao/pegtl/mmap_input.hpp>
@@ -39,6 +34,7 @@
 #include <tao/pegtl/read_input.hpp>
 #include <tao/pegtl/rewind_mode.hpp>
 #include <tao/pegtl/rules.hpp>
+#include <tao/pegtl/stream.hpp>
 #include <tao/pegtl/system.hpp>
 #include <tao/pegtl/text_copy_input.hpp>
 #include <tao/pegtl/text_file_input.hpp>
@@ -47,17 +43,9 @@
 #include <tao/pegtl/text_position_with_source.hpp>
 #include <tao/pegtl/text_read_input.hpp>
 #include <tao/pegtl/text_view_input.hpp>
-#include <tao/pegtl/view_input.hpp>
 #include <tao/pegtl/type_list.hpp>
-#include <tao/pegtl/uint16.hpp>
-#include <tao/pegtl/uint32.hpp>
-#include <tao/pegtl/uint64.hpp>
-#include <tao/pegtl/uint8.hpp>
-#include <tao/pegtl/unicode.hpp>
-#include <tao/pegtl/utf16.hpp>
-#include <tao/pegtl/utf32.hpp>
-#include <tao/pegtl/utf8.hpp>
 #include <tao/pegtl/version.hpp>
+#include <tao/pegtl/view_input.hpp>
 
 #include <tao/pegtl/action/add_guard.hpp>
 #include <tao/pegtl/action/add_state.hpp>
@@ -111,6 +99,7 @@
 #include <tao/pegtl/debug/analyze_traits_enum.hpp>
 #include <tao/pegtl/debug/analyze_traits_impl.hpp>
 #include <tao/pegtl/debug/coverage.hpp>
+#include <tao/pegtl/debug/internal.hpp>
 #include <tao/pegtl/debug/print.hpp>
 #include <tao/pegtl/debug/print_coverage.hpp>
 #include <tao/pegtl/debug/trace.hpp>
@@ -119,6 +108,13 @@
 #include <tao/pegtl/debug/trace_struct.hpp>
 #include <tao/pegtl/debug/trace_traits.hpp>
 #include <tao/pegtl/debug/visit.hpp>
+
+#include <tao/pegtl/unicode/icu16.hpp>
+#include <tao/pegtl/unicode/icu32.hpp>
+#include <tao/pegtl/unicode/icu8.hpp>
+#include <tao/pegtl/unicode/utf16.hpp>
+#include <tao/pegtl/unicode/utf32.hpp>
+#include <tao/pegtl/unicode/utf8.hpp>
 
 int main()
 {

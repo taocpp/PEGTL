@@ -166,7 +166,7 @@ Note that the default behaviour can be changed either by defining `TAO_PEGTL_DEF
 
 The ASCII rules operate on any input of integral or enum type of size 1.
 
-Unless noted otherwise they do *not* restrict the range of matched values to 7-bit ASCII values.
+Unless noted otherwise they do **not** restrict the range of matched values to 7-bit ASCII values.
 For example rules like `ascii::any` or `ascii::not_one< 'a' >` will match *all* possible byte values, and *all* possible byte values excluding `'a'`, respectively.
 The additional rules [`any7`](#any7), [`many7`](#many7), [`not_one7`](#not_one7-c-), [`not_ione7`](#not_ione7-c-) and [`not_range7`](#not_range7-c-d-) are similar to their counterparts without the trailing `7` but only match bytes with a high bit of zero.
 
@@ -529,11 +529,11 @@ These rules are available in multiple versions,
 * in namespace `tao::pegtl::utf32_be` for big-endian UTF-32 inputs,
 * in namespace `tao::pegtl::utf32_le` for little-endian UTF-32 inputs.
 
-Only the UTF-8 rules are included with the default header `<tao/pegtl.hpp>`.
-For the other rules the following header files need to be included as required.
+Except for UTF-8 the Unicode rules are not automatically included with `<tao/pegtl.hpp>.
+To make them available the following header files need to be included as required.
 
-* `tao/pegtl/utf16.hpp`
-* `tao/pegtl/utf32.hpp`
+* `tao/pegtl/unicode/utf16.hpp`
+* `tao/pegtl/unicode/utf32.hpp`
 
 Remember that the `column` field of the input positions counts the *number of input objects* since the last line ending, not the actual column!
 
@@ -712,15 +712,15 @@ These rules are available in multiple versions,
 The binary rules are **not** automatically included with `<tao/pegtl.hpp>.
 To make them available the following header files need to be included as required.
 
-* `tao/pegtl/int8.hpp`
-* `tao/pegtl/uint8.hpp`
-* `tao/pegtl/int16.hpp`
-* `tao/pegtl/uint16.hpp`
-* `tao/pegtl/int32.hpp`
-* `tao/pegtl/uint32.hpp`
-* `tao/pegtl/int64.hpp`
-* `tao/pegtl/uint64.hpp`
-* `tao/pegtl/enums.hpp`
+* `tao/pegtl/binary/int8.hpp`
+* `tao/pegtl/binary/uint8.hpp`
+* `tao/pegtl/binary/int16.hpp`
+* `tao/pegtl/binary/uint16.hpp`
+* `tao/pegtl/binary/int32.hpp`
+* `tao/pegtl/binary/uint32.hpp`
+* `tao/pegtl/binary/int64.hpp`
+* `tao/pegtl/binary/uint64.hpp`
+* `tao/pegtl/binary/enums.hpp`
 
 These rules operate both on byte-sized inputs and on inputs whose data size corresponds to the size of the matched integers or enums.
 
@@ -1554,11 +1554,11 @@ Just as the other Unicode rules, the ICU-based rules are available in multiple v
 * in namespace `tao::pegtl::utf32_be::icu` for big-endian UTF-32 encoded inputs,
 * in namespace `tao::pegtl::utf32_le::icu` for little-endian UTF-32 encoded inputs.
 
-To use these rules it is necessary to provide an include path to the ICU library, to link the application against `libicu`, and to manually include one or more of the following header files:
+To use these rules it is necessary to provide an include path to the ICU library, to link the application against `libicu`, and to manually include the following header files as required.
 
-* `tao/pegtl/icu/utf8.hpp`
-* `tao/pegtl/icu/utf16.hpp`
-* `tao/pegtl/icu/utf32.hpp`
+* `tao/pegtl/unicode/icu8.hpp`
+* `tao/pegtl/unicode/icu16.hpp`
+* `tao/pegtl/unicode/icu32.hpp`
 
 ### Basic ICU Rules
 

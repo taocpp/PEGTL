@@ -4,7 +4,7 @@
 
 #include <tao/pegtl/ascii.hpp>
 #include <tao/pegtl/inputs.hpp>
-#include <tao/pegtl/utf8.hpp>
+#include <tao/pegtl/unicode/utf8.hpp>
 
 #include <tao/pegtl/internal/is_simple_type.hpp>
 #include <tao/pegtl/internal/has_eol_char_rule.hpp>

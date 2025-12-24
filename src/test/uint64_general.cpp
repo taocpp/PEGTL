@@ -5,7 +5,7 @@
 #include "test.hpp"
 #include "verify_rule.hpp"
 
-#include <tao/pegtl/uint64.hpp>
+#include <tao/pegtl/binary/uint64.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

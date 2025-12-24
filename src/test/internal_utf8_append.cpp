@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/utf8_append.hpp>
+#include <tao/pegtl/unicode/internal/utf8_append.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

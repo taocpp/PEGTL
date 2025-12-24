@@ -95,7 +95,6 @@ set(test_sources
   internal_argv_input.cpp
   internal_ascii_utility.cpp
   internal_base_inputs.cpp
-  internal_byteswap.cpp
   internal_char_scan_traits.cpp
   internal_constexpr.cpp
   internal_copy_input.cpp
@@ -106,6 +105,7 @@ set(test_sources
   internal_file_mapper.cpp
   internal_get_eol_rule_char.cpp
   internal_inputs_lines.cpp
+  internal_integer_bswap.cpp
   internal_integer_size.cpp
   internal_lazy_inputs.cpp
   internal_lazy_scan_traits.cpp
@@ -196,7 +196,6 @@ set(test_sources
   rule_success.cpp
   rule_try_catch_raise_nested.cpp
   rule_try_catch_return_false.cpp
-  rule_unicode_string.cpp
   rule_until.cpp
   rule_utf8_string.cpp
   stream_alloc_buffer.cpp

@@ -8,28 +8,22 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/peek_unicode.hpp>
+#include <tao/pegtl/unicode/internal/peek_utf32.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
    using p32 = internal::peek_utf32;
    using p32b = internal::peek_utf32_be;
    using p32l = internal::peek_utf32_le;
-   using pub = internal::peek_unicode_be;
-   using pul = internal::peek_unicode_le;
 
    using input1 = view_input< void, std::uint8_t >;
    using input4 = view_input< void, std::uint32_t >;
 
    static_assert( !p32b::bulk< input1 >() );
    static_assert( !p32l::bulk< input1 >() );
-   static_assert( !pub::bulk< input1 >() );
-   static_assert( !pul::bulk< input1 >() );
 
    static_assert( !p32b::bulk< input4 >() );
    static_assert( !p32l::bulk< input4 >() );
-   static_assert( !pub::bulk< input4 >() );
-   static_assert( !pul::bulk< input4 >() );
 
    template< typename P >
    void failure8t( const std::initializer_list< std::uint8_t >& l )
@@ -45,7 +39,6 @@ namespace TAO_PEGTL_NAMESPACE
       {
          input4 in( v );
          TAO_PEGTL_TEST_ASSERT( !p32::peek( in ) );
-         TAO_PEGTL_TEST_ASSERT( !pub::peek( in ) || !pul::peek( in ) );
       }
       {
          std::vector< std::uint8_t > w;
@@ -80,7 +73,6 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == in.size() );
          TAO_PEGTL_TEST_ASSERT( pair.data() == d );
-         TAO_PEGTL_TEST_ASSERT( ( pub::peek( in ).data() == d ) ^ ( pul::peek( in ).data() == d ) );
          TAO_PEGTL_TEST_ASSERT( ( p32b::peek( in ).data() == d ) ^ ( p32l::peek( in ).data() == d ) );
       }
       {

@@ -1,0 +1,47 @@
+// Copyright (c) 2023-2025 Dr. Colin Hirsch and Daniel Frey
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
+
+#ifndef TAO_PEGTL_BINARY_INTERNAL_INTEGER_SIZE_HPP
+#define TAO_PEGTL_BINARY_INTERNAL_INTEGER_SIZE_HPP
+
+#include <cstddef>
+#include <type_traits>
+
+#include "../../config.hpp"
+
+#include "../../internal/dependent_false.hpp"
+#include "../../internal/is_simple_type.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::internal
+{
+   template< typename Type, typename Data >
+   [[nodiscard]] constexpr std::size_t integer_size() noexcept
+   {
+      static_assert( is_simple_type_v< Type > );
+      static_assert( is_simple_type_v< Data > );
+
+      if constexpr( sizeof( Type ) == sizeof( Data ) ) {
+         return 1;
+      }
+      else if constexpr( sizeof( Data ) == 1 ) {
+         return sizeof( Type );
+      }
+      else {
+         static_assert( dependent_false< Type, Data > );
+      }
+   }
+
+   template< typename Type, typename Input >
+   [[nodiscard]] constexpr std::size_t integer_input_size() noexcept
+   {
+      using Data = typename Input::data_t;
+
+      static_assert( std::is_same_v< Data, std::decay_t< decltype( *( std::declval< const Input& >().current() ) ) > > );
+
+      return integer_size< Type, Data >();
+   }
+
+}  // namespace TAO_PEGTL_NAMESPACE::internal
+
+#endif

@@ -7,21 +7,20 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/unicode.hpp>
-#include <tao/pegtl/utf16.hpp>
-#include <tao/pegtl/utf32.hpp>
+#include <tao/pegtl/unicode/utf16.hpp>
+#include <tao/pegtl/unicode/utf32.hpp>
 
-#include <tao/pegtl/int16.hpp>
-#include <tao/pegtl/int32.hpp>
-#include <tao/pegtl/int64.hpp>
-#include <tao/pegtl/int8.hpp>
+#include <tao/pegtl/binary/int16.hpp>
+#include <tao/pegtl/binary/int32.hpp>
+#include <tao/pegtl/binary/int64.hpp>
+#include <tao/pegtl/binary/int8.hpp>
 
-#include <tao/pegtl/uint16.hpp>
-#include <tao/pegtl/uint32.hpp>
-#include <tao/pegtl/uint64.hpp>
-#include <tao/pegtl/uint8.hpp>
+#include <tao/pegtl/binary/uint16.hpp>
+#include <tao/pegtl/binary/uint32.hpp>
+#include <tao/pegtl/binary/uint64.hpp>
+#include <tao/pegtl/binary/uint8.hpp>
 
-#include <tao/pegtl/enums.hpp>
+#include <tao/pegtl/binary/enums.hpp>
 #include <tao/pegtl/member.hpp>
 
 #include "peek_data.hpp"
@@ -171,8 +170,6 @@ namespace TAO_PEGTL_NAMESPACE
       static_assert( internal::peek_member< &foo::bar >::bulk< void >() == true );
       static_assert( internal::peek_member< &foo::bar >::size< void >() == 1 );
 
-      static_assert( internal::peek_unicode::bulk< ins >() == false );
-
       static_assert( internal::has_utf8_length_1( 0x0000 ) == true );
       static_assert( internal::has_utf8_length_1( 0x007f ) == true );
       static_assert( internal::has_utf8_length_1( 0x0080 ) == false );
@@ -308,8 +305,6 @@ namespace TAO_PEGTL_NAMESPACE
 
       constexpr_to_runtime_hack( internal::peek_member< &foo::bar >::bulk< void >, true );
       constexpr_to_runtime_hack( internal::peek_member< &foo::bar >::size< void >, 1 );
-
-      constexpr_to_runtime_hack( internal::peek_unicode::bulk< ins >, false );
 
       constexpr_to_runtime_hack( internal::has_utf8_length_1, 0x0000, true );
       constexpr_to_runtime_hack( internal::has_utf8_length_1, 0x007f, true );

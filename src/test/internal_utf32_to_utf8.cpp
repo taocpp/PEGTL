@@ -6,7 +6,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/utf32_to_utf8.hpp>
+#include <tao/pegtl/unicode/internal/utf32_to_utf8.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

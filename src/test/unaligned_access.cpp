@@ -4,10 +4,10 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/uint16.hpp>
-#include <tao/pegtl/uint32.hpp>
-#include <tao/pegtl/uint64.hpp>
-#include <tao/pegtl/uint8.hpp>
+#include <tao/pegtl/binary/uint16.hpp>
+#include <tao/pegtl/binary/uint32.hpp>
+#include <tao/pegtl/binary/uint64.hpp>
+#include <tao/pegtl/binary/uint8.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

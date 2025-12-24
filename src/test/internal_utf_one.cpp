@@ -6,20 +6,22 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/utf_one.hpp>
+#include <tao/pegtl/unicode/internal/peek_utf16.hpp>
+#include <tao/pegtl/unicode/internal/peek_utf32.hpp>
+#include <tao/pegtl/unicode/internal/utf_one.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one_t< internal::peek_utf8, 'a' >, internal::ascii_string< 'a' > > );
-      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one_t< internal::peek_utf8, 'a', 'b', 'c' >, internal::one< internal::peek_utf8, 'a', 'b', 'c' > > );
-      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one_t< internal::peek_utf8, char32_t( 0x10348 ) >, internal::ascii_string< char( 0xf0 ), char( 0x90 ), char( 0x8d ), char( 0x88 ) > > );
+      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one< internal::peek_utf8, 'a' >::rule_t, internal::ascii_string< 'a' >::rule_t > );
+      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one< internal::peek_utf8, 'a', 'b', 'c' >::rule_t, internal::one< internal::peek_utf8, 'a', 'b', 'c' >::rule_t > );
+      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one< internal::peek_utf8, char32_t( 0x10348 ) >::rule_t, internal::ascii_string< char( 0xf0 ), char( 0x90 ), char( 0x8d ), char( 0x88 ) >::rule_t > );
 
-      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one_t< internal::peek_char, 1 >, internal::one< internal::peek_char, 1 > > );
-      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one_t< internal::peek_char, 1, 2, 3 >, internal::one< internal::peek_char, 1, 2, 3 > > );
-      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one_t< internal::peek_utf32, 1 >, internal::one< internal::peek_utf32, 1 > > );
-      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one_t< internal::peek_utf32, 1, 2, 3 >, internal::one< internal::peek_utf32, 1, 2, 3 > > );
+      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one< internal::peek_char, 1 >::rule_t, internal::one< internal::peek_char, 1 >::rule_t > );
+      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one< internal::peek_char, 1, 2, 3 >::rule_t, internal::one< internal::peek_char, 1, 2, 3 >::rule_t > );
+      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one< internal::peek_utf32, 1 >::rule_t, internal::one< internal::peek_utf32, 1 >::rule_t > );
+      TAO_PEGTL_TEST_ASSERT( std::is_same_v< internal::utf_one< internal::peek_utf32, 1, 2, 3 >::rule_t, internal::one< internal::peek_utf32, 1, 2, 3 >::rule_t > );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

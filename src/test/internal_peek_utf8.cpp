@@ -8,19 +8,13 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/peek_unicode.hpp>
-
 namespace TAO_PEGTL_NAMESPACE
 {
    using p8 = internal::peek_utf8;
-   using pub = internal::peek_unicode_be;
-   using pul = internal::peek_unicode_le;
 
    using input1 = view_input< void, std::uint8_t >;
 
    static_assert( !p8::bulk< input1 >() );
-   static_assert( !pub::bulk< input1 >() );
-   static_assert( !pul::bulk< input1 >() );
 
    template< typename P >
    void failure8t( const std::initializer_list< std::uint8_t >& l )
@@ -44,15 +38,11 @@ namespace TAO_PEGTL_NAMESPACE
    void failure8( const std::initializer_list< std::uint8_t >& l )
    {
       failure8t< p8 >( l );
-      failure8t< pub >( l );
-      failure8t< pul >( l );
    }
 
    void success8( const char32_t d, const std::initializer_list< std::uint8_t >& l )
    {
       success8t< p8 >( d, l );
-      success8t< pub >( d, l );
-      success8t< pul >( d, l );
    }
 
    void unit_test()

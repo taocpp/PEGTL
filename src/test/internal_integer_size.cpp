@@ -5,8 +5,9 @@
 #include <cstddef>
 #include <cstdint>
 
-#include <tao/pegtl/internal/integer_size.hpp>
 #include <tao/pegtl/internal/view_input.hpp>
+
+#include <tao/pegtl/binary/internal/integer_size.hpp>
 
 using namespace TAO_PEGTL_NAMESPACE;
 

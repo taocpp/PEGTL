@@ -220,13 +220,6 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_any_traits<>
    {};
 
-   template< typename Name, char32_t... Cs >
-   struct analyze_traits< Name, internal::unicode_string< Cs... > >
-      : analyze_any_traits<>
-   {
-      static_assert( sizeof...( Cs ) > 0 );
-   };
-
    template< typename Name, typename Cond >
    struct analyze_traits< Name, internal::until< Cond > >
       : analyze_traits< Name, typename Cond::rule_t >

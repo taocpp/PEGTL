@@ -8,7 +8,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/peek_masked.hpp>
+#include <tao/pegtl/binary/internal/peek_aliases.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

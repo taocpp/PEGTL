@@ -10,7 +10,6 @@
 #include "pegtl/inputs.hpp"
 #include "pegtl/parse.hpp"
 #include "pegtl/rules.hpp"
-#include "pegtl/utf8.hpp"
 #include "pegtl/version.hpp"
 
 #if defined( __cpp_exceptions )
@@ -19,6 +18,8 @@
 #endif
 
 #include "pegtl/pegtl_string.hpp"
+
+#include "pegtl/unicode/utf8.hpp"
 
 // FCOV_EXCL_FILE
 #endif

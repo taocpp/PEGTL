@@ -54,10 +54,7 @@
 #include "strict.hpp"
 #include "success.hpp"
 #include "tester.hpp"
-#include "unicode_string.hpp"
 #include "until.hpp"
-#include "utf_one.hpp"
-#include "utf_string.hpp"
 
 #include "../config.hpp"
 

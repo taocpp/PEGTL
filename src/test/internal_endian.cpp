@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/endian.hpp>
+#include <tao/pegtl/binary/internal/endian.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

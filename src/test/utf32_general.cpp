@@ -6,7 +6,7 @@
 #include "test_endian.hpp"
 #include "verify_rule.hpp"
 
-#include <tao/pegtl/utf32.hpp>
+#include <tao/pegtl/unicode/utf32.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

@@ -8,7 +8,7 @@
 #include "../ascii.hpp"
 #include "../config.hpp"
 #include "../rules.hpp"
-#include "../utf8.hpp"
+#include "../unicode/utf8.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::json_pointer
 {

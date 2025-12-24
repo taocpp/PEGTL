@@ -1,0 +1,52 @@
+// Copyright (c) 2018-2025 Dr. Colin Hirsch and Daniel Frey
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
+
+#ifndef TAO_PEGTL_BINARY_INTERNAL_PEEK_ENDIAN_HPP
+#define TAO_PEGTL_BINARY_INTERNAL_PEEK_ENDIAN_HPP
+
+#include <cstddef>
+#include <cstdint>
+
+#include "../../config.hpp"
+
+#include "../../internal/data_and_size.hpp"
+
+#include "integer_size.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::internal
+{
+   template< typename Data, typename Endian >
+   struct peek_endian
+   {
+      using data_t = Data;
+      using pair_t = data_and_size< data_t >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static constexpr bool bulk() noexcept
+      {
+         return true;
+      }
+
+      template< typename ParseInput >
+      [[nodiscard]] static constexpr std::size_t size() noexcept
+      {
+         return integer_input_size< data_t, ParseInput >();
+      }
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( sizeof( data_t ) ) ) )
+      {
+         constexpr std::size_t s = integer_input_size< data_t, ParseInput >();
+
+         if( in.size( s + offset ) >= ( s + offset ) ) {
+            const data_t t = Endian::template get< data_t >( in.current( offset ) );
+            return pair_t( t, s );
+         }
+         return pair_t();
+      }
+   };
+
+}  // namespace TAO_PEGTL_NAMESPACE::internal
+
+#endif

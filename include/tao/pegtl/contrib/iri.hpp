@@ -12,7 +12,7 @@
 
 #include "../config.hpp"
 #include "../rules.hpp"
-#include "../utf8.hpp"
+#include "../unicode/utf8.hpp"
 
 #include "abnf.hpp"
 #include "uri.hpp"

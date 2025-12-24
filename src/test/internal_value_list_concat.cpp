@@ -6,7 +6,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/internal/value_list_concat.hpp>
+#include <tao/pegtl/unicode/internal/value_list_concat.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
