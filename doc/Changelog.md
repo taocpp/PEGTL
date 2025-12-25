@@ -11,12 +11,16 @@ All noteworthy changes since the first public release.
 * Infrastructure
   * Switched to Boost Software License, Version 1.0.
   * Makefile generates binaries in `build/bin/` instead of `build/src/`.
+  * The extra `pegtl` directory in `src/example` and `src/test` was removed.
   * Makefile generates dependencies in `build/dep/` instead of `build/src/`.
   * Several headers were moved from `contrib/` to the main PEGTL include folder.
   * Not all headers in `include/tao/pegtl/` are included by `<tao/pegtl.hpp>`.
-  * Most importantly the UTF-8 rules are no longer included by `<tao/pegtl.hpp>`.
+  * All stream parsing headers were moved to `include/tao/pegtl/stream/`.
   * All Unicode (incl. ICU) rules were moved to `include/tao/pegtl/unicode/`.
   * All binary rules (incl. enums) were moved to `include/tao/pegtl/binary/`.
+  * All actions beyond `nothing` are now in `include/tao/pegtl/action/`.
+  * All controls beyond `normal` are now in `include/tao/pegtl/control/`.
+  * The grammar debug and analysis features are now in `include/tao/pegtl/debug/`.
 * Exceptions
   * Changed `parse_error` to contain only one `position`.
   * Changed `parse_error` to be templated over the position type.
