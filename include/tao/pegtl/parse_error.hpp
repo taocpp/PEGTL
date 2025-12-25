@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_PARSE_ERROR_HPP
 #define TAO_PEGTL_PARSE_ERROR_HPP
 
+#include <exception>
 #include <string>
 #include <type_traits>
 #include <utility>
