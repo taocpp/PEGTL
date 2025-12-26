@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct f : one< 'f' > {};
    struct s : one< 's' > {};
 
-   template< typename Rule > struct my_action {};
+   template< typename Rule > struct my_action : nothing< Rule > {};
    template<> struct my_action< a > : discard_input {};
    template<> struct my_action< f > : discard_input_on_failure {};
    template<> struct my_action< s > : discard_input_on_success {};
