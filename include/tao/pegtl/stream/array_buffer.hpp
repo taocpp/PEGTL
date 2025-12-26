@@ -47,7 +47,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] std::size_t buffer_capacity() const noexcept
       {
-         return m_data.size();
+         return Size;
       }
 
       [[nodiscard]] std::size_t buffer_chunk_size() const noexcept
