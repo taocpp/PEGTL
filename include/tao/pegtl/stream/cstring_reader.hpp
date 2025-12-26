@@ -23,15 +23,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] std::size_t read( char* buffer, const std::size_t length ) noexcept
       {
-         std::size_t i = 0;
-         char c;
-
-         while( ( i < length ) && ( ( c = m_cstring[ i ] ) != 0 ) ) {
-            *buffer++ = c;
-            ++i;
+         for( std::size_t i = 0; i < length; ++i ) {
+            const char c = m_cstring[ i ];
+            if( c == '\0' ) {
+               m_cstring += i;
+               return i;
+            }
+            buffer[ i ] = c;
          }
-         m_cstring += i;
-         return i;
+         m_cstring += length;
+         return length;
       }
 
    protected:

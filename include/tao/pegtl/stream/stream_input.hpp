@@ -54,8 +54,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Rule >
       void consume( const std::size_t count ) noexcept
       {
-         // assert( count <= buffer_used_size() );
+         assert( count <= this->buffer_used_size() );
+         this->buffer_assert_consistency();
          this->m_current += count;
+         this->buffer_assert_consistency();
          m_position.count += count;
       }
 
@@ -67,7 +69,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       void rewind_to_position( const rewind_position_t saved ) noexcept
       {
          m_position = previous_position( saved );
+         this->buffer_assert_consistency();
          this->m_current = saved.data;
+         this->buffer_assert_consistency();
       }
 
       [[nodiscard]] const error_position_t& current_position() const noexcept

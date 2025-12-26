@@ -54,6 +54,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] const data_t* current( const std::size_t offset = 0 ) const noexcept
       {
+         assert( m_current + offset <= m_end );
+         buffer_assert_consistency();
          return m_current + offset;
       }
 
@@ -72,9 +74,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       void consume( const std::size_t count ) noexcept
       {
-         // assert( count <= buffer_used_size() );
+         assert( count <= this->buffer_used_size() );
+         buffer_assert_consistency();
          m_current += count;
-         // TODO: Auto-discard when buffer_used_size() == count?
+         buffer_assert_consistency();
       }
 
       void discard() noexcept
@@ -82,19 +85,25 @@ namespace TAO_PEGTL_NAMESPACE::internal
          discard( buffer_used_size() );
       }
 
-      void discard( const std::size_t used ) noexcept
+      void discard( const std::size_t keep ) noexcept
       {
-         if( used > 0 ) {
-            // assert( used <= buffer_used_size() );
-            std::memmove( this->mutable_start(), m_current, used );
+         buffer_assert_consistency();
+
+         if( keep > 0 ) {
+            assert( keep <= buffer_used_size() );
+            std::memmove( this->mutable_start(), m_current, keep );
          }
          m_current = this->buffer_start();
-         m_end = m_current + used;
+         m_end = m_current + keep;
+
+         buffer_assert_consistency();
       }
 
       void require( const std::size_t amount )
       {
-         if( ( m_current + amount ) <= m_end ) {
+         buffer_assert_consistency();
+
+         if( amount <= buffer_used_size() ) {
             return;
          }
          if( ( m_current + amount ) > ( this->buffer_start() + this->buffer_capacity() ) ) {
@@ -106,10 +115,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
 #endif
          }
          m_end += this->m_reader.read( const_cast< data_t* >( m_end ), ( std::min )( buffer_free_after_end(), ( std::max )( amount - buffer_used_size(), this->buffer_chunk_size() ) ) );
+
+         buffer_assert_consistency();
       }
 
-      void buffer_check_size( const std::size_t amount )
+      void buffer_check_size( const std::size_t amount ) const
       {
+         buffer_assert_consistency();
+
          if( buffer_used_size() < amount ) {
 #if defined( __cpp_exceptions )
             throw std::overflow_error( "require() beyond end of reader" );
@@ -122,20 +135,27 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       [[nodiscard]] std::size_t buffer_used_size() const noexcept
       {
-         // assert( m_end >= m_current );
+         buffer_assert_consistency();
          return m_end - m_current;
       }
 
       [[nodiscard]] std::size_t buffer_free_before_current() const noexcept
       {
-         // assert( m_current >= this->buffer_start() );
+         buffer_assert_consistency();
          return std::size_t( m_current - this->buffer_start() );
       }
 
       [[nodiscard]] std::size_t buffer_free_after_end() const noexcept
       {
-         // assert( this->buffer_start() + this->buffer_capacity() >= m_end );
+         buffer_assert_consistency();
          return std::size_t( this->buffer_start() + this->buffer_capacity() - m_end );
+      }
+
+      void buffer_assert_consistency() const noexcept
+      {
+         assert( this->buffer_start() <= m_current );
+         assert( m_current <= m_end );
+         assert( m_end <= this->buffer_start() + this->buffer_capacity() );
       }
 
    protected:
