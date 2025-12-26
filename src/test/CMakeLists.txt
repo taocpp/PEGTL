@@ -57,7 +57,6 @@ set(test_sources
   contrib_record.cpp
   contrib_rep_one_min_max.cpp
   contrib_rep_string.cpp
-  contrib_separated_seq.cpp
   contrib_type_to_string.cpp
   contrib_unescape.cpp
   contrib_uri.cpp
@@ -185,6 +184,8 @@ set(test_sources
   rule_rep_min.cpp
   rule_rep_min_max.cpp
   rule_rep_opt.cpp
+  rule_sep.cpp
+  rule_sep_pad.cpp
   rule_seq.cpp
   rule_sor.cpp
   rule_star.cpp

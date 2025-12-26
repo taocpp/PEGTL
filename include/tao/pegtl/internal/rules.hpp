@@ -45,6 +45,7 @@
 #include "rep.hpp"
 #include "rep_min_max.hpp"
 #include "rep_opt.hpp"
+#include "sep.hpp"
 #include "seq.hpp"
 #include "sor.hpp"
 #include "star.hpp"

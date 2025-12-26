@@ -1175,6 +1175,18 @@ Note that the `S...` are ignored in the grammar analysis.
   - `rep_opt< Num, R... >::rule_t` is `internal::seq< internal::rep< Num, R... >, internal::star< R... > >`
   - `rep_opt< Num, R... >::subs_t` is `type_list< internal::rep< Num, R... >, internal::star< R... > >`
 
+###### `sep< S, R... >`
+
+* Like `seq< R... >` but with `S` as separator.
+* [Equivalent] to `success` for empty `R...`.
+* [Equivalent] to `seq< R >` for single rule `R`.
+* [Equivalent] to `seq< R1, S, R2, S, R3, ... >` if `R...` is `R1, R2, R3, ...`.
+
+###### `sep_pad< S, P, R... >`
+
+* Like `seq< R... >` but with `pad< S, P >` as separator.
+* [Equivalent] to `sep< pad< S, P >, R... >`.
+
 ###### `star_partial< R... >`
 
 * Similar to `star< R... >` with one important difference:
@@ -2061,6 +2073,8 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`s_term`](#s_term) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`segment_starter`](#segment_starter) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`sentence_break< V >`](#sentence_break-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
+* [`sep< S, R... >`(#sep-s-r-) <sup>[(convenience)](#convenience)</sup>
+* [`sep_pad< S, P, R... >`(#sep_pad-s-p-r-) <sup>[(convenience)](#convenience)</sup>
 * [`seq< R... >`](#seq-r-) <sup>[(combinators)](#combinators)</sup>
 * [`seven`](#seven) <sup>[(ascii)](#ascii)</sup>
 * [`shebang`](#shebang) <sup>[(ascii)](#ascii)</sup>

@@ -4,7 +4,7 @@
 
 #include <type_traits>
 
-#include <tao/pegtl/contrib/separated_seq.hpp>
+#include <tao/pegtl/rules.hpp>
 
 // clang-format off
 struct A {};
@@ -17,10 +17,10 @@ struct S {};
 
 using namespace TAO_PEGTL_NAMESPACE;
 
-static_assert( std::is_base_of_v< internal::seq<>, separated_seq< S > > );
-static_assert( std::is_base_of_v< internal::seq< A >, separated_seq< S, A > > );
-static_assert( std::is_base_of_v< internal::seq< A, S, B >, separated_seq< S, A, B > > );
-static_assert( std::is_base_of_v< internal::seq< A, S, B, S, C, S, D >, separated_seq< S, A, B, C, D > > );
+static_assert( std::is_same_v< internal::success::rule_t, sep< S >::rule_t > );
+static_assert( std::is_same_v< internal::seq< A >::rule_t, sep< S, A >::rule_t > );
+static_assert( std::is_same_v< internal::seq< A, S, B >::rule_t, sep< S, A, B >::rule_t > );
+static_assert( std::is_same_v< internal::seq< A, S, B, S, C, S, D >::rule_t, sep< S, A, B, C, D >::rule_t > );
 
 int main()
 {

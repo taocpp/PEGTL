@@ -83,6 +83,8 @@ All noteworthy changes since the first public release.
   * Added new generic rule [`function`](Rule-Reference.md#function).
   * Added new buffer rule [`is_buffer`](Rule-Reference.md#is_buffer).
   * Added new convenience rule [`partial`](Rule-Reference.md#partial-r-).
+  * Added new convenience rule [`sep`](Rule-Reference.md#sep-s-r-).
+  * Added new convenience rule [`sep_pad`](Rule-Reference.md#sep_pad-s-p-r-).
   * Added new convenience rule [`star_partial`](Rule-Reference.md#star_partial-r-).
   * Added new convenience rule [`strict`](Rule-Reference.md#strict-r-).
   * Added new convenience rule [`star_strict`](Rule-Reference.md#star_strict-r-).
