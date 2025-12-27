@@ -42,14 +42,17 @@ namespace TAO_PEGTL_NAMESPACE
       charconv_success( "0", int( 0 ) );
       charconv_success( "0", unsigned( 0 ) );
 
-      charconv_success( "0a", int( 0 ), 1 );
-      charconv_success( "0b", unsigned( 0 ), 1 );
+      charconv_success( "0r", int( 0 ), 1 );
+      charconv_success( "0s", unsigned( 0 ), 1 );
 
       charconv_success( "0x0", int( 0 ), 2 );
       charconv_success( "0x0", unsigned( 0 ), 2 );
 
       charconv_success( "-1", int( -1 ) );
       charconv_failure( "-1", unsigned( 42 ) );
+
+      charconv_failure( "rrr", int( 0 ) );
+      charconv_failure( "sss", unsigned( 0 ) );
 
       charconv_failure( "999999999999", int( 0 ) );
       charconv_failure( "999999999999", unsigned( 0 ) );
