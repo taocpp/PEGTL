@@ -177,6 +177,21 @@ Parse `R` success, default Action and Control.
 | `tao::pegtl::parse< R >()` | Enter |
 | `tao::pegtl::normal< R >::match()` | Enter |
 | `tao::pegtl::match< R >()` | Enter |
+| `tao::pegtl::normal< R >::guard()` | Full call |
+| `tao::pegtl::normal< R >::start()` | Full call |
+| `R::match()` | Full call returns `true`  |
+| `tao::pegtl::normal< R >::success()` | Full call |
+| `tao::pegtl::match< R >()` | Return `true` |
+| `tao::pegtl::normal< R >::match()` | Return `true` |
+| `tao::pegtl::parse< R >()` | Return `true` |
+
+<details>
+<summary>Full Internal Trace</summary>
+| Function | Event |
+| -------- | ----- |
+| `tao::pegtl::parse< R >()` | Enter |
+| `tao::pegtl::normal< R >::match()` | Enter |
+| `tao::pegtl::match< R >()` | Enter |
 | `tao::pegtl::normal< R >::guard()` | Full call returns rewind guard or dummy |
 | `tao::petl::internal::rewind_guard::rewind_guard()` | Remember position if not dummy |
 | `tao::pegtl::normal< R >::start()` | Full call |
@@ -192,11 +207,27 @@ Parse `R` success, default Action and Control.
 | `tao::pegtl::parse< R >()` | Return `true` |
 
 Whether a rewind guard or a dummy is created depends on the current `rewind_mode`.
+</details>
 
 ### Rule Local Failure
 
 Parse `R` local failure, default Action and Control.
 
+| Function | Event |
+| -------- | ----- |
+| `tao::pegtl::parse< R >()` | Enter |
+| `tao::pegtl::normal< R >::match()` | Enter |
+| `tao::pegtl::match< R >()` | Enter |
+| `tao::pegtl::normal< R >::guard()` | Full call |
+| `tao::pegtl::normal< R >::start()` | Full call |
+| `R::match()` | Full call returns `false`  |
+| `tao::pegtl::normal< R >::failure()` | Full call |
+| `tao::pegtl::match< R >()` | Return `false` |
+| `tao::pegtl::normal< R >::match()` | Return `false` |
+| `tao::pegtl::parse< R >()` | Return `false` |
+
+<details>
+<summary>Full Internal Trace</summary>
 | Function | Event |
 | -------- | ----- |
 | `tao::pegtl::parse< R >()` | Enter |
@@ -217,11 +248,30 @@ Parse `R` local failure, default Action and Control.
 | `tao::pegtl::parse< R >()` | Return `false` |
 
 Whether a rewind guard or a dummy is created depends on the current `rewind_mode`.
+</details>
 
 ### Action Apply
 
 Parse `R` success, Action `A` has `void apply()` for `R`, default Control.
 
+| Function | Event |
+| -------- | ----- |
+| `tao::pegtl::parse< R, A >()` | Enter |
+| `tao::pegtl::normal< R >::match()` | Enter |
+| `tao::pegtl::match< R >()` | Enter |
+| `tao::pegtl::normal< R >::guard()` | Full call |
+| `tao::pegtl::normal< R >::start()` | Full call |
+| `R::match()` | Full call returns `true`  |
+| `tao::pegtl::normal< R >::apply()` | Enter |
+| `A< R >::apply()` | Full call |
+| `tao::pegtl::normal< R >::apply()` | Return |
+| `tao::pegtl::normal< R >::success()` | Full call |
+| `tao::pegtl::match< R >()` | Return `true` |
+| `tao::pegtl::normal< R >::match()` | Return `true` |
+| `tao::pegtl::parse< R >()` | Return `true` |
+
+<details>
+<summary>Full Internal Trace</summary>
 | Function | Event |
 | -------- | ----- |
 | `tao::pegtl::parse< R, A >()` | Enter |
@@ -245,6 +295,7 @@ Parse `R` success, Action `A` has `void apply()` for `R`, default Control.
 | `tao::pegtl::parse< R >()` | Return `true` |
 
 A rewind guard is created independent of the current `rewind_mode` because the input position at the beginning of the match is needed for the Action invocation.
+</details>
 
 
 ---
