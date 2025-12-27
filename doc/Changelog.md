@@ -30,7 +30,7 @@ All noteworthy changes since the first public release.
   * Changed `parse_nested()` to throw a nested exception instead of adding a position to the current one.
   * Added functions to visit and flatten [nested exceptions](Contrib-and-Examples.md#taopegtlcontribnested_exceptionshpp).
 * Inputs
-  * Standardised on line - column - count order.
+  * Standardized on line - column - count order.
   * The input classes have been **heavily** refactored.
   * Most input classes can use any type instead of being hardwired to `char`.
   * The end-of-line handling has been **heavily** refactored and extended.
@@ -97,7 +97,7 @@ All noteworthy changes since the first public release.
   * Added rule [`try_catch_std_raise_nested`](Rule-Reference.md#try_catch_std_raise_nested-r-).
   * Added rule [`try_catch_type_raise_nested`](Rule-Reference.md#try_catch_type_raise_nested-e-r-).
   * Added rules for matching signed integers mirroring the existing ones for unsigned integers.
-  * Optimised `utf8::string` by expanding `char32_t` code points to UTF-8 sequences at compile time.
+  * Optimized `utf8::string` by expanding `char32_t` code points to UTF-8 sequences at compile time.
   * Refactored the implementation of `one`, `range`, `ranges`, `not_one` and `not_range`.
   * Added new rules for enum types to the [binary rules](Rule-Reference.md#binary)
   * Added new rules that operate on [members](Rule-Reference.md#member) instead of directly on values.
@@ -107,6 +107,7 @@ All noteworthy changes since the first public release.
   * Routed rewind-guard creation through the Control class.
   * Renamed `apply_mode::action` to `apply_mode::enabled`.
   * Renamed `apply_mode::nothing` to `apply_mode::disabled`.
+  * Added new contrib rule `charconv` in `contrib/charconv.hpp`.
   * Renamed contrib "limit_depth" functionality to "check_depth".
   * Renamed contrib "check_bytes" functionality to "check_count".
   * Renamed contrib "limit_bytes" functionality to "limit_count".

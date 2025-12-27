@@ -6,6 +6,7 @@ The [Parsing Expression Grammar Template Library](https://github.com/taocpp/PEGT
 ## Contents
 
 * [Hello, World!](#hello-world-)
+* [Directory Overview](#directory-overview)
 * [Default Namespace](#default-namespace)
 * [Parsing Expression Grammars](#parsing-expression-grammars)
 * [Essential Terminology](#essential-terminology)
@@ -117,6 +118,29 @@ Good bye, Colin!
 $ ./hello_world 'Howdy, Paula!'
 I can't parse you!
 ```
+
+
+## Directory Overview
+
+The source and header files of this library are organized into several directories.
+
+| Directory | Contents |
+| --------- | -------- |
+| `doc/` | The library documentation in Markdown pages. |
+| `include/tao/` | Top-level directory for all header files. |
+| `include/tao/pegtl/` | The core library main header files. |
+| `include/tao/pegtl/action/` | The core library extra actions. |
+| `include/tao/pegtl/binary/` | The core library [binary parsing rules](Rule-Reference.md#binary). |
+| `include/tao/pegtl/contrib/` | Headers not considered part of the core library. |
+| `include/tao/pegtl/control/` | The core library extra controls. |
+| `include/tao/pegtl/debug/` | The core library debug facilities. |
+| `include/tao/pegtl/stream/` | The core library [stream parsing](Stream-Parsing.md) facilities. |
+| `include/tao/pegtl/unicode/` | The core library [unicode parsing rules](Rule-Reference.md#unicode). |
+| `include/tao/**/internal` | Internal headers, not part of the public interface. |
+| `src/example/` | The source code for all example programs. |
+| `src/test/` | Internal unit test source code, can be consulted for reference only. |
+
+The source and header files in `include/tao/pegtl/contrib` and `src/example` are **not** subject to semantic versioning and might change in incompatible ways between major versions.
 
 
 ## Default Namespace

@@ -1,16 +1,76 @@
 # Errors and Exceptions
 
+**Local failure** is when a [`match()` function](Rules-and-Grammars.md#match-function) returns `false` (which can lead to backtracking).
+
+**Global failure** is when a [`match()` function](Rules-and-Grammars.md#match-function) throws an exception (which usually aborts the parsing run).
+
 A parsing run, a call to one of the `parse()` functions as explained in [Inputs and Parsing](Inputs-and-Parsing.md), can have the same results as calling `match()` on a grammar rule.
 
 * A return value of `true` indicates a *successful* match.
 * A return value of `false` is called a *local failure* (even when propagated to the top).
 * An exception indicating a *global failure* is thrown.
 
-The PEGTL parsing rules throw exceptions of type `tao::pegtl::parse_error`, some of the inputs can throw other exceptions like `std::system_error` or `std::filesystem_error`.
+The PEGTL parsing rules throw exceptions of type `tao::pegtl::parse_error<>`, some of the inputs can throw other exceptions like `std::system_error` or `std::filesystem_error`.
 And other exception classes can be used freely from actions and custom parsing rules.
+
+## Failure Modes
+
+The information about how much input is consumed by the rules only applies when the rules succeed.
+Otherwise there are two failure modes with different requirements.
+
+- *Local failure* is when a rule returns `false` and the rule **must** generally rewind the input to where its match attempt started.
+- *Global failure* is when a rule throws an exception (usually of type `tao::pegtl::parse_error`)(usually via the control-class' `raise()` function).
+
+Since an exception, by default, aborts a parsing run -- hence the term "global failure" -- there are no assumptions or requirements for the throwing rule to rewind the input.
+
+On the other hand a local failure will frequently lead to back-tracking, i.e. the attempt to match a different rule at the same position in the input, wherefore rules that were previously attempted at the same position must rewind back to where they started in preparation of the next attempt.
+
+Note that in some cases it is not necessary to actually rewind on local failure, see the description of the [rewind_mode](Rules-and-Grammars.md#modes) in the section on [how to implement custom rules](Rules-and-Grammars.md#creating-new-rules), and that the PEGTL attempts to minimise superfluous rewinding by statically detecting most of these cases.
+
+
+
+## Error Handling
+
+Although the PEGTL could be used without exceptions, most programs will use input classes, grammars and/or actions that can throw exceptions.
+Typically, the following pattern helps to print the exceptions in a human friendly way:
+
+```c++
+   // The surrounding try/catch for normal exceptions.
+   // These might occur if a file can not be opened, etc.
+   try {
+      tao::pegtl::file_input in( filename );
+
+      // The inner try/catch block, see below...
+      try {
+
+         // The actual parser, tracer, parse tree, ...
+         pegtl::parse< grammar >( in );
+
+      }
+      catch( const pegtl::parse_error& e ) {
+
+         // This catch block needs access to the input
+         const auto& p = e.positions_object();
+         std::cerr << e.what() << '\n'
+                   << tao::pegtl::line_view_at( in, p ) << '\n'
+                   << std::setw( p.column ) << '^' << std::endl;
+
+      }
+   }
+   catch( const std::exception& e ) {
+
+      // Generic catch block for other exceptions
+      std::cerr << e.what() << std::endl;
+
+   }
+```
+
+For more information see [Errors and Exceptions](Errors-and-Exceptions.md).
+
 
 ## Contents
 
+* [Introduction](#introduction)
 * [Global Failure](#global-failure)
 * [Local to Global Failure](#local-to-global-failure)
   * [Intrusive Local to Global Failure](#intrusive-local-to-global-failure)
@@ -18,6 +78,9 @@ And other exception classes can be used freely from actions and custom parsing r
 * [Global to Local Failure](#global-to-local-failure)
 * [Examples for Must Rules](#examples-for-must-rules)
 * [Custom Exception Messages](#custom-exception-messages)
+
+
+## Introduction
 
 
 ## Global Failure
@@ -76,10 +139,9 @@ The string returned by the `what()` function inherited from `std::runtime_error`
 
 ### Intrusive Local to Global Failure
 
-A local failure returned by a parsing rule is not necessarily propagated to the top, for example when the rule is
-
-* in a rule like `not_at<>`, `opt<>` or `star<>`, or
-* not the last rule inside an `sor<>` combinator.
+A local failure returned by a parsing rule is not necessarily propagated to the top.
+For example when the rule is a sub-rule of `not_at<>`, `opt<>` or `star<>` then a local failure of the sub-rule will not prevent the containing rule from succeeding.
+Or if a sub-rule of an `sor<>` that is not the last sub-rule fails then the `sor<>` will attempt to match the next sub-rule instead of failing.
 
 To convert local failures to global failures, the `must<>` combinator rule can be used (together with related rules like `if_must<>`, `if_must_else<>` and `star_must<>`).
 The `must<>` rule is equivalent to `seq<>` in that it attempts to match all sub-rules in sequence, but converts all local failures of the (direct) sub-rules to global failures.
@@ -234,7 +296,31 @@ struct error
 ```
 
 It is advisable to choose the error points in the grammar with prudence.
-This choice becoming particularly cumbersome and/or resulting in a large number of error points might be an indication of the grammar needing some kind of simplification or restructuring.
+A large number of error points, or difficulties in choosing these error points, might be an indication of the grammar needing some kind of simplification or restructuring.
+
+
+## Error Positions
+
+When reporting an error, one often wants to print the complete line from the input where the error occurred and a marker at the position where the error is found within that line.
+To support this, all [inputs with lines](#inputs-with-lines) make available a [convenience](#input-convenience) function `line_view_at()` that returns a `std::string_view` for the line containing the position passed to it.
+
+```c++
+some_input in( ... );
+try {
+   tao::pegtl::parse< ... >( in, ... );
+}
+catch( const decltype( in )::parse_error_t& e ) {
+   const auto& p = e.position_object();
+   std::cerr << e.what() << '\n'
+             << in.line_view_at( in, p ) << '\n'
+             << std::setw( p.column ) << '^' << std::endl;
+}
+catch( const parse_error_base& e ) {
+   std::cerr << e.what() << std::endl;
+}
+```
+
+Please note that the character indicated by the caret will only be correct if the input data is restricted to graphical ASCII characters plus the end-of-line character(s).
 
 
 ---

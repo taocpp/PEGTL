@@ -18,7 +18,6 @@ An **input** is a class that adheres to an informal interface and represents som
 * [Parse Function](#parse-function)
 * [Nested Parsing](#nested-parsing)
 * [Position Classes](#position-classes)
-* [Error Reporting](#error-reporting)
 * [Input Interface](#input-interface)
   * [Basic Interface](#basic-interface)
   * [Inputs with Start](#inputs-with-start)
@@ -260,7 +259,7 @@ bool parse( ParseInput& in,
 - The `rewind_mode` defaults to `rewind_mode::dontcare` in which case the input might not be rewound to its start when `parse()` returns `false`. Rewinding can be enabled by passing `rewind_mode::required`.
 
 A parsing run can have the [same three outcomes](Rules-and-Grammars.md#match-function) as the match function of a rule.
-Note that the terminology "local" and "global" does not make too much sense at top-level, however for consistency sake we keep these terms here, too.
+Note that the distinction between "local" and "global" failure does not make too much sense at top-level, however for sake of consistency we will use these terms in all appropriate contexts.
 
 TODO
 
@@ -312,30 +311,6 @@ For all filesystem inputs the `SourceType` is `std::filesystem::path`, for all o
 Most non-`text` inputs use `tao::pegtl::count_position` for their position reporting; when the source parameters are not `void` the type is `tao::pegtl::position_with_source< SourceType, tao::pegtl::count_position >`.
 The exception are the `base` inputs which are so basic that they neither keep track nor can compute the number of objects from the start of the input data, they use `tao::pegtl::pointer_position` instead.
 For all filesystem inputs the `SourceType` is `std::filesystem::path`, for all other inputs it defaults to `void` except for the `argv` input which defaults to `std::string`.
-
-
-## Error Reporting
-
-When reporting an error, one often wants to print the complete line from the input where the error occurred and a marker at the position where the error is found within that line.
-To support this, all [inputs with lines](#inputs-with-lines) make available a [convenience](#input-convenience) function `line_view_at()` that returns a `std::string_view` for the line containing the position passed to it.
-
-```c++
-some_input in( ... );
-try {
-   tao::pegtl::parse< ... >( in, ... );
-}
-catch( const decltype( in )::parse_error_t& e ) {
-   const auto& p = e.position_object();
-   std::cerr << e.what() << '\n'
-             << in.line_view_at( in, p ) << '\n'
-             << std::setw( p.column ) << '^' << std::endl;
-}
-catch( const parse_error_base& e ) {
-   std::cerr << e.what() << std::endl;
-}
-```
-
-Please note that the character indicated by the caret will only be correct if the input data is restricted to graphical ASCII characters plus the end-of-line character(s).
 
 
 ## Input Interface

@@ -5,7 +5,7 @@ This page explains semantic actions, how they are attached to a grammar, and how
 
 ## Contents
 
-* [Overview](#overview)
+* [Inroduction](#introduction)
 * [Example](#example)
 * [States](#states)
 * [Apply](#apply)
@@ -28,7 +28,7 @@ This page explains semantic actions, how they are attached to a grammar, and how
 * [Legacy Actions](#legacy-actions)
 
 
-## Overview
+## Introduction
 
 In its most simple form, a parsing run only returns whether (a portion of) the input matches the grammar.
 To do something useful with the information gathered during a parsing run it is necessary to attach (user-defined) *actions* to one or more grammar rules.
@@ -456,6 +456,7 @@ For `change_action_and_state<>` and `change_action_and_states<>` the new action 
 
 Note that `change_action_and_state<>` and `change_action_and_states<>` behave like `change_action<>` in that they proceed to match the rule to which the changing action is attached to "as if" the new action had been the current action all along.
 
+
 ## Match
 
 Besides `apply()` and `apply0()`, an action class specialization can also have a `match()` static member function.
@@ -472,18 +473,21 @@ struct my_action< my_rule >
              template< typename... > class Control,
              typename ParseInput,
              typename... States >
-   static bool match( ParseInput& in, States&&... st )
+   [[nodiscard]] static bool match( ParseInput& in, States&&... st )
    {
-      // Call the function that would have been called otherwise,
-      // in this case without changing anything...
+      // This example just makes the same function call the normal control
+      // would have made in the absence of this match function.
+
       return tao::pegtl::match< Rule, A, M, Action, Control >( in, st... );
    }
 }
 ```
 
-Implementing a custom `match()` for an action is considered a rather advanced feature that is not used directly very often.
-All "changing" action classes mentioned in this document are implemented as actions with `match()`.
-Their implementations can be found in `<tao/pegtl/change_*.hpp>` and should be studied before implementing a custom action with `match()`.
+Implementing a custom `match()` for an action is considered a relatively advanced feature.
+All "changing" action classes mentioned in this document are implemented as actions with `match()`, which also explains why the PEGTL even offers this additional customization point; changing states and changing actions are frequently performed when adding actions to a non-trivial grammar, wherefore it makes sense to make these operations possible through actions, too.
+
+The implementations of the included actions can be found in `include/tao/pegtl/action/`.
+They should be studied and understood before implementing a custom action with `match()`.
 
 
 ## Nothing
@@ -512,7 +516,7 @@ The classes [`require_apply`](Action-Reference.md#require_apply) and [`require_a
 
 The following assertion is only enabled when `std::is_base_of_v< tao::pegtl::nothing< void >, action< void > >` is `true`.
 
-* Either [`nothing`](Action-Reference.md#nothing) must be an accessible base class of `a`, or
+* Either [`nothing< r >`](Action-Reference.md#nothing) must be an accessible base class of `a`, or
 * [`maybe_nothing`](Action-Reference.md#maybe_nothing) must be an accessible base class of `a`, or
 * `a` must have a callable `apply()` or `apply0()`.
 
@@ -591,13 +595,14 @@ Remembering that `at` disables all Actions explains how this solves the problem;
 
 ## Troubleshooting
 
-The following lists a couple of frequently encountered Action-related errors and how to fix them.
+The following lists a couple of frequently encountered Action-related problems.
 
 ### Boolean Return
 
 Actions returning `bool` are an advanced use case that should be used with caution.
 They prevent some internal optimisations, in particular when used with `apply0()`.
-They can also have weird effects on the semantics of a parsing run, for example `at< rule >` can succeed for the same input for which `rule` fails when there is a `bool`-action attached to `rule` that returns `false` (remember that actions are disabled within `at<>`).
+They can also have hard to understand effects on the semantics of a parsing run.
+For example `at< rule >` can succeed for the same input for which `rule` fails when there is a `bool`-action attached to `rule` that returns `false` due to actions being disabled within `at<>`.
 
 ### State Mismatch
 

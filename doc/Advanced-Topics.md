@@ -18,7 +18,41 @@ TODO: Parsing tokens or other objects?
 * [Development](#development)
 
 
-## Grammar Analysis
+## Grammar Analysis // TODO -- and see below
+
+Every grammar must be free of cycles that make no progress, i.e. it must not contain unbounded recursive or iterative rules that do not consume any input, as such grammar might enter an infinite loop.
+One common pattern for these kinds of problematic grammars is the "dreaded" [left recursion](https://en.wikipedia.org/wiki/Left_recursion) that, while not a problem for less deterministic formalisms like CFGs, must be avoided with PEGs in order
+ to prevent aforementioned infinite loops.
+
+The PEGTL provides a [grammar analysis](Grammar-Analysis.md) that searches the rules of a grammar for cycles that make no progress.
+While this could probably be implemented with compile-time meta-programming the implementation in the PEGTL avoids excessive compile times by doing everything at run-time.
+It is best practice to create a separate dedicated program that does nothing else but run the grammar analysis, thus keeping this development and debug aid out of the main application.
+
+```c++
+#include <tao/pegtl.hpp>
+#include <tao/pegtl/analyze.hpp>
+
+// For this example we use the included JSON grammar.
+
+#include <tao/pegtl/contrib/json.hpp>
+
+namespace pegtl = tao::pegtl;
+
+using grammar = pegtl::must< pegtl::json::text, pegtl::eof >;
+
+int main()
+{
+   if( pegtl::analyze< grammar >() != 0 ) {
+      std::cerr << "Cycles without progress detected!" << std::endl;
+      return 1;
+   }
+   return 0;
+}
+```
+The full example can be found in `src/pegtl/json_analyze.cpp`.
+For more information see [Grammar Analysis](Grammar-Analysis.md).
+
+## Grammar Analysis // TODO -- and see above
 
 The PEGTL contains an `analyze()` function that checks a grammar for rules that can enter an infinite loop without consuming input.
 Such loops are most often the result of [left recursion](https://en.wikipedia.org/wiki/Left_recursion) or of careless nesting of rules like `star< star< ... > >`.

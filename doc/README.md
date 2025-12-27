@@ -29,6 +29,7 @@
 
 * [Introduction](Introduction.md)
   * [Hello, World!](Introduction.md#hello-world-)
+  * [Directory Overview](Introduction.md#directory-overview)
   * [Default Namespace](Introduction.md#default-namespace)
   * [Parsing Expression Grammars](Introduction.md#parsing-expression-grammars)
   * [Essential Terminology](Introduction.md#essential-terminology)

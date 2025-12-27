@@ -16,7 +16,7 @@ The actions not considered part of the core library are [documented here](TODO).
 
 #### Included
 
-Only `tao/pegtl/nothing.hpp` which defines `nothing` and `maybe_nothing` is automatically included with `tao/pegtl.hpp`.
+Only `tao/pegtl/nothing.hpp`, which defines `nothing` and `maybe_nothing`, is automatically included with `tao/pegtl.hpp`.
 For all other actions the appropriate header in `tao/pegtl/action/` needs to be included manually.
 
 #### Functions
