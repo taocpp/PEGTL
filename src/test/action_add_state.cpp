@@ -6,7 +6,7 @@
 #include "test_utility.hpp"
 
 #include <tao/pegtl/action/add_state.hpp>
-#include <tao/pegtl/contrib/alphabet_rules.hpp>
+#include <tao/pegtl/contrib/alphabet.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

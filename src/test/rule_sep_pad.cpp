@@ -17,8 +17,11 @@ struct P {};
 using namespace TAO_PEGTL_NAMESPACE;
 
 static_assert( std::is_same_v< internal::success::rule_t, sep_pad< S, P >::rule_t > );
+static_assert( std::is_same_v< empty_list, sep_pad< S, P >::subs_t > );
 static_assert( std::is_same_v< internal::seq< A >::rule_t, sep_pad< S, P, A >::rule_t > );
-static_assert( std::is_same_v< internal::seq< A, internal::seq< internal::star< P >, S, internal::star< P > >, B >::rule_t, sep_pad< S, P, A, B >::rule_t > );
+static_assert( std::is_same_v< type_list< A >, sep_pad< S, P, A >::subs_t > );
+static_assert( std::is_same_v< internal::seq< A, internal::star< P >, S, internal::star< P >, B >::rule_t, sep_pad< S, P, A, B >::rule_t > );
+static_assert( std::is_same_v< type_list< A, internal::star< P >, S, internal::star< P >, B >, sep_pad< S, P, A, B >::subs_t > );
 
 int main()
 {

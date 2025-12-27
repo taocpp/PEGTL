@@ -34,8 +34,7 @@ set(test_sources
   ascii_string.cpp
   ascii_three.cpp
   ascii_two.cpp
-  contrib_alphabet_constants.cpp
-  contrib_alphabet_rules.cpp
+  contrib_alphabet.cpp
   contrib_check_count.cpp
   contrib_check_depth.cpp
   contrib_dispatch.cpp

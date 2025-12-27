@@ -1181,11 +1181,23 @@ Note that the `S...` are ignored in the grammar analysis.
 * [Equivalent] to `success` for empty `R...`.
 * [Equivalent] to `seq< R >` for single rule `R`.
 * [Equivalent] to `seq< R1, S, R2, S, R3, ... >` if `R...` is `R1, R2, R3, ...`.
+* [Meta data] and [implementation] mapping:
+  - `sep< S >::rule_t` is `internal::success`
+  - `sep< S, R >::rule_t` is `internal::seq< R >`
+  - `sep< S, R >::subs_t` is `type_list< R >`
+  - `sep< S, R1, R2, ... >::rule_t` is `internal::seq< R1, S, R2, ... >`
+  - `sep< S, R1, R2, ... >::subs_t` is `type_list< R1, S, R2, ... >`
 
 ###### `sep_pad< S, P, R... >`
 
 * Like `seq< R... >` but with `pad< S, P >` as separator.
 * [Equivalent] to `sep< pad< S, P >, R... >`.
+* [Meta data] and [implementation] mapping:
+  - `sep_pad< S, P >::rule_t` is `internal::success`
+  - `sep_pad< S, P, R >::rule_t` is `internal::seq< R >`
+  - `sep_pad< S, P, R >::subs_t` is `type_list< R >`
+  - `sep_pad< S, P, R1, R2, ... >::rule_t` is `internal::seq< R1, internal::star< P >, S, internal::star< P >, R2, ... >`
+  - `sep_pad< S, P, R1, R2, ... >::subs_t` is `type_list< R1, internal::star< P >, S, internal::star< P >, R2, ... >`
 
 ###### `star_partial< R... >`
 

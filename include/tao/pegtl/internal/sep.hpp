@@ -23,15 +23,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< typename... Ts, typename Sep, typename Rule >
    struct sep< type_list< Ts... >, Sep, Rule >
-   {
-      using rule_t = seq< Ts..., Rule >;
-   };
+      : seq< Ts..., Rule >
+   {};
 
    template< typename Sep >
    struct sep< type_list<>, Sep >
-   {
-      using rule_t = success;
-   };
+      : success
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
