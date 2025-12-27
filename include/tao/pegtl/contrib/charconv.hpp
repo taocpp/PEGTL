@@ -1,0 +1,77 @@
+// Copyright (c) 2025 Dr. Colin Hirsch and Daniel Frey
+// Distributed under the Boost Software License, Version 1.0.
+// (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
+
+#ifndef TAO_PEGTL_CONTRIB_CHARCONV_HPP
+#define TAO_PEGTL_CONTRIB_CHARCONV_HPP
+
+#include <charconv>
+#include <system_error>
+#include <type_traits>
+
+#include "../apply_mode.hpp"
+#include "../config.hpp"
+#include "../eol_exclude_tag.hpp"
+#include "../rewind_mode.hpp"
+#include "../type_list.hpp"
+
+#include "../debug/analyze_traits.hpp"
+
+#include "../internal/enable_control.hpp"
+
+namespace TAO_PEGTL_NAMESPACE
+{
+   namespace internal
+   {
+      template< int Base >
+      struct charconv
+      {
+         using rule_t = charconv;
+         using subs_t = empty_list;
+
+         template< apply_mode A,
+                   rewind_mode M,
+                   template< typename... >
+                   class Action,
+                   template< typename... >
+                   class Control,
+                   typename ParseInput,
+                   typename Integral >
+         [[nodiscard]] static bool match( ParseInput& in, Integral& out )
+         {
+            static_assert( std::is_integral_v< Integral > );
+
+            // TODO: Better limit for base other than 10.
+            if( const std::size_t size = in.size( 3 + 3 * sizeof( Integral ) ); size > 0 ) {
+               const auto result = std::from_chars( in.current(), in.current( size ), out, Base );
+               switch( result.ec ) {
+                  case std::errc::invalid_argument:
+                     return false;
+                  case std::errc::result_out_of_range:
+                     return false;  // throw?
+                  default:
+                     in.template consume< eol_exclude_tag >( result.ptr - in.current() );
+                     return true;
+               }
+            }
+            return false;
+         }
+      };
+
+      template< int Base >
+      inline constexpr bool enable_control< charconv< Base > > = false;
+
+   }  // namespace internal
+
+   struct charconv
+      : internal::charconv< 10 >
+   {};
+
+   template< typename Name, int Base >
+   struct analyze_traits< Name, internal::charconv< Base > >
+      : analyze_any_traits<>
+   {};
+
+}  // namespace TAO_PEGTL_NAMESPACE
+
+#endif
