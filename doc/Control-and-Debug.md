@@ -187,6 +187,7 @@ Parse `R` success, default Action and Control.
 
 <details>
 <summary>Full Internal Trace</summary>
+
 | Function | Event |
 | -------- | ----- |
 | `tao::pegtl::parse< R >()` | Enter |
@@ -228,6 +229,7 @@ Parse `R` local failure, default Action and Control.
 
 <details>
 <summary>Full Internal Trace</summary>
+
 | Function | Event |
 | -------- | ----- |
 | `tao::pegtl::parse< R >()` | Enter |
@@ -272,6 +274,7 @@ Parse `R` success, Action `A` has `void apply()` for `R`, default Control.
 
 <details>
 <summary>Full Internal Trace</summary>
+
 | Function | Event |
 | -------- | ----- |
 | `tao::pegtl::parse< R, A >()` | Enter |
