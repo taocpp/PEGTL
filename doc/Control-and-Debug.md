@@ -161,9 +161,9 @@ Deriving the specialisation of the custom action for `my_rule` from `tao::pegtl:
 
 ## Control Traces
 
-All Control functions are mandatory and must be implemented as dummy function that does nothing except for `unwind()`.
-When a Control does not need an unwind function it should not implement it because this case is detected by the PEGTL and the `try-catch` or RAII object that would call `unwind()` in the case of an exception is omitted.
-This it he "if needed" part of "set up unwind guard if needed", a small optimization.
+All Control functions are mandatory and, if not needed, must be implemented as dummy function with the exception of `unwind()`.
+When a Control does not need an unwind function it should not implement it because this case is detected by the PEGTL and the mechanism to call `unwind()` in case of an exception is omitted.
+This is the "if needed" part of "set up unwind guard if needed", a small optimization that is not necessary for other not needed Control functions because those empty functions are inlined to nothing.
 
 To keep the following traces readable most template parameters and function arguments have been omitted.
 Please consult the appropriate header files if *all* details need to be known.
@@ -178,6 +178,7 @@ Parse `R` success, default Action and Control.
 | `tao::pegtl::normal< R >::match()` | Enter |
 | `tao::pegtl::match< R >()` | Enter |
 | `tao::pegtl::normal< R >::guard()` | Full call returns rewind guard or dummy |
+| `tao::petl::internal::rewind_guard::rewind_guard()` | Remember position if not dummy |
 | `tao::pegtl::normal< R >::start()` | Full call |
 | `tao::pegtl::internal::match_control_unwind< R >()` | Enter and set up unwind guard if needed |
 | `tao::pegtl::internal::match_no_control< R >()` | Enter and detect simple or complex match |
@@ -187,7 +188,10 @@ Parse `R` success, default Action and Control.
 | `tao::pegtl::normal< R >::success()` | Full call |
 | `tao::petl::internal::rewind_guard::~rewind_guard()` | Do nothing or dummy does nothing |
 | `tao::pegtl::match< R >()` | Return `true` |
+| `tao::pegtl::normal< R >::match()` | Return `true` |
 | `tao::pegtl::parse< R >()` | Return `true` |
+
+Whether a rewind guard or a dummy is created depends on the current `rewind_mode`.
 
 ### Rule Local Failure
 
@@ -199,6 +203,7 @@ Parse `R` local failure, default Action and Control.
 | `tao::pegtl::normal< R >::match()` | Enter |
 | `tao::pegtl::match< R >()` | Enter |
 | `tao::pegtl::normal< R >::guard()` | Full call returns rewind guard or dummy |
+| `tao::petl::internal::rewind_guard::rewind_guard()` | Remember position if not dummy |
 | `tao::pegtl::normal< R >::start()` | Full call |
 | `tao::pegtl::internal::match_control_unwind< R >()` | Enter and set up unwind guard if needed |
 | `tao::pegtl::internal::match_no_control< R >()` | Enter and detect simple or complex match |
@@ -208,7 +213,10 @@ Parse `R` local failure, default Action and Control.
 | `tao::pegtl::normal< R >::failure()` | Full call |
 | `tao::petl::internal::rewind_guard::~rewind_guard()` | Rewind input if not dummy |
 | `tao::pegtl::match< R >()` | Return `false` |
+| `tao::pegtl::normal< R >::match()` | Return `false` |
 | `tao::pegtl::parse< R >()` | Return `false` |
+
+Whether a rewind guard or a dummy is created depends on the current `rewind_mode`.
 
 ### Action Apply
 
@@ -220,6 +228,7 @@ Parse `R` success, Action `A` has `void apply()` for `R`, default Control.
 | `tao::pegtl::normal< R >::match()` | Enter |
 | `tao::pegtl::match< R >()` | Enter |
 | `tao::pegtl::normal< R >::guard()` | Full call returns rewind guard |
+| `tao::petl::internal::rewind_guard::rewind_guard()` | Remember position |
 | `tao::pegtl::normal< R >::start()` | Full call |
 | `tao::pegtl::internal::match_control_unwind< R >()` | Enter and set up unwind guard if needed |
 | `tao::pegtl::internal::match_no_control< R >()` | Enter and detect simple or complex match |
@@ -232,7 +241,10 @@ Parse `R` success, Action `A` has `void apply()` for `R`, default Control.
 | `tao::pegtl::normal< R >::success()` | Full call |
 | `tao::petl::internal::rewind_guard::~rewind_guard()` | Do nothing or dummy does nothing |
 | `tao::pegtl::match< R >()` | Return `true` |
+| `tao::pegtl::normal< R >::match()` | Return `true` |
 | `tao::pegtl::parse< R >()` | Return `true` |
+
+A rewind guard is created independent of the current `rewind_mode` because the input position at the beginning of the match is needed for the Action invocation.
 
 
 ---
