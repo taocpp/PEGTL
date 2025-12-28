@@ -104,7 +104,8 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   struct test_grammar : must< sor< one< 'a' >, try_catch_return_false< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > >, eof >
+   struct test_grammar
+      : must< sor< one< 'a' >, try_catch_return_false< seq< one< 'b' >, must< one< 'c' > > > >, two< 'b' > >, eof >
    {};
 
    template< typename Rule >
@@ -151,7 +152,8 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   struct test_nested : not_at< try_catch_return_false< try_catch_raise_nested< must< one< 'x' > > > > >
+   struct test_nested
+      : not_at< try_catch_return_false< try_catch_raise_nested< must< one< 'x' > > > > >
    {};
 
    void unit_test()
@@ -161,6 +163,8 @@ namespace TAO_PEGTL_NAMESPACE
          test_state< true > st;
          text_view_input< scan::lf > in( "bb" );
          std::size_t b = 0;
+         test_action_one = false;
+         test_action_two = false;
          const bool result = parse< test_grammar, test_action, state_control< normal >::type >( in, -1, b, st );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( test_action_one );
@@ -203,6 +207,8 @@ namespace TAO_PEGTL_NAMESPACE
          test_state< false > st;
          text_view_input< scan::lf > in( "bb" );
          std::size_t b = 0;
+         test_action_one = true;
+         test_action_two = true;
          const bool result = parse< test_grammar, test_action, state_control< normal >::type >( in, -1, b, st );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( !test_action_one );
@@ -215,6 +221,8 @@ namespace TAO_PEGTL_NAMESPACE
          test_state< true > st;
          text_view_input< scan::lf > in( "a" );
          std::size_t b = 0;
+         test_action_one = false;
+         test_action_two = false;
          const bool result = parse< test_nested, nothing, state_control< normal >::type >( in, -1, b, st );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( b == st.trace.size() );

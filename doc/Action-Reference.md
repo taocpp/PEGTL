@@ -14,7 +14,7 @@ The actions not considered part of the core library are [documented here](TODO).
 
 ## Preamble
 
-Only `tao/pegtl/nothing.hpp`, which defines `nothing` and `maybe_nothing`, is automatically included with `<tao/pegtl.hpp>`.
+Only `include/tao/pegtl/nothing.hpp`, which defines `nothing` and `maybe_nothing`, is automatically included with `<tao/pegtl.hpp>`.
 For all other actions the appropriate headers from `include/tao/pegtl/action/` need to be included manually.
 
 By [default](Introduction.md#namespace-structure) all action classes and class templates reside in namespace `tao::pegtl`.
@@ -253,17 +253,17 @@ This check is performed independent of any presence or absence of `maybe_nothing
 * [`add_state`](#add_state-s-) <sup>[(actions)](#actions)</sup>
 * [`change_action`](#change_action-a-) <sup>[(actions)](#actions)</sup>
 * [`change_action_and_state`](#change_action_and_state-a-s-) <sup>[(actions)](#actions)</sup>
-* [`change_action_and_states-a-s-`](#change_action_and_states-a-s-) <sup>[(actions)](#actions)</sup>
+* [`change_action_and_states`](#change_action_and_states-a-s-) <sup>[(actions)](#actions)</sup>
 * [`change_control`](#change_control-c-) <sup>[(actions)](#actions)</sup>
 * [`change_state`](#change_state-s-) <sup>[(actions)](#actions)</sup>
 * [`change_states`](#change_states-s-) <sup>[(actions)](#actions)</sup>
 * [`control_action`](#control_action) <sup>[(actions)](#actions)</sup>
 * [`disable_action`](#disable_action) <sup>[(actions)](#actions)</sup>
 * [`enable_action`](#enable_action) <sup>[(actions)](#actions)</sup>
-* [`maybe_nothing`](#maybe-nothing) <sup>[(actions)](#actions)</sup>
-* [`nothing`](#nothing) <sup>[(actions)](#actions)</sup>
-* [`require_apply`](#require-apply) <sup>[(actions)](#actions)</sup>
-* [`require_apply0`](#require-apply0) <sup>[(actions)](#actions)</sup>
+* [`maybe_nothing`](#maybe_nothing) <sup>[(actions)](#actions)</sup>
+* [`nothing`](#nothing-r-) <sup>[(actions)](#actions)</sup>
+* [`require_apply`](#require_apply) <sup>[(actions)](#actions)</sup>
+* [`require_apply0`](#require_apply0) <sup>[(actions)](#actions)</sup>
 
 
 ---

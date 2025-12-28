@@ -60,6 +60,7 @@ set(test_sources
   contrib_type_to_string.cpp
   contrib_unescape.cpp
   contrib_uri.cpp
+  control_input_control.cpp
   control_remove_first_state.cpp
   control_remove_last_states.cpp
   control_rewind_control.cpp

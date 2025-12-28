@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct input_control
    {
       template< typename Rule >
-      struct impl
+      struct type
          : Control< Rule >
       {
          static constexpr bool enable = true;
@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
                Control< Rule >::start( in, st... );
             }
             if constexpr( ParseInput::template enable< Rule > ) {
-               in.template start< Rule >( in, st... );
+               const_cast< ParseInput& >( in ).template start< Rule >( in, st... );
             }
 #if defined( _MSC_VER )
             (void)( (void)st, ... );
@@ -40,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE
          static void success( [[maybe_unused]] const ParseInput& in, [[maybe_unused]] States&&... st )
          {
             if constexpr( ParseInput::template enable< Rule > ) {
-               in.template success< Rule >( in, st... );
+               const_cast< ParseInput& >( in ).template success< Rule >( in, st... );
             }
             if constexpr( Control< Rule >::enable ) {
                Control< Rule >::success( in, st... );
@@ -54,7 +54,7 @@ namespace TAO_PEGTL_NAMESPACE
          static void failure( [[maybe_unused]] const ParseInput& in, [[maybe_unused]] States&&... st )
          {
             if constexpr( ParseInput::template enable< Rule > ) {
-               in.template failure< Rule >( in, st... );
+               const_cast< ParseInput& >( in ).template failure< Rule >( in, st... );
             }
             if constexpr( Control< Rule >::enable ) {
                Control< Rule >::failure( in, st... );
@@ -68,7 +68,7 @@ namespace TAO_PEGTL_NAMESPACE
          [[noreturn]] static void raise( const ParseInput& in, States&&... st )
          {
             if constexpr( ParseInput::template enable< Rule > ) {
-               in.template raise< Rule >( in, st... );
+               const_cast< ParseInput& >( in ).template raise< Rule >( in, st... );
             }
             Control< Rule >::raise( in, st... );
          }
@@ -77,17 +77,17 @@ namespace TAO_PEGTL_NAMESPACE
          [[noreturn]] static void raise_nested( const Ambient& am, const ParseInput& in, States&&... st )
          {
             if constexpr( ParseInput::template enable< Rule > ) {
-               in.template raise_nested< Rule >( am, in, st... );
+               const_cast< ParseInput& >( in ).template raise_nested< Rule >( am, in, st... );
             }
             Control< Rule >::raise_nested( am, in, st... );
          }
 
-         template< typename ParseInput, typename State, typename... States >
+         template< typename ParseInput, typename... States >
          static auto unwind( [[maybe_unused]] const ParseInput& in, [[maybe_unused]] States&&... st )
             -> std::enable_if_t< ParseInput::template enable< Rule > || ( Control< Rule >::enable && internal::has_unwind< Control< Rule >, void, const ParseInput&, States... > ) >
          {
             if constexpr( ParseInput::template enable< Rule > ) {
-               in.template unwind< Rule >( in, st... );
+               const_cast< ParseInput& >( in ).template unwind< Rule >( in, st... );
             }
             if constexpr( Control< Rule >::enable && internal::has_unwind< Control< Rule >, void, const ParseInput&, States... > ) {
                Control< Rule >::unwind( in, st... );
@@ -102,7 +102,7 @@ namespace TAO_PEGTL_NAMESPACE
             -> decltype( Control< Rule >::template apply< Action >( begin, in, st... ) )
          {
             if constexpr( ParseInput::template enable< Rule > ) {
-               in.template apply< Rule >( in, st... );
+               const_cast< ParseInput& >( in ).template apply< Rule >( in, st... );
             }
             return Control< Rule >::template apply< Action >( begin, in, st... );
          }
@@ -112,7 +112,7 @@ namespace TAO_PEGTL_NAMESPACE
             -> decltype( Control< Rule >::template apply0< Action >( in, st... ) )
          {
             if constexpr( ParseInput::template enable< Rule > ) {
-               in.template apply0< Rule >( in, st... );
+               const_cast< ParseInput& >( in ).template apply0< Rule >( in, st... );
             }
             return Control< Rule >::template apply0< Action >( in, st... );
          }
