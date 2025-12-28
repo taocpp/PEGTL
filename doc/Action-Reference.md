@@ -198,7 +198,7 @@ The difference between `add_guard` and `add_state` is that `add_state` adds the 
 * This action implements only a `match()` function and therefore:
 * Publicly derives from [`maybe_nothing`](#maybe-nothing).
 
-####### `maybe_nothing`
+###### `maybe_nothing`
 
 * A type alias for `tao::pegtl::nothing< void >`.
 * Included via `include/tao/pegtl/nothing.hpp` or `include/tao/pegtl.hpp`.
@@ -249,11 +249,11 @@ This check is performed independent of any presence or absence of `maybe_nothing
 
 ## Index
 
-* [`add_guard-g-`](#add_guard) <sup>[(actions)](#actions)</sup>
-* [`add_state-s-`](#add_state) <sup>[(actions)](#actions)</sup>
-* [`change_action-a-`](#change_action) <sup>[(actions)](#actions)</sup>
-* [`change_action_and_state-a-s-`](#change_action_and_state) <sup>[(actions)](#actions)</sup>
-* [`change_action_and_states-a-s-`](#change_action_and_states) <sup>[(actions)](#actions)</sup>
+* [`add_guard`](#add_guard-g-) <sup>[(actions)](#actions)</sup>
+* [`add_state`](#add_state-s-) <sup>[(actions)](#actions)</sup>
+* [`change_action`](#change_action-a-) <sup>[(actions)](#actions)</sup>
+* [`change_action_and_state`](#change_action_and_state-a-s-) <sup>[(actions)](#actions)</sup>
+* [`change_action_and_states-a-s-`](#change_action_and_states-a-s-) <sup>[(actions)](#actions)</sup>
 * [`change_control`](#change_control-c-) <sup>[(actions)](#actions)</sup>
 * [`change_state`](#change_state-s-) <sup>[(actions)](#actions)</sup>
 * [`change_states`](#change_states-s-) <sup>[(actions)](#actions)</sup>
