@@ -119,6 +119,8 @@ All noteworthy changes since the first public release.
   * Added `type_to_string_view` function that mirrors `type_to_string`.
   * Renamed `alphabet.hpp` to `alphabet_constants.hpp`.
   * Renamed buffer/incremental parsing to stream parsing.
+  * Changed `change_state` to detect absence of `success()`.
+  * Changed `change_action_and_state` to detect absence of `success()`.
 * Cleanup
   * Removed rule `forty_two`, we apologize for any inconvenience.
   * Removed rule `bytes` and replaced with `many` for different data types.

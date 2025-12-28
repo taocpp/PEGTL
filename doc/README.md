@@ -29,10 +29,10 @@
 
 * [Introduction](Introduction.md)
   * [Hello, World!](Introduction.md#hello-world-)
-  * [Directory Overview](Introduction.md#directory-overview)
-  * [Default Namespace](Introduction.md#default-namespace)
+  * [Namespace Structure](Introduction.md#namespace-structure)
+  * [Directory Structure](Introduction.md#directory-structure)
   * [Parsing Expression Grammars](Introduction.md#parsing-expression-grammars)
-  * [Essential Terminology](Introduction.md#essential-terminology)
+  * [Essential Definitions](Introduction.md#essential-definitions)
 * [Install Guide](Installing-Guide.md)
   * [Requirements](Install-Guide.md#requirements)
   * [Disabling Exceptions](Install-Guide.md#disabling-exceptions)

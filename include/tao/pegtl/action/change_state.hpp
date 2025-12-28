@@ -14,6 +14,7 @@
 #include "../rewind_mode.hpp"
 
 #include "../internal/dependent_false.hpp"
+#include "../internal/has_success.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -59,9 +60,11 @@ namespace TAO_PEGTL_NAMESPACE
 
       template< typename ParseInput,
                 typename... States >
-      static void success( const ParseInput& in, NewState& s, States&&... st ) noexcept( noexcept( s.success( in, st... ) ) )
+      static void success( const ParseInput& in, NewState& s, States&&... st )
       {
-         s.success( in, st... );
+         if constexpr( internal::has_success< NewState, void, const ParseInput&, States... > ) {
+            s.success( in, st... );
+         }
       }
    };
 

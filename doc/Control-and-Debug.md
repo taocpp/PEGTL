@@ -28,7 +28,7 @@ More precisely, the control class has static member functions to
 
 ## Normal Control
 
-The `normal` control class template included with the PEGTL is used by default and shows which hook functions there are.
+The `normal` Control class template included with the PEGTL is used by default and shows which Control functions there are.
 
 ```c++
 template< typename Rule >
@@ -124,14 +124,14 @@ Note that the default `C< R >::apply()` is SFINAE-enabled if `A< R >::apply()` e
 In case of actions that return `bool`, i.e. actions where `apply()` or `apply0()` return `bool`, `C< R >::success()` is only called when both the rule *and* the action succeed.
 If either produce a (local) failure then `C< R >::failure()` is called.
 
-In all cases where an action is called, the success or failure hooks are invoked after the action returns.
+In all cases where an action is called, the success or failure functions are invoked after the action returns.
 
 The included `<tao/pegtl/contrib/trace.hpp>` gives a practical example that shows how the control class can be used to debug grammars.
 
 
 ## Exception Throwing
 
-The control hooks for exceptions, the`raise()` and `raise_nested()` static member functions, **must** both throw an exception.
+The control functions for exceptions, the`raise()` and `raise_nested()` static member functions, **must** both throw an exception.
 For most parts of the PEGTL the exception class is irrelevant and any user-defined data type can be thrown by a user-defined control.
 
 The [`try_catch_raise_nested`](Rule-Reference.md#try_catch_raise_nested-r-) and [`try_catch_return_false`](Rule-Reference.md#try_catch_return_false-r-) rules only catches exceptions of type `tao::pegtl::parse_error_base` (or derived)!
@@ -161,12 +161,13 @@ Deriving the specialisation of the custom action for `my_rule` from `tao::pegtl:
 
 ## Control Traces
 
+To keep the following traces readable most template parameters and function arguments have been omitted.
+Please consult the appropriate header files if *all* details need to be known.
+
+A note regarding unwind in the full internal traces.
 All Control functions are mandatory and, if not needed, must be implemented as dummy function with the exception of `unwind()`.
 When a Control does not need an unwind function it should not implement it because this case is detected by the PEGTL and the mechanism to call `unwind()` in case of an exception is omitted.
 This is the "if needed" part of "set up unwind guard if needed", a small optimization that is not necessary for other not needed Control functions because those empty functions are inlined to nothing.
-
-To keep the following traces readable most template parameters and function arguments have been omitted.
-Please consult the appropriate header files if *all* details need to be known.
 
 ### Rule Success
 

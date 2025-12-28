@@ -1,15 +1,15 @@
 # Introduction
 
-The [Parsing Expression Grammar Template Library](https://github.com/taocpp/PEGTL) (PEGTL) is a zero-dependency C++ header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
+The [Parsing Expression Grammar Template Library](https://github.com/taocpp/PEGTL) (PEGTL) is a zero-dependency C++ header-only parser combinator library for creating parsers according to a [Parsing Expression Grammar](#parsing-expression-grammars) (PEG).
 
 
 ## Contents
 
 * [Hello, World!](#hello-world-)
-* [Directory Overview](#directory-overview)
-* [Default Namespace](#default-namespace)
+* [Namespace Structure](#namespace-structure)
+* [Directory Structure](#directory-structure)
 * [Parsing Expression Grammars](#parsing-expression-grammars)
-* [Essential Terminology](#essential-terminology)
+* [Essential Definitions](#essential-definitions)
 
 
 ## Hello, World!
@@ -120,7 +120,24 @@ I can't parse you!
 ```
 
 
-## Directory Overview
+## Namespace Structure
+
+By default, the entire PEGTL resides in namespace `tao::pegtl`.
+This can be changed in `include/tao/pegtl/config.hpp` as explained in [Embedding in Libraries](Installing-and-Using.md#embedding-in-libraries).
+**The entire PEGTL documentation assumes the default namespace.**
+
+Some parts of the library use sub-namespaces, for example the parsing rules specific to UTF-8 encoded text are in namespace `tao::pegtl::utf8`.
+Similarly the parsing rules for ASCII text are in namespace `tao::pegtl::ascii`, which is an [inline namespace](https://en.cppreference.com/w/cpp/language/namespace.html), making them (also) accessible "as if" they were in namespace `tao::pegtl`.
+
+For this reason we frequently put the `ascii` in brackets and write `tao::pegtl::(ascii::)` to designate the ASCII namespace throughout this documentation.
+
+Everything that is considered private to the library resides in an `internal` namespace.
+Private parts of the library are not considered part of the library interface and are therefore not subject to semantic versioning.
+
+Macros do not respect namespaces and have a `TAO_PEGTL_` prefix instead.
+
+
+## Directory Structure
 
 The source and header files of this library are organized into several directories.
 
@@ -140,18 +157,7 @@ The source and header files of this library are organized into several directori
 | `src/example/` | The source code for all example programs. |
 | `src/test/` | Internal unit test source code, can be consulted for reference only. |
 
-The source and header files in `include/tao/pegtl/contrib` and `src/example` are **not** subject to semantic versioning and might change in incompatible ways between major versions.
-
-
-## Default Namespace
-
-By default, the PEGTL resides in namespace `tao::pegtl`, however this can be changed as explained in [Embedding in Libraries](Installing-and-Using.md#embedding-in-libraries).
-**The entire PEGTL documentation assumes the default namespace.**
-
-Some parts of the library use sub-namespaces, for example the parsing rules specific to UTF-8 encoded text are in namespace `tao::pegtl::utf8`.
-Similarly the parsing rules for ASCII text are in namespace `tao::pegtl::ascii`, which is an [inline namespace](https://en.cppreference.com/w/cpp/language/namespace.html), making them (also) accessible "as if" they were in namespace `tao::pegtl`.
-
-For this reason we frequently put the `ascii` in brackets and write `tao::pegtl::(ascii::)` to designate the ASCII namespace throughout this documentation.
+The source and header files in `include/tao/pegtl/contrib` and `src/example` are **not** subject to semantic versioning.
 
 
 ## Parsing Expression Grammars
@@ -181,50 +187,29 @@ And the next table shows how some of the more common atomic PEG expressions are 
 | "[a-h]"                           | [`range< 'a', 'h' >`](Rule-Reference.md#range-c-d-) <sup>[(ascii)](#ascii)</sup>       |
 | "[a-zA-Z]"                        | [`alpha`](Rule-Reference.md#alpha) <sup>[(ascii)](#ascii)</sup>                        |
 
-The PEGTL comes with [very many rules](Rule-Reference.md#index) that go far beyond the basics, and the possibility to [implement custom rules](Rules-and-Grammars.md#implementing-rules).
+The PEGTL comes with [dozens of rules](Rule-Reference.md#index) for convenience and advanced features, and the possibility to [implement custom rules](Rules-and-Grammars.md#implementing-rules).
 
 
-## Essential Terminology
+## Essential Definitions
 
-A (parsing) [**rule**](Rules-and-Grammars.md) is a class (or a class template) with a (suitable) static `match()` function (and some type aliases).
-
-A [**grammar**](Rules-and-Grammars.md) is a set of one or more related parsing rules, with one (or more) designated top-level rules as entry-point(s).
-
-**Input data** is a sequence of bytes (or other objects) that are intended to be parsed.
-
-An [**input**](Inputs-and-Parsing.md) is a class that adheres to an informal interface and represents some input data.
-
-A (semantic) [**action**](Actions-and-States.md) is a class template with a (suitable) static `apply()` or `apply0()` function -- and/or, for advanced use cases, a (suitable) static `match()` function.
-
-A **control** is a class template with a set of (suitable) static functions that can change and observe most details of a parsing run.
-
-The [**states**](Actions-and-States.md) are (optional) user-defined objects that are passed to all rules, actions and control functions.
-
-A [**parsing run**](Inputs-and-Parsing.md) is everything that happens during a call to `tao::pegtl::parse()` with a grammar and, optionally, an action, a control and states.
-
-A [**nested parsing**](Inputs-and-Parsing.md) run similarly refers to a call to `tao::pegtl::parse_nested()` during a parsing run (usually from an action).
-
-A **position** is an instance of a class that indicates an object in the input data, possibly with auxiliary information like filename and line number.
-
-Input is **consumed** when the reference to what is considered the current object in the input data is advanced.
-
-[**Stream parsing**](Stream-Parsing.md) refers to parsing with an input that only provides a small contiguous buffer as window into some larger or unbounded input data.
-
-When calling an action **attached** to a rule then the action in question is a specialization of an action class template for said rule.
-
-An action is **applied** when its `apply()` or `apply0()` function is called after the rule it is attached to succeeded (returned `true`).
-
-(Strictly speaking the function is called on the specialization of the action class template for the rule in question; we'll often use the shorter form.)
-
-**Success** is when a [`match()` function](Rules-and-Grammars.md#match-function) returns `true`.
-
-**Local failure** is when a [`match()` function](Rules-and-Grammars.md#match-function) returns `false` (which can lead to backtracking).
-
-**Global failure** is when a [`match()` function](Rules-and-Grammars.md#match-function) throws an exception (which usually aborts the parsing run).
-
-The **matched input** is the portion of the input data consumed by a parsing rule during a successful call to its `match()` function.
-
-(On local failure a rule **must not** consume any input; for global failures there are no such requirements.)
+* A (parsing) [**rule**](Rules-and-Grammars.md) is a class (or a class template) with a static `match()` function (and some type aliases).
+* A [**grammar**](Rules-and-Grammars.md) is a set of one or more related rules, with one (or more) designated top-level rules as entry-point(s).
+* **Input data** is a sequence of objects (most frequently `char`) that is intended to be parsed.
+* An [**input**](Inputs-and-Parsing.md) is a class that adheres to an informal input interface and represents some input data.
+* A (semantic) [**action**](Actions-and-States.md) is a class template with a static `apply()` or `apply0()` function -- and/or, for advanced use cases, a static `match()` function.
+* A **control** is a class template that adheres to an informal control interface consisting of static functions.
+* The [**states**](Actions-and-States.md) are user-defined objects that are passed to all rules, actions and control functions.
+* A [**parsing run**](Inputs-and-Parsing.md) is everything that happens during a call to `tao::pegtl::parse()` with a grammar and, optionally, an action, a control and states.
+* A [**nested parsing**](Inputs-and-Parsing.md) run similarly refers to a call to `tao::pegtl::parse_nested()` during a parsing run (usually from an action).
+* A **position** is an instance of a class that indicates an object in the input data, possibly with auxiliary information like filename and line number.
+* Input is **consumed** when the reference to what is considered the current object in the input data is advanced.
+* [**Stream parsing**](Stream-Parsing.md) refers to parsing with an input that only provides a small contiguous buffer as window into some larger or unbounded input data.
+* An action `A` is **attached** to a rule `R` when the specialization `A< R >` has an `apply()`, `apply0()` or `match()` function.
+* An action is **applied** when its `apply()` or `apply0()` function is called after the rule it is attached to succeeded.
+* **Success** is when a [`match()` function](Rules-and-Grammars.md#match-function) returns `true`.
+* **Local failure** is when a [`match()` function](Rules-and-Grammars.md#match-function) returns `false` (which can lead to backtracking).
+* **Global failure** is when a [`match()` function](Rules-and-Grammars.md#match-function) throws an exception (which usually aborts the parsing run).
+* The **matched input** is the portion of the input data consumed by a parsing rule during a successful call to its `match()` function.
 
 
 ---
