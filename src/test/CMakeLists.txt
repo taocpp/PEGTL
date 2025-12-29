@@ -65,6 +65,7 @@ set(test_sources
   control_remove_last_states.cpp
   control_rewind_control.cpp
   control_rewind_state_control.cpp
+  control_shuffle_states.cpp
   control_state_control.cpp
   control_unwind.cpp
   count_position.cpp

@@ -13,6 +13,7 @@
 
 #include "../config.hpp"
 #include "../normal.hpp"
+#include "../parse_error.hpp"
 
 #include "../internal/has_error_message.hpp"
 
@@ -61,6 +62,25 @@ namespace TAO_PEGTL_NAMESPACE
                   static_assert( !RequireMessage, "Explicit error message required for rule!" );
                }
                Base< Rule >::raise( in, st... );
+            }
+         }
+
+         template< typename Ambient, typename ParseInput, typename... States >
+         [[noreturn]] static void raise_nested( const Ambient& am, [[maybe_unused]] const ParseInput& in, [[maybe_unused]] States&&... st )
+         {
+            if constexpr( Errors::template message< Rule > != nullptr ) {
+               constexpr const char* p = Errors::template message< Rule >;
+               throw_parse_error_with_nested( p, am );
+#if defined( _MSC_VER )
+               (void)in;
+               ( (void)st, ... );
+#endif
+            }
+            else {
+               if constexpr( !internal::has_error_message< Rule > ) {
+                  static_assert( !RequireMessage, "Explicit error message required for rule!" );
+               }
+               Base< Rule >::raise_nested( am, in, st... );
             }
          }
       };
