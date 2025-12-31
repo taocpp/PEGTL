@@ -48,19 +48,19 @@ namespace TAO_PEGTL_NAMESPACE
       static constexpr bool enable = internal::enable_control< Rule >;
 
       template< typename ParseInput >
-      static void start( const ParseInput& in, const foo& /*unused*/, const baz& /*unused*/, const bar& /*unused*/, const int& /*unused*/ )
+      static void start( const ParseInput& in, const foo& /*unused*/, baz& /*unused*/, bar& /*unused*/, const int& /*unused*/ )
       {
          normal< Rule >::start( in );
       }
 
       template< typename ParseInput >
-      static void success( const ParseInput& in, const foo& /*unused*/, const baz& /*unused*/, const bar& /*unused*/, const int& /*unused*/ )
+      static void success( const ParseInput& in, const foo& /*unused*/, baz& /*unused*/, bar& /*unused*/, const int& /*unused*/ )
       {
          normal< Rule >::success( in );
       }
 
       template< typename ParseInput >
-      static void failure( const ParseInput& in, const foo& /*unused*/, const baz& /*unused*/, const bar& /*unused*/, const int& /*unused*/ )
+      static void failure( const ParseInput& in, const foo& /*unused*/, baz& /*unused*/, bar& /*unused*/, const int& /*unused*/ )
       {
          normal< Rule >::failure( in );
       }
@@ -72,38 +72,38 @@ namespace TAO_PEGTL_NAMESPACE
                 template< typename... >
                 class Control,
                 typename ParseInput >
-      static auto guard( ParseInput& in, const foo& /*unused*/, const baz& /*unused*/, const bar& /*unused*/, const int& /*unused*/ )
+      static auto guard( ParseInput& in, const foo& /*unused*/, baz& /*unused*/, bar& /*unused*/, const int& /*unused*/ )
       {
          return normal< Rule >::template guard< A, M, Action, Control >( in );
       }
 
       template< typename ParseInput >
-      [[noreturn]] static void raise( const ParseInput& in, const foo& /*unused*/, const baz& /*unused*/, const bar& /*unused*/, const int& /*unused*/ )
+      [[noreturn]] static void raise( const ParseInput& in, const foo& /*unused*/, baz& /*unused*/, bar& /*unused*/, const int& /*unused*/ )
       {
          normal< Rule >::raise( in );
       }
 
       template< typename Ambient, typename ParseInput >
-      [[noreturn]] static void raise( const Ambient& am, const ParseInput& in, const foo& /*unused*/, const baz& /*unused*/, const bar& /*unused*/, const int& /*unused*/ )
+      [[noreturn]] static void raise( const Ambient& am, const ParseInput& in, const foo& /*unused*/, baz& /*unused*/, bar& /*unused*/, const int& /*unused*/ )
       {
          normal< Rule >::raise_nested( am, in );
       }
 
       template< typename ParseInput >
-      static void unwind( const ParseInput& /*unused*/, const foo& /*unused*/, const baz& /*unused*/, const bar& /*unused*/, const int& /*unused*/ )
+      static void unwind( const ParseInput& /*unused*/, const foo& /*unused*/, baz& /*unused*/, bar& /*unused*/, const int& /*unused*/ )
       {}
 
       template< template< typename... > class Action,
                 typename RewindPosition,
                 typename ParseInput >
-      static auto apply( const RewindPosition& begin, const ParseInput& in, const foo& f, const baz& z, const bar& b, const int& i ) -> decltype( Action< Rule >::apply( std::declval< const action_input< ParseInput >& >(), std::declval< const foo& >(), std::declval< const baz& >(), std::declval< const bar& >(), std::declval< const int& >() ) )
+      static auto apply( const RewindPosition& begin, const ParseInput& in, const foo& f, baz& z, bar& b, const int& i ) -> decltype( Action< Rule >::apply( std::declval< const action_input< ParseInput >& >(), std::declval< const foo& >(), std::declval< baz& >(), std::declval< bar& >(), std::declval< const int& >() ) )
       {
          return normal< Rule >::template apply< Action >( begin, in, f, z, b, i );
       }
 
       template< template< typename... > class Action,
                 typename ParseInput >
-      static auto apply0( const ParseInput& in, const foo& f, const baz& z, const bar& b, const int& i ) -> decltype( Action< Rule >::apply0( std::declval< const foo& >(), std::declval< const baz& >(), std::declval< const bar& >(), std::declval< const int& >() ) )
+      static auto apply0( const ParseInput& in, const foo& f, baz& z, bar& b, const int& i ) -> decltype( Action< Rule >::apply0( std::declval< const foo& >(), std::declval< baz& >(), std::declval< bar& >(), std::declval< const int& >() ) )
       {
          return normal< Rule >::template apply0< Action >( in, f, z, b, i );
       }
@@ -115,7 +115,7 @@ namespace TAO_PEGTL_NAMESPACE
                 template< typename... >
                 class Control,
                 typename ParseInput >
-      [[nodiscard]] static bool match( ParseInput& in, const int& i, const foo& f, const bar& b, const baz& z )
+      [[nodiscard]] static bool match( ParseInput& in, const int& i, const foo& f, bar& b, baz& z )
       {
          return normal< Rule >::template match< A, M, Action, Control >( in, i, f, b, z );
       }
@@ -137,7 +137,7 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct test_action< one< 'b' > >
    {
-      static void apply0( const foo& /*unused*/, const baz& /*unused*/, const bar& /*unused*/, const int& /*unused*/ ) noexcept
+      static void apply0( const foo& /*unused*/, baz& /*unused*/, bar& /*unused*/, const int& /*unused*/ ) noexcept
       {}
    };
 
@@ -145,7 +145,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct test_action< one< 'c' > >
    {
       template< typename ActionInput >
-      static void apply( const ActionInput& /*unused*/, const foo& /*unused*/, const baz& /*unused*/, const bar& /*unused*/, const int& /*unused*/ ) noexcept
+      static void apply( const ActionInput& /*unused*/, const foo& /*unused*/, baz& /*unused*/, bar& /*unused*/, const int& /*unused*/ ) noexcept
       {}
    };
 
@@ -153,8 +153,8 @@ namespace TAO_PEGTL_NAMESPACE
    {
       const int i = 42;
       const foo f;
-      const bar b;
-      const baz z;
+      bar b;
+      baz z;
       {
          view_input<> in( "bc" );
          const bool result = parse< test_grammar, test_action, test_shuffle_control >( in, i, f, b, z );
