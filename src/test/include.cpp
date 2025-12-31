@@ -82,6 +82,7 @@
 #include <tao/pegtl/stream/text_stream_input.hpp>
 #include <tao/pegtl/stream/text_stream_input_with_source.hpp>
 
+#include <tao/pegtl/control/apply_typed_state.hpp>
 #include <tao/pegtl/control/input_control.hpp>
 #if defined( __cpp_exceptions )
 #include <tao/pegtl/control/must_if.hpp>
