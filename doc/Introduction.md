@@ -216,6 +216,6 @@ The PEGTL comes with [dozens of rules](Rule-Reference.md#index) for convenience 
 
 This page is part of the [PEGTL](https://github.com/taocpp/PEGTL) and its [documentation](README.md).
 
-Copyright (c) 2014-2025 Dr. Colin Hirsch and Daniel Frey<br>
+Copyright (c) 2014-2026 Dr. Colin Hirsch and Daniel Frey<br>
 Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt
