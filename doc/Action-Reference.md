@@ -198,6 +198,14 @@ The difference between `add_guard` and `add_state` is that `add_state` adds the 
 * This action implements only a `match()` function and therefore:
 * Publicly derives from [`maybe_nothing`](#maybe-nothing).
 
+###### `match_typed_state< T >`
+
+* Parses the rule it is attached to with only the state of type `T`.
+* Included via `include/tao/pegtl/action/match_typed_state.hpp`.
+* This action implements only a `match()` function and therefore:
+* Publicly derives from [`maybe_nothing`](#maybe-nothing).
+* Related to the [control](Control-and-Debug.md) class [`apply_typed_state`](Control-Reference.md#apply_typed_state).
+
 ###### `maybe_nothing`
 
 * A type alias for `tao::pegtl::nothing< void >`.
@@ -260,6 +268,7 @@ This check is performed independent of any presence or absence of `maybe_nothing
 * [`control_action`](#control_action) <sup>[(actions)](#actions)</sup>
 * [`disable_action`](#disable_action) <sup>[(actions)](#actions)</sup>
 * [`enable_action`](#enable_action) <sup>[(actions)](#actions)</sup>
+* [`match_typed_state`](#match_typed_state-t-) <sup>[(actions)](#actions)</sup>
 * [`maybe_nothing`](#maybe_nothing) <sup>[(actions)](#actions)</sup>
 * [`nothing`](#nothing-r-) <sup>[(actions)](#actions)</sup>
 * [`require_apply`](#require_apply) <sup>[(actions)](#actions)</sup>

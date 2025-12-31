@@ -16,14 +16,36 @@ The actions not considered part of the core library are [documented here](TODO).
 Only `include/tao/pegtl/normal.hpp`, which defines `normal`, is automatically included with `<tao/pegtl.hpp>`.
 For all other controls the appropriate headers from `include/tao/pegtl/control/` need to be included manually.
 
-> [!IMPORTANT]
-> The control class adapters that modify the states before forwarding the control functions to a different control will modify the states for all control functions **except** `match()`.
-> This is to prevent the modification from being applied multiple times, once for every nested rule invocation.
+The [`normal`](#normal) control is the only one that implements the control functionality -- all other controls are adapters that modify the behaviour of another control.
 
 
 ## Controls
 
 By [default](Introduction.md#namespace-structure) all controls reside in namespace `tao::pegtl`.
+
+###### `apply_typed_state`
+
+A control adapter that forwards only a single state argument selected by its type to the adapted control's `apply()` and `apply0()` functions.
+
+* Offers all three control adapter front-end type aliases.
+* Included via `include/tao/pegtl/control/apply_typed_state.hpp`.
+* The parameter `State` is the type selected for `apply()` and `apply0()`.
+* All other control functions are taken unmodified from the adapted control.
+
+```c++
+template< typename State, typename Base >
+using apply_typed_state_b;
+
+template< typename State, template< typename... > class Control, typename Rule >
+using apply_typed_state_r;
+
+template< typename State, template< typename...> class Control = normal >
+struct apply_typed_state_n
+{
+   template< typename Rule >
+   using type;
+};
+```
 
 ###### `input_control`
 
@@ -145,9 +167,11 @@ To use `must_if` one must set up a suitable type for the `Errors` parameters, op
 
 ###### `normal`
 
-The control class template `normal< Rule >` is the control for normal PEGTL behaviour.
+The [control](Control-and-Debug.md) class (template) `normal` is the control for normal PEGTL behaviour.
 
-It is the default [control](Control-and-Debug.md) for the [`parse()`](Inputs-and-Parsing.md#parse-funciton) and [`parse_nested()`](Inputs-and-Parsing.md#nested-parsing) functions.
+It is the only control that implements the control functionality -- all other controls are adapters that modify the behaviour of another control.
+
+It is also the default [control](Control-and-Debug.md) for the [`parse()`](Inputs-and-Parsing.md#parse-funciton) and [`parse_nested()`](Inputs-and-Parsing.md#nested-parsing) functions.
 
 ###### `remove_first_state`
 
@@ -289,6 +313,7 @@ To use `state_control` one must choose the other control, typically `tao::pegtl:
 
 ## Index
 
+* [`apply_typed_state`](#apply_typed_state) <sup>[(controls)](#controls)</sup>
 * [`input_control`](#input_control) <sup>[(controls)](#controls)</sup>
 * [`must_if`](#must_if) <sup>[(controls)](#controls)</sup>
 * [`normal`](#normal) <sup>[(controls)](#controls)</sup>

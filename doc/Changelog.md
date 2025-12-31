@@ -104,6 +104,10 @@ All noteworthy changes since the first public release.
 * Added new customization point for error messages.  -- TODO!
 * Added optional source line output for the tracer.  -- TODO?
 * Other
+  * Added new control `apply_typed_state`.
+  * Added new action `match_typed_state`.
+  * Added new control `remove_first_states`.
+  * Refactored the Control adapter interface.
   * Routed rewind-guard creation through the Control class.
   * Renamed `apply_mode::action` to `apply_mode::enabled`.
   * Renamed `apply_mode::nothing` to `apply_mode::disabled`.
