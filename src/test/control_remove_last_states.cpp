@@ -73,7 +73,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Rule >
    struct test_control
-      : remove_last_states< control_impl< Rule >, 2 >
+      : remove_last_states_b< 2, control_impl< Rule > >
    {};
 
 #if defined( __cpp_exceptions )

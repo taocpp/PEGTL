@@ -193,7 +193,7 @@ namespace TAO_PEGTL_NAMESPACE
    {
       internal::coverage_state state( result );
       visit< Rule, internal::coverage_insert >( state.result.coverage );  // Fill coverage map with all sub-rules of the grammar.
-      return parse< Rule, Action, rewind_state_control< Control >::template type >( in, st..., state );
+      return parse< Rule, Action, rewind_state_control_n< Control >::template type >( in, st..., state );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

@@ -176,7 +176,7 @@ namespace TAO_PEGTL_NAMESPACE
          std::size_t b = 0;
          test_action_one = false;
          test_action_two = false;
-         const bool result = parse< test_grammar, test_action, input_control< normal >::type >( in, -1, b );
+         const bool result = parse< test_grammar, test_action, input_control_n< normal >::type >( in, -1, b );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( test_action_one );
          TAO_PEGTL_TEST_ASSERT( test_action_two );
@@ -219,7 +219,7 @@ namespace TAO_PEGTL_NAMESPACE
          std::size_t b = 0;
          test_action_one = true;
          test_action_two = true;
-         const bool result = parse< test_grammar, test_action, input_control< normal >::type >( in, -1, b );
+         const bool result = parse< test_grammar, test_action, input_control_n< normal >::type >( in, -1, b );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( !test_action_one );
          TAO_PEGTL_TEST_ASSERT( !test_action_two );
@@ -231,7 +231,7 @@ namespace TAO_PEGTL_NAMESPACE
          std::size_t b = 0;
          test_action_one = true;
          test_action_two = true;
-         const bool result = parse< test_grammar, test_action, input_control< normal >::type >( in, -1, b );
+         const bool result = parse< test_grammar, test_action, input_control_n< normal >::type >( in, -1, b );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( !test_action_one );
          TAO_PEGTL_TEST_ASSERT( !test_action_two );
@@ -243,7 +243,7 @@ namespace TAO_PEGTL_NAMESPACE
          std::size_t b = 0;
          test_action_one = false;
          test_action_two = false;
-         const bool result = parse< test_nested, nothing, input_control< normal >::type >( in, -1, b );
+         const bool result = parse< test_nested, nothing, input_control_n< normal >::type >( in, -1, b );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( b == in.trace.size() );
          b = 0;

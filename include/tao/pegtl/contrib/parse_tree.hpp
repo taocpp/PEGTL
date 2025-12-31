@@ -25,7 +25,7 @@
 #include "../type_list.hpp"
 
 #include "../control/remove_first_state.hpp"
-#include "../control/shuffle_states.hpp"
+#include "../control/rotate_states_right.hpp"
 
 #include "../internal/enable_control.hpp"
 #include "../internal/has_unwind.hpp"
@@ -188,7 +188,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          struct state_handler;
 
          template< typename Rule >
-         using type = rotate_states_right< state_handler< Rule, is_selected_node< Rule, Selector >, is_leaf< 8, typename Rule::subs_t, Selector > > >;
+         using type = rotate_states_right_b< 1, state_handler< Rule, is_selected_node< Rule, Selector >, is_leaf< 8, typename Rule::subs_t, Selector > > >;
       };
 
       template< typename, typename, typename... >
@@ -207,13 +207,13 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename Node, template< typename... > class Selector, template< typename... > class Control >
       template< typename Rule >
       struct make_control< Node, Selector, Control >::state_handler< Rule, false, true >
-         : remove_first_state< Control< Rule > >
+         : remove_first_state_r< Control, Rule >
       {};
 
       template< typename Node, template< typename... > class Selector, template< typename... > class Control >
       template< typename Rule >
       struct make_control< Node, Selector, Control >::state_handler< Rule, false, false >
-         : remove_first_state< Control< Rule > >
+         : remove_first_state_r< Control, Rule >
       {
          static constexpr bool enable = true;
 
@@ -249,7 +249,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       template< typename Node, template< typename... > class Selector, template< typename... > class Control >
       template< typename Rule, bool B >
       struct make_control< Node, Selector, Control >::state_handler< Rule, true, B >
-         : remove_first_state< Control< Rule > >
+         : remove_first_state_r< Control, Rule >
       {
          template< typename ParseInput, typename... States >
          static void start( const ParseInput& in, state< Node >& state, States&&... st )

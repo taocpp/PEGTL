@@ -52,7 +52,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf2
    };
 
    template< typename Rule >
-   using control = must_if< error >::type< Rule >;
+   using control = must_if_n< error >::type< Rule >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::abnf2
 

@@ -13,77 +13,21 @@
 
 #include "../config.hpp"
 #include "../normal.hpp"
-#include "../parse_error.hpp"
 
-#include "../internal/has_error_message.hpp"
+#include "internal/must_if.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   namespace internal
-   {
-      template< typename Errors, typename Rule, typename = void >
-      inline constexpr bool raise_on_failure = ( Errors::template message< Rule > != nullptr );
+   // must_if_b is not implemented
 
-      template< typename Errors, typename Rule >
-      inline constexpr bool raise_on_failure< Errors, Rule, std::void_t< decltype( Errors::template raise_on_failure< Rule > ) > > = Errors::template raise_on_failure< Rule >;
+   template< typename Errors, bool RequireMessage, template< typename... > class Control, typename Rule >
+   using must_if_r = internal::must_if< Errors, RequireMessage, Control, Rule >;
 
-   }  // namespace internal
-
-   template< typename Errors, template< typename... > class Base = normal, bool RequireMessage = true >
-   struct must_if
+   template< typename Errors, bool RequireMessage = true, template< typename... > class Control = normal >
+   struct must_if_n
    {
       template< typename Rule >
-      struct type
-         : Base< Rule >
-      {
-         template< typename ParseInput, typename... States >
-         static void failure( const ParseInput& in, States&&... st ) noexcept( noexcept( Base< Rule >::failure( in, st... ) ) && !internal::raise_on_failure< Errors, Rule > )
-         {
-            if constexpr( internal::raise_on_failure< Errors, Rule > ) {
-               raise( in, st... );
-            }
-            else {
-               Base< Rule >::failure( in, st... );
-            }
-         }
-
-         template< typename ParseInput, typename... States >
-         [[noreturn]] static void raise( const ParseInput& in, [[maybe_unused]] States&&... st )
-         {
-            if constexpr( Errors::template message< Rule > != nullptr ) {
-               constexpr const char* p = Errors::template message< Rule >;
-               throw_parse_error( p, in );
-#if defined( _MSC_VER )
-               ( (void)st, ... );
-#endif
-            }
-            else {
-               if constexpr( !internal::has_error_message< Rule > ) {
-                  static_assert( !RequireMessage, "Explicit error message required for rule!" );
-               }
-               Base< Rule >::raise( in, st... );
-            }
-         }
-
-         template< typename Ambient, typename ParseInput, typename... States >
-         [[noreturn]] static void raise_nested( const Ambient& am, [[maybe_unused]] const ParseInput& in, [[maybe_unused]] States&&... st )
-         {
-            if constexpr( Errors::template message< Rule > != nullptr ) {
-               constexpr const char* p = Errors::template message< Rule >;
-               throw_parse_error_with_nested( p, am );
-#if defined( _MSC_VER )
-               (void)in;
-               ( (void)st, ... );
-#endif
-            }
-            else {
-               if constexpr( !internal::has_error_message< Rule > ) {
-                  static_assert( !RequireMessage, "Explicit error message required for rule!" );
-               }
-               Base< Rule >::raise_nested( am, in, st... );
-            }
-         }
-      };
+      using type = internal::must_if< Errors, RequireMessage, Control, Rule >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

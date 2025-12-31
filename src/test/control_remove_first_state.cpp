@@ -72,9 +72,7 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename Rule >
-   struct test_control
-      : remove_first_state< control_impl< Rule > >
-   {};
+   using test_control = remove_first_state_n< control_impl >::type< Rule >;
 
 #if defined( __cpp_exceptions )
    struct test_rule

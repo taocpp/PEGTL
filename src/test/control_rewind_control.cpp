@@ -47,7 +47,7 @@ namespace TAO_PEGTL_NAMESPACE
       dummy_state ds;
       test_trace.clear();
       text_view_input<> in( "a" );
-      const bool result = parse< test_grammar, nothing, rewind_control< test_control >::type >( in, ds );
+      const bool result = parse< test_grammar, nothing, rewind_control_n< test_control >::type >( in, ds );
       TAO_PEGTL_TEST_ASSERT( result );
       TAO_PEGTL_TEST_ASSERT( test_trace.size() == 2 );
       TAO_PEGTL_TEST_ASSERT( test_trace[ 0 ].first == 'G' );
@@ -61,7 +61,7 @@ namespace TAO_PEGTL_NAMESPACE
       dummy_state ds;
       test_trace.clear();
       text_view_input<> in( "ab" );
-      const bool result = parse< test_grammar, nothing, rewind_control< test_control >::type >( in, ds );
+      const bool result = parse< test_grammar, nothing, rewind_control_n< test_control >::type >( in, ds );
       TAO_PEGTL_TEST_ASSERT( result );
       TAO_PEGTL_TEST_ASSERT( test_trace.size() == 2 );
       TAO_PEGTL_TEST_ASSERT( test_trace[ 0 ].first == 'G' );

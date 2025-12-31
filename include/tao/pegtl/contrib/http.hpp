@@ -204,13 +204,10 @@ namespace TAO_PEGTL_NAMESPACE::http
       }
    };
 
-   namespace internal::chunk_helper
+   namespace internal
    {
-      template< typename Base >
-      struct control;
-
       template< template< typename... > class Control, typename Rule >
-      struct control< Control< Rule > >
+      struct chunk_control_r
          : Control< Rule >
       {
          template< apply_mode A,
@@ -229,23 +226,23 @@ namespace TAO_PEGTL_NAMESPACE::http
       };
 
       template< template< typename... > class Control >
-      struct control< Control< chunk_size > >
-         : remove_first_state< Control< chunk_size > >
+      struct chunk_control_r< Control, chunk_size >
+         : remove_first_state_r< Control, chunk_size >
       {};
 
       template< template< typename... > class Control >
-      struct control< Control< chunk_data > >
-         : remove_first_state< Control< chunk_data > >
+      struct chunk_control_r< Control, chunk_data >
+         : remove_first_state_r< Control, chunk_data >
       {};
 
       template< template< typename... > class Control >
-      struct bind
+      struct bind_chunk_control
       {
          template< typename Rule >
-         using type = control< Control< Rule > >;
+         using type = chunk_control_r< Control, Rule >;
       };
 
-   }  // namespace internal::chunk_helper
+   }  // namespace internal
 
    struct chunk
    {
@@ -265,7 +262,7 @@ namespace TAO_PEGTL_NAMESPACE::http
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
          std::size_t size{};
-         return impl::template match< A, M, Action, internal::chunk_helper::bind< Control >::template type >( in, size, st... );
+         return impl::template match< A, M, Action, internal::bind_chunk_control< Control >::template type >( in, size, st... );
       }
    };
 

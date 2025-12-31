@@ -5,142 +5,59 @@
 #ifndef TAO_PEGTL_CONTROL_REMOVE_LAST_STATES_HPP
 #define TAO_PEGTL_CONTROL_REMOVE_LAST_STATES_HPP
 
-#include <cstddef>
-#include <tuple>
-#include <utility>
-
-#include "../apply_mode.hpp"
 #include "../config.hpp"
-#include "../rewind_mode.hpp"
 
-#include "../internal/has_unwind.hpp"
+#include "internal/shuffle_states.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   // The last N states are removed for most of the control functions forwarded to Base.
-   // The call to match() is unchanged to keep an even playing field when calling other rules.
-
-   template< typename Base, std::size_t N >
-   struct remove_last_states
-      : Base
+   namespace internal
    {
-      template< typename ParseInput, typename Tuple, std::size_t... Is >
-      static void start_impl( const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::start( in, std::get< Is >( t )... ) ) )
+      template< std::size_t N, std::size_t S >
+      struct remove_last_states_count
       {
-         Base::start( in, std::get< Is >( t )... );
-      }
+         static_assert( S >= N );
 
-      template< typename ParseInput, typename... States >
-      static void start( const ParseInput& in, States&&... st ) noexcept( noexcept( start_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() ) ) )
-      {
-         start_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
-      }
+         static constexpr std::size_t count = S - N;
+      };
 
-      template< typename ParseInput, typename Tuple, std::size_t... Is >
-      static void success_impl( const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::success( in, std::get< Is >( t )... ) ) )
+      template< std::size_t N >
+      struct remove_last_states
       {
-         Base::success( in, std::get< Is >( t )... );
-      }
+         template< std::size_t S >
+         static constexpr std::size_t count = remove_last_states_count< N, S >::count;
 
-      template< typename ParseInput, typename... States >
-      static void success( const ParseInput& in, States&&... st ) noexcept( noexcept( success_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() ) ) )
-      {
-         success_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
-      }
+         template< std::size_t I, std::size_t S >
+         static constexpr std::size_t value = I;
+      };
 
-      template< typename ParseInput, typename Tuple, std::size_t... Is >
-      static void failure_impl( const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::failure( in, std::get< Is >( t )... ) ) )
-      {
-         Base::failure( in, std::get< Is >( t )... );
-      }
-
-      template< typename ParseInput, typename... States >
-      static void failure( const ParseInput& in, States&&... st ) noexcept( noexcept( failure_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() ) ) )
-      {
-         failure_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
-      }
-
-      template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename ParseInput, typename Tuple, std::size_t... Is >
-      static auto guard_impl( ParseInput&& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
-      {
-         return Base::template guard< A, M, Action, Control >( in, std::get< Is >( t )... );
-      }
-
-      template< apply_mode A, rewind_mode M, template< typename... > class Action, template< typename... > class Control, typename ParseInput, typename... States >
-      static auto guard( ParseInput&& in, States&&... st )
-      {
-         return guard_impl< A, M, Action, Control >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
-      }
-
-      template< typename ParseInput, typename Tuple, std::size_t... Is >
-      [[noreturn]] static void raise_impl( const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
-      {
-         Base::raise( in, std::get< Is >( t )... );
-      }
-
-      template< typename ParseInput, typename... States >
-      [[noreturn]] static void raise( const ParseInput& in, States&&... st )
-      {
-         raise_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
-      }
-
-      template< typename Ambient, typename ParseInput, typename Tuple, std::size_t... Is >
-      [[noreturn]] static void raise_nested_impl( const Ambient& am, const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
-      {
-         Base::raise_nested( am, in, std::get< Is >( t )... );
-      }
-
-      template< typename Ambient, typename ParseInput, typename... States >
-      [[noreturn]] static void raise_nested( const Ambient& am, const ParseInput& in, States&&... st )
-      {
-         raise_nested_impl( am, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
-      }
-
-      template< typename ParseInput, typename Tuple, std::size_t... Is >
-      static auto unwind_impl( const ParseInput& am, const Tuple& t, std::index_sequence< Is... > /*unused*/ )
-         -> std::enable_if_t< internal::has_unwind< Base, void, const ParseInput&, std::tuple_element_t< Is, Tuple >... > >
-      {
-         Base::unwind( am, std::get< Is >( t )... );
-      }
-
-      template< typename ParseInput, typename... States >
-      static auto unwind( const ParseInput& in, States&&... st )
-         -> decltype( unwind_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() ) )
-      {
-         unwind_impl( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
-      }
-
-      template< template< typename... > class Action, typename RewindPosition, typename ParseInput, typename Tuple, std::size_t... Is >
-      static auto apply_impl( const RewindPosition& begin, const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::template apply< Action >( begin, in, std::get< Is >( t )... ) ) )
-         -> decltype( Base::template apply< Action >( begin, in, std::get< Is >( t )... ) )
-      {
-         return Base::template apply< Action >( begin, in, std::get< Is >( t )... );
-      }
-
-      template< template< typename... > class Action, typename RewindPosition, typename ParseInput, typename... States >
-      static auto apply( const RewindPosition& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() ) ) )
-         -> decltype( apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() ) )
-      {
-         return apply_impl< Action >( begin, in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
-      }
-
-      template< template< typename... > class Action, typename ParseInput, typename Tuple, std::size_t... Is >
-      static auto apply0_impl( const ParseInput& in, const Tuple& t, std::index_sequence< Is... > /*unused*/ ) noexcept( noexcept( Base::template apply0< Action >( in, std::get< Is >( t )... ) ) )
-         -> decltype( Base::template apply0< Action >( in, std::get< Is >( t )... ) )
-      {
-         return Base::template apply0< Action >( in, std::get< Is >( t )... );
-      }
-
-      template< template< typename... > class Action, typename ParseInput, typename... States >
-      static auto apply0( const ParseInput& in, States&&... st ) noexcept( noexcept( apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() ) ) )
-         -> decltype( apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() ) )
-      {
-         return apply0_impl< Action >( in, std::tie( st... ), std::make_index_sequence< sizeof...( st ) - N >() );
-      }
-   };
+   }  // namespace internal
 
    template< typename Base >
-   using remove_last_state = remove_last_states< Base, 1 >;
+   using remove_last_state_b = internal::shuffle_states< internal::remove_last_states< 1 >, Base >;
+
+   template< template< typename... > class Control, typename Rule >
+   using remove_last_state_r = internal::shuffle_states< internal::remove_last_states< 1 >, Control< Rule > >;
+
+   template< template< typename... > class Control >
+   struct remove_last_state_n
+   {
+      template< typename Rule >
+      using type = internal::shuffle_states< internal::remove_last_states< 1 >, Control< Rule > >;
+   };
+
+   template< std::size_t N, typename Base >
+   using remove_last_states_b = internal::shuffle_states< internal::remove_last_states< N >, Base >;
+
+   template< std::size_t N, template< typename... > class Control, typename Rule >
+   using remove_last_states_r = internal::shuffle_states< internal::remove_last_states< N >, Control< Rule > >;
+
+   template< std::size_t N, template< typename... > class Control >
+   struct remove_last_states_n
+   {
+      template< typename Rule >
+      using type = internal::shuffle_states< internal::remove_last_states< N >, Control< Rule > >;
+   };
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

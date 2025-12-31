@@ -329,7 +329,7 @@ namespace TAO_PEGTL_NAMESPACE
       };
 
       template< typename Rule >
-      using control = must_if< error >::type< Rule >;
+      using control = must_if_n< error >::type< Rule >;
 #else
       template< typename Rule >
       using control = normal< Rule >;

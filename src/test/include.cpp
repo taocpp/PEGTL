@@ -87,9 +87,13 @@
 #include <tao/pegtl/control/must_if.hpp>
 #endif
 #include <tao/pegtl/control/remove_first_state.hpp>
+#include <tao/pegtl/control/remove_first_states.hpp>
 #include <tao/pegtl/control/remove_last_states.hpp>
+#include <tao/pegtl/control/reverse_states.hpp>
 #include <tao/pegtl/control/rewind_control.hpp>
 #include <tao/pegtl/control/rewind_state_control.hpp>
+#include <tao/pegtl/control/rotate_states_left.hpp>
+#include <tao/pegtl/control/rotate_states_right.hpp>
 #include <tao/pegtl/control/shuffle_states.hpp>
 #include <tao/pegtl/control/state_control.hpp>
 

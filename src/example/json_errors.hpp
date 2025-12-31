@@ -52,7 +52,7 @@ namespace example
    };
 
    template< typename Rule >
-   using control = pegtl::must_if< error >::type< Rule >;
+   using control = pegtl::must_if_n< error >::type< Rule >;
 
 #else
 

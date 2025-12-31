@@ -17,8 +17,6 @@ The actions not considered part of the core library are [documented here](TODO).
 Only `include/tao/pegtl/nothing.hpp`, which defines `nothing` and `maybe_nothing`, is automatically included with `<tao/pegtl.hpp>`.
 For all other actions the appropriate headers from `include/tao/pegtl/action/` need to be included manually.
 
-By [default](Introduction.md#namespace-structure) all action classes and class templates reside in namespace `tao::pegtl`.
-
 The action classes shown below are selectively attached in the usual way.
 For example we can invoke [`change_action`](#change_action-a-) to switch the parsing run from `my_action` to `other_action` while parsing `some_rule` as follows.
 
@@ -78,6 +76,8 @@ This pattern is used throughout the PEGTL and is the reason for all action and c
 
 
 ## Actions
+
+By [default](Introduction.md#namespace-structure) all action classes and class templates reside in namespace `tao::pegtl`.
 
 ###### `add_guard< G >`
 

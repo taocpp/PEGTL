@@ -63,8 +63,10 @@ set(test_sources
   control_input_control.cpp
   control_remove_first_state.cpp
   control_remove_last_states.cpp
+  control_reverse_states.cpp
   control_rewind_control.cpp
   control_rewind_state_control.cpp
+  control_rotate_states.cpp
   control_shuffle_states.cpp
   control_state_control.cpp
   control_unwind.cpp

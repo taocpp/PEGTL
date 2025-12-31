@@ -9,32 +9,6 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   static_assert( internal::reverse::value< 0, 5 > == 4 );
-   static_assert( internal::reverse::value< 1, 5 > == 3 );
-   static_assert( internal::reverse::value< 2, 5 > == 2 );
-   static_assert( internal::reverse::value< 3, 5 > == 1 );
-   static_assert( internal::reverse::value< 4, 5 > == 0 );
-
-   static_assert( internal::rotate_left< 1 >::value< 0, 3 > == 1 );
-   static_assert( internal::rotate_left< 1 >::value< 1, 3 > == 2 );
-   static_assert( internal::rotate_left< 1 >::value< 2, 3 > == 0 );
-
-   static_assert( internal::rotate_right< 1 >::value< 0, 3 > == 2 );
-   static_assert( internal::rotate_right< 1 >::value< 1, 3 > == 0 );
-   static_assert( internal::rotate_right< 1 >::value< 2, 3 > == 1 );
-
-   static_assert( internal::rotate_left< 2 >::value< 0, 5 > == 2 );
-   static_assert( internal::rotate_left< 2 >::value< 1, 5 > == 3 );
-   static_assert( internal::rotate_left< 2 >::value< 2, 5 > == 4 );
-   static_assert( internal::rotate_left< 2 >::value< 3, 5 > == 0 );
-   static_assert( internal::rotate_left< 2 >::value< 4, 5 > == 1 );
-
-   static_assert( internal::rotate_right< 2 >::value< 0, 5 > == 3 );
-   static_assert( internal::rotate_right< 2 >::value< 1, 5 > == 4 );
-   static_assert( internal::rotate_right< 2 >::value< 2, 5 > == 0 );
-   static_assert( internal::rotate_right< 2 >::value< 3, 5 > == 1 );
-   static_assert( internal::rotate_right< 2 >::value< 4, 5 > == 2 );
-
    struct foo
    {};
 
@@ -61,6 +35,9 @@ namespace TAO_PEGTL_NAMESPACE
 
    struct test_shuffle
    {
+      template< std::size_t S >
+      static constexpr std::size_t count = S;
+
       template< std::size_t I, std::size_t S >
       static constexpr std::size_t value = test_value< I, S >;
    };
@@ -146,7 +123,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Rule >
    struct test_shuffle_control
-      : shuffle_states< test_shuffled_control< Rule >, test_shuffle >
+      : shuffle_states_r< test_shuffle, test_shuffled_control, Rule >
    {};
 
    struct test_grammar

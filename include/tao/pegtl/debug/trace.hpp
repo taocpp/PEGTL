@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE
    bool generic_trace( ParseInput&& in, States&&... st )
    {
       trace_state< TraceTraits, std::decay_t< ParseInput > > tr( std::cerr, in );
-      return parse< Rule, Action, rewind_state_control< Control >::template type >( in, st..., tr );
+      return parse< Rule, Action, rewind_state_control_n< Control >::template type >( in, st..., tr );
    }
 
    template< typename Rule,
