@@ -46,19 +46,37 @@ namespace TAO_PEGTL_NAMESPACE
    using type_list_concat_t = typename type_list_concat< Ts... >::type;
 
    template< typename T, typename... Ts >
-   inline constexpr bool type_list_contains_v = ( std::is_same_v< T, Ts > || ... );
+   struct type_list_contains
+   {
+      static constexpr bool value = ( std::is_same_v< T, Ts > || ... );
+   };
 
    template< typename T, typename... Ts >
-   inline constexpr bool type_list_contains_v< T, type_list< Ts... > > = type_list_contains_v< T, Ts... >;
+   struct type_list_contains< T, type_list< Ts... > >
+   {
+      static constexpr bool value = type_list_contains< T, Ts... >::value;
+   };
 
    template< typename T, typename... Ts >
-   inline constexpr bool type_list_contains_v< T, type_list< type_list< Ts... > > > = internal::static_assert_dependent_false_v< T, Ts... >;
+   struct type_list_contains< T, type_list< type_list< Ts... > > >
+   {
+      static_assert( internal::dependent_false< T, Ts... > );
+   };
 
    template< typename... Ts, typename... Us >
-   inline constexpr bool type_list_contains_v< type_list< Ts... >, Us... > = internal::static_assert_dependent_false_v< Ts..., Us... >;
+   struct type_list_contains< type_list< Ts... >, Us... >
+   {
+      static_assert( internal::dependent_false< Ts..., Us... > );
+   };
 
    template< typename... Ts, typename... Us >
-   inline constexpr bool type_list_contains_v< type_list< Ts... >, type_list< type_list< Us... > > > = internal::static_assert_dependent_false_v< Ts..., Us... >;
+   struct type_list_contains< type_list< Ts... >, type_list< type_list< Us... > > >
+   {
+      static_assert( internal::dependent_false< Ts..., Us... > );
+   };
+
+   template< typename T, typename... Ts >
+   inline constexpr bool type_list_contains_v = type_list_contains< T, Ts... >::value;
 
    template< typename >
    struct is_type_list

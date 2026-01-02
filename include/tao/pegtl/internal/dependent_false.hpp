@@ -12,16 +12,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename... >
    inline constexpr bool dependent_false = false;
 
-   template< typename... Ts >
-   struct static_assert_dependent_false
-   {
-      static constexpr bool value = dependent_false< Ts... >;
-      static_assert( value );
-   };
-
-   template< typename... Ts >
-   inline constexpr bool static_assert_dependent_false_v = static_assert_dependent_false< Ts... >::value;
-
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
 // FCOV_EXCL_FILE

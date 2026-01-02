@@ -221,6 +221,7 @@ set(test_sources
   test_result.cpp
   test_setup.cpp
   text_position.cpp
+  type_list.cpp
   uint16_general.cpp
   uint32_general.cpp
   uint64_general.cpp
