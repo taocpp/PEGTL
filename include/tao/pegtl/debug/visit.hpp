@@ -55,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE
    using rule_list_t = typename internal::visit_list< empty_list, Grammar >::type;
 
    template< typename Grammar, typename Rule >
-   inline constexpr bool contains_v = type_list_contains< Rule, rule_list_t< Grammar > >::value;
+   inline constexpr bool contains_v = type_list_contains_v< Rule, rule_list_t< Grammar > >;
 
    template< typename Rule, template< typename... > class Func, typename... Args >
    void visit( Args&&... args )
