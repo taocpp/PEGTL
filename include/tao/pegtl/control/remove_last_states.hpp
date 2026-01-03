@@ -37,26 +37,26 @@ namespace TAO_PEGTL_NAMESPACE
    using remove_last_state_b = internal::shuffle_states< internal::remove_last_states< 1 >, Base >;
 
    template< template< typename... > class Control, typename Rule >
-   using remove_last_state_r = internal::shuffle_states< internal::remove_last_states< 1 >, Control< Rule > >;
+   using remove_last_state_r = remove_last_state_b< Control< Rule > >;
 
    template< template< typename... > class Control >
    struct remove_last_state_n
    {
       template< typename Rule >
-      using type = internal::shuffle_states< internal::remove_last_states< 1 >, Control< Rule > >;
+      using type = remove_last_state_r< Control, Rule >;
    };
 
    template< std::size_t N, typename Base >
    using remove_last_states_b = internal::shuffle_states< internal::remove_last_states< N >, Base >;
 
    template< std::size_t N, template< typename... > class Control, typename Rule >
-   using remove_last_states_r = internal::shuffle_states< internal::remove_last_states< N >, Control< Rule > >;
+   using remove_last_states_r = remove_last_states_b< N, Control< Rule > >;
 
    template< std::size_t N, template< typename... > class Control >
    struct remove_last_states_n
    {
       template< typename Rule >
-      using type = internal::shuffle_states< internal::remove_last_states< N >, Control< Rule > >;
+      using type = remove_last_states_r< N, Control, Rule >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

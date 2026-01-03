@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct rewind_control_n
    {
       template< typename Rule >
-      using type = internal::rewind_control< Control, Rule >;
+      using type = rewind_control_r< Control, Rule >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

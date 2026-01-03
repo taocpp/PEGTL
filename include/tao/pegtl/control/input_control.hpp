@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct input_control_n
    {
       template< typename Rule >
-      using type = internal::input_control< Control, Rule >;
+      using type = input_control_r< Control, Rule >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

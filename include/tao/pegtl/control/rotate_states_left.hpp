@@ -29,13 +29,13 @@ namespace TAO_PEGTL_NAMESPACE
    using rotate_states_left_b = internal::shuffle_states< internal::rotate_states_left< N >, Base >;
 
    template< std::size_t N, template< typename... > class Control, typename Rule >
-   using rotate_states_left_r = internal::shuffle_states< internal::rotate_states_left< N >, Control< Rule > >;
+   using rotate_states_left_r = rotate_states_left_b< N, Control< Rule > >;
 
    template< std::size_t N, template< typename... > class Control >
    struct rotate_states_left_n
    {
       template< typename Rule >
-      using type = internal::shuffle_states< internal::rotate_states_left< N >, Control< Rule > >;
+      using type = rotate_states_left_r< N, Control, Rule >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

@@ -15,13 +15,13 @@ namespace TAO_PEGTL_NAMESPACE
    using shuffle_states_b = internal::shuffle_states< Shuffle, Base >;
 
    template< typename Shuffle, template< typename... > class Control, typename Rule >
-   using shuffle_states_r = internal::shuffle_states< Shuffle, Control< Rule > >;
+   using shuffle_states_r = shuffle_states_b< Shuffle, Control< Rule > >;
 
    template< typename Shuffle, template< typename...> class Control >
    struct shuffle_states_n
    {
       template< typename Rule >
-      using type = internal::shuffle_states< Shuffle, Control< Rule > >;
+      using type = shuffle_states_r< Shuffle, Control, Rule >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

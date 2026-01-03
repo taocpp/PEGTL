@@ -22,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct rewind_state_control_n
    {
       template< typename Rule >
-      using type = rotate_states_right_b< 1, internal::rewind_state_control< Control, Rule > >;
+      using type = rewind_state_control_r< Control, Rule >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

@@ -28,13 +28,13 @@ namespace TAO_PEGTL_NAMESPACE
    using reverse_states_b = internal::shuffle_states< internal::reverse_states, Base >;
 
    template< template< typename... > class Control, typename Rule >
-   using reverse_states_r = internal::shuffle_states< internal::reverse_states, Control< Rule > >;
+   using reverse_states_r = reverse_states_b< Control< Rule > >;
 
    template< template< typename... > class Control >
    struct reverse_states_n
    {
       template< typename Rule >
-      using type = internal::shuffle_states< internal::reverse_states, Control< Rule > >;
+      using type = reverse_states_r< Control, Rule >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

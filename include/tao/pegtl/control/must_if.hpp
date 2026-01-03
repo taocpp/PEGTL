@@ -27,7 +27,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct must_if_n
    {
       template< typename Rule >
-      using type = internal::must_if< Errors, RequireMessage, Control, Rule >;
+      using type = must_if_r< Errors, RequireMessage, Control, Rule >;
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE

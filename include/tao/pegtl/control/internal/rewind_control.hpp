@@ -70,7 +70,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return base::template guard< A, M, Action, Control >( in, st... );
          }
          else {
-            return internal::rewind_control_guard( base::template guard< A, M, Action, Control >( in, st... ), internal::rewind_control_wrapper< RewindControl< Rule > >(), std::tie( in, st... ) );
+            return internal::rewind_control_guard( base::template guard< A, M, Action, Control >( in, st... ), internal::rewind_control_wrapper< RewindControl< Rule > >(), std::tie( static_cast< const ParseInput& >( in ), st... ) );
          }
       }
    };
