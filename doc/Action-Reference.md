@@ -91,6 +91,28 @@ By [default](Introduction.md#namespace-structure) all action classes and class t
 
 The difference between `add_guard` and `add_state` is that `add_guard` does not add the newly constructed object to the states while parsing the rule it is attached to.
 
+```c++
+template< typename AddGuard >
+struct add_guard
+   : maybe_nothing
+{
+   template< typename Rule,
+             apply_mode A,
+             rewind_mode M,
+             template< typename... >
+             class Action,
+             template< typename... >
+             class Control,
+             typename ParseInput,
+             typename... States >
+   [[nodiscard]] static bool match( ParseInput& in, States&&... st );
+
+   template< typename ParseInput,
+             typename... States >
+   static void success( const ParseInput& in, AddGuard& g, States&&... st );
+};
+```
+
 ###### `add_state< S >`
 
 * Creates an object of type `S` before parsing the rule `R` it is attached to.
@@ -104,6 +126,13 @@ The difference between `add_guard` and `add_state` is that `add_guard` does not 
 
 The difference between `add_guard` and `add_state` is that `add_state` adds the newly constructed object as first state while parsing the rule it is attached to.
 
+```c++
+template< typename AddState >
+struct add_state
+   : maybe_nothing
+{ ... };
+```
+
 ###### `change_action< A >`
 
 * Parses the rule it is attached to substituting `A` as current action.
@@ -112,6 +141,13 @@ The difference between `add_guard` and `add_state` is that `add_state` adds the 
 * Included via `include/tao/pegtl/action/change_action.hpp`.
 * This action implements only a `match()` function and therefore:
 * Publicly derives from [`maybe_nothing`](#maybe-nothing).
+
+```c++
+template< template< typename... > class NewAction >
+struct change_action
+   : maybe_nothing
+{ ... };
+```
 
 ###### `change_action_and_state< A, S >`
 
@@ -127,6 +163,13 @@ The difference between `add_guard` and `add_state` is that `add_state` adds the 
 * This action implements only a `match()` function and therefore:
 * Publicly derives from [`maybe_nothing`](#maybe-nothing).
 
+```c++
+template< template< typename... > class NewAction, typename NewState >
+struct change_action_and_state
+   : maybe_nothing
+{ ... };
+```
+
 ###### `change_action_and_states< A, S... >`
 
 * Combines [`change_action`](#change_action-a-) and [`change_states`](#change_states-s-) into a single action.
@@ -141,6 +184,13 @@ The difference between `add_guard` and `add_state` is that `add_state` adds the 
 * This action implements only a `match()` function and therefore:
 * Publicly derives from [`maybe_nothing`](#maybe-nothing).
 
+```c++
+template< template< typename... > class NewAction, typename... NewStates >
+struct change_action_and_states
+   : maybe_nothing
+{ ... };
+```
+
 ###### `change_control< C >`
 
 * Parses the rule it is attached to substituting `C` as current control.
@@ -148,6 +198,13 @@ The difference between `add_guard` and `add_state` is that `add_state` adds the 
 * Included via `include/tao/pegtl/action/change_control.hpp`.
 * This action implements only a `match()` function and therefore:
 * Publicly derives from [`maybe_nothing`](#maybe-nothing).
+
+```c++
+template< template< typename... > class NewControl >
+struct change_control
+   : maybe_nothing
+{ ... };
+```
 
 ###### `change_state< S >`
 
@@ -160,6 +217,13 @@ The difference between `add_guard` and `add_state` is that `add_state` adds the 
 * This action implements only a `match()` function and therefore:
 * Publicly derives from [`maybe_nothing`](#maybe-nothing).
 
+```c++
+template< typename NewState >
+struct change_state
+   : maybe_nothing
+{ ... };
+```
+
 ###### `change_states< S... >`
 
 * Creates objects of types `S...` before parsing the rule `R` it is attached to.
@@ -171,14 +235,48 @@ The difference between `add_guard` and `add_state` is that `add_state` adds the 
 * This action implements only a `match()` function and therefore:
 * Publicly derives from [`maybe_nothing`](#maybe-nothing).
 
+```c++
+template< typename... NewStates >
+struct change_states
+   : maybe_nothing
+{ ... };
+```
+
 ###### `control_action`
 
 * Adds the `start()`, `success()` and `failure()` control functions to the action.
-* Implements do-nothing default versionf of these functions.
+* Implements do-nothing default versions of these functions.
 * Optionally adds the `unwind()` control function to the action.
 * Included via `include/tao/pegtl/action/control_action.hpp`.
 * This action implements only a `match()` function and therefore:
 * Publicly derives from [`maybe_nothing`](#maybe-nothing).
+
+```c++
+struct control_action
+   : maybe_nothing
+{ ... };
+```
+
+When using this action, all specializations `my_control< Rule >` that use `control_action` as base class have to implement the following member functions.
+
+```c++
+   template< typename ParseInput, typename... States >
+   static void start( const ParseInput&, States&&... );
+
+   template< typename ParseInput, typename... States >
+   static void success( const ParseInput&, States&&... );
+
+   template< typename ParseInput, typename... States >
+   static void failure( const ParseInput&, States&&... );
+```
+
+The `unwind()` function is optional.
+As in other cases where the PEGTL auto-detects the presence of `unwind()` its *absence* will lead to a micro-optimization (by omitting a guard object or a try-catch block).
+
+```c++
+   template< typename ParseInput, typename... States >
+   static void unwind( const ParseInput&, States&&... );
+```
 
 ###### `disable_action`
 
@@ -189,6 +287,12 @@ The difference between `add_guard` and `add_state` is that `add_state` adds the 
 * This action implements only a `match()` function and therefore:
 * Publicly derives from [`maybe_nothing`](#maybe-nothing).
 
+```c++
+struct disable_action
+   : maybe_nothing
+{ ... };
+```
+
 ###### `enable_action`
 
 * Parses the rule it is attached to with actions enabled:
@@ -198,6 +302,12 @@ The difference between `add_guard` and `add_state` is that `add_state` adds the 
 * This action implements only a `match()` function and therefore:
 * Publicly derives from [`maybe_nothing`](#maybe-nothing).
 
+```c++
+struct enable_action
+   : maybe_nothing
+{ ... };
+```
+
 ###### `match_typed_state< T >`
 
 * Parses the rule it is attached to with only the state of type `T`.
@@ -206,6 +316,13 @@ The difference between `add_guard` and `add_state` is that `add_state` adds the 
 * Publicly derives from [`maybe_nothing`](#maybe-nothing).
 * Related to the [control](Control-and-Debug.md) class [`apply_typed_state`](Control-Reference.md#apply_typed_state).
 
+```c++
+template< typename T >
+struct match_typed_state
+   : maybe_nothing
+{ ... };
+```
+
 ###### `maybe_nothing`
 
 * A type alias for `tao::pegtl::nothing< void >`.
@@ -213,6 +330,10 @@ The difference between `add_guard` and `add_state` is that `add_state` adds the 
 
 This type (alias) serves as a tag type in two strongly related roles.
 When `my_action< void >` has `tao::pegtl::nothing< void >` aka. `maybe_nothing` as public base class then the PEGTL will `static_assert` the presence of a callable `apply()` or `apply0()` function for all action class template specializations that do not also have `maybe_nothing` as public base class.
+
+```c++
+using maybe_nothing = nothing< void >;
+```
 
 ###### `nothing< R >`
 
@@ -232,7 +353,7 @@ This enable the static assert explained with [`maybe_nothing`](#maybe_nothing).
 ```c++
 template< typename Rule >
 struct my_action
-   : tao::pegtl::nothing< Rule >
+   : nothing< Rule >
 {};
 
 // ... (partial) specialisations of my_action ...
@@ -246,6 +367,11 @@ struct my_action
 When an action (specialization for a rule) has `require_apply` as public base class the the PEGTL statically asserts the presence of a callable `apply()` function in the action.
 This check is performed independent of any presence of absence of `maybe_nothing`.
 
+```c++
+struct require_apply
+{};
+```
+
 ###### `require_apply0`
 
 * An empty tag class related to actions, not an action itself.
@@ -253,6 +379,11 @@ This check is performed independent of any presence of absence of `maybe_nothing
 
 When an action (specialization for a rule) has `require_apply0` as public base class the the PEGTL statically asserts the presence of a callable `apply0()` function in the action.
 This check is performed independent of any presence or absence of `maybe_nothing`.
+
+```c++
+struct require_apply0
+{};
+```
 
 
 ## Index
