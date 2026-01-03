@@ -81,7 +81,6 @@ All noteworthy changes since the first public release.
   * Added new generic rule [`combine`](Rule-Reference.md#combine-r-l-).
   * Added new generic rule [`invert`](Rule-Reference.md#invert-r-).
   * Added new generic rule [`function`](Rule-Reference.md#function).
-  * Added new buffer rule [`is_buffer`](Rule-Reference.md#is_buffer).
   * Added new convenience rule [`partial`](Rule-Reference.md#partial-r-).
   * Added new convenience rule [`sep`](Rule-Reference.md#sep-s-r-) (replaces `separated_seq` from contrib).
   * Added new convenience rule [`sep_pad`](Rule-Reference.md#sep_pad-s-p-r-).
@@ -100,7 +99,9 @@ All noteworthy changes since the first public release.
   * Optimized `utf8::string` by expanding `char32_t` code points to UTF-8 sequences at compile time.
   * Refactored the implementation of `one`, `range`, `ranges`, `not_one` and `not_range`.
   * Added new rules for enum types to the [binary rules](Rule-Reference.md#binary)
-  * Added new rules that operate on [object members](Rule-Reference.md#member) instead of objects.
+  * Added new rules that operate on [object members](Rule-Reference.md#member).
+  * Added new stream parsing rule [`is_stream`](Rule-Reference.md#is_stream).
+  * Added new stream parsing rule [`prefetch`](Rule-Reference.md#prefetch-num-).
 * Added new customization point for error messages.  -- TODO!
 * Added optional source line output for the tracer.  -- TODO?
 * Other

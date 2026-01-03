@@ -159,6 +159,7 @@
   * [Rules](Stream-Parsing.md#rules)
     * [`discard`](Stream-Parsing.md#discard)
     * [`is_stream`](Stream-Parsing.md#is_stream)
+    * [`prefetch< Num >`](Stream-Parsing.md#prefetch-num-)
     * [`require< Num >`](Stream-Parsing.md#require-num-)
   * [Actions](Stream-Parsing.md#actions)
     * [`discard_input`](Stream-Parsing.md#discard_input)

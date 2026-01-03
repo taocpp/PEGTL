@@ -214,6 +214,7 @@ set(test_sources
   stream_iterator_input.cpp
   stream_rule_discard.cpp
   stream_rule_is_stream.cpp
+  stream_rule_prefetch.cpp
   stream_rule_require.cpp
   stream_stream_input_base.cpp
   stream_text_stream_input.cpp

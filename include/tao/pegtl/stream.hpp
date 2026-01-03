@@ -10,6 +10,7 @@
 
 #include "stream/discard.hpp"
 #include "stream/is_stream.hpp"
+#include "stream/prefetch.hpp"
 #include "stream/require.hpp"
 
 #include "stream/analyze_traits.hpp"

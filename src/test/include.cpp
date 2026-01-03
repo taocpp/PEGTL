@@ -76,6 +76,7 @@
 #include <tao/pegtl/stream/is_stream.hpp>
 #include <tao/pegtl/stream/istream_reader.hpp>
 #include <tao/pegtl/stream/other_buffer.hpp>
+#include <tao/pegtl/stream/prefetch.hpp>
 #include <tao/pegtl/stream/require.hpp>
 #include <tao/pegtl/stream/stream_input_base.hpp>
 #include <tao/pegtl/stream/stream_input.hpp>

@@ -11,6 +11,7 @@
 
 #include "discard.hpp"
 #include "is_stream.hpp"
+#include "prefetch.hpp"
 #include "require.hpp"
 
 #include "../debug/analyze_traits.hpp"
@@ -27,8 +28,13 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits<>
    {};
 
-   template< typename Name, std::size_t Amount >
-   struct analyze_traits< Name, require< Amount > >
+   template< typename Name, std::size_t Num >
+   struct analyze_traits< Name, prefetch< Num > >
+      : analyze_opt_traits<>
+   {};
+
+   template< typename Name, std::size_t Num >
+   struct analyze_traits< Name, require< Num > >
       : analyze_opt_traits<>
    {};
 
