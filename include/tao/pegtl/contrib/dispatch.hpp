@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule >
       struct tuple_to_action< Rule, std::tuple<> >
       {
-         using type = nothing< Rule >;  // TODO: Give direct access to this default?
+         using type = nothing< Rule >;
       };
 
       template< typename Rule, template< typename, typename... > class Clause, typename Action, typename... Rules >
@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename... Clauses >
       struct tuple_to_action< Rule, std::tuple< Clauses... > >
       {
-         static_assert( dependent_false< Rule, Clauses... >, "More than one action clause applies!" );  // TODO: Should we error out or apply the first or apply all? User choice?
+         static_assert( dependent_false< Rule, Clauses... >, "More than one action clause applies!" );  // TODO: Error? Apply first? Apply all? User choice?
       };
 
       template< typename Rule, typename Clause >

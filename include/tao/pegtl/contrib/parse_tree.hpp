@@ -320,7 +320,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
       using selector_t = typename selector< T >::type;
 
       template< typename Rule, typename Collection >
-      using select_tuple = std::conditional_t< Collection::template contains< Rule >, std::tuple< Collection >, std::tuple<> >;
+      using select_tuple = std::conditional_t< Collection::template enable< Rule >, std::tuple< Collection >, std::tuple<> >;
 
    }  // namespace internal
 
@@ -337,7 +337,7 @@ namespace TAO_PEGTL_NAMESPACE::parse_tree
          using type = Base;
 
          template< typename Rule >
-         static constexpr bool contains = ( std::is_same_v< Rule, Rules > || ... );
+         static constexpr bool enable = ( std::is_same_v< Rule, Rules > || ... );
       };
    };
 
