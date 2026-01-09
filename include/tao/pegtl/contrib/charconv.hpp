@@ -41,13 +41,13 @@ namespace TAO_PEGTL_NAMESPACE
                    typename Integral >
          [[nodiscard]] static bool match( ParseInput& in, Integral& out )
          {
-            static_assert( Base >= 0 );
+            static_assert( Base != 1 );
             static_assert( std::is_integral_v< Integral > );
 
             const std::size_t size = in.size( 2 + ( sizeof( Integral ) * 8 ) );
 
             if( size > 0 ) {
-               const auto result = std::from_chars( in.current(), in.current( size ), out, Base );
+               const auto result = std::from_chars( in.current(), in.current( size ), out, int( Base ) );
                switch( result.ec ) {
                   case std::errc::invalid_argument:
                      return false;
