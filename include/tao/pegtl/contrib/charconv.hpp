@@ -5,7 +5,9 @@
 #ifndef TAO_PEGTL_CONTRIB_CHARCONV_HPP
 #define TAO_PEGTL_CONTRIB_CHARCONV_HPP
 
+#include <cassert>
 #include <charconv>
+#include <cstdint>
 #include <system_error>
 #include <type_traits>
 
@@ -23,7 +25,7 @@ namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
-      template< int Base >
+      template< std::uint8_t Base >
       struct charconv
       {
          using rule_t = charconv;
@@ -39,10 +41,12 @@ namespace TAO_PEGTL_NAMESPACE
                    typename Integral >
          [[nodiscard]] static bool match( ParseInput& in, Integral& out )
          {
+            static_assert( Base >= 0 );
             static_assert( std::is_integral_v< Integral > );
 
-            // TODO: Better limit for base other than 10.
-            if( const std::size_t size = in.size( 3 + 3 * sizeof( Integral ) ); size > 0 ) {
+            const std::size_t size = in.size( 2 + ( sizeof( Integral ) * 8 ) );
+
+            if( size > 0 ) {
                const auto result = std::from_chars( in.current(), in.current( size ), out, Base );
                switch( result.ec ) {
                   case std::errc::invalid_argument:
@@ -58,7 +62,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
-      template< int Base >
+      template< std::uint8_t Base >
       inline constexpr bool enable_control< charconv< Base > > = false;
 
    }  // namespace internal
@@ -67,7 +71,7 @@ namespace TAO_PEGTL_NAMESPACE
       : internal::charconv< 10 >
    {};
 
-   template< typename Name, int Base >
+   template< typename Name, std::uint8_t Base >
    struct analyze_traits< Name, internal::charconv< Base > >
       : analyze_any_traits<>
    {};
