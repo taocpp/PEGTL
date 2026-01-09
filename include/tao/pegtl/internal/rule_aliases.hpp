@@ -53,25 +53,5 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
-#if defined( __cpp_exceptions )
-
-#include "if_must.hpp"
-#include "if_then_else.hpp"
-#include "must.hpp"
-
-namespace TAO_PEGTL_NAMESPACE::internal
-{
-   template< typename Cond, typename Then, typename Else >
-   using if_must_else = if_then_else< Cond, must< Then >, must< Else > >;
-
-   template< typename Rule, typename Sep >
-   using list_must = seq< Rule, star< Sep, must< Rule > > >;
-
-   template< typename Cond, typename... Rules >
-   using star_must = star< if_must< false, Cond, Rules... > >;
-
-}  // namespace TAO_PEGTL_NAMESPACE::internal
-
-#endif
 // FCOV_EXCL_FILE
 #endif

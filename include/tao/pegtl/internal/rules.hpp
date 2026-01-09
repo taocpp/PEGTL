@@ -63,6 +63,7 @@
 #if defined( __cpp_exceptions )
 #include "if_must.hpp"
 #include "must.hpp"
+#include "must_aliases.hpp"
 #include "raise.hpp"
 #include "try_catch_raise_nested.hpp"
 #include "try_catch_return_false.hpp"
