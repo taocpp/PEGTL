@@ -192,12 +192,12 @@ The PEGTL comes with [dozens of rules](Rule-Reference.md#index) for convenience 
 
 ## Essential Definitions
 
-* A (parsing) [**rule**](Rules-and-Grammars.md) is a class (or a class template) with a static `match()` function (and some type aliases).
-* A [**grammar**](Rules-and-Grammars.md) is a set of one or more related rules, with one (or more) designated top-level rules as entry-point(s).
-* **Input data** is a sequence of objects (most frequently `char`) that is intended to be parsed.
+* A (parsing) [**rule**](Rules-and-Grammars.md) is a class that models a [(production) rule](https://en.wikipedia.org/wiki/Production_(computer_science) of a [formal grammar](https://en.wikipedia.org/wiki/Formal_grammar), or a [parser combinator](https://en.wikipedia.org/wiki/Parser_combinator).
+* A [**grammar**](Rules-and-Grammars.md) is a set of one or more related (parsing) rules, with one (or more) designated top-level rules as entry-point(s).
+* **Input data** is a sequence of objects - often of type `char` - that is intended to be parsed.
 * An [**input**](Inputs-and-Parsing.md) is a class that adheres to an informal input interface and represents some input data.
-* A (semantic) [**action**](Actions-and-States.md) is a class template with a static `apply()` or `apply0()` function -- and/or, for advanced use cases, a static `match()` function.
-* A **control** is a class template that adheres to an informal control interface consisting of static functions.
+* A (semantic) [**action**](Actions-and-States.md) is a class with a static `apply()` or `apply0()` function -- and/or, for advanced use cases, a static `match()` function.
+* A **control** is a class that adheres to an informal control interface and is in control of important behind-the-scenes details of a parsing run.
 * The [**states**](Actions-and-States.md) are user-defined objects that are passed to all rules, actions and control functions.
 * A [**parsing run**](Inputs-and-Parsing.md) is everything that happens during a call to `tao::pegtl::parse()` with a grammar and, optionally, an action, a control and states.
 * A [**nested parsing**](Inputs-and-Parsing.md) run similarly refers to a call to `tao::pegtl::parse_nested()` during a parsing run (usually from an action).

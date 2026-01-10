@@ -107,6 +107,8 @@ All of the above inputs are also either
 - plain inputs whose position information is "simple", most often a count from the start of the input data, or
 - `text` inputs whose position information includes a line and column number based on the `Eol` parameter explained below.
 
+In addition there is the [`action_input`](Actions-and-States.md#action-input) which is closely associated with the inputs listed here but considered distinct because it can not be used as input for a parsing run.
+
 ### Parameters
 
 The `typename Eol` template parameter determines which (sequence of) object(s) constitute an end-of-line.
@@ -324,8 +326,6 @@ The basic interface implemented by all inputs.
 
 ```c++
    using namespace tao::pegtl;
-
-   // Type aliases:
 
    using data_t = char ... or something else;
    using error_position_t = ...one of the position classes;
