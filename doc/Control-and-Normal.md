@@ -43,11 +43,11 @@ The control has functions that are called on many occasions during a parsing run
 These control functionality can be customized for multiple reasons, most prominently to
 
 * obtain some debug or trace information from a parsing run, or
-* customize and/or extend some behaviour of a parsing run.
+* customize and/or extend some behavior of a parsing run.
 
-Examples of customized behaviour are how exceptions are thrown and which type they have, and how to obtain a rule-dependent error message for an exception.
+Examples of customized behavior are how exceptions are thrown and which type they have, and how to obtain a rule-dependent error message for an exception.
 
-The normal PEGTL behaviour is implemented in the [normal control](#normal-control).
+The normal PEGTL behavior is implemented in the [normal control](#normal-control).
 Additional control adapters are documented in the [control reference](Control-Reference.md).
 
 
@@ -203,7 +203,7 @@ A minimal implementation would be to forward the call to `tao::pegtl::match()` f
 
 The `normal` control is the default control of the PEGTL.
 
-It implements all required control functions in a way that provides for "normal" parsing behaviour.
+It implements all required control functions in a way that provides for "normal" parsing behavior.
 It also adds two features, the [`enable`](#enable) variable and the possibility to [delegate matching to an action](Actions-and-States.md#match).
 The optional `unwind()` function is **not** implemented.
 

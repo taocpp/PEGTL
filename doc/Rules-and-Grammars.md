@@ -36,7 +36,7 @@ The top-level rule is *also* sometimes called a grammar.
 
 Some grammars have more than one top-level rule; in theory any rule can be used as top-level rule -- the rule that drives a parsing run -- which can be useful to individually test the rules of a grammar.
 
-The rules provided with the PEGTL are either classes with fixed parsing behaviour or paremeterizable class templates.
+The rules provided with the PEGTL are either classes with fixed parsing behavior or paremeterizable class templates.
 Rules that take other rules as parameters are also called (parsing) combinator rules, or *combinators*.
 These rules correspond to non-terminals in [formal grammars](https://en.wikipedia.org/Formal_grammar).
 Rules without template parameters, or only with template parameters that are not also rules, are also called *atomic* rules.
@@ -61,7 +61,7 @@ The usual way to create a new rule is to define a `struct` that inherits from th
 struct sign : tao::pegtl::one< '+', '-' > {};
 ```
 
-Defining new types and inheriting the desired behaviour instead of using type aliases is preferred for two main reasons.
+Defining new types and inheriting the desired behavior instead of using type aliases is preferred for two main reasons.
 
 1. Some debug facilities will ouput the (shorter) type name rather than the (longer) expansion.
 2. Using new types makes it possible to attach different [actions](Actions-and-States.md) to "different names of the same rule".
@@ -296,7 +296,7 @@ struct rule_with_complex_match
 ```
 
 The apply mode can be `action` or `nothing` and determines whether action application is enabled or disabled.
-Usually only the control class needs to adapt its behaviour to the current apply mode.
+Usually only the control class needs to adapt its behavior to the current apply mode.
 During a parsing run the apply mode can be changed e.g. with the [`enable`](Rule-Reference.md#enable-r-) and [`disable`](Rule-Reference.md#disable-r-) rules.
 
 The rewind mode can be `required` or `optional`.
@@ -614,7 +614,7 @@ second line
 
 ## Rule Comparisons
 
-The following tables compare groups of related combinators by showing their matching behaviours on some sample inputs.
+The following tables compare groups of related combinators by showing their matching behaviors on some sample inputs.
 
 A quoted string indicates that the rule matched on the input, and shows which part of the input was consumed.
 The unquoted letter '**f**' stands for a "local failure" where the rule returns `false`.

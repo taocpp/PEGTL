@@ -195,7 +195,7 @@ See [`parse_tree.cpp`](https://github.com/taocpp/PEGTL/blob/main/src/pegtl/parse
 
 ## Custom Node Class
 
-For more control over how data is stored/handled in the nodes, a custom node class can be utilised.
+For more control over how data is stored/handled in the nodes, a custom node class can be utilized.
 The type of node is passed as an additional template parameter to the parse tree `parse()` function.
 
 ```c++

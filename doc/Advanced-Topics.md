@@ -137,8 +137,8 @@ where the base class is chosen as follows.
 
 1. `analyze_any_traits<>` is used for rules that always consume when they succeed.
 2. `analyze_opt_traits<>` is used for rules that (can also) succeed without consuming.
-3. `analyze_seq_traits<>` is used for rules that, regarding their match behaviour, are equivalent to `seq<>`.
-4. `analyze_sor_traits<>` is used for rules that, regarding their match behaviour, are equivalent to `sor<>`.
+3. `analyze_seq_traits<>` is used for rules that, regarding their match behavior, are equivalent to `seq<>`.
+4. `analyze_sor_traits<>` is used for rules that, regarding their match behavior, are equivalent to `sor<>`.
 
 If `my_rule` has rules, that it calls upon as sub-rules, as template parameters, these need to be passed as template parameters to the chosen base class.
 
@@ -179,7 +179,7 @@ Notes on performance characteristics and optimisation possibilities.
 
 ### Backtracking
 
-For performance reasons a grammar should be designed to minimise backtracking.
+For performance reasons a grammar should be designed to minimize backtracking.
 We will start with a simple example.
 
 ```c++
@@ -204,7 +204,7 @@ It shows how to eliminate both left-recursion and superfluous backtracking with 
 
 ### Whitespace
 
-Grammars should be designed to minimise redundant multiple parsing of the same whitespace, comments or other padding.
+Grammars should be designed to minimize redundant multiple parsing of the same whitespace, comments or other padding.
 
 One good way to achieve this is to choose a strategy for whitespace handling and then consistently stick to it.
 For example the JSON grammar in `include/tao/pegtl/contrib/json.hpp` consistently has every rule for a "token" consume any following whitespace via the `ws` rule, too.
@@ -213,13 +213,13 @@ That way every rule can assume to start matching some "real" input since any whi
 ### Regarding `at` and `one`
 
 The `at<>`-rule never consumes input, and therefore always uses an input-marker to rewind the input back to where it started, regardless of the match-result.
-In the context of optimising our [JSON library](https://github.com/taocpp/json), we noticed that the combination `at< one< ... > >` could be combined into an optimised `at_one< ... >` rule:
+In the context of optimising our [JSON library](https://github.com/taocpp/json), we noticed that the combination `at< one< ... > >` could be combined into an optimized `at_one< ... >` rule:
 Instead of `one< ... >` advancing the input, and `at< one< ... > >` rewinding, the combined rule would omit both the advancing and the rewinding.
 
-Put to the test, the optimised `at_one< '"' >` rule did not show any performance advantage over `at< one< '"' > >`, at least with `-O3`.
+Put to the test, the optimized `at_one< '"' >` rule did not show any performance advantage over `at< one< '"' > >`, at least with `-O3`.
 Presumably the compiler was smart enough to perform the optimisation by itself.
 
-However with `-O0`, the optimised `at_one< '"' >` was faster by 5-10% in a [JSON library](https://github.com/taocpp/json) micro-benchmark.
+However with `-O0`, the optimized `at_one< '"' >` was faster by 5-10% in a [JSON library](https://github.com/taocpp/json) micro-benchmark.
 As the PEGTL should only be used with optimizations enabled, we removed the `at_one<>` rule, as we try to reduce the number of rules that don't provide a clear benefit.
 
 We still need to test whether the compiler manages to perform the same optimisation in more complex cases.

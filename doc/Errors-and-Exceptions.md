@@ -25,7 +25,7 @@ Since an exception, by default, aborts a parsing run -- hence the term "global f
 
 On the other hand a local failure will frequently lead to back-tracking, i.e. the attempt to match a different rule at the same position in the input, wherefore rules that were previously attempted at the same position must rewind back to where they started in preparation of the next attempt.
 
-Note that in some cases it is not necessary to actually rewind on local failure, see the description of the [rewind_mode](Rules-and-Grammars.md#modes) in the section on [how to implement custom rules](Rules-and-Grammars.md#creating-new-rules), and that the PEGTL attempts to minimise superfluous rewinding by statically detecting most of these cases.
+Note that in some cases it is not necessary to actually rewind on local failure, see the description of the [rewind_mode](Rules-and-Grammars.md#modes) in the section on [how to implement custom rules](Rules-and-Grammars.md#creating-new-rules), and that the PEGTL attempts to minimize superfluous rewinding by statically detecting most of these cases.
 
 
 
@@ -149,16 +149,16 @@ The `must<>` rule is equivalent to `seq<>` in that it attempts to match all sub-
 Global failures can also be unconditionally provoked with the `raise<>` grammar rule, which is more flexible since the template argument can be any type, not just a parsing rule.
 It should be mentioned that `must< R >` is semantically equivalent to `sor< R, raise< R > >`, but more efficient.
 
-In any case, the task of actually throwing an exception is delegated to the [control class'](Control-and-Debug.md) `raise()`.
+In any case, the task of actually throwing an exception is delegated to the [control class'](Control-and-Normal.md) `raise()`.
 The control class' `raise()` method will generate a default message for the `parse_error` that will be thrown.
 The default message can be overwritten by giving the rule `R` a static member variable that contains a different error message.
 
-Note that rules and actions can throw exceptions directly, meaning those are not generated from the [control class'](Control-and-Debug.md) `raise()`.
+Note that rules and actions can throw exceptions directly, meaning those are not generated from the [control class'](Control-and-Normal.md) `raise()`.
 
 ### Non-Intrusive Local to Global Failure
 
 If a grammar does not contain any `must<>` rule(s) (or `raise<>`, `raise_message<>`, `if_must<>`, ...), one can still convert a local failure for a rule into a global failure via `must_if<>`.
-This helper allows one to create a [control class'](Control-and-Debug.md) and provide custom error messages for global failures.
+This helper allows one to create a [control class'](Control-and-Normal.md) and provide custom error messages for global failures.
 If an error message is provided for a rule that would normally return a local failure, it is automatically converted to a global failure.
 See [Custom Exception Messages](#custom-exception-messages) for more information.
 
@@ -245,8 +245,8 @@ One option is to add a static member variable to the rule that provides a custom
 For your convenience, there is a `raise_message<>` rule and the corresponding `TAO_PEGTL_RAISE_MESSAGE()` macro to simplify this.
 For an example of these customization points, see `src/pegtl/error_messages_2.hpp` and `src/pegtl/error_messages_3.hpp`.
 
-If the above is not sufficient, you can provide a customised error messages for all `must<>` error points using the `must_if<>` helper.
-For an example of this method see `src/pegtl/json_errors.hpp`, where all errors that might occur in the supplied JSON grammar are customised like this:
+If the above is not sufficient, you can provide a customized error messages for all `must<>` error points using the `must_if<>` helper.
+For an example of this method see `src/pegtl/json_errors.hpp`, where all errors that might occur in the supplied JSON grammar are customized like this:
 
 ```c++
 template< typename > inline constexpr const char* error_message = nullptr;
@@ -281,11 +281,11 @@ There is a second parameter for the base control class, which defaults to `tao::
 Since `raise()` is only instantiated for those rules for which `must<>` could trigger an exception, it is sufficient to provide specialisations of the error message string for those rules.
 Furthermore, there will be a compile-time error (i.e. a `static_assert`) for all rules for which the specialisation was forgotten although `raise()` could be called.
 
-The [control class](Control-and-Debug.md) provided by `must_if<>` also turns, by default, local failures into global failure if an error message is provided, i.e. if the error message is not `nullptr`.
+The [control class](Control-and-Normal.md) provided by `must_if<>` also turns, by default, local failures into global failure if an error message is provided, i.e. if the error message is not `nullptr`.
 This means that one can provide additional points in the grammar where a global failure is triggered, even when the grammar contains no `must<>` error points.
 
 The above feature also means that a rule which is used both with and without `must<>`, one would not only provide a custom error message for the location where the rule is failing within a `must<>`-context, but local errors in other contexts are implicitly turned into global error.
-If this behaviour is not intended, one can disable the "turn local to global failure" feature by setting `raise_on_failure` to `false` in the wrapper class:
+If this behavior is not intended, one can disable the "turn local to global failure" feature by setting `raise_on_failure` to `false` in the wrapper class:
 
 ```c++
 struct error

@@ -16,7 +16,7 @@ The actions not considered part of the core library are [documented here](TODO).
 Only `include/tao/pegtl/normal.hpp`, which defines `normal`, is automatically included with `<tao/pegtl.hpp>`.
 For all other controls the appropriate headers from `include/tao/pegtl/control/` need to be included manually.
 
-The [`normal`](#normal) control is the only one that implements the control functionality -- all other controls are adapters that modify the behaviour of another control.
+The [`normal`](#normal) control is the only one that implements the control functionality -- all other controls are adapters that modify the behavior of another control.
 
 The control adapters are made available through two or three type aliases.
 The alias `control_adapter_n< Control >::template type` is itself a control and can be used as `Control` template parameter to [`parse()`](Inputs-and-Parsing.md#parse-function).
@@ -146,7 +146,7 @@ Note that, unlike for normal control classes, if `ParseInput< Rule >::enable == 
 A control adapter that provides a non-intrusive way to selectively make rules behave "as if" they were inside of a [`must`](Rule-Reference.md#must-r-) rule.
 
 * Uses custom error messages for `raise()` and `raise_nested()`.
-* Uses custom error messages to select rules for `must`-like behaviour.
+* Uses custom error messages to select rules for `must`-like behavior.
 * Can enforce custom error message to all calls to `raise()` and `raise_nested()`.
 * Modifies `failure()`, `raise()` and `raise_nested()`.
 * All other control functions are taken from the adapted control.
@@ -198,11 +198,11 @@ This case is triggered when `T` is not a parsing rule in the grammar or when `T`
 
 ###### `normal`
 
-The [control](Control-and-Debug.md) class (template) `normal` is the control for normal PEGTL behaviour.
+The [control](Control-and-Normal.md) class (template) `normal` is the control for normal PEGTL behavior.
 
-It is the only control that implements the control functionality -- all other controls are adapters that modify the behaviour of another control.
+It is the only control that implements the control functionality -- all other controls are adapters that modify the behavior of another control.
 
-It is also the default [control](Control-and-Debug.md) for the [`parse()`](Inputs-and-Parsing.md#parse-funciton) and [`parse_nested()`](Inputs-and-Parsing.md#nested-parsing) functions.
+It is also the default [control](Control-and-Normal.md) for the [`parse()`](Inputs-and-Parsing.md#parse-funciton) and [`parse_nested()`](Inputs-and-Parsing.md#nested-parsing) functions.
 
 ###### `remove_first_state`
 

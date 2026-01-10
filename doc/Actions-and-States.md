@@ -38,7 +38,7 @@ Actions are functions that are called during the parsing run whenever the rule t
 When an action is thus *applied*, the corresponding function receives the *states*, an arbitrary list of (user-defined) objects, as arguments.
 
 This is the primary role of actions and the most prevalent of their use cases.
-A further possibility is for an action to completely [change the matching behaviour](#match) of the rule they are attached to.
+A further possibility is for an action to completely [change the matching behavior](#match) of the rule they are attached to.
 Most of this document focuses on the primary role.
 
 Actions are implemented as static member functions called `apply()` or `apply0()` of specializations of custom class templates.
@@ -410,7 +410,7 @@ If no such constructor exists, the new object is default constructed.
 If the implicit [`seq`](Rule-Reference.md#seq-r-) of the sub-rules succeeds, then, by default, a member function named `success()` is called on this "new" object, receiving the same arguments as the constructor.
 At this point the input will be advanced by whatever the sub-rules have consumed in the meantime.
 
-Please consult `include/tao/pegtl/internal/state.hpp` to see how the default behaviour on success can be changed by overriding `tao::pegtl::state<>::success()` in a derived class when using that class instead.
+Please consult `include/tao/pegtl/internal/state.hpp` to see how the default behavior on success can be changed by overriding `tao::pegtl::state<>::success()` in a derived class when using that class instead.
 
 Embedding a state change into the grammar with [`state<>`](Rule-Reference.md#state-s-r-) is only recommended when some state is used by custom parsing rules.
 
@@ -584,7 +584,7 @@ One solution is to rewrite `R` as `R' = seq< A, sor< B, C > >` where of course a
 Another solution is to undo the effects of the Action attached to `A` in case the encompassing `seq< A, B >` (or `seq< A, C >`) fail.
 
 The advantage of this approach is that the implementation of the Action for `A` can pretend that is only called when really needed.
-The disadvantage is that there is no function on the Action that is called in the case of failure which requires the user to either write a custom `match()` function in the Action for `seq< A, B >` or to implement the `failure()` function in a custom [Control class](Control-and-Debug.md).
+The disadvantage is that there is no function on the Action that is called in the case of failure which requires the user to either write a custom `match()` function in the Action for `seq< A, B >` or to implement the `failure()` function in a custom [Control class](Control-and-Normal.md).
 
 #### Manual Commit
 

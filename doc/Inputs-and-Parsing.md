@@ -80,7 +80,7 @@ bool my_parse( const std::filesystem::path& file, my_state& state )
 The PEGTL includes several [input classes](Input-Reference.md) for parsing memory, standard library containers, and files.
 Additionally there are dedicated [stream inputs](Stream-Parsing.md#inputs) for [stream parsing](Stream-Parsing.md).
 
-On closer inspection one will not be suprised to find the inputs to actually be class templates that can be further customized in various ways.
+On closer inspection one will not be surprised to find the inputs to actually be class templates that can be further customized in various ways.
 We will first classify the inputs according to the components of their names, explaining what e.g. a `text_mmap_input` is, and then explain their template parameters.
 
 ### Classification
@@ -255,7 +255,7 @@ bool parse( ParseInput& in,
 
 - The [`Rule` class](Rules-and-Grammars.md) represents the top-level parsing rule of the grammar and is mandatory.
 - The [`Action`](Actions-and-States.md) defaults to an action that does nothing. It is required to pass a user-defined action for a parsing run to do more, e.g. build some data structure, than validate an input against the grammar.
-- The [`Control`](Control-and-Debug.md) defaults to the normal control class that implements the expected and documented behaviour. It can be changed for debugging, e.g. printing all rule match attempts and their outcomes, and for some other advanced use cases, e.g. gathering rule invocation statistics.
+- The [`Control`](Control-and-Normal.md) defaults to the normal control class that implements the expected and documented behavior. It can be changed for debugging, e.g. printing all rule match attempts and their outcomes, and for some other advanced use cases, e.g. gathering rule invocation statistics.
 - The [`States`](Actions-and-States.md#changing-states) are the types of the additional state objects `st` that are passed to all rules' `match()` functions, all actions' `apply()` and `apply0()` functions, and all control functions. What is needed here depends on what the actions (and control functions) expect.
 - The `apply_mode` defaults to `apply_mode::enabled` which enables actions. Can be changed to `rewind_mode::disabled` or in the grammar with the [`enable`](Rule-Reference.md#enable-r-) and [`disable`](Rule-Reference.md#disable-r-) rules.
 - The `rewind_mode` defaults to `rewind_mode::dontcare` in which case the input might not be rewound to its start when `parse()` returns `false`. Rewinding can be enabled by passing `rewind_mode::required`.

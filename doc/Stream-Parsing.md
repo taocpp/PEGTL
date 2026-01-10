@@ -1,6 +1,6 @@
 # Stream Parsing
 
-The PEGTL is primarily designed and optimised for parsing contiguous blocks of memory like a memory-mapped file or the contents of a `std::string`.
+The PEGTL is primarily designed and optimized for parsing contiguous blocks of memory like a memory-mapped file or the contents of a `std::string`.
 It also supports *stream parsing* where only a small portion of a large input is kept in a memory buffer at any time.
 
 The stream parsing facilities can be included via `<tao/pegtl/stream.hpp>` -- or via the individual include files in `include/tao/pegtl/stream`.
@@ -63,7 +63,7 @@ The stream inputs whose name contains `_auto_` perform aggressive automatic disc
 > [!NOTE]
 > A buffer discard can move data in the buffer, i.e. pointers to non-discarded input data can become invalid!
 
-For choosing the buffer size in general, and when choosing where to perform a manual discard, both the attached actions and the backtracking behaviour of the grammar need to be taken into consideration.
+For choosing the buffer size in general, and when choosing where to perform a manual discard, both the attached actions and the backtracking behavior of the grammar need to be taken into consideration.
 
 When an action `A` is attached to a rule `R` and `A< R >::apply()` (not `apply0()`) exists it will be called with an action input representing the matched portion of the input, wherefore no discard is allowed to happen while matching `R` and anything -- directly or indirectly -- called from `R`. Similarly, when local failure of a rule `R` can lead to backtracking then no discard is allowed to happen while matching `R` and anything called from `R`.
 

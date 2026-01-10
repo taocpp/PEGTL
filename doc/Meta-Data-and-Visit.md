@@ -29,7 +29,7 @@ If a grammar were to contain both `rep_min` and `star` with the same sub-rules, 
 
 The action invocation for the sub-rule of `rep_min` is considered surprising and undesirable because it exposes implementation details to the user, forces her to deal with them, and breaks her grammar if the implementation were to change.
 
-Therefore it is possible to selectively disable most of the [control](Control-and-Debug.md) functions, including the `apply`-functions that perform action invocation, on a rule-by-rule basis.
+Therefore it is possible to selectively disable most of the [control](Control-and-Normal.md) functions, including the `apply`-functions that perform action invocation, on a rule-by-rule basis.
 More precisely, the action and debug control functions are only invoked for a rule `R` when `control< R >::enable` is `true`.
 
 ```c++

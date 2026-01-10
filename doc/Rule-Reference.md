@@ -52,7 +52,7 @@ For rules other than `must<>` that contain "must" in their name, rule equivalenc
 The "meta data and implementation mapping" section of each rule's description shows both how the rule is implemented and what the [meta data](Meta-Data-and-Visit.md) looks like.
 When the list of sub-rules is empty then the definition of `subs_t` is omitted from the description.
 
-Remember that the default [control](Control-and-Debug.md) `tao::pegtl::normal` does **not** call control functions for rules in the `tao::pegtl::internal` namespace.
+Remember that the default [control](Control-and-Normal.md) `tao::pegtl::normal` does **not** call control functions for rules in the `tao::pegtl::internal` namespace.
 
 #### Parameter Packs
 
@@ -116,7 +116,7 @@ These rules are in namespace `tao::pegtl`.
 * [Meta data] and [implementation] mapping:
   - `eol::rule_t` is `internal::eol`
 
-Note that the default behaviour can be changed either by defining `TAO_PEGTL_DEFAULT_EOL` before `tao/pegtl/system.hpp` is (indirectly) included or by supplying an end-of-line rule as template parameter to the input.
+Note that the default behavior can be changed either by defining `TAO_PEGTL_DEFAULT_EOL` before `tao/pegtl/system.hpp` is (indirectly) included or by supplying an end-of-line rule as template parameter to the input.
 
 ###### `eolf`
 
@@ -1249,7 +1249,7 @@ Note that the `S...` are ignored in the grammar analysis.
 
 ## Controlling
 
-These rules manage and change the [control](Control-and-Debug.md), [action and states](Actions-and-States.md) during a parsing run.
+These rules manage and change the [control](Control-and-Normal.md), [action and states](Actions-and-States.md) during a parsing run.
 
 These rules are in namespace `tao::pegtl`.
 
@@ -1268,7 +1268,7 @@ These rules are in namespace `tao::pegtl`.
 ###### `control< C, R... >`
 
 * [Equivalent] to `seq< R... >`, but:
-* Uses the given class template `C` as [control](Control-and-Debug.md).
+* Uses the given class template `C` as [control](Control-and-Normal.md).
 * [Meta data] and [implementation] mapping:
   - `control< C >::rule_t` is `internal::success`
   - `control< C, R >::rule_t` is `internal::control< C, R >`

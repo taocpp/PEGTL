@@ -26,7 +26,7 @@ All noteworthy changes since the first public release.
   * Changed `parse_error` to be templated over the position type.
   * Added `parse_error_base` as non-templated base class of `parse_error`.
   * Changed to **nested exceptions** for nested [parsing errors](Errors-and-Exceptions.md).
-  * Added [control function](Control-and-Debug.md) to throw nested exceptions.
+  * Added [control function](Control-and-Normal.md) to throw nested exceptions.
   * Changed `parse_nested()` to throw a nested exception instead of adding a position to the current one.
   * Added functions to visit and flatten [nested exceptions](Contrib-and-Examples.md#taopegtlcontribnested_exceptionshpp).
 * Inputs
@@ -334,7 +334,7 @@ Released 2018-06-22
 * Fixed the UTF-16 decoder to no longer accept UTF-16 unmatched surrogates.
 * Fixed the UTF-32 "decoder" to no longer accept UTF-16 surrogates.
 * Fixed `pegtl/contrib/unescape.hh` to no longer accept unmatched surrogates.
-* Optimised convenience rule [`two`](Rule-Reference.md#two-c-).
+* Optimized convenience rule [`two`](Rule-Reference.md#two-c-).
 * Added new convenience rule [`three`](Rule-Reference.md#three-c-).
 
 ## Version 2.5.2
@@ -349,7 +349,7 @@ Released 2018-05-31
 Released 2018-05-14
 
 * Added new convenience rule [`opt_must`](Rule-Reference.md#opt_must-r-s-).
-* Optimised convenience rule [`if_must`](Rule-Reference.md#if_must-r-s-).
+* Optimized convenience rule [`if_must`](Rule-Reference.md#if_must-r-s-).
 * Fixed examples to compile with Visual Studio and MinGW.
 * Added [automated testing](https://travis-ci.org/taocpp/PEGTL) with GCC 8.
 
@@ -430,7 +430,7 @@ Released 2017-11-22
 Released 2017-11-22
 
 * Celebrating the PEGTL's 10th anniversary!
-* Fixed missing call to the [control class'](Control-and-Debug.md#control-functions) `failure()` when a rule with `apply()` with a boolean return type fails.
+* Fixed missing call to the [control class'](Control-and-Normal.md#control-functions) `failure()` when a rule with `apply()` with a boolean return type fails.
 * Fixed string handling in [`examples/abnf2pegtl.cc`](Contrib-and-Examples.md#srcexamplepegtlabnf2pegtlcpp).
 * Simplified/improved Android build.
 
@@ -525,8 +525,8 @@ Released 2017-05-18
 
 * Other Changes
 
-  * Added `apply()` and `apply0()` to the [control class](Control-and-Debug.md#control-functions).
-  * Optimised superfluous input markers.
+  * Added `apply()` and `apply0()` to the [control class](Control-and-Normal.md#control-functions).
+  * Optimized superfluous input markers.
   * Allowed optimisation of [actions that do not need the input](Actions-and-States.md#apply0).
   * Replaced layered matching with superior Duseltronik™.
   * Reduced template instantiation depth.
@@ -548,7 +548,7 @@ Released 2016-04-06
 * Fixed build with MinGW on Windows.
 * Changed file reader to open files in binary mode.
 * Changed `eol` and `eolf` to accept both Unix and MS-DOS line endings.
-* Optimised bumping the input forward and removed little used bump function.
+* Optimized bumping the input forward and removed little used bump function.
 * Simplified grammar analysis algorithm (and more `analyze()` tests).
 
 ## Version 1.2.2
@@ -557,7 +557,7 @@ Released 2015-11-12
 
 * Improved the JSON grammar and JSON string escaping.
 * Added JSON test suite from http://json.org/JSON_checker/.
-* Optimised bumping the input forward and string unescaping.
+* Optimized bumping the input forward and string unescaping.
 * Promoted `examples/json_changes.hh` to `pegtl/contrib/changes.hh`.
 
 ## Version 1.2.1
@@ -627,7 +627,7 @@ Semantic versioning was introduced with version 1.0.0.
 * The `if_then<>` rule was removed.
 * The `error_mode` flag was removed.
 * The semantics of the `must<>` rules was changed to convert local failure to global failure only for the immediate sub-rules of a `must<>` rule.
-* The `parse()` functions now return a `bool` and can also produce local failures. To obtain the previous behaviour of success-or-global-failure, the top-level grammar rule has to be wrapped in a `must<>`.
+* The `parse()` functions now return a `bool` and can also produce local failures. To obtain the previous behavior of success-or-global-failure, the top-level grammar rule has to be wrapped in a `must<>`.
 
 ## Version 0.32
 
@@ -653,7 +653,7 @@ Released 2011-02
 
 ## Version 0.28
 
-* Optimised object file footprint of class `printer` and some related functions.
+* Optimized object file footprint of class `printer` and some related functions.
 * Renamed class `rule_helper` to `rule_base` and `action_helper` to `action_base`.
 
 ## Version 0.27
@@ -735,7 +735,7 @@ The last of these changes effectively requires custom action classes to derive e
 * Added parser functions `parse_forward` for forward iterators (completeness).
 * Renamed parser functions for input iterators to `parse_input` (consistency).
 * Added parser functions `parse_file` for files, implemented with `mmap(2)` (necessity).
-* Added initial support for customised logging of error messages (flexibility).
+* Added initial support for customized logging of error messages (flexibility).
 
 ## Version 0.17
 
@@ -760,7 +760,7 @@ The last of these changes effectively requires custom action classes to derive e
 
 ## Version 0.14
 
-* Optimised behaviour of `seq<>` and `string<>` (performance).
+* Optimized behavior of `seq<>` and `string<>` (performance).
 * Added detection of division-by-zero to calculator example.
 * Removed data source debug tracking from the library (simplicity).
 * Removed run-time limits on rule applications and nesting (simplicity).
@@ -788,8 +788,8 @@ The last of these changes effectively requires custom action classes to derive e
 ## Version 0.10
 
 * Added Scheme R6RS grammar (example).
-* Fixed behaviour at end-of-input (aesthetics).
-* Fixed behaviour and use of class `position` (correctness).
+* Fixed behavior at end-of-input (aesthetics).
+* Fixed behavior and use of class `position` (correctness).
 * Changed to lazy initialisation of pretty-printer (performance).
 * Changed the design of the input and parser classes (flexibility).
 * Changed how expression rules provide their printer key (simplicity).

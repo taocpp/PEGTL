@@ -165,7 +165,7 @@ Simple rules that are combinations of PEGTL standard rules.
 The 'unsigned action' converts the matched digits from `in` into an integer and stores it in `st`.
 
 An exception is thrown on overflow.
-Behaviour is undefined if `in` is anything other than a non-empty sequence of ASCII digits.
+Behavior is undefined if `in` is anything other than a non-empty sequence of ASCII digits.
 
 ```c++
  struct unsigned_action
@@ -222,7 +222,7 @@ The 'maximum rule with action` behaves like `unsigned_rule_with_action` with a u
 The 'signed action' is similar to `unsigned_action` buf for signed integers.
 
 An exception is thrown on overflow.
-Behaviour is undefined if `in` is anything other than a non-empty sequence of ASCII digits with an optional leading sign.
+Behavior is undefined if `in` is anything other than a non-empty sequence of ASCII digits with an optional leading sign.
 
 ```c++
  struct signed_action

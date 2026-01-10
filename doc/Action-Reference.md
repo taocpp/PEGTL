@@ -314,7 +314,7 @@ struct enable_action
 * Included via `include/tao/pegtl/action/match_typed_state.hpp`.
 * This action implements only a `match()` function and therefore:
 * Publicly derives from [`maybe_nothing`](#maybe-nothing).
-* Related to the [control](Control-and-Debug.md) class [`apply_typed_state`](Control-Reference.md#apply_typed_state).
+* Related to the [control](Control-and-Normal.md) class [`apply_typed_state`](Control-Reference.md#apply_typed_state).
 
 ```c++
 template< typename T >
