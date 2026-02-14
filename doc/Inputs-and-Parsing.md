@@ -475,8 +475,8 @@ It requires an input `in` where `in.begin_of_line( pos )` and `in.end_of_line_or
 
 ### Stream Compatibility
 
-The PEGTL is designed to minimize the impact of the existence of the [stream inputs](TODO) on the core library.
-This goal was mostly achieved with the exception of some input functions and how the rules use them.
+The PEGTL is designed to minimize the impact of the existence of the [stream parsing](Stream-Parsing.md) on the core library.
+This goal was *mostly* achieved with the exception of some input functions and how the rules use them.
 All non-stream input classes implement the following functions for compatibility with the stream inputs.
 
 ```c++
@@ -497,7 +497,7 @@ All non-stream input classes implement the following functions for compatibility
    {}
 ```
 
-All rules that need to be compatible with [stream inputs](TODO) need to use the `end()` and `size()` variants *with* argument.
+All rules that need to be compatible with [stream inputs](Stream-Parsing.md#inputs) need to use the `end()` and `size()` variants *with* argument.
 The argument tells the stream input how much data it needs to prefetch or the rule to attempt its match.
 
 That is why, for example, the implementation of [`consume< Num >`](Rule-Reference.md#consume-num-) uses `if( in.size( Num ) >= Num )` instead of `if( in.size() >= Num )` to test whether the Input `in` contains at least `Num` further objects.

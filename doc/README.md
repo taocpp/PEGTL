@@ -8,19 +8,25 @@
 * [Introduction](Introduction.md)
 * [Install Guide](Install-Guide.md)
 * [Rules and Grammars](Rules-and-Grammars.md)
-* [Inputs and Parsing](Inputs-and-Parsing.md)
 
+* [Inputs and Parsing](Inputs-and-Parsing.md)
 * [Actions and States](Actions-and-States.md)
 * [Control and Normal(Control-and-Normal.md)
 * [Errors and Exceptions](Errors-and-Exceptions.md) -- big TODO!
+
+* [Debug Facilities](Debug-Facilities.md)
 
 * [Rule Reference](Rule-Reference.md)
 * [Input Reference](Input-Reference.md)
 * [Action Reference](Action-Reference.md)
 * [Control Reference](Control-Reference.md)
+
+* [Contrib and Examples](Contrib-and-Examples.md)
+
 * [Parse Tree](Parse-Tree.md)
 * [Stream Parsing](Stream-Parsing.md)
 * [Advanced Topics](Advanced-Topics.md)
+
 * [Migration Guide](Migration-Guide.md)
 * [Changelog](Changelog.md)
 

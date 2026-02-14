@@ -52,15 +52,15 @@ namespace TAO_PEGTL_NAMESPACE
    }  // namespace internal
 
    template< typename Grammar >
-   using rule_list_t = typename internal::visit_list< empty_list, Grammar >::type;
+   using grammar_rules_t = typename internal::visit_list< empty_list, Grammar >::type;
 
-   template< typename Grammar, typename Rule >
-   inline constexpr bool contains_v = type_list_contains_v< Rule, rule_list_t< Grammar > >;
+   template< typename Rule, typename Grammar >
+   inline constexpr bool rule_in_grammar_v = type_list_contains_v< Rule, grammar_rules_t< Grammar > >;
 
-   template< typename Rule, template< typename... > class Func, typename... Args >
+   template< typename Grammar, template< typename... > class Func, typename... Args >
    void visit( Args&&... args )
    {
-      internal::visit< Func >( rule_list_t< Rule >(), args... );
+      internal::visit< Func >( grammar_rules_t< Grammar >(), args... );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

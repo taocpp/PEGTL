@@ -139,7 +139,7 @@ Macros do not respect namespaces and have a `TAO_PEGTL_` prefix instead.
 
 ## Directory Structure
 
-The source and header files of this library are organized into several directories.
+The source and header files of this library are organized as follows.
 
 | Directory | Contents |
 | --------- | -------- |

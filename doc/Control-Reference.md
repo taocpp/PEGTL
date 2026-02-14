@@ -1,7 +1,7 @@
 # Control Reference
 
 The reference documention for all control class templates.
-The actions not considered part of the core library are [documented here](TODO).
+The controls not considered part of the core library are [documented here](TODO).
 
 
 ## Contents

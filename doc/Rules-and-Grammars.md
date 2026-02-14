@@ -408,13 +408,13 @@ This allows the sub-rules to optimize away their rewind guards to dummy guards.
 
 The grammar analysis (and some other parts) of the PEGTL require rules to define two type aliases.
 
-The aliases `rule_t` and `subs_t` are (most commonly) defined in the rule classes that define the static match function.
+The aliases `rule_t` and `subs_t` are usually defined in the classes that implement the static match function.
 
-The alias `rule_t` (most commonly) is defined as the containing class.
+The alias `rule_t` is usually defined as the containing class.
 
-The alias `subs_t` (most commonly) is defined as the meta type list `tao::pegtl::type_list<>` with all sub-rules.
+The alias `subs_t` is usually defined as the meta-type-list `tao::pegtl::type_list<>` with all sub-rules as template parameters.
 
-The type alias `tao::pegtl::empty_list` can be used insteaed of the empty type list `tao::pegtl::type_list<>`.
+The type alias `tao::pegtl::empty_list` can be used as shortcut for the empty type list `tao::pegtl::type_list<>`.
 
 The type aliases for a rule *without* sub-rules are as follows.
 

@@ -87,7 +87,7 @@ For more information see [Errors and Exceptions](Errors-and-Exceptions.md).
 
 By default, global failure means that an exception of type `tao::pegtl::parse_error` is thrown.
 
-Note that starting with PEGTL version 4.0.0 `parse_error` is no longer a monolithic class derived from `std::runtime_error`.
+Note that starting with PEGTL version 4.0.0 `parse_error` is no longer a monolithic class derived from `std::run-time_error`.
 To simultaneously allow for different types of position information _and_ a single type that can be used to catch all parse errors there is a base class with the non position-type dependent parts as well as a derived class that is templated over the position type.
 
 Synposis:
@@ -96,7 +96,7 @@ Synposis:
 namespace tao::pegtl
 {
    class parse_error_base
-      : public std::runtime_error
+      : public std::run-time_error
    {
    public:
       [[nodiscard]] std::string_view message() const noexcept;
@@ -132,7 +132,7 @@ The `message()` function returns the original `msg`, while  `position_string()` 
 The `Object` passed to the constructor can be either a PEGTL input class, in which case the current position will be extracted and stored in the exception, or it can be an actual position object that will be used "as is".
 The supplied user-defined deduction guide will make sure that the exception object uses the correct type as `position_t` in both of these cases.
 
-The string returned by the `what()` function inherited from `std::runtime_error` is a concatenation of the position string and the message supplied to the constructor.
+The string returned by the `what()` function inherited from `std::run-time_error` is a concatenation of the position string and the message supplied to the constructor.
 
 
 ## Local to Global Failure

@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_DEBUG_PRINT_HPP
 #define TAO_PEGTL_DEBUG_PRINT_HPP
 
+#include <iomanip>
 #include <ostream>
 
 #include "../config.hpp"
@@ -48,13 +49,14 @@ namespace TAO_PEGTL_NAMESPACE
          template< typename... Rules >
          static void print_subs( std::ostream& os, type_list< Rules... > /*unused*/ )
          {
-            ( print_sub< Rules >( os ), ... );
+            unsigned count = 0;
+            ( print_sub< Rules >( os, count ), ... );
          }
 
          template< typename Rule >
-         static void print_sub( std::ostream& os )
+         static void print_sub( std::ostream& os, unsigned& count )
          {
-            os << " (sub) " << demangle< Rule >() << '\n';
+            os << " (sub) " << std::setw( 2 ) << count++ << ' ' << demangle< Rule >() << '\n';
          }
       };
 
