@@ -43,6 +43,15 @@ namespace TAO_PEGTL_NAMESPACE
 
    // static_assert( !type_list_contains_v< type_list< void >, type_list< type_list< void > > > );
 
+   static_assert( std::is_same_v< type_list_append_t< empty_list >, empty_list > );
+   static_assert( std::is_same_v< type_list_append_t< empty_list, int >, type_list< int > > );
+   static_assert( std::is_same_v< type_list_append_t< empty_list, int, char >, type_list< int, char > > );
+   static_assert( std::is_same_v< type_list_append_t< empty_list, empty_list >, type_list< empty_list > > );
+   static_assert( std::is_same_v< type_list_append_t< type_list< int >, char >, type_list< int, char > > );
+   static_assert( std::is_same_v< type_list_append_t< type_list< int, double >, char >, type_list< int, double, char > > );
+   static_assert( std::is_same_v< type_list_append_t< type_list< int >, double, char >, type_list< int, double, char > > );
+   static_assert( std::is_same_v< type_list_append_t< type_list< int, bool >, double, char >, type_list< int, bool, double, char > > );
+
    static_assert( std::is_same_v< type_list_concat_t< empty_list >, empty_list > );
    static_assert( std::is_same_v< type_list_concat_t< empty_list, empty_list >, empty_list > );
    static_assert( std::is_same_v< type_list_concat_t< type_list< void >, empty_list, empty_list >, type_list< void > > );
