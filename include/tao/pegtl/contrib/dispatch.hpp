@@ -15,6 +15,7 @@
 #include "../normal.hpp"
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
+#include "../type_list.hpp"
 
 #include "../internal/dependent_false.hpp"
 
@@ -81,12 +82,22 @@ namespace TAO_PEGTL_NAMESPACE
       static constexpr bool enable = ( ( !Clauses::template enable< Rule > ) && ... );
    };
 
+   template< typename Action, typename... Clauses >
+   struct default1< Action, type_list< Clauses... > >
+      : default1< Action, Clauses... >
+   {};
+
    template< template< typename... > class Action, typename... Clauses >
    struct default2
    {
       template< typename Rule >
       static constexpr bool enable = ( ( !Clauses::template enable< Rule > ) && ... );
    };
+
+   template< template< typename... > class Action, typename... Clauses >
+   struct default2< Action, type_list< Clauses... > >
+      : default2< Action, Clauses... >
+   {};
 
    template< typename... Clauses >
    struct dispatch
@@ -107,6 +118,11 @@ namespace TAO_PEGTL_NAMESPACE
          return TAO_PEGTL_NAMESPACE::match< Rule, A, M, actions, Control >( in, st... );
       }
    };
+
+   template< typename... Clauses >
+   struct dispatch< type_list< Clauses... > >
+      : dispatch< Clauses... >
+   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
