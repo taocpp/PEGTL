@@ -27,9 +27,9 @@ struct bar
 int main()  // NOLINT(bugprone-exception-escape)
 {
    if( analyze< foo >( 1 ) != 0 ) {
-      std::cerr << "There are problems!" << std::endl;
+      std::cout << "There are problems -- just as expected!" << std::endl;
       return 1;
    }
-   std::cerr << "No problems found -- which is itself a problem because we were expecting some!" << std::endl;
+   std::cout << "No problems found -- which is itself a problem because we were expecting some!" << std::endl;
    return 0;
 }

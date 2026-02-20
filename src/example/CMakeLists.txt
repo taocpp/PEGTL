@@ -32,7 +32,8 @@ set(example_sources
   modulus_match.cpp
   parse_tree.cpp
   parse_tree_user_state.cpp
-  proto3.cpp
+  proto3_analyze.cpp
+  proto3_parse.cpp
   random_order.cpp
   recover.cpp
   s_expression.cpp

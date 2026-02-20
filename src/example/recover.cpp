@@ -4,7 +4,7 @@
 
 // This is a small experiment with a grammar that can recover from errors.
 //
-// Triggered by https://github.com/taocpp/PEGTL/issues/55
+// Motivated by https://github.com/taocpp/PEGTL/issues/55
 //
 // The grammar will recognise simple expressions terminated by semicolons.
 // When an expression fails to parse, it skips to the next expression

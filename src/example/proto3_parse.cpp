@@ -12,18 +12,15 @@ int main()
 #else
 
 #include <iomanip>
+#include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/debug/analyze.hpp>
 #include <tao/pegtl/example/proto3.hpp>
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    using namespace TAO_PEGTL_NAMESPACE;
 
-   if( analyze< proto3::proto >() != 0 ) {
-      return 1;
-   }
    using input_t = text_file_input< scan::lf_crlf >;
    for( int i = 1; i < argc; ++i ) {
       input_t in( argv[ i ] );
