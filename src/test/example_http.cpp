@@ -14,7 +14,7 @@ int main()
 #include "test_utility.hpp"
 #include "verify_meta.hpp"
 
-#include <tao/pegtl/contrib/http.hpp>
+#include <tao/pegtl/example/http.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

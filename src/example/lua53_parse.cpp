@@ -13,13 +13,16 @@ int main()
 
 #include <iostream>
 
-#include "lua53.hpp"
+#include <tao/pegtl.hpp>
+#include <tao/pegtl/example/lua53.hpp>
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
+   using namespace TAO_PEGTL_NAMESPACE;
+
    for( int i = 1; i < argc; ++i ) {
-      TAO_PEGTL_NAMESPACE::text_file_input< TAO_PEGTL_NAMESPACE::lazy::lf_crlf > in( argv[ i ] );
-      const auto r = TAO_PEGTL_NAMESPACE::parse< lua53::grammar >( in );
+      text_file_input< lazy::lf_crlf > in( argv[ i ] );
+      const auto r = parse< lua53::grammar >( in );
       std::cout << argv[ i ] << " " << r << std::endl;
    }
    return 0;

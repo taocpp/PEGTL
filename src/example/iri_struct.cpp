@@ -16,7 +16,7 @@ int main()
 #include <stdexcept>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/iri.hpp>
+#include <tao/pegtl/example/iri.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 

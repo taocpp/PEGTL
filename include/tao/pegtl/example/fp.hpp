@@ -2,17 +2,17 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_SRC_EXAMPLES_PEGTL_DOUBLE_HPP
-#define TAO_PEGTL_SRC_EXAMPLES_PEGTL_DOUBLE_HPP
+#ifndef TAO_PEGTL_EXAMPLE_FP_HPP
+#define TAO_PEGTL_EXAMPLE_FP_HPP
 
-#include <tao/pegtl.hpp>
+#include "../ascii.hpp"
+#include "../config.hpp"
+#include "../rules.hpp"
 
-namespace double_
+namespace TAO_PEGTL_NAMESPACE::fp
 {
-   // A grammar for doubles suitable for std::stod without locale support.
+   // A grammar for floating point numbers, suitable for std::stod without locale support.
    // See also: http://en.cppreference.com/w/cpp/string/basic_string/stof
-
-   using namespace TAO_PEGTL_NAMESPACE;
 
    // clang-format off
    struct plus_minus : opt< one< '+', '-' > > {};
@@ -27,7 +27,7 @@ namespace double_
                           one< ')' > > > {};
 
    template< typename D >
-   struct number : if_then_else< dot,
+   struct numeric : if_then_else< dot,
                                  plus< D >,
                                  seq< plus< D >, opt< dot, star< D > > > > {};
 
@@ -35,10 +35,10 @@ namespace double_
    struct p : one< 'p', 'P' > {};
    struct exponent : seq< plus_minus, plus< digit > > {};
 
-   struct decimal : seq< number< digit >, opt< e, exponent > > {};
-   struct hexadecimal : seq< one< '0' >, one< 'x', 'X' >, number< xdigit >, opt< p, exponent > > {};
+   struct decimal : seq< numeric< digit >, opt< e, exponent > > {};
+   struct hexadecimal : seq< one< '0' >, one< 'x', 'X' >, numeric< xdigit >, opt< p, exponent > > {};
 
-   struct grammar : seq< plus_minus, sor< hexadecimal, decimal, inf, nan > > {};
+   struct value : seq< plus_minus, sor< hexadecimal, decimal, inf, nan > > {};
    // clang-format on
 
 }  // namespace double_

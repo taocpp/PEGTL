@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_CONTRIB_ABNF_HPP
-#define TAO_PEGTL_CONTRIB_ABNF_HPP
+#ifndef TAO_PEGTL_EXAMPLE_ABNF_CORE_HPP
+#define TAO_PEGTL_EXAMPLE_ABNF_CORE_HPP
 
 #include "../config.hpp"
 

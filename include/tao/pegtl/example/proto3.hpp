@@ -2,15 +2,15 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_SRC_EXAMPLES_PEGTL_PROTO3_HPP
-#define TAO_PEGTL_SRC_EXAMPLES_PEGTL_PROTO3_HPP
+#ifndef TAO_PEGTL_EXAMPLE_PROTO3_HPP
+#define TAO_PEGTL_EXAMPLE_PROTO3_HPP
 
-#include <tao/pegtl.hpp>
+#include "../ascii.hpp"
+#include "../config.hpp"
+#include "../rules.hpp"
 
-namespace proto3
+namespace TAO_PEGTL_NAMESPACE::proto3
 {
-   using namespace TAO_PEGTL_NAMESPACE;
-
    // Protocol Buffers (Proto3)
    // https://developers.google.com/protocol-buffers/docs/reference/proto3-spec
 
@@ -141,6 +141,6 @@ namespace proto3
    struct proto : must< sps, head, sps, star< body, sps >, eof > {};
    // clang-format on
 
-}  // namespace proto3
+}  // namespace TAO_PEGTL_NAMESPACE::proto3
 
 #endif

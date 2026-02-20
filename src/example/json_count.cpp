@@ -10,7 +10,7 @@
 
 #include <tao/pegtl.hpp>
 
-#include <tao/pegtl/contrib/json.hpp>
+#include <tao/pegtl/example/json.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

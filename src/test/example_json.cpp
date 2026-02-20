@@ -7,7 +7,7 @@
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
-#include <tao/pegtl/contrib/json.hpp>
+#include <tao/pegtl/example/json.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

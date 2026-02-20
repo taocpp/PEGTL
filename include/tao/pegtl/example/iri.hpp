@@ -3,8 +3,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_CONTRIB_IRI_HPP
-#define TAO_PEGTL_CONTRIB_IRI_HPP
+#ifndef TAO_PEGTL_EXAMPLE_IRI_HPP
+#define TAO_PEGTL_EXAMPLE_IRI_HPP
 
 #if !defined( __cpp_exceptions )
 #error "Exception support required for tao/pegtl/contrib/iri.hpp"
@@ -14,7 +14,7 @@
 #include "../rules.hpp"
 #include "../unicode/utf8.hpp"
 
-#include "abnf.hpp"
+#include "abnf_core.hpp"
 #include "uri.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::iri

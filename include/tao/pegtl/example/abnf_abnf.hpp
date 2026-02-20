@@ -2,14 +2,14 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_CONTRIB_ABNF2_HPP
-#define TAO_PEGTL_CONTRIB_ABNF2_HPP
+#ifndef TAO_PEGTL_EXAMPLE_ABNF_ABNF_HPP
+#define TAO_PEGTL_EXAMPLE_ABNF_ABNF_HPP
 
 #include "../ascii.hpp"
 #include "../config.hpp"
 #include "../rules.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::abnf2
+namespace TAO_PEGTL_NAMESPACE::abnf
 {
    // ABNF grammar according to RFC 5234, updated by RFC 7405, with
    // the following differences:
@@ -100,7 +100,7 @@ namespace TAO_PEGTL_NAMESPACE::abnf2
    struct rulelist : until< eof, sor< seq< star< c_wsp >, c_nl >, rule > > {};
    // clang-format on
 
-}  // namespace TAO_PEGTL_NAMESPACE::abnf2
+}  // namespace TAO_PEGTL_NAMESPACE::abnf
 
 // FCOV_EXCL_FILE
 #endif

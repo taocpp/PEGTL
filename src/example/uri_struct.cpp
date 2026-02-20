@@ -15,7 +15,7 @@ int main()
 #include <stdexcept>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/uri.hpp>
+#include <tao/pegtl/example/uri.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 

@@ -9,7 +9,7 @@
 #include <vector>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/json.hpp>
+#include <tao/pegtl/example/json.hpp>
 
 #include "json_classes.hpp"
 #include "json_errors.hpp"

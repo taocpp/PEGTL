@@ -2,11 +2,11 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_SRC_EXAMPLES_PEGTL_JSON_ERRORS_HPP
-#define TAO_PEGTL_SRC_EXAMPLES_PEGTL_JSON_ERRORS_HPP
+#ifndef TAO_PEGTL_SRC_EXAMPLE_PEGTL_JSON_ERRORS_HPP
+#define TAO_PEGTL_SRC_EXAMPLE_PEGTL_JSON_ERRORS_HPP
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/json.hpp>
+#include <tao/pegtl/example/json.hpp>
 
 #if defined( __cpp_exceptions )
 #include <tao/pegtl/control/must_if.hpp>

@@ -19,6 +19,8 @@ int main()
 
 #include <tao/pegtl.hpp>
 
+// Prints the behaviour tables in markdown format for the PEGTL documentation.
+
 namespace TAO_PEGTL_NAMESPACE::example
 {
    void print( const std::string& s )

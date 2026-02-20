@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_CONTRIB_JSON_HPP
-#define TAO_PEGTL_CONTRIB_JSON_HPP
+#ifndef TAO_PEGTL_EXAMPLE_JSON_HPP
+#define TAO_PEGTL_EXAMPLE_JSON_HPP
 
 #include "../ascii.hpp"
 #include "../config.hpp"

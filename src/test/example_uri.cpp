@@ -15,7 +15,7 @@ int main()
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
-#include <tao/pegtl/contrib/uri.hpp>
+#include <tao/pegtl/example/uri.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

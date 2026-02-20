@@ -2,20 +2,21 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_SRC_EXAMPLES_PEGTL_LUA53_HPP
-#define TAO_PEGTL_SRC_EXAMPLES_PEGTL_LUA53_HPP
+#ifndef TAO_PEGTL_EXAMPLE_LUA53_HPP
+#define TAO_PEGTL_EXAMPLE_LUA53_HPP
 
 #if !defined( __cpp_exceptions )
 #error "Exception support required for lua53.hpp"
 #else
 
-#include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/raw_string.hpp>
+#include "../ascii.hpp"
+#include "../config.hpp"
+#include "../rules.hpp"
 
-namespace lua53
+#include "../contrib/raw_string.hpp"
+
+namespace TAO_PEGTL_NAMESPACE::lua53
 {
-   namespace pegtl = TAO_PEGTL_NAMESPACE;
-
    // PEGTL grammar for the Lua 5.3.0 lexer and parser.
    //
    // The grammar here is not very similar to the grammar
@@ -337,7 +338,7 @@ namespace lua53
    struct grammar : pegtl::must< pegtl::opt< pegtl::shebang >, statement_list< pegtl::eof > > {};
    // clang-format on
 
-}  // namespace lua53
+}  // namespace TAO_PEGTL_NAMESPACE::lua53
 
 #endif
 #endif

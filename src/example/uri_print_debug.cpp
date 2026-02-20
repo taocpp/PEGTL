@@ -13,8 +13,8 @@ int main()
 
 #include <iostream>
 
-#include <tao/pegtl/contrib/uri.hpp>
 #include <tao/pegtl/debug/print.hpp>
+#include <tao/pegtl/example/uri.hpp>
 
 int main()  // NOLINT(bugprone-exception-escape)
 {

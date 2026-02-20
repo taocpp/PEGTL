@@ -6,9 +6,9 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/json.hpp>
 #include <tao/pegtl/contrib/parse_tree.hpp>
 #include <tao/pegtl/contrib/parse_tree_to_dot.hpp>
+#include <tao/pegtl/example/json.hpp>
 
 #include "json_errors.hpp"
 

@@ -6,8 +6,8 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/json.hpp>
 #include <tao/pegtl/debug/trace.hpp>
+#include <tao/pegtl/example/json.hpp>
 
 #include "json_errors.hpp"
 

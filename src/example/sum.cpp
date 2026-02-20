@@ -8,15 +8,14 @@
 #include <string>
 
 #include <tao/pegtl.hpp>
+#include <tao/pegtl/example/fp.hpp>
 
 using namespace TAO_PEGTL_NAMESPACE;
-
-#include "double.hpp"
 
 namespace sum
 {
    struct padded_double
-      : pad< double_::grammar, space >
+      : pad< fp::value, space >
    {};
 
    struct double_list
@@ -32,7 +31,7 @@ namespace sum
    {};
 
    template<>
-   struct action< double_::grammar >
+   struct action< fp::value >
    {
       template< typename ActionInput >
       static void apply( const ActionInput& in, double& sum )
