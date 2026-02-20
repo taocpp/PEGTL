@@ -21,8 +21,8 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename >
       struct type_to_string;
 
-      template< template< char... > class X, char... Cs >
-      struct type_to_string< X< Cs... > >
+      template< template< char... > class String, char... Cs >
+      struct type_to_string< String< Cs... > >
       {
          static constexpr char array[] = { Cs..., 0 };
 
@@ -31,7 +31,7 @@ namespace TAO_PEGTL_NAMESPACE
             return std::string( array, sizeof...( Cs ) );
          }
 
-         [[nodiscard]] static std::string_view string_view() noexcept
+         [[nodiscard]] constexpr static std::string_view string_view() noexcept
          {
             return std::string_view( array, sizeof...( Cs ) );
          }
@@ -52,13 +52,13 @@ namespace TAO_PEGTL_NAMESPACE
    }
 
    template< typename T >
-   [[nodiscard]] std::string_view type_to_string_view() noexcept
+   [[nodiscard]] constexpr std::string_view type_to_string_view() noexcept
    {
       return internal::type_to_string< T >::string_view();
    }
 
    template< char... Cs >
-   [[nodiscard]] std::string_view type_to_string_view() noexcept
+   [[nodiscard]] constexpr std::string_view type_to_string_view() noexcept
    {
       return internal::type_to_string< internal::char_list< Cs... > >::string_view();
    }
