@@ -11,6 +11,7 @@
 
 #include "../ascii.hpp"
 #include "../config.hpp"
+#include "../pegtl_string.hpp"
 #include "../rules.hpp"
 
 #include "../contrib/raw_string.hpp"
