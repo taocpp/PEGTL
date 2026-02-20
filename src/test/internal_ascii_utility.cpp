@@ -57,8 +57,10 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::uint32_t( 2000000000 ) ) );
 
       TAO_PEGTL_TEST_ASSERT( internal::ascii_char_equal< 'a' >( 'a' ) );
+      TAO_PEGTL_TEST_ASSERT( internal::ascii_char_equal< 'D' >( 'D' ) );
       TAO_PEGTL_TEST_ASSERT( !internal::ascii_char_equal< 'a' >( 'b' ) );
       TAO_PEGTL_TEST_ASSERT( !internal::ascii_char_equal< 'a' >( 'A' ) );
+      TAO_PEGTL_TEST_ASSERT( !internal::ascii_char_equal< 'A' >( 'a' ) );
 
       TAO_PEGTL_TEST_ASSERT( internal::ascii_char_equal< 'a' >( int( 'a' ) ) );
       TAO_PEGTL_TEST_ASSERT( !internal::ascii_char_equal< 'a' >( int( 'A' ) ) );
@@ -68,6 +70,7 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( internal::ascii_ichar_equal< 'a' >( 'a' ) );
       TAO_PEGTL_TEST_ASSERT( !internal::ascii_ichar_equal< 'a' >( 'b' ) );
       TAO_PEGTL_TEST_ASSERT( internal::ascii_ichar_equal< 'a' >( 'A' ) );
+      TAO_PEGTL_TEST_ASSERT( internal::ascii_ichar_equal< 'D' >( 'd' ) );
 
       TAO_PEGTL_TEST_ASSERT( internal::ascii_ichar_equal< 'a' >( int( 'a' ) ) );
       TAO_PEGTL_TEST_ASSERT( internal::ascii_ichar_equal< 'a' >( int( 'A' ) ) );
@@ -78,15 +81,21 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( internal::ascii_string_equal< 'a' >( "a" ) );
       TAO_PEGTL_TEST_ASSERT( !internal::ascii_string_equal< 'a' >( "b" ) );
       TAO_PEGTL_TEST_ASSERT( !internal::ascii_string_equal< 'a' >( "A" ) );
+      TAO_PEGTL_TEST_ASSERT( !internal::ascii_string_equal< 'M' >( "m" ) );
       TAO_PEGTL_TEST_ASSERT( internal::ascii_string_equal< 'a', 'B', 'c' >( "aBc" ) );
+      TAO_PEGTL_TEST_ASSERT( !internal::ascii_string_equal< 'a', 'B', 'c' >( "aBC" ) );
+      TAO_PEGTL_TEST_ASSERT( !internal::ascii_string_equal< 'a', 'B', 'c' >( "abc" ) );
       TAO_PEGTL_TEST_ASSERT( !internal::ascii_string_equal< 'a', 'B', 'c' >( "abC" ) );
 
       TAO_PEGTL_TEST_ASSERT( internal::ascii_istring_equal<>( "" ) );
       TAO_PEGTL_TEST_ASSERT( internal::ascii_istring_equal< 'a' >( "a" ) );
       TAO_PEGTL_TEST_ASSERT( !internal::ascii_istring_equal< 'a' >( "b" ) );
       TAO_PEGTL_TEST_ASSERT( internal::ascii_istring_equal< 'a' >( "A" ) );
+      TAO_PEGTL_TEST_ASSERT( internal::ascii_istring_equal< 'M' >( "m" ) );
       TAO_PEGTL_TEST_ASSERT( internal::ascii_istring_equal< 'a', 'B', 'c' >( "aBc" ) );
       TAO_PEGTL_TEST_ASSERT( internal::ascii_istring_equal< 'a', 'B', 'c' >( "abC" ) );
+      TAO_PEGTL_TEST_ASSERT( internal::ascii_istring_equal< 'a', 'B', 'c' >( "ABC" ) );
+      TAO_PEGTL_TEST_ASSERT( internal::ascii_istring_equal< 'a', 'B', 'c' >( "abc" ) );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

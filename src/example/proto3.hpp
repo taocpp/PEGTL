@@ -11,7 +11,7 @@ namespace proto3
 {
    using namespace TAO_PEGTL_NAMESPACE;
 
-   // protocol buffer v3
+   // Protocol Buffers (Proto3)
    // https://developers.google.com/protocol-buffers/docs/reference/proto3-spec
 
    // clang-format off

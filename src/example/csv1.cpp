@@ -19,7 +19,7 @@ namespace csv1
    // line, the values are space/tab-padded integers, comment lines start with
    // a hash and are ignored; neither the grammar nor the included actions make
    // sure that the number of values per line is always the same; last line can
-   // end with an LF or CR+LF but doesn't have to.
+   // end with a tao::pegtl::eol but doesn't have to.
 
    // Example file contents parsed by this grammar (excluding C++ comment intro):
    // # This is a comment

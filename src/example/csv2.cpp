@@ -17,7 +17,7 @@ namespace csv2
    // line, the values are strings that can use quotes when they contain commas,
    // if quotes are used they have to be the first character (of the line or
    // after the comma); quoted strings can't contain quotes, no string can have
-   // LF or CR; last line has to end with an LF or CR+LF.
+   // LF or CR; last line has to end with tao::pegtl::eol.
 
    // Example file contents parsed by this grammar (excluding C++ comment intro):
    // a,b,c
@@ -26,7 +26,7 @@ namespace csv2
    // aha """,yes, this works
 
    // clang-format off
-   template< char C > struct string_without : pegtl::star< pegtl::not_one7< C, 10, 13 > > {};
+   template< char C > struct string_without : pegtl::star< pegtl::not_one7< C, '\n', '\r' > > {};
    struct plain_value : string_without< ',' > {};
    struct quoted_value : pegtl::seq< pegtl::one< '"' >, string_without< '"' >, pegtl::one< '"' > > {};
    struct value : pegtl::sor< quoted_value, plain_value > {};
