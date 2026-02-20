@@ -47,10 +47,12 @@ namespace TAO_PEGTL_NAMESPACE
 
       private:
          template< typename... Rules >
-         static void print_subs( std::ostream& os, type_list< Rules... > /*unused*/ )
+         static void print_subs( std::ostream& os, const type_list< Rules... > /*unused*/ )
          {
-            unsigned count = 0;
-            ( print_sub< Rules >( os, count ), ... );
+            if constexpr( sizeof...( Rules ) > 0 ) {
+               unsigned count = 0;
+               ( print_sub< Rules >( os, count ), ... );
+            }
          }
 
          template< typename Rule >
