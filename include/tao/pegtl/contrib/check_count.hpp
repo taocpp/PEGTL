@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_CONTRIB_CHECK_COUNT_HPP
 #define TAO_PEGTL_CONTRIB_CHECK_COUNT_HPP
 
+#include <string>
+
 #include "../apply_mode.hpp"
 #include "../config.hpp"
 #include "../match.hpp"
@@ -12,6 +14,7 @@
 #include "../rewind_mode.hpp"
 
 #if defined( __cpp_exceptions )
+#include "../demangle.hpp"
 #include "../parse_error.hpp"
 #else
 #include <cstdio>
@@ -39,9 +42,10 @@ namespace TAO_PEGTL_NAMESPACE
          if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... ) ) {
             if( std::size_t( in.current() - start ) > Maximum ) {
 #if defined( __cpp_exceptions )
-               throw_parse_error( "maximum allowed rule consumption exceeded", in );
+               const std::string d( demangle< Rule >() );
+               throw_parse_error( "consumption limit exceeded for " + d, in );
 #else
-               std::fputs( "parse error: maximum allowed rule consumption exceeded\n", stderr );
+               std::fputs( "parse error: consumption limit exceeded\n", stderr );
                std::terminate();
 #endif
             }
