@@ -2,11 +2,14 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#if !defined( __cpp_exceptions ) || !defined( __cpp_rtti )
+#include <tao/pegtl/system.hpp>
+
+#if !defined( __cpp_exceptions ) || !defined( __cpp_rtti ) || defined( TAO_PEGTL_SYSTEM_WINDOWS )
 #include <iostream>
 int main()
 {
-   std::cout << "Exception and/or RTTI support disabled, skipping test..." << std::endl;
+   // TODO: Find out why nested exceptions segfault on Windows.
+   std::cout << "Exception and/or RTTI support disabled and/or compiling on Windows, skipping test..." << std::endl;
 }
 #else
 

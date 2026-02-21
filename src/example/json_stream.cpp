@@ -38,7 +38,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       return 1;
    }
 #else
-   if( !pegtl::parse< example::grammar, example::action, example::control >( in ) ) {
+   if( !pegtl::parse< example::grammar, pegtl::nothing, example::control >( in ) ) {
       std::cerr << "error occurred" << std::endl;
       return 1;
    }
