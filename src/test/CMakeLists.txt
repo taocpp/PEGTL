@@ -36,7 +36,7 @@ set(test_sources
   ascii_two.cpp
   contrib_alphabet.cpp
   contrib_charconv.cpp
-  contrib_check_count.cpp
+  contrib_check_consume.cpp
   contrib_check_depth.cpp
   contrib_dispatch.cpp
   contrib_if_then.cpp
@@ -46,7 +46,7 @@ set(test_sources
   contrib_integer_convert.cpp
   contrib_integer_match.cpp
   contrib_integer_maximum.cpp
-  contrib_limit_count.cpp
+  contrib_limit_consume.cpp
   contrib_nested_exceptions.cpp
   contrib_parse_tree.cpp
   contrib_parse_tree_to_dot.cpp

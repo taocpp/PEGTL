@@ -19,7 +19,7 @@ namespace modulus
       {
          if( !in.empty() ) {
             if( ( unsigned( *in.current() ) % M ) == R ) {
-               in.template consume< eol_exclude_tag >( 1 );
+               in.template consume< my_rule >( 1 );
                return true;
             }
          }
