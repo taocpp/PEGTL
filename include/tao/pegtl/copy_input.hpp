@@ -16,8 +16,8 @@
 #include "config.hpp"
 #include "default_eol.hpp"
 
-#include "internal/input_aliases.hpp"
 #include "internal/choose_container.hpp"
+#include "internal/input_aliases.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {

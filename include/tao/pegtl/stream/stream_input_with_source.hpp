@@ -17,8 +17,8 @@
 #include "../pointer_position.hpp"
 #include "../position_with_source.hpp"
 
-#include "stream_input_base.hpp"
 #include "stream_input.hpp"
+#include "stream_input_base.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

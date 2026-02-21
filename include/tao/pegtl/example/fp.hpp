@@ -41,6 +41,6 @@ namespace TAO_PEGTL_NAMESPACE::fp
    struct value : seq< plus_minus, sor< hexadecimal, decimal, inf, nan > > {};
    // clang-format on
 
-}  // namespace double_
+}  // namespace TAO_PEGTL_NAMESPACE::fp
 
 #endif

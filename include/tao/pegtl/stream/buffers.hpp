@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
    using alloc_cstring_buffer = internal::alloc_buffer< char, internal::cstring_reader >;
    using alloc_istream_buffer = internal::alloc_buffer< char, internal::istream_reader >;
    template< typename InputIterator >
-   using alloc_iterator_buffer = internal::alloc_buffer< char, internal::iterator_reader< InputIterator> >;
+   using alloc_iterator_buffer = internal::alloc_buffer< char, internal::iterator_reader< InputIterator > >;
 
    template< std::size_t BufferSize = default_buffer_size, std::size_t ChunkSize = default_chunk_size >
    using array_cstream_buffer = internal::array_buffer< char, internal::cstream_reader, BufferSize, ChunkSize >;

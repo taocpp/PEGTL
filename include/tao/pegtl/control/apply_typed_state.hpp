@@ -18,7 +18,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename State, template< typename... > class Control, typename Rule >
    using apply_typed_state_r = apply_typed_state_b< State, Control< Rule > >;
 
-   template< typename State, template< typename...> class Control = normal >
+   template< typename State, template< typename... > class Control = normal >
    struct apply_typed_state_n
    {
       template< typename Rule >

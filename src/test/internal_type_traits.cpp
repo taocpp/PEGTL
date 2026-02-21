@@ -6,10 +6,10 @@
 #include <tao/pegtl/inputs.hpp>
 #include <tao/pegtl/unicode/utf8.hpp>
 
-#include <tao/pegtl/internal/is_simple_type.hpp>
 #include <tao/pegtl/internal/has_eol_char_rule.hpp>
 #include <tao/pegtl/internal/has_eol_rule.hpp>
 #include <tao/pegtl/internal/has_start.hpp>
+#include <tao/pegtl/internal/is_simple_type.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

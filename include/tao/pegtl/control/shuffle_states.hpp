@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Shuffle, template< typename... > class Control, typename Rule >
    using shuffle_states_r = shuffle_states_b< Shuffle, Control< Rule > >;
 
-   template< typename Shuffle, template< typename...> class Control >
+   template< typename Shuffle, template< typename... > class Control >
    struct shuffle_states_n
    {
       template< typename Rule >

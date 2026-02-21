@@ -63,8 +63,8 @@
 #include <tao/pegtl/action/require_apply.hpp>
 #include <tao/pegtl/action/require_apply0.hpp>
 
-#include <tao/pegtl/stream/analyze_traits.hpp>
 #include <tao/pegtl/stream/alloc_buffer.hpp>
+#include <tao/pegtl/stream/analyze_traits.hpp>
 #include <tao/pegtl/stream/array_buffer.hpp>
 #include <tao/pegtl/stream/buffers.hpp>
 #include <tao/pegtl/stream/cstream_reader.hpp>
@@ -79,8 +79,8 @@
 #include <tao/pegtl/stream/other_buffer.hpp>
 #include <tao/pegtl/stream/prefetch.hpp>
 #include <tao/pegtl/stream/require.hpp>
-#include <tao/pegtl/stream/stream_input_base.hpp>
 #include <tao/pegtl/stream/stream_input.hpp>
+#include <tao/pegtl/stream/stream_input_base.hpp>
 #include <tao/pegtl/stream/stream_input_with_source.hpp>
 #include <tao/pegtl/stream/text_stream_input.hpp>
 #include <tao/pegtl/stream/text_stream_input_with_source.hpp>
