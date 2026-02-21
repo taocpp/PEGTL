@@ -18,16 +18,22 @@ jobs:
         include:
           - llvm: 18
             build_type: Debug
-            os: macos-14
+            os: macos-15-intel
           - llvm: 18
             build_type: Release
-            os: macos-14
-          - llvm: 16
+            os: macos-15-intel
+          - llvm: 18
             build_type: Debug
-            os: macos-13
-          - llvm: 16
+            os: macos-15
+          - llvm: 18
             build_type: Release
-            os: macos-13
+            os: macos-15
+          - llvm: 20
+            build_type: Debug
+            os: macos-26
+          - llvm: 20
+            build_type: Release
+            os: macos-26
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -35,7 +41,6 @@ jobs:
       run: |
         brew update
         brew install llvm@${{ matrix.llvm }}
-        brew install ninja
 
     - uses: actions/checkout@v4
     - name: Configure CMake
