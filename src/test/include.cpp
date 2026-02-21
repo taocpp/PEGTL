@@ -117,9 +117,12 @@
 #include <tao/pegtl/debug/trace_traits.hpp>
 #include <tao/pegtl/debug/visit.hpp>
 
+#if defined( TAO_PEGTL_TEST_ICU )
 #include <tao/pegtl/unicode/icu16.hpp>
 #include <tao/pegtl/unicode/icu32.hpp>
 #include <tao/pegtl/unicode/icu8.hpp>
+#endif
+
 #include <tao/pegtl/unicode/utf16.hpp>
 #include <tao/pegtl/unicode/utf32.hpp>
 #include <tao/pegtl/unicode/utf8.hpp>

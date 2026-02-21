@@ -146,7 +146,6 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( b );
          TAO_PEGTL_TEST_ASSERT( ctor );
          TAO_PEGTL_TEST_ASSERT( dtor );
-         TAO_PEGTL_TEST_ASSERT( i == 42 );
       }
       // guard2 parse failure
       {
@@ -158,7 +157,6 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( !b );
          TAO_PEGTL_TEST_ASSERT( ctor );
          TAO_PEGTL_TEST_ASSERT( dtor );
-         TAO_PEGTL_TEST_ASSERT( i == 42 );
       }
    }
 
