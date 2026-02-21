@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_CONTRIB_LIMIT_COUNT_HPP
-#define TAO_PEGTL_CONTRIB_LIMIT_COUNT_HPP
+#ifndef TAO_PEGTL_CONTRIB_LIMIT_CONSUME_HPP
+#define TAO_PEGTL_CONTRIB_LIMIT_CONSUME_HPP
 
 #include <algorithm>
 
@@ -22,29 +22,29 @@ namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
    {
-      template< std::size_t Maximum, typename MemoryInput >
-      struct [[nodiscard]] bytes_guard
+      template< std::size_t Maximum, typename Input >
+      struct [[nodiscard]] limit_guard
       {
-         MemoryInput& m_in;
-         const char* m_end;
+         Input& m_in;
+         const void* m_end;
 
-         explicit bytes_guard( MemoryInput& in ) noexcept
+         explicit limit_guard( Input& in ) noexcept
             : m_in( in ),
               m_end( in.end() )
          {
             m_in.private_set_end( m_in.start() + ( std::min )( m_in.size(), Maximum ) );
          }
 
-         bytes_guard( bytes_guard&& ) = delete;
-         bytes_guard( const bytes_guard& ) = delete;
+         limit_guard( limit_guard&& ) = delete;
+         limit_guard( const limit_guard& ) = delete;
 
-         ~bytes_guard()
+         ~limit_guard()
          {
-            m_in.private_set_end( m_end );
+            m_in.private_set_end( static_cast< const typename Input::data_t* >( m_end ) );
          }
 
-         void operator=( bytes_guard&& ) = delete;
-         void operator=( const bytes_guard& ) = delete;
+         void operator=( limit_guard&& ) = delete;
+         void operator=( const limit_guard& ) = delete;
       };
 
       // C++17 does not allow partial deduction guides.
@@ -52,10 +52,10 @@ namespace TAO_PEGTL_NAMESPACE
    }  // namespace internal
 
    template< std::size_t Maximum >
-   struct limit_count
+   struct limit_consume
       : maybe_nothing
    {
-      static constexpr const char* error_message = "maximum allowed rule consumption reached";
+      static constexpr const char* error_message = "consumption limit exceeded";
 
       template< typename Rule,
                 apply_mode A,
@@ -68,13 +68,13 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         internal::bytes_guard< Maximum, ParseInput > bg( in );
+         internal::limit_guard< Maximum, ParseInput > bg( in );
          if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... ) ) {
             if( in.empty() && ( bg.m_end != in.current() ) ) {
 #if defined( __cpp_exceptions )
-               Control< limit_count >::raise( in );
+               Control< limit_consume >::raise( in );
 #else
-               std::fputs( "parse error: maximum allowed rule consumption reached\n", stderr );
+               std::fputs( "parse error: consumption limit exceeded\n", stderr );
                std::terminate();
 #endif
             }

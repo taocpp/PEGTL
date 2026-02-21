@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_CONTRIB_CHECK_COUNT_HPP
-#define TAO_PEGTL_CONTRIB_CHECK_COUNT_HPP
+#ifndef TAO_PEGTL_CONTRIB_CHECK_CONSUME_HPP
+#define TAO_PEGTL_CONTRIB_CHECK_CONSUME_HPP
 
 #include <string>
 
@@ -14,7 +14,6 @@
 #include "../rewind_mode.hpp"
 
 #if defined( __cpp_exceptions )
-#include "../demangle.hpp"
 #include "../parse_error.hpp"
 #else
 #include <cstdio>
@@ -24,9 +23,11 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    template< std::size_t Maximum >
-   struct check_count
+   struct check_consume
       : maybe_nothing
    {
+      static constexpr const char* error_message = "consumption check exceeded";
+
       template< typename Rule,
                 apply_mode A,
                 rewind_mode M,
@@ -42,10 +43,9 @@ namespace TAO_PEGTL_NAMESPACE
          if( TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... ) ) {
             if( std::size_t( in.current() - start ) > Maximum ) {
 #if defined( __cpp_exceptions )
-               const std::string d( demangle< Rule >() );
-               throw_parse_error( "consumption limit exceeded for " + d, in );
+               Control< check_consume >::raise( in );
 #else
-               std::fputs( "parse error: consumption limit exceeded\n", stderr );
+               std::fputs( "parse error: consumption check exceeded\n", stderr );
                std::terminate();
 #endif
             }

@@ -5,7 +5,7 @@
 #include "test.hpp"
 #include "test_utility.hpp"
 
-#include <tao/pegtl/contrib/check_count.hpp>
+#include <tao/pegtl/contrib/limit_consume.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -24,31 +24,37 @@ namespace TAO_PEGTL_NAMESPACE
 
    template<>
    struct test_action< test_rule >
-      : check_count< 5 >
+      : limit_consume< 5 >
    {};
 
    void unit_test()
    {
-      text_view_input< scan::lf > i1( "aaa" );
+      using test_input = internal::input_with_fakes< internal::input_with_funcs< internal::input_with_start< internal::view_input< char > > > >;
+
+      test_input i1( "aaa" );
       const auto r1 = parse< test_grammar >( i1 );
       TAO_PEGTL_TEST_ASSERT( r1 );
 
-      text_view_input< scan::lf > i2( "aaaaaaaaaaa" );
+      test_input i2( "aaaaaaaaaaa" );
       const auto r2 = parse< test_grammar >( i2 );
       TAO_PEGTL_TEST_ASSERT( r2 );
 
-      text_view_input< scan::lf > i3( "aaa" );
+      test_input i3( "aaa" );
       const auto r3 = parse< test_grammar, test_action >( i3 );
       TAO_PEGTL_TEST_ASSERT( r3 );
 
-#if defined( __cpp_exceptions )
-      text_view_input< scan::lf > i4( "aaaaaaaaaaa" );
-      TAO_PEGTL_TEST_THROWS( parse< test_grammar, test_action >( i4 ) );
-#endif
+      test_input i4( "000" );
+      const auto r4 = parse< test_grammar, test_action >( i4 );
+      TAO_PEGTL_TEST_ASSERT( !r4 );
 
-      text_view_input< scan::lf > i5( "99999999999" );
+      test_input i5( "0aaaaaaaaaaa" );
       const auto r5 = parse< test_grammar, test_action >( i5 );
       TAO_PEGTL_TEST_ASSERT( !r5 );
+
+#if defined( __cpp_exceptions )
+      test_input i6( "aaaaaaaaaaa" );
+      TAO_PEGTL_TEST_THROWS( parse< test_grammar, test_action >( i6 ) );
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
