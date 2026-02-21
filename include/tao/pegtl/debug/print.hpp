@@ -32,12 +32,12 @@ namespace TAO_PEGTL_NAMESPACE
       {
          static void visit( std::ostream& os )
          {
-            const auto first = demangle< Name >();
-            os << first << '\n';
+            const auto name = demangle< Name >();
+            os << name << '\n';
 
-            const auto second = demangle< typename Name::rule_t >();
-            if( first != second ) {
-               os << " (aka) " << second << '\n';
+            const auto rule = demangle< typename Name::rule_t >();
+            if( name != rule ) {
+               os << " (aka) " << rule << '\n';
             }
 
             print_subs( os, typename Name::subs_t() );
