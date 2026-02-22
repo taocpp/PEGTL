@@ -5,10 +5,12 @@ on:
     paths-ignore:
       - 'README.md'
       - 'doc/**'
+      - 'src/**'
   pull_request:
     paths-ignore:
       - 'README.md'
       - 'doc/**'
+      - 'src/**'
 
 jobs:
   code-coverage:

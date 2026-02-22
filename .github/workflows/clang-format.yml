@@ -16,7 +16,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - uses: DoozyX/clang-format-lint-action@v0.15
+    - uses: DoozyX/clang-format-lint-action@v0.20
       with:
         extensions: 'hpp,cpp'
-        clangFormatVersion: 15
+        clangFormatVersion: 20
