@@ -15,7 +15,7 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       for( char c = 2; c < 122; ++c ) {
-         TAO_PEGTL_TEST_ASSERT( internal::is_digit( c ) == ( ( '0' <= c ) && ( c <= '9' ) ) );
+         TAO_PEGTL_TEST_ASSERT( internal::is_ascii_digit( c ) == ( ( '0' <= c ) && ( c <= '9' ) ) );
       }
       {
          std::uint16_t t = 0;

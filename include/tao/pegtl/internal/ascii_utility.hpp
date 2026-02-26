@@ -27,8 +27,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    }
 
-   template< char C >
-   inline constexpr bool is_ascii_alpha = ( ( 'a' <= C ) && ( C <= 'z' ) ) || ( ( 'A' <= C ) && ( C <= 'Z' ) );
+   [[nodiscard]] constexpr bool is_ascii_alpha( const char c ) noexcept
+   {
+      return ( ( 'a' <= c ) && ( c <= 'z' ) ) || ( ( 'A' <= c ) && ( c <= 'Z' ) );
+   }
 
    template< char C, typename D >
    [[nodiscard]] constexpr bool ascii_char_equal( const D d ) noexcept
@@ -46,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< char C, typename D >
    [[nodiscard]] constexpr bool ascii_ichar_equal( const D d ) noexcept
    {
-      if constexpr( is_ascii_alpha< C > ) {
+      if constexpr( is_ascii_alpha( C ) ) {
          return ( C | 0x20 ) == ( d | 0x20 );  // ...
       }
       else {
