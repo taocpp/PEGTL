@@ -9,53 +9,103 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
+   template< typename Rule >
+   struct test_action
+      : nothing< Rule >
+   {};
+
+   template<>
+   struct test_action< everything >
+      : from_chars_dec
+   {};
+
    template< typename Integral >
-   void charconv_success( const std::string& input, const Integral output, const std::size_t remaining = 0 )
+   void from_chars_success( const std::string& input, const Integral output, const std::size_t remaining = 0 )
    {
-      view_input in( input );
-      static_assert( std::is_integral_v< Integral > );
-      Integral state = output + 1;
-      TAO_PEGTL_TEST_ASSERT( state == output + 1 );
-      const bool result = parse< charconv >( in, state );
-      TAO_PEGTL_TEST_ASSERT( result );
-      TAO_PEGTL_TEST_ASSERT( state == output );
-      TAO_PEGTL_TEST_ASSERT( in.size() == remaining );
+      // Test rule.
+      {
+         view_input in( input );
+         static_assert( std::is_integral_v< Integral > );
+         Integral state = output + 1;
+         const bool result = parse< from_chars_dec >( in, state );
+         TAO_PEGTL_TEST_ASSERT( result );
+         TAO_PEGTL_TEST_ASSERT( state == output );
+         TAO_PEGTL_TEST_ASSERT( in.size() == remaining );
+      }
+      // Test action.
+      {
+         view_input in( input.data(), input.size() - remaining );
+         Integral state = output + 1;
+         const bool result = parse< everything, test_action >( in, state );
+         TAO_PEGTL_TEST_ASSERT( result );
+         TAO_PEGTL_TEST_ASSERT( state == output );
+         TAO_PEGTL_TEST_ASSERT( in.size() == 0 );
+      }
    }
 
    template< typename Integral >
-   void charconv_failure( const std::string& input, const Integral value )
+   void from_chars_failure( const std::string& input, Integral value )
    {
-      view_input in( input );
-      static_assert( std::is_integral_v< Integral > );
-      Integral state = value + 1;
-      TAO_PEGTL_TEST_ASSERT( state == value + 1 );
-      const bool result = parse< charconv >( in, state );
-      TAO_PEGTL_TEST_ASSERT( !result );
-      TAO_PEGTL_TEST_ASSERT( state == value + 1 );
-      TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
+      // Test rule.
+      {
+         view_input in( input );
+         static_assert( std::is_integral_v< Integral > );
+         Integral state = value + 1;
+         const bool result = parse< from_chars_dec >( in, state );
+         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( state == value + 1 );
+         TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
+      }
+      // Test action.
+      {
+         view_input in( input );
+         Integral state = value + 1;
+         const bool result = parse< everything, test_action >( in, state );
+         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( state == value + 1 );
+         TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
+      }
    }
 
    void unit_test()
    {
-      verify_analyze< charconv >( __LINE__, __FILE__, true, false );
+      verify_analyze< from_chars_dec >( __LINE__, __FILE__, true, false );
 
-      charconv_success( "0", int( 0 ) );
-      charconv_success( "0", unsigned( 0 ) );
+      from_chars_failure( "", int( 1 ) );
+      from_chars_failure( "", unsigned( 1 ) );
 
-      charconv_success( "0r", int( 0 ), 1 );
-      charconv_success( "0s", unsigned( 0 ), 1 );
+      from_chars_success( "0", int( 0 ) );
+      from_chars_success( "0", unsigned( 0 ) );
 
-      charconv_success( "0x0", int( 0 ), 2 );
-      charconv_success( "0x0", unsigned( 0 ), 2 );
+      from_chars_success( "0 ", int( 0 ), 1 );
+      from_chars_success( "0 ", unsigned( 0 ), 1 );
 
-      charconv_success( "-1", int( -1 ) );
-      charconv_failure( "-1", unsigned( 42 ) );
+      from_chars_failure( " 0", int( 1 ) );
+      from_chars_failure( " 0", unsigned( 1 ) );
 
-      charconv_failure( "rrr", int( 0 ) );
-      charconv_failure( "sss", unsigned( 0 ) );
+      from_chars_success( "00", int( 0 ) );
+      from_chars_success( "00", unsigned( 0 ) );
 
-      charconv_failure( "999999999999", int( 0 ) );
-      charconv_failure( "999999999999", unsigned( 0 ) );
+      from_chars_success( "007", int( 7 ) );
+      from_chars_success( "007", unsigned( 7 ) );
+
+      from_chars_success( "0r", int( 0 ), 1 );
+      from_chars_success( "0s", unsigned( 0 ), 1 );
+
+      from_chars_success( "0x0", int( 0 ), 2 );
+      from_chars_success( "0x0", unsigned( 0 ), 2 );
+
+      from_chars_success( "-1", int( -1 ) );
+      from_chars_failure( "-1", unsigned( 42 ) );
+
+      from_chars_failure( "+1", int( 3 ) );
+      from_chars_failure( "+1", unsigned( 3 ) );
+
+      from_chars_failure( "rrr", int( 0 ) );
+      from_chars_failure( "sss", unsigned( 0 ) );
+
+      from_chars_failure( "999999999999", int( 0 ) );
+      from_chars_failure( "999999999999", unsigned( 0 ) );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
