@@ -5,162 +5,17 @@
 #ifndef TAO_PEGTL_CONTRIB_RAW_STRING_HPP
 #define TAO_PEGTL_CONTRIB_RAW_STRING_HPP
 
-#include <cstddef>
-#include <type_traits>
-
-#include "../apply_mode.hpp"
-#include "../ascii.hpp"
 #include "../config.hpp"
-#include "../eol_exclude_tag.hpp"
-#include "../eol_unknown_tag.hpp"
-#include "../rewind_mode.hpp"
-#include "../rules.hpp"
 
 #include "../debug/analyze_traits.hpp"
+#include "../internal/until.hpp"
+
+#include "internal/raw_string.hpp"
+
+#include "remove_first_state.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   namespace internal
-   {
-      template< char Open, char Marker >
-      struct raw_string_open
-      {
-         using rule_t = raw_string_open;
-         using subs_t = empty_list;
-
-         template< apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename ParseInput >
-         [[nodiscard]] static bool match( ParseInput& in, std::size_t& marker_size ) noexcept( noexcept( in.size( 42 ) ) )
-         {
-            if( in.empty() || ( in.peek_char( 0 ) != Open ) ) {
-               return false;
-            }
-            for( std::size_t i = 1; i < in.size( i + 1 ); ++i ) {
-               switch( const auto c = in.peek_char( i ) ) {
-                  case Open:
-                     marker_size = i + 1;
-                     in.template consume< eol_exclude_tag >( marker_size );
-                     (void)Control< eol >::template match< A, M, Action, Control >( in );
-                     return true;
-                  case Marker:
-                     break;
-                  default:
-                     return false;
-               }
-            }
-            return false;
-         }
-      };
-
-      template< char Open, char Marker >
-      inline constexpr bool enable_control< raw_string_open< Open, Marker > > = false;
-
-      template< char Marker, char Close >
-      struct at_raw_string_close
-      {
-         using rule_t = at_raw_string_close;
-         using subs_t = empty_list;
-
-         template< apply_mode A,
-                   rewind_mode,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename ParseInput >
-         [[nodiscard]] static bool match( ParseInput& in, const std::size_t& marker_size ) noexcept( noexcept( in.size( 42 ) ) )
-         {
-            if( in.size( marker_size ) < marker_size ) {
-               return false;
-            }
-            if( in.peek_char( 0 ) != Close ) {
-               return false;
-            }
-            if( in.peek_char( marker_size - 1 ) != Close ) {
-               return false;
-            }
-            for( std::size_t i = 0; i < ( marker_size - 2 ); ++i ) {
-               if( in.peek_char( i + 1 ) != Marker ) {
-                  return false;
-               }
-            }
-            return true;
-         }
-      };
-
-      template< char Marker, char Close >
-      inline constexpr bool enable_control< at_raw_string_close< Marker, Close > > = false;
-
-      template< typename Cond, typename... Rules >
-      struct raw_string_until
-         : raw_string_until< Cond, seq< Rules... > >
-      {};
-
-      template< typename Cond >
-      struct raw_string_until< Cond >
-      {
-         using rule_t = raw_string_until;
-         using subs_t = type_list< Cond >;
-
-         template< apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename ParseInput,
-                   typename... States >
-         [[nodiscard]] static bool match( ParseInput& in, const std::size_t& marker_size, States&&... st )
-         {
-            auto m = Control< raw_string_until >::template guard< A, M, Action, Control >( in, st... );
-
-            while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, marker_size ) ) {
-               if( in.empty() ) {
-                  return false;
-               }
-               in.template consume< eol_unknown_tag >( 1 );
-            }
-            return m( true );
-         }
-      };
-
-      template< typename Cond, typename Rule >
-      struct raw_string_until< Cond, Rule >
-      {
-         using rule_t = raw_string_until;
-         using subs_t = type_list< Cond, Rule >;
-
-         template< apply_mode A,
-                   rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class Control,
-                   typename ParseInput,
-                   typename... States >
-         [[nodiscard]] static bool match( ParseInput& in, const std::size_t& marker_size, States&&... st )
-         {
-            auto m = Control< raw_string_until >::template guard< A, M, Action, Control >( in, st... );
-
-            while( !Control< Cond >::template match< A, rewind_mode::required, Action, Control >( in, marker_size ) ) {
-               if( !Control< Rule >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) ) {
-                  return false;
-               }
-            }
-            return m( true );
-         }
-      };
-
-      template< typename Cond, typename... Rules >
-      inline constexpr bool enable_control< raw_string_until< Cond, Rules... > > = false;
-
-   }  // namespace internal
-
    // raw_string matches Lua-style long literals.
    //
    // The following description was taken from the Lua documentation
@@ -186,47 +41,35 @@ namespace TAO_PEGTL_NAMESPACE
    // introduced newline-specific replacements in Lua 5.2, which we do not
    // support on the grammar level.
 
+   // An action should usually not be attached to a raw_string but to its
+   // content so that the action_input the apply() function receives only
+   // contains the actual content of the string without the opening and
+   // closing sequences. The content type is also used for error-reporting
+   // when a raw string is not closed properly or has invalid content.
+
    template< char Open, char Marker, char Close, typename... Contents >
    struct raw_string
-   {
-      // This is used for binding the apply()-method and for error-reporting
-      // when a raw string is not closed properly or has invalid content.
-      struct content
-         : internal::raw_string_until< internal::at_raw_string_close< Marker, Close >, Contents... >
-      {};
+      : internal::raw_string< Open, Marker, Close, internal::until< internal::at_raw_string_close< Marker, Close >, remove_first_state< Contents... > > >
+   {};
 
-      using rule_t = raw_string;
-      using subs_t = empty_list;  // type_list< internal::raw_string_open< Open, Marker >, content >;
+   template< char Open, char Marker, char Close >
+   struct raw_string< Open, Marker, Close >
+      : internal::raw_string< Open, Marker, Close, internal::until< internal::at_raw_string_close< Marker, Close > > >
+   {};
 
-      template< apply_mode A,
-                rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
-                typename ParseInput,
-                typename... States >
-      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
-      {
-         std::size_t marker_size;
-         if( Control< internal::raw_string_open< Open, Marker > >::template match< A, M, Action, Control >( in, marker_size ) ) {
-            if( Control< content >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
-               in.template consume< eol_exclude_tag >( marker_size );
-               return true;
-            }
-         }
-         return false;
-      }
-   };
-
-   template< typename Name, char Open, char Marker, char Close >
-   struct analyze_traits< Name, raw_string< Open, Marker, Close > >
+   template< typename Name, char Open, char Marker >
+   struct analyze_traits< Name, internal::raw_string_open< Open, Marker > >
       : analyze_any_traits<>
    {};
 
-   template< typename Name, char Open, char Marker, char Close, typename... Contents >
-   struct analyze_traits< Name, raw_string< Open, Marker, Close, Contents... > >
-      : analyze_traits< Name, typename seq< any, star< Contents... >, any >::rule_t >
+   template< typename Name, char Marker, char Close >
+   struct analyze_traits< Name, internal::at_raw_string_close< Marker, Close > >
+      : analyze_opt_traits<>
+   {};
+
+   template< typename Name, char Open, char Marker, char Close, typename Content >
+   struct analyze_traits< Name, internal::raw_string< Open, Marker, Close, Content > >
+      : analyze_seq_traits< internal::raw_string_open< Open, Marker >, Content >
    {};
 
 }  // namespace TAO_PEGTL_NAMESPACE
