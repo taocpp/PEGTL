@@ -16,12 +16,9 @@
 #include <string_view>
 #include <type_traits>
 
-#include "../ascii.hpp"
 #include "../config.hpp"
-#include "../eol_exclude_tag.hpp"
 #include "../parse.hpp"
 #include "../parse_error.hpp"
-#include "../rules.hpp"
 
 #include "../debug/analyze_traits.hpp"
 #include "../example/integer.hpp"

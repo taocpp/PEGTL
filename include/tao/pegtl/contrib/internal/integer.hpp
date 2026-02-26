@@ -10,6 +10,7 @@
 #include <type_traits>
 
 #include "../../config.hpp"
+#include "../../eol_exclude_tag.hpp"
 
 #include "ascii_utility.hpp"
 
