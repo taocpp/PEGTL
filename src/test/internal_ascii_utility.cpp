@@ -24,14 +24,14 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( internal::is_seven_value( std::int8_t( 127 ) ) );
 
       TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::int8_t( -1 ) ) );
-      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::int8_t( 128 ) ) );
-      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::int8_t( 200 ) ) );
+      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::int8_t( -127 ) ) );
+      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::int8_t( -42 ) ) );
 
       TAO_PEGTL_TEST_ASSERT( internal::is_seven_value( std::uint8_t( 0 ) ) );
       TAO_PEGTL_TEST_ASSERT( internal::is_seven_value( std::uint8_t( 42 ) ) );
       TAO_PEGTL_TEST_ASSERT( internal::is_seven_value( std::uint8_t( 127 ) ) );
 
-      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::uint8_t( -1 ) ) );
+      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::uint8_t( 255 ) ) );
       TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::uint8_t( 128 ) ) );
       TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::uint8_t( 200 ) ) );
 
@@ -50,8 +50,8 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( internal::is_seven_value( std::uint32_t( 42 ) ) );
       TAO_PEGTL_TEST_ASSERT( internal::is_seven_value( std::uint32_t( 127 ) ) );
 
-      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::uint32_t( -1000 ) ) );
-      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::uint32_t( -1 ) ) );
+      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::uint32_t( 0xfffff000u ) ) );
+      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::uint32_t( 0xffffffffu ) ) );
       TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::uint32_t( 128 ) ) );
       TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::uint32_t( 200 ) ) );
       TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( std::uint32_t( 200000 ) ) );
