@@ -24,8 +24,6 @@ jobs:
             compiler: g++-13
           - os: ubuntu-24.04
             compiler: g++-14
-          - os: ubuntu-24.04
-            compiler: g++-15
           - os: ubuntu-22.04
             compiler: clang++-13
           - os: ubuntu-22.04

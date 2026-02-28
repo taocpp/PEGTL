@@ -6,7 +6,7 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/record.hpp>
+#include <tao/pegtl/extra/record.hpp>
 #include <tao/pegtl/example/json.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;

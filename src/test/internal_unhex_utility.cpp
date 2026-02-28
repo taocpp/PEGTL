@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/contrib/internal/unhex_utility.hpp>
+#include <tao/pegtl/extra/internal/unhex_utility.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

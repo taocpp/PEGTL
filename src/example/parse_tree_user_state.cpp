@@ -5,7 +5,7 @@
 #include <type_traits>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/parse_tree.hpp>
+#include <tao/pegtl/extra/parse_tree.hpp>
 
 using namespace TAO_PEGTL_NAMESPACE;
 

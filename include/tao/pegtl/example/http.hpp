@@ -6,7 +6,7 @@
 #define TAO_PEGTL_EXAMPLE_HTTP_HPP
 
 #if !defined( __cpp_exceptions )
-#error "Exception support required for tao/pegtl/contrib/http.hpp"
+#error "Exception support required for tao/pegtl/extra/http.hpp"
 #else
 
 #include "../ascii.hpp"

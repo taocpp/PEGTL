@@ -8,7 +8,7 @@
 #include <string>
 
 #include <tao/pegtl/action/change_action_and_states.hpp>
-#include <tao/pegtl/contrib/unescape.hpp>
+#include <tao/pegtl/extra/unescape.hpp>
 #include <tao/pegtl/example/json.hpp>
 
 namespace example

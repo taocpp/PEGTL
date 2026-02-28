@@ -19,7 +19,7 @@ int main()
 #include "test_utility.hpp"
 #include "verify_seqs.hpp"
 
-#include <tao/pegtl/contrib/nested_exceptions.hpp>
+#include <tao/pegtl/extra/nested_exceptions.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

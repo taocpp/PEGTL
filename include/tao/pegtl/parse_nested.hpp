@@ -5,13 +5,11 @@
 #ifndef TAO_PEGTL_PARSE_NESTED_HPP
 #define TAO_PEGTL_PARSE_NESTED_HPP
 
-#if !defined( __cpp_exceptions )
-#error "Exception support required for tao/pegtl/parse_error.hpp"
-#endif
-
-#include <exception>
-#include <stdexcept>
 #include <type_traits>
+
+#if defined( __cpp_exceptions )
+#include <exception>
+#endif
 
 #include "apply_mode.hpp"
 #include "config.hpp"

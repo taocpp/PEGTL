@@ -14,7 +14,7 @@
 #include "../pegtl_string.hpp"
 #include "../rules.hpp"
 
-#include "../contrib/raw_string.hpp"
+#include "../extra/raw_string.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::lua53
 {

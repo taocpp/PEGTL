@@ -28,7 +28,7 @@
 
 #include <tao/pegtl.hpp>
 
-#include <tao/pegtl/contrib/parse_tree.hpp>
+#include <tao/pegtl/extra/parse_tree.hpp>
 #if defined( __cpp_exceptions )
 #include <tao/pegtl/control/must_if.hpp>
 #endif

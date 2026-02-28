@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/dispatch.hpp>
+#include <tao/pegtl/extra/dispatch.hpp>
 #include <tao/pegtl/example/json.hpp>
 
 namespace example

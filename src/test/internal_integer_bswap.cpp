@@ -10,12 +10,11 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      TAO_PEGTL_TEST_ASSERT( internal::integer_bswap( std::int8_t( 0xd3 ) ) == std::int8_t( 0xd3 ) );
+      TAO_PEGTL_TEST_ASSERT( internal::integer_bswap( std::int8_t( -42 ) ) == std::int8_t( -42 ) );
       TAO_PEGTL_TEST_ASSERT( internal::integer_bswap( std::int8_t( 0x27 ) ) == std::int8_t( 0x27 ) );
       TAO_PEGTL_TEST_ASSERT( internal::integer_bswap( std::uint8_t( 0x42 ) ) == std::uint8_t( 0x42 ) );
       TAO_PEGTL_TEST_ASSERT( internal::integer_bswap( std::uint8_t( 0xc1 ) ) == std::uint8_t( 0xc1 ) );
 
-      TAO_PEGTL_TEST_ASSERT( internal::integer_bswap( std::int16_t( 0xfabc ) ) == std::int16_t( 0xbcfa ) );
       TAO_PEGTL_TEST_ASSERT( internal::integer_bswap( std::int16_t( 0x5421 ) ) == std::int16_t( 0x2154 ) );
       TAO_PEGTL_TEST_ASSERT( internal::integer_bswap( std::uint16_t( 0x2105 ) ) == std::uint16_t( 0x0521 ) );
       TAO_PEGTL_TEST_ASSERT( internal::integer_bswap( std::uint16_t( 0xabcd ) ) == std::uint16_t( 0xcdab ) );

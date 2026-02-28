@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/unescape.hpp>
+#include <tao/pegtl/extra/unescape.hpp>
 
 using namespace TAO_PEGTL_NAMESPACE;
 
@@ -33,7 +33,7 @@ namespace example
 
    struct padded : seq< pad< literal, blank >, eof > {};
 
-   // Action class that uses the actions from tao/pegtl/contrib/unescape.hpp to
+   // Action class that uses the actions from tao/pegtl/extra/unescape.hpp to
    // produce a UTF-8 encoded result string where all escape sequences are
    // replaced with their intended meaning.
 

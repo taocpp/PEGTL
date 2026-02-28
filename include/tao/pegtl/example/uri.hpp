@@ -6,7 +6,7 @@
 #define TAO_PEGTL_EXAMPLE_URI_HPP
 
 #if !defined( __cpp_exceptions )
-#error "Exception support required for tao/pegtl/contrib/uri.hpp"
+#error "Exception support required for tao/pegtl/extra/uri.hpp"
 #else
 
 #include <cstdint>
@@ -16,7 +16,7 @@
 #include "../rules.hpp"
 #include "../unicode/utf8.hpp"
 
-#include "../contrib/integer.hpp"
+#include "../extra/integer.hpp"
 
 #include "abnf_core.hpp"
 

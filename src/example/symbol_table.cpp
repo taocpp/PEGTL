@@ -18,7 +18,7 @@ int main()
 
 #include <tao/pegtl.hpp>
 
-#include <tao/pegtl/contrib/integer.hpp>
+#include <tao/pegtl/extra/integer.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 

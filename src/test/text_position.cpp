@@ -15,7 +15,7 @@ int main()
 
 #include "test.hpp"
 
-#include <tao/pegtl/contrib/nested_exceptions.hpp>
+#include <tao/pegtl/extra/nested_exceptions.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
