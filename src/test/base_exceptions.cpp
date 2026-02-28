@@ -27,6 +27,11 @@ namespace TAO_PEGTL_NAMESPACE
       : std::exception
    {};
 
+#if defined( _MSC_VER )
+#pragma warning( push )
+#pragma warning( disable : 4702 )
+#endif
+
    void simple()
    {
       try {
@@ -110,6 +115,10 @@ namespace TAO_PEGTL_NAMESPACE
       std::cerr << __FUNCTION__ << " return failure" << std::endl;
       return;
    }
+
+#if defined( _MSC_VER )
+#pragma warning( pop )
+#endif
 
    void unit_test()
    {
