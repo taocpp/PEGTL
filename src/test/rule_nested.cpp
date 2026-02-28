@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE
    void test_success()
    {
       outer_input in( {
-         {"foo", 1}
+         { "foo", 1 }
       } );
       TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
       const auto b = parse< outer_grammar >( in );
@@ -44,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE
    void test_failure1()
    {
       outer_input in( {
-         {"bar", 1}
+         { "bar", 1 }
       } );
       TAO_PEGTL_TEST_ASSERT( in.size() == 1 );
       const auto b = parse< outer_grammar >( in );
@@ -62,8 +62,8 @@ namespace TAO_PEGTL_NAMESPACE
    void test_failure3()
    {
       outer_input in( {
-         {"foo",  1},
-         { "foo", 1}
+         { "foo",  1 },
+         { "foo", 1 }
       } );
       TAO_PEGTL_TEST_ASSERT( in.size() == 2 );
       const auto b = parse< outer_grammar >( in );

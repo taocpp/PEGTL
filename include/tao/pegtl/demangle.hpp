@@ -66,7 +66,7 @@ template< typename T >
 
 #elif defined( __GNUC__ )
 
-#if( __GNUC__ == 9 ) && ( __GNUC_MINOR__ < 3 )
+#if ( __GNUC__ == 9 ) && ( __GNUC_MINOR__ < 3 )
 
 #if !defined( __cpp_rtti )
 #error "RTTI support required for GCC 9.1/9.2"

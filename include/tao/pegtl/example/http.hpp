@@ -138,10 +138,8 @@ namespace TAO_PEGTL_NAMESPACE::http
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, std::size_t& size, States&&... /*unused*/ )
@@ -188,10 +186,8 @@ namespace TAO_PEGTL_NAMESPACE::http
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, const std::size_t size, States&&... /*unused*/ )
@@ -212,10 +208,8 @@ namespace TAO_PEGTL_NAMESPACE::http
       {
          template< apply_mode A,
                    rewind_mode M,
-                   template< typename... >
-                   class Action,
-                   template< typename... >
-                   class,
+                   template< typename... > class Action,
+                   template< typename... > class,
                    typename ParseInput,
                    typename State,
                    typename... States >
@@ -253,10 +247,8 @@ namespace TAO_PEGTL_NAMESPACE::http
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )

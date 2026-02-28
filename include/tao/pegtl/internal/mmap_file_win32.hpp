@@ -41,7 +41,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    [[nodiscard]] inline HANDLE file_open( const std::filesystem::path& path )
    {
       SetLastError( 0 );
-#if( _WIN32_WINNT >= 0x0602 )
+#if ( _WIN32_WINNT >= 0x0602 )
       const HANDLE h = ::CreateFile2( path.c_str(),
                                       GENERIC_READ,
                                       FILE_SHARE_READ,

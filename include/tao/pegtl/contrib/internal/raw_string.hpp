@@ -26,10 +26,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 42 ) ) )
@@ -65,10 +63,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       template< apply_mode A,
                 rewind_mode,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, const std::size_t& marker_size, States&&... /*unused*/ ) noexcept( noexcept( in.size( 42 ) ) )
@@ -100,14 +96,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = raw_string;
       using subs_t = type_list< raw_string_open< Open, Marker >, Content >;
 
-      struct content : Content {};
+      struct content
+         : Content
+      {};
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
@@ -126,6 +122,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< char Open, char Marker, char Close, typename Content >
    inline constexpr bool enable_control< raw_string< Open, Marker, Close, Content > > = false;
 
-}  // namespace internal
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

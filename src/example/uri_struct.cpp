@@ -35,7 +35,7 @@ struct URI
 
 namespace uri
 {
-   template< std::string URI::*Field >
+   template< std::string URI::* Field >
    struct bind
    {
       template< typename ActionInput >

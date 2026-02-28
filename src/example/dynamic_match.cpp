@@ -28,10 +28,8 @@ namespace dynamic
 
       template< tao::pegtl::apply_mode,
                 tao::pegtl::rewind_mode,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename... States >
       static bool match( ParseInput& in, const std::string& id, const std::string& /*unused*/, States&&... /*unused*/ )

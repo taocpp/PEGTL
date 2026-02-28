@@ -26,10 +26,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       template< apply_mode,
                 rewind_mode,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename... States >
       [[noreturn]] static bool match( ParseInput& in, States&&... st )

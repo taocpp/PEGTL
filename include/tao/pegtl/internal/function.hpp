@@ -40,10 +40,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in, States... st ) noexcept( E )
       {
@@ -84,10 +82,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in, States... st )
       {
@@ -156,10 +152,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in, States... st ) noexcept( false )
       {
@@ -222,10 +216,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in, States... st )
       {
@@ -250,10 +242,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in, States... st )
       {

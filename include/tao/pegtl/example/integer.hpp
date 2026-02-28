@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE
       // Pre-3.0 version of this rule.
    };
 
-   using integer_digits_one = sor< one< '0' >, plus< digit > >;  // Don't consume after first zero.
+   using integer_digits_one = sor< one< '0' >, plus< digit > >;                            // Don't consume after first zero.
    using integer_digits_two = if_then_else< one< '0' >, not_at< digit >, plus< digit > >;  // Don't match when superfluous leading zero(s) are present.
 
    struct unsigned_rule_new

@@ -17,10 +17,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule,
              apply_mode A,
              rewind_mode M,
-             template< typename... >
-             class Action,
-             template< typename... >
-             class Control,
+             template< typename... > class Action,
+             template< typename... > class Control,
              typename ParseInput,
              typename... States >
    [[nodiscard]] static auto match_no_control( ParseInput& in, States&&... st )
@@ -32,10 +30,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule,
              apply_mode A,
              rewind_mode M,
-             template< typename... >
-             class Action,
-             template< typename... >
-             class Control,
+             template< typename... > class Action,
+             template< typename... > class Control,
              typename ParseInput,
              typename... States >
    [[nodiscard]] static auto match_no_control( ParseInput& in, States&&... /*unused*/ )
@@ -47,10 +43,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule,
              apply_mode A,
              rewind_mode M,
-             template< typename... >
-             class Action,
-             template< typename... >
-             class Control,
+             template< typename... > class Action,
+             template< typename... > class Control,
              typename ParseInput,
              typename... States >
    [[nodiscard]] auto match_control_unwind( ParseInput& in, States&&... st )

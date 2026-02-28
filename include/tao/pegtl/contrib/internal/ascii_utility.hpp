@@ -14,6 +14,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       return ( '0' <= c ) && ( c <= '9' );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 #endif

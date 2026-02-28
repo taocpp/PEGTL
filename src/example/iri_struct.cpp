@@ -36,7 +36,7 @@ struct IRI
 
 namespace iri
 {
-   template< std::string IRI::*Field >
+   template< std::string IRI::* Field >
    struct bind
    {
       template< typename ActionInput >

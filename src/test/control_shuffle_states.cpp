@@ -75,10 +75,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput >
       static auto guard( ParseInput& in, const foo& /*unused*/, baz& /*unused*/, bar& /*unused*/, const int& /*unused*/ )
       {
@@ -118,10 +116,8 @@ namespace TAO_PEGTL_NAMESPACE
 
       template< apply_mode A,
                 rewind_mode M,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in, const int& i, const foo& f, bar& b, baz& z )
       {
@@ -135,7 +131,8 @@ namespace TAO_PEGTL_NAMESPACE
    {};
 
    struct test_grammar
-      : sor< one< 'a' >, seq< one< 'b' >, must< one< 'c' > > > > {};
+      : sor< one< 'a' >, seq< one< 'b' >, must< one< 'c' > > > >
+   {};
 
    template< typename Rule >
    struct test_action

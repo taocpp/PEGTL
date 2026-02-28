@@ -211,10 +211,8 @@ namespace calculator
 
       template< apply_mode,
                 rewind_mode,
-                template< typename... >
-                class Action,
-                template< typename... >
-                class Control,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 typename ParseInput,
                 typename... States >
       static bool match( ParseInput& in, const operators& b, stacks& s, States&&... /*unused*/ )
