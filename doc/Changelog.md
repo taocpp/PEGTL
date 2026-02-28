@@ -116,7 +116,8 @@ All noteworthy changes since the first public release.
   * Routed rewind-guard creation through the Control class.
   * Renamed `apply_mode::action` to `apply_mode::enabled`.
   * Renamed `apply_mode::nothing` to `apply_mode::disabled`.
-  * Added new contrib rules `rnd` and `rnd_opt` (fixed `random_order` example).
+  * Added new contrib rule `unordered` and `unordered_partial`.
+  * Removed `random_order` example, moved to `contrib/unordered.hpp`.
   * Added new contrib rule `charconv` in `contrib/charconv.hpp`.
   * Renamed contrib "limit_depth" functionality to "check_depth".
   * Renamed contrib "check_bytes" functionality to "check_consume".
