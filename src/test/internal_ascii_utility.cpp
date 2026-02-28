@@ -15,10 +15,6 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( internal::is_seven_value( char( 42 ) ) );
       TAO_PEGTL_TEST_ASSERT( internal::is_seven_value( char( 127 ) ) );
 
-      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( char( -1 ) ) );
-      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( char( 128 ) ) );
-      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( char( 200 ) ) );
-
       TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( test::choose_char( -1, 128 ) ) );
       TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( test::choose_char( -42, 200 ) ) );
       TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( test::choose_char( -127, 255 ) ) );
