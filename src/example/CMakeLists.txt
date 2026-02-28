@@ -34,7 +34,6 @@ set(example_sources
   parse_tree_user_state.cpp
   proto3_analyze.cpp
   proto3_parse.cpp
-  random_order.cpp
   recover.cpp
   s_expression.cpp
   sum.cpp

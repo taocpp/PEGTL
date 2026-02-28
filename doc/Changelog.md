@@ -21,13 +21,16 @@ All noteworthy changes since the first public release.
   * All actions beyond `nothing` are now in `include/tao/pegtl/action/`.
   * All controls beyond `normal` are now in `include/tao/pegtl/control/`.
   * The grammar debug and analysis features are now in `include/tao/pegtl/debug/`.
+  * The grammars are now all collected in `include/tao/pegtl/example/`.
 * Exceptions
   * Changed `parse_error` to contain only one `position`.
   * Changed `parse_error` to be templated over the position type.
   * Added `parse_error_base` as non-templated base class of `parse_error`.
   * Changed to **nested exceptions** for nested [parsing errors](Errors-and-Exceptions.md).
   * Added [control function](Control-and-Normal.md) to throw nested exceptions.
+  * Changed `parse_nested()` to require exceptions to be enabled.
   * Changed `parse_nested()` to throw a nested exception instead of adding a position to the current one.
+  * Changed `pegtl.hpp` to only include `parse_nested.hpp` when exceptions are enabled.
   * Added functions to visit and flatten [nested exceptions](Contrib-and-Examples.md#taopegtlcontribnested_exceptionshpp).
 * Inputs
   * Standardized on line - column - count order.
@@ -113,10 +116,11 @@ All noteworthy changes since the first public release.
   * Routed rewind-guard creation through the Control class.
   * Renamed `apply_mode::action` to `apply_mode::enabled`.
   * Renamed `apply_mode::nothing` to `apply_mode::disabled`.
+  * Added new contrib rules `rnd` and `rnd_opt` (fixed `random_order` example).
   * Added new contrib rule `charconv` in `contrib/charconv.hpp`.
   * Renamed contrib "limit_depth" functionality to "check_depth".
-  * Renamed contrib "check_bytes" functionality to "check_count".
-  * Renamed contrib "limit_bytes" functionality to "limit_count".
+  * Renamed contrib "check_bytes" functionality to "check_consume".
+  * Renamed contrib "limit_bytes" functionality to "limit_consume".
   * Moved depth counter to adapter class `input_with_depth` in [contrib](Contrib-and-Examples#contrib).
   * Changed default top-level `rewind_mode` to ~~`dontcare`~~ `optional`.
   * Merged `rewind_mode` values `dontcare` and `active` into new value `optional`.

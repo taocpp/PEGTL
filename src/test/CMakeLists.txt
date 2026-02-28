@@ -58,6 +58,7 @@ set(test_sources
   contrib_record.cpp
   contrib_rep_one_min_max.cpp
   contrib_rep_string.cpp
+  contrib_rnd.cpp
   contrib_type_to_string.cpp
   contrib_unescape.cpp
   control_apply_typed_state.cpp

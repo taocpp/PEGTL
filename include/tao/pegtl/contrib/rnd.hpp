@@ -2,11 +2,20 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
+#ifndef TAO_PEGTL_CONTRIB_RND_HPP
+#define TAO_PEGTL_CONTRIB_RND_HPP
+
 #include <bitset>
-#include <iostream>
+#include <cstddef>
 #include <utility>
 
-#include <tao/pegtl.hpp>
+#include "../apply_mode.hpp"
+#include "../config.hpp"
+#include "../rewind_mode.hpp"
+#include "../type_list.hpp"
+
+#include "../debug/analyze_traits.hpp"
+#include "../internal/enable_control.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -42,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE
             auto m = Control< rnd >::template guard< A, M, Action, Control >( in, st... );
 
             for( std::size_t i = 0; i < rule_count; ++i ) {
-               if( !( ( ( b.test( Indices ) == false ) && ( Control< Rules >::template match< A, rewind_mode::optional, Action, Control >( in, st... ) ) && ( b.set( Indices ), true ) ) || ... ) ) {
+               if( !( ( ( b.test( Indices ) == false ) && ( Control< Rules >::template match< A, ( ( Indices == ( sizeof...( Rules ) - 1 ) ) ? rewind_mode::optional : rewind_mode::required ), Action, Control >( in, st... ) ) && ( b.set( Indices ), true ) ) || ... ) ) {
                   return m( Optional );
                }
             }
@@ -81,26 +90,11 @@ namespace TAO_PEGTL_NAMESPACE
       : internal::rnd< true, Rules... >
    {};
 
+   template< typename Name, bool Optional, typename... Rules >
+   struct analyze_traits< Name, internal::rnd< Optional, Rules... > >
+      : std::conditional_t< Optional, analyze_opt_traits< Rules... >, analyze_seq_traits< Rules... > >
+   {};
+
 }  // namespace TAO_PEGTL_NAMESPACE
 
-int main( int argc, char** argv )
-{
-   using namespace TAO_PEGTL_NAMESPACE;
-
-   using grammar1 = seq< rnd< one< 'a' >, one< 'b' >, one< 'c' > >, eolf >;
-   using grammar2 = seq< rnd_opt< one< 'a' >, one< 'b' >, one< 'c' > >, eolf >;
-
-   for( int i = 1; i < argc; ++i ) {
-      {
-         argv_input< scan::lf_crlf > in( argv, i );
-         const bool b = parse< grammar1 >( in );
-         std::cout << "input: " << argv[ i ] << " rnd: " << b << std::endl;
-      }
-      {
-         argv_input< scan::lf_crlf > in( argv, i );
-         const bool b = parse< grammar2 >( in );
-         std::cout << "input: " << argv[ i ] << " rnd_opt: " << b << std::endl;
-      }
-   }
-   return 0;
-}
+#endif
