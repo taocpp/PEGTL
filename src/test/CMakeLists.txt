@@ -34,6 +34,10 @@ set(test_sources
   ascii_string.cpp
   ascii_three.cpp
   ascii_two.cpp
+  base_empty.cpp
+  base_exceptions.cpp
+  base_result.cpp
+  base_setup.cpp
   contrib_alphabet.cpp
   contrib_charconv.cpp
   contrib_check_consume.cpp
@@ -218,9 +222,6 @@ set(test_sources
   stream_rule_require.cpp
   stream_stream_input_base.cpp
   stream_text_stream_input.cpp
-  test_empty.cpp
-  test_result.cpp
-  test_setup.cpp
   text_position.cpp
   type_list.cpp
   uint16_general.cpp

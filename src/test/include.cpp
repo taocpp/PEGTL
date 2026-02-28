@@ -27,8 +27,8 @@
 #if defined( __cpp_exceptions )
 #include <tao/pegtl/parse_error.hpp>
 #include <tao/pegtl/parse_error_base.hpp>
-#endif
 #include <tao/pegtl/parse_nested.hpp>
+#endif
 #include <tao/pegtl/pegtl_string.hpp>
 #include <tao/pegtl/pointer_position.hpp>
 #include <tao/pegtl/position_with_source.hpp>

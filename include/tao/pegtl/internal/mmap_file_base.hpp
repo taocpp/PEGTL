@@ -41,15 +41,20 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename Data >
       [[nodiscard]] std::size_t mmap_file_size() const
       {
-         if( ( sizeof( Data ) == 1 ) || ( m_mmap_data.size() % sizeof( Data ) == 0 ) ) {
-            return m_mmap_data.size() / sizeof( Data );
+         if constexpr( sizeof( Data ) == 1 ) {
+            return m_mmap_data.size();
          }
+         else {
+            if( m_mmap_data.size() % sizeof( Data ) == 0 ) {
+               return m_mmap_data.size() / sizeof( Data );
+            }
 #if defined( __cpp_exceptions )
-         throw std::runtime_error( "mmap() file size is not multiple of data size" );
+            throw std::runtime_error( "mmap() file size is not multiple of data size" );
 #else
-         std::perror( "mmap() file size is not multiple of data size" );
-         std::terminate();
+            std::perror( "mmap() file size is not multiple of data size" );
+            std::terminate();
 #endif
+         }
       }
 
       template< typename Data >

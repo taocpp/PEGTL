@@ -5,14 +5,14 @@
 #ifndef TAO_PEGTL_PARSE_ERROR_BASE_HPP
 #define TAO_PEGTL_PARSE_ERROR_BASE_HPP
 
+#if !defined( __cpp_exceptions )
+#error "Exception support required for tao/pegtl/parse_error_base.hpp"
+#endif
+
 #include <cstddef>
 #include <stdexcept>
 #include <string>
 #include <string_view>
-
-#if !defined( __cpp_exceptions )
-#error "Exception support required for tao/pegtl/parse_error_base.hpp"
-#endif
 
 #include "config.hpp"
 

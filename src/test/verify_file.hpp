@@ -97,6 +97,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( flag == true );
       }
+#if defined( __cpp_exceptions )
       const char* foo = "foo";
       const text_copy_input< scan::lf_crlf, std::string, std::string > m( foo, foo, foo + 3 );
       {
@@ -129,6 +130,7 @@ namespace TAO_PEGTL_NAMESPACE
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( flag == true );
       }
+#endif
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

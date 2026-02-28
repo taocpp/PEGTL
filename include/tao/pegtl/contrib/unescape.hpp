@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE::unescape
    };
 
    // The unescape_c action MUST be called for a character matching One which MUST
-   // be a rule with the same rule_t as TAO_PEGTL_NAMESPACE::ascii::one< ... >.
+   // be, or publicly derive from, TAO_PEGTL_NAMESPACE::ascii::one< ... >.
 
    template< typename One, char... Rs >
    struct unescape_c

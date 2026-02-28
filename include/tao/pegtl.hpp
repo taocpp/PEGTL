@@ -15,9 +15,9 @@
 #if defined( __cpp_exceptions )
 #include "pegtl/parse_error.hpp"
 #include "pegtl/parse_error_base.hpp"
+#include "pegtl/parse_nested.hpp"
 #endif
 
-#include "pegtl/parse_nested.hpp"
 #include "pegtl/pegtl_string.hpp"
 
 #include "pegtl/unicode/utf8.hpp"

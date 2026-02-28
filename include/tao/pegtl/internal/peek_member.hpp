@@ -63,6 +63,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
+#if defined( __GNUC__ ) || defined( __clang__ )
+
    // For global getter functions that return a T.
 
    template< bool N, typename C, typename T, T ( *P )( const C& ) noexcept( N ) >
@@ -158,6 +160,178 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? ( in.current( offset )->*P )() : nullptr );
       }
    };
+
+#else  // MSVC can't deduce the N in template< bool N ..... noexcept( N ) >
+
+   template< typename C, typename T, T ( *P )( const C& ) noexcept( true ) >
+   struct peek_member_impl< T ( * )( const C& ) noexcept( true ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, std::uint8_t >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 1 ) ) )
+      {
+         if( in.size( offset + 1 ) >= ( offset + 1 ) ) {
+            return pair_t( P( *in.current( offset ) ), 1 );
+         }
+         return pair_t();
+      }
+   };
+
+   template< typename C, typename T, T ( *P )( const C& ) noexcept( false ) >
+   struct peek_member_impl< T ( * )( const C& ) noexcept( false ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, std::uint8_t >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( false )
+      {
+         if( in.size( offset + 1 ) >= ( offset + 1 ) ) {
+            return pair_t( P( *in.current( offset ) ), 1 );
+         }
+         return pair_t();
+      }
+   };
+
+   template< typename C, typename T, const T& ( *P )( const C& ) noexcept( true ) >
+   struct peek_member_impl< const T& ( * )( const C& ) noexcept( true ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, void >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 1 ) ) )
+      {
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? &P( *in.current( offset ) ) : nullptr );
+      }
+   };
+
+   template< typename C, typename T, const T& ( *P )( const C& ) noexcept( false ) >
+   struct peek_member_impl< const T& ( * )( const C& ) noexcept( false ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, void >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( false)
+      {
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? &P( *in.current( offset ) ) : nullptr );
+      }
+   };
+
+   template< typename C, typename T, const T* ( *P )( const C& ) noexcept( true ) >
+   struct peek_member_impl< const T* ( * )( const C& ) noexcept( true ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, void >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 1 ) ) )
+      {
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? P( *in.current( offset ) ) : nullptr );
+      }
+   };
+
+   template< typename C, typename T, const T* ( *P )( const C& ) noexcept( false ) >
+   struct peek_member_impl< const T* ( * )( const C& ) noexcept( false ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, void >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( false )
+      {
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? P( *in.current( offset ) ) : nullptr );
+      }
+   };
+
+   template< typename C, typename T, T ( C::*P )() const noexcept( true ) >
+   struct peek_member_impl< T ( C::* )() const noexcept( true ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, std::uint8_t >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 1 ) ) )
+      {
+         if( in.size( offset + 1 ) >= ( offset + 1 ) ) {
+            return pair_t( ( in.current( offset )->*P )(), 1 );
+         }
+         return pair_t();
+      }
+   };
+
+   template< typename C, typename T, T ( C::*P )() const noexcept( false ) >
+   struct peek_member_impl< T ( C::* )() const noexcept( false ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, std::uint8_t >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( false )
+      {
+         if( in.size( offset + 1 ) >= ( offset + 1 ) ) {
+            return pair_t( ( in.current( offset )->*P )(), 1 );
+         }
+         return pair_t();
+      }
+   };
+
+   template< typename C, typename T, const T& ( C::*P )() const noexcept( true ) >
+   struct peek_member_impl< const T& ( C::* )() const noexcept( true ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, void >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 1 ) ) )
+      {
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? &( ( in.current( offset )->*P )() ) : nullptr );
+      }
+   };
+
+   template< typename C, typename T, const T& ( C::*P )() const noexcept( false ) >
+   struct peek_member_impl< const T& ( C::* )() const noexcept( false ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, void >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( false )
+      {
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? &( ( in.current( offset )->*P )() ) : nullptr );
+      }
+   };
+
+   template< typename C, typename T, const T* ( C::*P )() const noexcept( true ) >
+   struct peek_member_impl< const T* ( C::* )() const noexcept( true ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, void >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( noexcept( in.size( 1 ) ) )
+      {
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? ( in.current( offset )->*P )() : nullptr );
+      }
+   };
+
+   template< typename C, typename T, const T* ( C::*P )() const noexcept( false ) >
+   struct peek_member_impl< const T* ( C::* )() const noexcept( false ), P >
+   {
+      using data_t = T;
+      using pair_t = data_and_size< data_t, void >;
+
+      template< typename ParseInput >
+      [[nodiscard]] static pair_t peek( ParseInput& in, const std::size_t offset = 0 ) noexcept( false )
+      {
+         return data_and_size( ( in.size( offset + 1 ) >= ( offset + 1 ) ) ? ( in.current( offset )->*P )() : nullptr );
+      }
+   };
+
+#endif
 
    template< auto M >
    struct peek_member
