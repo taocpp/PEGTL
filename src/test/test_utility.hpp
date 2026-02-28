@@ -5,9 +5,11 @@
 #ifndef TAO_PEGTL_SRC_TEST_PEGTL_TEST_UTILITY_HPP
 #define TAO_PEGTL_SRC_TEST_PEGTL_TEST_UTILITY_HPP
 
+#include <cassert>
 #include <cstddef>
 #include <iostream>
 #include <string>
+#include <type_traits>
 
 #include <tao/pegtl/inputs.hpp>
 
@@ -51,6 +53,19 @@ namespace TAO_PEGTL_NAMESPACE::test
          t += data;
       }
       return t.substr( offset, count );
+   }
+
+   [[nodiscard]] constexpr char choose_char( const int s, const int u ) noexcept
+   {
+      assert( s < 0 );
+      assert( u > 0 );
+
+      if constexpr( std::is_signed_v< char > ) {
+         return char( s );
+      }
+      else {
+         return char( u );
+      }
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::test
