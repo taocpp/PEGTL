@@ -16,6 +16,8 @@ jobs:
       fail-fast: false
       matrix:
         platform:
+          - os: ubuntu-22.04
+            compiler: g++-11
           - os: ubuntu-24.04
             compiler: g++-12
           - os: ubuntu-24.04
@@ -23,19 +25,19 @@ jobs:
           - os: ubuntu-24.04
             compiler: g++-14
           - os: ubuntu-24.04
-            compiler: clang++-16
-          - os: ubuntu-24.04
-            compiler: clang++-17
-          - os: ubuntu-24.04
-            compiler: clang++-18
-          - os: ubuntu-22.04
-            compiler: g++-11
+            compiler: g++-15
           - os: ubuntu-22.04
             compiler: clang++-13
           - os: ubuntu-22.04
             compiler: clang++-14
           - os: ubuntu-22.04
             compiler: clang++-15
+          - os: ubuntu-24.04
+            compiler: clang++-16
+          - os: ubuntu-24.04
+            compiler: clang++-17
+          - os: ubuntu-24.04
+            compiler: clang++-18
         build_type: [Release, Debug]
     runs-on: ${{ matrix.platform.os }}
 
