@@ -54,6 +54,7 @@
 #include <tao/pegtl/action/change_action_and_state.hpp>
 #include <tao/pegtl/action/change_action_and_states.hpp>
 #include <tao/pegtl/action/change_control.hpp>
+#include <tao/pegtl/action/change_rule.hpp>
 #include <tao/pegtl/action/change_state.hpp>
 #include <tao/pegtl/action/change_states.hpp>
 #include <tao/pegtl/action/control_action.hpp>

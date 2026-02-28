@@ -136,7 +136,6 @@ namespace TAO_PEGTL_NAMESPACE
       std::uint16_t result = 0;
       view_input<> in( sv );
       TAO_PEGTL_TEST_ASSERT( internal::match_and_convert_unsigned_with_maximum_nothrow< view_input<>, std::uint16_t, Limit >( in, result ) == outcome );
-      std::cerr << outcome << " " << result << " " << value << " " << sv << std::endl;
       TAO_PEGTL_TEST_ASSERT( ( !outcome ) || ( result == value ) );
    }
 

@@ -45,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE::test
       return false;
    }
 
-   [[nodiscard]] std::string endless( const std::string& data, const std::size_t offset, const std::size_t count )
+   [[nodiscard]] inline std::string endless( const std::string& data, const std::size_t offset, const std::size_t count )
    {
       std::string t;
 
@@ -55,17 +55,25 @@ namespace TAO_PEGTL_NAMESPACE::test
       return t.substr( offset, count );
    }
 
-   [[nodiscard]] constexpr char choose_char( const int s, const int u ) noexcept
+   // Compiler warnings are a good thing, except when you are writing low-level test code and it makes some very simple things more complicated.
+
+   template< typename I >
+   [[nodiscard]] constexpr I choose_int( const long s, const long u ) noexcept
    {
       assert( s < 0 );
       assert( u > 0 );
 
-      if constexpr( std::is_signed_v< char > ) {
-         return char( s );
+      if constexpr( std::is_signed_v< I > ) {
+         return I( s );
       }
       else {
-         return char( u );
+         return I( u );
       }
+   }
+
+   [[nodiscard]] inline constexpr char choose_char( const long s, const long u ) noexcept
+   {
+      return choose_int< char >( s, u );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::test

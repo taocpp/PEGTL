@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "test.hpp"
+#include "test_utility.hpp"
 
 #include <tao/pegtl/binary/internal/endian.hpp>
 #include <tao/pegtl/binary/internal/peek_endian.hpp>
@@ -44,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
-         TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 200 * 256 + 100 ) );
+         TAO_PEGTL_TEST_ASSERT( pair.data() == test::choose_int< Data >( -14236, 51300 ) );
       }
       {
          const auto pair = peek_type::peek( in, 3 * s );
@@ -76,14 +77,15 @@ namespace TAO_PEGTL_NAMESPACE
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
-         TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 12 * 256 ) );
+         TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 3072 ) );
       }
       {
          const auto pair = peek_type::peek( in, 2 * s );
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
-         TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 100 * 256 + 200 ) );
+         std::cerr << __PRETTY_FUNCTION__ << std::endl;
+         TAO_PEGTL_TEST_ASSERT( pair.data() == test::choose_int< Data >( -39736, 25800 ) );
       }
       {
          const auto pair = peek_type::peek( in, 3 * s );
@@ -115,7 +117,7 @@ namespace TAO_PEGTL_NAMESPACE
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
-         TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 64767 ) );
+         TAO_PEGTL_TEST_ASSERT( pair.data() == test::choose_int< Data >( -769, 64767 ) );
       }
       {
          const auto pair = peek_type::peek( in, 2 * s );
@@ -154,14 +156,14 @@ namespace TAO_PEGTL_NAMESPACE
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
-         TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 65532 ) );
+         TAO_PEGTL_TEST_ASSERT( pair.data() == test::choose_int< Data >( -4, 65532 ) );
       }
       {
          const auto pair = peek_type::peek( in, 2 * s );
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == s );
-         TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 40000 ) );
+         TAO_PEGTL_TEST_ASSERT( pair.data() == test::choose_int< Data >( -25536, 40000 ) );
       }
       {
          const auto pair = peek_type::peek( in, 3 * s );
@@ -174,12 +176,12 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       test_integer16_8_big< std::int16_t >();
-      test_integer16_8_little< std::int16_t >();
       test_integer16_8_big< std::uint16_t >();
+      test_integer16_8_little< std::int16_t >();
       test_integer16_8_little< std::uint16_t >();
       test_integer16_16_byteswap< std::int16_t >();
-      test_integer16_16_identity< std::int16_t >();
       test_integer16_16_byteswap< std::uint16_t >();
+      test_integer16_16_identity< std::int16_t >();
       test_integer16_16_identity< std::uint16_t >();
    }
 
