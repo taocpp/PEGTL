@@ -15,9 +15,12 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename T >
    void test1( const std::string& s )
    {
-      std::cerr << "REFERENCE: " << s << std::endl;
-      std::cerr << "DEMANGLED: " << demangle< T >() << std::endl;
-      TAO_PEGTL_TEST_ASSERT( demangle< T >() == s );
+      const auto d = demangle< T >();
+      if( d != s ) {
+         std::cerr << "REFERENCE: " << s << std::endl;
+         std::cerr << "DEMANGLED: " << d << std::endl;
+      }
+      TAO_PEGTL_TEST_ASSERT( d == s );
    }
 
    void unit_test()
@@ -34,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE
       test1< int >( "int" );
       test1< double >( "double" );
       // In the Microsoft world, class and struct are not the same!
-      test1< seq< many7< 42 >, eof > >( "struct " + ns + "::seq<struct " + ns + "::many7<42>,struct " + ns + "::eof>" );
+      test1< seq< many7< 42 >, eof > >( "struct " + ns + "::seq<struct " + ns + "::ascii::many7<42>,struct " + ns + "::eof>" );
 #else
       test1< int >( "int" );
       test1< double >( "double" );
