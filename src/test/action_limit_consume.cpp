@@ -5,7 +5,7 @@
 #include "test.hpp"
 #include "test_utility.hpp"
 
-#include <tao/pegtl/extra/limit_consume.hpp>
+#include <tao/pegtl/action/limit_consume.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

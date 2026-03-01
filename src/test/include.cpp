@@ -57,9 +57,11 @@
 #include <tao/pegtl/action/change_rule.hpp>
 #include <tao/pegtl/action/change_state.hpp>
 #include <tao/pegtl/action/change_states.hpp>
+#include <tao/pegtl/action/check_consume.hpp>
 #include <tao/pegtl/action/control_action.hpp>
 #include <tao/pegtl/action/disable_action.hpp>
 #include <tao/pegtl/action/enable_action.hpp>
+#include <tao/pegtl/action/limit_consume.hpp>
 #include <tao/pegtl/action/match_typed_state.hpp>
 #include <tao/pegtl/action/require_apply.hpp>
 #include <tao/pegtl/action/require_apply0.hpp>
