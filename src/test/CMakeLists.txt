@@ -9,6 +9,7 @@ set(test_sources
   action_change_action_and_state.cpp
   action_change_action_and_states.cpp
   action_change_control.cpp
+  action_change_rule.cpp
   action_change_state.cpp
   action_change_states.cpp
   action_control_action.cpp
