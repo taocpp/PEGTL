@@ -73,7 +73,7 @@ namespace TAO_PEGTL_NAMESPACE
       lazy_test< ascii::lf_crlf >( "  \r\n  ", 2, 3, 6 );
 
 #if defined( __cpp_exceptions )
-      const auto c = test::choose_char( -128, 128 );
+      const auto c = char( 128 );
       TAO_PEGTL_TEST_THROWS( lazy_test< ascii::lf_crlf >( std::string( 1, c ), 0, 0, 0 ) );
 #endif
    }

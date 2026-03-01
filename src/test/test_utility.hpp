@@ -55,27 +55,6 @@ namespace TAO_PEGTL_NAMESPACE::test
       return t.substr( offset, count );
    }
 
-   // Compiler warnings are a good thing, except when you are writing low-level test code and it makes some very simple things more complicated.
-
-   template< typename I >
-   [[nodiscard]] constexpr I choose_int( const long s, const long u ) noexcept
-   {
-      assert( s < 0 );
-      assert( u > 0 );
-
-      if constexpr( std::is_signed_v< I > ) {
-         return I( s );
-      }
-      else {
-         return I( u );
-      }
-   }
-
-   [[nodiscard]] inline constexpr char choose_char( const long s, const long u ) noexcept
-   {
-      return choose_int< char >( s, u );
-   }
-
 }  // namespace TAO_PEGTL_NAMESPACE::test
 
 #endif

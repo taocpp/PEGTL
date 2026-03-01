@@ -3,7 +3,6 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include "test.hpp"
-#include "test_utility.hpp"
 
 #include <tao/pegtl/internal/ascii_utility.hpp>
 
@@ -15,9 +14,9 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( internal::is_seven_value( char( 42 ) ) );
       TAO_PEGTL_TEST_ASSERT( internal::is_seven_value( char( 127 ) ) );
 
-      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( test::choose_char( -1, 128 ) ) );
-      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( test::choose_char( -42, 200 ) ) );
-      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( test::choose_char( -127, 255 ) ) );
+      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( char( 128 ) ) );
+      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( char( 200 ) ) );
+      TAO_PEGTL_TEST_ASSERT( !internal::is_seven_value( char( 255 ) ) );
 
       TAO_PEGTL_TEST_ASSERT( internal::is_seven_value( std::int8_t( 0 ) ) );
       TAO_PEGTL_TEST_ASSERT( internal::is_seven_value( std::int8_t( 42 ) ) );

@@ -5,6 +5,10 @@
 #ifndef TAO_PEGTL_SRC_TEST_PEGTL_MAIN_HPP
 #define TAO_PEGTL_SRC_TEST_PEGTL_MAIN_HPP
 
+#if defined( _MSC_VER )
+#pragma warning( pop )
+#endif
+
 #include <cstdlib>
 #include <iostream>
 

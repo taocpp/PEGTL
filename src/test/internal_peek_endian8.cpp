@@ -9,7 +9,6 @@
 #include <vector>
 
 #include "test.hpp"
-#include "test_utility.hpp"
 
 #include <tao/pegtl/binary/internal/endian.hpp>
 #include <tao/pegtl/binary/internal/peek_endian.hpp>
@@ -43,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE
          static_assert( std::is_same_v< std::decay_t< decltype( pair ) >, pair_type > );
          TAO_PEGTL_TEST_ASSERT( pair );
          TAO_PEGTL_TEST_ASSERT( pair.size() == 1 );
-         TAO_PEGTL_TEST_ASSERT( pair.data() == test::choose_int< Data >( -56, 200 ) );
+         TAO_PEGTL_TEST_ASSERT( pair.data() == Data( 200 ) );
       }
       {
          const auto pair = peek_type::peek( in, 3 );

@@ -13,12 +13,6 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   namespace test
-   {
-      std::size_t failed = 0;
-
-   }  // namespace test
-
    struct foo
       : std::exception
    {};
@@ -26,6 +20,8 @@ namespace TAO_PEGTL_NAMESPACE
    struct bar
       : std::exception
    {};
+
+   bool failed = false;
 
 #if defined( _MSC_VER )
 #pragma warning( push )
@@ -44,7 +40,7 @@ namespace TAO_PEGTL_NAMESPACE
          return;
       }
       std::cerr << __FUNCTION__ << " failed catch foo" << std::endl;
-      ++test::failed;
+      failed = true;
       std::cerr << __FUNCTION__ << " return failure" << std::endl;
       return;
    }
@@ -62,7 +58,7 @@ namespace TAO_PEGTL_NAMESPACE
             std::throw_with_nested( bar() );
          }
          std::cerr << __FUNCTION__ << " failed catch foo" << std::endl;
-         ++test::failed;
+         failed = true;
          std::cerr << __FUNCTION__ << " return failure" << std::endl;
          return;
       }
@@ -72,7 +68,7 @@ namespace TAO_PEGTL_NAMESPACE
          return;
       }
       std::cerr << __FUNCTION__ << " failed catch bar" << std::endl;
-      ++test::failed;
+      failed = true;
       std::cerr << __FUNCTION__ << " return failure" << std::endl;
       return;
    }
@@ -90,7 +86,7 @@ namespace TAO_PEGTL_NAMESPACE
             std::throw_with_nested( bar() );
          }
          std::cerr << __FUNCTION__ << " failed catch foo" << std::endl;
-         ++test::failed;
+         failed = true;
          std::cerr << __FUNCTION__ << " return failure" << std::endl;
          return;
       }
@@ -106,12 +102,12 @@ namespace TAO_PEGTL_NAMESPACE
             return;
          }
          std::cerr << __FUNCTION__ << " failed catch foo nested" << std::endl;
-         ++test::failed;
+         failed = true;
          std::cerr << __FUNCTION__ << " return failure" << std::endl;
          return;
       }
       std::cerr << __FUNCTION__ << " failed catch bar" << std::endl;
-      ++test::failed;
+      failed = true;
       std::cerr << __FUNCTION__ << " return failure" << std::endl;
       return;
    }
@@ -120,16 +116,20 @@ namespace TAO_PEGTL_NAMESPACE
 #pragma warning( pop )
 #endif
 
-   void unit_test()
+   int unit_test()
    {
       simple();
       nested1();
       nested2();
+      return int( failed );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
-#include "main.hpp"
+int main()
+{
+   return TAO_PEGTL_NAMESPACE::unit_test();
+}
 
 #else
 

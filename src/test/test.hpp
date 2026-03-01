@@ -77,4 +77,9 @@ namespace TAO_PEGTL_NAMESPACE::test
       std::terminate();                                                                                                         \
    } while( false )
 
+#if defined( _MSC_VER )
+#pragma warning( push )
+#pragma warning( disable : 4310 )
+#endif
+
 #endif
