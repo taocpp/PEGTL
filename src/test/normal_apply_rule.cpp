@@ -77,6 +77,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename ActionInput >
       static void apply( const ActionInput& /*unused*/ ) noexcept
       {
+         static_assert( std::is_same_v< Rule, ar > );
          accumulator += 'r';
       }
    };
@@ -93,9 +94,10 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct my_action< a0r >
    {
-      template< typename >
+      template< typename Rule >
       static void apply0() noexcept
       {
+         static_assert( std::is_same_v< Rule, a0r > );
          accumulator += '1';
       }
    };
@@ -117,6 +119,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename ActionInput >
       static bool apply( const ActionInput& /*unused*/ ) noexcept
       {
+         static_assert( std::is_same_v< Rule, arb > );
          accumulator += 'R';
          return true;
       }
@@ -135,9 +138,10 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct my_action< a0rb >
    {
-      template< typename >
+      template< typename Rule >
       static bool apply0() noexcept
       {
+         static_assert( std::is_same_v< Rule, a0rb > );
          accumulator += '3';
          return true;
       }
@@ -160,6 +164,7 @@ namespace TAO_PEGTL_NAMESPACE
       template< typename Rule, typename ActionInput >
       static bool apply( const ActionInput& /*unused*/ ) noexcept
       {
+         static_assert( std::is_same_v< Rule, arf > );
          accumulator += 'G';
          return false;
       }
@@ -178,11 +183,48 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct my_action< a0rf >
    {
-      template< typename >
+      template< typename Rule >
       static bool apply0() noexcept
       {
+         static_assert( std::is_same_v< Rule, a0rf > );
          accumulator += '5';
          return false;
+      }
+   };
+
+   template<>
+   struct my_action< one< 'F' > >
+   {
+      static void apply0() noexcept
+      {
+         accumulator += '-';
+      }
+   };
+
+   template<>
+   struct my_action< one< 'G' > >
+   {
+      static void apply0() noexcept
+      {
+         accumulator += '-';
+      }
+   };
+
+   template<>
+   struct my_action< one< '4' > >
+   {
+      static void apply0() noexcept
+      {
+         accumulator += '+';
+      }
+   };
+
+   template<>
+   struct my_action< one< '5' > >
+   {
+      static void apply0() noexcept
+      {
+         accumulator += '+';
       }
    };
 
@@ -191,10 +233,11 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       const std::string str = "ar01AR23FG45";
+      const std::string out = "ar01AR23F-G-4+5+";
       view_input in( str );
       const bool b = parse< my_grammar, my_action >( in );
       TAO_PEGTL_TEST_ASSERT( b );
-      TAO_PEGTL_TEST_ASSERT( accumulator == str );
+      TAO_PEGTL_TEST_ASSERT( accumulator == out );
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
