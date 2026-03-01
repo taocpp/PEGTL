@@ -6,6 +6,7 @@
 #define TAO_PEGTL_UNICODE_UTF16_HPP
 
 #include "../config.hpp"
+#include "../system.hpp"
 
 #include "../internal/rules.hpp"
 

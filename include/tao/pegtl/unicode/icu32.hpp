@@ -45,6 +45,8 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace utf32_le::icu
 
+   namespace utf32 = TAO_PEGTL_ENDIAN_SUFFIXED( utf32_ );
+
 }  // namespace TAO_PEGTL_NAMESPACE
 
 // FCOV_EXCL_FILE

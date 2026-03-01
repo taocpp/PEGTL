@@ -6,6 +6,7 @@
 #define TAO_PEGTL_UNICODE_ICU16_HPP
 
 #include "../config.hpp"
+#include "../system.hpp"
 
 #include "internal/icu_binary_property.hpp"
 #include "internal/icu_property_value.hpp"
@@ -44,6 +45,8 @@ namespace TAO_PEGTL_NAMESPACE
 #include "internal/icu_rules.ipp"  // NOLINT(readability-duplicate-include)
 
    }  // namespace utf16_le::icu
+
+   namespace utf16 = TAO_PEGTL_ENDIAN_SUFFIXED( utf16_ );
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

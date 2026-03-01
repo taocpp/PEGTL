@@ -45,6 +45,10 @@ UNIT_TESTS := $(filter build/bin/test/%,$(BINARIES))
 .PHONY: all
 all: compile check
 
+.PHONE: icu
+icu: CXXFLAGS += -DTAO_PEGTL_TEST_ICU -licucore
+icu: compile check
+
 .PHONY: compile
 compile: $(BINARIES)
 
