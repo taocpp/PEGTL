@@ -15,8 +15,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - uses: DoozyX/clang-format-lint-action@v0.20
-      with:
-        extensions: 'hpp,cpp'
-        clangFormatVersion: 20
+      - uses: actions/checkout@v4
+
+      - run: |
+          clang-format --version
+          clang-format --dump-config
+
+      - uses: DoozyX/clang-format-lint-action@v0.20
+        with:
+          extensions: 'hpp,cpp'
+          clangFormatVersion: 20

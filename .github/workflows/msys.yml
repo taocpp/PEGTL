@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        platform: 
+        platform:
           - 'UCRT64'
           - 'CLANG64'
         build_type: [Debug, Release]
@@ -45,7 +45,7 @@ jobs:
 
     - run: cmake -E make_directory build
       shell: msys2 {0}
-      
+
     - working-directory: build/
       run: cmake $GITHUB_WORKSPACE -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
 
