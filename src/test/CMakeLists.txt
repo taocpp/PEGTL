@@ -151,6 +151,7 @@ set(test_sources
   internal_value_list_concat.cpp
   internal_vector_stack_guard.cpp
   internal_view_input.cpp
+  normal_apply_rule.cpp
   parse_error.cpp
   pegtl_string_t.cpp
   rewind_mode.cpp

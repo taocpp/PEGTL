@@ -15,8 +15,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename, typename, template< typename... > class, typename... >
    inline constexpr bool has_apply0 = false;
 
-   template< typename C, template< typename... > class Action, typename... S >
-   inline constexpr bool has_apply0< C, decltype( C::template apply0< Action >( std::declval< S >()... ) ), Action, S... > = true;
+   template< typename Control, template< typename... > class Action, typename... States >
+   inline constexpr bool has_apply0< Control, decltype( Control::template apply0< Action >( std::declval< States >()... ) ), Action, States... > = true;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

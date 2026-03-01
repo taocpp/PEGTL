@@ -112,12 +112,32 @@ namespace TAO_PEGTL_NAMESPACE
       }
 
       template< template< typename... > class Action,
+                typename RewindPosition,
+                typename ParseInput,
+                typename... States >
+      static auto apply( const RewindPosition& begin, const ParseInput& in, States&&... st ) noexcept( noexcept( Action< Rule >::template apply< Rule >( std::declval< const action_input< ParseInput >& >(), st... ) ) )
+         -> decltype( Action< Rule >::template apply< Rule >( std::declval< const action_input< ParseInput >& >(), st... ) )
+      {
+         const action_input< ParseInput > ai( begin, in );
+         return Action< Rule >::template apply< Rule >( ai, st... );
+      }
+
+      template< template< typename... > class Action,
                 typename ParseInput,
                 typename... States >
       static auto apply0( const ParseInput& /*unused*/, States&&... st ) noexcept( noexcept( Action< Rule >::apply0( st... ) ) )
          -> decltype( Action< Rule >::apply0( st... ) )
       {
          return Action< Rule >::apply0( st... );
+      }
+
+      template< template< typename... > class Action,
+                typename ParseInput,
+                typename... States >
+      static auto apply0( const ParseInput& /*unused*/, States&&... st ) noexcept( noexcept( Action< Rule >::template apply0< Rule >( st... ) ) )
+         -> decltype( Action< Rule >::template apply0< Rule >( st... ) )
+      {
+         return Action< Rule >::template apply0< Rule >( st... );
       }
 
       template< apply_mode A,
