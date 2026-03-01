@@ -137,11 +137,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] const data_t* end_of_line_or_file( const error_position_t& pos, const std::size_t max = 135 ) const
       {
          static_assert( sizeof( data_t ) == 1 );  // Generalising beyond 1 requires the until to use eol_lazy_peek like in lazy_input.
-         using grammar = until< at< sor< eof, eol_rule > > >;
+         using eolof_grammar = until< at< sor< eof, eol_rule > > >;
          const data_t* p = previous( pos );  // TODO: Start earlier?
          const std::size_t s = ( std::min )( max, std::size_t( this->end() - p ) );
          scan_input< data_t > in( p, s );
-         (void)normal< grammar >::template match< apply_mode::disabled, rewind_mode::optional, nothing, normal >( in );
+         (void)normal< eolof_grammar >::template match< apply_mode::disabled, rewind_mode::optional, nothing, normal >( in );
          return in.current();
       }
 
