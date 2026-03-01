@@ -78,7 +78,6 @@ set(test_sources
   extra_check_depth.cpp
   extra_dispatch.cpp
   extra_input_with_depth.cpp
-  extra_input_with_offset.cpp
   extra_integer.cpp
   extra_integer_convert.cpp
   extra_integer_match.cpp
@@ -101,6 +100,7 @@ set(test_sources
   input_file_input.cpp
   input_mmap_input.cpp
   input_read_input.cpp
+  input_with_offset.cpp
   internal_any.cpp
   internal_argv_input.cpp
   internal_ascii_utility.cpp

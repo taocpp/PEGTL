@@ -7,8 +7,6 @@
 #include "test.hpp"
 #include "test_utility.hpp"
 
-#include <tao/pegtl/extra/input_with_offset.hpp>
-
 namespace TAO_PEGTL_NAMESPACE
 {
    const std::string data = "foo\nbar";

@@ -18,7 +18,6 @@
 #include "../rewind_mode.hpp"
 
 #include "dispatch.hpp"
-#include "input_with_offset.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
