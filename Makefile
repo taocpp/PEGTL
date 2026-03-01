@@ -45,8 +45,12 @@ UNIT_TESTS := $(filter build/bin/test/%,$(BINARIES))
 .PHONY: all
 all: compile check
 
+# Switching between 'icu' and 'all' targets needs a 'make clean',
+# and dependencies aren't correct for the ICU test programs yet.
+
 .PHONE: icu
-icu: CXXFLAGS += -DTAO_PEGTL_TEST_ICU -licucore
+icu: CPPFLAGS += -DTAO_PEGTL_TEST_ICU
+icu: CXXFLAGS += -licucore
 icu: compile check
 
 .PHONY: compile
