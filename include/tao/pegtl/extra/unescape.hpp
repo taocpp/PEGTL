@@ -36,21 +36,17 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       }
    };
 
-   // The unescape_c action MUST be called for a character matching One which MUST
-   // be, or publicly derive from, TAO_PEGTL_NAMESPACE::ascii::one< ... >.
-
-   template< typename One, char... Rs >
+   template< char... Rs >
    struct unescape_c
    {
-      using one_t = typename One::test_t;
-
       static_assert( sizeof...( Rs ) > 0 );
 
-      template< typename ActionInput >
+      template< typename One, typename ActionInput >
       static void apply( const ActionInput& in, std::string& s )
       {
          // assert( in.size() == 1 );
-         s += apply_one( in.peek_char(), one_t() );
+         using test_t = typename One::test_t;
+         s += apply_one( in.peek_char(), test_t() );
       }
 
    private:

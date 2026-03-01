@@ -43,7 +43,7 @@ namespace example
    template<> struct action< escaped_x > : unescape::unescape_x {};
    template<> struct action< escaped_u > : unescape::unescape_u {};
    template<> struct action< escaped_U > : unescape::unescape_u {};
-   template<> struct action< escaped_c > : unescape::unescape_c< escaped_c, '\'', '"', '?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' > {};
+   template<> struct action< escaped_c > : unescape::unescape_c< '\'', '"', '?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' > {};
    // clang-format on
 
 }  // namespace example

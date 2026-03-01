@@ -21,7 +21,7 @@ namespace example
    template< typename Rule > struct json_unescape_action {};
 
    template<> struct json_unescape_action< pegtl::json::unicode > : pegtl::unescape::unescape_j {};
-   template<> struct json_unescape_action< pegtl::json::escaped_char > : pegtl::unescape::unescape_c< pegtl::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
+   template<> struct json_unescape_action< pegtl::json::escaped_char > : pegtl::unescape::unescape_c< '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
    template<> struct json_unescape_action< pegtl::json::unescaped > : pegtl::unescape::append_all {};
    // clang-format on
 
