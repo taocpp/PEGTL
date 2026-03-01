@@ -23,6 +23,11 @@ int main()
 
 namespace TAO_PEGTL_NAMESPACE::example
 {
+#if defined( _MSC_VER )
+#pragma warning( push )
+#pragma warning( disable : 4310 )
+#endif
+
    void print( const std::string& s )
    {
       if( ( s.size() == 1 ) && ( s[ 0 ] & char( 0x80 ) ) ) {
@@ -32,6 +37,10 @@ namespace TAO_PEGTL_NAMESPACE::example
          std::cout << " \"" << s << "\" |";
       }
    }
+
+#if defined( _MSC_VER )
+#pragma warning( pop )
+#endif
 
    void header( const std::vector< std::string >& v )
    {
