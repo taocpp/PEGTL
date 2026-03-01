@@ -13,7 +13,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename Rule >
+   template< typename NewRule >
    struct change_rule
       : maybe_nothing
    {
@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       [[nodiscard]] static bool match( ParseInput& in, States&&... st )
       {
-         return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in, st... );
+         return TAO_PEGTL_NAMESPACE::match< NewRule, A, M, Action, Control >( in, st... );
       }
    };
 
