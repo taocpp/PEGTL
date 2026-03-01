@@ -2,18 +2,18 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_EXTRA_REMOVE_FIRST_STATE_HPP
-#define TAO_PEGTL_EXTRA_REMOVE_FIRST_STATE_HPP
+#ifndef TAO_PEGTL_EXTRA_INTERNAL_REMOVE_FIRST_STATE_HPP
+#define TAO_PEGTL_EXTRA_INTERNAL_REMOVE_FIRST_STATE_HPP
 
-#include "../apply_mode.hpp"
-#include "../config.hpp"
-#include "../rewind_mode.hpp"
-#include "../type_list.hpp"
+#include "../../apply_mode.hpp"
+#include "../../config.hpp"
+#include "../../rewind_mode.hpp"
+#include "../../type_list.hpp"
 
-#include "../debug/analyze_traits.hpp"
-#include "../internal/enable_control.hpp"
-#include "../internal/seq.hpp"
-#include "../internal/success.hpp"
+#include "../../debug/analyze_traits.hpp"
+#include "../../internal/enable_control.hpp"
+#include "../../internal/seq.hpp"
+#include "../../internal/success.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -21,12 +21,12 @@ namespace TAO_PEGTL_NAMESPACE
    {
       template< typename... Rules >
       struct remove_first_state
-         : remove_first_state< internal::seq< Rules... > >
+         : remove_first_state< seq< Rules... > >
       {};
 
       template<>
       struct remove_first_state<>
-         : internal::success
+         : success
       {};
 
       template< typename Rule >
@@ -53,10 +53,10 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace internal
 
-   template< typename... Rules >
-   struct remove_first_state
-      : internal::remove_first_state< Rules... >
-   {};
+   // template< typename... Rules >
+   // struct remove_first_state
+   //    : internal::remove_first_state< Rules... >
+   // {};
 
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::remove_first_state< Rules... > >

@@ -11,8 +11,7 @@
 #include "../internal/until.hpp"
 
 #include "internal/raw_string.hpp"
-
-#include "remove_first_state.hpp"
+#include "internal/remove_first_state.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -49,7 +48,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< char Open, char Marker, char Close, typename... Contents >
    struct raw_string
-      : internal::raw_string< Open, Marker, Close, internal::until< internal::at_raw_string_close< Marker, Close >, remove_first_state< Contents... > > >
+      : internal::raw_string< Open, Marker, Close, internal::until< internal::at_raw_string_close< Marker, Close >, internal::remove_first_state< Contents... > > >
    {};
 
    template< char Open, char Marker, char Close >
