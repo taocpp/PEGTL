@@ -16,7 +16,8 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    // clang-format off
-   struct from_chars_raw : internal::from_chars< 0 > {};
+   template< int Base = 0 >
+   struct from_chars_raw : internal::from_chars< Base > {};
    struct from_chars_bin : internal::from_chars< 2 > {};
    struct from_chars_oct : internal::from_chars< 8 > {};
    struct from_chars_dec : internal::from_chars< 10 > {};
