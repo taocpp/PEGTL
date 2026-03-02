@@ -22,11 +22,6 @@ int main()
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   [[nodiscard]] inline bool operator==( const parse_error_base& l, const parse_error_base& r ) noexcept
-   {
-      return ( l.message() == r.message() ) && ( l.position_string() == r.position_string() );
-   }
-
    void test9()
    {
       try {
@@ -43,9 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
       }
       catch( const parse_error_base& e ) {
-         const auto v1 = flatten();
-         const auto v2 = flatten( e );
-         TAO_PEGTL_TEST_ASSERT( v1 == v2 );
+         const auto v1 = flatten( e );
          TAO_PEGTL_TEST_ASSERT( v1.size() == 3 );
          TAO_PEGTL_TEST_ASSERT( v1[ 0 ].message() == "first" );
          TAO_PEGTL_TEST_ASSERT( v1[ 1 ].message() == "second" );

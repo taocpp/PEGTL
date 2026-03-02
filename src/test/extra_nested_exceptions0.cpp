@@ -22,7 +22,12 @@ int main()
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   void test8()
+   [[nodiscard]] inline bool operator==( const parse_error_base& l, const parse_error_base& r ) noexcept
+   {
+      return ( l.message() == r.message() ) && ( l.position_string() == r.position_string() );
+   }
+
+   void test0()
    {
       try {
          try {
@@ -37,8 +42,10 @@ namespace TAO_PEGTL_NAMESPACE
             throw_parse_error_with_nested( "third", count_position( 3 ) );
          }
       }
-      catch( const parse_error_base& /*unused*/ ) {
+      catch( const parse_error_base& e ) {
          const auto v1 = flatten();
+         const auto v2 = flatten( e );
+         TAO_PEGTL_TEST_ASSERT( v1 == v2 );
          TAO_PEGTL_TEST_ASSERT( v1.size() == 3 );
          TAO_PEGTL_TEST_ASSERT( v1[ 0 ].message() == "first" );
          TAO_PEGTL_TEST_ASSERT( v1[ 1 ].message() == "second" );
@@ -48,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      test8();
+      test0();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

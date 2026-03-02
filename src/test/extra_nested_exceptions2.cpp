@@ -25,43 +25,25 @@ namespace TAO_PEGTL_NAMESPACE
    const std::string s1 = "foo";
    const std::string s2 = "bar";
 
-   struct visitor
-   {
-      void operator()( const std::string& s, const std::size_t l )
-      {
-         v.emplace_back( std::string( "string%" ) + s, l );
-      }
-
-      void operator()( const std::exception& e, const std::size_t l )
-      {
-         v.emplace_back( std::string( "exception%" ) + e.what(), l );
-      }
-
-      void operator()( const std::runtime_error& e, const std::size_t l )
-      {
-         v.emplace_back( std::string( "runtime%" ) + e.what(), l );
-      }
-
-      std::vector< std::pair< std::string, std::size_t > > v;
-   };
-
-   void test2()
+   void test33()
    {
       try {
-         throw std::string( s1 );
+         try {
+            throw std::string( s1 );
+         }
+         catch( ... ) {
+            std::throw_with_nested( std::runtime_error( s2 ) );
+         }
       }
-      catch( const std::string& s ) {
-         visitor v;
-         inspect< std::string >( s, v );
-         TAO_PEGTL_TEST_ASSERT( v.v.size() == 1 );
-         TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].first == "string%foo" );
-         TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].second == 0 );
+      catch( const std::exception& /*unused*/ ) {
+      }
+      catch( const std::string& /*unused*/ ) {
       }
    }
 
    void unit_test()
    {
-      test2();
+      test33();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

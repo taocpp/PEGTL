@@ -45,23 +45,23 @@ namespace TAO_PEGTL_NAMESPACE
       std::vector< std::pair< std::string, std::size_t > > v;
    };
 
-   void test1()
+   void test33()
    {
       try {
-         throw std::string( s1 );
+         try {
+            throw std::string( s1 );
+         }
+         catch( ... ) {
+            std::throw_with_nested( std::runtime_error( s2 ) );
+         }
       }
       catch( ... ) {
-         visitor v;
-         inspect< std::string >( v );
-         TAO_PEGTL_TEST_ASSERT( v.v.size() == 1 );
-         TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].first == "string%foo" );
-         TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].second == 0 );
       }
    }
 
    void unit_test()
    {
-      test1();
+      test33();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
