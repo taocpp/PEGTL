@@ -10,6 +10,7 @@ int main()
 }
 #else
 
+#include <cassert>
 #include <exception>
 #include <stdexcept>
 #include <string>
@@ -37,6 +38,7 @@ namespace
          template< typename Processor, typename Visitor >
          static void rethrow( const std::exception_ptr& caught, Visitor&& /*unused*/, const std::size_t /*unused*/ )
          {
+            assert( caught );
             std::rethrow_exception( caught );  // For the first/outer exception when supplied as exception pointer.
          }
       };
@@ -76,6 +78,7 @@ namespace
          template< typename Visitor >
          static void inspect( const std::exception_ptr& ptr, Visitor&& visitor )
          {
+            assert( ptr );
             Rethrower::template rethrow< Processor >( ptr, visitor, 0 );
          }
 
@@ -97,6 +100,7 @@ namespace
    template< typename... Exceptions, typename Visitor >
    void inspect( const std::exception_ptr& ptr, Visitor&& visitor )
    {
+      assert( ptr );
       internal::inspector< Exceptions... >::inspect( ptr, visitor );
    }
 
@@ -113,7 +117,7 @@ int main()
 {
    try {
       try {
-         throw std::string( s1 );
+         throw std::logic_error( s1 );
       }
       catch( ... ) {
          std::throw_with_nested( std::runtime_error( s2 ) );
@@ -121,7 +125,7 @@ int main()
    }
    catch( ... ) {
       visitor v;
-      inspect< std::string, std::runtime_error >( v );
+      inspect< std::logic_error, std::runtime_error >( v );
    }
    return 0;
 }
