@@ -119,7 +119,6 @@ set(test_sources
   internal_integer_size.cpp
   internal_lazy_inputs.cpp
   internal_lazy_scan_traits.cpp
-  internal_math_utility.cpp
   internal_mmap_input.cpp
   internal_peek_ascii.cpp
   internal_peek_data.cpp
@@ -162,7 +161,6 @@ set(test_sources
   rule_at.cpp
   rule_bof.cpp
   rule_bol.cpp
-  rule_combine.cpp
   rule_consume.cpp
   rule_control.cpp
   rule_disable.cpp
@@ -175,7 +173,6 @@ set(test_sources
   rule_if_must.cpp
   rule_if_must_else.cpp
   rule_if_then_else.cpp
-  rule_invert.cpp
   rule_list.cpp
   rule_list_must.cpp
   rule_list_tail.cpp
