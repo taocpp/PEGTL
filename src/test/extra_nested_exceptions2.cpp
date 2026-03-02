@@ -121,7 +121,7 @@ int main()
    }
    catch( ... ) {
       visitor v;
-      inspect( v );
+      inspect< std::string, std::runtime_error >( v );
    }
    return 0;
 }
