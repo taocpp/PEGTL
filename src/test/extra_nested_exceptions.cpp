@@ -2,8 +2,6 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#include <tao/pegtl/system.hpp>
-
 #if !defined( __cpp_exceptions ) || !defined( __cpp_rtti )
 #include <iostream>
 int main()
@@ -14,6 +12,8 @@ int main()
 
 #include "test.hpp"
 
+#include <exception>
+#include <stdexcept>
 #include <string>
 #include <utility>
 #include <vector>
