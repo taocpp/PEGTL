@@ -4,12 +4,11 @@
 
 #include <tao/pegtl/system.hpp>
 
-#if !defined( __cpp_exceptions ) || !defined( __cpp_rtti ) || defined( TAO_PEGTL_SYSTEM_WINDOWS )
+#if !defined( __cpp_exceptions ) || !defined( __cpp_rtti )
 #include <iostream>
 int main()
 {
-   // TODO: Find out why nested exceptions segfault on Windows.
-   std::cout << "Exception and/or RTTI support disabled and/or compiling on Windows, skipping test..." << std::endl;
+   std::cout << "Exception and/or RTTI support disabled, skipping test..." << std::endl;
 }
 #else
 

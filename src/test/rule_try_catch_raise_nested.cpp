@@ -8,7 +8,7 @@
 #include <iostream>
 int main()
 {
-   std::cout << "Exception and/or RTTI support disabled and/or compiling on Windows, skipping test..." << std::endl;
+   std::cout << "Exception and/or RTTI support disabled, skipping test..." << std::endl;
 }
 #else
 
