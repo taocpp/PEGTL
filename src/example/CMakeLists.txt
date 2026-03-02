@@ -36,6 +36,7 @@ set(example_sources
   proto3_parse.cpp
   recover.cpp
   s_expression.cpp
+  semver2_parse.cpp
   sum.cpp
   symbol_table.cpp
   token_input_1.cpp
