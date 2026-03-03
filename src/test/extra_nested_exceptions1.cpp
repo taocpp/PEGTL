@@ -12,29 +12,26 @@ int main()
 
 #include <exception>
 #include <stdexcept>
-#include <string>
-#include <utility>
-
-namespace
-{
-   const std::string s1 = "foo";
-   const std::string s2 = "bar";
-
-}  // namespace
 
 int main()
 {
    try {
       try {
-         throw std::string( s1 );
+         throw std::logic_error( "foo" );
       }
       catch( ... ) {
-         std::throw_with_nested( std::runtime_error( s2 ) );
+         std::throw_with_nested( std::runtime_error( "bar" ) );
       }
    }
-   catch( ... ) {
+   catch( const std::exception& e ) {
+      try {
+         std::rethrow_if_nested( e );
+      }
+      catch( ... ) {
+         return 0;
+      }
    }
-   return 0;
+   return 1;
 }
 
 #endif
