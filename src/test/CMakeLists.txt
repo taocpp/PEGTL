@@ -84,8 +84,6 @@ set(test_sources
   extra_integer_match.cpp
   extra_integer_maximum.cpp
   extra_nested_exceptions.cpp
-  extra_nested_exceptions1.cpp
-  extra_nested_exceptions2.cpp
   extra_parse_tree.cpp
   extra_parse_tree_to_dot.cpp
   extra_raw_string.cpp
