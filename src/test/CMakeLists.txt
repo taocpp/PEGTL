@@ -67,6 +67,7 @@ set(test_sources
   deprecated_if_then.cpp
   deprecated_rep_one_min_max.cpp
   deprecated_rep_string.cpp
+  deprecated_unescape.cpp
   enable_control.cpp
   error_message_1.cpp
   error_message_2.cpp
@@ -89,7 +90,6 @@ set(test_sources
   extra_raw_string.cpp
   extra_record.cpp
   extra_type_to_string.cpp
-  extra_unescape.cpp
   extra_unordered.cpp
   icu_utf16_base.cpp
   icu_utf32_base.cpp

@@ -2,13 +2,13 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_SRC_EXAMPLE_PEGTL_JSON_UNESCAPE_HPP
-#define TAO_PEGTL_SRC_EXAMPLE_PEGTL_JSON_UNESCAPE_HPP
+#ifndef TAO_PEGTL_SRC_EXAMPLE_JSON_UNESCAPE_HPP
+#define TAO_PEGTL_SRC_EXAMPLE_JSON_UNESCAPE_HPP
 
 #include <string>
 
 #include <tao/pegtl/action/change_action_and_states.hpp>
-#include <tao/pegtl/extra/unescape.hpp>
+#include <tao/pegtl/deprecated/unescape.hpp>
 #include <tao/pegtl/example/json.hpp>
 
 namespace example
@@ -21,7 +21,7 @@ namespace example
    template< typename Rule > struct json_unescape_action {};
 
    template<> struct json_unescape_action< pegtl::json::unicode > : pegtl::unescape::unescape_j {};
-   template<> struct json_unescape_action< pegtl::json::escaped_char > : pegtl::unescape::unescape_c< '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
+   template<> struct json_unescape_action< pegtl::json::escaped_char > : pegtl::unescape::unescape_c< pegtl::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
    template<> struct json_unescape_action< pegtl::json::unescaped > : pegtl::unescape::append_all {};
    // clang-format on
 

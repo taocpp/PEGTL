@@ -5,7 +5,7 @@
 #include "test.hpp"
 #include "test_utility.hpp"
 
-#include <tao/pegtl/extra/unescape.hpp>
+#include <tao/pegtl/deprecated/unescape.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -21,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Rule > struct unaction {};
 
-   template<> struct unaction< escaped_c > : unescape::unescape_c< '"', '\\', '\t' > {};
+   template<> struct unaction< escaped_c > : unescape::unescape_c< escaped_c, '"', '\\', '\t' > {};
    template<> struct unaction< escaped_u > : unescape::unescape_u {};
    template<> struct unaction< escaped_U > : unescape::unescape_u {};
    template<> struct unaction< escaped_j > : unescape::unescape_j {};

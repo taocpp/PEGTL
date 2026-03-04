@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_CHAR_HPP
-#define TAO_PEGTL_SRC_TEST_PEGTL_VERIFY_CHAR_HPP
+#ifndef TAO_PEGTL_SRC_TEST_VERIFY_CHAR_HPP
+#define TAO_PEGTL_SRC_TEST_VERIFY_CHAR_HPP
 
 #include <cstdlib>
 #include <string>

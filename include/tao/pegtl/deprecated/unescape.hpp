@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_EXTRA_UNESCAPE_HPP
-#define TAO_PEGTL_EXTRA_UNESCAPE_HPP
+#ifndef TAO_PEGTL_DEPRECATED_UNESCAPE_HPP
+#define TAO_PEGTL_DEPRECATED_UNESCAPE_HPP
 
 #include <cassert>
 #include <exception>
@@ -20,10 +20,10 @@
 #include "../internal/one.hpp"
 #include "../internal/peek_direct.hpp"
 
+#include "../extra/internal/unhex_utility.hpp"
+
 #include "../unicode/internal/utf16_details.hpp"
 #include "../unicode/internal/utf8_append.hpp"
-
-#include "internal/unhex_utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::unescape
 {
@@ -36,17 +36,21 @@ namespace TAO_PEGTL_NAMESPACE::unescape
       }
    };
 
-   template< char... Rs >
+   // The unescape_c action MUST be called for a character matching One which MUST
+   // be, or publicly derive from, TAO_PEGTL_NAMESPACE::ascii::one< ... >.
+
+   template< typename One, char... Rs >
    struct unescape_c
    {
+      using one_t = typename One::test_t;
+
       static_assert( sizeof...( Rs ) > 0 );
 
-      template< typename One, typename ActionInput >
+      template< typename ActionInput >
       static void apply( const ActionInput& in, std::string& s )
       {
          // assert( in.size() == 1 );
-         using test_t = typename One::test_t;
-         s += apply_one( in.peek_char(), test_t() );
+         s += apply_one( in.peek_char(), one_t() );
       }
 
    private:

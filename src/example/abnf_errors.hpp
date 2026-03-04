@@ -2,8 +2,8 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_SRC_EXAMPLE_PEGTL_ABNF_ERRORS_HPP
-#define TAO_PEGTL_SRC_EXAMPLE_PEGTL_ABNF_ERRORS_HPP
+#ifndef TAO_PEGTL_SRC_EXAMPLE_ABNF_ERRORS_HPP
+#define TAO_PEGTL_SRC_EXAMPLE_ABNF_ERRORS_HPP
 
 #include <tao/pegtl/config.hpp>
 #include <tao/pegtl/control/must_if.hpp>
