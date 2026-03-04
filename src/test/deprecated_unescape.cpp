@@ -5,19 +5,28 @@
 #include "test.hpp"
 #include "test_utility.hpp"
 
-#include <tao/pegtl/extra/escape.hpp>
+#include <tao/pegtl/deprecated/unescape.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
    // clang-format off
-   struct json_esc : list< seq< one< 'j' >, rep< 4, xdigit > >, one< '\\' > > {};
-   struct escaped : sor< c_escaped_char, short_escaped_unicode, long_escaped_unicode, hex_escaped_char, json_esc > {};
+   struct escaped_c : one< '"', '\\', 't' > {};
+   struct escaped_u : seq< one< 'u' >, rep< 4, xdigit > > {};
+   struct escaped_U : seq< one< 'U' >, rep< 8, xdigit > > {};
+   struct escaped_j : list< seq< one< 'j' >, rep< 4, xdigit > >, one< '\\' > > {};
+   struct escaped_x : seq< one< 'x' >, rep< 2, xdigit > > {};
+   struct escaped : sor< escaped_c, escaped_u, escaped_U, escaped_j, escaped_x > {};
    struct character : if_then_else< one< '\\' >, escaped, utf8::any > {};
    struct unstring : until< eof, character > {};
 
-   template< typename Rule > struct unaction : unescape< Rule > {};
+   template< typename Rule > struct unaction : nothing< Rule > {};
 
-   template<> struct unaction< json_esc > : json_unescape_unicode {};
+   template<> struct unaction< escaped_c > : unescape::unescape_c< escaped_c, '"', '\\', '\t' > {};
+   template<> struct unaction< escaped_u > : unescape::unescape_u {};
+   template<> struct unaction< escaped_U > : unescape::unescape_u {};
+   template<> struct unaction< escaped_j > : unescape::unescape_j {};
+   template<> struct unaction< escaped_x > : unescape::unescape_x {};
+   template<> struct unaction< utf8::any > : unescape::append_all {};
    // clang-format on
 
    template< unsigned M, unsigned N >
@@ -94,11 +103,11 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( verify_fail( "a\\xa" ) );
       TAO_PEGTL_TEST_ASSERT( verify_fail( "a\\x1" ) );
       TAO_PEGTL_TEST_ASSERT( verify_fail( "a\\x1h" ) );
-      TAO_PEGTL_TEST_ASSERT( verify_fail( "\\z" ) );
+      TAO_PEGTL_TEST_ASSERT( verify_fail( "\\a" ) );
       TAO_PEGTL_TEST_ASSERT( verify_fail( "\\_" ) );
       TAO_PEGTL_TEST_ASSERT( verify_fail( "\\z" ) );
       TAO_PEGTL_TEST_ASSERT( verify_fail( "\\1" ) );
-      TAO_PEGTL_TEST_ASSERT( verify_fail( "\\z00" ) );
+      TAO_PEGTL_TEST_ASSERT( verify_fail( "\\a00" ) );
       TAO_PEGTL_TEST_ASSERT( verify_fail( "\\_1111" ) );
       TAO_PEGTL_TEST_ASSERT( verify_fail( "\\z22222222" ) );
       TAO_PEGTL_TEST_ASSERT( verify_fail( "\\13333333333333333" ) );

@@ -90,6 +90,7 @@ set(test_sources
   extra_raw_string.cpp
   extra_record.cpp
   extra_type_to_string.cpp
+  extra_unescape.cpp
   extra_unordered.cpp
   icu_utf16_base.cpp
   icu_utf32_base.cpp
