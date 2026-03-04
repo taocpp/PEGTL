@@ -8,6 +8,12 @@ int main()
 {
    std::cout << "Exception and/or RTTI support disabled, skipping test..." << std::endl;
 }
+#elif defined( __clang__ ) && defined( _WIN32 )
+#include <iostream>
+int main()
+{
+   std::cout << "Nested exceptions are broken with Clang on Windows, skipping test..." << std::endl;
+}
 #else
 
 #include "test.hpp"
