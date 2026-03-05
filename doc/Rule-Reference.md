@@ -2,7 +2,7 @@
 
 The reference documentation for all rules and combinators.
 The rules related to [stream parsing](Stream-Parsing.nd) are [documented here](Stream-Parsing.md#rules).
-The rules not considered part of the core library are [documented here](TODO).
+The rules not considered part of the core library are [documented here](Contrib-and-Examples.md).
 
 
 ## Contents
@@ -1175,29 +1175,29 @@ Note that the `S...` are ignored in the grammar analysis.
   - `rep_opt< Num, R... >::rule_t` is `internal::seq< internal::rep< Num, R... >, internal::star< R... > >`
   - `rep_opt< Num, R... >::subs_t` is `type_list< internal::rep< Num, R... >, internal::star< R... > >`
 
-###### `sep< S, R... >`
+###### `separated< S, R... >`
 
 * Like `seq< R... >` but with `S` as separator.
 * [Equivalent] to `success` for empty `R...`.
 * [Equivalent] to `seq< R >` for single rule `R`.
 * [Equivalent] to `seq< R1, S, R2, S, R3, ... >` if `R...` is `R1, R2, R3, ...`.
 * [Meta data] and [implementation] mapping:
-  - `sep< S >::rule_t` is `internal::success`
-  - `sep< S, R >::rule_t` is `internal::seq< R >`
-  - `sep< S, R >::subs_t` is `type_list< R >`
-  - `sep< S, R1, R2, ... >::rule_t` is `internal::seq< R1, S, R2, ... >`
-  - `sep< S, R1, R2, ... >::subs_t` is `type_list< R1, S, R2, ... >`
+  - `separated< S >::rule_t` is `internal::success`
+  - `separated< S, R >::rule_t` is `internal::seq< R >`
+  - `separated< S, R >::subs_t` is `type_list< R >`
+  - `separated< S, R1, R2, ... >::rule_t` is `internal::seq< R1, S, R2, ... >`
+  - `separated< S, R1, R2, ... >::subs_t` is `type_list< R1, S, R2, ... >`
 
-###### `sep_pad< S, P, R... >`
+###### `separated_pad< S, P, R... >`
 
 * Like `seq< R... >` but with `pad< S, P >` as separator.
-* [Equivalent] to `sep< pad< S, P >, R... >`.
+* [Equivalent] to `separated< pad< S, P >, R... >`.
 * [Meta data] and [implementation] mapping:
-  - `sep_pad< S, P >::rule_t` is `internal::success`
-  - `sep_pad< S, P, R >::rule_t` is `internal::seq< R >`
-  - `sep_pad< S, P, R >::subs_t` is `type_list< R >`
-  - `sep_pad< S, P, R1, R2, ... >::rule_t` is `internal::seq< R1, internal::star< P >, S, internal::star< P >, R2, ... >`
-  - `sep_pad< S, P, R1, R2, ... >::subs_t` is `type_list< R1, internal::star< P >, S, internal::star< P >, R2, ... >`
+  - `separated_pad< S, P >::rule_t` is `internal::success`
+  - `separated_pad< S, P, R >::rule_t` is `internal::seq< R >`
+  - `separated_pad< S, P, R >::subs_t` is `type_list< R >`
+  - `separated_pad< S, P, R1, R2, ... >::rule_t` is `internal::seq< R1, internal::star< P >, S, internal::star< P >, R2, ... >`
+  - `separated_pad< S, P, R1, R2, ... >::subs_t` is `type_list< R1, internal::star< P >, S, internal::star< P >, R2, ... >`
 
 ###### `star_partial< R... >`
 
@@ -1226,6 +1226,23 @@ Note that the `S...` are ignored in the grammar analysis.
 * [Meta data] and [implementation] mapping:
   - `strict< R... >::rule_t` is `internal::strict< R... >`
   - `strict< R... >::subs_t` is `type_list< R... >`
+
+###### `unordered< R... >`
+
+* Matches the rules `R...` in arbitrary order, more precisely:
+* Like `rep< sizeof...( R ), sor< R'... > >` where `R'` is updated each repetition to consist of those rules that have *not* matched in a previous repetition.
+* [Meta data] and [implementation] mapping:
+  - `unordered<>::rule_t` is `internal::success`
+  - `unordered< R... >::rule_t` is `internal::unordered< false, R... >`
+  - `unordered< R... >::subs_t` is `type_list< R... >`
+
+###### `unordered_partial< R... >`
+
+* Combines the behavioru of [`partial`](#partial-r-) and [`unordered`](#unordered-r-).
+* [Meta data] and [implementation] mapping:
+  - `unordered_partial<>::rule_t` is `internal::success`
+  - `unordered_partial< R... >::rule_t` is `internal::unordered< true, R... >`
+  - `unordered_partial< R... >::subs_t` is `type_list< R... >`
 
 ###### `until< R >`
 
@@ -2085,8 +2102,8 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`s_term`](#s_term) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`segment_starter`](#segment_starter) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`sentence_break< V >`](#sentence_break-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
-* [`sep< S, R... >`(#sep-s-r-) <sup>[(convenience)](#convenience)</sup>
-* [`sep_pad< S, P, R... >`(#sep_pad-s-p-r-) <sup>[(convenience)](#convenience)</sup>
+* [`separated< S, R... >`(#separated-s-r-) <sup>[(convenience)](#convenience)</sup>
+* [`separated_pad< S, P, R... >`(#separated_pad-s-p-r-) <sup>[(convenience)](#convenience)</sup>
 * [`seq< R... >`](#seq-r-) <sup>[(combinators)](#combinators)</sup>
 * [`seven`](#seven) <sup>[(ascii)](#ascii)</sup>
 * [`shebang`](#shebang) <sup>[(ascii)](#ascii)</sup>
@@ -2122,6 +2139,8 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`try_catch_type_return_false< E, R... >`](#try_catch_type_return_false-e-r-) <sup>[(exceptional)](#exceptional)</sup>
 * [`two< C >`](#two-c-) <sup>[(ascii)](#ascii)</sup>
 * [`unified_ideograph`](#unified_ideograph) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
+* [`unordered< R... >`](#unordered-r-) <sup>[(convenience)](#convenience)</sup>
+* [`unordered_partial< R... >`](#unordered_partial-r-) <sup>[(convenience)](#convenience)</sup>
 * [`until< R >`](#until-r-) <sup>[(convenience)](#convenience)</sup>
 * [`until< R, S... >`](#until-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`upper`](#upper) <sup>[(ascii)](#ascii)</sup>
