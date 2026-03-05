@@ -193,8 +193,8 @@ set(test_sources
   rule_rep_min.cpp
   rule_rep_min_max.cpp
   rule_rep_opt.cpp
-  rule_sep.cpp
-  rule_sep_pad.cpp
+  rule_separated.cpp
+  rule_separated_pad.cpp
   rule_seq.cpp
   rule_sor.cpp
   rule_star.cpp

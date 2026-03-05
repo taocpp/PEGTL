@@ -58,8 +58,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< std::size_t Min, std::size_t Max, typename... Rules > struct rep_min_max : internal::rep_min_max< Min, Max, Rules... > {};
    template< std::size_t Max, typename... Rules > struct rep_opt : internal::rep_opt< Max, Rules... > {};
    struct restart : internal::restart {};
-   template< typename Sep, typename... Rules > struct sep : internal::sep< type_list<>, Sep, Rules... > {};
-   template< typename Sep, typename Pad, typename... Rules > struct sep_pad : internal::sep_pad< type_list<>, Sep, Pad, Rules... > {};
+   template< typename Sep, typename... Rules > struct separated : internal::separated< type_list<>, Sep, Rules... > {};
+   template< typename Sep, typename Pad, typename... Rules > struct separated_pad : internal::separated_pad< type_list<>, Sep, Pad, Rules... > {};
    template< typename... Rules > struct seq : internal::seq< Rules... > {};
    template< typename... Rules > struct sor : internal::sor< Rules... > {};
    template< typename Rule, typename... Rules > struct star : internal::star< Rule, Rules... > {};
