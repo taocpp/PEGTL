@@ -56,6 +56,7 @@
 #include "strict.hpp"
 #include "success.hpp"
 #include "tester.hpp"
+#include "unordered.hpp"
 #include "until.hpp"
 
 #include "../config.hpp"

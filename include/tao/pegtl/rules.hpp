@@ -68,6 +68,8 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename State, typename... Rules > struct state : internal::state< State, Rules... > {};
    template< typename Rule, typename... Rules > struct strict : internal::strict< Rule, Rules... > {};
    struct success : internal::success {};
+   template< typename... Rules > struct unordered : internal::unordered< false, Rules... > {};
+   template< typename... Rules > struct unordered_partial : internal::unordered< true, Rules... > {};
    template< typename Cond, typename... Rules > struct until : internal::until< Cond, Rules... > {};
 
 #if defined( __cpp_exceptions )

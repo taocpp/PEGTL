@@ -91,7 +91,6 @@ set(test_sources
   extra_record.cpp
   extra_type_to_string.cpp
   extra_unescape.cpp
-  extra_unordered.cpp
   icu_utf16_base.cpp
   icu_utf32_base.cpp
   icu_utf8_base.cpp
@@ -207,6 +206,7 @@ set(test_sources
   rule_success.cpp
   rule_try_catch_raise_nested.cpp
   rule_try_catch_return_false.cpp
+  rule_unordered.cpp
   rule_until.cpp
   rule_utf8_string.cpp
   stream_alloc_buffer.cpp

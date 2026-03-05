@@ -6,8 +6,6 @@
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
-#include <tao/pegtl/extra/unordered.hpp>
-
 namespace TAO_PEGTL_NAMESPACE
 {
    using a = one< 'a' >;

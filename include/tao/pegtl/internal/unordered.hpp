@@ -2,19 +2,20 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_EXTRA_INTERNAL_UNORDERED_HPP
-#define TAO_PEGTL_EXTRA_INTERNAL_UNORDERED_HPP
+#ifndef TAO_PEGTL_INTERNAL_UNORDERED_HPP
+#define TAO_PEGTL_INTERNAL_UNORDERED_HPP
 
 #include <bitset>
 #include <cstddef>
 #include <utility>
 
-#include "../../apply_mode.hpp"
-#include "../../config.hpp"
-#include "../../rewind_mode.hpp"
-#include "../../type_list.hpp"
+#include "../apply_mode.hpp"
+#include "../config.hpp"
+#include "../rewind_mode.hpp"
+#include "../type_list.hpp"
 
-#include "../../internal/enable_control.hpp"
+#include "enable_control.hpp"
+#include "success.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -38,10 +39,26 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 rewind_mode M,
                 template< typename... > class Action,
                 template< typename... > class Control,
+                typename ParseInput,
+                typename... States >
+      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
+      {
+         if constexpr( sizeof...( Rules ) == 1 ) {
+            return Control< Rules... >::template match< A, M, Action, Control >( in, st... ) || Optional;
+         }
+         else {
+            return match_impl< A, M, Action, Control >( std::index_sequence_for< Rules... >(), in, st... );
+         }
+      }
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... > class Action,
+                template< typename... > class Control,
                 std::size_t... Indices,
                 typename ParseInput,
                 typename... States >
-      [[nodiscard]] static bool match( std::index_sequence< Indices... > /*unused*/, ParseInput& in, States&&... st )
+      [[nodiscard]] static bool match_impl( std::index_sequence< Indices... > /*unused*/, ParseInput& in, States&&... st )
       {
          std::bitset< rule_count > b;
 
@@ -53,22 +70,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
             }
          }
          return m( true );
-      }
-
-      template< apply_mode A,
-                rewind_mode M,
-                template< typename... > class Action,
-                template< typename... > class Control,
-                typename ParseInput,
-                typename... States >
-      [[nodiscard]] static bool match( ParseInput& in, States&&... st )
-      {
-         if constexpr( sizeof...( Rules ) == 1 ) {
-            return Control< Rules... >::template match< A, M, Action, Control >( in, st... ) || Optional;
-         }
-         else {
-            return match< A, M, Action, Control >( std::index_sequence_for< Rules... >(), in, st... );
-         }
       }
    };
 
