@@ -98,8 +98,8 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   // Yes, I know, \0 is one of the many possible octal escape sequences in C and C++,
-   // but in 2026 nobody is using octal numbers outside of filesystem permissions!?!
+   // Yes, I know, \0 is one of many possible octal escape sequences in C and C++,
+   // but in 2026 nobody is using octal numbers outside of filesystem permissions?
 
    struct c_escaped_char
       : one< '\'', '"', '?', '\\', 'a', 'b', 'f', 'n', 'r', 't', 'v', '0' >
@@ -133,7 +133,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void apply( const ActionInput& in, std::string& out )
       {
          // assert( in contains one or more hex digits );
-         out += internal::unhex_string_to_integer< char >( in.begin(), in.end() );
+         out += internal::unhex_string< 2, char >( in.begin() );
       }
    };
 
@@ -150,6 +150,7 @@ namespace TAO_PEGTL_NAMESPACE
       : unescape_hex
    {};
 
+   template< std::size_t N >
    struct unescape_unicode
    {
 #if defined( __cpp_exceptions )
@@ -157,7 +158,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void apply( const ActionInput& in, std::string& out )
       {
          // assert( in contains one or more hex digits );
-         if( !internal::utf8_append_utf32( out, internal::unhex_string_to_integer< char32_t >( in.begin(), in.end() ) ) ) {
+         if( !internal::utf8_append_utf32( out, internal::unhex_string< N, char32_t >( in.begin() ) ) ) {
             throw_parse_error( "invalid escaped unicode code point", in );
          }
       }
@@ -166,7 +167,7 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static bool apply( const ActionInput& in, std::string& out )
       {
          // assert( in contains one or more hex digits );
-         return internal::utf8_append_utf32( out, internal::unhex_string_to_integer< char32_t >( in.begin(), in.end() ) );
+         return internal::utf8_append_utf32( out, internal::unhex_string< N, char32_t >( in.begin() ) );
       }
 #endif
    };
@@ -186,11 +187,13 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< std::size_t N >
    struct unescape< rep_unicode_xdigits< N > >
-      : unescape_unicode
+      : unescape_unicode< N >
    {};
 
    // Unicode unescape for JSON which merges consecutive
    // escaped UTF-16 surrogates as required by RFC 8259.
+   // It does not double-check the two bytes 'backslash'
+   // and 'u' between individual escaped 16-bit values.
 
    struct json_unescape_unicode
    {
@@ -199,9 +202,9 @@ namespace TAO_PEGTL_NAMESPACE
       {
          // assert( ( ( in.size() + 1 ) % 6 ) == 0 );
          for( const char* b = in.begin() + 1; b < in.end(); b += 6 ) {
-            const auto c = internal::unhex_string_to_integer< char16_t >( b, b + 4 );
+            const auto c = internal::unhex_string< 4, char16_t >( b );
             if( internal::is_utf16_high_surrogate( c ) && ( b + 6 < in.end() ) ) {
-               const auto d = internal::unhex_string_to_integer< char16_t >( b + 6, b + 10 );
+               const auto d = internal::unhex_string< 4, char16_t >( b + 6 );
                if( internal::is_utf16_low_surrogate( d ) ) {
                   b += 6;
                   internal::utf8_append_utf16( out, c, d );
@@ -242,36 +245,8 @@ namespace TAO_PEGTL_NAMESPACE
    {};
 
    struct json_character
-      : if_then_else< one< '\\' >, json_escaped, utf8::range< 0x20, 0x10FFFF > >
+      : if_then_else< one< '\\' >, json_escaped, utf8::range< 0x20, 0x10ffff > >
    {};
-
-   struct unescape_action
-      : maybe_nothing
-   {
-      template< typename Rule,
-                apply_mode A,
-                rewind_mode M,
-                template< typename... > class Action,
-                template< typename... > class Control,
-                typename ParseInput,
-                typename... States >
-      [[nodiscard]] static bool match( ParseInput& in )
-      {
-         return TAO_PEGTL_NAMESPACE::match< Rule, A, M, Action, Control >( in );
-      }
-
-      template< typename Rule,
-                apply_mode A,
-                rewind_mode M,
-                template< typename... > class Action,
-                template< typename... > class Control,
-                typename ParseInput,
-                typename... States >
-      [[nodiscard]] static bool match( ParseInput& in, std::string& out )
-      {
-         return TAO_PEGTL_NAMESPACE::match< Rule, A, M, unescape, Control >( in, out );
-      }
-   };
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

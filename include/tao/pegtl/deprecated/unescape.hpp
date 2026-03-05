@@ -20,10 +20,10 @@
 #include "../internal/one.hpp"
 #include "../internal/peek_direct.hpp"
 
-#include "../extra/internal/unhex_utility.hpp"
-
 #include "../unicode/internal/utf16_details.hpp"
 #include "../unicode/internal/utf8_append.hpp"
+
+#include "internal/unhex_utility.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::unescape
 {
