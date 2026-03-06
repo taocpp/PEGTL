@@ -2,14 +2,20 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#if defined( __cpp_exceptions ) && defined( __cpp_rtti )
+#if !defined( __cpp_exceptions ) || !defined( __cpp_rtti )
+#include <iostream>
+int main()
+{
+   std::cout << "Exception and/or RTTI support disabled, skipping test..." << std::endl;
+}
+#else
 
 #include <cstdlib>
 #include <exception>
 #include <iostream>
 #include <stdexcept>
 
-#include <tao/pegtl/config.hpp>
+#include "test.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -20,8 +26,6 @@ namespace TAO_PEGTL_NAMESPACE
    struct bar
       : std::exception
    {};
-
-   bool failed = false;
 
 #if defined( _MSC_VER )
 #pragma warning( push )
@@ -40,7 +44,7 @@ namespace TAO_PEGTL_NAMESPACE
          return;
       }
       std::cerr << __FUNCTION__ << " failed catch foo" << std::endl;
-      failed = true;
+      ++test::failed;
       std::cerr << __FUNCTION__ << " return failure" << std::endl;
       return;
    }
@@ -58,7 +62,7 @@ namespace TAO_PEGTL_NAMESPACE
             std::throw_with_nested( bar() );
          }
          std::cerr << __FUNCTION__ << " failed catch foo" << std::endl;
-         failed = true;
+         ++test::failed;
          std::cerr << __FUNCTION__ << " return failure" << std::endl;
          return;
       }
@@ -68,7 +72,7 @@ namespace TAO_PEGTL_NAMESPACE
          return;
       }
       std::cerr << __FUNCTION__ << " failed catch bar" << std::endl;
-      failed = true;
+      ++test::failed;
       std::cerr << __FUNCTION__ << " return failure" << std::endl;
       return;
    }
@@ -86,7 +90,7 @@ namespace TAO_PEGTL_NAMESPACE
             std::throw_with_nested( bar() );
          }
          std::cerr << __FUNCTION__ << " failed catch foo" << std::endl;
-         failed = true;
+         ++test::failed;
          std::cerr << __FUNCTION__ << " return failure" << std::endl;
          return;
       }
@@ -102,40 +106,42 @@ namespace TAO_PEGTL_NAMESPACE
             return;
          }
          std::cerr << __FUNCTION__ << " failed catch foo nested" << std::endl;
-         failed = true;
+         ++test::failed;
          std::cerr << __FUNCTION__ << " return failure" << std::endl;
          return;
       }
       std::cerr << __FUNCTION__ << " failed catch bar" << std::endl;
-      failed = true;
+      ++test::failed;
       std::cerr << __FUNCTION__ << " return failure" << std::endl;
       return;
+   }
+
+   void macros()
+   {
+      {
+         view_input in( "hallo" );
+         TAO_PEGTL_TEST_THROWS( throw_parse_error( "dummy", in ) );
+      }
+      {
+         text_view_input in( "hallo" );
+         TAO_PEGTL_TEST_THROWS( throw_parse_error( "dummy", in ) );
+      }
    }
 
 #if defined( _MSC_VER )
 #pragma warning( pop )
 #endif
 
-   int unit_test()
+   void unit_test()
    {
       simple();
       nested1();
       nested2();
-      return int( failed );
+      macros();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
-int main()
-{
-   return TAO_PEGTL_NAMESPACE::unit_test();
-}
-
-#else
-
-int main()
-{
-   return 0;
-}
+#include "main.hpp"
 
 #endif
