@@ -10,13 +10,13 @@
 #include "any.hpp"
 #include "ascii_utility.hpp"
 #include "enable_control.hpp"
-#include "tester.hpp"
+#include "terminal.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, typename Peek::data_t... Cs >
    struct not_ione
-      : tester< not_ione< Peek, Cs... > >
+      : terminal< not_ione< Peek, Cs... > >
    {
       template< typename Data >
       [[nodiscard]] static constexpr bool test( const Data c ) noexcept

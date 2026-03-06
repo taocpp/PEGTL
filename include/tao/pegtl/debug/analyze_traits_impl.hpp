@@ -221,7 +221,7 @@ namespace TAO_PEGTL_NAMESPACE
    {};
 
    template< typename Name, typename Rule >
-   struct analyze_traits< Name, internal::tester< Rule > >
+   struct analyze_traits< Name, internal::terminal< Rule > >
       : analyze_any_traits<>
    {};
 

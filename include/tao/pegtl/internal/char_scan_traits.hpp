@@ -14,7 +14,7 @@
 #include "one.hpp"
 #include "scan_input.hpp"
 #include "test_after_scan.hpp"
-#include "tester.hpp"
+#include "terminal.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -22,7 +22,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct char_scan_traits;
 
    template< auto Eol, typename Peek >
-   struct char_scan_traits< tester< one< Peek, Eol > > >
+   struct char_scan_traits< terminal< one< Peek, Eol > > >
    {
       template< typename Position, typename Data >
       static void scan( Position& pos, scan_input< Data >& in )

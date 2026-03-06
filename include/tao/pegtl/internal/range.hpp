@@ -9,13 +9,13 @@
 
 #include "enable_control.hpp"
 #include "one.hpp"
-#include "tester.hpp"
+#include "terminal.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
    struct range
-      : tester< range< Peek, Lo, Hi > >
+      : terminal< range< Peek, Lo, Hi > >
    {
       static_assert( Lo < Hi );
 

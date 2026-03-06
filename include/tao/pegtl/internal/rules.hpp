@@ -56,7 +56,7 @@
 #include "state.hpp"
 #include "strict.hpp"
 #include "success.hpp"
-#include "tester.hpp"
+#include "terminal.hpp"
 #include "unordered.hpp"
 #include "until.hpp"
 

@@ -13,13 +13,13 @@
 #include "failure.hpp"
 #include "one.hpp"
 #include "range.hpp"
-#include "tester.hpp"
+#include "terminal.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, typename Peek::data_t... Cs >
    struct ranges
-      : tester< ranges< Peek, Cs... > >
+      : terminal< ranges< Peek, Cs... > >
    {
       template< typename Data, Data Lo, Data Hi >
       [[nodiscard]] static constexpr bool test_two( const Data c ) noexcept
