@@ -50,8 +50,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename Rule, typename Peek >
-   inline constexpr bool enable_control< nested< Rule, Peek > > = false;
+   template< typename Peek, typename Rule >
+   inline constexpr bool enable_control< nested< Peek, Rule > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
