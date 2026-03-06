@@ -15,16 +15,9 @@ namespace TAO_PEGTL_NAMESPACE
    namespace internal
    {
       template< char... Cs >
-      struct char_list
-      {};
-
-      template< typename >
-      struct type_to_string;
-
-      template< template< char... > class String, char... Cs >
-      struct type_to_string< String< Cs... > >
+      struct chars_to_string
       {
-         static constexpr char array[] = { Cs..., 0 };
+         static constexpr char array[] = { Cs..., '$' };
 
          [[nodiscard]] static std::string string()
          {
@@ -37,30 +30,38 @@ namespace TAO_PEGTL_NAMESPACE
          }
       };
 
+      template< typename >
+      struct template_to_string;
+
+      template< template< char... > class T, char... Cs >
+      struct template_to_string< T< Cs... > >
+         : chars_to_string< Cs... >
+      {};
+
    }  // namespace internal
 
    template< typename T >
    [[nodiscard]] std::string type_to_string()
    {
-      return internal::type_to_string< T >::string();
+      return internal::template_to_string< T >::string();
    }
 
    template< char... Cs >
    [[nodiscard]] std::string type_to_string()
    {
-      return internal::type_to_string< internal::char_list< Cs... > >::string();
+      return internal::chars_to_string< Cs... >::string();
    }
 
    template< typename T >
    [[nodiscard]] constexpr std::string_view type_to_string_view() noexcept
    {
-      return internal::type_to_string< T >::string_view();
+      return internal::template_to_string< T >::string_view();
    }
 
    template< char... Cs >
    [[nodiscard]] constexpr std::string_view type_to_string_view() noexcept
    {
-      return internal::type_to_string< internal::char_list< Cs... > >::string_view();
+      return internal::chars_to_string< Cs... >::string_view();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
