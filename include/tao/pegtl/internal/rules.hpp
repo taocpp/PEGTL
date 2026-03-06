@@ -49,6 +49,7 @@
 #include "separated_pad.hpp"
 #include "seq.hpp"
 #include "sor.hpp"
+#include "source.hpp"
 #include "star.hpp"
 #include "star_partial.hpp"
 #include "star_strict.hpp"
