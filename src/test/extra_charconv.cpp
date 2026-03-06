@@ -2,6 +2,14 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
+#if !defined( __cpp_exceptions )
+#include <iostream>
+int main()
+{
+   std::cout << "Exception support disabled, skipping test..." << std::endl;
+}
+#else
+
 #include "test.hpp"
 #include "verify_meta.hpp"
 
@@ -44,7 +52,7 @@ namespace TAO_PEGTL_NAMESPACE
    }
 
    template< typename Integral >
-   void from_chars_failure( const std::string& input, Integral value )
+   void from_chars_local_failure( const std::string& input, Integral value )
    {
       // Test rule.
       {
@@ -67,12 +75,30 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
+   template< typename Integral >
+   void from_chars_global_failure( const std::string& input, Integral value )
+   {
+      // Test rule.
+      {
+         view_input in( input );
+         static_assert( std::is_integral_v< Integral > );
+         Integral state = value + 1;
+         TAO_PEGTL_TEST_THROWS( (void)parse< from_chars_dec >( in, state ) );
+      }
+      // Test action.
+      {
+         view_input in( input );
+         Integral state = value + 1;
+         TAO_PEGTL_TEST_THROWS( (void)parse< everything, test_action >( in, state ) );
+      }
+   }
+
    void unit_test()
    {
       verify_analyze< from_chars_dec >( __LINE__, __FILE__, true, false );
 
-      from_chars_failure( "", int( 1 ) );
-      from_chars_failure( "", unsigned( 1 ) );
+      from_chars_local_failure( "", int( 1 ) );
+      from_chars_local_failure( "", unsigned( 1 ) );
 
       from_chars_success( "0", int( 0 ) );
       from_chars_success( "0", unsigned( 0 ) );
@@ -80,8 +106,8 @@ namespace TAO_PEGTL_NAMESPACE
       from_chars_success( "0 ", int( 0 ), 1 );
       from_chars_success( "0 ", unsigned( 0 ), 1 );
 
-      from_chars_failure( " 0", int( 1 ) );
-      from_chars_failure( " 0", unsigned( 1 ) );
+      from_chars_local_failure( " 0", int( 1 ) );
+      from_chars_local_failure( " 0", unsigned( 1 ) );
 
       from_chars_success( "00", int( 0 ) );
       from_chars_success( "00", unsigned( 0 ) );
@@ -96,18 +122,26 @@ namespace TAO_PEGTL_NAMESPACE
       from_chars_success( "0x0", unsigned( 0 ), 2 );
 
       from_chars_success( "-1", int( -1 ) );
-      from_chars_failure( "-1", unsigned( 42 ) );
+      from_chars_local_failure( "-1", unsigned( 42 ) );
 
-      from_chars_failure( "+1", int( 3 ) );
-      from_chars_failure( "+1", unsigned( 3 ) );
+      from_chars_local_failure( "+1", int( 3 ) );
+      from_chars_local_failure( "+1", unsigned( 3 ) );
 
-      from_chars_failure( "rrr", int( 0 ) );
-      from_chars_failure( "sss", unsigned( 0 ) );
-
-      from_chars_failure( "999999999999", int( 0 ) );
-      from_chars_failure( "999999999999", unsigned( 0 ) );
+      from_chars_local_failure( "rrr", int( 0 ) );
+      from_chars_local_failure( "sss", unsigned( 0 ) );
+      try {
+      std::cerr << __LINE__ << std::endl;
+      from_chars_global_failure( "999999999999", int( 0 ) );
+      std::cerr << __LINE__ << std::endl;
+      from_chars_global_failure( "999999999999", unsigned( 0 ) );
+      std::cerr << __LINE__ << std::endl;
+      }
+      catch( const std::exception& ) {
+      }
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #include "main.hpp"
+
+#endif

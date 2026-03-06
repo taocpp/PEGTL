@@ -5,6 +5,10 @@
 #ifndef TAO_PEGTL_EXTRA_INTERNAL_CHARCONV_HPP
 #define TAO_PEGTL_EXTRA_INTERNAL_CHARCONV_HPP
 
+#if !defined( __cpp_exceptions )
+#error "Exception support required for tao/pegtl/extra/internal/charconv.hpp"
+#else
+
 #include <charconv>
 #include <cstdint>
 #include <system_error>
@@ -12,6 +16,7 @@
 
 #include "../../apply_mode.hpp"
 #include "../../config.hpp"
+#include "../../parse_error.hpp"
 #include "../../rewind_mode.hpp"
 #include "../../type_list.hpp"
 
@@ -21,15 +26,16 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Integral >
-   [[nodiscard]] std::size_t from_chars_impl( const char* begin, const char* end, Integral& out, const int base ) noexcept
+   template< typename Input, typename Integral >
+   [[nodiscard]] std::size_t from_chars_impl( const Input& in, const std::size_t size, Integral& out, const int base )
    {
-      const auto result = std::from_chars( begin, end, out, base );
+      const char* begin = in.current();
+      const auto result = std::from_chars( begin, begin + size, out, base );
       switch( result.ec ) {
          case std::errc::invalid_argument:
             return 0;
          case std::errc::result_out_of_range:
-            return 0;
+            throw_parse_error( "integer overflow", in );
          default:
             return result.ptr - begin;
       }
@@ -53,7 +59,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
          const std::size_t size = in.size( 3 + ( sizeof( Integral ) * 8 ) );
 
-         if( const std::size_t done = from_chars_impl( in.current(), in.current( size ), out, int( Base ) ) ) {
+         if( const std::size_t done = from_chars_impl( in, in.size( size ), out, int( Base ) ) ) {
             in.template consume< from_chars_rule_auto >( done );
             return true;
          }
@@ -89,7 +95,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          const std::size_t size = in.size( 3 + ( sizeof( Integral ) * 8 ) );
 
-         if( const std::size_t done = from_chars_impl( in.current(), in.current( size ), out, int( Base ) ) ) {
+         if( const std::size_t done = from_chars_impl( in, in.size( size ), out, int( Base ) ) ) {
             in.template consume< from_chars_rule_type >( done );
             return true;
          }
@@ -107,10 +113,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct from_chars_action_auto
    {
       template< typename ActionInput, typename Integral >
-      [[nodiscard]] static bool apply( const ActionInput& in, Integral& out ) noexcept
+      [[nodiscard]] static bool apply( const ActionInput& in, Integral& out )
       {
          static_assert( std::is_integral_v< Integral > );
-         return ( !in.empty() ) && ( internal::from_chars_impl( in.begin(), in.end(), out, int( Base ) ) == in.size() );
+         return ( !in.empty() ) && ( from_chars_impl( in, in.size(), out, int( Base ) ) == in.size() );
       }
    };
 
@@ -120,16 +126,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
       static_assert( std::is_integral_v< Integral > );
 
       template< typename ActionInput >
-      [[nodiscard]] static bool apply( const ActionInput& in ) noexcept
+      [[nodiscard]] static bool apply( const ActionInput& in )
       {
          Integral dummy;
          return apply( in, dummy );
       }
 
       template< typename ActionInput >
-      [[nodiscard]] static bool apply( const ActionInput& in, Integral& out ) noexcept
+      [[nodiscard]] static bool apply( const ActionInput& in, Integral& out )
       {
-         return ( !in.empty() ) && ( internal::from_chars_impl( in.begin(), in.end(), out, int( Base ) ) == in.size() );
+         return ( !in.empty() ) && ( from_chars_impl( in, in.size(), out, int( Base ) ) == in.size() );
       }
    };
 
@@ -151,4 +157,5 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 
+#endif
 #endif
