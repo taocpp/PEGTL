@@ -20,17 +20,10 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   // The general case applies must<> to each of the
-   // rules in the 'Rules' parameter pack individually.
-
    template< typename... Rules >
    struct must
       : seq< must< Rules >... >
    {};
-
-   // While in theory the implementation for a single rule could
-   // be simplified to must< Rule > = sor< Rule, raise< Rule > >, this
-   // would result in some unnecessary run-time overhead.
 
    template< typename Rule >
    struct must< Rule >
