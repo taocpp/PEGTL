@@ -5,7 +5,7 @@
 #include "test.hpp"
 #include "test_utility.hpp"
 
-#include <tao/pegtl/extra/escape.hpp>
+#include <tao/pegtl/extra/unescape.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

@@ -2,23 +2,22 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_EXTRA_ESCAPE_HPP
-#define TAO_PEGTL_EXTRA_ESCAPE_HPP
+#ifndef TAO_PEGTL_EXTRA_UNESCAPE_HPP
+#define TAO_PEGTL_EXTRA_UNESCAPE_HPP
 
 #include <cassert>
+#include <cstdlib>
 #include <exception>
 #include <initializer_list>
 #include <string>
-#include <type_traits>
 
-#include "../ascii.hpp"
-#include "../config.hpp"
 #include "../nothing.hpp"
-#include "../rules.hpp"
 
 #if defined( __cpp_exceptions )
 #include "../parse_error.hpp"
 #endif
+
+#include "../example/escaped.hpp"
 
 #include "../internal/one.hpp"
 #include "../internal/peek_direct.hpp"
@@ -101,10 +100,6 @@ namespace TAO_PEGTL_NAMESPACE
    // Yes, I know, \0 is one of many possible octal escape sequences in C and C++,
    // but in 2026 nobody is using octal numbers outside of filesystem permissions?
 
-   struct c_escaped_char
-      : one< '\'', '"', '?', '\\', 'a', 'b', 'f', 'n', 'r', 't', 'v', '0' >
-   {};
-
    struct c_unescape_char
       : unescape_char< '\'', '"', '?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v', '\0' >
    {};
@@ -112,10 +107,6 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct unescape< c_escaped_char >
       : c_unescape_char
-   {};
-
-   struct json_escaped_char
-      : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' >
    {};
 
    struct json_unescape_char
@@ -136,14 +127,6 @@ namespace TAO_PEGTL_NAMESPACE
          out += internal::unhex_string< 2, char >( in.begin() );
       }
    };
-
-   struct hex_char_xdigits
-      : rep< 2, xdigit >
-   {};
-
-   struct hex_escaped_char
-      : seq< one< 'x' >, hex_char_xdigits >
-   {};
 
    template<>
    struct unescape< hex_char_xdigits >
@@ -171,19 +154,6 @@ namespace TAO_PEGTL_NAMESPACE
       }
 #endif
    };
-
-   template< std::size_t N >
-   struct rep_unicode_xdigits
-      : rep< N, xdigit >
-   {};
-
-   struct short_escaped_unicode
-      : seq< one< 'u' >, rep_unicode_xdigits< 4 > >
-   {};
-
-   struct long_escaped_unicode
-      : seq< one< 'U' >, rep_unicode_xdigits< 8 > >
-   {};
 
    template< std::size_t N >
    struct unescape< rep_unicode_xdigits< N > >
@@ -227,25 +197,9 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   struct json_unicode_xdigits
-      : rep< 4, xdigit >
-   {};
-
-   struct json_escaped_unicode
-      : list< seq< one< 'u' >, json_unicode_xdigits >, one< '\\' > >
-   {};
-
    template<>
    struct unescape< json_escaped_unicode >
       : json_unescape_unicode
-   {};
-
-   struct json_escaped
-      : sor< json_escaped_char, json_escaped_unicode >
-   {};
-
-   struct json_character
-      : if_then_else< one< '\\' >, json_escaped, utf8::range< 0x20, 0x10ffff > >
    {};
 
 }  // namespace TAO_PEGTL_NAMESPACE
