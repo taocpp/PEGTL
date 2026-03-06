@@ -9,11 +9,7 @@
 #error "Exception support required for tao/pegtl/extra/integer.hpp"
 #else
 
-#include <cstdint>
-#include <cstdlib>
-
 #include <limits>
-#include <string_view>
 #include <type_traits>
 
 #include "../config.hpp"
