@@ -65,14 +65,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in, States&&... /*unused*/ )
       {
          Integral out;
-
-         const std::size_t size = in.size( 3 + ( sizeof( Integral ) * 8 ) );
-
-         if( const std::size_t done = from_chars_impl< Over >( in, in.size( size ), out, int( Base ) ) ) {
-            in.template consume< from_chars_rule >( done );
-            return true;
-         }
-         return false;
+         return match_impl( in, out );
       }
 
       template< apply_mode A,
@@ -82,6 +75,13 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename ParseInput,
                 typename... States >
       [[nodiscard]] static auto match( ParseInput& in, Integral& out, States&&... /*unused*/ ) -> std::enable_if_t< A == apply_mode::enabled, bool >
+      {
+         return match_impl( in, out );
+      }
+
+   private:
+      template< typename ParseInput >
+      [[nodiscard]] static bool match_impl( ParseInput& in, Integral& out )
       {
          const std::size_t size = in.size( 3 + ( sizeof( Integral ) * 8 ) );
 
