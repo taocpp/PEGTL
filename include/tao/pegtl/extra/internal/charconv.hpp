@@ -29,7 +29,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Input, typename Integral >
    [[nodiscard]] std::size_t from_chars_impl( const Input& in, const std::size_t size, Integral& out, const int base )
    {
-      const char* begin = in.current();
+      const char* const begin = in.current();
       const auto result = std::from_chars( begin, begin + size, out, base );
       switch( result.ec ) {
          case std::errc::invalid_argument:
@@ -41,36 +41,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    }
 
-   template< std::uint8_t Base >
-   struct from_chars_rule_auto
-   {
-      using rule_t = from_chars_rule_auto;
-      using subs_t = empty_list;
-
-      template< apply_mode A,
-                rewind_mode M,
-                template< typename... > class Action,
-                template< typename... > class Control,
-                typename ParseInput,
-                typename Integral >
-      [[nodiscard]] static bool match( ParseInput& in, Integral& out )
-      {
-         static_assert( std::is_integral_v< Integral > );
-
-         const std::size_t size = in.size( 3 + ( sizeof( Integral ) * 8 ) );
-
-         if( const std::size_t done = from_chars_impl( in, in.size( size ), out, int( Base ) ) ) {
-            in.template consume< from_chars_rule_auto >( done );
-            return true;
-         }
-         return false;
-      }
-   };
-
    template< std::uint8_t Base, typename Integral >
-   struct from_chars_rule_type
+   struct from_chars_rule
    {
-      using rule_t = from_chars_rule_type;
+      using rule_t = from_chars_rule;
       using subs_t = empty_list;
 
       static_assert( std::is_integral_v< Integral > );
@@ -96,7 +70,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          const std::size_t size = in.size( 3 + ( sizeof( Integral ) * 8 ) );
 
          if( const std::size_t done = from_chars_impl( in, in.size( size ), out, int( Base ) ) ) {
-            in.template consume< from_chars_rule_type >( done );
+            in.template consume< from_chars_rule >( done );
             return true;
          }
          return false;
@@ -104,24 +78,34 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< std::uint8_t Base >
-   inline constexpr bool enable_control< from_chars_rule_auto< Base > > = false;
-
-   template< std::uint8_t Base, typename Integral >
-   inline constexpr bool enable_control< from_chars_rule_type< Base, Integral > > = false;
-
-   template< std::uint8_t Base >
-   struct from_chars_action_auto
+   struct from_chars_rule< Base, void >
    {
-      template< typename ActionInput, typename Integral >
-      [[nodiscard]] static bool apply( const ActionInput& in, Integral& out )
+      using rule_t = from_chars_rule;
+      using subs_t = empty_list;
+
+      template< apply_mode A,
+                rewind_mode M,
+                template< typename... > class Action,
+                template< typename... > class Control,
+                typename ParseInput,
+                typename Integral >
+      [[nodiscard]] static auto match( ParseInput& in, Integral& out ) -> std::enable_if_t< std::is_integral_v< Integral >, bool >
       {
-         static_assert( std::is_integral_v< Integral > );
-         return ( !in.empty() ) && ( from_chars_impl( in, in.size(), out, int( Base ) ) == in.size() );
+         const std::size_t size = in.size( 3 + ( sizeof( Integral ) * 8 ) );
+
+         if( const std::size_t done = from_chars_impl( in, in.size( size ), out, int( Base ) ) ) {
+            in.template consume< from_chars_rule >( done );
+            return true;
+         }
+         return false;
       }
    };
 
    template< std::uint8_t Base, typename Integral >
-   struct from_chars_action_type
+   inline constexpr bool enable_control< from_chars_rule< Base, Integral > > = false;
+
+   template< std::uint8_t Base, typename Integral >
+   struct from_chars_action
    {
       static_assert( std::is_integral_v< Integral > );
 
@@ -140,17 +124,20 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< std::uint8_t Base >
-   struct from_chars_auto
-      : from_chars_rule_auto< Base >,
-        from_chars_action_auto< Base >
+   struct from_chars_action< Base, void >
    {
-      static_assert( Base != 1 );
+      template< typename ActionInput, typename Integral >
+      [[nodiscard]] static auto apply( const ActionInput& in, Integral& out ) -> std::enable_if_t< std::is_integral_v< Integral >, bool >
+      {
+         static_assert( std::is_integral_v< Integral > );
+         return ( !in.empty() ) && ( from_chars_impl( in, in.size(), out, int( Base ) ) == in.size() );
+      }
    };
 
    template< std::uint8_t Base, typename Integral >
-   struct from_chars_type
-      : from_chars_rule_type< Base, Integral >,
-        from_chars_action_type< Base, Integral >
+   struct from_chars_combo
+      : from_chars_rule< Base, Integral >,
+        from_chars_action< Base, Integral >
    {
       static_assert( Base != 1 );
    };
