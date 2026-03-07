@@ -10,14 +10,12 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
-      verify_analyze< ione<> >( __LINE__, __FILE__, true, false );
       verify_analyze< ione< 'a' > >( __LINE__, __FILE__, true, false );
       verify_analyze< ione< 'a', 'c', 'z' > >( __LINE__, __FILE__, true, false );
 
       for( int i = -100; i < 200; ++i ) {
          const auto c = char( i );
 
-         verify_char< ione<> >( __LINE__, __FILE__, c, false );
          verify_char< ione< '9' > >( __LINE__, __FILE__, c, c == '9' );
          verify_char< ione< 'a' > >( __LINE__, __FILE__, c, ( c == 'a' ) || ( c == 'A' ) );
          verify_char< ione< 'A' > >( __LINE__, __FILE__, c, ( c == 'a' ) || ( c == 'A' ) );

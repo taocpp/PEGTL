@@ -18,9 +18,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< template< typename Peek, typename Peek::data_t... Cs > class Rule, typename Peek, typename Peek::data_t... Cs >
    struct terminal< Rule< Peek, Cs... > >
    {
-      using peek_t = Peek;
-      using data_t = typename Peek::data_t;
-
       using rule_t = terminal;
       using subs_t = empty_list;
 

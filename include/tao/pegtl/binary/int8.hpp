@@ -7,7 +7,6 @@
 
 #include "../config.hpp"
 
-#include "../internal/rule_aliases.hpp"
 #include "../internal/rules.hpp"
 
 #include "internal/peek_aliases.hpp"

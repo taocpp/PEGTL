@@ -15,7 +15,6 @@
 
 #include "config.hpp"
 
-#include "internal/rule_aliases.hpp"
 #include "internal/rules.hpp"
 
 namespace TAO_PEGTL_NAMESPACE

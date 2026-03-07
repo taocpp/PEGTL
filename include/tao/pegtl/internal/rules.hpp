@@ -45,6 +45,7 @@
 #include "rep_min_max.hpp"
 #include "rep_opt.hpp"
 #include "restart.hpp"
+#include "rule_aliases.hpp"
 #include "separated.hpp"
 #include "separated_pad.hpp"
 #include "seq.hpp"
@@ -59,8 +60,6 @@
 #include "terminal.hpp"
 #include "unordered.hpp"
 #include "until.hpp"
-
-#include "../config.hpp"
 
 #if defined( __cpp_exceptions )
 #include "if_must.hpp"
