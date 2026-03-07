@@ -122,7 +122,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ActionInput, typename... States >
       [[nodiscard]] static bool apply( const ActionInput& in, Integral& out, States&&... /*unused*/ )
       {
-         return ( !in.empty() ) && ( from_chars_impl< Over >( in, in.size(), out, int( Base ) ) == in.size() );
+         return ( !in.empty() ) && ( from_chars_impl< Over >( in, in.size(), out, Base ) == in.size() );
       }
    };
 
@@ -132,7 +132,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ActionInput, typename Integral, typename... States >
       [[nodiscard]] static auto apply( const ActionInput& in, Integral& out, States&&... /*unused*/ ) -> std::enable_if_t< std::is_integral_v< Integral >, bool >
       {
-         return ( !in.empty() ) && ( from_chars_impl< Over >( in, in.size(), out, int( Base ) ) == in.size() );
+         return ( !in.empty() ) && ( from_chars_impl< Over >( in, in.size(), out, Base ) == in.size() );
       }
    };
 
