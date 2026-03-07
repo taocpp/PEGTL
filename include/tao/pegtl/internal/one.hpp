@@ -8,7 +8,7 @@
 #include "../config.hpp"
 
 #include "enable_control.hpp"
-#include "failure.hpp"
+#include "dependent_false.hpp"
 #include "terminal.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -28,8 +28,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< typename Peek >
    struct one< Peek >
-      : failure
-   {};
+   {
+      static_assert( dependent_false< Peek > );
+   };
 
    template< typename Peek, typename Peek::data_t... Cs >
    inline constexpr bool enable_control< one< Peek, Cs... > > = false;
