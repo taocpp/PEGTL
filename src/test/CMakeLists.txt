@@ -65,6 +65,10 @@ set(test_sources
   demangle.cpp
   deprecated_alphabet.cpp
   deprecated_if_then.cpp
+  deprecated_integer.cpp
+  deprecated_integer_convert.cpp
+  deprecated_integer_match.cpp
+  deprecated_integer_maximum.cpp
   deprecated_rep_one_min_max.cpp
   deprecated_rep_string.cpp
   deprecated_unescape.cpp
@@ -80,10 +84,6 @@ set(test_sources
   extra_check_depth.cpp
   extra_dispatch.cpp
   extra_input_with_depth.cpp
-  extra_integer.cpp
-  extra_integer_convert.cpp
-  extra_integer_match.cpp
-  extra_integer_maximum.cpp
   extra_nested_exceptions.cpp
   extra_parse_tree.cpp
   extra_parse_tree_to_dot.cpp

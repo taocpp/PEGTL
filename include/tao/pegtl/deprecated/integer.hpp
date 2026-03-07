@@ -2,27 +2,69 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_EXTRA_INTEGER_HPP
-#define TAO_PEGTL_EXTRA_INTEGER_HPP
+#ifndef TAO_PEGTL_DEPRECATED_INTEGER_HPP
+#define TAO_PEGTL_DEPRECATED_INTEGER_HPP
 
 #if !defined( __cpp_exceptions )
-#error "Exception support required for tao/pegtl/extra/integer.hpp"
+#error "Exception support required for tao/pegtl/deprecated/integer.hpp"
 #else
 
 #include <limits>
 #include <type_traits>
 
+#include "../ascii.hpp"
 #include "../config.hpp"
 #include "../parse.hpp"
 #include "../parse_error.hpp"
+#include "../rules.hpp"
 
 #include "../debug/analyze_traits.hpp"
-#include "../example/integer.hpp"
 
 #include "internal/integer.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
+   struct unsigned_rule_old
+      : plus< digit >
+   {
+      // Pre-3.0 version of this rule.
+   };
+
+   using integer_digits_one = sor< one< '0' >, plus< digit > >;                            // Don't consume after first zero.
+   using integer_digits_two = if_then_else< one< '0' >, not_at< digit >, plus< digit > >;  // Don't match when superfluous leading zero(s) are present.
+
+   struct unsigned_rule_new
+      : integer_digits_two
+   {
+      // New version that does not allow leading zeros.
+   };
+
+   struct signed_rule_old
+      : seq< opt< one< '-', '+' > >, plus< digit > >
+   {
+      // Pre-3.0 version of this rule.
+   };
+
+   struct signed_rule_new
+      : seq< opt< one< '-', '+' > >, integer_digits_two >
+   {
+      // New version that does not allow leading zeros.
+   };
+
+   struct signed_rule_bis
+      : seq< opt< one< '-' > >, integer_digits_two >
+   {
+      // Only allow minus as sign like std::from_chars.
+   };
+
+   struct signed_rule_ter
+      : seq< one< '-', '+' >, integer_digits_two >
+   {
+      // Require sign, for languages where 42 is unsigned and +42 is signed.
+   };
+
+   // There are many more possibilities, for example "allow a sign only for non-zero integers".
+
    struct unsigned_action
    {
       // Assumes that 'in' contains a non-empty sequence of ASCII digits.

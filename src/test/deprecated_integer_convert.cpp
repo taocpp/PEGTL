@@ -8,7 +8,7 @@
 
 #if defined( __cpp_exceptions )
 
-#include <tao/pegtl/extra/integer.hpp>
+#include <tao/pegtl/deprecated/integer.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

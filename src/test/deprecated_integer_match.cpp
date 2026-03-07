@@ -14,7 +14,7 @@ int main()
 
 #include "test.hpp"
 
-#include <tao/pegtl/extra/integer.hpp>
+#include <tao/pegtl/deprecated/integer.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

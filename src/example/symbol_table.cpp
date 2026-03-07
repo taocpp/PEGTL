@@ -18,7 +18,7 @@ int main()
 
 #include <tao/pegtl.hpp>
 
-#include <tao/pegtl/extra/integer.hpp>
+#include <tao/pegtl/extra/charconv.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
@@ -61,7 +61,7 @@ namespace example
       template< typename ActionInput >
       static void apply( const ActionInput& in, state& st )
       {
-         pegtl::unsigned_action::apply( in, st.converted );
+         (void)pegtl::from_chars_throws< void >::apply( in, st.converted );
       }
    };
 

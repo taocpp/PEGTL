@@ -19,7 +19,7 @@ int main()
 #include "verify_meta.hpp"
 #include "verify_rule.hpp"
 
-#include <tao/pegtl/extra/integer.hpp>
+#include <tao/pegtl/deprecated/integer.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {
