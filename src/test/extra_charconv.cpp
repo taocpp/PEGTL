@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    template<>
    struct test_action< everything >
-      : from_chars_dec< void >
+      : from_chars_throws< void >
    {};
 
    template< typename Integral >
@@ -35,7 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
          view_input in( input );
          static_assert( std::is_integral_v< Integral > );
          Integral state = output + 1;
-         const bool result = parse< from_chars_dec< void > >( in, state );
+         const bool result = parse< from_chars_nothrow< void > >( in, state );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( state == output );
          TAO_PEGTL_TEST_ASSERT( in.size() == remaining );
@@ -45,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE
          view_input in( input );
          static_assert( std::is_integral_v< Integral > );
          Integral state = output + 1;
-         const bool result = parse< from_chars_dec< Integral > >( in, state );
+         const bool result = parse< from_chars_nothrow< Integral > >( in, state );
          TAO_PEGTL_TEST_ASSERT( result );
          TAO_PEGTL_TEST_ASSERT( state == output );
          TAO_PEGTL_TEST_ASSERT( in.size() == remaining );
@@ -69,7 +69,7 @@ namespace TAO_PEGTL_NAMESPACE
          view_input in( input );
          static_assert( std::is_integral_v< Integral > );
          Integral state = value + 1;
-         const bool result = parse< from_chars_dec< void > >( in, state );
+         const bool result = parse< from_chars_throws< void > >( in, state );
          TAO_PEGTL_TEST_ASSERT( !result );
          TAO_PEGTL_TEST_ASSERT( state == value + 1 );
          TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
@@ -79,7 +79,7 @@ namespace TAO_PEGTL_NAMESPACE
          view_input in( input );
          static_assert( std::is_integral_v< Integral > );
          Integral state = value + 1;
-         const bool result = parse< from_chars_dec< Integral > >( in, state );
+         const bool result = parse< from_chars_throws< Integral > >( in, state );
          TAO_PEGTL_TEST_ASSERT( !result );
          TAO_PEGTL_TEST_ASSERT( state == value + 1 );
          TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
@@ -103,14 +103,14 @@ namespace TAO_PEGTL_NAMESPACE
          view_input in( input );
          static_assert( std::is_integral_v< Integral > );
          Integral state = value + 1;
-         TAO_PEGTL_TEST_THROWS( (void)parse< from_chars_dec< void > >( in, state ) );
+         TAO_PEGTL_TEST_THROWS( (void)parse< from_chars_throws< void > >( in, state ) );
       }
       // Test rule.
       {
          view_input in( input );
          static_assert( std::is_integral_v< Integral > );
          Integral state = value + 1;
-         TAO_PEGTL_TEST_THROWS( (void)parse< from_chars_dec< Integral > >( in, state ) );
+         TAO_PEGTL_TEST_THROWS( (void)parse< from_chars_throws< Integral > >( in, state ) );
       }
       // Test action.
       {
@@ -122,8 +122,11 @@ namespace TAO_PEGTL_NAMESPACE
 
    void unit_test()
    {
-      verify_analyze< from_chars_dec< void > >( __LINE__, __FILE__, true, false );
-      verify_analyze< from_chars_dec< unsigned > >( __LINE__, __FILE__, true, false );
+      verify_analyze< from_chars_throws< void > >( __LINE__, __FILE__, true, false );
+      verify_analyze< from_chars_throws< unsigned > >( __LINE__, __FILE__, true, false );
+
+      verify_analyze< from_chars_nothrow< void > >( __LINE__, __FILE__, true, false );
+      verify_analyze< from_chars_nothrow< unsigned > >( __LINE__, __FILE__, true, false );
 
       from_chars_local_failure( "", int( 1 ) );
       from_chars_local_failure( "", unsigned( 1 ) );

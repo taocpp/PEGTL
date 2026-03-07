@@ -13,42 +13,46 @@
 
 #include "internal/charconv.hpp"
 
+#include "overflow_mode.hpp"
+
 namespace TAO_PEGTL_NAMESPACE
 {
-   // The following types can be used as rule or action.
+   // The following types can be used as rule and/or action.
+   // When the parse or action input can't be parsed as integer
+   // it returns false in both roles, i.e. a local failure.
+   // For integer overflow the overflow_mode determines whether
+   // to return false or throw a parse_error exception.
 
-   // Integral can be void to make the rule and action
-   // auto-adapt to the type of the first and only state
-   // which is then also mandatory (when Integral is an
-   // integral type the state is optional for the rule).
+   template< typename Integral, std::uint8_t Base, overflow_mode Over >
+   struct from_chars_combo
+      : internal::from_chars_rule< Integral, Base, Over >,
+        internal::from_chars_action< Integral, Base, Over >
+   {
+      static_assert( Base != 1 );
+   };
 
-   template< typename Integral, std::uint8_t Base = 0 >
-   struct from_chars_raw
-      : internal::from_chars_combo< Base, Integral >
+   template< typename Integral, std::uint8_t Base = 10 >
+   struct from_chars_throws
+      : from_chars_combo< Integral, Base, overflow_mode::global_failure >
+   {};
+
+   template< typename Integral, std::uint8_t Base = 10 >
+   struct from_chars_nothrow
+      : from_chars_combo< Integral, Base, overflow_mode::local_failure >
    {};
 
    template< typename Integral >
-   struct from_chars_bin
-      : internal::from_chars_combo< 2, Integral >
+   struct from_xchars_throws
+      : from_chars_throws< Integral, 16 >
    {};
 
    template< typename Integral >
-   struct from_chars_oct
-      : internal::from_chars_combo< 8, Integral >
+   struct from_xchars_nothrow
+      : from_chars_nothrow< Integral, 16 >
    {};
 
-   template< typename Integral >
-   struct from_chars_dec
-      : internal::from_chars_combo< 10, Integral >
-   {};
-
-   template< typename Integral >
-   struct from_chars_hex
-      : internal::from_chars_combo< 16, Integral >
-   {};
-
-   template< typename Name, std::uint8_t Base, typename Integral >
-   struct analyze_traits< Name, internal::from_chars_rule< Base, Integral > >
+   template< typename Name, typename Integral, std::uint8_t Base, overflow_mode Over >
+   struct analyze_traits< Name, internal::from_chars_rule< Integral, Base, Over > >
       : analyze_any_traits<>
    {};
 

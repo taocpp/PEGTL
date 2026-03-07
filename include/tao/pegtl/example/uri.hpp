@@ -16,7 +16,7 @@
 #include "../rules.hpp"
 #include "../unicode/utf8.hpp"
 
-#include "../extra/integer.hpp"
+#include "../extra/charconv.hpp"
 
 #include "abnf_core.hpp"
 
@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::uri
    using colon = one< ':' >;
 
    // clang-format off
-   struct dec_octet : maximum_rule< std::uint8_t > {};
+   struct dec_octet : from_chars_nothrow< std::uint8_t > {};
 
    struct IPv4address : seq< dec_octet, dot, dec_octet, dot, dec_octet, dot, dec_octet > {};
 
