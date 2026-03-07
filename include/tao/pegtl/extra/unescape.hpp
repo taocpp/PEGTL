@@ -74,8 +74,7 @@ namespace TAO_PEGTL_NAMESPACE
       static void apply( const ActionInput& in, std::string& out )
       {
          // assert( in.size() == 1 );
-         using test_t = typename One::test_t;
-         out += apply_impl( in.peek_char(), test_t() );
+         out += apply_impl( in.peek_char(), One() );
       }
 
    protected:

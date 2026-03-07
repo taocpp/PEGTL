@@ -24,8 +24,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = terminal;
       using subs_t = empty_list;
 
-      using test_t = Rule< Peek, Cs... >;
-
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in )
       {

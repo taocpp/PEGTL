@@ -42,15 +42,13 @@ namespace TAO_PEGTL_NAMESPACE::unescape
    template< typename One, char... Rs >
    struct unescape_c
    {
-      using one_t = typename One::test_t;
-
       static_assert( sizeof...( Rs ) > 0 );
 
       template< typename ActionInput >
       static void apply( const ActionInput& in, std::string& s )
       {
          // assert( in.size() == 1 );
-         s += apply_one( in.peek_char(), one_t() );
+         s += apply_one( in.peek_char(), One() );
       }
 
    private:
