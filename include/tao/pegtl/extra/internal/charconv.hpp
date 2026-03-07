@@ -29,7 +29,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< overflow_mode O, typename Input, typename Integral >
-   [[nodiscard]] std::size_t from_chars_impl( const Input& in, const std::size_t size, Integral& out, const int base )
+   [[nodiscard]] std::size_t from_chars_impl( const Input& in, const std::size_t size, Integral& out, const std::uint8_t base )
    {
       const char* const begin = in.current();
       const auto result = std::from_chars( begin, begin + size, out, base );
@@ -46,6 +46,18 @@ namespace TAO_PEGTL_NAMESPACE::internal
          default:
             return result.ptr - begin;
       }
+   }
+
+   template< typename Rule, overflow_mode Over, typename ParseInput, typename Integral >
+   [[nodiscard]] bool from_chars_match( ParseInput& in, Integral& out, const std::uint8_t base )
+   {
+      const std::size_t size = in.size( 3 + ( sizeof( Integral ) * 8 ) );
+
+      if( const std::size_t done = from_chars_impl< Over >( in, in.size( size ), out, base ) ) {
+         in.template consume< Rule >( done );
+         return true;
+      }
+      return false;
    }
 
    template< typename Integral, std::uint8_t Base, overflow_mode Over >
@@ -65,7 +77,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in, States&&... /*unused*/ )
       {
          Integral out;
-         return match_impl( in, out );
+         return from_chars_match< from_chars_rule, Over >( in, out, Base );
       }
 
       template< apply_mode A,
@@ -76,20 +88,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static auto match( ParseInput& in, Integral& out, States&&... /*unused*/ ) -> std::enable_if_t< A == apply_mode::enabled, bool >
       {
-         return match_impl( in, out );
-      }
-
-   private:
-      template< typename ParseInput >
-      [[nodiscard]] static bool match_impl( ParseInput& in, Integral& out )
-      {
-         const std::size_t size = in.size( 3 + ( sizeof( Integral ) * 8 ) );
-
-         if( const std::size_t done = from_chars_impl< Over >( in, in.size( size ), out, int( Base ) ) ) {
-            in.template consume< from_chars_rule >( done );
-            return true;
-         }
-         return false;
+         return from_chars_match< from_chars_rule, Over >( in, out, Base );
       }
    };
 
@@ -108,13 +107,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                 typename... States >
       [[nodiscard]] static auto match( ParseInput& in, Integral& out, States&&... /*unused*/ ) -> std::enable_if_t< std::is_integral_v< Integral >, bool >
       {
-         const std::size_t size = in.size( 3 + ( sizeof( Integral ) * 8 ) );
-
-         if( const std::size_t done = from_chars_impl< Over >( in, in.size( size ), out, int( Base ) ) ) {
-            in.template consume< from_chars_rule >( done );
-            return true;
-         }
-         return false;
+         return from_chars_match< from_chars_rule, Over >( in, out, Base );
       }
    };
 
