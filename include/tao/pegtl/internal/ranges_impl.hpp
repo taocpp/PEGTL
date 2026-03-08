@@ -2,32 +2,31 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_RANGES_HPP
-#define TAO_PEGTL_INTERNAL_RANGES_HPP
+#ifndef TAO_PEGTL_INTERNAL_RANGES_IMPL_HPP
+#define TAO_PEGTL_INTERNAL_RANGES_IMPL_HPP
 
 #include <utility>
 
 #include "../config.hpp"
 
-#include "enable_control.hpp"
 #include "dependent_false.hpp"
-#include "one.hpp"
-#include "range.hpp"
-#include "terminal.hpp"
+#include "one_impl.hpp"
+#include "range_impl.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, typename Peek::data_t... Cs >
-   struct ranges
-      : terminal< ranges< Peek, Cs... > >
+   struct ranges_impl
    {
-      template< typename Data, Data Lo, Data Hi >
-      [[nodiscard]] static constexpr bool test_impl( const Data c ) noexcept
+      template< typename Data >
+      [[nodiscard]] static constexpr bool test( const Data c ) noexcept
       {
-         static_assert( Lo <= Hi );
-         return ( Lo <= c ) && ( c <= Hi );
+         using data_t = typename Peek::data_t;
+         static_assert( sizeof( Data ) <= sizeof( data_t ) );
+         return test_impl( std::make_index_sequence< sizeof...( Cs ) / 2 >(), data_t( c ) );
       }
 
+   private:
       template< typename Data, std::size_t... Is >
       [[nodiscard]] static constexpr bool test_impl( std::index_sequence< Is... > /*unused*/, const Data c ) noexcept
       {
@@ -41,34 +40,29 @@ namespace TAO_PEGTL_NAMESPACE::internal
          }
       }
 
-      template< typename Data >
-      [[nodiscard]] static constexpr bool test( const Data c ) noexcept
+      template< typename Data, Data Lo, Data Hi >
+      [[nodiscard]] static constexpr bool test_impl( const Data c ) noexcept
       {
-         using data_t = typename Peek::data_t;
-         static_assert( sizeof( Data ) <= sizeof( data_t ) );
-         return test_impl( std::make_index_sequence< sizeof...( Cs ) / 2 >(), data_t( c ) );
+         static_assert( Lo <= Hi );
+         return ( Lo <= c ) && ( c <= Hi );
       }
    };
 
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
-   struct ranges< Peek, Lo, Hi >
-      : range< Peek, Lo, Hi >
+   struct ranges_impl< Peek, Lo, Hi >
+      : range_impl< Peek, Lo, Hi >
    {};
 
    template< typename Peek, typename Peek::data_t C >
-   struct ranges< Peek, C >
-      : one< Peek, C >
+   struct ranges_impl< Peek, C >
+      : one_impl< Peek, C >
    {};
 
    template< typename Peek >
-   struct ranges< Peek >
-      : failure
+   struct ranges_impl< Peek >
    {
       static_assert( dependent_false< Peek > );
    };
-
-   template< typename Peek, typename Peek::data_t... Cs >
-   inline constexpr bool enable_control< ranges< Peek, Cs... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

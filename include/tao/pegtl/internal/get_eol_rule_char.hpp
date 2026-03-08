@@ -9,8 +9,7 @@
 
 #include "../config.hpp"
 
-#include "one.hpp"
-#include "terminal.hpp"
+#include "terminal_aliases.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -21,7 +20,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Peek, auto C >
-   struct get_eol_rule_char< terminal< one< Peek, C > > >
+   struct get_eol_rule_char< one< Peek, C > >
    {
       static constexpr auto value = C;
    };

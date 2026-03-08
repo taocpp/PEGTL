@@ -220,8 +220,8 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_opt_traits<>
    {};
 
-   template< typename Name, typename Rule >
-   struct analyze_traits< Name, internal::terminal< Rule > >
+   template< typename Name, internal::invert_mode I, typename Impl >
+   struct analyze_traits< Name, internal::terminal< I, Impl > >
       : analyze_any_traits<>
    {};
 

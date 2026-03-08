@@ -7,7 +7,7 @@
 
 #include "../../config.hpp"
 
-#include "../../internal/one.hpp"
+#include "../../internal/terminal_aliases.hpp"
 
 #include "peek_utf8.hpp"
 #include "utf32_to_utf8.hpp"

@@ -5,27 +5,36 @@
 #ifndef TAO_PEGTL_INTERNAL_TERMINAL_HPP
 #define TAO_PEGTL_INTERNAL_TERMINAL_HPP
 
+#include <type_traits>
+
 #include "../config.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
+#include "invert_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename >
+   template< invert_mode, typename >
    struct terminal;
 
-   template< template< typename Peek, typename Peek::data_t... Cs > class Rule, typename Peek, typename Peek::data_t... Cs >
-   struct terminal< Rule< Peek, Cs... > >
+   template< invert_mode I, template< typename Peek, typename Peek::data_t... Cs > class Impl, typename Peek, typename Peek::data_t... Cs >
+   struct terminal< I, Impl< Peek, Cs... > >
    {
       using rule_t = terminal;
       using subs_t = empty_list;
+
+      template< typename Data >
+      [[nodiscard]] static constexpr auto test( const Data c ) noexcept
+      {
+         return Impl< Peek, Cs... >::test( c ) != bool( I );
+      }
 
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in )
       {
          if( const auto t = Peek::peek( in ) ) {
-            if( Rule< Peek, Cs... >::test( t.data() ) ) {
+            if( test( t.data() ) ) {
                in.template consume< terminal >( t.size() );
                return true;
             }
@@ -34,8 +43,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< typename Rule >
-   inline constexpr bool enable_control< terminal< Rule > > = false;
+   template< invert_mode I, typename Impl >
+   inline constexpr bool enable_control< terminal< I, Impl > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

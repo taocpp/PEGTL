@@ -2,20 +2,17 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_ONE_HPP
-#define TAO_PEGTL_INTERNAL_ONE_HPP
+#ifndef TAO_PEGTL_INTERNAL_ONE_IMPL_HPP
+#define TAO_PEGTL_INTERNAL_ONE_IMPL_HPP
 
 #include "../config.hpp"
 
-#include "enable_control.hpp"
 #include "dependent_false.hpp"
-#include "terminal.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, typename Peek::data_t... Cs >
-   struct one
-      : terminal< one< Peek, Cs... > >
+   struct one_impl
    {
       template< typename Data >
       [[nodiscard]] static constexpr bool test( const Data c ) noexcept
@@ -27,13 +24,10 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Peek >
-   struct one< Peek >
+   struct one_impl< Peek >
    {
       static_assert( dependent_false< Peek > );
    };
-
-   template< typename Peek, typename Peek::data_t... Cs >
-   inline constexpr bool enable_control< one< Peek, Cs... > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

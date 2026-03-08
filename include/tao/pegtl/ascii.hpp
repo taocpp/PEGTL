@@ -54,18 +54,20 @@ namespace TAO_PEGTL_NAMESPACE
       struct shebang : internal::seq< internal::ascii_string< '#', '!' >, internal::until< internal::eolf > > {};
 
       struct any : internal::any< internal::peek_char > {};
-      template< char... Cs > struct ione : internal::ione< internal::peek_char, Cs... > {};
       template< char... Cs > struct istring : internal::ascii_istring< Cs... > {};
       template< std::size_t Count > struct many : internal::many< Count, internal::peek_char > {};
-      template< char... Cs > struct not_ione : internal::not_ione< internal::peek_char, Cs... > {};
-      template< char... Cs > struct not_one : internal::not_one< internal::peek_char, Cs... > {};
-      template< char Lo, char Hi > struct not_range : internal::not_range< internal::peek_char, Lo, Hi > {};
-      template< char... Cs > struct one : internal::one< internal::peek_char, Cs... > {};
-      template< char Lo, char Hi > struct range : internal::range< internal::peek_char, Lo, Hi > {};
-      template< char... Cs > struct ranges : internal::ranges< internal::peek_char, Cs... > {};
       template< char... Cs > struct string : internal::ascii_string< Cs... > {};
       template< char C > struct three : internal::ascii_string< C, C, C > {};
       template< char C > struct two : internal::ascii_string< C, C > {};
+
+      template< char... Cs > struct ione : internal::ione< internal::peek_char, Cs... > {};
+      template< char... Cs > struct not_ione : internal::not_ione< internal::peek_char, Cs... > {};
+      template< char... Cs > struct not_one : internal::not_one< internal::peek_char, Cs... > {};
+      template< char Lo, char Hi > struct not_range : internal::not_range< internal::peek_char, Lo, Hi > {};
+      template< char... Cs > struct not_ranges : internal::not_ranges< internal::peek_char, Cs... > {};
+      template< char... Cs > struct one : internal::one< internal::peek_char, Cs... > {};
+      template< char Lo, char Hi > struct range : internal::range< internal::peek_char, Lo, Hi > {};
+      template< char... Cs > struct ranges : internal::ranges< internal::peek_char, Cs... > {};
 
       struct any7 : internal::any< internal::peek_seven > {};
       template< std::size_t Count > struct many7 : internal::many< Count, internal::peek_seven > {};

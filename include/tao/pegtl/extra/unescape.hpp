@@ -19,8 +19,8 @@
 
 #include "../example/escaped.hpp"
 
-#include "../internal/one.hpp"
 #include "../internal/peek_direct.hpp"
+#include "../internal/terminal_aliases.hpp"
 
 #include "../unicode/utf8.hpp"
 

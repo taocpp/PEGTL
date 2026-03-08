@@ -7,16 +7,18 @@
 
 #include "../config.hpp"
 
-#include "ranges.hpp"
 #include "seq.hpp"
 #include "star.hpp"
+#include "terminal_aliases.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek >
    using identifier_first = ranges< Peek, 'a', 'z', 'A', 'Z', '_' >;
+
    template< typename Peek >
    using identifier_other = ranges< Peek, 'a', 'z', 'A', 'Z', '0', '9', '_' >;
+
    template< typename Peek >
    using identifier = seq< identifier_first< Peek >, star< identifier_other< Peek > > >;
 

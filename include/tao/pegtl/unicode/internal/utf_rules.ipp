@@ -36,12 +36,14 @@ namespace TAO_PEGTL_NAMESPACE::TAO_PEGTL_UTF_NAME
    struct any : internal::any< TAO_PEGTL_UTF_PEEK > {};
    struct bom : internal::utf_one< TAO_PEGTL_UTF_PEEK, char32_t( 0xfeff ) > {};
    template< std::size_t Count > struct many : internal::many< Count, TAO_PEGTL_UTF_PEEK > {};
+   template< char32_t... Cs > struct string : internal::utf_string< TAO_PEGTL_UTF_PEEK, Cs... > {};
+
    template< char32_t... Cs > struct not_one : internal::not_one< TAO_PEGTL_UTF_PEEK, Cs... > {};
    template< char32_t Lo, char32_t Hi > struct not_range : internal::not_range< TAO_PEGTL_UTF_PEEK, Lo, Hi > {};
+   template< char32_t... Cs > struct not_ranges : internal::not_ranges< TAO_PEGTL_UTF_PEEK, Cs... > {};
    template< char32_t... Cs > struct one : internal::utf_one< TAO_PEGTL_UTF_PEEK, Cs... > {};
    template< char32_t Lo, char32_t Hi > struct range : internal::range< TAO_PEGTL_UTF_PEEK, Lo, Hi > {};
    template< char32_t... Cs > struct ranges : internal::ranges< TAO_PEGTL_UTF_PEEK, Cs... > {};
-   template< char32_t... Cs > struct string : internal::utf_string< TAO_PEGTL_UTF_PEEK, Cs... > {};
    // clang-format on
 
    namespace scan

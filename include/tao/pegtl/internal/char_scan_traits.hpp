@@ -11,10 +11,9 @@
 #include "../config.hpp"
 
 #include "is_simple_type.hpp"
-#include "one.hpp"
 #include "scan_input.hpp"
 #include "test_after_scan.hpp"
-#include "terminal.hpp"
+#include "terminal_aliases.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
@@ -22,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    struct char_scan_traits;
 
    template< auto Eol, typename Peek >
-   struct char_scan_traits< terminal< one< Peek, Eol > > >
+   struct char_scan_traits< one< Peek, Eol > >
    {
       template< typename Position, typename Data >
       static void scan( Position& pos, scan_input< Data >& in )
@@ -33,9 +32,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
          static_assert( is_simple_type_v< Data > );
 
-         constexpr bool same = sizeof( Char ) == sizeof( Data );
+         constexpr bool same = ( sizeof( Char ) == sizeof( Data ) );
          constexpr bool bulk = Peek::template bulk< scan_input< Data > >();
-         constexpr bool size = Peek::template size< scan_input< Data > >() == 1;
+         constexpr bool size = ( Peek::template size< scan_input< Data > >() == 1 );
 
          if constexpr( same && bulk && size ) {
             while( !in.empty() ) {

@@ -2,20 +2,17 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_NOT_RANGE_HPP
-#define TAO_PEGTL_INTERNAL_NOT_RANGE_HPP
+#ifndef TAO_PEGTL_INTERNAL_RANGE_IMPL_HPP
+#define TAO_PEGTL_INTERNAL_RANGE_IMPL_HPP
 
 #include "../config.hpp"
 
-#include "enable_control.hpp"
-#include "not_one.hpp"
-#include "terminal.hpp"
+#include "one_impl.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
-   struct not_range
-      : terminal< not_range< Peek, Lo, Hi > >
+   struct range_impl
    {
       static_assert( Lo < Hi );
 
@@ -24,17 +21,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          using data_t = typename Peek::data_t;
          static_assert( sizeof( Data ) <= sizeof( data_t ) );
-         return ( Lo > data_t( c ) ) || ( data_t( c ) > Hi );
+         return ( ( Lo <= data_t( c ) ) && ( data_t( c ) <= Hi ) );
       }
    };
 
    template< typename Peek, typename Peek::data_t C >
-   struct not_range< Peek, C, C >
-      : not_one< Peek, C >
+   struct range_impl< Peek, C, C >
+      : one_impl< Peek, C >
    {};
-
-   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
-   inline constexpr bool enable_control< not_range< Peek, Lo, Hi > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

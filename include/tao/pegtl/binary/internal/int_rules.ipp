@@ -27,13 +27,14 @@ namespace TAO_PEGTL_NAMESPACE::TAO_PEGTL_INT_NAME
    // clang-format off
    struct any : internal::any< TAO_PEGTL_INT_PEEK > {};
    template< std::size_t Count > struct many : internal::many< Count, TAO_PEGTL_INT_PEEK > {};
+   template< TAO_PEGTL_INT_TYPE... Cs > struct string : internal::seq_one< TAO_PEGTL_INT_PEEK, Cs... > {};
 
    template< TAO_PEGTL_INT_TYPE... Cs > struct not_one : internal::not_one< TAO_PEGTL_INT_PEEK, Cs... > {};
    template< TAO_PEGTL_INT_TYPE Lo, TAO_PEGTL_INT_TYPE Hi > struct not_range : internal::not_range< TAO_PEGTL_INT_PEEK, Lo, Hi > {};
+   template< TAO_PEGTL_INT_TYPE... Cs > struct not_ranges : internal::not_ranges< TAO_PEGTL_INT_PEEK, Cs... > {};
    template< TAO_PEGTL_INT_TYPE... Cs > struct one : internal::one< TAO_PEGTL_INT_PEEK, Cs... > {};
    template< TAO_PEGTL_INT_TYPE Lo, TAO_PEGTL_INT_TYPE Hi > struct range : internal::range< TAO_PEGTL_INT_PEEK, Lo, Hi > {};
    template< TAO_PEGTL_INT_TYPE... Cs > struct ranges : internal::ranges< TAO_PEGTL_INT_PEEK, Cs... > {};
-   template< TAO_PEGTL_INT_TYPE... Cs > struct string : internal::seq_one< TAO_PEGTL_INT_PEEK, Cs... > {};
 
    template< TAO_PEGTL_INT_TYPE M, TAO_PEGTL_INT_TYPE... Cs > struct mask_not_one : internal::not_one< TAO_PEGTL_INT_MASK< M >, Cs... > {};
    template< TAO_PEGTL_INT_TYPE M, TAO_PEGTL_INT_TYPE Lo, TAO_PEGTL_INT_TYPE Hi > struct mask_not_range : internal::not_range< TAO_PEGTL_INT_MASK< M >, Lo, Hi > {};

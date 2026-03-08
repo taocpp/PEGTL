@@ -11,7 +11,7 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       verify_meta< istring<>, internal::success >();
-      verify_meta< istring< 'a' >, internal::terminal< internal::ione< internal::peek_char, 'a' > > >();
+      verify_meta< istring< 'a' >, internal::ione< internal::peek_char, 'a' > >();
       verify_meta< istring< 'a', 'b' >, internal::ascii_istring< 'a', 'b' > >();
       verify_meta< istring< '\0', '\n' >, internal::ascii_istring< '\0', '\n' > >();
 

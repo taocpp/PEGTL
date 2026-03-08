@@ -11,13 +11,13 @@
 
 #include "eof.hpp"
 #include "not_at.hpp"
-#include "one.hpp"
 #include "opt.hpp"
 #include "rematch.hpp"
 #include "rep.hpp"
 #include "seq.hpp"
 #include "star.hpp"
 #include "star_partial.hpp"
+#include "terminal_aliases.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

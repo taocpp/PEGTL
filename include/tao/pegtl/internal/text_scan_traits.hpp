@@ -22,6 +22,7 @@
 #include "scan_base_classes.hpp"
 #include "scan_input.hpp"
 #include "terminal.hpp"
+#include "terminal_aliases.hpp"
 #include "until.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -49,16 +50,16 @@ namespace TAO_PEGTL_NAMESPACE::internal
    //    : inc_line_scan
    // {};
 
-   template< typename Eol, typename Rule >
-   struct text_scan_traits< Eol, terminal< Rule > >
+   template< typename Eol, invert_mode I, typename Impl >
+   struct text_scan_traits< Eol, terminal< I, Impl > >
    {
       template< typename Position, typename Data >
       static void scan( Position& pos, scan_input< Data >& in )
       {
-         if constexpr( std::is_same_v< typename Eol::eol_char_rule::rule_t, terminal< Rule > > ) {
+         if constexpr( std::is_same_v< typename Eol::eol_char_rule::rule_t, typename terminal< I, Impl >::rule_t > ) {
             inc_line_scan::scan( pos, in );
          }
-         else if constexpr( Rule::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) ) {
+         else if constexpr( terminal< I, Impl >::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) ) {
             char_scan_traits< typename Eol::eol_char_rule >::scan( pos, in );
          }
          else {
@@ -98,7 +99,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    {};
 
    template< typename Eol, typename Peek >
-   struct text_scan_traits< Eol, until< terminal< one< Peek, get_eol_rule_char_v< typename Eol::eol_char_rule > > > > >
+   struct text_scan_traits< Eol, until< one< Peek, get_eol_rule_char_v< typename Eol::eol_char_rule > > > >
       : add_column_scan
    {};
 
