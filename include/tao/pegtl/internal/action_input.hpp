@@ -12,8 +12,6 @@
 #include "../parse_error.hpp"
 #endif
 
-#include "input_with_funcs.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename ParseInput >
@@ -64,6 +62,11 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] std::size_t size() const noexcept
       {
          return std::size_t( end() - begin() );
+      }
+
+      [[nodiscard]] std::ptrdiff_t ssize() const noexcept
+      {
+         return end() - begin();
       }
 
       [[nodiscard]] const ParseInput& input() const noexcept

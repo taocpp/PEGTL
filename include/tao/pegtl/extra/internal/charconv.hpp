@@ -10,6 +10,7 @@
 #else
 
 #include <charconv>
+#include <cstddef>
 #include <cstdint>
 #include <system_error>
 #include <type_traits>
@@ -29,19 +30,19 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< overflow_mode O, typename Input, typename Integral >
-   [[nodiscard]] std::size_t from_chars_impl( const Input& in, const std::size_t size, Integral& out, const std::uint8_t base )
+   [[nodiscard]] std::ptrdiff_t from_chars_impl( const Input& in, const std::size_t size, Integral& out, const std::uint8_t base )
    {
       const char* const begin = in.current();
       const auto result = std::from_chars( begin, begin + size, out, base );
       switch( result.ec ) {
          case std::errc::invalid_argument:
-            return 0;
+            return -1;
          case std::errc::result_out_of_range:
             if constexpr( O == overflow_mode::global_failure ) {
                throw_parse_error( "integer overflow", in );
             }
             else {
-               return 0;
+               return -2;
             }
          default:
             return result.ptr - begin;
@@ -52,8 +53,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
    [[nodiscard]] bool from_chars_match( ParseInput& in, Integral& out, const std::uint8_t base )
    {
       const std::size_t size = in.size( 3 + ( sizeof( Integral ) * 8 ) );
+      const std::ptrdiff_t done = from_chars_impl< Over >( in, in.size( size ), out, base );
 
-      if( const std::size_t done = from_chars_impl< Over >( in, in.size( size ), out, base ) ) {
+      if( done > 0 ) {
          in.template consume< Rule >( done );
          return true;
       }
@@ -122,7 +124,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ActionInput, typename... States >
       [[nodiscard]] static bool apply( const ActionInput& in, Integral& out, States&&... /*unused*/ )
       {
-         return ( !in.empty() ) && ( from_chars_impl< Over >( in, in.size(), out, Base ) == in.size() );
+         return from_chars_impl< Over >( in, in.size(), out, Base ) == in.ssize();
       }
    };
 
@@ -132,7 +134,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ActionInput, typename Integral, typename... States >
       [[nodiscard]] static auto apply( const ActionInput& in, Integral& out, States&&... /*unused*/ ) -> std::enable_if_t< std::is_integral_v< Integral >, bool >
       {
-         return ( !in.empty() ) && ( from_chars_impl< Over >( in, in.size(), out, Base ) == in.size() );
+         return from_chars_impl< Over >( in, in.size(), out, Base ) == in.ssize();
       }
    };
 
