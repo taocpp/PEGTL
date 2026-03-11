@@ -5,45 +5,25 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/deprecated/unescape.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;
+#include <tao/pegtl/example/escaped.hpp>
+#include <tao/pegtl/extra/unescape.hpp>
+
+namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 namespace example
 {
-   // Grammar for string literals with some escape sequences from the C language:
-   // - \x followed by two hex-digits to insert any byte value.
-   // - \u followed by four hex-digits to insert a Unicode code point.
-   // - \U followed by eight hex-digits to insert any Unicode code points.
-   // - A backslash followed by one of the characters listed in the grammar below.
-
    // clang-format off
-   struct escaped_x : seq< one< 'x' >, rep< 2, xdigit > > {};
-   struct escaped_u : seq< one< 'u' >, rep< 4,  xdigit > > {};
-   struct escaped_U : seq< one< 'U' >, rep< 8,  xdigit > > {};
-   struct escaped_c : one< '\'', '"', '?', '\\', 'a', 'b', 'f', 'n', 'r', 't', 'v' > {};
+   struct escaped : pegtl::sor< pegtl::c_escaped_char,
+                                pegtl::hex_escaped_byte,
+                                pegtl::short_escaped_unicode,
+                                pegtl::long_escaped_unicode > {};
 
-   struct escaped : sor< escaped_x,
-                         escaped_u,
-                         escaped_U,
-                         escaped_c > {};
+   struct character : pegtl::if_then_else< pegtl::one< '\\' >,
+                                           escaped,
+                                           pegtl::utf8::range< 0x20, 0x10FFFF > > {};
 
-   struct character : if_then_else< one< '\\' >, escaped, utf8::range< 0x20, 0x10FFFF > > {};
-   struct literal : seq< one< '"' >, until< one< '"' >, character > > {};
-
-   struct padded : seq< pad< literal, blank >, eof > {};
-
-   // Action class that uses the actions from tao/pegtl/extra/unescape.hpp to
-   // produce a UTF-8 encoded result string where all escape sequences are
-   // replaced with their intended meaning.
-
-   template< typename Rule > struct action {};
-
-   template<> struct action< utf8::range< 0x20, 0x10FFFF > > : unescape::append_all {};
-   template<> struct action< escaped_x > : unescape::unescape_x {};
-   template<> struct action< escaped_u > : unescape::unescape_u {};
-   template<> struct action< escaped_U > : unescape::unescape_u {};
-   template<> struct action< escaped_c > : unescape::unescape_c< escaped_c, '\'', '"', '?', '\\', '\a', '\b', '\f', '\n', '\r', '\t', '\v' > {};
+   struct grammar : pegtl::seq< pegtl::until< pegtl::eof, character > > {};
    // clang-format on
 
 }  // namespace example
@@ -52,8 +32,8 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    for( int i = 1; i < argc; ++i ) {
       std::string s;
-      argv_input< void > in( argv, i );
-      if( parse< example::padded, example::action >( in, s ) ) {
+      pegtl::argv_input< void > in( argv, i );
+      if( pegtl::parse< example::grammar, pegtl::unescape >( in, s ) ) {
          std::cout << "argv[ " << i << " ] = " << s << std::endl;
       }
       else {

@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
 #include <cstdlib>
+#include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -61,7 +62,7 @@ int main()
       double d = 0.0;
       view_input< void, char, std::string > in( "std::cin", str );
       if( parse< sum::grammar, sum::action >( in, d ) ) {
-         std::cout << "parsing OK; sum = " << d << std::endl;
+         std::cout << "parsing OK; sum = " << std::setprecision( 12 ) << d << std::endl;
       }
       else {
          std::cout << "parsing failed" << std::endl;
