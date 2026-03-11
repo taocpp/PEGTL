@@ -1,8 +1,10 @@
 # Rule Reference
 
 The reference documentation for all rules and combinators.
-The rules related to [stream parsing](Stream-Parsing.nd) are [documented here](Stream-Parsing.md#rules).
-The rules not considered part of the core library are [documented here](Contrib-and-Examples.md).
+
+The rules related to [stream parsing](Stream-Parsing.md) are [documented here](Stream-Parsing.md#rules).
+
+The rules not considered part of the core library are [documented here](TODO).
 
 
 ## Contents
@@ -45,7 +47,7 @@ TODO: Consistent namespace usage in equivalent rules.
 Some rules are documented as being *equivalent* to a combination of other rules.
 This equivalence is with respect to which inputs are matched, but is **not** (necessarily) how the rule is implemented.
 
-For rules other than `must<>` that contain "must" in their name, rule equivalence shows which rule will be used to call the control class' `raise()` function when certain sub-rules fail to match.
+For rules other than `must<>` that contain "must" in their name, rule equivalence shows which rule will be used as template parameter to the control when calling the `raise()` function when certain sub-rules fail to match.
 
 #### Implementation
 
@@ -112,7 +114,7 @@ These rules are in namespace `tao::pegtl`.
 * The default definition of what constitutes a lines ending is system dependent.
   - On Unix-like systems a Unix line ending is matched, a single 'LF'.
   - On Windows the MS-DOS line ending 'CR LF' is also accepted.
-* Requires an input with an `eol_rule` type definition.
+* Requires an input with an `eol_rule` type alias.
 * [Meta data] and [implementation] mapping:
   - `eol::rule_t` is `internal::eol`
 
@@ -129,7 +131,7 @@ Note that the default behavior can be changed either by defining `TAO_PEGTL_DEFA
 ###### `everything`
 
 * Matches and consumes the entire input.
-* Limited by the buffer size when using a [stream input].
+* Not compatible with a [stream input].
 * [Equivalent] to `until< eof, any >`.
 * [Meta data] and [implementation] mapping:
   - `everything::rule_t` is `internal::everything`
@@ -150,6 +152,7 @@ Note that the default behavior can be changed either by defining `TAO_PEGTL_DEFA
 
 * Rule that always succeeds.
 * Rewinds the input to where it started.
+* Should generally be avoided!
 * Requires an [input with start](Inputs-and-Parsing.md#inputs-with-start).
 * [Meta data] and [implementation] mapping:
   - `restart::rule_t` is `internal::restart`
@@ -168,7 +171,7 @@ The ASCII rules operate on any input of integral or enum type of size 1.
 
 Unless noted otherwise they do **not** restrict the range of matched values to 7-bit ASCII values.
 For example rules like `ascii::any` or `ascii::not_one< 'a' >` will match *all* possible byte values, and *all* possible byte values excluding `'a'`, respectively.
-The additional rules [`any7`](#any7), [`many7`](#many7), [`not_one7`](#not_one7-c-), [`not_ione7`](#not_ione7-c-) and [`not_range7`](#not_range7-c-d-) are similar to their counterparts without the trailing `7` but only match bytes with a high bit of zero.
+The rules [`any7`](#any7), [`many7`](#many7), [`not_one7`](#not_one7-c-), [`not_ione7`](#not_ione7-c-) and [`not_range7`](#not_range7-c-d-) are like their respective counterparts without the trailing `7` but only match values that can be represented in 7 bits.
 
 It is possible to match UTF-8 multi-byte characters with the non-seven ASCII rules.
 For example the Euro sign code point `U+20AC`, which is encoded by the UTF-8 sequence `E2 82 AC`, is matched by both `ascii::string< 0xe2, 0x82, 0xac >` and `utf8::one< 0x20ac >`.
@@ -299,7 +302,7 @@ For all ASCII rules the template parameters representing characters are of type 
 * For ASCII letters the match is case insensitive.
 * [Meta data] and [implementation] mapping:
   - `ascii::ione<>::rule_t` is `internal::failure`
-  - `ascii::ione< C... >::rule_t` is `internal::tester< internal::ione< internal::peek_char, C... > >`.
+  - `ascii::ione< C... >::rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::ione< internal::peek_char, C... > >`.
 
 ###### `istring< C... >`
 
@@ -359,7 +362,7 @@ For all ASCII rules the template parameters representing characters are of type 
 * For ASCII letters the match is case insensitive.
 * [Meta data] and [implementation] mapping:
   - `ascii::not_ione<>::rule_t` is `internal::any< internal::peek_char >`
-  - `ascii::not_ione< C... >::rule_t` is `internal::tester< internal::not_ione< internal::peek_char, Cs... > >`.
+  - `ascii::not_ione< C... >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::ione< internal::peek_char, Cs... > >`.
 
 ###### `not_one< C... >`
 
@@ -368,14 +371,14 @@ For all ASCII rules the template parameters representing characters are of type 
 * Consumes one byte on success.
 * [Meta data] and [implementation] mapping:
   - `ascii::not_one<>::rule_t` is `internal::any< internal::peek_char >`
-  - `ascii::not_one< C... >::rule_t` is `internal::tester< internal::not_one< internal::peek_char, Cs... > >`.
+  - `ascii::not_one< C... >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::one< internal::peek_char, Cs... > >`.
 
 ###### `not_one7< C... >`
 
 * True ASCII version of `not_one` only matches input bytes between 0 and 127.
 * [Meta data] and [implementation] mapping:
   - `ascii::not_one<>::rule_t` is `internal::any< internal::peek_seven >`
-  - `ascii::not_one< C... >::rule_t` is `internal::tester< internal::not_one< internal::peek_seven, Cs... > >`.
+  - `ascii::not_one< C... >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::one< internal::peek_seven, Cs... > >`.
 
 ###### `not_range< C, D >`
 
@@ -383,15 +386,15 @@ For all ASCII rules the template parameters representing characters are of type 
 * The next input byte is **not** in the closed range `C ... D`.
 * Consumes one byte on success.
 * [Meta data] and [implementation] mapping:
-  - `ascii::not_range< C, C >::rule_t` is `internal::tester< internal::not_one< internal::peek_char, C > >`.
-  - `ascii::not_range< C, D >::rule_t` is `internal::tester< internal::not_range< internal::peek_char, C, D > >`.
+  - `ascii::not_range< C, C >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::one< internal::peek_char, C > >`.
+  - `ascii::not_range< C, D >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::range< internal::peek_char, C, D > >`.
 
 ###### `not_range7< C, D >`
 
 * True ASCII version of `not_range` only matches input bytes between 0 and 127.
 * [Meta data] and [implementation] mapping:
-  - `ascii::not_range7< C, C >::rule_t` is `internal::tester< internal::not_one< internal::peek_seven, C > >`.
-  - `ascii::not_range7< C, D >::rule_t` is `internal::tester< internal::not_range< internal::peek_seven, C, D > >`.
+  - `ascii::not_range7< C, C >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::one< internal::peek_seven, C > >`.
+  - `ascii::not_range7< C, D >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::range< internal::peek_seven, C, D > >`.
 
 ###### `nul`
 
@@ -411,7 +414,7 @@ For all ASCII rules the template parameters representing characters are of type 
 * Fails if `C` is an empty character pack.
 * [Meta data] and [implementation] mapping:
   - `ascii::one<>::rule_t` is `internal::failure`
-  - `ascii::one< C... >::rule_t` is `internal::tester< internal::one< internal::peek_char, C... > >`.
+  - `ascii::one< C... >::rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::one< internal::peek_char, C... > >`.
 
 ###### `print`
 
@@ -424,8 +427,8 @@ For all ASCII rules the template parameters representing characters are of type 
 * The next input byte is in the closed range `C ... D`.
 * Consumes one byte on success.
 * [Meta data] and [implementation] mapping:
-  - `ascii::range< C, C >::rule_t` is `internal::tester< internal::one< internal::peek_char, C > >`.
-  - `ascii::range< C, D >::rule_t` is `internal::tester< internal::range< internal::peek_char, C, D > >`.
+  - `ascii::range< C, C >::rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::one< internal::peek_char, C > >`.
+  - `ascii::range< C, D >::rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::range< internal::peek_char, C, D > >`.
 
 ###### `ranges< C1, D1, C2, D2, ... >`
 ###### `ranges< C1, D1, C2, D2, ..., E >`
@@ -434,9 +437,9 @@ For all ASCII rules the template parameters representing characters are of type 
 * [Equivalent] to `sor< (ascii::)range< C1, D1 >, (ascii::)range< C2, D2 >, ..., (ascii::)one< E > >`.
 * [Meta data] and [implementation] mapping:
   - `ascii::ranges<>::rule_t` is `internal::failure`
-  - `ascii::ranges< E >::rule_t` is `internal::tester< internal::one< internal::peek_char, E > >`.
-  - `ascii::ranges< C, D >::rule_t` is `internal::tester< internal::range< internal::peek_char, C, D > >`.
-  - `ascii::ranges< C... >::rule_t` is `internal::tester< internal::ranges< internal::peek_char, C... > >`.
+  - `ascii::ranges< E >::rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::one< internal::peek_char, E > >`.
+  - `ascii::ranges< C, D >::rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::range< internal::peek_char, C, D > >`.
+  - `ascii::ranges< C... >::rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::ranges< internal::peek_char, C... > >`.
 
 ###### `shebang`
 
@@ -461,7 +464,7 @@ For all ASCII rules the template parameters representing characters are of type 
 * [Equivalent] to `seq< (ascii::)one< C >... >`.
 * [Meta data] and [implementation] mapping:
   - `ascii::string<>::rule_t` is `internal::success`
-  - `ascii::string< C >:rule_t` is `internal::tester< internal::one< internal::peek_char, C > >`
+  - `ascii::string< C >:rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::one< internal::peek_char, C > >`
   - `ascii::string< C... >::rule_t` is `internal::ascii_string< C... >`
 
 ###### `TAO_PEGTL_ISTRING( "..." )`
@@ -677,7 +680,7 @@ For all Unicode rules the template parameters representing code points are of ty
 * [Meta data] and [implementation] mapping:
   * `utf_::string<>::rule_t` is `internal::success`.
   * `utf_::string< C... >::rule_t` is `internal::seq< internal::one< internal::peek_, C >... >`.
-  * `utf8::string< C >::rule_t` is `internal::tester< internal::one< internal::peek_utf8, C > >`.
+  * `utf8::string< C >::rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::one< internal::peek_utf8, C > >`.
   * `utf8::string< C... >::rule_t` is `internal::ascii_string< U... >` where `U...` is the UTF-8 encoding of `C...`.
 
 
@@ -1236,6 +1239,8 @@ Note that the `S...` are ignored in the grammar analysis.
   - `unordered< R... >::rule_t` is `internal::unordered< false, R... >`
   - `unordered< R... >::subs_t` is `type_list< R... >`
 
+Note that the grammar analysis does not correctly handle recursions in the grammar that pass through an `unordered` rule.
+
 ###### `unordered_partial< R... >`
 
 * Combines the behavioru of [`partial`](#partial-r-) and [`unordered`](#unordered-r-).
@@ -1243,6 +1248,8 @@ Note that the `S...` are ignored in the grammar analysis.
   - `unordered_partial<>::rule_t` is `internal::success`
   - `unordered_partial< R... >::rule_t` is `internal::unordered< true, R... >`
   - `unordered_partial< R... >::subs_t` is `type_list< R... >`
+
+Note that the grammar analysis does not correctly handle recursions in the grammar that pass through an `unordered_partial` rule.
 
 ###### `until< R >`
 

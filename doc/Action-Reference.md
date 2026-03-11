@@ -206,6 +206,23 @@ struct change_control
 { ... };
 ```
 
+###### `change_rule< R >`
+
+* Parses this action's template parameter instead of the rule this action is attached to.
+* Included via `include/tao/pegtl/action/change_rule.hpp`.
+* This action implements only a `match()` function and therefore:
+* Publicly derives from [`maybe_nothing`](#maybe-nothing).
+
+```c++
+template< typename NewRule >
+struct change_rule
+   : maybe_nothing
+{ ... };
+```
+
+> [!CAUTION]
+> The change made by this action is invisible to the [grammar analysis](Debug-Facilities.md#grammar-analysis).
+
 ###### `change_state< S >`
 
 * Creates an object of type `S` before parsing the rule `R` it is attached to.
@@ -240,6 +257,23 @@ template< typename... NewStates >
 struct change_states
    : maybe_nothing
 { ... };
+```
+
+###### `check_consume< N >`
+
+* Checks how many input objects the rule it is attached to consumed.
+* Throws an exception when it consumed *more than* `N` input objects.
+* Included via `include/tao/pegtl/action/check_consume.hpp`.
+* This action implements only a `match()` function and therefore:
+* Publicly derives from [`maybe_nothing`](#maybe-nothing).
+* Similar to [`limit_consume`](#limit_consume-n-), but `check_consume` checks the consumption *after* matching.
+
+
+```c++
+ template< std::size_t Maximum >
+ struct check_consume
+    : maybe_nothing
+ { ... };
 ```
 
 ###### `control_action`
@@ -306,6 +340,24 @@ struct disable_action
 struct enable_action
    : maybe_nothing
 { ... };
+```
+
+###### `limit_consume< N >`
+
+* Parses the rule it is attached to with the input limited to contain at most the next `N` objects.
+* Throws an exception when the rule consumes all `N` input objects (unless there are no more input objects).
+* Requires an input that implements `private_set_end()` like the [`view_input`](Input-Reference.md#view_input).
+* Included via `include/tao/pegtl/action/limit_consume.hpp`.
+* This action implements only a `match()` function and therefore:
+* Publicly derives from [`maybe_nothing`](#maybe-nothing).
+* Similar to [`check_consume`](#check_consume-n-), but `limit_consume` limits by modifying the input *before* matching.
+
+
+```c++
+ template< std::size_t Maximum >
+ struct limit_consume
+    : maybe_nothing
+ { ... };
 ```
 
 ###### `match_typed_state< T >`
@@ -394,11 +446,14 @@ struct require_apply0
 * [`change_action_and_state`](#change_action_and_state-a-s-) <sup>[(actions)](#actions)</sup>
 * [`change_action_and_states`](#change_action_and_states-a-s-) <sup>[(actions)](#actions)</sup>
 * [`change_control`](#change_control-c-) <sup>[(actions)](#actions)</sup>
+* [`change_rule`](#change_rule-r-) <sup>[(actions)](#actions)</sup>
 * [`change_state`](#change_state-s-) <sup>[(actions)](#actions)</sup>
 * [`change_states`](#change_states-s-) <sup>[(actions)](#actions)</sup>
+* [`check_consume`](#check_consume-n-) <sup>[(actions)](#actions)</sup>
 * [`control_action`](#control_action) <sup>[(actions)](#actions)</sup>
 * [`disable_action`](#disable_action) <sup>[(actions)](#actions)</sup>
 * [`enable_action`](#enable_action) <sup>[(actions)](#actions)</sup>
+* [`limit_consume`](#limit_consume-n-) <sup>[(actions)](#actions)</sup>
 * [`match_typed_state`](#match_typed_state-t-) <sup>[(actions)](#actions)</sup>
 * [`maybe_nothing`](#maybe_nothing) <sup>[(actions)](#actions)</sup>
 * [`nothing`](#nothing-r-) <sup>[(actions)](#actions)</sup>

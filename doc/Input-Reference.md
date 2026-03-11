@@ -1,24 +1,28 @@
 # Input Reference
 
 The reference documention for all (contiguous memory) inputs.
-The stream inputs are documented [here](Stream-Parsing.md#inputs).
+The [stream](Stream-Parsing.md) inputs are [documented here](Stream-Parsing.md#inputs).
 
 
 ## Contents
 
 * [Preamble](#preamble)
-* [Argv Input](#argv-input)
-* [Base Input](#base-input)
-* [View Input](#view-input)
-* [Copy Input](#copy-input)
-* [File Input](#file-input)
-* [Read Input](#read-input)
-* [Mmap Input](#mmap-input)
-* [Text View Input](#text-view-input)
-* [Text Copy Input](#text-copy-input)
-* [Text File Input](#text-file-input)
-* [Text Read Input](#text-read-input)
-* [Text Mmap Input](#text-mmap-input)
+* [Inputs](#inputs)
+  * [Argv Input](#argv-input)
+  * [Base Input](#base-input)
+  * [View Input](#view-input)
+  * [Copy Input](#copy-input)
+  * [File Input](#file-input)
+  * [Read Input](#read-input)
+  * [Mmap Input](#mmap-input)
+  * [Text View Input](#text-view-input)
+  * [Text Copy Input](#text-copy-input)
+  * [Text File Input](#text-file-input)
+  * [Text Read Input](#text-read-input)
+  * [Text Mmap Input](#text-mmap-input)
+* [Input Adapters](#input-adapters)
+  * [Input with Offset](#input-with-offset)
+* [Index](#index)
 
 
 ## Preamble
@@ -45,12 +49,14 @@ The text inputs use a `text_position` that tracks column and line numbers in add
 > Both column and line numbers are one-based, i.e. column 1 in line 1 corresponds to the first input object.
 
 > [!IMPORTANT]
-> The column corresponds to the number of input objects consumed since the last end-of-line, not the number of codepoints or extended grapheme clusters.
+> The column corresponds to the number of input objects consumed since the last end-of-line, not the number of code points or extended grapheme clusters.
 
 The non-text inputs also have an `Eol` template parameter, however they only use it for the [`eol`](Rule-Reference.md#eol) and [`eolf`](Rule-Reference.md#eolf) rules, **not** for column and line numbers in the position.
 
 
-## Argv Input
+## Inputs
+
+### Argv Input
 
 * Used to parse a single command line argument `argv[ n ]`.
 * Sets the source to `"argv[ n ]"` when passed `argv` and `n`.
@@ -91,8 +97,7 @@ struct argv_input
 argv_input( char**, const int ) -> argv_input<>;
 ```
 
-
-## Base input
+### Base input
 
 * Does **not** copy the input data!
 * [Without start](Input-Anatomy.md#inputs-with-start)
@@ -175,8 +180,7 @@ template< typename Data, std::size_t Size >
 base_input( const std::array< Data, Size >& ) -> base_input< default_eol, Data >;
 ```
 
-
-## View Input
+### View Input
 
 * Does **not** copy the input data.
 * [With start](Input-Anatomy.md#inputs-with-start).
@@ -338,8 +342,7 @@ template< typename String, typename Data, std::size_t Size >
 view_input( String&&, const std::array< Data, Size >& ) -> view_input< default_eol, Data, std::string, std::string >;
 ```
 
-
-## Copy Input
+### Copy Input
 
 * Copies the input data to a container data member.
 * [With start](Input-Anatomy.md#inputs-with-start).
@@ -459,8 +462,7 @@ template< typename String, typename data_t >
 copy_input( String&&, const std::initializer_list< data_t >& ) -> copy_input< default_eol, internal::choose_container_t< data_t >, std::string, std::string >;
 ```
 
-
-## File Input
+### File Input
 
 * Implemented with `mmap_input` when available, and `read_input` as fallback.
 * [With start](Input-Anatomy.md#inputs-with-start).
@@ -481,8 +483,7 @@ template< typename... Args >
 file_input( Args...&& ) -> file_input< default_eol >;
 ```
 
-
-## Read Input
+### Read Input
 
 * Uses `std::fopen()` and `std::fread()`.
 * Reads the whole file into a `std::string`.
@@ -525,8 +526,7 @@ template< typename... Args >
 read_input( Args...&& ) -> read_input< default_eol >;
 ```
 
-
-## Mmap Input
+### Mmap Input
 
 * Mmaps the file into memory.
 * Only available on systems with Posix *mmap* and Windows.
@@ -568,8 +568,7 @@ template< typename... Args >
 mmap_input( Args...&& ) -> mmap_input< default_eol, char >;
 ```
 
-
-## Text View Input
+### Text View Input
 
 * Does **not** copy the input data.
 * [With start](Input-Anatomy.md#inputs-with-start).
@@ -726,8 +725,7 @@ template< typename String, typename Data, std::size_t Size >
 text_view_input( String&&, const std::array< Data, Size >& ) -> text_view_input< default_eol, Data, std::string, std::string >;
 ```
 
-
-## Text Copy Input
+### Text Copy Input
 
 * Copies the input data to a container data member.
 * [With start](Input-Anatomy.md#inputs-with-start).
@@ -849,8 +847,7 @@ template< typename String, typename Data >
 text_copy_input( String&&, const std::initializer_list< Data >& ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, std::string, std::string >;
 ```
 
-
-## Text File Input
+### Text File Input
 
 * Implemented with `text_mmap_input` when available, and `text_read_input` as fallback.
 * [With start](Input-Anatomy.md#inputs-with-start).
@@ -871,8 +868,7 @@ template< typename... Args >
 text_file_input( Args...&& ) -> text_file_input< default_eol >;
 ```
 
-
-## Text Read Input
+### Text Read Input
 
 * Uses `std::fopen()` and `std::fread()`.
 * Reads the whole file into a `std::string`.
@@ -915,8 +911,7 @@ template< typename... Args >
 text_read_input( Args...&& ) -> text_read_input< default_eol >;
 ```
 
-
-## Text Mmap Input
+### Text Mmap Input
 
 * Mmaps the file into memory.
 * Only available on systems with Posix `mmap(2)` (and Windows).
@@ -957,6 +952,28 @@ struct text_mmap_input
 template< typename... Args >
 text_mmap_input( Args...&& ) -> text_mmap_input< default_eol, char >;
 ```
+
+
+## Input Adapters
+
+### Input with Offset
+
+
+## Index
+
+* [Argv Input](#argv-input) <sup>[(input)](#inputs)</sup>
+* [Base Input](#base-input) <sup>[(input)](#inputs)</sup>
+* [Copy Input](#copy-input) <sup>[(input)](#inputs)</sup>
+* [File Input](#file-input) <sup>[(input)](#inputs)</sup>
+* [Input with Offset](#input-with-offset) <sup>[(input adapters)](#input-adapters)</sup>
+* [Mmap Input](#mmap-input) <sup>[(input)](#inputs)</sup>
+* [Read Input](#read-input) <sup>[(input)](#inputs)</sup>
+* [Text Copy Input](#text-copy-input) <sup>[(input)](#inputs)</sup>
+* [Text File Input](#text-file-input) <sup>[(input)](#inputs)</sup>
+* [Text Mmap Input](#text-mmap-input) <sup>[(input)](#inputs)</sup>
+* [Text Read Input](#text-read-input) <sup>[(input)](#inputs)</sup>
+* [Text View Input](#text-view-input) <sup>[(input)](#inputs)</sup>
+* [View Input](#view-input) <sup>[(input)](#inputs)</sup>
 
 
 ---

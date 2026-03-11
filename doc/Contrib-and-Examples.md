@@ -1,20 +1,17 @@
 # Contrib and Examples
 
-The PEGTL includes parts that go beyond the core library functionality.
-They are included for convenience and/or as examples for how to do things.
-
-Feedback is highly welcome.
-The same is true for contributions like grammars that might be generally useful.
-
+The reference documentation for everything *not* considered part of the core library which is also *not* subject to semantic versioning.
+Feedback and contributions iare highly welcome.
 For all questions and remarks contact us at **taocpp(at)icemx.net**.
+
 
 ## Contents
 
 * [Contrib](#contrib)
   * [`abnf.hpp`](#abnfhpp)
   * [`abnf2.hpp`](#abnf2hpp)
-  * [`alphabet_constants.hpp`](#alphabet_constantshpp)
-  * [`alphabet_rules.hpp`](#alphabet_ruleshpp)
+  * [`alphabet.hpp`](#alphabethpp)
+  * [`charconv.hpp`](#charconvhpp)
   * [`check_count.hpp`](#check_counthpp)
   * [`check_depth.hpp`](#check_depthhpp)
   * [`dispatch.hpp`](#dispatchhpp)
@@ -24,55 +21,52 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
   * [`integer.hpp`](#integerhpp)
 * [Examples](#examples)
 
+
 ## Contrib
 
-The contrib headers `foo.hpp` reside in `include/tao/pegtl/contrib` and can be included via `<tao/pegtl/contrib/foo.hpp>`.
+These headers can be found in `include/tao/pegtl/contrib`.
+While generally functional and tested, these headers are not part of the core library due to being too specialized and/or not fully developed yet and/or just not what feels like a core feature.
 
 ###### `abnf.hpp`
 
-Core ABNF rules according to [RFC 5234, Appendix B](https://tools.ietf.org/html/rfc5234).
-
-Ready for production use.
+Defines PEGTL rules for the ABNF core rules according to Appendix B.1 of [RFC 5234, Appendix B](https://tools.ietf.org/html/rfc5234).
 
 ###### `abnf2.hpp`
 
-Actual ABNF grammar according to [RFC 5234](https://tools.ietf.org/html/rfc5234), updated by [RFC 7405](https://tools.ietf.org/html/rfc7405).
+Defines PEGTL rules for the ABNF grammar according to Section 4 of [RFC 5234](https://tools.ietf.org/html/rfc5234) as updated by [RFC 7405](https://tools.ietf.org/html/rfc7405).
 
 * Extended with PEG 'and' and 'not' predicates.
 * Modified to not allow C++ keywords as rule names.
 
-###### `alphabet_constants.hpp`
+###### `alphabet.hpp`
 
-Character constants for ASCII letters.
+Contains character constants and rules for all ASCII letters.
 
-* Total of 52 ASCII character constants.
-* In sub-namespace `alphabet`.
-* Probably better to use `TAO_PEGTL_STRING()`.
+* Total of 52 constants and rules.
+* The constants are in sub-namespace `alphabet`.
 
 ```c++
 inline constexpr char a = 'a';
 ...
 ```
 
-Trivially ready for production use.
-
-###### `alphabet_rules.hpp`
-
-Rules for single ASCII characters.
-
-* Total of 52 ASCII character rules.
-* In sub-namespace `alphabet::rules`.
+* The rules are in sub-namespace `alphabet::rules`.
 
 ```c++
 struct a : ascii::one< 'a' > {};
 ...
 ```
 
-Trivially ready for production use.
+###### `charconv.hpp`
+
+Defines a [rule](Rules-and-Grammars.md) `charconv` for parsing integers based on `std::from_chars()`.
+
+* The `match()` function requires an integer as single [state](Actions-and-States.md) argument.
+* On success the integer is assigned the parsed integer value.
 
 ###### `check_count.hpp`
 
-An action class with `match()` function that throws an exception when the rule it is attached to consumes more than the allowed number of input objects.
+Defines an action with `match()` function that throws an exception when the rule it is attached to consumes more than the allowed number of input objects.
 
 The difference between `check_count` and `limit_count` is that `check_count` checks how much was consumed after the fact, whereas `limit_count` temporarily modifies the input.
 
@@ -86,9 +80,9 @@ The difference between `check_count` and `limit_count` is that `check_count` che
 ###### `check_depth.hpp`
 ###### `input_with_depth.hpp`
 
-An action class that throws an exception when the rule(s) it is attached to reach a higher than allowed nesting depth, and:
+An action that throws an exception when the rule(s) it is attached to reach a higher than allowed nesting depth, and:
 
-An input adapter class that adds the required depth counter to the input (thereby not requiring an additional state object).
+An input adapter class that adds the required depth counter to the input (thereby avioding an additional state for the counter).
 
 ```c++
  template< std::size_t Maximum >
@@ -109,7 +103,7 @@ An input adapter class that adds the required depth counter to the input (thereb
 For a parsing run with nesting depth check the input has to be changed from whatever `input_class` is otherwise used to `input_with_depth< input_class >`.
 Then the `check_depth` action can be strategically attached to an appropriate rule to limit the nesting depth during parsing.
 
-For example in the [JSON](#jsonhpp) grammar the `value` rule should be used to limit the nesting depth as it is the single rule through which the structural recursion is done.
+For example in the [JSON](#jsonhpp) grammar the `value` rule should be used to limit the nesting depth as it is the single rule that follows the structural recursion.
 
 ```c++
  using namespace tao::pegtl;
@@ -127,9 +121,30 @@ For example in the [JSON](#jsonhpp) grammar the `value` rule should be used to l
 
 ###### `dispatch.hpp`
 
-An implementation detail of [`record.hpp`](#recordhpp).
+Contains facilities to attach actions to multiple rules at once.
 
-A mechanism for attaching actions to multiple rules at once.
+First a list of clauses need to be defined, each of which specifies one action and which rule(s) to attach the action to.
+
+Second the usual `parse` function is replaced by the one from class `dispatch` with the list of clauses as template parameters.
+
+### Clauses
+
+A *clause* is a class template that must match either of the following to template declarations.
+
+```c++
+template< typename Action, typename... Rules >
+struct clause_type1;
+
+template< template< typename... > class Action, typename... Rules >
+struct clause_type2;
+```
+
+For the first type the action functions are called on `Action` for the rules in `Rules...`.
+For the second type the action functions are called on `Action< Rule >` for each `Rule` in `Rules...`.
+In other words, the first type is a shortcut for when the action does not depend on the exact rule.
+
+### Parse
+
 
 ###### `http.hpp`
 

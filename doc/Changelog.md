@@ -44,6 +44,7 @@ All noteworthy changes since the first public release.
   * Removed `action_t` type alias from all input classes in favour of using `action_input`.
   * Never use unaligned memory access (unless compiler generated).
 * Rule Changes
+  * `ione`, `ranges`, `one` and `not_one` require at least one template parameter.
   * Added Unicode rules that adapt to the input's data size.
   * Added special end-of-line rules in multiple places.
   * Added new atomic rule [`function`](Rule-Reference.md#function-f-).
@@ -85,11 +86,13 @@ All noteworthy changes since the first public release.
   * Added new generic rule [`invert`](Rule-Reference.md#invert-r-).
   * Added new generic rule [`function`](Rule-Reference.md#function).
   * Added new convenience rule [`partial`](Rule-Reference.md#partial-r-).
-  * Added new convenience rule [`sep`](Rule-Reference.md#sep-s-r-) (replaces `separated_seq` from contrib).
-  * Added new convenience rule [`sep_pad`](Rule-Reference.md#sep_pad-s-p-r-).
+  * Added new convenience rule [`separated`](Rule-Reference.md#separated-s-r-) (replaces `separated_seq` from contrib).
+  * Added new convenience rule [`separated_pad`](Rule-Reference.md#separated_pad-s-p-r-).
   * Added new convenience rule [`star_partial`](Rule-Reference.md#star_partial-r-).
   * Added new convenience rule [`strict`](Rule-Reference.md#strict-r-).
   * Added new convenience rule [`star_strict`](Rule-Reference.md#star_strict-r-).
+  * Added new convenience rule [`unordered`](Rule-Reference.md#unordered-r-).
+  * Added new convenience rule [`unordered_partial`](Rule-Reference.md#unordered_partial-r-).
   * Added rule [`try_catch_any_return_false`](Rule-Reference.md#try_catch_any_return_false-r-).
   * Renamed rule `try_catch` to [`try_catch_return_false`](Rule-Reference.md#try_catch_return_false-r-).
   * Added rule [`try_catch_std_return_false`](Rule-Reference.md#try_catch_std_return_false-r-).
@@ -100,7 +103,7 @@ All noteworthy changes since the first public release.
   * Added rule [`try_catch_type_raise_nested`](Rule-Reference.md#try_catch_type_raise_nested-e-r-).
   * Added rules for matching signed integers mirroring the existing ones for unsigned integers.
   * Optimized `utf8::string` by expanding `char32_t` code points to UTF-8 sequences at compile time.
-  * Refactored the implementation of `one`, `range`, `ranges`, `not_one` and `not_range`.
+  * Refactored the implementation of `ione`, `one`, `range`, `ranges`, `not_ione`, `not_one`, `not_range`, `not_ranges` which changes their `rule_t`.
   * Added new rules for enum types to the [binary rules](Rule-Reference.md#binary)
   * Added new rules that operate on [object members](Rule-Reference.md#member).
   * Added new stream parsing rule [`is_stream`](Rule-Reference.md#is_stream).
@@ -109,16 +112,17 @@ All noteworthy changes since the first public release.
 * Added optional source line output for the tracer.  -- TODO?
 * Other
   * Added new control `apply_typed_state`.
+  * Added new action `change_rule`.
   * Added new action `match_typed_state`.
   * Added new control `remove_first_states`.
+  * Added escape to extra (unescape). TODO
   * Refactored the Control adapter interface.
   * Refactored `type_list_contains` interface.
   * Routed rewind-guard creation through the Control class.
   * Renamed `apply_mode::action` to `apply_mode::enabled`.
   * Renamed `apply_mode::nothing` to `apply_mode::disabled`.
-  * Added new contrib rule `unordered` and `unordered_partial`.
-  * Removed `random_order` example, moved to `contrib/unordered.hpp`.
-  * Added new contrib rule `charconv` in `contrib/charconv.hpp`.
+  * Removed `random_order` example, moved to core library.
+  * Added new charconv rules and actions in `contrib/charconv.hpp`.
   * Renamed contrib "limit_depth" functionality to "check_depth".
   * Renamed contrib "check_bytes" functionality to "check_consume".
   * Renamed contrib "limit_bytes" functionality to "limit_consume".
@@ -139,6 +143,16 @@ All noteworthy changes since the first public release.
   * Removed support for building an amalgamated header.
   * Removed support for Visual Studio 2017.
   * Removed support for GCC 7 and GCC 8.
+* The following headers have been deprecated
+  * `alphabet.hpp`
+  * `if_then.hpp`
+  * `integer.hpp` (more or less replaced by `extra/charconv.hpp`).
+  * `rep_one_min_max.hpp`
+  * `rep_string.hpp`
+  * `unescape.hpp` (replaced by `example/escaped.hpp` and `extra/unescape.hpp`).
+
+The deprecated headers have been moved to `include/tao/pegtl/deprecated/'.
+Please let us know if you (still) need them.
 
 ## Version 3.2.7
 

@@ -38,7 +38,8 @@ Actions are functions that are called during the parsing run whenever the rule t
 When an action is thus *applied*, the corresponding function receives the *states*, an arbitrary list of (user-defined) objects, as arguments.
 
 This is the primary role of actions and the most prevalent of their use cases.
-A further possibility is for an action to completely [change the matching behavior](#match) of the rule they are attached to.
+In a distinct role an action can be used to [change the matching behavior](#match) of the rule they are attached to.
+These two roles should **not** be mixed.
 Most of this document focuses on the primary role.
 
 Actions are implemented as static member functions called `apply()` or `apply0()` of specializations of custom class templates.

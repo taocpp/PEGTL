@@ -6,10 +6,10 @@ The [Parsing Expression Grammar Template Library](https://github.com/taocpp/PEGT
 ## Contents
 
 * [Hello, World!](#hello-world-)
-* [Namespace Structure](#namespace-structure)
-* [Directory Structure](#directory-structure)
+* [Structure](#structure)
+* [Namespaces](#namespaces)
 * [Parsing Expression Grammars](#parsing-expression-grammars)
-* [Essential Definitions](#essential-definitions)
+* [Definitions](#definitions)
 
 
 ## Hello, World!
@@ -120,7 +120,53 @@ I can't parse you!
 ```
 
 
-## Namespace Structure
+## Structure
+
+The PEGTL contains both header and implementation files.
+The actual library is header-only and requires no compilation.
+
+### Header Files
+
+The header files can be classified and grouped as follows.
+
+ 1. The core library headers that are included with `<tao/pegtl.hpp>`.
+ 2. The additional library headers in their respective sub-directories.
+ 2. The unofficial library headers in the `example` and `extra` sub-directories.
+ 3. The deprecated library headers in the `deprecated` sub-directory.
+
+*The main and additional headers form the official public API of this library and are subject to [semantic versioning](https://semver.org/).*
+
+The example and extra headers are considered too niche or experimental for inclusion in the official public API.
+They are *not* subject to [semantic versioning](https://semver.org/) and can change at any time.
+
+The deprecated headers are ones we expect to be rarely, if ever, used.
+If you are using something deprecated please either copy it to your project and or let us know before we remove it.
+
+| Directory | Contents |
+| --------- | -------- |
+| `include/tao/` | Library directory |
+| `include/tao/pegtl/` | Core headers |
+| `include/tao/pegtl/action/` | [Additional actions](Action-Reference.md) |
+| `include/tao/pegtl/binary/` | [Binary rules](Rule-Reference.md#binary) |
+| `include/tao/pegtl/control/` | [Additional controls](Control-Reference.md) |
+| `include/tao/pegtl/debug/` | [Debug facilities](Debug-Facilities.md) |
+| `include/tao/pegtl/deprecated/` | Deprecated headers |
+| `include/tao/pegtl/example/` | Example grammars |
+| `include/tao/pegtl/extra/` | Extra headers |
+| `include/tao/pegtl/stream/` | [Stream parsing](Stream-Parsing.md) |
+| `include/tao/pegtl/unicode/` | [Unicode rules](Rule-Reference.md#unicode) |
+
+The header files in any `internal/` sub-directory, and all C++ definitions and declarations in any `internal` sub-namespace, are *private* to the library.
+
+### Implementation Files
+
+There are two kinds of implementation files, tests and examples, found in `src/test/` and `src/example/`, respectively.
+Neither is considered part of the public API wherefore neither is subject to semantic versioning.
+The examples are listed in TODO.
+Some contain useful comments.
+
+
+## Namespaces
 
 By default, the entire PEGTL resides in namespace `tao::pegtl`.
 This can be changed in `include/tao/pegtl/config.hpp` as explained in [Embedding in Libraries](Installing-and-Using.md#embedding-in-libraries).
@@ -135,29 +181,6 @@ Everything that is considered private to the library resides in an `internal` na
 Private parts of the library are not considered part of the library interface and are therefore not subject to semantic versioning.
 
 Macros do not respect namespaces and have a `TAO_PEGTL_` prefix instead.
-
-
-## Directory Structure
-
-The source and header files of this library are organized as follows.
-
-| Directory | Contents |
-| --------- | -------- |
-| `doc/` | The library documentation in Markdown pages. |
-| `include/tao/` | Top-level directory for all header files. |
-| `include/tao/pegtl/` | The core library main header files. |
-| `include/tao/pegtl/action/` | The core library extra actions. |
-| `include/tao/pegtl/binary/` | The core library [binary parsing rules](Rule-Reference.md#binary). |
-| `include/tao/pegtl/contrib/` | Headers not considered part of the core library. |
-| `include/tao/pegtl/control/` | The core library extra controls. |
-| `include/tao/pegtl/debug/` | The core library debug facilities. |
-| `include/tao/pegtl/stream/` | The core library [stream parsing](Stream-Parsing.md) facilities. |
-| `include/tao/pegtl/unicode/` | The core library [unicode parsing rules](Rule-Reference.md#unicode). |
-| `include/tao/**/internal` | Internal headers, not part of the public interface. |
-| `src/example/` | The source code for all example programs. |
-| `src/test/` | Internal unit test source code, can be consulted for reference only. |
-
-The source and header files in `include/tao/pegtl/contrib` and `src/example` are **not** subject to semantic versioning.
 
 
 ## Parsing Expression Grammars
@@ -190,7 +213,7 @@ And the next table shows how some of the more common atomic PEG expressions are 
 The PEGTL comes with [dozens of rules](Rule-Reference.md#index) for convenience and advanced features, and the possibility to [implement custom rules](Rules-and-Grammars.md#implementing-rules).
 
 
-## Essential Definitions
+## Definitions
 
 * A (parsing) [**rule**](Rules-and-Grammars.md) is a class that models a [(production) rule](https://en.wikipedia.org/wiki/Production_(computer_science) of a [formal grammar](https://en.wikipedia.org/wiki/Formal_grammar), or a [parser combinator](https://en.wikipedia.org/wiki/Parser_combinator).
 * A [**grammar**](Rules-and-Grammars.md) is a set of one or more related (parsing) rules, with one (or more) designated top-level rules as entry-point(s).
