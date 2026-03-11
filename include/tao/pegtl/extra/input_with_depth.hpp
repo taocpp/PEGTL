@@ -6,7 +6,6 @@
 #define TAO_PEGTL_EXTRA_INPUT_WITH_DEPTH_HPP
 
 #include <cstddef>
-#include <type_traits>
 
 #include "../config.hpp"
 

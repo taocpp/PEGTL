@@ -6,9 +6,11 @@
 #define TAO_PEGTL_EXTRA_RECORD_HPP
 
 #include <cstddef>
-#include <iostream>
 #include <ostream>
+#include <string_view>
 #include <type_traits>
+#include <utility>
+#include <vector>
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"

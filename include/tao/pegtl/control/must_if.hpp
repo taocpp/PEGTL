@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_CONTROL_MUST_IF_HPP
 #define TAO_PEGTL_CONTROL_MUST_IF_HPP
 
-#include <type_traits>
-
 #if !defined( __cpp_exceptions )
 #error "Exception support required for tao/pegtl/control/must_if.hpp"
 #else

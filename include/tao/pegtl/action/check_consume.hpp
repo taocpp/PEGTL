@@ -5,7 +5,7 @@
 #ifndef TAO_PEGTL_ACTION_CHECK_CONSUME_HPP
 #define TAO_PEGTL_ACTION_CHECK_CONSUME_HPP
 
-#include <string>
+#include <cstddef>
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"

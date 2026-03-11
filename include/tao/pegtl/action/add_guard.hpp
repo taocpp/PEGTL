@@ -19,7 +19,7 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename AddGuard >
-   struct add_guard
+   struct [[nodiscard]] add_guard
       : maybe_nothing
    {
       template< typename Rule,

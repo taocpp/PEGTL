@@ -7,7 +7,6 @@
 
 #include <cassert>
 #include <cstddef>
-#include <memory>
 #include <utility>
 
 #include "../config.hpp"

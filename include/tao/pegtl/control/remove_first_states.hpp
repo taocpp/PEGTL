@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_CONTROL_REMOVE_FIRST_STATES_HPP
 #define TAO_PEGTL_CONTROL_REMOVE_FIRST_STATES_HPP
 
+#include <cstdlib>
+
 #include "../config.hpp"
 
 #include "internal/shuffle_states.hpp"

@@ -6,6 +6,7 @@
 #define TAO_PEGTL_ACTION_LIMIT_CONSUME_HPP
 
 #include <algorithm>
+#include <cstdlib>
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"

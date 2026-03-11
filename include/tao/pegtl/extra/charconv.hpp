@@ -28,7 +28,7 @@ namespace TAO_PEGTL_NAMESPACE
       : internal::from_chars_rule< Integral, Base, Over >,
         internal::from_chars_action< Integral, Base, Over >
    {
-      static_assert( Base != 1 );
+      static_assert( Base >= 2 );
    };
 
    template< typename Integral, std::uint8_t Base = 10 >

@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_STREAM_INPUTS_HPP
 #define TAO_PEGTL_STREAM_INPUTS_HPP
 
+#include <cstddef>
+
 #include "../ascii.hpp"
 #include "../config.hpp"
 #include "../system.hpp"

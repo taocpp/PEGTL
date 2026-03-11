@@ -5,9 +5,8 @@
 #ifndef TAO_PEGTL_EXTRA_PARSE_TREE_TO_DOT_HPP
 #define TAO_PEGTL_EXTRA_PARSE_TREE_TO_DOT_HPP
 
-#include <cassert>
 #include <ostream>
-#include <string>
+#include <string_view>
 
 #include "parse_tree.hpp"
 

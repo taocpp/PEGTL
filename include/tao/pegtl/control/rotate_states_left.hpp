@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_CONTROL_ROTATE_STATES_LEFT_HPP
 #define TAO_PEGTL_CONTROL_ROTATE_STATES_LEFT_HPP
 
+#include <cstddef>
+
 #include "../config.hpp"
 
 #include "internal/shuffle_states.hpp"

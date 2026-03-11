@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_STREAM_ISTREAM_READER_HPP
 #define TAO_PEGTL_STREAM_ISTREAM_READER_HPP
 
+#include <cstddef>
 #include <istream>
 
 #if defined( __cpp_exceptions )

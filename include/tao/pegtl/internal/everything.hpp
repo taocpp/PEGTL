@@ -5,8 +5,6 @@
 #ifndef TAO_PEGTL_INTERNAL_EVERYTHING_HPP
 #define TAO_PEGTL_INTERNAL_EVERYTHING_HPP
 
-#include <cstddef>
-
 #include "../config.hpp"
 #include "../eol_unknown_tag.hpp"
 #include "../type_list.hpp"
@@ -23,7 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in )
       {
-         in.template consume< eol_unknown_tag >( in.size( std::size_t( -1 ) ) );
+         in.template consume< everything >( in.size() );
          return true;
       }
    };

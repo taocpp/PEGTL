@@ -5,12 +5,11 @@
 #ifndef TAO_PEGTL_EXAMPLE_INTEGER_HPP
 #define TAO_PEGTL_EXAMPLE_INTEGER_HPP
 
-#include "../ascii.hpp"
 #include "../config.hpp"
-#include "../rules.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
+   // TODO: Keep parts of what is now deprecated/integer.hpp?
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

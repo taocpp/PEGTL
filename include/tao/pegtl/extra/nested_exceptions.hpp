@@ -9,6 +9,7 @@
 #error "Exception and RTTI support required for tao/pegtl/extra/nested_exceptions.hpp"
 #endif
 
+#include <cstddef>
 #include <exception>
 #include <vector>
 

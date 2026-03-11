@@ -23,12 +23,12 @@ namespace TAO_PEGTL_NAMESPACE
       : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' >
    {};
 
-   struct hex_char_xdigits
+   struct hex_byte_digits
       : rep< 2, xdigit >
    {};
 
-   struct hex_escaped_char
-      : seq< one< 'x' >, hex_char_xdigits >
+   struct hex_escaped_byte
+      : seq< one< 'x' >, hex_byte_digits >
    {};
 
    template< std::size_t N >

@@ -9,14 +9,12 @@
 #include <cstddef>
 #include <initializer_list>
 #include <string>
-#include <string_view>
-#include <type_traits>
 #include <vector>
 
 #include "config.hpp"
 #include "default_eol.hpp"
 
-#include "internal/choose_container.hpp"
+#include "internal/container_for.hpp"
 #include "internal/input_aliases.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
@@ -29,40 +27,40 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    template< typename Data >
-   copy_input( const Data*, const Data* ) -> copy_input< default_eol, internal::choose_container_t< Data >, void, void >;
+   copy_input( const Data*, const Data* ) -> copy_input< default_eol, internal::container_for_data_t< Data >, void, void >;
 
    template< typename Data >
-   copy_input( const Data*, const std::size_t ) -> copy_input< default_eol, internal::choose_container_t< Data >, void, void >;
+   copy_input( const Data*, const std::size_t ) -> copy_input< default_eol, internal::container_for_data_t< Data >, void, void >;
 
    template< typename Container >
-   copy_input( Container&& ) -> copy_input< default_eol, std::decay_t< Container >, void, void >;
+   copy_input( Container&& ) -> copy_input< default_eol, internal::container_for_container_t< Container >, void, void >;
 
    template< typename Container >
-   copy_input( const Container& ) -> copy_input< default_eol, std::decay_t< Container >, void, void >;
+   copy_input( const Container& ) -> copy_input< default_eol, internal::container_for_container_t< Container >, void, void >;
 
    template< typename Data, std::size_t Size >
-   copy_input( const std::array< Data, Size >& ) -> copy_input< default_eol, internal::choose_container_t< Data >, void, void >;
+   copy_input( const std::array< Data, Size >& ) -> copy_input< default_eol, internal::container_for_data_t< Data >, void, void >;
 
    template< typename Data >
-   copy_input( const std::initializer_list< Data >& ) -> copy_input< default_eol, internal::choose_container_t< Data >, void, void >;
+   copy_input( const std::initializer_list< Data >& ) -> copy_input< default_eol, internal::container_for_data_t< Data >, void, void >;
 
    template< typename String, typename Data >
-   copy_input( String&&, const Data*, const Data* ) -> copy_input< default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+   copy_input( String&&, const Data*, const Data* ) -> copy_input< default_eol, internal::container_for_data_t< Data >, std::string, std::string >;
 
    template< typename String, typename Data >
-   copy_input( String&&, const Data*, const std::size_t ) -> copy_input< default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+   copy_input( String&&, const Data*, const std::size_t ) -> copy_input< default_eol, internal::container_for_data_t< Data >, std::string, std::string >;
 
    template< typename String, typename Container >
-   copy_input( String&&, Container&& ) -> copy_input< default_eol, std::decay_t< Container >, std::string, std::string >;
+   copy_input( String&&, Container&& ) -> copy_input< default_eol, internal::container_for_container_t< Container >, std::string, std::string >;
 
    template< typename String, typename Container >
-   copy_input( String&&, const Container& ) -> copy_input< default_eol, std::decay_t< Container >, std::string, std::string >;
+   copy_input( String&&, const Container& ) -> copy_input< default_eol, internal::container_for_container_t< Container >, std::string, std::string >;
 
    template< typename String, typename Data, std::size_t Size >
-   copy_input( String&&, const std::array< Data, Size >& ) -> copy_input< default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+   copy_input( String&&, const std::array< Data, Size >& ) -> copy_input< default_eol, internal::container_for_data_t< Data >, std::string, std::string >;
 
    template< typename String, typename Data >
-   copy_input( String&&, const std::initializer_list< Data >& ) -> copy_input< default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+   copy_input( String&&, const std::initializer_list< Data >& ) -> copy_input< default_eol, internal::container_for_data_t< Data >, std::string, std::string >;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

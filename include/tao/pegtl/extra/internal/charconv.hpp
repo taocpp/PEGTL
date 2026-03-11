@@ -39,7 +39,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             return -1;
          case std::errc::result_out_of_range:
             if constexpr( O == overflow_mode::global_failure ) {
-               throw_parse_error( "integer overflow", in );
+               throw_parse_error( "charconv result out of range", in );
             }
             else {
                return -2;

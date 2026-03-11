@@ -9,7 +9,6 @@
 
 #include "../apply_mode.hpp"
 #include "../config.hpp"
-#include "../match.hpp"
 #include "../nothing.hpp"
 #include "../rewind_mode.hpp"
 

@@ -9,6 +9,8 @@
 #include <cstddef>
 #include <initializer_list>
 #include <string>
+#include <string_view>
+#include <type_traits>
 #include <utility>
 
 #include "../config.hpp"
@@ -31,6 +33,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 #if defined( __cpp_exceptions )
       using parse_error_t = parse_error< error_position_t >;
 #endif
+
+      static_assert( !std::is_same_v< Container, std::string_view > );
 
       copy_input( const data_t* in_begin, const data_t* in_end )
          : m_container( in_begin, in_end ),

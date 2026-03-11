@@ -5,6 +5,8 @@
 #ifndef TAO_PEGTL_ASCII_HPP
 #define TAO_PEGTL_ASCII_HPP
 
+#include <cstdlib>
+
 #include "config.hpp"
 
 #include "internal/peek_direct.hpp"
