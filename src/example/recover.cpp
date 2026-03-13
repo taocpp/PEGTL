@@ -26,104 +26,108 @@ int main()
 
 #include <tao/pegtl.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;
+namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-// clang-format off
-
-template< typename T >
-struct skipping : until< T > {};
-
-template< typename R, typename T >
-struct recoverable : sor< try_catch_return_false< must< R >, T >, skipping< T > > {};
-
-struct expr_sum;
-struct expr_identifier : identifier {};
-struct expr_number : plus< digit > {};
-struct expr_braced : if_must< one< '(' >, pad< expr_sum, space >, one< ')' > > {};
-
-struct expr_value : sor< expr_identifier, expr_number, expr_braced > {};
-
-struct expr_power : list< must< expr_value >, one< '^' >, space > {};
-struct expr_prod : list_must< expr_power, one< '*', '/', '%' >, space > {};
-struct expr_sum : list_must< expr_prod, one< '+', '-' >, space > {};
-
-struct term : sor< one< ';' >, eof > {};
-struct expr : pad< expr_sum, space > {};
-struct recoverable_expr : recoverable< expr, term > {};
-
-struct my_grammar : star< not_at< eof >, recoverable_expr > {};
-
-// clang-format on
-
-template< typename Rule >
-struct my_action
-{};
-
-template< typename T >
-struct my_action< skipping< T > >
+namespace example
 {
-   template< typename ActionInput >
-   static void apply( const ActionInput& in, bool& error )
+   // clang-format off
+   template< typename T >
+   struct skipping : pegtl::until< T > {};
+
+   template< typename R, typename T >
+   struct recoverable : pegtl::sor< pegtl::try_catch_return_false< pegtl::must< R >, T >, skipping< T > > {};
+
+   struct expr_sum;
+   struct expr_identifier : pegtl::identifier {};
+   struct expr_number : pegtl::plus< pegtl::digit > {};
+   struct expr_braced : pegtl::if_must< pegtl::one< '(' >, pegtl::pad< expr_sum, pegtl::space >, pegtl::one< ')' > > {};
+
+   struct expr_value : pegtl::sor< expr_identifier, expr_number, expr_braced > {};
+
+   struct expr_power : pegtl::list< pegtl::must< expr_value >, pegtl::one< '^' >, pegtl::space > {};
+   struct expr_prod : pegtl::list_must< expr_power, pegtl::one< '*', '/', '%' >, pegtl::space > {};
+   struct expr_sum : pegtl::list_must< expr_prod, pegtl::one< '+', '-' >, pegtl::space > {};
+
+   struct term : pegtl::sor< pegtl::one< ';' >, pegtl::eof > {};
+   struct expr : pegtl::pad< expr_sum, pegtl::space > {};
+   struct recoverable_expr : recoverable< expr, term > {};
+
+   struct my_grammar : pegtl::star< pegtl::not_at< pegtl::eof >, recoverable_expr > {};
+   // clang-format on
+
+   template< typename Rule >
+   struct my_action
+      : pegtl::nothing< Rule >
+   {};
+
+   template< typename T >
+   struct my_action< skipping< T > >
    {
-      if( !error ) {
-         std::cout << in.current_position() << ": Invalid expression \"" << in.string() << "\"" << std::endl;
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, bool& error )
+      {
+         if( !error ) {
+            std::cout << in.current_position() << ": Invalid expression \"" << in.string() << "\"" << std::endl;
+         }
+         error = true;
       }
-      error = true;
-   }
-};
+   };
 
-template< typename R >
-struct found
-{
-   template< typename ActionInput >
-   static void apply( const ActionInput& in, bool& error )
+   template< typename R >
+   struct found
    {
-      if( !error ) {
-         std::cout << in.current_position() << ": Found " << demangle< R >() << ": \"" << in.string() << "\"" << std::endl;
+      template< typename ActionInput >
+      static void apply( const ActionInput& in, bool& error )
+      {
+         if( !error ) {
+            std::cout << in.current_position() << ": Found " << pegtl::demangle< R >() << ": \"" << in.string() << "\"" << std::endl;
+         }
       }
-   }
-};
+   };
 
-// clang-format off
-// template<> struct my_action< expr_identifier > : found< expr_identifier > {};
-// template<> struct my_action< expr_number > : found< expr_number > {};
-// template<> struct my_action< expr_braced > : found< expr_braced > {};
-// template<> struct my_action< expr_value > : found< expr_value > {};
-// template<> struct my_action< expr_power > : found< expr_power > {};
-// template<> struct my_action< expr_prod > : found< expr_prod > {};
-// template<> struct my_action< expr_sum > : found< expr_sum > {};
-template<> struct my_action< expr > : found< expr > {};
-// clang-format on
+   // clang-format off
+   // template<> struct my_action< expr_identifier > : found< expr_identifier > {};
+   // template<> struct my_action< expr_number > : found< expr_number > {};
+   // template<> struct my_action< expr_braced > : found< expr_braced > {};
+   // template<> struct my_action< expr_value > : found< expr_value > {};
+   // template<> struct my_action< expr_power > : found< expr_power > {};
+   // template<> struct my_action< expr_prod > : found< expr_prod > {};
+   // template<> struct my_action< expr_sum > : found< expr_sum > {};
+   template<> struct my_action< expr > : found< expr > {};
+   // clang-format on
 
-template<>
-struct my_action< recoverable_expr >
-{
-   template< typename ActionInput >
-   static void apply( const ActionInput& /*unused*/, bool& error )
+   template<>
+   struct my_action< recoverable_expr >
    {
-      error = false;
-      std::cout << std::string( 79, '-' ) << std::endl;
-   }
-};
+      template< typename ActionInput >
+      static void apply( const ActionInput& /*unused*/, bool& error )
+      {
+         error = false;
+         std::cout << std::string( 79, '-' ) << std::endl;
+      }
+   };
 
-template< typename Rule >
-struct my_control
-   : normal< Rule >
-{
-   template< typename ParseInput, typename... States >
-   [[noreturn]] static void raise( const ParseInput& in, States&&... st )
+   template< typename Rule >
+   struct my_control
+      : pegtl::normal< Rule >
    {
-      std::cout << in.current_position() << ": Parse error matching " << demangle< Rule >() << std::endl;
-      normal< Rule >::raise( in, st... );
-   }
-};
+      template< typename ParseInput, typename... States >
+      [[noreturn]] static void raise( const ParseInput& in, States&&... st )
+      {
+         std::cout << in.current_position() << ": Parse error matching " << pegtl::demangle< Rule >() << std::endl;
+         pegtl::normal< Rule >::raise( in, st... );
+      }
+   };
+
+}  // namespace example
 
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      argv_input< scan::lf_crlf > in( argv, i );
+      pegtl::argv_input< pegtl::scan::lf_crlf > in( argv, i );
       bool error = false;
-      parse< my_grammar, my_action, my_control >( in, error );
+      const bool result = pegtl::parse< example::my_grammar, example::my_action, example::my_control >( in, error );
+      std::cout << "Parsed argv[ " << i << " ] result " << result << " << error " << error << std::endl;
    }
    return 0;
 }

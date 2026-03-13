@@ -7,9 +7,12 @@
 
 #include <tao/pegtl/config.hpp>
 #include <tao/pegtl/control/must_if.hpp>
+#include <tao/pegtl/example/abnf_abnf.hpp>
 
-namespace TAO_PEGTL_NAMESPACE::abnf
+namespace example
 {
+   namespace pegtl = TAO_PEGTL_NAMESPACE;
+
    // Using must_if<> we define a control class which is used for
    // the parsing run instead of the default control class.
 
@@ -23,26 +26,26 @@ namespace TAO_PEGTL_NAMESPACE::abnf
    // clang-format off
    template< typename > inline constexpr const char* error_message = nullptr;
 
-   template<> inline constexpr auto error_message< comment_cont > = "unterminated comment";
+   template<> inline constexpr auto error_message< pegtl::abnf::comment_cont > = "unterminated comment";
 
-   template<> inline constexpr auto error_message< quoted_string_cont > = "unterminated string (missing '\"')";
-   template<> inline constexpr auto error_message< prose_val_cont > = "unterminated prose description (missing '>')";
+   template<> inline constexpr auto error_message< pegtl::abnf::quoted_string_cont > = "unterminated string (missing '\"')";
+   template<> inline constexpr auto error_message< pegtl::abnf::prose_val_cont > = "unterminated prose description (missing '>')";
 
-   template<> inline constexpr auto error_message< hex_val::value > = "expected hexadecimal value";
-   template<> inline constexpr auto error_message< dec_val::value > = "expected decimal value";
-   template<> inline constexpr auto error_message< bin_val::value > = "expected binary value";
-   template<> inline constexpr auto error_message< num_val_choice > = "expected base specifier (one of 'bBdDxX')";
+   template<> inline constexpr auto error_message< pegtl::abnf::hex_val::value > = "expected hexadecimal value";
+   template<> inline constexpr auto error_message< pegtl::abnf::dec_val::value > = "expected decimal value";
+   template<> inline constexpr auto error_message< pegtl::abnf::bin_val::value > = "expected binary value";
+   template<> inline constexpr auto error_message< pegtl::abnf::num_val_choice > = "expected base specifier (one of 'bBdDxX')";
 
-   template<> inline constexpr auto error_message< option_close > = "unterminated option (missing ']')";
-   template<> inline constexpr auto error_message< group_close > = "unterminated group (missing ')')";
+   template<> inline constexpr auto error_message< pegtl::abnf::option_close > = "unterminated option (missing ']')";
+   template<> inline constexpr auto error_message< pegtl::abnf::group_close > = "unterminated group (missing ')')";
 
-   template<> inline constexpr auto error_message< req_repetition > = "expected element";
-   template<> inline constexpr auto error_message< concatenation > = "expected element";
-   template<> inline constexpr auto error_message< alternative > = "expected element";
+   template<> inline constexpr auto error_message< pegtl::abnf::req_repetition > = "expected element";
+   template<> inline constexpr auto error_message< pegtl::abnf::concatenation > = "expected element";
+   template<> inline constexpr auto error_message< pegtl::abnf::alternative > = "expected element";
 
-   template<> inline constexpr auto error_message< defined_as > = "expected '=' or '=/'";
-   template<> inline constexpr auto error_message< req_c_nl > = "unterminated rule";
-   template<> inline constexpr auto error_message< rule > = "expected rule";
+   template<> inline constexpr auto error_message< pegtl::abnf::defined_as > = "expected '=' or '=/'";
+   template<> inline constexpr auto error_message< pegtl::abnf::req_c_nl > = "unterminated rule";
+   template<> inline constexpr auto error_message< pegtl::abnf::rule > = "expected rule";
    // clang-format on
 
    struct error
@@ -52,8 +55,8 @@ namespace TAO_PEGTL_NAMESPACE::abnf
    };
 
    template< typename Rule >
-   using control = must_if_n< error >::type< Rule >;
+   using control = pegtl::must_if_n< error >::type< Rule >;
 
-}  // namespace TAO_PEGTL_NAMESPACE::abnf
+}  // namespace example
 
 #endif

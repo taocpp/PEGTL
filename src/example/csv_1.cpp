@@ -13,7 +13,7 @@
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-namespace csv1
+namespace example
 {
    // Simple CSV-file format for an unknown-at-compile-time number of values per
    // line, the values are space/tab-padded integers, comment lines start with
@@ -85,14 +85,14 @@ namespace csv1
       }
    };
 
-}  // namespace csv1
+}  // namespace example
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    for( int i = 1; i < argc; ++i ) {
       pegtl::text_file_input< pegtl::lazy::lf_crlf > in( argv[ i ] );
-      csv1::result_data data;
-      if( !pegtl::parse< pegtl::seq< csv1::file >, csv1::action, csv1::control >( in, data ) ) {
+      example::result_data data;
+      if( !pegtl::parse< pegtl::seq< example::file >, example::action, example::control >( in, data ) ) {
          std::cerr << "Parse error!" << std::endl;
          return 1;
       }

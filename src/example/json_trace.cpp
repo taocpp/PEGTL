@@ -13,7 +13,11 @@
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-using grammar = pegtl::seq< pegtl::json::text, pegtl::eof >;
+namespace example
+{
+   using grammar = pegtl::seq< pegtl::json::text, pegtl::eof >;
+
+}  // namespace example
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
@@ -26,7 +30,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    input_t in( argv[ 1 ] );
 #if defined( __cpp_exceptions )
    try {
-      pegtl::standard_trace< grammar, pegtl::nothing, example::control >( in );
+      pegtl::standard_trace< example::grammar, pegtl::nothing, example::control >( in );
    }
    catch( const decltype( in )::parse_error_t& e ) {
       const auto& p = e.position_object();
@@ -36,7 +40,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       return 1;
    }
 #else
-   if( !pegtl::standard_trace< grammar, pegtl::nothing, example::control >( in ) ) {
+   if( !pegtl::standard_trace< example::grammar, pegtl::nothing, example::control >( in ) ) {
       std::cerr << "error occurred" << std::endl;
       return 1;
    }

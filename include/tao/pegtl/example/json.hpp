@@ -10,6 +10,8 @@
 #include "../rules.hpp"
 #include "../unicode/utf8.hpp"
 
+#include "escaped.hpp"
+
 namespace TAO_PEGTL_NAMESPACE::json
 {
    // JSON grammar according to RFC 8259
@@ -37,12 +39,7 @@ namespace TAO_PEGTL_NAMESPACE::json
    struct int_ : sor< one< '0' >, plus< digit > > {};  // NOLINT(readability-identifier-naming)
    struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};
 
-   struct xdigit : TAO_PEGTL_NAMESPACE::xdigit {};
-   struct unicode : list< seq< one< 'u' >, rep< 4, xdigit > >, one< '\\' > > {};
-   struct escaped_char : one< '"', '\\', '/', 'b', 'f', 'n', 'r', 't' > {};
-   struct escaped : sor< escaped_char, unicode > {};
-   struct unescaped : utf8::range< 0x20, 0x10FFFF > {};
-   struct char_ : if_then_else< one< '\\' >, escaped, unescaped > {};  // NOLINT(readability-identifier-naming)
+   struct char_ : json_character {};  // NOLINT(readability-identifier-naming)
 
    struct string_content : until< at< one< '"' > >, char_ > {};
    struct string : seq< one< '"' >, string_content, consume< 1 > >

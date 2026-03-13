@@ -19,7 +19,7 @@ int main()
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-namespace sexpr
+namespace example
 {
    // clang-format off
    struct hash_comment : pegtl::until< pegtl::eolf > {};
@@ -45,7 +45,7 @@ namespace sexpr
 
    struct anything : pegtl::sor< pegtl::space, hashed, normal > {};
 
-   struct main : pegtl::until< pegtl::eof, pegtl::must< anything > > {};
+   struct grammar : pegtl::until< pegtl::eof, pegtl::must< anything > > {};
    // clang-format on
 
    template< typename Rule >
@@ -76,15 +76,15 @@ namespace sexpr
          // the input is passed on for chained error messages (as
          // in "error in line x file foo included from file bar...)
          pegtl::text_file_input< pegtl::scan::lf_crlf > i2( fn );
-         pegtl::parse_nested< main, sexpr::action >( in, i2, f2 );
+         pegtl::parse_nested< grammar, example::action >( in, i2, f2 );
       }
    };
 
-}  // namespace sexpr
+}  // namespace example
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   if( pegtl::analyze< sexpr::main >() != 0 ) {
+   if( pegtl::analyze< example::grammar >() != 0 ) {
       return 1;
    }
    using input_t = pegtl::argv_input< pegtl::scan::lf_crlf >;
@@ -92,7 +92,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       std::string fn;
       input_t in( argv, i );
       try {
-         pegtl::parse< sexpr::main, sexpr::action >( in, fn );
+         pegtl::parse< example::grammar, example::action >( in, fn );
       }
       catch( const pegtl::parse_error_base& e ) {
          std::cerr << e.what() << std::endl;

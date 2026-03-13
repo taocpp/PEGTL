@@ -11,7 +11,7 @@
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-namespace csv2
+namespace example
 {
    // Simple CSV-file format for a known-at-compile-time number of values per
    // line, the values are strings that can use quotes when they contain commas,
@@ -170,17 +170,17 @@ namespace csv2
       std::cout << std::endl;
    }
 
-}  // namespace csv2
+}  // namespace example
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    for( int i = 1; i < argc; ++i ) {
       pegtl::text_file_input< pegtl::lazy::lf_crlf > in( argv[ i ] );
       constexpr unsigned number_of_columns = 3;
-      csv2::result_data< number_of_columns > data;
-      if( pegtl::parse< pegtl::seq< csv2::file< number_of_columns > >, csv2::action >( in, data ) ) {
+      example::result_data< number_of_columns > data;
+      if( pegtl::parse< pegtl::seq< example::file< number_of_columns > >, example::action >( in, data ) ) {
          for( const auto& line : data.result ) {
-            csv2::print_tuple( line );
+            example::print_tuple( line );
          }
       }
       else {

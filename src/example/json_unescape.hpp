@@ -7,25 +7,14 @@
 
 #include <string>
 
-#include <tao/pegtl/action/change_action_and_states.hpp>
-#include <tao/pegtl/deprecated/unescape.hpp>
-#include <tao/pegtl/example/json.hpp>
+#include <tao/pegtl/action/change_action_and_state.hpp>
+#include <tao/pegtl/extra/unescape.hpp>
 
 namespace example
 {
    namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-   // Action class for parsing literal strings, uses the PEGTL unescape utilities, cf. unescape.cpp.
-
-   // clang-format off
-   template< typename Rule > struct json_unescape_action {};
-
-   template<> struct json_unescape_action< pegtl::json::unicode > : pegtl::unescape::unescape_j {};
-   template<> struct json_unescape_action< pegtl::json::escaped_char > : pegtl::unescape::unescape_c< pegtl::json::escaped_char, '"', '\\', '/', '\b', '\f', '\n', '\r', '\t' > {};
-   template<> struct json_unescape_action< pegtl::json::unescaped > : pegtl::unescape::append_all {};
-   // clang-format on
-
-   using json_unescape = pegtl::change_action_and_states< json_unescape_action, std::string >;
+   using json_unescape = pegtl::change_action_and_state< pegtl::unescape, std::string >;
 
 }  // namespace example
 

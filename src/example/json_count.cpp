@@ -12,7 +12,9 @@
 
 #include <tao/pegtl/example/json.hpp>
 
-namespace TAO_PEGTL_NAMESPACE
+namespace pegtl = TAO_PEGTL_NAMESPACE;
+
+namespace example
 {
    struct counter_data
    {
@@ -28,40 +30,38 @@ namespace TAO_PEGTL_NAMESPACE
 
    template< typename Rule >
    struct counter
-      : normal< Rule >
+      : pegtl::normal< Rule >
    {
       template< typename Input >
       static void start( const Input& /*unused*/, counter_state& ts )
       {
-         ++ts.counts[ demangle< Rule >() ].start;
+         ++ts.counts[ pegtl::demangle< Rule >() ].start;
       }
 
       template< typename Input >
       static void success( const Input& /*unused*/, counter_state& ts )
       {
-         ++ts.counts[ demangle< Rule >() ].success;
+         ++ts.counts[ pegtl::demangle< Rule >() ].success;
       }
 
       template< typename Input >
       static void failure( const Input& /*unused*/, counter_state& ts )
       {
-         ++ts.counts[ demangle< Rule >() ].failure;
+         ++ts.counts[ pegtl::demangle< Rule >() ].failure;
       }
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+   using grammar = pegtl::seq< pegtl::json::text, pegtl::eof >;
 
-using namespace TAO_PEGTL_NAMESPACE;
-
-using grammar = seq< json::text, eof >;
+}  // namespace example
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   counter_state cs;
+   example::counter_state cs;
 
    for( int i = 1; i < argc; ++i ) {
-      text_file_input< scan::lf_crlf > in( argv[ i ] );
-      parse< grammar, nothing, counter >( in, cs );
+      pegtl::text_file_input< pegtl::scan::lf_crlf > in( argv[ i ] );
+      pegtl::parse< example::grammar, pegtl::nothing, example::counter >( in, cs );
    }
    std::cout << std::right << std::setw( 72 ) << "RULE NAME" << std::left << "      START  SUCCESS  FAILURE" << std::endl;
    for( const auto& j : cs.counts ) {

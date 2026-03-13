@@ -8,10 +8,10 @@
 #include <tao/pegtl/extra/dispatch.hpp>
 #include <tao/pegtl/example/json.hpp>
 
+namespace pegtl = TAO_PEGTL_NAMESPACE;
+
 namespace example
 {
-   namespace pegtl = TAO_PEGTL_NAMESPACE;
-
    struct action1
    {
       template< typename ActionInput >
@@ -30,7 +30,7 @@ namespace example
       }
    };
 
-   void run( const std::filesystem::path& path )
+   void main( const std::filesystem::path& path )
    {
       pegtl::file_input<> in( path );
       using clause1 = pegtl::clause1< action1, pegtl::json::string_content, pegtl::json::key_content >;
@@ -44,7 +44,7 @@ namespace example
 int main( int argc, char** argv )
 {
    for( int i = 1; i < argc; ++i ) {
-      example::run( argv[ i ] );
+      example::main( argv[ i ] );
    }
    return 0;
 }

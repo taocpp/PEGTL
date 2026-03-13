@@ -7,32 +7,35 @@
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/extra/parse_tree.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;
+namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-template< typename >
-using selector = std::true_type;
-
-struct user_state
-{};
-
-template< typename Rule >
-struct work
-{};
-
-template<>
-struct work< success >
+namespace example
 {
-   template< typename ActionInput >
-   static void apply( const ActionInput& /*unused*/, user_state& /*unused*/ )
-   {}
-};
+   template< typename >
+   using selector = std::true_type;
+
+   struct user_state
+   {};
+
+   template< typename Rule >
+   struct work
+   {};
+
+   template<>
+   struct work< pegtl::success >
+   {
+      template< typename ActionInput >
+      static void apply( const ActionInput& /*unused*/, user_state& /*unused*/ )
+      {}
+   };
+
+}  // namespace
 
 int main()
 {
-   text_view_input<> input( "" );
-
-   user_state state;
-   auto root = parse_tree::parse< success, selector, work >( input, state );
-
+   example::user_state state;
+   pegtl::text_view_input input( "" );
+   auto root = pegtl::parse_tree::parse< pegtl::success, example::selector, example::work >( input, state );
+   (void)root;
    return 0;
 }

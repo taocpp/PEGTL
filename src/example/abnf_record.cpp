@@ -40,7 +40,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
                                     pegtl::abnf::rulename,
                                     pegtl::abnf::repetition,
                                     pegtl::ascii::digit >::parse< pegtl::abnf::rulelist,
-                                                                  pegtl::abnf::control >( in );
+                                                                  example::control >( in );
       std::cout << v;
    }
    catch( const decltype( in )::parse_error_t& e ) {

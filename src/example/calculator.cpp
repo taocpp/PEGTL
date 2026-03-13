@@ -18,15 +18,14 @@
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-namespace calculator
+namespace example
 {
    // This enum is used for the order in which the operators are
    // evaluated, i.e. the priority of the operators; a higher
    // number indicates a lower priority.
 
    enum class order : int
-   {
-   };
+   {};
 
    // For each binary operator known to the calculator we need an
    // instance of the following data structure with the priority,
@@ -330,25 +329,25 @@ namespace calculator
       }
    };
 
-}  // namespace calculator
+}  // namespace example
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    // Check the grammar for some possible issues.
 
-   if( pegtl::analyze< calculator::grammar >() != 0 ) {
+   if( pegtl::analyze< example::grammar >() != 0 ) {
       return 1;
    }
 
    // The objects required as state by the actions.
 
-   calculator::stacks s;
-   calculator::operators b;
+   example::stacks s;
+   example::operators b;
 
    for( int i = 1; i < argc; ++i ) {
       // Parse and process the command-line arguments as calculator expressions...
       pegtl::argv_input< pegtl::scan::lf_crlf > in( argv, i );
-      if( pegtl::parse< calculator::grammar, calculator::action >( in, b, s ) ) {
+      if( pegtl::parse< example::grammar, example::action >( in, b, s ) ) {
          // ...and print the respective results to std::cout.
          std::cout << s.finish() << std::endl;
       }

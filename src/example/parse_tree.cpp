@@ -12,36 +12,36 @@
 #include <tao/pegtl/extra/parse_tree.hpp>
 #include <tao/pegtl/extra/parse_tree_to_dot.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;
+namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 namespace example
 {
    // the grammar
 
    // clang-format off
-   struct integer : plus< digit > {};
-   struct variable : identifier {};
+   struct integer : pegtl::plus< pegtl::digit > {};
+   struct variable : pegtl::identifier {};
 
-   struct plus : pad< one< '+' >, space > {};
-   struct minus : pad< one< '-' >, space > {};
-   struct multiply : pad< one< '*' >, space > {};
-   struct divide : pad< one< '/' >, space > {};
+   struct plus : pegtl::pad< pegtl::one< '+' >, pegtl::space > {};
+   struct minus : pegtl::pad< pegtl::one< '-' >, pegtl::space > {};
+   struct multiply : pegtl::pad< pegtl::one< '*' >, pegtl::space > {};
+   struct divide : pegtl::pad< pegtl::one< '/' >, pegtl::space > {};
 
-   struct open_bracket : seq< one< '(' >, star< space > > {};
-   struct close_bracket : seq< star< space >, one< ')' > > {};
+   struct open_bracket : pegtl::seq< pegtl::one< '(' >, pegtl::star< pegtl::space > > {};
+   struct close_bracket : pegtl::seq< pegtl::star< pegtl::space >, pegtl::one< ')' > > {};
 
    struct expression;
-   struct bracketed : seq< open_bracket, expression, close_bracket > {};
-   struct value : sor< integer, variable, bracketed >{};
-   struct product : list< value, sor< multiply, divide > > {};
-   struct expression : list< product, sor< plus, minus > > {};
+   struct bracketed : pegtl::seq< open_bracket, expression, close_bracket > {};
+   struct value : pegtl::sor< integer, variable, bracketed >{};
+   struct product : pegtl::list< value, pegtl::sor< multiply, divide > > {};
+   struct expression : pegtl::list< product, pegtl::sor< plus, minus > > {};
 
-   struct grammar : seq< expression, eof > {};
+   struct grammar : pegtl::seq< expression, pegtl::eof > {};
    // clang-format on
 
    // after a node is stored successfully, you can add an optional transformer like this:
    struct rearrange
-      : parse_tree::apply< rearrange >  // allows bulk selection, see selector<...>
+      : pegtl::parse_tree::apply< rearrange >  // allows bulk selection, see selector<...>
    {
       // recursively rearrange nodes. the basic principle is:
       //
@@ -82,12 +82,12 @@ namespace example
    // select which rules in the grammar will produce parse tree nodes:
 
    template< typename Rule >
-   using selector = parse_tree::selector<
+   using selector = pegtl::parse_tree::selector<
       Rule,
-      parse_tree::store_content::on<
+      pegtl::parse_tree::store_content::on<
          integer,
          variable >,
-      parse_tree::remove_content::on<
+      pegtl::parse_tree::remove_content::on<
          plus,
          minus,
          multiply,
@@ -145,7 +145,7 @@ namespace example
 
    // this is not necessary for the example, but serves as a demonstration for an additional optimization.
    struct node
-      : parse_tree::basic_node< node, typename argv_input<>::error_position_t >
+      : pegtl::parse_tree::basic_node< node, typename pegtl::argv_input<>::error_position_t >
    {
       void* operator new( std::size_t sz )
       {
@@ -169,12 +169,12 @@ int main( int argc, char** argv )
                 << "Example: " << argv[ 0 ] << " \"(2*a + 3*b) / (4*n)\" | dot -Tpng -o parse_tree.png\n";
       return 1;
    }
-   argv_input<> in( argv, 1 );
-   if( const auto root = parse_tree::parse< example::grammar, example::node, example::selector >( in ) ) {
-      parse_tree::print_dot( std::cout, *root );
+   pegtl::argv_input<> in( argv, 1 );
+
+   if( const auto root = pegtl::parse_tree::parse< example::grammar, example::node, example::selector >( in ) ) {
+      pegtl::parse_tree::print_dot( std::cout, *root );
       return 0;
    }
-
    std::cerr << "parse error" << std::endl;
    return 1;
 }

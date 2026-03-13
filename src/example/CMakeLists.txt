@@ -25,7 +25,7 @@ set(example_sources
   json_print_names.cpp
   json_record.cpp
   json_stream.cpp
-  json_tokenize.cpp
+  json_tokens.cpp
   json_trace.cpp
   lua53_analyze.cpp
   lua53_parse.cpp

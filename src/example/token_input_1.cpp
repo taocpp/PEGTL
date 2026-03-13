@@ -11,20 +11,6 @@
 
 #include <tao/pegtl/debug/analyze_traits.hpp>
 
-enum class my_type
-{
-   alpha,
-   beta,
-   gamma,
-   delta
-};
-
-struct my_token
-{
-   my_type type;
-   std::string data;
-};
-
 namespace TAO_PEGTL_NAMESPACE
 {
    namespace internal
@@ -61,47 +47,69 @@ namespace TAO_PEGTL_NAMESPACE
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
-using namespace TAO_PEGTL_NAMESPACE;
+namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-template< typename Rule >
-struct my_action
-   : nothing< Rule >
-{};
-
-template<>
-struct my_action< eof >
+namespace example
 {
-   static void apply0()
+   enum class my_type
    {
-      std::cout << "We have eof." << std::endl;
-   }
-};
+      alpha,
+      beta,
+      gamma,
+      delta
+   };
 
-template<>
-struct my_action< token_type_rule< my_type::beta > >
-{
-   template< typename ActionInput >
-   static void apply( const ActionInput& in )
+   struct my_token
    {
-      assert( in.size() == 1 );
-      std::cout << "We have a token of type 'beta' with data '" << in.peek().data << "'." << std::endl;
-   }
-};
+      my_type type;
+      std::string data;
+   };
 
-struct my_grammar
-   : seq< plus< token_type_rule< my_type::beta > >, eof >
-{};
+   template< typename Rule >
+   struct my_action
+      : pegtl::nothing< Rule >
+   {};
+
+   template<>
+   struct my_action< pegtl::eof >
+   {
+      static void apply0()
+      {
+         std::cout << "We have eof." << std::endl;
+      }
+   };
+
+   template<>
+   struct my_action< pegtl::token_type_rule< my_type::beta > >
+   {
+      template< typename ActionInput >
+      static void apply( const ActionInput& in )
+      {
+         assert( in.size() == 1 );
+         std::cout << "We have a token of type 'beta' with data '" << in.peek().data << "'." << std::endl;
+      }
+   };
+
+   struct my_grammar
+      : pegtl::seq< pegtl::plus< pegtl::token_type_rule< my_type::beta > >, pegtl::eof >
+   {};
+
+}  // namespace example
 
 int main()
 {
-   const std::vector< my_token > v{
-      { my_type::beta, "first" },
-      { my_type::beta, "second" }
+   const std::vector< example::my_token > v{
+      { example::my_type::beta, "first" },
+      { example::my_type::beta, "second" }
    };
-   token_input< my_token > in( v );
+   pegtl::token_input< example::my_token > in( v );
 
-   if( !parse< my_grammar, my_action >( in ) ) {
-      return 1;
+   std::cout << "Example parsing " << v.size() << " token(s)." << std::endl;
+
+   if( pegtl::parse< example::my_grammar, example::my_action >( in ) ) {
+      std::cout << "Token example success." << std::endl;
+      return 0;
    }
-   return 0;
+   std::cout << "Token example failure!" << std::endl;
+   return 1;
 }

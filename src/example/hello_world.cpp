@@ -9,7 +9,7 @@
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-namespace hello
+namespace example
 {
    // clang-format off
    struct prefix : pegtl::string< 'H', 'e', 'l', 'l', 'o', ',', ' ' > {};
@@ -32,7 +32,7 @@ namespace hello
       }
    };
 
-}  // namespace hello
+}  // namespace example
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
@@ -42,7 +42,7 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
    std::string name;
    pegtl::argv_input in( argv, 1 );
 
-   if( !pegtl::parse< hello::grammar, hello::action >( in, name ) ) {
+   if( !pegtl::parse< example::grammar, example::action >( in, name ) ) {
       std::cerr << "I can't parse you!" << std::endl;
       return 1;
    }

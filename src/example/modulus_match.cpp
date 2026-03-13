@@ -2,11 +2,13 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
+#include <iostream>
+
 #include <tao/pegtl.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;
+namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-namespace modulus
+namespace example
 {
    template< unsigned M, unsigned R = 0 >
    struct my_rule
@@ -28,17 +30,26 @@ namespace modulus
    };
 
    struct grammar
-      : until< eolf, my_rule< 3 > >
+      : pegtl::seq< my_rule< 3 >, pegtl::eof >
    {};
 
-}  // namespace modulus
+}  // namespace example
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   if( argc > 1 ) {
-      argv_input< scan::lf_crlf > in( argv, 1 );
-      if( !parse< modulus::grammar >( in ) ) {
-         return 1;
+   for( int i = 1; i < argc; ++i ) {
+      const std::string arg( argv[ i ] );
+      std::cout << "   '" << arg;
+      if( arg.size() != 1 ) {
+         std::cout << "' does not have length 1" << std::endl;
+         continue;
+      }
+      pegtl::argv_input in( argv, i );
+      if( pegtl::parse< example::grammar >( in ) ) {
+         std::cout << "' is a match" << std::endl;
+      }
+      else {
+         std::cout << "' is NOT a match" << std::endl;
       }
    }
    return 0;

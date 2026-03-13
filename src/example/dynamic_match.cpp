@@ -12,22 +12,24 @@
 
 #include <tao/pegtl/debug/analyze.hpp>
 
-namespace dynamic
+namespace pegtl = TAO_PEGTL_NAMESPACE;
+
+namespace example
 {
    struct long_literal_id
-      : tao::pegtl::plus< tao::pegtl::not_one7< '[' > >
+      : pegtl::plus< pegtl::not_one7< '[' > >
    {};
 
    struct long_literal_open
-      : tao::pegtl::seq< tao::pegtl::one< '[' >, long_literal_id, tao::pegtl::one< '[' > >
+      : pegtl::seq< pegtl::one< '[' >, long_literal_id, pegtl::one< '[' > >
    {};
 
    struct long_literal_mark
    {
       using rule_t = long_literal_mark;
 
-      template< tao::pegtl::apply_mode,
-                tao::pegtl::rewind_mode,
+      template< pegtl::apply_mode,
+                pegtl::rewind_mode,
                 template< typename... > class Action,
                 template< typename... > class Control,
                 typename ParseInput,
@@ -36,7 +38,7 @@ namespace dynamic
       {
          if( in.size( id.size() ) >= id.size() ) {
             if( std::memcmp( in.current(), id.data(), id.size() ) == 0 ) {
-               in.template consume< tao::pegtl::eol_unknown_tag >( id.size() );
+               in.template consume< pegtl::eol_unknown_tag >( id.size() );
                return true;
             }
          }
@@ -45,15 +47,15 @@ namespace dynamic
    };
 
    struct long_literal_close
-      : tao::pegtl::seq< tao::pegtl::one< ']' >, long_literal_mark, tao::pegtl::one< ']' > >
+      : pegtl::seq< pegtl::one< ']' >, long_literal_mark, pegtl::one< ']' > >
    {};
 
    struct long_literal_body
-      : tao::pegtl::any7
+      : pegtl::any7
    {};
 
    struct grammar
-      : tao::pegtl::seq< long_literal_open, tao::pegtl::until< long_literal_close, long_literal_body >, tao::pegtl::eof >
+      : pegtl::seq< long_literal_open, pegtl::until< long_literal_close, long_literal_body >, pegtl::eof >
    {};
 
    template< typename Rule >
@@ -80,12 +82,12 @@ namespace dynamic
       }
    };
 
-}  // namespace dynamic
+}  // namespace example
 
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename Name >
-   struct analyze_traits< Name, dynamic::long_literal_mark >
+   struct analyze_traits< Name, example::long_literal_mark >
       : analyze_any_traits<>
    {};
 
@@ -93,7 +95,7 @@ namespace TAO_PEGTL_NAMESPACE
 
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   if( tao::pegtl::analyze< dynamic::grammar >() != 0 ) {
+   if( pegtl::analyze< example::grammar >() != 0 ) {
       std::cerr << "cycles without progress detected!" << std::endl;
       return 1;
    }
@@ -101,8 +103,8 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
       std::string id;
       std::string body;
 
-      tao::pegtl::argv_input< tao::pegtl::scan::lf_crlf > in( argv, i );
-      if( tao::pegtl::parse< dynamic::grammar, dynamic::action >( in, id, body ) ) {
+      pegtl::argv_input< pegtl::scan::lf_crlf > in( argv, i );
+      if( pegtl::parse< example::grammar, example::action >( in, id, body ) ) {
          std::cout << "long literal id was: " << id << std::endl;
          std::cout << "long literal body was: " << body << std::endl;
       }

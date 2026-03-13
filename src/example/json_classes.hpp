@@ -5,6 +5,7 @@
 #ifndef TAO_PEGTL_SRC_EXAMPLE_JSON_CLASSES_HPP
 #define TAO_PEGTL_SRC_EXAMPLE_JSON_CLASSES_HPP
 
+#include <cstddef>
 #include <iostream>
 #include <map>
 #include <memory>
@@ -26,11 +27,11 @@ namespace example
    class json_base
    {
    protected:
-      explicit json_base( const json_type in_type )
+      explicit json_base( const json_type in_type ) noexcept
          : type( in_type )
       {}
 
-      virtual ~json_base() = default;
+      ~json_base() = default;
 
    public:
       json_base( const json_base& ) = delete;
@@ -55,7 +56,7 @@ namespace example
       return j ? ( o << *j ) : ( o << "NULL" );
    }
 
-   struct array_json
+   struct array_json final
       : public json_base
    {
       array_json()
@@ -78,7 +79,7 @@ namespace example
       }
    };
 
-   struct boolean_json
+   struct boolean_json final
       : public json_base
    {
       explicit boolean_json( const bool in_data )
@@ -94,10 +95,10 @@ namespace example
       }
    };
 
-   struct null_json
+   struct null_json final
       : public json_base
    {
-      null_json()
+      null_json() noexcept
          : json_base( json_type::null )
       {}
 
@@ -107,10 +108,10 @@ namespace example
       }
    };
 
-   struct number_json
+   struct number_json final
       : public json_base
    {
-      explicit number_json( const long double in_data )
+      explicit number_json( const long double in_data ) noexcept
          : json_base( json_type::number ),
            data( in_data )
       {}
@@ -171,7 +172,7 @@ namespace example
       return r;
    }
 
-   struct string_json
+   struct string_json final
       : public json_base
    {
       explicit string_json( const std::string& in_data )
@@ -187,7 +188,7 @@ namespace example
       }
    };
 
-   struct object_json
+   struct object_json final
       : public json_base
    {
       object_json()

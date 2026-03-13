@@ -7,8 +7,10 @@
 #include <tao/pegtl/debug/print.hpp>
 #include <tao/pegtl/example/json.hpp>
 
+namespace pegtl = TAO_PEGTL_NAMESPACE;
+
 int main()  // NOLINT(bugprone-exception-escape)
 {
-   TAO_PEGTL_NAMESPACE::print_debug< TAO_PEGTL_NAMESPACE::json::text >( std::cout );
+   pegtl::print_debug< pegtl::json::text >( std::cout );
    return 0;
 }

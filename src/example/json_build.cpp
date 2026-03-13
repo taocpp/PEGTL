@@ -166,32 +166,32 @@ int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
    if( argc != 2 ) {
       std::cerr << "usage: " << argv[ 0 ] << " <filename.json>\n";
+      return 1;
    }
-   else {
-      example::json_state state;
-      using input_t = pegtl::text_file_input< pegtl::scan::lf_crlf >;
-      input_t in( argv[ 1 ] );
+
+   example::json_state state;
+   using input_t = pegtl::text_file_input< pegtl::scan::lf_crlf >;
+   input_t in( argv[ 1 ] );
 #if defined( __cpp_exceptions )
-      try {
-         pegtl::parse< example::grammar, example::action, example::control >( in, state );
-      }
-      catch( const decltype( in )::parse_error_t& e ) {
-         const auto& p = e.position_object();
-         std::cerr << e.what() << '\n'
-                   << in.line_view_at( p ) << '\n'
-                   << std::setw( int( p.column ) ) << '^' << std::endl;
-         return 1;
-      }
-#else
-      if( !pegtl::parse< example::grammar, example::action, example::control >( in, state ) ) {
-         std::cerr << "error occurred" << std::endl;
-         return 1;
-      }
-#endif
-      assert( state.keys.empty() );
-      assert( state.arrays.empty() );
-      assert( state.objects.empty() );
-      std::cout << state.result << std::endl;
+   try {
+      pegtl::parse< example::grammar, example::action, example::control >( in, state );
    }
+   catch( const decltype( in )::parse_error_t& e ) {
+      const auto& p = e.position_object();
+      std::cerr << e.what() << '\n'
+                << in.line_view_at( p ) << '\n'
+                << std::setw( int( p.column ) ) << '^' << std::endl;
+      return 1;
+   }
+#else
+   if( !pegtl::parse< example::grammar, example::action, example::control >( in, state ) ) {
+      std::cerr << "error occurred" << std::endl;
+      return 1;
+   }
+#endif
+   assert( state.keys.empty() );
+   assert( state.arrays.empty() );
+   assert( state.objects.empty() );
+   std::cout << state.result << std::endl;
    return 0;
 }

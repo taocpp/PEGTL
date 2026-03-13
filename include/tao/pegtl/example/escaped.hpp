@@ -56,8 +56,12 @@ namespace TAO_PEGTL_NAMESPACE
       : sor< json_escaped_char, json_escaped_unicode >
    {};
 
+   struct json_unescaped
+      : utf8::range< 0x20, 0x10ffff >
+   {};
+
    struct json_character
-      : if_then_else< one< '\\' >, json_escaped, utf8::range< 0x20, 0x10ffff > >
+      : if_then_else< one< '\\' >, json_escaped, json_unescaped >
    {};
 
 }  // namespace TAO_PEGTL_NAMESPACE

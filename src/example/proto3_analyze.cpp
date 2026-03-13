@@ -16,11 +16,11 @@ int main()
 #include <tao/pegtl/debug/analyze.hpp>
 #include <tao/pegtl/example/proto3.hpp>
 
+namespace pegtl = TAO_PEGTL_NAMESPACE;
+
 int main()  // NOLINT(bugprone-exception-escape)
 {
-   using namespace TAO_PEGTL_NAMESPACE;
-
-   if( const auto problems = analyze< proto3::proto >() != 0 ) {
+   if( const auto problems = pegtl::analyze< pegtl::proto3::proto >() != 0 ) {
       std::cout << "problems: " << problems << std::endl;
       return 1;
    }

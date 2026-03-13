@@ -20,67 +20,69 @@ int main()
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-struct IRI
+namespace example
 {
-   std::string scheme;
-   std::string authority;
-   std::string userinfo;
-   std::string host;
-   std::string port;
-   std::string path;
-   std::string query;
-   std::string fragment;
+   struct iri
+   {
+      std::string scheme;
+      std::string authority;
+      std::string userinfo;
+      std::string host;
+      std::string port;
+      std::string path;
+      std::string query;
+      std::string fragment;
 
-   explicit IRI( pegtl::argv_input< pegtl::scan::lf_crlf >& in );
-};
+      template< typename ParseInput >
+      explicit iri( ParseInput& in );
+   };
 
-namespace iri
-{
-   template< std::string IRI::* Field >
+   template< std::string iri::* Field >
    struct bind
    {
       template< typename ActionInput >
-      static void apply( const ActionInput& in, IRI& iri )
+      static void apply( const ActionInput& in, iri& i )
       {
-         iri.*Field = in.string();
+         i.*Field = in.string();
       }
    };
 
    // clang-format off
    template< typename Rule > struct action {};
 
-   template<> struct action< pegtl::iri::scheme > : bind< &IRI::scheme > {};
-   template<> struct action< pegtl::iri::iauthority > : bind< &IRI::authority > {};
+   template<> struct action< pegtl::iri::scheme > : bind< &iri::scheme > {};
+   template<> struct action< pegtl::iri::iauthority > : bind< &iri::authority > {};
    // userinfo: see below
-   template<> struct action< pegtl::iri::ihost > : bind< &IRI::host > {};
-   template<> struct action< pegtl::iri::port > : bind< &IRI::port > {};
-   template<> struct action< pegtl::iri::ipath_noscheme > : bind< &IRI::path > {};
-   template<> struct action< pegtl::iri::ipath_rootless > : bind< &IRI::path > {};
-   template<> struct action< pegtl::iri::ipath_absolute > : bind< &IRI::path > {};
-   template<> struct action< pegtl::iri::ipath_abempty > : bind< &IRI::path > {};
-   template<> struct action< pegtl::iri::iquery > : bind< &IRI::query > {};
-   template<> struct action< pegtl::iri::ifragment > : bind< &IRI::fragment > {};
+   template<> struct action< pegtl::iri::ihost > : bind< &iri::host > {};
+   template<> struct action< pegtl::iri::port > : bind< &iri::port > {};
+   template<> struct action< pegtl::iri::ipath_noscheme > : bind< &iri::path > {};
+   template<> struct action< pegtl::iri::ipath_rootless > : bind< &iri::path > {};
+   template<> struct action< pegtl::iri::ipath_absolute > : bind< &iri::path > {};
+   template<> struct action< pegtl::iri::ipath_abempty > : bind< &iri::path > {};
+   template<> struct action< pegtl::iri::iquery > : bind< &iri::query > {};
+   template<> struct action< pegtl::iri::ifragment > : bind< &iri::fragment > {};
    // clang-format on
 
    template<>
    struct action< pegtl::iri::opt_iuserinfo >
    {
       template< typename ActionInput >
-      static void apply( const ActionInput& in, IRI& iri )
+      static void apply( const ActionInput& in, iri& i )
       {
          if( !in.empty() ) {
-            iri.userinfo = std::string( in.begin(), in.size() - 1 );
+            i.userinfo = std::string( in.begin(), in.size() - 1 );
          }
       }
    };
 
-}  // namespace iri
+   template< typename ParseInput >
+   iri::iri( ParseInput& in )
+   {
+      using grammar = pegtl::must< pegtl::iri::IRI >;
+      pegtl::parse< grammar, action >( in, *this );
+   }
 
-IRI::IRI( pegtl::argv_input< pegtl::scan::lf_crlf >& in )
-{
-   using grammar = pegtl::must< pegtl::iri::IRI >;
-   pegtl::parse< grammar, iri::action >( in, *this );
-}
+}  // namespace example
 
 int main( int argc, char** argv )
 {
@@ -88,15 +90,15 @@ int main( int argc, char** argv )
       for( int i = 1; i < argc; ++i ) {
          std::cout << "Parsing " << argv[ i ] << std::endl;
          pegtl::argv_input< pegtl::scan::lf_crlf > in( argv, i );
-         const IRI iri( in );
-         std::cout << "IRI.scheme: " << iri.scheme << std::endl;
-         std::cout << "IRI.authority: " << iri.authority << std::endl;
-         std::cout << "IRI.userinfo: " << iri.userinfo << std::endl;
-         std::cout << "IRI.host: " << iri.host << std::endl;
-         std::cout << "IRI.port: " << iri.port << std::endl;
-         std::cout << "IRI.path: " << iri.path << std::endl;
-         std::cout << "IRI.query: " << iri.query << std::endl;
-         std::cout << "IRI.fragment: " << iri.fragment << std::endl;
+         const example::iri iri( in );
+         std::cout << "iri.scheme: " << iri.scheme << std::endl;
+         std::cout << "iri.authority: " << iri.authority << std::endl;
+         std::cout << "iri.userinfo: " << iri.userinfo << std::endl;
+         std::cout << "iri.host: " << iri.host << std::endl;
+         std::cout << "iri.port: " << iri.port << std::endl;
+         std::cout << "iri.path: " << iri.path << std::endl;
+         std::cout << "iri.query: " << iri.query << std::endl;
+         std::cout << "iri.fragment: " << iri.fragment << std::endl;
       }
    }
    catch( const std::exception& e ) {

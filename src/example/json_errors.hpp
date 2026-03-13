@@ -6,16 +6,17 @@
 #define TAO_PEGTL_SRC_EXAMPLE_JSON_ERRORS_HPP
 
 #include <tao/pegtl.hpp>
+#include <tao/pegtl/example/escaped.hpp>
 #include <tao/pegtl/example/json.hpp>
 
 #if defined( __cpp_exceptions )
 #include <tao/pegtl/control/must_if.hpp>
 #endif
 
-namespace pegtl = TAO_PEGTL_NAMESPACE;
-
 namespace example
 {
+   namespace pegtl = TAO_PEGTL_NAMESPACE;
+
    // This file shows how to throw exceptions with
    // custom error messages for parse errors.
 
@@ -35,8 +36,8 @@ namespace example
    template<> inline constexpr auto error_message< pegtl::json::end_object > = "incomplete object, expected '}'";
 
    template<> inline constexpr auto error_message< pegtl::json::digits > = "expected at least one digit";
-   template<> inline constexpr auto error_message< pegtl::json::xdigit > = "incomplete universal character name";
-   template<> inline constexpr auto error_message< pegtl::json::escaped > = "unknown escape sequence";
+   template<> inline constexpr auto error_message< pegtl::json_unicode_xdigits > = "incomplete universal character name";
+   template<> inline constexpr auto error_message< pegtl::json_escaped > = "unknown escape sequence";
    template<> inline constexpr auto error_message< pegtl::json::char_ > = "invalid character in string";
    template<> inline constexpr auto error_message< pegtl::json::string::content > = "unterminated string";
    template<> inline constexpr auto error_message< pegtl::json::key::content > = "unterminated key";

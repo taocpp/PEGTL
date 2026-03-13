@@ -17,15 +17,15 @@ int main()
 #include <tao/pegtl.hpp>
 #include <tao/pegtl/example/proto3.hpp>
 
+namespace pegtl = TAO_PEGTL_NAMESPACE;
+
 int main( int argc, char** argv )  // NOLINT(bugprone-exception-escape)
 {
-   using namespace TAO_PEGTL_NAMESPACE;
-
-   using input_t = text_file_input< scan::lf_crlf >;
+   using input_t = pegtl::text_file_input< pegtl::scan::lf_crlf >;
    for( int i = 1; i < argc; ++i ) {
       input_t in( argv[ i ] );
       try {
-         parse< proto3::proto >( in );
+         pegtl::parse< pegtl::proto3::proto >( in );
       }
       catch( const decltype( in )::parse_error_t& e ) {
          const auto& p = e.position_object();

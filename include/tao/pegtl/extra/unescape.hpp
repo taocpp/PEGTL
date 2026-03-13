@@ -166,6 +166,11 @@ namespace TAO_PEGTL_NAMESPACE
    {};
 
    template<>
+   struct unescape< json_unescaped >
+      : unescape_append
+   {};
+
+   template<>
    struct unescape< utf8::range< 0x20, 0x10FFFF > >
       : unescape_append
    {};

@@ -6,17 +6,21 @@
 
 #include <tao/pegtl/debug/analyze.hpp>
 
-using namespace TAO_PEGTL_NAMESPACE;
+namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-struct bar;
+namespace example
+{
+   struct bar;
 
-struct foo
-   : sor< digit, bar >
-{};
+   struct foo
+      : pegtl::sor< pegtl::digit, bar >
+   {};
 
-struct bar
-   : plus< foo >  // seq< foo, opt< bar > >
-{};
+   struct bar
+      : pegtl::plus< foo >  // seq< foo, opt< bar > >
+   {};
+
+}  // namespace example
 
 // We expect problems because if the next character in the input is not a
 // digit then matching bar will attempt to match foo, which will attempt to
@@ -26,7 +30,7 @@ struct bar
 
 int main()  // NOLINT(bugprone-exception-escape)
 {
-   if( analyze< foo >( 1 ) != 0 ) {
+   if( pegtl::analyze< example::foo >( 1 ) != 0 ) {
       std::cout << "There are problems -- just as expected!" << std::endl;
       return 1;
    }
