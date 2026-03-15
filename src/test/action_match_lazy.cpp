@@ -9,7 +9,7 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   struct remove_state
+   struct remove_all_states
    {
       template< typename Rule,
                 apply_mode A,
@@ -24,7 +24,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
    };
 
-   // further generic helpers could be build, e.g.
+   // Further generic helpers could be built, e.g.
    //
    // - change_control
    // - remove prefix/suffix from input (e.g. remove surrounding quotes)
@@ -63,20 +63,20 @@ namespace TAO_PEGTL_NAMESPACE
 
    template<>
    struct action_one_b< grammar_one_c >
-      : remove_state
+      : remove_all_states
    {};
 
    template<>
    struct action_one_b< grammar_inner >
    {
-      // used inside of remove_state
+      // used inside of remove_all_states
       template< typename ActionInput >
       static void apply( const ActionInput& /*unused*/ )
       {
          ++global_state;
       }
 
-      // used outside of remove_state
+      // used outside of remove_all_states
       template< typename ActionInput >
       static void apply( const ActionInput& in, state_one& state )
       {

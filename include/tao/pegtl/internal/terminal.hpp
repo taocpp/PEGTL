@@ -21,6 +21,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< invert_mode I, template< typename Peek, typename Peek::data_t... Cs > class Impl, typename Peek, typename Peek::data_t... Cs >
    struct terminal< I, Impl< Peek, Cs... > >
    {
+      using peek_t = Peek;
       using rule_t = terminal;
       using subs_t = empty_list;
 

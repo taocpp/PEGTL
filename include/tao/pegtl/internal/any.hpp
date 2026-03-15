@@ -8,7 +8,6 @@
 #include <cstddef>
 
 #include "../config.hpp"
-#include "../eol_unknown_tag.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
@@ -36,14 +35,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
             constexpr std::size_t s = Peek::template size< ParseInput >();
             static_assert( s > 0 );
             if( in.size( s ) >= s ) {
-               in.template consume< eol_unknown_tag >( s );
+               in.template consume< any >( s );
                return true;
             }
             return false;
          }
          else {
             if( const auto t = Peek::peek( in ) ) {
-               in.template consume< eol_unknown_tag >( t.size() );
+               in.template consume< any >( t.size() );
                return true;
             }
             return false;

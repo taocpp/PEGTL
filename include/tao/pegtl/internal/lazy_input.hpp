@@ -20,7 +20,7 @@
 
 #include "any.hpp"
 #include "at.hpp"
-#include "choose_lazy_traits.hpp"
+#include "lazy_scan_traits.hpp"
 #include "eof.hpp"
 #include "input_with_lines.hpp"
 #include "scan_input.hpp"
@@ -67,7 +67,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          error_position_t pos;
          const std::size_t count = this->previous( saved ) - this->start();
          scan_input< data_t > in( this->start(), count );
-         choose_lazy_traits< Eol >( pos, in );
+         lazy_scan_traits< Eol >::scan( pos, in );
          return pos;
       }
 

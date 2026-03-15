@@ -56,7 +56,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          text_position pos;
          internal::scan_input< char > in( s );
-         internal::char_scan_traits< ascii::lf >::scan( pos, in );
+         internal::lazy_scan_traits< ascii::lf, void >::scan( pos, in );
          TAO_PEGTL_TEST_ASSERT( pos.line == 3 );
          TAO_PEGTL_TEST_ASSERT( pos.column == 5 );
          TAO_PEGTL_TEST_ASSERT( pos.count == 12 );
@@ -64,7 +64,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          text_position pos;
          internal::scan_input< char > in( s );
-         internal::char_scan_traits< ascii::scan::lf >::scan( pos, in );
+         internal::lazy_scan_traits< ascii::scan::lf, void >::scan( pos, in );
          TAO_PEGTL_TEST_ASSERT( pos.line == 3 );
          TAO_PEGTL_TEST_ASSERT( pos.column == 5 );
          TAO_PEGTL_TEST_ASSERT( pos.count == 12 );
@@ -72,7 +72,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          text_position pos;
          internal::scan_input< char > in( s );
-         internal::char_scan_traits< ascii::lazy::lf >::scan( pos, in );
+         internal::lazy_scan_traits< ascii::lazy::lf, void >::scan( pos, in );
          TAO_PEGTL_TEST_ASSERT( pos.line == 3 );
          TAO_PEGTL_TEST_ASSERT( pos.column == 5 );
          TAO_PEGTL_TEST_ASSERT( pos.count == 12 );
@@ -80,7 +80,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          text_position pos;
          internal::scan_input< char > in( s );
-         internal::char_scan_traits< fake_lf >::scan( pos, in );
+         internal::lazy_scan_traits< fake_lf, void >::scan( pos, in );
          TAO_PEGTL_TEST_ASSERT( pos.line == 3 );
          TAO_PEGTL_TEST_ASSERT( pos.column == 5 );
          TAO_PEGTL_TEST_ASSERT( pos.count == 12 );
@@ -89,7 +89,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          text_position pos;
          internal::scan_input< std::uint16_t > in( v );
-         internal::char_scan_traits< utf16::lf >::scan( pos, in );
+         internal::lazy_scan_traits< utf16::lf, void >::scan( pos, in );
          TAO_PEGTL_TEST_ASSERT( pos.line == 2 );
          TAO_PEGTL_TEST_ASSERT( pos.column == 3 );
          TAO_PEGTL_TEST_ASSERT( pos.count == 6 );
@@ -97,7 +97,7 @@ namespace TAO_PEGTL_NAMESPACE
       {
          text_position pos;
          internal::scan_input< std::uint16_t > in( v );
-         internal::char_scan_traits< utf16_lf >::scan( pos, in );
+         internal::lazy_scan_traits< utf16_lf, void >::scan( pos, in );
          TAO_PEGTL_TEST_ASSERT( pos.line == 2 );
          TAO_PEGTL_TEST_ASSERT( pos.column == 3 );
          TAO_PEGTL_TEST_ASSERT( pos.count == 6 );

@@ -21,7 +21,7 @@
 #include "../text_position.hpp"
 
 #include "at.hpp"
-#include "choose_text_traits.hpp"
+#include "text_consume.hpp"
 #include "eof.hpp"
 #include "sor.hpp"
 #include "until.hpp"
@@ -69,7 +69,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       void consume( const std::size_t count ) noexcept
       {
          scan_input< data_t > in( this->current(), count );
-         choose_text_traits< Eol, Rule >( m_position, in );
+         text_consume< Eol, Rule >( m_position, in );
          this->m_current += count;
       }
 

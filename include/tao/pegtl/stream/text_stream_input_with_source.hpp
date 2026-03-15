@@ -16,7 +16,7 @@
 #include "../position_with_source.hpp"
 #include "../text_position.hpp"
 
-#include "../internal/choose_text_traits.hpp"
+#include "../internal/text_consume.hpp"
 
 #include "stream_input_base.hpp"
 #include "text_stream_input.hpp"
@@ -66,7 +66,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          // assert( count <= buffer_used_size() );
          scan_input< data_t > in( this->current(), count );
-         choose_text_traits< Eol, Rule >( m_position, in );
+         text_consume< Eol, Rule >( m_position, in );
          this->m_current += count;
       }
 

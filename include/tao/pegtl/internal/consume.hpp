@@ -9,7 +9,6 @@
 #include <type_traits>
 
 #include "../config.hpp"
-#include "../eol_unknown_tag.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
@@ -27,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       [[nodiscard]] static bool match( ParseInput& in )
       {
          if( in.size( Count ) >= Count ) {
-            in.template consume< eol_unknown_tag >( Count );
+            in.template consume< consume >( Count );
             return true;
          }
          return false;

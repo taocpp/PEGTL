@@ -15,10 +15,10 @@
 #include "ascii_istring.hpp"
 #include "ascii_string.hpp"
 #include "at.hpp"
-#include "char_scan_traits.hpp"
 #include "eol.hpp"
 #include "eolf.hpp"
 #include "get_eol_rule_char.hpp"
+#include "lazy_scan_traits.hpp"
 #include "scan_base_classes.hpp"
 #include "scan_input.hpp"
 #include "terminal.hpp"
@@ -42,7 +42,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< typename Eol >
    struct text_scan_traits< Eol, eol_unknown_tag >
-      : char_scan_traits< typename Eol::eol_char_rule >
+      : lazy_scan_traits< typename Eol::eol_char_rule >
    {};
 
    // template< typename Eol >
@@ -60,7 +60,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             inc_line_scan::scan( pos, in );
          }
          else if constexpr( terminal< I, Impl >::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) ) {
-            char_scan_traits< typename Eol::eol_char_rule >::scan( pos, in );
+            lazy_scan_traits< typename Eol::eol_char_rule >::scan( pos, in );
          }
          else {
             add_column_scan::scan( pos, in );
@@ -78,11 +78,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : add_column_scan
    {};
 
-   template< typename Eol, typename Cond >
-   struct text_scan_traits< Eol, until< Cond >, std::enable_if_t< !std::is_same_v< Cond, typename Cond::rule_t > > >
-      : text_scan_traits< Eol, until< typename Cond::rule_t > >
-   {};
-
    template< typename Eol >
    struct text_scan_traits< Eol, until< eol > >
       : add_column_scan
@@ -93,19 +88,24 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : add_column_scan
    {};
 
+   template< typename Eol, invert_mode I, typename Impl >
+   struct text_scan_traits< Eol, until< terminal< I, Impl > >, std::enable_if_t< terminal< I, Impl >::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) > >
+      : add_column_scan
+   {};
+
    template< typename Eol, typename Cond >
    struct text_scan_traits< Eol, until< at< Cond > > >
       : text_scan_traits< Eol, until< typename Cond::rule_t > >
    {};
 
-   template< typename Eol, typename Peek >
-   struct text_scan_traits< Eol, until< one< Peek, get_eol_rule_char_v< typename Eol::eol_char_rule > > > >
-      : add_column_scan
+   template< typename Eol, typename Cond >
+   struct text_scan_traits< Eol, until< Cond >, std::enable_if_t< !std::is_same_v< Cond, typename Cond::rule_t > > >
+      : text_scan_traits< Eol, until< typename Cond::rule_t > >
    {};
 
    template< typename Eol, typename Rule, typename >
    struct text_scan_traits
-      : char_scan_traits< typename Eol::eol_char_rule >
+      : lazy_scan_traits< typename Eol::eol_char_rule >
    {
       static_assert( std::is_same_v< Rule, typename Rule::rule_t > );
    };

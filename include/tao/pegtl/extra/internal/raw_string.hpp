@@ -9,8 +9,6 @@
 
 #include "../../apply_mode.hpp"
 #include "../../config.hpp"
-#include "../../eol_exclude_tag.hpp"
-#include "../../eol_unknown_tag.hpp"
 #include "../../rewind_mode.hpp"
 #include "../../type_list.hpp"
 
@@ -39,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
             switch( const auto c = in.peek_char( i ) ) {
                case Open:
                   marker_size = i + 1;
-                  in.template consume< eol_exclude_tag >( marker_size );
+                  in.template consume< raw_string_open >( marker_size );
                   (void)Control< eol >::template match< A, M, Action, Control >( in );
                   return true;
                case Marker:
@@ -54,6 +52,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
    template< char Open, char Marker >
    inline constexpr bool enable_control< raw_string_open< Open, Marker > > = false;
+
+   struct raw_string_close
+   {
+      using rule_t = raw_string_close;
+      using subs_t = empty_list;
+   };
 
    template< char Marker, char Close >
    struct at_raw_string_close
@@ -111,7 +115,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
          std::size_t marker_size;
          if( Control< raw_string_open< Open, Marker > >::template match< A, M, Action, Control >( in, marker_size ) ) {
             if( Control< content >::template match< A, M, Action, Control >( in, marker_size, st... ) ) {
-               in.template consume< eol_exclude_tag >( marker_size );
+               in.template consume< raw_string_close >( marker_size );
                return true;
             }
          }

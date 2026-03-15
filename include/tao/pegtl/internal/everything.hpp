@@ -6,7 +6,6 @@
 #define TAO_PEGTL_INTERNAL_EVERYTHING_HPP
 
 #include "../config.hpp"
-#include "../eol_unknown_tag.hpp"
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"

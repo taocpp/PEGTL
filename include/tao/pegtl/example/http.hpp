@@ -11,8 +11,6 @@
 
 #include "../ascii.hpp"
 #include "../config.hpp"
-#include "../eol_exclude_tag.hpp"
-#include "../eol_unknown_tag.hpp"
 #include "../nothing.hpp"
 #include "../rules.hpp"
 #include "../unicode/utf8.hpp"
@@ -168,7 +166,7 @@ namespace TAO_PEGTL_NAMESPACE::http
             }
             break;
          }
-         in.template consume< eol_exclude_tag >( i );
+         in.template consume< chunk_size >( i );
          return i > 0;
       }
    };
@@ -193,7 +191,7 @@ namespace TAO_PEGTL_NAMESPACE::http
       [[nodiscard]] static bool match( ParseInput& in, const std::size_t size, States&&... /*unused*/ )
       {
          if( in.size( size ) >= size ) {
-            in.template consume< eol_unknown_tag >( size );
+            in.template consume< chunk_data >( size );
             return true;
          }
          return false;

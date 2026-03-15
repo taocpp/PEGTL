@@ -7,6 +7,8 @@
 
 #include "peek_data.hpp"
 
+#include <tao/pegtl/eol_unknown_tag.hpp>
+
 namespace TAO_PEGTL_NAMESPACE
 {
    static bool called = false;
@@ -26,28 +28,28 @@ namespace TAO_PEGTL_NAMESPACE
    [[nodiscard]] bool func0( text_view_input< scan::lf >& in )
    {
       called = true;
-      in.consume< eol_exclude_tag >( 1 );
+      in.consume< eol_unknown_tag >( 1 );
       return true;
    }
 
    [[nodiscard]] bool func0n( text_view_input< scan::lf >& in ) noexcept
    {
       called = true;
-      in.consume< eol_exclude_tag >( 1 );
+      in.consume< eol_unknown_tag >( 1 );
       return true;
    }
 
    [[nodiscard]] bool func1( text_view_input< scan::lf >& in, int /*unused*/, char*& /*unused*/, const double& /*unused*/ )
    {
       called = true;
-      in.consume< eol_exclude_tag >( 1 );
+      in.consume< eol_unknown_tag >( 1 );
       return true;
    }
 
    [[nodiscard]] bool func1n( text_view_input< scan::lf >& in, int /*unused*/, char*& /*unused*/, const double& /*unused*/ ) noexcept
    {
       called = true;
-      in.consume< eol_exclude_tag >( 1 );
+      in.consume< eol_unknown_tag >( 1 );
       return true;
    }
 
