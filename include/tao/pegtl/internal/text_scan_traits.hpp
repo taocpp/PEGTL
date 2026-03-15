@@ -45,11 +45,6 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : lazy_scan_traits< typename Eol::eol_char_rule >
    {};
 
-   // template< typename Eol >
-   // struct text_scan_traits< Eol, typename Eol::eol_char_rule::rule_t >
-   //    : inc_line_scan
-   // {};
-
    template< typename Eol, invert_mode I, typename Impl >
    struct text_scan_traits< Eol, terminal< I, Impl > >
    {

@@ -108,7 +108,6 @@
 #include <tao/pegtl/debug/analyze_traits.hpp>
 #include <tao/pegtl/debug/analyze_traits_base.hpp>
 #include <tao/pegtl/debug/analyze_traits_enum.hpp>
-#include <tao/pegtl/debug/analyze_traits_impl.hpp>
 #include <tao/pegtl/debug/coverage.hpp>
 #include <tao/pegtl/debug/internal.hpp>
 #include <tao/pegtl/debug/print.hpp>
