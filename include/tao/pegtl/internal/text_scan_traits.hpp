@@ -14,6 +14,7 @@
 
 #include "ascii_istring.hpp"
 #include "ascii_string.hpp"
+#include "ascii_utility.hpp"
 #include "at.hpp"
 #include "eol.hpp"
 #include "eolf.hpp"
@@ -22,7 +23,6 @@
 #include "scan_base_classes.hpp"
 #include "scan_input.hpp"
 #include "terminal.hpp"
-#include "terminal_aliases.hpp"
 #include "until.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -64,12 +64,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    };
 
    template< typename Eol, char... Cs >
-   struct text_scan_traits< Eol, ascii_string< Cs... >, std::enable_if_t< ( ( get_eol_rule_char_v< typename Eol::eol_char_rule > != Cs ) && ... ) > >
+   struct text_scan_traits< Eol, ascii_string< Cs... >, std::enable_if_t< ( !ascii_char_equal< Cs >( get_eol_rule_char_v< typename Eol::eol_char_rule > ) && ... ) > >
       : add_column_scan
    {};
 
    template< typename Eol, char... Cs >
-   struct text_scan_traits< Eol, ascii_istring< Cs... >, std::enable_if_t< ( ( get_eol_rule_char_v< typename Eol::eol_char_rule > != Cs ) && ... ) > >
+   struct text_scan_traits< Eol, ascii_istring< Cs... >, std::enable_if_t< ( !ascii_ichar_equal< Cs >( get_eol_rule_char_v< typename Eol::eol_char_rule > ) && ... ) > >
       : add_column_scan
    {};
 
