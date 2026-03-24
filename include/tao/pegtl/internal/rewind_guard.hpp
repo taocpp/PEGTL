@@ -19,7 +19,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
    inline constexpr bool has_auto_discard< Input, decltype( (void)std::declval< Input >().inc_rewind_guards() ) > = true;
 
    template< typename ParseInput >
-   class rewind_guard
+   class [[nodiscard]] rewind_guard
    {
    public:
       explicit rewind_guard( ParseInput& in ) noexcept

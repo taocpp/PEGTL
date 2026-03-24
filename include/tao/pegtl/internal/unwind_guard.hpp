@@ -13,7 +13,7 @@
 namespace TAO_PEGTL_NAMESPACE::internal
 {
    template< typename Unwind >
-   struct unwind_guard
+   struct [[nodiscard]] unwind_guard
    {
       explicit unwind_guard( Unwind&& unwind_impl )
          : unwind( std::move( unwind_impl ) )
