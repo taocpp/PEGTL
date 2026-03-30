@@ -7,8 +7,6 @@
 #include "test.hpp"
 #include "test_utility.hpp"
 
-#include <tao/pegtl/extra/input_with_depth.hpp>
-
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()

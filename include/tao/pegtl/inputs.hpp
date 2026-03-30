@@ -21,6 +21,7 @@
 
 #include "action_input.hpp"
 
+#include "input_with_depth.hpp"
 #include "input_with_offset.hpp"
 
 #include "count_position.hpp"

@@ -6,8 +6,7 @@
 #include <iostream>
 
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/extra/check_depth.hpp>
-#include <tao/pegtl/extra/input_with_depth.hpp>
+#include <tao/pegtl/action/check_depth.hpp>
 #include <tao/pegtl/example/json.hpp>
 
 #include "json_errors.hpp"
