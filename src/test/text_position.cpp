@@ -93,7 +93,7 @@ namespace TAO_PEGTL_NAMESPACE
 
    void test_nested_asserts()
    {
-      const std::vector< parse_error_base > errors = flatten();
+      const std::vector< parse_error_base > errors = flatten_base();
       TAO_PEGTL_TEST_ASSERT( errors.size() == 2 );
       TAO_PEGTL_TEST_ASSERT( errors[ 0 ].position_string() == "inner@1:2(1)" );
       TAO_PEGTL_TEST_ASSERT( errors[ 1 ].position_string() == "outer@1:3(2)" );

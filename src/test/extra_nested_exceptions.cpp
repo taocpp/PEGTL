@@ -214,7 +214,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
       }
       catch( const parse_error_base& /*unused*/ ) {
-         const auto v1 = flatten();
+         const auto v1 = flatten_base();
          TAO_PEGTL_TEST_ASSERT( v1.size() == 3 );
          TAO_PEGTL_TEST_ASSERT( v1[ 0 ].message() == "first" );
          TAO_PEGTL_TEST_ASSERT( v1[ 1 ].message() == "second" );
@@ -238,7 +238,7 @@ namespace TAO_PEGTL_NAMESPACE
          }
       }
       catch( const parse_error_base& e ) {
-         const auto v1 = flatten( e );
+         const auto v1 = flatten_base( e );
          TAO_PEGTL_TEST_ASSERT( v1.size() == 3 );
          TAO_PEGTL_TEST_ASSERT( v1[ 0 ].message() == "first" );
          TAO_PEGTL_TEST_ASSERT( v1[ 1 ].message() == "second" );
@@ -267,8 +267,8 @@ namespace TAO_PEGTL_NAMESPACE
          }
       }
       catch( const parse_error_base& e ) {
-         const auto v1 = flatten();
-         const auto v2 = flatten( e );
+         const auto v1 = flatten_base();
+         const auto v2 = flatten_base( e );
          TAO_PEGTL_TEST_ASSERT( v1 == v2 );
          TAO_PEGTL_TEST_ASSERT( v1.size() == 3 );
          TAO_PEGTL_TEST_ASSERT( v1[ 0 ].message() == "first" );

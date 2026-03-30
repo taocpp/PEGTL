@@ -11,13 +11,12 @@
 
 #include <cstddef>
 #include <exception>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 #include "../config.hpp"
 #include "../parse_error.hpp"
-
-// Some utility functions and classes to handle nested exceptions given that parse_nested() now uses them.
-// At this point it's not clear yet how many, and which, of these will become and stay part of the PEGTL.
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -89,25 +88,6 @@ namespace TAO_PEGTL_NAMESPACE
 
    }  // namespace internal
 
-   // Exceptions in an inheritance hierarchy MUST be listed FROM GENERAL TO SPECIFIC,
-   // e.g. inspect< std::exception, std::runtime_error >, otherwise the more specific
-   // exceptions will be erroneously caught by the handler for the more general case.
-
-   // The visitor is called once for every exception, including the first/outer one.
-   // The visitor is called first with the inner-most exception, i.e. the one that
-   // was thrown first from furthest down/inside the call stack.
-   // The visitor is called last with the outer-most exception, i.e. the one that was
-   // caught in the try-catch that is calling inspect().
-
-   // The second argument to the visitor, the std::size_t with the nesting level of
-   // the exception that is passed as first argument, counts down from the inner-most
-   // to the outer-most exception, i.e. it counts how deep down the current exception
-   // is along the singly-linked list formed by the nested exceptions.
-
-   // For example, when an exception E is caught, and E has exception F as nested
-   // exception, then inspect( E, V ) for some visitor V will first call V( F, 1 )
-   // and then V( E, 0 ).
-
    template< typename... Exceptions, typename Visitor >
    void inspect( Visitor&& visitor )
    {
@@ -129,23 +109,50 @@ namespace TAO_PEGTL_NAMESPACE
       internal::inspector< Exceptions... >::inspect( exception, visitor );
    }
 
-   // The visitor is supplied as last argument to the inspect() functions because it
-   // seems to be a good idea to have lambda expressions as last argument, cf. Swift.
-
-   [[nodiscard]] inline std::vector< parse_error_base > flatten( const std::exception_ptr& ptr = std::current_exception() )
+   template< typename Exception >
+   [[nodiscard]] std::vector< Exception > flatten( const std::exception_ptr& ptr = std::current_exception() )
    {
-      std::vector< parse_error_base > result;
-      inspect< parse_error_base >( ptr, [ &result ]( const parse_error_base& e, const std::size_t /*unused*/ ) {
+      std::vector< Exception > result;
+      inspect< Exception >( ptr, [ &result ]( const Exception& e, const std::size_t /*unused*/ ) {
          result.emplace_back( e );
       } );
       return result;
    }
 
-   [[nodiscard]] inline std::vector< parse_error_base > flatten( const parse_error_base& exception )
+   template< typename Exception >
+   [[nodiscard]] std::vector< Exception > flatten( const Exception& exception )
    {
-      std::vector< parse_error_base > result;
-      inspect< parse_error_base >( exception, [ &result ]( const parse_error_base& e, const std::size_t /*unused*/ ) {
+      std::vector< Exception > result;
+      inspect< Exception >( exception, [ &result ]( const Exception& e, const std::size_t /*unused*/ ) {
          result.emplace_back( e );
+      } );
+      return result;
+   }
+
+   [[nodiscard]] inline std::vector< parse_error_base > flatten_base( const std::exception_ptr& ptr = std::current_exception() )
+   {
+      return flatten< parse_error_base >( ptr );
+   }
+
+   [[nodiscard]] inline std::vector< parse_error_base > flatten_base( const parse_error_base& exception )
+   {
+      return flatten< parse_error_base >( exception );
+   }
+
+   [[nodiscard]] inline std::vector< std::string > flatten_what( const std::exception_ptr& ptr = std::current_exception() )
+   {
+      std::vector< std::string > result;
+      inspect< std::exception >( ptr, [ &result ]( const std::exception& e, const std::size_t /*unused*/ ) {
+         result.emplace_back( e.what() );
+      } );
+      return result;
+   }
+
+   [[nodiscard]] inline std::vector< std::string > flatten_what( const std::exception& exception )
+   {
+      std::vector< std::string > result;
+      inspect< std::exception >( exception, [ &result ]( const std::exception& e, const std::size_t /*unused*/ ) {
+         result.emplace_back( e.what() );
       } );
       return result;
    }
