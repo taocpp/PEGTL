@@ -89,13 +89,13 @@ namespace TAO_PEGTL_NAMESPACE
    }  // namespace internal
 
    template< typename... Exceptions, typename Visitor >
-   void inspect( Visitor&& visitor )
+   void visit_nested( Visitor&& visitor )
    {
       internal::inspector< Exceptions... >::inspect( std::current_exception(), visitor );
    }
 
    template< typename... Exceptions, typename Visitor >
-   void inspect( const std::exception_ptr& ptr, Visitor&& visitor )
+   void visit_nested( const std::exception_ptr& ptr, Visitor&& visitor )
    {
       internal::inspector< Exceptions... >::inspect( ptr, visitor );
    }
@@ -104,26 +104,26 @@ namespace TAO_PEGTL_NAMESPACE
    // static type, Exception! This might not be the expected or desired behaviour...
 
    template< typename... Exceptions, typename Exception, typename Visitor >
-   void inspect( const Exception& exception, Visitor&& visitor )
+   void visit_nested( const Exception& exception, Visitor&& visitor )
    {
       internal::inspector< Exceptions... >::inspect( exception, visitor );
    }
 
    template< typename Exception >
-   [[nodiscard]] std::vector< Exception > flatten( const std::exception_ptr& ptr = std::current_exception() )
+   [[nodiscard]] std::vector< Exception > flatten_type( const std::exception_ptr& ptr = std::current_exception() )
    {
       std::vector< Exception > result;
-      inspect< Exception >( ptr, [ &result ]( const Exception& e, const std::size_t /*unused*/ ) {
+      visit_nested< Exception >( ptr, [ &result ]( const Exception& e, const std::size_t /*unused*/ ) {
          result.emplace_back( e );
       } );
       return result;
    }
 
    template< typename Exception >
-   [[nodiscard]] std::vector< Exception > flatten( const Exception& exception )
+   [[nodiscard]] std::vector< Exception > flatten_type( const Exception& exception )
    {
       std::vector< Exception > result;
-      inspect< Exception >( exception, [ &result ]( const Exception& e, const std::size_t /*unused*/ ) {
+      visit_nested< Exception >( exception, [ &result ]( const Exception& e, const std::size_t /*unused*/ ) {
          result.emplace_back( e );
       } );
       return result;
@@ -131,18 +131,18 @@ namespace TAO_PEGTL_NAMESPACE
 
    [[nodiscard]] inline std::vector< parse_error_base > flatten_base( const std::exception_ptr& ptr = std::current_exception() )
    {
-      return flatten< parse_error_base >( ptr );
+      return flatten_type< parse_error_base >( ptr );
    }
 
    [[nodiscard]] inline std::vector< parse_error_base > flatten_base( const parse_error_base& exception )
    {
-      return flatten< parse_error_base >( exception );
+      return flatten_type< parse_error_base >( exception );
    }
 
    [[nodiscard]] inline std::vector< std::string > flatten_what( const std::exception_ptr& ptr = std::current_exception() )
    {
       std::vector< std::string > result;
-      inspect< std::exception >( ptr, [ &result ]( const std::exception& e, const std::size_t /*unused*/ ) {
+      visit_nested< std::exception >( ptr, [ &result ]( const std::exception& e, const std::size_t /*unused*/ ) {
          result.emplace_back( e.what() );
       } );
       return result;
@@ -151,7 +151,7 @@ namespace TAO_PEGTL_NAMESPACE
    [[nodiscard]] inline std::vector< std::string > flatten_what( const std::exception& exception )
    {
       std::vector< std::string > result;
-      inspect< std::exception >( exception, [ &result ]( const std::exception& e, const std::size_t /*unused*/ ) {
+      visit_nested< std::exception >( exception, [ &result ]( const std::exception& e, const std::size_t /*unused*/ ) {
          result.emplace_back( e.what() );
       } );
       return result;

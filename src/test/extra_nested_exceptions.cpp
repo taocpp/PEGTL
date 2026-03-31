@@ -58,7 +58,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       catch( ... ) {
          visitor v;
-         inspect< std::string >( v );
+         visit_nested< std::string >( v );
          TAO_PEGTL_TEST_ASSERT( v.v.size() == 1 );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].first == "string%foo" );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].second == 0 );
@@ -72,7 +72,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       catch( const std::string& s ) {
          visitor v;
-         inspect< std::string >( s, v );
+         visit_nested< std::string >( s, v );
          TAO_PEGTL_TEST_ASSERT( v.v.size() == 1 );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].first == "string%foo" );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].second == 0 );
@@ -91,7 +91,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       catch( ... ) {
          visitor v;
-         inspect< std::string, std::runtime_error >( v );
+         visit_nested< std::string, std::runtime_error >( v );
          TAO_PEGTL_TEST_ASSERT( v.v.size() == 2 );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].first == "string%foo" );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].second == 1 );
@@ -112,7 +112,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       catch( ... ) {
          visitor v;
-         inspect< std::exception, std::runtime_error >( v );
+         visit_nested< std::exception, std::runtime_error >( v );
          TAO_PEGTL_TEST_ASSERT( v.v.size() == 2 );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].first == "exception%foo" );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].second == 1 );
@@ -133,7 +133,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       catch( ... ) {
          visitor v;
-         inspect< std::runtime_error, std::exception >( v );  // Testing WRONG ORDER of exception classes!
+         visit_nested< std::runtime_error, std::exception >( v );  // Testing WRONG ORDER of exception classes!
          TAO_PEGTL_TEST_ASSERT( v.v.size() == 2 );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].first == "exception%foo" );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].second == 1 );
@@ -159,7 +159,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       catch( ... ) {
          visitor v;
-         inspect< std::string, std::exception, std::runtime_error >( v );
+         visit_nested< std::string, std::exception, std::runtime_error >( v );
          TAO_PEGTL_TEST_ASSERT( v.v.size() == 3 );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].first == "string%yo" );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].second == 2 );
@@ -187,7 +187,7 @@ namespace TAO_PEGTL_NAMESPACE
       }
       catch( const std::exception& e ) {
          visitor v;
-         inspect< std::string, std::exception, std::runtime_error >( e, v );
+         visit_nested< std::string, std::exception, std::runtime_error >( e, v );
          TAO_PEGTL_TEST_ASSERT( v.v.size() == 3 );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].first == "string%yo" );
          TAO_PEGTL_TEST_ASSERT( v.v[ 0 ].second == 2 );
