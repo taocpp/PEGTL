@@ -103,9 +103,7 @@ namespace TAO_PEGTL_NAMESPACE
    struct dispatch
    {
       template< typename Rule >
-      struct actions
-         : internal::clauses_to_action_t< Rule, Clauses... >
-      {};
+      using action = internal::clauses_to_action_t< Rule, Clauses... >;
 
       template< typename Rule,
                 apply_mode A = apply_mode::enabled,
@@ -115,7 +113,7 @@ namespace TAO_PEGTL_NAMESPACE
                 typename... States >
       static bool parse( ParseInput&& in, States&&... st )
       {
-         return TAO_PEGTL_NAMESPACE::match< Rule, A, M, actions, Control >( in, st... );
+         return TAO_PEGTL_NAMESPACE::match< Rule, A, M, action, Control >( in, st... );
       }
    };
 

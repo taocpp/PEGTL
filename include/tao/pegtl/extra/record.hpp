@@ -128,7 +128,7 @@ namespace TAO_PEGTL_NAMESPACE
       using clause = clause2< internal::record_action, Rules... >;
 
       template< typename Rule >
-      using actions = internal::clauses_to_action_t< Rule, clause >;
+      using action = internal::clauses_to_action_t< Rule, clause >;
 
       template< typename Rule,
                 template< typename... > class Control = normal,
@@ -136,7 +136,7 @@ namespace TAO_PEGTL_NAMESPACE
       [[nodiscard]] static auto parse( ParseInput&& in )
       {
          internal::record_state< std::decay_t< ParseInput > > state;
-         if( !TAO_PEGTL_NAMESPACE::match< Rule, apply_mode::enabled, rewind_mode::optional, actions, internal::record_control< Control >::template type >( in, state ) ) {
+         if( !TAO_PEGTL_NAMESPACE::match< Rule, apply_mode::enabled, rewind_mode::optional, action, internal::record_control< Control >::template type >( in, state ) ) {
             state.samples.clear();
          }
          return std::move( state.samples );
