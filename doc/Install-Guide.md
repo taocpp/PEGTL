@@ -1,6 +1,6 @@
 # Install Guide
 
-How to install the PEGTL and the system requirements.
+How to install the PEGTL, and verify and ensure that the system requirements are met.
 
 
 ## Contents
@@ -47,12 +47,12 @@ It is recommended to *always* compile with *some* optimizations enabled, especia
 
 Larger projects will frequently require the `/bigobj` option when compiling with Visual Studio on Windows.
 
-The PEGTL should also be compatible with other C++17 capable compilers and on other Unix or sufficiently Unix-like operating systems.
+The PEGTL should also be compatible with other C++17 capable compilers and work on other Unix or Unix-like operating systems.
 
 
 ## Disabling Exceptions
 
-The PEGTL *is* compatible with `-fno-exceptions`, however not all features are available when exceptions are disabled while others slightly change their behavior.
+The PEGTL *is* compatible with `-fno-exceptions`, however some features and functions are not available or change their behavior without exceptions.
 
 Parsing rules that throw or catch exceptions and therefore require exception support:
 
@@ -227,7 +227,7 @@ For more options and ways to use CMake, please refer to the [CMake documentation
 
 ## Distributions
 
-Some [Linux distributions](https://distrowatch.org/), and related projects like [Homebrew](https://brew.sh/) and [MacPorts](https://macports.org/), have PEGTL packages that can be installed with their respective native package manager.
+Some [Linux distributions](https://distrowatch.org/), and projects like [Homebrew](https://brew.sh/) and [MacPorts](https://macports.org/), have PEGTL packages that can be installed with their respective native package manager.
 Please check on the project homepage or with the package manager whether a PEGTL package is available.
 
 We greatly appreciate the work of the people providing and maintaining these packages.

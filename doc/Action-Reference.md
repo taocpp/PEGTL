@@ -1,7 +1,7 @@
 # Action Reference
 
 The reference documention for all included actions
-The actions related to [stream parsing](Stream-Parsing.nd) are [documented here](Stream-Parsing.md#actions).
+The actions related to [stream parsing](Stream-Parsing.md) are [documented here](Stream-Parsing.md#actions).
 The actions not considered part of the core library are [documented here](TODO).
 
 
@@ -37,7 +37,7 @@ struct my_action< some_rule >
 
 > [!IMPORTANT]
 > Please remember that the current `apply_mode` enables or disables only the `apply()` and `apply0()` action functions.
-> When an action has a `match()` function it will be called regardless of the `apply_mode`.
+> When an action has a `match()` function it will be called regardless of `apply_mode`.
 
 Some actions have a `success()` function that is called when the rule the action was attached to succeeds.
 In some cases there is a default implementation that can be replaced with a user-defined function, in other cases there is no default and a user-defined function has to be supplied.

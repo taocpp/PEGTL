@@ -1,9 +1,7 @@
 # Stream Parsing
 
-The PEGTL is primarily designed and optimized for parsing contiguous blocks of memory like a memory-mapped file or the contents of a `std::string`.
-It also supports *stream parsing* where only a small portion of a large input is kept in a memory buffer at any time.
-
-The stream parsing facilities can be included via `<tao/pegtl/stream.hpp>` -- or via the individual include files in `include/tao/pegtl/stream`.
+The PEGTL is *primarily* designed and optimized for parsing contiguous blocks of memory like a memory-mapped file or the contents of a `std::string`.
+It does also support *stream parsing* where only a small portion of a large input is kept in a contiguous memory buffer, a sliding window to the input data.
 
 
 ## Contents
@@ -37,9 +35,11 @@ The stream parsing facilities can be included via `<tao/pegtl/stream.hpp>` -- or
 
 ## Overview
 
+The stream parsing facilities can be included via `<tao/pegtl/stream.hpp>`, or via their respective individual include files in `include/tao/pegtl/stream`.
+
 Stream parsing is performed by using a *stream input* for a parsing run.
 A stream input has the same interface as other inputs as well as some stream input specific functions.
-It also has two stream input specific components, the *buffer* and the *reader*.
+It also has two stream input specific components, the [*buffer*](#Buffers) and the [*reader*](#Readers).
 
 The buffer wraps the memory region in which a portion of the input data is kept.
 Different [buffers](#Buffers) allocate memory in different ways, e.g. an embedded `std::array` or via `operator new[]`.
@@ -75,10 +75,10 @@ This default can be changed via the macro `TAO_PEGTL_NAMESPACE` in `tao/pegtl/co
 
 ## Buffers
 
-There is no direct interaction with buffer objects, however the arguments to a buffer constructor need to be supplied to any input using that buffer (same for template parameters).
+There is no direct interaction with buffer objects, however the arguments to a buffer constructor need to be supplied to any input using that buffer.
 
-Note that the expositions of the buffer classes only serve to document their specific constructor arguments and template parameters.
-To see how the buffer classes are actually implemented we refer the reader to the appropriate header files.
+The expositions of the buffer classes only documents their specific constructor arguments and template parameters.
+To see how the buffer classes are implemented plase consult the appropriate header files.
 
 ###### Alloc Buffer
 
@@ -124,7 +124,7 @@ public:
 
 ## Readers
 
-Readers need to implement only two functionalities, construction with reader-specific arguments and a read function.
+Readers need to implement two operations, construction with reader-specific arguments and a read function.
 The read function takes a pointer to a buffer and the length of the buffer.
 It attempts to read `length` bytes returning how many bytes were actually read (or zero at end-of-file).
 Errors are reported as exception, or by terminating the program when compiling with exceptions disabled.
@@ -157,6 +157,8 @@ public:
 };
 ```
 
+When the length of the input string is known some kind of normal [view input](Input-Referemce.md) should be used instead.
+
 ###### CStream Reader
 
 The cstream reader takes a `std::FILE*` to an open C file stream.
@@ -180,13 +182,16 @@ class istream_reader
 {
 public:
    explicit istream_reader( std::istream& stream ) noexcept;
+
+private:
+   std::istream& m_stream;
 };
 ```
 
 ###### Iterator Reader
 
 The iterator reader takes a range of input iterators.
-It copies the iterators, but not (initially) the range of bytes they represent.
+It copies the iterators, but not the range of objects they represent.
 
 ```c++
 template< typename InputIterator >
@@ -516,13 +521,11 @@ using other_text_iterator_auto_input = /* unspecified */
 
 ## Rules
 
-The `discard` and `require` rules do nothing on non-stream inputs.
-
-All rules are included with `<tao/pegtl/buffer.hpp>` or can be included individually.
+These [rules](Rules-and-Grammars.md) are included with `<tao/pegtl/stream.hpp>`.
 
 Unlike [most other rules](Rule-Reference.md) they have no separate implementation in namespace `tao::pegtl::internal`.
 
-The analyze traits for these rules are in `<tao/pegtl/buffer/analyze_traits.hpp>` which is **not** included automatically with `<tao/pegtl/buffer.hpp>`.
+The analyze traits for these rules are in `<tao/pegtl/stream/analyze_traits.hpp>` which is **not** included with `<tao/pegtl/stream.hpp>`.
 
 ###### `discard`
 
@@ -562,6 +565,8 @@ The analyze traits for these rules are in `<tao/pegtl/buffer/analyze_traits.hpp>
 
 
 ## Actions
+
+These [actions](Actions-and-States.md) are included with `<tao/pegtl/stream.hpp>`.
 
 ###### `discard_input`
 

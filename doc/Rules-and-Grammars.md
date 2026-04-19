@@ -1,6 +1,6 @@
 # Rules and Grammars
 
-A (parsing) rule is a class (or a class template) with a (suitable) static `match()` function (and some type aliases).
+A (parsing) rule is a class that models a [(production) rule](https://en.wikipedia.org/wiki/Production_(computer_science)) of a [formal grammar](https://en.wikipedia.org/wiki/Formal_grammar), or a [parser combinator](https://en.wikipedia.org/wiki/Parser_combinator).
 A grammar is a set of one or more related parsing rules, with one (or more) designated top-level rules as entry point(s).
 
 
@@ -30,7 +30,9 @@ A grammar is a set of one or more related parsing rules, with one (or more) desi
 
 ## Introduction
 
-A (parsing) rule is a class that matches a portion of the input against some condition and either succeeds, possibly consuming a portion of the input, or fails.
+A (parsing) rule is a class (or a class template) with a (suitable) static `match()` function (and some type aliases).
+This match function attempts to match a portion of the input against some condition and either succeeds, possibly consuming a portion of the input, or fails.
+
 A grammar is a set of one or more related parsing rules including an informally designated top-level rule that serves as entry point.
 The top-level rule is *also* sometimes called a grammar.
 

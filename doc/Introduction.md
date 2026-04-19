@@ -25,6 +25,10 @@ Since the PEGTL is a parser library our "Hello, world!" example first parses, ra
 
 #include <tao/pegtl.hpp>
 
+// The library resides in the namespace TAO_PEGTL_NAMEPACE
+// which by default is a macro defined to tao::pegtl. This
+// can be changed in include/tao/pegtl/config.hpp.
+
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 namespace hello
@@ -45,16 +49,17 @@ namespace hello
 
    // Parsing rule that matches a sequence of the 'prefix'
    // rule, the 'name' rule, a literal "!", and 'eof'
-   // (end-of-file/input). Due to 'must` instead of 'seq'
-   // the rule will throw an exception when it does not
-   // match the input.
+   // (end-of-file/input). The 'must' makes the parser
+   // throw an exception when a sub-rule doesn't match
+   // (instead of returning 'false' and possibly doing
+   // some backtracking depending on the grammar).
 
    struct grammar
       : pegtl::must< prefix, name, pegtl::one< '!' >, pegtl::eof >
    {};
 
-   // Class template for user-defined actions that does
-   // nothing by default.
+   // Class template for user-defined semantic actions;
+   // the non-specialized default case does nothing.
 
    template< typename Rule >
    struct action
@@ -64,7 +69,7 @@ namespace hello
    // Specialisation of the user-defined action to do
    // something when the 'name' rule succeeds; is called
    // with the portion of the input that matched the rule,
-   // packaged in an instance of a dedicated input class.
+   // packaged in an instance of pegtl::action_input<>.
 
    template<>
    struct action< name >
@@ -215,24 +220,25 @@ The PEGTL comes with [dozens of rules](Rule-Reference.md#index) for convenience 
 
 ## Definitions
 
-* A (parsing) [**rule**](Rules-and-Grammars.md) is a class that models a [(production) rule](https://en.wikipedia.org/wiki/Production_(computer_science) of a [formal grammar](https://en.wikipedia.org/wiki/Formal_grammar), or a [parser combinator](https://en.wikipedia.org/wiki/Parser_combinator).
+* A (parsing) [**rule**](Rules-and-Grammars.md) is a class that models a [(production) rule](https://en.wikipedia.org/wiki/Production_(computer_science)) of a [formal grammar](https://en.wikipedia.org/wiki/Formal_grammar), or a [parser combinator](https://en.wikipedia.org/wiki/Parser_combinator).
 * A [**grammar**](Rules-and-Grammars.md) is a set of one or more related (parsing) rules, with one (or more) designated top-level rules as entry-point(s).
 * **Input data** is a sequence of objects - often of type `char` - that is intended to be parsed.
 * An [**input**](Inputs-and-Parsing.md) is a class that adheres to an informal input interface and represents some input data.
-* A (semantic) [**action**](Actions-and-States.md) is a class with a static `apply()` or `apply0()` function -- and/or, for advanced use cases, a static `match()` function.
+* A (semantic) [**action**](Actions-and-States.md) is a class with a static [`apply()`](Actions-and-States.md#apply) or [`apply0()`](Actions-and-States.md#apply0) function -- and/or, for advanced use cases, a static [`match()`](Actions-and-States.md#match) function.
 * A **control** is a class that adheres to an informal control interface and is in control of important behind-the-scenes details of a parsing run.
-* The [**states**](Actions-and-States.md) are user-defined objects that are passed to all rules, actions and control functions.
+* The [**states**](Actions-and-States.md#states) are user-defined objects that are passed to all rules, actions and control functions.
 * A [**parsing run**](Inputs-and-Parsing.md) is everything that happens during a call to `tao::pegtl::parse()` with a grammar and, optionally, an action, a control and states.
 * A [**nested parsing**](Inputs-and-Parsing.md) run similarly refers to a call to `tao::pegtl::parse_nested()` during a parsing run (usually from an action).
 * A **position** is an instance of a class that indicates an object in the input data, possibly with auxiliary information like filename and line number.
 * Input is **consumed** when the reference to what is considered the current object in the input data is advanced.
-* [**Stream parsing**](Stream-Parsing.md) refers to parsing with an input that only provides a small contiguous buffer as window into some larger or unbounded input data.
+* [**Stream parsing**](Stream-Parsing.md) refers to parsing with an input where only a small portion of input data is kept in a contiguous memory buffer.
 * An action `A` is **attached** to a rule `R` when the specialization `A< R >` has an `apply()`, `apply0()` or `match()` function.
 * An action is **applied** when its `apply()` or `apply0()` function is called after the rule it is attached to succeeded.
 * **Success** is when a [`match()` function](Rules-and-Grammars.md#match-function) returns `true`.
 * **Local failure** is when a [`match()` function](Rules-and-Grammars.md#match-function) returns `false` (which can lead to backtracking).
 * **Global failure** is when a [`match()` function](Rules-and-Grammars.md#match-function) throws an exception (which usually aborts the parsing run).
 * The **matched input** is the portion of the input data consumed by a parsing rule during a successful call to its `match()` function.
+* The [**grammar analysis**](Debug-Facilities.md#grammar-analysis) is an algorithm that checks a grammar for the occurrence of potential infinite loops stemming e.g. from [left recursion](https://en.wikipedia.org/wiki/Left_recursion).
 
 
 ---

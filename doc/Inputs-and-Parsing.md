@@ -1,6 +1,6 @@
 # Inputs and Parsing
 
-**Input data** is a sequence of bytes (or other objects) that are intended to be parsed.
+**Input data** is a sequence of objects -- often of type `char` -- that is intended to be parsed.
 
 An **input** is a class that adheres to an informal interface and represents some input data.
 
@@ -37,13 +37,17 @@ Performing a parsing run requires (at least) the following steps.
 
 The following steps are also frequently included to do something useful while parsing.
 
-4. [Actions](Actions-and-States.md) have to be implemented and also passed to the parse function.
-5. [States](Actions-and-States.md) have to be instantiated and also passed to the parse function.
+4. [Actions](Actions-and-States.md#introduction) have to be implemented and passed to the parse function as template parameter.
+5. [States](Actions-and-States.md#states) have to be instantiated and passed to the parse function as additional arguments.
 
-More advanced use cases might also pass a control class to the parsing run, or use other functions to start it (the parsing run).
+More advanced use cases might also pass a control class to the parsing run, or use other functions to drive the parsing run.
+
+The following incomplete code shows the general outline of performaing a parsing run.
 
 ```c++
 using namespace tao::pegtl;
+
+// A state class to collect data while parsing:
 
 class my_state;
 
@@ -53,11 +57,13 @@ struct some_rule : ... {};
 
 struct my_grammar : ... {};
 
+// Action class with default case that does nothing:
+
 template< typename Rule >
 struct my_actions
    : tao::pegtl::nothing< Rule >{};
 
-// Specializations of my_actions as required, including:
+// Specializations of my_actions as required for rules:
 
 template<>
 struct my_actions< some_rule >
@@ -67,7 +73,9 @@ struct my_actions< some_rule >
    { ... }
 };
 
-bool my_parse( const std::filesystem::path& file, my_state& state )
+// Putting everything together to start parsing:
+
+[[nodsicard]] bool my_parse( const std::filesystem::path& file, my_state& state )
 {
    file_input in( file );
    return parse< my_grammar, my_actions >( in, state );
@@ -79,9 +87,10 @@ bool my_parse( const std::filesystem::path& file, my_state& state )
 
 The PEGTL includes several [input classes](Input-Reference.md) for parsing memory, standard library containers, and files.
 Additionally there are dedicated [stream inputs](Stream-Parsing.md#inputs) for [stream parsing](Stream-Parsing.md).
+The [stream inputs](Stream-Parsing.md#inputs) are **only** documented on the page dedicated to [stream parsing](Stream-Parsing.md).
 
-On closer inspection one will not be surprised to find the inputs to actually be class templates that can be further customized in various ways.
-We will first classify the inputs according to the components of their names, explaining what e.g. a `text_mmap_input` is, and then explain their template parameters.
+All inputs are class templates that can be customized.
+Let us classify the inputs according to their names, explaining what e.g. a `text_mmap_input` is, and then document their template parameters.
 
 ### Classification
 
@@ -92,22 +101,26 @@ The inputs for data in memory are either
 
 The `argv` and `base` inputs are also `view` inputs according to this classification.
 
-The `copy` inputs do not copy anything when they can move from the source during construction.
+The `copy` inputs are move aware when presented with an r-value reference during construction.
 
-For all inputs the data **must** reside in a contiguous piece of memory, e.g. a `std::vector` works, a `std::list` does **not**.
+For all inputs the data **must** reside in a contiguous piece of memory, i.e. a `std::vector` or `std::array` can be used, but **not** a `std::list` or `std::deque`.
 
-The inputs for data in the filesystem are either
+The inputs for data in a file are either
 
 - `read` inputs that use `std::fread()` to read the file into memory upon construction, or
 - `mmap` inputs that use `::mmap(2)` (or similar) to map the file into the address space, or
-- `file` inputs that inherits an `mmap` input when available with a `read` input as fallback.
+- `file` inputs that are built with an `mmap` input when available, and a `read` input as fallback.
 
 All of the above inputs are also either
 
 - plain inputs whose position information is "simple", most often a count from the start of the input data, or
 - `text` inputs whose position information includes a line and column number based on the `Eol` parameter explained below.
 
-In addition there is the [`action_input`](Actions-and-States.md#action-input) which is closely associated with the inputs listed here but considered distinct because it can not be used as input for a parsing run.
+> [!NOTE]
+> The column number is just an offset from the start of the input data.
+> It does **not** take into account that a single [Unicode](https://en.wikipedia.org/wiki/Unicode) character can be composed of multiple code points, and a single code point can be encoded in multiple code units.
+
+In addition there is the [`action_input`](Actions-and-States.md#action-input) which is related to the inputs listed here but falls into a slightly different category since it can not be used as an input for a parsing run.
 
 ### Parameters
 

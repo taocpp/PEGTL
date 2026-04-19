@@ -1,6 +1,7 @@
 # Actions and States
 
-This page explains semantic actions, how they are attached to a grammar, and how they can be passed data to operate on.
+A (semantic) *action* is a class with a static [`apply()`](#apply) or [`apply0()`](#apply0) function -- and/or, for advanced use cases, a static [`match()`](#match) function.
+The [*states*](#states) are user-defined objects that are passed to all rules, actions and control functions.
 
 
 ## Contents
@@ -33,6 +34,8 @@ This page explains semantic actions, how they are attached to a grammar, and how
 
 In its most simple form, a parsing run only returns whether (a portion of) the input matches the grammar.
 To do something useful with the information gathered during a parsing run it is necessary to attach (user-defined) *actions* to one or more grammar rules.
+
+This page explains semantic actions, how they are attached to a grammar, and how they can be passed data to operate on.
 
 Actions are functions that are called during the parsing run whenever the rule they are attached to successfully matched.
 When an action is thus *applied*, the corresponding function receives the *states*, an arbitrary list of (user-defined) objects, as arguments.
@@ -636,7 +639,7 @@ Note that deriving from `require_apply` or `require_apply0` is optional and usua
 
 ## Legacy Actions
 
-There are [compatibility rules](Rule-Reference.md#compatibility) that replicate the intrusive way action invocations were part of the grammar in the PEGTL 0.x.
+There are [compatibility rules](Rule-Reference.md#compatibility) that replicate the intrusive way action invocations were part of the grammar in the PEGTL 0.x versions.
 
 
 ---
