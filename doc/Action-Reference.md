@@ -276,6 +276,21 @@ struct change_states
  { ... };
 ```
 
+###### `check_depth< N >`
+
+* Limits the rule nesting depth for the rule(s) it is attached to.
+* Throws an exception when the nesting depth exceeds the limit.
+* Does not count rules when control is disabled.
+* Requires an input with `make_depth_guard()` function like [`input_with_depth`](Input-Reference.md#input-with-depth).
+* Publicly derives from [`maybe_nothing`](#maybe-nothing).
+
+```c++
+ template< std::size_t Maximum >
+ struct check_depth
+    : maybe_nothing
+ { ... };
+```
+
 ###### `control_action`
 
 * Adds the `start()`, `success()` and `failure()` control functions to the action.
@@ -450,6 +465,7 @@ struct require_apply0
 * [`change_state`](#change_state-s-) <sup>[(actions)](#actions)</sup>
 * [`change_states`](#change_states-s-) <sup>[(actions)](#actions)</sup>
 * [`check_consume`](#check_consume-n-) <sup>[(actions)](#actions)</sup>
+* [`check_depth`](#check_depth-n-) <sup>[(actions)](#actions)</sup>
 * [`control_action`](#control_action) <sup>[(actions)](#actions)</sup>
 * [`disable_action`](#disable_action) <sup>[(actions)](#actions)</sup>
 * [`enable_action`](#enable_action) <sup>[(actions)](#actions)</sup>

@@ -2,6 +2,7 @@
 
 Notes on incompatible changes that need to be taken into account when updating to a new major version.
 
+
 ## Version 4.0.0
 
 * The `try_catch` and `try_catch_type` rules were renamed to `try_catch_return_false` and `try_catch_type_return_false`, respectively.
@@ -14,6 +15,9 @@ Notes on incompatible changes that need to be taken into account when updating t
 
 TODO scan tracking
 TODO ...
+
+TODO: Document nested exception problems (GCC on macOS, Clang on Windows)
+
 
 ## Version 3.0.0
 
@@ -29,6 +33,7 @@ TODO ...
 * The parse tree nodes provide `node->type` (a `std::string_view`) instead of `node->name()`.
 * The parse tree nodes provide `node->string_view()` and `node->string()` instead of `node->content()`.
 
+
 ## Version 2.8.0
 
 * All enumerators were changed from uppercase to lowercase.
@@ -37,11 +42,13 @@ TODO ...
 
 Compatibility enumerators and functions are provided, they will be removed in version 3.0.0.
 
+
 ## Version 2.4.0
 
 * The common prefix for all macros was changed from `TAOCPP_PEGTL_` to `TAO_PEGTL_`.
 
 Compatibility macros are provided, they will be removed in version 3.0.0.
+
 
 ## Version 2.0.0
 
@@ -66,10 +73,12 @@ Applications integrated more tightly with the PEGTL might require additional cha
 
 Please contact the authors at `taocpp(at)icemx.net` for any further questions when updating the PEGTL.
 
+
 ## Version 1.0.0
 
 There were [many important changes](Changelog.md#version-100) leading up to version 1.0.0.
 Please contact the authors at `taocpp(at)icemx.net` for any further questions when updating the PEGTL.
+
 
 ---
 

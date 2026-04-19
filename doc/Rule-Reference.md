@@ -1243,7 +1243,7 @@ Note that the grammar analysis does not correctly handle recursions in the gramm
 
 ###### `unordered_partial< R... >`
 
-* Combines the behavioru of [`partial`](#partial-r-) and [`unordered`](#unordered-r-).
+* Combines the behaviour of [`partial`](#partial-r-) and [`unordered`](#unordered-r-).
 * [Meta data] and [implementation] mapping:
   - `unordered_partial<>::rule_t` is `internal::success`
   - `unordered_partial< R... >::rule_t` is `internal::unordered< true, R... >`
@@ -2109,8 +2109,8 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`s_term`](#s_term) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`segment_starter`](#segment_starter) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`sentence_break< V >`](#sentence_break-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
-* [`separated< S, R... >`(#separated-s-r-) <sup>[(convenience)](#convenience)</sup>
-* [`separated_pad< S, P, R... >`(#separated_pad-s-p-r-) <sup>[(convenience)](#convenience)</sup>
+* [`separated< S, R... >`](#separated-s-r-) <sup>[(convenience)](#convenience)</sup>
+* [`separated_pad< S, P, R... >`](#separated_pad-s-p-r-) <sup>[(convenience)](#convenience)</sup>
 * [`seq< R... >`](#seq-r-) <sup>[(combinators)](#combinators)</sup>
 * [`seven`](#seven) <sup>[(ascii)](#ascii)</sup>
 * [`shebang`](#shebang) <sup>[(ascii)](#ascii)</sup>

@@ -9,7 +9,13 @@ For all questions and remarks contact us at **taocpp(at)icemx.net**.
 
 * [Extra Headers](#extra-headers)
   * [`charconv.hpp`](#charconvhpp)
+  * [`dispatch.hpp`](#dispatchhpp)
+  * [`nested_exceptions.hpp`](#nested_exceptionshpp)
   * [`parse_tree.hpp`](#parse_treehpp)
+  * [`parse_tree_to_dot.hpp`](#parse_tree_to_dothpp)
+  * [`raw_string.hpp`](#raw_stringhpp)
+  * [`record.hpp`](#recordhpp)
+  * [`type_to_string.hpp`](#type_to_stringhpp)
   * [`unescape.hpp`](#unscapehpp)
 * [Example Grammars](#example-grammars)
   * [`abnf_abnf.hpp`](#abnf_abnfhpp)
@@ -107,13 +113,116 @@ The `_throws` vs. `_nothrow_` suffix chooses between failing locally, i.e. retur
  2. Failure to match is when the parse input does not start with an integer, or the action input is not wholly an integer, respectively. The functions return `false`.
  3. Overflow is when the integer being parsed does not fit into the target type. In this case the `_throws` or `nothrow` suffix comes into play and chooses whether to return `false` or throw a `parse_error`.
 
-When `Integral` is `void` both `apply()` and `match()` use the type of their first state argument 
+When `Integral` is `void` both `apply()` and `match()` use the type of their first state argument
 Further, `match()` ignores the `apply_mode` and the first state argument must always be of mutable integral type.
 
+###### `nested_exceptions.hpp`
+
+The `visit_nested` functions call the visitor once for every exception, including the first/outer one.
+The visitor is called first with the inner-most exception, the one that was thrown first from furthest down/inside the call stack, and a nesting count corresponding to the total number of exceptions minus 1.
+The visitor is called last with the outer-most exception, the one that was caught in the try-catch that is calling `visit_nested()`, and a nesting count of `0`.
+
+For example, when an exception `E` is caught, and `E` has exception `F` as nested exception, then `visit_nested( E, V )` for some visitor `V` will first call `V( F, 1 )` and then `V( E, 0 )`.
+
+Exceptions in an inheritance hierarchy must be listed from more general to more specific in the template parameter list.
+For example `visit_nested< std::exception, std::runtime_error >()` and not vice versa.
+
+```c++
+template< typename... Exceptions, typename Visitor >
+void visit_nested( Visitor&& );
+
+template< typename... Exceptions, typename Visitor >
+void visit_nested( const std::exception_ptr&, Visitor&& );
+
+template< typename... Exceptions, typename Exception, typename Visitor >
+void visit_nested( const Exception&, Visitor&& );
+```
+
+The following convenience functions call `visit_nested()` produce a flattened vector derived from the nested exceptions.
+The `flatten_type()` and `flatten_base()` functions return type sliced copies of the exceptions; `flatten_what()` calls `what()` on the `std::exception`s and returns a vector of strings.
+
+```c++
+template< typename Exception >
+[[nodiscard]] std::vector< Exception > flatten_type( const std::exception_ptr& = std::current_exception() );
+template< typename Exception >
+[[nodiscard]] std::vector< Exception > flatten_type( const Exception& );
+
+[[nodiscard]] std::vector< parse_error_base > flatten_base( const std::exception_ptr& = std::current_exception() )
+[[nodiscard]] std::vector< parse_error_base > flatten_base( const parse_error_base& );
+
+[[nodiscard]] std::vector< std::string > flatten_what( const std::exception_ptr& = std::current_exception() )
+[[nodiscard]] std::vector< std::string > flatten_what( const std::exception& );
+```
 
 ###### `parse_tree.hpp`
+###### `parse_tree_to_dot.hpp`
 
-Given its scope and complexity [the parse tree has a dedicated page](Parse-Tree.md).
+The [parse tree has its own dedicated page](Parse-Tree.md).
+
+###### `raw_string.hpp`
+
+###### `record.hpp`
+
+Builds on [`dispatch.hpp`](#dispatchhpp) to build a linear record of a parsing run.
+For each successful match of a selected rule the vector contains an entry with a kind of `view_input` to represent the matched input, and the name of the rule that matched.
+Successful sub-rules of a failed rule will not show up in the record.
+
+```c++
+template< typename ParseInput >
+using record_input = input_with_offset< internal::text_view_alias< typename ParseInput::eol_rule, typename ParseInput::data_t, void, void > >;
+
+template< typename ParseInput >
+struct record_value
+{
+   using data_t = typename ParseInput::data_t;
+   using position_t = typename ParseInput::error_position_t;
+
+   record_value( const position_t&, const data_t*, const std::size_t, const std::string_view );
+
+   record_input< ParseInput > input;
+   std::string_view rule;
+};
+
+template< typename ParseInput >
+using record_vector = std::vector< record_value< ParseInput > >;
+
+template< typename... Rules >
+struct record
+{
+   using clause = // clauses to produce the record for Rules...
+
+   template< typename Rule >
+   using action = // clauses converted to an action
+
+   template< typename Rule,
+             template< typename... > class Control = normal,
+             typename ParseInput >
+   [[nodiscard]] static auto parse( ParseInput&& )
+   {
+      // parse with action and return a record_vector< ParseInput >
+   }
+};
+```
+
+###### `type_to_string.hpp`
+
+Functions to convert compile-time sequences of `char` into a `std::string` or `std::string_view`.
+
+```c++
+template< typename T >
+[[nodiscard]] std::string type_to_string();
+
+template< char... Cs >
+[[nodiscard]] std::string type_to_string();
+
+template< typename T >
+[[nodiscard]] constexpr std::string_view type_to_string_view() noexcept;
+
+template< char... Cs >
+[[nodiscard]] constexpr std::string_view type_to_string_view() noexcept;
+```
+
+The overloads that take a single type can be used with `tao::pegtl::string<>` or any other type that takes a sequence of `char` as template parameters.
 
 ###### `unescape.hpp`
 
@@ -147,7 +256,7 @@ The template parameter of type `std::size_t` must match the fixed (!) number of 
 It unescapes each individual code point while checking for and merging consecutive surrogate pairs as required by RFC 8259.
 
 > [!WARNING]
-> The actions do **not** double-check that the matched portion of the input they are invoked with has the expected size and data!
+> The actions do **not** double-check that the matched portion of the input they are called with has the expected size and data!
 
 The action template `unescape<>` is set up with the usual default
 
@@ -227,7 +336,8 @@ TODO: Complete list:
 
 ###### `abnf2pegtl.cpp`
 
-Reads a file with an [ABNF (RFC 5234)](https://tools.ietf.org/html/rfc5234)-style grammar and converts it into corresponding C++ PEGTL rules.
+Parses [ABNF (RFC 5234)](https://tools.ietf.org/html/rfc5234)-style grammars with the [ABNF grammar](#abnfpp) and converts them into C++ PEGTL rules.
+Uses the command line arguments as files to parse.
 Some extensions and restrictions compared to RFC 5234:
 
  * As we are defining PEGs, the alternations are now ordered (`sor<>`).
@@ -238,6 +348,17 @@ Some extensions and restrictions compared to RFC 5234:
  * Numerical values must fit into the corresponding C++ data type.
 
 ###### `abnf_record.cpp`
+
+Shows how to create a linearized [record](TODO) of a parsing run with the [ABNF grammar](#abnfhpp).
+Uses the command line arguments as files to parse.
+
+```
+$ build/bin/example/abnf_record src/example/abnf.abnf
+tao::pegtl::abnf::rulename@4:1(93) 'rulelist'
+tao::pegtl::digit@4:19(111) '1'
+tao::pegtl::abnf::rulename@4:23(115) 'rule'
+...
+```
 
 ###### `analyze.cpp`
 
@@ -272,7 +393,7 @@ Two simple examples for grammars that parse different kinds of CSV-style file fo
 
 ###### `hello_world.cpp`
 
-Minimal parser-style "hello world" example from the [Introduction](Introduction.md) page.
+The reverse "hello world" example from the [introduction](Introduction.md).
 
 ###### `indent_aware.cpp`
 
@@ -292,15 +413,24 @@ Shows how to use a simple custom control to create some parsing statistics while
 
 ###### `lua53_parse.cpp`
 
-Parses all files passed on the command line with a slightly experimental grammar that should correspond to the [Lua](http://www.lua.org/) 5.3 lexer and parser.
+Parses [Lua](https://www.lua.org/) [5.3](https://www.lua.org/manual/5.3/) source files with the [combined experimental Lua grammar](#lua53hpp).
+Uses the command line arguments as files to parse.
 
 ###### `modulus_match.cpp`
 
 Shows how to [implement a parsing rule from scratch](Rules-and-Grammars.md#implementing-rules), in this case using the [simplified calling convention](Rules-and-Grammars.md#simple-match).
+Parses its command line arguments.
+
+```
+$ build/bin/example/modulus_match a b c
+   'a' is NOT a match
+   'b' is NOT a match
+   'c' is a match
+```
 
 ###### `parse_tree.cpp`
 
-A small example which shows how to create a parse tree for a given grammar using [`<tao/pegtl/contrib/parse_tree.hpp>`](Parse-Tree.md).
+An example for how to create a parse tree using [`<tao/pegtl/contrib/parse_tree.hpp>`](Parse-Tree.md) with a simple expression grammar.
 
 The example shows how to choose which rules will produce a parse tree node, which rules will store the content, and how to add additional transformations to the parse tree to transform it into an AST-like structure or to simplify it.
 
@@ -314,9 +444,14 @@ The above will generate an SVG file with a graphical representation of the parse
 
 ![Parse Tree](Parse-Tree.svg)
 
-###### `proto3.cpp`
+###### `proto3_analyze.cpp`
 
-Experimental grammar that parses Protocol Buffers (`.proto3`) files.
+Performs a grammar analysis on the [Protocol Buffers (proto 3) grammar](#proto3hpp) to check for problems.
+
+###### `proto3_parse.cpp`
+
+Shows how to parse [Protocol Buffers](https://protobuf.dev/programming-guides/proto3/) files with the [Protocol Buffers (proto 3) grammar](#proto3hpp).
+Uses the command line arguments as files to parse.
 
 ###### `recover.cpp`
 

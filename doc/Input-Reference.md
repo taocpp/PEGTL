@@ -21,6 +21,7 @@ The [stream](Stream-Parsing.md) inputs are [documented here](Stream-Parsing.md#i
   * [Text Read Input](#text-read-input)
   * [Text Mmap Input](#text-mmap-input)
 * [Input Adapters](#input-adapters)
+  * [Input with Depth](#input-with-depth)
   * [Input with Offset](#input-with-offset)
 * [Index](#index)
 
@@ -956,7 +957,55 @@ text_mmap_input( Args...&& ) -> text_mmap_input< default_eol, char >;
 
 ## Input Adapters
 
+### Input with Depth
+
+An input adapter that adds a depth counter for use with [`check_depth`](Action-Reference.md#check_depth-n-) to limit the rule recursion depth during a parsing run.
+
+```c++
+template< typename Input >
+class input_with_depth
+   : public Input
+{
+public:
+   using Input::Input;
+
+   [[nodiscard]] internal::depth_guard make_depth_guard() noexcept;
+   [[nodiscard]] std::size_t current_depth() const noexcept;
+};
+```
+
 ### Input with Offset
+
+An input adapter that keeps an offset position that is added to all positions reported by the input.
+Both `current_position()` and `previous_position()` return the same position type as `Input`'s functions.
+
+```c++
+template< typename Input >
+class input_with_offset
+   : public Input
+{
+public:
+   using data_t = typename Input::data_t;
+   using error_position_t = typename Input::error_position_t;
+   using offset_position_t = typename Input::offset_position_t;
+   using rewind_position_t = typename Input::rewind_position_t;
+#if defined( __cpp_exceptions )
+   using parse_error_t = parse_error< error_position_t >;
+#endif
+
+   template< typename... Ts >
+   explicit input_with_offset( offset_position_t&& s, Ts&&... ts );
+
+   template< typename... Ts >
+   explicit input_with_offset( const offset_position_t& s, Ts&&... ts );
+
+   [[nodiscard]] auto current_position() const;
+   [[nodiscard]] auto previous_position( const rewind_position_t& saved ) const;
+   [[nodiscard]] const offset_position_t& direct_offset() const noexcept;
+
+   void direct_position() const = delete;
+};
+```
 
 
 ## Index
@@ -965,6 +1014,7 @@ text_mmap_input( Args...&& ) -> text_mmap_input< default_eol, char >;
 * [Base Input](#base-input) <sup>[(input)](#inputs)</sup>
 * [Copy Input](#copy-input) <sup>[(input)](#inputs)</sup>
 * [File Input](#file-input) <sup>[(input)](#inputs)</sup>
+* [Input with Depth](#input-with-depth) <sup>[(input adapters)](#input-adapters)</sup>
 * [Input with Offset](#input-with-offset) <sup>[(input adapters)](#input-adapters)</sup>
 * [Mmap Input](#mmap-input) <sup>[(input)](#inputs)</sup>
 * [Read Input](#read-input) <sup>[(input)](#inputs)</sup>
