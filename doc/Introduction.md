@@ -149,15 +149,14 @@ If you are using something deprecated please either copy it to your project and 
 
 | Directory | Contents |
 | --------- | -------- |
-| `include/tao/` | Library directory |
-| `include/tao/pegtl/` | Core headers |
+| `include/tao/pegtl.hpp` | Core header "include all" |
 | `include/tao/pegtl/action/` | [Additional actions](Action-Reference.md) |
 | `include/tao/pegtl/binary/` | [Binary rules](Rule-Reference.md#binary) |
 | `include/tao/pegtl/control/` | [Additional controls](Control-Reference.md) |
 | `include/tao/pegtl/debug/` | [Debug facilities](Debug-Facilities.md) |
-| `include/tao/pegtl/deprecated/` | Deprecated headers |
-| `include/tao/pegtl/example/` | Example grammars |
-| `include/tao/pegtl/extra/` | Extra headers |
+| `include/tao/pegtl/deprecated/` | [Deprecated headers](Extra-Reference.md#deprecated) |
+| `include/tao/pegtl/example/` | [Example grammars](Example-Reference.md) |
+| `include/tao/pegtl/extra/` | [Extra headers](Extra-Reference.md) |
 | `include/tao/pegtl/stream/` | [Stream parsing](Stream-Parsing.md) |
 | `include/tao/pegtl/unicode/` | [Unicode rules](Rule-Reference.md#unicode) |
 
