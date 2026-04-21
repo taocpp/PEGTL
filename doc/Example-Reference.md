@@ -5,7 +5,7 @@ The reference documentation for the included example grammars and programs.
 
 ## Contents
 
-* [Preamble(#preamble)
+* [Preamble](#preamble)
 * [Grammars](#grammars)
 * [Programs](#programs)
 * [Index](#index)
@@ -21,58 +21,58 @@ The examples are not considered part of the public interface subject to semantic
 
 The example grammars reside in [`include/tao/pegtl/example/`](../include/tao/pegtl/example).
 
-###### `abnf_abnf.hpp`
+###### [`abnf_abnf.hpp`](../include/tao/pegtl/example/abnf_abnf.hpp)
 
 Grammar for ABNF rules according to Section 4 of [RFC 5234](https://tools.ietf.org/html/rfc5234) as updated by [RFC 7405](https://tools.ietf.org/html/rfc7405).
 
  * Extended with PEG 'and' and 'not' predicates.
  * Modified to not allow C++ keywords as rule names.
 
-###### `abnf_core.hpp`
+###### [`abnf_core.hpp`](../include/tao/pegtl/example/abnf_core.hpp)
 
 Rules for the ABNF core rules according to Appendix B.1 of [RFC 5234, Appendix B](https://tools.ietf.org/html/rfc5234).
 
-###### `escaped.hpp`
+###### [`escaped.hpp`](../include/tao/pegtl/example/escaped.hpp)
 
 Rules for escape sequences in C and JSON strings ready for the [unescape actions](Extra-Reference.md#unescapehpp).
 
-###### `fp.hpp`
+###### [`fp.hpp`](../include/tao/pegtl/example/fp.hpp)
 
 A grammar for the textual representation of floating point numbers, suitable for `std::stod()` (without locale support).
 
-###### `http.hpp`
+###### [`http.hpp`](../include/tao/pegtl/example/http.hpp)
 
 HTTP 1.1 grammar according to [RFC 7230](https://tools.ietf.org/html/rfc7230).
 
-###### `integer.hpp`
+###### [`integer.hpp`](../include/tao/pegtl/example/integer.hpp)
 
 Various rules for the textual representation of integer values; the old `include/tao/pegtl/contrib/integer.hpp` is now `include/tao/pegtl/deprecated/integer.hpp`.
 
-###### `iri.hpp`
+###### [`iri.hpp`](../include/tao/pegtl/example/iri.hpp)
 
 IRI grammar according to [RFC 3987](https://tools.ietf.org/html/rfc3987).
 
-###### `json.hpp`
+###### [`json.hpp`](../include/tao/pegtl/example/json.hpp)
 
 JSON grammar according to [RFC 7159](https://tools.ietf.org/html/rfc7159) (UTF-8 only).
 
-###### `json_pointer.hpp`
+###### [`json_pointer.hpp`](../include/tao/pegtl/example/json_pointer.hpp)
 
 JSON pointer grammar according to [RFC 6901](https://tools.ietf.org/html/rfc6901) (UTF-8 only).
 
-###### `lua53.hpp`
+###### [`lua53.hpp`](../include/tao/pegtl/example/lua53.hpp)
 
 Grammar for the [Lua](https://lua.org) [5.3](https://lua.org/manual/5.3/) scripting language that combines lexer and parser.
 
-###### `proto3.hpp`
+###### [`proto3.hpp`](../include/tao/pegtl/example/proto3.hpp)
 
 Grammar for [Protocol Buffers (Proto3)](https://developers.google.com/protocol-buffers/docs/reference/proto3-spec).
 
-###### `semver2.hpp`
+###### [`semver2.hpp`](../include/tao/pegtl/example/semver2.hpp)
 
 Grammar for [SemVer Versions 2.0.0](https://semver.org/#backusnaur-form-grammar-for-valid-semver-versions).
 
-###### `uri.hpp`
+###### [`uri.hpp`](../include/tao/pegtl/example/uri.hpp)
 
 URI grammar according to [RFC 3986](https://tools.ietf.org/html/rfc3986).
 
@@ -81,7 +81,7 @@ URI grammar according to [RFC 3986](https://tools.ietf.org/html/rfc3986).
 
 The example programs can be found in [`src/example/`](../src/example).
 
-###### `abnf2pegtl.cpp`
+###### [`abnf2pegtl.cpp`](../src/example/abnf2pegtl.cpp)
 
 Parses [ABNF (RFC 5234)](https://tools.ietf.org/html/rfc5234)-style grammars with the [ABNF grammar](#abnfpp) and converts them into C++ PEGTL rules.
 Uses the command line arguments as files to parse.
@@ -94,7 +94,7 @@ Some extensions and restrictions compared to RFC 5234:
  * Reserved identifiers (keywords, ...) are rejected.
  * Numerical values must fit into the corresponding C++ data type.
 
-###### `abnf_record.cpp`
+###### [`abnf_record.cpp`](../src/example/abnf_record.cpp)
 
 Shows how to create a linearized [record](TODO) of a parsing run with the [ABNF grammar](#abnfhpp).
 Uses the command line arguments as files to parse.
@@ -107,11 +107,11 @@ tao::pegtl::abnf::rulename@4:23(115) 'rule'
 ...
 ```
 
-###### `analyze.cpp`
+###### [`analyze.cpp`](../src/example/analyze.cpp)
 
 A small example that provokes the [grammar analysis](Grammar-Analysis.md) to find problems.
 
-###### `calculator.cpp`
+###### [`calculator.cpp`](../src/example/calculator.cpp)
 
 A calculator with all binary operators from the C language that shows
 
@@ -130,40 +130,81 @@ In this example the grammar takes a bit of a second place behind the infrastruct
 The basic approach is "shift-reduce", which is very close to a stack machine, which is a model often well suited to PEGTL grammar actions:
 Some actions merely push something onto a stack, while other actions apply some functions to the objects on the stack, usually reducing its size.
 
-###### `chomsky_hierarchy.cpp`
+###### [`chomsky_hierarchy.cpp`](../src/example/chomsky_hierarchy.cpp)
 
 Examples of grammars for regular, context-free, and context-sensitive languages.
 
-###### `csv1.cpp` and `src/example/csv2.cpp`
+###### [`csv1.cpp`](../src/example/csv1.cpp)
+###### [`csv2.cpp`](../src/example/csv2.cpp)
 
-Two simple examples for grammars that parse different kinds of CSV-style file formats.
+Two simple examples for grammars that parse different kinds of [CSV-style](https://en.wikipedia.org/wiki/Comma-separated_values) file formats.
 
-###### `hello_world.cpp`
+###### [`hello_world.cpp`](../src/example/hello_world.cpp)
 
 The reverse "hello world" example from the [introduction](Introduction.md).
 
-###### `indent_aware.cpp`
+###### [`indent_aware.cpp`](../src/example/indent_aware.cpp)
 
 Shows one approach to implementing an indentation-aware language with a very very small subset of Python.
 
-###### `json_parse.cpp`
+###### [`json_analyze.cpp`](../src/example/json_analyze.cpp)
 
-Shows how to use the custom error messages defined in `json_errors.hpp` with the `<tao/pegtl/contrib/json.hpp>` grammar to parse command line arguments as JSON data.
+Performs a grammar analysis on the JSON [grammar](Example-Reference.md#jsonhpp) to check for problems.
 
-###### `json_build.cpp`
+###### [`json_ast.cpp`](../src/example/json_ast.cpp)
+
+TODO
+
+###### [`json_build.cpp`](../src/example/json_build.cpp)
 
 Extends on `json_parse.cpp` by parsing JSON files into generic JSON data structure.
 
-###### `json_count.cpp`
+###### [`json_count.cpp`](../src/example/json_count.cpp)
 
 Shows how to use a simple custom control to create some parsing statistics while parsing JSON files.
 
-###### `lua53_parse.cpp`
+###### [`json_coverage.cpp`](../src/example/json_coverage.cpp)
 
-Parses [Lua](https://www.lua.org/) [5.3](https://www.lua.org/manual/5.3/) source files with the [combined experimental Lua grammar](#lua53hpp).
+TODO
+
+###### [`json_parse.cpp`](../src/example/json_parse.cpp)
+
+Shows how to use the custom error messages defined in `json_errors.hpp` with the JSON [grammar](Example-Reference.md#jsonhpp) to parse command line arguments as JSON data.
+
+###### [`json_print_debug.cpp`](../src/example/json_print_debug.cpp)
+
+TODO
+
+###### [`json_print_names.cpp`](../src/example/json_print_names.cpp)
+
+TODO
+
+###### [`json_record.cpp`](../src/example/json_record.cpp)
+
+TODO
+
+###### [`json_stream.cpp`](../src/example/json_stream.cpp)
+
+TODO
+
+###### [`json_tokens.cpp`](../src/example/json_tokens.cpp)
+
+TODO
+
+###### [`json_trace.cpp`](../src/example/json_trace.cpp)
+
+TODO
+
+###### [`lua53_analyze.cpp`](../src/example/lua53_analyze.cpp)
+
+Performs a grammar analysis on the [Lua](https://www.lua.org/) [5.3](https://www.lua.org/manual/5.3/ [grammar](Example-Reference.md#lua53hpp) to check for problems.
+
+###### [`lua53_parse.cpp`](../src/example/lua53_parse.cpp)
+
+Parses [Lua](https://www.lua.org/) [5.3](https://www.lua.org/manual/5.3/) source files with the [combined experimental Lua grammar](Example-Reference.md#lua53hpp).
 Uses the command line arguments as files to parse.
 
-###### `modulus_match.cpp`
+###### [`modulus_match.cpp`](../src/example/modulus_match.cpp)
 
 Shows how to [implement a parsing rule from scratch](Rules-and-Grammars.md#implementing-rules), in this case using the [simplified calling convention](Rules-and-Grammars.md#simple-match).
 Parses its command line arguments.
@@ -175,7 +216,7 @@ $ build/bin/example/modulus_match a b c
    'c' is a match
 ```
 
-###### `parse_tree.cpp`
+###### [`parse_tree.cpp`](../src/example/parse_tree.cpp)
 
 An example for how to create a parse tree using [`<tao/pegtl/contrib/parse_tree.hpp>`](Parse-Tree.md) with a simple expression grammar.
 
@@ -191,30 +232,30 @@ The above will generate an SVG file with a graphical representation of the parse
 
 ![Parse Tree](Parse-Tree.svg)
 
-###### `proto3_analyze.cpp`
+###### [`proto3_analyze.cpp`](../src/example/proto3_analyze.cpp)
 
 Performs a grammar analysis on the [Protocol Buffers (proto 3) grammar](#proto3hpp) to check for problems.
 
-###### `proto3_parse.cpp`
+###### [`proto3_parse.cpp`](../src/example/proto3_parse.cpp)
 
 Shows how to parse [Protocol Buffers](https://protobuf.dev/programming-guides/proto3/) files with the [Protocol Buffers (proto 3) grammar](#proto3hpp).
 Uses the command line arguments as files to parse.
 
-###### `recover.cpp`
+###### [`recover.cpp`](../src/example/recover.cpp)
 
 An experiment in recovering from parse failures, see [PEGTL issue 55](https://github.com/taocpp/PEGTL/issues/55) and the source code for a description.
 
-###### `s_expression.cpp`
+###### [`s_expression.cpp`](../src/example/s_expression.cpp)
 
 Defines a simplified S-expression grammar TODO
 Parses its command line arguments.
 
-###### `semver2_parse.cpp`
+###### [`semver2_parse.cpp`](../src/example/semver2_parse.cpp)
 
 Shows the [SemVer Version grammar](#semver2hpp) in action.
 Parses its command line arguments.
 
-###### `sum.cpp`
+###### [`sum.cpp`](../src/example/sum.cpp)
 
 Shows how to add comma-separated lists of floating-point numbers taken from `std::cin`.
 
@@ -227,7 +268,7 @@ Type [q or Q] to quit
 parsing OK; sum = 42006.14159
 ```
 
-###### `symbol_table.cpp`
+###### [`symbol_table.cpp`](../src/example/symbol_table.cpp)
 
 Shows how to parse and store integers in a simple symbol table.
 Each symbol needs to be defined before it is assigned to.
@@ -244,15 +285,12 @@ bar = 23
 foo = 42
 ```
 
-###### `token_input_1.cpp`
+###### [`token_input_1.cpp`](../src/example/token_input_1.cpp)
+###### [`token_input_2.cpp`](../src/example/token_input_2.cpp)
 
-Shows how to parse a sequence of tokens, rather than the usual sequence of `char`, where each token consist of an enum and a string.
+Show how to parse a sequence of tokens, rather than the usual sequence of `char`, where each token consists of an enum and a string.
 
-###### `token_input_2.cpp`
-
-Shows how to parse a sequence of tokens, rather than the usual sequence of `char`, where each token consist of an enum and a string.
-
-###### `unescape.cpp`
+###### [`unescape.cpp`](../src/example/unescape.cpp)
 
 Uses the building blocks from `<tao/pegtl/contrib/unescape.hpp>` to show how to actually unescape a string literal with various typical escape sequences.
 Parses its command line arguments.
@@ -264,20 +302,20 @@ argv[ 2 ] = X"Y
 argv[ 3 ] = X"Y
 ```
 
-###### `uri_print_debug.cpp`
+###### [`uri_print_debug.cpp`](../src/example/uri_print_debug.cpp)
 
 Shows how to use `print_debug()` from `include/tao/pegtl/debug/print.hpp` to print all rules of the [URI grammar](#urihpp).
 
-###### `uri_print_names.cpp`
+###### [`uri_print_names.cpp`](../src/example/uri_print_names.cpp)
 
 Shows how to use `print_names()` from `include/tao/pegtl/debug/print.hpp` to print all rules of the [URI grammar](#urihpp).
 
-###### `uri_struct.cpp`
+###### [`uri_struct.cpp`](../src/example/uri_struct.cpp)
 
 Shows how to use the [URI grammar](#urihpp) to parse a [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) into a data structure.
 Parses its command line arguments.
 
-###### `uri_trace.cpp`
+###### [`uri_trace.cpp`](../src/example/uri_trace.cpp)
 
 Shows how to use `complete_trace` from `include/tao/pegtl/debug.trace.hpp` to parse a [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) with a complete trace.
 Parses its command line arguments.

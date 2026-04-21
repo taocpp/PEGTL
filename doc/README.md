@@ -1,4 +1,4 @@
-# PEGTL Documentation
+# Documentation
 
 The [Parsing Expression Grammar Template Library](https://github.com/taocpp/PEGTL) (PEGTL) is a zero-dependency [C++](https://en.cppreference.com/w/cpp.html) header-only [parser combinator](https://en.wikipedia.org/wiki/Parser_combinator) library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
