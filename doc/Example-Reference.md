@@ -19,7 +19,7 @@ The examples are not considered part of the public interface subject to semantic
 
 ## Grammars
 
-The example grammars reside in `include/tao/pegtl/example/`.
+The example grammars reside in [`include/tao/pegtl/example/`](../include/tao/pegtl/example).
 
 ###### `abnf_abnf.hpp`
 
@@ -34,7 +34,7 @@ Rules for the ABNF core rules according to Appendix B.1 of [RFC 5234, Appendix B
 
 ###### `escaped.hpp`
 
-Rules for escape sequences in C and JSON strings ready for [the unescape actions](#unescape).
+Rules for escape sequences in C and JSON strings ready for the [unescape actions](Extra-Reference.md#unescapehpp).
 
 ###### `fp.hpp`
 
@@ -79,7 +79,7 @@ URI grammar according to [RFC 3986](https://tools.ietf.org/html/rfc3986).
 
 ## Programs
 
-The example programs can be found in `src/example/`.
+The example programs can be found in [`src/example/`](../src/example).
 
 ###### `abnf2pegtl.cpp`
 

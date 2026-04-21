@@ -1,22 +1,24 @@
 # Object Parsing
 
-The PEGTL can parse more than just sequences of characters, it can also parse integers, enums, and arbitrary objects.
+The PEGTL can parse more than just sequences of characters, it can also parse binary data and arbitrary objects.
 
 
 ## Contents
 
-* [Integers and Enums](#integers-and-enums)
+* [Binary and Enums](#binary-and-enums)
 * [Arbitrary Objects](#arbitrary-objects)
 
 
-## Integers and Enums
+## Binary and Enums
 
-TODO...
+There are [rules dedicated](Rule-Reference.md#binary) to parsing binary data in the form of integers and enums.
 
 
 ## Arbitrary Objects
 
-TODO...
+There are [rules dedicated](Rule-Reference.md#member) to parsing arbitrary objects by applying predicates to their members.
+
+See the two example programs `src/example/token_input_1.cpp` and `src/example/token_input_2.cpp` for how to put everything together.
 
 
 ---

@@ -1,6 +1,6 @@
 # Development
 
-Public notes on past, present and future development of the PEGTL.
+Public notes on the past, present and future development of the PEGTL.
 
 ### C++ Standard
 

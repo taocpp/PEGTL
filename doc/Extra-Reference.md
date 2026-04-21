@@ -20,9 +20,9 @@ The deprecated headers contains functionality from previous versions that was no
 
 ## Extras
 
-The extras can be found in `include/tao/pegtl/extra/`.
+The extras can be found in [`include/tao/pegtl/extra/`](../include/tao/pegtl/extra).
 
-###### `charconv.hpp`
+###### [`charconv.hpp`](../include/tao/pegtl/extra/charconv.hpp)
 
 Provides string-to-integer conversion based on [`std::from_chars()`]](https://en.cppreference.com/w/cpp/utility/from_chars.html) from the standard [`<charconv>`](https://en.cppreference.com/w/cpp/header/charconv.html) header.
 The classes defined in this header implement both the `match()` function to serve as rule **and** the `apply()` function to serve as action.
@@ -55,7 +55,7 @@ The `_throws` vs. `_nothrow_` suffix chooses between failing locally, i.e. retur
 When `Integral` is `void` both `apply()` and `match()` use the type of their first state argument
 Further, `match()` ignores the `apply_mode` and the first state argument must always be of mutable integral type.
 
-###### `nested_exceptions.hpp`
+###### [`nested_exceptions.hpp`](../include/tao/pegtl/extra/nested_exceptions.hpp)
 
 The `visit_nested` functions call the visitor once for every exception, including the first/outer one.
 The visitor is called first with the inner-most exception, the one that was thrown first from furthest down/inside the call stack, and a nesting count corresponding to the total number of exceptions minus 1.
@@ -93,14 +93,14 @@ template< typename Exception >
 [[nodiscard]] std::vector< std::string > flatten_what( const std::exception& );
 ```
 
-###### `parse_tree.hpp`
-###### `parse_tree_to_dot.hpp`
+###### [`parse_tree.hpp`](../include/tao/pegtl/extra/parse_tree.hpp)
+###### [`parse_tree_to_dot.hpp`](../include/tao/pegtl/extra/parse_tree_to_dot.hpp)
 
 The [parse tree has its own dedicated page](Parse-Tree.md).
 
-###### `raw_string.hpp`
+###### [`raw_string.hpp`](../include/tao/pegtl/extra/raw_string.hpp)
 
-###### `record.hpp`
+###### [`record.hpp`](../include/tao/pegtl/extra/record.hpp)
 
 Builds on [`dispatch.hpp`](#dispatchhpp) to build a linear record of a parsing run.
 For each successful match of a selected rule the vector contains an entry with a kind of `view_input` to represent the matched input, and the name of the rule that matched.
@@ -143,7 +143,7 @@ struct record
 };
 ```
 
-###### `type_to_string.hpp`
+###### [`type_to_string.hpp`](../include/tao/pegtl/extra/type_to_string.hpp)
 
 Functions to convert compile-time sequences of `char` into a `std::string` or `std::string_view`.
 
@@ -163,9 +163,9 @@ template< char... Cs >
 
 The overloads that take a single type can be used with `tao::pegtl::string<>` or any other type that takes a sequence of `char` as template parameters.
 
-###### `unescape.hpp`
+###### [`unescape.hpp`](../include/tao/pegtl/extra/unescape.hpp)
 
-A mostly just repackaged iteration of the previous unescape header which can now be found in `deprecated/unescape.hpp`.
+A slightly refactored version of the previous unescape header which is now moved to `deprecated/unescape.hpp`.
 
 It defines individual action classes for common unescape operations as well as an action class template that attaches these actions to corresponding grammar rules.
 
@@ -203,24 +203,26 @@ The action template `unescape<>` is set up with the usual default
 template< typename Rule > unescape< Rule > : nothing< Rule > {};
 ```
 
-It has specializations for some general rules that it might be used with and for some more specific rules taken from `include/tao/pegtl/example/escaped.hpp`.
+and some useful specializations for some generic rules and some specific rules defined in [`include/tao/pegtl/example/escaped.hpp`](Example-Reference.md#escapedhpp).
 Please check out `include/tao/pegtl/extra/unescape.hpp` to see which individual unescape action is attached to which rule by `unescape<>`.
 
 
 ## Deprecated
 
-The deprecated headers can be found in `include/tao/pegtl/deprecated/`.
+The deprecated headers can be found in [`include/tao/pegtl/deprecated/`](../include/tao/pegtl/deprecated).
 For now.
 
-###### `alphabet.hpp`
+###### [`alphabet.hpp`](../include/tao/pegtl/deprecated/alphabet.hpp)
 
-###### `if_then.hpp`
+###### [`if_then.hpp`](../include/tao/pegtl/deprecated/if_then.hpp)
 
-###### `rep_one_min_max.hpp`
+###### [`integer.hpp`](../include/tao/pegtl/deprecated/integer.hpp)
 
-###### `rep_string.hpp`
+###### [`rep_one_min_max.hpp`](../include/tao/pegtl/deprecated/rep_one_min_max.hpp)
 
-###### `unescape.hpp`
+###### [`rep_string.hpp`](../include/tao/pegtl/deprecated/rep_string.hpp)
+
+###### [`unescape.hpp`](../include/tao/pegtl/deprecated/unescape.hpp)
 
 
 ## Index
