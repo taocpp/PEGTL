@@ -15,7 +15,7 @@ The actions not considered part of the core library are [documented here](TODO).
 ## Preamble
 
 Only `include/tao/pegtl/nothing.hpp`, which defines `nothing` and `maybe_nothing`, is automatically included with `<tao/pegtl.hpp>`.
-For all other actions the appropriate headers from `include/tao/pegtl/action/` need to be included manually.
+For all other actions the appropriate headers from [`include/tao/pegtl/action/`](../include/tao/pegtl/action) need to be included manually.
 
 The action classes shown below are selectively attached in the usual way.
 For example we can invoke [`change_action`](#change_action-a-) to switch the parsing run from `my_action` to `other_action` while parsing `some_rule` as follows.
@@ -79,7 +79,7 @@ This pattern is used throughout the PEGTL and is the reason for all action and c
 
 By [default](Introduction.md#namespace-structure) all action classes and class templates reside in namespace `tao::pegtl`.
 
-###### `add_guard< G >`
+###### [`add_guard< G >`](../include/tao/pegtl/action/add_guard.hpp)
 
 * Creates an object of type `G` before parsing the rule `R` it is attached to.
 * If `G` can be default-constructed it will be, or
@@ -113,7 +113,7 @@ struct add_guard
 };
 ```
 
-###### `add_state< S >`
+###### [`add_state< S >`](../include/tao/pegtl/action/add_state.hpp)
 
 * Creates an object of type `S` before parsing the rule `R` it is attached to.
 * Adds this new object of type `S` as first state object while parsing `R`.
@@ -133,7 +133,7 @@ struct add_state
 { ... };
 ```
 
-###### `change_action< A >`
+###### [`change_action< A >`](../include/tao/pegtl/action/change_action.hpp)
 
 * Parses the rule it is attached to substituting `A` as current action.
 * Does **not** change the current `apply_mode`.
@@ -149,7 +149,7 @@ struct change_action
 { ... };
 ```
 
-###### `change_action_and_state< A, S >`
+###### [`change_action_and_state< A, S >`](../include/tao/pegtl/action/change_action_and_state.hpp)
 
 * Parses the rule it is attached to substituting `A` as current action.
 * Does **not** change the current `apply_mode`.
@@ -170,7 +170,7 @@ struct change_action_and_state
 { ... };
 ```
 
-###### `change_action_and_states< A, S... >`
+###### [`change_action_and_states< A, S... >`](../include/tao/pegtl/action/change_action_and_states.hpp)
 
 * Combines [`change_action`](#change_action-a-) and [`change_states`](#change_states-s-) into a single action.
 * Parses the rule it is attached to substituting `A` as current action.
@@ -191,7 +191,7 @@ struct change_action_and_states
 { ... };
 ```
 
-###### `change_control< C >`
+###### [`change_control< C >`](../include/tao/pegtl/action/change_control.hpp)
 
 * Parses the rule it is attached to substituting `C` as current control.
 * Non-intrusive action equivalent of the [`control`](Rule-Reference.md#control-c-r-) rule.
@@ -206,7 +206,7 @@ struct change_control
 { ... };
 ```
 
-###### `change_rule< R >`
+###### [`change_rule< R >`](../include/tao/pegtl/action/change_rule.hpp)
 
 * Parses this action's template parameter instead of the rule this action is attached to.
 * Included via `include/tao/pegtl/action/change_rule.hpp`.
@@ -223,7 +223,7 @@ struct change_rule
 > [!CAUTION]
 > The change made by this action is invisible to the [grammar analysis](Debug-Facilities.md#grammar-analysis).
 
-###### `change_state< S >`
+###### [`change_state< S >`](../include/tao/pegtl/action/change_state.hpp)
 
 * Creates an object of type `S` before parsing the rule `R` it is attached to.
 * Uses the new object of type `S` as **only** state object while parsing `R`.
@@ -241,7 +241,7 @@ struct change_state
 { ... };
 ```
 
-###### `change_states< S... >`
+###### [`change_states< S... >`](../include/tao/pegtl/action/change_states.hpp)
 
 * Creates objects of types `S...` before parsing the rule `R` it is attached to.
 * Uses the new objects of types `S...` as state objects while parsing `R`.
@@ -259,7 +259,7 @@ struct change_states
 { ... };
 ```
 
-###### `check_consume< N >`
+###### [`check_consume< N >`](../include/tao/pegtl/action/check_consume.hpp)
 
 * Checks how many input objects the rule it is attached to consumed.
 * Throws an exception when it consumed *more than* `N` input objects.
@@ -276,7 +276,7 @@ struct change_states
  { ... };
 ```
 
-###### `check_depth< N >`
+###### [`check_depth< N >`](../include/tao/pegtl/action/check_depth.hpp)
 
 * Limits the rule nesting depth for the rule(s) it is attached to.
 * Throws an exception when the nesting depth exceeds the limit.
@@ -291,7 +291,7 @@ struct change_states
  { ... };
 ```
 
-###### `control_action`
+###### [`control_action`](../include/tao/pegtl/action/control_action.hpp)
 
 * Adds the `start()`, `success()` and `failure()` control functions to the action.
 * Implements do-nothing default versions of these functions.
@@ -327,7 +327,7 @@ As in other cases where the PEGTL auto-detects the presence of `unwind()` its *a
    static void unwind( const ParseInput&, States&&... );
 ```
 
-###### `disable_action`
+###### [`disable_action`](../include/tao/pegtl/action/disable_action.hpp)
 
 * Parses the rule it is attached to with actions disabled:
 * Changes the current `apply_mode` to `apply_mode::disabled`.
@@ -342,7 +342,7 @@ struct disable_action
 { ... };
 ```
 
-###### `enable_action`
+###### [`enable_action`](../include/tao/pegtl/action/enable_action.hpp)
 
 * Parses the rule it is attached to with actions enabled:
 * Changes the current `apply_mode` to `apply_mode::enabled`.
@@ -357,7 +357,7 @@ struct enable_action
 { ... };
 ```
 
-###### `limit_consume< N >`
+###### [`limit_consume< N >`](../include/tao/pegtl/action/limit_consume.hpp)
 
 * Parses the rule it is attached to with the input limited to contain at most the next `N` objects.
 * Throws an exception when the rule consumes all `N` input objects (unless there are no more input objects).
@@ -375,7 +375,7 @@ struct enable_action
  { ... };
 ```
 
-###### `match_typed_state< T >`
+###### [`match_typed_state< T >`](../include/tao/pegtl/action/match_typed_state.hpp)
 
 * Parses the rule it is attached to with only the state of type `T`.
 * Included via `include/tao/pegtl/action/match_typed_state.hpp`.
@@ -390,7 +390,7 @@ struct match_typed_state
 { ... };
 ```
 
-###### `maybe_nothing`
+###### [`maybe_nothing`](../include/tao/pegtl/nothing.hpp)
 
 * A type alias for `tao::pegtl::nothing< void >`.
 * Included via `include/tao/pegtl/nothing.hpp` or `include/tao/pegtl.hpp`.
@@ -402,7 +402,7 @@ When `my_action< void >` has `tao::pegtl::nothing< void >` aka. `maybe_nothing` 
 using maybe_nothing = nothing< void >;
 ```
 
-###### `nothing< R >`
+###### [`nothing< R >`](../include/tao/pegtl/nothing.hpp)
 
 * A "do nothing" action, defined as an empty class template.
 * Included via `include/tao/pegtl/nothing.hpp` or `include/tao/pegtl.hpp`.
@@ -426,7 +426,7 @@ struct my_action
 // ... (partial) specialisations of my_action ...
 ```
 
-###### `require_apply`
+###### [`require_apply`](../include/tao/pegtl/action/require_apply.hpp)
 
 * An empty tag class related to actions, not an action itself.
 * Included via `include/tao/pegtl/action/require_apply.hpp`.
@@ -439,7 +439,7 @@ struct require_apply
 {};
 ```
 
-###### `require_apply0`
+###### [`require_apply0`](../include/tao/pegtl/action/require_apply0.hpp)
 
 * An empty tag class related to actions, not an action itself.
 * Included via `include/tao/pegtl/action/require_apply0.hpp`.
