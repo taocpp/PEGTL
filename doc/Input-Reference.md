@@ -57,6 +57,8 @@ The non-text inputs also have an `Eol` template parameter, however they only use
 
 ## Inputs
 
+By [default](Introduction.md#namespaces) all inputs reside in namespace `tao::pegtl`.
+
 ### Argv Input
 
 * Used to parse a single command line argument `argv[ n ]`.

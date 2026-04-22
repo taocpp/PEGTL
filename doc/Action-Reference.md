@@ -14,6 +14,8 @@ The actions not considered part of the core library are [documented here](TODO).
 
 ## Preamble
 
+By [default](Introduction.md#namespaces) all actionss reside in namespace `tao::pegtl`.
+
 Only `include/tao/pegtl/nothing.hpp`, which defines `nothing` and `maybe_nothing`, is automatically included with `<tao/pegtl.hpp>`.
 For all other actions the appropriate headers from [`include/tao/pegtl/action/`](../include/tao/pegtl/action) need to be included manually.
 

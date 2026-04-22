@@ -100,6 +100,38 @@ The [parse tree has its own dedicated page](Parse-Tree.md).
 
 ###### [`raw_string.hpp`](../include/tao/pegtl/extra/raw_string.hpp)
 
+Rules for parsing [Lua](https://lua.org)-style *long string literals*, also called *raw literals* because they do not support any escape sequences.
+
+The following descriptive points are taken verbatim from the [Lua](https://lua.org) documentation.
+
+* An "opening long bracket of level n" is defined as an opening square bracket followed by *n* equal signs followed by another opening square bracket. So, an opening long bracket of level 0 is written as `[[`, an opening long bracket of level 1 is written as `[=[`, and so on.
+* A "closing long bracket" is defined similarly; for instance, a closing long bracket of level 4 is written as `]====]`.
+* A "long literal" starts with an opening long bracket of any level and ends at the first closing long bracket of the same level. It can contain any text except a closing bracket of the same level.
+* Literals in this bracketed form can run for several lines, do not interpret any escape sequences, and ignore long brackets of any other level.
+* For convenience, when the opening long bracket is eagerly followed by a newline, the newline is not included in the string.
+
+Unlike Lua's long literal the `raw_string` rule is customizable to use other characters than `[`, `=` and `]` for matching the opening and closing long brackets.
+Also note that Lua introduced newline-specific replacements in Lua 5.2, which are not supported at the grammar level by the `raw_string` rule.
+
+The `raw_string` rule has a sub-type called `content` that actions should usally be bound to instead of binding to `raw_string` itself.
+Binding to `content` will call the action with the matched string excluding the opening and closing long brackets.
+
+```c++
+template< char Open, char Marker, char Close, typename... Contents >
+struct raw_string
+   // base is implementation detail
+{
+   // struct content; -- inherited
+};
+
+template< char Open, char Marker, char Close >
+struct raw_string< Open, Marker, Close >
+   // base is implementation detail
+{
+   // struct content; -- inherited
+};
+```
+
 ###### [`record.hpp`](../include/tao/pegtl/extra/record.hpp)
 
 Builds on [`dispatch.hpp`](#dispatchhpp) to build a linear record of a parsing run.
@@ -209,20 +241,29 @@ Please check out `include/tao/pegtl/extra/unescape.hpp` to see which individual 
 
 ## Deprecated
 
-The deprecated headers can be found in [`include/tao/pegtl/deprecated/`](../include/tao/pegtl/deprecated).
-For now.
+Deprecated headers can still be found in [`include/tao/pegtl/deprecated/`](../include/tao/pegtl/deprecated).
 
 ###### [`alphabet.hpp`](../include/tao/pegtl/deprecated/alphabet.hpp)
+
+Constants and rules for alphabetic ASCII characters.
 
 ###### [`if_then.hpp`](../include/tao/pegtl/deprecated/if_then.hpp)
 
 ###### [`integer.hpp`](../include/tao/pegtl/deprecated/integer.hpp)
 
+Rules and actions for integer parsing, replaced by [`charconv.hpp`](#charconvhpp).
+
 ###### [`rep_one_min_max.hpp`](../include/tao/pegtl/deprecated/rep_one_min_max.hpp)
+
+An optimized version of `tao::pegtl::rep_min_max< tao::pegtl::ascii::one< ... > >`.
 
 ###### [`rep_string.hpp`](../include/tao/pegtl/deprecated/rep_string.hpp)
 
+An optimized version of `tao::pegtl::rep< tao::pegtl::ascii::string< ... > >`.
+
 ###### [`unescape.hpp`](../include/tao/pegtl/deprecated/unescape.hpp)
+
+An older version of [`include/tao/pegtl/extra/unescape.hpp`](#unescapehpp).
 
 
 ## Index

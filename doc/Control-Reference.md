@@ -43,7 +43,7 @@ In cases where it is expected to be useful the `Control` parameter defaults to `
 
 ## Controls
 
-By [default](Introduction.md#namespace-structure) all controls reside in namespace `tao::pegtl`.
+By [default](Introduction.md#namespaces) all controls reside in namespace `tao::pegtl`.
 
 ###### [`apply_typed_state`](../include/tao/pegtl/control/apply_typed_state.hpp)
 
