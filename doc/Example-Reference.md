@@ -96,7 +96,7 @@ Some extensions and restrictions compared to RFC 5234:
 
 ###### [`abnf_record.cpp`](../src/example/abnf_record.cpp)
 
-Shows how to create a linearized [record](TODO) of a parsing run with the [ABNF grammar](#abnfhpp).
+Shows how to create a linearized [record](Extra-Reference.md#recordhpp) of a parsing run with the [ABNF grammar](#abnfhpp).
 Uses the command line arguments as files to parse.
 
 ```
@@ -153,7 +153,7 @@ Performs a grammar analysis on the JSON [grammar](Example-Reference.md#jsonhpp) 
 
 ###### [`json_ast.cpp`](../src/example/json_ast.cpp)
 
-TODO
+Combines the JSON [grammar](#jsonhpp) with the [parse tree](Parse-Tree.md) to build a generic data structure while parsing.
 
 ###### [`json_build.cpp`](../src/example/json_build.cpp)
 
@@ -165,7 +165,7 @@ Shows how to use a simple custom control to create some parsing statistics while
 
 ###### [`json_coverage.cpp`](../src/example/json_coverage.cpp)
 
-TODO
+Combines the JSON [grammar](#jsonhpp) with the [rule coverage](Debug-Reference.md#TODO) to show parsing statistics.
 
 ###### [`json_parse.cpp`](../src/example/json_parse.cpp)
 
@@ -173,27 +173,27 @@ Shows how to use the custom error messages defined in `json_errors.hpp` with the
 
 ###### [`json_print_debug.cpp`](../src/example/json_print_debug.cpp)
 
-TODO
+Calls the [`print_debug()`](Debug-Reference.md#grammar-print) function to list the rules of the JSON grammar.
 
 ###### [`json_print_names.cpp`](../src/example/json_print_names.cpp)
 
-TODO
+Calls the [`print_names()`](Debug-Reference.md#grammar-print) function to list the rules of the JSON grammar.
 
 ###### [`json_record.cpp`](../src/example/json_record.cpp)
 
-TODO
+Shows how to combine the JSON [grammar](#jsonhpp) with the record facility to create a linear record of selected rule matches.
 
 ###### [`json_stream.cpp`](../src/example/json_stream.cpp)
 
-TODO
+Shows how to use the JSON [grammar](#jsonhpp) with an auto-discarding [stream input](Stream-Parsing.md#inputs).
 
 ###### [`json_tokens.cpp`](../src/example/json_tokens.cpp)
 
-TODO
+Shows how to split JSON parsing into separate lexer and parser stages as is common when not using the [PEG](https://en.wikipedia.org/wiki/Parsing_expression_grammar) formalism.
 
 ###### [`json_trace.cpp`](../src/example/json_trace.cpp)
 
-TODO
+Combines the JSON [grammar](#jsonhpp) with the [trace parser](Debug-Reference.md#TODO) to show how to trace a parse.
 
 ###### [`lua53_analyze.cpp`](../src/example/lua53_analyze.cpp)
 
@@ -247,7 +247,8 @@ An experiment in recovering from parse failures, see [PEGTL issue 55](https://gi
 
 ###### [`s_expression.cpp`](../src/example/s_expression.cpp)
 
-Defines a simplified S-expression grammar TODO
+Defines and parses a simplified S-expression grammar.
+Also shows how to parse *include* files with [nested parsing](Inputs-and-Parsing.md#nested-parsing).
 Parses its command line arguments.
 
 ###### [`semver2_parse.cpp`](../src/example/semver2_parse.cpp)

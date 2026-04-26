@@ -24,8 +24,8 @@ The extras can be found in [`include/tao/pegtl/extra/`](../include/tao/pegtl/ext
 
 ###### [`charconv.hpp`](../include/tao/pegtl/extra/charconv.hpp)
 
-Provides string-to-integer conversion based on [`std::from_chars()`]](https://en.cppreference.com/w/cpp/utility/from_chars.html) from the standard [`<charconv>`](https://en.cppreference.com/w/cpp/header/charconv.html) header.
-The classes defined in this header implement both the `match()` function to serve as rule **and** the `apply()` function to serve as action.
+Provides string-to-integer conversion based on [`std::from_chars()`](https://en.cppreference.com/w/cpp/utility/from_chars.html) from the standard [`<charconv>`](https://en.cppreference.com/w/cpp/header/charconv.html) header.
+The classes defined in this header implement both the `match()` function for use as rule **and** the `apply()` function for use as action.
 
 Conversion classes for decimal and hexadecimal are provided, other bases can be selected via the appropriate template parameter.
 
@@ -37,23 +37,28 @@ template< typename Integral > struct from_xchars_throws : from_chars_throws< Int
 template< typename Integral > struct from_xchars_nothrow : from_chars_nothrow< Integral, 16 > {};
 ```
 
-The `Base` parameter is passed to `std::from_chars()` as fourth function argument unchanged.
+The `Base` parameter is passed to `std::from_chars()` as fourth function argument.
 It can be anything between 2 and 36, inclusive.
 
-Remember that `std::from_chars()` does **not**  allow a leading `+` and does **not** recognize the `0x` prefix for hexadecimal numbers.
+> [!NOTE]
+> Remember that `std::from_chars()` does **not**  allow a leading `+` and does **not** recognize the `0x` prefix for hexadecimal numbers.
 
-In both roles any additional state arguments are ignored, and `bool` is returned (as is mandatory for `match()` but optional for `apply()`).
+In both rules the functions accept arbitrary state arguments, and both return `bool` (as is mandatory for `match()` but optional for `apply()`).
+
+* If the first state argument is a mutable reference to `Integral` then it will be assigned the result of the string-to-integer conversion.
+* If the first state argument is of any other type it will be ignored -- together with any additional states.
 
 The `_throws` vs. `_nothrow_` suffix chooses between failing locally, i.e. returning `false`, when `std::from_chars()` returns `std::errc::result_out_of_range`, or failing globally, i.e. throwing an exception derived from `tao::pegtl::parse_error`.
 
+The template parameter `Integral` can also be `void`, which changes the behaviour slightly.
+In this case
 
+* the first state *must* be a mutable reference to any integer type supported by `std::from_chars()`,
+* and when used as rule the `apply_mode` is ignored and the conversion result always assigned to the first state.
 
- 1. Success is when a portion of the parse input, or, as action, the whole action input can be parsed to an integer by `std::from_chars()`. The functions return `true`.
- 2. Failure to match is when the parse input does not start with an integer, or the action input is not wholly an integer, respectively. The functions return `false`.
- 3. Overflow is when the integer being parsed does not fit into the target type. In this case the `_throws` or `nothrow` suffix comes into play and chooses whether to return `false` or throw a `parse_error`.
+###### [`dispatch.hpp`](../include/tao/pegtl/extra/dispatch.hpp)
 
-When `Integral` is `void` both `apply()` and `match()` use the type of their first state argument
-Further, `match()` ignores the `apply_mode` and the first state argument must always be of mutable integral type.
+An experimental approach to attaching actions to multiple rules with less code.
 
 ###### [`nested_exceptions.hpp`](../include/tao/pegtl/extra/nested_exceptions.hpp)
 
@@ -102,7 +107,7 @@ The [parse tree has its own dedicated page](Parse-Tree.md).
 
 Rules for parsing [Lua](https://lua.org)-style *long string literals*, also called *raw literals* because they do not support any escape sequences.
 
-The following descriptive points are taken verbatim from the [Lua](https://lua.org) documentation.
+The following descriptive of these kinds of string literals is copied from the [Lua](https://lua.org) documentation.
 
 * An "opening long bracket of level n" is defined as an opening square bracket followed by *n* equal signs followed by another opening square bracket. So, an opening long bracket of level 0 is written as `[[`, an opening long bracket of level 1 is written as `[=[`, and so on.
 * A "closing long bracket" is defined similarly; for instance, a closing long bracket of level 4 is written as `]====]`.
@@ -114,7 +119,7 @@ Unlike Lua's long literal the `raw_string` rule is customizable to use other cha
 Also note that Lua introduced newline-specific replacements in Lua 5.2, which are not supported at the grammar level by the `raw_string` rule.
 
 The `raw_string` rule has a sub-type called `content` that actions should usally be bound to instead of binding to `raw_string` itself.
-Binding to `content` will call the action with the matched string excluding the opening and closing long brackets.
+Binding to `content` will call the action with the matched string *excluding* the opening and closing long brackets.
 
 ```c++
 template< char Open, char Marker, char Close, typename... Contents >
@@ -235,7 +240,7 @@ The action template `unescape<>` is set up with the usual default
 template< typename Rule > unescape< Rule > : nothing< Rule > {};
 ```
 
-and some useful specializations for some generic rules and some specific rules defined in [`include/tao/pegtl/example/escaped.hpp`](Example-Reference.md#escapedhpp).
+and some useful specializations for some generic rules, and some specific rules defined in [`include/tao/pegtl/example/escaped.hpp`](Example-Reference.md#escapedhpp), that might be part of a rule for strings with escape sequences.
 Please check out `include/tao/pegtl/extra/unescape.hpp` to see which individual unescape action is attached to which rule by `unescape<>`.
 
 
@@ -248,6 +253,8 @@ Deprecated headers can still be found in [`include/tao/pegtl/deprecated/`](../in
 Constants and rules for alphabetic ASCII characters.
 
 ###### [`if_then.hpp`](../include/tao/pegtl/deprecated/if_then.hpp)
+
+Experimental combinators for arbitrary if-then-else rule cascades.
 
 ###### [`integer.hpp`](../include/tao/pegtl/deprecated/integer.hpp)
 

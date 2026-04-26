@@ -17,12 +17,6 @@
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   // The following types can be used as rule and/or action.
-   // When the parse or action input can't be parsed as integer
-   // it returns false in both roles, i.e. a local failure.
-   // For integer overflow the overflow_mode determines whether
-   // to return false or throw a parse_error exception.
-
    template< typename Integral, std::uint8_t Base, overflow_mode Over >
    struct from_chars_combo
       : internal::from_chars_rule< Integral, Base, Over >,
