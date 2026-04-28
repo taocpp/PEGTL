@@ -1,6 +1,6 @@
 # Debug Facilities
 
-Functions and classes to debug grammars and their run-time behavior.
+Functions and classes to debug grammars, both via their static properties and their run-time behavior.
 
 
 ## Contents
@@ -18,32 +18,38 @@ Functions and classes to debug grammars and their run-time behavior.
 
 ## Preamble
 
-The debug facilities fall into two general categories depending on whether they are concerned with static properties of the grammar *or* with the dynamic behavior during a parsing run.
+The [meta data](#meta-data) provides compile-time accessible information about rule classes, most importantly a list of sub-rules.
 
-The [parse trace](#parse-trace) and [rule coverage](#rule-coverage) fall into the second category while everything else only looks at the grammar.
+The [parse trace](#parse-trace) and [rule coverage](#rule-coverage) perform parsing runs with debug information either in the form of raw events or aggregated, respectively.
+
+The [grammar visit](#grammar-visit) uses the [meta data](#meta-data) to call functions for all rules of a grammar with example functions provided that print them all.
+
+The [grammar analysis](#grammar-analysis) is a function that checks a grammar for occurrences of infinite cycles without progress including left recursion.
 
 #### Namespaces
 
 Everything resides in namespace `tao::pegtl` unless noted otherwise.
 This default can be changed via the macro `TAO_PEGTL_NAMESPACE` in `include/tao/pegtl/config.hpp`.
-The namespace `tao::pegtl` is generally omitted on this page.
+As usual the namespace `tao::pegtl` is generally omitted on this page.
 
 
 ## Meta Data
 
-The debug facilities all make heavy use of the meta data found in the [type aliases](Rules-and-Grammars.md#type-aliases) `rule_t` and `subs_t` of every rule.
+The meta data provides compile-time accessible information about rule classes, most importantly a list of sub-rules.
+This meta data consists of the [type aliases](Rules-and-Grammars.md#type-aliases) `rule_t` and `subs_t` of every rule.
 
-Remember that for some rules `R` the type aliases `R::rule_t` and `R::subs_t` might not be as expected.
+> [!NOTE]
+> For some rules `R` the type aliases `R::rule_t` and `R::subs_t` are not what might be naively expected.
 
-An example for a rule with straightforward type aliases consider `R = seq< U, V >` where `R::rule_t` is `internal::seq< U, V >` and `R::subs_t` is `type_list< U, V >.
+For `R = seq< U, V >` the meta data type aliases are both as expected, i.e. `R::rule_t` is `internal::seq< U, V >` and `R::subs_t` is `type_list< U, V >.
 
-For an example where `R::rule_t` is different consider `R = seq<>` where `R::rule_t` is `internal::success`.
-This is due to `seq<>` being both equivalent to and implemented in terms of `success` via inheritance.
+For `R = seq<>` the meta data is an unexpected `R::rule_t` of `internal::success` but the expected `R::subs_t` of `empty_list`, i.e. `type_list<>`.
 
-For an example where `R::subs_t` is different consider `R = opt< U, V >` where `R::subs_t` is `type_list< internal::seq< U, V > >` and **not** `type_list< U, V >`.
-Several combinators follow this pattern for multiple sub-rules to simplify their respective implementation.
+For `R = opt< U, V >` we obtain an `R::rule_t` of `internal::partial< internal::seq< U, V > >` and consequently an `R::subs_t` of `type_list< internal::seq< U, V > >`.
 
-The "meta data and implementation mapping" sections in the [Rule Reference](Rule-Reference.md) show how `rule_t` and `subs_t` are defined for each and every rule.
+These examples show how, behind the scenes, rules or special cases of rules are implemented in terms of other rules.
+
+The respective "meta data and implementation mapping" sections in the [Rule Reference](Rule-Reference.md) show how `rule_t` and `subs_t` are defined for all rules.
 
 
 ## Parse Trace

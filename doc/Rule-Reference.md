@@ -952,9 +952,9 @@ These rules are in namespace `tao::pegtl`.
 * [Equivalent] to `sor< seq< R... >, success >`.
 * [Meta data] and [implementation] mapping:
   - `opt<>::rule_t` is `internal::success`
-  - `opt< R >::rule_t` is `internal::opt< R >`
+  - `opt< R >::rule_t` is `internal::partial< R >`
   - `opt< R >::subs_t` is `type_list< R >`
-  - `opt< R... >::rule_t` is `internal::opt< internal::seq< R... > >`
+  - `opt< R... >::rule_t` is `internal::partial< internal::seq< R... > >`
   - `opt< R... >::subs_t` is `type_list< internal::seq< R... > >`
 
 ###### `plus< R... >`
@@ -1006,9 +1006,9 @@ These rules are in namespace `tao::pegtl`.
 * [Equivalent] to `opt< plus< R... > >`.
 * `R` must be a non-empty rule pack.
 * [Meta data] and [implementation] mapping:
-  - `star< R >::rule_t` is `internal::star< R >`
+  - `star< R >::rule_t` is `internal::star_partial< R >`
   - `star< R >::subs_t` is `type_list< R >`
-  - `star< R... >::rule_t` is `internal::star< internal::seq< R... > >`
+  - `star< R... >::rule_t` is `internal::star_partial< internal::seq< R... > >`
   - `star< R... >::subs_t` is `type_list< internal::seq< R... > >`
 
 
