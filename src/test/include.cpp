@@ -16,7 +16,6 @@
 #include <tao/pegtl/eol_matched_tag.hpp>
 #include <tao/pegtl/eol_unknown_tag.hpp>
 #include <tao/pegtl/file_input.hpp>
-#include <tao/pegtl/forward.hpp>
 #include <tao/pegtl/inputs.hpp>
 #include <tao/pegtl/match.hpp>
 #include <tao/pegtl/member.hpp>
@@ -106,10 +105,7 @@
 
 #include <tao/pegtl/debug/analyze.hpp>
 #include <tao/pegtl/debug/analyze_traits.hpp>
-#include <tao/pegtl/debug/analyze_traits_base.hpp>
-#include <tao/pegtl/debug/analyze_traits_enum.hpp>
 #include <tao/pegtl/debug/coverage.hpp>
-#include <tao/pegtl/debug/internal.hpp>
 #include <tao/pegtl/debug/print.hpp>
 #include <tao/pegtl/debug/print_coverage.hpp>
 #include <tao/pegtl/debug/trace.hpp>

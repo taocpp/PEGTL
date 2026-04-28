@@ -2,14 +2,14 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_DEBUG_ANALYZE_TRAITS_ENUM_HPP
-#define TAO_PEGTL_DEBUG_ANALYZE_TRAITS_ENUM_HPP
+#ifndef TAO_PEGTL_DEBUG_INTERNAL_ANALYZE_ENUM_HPP
+#define TAO_PEGTL_DEBUG_INTERNAL_ANALYZE_ENUM_HPP
 
-#include "../config.hpp"
+#include "../../config.hpp"
 
-namespace TAO_PEGTL_NAMESPACE
+namespace TAO_PEGTL_NAMESPACE::internal
 {
-   enum class analyze_traits_enum
+   enum class analyze_enum
    {
       any,
       opt,
@@ -17,7 +17,7 @@ namespace TAO_PEGTL_NAMESPACE
       sor
    };
 
-}  // namespace TAO_PEGTL_NAMESPACE
+}  // namespace TAO_PEGTL_NAMESPACE::internal
 
 // FCOV_EXCL_FILE
 #endif

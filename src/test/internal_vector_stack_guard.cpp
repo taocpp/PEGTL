@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/debug/internal.hpp>
+#include <tao/pegtl/debug/internal/analyze_guards.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
 {

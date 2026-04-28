@@ -2,14 +2,14 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_DEBUG_INTERNAL_HPP
-#define TAO_PEGTL_DEBUG_INTERNAL_HPP
+#ifndef TAO_PEGTL_DEBUG_INTERNAL_ANALYZE_GUARDS_HPP
+#define TAO_PEGTL_DEBUG_INTERNAL_ANALYZE_GUARDS_HPP
 
 #include <set>
 #include <utility>
 #include <vector>
 
-#include "../config.hpp"
+#include "../../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

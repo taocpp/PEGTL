@@ -9,15 +9,49 @@
 #include <type_traits>
 
 #include "../config.hpp"
-#include "../forward.hpp"
 
 #include "../internal/dependent_false.hpp"
 #include "../internal/rules.hpp"
 
-#include "analyze_traits_base.hpp"
+#include "internal/analyze_enum.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
+  template< typename... Rules >
+   struct analyze_any_traits
+   {
+      // Consumption-on-success is always true; assumes bounded repetition of conjunction of sub-rules.
+      static constexpr auto enum_v = internal::analyze_enum::any;
+      using subs_t = type_list< Rules... >;
+   };
+
+   template< typename... Rules >
+   struct analyze_opt_traits
+   {
+      // Consumption-on-success not necessarily true; assumes bounded repetition of conjunction of sub-rules.
+      static constexpr auto enum_v = internal::analyze_enum::opt;
+      using subs_t = type_list< Rules... >;
+   };
+
+   template< typename... Rules >
+   struct analyze_seq_traits
+   {
+      // Consumption-on-success depends on consumption of (non-zero bounded repetition of) conjunction of sub-rules.
+      static constexpr auto enum_v = internal::analyze_enum::seq;
+      using subs_t = type_list< Rules... >;
+   };
+
+   template< typename... Rules >
+   struct analyze_sor_traits
+   {
+      // Consumption-on-success depends on consumption of (non-zero bounded repetition of) disjunction of sub-rules.
+      static constexpr auto enum_v = internal::analyze_enum::sor;
+      using subs_t = type_list< Rules... >;
+   };
+
+   template< typename Name, typename Rule, typename = void >
+   struct analyze_traits;
+
    template< typename Name, template< typename... > class Action, typename... Rules >
    struct analyze_traits< Name, internal::action< Action, Rules... > >
       : analyze_seq_traits< Rules... >
@@ -112,7 +146,11 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_any_traits<>
    {};
 
-   // No analyze_traits for internal::function<> for obvious reasons.
+   template< typename Name, typename Peek, typename Func, Func Tion >
+   struct analyze_traits< Name, internal::function< Peek, Func, Tion > >
+   {
+      static_assert( internal::dependent_false< Name >, "We cannot analyze function!" );
+   };
 
    template< typename Name, typename Rule, typename... Actions >
    struct analyze_traits< Name, internal::if_apply< Rule, Actions... > >

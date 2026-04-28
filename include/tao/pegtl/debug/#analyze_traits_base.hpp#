@@ -2,16 +2,17 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_FORWARD_HPP
-#define TAO_PEGTL_FORWARD_HPP
+#ifndef TAO_PEGTL_DEBUG_ANALYZE_TRAITS_BASE_HPP
+#define TAO_PEGTL_DEBUG_ANALYZE_TRAITS_BASE_HPP
 
-#include "config.hpp"
+#include "../config.hpp"
+#include "../type_list.hpp"
+
+#include "internal/analyze_enum.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename Name, typename Rule, typename = void >
-   struct analyze_traits;
-
+ 
 }  // namespace TAO_PEGTL_NAMESPACE
 
 // FCOV_EXCL_FILE
