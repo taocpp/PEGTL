@@ -7,6 +7,7 @@ Notes on incompatible changes that need to be taken into account when updating t
 
 Version 4.0 contains a large refactoring of the public interface.
 Most grammars should continue to look familiar, however almost all code that constructs inputs, catches parse errors, or includes former `contrib` headers needs attention.
+Please check the full list of added, renamed and changed rules, actions, controls, inputs, examples etc. in the [changelog](Changelog.md#version-400).
 
 ### Input Classes
 
