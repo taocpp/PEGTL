@@ -24,7 +24,7 @@ The [parse trace](#parse-trace) and [rule coverage](#rule-coverage) perform pars
 
 The [grammar visit](#grammar-visit) uses the [meta data](#meta-data) to call functions for all rules of a grammar with example functions provided that print them all.
 
-The [grammar analysis](#grammar-analysis) is a function that checks a grammar for occurrences of infinite cycles without progress including left recursion.
+The [grammar analysis](#grammar-analysis) is a function that checks a grammar for problems in the form of infinite cycles without progress including left recursion.
 
 #### Namespaces
 
@@ -39,17 +39,17 @@ The meta data provides compile-time accessible information about rule classes, m
 This meta data consists of the [type aliases](Rules-and-Grammars.md#type-aliases) `rule_t` and `subs_t` of every rule.
 
 > [!NOTE]
-> For some rules `R` the type aliases `R::rule_t` and `R::subs_t` are not what might be naively expected.
+> For some rules `R` the type aliases `R::rule_t` and `R::subs_t` are not what might be expected.
 
-For `R = seq< U, V >` the meta data type aliases are both as expected, i.e. `R::rule_t` is `internal::seq< U, V >` and `R::subs_t` is `type_list< U, V >.
+For `R = seq< U, V >` we have `R::rule_t = internal::seq< U, V >` and `R::subs_t = type_list< U, V >`.
 
-For `R = seq<>` the meta data is an unexpected `R::rule_t` of `internal::success` but the expected `R::subs_t` of `empty_list`, i.e. `type_list<>`.
+For `R = seq<>` we have `R::rule_t = internal::success` and `R::subs_t = empty_list = type_list<>`.
 
-For `R = opt< U, V >` we obtain an `R::rule_t` of `internal::partial< internal::seq< U, V > >` and consequently an `R::subs_t` of `type_list< internal::seq< U, V > >`.
+For `R = opt< U, V >` we have `R::rule_t = internal::partial< internal::seq< U, V > >` and `R::subs_t = type_list< internal::seq< U, V > >`.
 
 These examples show how, behind the scenes, rules or special cases of rules are implemented in terms of other rules.
 
-The respective "meta data and implementation mapping" sections in the [Rule Reference](Rule-Reference.md) show how `rule_t` and `subs_t` are defined for all rules.
+The respective "meta data and implementation mapping" sections in the [Rule Reference](Rule-Reference.md) show how `rule_t` and `subs_t` are defined.
 
 
 ## Parse Trace
@@ -204,7 +204,7 @@ As usual, unless otherwise indicated, all functions and data structure are in th
 
 ## Grammar Visit
 
-The header `include/tao/pegtl/debug/visit.hpp` uses the [meta data](#meta-data) to find and visit all rules of a grammar.
+The header [`include/tao/pegtl/debug/visit.hpp`](../include/tao/pegtl/debug/visit.hpp) uses the [meta data](#meta-data) to find all rules of a grammar and call a "visitor" function on every one of them.
 
 ### Grammar Rules
 
@@ -224,7 +224,7 @@ inline constexpr bool rule_in_grammar_v = type_list_contains_v< Rule, grammar_ru
 
 ### Visit Function
 
-Given a grammar `Grammar` and a type `Func` the `visit()` function calls `Func::visit< Rule >( std::forward< Args >( args )... )` for every `Rule` in the type list `grammar_rules_t< Grammar >`.
+Given a grammar `Grammar` and a type `Func` the visit function calls `Func::visit< Rule >( args... )` for every `Rule` in the type list `grammar_rules_t< Grammar >`.
 
 ```c++
 template< typename Grammar, template< typename... > class Func, typename... Args >

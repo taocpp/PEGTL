@@ -165,7 +165,7 @@ Shows how to use a simple custom control to create some parsing statistics while
 
 ###### [`json_coverage.cpp`](../src/example/json_coverage.cpp)
 
-Combines the JSON [grammar](#jsonhpp) with the [rule coverage](Debug-Reference.md#TODO) to show parsing statistics.
+Combines the JSON [grammar](#jsonhpp) with the [rule coverage](Debug-Facilities.md#rule-coverage) to show parsing statistics.
 
 ###### [`json_parse.cpp`](../src/example/json_parse.cpp)
 
@@ -173,11 +173,11 @@ Shows how to use the custom error messages defined in `json_errors.hpp` with the
 
 ###### [`json_print_debug.cpp`](../src/example/json_print_debug.cpp)
 
-Calls the [`print_debug()`](Debug-Reference.md#grammar-print) function to list the rules of the JSON grammar.
+Calls the [`print_debug()`](Debug-Facilities.md#grammar-print) function to list the rules of the JSON grammar.
 
 ###### [`json_print_names.cpp`](../src/example/json_print_names.cpp)
 
-Calls the [`print_names()`](Debug-Reference.md#grammar-print) function to list the rules of the JSON grammar.
+Calls the [`print_names()`](Debug-Facilities.md#grammar-print) function to list the rules of the JSON grammar.
 
 ###### [`json_record.cpp`](../src/example/json_record.cpp)
 
@@ -193,7 +193,7 @@ Shows how to split JSON parsing into separate lexer and parser stages as is comm
 
 ###### [`json_trace.cpp`](../src/example/json_trace.cpp)
 
-Combines the JSON [grammar](#jsonhpp) with the [trace parser](Debug-Reference.md#TODO) to show how to trace a parse.
+Combines the JSON [grammar](#jsonhpp) with the [parse trace](Debug-Facilities.md#parse-trace) to show how to trace a parse.
 
 ###### [`lua53_analyze.cpp`](../src/example/lua53_analyze.cpp)
 
@@ -218,7 +218,7 @@ $ build/bin/example/modulus_match a b c
 
 ###### [`parse_tree.cpp`](../src/example/parse_tree.cpp)
 
-An example for how to create a parse tree using [`<tao/pegtl/contrib/parse_tree.hpp>`](Parse-Tree.md) with a simple expression grammar.
+An example for how to create a parse tree using [`<tao/pegtl/extra/parse_tree.hpp>`](Parse-Tree.md) with a simple expression grammar.
 
 The example shows how to choose which rules will produce a parse tree node, which rules will store the content, and how to add additional transformations to the parse tree to transform it into an AST-like structure or to simplify it.
 

@@ -19,7 +19,7 @@ The [Parsing Expression Grammar Template Library](https://github.com/taocpp/PEGT
 * [Control Reference](Control-Reference.md)
 * [Extra Reference](Extra-Reference.md)
 * [Example Reference](Example-Reference.md)
-* [Parse Tree](Parse-Tree.md) -- TODO: Finish
+* [Parse Tree](Parse-Tree.md)
 * [Stream Parsing](Stream-Parsing.md)
 * [Object Parsing](Object-Parsing.md)
 * [Migration Guide](Migration-Guide.md) -- TODO: Finish
