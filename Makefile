@@ -1,7 +1,7 @@
-# The Art of C++
+# The Art of C++ / PEGTL
 # https://github.com/PEGTL
 
-# Copyright (c) 2014-2025 Dr. Colin Hirsch and Daniel Frey
+# Copyright (c) 2014-2026 Dr. Colin Hirsch and Daniel Frey
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
@@ -48,7 +48,7 @@ all: compile check
 # Switching between 'icu' and 'all' targets needs a 'make clean',
 # and dependencies aren't correct for the ICU test programs yet.
 
-.PHONE: icu
+.PHONY: icu
 icu: CPPFLAGS += -DTAO_PEGTL_TEST_ICU
 icu: CXXFLAGS += -licucore
 icu: compile check
