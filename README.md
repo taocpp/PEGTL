@@ -11,7 +11,7 @@
 [![CodeQL](https://github.com/taocpp/PEGTL/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/taocpp/PEGTL/actions/workflows/codeql-analysis.yml)
 [![Codecov](https://codecov.io/gh/taocpp/PEGTL/branch/main/graph/badge.svg?token=ykWa8RRdyk)](https://codecov.io/gh/taocpp/PEGTL)
 
-The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency [C++](https://en.cppreference.com/w/cpp.html) header-only [parser combinator](https://en.wikipedia.org/wiki/Parser_combinator) library for creating parsers according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
+The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency [C++](https://en.cppreference.com/w/cpp.html) [header-only](https://en.wikipedia.org/wiki/Header-only) [parser combinator](https://en.wikipedia.org/wiki/Parser_combinator) library for creating [parsers](https://en.wikipedia.org/wiki/Parsing#Parser) according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
 
 ## Documentation
