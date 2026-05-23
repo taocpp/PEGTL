@@ -11,9 +11,9 @@ All noteworthy changes since the first public release.
 * Infrastructure
   * Switched to Boost Software License, Version 1.0.
   * Makefile generates binaries in `build/bin/` instead of `build/src/`.
-  * The extra `pegtl` directory in `src/example` and `src/test` was removed.
+  * The `pegtl` sub-directory in `src/example` and `src/test` was removed.
   * Makefile generates dependencies in `build/dep/` instead of `build/src/`.
-  * Several headers were moved from `contrib/` to the main PEGTL include folder.
+  * All headers in `include/tao/pegtl/contrib/` were moved to `.../extra/`, `.../example/`, `.../deprecated/` or `.../`.
   * Not all headers in `include/tao/pegtl/` are included by `<tao/pegtl.hpp>`.
   * All stream parsing headers were moved to `include/tao/pegtl/stream/`.
   * All Unicode (incl. ICU) rules were moved to `include/tao/pegtl/unicode/`.
@@ -21,7 +21,9 @@ All noteworthy changes since the first public release.
   * All actions beyond `nothing` are now in `include/tao/pegtl/action/`.
   * All controls beyond `normal` are now in `include/tao/pegtl/control/`.
   * The grammar debug and analysis features are now in `include/tao/pegtl/debug/`.
-  * The grammars are now all collected in `include/tao/pegtl/example/`.
+  * The example grammars are now all collected in `include/tao/pegtl/example/`.
+  * There are new example grammars including some moved from `src/example/`.
+  * Extra, experimental and deprecated headers are now in `include/tao/pegtl/extra/` and `.../deprecated/`.
 * Exceptions
   * Changed `parse_error` to contain only one `position`.
   * Changed `parse_error` to be templated over the position type.
@@ -30,18 +32,24 @@ All noteworthy changes since the first public release.
   * Added [control function](Control-and-Normal.md) to throw nested exceptions.
   * Changed `parse_nested()` to require exceptions to be enabled.
   * Changed `parse_nested()` to throw a nested exception instead of adding a position to the current one.
-  * Changed `pegtl.hpp` to only include `parse_nested.hpp` when exceptions are enabled.
-  * Added functions to visit and flatten [nested exceptions](Contrib-and-Examples.md#taopegtlcontribnested_exceptionshpp).
+  * Changed `pegtl.hpp` to only include `parse_error.hpp`, `parse_error_base.hpp` and `parse_nested.hpp` when exceptions are enabled.
+  * Added functions to visit and flatten [nested exceptions](Extra-Reference.md#nested_exceptionshpp).
 * Inputs
   * Standardized on line - column - count order.
+  * Replaced the monolithic `position` class with `count_position`, `text_position`, `pointer_position` and `position_with_source`.
   * The input classes have been **heavily** refactored.
+  * Replaced `memory_input` and `string_input` with `view_input`, `copy_input`, `text_view_input` and `text_copy_input`.
+  * Replaced `istream_input`, `cstream_input` and `buffer_input` with the new stream parsing inputs.
+  * Added new minimal non-owning `base_input`.
+  * Added new input adapter `input_with_offset`.
   * Most input classes can use any type instead of being hardwired to `char`.
   * The end-of-line handling has been **heavily** refactored and extended.
   * Choice of statically, dynamically or user allocated buffer inputs.
-  * Everything related to buffer inputs is now in `include/tao/buffer/`.
-  * Nothing related to buffer inputs is included with `<tao/pegtl.hpp>`.
+  * Everything related to stream parsing is now in `include/tao/pegtl/stream/`.
+  * Nothing related to stream parsing is included with `<tao/pegtl.hpp>`.
   * Moved `action_input` from `internal` to the main PEGTL namespace.
   * Removed `action_t` type alias from all input classes in favour of using `action_input`.
+  * Removed the `tracking_mode` as `enum` and input template parameter.
   * Never use unaligned memory access (unless compiler generated).
 * Rule Changes
   * `ione`, `ranges`, `one` and `not_one` require at least one template parameter.
@@ -59,10 +67,10 @@ All noteworthy changes since the first public release.
   * Added new ASCII rule [`ff`](Rule-Reference.md#ff).
   * Added new ASCII rule [`graph`](Rule-Reference.md#graph).
   * Added new ASCII rule [`ht`](Rule-Reference.md#ht).
-  * Added new ASCII rule [`ione`](Rule-Reference.md#ht).
+  * Added new ASCII rule [`ione`](Rule-Reference.md#ione-c-).
   * Added new ASCII rule [`lf`](Rule-Reference.md#lf).
   * Added new ASCII rule [`lf_crlf`](Rule-Reference.md#lf_crlf).
-  * Added new ASCII rule [`not_ione`](Rule-Reference.md#ht).
+  * Added new ASCII rule [`not_ione`](Rule-Reference.md#not_ione-c-).
   * Added new ASCII rule [`sp`](Rule-Reference.md#sp).
   * Added new ASCII rule [`vt`](Rule-Reference.md#vt).
   * Added new ASCII rules that only match in the range 0 to 127.
@@ -80,11 +88,10 @@ All noteworthy changes since the first public release.
   * Added new Unicode rule [`eolu`](Rule-Reference.md#eolu).
   * Added dedicated end-of-line rules for end-of-line scanning.
   * Added dedicated end-of-line rules for lazy end-of-line mode.
-  * Added new atomic rule [`consume`](Rule-Reference.md#consume-count-).
+  * Added new atomic rule [`consume`](Rule-Reference.md#consume-num-).
   * Added new atomic rule [`everything`](Rule-Reference.md#everything).
-  * Added new generic rule [`combine`](Rule-Reference.md#combine-r-l-).
+  * Added new rule `source`.
   * Added new generic rule [`invert`](Rule-Reference.md#invert-r-).
-  * Added new generic rule [`function`](Rule-Reference.md#function).
   * Added new convenience rule [`partial`](Rule-Reference.md#partial-r-).
   * Added new convenience rule [`separated`](Rule-Reference.md#separated-s-r-) (replaces `separated_seq` from contrib).
   * Added new convenience rule [`separated_pad`](Rule-Reference.md#separated_pad-s-p-r-).
@@ -104,46 +111,50 @@ All noteworthy changes since the first public release.
   * Added rules for matching signed integers mirroring the existing ones for unsigned integers.
   * Optimized `utf8::string` by expanding `char32_t` code points to UTF-8 sequences at compile time.
   * Refactored the implementation of `ione`, `one`, `range`, `ranges`, `not_ione`, `not_one`, `not_range`, `not_ranges` which changes their `rule_t`.
-  * Added new rules for enum types to the [binary rules](Rule-Reference.md#binary)
+  * Added new rules for enum types to the [binary rules](Rule-Reference.md#binary).
   * Added new rules that operate on [object members](Rule-Reference.md#member).
-  * Added new stream parsing rule [`is_stream`](Rule-Reference.md#is_stream).
-  * Added new stream parsing rule [`prefetch`](Rule-Reference.md#prefetch-num-).
-* Added new customization point for error messages.  -- TODO!
-* Added optional source line output for the tracer.  -- TODO?
+  * Moved `discard` and `require` to the stream parsing facilities.
+  * Added new stream parsing rule [`is_stream`](Stream-Parsing.md#is_stream).
+  * Added new stream parsing rule [`prefetch`](Stream-Parsing.md#prefetch-num-).
+* Added new customization point for error messages.
+* Added optional source line output for the tracer.
 * Other
-  * Added new control `apply_typed_state`.
-  * Added new action `change_rule`.
-  * Added new action `match_typed_state`.
-  * Added new control `remove_first_states`.
-  * Added escape to extra (unescape). TODO
+  * Added new control [`apply_typed_state`](Control-Reference.md#apply_typed_state).
+  * Added new action [`add_guard`](Action-Reference.md#add_guard).
+  * Added new action [`change_rule`](Action-Reference.md#change_rule).
+  * Added new action [`match_typed_state`](Action-Reference.md#match_typed_state).
+  * Added new control [`remove_first_states`](Control-Reference.md#remove_first_states).
+  * Added [`extra/dispatch.hpp`](Extra-Reference.md#dispatchhpp) and [`extra/record.hpp`](Extra-Reference.md#recordhpp).
+  * Moved `raw_string` to [`extra/raw_string.hpp`](Extra-Reference.md#raw_stringhpp).
+  * Added [`extra/unescape.hpp`](Extra-Reference.md#unescapehpp).
   * Refactored the Control adapter interface.
   * Refactored `type_list_contains` interface.
   * Routed rewind-guard creation through the Control class.
   * Renamed `apply_mode::action` to `apply_mode::enabled`.
   * Renamed `apply_mode::nothing` to `apply_mode::disabled`.
-  * Removed `random_order` example, moved to core library.
-  * Added new charconv rules and actions in `contrib/charconv.hpp`.
-  * Renamed contrib "limit_depth" functionality to "check_depth".
-  * Renamed contrib "check_bytes" functionality to "check_consume".
-  * Renamed contrib "limit_bytes" functionality to "limit_consume".
-  * Moved depth counter to adapter class `input_with_depth` in [contrib](Contrib-and-Examples#contrib).
+  * Removed `random_order` example, moved to core library as [`unordered`](Rule-Reference.md#unordered-r-) and [`unordered_partial`](Rule-Reference.md#unordered_partial-r-).
+  * Added new charconv rules and actions in [`extra/charconv.hpp`](Extra-Reference.md#charconvhpp).
+  * Renamed "limit_depth" functionality to "check_depth".
+  * Renamed "check_bytes" functionality to "check_consume".
+  * Renamed "limit_bytes" functionality to "limit_consume".
+  * Moved depth counter to adapter class [`input_with_depth`](Input-Reference.md#input-with-depth).
   * Changed default top-level `rewind_mode` to ~~`dontcare`~~ `optional`.
   * Merged `rewind_mode` values `dontcare` and `active` into new value `optional`.
   * Renamed `end_of_line()` input member function to `end_of_line_or_file()`.
-  * Renamed contrib "to_string" functionality to "type_to_string".
+  * Renamed variadic template `to_string` functionality to `type_to_string`.
   * Added `type_to_string_view` function that mirrors `type_to_string`.
-  * Renamed `alphabet.hpp` to `alphabet_constants.hpp`.
   * Renamed buffer/incremental parsing to stream parsing.
-  * Changed `change_state` to detect absence of `success()`.
-  * Changed `change_action_and_state` to detect absence of `success()`.
+  * Changed [`change_state`](Action-Reference.md#change_state-s-) to detect absence of `success()`.
+  * Changed [`change_action_and_state`](Action-Reference.md#change_action_and_state-a-s-) to detect absence of `success()`.
 * Cleanup
   * Removed rule `forty_two`, we apologize for any inconvenience.
-  * Removed rule `bytes` and replaced with `many` for different data types.
+  * Removed rule `bytes`; use [`consume`](Rule-Reference.md#consume-num-) or one of the type-specific `many` rules.
   * Removed support for `boost::filesystem` and `std::experimental::filesystem`.
   * Removed support for building an amalgamated header.
   * Removed support for Visual Studio 2017.
   * Removed support for GCC 7 and GCC 8.
-* The following headers have been deprecated
+  * Removed `contrib/peg.hpp` and `contrib/predicates.hpp`.
+* The following headers have been [deprecated](Extra-Reference.md#deprecated)
   * `alphabet.hpp`
   * `if_then.hpp`
   * `integer.hpp` (more or less replaced by `extra/charconv.hpp`).
@@ -151,7 +162,7 @@ All noteworthy changes since the first public release.
   * `rep_string.hpp`
   * `unescape.hpp` (replaced by `example/escaped.hpp` and `extra/unescape.hpp`).
 
-The deprecated headers have been moved to `include/tao/pegtl/deprecated/'.
+The deprecated headers have been moved to `include/tao/pegtl/deprecated/`.
 Please let us know if you (still) need them.
 
 ## Version 3.2.7

@@ -5,18 +5,143 @@ Notes on incompatible changes that need to be taken into account when updating t
 
 ## Version 4.0.0
 
-* The `try_catch` and `try_catch_type` rules were renamed to `try_catch_return_false` and `try_catch_type_return_false`, respectively.
-* The `rewind_mode` values `active` and `dontcare` have been replaced by the single new value `optional` wherefore code using the old values needs to be updated.
-* Check whether the `rewind_mode` of the top-level `parse()` function, which is now `optional` by default, needs to be set to the previous value of `required` for your parsing runs.
-* The PEGTL generated `parse_error` exceptions now contain a single `position` object (previously a `std::vector< position >`). Nested exceptions are now used to convey multiple positions during nested parsing. The header `tao/pegtl/contrib/nested_exceptions.hpp` contains some functions to work with nested exceptions.
-* The counter used to limit the nesting depth of certain rules at run-time is no longer part of all input classes. When required it needs to be added back to the input by including `tao/pegtl/contrib/input_with_depth.hpp` and using objects of type `tao::pegtl::input_with_depth< Input >` where previously inputs of type `Input` were used.
+Version 4.0 contains a large refactoring of the public interface.
+Most grammars should continue to look familiar, however almost all code that constructs inputs, catches parse errors, or includes former `contrib` headers needs attention.
 
-* Use new core rule `sep` instead of previous contrib rule `separated_seq`.
+### Input Classes
 
-TODO scan tracking
-TODO ...
+The old input hierarchy was replaced.
+The most important decision when migrating is whether client code needs line and column numbers in error positions.
+In PEGTL 3.x the common inputs reported a `position` with `source`, `byte`, `line` and `column`.
+In PEGTL 4.x the plain inputs usually report a count-only position, or a pointer-only position for `base_input`; use the `text_` inputs when the old line-and-column behaviour is required.
 
-TODO: Document nested exception problems (GCC on macOS, Clang on Windows)
+| PEGTL 3.x | PEGTL 4.x with line/column | PEGTL 4.x count-only |
+| --- | --- | --- |
+| `memory_input` over existing memory | `text_view_input` | `view_input` |
+| `string_input` that owns a copy | `text_copy_input` | `copy_input` |
+| `file_input` | `text_file_input` | `file_input` |
+| `read_input` | `text_read_input` | `read_input` |
+| `mmap_input` | `text_mmap_input` | `mmap_input` |
+| `argv_input` | `text_view_input( std::string_view( argv[n] ) )` | `argv_input` |
+| `istream_input`, `cstream_input`, `buffer_input` | `alloc_text_istream_input`, `array_text_cstream_input`, etc. from `<tao/pegtl/stream.hpp>` | `alloc_istream_input`, `array_cstream_input`, etc. from `<tao/pegtl/stream.hpp>` |
+
+The `tracking_mode` template parameter was removed.
+Line tracking is now selected by the input class and the end-of-line rule:
+
+* plain inputs such as `view_input` and `file_input` do not store line and column numbers;
+* `text_` inputs store line and column numbers;
+* `ascii::scan::...` and `utf8::scan::...` end-of-line rules preserve the old eager scan behaviour, where line numbers are updated even when a rule other than `eol` consumes a newline;
+* normal end-of-line rules such as `ascii::lf` update line numbers only when the grammar matches `eol` or `eolf`;
+* `ascii::lazy::...` and `utf8::lazy::...` calculate line and column numbers on demand.
+
+The old default was effectively `tracking_mode::eager` with `eol::lf_crlf`.
+For the closest 4.x replacement use an explicit `ascii::scan::lf_crlf`, for example `text_file_input< ascii::scan::lf_crlf >`.
+The new default `default_eol` is platform-dependent: `ascii::scan::lf` on POSIX systems and `ascii::scan::lf_crlf` on Windows.
+
+The old source argument is no longer mandatory for memory inputs.
+When a source should be stored in error positions, pass it as the first constructor argument and use source template parameters when CTAD is not enough, for example `text_view_input< ascii::scan::lf_crlf, char, std::string, std::string >`.
+For file inputs the source is always the filesystem path.
+
+The depth counter is no longer part of every input.
+Code that uses depth limiting must include `<tao/pegtl/input_with_depth.hpp>` and wrap the input type with `input_with_depth< Input >`.
+
+Offsets are no longer passed to memory input constructors or `restart()`.
+Code that needs positions relative to a non-zero starting point should include `<tao/pegtl/input_with_offset.hpp>` and wrap the input type with `input_with_offset< Input >`, passing a `count_position` or `text_position` offset as the first constructor argument.
+
+### Positions
+
+The single `position` class was replaced by several position types.
+Use `text_position` for line/column/count positions, `count_position` for count-only positions, `pointer_position` for raw pointer positions, and `position_with_source< Source, Position >` when a source object is present.
+
+Code that reads `position::byte` must use `count`.
+Code that expects `source` directly on every position must account for positions without sources, or use inputs whose `error_position_t` is a `position_with_source`.
+When working generically, prefer `Input::error_position_t` instead of spelling out a concrete position type.
+
+Several input member functions were renamed or split:
+
+* `in.position()` is now `in.current_position()`.
+* `in.source()` is now `in.direct_source()` for inputs that have a source.
+* `in.begin()` is now `in.start()` when the start of the input is meant; use `in.current()` for the current parse position.
+* `in.end_of_line( p )` is now `in.end_of_line_or_file( p )`.
+* `in.line_at( p )` is now `in.line_view_at( p )`.
+
+The `action_t` alias was removed from input classes.
+Actions should either template the first argument of `apply()`, as already recommended for PEGTL 3.x, or use `tao::pegtl::action_input< ParseInput >`.
+Inside actions, use `in.current_position()` instead of the old `in.position()`.
+
+### Exceptions
+
+The `parse_error` is now a class template over the stored position type, and all parse errors derive from the non-template base class `parse_error_base`.
+Code that used to catch `const parse_error&` can often just catch `const parse_error_base&`.
+
+```c++
+try {
+   tao::pegtl::text_file_input in( file );
+   tao::pegtl::parse< grammar >( in );
+}
+catch( const tao::pegtl::parse_error_base& e ) {
+   std::cerr << e.what() << '\n';
+}
+```
+
+A `parse_error` now contains exactly one position object.
+Use `e.position_object()` when catching a concrete `parse_error< Position >`, or use `e.position_string()` when catching `parse_error_base`.
+The old `positions()` vector and `add_position()` mechanism were removed.
+
+Nested parsing no longer appends positions to a single parse error.
+`parse_nested()` now throws a nested exception that wraps the inner exception with the outer position.
+Include `<tao/pegtl/extra/nested_exceptions.hpp>` and use `visit_nested()`, `flatten_base()`, `flatten_type()` or `flatten_what()` to inspect such chains.
+The helper header requires exceptions and RTTI.
+
+`parse_error.hpp`, `parse_error_base.hpp` and `parse_nested.hpp` are only available when exceptions are enabled.
+When compiling without exceptions, code must not include or use these facilities.
+
+### Parse Modes
+
+The `apply_mode` enumerators were renamed:
+
+| PEGTL 3.x | PEGTL 4.x |
+| --- | --- |
+| `apply_mode::action` | `apply_mode::enabled` |
+| `apply_mode::nothing` | `apply_mode::disabled` |
+
+The `rewind_mode` values `active` and `dontcare` were merged into `rewind_mode::optional`.
+The `parse()` default is now `rewind_mode::optional`; PEGTL 3.x used `rewind_mode::required`.
+If client code depends on the input being rewound after `parse()` returns `false`, pass `rewind_mode::required` explicitly.
+
+### Headers and Rules
+
+The `contrib` include directory was removed.
+Most former `contrib` facilities were moved to one of `action`, `control`, `debug`, `example`, `extra`, `binary`, `unicode` or `deprecated`.
+Update includes accordingly; for example:
+
+| PEGTL 3.x include | PEGTL 4.x include |
+| --- | --- |
+| `<tao/pegtl/contrib/parse_tree.hpp>` | `<tao/pegtl/extra/parse_tree.hpp>` |
+| `<tao/pegtl/contrib/nested_exceptions.hpp>` | `<tao/pegtl/extra/nested_exceptions.hpp>` |
+| `<tao/pegtl/contrib/raw_string.hpp>` | `<tao/pegtl/extra/raw_string.hpp>` |
+| `<tao/pegtl/contrib/analyze.hpp>` | `<tao/pegtl/debug/analyze.hpp>` |
+| `<tao/pegtl/contrib/trace.hpp>` | `<tao/pegtl/debug/trace.hpp>` |
+| `<tao/pegtl/contrib/json.hpp>` | `<tao/pegtl/example/json.hpp>` |
+| `<tao/pegtl/contrib/uint32.hpp>` | `<tao/pegtl/binary/uint32.hpp>` |
+| `<tao/pegtl/contrib/integer.hpp>` | `<tao/pegtl/deprecated/integer.hpp>` or `<tao/pegtl/extra/charconv.hpp>` |
+| `<tao/pegtl/utf8.hpp>` | `<tao/pegtl/unicode/utf8.hpp>` |
+| `<tao/pegtl/change_state.hpp>` | `<tao/pegtl/action/change_state.hpp>` |
+| `<tao/pegtl/must_if.hpp>` | `<tao/pegtl/control/must_if.hpp>` |
+| `<tao/pegtl/discard_input.hpp>` | `<tao/pegtl/stream/discard_input.hpp>` |
+| `<tao/pegtl/discard_input_on_success.hpp>` | `<tao/pegtl/stream/discard_input_on.hpp>` |
+| `<tao/pegtl/discard_input_on_failure.hpp>` | `<tao/pegtl/stream/discard_input_on.hpp>` |
+
+The old `contrib/peg.hpp` and `contrib/predicates.hpp` headers were removed without direct replacements.
+Also note that `<tao/pegtl.hpp>` includes fewer auxiliary headers than before; include action, control, debug, extra, binary, unicode and stream headers explicitly when client code uses them.
+
+The `try_catch` and `try_catch_type` rules were renamed to `try_catch_return_false` and `try_catch_type_return_false`, respectively.
+Use `try_catch_raise_nested` and its variants when a caught exception should be rethrown as a nested parse error.
+
+Use the new core rule `separated` instead of the previous contrib rule `separated_seq`.
+Use `consume< N >` for the old `bytes< N >` use case, and the type-specific `many` rules when matching a fixed number of objects of a particular input data type.
+
+The old stream-oriented `discard` and `require` rules are now in the stream parsing headers.
 
 
 ## Version 3.0.0
