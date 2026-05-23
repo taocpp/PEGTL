@@ -26,7 +26,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using subs_t = empty_list;
 
       template< typename Data >
-      [[nodiscard]] static constexpr auto test( const Data c ) noexcept
+      [[nodiscard]] static constexpr bool test( const Data c ) noexcept
       {
          return Impl< Peek, Cs... >::test( c ) != bool( I );
       }
