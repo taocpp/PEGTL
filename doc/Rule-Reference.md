@@ -2048,8 +2048,8 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`mask_not_range< M, C, D >`](#mask_not_range-m-c-d-) <sup>[(binary)](#binary)</sup>
 * [`mask_one< M, C... >`](#mask_one-m-c-) <sup>[(binary)](#binary)</sup>
 * [`mask_range< M, C, D >`](#mask_range-m-c-d-) <sup>[(binary)](#binary)</sup>
-* [`mask_ranges< M, C1, D1, C2, D2, ... >`](#mask_ranges-m-c1-d1-c2-d2-) <sup>[(binary)](#binary)</sup>
-* [`mask_ranges< M, C1, D1, C2, D2, ..., E >`](#mask_ranges-m-c1-d1-c2-d2-e-) <sup>[(binary)](#binary)</sup>
+* [`mask_ranges< M, C1, D1, C2, D2, ... >`](#mask_ranges-m-c1-d1-c2-d2--) <sup>[(binary)](#binary)</sup>
+* [`mask_ranges< M, C1, D1, C2, D2, ..., E >`](#mask_ranges-m-c1-d1-c2-d2--e-) <sup>[(binary)](#binary)</sup>
 * [`mask_string< M, C... >`](#mask_string-m-c-) <sup>[(binary)](#binary)</sup>
 * [`math`](#math) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`minus< M, S >`](#minus-m-s-) <sup>[(convenience)](#convenience)</sup>
@@ -2081,7 +2081,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`one< M, U... >`](#one-m-u-) <sup>[(member)](#member)</sup>
 * [`opt< R... >`](#opt-r-) <sup>[(combinators)](#combinators)</sup>
 * [`opt_must< R, S...>`](#opt_must-r-s-) <sup>[(exceptional)](#exceptional)</sup>
-* [`pad< R, S, T = S >`](#pad-r-s-t-s-) <sup>[(convenience)](#convenience)</sup>
+* [`pad< R, S, T = S >`](#pad-r-s-t--s-) <sup>[(convenience)](#convenience)</sup>
 * [`pad_opt< R, P >`](#pad_opt-r-p-) <sup>[(convenience)](#convenience)</sup>
 * [`partial< R... >`](#partial-r-) <sup>[(convenience)](#convenience)</sup>
 * [`pattern_syntax`](#pattern_syntax) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
@@ -2103,14 +2103,14 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`range< C, D >`](#range-c-d--1) <sup>[(unicode)](#unicode)</sup>
 * [`range< C, D >`](#range-c-d--2) <sup>[(binary)](#binary)</sup>
 * [`range< M, U, V >`](#range-m-u-v-) <sup>[(member)](#member)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2-) <sup>[(ascii)](#ascii)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2--1) <sup>[(unicode)](#unicode)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2--2) <sup>[(binary)](#binary)</sup>
-* [`ranges< M, U1, V1, U2, V2, ... >`](#ranges-m-u1-v1-u2-v2-) <sup>[(member)](#member)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2-e-) <sup>[(ascii)](#ascii)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2-e--1) <sup>[(unicode)](#unicode)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2-e--2) <sup>[(binary)](#binary)</sup>
-* [`ranges< M, U1, V1, U2, V2, ..., W >`](#ranges-m-u1-v1-u2-v2-w-) <sup>[(member)](#member)</sup>
+* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2--) <sup>[(ascii)](#ascii)</sup>
+* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---1) <sup>[(unicode)](#unicode)</sup>
+* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---2) <sup>[(binary)](#binary)</sup>
+* [`ranges< M, U1, V1, U2, V2, ... >`](#ranges-m-u1-v1-u2-v2--) <sup>[(member)](#member)</sup>
+* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e-) <sup>[(ascii)](#ascii)</sup>
+* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--1) <sup>[(unicode)](#unicode)</sup>
+* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--2) <sup>[(binary)](#binary)</sup>
+* [`ranges< M, U1, V1, U2, V2, ..., W >`](#ranges-m-u1-v1-u2-v2--w-) <sup>[(member)](#member)</sup>
 * [`rematch< R, S... >`](#rematch-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`rep< Num, R... >`](#rep-num-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_max< Max, R... >`](#rep_max-max-r-) <sup>[(convenience)](#convenience)</sup>
