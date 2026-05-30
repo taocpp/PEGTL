@@ -35,6 +35,7 @@ namespace TAO_PEGTL_NAMESPACE
       struct nul : internal::one< internal::peek_char, static_cast< char >( 0 ) > {};
       struct odigit : internal::range< internal::peek_char, '0', '7' > {};
       struct print : internal::range< internal::peek_char, static_cast< char >( 32 ), static_cast< char >( 126 ) > {};
+      struct punct : internal::ranges< internal::peek_char, '!', '/', ':', '@', '[', '`', '{', '~' > {};
       struct sp : internal::one< internal::peek_char, ' ' > {};
       struct space : internal::one< internal::peek_char, ' ', '\n', '\r', '\t', '\v', '\f' > {};
       struct upper : internal::range< internal::peek_char, 'A', 'Z' > {};

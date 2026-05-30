@@ -418,8 +418,13 @@ For all ASCII rules the template parameters representing characters are of type 
 
 ###### `print`
 
-* Matches and consumes any single ASCII character traditionally defined as *printable*.
+* Matches and consumes any single ASCII character traditionally defined as [*printable*](https://en.cppreference.com/cpp/string/byte/isprint).
 * [Equivalent] to `(ascii::)range< 32, 126 >`.
+
+###### `punct`
+
+* Matches and consumes any single ASCII character defined as [*punctuation*](https://en.cppreference.com/cpp/string/byte/ispunct).
+* [Equivalent] to `(ascii::)ranges< '!', '/', ':', '@', '[', '`', '{', '~' >`.
 
 ###### `range< C, D >`
 
