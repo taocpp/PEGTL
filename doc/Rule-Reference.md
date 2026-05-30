@@ -2141,10 +2141,10 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`string< C... >`](#string-c--2) <sup>[(binary)](#binary)</sup>
 * [`string< M, U... >`](#string-m-u-) <sup>[(member)](#member)</sup>
 * [`success`](#success) <sup>[(atomic)](#atomic)</sup>
-* [`TAO_PEGTL_ISTRING( "..." )`](#tao_pegtl_istring-) <sup>[(ascii)](#ascii)</sup>
-* [`TAO_PEGTL_KEYWORD( "..." )`](#tao_pegtl_keyword-) <sup>[(ascii)](#ascii)</sup>
-* [`TAO_PEGTL_RAISE_MESSAGE( "..." )`](#tao_pegtl_raise_message-) <sup>[(exceptional)](#exceptional)</sup>
-* [`TAO_PEGTL_STRING( "..." )`](#tao_pegtl_string-) <sup>[(ascii)](#ascii)</sup>
+* [`TAO_PEGTL_ISTRING( "..." )`](#tao_pegtl_istring--) <sup>[(ascii)](#ascii)</sup>
+* [`TAO_PEGTL_KEYWORD( "..." )`](#tao_pegtl_keyword--) <sup>[(ascii)](#ascii)</sup>
+* [`TAO_PEGTL_RAISE_MESSAGE( "..." )`](#tao_pegtl_raise_message--) <sup>[(exceptional)](#exceptional)</sup>
+* [`TAO_PEGTL_STRING( "..." )`](#tao_pegtl_string--) <sup>[(ascii)](#ascii)</sup>
 * [`terminal_punctuation`](#terminal_punctuation) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`three< C >`](#three-c-) <sup>[(ascii)](#ascii)</sup>
 * [`trail_canonical_combining_class< V >`](#trail_canonical_combining_class-v-) <sup>[(icu rules)](#icu-rules-for-value-properties)</sup>
