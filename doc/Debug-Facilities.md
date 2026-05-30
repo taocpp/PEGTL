@@ -7,24 +7,32 @@ Functions and classes to debug grammars, both via their static properties and th
 
 * [Preamble](#preamble)
 * [Meta Data](#meta-data)
+  * [Rule Type](#rule-type)
+  * [Sub Rules](#sub-rules)
+  * [Implementation Details](#implementation-details)
 * [Parse Trace](#parse-trace)
+  * [Trace Traits](#trace-traits)
+  * [Trace Action](#trace-action)
 * [Rule Coverage](#rule-coverage)
 * [Grammar Visit](#grammar-visit)
   * [Grammar Rules](#grammar-rules)
   * [Visit Function](#visit-function)
 * [Grammar Print](#grammar-print)
 * [Grammar Analysis](#grammar-analysis)
+  * [Analyze Function](#analyze-function)
+  * [Analyze Traits](#analyze-traits)
+  * [Limitations](#limitations)
 
 
 ## Preamble
 
 The [meta data](#meta-data) provides compile-time accessible information about rule classes, most importantly a list of sub-rules.
 
-The [parse trace](#parse-trace) and [rule coverage](#rule-coverage) perform parsing runs with debug information either in the form of raw events or aggregated, respectively.
+The [parse trace](#parse-trace) and [rule coverage](#rule-coverage) perform parsing runs with debug information either in the form of raw events or aggregated statistics, respectively.
 
-The [grammar visit](#grammar-visit) uses the [meta data](#meta-data) to call functions for all rules of a grammar with example functions provided that print them all.
+The [grammar visit](#grammar-visit) uses the [meta data](#meta-data) to call functions for all rules of a grammar, with example functions provided that print them all.
 
-The [grammar analysis](#grammar-analysis) is a function that checks a grammar for problems in the form of infinite cycles without progress including left recursion.
+The [grammar analysis](#grammar-analysis) uses the [meta data](#meta-data) and the [analyze traits](#analyze-traits) to check a grammar for cycles without progress, including left recursion.
 
 #### Namespaces
 
@@ -35,21 +43,59 @@ As usual the namespace `tao::pegtl` is generally omitted on this page.
 
 ## Meta Data
 
-The meta data provides compile-time accessible information about rule classes, most importantly a list of sub-rules.
-This meta data consists of the [type aliases](Rules-and-Grammars.md#type-aliases) `rule_t` and `subs_t` of every rule.
+The meta data consists of the [type aliases](Rules-and-Grammars.md#type-aliases) `rule_t` and `subs_t` of every rule.
+
+[True custom rules](Rules-and-Grammars.md#implementing-rules), i.e. rules that implement their own `match()` function, do not need these type aliases for parsing.
+They are required for facilities that automatically inspect a grammar, in particular the functions based on [grammar visit](#grammar-visit), [rule coverage](#rule-coverage), [grammar analysis](#grammar-analysis), and the [parse tree](Parse-Tree.md).
+
+The respective "meta data and implementation mapping" sections in the [Rule Reference](Rule-Reference.md) show how `rule_t` and `subs_t` are defined for the rules included with the PEGTL.
 
 > [!NOTE]
 > For some rules `R` the type aliases `R::rule_t` and `R::subs_t` are not what might be expected.
 
-For `R = seq< U, V >` we have `R::rule_t = internal::seq< U, V >` and `R::subs_t = type_list< U, V >`.
+### Rule Type
 
-For `R = seq<>` we have `R::rule_t = internal::success` and `R::subs_t = empty_list = type_list<>`.
+For each rule `R`, the type alias `R::rule_t` is the type of the class that implements the `match()` function used for `R`.
 
-For `R = opt< U, V >` we have `R::rule_t = internal::partial< internal::seq< U, V > >` and `R::subs_t = type_list< internal::seq< U, V > >`.
+For most rules this is the root of the inheritance hierarchy, which is usually an implementation class in namespace `internal`.
+
+For `R = seq< U, V >` we have `R::rule_t = internal::seq< U, V >`.
+
+For `R = seq<>` we have `R::rule_t = internal::success`.
+
+For `R = opt< U, V >` we have `R::rule_t = internal::opt< internal::seq< U, V > >`.
 
 These examples show how, behind the scenes, rules or special cases of rules are implemented in terms of other rules.
 
-The respective "meta data and implementation mapping" sections in the [Rule Reference](Rule-Reference.md) show how `rule_t` and `subs_t` are defined.
+### Sub Rules
+
+For each rule `R`, the type alias `R::subs_t` is a `type_list` with all direct sub-rules of `R` as template parameters.
+
+For example, for `R = seq< U, V >` we have `R::subs_t = type_list< U, V >`.
+
+For `R = seq<>` we have `R::subs_t = empty_list = type_list<>`.
+
+For `R = opt< U, V >` we have `R::subs_t = type_list< internal::seq< U, V > >`.
+
+Note that `subs_t` contains the sub-rules of the implementation mapping, which can be internal rules.
+For example, many rules that take multiple sub-rules are implemented by first wrapping these sub-rules in an `internal::seq`.
+
+### Implementation Details
+
+While accessible in the namespace `tao::pegtl`, the [rules and combinators](Rule-Reference.md) included with the PEGTL usually have their actual implementation in the sub-namespace `internal`.
+For many rules the header `include/tao/pegtl/rules.hpp` shows how the user-facing rules forward to their `internal` implementations.
+
+This additional level of indirection prevents unintended invocation of user-defined actions due to some PEGTL rules being built from other rules.
+For example, if a rule `rep_min` is implemented with a sub-rule `star`, then an action attached to a user-written `star` with the same sub-rules should not also fire for the implementation detail inside `rep_min`.
+
+Therefore it is possible to selectively disable most [control](Control-and-Normal.md) functions, including the `apply` functions that perform action invocation, on a rule-by-rule basis.
+More precisely, the action and debug control functions are only invoked for a rule `R` when `Control< R >::enable` is `true`.
+
+The default control class template `normal` defines `normal< R >::enable` in terms of `internal::enable_control< R >`, which is `true` by default, but `false` for the implementation rules in namespace `internal`.
+This hides implementation details from actions and most control functions during normal parsing.
+
+Some debug facilities deliberately expose these implementation details.
+For example, [`complete_trace()`](#parse-trace) shows them, and the [grammar visit](#grammar-visit) follows the exact `subs_t` lists from the meta data.
 
 
 ## Parse Trace
@@ -57,66 +103,129 @@ The respective "meta data and implementation mapping" sections in the [Rule Refe
 The header `include/tao/pegtl/debug/trace.hpp` contains functions to perform a parsing run with trace information printed to `std::cerr`.
 
 ```c++
-template< typename Rule,
+template< typename TraceTraits,
+          typename Rule,
           template< typename... > class Action = nothing,
           template< typename... > class Control = normal,
           typename ParseInput,
           typename... States >
-bool standard_trace( ParseInput&& , States&&... );
+bool generic_trace( ParseInput&&, States&&... );
 
 template< typename Rule,
           template< typename... > class Action = nothing,
           template< typename... > class Control = normal,
           typename ParseInput,
           typename... States >
-bool complete_trace( ParseInput&& , States&&... );
+bool standard_trace( ParseInput&&, States&&... );
+
+template< typename Rule,
+          template< typename... > class Action = nothing,
+          template< typename... > class Control = normal,
+          typename ParseInput,
+          typename... States >
+bool complete_trace( ParseInput&&, States&&... );
 ```
 
-The difference between the two functions is that the *standard* trace only prints trace information for rules `R` where `normal< R >::enable` is `true`.
-This excludes all internal rules that are considered implementation details of documented rules.
-The *complete* trace ignores the `enable` flag and includes trace information for all rules.
+The trace functions are called like [`parse()`](Inputs-and-Parsing.md#parse-function) and return whether the parsing run succeeded.
 
-# TODO -> Integrate below into above
+The difference between the two convenience functions is that the *standard* trace only prints trace information for rules `R` where `normal< R >::enable` is `true`.
+This excludes the internal rules that are considered implementation details of documented rules.
+The *complete* trace includes trace information for all rules.
 
-A fundamental tool for grammar development is a *tracer* that prints every step of a parsing run.
-It shows exactly which rule was attempted to match where, and what the result was.
-The PEGTL provides a tracer that serves both as practical debug tool and as example of the modular nature of the core library that allows for such facilities to be added.
+The trace output contains the current input position, numbered rule starts, `success` and `failure` events, rewind events, global-failure events `raise`, `raise_nested` and `unwind`, and action events `apply` and `apply0`.
+The exact rule names in the output depend on the compiler and the demangler.
 
 ```c++
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/contrib/trace.hpp>
-
-// This example uses the included JSON grammar
-#include <tao/pegtl/contrib/json.hpp>
+#include <tao/pegtl/debug/trace.hpp>
+#include <tao/pegtl/example/json.hpp>
 
 namespace pegtl = tao::pegtl;
 
-using grammar = pegtl::must< pegtl::json::text, pegtl::eof >;
+using grammar = pegtl::seq< pegtl::json::text, pegtl::eof >;
 
 int main( int argc, char** argv )
 {
-   if( argc != 2 ) return 1;
+   if( argc != 2 ) {
+      return 1;
+   }
 
-   pegtl::argv_input in( argv, 1 );
-   pegtl::standard_trace< grammar >( in );
-
-   return 0;
+   pegtl::text_file_input< pegtl::scan::lf > in( argv[ 1 ] );
+   return pegtl::standard_trace< grammar >( in ) ? 0 : 1;
 }
 ```
 
-In the example above, each command line parameter is parsed as a JSON string and a trace is printed to `stderr`.
+The full JSON trace example can be found in `src/example/json_trace.cpp`.
 
-The full example can be found in `src/pegtl/json_trace.cpp`.
-For more information see `tao/pegtl/contrib/trace.hpp`.
+### Trace Traits
+
+The trace output is configured through a traits class.
+The default traits are `standard_trace_traits` and `complete_trace_traits`, both based on `trace_traits`.
+
+```c++
+template< bool HideInternal = true,
+          bool UseColor = true,
+          bool PrintSourceLine = false,
+          std::size_t IndentIncrement = 2,
+          std::size_t InitialIndent = 8 >
+struct trace_traits;
+
+using standard_trace_traits = trace_traits< true >;
+using complete_trace_traits = trace_traits< false >;
+```
+
+The first template argument controls whether `normal< R >::enable` is used to hide internal rules.
+The second template argument controls whether ANSI color escape sequences are emitted.
+The third template argument defines the `print_source_line` member of the traits class.
+The last two arguments control the indentation of nested rule invocations.
+
+A custom trace can be run by passing a custom traits type to `generic_trace`.
+
+```c++
+using plain_trace_traits = pegtl::trace_traits< true, false >;
+
+pegtl::generic_trace< plain_trace_traits, grammar >( in );
+```
+
+### Trace Action
+
+The header `include/tao/pegtl/debug/trace_action.hpp` contains an action adapter for tracing only a selected part of a grammar during an otherwise normal parsing run.
+
+```c++
+template< typename TraceTraits >
+struct trace_action;
+
+using trace_standard = trace_action< standard_trace_traits >;
+using trace_complete = trace_action< complete_trace_traits >;
+```
+
+Use `trace_standard` or `trace_complete` as an action specialisation for the rule where tracing should start.
+
+```c++
+struct inner : seq< one< 'a' >, sor< one< 'b' >, one< 'c' >, inner > > {};
+struct outer : seq< one< 'x' >, inner, one< 'y' > > {};
+
+template< typename Rule >
+struct action {};
+
+template<>
+struct action< inner >
+   : trace_standard {};
+
+text_view_input< scan::lf > in( "xaacy" );
+parse< outer, action >( in );
+```
+
+The full test in `src/test/debug_trace_3.cpp` shows this pattern in context.
 
 
-## Rule Coverage // TODO -- and see below
+## Rule Coverage
 
 The header `include/tao/pegtl/debug/coverage.hpp` contains everything for a parsing run to collect statistics about
 
 * how often each rule was attempted to match,
 * what the outcome of each match attempt was,
-* which sub-rules were attempted to match how often,
+* which immediate sub-rules were attempted to match how often,
 * how often rewind guards were created and needed.
 
 To perform a parsing run that collects statistics the function `coverage()` is used instead of the usual [`parse()`](Inputs-and-Parsing.md#parse-function).
@@ -130,81 +239,71 @@ template< typename Rule,
 bool coverage( ParseInput&& in, coverage_result& result, States&&... st );
 ```
 
-The first argument to `coverage` needs to be a default-constructed object of type `coverage_result`.
-Behind the scenes `coverage()` uses [`rewind_state_control`](Control-Reference.md#rewind_state_control) to call control functions on the `coverage_result`.
+The first function argument to `coverage()` is the input, and the second is a default-constructed object of type `coverage_result` that will receive the statistics.
+The function returns whether the parsing run succeeded.
 
-The companion header `/include/tao/pegtl/debug/print_coverage.hpp` contains everything needed to format the coverage result in a human-readable form.
-After including it the `coverage_result` can be printed to `std::cout` - or any other `std::ostream` - via the usual `operator<<`.
+Behind the scenes `coverage()` uses [grammar visit](#grammar-visit) to initialise the `coverage_result` with all rules found in the grammar, and [`rewind_state_control`](Control-Reference.md#rewind_state_control) to call control functions on an internal coverage state.
 
-For manual inspection of the coverage result please find the details in the header file `include/tao/pegtl/debug/coverage.hpp` as they should be self explanatory.
-
-The source files in `src/example/` that end with `_coverage.cpp` show how to generate and print the coverage statistics and after compiling everything their executables can be found in `build/bin/example/` and run to see their respective outputs.
-
-
-## Rule Coverage // TODO -- and see above
-
-The function `coverage()` from `include/tao/pegtl/contrib/coverage.hpp` is very similar to the `parse()` function.
-It is called like `parse()`, with the some of the same template parameters and all of the same function arguments, however it returns an object of type `coverage_result` instead of a `bool`.
+The companion header `include/tao/pegtl/debug/print_coverage.hpp` contains everything needed to format the coverage result in a human-readable form.
+After including it the `coverage_result` can be printed to `std::cout`, or any other `std::ostream`, via the usual `operator<<`.
 
 ```c++
-template< typename Rule,
-          template< typename... > class Action = nothing,
-          template< typename... > class Control = normal,
-          typename ParseInput,
-          typename... States >
-coverage_result coverage( ParseInput& in,
-                          States&&... st );
+#include <tao/pegtl/debug/coverage.hpp>
+#include <tao/pegtl/debug/print_coverage.hpp>
+
+coverage_result result;
+const bool success = coverage< grammar >( in, result );
+
+std::cout << result;
 ```
 
-After a parsing run, the `coverage_result` indicates whether the run was a success or a failure, and contains "rule coverage" and "branch coverage" information.
-
-The "rule coverage" shows how often each rule was attempted to match, and how many of these attempts were a success or a -- local or global -- failure.
-
-The "branch coverage" consists in the matching information also being recorded for each immediate sub-rule of every rule; in the case of an `sor<>` this shows how often each sub-rule was taken, hence the name.
-
-The coverage information in the `coverage_result` can either be inspected and processed or printed manually, or the `ostream` output `operator<<` from `include/tao/pegtl/contrib/print_coverage.hpp` can be used.
-The operator formats the output as JSON.
-
-```c++
-std::ostream operator<<( std::ostream&, const coverage_result& );
-```
-
-The coverage information in the `coverage_result` is defined as follows.
-The `coverage_info` is used in two places, as part of the `coverage_entry` for each rule, and as value in the `branches` map for each immediate sub-rule.
+The coverage result can also be inspected directly.
 
 ```c++
 struct coverage_info
 {
-   std::size_t start = 0;  // How often a rule was attempted to match.
-   std::size_t success = 0;  // How many attempts were a success (true).
-   std::size_t failure = 0;  // How many attempts were a local failure (false).
-   std::size_t unwind = 0;  // How many attempts were aborted due to an exception (thrown here or elsewhere).
-   std::size_t raise = 0;  // How many attempts were a global failure (exception thrown at this rule).
+   std::size_t start = 0;
+   std::size_t success = 0;
+   std::size_t failure = 0;
+   std::size_t unwind = 0;
+   std::size_t raise = 0;
+   std::size_t raise_nested = 0;
+
+   [[nodiscard]] explicit operator bool() const noexcept;
+};
+
+struct rewind_coverage_info
+{
+   std::size_t prep_rewind = 0;
+   std::size_t will_rewind = 0;
+   std::size_t wont_rewind = 0;
 };
 
 struct coverage_entry
-   : coverage_info  // The coverage_info for each rule.
+   : coverage_info
 {
-   std::map< std::string_view, coverage_info > branches;  // The coverage_info for each immediate sub-rule.
+   std::map< std::string_view, coverage_info > branches;
 };
 
 struct coverage_result
 {
-   std::string_view grammar;  // Name of the top-level grammar rule.
-   std::string source;  // From the input.
-
-   std::map< std::string_view, coverage_entry > map;  // The coverage_entry for each rule.
-   bool result;  // Whether the parsing run was a success.
+   std::map< std::string_view, coverage_entry > coverage;
+   std::map< std::string_view, rewind_coverage_info > rewind;
 };
 ```
 
-As usual, unless otherwise indicated, all functions and data structure are in the namespace `tao::pegtl`.
+The `coverage` map contains an entry for every rule found via `subs_t`, including rules that were not reached in this particular parsing run and therefore have zero counters.
+The `coverage_info` inherited by `coverage_entry` counts events for the rule itself, while the `branches` map counts the same events for each of its immediate sub-rules.
 
+The `rewind` map counts rewind guard events for rules that created rewind guards.
+
+The source files in `src/example/` that end with `_coverage.cpp` show how to generate and print the coverage statistics.
+After compiling the examples their executables can be found in `build/bin/example/` and run to see their respective outputs.
 
 
 ## Grammar Visit
 
-The header [`include/tao/pegtl/debug/visit.hpp`](../include/tao/pegtl/debug/visit.hpp) uses the [meta data](#meta-data) to find all rules of a grammar and call a "visitor" function on every one of them.
+The header `include/tao/pegtl/debug/visit.hpp` uses the [meta data](#meta-data) to find all rules of a grammar and call a visitor function for every one of them.
 
 ### Grammar Rules
 
@@ -212,7 +311,7 @@ The type alias `grammar_rules_t< Grammar >` is a `type_list` containing each rul
 
 ```c++
 template< typename Grammar >
-using grammar_rules_t = type_list< all, rules, in, Grammar >;
+using grammar_rules_t = /* type_list with all rules found in Grammar */;
 ```
 
 The variable template `rule_in_grammar_v< Rule, Grammar >` is a shortcut to check whether any given `Rule` occurs anywhere in `Grammar`.
@@ -222,36 +321,41 @@ template< typename Rule, typename Grammar >
 inline constexpr bool rule_in_grammar_v = type_list_contains_v< Rule, grammar_rules_t< Grammar > >;
 ```
 
+Both facilities follow `subs_t` recursively.
+This means they see the grammar as represented by the meta data and therefore include the implementation rules that appear in `subs_t`.
+
 ### Visit Function
 
-Given a grammar `Grammar` and a type `Func` the visit function calls `Func::visit< Rule >( args... )` for every `Rule` in the type list `grammar_rules_t< Grammar >`.
+Given a grammar `Grammar` and a class template `Func`, the visit function calls `Func< Rule >::visit( args... )` for every `Rule` in the type list `grammar_rules_t< Grammar >`.
 
 ```c++
 template< typename Grammar, template< typename... > class Func, typename... Args >
 void visit( Args&&... args );
 ```
 
-The order in which `Func::visit()` is called for the distinct rules of a grammar is undefined and should not be relied upon.
+All arguments given to `visit()` are passed on to every `Func< Rule >::visit()` call.
+The order in which the distinct rules of a grammar are visited is unspecified and should not be relied upon.
 
-// TODO: Merge
+```c++
+template< typename Rule >
+struct visitor
+{
+   static void visit( std::vector< std::string >& names )
+   {
+      names.emplace_back( demangle< Rule >() );
+   }
+};
 
-The `visit()` function uses `subs_t` to recursively find all sub-rules of a grammar and call a function for each of them.
+std::vector< std::string > names;
+visit< grammar, visitor >( names );
+```
 
-1. The first, explicit, template parameter of `visit()` is the starting rule of the grammar that is to be inspected.
-
-2. The second, explicit, template parameter of `visit()` is a class template `F` where, for every sub-rule `R`, `visit()` will call `F< R >::visit()`.
-
-All arguments given to `visit()` will be passed on to all `F< R >::visit()` calls.
-
-The header `include/tao/pegtl/contrib/visit_rt.hpp` contains a drop-in replacement for `visit()` called `visit_rt()` that uses a run-time data structure, rather than compile-time type lists, to make sure the visitor is called only once for ever
-y grammar rule.
-This can be a advantageous when working with large grammars since it reduces the template instantiation depth by shifting some of the work from compile time to run time.
-Unlike `visit()`, `visit_rt()` returns the number of rules visited.
+The source file `src/test/debug_visit.cpp` contains a small example.
 
 
 ## Grammar Print
 
-The header `include/tao/peglt/debug/print.hpp` contains two functions that use the [visit function](#visit-function) to print all rules of a grammar.
+The header `include/tao/pegtl/debug/print.hpp` contains two functions that use the [visit function](#visit-function) to print all rules of a grammar.
 
 ```c++
 template< typename Grammar >
@@ -261,67 +365,64 @@ template< typename Grammar >
 void print_debug( std::ostream& );
 ```
 
-The function `print_names()` prints only the names of all rules, the function `print_debug()` also prints all rules' `rule_t` and all individual sub-rules.
+The function `print_names()` prints only the names of all rules.
+The function `print_debug()` also prints every rule's `rule_t` and all individual sub-rules from `subs_t`.
 
-The source files in `src/example/` that end with `_print_debug.cpp` or `print_names.cpp` show how to use these functions and after compiling everything their executables can be found in `build/bin/example/` and run without command line arguments to see their respective outputs.
+The source files in `src/example/` that end with `_print_debug.cpp` or `_print_names.cpp` show how to use these functions.
+After compiling the examples their executables can be found in `build/bin/example/` and run without command line arguments to see their respective outputs.
 
 
-## Grammar Analysis // TODO -- and see below
+## Grammar Analysis
 
-Every grammar must be free of cycles that make no progress, i.e. it must not contain unbounded recursive or iterative rules that do not consume any input, as such grammar might enter an infinite loop.
-One common pattern for these kinds of problematic grammars is the "dreaded" [left recursion](https://en.wikipedia.org/wiki/Left_recursion) that, while not a problem for less deterministic formalisms like CFGs, must be avoided with PEGs in order
- to prevent aforementioned infinite loops.
+The grammar analysis checks a grammar for rules that can enter an infinite loop without making progress, i.e. without consuming input.
+Such loops are most often the result of [left recursion](https://en.wikipedia.org/wiki/Left_recursion), or of careless nesting of rules like `star< opt< ... > >`.
 
-The PEGTL provides a [grammar analysis](Grammar-Analysis.md) that searches the rules of a grammar for cycles that make no progress.
-While this could probably be implemented with compile-time meta-programming the implementation in the PEGTL avoids excessive compile times by doing everything at run-time.
-It is best practice to create a separate dedicated program that does nothing else but run the grammar analysis, thus keeping this development and debug aid out of the main application.
+Due to the differences in backtracking and deterministic semantics, this kind of infinite loop is a frequent issue when translating a context-free grammar into a PEG.
+
+Analyzing a grammar is usually only done while developing and debugging a grammar, or after changing it.
+It is often best practice to create a separate dedicated program that does nothing else but run the grammar analysis, thus keeping this development and debug aid out of the main application.
+
+### Analyze Function
+
+In order to run an analysis on a grammar it is necessary to explicitly include `include/tao/pegtl/debug/analyze.hpp`.
+Then call `analyze()` with the top-level grammar rule as template argument.
 
 ```c++
+template< typename Grammar >
+[[nodiscard]] std::size_t analyze( int verbose = 1 );
+```
+
+The return value is the number of potential problems found.
+A return value of zero means that no problem was found.
+
+The number itself is not very informative because the same problem can be found multiple times, e.g. when a loop without progress consists of multiple rules.
+
+When `verbose` is non-negative the analysis prints warnings to `std::cerr`.
+When `verbose` is positive the warnings also include the transformed rules involved in the potential cycle.
+Passing `-1` suppresses this output.
+
+```c++
+#include <iostream>
+
 #include <tao/pegtl.hpp>
-#include <tao/pegtl/analyze.hpp>
-
-// For this example we use the included JSON grammar.
-
-#include <tao/pegtl/contrib/json.hpp>
+#include <tao/pegtl/debug/analyze.hpp>
+#include <tao/pegtl/example/json.hpp>
 
 namespace pegtl = tao::pegtl;
 
-using grammar = pegtl::must< pegtl::json::text, pegtl::eof >;
+using grammar = pegtl::seq< pegtl::json::text, pegtl::eof >;
 
 int main()
 {
    if( pegtl::analyze< grammar >() != 0 ) {
-      std::cerr << "Cycles without progress detected!" << std::endl;
+      std::cerr << "cycles without progress detected!" << std::endl;
       return 1;
    }
    return 0;
 }
 ```
-The full example can be found in `src/pegtl/json_analyze.cpp`.
-For more information see [Grammar Analysis](Grammar-Analysis.md).
 
-## Grammar Analysis // TODO -- and see above
-
-The PEGTL contains an `analyze()` function that checks a grammar for rules that can enter an infinite loop without consuming input.
-Such loops are most often the result of [left recursion](https://en.wikipedia.org/wiki/Left_recursion) or of careless nesting of rules like `star< star< ... > >`.
-
-### How To
-
-In order to run an analysis on a grammar it is necessary to explicitly include `<tao/pegtl/debug/analyze.hpp>`.
-Then call `tao::pegtl::analyze()` with the top-level grammar rule as template argument.
-
-```c++
-#include <tao/pegtl/debug/analyze.hpp>
-
-const std::size_t issues = tao::pegtl::analyze< my_grammar >();
-```
-
-The `analyze()` function prints some information about the found issues to `std::cout` and returns the total number of issues found.
-The output can be suppressed by passing `-1` as sole function argument, or be extended to give some information about the issues when called with `1`.
-
-Analysing a grammar is usually only done while developing and debugging a grammar, or after changing it.
-
-### Example
+The full JSON analysis example can be found in `src/example/json_analyze.cpp`.
 
 Regarding the kinds of issues that are detected, consider the following example rules.
 
@@ -335,25 +436,48 @@ struct bar
    : plus< foo > {};
 ```
 
-When attempting to match `bar` against an input where the next character is not a digit the parser immediately goes into an infinite loop between `bar` calling `foo` then `foo` calling `bar`.
+When attempting to match `bar` against an input where the next character is not a digit, the parser immediately goes into an infinite loop between `bar` calling `foo`, and `foo` calling `bar`.
 
-As shown by the example program `src/pegtl/analyze.cpp`, the grammar analysis will correctly detect a cycle without progress in this grammar.
+As shown by the example program `src/example/analyze.cpp`, the grammar analysis correctly detects a cycle without progress in this grammar.
 
-Due to the differences in back-tracking and (non-)deterministic semantics, this kind of infinite loop is a frequent issue when translating a CFG into a PEG.
+### Analyze Traits
 
-### Requirements
+The `analyze()` function operates on an abstract form of the grammar that is "sufficiently equivalent" to the original grammar regarding the possibility of infinite cycles without progress.
 
-The `analyze()` function operates on an abstract form of the grammar that is mostly equivalent to the original grammar regarding the possibility of infinite cycles without progress.
+This abstract form is obtained via specialisations of the `analyze_traits<>` class template from `include/tao/pegtl/debug/analyze_traits.hpp`.
+Every specialisation needs to have exactly one of the following as public (direct or indirect) base class.
 
-This abstract form is obtained via specialisations of the `analyze_traits<>` class template which each must have exactly one of `analyze_any_traits`, `analyze_opt_traits`, `analyze_seq_traits` and `analyze_sor_traits` as public (direct or indirect) base class.
+```c++
+template< typename... Rules >
+struct analyze_any_traits;
 
-Specialisations of the `analyze_traits<>` class template are appropriately implemented for all grammar rule classes included with the PEGTL.
-This support automatically extends to all custom rules built "the usual way" via public inheritance of (combinations and specialisations of) rules included with the PEGTL.
+template< typename... Rules >
+struct analyze_opt_traits;
 
-For true custom rules, i.e. rules that implement their own `match()` function, the following steps need to be taken for them to work with the grammar analysis.
+template< typename... Rules >
+struct analyze_seq_traits;
 
-1. The rule needs a [`rule_t`](Meta-Data-and-Visit.md#rule-type) that, usually for true custom rules, is a type alias for the grammar rule itself.
-2. There needs to be a specialisation of the `analyze_traits<>` for the custom rule's `rule_t`, with an additional first template parameter:
+template< typename... Rules >
+struct analyze_sor_traits;
+```
+
+The base class is chosen as follows.
+
+1. `analyze_any_traits<>` is used for rules that always consume input when they succeed.
+2. `analyze_opt_traits<>` is used for rules that can succeed without consuming input.
+3. `analyze_seq_traits<>` is used for rules that, regarding their match behavior, are equivalent to `seq<>`.
+4. `analyze_sor_traits<>` is used for rules that, regarding their match behavior, are equivalent to `sor<>`.
+
+If a rule calls sub-rules, these sub-rules need to be passed as template parameters to the chosen base class.
+
+Specialisations of `analyze_traits<>` are implemented for all grammar rule classes included with the PEGTL.
+This support automatically extends to custom rules built "the usual way" via public inheritance of, or combinations of, rules included with the PEGTL.
+
+For [true custom rules](Rules-and-Grammars.md#implementing-rules), i.e. rules that implement their own `match()` function, the following steps need to be taken for them to work with the grammar analysis.
+
+1. The rule needs a [`rule_t`](#rule-type), usually a type alias for the grammar rule itself.
+2. The rule needs a [`subs_t`](#sub-rules), usually `empty_list` for a rule that does not call other rules.
+3. There needs to be a specialisation of `analyze_traits<>` for the custom rule's `rule_t`.
 
 Assuming a custom rule like the following
 
@@ -361,131 +485,57 @@ Assuming a custom rule like the following
 struct my_rule
 {
    using rule_t = my_rule;
-   using subs_t = tao::pegtl::empty_list;  // tao/pegtl/type_list.hpp
+   using subs_t = tao::pegtl::empty_list;
 
-   template< typename Input >
-   bool match( Input& in )
+   template< typename ParseInput >
+   static bool match( ParseInput& in )
    {
-      // Do something and...
-      return // ...return whether it matched.
+      if( !in.empty() ) {
+         in.template consume< my_rule >( 1 );
+         return true;
+      }
+      return false;
    }
 };
 ```
 
-the analyze traits need to be set up as
+the analyze traits need to be set up as follows.
 
 ```c++
-template< typename Name >
-struct tao::pegtl::analyze_traits< Name, my_rule >
-   : analyze_any_traits<>  // Or one of the other 3 base classes, as appropriate.
+namespace tao::pegtl
+{
+   template< typename Name >
+   struct analyze_traits< Name, my_rule >
+      : analyze_any_traits<>  // In this case "any" traits are the right ones.
+   {};
+}
+```
+
+The first template parameter `Name` is required by the analyze traits of some rules in order to facilitate their transcription in terms of the basic combinators `seq`, `sor` and `opt`.
+
+For example `R = plus< T >` is equivalent, for the analysis, to `seq< T, opt< R > >`, and the corresponding specialisation of the analyze traits is as follows.
+
+```c++
+template< typename Name, typename... Rules >
+struct analyze_traits< Name, internal::plus< Rules... > >
+   : analyze_traits< Name, typename internal::seq< Rules..., internal::opt< Name > >::rule_t >
 {};
 ```
 
-where the base class is chosen as follows.
-
-1. `analyze_any_traits<>` is used for rules that always consume when they succeed.
-2. `analyze_opt_traits<>` is used for rules that (can also) succeed without consuming.
-3. `analyze_seq_traits<>` is used for rules that, regarding their match behavior, are equivalent to `seq<>`.
-4. `analyze_sor_traits<>` is used for rules that, regarding their match behavior, are equivalent to `sor<>`.
-
-If `my_rule` has rules, that it calls upon as sub-rules, as template parameters, these need to be passed as template parameters to the chosen base class.
-
-Note that the first template parameter `Name` is required by the analyse traits of some rules in order to facilitate their transcription in terms of the basic combinators `seq`, `sor` and `opt`.
-
-For example `R = plus< T >` is equivalent to `seq< T, opt< R > >`, and the corresponding specialisation of the analyse traits is as follows.
-
-```c++
-   template< typename Name, typename... Rules >
-   struct analyze_traits< Name, internal::plus< Rules... > >
-      : analyze_traits< Name, typename seq< Rules..., opt< Name > >::rule_t >
-   {};
-```
-
 Note how the specialisation is for `internal::plus`, rather than `plus`, since that is used as the `rule_t` type alias.
-And remember that the convention is for precisely the classes that actually implement `match()` to define `rule_t`.
-The indirection of using `Rule::rule_t` rather than `Rule` itself to drive the grammar analysis greatly reduces the number of classes that need to define `rule_t`, and consequently greatly reduces the number of required `analyze_traits` specialisations.
+The indirection of using `Rule::rule_t` rather than `Rule` itself to drive the grammar analysis greatly reduces the number of classes that need to define `rule_t`, and consequently reduces the number of required `analyze_traits<>` specialisations.
 
-Note further how `Name` is required to transform the implicitly iterative rule `plus` into an explicitly recursive form that only uses `seq` and `opt`.
-The analyse traits have the task of simplifying the grammar in order to keep the core analysis algorithm as simple as possible.
-
-Please consult `include/tao/pegtl/debug/analyze_traits_impl.hpp` for many examples of how to correctly set up analyse traits for more complex rules, in particular for rules that do not directly fall into one of the aforementioned four categories.
-
-For any further reaching questions  how to set up the traits for custom rules please contact the authors at **taocpp(at)icemx.net**.
+The analyze traits have the task of simplifying the grammar in order to keep the core analysis algorithm as simple as possible.
+Please consult `include/tao/pegtl/debug/analyze_traits.hpp` as reference for setting up analyze traits for more complex rules, it contains specializations for all rules included with the PEGTL[^1].
 
 ### Limitations
 
-It has been conjectured, but, given the expressive power of PEGs, not proven, that *all* potential infinite loops are detected by the grammar analysis.
+The grammar analysis is a conservative static analysis of an abstract form of the grammar.
+It does not execute actions, inspect semantic state, or reason about arbitrary code in custom rules.
 
-In practice it has proven to catch all cases of left-recursion that are typical for grammars converted from CFGs or other formalisms that can handle left-recursion.
+False positives are possible, and easy to provoke, because the analysis only tracks whether a rule can be shown to consume input when it succeeds, however no false positives have yet been observed on real-world grammars.
 
-False positives are possible and relatively easy to trigger intentionally, however we, the authors of the PEGTL, have never encountered one when dealing with real-world grammars.
-
-
-
-# TODO
-
-Each rule has several type aliases that allow for automatic inspection of a grammar and all of its rules for multiple purposes.
-Note that true custom rules, i.e. rules that implement custom `match()` functions, do **not** need to define these type aliases for parsing.
-They are only required to support functions based on `visit()` and the [grammar analysis](Grammar-Analysis.md).
-
-## Internals
-
-While accessible in the namespace `tao::pegtl`, the [rules and combinators](Rule-Reference.md) included with the PEGTL all have their actual implementation in the sub-namespace `internal`.
-For example the header `include/tao/pegtl/rules.hpp` shows how the user-facing rules are nothing more than forwarders to their `internal` implementation.
-
-The original motivation for this additional level of indirection was to prevent uninteded invocation of user-defined actions due to some PEGTL rules being built from exisiting rules instead of having a dedicated implementation.
-For example consider `rep_min` from `include/tao/pegtl/internal/rep_min.hpp`.
-
-```c++
-template< unsigned Min, typename Rule, typename... Rules >
-using rep_min = seq< rep< Min, Rule, Rules... >, star< Rule, Rules... > >;
-```
-
-The expansion of `rep_min` uses the sub-rule `star< Rule, Rules... >`.
-If a grammar were to contain both `rep_min` and `star` with the same sub-rules, and an action were provided for `star` with these exact sub-rules, then the action would not only be called for the explicit occurrences of `star` in the grammar bu
-t *also* for the corresponding sub-rule of `rep_min`.
-
-The action invocation for the sub-rule of `rep_min` is considered surprising and undesirable because it exposes implementation details to the user, forces her to deal with them, and breaks her grammar if the implementation were to change.
-
-Therefore it is possible to selectively disable most of the [control](Control-and-Normal.md) functions, including the `apply`-functions that perform action invocation, on a rule-by-rule basis.
-More precisely, the action and debug control functions are only invoked for a rule `R` when `control< R >::enable` is `true`.
-
-```c++
-template< typename Rule >
-struct normal
-{
-   static constexpr bool enable = internal::enable_control< Rule >;
-
-// ...
-};
-```
-
-The default control class template `normal` defines `normal< R >::enable` in terms of `internal::enable_control< R >` which is `true` by default, but `false` for all rules in sub-namespace `internal`, thereby hiding all invocations of `internal
-` rules from all actions and most of the control class functions.
-
-The facilities documented on this page however do **not** hide the implementation details since, while debugging a grammar or a parsing run, it is essential to have a complete picture.
-
-## Rule Type
-
-For each rule `R`, the type alias `R::rule_t` is defined as the type of the class that actually implements the `match()` function.
-This is usually the root of the inheritance hierarchy.
-
-Note that `R::rule_t` can be completely different from `R`.
-For example while `seq< R >::rule_t` is `internal::seq< R >`, due to `seq<>` being not only equivalent to `success`, but also implemented in terms of it, `seq<>::rule_t` is actually `internal::success`.
-
-In each rule's implementation mapping section the [rule reference](Rule-Reference.md) shows how `rule_t` is defined depending on the template parameters.
-
-## Sub Rules
-
-For each rule `R`, the type alias `R::subs_t` is an instantiation of `type_list` with all the direct sub-rules of `R` as template parameters.
-
-For example `seq< R, S >::subs_t` is `type_list< R, S >` and `alpha::subs_t` is `type_list<>`.
-
-Note that for many rules with sub-rules the corresponding `subs_t` is not as might be expected.
-For example `enable< R, S >::subs_t` is `type_list< internal::seq< R, S > >` instead of the probably expected `type_list< R, S >`.
-
-Please again consult the [Rule Reference](Rule-Reference.md) (or the source) for how `subs_t` is defined for all included rules.
-
+In practice the grammar analysis has proven useful in that it catches all cases of left recursion and similar iteration or repetition without progress that are typical for grammars converted from context-free grammars (or other formalisms that can handle left recursion).
 
 
 ---
@@ -495,3 +545,5 @@ This page is part of the [PEGTL](https://github.com/taocpp/PEGTL) and its [docum
 Copyright (c) 2017-2026 Dr. Colin Hirsch and Daniel Frey<br>
 Distributed under the Boost Software License, Version 1.0<br>
 See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://www.boost.org/LICENSE_1_0.txt
+
+[^1:] The [stream parsing](Stream-Parsing.md) rules, as well as the [extras](Extra-Reference.md) and [examples](Example-Reference.md), have their respective traits specializations separately.
