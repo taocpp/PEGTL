@@ -366,7 +366,7 @@ using other_iterator_auto_input = /* unspecified */
 
 ###### Text Inputs
 
-The text inputs use `text_position` or `position_with_source< Source, text_position >` with the [same limitations](TODO!) as the regular inputs regarding the line and column numbers.
+The text inputs use `text_position` or `position_with_source< Source, text_position >` with the same limitations when going beyond ASCII as the regular inputs.
 
 ```c++
 template< typename Eol = tao_stream_eol,

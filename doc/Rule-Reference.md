@@ -4,8 +4,6 @@ The reference documentation for all rules and combinators.
 
 The rules related to [stream parsing](Stream-Parsing.md) are [documented here](Stream-Parsing.md#rules).
 
-The rules not considered part of the core library are [documented here](TODO).
-
 
 ## Contents
 
@@ -32,15 +30,13 @@ The rules not considered part of the core library are [documented here](TODO).
 
 For how rule and combinators are implemented see [Implementing Rules](Rules-and-Grammars.md#implementing-rules).
 
-For additional and experimental rules and combinators see ... TODO.
+For additional and experimental rules and combinators see the [Extra Reference](Extra-Reference.md) and the [Example Reference](Example-Reference.md).
 
 #### Namespaces
 
 All rules reside in namespace `tao::pegtl` or a sub-namespace of `tao::pegtl`.
 This default can be changed via the macro `TAO_PEGTL_NAMESPACE` in `tao/pegtl/config.hpp`.
 The namespace `tao::pegtl` is generally omitted on this page.
-
-TODO: Consistent namespace usage in equivalent rules.
 
 #### Equivalence
 
@@ -65,7 +61,7 @@ In the zero case, i.e. `seq<>`, we also say `R` is "empty", otherwise `R` is "no
 #### End Of Line Rules
 
 Rules that can be used for end-of-line scanning mode and/or lazy end-of-line tracking are documented as being "also available in the `scan` and/or `lazy` sub-namespace".
-The different end-of-line modes that can be chosen for an input are documented in [TODO].
+The different end-of-line modes that can be chosen for an input are documented in [Inputs and Parsing](Inputs-and-Parsing.md#ends-of-lines).
 
 
 ## Atomic
@@ -147,6 +143,11 @@ Note that the default behavior can be changed either by defining `TAO_PEGTL_DEFA
 
 * Delegates matching to the function `F`.
 * For details see `tao/pegtl/rules.hpp` and `tao/pegtl/internal/function.hpp`.
+
+###### `invert< R >`
+
+* Takes any rule implemented with `internal::terminal` as template parameter.
+* Results in a type alias identical to `R` but with toggled `invert_mode`.
 
 ###### `restart`
 
@@ -2018,6 +2019,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`if_must< R, S... >`](#if_must-r-s-) <sup>[(exceptional)](#exceptional)</sup>
 * [`if_must_else< R, S, T >`](#if_must_else-r-s-t-) <sup>[(exceptional)](#exceptional)</sup>
 * [`if_then_else< R, S, T >`](#if_then_else-r-s-t-) <sup>[(convenience)](#convenience)</sup>
+* [`invert< R >`](#invert-r-) <sup>[(atomic)](#atomic)</sup>
 * [`ione< C... >`](#ione-c-) <sup>[(ascii)](#ascii)</sup>
 * [`istring< C... >`](#istring-c-) <sup>[(ascii)](#ascii)</sup>
 * [`join_control`](#join_control) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
@@ -2124,7 +2126,6 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`separated< S, R... >`](#separated-s-r-) <sup>[(convenience)](#convenience)</sup>
 * [`separated_pad< S, P, R... >`](#separated_pad-s-p-r-) <sup>[(convenience)](#convenience)</sup>
 * [`seq< R... >`](#seq-r-) <sup>[(combinators)](#combinators)</sup>
-* [`seven`](TODO) <sup>[(ascii)](#ascii)</sup>
 * [`shebang`](#shebang) <sup>[(ascii)](#ascii)</sup>
 * [`soft_dotted`](#soft_dotted) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`sor< R... >`](#sor-r-) <sup>[(combinators)](#combinators)</sup>

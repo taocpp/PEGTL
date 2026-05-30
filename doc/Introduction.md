@@ -166,8 +166,7 @@ The header files in any `internal/` sub-directory, and all C++ definitions and d
 
 There are two kinds of implementation files, tests and examples, found in `src/test/` and `src/example/`, respectively.
 Neither is considered part of the public API wherefore neither is subject to semantic versioning.
-The examples are listed in TODO.
-Some contain useful comments.
+The examples are listed in the [Example Reference](Example-Reference.md).
 
 
 ## Namespaces

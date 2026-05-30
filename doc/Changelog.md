@@ -52,7 +52,7 @@ All noteworthy changes since the first public release.
   * Removed the `tracking_mode` as `enum` and input template parameter.
   * Never use unaligned memory access (unless compiler generated).
 * Rule Changes
-  * `ione`, `ranges`, `one` and `not_one` require at least one template parameter.
+  * The rules `ione`, `ranges`, `one` and `not_one` now require at least one template parameter.
   * Added Unicode rules that adapt to the input's data size.
   * Added special end-of-line rules in multiple places.
   * Added new atomic rule [`function`](Rule-Reference.md#function-f-).
@@ -73,7 +73,11 @@ All noteworthy changes since the first public release.
   * Added new ASCII rule [`not_ione`](Rule-Reference.md#not_ione-c-).
   * Added new ASCII rule [`sp`](Rule-Reference.md#sp).
   * Added new ASCII rule [`vt`](Rule-Reference.md#vt).
-  * Added new ASCII rules that only match in the range 0 to 127.
+  * Renamed ASCII rule `seven` to [`any7`](Rule-Reference.md#any7).
+  * Added new ASCII rule [`many7`](Rule-Reference.md#many7-num-).
+  * Added new ASCII rule [`not_ione7`](Rule-Reference.md#not_ione7-c-).
+  * Added new ASCII rule [`not_one7`](Rule-Reference.md#not_one7-c-).
+  * Added new ASCII rule [`not_range7`](Rule-Reference.md#not_range7-c-d-).
   * Added new Unicode rule [`cr`](Rule-Reference.md#cr-1).
   * Added new Unicode rule [`cr_lf`](Rule-Reference.md#cr_lf-1).
   * Added new Unicode rule [`cr_crlf`](Rule-Reference.md#cr_crlf-1).
@@ -91,7 +95,7 @@ All noteworthy changes since the first public release.
   * Added new atomic rule [`consume`](Rule-Reference.md#consume-num-).
   * Added new atomic rule [`everything`](Rule-Reference.md#everything).
   * Added new rule `source`.
-  * Added new generic rule [`invert`](TODO).
+  * Added new generic rule [`invert`](Rule-Reference.md#invert-r-).
   * Added new convenience rule [`partial`](Rule-Reference.md#partial-r-).
   * Added new convenience rule [`separated`](Rule-Reference.md#separated-s-r-) (replaces `separated_seq` from contrib).
   * Added new convenience rule [`separated_pad`](Rule-Reference.md#separated_pad-s-p-r-).
@@ -203,8 +207,8 @@ Released 2021-10-22
 
 * Added rule [`odigit`](Rule-Reference.md#odigit) for octal digits.
 * Enabled default-constructed state in `state<>`, `change_state<>`, and `change_action_and_state<>`.
-* Changed rules in [`tao/pegtl/contrib/integer.hpp`](TODO) to not throw by default.
-* Added [`tao/pegtl/contrib/separated_seq.hpp`](TODO).
+* Changed rules in `tao/pegtl/contrib/integer.hpp` to not throw by default.
+* Added rule [`tao/pegtl/contrib/separated_seq.hpp`](Rule-Reference.md#separated-s-r-).
 * Added `tao/pegtl/contrib/iri.hpp` grammar for IRIs.
 * Added `tao/pegtl/contrib/proto3.hpp` grammar for protocol buffer v3.
 
@@ -231,7 +235,7 @@ Released 2020-12-17
 * Made `analyze()` more verbose by default to aid finding the rule cycles.
 * Added `parse_nested()` overload that accepts a `position` as first argument.
 * Added some experimental and undocumented `contrib` features and their infrastructure.
-* Improved CMake support for [`<filesystem>`](TODO) fallbacks and alternatives.
+* Improved CMake support for [`<filesystem>`](https://en.cppreference.com/cpp/header/filesystem) fallbacks and alternatives.
   * Re-enabled support for GCC 7.
   * Automatically link with `libstdc++fs` or `libc++fs` as needed.
   * Added automatic fallback from `std::filesystem` to `std::experimental::filesystem`.
@@ -336,7 +340,7 @@ Released 2019-04-09
 
 Released 2018-09-29
 
-* Added new ASCII convenience rule [`forty_two`](TODO).
+* Added new ASCII convenience rule `forty_two`.
 * Added experimental `if_then` rule.
 * Simplified how parse tree nodes can be selected.
 * Reduced the number of intermediate parse tree nodes.
@@ -531,7 +535,7 @@ Released 2017-05-18
 * Added support for different [EOL-styles](Inputs-and-Parsing.md#ends-of-lines).
   * Renamed class `position_info` to `position`.
   * Added the byte position to input classes and `position`.
-* Added [fast parsing without line counting](TODO) (except in errors).
+* Added fast parsing without line counting (except in errors).
   * Refactored the `input` class into multiple input classes.
 * Refactored the file parser classes into [input classes](Input-Reference.md#file-input).
   * Refactored the handling of [nested parsing](Inputs-and-Parsing.md#nested-parsing).
@@ -651,7 +655,7 @@ Semantic versioning was introduced with version 1.0.0.
 * Partial support for Unicode has been added in the form of some basic rules like `one<>` and `range<>` also being supplied in a UTF-8 (and experimental UTF-16 and UTF-32) aware version(s) that can correctly process arbitrary code points from `0` to `0x10ffff`.
 * The supplied input classes work together with the supplied exception throwing to support better error locations when performing nested file parsing, i.e. a `parse_error` contains a vector of parse positions.
 * Added a function to analyse a grammar for the presence of infinite loops, i.e. cycles in the rules that do not (necessarily) consume any input like left recursion.
-* As actions are applied to a grammar in a non-invasive way, several common grammars were added to the PEGTL as documented in [Contrib and Examples](TODO).
+* As actions are applied to a grammar in a non-invasive way, several common grammars were added to the PEGTL as documented in ~~Contrib~~ Extras and Examples.
 * The `list<>`-rule was replaced by a set of new list rules with different padding semantics.
 * The `at_one<>` and other rules `foo` that are merely shortcuts for `at< foo >` were removed.
 * The `if_then<>` rule was removed.

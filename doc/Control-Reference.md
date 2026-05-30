@@ -1,7 +1,6 @@
 # Control Reference
 
 The reference documention for all control class templates.
-The controls not considered part of the core library are [documented here](TODO).
 
 
 ## Contents
@@ -362,11 +361,11 @@ struct my_control
 };
 ```
 
-###### `rewind_input_control` TODO
+###### `rewind_input_control`
 
 This control adapter will add [rewind control functions](#rewind_control) to `input_control` but it won't be implemented until somebody actually needs it.
 
-###### [`rewind_state_control`](../include/tao/pegtl/control/rewind_state_control.hpp)
+###### `rewind_state_control`
 
 This control adapter adds [rewind control functions](#rewind_control) to `state_control` but it won't be documented until somebody actually needs it.
 
