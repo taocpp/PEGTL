@@ -1,6 +1,6 @@
 # Parse Tree
 
-The PEGTL provides facilities for building a [parse tree](https://en.wikipedia.org/wiki/Parse_tree), or a more compact AST-like tree, while a parsing run is performed.
+The PEGTL provides facilities for building a [parse tree](https://en.wikipedia.org/wiki/Parse_tree), or a more compact [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree)-like tree, while a parsing run is performed.
 
 The parse tree support is considered an extra facility rather than a part of the core parser.
 It can

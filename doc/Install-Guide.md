@@ -95,7 +95,7 @@ Some tests and examples are (partially) disabled when compiling without exceptio
 The PEGTL is compatible with `-fno-rtti` on GCC, Clang, and MSVC.
 The only exceptions are GCC versions 9.1 and 9.2 due to an unfortunate compiler bug, see [bug #91155](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155).
 
-On other compilers RTTI is required by default (for demangling, see `include/tao/pegtl/demangle.hpp`).
+On other compilers [RTTI](https://en.wikipedia.org/wiki/Run-time_type_information) is required by default (for demangling, see `include/tao/pegtl/demangle.hpp`).
 Let us know if you use such a compiler since an RTTI-free compiler-specific demangling function might be possible.
 
 

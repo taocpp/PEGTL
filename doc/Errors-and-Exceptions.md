@@ -1,7 +1,7 @@
 # Errors and Exceptions
 
 Parsing rule and run results are Boolean values or exceptions.
-This page describes how they interact with backtracking, how the PEGTL represents parse errors, and how grammars and controls can produce useful diagnostics.
+This page describes how they interact with [backtracking](https://en.wikipedia.org/wiki/Backtracking), how the PEGTL represents parse errors, and how grammars and controls can produce useful diagnostics.
 
 
 ## Contents
@@ -33,7 +33,7 @@ A [`match()` function](Rules-and-Grammars.md#match-function), and therefore a ca
 * An exception indicates a *global failure* which usually aborts a parsing run. In this case a rule is also allowed to consume input.
 
 In the case of local failure what happens next depends on the grammar.
-For example when a sub-rule of [`seq`](Rule-Reference.md#seq-r-) returns `false` the sequence will also return `false`, when a sub-rule of a [`sor`](Rule-Reference.md#sor-r-) returns `false` the next rule will be attempted to match at the same position (provided the failed rule was not the last one) which we call *backtraacking*, and when a sub-rule of an [`opt`](Rule-Reference.md#opt-r-) returns `false` the optional will still succeed.
+For example when a sub-rule of [`seq`](Rule-Reference.md#seq-r-) returns `false` the sequence will also return `false`, when a sub-rule of a [`sor`](Rule-Reference.md#sor-r-) returns `false` the next rule will be attempted to match at the same position (provided the failed rule was not the last one) which we call *backtracking*, and when a sub-rule of an [`opt`](Rule-Reference.md#opt-r-) returns `false` the optional will still succeed.
 
 Exceptions indicating a global failure can stem from multiple sources.
 The PEGTL rules that create global failures throw exceptions derived from `tao::pegtl::parse_error_base`, usually via the current [control](Control-and-Normal.md) class' `raise()` function.

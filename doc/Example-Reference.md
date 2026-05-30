@@ -145,7 +145,7 @@ Two simple examples for grammars that parse different kinds of [CSV-style](https
 
 ###### [`dispatch.cpp`](../src/example/dispatch.cpp)
 
-A short example for the [action dispatch](Extra-Example.md#dispatchhpp) facility.
+A short example for the [action dispatch](Extra-Reference.md#dispatchhpp) facility.
 
 ###### [`dynamic_match.cpp`](../src/example/dynamic_match.cpp)
 
@@ -210,7 +210,7 @@ Shows how to use the JSON [grammar](#jsonhpp) with an auto-discarding [stream in
 
 ###### [`json_tokens.cpp`](../src/example/json_tokens.cpp)
 
-Shows how to split JSON parsing into separate lexer and parser stages as is common when not using the [PEG](https://en.wikipedia.org/wiki/Parsing_expression_grammar) formalism.
+Shows how to split JSON parsing into separate [lexer](https://en.wikipedia.org/wiki/Lexical_analysis) and parser stages as is common when not using the [PEG](https://en.wikipedia.org/wiki/Parsing_expression_grammar) formalism.
 
 ###### [`json_trace.cpp`](../src/example/json_trace.cpp)
 
@@ -268,7 +268,7 @@ An experiment in recovering from parse failures, see [PEGTL issue 55](https://gi
 
 ###### [`s_expression.cpp`](../src/example/s_expression.cpp)
 
-Defines and parses a simplified S-expression grammar.
+Defines and parses a simplified [S-expression](https://en.wikipedia.org/wiki/S-expression) grammar.
 Also shows how to parse *include* files with [nested parsing](Inputs-and-Parsing.md#nested-parsing).
 Parses its command line arguments.
 

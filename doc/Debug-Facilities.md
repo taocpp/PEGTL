@@ -377,7 +377,7 @@ After compiling the examples their executables can be found in `build/bin/exampl
 The grammar analysis checks a grammar for rules that can enter an infinite loop without making progress, i.e. without consuming input.
 Such loops are most often the result of [left recursion](https://en.wikipedia.org/wiki/Left_recursion), or of careless nesting of rules like `star< opt< ... > >`.
 
-Due to the differences in backtracking and deterministic semantics, this kind of infinite loop is a frequent issue when translating a context-free grammar into a PEG.
+Due to the differences in backtracking and deterministic semantics, this kind of infinite loop is a frequent issue when translating a [context-free grammar](https://en.wikipedia.org/wiki/Context-free_grammar) into a PEG.
 
 Analyzing a grammar is usually only done while developing and debugging a grammar, or after changing it.
 It is often best practice to create a separate dedicated program that does nothing else but run the grammar analysis, thus keeping this development and debug aid out of the main application.

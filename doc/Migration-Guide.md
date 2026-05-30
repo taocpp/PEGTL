@@ -92,7 +92,7 @@ The old `positions()` vector and `add_position()` mechanism were removed.
 Nested parsing no longer appends positions to a single parse error.
 `parse_nested()` now throws a nested exception that wraps the inner exception with the outer position.
 Include `<tao/pegtl/extra/nested_exceptions.hpp>` and use `visit_nested()`, `flatten_base()`, `flatten_type()` or `flatten_what()` to inspect such chains.
-The helper header requires exceptions and RTTI.
+The helper header requires exceptions and [RTTI](https://en.wikipedia.org/wiki/Run-time_type_information).
 
 `parse_error.hpp`, `parse_error_base.hpp` and `parse_nested.hpp` are only available when exceptions are enabled.
 When compiling without exceptions, code must not include or use these facilities.
