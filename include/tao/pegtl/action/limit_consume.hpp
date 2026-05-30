@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE
             : m_in( in ),
               m_end( in.end() )
          {
-            m_in.private_set_end( m_in.start() + ( std::min )( m_in.size(), Maximum ) );
+            m_in.private_set_end( m_in.current() + ( std::min )( m_in.size(), Maximum ) );
          }
 
          limit_guard( limit_guard&& ) = delete;

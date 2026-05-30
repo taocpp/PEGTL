@@ -30,31 +30,45 @@ namespace TAO_PEGTL_NAMESPACE
    void unit_test()
    {
       using test_input = internal::input_with_fakes< internal::input_with_funcs< internal::input_with_start< internal::view_input< char > > > >;
-
-      test_input i1( "aaa" );
-      const auto r1 = parse< test_grammar >( i1 );
-      TAO_PEGTL_TEST_ASSERT( r1 );
-
-      test_input i2( "aaaaaaaaaaa" );
-      const auto r2 = parse< test_grammar >( i2 );
-      TAO_PEGTL_TEST_ASSERT( r2 );
-
-      test_input i3( "aaa" );
-      const auto r3 = parse< test_grammar, test_action >( i3 );
-      TAO_PEGTL_TEST_ASSERT( r3 );
-
-      test_input i4( "000" );
-      const auto r4 = parse< test_grammar, test_action >( i4 );
-      TAO_PEGTL_TEST_ASSERT( !r4 );
-
-      test_input i5( "0aaaaaaaaaaa" );
-      const auto r5 = parse< test_grammar, test_action >( i5 );
-      TAO_PEGTL_TEST_ASSERT( !r5 );
-
+      {
+         test_input i1( "aaa" );
+         const auto r1 = parse< test_grammar >( i1 );
+         TAO_PEGTL_TEST_ASSERT( r1 );
+      }
+      {
+         test_input i2( "aaaaaaaaaaa" );
+         const auto r2 = parse< test_grammar >( i2 );
+         TAO_PEGTL_TEST_ASSERT( r2 );
+      }
+      {
+         test_input i3( "aaa" );
+         const auto r3 = parse< test_grammar, test_action >( i3 );
+         TAO_PEGTL_TEST_ASSERT( r3 );
+      }
+      {
+         test_input i4( "000" );
+         const auto r4 = parse< test_grammar, test_action >( i4 );
+         TAO_PEGTL_TEST_ASSERT( !r4 );
+      }
+      {
+         test_input i5( "0aaaaaaaaaaa" );
+         const auto r5 = parse< test_grammar, test_action >( i5 );
+         TAO_PEGTL_TEST_ASSERT( !r5 );
+      }
 #if defined( __cpp_exceptions )
-      test_input i6( "aaaaaaaaaaa" );
-      TAO_PEGTL_TEST_THROWS( parse< test_grammar, test_action >( i6 ) );
+      {
+         test_input i6( "aaaaaaaaaaa" );
+         TAO_PEGTL_TEST_THROWS( parse< test_grammar, test_action >( i6 ) );
+      }
 #endif
+      {
+         test_input i7( "bbbaaa999" );
+         i7.consume< void >( 3 );
+         const auto r7 = parse< test_rule, test_action >( i7 );
+         TAO_PEGTL_TEST_ASSERT( r7 );
+         const auto r8 = parse< digit >( i7 );
+         TAO_PEGTL_TEST_ASSERT( r8 );
+      }
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
