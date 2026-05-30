@@ -19,6 +19,7 @@ set(test_sources
   action_limit_consume.cpp
   action_match_lazy.cpp
   action_match_text.cpp
+  action_match_typed_state.cpp
   apply_mode.cpp
   ascii_atomics.cpp
   ascii_chars.cpp
@@ -45,6 +46,7 @@ set(test_sources
   control_apply_typed_state.cpp
   control_input_control.cpp
   control_remove_first_state.cpp
+  control_remove_first_states.cpp
   control_remove_last_states.cpp
   control_reverse_states.cpp
   control_rewind_control.cpp
@@ -101,6 +103,7 @@ set(test_sources
   input_read_input.cpp
   input_with_depth.cpp
   input_with_offset.cpp
+  input_with_source_public.cpp
   internal_any.cpp
   internal_argv_input.cpp
   internal_ascii_utility.cpp
@@ -209,6 +212,8 @@ set(test_sources
   rule_unordered.cpp
   rule_until.cpp
   rule_utf8_string.cpp
+  signed_general.cpp
+  stream_analyze_traits.cpp
   stream_alloc_buffer.cpp
   stream_array_buffer.cpp
   stream_cstream_input.cpp

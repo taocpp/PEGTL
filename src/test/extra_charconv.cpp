@@ -13,6 +13,8 @@ int main()
 #include "test.hpp"
 #include "verify_meta.hpp"
 
+#include <cstdint>
+
 #include <tao/pegtl/extra/charconv.hpp>
 
 namespace TAO_PEGTL_NAMESPACE
@@ -25,6 +27,15 @@ namespace TAO_PEGTL_NAMESPACE
    template<>
    struct test_action< everything >
       : from_chars_throws< void >
+   {};
+
+   struct hex_everything
+      : everything
+   {};
+
+   template<>
+   struct test_action< hex_everything >
+      : from_xchars_throws< void >
    {};
 
    template< typename Integral >
@@ -61,6 +72,17 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
+   template< typename Rule, typename Integral >
+   void from_chars_rule_success( const std::string& input, const Integral output, const std::size_t remaining = 0 )
+   {
+      view_input in( input );
+      Integral state = output + Integral( 1 );
+      const bool result = parse< Rule >( in, state );
+      TAO_PEGTL_TEST_ASSERT( result );
+      TAO_PEGTL_TEST_ASSERT( state == output );
+      TAO_PEGTL_TEST_ASSERT( in.size() == remaining );
+   }
+
    template< typename Integral >
    void from_chars_local_failure( const std::string& input, Integral value )
    {
@@ -91,6 +113,27 @@ namespace TAO_PEGTL_NAMESPACE
          const bool result = parse< everything, test_action >( in, state );
          TAO_PEGTL_TEST_ASSERT( !result );
          TAO_PEGTL_TEST_ASSERT( state == value + 1 );
+         TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
+      }
+   }
+
+   template< typename Integral >
+   void from_chars_overflow_local_failure( const std::string& input, Integral value )
+   {
+      {
+         view_input in( input );
+         Integral state = value;
+         const bool result = parse< from_chars_nothrow< void > >( in, state );
+         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( state == value );
+         TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
+      }
+      {
+         view_input in( input );
+         Integral state = value;
+         const bool result = parse< from_chars_nothrow< Integral > >( in, state );
+         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( state == value );
          TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
       }
    }
@@ -145,6 +188,10 @@ namespace TAO_PEGTL_NAMESPACE
 
       from_chars_success( "007", int( 7 ) );
       from_chars_success( "007", unsigned( 7 ) );
+      from_chars_success( "127", std::int8_t( 127 ) );
+      from_chars_success( "255", std::uint8_t( 255 ) );
+      from_chars_success( "-9223372036854775807", std::int64_t( -9223372036854775807LL ) );
+      from_chars_success( "18446744073709551615", std::uint64_t( 18446744073709551615ULL ) );
 
       from_chars_success( "0r", int( 0 ), 1 );
       from_chars_success( "0s", unsigned( 0 ), 1 );
@@ -163,6 +210,25 @@ namespace TAO_PEGTL_NAMESPACE
 
       from_chars_global_failure( "999999999999", int( 0 ) );
       from_chars_global_failure( "999999999999", unsigned( 0 ) );
+
+      from_chars_overflow_local_failure( "128", std::int8_t( 42 ) );
+      from_chars_overflow_local_failure( "256", std::uint8_t( 42 ) );
+      from_chars_overflow_local_failure( "9223372036854775808", std::int64_t( 42 ) );
+      from_chars_overflow_local_failure( "18446744073709551616", std::uint64_t( 42 ) );
+
+      from_chars_rule_success< from_chars_nothrow< int, 2 > >( "1011", int( 11 ) );
+      from_chars_rule_success< from_chars_nothrow< int, 8 > >( "17", int( 15 ) );
+      from_chars_rule_success< from_chars_nothrow< int, 10 > >( "-19", int( -19 ) );
+      from_chars_rule_success< from_chars_nothrow< int, 10 > >( "123456", int( 123456 ) );
+      from_chars_rule_success< from_xchars_nothrow< int > >( "ff", int( 255 ) );
+      from_chars_rule_success< from_xchars_nothrow< int > >( "ffg", int( 255 ), 1 );
+
+      {
+         view_input in( "ff" );
+         int state = 0;
+         TAO_PEGTL_TEST_ASSERT( parse< hex_everything, test_action >( in, state ) );
+         TAO_PEGTL_TEST_ASSERT( state == 255 );
+      }
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE

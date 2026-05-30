@@ -16,6 +16,7 @@ int main()
 }
 #else
 
+#include <stdexcept>
 #include <vector>
 
 #include "test.hpp"
@@ -26,11 +27,50 @@ int main()
 
 namespace TAO_PEGTL_NAMESPACE
 {
+   struct custom_error
+   {};
+
+   struct throw_std
+      : one< 's' >
+   {};
+
+   struct throw_custom
+      : one< 'c' >
+   {};
+
+   template< typename Rule >
+   struct throwing_action
+      : nothing< Rule >
+   {};
+
+   template<>
+   struct throwing_action< throw_std >
+   {
+      template< typename ActionInput >
+      static void apply( const ActionInput& /*unused*/ )
+      {
+         throw std::runtime_error( "std" );
+      }
+   };
+
+   template<>
+   struct throwing_action< throw_custom >
+   {
+      template< typename ActionInput >
+      static void apply( const ActionInput& /*unused*/ )
+      {
+         throw custom_error();
+      }
+   };
+
    template< typename... Rules >
    using test_try_catch_rule = try_catch_raise_nested< must< Rules... > >;
 
    template< typename... Rules >
    using test_try_catch_any_rule = try_catch_any_raise_nested< must< Rules... > >;
+
+   template< typename... Rules >
+   using test_try_catch_type_rule = try_catch_type_raise_nested< parse_error_base, Rules... >;
 
    template< template< typename... > class Rule >
    void verify_nested()
@@ -46,13 +86,62 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
+   void test_std()
+   {
+      {
+         text_view_input< scan::lf > in( "s" );
+         try {
+            parse< try_catch_std_raise_nested< throw_std >, throwing_action >( in );
+            TAO_PEGTL_TEST_UNREACHABLE;
+         }
+         catch( const parse_error_base& ) {
+         }
+      }
+      {
+         text_view_input< scan::lf > in( "c" );
+         try {
+            parse< try_catch_std_raise_nested< throw_custom >, throwing_action >( in );
+            TAO_PEGTL_TEST_UNREACHABLE;
+         }
+         catch( const custom_error& ) {
+         }
+      }
+   }
+
+   void test_type()
+   {
+      {
+         text_view_input< scan::lf > in( "c" );
+         try {
+            parse< try_catch_type_raise_nested< custom_error, throw_custom >, throwing_action >( in );
+            TAO_PEGTL_TEST_UNREACHABLE;
+         }
+         catch( const parse_error_base& ) {
+         }
+      }
+      {
+         text_view_input< scan::lf > in( "s" );
+         try {
+            parse< try_catch_type_raise_nested< custom_error, throw_std >, throwing_action >( in );
+            TAO_PEGTL_TEST_UNREACHABLE;
+         }
+         catch( const std::runtime_error& ) {
+         }
+      }
+   }
+
    void unit_test()
    {
       verify_seqs< try_catch_raise_nested >();
       verify_seqs< try_catch_any_raise_nested >();
+      verify_seqs< try_catch_std_raise_nested >();
+      verify_seqs< test_try_catch_type_rule >();
 
       verify_nested< test_try_catch_rule >();
       verify_nested< test_try_catch_any_rule >();
+
+      test_std();
+      test_type();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
