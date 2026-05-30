@@ -13,8 +13,10 @@ All noteworthy changes since the first public release.
   * Makefile generates binaries in `build/bin/` instead of `build/src/`.
   * The `pegtl` sub-directory in `src/example` and `src/test` was removed.
   * Makefile generates dependencies in `build/dep/` instead of `build/src/`.
+  * Added `pkg-config` metadata and installation support.
   * All headers in `include/tao/pegtl/contrib/` were moved to `.../extra/`, `.../example/`, `.../deprecated/` or `.../`.
   * Not all headers in `include/tao/pegtl/` are included by `<tao/pegtl.hpp>`.
+  * Moved the string-literal macros to the new public header `include/tao/pegtl/pegtl_string.hpp`.
   * All stream parsing headers were moved to `include/tao/pegtl/stream/`.
   * All Unicode (incl. ICU) rules were moved to `include/tao/pegtl/unicode/`.
   * All binary rules (incl. enums) were moved to `include/tao/pegtl/binary/`.
@@ -57,6 +59,7 @@ All noteworthy changes since the first public release.
   * Added special end-of-line rules in multiple places.
   * Added new atomic rule [`function`](Rule-Reference.md#function-f-).
   * Added new atomic rule [`restart`](Rule-Reference.md#restart).
+  * Added new ASCII rule [`bdigit`](Rule-Reference.md#bdigit).
   * Added new ASCII rule [`cntrl`](Rule-Reference.md#cntrl).
   * Added new ASCII rule [`cr`](Rule-Reference.md#cr).
   * Added new ASCII rule [`cr_lf`](Rule-Reference.md#cr_lf).
@@ -71,6 +74,7 @@ All noteworthy changes since the first public release.
   * Added new ASCII rule [`lf`](Rule-Reference.md#lf).
   * Added new ASCII rule [`lf_crlf`](Rule-Reference.md#lf_crlf).
   * Added new ASCII rule [`not_ione`](Rule-Reference.md#not_ione-c-).
+  * Added new ASCII rule [`punct`](Rule-Reference.md#punct).
   * Added new ASCII rule [`sp`](Rule-Reference.md#sp).
   * Added new ASCII rule [`vt`](Rule-Reference.md#vt).
   * Renamed ASCII rule `seven` to [`any7`](Rule-Reference.md#any7).
@@ -108,11 +112,13 @@ All noteworthy changes since the first public release.
   * Renamed rule `try_catch` to [`try_catch_return_false`](Rule-Reference.md#try_catch_return_false-r-).
   * Added rule [`try_catch_std_return_false`](Rule-Reference.md#try_catch_std_return_false-r-).
   * Renamed rule `try_catch_type` to [`try_catch_type_return_false`](Rule-Reference.md#try_catch_type_return_false-e-r-).
+  * Added rule [`raise_message`](Rule-Reference.md#raise_message-c-) and macro [`TAO_PEGTL_RAISE_MESSAGE`](Rule-Reference.md#tao_pegtl_raise_message--).
   * Added rule [`try_catch_any_raise_nested`](Rule-Reference.md#try_catch_any_raise_nested-r-).
   * Added rule [`try_catch_raise_nested`](Rule-Reference.md#try_catch_raise_nested-r-).
   * Added rule [`try_catch_std_raise_nested`](Rule-Reference.md#try_catch_std_raise_nested-r-).
   * Added rule [`try_catch_type_raise_nested`](Rule-Reference.md#try_catch_type_raise_nested-e-r-).
   * Added rules for matching signed integers mirroring the existing ones for unsigned integers.
+  * Added `not_ranges` variants to the ASCII, Unicode, binary and member rules.
   * Optimized `utf8::string` by expanding `char32_t` code points to UTF-8 sequences at compile time.
   * Refactored the implementation of `ione`, `one`, `range`, `ranges`, `not_ione`, `not_one`, `not_range`, `not_ranges` which changes their `rule_t`.
   * Added new rules for enum types to the [binary rules](Rule-Reference.md#binary).

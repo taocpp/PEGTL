@@ -206,6 +206,11 @@ For all ASCII rules the template parameters representing characters are of type 
 * [Meta data] and [implementation] mapping:
   - `(ascii::)any7::rule_t` is `internal::any< internal::peek_seven >`
 
+###### `bdigit`
+
+* Matches and consumes a single ASCII binary digit.
+* [Equivalent] to `(ascii::)one< '0', '1' >`.
+
 ###### `blank`
 
 * Matches and consumes a single ASCII horizontal space or horizontal tabulator character.
@@ -1955,6 +1960,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`bidi_mirrored`](#bidi_mirrored) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`binary_property< P >`](#binary_property-p-) <sup>[(icu rules)](#basic-icu-rules)</sup>
 * [`binary_property< P, V >`](#binary_property-p-v-) <sup>[(icu rules)](#basic-icu-rules)</sup>
+* [`bdigit`](#bdigit) <sup>[(ascii)](#ascii)</sup>
 * [`blank`](#blank) <sup>[(ascii)](#ascii)</sup>
 * [`block< V >`](#block-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`bof`](#bof) <sup>[(atomic)](#atomic)</sup>
