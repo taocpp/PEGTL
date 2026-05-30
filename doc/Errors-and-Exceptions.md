@@ -1,102 +1,64 @@
 # Errors and Exceptions
 
-**Local failure** is when a [`match()` function](Rules-and-Grammars.md#match-function) returns `false` (which can lead to backtracking).
-
-**Global failure** is when a [`match()` function](Rules-and-Grammars.md#match-function) throws an exception (which usually aborts the parsing run).
-
-A parsing run, a call to one of the `parse()` functions as explained in [Inputs and Parsing](Inputs-and-Parsing.md), can have the same results as calling `match()` on a grammar rule.
-
-* A return value of `true` indicates a *successful* match.
-* A return value of `false` is called a *local failure* (even when propagated to the top).
-* An exception indicating a *global failure* is thrown.
-
-The PEGTL parsing rules throw exceptions of type `tao::pegtl::parse_error<>`, some of the inputs can throw other exceptions like `std::system_error` or `std::filesystem_error`.
-And other exception classes can be used freely from actions and custom parsing rules.
-
-## Failure Modes
-
-The information about how much input is consumed by the rules only applies when the rules succeed.
-Otherwise there are two failure modes with different requirements.
-
-- *Local failure* is when a rule returns `false` and the rule **must** generally rewind the input to where its match attempt started.
-- *Global failure* is when a rule throws an exception (usually of type `tao::pegtl::parse_error`)(usually via the control-class' `raise()` function).
-
-Since an exception, by default, aborts a parsing run -- hence the term "global failure" -- there are no assumptions or requirements for the throwing rule to rewind the input.
-
-On the other hand a local failure will frequently lead to back-tracking, i.e. the attempt to match a different rule at the same position in the input, wherefore rules that were previously attempted at the same position must rewind back to where they started in preparation of the next attempt.
-
-Note that in some cases it is not necessary to actually rewind on local failure, see the description of the [rewind_mode](Rules-and-Grammars.md#modes) in the section on [how to implement custom rules](Rules-and-Grammars.md#creating-new-rules), and that the PEGTL attempts to minimize superfluous rewinding by statically detecting most of these cases.
-
-
-
-## Error Handling
-
-Although the PEGTL could be used without exceptions, most programs will use input classes, grammars and/or actions that can throw exceptions.
-Typically, the following pattern helps to print the exceptions in a human friendly way:
-
-```c++
-   // The surrounding try/catch for normal exceptions.
-   // These might occur if a file can not be opened, etc.
-   try {
-      tao::pegtl::file_input in( filename );
-
-      // The inner try/catch block, see below...
-      try {
-
-         // The actual parser, tracer, parse tree, ...
-         pegtl::parse< grammar >( in );
-
-      }
-      catch( const pegtl::parse_error& e ) {
-
-         // This catch block needs access to the input
-         const auto& p = e.positions_object();
-         std::cerr << e.what() << '\n'
-                   << tao::pegtl::line_view_at( in, p ) << '\n'
-                   << std::setw( p.column ) << '^' << std::endl;
-
-      }
-   }
-   catch( const std::exception& e ) {
-
-      // Generic catch block for other exceptions
-      std::cerr << e.what() << std::endl;
-
-   }
-```
-
-For more information see [Errors and Exceptions](Errors-and-Exceptions.md).
+Parsing rule and run results are Boolean values or exceptions.
+This page describes how they interact with backtracking, how the PEGTL represents parse errors, and how grammars and controls can produce useful diagnostics.
 
 
 ## Contents
 
-* [Introduction](#introduction)
-* [Global Failure](#global-failure)
+* [Failure Modes](#failure-modes)
+* [Parse Errors](#parse-errors)
+* [Catching Errors](#catching-errors)
 * [Local to Global Failure](#local-to-global-failure)
-  * [Intrusive Local to Global Failure](#intrusive-local-to-global-failure)
-  * [Non-Intrusive Local to Global Failure](#non-intrusive-local-to-global-failure)
+  * [Must Rules](#must-rules)
+  * [Raise Rules](#raise-rules)
+  * [Best Practices](#best-practices)
+* [Custom Error Messages](#custom-error-messages)
+  * [Rule Error Message](#rule-error-message)
+  * [Raise Message](#raise-message)
+  * [must_if Control](#must_if-control)
+  * [Custom Control](#custom-control)
 * [Global to Local Failure](#global-to-local-failure)
-* [Examples for Must Rules](#examples-for-must-rules)
-* [Custom Exception Messages](#custom-exception-messages)
+* [Nested Exceptions](#nested-exceptions)
+* [Error Positions](#error-positions)
+* [No Exception Support](#no-exception-support)
 
 
-## Introduction
+## Failure Modes
+
+A [`match()` function](Rules-and-Grammars.md#match-function), and therefore a call to one of the [`parse()` functions](Inputs-and-Parsing.md#parse-function), has three possible outcomes.
+
+* A return value of `true` indicates a successful match. In this case a rule is allowed to consume some input.
+* A return value of `false` indicates a *local failure*. In this case a rule is only allowed to consume input when the `rewind_mode` is `optional`.
+* An exception indicates a *global failure* which usually aborts a parsing run. In this case a rule is also allowed to consume input.
+
+In the case of local failure what happens next depends on the grammar.
+For example when a sub-rule of [`seq`](Rule-Reference.md#seq-r-) returns `false` the sequence will also return `false`, when a sub-rule of a [`sor`](Rule-Reference.md#sor-r-) returns `false` the next rule will be attempted to match at the same position (provided the failed rule was not the last one) which we call *backtraacking*, and when a sub-rule of an [`opt`](Rule-Reference.md#opt-r-) returns `false` the optional will still succeed.
+
+Exceptions indicating a global failure can stem from multiple sources.
+The PEGTL rules that create global failures throw exceptions derived from `tao::pegtl::parse_error_base`, usually via the current [control](Control-and-Normal.md) class' `raise()` function.
+Inputs can throw other exceptions, for example `std::filesystem_error` when opening a file or stream-related exceptions while reading.
+Actions and custom rules can throw any exception type.
+
+The "do not consume" requirement in the local failure case **must** be strictly followed, though the library attempts to minimiza the use of `rewind_mode::optional` where it is not necessary.
+For example, some callers already have a rewind guard around a larger expression, and top-level parses usually do not need the input restored when the whole parse returns `false`.
+The details are controlled by the [`rewind_mode`](Rules-and-Grammars.md#rewind-guard) used by the parser and by rule implementations.
+
+The important practical guideline is simple: A grammar author uses local failure for normal PEG alternatives, and turns a failure into a global failure for non-recoverable conditions.
 
 
-## Global Failure
+## Parse Errors
 
-By default, global failure means that an exception of type `tao::pegtl::parse_error` is thrown.
+The default global parse error is `tao::pegtl::parse_error< Position >`, which derives from `tao::pegtl::parse_error_base`.
 
-Note that starting with PEGTL version 4.0.0 `parse_error` is no longer a monolithic class derived from `std::run-time_error`.
-To simultaneously allow for different types of position information _and_ a single type that can be used to catch all parse errors there is a base class with the non position-type dependent parts as well as a derived class that is templated over the position type.
-
-Synposis:
+The header `include/tao/pegtl/parse_error_base.hpp` contains the non-position-dependent base class.
+The header `include/tao/pegtl/parse_error.hpp` contains the position-dependent derived class and helper functions.
 
 ```c++
 namespace tao::pegtl
 {
    class parse_error_base
-      : public std::run-time_error
+      : public std::runtime_error
    {
    public:
       [[nodiscard]] std::string_view message() const noexcept;
@@ -110,8 +72,8 @@ namespace tao::pegtl
    public:
       using position_t = Position;
 
-      template< typename Object >
-      parse_error( const std::string& msg, const Object& obj );
+      parse_error( const std::string& msg, Position&& pos );
+      parse_error( const std::string& msg, const Position& pos );
 
       [[nodiscard]] const position_t& position_object() const noexcept;
    };
@@ -127,200 +89,398 @@ namespace tao::pegtl
 }
 ```
 
-The `message()` function returns the original `msg`, while  `position_string()` and `position_object()` provide a string representation of, or the actual position object, respectively.
+The `message()` function returns the message that was supplied when the exception was created.
+The `position_string()` function returns the position formatted as a string.
+The inherited `what()` function returns both, formatted as `"position: message"`.
 
-The `Object` passed to the constructor can be either a PEGTL input class, in which case the current position will be extracted and stored in the exception, or it can be an actual position object that will be used "as is".
-The supplied user-defined deduction guide will make sure that the exception object uses the correct type as `position_t` in both of these cases.
+The `position_object()` function is only available on the concrete `parse_error< Position >` type.
+It returns the stored position object.
 
-The string returned by the `what()` function inherited from `std::run-time_error` is a concatenation of the position string and the message supplied to the constructor.
+The helper function `throw_parse_error()` accepts either an input object or an already existing position object.
+It extracts the current position when given an input, creates the appropriate `parse_error< Position >`, and throws it.
+The helper function `throw_parse_error_with_nested()` similarly calls `std::throw_with_nested()`.
+
+Most input classes define a `parse_error_t` alias for their concrete parse error type.
+For example, for a `text_file_input<>` this is a `parse_error<>` with text position and source information.
+
+
+## Catching Errors
+
+When a catch block wants to print a source line, it needs access to the input object.
+This is why many examples construct the input first, then put the parsing run in a nested `try` block.
+
+```c++
+try {
+   using input_t = tao::pegtl::text_file_input< tao::pegtl::scan::lf_crlf >;
+   input_t in( filename );
+
+   try {
+      tao::pegtl::parse< grammar >( in );
+   }
+   catch( const input_t::parse_error_t& e ) {
+      const auto& p = e.position_object();
+      std::cerr << e.what() << '\n'
+                << in.line_view_at( p ) << '\n'
+                << std::setw( int( p.column ) ) << '^' << std::endl;
+      return 1;
+   }
+}
+catch( const tao::pegtl::parse_error_base& e ) {
+   std::cerr << e.what() << std::endl;
+   return 1;
+}
+catch( const std::exception& e ) {
+   std::cerr << e.what() << std::endl;
+   return 1;
+}
+```
+
+The first catch block catches exactly the parse errors whose position type is used by `input_t`, which makes `position_object()` available with the correct static type.
+The second catch block catches other PEGTL parse errors without assuming a particular position type.
+The final catch block catches other standard exceptions, for example file and stream errors.
+
+The source files `src/example/json_parse.cpp`, `src/example/json_build.cpp`, `src/example/proto3_parse.cpp`, and `src/example/abnf2pegtl.cpp` show variations of this pattern.
 
 
 ## Local to Global Failure
 
-### Intrusive Local to Global Failure
-
 A local failure returned by a parsing rule is not necessarily propagated to the top.
-For example when the rule is a sub-rule of `not_at<>`, `opt<>` or `star<>` then a local failure of the sub-rule will not prevent the containing rule from succeeding.
-Or if a sub-rule of an `sor<>` that is not the last sub-rule fails then the `sor<>` will attempt to match the next sub-rule instead of failing.
+For example, when a rule is a sub-rule of `not_at<>`, `opt<>` or `star<>`, a local failure of the sub-rule can still allow the containing rule to succeed.
+When a sub-rule of an `sor<>` fails locally, the `sor<>` can try the next alternative.
 
-To convert local failures to global failures, the `must<>` combinator rule can be used (together with related rules like `if_must<>`, `if_must_else<>` and `star_must<>`).
-The `must<>` rule is equivalent to `seq<>` in that it attempts to match all sub-rules in sequence, but converts all local failures of the (direct) sub-rules to global failures.
+This is exactly what makes PEG grammars useful, but it also means that a grammar should mark the points where backtracking is no longer desirable.
 
-Global failures can also be unconditionally provoked with the `raise<>` grammar rule, which is more flexible since the template argument can be any type, not just a parsing rule.
-It should be mentioned that `must< R >` is semantically equivalent to `sor< R, raise< R > >`, but more efficient.
+### Must Rules
 
-In any case, the task of actually throwing an exception is delegated to the [control class'](Control-and-Normal.md) `raise()`.
-The control class' `raise()` method will generate a default message for the `parse_error` that will be thrown.
-The default message can be overwritten by giving the rule `R` a static member variable that contains a different error message.
+The primary way to turn local failure into global failure is the [`must<>`](Rule-Reference.md#must-r-) family of rules.
 
-Note that rules and actions can throw exceptions directly, meaning those are not generated from the [control class'](Control-and-Normal.md) `raise()`.
+`must< R... >` is similar to `seq< R... >`, but it converts local failure of the direct sub-rules into a call to the control class' `raise()` function.
+With the default `normal` control this throws a `parse_error<>`.
 
-### Non-Intrusive Local to Global Failure
+The related rules include
 
-If a grammar does not contain any `must<>` rule(s) (or `raise<>`, `raise_message<>`, `if_must<>`, ...), one can still convert a local failure for a rule into a global failure via `must_if<>`.
-This helper allows one to create a [control class'](Control-and-Normal.md) and provide custom error messages for global failures.
-If an error message is provided for a rule that would normally return a local failure, it is automatically converted to a global failure.
-See [Custom Exception Messages](#custom-exception-messages) for more information.
+* `if_must< R, S... >`,
+* `if_must_else< R, S, T >`,
+* `opt_must< R, S... >`,
+* `star_must< R, S... >`,
+* `list_must< R, S >`, and
+* `list_must< R, S, P >`.
 
-
-## Global to Local Failure
-
-To convert global failure to local failure, the grammar rule [`try_catch_return_false`](Rule-Reference.md#try_catch_return_false-r-), or one of its variants that give more control over which kinds of exceptions are caught, can be used.
-Since these rules are not very commonplace they are ignored in this document, in other words we assume that global failure always propagages to the top.
-
-
-## Global to Nested Failure
-
-To add more information to an in-flight exception in the form of another exception the grammar rule [`try_catch_raise_nested`](Rule-Reference.md#try_catch_rause_nested-r-), or one of its variants that give more control over which kinds of exceptions are caught, can be used.
-They throw a new exception that contains the previous one as nested exception.
-Many applications will not use nested exceptions, and those that do will usually only generate them in the case of [nested parsing](Inputs-and-Parsing.md#nested-parsing).
-
-
-## Examples for Must Rules
-
-One basic use case of the `must<>` rule is as top-level grammar rule.
-Then a parsing run can only either be successful, or throw an exception, it is not necessary to check the return value of the `parse()` function.
-
-For another use case consider the following parsing rules for a simplified C-string literal that only allows `\n`, `\r` and `\t` as escape sequences.
-The rule `escaped` is for a single escaped character, the rule `content` is for the complete content of such a literal.
+For example, consider a simplified string escape grammar.
 
 ```c++
 using namespace tao::pegtl;
+
 struct escaped : seq< one< '\\' >, one< 'n', 'r', 't' > > {};
 struct content : star< sor< escaped, not_one< '\\', '"' > > > {};
 struct literal : seq< one< '"' >, content, one< '"' > > {};
 ```
 
-The `escaped` rule first matches a backslash, and then one of the allowed subsequent characters.
-When either of the two `one<>` rules returns a local failure, then so will `escaped` itself.
-In that case backtracking is performed in the `sor<>` and it will attempt to match the `not_one< '\\', '"' >` at the same input position.
+If `escaped` sees a backslash followed by some other character, it fails locally.
+The surrounding `sor<>` then tries `not_one< '\\', '"' >` at the same position.
+That backtracking is useful when the next character is not a backslash, but it is not useful after the backslash has already matched.
 
-This backtracking is appropriate if the `escaped` rule failed to match for lack of a backslash in the input.
-It is however *not* appropriate when the backslash was not followed by one of the allowed characters since we know that there is no other possibility that will lead to a successful match.
-
-We can therefore re-write the `escaped` rule as follows so that once the backslash has matched we need one of the following allowed characters to match, otherwise a global failure is thrown.
+The rule can be written as follows.
 
 ```c++
 using namespace tao::pegtl;
-struct escaped : seq< one< '\\' >, must< one< 'n', 'r', 't' > > > {};
-```
 
-A `seq<>` where all but the first sub-rule is inside a `must<>` occurs frequently enough to merit a convenience rule.
-The following rule is equivalent to the above.
-
-```c++
-using namespace tao::pegtl;
-struct escaped : if_must< one< '\\' >, one< 'n', 'r', 't' > > {};
-```
-
-Now the `escaped` rule can only return local failure when the next input byte is not a backslash.
-This knowledge can be used to simplify the `content` rule by not needing to exclude the backslash in the following rule.
-
-```c++
-using namespace tao::pegtl;
-struct content : star< sor< escaped, not_one< '"' > > > {};
-```
-
-Finally we apply our "best practice" and give the `one< 'n', 'r', 't' >` rule a dedicated name.
-This will improve the built-in error message when the global failure is thrown, and also prevents actions or custom error messages (as explained below) from accidentally attaching to the same rule used in multiple places in a grammar.
-The resulting example is as follows.
-
-```c++
-using namespace tao::pegtl;
 struct escchar : one< 'n', 'r', 't' > {};
 struct escaped : if_must< one< '\\' >, escchar > {};
 struct content : star< sor< escaped, not_one< '"' > > > {};
 struct literal : seq< one< '"' >, content, one< '"' > > {};
 ```
 
-The same use of `if_must<>` can be applied to the `literal` rule assuming that it occurs in some `sor<>` where it is the only rule whose matched input can begin with a quotation mark...
+Now `escaped` returns local failure only when the next input character is not a backslash.
+If a backslash is present, the escape character must match, otherwise a parse error is thrown.
 
+### Raise Rules
 
-## Custom Exception Messages
+The rule [`raise< T >`](Rule-Reference.md#raise-t-) unconditionally generates a global failure by calling `Control< T >::raise()`.
+The template argument `T` can be any type; it does not have to be a parsing rule.
 
-By default, when using any `must<>` error points, the exceptions generated by the PEGTL use the demangled name of the failed parsing rule as descriptive part of the error message.
-This is often insufficient and one would like to provide more meaningful error messages.
-
-One option is to add a static member variable to the rule that provides a custom error message.
-For your convenience, there is a `raise_message<>` rule and the corresponding `TAO_PEGTL_RAISE_MESSAGE()` macro to simplify this.
-For an example of these customization points, see `src/pegtl/error_messages_2.hpp` and `src/pegtl/error_messages_3.hpp`.
-
-If the above is not sufficient, you can provide a customized error messages for all `must<>` error points using the `must_if<>` helper.
-For an example of this method see `src/pegtl/json_errors.hpp`, where all errors that might occur in the supplied JSON grammar are customized like this:
+The rule [`raise_message< C... >`](Rule-Reference.md#raise_message-c-) is a convenience rule that raises with a custom static message.
+The macro `TAO_PEGTL_RAISE_MESSAGE( "..." )` creates the corresponding `raise_message<>` rule from a string literal.
 
 ```c++
-template< typename > inline constexpr const char* error_message = nullptr;
+using namespace tao::pegtl;
 
-template<> inline constexpr auto error_message< tao::pegtl::json::text > = "no valid JSON";
-
-template<> inline constexpr auto error_message< tao::pegtl::json::end_array > = "incomplete array, expected ']'";
-template<> inline constexpr auto error_message< tao::pegtl::json::end_object > = "incomplete object, expected '}'";
-template<> inline constexpr auto error_message< tao::pegtl::json::member > = "expected member";
-template<> inline constexpr auto error_message< tao::pegtl::json::name_separator > = "expected ':'";
-template<> inline constexpr auto error_message< tao::pegtl::json::array_element > = "expected value";
-template<> inline constexpr auto error_message< tao::pegtl::json::value > = "expected value";
-
-template<> inline constexpr auto error_message< tao::pegtl::json::digits > = "expected at least one digit";
-template<> inline constexpr auto error_message< tao::pegtl::json::xdigit > = "incomplete universal character name";
-template<> inline constexpr auto error_message< tao::pegtl::json::escaped > = "unknown escape sequence";
-template<> inline constexpr auto error_message< tao::pegtl::json::char_ > = "invalid character in string";
-template<> inline constexpr auto error_message< tao::pegtl::json::string::content > = "unterminated string";
-template<> inline constexpr auto error_message< tao::pegtl::json::key::content > = "unterminated key";
-
-template<> inline constexpr auto error_message< tao::pegtl::eof > = "unexpected character after JSON value";
-
-// As must_if can not take error_message as a template parameter directly, we need to wrap it:
-struct error { template< typename Rule > static constexpr auto message = error_message< Rule >; };
-
-template< typename Rule > using control = tao::pegtl::must_if< error >::control< Rule >;
+struct value
+   : sor< number, string, TAO_PEGTL_RAISE_MESSAGE( "expected value" ) > {};
 ```
 
-`must_if<>` expects a wrapper for the error message as its first template parameter.
-There is a second parameter for the base control class, which defaults to `tao::pegtl::normal`, and which can combine `must_if`'s control class with other control classes.
+This is useful as the final alternative of an `sor<>`, or in a helper rule whose only purpose is to report a specific error.
 
-Since `raise()` is only instantiated for those rules for which `must<>` could trigger an exception, it is sufficient to provide specialisations of the error message string for those rules.
-Furthermore, there will be a compile-time error (i.e. a `static_assert`) for all rules for which the specialisation was forgotten although `raise()` could be called.
+### Best Practices
 
-The [control class](Control-and-Normal.md) provided by `must_if<>` also turns, by default, local failures into global failure if an error message is provided, i.e. if the error message is not `nullptr`.
-This means that one can provide additional points in the grammar where a global failure is triggered, even when the grammar contains no `must<>` error points.
+A useful grammar usually contains fewer error points than rules.
+Place global failures where the parser has enough context to know what was expected.
 
-The above feature also means that a rule which is used both with and without `must<>`, one would not only provide a custom error message for the location where the rule is failing within a `must<>`-context, but local errors in other contexts are implicitly turned into global error.
-If this behavior is not intended, one can disable the "turn local to global failure" feature by setting `raise_on_failure` to `false` in the wrapper class:
+Good places are often after a delimiter, keyword, opening bracket, separator, or other prefix that commits the grammar to a specific construct.
+For example, once a string literal has matched its opening quote, an unterminated string is better reported as a parse error than as a failed alternative somewhere higher in the grammar.
+
+Giving important rules dedicated names improves both default and custom error messages.
+Prefer
 
 ```c++
-struct error
+struct escchar : one< 'n', 'r', 't' > {};
+struct escaped : if_must< one< '\\' >, escchar > {};
+```
+
+over putting a large anonymous template instantiation directly inside `must<>`.
+Named rules also avoid accidentally attaching the same action or error message to the same structural rule in several places.
+
+At the top level, `must< grammar, eof >` is sometimes convenient when a program wants the parsing run to either succeed or throw, instead of returning `false`.
+When the top-level rule is already a complete grammar, `seq< grammar, eof >` plus a check of the `parse()` return value is equally valid.
+
+
+## Custom Error Messages
+
+By default, `normal< Rule >::raise()` throws a parse error with a message of the form
+
+```text
+parse error matching <demangled rule name>
+```
+
+There are several ways to replace this with better messages.
+
+### Rule Error Message
+
+The default control checks whether the rule passed to `raise()` has a static `error_message` member.
+When it exists, that string is used instead of the demangled rule name.
+
+```c++
+struct close_quote
+   : tao::pegtl::one< '"' >
 {
-   template< typename Rule > static constexpr bool raise_on_failure = false;
-   template< typename Rule > static constexpr auto message = error_message< Rule >;
+   static constexpr const char* error_message = "unterminated string";
+};
+
+struct literal
+   : tao::pegtl::if_must< tao::pegtl::one< '"' >,
+                          tao::pegtl::star< tao::pegtl::not_one< '"' > >,
+                          close_quote > {};
+```
+
+This is the lightest-weight approach when the message belongs naturally to a named rule.
+The test `src/test/error_message_3.cpp` shows the minimal form.
+
+### Raise Message
+
+For one-off error points, use `raise_message<>` or the macro `TAO_PEGTL_RAISE_MESSAGE()`.
+
+```c++
+struct grammar
+   : tao::pegtl::sor< option_a,
+                      option_b,
+                      TAO_PEGTL_RAISE_MESSAGE( "expected option" ) > {};
+```
+
+The test `src/test/error_message_2.cpp` shows this pattern.
+The macro argument must be a string literal.
+
+### must_if Control
+
+For larger grammars it is often preferable to collect messages in one place and install them through a control adapter.
+The adapter `must_if_n` is defined in `include/tao/pegtl/control/must_if.hpp`.
+
+```c++
+template< typename Errors,
+          bool RequireMessage = true,
+          template< typename... > class Control = normal >
+struct must_if_n
+{
+   template< typename Rule >
+   using type = /* implementation */;
 };
 ```
 
-It is advisable to choose the error points in the grammar with prudence.
-A large number of error points, or difficulties in choosing these error points, might be an indication of the grammar needing some kind of simplification or restructuring.
+The `Errors` type must provide a variable template `message< Rule >` whose value is either a `const char*` or `nullptr`.
+One common setup is to use a variable template for the actual messages and wrap it in a small type.
+
+```c++
+template< typename >
+inline constexpr const char* error_message = nullptr;
+
+template<>
+inline constexpr auto error_message< tao::pegtl::json::text > = "no valid JSON";
+
+template<>
+inline constexpr auto error_message< tao::pegtl::json::end_array > = "incomplete array, expected ']'";
+
+template<>
+inline constexpr auto error_message< tao::pegtl::eof > = "unexpected character after JSON value";
+
+struct errors
+{
+   template< typename Rule >
+   static constexpr auto message = error_message< Rule >;
+};
+
+template< typename Rule >
+using control = tao::pegtl::must_if_n< errors >::type< Rule >;
+```
+
+The parse call then passes this control as the third template parameter.
+
+```c++
+tao::pegtl::parse< grammar, tao::pegtl::nothing, control >( in );
+```
+
+When `Errors::message< R >` is not `nullptr`, `must_if_n` uses it for calls to `raise()` and `raise_nested()` for `R`.
+By default it also turns local failure of `R` into a global failure.
+This gives a non-intrusive way to add error points without changing the grammar itself.
+
+This default is useful, but it should be used deliberately.
+If the same rule occurs in contexts where local failure should remain local, override `raise_on_failure`.
+
+```c++
+struct errors
+{
+   template< typename Rule >
+   static constexpr bool raise_on_failure = false;
+
+   template< typename Rule >
+   static constexpr auto message = error_message< Rule >;
+};
+```
+
+With the default `RequireMessage = true`, a call to `raise()` for a rule without either an `Errors::message< Rule >` entry or a rule-local `error_message` member produces a compile-time error.
+Set the second template argument to `false` to allow fallback to the adapted control.
+
+```c++
+template< typename Rule >
+using control = tao::pegtl::must_if_n< errors, false >::type< Rule >;
+```
+
+The third template argument adapts another control instead of `normal`.
+This is useful when custom error messages should be combined with another control adapter.
+
+The examples `src/example/json_errors.hpp` and `src/example/abnf_errors.hpp` show the intended larger-grammar pattern.
+The test `src/test/error_message_1.cpp` shows the minimal form.
+
+### Custom Control
+
+For complete control over parse errors, provide a custom control class with `raise()` and optionally `raise_nested()`.
+
+```c++
+template< typename Rule >
+struct control
+   : tao::pegtl::normal< Rule >
+{
+   template< typename ParseInput, typename... States >
+   [[noreturn]] static void raise( const ParseInput& in, States&&... st )
+   {
+      std::cerr << in.current_position()
+                << ": parse error matching "
+                << tao::pegtl::demangle< Rule >() << std::endl;
+
+      tao::pegtl::normal< Rule >::raise( in, st... );
+   }
+};
+```
+
+The example `src/example/recover.cpp` uses this technique to print diagnostic information before delegating to `normal`.
+
+Custom rules that need to raise a PEGTL parse error should usually call the active control's `raise()` function when they have the complex `match()` interface.
+This preserves user-selected error behavior.
+When no control is available, `throw_parse_error()` can be used directly.
+
+
+## Global to Local Failure
+
+The `try_catch_return_false` family of rules converts selected exceptions into local failure.
+This can be useful for recovery-oriented grammars where a failed sub-parse should be skipped and the outer grammar should continue.
+
+The available variants are
+
+* `try_catch_return_false< R... >` for `parse_error_base`,
+* `try_catch_any_return_false< R... >` for any exception,
+* `try_catch_std_return_false< R... >` for `std::exception`, and
+* `try_catch_type_return_false< E, R... >` for a chosen exception type `E`.
+
+If an exception does not match the variant's catch type, it propagates normally.
+
+The example `src/example/recover.cpp` uses `try_catch_return_false< must< R >, T >` together with an alternative that skips to a terminator.
+This is a useful pattern for tools that need to report multiple errors from one input.
+
+Use this sparingly in ordinary parsers.
+Converting global failures back to local failures can make diagnostics harder to reason about when it is applied too broadly.
+
+
+## Nested Exceptions
+
+Nested exceptions are used to keep multiple positions for one error.
+The most common use case is nested parsing, for example a file that includes another file.
+
+The function [`parse_nested()`](Inputs-and-Parsing.md#nested-parsing) catches `std::exception` from the inner parsing run and calls `Control< Rule >::raise_nested()` with the ambient outer input or position.
+The default `normal` control throws a new `parse_error<>` with the caught exception as nested exception.
+
+The `try_catch_raise_nested` family performs a similar transformation inside a grammar.
+The available variants are
+
+* `try_catch_raise_nested< R... >` for `parse_error_base`,
+* `try_catch_any_raise_nested< R... >` for any exception,
+* `try_catch_std_raise_nested< R... >` for `std::exception`, and
+* `try_catch_type_raise_nested< E, R... >` for a chosen exception type `E`.
+
+The header `include/tao/pegtl/extra/nested_exceptions.hpp` provides helpers to inspect nested exception chains.
+It requires exception and RTTI support.
+
+```c++
+#include <tao/pegtl/extra/nested_exceptions.hpp>
+
+try {
+   tao::pegtl::parse_nested< included_grammar >( outer_input, included_input );
+}
+catch( ... ) {
+   const auto errors = tao::pegtl::flatten_base();
+   for( const auto& e : errors ) {
+      std::cerr << e.what() << std::endl;
+   }
+}
+```
+
+See `src/test/rule_try_catch_raise_nested.cpp`, `src/test/extra_nested_exceptions.cpp`, and [Extra Reference](Extra-Reference.md#nested_exceptionshpp) for the details.
 
 
 ## Error Positions
 
-When reporting an error, one often wants to print the complete line from the input where the error occurred and a marker at the position where the error is found within that line.
-To support this, all [inputs with lines](#inputs-with-lines) make available a [convenience](#input-convenience) function `line_view_at()` that returns a `std::string_view` for the line containing the position passed to it.
+When reporting an error, it is often useful to print the complete source line and a marker at the position within that line.
+Inputs that track line starts provide `line_view_at()`, which returns a `std::string_view` for the line containing a position.
 
 ```c++
-some_input in( ... );
 try {
-   tao::pegtl::parse< ... >( in, ... );
+   tao::pegtl::parse< grammar >( in );
 }
 catch( const decltype( in )::parse_error_t& e ) {
    const auto& p = e.position_object();
    std::cerr << e.what() << '\n'
-             << in.line_view_at( in, p ) << '\n'
-             << std::setw( p.column ) << '^' << std::endl;
+             << in.line_view_at( p ) << '\n'
+             << std::setw( int( p.column ) ) << '^' << std::endl;
 }
-catch( const parse_error_base& e ) {
+catch( const tao::pegtl::parse_error_base& e ) {
    std::cerr << e.what() << std::endl;
 }
 ```
 
-Please note that the character indicated by the caret will only be correct if the input data is restricted to graphical ASCII characters plus the end-of-line character(s).
+For text positions, `p.line` and `p.column` are one-based and `p.count` is the zero-based count from the start of the input.
+When printing a caret under `line_view_at( p )`, use `p.column`, not `p.count`.
+
+The caret position is visually reliable for graphical ASCII without tabs.
+UTF-8, combining characters, tabs, terminal width rules, and non-text inputs can require application-specific formatting.
+
+Some inputs use count or pointer positions instead of text positions, and some text inputs can track positions lazily.
+The exact position type is documented in [Inputs and Parsing](Inputs-and-Parsing.md#position-classes).
+
+
+## No Exception Support
+
+When compiling without exception support, the exceptional rules and the parse error classes are not available.
+Headers that require exceptions contain preprocessor checks.
+
+Programs that support both modes usually put exception-based diagnostics under `#if defined( __cpp_exceptions )` and otherwise check the boolean return value of `parse()`.
+The example `src/example/json_errors.hpp` falls back to `normal` control without exceptions, and `src/example/json_parse.cpp` prints a simple error when `parse()` returns `false`.
 
 
 ---

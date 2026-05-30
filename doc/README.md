@@ -11,7 +11,7 @@ The [Parsing Expression Grammar Template Library](https://github.com/taocpp/PEGT
 * [Inputs and Parsing](Inputs-and-Parsing.md)
 * [Actions and States](Actions-and-States.md)
 * [Control and Normal](Control-and-Normal.md)
-* [Errors and Exceptions](Errors-and-Exceptions.md) -- TODO!
+* [Errors and Exceptions](Errors-and-Exceptions.md)
 * [Debug Facilities](Debug-Facilities.md)
 * [Rule Reference](Rule-Reference.md)
 * [Input Reference](Input-Reference.md)
