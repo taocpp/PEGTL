@@ -101,6 +101,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       void require( const std::size_t amount )
       {
+         // assert( amount is not excessive );
+
          buffer_assert_consistency();
 
          if( amount <= buffer_used_size() ) {

@@ -165,7 +165,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
                   return false;
                }
                ++b;
-            } while( ( !in.empty() ) && is_ascii_digit( c = in.peek_char( b ) ) );
+            } while( ( in.size( b + 1 ) >= ( b + 1 ) ) && is_ascii_digit( c = in.peek_char( b ) ) );
             in.template consume< digit >( b );
             return true;
          }
