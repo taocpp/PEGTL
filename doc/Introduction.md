@@ -5,7 +5,7 @@ The [Parsing Expression Grammar Template Library](https://github.com/taocpp/PEGT
 
 ## Contents
 
-* [Hello, World!](#hello-world-)
+* [Hello, World!](#hello-world)
 * [Structure](#structure)
 * [Namespaces](#namespaces)
 * [Parsing Expression Grammars](#parsing-expression-grammars)
@@ -173,7 +173,7 @@ Some contain useful comments.
 ## Namespaces
 
 By default, the entire PEGTL resides in namespace `tao::pegtl`.
-This can be changed in `include/tao/pegtl/config.hpp` as explained in [Embedding in Libraries](Installing-and-Using.md#embedding-in-libraries).
+This can be changed in `include/tao/pegtl/config.hpp` as explained in [Embedding in Libraries](Install-Guide.md#embedding-in-libraries).
 **The entire PEGTL documentation assumes the default namespace.**
 
 Some parts of the library use sub-namespaces, for example the parsing rules specific to UTF-8 encoded text are in namespace `tao::pegtl::utf8`.
@@ -209,10 +209,10 @@ And the next table shows how some of the more common atomic PEG expressions are 
 | *E*                               | [`eof`](Rule-Reference.md#eof) <sup>[(atomic)](Rule-Reference.md#atomic)</sup>         |
 | ε                                 | [`success`](Rule-Reference.md#success) <sup>[(atomic)](Rule-Reference.md#atomic)</sup> |
 | ⊥                                 | [`failure`](Rule-Reference.md#failure) <sup>[(atomic)](Rule-Reference.md#atomic)</sup> |
-| .                                 | [`any`](Rule-Reference.md#any) <sup>[(ascii)](#ascii)</sup>                            |
-| "a"                               | [`one< 'a' >`](Rule-Reference.md#one-c-) <sup>[(ascii)](#ascii)</sup>                  |
-| "[a-h]"                           | [`range< 'a', 'h' >`](Rule-Reference.md#range-c-d-) <sup>[(ascii)](#ascii)</sup>       |
-| "[a-zA-Z]"                        | [`alpha`](Rule-Reference.md#alpha) <sup>[(ascii)](#ascii)</sup>                        |
+| .                                 | [`any`](Rule-Reference.md#any) <sup>[(ascii)](Rule-Reference.md#ascii)</sup>           |
+| "a"                               | [`one< 'a' >`](Rule-Reference.md#one-c-) <sup>[(ascii)](Rule-Reference.md#ascii)</sup> |
+| "[a-h]"                           | [`range< 'a', 'h' >`](Rule-Reference.md#range-c-d-) <sup>[(ascii)](Rule-Reference.md#ascii)</sup> |
+| "[a-zA-Z]"                        | [`alpha`](Rule-Reference.md#alpha) <sup>[(ascii)](Rule-Reference.md#ascii)</sup>       |
 
 The PEGTL comes with [dozens of rules](Rule-Reference.md#index) for convenience and advanced features, and the possibility to [implement custom rules](Rules-and-Grammars.md#implementing-rules).
 

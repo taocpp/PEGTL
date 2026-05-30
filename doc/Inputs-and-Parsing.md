@@ -136,7 +136,7 @@ On Unix and Linux, including macOS and Android, the default end-of-line rule is 
 
 For an explanation of the three tracking modes and tables of the included end-of-line rules see the [ends of lines](#ends-of-lines) section below.
 
-The `typename Data` template parameter determines the type of objects in the [input data](Introduction.md#essential-terminology).
+The `typename Data` template parameter determines the type of objects in the [input data](Introduction.md#definitions).
 For inputs that have this template parameter it defaults to `char` and can be changed, for all others it is hard-wired to `char`.
 
 The `typename Source` template parameter determines the data type of an optional fixed part of the position information.
@@ -252,7 +252,7 @@ Note that the case of simple end-of-line rules, i.e. `tao::pegtl::(ascii::)one< 
 
 ## Parse Function
 
-The `parse()` function is the single most important user-facing function, it starts a [parsing run](Introduction.md#essential-terminology).
+The `parse()` function is the single most important user-facing function, it starts a [parsing run](Introduction.md#definitions).
 
 ```c++
 template< typename Rule,
@@ -515,7 +515,7 @@ The argument tells the stream input how much data it needs to prefetch or the ru
 
 That is why, for example, the implementation of [`consume< Num >`](Rule-Reference.md#consume-num-) uses `if( in.size( Num ) >= Num )` instead of `if( in.size() >= Num )` to test whether the Input `in` contains at least `Num` further objects.
 
-Similarly the `require()` and `discard()` functions are implemented for compatibility so that grammars with [`require`](Stream-Parsing.md#require) and [`discard`](Stream-Parsing.md#discard) can be used on *all* inputs.
+Similarly the `require()` and `discard()` functions are implemented for compatibility so that grammars with [`require`](Stream-Parsing.md#require-num-) and [`discard`](Stream-Parsing.md#discard) can be used on *all* inputs.
 
 
 ---

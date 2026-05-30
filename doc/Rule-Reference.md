@@ -30,7 +30,7 @@ The rules not considered part of the core library are [documented here](TODO).
 
 ## Preamble
 
-For how rule and combinators are implemented see [Rule Implementation](Rule-Implementation.md).
+For how rule and combinators are implemented see [Implementing Rules](Rules-and-Grammars.md#implementing-rules).
 
 For additional and experimental rules and combinators see ... TODO.
 
@@ -51,7 +51,7 @@ For rules other than `must<>` that contain "must" in their name, rule equivalenc
 
 #### Implementation
 
-The "meta data and implementation mapping" section of each rule's description shows both how the rule is implemented and what the [meta data](Meta-Data-and-Visit.md) looks like.
+The "meta data and implementation mapping" section of each rule's description shows both how the rule is implemented and what the [meta data](Debug-Facilities.md#meta-data) looks like.
 When the list of sub-rules is empty then the definition of `subs_t` is omitted from the description.
 
 Remember that the default [control](Control-and-Normal.md) `tao::pegtl::normal` does **not** call control functions for rules in the `tao::pegtl::internal` namespace.
@@ -171,7 +171,7 @@ The ASCII rules operate on any input of integral or enum type of size 1.
 
 Unless noted otherwise they do **not** restrict the range of matched values to 7-bit ASCII values.
 For example rules like `ascii::any` or `ascii::not_one< 'a' >` will match *all* possible byte values, and *all* possible byte values excluding `'a'`, respectively.
-The rules [`any7`](#any7), [`many7`](#many7), [`not_one7`](#not_one7-c-), [`not_ione7`](#not_ione7-c-) and [`not_range7`](#not_range7-c-d-) are like their respective counterparts without the trailing `7` but only match values that can be represented in 7 bits.
+The rules [`any7`](#any7), [`many7`](#many7-num-), [`not_one7`](#not_one7-c-), [`not_ione7`](#not_ione7-c-) and [`not_range7`](#not_range7-c-d-) are like their respective counterparts without the trailing `7` but only match values that can be represented in 7 bits.
 
 It is possible to match UTF-8 multi-byte characters with the non-seven ASCII rules.
 For example the Euro sign code point `U+20AC`, which is encoded by the UTF-8 sequence `E2 82 AC`, is matched by both `ascii::string< 0xe2, 0x82, 0xac >` and `utf8::one< 0x20ac >`.
@@ -363,6 +363,13 @@ For all ASCII rules the template parameters representing characters are of type 
 * [Meta data] and [implementation] mapping:
   - `ascii::not_ione<>::rule_t` is `internal::any< internal::peek_char >`
   - `ascii::not_ione< C... >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::ione< internal::peek_char, Cs... > >`.
+
+###### `not_ione7< C... >`
+
+* Like `(ascii::)not_ione< C... >` but only matches values that can be represented in 7 bits.
+* [Meta data] and [implementation] mapping:
+  - `ascii::not_ione7<>::rule_t` is `internal::any< internal::peek_seven >`
+  - `ascii::not_ione7< C... >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::ione< internal::peek_seven, Cs... > >`.
 
 ###### `not_one< C... >`
 
@@ -1073,7 +1080,7 @@ These rules are in namespace `tao::pegtl`.
   - `minus< M, S >::rule_t` is `internal::rematch< M, internal::not_at< S, internal::eof > >`
   - `minus< M, S >::subs_t` is `type_list< M, internal::not_at< S, internal::eof > >`
 
-Note that `S` is ignored by the [grammar analysis](Grammar-Analysis.md).
+Note that `S` is ignored by the [grammar analysis](Debug-Facilities.md#grammar-analysis).
 
 ###### `pad< R, S, T = S >`
 
@@ -1085,7 +1092,7 @@ Note that `S` is ignored by the [grammar analysis](Grammar-Analysis.md).
 
 A common mistake is to forget about the implicit `star` and use e.g. `star< blank >` for `S` (and `T`).
 This attempts to match `star< star< S > >` which is an infinite loop without progress.
-The PEGTL [grammar analysis](Grammar-Analysis.md) catches this mistake.
+The PEGTL [grammar analysis](Debug-Facilities.md#grammar-analysis) catches this mistake.
 
 ###### `pad_opt< R, P >`
 
@@ -2020,8 +2027,8 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`lead_canonical_combining_class< V >`](#lead_canonical_combining_class-v-) <sup>[(icu rules)](#icu-rules-for-value-properties)</sup>
 * [`lf`](#lf) <sup>[(ascii)](#ascii)</sup>
 * [`lf`](#lf-1) <sup>[(unicode)](#unicode)</sup>
-* [`lfcr`](#lfcr) <sup>[(ascii)](#ascii)</sup>
-* [`lfcr`](#lfcr-1) <sup>[(unicode)](#unicode)</sup>
+* [`lf_crlf`](#lf_crlf) <sup>[(ascii)](#ascii)</sup>
+* [`lf_crlf`](#lf_crlf-1) <sup>[(unicode)](#unicode)</sup>
 * [`line_break< V >`](#line_break-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`list< R, S >`](#list-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`list< R, S, P >`](#list-r-s-p-) <sup>[(convenience)](#convenience)</sup>
@@ -2041,8 +2048,8 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`mask_not_range< M, C, D >`](#mask_not_range-m-c-d-) <sup>[(binary)](#binary)</sup>
 * [`mask_one< M, C... >`](#mask_one-m-c-) <sup>[(binary)](#binary)</sup>
 * [`mask_range< M, C, D >`](#mask_range-m-c-d-) <sup>[(binary)](#binary)</sup>
-* [`mask_ranges< M, C1, D1, C2, D2, ... >`](#mask_ranges-m-c1-d1-c2-d2--) <sup>[(binary)](#binary)</sup>
-* [`mask_ranges< M, C1, D1, C2, D2, ..., E >`](#mask_ranges-m-c1-d1-c2-d2--e-) <sup>[(binary)](#binary)</sup>
+* [`mask_ranges< M, C1, D1, C2, D2, ... >`](#mask_ranges-m-c1-d1-c2-d2-) <sup>[(binary)](#binary)</sup>
+* [`mask_ranges< M, C1, D1, C2, D2, ..., E >`](#mask_ranges-m-c1-d1-c2-d2-e-) <sup>[(binary)](#binary)</sup>
 * [`mask_string< M, C... >`](#mask_string-m-c-) <sup>[(binary)](#binary)</sup>
 * [`math`](#math) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`minus< M, S >`](#minus-m-s-) <sup>[(convenience)](#convenience)</sup>
@@ -2074,7 +2081,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`one< M, U... >`](#one-m-u-) <sup>[(member)](#member)</sup>
 * [`opt< R... >`](#opt-r-) <sup>[(combinators)](#combinators)</sup>
 * [`opt_must< R, S...>`](#opt_must-r-s-) <sup>[(exceptional)](#exceptional)</sup>
-* [`pad< R, S, T = S >`](#pad-r-s-t--s-) <sup>[(convenience)](#convenience)</sup>
+* [`pad< R, S, T = S >`](#pad-r-s-t-s-) <sup>[(convenience)](#convenience)</sup>
 * [`pad_opt< R, P >`](#pad_opt-r-p-) <sup>[(convenience)](#convenience)</sup>
 * [`partial< R... >`](#partial-r-) <sup>[(convenience)](#convenience)</sup>
 * [`pattern_syntax`](#pattern_syntax) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
@@ -2096,14 +2103,14 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`range< C, D >`](#range-c-d--1) <sup>[(unicode)](#unicode)</sup>
 * [`range< C, D >`](#range-c-d--2) <sup>[(binary)](#binary)</sup>
 * [`range< M, U, V >`](#range-m-u-v-) <sup>[(member)](#member)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2--) <sup>[(ascii)](#ascii)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---1) <sup>[(unicode)](#unicode)</sup>
-* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2---2) <sup>[(binary)](#binary)</sup>
-* [`ranges< M, U1, V1, U2, V2, ... >`](#ranges-m-u1-v1-u2-v2--) <sup>[(member)](#member)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e-) <sup>[(ascii)](#ascii)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--1) <sup>[(unicode)](#unicode)</sup>
-* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2--e--2) <sup>[(binary)](#binary)</sup>
-* [`ranges< M, U1, V1, U2, V2, ..., W >`](#ranges-m-u1-v1-u2-v2--w-) <sup>[(member)](#member)</sup>
+* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2-) <sup>[(ascii)](#ascii)</sup>
+* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2--1) <sup>[(unicode)](#unicode)</sup>
+* [`ranges< C1, D1, C2, D2, ... >`](#ranges-c1-d1-c2-d2--2) <sup>[(binary)](#binary)</sup>
+* [`ranges< M, U1, V1, U2, V2, ... >`](#ranges-m-u1-v1-u2-v2-) <sup>[(member)](#member)</sup>
+* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2-e-) <sup>[(ascii)](#ascii)</sup>
+* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2-e--1) <sup>[(unicode)](#unicode)</sup>
+* [`ranges< C1, D1, C2, D2, ..., E >`](#ranges-c1-d1-c2-d2-e--2) <sup>[(binary)](#binary)</sup>
+* [`ranges< M, U1, V1, U2, V2, ..., W >`](#ranges-m-u1-v1-u2-v2-w-) <sup>[(member)](#member)</sup>
 * [`rematch< R, S... >`](#rematch-r-s-) <sup>[(convenience)](#convenience)</sup>
 * [`rep< Num, R... >`](#rep-num-r-) <sup>[(convenience)](#convenience)</sup>
 * [`rep_max< Max, R... >`](#rep_max-max-r-) <sup>[(convenience)](#convenience)</sup>
@@ -2117,7 +2124,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`separated< S, R... >`](#separated-s-r-) <sup>[(convenience)](#convenience)</sup>
 * [`separated_pad< S, P, R... >`](#separated_pad-s-p-r-) <sup>[(convenience)](#convenience)</sup>
 * [`seq< R... >`](#seq-r-) <sup>[(combinators)](#combinators)</sup>
-* [`seven`](#seven) <sup>[(ascii)](#ascii)</sup>
+* [`seven`](TODO) <sup>[(ascii)](#ascii)</sup>
 * [`shebang`](#shebang) <sup>[(ascii)](#ascii)</sup>
 * [`soft_dotted`](#soft_dotted) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`sor< R... >`](#sor-r-) <sup>[(combinators)](#combinators)</sup>
@@ -2134,15 +2141,15 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`string< C... >`](#string-c--2) <sup>[(binary)](#binary)</sup>
 * [`string< M, U... >`](#string-m-u-) <sup>[(member)](#member)</sup>
 * [`success`](#success) <sup>[(atomic)](#atomic)</sup>
-* [`TAO_PEGTL_ISTRING( "..." )`](#tao_pegtl_istring--) <sup>[(ascii)](#ascii)</sup>
-* [`TAO_PEGTL_KEYWORD( "..." )`](#tao_pegtl_keyword--) <sup>[(ascii)](#ascii)</sup>
-* [`TAO_PEGTL_RAISE_MESSAGE( "..." )`](#tao_pegtl_raise_message--) <sup>[(exceptional)](#exceptional)</sup>
-* [`TAO_PEGTL_STRING( "..." )`](#tao_pegtl_string--) <sup>[(ascii)](#ascii)</sup>
+* [`TAO_PEGTL_ISTRING( "..." )`](#tao_pegtl_istring-) <sup>[(ascii)](#ascii)</sup>
+* [`TAO_PEGTL_KEYWORD( "..." )`](#tao_pegtl_keyword-) <sup>[(ascii)](#ascii)</sup>
+* [`TAO_PEGTL_RAISE_MESSAGE( "..." )`](#tao_pegtl_raise_message-) <sup>[(exceptional)](#exceptional)</sup>
+* [`TAO_PEGTL_STRING( "..." )`](#tao_pegtl_string-) <sup>[(ascii)](#ascii)</sup>
 * [`terminal_punctuation`](#terminal_punctuation) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`three< C >`](#three-c-) <sup>[(ascii)](#ascii)</sup>
 * [`trail_canonical_combining_class< V >`](#trail_canonical_combining_class-v-) <sup>[(icu rules)](#icu-rules-for-value-properties)</sup>
 * [`try_catch_any_raise_nested< R... >`](#try_catch_any_raise_nested-r-) <sup>[(exceptional)](#exceptional)</sup>
-* [`try_catch_any_return_false< R... >`](#try_catch_any_return_false-r-) <sup>[(exceptional)](#exceptional)</sup>
+* [`try_catch_any_return_false< E, R... >`](#try_catch_any_return_false-e-r-) <sup>[(exceptional)](#exceptional)</sup>
 * [`try_catch_raise_nested< R... >`](#try_catch_raise_nested-r-) <sup>[(exceptional)](#exceptional)</sup>
 * [`try_catch_return_false< R... >`](#try_catch_return_false-r-) <sup>[(exceptional)](#exceptional)</sup>
 * [`try_catch_std_raise_nested< R... >`](#try_catch_std_raise_nested-r-) <sup>[(exceptional)](#exceptional)</sup>
@@ -2178,7 +2185,7 @@ See accompanying file [LICENSE_1_0.txt](../LICENSE_1_0.txt) or copy at https://w
 [stream input]: Stream-Parsing.md
 [Equivalent]: #equivalence
 [implementation]: #implementation
-[Meta data]: Meta-Data-and-Visit.md
+[Meta data]: Debug-Facilities.md#meta-data
 [PEG]: https://en.wikipedia.org/wiki/Parsing_expression_grammar
 
 [the `scan` sub-namespace]: Inputs-and-Parsing.md#scan-tracking

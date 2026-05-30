@@ -83,7 +83,7 @@ The example programs can be found in [`src/example/`](../src/example).
 
 ###### [`abnf2pegtl.cpp`](../src/example/abnf2pegtl.cpp)
 
-Parses [ABNF (RFC 5234)](https://tools.ietf.org/html/rfc5234)-style grammars with the [ABNF grammar](#abnfpp) and converts them into C++ PEGTL rules.
+Parses [ABNF (RFC 5234)](https://tools.ietf.org/html/rfc5234)-style grammars with the [ABNF grammar](#abnf_abnfhpp) and converts them into C++ PEGTL rules.
 Uses the command line arguments as files to parse.
 Some extensions and restrictions compared to RFC 5234:
 
@@ -96,7 +96,7 @@ Some extensions and restrictions compared to RFC 5234:
 
 ###### [`abnf_record.cpp`](../src/example/abnf_record.cpp)
 
-Shows how to create a linearized [record](Extra-Reference.md#recordhpp) of a parsing run with the [ABNF grammar](#abnfhpp).
+Shows how to create a linearized [record](Extra-Reference.md#recordhpp) of a parsing run with the [ABNF grammar](#abnf_abnfhpp).
 Uses the command line arguments as files to parse.
 
 ```
@@ -109,7 +109,11 @@ tao::pegtl::abnf::rulename@4:23(115) 'rule'
 
 ###### [`analyze.cpp`](../src/example/analyze.cpp)
 
-A small example that provokes the [grammar analysis](Grammar-Analysis.md) to find problems.
+A small example that provokes the [grammar analysis](Debug-Facilities.md#grammar-analysis) to find problems.
+
+###### [`behaviour.cpp`](../src/example/behaviour.cpp)
+
+Generates the tables for the [rule comparisons](Rules-and-Grammars.md#rule-comparisons) on the [rule and grammars](Rules-and-Grammars.md) page.
 
 ###### [`calculator.cpp`](../src/example/calculator.cpp)
 
@@ -134,10 +138,22 @@ Some actions merely push something onto a stack, while other actions apply some 
 
 Examples of grammars for regular, context-free, and context-sensitive languages.
 
-###### [`csv1.cpp`](../src/example/csv1.cpp)
-###### [`csv2.cpp`](../src/example/csv2.cpp)
+###### [`csv_1.cpp`](../src/example/csv_1.cpp)
+###### [`csv_2.cpp`](../src/example/csv_2.cpp)
 
 Two simple examples for grammars that parse different kinds of [CSV-style](https://en.wikipedia.org/wiki/Comma-separated_values) file formats.
+
+###### [`dispatch.cpp`](../src/example/dispatch.cpp)
+
+A short example for the [action dispatch](Extra-Example.md#dispatchhpp) facility.
+
+###### [`dynamic_match.cpp`](../src/example/dynamic_match.cpp)
+
+Shows a rule that uses run-time information to decide a match with a grammar similar to [raw string](Extra-Reference.md#raw_stringhpp).
+
+###### [`expression.cpp`](../src/example/expression.cpp)
+
+A work-in-progress expression evaulation example that supports prefix, infix and postfix operators as well as the ternary operator. The set of operators and their precedences can be easily adapted.
 
 ###### [`hello_world.cpp`](../src/example/hello_world.cpp)
 
@@ -146,6 +162,11 @@ The reverse "hello world" example from the [introduction](Introduction.md).
 ###### [`indent_aware.cpp`](../src/example/indent_aware.cpp)
 
 Shows one approach to implementing an indentation-aware language with a very very small subset of Python.
+
+###### [`iri_struct.cpp`](../src/example/iri_struct.cpp)
+
+Shows how to use the [IRI grammar](#irihpp) to parse an [IRI](https://en.wikipedia.org/wiki/Internationalized_Resource_Identifier) into a data structure.
+Parses its command line arguments.
 
 ###### [`json_analyze.cpp`](../src/example/json_analyze.cpp)
 
@@ -197,7 +218,7 @@ Combines the JSON [grammar](#jsonhpp) with the [parse trace](Debug-Facilities.md
 
 ###### [`lua53_analyze.cpp`](../src/example/lua53_analyze.cpp)
 
-Performs a grammar analysis on the [Lua](https://www.lua.org/) [5.3](https://www.lua.org/manual/5.3/ [grammar](Example-Reference.md#lua53hpp) to check for problems.
+Performs a grammar analysis on the [Lua](https://www.lua.org/) [5.3](https://www.lua.org/manual/5.3/) [grammar](Example-Reference.md#lua53hpp) to check for problems.
 
 ###### [`lua53_parse.cpp`](../src/example/lua53_parse.cpp)
 
@@ -324,7 +345,7 @@ Parses its command line arguments.
 
 ## Index
 * [`abnf_abnf.hpp`](#abnf_abnfhpp) <sup>[(grammar)](#grammars)</sup>
-* [`abnf_core.hpp`](#anbf_corehpp) <sup>[(grammar)](#grammars)</sup>
+* [`abnf_core.hpp`](#abnf_corehpp) <sup>[(grammar)](#grammars)</sup>
 * [`abnf2pegtl.cpp`](#abnf2pegtlcpp) <sup>[(program)](#programs)</sup>
 * [`abnf_record.cpp`](#abnf_recordcpp) <sup>[(program)](#programs)</sup>
 * [`analyze.cpp`](#analyzecpp) <sup>[(program)](#programs)</sup>
@@ -351,19 +372,18 @@ Parses its command line arguments.
 * [`json_count.cpp`](#json_countcpp) <sup>[(program)](#programs)</sup>
 * [`json_coverage.cpp`](#json_coveragecpp) <sup>[(program)](#programs)</sup>
 * [`json_parse.cpp`](#json_parsecpp) <sup>[(program)](#programs)</sup>
-* [`json_pointer.hpp`](#json_pointer.hpp) <sup>[(grammar)](#grammars)</sup>
+* [`json_pointer.hpp`](#json_pointerhpp) <sup>[(grammar)](#grammars)</sup>
 * [`json_print_debug.cpp`](#json_print_debugcpp) <sup>[(program)](#programs)</sup>
 * [`json_print_names.cpp`](#json_print_namescpp) <sup>[(program)](#programs)</sup>
 * [`json_record.cpp`](#json_recordcpp) <sup>[(program)](#programs)</sup>
 * [`json_stream.cpp`](#json_streamcpp) <sup>[(program)](#programs)</sup>
-* [`json_tokenize.cpp`](#json_tokenizecpp) <sup>[(program)](#programs)</sup>
+* [`json_tokens.cpp`](#json_tokenscpp) <sup>[(program)](#programs)</sup>
 * [`json_trace.cpp`](#json_tracecpp) <sup>[(program)](#programs)</sup>
 * [`lua53.hpp`](#lua53hpp) <sup>[(grammar)](#grammars)</sup>
 * [`lua53_analyze.cpp`](#lua53_analyzecpp) <sup>[(program)](#programs)</sup>
 * [`lua53_parse.cpp`](#lua53_parsecpp) <sup>[(program)](#programs)</sup>
 * [`modulus_match.cpp`](#modulus_matchcpp) <sup>[(program)](#programs)</sup>
 * [`parse_tree.cpp`](#parse_treecpp) <sup>[(program)](#programs)</sup>
-* [`parse_tree_user_state.cpp`](#parse_tree_user_statecpp) <sup>[(program)](#programs)</sup>
 * [`proto3.hpp`](#proto3hpp) <sup>[(grammar)](#grammars)</sup>
 * [`proto3_analyze.cpp`](#proto3_analyzecpp) <sup>[(program)](#programs)</sup>
 * [`proto3_parse.cpp`](#proto3_parsecpp) <sup>[(program)](#programs)</sup>

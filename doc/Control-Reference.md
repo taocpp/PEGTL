@@ -52,7 +52,7 @@ A control adapter that forwards only one single state argument, selected by its 
 * The parameter `State` is the type selected for `apply()` and `apply0()`.
 * All other control functions are taken from the adapted control.
 * Included via `include/tao/pegtl/control/apply_typed_state.hpp`.
-* Related to the [action](Actions-and-State.md) class [`match_typed_state`](Action-Reference.md#match_typed_state-t-).
+* Related to the [action](Actions-and-States.md) class [`match_typed_state`](Action-Reference.md#match_typed_state-t-).
 
 ```c++
 template< typename State, typename Base >
@@ -202,7 +202,7 @@ The [control](Control-and-Normal.md) class (template) `normal` is the control fo
 
 It is the only control that implements the control functionality -- all other controls are adapters that modify the behavior of another control.
 
-It is also the default [control](Control-and-Normal.md) for the [`parse()`](Inputs-and-Parsing.md#parse-funciton) and [`parse_nested()`](Inputs-and-Parsing.md#nested-parsing) functions.
+It is also the default [control](Control-and-Normal.md) for the [`parse()`](Inputs-and-Parsing.md#parse-function) and [`parse_nested()`](Inputs-and-Parsing.md#nested-parsing) functions.
 
 ###### [`remove_first_state`](../include/tao/pegtl/control/remove_first_state.hpp)
 
@@ -250,7 +250,7 @@ struct remove_first_states_n
 };
 ```
 
-###### [`remove_last_state`](../include/tao/pegtl/control/remove_last_state.hpp)
+###### [`remove_last_state`](../include/tao/pegtl/control/remove_last_states.hpp)
 
 A control adapter that calls most control functions with the last state removed.
 
@@ -362,7 +362,7 @@ struct my_control
 };
 ```
 
-###### [`rewind_input_control`](../include/tao/pegtl/control/rewind_input_control.hpp)
+###### `rewind_input_control` TODO
 
 This control adapter will add [rewind control functions](#rewind_control) to `input_control` but it won't be implemented until somebody actually needs it.
 
@@ -537,7 +537,7 @@ Note that, unlike for normal control classes, if `ParseInput< Rule >::enable == 
 * [`remove_last_states`](#remove_last_states) <sup>[(controls)](#controls)</sup>
 * [`reverse_states`](#reverse_states) <sup>[(controls)](#controls)</sup>
 * [`rewind_control`](#rewind_control) <sup>[(controls)](#controls)</sup>
-* [`rewind_input_control`](#rewind_input_control) <sup>[(controls)](#controls)</sup>
+* [`rewind_input_control`](#rewind_input_control-todo) <sup>[(controls)](#controls)</sup>
 * [`rewind_state_control`](#rewind_state_control) <sup>[(controls)](#controls)</sup>
 * [`rotate_states_left`](#rotate_states_left) <sup>[(controls)](#controls)</sup>
 * [`rotate_states_right`](#rotate_states_right) <sup>[(controls)](#controls)</sup>

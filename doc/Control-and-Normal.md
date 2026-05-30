@@ -116,8 +116,8 @@ struct foo_control
 ```
 
 The exact set of control functions is not set in stone, for example the `start()`, `success()` and `failure()` functions are usually only called from `tao::pegtl::match()` and could be removed if that function is replaced.
-However we consider it best practice to go with the interface established by [`tao::pegtl::normal`](#normal) and `tao::pegtl::match()`.
-It is no accident that all [additional controls](Control-Reference.md) included with the PEGTL are adapters that add some functionality to an existing control which, directly or indirectly, always ends up using [`normal`](#normal).
+However we consider it best practice to go with the interface established by [`tao::pegtl::normal`](#normal-control) and `tao::pegtl::match()`.
+It is no accident that all [additional controls](Control-Reference.md) included with the PEGTL are adapters that add some functionality to an existing control which, directly or indirectly, always ends up using [`normal`](#normal-control).
 
 ###### `start`
 
@@ -139,7 +139,7 @@ This function does not *need* to do anything for a normal parsing run and can be
 
 ###### `guard`
 
-The function `C< R >::guard()` is called when the implementation of `R::match()` requires a [rewind guard](Rules-and-Grammars.md#rewind_guard) with current control `C` to ensure it does not consume input on local failure.
+The function `C< R >::guard()` is called when the implementation of `R::match()` requires a [rewind guard](Rules-and-Grammars.md#rewind-guard) with current control `C` to ensure it does not consume input on local failure.
 
 ###### `raise`
 
@@ -272,7 +272,7 @@ When `normal< R >::enable` is `false` for a rule `R` then **no control functions
 > [NOTE!]
 > This does **not** disable control functions for sub-rules of `R`, only for `R` itself!
 
-In (nearly?) all cases user-defined controls can use the default from the [`normal`](#normal) control (where `enable` is `true` for all user-visible rules) and otherwise ignore the subject (including the following explanation as to why this exists).
+In (nearly?) all cases user-defined controls can use the default from the [`normal`](#normal-control) control (where `enable` is `true` for all user-visible rules) and otherwise ignore the subject (including the following explanation as to why this exists).
 
 By default `enable` is `true` for all user-visible rules, i.e. for all rule classes except those implemented in namespace `tao::pegtl::internal`.
 For these internal rule classes `enable` is set to `false`.
@@ -306,7 +306,7 @@ Empty function.
 
 ###### `guard`
 
-The guard function returns either a [rewind guard](Rules-and-Grammars.md#rewind_guard) or an empty dummy object that does nothing, depending on the current `rewind_mode`.
+The guard function returns either a [rewind guard](Rules-and-Grammars.md#rewind-guard) or an empty dummy object that does nothing, depending on the current `rewind_mode`.
 
 ###### `raise`
 

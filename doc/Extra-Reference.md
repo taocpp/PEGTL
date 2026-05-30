@@ -288,8 +288,8 @@ An older version of [`include/tao/pegtl/extra/unescape.hpp`](#unescapehpp).
 * [`rep_one_min_max.hpp`](#rep_one_min_maxhpp) <sup>[(deprecated)](#deprecated)</sup>
 * [`rep_string.hpp`](#rep_stringhpp) <sup>[(deprecated)](#deprecated)</sup>
 * [`type_to_string.hpp`](#type_to_stringhpp) <sup>[(extra)](#extras)</sup>
-* [`unescape.hpp`](#unscapehpp) <sup>[(extra)](#extras)</sup>
-* [`unescape.hpp`](#unscapehpp-1) <sup>[(deprecated)](#deprecated)</sup>
+* [`unescape.hpp`](#unescapehpp) <sup>[(extra)](#extras)</sup>
+* [`unescape.hpp`](#unescapehpp-1) <sup>[(deprecated)](#deprecated)</sup>
 
 
 ---

@@ -85,7 +85,7 @@ Grammars and other classes that indirectly rely on exception support or are intr
 Facilities that use `std::perror()` and `std::terminate()` instead of `throw` when exceptions are disabled:
 
  * All I/O errors during file mapping and reading.
- * Some [contrib](Contrib-and-Examples.md#contrib) actions.
+ * Some [extra](Extra-Reference.md) actions.
 
 Some tests and examples are (partially) disabled when compiling without exception support.
 

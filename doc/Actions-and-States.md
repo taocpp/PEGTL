@@ -280,7 +280,7 @@ struct text
 Our goal is for a parsing run with the `text` rule to produce a copy of the input where the backslash escape sequences are replaced by the character they represent.
 When the `plain` rule matches, the bytes of the matched UTF-8-encoded code-point can be appended to the result.
 When the `escaped` rule matches, the bytes corresponding to the character represented by the escape sequence must be appended to the result.
-This can be achieved with appropriate specializations of `my_action` using some [contrib](Contrib-and-Examples.md#contrib) classes from `tao/pegtl/contrib/unescape.hpp`.
+This can be achieved with appropriate specializations of `my_action` using some [extra](Extra-Reference.md#unescapehpp) classes from `tao/pegtl/extra/unescape.hpp`.
 
 ```c++
 template<>
@@ -420,7 +420,7 @@ Embedding a state change into the grammar with [`state<>`](Rule-Reference.md#sta
 
 ### Via Actions
 
-The actions [`tao::pegtl::change_state<>`](Action-Reference.md#change_state) and [`tao::pegtl::change_states<>`](Action-Reference.md#change_states) can be used to change from the current to a new set of states while parsing the rules they are attached to.
+The actions [`tao::pegtl::change_state<>`](Action-Reference.md#change_state-s-) and [`tao::pegtl::change_states<>`](Action-Reference.md#change_states-s-) can be used to change from the current to a new set of states while parsing the rules they are attached to.
 
 The differences are summarised in this table; note that `change_state` is more similar to the legacy `change_state` control class that was included with the 2.z versions of the PEGTL.
 
@@ -430,20 +430,20 @@ The differences are summarised in this table; note that `change_state` is more s
 | Construction of new states | optionally with input and old states | default |
 | Success function on action | if not on new state | required |
 
-With [`change_state`](Action-Reference.md#change_state) only a single new state type can be given as template parameter, and only a single new state will be created.
+With [`change_state`](Action-Reference.md#change_state-s-) only a single new state type can be given as template parameter, and only a single new state will be created.
 The constructor of the new state receives the same arguments as per `tao::pegtl::state<>`, the current input from the parsing run and all previous states.
 
 A `success()` static member function is supplied that calls the `success()` member function on the new state, again with the current input from the parsing run and all previous states.
 The supplied `success()` can of course be overridden in a derived class.
 
-With [`change_states`](Action-Reference.md#change_states), being a variadic template, any number of new state types can be given and an appropriate set of new states will be created (nearly) simultaneously.
-All new states are default-constructed, if something else is required the reader is encouraged to copy and modify the implementation of [`change_states`](Action-Reference.md#change_states) in their project.
+With [`change_states`](Action-Reference.md#change_states-s-), being a variadic template, any number of new state types can be given and an appropriate set of new states will be created (nearly) simultaneously.
+All new states are default-constructed, if something else is required the reader is encouraged to copy and modify the implementation of [`change_states`](Action-Reference.md#change_states-s-) in their project.
 
 The user *must* implement a custom `success()` static member function that takes the current input from the parsing run, the new states, and the old states as arguments.
 
 Note that, *unlike* the `tao::pegtl::state<>` combinator, the success functions are *only called when actions are currently enabled*!
 
-Using the changing actions is again done via inheritance as shown in the following example for [`change_states`](Action-Reference.md#change_states).
+Using the changing actions is again done via inheritance as shown in the following example for [`change_states`](Action-Reference.md#change_states-s-).
 
 ```c++
 template<>
@@ -504,11 +504,11 @@ They should be studied and understood before implementing a custom action with `
 
 ## Nothing
 
-Letting the primary template of an action class template derive from [`tao::pegtl::nothing`](Action-Reference.md#nothing) is recommended, though not strictly necessary.
+Letting the primary template of an action class template derive from [`tao::pegtl::nothing`](Action-Reference.md#nothing-r-) is recommended, though not strictly necessary.
 
-When using [`nothing`](Action-Reference.md#nothing), some assertions are enabled that are usually very helpful while developing a parser.
+When using [`nothing`](Action-Reference.md#nothing-r-), some assertions are enabled that are usually very helpful while developing a parser.
 
-When not using [`nothing`](Action-Reference.md#nothing), simply by never mentioning it (as base class), these assertions are disabled and it is possible for an action's `apply()` or `apply0()` implementation to be silently ignored.
+When not using [`nothing`](Action-Reference.md#nothing-r-), simply by never mentioning it (as base class), these assertions are disabled and it is possible for an action's `apply()` or `apply0()` implementation to be silently ignored.
 
 In the following let `a` be an action template class, i.e. the instantiation of an action class template `action` for some rule `r`, or `using a = action< r >` for short.
 
@@ -528,16 +528,16 @@ The classes [`require_apply`](Action-Reference.md#require_apply) and [`require_a
 
 The following assertion is only enabled when `std::is_base_of_v< tao::pegtl::nothing< void >, action< void > >` is `true`.
 
-* Either [`nothing< r >`](Action-Reference.md#nothing) must be an accessible base class of `a`, or
+* Either [`nothing< r >`](Action-Reference.md#nothing-r-) must be an accessible base class of `a`, or
 * [`maybe_nothing`](Action-Reference.md#maybe_nothing) must be an accessible base class of `a`, or
 * `a` must have a callable `apply()` or `apply0()`.
 
 The class [`tao::pegtl::maybe_nothing`](Action-Reference.md#maybe_nothing) is an accessible base class of all the changing actions explained above.
 This make is possible, but not necessary, to implement `apply()` or `apply0()` for actions derived from them.
 
-Note that [`maybe_nothing`](Action-Reference.md#maybe_nothing) can be combined, through multiple inheritance, with one of [`nothing<>`](Action-Reference.md#nothing), [`require_apply`](Action-Reference.md#require_apply) or [`require_apply0`](Action-Reference.md#require_apply0).
+Note that [`maybe_nothing`](Action-Reference.md#maybe_nothing) can be combined, through multiple inheritance, with one of [`nothing<>`](Action-Reference.md#nothing-r-), [`require_apply`](Action-Reference.md#require_apply) or [`require_apply0`](Action-Reference.md#require_apply0).
 
-For example when a class `b` is derived from [`change_state`](Action-Reference.md#change_state), it also gains that class' [`maybe_nothing`](Action-Reference.md#maybe_nothing) as accessible base class.
+For example when a class `b` is derived from [`change_state`](Action-Reference.md#change_state-s-), it also gains that class' [`maybe_nothing`](Action-Reference.md#maybe_nothing) as accessible base class.
 At this point `b` is allowed to either have or not have an `apply()` or `apply0()`.
 By letting `b` also derive from one of the three mentioned classes, the [`maybe_nothing`](Action-Reference.md#maybe_nothing) will be ignored and `b` will be checked to have or not have the functions as dictated by the respective additional base class.
 

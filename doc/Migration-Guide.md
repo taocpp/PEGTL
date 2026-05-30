@@ -190,7 +190,7 @@ Existing grammars will continue to work as before once the following list of mos
 * The `begin()` member function of the input-classes is now called `current()`.
 * The first argument to actions' `apply()` is now of type `tao::pegtl::internal::action_input< ... >`.
 
-For flexibility and future compatibility it is recommended to "template over" the first argument to `apply()` as shown in [Actions and States](Actions-and-States.md#actions).
+For flexibility and future compatibility it is recommended to "template over" the first argument to `apply()` as shown in [Actions and States](Actions-and-States.md#apply).
 
 The `pegtl` part of the namespace can be controlled with the `TAOCPP_PEGTL_NAMESPACE` macro which is set in `include/tao/pegtl/config.hpp` if not defined previously.
 

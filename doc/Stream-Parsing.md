@@ -39,15 +39,15 @@ The stream parsing facilities can be included via `<tao/pegtl/stream.hpp>`, or v
 
 Stream parsing is performed by using a *stream input* for a parsing run.
 A stream input has the same interface as other inputs as well as some stream input specific functions.
-It also has two stream input specific components, the [*buffer*](#Buffers) and the [*reader*](#Readers).
+It also has two stream input specific components, the [*buffer*](#buffers) and the [*reader*](#readers).
 
 The buffer wraps the memory region in which a portion of the input data is kept.
-Different [buffers](#Buffers) allocate memory in different ways, e.g. an embedded `std::array` or via `operator new[]`.
+Different [buffers](#buffers) allocate memory in different ways, e.g. an embedded `std::array` or via `operator new[]`.
 
 The buffer size, i.e. how many bytes can be kept in memory at any one time, and the chunk size, i.e. the minimum number of bytes requested from the reader when it needs more data, can be freely chosen.
 
 The reader object provides a simple interface to read more input data.
-Different [readers](#Readers) read data from different sources, e.g. a `std::istream` or a range of input iterators.
+Different [readers](#readers) read data from different sources, e.g. a `std::istream` or a range of input iterators.
 
 During a parsing run, all rules that directly attempt to match some input bytes, e.g. `any` as opposed to `seq`, tell the input how many bytes they want to match against.
 If the buffer does not contain enough data the stream input will call the reader to supply more.
@@ -57,7 +57,7 @@ The [`prefetch`](#prefetch-num-) and [`require`](#require-num-) rules can be use
 Removing parsed bytes from the buffer is called a *discard*.
 This making space for more to-be-parsed data needs to happen regularly while parsing and can be done either manually or automatically.
 
-The [`discard`](#discard) rule and/or the [`discard_input`](#discard-input) and [`discard_input_on`](#discard-input-on) actions are used for manual discards.
+The [`discard`](#discard) rule and/or the [`discard_input`](#discard_input) and [`discard_input_on`](#discard_input_on-bool-) actions are used for manual discards.
 The stream inputs whose name contains `_auto_` perform aggressive automatic discarding.
 
 > [!NOTE]
@@ -157,7 +157,7 @@ public:
 };
 ```
 
-When the length of the input string is known some kind of normal [view input](Input-Referemce.md) should be used instead.
+When the length of the input string is known some kind of normal [view input](Input-Reference.md#view-input) should be used instead.
 
 ###### CStream Reader
 
@@ -443,7 +443,7 @@ using other_text_iterator_input = /* unspecified */
 
 ###### Text Auto Inputs
 
-The inputs with `text` and `auto` in their name combine the name-giving features from the [text inputs](#text-inputs) and the [auto inputs](#auto-inputs).
+The inputs with `text` and `auto` in their name combine the name-giving features from the [text inputs](#text-inputs) and the [auto inputs](#plain-auto-inputs).
 
 ```c++
 template< typename Eol = tao_stream_eol,
@@ -572,14 +572,14 @@ These [actions](Actions-and-States.md) are included with `<tao/pegtl/stream.hpp>
 
 * Action with (only) a `match()` function.
 * Calls `discard()` on the input if the rule it is attached to returns.
-* Publicly derives from [`maybe_nothing`](Action-Reference.md#maybe-nothing).
+* Publicly derives from [`maybe_nothing`](Action-Reference.md#maybe_nothing).
 
 ###### `discard_input_on< Bool >`
 
 * Action with (only) a `match()` function.
 * Takes a `bool B` as template parameter.
 * Calls `discard()` on the input if the rule it is attached to returns `B`.
-* Publicly derives from [`maybe_nothing`](Action-Reference.md#maybe-nothing).
+* Publicly derives from [`maybe_nothing`](Action-Reference.md#maybe_nothing).
 
 ###### `discard_input_on_failure`
 

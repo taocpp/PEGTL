@@ -122,7 +122,7 @@ This is all to how new rules are created from existing rules, using C++ template
 
 See the [Rule Reference](Rule-Reference.md) for a complete list of all rules and combinators included with the PEGTL.
 
-Some included "unofficial" rules can be found in `include/tao/pegtl/contrib` as documented on the [Contrib and Examples](Contrib-and-Examples.md) page.
+Some included "unofficial" rules can be found in `include/tao/pegtl/extra` as documented on the [Extra Reference](Extra-Reference.md) page.
 
 
 ## Recursive Rules
@@ -694,7 +694,7 @@ struct c : one< 'c' > {};
 |--|--|--|--|--|--|--|
 | [`seq< a, b >`](Rule-Reference.md#seq-r-) | **f** | **f** | "ab" | **f** | **f** | "ab" |
 | [`opt< a, b >`](Rule-Reference.md#opt-r-) | "" | "" | "ab" | "" | "" | "ab" |
-| [`opt_must< a, b >`](Rule-Reference.md#opt_must-r-) | "" | **E** | "ab" | "" | **E** | "ab" |
+| [`opt_must< a, b >`](Rule-Reference.md#opt_must-r-s-) | "" | **E** | "ab" | "" | **E** | "ab" |
 | [`strict< a, b >`](Rule-Reference.md#strict-r-) | "" | **f** | "ab" | "" | **f** | "ab" |
 | [`partial< a, b >`](Rule-Reference.md#partial-r-) | "" | "a" | "ab" | "" | "a" | "ab" |
 | [`must< a, b >`](Rule-Reference.md#must-r-) | **E** | **E** | "ab" | **E** | **E** | "ab" |
@@ -738,7 +738,7 @@ struct c : one< 'c' > {};
 | [`any`](Rule-Reference.md#any) | "a" | "c" | "e" | "G" | "Z" | "\xA4" |
 | [`one< 'c', 'g' >`](Rule-Reference.md#one-c-) | **f** | "c" | **f** | **f** | **f** | **f** |
 | [`ione< 'c', 'g' >`](Rule-Reference.md#ione-c-) | **f** | "c" | **f** | "G" | **f** | **f** |
-| [`range< 'c', 'g' >`](Rule-Reference.md#rance-c-d-) | **f** | "c" | "e" | **f** | **f** | **f** |
+| [`range< 'c', 'g' >`](Rule-Reference.md#range-c-d-) | **f** | "c" | "e" | **f** | **f** | **f** |
 | [`not_one< 'c', 'g' >`](Rule-Reference.md#not_one-c-) | "a" | **f** | "e" | "G" | "Z" | "\xA4" |
 | [`not_ione< 'c', 'g' >`](Rule-Reference.md#not_ione-c-) | "a" | **f** | "e" | **f** | "Z" | "\xA4" |
 | [`not_range< 'c', 'g' >`](Rule-Reference.md#not_range-c-d-) | "a" | **f** | **f** | "G" | "Z" | "\xA4" |
