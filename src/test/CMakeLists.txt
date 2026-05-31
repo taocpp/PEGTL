@@ -24,6 +24,7 @@ set(test_sources
   ascii_atomics.cpp
   ascii_chars.cpp
   ascii_classes.cpp
+  ascii_ellipsis.cpp
   ascii_eol.cpp
   ascii_eolf.cpp
   ascii_identifier.cpp
@@ -33,6 +34,7 @@ set(test_sources
   ascii_not_ione.cpp
   ascii_not_one.cpp
   ascii_not_range.cpp
+  ascii_not_ranges.cpp
   ascii_one.cpp
   ascii_range.cpp
   ascii_shebang.cpp
