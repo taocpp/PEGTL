@@ -409,6 +409,18 @@ For all ASCII rules the template parameters representing characters are of type 
   - `ascii::not_range7< C, C >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::one< internal::peek_seven, C > >`.
   - `ascii::not_range7< C, D >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::range< internal::peek_seven, C, D > >`.
 
+###### `not_ranges< C1, D1, C2, D2, ... >`
+###### `not_ranges< C1, D1, C2, D2, ..., E >`
+
+* Succeeds when the input is not empty, and:
+* The next input byte is not in any of the closed ranges `C1 ... D1`, `C2 ... D2`, ...
+* For the second form the next input byte must also not be `E`.
+* Consumes one byte on success.
+* [Meta data] and [implementation] mapping:
+  - `ascii::not_ranges< E >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::one< internal::peek_char, E > >`.
+  - `ascii::not_ranges< C, D >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::range< internal::peek_char, C, D > >`.
+  - `ascii::not_ranges< C... >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::ranges< internal::peek_char, C... > >`.
+
 ###### `nul`
 
 * Matches and consumes an ASCII *nul* character of value `0`.
@@ -658,6 +670,21 @@ For all Unicode rules the template parameters representing code points are of ty
 * The input code point `B` satisfies `B < C || D < B`.
 * Consumes the N input objects on success.
 
+###### `not_ranges< C1, D1, C2, D2, ... >`
+
+* Succeeds when the input is not empty, and:
+* The next N input objects encode a valid Unicode code point, and:
+* The input code point is not in any of the closed ranges `C1 ... D1`, `C2 ... D2`, ...
+* Consumes the N input objects on success.
+
+###### `not_ranges< C1, D1, C2, D2, ..., E >`
+
+* Succeeds when the input is not empty, and:
+* The next N input objects encode a valid Unicode code point, and:
+* The input code point is not in any of the closed ranges `C1 ... D1`, `C2 ... D2`, ...
+* The input code point is also not `E`.
+* Consumes the N input objects on success.
+
 ###### `one< C... >`
 
 * Succeeds when the input is not empty, and:
@@ -826,6 +853,19 @@ The term *input value* indicates an integer or enum value of the appropriate siz
 * The (endian adjusted) input value `b` satisfies `b < C || D < b`.
 * Consumes N objects on success.
 
+###### `not_ranges< C1, D1, C2, D2, ... >`
+
+* Succeeds when the input contains at least N objects, and:
+* The (endian adjusted) input value is not in any of the closed ranges `C1 ... D1`, `C2 ... D2`, ...
+* Consumes N objects on success.
+
+###### `not_ranges< C1, D1, C2, D2, ..., E >`
+
+* Succeeds when the input contains at least N objects, and:
+* The (endian adjusted) input value is not in any of the closed ranges `C1 ... D1`, `C2 ... D2`, ...
+* The (endian adjusted) input value is also not `E`.
+* Consumes N objects on success.
+
 ###### `one< C... >`
 
 * Succeeds when the input contains at least N objects, and:
@@ -903,6 +943,19 @@ These rules are in namespace `tao::pegtl::member`.
 
 * Succeeds when the input contains at least 1 object, and:
 * The object `u` extracted from the next input object satisfies `u < U || V < u`.
+* Consumes 1 object on success.
+
+###### `not_ranges< M, U1, V1, U2, V2, ... >`
+
+* Succeeds when the input contains at least 1 object, and:
+* The object extracted from the next input object is not in any of the closed ranges `U1 ... V1`, `U2 ... V2`, ...
+* Consumes 1 object on success.
+
+###### `not_ranges< M, U1, V1, U2, V2, ..., W >`
+
+* Succeeds when the input contains at least 1 object, and:
+* The object extracted from the next input object is not in any of the closed ranges `U1 ... V1`, `U2 ... V2`, ...
+* The object extracted from the next input object is also not `W`.
 * Consumes 1 object on success.
 
 ###### `one< M, U... >`
@@ -2081,6 +2134,14 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`not_range< C, D >`](#not_range-c-d--2) <sup>[(binary)](#binary)</sup>
 * [`not_range< M, U, V >`](#not_range-m-u-v-) <sup>[(member)](#member)</sup>
 * [`not_range7< C, D >`](#not_range7-c-d-) <sup>[(ascii)](#ascii)</sup>
+* [`not_ranges< C1, D1, C2, D2, ... >`](#not_ranges-c1-d1-c2-d2--) <sup>[(ascii)](#ascii)</sup>
+* [`not_ranges< C1, D1, C2, D2, ... >`](#not_ranges-c1-d1-c2-d2---1) <sup>[(unicode)](#unicode)</sup>
+* [`not_ranges< C1, D1, C2, D2, ... >`](#not_ranges-c1-d1-c2-d2---2) <sup>[(binary)](#binary)</sup>
+* [`not_ranges< M, U1, V1, U2, V2, ... >`](#not_ranges-m-u1-v1-u2-v2--) <sup>[(member)](#member)</sup>
+* [`not_ranges< C1, D1, C2, D2, ..., E >`](#not_ranges-c1-d1-c2-d2--e-) <sup>[(ascii)](#ascii)</sup>
+* [`not_ranges< C1, D1, C2, D2, ..., E >`](#not_ranges-c1-d1-c2-d2--e--1) <sup>[(unicode)](#unicode)</sup>
+* [`not_ranges< C1, D1, C2, D2, ..., E >`](#not_ranges-c1-d1-c2-d2--e--2) <sup>[(binary)](#binary)</sup>
+* [`not_ranges< M, U1, V1, U2, V2, ..., W >`](#not_ranges-m-u1-v1-u2-v2--w-) <sup>[(member)](#member)</sup>
 * [`nul`](#nul) <sup>[(ascii)](#ascii)</sup>
 * [`numeric_type< V >`](#numeric_type-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`one< C... >`](#one-c-) <sup>[(ascii)](#ascii)</sup>
