@@ -177,6 +177,7 @@ set(test_sources
   rule_if_must.cpp
   rule_if_must_else.cpp
   rule_if_then_else.cpp
+  rule_invert.cpp
   rule_list.cpp
   rule_list_must.cpp
   rule_list_tail.cpp
@@ -197,9 +198,11 @@ set(test_sources
   rule_rep_min.cpp
   rule_rep_min_max.cpp
   rule_rep_opt.cpp
+  rule_restart.cpp
   rule_separated.cpp
   rule_separated_pad.cpp
   rule_seq.cpp
+  rule_source.cpp
   rule_sor.cpp
   rule_star.cpp
   rule_star_must.cpp
