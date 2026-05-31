@@ -104,7 +104,7 @@ set(test_sources
   input_read_input.cpp
   input_with_depth.cpp
   input_with_offset.cpp
-  input_with_source_public.cpp
+  input_with_source.cpp
   internal_any.cpp
   internal_argv_input.cpp
   internal_ascii_utility.cpp
