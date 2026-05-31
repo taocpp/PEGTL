@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::semver2
 
    struct build_identifier : identifier_characters {};
 
-   struct pre_release_identifier : if_then_else< zero, not_at< zero >, identifier_characters > {};
+   struct pre_release_identifier : sor< alphanumeric_identifier, numeric_identifier > {};
 
    struct build : list< build_identifier, dot > {};
    struct pre_release : list< pre_release_identifier, dot > {};

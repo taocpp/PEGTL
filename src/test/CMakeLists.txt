@@ -82,6 +82,7 @@ set(test_sources
   example_http.cpp
   example_iri.cpp
   example_json.cpp
+  example_semver2.cpp
   example_uri.cpp
   extra_charconv.cpp
   extra_dispatch.cpp
