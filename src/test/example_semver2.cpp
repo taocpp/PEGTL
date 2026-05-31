@@ -40,6 +40,7 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "1.0.0-beta+exp.sha.5114f85", result_type::success );
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "1.0.0-0A.is.legal", result_type::success );
       verify_rule< GRAMMAR >( __LINE__, __FILE__, "1.0.0-01a", result_type::success );
+      verify_rule< GRAMMAR >( __LINE__, __FILE__, "1.0.0+21AF26D3----117B344092BD", result_type::success );
 
       verify_rule< SEMVER >( __LINE__, __FILE__, "1.2.3 garbage", result_type::success, 8 );
       verify_rule< SEMVER >( __LINE__, __FILE__, "1.2.3.4", result_type::success, 2 );
