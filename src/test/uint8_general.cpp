@@ -17,6 +17,14 @@ namespace TAO_PEGTL_NAMESPACE
       for( int i = -100; i < 200; ++i ) {
          verify_char< uint8::any >( __LINE__, __FILE__, char( i ), true );
       }
+      verify_view< uint8::many< 0 > >( __LINE__, __FILE__, "", result_type::success );
+      verify_view< uint8::many< 0 > >( __LINE__, __FILE__, "\x01", result_type::success, 1 );
+      verify_view< uint8::many< 1 > >( __LINE__, __FILE__, "", result_type::local_failure );
+      verify_view< uint8::many< 1 > >( __LINE__, __FILE__, "\x01", result_type::success );
+      verify_view< uint8::many< 2 > >( __LINE__, __FILE__, "\x01", result_type::local_failure );
+      verify_view< uint8::many< 2 > >( __LINE__, __FILE__, "\x01\x02", result_type::success );
+      verify_view< uint8::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03", result_type::success, 1 );
+
       verify_view< uint8::mask_not_one< 0xff, 0x01, 0x02 > >( __LINE__, __FILE__, "", result_type::local_failure );
       verify_view< uint8::mask_not_one< 0xff, 0x01, 0x02 > >( __LINE__, __FILE__, "\x03", result_type::success );
       verify_view< uint8::mask_not_one< 0xff, 0x01, 0x02 > >( __LINE__, __FILE__, "\x03\x01", result_type::success, 1 );
@@ -190,6 +198,36 @@ namespace TAO_PEGTL_NAMESPACE
       verify_view< uint8::not_range< 0x10, 0x20 > >( __LINE__, __FILE__, "\x17", result_type::local_failure );
       verify_view< uint8::not_range< 0x10, 0x20 > >( __LINE__, __FILE__, "\x20", result_type::local_failure );
       verify_view< uint8::not_range< 0x10, 0x20 > >( __LINE__, __FILE__, "\xab", result_type::success );
+
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x0f", result_type::success );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x21", result_type::success );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x2f", result_type::success );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x41", result_type::success );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x8f", result_type::success );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x10", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x16", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x1f", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x20", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x30", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x36", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x3f", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40 > >( __LINE__, __FILE__, "\x40", result_type::local_failure );
+
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "\x0f", result_type::success );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "\x21", result_type::success );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "\x2f", result_type::success );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "\x41", result_type::success );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "\x8f", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "\x10", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "\x16", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "\x1f", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "\x20", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "\x30", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "\x36", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "\x3f", result_type::local_failure );
+      verify_view< uint8::not_ranges< 0x10, 0x20, 0x30, 0x40, 0x8f > >( __LINE__, __FILE__, "\x40", result_type::local_failure );
 
       verify_view< uint8::one< 0x10, 0x20 > >( __LINE__, __FILE__, "", result_type::local_failure );
       verify_view< uint8::one< 0x10, 0x20 > >( __LINE__, __FILE__, "\x0f", result_type::local_failure );

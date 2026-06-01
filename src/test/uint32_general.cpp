@@ -37,6 +37,21 @@ namespace TAO_PEGTL_NAMESPACE
       verify_view< uint32_le::any >( __LINE__, __FILE__, "\x01\x02\x03\x55\x44", result_type::success, 1 );
       verify_view< uint32_le::any >( __LINE__, __FILE__, "\x71\x72\x03\x55\x44", result_type::success, 1 );
 
+      verify_view< uint32_be::many< 0 > >( __LINE__, __FILE__, "", result_type::success );
+      verify_view< uint32_le::many< 0 > >( __LINE__, __FILE__, "", result_type::success );
+      verify_view< uint32_be::many< 0 > >( __LINE__, __FILE__, "\x01\x02\x03\x04", result_type::success, 4 );
+      verify_view< uint32_le::many< 0 > >( __LINE__, __FILE__, "\x01\x02\x03\x04", result_type::success, 4 );
+      verify_view< uint32_be::many< 1 > >( __LINE__, __FILE__, "\x01\x02\x03", result_type::local_failure );
+      verify_view< uint32_le::many< 1 > >( __LINE__, __FILE__, "\x01\x02\x03", result_type::local_failure );
+      verify_view< uint32_be::many< 1 > >( __LINE__, __FILE__, "\x01\x02\x03\x04", result_type::success );
+      verify_view< uint32_le::many< 1 > >( __LINE__, __FILE__, "\x01\x02\x03\x04", result_type::success );
+      verify_view< uint32_be::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07", result_type::local_failure );
+      verify_view< uint32_le::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07", result_type::local_failure );
+      verify_view< uint32_be::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07\x08", result_type::success );
+      verify_view< uint32_le::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07\x08", result_type::success );
+      verify_view< uint32_be::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07\x08\x09", result_type::success, 1 );
+      verify_view< uint32_le::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05\x06\x07\x08\x09", result_type::success, 1 );
+
       verify_view< uint32_be::mask_not_one< 0xffffffff, 0x01111111, 0x02222222 > >( __LINE__, __FILE__, "\x01\x11\x11", result_type::local_failure );
 
       verify_view< uint32_be::mask_not_one< 0xffffffff, 0x01111111, 0x02222222 > >( __LINE__, __FILE__, "\x01\x11\x11\x11", result_type::local_failure );
@@ -136,6 +151,26 @@ namespace TAO_PEGTL_NAMESPACE
 
       verify_view< uint32_le::not_range< 0x01000000, 0x04000000 > >( __LINE__, __FILE__, "\x02\x77\x77\x77", result_type::success );
       verify_view< uint32_le::not_range< 0x01000000, 0x04000000 > >( __LINE__, __FILE__, "\x77\x77\x77\x02", result_type::local_failure );
+
+      verify_view< uint32_be::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444 > >( __LINE__, __FILE__, "\x01\x23\x45\x67", result_type::local_failure );
+      verify_view< uint32_be::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444 > >( __LINE__, __FILE__, "\x02\x34\x56\x78", result_type::success );
+      verify_view< uint32_be::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444 > >( __LINE__, __FILE__, "\x03\x45\x67\x89", result_type::local_failure );
+      verify_view< uint32_be::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444 > >( __LINE__, __FILE__, "\x67\x89\x12\x34", result_type::success );
+
+      verify_view< uint32_le::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444 > >( __LINE__, __FILE__, "\x67\x45\x23\x01", result_type::local_failure );
+      verify_view< uint32_le::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444 > >( __LINE__, __FILE__, "\x78\x56\x34\x02", result_type::success );
+      verify_view< uint32_le::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444 > >( __LINE__, __FILE__, "\x89\x67\x45\x03", result_type::local_failure );
+      verify_view< uint32_le::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444 > >( __LINE__, __FILE__, "\x34\x12\x89\x67", result_type::success );
+
+      verify_view< uint32_be::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444, 0x67890102 > >( __LINE__, __FILE__, "\x01\x23\x45\x67", result_type::local_failure );
+      verify_view< uint32_be::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444, 0x67890102 > >( __LINE__, __FILE__, "\x02\x34\x56\x78", result_type::success );
+      verify_view< uint32_be::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444, 0x67890102 > >( __LINE__, __FILE__, "\x03\x45\x67\x89", result_type::local_failure );
+      verify_view< uint32_be::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444, 0x67890102 > >( __LINE__, __FILE__, "\x67\x89\x01\x02", result_type::local_failure );
+
+      verify_view< uint32_le::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444, 0x67890102 > >( __LINE__, __FILE__, "\x67\x45\x23\x01", result_type::local_failure );
+      verify_view< uint32_le::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444, 0x67890102 > >( __LINE__, __FILE__, "\x78\x56\x34\x02", result_type::success );
+      verify_view< uint32_le::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444, 0x67890102 > >( __LINE__, __FILE__, "\x89\x67\x45\x03", result_type::local_failure );
+      verify_view< uint32_le::not_ranges< 0x01111111, 0x02222222, 0x03333333, 0x04444444, 0x67890102 > >( __LINE__, __FILE__, "\x02\x01\x89\x67", result_type::local_failure );
 
       verify_view< uint32_be::one< 0x01111111, 0x02222222 > >( __LINE__, __FILE__, "\x01\x11\x11\x11", result_type::success );
       verify_view< uint32_be::one< 0x01111111, 0x02222222 > >( __LINE__, __FILE__, "\x11\x11\x11\x01", result_type::local_failure );

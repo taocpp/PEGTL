@@ -32,6 +32,21 @@ namespace TAO_PEGTL_NAMESPACE
       verify_view< uint16_le::any >( __LINE__, __FILE__, "\x01\x02\x03\x55", result_type::success, 2 );
       verify_view< uint16_le::any >( __LINE__, __FILE__, "\x71\x72\x03\x55", result_type::success, 2 );
 
+      verify_view< uint16_be::many< 0 > >( __LINE__, __FILE__, "", result_type::success );
+      verify_view< uint16_le::many< 0 > >( __LINE__, __FILE__, "", result_type::success );
+      verify_view< uint16_be::many< 0 > >( __LINE__, __FILE__, "\x01\x02", result_type::success, 2 );
+      verify_view< uint16_le::many< 0 > >( __LINE__, __FILE__, "\x01\x02", result_type::success, 2 );
+      verify_view< uint16_be::many< 1 > >( __LINE__, __FILE__, "\x01", result_type::local_failure );
+      verify_view< uint16_le::many< 1 > >( __LINE__, __FILE__, "\x01", result_type::local_failure );
+      verify_view< uint16_be::many< 1 > >( __LINE__, __FILE__, "\x01\x02", result_type::success );
+      verify_view< uint16_le::many< 1 > >( __LINE__, __FILE__, "\x01\x02", result_type::success );
+      verify_view< uint16_be::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03", result_type::local_failure );
+      verify_view< uint16_le::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03", result_type::local_failure );
+      verify_view< uint16_be::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03\x04", result_type::success );
+      verify_view< uint16_le::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03\x04", result_type::success );
+      verify_view< uint16_be::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05", result_type::success, 1 );
+      verify_view< uint16_le::many< 2 > >( __LINE__, __FILE__, "\x01\x02\x03\x04\x05", result_type::success, 1 );
+
       verify_view< uint16_be::mask_not_one< 0xffff, 0x0111, 0x0222 > >( __LINE__, __FILE__, "\x01", result_type::local_failure );
 
       verify_view< uint16_be::mask_not_one< 0xffff, 0x0111, 0x0222 > >( __LINE__, __FILE__, "\x01\x11", result_type::local_failure );
@@ -131,6 +146,26 @@ namespace TAO_PEGTL_NAMESPACE
 
       verify_view< uint16_le::not_range< 0x0100, 0x0400 > >( __LINE__, __FILE__, "\x02\x77", result_type::success );
       verify_view< uint16_le::not_range< 0x0100, 0x0400 > >( __LINE__, __FILE__, "\x77\x02", result_type::local_failure );
+
+      verify_view< uint16_be::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444 > >( __LINE__, __FILE__, "\x01\x23", result_type::local_failure );
+      verify_view< uint16_be::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444 > >( __LINE__, __FILE__, "\x02\x34", result_type::success );
+      verify_view< uint16_be::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444 > >( __LINE__, __FILE__, "\x03\x45", result_type::local_failure );
+      verify_view< uint16_be::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444 > >( __LINE__, __FILE__, "\x67\x89", result_type::success );
+
+      verify_view< uint16_le::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444 > >( __LINE__, __FILE__, "\x23\x01", result_type::local_failure );
+      verify_view< uint16_le::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444 > >( __LINE__, __FILE__, "\x34\x02", result_type::success );
+      verify_view< uint16_le::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444 > >( __LINE__, __FILE__, "\x45\x03", result_type::local_failure );
+      verify_view< uint16_le::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444 > >( __LINE__, __FILE__, "\x89\x67", result_type::success );
+
+      verify_view< uint16_be::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444, 0x6789 > >( __LINE__, __FILE__, "\x01\x23", result_type::local_failure );
+      verify_view< uint16_be::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444, 0x6789 > >( __LINE__, __FILE__, "\x02\x34", result_type::success );
+      verify_view< uint16_be::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444, 0x6789 > >( __LINE__, __FILE__, "\x03\x45", result_type::local_failure );
+      verify_view< uint16_be::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444, 0x6789 > >( __LINE__, __FILE__, "\x67\x89", result_type::local_failure );
+
+      verify_view< uint16_le::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444, 0x6789 > >( __LINE__, __FILE__, "\x23\x01", result_type::local_failure );
+      verify_view< uint16_le::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444, 0x6789 > >( __LINE__, __FILE__, "\x34\x02", result_type::success );
+      verify_view< uint16_le::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444, 0x6789 > >( __LINE__, __FILE__, "\x45\x03", result_type::local_failure );
+      verify_view< uint16_le::not_ranges< 0x0111, 0x0222, 0x0333, 0x0444, 0x6789 > >( __LINE__, __FILE__, "\x89\x67", result_type::local_failure );
 
       verify_view< uint16_be::one< 0x0111, 0x0222 > >( __LINE__, __FILE__, "\x01\x11", result_type::success );
       verify_view< uint16_be::one< 0x0111, 0x0222 > >( __LINE__, __FILE__, "\x11\x01", result_type::local_failure );
