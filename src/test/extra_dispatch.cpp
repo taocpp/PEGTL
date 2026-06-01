@@ -31,15 +31,45 @@ namespace TAO_PEGTL_NAMESPACE
       : seq< one< 'a' >, one< 'b' >, one< 'c' >, one< 'd' >, eof >
    {};
 
-   void unit_test()
+   struct unmatched_grammar
+      : seq< one< 'x' >, eof >
+   {};
+
+   using clause_a_c = clause1< action1, one< 'a' >, one< 'c' > >;
+   using clause_b_d = clause2< action2, one< 'b' >, one< 'd' > >;
+
+   void test_success()
    {
       std::string st;
       view_input<> in( "abcd" );
-      using clause1 = clause1< action1, one< 'a' >, one< 'c' > >;
-      using clause2 = clause2< action2, one< 'b' >, one< 'd' > >;
-      const auto b = dispatch< clause1, clause2 >::parse< grammar >( in, st );
+      const auto b = dispatch< clause_a_c, clause_b_d >::parse< grammar >( in, st );
       TAO_PEGTL_TEST_ASSERT( b );
       TAO_PEGTL_TEST_ASSERT( st == "a2c2" );
+   }
+
+   void test_no_clause_match()
+   {
+      std::string st;
+      view_input<> in( "x" );
+      const auto b = dispatch< clause_a_c, clause_b_d >::parse< unmatched_grammar >( in, st );
+      TAO_PEGTL_TEST_ASSERT( b );
+      TAO_PEGTL_TEST_ASSERT( st.empty() );
+   }
+
+   void test_failure()
+   {
+      std::string st;
+      view_input<> in( "abx" );
+      const auto b = dispatch< clause_a_c, clause_b_d >::parse< grammar >( in, st );
+      TAO_PEGTL_TEST_ASSERT( !b );
+      TAO_PEGTL_TEST_ASSERT( st == "a2" );
+   }
+
+   void unit_test()
+   {
+      test_success();
+      test_no_clause_match();
+      test_failure();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
