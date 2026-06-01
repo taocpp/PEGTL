@@ -118,6 +118,34 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
+   template< typename Rule, typename ParseInput >
+   void test_until_position( const std::string& data, const std::size_t remain, const std::size_t line, const std::size_t column, const std::size_t count )
+   {
+      ParseInput in( "until", data );
+
+      TAO_PEGTL_TEST_ASSERT( parse< Rule >( in ) );
+      TAO_PEGTL_TEST_ASSERT( in.size() == remain );
+
+      const auto p = in.current_position();
+      TAO_PEGTL_TEST_ASSERT( p.source == "until" );
+      TAO_PEGTL_TEST_ASSERT( p.line == line );
+      TAO_PEGTL_TEST_ASSERT( p.column == column );
+      TAO_PEGTL_TEST_ASSERT( p.count == count );
+   }
+
+   template< typename ParseInput >
+   void test_until()
+   {
+      test_until_position< until< eol >, ParseInput >( "ab\n", 0, 2, 1, 3 );
+      test_until_position< until< eol >, ParseInput >( "ab\r\n", 0, 2, 1, 4 );
+
+      test_until_position< until< at< eol > >, ParseInput >( "ab\ncd", 3, 1, 3, 2 );
+      test_until_position< until< at< eol > >, ParseInput >( "ab\r\ncd", 4, 1, 3, 2 );
+
+      test_until_position< until< eolf >, ParseInput >( "ab", 0, 1, 3, 2 );
+      test_until_position< until< at< one< 'b' > > >, ParseInput >( "a\nb", 1, 2, 1, 2 );
+   }
+
    void unit_test()
    {
       test_matches_lf< any >();
@@ -161,7 +189,8 @@ namespace TAO_PEGTL_NAMESPACE
       test_nested< text_view_input< lazy::lf_crlf, char, std::string > >();
       test_nested< text_view_input< scan::lf_crlf, char, std::string > >();
 
-      // TODO: until
+      test_until< text_view_input< lazy::lf_crlf, char, std::string > >();
+      test_until< text_view_input< scan::lf_crlf, char, std::string > >();
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE
