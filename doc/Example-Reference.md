@@ -44,9 +44,13 @@ A grammar for the textual representation of floating point numbers, suitable for
 
 HTTP 1.1 grammar according to [RFC 7230](https://tools.ietf.org/html/rfc7230).
 
-###### [`integer.hpp`](../include/tao/pegtl/example/integer.hpp)
+###### [`ipv4.hpp`](../include/tao/pegtl/example/ipv4.hpp)
 
-Various rules for the textual representation of integer values; the old `include/tao/pegtl/contrib/integer.hpp` is now `include/tao/pegtl/deprecated/integer.hpp`.
+A grammar for [IPv4](https://en.wikipedia.org/wiki/IPv4) addresses; only supports four dot-separated octets, not the traditional notations with fewer dots.
+
+###### [`ipv6.hpp`](../include/tao/pegtl/example/ipv6.hpp)
+
+A grammar for [IPv6](https://en.wikipedia.org/wiki/IPv6) addresses including IPv4-mapped IPv6 addresses.
 
 ###### [`iri.hpp`](../include/tao/pegtl/example/iri.hpp)
 
@@ -362,7 +366,8 @@ Parses its command line arguments.
 * [`hello_world.cpp`](#hello_worldcpp) <sup>[(program)](#programs)</sup>
 * [`http.hpp`](#httphpp) <sup>[(grammar)](#grammars)</sup>
 * [`indent_aware.cpp`](#indent_awarecpp) <sup>[(program)](#programs)</sup>
-* [`integer.hpp`](#integerhpp) <sup>[(grammar)](#grammars)</sup>
+* [`ipv4.hpp`](#ipv4hpp) <sup>[(grammar)](#grammars)</sup>
+* [`ipv6.hpp`](#ipv6hpp) <sup>[(grammar)](#grammars)</sup>
 * [`iri.hpp`](#irihpp) <sup>[(grammar)](#grammars)</sup>
 * [`iri_struct.cpp`](#iri_structcpp) <sup>[(program)](#programs)</sup>
 * [`json.hpp`](#jsonhpp) <sup>[(grammar)](#grammars)</sup>

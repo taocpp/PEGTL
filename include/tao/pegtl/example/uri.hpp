@@ -9,16 +9,15 @@
 #error "Exception support required for tao/pegtl/extra/uri.hpp"
 #else
 
-#include <cstdint>
-
 #include "../ascii.hpp"
 #include "../config.hpp"
 #include "../rules.hpp"
-#include "../unicode/utf8.hpp"
 
 #include "../extra/charconv.hpp"
 
 #include "abnf_core.hpp"
+#include "ipv4.hpp"
+#include "ipv6.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::uri
 {
@@ -34,24 +33,8 @@ namespace TAO_PEGTL_NAMESPACE::uri
    using colon = one< ':' >;
 
    // clang-format off
-   struct dec_octet : from_chars_nothrow< std::uint8_t > {};
-
-   struct IPv4address : seq< dec_octet, dot, dec_octet, dot, dec_octet, dot, dec_octet > {};
-
-   struct h16 : rep_min_max< 1, 4, abnf::HEXDIG > {};
-   struct ls32 : sor< seq< h16, colon, h16 >, IPv4address > {};
-
-   struct dcolon : two< ':' > {};
-
-   struct IPv6address : sor< seq<                                               rep< 6, h16, colon >, ls32 >,
-                             seq<                                       dcolon, rep< 5, h16, colon >, ls32 >,
-                             seq< opt< h16                           >, dcolon, rep< 4, h16, colon >, ls32 >,
-                             seq< opt< h16,     opt<    colon, h16 > >, dcolon, rep< 3, h16, colon >, ls32 >,
-                             seq< opt< h16, rep_opt< 2, colon, h16 > >, dcolon, rep< 2, h16, colon >, ls32 >,
-                             seq< opt< h16, rep_opt< 3, colon, h16 > >, dcolon,         h16, colon,   ls32 >,
-                             seq< opt< h16, rep_opt< 4, colon, h16 > >, dcolon,                       ls32 >,
-                             seq< opt< h16, rep_opt< 5, colon, h16 > >, dcolon,                       h16  >,
-                             seq< opt< h16, rep_opt< 6, colon, h16 > >, dcolon                             > > {};
+   struct IPv4address : ipv4::address {};
+   struct IPv6address : ipv6::address {};
 
    struct gen_delims : one< ':', '/', '?', '#', '[', ']', '@' > {};
    struct sub_delims : one< '!', '$', '&', '\'', '(', ')', '*', '+', ',', ';', '=' > {};

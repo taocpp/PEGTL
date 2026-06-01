@@ -84,6 +84,8 @@ set(test_sources
   example_escaped.cpp
   example_fp.cpp
   example_http.cpp
+  example_ipv4.cpp
+  example_ipv6.cpp
   example_iri.cpp
   example_json.cpp
   example_json_pointer.cpp
