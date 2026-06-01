@@ -165,6 +165,7 @@ set(test_sources
   parse_error.cpp
   pegtl_string_t.cpp
   rewind_mode.cpp
+  rewind_mode_required.cpp
   rule_action.cpp
   rule_apply.cpp
   rule_apply0.cpp
