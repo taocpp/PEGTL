@@ -81,9 +81,14 @@ set(test_sources
   error_message_1.cpp
   error_message_2.cpp
   error_message_3.cpp
+  example_escaped.cpp
+  example_fp.cpp
   example_http.cpp
   example_iri.cpp
   example_json.cpp
+  example_json_pointer.cpp
+  example_lua53.cpp
+  example_proto3.cpp
   example_semver2.cpp
   example_uri.cpp
   extra_charconv.cpp
