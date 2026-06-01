@@ -107,6 +107,10 @@ set(test_sources
   input_with_depth.cpp
   input_with_offset.cpp
   input_with_source.cpp
+  int16_general.cpp
+  int32_general.cpp
+  int64_general.cpp
+  int8_general.cpp
   internal_any.cpp
   internal_argv_input.cpp
   internal_ascii_utility.cpp
@@ -218,7 +222,6 @@ set(test_sources
   rule_unordered.cpp
   rule_until.cpp
   rule_utf8_string.cpp
-  signed_general.cpp
   stream_analyze_traits.cpp
   stream_alloc_buffer.cpp
   stream_array_buffer.cpp
