@@ -248,10 +248,45 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< utf8::any >( __LINE__, __FILE__, "\x8f\x80\x80\x80\x80\x80\x80", result_type::local_failure, 7 );
       verify_rule< utf8::any >( __LINE__, __FILE__, "\x8f\x80\x80\x80\x80\x80\x80\x80", result_type::local_failure, 8 );
 
+      verify_rule< utf8::many< 0 > >( __LINE__, __FILE__, "", result_type::success, 0 );
+      verify_rule< utf8::many< 0 > >( __LINE__, __FILE__, "\x20", result_type::success, 1 );
+      verify_rule< utf8::many< 1 > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+      verify_rule< utf8::many< 1 > >( __LINE__, __FILE__, "\x20", result_type::success, 0 );
+      verify_rule< utf8::many< 2 > >( __LINE__, __FILE__, "\x20", result_type::local_failure, 1 );
+      verify_rule< utf8::many< 2 > >( __LINE__, __FILE__, "\x20\xc2\xa2", result_type::success, 0 );
+      verify_rule< utf8::many< 2 > >( __LINE__, __FILE__, "\x20\xc2\xa2\xe2\x82\xac", result_type::success, 3 );
+
       verify_rule< utf8::one< 0x20 > >( __LINE__, __FILE__, "\x20", result_type::success, 0 );
       verify_rule< utf8::one< 0xa2 > >( __LINE__, __FILE__, "\xc2\xa2", result_type::success, 0 );
       verify_rule< utf8::one< 0x20ac > >( __LINE__, __FILE__, "\xe2\x82\xac", result_type::success, 0 );
       verify_rule< utf8::one< 0x10348 > >( __LINE__, __FILE__, "\xf0\x90\x8d\x88", result_type::success, 0 );
+
+      verify_rule< utf8::not_one< 0x20, 0xa2 > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+      verify_rule< utf8::not_one< 0x20, 0xa2 > >( __LINE__, __FILE__, "\x20", result_type::local_failure, 1 );
+      verify_rule< utf8::not_one< 0x20, 0xa2 > >( __LINE__, __FILE__, "\xc2\xa2", result_type::local_failure, 2 );
+      verify_rule< utf8::not_one< 0x20, 0xa2 > >( __LINE__, __FILE__, "\xe2\x82\xac", result_type::success, 0 );
+
+      verify_rule< utf8::range< 0x20, 0x7e > >( __LINE__, __FILE__, "\x1f", result_type::local_failure, 1 );
+      verify_rule< utf8::range< 0x20, 0x7e > >( __LINE__, __FILE__, "\x20", result_type::success, 0 );
+      verify_rule< utf8::range< 0x20, 0x7e > >( __LINE__, __FILE__, "\x7e", result_type::success, 0 );
+      verify_rule< utf8::range< 0x20, 0x7e > >( __LINE__, __FILE__, "\xc2\xa2", result_type::local_failure, 2 );
+
+      verify_rule< utf8::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, "\x1f", result_type::success, 0 );
+      verify_rule< utf8::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, "\x20", result_type::local_failure, 1 );
+      verify_rule< utf8::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, "\x7e", result_type::local_failure, 1 );
+      verify_rule< utf8::not_range< 0x20, 0x7e > >( __LINE__, __FILE__, "\xc2\xa2", result_type::success, 0 );
+
+      verify_rule< utf8::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\x1f", result_type::local_failure, 1 );
+      verify_rule< utf8::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\x20", result_type::success, 0 );
+      verify_rule< utf8::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\xc2\xa2", result_type::local_failure, 2 );
+      verify_rule< utf8::ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\xe2\x82\xac", result_type::success, 0 );
+      verify_rule< utf8::ranges< 0x20, 0x7e, 0x20ac, 0x20af, 0x10348 > >( __LINE__, __FILE__, "\xf0\x90\x8d\x88", result_type::success, 0 );
+
+      verify_rule< utf8::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\x1f", result_type::success, 0 );
+      verify_rule< utf8::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\x20", result_type::local_failure, 1 );
+      verify_rule< utf8::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\xc2\xa2", result_type::success, 0 );
+      verify_rule< utf8::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af > >( __LINE__, __FILE__, "\xe2\x82\xac", result_type::local_failure, 3 );
+      verify_rule< utf8::not_ranges< 0x20, 0x7e, 0x20ac, 0x20af, 0x10348 > >( __LINE__, __FILE__, "\xf0\x90\x8d\x88", result_type::local_failure, 4 );
 
       verify_rule< utf8::bom >( __LINE__, __FILE__, "\xef\xbb\xbf", result_type::success, 0 );
       verify_rule< utf8::bom >( __LINE__, __FILE__, "\xef\xbb\xbf ", result_type::success, 1 );
