@@ -163,6 +163,85 @@ namespace TAO_PEGTL_NAMESPACE
       }
    }
 
+   template< typename Integral >
+   void from_xchars_local_failure( const std::string& input )
+   {
+      Integral state = 42;
+      {
+         view_input in( input );
+         const bool result = parse< from_xchars_throws< void > >( in, state );
+         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( state == 42 );
+         TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
+      }
+      {
+         view_input in( input );
+         const bool result = parse< from_xchars_throws< Integral > >( in, state );
+         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( state == 42 );
+         TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
+      }
+      {
+         view_input in( input );
+         const bool result = parse< from_xchars_nothrow< void > >( in, state );
+         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( state == 42 );
+         TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
+      }
+      {
+         view_input in( input );
+         const bool result = parse< from_xchars_nothrow< Integral > >( in, state );
+         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( state == 42 );
+         TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
+      }
+      {
+         view_input in( input );
+         const bool result = parse< hex_everything, test_action >( in, state );
+         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( state == 42 );
+         TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
+      }
+   }
+
+   template< typename Integral >
+   void from_xchars_overflow_local_failure( const std::string& input )
+   {
+      Integral state = 42;
+      {
+         view_input in( input );
+         const bool result = parse< from_xchars_nothrow< void > >( in, state );
+         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( state == 42 );
+         TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
+      }
+      {
+         view_input in( input );
+         const bool result = parse< from_xchars_nothrow< Integral > >( in, state );
+         TAO_PEGTL_TEST_ASSERT( !result );
+         TAO_PEGTL_TEST_ASSERT( state == 42 );
+         TAO_PEGTL_TEST_ASSERT( in.size() == input.size() );
+      }
+   }
+
+   template< typename Integral >
+   void from_xchars_overflow_global_failure( const std::string& input )
+   {
+      Integral state = 0;
+      {
+         view_input in( input );
+         TAO_PEGTL_TEST_THROWS( (void)parse< from_xchars_throws< void > >( in, state ) );
+      }
+      {
+         view_input in( input );
+         TAO_PEGTL_TEST_THROWS( (void)parse< from_xchars_throws< Integral > >( in, state ) );
+      }
+      {
+         view_input in( input );
+         TAO_PEGTL_TEST_THROWS( (void)parse< hex_everything, test_action >( in, state ) );
+      }
+   }
+
    void unit_test()
    {
       verify_analyze< from_chars_throws< void > >( __LINE__, __FILE__, true, false );
@@ -222,6 +301,26 @@ namespace TAO_PEGTL_NAMESPACE
       from_chars_rule_success< from_chars_nothrow< int, 10 > >( "123456", int( 123456 ) );
       from_chars_rule_success< from_xchars_nothrow< int > >( "ff", int( 255 ) );
       from_chars_rule_success< from_xchars_nothrow< int > >( "ffg", int( 255 ), 1 );
+      from_chars_rule_success< from_xchars_nothrow< int > >( "-f", int( -15 ) );
+      from_chars_rule_success< from_xchars_nothrow< int > >( "0xff", int( 0 ), 3 );
+
+      from_xchars_local_failure< int >( "");
+      from_xchars_local_failure< unsigned >( "" );
+      from_xchars_local_failure< int >( "g" );
+      from_xchars_local_failure< unsigned >( "g" );
+      from_xchars_local_failure< int >( "+f" );
+      from_xchars_local_failure< unsigned >( "+f" );
+      from_xchars_local_failure< unsigned >( "-f" );
+
+      from_xchars_overflow_local_failure< std::int8_t >( "80" );
+      from_xchars_overflow_local_failure< std::uint8_t >( "100" );
+      from_xchars_overflow_local_failure< std::int64_t >( "8000000000000000" );
+      from_xchars_overflow_local_failure< std::uint64_t >( "10000000000000000" );
+
+      from_xchars_overflow_global_failure< std::int8_t >( "80" );
+      from_xchars_overflow_global_failure< std::uint8_t >( "100" );
+      from_xchars_overflow_global_failure< std::int64_t >( "8000000000000000" );
+      from_xchars_overflow_global_failure< std::uint64_t >( "10000000000000000" );
 
       {
          view_input in( "ff" );
