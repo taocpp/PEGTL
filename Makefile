@@ -35,12 +35,17 @@ endif
 CPPFLAGS ?= -pedantic
 CXXFLAGS ?= -Wall -Wextra -Wshadow -Werror -O3 $(MINGW_CXXFLAGS)
 
-HEADERS := $(shell find include -name '*.hpp')
-SOURCES := $(shell find src -name '*.cpp')
-DEPENDS := $(SOURCES:src/%.cpp=build/dep/%.d)
-BINARIES := $(SOURCES:src/%.cpp=build/bin/%)
+LIBRARY_HEADERS := $(shell find include -name '*.hpp')
+COMPILE_SOURCES := $(wildcard src/compile/*.cpp)
+COMPILE_HEADERS := $(wildcard src/compile/*.hpp)
+NORMAL_SOURCES := $(filter-out src/compile/%,$(shell find src -name '*.cpp'))
+NORMAL_DEPENDS := $(NORMAL_SOURCES:src/%.cpp=build/dep/%.d)
+NORMAL_BINARIES := $(NORMAL_SOURCES:src/%.cpp=build/bin/%)
 
-UNIT_TESTS := $(filter build/bin/test/%,$(BINARIES))
+UNIT_TESTS := $(filter build/bin/test/%,$(NORMAL_BINARIES))
+COMPILE_ACCEPT_OBJECTS := $(COMPILE_SOURCES:src/compile/%.cpp=build/compile/accept/%.o)
+COMPILE_REJECT_STAMPS := $(COMPILE_SOURCES:src/compile/%.cpp=build/compile/reject/%.stamp)
+COMPILE_TESTS := $(COMPILE_ACCEPT_OBJECTS) $(COMPILE_REJECT_STAMPS)
 
 .PHONY: all
 all: compile check
@@ -54,10 +59,10 @@ icu: CXXFLAGS += -licucore
 icu: compile check
 
 .PHONY: compile
-compile: $(BINARIES)
+compile: $(NORMAL_BINARIES)
 
 .PHONY: check
-check: $(UNIT_TESTS)
+check: $(UNIT_TESTS) $(COMPILE_TESTS)
 	@set -e; for T in $(UNIT_TESTS); do echo $$T; $$T > /dev/null; done
 
 .PHONY: clean
@@ -73,6 +78,18 @@ build/bin/%: src/%.cpp build/dep/%.d
 	@mkdir -p $(@D)
 	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) $< $(LDFLAGS) -o $@
 
+build/compile/accept/%.o: src/compile/%.cpp Makefile $(LIBRARY_HEADERS) $(COMPILE_HEADERS)
+	@mkdir -p $(@D)
+	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) -DTAO_PEGTL_COMPILE_REJECT=0 -DTAO_PEGTL_COMPILE_ACCEPT=1 -c $< -o $@
+
+build/compile/reject/%.stamp: src/compile/%.cpp Makefile $(LIBRARY_HEADERS) $(COMPILE_HEADERS)
+	@mkdir -p $(@D)
+	@if $(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) -DTAO_PEGTL_COMPILE_REJECT=1 -DTAO_PEGTL_COMPILE_ACCEPT=0 -c $< -o $(@:.stamp=.o) > $(@:.stamp=.log) 2>&1; then \
+		echo "$< compiled successfully -- should have failed!" && false; \
+	else \
+		echo $<; touch $@; \
+	fi
+
 ifeq ($(findstring $(MAKECMDGOALS),clean),)
--include $(DEPENDS)
+-include $(NORMAL_DEPENDS)
 endif

@@ -25,6 +25,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
       using rule_t = terminal;
       using subs_t = empty_list;
 
+      static_assert( sizeof...( Cs ) > 0 );
+
       template< typename Data >
       [[nodiscard]] static constexpr bool test( const Data c ) noexcept
       {
