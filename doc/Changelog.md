@@ -50,7 +50,7 @@ All noteworthy changes since the first public release.
   * Everything related to stream parsing is now in `include/tao/pegtl/stream/`.
   * Nothing related to stream parsing is included with `<tao/pegtl.hpp>`.
   * Moved `action_input` from `internal` to the main PEGTL namespace.
-  * Removed `action_t` type alias from all input classes in favour of using `action_input`.
+  * Removed `action_t` type alias from all input classes in favor of using `action_input`.
   * Removed the `tracking_mode` as `enum` and input template parameter.
   * Never use unaligned memory access (unless compiler generated).
 * Rule Changes
@@ -382,7 +382,7 @@ Released 2018-06-22
 Released 2018-05-31
 
 * Fixed [`opt`](Rule-Reference.md#opt-r-) and [`until`](Rule-Reference.md#until-r-s-) to work as documented in some rare edge cases.
-* Used [`opt_must`](Rule-Reference.md#opt_must-r-s-) and [`star_must`](Rule-Reference.md#star_must-r-s-) to optimise some included grammars.
+* Used [`opt_must`](Rule-Reference.md#opt_must-r-s-) and [`star_must`](Rule-Reference.md#star_must-r-s-) to optimize some included grammars.
 
 ## Version 2.5.1
 
@@ -660,7 +660,7 @@ Semantic versioning was introduced with version 1.0.0.
 * A large under-the-hood reorganisation has the benefit of preventing actions from being invoked on rules that are implementation details of other rules, e.g. the `pad< Rule, Padding >` rule contains `star< Padding >` in its implementation, so a specialisation of the action-class-template for `star< Padding >` would be called within `pad<>`, even though the `star< Pad >` was not explicitly written by the user; in PEGTL 1.y these unintended action invocations no longer occur.
 * Partial support for Unicode has been added in the form of some basic rules like `one<>` and `range<>` also being supplied in a UTF-8 (and experimental UTF-16 and UTF-32) aware version(s) that can correctly process arbitrary code points from `0` to `0x10ffff`.
 * The supplied input classes work together with the supplied exception throwing to support better error locations when performing nested file parsing, i.e. a `parse_error` contains a vector of parse positions.
-* Added a function to analyse a grammar for the presence of infinite loops, i.e. cycles in the rules that do not (necessarily) consume any input like left recursion.
+* Added a function to analyze a grammar for the presence of infinite loops, i.e. cycles in the rules that do not (necessarily) consume any input like left recursion.
 * As actions are applied to a grammar in a non-invasive way, several common grammars were added to the PEGTL as documented in ~~Contrib~~ Extras and Examples.
 * The `list<>`-rule was replaced by a set of new list rules with different padding semantics.
 * The `at_one<>` and other rules `foo` that are merely shortcuts for `at< foo >` were removed.
@@ -806,7 +806,7 @@ The last of these changes effectively requires custom action classes to derive e
 * Removed run-time limits on rule applications and nesting (simplicity).
 * Disentangled a couple of header files (maintainability).
 * Renamed class `iterator_input` to forward_input (consistency).
-* Added class `string_input` to initialise forward_input from a string (convenience).
+* Added class `string_input` to initialize forward_input from a string (convenience).
 * Removed template argument Rule to action functor's `matched()` method (simplicity).
 
 ## Version 0.13

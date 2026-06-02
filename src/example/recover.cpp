@@ -6,7 +6,7 @@
 //
 // Motivated by https://github.com/taocpp/PEGTL/issues/55
 //
-// The grammar will recognise simple expressions terminated by semicolons.
+// The grammar will recognize simple expressions terminated by semicolons.
 // When an expression fails to parse, it skips to the next expression
 // by looking for the terminator.
 //

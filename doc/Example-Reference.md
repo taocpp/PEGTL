@@ -119,7 +119,7 @@ tao::pegtl::abnf::rulename@4:23(115) 'rule'
 
 A small example that provokes the [grammar analysis](Debug-Facilities.md#grammar-analysis) to find problems.
 
-###### [`behaviour.cpp`](../src/example/behaviour.cpp)
+###### [`behavior.cpp`](../src/example/behavior.cpp)
 
 Generates the tables for the [rule comparisons](Rules-and-Grammars.md#rule-comparisons) on the [rule and grammars](Rules-and-Grammars.md) page.
 
@@ -361,7 +361,7 @@ Parses its command line arguments.
 * [`abnf2pegtl.cpp`](#abnf2pegtlcpp) <sup>[(program)](#programs)</sup>
 * [`abnf_record.cpp`](#abnf_recordcpp) <sup>[(program)](#programs)</sup>
 * [`analyze.cpp`](#analyzecpp) <sup>[(program)](#programs)</sup>
-* [`behaviour.cpp`](#behaviourcpp) <sup>[(program)](#programs)</sup>
+* [`behavior.cpp`](#behaviorcpp) <sup>[(program)](#programs)</sup>
 * [`calculator.cpp`](#calculatorcpp) <sup>[(program)](#programs)</sup>
 * [`chomsky_hierarchy.cpp`](#chomsky_hierarchycpp) <sup>[(program)](#programs)</sup>
 * [`csv_1.cpp`](#csv_1cpp) <sup>[(program)](#programs)</sup>

@@ -51,7 +51,7 @@ namespace example
       using tuple_t = std::tuple< S... >;
    };
 
-   // Ad-hoc helper to initialise a tuple from a vector:
+   // Ad-hoc helper to initialize a tuple from a vector:
 
    template< unsigned I >
    struct tuple_init

@@ -658,7 +658,7 @@ That way every rule can assume to start matching some "real" input since any whi
 ### Combinations
 
 The `at<>`-rule never consumes input, and therefore always uses an input-marker to rewind the input back to where it started, regardless of the match-result.
-In the context of optimising our [JSON library](https://github.com/taocpp/json), we noticed that the combination `at< one< ... > >` could be combined into an optimized `at_one< ... >` rule:
+In the context of optimizing our [JSON library](https://github.com/taocpp/json), we noticed that the combination `at< one< ... > >` could be combined into an optimized `at_one< ... >` rule:
 Instead of `one< ... >` advancing the input, and `at< one< ... > >` rewinding, the combined rule would omit both the advancing and the rewinding.
 
 Put to the test, the optimized `at_one< '"' >` rule did not show any performance advantage over `at< one< '"' > >`, at least with `-O3`.

@@ -19,7 +19,7 @@ int main()
 
 #include <tao/pegtl.hpp>
 
-// Prints the behaviour tables in markdown format for the PEGTL documentation.
+// Prints the behavior tables in markdown format for the PEGTL documentation.
 
 namespace TAO_PEGTL_NAMESPACE::example
 {
@@ -178,7 +178,7 @@ namespace TAO_PEGTL_NAMESPACE::example
       std::cout << std::endl;
    }
 
-   void behaviour()
+   void behavior()
    {
       table1();
       table2();
@@ -191,7 +191,7 @@ namespace TAO_PEGTL_NAMESPACE::example
 
 int main()
 {
-   TAO_PEGTL_NAMESPACE::example::behaviour();
+   TAO_PEGTL_NAMESPACE::example::behavior();
    return 0;
 }
 

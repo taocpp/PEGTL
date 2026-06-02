@@ -33,7 +33,7 @@ namespace TAO_PEGTL_NAMESPACE
    };
 
    // Some compilers simultaneously
-   // (a) optimise away every invocation of trivial constexpr functions even with -O0 -fno-inline, but
+   // (a) optimize away every invocation of trivial constexpr functions even with -O0 -fno-inline, but
    // (b) also emit the functions as code, even though they are impossible to call without contortions.
    // For now using std::function bypasses the optimiser so that the functions are called at run-time.
 

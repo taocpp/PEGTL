@@ -4,7 +4,7 @@ set(example_sources
   abnf_record.cpp
   abnf2pegtl.cpp
   analyze.cpp
-  behaviour.cpp
+  behavior.cpp
   calculator.cpp
   chomsky_hierarchy.cpp
   csv_1.cpp

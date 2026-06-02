@@ -211,15 +211,15 @@ co-exist.
 If PEGTL was first included with `find_package` then subsequent calls to
 `add_subdirectory(path/to/PEGTL)` will skip over the body of the
 `CMakeLists.txt` and use the installed package if the version matches.
-If the version does not match a fatal error will be signalled.
+If the version does not match a fatal error will be signaled.
 
 If PEGTL was first included with `add_subdirectory` then a dummy
 `pegtl-config.cmake` is created and `pegtl_DIR` is set. Subsequent calls to
 `find_package(pegtl)` will then use the already added package if the version
-matches. If the version does not match a fatal error will be signalled.
+matches. If the version does not match a fatal error will be signaled.
 
 Since CMake targets are global, there exists no way for a CMake project to use
-two different versions of PEGTL simultaneously and signalling a fatal error
+two different versions of PEGTL simultaneously and signaling a fatal error
 becomes the only practical way of handling the inclusion of multiple different
 PEGTL versions.
 
@@ -256,7 +256,7 @@ and builds and runs all unit tests.
 The `Makefile` is as simple as possible, but should manage to build the examples
 and unit tests on Linux with GCC and on macOS with Clang (as supplied by Apple).
 When running into problems using other combinations, please consult the `Makefile`
-for customising the build process.
+for customizing the build process.
 
 
 ## Embedding the PEGTL

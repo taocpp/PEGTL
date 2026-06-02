@@ -422,7 +422,7 @@ Embedding a state change into the grammar with [`state<>`](Rule-Reference.md#sta
 
 The actions [`tao::pegtl::change_state<>`](Action-Reference.md#change_state-s-) and [`tao::pegtl::change_states<>`](Action-Reference.md#change_states-s-) can be used to change from the current to a new set of states while parsing the rules they are attached to.
 
-The differences are summarised in this table; note that `change_state` is more similar to the legacy `change_state` control class that was included with the 2.z versions of the PEGTL.
+The differences are summarized in this table; note that `change_state` is more similar to the legacy `change_state` control class that was included with the 2.z versions of the PEGTL.
 
 | Feature | `change_state` | `change_states` |
 | --- | --- | --- |
@@ -580,7 +580,7 @@ If during a parsing run there are actions attached to `A` and `C`, and the input
 
 #### Rewriting
 
-In practice the structure of the rule might be more complicated than the pure AAC-problem which will make it harder to recognise the pattern.
+In practice the structure of the rule might be more complicated than the pure AAC-problem which will make it harder to recognize the pattern.
 One solution is to rewrite `R` as `R' = seq< A, sor< B, C > >` where of course any action for `A` will be called at most once for every successful match of `R'`.
 
 #### Manual Undo

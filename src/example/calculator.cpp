@@ -140,7 +140,7 @@ namespace example
    {
       operators()
       {
-         // By default we initialise with all binary operators from the C language that can be
+         // By default we initialize with all binary operators from the C language that can be
          // used on integers, all with their usual priority.
 
          insert( "*", order( 5 ), []( const long l, const long r ) { return l * r; } );

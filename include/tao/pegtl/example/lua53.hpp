@@ -37,7 +37,7 @@ namespace TAO_PEGTL_NAMESPACE::lua53
    // The second necessary difference is that all left-recursion
    // had to be eliminated.
    //
-   // In some places the grammar was optimised to require as little
+   // In some places the grammar was optimized to require as little
    // back-tracking as possible, most prominently for expressions.
    // The original grammar contains the following production rules:
    //

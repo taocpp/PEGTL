@@ -30,7 +30,7 @@ namespace TAO_PEGTL_NAMESPACE::expression
    // The handling of operator precedences with left and right binding power is
    // based on https://github.com/matklad/minipratt/blob/master/src/bin/pratt.rs
 
-   // It correctly recognises all operators with their precedence and associativity,
+   // It correctly recognizes all operators with their precedence and associativity,
    // however is still very much work-in-progress regarding a lot of details...
 
    // TODO: Fix missing whitespace-skip before infix/postfix operators.

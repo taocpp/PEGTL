@@ -101,7 +101,7 @@ namespace TAO_PEGTL_NAMESPACE
    }
 
    // NOTE: The following overload passes the outer exception to the visitor with its
-   // static type, Exception! This might not be the expected or desired behaviour...
+   // static type, Exception! This might not be the expected or desired behavior...
 
    template< typename... Exceptions, typename Exception, typename Visitor >
    void visit_nested( const Exception& exception, Visitor&& visitor )

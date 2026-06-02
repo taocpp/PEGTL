@@ -143,7 +143,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
 
       inline void resize_uninitialized_proxy( std::vector< std::byte >& v, const std::size_t n ) noexcept
       {
-         // undefined behaviour?
+         // undefined behavior?
          reinterpret_cast< std::vector< no_init_byte >& >( v ).resize( n );
       }
 

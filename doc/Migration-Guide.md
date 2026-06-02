@@ -14,7 +14,7 @@ Please check the full list of added, renamed and changed rules, actions, control
 The old input hierarchy was replaced.
 The most important decision when migrating is whether client code needs line and column numbers in error positions.
 In PEGTL 3.x the common inputs reported a `position` with `source`, `byte`, `line` and `column`.
-In PEGTL 4.x the plain inputs usually report a count-only position, or a pointer-only position for `base_input`; use the `text_` inputs when the old line-and-column behaviour is required.
+In PEGTL 4.x the plain inputs usually report a count-only position, or a pointer-only position for `base_input`; use the `text_` inputs when the old line-and-column behavior is required.
 
 | PEGTL 3.x | PEGTL 4.x with line/column | PEGTL 4.x count-only |
 | --- | --- | --- |
@@ -31,7 +31,7 @@ Line tracking is now selected by the input class and the end-of-line rule:
 
 * plain inputs such as `view_input` and `file_input` do not store line and column numbers;
 * `text_` inputs store line and column numbers;
-* `ascii::scan::...` and `utf8::scan::...` end-of-line rules preserve the old eager scan behaviour, where line numbers are updated even when a rule other than `eol` consumes a newline;
+* `ascii::scan::...` and `utf8::scan::...` end-of-line rules preserve the old eager scan behavior, where line numbers are updated even when a rule other than `eol` consumes a newline;
 * normal end-of-line rules such as `ascii::lf` update line numbers only when the grammar matches `eol` or `eolf`;
 * `ascii::lazy::...` and `utf8::lazy::...` calculate line and column numbers on demand.
 
@@ -194,7 +194,7 @@ For flexibility and future compatibility it is recommended to "template over" th
 
 The `pegtl` part of the namespace can be controlled with the `TAOCPP_PEGTL_NAMESPACE` macro which is set in `include/tao/pegtl/config.hpp` if not defined previously.
 
-Most of the other changes for version 2.0.0 extend or optimise the PEGTL without breaking compatibility.
+Most of the other changes for version 2.0.0 extend or optimize the PEGTL without breaking compatibility.
 Applications integrated more tightly with the PEGTL might require additional changes.
 
 Please contact the authors at `taocpp(at)icemx.net` for any further questions when updating the PEGTL.
