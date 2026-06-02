@@ -42,7 +42,7 @@ The following steps are also frequently included to do something useful while pa
 
 More advanced use cases might also pass a control class to the parsing run, or use other functions to drive the parsing run.
 
-The following incomplete code shows the general outline of performaing a parsing run.
+The following incomplete code shows the general outline of performing a parsing run.
 
 ```c++
 using namespace tao::pegtl;
@@ -75,7 +75,7 @@ struct my_actions< some_rule >
 
 // Putting everything together to start parsing:
 
-[[nodsicard]] bool my_parse( const std::filesystem::path& file, my_state& state )
+[[nodiscard]] bool my_parse( const std::filesystem::path& file, my_state& state )
 {
    file_input in( file );
    return parse< my_grammar, my_actions >( in, state );
@@ -173,7 +173,7 @@ Rules that enable rule tracking are just any normal rules in the ASCII and Unico
 | Class | ASCII | Unicode |
 | ----- | ----- | ------- |
 | `...::cr` | [rule](Rule-Reference.md#cr) | [rule](Rule-Reference.md#cr-1) |
-| `...:lf` | [rule](Rule-Reference.md#lf) | [rule](Rule-Reference.md#lf-1) |
+| `...::lf` | [rule](Rule-Reference.md#lf) | [rule](Rule-Reference.md#lf-1) |
 | `...::crlf` | [rule](Rule-Reference.md#crlf) | [rule](Rule-Reference.md#crlf-1) |
 | `...::cr_lf` | [rule](Rule-Reference.md#cr_lf) | [rule](Rule-Reference.md#cr_lf-1) |
 | `...::cr_crlf` | [rule](Rule-Reference.md#cr_crlf) | [rule](Rule-Reference.md#cr_crlf-1) |
@@ -259,10 +259,10 @@ template< typename Rule,
           template< typename... > class Action = nothing,
           template< typename... > class Control = normal,
           apply_mode A = apply_mode::enabled,
-          rewind_mode M = rewind_mode::dontcare,
+          rewind_mode M = rewind_mode::optional,
           typename ParseInput,
           typename... States >
-bool parse( ParseInput& in,
+bool parse( ParseInput&& in,
             States&&... st );
 ```
 
@@ -270,45 +270,52 @@ bool parse( ParseInput& in,
 - The [`Action`](Actions-and-States.md) defaults to an action that does nothing. It is required to pass a user-defined action for a parsing run to do more, e.g. build some data structure, than validate an input against the grammar.
 - The [`Control`](Control-and-Normal.md) defaults to the normal control class that implements the expected and documented behavior. It can be changed for debugging, e.g. printing all rule match attempts and their outcomes, and for some other advanced use cases, e.g. gathering rule invocation statistics.
 - The [`States`](Actions-and-States.md#changing-states) are the types of the additional state objects `st` that are passed to all rules' `match()` functions, all actions' `apply()` and `apply0()` functions, and all control functions. What is needed here depends on what the actions (and control functions) expect.
-- The `apply_mode` defaults to `apply_mode::enabled` which enables actions. Can be changed to `rewind_mode::disabled` or in the grammar with the [`enable`](Rule-Reference.md#enable-r-) and [`disable`](Rule-Reference.md#disable-r-) rules.
-- The `rewind_mode` defaults to `rewind_mode::dontcare` in which case the input might not be rewound to its start when `parse()` returns `false`. Rewinding can be enabled by passing `rewind_mode::required`.
+- The `apply_mode` defaults to `apply_mode::enabled` which enables actions. Can be changed to `apply_mode::disabled` or in the grammar with the [`enable`](Rule-Reference.md#enable-r-) and [`disable`](Rule-Reference.md#disable-r-) rules.
+- The `rewind_mode` defaults to `rewind_mode::optional` in which case the input might not be rewound to its start when `parse()` returns `false`. Rewinding can be enabled by passing `rewind_mode::required`.
 
 A parsing run can have the [same three outcomes](Rules-and-Grammars.md#match-function) as the match function of a rule.
 Note that the distinction between "local" and "global" failure does not make too much sense at top-level, however for sake of consistency we will use these terms in all appropriate contexts.
 
-TODO
-
 - *success*, a return value of `true`,
 - *local failure*, a return value of `false`,
-- *global failure*, an exception of type `tao::pegtl::parse_error`, or also
-- any other exception thrown during a parsing run.
+- *global failure*, an exception, often derived from `tao::pegtl::parse_error_base`.
+
+The `parse()` function itself does not add any further structure to the top-level rule.
+In particular, `parse< Rule >( in )` succeeds as soon as `Rule` succeeds; it does **not** require the input to be exhausted.
+Use a grammar such as `seq< Rule, eof >` to make unconsumed input a local failure.
+Use `must< Rule, eof >` when the top-level parse should either succeed or throw, or `seq< Rule, must< eof > >` when only a failure of `eof` should be converted to a global failure.
+
+The `parse()` function also does not catch exceptions.
+Global failures created by PEGTL rules or by the default `normal` control throw exceptions derived from `tao::pegtl::parse_error_base`, usually the concrete `parse_error_t` of the input.
+Exceptions thrown by input operations, actions, custom rules, or custom controls propagate unchanged unless the grammar or caller catches them.
 
 
 ## Nested Parsing
 
 Nested parsing refers to an (inner) parsing run that is performed during another (outer) parsing run, for example when a file being parsed includes another file.
 
-When an exception is thrown within a nested parsing run it will be caught by `tao::pegtl::parse_nested()` and a new exception thrown via `Control< Rule >::raise_nested()`.
+When a `std::exception` is thrown within a nested parsing run it will be caught by `tao::pegtl::parse_nested()` and a new exception thrown via `Control< Rule >::raise_nested()`.
 The new exception contains a position from the argument of type `OuterInput` and the previous exception as nested exception.
+Exceptions that do not derive from `std::exception` are not caught.
 
-The functions in the header `tao/pegtl/contrib/nested_exceptions.hpp` can be used to work with these nested exceptions.
+The functions in the header `tao/pegtl/extra/nested_exceptions.hpp` can be used to work with these nested exceptions.
 The inner-most exception that was thrown first will be the "most nested" exception, i.e. the final one in the linked list of nested exceptions.
 
 The position information contained in the nested exceptions allows for error messages like "error in file F1 line L1 included from file F2 line L2 etc."
 
-Calling `parse_nested()` requires the input from the outer parsing run, or the position whithin the outer parsing run, as additional first argument ("additional" as compared to `parse()`).
+Calling `parse_nested()` requires the input from the outer parsing run, or the position within the outer parsing run, as additional first argument ("additional" as compared to `parse()`).
 
 ```c++
 template< typename Rule,
           template< typename... > class Action = nothing,
           template< typename... > class Control = normal,
           apply_mode A = apply_mode::enabled,
-          rewind_mode M = rewind_mode::dontcare,
+          rewind_mode M = rewind_mode::optional,
           typename OuterInput,
           typename ParseInput,
           typename... States >
 bool parse_nested( const OuterInput& oi,
-                   ParseInput& in,
+                   ParseInput&& in,
                    States&&... st );
 ```
 
@@ -401,7 +408,7 @@ Inputs with lines also implement the following functions that rely on the presen
 
 ### Inputs with Source
 
-An *input with source* keeps an object that is part of the [position](TODO) but does not change over the parsing run.
+An *input with source* keeps an object that is part of the position but does not change over the parsing run.
 For inputs that read from a file the source is the filename in a `std::filesystem::path`.
 
 There are two source type aliases, `input_source_t` is the type of the source object embedded in the input, and `error_source_t` is the type of the source object embedded in the `error_position_t` which will be some `position_with_source<>` that is also used in the `parse_error<>` exceptions.
