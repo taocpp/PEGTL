@@ -78,9 +78,10 @@ Grammars and other classes that indirectly rely on exception support or are intr
  * `tao/pegtl/parse_error.hpp`
  * `tao/pegtl/parse_error_base.hpp`
  * `tao/pegtl/control/must_if.hpp`
- * `tao/pegtl/contrib/http.hpp`.
- * `tao/pegtl/contrib/integer.hpp`.
- * `tao/pegtl/contrib/uri.hpp`.
+ * `tao/pegtl/example/http.hpp`.
+ * `tao/pegtl/example/uri.hpp`.
+ * `tao/pegtl/deprecated/integer.hpp`.
+ * `tao/pegtl/extra/charconv.hpp`.
 
 Facilities that use `std::perror()` and `std::terminate()` instead of `throw` when exceptions are disabled:
 
@@ -289,7 +290,7 @@ default, is set to `tao::pegtl`. To change the namespace, simply define
 #define TAO_PEGTL_NAMESPACE mylib::pegtl
 
 #include <tao/pegtl.hpp>
-#include <tao/contrib/json.hpp>
+#include <tao/pegtl/example/json.hpp>
 
 int main( int argc, char* argv[] )
 {

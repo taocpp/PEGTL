@@ -363,7 +363,7 @@ As usual, the additional state can not be hidden from the `match()` control (and
 ## Requirements
 
 The parse tree builder uses the `subs_t` rule metadata described in [Rules and Grammars](Rules-and-Grammars.md#type-aliases) and [Debug Facilities](Debug-Facilities.md#meta-data) to avoid creating internal stack nodes for branches that cannot contain selected descendants.
-[Custom rules](Rules-and-Grammars.md#implementing-rules) must provide correct `rule_t` and `subs_t` type aliases for the parse tree builder to operator correctly.
+[Custom rules](Rules-and-Grammars.md#implementing-rules) must provide correct `rule_t` and `subs_t` type aliases for the parse tree builder to operate correctly.
 
 Selected nodes store views into the input by default.
 

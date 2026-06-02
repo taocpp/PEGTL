@@ -1,6 +1,6 @@
 # Action Reference
 
-The reference documention for all included actions
+The reference documentation for all included actions.
 The actions related to [stream parsing](Stream-Parsing.md) are [documented here](Stream-Parsing.md#actions).
 
 
@@ -13,7 +13,7 @@ The actions related to [stream parsing](Stream-Parsing.md) are [documented here]
 
 ## Preamble
 
-By [default](Introduction.md#namespaces) all actionss reside in namespace `tao::pegtl`.
+By [default](Introduction.md#namespaces) all actions reside in namespace `tao::pegtl`.
 
 Only `include/tao/pegtl/nothing.hpp`, which defines `nothing` and `maybe_nothing`, is automatically included with `<tao/pegtl.hpp>`.
 For all other actions the appropriate headers from [`include/tao/pegtl/action/`](../include/tao/pegtl/action) need to be included manually.
@@ -347,7 +347,7 @@ struct disable_action
 
 * Parses the rule it is attached to with actions enabled:
 * Changes the current `apply_mode` to `apply_mode::enabled`.
-* Non-intrusive acion equivalent of the [`enable`](Rule-Reference.md#enable-r-) rule.
+* Non-intrusive action equivalent of the [`enable`](Rule-Reference.md#enable-r-) rule.
 * Included via `include/tao/pegtl/action/enable_action.hpp`.
 * This action implements only a `match()` function and therefore:
 * Publicly derives from [`maybe_nothing`](#maybe_nothing).
@@ -416,7 +416,7 @@ struct nothing
 ```
 
 It is recommended, though not required, to use `nothing` as base class for the default case of custom action templates.
-This enable the static assert explained with [`maybe_nothing`](#maybe_nothing).
+This enables the static assert explained with [`maybe_nothing`](#maybe_nothing).
 
 ```c++
 template< typename Rule >
@@ -432,8 +432,8 @@ struct my_action
 * An empty tag class related to actions, not an action itself.
 * Included via `include/tao/pegtl/action/require_apply.hpp`.
 
-When an action (specialization for a rule) has `require_apply` as public base class the the PEGTL statically asserts the presence of a callable `apply()` function in the action.
-This check is performed independent of any presence of absence of `maybe_nothing`.
+When an action (specialization for a rule) has `require_apply` as public base class the PEGTL statically asserts the presence of a callable `apply()` function in the action.
+This check is performed independent of any presence or absence of `maybe_nothing`.
 
 ```c++
 struct require_apply
@@ -445,7 +445,7 @@ struct require_apply
 * An empty tag class related to actions, not an action itself.
 * Included via `include/tao/pegtl/action/require_apply0.hpp`.
 
-When an action (specialization for a rule) has `require_apply0` as public base class the the PEGTL statically asserts the presence of a callable `apply0()` function in the action.
+When an action (specialization for a rule) has `require_apply0` as public base class the PEGTL statically asserts the presence of a callable `apply0()` function in the action.
 This check is performed independent of any presence or absence of `maybe_nothing`.
 
 ```c++

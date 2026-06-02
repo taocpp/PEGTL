@@ -40,7 +40,7 @@ The PEGTL rules that create global failures throw exceptions derived from `tao::
 Inputs can throw other exceptions, for example `std::filesystem_error` when opening a file or stream-related exceptions while reading.
 Actions and custom rules can throw any exception type.
 
-The "do not consume" requirement in the local failure case **must** be strictly followed, though the library attempts to minimiza the use of `rewind_mode::optional` where it is not necessary.
+The "do not consume" requirement in the local failure case **must** be strictly followed, though the library attempts to minimize the use of `rewind_mode::optional` where it is not necessary.
 For example, some callers already have a rewind guard around a larger expression, and top-level parses usually do not need the input restored when the whole parse returns `false`.
 The details are controlled by the [`rewind_mode`](Rules-and-Grammars.md#rewind-guard) used by the parser and by rule implementations.
 
@@ -101,7 +101,7 @@ It extracts the current position when given an input, creates the appropriate `p
 The helper function `throw_parse_error_with_nested()` similarly calls `std::throw_with_nested()`.
 
 Most input classes define a `parse_error_t` alias for their concrete parse error type.
-For example, for a `text_file_input<>` this is a `parse_error<>` with text position and source information.
+For example, for a `text_file_input<>` this is `parse_error< text_file_input<>::error_position_t >`, with text position and source information.
 
 
 ## Catching Errors
@@ -155,7 +155,7 @@ This is exactly what makes PEG grammars useful, but it also means that a grammar
 The primary way to turn local failure into global failure is the [`must<>`](Rule-Reference.md#must-r-) family of rules.
 
 `must< R... >` is similar to `seq< R... >`, but it converts local failure of the direct sub-rules into a call to the control class' `raise()` function.
-With the default `normal` control this throws a `parse_error<>`.
+With the default `normal` control this throws a `parse_error< ParseInput::error_position_t >`, where `ParseInput` is the current input type.
 
 The related rules include
 
@@ -414,7 +414,7 @@ Nested exceptions are used to keep multiple positions for one error.
 The most common use case is nested parsing, for example a file that includes another file.
 
 The function [`parse_nested()`](Inputs-and-Parsing.md#nested-parsing) catches `std::exception` from the inner parsing run and calls `Control< Rule >::raise_nested()` with the ambient outer input or position.
-The default `normal` control throws a new `parse_error<>` with the caught exception as nested exception.
+The default `normal` control throws a new `parse_error< Position >` for the outer input or position, with the caught exception as nested exception.
 
 The `try_catch_raise_nested` family performs a similar transformation inside a grammar.
 The available variants are

@@ -310,7 +310,7 @@ The guard function returns either a [rewind guard](Rules-and-Grammars.md#rewind-
 
 ###### `raise`
 
-The function `normal< R >::raise()` thorws an exception of type `parse_error< ParseInput::error_position_t >` where `ParseInput` is the type of the current input.
+The function `normal< R >::raise()` throws an exception of type `parse_error< ParseInput::error_position_t >` where `ParseInput` is the type of the current input.
 
 The message of the exception is either `R::error_message` if it exists, or `"parse error matching"` followed by the demangled name of `R`.
 The position in the exception is `in.current_position()` where `in` is the current input of type `ParseInput`.

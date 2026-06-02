@@ -139,9 +139,10 @@ Note that the default behavior can be changed either by defining `TAO_PEGTL_DEFA
 * [Meta data] and [implementation] mapping:
   - `failure::rule_t` is `internal::failure`
 
-###### `function< F >`
+###### `function< F, P = void >`
 
 * Delegates matching to the function `F`.
+* When `P` is not `void`, it is used as peek implementation and `F` is called with the peeked data instead of the input.
 * For details see `tao/pegtl/rules.hpp` and `tao/pegtl/internal/function.hpp`.
 
 ###### `invert< R >`
@@ -229,26 +230,26 @@ For all ASCII rules the template parameters representing characters are of type 
 
 ###### `cr_crlf`
 
-* Matches and consumes an carriage return optionally followed by a line feed.
+* Matches and consumes a carriage return optionally followed by a line feed.
 * [Equivalent] to `seq< (ascii::)cr, opt< (ascii::)lf > >`.
 * [Equivalent] to `sor< (ascii::)crlf, (ascii::)cr >`.
 * Also available in [the `lazy` sub-namespace].
 
 ###### `cr_lf`
 
-* Matches and consumes an carriage return **or** line feed.
+* Matches and consumes a carriage return **or** line feed.
 * [Equivalent] to `(ascii::)one< '\r', '\n' >`.
 * Also available in [the `lazy` sub-namespace].
 
 ###### `cr_lf_crlf`
 
-* Matches and consumes an carriage return **and/or** line feed.
+* Matches and consumes a carriage return **and/or** line feed.
 * [Equivalent] to `sor< (ascii::)crlf, (ascii::)cr_lf >`.
 * Also available in [the `lazy` sub-namespace].
 
 ###### `crlf`
 
-* Matches and consumes an carriage return followed by a line feed.
+* Matches and consumes a carriage return followed by a line feed.
 * [Equivalent] to `(ascii::)string< '\r', '\n' >`.
 * Also available in [the `lazy` sub-namespace].
 
@@ -604,22 +605,22 @@ For all Unicode rules the template parameters representing code points are of ty
 
 ###### `cr_crlf`
 
-* Matches and consumes an carriage return optionally followed by a line feed.
+* Matches and consumes a carriage return optionally followed by a line feed.
 * Also available in [the `lazy` sub-namespace].
 
 ###### `cr_lf`
 
-* Matches and consumes an carriage return **or** line feed.
+* Matches and consumes a carriage return **or** line feed.
 * Also available in [the `lazy` sub-namespace].
 
 ###### `cr_lf_crlf`
 
-* Matches and consumes an carriage return **and/or** line feed.
+* Matches and consumes a carriage return **and/or** line feed.
 * Also available in [the `lazy` sub-namespace].
 
 ###### `crlf`
 
-* Matches and consumes an carriage return followed by a line feed.
+* Matches and consumes a carriage return followed by a line feed.
 * Also available in [the `lazy` sub-namespace].
 
 ###### `eol1`
@@ -936,7 +937,7 @@ These rules are in namespace `tao::pegtl::member`.
 ###### `not_one< M, U... >`
 
 * Succeeds when the input contains at least 1 object, and:
-* The object extracted from the next input object is **not** one of the the values `U...`.
+* The object extracted from the next input object is **not** one of the values `U...`.
 * Consumes N objects on success.
 
 ###### `not_range< M, U, V >`
@@ -961,7 +962,7 @@ These rules are in namespace `tao::pegtl::member`.
 ###### `one< M, U... >`
 
 * Succeeds when the input contains at least 1 object, and:
-* The object extracted from the next input object is one of the the values `U...`.
+* The object extracted from the next input object is one of the values `U...`.
 * Consumes N objects on success.
 
 ###### `range< M, U, V >`
@@ -1007,7 +1008,7 @@ These rules are in namespace `tao::pegtl`.
 * [PEG] **not-predicate** !*e*
 * Succeeds if and only if `seq< R... >` would **not** succeed.
 * Consumes nothing independent of result.
-* Disables all actions whiel matching `R...`.
+* Disables all actions while matching `R...`.
 * [Meta data] and [implementation] mapping:
   - `not_at<>::rule_t` is `internal::failure`
   - `not_at< R >::rule_t` is `internal::not_at< R >`
@@ -1522,17 +1523,17 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
   - `try_catch_any_raise_nested< R... >::rule_t` is `internal::try_catch_raise_nested< void, internal::seq< R... > >`
   - `try_catch_any_raise_nested< R... >::subs_t` is `type_list< internal::seq< R... > >`
 
-###### `try_catch_any_return_false< E, R... >`
+###### `try_catch_any_return_false< R... >`
 
 * [Equivalent] to `seq< R... >`, but:
 * Catches exceptions of any type via `catch( ... )`, and:
 * Converts the global failure (exception) into a local failure (return value `false`).
 * [Meta data] and [implementation] mapping:
-  - `try_catch_any_return_false< E >::rule_t` is `internal::success`
-  - `try_catch_any_return_false< E, R >::rule_t` is `internal::try_catch_return_false< void, R >`
-  - `try_catch_any_return_false< E, R >::subs_t` is `type_list< R >`
-  - `try_catch_any_return_false< E, R... >::rule_t` is `internal::try_catch_return_false< void, internal::seq< R... > >`
-  - `try_catch_any_return_false< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
+  - `try_catch_any_return_false<>::rule_t` is `internal::success`
+  - `try_catch_any_return_false< R >::rule_t` is `internal::try_catch_return_false< void, R >`
+  - `try_catch_any_return_false< R >::subs_t` is `type_list< R >`
+  - `try_catch_any_return_false< R... >::rule_t` is `internal::try_catch_return_false< void, internal::seq< R... > >`
+  - `try_catch_any_return_false< R... >::subs_t` is `type_list< internal::seq< R... > >`
 
 ###### `try_catch_raise_nested< R... >`
 
@@ -1580,11 +1581,11 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 * Catches exceptions of type `std::exception` (or derived), and:
 * Converts the global failure (exception) into a local failure (return value `false`).
 * [Meta data] and [implementation] mapping:
-  - `try_catch_std_return_false< E >::rule_t` is `internal::success`
-  - `try_catch_std_return_false< E, R >::rule_t` is `internal::try_catch_return_false< std::exception, R >`
-  - `try_catch_std_return_false< E, R >::subs_t` is `type_list< R >`
-  - `try_catch_std_return_false< E, R... >::rule_t` is `internal::try_catch_return_false< std::exception, internal::seq< R... > >`
-  - `try_catch_std_return_false< E, R... >::subs_t` is `type_list< internal::seq< R... > >`
+  - `try_catch_std_return_false<>::rule_t` is `internal::success`
+  - `try_catch_std_return_false< R >::rule_t` is `internal::try_catch_return_false< std::exception, R >`
+  - `try_catch_std_return_false< R >::subs_t` is `type_list< R >`
+  - `try_catch_std_return_false< R... >::rule_t` is `internal::try_catch_return_false< std::exception, internal::seq< R... > >`
+  - `try_catch_std_return_false< R... >::subs_t` is `type_list< internal::seq< R... > >`
 
 ###### `try_catch_type_raise_nested< E, R... >`
 
@@ -2054,7 +2055,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`failure`](#failure) <sup>[(atomic)](#atomic)</sup>
 * [`ff`](#ff) <sup>[(ascii)](#ascii)</sup>
 * [`full_composition_exclusion`](#full_composition_exclusion) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
-* [`function< F >`](#function-f-) <sup>[(atomic)](#atomic)</sup>
+* [`function< F, P = void >`](#function-f-p--void-) <sup>[(atomic)](#atomic)</sup>
 * [`function< M, F >`](#function-m-f-) <sup>[(member)](#member)</sup>
 * [`general_category< V >`](#general_category-v-) <sup>[(icu rules)](#icu-rules-for-enumerated-properties)</sup>
 * [`graph`](#graph) <sup>[(ascii)](#ascii)</sup>
@@ -2217,7 +2218,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`three< C >`](#three-c-) <sup>[(ascii)](#ascii)</sup>
 * [`trail_canonical_combining_class< V >`](#trail_canonical_combining_class-v-) <sup>[(icu rules)](#icu-rules-for-value-properties)</sup>
 * [`try_catch_any_raise_nested< R... >`](#try_catch_any_raise_nested-r-) <sup>[(exceptional)](#exceptional)</sup>
-* [`try_catch_any_return_false< E, R... >`](#try_catch_any_return_false-e-r-) <sup>[(exceptional)](#exceptional)</sup>
+* [`try_catch_any_return_false< R... >`](#try_catch_any_return_false-r-) <sup>[(exceptional)](#exceptional)</sup>
 * [`try_catch_raise_nested< R... >`](#try_catch_raise_nested-r-) <sup>[(exceptional)](#exceptional)</sup>
 * [`try_catch_return_false< R... >`](#try_catch_return_false-r-) <sup>[(exceptional)](#exceptional)</sup>
 * [`try_catch_std_raise_nested< R... >`](#try_catch_std_raise_nested-r-) <sup>[(exceptional)](#exceptional)</sup>

@@ -325,13 +325,13 @@ More precisely, if `oi.current_position()` is **not** callable then `oi` is assu
 
 ## Position Classes
 
-Positions occur as return type of the input functions `current_position()` and `previous_position()`, and as template parameter, and therefore position object, in their parse errors which are instances of `tao::pegtl::parse_error<>`.
+Positions occur as the return type of the input functions `current_position()` and `previous_position()`, and as the template parameter, and therefore position object, of `tao::pegtl::parse_error< Position >` exceptions.
 
 All `text` inputs use `tao::pegtl::text_position` for their position reporting; when the source parameters are not `void` the type is `tao::pegtl::position_with_source< SourceType, tao::pegtl::text_position >`.
 For all filesystem inputs the `SourceType` is `std::filesystem::path`, for all other inputs it defaults to `void`.
 
 Most non-`text` inputs use `tao::pegtl::count_position` for their position reporting; when the source parameters are not `void` the type is `tao::pegtl::position_with_source< SourceType, tao::pegtl::count_position >`.
-The exception are the `base` inputs which are so basic that they neither keep track nor can compute the number of objects from the start of the input data, they use `tao::pegtl::pointer_position` instead.
+The exceptions are the `base` inputs which are so basic that they neither keep track nor can compute the number of objects from the start of the input data, they use `tao::pegtl::pointer_position` instead.
 For all filesystem inputs the `SourceType` is `std::filesystem::path`, for all other inputs it defaults to `void` except for the `argv` input which defaults to `std::string`.
 
 
@@ -411,7 +411,7 @@ Inputs with lines also implement the following functions that rely on the presen
 An *input with source* keeps an object that is part of the position but does not change over the parsing run.
 For inputs that read from a file the source is the filename in a `std::filesystem::path`.
 
-There are two source type aliases, `input_source_t` is the type of the source object embedded in the input, and `error_source_t` is the type of the source object embedded in the `error_position_t` which will be some `position_with_source<>` that is also used in the `parse_error<>` exceptions.
+There are two source type aliases, `input_source_t` is the type of the source object embedded in the input, and `error_source_t` is the type of the source object embedded in the `error_position_t` which will be some `position_with_source<>` that is also used in the `parse_error< error_position_t >` exceptions.
 
 > [!Note]
 > If either of `input_source_t` or `error_source_t` is `void` then both must be `void`.

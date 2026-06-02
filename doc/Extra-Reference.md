@@ -48,7 +48,7 @@ In both rules the functions accept arbitrary state arguments, and both return `b
 * If the first state argument is a mutable reference to `Integral` then it will be assigned the result of the string-to-integer conversion.
 * If the first state argument is of any other type it will be ignored -- together with any additional states.
 
-The `_throws` vs. `_nothrow_` suffix chooses between failing locally, i.e. returning `false`, when `std::from_chars()` returns `std::errc::result_out_of_range`, or failing globally, i.e. throwing an exception derived from `tao::pegtl::parse_error`.
+The `_throws` vs. `_nothrow_` suffix chooses between failing locally, i.e. returning `false`, when `std::from_chars()` returns `std::errc::result_out_of_range`, or failing globally, i.e. throwing an exception derived from `tao::pegtl::parse_error_base`.
 
 The template parameter `Integral` can also be `void`, which changes the behaviour slightly.
 In this case

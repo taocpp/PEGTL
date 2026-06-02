@@ -1,6 +1,6 @@
 # Input Reference
 
-The reference documention for all (contiguous memory) inputs.
+The reference documentation for all (contiguous memory) inputs.
 The [stream](Stream-Parsing.md) inputs are [documented here](Stream-Parsing.md#inputs).
 
 
@@ -41,6 +41,17 @@ All inputs documented on this page implement the common input functions consisti
 All inputs and the type alias `default_eol` reside in namespace `tao::pegtl`.
 This default can be changed via the macro `TAO_PEGTL_NAMESPACE` in `tao/pegtl/config.hpp`.
 The namespace `tao::pegtl` is generally omitted on this page.
+
+#### Containers
+
+Some deduction guides for `copy_input` and `text_copy_input` use `internal::container_for_data_t< Data >` to choose a container for copied input data.
+This applies when an input is constructed from raw data, an array, or an initializer list, where the constructor receives elements instead of an already chosen container.
+
+* When `std::decay_t< Data >` is `char`, the selected container is `std::string`.
+* For all other `Data` types, the selected container is `std::vector< Data >`.
+
+When `copy_input` or `text_copy_input` is constructed from a container directly, its deduction guides use `internal::container_for_container_t< Container >` instead.
+That helper keeps the supplied container type, except that data referenced by a `std::string_view` is copied into a `std::string`.
 
 #### Text Inputs
 
@@ -397,22 +408,22 @@ Guides that leave `InputSource` and `ErrorSource` as `void`.
 
 ```c++
 template< typename data_t >
-copy_input( const data_t*, const data_t* ) -> copy_input< default_eol, internal::choose_container_t< data_t >, void, void >;
+copy_input( const data_t*, const data_t* ) -> copy_input< default_eol, internal::container_for_data_t< data_t >, void, void >;
 
 template< typename data_t >
-copy_input( const data_t*, const std::size_t ) -> copy_input< default_eol, internal::choose_container_t< data_t >, void, void >;
+copy_input( const data_t*, const std::size_t ) -> copy_input< default_eol, internal::container_for_data_t< data_t >, void, void >;
 
 template< typename Container >
-copy_input( Container&& ) -> copy_input< default_eol, std::decay_t< Container >, void, void >;
+copy_input( Container&& ) -> copy_input< default_eol, internal::container_for_container_t< Container >, void, void >;
 
 template< typename Container >
-copy_input( const Container& ) -> copy_input< default_eol, std::decay_t< Container >, void, void >;
+copy_input( const Container& ) -> copy_input< default_eol, internal::container_for_container_t< Container >, void, void >;
 
 template< typename data_t, std::size_t Size >
-copy_input( const std::array< data_t, Size >& ) -> copy_input< default_eol, internal::choose_container_t< data_t >, void, void >;
+copy_input( const std::array< data_t, Size >& ) -> copy_input< default_eol, internal::container_for_data_t< data_t >, void, void >;
 
 template< typename data_t >
-copy_input( const std::initializer_list< data_t >& ) -> copy_input< default_eol, internal::choose_container_t< data_t >, void, void >;
+copy_input( const std::initializer_list< data_t >& ) -> copy_input< default_eol, internal::container_for_data_t< data_t >, void, void >;
 ```
 
 #### Construction
@@ -447,22 +458,22 @@ With `source` argument set `InputSource` and `ErrorSource` to `std::string`.
 
 ```c++
 template< typename String, typename data_t >
-copy_input( String&&, const data_t*, const data_t* ) -> copy_input< default_eol, internal::choose_container_t< data_t >, std::string, std::string >;
+copy_input( String&&, const data_t*, const data_t* ) -> copy_input< default_eol, internal::container_for_data_t< data_t >, std::string, std::string >;
 
 template< typename String, typename data_t >
-copy_input( String&&, const data_t*, const std::size_t ) -> copy_input< default_eol, internal::choose_container_t< data_t >, std::string, std::string >;
+copy_input( String&&, const data_t*, const std::size_t ) -> copy_input< default_eol, internal::container_for_data_t< data_t >, std::string, std::string >;
 
 template< typename String, typename Container >
-copy_input( String&&, Container&& ) -> copy_input< default_eol, std::decay_t< Container >, std::string, std::string >;
+copy_input( String&&, Container&& ) -> copy_input< default_eol, internal::container_for_container_t< Container >, std::string, std::string >;
 
 template< typename String, typename Container >
-copy_input( String&&, const Container& ) -> copy_input< default_eol, std::decay_t< Container >, std::string, std::string >;
+copy_input( String&&, const Container& ) -> copy_input< default_eol, internal::container_for_container_t< Container >, std::string, std::string >;
 
 template< typename String, typename data_t, std::size_t Size >
-copy_input( String&&, const std::array< data_t, Size >& ) -> copy_input< default_eol, internal::choose_container_t< data_t >, std::string, std::string >;
+copy_input( String&&, const std::array< data_t, Size >& ) -> copy_input< default_eol, internal::container_for_data_t< data_t >, std::string, std::string >;
 
 template< typename String, typename data_t >
-copy_input( String&&, const std::initializer_list< data_t >& ) -> copy_input< default_eol, internal::choose_container_t< data_t >, std::string, std::string >;
+copy_input( String&&, const std::initializer_list< data_t >& ) -> copy_input< default_eol, internal::container_for_data_t< data_t >, std::string, std::string >;
 ```
 
 ### File Input
@@ -782,22 +793,22 @@ Guides that leave `InputSource` and `ErrorSource` as `void`.
 
 ```c++
 template< typename Data >
-text_copy_input( const Data*, const Data* ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, void, void >;
+text_copy_input( const Data*, const Data* ) -> text_copy_input< default_eol, internal::container_for_data_t< Data >, void, void >;
 
 template< typename Data >
-text_copy_input( const Data*, const std::size_t ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, void, void >;
+text_copy_input( const Data*, const std::size_t ) -> text_copy_input< default_eol, internal::container_for_data_t< Data >, void, void >;
 
 template< typename Container >
-text_copy_input( Container&& ) -> text_copy_input< default_eol, std::decay_t< Container >, void, void >;
+text_copy_input( Container&& ) -> text_copy_input< default_eol, internal::container_for_container_t< Container >, void, void >;
 
 template< typename Container >
-text_copy_input( const Container& ) -> text_copy_input< default_eol, std::decay_t< Container >, void, void >;
+text_copy_input( const Container& ) -> text_copy_input< default_eol, internal::container_for_container_t< Container >, void, void >;
 
 template< typename Data, std::size_t Size >
-text_copy_input( const std::array< Data, Size >& ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, void, void >;
+text_copy_input( const std::array< Data, Size >& ) -> text_copy_input< default_eol, internal::container_for_data_t< Data >, void, void >;
 
 template< typename Data >
-text_copy_input( const std::initializer_list< Data >& ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, void, void >;
+text_copy_input( const std::initializer_list< Data >& ) -> text_copy_input< default_eol, internal::container_for_data_t< Data >, void, void >;
 ```
 
 #### Construction
@@ -832,22 +843,22 @@ With `source` argument set `InputSource` and `ErrorSource` to `std::string`.
 
 ```c++
 template< typename String, typename Data >
-text_copy_input( String&&, const Data*, const Data* ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+text_copy_input( String&&, const Data*, const Data* ) -> text_copy_input< default_eol, internal::container_for_data_t< Data >, std::string, std::string >;
 
 template< typename String, typename Data >
-text_copy_input( String&&, const Data*, const std::size_t ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+text_copy_input( String&&, const Data*, const std::size_t ) -> text_copy_input< default_eol, internal::container_for_data_t< Data >, std::string, std::string >;
 
 template< typename String, typename Container >
-text_copy_input( String&&, Container&& ) -> text_copy_input< default_eol, std::decay_t< Container >, std::string, std::string >;
+text_copy_input( String&&, Container&& ) -> text_copy_input< default_eol, internal::container_for_container_t< Container >, std::string, std::string >;
 
 template< typename String, typename Container >
-text_copy_input( String&&, const Container& ) -> text_copy_input< default_eol, std::decay_t< Container >, std::string, std::string >;
+text_copy_input( String&&, const Container& ) -> text_copy_input< default_eol, internal::container_for_container_t< Container >, std::string, std::string >;
 
 template< typename String, typename Data, std::size_t Size >
-text_copy_input( String&&, const std::array< Data, Size >& ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+text_copy_input( String&&, const std::array< Data, Size >& ) -> text_copy_input< default_eol, internal::container_for_data_t< Data >, std::string, std::string >;
 
 template< typename String, typename Data >
-text_copy_input( String&&, const std::initializer_list< Data >& ) -> text_copy_input< default_eol, internal::choose_container_t< Data >, std::string, std::string >;
+text_copy_input( String&&, const std::initializer_list< Data >& ) -> text_copy_input< default_eol, internal::container_for_data_t< Data >, std::string, std::string >;
 ```
 
 ### Text File Input

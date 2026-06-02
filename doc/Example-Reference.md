@@ -318,7 +318,7 @@ Show how to parse a sequence of tokens, rather than the usual sequence of `char`
 
 ###### [`unescape.cpp`](../src/example/unescape.cpp)
 
-Uses the building blocks from `<tao/pegtl/contrib/unescape.hpp>` to show how to actually unescape a string literal with various typical escape sequences.
+Uses the building blocks from `<tao/pegtl/extra/unescape.hpp>` to show how to actually unescape a string literal with various typical escape sequences.
 Parses its command line arguments.
 
 ```
@@ -343,7 +343,7 @@ Parses its command line arguments.
 
 ###### [`uri_trace.cpp`](../src/example/uri_trace.cpp)
 
-Shows how to use `complete_trace` from `include/tao/pegtl/debug.trace.hpp` to parse a [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) with a complete trace.
+Shows how to use `complete_trace` from `include/tao/pegtl/debug/trace.hpp` to parse a [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) with a complete trace.
 Parses its command line arguments.
 
 

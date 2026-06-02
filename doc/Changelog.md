@@ -57,7 +57,7 @@ All noteworthy changes since the first public release.
   * The rules `ione`, `ranges`, `one` and `not_one` now require at least one template parameter.
   * Added Unicode rules that adapt to the input's data size.
   * Added special end-of-line rules in multiple places.
-  * Added new atomic rule [`function`](Rule-Reference.md#function-f-).
+  * Added new atomic rule [`function`](Rule-Reference.md#function-f-p--void-).
   * Added new atomic rule [`restart`](Rule-Reference.md#restart).
   * Added new ASCII rule [`bdigit`](Rule-Reference.md#bdigit).
   * Added new ASCII rule [`cntrl`](Rule-Reference.md#cntrl).
@@ -108,7 +108,7 @@ All noteworthy changes since the first public release.
   * Added new convenience rule [`star_strict`](Rule-Reference.md#star_strict-r-).
   * Added new convenience rule [`unordered`](Rule-Reference.md#unordered-r-).
   * Added new convenience rule [`unordered_partial`](Rule-Reference.md#unordered_partial-r-).
-  * Added rule [`try_catch_any_return_false`](Rule-Reference.md#try_catch_any_return_false-e-r-).
+  * Added rule [`try_catch_any_return_false`](Rule-Reference.md#try_catch_any_return_false-r-).
   * Renamed rule `try_catch` to [`try_catch_return_false`](Rule-Reference.md#try_catch_return_false-r-).
   * Added rule [`try_catch_std_return_false`](Rule-Reference.md#try_catch_std_return_false-r-).
   * Renamed rule `try_catch_type` to [`try_catch_type_return_false`](Rule-Reference.md#try_catch_type_return_false-e-r-).

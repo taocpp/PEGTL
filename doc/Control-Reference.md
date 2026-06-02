@@ -1,6 +1,6 @@
 # Control Reference
 
-The reference documention for all control class templates.
+The reference documentation for all control class templates.
 
 
 ## Contents
@@ -365,9 +365,24 @@ struct my_control
 
 This control adapter will add [rewind control functions](#rewind_control) to `input_control` but it won't be implemented until somebody actually needs it.
 
-###### `rewind_state_control`
+###### [`rewind_state_control`](../include/tao/pegtl/control/rewind_state_control.hpp)
 
-This control adapter adds [rewind control functions](#rewind_control) to `state_control` but it won't be documented until somebody actually needs it.
+A control adapter that adds [rewind control functions](#rewind_control) to `state_control`.
+It forwards to the first state like [`state_control`](#state_control), then rotates the states back into their original order.
+
+* Included via `include/tao/pegtl/control/rewind_state_control.hpp`.
+
+```c++
+template< template< typename... > class Control, typename Rule >
+using rewind_state_control_r = internal::...;
+
+template< template< typename... > class Control >
+struct rewind_state_control_n
+{
+   template< typename Rule >
+   using type = rewind_state_control_r< Control, Rule >;
+};
+```
 
 ###### [`rotate_states_left`](../include/tao/pegtl/control/rotate_states_left.hpp)
 
@@ -417,11 +432,11 @@ struct rotate_states_right_n
 
 ###### [`shuffle_states`](../include/tao/pegtl/control/shuffle_states.hpp)
 
-A control adapter that calls most control function with the states in arbitrary order.
+A control adapter that calls most control functions with the states in arbitrary order.
 
 * The adapted `match()` function receives all states unchanged.
 * All other adapted control functions are called with the states shuffled.
-* Included via `include/tao/pegtl/control/rotate_states_right.hpp`.
+* Included via `include/tao/pegtl/control/shuffle_states.hpp`.
 
 ```c++
 template< typename Shuffle, typename Base >
@@ -533,10 +548,12 @@ Note that, unlike for normal control classes, if `ParseInput< Rule >::enable == 
 * [`must_if`](#must_if) <sup>[(controls)](#controls)</sup>
 * [`normal`](#normal) <sup>[(controls)](#controls)</sup>
 * [`remove_first_state`](#remove_first_state) <sup>[(controls)](#controls)</sup>
+* [`remove_first_states`](#remove_first_states) <sup>[(controls)](#controls)</sup>
+* [`remove_last_state`](#remove_last_state) <sup>[(controls)](#controls)</sup>
 * [`remove_last_states`](#remove_last_states) <sup>[(controls)](#controls)</sup>
 * [`reverse_states`](#reverse_states) <sup>[(controls)](#controls)</sup>
 * [`rewind_control`](#rewind_control) <sup>[(controls)](#controls)</sup>
-* [`rewind_input_control`](#rewind_input_control-todo) <sup>[(controls)](#controls)</sup>
+* [`rewind_input_control`](#rewind_input_control) <sup>[(controls)](#controls)</sup>
 * [`rewind_state_control`](#rewind_state_control) <sup>[(controls)](#controls)</sup>
 * [`rotate_states_left`](#rotate_states_left) <sup>[(controls)](#controls)</sup>
 * [`rotate_states_right`](#rotate_states_right) <sup>[(controls)](#controls)</sup>
