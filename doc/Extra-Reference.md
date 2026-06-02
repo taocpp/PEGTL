@@ -15,7 +15,7 @@ The reference documentation for extra and deprecated headers.
 
 The extra headers contain classes that are experimental or otherwise not ready to be made part of the "official" public interface.
 
-The deprecated headers contains functionality from previous versions that was not deemed useful or replaced by something better.
+The deprecated headers contain functionality from previous versions that was not deemed useful or replaced by something better.
 
 
 ## Extras
@@ -30,6 +30,10 @@ The classes defined in this header implement both the `match()` function for use
 Conversion classes for decimal and hexadecimal are provided, other bases can be selected via the appropriate template parameter.
 
 ```c++
+enum class overflow_mode : bool;
+
+template< typename Integral, std::uint8_t Base, overflow_mode Over > struct from_chars_combo;
+
 template< typename Integral, std::uint8_t Base = 10 > struct from_chars_throws;
 template< typename Integral, std::uint8_t Base = 10 > struct from_chars_nothrow;
 
@@ -41,16 +45,16 @@ The `Base` parameter is passed to `std::from_chars()` as fourth function argumen
 It can be anything between 2 and 36, inclusive.
 
 > [!NOTE]
-> Remember that `std::from_chars()` does **not**  allow a leading `+` and does **not** recognize the `0x` prefix for hexadecimal numbers.
+> Remember that `std::from_chars()` does **not** allow a leading `+` and does **not** recognize the `0x` prefix for hexadecimal numbers.
 
 In both rules the functions accept arbitrary state arguments, and both return `bool` (as is mandatory for `match()` but optional for `apply()`).
 
 * If the first state argument is a mutable reference to `Integral` then it will be assigned the result of the string-to-integer conversion.
 * If the first state argument is of any other type it will be ignored -- together with any additional states.
 
-The `_throws` vs. `_nothrow_` suffix chooses between failing locally, i.e. returning `false`, when `std::from_chars()` returns `std::errc::result_out_of_range`, or failing globally, i.e. throwing an exception derived from `tao::pegtl::parse_error_base`.
+The `_throws` vs. `_nothrow` suffix chooses between failing locally, i.e. returning `false`, when `std::from_chars()` returns `std::errc::result_out_of_range`, or failing globally, i.e. throwing an exception derived from `tao::pegtl::parse_error_base`.
 
-The template parameter `Integral` can also be `void`, which changes the behaviour slightly.
+The template parameter `Integral` can also be `void`, which changes the behavior slightly.
 In this case
 
 * the first state *must* be a mutable reference to any integer type supported by `std::from_chars()`,
@@ -82,7 +86,7 @@ template< typename... Exceptions, typename Exception, typename Visitor >
 void visit_nested( const Exception&, Visitor&& );
 ```
 
-The following convenience functions call `visit_nested()` produce a flattened vector derived from the nested exceptions.
+The following convenience functions call `visit_nested()` and produce a flattened vector derived from the nested exceptions.
 The `flatten_type()` and `flatten_base()` functions return type sliced copies of the exceptions; `flatten_what()` calls `what()` on the `std::exception`s and returns a vector of strings.
 
 ```c++
@@ -103,11 +107,16 @@ template< typename Exception >
 
 The [parse tree has its own dedicated page](Parse-Tree.md).
 
+###### [`overflow_mode.hpp`](../include/tao/pegtl/extra/overflow_mode.hpp)
+
+Defines `enum class overflow_mode` with values `local_failure` and `global_failure`.
+This enum is used by [`charconv.hpp`](#charconvhpp) to choose whether integer conversion overflow causes a local failure or a global failure.
+
 ###### [`raw_string.hpp`](../include/tao/pegtl/extra/raw_string.hpp)
 
 Rules for parsing [Lua](https://lua.org)-style *long string literals*, also called *raw literals* because they do not support any escape sequences.
 
-The following descriptive of these kinds of string literals is copied from the [Lua](https://lua.org) documentation.
+The following description of these kinds of string literals is copied from the [Lua](https://lua.org) documentation.
 
 * An "opening long bracket of level n" is defined as an opening square bracket followed by *n* equal signs followed by another opening square bracket. So, an opening long bracket of level 0 is written as `[[`, an opening long bracket of level 1 is written as `[=[`, and so on.
 * A "closing long bracket" is defined similarly; for instance, a closing long bracket of level 4 is written as `]====]`.
@@ -118,7 +127,7 @@ The following descriptive of these kinds of string literals is copied from the [
 Unlike Lua's long literal the `raw_string` rule is customizable to use other characters than `[`, `=` and `]` for matching the opening and closing long brackets.
 Also note that Lua introduced newline-specific replacements in Lua 5.2, which are not supported at the grammar level by the `raw_string` rule.
 
-The `raw_string` rule has a sub-type called `content` that actions should usally be bound to instead of binding to `raw_string` itself.
+The `raw_string` rule has a sub-type called `content` that actions should usually be bound to instead of binding to `raw_string` itself.
 Binding to `content` will call the action with the matched string *excluding* the opening and closing long brackets.
 
 ```c++
@@ -281,6 +290,7 @@ An older version of [`include/tao/pegtl/extra/unescape.hpp`](#unescapehpp).
 * [`if_then.hpp`](#if_thenhpp) <sup>[(deprecated)](#deprecated)</sup>
 * [`integer.hpp`](#integerhpp) <sup>[(deprecated)](#deprecated)</sup>
 * [`nested_exceptions.hpp`](#nested_exceptionshpp) <sup>[(extra)](#extras)</sup>
+* [`overflow_mode.hpp`](#overflow_modehpp) <sup>[(extra)](#extras)</sup>
 * [`parse_tree.hpp`](#parse_treehpp) <sup>[(extra)](#extras)</sup>
 * [`parse_tree_to_dot.hpp`](#parse_tree_to_dothpp) <sup>[(extra)](#extras)</sup>
 * [`raw_string.hpp`](#raw_stringhpp) <sup>[(extra)](#extras)</sup>

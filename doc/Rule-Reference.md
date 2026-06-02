@@ -150,6 +150,16 @@ Note that the default behavior can be changed either by defining `TAO_PEGTL_DEFA
 * Takes any rule implemented with `internal::terminal` as template parameter.
 * Results in a type alias identical to `R` but with toggled `invert_mode`.
 
+###### `nested< R, P >`
+
+* Uses the peek implementation `P` to extract an object from the input.
+* Performs a nested parsing run with rule `R` on the extracted object's contiguous data.
+* The extracted object must have `value_type`, `data()` and `size()` members suitable for constructing a `view_input`.
+* Consumes 1 object from the outer input when the nested parsing run succeeds.
+* [Meta data] and [implementation] mapping:
+  - `nested< R, P >::rule_t` is `internal::nested< P, R >`
+  - `nested< R, P >::subs_t` is `empty_list`
+
 ###### `restart`
 
 * Rule that always succeeds.
@@ -158,6 +168,16 @@ Note that the default behavior can be changed either by defining `TAO_PEGTL_DEFA
 * Requires an [input with start](Inputs-and-Parsing.md#inputs-with-start).
 * [Meta data] and [implementation] mapping:
   - `restart::rule_t` is `internal::restart`
+
+###### `source< R >`
+
+* Requires an [input with source](Inputs-and-Parsing.md#inputs-with-source).
+* Performs a nested parsing run with rule `R` on the input's `direct_source()`.
+* Supports sources of type `std::string`, `std::string_view` and `std::filesystem::path`.
+* Does not consume input.
+* [Meta data] and [implementation] mapping:
+  - `source< R >::rule_t` is `internal::source< R >`
+  - `source< R >::subs_t` is `empty_list`
 
 ###### `success`
 
@@ -933,12 +953,13 @@ These rules are in namespace `tao::pegtl::member`.
 
 * Performs a nested parsing run with rule `R` on the extracted object.
 * The extracted object must be suited to construct a `view_input`.
+* Consumes 1 object from the outer input when the nested parsing run succeeds.
 
 ###### `not_one< M, U... >`
 
 * Succeeds when the input contains at least 1 object, and:
 * The object extracted from the next input object is **not** one of the values `U...`.
-* Consumes N objects on success.
+* Consumes 1 object on success.
 
 ###### `not_range< M, U, V >`
 
@@ -963,7 +984,7 @@ These rules are in namespace `tao::pegtl::member`.
 
 * Succeeds when the input contains at least 1 object, and:
 * The object extracted from the next input object is one of the values `U...`.
-* Consumes N objects on success.
+* Consumes 1 object on success.
 
 ###### `range< M, U, V >`
 
@@ -1127,10 +1148,10 @@ These rules are in namespace `tao::pegtl`.
 
 * Matches a non-empty list of `R` separated by `S` with optional trailing `S` and padding `P` inside the list.
 * [Equivalent] to `seq< list< R, S, P >, opt< star< P >, S > >`.
-* [Equivalent] to `seq< R, star_partial< padl< S, P >, padl< R, P > > >`.
+* [Equivalent] to `seq< R, star_partial< seq< star< P >, S >, seq< star< P >, R > > >`.
 * [Meta data] and [implementation] mapping:
-  - `list_tail< R, S, P >::rule_t` is `internal::seq< R, internal::star_partial< internal::padl< S, P >, internal::padl< R, P > > >`
-  - `list_tail< R, S, P >::subs_t` is `type_list< R, internal::star_partial< internal::padl< S, P >, internal::padl< R, P > > >`
+  - `list_tail< R, S, P >::rule_t` is `internal::seq< R, internal::star_partial< internal::lpad< S, P >, internal::lpad< R, P > > >`
+  - `list_tail< R, S, P >::subs_t` is `type_list< R, internal::star_partial< internal::lpad< S, P >, internal::lpad< R, P > > >`
 
 ###### `minus< M, S >`
 
@@ -1315,7 +1336,7 @@ Note that the grammar analysis does not correctly handle recursions in the gramm
 
 ###### `unordered_partial< R... >`
 
-* Combines the behaviour of [`partial`](#partial-r-) and [`unordered`](#unordered-r-).
+* Combines the behavior of [`partial`](#partial-r-) and [`unordered`](#unordered-r-).
 * [Meta data] and [implementation] mapping:
   - `unordered_partial<>::rule_t` is `internal::success`
   - `unordered_partial< R... >::rule_t` is `internal::unordered< true, R... >`
@@ -1369,8 +1390,8 @@ These rules are in namespace `tao::pegtl`.
   - `control< C >::rule_t` is `internal::success`
   - `control< C, R >::rule_t` is `internal::control< C, R >`
   - `control< C, R >::subs_t` is `type_list< R >`
-  - `control< C, R... >:rule_t` is `internal::control< C, internal::seq< R... > >`
-  - `control< C, R... >:subs_t` is `type_list< internal::seq< R... > >`
+  - `control< C, R... >::rule_t` is `internal::control< C, internal::seq< R... > >`
+  - `control< C, R... >::subs_t` is `type_list< internal::seq< R... > >`
 
 ###### `disable< R... >`
 
@@ -2118,6 +2139,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`must< R... >`](#must-r-) <sup>[(exceptional)](#exceptional)</sup>
 * [`nel`](#nel) <sup>[(unicode)](#unicode)</sup>
 * [`nested< M, R >`](#nested-m-r-) <sup>[(member)](#member)</sup>
+* [`nested< R, P >`](#nested-r-p-) <sup>[(atomic)](#atomic)</sup>
 * [`nfc_inert`](#nfc_inert) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`nfd_inert`](#nfd_inert) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`nfkc_inert`](#nfkc_inert) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
@@ -2197,6 +2219,7 @@ Convenience wrappers for enumerated properties that return a value instead of an
 * [`shebang`](#shebang) <sup>[(ascii)](#ascii)</sup>
 * [`soft_dotted`](#soft_dotted) <sup>[(icu rules)](#icu-rules-for-binary-properties)</sup>
 * [`sor< R... >`](#sor-r-) <sup>[(combinators)](#combinators)</sup>
+* [`source< R >`](#source-r-) <sup>[(atomic)](#atomic)</sup>
 * [`sp`](#sp) <sup>[(ascii)](#ascii)</sup>
 * [`space`](#space) <sup>[(ascii)](#ascii)</sup>
 * [`star< R... >`](#star-r-) <sup>[(combinators)](#combinators)</sup>

@@ -327,12 +327,13 @@ More precisely, if `oi.current_position()` is **not** callable then `oi` is assu
 
 Positions occur as the return type of the input functions `current_position()` and `previous_position()`, and as the template parameter, and therefore position object, of `tao::pegtl::parse_error< Position >` exceptions.
 
-All `text` inputs use `tao::pegtl::text_position` for their position reporting; when the source parameters are not `void` the type is `tao::pegtl::position_with_source< SourceType, tao::pegtl::text_position >`.
-For all filesystem inputs the `SourceType` is `std::filesystem::path`, for all other inputs it defaults to `void`.
+All `text` inputs use `tao::pegtl::text_position` for their position reporting; when the error source type is not `void` the type is `tao::pegtl::position_with_source< ErrorSourceType, tao::pegtl::text_position >`.
+For all filesystem inputs the error source type is `std::filesystem::path`, for all other inputs it defaults to `void`.
+The header `tao/pegtl/text_position_with_source.hpp` also defines the convenience aliases `text_position_with_source` for `position_with_source< std::string, text_position >` and `text_position_with_path` for `position_with_source< std::filesystem::path, text_position >`.
 
-Most non-`text` inputs use `tao::pegtl::count_position` for their position reporting; when the source parameters are not `void` the type is `tao::pegtl::position_with_source< SourceType, tao::pegtl::count_position >`.
+Most non-`text` inputs use `tao::pegtl::count_position` for their position reporting; when the error source type is not `void` the type is `tao::pegtl::position_with_source< ErrorSourceType, tao::pegtl::count_position >`.
 The exceptions are the `base` inputs which are so basic that they neither keep track nor can compute the number of objects from the start of the input data, they use `tao::pegtl::pointer_position` instead.
-For all filesystem inputs the `SourceType` is `std::filesystem::path`, for all other inputs it defaults to `void` except for the `argv` input which defaults to `std::string`.
+For all filesystem inputs the error source type is `std::filesystem::path`, for all other inputs it defaults to `void` except for the `argv` input which defaults to `std::string`.
 
 
 ## Input Interface

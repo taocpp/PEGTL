@@ -161,6 +161,7 @@ The full JSON trace example can be found in `src/example/json_trace.cpp`.
 
 The trace output is configured through a traits class.
 The default traits are `standard_trace_traits` and `complete_trace_traits`, both based on `trace_traits`.
+The traits are defined in `include/tao/pegtl/debug/trace_traits.hpp`; the lower-level support classes are in `include/tao/pegtl/debug/trace_state.hpp` and `include/tao/pegtl/debug/trace_struct.hpp`.
 
 ```c++
 template< bool HideInternal = true,
@@ -242,7 +243,7 @@ bool coverage( ParseInput&& in, coverage_result& result, States&&... st );
 The first function argument to `coverage()` is the input, and the second is a default-constructed object of type `coverage_result` that will receive the statistics.
 The function returns whether the parsing run succeeded.
 
-Behind the scenes `coverage()` uses [grammar visit](#grammar-visit) to initialise the `coverage_result` with all rules found in the grammar, and [`rewind_state_control`](Control-Reference.md#rewind_state_control) to call control functions on an internal coverage state.
+Behind the scenes `coverage()` uses [grammar visit](#grammar-visit) to initialize the `coverage_result` with all rules found in the grammar, and [`rewind_state_control`](Control-Reference.md#rewind_state_control) to call control functions on an internal coverage state.
 
 The companion header `include/tao/pegtl/debug/print_coverage.hpp` contains everything needed to format the coverage result in a human-readable form.
 After including it the `coverage_result` can be printed to `std::cout`, or any other `std::ostream`, via the usual `operator<<`.

@@ -96,7 +96,7 @@ struct argv_input
    using eol_rule = Eol;  // Only when not void.
 
    using input_source_t = Source;  // Only when not void.
-   using error_source_t = Soruce;  // Only when not void.
+   using error_source_t = Source;  // Only when not void.
 ```
 
 #### Construction
@@ -200,7 +200,7 @@ base_input( const std::array< Data, Size >& ) -> base_input< default_eol, Data >
 * [With start](Inputs-and-Parsing.md#inputs-with-start).
 * [With lines](Inputs-and-Parsing.md#inputs-with-lines) (by default).
 * [Without source](Inputs-and-Parsing.md#inputs-with-source) (by default).
-* Lile [`base_input`](#base-input) but with start.
+* Like [`base_input`](#base-input) but with start.
 * Like [`text_view_input`](#text-view-input) but without lines and columns in the position.
 
 #### Exposition
@@ -211,7 +211,7 @@ struct view_input
 {
    using data_t = Data;
    using error_position_t = count_position;   // When ErrorSource is void, or
-   using error_position_t = position_with_source< Source, count_position >;  // when ErrorSource is not void.
+   using error_position_t = position_with_source< ErrorSource, count_position >;  // when ErrorSource is not void.
    using offset_position_t = count_position;
    using rewind_position_t = pointer_position< data_t >;
 #if defined( __cpp_exceptions )
@@ -372,7 +372,7 @@ struct copy_input
 {
    using data_t = typename Container::value_type;
    using error_position_t = count_position;   // When ErrorSource is void, or
-   using error_position_t = position_with_source< Source, count_position >;  // when ErrorSource is not void.
+   using error_position_t = position_with_source< ErrorSource, count_position >;  // when ErrorSource is not void.
    using offset_position_t = count_position;
    using rewind_position_t = pointer_position< data_t >;
 #if defined( __cpp_exceptions )

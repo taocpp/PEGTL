@@ -13,7 +13,7 @@ The reference documentation for the included example grammars and programs.
 
 ## Preamble
 
-This page lists all included example gramamrs and programs.
+This page lists all included example grammars and programs.
 The examples are not considered part of the public interface subject to semantic versioning.
 
 
@@ -43,6 +43,10 @@ A grammar for the textual representation of floating point numbers, suitable for
 ###### [`http.hpp`](../include/tao/pegtl/example/http.hpp)
 
 HTTP 1.1 grammar according to [RFC 7230](https://tools.ietf.org/html/rfc7230).
+
+###### [`integer.hpp`](../include/tao/pegtl/example/integer.hpp)
+
+Placeholder header reserved for future integer examples; it currently does not define any rules.
 
 ###### [`ipv4.hpp`](../include/tao/pegtl/example/ipv4.hpp)
 
@@ -129,7 +133,7 @@ A calculator with all binary operators from the C language that shows
 In addition to the binary operators, round brackets can be used to change the evaluation order. The implementation uses `long` integers as data type for all calculations.
 
 ```sh
-$ build/src/example/calculator "2 + 3 * -7"  "(2 + 3) * 7"
+$ build/bin/example/calculator "2 + 3 * -7"  "(2 + 3) * 7"
 -19
 35
 ```
@@ -250,12 +254,16 @@ The example shows how to choose which rules will produce a parse tree node, whic
 The output is in [DOT](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) format and can be converted into a graph.
 
 ```sh
-$ build/src/example/parse_tree "(2*a + 3*b) / (4*n)" | dot -Tsvg -o parse_tree.svg
+$ build/bin/example/parse_tree "(2*a + 3*b) / (4*n)" | dot -Tsvg -o parse_tree.svg
 ```
 
 The above will generate an SVG file with a graphical representation of the parse tree.
 
 ![Parse Tree](Parse-Tree.svg)
+
+###### [`parse_tree_user_state.cpp`](../src/example/parse_tree_user_state.cpp)
+
+Minimal example showing that user states are forwarded through parse tree parsing to actions.
 
 ###### [`proto3_analyze.cpp`](../src/example/proto3_analyze.cpp)
 
@@ -366,6 +374,7 @@ Parses its command line arguments.
 * [`hello_world.cpp`](#hello_worldcpp) <sup>[(program)](#programs)</sup>
 * [`http.hpp`](#httphpp) <sup>[(grammar)](#grammars)</sup>
 * [`indent_aware.cpp`](#indent_awarecpp) <sup>[(program)](#programs)</sup>
+* [`integer.hpp`](#integerhpp) <sup>[(grammar)](#grammars)</sup>
 * [`ipv4.hpp`](#ipv4hpp) <sup>[(grammar)](#grammars)</sup>
 * [`ipv6.hpp`](#ipv6hpp) <sup>[(grammar)](#grammars)</sup>
 * [`iri.hpp`](#irihpp) <sup>[(grammar)](#grammars)</sup>
@@ -389,6 +398,7 @@ Parses its command line arguments.
 * [`lua53_parse.cpp`](#lua53_parsecpp) <sup>[(program)](#programs)</sup>
 * [`modulus_match.cpp`](#modulus_matchcpp) <sup>[(program)](#programs)</sup>
 * [`parse_tree.cpp`](#parse_treecpp) <sup>[(program)](#programs)</sup>
+* [`parse_tree_user_state.cpp`](#parse_tree_user_statecpp) <sup>[(program)](#programs)</sup>
 * [`proto3.hpp`](#proto3hpp) <sup>[(grammar)](#grammars)</sup>
 * [`proto3_analyze.cpp`](#proto3_analyzecpp) <sup>[(program)](#programs)</sup>
 * [`proto3_parse.cpp`](#proto3_parsecpp) <sup>[(program)](#programs)</sup>

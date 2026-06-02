@@ -42,7 +42,7 @@ The top-level rule is *also* sometimes called a grammar.
 
 Some grammars have more than one top-level rule; in theory any rule can be used as top-level rule -- the rule that drives a parsing run -- which can be useful to individually test the rules of a grammar.
 
-The rules provided with the PEGTL are either classes with fixed parsing behavior or paremeterizable class templates.
+The rules provided with the PEGTL are either classes with fixed parsing behavior or parameterizable class templates.
 Rules that take other rules as parameters are also called (parsing) combinator rules, or *combinators*.
 These rules correspond to non-terminals in [formal grammars](https://en.wikipedia.org/Formal_grammar).
 Rules without template parameters, or only with template parameters that are not also rules, are also called *atomic* rules.

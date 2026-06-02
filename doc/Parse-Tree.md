@@ -358,6 +358,7 @@ The parse tree builder adds a state object to the parsing run to keep track of t
 
 That state is hidden from actions and controls by the generated control adapter that makes use of [`rotate_states_right`](Control-Reference.md#rotate_states_right) and [`remove_first_state`](Control-Reference.md#remove_first_state).
 As usual, the additional state can not be hidden from the `match()` control (and action) functions.
+The minimal example [`src/example/parse_tree_user_state.cpp`](../src/example/parse_tree_user_state.cpp) shows a user state being forwarded through parse tree parsing to an action.
 
 
 ## Requirements

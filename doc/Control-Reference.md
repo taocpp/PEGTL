@@ -320,7 +320,7 @@ struct reverse_states_n
 
 ###### [`rewind_control`](../include/tao/pegtl/control/rewind_control.hpp)
 
-A control adapater that adds control function calls to monitor input rewinding.
+A control adapter that adds control function calls to monitor input rewinding.
 
 * Wraps the adapted `guard()` control function.
 * Calls new rewind control functions on the adapted control,
