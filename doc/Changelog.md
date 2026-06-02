@@ -32,8 +32,7 @@ All noteworthy changes since the first public release.
   * Added `parse_error_base` as non-templated base class of `parse_error`.
   * Changed to **nested exceptions** for nested [parsing errors](Errors-and-Exceptions.md).
   * Added [control function](Control-and-Normal.md) to throw nested exceptions.
-  * Changed `parse_nested()` to require exceptions to be enabled.
-  * Changed `parse_nested()` to throw a nested exception instead of adding a position to the current one.
+  * Changed `parse_nested()` to throw a nested exception instead of adding a position to the current one when exceptions are enabled.
   * Changed `pegtl.hpp` to only include `parse_error.hpp`, `parse_error_base.hpp` and `parse_nested.hpp` when exceptions are enabled.
   * Added functions to visit and flatten [nested exceptions](Extra-Reference.md#nested_exceptionshpp).
 * Inputs
@@ -54,7 +53,8 @@ All noteworthy changes since the first public release.
   * Removed the `tracking_mode` as `enum` and input template parameter.
   * Never use unaligned memory access (unless compiler generated).
 * Rule Changes
-  * The rules `ione`, `ranges`, `one` and `not_one` now require at least one template parameter.
+  * All variants of the rules `ione`, `one`, `not_one` and `ranges` now require at least one template parameter.
+  * The new rules `not_ione` and `not_ranges` have the same non-empty pack requirement.
   * Added Unicode rules that adapt to the input's data size.
   * Added special end-of-line rules in multiple places.
   * Added new atomic rule [`function`](Rule-Reference.md#function-f-p--void-).
@@ -98,7 +98,7 @@ All noteworthy changes since the first public release.
   * Added dedicated end-of-line rules for lazy end-of-line mode.
   * Added new atomic rule [`consume`](Rule-Reference.md#consume-num-).
   * Added new atomic rule [`everything`](Rule-Reference.md#everything).
-  * Added new rule `source`.
+  * Added new rule [`source`](Rule-Reference.md#source-r-).
   * Added new generic rule [`invert`](Rule-Reference.md#invert-r-).
   * Added new convenience rule [`partial`](Rule-Reference.md#partial-r-).
   * Added new convenience rule [`separated`](Rule-Reference.md#separated-s-r-) (replaces `separated_seq` from contrib).
@@ -148,7 +148,7 @@ All noteworthy changes since the first public release.
   * Renamed "check_bytes" functionality to "check_consume".
   * Renamed "limit_bytes" functionality to "limit_consume".
   * Moved depth counter to adapter class [`input_with_depth`](Input-Reference.md#input-with-depth).
-  * Changed default top-level `rewind_mode` to ~~`dontcare`~~ `optional`.
+  * Changed default top-level `rewind_mode` to `optional`.
   * Merged `rewind_mode` values `dontcare` and `active` into new value `optional`.
   * Renamed `end_of_line()` input member function to `end_of_line_or_file()`.
   * Renamed variadic template `to_string` functionality to `type_to_string`.

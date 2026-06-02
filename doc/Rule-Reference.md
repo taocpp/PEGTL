@@ -327,8 +327,8 @@ For all ASCII rules the template parameters representing characters are of type 
 
 * Similar to `(ascii::)one< C... >` but:
 * For ASCII letters the match is case insensitive.
+* `C` must be a non-empty character pack.
 * [Meta data] and [implementation] mapping:
-  - `ascii::ione<>::rule_t` is `internal::failure`
   - `ascii::ione< C... >::rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::ione< internal::peek_char, C... > >`.
 
 ###### `istring< C... >`
@@ -387,32 +387,31 @@ For all ASCII rules the template parameters representing characters are of type 
 
 * Similar to `(ascii::)not_one< C... >` but:
 * For ASCII letters the match is case insensitive.
+* `C` must be a non-empty character pack.
 * [Meta data] and [implementation] mapping:
-  - `ascii::not_ione<>::rule_t` is `internal::any< internal::peek_char >`
   - `ascii::not_ione< C... >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::ione< internal::peek_char, Cs... > >`.
 
 ###### `not_ione7< C... >`
 
 * Like `(ascii::)not_ione< C... >` but only matches values that can be represented in 7 bits.
+* `C` must be a non-empty character pack.
 * [Meta data] and [implementation] mapping:
-  - `ascii::not_ione7<>::rule_t` is `internal::any< internal::peek_seven >`
   - `ascii::not_ione7< C... >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::ione< internal::peek_seven, Cs... > >`.
 
 ###### `not_one< C... >`
 
 * Succeeds when the input is not empty, and:
-* `C` is an empty character pack or the next input byte is **not** one of `C...`.
+* `C` is a non-empty character pack and the next input byte is **not** one of `C...`.
 * Consumes one byte on success.
 * [Meta data] and [implementation] mapping:
-  - `ascii::not_one<>::rule_t` is `internal::any< internal::peek_char >`
   - `ascii::not_one< C... >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::one< internal::peek_char, Cs... > >`.
 
 ###### `not_one7< C... >`
 
 * True ASCII version of `not_one` only matches input bytes between 0 and 127.
+* `C` must be a non-empty character pack.
 * [Meta data] and [implementation] mapping:
-  - `ascii::not_one<>::rule_t` is `internal::any< internal::peek_seven >`
-  - `ascii::not_one< C... >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::one< internal::peek_seven, Cs... > >`.
+  - `ascii::not_one7< C... >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::one< internal::peek_seven, Cs... > >`.
 
 ###### `not_range< C, D >`
 
@@ -437,6 +436,7 @@ For all ASCII rules the template parameters representing characters are of type 
 * The next input byte is not in any of the closed ranges `C1 ... D1`, `C2 ... D2`, ...
 * For the second form the next input byte must also not be `E`.
 * Consumes one byte on success.
+* The character pack must be non-empty.
 * [Meta data] and [implementation] mapping:
   - `ascii::not_ranges< E >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::one< internal::peek_char, E > >`.
   - `ascii::not_ranges< C, D >::rule_t` is `internal::terminal< internal::invert_mode::enabled, internal::range< internal::peek_char, C, D > >`.
@@ -457,9 +457,8 @@ For all ASCII rules the template parameters representing characters are of type 
 * Succeeds when the input is not empty, and:
 * The next input byte is one of `C...`.
 * Consumes one byte on success.
-* Fails if `C` is an empty character pack.
+* `C` must be a non-empty character pack.
 * [Meta data] and [implementation] mapping:
-  - `ascii::one<>::rule_t` is `internal::failure`
   - `ascii::one< C... >::rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::one< internal::peek_char, C... > >`.
 
 ###### `print`
@@ -486,8 +485,8 @@ For all ASCII rules the template parameters representing characters are of type 
 
 * [Equivalent] to `sor< (ascii::)range< C1, D1 >, (ascii::)range< C2, D2 >, ... >`.
 * [Equivalent] to `sor< (ascii::)range< C1, D1 >, (ascii::)range< C2, D2 >, ..., (ascii::)one< E > >`.
+* The character pack must be non-empty.
 * [Meta data] and [implementation] mapping:
-  - `ascii::ranges<>::rule_t` is `internal::failure`
   - `ascii::ranges< E >::rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::one< internal::peek_char, E > >`.
   - `ascii::ranges< C, D >::rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::range< internal::peek_char, C, D > >`.
   - `ascii::ranges< C... >::rule_t` is `internal::terminal< internal::invert_mode::disabled, internal::ranges< internal::peek_char, C... > >`.
@@ -681,7 +680,7 @@ For all Unicode rules the template parameters representing code points are of ty
 
 * Succeeds when the input is not empty, and:
 * The next N input objects encode a valid Unicode code point, and:
-* `C` is an empty character pack or the input code point is **not** one of the given code points `C...`.
+* `C` is a non-empty character pack and the input code point is **not** one of the given code points `C...`.
 * Consumes the N input objects on success.
 
 ###### `not_range< C, D >`
@@ -697,6 +696,7 @@ For all Unicode rules the template parameters representing code points are of ty
 * The next N input objects encode a valid Unicode code point, and:
 * The input code point is not in any of the closed ranges `C1 ... D1`, `C2 ... D2`, ...
 * Consumes the N input objects on success.
+* The character pack must be non-empty.
 
 ###### `not_ranges< C1, D1, C2, D2, ..., E >`
 
@@ -705,6 +705,7 @@ For all Unicode rules the template parameters representing code points are of ty
 * The input code point is not in any of the closed ranges `C1 ... D1`, `C2 ... D2`, ...
 * The input code point is also not `E`.
 * Consumes the N input objects on success.
+* The character pack must be non-empty.
 
 ###### `one< C... >`
 
@@ -735,10 +736,12 @@ For all Unicode rules the template parameters representing code points are of ty
 ###### `ranges< C1, D1, C2, D2, ... >`
 
 * [Equivalent] to `sor< utf_::range< C1, D1 >, utf_::range< C2, D2 >, ... >`.
+* The character pack must be non-empty.
 
 ###### `ranges< C1, D1, C2, D2, ..., E >`
 
 * [Equivalent] to `sor< utf_::range< C1, D1 >, utf_::range< C2, D2 >, ..., utf_::one< E > >`.
+* The character pack must be non-empty.
 
 ###### `string< C... >`
 
@@ -829,7 +832,7 @@ The term *input value* indicates an integer or enum value of the appropriate siz
 ###### `mask_not_one< M, C... >`
 
 * Succeeds when the input contains at least N objects, and:
-* `C` is an empty pack *or* the (endian adjusted) input value masked with `M` is **not** one of the values `C...`.
+* `C` is a non-empty pack and the (endian adjusted) input value masked with `M` is **not** one of the values `C...`.
 * Consumes N objects on success.
 
 ###### `mask_not_range< M, C, D >`
@@ -853,10 +856,12 @@ The term *input value* indicates an integer or enum value of the appropriate siz
 ###### `mask_ranges< M, C1, D1, C2, D2, ... >`
 
 * [Equivalent] to `sor< mask_range< M, C1, D1 >, mask_range< M, C2, D2 >, ... >`.
+* The value pack must be non-empty.
 
 ###### `mask_ranges< M, C1, D1, C2, D2, ..., E >`
 
 * [Equivalent] to `sor< mask_range< M, C1, D1 >, mask_range< M, C2, D2 >, ..., mask_one< M, E > >`.
+* The value pack must be non-empty.
 
 ###### `mask_string< M, C... >`
 
@@ -865,7 +870,7 @@ The term *input value* indicates an integer or enum value of the appropriate siz
 ###### `not_one< C... >`
 
 * Succeeds when the input contains at least N objects, and:
-* `C` is an empty pack or the (endian adjusted) input value is **not** one of the given values `C...`.
+* `C` is a non-empty pack and the (endian adjusted) input value is **not** one of the given values `C...`.
 * Consumes N objects on success.
 
 ###### `not_range< C, D >`
@@ -879,6 +884,7 @@ The term *input value* indicates an integer or enum value of the appropriate siz
 * Succeeds when the input contains at least N objects, and:
 * The (endian adjusted) input value is not in any of the closed ranges `C1 ... D1`, `C2 ... D2`, ...
 * Consumes N objects on success.
+* The value pack must be non-empty.
 
 ###### `not_ranges< C1, D1, C2, D2, ..., E >`
 
@@ -886,6 +892,7 @@ The term *input value* indicates an integer or enum value of the appropriate siz
 * The (endian adjusted) input value is not in any of the closed ranges `C1 ... D1`, `C2 ... D2`, ...
 * The (endian adjusted) input value is also not `E`.
 * Consumes N objects on success.
+* The value pack must be non-empty.
 
 ###### `one< C... >`
 
@@ -902,10 +909,12 @@ The term *input value* indicates an integer or enum value of the appropriate siz
 ###### `ranges< C1, D1, C2, D2, ... >`
 
 * [Equivalent] to `sor< range< C1, D1 >, range< C2, D2 >, ... >`.
+* The value pack must be non-empty.
 
 ###### `ranges< C1, D1, C2, D2, ..., E >`
 
 * [Equivalent] to `sor< range< C1, D1 >, range< C2, D2 >, ..., one< E > >`.
+* The value pack must be non-empty.
 
 ###### `string< C... >`
 
@@ -960,6 +969,7 @@ These rules are in namespace `tao::pegtl::member`.
 * Succeeds when the input contains at least 1 object, and:
 * The object extracted from the next input object is **not** one of the values `U...`.
 * Consumes 1 object on success.
+* `U` must be a non-empty pack.
 
 ###### `not_range< M, U, V >`
 
@@ -972,6 +982,7 @@ These rules are in namespace `tao::pegtl::member`.
 * Succeeds when the input contains at least 1 object, and:
 * The object extracted from the next input object is not in any of the closed ranges `U1 ... V1`, `U2 ... V2`, ...
 * Consumes 1 object on success.
+* The value pack must be non-empty.
 
 ###### `not_ranges< M, U1, V1, U2, V2, ..., W >`
 
@@ -979,12 +990,14 @@ These rules are in namespace `tao::pegtl::member`.
 * The object extracted from the next input object is not in any of the closed ranges `U1 ... V1`, `U2 ... V2`, ...
 * The object extracted from the next input object is also not `W`.
 * Consumes 1 object on success.
+* The value pack must be non-empty.
 
 ###### `one< M, U... >`
 
 * Succeeds when the input contains at least 1 object, and:
 * The object extracted from the next input object is one of the values `U...`.
 * Consumes 1 object on success.
+* `U` must be a non-empty pack.
 
 ###### `range< M, U, V >`
 
@@ -995,10 +1008,12 @@ These rules are in namespace `tao::pegtl::member`.
 ###### `ranges< M, U1, V1, U2, V2, ... >`
 
 * [Equivalent] to `sor< range< M, U1, V1 >, range< M, U2, V2 >, ... >`.
+* The value pack must be non-empty.
 
 ###### `ranges< M, U1, V1, U2, V2, ..., W >`
 
 * [Equivalent] to `sor< range< M, U1, V1 >, range< M, U2, V2 >, ..., one< M, W > >`.
+* The value pack must be non-empty.
 
 ###### `string< M, U... >`
 
