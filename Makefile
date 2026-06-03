@@ -48,7 +48,7 @@ COMPILE_REJECT_STAMPS := $(COMPILE_SOURCES:src/compile/%.cpp=build/compile/rejec
 COMPILE_TESTS := $(COMPILE_ACCEPT_OBJECTS) $(COMPILE_REJECT_STAMPS)
 
 .PHONY: all
-all: compile check
+all: build check
 
 # Switching between 'icu' and 'all' targets needs a 'make clean',
 # and dependencies aren't correct for the ICU test programs yet.
@@ -56,14 +56,23 @@ all: compile check
 .PHONY: icu
 icu: CPPFLAGS += -DTAO_PEGTL_TEST_ICU
 icu: CXXFLAGS += -licucore
-icu: compile check
+icu: build check
 
-.PHONY: compile
-compile: $(NORMAL_BINARIES)
+.PHONY: build
+build: $(NORMAL_BINARIES)
+
+.PHONY: tests
+tests: run_unit_tests compile_tests
 
 .PHONY: check
-check: $(UNIT_TESTS) $(COMPILE_TESTS)
+check: run_unit_tests compile_tests
+
+.PHONY: run_unit_tests
+run_unit_tests: $(UNIT_TESTS)
 	@set -e; for T in $(UNIT_TESTS); do echo $$T; $$T > /dev/null; done
+
+.PHONY: compile_tests
+compile_tests: $(COMPILE_TESTS)
 
 .PHONY: clean
 clean:
@@ -80,14 +89,15 @@ build/bin/%: src/%.cpp build/dep/%.d
 
 build/compile/accept/%.o: src/compile/%.cpp Makefile $(LIBRARY_HEADERS) $(COMPILE_HEADERS)
 	@mkdir -p $(@D)
-	$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) -DTAO_PEGTL_COMPILE_REJECT=0 -DTAO_PEGTL_COMPILE_ACCEPT=1 -c $< -o $@
+	@$(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) -DTAO_PEGTL_COMPILE_REJECT=0 -DTAO_PEGTL_COMPILE_ACCEPT=1 -c $< -o $@
+	@echo "compile accept" $<
 
 build/compile/reject/%.stamp: src/compile/%.cpp Makefile $(LIBRARY_HEADERS) $(COMPILE_HEADERS)
 	@mkdir -p $(@D)
 	@if $(CXX) $(CXXSTD) -Iinclude $(CPPFLAGS) $(CXXFLAGS) -DTAO_PEGTL_COMPILE_REJECT=1 -DTAO_PEGTL_COMPILE_ACCEPT=0 -c $< -o $(@:.stamp=.o) > $(@:.stamp=.log) 2>&1; then \
 		echo "$< compiled successfully -- should have failed!" && false; \
 	else \
-		echo $<; touch $@; \
+		echo "compile reject" $<; touch $@; \
 	fi
 
 ifeq ($(findstring $(MAKECMDGOALS),clean),)
