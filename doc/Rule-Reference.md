@@ -95,7 +95,7 @@ These rules are in namespace `tao::pegtl`.
 * Limited to the buffer size when using a [stream input].
 * [Meta data] and [implementation] mapping:
   - `consume< 0 >::rule_t` is `internal::success`
-  - `consume< N >::rule_t` is `internal::consume< N >`
+  - `consume< N >::rule_t` is `internal::consume< N >` for `N > 0`
 
 ###### `eof`
 
@@ -288,7 +288,7 @@ For all ASCII rules the template parameters representing characters are of type 
 ###### `esc`
 
 * Matches and consumes a single ASCII escape character of value `27` or `0x1b`.
-* [Equivalent] to `(ascii::)one< '\e' >`.
+* [Equivalent] to `(ascii::)one< 27 >`.
 
 ###### `ff`
 
@@ -298,7 +298,7 @@ For all ASCII rules the template parameters representing characters are of type 
 ###### `graph`
 
 * Matches and consumes a single ASCII character traditionally defined as "printable but not space".
-* [Equivalent] to `(ascii::)range< '33', '126' >`.
+* [Equivalent] to `(ascii::)range< 33, 126 >`.
 
 ###### `ht`
 
@@ -376,7 +376,8 @@ For all ASCII rules the template parameters representing characters are of type 
 * [Equivalent] to `(ascii::)rep< Num, any >`.
 * [Meta data] and [implementation] mapping:
   - `ascii::many< 0 >::rule_t` is `internal::success`
-  - `ascii::many< Num >::rule_t` is `internal::many< Num, internal::peek_char >`
+  - `ascii::many< 1 >::rule_t` is `internal::any< internal::peek_char >`
+  - `ascii::many< Num >::rule_t` is `internal::many< Num, internal::peek_char >` for `Num > 1`
 
 ###### `many7< Num >`
 
@@ -384,7 +385,8 @@ For all ASCII rules the template parameters representing characters are of type 
 * [Equivalent] to `rep< Num, (ascii::)any7 >`.
 * [Meta data] and [implementation] mapping:
   - `ascii::many7< 0 >::rule_t` is `internal::success`
-  - `ascii::many7< Num >::rule_t` is `internal::many< Num, internal::peek_seven >`
+  - `ascii::many7< 1 >::rule_t` is `internal::any< internal::peek_seven >`
+  - `ascii::many7< Num >::rule_t` is `internal::many< Num, internal::peek_seven >` for `Num > 1`
 
 ###### `not_ione< C... >`
 
@@ -473,7 +475,7 @@ For all ASCII rules the template parameters representing characters are of type 
 ###### `punct`
 
 * Matches and consumes any single ASCII character defined as [*punctuation*](https://en.cppreference.com/cpp/string/byte/ispunct).
-* [Equivalent] to `(ascii::)ranges< '!', '/', ':', '@', '[', '`', '{', '~' >`.
+* [Equivalent] to `(ascii::)ranges< '!', '/', ':', '@', '[', 96, '{', '~' >`.
 
 ###### `range< C, D >`
 
@@ -498,9 +500,9 @@ For all ASCII rules the template parameters representing characters are of type 
 
 ###### `shebang`
 
-* [Equivalent] to `if_must< (ascii::)string< '#', '!' >, until< eolf > >`.
+* [Equivalent] to `seq< (ascii::)string< '#', '!' >, until< eolf > >`.
 * [Meta data] and [implementation] mapping:
-  - `ascii::shebang::rule_t` is `internal::seq< false, internal::ascii_string< '#', '!' >, internal::until< internal::eolf > >`
+  - `ascii::shebang::rule_t` is `internal::seq< internal::ascii_string< '#', '!' >, internal::until< internal::eolf > >`
   - `ascii::shebang::subs_t` is `type_list< internal::ascii_string< '#', '!' >, internal::until< internal::eolf > >`
 
 ###### `sp`
@@ -581,13 +583,13 @@ These rules are available in multiple versions,
 
 * in namespace `tao::pegtl::utf8` for UTF-8 inputs,
 * in namespace alias `tao::pegtl::utf16` for native-endian UTF-16 inputs,
-* in namespace alias `tao::pegtl::utf32` for native-endian UTF-32 inputs.
+* in namespace alias `tao::pegtl::utf32` for native-endian UTF-32 inputs,
 * in namespace `tao::pegtl::utf16_be` for big-endian UTF-16 inputs,
 * in namespace `tao::pegtl::utf16_le` for little-endian UTF-16 inputs,
 * in namespace `tao::pegtl::utf32_be` for big-endian UTF-32 inputs,
 * in namespace `tao::pegtl::utf32_le` for little-endian UTF-32 inputs.
 
-Except for UTF-8 the Unicode rules are not automatically included with `<tao/pegtl.hpp>.
+Except for UTF-8 the Unicode rules are not automatically included with `<tao/pegtl.hpp>`.
 To make them available the following header files need to be included as required.
 
 * `tao/pegtl/unicode/utf16.hpp`
@@ -784,10 +786,10 @@ These rules are available in multiple versions,
 * in namespace alias `tao::pegtl::int64` for native-endian `std::int64_t` values,
 * in namespace alias `tao::pegtl::uint16` for native-endian `std::uint16_t` values,
 * in namespace alias `tao::pegtl::uint32` for native-endian `std::uint32_t` values,
-* in namespace alias `tao::pegtl::uint64` for native-endian `std::uint64_t` values.
+* in namespace alias `tao::pegtl::uint64` for native-endian `std::uint64_t` values,
 * in namespace alias `tao::pegtl::enums` for native-endian enumeration type values.
 
-The binary rules are **not** automatically included with `<tao/pegtl.hpp>.
+The binary rules are **not** automatically included with `<tao/pegtl.hpp>`.
 To make them available the following header files need to be included as required.
 
 * `tao/pegtl/binary/int8.hpp`
@@ -833,7 +835,7 @@ The term *input value* indicates an integer or enum value of the appropriate siz
 
 * Succeeds when the input contains at least `Num` times N objects.
 * Consumes these `Num` * N objects from the input.
-* [Equivalent] to `rep< N, any >`.
+* [Equivalent] to `rep< Num, any >`.
 
 ###### `mask_not_one< M, C... >`
 
@@ -1066,9 +1068,9 @@ These rules are in namespace `tao::pegtl`.
 * [Equivalent] to `sor< seq< R... >, success >`.
 * [Meta data] and [implementation] mapping:
   - `opt<>::rule_t` is `internal::success`
-  - `opt< R >::rule_t` is `internal::partial< R >`
+  - `opt< R >::rule_t` is `internal::opt< R >`
   - `opt< R >::subs_t` is `type_list< R >`
-  - `opt< R... >::rule_t` is `internal::partial< internal::seq< R... > >`
+  - `opt< R... >::rule_t` is `internal::opt< internal::seq< R... > >`
   - `opt< R... >::subs_t` is `type_list< internal::seq< R... > >`
 
 ###### `plus< R... >`
@@ -1120,9 +1122,9 @@ These rules are in namespace `tao::pegtl`.
 * [Equivalent] to `opt< plus< R... > >`.
 * `R` must be a non-empty rule pack.
 * [Meta data] and [implementation] mapping:
-  - `star< R >::rule_t` is `internal::star_partial< R >`
+  - `star< R >::rule_t` is `internal::star< R >`
   - `star< R >::subs_t` is `type_list< R >`
-  - `star< R... >::rule_t` is `internal::star_partial< internal::seq< R... > >`
+  - `star< R... >::rule_t` is `internal::star< internal::seq< R... > >`
   - `star< R... >::subs_t` is `type_list< internal::seq< R... > >`
 
 
@@ -1210,7 +1212,7 @@ The PEGTL [grammar analysis](Debug-Facilities.md#grammar-analysis) catches this 
 * Does *not* rewind the input after a partial match of `R...`.
 * Attempts to match the given rules `R...` in the given order.
 * Succeeds and stops matching when one of the given rules fails;
-* also succeds when all of the given rules succeed.
+* also succeeds when all of the given rules succeed.
 * Consumes everything that the successful rules of `R...` consumed.
 * `R` must be a non-empty rule pack.
 * [Equivalent] to `opt< R >` when `R...` is a single rule.
@@ -1238,9 +1240,9 @@ Note that the `S...` are ignored in the grammar analysis.
 * [Meta data] and [implementation] mapping:
   - `rep< 0, R... >::rule_t` is `internal::success`
   - `rep< N >::rule_t` is `internal::success`
-  - `rep< N, R >::rule_t` is `internal::rep< N, R >`
+  - `rep< N, R >::rule_t` is `internal::rep< N, R >` for `N > 0`
   - `rep< N, R >::subs_t` is `type_list< R >`
-  - `rep< N, R... >::rule_t` is `internal::rep< N, internal::seq< R... > >`
+  - `rep< N, R... >::rule_t` is `internal::rep< N, internal::seq< R... > >` for `N > 0`
   - `rep< N, R... >::subs_t` is `type_list< internal::seq< R... > >`
 
 ###### `rep_max< Max, R... >`
@@ -1287,10 +1289,11 @@ Note that the `S...` are ignored in the grammar analysis.
 * Matches `seq< R... >` for zero to `Num` times without check for further matches.
 * [Equivalent] to `rep< Num, opt< R... > >`.
 * [Meta data] and [implementation] mapping:
-  - `rep_opt< 0, R... >::rule_t` is `internal::success`
   - `rep_opt< Num >::rule_t` is `internal::success`
-  - `rep_opt< Num, R... >::rule_t` is `internal::seq< internal::rep< Num, R... >, internal::star< R... > >`
-  - `rep_opt< Num, R... >::subs_t` is `type_list< internal::rep< Num, R... >, internal::star< R... > >`
+  - `rep_opt< Num, R >::rule_t` is `internal::rep_opt< Num, R >` for `Num > 0`
+  - `rep_opt< Num, R >::subs_t` is `type_list< R >`
+  - `rep_opt< Num, R... >::rule_t` is `internal::rep_opt< Num, internal::seq< R... > >` for `Num > 0`
+  - `rep_opt< Num, R... >::subs_t` is `type_list< internal::seq< R... > >`
 
 ###### `separated< S, R... >`
 
@@ -1421,7 +1424,7 @@ These rules are in namespace `tao::pegtl`.
 * calls `R...` with `apply_mode::disabled`.
 * [Meta data] and [implementation] mapping:
   - `disable<>::rule_t` is `internal::success`
-  - `disable< R >::rule_t` is `internal::disable<, R >`
+  - `disable< R >::rule_t` is `internal::disable< R >`
   - `disable< R >::subs_t` is `type_list< R >`
   - `disable< R... >::rule_t` is `internal::disable< internal::seq< R... > >`
   - `disable< R... >::subs_t` is `type_list< internal::seq< R... > >`
@@ -1509,7 +1512,7 @@ Note that the `false` template parameter to `internal::if_must` corresponds to t
   - `must< R >::rule_t` is `internal::must< R >`
   - `must< R >::subs_t` is `type_list< R >`
   - `must< R... >::rule_t` is `internal::seq< internal::must< R >... >::rule_t`
-  - `must< R... >::subs_t` is `type_list< internal::must< R... > >`
+  - `must< R... >::subs_t` is `type_list< internal::must< R >... >`
 
 Note that `must` uses a different pattern to handle multiple sub-rules compared to the other `seq`-equivalent rules (which use `rule< seq< R... > >` rather than `seq< rule< R >... >`).
 
@@ -1675,7 +1678,7 @@ These rules are in namespace `tao::pegtl`.
 
 * Calls `A::apply()` for all `A`, in order, with an empty input and all states as arguments.
 * If any `A::apply()` has a boolean return type and returns `false`, no further `A::apply()` calls are made and the `apply< A... >` rule returns `false`, otherwise:
-* [Equivalent] to `success` wrt. parsing.
+* [Equivalent] to `success` with respect to parsing.
 * [Meta data] and [implementation] mapping:
   - `apply< A... >::rule_t` is `internal::apply< A... >`
 
@@ -1683,15 +1686,15 @@ These rules are in namespace `tao::pegtl`.
 
 * Calls `A::apply0()` for all `A`, in order, with all states as arguments.
 * If any `A::apply0()` has a boolean return type and returns `false`, no further `A::apply0()` calls are made and the `apply0< A... >` rule returns `false`, otherwise:
-* [Equivalent] to `success` wrt. parsing.
+* [Equivalent] to `success` with respect to parsing.
 * [Meta data] and [implementation] mapping:
   - `apply0< A... >::rule_t` is `internal::apply0< A... >`
 
 ###### `if_apply< R, A... >`
 
-* [Equivalent] to `seq< R, apply< A... > >` wrt. parsing, but also:
+* [Equivalent] to `seq< R, apply< A... > >` with respect to parsing, but also:
 * If `R` matches, calls `A::apply()`, for all `A`, in order, with the input matched by `R` and all states as arguments.
-* If any `A::apply()` has a boolean return type and returns `false`, no further `A::apply()` calls are made, the `if_apply< R, A... >` returns `false, and if the `rewind_mode` is `required` the input is rewound.
+* If any `A::apply()` has a boolean return type and returns `false`, no further `A::apply()` calls are made, the `if_apply< R, A... >` returns `false`, and if the `rewind_mode` is `required` the input is rewound.
 * [Meta data] and [implementation] mapping:
   - `if_apply< R, A... >::rule_t` is `internal::if_apply< R, A... >`
   - `if_apply< R, A... >::subs_t` is `type_list< R >`
@@ -1731,7 +1734,7 @@ Each of the above namespaces provides two basic rules for matching binary proper
 * `P` is a binary property defined by ICU, see [`UProperty`](http://icu-project.org/apiref/icu4c/uchar_8h.html).
 * `V` is a boolean value.
 * Succeeds when the input is not empty, and:
-* The next N input objects encode a valid unicode code point, and:
+* The next N input objects encode a valid Unicode code point, and:
 * The code point's property `P`, i.e. [`u_hasBinaryProperty( cp, P )`](http://icu-project.org/apiref/icu4c/uchar_8h.html), equals `V`.
 * Consumes the N input objects on success.
 
@@ -1744,7 +1747,7 @@ Each of the above namespaces provides two basic rules for matching binary proper
 * `P` is an enumerated property defined by ICU, see [`UProperty`](http://icu-project.org/apiref/icu4c/uchar_8h.html).
 * `V` is an integer value.
 * Succeeds when the input is not empty, and:
-* The next N input objects encode a valid unicode code point, and:
+* The next N input objects encode a valid Unicode code point, and:
 * The code point's property `P`, i.e. [`u_getIntPropertyValue( cp, P )`](http://icu-project.org/apiref/icu4c/uchar_8h.html), equals `V`.
 * Consumes the N input objects on success.
 
