@@ -9,14 +9,14 @@
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 #if TAO_PEGTL_COMPILE_ACCEPT
-using rule = pegtl::ranges< 'a', 'z' >;
+using rule = pegtl::not_ranges< 'a', 'z', '0', '9' >;
 #else
-// include/tao/pegtl/internal/range_not_range.hpp
-// static_assert( Lo < Hi );
-using rule = pegtl::ranges< 'z', 'a' >;
+// include/tao/pegtl/internal/ranges_not_ranges.hpp
+// static_assert( Lo <= Hi );
+using rule = pegtl::not_ranges< 'a', 'z', 'z', 'a' >;
 #endif
 
 int main()
 {
-   return rule::test( 'm' ) ? 0 : 1;
+   return rule::test( '_' ) ? 0 : 1;
 }

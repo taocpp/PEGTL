@@ -9,14 +9,15 @@
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 #if TAO_PEGTL_COMPILE_ACCEPT
-using rule = pegtl::ranges< 'a', 'z' >;
+using rule = pegtl::ione< 'a' >;
 #else
-// include/tao/pegtl/internal/range_not_range.hpp
-// static_assert( Lo < Hi );
-using rule = pegtl::ranges< 'z', 'a' >;
+// include/tao/pegtl/internal/ione_not_ione.hpp
+// static_assert( sizeof...( Cs ) > 0 );
+using rule = pegtl::ione<>;
 #endif
 
 int main()
 {
-   return rule::test( 'm' ) ? 0 : 1;
+   (void)sizeof( rule );
+   return 0;
 }

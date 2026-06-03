@@ -11,7 +11,7 @@ namespace pegtl = TAO_PEGTL_NAMESPACE;
 #if TAO_PEGTL_COMPILE_ACCEPT
 using rule = pegtl::range< 'a', 'z' >;
 #else
-// include/tao/pegtl/internal/range_impl.hpp
+// include/tao/pegtl/internal/range_not_range.hpp
 // static_assert( Lo < Hi );
 using rule = pegtl::range< 'z', 'a' >;
 #endif

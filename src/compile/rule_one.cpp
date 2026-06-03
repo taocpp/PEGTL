@@ -11,7 +11,7 @@ namespace pegtl = TAO_PEGTL_NAMESPACE;
 #if TAO_PEGTL_COMPILE_ACCEPT
 using rule = pegtl::one< 'a' >;
 #else
-// include/tao/pegtl/internal/terminal.hpp
+// include/tao/pegtl/internal/one_not_one.hpp
 // static_assert( sizeof...( Cs ) > 0 );
 using rule = pegtl::one<>;
 #endif
