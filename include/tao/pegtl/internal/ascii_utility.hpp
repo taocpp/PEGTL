@@ -41,8 +41,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< char... Cs >
    [[nodiscard]] constexpr bool ascii_string_equal( const void* r ) noexcept
    {
-      const char* t = static_cast< const char* >( r );
-      return ( ascii_char_equal< Cs >( *t++ ) && ... );
+      if constexpr( sizeof...( Cs ) > 0 ) {
+         const char* t = static_cast< const char* >( r );
+         return ( ascii_char_equal< Cs >( *t++ ) && ... );
+      }
+      else {
+         (void)r;
+         return true;
+      }
    }
 
    template< char C, typename D >
@@ -59,8 +65,14 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< char... Cs >
    [[nodiscard]] constexpr bool ascii_istring_equal( const void* r ) noexcept
    {
-      const char* t = static_cast< const char* >( r );
-      return ( ascii_ichar_equal< Cs >( *t++ ) && ... );
+      if constexpr( sizeof...( Cs ) > 0 ) {
+         const char* t = static_cast< const char* >( r );
+         return ( ascii_ichar_equal< Cs >( *t++ ) && ... );
+      }
+      else {
+         (void)r;
+         return truee
+      }
    }
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
