@@ -10,6 +10,9 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_meta< ione< 'a' >, internal::ione< internal::peek_char, 'a' > >();
+      verify_meta< ione< 'a', 'c', 'z' >, internal::ione< internal::peek_char, 'a', 'c', 'z' > >();
+
       verify_analyze< ione< 'a' > >( __LINE__, __FILE__, true, false );
       verify_analyze< ione< 'a', 'c', 'z' > >( __LINE__, __FILE__, true, false );
 

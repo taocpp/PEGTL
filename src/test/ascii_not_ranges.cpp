@@ -10,6 +10,12 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_meta< ascii::not_ranges< 'a' >, internal::not_one< internal::peek_char, 'a' > >();
+      verify_meta< ascii::not_ranges< 'a', 'a' >, internal::not_one< internal::peek_char, 'a' > >();
+      verify_meta< ascii::not_ranges< 'a', 'f' >, internal::not_range< internal::peek_char, 'a', 'f' > >();
+      verify_meta< ascii::not_ranges< 'a', 'f', '0' >, internal::not_ranges< internal::peek_char, 'a', 'f', '0' > >();
+      verify_meta< ascii::not_ranges< 'a', 'f', '0', '3' >, internal::not_ranges< internal::peek_char, 'a', 'f', '0', '3' > >();
+
       verify_analyze< ascii::not_ranges< 'a', 'f', '0', '3' > >( __LINE__, __FILE__, true, false );
       verify_analyze< ascii::not_ranges< 'a', 'f', '0', '3', '_' > >( __LINE__, __FILE__, true, false );
 

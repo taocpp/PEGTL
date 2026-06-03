@@ -7,9 +7,9 @@
 
 #include "../config.hpp"
 
+#include "ranges.hpp"
 #include "seq.hpp"
 #include "star.hpp"
-#include "terminal_aliases.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

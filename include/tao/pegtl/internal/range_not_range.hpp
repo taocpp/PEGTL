@@ -2,17 +2,17 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_RANGE_IMPL_HPP
-#define TAO_PEGTL_INTERNAL_RANGE_IMPL_HPP
+#ifndef TAO_PEGTL_INTERNAL_RANGE_NOT_RANGE_HPP
+#define TAO_PEGTL_INTERNAL_RANGE_NOT_RANGE_HPP
 
 #include "../config.hpp"
 
-#include "one_impl.hpp"
+#include "match_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
-   struct range_impl
+   template< match_mode I, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   struct range_not_range
    {
       static_assert( Lo < Hi );
 
@@ -21,14 +21,9 @@ namespace TAO_PEGTL_NAMESPACE::internal
       {
          using data_t = typename Peek::data_t;
          static_assert( sizeof( Data ) <= sizeof( data_t ) );
-         return ( ( Lo <= data_t( c ) ) && ( data_t( c ) <= Hi ) );
+         return ( ( Lo <= data_t( c ) ) && ( data_t( c ) <= Hi ) ) != bool( I );
       }
    };
-
-   template< typename Peek, typename Peek::data_t C >
-   struct range_impl< Peek, C, C >
-      : one_impl< Peek, C >
-   {};
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

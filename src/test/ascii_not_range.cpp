@@ -2,22 +2,57 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
+#include <type_traits>
+
 #include "test.hpp"
 #include "verify_char.hpp"
 #include "verify_meta.hpp"
+#include "verify_rule.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_meta< ascii::not_range7< 'a', 'a' >, internal::not_one< internal::peek_seven, 'a' > >();
+      verify_meta< ascii::not_range7< 'a', 'f' >, internal::not_range< internal::peek_seven, 'a', 'f' > >();
+
+      verify_meta< ascii::not_range< 'a', 'a' >, internal::not_one< internal::peek_char, 'a' > >();
+      verify_meta< ascii::not_range< 'a', 'f' >, internal::not_range< internal::peek_char, 'a', 'f' > >();
+
       verify_analyze< ascii::not_range7< 'a', 'f' > >( __LINE__, __FILE__, true, false );
       verify_analyze< ascii::not_range< 'a', 'f' > >( __LINE__, __FILE__, true, false );
 
-      for( int i = -100; i < 200; ++i ) {
+      verify_rule< ascii::not_range7< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+      verify_rule< ascii::not_range< 'a', 'z' > >( __LINE__, __FILE__, "", result_type::local_failure, 0 );
+
+      for( int i = 0; i < 128; ++i ) {
          const auto c = char( i );
+         const bool is_range = ( 20 <= c ) && ( c <= 120 );
 
          verify_char< ascii::not_range7< 'a', 'f' > >( __LINE__, __FILE__, c, ( ( c < 'a' ) || ( 'f' < c ) ) && ( ( c & 0x80 ) == 0 ) );
          verify_char< ascii::not_range< 'a', 'f' > >( __LINE__, __FILE__, c, ( ( c < 'a' ) || ( 'f' < c ) ) );
+         verify_char< ascii::not_range7< 20, 120 > >( __LINE__, __FILE__, c, !is_range );
+         verify_char< ascii::not_range< 20, 120 > >( __LINE__, __FILE__, c, !is_range );
+      }
+      if constexpr( std::is_unsigned_v< char > ) {
+         for( int i = 128; i < 256; ++i ) {
+            const auto c = char( i );
+
+            verify_char< ascii::not_range7< 'a', 'f' > >( __LINE__, __FILE__, c, false );
+            verify_char< ascii::not_range< 'a', 'f' > >( __LINE__, __FILE__, c, true );
+            verify_char< ascii::not_range7< 20, 120 > >( __LINE__, __FILE__, c, false );
+            verify_char< ascii::not_range< 20, 120 > >( __LINE__, __FILE__, c, true );
+         }
+      }
+      else {  // std::is_signed_v< char >
+         for( int i = -128; i < 0; ++i ) {
+            const auto c = char( i );
+
+            verify_char< ascii::not_range7< 'a', 'f' > >( __LINE__, __FILE__, c, false );
+            verify_char< ascii::not_range< 'a', 'f' > >( __LINE__, __FILE__, c, true );
+            verify_char< ascii::not_range7< 20, 120 > >( __LINE__, __FILE__, c, false );
+            verify_char< ascii::not_range< 20, 120 > >( __LINE__, __FILE__, c, true );
+         }
       }
    }
 

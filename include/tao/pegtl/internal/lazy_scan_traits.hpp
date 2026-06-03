@@ -15,8 +15,8 @@
 
 #include "has_eol_lazy_peek.hpp"
 #include "is_simple_type.hpp"
+#include "one.hpp"
 #include "scan_input.hpp"
-#include "terminal_aliases.hpp"
 #include "test_after_scan.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal

@@ -18,10 +18,11 @@
 
 #include "../example/escaped.hpp"
 
-#include "../internal/peek_direct.hpp"
-#include "../internal/terminal_aliases.hpp"
+#include "../ascii.hpp"
 
 #include "../unicode/utf8.hpp"
+
+#include "../internal/peek_direct.hpp"
 
 #include "../unicode/internal/utf16_details.hpp"
 #include "../unicode/internal/utf8_append.hpp"

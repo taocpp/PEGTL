@@ -38,7 +38,7 @@ namespace TAO_PEGTL_NAMESPACE
    template< auto Function, typename Peek = void > struct function : internal::function< Peek, decltype( Function ), Function > {};
    template< typename Rule, typename... Actions > struct if_apply : internal::if_apply< Rule, Actions... > {};
    template< typename Cond, typename Then, typename Else > struct if_then_else : internal::if_then_else< Cond, Then, Else > {};
-   template< typename Rule > struct invert : internal::invert< typename Rule::rule_t > {};
+   template< typename Rule > struct invert : internal::invert_traits< typename Rule::rule_t >::type {};
    template< typename Rule, typename Sep, typename Pad = void > struct list : internal::list< Rule, internal::pad< Sep, Pad > > {};
    template< typename Rule, typename Sep > struct list< Rule, Sep, void > : internal::list< Rule, Sep > {};
    template< typename Rule, typename Sep, typename Pad = void > struct list_tail : internal::list_tail_pad< Rule, Sep, Pad > {};

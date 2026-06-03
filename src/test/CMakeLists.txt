@@ -21,7 +21,7 @@ set(test_sources
   action_match_text.cpp
   action_match_typed_state.cpp
   apply_mode.cpp
-  ascii_atomics.cpp
+  ascii_any.cpp
   ascii_chars.cpp
   ascii_classes.cpp
   ascii_ellipsis.cpp
@@ -37,6 +37,7 @@ set(test_sources
   ascii_not_ranges.cpp
   ascii_one.cpp
   ascii_range.cpp
+  ascii_ranges.cpp
   ascii_shebang.cpp
   ascii_string.cpp
   ascii_three.cpp

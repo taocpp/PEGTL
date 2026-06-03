@@ -17,8 +17,9 @@
 #include "../parse_error.hpp"
 #endif
 
+#include "../ascii.hpp"
+
 #include "../internal/peek_direct.hpp"
-#include "../internal/terminal_aliases.hpp"
 
 #include "../unicode/internal/utf16_details.hpp"
 #include "../unicode/internal/utf8_append.hpp"

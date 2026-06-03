@@ -5,49 +5,30 @@
 #ifndef TAO_PEGTL_INTERNAL_TERMINAL_HPP
 #define TAO_PEGTL_INTERNAL_TERMINAL_HPP
 
-#include <type_traits>
-
 #include "../config.hpp"
 #include "../type_list.hpp"
 
-#include "enable_control.hpp"
-#include "match_mode.hpp"
-
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< match_mode, typename >
-   struct terminal;
-
-   template< match_mode I, template< typename Peek, typename Peek::data_t... Cs > class Impl, typename Peek, typename Peek::data_t... Cs >
-   struct terminal< I, Impl< Peek, Cs... > >
+   template< typename Rule, typename Peek >
+   struct terminal
    {
-      using peek_t = Peek;
-      using rule_t = terminal;
+      using rule_t = Rule;
       using subs_t = empty_list;
-
-      static_assert( sizeof...( Cs ) > 0 );
-
-      template< typename Data >
-      [[nodiscard]] static constexpr bool test( const Data c ) noexcept
-      {
-         return Impl< Peek, Cs... >::test( c ) != bool( I );
-      }
+      using peek_t = Peek;
 
       template< typename ParseInput >
       [[nodiscard]] static bool match( ParseInput& in )
       {
          if( const auto t = Peek::peek( in ) ) {
-            if( test( t.data() ) ) {
-               in.template consume< terminal >( t.size() );
+            if( Rule::test( t.data() ) ) {
+               in.template consume< Rule >( t.size() );
                return true;
             }
          }
          return false;
       }
    };
-
-   template< match_mode I, typename Impl >
-   inline constexpr bool enable_control< terminal< I, Impl > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

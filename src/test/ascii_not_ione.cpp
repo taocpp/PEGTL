@@ -10,6 +10,12 @@ namespace TAO_PEGTL_NAMESPACE
 {
    void unit_test()
    {
+      verify_meta< ascii::not_ione7< 'a' >, internal::not_ione< internal::peek_seven, 'a' > >();
+      verify_meta< ascii::not_ione7< 'a', 'c', 'z' >, internal::not_ione< internal::peek_seven, 'a', 'c', 'z' > >();
+
+      verify_meta< ascii::not_ione< 'a' >, internal::not_ione< internal::peek_char, 'a' > >();
+      verify_meta< ascii::not_ione< 'a', 'c', 'z' >, internal::not_ione< internal::peek_char, 'a', 'c', 'z' > >();
+
       verify_analyze< ascii::not_ione7< 'a' > >( __LINE__, __FILE__, true, false );
       verify_analyze< ascii::not_ione7< 'a', 'c', 'z' > >( __LINE__, __FILE__, true, false );
 

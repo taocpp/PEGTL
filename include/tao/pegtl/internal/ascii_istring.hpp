@@ -12,10 +12,10 @@
 
 #include "ascii_utility.hpp"
 #include "enable_control.hpp"
+#include "ione.hpp"
 #include "is_simple_type.hpp"
 #include "peek_direct.hpp"
 #include "success.hpp"
-#include "terminal_aliases.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

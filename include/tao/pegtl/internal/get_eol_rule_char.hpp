@@ -9,7 +9,7 @@
 
 #include "../config.hpp"
 
-#include "terminal_aliases.hpp"
+#include "one.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {

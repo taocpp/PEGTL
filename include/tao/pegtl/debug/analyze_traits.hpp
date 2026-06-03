@@ -162,6 +162,11 @@ namespace TAO_PEGTL_NAMESPACE
       : analyze_traits< Name, typename internal::sor< internal::seq< Cond, Then >, Else >::rule_t >
    {};
 
+   template< typename Name, typename Peek, typename Peek::data_t... Cs >
+   struct analyze_traits< Name, internal::ione< Peek, Cs... > >
+      : analyze_any_traits<>
+   {};
+
    template< typename Name, std::size_t Count, typename Peek >
    struct analyze_traits< Name, internal::many< Count, Peek > >
       : std::conditional_t< ( Count != 0 ), analyze_any_traits<>, analyze_opt_traits<> >
@@ -170,6 +175,31 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::not_at< Rules... > >
       : analyze_opt_traits< Rules... >
+   {};
+
+   template< typename Name, typename Peek, typename Peek::data_t... Cs >
+   struct analyze_traits< Name, internal::not_ione< Peek, Cs... > >
+      : analyze_any_traits<>
+   {};
+
+   template< typename Name, typename Peek, typename Peek::data_t... Cs >
+   struct analyze_traits< Name, internal::not_one< Peek, Cs... > >
+      : analyze_any_traits<>
+   {};
+
+   template< typename Name, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   struct analyze_traits< Name, internal::not_range< Peek, Lo, Hi > >
+      : analyze_any_traits<>
+   {};
+
+   template< typename Name, typename Peek, typename Peek::data_t... Cs >
+   struct analyze_traits< Name, internal::not_ranges< Peek, Cs... > >
+      : analyze_any_traits<>
+   {};
+
+   template< typename Name, typename Peek, typename Peek::data_t... Cs >
+   struct analyze_traits< Name, internal::one< Peek, Cs... > >
+      : analyze_any_traits<>
    {};
 
    template< typename Name, typename... Rules >
@@ -185,6 +215,16 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Name, typename... Rules >
    struct analyze_traits< Name, internal::plus< Rules... > >
       : analyze_traits< Name, typename internal::seq< Rules..., internal::opt< Name > >::rule_t >
+   {};
+
+   template< typename Name, typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi >
+   struct analyze_traits< Name, internal::range< Peek, Lo, Hi > >
+      : analyze_any_traits<>
+   {};
+
+   template< typename Name, typename Peek, typename Peek::data_t... Cs >
+   struct analyze_traits< Name, internal::ranges< Peek, Cs... > >
+      : analyze_any_traits<>
    {};
 
    template< typename Name, typename Head, typename... Rules >
@@ -256,11 +296,6 @@ namespace TAO_PEGTL_NAMESPACE
    template< typename Name >
    struct analyze_traits< Name, internal::success >
       : analyze_opt_traits<>
-   {};
-
-   template< typename Name, internal::match_mode I, typename Impl >
-   struct analyze_traits< Name, internal::terminal< I, Impl > >
-      : analyze_any_traits<>
    {};
 
    template< typename Name, bool Optional, typename... Rules >
