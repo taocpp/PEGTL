@@ -8,10 +8,12 @@
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-struct action_rule : pegtl::one< 'a' >
+struct action_rule
+   : pegtl::one< 'a' >
 {};
 
-struct grammar : pegtl::must< action_rule, pegtl::eof >
+struct grammar
+   : pegtl::must< action_rule, pegtl::eof >
 {};
 
 template< typename Rule >
@@ -21,18 +23,20 @@ struct action
 
 template<>
 struct action< action_rule >
-{
 #if TAO_PEGTL_COMPILE_ACCEPT
+   : pegtl::maybe_nothing
+#else
+// include/tao/pegtl/match.hpp
+// static_assert( !( has_apply0 && is_nothing ), "Unexpected apply0() detected in action!" );
+   : pegtl::nothing< action_rule >
+#endif
+{
    static void apply0()
    {}
-#endif
 };
 
 int main()
 {
-#if TAO_PEGTL_COMPILE_REJECT
-   // include/tao/pegtl/match.hpp
-   // static_assert( !enable_action || !validate_nothing || is_nothing || is_maybe_nothing || has_apply || has_apply0, "Either apply() or apply0() must be defined in action!" );
-#endif
-   return pegtl::parse< grammar, action >( pegtl::text_view_input< pegtl::scan::lf >( "a" ) ) ? 0 : 1;
+   pegtl::text_view_input in( "a" );
+   return pegtl::parse< grammar, action >( in ) ? 0 : 1;
 }

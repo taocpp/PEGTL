@@ -11,6 +11,8 @@ namespace pegtl = TAO_PEGTL_NAMESPACE;
 #if TAO_PEGTL_COMPILE_ACCEPT
 using input = pegtl::array_cstring_input< pegtl::tao_stream_eol, void, void, 8, 4 >;
 #else
+// include/tao/pegtl/stream/array_buffer.hpp
+// static_assert( Chunk > 0 );
 using input = pegtl::array_cstring_input< pegtl::tao_stream_eol, void, void, 8, 0 >;
 #endif
 

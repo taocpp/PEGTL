@@ -4,20 +4,22 @@
 
 #include "test.hpp"
 
+#include <string>
+
 #include <tao/pegtl.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 #if TAO_PEGTL_COMPILE_ACCEPT
-using rule = pegtl::one< 'a' >;
+using input = pegtl::text_view_input< pegtl::default_eol, char, std::string, std::string >;
 #else
-// include/tao/pegtl/internal/terminal.hpp
-// static_assert( sizeof...( Cs ) > 0 );
-using rule = pegtl::one<>;
+// include/tao/pegtl/internal/text_input_with_source.hpp
+// static_assert( std::is_same_v< InputSource, ErrorSource >, "TODO?" );
+using input = pegtl::text_view_input< pegtl::default_eol, char, std::string, int >;
 #endif
 
 int main()
 {
-   (void)sizeof( rule );
+   (void)sizeof( input );
    return 0;
 }

@@ -4,16 +4,16 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl.hpp>
+#include <tao/pegtl/extra/charconv.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 #if TAO_PEGTL_COMPILE_ACCEPT
-using rule = pegtl::one< 'a' >;
+using rule = pegtl::from_chars_nothrow< int >;
 #else
-// include/tao/pegtl/internal/terminal.hpp
-// static_assert( sizeof...( Cs ) > 0 );
-using rule = pegtl::one<>;
+// include/tao/pegtl/extra/internal/charconv.hpp
+// static_assert( std::is_integral_v< Integral > );
+using rule = pegtl::from_chars_nothrow< double >;
 #endif
 
 int main()

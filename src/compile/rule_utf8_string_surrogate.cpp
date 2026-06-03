@@ -11,6 +11,9 @@ namespace pegtl = TAO_PEGTL_NAMESPACE;
 #if TAO_PEGTL_COMPILE_ACCEPT
 using rule = pegtl::utf8::string< 0x20ac >;
 #else
+// include/tao/pegtl/unicode/internal/utf32_to_utf8.hpp
+// template< template< char... > class String, char32_t C, typename = void >
+// struct utf32_to_utf8_char;
 using rule = pegtl::utf8::string< 0xd800 >;
 #endif
 

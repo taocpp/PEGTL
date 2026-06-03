@@ -11,6 +11,8 @@ namespace pegtl = TAO_PEGTL_NAMESPACE;
 #if TAO_PEGTL_COMPILE_ACCEPT
 using rule = pegtl::rep_min_max< 1, 2, pegtl::any >;
 #else
+// include/tao/pegtl/internal/rep_min_max.hpp
+// static_assert( Min <= Max );
 using rule = pegtl::rep_min_max< 2, 1, pegtl::any >;
 #endif
 

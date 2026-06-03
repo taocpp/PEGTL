@@ -8,10 +8,12 @@
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
-struct action_rule : pegtl::one< 'a' >
+struct action_rule
+   : pegtl::one< 'a' >
 {};
 
-struct grammar : pegtl::must< action_rule, pegtl::eof >
+struct grammar
+   : pegtl::must< action_rule, pegtl::eof >
 {};
 
 template< typename Rule >
@@ -22,7 +24,13 @@ struct action
 template<>
 struct action< action_rule >
 {
-#if TAO_PEGTL_COMPILE_ACCEPT
+   template< typename ActionInput >
+   static void apply( const ActionInput& /*unused*/ )
+   {}
+
+#if TAO_PEGTL_COMPILE_REJECT
+   // include/tao/pegtl/match.hpp
+   // static_assert( !( has_apply && has_apply0 ), "Both apply() and apply0() detected in action!" );
    static void apply0()
    {}
 #endif
@@ -30,9 +38,6 @@ struct action< action_rule >
 
 int main()
 {
-#if TAO_PEGTL_COMPILE_REJECT
-   // include/tao/pegtl/match.hpp
-   // static_assert( !enable_action || !validate_nothing || is_nothing || is_maybe_nothing || has_apply || has_apply0, "Either apply() or apply0() must be defined in action!" );
-#endif
-   return pegtl::parse< grammar, action >( pegtl::text_view_input< pegtl::scan::lf >( "a" ) ) ? 0 : 1;
+   pegtl::text_view_input in( "a" );
+   return pegtl::parse< grammar, action >( in ) ? 0 : 1;
 }

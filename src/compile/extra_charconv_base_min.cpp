@@ -4,16 +4,16 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl.hpp>
+#include <tao/pegtl/extra/charconv.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 #if TAO_PEGTL_COMPILE_ACCEPT
-using rule = pegtl::one< 'a' >;
+using rule = pegtl::from_chars_nothrow< int, 10 >;
 #else
-// include/tao/pegtl/internal/terminal.hpp
-// static_assert( sizeof...( Cs ) > 0 );
-using rule = pegtl::one<>;
+// include/tao/pegtl/extra/charconv.hpp
+// static_assert( Base >= 2 );
+using rule = pegtl::from_chars_nothrow< int, 1 >;
 #endif
 
 int main()

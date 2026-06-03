@@ -4,18 +4,20 @@
 
 #include "test.hpp"
 
-#include <tao/pegtl/extra/charconv.hpp>
+#include <tao/pegtl/extra/unescape.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 #if TAO_PEGTL_COMPILE_ACCEPT
-using rule = pegtl::from_chars_nothrow< int, 10 >;
+using action = pegtl::unescape_char< '\n' >;
 #else
-using rule = pegtl::from_chars_nothrow< int, 1 >;
+// include/tao/pegtl/extra/unescape.hpp
+// static_assert( sizeof...( Rs ) > 0 );
+using action = pegtl::unescape_char<>;
 #endif
 
 int main()
 {
-   (void)sizeof( rule );
+   (void)sizeof( action );
    return 0;
 }

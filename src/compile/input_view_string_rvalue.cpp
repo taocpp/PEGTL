@@ -4,7 +4,7 @@
 
 #include "test.hpp"
 
-#include <utility>
+#include <string>
 
 #include <tao/pegtl.hpp>
 
@@ -12,13 +12,13 @@ namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 int main()
 {
-   pegtl::text_view_input in( "" );
 #if TAO_PEGTL_COMPILE_ACCEPT
-   return pegtl::parse< pegtl::eof >( std::move( in ) ) ? 0 : 1;
+   std::string data = "a";
+   pegtl::view_input in( data );
 #else
-   const auto const_in = std::move( in );
-   // include/tao/pegtl/parse.hpp
-   // static_assert( !std::is_const_v< ParseInput > );
-   return pegtl::parse< pegtl::eof >( std::move( const_in ) ) ? 0 : 1;
+   // include/tao/pegtl/internal/view_input.hpp
+   // view_input( std::string&& ) = delete;
+   pegtl::view_input in{ std::string( "a" ) };
 #endif
+   return in.size() == 1 ? 0 : 1;
 }

@@ -4,20 +4,22 @@
 
 #include "test.hpp"
 
+#include <string>
+
 #include <tao/pegtl.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 #if TAO_PEGTL_COMPILE_ACCEPT
-using rule = pegtl::one< 'a' >;
+using position = pegtl::position_with_source< std::string, pegtl::pointer_position< char > >;
 #else
-// include/tao/pegtl/internal/terminal.hpp
-// static_assert( sizeof...( Cs ) > 0 );
-using rule = pegtl::one<>;
+// include/tao/pegtl/position_with_source.hpp
+// static_assert( std::is_same_v< Source, std::decay_t< Source > > );
+using position = pegtl::position_with_source< const std::string, pegtl::pointer_position< char > >;
 #endif
 
 int main()
 {
-   (void)sizeof( rule );
+   (void)sizeof( position );
    return 0;
 }

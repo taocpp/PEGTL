@@ -12,13 +12,14 @@ namespace pegtl = TAO_PEGTL_NAMESPACE;
 
 int main()
 {
+   pegtl::text_view_input ambient( "" );
    pegtl::text_view_input in( "" );
 #if TAO_PEGTL_COMPILE_ACCEPT
-   return pegtl::parse< pegtl::eof >( std::move( in ) ) ? 0 : 1;
+   return pegtl::parse_nested< pegtl::eof >( ambient, std::move( in ) ) ? 0 : 1;
 #else
    const auto const_in = std::move( in );
-   // include/tao/pegtl/parse.hpp
+   // include/tao/pegtl/parse_nested.hpp
    // static_assert( !std::is_const_v< ParseInput > );
-   return pegtl::parse< pegtl::eof >( std::move( const_in ) ) ? 0 : 1;
+   return pegtl::parse_nested< pegtl::eof >( ambient, std::move( const_in ) ) ? 0 : 1;
 #endif
 }

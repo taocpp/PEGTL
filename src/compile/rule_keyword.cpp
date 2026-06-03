@@ -4,21 +4,20 @@
 
 #include "test.hpp"
 
-#include <utility>
-
 #include <tao/pegtl.hpp>
 
 namespace pegtl = TAO_PEGTL_NAMESPACE;
 
+#if TAO_PEGTL_COMPILE_ACCEPT
+using rule = pegtl::keyword< 'i', 'f' >;
+#else
+// include/tao/pegtl/ascii.hpp
+// static_assert( sizeof...( Cs ) > 0 );
+using rule = pegtl::keyword<>;
+#endif
+
 int main()
 {
-   pegtl::text_view_input in( "" );
-#if TAO_PEGTL_COMPILE_ACCEPT
-   return pegtl::parse< pegtl::eof >( std::move( in ) ) ? 0 : 1;
-#else
-   const auto const_in = std::move( in );
-   // include/tao/pegtl/parse.hpp
-   // static_assert( !std::is_const_v< ParseInput > );
-   return pegtl::parse< pegtl::eof >( std::move( const_in ) ) ? 0 : 1;
-#endif
+   (void)sizeof( rule );
+   return 0;
 }

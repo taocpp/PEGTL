@@ -14,6 +14,8 @@ namespace pegtl = TAO_PEGTL_NAMESPACE;
 #if TAO_PEGTL_COMPILE_ACCEPT
 using input = pegtl::copy_input< pegtl::default_eol, std::string >;
 #else
+// include/tao/pegtl/internal/copy_input.hpp
+// static_assert( !std::is_same_v< Container, std::string_view > );
 using input = pegtl::copy_input< pegtl::default_eol, std::string_view >;
 #endif
 
