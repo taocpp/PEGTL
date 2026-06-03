@@ -6,6 +6,7 @@
 
 #include <iostream>
 #include <string>
+#include <typeinfo>
 
 #define TAO_PEGTL_STRINGIFY( a ) TAO_PEGTL_STRINGIFY_IMPL( a )
 #define TAO_PEGTL_STRINGIFY_IMPL( a ) #a
@@ -23,16 +24,20 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( d == s );
    }
 
+   template< typename T >
+   void test_typeid()
+   {
+      test1< T >( typeid( T ).name() );
+   }
+
    void unit_test()
    {
       const std::string ns = TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE );
-#if !defined( __clang__ ) && defined( __GNUC__ ) && ( __GNUC__ == 9 ) && ( __GNUC_MINOR__ <= 2 )
+#if !defined( __clang__ ) && defined( __GNUC__ ) && ( ( ( __GNUC__ == 9 ) && ( __GNUC_MINOR__ <= 2 ) ) || ( __GNUC__ == 16 ) )
       // See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155
-      test1< int >( "i" );
-      test1< double >( "d" );
-      if( ns == "tao::pegtl" ) {
-         test1< seq< many7< 42 >, eof > >( "N3tao5pegtl3seqIJNS0_5many7ILj42EEENS0_3eofEEEE" );
-      }
+      test_typeid< int >();
+      test_typeid< double >();
+      test_typeid< seq< consume< 42 >, eof > >();
 #elif defined( _MSC_VER ) && !defined( __clang__ )
       test1< int >( "int" );
       test1< double >( "double" );
