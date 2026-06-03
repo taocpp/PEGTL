@@ -88,14 +88,14 @@ template< template< typename... > class Control = normal >
 struct input_control_n
 {
    template< typename Rule >
-   using type = state_control_r< Control, Rule >;
+   using type = input_control_r< Control, Rule >;
 };
 ```
 
 The `input_control` will make calls to the input's control functions only when the static member variable `template< typename Rule > static constexpr bool enable` is `true` for the current `Rule`.
 This is independent of the usual way `other_control< Rule >::enable` is used to decide whether to call regular control functions.
 
-The control functions in the input are similar to their normal control functions counterparts, however there are differences in invocation.
+The control functions in the input are similar to their normal control function counterparts, however there are differences in invocation.
 
 1. Normal control functions are `static`, input control functions are non-static member functions.
 2. Normal control functions are invoked as `Control< Rule >::function()` while input control functions as `in.function< Rule >()` assuming that `in` is the current `ParseInput` object.
@@ -500,7 +500,7 @@ struct state_control_n
 The `state_control` will make calls to the first state's control functions only when the static member variable `template< typename Rule > static constexpr bool enable` is `true` for the current `Rule`.
 This is independent of the usual way `other_control< Rule >::enable` is used to decide whether to call regular control functions.
 
-The control functions in the input are similar to their normal control functions counterparts, however there are differences in invocation.
+The control functions in the first state are similar to their normal control function counterparts, however there are differences in invocation.
 
 1. Normal control functions are `static`, state control functions are non-static member functions.
 2. Normal control functions are invoked as `Control< Rule >::function()` while state control functions as `st.function< Rule >()` assuming that `st` is the current first state.

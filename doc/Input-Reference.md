@@ -481,7 +481,7 @@ copy_input( String&&, const std::initializer_list< data_t >& ) -> copy_input< de
 * Implemented with `mmap_input` when available, and `read_input` as fallback.
 * [With start](Inputs-and-Parsing.md#inputs-with-start).
 * [With lines](Inputs-and-Parsing.md#inputs-with-lines) (by default).
-* [With source](Inputs-and-Parsing.md#inputs-with-source) types `std::filesysten::path`.
+* [With source](Inputs-and-Parsing.md#inputs-with-source) types `std::filesystem::path`.
 * Like [`text_file_input`](#text-file-input) but without lines and columns in the position.
 
 #### Exposition
@@ -503,7 +503,7 @@ file_input( Args...&& ) -> file_input< default_eol >;
 * Reads the whole file into a `std::string`.
 * [With start](Inputs-and-Parsing.md#inputs-with-start).
 * [With lines](Inputs-and-Parsing.md#inputs-with-lines) (by default).
-* [With source](Inputs-and-Parsing.md#inputs-with-source) types `std::filesysten::path`.
+* [With source](Inputs-and-Parsing.md#inputs-with-source) types `std::filesystem::path`.
 * Like [`text_read_input`](#text-read-input) but without lines and columns in the position.
 
 #### Exposition
@@ -546,7 +546,7 @@ read_input( Args...&& ) -> read_input< default_eol >;
 * Only available on systems with Posix *mmap* and Windows.
 * [With start](Inputs-and-Parsing.md#inputs-with-start).
 * [With lines](Inputs-and-Parsing.md#inputs-with-lines) (by default).
-* [With source](Inputs-and-Parsing.md#inputs-with-source) types `std::filesysten::path`.
+* [With source](Inputs-and-Parsing.md#inputs-with-source) types `std::filesystem::path`.
 * Like [`text_mmap_input`](#text-mmap-input) but without lines and columns in the position.
 
 #### Exposition
@@ -866,7 +866,7 @@ text_copy_input( String&&, const std::initializer_list< Data >& ) -> text_copy_i
 * Implemented with `text_mmap_input` when available, and `text_read_input` as fallback.
 * [With start](Inputs-and-Parsing.md#inputs-with-start).
 * [With lines](Inputs-and-Parsing.md#inputs-with-lines) (by default).
-* [With source](Inputs-and-Parsing.md#inputs-with-source) types `std::filesysten::path`.
+* [With source](Inputs-and-Parsing.md#inputs-with-source) types `std::filesystem::path`.
 * Like [`file_input`](#file-input) but with lines and columns in the position.
 
 ```c++
@@ -888,7 +888,7 @@ text_file_input( Args...&& ) -> text_file_input< default_eol >;
 * Reads the whole file into a `std::string`.
 * [With start](Inputs-and-Parsing.md#inputs-with-start).
 * [With lines](Inputs-and-Parsing.md#inputs-with-lines) (by default).
-* [With source](Inputs-and-Parsing.md#inputs-with-source) types `std::filesysten::path`.
+* [With source](Inputs-and-Parsing.md#inputs-with-source) types `std::filesystem::path`.
 * Like [`read_input`](#read-input) but with lines and columns in the position.
 
 #### Exposition
@@ -931,7 +931,7 @@ text_read_input( Args...&& ) -> text_read_input< default_eol >;
 * Only available on systems with Posix `mmap(2)` (and Windows).
 * [With start](Inputs-and-Parsing.md#inputs-with-start).
 * [With lines](Inputs-and-Parsing.md#inputs-with-lines) (by default).
-* [With source](Inputs-and-Parsing.md#inputs-with-source) types `std::filesysten::path`.
+* [With source](Inputs-and-Parsing.md#inputs-with-source) types `std::filesystem::path`.
 * Like [`mmap_input`](#mmap-input) but with lines and columns in the position.
 
 #### Exposition

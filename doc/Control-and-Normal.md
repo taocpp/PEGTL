@@ -40,7 +40,7 @@ A **control** is a class that adheres to an informal control interface and is in
 ## Introduction
 
 The control has functions that are called on many occasions during a parsing run.
-These control functionality can be customized for multiple reasons, most prominently to
+This control functionality can be customized for multiple reasons, most prominently to
 
 * obtain some debug or trace information from a parsing run, or
 * customize and/or extend some behavior of a parsing run.

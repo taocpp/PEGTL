@@ -653,7 +653,7 @@ Semantic versioning was introduced with version 1.0.0.
 * ~~There is no distinction between actions that require access to the matched data and those that don't, furthermore~~:
 * The object via which actions gain access to the matched data is similar to that which rules receive ~~so actions can easily invoke another grammar on the matched data.~~
 * The `at<>` and `not_at<>` rules now call their subordinate rules with actions disabled.
-* The variadic `states...` arguments that are passed through all rule invocations for use by the actions are *not* forwarded with `std::forward<>` anymore since it (usually) doesn't make much sense to move them, and accidentially moving multiple times was a possible error scenario.
+* The variadic `states...` arguments that are passed through all rule invocations for use by the actions are *not* forwarded with `std::forward<>` anymore since it (usually) doesn't make much sense to move them, and accidentally moving multiple times was a possible error scenario.
 * There are now five different `rep` rules for repeating a sequence of rules with more control over the acceptable or required number of repetitions.
 * There are new rules `try_catch<>` and `try_catch_type<>` that convert global errors, i.e. exceptions, into local errors, i.e. a return value of `false`.
 * Unified concept for actions and debug hooks, i.e. just like the actions are called from a class template that is passed into the top-level `parse()` function, there is another class template that is called for debug/trace and error throwing purposes; both can be changed at any point within the grammar.
@@ -736,7 +736,7 @@ The last of these changes effectively requires custom action classes to derive e
 
 * Cleaned up the source to compile with `-std=c++0x -pedantic` (compliance).
 * Cleaned out some superfluous compiler flags from the Makefile (minimalism).
-* Changed the default compiler to `g++`, which can be overriden by `$CXX` (consistency).
+* Changed the default compiler to `g++`, which can be overridden by `$CXX` (consistency).
 * Cleaned up unittests for where `char` is signed but `-fno-strict-overflow` is not given (compliance).
 * Removed `list/not_list/at_list/at_not_list`, but `one/not_one/at_one/at_not_one` are now variadic (orthogonality).
 * Removed the redundant rules `space_star`, `space_plus`, `blank_star`, and `blank_plus` (minimalism).

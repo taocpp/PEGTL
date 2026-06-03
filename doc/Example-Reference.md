@@ -121,7 +121,7 @@ A small example that provokes the [grammar analysis](Debug-Facilities.md#grammar
 
 ###### [`behavior.cpp`](../src/example/behavior.cpp)
 
-Generates the tables for the [rule comparisons](Rules-and-Grammars.md#rule-comparisons) on the [rule and grammars](Rules-and-Grammars.md) page.
+Generates the tables for the [rule comparisons](Rules-and-Grammars.md#rule-comparisons) on the [rules and grammars](Rules-and-Grammars.md) page.
 
 ###### [`calculator.cpp`](../src/example/calculator.cpp)
 
@@ -161,7 +161,7 @@ Shows a rule that uses run-time information to decide a match with a grammar sim
 
 ###### [`expression.cpp`](../src/example/expression.cpp)
 
-A work-in-progress expression evaulation example that supports prefix, infix and postfix operators as well as the ternary operator. The set of operators and their precedences can be easily adapted.
+A work-in-progress expression evaluation example that supports prefix, infix and postfix operators as well as the ternary operator. The set of operators and their precedences can be easily adapted.
 
 ###### [`hello_world.cpp`](../src/example/hello_world.cpp)
 

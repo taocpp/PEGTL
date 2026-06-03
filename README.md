@@ -16,7 +16,7 @@ The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency [C+
 
 ## Documentation
 
-* [Main Branch](https://github.com/taocpp/PEGTL/doc/README.md) &nbsp; <sup>[C++17](https://en.cppreference.com/w/cpp/17.html)</sup>
+* [Main Branch](https://github.com/taocpp/PEGTL/blob/main/doc/README.md) &nbsp; <sup>[C++17](https://en.cppreference.com/w/cpp/17.html)</sup>
 * [Version 3.x Branch](https://github.com/taocpp/PEGTL/blob/3.x/doc/README.md) &nbsp; <sup>[C++17](https://en.cppreference.com/w/cpp/17.html)</sup>
 * [Version 2.x Branch](https://github.com/taocpp/PEGTL/blob/2.x/doc/README.md) &nbsp; <sup>[C++11](https://en.cppreference.com/w/cpp/11.html)</sup>
 * [Version 1.x Branch](https://github.com/taocpp/PEGTL/blob/1.x/doc/README.md) &nbsp; <sup>[C++11](https://en.cppreference.com/w/cpp/11.html)</sup>
@@ -26,8 +26,8 @@ The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency [C+
 
 Grammars are written as regular C++ code, created with template programming (not template meta programming), i.e. nested template instantiations that naturally correspond to the inductive definition of PEGs (and other parser-combinator approaches).
 
-A comprehensive set of [parser rules](doc/Rule-Reference.md) that can be combined and extended by the user is included, as are mechanisms for [debugging grammars](doc/Debug-Reference.md), and for attaching user-defined [actions](doc/Actions-and-States.md) to grammar rules.
-Here is an example of a parsing expression [grammar rule](doc/Rules-and-Grammars.md) implemented as C++ class with the PEGTL.
+A comprehensive set of [parser rules](doc/Rule-Reference.md) that can be combined and extended by the user is included, as are mechanisms for [debugging grammars](doc/Debug-Facilities.md), and for attaching user-defined [actions](doc/Actions-and-States.md) to grammar rules.
+Here is an example of a parsing expression [grammar rule](doc/Rules-and-Grammars.md) implemented as a C++ class with the PEGTL.
 
 ```c++
 // PEG rule for integers consisting of a non-empty
@@ -45,7 +45,7 @@ struct integer : seq< opt< sign >, plus< digit > > {};
 ```
 
 PEGs are superficially similar to [Context-Free Grammars](https://en.wikipedia.org/wiki/Context-free_grammar) (CFGs), however the more deterministic nature of PEGs gives rise to some very important differences in semantics.
-The included [grammar analysis](doc/Grammar-Analysis.md) finds several typical errors in PEGs, including [left recursion](https://en.wikipedia.org/wiki/Left_recursion).
+The included [grammar analysis](doc/Debug-Facilities.md#grammar-analysis) finds several typical errors in PEGs, including [left recursion](https://en.wikipedia.org/wiki/Left_recursion).
 
 
 ## Design
@@ -57,7 +57,7 @@ Emphasis is on simplicity and efficiency, putting a well-tuned *relatively* simp
 The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user of the library (the possibility of) full control over all other aspects of a parsing run.
 Whether/which actions are taken, and whether/which data structures are created during a parsing run, is entirely up to the user.
 
-Included are some [examples](doc/Contrib-and-Examples.md#examples) for typical situation like parsing integers, unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
+Included are some [examples](doc/Example-Reference.md) for typical situations like parsing integers, unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
 
 Through the use of template programming and template specialisations it is possible to write a grammar once, and use it in multiple ways with different (semantic) actions in different (or the same) parsing runs.
 
@@ -72,7 +72,7 @@ Each commit is automatically tested with multiple architectures, operating syste
 Each commit is checked with the GCC and Clang [sanitizers](https://github.com/google/sanitizers), Clang's [Static Analyzer](https://clang-analyzer.llvm.org/), and [`clang-tidy`](http://clang.llvm.org/extra/clang-tidy/).
 Additionally, we use [CodeQL](https://securitylab.github.com/tools/codeql) to scan for (security) issues.
 
-Code coverage is automatically measured, for releases the unit tests cover 100% of the core library (with the caveat that coverage of C++ code, expecially with many templates, is not an exact science.)
+Code coverage is automatically measured, for releases the unit tests cover 100% of the core library (with the caveat that coverage of C++ code, especially with many templates, is not an exact science.)
 
 [Releases](https://github.com/taocpp/PEGTL/releases) are done in accordance with [Semantic Versioning](http://semver.org/).
 Incompatible changes to the public API are *only* allowed to occur with a new major version.

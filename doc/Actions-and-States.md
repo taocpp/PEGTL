@@ -37,11 +37,11 @@ To do something useful with the information gathered during a parsing run it is 
 
 This page explains semantic actions, how they are attached to a grammar, and how they can be passed data to operate on.
 
-Actions are functions that are called during the parsing run whenever the rule they are attached to successfully matched.
+Actions are functions that are called during the parsing run whenever the rule they are attached to matches successfully.
 When an action is thus *applied*, the corresponding function receives the *states*, an arbitrary list of (user-defined) objects, as arguments.
 
 This is the primary role of actions and the most prevalent of their use cases.
-In a distinct role an action can be used to [change the matching behavior](#match) of the rule they are attached to.
+In a distinct role an action can be used to [change the matching behavior](#match) of the rule it is attached to.
 These two roles should **not** be mixed.
 Most of this document focuses on the primary role.
 
@@ -587,7 +587,7 @@ One solution is to rewrite `R` as `R' = seq< A, sor< B, C > >` where of course a
 
 Another solution is to undo the effects of the Action attached to `A` in case the encompassing `seq< A, B >` (or `seq< A, C >`) fail.
 
-The advantage of this approach is that the implementation of the Action for `A` can pretend that is only called when really needed.
+The advantage of this approach is that the implementation of the Action for `A` can pretend that it is only called when really needed.
 The disadvantage is that there is no function on the Action that is called in the case of failure which requires the user to either write a custom `match()` function in the Action for `seq< A, B >` or to implement the `failure()` function in a custom [Control class](Control-and-Normal.md).
 
 #### Manual Commit

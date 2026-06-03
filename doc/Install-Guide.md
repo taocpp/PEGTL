@@ -318,7 +318,7 @@ $ sed -i 's/TAO_PEGTL_/MYLIB_PEGTL_/g' $(find -name '[^.]*.[hc]pp')
 
 The above command needs to run from the top-level directory of the embedded
 PEGTL. Additionally, `MYLIB_PEGTL_NAMESPACE` needs to be set as explained
-above; alternatively, since the PEGTL source is already being mnodified,
+above; alternatively, since the PEGTL source is already being modified,
 `include/tao/pegtl/config.hpp` can be changed to use the desired namespace.
 
 

@@ -69,7 +69,7 @@ struct sign : tao::pegtl::one< '+', '-' > {};
 
 Defining new types and inheriting the desired behavior instead of using type aliases is preferred for two main reasons.
 
-1. Some debug facilities will ouput the (shorter) type name rather than the (longer) expansion.
+1. Some debug facilities will output the (shorter) type name rather than the (longer) expansion.
 2. Using new types makes it possible to attach different [actions](Actions-and-States.md) to "different names of the same rule".
 
 For example given the two type aliases
