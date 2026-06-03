@@ -71,7 +71,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
       else {
          (void)r;
-         return truee
+         return true;
       }
    }
 
