@@ -7,8 +7,8 @@
 
 #include "../config.hpp"
 
-#include "invert_mode.hpp"
 #include "ione_impl.hpp"
+#include "match_mode.hpp"
 #include "one_impl.hpp"
 #include "range_impl.hpp"
 #include "ranges_impl.hpp"
@@ -16,14 +16,14 @@
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< typename Peek, typename Peek::data_t... Cs > using ione = terminal< invert_mode::disabled, ione_impl< Peek, Cs... > >;
-   template< typename Peek, typename Peek::data_t... Cs > using not_ione = terminal< invert_mode::enabled, ione_impl< Peek, Cs... > >;
-   template< typename Peek, typename Peek::data_t... Cs > using not_one = terminal< invert_mode::enabled, one_impl< Peek, Cs... > >;
-   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi > using not_range = terminal< invert_mode::enabled, range_impl< Peek, Lo, Hi > >;
-   template< typename Peek, typename Peek::data_t... Cs > using not_ranges = terminal< invert_mode::enabled, ranges_impl< Peek, Cs... > >;
-   template< typename Peek, typename Peek::data_t... Cs > using one = terminal< invert_mode::disabled, one_impl< Peek, Cs... > >;
-   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi > using range = terminal< invert_mode::disabled, range_impl< Peek, Lo, Hi > >;
-   template< typename Peek, typename Peek::data_t... Cs > using ranges = terminal< invert_mode::disabled, ranges_impl< Peek, Cs... > >;
+   template< typename Peek, typename Peek::data_t... Cs > using ione = terminal< match_mode::normal, ione_impl< Peek, Cs... > >;
+   template< typename Peek, typename Peek::data_t... Cs > using not_ione = terminal< match_mode::invert, ione_impl< Peek, Cs... > >;
+   template< typename Peek, typename Peek::data_t... Cs > using not_one = terminal< match_mode::invert, one_impl< Peek, Cs... > >;
+   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi > using not_range = terminal< match_mode::invert, range_impl< Peek, Lo, Hi > >;
+   template< typename Peek, typename Peek::data_t... Cs > using not_ranges = terminal< match_mode::invert, ranges_impl< Peek, Cs... > >;
+   template< typename Peek, typename Peek::data_t... Cs > using one = terminal< match_mode::normal, one_impl< Peek, Cs... > >;
+   template< typename Peek, typename Peek::data_t Lo, typename Peek::data_t Hi > using range = terminal< match_mode::normal, range_impl< Peek, Lo, Hi > >;
+   template< typename Peek, typename Peek::data_t... Cs > using ranges = terminal< match_mode::normal, ranges_impl< Peek, Cs... > >;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal
 

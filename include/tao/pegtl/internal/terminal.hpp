@@ -11,14 +11,14 @@
 #include "../type_list.hpp"
 
 #include "enable_control.hpp"
-#include "invert_mode.hpp"
+#include "match_mode.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   template< invert_mode, typename >
+   template< match_mode, typename >
    struct terminal;
 
-   template< invert_mode I, template< typename Peek, typename Peek::data_t... Cs > class Impl, typename Peek, typename Peek::data_t... Cs >
+   template< match_mode I, template< typename Peek, typename Peek::data_t... Cs > class Impl, typename Peek, typename Peek::data_t... Cs >
    struct terminal< I, Impl< Peek, Cs... > >
    {
       using peek_t = Peek;
@@ -46,7 +46,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       }
    };
 
-   template< invert_mode I, typename Impl >
+   template< match_mode I, typename Impl >
    inline constexpr bool enable_control< terminal< I, Impl > > = false;
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

@@ -2,17 +2,17 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE_1_0.txt or copy at https://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TAO_PEGTL_INTERNAL_INVERT_MODE_HPP
-#define TAO_PEGTL_INTERNAL_INVERT_MODE_HPP
+#ifndef TAO_PEGTL_INTERNAL_MATCH_MODE_HPP
+#define TAO_PEGTL_INTERNAL_MATCH_MODE_HPP
 
 #include "../config.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
 {
-   enum class invert_mode : bool
+   enum class match_mode : bool
    {
-      enabled = true,
-      disabled = false
+      invert = true,
+      normal = false
    };
 
 }  // namespace TAO_PEGTL_NAMESPACE::internal

@@ -7,7 +7,7 @@
 
 #include "../config.hpp"
 
-#include "invert_mode.hpp"
+#include "match_mode.hpp"
 #include "terminal.hpp"
 
 namespace TAO_PEGTL_NAMESPACE::internal
@@ -15,12 +15,12 @@ namespace TAO_PEGTL_NAMESPACE::internal
    template< typename Rule >
    struct invert;
 
-   [[nodiscard]] constexpr invert_mode invert_impl( const invert_mode m ) noexcept
+   [[nodiscard]] constexpr match_mode invert_impl( const match_mode m ) noexcept
    {
-      return invert_mode( !bool( m ) );
+      return match_mode( !bool( m ) );
    }
 
-   template< invert_mode I, template< typename Peek, typename Peek::data_t... Cs > class Impl, typename Peek, typename Peek::data_t... Cs >
+   template< match_mode I, template< typename Peek, typename Peek::data_t... Cs > class Impl, typename Peek, typename Peek::data_t... Cs >
    struct invert< terminal< I, Impl< Peek, Cs... > > >
       : terminal< invert_impl( I ), Impl< Peek, Cs... > >
    {};

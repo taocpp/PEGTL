@@ -45,7 +45,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : lazy_scan_traits< typename Eol::eol_char_rule >
    {};
 
-   template< typename Eol, invert_mode I, typename Impl >
+   template< typename Eol, match_mode I, typename Impl >
    struct text_scan_traits< Eol, terminal< I, Impl > >
    {
       template< typename Position, typename Data >
@@ -83,7 +83,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       : add_column_scan
    {};
 
-   template< typename Eol, invert_mode I, typename Impl >
+   template< typename Eol, match_mode I, typename Impl >
    struct text_scan_traits< Eol, until< terminal< I, Impl > >, std::enable_if_t< terminal< I, Impl >::test( get_eol_rule_char_v< typename Eol::eol_char_rule > ) > >
       : add_column_scan
    {};
