@@ -205,7 +205,7 @@ are also defined.
 ### Mixing `find_package` and `add_subdirectory`
 
 With the advent of improved methods of managing dependencies (such as [Conan],
-[CMake FetchContent]), multiple package inclusion methods needs to be able to
+[CMake FetchContent]), multiple package inclusion methods need to be able to
 co-exist.
 
 If PEGTL was first included with `find_package` then subsequent calls to

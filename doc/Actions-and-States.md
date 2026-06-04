@@ -533,7 +533,7 @@ The following assertion is only enabled when `std::is_base_of_v< tao::pegtl::not
 * `a` must have a callable `apply()` or `apply0()`.
 
 The class [`tao::pegtl::maybe_nothing`](Action-Reference.md#maybe_nothing) is an accessible base class of all the changing actions explained above.
-This make is possible, but not necessary, to implement `apply()` or `apply0()` for actions derived from them.
+This makes it possible, but not necessary, to implement `apply()` or `apply0()` for actions derived from them.
 
 Note that [`maybe_nothing`](Action-Reference.md#maybe_nothing) can be combined, through multiple inheritance, with one of [`nothing<>`](Action-Reference.md#nothing-r-), [`require_apply`](Action-Reference.md#require_apply) or [`require_apply0`](Action-Reference.md#require_apply0).
 

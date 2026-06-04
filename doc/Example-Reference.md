@@ -169,7 +169,7 @@ The reverse "hello world" example from the [introduction](Introduction.md).
 
 ###### [`indent_aware.cpp`](../src/example/indent_aware.cpp)
 
-Shows one approach to implementing an indentation-aware language with a very very small subset of Python.
+Shows one approach to implementing an indentation-aware language with a very small subset of Python.
 
 ###### [`iri_struct.cpp`](../src/example/iri_struct.cpp)
 

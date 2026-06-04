@@ -278,7 +278,7 @@ By default `enable` is `true` for all user-visible rules, i.e. for all rule clas
 For these internal rule classes `enable` is set to `false`.
 
 To understand which problem this solves consider the fact that some PEGTL combinators are implemented using other rules and combinators.
-For example [`minus`](Rule-Reference.md#minus-m-s-) does not have its own implementation, it is built from [`rematch](Rule-Reference.md#rematch-r-s-), [`not_at`](Rule-Reference.md#not_at-r-) and [`eof`](Rule-Reference.md#eof).
+For example [`minus`](Rule-Reference.md#minus-m-s-) does not have its own implementation, it is built from [`rematch`](Rule-Reference.md#rematch-r-s-), [`not_at`](Rule-Reference.md#not_at-r-) and [`eof`](Rule-Reference.md#eof).
 
 ```c++
 template< typename M, typename S >
