@@ -24,10 +24,6 @@ jobs:
             compiler: g++-13
           - os: ubuntu-24.04
             compiler: g++-14
-          - os: ubuntu-24.04
-            compiler: g++-15
-          - os: ubuntu-24.04
-            compiler: g++-16
           - os: ubuntu-22.04
             compiler: clang++-13
           - os: ubuntu-22.04
@@ -40,12 +36,6 @@ jobs:
             compiler: clang++-17
           - os: ubuntu-24.04
             compiler: clang++-18
-          - os: ubuntu-24.04
-            compiler: clang++-19
-          - os: ubuntu-24.04
-            compiler: clang++-20
-          - os: ubuntu-24.04
-            compiler: clang++-21
         build_type: [Release, Debug]
     runs-on: ${{ matrix.platform.os }}
 

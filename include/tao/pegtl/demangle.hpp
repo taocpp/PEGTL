@@ -9,6 +9,13 @@
 
 #include "config.hpp"
 
+namespace TAO_PEGTL_NAMESPACE
+{
+   template< typename T >
+   [[nodiscard]] std::string_view demangle() noexcept;
+
+}  // namespace TAO_PEGTL_NAMESPACE
+
 #if defined( __clang__ )
 
 #include "internal/demangle_clang.hpp"
@@ -21,20 +28,14 @@
 
 #include "internal/demangle_msvc.hpp"
 
-#else
+#elif defined( __cpp_rtti )
 
 #include "internal/demangle_rtti.hpp"
 
+#else
+
+#error "No demangle implementation available!"
+
 #endif
-
-namespace TAO_PEGTL_NAMESPACE
-{
-   template< typename T >
-   [[nodiscard]] std::string_view demangle() noexcept
-   {
-      return internal::demangle< T >();
-   }
-
-}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

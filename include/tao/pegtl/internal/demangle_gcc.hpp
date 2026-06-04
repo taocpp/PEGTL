@@ -19,31 +19,31 @@
 
 #include "../config.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::special
+namespace TAO_PEGTL_NAMESPACE
 {
-   template< typename T >
-   [[nodiscard]] constexpr std::string_view demangle() noexcept
+   namespace special
    {
-      constexpr std::string_view sv = __PRETTY_FUNCTION__;
-      constexpr auto begin = sv.find( '=' );
-      static_assert( begin != std::string_view::npos );
-      constexpr auto tmp = sv.substr( begin + 2 );
-      constexpr auto end = tmp.rfind( ';' );
-      static_assert( end != std::string_view::npos );
-      return tmp.substr( 0, end );
-   }
+      template< typename T >
+      [[nodiscard]] constexpr std::string_view demangle() noexcept
+      {
+         constexpr std::string_view sv = __PRETTY_FUNCTION__;
+         constexpr auto begin = sv.find( '=' );
+         static_assert( begin != std::string_view::npos );
+         constexpr auto tmp = sv.substr( begin + 2 );
+         constexpr auto end = tmp.rfind( ';' );
+         static_assert( end != std::string_view::npos );
+         return tmp.substr( 0, end );
+      }
 
-}  // namespace TAO_PEGTL_NAMESPACE::special
+   }  // namespace special
 
-namespace TAO_PEGTL_NAMESPACE::internal
-{
    template< typename T >
    [[nodiscard]] constexpr std::string_view demangle() noexcept
    {
       return special::demangle< T >();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif
 

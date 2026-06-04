@@ -24,20 +24,24 @@ namespace TAO_PEGTL_NAMESPACE
       TAO_PEGTL_TEST_ASSERT( d == s );
    }
 
+#if defined( __cpp_rtti )
    template< typename T >
    void test_typeid()
    {
       test1< T >( typeid( T ).name() );
    }
+#endif
 
    void unit_test()
    {
       const std::string ns = TAO_PEGTL_STRINGIFY( TAO_PEGTL_NAMESPACE );
 #if !defined( __clang__ ) && defined( __GNUC__ ) && ( ( ( __GNUC__ == 9 ) && ( __GNUC_MINOR__ <= 2 ) ) || ( __GNUC__ == 16 ) )
       // See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91155
+#if defined( __cpp_rtti )
       test_typeid< int >();
       test_typeid< double >();
       test_typeid< seq< consume< 42 >, eof > >();
+#endif
 #elif defined( _MSC_VER ) && !defined( __clang__ )
       test1< int >( "int" );
       test1< double >( "double" );

@@ -10,9 +10,9 @@
 
 #include "../config.hpp"
 
-#if defined( _LIBCPP_VERSION )
+#if defined( _LIBCPP_VERSION ) || ( __clang_major__ >= 13 )
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace TAO_PEGTL_NAMESPACE
 {
    template< typename T >
    [[nodiscard]] constexpr std::string_view demangle() noexcept
@@ -23,37 +23,41 @@ namespace TAO_PEGTL_NAMESPACE::internal
       return sv.substr( begin + 2, sv.size() - begin - 3 );
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #else
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace TAO_PEGTL_NAMESPACE
 {
    // When using libstdc++ with clang, std::string_view::find is not constexpr :(
 
-   template< char C >
-   constexpr const char* string_view_find( const char* p, std::size_t n ) noexcept
+   namespace special
    {
-      while( n ) {
-         if( *p == C ) {
-            return p;
+      template< char C >
+      [[nodiscard]] constexpr const char* string_view_find( const char* p, std::size_t n ) noexcept
+      {
+         while( n ) {
+            if( *p == C ) {
+               return p;
+            }
+            ++p;
+            --n;
          }
-         ++p;
-         --n;
+         return nullptr;
       }
-      return nullptr;
-   }
+
+   }  // namespace special
 
    template< typename T >
    [[nodiscard]] constexpr std::string_view demangle() noexcept
    {
       constexpr std::string_view sv = __PRETTY_FUNCTION__;
-      constexpr auto begin = internal::string_view_find< '=' >( sv.data(), sv.size() );
+      constexpr auto begin = special::string_view_find< '=' >( sv.data(), sv.size() );
       static_assert( begin != nullptr );
       return { begin + 2, sv.data() + sv.size() - begin - 3 };
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif
 

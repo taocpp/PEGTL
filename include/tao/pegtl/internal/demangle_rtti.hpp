@@ -14,7 +14,7 @@
 
 #include "../config.hpp"
 
-namespace TAO_PEGTL_NAMESPACE::internal
+namespace TAO_PEGTL_NAMESPACE
 {
    template< typename T >
    [[nodiscard]] constexpr std::string_view demangle() noexcept
@@ -23,7 +23,7 @@ namespace TAO_PEGTL_NAMESPACE::internal
       return typeid( T ).name();
    }
 
-}  // namespace TAO_PEGTL_NAMESPACE::internal
+}  // namespace TAO_PEGTL_NAMESPACE
 
 #endif
 
