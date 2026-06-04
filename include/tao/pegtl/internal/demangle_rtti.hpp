@@ -6,7 +6,7 @@
 #define TAO_PEGTL_INTERNAL_DEMANGLE_RTTI_HPP
 
 #if !defined( __cpp_rtti )
-#error "RTTI support required for fallback demangle function.
+#error "RTTI support required for fallback demangle function."
 #else
 
 #include <string_view>
