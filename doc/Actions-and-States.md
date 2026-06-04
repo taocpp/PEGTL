@@ -472,7 +472,7 @@ Note that `change_action_and_state<>` and `change_action_and_states<>` behave li
 ## Match
 
 Besides `apply()` and `apply0()`, an action class specialization can also have a `match()` static member function.
-The default control class template `normal` will detect the presence of a suitable `match()` function and call this function instead of `tao::pegtl::match()`.
+The default [normal control](Control-and-Normal.md#normal-control) will detect the presence of a suitable `match()` function and call this function instead of `tao::pegtl::match()`.
 
 ```c++
 template<>

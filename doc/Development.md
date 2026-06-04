@@ -44,7 +44,7 @@ Version 5.x of the PEGTL will jump to C++20 or C++23.
 
 ### Stream Parsing
 
-A couple of things that *could* be done in the area of stream parsing.
+A couple of things that *could* be done in the area of [stream parsing](Stream-Parsing.md).
 
  * Use the double-mapped ring-buffer to prevent `discard()` having to move data.
  * Debug input and related facilities that detect when data in the input buffer is accessed after being discarded or moved (by a discard).

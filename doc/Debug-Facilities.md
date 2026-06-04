@@ -91,7 +91,7 @@ For example, if a rule `rep_min` is implemented with a sub-rule `star`, then an 
 Therefore it is possible to selectively disable most [control](Control-and-Normal.md) functions, including the `apply` functions that perform action invocation, on a rule-by-rule basis.
 More precisely, the action and debug control functions are only invoked for a rule `R` when `Control< R >::enable` is `true`.
 
-The default control class template `normal` defines `normal< R >::enable` in terms of `internal::enable_control< R >`, which is `true` by default, but `false` for the implementation rules in namespace `internal`.
+The default [normal control](Control-and-Normal.md#normal-control) defines `normal< R >::enable` in terms of `internal::enable_control< R >`, which is `true` by default, but `false` for the implementation rules in namespace `internal`.
 This hides implementation details from actions and most control functions during normal parsing.
 
 Some debug facilities deliberately expose these implementation details.

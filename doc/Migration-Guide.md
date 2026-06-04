@@ -66,7 +66,7 @@ Several input member functions were renamed or split:
 * `in.end_of_line( p )` is now `in.end_of_line_or_file( p )`.
 * `in.line_at( p )` is now `in.line_view_at( p )`.
 
-The `action_t` alias was removed from input classes.
+The `action_t` alias was removed from [input classes](Input-Reference.md).
 Actions should either template the first argument of `apply()`, as already recommended for PEGTL 3.x, or use `tao::pegtl::action_input< ParseInput >`.
 Inside actions, use `in.current_position()` instead of the old `in.position()`.
 
@@ -89,9 +89,9 @@ A `parse_error` now contains exactly one position object.
 Use `e.position_object()` when catching a concrete `parse_error< Position >`, or use `e.position_string()` when catching `parse_error_base`.
 The old `positions()` vector and `add_position()` mechanism were removed.
 
-Nested parsing no longer appends positions to a single parse error.
+Nested parsing no longer appends positions to a single [parse error](Errors-and-Exceptions.md#parse-errors).
 `parse_nested()` now throws a nested exception that wraps the inner exception with the outer position.
-Include `<tao/pegtl/extra/nested_exceptions.hpp>` and use `visit_nested()`, `flatten_base()`, `flatten_type()` or `flatten_what()` to inspect such chains.
+Include [`<tao/pegtl/extra/nested_exceptions.hpp>`](Extra-Reference.md#nested_exceptionshpp) and use `visit_nested()`, `flatten_base()`, `flatten_type()` or `flatten_what()` to inspect such chains.
 The helper header requires exceptions and [RTTI](https://en.wikipedia.org/wiki/Run-time_type_information).
 
 `parse_error.hpp` and `parse_error_base.hpp` require exceptions.
@@ -147,7 +147,7 @@ The depth and consumption action helpers were renamed: use `check_depth` instead
 Their headers are in `include/tao/pegtl/action/`.
 
 The `try_catch` and `try_catch_type` rules were renamed to `try_catch_return_false` and `try_catch_type_return_false`, respectively.
-Use `try_catch_raise_nested` and its variants when a caught exception should be rethrown as a nested parse error.
+Use `try_catch_raise_nested` and its variants when a caught exception should be rethrown as a [nested parse error](Errors-and-Exceptions.md#nested-exceptions).
 
 Use the new core rule `separated` instead of the previous contrib rule `separated_seq`.
 Use `consume< N >` for the old `bytes< N >` use case, and the type-specific `many` rules when matching a fixed number of objects of a particular input data type.
@@ -156,7 +156,7 @@ The existing terminal rules that take a value pack now require at least one valu
 For empty positive matches such as `one<>`, `ione<>` or `ranges<>` that intentionally failed, use `failure` instead.
 For empty negative matches such as `not_one<>` that intentionally matched any input object, use the corresponding `any` rule instead.
 
-The old stream-oriented `discard` and `require` rules are now in the stream parsing headers.
+The old stream-oriented `discard` and `require` rules are now in the [stream parsing](Stream-Parsing.md#rules) headers.
 
 
 ## Version 3.0.0

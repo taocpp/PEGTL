@@ -40,7 +40,7 @@ The following steps are also frequently included to do something useful while pa
 4. [Actions](Actions-and-States.md#introduction) have to be implemented and passed to the parse function as template parameter.
 5. [States](Actions-and-States.md#states) have to be instantiated and passed to the parse function as additional arguments.
 
-More advanced use cases might also pass a control class to the parsing run, or use other functions to drive the parsing run.
+More advanced use cases might also pass a [control class](Control-and-Normal.md) to the parsing run, or use other functions to drive the parsing run.
 
 The following incomplete code shows the general outline of performing a parsing run.
 
@@ -298,7 +298,7 @@ When a `std::exception` is thrown within a nested parsing run it will be caught 
 The new exception contains a position from the argument of type `OuterInput` and the previous exception as nested exception.
 Exceptions that do not derive from `std::exception` are not caught.
 
-The functions in the header `tao/pegtl/extra/nested_exceptions.hpp` can be used to work with these nested exceptions.
+The functions in the header [`tao/pegtl/extra/nested_exceptions.hpp`](Extra-Reference.md#nested_exceptionshpp) can be used to work with these nested exceptions.
 The inner-most exception that was thrown first will be the "most nested" exception, i.e. the final one in the linked list of nested exceptions.
 
 The position information contained in the nested exceptions allows for error messages like "error in file F1 line L1 included from file F2 line L2 etc."

@@ -9,7 +9,7 @@ All noteworthy changes since the first public release.
 * Even more templates, in even more places, templates everywhere!
 * Use the [**migration guide**](Migration-Guide.md#version-400) when updating.
 * Infrastructure
-  * Switched to Boost Software License, Version 1.0.
+  * Switched to [Boost Software License, Version 1.0](../LICENSE_1_0.txt).
   * Makefile generates binaries in `build/bin/` instead of `build/src/`.
   * The `pegtl` sub-directory in `src/example` and `src/test` was removed.
   * Makefile generates dependencies in `build/dep/` instead of `build/src/`.
@@ -17,30 +17,30 @@ All noteworthy changes since the first public release.
   * All headers in `include/tao/pegtl/contrib/` were moved to `.../extra/`, `.../example/`, `.../deprecated/` or `.../`.
   * Not all headers in `include/tao/pegtl/` are included by `<tao/pegtl.hpp>`.
   * Moved the string-literal macros to the new public header `include/tao/pegtl/pegtl_string.hpp`.
-  * All stream parsing headers were moved to `include/tao/pegtl/stream/`.
+  * All [stream parsing](Stream-Parsing.md) headers were moved to `include/tao/pegtl/stream/`.
   * All Unicode (incl. ICU) rules were moved to `include/tao/pegtl/unicode/`.
   * All binary rules (incl. enums) were moved to `include/tao/pegtl/binary/`.
   * All actions beyond `nothing` are now in `include/tao/pegtl/action/`.
   * All controls beyond `normal` are now in `include/tao/pegtl/control/`.
-  * The grammar debug and analysis features are now in `include/tao/pegtl/debug/`.
-  * The example grammars are now all collected in `include/tao/pegtl/example/`.
+  * The [debug facilities](Debug-Facilities.md) are now in `include/tao/pegtl/debug/`.
+  * The [example grammars](Example-Reference.md#grammars) are now all collected in `include/tao/pegtl/example/`.
   * There are new example grammars including some moved from `src/example/`.
   * Extra, experimental and deprecated headers are now in `include/tao/pegtl/extra/` and `.../deprecated/`.
 * Exceptions
-  * Changed `parse_error` to contain only one `position`.
+  * Changed [`parse_error`](Errors-and-Exceptions.md#parse-errors) to contain only one `position`.
   * Changed `parse_error` to be templated over the position type.
   * Added `parse_error_base` as non-templated base class of `parse_error`.
-  * Changed to **nested exceptions** for nested [parsing errors](Errors-and-Exceptions.md).
-  * Added [control function](Control-and-Normal.md) to throw nested exceptions.
+  * Changed to [**nested exceptions**](Errors-and-Exceptions.md#nested-exceptions) for nested parsing errors.
+  * Added [control function](Control-and-Normal.md#control-interface) to throw nested exceptions.
   * Changed `parse_nested()` to throw a nested exception instead of adding a position to the current one when exceptions are enabled.
   * Changed `pegtl.hpp` to only include `parse_error.hpp`, `parse_error_base.hpp` and `parse_nested.hpp` when exceptions are enabled.
   * Added functions to visit and flatten [nested exceptions](Extra-Reference.md#nested_exceptionshpp).
 * Inputs
   * Standardized on line - column - count order.
   * Replaced the monolithic `position` class with `count_position`, `text_position`, `pointer_position` and `position_with_source`.
-  * The input classes have been **heavily** refactored.
+  * The [input classes](Input-Reference.md) have been **heavily** refactored.
   * Replaced `memory_input` and `string_input` with `view_input`, `copy_input`, `text_view_input` and `text_copy_input`.
-  * Replaced `istream_input`, `cstream_input` and `buffer_input` with the new stream parsing inputs.
+  * Replaced `istream_input`, `cstream_input` and `buffer_input` with the new [stream parsing inputs](Stream-Parsing.md#inputs).
   * Added new minimal non-owning `base_input`.
   * Added new input adapter `input_with_offset`.
   * Most input classes can use any type instead of being hardwired to `char`.
@@ -123,11 +123,11 @@ All noteworthy changes since the first public release.
   * Refactored the implementation of `ione`, `one`, `range`, `ranges`, `not_ione`, `not_one`, `not_range`, `not_ranges` which changes their `rule_t`.
   * Added new rules for enum types to the [binary rules](Rule-Reference.md#binary).
   * Added new rules that operate on [object members](Rule-Reference.md#member).
-  * Moved `discard` and `require` to the stream parsing facilities.
+  * Moved `discard` and `require` to the [stream parsing facilities](Stream-Parsing.md#rules).
   * Added new stream parsing rule [`is_stream`](Stream-Parsing.md#is_stream).
   * Added new stream parsing rule [`prefetch`](Stream-Parsing.md#prefetch-num-).
-* Added new customization point for error messages.
-* Added optional source line output for the tracer.
+* Added new customization point for [error messages](Errors-and-Exceptions.md#custom-error-messages).
+* Added optional source line output for the [tracer](Debug-Facilities.md#parse-trace).
 * Other
   * Added new control [`apply_typed_state`](Control-Reference.md#apply_typed_state).
   * Added new action [`add_guard`](Action-Reference.md#add_guard-g-).
@@ -137,9 +137,9 @@ All noteworthy changes since the first public release.
   * Added [`extra/dispatch.hpp`](Extra-Reference.md#dispatchhpp) and [`extra/record.hpp`](Extra-Reference.md#recordhpp).
   * Moved `raw_string` to [`extra/raw_string.hpp`](Extra-Reference.md#raw_stringhpp).
   * Added [`extra/unescape.hpp`](Extra-Reference.md#unescapehpp).
-  * Refactored the Control adapter interface.
+  * Refactored the [Control adapter](Control-Reference.md) interface.
   * Refactored `type_list_contains` interface.
-  * Routed rewind-guard creation through the Control class.
+  * Routed rewind-guard creation through the [Control class](Control-and-Normal.md).
   * Renamed `apply_mode::action` to `apply_mode::enabled`.
   * Renamed `apply_mode::nothing` to `apply_mode::disabled`.
   * Removed `random_order` example, moved to core library as [`unordered`](Rule-Reference.md#unordered-r-) and [`unordered_partial`](Rule-Reference.md#unordered_partial-r-).

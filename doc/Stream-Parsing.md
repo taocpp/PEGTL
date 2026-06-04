@@ -63,11 +63,11 @@ The stream inputs whose name contains `_auto_` perform aggressive automatic disc
 > [!NOTE]
 > A buffer discard can move data in the buffer, i.e. pointers to non-discarded input data can become invalid!
 
-For choosing the buffer size in general, and when choosing where to perform a manual discard, both the attached actions and the backtracking behavior of the grammar need to be taken into consideration.
+For choosing the buffer size in general, and when choosing where to perform a manual discard, both the attached [actions](Actions-and-States.md) and the [backtracking](Rules-and-Grammars.md#backtracking) behavior of the grammar need to be taken into consideration.
 
-When an action `A` is attached to a rule `R` and `A< R >::apply()` (not `apply0()`) exists it will be called with an action input representing the matched portion of the input, wherefore no discard is allowed to happen while matching `R` and anything -- directly or indirectly -- called from `R`. Similarly, when local failure of a rule `R` can lead to backtracking then no discard is allowed to happen while matching `R` and anything called from `R`.
+When an action `A` is attached to a rule `R` and `A< R >::apply()` (not `apply0()`) exists it will be called with an [action input](Actions-and-States.md#action-input) representing the matched portion of the input, wherefore no discard is allowed to happen while matching `R` and anything -- directly or indirectly -- called from `R`. Similarly, when local failure of a rule `R` can lead to backtracking then no discard is allowed to happen while matching `R` and anything called from `R`.
 
-In other words, a discard is only possible when there are no active rewind guards, which is exactly what the auto-discard inputs keep track of.
+In other words, a discard is only possible when there are no active [rewind guards](Rules-and-Grammars.md#rewind-guard), which is exactly what the auto-discard inputs keep track of.
 
 All stream parsing related classes and class templates reside in namespace `tao::pegtl`.
 This default can be changed via the macro `TAO_PEGTL_NAMESPACE` in `tao/pegtl/config.hpp`.
@@ -525,7 +525,7 @@ These [rules](Rules-and-Grammars.md) are included with `<tao/pegtl/stream.hpp>`.
 
 Unlike [most other rules](Rule-Reference.md) they have no separate implementation in namespace `tao::pegtl::internal`.
 
-The analyze traits for these rules are in `<tao/pegtl/stream/analyze_traits.hpp>` which is **not** included with `<tao/pegtl/stream.hpp>`.
+The [analyze traits](Debug-Facilities.md#analyze-traits) for these rules are in `<tao/pegtl/stream/analyze_traits.hpp>` which is **not** included with `<tao/pegtl/stream.hpp>`.
 
 ###### `discard`
 

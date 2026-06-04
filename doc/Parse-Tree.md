@@ -211,13 +211,13 @@ if( const auto root = tao::pegtl::parse_tree::parse< my_grammar, my_selector >( 
 }
 ```
 
-The resulting DOT can be rendered with Graphviz.
+The resulting DOT can be rendered with [Graphviz](https://graphviz.org/).
 
 ```sh
 ./my_parser '{"foo":[42,null]}' | dot -Tsvg -o parse_tree.svg
 ```
 
-The program [`src/example/json_ast.cpp`](../src/example/json_ast.cpp) demonstrates this with the included JSON grammar.
+The program [`src/example/json_ast.cpp`](../src/example/json_ast.cpp) demonstrates this with the included [JSON grammar](Example-Reference.md#jsonhpp).
 
 
 ## Basic Tree Node
@@ -332,7 +332,7 @@ For example, [`src/example/parse_tree.cpp`](../src/example/parse_tree.cpp) deriv
 ## Actions, Controls, and States
 
 The `parse_tree::parse()` functions mirror the ordinary `parse()` customization points.
-After the grammar and optional selector or node type, the remaining template parameters are the action and control class templates.
+After the grammar and optional selector or node type, the remaining template parameters are the [action](Actions-and-States.md) and [control](Control-and-Normal.md) class templates.
 
 ```c++
    template< typename Rule,
@@ -356,7 +356,7 @@ After the grammar and optional selector or node type, the remaining template par
 The user states are forwarded to actions, controls, node callbacks, and transforms.
 The parse tree builder adds a state object to the parsing run to keep track of the parse tree.
 
-That state is hidden from actions and controls by the generated control adapter that makes use of [`rotate_states_right`](Control-Reference.md#rotate_states_right) and [`remove_first_state`](Control-Reference.md#remove_first_state).
+That state is hidden from actions and controls by the generated [control adapter](Control-Reference.md) that makes use of [`rotate_states_right`](Control-Reference.md#rotate_states_right) and [`remove_first_state`](Control-Reference.md#remove_first_state).
 As usual, the additional state can not be hidden from the `match()` control (and action) functions.
 The minimal example [`src/example/parse_tree_user_state.cpp`](../src/example/parse_tree_user_state.cpp) shows a user state being forwarded through parse tree parsing to an action.
 
@@ -369,7 +369,7 @@ The parse tree builder uses the `subs_t` rule metadata described in [Rules and G
 Selected nodes store views into the input by default.
 
 > [!CAUTION]
-> When using stream inputs or inputs whose backing storage can be discarded, make sure the selected node data remains valid for as long as the tree is inspected, or use a custom node that copies the data it needs.
+> When using [stream inputs](Stream-Parsing.md#inputs) or inputs whose backing storage can be discarded, make sure the selected node data remains valid for as long as the tree is inspected, or use a custom node that copies the data it needs.
 
 
 ---

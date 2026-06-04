@@ -407,12 +407,12 @@ If `M == rewind_mode::optional` then `seq` is allowed to consume on local failur
 
 If `M == rewind_mode::required` then the sub-rules are called "under the umbrella" of what will be a non-dummy rewind guard instantiated in the first line of the match function.
 
-In either case the sub-rules themsleves do not need to rewind on local failure, wherefore we can always invoke them with `rewind_mode::optional`.
+In either case the sub-rules themselves do not need to rewind on local failure, wherefore we can always invoke them with `rewind_mode::optional`.
 This allows the sub-rules to optimize away their rewind guards to dummy guards.
 
 ### Type Aliases
 
-The grammar analysis (and some other parts) of the PEGTL require rules to define two type aliases.
+The [grammar analysis](Debug-Facilities.md#grammar-analysis) (and some other parts) of the PEGTL require rules to define two type aliases.
 
 The aliases `rule_t` and `subs_t` are usually defined in the classes that implement the static match function.
 
@@ -644,7 +644,7 @@ struct R = seq< A, sor< B, C > > {};  // R = A(B/C)
 Not backtracking over `A` has the additional advantage of not triggering any action attached to `A` twice.
 
 In practice, opportunities to remove superfluous backtracking might not be as obvious as with such a simple rule.
-For a more complex example please read the comments at the beginning of the Lua 5.3 grammar in `include/tao/pegtl/example/lua53.hpp`.
+For a more complex example please read the comments at the beginning of the [Lua 5.3 grammar](Example-Reference.md#lua53hpp) in `include/tao/pegtl/example/lua53.hpp`.
 It shows how to eliminate both left-recursion and superfluous backtracking with multiple rules and recursions.
 
 ### Whitespace
@@ -652,7 +652,7 @@ It shows how to eliminate both left-recursion and superfluous backtracking with 
 Grammars should be designed to minimize redundant multiple parsing of the same whitespace, comments or other padding.
 
 One good way to achieve this is to choose a strategy for whitespace handling and then consistently stick to it.
-For example the JSON grammar in `include/tao/pegtl/example/json.hpp` consistently has every rule for a "token" consume any following whitespace via the `ws` rule, too.
+For example the [JSON grammar](Example-Reference.md#jsonhpp) in `include/tao/pegtl/example/json.hpp` consistently has every rule for a "token" consume any following whitespace via the `ws` rule, too.
 That way every rule can assume to start matching some "real" input since any whitespace would have already been consumed by the previous one.
 
 ### Combinations

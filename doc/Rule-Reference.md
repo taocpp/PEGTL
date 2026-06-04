@@ -155,7 +155,7 @@ Note that the default behavior can be changed either by defining `TAO_PEGTL_DEFA
 ###### `nested< R, P >`
 
 * Uses the peek implementation `P` to extract an object from the input.
-* Performs a nested parsing run with rule `R` on the extracted object's contiguous data.
+* Performs a [nested parsing](Inputs-and-Parsing.md#nested-parsing) run with rule `R` on the extracted object's contiguous data.
 * The extracted object must have `value_type`, `data()` and `size()` members suitable for constructing a `view_input`.
 * Consumes 1 object from the outer input when the nested parsing run succeeds.
 * [Meta data] and [implementation] mapping:
@@ -174,7 +174,7 @@ Note that the default behavior can be changed either by defining `TAO_PEGTL_DEFA
 ###### `source< R >`
 
 * Requires an [input with source](Inputs-and-Parsing.md#inputs-with-source).
-* Performs a nested parsing run with rule `R` on the input's `direct_source()`.
+* Performs a [nested parsing](Inputs-and-Parsing.md#nested-parsing) run with rule `R` on the input's `direct_source()`.
 * Supports sources of type `std::string`, `std::string_view` and `std::filesystem::path`.
 * Does not consume input.
 * [Meta data] and [implementation] mapping:
@@ -968,7 +968,7 @@ These rules are in namespace `tao::pegtl::member`.
 
 ###### `nested< M, R >`
 
-* Performs a nested parsing run with rule `R` on the extracted object.
+* Performs a [nested parsing](Inputs-and-Parsing.md#nested-parsing) run with rule `R` on the extracted object.
 * The extracted object must be suited to construct a `view_input`.
 * Consumes 1 object from the outer input when the nested parsing run succeeds.
 
@@ -1231,7 +1231,7 @@ The PEGTL [grammar analysis](Debug-Facilities.md#grammar-analysis) catches this 
 Note that the rules in `S...` do *not* need to match *all* of the input matched by `R`.
 (Which is why [`minus`](#minus-m-s-) uses `eof` in its implementation to match to the end of what `R` matched).
 
-Note that the `S...` are ignored in the grammar analysis.
+Note that the `S...` are ignored in the [grammar analysis](Debug-Facilities.md#grammar-analysis).
 
 ###### `rep< Num, R... >`
 
@@ -1356,7 +1356,7 @@ Note that the `S...` are ignored in the grammar analysis.
   - `unordered< R... >::rule_t` is `internal::unordered< false, R... >`
   - `unordered< R... >::subs_t` is `type_list< R... >`
 
-Note that the grammar analysis does not correctly handle recursions in the grammar that pass through an `unordered` rule.
+Note that the [grammar analysis](Debug-Facilities.md#grammar-analysis) does not correctly handle recursions in the grammar that pass through an `unordered` rule.
 
 ###### `unordered_partial< R... >`
 
@@ -1366,7 +1366,7 @@ Note that the grammar analysis does not correctly handle recursions in the gramm
   - `unordered_partial< R... >::rule_t` is `internal::unordered< true, R... >`
   - `unordered_partial< R... >::subs_t` is `type_list< R... >`
 
-Note that the grammar analysis does not correctly handle recursions in the grammar that pass through an `unordered_partial` rule.
+Note that the [grammar analysis](Debug-Facilities.md#grammar-analysis) does not correctly handle recursions in the grammar that pass through an `unordered_partial` rule.
 
 ###### `until< R >`
 
@@ -1670,7 +1670,7 @@ Note that the `true` template parameter to `internal::if_must` corresponds to th
 These rules replicate the intrusive way action invocations were part of the grammar in the PEGTL 0.x.
 
 The actions for these rules are classes, rather than the class templates required by `parse()` and `action<>`.
-These rules respect the current `apply_mode`, but do **not** use the Control class to invoke the actions.
+These rules respect the current `apply_mode`, but do **not** use the [Control class](Control-and-Normal.md#control-interface) to invoke the actions.
 
 These rules are in namespace `tao::pegtl`.
 

@@ -144,7 +144,7 @@ Note that, unlike for normal control classes, if `ParseInput< Rule >::enable == 
 
 A control adapter that provides a non-intrusive way to selectively make rules behave "as if" they were inside of a [`must`](Rule-Reference.md#must-r-) rule.
 
-* Uses custom error messages for `raise()` and `raise_nested()`.
+* Uses [custom error messages](Errors-and-Exceptions.md#custom-error-messages) for `raise()` and `raise_nested()`.
 * Uses custom error messages to select rules for `must`-like behavior.
 * Can enforce custom error message to all calls to `raise()` and `raise_nested()`.
 * Modifies `failure()`, `raise()` and `raise_nested()`.
@@ -163,7 +163,7 @@ struct must_if_n
 };
 ```
 
-The template parameter `Errors` has to contain the variable with the custom error messages.
+The template parameter `Errors` has to contain the variable with the [custom error messages](Errors-and-Exceptions.md#custom-error-messages).
 
 ```c++
 struct errors
@@ -175,7 +175,7 @@ struct errors
 
 When `Errors::message< R >` is equal to `nullptr` for a rule `R` then matching `R` behaves like it would with `Control` as control.
 
-When `Errors::message< R >` is **not** `nullptr` then a call to `failure()` will make a call to `raise()`, converting the local failure to a global failure using that message in the `parse_error` exception (instead of the default from `normal` which is `"parse error matching "` followed by `demangle< R >()`).
+When `Errors::message< R >` is **not** `nullptr` then a call to `failure()` will make a call to `raise()`, converting the local failure to a global failure using that message in the [`parse_error`](Errors-and-Exceptions.md#parse-errors) exception (instead of the default from `normal` which is `"parse error matching "` followed by `demangle< R >()`).
 
 One way to set up the messages is to define a global variable template, specialize it for all rules as required, and reference it from the `message` member variable of the dedicated `Errors` type.
 

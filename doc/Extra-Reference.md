@@ -52,7 +52,7 @@ In both rules the functions accept arbitrary state arguments, and both return `b
 * If the first state argument is a mutable reference to `Integral` then it will be assigned the result of the string-to-integer conversion.
 * If the first state argument is of any other type it will be ignored -- together with any additional states.
 
-The `_throws` vs. `_nothrow` suffix chooses between failing locally, i.e. returning `false`, when `std::from_chars()` returns `std::errc::result_out_of_range`, or failing globally, i.e. throwing an exception derived from `tao::pegtl::parse_error_base`.
+The `_throws` vs. `_nothrow` suffix chooses between failing locally, i.e. returning `false`, when `std::from_chars()` returns `std::errc::result_out_of_range`, or failing globally, i.e. throwing an exception derived from `tao::pegtl::parse_error_base` as described in [Errors and Exceptions](Errors-and-Exceptions.md#failure-modes).
 
 The template parameter `Integral` can also be `void`, which changes the behavior slightly.
 In this case
@@ -62,7 +62,7 @@ In this case
 
 ###### [`dispatch.hpp`](../include/tao/pegtl/extra/dispatch.hpp)
 
-An experimental approach to attaching actions to multiple rules with less code.
+An experimental approach to attaching [actions](Actions-and-States.md) to multiple rules with less code.
 
 ###### [`nested_exceptions.hpp`](../include/tao/pegtl/extra/nested_exceptions.hpp)
 
@@ -213,7 +213,7 @@ The overloads that take a single type can be used with `tao::pegtl::string<>` or
 
 A slightly refactored version of the previous unescape header which is now moved to `deprecated/unescape.hpp`.
 
-It defines individual action classes for common unescape operations as well as an action class template that attaches these actions to corresponding grammar rules.
+It defines individual [action](Actions-and-States.md) classes for common unescape operations as well as an action class template that attaches these actions to corresponding grammar rules.
 
 All actions output to their first state (second argument) which must be a mutable `std::string`.
 

@@ -1,7 +1,7 @@
 # Errors and Exceptions
 
 Parsing rule and run results are Boolean values or exceptions.
-This page describes how they interact with [backtracking](https://en.wikipedia.org/wiki/Backtracking), how the PEGTL represents parse errors, and how grammars and controls can produce useful diagnostics.
+This page describes how they interact with [backtracking](https://en.wikipedia.org/wiki/Backtracking), how the PEGTL represents [parse errors](#parse-errors), and how grammars and controls can produce useful diagnostics.
 
 
 ## Contents
@@ -100,7 +100,7 @@ The helper function `throw_parse_error()` accepts either an input object or an a
 It extracts the current position when given an input, creates the appropriate `parse_error< Position >`, and throws it.
 The helper function `throw_parse_error_with_nested()` similarly calls `std::throw_with_nested()`.
 
-Most input classes define a `parse_error_t` alias for their concrete parse error type.
+Most [input classes](Input-Reference.md) define a `parse_error_t` alias for their concrete parse error type.
 For example, for a `text_file_input<>` this is `parse_error< text_file_input<>::error_position_t >`, with text position and source information.
 
 
@@ -361,7 +361,7 @@ The test `src/test/error_message_1.cpp` shows the minimal form.
 
 ### Custom Control
 
-For complete control over parse errors, provide a custom control class with `raise()` and optionally `raise_nested()`.
+For complete control over parse errors, provide a [custom control class](Control-and-Normal.md#control-interface) with `raise()` and optionally `raise_nested()`.
 
 ```c++
 template< typename Rule >
@@ -411,7 +411,7 @@ Converting global failures back to local failures can make diagnostics harder to
 ## Nested Exceptions
 
 Nested exceptions are used to keep multiple positions for one error.
-The most common use case is nested parsing, for example a file that includes another file.
+The most common use case is [nested parsing](Inputs-and-Parsing.md#nested-parsing), for example a file that includes another file.
 
 The function [`parse_nested()`](Inputs-and-Parsing.md#nested-parsing) catches `std::exception` from the inner parsing run and calls `Control< Rule >::raise_nested()` with the ambient outer input or position.
 The default `normal` control throws a new `parse_error< Position >` for the outer input or position, with the caught exception as nested exception.
@@ -476,7 +476,7 @@ The exact position type is documented in [Inputs and Parsing](Inputs-and-Parsing
 
 ## No Exception Support
 
-When compiling without exception support, the exceptional rules and the parse error classes are not available.
+When compiling without exception support, the exceptional rules and the [parse error](#parse-errors) classes are not available.
 Headers that require exceptions contain preprocessor checks.
 
 Programs that support both modes usually put exception-based diagnostics under `#if defined( __cpp_exceptions )` and otherwise check the boolean return value of `parse()`.

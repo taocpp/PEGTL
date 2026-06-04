@@ -223,11 +223,11 @@ The PEGTL comes with [dozens of rules](Rule-Reference.md#index) for convenience 
 * **Input data** is a sequence of objects - often of type `char` - that is intended to be parsed.
 * An [**input**](Inputs-and-Parsing.md) is a class that adheres to an informal input interface and represents some input data.
 * A (semantic) [**action**](Actions-and-States.md) is a class with a static [`apply()`](Actions-and-States.md#apply) or [`apply0()`](Actions-and-States.md#apply0) function -- and/or, for advanced use cases, a static [`match()`](Actions-and-States.md#match) function.
-* A **control** is a class that adheres to an informal control interface and is in control of important behind-the-scenes details of a parsing run.
+* A [**control**](Control-and-Normal.md) is a class that adheres to an informal control interface and is in control of important behind-the-scenes details of a parsing run.
 * The [**states**](Actions-and-States.md#states) are user-defined objects that are passed to all rules, actions and control functions.
 * A [**parsing run**](Inputs-and-Parsing.md) is everything that happens during a call to `tao::pegtl::parse()` with a grammar and, optionally, an action, a control and states.
-* A [**nested parsing**](Inputs-and-Parsing.md) run similarly refers to a call to `tao::pegtl::parse_nested()` during a parsing run (usually from an action).
-* A **position** is an instance of a class that indicates an object in the input data, possibly with auxiliary information like filename and line number.
+* A [**nested parsing**](Inputs-and-Parsing.md#nested-parsing) run similarly refers to a call to `tao::pegtl::parse_nested()` during a parsing run (usually from an action).
+* A [**position**](Inputs-and-Parsing.md#position-classes) is an instance of a class that indicates an object in the input data, possibly with auxiliary information like filename and line number.
 * Input is **consumed** when the reference to what is considered the current object in the input data is advanced.
 * [**Stream parsing**](Stream-Parsing.md) refers to parsing with an input where only a small portion of input data is kept in a contiguous memory buffer.
 * An action `A` is **attached** to a rule `R` when the specialization `A< R >` has an `apply()`, `apply0()` or `match()` function.
