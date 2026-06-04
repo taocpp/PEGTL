@@ -12,7 +12,7 @@
 namespace TAO_PEGTL_NAMESPACE
 {
    template< typename T >
-   [[nodiscard]] std::string_view demangle() noexcept;
+   [[nodiscard]] constexpr std::string_view demangle() noexcept;
 
 }  // namespace TAO_PEGTL_NAMESPACE
 
