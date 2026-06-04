@@ -55,7 +55,7 @@ namespace TAO_PEGTL_NAMESPACE
          const bool is_bdigit = ( c == '0' ) || ( c == '1' );
          const bool is_digit = ( '0' <= c ) && ( c <= '9' );
          const bool is_odigit = ( '0' <= c ) && ( c <= '7' );
-         const bool is_cntrl = ( ( 0 <= c ) && ( c <= 31 ) ) || ( c == 127 );
+         const bool is_cntrl = ( !( c & char( 0x80 ) ) && ( c <= 31 ) ) || ( c == 127 );
          const bool is_lower = ( 'a' <= c ) && ( c <= 'z' );
          const bool is_print = ( ( ' ' <= c ) && ( c <= 126 ) );
          const bool is_graph = ( ( ' ' < c ) && ( c <= 126 ) );
