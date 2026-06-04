@@ -11,7 +11,7 @@
 [![CodeQL](https://github.com/taocpp/PEGTL/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/taocpp/PEGTL/actions/workflows/codeql-analysis.yml)
 [![Codecov](https://codecov.io/gh/taocpp/PEGTL/branch/main/graph/badge.svg?token=ykWa8RRdyk)](https://codecov.io/gh/taocpp/PEGTL)
 
-The Parsing Expression Grammar Template Library (PEGTL) is a zero-dependency [C++](https://en.cppreference.com/w/cpp.html) [header-only](https://en.wikipedia.org/wiki/Header-only) [parser combinator](https://en.wikipedia.org/wiki/Parser_combinator) library for creating [parsers](https://en.wikipedia.org/wiki/Parsing#Parser) according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
+The **Parsing Expression Grammar Template Library** (PEGTL) is a zero-dependency [C++](https://en.cppreference.com/w/cpp.html) [header-only](https://en.wikipedia.org/wiki/Header-only) [parser combinator](https://en.wikipedia.org/wiki/Parser_combinator) library for creating [parsers](https://en.wikipedia.org/wiki/Parsing#Parser) according to a [Parsing Expression Grammar](http://en.wikipedia.org/wiki/Parsing_expression_grammar) (PEG).
 
 
 ## Documentation
@@ -55,7 +55,7 @@ The core library has around 12K lines of code.
 Emphasis is on simplicity and efficiency, putting a well-tuned *relatively* simple approach above overly complex optimizations.
 
 The PEGTL is mostly concerned with parsing combinators and grammar rules, and with giving the user of the library (the possibility of) full control over all other aspects of a parsing run.
-Whether/which actions are taken, and whether/which data structures are created during a parsing run, is entirely up to the user.
+Whether/which [actions](doc/Actions-and-States.md) are taken, and whether/which data structures are created during a [parsing run](doc/Inputs-and-Parsing.md), is entirely up to the user.
 
 Included are some [examples](doc/Example-Reference.md) for typical situations like parsing integers, unescaping escape sequences in strings, building a generic [JSON](http://www.json.org/) data structure, and on-the-fly evaluation of arithmetic expressions.
 
