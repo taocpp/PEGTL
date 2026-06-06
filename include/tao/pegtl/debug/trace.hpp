@@ -52,6 +52,28 @@ namespace TAO_PEGTL_NAMESPACE
       return generic_trace< complete_trace_traits, Rule, Action, Control >( in, st... );
    }
 
+   template< typename RuleList,
+             typename Rule,
+             template< typename... > class Action = nothing,
+             template< typename... > class Control = normal,
+             typename ParseInput,
+             typename... States >
+   bool include_trace( ParseInput&& in, States&&... st )
+   {
+      return generic_trace< include_trace_traits< RuleList >, Rule, Action, Control >( in, st... );
+   }
+
+   template< typename RuleList,
+             typename Rule,
+             template< typename... > class Action = nothing,
+             template< typename... > class Control = normal,
+             typename ParseInput,
+             typename... States >
+   bool exclude_trace( ParseInput&& in, States&&... st )
+   {
+      return generic_trace< exclude_trace_traits< RuleList >, Rule, Action, Control >( in, st... );
+   }
+
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #endif

@@ -9,6 +9,7 @@
 #include <string_view>
 
 #include "../normal.hpp"
+#include "../type_list.hpp"
 
 namespace TAO_PEGTL_NAMESPACE
 {
@@ -41,6 +42,35 @@ namespace TAO_PEGTL_NAMESPACE
 
    using standard_trace_traits = trace_traits< true >;
    using complete_trace_traits = trace_traits< false >;
+
+   template< typename RuleList,
+             bool UseColor = true,
+             bool PrintSourceLine = false,
+             std::size_t IndentIncrement = 2,
+             std::size_t InitialIndent = 8 >
+   struct include_trace_traits
+      : trace_traits< false, UseColor, PrintSourceLine, IndentIncrement, InitialIndent >
+   {
+      static_assert( is_type_list_v< RuleList > );
+
+      template< typename Rule >
+      static constexpr bool enable = type_list_contains_v< Rule, RuleList >;
+   };
+
+   template< typename RuleList,
+             bool HideInternal = true,
+             bool UseColor = true,
+             bool PrintSourceLine = false,
+             std::size_t IndentIncrement = 2,
+             std::size_t InitialIndent = 8 >
+   struct exclude_trace_traits
+      : trace_traits< HideInternal, UseColor, PrintSourceLine, IndentIncrement, InitialIndent >
+   {
+      static_assert( is_type_list_v< RuleList > );
+
+      template< typename Rule >
+      static constexpr bool enable = ( !type_list_contains_v< Rule, RuleList > ) && ( trace_traits< HideInternal >::template enable< Rule > );
+   };
 
 }  // namespace TAO_PEGTL_NAMESPACE
 

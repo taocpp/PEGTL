@@ -54,6 +54,11 @@ namespace TAO_PEGTL_NAMESPACE
    using trace_standard = trace_action< standard_trace_traits >;
    using trace_complete = trace_action< complete_trace_traits >;
 
+   template< typename RuleList >
+   using trace_include = trace_action< include_trace_traits< RuleList > >;
+   template< typename RuleList >
+   using trace_exclude = trace_action< exclude_trace_traits< RuleList > >;
+
 }  // namespace TAO_PEGTL_NAMESPACE
 
 #endif
