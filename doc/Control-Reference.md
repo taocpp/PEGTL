@@ -1,6 +1,7 @@
 # Control Reference
 
 The reference documentation for all control class templates.
+The control classes that are part of the [debug facilities](Debug-Facilities.md) are documented in their respective sections on that page.
 
 
 ## Contents
