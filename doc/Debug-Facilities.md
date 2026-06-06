@@ -12,6 +12,7 @@ Functions and classes to debug grammars, both via their static properties and th
   * [Implementation Details](#implementation-details)
 * [Parse Trace](#parse-trace)
   * [Trace Traits](#trace-traits)
+  * [Rule Selection](#rule-selection)
   * [Trace Action](#trace-action)
 * [Rule Coverage](#rule-coverage)
 * [Grammar Visit](#grammar-visit)
@@ -124,13 +125,32 @@ template< typename Rule,
           typename ParseInput,
           typename... States >
 bool complete_trace( ParseInput&&, States&&... );
+
+template< typename RuleList,
+          typename Rule,
+          template< typename... > class Action = nothing,
+          template< typename... > class Control = normal,
+          typename ParseInput,
+          typename... States >
+bool include_trace( ParseInput&&, States&&... );
+
+template< typename RuleList,
+          typename Rule,
+          template< typename... > class Action = nothing,
+          template< typename... > class Control = normal,
+          typename ParseInput,
+          typename... States >
+bool exclude_trace( ParseInput&&, States&&... );
 ```
 
 The trace functions are called like [`parse()`](Inputs-and-Parsing.md#parse-function) and return whether the parsing run succeeded.
 
-The difference between the two convenience functions is that the *standard* trace only prints trace information for rules `R` where `normal< R >::enable` is `true`.
+The difference between the first two convenience functions is that the *standard* trace only prints trace information for rules `R` where `normal< R >::enable` is `true`.
 This excludes the internal rules that are considered implementation details of documented rules.
 The *complete* trace includes trace information for all rules.
+
+The include and exclude convenience functions take an additional list of rules as template parameter to select which rules to print trace information for.
+See [below](#rule-selection) for details.
 
 The trace output contains the current input position, numbered rule starts, `success` and `failure` events, rewind events, global-failure events `raise`, `raise_nested` and `unwind`, and action events `apply` and `apply0`.
 The exact rule names in the output depend on the compiler and the demangler.
@@ -188,6 +208,32 @@ using plain_trace_traits = pegtl::trace_traits< true, false >;
 pegtl::generic_trace< plain_trace_traits, grammar >( in );
 ```
 
+### Rule Selection
+
+Two additional traits classes give control over which rules to include in the trace.
+
+```c++
+template< typename RuleList,
+          bool UseColor = true,
+          bool PrintSourceLine = false,
+          std::size_t IndentIncrement = 2,
+          std::size_t InitialIndent = 8 >
+struct include_trace_traits;
+
+template< typename RuleList,
+          bool HideInternal = true,
+          bool UseColor = true,
+          bool PrintSourceLine = false,
+          std::size_t IndentIncrement = 2,
+          std::size_t InitialIndent = 8 >
+struct exclude_trace_traits;
+```
+
+Both take a list of rules in the form of a [`tao::pegtl::type_list`](../include/tao/pegtl/type_list.hpp) as first template parameter.
+The include traits only print trace information for rules in the provided rule list, the exclude traits for all rules except the listed ones.
+
+Attention, only the exclude traits take the `HideInternal` parameter to choose whether internal rules are excluded, too.
+
 ### Trace Action
 
 The header `include/tao/pegtl/debug/trace_action.hpp` contains an action adapter for tracing only a selected part of a grammar during an otherwise normal parsing run.
@@ -198,9 +244,14 @@ struct trace_action;
 
 using trace_standard = trace_action< standard_trace_traits >;
 using trace_complete = trace_action< complete_trace_traits >;
+
+template< typename RuleList >
+using trace_include = trace_action< include_trace_traits< RuleList > >;
+template< typename RuleList >
+using trace_exclude = trace_action< exclude_trace_traits< RuleList > >;
 ```
 
-Use `trace_standard` or `trace_complete` as an action specialisation for the rule where tracing should start.
+Use one of these actions as base class for an action specialization for the rule where tracing should start.
 
 ```c++
 struct inner : seq< one< 'a' >, sor< one< 'b' >, one< 'c' >, inner > > {};

@@ -67,6 +67,7 @@ set(test_sources
   debug_trace_1.cpp
   debug_trace_2.cpp
   debug_trace_3.cpp
+  debug_trace_4.cpp
   debug_visit.cpp
   demangle.cpp
   deprecated_alphabet.cpp
