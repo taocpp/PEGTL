@@ -74,6 +74,8 @@ namespace TAO_PEGTL_NAMESPACE::internal
          return std::vector< data_t >( this->current(), this->current() + this->size() );
       }
 
+      // TODO: Add span() with C++20.
+
       template< typename Position >
       [[nodiscard]] std::string_view line_view_at( const Position& pos )
       {
