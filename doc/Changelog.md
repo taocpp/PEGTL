@@ -144,9 +144,9 @@ Released 2026-06-07
   * Renamed `apply_mode::nothing` to `apply_mode::disabled`.
   * Removed `random_order` example, moved to core library as [`unordered`](Rule-Reference.md#unordered-r-) and [`unordered_partial`](Rule-Reference.md#unordered_partial-r-).
   * Added new charconv rules and actions in [`extra/charconv.hpp`](Extra-Reference.md#charconvhpp).
-  * Renamed "limit_depth" functionality to "check_depth".
-  * Renamed "check_bytes" functionality to "check_consume".
-  * Renamed "limit_bytes" functionality to "limit_consume".
+  * Renamed `limit_depth` functionality to `check_depth`.
+  * Renamed `check_bytes` functionality to `check_consume`.
+  * Renamed `limit_bytes` functionality to `limit_consume`.
   * Moved depth counter to adapter class [`input_with_depth`](Input-Reference.md#input-with-depth).
   * Changed default top-level `rewind_mode` to `optional`.
   * Merged `rewind_mode` values `dontcare` and `active` into new value `optional`.
