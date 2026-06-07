@@ -6,6 +6,7 @@
 #define TAO_PEGTL_UNICODE_ICU32_HPP
 
 #include "../config.hpp"
+#include "../system.hpp"
 
 #include "internal/icu_binary_property.hpp"
 #include "internal/icu_property_value.hpp"
