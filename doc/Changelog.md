@@ -10,52 +10,52 @@ All noteworthy changes since the first public release.
 * Use the [**migration guide**](Migration-Guide.md#version-400) when updating.
 * Infrastructure
   * Switched to [Boost Software License, Version 1.0](../LICENSE_1_0.txt).
-  * Makefile generates binaries in `build/bin/` instead of `build/src/`.
+  * [Makefile](../Makefile) generates binaries in `build/bin/` instead of `build/src/`.
   * The `pegtl` sub-directory in `src/example` and `src/test` was removed.
-  * Makefile generates dependencies in `build/dep/` instead of `build/src/`.
-  * Added `pkg-config` metadata and installation support.
-  * All headers in `include/tao/pegtl/contrib/` were moved to `.../extra/`, `.../example/`, `.../deprecated/` or `.../`.
-  * Not all headers in `include/tao/pegtl/` are included by `<tao/pegtl.hpp>`.
-  * Moved the string-literal macros to the new public header `include/tao/pegtl/pegtl_string.hpp`.
-  * All [stream parsing](Stream-Parsing.md) headers were moved to `include/tao/pegtl/stream/`.
-  * All Unicode (incl. ICU) rules were moved to `include/tao/pegtl/unicode/`.
-  * All binary rules (incl. enums) were moved to `include/tao/pegtl/binary/`.
-  * All actions beyond `nothing` are now in `include/tao/pegtl/action/`.
-  * All controls beyond `normal` are now in `include/tao/pegtl/control/`.
-  * The [debug facilities](Debug-Facilities.md) are now in `include/tao/pegtl/debug/`.
-  * The [example grammars](Example-Reference.md#grammars) are now all collected in `include/tao/pegtl/example/`.
+  * [Makefile](../Makefile) generates dependencies in `build/dep/` instead of `build/src/`.
+  * Added [`pkg-config`](../.pkg-config/pegtl.pc.in) metadata and [installation support](Install-Guide.md#using-cmake).
+  * All headers in `include/tao/pegtl/contrib/` were moved to [`extra`](../include/tao/pegtl/extra), [`example`](../include/tao/pegtl/example), [`deprecated`](../include/tao/pegtl/deprecated) or [`include/tao/pegtl`](../include/tao/pegtl).
+  * Not all headers in [`include/tao/pegtl/`](../include/tao/pegtl) are included by [`<tao/pegtl.hpp>`](../include/tao/pegtl.hpp).
+  * Moved the string-literal macros to the new public header [`include/tao/pegtl/pegtl_string.hpp`](../include/tao/pegtl/pegtl_string.hpp).
+  * All [stream parsing](Stream-Parsing.md) headers were moved to [`include/tao/pegtl/stream/`](../include/tao/pegtl/stream).
+  * All Unicode (incl. ICU) rules were moved to [`include/tao/pegtl/unicode/`](../include/tao/pegtl/unicode).
+  * All binary rules (incl. enums) were moved to [`include/tao/pegtl/binary/`](../include/tao/pegtl/binary).
+  * All actions beyond `nothing` are now in [`include/tao/pegtl/action/`](../include/tao/pegtl/action).
+  * All controls beyond `normal` are now in [`include/tao/pegtl/control/`](../include/tao/pegtl/control).
+  * The [debug facilities](Debug-Facilities.md) are now in [`include/tao/pegtl/debug/`](../include/tao/pegtl/debug).
+  * The [example grammars](Example-Reference.md#grammars) are now all collected in [`include/tao/pegtl/example/`](../include/tao/pegtl/example).
   * There are new example grammars including some moved from `src/example/`.
-  * Extra, experimental and deprecated headers are now in `include/tao/pegtl/extra/` and `.../deprecated/`.
+  * Extra, experimental and deprecated headers are now in [`include/tao/pegtl/extra/`](../include/tao/pegtl/extra) and [`include/tao/pegtl/deprecated/`](../include/tao/pegtl/deprecated).
 * Exceptions
   * Changed [`parse_error`](Errors-and-Exceptions.md#parse-errors) to contain only one `position`.
   * Changed `parse_error` to be templated over the position type.
-  * Added `parse_error_base` as non-templated base class of `parse_error`.
+  * Added [`parse_error_base`](Errors-and-Exceptions.md#parse-errors) as non-templated base class of `parse_error`.
   * Changed to [**nested exceptions**](Errors-and-Exceptions.md#nested-exceptions) for nested parsing errors.
   * Added [control function](Control-and-Normal.md#control-interface) to throw nested exceptions.
-  * Changed `parse_nested()` to throw a nested exception instead of adding a position to the current one when exceptions are enabled.
-  * Changed `pegtl.hpp` to only include `parse_error.hpp`, `parse_error_base.hpp` and `parse_nested.hpp` when exceptions are enabled.
+  * Changed [`parse_nested()`](Inputs-and-Parsing.md#nested-parsing) to throw a nested exception instead of adding a position to the current one when exceptions are enabled.
+  * Changed [`pegtl.hpp`](../include/tao/pegtl.hpp) to only include [`parse_error.hpp`](../include/tao/pegtl/parse_error.hpp), [`parse_error_base.hpp`](../include/tao/pegtl/parse_error_base.hpp) and [`parse_nested.hpp`](../include/tao/pegtl/parse_nested.hpp) when exceptions are enabled.
   * Added functions to visit and flatten [nested exceptions](Extra-Reference.md#nested_exceptionshpp).
 * Inputs
   * Standardized on line - column - count order.
-  * Replaced the monolithic `position` class with `count_position`, `text_position`, `pointer_position` and `position_with_source`.
+  * Replaced the monolithic `position` class with the new [position classes](Inputs-and-Parsing.md#position-classes).
   * The [input classes](Input-Reference.md) have been **heavily** refactored.
-  * Replaced `memory_input` and `string_input` with `view_input`, `copy_input`, `text_view_input` and `text_copy_input`.
+  * Replaced `memory_input` and `string_input` with [`view_input`](Input-Reference.md#view-input), [`copy_input`](Input-Reference.md#copy-input), [`text_view_input`](Input-Reference.md#text-view-input) and [`text_copy_input`](Input-Reference.md#text-copy-input).
   * Replaced `istream_input`, `cstream_input` and `buffer_input` with the new [stream parsing inputs](Stream-Parsing.md#inputs).
-  * Added new minimal non-owning `base_input`.
-  * Added new input adapter `input_with_offset`.
+  * Added new minimal non-owning [`base_input`](Input-Reference.md#base-input).
+  * Added new input adapter [`input_with_offset`](Input-Reference.md#input-with-offset).
   * Most input classes can use any type instead of being hardwired to `char`.
-  * The end-of-line handling has been **heavily** refactored and extended.
+  * The [end-of-line handling](Inputs-and-Parsing.md#ends-of-lines) has been **heavily** refactored and extended.
   * Choice of statically, dynamically or user allocated buffer inputs.
-  * Everything related to stream parsing is now in `include/tao/pegtl/stream/`.
-  * Nothing related to stream parsing is included with `<tao/pegtl.hpp>`.
-  * Moved `action_input` from `internal` to the main PEGTL namespace.
-  * Removed `action_t` type alias from all input classes in favor of using `action_input`.
+  * Everything related to [stream parsing](Stream-Parsing.md) is now in [`include/tao/pegtl/stream/`](../include/tao/pegtl/stream).
+  * Nothing related to [stream parsing](Stream-Parsing.md) is included with [`<tao/pegtl.hpp>`](../include/tao/pegtl.hpp).
+  * Moved [`action_input`](Actions-and-States.md#action-input) from `internal` to the main PEGTL namespace.
+  * Removed `action_t` type alias from all [input classes](Input-Reference.md) in favor of using `action_input`.
   * Removed the `tracking_mode` as `enum` and input template parameter.
-  * Never use unaligned memory access (unless compiler generated).
+  * Eliminated all unaligned memory access (unless compiler generated).
 * Rule Changes
   * All variants of the rules `ione`, `one`, `not_one` and `ranges` now require at least one template parameter.
   * The new rules `not_ione` and `not_ranges` have the same non-empty pack requirement.
-  * Added Unicode rules that adapt to the input's data size.
+  * Added [Unicode rules](Rule-Reference.md#unicode) that adapt to the input's data size.
   * Added special end-of-line rules in multiple places.
   * Added new atomic rule [`function`](Rule-Reference.md#function-f-p--void-).
   * Added new atomic rule [`restart`](Rule-Reference.md#restart).
