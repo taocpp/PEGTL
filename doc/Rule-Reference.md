@@ -142,8 +142,24 @@ Note that the default behavior can be changed either by defining `TAO_PEGTL_DEFA
 ###### `function< F, P = void >`
 
 * Delegates matching to the function `F`.
-* When `P` is not `void`, it is used as peek implementation and `F` is called with the peeked data instead of the input.
-* For details see `tao/pegtl/rules.hpp` and `tao/pegtl/internal/function.hpp`.
+* The function `F` must return `bool`.
+* The function `F` can be `noexcept( true )` or `noexcept( false )`.
+
+| Rule form | Function signature | Behavior |
+| --- | --- | --- |
+| `function< F >` | `bool F( Input& )` | Calls `F` with the current input. The function is responsible for matching and consuming input. |
+| `function< F >` | `bool F( Input&, States... )` | Calls `F` with the current input and the current state objects. |
+| `function< F, P >` | `bool F( Data )` | Calls `P::peek( in )` and then `F` with the peeked data. |
+| `function< F, P >` | `bool F( Data, States... )` | Calls `P::peek( in )` and then `F` with the peeked data and the current state objects. |
+
+When `P` is `void`, `F` is used as a [match function](Rules-and-Grammars.md#match-function) and receives the current input directly.
+This form should usually consume input only when returning `true`.
+When `P` is not `void`, it is used as peek implementation; if peeking succeeds and `F` returns `true`, the rule consumes the size reported by the peek result.
+For this peeked-data form, if peeking fails, or if `F` returns `false`, the rule returns `false` and consumes no input.
+
+* [Meta data] and [implementation] mapping:
+  - `function< F, P >::rule_t` is `internal::function< P, decltype( F ), F >`
+  - `function< F, P >::subs_t` is `empty_list`
 
 ###### `invert< R >`
 
