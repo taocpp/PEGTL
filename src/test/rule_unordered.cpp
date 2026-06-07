@@ -96,11 +96,11 @@ namespace TAO_PEGTL_NAMESPACE
       verify_rule< unordered< a, b, c > >( __LINE__, __FILE__, "bc", result_type::local_failure );
       verify_rule< unordered< a, b, c > >( __LINE__, __FILE__, "aba", result_type::local_failure );
       verify_rule< unordered< a, b, c > >( __LINE__, __FILE__, "abac", result_type::local_failure );
-      verify_rule< unordered< a, b, c > >( __LINE__, __FILE__, "aabc", result_type::local_failure  );
+      verify_rule< unordered< a, b, c > >( __LINE__, __FILE__, "aabc", result_type::local_failure );
       verify_rule< unordered< a, b, c > >( __LINE__, __FILE__, "aaa", result_type::local_failure );
-      verify_rule< unordered< a, b, c > >( __LINE__, __FILE__, "aab", result_type::local_failure  );
+      verify_rule< unordered< a, b, c > >( __LINE__, __FILE__, "aab", result_type::local_failure );
       verify_rule< unordered< a, b, c > >( __LINE__, __FILE__, "aaab", result_type::local_failure );
-      verify_rule< unordered< a, b, c > >( __LINE__, __FILE__, "cacbabc", result_type::local_failure  );
+      verify_rule< unordered< a, b, c > >( __LINE__, __FILE__, "cacbabc", result_type::local_failure );
 
       verify_rule< unordered< ab, ac > >( __LINE__, __FILE__, "abac", result_type::success );
       verify_rule< unordered< ab, ac > >( __LINE__, __FILE__, "acab", result_type::success );
