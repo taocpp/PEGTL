@@ -151,7 +151,7 @@ The string-literal macros `TAO_PEGTL_STRING`, `TAO_PEGTL_ISTRING`, `TAO_PEGTL_KE
 The umbrella header [`<tao/pegtl.hpp>`](../include/tao/pegtl.hpp) still includes this header.
 
 The depth and consumption action helpers were renamed: use `check_depth` instead of the old `limit_depth`, `check_consume` instead of `check_bytes`, and `limit_consume` instead of `limit_bytes`.
-Their headers are in [`include/tao/pegtl/action/`](../include/tao/pegtl/action).
+Their headers are in [`action/`](../include/tao/pegtl/action).
 
 The `try_catch` and `try_catch_type` rules were renamed to [`try_catch_return_false`](Rule-Reference.md#try_catch_return_false-r-) and [`try_catch_type_return_false`](Rule-Reference.md#try_catch_type_return_false-e-r-), respectively.
 Use [`try_catch_raise_nested`](Rule-Reference.md#try_catch_raise_nested-r-) and its variants when a caught exception should be rethrown as a [nested parse error](Errors-and-Exceptions.md#nested-exceptions).

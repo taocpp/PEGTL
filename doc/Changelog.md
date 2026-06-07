@@ -14,18 +14,18 @@ All noteworthy changes since the first public release.
   * The `pegtl` sub-directory in `src/example` and `src/test` was removed.
   * [Makefile](../Makefile) generates dependencies in `build/dep/` instead of `build/src/`.
   * Added [`pkg-config`](../.pkg-config/pegtl.pc.in) metadata and [installation support](Install-Guide.md#using-cmake).
-  * All headers in `include/tao/pegtl/contrib/` were moved to [`extra`](../include/tao/pegtl/extra), [`example`](../include/tao/pegtl/example), [`deprecated`](../include/tao/pegtl/deprecated) or [`include/tao/pegtl`](../include/tao/pegtl).
+  * All headers in `include/tao/pegtl/contrib/` were moved to [`extra/`](../include/tao/pegtl/extra), [`example/`](../include/tao/pegtl/example), [`deprecated/`](../include/tao/pegtl/deprecated) or [`include/tao/pegtl/`](../include/tao/pegtl).
   * Not all headers in [`include/tao/pegtl/`](../include/tao/pegtl) are included by [`<tao/pegtl.hpp>`](../include/tao/pegtl.hpp).
-  * Moved the string-literal macros to the new public header [`include/tao/pegtl/pegtl_string.hpp`](../include/tao/pegtl/pegtl_string.hpp).
-  * All [stream parsing](Stream-Parsing.md) headers were moved to [`include/tao/pegtl/stream/`](../include/tao/pegtl/stream).
-  * All Unicode (incl. ICU) rules were moved to [`include/tao/pegtl/unicode/`](../include/tao/pegtl/unicode).
-  * All binary rules (incl. enums) were moved to [`include/tao/pegtl/binary/`](../include/tao/pegtl/binary).
-  * All actions beyond `nothing` are now in [`include/tao/pegtl/action/`](../include/tao/pegtl/action).
-  * All controls beyond `normal` are now in [`include/tao/pegtl/control/`](../include/tao/pegtl/control).
-  * The [debug facilities](Debug-Facilities.md) are now in [`include/tao/pegtl/debug/`](../include/tao/pegtl/debug).
-  * The [example grammars](Example-Reference.md#grammars) are now all collected in [`include/tao/pegtl/example/`](../include/tao/pegtl/example).
+  * Moved the string-literal macros to the new public header [`pegtl_string.hpp`](../include/tao/pegtl/pegtl_string.hpp).
+  * All [stream parsing](Stream-Parsing.md) headers were moved to [`stream/`](../include/tao/pegtl/stream).
+  * All Unicode (incl. ICU) rules were moved to [`unicode/`](../include/tao/pegtl/unicode).
+  * All binary rules (incl. enums) were moved to [`binary/`](../include/tao/pegtl/binary).
+  * All actions beyond `nothing` are now in [`action/`](../include/tao/pegtl/action).
+  * All controls beyond `normal` are now in [`control/`](../include/tao/pegtl/control).
+  * The [debug facilities](Debug-Facilities.md) are now in [`debug/`](../include/tao/pegtl/debug).
+  * The [example grammars](Example-Reference.md#grammars) are now all collected in [`example/`](../include/tao/pegtl/example).
   * There are new example grammars including some moved from `src/example/`.
-  * Extra, experimental and deprecated headers are now in [`include/tao/pegtl/extra/`](../include/tao/pegtl/extra) and [`include/tao/pegtl/deprecated/`](../include/tao/pegtl/deprecated).
+  * Extra, experimental and deprecated headers are now in [`extra/`](../include/tao/pegtl/extra) and [`deprecated/`](../include/tao/pegtl/deprecated).
 * Exceptions
   * Changed [`parse_error`](Errors-and-Exceptions.md#parse-errors) to contain only one `position`.
   * Changed `parse_error` to be templated over the position type.
@@ -46,7 +46,7 @@ All noteworthy changes since the first public release.
   * Most input classes can use any type instead of being hardwired to `char`.
   * The [end-of-line handling](Inputs-and-Parsing.md#ends-of-lines) has been **heavily** refactored and extended.
   * Choice of statically, dynamically or user allocated buffer inputs.
-  * Everything related to [stream parsing](Stream-Parsing.md) is now in [`include/tao/pegtl/stream/`](../include/tao/pegtl/stream).
+  * Everything related to [stream parsing](Stream-Parsing.md) is now in [`stream/`](../include/tao/pegtl/stream).
   * Nothing related to [stream parsing](Stream-Parsing.md) is included with [`<tao/pegtl.hpp>`](../include/tao/pegtl.hpp).
   * Moved [`action_input`](Actions-and-States.md#action-input) from `internal` to the main PEGTL namespace.
   * Removed `action_t` type alias from all [input classes](Input-Reference.md) in favor of using `action_input`.
