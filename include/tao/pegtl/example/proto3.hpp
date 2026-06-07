@@ -36,7 +36,7 @@ namespace TAO_PEGTL_NAMESPACE::proto3
 
    struct hex_lit : seq< one< '0' >, one< 'x', 'X' >, plus< xdigit > > {};
    struct oct_lit : seq< one< '0' >, plus< odigit > > {};
-   struct dec_lit : seq< range< '1', '9' >, star< digit > >  {};
+   struct dec_lit : seq< range< '1', '9' >, star< digit > > {};
    struct int_lit : sor< hex_lit, oct_lit, dec_lit > {};
 
    struct enum_dec : plus< digit > {};  // NOTE: As of time of writing the original grammar has a bug -- it uses int_lit for enum_int, which uses dec_lit instead of enum_dec, thereby not allowing a plain 0 as enum value.
@@ -118,7 +118,7 @@ namespace TAO_PEGTL_NAMESPACE::proto3
    struct enum_def : if_must< keyword< 'e', 'n', 'u', 'm' >, sps, enum_name, sps, enum_body > {};
 
    struct message_thing : sor< field, enum_def, message, option, oneof, map_field, reserved, extend, semi > {};
-   struct message_body : seq< one<'{'>, sps, star< message_thing, sps >, one<'}'> > {};
+   struct message_body : seq< one< '{' >, sps, star< message_thing, sps >, one< '}' > > {};
    struct message : if_must< keyword< 'm', 'e', 's', 's', 'a', 'g', 'e' >, sps, defined_type, sps, message_body > {};
    struct extend : if_must< keyword< 'e', 'x', 't', 'e', 'n', 'd' >, sps, defined_type, sps, message_body > {};
 

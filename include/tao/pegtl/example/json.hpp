@@ -34,7 +34,7 @@ namespace TAO_PEGTL_NAMESPACE::json
    struct true_ : string< 't', 'r', 'u', 'e' > {};  // NOLINT(readability-identifier-naming)
 
    struct digits : plus< digit > {};
-   struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+'> >, digits > {};
+   struct exp : seq< one< 'e', 'E' >, opt< one< '-', '+' > >, digits > {};
    struct frac : seq< one< '.' >, digits > {};
    struct int_ : sor< one< '0' >, plus< digit > > {};  // NOLINT(readability-identifier-naming)
    struct number : seq< opt< one< '-' > >, int_, opt< frac >, opt< exp > > {};

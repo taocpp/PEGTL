@@ -51,7 +51,7 @@ namespace TAO_PEGTL_NAMESPACE::http
 
    struct absolute_path : plus< one< '/' >, uri::segment > {};
 
-   struct origin_form : seq< absolute_path, uri::opt_query >  {};
+   struct origin_form : seq< absolute_path, uri::opt_query > {};
    struct absolute_form : uri::absolute_URI {};
    struct authority_form : uri::authority {};
    struct asterisk_form : one< '*' > {};
