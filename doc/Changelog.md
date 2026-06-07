@@ -1,10 +1,10 @@
 # Changelog
 
-All noteworthy changes since the first public release.
+All noteworthy changes since the first public [release](https://github.com/taocpp/PEGTL/releases).
 
 ## Version 4.0.0
 
-**Not yet released**
+Released 2026-06-07
 
 * Even more templates, in even more places, templates everywhere!
 * Use the [**migration guide**](Migration-Guide.md#version-400) when updating.
@@ -174,6 +174,12 @@ All noteworthy changes since the first public release.
 
 The deprecated headers have been moved to `include/tao/pegtl/deprecated/`.
 Please let us know if you (still) need them.
+
+## Version 3.2.8
+
+Released 2024-09-14
+
+* Fixed build with `-Wshorten-64-to-32`.
 
 ## Version 3.2.7
 
