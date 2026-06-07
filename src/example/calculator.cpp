@@ -237,7 +237,7 @@ namespace example
                   // usually be an associated action: To push the matched operator onto
                   // the operator stack.
                   s.push( i->second );
-                  in.template consume< eol_exclude_tag >( t.size() );
+                  in.template consume< infix >( t.size() );
                   return true;
                }
             }

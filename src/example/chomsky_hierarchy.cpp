@@ -53,7 +53,7 @@ namespace example
                   return false;
                }
             }
-            in.template consume< pegtl::eol_exclude_tag >( count );
+            in.template consume< match_n >( count );
             return true;
          }
          return false;

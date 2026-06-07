@@ -38,7 +38,7 @@ namespace example
       {
          if( in.size( id.size() ) >= id.size() ) {
             if( std::memcmp( in.current(), id.data(), id.size() ) == 0 ) {
-               in.template consume< pegtl::eol_unknown_tag >( id.size() );
+               in.template consume< long_literal_mark >( id.size() );
                return true;
             }
          }
